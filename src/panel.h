@@ -23,8 +23,6 @@ typedef struct PhoshPanelPrivate PhoshPanelPrivate;
 struct PhoshPanel
 {
   GtkWindow parent;
-
-  PhoshPanelPrivate *priv;
 };
 
 struct PhoshPanelClass
@@ -32,8 +30,7 @@ struct PhoshPanelClass
   GtkWindowClass parent_class;
 };
 
-#define PHOSH_PANEL_WIDTH 56
-#define PHOSH_PANEL_HEIGHT_RATIO 0.73
+#define PHOSH_PANEL_HEIGHT 32
 
 GType phosh_panel_get_type (void) G_GNUC_CONST;
 

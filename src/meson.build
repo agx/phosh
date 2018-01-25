@@ -6,6 +6,14 @@ gen_scanner_client_code = generator(wl_scanner,
     output: '@BASENAME@-protocol.c',
     arguments: ['code', '@INPUT@', '@OUTPUT@'])
 
+phosh_resources = gnome.compile_resources(
+   'phosh-resources',
+   'phosh.gresources.xml',
+
+   c_name: 'phosh',
+)
+
+
 shell_proto_header = gen_scanner_client_header.process('../protocol/weston-desktop-shell.xml')
 shell_proto_code = gen_scanner_client_code.process('../protocol/weston-desktop-shell.xml')
 
@@ -17,9 +25,11 @@ phosh_sources = [
   'lockscreen.h',
   shell_proto_header,
   shell_proto_code,
+  phosh_resources,
 ]
 
 phosh_deps = [
+  dependency('gnome-desktop-3.0'),
   dependency('gtk+-3.0'),
   dependency('gtk+-wayland-3.0'),
   dependency('wayland-client'),

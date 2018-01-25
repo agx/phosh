@@ -102,7 +102,7 @@ panel_create (struct desktop *desktop)
   weston_desktop_shell_set_panel (desktop->wshell, desktop->output,
       panel->surface);
   weston_desktop_shell_set_panel_position (desktop->wshell,
-     WESTON_DESKTOP_SHELL_PANEL_POSITION_RIGHT);
+     WESTON_DESKTOP_SHELL_PANEL_POSITION_TOP);
 
   gtk_widget_show_all (panel->window);
   desktop->panel = panel;
@@ -166,7 +166,7 @@ background_create (struct desktop *desktop)
   GdkWindow *gdk_window;
   struct elem *background;
   GdkPixbuf *unscaled_background;
-  const gchar *xpm_data[] = {"1 1 1 1", "_ c SteelBlue", "_"};
+  const gchar *xpm_data[] = {"1 1 1 1", "_ c WebGrey", "_"};
 
   background = calloc (1, sizeof *background);
 
@@ -209,9 +209,8 @@ shell_configure (struct desktop *desktop,
   gtk_widget_set_size_request (desktop->background->window,
       width, height);
 
-  /* FIXME: need to resize panel according to orientation */
   gtk_window_resize (GTK_WINDOW (desktop->panel->window),
-      PHOSH_PANEL_WIDTH, height);
+      width, PHOSH_PANEL_HEIGHT);
 
   weston_desktop_shell_desktop_ready (desktop->wshell);
 }

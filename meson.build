@@ -59,5 +59,7 @@ add_project_arguments(
   language: 'c'
 )
 
+gnome = import('gnome')
+
 subdir('src')
 

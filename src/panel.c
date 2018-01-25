@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: GPL-3.0+
  *
- * Based on maynard's panel which is
+ * Somewhat based on maynard's panel which is
  *
  * Copyright (C) 2014 Collabora Ltd. *
  * Author: Jonny Lamb <jonny.lamb@collabora.co.uk>
@@ -13,6 +13,9 @@
 
 #include "panel.h"
 
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnome-desktop/gnome-wall-clock.h>
+
 enum {
   FAVORITE_LAUNCHED,
   N_SIGNALS
@@ -20,25 +23,25 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 struct PhoshPanelPrivate {
-  gint _dummy;
+  GtkWidget *label_librem5;
+  GtkWidget *label_clock;
+  GtkWidget *btn_terminal;
+
+  GnomeWallClock *wall_clock;
 };
 
-G_DEFINE_TYPE(PhoshPanel, phosh_panel, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshPanel, phosh_panel, GTK_TYPE_WINDOW)
 
-static void
-phosh_panel_init (PhoshPanel *self)
-{
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-      PHOSH_PANEL_TYPE,
-      PhoshPanelPrivate);
-}
 
 
 /* FIXME: Temporarily add a term button until we have the menu system */
 static void
-term_clicked (GtkButton *button, gpointer panel)
+term_clicked_cb (PhoshPanel *self, GtkButton *btn)
 {
   GError *error = NULL;
+
+  g_return_if_fail (PHOSH_IS_PANEL (self));
+  g_return_if_fail (GTK_IS_BUTTON (btn));
 
   g_spawn_command_line_async ("weston-terminal", &error);
   if (error)
@@ -47,13 +50,42 @@ term_clicked (GtkButton *button, gpointer panel)
 
 
 static void
+wall_clock_notify_cb (GnomeWallClock *wall_clock,
+    GParamSpec *pspec,
+    PhoshPanel *self)
+{
+  GDateTime *datetime;
+  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
+  g_autofree gchar *str;
+
+  datetime = g_date_time_new_now_local ();
+
+  str = g_date_time_format (datetime, "%H:%M");
+  gtk_label_set_markup (GTK_LABEL (priv->label_clock), str);
+
+  g_date_time_unref (datetime);
+}
+
+
+static void
 phosh_panel_constructed (GObject *object)
 {
   PhoshPanel *self = PHOSH_PANEL (object);
-  GtkWidget *main_box;
-  GtkWidget *button;
+  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
 
   G_OBJECT_CLASS (phosh_panel_parent_class)->constructed (object);
+
+  priv->wall_clock = g_object_new (GNOME_TYPE_WALL_CLOCK, NULL);
+  g_signal_connect (priv->wall_clock,
+		    "notify::clock",
+		    G_CALLBACK (wall_clock_notify_cb),
+		    self);
+
+  g_signal_connect_object (priv->btn_terminal,
+                           "clicked",
+                           G_CALLBACK (term_clicked_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   /* window properties */
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
@@ -64,30 +96,50 @@ phosh_panel_constructed (GObject *object)
       gtk_widget_get_style_context (GTK_WIDGET (self)),
       "phosh-panel");
 
-  /* main vbox */
-  main_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-  gtk_container_add (GTK_CONTAINER (self), main_box);
-
-  /* FIXME: temporary terminal button */
-  button = gtk_button_new_from_icon_name ("terminal", GTK_ICON_SIZE_BUTTON);
-  gtk_box_pack_end (GTK_BOX (main_box), button, FALSE, FALSE, 0);
-  g_signal_connect (button, "clicked", G_CALLBACK (term_clicked), self);
+  wall_clock_notify_cb (priv->wall_clock, NULL, self);
 }
+
+
+static void
+phosh_panel_dispose (GObject *object)
+{
+  PhoshPanel *self = PHOSH_PANEL (object);
+  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
+
+  g_clear_object (&priv->wall_clock);
+
+  G_OBJECT_CLASS (phosh_panel_parent_class)->dispose (object);
+}
+
 
 
 static void
 phosh_panel_class_init (PhoshPanelClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->constructed = phosh_panel_constructed;
+  object_class->dispose = phosh_panel_dispose;
 
   signals[FAVORITE_LAUNCHED] = g_signal_new ("favorite-launched",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
-  g_type_class_add_private (object_class, sizeof (PhoshPanelPrivate));
+  gtk_widget_class_set_template_from_resource (widget_class,
+					       "/org/librem5/phosh/ui/top-panel.ui");
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, label_librem5);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, label_clock);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_terminal);
 }
+
+
+static void
+phosh_panel_init (PhoshPanel *self)
+{
+  gtk_widget_init_template (GTK_WIDGET (self));
+}
+
 
 GtkWidget *
 phosh_panel_new (void)
