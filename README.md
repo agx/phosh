@@ -1,7 +1,6 @@
 # Phosh
 
-a trivial desktop shell devices. This is just so that we can launch a terminal
-and try out stuff.
+a trivial wayland shell for prototyping things.
 
 ## License
 
