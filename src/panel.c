@@ -16,6 +16,8 @@
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-wall-clock.h>
 
+#define TOPLEFT_LABEL_TEXT "Librem5 dev board"
+
 enum {
   FAVORITE_LAUNCHED,
   N_SIGNALS
@@ -23,7 +25,7 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 struct PhoshPanelPrivate {
-  GtkWidget *label_librem5;
+  GtkWidget *label_topleft;
   GtkWidget *label_clock;
   GtkWidget *btn_terminal;
 
@@ -75,6 +77,7 @@ phosh_panel_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_panel_parent_class)->constructed (object);
 
+  gtk_label_set_text (GTK_LABEL (priv->label_topleft), TOPLEFT_LABEL_TEXT);
   priv->wall_clock = g_object_new (GNOME_TYPE_WALL_CLOCK, NULL);
   g_signal_connect (priv->wall_clock,
 		    "notify::clock",
@@ -128,7 +131,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
 					       "/org/librem5/phosh/ui/top-panel.ui");
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, label_librem5);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, label_topleft);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, label_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_terminal);
 }
