@@ -53,6 +53,7 @@ lockscreen_unlock_cb (struct desktop *desktop, PhoshLockscreen *window)
   gtk_widget_destroy (GTK_WIDGET (window));
   g_free (desktop->lockscreen);
   desktop->lockscreen = NULL;
+  weston_desktop_shell_unlock(desktop->wshell);
 }
 
 
