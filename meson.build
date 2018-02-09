@@ -59,7 +59,15 @@ add_project_arguments(
   language: 'c'
 )
 
+run_data = configuration_data()
+run_data.set('ABS_BUILDDIR', meson.current_build_dir())
+configure_file(
+  input: 'run.in',
+  output: 'run',
+  configuration: run_data)
+
 gnome = import('gnome')
 
 subdir('src')
+subdir('data')
 

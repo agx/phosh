@@ -32,9 +32,6 @@ struct PhoshLockscreenClass
   GtkWindowClass parent_class;
 };
 
-#define PHOSH_LOCKSCREEN_WIDTH 56
-#define PHOSH_LOCKSCREEN_HEIGHT_RATIO 0.73
-
 GType phosh_lockscreen_get_type (void) G_GNUC_CONST;
 
 GtkWidget * phosh_lockscreen_new (void);

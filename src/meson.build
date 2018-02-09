@@ -14,15 +14,17 @@ phosh_resources = gnome.compile_resources(
 )
 
 
-shell_proto_header = gen_scanner_client_header.process('../protocol/weston-desktop-shell.xml')
-shell_proto_code = gen_scanner_client_code.process('../protocol/weston-desktop-shell.xml')
+shell_proto_header = gen_scanner_client_header.process('../protocol/phosh-mobile-shell.xml')
+shell_proto_code = gen_scanner_client_code.process('../protocol/phosh-mobile-shell.xml')
 
 phosh_sources = [
-  'phosh.c',
-  'panel.c',
-  'panel.h',
+  'favorites.c',
+  'favorites.h',
   'lockscreen.c',
   'lockscreen.h',
+  'panel.c',
+  'panel.h',
+  'phosh.c',
   shell_proto_header,
   shell_proto_code,
   phosh_resources,

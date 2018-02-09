@@ -1,0 +1,13 @@
+<schemalist>
+  <schema id="sm.puri.phosh"
+          path="/sm/puri/phosh/">
+    <key name="favorites" type="as">
+      <default>[ 'evince.desktop', 'gnome-chess.desktop' ]</default>
+      <summary>List of desktop file IDs for favorite applications</summary>
+      <description>
+        The applications corresponding to these identifiers will be
+        displayed in the favorites panel along with running applications.
+      </description>
+    </key>
+  </schema>
+</schemalist>

@@ -1,10 +1,8 @@
-<protocol name="weston_desktop">
-
-  <interface name="weston_desktop_shell" version="1">
-    <description summary="create desktop widgets and helpers">
-      Traditional user interfaces can rely on this interface to define the
-      foundations of typical desktops. Currently it's possible to set up
-      background, panels and locking surfaces.
+<protocol name="phosh_desktop">
+  <interface name="phosh_mobile_shell" version="1">
+    <description summary="panel menus and helpers">
+      Private protocol between phosh and the compositor. Similar to weston's desktop-shell
+      protocol.
     </description>
 
     <request name="set_background">
@@ -114,22 +112,32 @@
       <arg name="position" type="uint"/>
     </request>
 
-  </interface>
-
-  <interface name="weston_screensaver" version="1">
-    <description summary="interface for implementing screensavers">
-      Only one client can bind this interface at a time.
-    </description>
-
-    <request name="set_surface">
-      <description summary="set the surface type as a screensaver">
-	A screensaver surface is normally hidden, and only visible after an
-        idle timeout.
+    <!-- On top of weston's protocol -->
+    <request name="set_panel_menu">
+      <description summary="set panel menu">
+	Add a menu to the panel. Multiple menus can be added.
       </description>
-
-      <arg name="surface" type="object" interface="wl_surface"/>
-      <arg name="output" type="object" interface="wl_output"/>
+      <arg name="menu" type="object" interface="wl_surface"/>
     </request>
 
+    <request name="show_panel_menu">
+      <arg name="menu" type="object" interface="wl_surface"/>
+    </request>
+
+    <request name="hide_panel_menu">
+      <arg name="menu" type="object" interface="wl_surface"/>
+    </request>
   </interface>
+  
+  <!--
+    <enum name="menu_position">
+      <!- only supported for top panels ->
+      <entry name="left" value="0"/>
+      <entry name="right" value="1"/>
+    </enum>
+
+    <request name="set_menu_position">
+      <arg name="position" type="uint"/>
+    </request>
+  -->
 </protocol>

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+ABS_BUILDDIR='@ABS_BUILDDIR@'
+
+export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data"
+
+exec "${ABS_BUILDDIR}/src/phosh" $@

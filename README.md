@@ -19,3 +19,10 @@ way to get going is to do the following:
 	ninja -C _build
 	ninja -C _build install
 
+
+## Running
+When running from the source tree start *rootston*. Then start *phosh*
+using:
+
+    _build/run
+

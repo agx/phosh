@@ -14,10 +14,11 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkwayland.h>
 
-#include "weston-desktop-shell-client-protocol.h"
+#include "phosh-mobile-shell-client-protocol.h"
 
-#include "panel.h"
+#include "favorites.h"
 #include "lockscreen.h"
+#include "panel.h"
 
 struct elem {
   GtkWidget *window;
@@ -28,7 +29,7 @@ struct elem {
 struct desktop {
   struct wl_display *display;
   struct wl_registry *registry;
-  struct weston_desktop_shell *wshell;
+  struct phosh_mobile_shell *mshell;
   struct wl_output *output;
 
   struct wl_seat *seat;
@@ -36,23 +37,56 @@ struct desktop {
 
   GdkDisplay *gdk_display;
 
+  /* Top panel */
   struct elem *panel;
+
+  /* Background */
   struct elem *background;
+
+  /* Lockscreen */
   struct elem *lockscreen;
   gulong unlock_handler_id;
+
+  /* Favorites menu */
+  struct elem *favorites;
+  gboolean favorites_shown;
 };
 
 
 static void
 lockscreen_unlock_cb (struct desktop *desktop, PhoshLockscreen *window)
 {
-  weston_desktop_shell_unlock (desktop->wshell);
+  phosh_mobile_shell_unlock (desktop->mshell);
 
   g_signal_handler_disconnect (window, desktop->unlock_handler_id);
   gtk_widget_destroy (GTK_WIDGET (window));
   g_free (desktop->lockscreen);
   desktop->lockscreen = NULL;
-  weston_desktop_shell_unlock(desktop->wshell);
+  phosh_mobile_shell_unlock(desktop->mshell);
+}
+
+
+static void
+favorites_activated_cb (struct desktop *desktop, PhoshLockscreen *window)
+{
+  if (desktop->favorites_shown) {
+    phosh_mobile_shell_hide_panel_menu(desktop->mshell,
+					 desktop->favorites->surface);
+
+  } else {
+    phosh_mobile_shell_show_panel_menu(desktop->mshell,
+					 desktop->favorites->surface);
+  }
+  desktop->favorites_shown = !desktop->favorites_shown;
+}
+
+
+static void
+app_launched_cb (struct desktop *desktop, PhoshFavorites *favorites)
+{
+  phosh_mobile_shell_hide_panel_menu(desktop->mshell,
+				       desktop->favorites->surface);
+  desktop->favorites_shown = FALSE;
 }
 
 
@@ -70,7 +104,7 @@ lockscreen_create (struct desktop *desktop)
 
   lockscreen->surface = gdk_wayland_window_get_wl_surface (gdk_window);
 
-  weston_desktop_shell_set_lock_surface(desktop->wshell,
+  phosh_mobile_shell_set_lock_surface(desktop->mshell,
 					lockscreen->surface);
   gtk_widget_show_all (lockscreen->window);
   desktop->lockscreen = lockscreen;
@@ -80,6 +114,32 @@ lockscreen_create (struct desktop *desktop)
     "lockscreen-unlock",
     G_CALLBACK(lockscreen_unlock_cb),
     desktop);
+}
+
+
+static void
+favorites_create(struct desktop *desktop)
+{
+  struct elem *favorites;
+  GdkWindow *gdk_window;
+
+  favorites = calloc (1, sizeof *favorites);
+  favorites->window = phosh_favorites_new ();
+
+  gdk_window = gtk_widget_get_window (favorites->window);
+  gdk_wayland_window_set_use_custom_surface (gdk_window);
+  favorites->surface = gdk_wayland_window_get_wl_surface (gdk_window);
+
+  phosh_mobile_shell_set_panel_menu (desktop->mshell,
+				       favorites->surface);
+  gtk_widget_show_all (favorites->window);
+  desktop->favorites = favorites;
+  desktop->favorites_shown = FALSE;
+
+  g_signal_connect_swapped (favorites->window,
+			    "app-launched",
+			    G_CALLBACK(app_launched_cb),
+			    desktop);
 }
 
 
@@ -95,17 +155,22 @@ panel_create (struct desktop *desktop)
   /* set it up as the panel */
   gdk_window = gtk_widget_get_window (panel->window);
   gdk_wayland_window_set_use_custom_surface (gdk_window);
-
   panel->surface = gdk_wayland_window_get_wl_surface (gdk_window);
 
-  weston_desktop_shell_set_user_data (desktop->wshell, desktop);
-  weston_desktop_shell_set_panel (desktop->wshell, desktop->output,
+  phosh_mobile_shell_set_user_data (desktop->mshell, desktop);
+  phosh_mobile_shell_set_panel (desktop->mshell, desktop->output,
       panel->surface);
-  weston_desktop_shell_set_panel_position (desktop->wshell,
-     WESTON_DESKTOP_SHELL_PANEL_POSITION_TOP);
+  phosh_mobile_shell_set_panel_position (desktop->mshell,
+     PHOSH_MOBILE_SHELL_PANEL_POSITION_TOP);
 
   gtk_widget_show_all (panel->window);
   desktop->panel = panel;
+
+  g_signal_connect_swapped (
+    panel->window,
+    "favorites-activated",
+    G_CALLBACK(favorites_activated_cb),
+    desktop);
 }
 
 
@@ -191,8 +256,8 @@ background_create (struct desktop *desktop)
 
   background->surface = gdk_wayland_window_get_wl_surface (gdk_window);
 
-  weston_desktop_shell_set_user_data (desktop->wshell, desktop);
-  weston_desktop_shell_set_background (desktop->wshell, desktop->output,
+  phosh_mobile_shell_set_user_data (desktop->mshell, desktop);
+  phosh_mobile_shell_set_background (desktop->mshell, desktop->output,
       background->surface);
 
   desktop->background = background;
@@ -234,13 +299,13 @@ shell_configure (struct desktop *desktop,
   gtk_window_resize (GTK_WINDOW (desktop->panel->window),
       width, PHOSH_PANEL_HEIGHT);
 
-  weston_desktop_shell_desktop_ready (desktop->wshell);
+  phosh_mobile_shell_desktop_ready (desktop->mshell);
 }
 
 
 static void
-weston_desktop_shell_configure (void *data,
-    struct weston_desktop_shell *weston_desktop_shell,
+phosh_mobile_shell_configure (void *data,
+    struct phosh_mobile_shell *phosh_mobile_shell,
     uint32_t edges,
     struct wl_surface *surface,
     int32_t width, int32_t height)
@@ -250,8 +315,8 @@ weston_desktop_shell_configure (void *data,
 
 
 static void
-weston_desktop_shell_prepare_lock_surface (void *data,
-    struct weston_desktop_shell *weston_desktop_shell)
+phosh_mobile_shell_prepare_lock_surface (void *data,
+    struct phosh_mobile_shell *phosh_mobile_shell)
 {
   struct desktop *desktop = data;
 
@@ -261,18 +326,18 @@ weston_desktop_shell_prepare_lock_surface (void *data,
 
 
 static void
-weston_desktop_shell_grab_cursor (void *data,
-    struct weston_desktop_shell *weston_desktop_shell,
+phosh_mobile_shell_grab_cursor (void *data,
+    struct phosh_mobile_shell *phosh_mobile_shell,
     uint32_t cursor)
 {
   g_warning("%s not implmented", __func__);
 }
 
 
-static const struct weston_desktop_shell_listener wshell_listener = {
-  weston_desktop_shell_configure,
-  weston_desktop_shell_prepare_lock_surface,
-  weston_desktop_shell_grab_cursor
+static const struct phosh_mobile_shell_listener mshell_listener = {
+  phosh_mobile_shell_configure,
+  phosh_mobile_shell_prepare_lock_surface,
+  phosh_mobile_shell_grab_cursor
 };
 
 
@@ -285,11 +350,11 @@ registry_handle_global (void *data,
 {
   struct desktop *d = data;
 
-  if (!strcmp (interface, "weston_desktop_shell")) {
-      d->wshell = wl_registry_bind (registry, name,
-          &weston_desktop_shell_interface, MIN(version, 1));
-      weston_desktop_shell_add_listener (d->wshell, &wshell_listener, d);
-      weston_desktop_shell_set_user_data (d->wshell, d);
+  if (!strcmp (interface, "phosh_mobile_shell")) {
+      d->mshell = wl_registry_bind (registry, name,
+          &phosh_mobile_shell_interface, MIN(version, 1));
+      phosh_mobile_shell_add_listener (d->mshell, &mshell_listener, d);
+      phosh_mobile_shell_set_user_data (d->mshell, d);
     }
   else if (!strcmp (interface, "wl_output")) {
       /* TODO: create multiple outputs */
@@ -337,18 +402,19 @@ int main(int argc, char *argv[])
 
   /* Wait until we have been notified about the compositor,
    * shell, and shell helper objects */
-  if (!desktop->output || !desktop->wshell)
+  if (!desktop->output || !desktop->mshell)
     wl_display_roundtrip (desktop->display);
-  if (!desktop->output || !desktop->wshell) {
+  if (!desktop->output || !desktop->mshell) {
       g_error ("Could not find output, shell or helper modules\n"
-               "output: %p, wshell: %p\n",
-		 desktop->output, desktop->wshell);
+               "output: %p, mshell: %p\n",
+		 desktop->output, desktop->mshell);
       return -1;
   }
 
   css_setup (desktop);
   background_create (desktop);
   panel_create (desktop);
+  favorites_create (desktop);
 
   gtk_main ();
 
