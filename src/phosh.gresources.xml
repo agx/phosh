@@ -2,5 +2,6 @@
 <gresources>
   <gresource prefix="/sm/puri/phosh">
     <file preprocess="xml-stripblanks">ui/top-panel.ui</file>
+    <file compressed="true">style.css</file>
   </gresource>
 </gresources>
