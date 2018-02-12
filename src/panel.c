@@ -129,7 +129,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
       NULL, G_TYPE_NONE, 0);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-					       "/org/librem5/phosh/ui/top-panel.ui");
+					       "/sm/puri/phosh/ui/top-panel.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, label_topleft);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, label_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_terminal);
