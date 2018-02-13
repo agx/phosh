@@ -15,17 +15,18 @@
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-wall-clock.h>
 
-#define TOPLEFT_LABEL_TEXT "Librem5 dev board"
+#define FAVORITES_LABEL_TEXT "Librem5 dev board"
 
 enum {
   FAVORITES_ACTIVATED,
+  SETTINGS_ACTIVATED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
 
 struct PhoshPanelPrivate {
-  GtkWidget *btn_topleft;
-  GtkWidget *label_clock;
+  GtkWidget *btn_favorites;
+  GtkWidget *btn_settings;
 
   GnomeWallClock *wall_clock;
 };
@@ -33,13 +34,21 @@ struct PhoshPanelPrivate {
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshPanel, phosh_panel, GTK_TYPE_WINDOW)
 
 
-/* FIXME: Temporarily add a term button until we have the menu system */
 static void
-topleft_clicked_cb (PhoshPanel *self, GtkButton *btn)
+favorites_clicked_cb (PhoshPanel *self, GtkButton *btn)
 {
   g_return_if_fail (PHOSH_IS_PANEL (self));
   g_return_if_fail (GTK_IS_BUTTON (btn));
   g_signal_emit(self, signals[FAVORITES_ACTIVATED], 0);
+}
+
+
+static void
+settings_clicked_cb (PhoshPanel *self, GtkButton *btn)
+{
+  g_return_if_fail (PHOSH_IS_PANEL (self));
+  g_return_if_fail (GTK_IS_BUTTON (btn));
+  g_signal_emit(self, signals[SETTINGS_ACTIVATED], 0);
 }
 
 
@@ -55,7 +64,7 @@ wall_clock_notify_cb (GnomeWallClock *wall_clock,
   datetime = g_date_time_new_now_local ();
 
   str = g_date_time_format (datetime, "%H:%M");
-  gtk_label_set_markup (GTK_LABEL (priv->label_clock), str);
+  gtk_button_set_label (GTK_BUTTON (priv->btn_settings), str);
 
   g_date_time_unref (datetime);
 }
@@ -69,16 +78,22 @@ phosh_panel_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_panel_parent_class)->constructed (object);
 
-  gtk_button_set_label (GTK_BUTTON (priv->btn_topleft), TOPLEFT_LABEL_TEXT);
+  gtk_button_set_label (GTK_BUTTON (priv->btn_favorites), FAVORITES_LABEL_TEXT);
   priv->wall_clock = g_object_new (GNOME_TYPE_WALL_CLOCK, NULL);
   g_signal_connect (priv->wall_clock,
 		    "notify::clock",
 		    G_CALLBACK (wall_clock_notify_cb),
 		    self);
 
-  g_signal_connect_object (priv->btn_topleft,
+  g_signal_connect_object (priv->btn_favorites,
                            "clicked",
-                           G_CALLBACK (topleft_clicked_cb),
+                           G_CALLBACK (favorites_clicked_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  g_signal_connect_object (priv->btn_settings,
+                           "clicked",
+                           G_CALLBACK (settings_clicked_cb),
                            self,
                            G_CONNECT_SWAPPED);
 
@@ -92,12 +107,14 @@ phosh_panel_constructed (GObject *object)
       "phosh-panel");
 
   /* Button properites */
-  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_topleft),
+  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_favorites),
 				  "button");
-  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_topleft),
+  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_favorites),
 				  "image-button");
-  gtk_style_context_add_class (gtk_widget_get_style_context (priv->btn_topleft),
-			       "phosh-panel-btn-top-left");
+  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
+				  "button");
+  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
+				  "image-button");
 
   wall_clock_notify_cb (priv->wall_clock, NULL, self);
 }
@@ -128,10 +145,14 @@ phosh_panel_class_init (PhoshPanelClass *klass)
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
+  signals[SETTINGS_ACTIVATED] = g_signal_new ("settings-activated",
+      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+      NULL, G_TYPE_NONE, 0);
+
   gtk_widget_class_set_template_from_resource (widget_class,
 					       "/sm/puri/phosh/ui/top-panel.ui");
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_topleft);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, label_clock);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_favorites);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_settings);
 }
 
 

@@ -16,9 +16,11 @@
 
 #include "phosh-mobile-shell-client-protocol.h"
 
-#include "favorites.h"
+
 #include "lockscreen.h"
 #include "panel.h"
+#include "favorites.h"
+#include "settings.h"
 
 struct elem {
   GtkWidget *window;
@@ -48,8 +50,10 @@ struct desktop {
   gulong unlock_handler_id;
 
   /* Favorites menu */
-  struct elem *favorites;
-  gboolean favorites_shown;
+  GtkWidget *favorites;
+
+  /* Settings menu */
+  GtkWidget *settings;
 };
 
 
@@ -67,26 +71,23 @@ lockscreen_unlock_cb (struct desktop *desktop, PhoshLockscreen *window)
 
 
 static void
-favorites_activated_cb (struct desktop *desktop, PhoshLockscreen *window)
+favorites_activated_cb (struct desktop *desktop, PhoshPanel *window)
 {
-  if (desktop->favorites_shown) {
-    phosh_mobile_shell_hide_panel_menu(desktop->mshell,
-					 desktop->favorites->surface);
-
-  } else {
-    phosh_mobile_shell_show_panel_menu(desktop->mshell,
-					 desktop->favorites->surface);
-  }
-  desktop->favorites_shown = !desktop->favorites_shown;
+  phosh_menu_toggle (PHOSH_MENU (desktop->favorites));
 }
 
 
 static void
 app_launched_cb (struct desktop *desktop, PhoshFavorites *favorites)
 {
-  phosh_mobile_shell_hide_panel_menu(desktop->mshell,
-				       desktop->favorites->surface);
-  desktop->favorites_shown = FALSE;
+  phosh_menu_hide (PHOSH_MENU (desktop->favorites));
+}
+
+
+static void
+settings_activated_cb (struct desktop *desktop, PhoshPanel *window)
+{
+  phosh_menu_toggle (PHOSH_MENU (desktop->settings));
 }
 
 
@@ -120,26 +121,24 @@ lockscreen_create (struct desktop *desktop)
 static void
 favorites_create(struct desktop *desktop)
 {
-  struct elem *favorites;
-  GdkWindow *gdk_window;
+  desktop->favorites = phosh_favorites_new (PHOSH_MOBILE_SHELL_MENU_POSITION_LEFT,
+					    (gpointer) desktop->mshell);
 
-  favorites = calloc (1, sizeof *favorites);
-  favorites->window = phosh_favorites_new ();
+  gtk_widget_show_all (desktop->favorites);
 
-  gdk_window = gtk_widget_get_window (favorites->window);
-  gdk_wayland_window_set_use_custom_surface (gdk_window);
-  favorites->surface = gdk_wayland_window_get_wl_surface (gdk_window);
-
-  phosh_mobile_shell_set_panel_menu (desktop->mshell,
-				       favorites->surface);
-  gtk_widget_show_all (favorites->window);
-  desktop->favorites = favorites;
-  desktop->favorites_shown = FALSE;
-
-  g_signal_connect_swapped (favorites->window,
+  g_signal_connect_swapped (desktop->favorites,
 			    "app-launched",
 			    G_CALLBACK(app_launched_cb),
 			    desktop);
+}
+
+
+static void
+settings_create(struct desktop *desktop)
+{
+  desktop->settings = phosh_settings_new (PHOSH_MOBILE_SHELL_MENU_POSITION_RIGHT,
+					  (gpointer) desktop->mshell);
+  gtk_widget_show_all (desktop->settings);
 }
 
 
@@ -170,6 +169,12 @@ panel_create (struct desktop *desktop)
     panel->window,
     "favorites-activated",
     G_CALLBACK(favorites_activated_cb),
+    desktop);
+
+  g_signal_connect_swapped (
+    panel->window,
+    "settings-activated",
+    G_CALLBACK(settings_activated_cb),
     desktop);
 }
 
@@ -300,6 +305,10 @@ shell_configure (struct desktop *desktop,
       width, PHOSH_PANEL_HEIGHT);
 
   phosh_mobile_shell_desktop_ready (desktop->mshell);
+
+  /* Create menus once we now the panel's position */
+  favorites_create (desktop);
+  settings_create (desktop);
 }
 
 
@@ -414,7 +423,6 @@ int main(int argc, char *argv[])
   css_setup (desktop);
   background_create (desktop);
   panel_create (desktop);
-  favorites_create (desktop);
 
   gtk_main ();
 

@@ -21,12 +21,19 @@ enum {
 };
 static guint signals[N_SIGNALS] = { 0 };
 
-struct PhoshFavoritesPrivate {
+typedef struct
+{
   GtkWidget *grid;
   GSettings *settings;
+} PhoshFavoritesPrivate;
+
+
+struct _PhoshFavorites
+{
+  PhoshMenuClass parent;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, PHOSH_TYPE_MENU) 
 
 
 static void
@@ -109,7 +116,7 @@ favorites_changed (GSettings *settings,
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
     btn = add_favorite (self, fav);
-    gtk_grid_attach (GTK_GRID (self->priv->grid), btn, 1, top++, 1, 1);
+    gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, top++, 1, 1);
   }
   g_strfreev (favorites);
 }
@@ -138,10 +145,10 @@ phosh_favorites_constructed (GObject *object)
 			       GTK_ALIGN_CENTER, NULL);
   gtk_container_add (GTK_CONTAINER (self), priv->grid);
 
-  self->priv->settings = g_settings_new ("sm.puri.phosh");
-  g_signal_connect (self->priv->settings, "changed::favorites",
+  priv->settings = g_settings_new ("sm.puri.phosh");
+  g_signal_connect (priv->settings, "changed::favorites",
 		    G_CALLBACK (favorites_changed), self);
-  favorites_changed (self->priv->settings, "favorites", self);
+  favorites_changed (priv->settings, "favorites", self);
 }
 
 
@@ -149,8 +156,9 @@ static void
 phosh_favorites_dispose (GObject *object)
 {
   PhoshFavorites *self = PHOSH_FAVORITES (object);
+  PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
 
-  g_clear_object (&self->priv->settings);
+  g_clear_object (&priv->settings);
 
   G_OBJECT_CLASS (phosh_favorites_parent_class)->dispose (object);
 }
@@ -173,14 +181,15 @@ phosh_favorites_class_init (PhoshFavoritesClass *klass)
 static void
 phosh_favorites_init (PhoshFavorites *self)
 {
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-      PHOSH_FAVORITES_TYPE,
-      PhoshFavoritesPrivate);
 }
 
 
 GtkWidget *
-phosh_favorites_new (void)
+phosh_favorites_new (int position, const gpointer *shell)
 {
-  return g_object_new (PHOSH_FAVORITES_TYPE, NULL);
+  return g_object_new (PHOSH_TYPE_FAVORITES,
+		       "name", "favorites",
+		       "shell", shell,
+		       "position", position,
+		       NULL);
 }

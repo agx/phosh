@@ -2,6 +2,9 @@
 
 ABS_BUILDDIR='@ABS_BUILDDIR@'
 
+# Start up gsd, etc.
+gnome-session --session=gnome-dummy --disable-acceleration-check &
+
 export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data"
 
 exec "${ABS_BUILDDIR}/src/phosh" $@

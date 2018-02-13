@@ -129,15 +129,14 @@
     </request>
   </interface>
   
-  <!--
-    <enum name="menu_position">
-      <!- only supported for top panels ->
-      <entry name="left" value="0"/>
-      <entry name="right" value="1"/>
-    </enum>
+  <enum name="menu_position">
+    <!-- only supported for top panels -->
+    <entry name="left" value="0"/>
+    <entry name="right" value="1"/>
+  </enum>
 
-    <request name="set_menu_position">
-      <arg name="position" type="uint"/>
-    </request>
-  -->
+  <request name="set_menu_position">
+    <arg name="surface" type="object" interface="wl_surface"/>
+    <arg name="position" type="uint"/>
+  </request>
 </protocol>

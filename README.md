@@ -26,3 +26,9 @@ using:
 
     _build/run
 
+If you want to test interaction with gnome-settings-daemon e.g. for brightness
+start a session like:
+
+    gnome-session --session=gnome-dummy --disable-acceleration-check &
+
+before running phosh.
