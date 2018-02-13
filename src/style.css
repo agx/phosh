@@ -1,3 +1,7 @@
+.phosh-panel {
+    font: 15px lato-regular;
+}
+
 .phosh-panel-btn-top-left {
     background-image: none;
     border-width: 0;
