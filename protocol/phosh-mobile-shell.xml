@@ -128,7 +128,7 @@
       <arg name="menu" type="object" interface="wl_surface"/>
     </request>
   </interface>
-  
+
   <enum name="menu_position">
     <!-- only supported for top panels -->
     <entry name="left" value="0"/>
@@ -139,4 +139,14 @@
     <arg name="surface" type="object" interface="wl_surface"/>
     <arg name="position" type="uint"/>
   </request>
+
+  <!-- only one display for now -->
+  <request name="rotate_display">
+    <description summary="rotate display">
+      Rotate the display clockwise 0, 90, 180 or 270 degree.
+    </description>
+    <arg name="surface" type="object" interface="wl_surface"/>
+    <arg name="degree" type="uint"/>
+  </request>
+
 </protocol>

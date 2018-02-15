@@ -7,6 +7,7 @@
 
 #include <glib/gi18n.h>
 
+#include "phosh.h"
 #include "settings.h"
 #include "settings/brightness.h"
 
@@ -15,6 +16,7 @@ typedef struct
 {
   GtkWidget *scale_brightness;
   GtkWidget *scale_volume;
+  GtkWidget *btn_rotation;
 
   GtkAdjustment *adj_brightness;
   GtkAdjustment *adj_volume;
@@ -48,6 +50,20 @@ brightness_changed_cb (GtkAdjustment *adj_brightness, gpointer *unused)
 
 
 static void
+rotation_changed_cb (GtkSwitch *btn, GParamSpec *pspec)
+{
+  gboolean rotate;
+
+  rotate = gtk_switch_get_active(btn);
+
+  if (rotate)
+    phosh_rotate_display (90);
+  else
+    phosh_rotate_display (0);
+}
+
+
+static void
 phosh_settings_constructed (GObject *object)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
@@ -66,6 +82,11 @@ phosh_settings_constructed (GObject *object)
   priv->adj_volume = gtk_adjustment_new (0, 0, 100, 1, 10, 10);
   gtk_range_set_adjustment (GTK_RANGE (priv->scale_volume), priv->adj_volume);
 
+  g_signal_connect (priv->btn_rotation,
+		    "notify::active",
+		    G_CALLBACK (rotation_changed_cb),
+		    self);
+
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
 
@@ -82,6 +103,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   object_class->constructed = phosh_settings_constructed;
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, scale_volume);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, scale_brightness);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_rotation);
 }
 
 

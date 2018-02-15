@@ -16,11 +16,12 @@
 
 #include "phosh-mobile-shell-client-protocol.h"
 
-
+#include "phosh.h"
 #include "lockscreen.h"
 #include "panel.h"
 #include "favorites.h"
 #include "settings.h"
+
 
 struct elem {
   GtkWidget *window;
@@ -55,6 +56,9 @@ struct desktop {
   /* Settings menu */
   GtkWidget *settings;
 };
+
+
+struct desktop *phosh;
 
 
 static void
@@ -106,7 +110,7 @@ lockscreen_create (struct desktop *desktop)
   lockscreen->surface = gdk_wayland_window_get_wl_surface (gdk_window);
 
   phosh_mobile_shell_set_lock_surface(desktop->mshell,
-					lockscreen->surface);
+				      lockscreen->surface);
   gtk_widget_show_all (lockscreen->window);
   desktop->lockscreen = lockscreen;
 
@@ -119,7 +123,7 @@ lockscreen_create (struct desktop *desktop)
 
 
 static void
-favorites_create(struct desktop *desktop)
+favorites_create (struct desktop *desktop)
 {
   desktop->favorites = phosh_favorites_new (PHOSH_MOBILE_SHELL_MENU_POSITION_LEFT,
 					    (gpointer) desktop->mshell);
@@ -134,7 +138,7 @@ favorites_create(struct desktop *desktop)
 
 
 static void
-settings_create(struct desktop *desktop)
+settings_create (struct desktop *desktop)
 {
   desktop->settings = phosh_settings_new (PHOSH_MOBILE_SHELL_MENU_POSITION_RIGHT,
 					  (gpointer) desktop->mshell);
@@ -307,8 +311,10 @@ shell_configure (struct desktop *desktop,
   phosh_mobile_shell_desktop_ready (desktop->mshell);
 
   /* Create menus once we now the panel's position */
-  favorites_create (desktop);
-  settings_create (desktop);
+  if (!desktop->favorites)
+    favorites_create (desktop);
+  if (!desktop->settings)
+    settings_create (desktop);
 }
 
 
@@ -420,6 +426,8 @@ int main(int argc, char *argv[])
       return -1;
   }
 
+  /* FIXME: use the phosh global everywhere in this file */
+  phosh = desktop;
   css_setup (desktop);
   background_create (desktop);
   panel_create (desktop);
@@ -427,4 +435,13 @@ int main(int argc, char *argv[])
   gtk_main ();
 
   return EXIT_SUCCESS;
+}
+
+
+void
+phosh_rotate_display (guint degree)
+{
+  phosh_mobile_shell_rotate_display (phosh->mshell,
+				     phosh->panel->surface,
+				     degree);
 }
