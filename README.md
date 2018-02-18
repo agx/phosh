@@ -26,9 +26,6 @@ using:
 
     _build/run
 
-If you want to test interaction with gnome-settings-daemon e.g. for brightness
-start a session like:
-
-    gnome-session --session=gnome-dummy --disable-acceleration-check &
-
-before running phosh.
+This will make sure the gsettings schema is found, there's enough of a GNOME
+session running an the some of the mutter DBus API is stubbed so
+gnome-settings-manager can work.

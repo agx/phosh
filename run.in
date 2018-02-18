@@ -1,8 +1,17 @@
 #!/bin/sh
 
+set -e
+
 ABS_BUILDDIR='@ABS_BUILDDIR@'
 
+
 # Start up gsd, etc.
+if ! dbus-send --session --dest=org.freedesktop.DBus \
+	     --type=method_call --print-reply /org/freedesktop/DBus \
+	     org.freedesktop.DBus.ListNames \
+   | grep -qs '[o]rg\.gnome.Mutter\.DisplayConfig'; then
+   helpers/mutter-dbus-stub-mock.py &
+fi
 gnome-session --session=gnome-dummy --disable-acceleration-check &
 
 export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data"
