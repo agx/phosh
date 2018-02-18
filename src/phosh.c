@@ -297,6 +297,13 @@ css_setup (struct desktop *desktop)
 
 
 static void
+env_setup ()
+{
+  g_setenv ("XDG_CURRENT_DESKTOP", "GNOME", TRUE);
+}
+
+
+static void
 shell_configure (struct desktop *desktop,
     uint32_t edges,
     struct wl_surface *surface,
@@ -396,6 +403,7 @@ int main(int argc, char *argv[])
 {
   struct desktop *desktop;
 
+  env_setup ();
   gdk_set_allowed_backends ("wayland");
 
   gtk_init (&argc, &argv);
@@ -431,7 +439,6 @@ int main(int argc, char *argv[])
   css_setup (desktop);
   background_create (desktop);
   panel_create (desktop);
-
   gtk_main ();
 
   return EXIT_SUCCESS;
