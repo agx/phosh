@@ -29,7 +29,7 @@ struct elem {
   struct wl_surface *surface;
 };
 
-struct desktop {
+struct phosh {
   struct wl_display *display;
   struct wl_registry *registry;
   struct phosh_mobile_shell *mshell;
@@ -55,48 +55,52 @@ struct desktop {
 
   /* Settings menu */
   GtkWidget *settings;
-};
-
-
-struct desktop *phosh;
+} *phosh;
 
 
 static void
-lockscreen_unlock_cb (struct desktop *desktop, PhoshLockscreen *window)
+lockscreen_unlock_cb (struct phosh *self, PhoshLockscreen *window)
 {
-  phosh_mobile_shell_unlock (desktop->mshell);
+  phosh_mobile_shell_unlock (self->mshell);
 
-  g_signal_handler_disconnect (window, desktop->unlock_handler_id);
+  g_signal_handler_disconnect (window, self->unlock_handler_id);
   gtk_widget_destroy (GTK_WIDGET (window));
-  g_free (desktop->lockscreen);
-  desktop->lockscreen = NULL;
-  phosh_mobile_shell_unlock(desktop->mshell);
+  g_free (self->lockscreen);
+  self->lockscreen = NULL;
+  phosh_mobile_shell_unlock(self->mshell);
 }
 
 
 static void
-favorites_activated_cb (struct desktop *desktop, PhoshPanel *window)
+favorites_activated_cb (struct phosh *self, PhoshPanel *window)
 {
-  phosh_menu_toggle (PHOSH_MENU (desktop->favorites));
+  phosh_menu_toggle (PHOSH_MENU (self->favorites));
 }
 
 
 static void
-app_launched_cb (struct desktop *desktop, PhoshFavorites *favorites)
+app_launched_cb (struct phosh *self, PhoshFavorites *favorites)
 {
-  phosh_menu_hide (PHOSH_MENU (desktop->favorites));
+  phosh_menu_hide (PHOSH_MENU (self->favorites));
 }
 
 
 static void
-settings_activated_cb (struct desktop *desktop, PhoshPanel *window)
+settings_activated_cb (struct phosh *self, PhoshPanel *window)
 {
-  phosh_menu_toggle (PHOSH_MENU (desktop->settings));
+  phosh_menu_toggle (PHOSH_MENU (self->settings));
 }
 
 
 static void
-lockscreen_create (struct desktop *desktop)
+setting_done_cb (struct phosh *self, PhoshFavorites *favorites)
+{
+  phosh_menu_hide (PHOSH_MENU (self->settings));
+}
+
+
+static void
+lockscreen_create (struct phosh *self)
 {
   struct elem *lockscreen;
   GdkWindow *gdk_window;
@@ -109,45 +113,50 @@ lockscreen_create (struct desktop *desktop)
 
   lockscreen->surface = gdk_wayland_window_get_wl_surface (gdk_window);
 
-  phosh_mobile_shell_set_lock_surface(desktop->mshell,
+  phosh_mobile_shell_set_lock_surface(self->mshell,
 				      lockscreen->surface);
   gtk_widget_show_all (lockscreen->window);
-  desktop->lockscreen = lockscreen;
+  self->lockscreen = lockscreen;
 
-  desktop->unlock_handler_id = g_signal_connect_swapped (
+  self->unlock_handler_id = g_signal_connect_swapped (
     lockscreen->window,
     "lockscreen-unlock",
     G_CALLBACK(lockscreen_unlock_cb),
-    desktop);
+    self);
 }
 
 
 static void
-favorites_create (struct desktop *desktop)
+favorites_create (struct phosh *self)
 {
-  desktop->favorites = phosh_favorites_new (PHOSH_MOBILE_SHELL_MENU_POSITION_LEFT,
-					    (gpointer) desktop->mshell);
+  self->favorites = phosh_favorites_new (PHOSH_MOBILE_SHELL_MENU_POSITION_LEFT,
+					 (gpointer) self->mshell);
 
-  gtk_widget_show_all (desktop->favorites);
+  gtk_widget_show_all (self->favorites);
 
-  g_signal_connect_swapped (desktop->favorites,
+  g_signal_connect_swapped (self->favorites,
 			    "app-launched",
 			    G_CALLBACK(app_launched_cb),
-			    desktop);
+			    self);
 }
 
 
 static void
-settings_create (struct desktop *desktop)
+settings_create (struct phosh *self)
 {
-  desktop->settings = phosh_settings_new (PHOSH_MOBILE_SHELL_MENU_POSITION_RIGHT,
-					  (gpointer) desktop->mshell);
-  gtk_widget_show_all (desktop->settings);
+  self->settings = phosh_settings_new (PHOSH_MOBILE_SHELL_MENU_POSITION_RIGHT,
+				       (gpointer) self->mshell);
+  gtk_widget_show_all (self->settings);
+
+  g_signal_connect_swapped (self->settings,
+			    "setting-done",
+			    G_CALLBACK(setting_done_cb),
+			    self);
 }
 
 
 static void
-panel_create (struct desktop *desktop)
+panel_create (struct phosh *self)
 {
   struct elem *panel;
   GdkWindow *gdk_window;
@@ -160,26 +169,26 @@ panel_create (struct desktop *desktop)
   gdk_wayland_window_set_use_custom_surface (gdk_window);
   panel->surface = gdk_wayland_window_get_wl_surface (gdk_window);
 
-  phosh_mobile_shell_set_user_data (desktop->mshell, desktop);
-  phosh_mobile_shell_set_panel (desktop->mshell, desktop->output,
+  phosh_mobile_shell_set_user_data (self->mshell, self);
+  phosh_mobile_shell_set_panel (self->mshell, self->output,
       panel->surface);
-  phosh_mobile_shell_set_panel_position (desktop->mshell,
+  phosh_mobile_shell_set_panel_position (self->mshell,
      PHOSH_MOBILE_SHELL_PANEL_POSITION_TOP);
 
   gtk_widget_show_all (panel->window);
-  desktop->panel = panel;
+  self->panel = panel;
 
   g_signal_connect_swapped (
     panel->window,
     "favorites-activated",
     G_CALLBACK(favorites_activated_cb),
-    desktop);
+    self);
 
   g_signal_connect_swapped (
     panel->window,
     "settings-activated",
     G_CALLBACK(settings_activated_cb),
-    desktop);
+    self);
 }
 
 
@@ -195,6 +204,7 @@ scale_background (GdkPixbuf *original_pixbuf)
   gint final_width, final_height;
   gdouble ratio_horizontal, ratio_vertical;
 
+  /* FIXME: handle org.gnome.desktop.background gsettings */
   g_return_val_if_fail(monitor, NULL);
 
   gdk_monitor_get_geometry (monitor, &geom);
@@ -226,16 +236,16 @@ background_draw_cb (GtkWidget *widget,
     cairo_t *cr,
     gpointer data)
 {
-  struct desktop *desktop = data;
+  struct phosh *self = data;
 
-  gdk_cairo_set_source_pixbuf (cr, desktop->background->pixbuf, 0, 0);
+  gdk_cairo_set_source_pixbuf (cr, self->background->pixbuf, 0, 0);
   cairo_paint (cr);
   return TRUE;
 }
 
 
 static void
-background_create (struct desktop *desktop)
+background_create (struct phosh *self)
 {
   GdkWindow *gdk_window;
   struct elem *background;
@@ -254,7 +264,7 @@ background_create (struct desktop *desktop)
       G_CALLBACK (background_destroy_cb), NULL);
 
   g_signal_connect (background->window, "draw",
-      G_CALLBACK (background_draw_cb), desktop);
+      G_CALLBACK (background_draw_cb), self);
 
   gtk_window_set_title (GTK_WINDOW (background->window), "phosh background");
   gtk_window_set_decorated (GTK_WINDOW (background->window), FALSE);
@@ -265,17 +275,17 @@ background_create (struct desktop *desktop)
 
   background->surface = gdk_wayland_window_get_wl_surface (gdk_window);
 
-  phosh_mobile_shell_set_user_data (desktop->mshell, desktop);
-  phosh_mobile_shell_set_background (desktop->mshell, desktop->output,
+  phosh_mobile_shell_set_user_data (self->mshell, self);
+  phosh_mobile_shell_set_background (self->mshell, self->output,
       background->surface);
 
-  desktop->background = background;
+  self->background = background;
   gtk_widget_show_all (background->window);
 }
 
 
 static void
-css_setup (struct desktop *desktop)
+css_setup (struct phosh *self)
 {
   GtkCssProvider *provider;
   GFile *file;
@@ -304,24 +314,24 @@ env_setup ()
 
 
 static void
-shell_configure (struct desktop *desktop,
+shell_configure (struct phosh *self,
     uint32_t edges,
     struct wl_surface *surface,
     int32_t width, int32_t height)
 {
-  gtk_widget_set_size_request (desktop->background->window,
+  gtk_widget_set_size_request (self->background->window,
       width, height);
 
-  gtk_window_resize (GTK_WINDOW (desktop->panel->window),
+  gtk_window_resize (GTK_WINDOW (self->panel->window),
       width, PHOSH_PANEL_HEIGHT);
 
-  phosh_mobile_shell_desktop_ready (desktop->mshell);
+  phosh_mobile_shell_desktop_ready (self->mshell);
 
   /* Create menus once we now the panel's position */
-  if (!desktop->favorites)
-    favorites_create (desktop);
-  if (!desktop->settings)
-    settings_create (desktop);
+  if (!self->favorites)
+    favorites_create (self);
+  if (!self->settings)
+    settings_create (self);
 }
 
 
@@ -340,10 +350,10 @@ static void
 phosh_mobile_shell_prepare_lock_surface (void *data,
     struct phosh_mobile_shell *phosh_mobile_shell)
 {
-  struct desktop *desktop = data;
+  struct phosh *self = data;
 
-  if (!desktop->lockscreen)
-    lockscreen_create(desktop);
+  if (!self->lockscreen)
+    lockscreen_create(self);
 }
 
 
@@ -370,7 +380,7 @@ registry_handle_global (void *data,
     const char *interface,
     uint32_t version)
 {
-  struct desktop *d = data;
+  struct phosh *d = data;
 
   if (!strcmp (interface, "phosh_mobile_shell")) {
       d->mshell = wl_registry_bind (registry, name,
@@ -384,6 +394,7 @@ registry_handle_global (void *data,
           &wl_output_interface, 1);
     }
 }
+
 
 static void
 registry_handle_global_remove (void *data,
@@ -401,44 +412,41 @@ static const struct wl_registry_listener registry_listener = {
 
 int main(int argc, char *argv[])
 {
-  struct desktop *desktop;
-
   env_setup ();
   gdk_set_allowed_backends ("wayland");
 
   gtk_init (&argc, &argv);
 
-  desktop = g_malloc0 (sizeof *desktop);
+  phosh = g_malloc0 (sizeof(struct phosh));
 
-  desktop->gdk_display = gdk_display_get_default ();
-  desktop->display =
-    gdk_wayland_display_get_wl_display (desktop->gdk_display);
+  phosh->gdk_display = gdk_display_get_default ();
+  phosh->display =
+    gdk_wayland_display_get_wl_display (phosh->gdk_display);
 
-  if (desktop->display == NULL) {
+  if (phosh->display == NULL) {
       g_error ("Failed to get display: %m\n");
       return -1;
   }
 
-  desktop->registry = wl_display_get_registry (desktop->display);
-  wl_registry_add_listener (desktop->registry,
-      &registry_listener, desktop);
+  phosh->registry = wl_display_get_registry (phosh->display);
+  wl_registry_add_listener (phosh->registry,
+      &registry_listener, phosh);
 
   /* Wait until we have been notified about the compositor,
    * shell, and shell helper objects */
-  if (!desktop->output || !desktop->mshell)
-    wl_display_roundtrip (desktop->display);
-  if (!desktop->output || !desktop->mshell) {
+  if (!phosh->output || !phosh->mshell)
+    wl_display_roundtrip (phosh->display);
+  if (!phosh->output || !phosh->mshell) {
       g_error ("Could not find output, shell or helper modules\n"
                "output: %p, mshell: %p\n",
-		 desktop->output, desktop->mshell);
+		 phosh->output, phosh->mshell);
       return -1;
   }
 
-  /* FIXME: use the phosh global everywhere in this file */
-  phosh = desktop;
-  css_setup (desktop);
-  background_create (desktop);
-  panel_create (desktop);
+  phosh = phosh;
+  css_setup (phosh);
+  background_create (phosh);
+  panel_create (phosh);
   gtk_main ();
 
   return EXIT_SUCCESS;

@@ -11,6 +11,13 @@
 #include "settings.h"
 #include "settings/brightness.h"
 
+#include <gio/gdesktopappinfo.h>
+
+enum {
+  SETTING_DONE,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct
 {
@@ -20,6 +27,11 @@ typedef struct
 
   GtkAdjustment *adj_brightness;
   GtkAdjustment *adj_volume;
+
+  GtkWidget *btn_settings;
+  GDesktopAppInfo *settings_info;
+  GtkWidget *btn_airplane_mode;
+  GtkWidget *btn_silent_mode;
 
 } PhoshSettingsPrivate;
 
@@ -50,7 +62,7 @@ brightness_changed_cb (GtkAdjustment *adj_brightness, gpointer *unused)
 
 
 static void
-rotation_changed_cb (GtkSwitch *btn, GParamSpec *pspec)
+rotation_changed_cb (GtkSwitch *btn, GParamSpec *pspec, PhoshSettings *self)
 {
   gboolean rotate;
 
@@ -60,6 +72,20 @@ rotation_changed_cb (GtkSwitch *btn, GParamSpec *pspec)
     phosh_rotate_display (90);
   else
     phosh_rotate_display (0);
+
+  g_signal_emit (self, signals[SETTING_DONE], 0);
+}
+
+
+static void
+settings_clicked_cb (PhoshSettings *self, gpointer *unused)
+{
+  PhoshSettingsPrivate *priv = phosh_settings_get_instance_private (self);
+
+  g_return_if_fail (priv->settings_info);
+  g_app_info_launch (G_APP_INFO (priv->settings_info), NULL, NULL, NULL);
+
+  g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 
 
@@ -68,11 +94,12 @@ phosh_settings_constructed (GObject *object)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
   PhoshSettingsPrivate *priv = phosh_settings_get_instance_private (self);
+  GtkWidget *image;
 
   priv->adj_brightness = gtk_adjustment_new (0, 0, 100, 1, 10, 10);
   gtk_range_set_adjustment (GTK_RANGE (priv->scale_brightness), priv->adj_brightness);
   gtk_range_set_round_digits (GTK_RANGE (priv->scale_brightness), 0);
-  
+
   brightness_init (priv->adj_brightness);
   g_signal_connect (priv->adj_brightness,
 		    "value-changed",
@@ -87,6 +114,24 @@ phosh_settings_constructed (GObject *object)
 		    G_CALLBACK (rotation_changed_cb),
 		    self);
 
+  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
+				  "button");
+  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
+				  "image-button");
+  image = gtk_image_new_from_icon_name ("preferences-system-symbolic", GTK_ICON_SIZE_BUTTON);
+  gtk_button_set_image(GTK_BUTTON (priv->btn_settings), image);
+  priv->settings_info = g_desktop_app_info_new ("gnome-control-center.desktop");
+  g_signal_connect_swapped (priv->btn_settings,
+			    "clicked",
+			    G_CALLBACK (settings_clicked_cb),
+			    self);
+
+  /* FIXME: just so we have some buttons */
+  image = gtk_image_new_from_icon_name ("airplane-mode-symbolic", GTK_ICON_SIZE_BUTTON);
+  gtk_button_set_image(GTK_BUTTON (priv->btn_airplane_mode), image);
+  image = gtk_image_new_from_icon_name ("audio-volume-muted-symbolic", GTK_ICON_SIZE_BUTTON);
+  gtk_button_set_image(GTK_BUTTON (priv->btn_silent_mode), image);
+
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
 
@@ -100,10 +145,17 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
 					       "/sm/puri/phosh/ui/settings-menu.ui");
 
+  signals[SETTING_DONE] = g_signal_new ("setting-done",
+      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+      NULL, G_TYPE_NONE, 0);
+
   object_class->constructed = phosh_settings_constructed;
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, scale_volume);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_rotation);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_settings);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_silent_mode);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_airplane_mode);
 }
 
 
