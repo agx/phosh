@@ -443,7 +443,6 @@ int main(int argc, char *argv[])
       return -1;
   }
 
-  phosh = phosh;
   css_setup (phosh);
   background_create (phosh);
   panel_create (phosh);
