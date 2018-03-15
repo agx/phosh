@@ -8,7 +8,7 @@ phosh is licensed under the GPLv3+.
 
 ## Dependencies
 
-    sudo apt-get install libgtk3.0-dev wayland-protocols
+    sudo apt-get install libgtk-3-dev wayland-protocols
 
 ## Building
 
