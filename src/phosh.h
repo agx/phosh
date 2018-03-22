@@ -5,11 +5,16 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#ifndef PHOSH_H
-#define PHOSH_H
+#ifndef __PHOSH_H__
+#define __PHOSH_H__
 
-#include <glib.h>
+#include <gtk/gtk.h>
 
-void                 phosh_rotate_display      (guint degrees);
+#define PHOSH_TYPE_SHELL phosh_shell_get_type()
 
-#endif /* PHOSH_H */
+G_DECLARE_FINAL_TYPE (PhoshShell, phosh_shell, PHOSH, SHELL, GObject)
+
+PhoshShell         * phosh                       (void);
+void                 phosh_shell_rotate_display  (PhoshShell *self, guint degrees);
+
+#endif /* __PHOSH_H__ */
