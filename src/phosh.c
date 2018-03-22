@@ -47,6 +47,7 @@ typedef struct
   struct wl_pointer *pointer;
 
   GdkDisplay *gdk_display;
+  gint rotation;
 
   /* Top panel */
   struct elem *panel;
