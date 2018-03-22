@@ -17,6 +17,7 @@
 #include "phosh-mobile-shell-client-protocol.h"
 
 #include "phosh.h"
+#include "background.h"
 #include "lockscreen.h"
 #include "panel.h"
 #include "favorites.h"
@@ -25,7 +26,6 @@
 
 struct elem {
   GtkWidget *window;
-  GdkPixbuf *pixbuf;
   struct wl_surface *surface;
 };
 
@@ -192,92 +192,24 @@ panel_create (struct phosh *self)
 }
 
 
-static GdkPixbuf *
-scale_background (GdkPixbuf *original_pixbuf)
-{
-  GdkDisplay *display = gdk_display_get_default ();
-  /* There's no primary monitor on nested wayland so just use the
-     first one for now */
-  GdkMonitor *monitor = gdk_display_get_monitor (display, 0);
-  GdkRectangle geom;
-  gint original_width, original_height;
-  gint final_width, final_height;
-  gdouble ratio_horizontal, ratio_vertical;
-
-  /* FIXME: handle org.gnome.desktop.background gsettings */
-  g_return_val_if_fail(monitor, NULL);
-
-  gdk_monitor_get_geometry (monitor, &geom);
-
-  original_width = gdk_pixbuf_get_width (original_pixbuf);
-  original_height = gdk_pixbuf_get_height (original_pixbuf);
-
-  ratio_horizontal = (double) geom.width / original_width;
-  ratio_vertical = (double) geom.height / original_height;
-
-  final_width = ceil (ratio_horizontal * original_width);
-  final_height = ceil (ratio_vertical * original_height);
-
-  return gdk_pixbuf_scale_simple (original_pixbuf,
-      final_width, final_height, GDK_INTERP_BILINEAR);
-}
-
-
-static void
-background_destroy_cb (GObject *object,
-    gpointer data)
-{
-  gtk_main_quit ();
-}
-
-
-static gboolean
-background_draw_cb (GtkWidget *widget,
-    cairo_t *cr,
-    gpointer data)
-{
-  struct phosh *self = data;
-
-  gdk_cairo_set_source_pixbuf (cr, self->background->pixbuf, 0, 0);
-  cairo_paint (cr);
-  return TRUE;
-}
-
-
 static void
 background_create (struct phosh *self)
 {
   GdkWindow *gdk_window;
   struct elem *background;
-  GdkPixbuf *unscaled_background;
-  const gchar *xpm_data[] = {"1 1 1 1", "_ c WebGrey", "_"};
 
   background = calloc (1, sizeof *background);
-
-  unscaled_background = gdk_pixbuf_new_from_xpm_data (xpm_data);
-  background->pixbuf = scale_background (unscaled_background);
-  g_object_unref (unscaled_background);
-
-  background->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-
-  g_signal_connect (background->window, "destroy",
-      G_CALLBACK (background_destroy_cb), NULL);
-
-  g_signal_connect (background->window, "draw",
-      G_CALLBACK (background_draw_cb), self);
-
-  gtk_window_set_title (GTK_WINDOW (background->window), "phosh background");
-  gtk_window_set_decorated (GTK_WINDOW (background->window), FALSE);
-  gtk_widget_realize (background->window);
-
+  
+  background->window = phosh_background_new ();
   gdk_window = gtk_widget_get_window (background->window);
+  g_return_if_fail (gdk_window);
+  
   gdk_wayland_window_set_use_custom_surface (gdk_window);
-
   background->surface = gdk_wayland_window_get_wl_surface (gdk_window);
 
   phosh_mobile_shell_set_user_data (self->mshell, self);
   phosh_mobile_shell_set_background (self->mshell, self->output,
-      background->surface);
+				     background->surface);
 
   self->background = background;
   gtk_widget_show_all (background->window);
