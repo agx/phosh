@@ -24,6 +24,13 @@
 #include "favorites.h"
 #include "settings.h"
 
+enum {
+  PHOSH_SHELL_PROP_0,
+  PHOSH_SHELL_PROP_ROTATION,
+  PHOSH_SHELL_PROP_LAST_PROP
+};
+static GParamSpec *props[PHOSH_SHELL_PROP_LAST_PROP];
+
 struct elem {
   GtkWidget *window;
   struct wl_surface *surface;
@@ -380,6 +387,47 @@ static const struct wl_registry_listener registry_listener = {
 
 
 static void
+phosh_shell_set_property (GObject *object,
+                          guint property_id,
+                          const GValue *value,
+                          GParamSpec *pspec)
+{
+  PhoshShell *self = PHOSH_SHELL (object);
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
+
+  switch (property_id) {
+  case PHOSH_SHELL_PROP_ROTATION:
+    priv->rotation = g_value_get_uint (value);
+    break;
+
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
+phosh_shell_get_property (GObject *object,
+                          guint property_id,
+                          GValue *value,
+                          GParamSpec *pspec)
+{
+  PhoshShell *self = PHOSH_SHELL (object);
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
+
+  switch (property_id) {
+  case PHOSH_SHELL_PROP_ROTATION:
+    g_value_set_uint (value, priv->rotation);
+
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
 phosh_shell_constructed (GObject *object)
 {
   PhoshShell *self = PHOSH_SHELL (object);
@@ -425,6 +473,18 @@ phosh_shell_class_init (PhoshShellClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->constructed = phosh_shell_constructed;
+
+  object_class->set_property = phosh_shell_set_property;
+  object_class->get_property = phosh_shell_get_property;
+
+  props[PHOSH_SHELL_PROP_ROTATION] =
+    g_param_spec_string ("rotation",
+                         "Rotation",
+                         "Clockwise display rotation in degree",
+                         "",
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+
+  g_object_class_install_properties (object_class, PHOSH_SHELL_PROP_LAST_PROP, props);
 }
 
 
@@ -434,15 +494,25 @@ phosh_shell_init (PhoshShell *self)
 }
 
 
+gint
+phosh_shell_get_rotation (PhoshShell *self)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  return priv->rotation;
+}
+
+
 void
 phosh_shell_rotate_display (PhoshShell *self,
                             guint degree)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
+  priv->rotation = degree;
   phosh_mobile_shell_rotate_display (priv->mshell,
                                      priv->panel->surface,
                                      degree);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_ROTATION]);
 }
 
 
