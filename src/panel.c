@@ -81,9 +81,9 @@ phosh_panel_constructed (GObject *object)
   gtk_button_set_label (GTK_BUTTON (priv->btn_favorites), FAVORITES_LABEL_TEXT);
   priv->wall_clock = g_object_new (GNOME_TYPE_WALL_CLOCK, NULL);
   g_signal_connect (priv->wall_clock,
-		    "notify::clock",
-		    G_CALLBACK (wall_clock_notify_cb),
-		    self);
+                    "notify::clock",
+                    G_CALLBACK (wall_clock_notify_cb),
+                    self);
 
   g_signal_connect_object (priv->btn_favorites,
                            "clicked",
@@ -108,13 +108,13 @@ phosh_panel_constructed (GObject *object)
 
   /* Button properites */
   gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_favorites),
-				  "button");
+                                  "button");
   gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_favorites),
-				  "image-button");
+                                  "image-button");
   gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
-				  "button");
+                                  "button");
   gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
-				  "image-button");
+                                  "image-button");
 
   wall_clock_notify_cb (priv->wall_clock, NULL, self);
 }
@@ -150,7 +150,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
       NULL, G_TYPE_NONE, 0);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-					       "/sm/puri/phosh/ui/top-panel.ui");
+                                               "/sm/puri/phosh/ui/top-panel.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_favorites);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_settings);
 }

@@ -51,9 +51,9 @@ static guint signals [LAST_SIGNAL];
 
 static void
 phosh_menu_set_property (GObject *object,
-			 guint property_id,
-			 const GValue *value,
-			 GParamSpec *pspec)
+                         guint property_id,
+                         const GValue *value,
+                         GParamSpec *pspec)
 {
   PhoshMenu *self = PHOSH_MENU (object);
   PhoshMenuPrivate *priv = phosh_menu_get_instance_private(self);
@@ -85,9 +85,9 @@ phosh_menu_set_property (GObject *object,
 
 static void
 phosh_menu_get_property (GObject *object,
-			 guint property_id,
-			 GValue *value,
-			 GParamSpec *pspec)
+                         guint property_id,
+                         GValue *value,
+                         GParamSpec *pspec)
 {
   PhoshMenu *self = PHOSH_MENU (object);
   PhoshMenuPrivate *priv = phosh_menu_get_instance_private(self);
@@ -147,8 +147,8 @@ phosh_menu_constructed (GObject *object)
 
   phosh_mobile_shell_set_panel_menu (priv->mshell, priv->surface);
   phosh_mobile_shell_set_menu_position(priv->mshell,
-				       priv->surface,
-				       priv->position);
+                                       priv->surface,
+                                       priv->position);
 }
 
 
@@ -185,32 +185,32 @@ phosh_menu_class_init (PhoshMenuClass *klass)
    */
   signals [TOGGLED] = g_signal_new ("toggled",
         G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-	NULL, G_TYPE_NONE, 0);
+        NULL, G_TYPE_NONE, 0);
 
   props[PHOSH_MENU_PROP_SHOWN] = g_param_spec_boolean ("shown",
-						       "menu shown",
-						       "Whether the menu is shown on screen",
-						       FALSE,
-						       G_PARAM_READABLE);
+                                                       "menu shown",
+                                                       "Whether the menu is shown on screen",
+                                                       FALSE,
+                                                       G_PARAM_READABLE);
   props[PHOSH_MENU_PROP_NAME] = g_param_spec_string ("name",
-						     "menu name",
-						     "the menus name",
-						     "unnamed",
-						     G_PARAM_CONSTRUCT_ONLY |
-						     G_PARAM_READWRITE);
+                                                     "menu name",
+                                                     "the menus name",
+                                                     "unnamed",
+                                                     G_PARAM_CONSTRUCT_ONLY |
+                                                     G_PARAM_READWRITE);
   props[PHOSH_MENU_PROP_SHELL] = g_param_spec_pointer ("shell",
-						       "mobile shell",
-						       "the mobile shell",
-						       G_PARAM_CONSTRUCT_ONLY |
-						       G_PARAM_READWRITE);
+                                                       "mobile shell",
+                                                       "the mobile shell",
+                                                       G_PARAM_CONSTRUCT_ONLY |
+                                                       G_PARAM_READWRITE);
   props[PHOSH_MENU_PROP_POSITION] = g_param_spec_int ("position",
-						      "menu position",
-						      "menu position on top bar",
-						      0,
-						      INT_MAX,
-						      PHOSH_MOBILE_SHELL_MENU_POSITION_LEFT,
-						      G_PARAM_CONSTRUCT_ONLY |
-						      G_PARAM_READWRITE);
+                                                      "menu position",
+                                                      "menu position on top bar",
+                                                      0,
+                                                      INT_MAX,
+                                                      PHOSH_MOBILE_SHELL_MENU_POSITION_LEFT,
+                                                      G_PARAM_CONSTRUCT_ONLY |
+                                                      G_PARAM_READWRITE);
 
   g_object_class_install_properties (object_class, PHOSH_MENU_PROP_LAST_PROP, props);
 }
@@ -225,13 +225,14 @@ phosh_menu_class_init (PhoshMenuClass *klass)
  *
  */
 GtkWidget *
-phosh_menu_new (const char* name, int position, const gpointer *shell)
+phosh_menu_new (const char* name, int position,
+                const gpointer *shell)
 {
   return g_object_new (PHOSH_TYPE_MENU,
-		       "name", name,
-		       "shell", shell,
-		       "position", position,
-		       NULL);
+                       "name", name,
+                       "shell", shell,
+                       "position", position,
+                       NULL);
 }
 
 
@@ -265,7 +266,7 @@ phosh_menu_hide (PhoshMenu *self)
 
   if (priv->shown)
     phosh_mobile_shell_hide_panel_menu(priv->mshell,
-				       priv->surface);
+                                       priv->surface);
   priv->shown = FALSE;
 }
 
@@ -280,7 +281,7 @@ phosh_menu_show (PhoshMenu *self)
 
   if (!priv->shown)
     phosh_mobile_shell_show_panel_menu(priv->mshell,
-				       priv->surface);
+                                       priv->surface);
   priv->shown = TRUE;
 }
 

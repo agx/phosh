@@ -103,29 +103,29 @@ phosh_settings_constructed (GObject *object)
 
   brightness_init (priv->adj_brightness);
   g_signal_connect (priv->adj_brightness,
-		    "value-changed",
-		    G_CALLBACK(brightness_changed_cb),
-		    NULL);
+                    "value-changed",
+                    G_CALLBACK(brightness_changed_cb),
+                    NULL);
 
   priv->adj_volume = gtk_adjustment_new (0, 0, 100, 1, 10, 10);
   gtk_range_set_adjustment (GTK_RANGE (priv->scale_volume), priv->adj_volume);
 
   g_signal_connect (priv->btn_rotation,
-		    "notify::active",
-		    G_CALLBACK (rotation_changed_cb),
-		    self);
+                    "notify::active",
+                    G_CALLBACK (rotation_changed_cb),
+                    self);
 
   gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
-				  "button");
+                                  "button");
   gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
-				  "image-button");
+                                  "image-button");
   image = gtk_image_new_from_icon_name ("preferences-system-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_button_set_image(GTK_BUTTON (priv->btn_settings), image);
   priv->settings_info = g_desktop_app_info_new ("gnome-control-center.desktop");
   g_signal_connect_swapped (priv->btn_settings,
-			    "clicked",
-			    G_CALLBACK (settings_clicked_cb),
-			    self);
+                            "clicked",
+                            G_CALLBACK (settings_clicked_cb),
+                            self);
 
   /* FIXME: just so we have some buttons */
   image = gtk_image_new_from_icon_name ("airplane-mode-symbolic", GTK_ICON_SIZE_BUTTON);
@@ -144,7 +144,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-					       "/sm/puri/phosh/ui/settings-menu.ui");
+                                               "/sm/puri/phosh/ui/settings-menu.ui");
 
   signals[SETTING_DONE] = g_signal_new ("setting-done",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
@@ -170,8 +170,8 @@ GtkWidget *
 phosh_settings_new (int position, const gpointer *shell)
 {
   return g_object_new (PHOSH_TYPE_SETTINGS,
-		       "name", "settings",
-		       "shell", shell,
-		       "position", position,
-		       NULL);
+                       "name", "settings",
+                       "shell", shell,
+                       "position", position,
+                       NULL);
 }

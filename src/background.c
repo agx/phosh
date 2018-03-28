@@ -58,8 +58,8 @@ scale_background (GdkPixbuf *original_pixbuf)
 
 static gboolean
 background_draw_cb (PhoshBackground *self,
-		    cairo_t         *cr,
-		    gpointer         data)
+                    cairo_t         *cr,
+                    gpointer         data)
 {
   PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (self);
 
@@ -71,7 +71,7 @@ background_draw_cb (PhoshBackground *self,
 
 static void
 background_destroy_cb (GObject *object,
-		       gpointer data)
+                       gpointer data)
 {
   gtk_main_quit ();
 }
