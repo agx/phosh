@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0+
  */
 
-#ifndef __PHOSH_PANEL_H__
-#define __PHOSH_PANEL_H__
+#ifndef PHOSH_PANEL_H
+#define PHOSH_PANEL_H
 
 #include <gtk/gtk.h>
 
@@ -36,4 +36,4 @@ GType phosh_panel_get_type (void) G_GNUC_CONST;
 
 GtkWidget * phosh_panel_new (void);
 
-#endif /* __PHOSH_PANEL_H__ */
+#endif /* PHOSH_PANEL_H */
