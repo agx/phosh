@@ -27,8 +27,8 @@ struct _PhoshMenuClass
 };
 
 GtkWidget *          phosh_menu_new            (const char* name,
-						int position,
-						const gpointer *shell);
+                                                int position,
+                                                const gpointer *shell);
 gboolean             phosh_menu_is_shown       (PhoshMenu *self);
 void                 phosh_menu_show           (PhoshMenu *self);
 void                 phosh_menu_hide           (PhoshMenu *self);

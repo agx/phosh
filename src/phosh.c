@@ -86,7 +86,8 @@ lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
 
 
 static void
-favorites_activated_cb (PhoshShell *self, PhoshPanel *window)
+favorites_activated_cb (PhoshShell *self,
+                        PhoshPanel *window)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
@@ -95,7 +96,8 @@ favorites_activated_cb (PhoshShell *self, PhoshPanel *window)
 
 
 static void
-app_launched_cb (PhoshShell *self, PhoshFavorites *favorites)
+app_launched_cb (PhoshShell *self,
+                 PhoshFavorites *favorites)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
@@ -104,7 +106,8 @@ app_launched_cb (PhoshShell *self, PhoshFavorites *favorites)
 
 
 static void
-settings_activated_cb (PhoshShell *self, PhoshPanel *window)
+settings_activated_cb (PhoshShell *self,
+                       PhoshPanel *window)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
@@ -113,7 +116,8 @@ settings_activated_cb (PhoshShell *self, PhoshPanel *window)
 
 
 static void
-setting_done_cb (PhoshShell *self, PhoshFavorites *favorites)
+setting_done_cb (PhoshShell *self,
+                 PhoshFavorites *favorites)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
@@ -137,7 +141,7 @@ lockscreen_create (PhoshShell *self)
   lockscreen->surface = gdk_wayland_window_get_wl_surface (gdk_window);
 
   phosh_mobile_shell_set_lock_surface(priv->mshell,
-				      lockscreen->surface);
+                                      lockscreen->surface);
   gtk_widget_show_all (lockscreen->window);
   priv->lockscreen = lockscreen;
 
@@ -155,14 +159,14 @@ favorites_create (PhoshShell *self)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   priv->favorites = phosh_favorites_new (PHOSH_MOBILE_SHELL_MENU_POSITION_LEFT,
-					 (gpointer) priv->mshell);
+                                         (gpointer) priv->mshell);
 
   gtk_widget_show_all (priv->favorites);
 
   g_signal_connect_swapped (priv->favorites,
-			    "app-launched",
-			    G_CALLBACK(app_launched_cb),
-			    self);
+                            "app-launched",
+                            G_CALLBACK(app_launched_cb),
+                            self);
 }
 
 
@@ -172,13 +176,13 @@ settings_create (PhoshShell *self)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   priv->settings = phosh_settings_new (PHOSH_MOBILE_SHELL_MENU_POSITION_RIGHT,
-				       (gpointer) priv->mshell);
+                                       (gpointer) priv->mshell);
   gtk_widget_show_all (priv->settings);
 
   g_signal_connect_swapped (priv->settings,
-			    "setting-done",
-			    G_CALLBACK(setting_done_cb),
-			    self);
+                            "setting-done",
+                            G_CALLBACK(setting_done_cb),
+                            self);
 }
 
 
@@ -238,7 +242,7 @@ background_create (PhoshShell *self)
 
   phosh_mobile_shell_set_user_data (priv->mshell, self);
   phosh_mobile_shell_set_background (priv->mshell, priv->output,
-				     background->surface);
+                                     background->surface);
 
   priv->background = background;
   gtk_widget_show_all (background->window);
@@ -262,7 +266,7 @@ css_setup (PhoshShell *self)
     return;
   }
   gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
-					     GTK_STYLE_PROVIDER (provider), 600);
+                                             GTK_STYLE_PROVIDER (provider), 600);
   g_object_unref (file);
 }
 
@@ -276,9 +280,9 @@ env_setup ()
 
 static void
 shell_configure (PhoshShell *self,
-    uint32_t edges,
-    struct wl_surface *surface,
-    int32_t width, int32_t height)
+                 uint32_t edges,
+                 struct wl_surface *surface,
+                 int32_t width, int32_t height)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
@@ -300,10 +304,10 @@ shell_configure (PhoshShell *self,
 
 static void
 phosh_mobile_shell_configure (void *data,
-    struct phosh_mobile_shell *phosh_mobile_shell,
-    uint32_t edges,
-    struct wl_surface *surface,
-    int32_t width, int32_t height)
+                              struct phosh_mobile_shell *phosh_mobile_shell,
+                              uint32_t edges,
+                              struct wl_surface *surface,
+                              int32_t width, int32_t height)
 {
   shell_configure(data, edges, surface, width, height);
 }
@@ -323,7 +327,7 @@ phosh_mobile_shell_prepare_lock_surface (void *data,
 
 static void
 phosh_mobile_shell_grab_cursor (void *data,
-    struct phosh_mobile_shell *phosh_mobile_shell,
+                                struct phosh_mobile_shell *phosh_mobile_shell,
     uint32_t cursor)
 {
   g_warning("%s not implmented", __func__);
@@ -339,10 +343,10 @@ static const struct phosh_mobile_shell_listener mshell_listener = {
 
 static void
 registry_handle_global (void *data,
-    struct wl_registry *registry,
-    uint32_t name,
-    const char *interface,
-    uint32_t version)
+                        struct wl_registry *registry,
+                        uint32_t name,
+                        const char *interface,
+                        uint32_t version)
 {
   PhoshShell *self = data;
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
@@ -405,7 +409,7 @@ phosh_shell_constructed (GObject *object)
   if (!priv->output || !priv->mshell) {
       g_error ("Could not find output, shell or helper modules\n"
                "output: %p, mshell: %p\n",
-		 priv->output, priv->mshell);
+                 priv->output, priv->mshell);
   }
 
   env_setup ();
@@ -431,13 +435,14 @@ phosh_shell_init (PhoshShell *self)
 
 
 void
-phosh_shell_rotate_display (PhoshShell *self, guint degree)
+phosh_shell_rotate_display (PhoshShell *self,
+                            guint degree)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   phosh_mobile_shell_rotate_display (priv->mshell,
-				     priv->panel->surface,
-				     degree);
+                                     priv->panel->surface,
+                                     degree);
 }
 
 

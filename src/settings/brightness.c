@@ -13,9 +13,9 @@ GDBusProxy *brightness_proxy;
 
 void
 brightness_changed_cb (GDBusProxy *proxy,
-		       GVariant *changed_props,
-		       GVariant *invalidated_props,
-		       GtkAdjustment *adj)
+                       GVariant *changed_props,
+                       GVariant *invalidated_props,
+                       GtkAdjustment *adj)
 {
   gboolean ret;
   gint value, cur;
@@ -50,13 +50,13 @@ brightness_init (GtkAdjustment *adj)
   }
 
   proxy = g_dbus_proxy_new_sync(session_con,
-				G_DBUS_PROXY_FLAGS_NONE,
-				NULL,
-				"org.gnome.SettingsDaemon.Power",
-				"/org/gnome/SettingsDaemon/Power",
-				"org.gnome.SettingsDaemon.Power.Screen",
-				NULL,
-				&err);
+                                G_DBUS_PROXY_FLAGS_NONE,
+                                NULL,
+                                "org.gnome.SettingsDaemon.Power",
+                                "/org/gnome/SettingsDaemon/Power",
+                                "org.gnome.SettingsDaemon.Power.Screen",
+                                NULL,
+                                &err);
   if (!proxy || err) {
     g_warning("Could not connect to brightness service %s", err->message);
     g_error_free(err);
@@ -72,9 +72,9 @@ brightness_init (GtkAdjustment *adj)
   }
 
   g_signal_connect (proxy,
-		    "g-properties-changed",
-		    G_CALLBACK(brightness_changed_cb),
-		    adj);
+                    "g-properties-changed",
+                    G_CALLBACK(brightness_changed_cb),
+                    adj);
 
   brightness_proxy = proxy;
 }
@@ -113,12 +113,12 @@ brightness_set (int brightness)
                      "org.freedesktop.DBus.Properties.Set",
                      g_variant_new (
                          "(ssv)",
-			 "org.gnome.SettingsDaemon.Power.Screen",
-			 "Brightness",
-			 g_variant_new ("i", brightness)),
+                         "org.gnome.SettingsDaemon.Power.Screen",
+                         "Brightness",
+                         g_variant_new ("i", brightness)),
                      G_DBUS_CALL_FLAGS_NONE,
                      2000,
-		     NULL,
+                     NULL,
                      (GAsyncReadyCallback)brightness_set_cb,
-		     NULL);
+                     NULL);
 }

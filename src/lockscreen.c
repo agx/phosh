@@ -31,7 +31,8 @@ phosh_lockscreen_init (PhoshLockscreen *self)
 
 /* FIXME: Temporarily add a button until we interface with pam */
 static void
-btn_clicked (PhoshLockscreen *lockscreen, GtkButton *btn)
+btn_clicked (PhoshLockscreen *lockscreen,
+             GtkButton *btn)
 {
   g_signal_emit(lockscreen, signals[LOCKSCREEN_UNLOCK], 0);
 }
