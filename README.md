@@ -15,9 +15,9 @@ phosh is licensed under the GPLv3+.
 We use the meson (and thereby Ninja) build system for phosh.  The quickest
 way to get going is to do the following:
 
-	meson . _build
-	ninja -C _build
-	ninja -C _build install
+    meson . _build
+    ninja -C _build
+    ninja -C _build install
 
 
 ## Running
