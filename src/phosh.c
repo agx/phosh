@@ -32,7 +32,7 @@
 #include "settings.h"
 
 /* FIXME: use org.gnome.desktop.session.idle-delay */
-#define LOCKSCREEN_TIMEOUT 60 * 1000
+#define LOCKSCREEN_TIMEOUT 300 * 1000
 
 enum {
   PHOSH_SHELL_PROP_0,
@@ -837,7 +837,6 @@ int main(int argc, char *argv[])
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-
   gtk_init (&argc, &argv);
 
   g_object_new (PHOSH_TYPE_SHELL, NULL);

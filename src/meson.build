@@ -51,6 +51,7 @@ phosh_deps = [
   dependency('gtk+-3.0'),
   dependency('gtk+-wayland-3.0'),
   dependency('wayland-client'),
+  dependency('libhandy-0.0'),
   cc.find_library('m', required: false),
   cc.find_library('rt', required: false),
 ]
