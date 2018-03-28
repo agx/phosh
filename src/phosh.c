@@ -516,6 +516,43 @@ phosh_shell_rotate_display (PhoshShell *self,
 }
 
 
+/**
+ * Returns the usable area in pixels usable by a client on the phone
+ * display
+ */
+void
+phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gint *height)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  GdkDisplay *display = gdk_display_get_default ();
+  /* There's no primary monitor on nested wayland so just use the
+     first one for now */
+  GdkMonitor *monitor = gdk_display_get_monitor (display, 0);
+  GdkRectangle geom;
+  gint panel_height;
+
+  g_return_if_fail(monitor);
+  g_return_if_fail(priv->panel);
+  g_return_if_fail(priv->panel->window);
+
+  gdk_monitor_get_geometry (monitor, &geom);
+  panel_height = phosh_panel_get_height (PHOSH_PANEL (priv->panel->window));
+
+  /* GDK fails to take rotation into account
+   * https://bugzilla.gnome.org/show_bug.cgi?id=793618 */
+  if (priv->rotation != 90 && priv->rotation != 270) {
+    *width = geom.width;
+    *height = geom.height - panel_height;
+  } else {
+    *width = geom.height;
+    *height = geom.width - panel_height;
+  }
+
+  *x = 0;
+  *y = panel_height;
+}
+
+
 PhoshShell *
 phosh ()
 {
