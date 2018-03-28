@@ -462,8 +462,9 @@ phosh_shell_constructed (GObject *object)
 
   env_setup ();
   css_setup (self);
-  background_create (self);
   panel_create (self);
+  /* Create background after panel since it needs the panel's size */
+  background_create (self);
 }
 
 
