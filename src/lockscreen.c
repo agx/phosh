@@ -14,19 +14,18 @@ enum {
 };
 static guint signals[N_SIGNALS] = { 0 };
 
-struct PhoshLockscreenPrivate {
-  gint _dummy;
-};
 
-G_DEFINE_TYPE(PhoshLockscreen, phosh_lockscreen, GTK_TYPE_WINDOW)
-
-static void
-phosh_lockscreen_init (PhoshLockscreen *self)
+typedef struct _PhoshLockscreen
 {
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self,
-      PHOSH_LOCKSCREEN_TYPE,
-      PhoshLockscreenPrivate);
-}
+  GtkWindow parent;
+} PhoshLockscreen;
+
+
+typedef struct PhoshLockscreen {
+  gint _dummy;
+} PhoshLockscreenPrivate;
+
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshLockscreen, phosh_lockscreen, GTK_TYPE_WINDOW)
 
 
 /* FIXME: Temporarily add a button until we interface with pam */
@@ -89,9 +88,14 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   signals[LOCKSCREEN_UNLOCK] = g_signal_new ("lockscreen-unlock",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
-
-  g_type_class_add_private (object_class, sizeof (PhoshLockscreenPrivate));
 }
+
+
+static void
+phosh_lockscreen_init (PhoshLockscreen *self)
+{
+}
+
 
 GtkWidget *
 phosh_lockscreen_new (void)
