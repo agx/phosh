@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0+
  */
 
-#ifndef __PHOSH_FAVORITES_H__
-#define __PHOSH_FAVORITES_H__
+#ifndef PHOSH_FAVORITES_H
+#define PHOSH_FAVORITES_H
 
 #include "menu.h"
 
@@ -15,4 +15,4 @@ G_DECLARE_FINAL_TYPE (PhoshFavorites, phosh_favorites, PHOSH, FAVORITES, PhoshMe
 
 GtkWidget * phosh_favorites_new (int position, const gpointer *shell);
 
-#endif /* __PHOSH_FAVORITES_H__ */
+#endif /* PHOSH_FAVORITES_H */

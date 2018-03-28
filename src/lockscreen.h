@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0+
  */
 
-#ifndef __PHOSH_LOCKSCREEN_H__
-#define __PHOSH_LOCKSCREEN_H__
+#ifndef PHOSH_LOCKSCREEN_H
+#define PHOSH_LOCKSCREEN_H
 
 #include <gtk/gtk.h>
 
@@ -36,4 +36,4 @@ GType phosh_lockscreen_get_type (void) G_GNUC_CONST;
 
 GtkWidget * phosh_lockscreen_new (void);
 
-#endif /* __PHOSH_LOCKSCREEN_H__ */
+#endif /* PHOSH_LOCKSCREEN_H */

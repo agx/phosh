@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0+
  */
 
-#ifndef __PHOSH_SETTINGS_H__
-#define __PHOSH_SETTINGS_H__
+#ifndef PHOSH_SETTINGS_H
+#define PHOSH_SETTINGS_H
 
 #include "menu.h"
 #include <gtk/gtk.h>
@@ -16,4 +16,4 @@ G_DECLARE_FINAL_TYPE (PhoshSettings, phosh_settings, PHOSH, SETTINGS, PhoshMenu)
 
 GtkWidget * phosh_settings_new (int position, const gpointer* shell);
 
-#endif /* __PHOSH_SETTINGS_H__ */
+#endif /* PHOSH_SETTINGS_H */
