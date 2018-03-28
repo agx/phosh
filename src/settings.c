@@ -64,14 +64,15 @@ brightness_changed_cb (GtkAdjustment *adj_brightness, gpointer *unused)
 static void
 rotation_changed_cb (GtkSwitch *btn, GParamSpec *pspec, PhoshSettings *self)
 {
+  PhoshShell *shell = phosh();
   gboolean rotate;
 
   rotate = gtk_switch_get_active(btn);
 
   if (rotate)
-    phosh_rotate_display (90);
+    phosh_shell_rotate_display (shell, 90);
   else
-    phosh_rotate_display (0);
+    phosh_shell_rotate_display (shell, 0);
 
   g_signal_emit (self, signals[SETTING_DONE], 0);
 }

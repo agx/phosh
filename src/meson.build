@@ -18,6 +18,8 @@ shell_proto_header = gen_scanner_client_header.process('../protocol/phosh-mobile
 shell_proto_code = gen_scanner_client_code.process('../protocol/phosh-mobile-shell.xml')
 
 phosh_sources = [
+  'background.c',
+  'background.h',
   'favorites.c',
   'favorites.h',
   'lockscreen.c',
