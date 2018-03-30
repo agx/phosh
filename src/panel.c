@@ -27,6 +27,7 @@ static guint signals[N_SIGNALS] = { 0 };
 struct PhoshPanelPrivate {
   GtkWidget *btn_favorites;
   GtkWidget *btn_settings;
+  gint height;
 
   GnomeWallClock *wall_clock;
 };
@@ -71,6 +72,15 @@ wall_clock_notify_cb (GnomeWallClock *wall_clock,
 
 
 static void
+size_allocated_cb (PhoshPanel *self, gpointer unused)
+{
+  gint width;
+  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
+
+  gtk_window_get_size (GTK_WINDOW (self), &width, &priv->height);
+}
+
+static void
 phosh_panel_constructed (GObject *object)
 {
   PhoshPanel *self = PHOSH_PANEL (object);
@@ -96,6 +106,10 @@ phosh_panel_constructed (GObject *object)
                            G_CALLBACK (settings_clicked_cb),
                            self,
                            G_CONNECT_SWAPPED);
+  g_signal_connect (self,
+                    "size-allocate",
+                    G_CALLBACK (size_allocated_cb),
+                    NULL);
 
   /* window properties */
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
@@ -168,4 +182,12 @@ phosh_panel_new (void)
 {
   return g_object_new (PHOSH_PANEL_TYPE,
       NULL);
+}
+
+gint
+phosh_panel_get_height (PhoshPanel *self)
+{
+  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
+
+  return priv->height;
 }

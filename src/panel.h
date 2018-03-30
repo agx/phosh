@@ -35,5 +35,6 @@ struct PhoshPanelClass
 GType phosh_panel_get_type (void) G_GNUC_CONST;
 
 GtkWidget * phosh_panel_new (void);
+gint        phosh_panel_get_height (PhoshPanel *self);
 
 #endif /* PHOSH_PANEL_H */

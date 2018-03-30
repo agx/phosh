@@ -16,5 +16,11 @@ G_DECLARE_FINAL_TYPE (PhoshShell, phosh_shell, PHOSH, SHELL, GObject)
 
 PhoshShell         * phosh                       (void);
 void                 phosh_shell_rotate_display  (PhoshShell *self, guint degrees);
+int                  phosh_shell_get_rotation    (PhoshShell *self);
+void                 phosh_shell_get_usable_area (PhoshShell *self,
+                                                  gint *x,
+                                                  gint *y,
+                                                  gint *width,
+                                                  gint *height);
 
 #endif /* PHOSH_H */

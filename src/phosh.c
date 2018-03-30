@@ -24,6 +24,13 @@
 #include "favorites.h"
 #include "settings.h"
 
+enum {
+  PHOSH_SHELL_PROP_0,
+  PHOSH_SHELL_PROP_ROTATION,
+  PHOSH_SHELL_PROP_LAST_PROP
+};
+static GParamSpec *props[PHOSH_SHELL_PROP_LAST_PROP];
+
 struct elem {
   GtkWidget *window;
   struct wl_surface *surface;
@@ -40,6 +47,7 @@ typedef struct
   struct wl_pointer *pointer;
 
   GdkDisplay *gdk_display;
+  gint rotation;
 
   /* Top panel */
   struct elem *panel;
@@ -380,6 +388,47 @@ static const struct wl_registry_listener registry_listener = {
 
 
 static void
+phosh_shell_set_property (GObject *object,
+                          guint property_id,
+                          const GValue *value,
+                          GParamSpec *pspec)
+{
+  PhoshShell *self = PHOSH_SHELL (object);
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
+
+  switch (property_id) {
+  case PHOSH_SHELL_PROP_ROTATION:
+    priv->rotation = g_value_get_uint (value);
+    break;
+
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
+phosh_shell_get_property (GObject *object,
+                          guint property_id,
+                          GValue *value,
+                          GParamSpec *pspec)
+{
+  PhoshShell *self = PHOSH_SHELL (object);
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
+
+  switch (property_id) {
+  case PHOSH_SHELL_PROP_ROTATION:
+    g_value_set_uint (value, priv->rotation);
+
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
 phosh_shell_constructed (GObject *object)
 {
   PhoshShell *self = PHOSH_SHELL (object);
@@ -414,8 +463,9 @@ phosh_shell_constructed (GObject *object)
 
   env_setup ();
   css_setup (self);
-  background_create (self);
   panel_create (self);
+  /* Create background after panel since it needs the panel's size */
+  background_create (self);
 }
 
 
@@ -425,6 +475,18 @@ phosh_shell_class_init (PhoshShellClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->constructed = phosh_shell_constructed;
+
+  object_class->set_property = phosh_shell_set_property;
+  object_class->get_property = phosh_shell_get_property;
+
+  props[PHOSH_SHELL_PROP_ROTATION] =
+    g_param_spec_string ("rotation",
+                         "Rotation",
+                         "Clockwise display rotation in degree",
+                         "",
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+
+  g_object_class_install_properties (object_class, PHOSH_SHELL_PROP_LAST_PROP, props);
 }
 
 
@@ -434,15 +496,62 @@ phosh_shell_init (PhoshShell *self)
 }
 
 
+gint
+phosh_shell_get_rotation (PhoshShell *self)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  return priv->rotation;
+}
+
+
 void
 phosh_shell_rotate_display (PhoshShell *self,
                             guint degree)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
+  priv->rotation = degree;
   phosh_mobile_shell_rotate_display (priv->mshell,
                                      priv->panel->surface,
                                      degree);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_ROTATION]);
+}
+
+
+/**
+ * Returns the usable area in pixels usable by a client on the phone
+ * display
+ */
+void
+phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gint *height)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  GdkDisplay *display = gdk_display_get_default ();
+  /* There's no primary monitor on nested wayland so just use the
+     first one for now */
+  GdkMonitor *monitor = gdk_display_get_monitor (display, 0);
+  GdkRectangle geom;
+  gint panel_height;
+
+  g_return_if_fail(monitor);
+  g_return_if_fail(priv->panel);
+  g_return_if_fail(priv->panel->window);
+
+  gdk_monitor_get_geometry (monitor, &geom);
+  panel_height = phosh_panel_get_height (PHOSH_PANEL (priv->panel->window));
+
+  /* GDK fails to take rotation into account
+   * https://bugzilla.gnome.org/show_bug.cgi?id=793618 */
+  if (priv->rotation != 90 && priv->rotation != 270) {
+    *width = geom.width;
+    *height = geom.height - panel_height;
+  } else {
+    *width = geom.height;
+    *height = geom.width - panel_height;
+  }
+
+  *x = 0;
+  *y = panel_height;
 }
 
 
