@@ -24,13 +24,18 @@ enum {
 };
 static guint signals[N_SIGNALS] = { 0 };
 
-struct PhoshPanelPrivate {
+typedef struct {
   GtkWidget *btn_favorites;
   GtkWidget *btn_settings;
   gint height;
 
   GnomeWallClock *wall_clock;
-};
+} PhoshPanelPrivate;
+
+typedef struct _PhoshPanel
+{
+  GtkWindow parent;
+} PhoshPanel;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshPanel, phosh_panel, GTK_TYPE_WINDOW)
 

@@ -83,8 +83,6 @@ lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
-  phosh_mobile_shell_unlock (priv->mshell);
-
   g_signal_handler_disconnect (window, priv->unlock_handler_id);
   gtk_widget_destroy (GTK_WIDGET (window));
   g_free (priv->lockscreen);
