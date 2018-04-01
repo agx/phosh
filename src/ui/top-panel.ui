@@ -42,7 +42,7 @@
             </child>
             <child>
               <object class="GtkButton" id="btn_settings">
-                <property name="label" translatable="yes">00:00</property>
+                <property name="label" translatable="no">00:00</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
