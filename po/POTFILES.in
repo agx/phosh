@@ -1,0 +1,9 @@
+src/background.c
+src/favorites.c
+src/lockscreen.c
+src/menu.c
+src/panel.c
+src/phosh.c
+src/settings.c
+src/ui/settings-menu.ui
+src/ui/top-panel.ui
