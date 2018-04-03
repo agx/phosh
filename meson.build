@@ -68,6 +68,6 @@ configure_file(
 
 gnome = import('gnome')
 
-subdir('src')
 subdir('data')
-
+subdir('po')
+subdir('src')

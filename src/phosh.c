@@ -12,8 +12,11 @@
 #include <string.h>
 
 #include <glib-object.h>
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkwayland.h>
+
+#include "config.h"
 
 #include "phosh-mobile-shell-client-protocol.h"
 
@@ -562,6 +565,10 @@ phosh ()
 
 int main(int argc, char *argv[])
 {
+  textdomain (GETTEXT_PACKAGE);
+  bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+  bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+
   gtk_init (&argc, &argv);
 
   g_object_new (PHOSH_TYPE_SHELL, NULL);
