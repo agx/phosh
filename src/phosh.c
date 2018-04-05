@@ -19,6 +19,7 @@
 #include "config.h"
 
 #include "phosh-mobile-shell-client-protocol.h"
+#include "wlr-layer-shell-unstable-v1-client-protocol.h"
 
 #include "phosh.h"
 #include "background.h"
