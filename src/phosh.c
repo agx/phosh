@@ -37,7 +37,8 @@ static GParamSpec *props[PHOSH_SHELL_PROP_LAST_PROP];
 
 struct elem {
   GtkWidget *window;
-  struct wl_surface *surface;
+  struct wl_surface *wl_surface;
+  struct zwlr_layer_surface_v1 *layer_surface;
 };
 
 typedef struct
@@ -45,6 +46,7 @@ typedef struct
   struct wl_display *display;
   struct wl_registry *registry;
   struct phosh_mobile_shell *mshell;
+  struct zwlr_layer_shell_v1 *layer_shell;
   struct wl_output *output;
 
   struct wl_seat *seat;
@@ -82,6 +84,31 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshShell, phosh_shell, G_TYPE_OBJECT)
 PhoshShell *_phosh;
 
 
+static void layer_surface_configure(void *data,
+    struct zwlr_layer_surface_v1 *surface,
+    uint32_t serial, uint32_t w, uint32_t h) {
+  struct elem *e = data;
+
+  gtk_window_resize (GTK_WINDOW (e->window), w, h);
+  zwlr_layer_surface_v1_ack_configure(surface, serial);
+  gtk_widget_show_all (e->window);
+}
+
+
+static void layer_surface_closed(void *data,
+    struct zwlr_layer_surface_v1 *surface) {
+  struct elem *e = data;
+  zwlr_layer_surface_v1_destroy(surface);
+  gtk_widget_destroy (e->window);
+}
+
+
+struct zwlr_layer_surface_v1_listener layer_surface_listener = {
+	.configure = layer_surface_configure,
+	.closed = layer_surface_closed,
+};
+
+
 static void
 lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
 {
@@ -91,7 +118,9 @@ lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
   gtk_widget_destroy (GTK_WIDGET (window));
   g_free (priv->lockscreen);
   priv->lockscreen = NULL;
+#if 0
   phosh_mobile_shell_unlock(priv->mshell);
+#endif
 }
 
 
@@ -152,10 +181,12 @@ lockscreen_create (PhoshShell *self)
   gdk_window = gtk_widget_get_window (lockscreen->window);
   gdk_wayland_window_set_use_custom_surface (gdk_window);
 
-  lockscreen->surface = gdk_wayland_window_get_wl_surface (gdk_window);
+  lockscreen->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
 
+#if 0
   phosh_mobile_shell_set_lock_surface(priv->mshell,
-                                      lockscreen->surface);
+                                      lockscreen->wl_surface);
+#endif
   gtk_widget_show_all (lockscreen->window);
   priv->lockscreen = lockscreen;
 
@@ -172,8 +203,10 @@ favorites_create (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
+#if 0
   priv->favorites = phosh_favorites_new (PHOSH_MOBILE_SHELL_MENU_POSITION_LEFT,
                                          (gpointer) priv->mshell);
+#endif
 
   gtk_widget_show_all (priv->favorites);
 
@@ -189,8 +222,10 @@ settings_create (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
+#if 0
   priv->settings = phosh_settings_new (PHOSH_MOBILE_SHELL_MENU_POSITION_RIGHT,
                                        (gpointer) priv->mshell);
+#endif
   gtk_widget_show_all (priv->settings);
 
   g_signal_connect_swapped (priv->settings,
@@ -206,22 +241,29 @@ panel_create (PhoshShell *self)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   struct elem *panel;
   GdkWindow *gdk_window;
+  gint width;
 
   panel = calloc (1, sizeof *panel);
   panel->window = phosh_panel_new ();
 
+  phosh_shell_get_usable_area (self, NULL, NULL, &width, NULL);
   /* set it up as the panel */
   gdk_window = gtk_widget_get_window (panel->window);
   gdk_wayland_window_set_use_custom_surface (gdk_window);
-  panel->surface = gdk_wayland_window_get_wl_surface (gdk_window);
-
-  phosh_mobile_shell_set_user_data (priv->mshell, self);
-  phosh_mobile_shell_set_panel (priv->mshell, priv->output,
-      panel->surface);
-  phosh_mobile_shell_set_panel_position (priv->mshell,
-     PHOSH_MOBILE_SHELL_PANEL_POSITION_TOP);
-
-  gtk_widget_show_all (panel->window);
+  panel->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
+  panel->layer_surface = zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
+                                                               panel->wl_surface,
+                                                               priv->output,
+                                                               ZWLR_LAYER_SHELL_V1_LAYER_TOP,
+                                                               "phosh");
+  zwlr_layer_surface_v1_set_anchor(panel->layer_surface,
+                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
+                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
+                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT);
+  zwlr_layer_surface_v1_set_size(panel->layer_surface, 0, PHOSH_PANEL_HEIGHT);
+  zwlr_layer_surface_v1_set_exclusive_zone(panel->layer_surface, PHOSH_PANEL_HEIGHT);
+  zwlr_layer_surface_v1_add_listener(panel->layer_surface, &layer_surface_listener, panel);
+  wl_surface_commit(panel->wl_surface);
   priv->panel = panel;
 
   g_signal_connect_swapped (
@@ -252,11 +294,13 @@ background_create (PhoshShell *self)
   g_return_if_fail (gdk_window);
 
   gdk_wayland_window_set_use_custom_surface (gdk_window);
-  background->surface = gdk_wayland_window_get_wl_surface (gdk_window);
+  background->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
 
+#if 0
   phosh_mobile_shell_set_user_data (priv->mshell, self);
   phosh_mobile_shell_set_background (priv->mshell, priv->output,
-                                     background->surface);
+                                     background->wl_surface);
+#endif
 
   priv->background = background;
   gtk_widget_show_all (background->window);
@@ -303,11 +347,6 @@ shell_configure (PhoshShell *self,
   gtk_widget_set_size_request (priv->background->window,
       width, height);
 
-  gtk_window_resize (GTK_WINDOW (priv->panel->window),
-      width, PHOSH_PANEL_HEIGHT);
-
-  phosh_mobile_shell_desktop_ready (priv->mshell);
-
   /* Create menus once we now the panel's position */
   if (!priv->favorites)
     favorites_create (self);
@@ -339,20 +378,13 @@ phosh_mobile_shell_prepare_lock_surface (void *data,
 }
 
 
-static void
-phosh_mobile_shell_grab_cursor (void *data,
-                                struct phosh_mobile_shell *phosh_mobile_shell,
-    uint32_t cursor)
-{
-  g_warning("%s not implmented", __func__);
-}
-
-
+#if 0
 static const struct phosh_mobile_shell_listener mshell_listener = {
   phosh_mobile_shell_configure,
   phosh_mobile_shell_prepare_lock_surface,
   phosh_mobile_shell_grab_cursor
 };
+#endif
 
 
 static void
@@ -365,17 +397,22 @@ registry_handle_global (void *data,
   PhoshShell *self = data;
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
+#if 0 /* still needed for rotation */
   if (!strcmp (interface, "phosh_mobile_shell")) {
       priv->mshell = wl_registry_bind (registry, name,
           &phosh_mobile_shell_interface, MIN(version, 1));
       phosh_mobile_shell_add_listener (priv->mshell, &mshell_listener, self);
       phosh_mobile_shell_set_user_data (priv->mshell, self);
     }
-  else if (!strcmp (interface, "wl_output")) {
+#endif
+  if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
+      priv->layer_shell = wl_registry_bind (registry, name,
+          &zwlr_layer_shell_v1_interface, 1);
+  } else if (!strcmp (interface, "wl_output")) {
       /* TODO: create multiple outputs */
       priv->output = wl_registry_bind (registry, name,
           &wl_output_interface, 1);
-    }
+  }
 }
 
 
@@ -454,17 +491,15 @@ phosh_shell_constructed (GObject *object)
   }
 
   priv->registry = wl_display_get_registry (priv->display);
-  wl_registry_add_listener (priv->registry,
-      &registry_listener, self);
+  wl_registry_add_listener (priv->registry, &registry_listener, self);
 
   /* Wait until we have been notified about the compositor,
    * shell, and shell helper objects */
-  if (!priv->output || !priv->mshell)
+  if (!priv->output || !priv->layer_shell)
     wl_display_roundtrip (priv->display);
-  if (!priv->output || !priv->mshell) {
-      g_error ("Could not find output, shell or helper modules\n"
-               "output: %p, mshell: %p\n",
-                 priv->output, priv->mshell);
+  if (!priv->output || !priv->layer_shell) {
+      g_error ("Could not find output or layer_shellmodules\n"
+               "output: %p, layer_shell: %p\n", priv->output, priv->mshell);
   }
 
   env_setup ();
@@ -517,9 +552,11 @@ phosh_shell_rotate_display (PhoshShell *self,
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   priv->rotation = degree;
+#if 0
   phosh_mobile_shell_rotate_display (priv->mshell,
-                                     priv->panel->surface,
+                                     priv->panel->wl_surface,
                                      degree);
+#endif
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_ROTATION]);
 }
 
