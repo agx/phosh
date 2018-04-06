@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.20.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="PhoshSettings" parent="PhoshMenu">
+  <template class="PhoshSettings" parent="GtkWindow">
     <property name="width_request">250</property>
     <property name="can_focus">False</property>
     <child>

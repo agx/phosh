@@ -35,8 +35,6 @@ phosh_sources = [
   'favorites.h',
   'lockscreen.c',
   'lockscreen.h',
-  'menu.c',
-  'menu.h',
   'panel.c',
   'panel.h',
   'phosh.c',

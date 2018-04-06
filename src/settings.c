@@ -38,11 +38,11 @@ typedef struct
 
 typedef struct _PhoshSettings
 {
-  PhoshMenu parent;
+  GtkWindow parent;
 } PhoshSettings;
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshSettings, phosh_settings, PHOSH_TYPE_MENU)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshSettings, phosh_settings, GTK_TYPE_WINDOW)
 
 
 GtkWidget *phosh_settings (const char* name)
@@ -96,6 +96,12 @@ phosh_settings_constructed (GObject *object)
   PhoshSettings *self = PHOSH_SETTINGS (object);
   PhoshSettingsPrivate *priv = phosh_settings_get_instance_private (self);
   GtkWidget *image;
+
+  /* window properties */
+  gtk_window_set_title (GTK_WINDOW (self), "phosh settings");
+  gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
+  gtk_window_resize (GTK_WINDOW (self), 100, 100);
+  gtk_widget_realize(GTK_WIDGET (self));
 
   priv->adj_brightness = gtk_adjustment_new (0, 0, 100, 1, 10, 10);
   gtk_range_set_adjustment (GTK_RANGE (priv->scale_brightness), priv->adj_brightness);
@@ -167,11 +173,7 @@ phosh_settings_init (PhoshSettings *self)
 }
 
 GtkWidget *
-phosh_settings_new (int position, const gpointer *shell)
+phosh_settings_new ()
 {
-  return g_object_new (PHOSH_TYPE_SETTINGS,
-                       "name", "settings",
-                       "shell", shell,
-                       "position", position,
-                       NULL);
+  return g_object_new (PHOSH_TYPE_SETTINGS, NULL);
 }

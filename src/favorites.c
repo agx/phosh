@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0+
  * Author: Guido Günther <agx@sigxcpu.org>
  *
- * Based on maynard whish is
+ * Based on maynard's favorites whish is
  * Copyright (C) 2013 Collabora Ltd.
  * Author: Emilio Pozuelo Monfort <emilio.pozuelo@collabora.co.uk>
 
@@ -30,10 +30,10 @@ typedef struct
 
 struct _PhoshFavorites
 {
-  PhoshMenuClass parent;
+  GtkWindowClass parent;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, PHOSH_TYPE_MENU) 
+G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, GTK_TYPE_WINDOW) 
 
 
 static void
@@ -186,11 +186,7 @@ phosh_favorites_init (PhoshFavorites *self)
 
 
 GtkWidget *
-phosh_favorites_new (int position, const gpointer *shell)
+phosh_favorites_new ()
 {
-  return g_object_new (PHOSH_TYPE_FAVORITES,
-                       "name", "favorites",
-                       "shell", shell,
-                       "position", position,
-                       NULL);
+  return g_object_new (PHOSH_TYPE_FAVORITES, NULL);
 }

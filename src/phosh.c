@@ -66,10 +66,10 @@ typedef struct
   gulong unlock_handler_id;
 
   /* Favorites menu */
-  GtkWidget *favorites;
+  struct elem *favorites;
 
   /* Settings menu */
-  GtkWidget *settings;
+  struct elem *settings;
 } PhoshShellPrivate;
 
 
@@ -125,24 +125,67 @@ lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
 
 
 static void
-favorites_activated_cb (PhoshShell *self,
-                        PhoshPanel *window)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-
-  g_return_if_fail (priv->favorites);
-  phosh_menu_toggle (PHOSH_MENU (priv->favorites));
-}
-
-
-static void
 app_launched_cb (PhoshShell *self,
                  PhoshFavorites *favorites)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   g_return_if_fail (priv->favorites);
-  phosh_menu_hide (PHOSH_MENU (priv->favorites));
+  gtk_window_close (GTK_WINDOW (priv->favorites->window));
+  gtk_widget_destroy (GTK_WIDGET (priv->favorites->window));
+  free (priv->favorites);
+  priv->favorites = NULL;
+}
+
+
+static void
+favorites_activated_cb (PhoshShell *self,
+                        PhoshPanel *window)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  GdkWindow *gdk_window;
+  struct elem *favorites;
+
+  if (priv->favorites)
+    return;
+
+  favorites = calloc (1, sizeof *favorites);
+  favorites->window = phosh_favorites_new ();
+
+  gdk_window = gtk_widget_get_window (favorites->window);
+  gdk_wayland_window_set_use_custom_surface (gdk_window);
+  favorites->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
+  favorites->layer_surface = zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
+                                                               favorites->wl_surface,
+                                                               priv->output,
+                                                               ZWLR_LAYER_SHELL_V1_LAYER_TOP,
+                                                               "favorites");
+  zwlr_layer_surface_v1_set_anchor(favorites->layer_surface, ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT);
+  zwlr_layer_surface_v1_set_exclusive_zone(favorites->layer_surface, FALSE);
+  zwlr_layer_surface_v1_set_size(favorites->layer_surface, 100, 100);
+  zwlr_layer_surface_v1_add_listener(favorites->layer_surface, &layer_surface_listener, favorites);
+  wl_surface_commit(favorites->wl_surface);
+  priv->favorites = favorites;
+
+  g_signal_connect_swapped (priv->favorites->window,
+                            "app-launched",
+                            G_CALLBACK(app_launched_cb),
+                            self);
+}
+
+
+static void
+setting_done_cb (PhoshShell *self,
+                 PhoshSettings *settings)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  g_return_if_fail (priv->settings);
+
+  gtk_window_close (GTK_WINDOW (priv->settings->window));
+  gtk_widget_destroy (GTK_WIDGET (priv->settings->window));
+  free (priv->settings);
+  priv->settings = NULL;
 }
 
 
@@ -151,20 +194,34 @@ settings_activated_cb (PhoshShell *self,
                        PhoshPanel *window)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  GdkWindow *gdk_window;
+  struct elem *settings;
 
-  g_return_if_fail (priv->settings);
-  phosh_menu_toggle (PHOSH_MENU (priv->settings));
-}
+  if (priv->settings)
+    return;
 
+  settings = calloc (1, sizeof *settings);
+  settings->window = phosh_settings_new ();
 
-static void
-setting_done_cb (PhoshShell *self,
-                 PhoshFavorites *favorites)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  gdk_window = gtk_widget_get_window (settings->window);
+  gdk_wayland_window_set_use_custom_surface (gdk_window);
+  settings->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
+  settings->layer_surface = zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
+                                                               settings->wl_surface,
+                                                               priv->output,
+                                                               ZWLR_LAYER_SHELL_V1_LAYER_TOP,
+                                                               "settings");
+  zwlr_layer_surface_v1_set_anchor(settings->layer_surface, ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT);
+  zwlr_layer_surface_v1_set_exclusive_zone(settings->layer_surface, FALSE);
+  zwlr_layer_surface_v1_set_size(settings->layer_surface, 280, 100);
+  zwlr_layer_surface_v1_add_listener(settings->layer_surface, &layer_surface_listener, settings);
+  wl_surface_commit(settings->wl_surface);
+  priv->settings = settings;
 
-  g_return_if_fail (priv->settings);
-  phosh_menu_hide (PHOSH_MENU (priv->settings));
+  g_signal_connect_swapped (priv->settings->window,
+                            "setting-done",
+                            G_CALLBACK(setting_done_cb),
+                            self);
 }
 
 
@@ -195,43 +252,6 @@ lockscreen_create (PhoshShell *self)
     "lockscreen-unlock",
     G_CALLBACK(lockscreen_unlock_cb),
     self);
-}
-
-
-static void
-favorites_create (PhoshShell *self)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-
-#if 0
-  priv->favorites = phosh_favorites_new (PHOSH_MOBILE_SHELL_MENU_POSITION_LEFT,
-                                         (gpointer) priv->mshell);
-#endif
-
-  gtk_widget_show_all (priv->favorites);
-
-  g_signal_connect_swapped (priv->favorites,
-                            "app-launched",
-                            G_CALLBACK(app_launched_cb),
-                            self);
-}
-
-
-static void
-settings_create (PhoshShell *self)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-
-#if 0
-  priv->settings = phosh_settings_new (PHOSH_MOBILE_SHELL_MENU_POSITION_RIGHT,
-                                       (gpointer) priv->mshell);
-#endif
-  gtk_widget_show_all (priv->settings);
-
-  g_signal_connect_swapped (priv->settings,
-                            "setting-done",
-                            G_CALLBACK(setting_done_cb),
-                            self);
 }
 
 
@@ -340,36 +360,6 @@ env_setup ()
 
 
 static void
-shell_configure (PhoshShell *self,
-                 uint32_t edges,
-                 struct wl_surface *surface,
-                 int32_t width, int32_t height)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-
-  gtk_widget_set_size_request (priv->background->window,
-      width, height);
-
-  /* Create menus once we now the panel's position */
-  if (!priv->favorites)
-    favorites_create (self);
-  if (!priv->settings)
-    settings_create (self);
-}
-
-
-static void
-phosh_mobile_shell_configure (void *data,
-                              struct phosh_mobile_shell *phosh_mobile_shell,
-                              uint32_t edges,
-                              struct wl_surface *surface,
-                              int32_t width, int32_t height)
-{
-  shell_configure(data, edges, surface, width, height);
-}
-
-
-static void
 phosh_mobile_shell_prepare_lock_surface (void *data,
     struct phosh_mobile_shell *phosh_mobile_shell)
 {
@@ -379,15 +369,6 @@ phosh_mobile_shell_prepare_lock_surface (void *data,
   if (!priv->lockscreen)
     lockscreen_create(self);
 }
-
-
-#if 0
-static const struct phosh_mobile_shell_listener mshell_listener = {
-  phosh_mobile_shell_configure,
-  phosh_mobile_shell_prepare_lock_surface,
-  phosh_mobile_shell_grab_cursor
-};
-#endif
 
 
 static void
