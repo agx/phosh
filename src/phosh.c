@@ -537,14 +537,13 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
      first one for now */
   GdkMonitor *monitor = gdk_display_get_monitor (display, 0);
   GdkRectangle geom;
-  gint panel_height;
+  gint panel_height = 0;
 
   g_return_if_fail(monitor);
-  g_return_if_fail(priv->panel);
-  g_return_if_fail(priv->panel->window);
-
   gdk_monitor_get_geometry (monitor, &geom);
-  panel_height = phosh_panel_get_height (PHOSH_PANEL (priv->panel->window));
+
+  if (priv->panel && priv->panel->window)
+    panel_height = phosh_panel_get_height (PHOSH_PANEL (priv->panel->window));
 
   /* GDK fails to take rotation into account
    * https://bugzilla.gnome.org/show_bug.cgi?id=793618 */
