@@ -286,24 +286,27 @@ background_create (PhoshShell *self)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GdkWindow *gdk_window;
   struct elem *background;
+  gint width, height;
 
   background = calloc (1, sizeof *background);
   background->window = phosh_background_new ();
 
+  phosh_shell_get_usable_area (self, NULL, NULL, &width, &height);
+  /* set it up as the background */
   gdk_window = gtk_widget_get_window (background->window);
-  g_return_if_fail (gdk_window);
-
   gdk_wayland_window_set_use_custom_surface (gdk_window);
   background->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
-
-#if 0
-  phosh_mobile_shell_set_user_data (priv->mshell, self);
-  phosh_mobile_shell_set_background (priv->mshell, priv->output,
-                                     background->wl_surface);
-#endif
-
+  background->layer_surface =
+    zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
+                                          background->wl_surface,
+                                          priv->output,
+                                          ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND,
+                                          "phosh");
+  zwlr_layer_surface_v1_set_anchor(background->layer_surface, ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM);
+  zwlr_layer_surface_v1_set_size(background->layer_surface, width, height);
+  zwlr_layer_surface_v1_add_listener(background->layer_surface, &layer_surface_listener, background);
+  wl_surface_commit(background->wl_surface);
   priv->background = background;
-  gtk_widget_show_all (background->window);
 }
 
 
