@@ -101,6 +101,7 @@ favorites_activated_cb (PhoshShell *self,
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
+  g_return_if_fail (priv->favorites);
   phosh_menu_toggle (PHOSH_MENU (priv->favorites));
 }
 
@@ -111,6 +112,7 @@ app_launched_cb (PhoshShell *self,
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
+  g_return_if_fail (priv->favorites);
   phosh_menu_hide (PHOSH_MENU (priv->favorites));
 }
 
@@ -121,6 +123,7 @@ settings_activated_cb (PhoshShell *self,
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
+  g_return_if_fail (priv->settings);
   phosh_menu_toggle (PHOSH_MENU (priv->settings));
 }
 
@@ -131,6 +134,7 @@ setting_done_cb (PhoshShell *self,
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
+  g_return_if_fail (priv->settings);
   phosh_menu_hide (PHOSH_MENU (priv->settings));
 }
 
