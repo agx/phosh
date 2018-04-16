@@ -26,6 +26,10 @@ using:
 
     _build/run
 
+or in one command:`
+
+    ../wlroots/_build/rootston/rootston -E _build/run -C ./rootston.ini
+
 This will make sure the gsettings schema is found, there's enough of a GNOME
 session running an the some of the mutter DBus API is stubbed so
 gnome-settings-manager can work.
