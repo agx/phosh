@@ -56,7 +56,6 @@ typedef struct
 
   GdkDisplay *gdk_display;
   gint rotation;
-  struct wl_seat *seat;
 
   /* Top panel */
   struct elem *panel;
@@ -295,13 +294,17 @@ static void
 lockscreen_prepare (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  GdkSeat *gdk_seat;
+  struct wl_seat *seat;
 
-  g_return_if_fail(priv->seat);
   g_return_if_fail(priv->idle_manager);
+  g_return_if_fail(priv->gdk_display);
 
+  gdk_seat = gdk_display_get_default_seat(priv->gdk_display);
+  seat = gdk_wayland_seat_get_wl_seat (gdk_seat);
   priv->lock_timer = org_kde_kwin_idle_get_idle_timeout(
     priv->idle_manager,
-    priv->seat,
+    seat,
     LOCKSCREEN_TIMEOUT);
 
   g_return_if_fail (priv->lock_timer);
@@ -446,7 +449,9 @@ registry_handle_global (void *data,
                                            name,
                                            &org_kde_kwin_idle_interface, 1);
   } else if (!strcmp(interface, "wl_seat")) {
+#if 0 /* FIXME: this breaks GTK+ input since GTK+ binds it as well */
     priv->seat = wl_registry_bind(registry, name, &wl_seat_interface, 1);
+#endif
   }
 }
 
@@ -531,11 +536,12 @@ phosh_shell_constructed (GObject *object)
 
   /* Wait until we have been notified about the compositor,
    * shell, and shell helper objects */
-  if (!priv->output || !priv->layer_shell)
+  if (!priv->output || !priv->layer_shell || !priv->idle_manager)
     wl_display_roundtrip (priv->display);
-  if (!priv->output || !priv->layer_shell) {
-      g_error ("Could not find output or layer_shellmodules\n"
-               "output: %p, layer_shell: %p\n", priv->output, priv->mshell);
+  if (!priv->output || !priv->layer_shell || !priv->idle_manager) {
+      g_error ("Could not find needed globals\n"
+               "output: %p, layer_shell: %p, seat: %p\n",
+               priv->output, priv->mshell, priv->idle_manager);
   }
 
   env_setup ();
