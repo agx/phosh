@@ -18,6 +18,7 @@
 
 #include "config.h"
 
+#include "idle-client-protocol.h"
 #include "phosh-mobile-shell-client-protocol.h"
 #include "wlr-layer-shell-unstable-v1-client-protocol.h"
 
@@ -27,6 +28,9 @@
 #include "panel.h"
 #include "favorites.h"
 #include "settings.h"
+
+/* FIXME: use org.gnome.desktop.session.idle-delay */
+#define LOCKSCREEN_TIMEOUT 60 * 1000
 
 enum {
   PHOSH_SHELL_PROP_0,
@@ -47,13 +51,12 @@ typedef struct
   struct wl_registry *registry;
   struct phosh_mobile_shell *mshell;
   struct zwlr_layer_shell_v1 *layer_shell;
+  struct org_kde_kwin_idle *idle_manager;
   struct wl_output *output;
-
-  struct wl_seat *seat;
-  struct wl_pointer *pointer;
 
   GdkDisplay *gdk_display;
   gint rotation;
+  struct wl_seat *seat;
 
   /* Top panel */
   struct elem *panel;
@@ -64,6 +67,7 @@ typedef struct
   /* Lockscreen */
   struct elem *lockscreen;
   gulong unlock_handler_id;
+  struct org_kde_kwin_idle_timeout *lock_timer;
 
   /* Favorites menu */
   struct elem *favorites;
@@ -116,6 +120,7 @@ lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
 
   g_signal_handler_disconnect (window, priv->unlock_handler_id);
   gtk_widget_destroy (GTK_WIDGET (window));
+  zwlr_layer_surface_v1_destroy(priv->lockscreen->layer_surface);
   g_free (priv->lockscreen);
   priv->lockscreen = NULL;
 #if 0
@@ -264,6 +269,49 @@ lockscreen_create (PhoshShell *self)
 }
 
 
+static void lock_idle_cb(void* data, struct org_kde_kwin_idle_timeout *timer)
+{
+  PhoshShell *self = data;
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  g_return_if_fail (PHOSH_IS_SHELL (data));
+  if (!priv->lockscreen)
+    lockscreen_create(self);
+}
+
+
+static void lock_resume_cb(void* data, struct org_kde_kwin_idle_timeout *timer)
+{
+}
+
+
+static const struct org_kde_kwin_idle_timeout_listener idle_timer_listener = {
+  .idle = lock_idle_cb,
+  .resumed = lock_resume_cb,
+};
+
+
+static void
+lockscreen_prepare (PhoshShell *self)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  g_return_if_fail(priv->seat);
+  g_return_if_fail(priv->idle_manager);
+
+  priv->lock_timer = org_kde_kwin_idle_get_idle_timeout(
+    priv->idle_manager,
+    priv->seat,
+    LOCKSCREEN_TIMEOUT);
+
+  g_return_if_fail (priv->lock_timer);
+
+  org_kde_kwin_idle_timeout_add_listener(priv->lock_timer,
+                                         &idle_timer_listener,
+                                         self);
+}
+
+
 static void
 panel_create (PhoshShell *self)
 {
@@ -369,18 +417,6 @@ env_setup ()
 
 
 static void
-phosh_mobile_shell_prepare_lock_surface (void *data,
-    struct phosh_mobile_shell *phosh_mobile_shell)
-{
-  PhoshShell *self = data;
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-
-  if (!priv->lockscreen)
-    lockscreen_create(self);
-}
-
-
-static void
 registry_handle_global (void *data,
                         struct wl_registry *registry,
                         uint32_t name,
@@ -405,6 +441,12 @@ registry_handle_global (void *data,
       /* TODO: create multiple outputs */
       priv->output = wl_registry_bind (registry, name,
           &wl_output_interface, 1);
+  } else if (!strcmp (interface, "org_kde_kwin_idle")) {
+    priv->idle_manager = wl_registry_bind (registry,
+                                           name,
+                                           &org_kde_kwin_idle_interface, 1);
+  } else if (!strcmp(interface, "wl_seat")) {
+    priv->seat = wl_registry_bind(registry, name, &wl_seat_interface, 1);
   }
 }
 
@@ -414,6 +456,7 @@ registry_handle_global_remove (void *data,
     struct wl_registry *registry,
     uint32_t name)
 {
+  // TODO
 }
 
 
@@ -500,6 +543,7 @@ phosh_shell_constructed (GObject *object)
   panel_create (self);
   /* Create background after panel since it needs the panel's size */
   background_create (self);
+  lockscreen_prepare (self);
 }
 
 
