@@ -21,6 +21,7 @@
 #include "idle-client-protocol.h"
 #include "phosh-mobile-shell-client-protocol.h"
 #include "wlr-layer-shell-unstable-v1-client-protocol.h"
+#include "wlr-input-inhibitor-unstable-v1-client-protocol.h"
 
 #include "phosh.h"
 #include "background.h"
@@ -52,6 +53,8 @@ typedef struct
   struct phosh_mobile_shell *mshell;
   struct zwlr_layer_shell_v1 *layer_shell;
   struct org_kde_kwin_idle *idle_manager;
+  struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
+  struct zwlr_input_inhibitor_v1 *input_inhibitor;
   struct wl_output *output;
 
   GdkDisplay *gdk_display;
@@ -122,9 +125,9 @@ lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
   zwlr_layer_surface_v1_destroy(priv->lockscreen->layer_surface);
   g_free (priv->lockscreen);
   priv->lockscreen = NULL;
-#if 0
-  phosh_mobile_shell_unlock(priv->mshell);
-#endif
+
+  zwlr_input_inhibitor_v1_destroy(priv->input_inhibitor);
+  priv->input_inhibitor = NULL;
 }
 
 
@@ -238,6 +241,9 @@ lockscreen_create (PhoshShell *self)
 
   lockscreen = g_malloc0 (sizeof *lockscreen);
   lockscreen->window = phosh_lockscreen_new ();
+
+  priv->input_inhibitor =
+    zwlr_input_inhibit_manager_v1_get_inhibitor(priv->input_inhibit_manager);
 
   gdk_window = gtk_widget_get_window (lockscreen->window);
   gdk_wayland_window_set_use_custom_surface (gdk_window);
@@ -452,6 +458,12 @@ registry_handle_global (void *data,
 #if 0 /* FIXME: this breaks GTK+ input since GTK+ binds it as well */
     priv->seat = wl_registry_bind(registry, name, &wl_seat_interface, 1);
 #endif
+  } else if (!strcmp(interface, zwlr_input_inhibit_manager_v1_interface.name)) {
+    priv->input_inhibit_manager = wl_registry_bind(
+      registry,
+      name,
+      &zwlr_input_inhibit_manager_v1_interface,
+      1);
   }
 }
 
@@ -536,12 +548,12 @@ phosh_shell_constructed (GObject *object)
 
   /* Wait until we have been notified about the compositor,
    * shell, and shell helper objects */
-  if (!priv->output || !priv->layer_shell || !priv->idle_manager)
+  if (!priv->output || !priv->layer_shell || !priv->idle_manager || !priv->input_inhibit_manager)
     wl_display_roundtrip (priv->display);
-  if (!priv->output || !priv->layer_shell || !priv->idle_manager) {
+  if (!priv->output || !priv->layer_shell || !priv->idle_manager || !priv->input_inhibit_manager) {
       g_error ("Could not find needed globals\n"
-               "output: %p, layer_shell: %p, seat: %p\n",
-               priv->output, priv->mshell, priv->idle_manager);
+               "output: %p, layer_shell: %p, seat: %p, inhibit: %p\n",
+               priv->output, priv->mshell, priv->idle_manager, priv->input_inhibit_manager);
   }
 
   env_setup ();

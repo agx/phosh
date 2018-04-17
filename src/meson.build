@@ -21,6 +21,7 @@ wl_protos = [
   '/'.join([wl_protocol_dir, 'stable/xdg-shell/xdg-shell.xml']),
   '../protocol/idle.xml',
   '../protocol/phosh-mobile-shell.xml',
+  '../protocol/wlr-input-inhibitor-unstable-v1.xml',
   '../protocol/wlr-layer-shell-unstable-v1.xml',
 ]
 wl_proto_deps = []
