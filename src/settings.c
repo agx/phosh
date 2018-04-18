@@ -116,6 +116,8 @@ phosh_settings_constructed (GObject *object)
   priv->adj_volume = gtk_adjustment_new (0, 0, 100, 1, 10, 10);
   gtk_range_set_adjustment (GTK_RANGE (priv->scale_volume), priv->adj_volume);
 
+  if (phosh_shell_get_rotation (phosh()))
+    gtk_switch_set_active (GTK_SWITCH (priv->btn_rotation), TRUE);
   g_signal_connect (priv->btn_rotation,
                     "notify::active",
                     G_CALLBACK (rotation_changed_cb),

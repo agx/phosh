@@ -19,7 +19,7 @@
 #include "config.h"
 
 #include "idle-client-protocol.h"
-#include "phosh-mobile-shell-client-protocol.h"
+#include "phosh-private-client-protocol.h"
 #include "wlr-layer-shell-unstable-v1-client-protocol.h"
 #include "wlr-input-inhibitor-unstable-v1-client-protocol.h"
 
@@ -50,7 +50,7 @@ typedef struct
 {
   struct wl_display *display;
   struct wl_registry *registry;
-  struct phosh_mobile_shell *mshell;
+  struct phosh_private *mshell;
   struct zwlr_layer_shell_v1 *layer_shell;
   struct org_kde_kwin_idle *idle_manager;
   struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
@@ -435,15 +435,10 @@ registry_handle_global (void *data,
   PhoshShell *self = data;
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
-#if 0 /* still needed for rotation */
-  if (!strcmp (interface, "phosh_mobile_shell")) {
+  if (!strcmp (interface, "phosh_private")) {
       priv->mshell = wl_registry_bind (registry, name,
-          &phosh_mobile_shell_interface, MIN(version, 1));
-      phosh_mobile_shell_add_listener (priv->mshell, &mshell_listener, self);
-      phosh_mobile_shell_set_user_data (priv->mshell, self);
-    }
-#endif
-  if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
+          &phosh_private_interface, 1);
+  } else  if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
       priv->layer_shell = wl_registry_bind (registry, name,
           &zwlr_layer_shell_v1_interface, 1);
   } else if (!strcmp (interface, "wl_output")) {
@@ -548,12 +543,15 @@ phosh_shell_constructed (GObject *object)
 
   /* Wait until we have been notified about the compositor,
    * shell, and shell helper objects */
-  if (!priv->output || !priv->layer_shell || !priv->idle_manager || !priv->input_inhibit_manager)
+  if (!priv->output || !priv->layer_shell || !priv->idle_manager ||
+      !priv->input_inhibit_manager || !priv->mshell)
     wl_display_roundtrip (priv->display);
-  if (!priv->output || !priv->layer_shell || !priv->idle_manager || !priv->input_inhibit_manager) {
+  if (!priv->output || !priv->layer_shell || !priv->idle_manager ||
+      !priv->input_inhibit_manager || !priv->mshell) {
       g_error ("Could not find needed globals\n"
-               "output: %p, layer_shell: %p, seat: %p, inhibit: %p\n",
-               priv->output, priv->mshell, priv->idle_manager, priv->input_inhibit_manager);
+               "output: %p, layer_shell: %p, mshell: %p, seat: %p, inhibit: %p\n",
+               priv->output, priv->layer_shell, priv->mshell, priv->idle_manager,
+               priv->input_inhibit_manager);
   }
 
   env_setup ();
@@ -607,11 +605,9 @@ phosh_shell_rotate_display (PhoshShell *self,
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   priv->rotation = degree;
-#if 0
-  phosh_mobile_shell_rotate_display (priv->mshell,
-                                     priv->panel->wl_surface,
-                                     degree);
-#endif
+  phosh_private_rotate_display (priv->mshell,
+                                priv->panel->wl_surface,
+                                degree);
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_ROTATION]);
 }
 
