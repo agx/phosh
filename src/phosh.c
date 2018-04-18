@@ -87,8 +87,7 @@ typedef struct _PhoshShell
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshShell, phosh_shell, G_TYPE_OBJECT)
 
 /* Shell singleton */
-PhoshShell *_phosh;
-
+static PhoshShell *_phosh;
 
 static void layer_surface_configure(void *data,
     struct zwlr_layer_surface_v1 *surface,
