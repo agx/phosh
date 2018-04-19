@@ -31,7 +31,7 @@ typedef struct
   GtkWidget *btn_settings;
   GDesktopAppInfo *settings_info;
   GtkWidget *btn_airplane_mode;
-  GtkWidget *btn_silent_mode;
+  GtkWidget *btn_lock_screen;
 
 } PhoshSettingsPrivate;
 
@@ -91,6 +91,14 @@ settings_clicked_cb (PhoshSettings *self, gpointer *unused)
 
 
 static void
+lock_screen_clicked_cb (PhoshSettings *self, gpointer *unused)
+{
+  phosh_shell_lock (phosh());
+  g_signal_emit (self, signals[SETTING_DONE], 0);
+}
+
+
+static void
 phosh_settings_constructed (GObject *object)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
@@ -135,11 +143,17 @@ phosh_settings_constructed (GObject *object)
                             G_CALLBACK (settings_clicked_cb),
                             self);
 
+  image = gtk_image_new_from_icon_name ("system-lock-screen-symbolic", GTK_ICON_SIZE_BUTTON);
+  gtk_button_set_image(GTK_BUTTON (priv->btn_lock_screen), image);
+  g_signal_connect_swapped (priv->btn_lock_screen,
+                            "clicked",
+                            G_CALLBACK (lock_screen_clicked_cb),
+                            self);
+
   /* FIXME: just so we have some buttons */
   image = gtk_image_new_from_icon_name ("airplane-mode-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_button_set_image(GTK_BUTTON (priv->btn_airplane_mode), image);
-  image = gtk_image_new_from_icon_name ("audio-volume-muted-symbolic", GTK_ICON_SIZE_BUTTON);
-  gtk_button_set_image(GTK_BUTTON (priv->btn_silent_mode), image);
+
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
@@ -163,7 +177,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_rotation);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_settings);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_silent_mode);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_lock_screen);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_airplane_mode);
 }
 
