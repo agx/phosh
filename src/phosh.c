@@ -239,12 +239,21 @@ lockscreen_create (PhoshShell *self)
   gdk_wayland_window_set_use_custom_surface (gdk_window);
 
   lockscreen->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
-
-#if 0
-  phosh_mobile_shell_set_lock_surface(priv->mshell,
-                                      lockscreen->wl_surface);
-#endif
-  gtk_widget_show_all (lockscreen->window);
+  lockscreen->layer_surface = zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
+                                                                    lockscreen->wl_surface,
+                                                                    priv->output,
+                                                                    ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
+                                                                    "lockscreen");
+  zwlr_layer_surface_v1_set_exclusive_zone(lockscreen->layer_surface, -1);
+  zwlr_layer_surface_v1_set_size(lockscreen->layer_surface, 0, 0);
+  zwlr_layer_surface_v1_set_anchor(lockscreen->layer_surface,
+                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
+                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
+                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
+                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT);
+  zwlr_layer_surface_v1_set_keyboard_interactivity(lockscreen->layer_surface, TRUE);
+  zwlr_layer_surface_v1_add_listener(lockscreen->layer_surface, &layer_surface_listener, lockscreen);
+  wl_surface_commit(lockscreen->wl_surface);
   priv->lockscreen = lockscreen;
 
   priv->unlock_handler_id = g_signal_connect_swapped (
