@@ -134,7 +134,7 @@ phosh_favorites_constructed (GObject *object)
   /* window properties */
   gtk_window_set_title (GTK_WINDOW (self), "phosh favorites");
   gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
-  gtk_window_resize (GTK_WINDOW (self), 100, 100);
+  gtk_window_resize (GTK_WINDOW (self), 100, 250);
   gtk_widget_realize(GTK_WIDGET (self));
 
   gtk_style_context_add_class (

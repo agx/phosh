@@ -20,8 +20,9 @@
 
 #include "idle-client-protocol.h"
 #include "phosh-private-client-protocol.h"
-#include "wlr-layer-shell-unstable-v1-client-protocol.h"
 #include "wlr-input-inhibitor-unstable-v1-client-protocol.h"
+#include "wlr-layer-shell-unstable-v1-client-protocol.h"
+#include "xdg-shell-client-protocol.h"
 
 #include "phosh.h"
 #include "background.h"
@@ -47,6 +48,12 @@ struct elem {
   struct zwlr_layer_surface_v1 *layer_surface;
 };
 
+struct popup {
+  GtkWidget *window;
+  struct wl_surface *wl_surface;
+  struct xdg_popup *popup;
+};
+
 typedef struct
 {
   struct wl_display *display;
@@ -57,6 +64,7 @@ typedef struct
   struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
   struct zwlr_input_inhibitor_v1 *input_inhibitor;
   struct wl_output *output;
+  struct xdg_wm_base *xdg_wm_base;
 
   GdkDisplay *gdk_display;
   gint rotation;
@@ -74,10 +82,10 @@ typedef struct
   gboolean locked;
 
   /* Favorites menu */
-  struct elem *favorites;
+  struct popup *favorites;
 
   /* Settings menu */
-  struct elem *settings;
+  struct popup *settings;
 } PhoshShellPrivate;
 
 
@@ -90,6 +98,39 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshShell, phosh_shell, G_TYPE_OBJECT)
 
 /* Shell singleton */
 static PhoshShell *_phosh;
+
+
+static struct wl_seat*
+get_seat (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+  GdkSeat *gdk_seat;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+  gdk_seat = gdk_display_get_default_seat(priv->gdk_display);
+  return gdk_wayland_seat_get_wl_seat (gdk_seat);
+}
+
+
+static struct popup**
+get_popup_from_xdg_popup (PhoshShell *self, struct xdg_popup *xdg_popup)
+{
+  PhoshShellPrivate *priv;
+  struct popup **popup = NULL;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+
+  priv = phosh_shell_get_instance_private (self);
+  if (priv->favorites && xdg_popup == priv->favorites->popup) {
+    popup = &priv->favorites;
+  } else if (priv->settings && xdg_popup == priv->settings->popup) {
+    popup = &priv->settings;
+  }
+  g_return_val_if_fail (popup, NULL);
+  return popup;
+}
+
 
 static void layer_surface_configure(void *data,
     struct zwlr_layer_surface_v1 *surface,
@@ -152,12 +193,58 @@ app_launched_cb (PhoshShell *self,
 
 
 static void
+xdg_surface_handle_configure(void *data,
+                             struct xdg_surface *xdg_surface,
+                             uint32_t serial)
+{
+  xdg_surface_ack_configure(xdg_surface, serial);
+  // Whatever
+}
+
+static const struct xdg_surface_listener xdg_surface_listener = {
+	.configure = xdg_surface_handle_configure,
+};
+
+
+static void
+xdg_popup_configure(void *data, struct xdg_popup *xdg_popup,
+                    int32_t x, int32_t y, int32_t w, int32_t h)
+{
+  PhoshShell *self = data;
+  struct popup *popup = *get_popup_from_xdg_popup(self, xdg_popup);
+
+  g_return_if_fail (popup);
+  g_debug("Popup configured %dx%d@%d,%d\n", w, h, x, y);
+  gtk_window_resize (GTK_WINDOW (popup->window), w, h);
+  gtk_widget_show_all (popup->window);
+}
+
+static void xdg_popup_done(void *data, struct xdg_popup *xdg_popup) {
+  PhoshShell *self = data;
+  struct popup **popup = get_popup_from_xdg_popup(self, xdg_popup);
+
+  g_return_if_fail (popup);
+  xdg_popup_destroy((*popup)->popup);
+  gtk_widget_destroy ((*popup)->window);
+  *popup = NULL;
+}
+
+static const struct xdg_popup_listener xdg_popup_listener = {
+	.configure = xdg_popup_configure,
+	.popup_done = xdg_popup_done,
+};
+
+
+static void
 favorites_activated_cb (PhoshShell *self,
                         PhoshPanel *window)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GdkWindow *gdk_window;
-  struct elem *favorites;
+  struct popup *favorites;
+  struct xdg_surface *xdg_surface;
+  struct xdg_positioner *xdg_positioner;
+  gint width, height;
 
   if (priv->favorites)
     return;
@@ -168,17 +255,29 @@ favorites_activated_cb (PhoshShell *self,
   gdk_window = gtk_widget_get_window (favorites->window);
   gdk_wayland_window_set_use_custom_surface (gdk_window);
   favorites->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
-  favorites->layer_surface = zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
-                                                               favorites->wl_surface,
-                                                               priv->output,
-                                                               ZWLR_LAYER_SHELL_V1_LAYER_TOP,
-                                                               "favorites");
-  zwlr_layer_surface_v1_set_anchor(favorites->layer_surface, ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT);
-  zwlr_layer_surface_v1_set_exclusive_zone(favorites->layer_surface, FALSE);
-  zwlr_layer_surface_v1_set_size(favorites->layer_surface, 100, 100);
-  zwlr_layer_surface_v1_add_listener(favorites->layer_surface, &layer_surface_listener, favorites);
-  wl_surface_commit(favorites->wl_surface);
+
+  xdg_surface = xdg_wm_base_get_xdg_surface(priv->xdg_wm_base, favorites->wl_surface);
+  g_return_if_fail (xdg_surface);
+  xdg_positioner = xdg_wm_base_create_positioner(priv->xdg_wm_base);
+  gtk_window_get_size (GTK_WINDOW (favorites->window), &width, &height);
+  xdg_positioner_set_size(xdg_positioner, width, height);
+  xdg_positioner_set_offset(xdg_positioner, 0, PHOSH_PANEL_HEIGHT-1);
+  xdg_positioner_set_anchor_rect(xdg_positioner, 100, 0, 1, 1);
+  xdg_positioner_set_anchor(xdg_positioner, XDG_POSITIONER_ANCHOR_BOTTOM);
+  xdg_positioner_set_gravity(xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM);
+
+  favorites->popup = xdg_surface_get_popup(xdg_surface, NULL, xdg_positioner);
+  g_return_if_fail (favorites->popup);
   priv->favorites = favorites;
+
+  /* TODO: how to get meaningful serial from gdk? */
+  xdg_popup_grab(favorites->popup, get_seat(self), 1);
+  zwlr_layer_surface_v1_get_popup(priv->panel->layer_surface, favorites->popup);
+  xdg_surface_add_listener(xdg_surface, &xdg_surface_listener, NULL);
+  xdg_popup_add_listener(favorites->popup, &xdg_popup_listener, self);
+
+  wl_surface_commit(favorites->wl_surface);
+  xdg_positioner_destroy(xdg_positioner);
 
   g_signal_connect_swapped (priv->favorites->window,
                             "app-launched",
@@ -201,14 +300,16 @@ setting_done_cb (PhoshShell *self,
   priv->settings = NULL;
 }
 
-
 static void
 settings_activated_cb (PhoshShell *self,
                        PhoshPanel *window)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GdkWindow *gdk_window;
-  struct elem *settings;
+  struct popup *settings;
+  struct xdg_surface *xdg_surface;
+  struct xdg_positioner *xdg_positioner;
+  gint width, height;
 
   if (priv->settings)
     return;
@@ -219,17 +320,30 @@ settings_activated_cb (PhoshShell *self,
   gdk_window = gtk_widget_get_window (settings->window);
   gdk_wayland_window_set_use_custom_surface (gdk_window);
   settings->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
-  settings->layer_surface = zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
-                                                               settings->wl_surface,
-                                                               priv->output,
-                                                               ZWLR_LAYER_SHELL_V1_LAYER_TOP,
-                                                               "settings");
-  zwlr_layer_surface_v1_set_anchor(settings->layer_surface, ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT);
-  zwlr_layer_surface_v1_set_exclusive_zone(settings->layer_surface, FALSE);
-  zwlr_layer_surface_v1_set_size(settings->layer_surface, 280, 100);
-  zwlr_layer_surface_v1_add_listener(settings->layer_surface, &layer_surface_listener, settings);
-  wl_surface_commit(settings->wl_surface);
+
+  xdg_surface = xdg_wm_base_get_xdg_surface(priv->xdg_wm_base, settings->wl_surface);
+  g_return_if_fail (xdg_surface);
+  xdg_positioner = xdg_wm_base_create_positioner(priv->xdg_wm_base);
+  gtk_window_get_size (GTK_WINDOW (settings->window), &width, &height);
+  xdg_positioner_set_size(xdg_positioner, width, height);
+  phosh_shell_get_usable_area (self, NULL, NULL, &width, NULL);
+  xdg_positioner_set_offset(xdg_positioner, 0, PHOSH_PANEL_HEIGHT-1);
+  xdg_positioner_set_anchor_rect(xdg_positioner, width, 0, 1, 1);
+  xdg_positioner_set_anchor(xdg_positioner, XDG_POSITIONER_ANCHOR_BOTTOM);
+  xdg_positioner_set_gravity(xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM);
+
+  settings->popup = xdg_surface_get_popup(xdg_surface, NULL, xdg_positioner);
+  g_return_if_fail (settings->popup);
   priv->settings = settings;
+
+  /* TODO: how to get meaningful serial from GDK? */
+  xdg_popup_grab(settings->popup, get_seat(self), 1);
+  zwlr_layer_surface_v1_get_popup(priv->panel->layer_surface, settings->popup);
+  xdg_surface_add_listener(xdg_surface, &xdg_surface_listener, NULL);
+  xdg_popup_add_listener(settings->popup, &xdg_popup_listener, self);
+
+  wl_surface_commit(settings->wl_surface);
+  xdg_positioner_destroy(xdg_positioner);
 
   g_signal_connect_swapped (priv->settings->window,
                             "setting-done",
@@ -338,17 +452,13 @@ static void
 lockscreen_prepare (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  GdkSeat *gdk_seat;
-  struct wl_seat *seat;
 
   g_return_if_fail(priv->idle_manager);
   g_return_if_fail(priv->gdk_display);
 
-  gdk_seat = gdk_display_get_default_seat(priv->gdk_display);
-  seat = gdk_wayland_seat_get_wl_seat (gdk_seat);
   priv->lock_timer = org_kde_kwin_idle_get_idle_timeout(
     priv->idle_manager,
-    seat,
+    get_seat(self),
     LOCKSCREEN_TIMEOUT);
 
   g_return_if_fail (priv->lock_timer);
@@ -497,6 +607,8 @@ registry_handle_global (void *data,
       name,
       &zwlr_input_inhibit_manager_v1_interface,
       1);
+  } else if (!strcmp(interface, xdg_wm_base_interface.name)) {
+    priv->xdg_wm_base = wl_registry_bind(registry, name, &xdg_wm_base_interface, 1);
   }
 }
 
@@ -584,14 +696,15 @@ phosh_shell_constructed (GObject *object)
   /* Wait until we have been notified about the compositor,
    * shell, and shell helper objects */
   if (!priv->output || !priv->layer_shell || !priv->idle_manager ||
-      !priv->input_inhibit_manager || !priv->mshell)
+      !priv->input_inhibit_manager || !priv->mshell || !priv->xdg_wm_base)
     wl_display_roundtrip (priv->display);
   if (!priv->output || !priv->layer_shell || !priv->idle_manager ||
-      !priv->input_inhibit_manager || !priv->mshell) {
+      !priv->input_inhibit_manager || !priv->mshell || !priv->xdg_wm_base) {
       g_error ("Could not find needed globals\n"
-               "output: %p, layer_shell: %p, mshell: %p, seat: %p, inhibit: %p\n",
+               "output: %p, layer_shell: %p, mshell: %p, seat: %p, "
+               "inhibit: %p, xdg_wm: %p\n",
                priv->output, priv->layer_shell, priv->mshell, priv->idle_manager,
-               priv->input_inhibit_manager);
+               priv->input_inhibit_manager, priv->xdg_wm_base);
   }
 
   env_setup ();
