@@ -36,6 +36,7 @@
 enum {
   PHOSH_SHELL_PROP_0,
   PHOSH_SHELL_PROP_ROTATION,
+  PHOSH_SHELL_PROP_LOCKED,
   PHOSH_SHELL_PROP_LAST_PROP
 };
 static GParamSpec *props[PHOSH_SHELL_PROP_LAST_PROP];
@@ -70,6 +71,7 @@ typedef struct
   struct elem *lockscreen;
   gulong unlock_handler_id;
   struct org_kde_kwin_idle_timeout *lock_timer;
+  gboolean locked;
 
   /* Favorites menu */
   struct elem *favorites;
@@ -119,6 +121,8 @@ lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
+  g_return_if_fail (window);
+
   g_signal_handler_disconnect (window, priv->unlock_handler_id);
   gtk_widget_destroy (GTK_WIDGET (window));
   zwlr_layer_surface_v1_destroy(priv->lockscreen->layer_surface);
@@ -127,6 +131,9 @@ lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
 
   zwlr_input_inhibitor_v1_destroy(priv->input_inhibitor);
   priv->input_inhibitor = NULL;
+
+  priv->locked = FALSE;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_LOCKED]);
 }
 
 
@@ -270,6 +277,38 @@ lockscreen_create (PhoshShell *self)
     "lockscreen-unlock",
     G_CALLBACK(lockscreen_unlock_cb),
     self);
+
+  priv->locked = TRUE;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_LOCKED]);
+}
+
+
+void
+phosh_shell_lock (PhoshShell *self)
+{
+  phosh_shell_set_locked (self, TRUE);
+}
+
+
+void
+phosh_shell_unlock (PhoshShell *self)
+{
+  phosh_shell_set_locked (self, FALSE);
+}
+
+
+void
+phosh_shell_set_locked (PhoshShell *self, gboolean state)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  if (state == priv->locked)
+    return;
+
+  if (state)
+    lockscreen_create (self);
+  else
+    lockscreen_unlock_cb (self, PHOSH_LOCKSCREEN (priv->lockscreen->window));
 }
 
 
@@ -484,13 +523,14 @@ phosh_shell_set_property (GObject *object,
                           GParamSpec *pspec)
 {
   PhoshShell *self = PHOSH_SHELL (object);
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   switch (property_id) {
   case PHOSH_SHELL_PROP_ROTATION:
-    priv->rotation = g_value_get_uint (value);
+    phosh_shell_rotate_display (self, g_value_get_uint (value));
     break;
-
+  case PHOSH_SHELL_PROP_LOCKED:
+    phosh_shell_set_locked (self, g_value_get_boolean (value));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -510,7 +550,8 @@ phosh_shell_get_property (GObject *object,
   switch (property_id) {
   case PHOSH_SHELL_PROP_ROTATION:
     g_value_set_uint (value, priv->rotation);
-
+  case PHOSH_SHELL_PROP_LOCKED:
+    g_value_set_boolean (value, priv->locked);
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -578,6 +619,13 @@ phosh_shell_class_init (PhoshShellClass *klass)
                          "Clockwise display rotation in degree",
                          "",
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PHOSH_SHELL_PROP_LOCKED] =
+    g_param_spec_string ("locked",
+                         "Locked",
+                         "Whether the screen is locked",
+                         "",
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PHOSH_SHELL_PROP_LAST_PROP, props);
 }
