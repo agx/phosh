@@ -699,13 +699,17 @@ phosh_shell_constructed (GObject *object)
       !priv->input_inhibit_manager || !priv->mshell || !priv->xdg_wm_base)
     wl_display_roundtrip (priv->display);
   if (!priv->output || !priv->layer_shell || !priv->idle_manager ||
-      !priv->input_inhibit_manager || !priv->mshell || !priv->xdg_wm_base) {
-      g_error ("Could not find needed globals\n"
-               "output: %p, layer_shell: %p, mshell: %p, seat: %p, "
-               "inhibit: %p, xdg_wm: %p\n",
-               priv->output, priv->layer_shell, priv->mshell, priv->idle_manager,
-               priv->input_inhibit_manager, priv->xdg_wm_base);
+      !priv->input_inhibit_manager || !priv->xdg_wm_base) {
+    g_error ("Could not find needed globals\n"
+             "output: %p, layer_shell: %p, seat: %p, "
+             "inhibit: %p, xdg_wm: %p\n",
+             priv->output, priv->layer_shell, priv->idle_manager,
+             priv->input_inhibit_manager, priv->xdg_wm_base);
   }
+  if (!priv->mshell) {
+    g_warning ("Could not find phosh global, disabling some features\n");
+  }
+
 
   env_setup ();
   css_setup (self);
@@ -763,6 +767,8 @@ phosh_shell_rotate_display (PhoshShell *self,
                             guint degree)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  g_return_if_fail (priv->mshell);
 
   priv->rotation = degree;
   phosh_private_rotate_display (priv->mshell,
