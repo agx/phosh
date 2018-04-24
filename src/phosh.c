@@ -514,6 +514,7 @@ panel_create (PhoshShell *self)
 }
 
 
+#if 0  /* https://github.com/swaywm/wlroots/issues/897 */
 static void
 background_create (PhoshShell *self)
 {
@@ -542,7 +543,7 @@ background_create (PhoshShell *self)
   wl_surface_commit(background->wl_surface);
   priv->background = background;
 }
-
+#endif
 
 static void
 css_setup (PhoshShell *self)
@@ -715,7 +716,10 @@ phosh_shell_constructed (GObject *object)
   css_setup (self);
   panel_create (self);
   /* Create background after panel since it needs the panel's size */
+#if 0
+  /* https://github.com/swaywm/wlroots/issues/897 */
   background_create (self);
+#endif
   lockscreen_prepare (self);
 }
 
