@@ -71,6 +71,7 @@ gnome = import('gnome')
 subdir('data')
 subdir('po')
 subdir('src')
+subdir('tests')
 
 git = find_program('git', required: false)
 if git.found()
@@ -99,3 +100,15 @@ if git.found()
 			command: [ctags.path(), '-o', 'tags'] + all_files)
 	endif
 endif
+
+summary = [
+  '',
+  '-----',
+  'Phosh',
+  '',
+  'Tests: @0@'.format(get_option('tests')),
+ '-----',
+
+]
+
+message('\n'.join(summary))

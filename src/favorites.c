@@ -94,30 +94,45 @@ add_favorite (PhoshFavorites *self,
 }
 
 
+/* Add weston terminal as band aid in case all else fails for now */
+static void
+add_weston_terminal (PhoshFavorites *self, gint row)
+{
+  PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
+  GIcon *icon;
+  GtkWidget *image;
+  GtkWidget *btn;
+  char *names[] = {"terminal"};
+
+  btn = gtk_button_new();
+  icon = g_themed_icon_new_from_names (names, 1);
+  image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
+  g_object_set (image, "margin", 20, NULL);
+  gtk_button_set_image (GTK_BUTTON (btn), image);
+  g_signal_connect_swapped (btn, "clicked", G_CALLBACK (term_btn_clicked), self);
+  gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, row++, 1, 1);
+}
+
+
 static void
 favorites_changed (GSettings *settings,
                    const gchar *key,
                    PhoshFavorites *self)
 {
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
-  GtkWidget *btn;
   gchar **favorites = g_settings_get_strv (settings, key);
-  guint top = 1;
+  GtkWidget *btn;
+  guint row = 1;
 
   /* Remove all favorites first */
   gtk_container_foreach (GTK_CONTAINER (priv->grid),
                          (GtkCallback) gtk_widget_destroy, NULL);
 
-  /* Add weston terminal as band aid in case all else fails for now */
-  btn = gtk_button_new_from_icon_name ("terminal", GTK_ICON_SIZE_DIALOG);
-  gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, 1, 1, 1);
-  g_signal_connect_swapped (btn, "clicked", G_CALLBACK (term_btn_clicked), self);
-  top++;
-
+  add_weston_terminal (self, row++);
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
     btn = add_favorite (self, fav);
-    gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, top++, 1, 1);
+    gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, row++, 1, 1);
   }
   g_strfreev (favorites);
 }
