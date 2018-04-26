@@ -63,16 +63,11 @@ wall_clock_notify_cb (GnomeWallClock *wall_clock,
     GParamSpec *pspec,
     PhoshPanel *self)
 {
-  GDateTime *datetime;
   PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
-  g_autofree gchar *str;
+  const gchar *str;
 
-  datetime = g_date_time_new_now_local ();
-
-  str = g_date_time_format (datetime, "%H:%M");
+  str = gnome_wall_clock_get_clock(wall_clock);
   gtk_button_set_label (GTK_BUTTON (priv->btn_settings), str);
-
-  g_date_time_unref (datetime);
 }
 
 
