@@ -76,6 +76,8 @@ add_favorite (PhoshFavorites *self,
 
   icon = g_app_info_get_icon (G_APP_INFO (info));
   image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
+  g_object_unref (icon);
+
   btn = gtk_button_new ();
   gtk_style_context_remove_class (gtk_widget_get_style_context (btn),
                                   "button");
@@ -107,8 +109,11 @@ add_weston_terminal (PhoshFavorites *self, gint row)
   btn = gtk_button_new();
   icon = g_themed_icon_new_from_names (names, 1);
   image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
+  g_object_unref (icon);
+
   g_object_set (image, "margin", 20, NULL);
   gtk_button_set_image (GTK_BUTTON (btn), image);
+
   g_signal_connect_swapped (btn, "clicked", G_CALLBACK (term_btn_clicked), self);
   gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, row++, 1, 1);
 }
