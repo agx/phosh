@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0+
  * Author: Guido Günther <agx@sigxcpu.org>
  *
- * Based on maynard whish is
+ * Based on maynard's favorites whish is
  * Copyright (C) 2013 Collabora Ltd.
  * Author: Emilio Pozuelo Monfort <emilio.pozuelo@collabora.co.uk>
 
@@ -30,10 +30,10 @@ typedef struct
 
 struct _PhoshFavorites
 {
-  PhoshMenuClass parent;
+  GtkWindowClass parent;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, PHOSH_TYPE_MENU) 
+G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, GTK_TYPE_WINDOW) 
 
 
 static void
@@ -76,6 +76,8 @@ add_favorite (PhoshFavorites *self,
 
   icon = g_app_info_get_icon (G_APP_INFO (info));
   image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
+  g_object_unref (icon);
+
   btn = gtk_button_new ();
   gtk_style_context_remove_class (gtk_widget_get_style_context (btn),
                                   "button");
@@ -94,30 +96,48 @@ add_favorite (PhoshFavorites *self,
 }
 
 
+/* Add weston terminal as band aid in case all else fails for now */
+static void
+add_weston_terminal (PhoshFavorites *self, gint row)
+{
+  PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
+  GIcon *icon;
+  GtkWidget *image;
+  GtkWidget *btn;
+  char *names[] = {"terminal"};
+
+  btn = gtk_button_new();
+  icon = g_themed_icon_new_from_names (names, 1);
+  image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
+  g_object_unref (icon);
+
+  g_object_set (image, "margin", 20, NULL);
+  gtk_button_set_image (GTK_BUTTON (btn), image);
+
+  g_signal_connect_swapped (btn, "clicked", G_CALLBACK (term_btn_clicked), self);
+  gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, row++, 1, 1);
+}
+
+
 static void
 favorites_changed (GSettings *settings,
                    const gchar *key,
                    PhoshFavorites *self)
 {
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
-  GtkWidget *btn;
   gchar **favorites = g_settings_get_strv (settings, key);
-  guint top = 1;
+  GtkWidget *btn;
+  guint row = 1;
 
   /* Remove all favorites first */
   gtk_container_foreach (GTK_CONTAINER (priv->grid),
                          (GtkCallback) gtk_widget_destroy, NULL);
 
-  /* Add weston terminal as band aid in case all else fails for now */
-  btn = gtk_button_new_from_icon_name ("terminal", GTK_ICON_SIZE_DIALOG);
-  gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, 1, 1, 1);
-  g_signal_connect_swapped (btn, "clicked", G_CALLBACK (term_btn_clicked), self);
-  top++;
-
+  add_weston_terminal (self, row++);
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
     btn = add_favorite (self, fav);
-    gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, top++, 1, 1);
+    gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, row++, 1, 1);
   }
   g_strfreev (favorites);
 }
@@ -134,7 +154,7 @@ phosh_favorites_constructed (GObject *object)
   /* window properties */
   gtk_window_set_title (GTK_WINDOW (self), "phosh favorites");
   gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
-  gtk_window_resize (GTK_WINDOW (self), 100, 100);
+  gtk_window_resize (GTK_WINDOW (self), 100, 250);
   gtk_widget_realize(GTK_WIDGET (self));
 
   gtk_style_context_add_class (
@@ -186,11 +206,7 @@ phosh_favorites_init (PhoshFavorites *self)
 
 
 GtkWidget *
-phosh_favorites_new (int position, const gpointer *shell)
+phosh_favorites_new ()
 {
-  return g_object_new (PHOSH_TYPE_FAVORITES,
-                       "name", "favorites",
-                       "shell", shell,
-                       "position", position,
-                       NULL);
+  return g_object_new (PHOSH_TYPE_FAVORITES, NULL);
 }

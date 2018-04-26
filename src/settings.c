@@ -31,18 +31,18 @@ typedef struct
   GtkWidget *btn_settings;
   GDesktopAppInfo *settings_info;
   GtkWidget *btn_airplane_mode;
-  GtkWidget *btn_silent_mode;
+  GtkWidget *btn_lock_screen;
 
 } PhoshSettingsPrivate;
 
 
 typedef struct _PhoshSettings
 {
-  PhoshMenu parent;
+  GtkWindow parent;
 } PhoshSettings;
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshSettings, phosh_settings, PHOSH_TYPE_MENU)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshSettings, phosh_settings, GTK_TYPE_WINDOW)
 
 
 GtkWidget *phosh_settings (const char* name)
@@ -91,11 +91,25 @@ settings_clicked_cb (PhoshSettings *self, gpointer *unused)
 
 
 static void
+lock_screen_clicked_cb (PhoshSettings *self, gpointer *unused)
+{
+  phosh_shell_lock (phosh());
+  g_signal_emit (self, signals[SETTING_DONE], 0);
+}
+
+
+static void
 phosh_settings_constructed (GObject *object)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
   PhoshSettingsPrivate *priv = phosh_settings_get_instance_private (self);
   GtkWidget *image;
+
+  /* window properties */
+  gtk_window_set_title (GTK_WINDOW (self), "phosh settings");
+  gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
+  gtk_window_resize (GTK_WINDOW (self), 100, 100);
+  gtk_widget_realize(GTK_WIDGET (self));
 
   priv->adj_brightness = gtk_adjustment_new (0, 0, 100, 1, 10, 10);
   gtk_range_set_adjustment (GTK_RANGE (priv->scale_brightness), priv->adj_brightness);
@@ -110,6 +124,8 @@ phosh_settings_constructed (GObject *object)
   priv->adj_volume = gtk_adjustment_new (0, 0, 100, 1, 10, 10);
   gtk_range_set_adjustment (GTK_RANGE (priv->scale_volume), priv->adj_volume);
 
+  if (phosh_shell_get_rotation (phosh()))
+    gtk_switch_set_active (GTK_SWITCH (priv->btn_rotation), TRUE);
   g_signal_connect (priv->btn_rotation,
                     "notify::active",
                     G_CALLBACK (rotation_changed_cb),
@@ -127,11 +143,17 @@ phosh_settings_constructed (GObject *object)
                             G_CALLBACK (settings_clicked_cb),
                             self);
 
+  image = gtk_image_new_from_icon_name ("system-lock-screen-symbolic", GTK_ICON_SIZE_BUTTON);
+  gtk_button_set_image(GTK_BUTTON (priv->btn_lock_screen), image);
+  g_signal_connect_swapped (priv->btn_lock_screen,
+                            "clicked",
+                            G_CALLBACK (lock_screen_clicked_cb),
+                            self);
+
   /* FIXME: just so we have some buttons */
   image = gtk_image_new_from_icon_name ("airplane-mode-symbolic", GTK_ICON_SIZE_BUTTON);
   gtk_button_set_image(GTK_BUTTON (priv->btn_airplane_mode), image);
-  image = gtk_image_new_from_icon_name ("audio-volume-muted-symbolic", GTK_ICON_SIZE_BUTTON);
-  gtk_button_set_image(GTK_BUTTON (priv->btn_silent_mode), image);
+
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
@@ -155,7 +177,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_rotation);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_settings);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_silent_mode);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_lock_screen);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_airplane_mode);
 }
 
@@ -167,11 +189,7 @@ phosh_settings_init (PhoshSettings *self)
 }
 
 GtkWidget *
-phosh_settings_new (int position, const gpointer *shell)
+phosh_settings_new ()
 {
-  return g_object_new (PHOSH_TYPE_SETTINGS,
-                       "name", "settings",
-                       "shell", shell,
-                       "position", position,
-                       NULL);
+  return g_object_new (PHOSH_TYPE_SETTINGS, NULL);
 }

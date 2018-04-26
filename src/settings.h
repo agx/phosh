@@ -12,8 +12,8 @@
 
 #define PHOSH_TYPE_SETTINGS (phosh_settings_get_type())
 
-G_DECLARE_FINAL_TYPE (PhoshSettings, phosh_settings, PHOSH, SETTINGS, PhoshMenu)
+G_DECLARE_FINAL_TYPE (PhoshSettings, phosh_settings, PHOSH, SETTINGS, GtkWindow)
 
-GtkWidget * phosh_settings_new (int position, const gpointer* shell);
+GtkWidget * phosh_settings_new ();
 
 #endif /* PHOSH_SETTINGS_H */

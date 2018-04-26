@@ -94,7 +94,8 @@ phosh_panel_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_panel_parent_class)->constructed (object);
 
   gtk_button_set_label (GTK_BUTTON (priv->btn_favorites), FAVORITES_LABEL_TEXT);
-  priv->wall_clock = g_object_new (GNOME_TYPE_WALL_CLOCK, NULL);
+  priv->wall_clock = gnome_wall_clock_new ();
+
   g_signal_connect (priv->wall_clock,
                     "notify::clock",
                     G_CALLBACK (wall_clock_notify_cb),

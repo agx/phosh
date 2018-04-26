@@ -1,0 +1,3 @@
+option('tests',
+       type: 'boolean', value: true,
+       description: 'Whether to compile unit tests')

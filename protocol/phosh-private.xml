@@ -1,0 +1,21 @@
+<protocol name="phosh">
+  <interface name="phosh_private" version="1">
+    <description summary="Phone shell extensions">
+      Private protocol between phosh and the compositor.
+    </description>
+
+    <enum name="error">
+      <entry name="invalid_argument" value="0"
+             summary="an invalid argument was provided in a request"/>
+    </enum>
+
+    <!-- only one display for now -->
+    <request name="rotate_display">
+      <description summary="rotate display">
+	Rotate the display clockwise 0, 90, 180 or 270 degree.
+      </description>
+      <arg name="surface" type="object" interface="wl_surface"/>
+      <arg name="degree" type="uint"/>
+    </request>
+  </interface>
+</protocol>
