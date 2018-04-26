@@ -7,7 +7,6 @@
 #ifndef PHOSH_SETTINGS_H
 #define PHOSH_SETTINGS_H
 
-#include "menu.h"
 #include <gtk/gtk.h>
 
 #define PHOSH_TYPE_SETTINGS (phosh_settings_get_type())
