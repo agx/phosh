@@ -73,6 +73,8 @@ add_favorite (PhoshFavorites *self,
   GtkWidget *btn;
 
   info = g_desktop_app_info_new (favorite);
+  if (!info)
+    return NULL;
 
   icon = g_app_info_get_icon (G_APP_INFO (info));
   image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
@@ -137,7 +139,8 @@ favorites_changed (GSettings *settings,
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
     btn = add_favorite (self, fav);
-    gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, row++, 1, 1);
+    if (btn)
+      gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, row++, 1, 1);
   }
   g_strfreev (favorites);
 }
