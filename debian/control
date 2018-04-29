@@ -20,7 +20,6 @@ Depends:
  ${misc:Depends},
  ${shlibs:Depends},
  fonts-lato,
- gnome-icon-theme,
 Description: Simple Wayland shell
  Phosh is a simple shell for wayland compositors speaking the
  weston-desktop-shell protocol.
