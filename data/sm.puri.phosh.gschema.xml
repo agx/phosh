@@ -2,7 +2,7 @@
   <schema id="sm.puri.phosh"
           path="/sm/puri/phosh/">
     <key name="favorites" type="as">
-      <default>[ 'evince.desktop', 'gnome-chess.desktop' ]</default>
+      <default>[ 'evince.desktop', 'org.gnome.Epiphany.desktop' ]</default>
       <summary>List of desktop file IDs for favorite applications</summary>
       <description>
         The applications corresponding to these identifiers will be

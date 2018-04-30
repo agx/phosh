@@ -106,7 +106,7 @@ add_weston_terminal (PhoshFavorites *self, gint row)
   GIcon *icon;
   GtkWidget *image;
   GtkWidget *btn;
-  char *names[] = {"terminal"};
+  char *names[] = {"utilities-terminal"};
 
   btn = gtk_button_new();
   icon = g_themed_icon_new_from_names (names, 1);
