@@ -1,19 +1,18 @@
 #!/bin/sh
-
 set -e
 
 ABS_BUILDDIR='@ABS_BUILDDIR@'
 
-
-# Start up gsd, etc.
+# gnome-session wants org.gnome.Mutter.DisplayConfig
 if ! dbus-send --session --dest=org.freedesktop.DBus \
                --type=method_call --print-reply /org/freedesktop/DBus \
                org.freedesktop.DBus.ListNames \
    | grep -qs '[o]rg\.gnome.Mutter\.DisplayConfig'; then
-   helpers/mutter-dbus-stub-mock.py &
+   helpers/mutter-dbus-stub.py &
 fi
+
+# Start up g-s-d, etc.
 gnome-session --session=gnome-dummy --disable-acceleration-check &
 
 export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data"
-
 exec "${ABS_BUILDDIR}/src/phosh" $@
