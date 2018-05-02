@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: phosh
-Source: https://code.puri.sm/guido.gunther/phosh
+Source: https://code.puri.sm/Librem5/phosh
 
 Files: *
 Copyright: 2018 Guido Günther <agx@sigxcpu.org>
@@ -19,4 +19,4 @@ License: GPL-3+
  along with this program. If not, see <https://www.gnu.org/licenses/>
  .
  On Debian systems, the complete text of the GNU General
- Public License version 2 can be found in "/usr/share/common-licenses/GPL-3".
+ Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".
