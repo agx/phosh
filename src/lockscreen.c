@@ -127,7 +127,9 @@ keypad_number_notified_cb (PhoshLockscreen *self)
   number = hdy_dialer_get_number (HDY_DIALER (priv->dialer_keypad));
   if (strlen (number) == strlen (TEST_PIN)) {
     if (!g_strcmp0 (number, TEST_PIN)) {
-      /* FIXME: compare to real PIN */
+      /* FIXME: handle real PIN
+       * https://code.puri.sm/Librem5/phosh/issues/25
+       */
       g_signal_emit(self, signals[LOCKSCREEN_UNLOCK], 0);
     } else {
       gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Wrong PIN"));
