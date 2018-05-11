@@ -15,6 +15,12 @@
 
 #define WWAN_INFO_DEFAULT_ICON_SIZE 24
 
+/**
+ * SECTION:phosh-wwan-info
+ * @short_description: A widget to display the wwan status
+ * @Title: PhoshWWanInfo
+ */
+
 typedef struct
 {
   PhoshWWanMM *wwan;
@@ -154,8 +160,7 @@ update_icon_data(PhoshWWanInfo *self, PhoshWWanMM *wwan, gpointer unused)
   g_autofree gchar *icon_name = NULL;
   const char *access_tec;
 
-  g_debug ("Updating modem icon");
-
+  g_debug ("Updating wwan icon");
   g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
   priv = phosh_wwan_info_get_instance_private (self);
 
