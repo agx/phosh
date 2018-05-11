@@ -1,3 +1,5 @@
+subdir('wwan')
+
 wayland_protos = dependency('wayland-protocols', version: '>=1.12')
 wl_protocol_dir = wayland_protos.get_pkgconfig_variable('pkgdatadir')
 
@@ -24,10 +26,10 @@ wl_protos = [
   '../protocol/wlr-input-inhibitor-unstable-v1.xml',
   '../protocol/wlr-layer-shell-unstable-v1.xml',
 ]
-wl_proto_deps = []
+wl_proto_sources = []
 foreach proto: wl_protos
-  wl_proto_deps += gen_scanner_client_header.process(proto)
-  wl_proto_deps += gen_scanner_client_code.process(proto)
+  wl_proto_sources += gen_scanner_client_header.process(proto)
+  wl_proto_sources += gen_scanner_client_code.process(proto)
 endforeach
 
 phosh_sources = [
@@ -43,8 +45,12 @@ phosh_sources = [
   'settings.c',
   'settings.h',
   'settings/brightness.c',
+  'wwaninfo.c',
+  'wwaninfo.h',
   phosh_resources,
-] + wl_proto_deps
+  phosh_wwan_sources,
+  wl_proto_sources,
+]
 
 phosh_deps = [
   dependency('gnome-desktop-3.0'),
@@ -61,3 +67,4 @@ phosh = executable('phosh', phosh_sources,
   install: true,
   install_dir: get_option('libexecdir'),
 )
+
