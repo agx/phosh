@@ -90,6 +90,7 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
   GVariant *v;
 
   g_return_if_fail (self);
+  g_return_if_fail (priv->proxy);
   v = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_signal_quality (priv->proxy);
   if (v) {
     g_variant_get(v, "(ub)", &priv->signal_quality, NULL);
@@ -136,6 +137,7 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
   guint access_tec;
 
   g_return_if_fail (self);
+  g_return_if_fail (priv->proxy);
   access_tec = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_access_technologies (
     priv->proxy);
   priv->access_tec = user_friendly_access_tec (access_tec);
@@ -152,6 +154,7 @@ phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
   gint state;
 
   g_return_if_fail (self);
+  g_return_if_fail (priv->proxy);
   /* Whether any kind of PIN is required */
   unlock_required = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_unlock_required (
     priv->proxy);
@@ -172,6 +175,7 @@ phosh_wwan_mm_update_sim_status (PhoshWWanMM *self)
   const gchar *sim;
 
   g_return_if_fail (self);
+  g_return_if_fail (priv->proxy);
   sim = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_sim (priv->proxy);
   g_debug ("SIM path %s", sim);
   priv->sim = !!(sim != NULL && strcmp (sim, "/"));
