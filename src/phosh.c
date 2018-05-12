@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include <glib-object.h>
+#include <glib-unix.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkwayland.h>
@@ -837,12 +838,29 @@ phosh ()
 }
 
 
+gboolean
+sigterm_cb (gpointer unused)
+{
+  g_debug ("Cleaning up");
+  gtk_main_quit ();
+  return FALSE;
+}
+
+
 int main(int argc, char *argv[])
 {
+  g_autoptr(GSource) sigterm;
+  GMainContext *context;
+
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
   gtk_init (&argc, &argv);
+
+  sigterm = g_unix_signal_source_new (SIGTERM);
+  context = g_main_context_default ();
+  g_source_set_callback (sigterm, sigterm_cb, NULL, NULL);
+  g_source_attach (sigterm, context);
 
   g_object_new (PHOSH_TYPE_SHELL, NULL);
   gtk_main ();
