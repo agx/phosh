@@ -162,10 +162,13 @@ lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
-  g_return_if_fail (window);
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (window));
+  g_return_if_fail (window == PHOSH_LOCKSCREEN (priv->lockscreen->window));
 
   g_signal_handler_disconnect (window, priv->unlock_handler_id);
-  gtk_widget_destroy (GTK_WIDGET (window));
+  priv->unlock_handler_id = 0;
+  gtk_widget_destroy (GTK_WIDGET (priv->lockscreen->window));
+  priv->lockscreen->window = NULL;
   zwlr_layer_surface_v1_destroy(priv->lockscreen->layer_surface);
   g_free (priv->lockscreen);
   priv->lockscreen = NULL;
