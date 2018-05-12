@@ -8,6 +8,8 @@
  * Author: Jonny Lamb <jonny.lamb@collabora.co.uk>
  */
 
+#define G_LOG_DOMAIN "phosh-phosh"
+
 #include <stdlib.h>
 #include <string.h>
 

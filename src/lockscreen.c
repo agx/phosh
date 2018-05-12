@@ -4,6 +4,8 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
+#define G_LOG_DOMAIN "phosh-lockscreen"
+
 #include "config.h"
 #include "lockscreen.h"
 #include "wwaninfo.h"

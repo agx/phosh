@@ -5,6 +5,8 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
+#define G_LOG_DOMAIN "phosh-settings"
+
 #include <glib/gi18n.h>
 
 #include "phosh.h"
