@@ -745,11 +745,11 @@ phosh_shell_class_init (PhoshShellClass *klass)
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_SHELL_PROP_LOCKED] =
-    g_param_spec_string ("locked",
-                         "Locked",
-                         "Whether the screen is locked",
-                         "",
-                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    g_param_spec_boolean ("locked",
+                          "Locked",
+                          "Whether the screen is locked",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PHOSH_SHELL_PROP_LAST_PROP, props);
 }
