@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e
 
+EXEC="${exec:-$EXEC}"
 ABS_BUILDDIR='@ABS_BUILDDIR@'
 
 # gnome-session wants org.gnome.Mutter.DisplayConfig
@@ -16,4 +17,4 @@ gnome-session --session=gnome-dummy --disable-acceleration-check &
 
 export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data"
 export G_MESSAGES_DEBUG=all
-exec "${ABS_BUILDDIR}/src/phosh" $@
+${EXEC} "${ABS_BUILDDIR}/src/phosh" $@
