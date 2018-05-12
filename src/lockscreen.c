@@ -125,6 +125,9 @@ keypad_number_notified_cb (PhoshLockscreen *self)
   priv = phosh_lockscreen_get_instance_private (self);
 
   number = hdy_dialer_get_number (HDY_DIALER (priv->dialer_keypad));
+
+  /* grab a ref, a listener to "lockscreen-unlock" might decrease the refcount */
+  g_object_ref (self);
   if (strlen (number) == strlen (TEST_PIN)) {
     if (!g_strcmp0 (number, TEST_PIN)) {
       /* FIXME: handle real PIN
@@ -137,6 +140,7 @@ keypad_number_notified_cb (PhoshLockscreen *self)
     }
   }
   priv->last_input = g_get_monotonic_time ();
+  g_object_unref (self);
 }
 
 
