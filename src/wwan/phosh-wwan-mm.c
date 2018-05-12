@@ -62,6 +62,11 @@ typedef struct
   PhoshWWanMMOrgFreedesktopModemManager1Modem *proxy;
   PhoshWWanMMObjectManagerClient *manager;
 
+  /** Signals we connect to */
+  gulong manager_object_added_signal_id;
+  gulong manager_object_removed_signal_id;
+  gulong proxy_props_signal_id;
+
   gchar *object_path;
   guint signal_quality;
   const char *access_tec;
@@ -90,6 +95,7 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
   GVariant *v;
 
   g_return_if_fail (self);
+  g_return_if_fail (priv->proxy);
   v = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_signal_quality (priv->proxy);
   if (v) {
     g_variant_get(v, "(ub)", &priv->signal_quality, NULL);
@@ -136,6 +142,7 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
   guint access_tec;
 
   g_return_if_fail (self);
+  g_return_if_fail (priv->proxy);
   access_tec = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_access_technologies (
     priv->proxy);
   priv->access_tec = user_friendly_access_tec (access_tec);
@@ -152,6 +159,7 @@ phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
   gint state;
 
   g_return_if_fail (self);
+  g_return_if_fail (priv->proxy);
   /* Whether any kind of PIN is required */
   unlock_required = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_unlock_required (
     priv->proxy);
@@ -172,6 +180,7 @@ phosh_wwan_mm_update_sim_status (PhoshWWanMM *self)
   const gchar *sim;
 
   g_return_if_fail (self);
+  g_return_if_fail (priv->proxy);
   sim = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_sim (priv->proxy);
   g_debug ("SIM path %s", sim);
   priv->sim = !!(sim != NULL && strcmp (sim, "/"));
@@ -252,7 +261,13 @@ destroy_modem (PhoshWWanMM *self)
 {
   PhoshWWanMMPrivate *priv = phosh_wwan_mm_get_instance_private (self);
 
-  g_clear_object (&priv->proxy);
+  if (priv->proxy) {
+    g_signal_handler_disconnect (priv->proxy,
+                                 priv->proxy_props_signal_id);
+    priv->proxy_props_signal_id = 0;
+    g_clear_object (&priv->proxy);
+  }
+
   g_clear_pointer (&priv->object_path, g_free);
 
   priv->signal_quality = 0;
@@ -294,10 +309,10 @@ init_modem (PhoshWWanMM *self, const gchar *object_path)
     g_return_if_fail (priv->object_path);
   }
 
-  g_signal_connect (priv->proxy,
-                    "g-properties-changed",
-                    G_CALLBACK (dbus_props_changed_cb),
-                    self);
+  priv->proxy_props_signal_id = g_signal_connect (priv->proxy,
+                                                  "g-properties-changed",
+                                                  G_CALLBACK (dbus_props_changed_cb),
+                                                  self);
   phosh_wwan_mm_update_signal_quality (self);
   phosh_wwan_mm_update_access_tec (self);
   phosh_wwan_mm_update_lock_status (self);
@@ -360,11 +375,13 @@ phosh_wwan_mm_constructed (GObject *object)
     return;
   }
 
-  g_signal_connect_swapped (priv->manager,
-                            "object-added",
-                            G_CALLBACK (object_added_cb),
-                            self);
+  priv->manager_object_added_signal_id =
+    g_signal_connect_swapped (priv->manager,
+                              "object-added",
+                              G_CALLBACK (object_added_cb),
+                              self);
 
+  priv->manager_object_removed_signal_id =
   g_signal_connect_swapped (priv->manager,
                             "object-removed",
                             G_CALLBACK (object_removed_cb),
@@ -380,16 +397,25 @@ phosh_wwan_mm_constructed (GObject *object)
 
 
 static void
-phosh_wwan_mm_finalize (GObject *object)
+phosh_wwan_mm_dispose (GObject *object)
 {
   PhoshWWanMM *self = PHOSH_WWAN_MM (object);
   PhoshWWanMMPrivate *priv = phosh_wwan_mm_get_instance_private (self);
   GObjectClass *parent_class = G_OBJECT_CLASS (phosh_wwan_mm_parent_class);
 
-  if (parent_class->finalize != NULL)
-    parent_class->finalize (object);
-
+  destroy_modem (self);
+  if (priv->manager) {
+    g_signal_handler_disconnect (priv->manager,
+                                 priv->manager_object_added_signal_id);
+    priv->manager_object_added_signal_id = 0;
+    g_signal_handler_disconnect (priv->manager,
+                                 priv->manager_object_removed_signal_id);
+    priv->manager_object_removed_signal_id = 0;
+    g_clear_object (&priv->manager);
+  }
   g_clear_pointer (&priv->object_path, g_free);
+
+  parent_class->dispose (object);
 }
 
 
@@ -399,7 +425,7 @@ phosh_wwan_mm_class_init (PhoshWWanMMClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->constructed = phosh_wwan_mm_constructed;
-  object_class->finalize = phosh_wwan_mm_finalize;
+  object_class->dispose = phosh_wwan_mm_dispose;
   object_class->set_property = phosh_wwan_mm_set_property;
   object_class->get_property = phosh_wwan_mm_get_property;
 

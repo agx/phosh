@@ -125,9 +125,14 @@ keypad_number_notified_cb (PhoshLockscreen *self)
   priv = phosh_lockscreen_get_instance_private (self);
 
   number = hdy_dialer_get_number (HDY_DIALER (priv->dialer_keypad));
+
+  /* grab a ref, a listener to "lockscreen-unlock" might decrease the refcount */
+  g_object_ref (self);
   if (strlen (number) == strlen (TEST_PIN)) {
     if (!g_strcmp0 (number, TEST_PIN)) {
-      /* FIXME: compare to real PIN */
+      /* FIXME: handle real PIN
+       * https://code.puri.sm/Librem5/phosh/issues/25
+       */
       g_signal_emit(self, signals[LOCKSCREEN_UNLOCK], 0);
     } else {
       gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Wrong PIN"));
@@ -135,6 +140,7 @@ keypad_number_notified_cb (PhoshLockscreen *self)
     }
   }
   priv->last_input = g_get_monotonic_time ();
+  g_object_unref (self);
 }
 
 
