@@ -2,6 +2,12 @@
 set -e
 
 EXEC="${exec:-$EXEC}"
+
+if [ "${PHOSH_VALGRIND}" = 1 ]; then
+   echo "Running phosh under valgrind"
+   EXEC="valgrind --tool=memcheck --leak-check=full --leak-resolution=high --num-callers=20 --log-file=vgdump"
+fi
+
 ABS_BUILDDIR='@ABS_BUILDDIR@'
 
 # gnome-session wants org.gnome.Mutter.DisplayConfig
@@ -17,4 +23,5 @@ gnome-session --session=gnome-dummy --disable-acceleration-check &
 
 export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data"
 export G_MESSAGES_DEBUG=all
+set -x
 ${EXEC} "${ABS_BUILDDIR}/src/phosh" $@
