@@ -797,18 +797,22 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GdkDisplay *display = gdk_display_get_default ();
-  /* There's no primary monitor on nested wayland so just use the
-     first one for now */
-  GdkMonitor *monitor = gdk_display_get_monitor (display, 0);
+  GdkMonitor *monitor = NULL;
+  GdkWindow *gdk_window;
   GdkRectangle geom;
   gint panel_height = 0;
   gint w, h;
 
+  if (priv->panel && priv->panel->window) {
+    panel_height = phosh_panel_get_height (PHOSH_PANEL (priv->panel->window));
+    gdk_window = gtk_widget_get_window (priv->panel->window);
+    monitor = gdk_display_get_monitor_at_window (display, gdk_window);
+  } else {
+    monitor = gdk_display_get_monitor (display, 0);
+  }
+
   g_return_if_fail(monitor);
   gdk_monitor_get_geometry (monitor, &geom);
-
-  if (priv->panel && priv->panel->window)
-    panel_height = phosh_panel_get_height (PHOSH_PANEL (priv->panel->window));
 
   /* GDK fails to take rotation into account
    * https://bugzilla.gnome.org/show_bug.cgi?id=793618 */
