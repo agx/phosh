@@ -268,9 +268,9 @@ favorites_activated_cb (PhoshShell *self,
   gtk_window_get_size (GTK_WINDOW (favorites->window), &width, &height);
   xdg_positioner_set_size(xdg_positioner, width, height);
   xdg_positioner_set_offset(xdg_positioner, 0, PHOSH_PANEL_HEIGHT-1);
-  xdg_positioner_set_anchor_rect(xdg_positioner, 100, 0, 1, 1);
-  xdg_positioner_set_anchor(xdg_positioner, XDG_POSITIONER_ANCHOR_BOTTOM);
-  xdg_positioner_set_gravity(xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM);
+  xdg_positioner_set_anchor_rect(xdg_positioner, 0, 0, 1, 1);
+  xdg_positioner_set_anchor(xdg_positioner, XDG_POSITIONER_ANCHOR_BOTTOM_LEFT);
+  xdg_positioner_set_gravity(xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM_RIGHT);
 
   favorites->popup = xdg_surface_get_popup(xdg_surface, NULL, xdg_positioner);
   g_return_if_fail (favorites->popup);
@@ -315,7 +315,7 @@ settings_activated_cb (PhoshShell *self,
   struct popup *settings;
   struct xdg_surface *xdg_surface;
   struct xdg_positioner *xdg_positioner;
-  gint width, height;
+  gint width, height, panel_width;
 
   if (priv->settings)
     return;
@@ -332,11 +332,11 @@ settings_activated_cb (PhoshShell *self,
   xdg_positioner = xdg_wm_base_create_positioner(priv->xdg_wm_base);
   gtk_window_get_size (GTK_WINDOW (settings->window), &width, &height);
   xdg_positioner_set_size(xdg_positioner, width, height);
-  phosh_shell_get_usable_area (self, NULL, NULL, &width, NULL);
-  xdg_positioner_set_offset(xdg_positioner, 0, PHOSH_PANEL_HEIGHT-1);
-  xdg_positioner_set_anchor_rect(xdg_positioner, width, 0, 1, 1);
-  xdg_positioner_set_anchor(xdg_positioner, XDG_POSITIONER_ANCHOR_BOTTOM);
-  xdg_positioner_set_gravity(xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM);
+  phosh_shell_get_usable_area (self, NULL, NULL, &panel_width, NULL);
+  xdg_positioner_set_offset(xdg_positioner, -width+1, PHOSH_PANEL_HEIGHT-1);
+  xdg_positioner_set_anchor_rect(xdg_positioner, panel_width-1, 0, panel_width-2, 1);
+  xdg_positioner_set_anchor(xdg_positioner, XDG_POSITIONER_ANCHOR_BOTTOM_LEFT);
+  xdg_positioner_set_gravity(xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM_RIGHT);
 
   settings->popup = xdg_surface_get_popup(xdg_surface, NULL, xdg_positioner);
   g_return_if_fail (settings->popup);
