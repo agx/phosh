@@ -6,8 +6,9 @@
  * Based on maynard's favorites whish is
  * Copyright (C) 2013 Collabora Ltd.
  * Author: Emilio Pozuelo Monfort <emilio.pozuelo@collabora.co.uk>
-
  */
+
+#define G_LOG_DOMAIN "phosh-favorites"
 
 #include "config.h"
 

@@ -5,6 +5,8 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
+#define G_LOG_DOMAIN "phosh-background"
+
 #include "background.h"
 #include "phosh.h"
 #include "panel.h"

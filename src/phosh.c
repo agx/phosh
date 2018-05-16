@@ -8,10 +8,13 @@
  * Author: Jonny Lamb <jonny.lamb@collabora.co.uk>
  */
 
+#define G_LOG_DOMAIN "phosh-phosh"
+
 #include <stdlib.h>
 #include <string.h>
 
 #include <glib-object.h>
+#include <glib-unix.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkwayland.h>
@@ -265,9 +268,9 @@ favorites_activated_cb (PhoshShell *self,
   gtk_window_get_size (GTK_WINDOW (favorites->window), &width, &height);
   xdg_positioner_set_size(xdg_positioner, width, height);
   xdg_positioner_set_offset(xdg_positioner, 0, PHOSH_PANEL_HEIGHT-1);
-  xdg_positioner_set_anchor_rect(xdg_positioner, 100, 0, 1, 1);
-  xdg_positioner_set_anchor(xdg_positioner, XDG_POSITIONER_ANCHOR_BOTTOM);
-  xdg_positioner_set_gravity(xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM);
+  xdg_positioner_set_anchor_rect(xdg_positioner, 0, 0, 1, 1);
+  xdg_positioner_set_anchor(xdg_positioner, XDG_POSITIONER_ANCHOR_BOTTOM_LEFT);
+  xdg_positioner_set_gravity(xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM_RIGHT);
 
   favorites->popup = xdg_surface_get_popup(xdg_surface, NULL, xdg_positioner);
   g_return_if_fail (favorites->popup);
@@ -312,7 +315,7 @@ settings_activated_cb (PhoshShell *self,
   struct popup *settings;
   struct xdg_surface *xdg_surface;
   struct xdg_positioner *xdg_positioner;
-  gint width, height;
+  gint width, height, panel_width;
 
   if (priv->settings)
     return;
@@ -329,11 +332,11 @@ settings_activated_cb (PhoshShell *self,
   xdg_positioner = xdg_wm_base_create_positioner(priv->xdg_wm_base);
   gtk_window_get_size (GTK_WINDOW (settings->window), &width, &height);
   xdg_positioner_set_size(xdg_positioner, width, height);
-  phosh_shell_get_usable_area (self, NULL, NULL, &width, NULL);
-  xdg_positioner_set_offset(xdg_positioner, 0, PHOSH_PANEL_HEIGHT-1);
-  xdg_positioner_set_anchor_rect(xdg_positioner, width, 0, 1, 1);
-  xdg_positioner_set_anchor(xdg_positioner, XDG_POSITIONER_ANCHOR_BOTTOM);
-  xdg_positioner_set_gravity(xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM);
+  phosh_shell_get_usable_area (self, NULL, NULL, &panel_width, NULL);
+  xdg_positioner_set_offset(xdg_positioner, -width+1, PHOSH_PANEL_HEIGHT-1);
+  xdg_positioner_set_anchor_rect(xdg_positioner, panel_width-1, 0, panel_width-2, 1);
+  xdg_positioner_set_anchor(xdg_positioner, XDG_POSITIONER_ANCHOR_BOTTOM_LEFT);
+  xdg_positioner_set_gravity(xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM_RIGHT);
 
   settings->popup = xdg_surface_get_popup(xdg_surface, NULL, xdg_positioner);
   g_return_if_fail (settings->popup);
@@ -794,18 +797,22 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GdkDisplay *display = gdk_display_get_default ();
-  /* There's no primary monitor on nested wayland so just use the
-     first one for now */
-  GdkMonitor *monitor = gdk_display_get_monitor (display, 0);
+  GdkMonitor *monitor = NULL;
+  GdkWindow *gdk_window;
   GdkRectangle geom;
   gint panel_height = 0;
   gint w, h;
 
+  if (priv->panel && priv->panel->window) {
+    panel_height = phosh_panel_get_height (PHOSH_PANEL (priv->panel->window));
+    gdk_window = gtk_widget_get_window (priv->panel->window);
+    monitor = gdk_display_get_monitor_at_window (display, gdk_window);
+  } else {
+    monitor = gdk_display_get_monitor (display, 0);
+  }
+
   g_return_if_fail(monitor);
   gdk_monitor_get_geometry (monitor, &geom);
-
-  if (priv->panel && priv->panel->window)
-    panel_height = phosh_panel_get_height (PHOSH_PANEL (priv->panel->window));
 
   /* GDK fails to take rotation into account
    * https://bugzilla.gnome.org/show_bug.cgi?id=793618 */
@@ -835,12 +842,29 @@ phosh ()
 }
 
 
+gboolean
+sigterm_cb (gpointer unused)
+{
+  g_debug ("Cleaning up");
+  gtk_main_quit ();
+  return FALSE;
+}
+
+
 int main(int argc, char *argv[])
 {
+  g_autoptr(GSource) sigterm;
+  GMainContext *context;
+
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
   gtk_init (&argc, &argv);
+
+  sigterm = g_unix_signal_source_new (SIGTERM);
+  context = g_main_context_default ();
+  g_source_set_callback (sigterm, sigterm_cb, NULL, NULL);
+  g_source_attach (sigterm, context);
 
   g_object_new (PHOSH_TYPE_SHELL, NULL);
   gtk_main ();
