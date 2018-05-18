@@ -37,6 +37,8 @@ phosh_sources = [
   'background.h',
   'favorites.c',
   'favorites.h',
+  'layersurface.c',
+  'layersurface.h',
   'lockscreen.c',
   'lockscreen.h',
   'panel.c',
