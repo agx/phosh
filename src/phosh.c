@@ -695,8 +695,10 @@ phosh_shell_get_property (GObject *object,
   switch (property_id) {
   case PHOSH_SHELL_PROP_ROTATION:
     g_value_set_uint (value, priv->rotation);
+    break;
   case PHOSH_SHELL_PROP_LOCKED:
     g_value_set_boolean (value, priv->locked);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
