@@ -30,6 +30,7 @@
 #include "phosh.h"
 #include "background.h"
 #include "lockscreen.h"
+#include "lockshield.h"
 #include "panel.h"
 #include "favorites.h"
 #include "settings.h"
@@ -79,7 +80,8 @@ typedef struct
   struct elem *background;
 
   /* Lockscreen */
-  struct elem *lockscreen;
+  struct elem *lockscreen;   /* phone display lock screen */
+  GPtrArray *shields;        /* other outputs */
   gulong unlock_handler_id;
   struct org_kde_kwin_idle_timeout *lock_timer;
   gboolean locked;
@@ -171,6 +173,11 @@ lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
   g_signal_handler_disconnect (window, priv->unlock_handler_id);
   priv->unlock_handler_id = 0;
   gtk_widget_destroy (GTK_WIDGET (priv->lockscreen->window));
+
+  /* Unlock all other outputs */
+  g_ptr_array_free (priv->shields, TRUE);
+  priv->shields = NULL;
+
   priv->lockscreen->window = NULL;
   zwlr_layer_surface_v1_destroy(priv->lockscreen->layer_surface);
   g_free (priv->lockscreen);
@@ -395,6 +402,15 @@ lockscreen_create (PhoshShell *self)
   zwlr_layer_surface_v1_add_listener(lockscreen->layer_surface, &layer_surface_listener, lockscreen);
   wl_surface_commit(lockscreen->wl_surface);
   priv->lockscreen = lockscreen;
+
+  /* Lock all other outputs */
+  priv->shields = g_ptr_array_new_with_free_func ((GDestroyNotify) (gtk_widget_destroy));
+  for (int i = 1; i < priv->outputs->len; i++) {
+    g_ptr_array_add (priv->shields,
+                     phosh_lockshield_new (
+                       priv->layer_shell,
+                       g_ptr_array_index(priv->outputs, i)));
+  }
 
   priv->unlock_handler_id = g_signal_connect_swapped (
     lockscreen->window,
@@ -694,6 +710,8 @@ phosh_shell_finalize (GObject *object)
   PhoshShell *self = PHOSH_SHELL (object);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
+  if (priv->shields)
+    g_ptr_array_free (priv->shields, TRUE);
   g_ptr_array_free (priv->outputs, TRUE);
 }
 
