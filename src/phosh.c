@@ -30,6 +30,7 @@
 #include "phosh.h"
 #include "background.h"
 #include "lockscreen.h"
+#include "lockshield.h"
 #include "panel.h"
 #include "favorites.h"
 #include "settings.h"
@@ -66,7 +67,7 @@ typedef struct
   struct org_kde_kwin_idle *idle_manager;
   struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
   struct zwlr_input_inhibitor_v1 *input_inhibitor;
-  struct wl_output *output;
+  GPtrArray *outputs;
   struct xdg_wm_base *xdg_wm_base;
 
   GdkDisplay *gdk_display;
@@ -79,7 +80,8 @@ typedef struct
   struct elem *background;
 
   /* Lockscreen */
-  struct elem *lockscreen;
+  struct elem *lockscreen;   /* phone display lock screen */
+  GPtrArray *shields;        /* other outputs */
   gulong unlock_handler_id;
   struct org_kde_kwin_idle_timeout *lock_timer;
   gboolean locked;
@@ -171,6 +173,11 @@ lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
   g_signal_handler_disconnect (window, priv->unlock_handler_id);
   priv->unlock_handler_id = 0;
   gtk_widget_destroy (GTK_WIDGET (priv->lockscreen->window));
+
+  /* Unlock all other outputs */
+  g_ptr_array_free (priv->shields, TRUE);
+  priv->shields = NULL;
+
   priv->lockscreen->window = NULL;
   zwlr_layer_surface_v1_destroy(priv->lockscreen->layer_surface);
   g_free (priv->lockscreen);
@@ -362,8 +369,12 @@ static void
 lockscreen_create (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  struct elem *lockscreen;
   GdkWindow *gdk_window;
+  struct elem *lockscreen;
+  struct wl_output *output;
+
+  g_return_if_fail (priv->outputs->len);
+  output = g_ptr_array_index (priv->outputs, 0);
 
   lockscreen = g_malloc0 (sizeof *lockscreen);
   lockscreen->window = phosh_lockscreen_new ();
@@ -377,7 +388,7 @@ lockscreen_create (PhoshShell *self)
   lockscreen->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
   lockscreen->layer_surface = zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
                                                                     lockscreen->wl_surface,
-                                                                    priv->output,
+                                                                    output,
                                                                     ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                                                                     "lockscreen");
   zwlr_layer_surface_v1_set_exclusive_zone(lockscreen->layer_surface, -1);
@@ -391,6 +402,15 @@ lockscreen_create (PhoshShell *self)
   zwlr_layer_surface_v1_add_listener(lockscreen->layer_surface, &layer_surface_listener, lockscreen);
   wl_surface_commit(lockscreen->wl_surface);
   priv->lockscreen = lockscreen;
+
+  /* Lock all other outputs */
+  priv->shields = g_ptr_array_new_with_free_func ((GDestroyNotify) (gtk_widget_destroy));
+  for (int i = 1; i < priv->outputs->len; i++) {
+    g_ptr_array_add (priv->shields,
+                     phosh_lockshield_new (
+                       priv->layer_shell,
+                       g_ptr_array_index(priv->outputs, i)));
+  }
 
   priv->unlock_handler_id = g_signal_connect_swapped (
     lockscreen->window,
@@ -480,8 +500,12 @@ panel_create (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   struct elem *panel;
+  struct wl_output *output;
   GdkWindow *gdk_window;
   gint width;
+
+  g_return_if_fail (priv->outputs->len);
+  output = g_ptr_array_index (priv->outputs, 0);
 
   panel = calloc (1, sizeof *panel);
   panel->window = phosh_panel_new ();
@@ -493,7 +517,7 @@ panel_create (PhoshShell *self)
   panel->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
   panel->layer_surface = zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
                                                                panel->wl_surface,
-                                                               priv->output,
+                                                               output,
                                                                ZWLR_LAYER_SHELL_V1_LAYER_TOP,
                                                                "phosh");
   zwlr_layer_surface_v1_set_anchor(panel->layer_surface,
@@ -589,6 +613,8 @@ registry_handle_global (void *data,
 {
   PhoshShell *self = data;
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  struct wl_output *output;
+
 
   if (!strcmp (interface, "phosh_private")) {
       priv->mshell = wl_registry_bind (registry, name,
@@ -597,9 +623,9 @@ registry_handle_global (void *data,
       priv->layer_shell = wl_registry_bind (registry, name,
           &zwlr_layer_shell_v1_interface, 1);
   } else if (!strcmp (interface, "wl_output")) {
-      /* TODO: create multiple outputs */
-      priv->output = wl_registry_bind (registry, name,
+    output = wl_registry_bind (registry, name,
           &wl_output_interface, 1);
+    g_ptr_array_add (priv->outputs, output);
   } else if (!strcmp (interface, "org_kde_kwin_idle")) {
     priv->idle_manager = wl_registry_bind (registry,
                                            name,
@@ -669,14 +695,27 @@ phosh_shell_get_property (GObject *object,
   switch (property_id) {
   case PHOSH_SHELL_PROP_ROTATION:
     g_value_set_uint (value, priv->rotation);
+    break;
   case PHOSH_SHELL_PROP_LOCKED:
     g_value_set_boolean (value, priv->locked);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
   }
 }
 
+
+static void
+phosh_shell_finalize (GObject *object)
+{
+  PhoshShell *self = PHOSH_SHELL (object);
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
+
+  if (priv->shields)
+    g_ptr_array_free (priv->shields, TRUE);
+  g_ptr_array_free (priv->outputs, TRUE);
+}
 
 static void
 phosh_shell_constructed (GObject *object)
@@ -702,15 +741,15 @@ phosh_shell_constructed (GObject *object)
 
   /* Wait until we have been notified about the compositor,
    * shell, and shell helper objects */
-  if (!priv->output || !priv->layer_shell || !priv->idle_manager ||
+  if (!priv->outputs->len || !priv->layer_shell || !priv->idle_manager ||
       !priv->input_inhibit_manager || !priv->mshell || !priv->xdg_wm_base)
     wl_display_roundtrip (priv->display);
-  if (!priv->output || !priv->layer_shell || !priv->idle_manager ||
+  if (!priv->outputs->len || !priv->layer_shell || !priv->idle_manager ||
       !priv->input_inhibit_manager || !priv->xdg_wm_base) {
     g_error ("Could not find needed globals\n"
-             "output: %p, layer_shell: %p, seat: %p, "
+             "outputs: %d, layer_shell: %p, seat: %p, "
              "inhibit: %p, xdg_wm: %p\n",
-             priv->output, priv->layer_shell, priv->idle_manager,
+             priv->outputs->len, priv->layer_shell, priv->idle_manager,
              priv->input_inhibit_manager, priv->xdg_wm_base);
   }
   if (!priv->mshell) {
@@ -736,6 +775,7 @@ phosh_shell_class_init (PhoshShellClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->constructed = phosh_shell_constructed;
+  object_class->dispose = phosh_shell_finalize;
 
   object_class->set_property = phosh_shell_set_property;
   object_class->get_property = phosh_shell_get_property;
@@ -761,6 +801,8 @@ phosh_shell_class_init (PhoshShellClass *klass)
 static void
 phosh_shell_init (PhoshShell *self)
 {
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  priv->outputs = g_ptr_array_new ();
 }
 
 

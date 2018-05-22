@@ -185,21 +185,11 @@ phosh_lockscreen_constructed (GObject *object)
   PhoshLockscreen *self = PHOSH_LOCKSCREEN (object);
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  GdkDisplay *display = gdk_display_get_default ();
-  /* There's no primary monitor on nested wayland so just use the
-     first one for now */
-  GdkMonitor *monitor = gdk_display_get_monitor (display, 0);
-  GdkRectangle geom;
-
   G_OBJECT_CLASS (phosh_lockscreen_parent_class)->constructed (object);
-
-  g_return_if_fail(monitor);
-  gdk_monitor_get_geometry (monitor, &geom);
 
   /* window properties */
   gtk_window_set_title (GTK_WINDOW (self), "phosh lockscreen");
   gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
-  gtk_window_resize (GTK_WINDOW (self), geom.width, geom.height);
   gtk_widget_realize(GTK_WIDGET (self));
 
   gtk_style_context_add_class (
