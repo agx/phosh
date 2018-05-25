@@ -14,6 +14,7 @@
 
 #include "panel.h"
 #include "wwaninfo.h"
+#include "batteryinfo.h"
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-wall-clock.h>
@@ -31,6 +32,7 @@ typedef struct {
   GtkWidget *btn_favorites;
   GtkWidget *btn_settings;
   GtkWidget *wwaninfo;
+  GtkWidget *batteryinfo;
   gint height;
 
   GnomeWallClock *wall_clock;
@@ -174,6 +176,8 @@ phosh_panel_class_init (PhoshPanelClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_settings);
   PHOSH_TYPE_WWAN_INFO; /* make sure the type is known */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, wwaninfo);
+  PHOSH_TYPE_BATTERY_INFO; /* make sure the type is known */
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, batteryinfo);
 }
 
 

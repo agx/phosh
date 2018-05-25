@@ -1,4 +1,5 @@
 subdir('wwan')
+#subdir('battery')
 
 wayland_protos = dependency('wayland-protocols', version: '>=1.12')
 wl_protocol_dir = wayland_protos.get_pkgconfig_variable('pkgdatadir')
@@ -35,6 +36,8 @@ endforeach
 phosh_sources = [
   'background.c',
   'background.h',
+  'batteryinfo.c',
+  'batteryinfo.h',
   'favorites.c',
   'favorites.h',
   'layersurface.c',
@@ -62,6 +65,7 @@ phosh_deps = [
   dependency('gtk+-wayland-3.0'),
   dependency('wayland-client'),
   dependency('libhandy-0.0'),
+  dependency('upower-glib'),
   cc.find_library('m', required: false),
   cc.find_library('rt', required: false),
 ]

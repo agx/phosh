@@ -9,6 +9,7 @@
 #include "config.h"
 #include "lockscreen.h"
 #include "wwaninfo.h"
+#include "batteryinfo.h"
 
 #include <string.h>
 #include <glib/gi18n.h>
@@ -51,6 +52,7 @@ typedef struct PhoshLockscreen {
   GtkWidget *lbl_keypad;
   GtkWidget *lbl_unlock_status;
   GtkWidget *wwaninfo;
+  GtkWidget *batteryinfo;
   guint      idle_timer;
   gint64     last_input;
 
@@ -302,6 +304,8 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   PHOSH_TYPE_WWAN_INFO; /* make sure the type is known */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, wwaninfo);
+  PHOSH_TYPE_BATTERY_INFO; /* make sure the type is known */
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, batteryinfo);
 }
 
 
