@@ -169,21 +169,33 @@ info_pan_cb (PhoshLockscreen *self, GtkPanDirection dir, gdouble offset, GtkGest
 
 
 static gboolean
-evbox_info_key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
+key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  gboolean handled = FALSE;
 
-  if (gtk_stack_get_visible_child (GTK_STACK (priv->stack)) != priv->ebox_info)
-    return FALSE;
-
-  switch (event->keyval) {
-  case GDK_KEY_space:
-    show_unlock_page (self);
-    break;
-  default:
-    return FALSE;
+  if (gtk_stack_get_visible_child (GTK_STACK (priv->stack)) == priv->ebox_info) {
+    switch (event->keyval) {
+    case GDK_KEY_space:
+      show_unlock_page (self);
+      handled = TRUE;
+      break;
+    default:
+      /* nothing to do */
+      break;
+    }
+  } else if (gtk_stack_get_visible_child (GTK_STACK (priv->stack)) == priv->grid_unlock) {
+    switch (event->keyval) {
+    case GDK_KEY_Escape:
+      show_info_page (self);
+      handled = TRUE;
+      break;
+    default:
+      /* nothing to do */
+      break;
+    }
   }
-  return TRUE;
+  return handled;
 }
 
 
@@ -229,7 +241,7 @@ phosh_lockscreen_constructed (GObject *object)
   gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
   g_signal_connect (G_OBJECT (self),
                     "key_press_event",
-                    G_CALLBACK (evbox_info_key_press_event_cb),
+                    G_CALLBACK (key_press_event_cb),
                     NULL);
 
   priv->wall_clock = g_object_new (GNOME_TYPE_WALL_CLOCK, NULL);
