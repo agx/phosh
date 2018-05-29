@@ -766,6 +766,7 @@ phosh_shell_constructed (GObject *object)
   background_create (self);
 #endif
   lockscreen_prepare (self);
+  phosh_shell_lock (self);
 }
 
 
