@@ -34,6 +34,8 @@ foreach proto: wl_protos
 endforeach
 
 phosh_sources = [
+  'auth.c',
+  'auth.h',
   'background.c',
   'background.h',
   'batteryinfo.c',
@@ -66,6 +68,7 @@ phosh_deps = [
   dependency('wayland-client'),
   dependency('libhandy-0.0'),
   dependency('upower-glib'),
+  cc.find_library('pam', required: true),
   cc.find_library('m', required: false),
   cc.find_library('rt', required: false),
 ]

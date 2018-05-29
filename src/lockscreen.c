@@ -7,6 +7,7 @@
 #define G_LOG_DOMAIN "phosh-lockscreen"
 
 #include "config.h"
+#include "auth.h"
 #include "lockscreen.h"
 #include "wwaninfo.h"
 #include "batteryinfo.h"
@@ -21,7 +22,6 @@
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-wall-clock.h>
 
-#define TEST_PIN "1234"
 #define LOCKSCREEN_IDLE_SECONDS 5
 
 enum {
@@ -55,6 +55,7 @@ typedef struct PhoshLockscreen {
   GtkWidget *batteryinfo;
   guint      idle_timer;
   gint64     last_input;
+  PhoshAuth *auth;
 
   GnomeWallClock *wall_clock;
 } PhoshLockscreenPrivate;
@@ -120,6 +121,37 @@ show_unlock_page (PhoshLockscreen *self)
 }
 
 
+/* callback of async auth task */
+void
+auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
+{
+  PhoshLockscreenPrivate *priv;
+  GError *error = NULL;
+  gboolean authenticated;
+
+  priv = phosh_lockscreen_get_instance_private (self);
+  authenticated = phosh_auth_authenticate_async_finish (auth, result, &error);
+  if (error != NULL) {
+    g_warning ("Auth failed unexected: %s", error->message);
+    return;
+  }
+
+  g_object_ref (self);
+  if (authenticated) {
+    g_signal_emit(self, signals[LOCKSCREEN_UNLOCK], 0);
+    g_clear_object (&priv->auth);
+  } else {
+    /* FIXME: give visual feedback */
+    hdy_dialer_clear_number (HDY_DIALER (priv->dialer_keypad));
+    gtk_widget_set_sensitive (priv->dialer_keypad, TRUE);
+    gtk_widget_grab_focus (GTK_WIDGET (priv->dialer_keypad));
+  }
+  /* FIXME: must clear out the buffer and use secmem, see secmem branch */
+  priv->last_input = g_get_monotonic_time ();
+  g_object_unref (self);
+}
+
+
 static void
 keypad_number_notified_cb (PhoshLockscreen *self)
 {
@@ -127,38 +159,22 @@ keypad_number_notified_cb (PhoshLockscreen *self)
   const gchar *number;
 
   g_assert (PHOSH_IS_LOCKSCREEN (self));
-
   priv = phosh_lockscreen_get_instance_private (self);
-
   number = hdy_dialer_get_number (HDY_DIALER (priv->dialer_keypad));
 
-  /* grab a ref, a listener to "lockscreen-unlock" might decrease the refcount */
-  g_object_ref (self);
-  if (strlen (number) == strlen (TEST_PIN)) {
-    if (!g_strcmp0 (number, TEST_PIN)) {
-      /* FIXME: handle real PIN
-       * https://code.puri.sm/Librem5/phosh/issues/25
-       */
-      g_signal_emit(self, signals[LOCKSCREEN_UNLOCK], 0);
-    } else {
-      gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Wrong PIN"));
-      hdy_dialer_clear_number (HDY_DIALER (priv->dialer_keypad));
-    }
-  }
-  priv->last_input = g_get_monotonic_time ();
-  g_object_unref (self);
-}
-
-
-static void
-keypad_symbol_clicked_cb (PhoshLockscreen *self, gchar symbol, HdyDialer *keypad)
-{
-  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  g_assert (PHOSH_IS_LOCKSCREEN (self));
-  g_assert (HDY_IS_DIALER (keypad));
-
   keypad_update_labels (self);
-  priv->last_input = g_get_monotonic_time ();
+  if (strlen (number) == phosh_auth_get_pin_length()) {
+    gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Checking PIN"));
+    gtk_widget_set_sensitive (priv->dialer_keypad, FALSE);
+
+    if (priv->auth == NULL)
+      priv->auth = PHOSH_AUTH (phosh_auth_new ());
+    phosh_auth_authenticate_async_start (priv->auth,
+                                         number,
+                                         NULL,
+                                         (GAsyncReadyCallback)auth_async_cb,
+                                         self);
+  }
 }
 
 
@@ -292,9 +308,6 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, dialer_keypad);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_keypad);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_unlock_status);
-  gtk_widget_class_bind_template_callback_full (widget_class,
-                                                "keypad_symbol_clicked_cb",
-                                                G_CALLBACK(keypad_symbol_clicked_cb));
   gtk_widget_class_bind_template_callback_full (widget_class,
                                                 "keypad_number_notified_cb",
                                                 G_CALLBACK(keypad_number_notified_cb));
