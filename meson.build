@@ -10,6 +10,7 @@ config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
 config_h.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
 
 configure_file(
+  input: 'config.h.in',
   output: 'config.h',
   configuration: config_h,
 )
