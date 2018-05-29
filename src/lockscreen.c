@@ -61,11 +61,26 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshLockscreen, phosh_lockscreen, GTK_TYPE_WINDOW)
 
 
 static void
+keypad_update_labels (PhoshLockscreen *self)
+{
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  const gchar *number;
+  g_autofree gchar *stars = NULL;
+
+  number = hdy_dialer_get_number (HDY_DIALER (priv->dialer_keypad));
+  stars = g_strnfill (strlen(number), '*');
+  gtk_label_set_label (GTK_LABEL (priv->lbl_keypad), stars);
+  gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Enter PIN to unlock"));
+}
+
+
+static void
 show_info_page (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
   hdy_dialer_clear_number (HDY_DIALER (priv->dialer_keypad));
+  keypad_update_labels (self);
   gtk_stack_set_visible_child (GTK_STACK (priv->stack), priv->ebox_info);
 }
 
@@ -100,20 +115,6 @@ show_unlock_page (PhoshLockscreen *self)
                                               (GSourceFunc) keypad_check_idle,
                                               self);
   }
-}
-
-
-static void
-keypad_update_labels (PhoshLockscreen *self)
-{
-  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  const gchar *number;
-  g_autofree gchar *stars = NULL;
-
-  number = hdy_dialer_get_number (HDY_DIALER (priv->dialer_keypad));
-  stars = g_strnfill (strlen(number), '*');
-  gtk_label_set_label (GTK_LABEL (priv->lbl_keypad), stars);
-  gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Enter PIN to unlock"));
 }
 
 
