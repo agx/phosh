@@ -28,9 +28,12 @@
 #include "xdg-shell-client-protocol.h"
 
 #include "phosh.h"
+
+#include "monitor/monitor.h"  /* FIXME: move upwards? */
 #include "background.h"
 #include "lockscreen.h"
 #include "lockshield.h"
+#include "monitor-manager.h"
 #include "panel.h"
 #include "favorites.h"
 #include "settings.h"
@@ -67,7 +70,7 @@ typedef struct
   struct org_kde_kwin_idle *idle_manager;
   struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
   struct zwlr_input_inhibitor_v1 *input_inhibitor;
-  GPtrArray *outputs;
+  GPtrArray *outputs; /* FIXME: drop once monitors works */
   struct wl_seat *wl_seat;
   struct xdg_wm_base *xdg_wm_base;
 
@@ -92,6 +95,9 @@ typedef struct
 
   /* Settings menu */
   struct popup *settings;
+
+  /* MonitorManager */
+  PhoshMonitorManager *monitor_manager;
 } PhoshShellPrivate;
 
 
@@ -626,6 +632,8 @@ registry_handle_global (void *data,
     output = wl_registry_bind (registry, name,
           &wl_output_interface, 1);
     g_ptr_array_add (priv->outputs, output);
+    phosh_monitor_manager_add_monitor (priv->monitor_manager,
+                                       phosh_monitor_new_from_wl_output(output));
   } else if (!strcmp (interface, "org_kde_kwin_idle")) {
     priv->idle_manager = wl_registry_bind (registry,
                                            name,
@@ -751,6 +759,7 @@ phosh_shell_constructed (GObject *object)
       g_error ("Failed to get display: %m\n");
   }
 
+  priv->monitor_manager = phosh_monitor_manager_new ();
   priv->registry = wl_display_get_registry (priv->display);
   wl_registry_add_listener (priv->registry, &registry_listener, self);
 
@@ -794,8 +803,9 @@ phosh_shell_class_init (PhoshShellClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->constructed = phosh_shell_constructed;
-  object_class->dispose = phosh_shell_dispose;
   object_class->finalize = phosh_shell_finalize;
+  object_class->dispose = phosh_shell_dispose;
+
 
   object_class->set_property = phosh_shell_set_property;
   object_class->get_property = phosh_shell_get_property;
