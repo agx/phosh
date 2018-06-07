@@ -68,6 +68,7 @@ typedef struct
   struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
   struct zwlr_input_inhibitor_v1 *input_inhibitor;
   GPtrArray *outputs;
+  struct wl_seat *wl_seat;
   struct xdg_wm_base *xdg_wm_base;
 
   GdkDisplay *gdk_display;
@@ -109,12 +110,11 @@ static struct wl_seat*
 get_seat (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
-  GdkSeat *gdk_seat;
 
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
-  gdk_seat = gdk_display_get_default_seat(priv->gdk_display);
-  return gdk_wayland_seat_get_wl_seat (gdk_seat);
+
+  return priv->wl_seat;
 }
 
 
@@ -631,9 +631,7 @@ registry_handle_global (void *data,
                                            name,
                                            &org_kde_kwin_idle_interface, 1);
   } else if (!strcmp(interface, "wl_seat")) {
-#if 0 /* FIXME: this breaks GTK+ input since GTK+ binds it as well */
-    priv->seat = wl_registry_bind(registry, name, &wl_seat_interface, 1);
-#endif
+    priv->wl_seat = wl_registry_bind(registry, name, &wl_seat_interface, 1);
   } else if (!strcmp(interface, zwlr_input_inhibit_manager_v1_interface.name)) {
     priv->input_inhibit_manager = wl_registry_bind(
       registry,
