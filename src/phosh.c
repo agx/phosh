@@ -707,15 +707,32 @@ phosh_shell_get_property (GObject *object,
 
 
 static void
+phosh_shell_dispose (GObject *object)
+{
+  PhoshShell *self = PHOSH_SHELL (object);
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
+
+  if (priv->shields) {
+    g_ptr_array_free (priv->shields, TRUE);
+    priv->shields = NULL;
+  }
+
+  G_OBJECT_CLASS (phosh_shell_parent_class)->dispose (object);
+}
+
+
+static void
 phosh_shell_finalize (GObject *object)
 {
   PhoshShell *self = PHOSH_SHELL (object);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
-  if (priv->shields)
-    g_ptr_array_free (priv->shields, TRUE);
   g_ptr_array_free (priv->outputs, TRUE);
+  priv->outputs = NULL;
+
+  G_OBJECT_CLASS (phosh_shell_parent_class)->finalize (object);
 }
+
 
 static void
 phosh_shell_constructed (GObject *object)
@@ -776,7 +793,8 @@ phosh_shell_class_init (PhoshShellClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->constructed = phosh_shell_constructed;
-  object_class->dispose = phosh_shell_finalize;
+  object_class->dispose = phosh_shell_dispose;
+  object_class->finalize = phosh_shell_finalize;
 
   object_class->set_property = phosh_shell_set_property;
   object_class->get_property = phosh_shell_get_property;
