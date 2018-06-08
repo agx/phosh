@@ -140,15 +140,6 @@ background_draw_cb (PhoshBackground *self,
 
 
 static void
-background_destroy_cb (GObject *object,
-                       gpointer data)
-{
-  /* FIXME: does this make any sense ? */
-  gtk_main_quit ();
-}
-
-
-static void
 background_setting_changed_cb (GSettings       *settings,
                                const gchar     *key,
                                PhoshBackground *self)
@@ -179,7 +170,6 @@ phosh_background_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_background_parent_class)->constructed (object);
 
-  g_signal_connect (self, "destroy", G_CALLBACK (background_destroy_cb), NULL);
   g_signal_connect (self, "draw", G_CALLBACK (background_draw_cb), NULL);
 
   priv->settings = g_settings_new ("org.gnome.desktop.background");
