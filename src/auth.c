@@ -139,8 +139,7 @@ phosh_auth_finalize (GObject *object)
     priv->pamh = NULL;
   }
 
-  if (parent_class->finalize != NULL)
-    parent_class->finalize (object);
+  parent_class->finalize (object);
 }
 
 

@@ -198,8 +198,7 @@ phosh_background_finalize (GObject *object)
 
   g_object_unref (priv->pixbuf);
 
-  if (parent_class->finalize != NULL)
-    parent_class->finalize (object);
+  parent_class->finalize (object);
 }
 
 
