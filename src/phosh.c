@@ -26,7 +26,7 @@
 #include "wlr-input-inhibitor-unstable-v1-client-protocol.h"
 #include "wlr-layer-shell-unstable-v1-client-protocol.h"
 #include "xdg-shell-client-protocol.h"
-
+#include "gamma-control-client-protocol.h"
 #include "phosh.h"
 
 #include "monitor/monitor.h"  /* FIXME: move upwards? */
@@ -70,6 +70,7 @@ typedef struct
   struct org_kde_kwin_idle *idle_manager;
   struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
   struct zwlr_input_inhibitor_v1 *input_inhibitor;
+  struct gamma_control_manager *gamma_control_manager;
   struct wl_seat *wl_seat;
   struct xdg_wm_base *xdg_wm_base;
 
@@ -653,24 +654,36 @@ registry_handle_global (void *data,
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   struct wl_output *output;
 
-
   if (!strcmp (interface, "phosh_private")) {
-      priv->mshell = wl_registry_bind (registry, name,
-          &phosh_private_interface, 1);
+      priv->mshell = wl_registry_bind (
+        registry,
+        name,
+        &phosh_private_interface,
+        1);
   } else  if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
-      priv->layer_shell = wl_registry_bind (registry, name,
-          &zwlr_layer_shell_v1_interface, 1);
+      priv->layer_shell = wl_registry_bind (
+        registry,
+        name,
+        &zwlr_layer_shell_v1_interface,
+        1);
   } else if (!strcmp (interface, "wl_output")) {
-    output = wl_registry_bind (registry, name,
-          &wl_output_interface, 1);
-    phosh_monitor_manager_add_monitor (priv->monitor_manager,
-                                       phosh_monitor_new_from_wl_output(output));
+    output = wl_registry_bind (
+      registry,
+      name,
+      &wl_output_interface, 1);
+    phosh_monitor_manager_add_monitor (
+      priv->monitor_manager,
+      phosh_monitor_new_from_wl_output(output));
   } else if (!strcmp (interface, "org_kde_kwin_idle")) {
-    priv->idle_manager = wl_registry_bind (registry,
-                                           name,
-                                           &org_kde_kwin_idle_interface, 1);
+    priv->idle_manager = wl_registry_bind (
+      registry,
+      name,
+      &org_kde_kwin_idle_interface,
+      1);
   } else if (!strcmp(interface, "wl_seat")) {
-    priv->wl_seat = wl_registry_bind(registry, name, &wl_seat_interface, 1);
+    priv->wl_seat = wl_registry_bind(
+      registry, name, &wl_seat_interface,
+      1);
   } else if (!strcmp(interface, zwlr_input_inhibit_manager_v1_interface.name)) {
     priv->input_inhibit_manager = wl_registry_bind(
       registry,
@@ -678,7 +691,17 @@ registry_handle_global (void *data,
       &zwlr_input_inhibit_manager_v1_interface,
       1);
   } else if (!strcmp(interface, xdg_wm_base_interface.name)) {
-    priv->xdg_wm_base = wl_registry_bind(registry, name, &xdg_wm_base_interface, 1);
+    priv->xdg_wm_base = wl_registry_bind(
+      registry,
+      name,
+      &xdg_wm_base_interface,
+      1);
+  } else if (!strcmp(interface, gamma_control_manager_interface.name)) {
+    priv->gamma_control_manager = wl_registry_bind(
+      registry,
+      name,
+      &gamma_control_manager_interface,
+      1);
   }
 }
 
@@ -768,7 +791,7 @@ phosh_shell_constructed (GObject *object)
 {
   PhoshShell *self = PHOSH_SHELL (object);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  guint num_mon;;
+  guint num_mon;
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->constructed (object);
 
@@ -788,26 +811,34 @@ phosh_shell_constructed (GObject *object)
   /* Wait until we have been notified about the compositor,
    * shell, and shell helper objects */
   num_mon = phosh_monitor_manager_get_num_monitors (priv->monitor_manager);
-  if (!num_mon || !priv->layer_shell || !priv->idle_manager ||
-      !priv->input_inhibit_manager || !priv->mshell || !priv->xdg_wm_base)
+  if (!num_mon ||
+      !priv->layer_shell ||
+      !priv->idle_manager ||
+      !priv->input_inhibit_manager ||
+      !priv->mshell ||
+      !priv->xdg_wm_base ||
+      !priv->gamma_control_manager)
     wl_display_roundtrip (priv->display);
   num_mon = phosh_monitor_manager_get_num_monitors (priv->monitor_manager);
-  if (!num_mon || !priv->layer_shell || !priv->idle_manager ||
-      !priv->input_inhibit_manager || !priv->xdg_wm_base) {
+  if (!num_mon ||
+      !priv->layer_shell ||
+      !priv->idle_manager ||
+      !priv->input_inhibit_manager ||
+      !priv->xdg_wm_base ||
+      !priv->gamma_control_manager) {
     g_error ("Could not find needed globals\n"
              "outputs: %d, layer_shell: %p, seat: %p, "
-             "inhibit: %p, xdg_wm: %p\n",
+             "inhibit: %p, xdg_wm: %p, gamma %p\n",
              num_mon, priv->layer_shell, priv->idle_manager,
-             priv->input_inhibit_manager, priv->xdg_wm_base);
+             priv->input_inhibit_manager, priv->xdg_wm_base,
+             priv->gamma_control_manager);
   }
   if (!priv->mshell) {
     g_info ("Could not find phosh global, disabling some features\n");
   }
 
-
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
                                     "/sm/puri/phosh/icons");
-
   env_setup ();
   css_setup (self);
   panel_create (self);
@@ -881,6 +912,14 @@ phosh_shell_get_wl_layer_shell ()
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (_phosh);
   return priv->layer_shell;
+}
+
+
+gpointer
+phosh_shell_get_wl_gamma_control_manager ()
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (_phosh);
+  return priv->gamma_control_manager;
 }
 
 

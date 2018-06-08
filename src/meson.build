@@ -22,6 +22,7 @@ phosh_resources = gnome.compile_resources(
 
 wl_protos = [
   '/'.join([wl_protocol_dir, 'stable/xdg-shell/xdg-shell.xml']),
+  '../protocol/gamma-control.xml',
   '../protocol/idle.xml',
   '../protocol/phosh-private.xml',
   '../protocol/wlr-input-inhibitor-unstable-v1.xml',
