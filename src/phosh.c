@@ -772,6 +772,9 @@ phosh_shell_constructed (GObject *object)
   }
 
 
+  gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
+                                    "/sm/puri/phosh/icons");
+  
   env_setup ();
   css_setup (self);
   panel_create (self);

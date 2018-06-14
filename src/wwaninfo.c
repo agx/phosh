@@ -170,16 +170,14 @@ update_icon_data(PhoshWWanInfo *self, PhoshWWanMM *wwan, gpointer unused)
   icon_theme = gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET(self)));
   /* SIM missing */
   if (!phosh_wwan_has_sim (PHOSH_WWAN (priv->wwan))) {
-    /* FIXME: need better icon */
-    src = icon_to_pixbuf (self, "application-exit-symbolic", icon_theme);
+    src = icon_to_pixbuf (self, "auth-sim-missing-symbolic", icon_theme);
     gtk_image_set_from_pixbuf (GTK_IMAGE (self), src);
     return;
   }
 
   /* SIM unlock required */
   if (!phosh_wwan_is_unlocked (PHOSH_WWAN (priv->wwan))) {
-    /* FIXME: need better icon */
-    src = icon_to_pixbuf (self, "rotation-locked-symbolic", icon_theme);
+    src = icon_to_pixbuf (self, "auth-sim-locked-symbolic", icon_theme);
     gtk_image_set_from_pixbuf (GTK_IMAGE (self), src);
     return;
   }
