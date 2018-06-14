@@ -161,6 +161,7 @@ keypad_number_notified_cb (PhoshLockscreen *self)
   g_assert (PHOSH_IS_LOCKSCREEN (self));
   priv = phosh_lockscreen_get_instance_private (self);
   number = hdy_dialer_get_number (HDY_DIALER (priv->dialer_keypad));
+  priv->last_input = g_get_monotonic_time ();
 
   keypad_update_labels (self);
   if (strlen (number) == phosh_auth_get_pin_length()) {
