@@ -418,6 +418,23 @@ phosh_monitor_manager_add_monitor (PhoshMonitorManager *self, PhoshMonitor *moni
 }
 
 
+PhoshMonitor *
+phosh_monitor_manager_get_monitor (PhoshMonitorManager *self, guint num)
+{
+  if (num >= self->monitors->len)
+    return NULL;
+
+  return g_ptr_array_index (self->monitors, num);
+}
+
+
+guint
+phosh_monitor_manager_get_num_monitors (PhoshMonitorManager *self)
+{
+  return self->monitors->len;
+}
+
+
 #undef MONITOR_MODE_SPEC_FORMAT
 #undef MONITOR_CONFIG_FORMAT
 #undef MONITOR_CONFIGS_FORMAT
