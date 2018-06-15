@@ -192,10 +192,17 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   gboolean handled = FALSE;
+  g_autofree gchar *number = NULL;
 
   if (gtk_stack_get_visible_child (GTK_STACK (priv->stack)) == priv->ebox_info) {
     switch (event->keyval) {
     case GDK_KEY_space:
+      show_unlock_page (self);
+      handled = TRUE;
+      break;
+    case GDK_KEY_1...GDK_KEY_9:
+      number = g_strdup_printf ("%d", event->keyval - GDK_KEY_1 + 1);
+      hdy_dialer_set_number (HDY_DIALER (priv->dialer_keypad), number);
       show_unlock_page (self);
       handled = TRUE;
       break;
