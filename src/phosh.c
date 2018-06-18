@@ -28,9 +28,12 @@
 #include "xdg-shell-client-protocol.h"
 
 #include "phosh.h"
+
+#include "monitor/monitor.h"  /* FIXME: move upwards? */
 #include "background.h"
 #include "lockscreen.h"
 #include "lockshield.h"
+#include "monitor-manager.h"
 #include "panel.h"
 #include "favorites.h"
 #include "settings.h"
@@ -67,7 +70,6 @@ typedef struct
   struct org_kde_kwin_idle *idle_manager;
   struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
   struct zwlr_input_inhibitor_v1 *input_inhibitor;
-  GPtrArray *outputs;
   struct wl_seat *wl_seat;
   struct xdg_wm_base *xdg_wm_base;
 
@@ -92,6 +94,9 @@ typedef struct
 
   /* Settings menu */
   struct popup *settings;
+
+  /* MonitorManager */
+  PhoshMonitorManager *monitor_manager;
 } PhoshShellPrivate;
 
 
@@ -371,10 +376,10 @@ lockscreen_create (PhoshShell *self)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GdkWindow *gdk_window;
   struct elem *lockscreen;
-  struct wl_output *output;
+  PhoshMonitor *monitor;
 
-  g_return_if_fail (priv->outputs->len);
-  output = g_ptr_array_index (priv->outputs, 0);
+  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+  g_return_if_fail (monitor);
 
   lockscreen = g_malloc0 (sizeof *lockscreen);
   lockscreen->window = phosh_lockscreen_new ();
@@ -388,7 +393,7 @@ lockscreen_create (PhoshShell *self)
   lockscreen->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
   lockscreen->layer_surface = zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
                                                                     lockscreen->wl_surface,
-                                                                    output,
+                                                                    monitor->wl_output,
                                                                     ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                                                                     "lockscreen");
   zwlr_layer_surface_v1_set_exclusive_zone(lockscreen->layer_surface, -1);
@@ -405,11 +410,11 @@ lockscreen_create (PhoshShell *self)
 
   /* Lock all other outputs */
   priv->shields = g_ptr_array_new_with_free_func ((GDestroyNotify) (gtk_widget_destroy));
-  for (int i = 1; i < priv->outputs->len; i++) {
-    g_ptr_array_add (priv->shields,
-                     phosh_lockshield_new (
-                       priv->layer_shell,
-                       g_ptr_array_index(priv->outputs, i)));
+  for (int i = 1; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
+    monitor = phosh_monitor_manager_get_monitor(priv->monitor_manager, i);
+    if (monitor == NULL)
+      continue;
+    g_ptr_array_add (priv->shields, phosh_lockshield_new (priv->layer_shell, monitor->wl_output));
   }
 
   priv->unlock_handler_id = g_signal_connect_swapped (
@@ -500,12 +505,12 @@ panel_create (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   struct elem *panel;
-  struct wl_output *output;
   GdkWindow *gdk_window;
   gint width;
+  PhoshMonitor *monitor;
 
-  g_return_if_fail (priv->outputs->len);
-  output = g_ptr_array_index (priv->outputs, 0);
+  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+  g_return_if_fail (monitor);
 
   panel = calloc (1, sizeof *panel);
   panel->window = phosh_panel_new ();
@@ -517,7 +522,7 @@ panel_create (PhoshShell *self)
   panel->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
   panel->layer_surface = zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
                                                                panel->wl_surface,
-                                                               output,
+                                                               monitor->wl_output,
                                                                ZWLR_LAYER_SHELL_V1_LAYER_TOP,
                                                                "phosh");
   zwlr_layer_surface_v1_set_anchor(panel->layer_surface,
@@ -625,7 +630,8 @@ registry_handle_global (void *data,
   } else if (!strcmp (interface, "wl_output")) {
     output = wl_registry_bind (registry, name,
           &wl_output_interface, 1);
-    g_ptr_array_add (priv->outputs, output);
+    phosh_monitor_manager_add_monitor (priv->monitor_manager,
+                                       phosh_monitor_new_from_wl_output(output));
   } else if (!strcmp (interface, "org_kde_kwin_idle")) {
     priv->idle_manager = wl_registry_bind (registry,
                                            name,
@@ -720,23 +726,11 @@ phosh_shell_dispose (GObject *object)
 
 
 static void
-phosh_shell_finalize (GObject *object)
-{
-  PhoshShell *self = PHOSH_SHELL (object);
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
-
-  g_ptr_array_free (priv->outputs, TRUE);
-  priv->outputs = NULL;
-
-  G_OBJECT_CLASS (phosh_shell_parent_class)->finalize (object);
-}
-
-
-static void
 phosh_shell_constructed (GObject *object)
 {
   PhoshShell *self = PHOSH_SHELL (object);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  guint num_mon;;
 
   _phosh = self; /* set singleton */
 
@@ -751,20 +745,23 @@ phosh_shell_constructed (GObject *object)
       g_error ("Failed to get display: %m\n");
   }
 
+  priv->monitor_manager = phosh_monitor_manager_new ();
   priv->registry = wl_display_get_registry (priv->display);
   wl_registry_add_listener (priv->registry, &registry_listener, self);
 
   /* Wait until we have been notified about the compositor,
    * shell, and shell helper objects */
-  if (!priv->outputs->len || !priv->layer_shell || !priv->idle_manager ||
+  num_mon = phosh_monitor_manager_get_num_monitors (priv->monitor_manager);
+  if (!num_mon || !priv->layer_shell || !priv->idle_manager ||
       !priv->input_inhibit_manager || !priv->mshell || !priv->xdg_wm_base)
     wl_display_roundtrip (priv->display);
-  if (!priv->outputs->len || !priv->layer_shell || !priv->idle_manager ||
+  num_mon = phosh_monitor_manager_get_num_monitors (priv->monitor_manager);
+  if (!num_mon || !priv->layer_shell || !priv->idle_manager ||
       !priv->input_inhibit_manager || !priv->xdg_wm_base) {
     g_error ("Could not find needed globals\n"
              "outputs: %d, layer_shell: %p, seat: %p, "
              "inhibit: %p, xdg_wm: %p\n",
-             priv->outputs->len, priv->layer_shell, priv->idle_manager,
+             num_mon, priv->layer_shell, priv->idle_manager,
              priv->input_inhibit_manager, priv->xdg_wm_base);
   }
   if (!priv->mshell) {
@@ -795,7 +792,6 @@ phosh_shell_class_init (PhoshShellClass *klass)
 
   object_class->constructed = phosh_shell_constructed;
   object_class->dispose = phosh_shell_dispose;
-  object_class->finalize = phosh_shell_finalize;
 
   object_class->set_property = phosh_shell_set_property;
   object_class->get_property = phosh_shell_get_property;
@@ -821,8 +817,6 @@ phosh_shell_class_init (PhoshShellClass *klass)
 static void
 phosh_shell_init (PhoshShell *self)
 {
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  priv->outputs = g_ptr_array_new ();
 }
 
 

@@ -1,5 +1,5 @@
 subdir('wwan')
-#subdir('battery')
+subdir('monitor')
 
 wayland_protos = dependency('wayland-protocols', version: '>=1.12')
 wl_protocol_dir = wayland_protos.get_pkgconfig_variable('pkgdatadir')
@@ -48,6 +48,8 @@ phosh_sources = [
   'lockscreen.h',
   'lockshield.c',
   'lockshield.h',
+  'monitor-manager.c',
+  'monitor-manager.h',
   'panel.c',
   'panel.h',
   'phosh.c',
@@ -58,6 +60,7 @@ phosh_sources = [
   'wwaninfo.h',
   phosh_resources,
   phosh_wwan_sources,
+  phosh_monitor_sources,
   wl_proto_sources,
 ]
 
