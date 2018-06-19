@@ -197,16 +197,26 @@ lockscreen_unlock_cb (PhoshShell *self, PhoshLockscreen *window)
 
 
 static void
+close_menu (struct popup **popup)
+{
+  if (*popup == NULL)
+    return;
+
+  gtk_window_close (GTK_WINDOW ((*popup)->window));
+  gtk_widget_destroy (GTK_WIDGET ((*popup)->window));
+  free (*popup);
+  *popup = NULL;
+}
+
+
+static void
 app_launched_cb (PhoshShell *self,
                  PhoshFavorites *favorites)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   g_return_if_fail (priv->favorites);
-  gtk_window_close (GTK_WINDOW (priv->favorites->window));
-  gtk_widget_destroy (GTK_WIDGET (priv->favorites->window));
-  free (priv->favorites);
-  priv->favorites = NULL;
+  close_menu (&priv->favorites);
 }
 
 
@@ -264,8 +274,11 @@ favorites_activated_cb (PhoshShell *self,
   struct xdg_positioner *xdg_positioner;
   gint width, height;
 
-  if (priv->favorites)
+  close_menu (&priv->settings);
+  if (priv->favorites) {
+    close_menu (&priv->favorites);
     return;
+  }
 
   favorites = calloc (1, sizeof *favorites);
   favorites->window = phosh_favorites_new ();
@@ -311,12 +324,9 @@ setting_done_cb (PhoshShell *self,
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   g_return_if_fail (priv->settings);
-
-  gtk_window_close (GTK_WINDOW (priv->settings->window));
-  gtk_widget_destroy (GTK_WIDGET (priv->settings->window));
-  free (priv->settings);
-  priv->settings = NULL;
+  close_menu (&priv->settings);
 }
+
 
 static void
 settings_activated_cb (PhoshShell *self,
@@ -329,8 +339,11 @@ settings_activated_cb (PhoshShell *self,
   struct xdg_positioner *xdg_positioner;
   gint width, height, panel_width;
 
-  if (priv->settings)
+  close_menu (&priv->favorites);
+  if (priv->settings) {
+    close_menu (&priv->settings);
     return;
+  }
 
   settings = calloc (1, sizeof *settings);
   settings->window = phosh_settings_new ();
