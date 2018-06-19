@@ -779,7 +779,6 @@ phosh_shell_constructed (GObject *object)
   background_create (self);
 #endif
   lockscreen_prepare (self);
-  phosh_shell_lock (self);
 }
 
 
@@ -909,6 +908,20 @@ int main(int argc, char *argv[])
 {
   g_autoptr(GSource) sigterm;
   GMainContext *context;
+  GOptionContext *opt_context;
+  GError *err = NULL;
+  gboolean unlocked;
+
+  const GOptionEntry options [] = {
+    {"unlocked", 'U', 0, G_OPTION_ARG_NONE, &unlocked,
+     "Don't start with screen locked", NULL},
+    { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
+  };
+
+  opt_context = g_option_context_new ("- A phone graphical shell");
+  g_option_context_add_main_entries (opt_context, options, NULL);
+  g_option_context_add_group (opt_context, gtk_get_option_group (TRUE));
+  g_option_context_parse (opt_context, &argc, &argv, &err);
 
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
@@ -921,6 +934,9 @@ int main(int argc, char *argv[])
   g_source_attach (sigterm, context);
 
   _phosh = g_object_new (PHOSH_TYPE_SHELL, NULL);
+  if (!unlocked)
+    phosh_shell_lock (_phosh);
+
   gtk_main ();
   g_object_unref (_phosh);
   _phosh = NULL;
