@@ -732,8 +732,6 @@ phosh_shell_constructed (GObject *object)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   guint num_mon;;
 
-  _phosh = self; /* set singleton */
-
   G_OBJECT_CLASS (phosh_shell_parent_class)->constructed (object);
 
   gdk_set_allowed_backends ("wayland");
@@ -922,7 +920,7 @@ int main(int argc, char *argv[])
   g_source_set_callback (sigterm, sigterm_cb, NULL, NULL);
   g_source_attach (sigterm, context);
 
-  g_object_new (PHOSH_TYPE_SHELL, NULL);
+  _phosh = g_object_new (PHOSH_TYPE_SHELL, NULL);
   gtk_main ();
   g_object_unref (_phosh);
   _phosh = NULL;
