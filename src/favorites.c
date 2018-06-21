@@ -13,6 +13,7 @@
 #include "config.h"
 
 #include "favorites.h"
+#include "phosh.h"
 
 #include <gio/gdesktopappinfo.h>
 
@@ -24,7 +25,8 @@ static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct
 {
-  GtkWidget *grid;
+  GtkWidget *scroll;
+  GtkWidget *favorites;
   GSettings *settings;
 } PhoshFavoritesPrivate;
 
@@ -34,7 +36,7 @@ struct _PhoshFavorites
   GtkWindowClass parent;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, GTK_TYPE_WINDOW) 
+G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, GTK_TYPE_WINDOW)
 
 
 static void
@@ -104,7 +106,7 @@ add_favorite (PhoshFavorites *self,
 
 /* Add weston terminal as band aid in case all else fails for now */
 static void
-add_weston_terminal (PhoshFavorites *self, gint row)
+add_weston_terminal (PhoshFavorites *self)
 {
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
   GIcon *icon;
@@ -124,7 +126,7 @@ add_weston_terminal (PhoshFavorites *self, gint row)
                                "circular");
 
   g_signal_connect_swapped (btn, "clicked", G_CALLBACK (term_btn_clicked), self);
-  gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, row++, 1, 1);
+  gtk_flow_box_insert (GTK_FLOW_BOX (priv->favorites), btn, -1);
 }
 
 
@@ -136,18 +138,17 @@ favorites_changed (GSettings *settings,
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
   gchar **favorites = g_settings_get_strv (settings, key);
   GtkWidget *btn;
-  guint row = 1;
 
   /* Remove all favorites first */
-  gtk_container_foreach (GTK_CONTAINER (priv->grid),
+  gtk_container_foreach (GTK_CONTAINER (priv->favorites),
                          (GtkCallback) gtk_widget_destroy, NULL);
 
-  add_weston_terminal (self, row++);
+  add_weston_terminal (self);
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
     btn = add_favorite (self, fav);
     if (btn)
-      gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, row++, 1, 1);
+      gtk_flow_box_insert (GTK_FLOW_BOX (priv->favorites), btn, -1);
   }
   g_strfreev (favorites);
 }
@@ -168,13 +169,15 @@ phosh_favorites_constructed (GObject *object)
 {
   PhoshFavorites *self = PHOSH_FAVORITES (object);
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
+  gint width, height;
 
   G_OBJECT_CLASS (phosh_favorites_parent_class)->constructed (object);
 
   /* window properties */
+  phosh_shell_get_usable_area (phosh(), NULL, NULL, &width, &height);
   gtk_window_set_title (GTK_WINDOW (self), "phosh favorites");
   gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
-  gtk_window_resize (GTK_WINDOW (self), 100, 250);
+  gtk_window_resize (GTK_WINDOW (self), width, height);
   gtk_widget_realize(GTK_WIDGET (self));
   gtk_widget_set_app_paintable(GTK_WIDGET (self), TRUE);
 
@@ -187,10 +190,23 @@ phosh_favorites_constructed (GObject *object)
       gtk_widget_get_style_context (GTK_WIDGET (self)),
       "phosh-favorites");
 
-  priv->grid = gtk_widget_new (GTK_TYPE_GRID, "halign",
-                               GTK_ALIGN_CENTER, "valign",
-                               GTK_ALIGN_CENTER, NULL);
-  gtk_container_add (GTK_CONTAINER (self), priv->grid);
+  priv->favorites = gtk_widget_new (GTK_TYPE_FLOW_BOX,
+                                    "halign", GTK_ALIGN_START,
+                                    "valign", GTK_ALIGN_CENTER,
+                                    "selection-mode", GTK_SELECTION_NONE,
+                                    "orientation", GTK_ORIENTATION_VERTICAL,
+                                    NULL);
+
+  priv->scroll = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->scroll),
+                                  GTK_POLICY_AUTOMATIC,
+                                  GTK_POLICY_NEVER);
+
+  gtk_container_add (GTK_CONTAINER (priv->scroll), priv->favorites);
+  gtk_container_add (GTK_CONTAINER (self), priv->scroll);
+
+  gtk_flow_box_set_max_children_per_line (GTK_FLOW_BOX(priv->favorites), G_MAXINT);
+  gtk_flow_box_set_homogeneous (GTK_FLOW_BOX(priv->favorites), TRUE);
 
   priv->settings = g_settings_new ("sm.puri.phosh");
   g_signal_connect (priv->settings, "changed::favorites",
