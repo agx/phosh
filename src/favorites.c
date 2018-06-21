@@ -143,7 +143,6 @@ favorites_changed (GSettings *settings,
   gtk_container_foreach (GTK_CONTAINER (priv->favorites),
                          (GtkCallback) gtk_widget_destroy, NULL);
 
-  add_weston_terminal (self);
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
     btn = add_favorite (self, fav);
@@ -151,6 +150,7 @@ favorites_changed (GSettings *settings,
       gtk_flow_box_insert (GTK_FLOW_BOX (priv->favorites), btn, -1);
   }
   g_strfreev (favorites);
+  add_weston_terminal (self);
 }
 
 
