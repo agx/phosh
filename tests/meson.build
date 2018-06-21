@@ -20,6 +20,10 @@ test_link_args = [
   '-fPIC',
 ]
 
+test_stubs = [
+  'phoshstub.c',
+]
+
 cls_names = [
   'favorites',
 ]
@@ -27,7 +31,8 @@ cls_names = [
 foreach cls_name : cls_names
   t = executable('test-@0@'.format(cls_name),
 		 ['test-@0@.c'.format(cls_name),
-		  '../src/@0@.c'.format(cls_name)],
+		  '../src/@0@.c'.format(cls_name),
+		  test_stubs],
 		 c_args: test_cflags,
 		 link_args: test_link_args,
 		 dependencies: phosh_deps,
