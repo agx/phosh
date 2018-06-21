@@ -221,6 +221,17 @@ app_launched_cb (PhoshShell *self,
 
 
 static void
+favorites_selection_aborted (PhoshShell *self,
+                             PhoshFavorites *favorites)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  g_return_if_fail (priv->favorites);
+  close_menu (&priv->favorites);
+}
+
+
+static void
 xdg_surface_handle_configure(void *data,
                              struct xdg_surface *xdg_surface,
                              uint32_t serial)
@@ -313,6 +324,10 @@ favorites_activated_cb (PhoshShell *self,
   g_signal_connect_swapped (priv->favorites->window,
                             "app-launched",
                             G_CALLBACK(app_launched_cb),
+                            self);
+  g_signal_connect_swapped (priv->favorites->window,
+                            "selection-aborted",
+                            G_CALLBACK(favorites_selection_aborted),
                             self);
 }
 

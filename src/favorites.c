@@ -19,6 +19,7 @@
 
 enum {
   APP_LAUNCHED,
+  SELECTION_ABORTED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
@@ -26,7 +27,8 @@ static guint signals[N_SIGNALS] = { 0 };
 typedef struct
 {
   GtkWidget *scroll;
-  GtkWidget *favorites;
+  GtkWidget *evbox;
+  GtkWidget *flowbox;
   GSettings *settings;
 } PhoshFavoritesPrivate;
 
@@ -126,7 +128,7 @@ add_weston_terminal (PhoshFavorites *self)
                                "circular");
 
   g_signal_connect_swapped (btn, "clicked", G_CALLBACK (term_btn_clicked), self);
-  gtk_flow_box_insert (GTK_FLOW_BOX (priv->favorites), btn, -1);
+  gtk_flow_box_insert (GTK_FLOW_BOX (priv->flowbox), btn, -1);
 }
 
 
@@ -140,14 +142,14 @@ favorites_changed (GSettings *settings,
   GtkWidget *btn;
 
   /* Remove all favorites first */
-  gtk_container_foreach (GTK_CONTAINER (priv->favorites),
+  gtk_container_foreach (GTK_CONTAINER (priv->flowbox),
                          (GtkCallback) gtk_widget_destroy, NULL);
 
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
     btn = add_favorite (self, fav);
     if (btn)
-      gtk_flow_box_insert (GTK_FLOW_BOX (priv->favorites), btn, -1);
+      gtk_flow_box_insert (GTK_FLOW_BOX (priv->flowbox), btn, -1);
   }
   g_strfreev (favorites);
   add_weston_terminal (self);
@@ -160,6 +162,14 @@ draw_cb (GtkWidget *widget, cairo_t *cr, gpointer unused)
   cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.1);
   cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
   cairo_paint (cr);
+  return FALSE;
+}
+
+
+static gboolean
+evbox_button_press_event_cb (PhoshFavorites *self, GdkEventButton *event)
+{
+  g_signal_emit(self, signals[SELECTION_ABORTED], 0);
   return FALSE;
 }
 
@@ -190,23 +200,32 @@ phosh_favorites_constructed (GObject *object)
       gtk_widget_get_style_context (GTK_WIDGET (self)),
       "phosh-favorites");
 
-  priv->favorites = gtk_widget_new (GTK_TYPE_FLOW_BOX,
+  /* Flowbox */
+  priv->flowbox = gtk_widget_new (GTK_TYPE_FLOW_BOX,
                                     "halign", GTK_ALIGN_START,
                                     "valign", GTK_ALIGN_CENTER,
                                     "selection-mode", GTK_SELECTION_NONE,
                                     "orientation", GTK_ORIENTATION_VERTICAL,
                                     NULL);
+  gtk_flow_box_set_max_children_per_line (GTK_FLOW_BOX(priv->flowbox), G_MAXINT);
+  gtk_flow_box_set_homogeneous (GTK_FLOW_BOX(priv->flowbox), TRUE);
 
+  /* Scrolled window */
   priv->scroll = gtk_scrolled_window_new (NULL, NULL);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->scroll),
                                   GTK_POLICY_AUTOMATIC,
                                   GTK_POLICY_NEVER);
+  gtk_container_add (GTK_CONTAINER (priv->scroll), priv->flowbox);
 
-  gtk_container_add (GTK_CONTAINER (priv->scroll), priv->favorites);
-  gtk_container_add (GTK_CONTAINER (self), priv->scroll);
+  /* Eventbox */
+  priv->evbox = gtk_event_box_new ();
+  gtk_container_add (GTK_CONTAINER (priv->evbox), priv->scroll);
+  g_signal_connect_swapped (priv->evbox, "button_press_event",
+                            G_CALLBACK (evbox_button_press_event_cb),
+                            self);
+  gtk_widget_set_events (priv->evbox, GDK_BUTTON_PRESS_MASK);
 
-  gtk_flow_box_set_max_children_per_line (GTK_FLOW_BOX(priv->favorites), G_MAXINT);
-  gtk_flow_box_set_homogeneous (GTK_FLOW_BOX(priv->favorites), TRUE);
+  gtk_container_add (GTK_CONTAINER (self), priv->evbox);
 
   priv->settings = g_settings_new ("sm.puri.phosh");
   g_signal_connect (priv->settings, "changed::favorites",
@@ -236,6 +255,9 @@ phosh_favorites_class_init (PhoshFavoritesClass *klass)
   object_class->constructed = phosh_favorites_constructed;
 
   signals[APP_LAUNCHED] = g_signal_new ("app-launched",
+      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+      NULL, G_TYPE_NONE, 0);
+  signals[SELECTION_ABORTED] = g_signal_new ("selection-aborted",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 }
