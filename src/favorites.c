@@ -153,6 +153,16 @@ favorites_changed (GSettings *settings,
 }
 
 
+static gboolean
+draw_cb (GtkWidget *widget, cairo_t *cr, gpointer unused)
+{
+  cairo_set_source_rgba (cr, 1.0, 1.0, 1.0, 0.1);
+  cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
+  cairo_paint (cr);
+  return FALSE;
+}
+
+
 static void
 phosh_favorites_constructed (GObject *object)
 {
@@ -166,6 +176,12 @@ phosh_favorites_constructed (GObject *object)
   gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
   gtk_window_resize (GTK_WINDOW (self), 100, 250);
   gtk_widget_realize(GTK_WIDGET (self));
+  gtk_widget_set_app_paintable(GTK_WIDGET (self), TRUE);
+
+  g_signal_connect (G_OBJECT(self),
+                    "draw",
+                    G_CALLBACK(draw_cb),
+                    NULL);
 
   gtk_style_context_add_class (
       gtk_widget_get_style_context (GTK_WIDGET (self)),
