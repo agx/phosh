@@ -89,6 +89,9 @@ add_favorite (PhoshFavorites *self,
   gtk_style_context_add_class (gtk_widget_get_style_context (btn),
                                "phosh-favorite");
 
+  gtk_style_context_add_class (gtk_widget_get_style_context( GTK_WIDGET(btn) ),
+                               "circular");
+
   gtk_button_set_image (GTK_BUTTON (btn), image);
   g_object_set (image, "margin", 20, NULL);
 
@@ -116,6 +119,9 @@ add_weston_terminal (PhoshFavorites *self, gint row)
 
   g_object_set (image, "margin", 20, NULL);
   gtk_button_set_image (GTK_BUTTON (btn), image);
+
+  gtk_style_context_add_class (gtk_widget_get_style_context( GTK_WIDGET(btn) ),
+                               "circular");
 
   g_signal_connect_swapped (btn, "clicked", G_CALLBACK (term_btn_clicked), self);
   gtk_grid_attach (GTK_GRID (priv->grid), btn, 1, row++, 1, 1);
