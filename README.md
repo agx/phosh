@@ -8,7 +8,10 @@ phosh is licensed under the GPLv3+.
 
 ## Dependencies
 
-    sudo apt-get install libgtk-3-dev wayland-protocols gettext libhandy-0.0-dev
+    sudo apt-get install libgnome-desktop-3-dev libgtk-3-dev libpam0g-dev libupower-glib-dev libwayland-dev meson
+
+Until distros ship [libhandy](https://sources.puri.sm/Librem5/libhandy) you
+need to build that from source as well.
 
 ## Building
 
