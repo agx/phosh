@@ -65,12 +65,12 @@ phosh_sources = [
 ]
 
 phosh_deps = [
-  dependency('gnome-desktop-3.0'),
-  dependency('gtk+-3.0'),
-  dependency('gtk+-wayland-3.0'),
-  dependency('wayland-client'),
-  dependency('libhandy-0.0'),
-  dependency('upower-glib'),
+  dependency('gnome-desktop-3.0', version: '>=3.26'),
+  dependency('gtk+-3.0', version: '>=3.22'),
+  dependency('gtk+-wayland-3.0', version: '>=3.22'),
+  dependency('wayland-client', version: '>=1.14'),
+  dependency('libhandy-0.0', version: '>=0.0.1'),
+  dependency('upower-glib', version: '>=0.99.1'),
   cc.find_library('pam', required: true),
   cc.find_library('m', required: false),
   cc.find_library('rt', required: false),
