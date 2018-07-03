@@ -10,7 +10,7 @@ phosh is licensed under the GPLv3+.
 
     sudo apt-get install libgnome-desktop-3-dev libgtk-3-dev libpam0g-dev libupower-glib-dev libwayland-dev meson
 
-Until distros ship [libhandy](https://sources.puri.sm/Librem5/libhandy) you
+Until distros ship [libhandy](https://source.puri.sm/Librem5/libhandy) you
 need to build that from source as well.
 
 ## Building
