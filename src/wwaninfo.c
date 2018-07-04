@@ -206,7 +206,7 @@ phosh_wwan_info_constructed (GObject *object)
   PhoshWWanInfoPrivate *priv = phosh_wwan_info_get_instance_private (self);
   GStrv signals = (char *[]) {"notify::signal-quality",
                               "notify::access-tec",
-                              "notify::locked",
+                              "notify::unlocked",
                               "notify::sim",
                               NULL,
   };
