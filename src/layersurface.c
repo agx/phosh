@@ -26,6 +26,13 @@ enum {
 };
 static GParamSpec *props[PHOSH_LAYER_SURFACE_PROP_LAST_PROP];
 
+enum {
+  CONFIGURED,
+  N_SIGNALS
+};
+static guint signals [N_SIGNALS];
+
+
 typedef struct {
   struct wl_surface *wl_surface;
   struct zwlr_layer_surface_v1 *layer_surface;
@@ -53,6 +60,8 @@ static void layer_surface_configure(void                         *data,
   gtk_window_resize (GTK_WINDOW (self), width, height);
   zwlr_layer_surface_v1_ack_configure(surface, serial);
   gtk_widget_show_all (GTK_WIDGET (self));
+
+  g_signal_emit (self, signals[CONFIGURED], 0);
 }
 
 
@@ -303,6 +312,21 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PHOSH_LAYER_SURFACE_PROP_LAST_PROP, props);
+
+  /**
+   * PhoshLayersurface::configured
+   * @self: The #PhoshLayersurface instance.
+   *
+   * This signal is emitted once we received the configure event from the
+   * compositor.
+   */
+  signals[CONFIGURED] =
+    g_signal_new ("configured",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST,
+                  G_STRUCT_OFFSET (PhoshLayerSurfaceClass, configured),
+                  NULL, NULL, NULL,
+                  G_TYPE_NONE, 0);
 }
 
 

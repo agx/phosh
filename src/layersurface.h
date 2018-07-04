@@ -21,6 +21,10 @@ G_DECLARE_DERIVABLE_TYPE (PhoshLayerSurface, phosh_layer_surface, PHOSH, LAYER_S
 struct _PhoshLayerSurfaceClass
 {
   GtkWindowClass parent_class;
+
+  /* Signals
+   */
+  void (*configured)   (PhoshLayerSurface    *self);
 };
 
 GtkWidget * phosh_layer_surface_new (gpointer layer_shell,
