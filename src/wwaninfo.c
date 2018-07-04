@@ -63,8 +63,6 @@ icon_to_pixbuf (PhoshWWanInfo *self,
                 GtkIconTheme *theme)
 {
   PhoshWWanInfoPrivate *priv = phosh_wwan_info_get_instance_private (self);
-  g_auto(GStrv) icon_names;
-  g_autoptr(GtkIconInfo) icon_info;
   g_autoptr(GtkIconInfo) info;
   GdkPixbuf    *pixbuf;
   GError       *error = NULL;
