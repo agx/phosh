@@ -89,7 +89,7 @@ GtkWidget *
 phosh_lockshield_new (gpointer layer_shell,
                       gpointer wl_output)
 {
-  return g_object_new (PHOSH_TYPE_LAYER_SURFACE,
+  return g_object_new (PHOSH_TYPE_LOCKSHIELD,
                        "layer-shell", layer_shell,
                        "wl-output", wl_output,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
