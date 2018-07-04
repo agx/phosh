@@ -173,8 +173,6 @@ phosh_background_constructed (GObject *object)
   priv->settings = g_settings_new ("org.gnome.desktop.background");
   g_signal_connect (priv->settings, "changed::picture-uri",
                     G_CALLBACK (background_setting_changed_cb), self);
-  /* Load background initially */
-  background_setting_changed_cb (priv->settings, "picture-uri", self);
 
   /* Window properties */
   gtk_window_set_title (GTK_WINDOW (self), "phosh background");
@@ -185,6 +183,18 @@ phosh_background_constructed (GObject *object)
                             "notify::rotation",
                             G_CALLBACK (rotation_notify_cb),
                             self);
+}
+
+
+static void
+phosh_background_configured (PhoshBackground *self)
+{
+  PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (self);
+
+  g_signal_chain_from_overridden_handler (self, 0);
+
+  /* Load background initially */
+  background_setting_changed_cb (priv->settings, "picture-uri", self);
 }
 
 
@@ -211,6 +221,10 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
 
   object_class->constructed = phosh_background_constructed;
   object_class->finalize = phosh_background_finalize;
+
+  g_signal_override_class_handler ("configured",
+                                   PHOSH_TYPE_LAYER_SURFACE,
+                                   (GCallback) phosh_background_configured);
 }
 
 
