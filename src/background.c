@@ -29,11 +29,11 @@ typedef struct
 
 typedef struct _PhoshBackground
 {
-  GtkWindow parent;
+  PhoshLayerSurface parent;
 } PhoshBackground;
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshBackground, phosh_background, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshBackground, phosh_background, PHOSH_TYPE_LAYER_SURFACE)
 
 
 static GdkPixbuf *
@@ -227,7 +227,23 @@ phosh_background_init (PhoshBackground *self)
 
 
 GtkWidget *
-phosh_background_new (void)
+phosh_background_new (gpointer layer_shell,
+                      gpointer wl_output,
+                      guint width,
+                      guint height)
 {
-  return g_object_new (PHOSH_TYPE_BACKGROUND, NULL);
+  return g_object_new (PHOSH_TYPE_BACKGROUND,
+                       "layer-shell", layer_shell,
+                       "wl-output", wl_output,
+                       "width", width,
+                       "height", height,
+                       "anchor", (ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
+                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
+                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
+                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT),
+                       "layer", ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND,
+                       "kbd-interactivity", FALSE,
+                       "exclusive-zone", -1,
+                       "namespace", "phosh background",
+                       NULL);
 }
