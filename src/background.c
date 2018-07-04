@@ -37,28 +37,24 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshBackground, phosh_background, PHOSH_TYPE_LAYER_
 
 
 static GdkPixbuf *
-image_background (GdkPixbuf *image)
+image_background (GdkPixbuf *image, guint width, guint height)
 {
-  gint orig_width, orig_height, width, height;
+  gint orig_width, orig_height;
   gint final_width, final_height;
-  gint x, y, off_x, off_y;
+  gint off_x, off_y;
   gdouble ratio_horiz, ratio_vert, ratio;
   GdkPixbuf *bg, *scaled_bg;
   const gchar *xpm_data[] = {"1 1 1 1", "_ c WebGrey", "_"};
 
-  phosh_shell_get_usable_area (phosh(), &x, &y, &width, &height);
   bg = gdk_pixbuf_new_from_xpm_data (xpm_data);
   scaled_bg = gdk_pixbuf_scale_simple (bg,
                                        width,
                                        /* since we can't offset the pixmap */
-                                       height + y,
+                                       height + PHOSH_PANEL_HEIGHT,
                                        GDK_INTERP_BILINEAR);
   g_object_unref (bg);
 
-  /* FIXME: we should allow more modes
-     none, wallpaper, centered, scaled, stretched, zoom
-     I think GNOME calls this zoom:
-  */
+  /* FIXME: use libgnome-desktop's background handling instead */
   orig_width = gdk_pixbuf_get_width (image);
   orig_height = gdk_pixbuf_get_height (image);
   ratio_horiz = (double) width / orig_width;
@@ -92,6 +88,7 @@ load_background (PhoshBackground *self,
   GdkPixbuf *image = NULL;
   const gchar *xpm_data[] = {"1 1 1 1", "_ c WebGrey", "_"};
   GError *err = NULL;
+  gint width, height;
 
   if (priv->pixbuf) {
     g_object_unref (priv->pixbuf);
@@ -115,7 +112,8 @@ load_background (PhoshBackground *self,
   if (!image)
     image = gdk_pixbuf_new_from_xpm_data (xpm_data);
 
-  priv->pixbuf = image_background (image);
+  gtk_window_get_size (GTK_WINDOW (self), &width, &height);
+  priv->pixbuf = image_background (image, width, height);
   g_object_unref (image);
 
   /* force background redraw */
