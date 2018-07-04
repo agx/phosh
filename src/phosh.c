@@ -791,7 +791,7 @@ phosh_shell_constructed (GObject *object)
              priv->input_inhibit_manager, priv->xdg_wm_base);
   }
   if (!priv->mshell) {
-    g_warning ("Could not find phosh global, disabling some features\n");
+    g_info ("Could not find phosh global, disabling some features\n");
   }
 
 
