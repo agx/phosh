@@ -167,8 +167,9 @@ phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
   state = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_state (
     priv->proxy);
   priv->unlocked = !!(unlock_required == MM_MODEM_LOCK_NONE ||
-                      state != MM_MODEM_STATE_LOCKED);
-  g_debug ("SIM is %slocked", priv->unlocked ? "un" : "");
+                      (state != MM_MODEM_STATE_LOCKED &&
+                       state != MM_MODEM_STATE_FAILED));
+  g_debug ("SIM is %slocked: (%d %d)", priv->unlocked ? "un" : "", state, unlock_required);
   g_object_notify (G_OBJECT (self), "unlocked");
 }
 

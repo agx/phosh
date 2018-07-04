@@ -63,8 +63,6 @@ icon_to_pixbuf (PhoshWWanInfo *self,
                 GtkIconTheme *theme)
 {
   PhoshWWanInfoPrivate *priv = phosh_wwan_info_get_instance_private (self);
-  g_auto(GStrv) icon_names;
-  g_autoptr(GtkIconInfo) icon_info;
   g_autoptr(GtkIconInfo) info;
   GdkPixbuf    *pixbuf;
   GError       *error = NULL;
@@ -208,7 +206,7 @@ phosh_wwan_info_constructed (GObject *object)
   PhoshWWanInfoPrivate *priv = phosh_wwan_info_get_instance_private (self);
   GStrv signals = (char *[]) {"notify::signal-quality",
                               "notify::access-tec",
-                              "notify::locked",
+                              "notify::unlocked",
                               "notify::sim",
                               NULL,
   };
@@ -237,8 +235,10 @@ phosh_wwan_info_dispose (GObject *object)
 
   if (priv->wwan) {
     for (int i=0; i < WWAN_INFO_WWAN_NUM_SIGNALS; i++) {
-      g_signal_handler_disconnect (priv->wwan, priv->wwan_signal_ids[i]);
-      priv->wwan_signal_ids[i] = 0;
+      if (priv->wwan_signal_ids[i] > 0) {
+        g_signal_handler_disconnect (priv->wwan, priv->wwan_signal_ids[i]);
+        priv->wwan_signal_ids[i] = 0;
+      }
     }
     g_clear_object (&priv->wwan);
   }
