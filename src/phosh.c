@@ -577,14 +577,20 @@ panel_create (PhoshShell *self)
 }
 
 
-#if 0  /* https://github.com/swaywm/wlroots/issues/897 */
+
 static void
 background_create (PhoshShell *self)
 {
+
+#ifdef WITH_PHOSH_BACKGROUND
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GdkWindow *gdk_window;
   struct elem *background;
   gint width, height;
+  PhoshMonitor *monitor;
+
+  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+  g_return_if_fail (monitor);
 
   background = calloc (1, sizeof *background);
   background->window = phosh_background_new ();
@@ -597,7 +603,7 @@ background_create (PhoshShell *self)
   background->layer_surface =
     zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
                                           background->wl_surface,
-                                          priv->output,
+                                          monitor->wl_output,
                                           ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND,
                                           "phosh");
   zwlr_layer_surface_v1_set_anchor(background->layer_surface, ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM);
@@ -605,8 +611,8 @@ background_create (PhoshShell *self)
   zwlr_layer_surface_v1_add_listener(background->layer_surface, &layer_surface_listener, background);
   wl_surface_commit(background->wl_surface);
   priv->background = background;
-}
 #endif
+}
 
 static void
 css_setup (PhoshShell *self)
@@ -802,10 +808,7 @@ phosh_shell_constructed (GObject *object)
   css_setup (self);
   panel_create (self);
   /* Create background after panel since it needs the panel's size */
-#if 0
-  /* https://github.com/swaywm/wlroots/issues/897 */
   background_create (self);
-#endif
   lockscreen_prepare (self);
 }
 
