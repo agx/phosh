@@ -25,4 +25,7 @@ void                 phosh_shell_get_usable_area (PhoshShell *self,
 void                 phosh_shell_set_locked      (PhoshShell *self, gboolean locked);
 void                 phosh_shell_lock            (PhoshShell *self);
 void                 phosh_shell_unlock          (PhoshShell *self);
+
+/* Phosh keeps track of the wayland globals */
+gpointer             phosh_shell_get_wl_layer_shell  ();
 #endif /* PHOSH_H */

@@ -860,6 +860,14 @@ phosh_shell_rotate_display (PhoshShell *self,
 }
 
 
+gpointer
+phosh_shell_get_wl_layer_shell ()
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (_phosh);
+  return priv->layer_shell;
+}
+
+
 /**
  * Returns the usable area in pixels usable by a client on the phone
  * display
