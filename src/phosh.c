@@ -406,7 +406,7 @@ lockscreen_create (PhoshShell *self)
   struct elem *lockscreen;
   PhoshMonitor *monitor;
 
-  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+  monitor = phosh_shell_get_primary_monitor ();
   g_return_if_fail (monitor);
 
   lockscreen = g_malloc0 (sizeof *lockscreen);
@@ -528,6 +528,22 @@ lockscreen_prepare (PhoshShell *self)
 }
 
 
+PhoshMonitor *
+get_primary_monitor (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+  PhoshMonitor *monitor;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+  g_return_val_if_fail (monitor, NULL);
+
+  return monitor;
+}
+
+
 static void
 panel_create (PhoshShell *self)
 {
@@ -537,7 +553,7 @@ panel_create (PhoshShell *self)
   gint width;
   PhoshMonitor *monitor;
 
-  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+  monitor = get_primary_monitor (self);
   g_return_if_fail (monitor);
 
   panel = calloc (1, sizeof *panel);
@@ -587,7 +603,7 @@ background_create (PhoshShell *self)
   PhoshMonitor *monitor;
   gint width, height;
 
-  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+  monitor = phosh_shell_get_primary_monitor ();
   g_return_if_fail (monitor);
   phosh_shell_get_usable_area (self, NULL, NULL, &width, &height);
 
@@ -871,13 +887,8 @@ phosh_shell_get_wl_layer_shell ()
 PhoshMonitor *
 phosh_shell_get_primary_monitor ()
 {
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (_phosh);
-  PhoshMonitor *monitor;
-
-  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
-  g_return_val_if_fail (monitor, NULL);
-
-  return monitor;
+  g_return_val_if_fail (PHOSH_IS_SHELL (_phosh), NULL);
+  return get_primary_monitor (_phosh);
 }
 
 
@@ -888,34 +899,15 @@ phosh_shell_get_primary_monitor ()
 void
 phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gint *height)
 {
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  GdkDisplay *display = gdk_display_get_default ();
-  GdkMonitor *monitor = NULL;
-  GdkWindow *gdk_window;
-  GdkRectangle geom;
+  PhoshMonitor *monitor = NULL;
   gint panel_height = 0;
   gint w, h;
 
-  if (priv->panel && priv->panel->window) {
-    panel_height = phosh_panel_get_height (PHOSH_PANEL (priv->panel->window));
-    gdk_window = gtk_widget_get_window (priv->panel->window);
-    monitor = gdk_display_get_monitor_at_window (display, gdk_window);
-  } else {
-    monitor = gdk_display_get_monitor (display, 0);
-  }
-
+  monitor = get_primary_monitor (self);
   g_return_if_fail(monitor);
-  gdk_monitor_get_geometry (monitor, &geom);
 
-  /* GDK fails to take rotation into account
-   * https://bugzilla.gnome.org/show_bug.cgi?id=793618 */
-  if (priv->rotation != 90 && priv->rotation != 270) {
-    w = geom.width;
-    h = geom.height - panel_height;
-  } else {
-    w = geom.height;
-    h = geom.width - panel_height;
-  }
+  w = monitor->width;
+  h = monitor->height - panel_height;
 
   if (x)
     *x = 0;
