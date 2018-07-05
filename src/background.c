@@ -29,36 +29,32 @@ typedef struct
 
 typedef struct _PhoshBackground
 {
-  GtkWindow parent;
+  PhoshLayerSurface parent;
 } PhoshBackground;
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshBackground, phosh_background, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshBackground, phosh_background, PHOSH_TYPE_LAYER_SURFACE)
 
 
 static GdkPixbuf *
-image_background (GdkPixbuf *image)
+image_background (GdkPixbuf *image, guint width, guint height)
 {
-  gint orig_width, orig_height, width, height;
+  gint orig_width, orig_height;
   gint final_width, final_height;
-  gint x, y, off_x, off_y;
+  gint off_x, off_y;
   gdouble ratio_horiz, ratio_vert, ratio;
   GdkPixbuf *bg, *scaled_bg;
   const gchar *xpm_data[] = {"1 1 1 1", "_ c WebGrey", "_"};
 
-  phosh_shell_get_usable_area (phosh(), &x, &y, &width, &height);
   bg = gdk_pixbuf_new_from_xpm_data (xpm_data);
   scaled_bg = gdk_pixbuf_scale_simple (bg,
                                        width,
                                        /* since we can't offset the pixmap */
-                                       height + y,
+                                       height + PHOSH_PANEL_HEIGHT,
                                        GDK_INTERP_BILINEAR);
   g_object_unref (bg);
 
-  /* FIXME: we should allow more modes
-     none, wallpaper, centered, scaled, stretched, zoom
-     I think GNOME calls this zoom:
-  */
+  /* FIXME: use libgnome-desktop's background handling instead */
   orig_width = gdk_pixbuf_get_width (image);
   orig_height = gdk_pixbuf_get_height (image);
   ratio_horiz = (double) width / orig_width;
@@ -92,6 +88,7 @@ load_background (PhoshBackground *self,
   GdkPixbuf *image = NULL;
   const gchar *xpm_data[] = {"1 1 1 1", "_ c WebGrey", "_"};
   GError *err = NULL;
+  gint width, height;
 
   if (priv->pixbuf) {
     g_object_unref (priv->pixbuf);
@@ -115,7 +112,8 @@ load_background (PhoshBackground *self,
   if (!image)
     image = gdk_pixbuf_new_from_xpm_data (xpm_data);
 
-  priv->pixbuf = image_background (image);
+  gtk_window_get_size (GTK_WINDOW (self), &width, &height);
+  priv->pixbuf = image_background (image, width, height);
   g_object_unref (image);
 
   /* force background redraw */
@@ -175,8 +173,6 @@ phosh_background_constructed (GObject *object)
   priv->settings = g_settings_new ("org.gnome.desktop.background");
   g_signal_connect (priv->settings, "changed::picture-uri",
                     G_CALLBACK (background_setting_changed_cb), self);
-  /* Load background initially */
-  background_setting_changed_cb (priv->settings, "picture-uri", self);
 
   /* Window properties */
   gtk_window_set_title (GTK_WINDOW (self), "phosh background");
@@ -187,6 +183,18 @@ phosh_background_constructed (GObject *object)
                             "notify::rotation",
                             G_CALLBACK (rotation_notify_cb),
                             self);
+}
+
+
+static void
+phosh_background_configured (PhoshBackground *self)
+{
+  PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (self);
+
+  g_signal_chain_from_overridden_handler (self, 0);
+
+  /* Load background initially */
+  background_setting_changed_cb (priv->settings, "picture-uri", self);
 }
 
 
@@ -213,6 +221,10 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
 
   object_class->constructed = phosh_background_constructed;
   object_class->finalize = phosh_background_finalize;
+
+  g_signal_override_class_handler ("configured",
+                                   PHOSH_TYPE_LAYER_SURFACE,
+                                   (GCallback) phosh_background_configured);
 }
 
 
@@ -227,7 +239,23 @@ phosh_background_init (PhoshBackground *self)
 
 
 GtkWidget *
-phosh_background_new (void)
+phosh_background_new (gpointer layer_shell,
+                      gpointer wl_output,
+                      guint width,
+                      guint height)
 {
-  return g_object_new (PHOSH_TYPE_BACKGROUND, NULL);
+  return g_object_new (PHOSH_TYPE_BACKGROUND,
+                       "layer-shell", layer_shell,
+                       "wl-output", wl_output,
+                       "width", width,
+                       "height", height,
+                       "anchor", (ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
+                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
+                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
+                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT),
+                       "layer", ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND,
+                       "kbd-interactivity", FALSE,
+                       "exclusive-zone", -1,
+                       "namespace", "phosh background",
+                       NULL);
 }

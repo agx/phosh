@@ -80,7 +80,7 @@ typedef struct
   struct elem *panel;
 
   /* Background */
-  struct elem *background;
+  GtkWidget *background;
 
   /* Lockscreen */
   struct elem *lockscreen;   /* phone display lock screen */
@@ -577,36 +577,25 @@ panel_create (PhoshShell *self)
 }
 
 
-#if 0  /* https://github.com/swaywm/wlroots/issues/897 */
+
 static void
 background_create (PhoshShell *self)
 {
+
+#ifdef WITH_PHOSH_BACKGROUND
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  GdkWindow *gdk_window;
-  struct elem *background;
+  PhoshMonitor *monitor;
   gint width, height;
 
-  background = calloc (1, sizeof *background);
-  background->window = phosh_background_new ();
-
+  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+  g_return_if_fail (monitor);
   phosh_shell_get_usable_area (self, NULL, NULL, &width, &height);
+
   /* set it up as the background */
-  gdk_window = gtk_widget_get_window (background->window);
-  gdk_wayland_window_set_use_custom_surface (gdk_window);
-  background->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
-  background->layer_surface =
-    zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
-                                          background->wl_surface,
-                                          priv->output,
-                                          ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND,
-                                          "phosh");
-  zwlr_layer_surface_v1_set_anchor(background->layer_surface, ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM);
-  zwlr_layer_surface_v1_set_size(background->layer_surface, width, height);
-  zwlr_layer_surface_v1_add_listener(background->layer_surface, &layer_surface_listener, background);
-  wl_surface_commit(background->wl_surface);
-  priv->background = background;
-}
+  priv->background = phosh_background_new (
+    priv->layer_shell, monitor->wl_output, width, height);
 #endif
+}
 
 static void
 css_setup (PhoshShell *self)
@@ -744,6 +733,11 @@ phosh_shell_dispose (GObject *object)
   PhoshShell *self = PHOSH_SHELL (object);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
+  if (priv->background) {
+    gtk_widget_destroy (priv->background);
+    priv->background = NULL;
+  }
+
   if (priv->shields) {
     g_ptr_array_free (priv->shields, TRUE);
     priv->shields = NULL;
@@ -802,10 +796,7 @@ phosh_shell_constructed (GObject *object)
   css_setup (self);
   panel_create (self);
   /* Create background after panel since it needs the panel's size */
-#if 0
-  /* https://github.com/swaywm/wlroots/issues/897 */
   background_create (self);
-#endif
   lockscreen_prepare (self);
 }
 
