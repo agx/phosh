@@ -868,6 +868,19 @@ phosh_shell_get_wl_layer_shell ()
 }
 
 
+PhoshMonitor *
+phosh_shell_get_primary_monitor ()
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (_phosh);
+  PhoshMonitor *monitor;
+
+  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+  g_return_val_if_fail (monitor, NULL);
+
+  return monitor;
+}
+
+
 /**
  * Returns the usable area in pixels usable by a client on the phone
  * display
