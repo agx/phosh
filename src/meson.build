@@ -55,6 +55,10 @@ phosh_sources = [
   'lockshield.h',
   'monitor-manager.c',
   'monitor-manager.h',
+  'system-prompt.c',
+  'system-prompt.h',
+  'system-prompter.c',
+  'system-prompter.h',
   'panel.c',
   'panel.h',
   'phosh.c',
@@ -73,6 +77,7 @@ phosh_sources = [
 ]
 
 phosh_deps = [
+  dependency('gcr-3', version: '>= 3.7.5'),
   dependency('gnome-desktop-3.0', version: '>=3.26'),
   dependency('gtk+-3.0', version: '>=3.22'),
   dependency('gtk+-wayland-3.0', version: '>=3.22'),

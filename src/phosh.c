@@ -31,6 +31,7 @@
 #include "home.h"
 #include "favorites.h"
 #include "settings.h"
+#include "system-prompter.h"
 
 
 enum {
@@ -467,6 +468,8 @@ phosh_shell_dispose (GObject *object)
   g_clear_pointer (&priv->panel, gtk_widget_destroy);
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
+  phosh_system_prompter_unregister ();
+
   G_OBJECT_CLASS (phosh_shell_parent_class)->dispose (object);
 }
 
@@ -498,6 +501,7 @@ phosh_shell_constructed (GObject *object)
   /* Create background after panel since it needs the panel's size */
   background_create (self);
   priv->lockscreen_manager = phosh_lockscreen_manager_new ();
+  phosh_system_prompter_register ();
 }
 
 
