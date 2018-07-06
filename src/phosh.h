@@ -8,6 +8,8 @@
 #ifndef PHOSH_H
 #define PHOSH_H
 
+#include "monitor/monitor.h"
+
 #include <gtk/gtk.h>
 
 #define PHOSH_TYPE_SHELL phosh_shell_get_type()
@@ -25,4 +27,8 @@ void                 phosh_shell_get_usable_area (PhoshShell *self,
 void                 phosh_shell_set_locked      (PhoshShell *self, gboolean locked);
 void                 phosh_shell_lock            (PhoshShell *self);
 void                 phosh_shell_unlock          (PhoshShell *self);
+PhoshMonitor        *phosh_shell_get_primary_monitor ();
+
+/* Phosh keeps track of the wayland globals */
+gpointer             phosh_shell_get_wl_layer_shell  ();
 #endif /* PHOSH_H */
