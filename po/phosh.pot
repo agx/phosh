@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-02 11:39+0200\n"
+"POT-Creation-Date: 2018-07-10 19:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,18 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/ui/settings-menu.ui:120
+#: src/lockscreen.c:82 src/ui/lockscreen.ui:61
+msgid "Enter PIN to unlock"
+msgstr ""
+
+#: src/lockscreen.c:174
+msgid "Checking PIN"
+msgstr ""
+
+#: src/ui/lockscreen.ui:182
+msgid "Slide up to unlock"
+msgstr ""
+
+#: src/ui/settings-menu.ui:123
 msgid "Rotation"
 msgstr ""

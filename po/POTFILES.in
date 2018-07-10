@@ -1,10 +1,15 @@
+src/auth.c
 src/background.c
+src/batteryinfo.c
 src/favorites.c
+src/layersurface.c
 src/lockscreen.c
-src/menu.c
+src/lockshield.c
+src/monitor-manager.c
 src/panel.c
 src/phosh.c
 src/settings.c
+src/wwaninfo.c
 src/ui/lockscreen.ui
 src/ui/settings-menu.ui
 src/ui/top-panel.ui
