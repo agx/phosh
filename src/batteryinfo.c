@@ -65,12 +65,14 @@ setup_display_device (PhoshBatteryInfo *self)
   if (priv->upower == NULL) {
     g_warning ("Failed to connect to upowerd: %s", err->message);
     g_clear_error (&err);
+    return;
   }
 
   /* TODO: this is a oversimplified sync call */
   priv->device = up_client_get_display_device (priv->upower);
   if (priv->device == NULL) {
     g_warning ("Failed to get upowerd display device");
+    return;
   }
 
   priv->update_icon_id = g_signal_connect_swapped (priv->device,
