@@ -46,7 +46,9 @@ update_icon (PhoshBatteryInfo *self, gpointer unused)
 
   g_debug ("Updating battery icon");
   g_return_if_fail (PHOSH_IS_BATTERY_INFO (self));
+
   priv = phosh_battery_info_get_instance_private (self);
+  g_return_if_fail (priv->device);
 
   g_object_get (priv->device, "icon-name", &icon_name, NULL);
 
@@ -86,11 +88,13 @@ static void
 phosh_battery_info_constructed (GObject *object)
 {
   PhoshBatteryInfo *self = PHOSH_BATTERY_INFO (object);
+  PhoshBatteryInfoPrivate *priv = phosh_battery_info_get_instance_private (self);
 
   G_OBJECT_CLASS (phosh_battery_info_parent_class)->constructed (object);
 
   setup_display_device (self);
-  update_icon (self, NULL);
+  if (priv->device)
+    update_icon (self, NULL);
 }
 
 
