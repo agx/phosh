@@ -67,12 +67,18 @@ static void
 keypad_update_labels (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  gint len;
+  gchar *pos;
   const gchar *number;
-  g_autofree gchar *stars = NULL;
+  g_autofree gchar *dots = NULL;
 
   number = hdy_dialer_get_number (HDY_DIALER (priv->dialer_keypad));
-  stars = g_strnfill (strlen(number), '*');
-  gtk_label_set_label (GTK_LABEL (priv->lbl_keypad), stars);
+  len = strlen (number);
+  dots = pos = g_malloc0 (len * 3 + 1);
+  g_return_if_fail (dots);
+  for (int i; i < len; i++)
+    pos = g_stpcpy (pos, "●");
+  gtk_label_set_text (GTK_LABEL (priv->lbl_keypad), dots);
   gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Enter PIN to unlock"));
 }
 
