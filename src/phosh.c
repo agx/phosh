@@ -950,7 +950,7 @@ int main(int argc, char *argv[])
   GMainContext *context;
   GOptionContext *opt_context;
   GError *err = NULL;
-  gboolean unlocked;
+  gboolean unlocked = FALSE;
 
   const GOptionEntry options [] = {
     {"unlocked", 'U', 0, G_OPTION_ARG_NONE, &unlocked,
