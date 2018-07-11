@@ -19,7 +19,7 @@
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-wall-clock.h>
 
-#define FAVORITES_LABEL_TEXT "Librem5 dev board"
+#define _(String) gettext (String)
 
 enum {
   FAVORITES_ACTIVATED,
@@ -94,7 +94,7 @@ phosh_panel_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_panel_parent_class)->constructed (object);
 
-  gtk_button_set_label (GTK_BUTTON (priv->btn_favorites), FAVORITES_LABEL_TEXT);
+  gtk_button_set_label (GTK_BUTTON (priv->btn_favorites), _("Librem5 dev board"));
   priv->wall_clock = gnome_wall_clock_new ();
 
   g_signal_connect (priv->wall_clock,

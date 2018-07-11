@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-10 19:53+0200\n"
+"POT-Creation-Date: 2018-07-11 06:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,6 +23,10 @@ msgstr ""
 
 #: src/lockscreen.c:174
 msgid "Checking PIN"
+msgstr ""
+
+#: src/panel.c:95
+msgid "Librem5 dev board"
 msgstr ""
 
 #: src/ui/lockscreen.ui:182
