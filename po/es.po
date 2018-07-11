@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-10 19:53+0200\n"
+"POT-Creation-Date: 2018-07-11 06:26+0000\n"
 "PO-Revision-Date: 2018-07-11 07:42+0200\n"
+"Last-Translator: \n"
 "Language-Team: none\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.8\n"
-"Last-Translator: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: es\n"
 
 #: src/lockscreen.c:82 src/ui/lockscreen.ui:61
 msgid "Enter PIN to unlock"
@@ -25,6 +25,10 @@ msgstr "Introduce el PIN para desbloquear"
 #: src/lockscreen.c:174
 msgid "Checking PIN"
 msgstr "Comprobando PIN"
+
+#: src/panel.c:95
+msgid "Librem5 dev board"
+msgstr "Placa de Desarrollo para Librem5"
 
 #: src/ui/lockscreen.ui:182
 msgid "Slide up to unlock"
