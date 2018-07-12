@@ -73,6 +73,7 @@ phosh_monitor_manager_handle_get_resources (
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder crtcs, modes, clones, properties;
+    g_autofree gchar *output_name = NULL;
 
     g_variant_builder_init (&crtcs, G_VARIANT_TYPE ("au"));
     g_variant_builder_add (&crtcs, "u", i /* possible_crtc_index */);
@@ -90,12 +91,13 @@ phosh_monitor_manager_handle_get_resources (
     g_variant_builder_add (&properties, "{sv}", "height-mm",
                            g_variant_new_int32 (monitor->height_mm));
 
+    output_name = g_strdup_printf("DP%d", i);
     g_variant_builder_add (&output_builder, "(uxiausauaua{sv})",
                            i, /* ID */
                            i, /* (gint64)output->winsys_id, */
                            i, /* crtc_index, */
                            &crtcs,
-                           g_strdup_printf("DP%d", i), /* output->name */
+                           output_name, /* output->name */
                            &modes,
                            &clones,
                            &properties);
@@ -201,11 +203,14 @@ phosh_monitor_manager_handle_get_current_state (
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder modes_builder, supported_scales_builder, mode_properties_builder,
       monitor_properties_builder;
+    g_autofree gchar *serial = NULL;
+    g_autofree gchar *connector = NULL;
 
     g_variant_builder_init (&modes_builder, G_VARIANT_TYPE (MODES_FORMAT));
 
     for (int k = 0; k < monitor->modes->len; k++) {
       PhoshMonitorMode *mode = &g_array_index (monitor->modes, PhoshMonitorMode, k);
+      g_autofree gchar *mode_name = NULL;
 
       g_variant_builder_init (&supported_scales_builder,
                               G_VARIANT_TYPE ("ad"));
@@ -221,9 +226,11 @@ phosh_monitor_manager_handle_get_current_state (
                              "is-preferred",
                              g_variant_new_boolean (i == 0));
 
+      mode_name = g_strdup_printf ("%dx%d@%.0f", mode->width, mode->height,
+                                   mode->refresh / 1000.0);
+
       g_variant_builder_add (&modes_builder, MODE_FORMAT,
-                             g_strdup_printf ("%dx%d@%.0f", mode->width, mode->height,
-                                              mode->refresh / 1000.0), /* mode_id, */
+                             mode_name, /* mode_id */
                              mode->width,
                              mode->height,
                              (double) mode->refresh / 1000.0,
@@ -239,11 +246,13 @@ phosh_monitor_manager_handle_get_current_state (
                            "is-builtin",
                            g_variant_new_boolean (TRUE));
 
+    connector = g_strdup_printf ("DP%d", i);
+    serial = g_strdup_printf ("00%d", i);
     g_variant_builder_add (&monitors_builder, MONITOR_FORMAT,
-                           g_strdup_printf ("DP%d", i),         /* monitor_spec->connector, */
+                           connector,                           /* monitor_spec->connector, */
                            monitor->vendor,                     /* monitor_spec->vendor, */
                            monitor->product,                    /* monitor_spec->product, */
-                           g_strdup_printf ("00%d", i),         /* monitor_spec->serial, */
+                           serial,                              /* monitor_spec->serial, */
                            &modes_builder,
                            &monitor_properties_builder);
   }
@@ -252,15 +261,19 @@ phosh_monitor_manager_handle_get_current_state (
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder logical_monitor_monitors_builder;
+    g_autofree gchar *serial = NULL;
+    g_autofree gchar *connector = NULL;
 
+    connector = g_strdup_printf ("DP%d", i);
+    serial = g_strdup_printf ("00%d", i);
     g_variant_builder_init (&logical_monitor_monitors_builder,
                             G_VARIANT_TYPE (LOGICAL_MONITOR_MONITORS_FORMAT));
     g_variant_builder_add (&logical_monitor_monitors_builder,
                            MONITOR_SPEC_FORMAT,
-                           g_strdup_printf ("DP%d", i),         /* monitor_spec->connector, */
+                           connector,                           /* monitor_spec->connector, */
                            monitor->vendor,                     /* monitor_spec->vendor, */
                            monitor->product,                    /* monitor_spec->product, */
-                           g_strdup_printf ("00%d", i)          /* monitor_spec->serial, */
+                           serial                               /* monitor_spec->serial, */
       );
 
     g_variant_builder_add (&logical_monitors_builder,
