@@ -1,22 +1,58 @@
-before_script:
- - apt-get -y update
- - apt-get -y install build-essential git libgirepository1.0-dev valac
- # We need libhandy in Debian for that
- #- apt-get -y build-dep .
- - apt-get -y install libgnome-desktop-3-dev libgtk-3-dev libpam0g-dev libupower-glib-dev libwayland-dev meson xvfb xauth
+variables:
+  DEPS: build-essential git libwlroots-examples wget gnome-session
+        gdb weston
 
-build-native:
-  stage: build
+before_script:
+  - export DEBIAN_FRONTEND=noninteractive
+  - apt-get -y update
+  - apt-get -y install wget gnupg
+  - echo "deb http://ci.puri.sm/ scratch librem5" > /etc/apt/sources.list.d/ci.list
+  - wget -O- https://ci.puri.sm/ci-repo.key | apt-key add -
+  - apt-get -y update
+  - apt-get -y build-dep .
+  - apt-get -y install $DEPS
+  - ulimit -c unlimited
+
+.tags: &tags
   tags:
     - librem5
+
+build:native:
+  <<: *tags
+  stage: build
+  artifacts:
+    paths:
+      - _build
   script:
-    - export LC_ALL=C.UTF-8
-    - git clone --depth=1 https://source.puri.sm/Librem5/libhandy
-    - cd libhandy
-    - meson . _build -Dgtk_doc=false -Dtests=false -Dexamples=false -Dglade_catalog=false
-    - ninja -C _build install
-    - cd ..
     - meson . _build
     - ninja -C _build
+
+test:native:
+  <<: *tags
+  stage: test
+  dependencies:
+    - build:native
+  script:
+    - export LC_ALL=C.UTF-8
     - xvfb-run ninja -C _build test
+
+test:smoke:one-output:
+  <<: *tags
+  stage: test
+  dependencies:
+    - build:native
+  script:
+    - export G_DEBUG=fatal-criticals
+    - export WLR_X11_OUTPUTS=1
+    - tests/smoke
+
+test:smoke:two-outputs:
+  <<: *tags
+  stage: test
+  dependencies:
+    - build:native
+  script:
+    - export G_DEBUG=fatal-criticals
+    - export WLR_X11_OUTPUTS=2
+    - tests/smoke
 

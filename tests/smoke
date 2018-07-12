@@ -1,0 +1,85 @@
+#!/bin/bash
+
+RET=1
+
+set -x
+set -e
+
+WORKDIR=$(mktemp -d)
+PHOSH_LOG="${WORKDIR}/phosh.log"
+WLROOTS_LOG="${WORKDIR}/rootston.log"
+ROOTSTON_CONFIG="${WORKDIR}/rootston.ini"
+
+function cleanup () {
+  [ ! -f core ] || echo bt | gdb -c core _build/src/phosh
+  [ "${RET}" -eq 0 ] || cat ${WLROOTS_LOG} || true
+  [ "${RET}" -eq 0 ] || cat ${PHOSH_LOG} || true
+  [ -z "${XVFB_PID}" ] || kill -9 "${XVFB_PID}" || true
+  [ -z "${PHOSH_PID}" ] || kill -9 "${PHOSH_PID}" >& /dev/null || true
+  [ -z "${WORKDIR}" ] || rm -rf "${WORKDIR}"
+}
+trap cleanup EXIT
+
+cat <<EOF > "${ROOTSTON_CONFIG}"
+[output:X11-1]
+mode = 768x1024
+
+[output:X11-2]
+mode = 1280x800
+EOF
+
+XVFB_OPTS="-screen 0 768x1024x24 -ac +extension GLX +render -noreset"
+export WLR_BACKENDS=x11
+export XDG_RUNTIME_DIR="${WORKDIR}"
+xvfb-run -s "${XVFB_OPTS}" -a /usr/lib/wlroots/rootston \
+	 -C "${ROOTSTON_CONFIG}" \
+	 -E "printenv | grep WAYLAND_DISPLAY= > ${WORKDIR}/wl-info" \
+	 >& "${WLROOTS_LOG}" &
+XVFB_PID=$!
+echo "xvfb PID is $XVFB_PID"
+
+# Wait for startup
+WAIT=5
+while [ ${WAIT} -gt 0 ]; do
+  [ ! -f "${WORKDIR}/wl-info" ] || break
+  sleep 1
+  ((WAIT-=1))
+done
+
+. "${WORKDIR}"/wl-info
+export WAYLAND_DISPLAY
+
+weston-info
+_build/run >& "${PHOSH_LOG}" &
+PHOSH_PID=$!
+
+echo "Phosh's PID is $PHOSH_PID"
+sleep 1 # give it some time to start
+
+echo -n "Checking if phosh is alive..."
+kill -0 $PHOSH_PID
+echo "yes."
+
+kill -15 $PHOSH_PID
+echo -n "Checking if phosh shutted down..."
+sleep 1
+! kill -0 $PHOSH_PID >&/dev/null
+echo "yes."
+
+if grep "WARNING" "${PHOSH_LOG}"; then
+    echo "Found error log messages"
+    cat ${PHOSH_LOG}
+    # We're having warnings due to missing DBus
+    # services and gnome-session depending on X11
+    #exit 1
+fi
+
+if grep -E "CRITICAL" "${PHOSH_LOG}"; then
+    echo "Found error log messages"
+    cat ${PHOSH_LOG}
+    exit 1
+fi
+
+echo "Started/stopped phosh successfully"
+RET=0
+exit $RET
