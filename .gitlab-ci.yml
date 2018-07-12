@@ -5,12 +5,12 @@ variables:
 before_script:
   - export DEBIAN_FRONTEND=noninteractive
   - apt-get -y update
-  - apt-get -y install wget gnupg
+  - apt-get -y install wget gnupg eatmydata
   - echo "deb http://ci.puri.sm/ scratch librem5" > /etc/apt/sources.list.d/ci.list
   - wget -O- https://ci.puri.sm/ci-repo.key | apt-key add -
-  - apt-get -y update
-  - apt-get -y build-dep .
-  - apt-get -y install $DEPS
+  - eatmydata apt-get -y update
+  - eatmydata apt-get -y build-dep .
+  - eatmydata apt-get -y install $DEPS
   - ulimit -c unlimited
 
 .tags: &tags
