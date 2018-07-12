@@ -42,7 +42,7 @@ static void
 update_icon (PhoshBatteryInfo *self, gpointer unused)
 {
   PhoshBatteryInfoPrivate *priv;
-  const gchar *icon_name;
+  g_autofree gchar *icon_name = NULL;
 
   g_debug ("Updating battery icon");
   g_return_if_fail (PHOSH_IS_BATTERY_INFO (self));
