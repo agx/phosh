@@ -1,14 +1,20 @@
 #!/bin/sh
 set -e
 
-EXEC="${EXEC:-exec}"
+ABS_BUILDDIR='@ABS_BUILDDIR@'
+ABS_SRCDIR='@ABS_SRCDIR@'
 
 if [ "${PHOSH_VALGRIND}" = 1 ]; then
    echo "Running phosh under valgrind"
-   EXEC="valgrind --tool=memcheck --leak-check=full --leak-resolution=high --num-callers=20 --log-file=vgdump"
+   WRAPPER="valgrind -v              \
+           --tool=memcheck           \
+           --leak-check=full         \
+           --leak-resolution=high    \
+           --num-callers=30          \
+           --log-file=vgdump         \
+           --suppressions=${ABS_SRCDIR}/data/valgrind.suppressions \
+   "
 fi
-
-ABS_BUILDDIR='@ABS_BUILDDIR@'
 
 # Start up g-s-d, etc.
 gnome-session --session=gnome-dummy --disable-acceleration-check &
@@ -16,4 +22,4 @@ gnome-session --session=gnome-dummy --disable-acceleration-check &
 export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data"
 export G_MESSAGES_DEBUG=all
 set -x
-${EXEC} "${ABS_BUILDDIR}/src/phosh" $@
+exec ${WRAPPER} "${ABS_BUILDDIR}/src/phosh" $@

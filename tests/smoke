@@ -2,24 +2,60 @@
 
 RET=1
 
-set -x
 set -e
 
 WORKDIR=$(mktemp -d)
-PHOSH_LOG="${WORKDIR}/phosh.log"
-WLROOTS_LOG="${WORKDIR}/rootston.log"
+[ -n "${OUTDIR}" ] || OUTDIR="${WORKDIR}"
+PHOSH_LOG="${OUTDIR}/phosh.log"
+WLROOTS_LOG="${OUTDIR}/rootston.log"
 ROOTSTON_CONFIG="${WORKDIR}/rootston.ini"
+VGDUMP="./vgdump"
+TIMEOUT=5
 
 function cleanup () {
-  [ ! -f core ] || echo bt | gdb -c core _build/src/phosh
-  [ "${RET}" -eq 0 ] || cat ${WLROOTS_LOG} || true
-  [ "${RET}" -eq 0 ] || cat ${PHOSH_LOG} || true
-  [ -z "${XVFB_PID}" ] || kill -9 "${XVFB_PID}" || true
-  [ -z "${PHOSH_PID}" ] || kill -9 "${PHOSH_PID}" >& /dev/null || true
-  [ -z "${WORKDIR}" ] || rm -rf "${WORKDIR}"
+  [ ! -f core ] || echo bt | gdb -c core _build/src/phosh | tee >& ${OUTDIR}/backtrace.log
+  [ ! -f "${WLROOTS_LOG}" ] || cat "${WLROOTS_LOG}"                || true
+  [ ! -f "${PHOSH_LOG}" ]   || cat "${PHOSH_LOG}"                  || true
+  [ -z "${XVFB_PID}" ]      || kill -9 "${XVFB_PID}"  >& /dev/null || true
+  [ -z "${PHOSH_PID}" ]     || kill -9 "${PHOSH_PID}" >& /dev/null || true
+  [ -z "${WORKDIR}" ]       || rm -rf "${WORKDIR}"
 }
 trap cleanup EXIT
 
+
+function usage () {
+    cat <<EOF
+Usage: $0
+    -h           - Display this help message."
+    -T <seconds> - how long should phosh run (default $TIMEOUT seconds
+    -V           - run under valgrind
+EOF
+}
+
+
+while getopts "hT:V" opt; do
+  case ${opt} in
+    T)
+      TIMEOUT=$OPTARG
+      ;;
+    V)
+      export PHOSH_VALGRIND=1
+      ;;
+    \?)
+      echo "Invalid Option: -$OPTARG" 1>&2
+      usage "$0"
+      RET=1
+      exit 0
+      ;;
+    h)
+      usage "$0"
+      RET=0
+      exit 0
+      ;;
+  esac
+done
+
+[ -z "${OUTDIR}" ] || mkdir -p "${OUTDIR}"
 cat <<EOF > "${ROOTSTON_CONFIG}"
 [output:X11-1]
 mode = 768x1024
@@ -27,6 +63,9 @@ mode = 768x1024
 [output:X11-2]
 mode = 1280x800
 EOF
+
+# Provide output for the interesting parts
+set -x
 
 XVFB_OPTS="-screen 0 768x1024x24 -ac +extension GLX +render -noreset"
 export WLR_BACKENDS=x11
@@ -54,7 +93,7 @@ _build/run >& "${PHOSH_LOG}" &
 PHOSH_PID=$!
 
 echo "Phosh's PID is $PHOSH_PID"
-sleep 1 # give it some time to start
+sleep "${TIMEOUT}" # give it some time to start
 
 echo -n "Checking if phosh is alive..."
 kill -0 $PHOSH_PID
@@ -62,24 +101,30 @@ echo "yes."
 
 kill -15 $PHOSH_PID
 echo -n "Checking if phosh shutted down..."
-sleep 1
+sleep "${TIMEOUT}"
 ! kill -0 $PHOSH_PID >&/dev/null
 echo "yes."
 
-if grep "WARNING" "${PHOSH_LOG}"; then
-    echo "Found error log messages"
-    cat ${PHOSH_LOG}
-    # We're having warnings due to missing DBus
-    # services and gnome-session depending on X11
-    #exit 1
-fi
-
-if grep -E "CRITICAL" "${PHOSH_LOG}"; then
-    echo "Found error log messages"
-    cat ${PHOSH_LOG}
-    exit 1
-fi
-
 echo "Started/stopped phosh successfully"
 RET=0
+
+if grep -qs "WARNING" "${PHOSH_LOG}"; then
+    echo "Found warning log messages" 1>&2
+    # We're having warnings due to missing DBus
+    # services and gnome-session depending on X11.
+    # python-dbusmock I'm looking at you
+    #RET=1
+fi
+
+if grep -qs "CRITICAL" "${PHOSH_LOG}"; then
+    echo "Found critical log messages" 1>&2
+    RET=1
+fi
+
+if [ -n "${PHOSH_VALGRIND}" ] && grep -qs "definitely lost in loss record" "${VGDUMP}"; then
+    echo "Found memory leaks" 1>&2
+    cat ${VGDUMP}
+    RET=1
+fi
+
 exit $RET
