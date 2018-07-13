@@ -948,7 +948,7 @@ int main(int argc, char *argv[])
 {
   g_autoptr(GSource) sigterm;
   GMainContext *context;
-  GOptionContext *opt_context;
+  g_autoptr(GOptionContext) opt_context;
   GError *err = NULL;
   gboolean unlocked = FALSE;
 
