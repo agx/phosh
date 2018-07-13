@@ -9,6 +9,7 @@ WORKDIR=$(mktemp -d)
 PHOSH_LOG="${OUTDIR}/phosh.log"
 WLROOTS_LOG="${OUTDIR}/rootston.log"
 ROOTSTON_CONFIG="${WORKDIR}/rootston.ini"
+VGDUMP="./vgdump"
 TIMEOUT=5
 
 function cleanup () {
@@ -104,20 +105,26 @@ sleep "${TIMEOUT}"
 ! kill -0 $PHOSH_PID >&/dev/null
 echo "yes."
 
-if grep "WARNING" "${PHOSH_LOG}"; then
-    echo "Found error log messages"
-    cat ${PHOSH_LOG}
-    # We're having warnings due to missing DBus
-    # services and gnome-session depending on X11
-    #exit 1
-fi
-
-if grep -E "CRITICAL" "${PHOSH_LOG}"; then
-    echo "Found error log messages"
-    cat ${PHOSH_LOG}
-    exit 1
-fi
-
 echo "Started/stopped phosh successfully"
 RET=0
+
+if grep -qs "WARNING" "${PHOSH_LOG}"; then
+    echo "Found warning log messages" 1>&2
+    # We're having warnings due to missing DBus
+    # services and gnome-session depending on X11.
+    # python-dbusmock I'm looking at you
+    #RET=1
+fi
+
+if grep -qs "CRITICAL" "${PHOSH_LOG}"; then
+    echo "Found critical log messages" 1>&2
+    RET=1
+fi
+
+if [ -n "${PHOSH_VALGRIND}" ] && grep -qs "definitely lost in loss record" "${VGDUMP}"; then
+    echo "Found memory leaks" 1>&2
+    cat ${VGDUMP}
+    RET=1
+fi
+
 exit $RET
