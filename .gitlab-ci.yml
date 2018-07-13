@@ -1,6 +1,6 @@
 variables:
   DEPS: build-essential git libwlroots-examples wget gnome-session
-        gdb weston
+        gdb weston valgrind
 
 before_script:
   - export DEBIAN_FRONTEND=noninteractive
@@ -42,9 +42,13 @@ test:smoke:one-output:
   dependencies:
     - build:native
   script:
+    - export OUTDIR=output
     - export G_DEBUG=fatal-criticals
     - export WLR_X11_OUTPUTS=1
     - tests/smoke
+  artifacts:
+    paths:
+      - output/*.log
 
 test:smoke:two-outputs:
   <<: *tags
@@ -52,7 +56,26 @@ test:smoke:two-outputs:
   dependencies:
     - build:native
   script:
+    - export OUTDIR=output
     - export G_DEBUG=fatal-criticals
     - export WLR_X11_OUTPUTS=2
     - tests/smoke
+  artifacts:
+    paths:
+      - output/*.log
+
+test:smoke:valgrind:
+  <<: *tags
+  stage: test
+  dependencies:
+    - build:native
+  script:
+    - export OUTDIR=output
+    - export G_DEBUG=fatal-criticals
+    - export WLR_X11_OUTPUTS=1
+    - tests/smoke -V -T 30
+  artifacts:
+    paths:
+      - vgdump
+      - output/*.log
 
