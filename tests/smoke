@@ -5,18 +5,19 @@ RET=1
 set -e
 
 WORKDIR=$(mktemp -d)
-PHOSH_LOG="${WORKDIR}/phosh.log"
-WLROOTS_LOG="${WORKDIR}/rootston.log"
+[ -n "${OUTDIR}" ] || OUTDIR="${WORKDIR}"
+PHOSH_LOG="${OUTDIR}/phosh.log"
+WLROOTS_LOG="${OUTDIR}/rootston.log"
 ROOTSTON_CONFIG="${WORKDIR}/rootston.ini"
 TIMEOUT=5
 
 function cleanup () {
-  [ ! -f core ] || echo bt | gdb -c core _build/src/phosh
-  [ "${RET}" -eq 0 ]    || [ ! -f "${WLROOTS_LOG}" ] || cat "${WLROOTS_LOG}" || true
-  [ "${RET}" -eq 0 ]    || [ ! -f "${PHOSH_LOG}" ]  || cat "${PHOSH_LOG}"    || true
-  [ -z "${XVFB_PID}" ]  || kill -9 "${XVFB_PID}"  >& /dev/null               || true
-  [ -z "${PHOSH_PID}" ] || kill -9 "${PHOSH_PID}" >& /dev/null               || true
-  [ -z "${WORKDIR}" ]   || rm -rf "${WORKDIR}"
+  [ ! -f core ] || echo bt | gdb -c core _build/src/phosh | tee >& ${OUTDIR}/backtrace.log
+  [ ! -f "${WLROOTS_LOG}" ] || cat "${WLROOTS_LOG}"                || true
+  [ ! -f "${PHOSH_LOG}" ]   || cat "${PHOSH_LOG}"                  || true
+  [ -z "${XVFB_PID}" ]      || kill -9 "${XVFB_PID}"  >& /dev/null || true
+  [ -z "${PHOSH_PID}" ]     || kill -9 "${PHOSH_PID}" >& /dev/null || true
+  [ -z "${WORKDIR}" ]       || rm -rf "${WORKDIR}"
 }
 trap cleanup EXIT
 
@@ -53,6 +54,7 @@ while getopts "hT:V" opt; do
   esac
 done
 
+[ -z "${OUTDIR}" ] || mkdir -p "${OUTDIR}"
 cat <<EOF > "${ROOTSTON_CONFIG}"
 [output:X11-1]
 mode = 768x1024
