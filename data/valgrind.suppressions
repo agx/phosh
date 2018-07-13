@@ -1,0 +1,49 @@
+# Fontconfig
+{
+   css_fontconfig_FcPatternCreate
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:FcPatternCreate
+   ...
+   fun:XML_ParseBuffer
+   ...
+   fun:gtk_label_get_preferred_layout_size
+   fun:gtk_label_get_preferred_size
+   fun:gtk_label_measure
+   fun:gtk_css_custom_gadget_get_preferred_size
+   fun:gtk_css_gadget_get_preferred_size
+   ...
+}
+
+{
+   css_fontconfig_FcFontRenderPrepare
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:realloc
+   ...
+   fun:FcFontRenderPrepare
+   fun:FcFontMatch
+   ...
+   fun:gtk_css_custom_gadget_get_preferred_size
+   fun:gtk_css_gadget_get_preferred_size
+   ...
+}
+
+{
+   fontconfig_malloc
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   obj:/usr/lib/*/libfontconfig.so.*
+   ...
+}
+
+{
+   fontconfig_realloc
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:realloc
+   obj:/usr/lib/*/libfontconfig.so.*
+   ...
+}
