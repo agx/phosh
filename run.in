@@ -4,7 +4,7 @@ set -e
 
 if [ "${PHOSH_VALGRIND}" = 1 ]; then
    echo "Running phosh under valgrind"
-   WRAPPER="valgrind --tool=memcheck --leak-check=full --leak-resolution=high --num-callers=20 --log-file=vgdump"
+   WRAPPER="valgrind --tool=memcheck --leak-check=full --leak-resolution=high --num-callers=30 --log-file=vgdump"
 fi
 
 ABS_BUILDDIR='@ABS_BUILDDIR@'
