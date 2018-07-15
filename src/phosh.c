@@ -670,7 +670,7 @@ registry_handle_global (void *data,
     output = wl_registry_bind (
       registry,
       name,
-      &wl_output_interface, 1);
+      &wl_output_interface, 2);
     phosh_monitor_manager_add_monitor (
       priv->monitor_manager,
       phosh_monitor_new_from_wl_output(output));
