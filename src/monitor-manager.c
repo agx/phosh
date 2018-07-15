@@ -57,6 +57,9 @@ phosh_monitor_manager_handle_get_resources (
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder transforms;
 
+    if (!monitor->done)
+      continue;
+
     /* TODO: add transforms */
     g_variant_builder_init (&transforms, G_VARIANT_TYPE ("au"));
     g_variant_builder_add (&transforms, "u", 0);
@@ -79,6 +82,9 @@ phosh_monitor_manager_handle_get_resources (
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder crtcs, modes, clones, properties;
     g_autofree gchar *output_name = NULL;
+
+    if (!monitor->done)
+      continue;
 
     g_variant_builder_init (&crtcs, G_VARIANT_TYPE ("au"));
     g_variant_builder_add (&crtcs, "u", i /* possible_crtc_index */);
@@ -112,6 +118,9 @@ phosh_monitor_manager_handle_get_resources (
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GArray *modes = monitor->modes;
+
+    if (!monitor->done)
+      continue;
 
     for (int k = 0; k < modes->len; k++) {
       PhoshMonitorMode *mode = &g_array_index (modes, PhoshMonitorMode, k);
@@ -376,6 +385,9 @@ phosh_monitor_manager_handle_get_current_state (
     g_autofree gchar *serial = NULL;
     g_autofree gchar *connector = NULL;
 
+    if (!monitor->done)
+      continue;
+
     g_variant_builder_init (&modes_builder, G_VARIANT_TYPE (MODES_FORMAT));
 
     for (int k = 0; k < monitor->modes->len; k++) {
@@ -433,6 +445,9 @@ phosh_monitor_manager_handle_get_current_state (
     GVariantBuilder logical_monitor_monitors_builder;
     g_autofree gchar *serial = NULL;
     g_autofree gchar *connector = NULL;
+
+    if (!monitor->done)
+      continue;
 
     connector = g_strdup_printf ("DP%d", i);
     serial = g_strdup_printf ("00%d", i);
