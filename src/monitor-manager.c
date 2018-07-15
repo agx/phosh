@@ -149,7 +149,7 @@ phosh_monitor_manager_handle_change_backlight (
   guint                  output_index,
   gint                   value)
 {
-  g_debug ("Unimplemented DBus call %s\n", __func__);
+  g_debug ("Unimplemented DBus call %s", __func__);
   return FALSE;
 }
 
@@ -213,7 +213,7 @@ phosh_monitor_manager_handle_get_crtc_gamma (
   struct gamma_control_manager *gamma_control_manager;
   struct get_wl_gamma_callback_data *data;;
 
-  g_debug ("DBus call %s for crtc %d, serial %d\n", __func__, crtc_id, serial);
+  g_debug ("DBus call %s for crtc %d, serial %d", __func__, crtc_id, serial);
 
   if (serial != self->serial) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
@@ -488,7 +488,7 @@ phosh_monitor_manager_handle_apply_monitors_config (
   GVariant              *logical_monitor_configs_variant,
   GVariant              *properties_variant)
 {
-  g_debug ("Stubbed DBus call %s\n", __func__);
+  g_debug ("Stubbed DBus call %s", __func__);
 
   /* Just do nothing for the moment */
   phosh_display_dbus_org_gnome_mutter_display_config_complete_apply_monitors_config (
@@ -516,7 +516,7 @@ on_name_acquired (GDBusConnection *connection,
                   const char      *name,
                   gpointer         user_data)
 {
-  g_debug ("Acquired name %s\n", name);
+  g_debug ("Acquired name %s", name);
 }
 
 
@@ -525,7 +525,7 @@ on_name_lost (GDBusConnection *connection,
               const char      *name,
               gpointer         user_data)
 {
-  g_debug ("Lost or failed to acquire name %s\n", name);
+  g_debug ("Lost or failed to acquire name %s", name);
 }
 
 
