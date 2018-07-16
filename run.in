@@ -13,6 +13,7 @@ if [ "${PHOSH_VALGRIND}" = 1 ]; then
            --num-callers=40          \
            --log-file=vgdump         \
            --suppressions=${ABS_SRCDIR}/data/valgrind.suppressions \
+           --suppressions=/usr/share/glib-2.0/valgrind/glib.supp \
    "
 elif [ "${PHOSH_GDB}" = 1 ]; then
     echo "Running phosh under gdb"
