@@ -82,12 +82,14 @@ phosh_deps = [
   dependency('wayland-client', version: '>=1.14'),
   dependency('libhandy-0.0', version: '>=0.0.1'),
   dependency('upower-glib', version: '>=0.99.1'),
+  libgvc_dep,
   cc.find_library('pam', required: true),
   cc.find_library('m', required: false),
   cc.find_library('rt', required: false),
 ]
 
 phosh = executable('phosh', phosh_sources,
+  include_directories: [root_inc, src_inc],
   dependencies: phosh_deps,
   install: true,
   install_dir: libexecdir,

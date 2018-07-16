@@ -9,10 +9,12 @@ prefix = get_option('prefix')
 bindir = join_paths(prefix, get_option('bindir'))
 datadir = join_paths(prefix, get_option('datadir'))
 localedir = join_paths(prefix, get_option('localedir'))
+libdir = join_paths(prefix, get_option('libdir'))
 libexecdir = join_paths(prefix, get_option('libexecdir'))
 desktopdir = join_paths(datadir, 'applications')
 sessiondir = join_paths(datadir, 'gnome-session')
 pkgdatadir = join_paths(datadir, meson.project_name())
+pkglibdir = join_paths(libdir, meson.project_name())
 
 config_h = configuration_data()
 config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
@@ -97,6 +99,18 @@ configure_file(
 
 gnome = import('gnome')
 i18n  = import('i18n')
+
+libgvc = subproject('gvc',
+  default_options: [
+    'package_name=' + meson.project_name(),
+    'package_version=' + meson.project_version(),
+    'pkgdatadir=' + pkgdatadir,
+    'pkglibdir=' + pkglibdir,
+    'static=true',
+    'introspection=false',
+    'alsa=false'
+  ])
+libgvc_dep = libgvc.get_variable('libgvc_dep')
 
 subdir('data')
 subdir('po')
