@@ -31,4 +31,5 @@ PhoshMonitor        *phosh_shell_get_primary_monitor ();
 
 /* Phosh keeps track of the wayland globals */
 gpointer             phosh_shell_get_wl_layer_shell  ();
+gpointer             phosh_shell_get_wl_gamma_control_manager ();
 #endif /* PHOSH_H */

@@ -10,7 +10,12 @@
 
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
+
+#include "gamma-control-client-protocol.h"
+#include "phosh.h"
+
 #include <gdk/gdkwayland.h>
+
 
 static void phosh_monitor_manager_display_config_init (
   PhoshDisplayDbusOrgGnomeMutterDisplayConfigIface *iface);
@@ -52,6 +57,9 @@ phosh_monitor_manager_handle_get_resources (
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder transforms;
 
+    if (!monitor->done)
+      continue;
+
     /* TODO: add transforms */
     g_variant_builder_init (&transforms, G_VARIANT_TYPE ("au"));
     g_variant_builder_add (&transforms, "u", 0);
@@ -74,6 +82,9 @@ phosh_monitor_manager_handle_get_resources (
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder crtcs, modes, clones, properties;
     g_autofree gchar *output_name = NULL;
+
+    if (!monitor->done)
+      continue;
 
     g_variant_builder_init (&crtcs, G_VARIANT_TYPE ("au"));
     g_variant_builder_add (&crtcs, "u", i /* possible_crtc_index */);
@@ -108,6 +119,9 @@ phosh_monitor_manager_handle_get_resources (
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GArray *modes = monitor->modes;
 
+    if (!monitor->done)
+      continue;
+
     for (int k = 0; k < modes->len; k++) {
       PhoshMonitorMode *mode = &g_array_index (modes, PhoshMonitorMode, k);
       g_variant_builder_add (&mode_builder, "(uxuudu)",
@@ -135,6 +149,7 @@ phosh_monitor_manager_handle_get_resources (
   return TRUE;
 }
 
+
 static gboolean
 phosh_monitor_manager_handle_change_backlight (
   PhoshDisplayDbusOrgGnomeMutterDisplayConfig *skeleton,
@@ -143,9 +158,55 @@ phosh_monitor_manager_handle_change_backlight (
   guint                  output_index,
   gint                   value)
 {
-  g_debug ("Unimplemented DBus call %s\n", __func__);
+  g_debug ("Unimplemented DBus call %s", __func__);
   return FALSE;
 }
+
+
+struct get_wl_gamma_callback_data {
+  PhoshDisplayDbusOrgGnomeMutterDisplayConfig *skeleton;
+  GDBusMethodInvocation *invocation;
+};
+
+
+static void handle_wl_gamma_size(void *data, struct gamma_control *gamma_control,
+                                 uint32_t size) {
+  struct get_wl_gamma_callback_data *gamma_callback_data = data;
+  GBytes *red_bytes, *green_bytes, *blue_bytes;
+  GVariant *red_v, *green_v, *blue_v;
+  /* All known clients using libgnome-desktop's
+     gnome_rr_crtc_get_gamma only do so to get the size of the gamma
+     table. So don't bother getting the real table since this is not
+     supported by wlroots: https://github.com/swaywm/wlroots/pull/1059.
+     Return an empty table instead.
+  */
+  size *= sizeof(unsigned short);
+  red_bytes = g_bytes_new_take (g_malloc0 (size), size);
+  green_bytes = g_bytes_new_take (g_malloc0 (size), size);
+  blue_bytes = g_bytes_new_take (g_malloc0 (size), size);
+
+  red_v = g_variant_new_from_bytes (G_VARIANT_TYPE ("aq"), red_bytes, TRUE);
+  green_v = g_variant_new_from_bytes (G_VARIANT_TYPE ("aq"), green_bytes, TRUE);
+  blue_v = g_variant_new_from_bytes (G_VARIANT_TYPE ("aq"), blue_bytes, TRUE);
+
+  phosh_display_dbus_org_gnome_mutter_display_config_complete_get_crtc_gamma (
+    gamma_callback_data->skeleton,
+    gamma_callback_data->invocation,
+    red_v, green_v, blue_v);
+
+  g_bytes_unref (red_bytes);
+  g_bytes_unref (green_bytes);
+  g_bytes_unref (blue_bytes);
+
+  g_free (gamma_callback_data);
+  gamma_control_destroy (gamma_control);
+}
+
+
+static const struct
+gamma_control_listener gamma_control_listener = {
+	.gamma_size = handle_wl_gamma_size,
+};
 
 
 static gboolean
@@ -155,8 +216,47 @@ phosh_monitor_manager_handle_get_crtc_gamma (
   guint                  serial,
   guint                  crtc_id)
 {
-  g_debug ("Unimplemented DBus call %s\n", __func__);
-  return FALSE;
+  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
+  PhoshMonitor *monitor;
+  struct gamma_control *gamma_control;
+  struct gamma_control_manager *gamma_control_manager;
+  struct get_wl_gamma_callback_data *data;;
+
+  g_debug ("DBus call %s for crtc %d, serial %d", __func__, crtc_id, serial);
+
+  if (serial != self->serial) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                           "The requested configuration is based on stale information");
+    return TRUE;
+  }
+
+  if (crtc_id >= self->monitors->len) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_INVALID_ARGS,
+                                           "Invalid crtc id %d", crtc_id);
+    return TRUE;
+  }
+
+  gamma_control_manager = phosh_shell_get_wl_gamma_control_manager ();
+  if (gamma_control_manager == NULL) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_NOT_SUPPORTED,
+                                           "gamma control not supported");
+    return TRUE;
+  }
+
+  data = g_new0 (struct get_wl_gamma_callback_data, 1);
+  data->skeleton = skeleton;
+  data->invocation = invocation;
+
+  monitor = g_ptr_array_index (self->monitors, crtc_id);
+  gamma_control = gamma_control_manager_get_gamma_control (
+    gamma_control_manager,
+    monitor->wl_output);
+  gamma_control_add_listener (gamma_control, &gamma_control_listener, data);
+
+  return TRUE;
 }
 
 
@@ -170,8 +270,87 @@ phosh_monitor_manager_handle_set_crtc_gamma (
   GVariant              *green_v,
   GVariant              *blue_v)
 {
-  g_debug ("Unimplemented DBus call %s\n", __func__);
-  return FALSE;
+  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
+  PhoshMonitor *monitor;
+  unsigned short *red, *green, *blue;
+  GBytes *red_bytes, *green_bytes, *blue_bytes;
+  gsize size, dummy;
+  struct gamma_control_manager *gamma_control_manager;
+  struct gamma_control *gamma_control;
+  struct wl_array wl_red, wl_green, wl_blue;
+
+  g_debug ("DBus call %s for crtc %d, serial %d\n", __func__, crtc_id, serial);
+  if (serial != self->serial) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                           "The requested configuration is based on stale information");
+      return TRUE;
+  }
+
+  if (crtc_id >= self->monitors->len) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_INVALID_ARGS,
+                                           "Invalid crtc id");
+    return TRUE;
+  }
+
+  gamma_control_manager = phosh_shell_get_wl_gamma_control_manager ();
+  if (!gamma_control_manager) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_NOT_SUPPORTED,
+                                           "gamma control not supported");
+    return TRUE;
+  }
+
+  monitor = g_ptr_array_index (self->monitors, crtc_id);
+
+  red_bytes = g_variant_get_data_as_bytes (red_v);
+  green_bytes = g_variant_get_data_as_bytes (green_v);
+  blue_bytes = g_variant_get_data_as_bytes (blue_v);
+
+  size = g_bytes_get_size (red_bytes);
+  if (size != g_bytes_get_size (blue_bytes) || size != g_bytes_get_size (green_bytes)) {
+        g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_NOT_SUPPORTED,
+                                           "gamma for each color must have same size");
+    goto err;
+  }
+
+  red = (unsigned short*) g_bytes_get_data (red_bytes, &dummy);
+  green = (unsigned short*) g_bytes_get_data (green_bytes, &dummy);
+  blue = (unsigned short*) g_bytes_get_data (blue_bytes, &dummy);
+
+  wl_array_init (&wl_red);
+  wl_array_init (&wl_green);
+  wl_array_init (&wl_blue);
+
+  wl_array_add (&wl_red, size);
+  wl_array_add (&wl_green, size);
+  wl_array_add (&wl_blue, size);
+
+  memcpy(wl_red.data, red, size);
+  memcpy(wl_green.data, green, size);
+  memcpy(wl_blue.data, blue, size);
+
+  gamma_control = gamma_control_manager_get_gamma_control (
+    gamma_control_manager,
+    monitor->wl_output);
+  gamma_control_set_gamma(gamma_control, &wl_red, &wl_green, &wl_blue);
+  gamma_control_destroy (gamma_control);
+
+  phosh_display_dbus_org_gnome_mutter_display_config_complete_set_crtc_gamma (
+      skeleton,
+      invocation);
+
+  wl_array_release (&wl_red);
+  wl_array_release (&wl_green);
+  wl_array_release (&wl_blue);
+
+ err:
+  g_bytes_unref (red_bytes);
+  g_bytes_unref (green_bytes);
+  g_bytes_unref (blue_bytes);
+  return TRUE;
 }
 
 #define MODE_FORMAT "(siiddada{sv})"
@@ -205,6 +384,9 @@ phosh_monitor_manager_handle_get_current_state (
       monitor_properties_builder;
     g_autofree gchar *serial = NULL;
     g_autofree gchar *connector = NULL;
+
+    if (!monitor->done)
+      continue;
 
     g_variant_builder_init (&modes_builder, G_VARIANT_TYPE (MODES_FORMAT));
 
@@ -264,6 +446,9 @@ phosh_monitor_manager_handle_get_current_state (
     g_autofree gchar *serial = NULL;
     g_autofree gchar *connector = NULL;
 
+    if (!monitor->done)
+      continue;
+
     connector = g_strdup_printf ("DP%d", i);
     serial = g_strdup_printf ("00%d", i);
     g_variant_builder_init (&logical_monitor_monitors_builder,
@@ -318,7 +503,7 @@ phosh_monitor_manager_handle_apply_monitors_config (
   GVariant              *logical_monitor_configs_variant,
   GVariant              *properties_variant)
 {
-  g_debug ("Stubbed DBus call %s\n", __func__);
+  g_debug ("Stubbed DBus call %s", __func__);
 
   /* Just do nothing for the moment */
   phosh_display_dbus_org_gnome_mutter_display_config_complete_apply_monitors_config (
@@ -346,7 +531,7 @@ on_name_acquired (GDBusConnection *connection,
                   const char      *name,
                   gpointer         user_data)
 {
-  g_debug ("Acquired name %s\n", name);
+  g_debug ("Acquired name %s", name);
 }
 
 
@@ -355,7 +540,7 @@ on_name_lost (GDBusConnection *connection,
               const char      *name,
               gpointer         user_data)
 {
-  g_debug ("Lost or failed to acquire name %s\n", name);
+  g_debug ("Lost or failed to acquire name %s", name);
 }
 
 
