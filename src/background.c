@@ -130,7 +130,7 @@ background_draw_cb (PhoshBackground *self,
   PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (self);
   gint x, y, width, height;
 
-  phosh_shell_get_usable_area (phosh(), &x, &y, &width, &height);
+  phosh_shell_get_usable_area (phosh_shell_get_default (), &x, &y, &width, &height);
   gdk_cairo_set_source_pixbuf (cr, priv->pixbuf, x, y);
   cairo_paint (cr);
   return TRUE;
@@ -179,7 +179,7 @@ phosh_background_constructed (GObject *object)
   gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
   gtk_widget_realize (GTK_WIDGET (self));
 
-  g_signal_connect_swapped (phosh(),
+  g_signal_connect_swapped (phosh_shell_get_default (),
                             "notify::rotation",
                             G_CALLBACK (rotation_notify_cb),
                             self);

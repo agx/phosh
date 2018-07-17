@@ -184,7 +184,7 @@ phosh_favorites_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_favorites_parent_class)->constructed (object);
 
   /* window properties */
-  phosh_shell_get_usable_area (phosh(), NULL, NULL, &width, &height);
+  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
   gtk_window_set_title (GTK_WINDOW (self), "phosh favorites");
   gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
   gtk_window_resize (GTK_WINDOW (self), width, height);

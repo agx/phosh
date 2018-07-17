@@ -91,9 +91,6 @@ typedef struct _PhoshShell
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshShell, phosh_shell, G_TYPE_OBJECT)
 
-/* Shell singleton */
-static PhoshShell *_phosh;
-
 
 static struct popup**
 get_popup_from_xdg_popup (PhoshShell *self, struct xdg_popup *xdg_popup)
@@ -383,7 +380,7 @@ lockscreen_create (PhoshShell *self)
   PhoshMonitor *monitor;
   PhoshWayland *wl = phosh_wayland_get_default ();
 
-  monitor = phosh_shell_get_primary_monitor ();
+  monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail (monitor);
 
   lockscreen = g_malloc0 (sizeof *lockscreen);
@@ -508,22 +505,6 @@ lockscreen_prepare (PhoshShell *self)
 }
 
 
-PhoshMonitor *
-get_primary_monitor (PhoshShell *self)
-{
-  PhoshShellPrivate *priv;
-  PhoshMonitor *monitor;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
-  priv = phosh_shell_get_instance_private (self);
-
-  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
-  g_return_val_if_fail (monitor, NULL);
-
-  return monitor;
-}
-
-
 static void
 panel_create (PhoshShell *self)
 {
@@ -534,7 +515,7 @@ panel_create (PhoshShell *self)
   PhoshMonitor *monitor;
   PhoshWayland *wl = phosh_wayland_get_default ();
 
-  monitor = get_primary_monitor (self);
+  monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail (monitor);
 
   panel = calloc (1, sizeof *panel);
@@ -585,7 +566,7 @@ background_create (PhoshShell *self)
   PhoshMonitor *monitor;
   gint width, height;
 
-  monitor = phosh_shell_get_primary_monitor ();
+  monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail (monitor);
   phosh_shell_get_usable_area (self, NULL, NULL, &width, &height);
 
@@ -779,10 +760,18 @@ phosh_shell_rotate_display (PhoshShell *self,
 
 
 PhoshMonitor *
-phosh_shell_get_primary_monitor ()
+phosh_shell_get_primary_monitor (PhoshShell *self)
 {
-  g_return_val_if_fail (PHOSH_IS_SHELL (_phosh), NULL);
-  return get_primary_monitor (_phosh);
+  PhoshShellPrivate *priv;
+  PhoshMonitor *monitor;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+  g_return_val_if_fail (monitor, NULL);
+
+  return monitor;
 }
 
 
@@ -797,7 +786,7 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
   gint panel_height = 0;
   gint w, h;
 
-  monitor = get_primary_monitor (self);
+  monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail(monitor);
 
   w = monitor->width;
@@ -815,9 +804,15 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
 
 
 PhoshShell *
-phosh ()
+phosh_shell_get_default ()
 {
-  return _phosh;
+  static PhoshShell *instance;
+
+  if (instance == NULL) {
+    instance = g_object_new (PHOSH_TYPE_SHELL, NULL);
+    g_object_add_weak_pointer (G_OBJECT (instance), (gpointer *)&instance);
+  }
+  return instance;
 }
 
 
@@ -838,6 +833,7 @@ int main(int argc, char *argv[])
   GError *err = NULL;
   gboolean unlocked = FALSE;
   g_autoptr(PhoshWayland) wl;
+  g_autoptr(PhoshShell) shell;
 
   const GOptionEntry options [] = {
     {"unlocked", 'U', 0, G_OPTION_ARG_NONE, &unlocked,
@@ -861,13 +857,11 @@ int main(int argc, char *argv[])
   g_source_attach (sigterm, context);
 
   wl = phosh_wayland_get_default ();
-  _phosh = g_object_new (PHOSH_TYPE_SHELL, NULL);
+  shell = phosh_shell_get_default ();
   if (!unlocked)
-    phosh_shell_lock (_phosh);
+    phosh_shell_lock (shell);
 
   gtk_main ();
-  g_object_unref (_phosh);
-  _phosh = NULL;
 
   return EXIT_SUCCESS;
 }
