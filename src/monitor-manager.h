@@ -19,5 +19,3 @@ void                  phosh_monitor_manager_add_monitor               (PhoshMoni
 PhoshMonitor        * phosh_monitor_manager_get_monitor               (PhoshMonitorManager *self,
                                                                        guint                monitor);
 guint                 phosh_monitor_manager_get_num_monitors          (PhoshMonitorManager *self);
-void                  phosh_monitor_manager_set_gamma_control_manager (PhoshMonitorManager *self,
-                                                                       gpointer            *gamma);
