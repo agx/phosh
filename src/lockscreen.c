@@ -76,7 +76,7 @@ keypad_update_labels (PhoshLockscreen *self)
   len = strlen (number);
   dots = pos = g_malloc0 (len * 3 + 1);
   g_return_if_fail (dots);
-  for (int i; i < len; i++)
+  for (int i = 0; i < len; i++)
     pos = g_stpcpy (pos, "●");
   gtk_label_set_text (GTK_LABEL (priv->lbl_keypad), dots);
   gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Enter PIN to unlock"));
