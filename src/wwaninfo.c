@@ -63,7 +63,7 @@ icon_to_pixbuf (PhoshWWanInfo *self,
                 GtkIconTheme *theme)
 {
   PhoshWWanInfoPrivate *priv = phosh_wwan_info_get_instance_private (self);
-  g_autoptr(GtkIconInfo) info;
+  g_autoptr(GtkIconInfo) info = NULL;
   GdkPixbuf    *pixbuf;
   GError       *error = NULL;
 
@@ -99,7 +99,7 @@ pixbuf_overlay_access_tec (PhoshWWanInfo *self,
   PangoFontDescription *desc;
   gint tw = 0, th = 0, scale;
   guint width, height;
-  g_autofree char *font;
+  g_autofree char *font = NULL;
 
   width = gdk_pixbuf_get_width (source);
   height = gdk_pixbuf_get_height (source);
@@ -156,7 +156,6 @@ update_icon_data(PhoshWWanInfo *self, PhoshWWanMM *wwan, gpointer unused)
   PhoshWWanInfoPrivate *priv;
   guint quality;
   GtkIconTheme *icon_theme;
-  //g_autoptr(GIcon) icon = NULL;
   g_autoptr(GdkPixbuf) src = NULL, dest = NULL;
   g_autofree gchar *icon_name = NULL;
   const char *access_tec;

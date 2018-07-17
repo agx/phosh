@@ -827,13 +827,13 @@ sigterm_cb (gpointer unused)
 
 int main(int argc, char *argv[])
 {
-  g_autoptr(GSource) sigterm;
-  GMainContext *context;
-  g_autoptr(GOptionContext) opt_context;
+  g_autoptr(GSource) sigterm = NULL;
+  GMainContext *context = NULL;
+  g_autoptr(GOptionContext) opt_context = NULL;
   GError *err = NULL;
   gboolean unlocked = FALSE;
-  g_autoptr(PhoshWayland) wl;
-  g_autoptr(PhoshShell) shell;
+  g_autoptr(PhoshWayland) wl = NULL;
+  g_autoptr(PhoshShell) shell = NULL;
 
   const GOptionEntry options [] = {
     {"unlocked", 'U', 0, G_OPTION_ARG_NONE, &unlocked,
