@@ -12,6 +12,7 @@
 #include "monitor/monitor.h"
 
 #include "gamma-control-client-protocol.h"
+#include "phosh-wayland.h"
 #include "phosh.h"
 
 #include <gdk/gdkwayland.h>
@@ -238,7 +239,8 @@ phosh_monitor_manager_handle_get_crtc_gamma (
     return TRUE;
   }
 
-  gamma_control_manager = phosh_shell_get_wl_gamma_control_manager ();
+  gamma_control_manager = phosh_wayland_get_gamma_control_manager (
+    phosh_wayland_get_default ());
   if (gamma_control_manager == NULL) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_NOT_SUPPORTED,
@@ -294,7 +296,8 @@ phosh_monitor_manager_handle_set_crtc_gamma (
     return TRUE;
   }
 
-  gamma_control_manager = phosh_shell_get_wl_gamma_control_manager ();
+  gamma_control_manager = phosh_wayland_get_gamma_control_manager (
+    phosh_wayland_get_default ());
   if (!gamma_control_manager) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_NOT_SUPPORTED,
