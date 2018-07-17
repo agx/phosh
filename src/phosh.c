@@ -666,6 +666,7 @@ phosh_shell_dispose (GObject *object)
     priv->shields = NULL;
   }
 
+  g_clear_object (&priv->monitor_manager);
   G_OBJECT_CLASS (phosh_shell_parent_class)->dispose (object);
 }
 
