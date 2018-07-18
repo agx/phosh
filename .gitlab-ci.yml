@@ -24,7 +24,7 @@ build:native:
     paths:
       - _build
   script:
-    - meson . _build
+    - meson --werror . _build
     - ninja -C _build
 
 test:native:
