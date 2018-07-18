@@ -16,7 +16,7 @@
 
 G_DECLARE_FINAL_TYPE (PhoshShell, phosh_shell, PHOSH, SHELL, GObject)
 
-PhoshShell         * phosh                       (void);
+PhoshShell          *phosh_shell_get_default     (void);
 void                 phosh_shell_rotate_display  (PhoshShell *self, guint degrees);
 int                  phosh_shell_get_rotation    (PhoshShell *self);
 void                 phosh_shell_get_usable_area (PhoshShell *self,
@@ -27,9 +27,5 @@ void                 phosh_shell_get_usable_area (PhoshShell *self,
 void                 phosh_shell_set_locked      (PhoshShell *self, gboolean locked);
 void                 phosh_shell_lock            (PhoshShell *self);
 void                 phosh_shell_unlock          (PhoshShell *self);
-PhoshMonitor        *phosh_shell_get_primary_monitor ();
-
-/* Phosh keeps track of the wayland globals */
-gpointer             phosh_shell_get_wl_layer_shell  ();
-gpointer             phosh_shell_get_wl_gamma_control_manager ();
+PhoshMonitor        *phosh_shell_get_primary_monitor (PhoshShell *self);
 #endif /* PHOSH_H */

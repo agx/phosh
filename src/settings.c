@@ -66,7 +66,7 @@ brightness_changed_cb (GtkAdjustment *adj_brightness, gpointer *unused)
 static void
 rotation_changed_cb (GtkSwitch *btn, GParamSpec *pspec, PhoshSettings *self)
 {
-  PhoshShell *shell = phosh();
+  PhoshShell *shell = phosh_shell_get_default ();
   gboolean rotate;
 
   rotate = gtk_switch_get_active(btn);
@@ -95,7 +95,7 @@ settings_clicked_cb (PhoshSettings *self, gpointer *unused)
 static void
 lock_screen_clicked_cb (PhoshSettings *self, gpointer *unused)
 {
-  phosh_shell_lock (phosh());
+  phosh_shell_lock (phosh_shell_get_default ());
   g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 
@@ -126,7 +126,7 @@ phosh_settings_constructed (GObject *object)
   priv->adj_volume = gtk_adjustment_new (0, 0, 100, 1, 10, 10);
   gtk_range_set_adjustment (GTK_RANGE (priv->scale_volume), priv->adj_volume);
 
-  if (phosh_shell_get_rotation (phosh()))
+  if (phosh_shell_get_rotation (phosh_shell_get_default ()))
     gtk_switch_set_active (GTK_SWITCH (priv->btn_rotation), TRUE);
   g_signal_connect (priv->btn_rotation,
                     "notify::active",
