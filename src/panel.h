@@ -4,18 +4,16 @@
  * SPDX-License-Identifier: GPL-3.0+
  */
 
-#ifndef PHOSH_PANEL_H
-#define PHOSH_PANEL_H
+#pragma once
 
-#include <gtk/gtk.h>
+#include "layersurface.h"
 
 #define PHOSH_PANEL_TYPE                 (phosh_panel_get_type ())
 
-G_DECLARE_FINAL_TYPE (PhoshPanel, phosh_panel, PHOSH, PANEL, GtkWindow)
+G_DECLARE_FINAL_TYPE (PhoshPanel, phosh_panel, PHOSH, PANEL, PhoshLayerSurface)
 
 #define PHOSH_PANEL_HEIGHT 32
 
-GtkWidget * phosh_panel_new (void);
+GtkWidget * phosh_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
+                             struct wl_output *wl_output);
 gint        phosh_panel_get_height (PhoshPanel *self);
-
-#endif /* PHOSH_PANEL_H */

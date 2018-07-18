@@ -40,11 +40,6 @@ enum {
 };
 static GParamSpec *props[PHOSH_SHELL_PROP_LAST_PROP];
 
-struct elem {
-  GtkWidget *window;
-  struct wl_surface *wl_surface;
-  struct zwlr_layer_surface_v1 *layer_surface;
-};
 
 struct popup {
   GtkWidget *window;
@@ -56,16 +51,9 @@ typedef struct
 {
   gint rotation;
 
-  /* Top panel */
-  struct elem *panel;
-
-  /* Background */
+  PhoshLayerSurface *panel;
   GtkWidget *background;
-
-  /* Favorites menu */
   struct popup *favorites;
-
-  /* Settings menu */
   struct popup *settings;
 
   PhoshMonitorManager *monitor_manager;
@@ -98,31 +86,6 @@ get_popup_from_xdg_popup (PhoshShell *self, struct xdg_popup *xdg_popup)
   g_return_val_if_fail (popup, NULL);
   return popup;
 }
-
-
-static void layer_surface_configure(void *data,
-    struct zwlr_layer_surface_v1 *surface,
-    uint32_t serial, uint32_t w, uint32_t h) {
-  struct elem *e = data;
-
-  gtk_window_resize (GTK_WINDOW (e->window), w, h);
-  zwlr_layer_surface_v1_ack_configure(surface, serial);
-  gtk_widget_show_all (e->window);
-}
-
-
-static void layer_surface_closed(void *data,
-    struct zwlr_layer_surface_v1 *surface) {
-  struct elem *e = data;
-  zwlr_layer_surface_v1_destroy(surface);
-  gtk_widget_destroy (e->window);
-}
-
-
-struct zwlr_layer_surface_v1_listener layer_surface_listener = {
-	.configure = layer_surface_configure,
-	.closed = layer_surface_closed,
-};
 
 
 static void
@@ -215,6 +178,7 @@ favorites_activated_cb (PhoshShell *self,
   gint width, height;
   PhoshWayland *wl = phosh_wayland_get_default();
   struct xdg_wm_base* xdg_wm_base = phosh_wayland_get_xdg_wm_base (wl);
+  struct zwlr_layer_surface_v1 *panel_surface;
 
   close_menu (&priv->settings);
   if (priv->favorites) {
@@ -243,9 +207,10 @@ favorites_activated_cb (PhoshShell *self,
   g_return_if_fail (favorites->popup);
   priv->favorites = favorites;
 
+  panel_surface = phosh_layer_surface_get_layer_surface(priv->panel);
   /* TODO: how to get meaningful serial from gdk? */
   xdg_popup_grab(favorites->popup, phosh_wayland_get_wl_seat (wl), 1);
-  zwlr_layer_surface_v1_get_popup(priv->panel->layer_surface, favorites->popup);
+  zwlr_layer_surface_v1_get_popup(panel_surface, favorites->popup);
   xdg_surface_add_listener(xdg_surface, &xdg_surface_listener, NULL);
   xdg_popup_add_listener(favorites->popup, &xdg_popup_listener, self);
 
@@ -286,6 +251,7 @@ settings_activated_cb (PhoshShell *self,
   gint width, height, panel_width;
   PhoshWayland *wl = phosh_wayland_get_default ();
   gpointer xdg_wm_base = phosh_wayland_get_xdg_wm_base(wl);
+  struct zwlr_layer_surface_v1 *panel_surface;
 
   close_menu (&priv->favorites);
   if (priv->settings) {
@@ -315,9 +281,10 @@ settings_activated_cb (PhoshShell *self,
   g_return_if_fail (settings->popup);
   priv->settings = settings;
 
+  panel_surface = phosh_layer_surface_get_layer_surface(priv->panel);
   /* TODO: how to get meaningful serial from GDK? */
   xdg_popup_grab(settings->popup, phosh_wayland_get_wl_seat (wl), 1);
-  zwlr_layer_surface_v1_get_popup(priv->panel->layer_surface, settings->popup);
+  zwlr_layer_surface_v1_get_popup(panel_surface, settings->popup);
   xdg_surface_add_listener(xdg_surface, &xdg_surface_listener, NULL);
   xdg_popup_add_listener(settings->popup, &xdg_popup_listener, self);
 
@@ -359,47 +326,22 @@ static void
 panel_create (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  struct elem *panel;
-  GdkWindow *gdk_window;
-  gint width;
   PhoshMonitor *monitor;
   PhoshWayland *wl = phosh_wayland_get_default ();
 
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail (monitor);
 
-  panel = calloc (1, sizeof *panel);
-  panel->window = phosh_panel_new ();
-
-  phosh_shell_get_usable_area (self, NULL, NULL, &width, NULL);
-  /* set it up as the panel */
-  gdk_window = gtk_widget_get_window (panel->window);
-  gdk_wayland_window_set_use_custom_surface (gdk_window);
-  panel->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
-  panel->layer_surface = zwlr_layer_shell_v1_get_layer_surface(
-    phosh_wayland_get_zwlr_layer_shell_v1 (wl),
-    panel->wl_surface,
-    monitor->wl_output,
-    ZWLR_LAYER_SHELL_V1_LAYER_TOP,
-    "phosh");
-  zwlr_layer_surface_v1_set_anchor(panel->layer_surface,
-                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
-                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
-                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT);
-  zwlr_layer_surface_v1_set_size(panel->layer_surface, 0, PHOSH_PANEL_HEIGHT);
-  zwlr_layer_surface_v1_set_exclusive_zone(panel->layer_surface, PHOSH_PANEL_HEIGHT);
-  zwlr_layer_surface_v1_add_listener(panel->layer_surface, &layer_surface_listener, panel);
-  wl_surface_commit(panel->wl_surface);
-  priv->panel = panel;
-
+  priv->panel = PHOSH_LAYER_SURFACE(phosh_panel_new (phosh_wayland_get_zwlr_layer_shell_v1(wl),
+                                                     monitor->wl_output));
   g_signal_connect_swapped (
-    panel->window,
+    priv->panel,
     "favorites-activated",
     G_CALLBACK(favorites_activated_cb),
     self);
 
   g_signal_connect_swapped (
-    panel->window,
+    priv->panel,
     "settings-activated",
     G_CALLBACK(settings_activated_cb),
     self);
@@ -512,6 +454,7 @@ phosh_shell_dispose (GObject *object)
     priv->background = NULL;
   }
 
+  g_clear_pointer (&priv->panel, gtk_widget_destroy);
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
   G_OBJECT_CLASS (phosh_shell_parent_class)->dispose (object);
@@ -601,7 +544,7 @@ phosh_shell_rotate_display (PhoshShell *self,
   g_return_if_fail (phosh_wayland_get_phosh_private (wl));
   priv->rotation = degree;
   phosh_private_rotate_display (phosh_wayland_get_phosh_private (wl),
-                                priv->panel->wl_surface,
+                                phosh_layer_surface_get_wl_surface (priv->panel),
                                 degree);
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_ROTATION]);
 }
