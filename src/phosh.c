@@ -52,7 +52,7 @@ typedef struct
   gint rotation;
 
   PhoshLayerSurface *panel;
-  GtkWidget *background;
+  PhoshLayerSurface *background;
   struct popup *favorites;
   struct popup *settings;
 
@@ -450,7 +450,7 @@ phosh_shell_dispose (GObject *object)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   if (priv->background) {
-    gtk_widget_destroy (priv->background);
+    gtk_widget_destroy (GTK_WIDGET (priv->background));
     priv->background = NULL;
   }
 
