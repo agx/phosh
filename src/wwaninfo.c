@@ -216,7 +216,7 @@ phosh_wwan_info_constructed (GObject *object)
   priv->wwan = phosh_wwan_mm_new();
 
   g_assert (WWAN_INFO_WWAN_NUM_SIGNALS == g_strv_length(signals));
-  for (int i; i < WWAN_INFO_WWAN_NUM_SIGNALS; i++) {
+  for (int i = 0; i < WWAN_INFO_WWAN_NUM_SIGNALS; i++) {
     priv->wwan_signal_ids[i] = g_signal_connect_swapped (priv->wwan,
                                                          signals[i],
                                                          G_CALLBACK (update_icon_data),
