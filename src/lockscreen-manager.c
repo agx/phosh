@@ -16,12 +16,11 @@
 
 #include <gdk/gdkwayland.h>
 
-/* FIXME: use org.gnome.desktop.session.idle-delay */
-#define LOCKSCREEN_TIMEOUT 300 * 1000
 
 enum {
   PHOSH_LOCKSCREEN_MANAGER_PROP_0,
   PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED,
+  PHOSH_LOCKSCREEN_MANAGER_PROP_TIMEOUT,
   PHOSH_LOCKSCREEN_MANAGER_PROP_LAST_PROP
 };
 static GParamSpec *props[PHOSH_LOCKSCREEN_MANAGER_PROP_LAST_PROP];
@@ -35,6 +34,9 @@ typedef struct {
   gulong unlock_handler_id;
   struct org_kde_kwin_idle_timeout *lock_timer;
   struct zwlr_input_inhibitor_v1 *input_inhibitor;
+  GSettings *settings;
+
+  gint timeout;                  /* timeout in seconds before screen locks */
   gboolean locked;
 } PhoshLockscreenManagerPrivate;
 
@@ -147,6 +149,9 @@ phosh_lockscreen_manager_set_property (GObject *object,
   case PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED:
     phosh_lockscreen_manager_set_locked (self, g_value_get_boolean (value));
     break;
+  case PHOSH_LOCKSCREEN_MANAGER_PROP_TIMEOUT:
+    phosh_lockscreen_manager_set_timeout (self, g_value_get_int (value));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -166,6 +171,9 @@ phosh_lockscreen_manager_get_property (GObject *object,
   switch (property_id) {
   case PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED:
     g_value_set_boolean (value, priv->locked);
+    break;
+  case PHOSH_LOCKSCREEN_MANAGER_PROP_TIMEOUT:
+    g_value_set_uint (value, priv->timeout);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -188,6 +196,7 @@ phosh_lockscreen_manager_dispose (GObject *object)
     }
     g_clear_pointer (&priv->lockscreen, gtk_widget_destroy);
   }
+  g_clear_object (&priv->settings);
 
   G_OBJECT_CLASS (phosh_lockscreen_manager_parent_class)->dispose (object);
 }
@@ -198,17 +207,9 @@ phosh_lockscreen_manager_constructed (GObject *object)
 {
   PhoshLockscreenManager *self = PHOSH_LOCKSCREEN_MANAGER (object);
   PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
-  PhoshWayland *wl = phosh_wayland_get_default ();
-  struct org_kde_kwin_idle *idle_manager = phosh_wayland_get_org_kde_kwin_idle (wl);
 
-  g_return_if_fail(idle_manager);
-  priv->lock_timer = org_kde_kwin_idle_get_idle_timeout(idle_manager,
-                                                        phosh_wayland_get_wl_seat (wl),
-                                                        LOCKSCREEN_TIMEOUT);
-  g_return_if_fail (priv->lock_timer);
-  org_kde_kwin_idle_timeout_add_listener(priv->lock_timer,
-                                         &idle_timer_listener,
-                                         self);
+  priv->settings = g_settings_new ("org.gnome.desktop.session");
+  g_settings_bind (priv->settings, "idle-delay", self, "timeout", G_SETTINGS_BIND_GET);
 }
 
 
@@ -228,7 +229,15 @@ phosh_lockscreen_manager_class_init (PhoshLockscreenManagerClass *klass)
                           "Locked",
                           "Whether the screen is locked",
                           FALSE,
-                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+  props[PHOSH_LOCKSCREEN_MANAGER_PROP_TIMEOUT] =
+    g_param_spec_int ("timeout",
+                      "Timeout",
+                      "Idle timeout in seconds until screen locks",
+                      0,
+                      G_MAXINT,
+                      300,
+                      G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   g_object_class_install_properties (object_class, PHOSH_LOCKSCREEN_MANAGER_PROP_LAST_PROP, props);
 }
 
@@ -269,4 +278,45 @@ phosh_lockscreen_manager_get_locked (PhoshLockscreenManager *self)
 
   g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self), FALSE);
   return priv->locked;
+}
+
+
+void
+phosh_lockscreen_manager_set_timeout (PhoshLockscreenManager *self, gint timeout)
+{
+  PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
+  PhoshWayland *wl = phosh_wayland_get_default ();
+  struct org_kde_kwin_idle *idle_manager = phosh_wayland_get_org_kde_kwin_idle (wl);
+
+  g_return_if_fail (idle_manager);
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
+  if (timeout == priv->timeout)
+    return;
+
+  g_debug("Setting lock screen idle timeout to %d seconds", timeout);
+  priv->timeout = timeout;
+
+  if (priv->lock_timer) {
+    org_kde_kwin_idle_timeout_release (priv->lock_timer);
+  }
+  /* Rearm the timer */
+  priv->lock_timer = org_kde_kwin_idle_get_idle_timeout(idle_manager,
+                                                        phosh_wayland_get_wl_seat (wl),
+                                                        priv->timeout * 1000);
+  g_return_if_fail (priv->lock_timer);
+  org_kde_kwin_idle_timeout_add_listener(priv->lock_timer,
+                                         &idle_timer_listener,
+                                         self);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LOCKSCREEN_MANAGER_PROP_TIMEOUT]);
+}
+
+
+gint
+phosh_lockscreen_manager_get_timeout (PhoshLockscreenManager *self)
+{
+  PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self), 0);
+  return priv->timeout;
 }

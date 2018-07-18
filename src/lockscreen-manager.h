@@ -17,6 +17,9 @@ G_DECLARE_FINAL_TYPE (PhoshLockscreenManager,
                       GObject)
 
 PhoshLockscreenManager *phosh_lockscreen_manager_new (void);
-void                    phosh_lockscreen_manager_set_locked (PhoshLockscreenManager *self,
-                                                             gboolean state);
-gboolean                phosh_lockscreen_manager_get_locked (PhoshLockscreenManager *self);
+void                    phosh_lockscreen_manager_set_locked  (PhoshLockscreenManager *self,
+                                                              gboolean state);
+gboolean                phosh_lockscreen_manager_get_locked  (PhoshLockscreenManager *self);
+void                    phosh_lockscreen_manager_set_timeout (PhoshLockscreenManager *self,
+                                                              gint timeout);
+gint                    phosh_lockscreen_manager_get_timeout (PhoshLockscreenManager *self);
