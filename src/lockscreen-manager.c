@@ -27,18 +27,11 @@ enum {
 static GParamSpec *props[PHOSH_LOCKSCREEN_MANAGER_PROP_LAST_PROP];
 
 
-struct elem {
-  GtkWidget *window;
-  struct wl_surface *wl_surface;
-  struct zwlr_layer_surface_v1 *layer_surface;
-};
-
-
 typedef struct {
   GObject parent;
 
-  struct elem *lockscreen;   /* phone display lock screen */
-  GPtrArray *shields;        /* other outputs */
+  PhoshLockscreen *lockscreen;   /* phone display lock screen */
+  GPtrArray *shields;            /* other outputs */
   gulong unlock_handler_id;
   struct org_kde_kwin_idle_timeout *lock_timer;
   struct zwlr_input_inhibitor_v1 *input_inhibitor;
@@ -53,53 +46,23 @@ typedef struct _PhoshLockscreenManager {
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshLockscreenManager, phosh_lockscreen_manager, G_TYPE_OBJECT)
 
-static void layer_surface_configure(void *data,
-    struct zwlr_layer_surface_v1 *surface,
-    uint32_t serial, uint32_t w, uint32_t h) {
-  struct elem *e = data;
-
-  gtk_window_resize (GTK_WINDOW (e->window), w, h);
-  zwlr_layer_surface_v1_ack_configure(surface, serial);
-  gtk_widget_show_all (e->window);
-}
-
-
-static void layer_surface_closed(void *data,
-    struct zwlr_layer_surface_v1 *surface) {
-  struct elem *e = data;
-  zwlr_layer_surface_v1_destroy(surface);
-  gtk_widget_destroy (e->window);
-}
-
-
-static struct zwlr_layer_surface_v1_listener layer_surface_listener = {
-  .configure = layer_surface_configure,
-  .closed = layer_surface_closed,
-};
-
 
 static void
-lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *window)
+lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
 {
   PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
 
-  g_return_if_fail (PHOSH_IS_LOCKSCREEN (window));
-  g_return_if_fail (window == PHOSH_LOCKSCREEN (priv->lockscreen->window));
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (lockscreen));
+  g_return_if_fail (lockscreen == PHOSH_LOCKSCREEN (priv->lockscreen));
 
   if (priv->unlock_handler_id) {
-    g_signal_handler_disconnect (window, priv->unlock_handler_id);
+    g_signal_handler_disconnect (lockscreen, priv->unlock_handler_id);
     priv->unlock_handler_id = 0;
   }
-  gtk_widget_destroy (GTK_WIDGET (priv->lockscreen->window));
+  g_clear_pointer (&priv->lockscreen, gtk_widget_destroy);
 
   /* Unlock all other outputs */
-  g_ptr_array_free (priv->shields, TRUE);
-  priv->shields = NULL;
-
-  priv->lockscreen->window = NULL;
-  zwlr_layer_surface_v1_destroy(priv->lockscreen->layer_surface);
-  g_free (priv->lockscreen);
-  priv->lockscreen = NULL;
+  g_clear_pointer (&priv->shields, g_ptr_array_unref);
 
   zwlr_input_inhibitor_v1_destroy(priv->input_inhibitor);
   priv->input_inhibitor = NULL;
@@ -113,8 +76,6 @@ static void
 lockscreen_lock (PhoshLockscreenManager *self)
 {
   PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
-  GdkWindow *gdk_window;
-  struct elem *lockscreen;
   PhoshMonitor *monitor;
   PhoshWayland *wl = phosh_wayland_get_default ();
   PhoshShell *shell = phosh_shell_get_default ();
@@ -123,34 +84,14 @@ lockscreen_lock (PhoshLockscreenManager *self)
   monitor = phosh_shell_get_primary_monitor (shell);
   g_return_if_fail (monitor);
 
-  lockscreen = g_malloc0 (sizeof *lockscreen);
-  lockscreen->window = phosh_lockscreen_new ();
+  /* The primary output gets the clock, keypad, ... */
+  priv->lockscreen = PHOSH_LOCKSCREEN (phosh_lockscreen_new (
+                                         phosh_wayland_get_zwlr_layer_shell_v1(wl),
+                                         monitor->wl_output));
 
   priv->input_inhibitor =
     zwlr_input_inhibit_manager_v1_get_inhibitor(
       phosh_wayland_get_zwlr_input_inhibit_manager_v1 (wl));
-
-  gdk_window = gtk_widget_get_window (lockscreen->window);
-  gdk_wayland_window_set_use_custom_surface (gdk_window);
-
-  lockscreen->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
-  lockscreen->layer_surface = zwlr_layer_shell_v1_get_layer_surface(
-    phosh_wayland_get_zwlr_layer_shell_v1(wl),
-    lockscreen->wl_surface,
-    monitor->wl_output,
-    ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
-    "lockscreen");
-  zwlr_layer_surface_v1_set_exclusive_zone(lockscreen->layer_surface, -1);
-  zwlr_layer_surface_v1_set_size(lockscreen->layer_surface, 0, 0);
-  zwlr_layer_surface_v1_set_anchor(lockscreen->layer_surface,
-                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
-                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
-                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
-                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT);
-  zwlr_layer_surface_v1_set_keyboard_interactivity(lockscreen->layer_surface, TRUE);
-  zwlr_layer_surface_v1_add_listener(lockscreen->layer_surface, &layer_surface_listener, lockscreen);
-  wl_surface_commit(lockscreen->wl_surface);
-  priv->lockscreen = lockscreen;
 
   /* Lock all other outputs */
   priv->shields = g_ptr_array_new_with_free_func ((GDestroyNotify) (gtk_widget_destroy));
@@ -164,7 +105,7 @@ lockscreen_lock (PhoshLockscreenManager *self)
   }
 
   priv->unlock_handler_id = g_signal_connect_swapped (
-    lockscreen->window,
+    priv->lockscreen,
     "lockscreen-unlock",
     G_CALLBACK(lockscreen_unlock_cb),
     self);
@@ -239,18 +180,13 @@ phosh_lockscreen_manager_dispose (GObject *object)
   PhoshLockscreenManager *self = PHOSH_LOCKSCREEN_MANAGER (object);
   PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
 
-  if (priv->shields) {
-    g_ptr_array_unref (priv->shields);
-    priv->shields = NULL;
-  }
-
+  g_clear_pointer (&priv->shields, g_ptr_array_unref);
   if (priv->lockscreen) {
     if (priv->unlock_handler_id) {
-      g_signal_handler_disconnect (priv->lockscreen->window, priv->unlock_handler_id);
+      g_signal_handler_disconnect (priv->lockscreen, priv->unlock_handler_id);
       priv->unlock_handler_id = 0;
     }
-    gtk_widget_destroy (priv->lockscreen->window);
-    priv->lockscreen = NULL;
+    g_clear_pointer (&priv->lockscreen, gtk_widget_destroy);
   }
 
   G_OBJECT_CLASS (phosh_lockscreen_manager_parent_class)->dispose (object);
@@ -322,7 +258,7 @@ phosh_lockscreen_manager_set_locked (PhoshLockscreenManager *self, gboolean stat
   if (state)
     lockscreen_lock (self);
   else
-    lockscreen_unlock_cb (self, PHOSH_LOCKSCREEN (priv->lockscreen->window));
+    lockscreen_unlock_cb (self, PHOSH_LOCKSCREEN (priv->lockscreen));
 }
 
 

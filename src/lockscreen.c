@@ -33,7 +33,7 @@ static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct _PhoshLockscreen
 {
-  GtkWindow parent;
+  PhoshLayerSurface parent;
 } PhoshLockscreen;
 
 
@@ -60,7 +60,7 @@ typedef struct PhoshLockscreen {
   GnomeWallClock *wall_clock;
 } PhoshLockscreenPrivate;
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshLockscreen, phosh_lockscreen, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshLockscreen, phosh_lockscreen, PHOSH_TYPE_LAYER_SURFACE)
 
 
 static void
@@ -344,7 +344,19 @@ phosh_lockscreen_init (PhoshLockscreen *self)
 
 
 GtkWidget *
-phosh_lockscreen_new (void)
+phosh_lockscreen_new (gpointer layer_shell,
+                      gpointer wl_output)
 {
-  return g_object_new (PHOSH_LOCKSCREEN_TYPE, NULL);
+  return g_object_new (PHOSH_TYPE_LOCKSCREEN,
+                       "layer-shell", layer_shell,
+                       "wl-output", wl_output,
+                       "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
+                                 ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
+                                 ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
+                                 ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
+                       "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
+                       "kbd-interactivity", TRUE,
+                       "exclusive-zone", -1,
+                       "namespace", "lockscreen",
+                       NULL);
 }
