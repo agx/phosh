@@ -381,7 +381,7 @@ phosh_monitor_manager_handle_get_current_state (
                           G_VARIANT_TYPE (LOGICAL_MONITORS_FORMAT));
 
   for (int i = 0; i < self->monitors->len; i++) {
-    double scale;
+    double scale = 1.0;
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder modes_builder, supported_scales_builder, mode_properties_builder,
       monitor_properties_builder;

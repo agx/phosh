@@ -133,7 +133,7 @@ phosh_auth_finalize (GObject *object)
   gint ret;
 
   if (priv->pamh) {
-    ret = pam_end(priv->pamh, ret);
+    ret = pam_end(priv->pamh, PAM_AUTH_ERR);
     if (ret != PAM_SUCCESS)
       g_warning("pam_end error %s", pam_strerror (priv->pamh, ret));
     priv->pamh = NULL;
