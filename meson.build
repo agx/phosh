@@ -45,6 +45,7 @@ test_c_args = [
   '-Wswitch-default',
   '-Wswitch-enum',
   '-Wundef',
+  '-Wmaybe-uninitialized',
 ]
 if get_option('buildtype') != 'plain'
   test_c_args += '-fstack-protector-strong'
