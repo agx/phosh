@@ -120,11 +120,7 @@ phosh_panel_constructed (GObject *object)
                     G_CALLBACK (size_allocated_cb),
                     NULL);
 
-  /* window properties */
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
-  gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
-  gtk_widget_realize(GTK_WIDGET (self));
-
   gtk_style_context_add_class (
       gtk_widget_get_style_context (GTK_WIDGET (self)),
       "phosh-panel");
@@ -194,7 +190,7 @@ GtkWidget *
 phosh_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
                  struct wl_output *wl_output)
 {
-  return g_object_new (PHOSH_PANEL_TYPE,
+  return g_object_new (PHOSH_TYPE_PANEL,
                        "layer-shell", layer_shell,
                        "wl-output", wl_output,
                        "height", PHOSH_PANEL_HEIGHT,
