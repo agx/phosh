@@ -8,7 +8,7 @@
 
 #include "layersurface.h"
 
-#define PHOSH_PANEL_TYPE                 (phosh_panel_get_type ())
+#define PHOSH_TYPE_PANEL                 (phosh_panel_get_type ())
 
 G_DECLARE_FINAL_TYPE (PhoshPanel, phosh_panel, PHOSH, PANEL, PhoshLayerSurface)
 
