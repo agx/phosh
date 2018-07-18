@@ -72,7 +72,6 @@ static void layer_surface_closed (void                         *data,
   PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
 
   g_return_if_fail (priv->layer_surface != surface);
-  
   zwlr_layer_surface_v1_destroy(priv->layer_surface);
   priv->layer_surface = NULL;
   gtk_widget_destroy (GTK_WIDGET (self));
@@ -343,4 +342,25 @@ phosh_layer_surface_new (gpointer layer_shell,
   return g_object_new (PHOSH_TYPE_LAYER_SURFACE,
                        "layer-shell", layer_shell,
                        "wl-output", wl_output);
+}
+
+struct zwlr_layer_surface_v1 *
+phosh_layer_surface_get_layer_surface(PhoshLayerSurface *self)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_LAYER_SURFACE (self), NULL);
+  priv = phosh_layer_surface_get_instance_private (self);
+  return priv->layer_surface;
+}
+
+
+struct wl_surface *
+phosh_layer_surface_get_wl_surface(PhoshLayerSurface *self)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_LAYER_SURFACE (self), NULL);
+  priv = phosh_layer_surface_get_instance_private (self);
+  return priv->wl_surface;
 }

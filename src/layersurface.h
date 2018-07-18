@@ -27,5 +27,7 @@ struct _PhoshLayerSurfaceClass
   void (*configured)   (PhoshLayerSurface    *self);
 };
 
-GtkWidget * phosh_layer_surface_new (gpointer layer_shell,
-                                     gpointer wl_output);
+GtkWidget *phosh_layer_surface_new (gpointer layer_shell,
+                                    gpointer wl_output);
+struct     zwlr_layer_surface_v1 *phosh_layer_surface_get_layer_surface(PhoshLayerSurface *self);
+struct     wl_surface            *phosh_layer_surface_get_wl_surface(PhoshLayerSurface *self);
