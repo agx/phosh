@@ -10,7 +10,7 @@ if [ "${PHOSH_VALGRIND}" = 1 ]; then
            --tool=memcheck           \
            --leak-check=full         \
            --leak-resolution=high    \
-           --num-callers=30          \
+           --num-callers=40          \
            --log-file=vgdump         \
            --suppressions=${ABS_SRCDIR}/data/valgrind.suppressions \
    "
