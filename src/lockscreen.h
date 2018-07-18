@@ -3,16 +3,14 @@
  *
  * SPDX-License-Identifier: GPL-3.0+
  */
+#pragma once
 
-#ifndef PHOSH_LOCKSCREEN_H
-#define PHOSH_LOCKSCREEN_H
+#include "layersurface.h"
 
-#include <gtk/gtk.h>
+#define PHOSH_TYPE_LOCKSCREEN (phosh_lockscreen_get_type ())
 
-#define PHOSH_LOCKSCREEN_TYPE                 (phosh_lockscreen_get_type ())
+G_DECLARE_FINAL_TYPE (PhoshLockscreen, phosh_lockscreen, PHOSH, LOCKSCREEN,
+                      PhoshLayerSurface)
 
-G_DECLARE_FINAL_TYPE (PhoshLockscreen, phosh_lockscreen, PHOSH, LOCKSCREEN, GtkWindow)
+GtkWidget * phosh_lockscreen_new (gpointer layer_shell, gpointer wl_output);
 
-GtkWidget * phosh_lockscreen_new (void);
-
-#endif /* PHOSH_LOCKSCREEN_H */

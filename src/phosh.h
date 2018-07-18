@@ -8,6 +8,7 @@
 #ifndef PHOSH_H
 #define PHOSH_H
 
+#include "monitor-manager.h"
 #include "monitor/monitor.h"
 
 #include <gtk/gtk.h>
@@ -28,4 +29,5 @@ void                 phosh_shell_set_locked      (PhoshShell *self, gboolean loc
 void                 phosh_shell_lock            (PhoshShell *self);
 void                 phosh_shell_unlock          (PhoshShell *self);
 PhoshMonitor        *phosh_shell_get_primary_monitor (PhoshShell *self);
+PhoshMonitorManager *phosh_shell_get_monitor_manager (PhoshShell *self);
 #endif /* PHOSH_H */

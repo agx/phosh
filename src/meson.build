@@ -47,6 +47,8 @@ phosh_sources = [
   'layersurface.h',
   'lockscreen.c',
   'lockscreen.h',
+  'lockscreen-manager.c',
+  'lockscreen-manager.h',
   'lockshield.c',
   'lockshield.h',
   'monitor-manager.c',

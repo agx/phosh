@@ -12,7 +12,8 @@ test_env = [
 
 test_cflags = [
   '-fPIE',
-  '-I../src'.format(meson.current_source_dir()),
+  '-I../src',
+  '-I@0@/../src'.format(meson.current_build_dir()),
   '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
 ]
 

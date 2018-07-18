@@ -167,6 +167,7 @@ phosh_wayland_dispose (GObject *object)
   PhoshWaylandPrivate *priv = phosh_wayland_get_instance_private (self);
 
   g_clear_pointer (&priv->wl_outputs, g_ptr_array_unref);
+  G_OBJECT_CLASS (phosh_wayland_parent_class)->dispose (object);
 }
 
 
