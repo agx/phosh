@@ -49,6 +49,7 @@ test:smoke:one-output:
   artifacts:
     paths:
       - output/*.log
+    when: always
 
 test:smoke:two-outputs:
   <<: *tags
@@ -63,6 +64,7 @@ test:smoke:two-outputs:
   artifacts:
     paths:
       - output/*.log
+    when: always
 
 test:smoke:valgrind:
   <<: *tags
@@ -78,4 +80,5 @@ test:smoke:valgrind:
     paths:
       - vgdump
       - output/*.log
+    when: always
 
