@@ -359,7 +359,7 @@ phosh_wwan_mm_constructed (GObject *object)
   PhoshWWanMMPrivate *priv = phosh_wwan_mm_get_instance_private (self);
   const gchar *modem_object_path;
   GError *err = NULL;
-  g_autoptr(GList) modems;
+  g_autoptr(GList) modems = NULL;
 
   G_OBJECT_CLASS (phosh_wwan_mm_parent_class)->constructed (object);
 
