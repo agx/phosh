@@ -42,10 +42,10 @@ typedef struct {
 
 typedef struct _PhoshPanel
 {
-  GtkWindow parent;
+  PhoshLayerSurface parent;
 } PhoshPanel;
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshPanel, phosh_panel, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshPanel, phosh_panel, PHOSH_TYPE_LAYER_SURFACE)
 
 
 static void
@@ -191,11 +191,23 @@ phosh_panel_init (PhoshPanel *self)
 
 
 GtkWidget *
-phosh_panel_new (void)
+phosh_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
+                 struct wl_output *wl_output)
 {
   return g_object_new (PHOSH_PANEL_TYPE,
-      NULL);
+                       "layer-shell", layer_shell,
+                       "wl-output", wl_output,
+                       "height", PHOSH_PANEL_HEIGHT,
+                       "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
+                                 ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
+                                 ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
+                       "layer", ZWLR_LAYER_SHELL_V1_LAYER_TOP,
+                       "kbd-interactivity", FALSE,
+                       "exclusive-zone", PHOSH_PANEL_HEIGHT,
+                       "namespace", "panel",
+                       NULL);
 }
+
 
 gint
 phosh_panel_get_height (PhoshPanel *self)
