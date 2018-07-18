@@ -28,6 +28,7 @@
 #include "lockscreen-manager.h"
 #include "monitor-manager.h"
 #include "panel.h"
+#include "home.h"
 #include "favorites.h"
 #include "settings.h"
 
@@ -52,6 +53,7 @@ typedef struct
   gint rotation;
 
   PhoshLayerSurface *panel;
+  PhoshLayerSurface *home;
   PhoshLayerSurface *background;
   struct popup *favorites;
   struct popup *settings;
@@ -323,7 +325,7 @@ phosh_shell_set_locked (PhoshShell *self, gboolean state)
 
 
 static void
-panel_create (PhoshShell *self)
+panels_create (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   PhoshMonitor *monitor;
@@ -334,6 +336,8 @@ panel_create (PhoshShell *self)
 
   priv->panel = PHOSH_LAYER_SURFACE(phosh_panel_new (phosh_wayland_get_zwlr_layer_shell_v1(wl),
                                                      monitor->wl_output));
+  priv->home = PHOSH_LAYER_SURFACE(phosh_home_new (phosh_wayland_get_zwlr_layer_shell_v1(wl),
+                                                    monitor->wl_output));
   g_signal_connect_swapped (
     priv->panel,
     "favorites-activated",
@@ -345,8 +349,14 @@ panel_create (PhoshShell *self)
     "settings-activated",
     G_CALLBACK(settings_activated_cb),
     self);
-}
 
+  g_signal_connect_swapped (
+    priv->home,
+    "home-activated",
+    G_CALLBACK(favorites_activated_cb),
+    self);
+
+}
 
 
 static void
@@ -484,7 +494,7 @@ phosh_shell_constructed (GObject *object)
                                     "/sm/puri/phosh/icons");
   env_setup ();
   css_setup (self);
-  panel_create (self);
+  panels_create (self);
   /* Create background after panel since it needs the panel's size */
   background_create (self);
   priv->lockscreen_manager = phosh_lockscreen_manager_new ();

@@ -43,6 +43,8 @@ phosh_sources = [
   'batteryinfo.h',
   'favorites.c',
   'favorites.h',
+  'home.c',
+  'home.h',
   'layersurface.c',
   'layersurface.h',
   'lockscreen.c',
