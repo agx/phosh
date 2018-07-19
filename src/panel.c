@@ -200,7 +200,7 @@ phosh_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
                        "layer", ZWLR_LAYER_SHELL_V1_LAYER_TOP,
                        "kbd-interactivity", FALSE,
                        "exclusive-zone", PHOSH_PANEL_HEIGHT,
-                       "namespace", "panel",
+                       "namespace", "phosh",
                        NULL);
 }
 
