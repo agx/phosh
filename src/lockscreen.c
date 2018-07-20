@@ -357,6 +357,6 @@ phosh_lockscreen_new (gpointer layer_shell,
                        "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                        "kbd-interactivity", TRUE,
                        "exclusive-zone", -1,
-                       "namespace", "lockscreen",
+                       "namespace", "phosh lockscreen",
                        NULL);
 }

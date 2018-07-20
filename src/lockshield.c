@@ -99,6 +99,6 @@ phosh_lockshield_new (gpointer layer_shell,
                        "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                        "kbd-interactivity", FALSE,
                        "exclusive-zone", -1,
-                       "namespace", "lockshield",
+                       "namespace", "phosh lockshield",
                        NULL);
 }
