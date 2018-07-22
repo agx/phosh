@@ -1,3 +1,4 @@
+data/sm.puri.Phosh.desktop.in.in
 src/auth.c
 src/background.c
 src/batteryinfo.c

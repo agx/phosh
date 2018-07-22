@@ -8,12 +8,14 @@ project('phosh', 'c',
 prefix = get_option('prefix')
 bindir = join_paths(prefix, get_option('bindir'))
 datadir = join_paths(prefix, get_option('datadir'))
+localedir = join_paths(prefix, get_option('localedir'))
 libexecdir = join_paths(prefix, get_option('libexecdir'))
+desktopdir = join_paths(datadir, 'applications')
 pkgdatadir = join_paths(datadir, meson.project_name())
 
 config_h = configuration_data()
 config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
-config_h.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
+config_h.set_quoted('LOCALEDIR', localedir)
 
 configure_file(
   input: 'config.h.in',
@@ -76,6 +78,7 @@ configure_file(
   configuration: run_data)
 
 gnome = import('gnome')
+i18n  = import('i18n')
 
 subdir('data')
 subdir('po')
