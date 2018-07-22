@@ -62,3 +62,5 @@ install_data(
   schemas,
   install_dir: 'share/glib-2.0/schemas'
 )
+
+install_data('rootston.ini', install_dir : pkgdatadir)

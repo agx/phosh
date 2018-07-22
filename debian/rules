@@ -5,10 +5,6 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 %:
 	dh $@ --builddirectory=_build
 
-override_dh_auto_install:
-	dh_auto_install
-	cp rootston.ini debian/phosh/usr/share/phosh/
-
 override_dh_installsystemd:
 	dh_installsystemd --no-start --no-enable
 
