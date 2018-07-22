@@ -7,8 +7,6 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 override_dh_auto_install:
 	dh_auto_install
-	# Move phosh to arch indep dir
-	mv debian/phosh/usr/lib/*/phosh debian/phosh/usr/lib/phosh/phosh
 	cp rootston.ini debian/phosh/usr/share/phosh/
 
 override_dh_installsystemd:

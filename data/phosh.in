@@ -1,0 +1,18 @@
+#!/bin/sh
+
+ROOTSTON="/usr/bin/rootston"
+ROOTSTON_INI="@pkgdatadir@/rootston.ini"
+
+if [ -x @wlrootsdir@/rootston ]; then
+  ROOTSTON=@wlrootsdir@/rootston
+elif [ -x @bindir@/rootston ]; then
+  ROOTSTON=@bindir@/rootston
+elif [ -x /usr/lib/wlroots/rootston ]; then
+  ROOTSTON=/usr/lib/wlroots/rootston
+fi
+
+if [ -f "/etc/phosh/rootston.ini" ]; then
+  ROOTSTON_INI=/etc/phosh/rootston.ini
+fi
+
+exec "${ROOTSTON}" -C "${ROOTSTON_INI}" -E "gnome-session --disable-acceleration-check --session=phosh"
