@@ -25,6 +25,7 @@ Before=graphical.target
 ConditionPathExists=/dev/tty0
 
 [Service]
+Environment=LANG=C.UTF-8
 ExecStart=/usr/bin/phosh
 TimeoutStartSec=60
 User=purism
