@@ -20,6 +20,26 @@ foreach desktop_file : desktop_files
   )
 endforeach
 
+sessions = [
+  'phosh.session',
+]
+foreach session: sessions
+  desktop = session + '.desktop'
+  i18n.merge_file(
+    session,
+    input: configure_file(
+      input: desktop + '.in.in',
+      output: desktop + '.in',
+      configuration: desktopconf
+    ),
+    output: session,
+    po_dir: '../po',
+    install: true,
+    install_dir: join_paths(sessiondir, 'sessions'),
+    type: 'desktop',
+  )
+endforeach
+
 runconf = configuration_data()
 runconf.set('bindir', bindir)
 runconf.set('libexecdir', libexecdir)

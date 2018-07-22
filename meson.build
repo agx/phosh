@@ -11,6 +11,7 @@ datadir = join_paths(prefix, get_option('datadir'))
 localedir = join_paths(prefix, get_option('localedir'))
 libexecdir = join_paths(prefix, get_option('libexecdir'))
 desktopdir = join_paths(datadir, 'applications')
+sessiondir = join_paths(datadir, 'gnome-session')
 pkgdatadir = join_paths(datadir, meson.project_name())
 
 config_h = configuration_data()
