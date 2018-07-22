@@ -25,7 +25,7 @@ Before=graphical.target
 ConditionPathExists=/dev/tty0
 
 [Service]
-ExecStart=/usr/lib/wlroots/rootston -E /usr/lib/phosh/phosh -C /usr/share/phosh/rootston.ini
+ExecStart=/usr/bin/phosh
 TimeoutStartSec=60
 User=purism
 PAMName=login
