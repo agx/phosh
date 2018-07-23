@@ -14,6 +14,9 @@ if [ "${PHOSH_VALGRIND}" = 1 ]; then
            --log-file=vgdump         \
            --suppressions=${ABS_SRCDIR}/data/valgrind.suppressions \
    "
+elif [ "${PHOSH_GDB}" = 1 ]; then
+    echo "Running phosh under gdb"
+    WRAPPER="gdb"
 fi
 
 # Start up g-s-d, etc.

@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Guido Günther <agx@sigxcpu.org>
 Build-Depends:
  debhelper (>= 10),
+ libgcr-3-dev,
  libgnome-desktop-3-dev,
  libgtk-3-dev,
  libhandy-0.0-dev (>= 0.0.1),
@@ -26,8 +27,11 @@ Depends:
 Recommends:
  gnome-session,
 Description: Simple Wayland shell
- Phosh is a simple shell for wayland compositors speaking the
- weston-desktop-shell protocol.
+ Phosh is a simple shell for Wayland compositors speaking the
+ layer-surface protocol. It currently supports
  .
- If you're not working on a wayland compositor then this package
- is not very useful for you.
+ * enough of org.gnome.Mutter.DisplayConfig to make gnome-settings-daemon happy
+ * the gcr system-prompter interface
+ .
+ If you're not working on a Wayland compositor then this package
+ is likely not very useful for you.

@@ -13,7 +13,7 @@ VGDUMP="./vgdump"
 TIMEOUT=5
 
 function cleanup () {
-  [ ! -f core ] || echo bt | gdb -c core _build/src/phosh | tee >& ${OUTDIR}/backtrace.log
+  [ ! -f core ] || echo bt | gdb -c core _build/src/phosh | tee >& "${OUTDIR}"/backtrace.log
   [ ! -f "${WLROOTS_LOG}" ] || cat "${WLROOTS_LOG}"                || true
   [ ! -f "${PHOSH_LOG}" ]   || cat "${PHOSH_LOG}"                  || true
   [ -z "${XVFB_PID}" ]      || kill -9 "${XVFB_PID}"  >& /dev/null || true
@@ -64,9 +64,6 @@ mode = 768x1024
 mode = 1280x800
 EOF
 
-# Provide output for the interesting parts
-set -x
-
 XVFB_OPTS="-screen 0 768x1024x24 -ac +extension GLX +render -noreset"
 export WLR_BACKENDS=x11
 export XDG_RUNTIME_DIR="${WORKDIR}"
@@ -77,6 +74,7 @@ xvfb-run -s "${XVFB_OPTS}" -a /usr/lib/wlroots/rootston \
 XVFB_PID=$!
 echo "xvfb PID is $XVFB_PID"
 
+echo -n "Waiting for rootston to start..."
 # Wait for startup
 WAIT=5
 while [ ${WAIT} -gt 0 ]; do
@@ -84,25 +82,50 @@ while [ ${WAIT} -gt 0 ]; do
   sleep 1
   ((WAIT-=1))
 done
+echo "done."
 
 . "${WORKDIR}"/wl-info
 export WAYLAND_DISPLAY
 
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+   echo -n "No DBUS session bus found, spawning it..."
+   eval "$(dbus-launch --sh-syntax)"
+fi
+
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+   echo "DBUS failed to start." 2>&1
+   exit 1
+else
+   echo "done."
+fi
+
+echo "weston-info output:"
 weston-info
+
+echo "Starting phosh..."
 _build/run >& "${PHOSH_LOG}" &
 PHOSH_PID=$!
 
 echo "Phosh's PID is $PHOSH_PID"
-sleep "${TIMEOUT}" # give it some time to start
+echo -n "Waiting ${TIMEOUT} seconds for phosh to start..."
+sleep "${TIMEOUT}"
+echo "done."
 
 echo -n "Checking if phosh is alive..."
-kill -0 $PHOSH_PID
+if ! kill -0 $PHOSH_PID; then
+    echo "Phosh did not start in time" 1>&2
+    exit 2
+fi
 echo "yes."
 
+echo "Checking if phosh shuts down..."
 kill -15 $PHOSH_PID
-echo -n "Checking if phosh shutted down..."
+echo -n "Waiting ${TIMEOUT} seconds for phosh to stop..."
 sleep "${TIMEOUT}"
-! kill -0 $PHOSH_PID >&/dev/null
+if kill -0 $PHOSH_PID >&/dev/null; then
+    echo "Phosh did not terminate in time." 1>&2
+    exit 2
+fi
 echo "yes."
 
 echo "Started/stopped phosh successfully"
