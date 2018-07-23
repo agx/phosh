@@ -87,6 +87,6 @@ phosh_deps = [
 phosh = executable('phosh', phosh_sources,
   dependencies: phosh_deps,
   install: true,
-  install_dir: get_option('libexecdir'),
+  install_dir: libexecdir,
 )
 

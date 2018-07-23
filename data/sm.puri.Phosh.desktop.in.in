@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Phone Shell
+Comment=Window management and application launching for mobile
+Exec=@libexecdir@/phosh
+Categories=GNOME;Librem5;Core;
+OnlyShowIn=GNOME;
+NoDisplay=true
+X-GNOME-Autostart-Phase=DisplayServer
+X-GNOME-Provides=panel;windowmanager;
+X-GNOME-Autostart-Notify=true
+X-GNOME-AutoRestart=false
