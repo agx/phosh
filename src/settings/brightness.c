@@ -11,32 +11,32 @@
 #include <gtk/gtk.h>
 
 GDBusProxy *brightness_proxy;
+gboolean setting_brightness;
 
 
 void
 brightness_changed_cb (GDBusProxy *proxy,
                        GVariant *changed_props,
                        GVariant *invalidated_props,
-                       GtkAdjustment *adj)
+                       gpointer *user_data)
 {
+  GtkScale *scale = GTK_SCALE (user_data);
+  gint value;
   gboolean ret;
-  gint value, cur;
 
+  setting_brightness = TRUE;
   ret = g_variant_lookup (changed_props,
                           "Brightness",
                           "i", &value);
-
-  /* The value returned from DBUs is one lower
-   * than the value we set */
-  cur = gtk_adjustment_get_value (adj);
-  if (ret && cur != value + 1) {
-    gtk_adjustment_set_value (adj, value + 1);
-  }
+  g_return_if_fail (ret);
+  if (value < 0 || value > 100)
+    value = 100.0;
+  gtk_range_set_value (GTK_RANGE (scale), value);
 }
 
 
 void
-brightness_init (GtkAdjustment *adj)
+brightness_init (GtkScale *scale)
 {
   GError *err = NULL;
   GDBusConnection *session_con;
@@ -65,18 +65,20 @@ brightness_init (GtkAdjustment *adj)
     return;
   }
 
-  /* Set adjustment to current brightness */
+  /* Set scale to current brightness */
   var = g_dbus_proxy_get_cached_property (proxy, "Brightness");
   if (var) {
     g_variant_get (var, "i", &value);
-    gtk_adjustment_set_value (adj, value);
+    setting_brightness = TRUE;
+    gtk_range_set_value (GTK_RANGE (scale), value);
+    setting_brightness = FALSE;
     g_variant_unref (var);
   }
 
   g_signal_connect (proxy,
                     "g-properties-changed",
                     G_CALLBACK(brightness_changed_cb),
-                    adj);
+                    scale);
 
   brightness_proxy = proxy;
 }
@@ -99,18 +101,21 @@ brightness_set_cb (GDBusProxy *proxy, GAsyncResult *res, gpointer unused)
 
   if (var)
     g_variant_unref (var);
+
+  setting_brightness = FALSE;
 }
 
 
 void
 brightness_set (int brightness)
 {
-  g_return_if_fail (brightness_proxy);
+  if (!brightness_proxy)
+    return;
 
-  /* Don't let the display go completely dark for now */
-  if (brightness < 10)
-    brightness = 10;
+  if (setting_brightness)
+    return;
 
+  setting_brightness = TRUE;
   g_dbus_proxy_call (brightness_proxy,
                      "org.freedesktop.DBus.Properties.Set",
                      g_variant_new (
@@ -123,4 +128,11 @@ brightness_set (int brightness)
                      NULL,
                      (GAsyncReadyCallback)brightness_set_cb,
                      NULL);
+}
+
+
+void
+brightness_dispose ()
+{
+  g_clear_pointer (&brightness_proxy, g_object_unref);
 }

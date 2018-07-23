@@ -6,4 +6,5 @@
  */
 
 void brightness_init ();
+void brightness_dispose ();
 void brightness_set (int brightness);

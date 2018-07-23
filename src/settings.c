@@ -27,9 +27,6 @@ typedef struct
   GtkWidget *scale_volume;
   GtkWidget *btn_rotation;
 
-  GtkAdjustment *adj_brightness;
-  GtkAdjustment *adj_volume;
-
   GtkWidget *btn_settings;
   GDesktopAppInfo *settings_info;
   GtkWidget *btn_airplane_mode;
@@ -54,11 +51,11 @@ GtkWidget *phosh_settings (const char* name)
 
 
 static void
-brightness_changed_cb (GtkAdjustment *adj_brightness, gpointer *unused)
+brightness_value_changed_cb (GtkScale *scale_brightness, gpointer *unused)
 {
   int brightness;
 
-  brightness = (int)gtk_adjustment_get_value (adj_brightness);
+  brightness = (int)gtk_range_get_value (GTK_RANGE (scale_brightness));
   brightness_set (brightness);
 }
 
@@ -113,18 +110,16 @@ phosh_settings_constructed (GObject *object)
   gtk_window_resize (GTK_WINDOW (self), 100, 100);
   gtk_widget_realize(GTK_WIDGET (self));
 
-  priv->adj_brightness = gtk_adjustment_new (0, 0, 100, 1, 10, 10);
-  gtk_range_set_adjustment (GTK_RANGE (priv->scale_brightness), priv->adj_brightness);
+  gtk_range_set_range (GTK_RANGE (priv->scale_brightness), 0, 100);
   gtk_range_set_round_digits (GTK_RANGE (priv->scale_brightness), 0);
-
-  brightness_init (priv->adj_brightness);
-  g_signal_connect (priv->adj_brightness,
+  gtk_range_set_increments (GTK_RANGE (priv->scale_brightness), 1, 10);
+  brightness_init (priv->scale_brightness);
+  g_signal_connect (priv->scale_brightness,
                     "value-changed",
-                    G_CALLBACK(brightness_changed_cb),
+                    G_CALLBACK(brightness_value_changed_cb),
                     NULL);
 
-  priv->adj_volume = gtk_adjustment_new (0, 0, 100, 1, 10, 10);
-  gtk_range_set_adjustment (GTK_RANGE (priv->scale_volume), priv->adj_volume);
+  gtk_range_set_range (GTK_RANGE (priv->scale_volume), 0, 100);
 
   if (phosh_shell_get_rotation (phosh_shell_get_default ()))
     gtk_switch_set_active (GTK_SWITCH (priv->btn_rotation), TRUE);
@@ -162,10 +157,22 @@ phosh_settings_constructed (GObject *object)
 
 
 static void
+phosh_settings_dispose (GObject *object)
+{
+  brightness_dispose ();
+
+  G_OBJECT_CLASS (phosh_settings_parent_class)->dispose (object);
+}
+
+
+
+static void
 phosh_settings_class_init (PhoshSettingsClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+
+  object_class->dispose = phosh_settings_dispose;
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/settings-menu.ui");
