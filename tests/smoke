@@ -87,6 +87,18 @@ echo "done."
 . "${WORKDIR}"/wl-info
 export WAYLAND_DISPLAY
 
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+   echo -n "No DBUS session bus found, spawning it..."
+   eval "$(dbus-launch --sh-syntax)"
+fi
+
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+   echo "DBUS failed to start." 2>&1
+   exit 1
+else
+   echo "done."
+fi
+
 echo "weston-info output:"
 weston-info
 
