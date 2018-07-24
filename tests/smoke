@@ -137,7 +137,7 @@ import -display "${DISPLAY}" -window root "${OUTDIR}"/empty.png
 echo "Started/stopped phosh successfully"
 RET=0
 
-if grep -qs "WARNING" "${PHOSH_LOG}"; then
+if grep -qs "phosh.*WARNING" "${PHOSH_LOG}"; then
     echo "Found warning log messages" 1>&2
     # We're having warnings due to missing DBus
     # services and gnome-session depending on X11.
@@ -145,7 +145,7 @@ if grep -qs "WARNING" "${PHOSH_LOG}"; then
     #RET=1
 fi
 
-if grep -qs "CRITICAL" "${PHOSH_LOG}"; then
+if grep -qs "phosh.*CRITICAL" "${PHOSH_LOG}"; then
     echo "Found critical log messages" 1>&2
     RET=1
 fi
