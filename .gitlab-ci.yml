@@ -8,7 +8,7 @@ variables:
   variables: &smoketest_vars
     DEPS: libwlroots-examples wget gnome-session gdb weston valgrind
           libhandy-0.0-0-dbgsym libgtk-3-0-dbgsym libglib2.0-0-dbgsym
-          xvfb
+          xvfb imagemagick
     WANT_BUILD_DEPS: "false"
 
 before_script:
@@ -60,6 +60,7 @@ test:smoke:one-output:
   artifacts:
     paths:
       - output/*.log
+      - output/*.png
     when: always
 
 test:smoke:two-outputs:
@@ -76,6 +77,7 @@ test:smoke:two-outputs:
   artifacts:
     paths:
       - output/*.log
+      - output/*.png
     when: always
 
 test:smoke:valgrind:
@@ -93,5 +95,6 @@ test:smoke:valgrind:
     paths:
       - vgdump
       - output/*.log
+      - output/*.png
     when: always
 

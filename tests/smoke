@@ -11,6 +11,7 @@ WLROOTS_LOG="${OUTDIR}/rootston.log"
 ROOTSTON_CONFIG="${WORKDIR}/rootston.ini"
 VGDUMP="./vgdump"
 TIMEOUT=5
+DISPLAY=:99
 
 function cleanup () {
   [ ! -f core ] || echo bt | gdb -c core _build/src/phosh | tee >& "${OUTDIR}"/backtrace.log
@@ -64,7 +65,7 @@ mode = 768x1024
 mode = 1280x800
 EOF
 
-XVFB_OPTS="-screen 0 768x1024x24 -ac +extension GLX +render -noreset"
+XVFB_OPTS="${DISPLAY} -screen 0 768x1024x24 -ac +extension GLX +render -noreset"
 export WLR_BACKENDS=x11
 export XDG_RUNTIME_DIR="${WORKDIR}"
 xvfb-run -s "${XVFB_OPTS}" -a /usr/lib/wlroots/rootston \
@@ -73,6 +74,7 @@ xvfb-run -s "${XVFB_OPTS}" -a /usr/lib/wlroots/rootston \
 	 >& "${WLROOTS_LOG}" &
 XVFB_PID=$!
 echo "xvfb PID is $XVFB_PID"
+export DISPLAY
 
 echo -n "Waiting for rootston to start..."
 # Wait for startup
@@ -118,6 +120,8 @@ if ! kill -0 $PHOSH_PID; then
 fi
 echo "yes."
 
+import -display "${DISPLAY}" -window root "${OUTDIR}"/lockscreen.png
+
 echo "Checking if phosh shuts down..."
 kill -15 $PHOSH_PID
 echo -n "Waiting ${TIMEOUT} seconds for phosh to stop..."
@@ -128,10 +132,12 @@ if kill -0 $PHOSH_PID >&/dev/null; then
 fi
 echo "yes."
 
+import -display "${DISPLAY}" -window root "${OUTDIR}"/empty.png
+
 echo "Started/stopped phosh successfully"
 RET=0
 
-if grep -qs "WARNING" "${PHOSH_LOG}"; then
+if grep -qs "phosh.*WARNING" "${PHOSH_LOG}"; then
     echo "Found warning log messages" 1>&2
     # We're having warnings due to missing DBus
     # services and gnome-session depending on X11.
@@ -139,7 +145,7 @@ if grep -qs "WARNING" "${PHOSH_LOG}"; then
     #RET=1
 fi
 
-if grep -qs "CRITICAL" "${PHOSH_LOG}"; then
+if grep -qs "phosh.*CRITICAL" "${PHOSH_LOG}"; then
     echo "Found critical log messages" 1>&2
     RET=1
 fi
