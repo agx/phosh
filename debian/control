@@ -26,12 +26,16 @@ Depends:
  fonts-lato,
 Recommends:
  gnome-session,
-Description: Simple Wayland shell
- Phosh is a simple shell for Wayland compositors speaking the
- layer-surface protocol. It currently supports
+Description: Pure Wayland shell for mobile devices
+ Phosh is a simple shell for Wayland compositors speaking the layer-surface
+ protocol. It currently supports
  .
- * enough of org.gnome.Mutter.DisplayConfig to make gnome-settings-daemon happy
+ * a lockscreen
+ * brightness control and nighlight
  * the gcr system-prompter interface
+ * enough of org.gnome.Mutter.DisplayConfig to make gnome-settings-daemon happy
+ * a homebutton that toggles a simple favorites menu
+ * status icons for battary and wwan
  .
- If you're not working on a Wayland compositor then this package
- is likely not very useful for you.
+ If you're not working on a Wayland compositor then this package is likely not
+ very useful for you.
