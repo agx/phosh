@@ -601,19 +601,29 @@ void
 phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gint *height)
 {
   PhoshMonitor *monitor = NULL;
-  gint panel_height = 0;
+  PhoshShellPrivate *priv;
   gint w, h;
+  gint scale;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  priv = phosh_shell_get_instance_private (self);
 
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail(monitor);
 
-  w = monitor->width;
-  h = monitor->height - panel_height;
+  scale = monitor->scale ? monitor->scale : 1;
+  if (priv->rotation) {
+    w = monitor->height / scale;
+    h = monitor->width / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
+  } else {
+    w = monitor->width / scale;
+    h = monitor->height / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
+  }
 
   if (x)
     *x = 0;
   if (y)
-    *y = panel_height;
+    *y = PHOSH_PANEL_HEIGHT;
   if (width)
     *width = w;
   if (height)
