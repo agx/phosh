@@ -100,7 +100,7 @@ output_handle_mode (void             *data,
   if (height > self->height)
     self->height = height;
 
-  if ((flags & WL_OUTPUT_MODE_CURRENT) == 0)
+  if ((flags & WL_OUTPUT_MODE_CURRENT) == 1)
     self->current_mode = self->modes->len - 1;
 }
 
