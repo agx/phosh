@@ -34,10 +34,12 @@ struct _PhoshMonitor {
 
   GArray *modes;
   guint current_mode;
+  guint preferred_mode;
 
   gboolean done;
 };
 
 G_DECLARE_FINAL_TYPE (PhoshMonitor, phosh_monitor, PHOSH, MONITOR, GObject)
 
-PhoshMonitor * phosh_monitor_new_from_wl_output (gpointer wl_output);
+PhoshMonitor     * phosh_monitor_new_from_wl_output (gpointer wl_output);
+PhoshMonitorMode * phosh_monitor_get_current_mode (PhoshMonitor *monitor);

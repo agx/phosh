@@ -406,10 +406,10 @@ phosh_monitor_manager_handle_get_current_state (
                               G_VARIANT_TYPE ("a{sv}"));
       g_variant_builder_add (&mode_properties_builder, "{sv}",
                              "is-current",
-                             g_variant_new_boolean (TRUE));
+                             g_variant_new_boolean (k == monitor->current_mode));
       g_variant_builder_add (&mode_properties_builder, "{sv}",
                              "is-preferred",
-                             g_variant_new_boolean (i == 0));
+                             g_variant_new_boolean (k == monitor->preferred_mode));
 
       mode_name = g_strdup_printf ("%dx%d@%.0f", mode->width, mode->height,
                                    mode->refresh / 1000.0);

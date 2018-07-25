@@ -100,8 +100,11 @@ output_handle_mode (void             *data,
   if (height > self->height)
     self->height = height;
 
-  if ((flags & WL_OUTPUT_MODE_CURRENT) == 0)
+  if ((flags & WL_OUTPUT_MODE_CURRENT) == 1)
     self->current_mode = self->modes->len - 1;
+
+  if ((flags & WL_OUTPUT_MODE_PREFERRED) == 1)
+    self->preferred_mode = self->modes->len - 1;
 }
 
 
@@ -210,4 +213,12 @@ PhoshMonitor *
 phosh_monitor_new_from_wl_output (gpointer wl_output)
 {
   return g_object_new (PHOSH_TYPE_MONITOR, "wl-output", wl_output, NULL);
+}
+
+
+PhoshMonitorMode *
+phosh_monitor_get_current_mode (PhoshMonitor *self)
+{
+  g_return_val_if_fail (PHOSH_IS_MONITOR (self), NULL);
+  return &g_array_index (self->modes, PhoshMonitorMode, self->current_mode);
 }
