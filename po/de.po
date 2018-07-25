@@ -13,25 +13,25 @@ msgstr ""
 "Language-Team: none\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lockscreen.c:82 src/ui/lockscreen.ui:61
 msgid "Enter PIN to unlock"
-msgstr ""
+msgstr "PIN zum Entsperren eingeben"
 
 #: src/lockscreen.c:174
 msgid "Checking PIN"
-msgstr ""
+msgstr "Überprüfe PIN"
 
 #: src/panel.c:95
 msgid "Librem5 dev board"
-msgstr ""
+msgstr "Librem5 Entwicklungsboard"
 
 #: src/ui/lockscreen.ui:182
 msgid "Slide up to unlock"
-msgstr ""
+msgstr "Nach oben wischen um zu Entsperren"
 
 #: src/ui/settings-menu.ui:123
 msgid "Rotation"
