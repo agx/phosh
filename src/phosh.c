@@ -600,7 +600,8 @@ phosh_shell_get_monitor_manager (PhoshShell *self)
 void
 phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gint *height)
 {
-  PhoshMonitor *monitor = NULL;
+  PhoshMonitor *monitor;
+  PhoshMonitorMode *mode;
   PhoshShellPrivate *priv;
   gint w, h;
   gint scale;
@@ -610,14 +611,15 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
 
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail(monitor);
+  mode = phosh_monitor_get_current_mode (monitor);
 
   scale = monitor->scale ? monitor->scale : 1;
   if (priv->rotation) {
-    w = monitor->height / scale;
-    h = monitor->width / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
+    w = mode->height / scale;
+    h = mode->width / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
   } else {
-    w = monitor->width / scale;
-    h = monitor->height / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
+    w = mode->width / scale;
+    h = mode->height / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
   }
 
   if (x)
