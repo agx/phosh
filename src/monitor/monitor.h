@@ -34,6 +34,7 @@ struct _PhoshMonitor {
 
   GArray *modes;
   guint current_mode;
+  guint preferred_mode;
 
   gboolean done;
 };

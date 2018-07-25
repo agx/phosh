@@ -102,6 +102,9 @@ output_handle_mode (void             *data,
 
   if ((flags & WL_OUTPUT_MODE_CURRENT) == 1)
     self->current_mode = self->modes->len - 1;
+
+  if ((flags & WL_OUTPUT_MODE_PREFERRED) == 1)
+    self->preferred_mode = self->modes->len - 1;
 }
 
 
