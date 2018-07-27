@@ -15,4 +15,6 @@ if [ -f "/etc/phosh/rootston.ini" ]; then
   ROOTSTON_INI=/etc/phosh/rootston.ini
 fi
 
-exec "${ROOTSTON}" -C "${ROOTSTON_INI}" -E "gnome-session --disable-acceleration-check --session=phosh"
+# Run gnome-session through a login shell so it picks
+# variables from /etc/profile.d (XDG_*)
+exec "${ROOTSTON}" -C "${ROOTSTON_INI}" -E "bash -lc 'gnome-session --disable-acceleration-check --session=phosh'"
