@@ -78,7 +78,7 @@ icon_to_pixbuf (PhoshWWanInfo *self,
                                                     &error);
 
   if (pixbuf == NULL) {
-    g_warning ("Could not load icon pixbuf: %s\n", error->message);
+    g_warning ("Could not load icon pixbuf: %s", error->message);
     g_clear_error (&error);
   }
   return pixbuf;

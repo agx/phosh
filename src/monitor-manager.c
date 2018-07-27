@@ -47,7 +47,7 @@ phosh_monitor_manager_handle_get_resources (
   GVariantBuilder crtc_builder, output_builder, mode_builder;
 
   g_return_val_if_fail (self->monitors->len, FALSE);
-  g_debug ("DBus %s\n", __func__);
+  g_debug ("DBus %s", __func__);
 
   g_variant_builder_init (&crtc_builder, G_VARIANT_TYPE ("a(uxiiiiiuaua{sv})"));
   g_variant_builder_init (&output_builder, G_VARIANT_TYPE ("a(uxiausauaua{sv})"));
@@ -281,7 +281,7 @@ phosh_monitor_manager_handle_set_crtc_gamma (
   struct gamma_control *gamma_control;
   struct wl_array wl_red, wl_green, wl_blue;
 
-  g_debug ("DBus call %s for crtc %d, serial %d\n", __func__, crtc_id, serial);
+  g_debug ("DBus call %s for crtc %d, serial %d", __func__, crtc_id, serial);
   if (serial != self->serial) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_ACCESS_DENIED,
@@ -374,7 +374,7 @@ phosh_monitor_manager_handle_get_current_state (
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
   GVariantBuilder monitors_builder, logical_monitors_builder, properties_builder;
 
-  g_debug ("DBus call %s\n", __func__);
+  g_debug ("DBus call %s", __func__);
   g_variant_builder_init (&monitors_builder,
                           G_VARIANT_TYPE (MONITORS_FORMAT));
   g_variant_builder_init (&logical_monitors_builder,
