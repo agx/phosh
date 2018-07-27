@@ -135,19 +135,6 @@ get_running_apps (PhoshFavorites *self)
 
 
 static void
-term_btn_clicked (PhoshFavorites *self,
-                  GtkButton *btn)
-{
-  GError *error = NULL;
-  g_spawn_command_line_async ("weston-terminal", &error);
-  if (error)
-    g_warning ("Could not launch terminal");
-
-  g_signal_emit(self, signals[APP_LAUNCHED], 0);
-}
-
-
-static void
 favorite_clicked_cb (GtkWidget *widget,
                      GDesktopAppInfo *info)
 {
@@ -199,32 +186,6 @@ add_favorite (PhoshFavorites *self,
 }
 
 
-/* Add weston terminal as band aid in case all else fails for now */
-static void
-add_weston_terminal (PhoshFavorites *self)
-{
-  PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
-  GIcon *icon;
-  GtkWidget *image;
-  GtkWidget *btn;
-  char *names[] = {"utilities-terminal"};
-
-  btn = gtk_button_new();
-  icon = g_themed_icon_new_from_names (names, 1);
-  image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
-  g_object_unref (icon);
-
-  g_object_set (image, "margin", 20, NULL);
-  gtk_button_set_image (GTK_BUTTON (btn), image);
-
-  gtk_style_context_add_class (gtk_widget_get_style_context( GTK_WIDGET(btn) ),
-                               "circular");
-
-  g_signal_connect_swapped (btn, "clicked", G_CALLBACK (term_btn_clicked), self);
-  gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_favorites), btn, -1);
-}
-
-
 static void
 favorites_changed (GSettings *settings,
                    const gchar *key,
@@ -245,7 +206,6 @@ favorites_changed (GSettings *settings,
       gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_favorites), btn, -1);
   }
   g_strfreev (favorites);
-  add_weston_terminal (self);
 }
 
 
