@@ -155,7 +155,7 @@ phosh_wayland_constructed (GObject *object)
              priv->input_inhibit_manager, priv->xdg_wm_base);
   }
   if (!priv->phosh_private) {
-    g_info ("Could not find phosh private interface, disabling some features\n");
+    g_info ("Could not find phosh private interface, disabling some features");
   }
 }
 
