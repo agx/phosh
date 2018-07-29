@@ -128,7 +128,7 @@ show_unlock_page (PhoshLockscreen *self)
 
 
 /* callback of async auth task */
-void
+static void
 auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv;

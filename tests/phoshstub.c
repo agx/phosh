@@ -1,6 +1,8 @@
 /* Stubs so we don't need to run the shell */
 
 #include <glib.h>
+#include "phosh-wayland.h"
+#include "phosh.h"
 
 gpointer
 phosh_shell_get_default (void)

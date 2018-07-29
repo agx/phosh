@@ -63,7 +63,7 @@ pam_conversation_cb(int num_msg, const struct pam_message **msg,
 
 
 /* return TRUE if pin is correct, FALSE otherwise */
-gboolean
+static gboolean
 authenticate (PhoshAuth *self, const gchar* number)
 {
   PhoshAuthPrivate *priv = phosh_auth_get_instance_private (self);

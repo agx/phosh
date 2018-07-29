@@ -44,12 +44,6 @@ typedef struct _PhoshSettings
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshSettings, phosh_settings, GTK_TYPE_WINDOW)
 
 
-GtkWidget *phosh_settings (const char* name)
-{
-  return g_object_new (PHOSH_TYPE_SETTINGS, "name", name, NULL);
-}
-
-
 static void
 brightness_value_changed_cb (GtkScale *scale_brightness, gpointer *unused)
 {

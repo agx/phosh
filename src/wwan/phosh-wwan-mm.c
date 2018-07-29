@@ -104,7 +104,7 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
 }
 
 
-const char *
+static const char *
 user_friendly_access_tec (guint access_tec)
 {
   switch (access_tec) {

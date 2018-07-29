@@ -646,7 +646,7 @@ phosh_shell_get_default (void)
 }
 
 
-gboolean
+static gboolean
 sigterm_cb (gpointer unused)
 {
   g_debug ("Cleaning up");

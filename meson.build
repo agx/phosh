@@ -39,6 +39,7 @@ test_c_args = [
   '-Wcast-align',
   '-Wdeclaration-after-statement',
   ['-Werror=format-security', '-Werror=format=2'],
+  '-Werror=missing-declarations',
   '-Wformat-nonliteral',
   '-Wformat-security',
   '-Wmaybe-uninitialized',
