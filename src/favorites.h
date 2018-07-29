@@ -13,6 +13,6 @@
 
 G_DECLARE_FINAL_TYPE (PhoshFavorites, phosh_favorites, PHOSH, FAVORITES, GtkWindow)
 
-GtkWidget * phosh_favorites_new ();
+GtkWidget * phosh_favorites_new (void);
 
 #endif /* PHOSH_FAVORITES_H */

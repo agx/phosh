@@ -64,6 +64,7 @@ test_c_args = [
   '-Wpointer-arith',
   '-Wredundant-decls',
   '-Wshadow',
+  '-Wstrict-prototypes',
   '-Wswitch-default',
   '-Wswitch-enum',
   '-Wtype-limits',

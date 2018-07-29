@@ -107,7 +107,7 @@ phosh_settings_constructed (GObject *object)
   gtk_range_set_range (GTK_RANGE (priv->scale_brightness), 0, 100);
   gtk_range_set_round_digits (GTK_RANGE (priv->scale_brightness), 0);
   gtk_range_set_increments (GTK_RANGE (priv->scale_brightness), 1, 10);
-  brightness_init (priv->scale_brightness);
+  brightness_init (GTK_SCALE (priv->scale_brightness));
   g_signal_connect (priv->scale_brightness,
                     "value-changed",
                     G_CALLBACK(brightness_value_changed_cb),
