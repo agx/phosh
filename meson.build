@@ -41,6 +41,7 @@ test_c_args = [
   ['-Werror=format-security', '-Werror=format=2'],
   '-Wformat-nonliteral',
   '-Wformat-security',
+  '-Wmaybe-uninitialized',
   '-Wmissing-include-dirs',
   '-Wnested-externs',
   '-Wno-missing-field-initializers',
@@ -56,7 +57,6 @@ test_c_args = [
   '-Wswitch-enum',
   '-Wundef',
   '-Wunused-function',
-  '-Wmaybe-uninitialized',
 ]
 if get_option('buildtype') != 'plain'
   test_c_args += '-fstack-protector-strong'
