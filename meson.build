@@ -54,6 +54,7 @@ test_c_args = [
   '-Wswitch-default',
   '-Wswitch-enum',
   '-Wundef',
+  '-Wunused-function',
   '-Wmaybe-uninitialized',
 ]
 if get_option('buildtype') != 'plain'
