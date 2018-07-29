@@ -23,6 +23,7 @@ test_link_args = [
 
 test_stubs = [
   'phoshstub.c',
+  wl_proto_sources,
 ]
 
 cls_names = [

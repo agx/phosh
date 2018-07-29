@@ -83,6 +83,7 @@ i18n  = import('i18n')
 
 subdir('data')
 subdir('po')
+subdir('protocol')
 subdir('src')
 subdir('tests')
 
