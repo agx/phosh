@@ -3,7 +3,7 @@
 #include <glib.h>
 
 gpointer
-phosh_shell_get_default ()
+phosh_shell_get_default (void)
 {
   return NULL;
 }

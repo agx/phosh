@@ -132,7 +132,7 @@ brightness_set (int brightness)
 
 
 void
-brightness_dispose ()
+brightness_dispose (void)
 {
   g_clear_pointer (&brightness_proxy, g_object_unref);
 }

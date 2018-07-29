@@ -48,6 +48,7 @@ test_c_args = [
   '-Wno-strict-aliasing',
   '-Wno-uninitialized',
   '-Wno-unused-parameter',
+  '-Wold-style-definition',
   '-Wpointer-arith',
   '-Wredundant-decls',
   '-Wshadow',

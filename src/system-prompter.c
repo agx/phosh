@@ -82,7 +82,7 @@ on_name_acquired (GDBusConnection *connection,
 
 
 GcrSystemPrompter *
-phosh_system_prompter_register ()
+phosh_system_prompter_register (void)
 {
   _prompter = gcr_system_prompter_new (GCR_SYSTEM_PROMPTER_SINGLE, 0);
 
@@ -102,7 +102,7 @@ phosh_system_prompter_register ()
 
 
 void
-phosh_system_prompter_unregister()
+phosh_system_prompter_unregister(void)
 {
   if (_prompter) {
     gcr_system_prompter_unregister (_prompter, TRUE);

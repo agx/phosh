@@ -198,7 +198,7 @@ phosh_settings_init (PhoshSettings *self)
 }
 
 GtkWidget *
-phosh_settings_new ()
+phosh_settings_new (void)
 {
   return g_object_new (PHOSH_TYPE_SETTINGS, NULL);
 }

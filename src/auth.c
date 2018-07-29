@@ -193,7 +193,7 @@ phosh_auth_authenticate_async_finish (PhoshAuth     *self,
 
 
 guint
-phosh_auth_get_pin_length ()
+phosh_auth_get_pin_length (void)
 {
   return PIN_LENGTH;
 }
