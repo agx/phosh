@@ -270,7 +270,7 @@ phosh_favorites_init (PhoshFavorites *self)
 
 
 GtkWidget *
-phosh_favorites_new ()
+phosh_favorites_new (void)
 {
   return g_object_new (PHOSH_TYPE_FAVORITES, NULL);
 }

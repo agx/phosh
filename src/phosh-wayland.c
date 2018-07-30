@@ -190,7 +190,7 @@ phosh_wayland_init (PhoshWayland *self)
 
 
 PhoshWayland *
-phosh_wayland_get_default ()
+phosh_wayland_get_default (void)
 {
   static PhoshWayland *instance;
 

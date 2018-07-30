@@ -104,7 +104,7 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
 }
 
 
-const char *
+static const char *
 user_friendly_access_tec (guint access_tec)
 {
   switch (access_tec) {
@@ -245,12 +245,16 @@ phosh_wwan_mm_get_property (GObject *object,
   switch (property_id) {
   case PHOSH_WWAN_MM_PROP_SIGNAL_QUALITY:
     g_value_set_uint (value, priv->signal_quality);
+    break;
   case PHOSH_WWAN_MM_PROP_ACCESS_TEC:
     g_value_set_string (value, priv->access_tec);
+    break;
   case PHOSH_WWAN_MM_PROP_UNLOCKED:
     g_value_set_boolean (value, priv->unlocked);
+    break;
   case PHOSH_WWAN_MM_PROP_SIM:
     g_value_set_boolean (value, priv->sim);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;

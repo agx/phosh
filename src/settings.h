@@ -13,6 +13,6 @@
 
 G_DECLARE_FINAL_TYPE (PhoshSettings, phosh_settings, PHOSH, SETTINGS, GtkWindow)
 
-GtkWidget * phosh_settings_new ();
+GtkWidget * phosh_settings_new (void);
 
 #endif /* PHOSH_SETTINGS_H */

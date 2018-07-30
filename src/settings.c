@@ -44,12 +44,6 @@ typedef struct _PhoshSettings
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshSettings, phosh_settings, GTK_TYPE_WINDOW)
 
 
-GtkWidget *phosh_settings (const char* name)
-{
-  return g_object_new (PHOSH_TYPE_SETTINGS, "name", name, NULL);
-}
-
-
 static void
 brightness_value_changed_cb (GtkScale *scale_brightness, gpointer *unused)
 {
@@ -113,7 +107,7 @@ phosh_settings_constructed (GObject *object)
   gtk_range_set_range (GTK_RANGE (priv->scale_brightness), 0, 100);
   gtk_range_set_round_digits (GTK_RANGE (priv->scale_brightness), 0);
   gtk_range_set_increments (GTK_RANGE (priv->scale_brightness), 1, 10);
-  brightness_init (priv->scale_brightness);
+  brightness_init (GTK_SCALE (priv->scale_brightness));
   g_signal_connect (priv->scale_brightness,
                     "value-changed",
                     G_CALLBACK(brightness_value_changed_cb),
@@ -198,7 +192,7 @@ phosh_settings_init (PhoshSettings *self)
 }
 
 GtkWidget *
-phosh_settings_new ()
+phosh_settings_new (void)
 {
   return g_object_new (PHOSH_TYPE_SETTINGS, NULL);
 }

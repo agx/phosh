@@ -10,11 +10,14 @@
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 
+#include "settings/brightness.h"
+
+
 GDBusProxy *brightness_proxy;
 gboolean setting_brightness;
 
 
-void
+static void
 brightness_changed_cb (GDBusProxy *proxy,
                        GVariant *changed_props,
                        GVariant *invalidated_props,
@@ -85,7 +88,7 @@ brightness_init (GtkScale *scale)
 
 
 
-void
+static void
 brightness_set_cb (GDBusProxy *proxy, GAsyncResult *res, gpointer unused)
 {
   GError *err = NULL;
@@ -132,7 +135,7 @@ brightness_set (int brightness)
 
 
 void
-brightness_dispose ()
+brightness_dispose (void)
 {
   g_clear_pointer (&brightness_proxy, g_object_unref);
 }

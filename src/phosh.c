@@ -402,7 +402,7 @@ css_setup (PhoshShell *self)
 
 
 static void
-env_setup ()
+env_setup (void)
 {
   g_setenv ("XDG_CURRENT_DESKTOP", "GNOME", TRUE);
 }
@@ -634,7 +634,7 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
 
 
 PhoshShell *
-phosh_shell_get_default ()
+phosh_shell_get_default (void)
 {
   static PhoshShell *instance;
 
@@ -646,7 +646,7 @@ phosh_shell_get_default ()
 }
 
 
-gboolean
+static gboolean
 sigterm_cb (gpointer unused)
 {
   g_debug ("Cleaning up");

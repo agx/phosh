@@ -1,15 +1,17 @@
 /* Stubs so we don't need to run the shell */
 
 #include <glib.h>
+#include "phosh-wayland.h"
+#include "phosh.h"
 
-gpointer
-phosh_shell_get_default ()
+PhoshShell*
+phosh_shell_get_default (void)
 {
   return NULL;
 }
 
 void
-phosh_shell_get_usable_area (gpointer *self, gint *x, gint *y, gint *width, gint *height)
+phosh_shell_get_usable_area (PhoshShell *self,  gint *x, gint *y, gint *width, gint *height)
 {
   if (x)
     *x = 16;
