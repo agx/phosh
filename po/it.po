@@ -1,0 +1,38 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the phosh package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: phosh\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-08 10:35+0200\n"
+"PO-Revision-Date: 2018-08-08 10:40+0200\n"
+"Language-Team: antpanlinux <ant.pandolfo@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"Last-Translator: antpanlinux <ant.pandolfo@gmail.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: it\n"
+
+#: src/lockscreen.c:82 src/ui/lockscreen.ui:61
+msgid "Enter PIN to unlock"
+msgstr "Inserisci PIN per sbloccare"
+
+#: src/lockscreen.c:174
+msgid "Checking PIN"
+msgstr "Controllo PIN"
+
+#: src/panel.c:95
+msgid "Librem5 dev board"
+msgstr "Librem5 scheda sviluppo"
+
+#: src/ui/lockscreen.ui:182
+msgid "Slide up to unlock"
+msgstr "Scorri verso l'alto per sbloccare"
+
+#: src/ui/settings-menu.ui:123
+msgid "Rotation"
+msgstr "Rotazione"
