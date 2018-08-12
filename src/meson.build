@@ -52,7 +52,11 @@ phosh_sources = [
 
 phosh_deps = [
   dependency('gcr-3', version: '>= 3.7.5'),
+  dependency('gio-2.0', version: '>=2.50.0'),
+  dependency('gio-unix-2.0', version: '>=2.50.0'),
+  dependency('glib-2.0', version: '>=2.50.0'),
   dependency('gnome-desktop-3.0', version: '>=3.26'),
+  dependency('gobject-2.0', version: '>=2.50.0'),
   dependency('gtk+-3.0', version: '>=3.22'),
   dependency('gtk+-wayland-3.0', version: '>=3.22'),
   dependency('wayland-client', version: '>=1.14'),
