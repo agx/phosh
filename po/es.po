@@ -1,4 +1,4 @@
-# Spanish translation for phosh package.
+# Spanish translation for phosh
 # Copyright (C) 2018 THE phosh'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
 # Alberto Fanjul <albfan@gnome.org>, 2018.
