@@ -17,7 +17,7 @@
 #include <math.h>
 
 #define HANDY_USE_UNSTABLE_API
-#include <libhandy-0.0/handy.h>
+#include <handy.h>
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-wall-clock.h>
