@@ -1,3 +1,4 @@
+/* Top bar panel */
 .phosh-panel {
     font: 15px lato-regular;
 }
@@ -6,3 +7,10 @@
     background-image: none;
     border-width: 0;
 }
+
+/* Settings menu */
+.phosh-settings-menu {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+ }
+
