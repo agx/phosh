@@ -25,6 +25,7 @@ test_link_args = [
 test_deps = [
   'phoshstub.c',
   wl_proto_sources,
+  phosh_resources,
 ]
 
 tests = [
