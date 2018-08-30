@@ -23,3 +23,23 @@ phosh_shell_get_usable_area (PhoshShell *self,  gint *x, gint *y, gint *width, g
     *height = 128;
   return;
 }
+
+
+PhoshWayland *
+phosh_wayland_get_default (void)
+{
+  return NULL;
+}
+
+struct phosh_private*
+phosh_wayland_get_phosh_private (PhoshWayland *self)
+{
+  return NULL;
+}
+
+PhoshMonitor *
+phosh_shell_get_primary_monitor (PhoshShell *self)
+{
+  return NULL;
+}
+
