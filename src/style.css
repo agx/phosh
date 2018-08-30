@@ -14,3 +14,19 @@
     border-bottom-left-radius: 10px;
  }
 
+/* Favorites / Home screen */
+.phosh-app-btn {
+    background-image: none;
+    background-color: black;
+    border-width: 3px;
+    border-radius: 10px;
+}
+
+.phosh-app-name {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.phosh-app-title {
+    font-size: larger;
+}

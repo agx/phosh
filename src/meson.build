@@ -9,6 +9,8 @@ phosh_resources = gnome.compile_resources(
 )
 
 phosh_sources = [
+  'app.c',
+  'app.h',
   'auth.c',
   'auth.h',
   'background.c',
