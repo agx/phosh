@@ -26,9 +26,9 @@ static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct
 {
-  GtkWidget *scroll;
+  GtkWidget *sw_favorites;
   GtkWidget *evbox;
-  GtkWidget *flowbox;
+  GtkWidget *fb_favorites;
   GSettings *settings;
 } PhoshFavoritesPrivate;
 
@@ -128,7 +128,7 @@ add_weston_terminal (PhoshFavorites *self)
                                "circular");
 
   g_signal_connect_swapped (btn, "clicked", G_CALLBACK (term_btn_clicked), self);
-  gtk_flow_box_insert (GTK_FLOW_BOX (priv->flowbox), btn, -1);
+  gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_favorites), btn, -1);
 }
 
 
@@ -142,14 +142,14 @@ favorites_changed (GSettings *settings,
   GtkWidget *btn;
 
   /* Remove all favorites first */
-  gtk_container_foreach (GTK_CONTAINER (priv->flowbox),
+  gtk_container_foreach (GTK_CONTAINER (priv->fb_favorites),
                          (GtkCallback) gtk_widget_destroy, NULL);
 
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
     btn = add_favorite (self, fav);
     if (btn)
-      gtk_flow_box_insert (GTK_FLOW_BOX (priv->flowbox), btn, -1);
+      gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_favorites), btn, -1);
   }
   g_strfreev (favorites);
   add_weston_terminal (self);
@@ -201,31 +201,22 @@ phosh_favorites_constructed (GObject *object)
       "phosh-favorites");
 
   /* Flowbox */
-  priv->flowbox = gtk_widget_new (GTK_TYPE_FLOW_BOX,
-                                    "halign", GTK_ALIGN_START,
-                                    "valign", GTK_ALIGN_CENTER,
-                                    "selection-mode", GTK_SELECTION_NONE,
-                                    "orientation", GTK_ORIENTATION_VERTICAL,
-                                    NULL);
-  gtk_flow_box_set_max_children_per_line (GTK_FLOW_BOX(priv->flowbox), G_MAXINT);
-  gtk_flow_box_set_homogeneous (GTK_FLOW_BOX(priv->flowbox), TRUE);
+  priv->fb_favorites = gtk_widget_new (GTK_TYPE_FLOW_BOX,
+                                       "halign", GTK_ALIGN_CENTER,
+                                       "valign", GTK_ALIGN_START,
+                                       "selection-mode", GTK_SELECTION_NONE,
+                                       "orientation", GTK_ORIENTATION_HORIZONTAL,
+                                       NULL);
+  gtk_flow_box_set_max_children_per_line (GTK_FLOW_BOX(priv->fb_favorites), G_MAXINT);
+  gtk_flow_box_set_homogeneous (GTK_FLOW_BOX(priv->fb_favorites), TRUE);
+  gtk_container_add (GTK_CONTAINER (priv->sw_favorites), priv->fb_favorites);
+  gtk_widget_show_all (GTK_WIDGET(priv->evbox));
 
-  /* Scrolled window */
-  priv->scroll = gtk_scrolled_window_new (NULL, NULL);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->scroll),
-                                  GTK_POLICY_AUTOMATIC,
-                                  GTK_POLICY_NEVER);
-  gtk_container_add (GTK_CONTAINER (priv->scroll), priv->flowbox);
-
-  /* Eventbox */
-  priv->evbox = gtk_event_box_new ();
-  gtk_container_add (GTK_CONTAINER (priv->evbox), priv->scroll);
+  /* Close on click */
   g_signal_connect_swapped (priv->evbox, "button_press_event",
                             G_CALLBACK (evbox_button_press_event_cb),
                             self);
   gtk_widget_set_events (priv->evbox, GDK_BUTTON_PRESS_MASK);
-
-  gtk_container_add (GTK_CONTAINER (self), priv->evbox);
 
   priv->settings = g_settings_new ("sm.puri.phosh");
   g_signal_connect (priv->settings, "changed::favorites",
@@ -250,9 +241,16 @@ static void
 phosh_favorites_class_init (PhoshFavoritesClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->dispose = phosh_favorites_dispose;
   object_class->constructed = phosh_favorites_constructed;
+
+  gtk_widget_class_set_template_from_resource (widget_class,
+                                               "/sm/puri/phosh/ui/favorites.ui");
+
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshFavorites, evbox);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshFavorites, sw_favorites);
 
   signals[APP_LAUNCHED] = g_signal_new ("app-launched",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
@@ -266,6 +264,7 @@ phosh_favorites_class_init (PhoshFavoritesClass *klass)
 static void
 phosh_favorites_init (PhoshFavorites *self)
 {
+  gtk_widget_init_template (GTK_WIDGET (self));
 }
 
 
