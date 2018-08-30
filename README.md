@@ -28,13 +28,15 @@ way to get going is to do the following:
 When running from the source tree start the compositor *rootston*. Then start
 *phosh* using:
 
-    _build/run
+    _build/run -U
 
 or in one command:
 
-    ../wlroots/_build/rootston/rootston -E _build/run -C ./rootston.ini
+    ../wlroots/_build/rootston/rootston -E '_build/run -U' -C ./rootston.ini
 
-This will make sure the needed gsettings schema is found.
+This will make sure the needed gsettings schema is found. The '-U' option makes
+sure the shell is not locked on startup so you can test with arbitrary
+passwords.
 
 ### Running from the Debian packages
 If installed via the Debian packages you can also run phosh via gnome-session.
