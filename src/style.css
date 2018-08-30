@@ -30,3 +30,8 @@
 .phosh-app-title {
     font-size: larger;
 }
+
+.phosh-running-apps-flowbox {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
