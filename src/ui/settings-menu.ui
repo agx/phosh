@@ -237,5 +237,8 @@
         </child>
       </object>
     </child>
+    <style>
+      <class name="phosh-settings-menu"/>
+    </style>
   </template>
 </interface>

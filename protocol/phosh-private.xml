@@ -1,5 +1,5 @@
 <protocol name="phosh">
-  <interface name="phosh_private" version="1">
+  <interface name="phosh_private" version="2">
     <description summary="Phone shell extensions">
       Private protocol between phosh and the compositor.
     </description>
@@ -9,13 +9,61 @@
              summary="an invalid argument was provided in a request"/>
     </enum>
 
-    <!-- only one display for now -->
-    <request name="rotate_display">
-      <description summary="rotate display">
-	Rotate the display clockwise 0, 90, 180 or 270 degree.
+    <!-- only primary output for now -->
+    <request name="rotate_display" since="1">
+      <description summary="rotate output">
+        Rotate the output clockwise 0, 90, 180 or 270 degree.
       </description>
       <arg name="surface" type="object" interface="wl_surface"/>
       <arg name="degree" type="uint"/>
     </request>
+
+    <request name="get_xdg_switcher" since="2">
+      <arg name="id" type="new_id" interface="phosh_private_xdg_switcher"/>
+    </request>
+  </interface>
+
+  <!-- application switch handling -->
+  <interface name="phosh_private_xdg_switcher" version="2">
+    <description summary="Interface to list and raise xdg surfaces">
+      The interface is meant to list xdg surfaces (see the xdg-shell
+      stable wayland protocol) and to raise these surfaces to the top
+      of the window stack.
+
+      It's up to the compositor if it only lists surfaces of the
+      xdg-shell stable protocol or also surfaces using unstable versions of
+      the xdg-shell protocol.
+    </description>
+    <enum name="error">
+      <entry name="invalid_argument" value="0"
+             summary="an invalid argument was provided in a request"/>
+    </enum>
+
+    <request name="list_xdg_surfaces" since="2">
+      <description summary="Get current xdg surfaces">
+        Request to list xdg shell toplevels.
+      </description>
+    </request>
+
+    <request name="destroy"  type="destructor" since="2">
+      <description summary="destroy the xdg_switcher interface instance"/>
+    </request>
+
+    <request name="raise_xdg_surface" since="2">
+      <description summary="raise the given xdg surface to the top of the stack">
+      </description>
+      <arg name="app_id" type="string" summary="The app_id of the xdg surface"/>
+      <arg name="title" type="string" summary="The title of the xdg surface" allow-null="true"/>
+    </request>
+
+    <event name="xdg_surface" since="2">
+      <description summary="report an xdg surface"/>
+      <arg name="app_id" type="string" summary="the app_id of the xdg surface"/>
+      <arg name="title" type="string" summary="the title of the xdg surface" allow-null="true"/>
+    </event>
+
+    <event name="list_xdg_surfaces_done" since="2">
+      <description summary="all xdg surfaces were sent"/>
+    </event>
   </interface>
 </protocol>

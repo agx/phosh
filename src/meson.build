@@ -9,6 +9,8 @@ phosh_resources = gnome.compile_resources(
 )
 
 phosh_sources = [
+  'app.c',
+  'app.h',
   'auth.c',
   'auth.h',
   'background.c',
@@ -51,6 +53,7 @@ phosh_sources = [
 ]
 
 phosh_deps = [
+  dependency('gio-2.0', version: '>= 2.56'),
   dependency('gcr-3', version: '>= 3.7.5'),
   dependency('gio-2.0', version: '>=2.50.0'),
   dependency('gio-unix-2.0', version: '>=2.50.0'),
