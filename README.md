@@ -22,6 +22,13 @@ way to get going is to do the following:
     ninja -C _build
     ninja -C _build install
 
+# Testing
+
+To run the tests run
+
+    ninja -C _build test
+
+For details see the *.gitlab-ci.yml* file.
 
 ## Running
 ### Running from the source tree
