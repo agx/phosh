@@ -8,6 +8,7 @@ variables:
   variables: &smoketest_vars
     DEPS: libwlroots-examples wget gnome-session gdb weston valgrind
           libhandy-0.0-0-dbgsym libgtk-3-0-dbgsym libglib2.0-0-dbgsym
+          dconf-gsettings-backend-dbgsym
           xvfb imagemagick
     WANT_BUILD_DEPS: "false"
 

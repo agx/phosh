@@ -47,3 +47,16 @@
    obj:/usr/lib/*/libfontconfig.so.*
    ...
 }
+
+# Temporary until
+# https://gitlab.gnome.org/GNOME/dconf/merge_requests/25
+# is fixed
+{
+   dconf_OutstandingWatch_leak
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   ...
+   fun:dconf_engine_watch_fast
+   ...
+}
