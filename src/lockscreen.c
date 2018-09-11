@@ -138,7 +138,7 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
   priv = phosh_lockscreen_get_instance_private (self);
   authenticated = phosh_auth_authenticate_async_finish (auth, result, &error);
   if (error != NULL) {
-    g_warning ("Auth failed unexected: %s", error->message);
+    g_warning ("Auth failed unexpected: %s", error->message);
     return;
   }
 
