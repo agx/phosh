@@ -248,7 +248,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
     g_param_spec_uint (
       "anchor",
       "Anchor edges",
-      "The edges to achor the surface to",
+      "The edges to anchor the surface to",
       0,
       G_MAXUINT,
       0,
@@ -268,7 +268,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
     g_param_spec_boolean (
       "kbd-interactivity",
       "Keyboard interactivity",
-      "Wheter the surface interacts with the keyboard",
+      "Whether the surface interacts with the keyboard",
       FALSE,
       G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
