@@ -19,7 +19,7 @@ msgstr ""
 
 #: src/lockscreen.c:82 src/ui/lockscreen.ui:61
 msgid "Enter PIN to unlock"
-msgstr "PIN zum Entsperren eingeben"
+msgstr "PIN eingeben um zu entsperren"
 
 #: src/lockscreen.c:174
 msgid "Checking PIN"
@@ -31,7 +31,7 @@ msgstr "Librem5 Entwicklungsboard"
 
 #: src/ui/lockscreen.ui:182
 msgid "Slide up to unlock"
-msgstr "Nach oben wischen um zu Entsperren"
+msgstr "Nach oben wischen um zu entsperren"
 
 #: src/ui/settings-menu.ui:123
 msgid "Rotation"
