@@ -29,6 +29,7 @@ phosh_sources = [
   'lockscreen-manager.h',
   'lockshield.c',
   'lockshield.h',
+  'main.c',
   'monitor-manager.c',
   'monitor-manager.h',
   'system-prompt.c',
