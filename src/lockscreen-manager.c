@@ -9,7 +9,7 @@
 #include "lockscreen-manager.h"
 #include "lockscreen.h"
 #include "lockshield.h"
-#include "phosh.h"
+#include "shell.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
 #include "phosh-wayland.h"

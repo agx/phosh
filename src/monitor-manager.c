@@ -13,7 +13,7 @@
 
 #include "gamma-control-client-protocol.h"
 #include "phosh-wayland.h"
-#include "phosh.h"
+#include "shell.h"
 
 #include <gdk/gdkwayland.h>
 

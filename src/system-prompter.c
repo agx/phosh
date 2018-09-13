@@ -10,7 +10,7 @@
 
 #include "system-prompt.h"
 #include "system-prompter.h"
-#include "phosh.h"
+#include "shell.h"
 #include "phosh-wayland.h"
 
 /**
