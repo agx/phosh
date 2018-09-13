@@ -8,7 +8,7 @@
 
 #include "config.h"
 #include "app.h"
-#include "phosh.h"
+#include "shell.h"
 
 #include <gio/gdesktopappinfo.h>
 

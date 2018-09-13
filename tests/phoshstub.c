@@ -2,7 +2,7 @@
 
 #include <glib.h>
 #include "phosh-wayland.h"
-#include "phosh.h"
+#include "shell.h"
 
 PhoshShell*
 phosh_shell_get_default (void)

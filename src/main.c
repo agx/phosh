@@ -8,7 +8,7 @@
 
 #include "config.h"
 
-#include "phosh.h"
+#include "shell.h"
 #include "phosh-wayland.h"
 
 #include <glib/gi18n.h>

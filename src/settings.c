@@ -9,7 +9,7 @@
 
 #include <glib/gi18n.h>
 
-#include "phosh.h"
+#include "shell.h"
 #include "settings.h"
 #include "settings/brightness.h"
 

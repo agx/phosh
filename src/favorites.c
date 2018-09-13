@@ -14,7 +14,7 @@
 
 #include "favorites.h"
 #include "app.h"
-#include "phosh.h"
+#include "shell.h"
 #include "phosh-private-client-protocol.h"
 #include "phosh-wayland.h"
 

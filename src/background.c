@@ -8,7 +8,7 @@
 #define G_LOG_DOMAIN "phosh-background"
 
 #include "background.h"
-#include "phosh.h"
+#include "shell.h"
 #include "panel.h"
 
 #include <math.h>

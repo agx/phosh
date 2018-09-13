@@ -20,7 +20,7 @@
 #include <gdk/gdkwayland.h>
 
 #include "config.h"
-#include "phosh.h"
+#include "shell.h"
 
 #include "phosh-wayland.h"
 #include "monitor/monitor.h"
