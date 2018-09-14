@@ -336,12 +336,6 @@ panels_create (PhoshShell *self)
                                                     monitor->wl_output));
   g_signal_connect_swapped (
     priv->panel,
-    "favorites-activated",
-    G_CALLBACK(favorites_activated_cb),
-    self);
-
-  g_signal_connect_swapped (
-    priv->panel,
     "settings-activated",
     G_CALLBACK(settings_activated_cb),
     self);
