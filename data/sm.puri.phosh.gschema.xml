@@ -6,7 +6,7 @@
                  'sm.puri.Calls.desktop',
                  'sm.puri.Chatty.desktop',
                  'org.gnome.Calendar.desktop',
-                 'evince.desktop',
+                 'org.gnome.Evince.desktop',
                  'org.gnome.Epiphany.desktop',
                  'org.gnome.Terminal.desktop'
                ]</default>
