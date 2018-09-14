@@ -31,6 +31,7 @@
 #include "home.h"
 #include "favorites.h"
 #include "settings.h"
+#include "session.h"
 #include "system-prompter.h"
 
 
@@ -462,6 +463,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
   phosh_system_prompter_unregister ();
+  phosh_session_unregister ();
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->dispose (object);
 }
@@ -494,6 +496,7 @@ phosh_shell_constructed (GObject *object)
   /* Create background after panel since it needs the panel's size */
   background_create (self);
   priv->lockscreen_manager = phosh_lockscreen_manager_new ();
+  phosh_session_register ("sm.puri.Phosh");
   phosh_system_prompter_register ();
 }
 
