@@ -161,8 +161,8 @@ static const struct xdg_popup_listener xdg_popup_listener = {
 
 
 static void
-favorites_activated_cb (PhoshShell *self,
-                        PhoshPanel *window)
+home_activated_cb (PhoshShell *self,
+                   PhoshPanel *window)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GdkWindow *gdk_window;
@@ -349,7 +349,7 @@ panels_create (PhoshShell *self)
   g_signal_connect_swapped (
     priv->home,
     "home-activated",
-    G_CALLBACK(favorites_activated_cb),
+    G_CALLBACK(home_activated_cb),
     self);
 
 }
