@@ -345,7 +345,6 @@ panels_create (PhoshShell *self)
     "home-activated",
     G_CALLBACK(home_activated_cb),
     self);
-
 }
 
 

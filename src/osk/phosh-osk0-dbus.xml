@@ -1,0 +1,14 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
+  <interface name="sm.puri.OSK0">
+    <method name="SetVisible">
+      <arg type="b" direction="in"/>
+      <doc:doc><doc:description>
+        Switch keyboard visibility
+      </doc:description></doc:doc>
+    </method>
+    <property name="Visible" type="b" access="read">
+    </property>
+  </interface>
+</node>

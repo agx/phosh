@@ -1,5 +1,6 @@
 subdir('wwan')
 subdir('monitor')
+subdir('osk')
 
 phosh_resources = gnome.compile_resources(
    'phosh-resources',
@@ -54,6 +55,7 @@ phosh_sources = [
   phosh_resources,
   phosh_wwan_sources,
   phosh_monitor_sources,
+  phosh_osk_sources,
   wl_proto_sources,
 ]
 
