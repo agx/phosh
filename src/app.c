@@ -158,6 +158,20 @@ phosh_app_constructed (GObject *object)
   desktop_id = g_strdup_printf ("%s.desktop", priv->app_id);
   g_return_if_fail (desktop_id);
   priv->info = g_desktop_app_info_new (desktop_id);
+
+  /* For GTK+3 apps the desktop_id and the app_id often don't match
+     because the app_id is incorrectly just $(basename argv[0]). If we
+     detect this case (no dot in app_id and starts with
+     lowercase) work around this by trying org.gnome.<capitalized
+     app_id>.
+  */
+  if (!priv->info && strchr (priv->app_id, '.') == NULL && !g_ascii_isupper (priv->app_id[0])) {
+    g_free (desktop_id);
+    desktop_id = g_strdup_printf ("org.gnome.%c%s.desktop", priv->app_id[0] - 32, &(priv->app_id[1]));
+    g_debug ("%s has broken app_id, should be %s", priv->app_id, desktop_id);
+    priv->info = g_desktop_app_info_new (desktop_id);
+  }
+
   if (priv->info) {
     priv->image = get_image_from_gicon (self, scale);
     name = g_desktop_app_info_get_locale_string (priv->info, "Name");
