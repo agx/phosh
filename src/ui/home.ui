@@ -26,6 +26,9 @@
             <property name="image">image1</property>
             <property name="image_position">top</property>
             <property name="always_show_image">True</property>
+            <style>
+              <class name="phosh-panel-btn"/>
+            </style>
           </object>
           <packing>
             <property name="left_attach">0</property>
