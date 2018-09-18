@@ -31,7 +31,7 @@ static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct {
   GtkWidget *btn_top_panel;
-  GtkWidget *btn_settings;
+  GtkWidget *lbl_clock;
   GtkWidget *wwaninfo;
   GtkWidget *batteryinfo;
   gint height;
@@ -65,7 +65,7 @@ wall_clock_notify_cb (GnomeWallClock *wall_clock,
   const gchar *str;
 
   str = gnome_wall_clock_get_clock(wall_clock);
-  gtk_button_set_label (GTK_BUTTON (priv->btn_settings), str);
+  gtk_label_set_text (GTK_LABEL (priv->lbl_clock), str);
 }
 
 
@@ -146,7 +146,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/top-panel.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_top_panel);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_settings);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_clock);
   PHOSH_TYPE_WWAN_INFO; /* make sure the type is known */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, wwaninfo);
   PHOSH_TYPE_BATTERY_INFO; /* make sure the type is known */

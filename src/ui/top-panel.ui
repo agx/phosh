@@ -43,13 +43,11 @@
               </packing>
             </child>
             <child type="center">
-              <object class="GtkButton" id="btn_settings">
+              <object class="GtkLabel" id="lbl_clock">
                 <property name="label">00:00</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="xalign">0.89999997615814209</property>
-                <property name="yalign">0.5</property>
               </object>
               <packing>
                 <property name="expand">False</property>
