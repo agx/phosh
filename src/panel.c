@@ -30,6 +30,7 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct {
+  GtkWidget *btn_top_panel;
   GtkWidget *btn_settings;
   GtkWidget *wwaninfo;
   GtkWidget *batteryinfo;
@@ -47,7 +48,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshPanel, phosh_panel, PHOSH_TYPE_LAYER_SURFACE)
 
 
 static void
-settings_clicked_cb (PhoshPanel *self, GtkButton *btn)
+top_panel_clicked_cb (PhoshPanel *self, GtkButton *btn)
 {
   g_return_if_fail (PHOSH_IS_PANEL (self));
   g_return_if_fail (GTK_IS_BUTTON (btn));
@@ -92,9 +93,9 @@ phosh_panel_constructed (GObject *object)
                     G_CALLBACK (wall_clock_notify_cb),
                     self);
 
-  g_signal_connect_object (priv->btn_settings,
+  g_signal_connect_object (priv->btn_top_panel,
                            "clicked",
-                           G_CALLBACK (settings_clicked_cb),
+                           G_CALLBACK (top_panel_clicked_cb),
                            self,
                            G_CONNECT_SWAPPED);
   g_signal_connect (self,
@@ -108,9 +109,9 @@ phosh_panel_constructed (GObject *object)
       "phosh-panel");
 
   /* Button properites */
-  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
+  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_top_panel),
                                   "button");
-  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
+  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_top_panel),
                                   "image-button");
 
   wall_clock_notify_cb (priv->wall_clock, NULL, self);
@@ -144,6 +145,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/top-panel.ui");
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_top_panel);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_settings);
   PHOSH_TYPE_WWAN_INFO; /* make sure the type is known */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, wwaninfo);
