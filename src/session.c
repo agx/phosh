@@ -112,7 +112,7 @@ void
 phosh_session_register (const char *client_id)
 {
   const char *startup_id;
-  GError *err;
+  GError *err = NULL;
 
   if (!_proxy) {
     _proxy = g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
