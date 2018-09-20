@@ -24,15 +24,14 @@
 #define _(String) gettext (String)
 
 enum {
-  FAVORITES_ACTIVATED,
   SETTINGS_ACTIVATED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct {
-  GtkWidget *btn_favorites;
-  GtkWidget *btn_settings;
+  GtkWidget *btn_top_panel;
+  GtkWidget *lbl_clock;
   GtkWidget *wwaninfo;
   GtkWidget *batteryinfo;
   gint height;
@@ -49,16 +48,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshPanel, phosh_panel, PHOSH_TYPE_LAYER_SURFACE)
 
 
 static void
-favorites_clicked_cb (PhoshPanel *self, GtkButton *btn)
-{
-  g_return_if_fail (PHOSH_IS_PANEL (self));
-  g_return_if_fail (GTK_IS_BUTTON (btn));
-  g_signal_emit(self, signals[FAVORITES_ACTIVATED], 0);
-}
-
-
-static void
-settings_clicked_cb (PhoshPanel *self, GtkButton *btn)
+top_panel_clicked_cb (PhoshPanel *self, GtkButton *btn)
 {
   g_return_if_fail (PHOSH_IS_PANEL (self));
   g_return_if_fail (GTK_IS_BUTTON (btn));
@@ -75,7 +65,7 @@ wall_clock_notify_cb (GnomeWallClock *wall_clock,
   const gchar *str;
 
   str = gnome_wall_clock_get_clock(wall_clock);
-  gtk_button_set_label (GTK_BUTTON (priv->btn_settings), str);
+  gtk_label_set_text (GTK_LABEL (priv->lbl_clock), str);
 }
 
 
@@ -96,7 +86,6 @@ phosh_panel_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_panel_parent_class)->constructed (object);
 
-  gtk_button_set_label (GTK_BUTTON (priv->btn_favorites), _("Librem5 dev board"));
   priv->wall_clock = gnome_wall_clock_new ();
 
   g_signal_connect (priv->wall_clock,
@@ -104,15 +93,9 @@ phosh_panel_constructed (GObject *object)
                     G_CALLBACK (wall_clock_notify_cb),
                     self);
 
-  g_signal_connect_object (priv->btn_favorites,
+  g_signal_connect_object (priv->btn_top_panel,
                            "clicked",
-                           G_CALLBACK (favorites_clicked_cb),
-                           self,
-                           G_CONNECT_SWAPPED);
-
-  g_signal_connect_object (priv->btn_settings,
-                           "clicked",
-                           G_CALLBACK (settings_clicked_cb),
+                           G_CALLBACK (top_panel_clicked_cb),
                            self,
                            G_CONNECT_SWAPPED);
   g_signal_connect (self,
@@ -126,13 +109,9 @@ phosh_panel_constructed (GObject *object)
       "phosh-panel");
 
   /* Button properites */
-  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_favorites),
+  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_top_panel),
                                   "button");
-  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_favorites),
-                                  "image-button");
-  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
-                                  "button");
-  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
+  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_top_panel),
                                   "image-button");
 
   wall_clock_notify_cb (priv->wall_clock, NULL, self);
@@ -160,18 +139,14 @@ phosh_panel_class_init (PhoshPanelClass *klass)
   object_class->constructed = phosh_panel_constructed;
   object_class->dispose = phosh_panel_dispose;
 
-  signals[FAVORITES_ACTIVATED] = g_signal_new ("favorites-activated",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
-
   signals[SETTINGS_ACTIVATED] = g_signal_new ("settings-activated",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/top-panel.ui");
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_favorites);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_settings);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_top_panel);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_clock);
   PHOSH_TYPE_WWAN_INFO; /* make sure the type is known */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, wwaninfo);
   PHOSH_TYPE_BATTERY_INFO; /* make sure the type is known */
