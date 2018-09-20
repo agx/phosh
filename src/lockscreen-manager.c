@@ -13,6 +13,7 @@
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
 #include "phosh-wayland.h"
+#include "util.h"
 
 #include <gdk/gdkwayland.h>
 
@@ -61,7 +62,7 @@ lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
     g_signal_handler_disconnect (lockscreen, priv->unlock_handler_id);
     priv->unlock_handler_id = 0;
   }
-  g_clear_pointer (&priv->lockscreen, gtk_widget_destroy);
+  g_clear_pointer (&priv->lockscreen, phosh_cp_widget_destroy);
 
   /* Unlock all other outputs */
   g_clear_pointer (&priv->shields, g_ptr_array_unref);
@@ -194,7 +195,7 @@ phosh_lockscreen_manager_dispose (GObject *object)
       g_signal_handler_disconnect (priv->lockscreen, priv->unlock_handler_id);
       priv->unlock_handler_id = 0;
     }
-    g_clear_pointer (&priv->lockscreen, gtk_widget_destroy);
+    g_clear_pointer (&priv->lockscreen, phosh_cp_widget_destroy);
   }
   g_clear_object (&priv->settings);
 

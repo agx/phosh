@@ -47,6 +47,8 @@ phosh_sources = [
   'settings.c',
   'settings.h',
   'settings/brightness.c',
+  'util.c',
+  'util.h',
   'wwaninfo.c',
   'wwaninfo.h',
   phosh_resources,
