@@ -5,6 +5,9 @@
 
 #pragma once
 
+#mesondefine PHOSH_VERSION
+
 #mesondefine GETTEXT_PACKAGE
 
 #mesondefine LOCALEDIR
+

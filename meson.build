@@ -17,6 +17,7 @@ pkgdatadir = join_paths(datadir, meson.project_name())
 config_h = configuration_data()
 config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
 config_h.set_quoted('LOCALEDIR', localedir)
+config_h.set_quoted('PHOSH_VERSION', meson.project_version())
 
 configure_file(
   input: 'config.h.in',
