@@ -33,6 +33,7 @@
 #include "settings.h"
 #include "session.h"
 #include "system-prompter.h"
+#include "util.h"
 
 
 enum {
@@ -459,7 +460,7 @@ phosh_shell_dispose (GObject *object)
     priv->background = NULL;
   }
 
-  g_clear_pointer (&priv->panel, gtk_widget_destroy);
+  g_clear_pointer (&priv->panel, phosh_cp_widget_destroy);
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
   phosh_system_prompter_unregister ();
