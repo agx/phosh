@@ -455,11 +455,7 @@ phosh_shell_dispose (GObject *object)
   PhoshShell *self = PHOSH_SHELL (object);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
-  if (priv->background) {
-    gtk_widget_destroy (GTK_WIDGET (priv->background));
-    priv->background = NULL;
-  }
-
+  g_clear_pointer (&priv->background, phosh_cp_widget_destroy);
   g_clear_pointer (&priv->panel, phosh_cp_widget_destroy);
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
