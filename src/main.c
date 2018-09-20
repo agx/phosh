@@ -24,19 +24,29 @@ sigterm_cb (gpointer unused)
 }
 
 
+static void
+print_version (void)
+{
+  printf ("Phosh %s - A Wayland shell for mobile devices\n", PHOSH_VERSION);
+  exit (0);
+}
+
+
 int main(int argc, char *argv[])
 {
   g_autoptr(GSource) sigterm = NULL;
   GMainContext *context = NULL;
   g_autoptr(GOptionContext) opt_context = NULL;
   GError *err = NULL;
-  gboolean unlocked = FALSE;
+  gboolean unlocked = FALSE, version = FALSE;
   g_autoptr(PhoshWayland) wl = NULL;
   g_autoptr(PhoshShell) shell = NULL;
 
   const GOptionEntry options [] = {
     {"unlocked", 'U', 0, G_OPTION_ARG_NONE, &unlocked,
      "Don't start with screen locked", NULL},
+    {"version", 0, 0, G_OPTION_ARG_NONE, &version,
+     "Show version information", NULL},
     { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
   };
 
@@ -44,6 +54,10 @@ int main(int argc, char *argv[])
   g_option_context_add_main_entries (opt_context, options, NULL);
   g_option_context_add_group (opt_context, gtk_get_option_group (TRUE));
   g_option_context_parse (opt_context, &argc, &argv, &err);
+
+  if (version) {
+    print_version ();
+  }
 
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
