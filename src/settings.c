@@ -13,8 +13,14 @@
 #include "session.h"
 #include "settings.h"
 #include "settings/brightness.h"
+#include "settings/gvc-channel-bar.h"
 
+#include <pulse/pulseaudio.h>
+#include "gvc-mixer-control.h"
+#include "gvc-mixer-stream.h"
 #include <gio/gdesktopappinfo.h>
+
+#include <math.h>
 
 enum {
   SETTING_DONE,
@@ -24,14 +30,21 @@ static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct
 {
+  GtkWidget *box_settings;
   GtkWidget *scale_brightness;
-  GtkWidget *scale_volume;
+  GtkWidget *output_vol_bar;
   GtkWidget *btn_rotation;
 
   GtkWidget *btn_settings;
   GDesktopAppInfo *settings_info;
   GtkWidget *btn_shutdown;
   GtkWidget *btn_lock_screen;
+
+  /* Output volume control */
+  GvcMixerControl *mixer_control;
+  GvcMixerStream *output_stream;
+  gboolean allow_volume_above_100_percent;
+  gboolean setting_volume;
 
 } PhoshSettingsPrivate;
 
@@ -88,6 +101,112 @@ lock_screen_clicked_cb (PhoshSettings *self, gpointer *unused)
 
 
 static void
+update_output_vol_bar (PhoshSettings *self)
+{
+  PhoshSettingsPrivate *priv = phosh_settings_get_instance_private (self);
+  GtkAdjustment *adj;
+
+  priv->setting_volume = TRUE;
+  gvc_channel_bar_set_base_volume (GVC_CHANNEL_BAR (priv->output_vol_bar),
+                                   gvc_mixer_stream_get_base_volume (priv->output_stream));
+  gvc_channel_bar_set_is_amplified (GVC_CHANNEL_BAR (priv->output_vol_bar),
+                                    priv->allow_volume_above_100_percent &&
+                                    gvc_mixer_stream_get_can_decibel (priv->output_stream));
+  adj = GTK_ADJUSTMENT (gvc_channel_bar_get_adjustment (GVC_CHANNEL_BAR (priv->output_vol_bar)));
+  g_debug ("Adjusting volume to %d", gvc_mixer_stream_get_volume (priv->output_stream));
+  gtk_adjustment_set_value (adj, gvc_mixer_stream_get_volume (priv->output_stream));
+  priv->setting_volume = FALSE;
+}
+
+
+static void
+output_stream_notify_is_muted_cb (GvcMixerStream *stream, GParamSpec *pspec, gpointer data)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (data);
+  PhoshSettingsPrivate *priv = priv = phosh_settings_get_instance_private (self);
+
+  if (!priv->setting_volume)
+    update_output_vol_bar (self);
+}
+
+
+static void
+output_stream_notify_volume_cb (GvcMixerStream *stream, GParamSpec *pspec, gpointer data)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (data);
+  PhoshSettingsPrivate *priv = phosh_settings_get_instance_private (self);
+
+  if (!priv->setting_volume)
+    update_output_vol_bar (self);
+}
+
+
+
+static GtkWidget *
+create_vol_channel_bar (PhoshSettings *self)
+{
+  GtkWidget *bar;
+
+  bar = gvc_channel_bar_new ();
+  gtk_widget_set_sensitive (bar, TRUE);
+  return bar;
+}
+
+
+static void
+mixer_control_output_update_cb (GvcMixerControl *mixer, guint id, gpointer *data)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (data);
+  PhoshSettingsPrivate *priv;
+
+  g_debug ("Output updated: %d", id);
+
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+  priv = phosh_settings_get_instance_private (self);
+
+  if (priv->output_stream)
+    g_signal_handlers_disconnect_by_data (priv->output_stream, self);
+
+  priv->output_stream = gvc_mixer_control_get_default_sink (priv->mixer_control);
+  g_return_if_fail (priv->output_stream);
+
+  g_signal_connect (priv->output_stream,
+                    "notify::volume",
+                    G_CALLBACK (output_stream_notify_volume_cb),
+                    self);
+
+  g_signal_connect (priv->output_stream,
+                    "notify::is-muted",
+                    G_CALLBACK (output_stream_notify_is_muted_cb),
+                    self);
+  update_output_vol_bar (self);
+}
+
+
+static void
+vol_adjustment_value_changed_cb (GtkAdjustment *adjustment,
+                                 PhoshSettings *self)
+{
+  PhoshSettingsPrivate *priv = phosh_settings_get_instance_private (self);
+  gdouble volume, rounded;
+  g_autofree gchar *name = NULL;
+
+  if (!priv->output_stream)
+    priv->output_stream = gvc_mixer_control_get_default_sink (priv->mixer_control);
+
+  volume = gtk_adjustment_get_value (adjustment);
+  rounded = round (volume);
+
+  g_object_get (priv->output_vol_bar, "name", &name, NULL);
+  g_debug ("Setting stream volume %lf (rounded: %lf) for bar '%s'", volume, rounded, name);
+
+  g_return_if_fail (priv->output_stream);
+  if (gvc_mixer_stream_set_volume (priv->output_stream, (pa_volume_t) rounded) != FALSE)
+    gvc_mixer_stream_push_volume (priv->output_stream);
+}
+
+
+static void
 shutdown_clicked_cb (PhoshSettings *self, gpointer *unused)
 {
   phosh_session_shutdown ();
@@ -104,6 +223,7 @@ phosh_settings_constructed (GObject *object)
   PhoshSettings *self = PHOSH_SETTINGS (object);
   PhoshSettingsPrivate *priv = phosh_settings_get_instance_private (self);
   GtkWidget *image;
+  GtkAdjustment *adj;
 
   /* window properties */
   gtk_window_set_title (GTK_WINDOW (self), "phosh settings");
@@ -120,7 +240,9 @@ phosh_settings_constructed (GObject *object)
                     G_CALLBACK(brightness_value_changed_cb),
                     NULL);
 
-  gtk_range_set_range (GTK_RANGE (priv->scale_volume), 0, 100);
+  priv->output_vol_bar = create_vol_channel_bar (self);
+  gtk_box_pack_start (GTK_BOX (priv->box_settings), priv->output_vol_bar, FALSE, FALSE, 0);
+  gtk_box_reorder_child (GTK_BOX (priv->box_settings), priv->output_vol_bar, 0);
 
   if (phosh_shell_get_rotation (phosh_shell_get_default ()))
     gtk_switch_set_active (GTK_SWITCH (priv->btn_rotation), TRUE);
@@ -155,6 +277,20 @@ phosh_settings_constructed (GObject *object)
                             G_CALLBACK (shutdown_clicked_cb),
                             self);
 
+  priv->mixer_control = gvc_mixer_control_new ("Phone Shell Volume Control");
+  g_return_if_fail (priv->mixer_control);
+
+  gvc_mixer_control_open (priv->mixer_control);
+  g_signal_connect (priv->mixer_control,
+                    "active-output-update",
+                    G_CALLBACK (mixer_control_output_update_cb),
+                    self);
+  adj = gvc_channel_bar_get_adjustment (GVC_CHANNEL_BAR (priv->output_vol_bar));
+  g_signal_connect (adj,
+                    "value-changed",
+                    G_CALLBACK (vol_adjustment_value_changed_cb),
+                    self);
+
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
 
@@ -168,6 +304,18 @@ phosh_settings_dispose (GObject *object)
 }
 
 
+static void
+phosh_settings_finalize (GObject *object)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (object);
+  PhoshSettingsPrivate *priv = phosh_settings_get_instance_private (self);
+
+  g_clear_object (&priv->mixer_control);
+
+  G_OBJECT_CLASS (phosh_settings_parent_class)->finalize (object);
+}
+
+
 
 static void
 phosh_settings_class_init (PhoshSettingsClass *klass)
@@ -176,6 +324,8 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->dispose = phosh_settings_dispose;
+  object_class->finalize = phosh_settings_finalize;
+  object_class->constructed = phosh_settings_constructed;
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/settings-menu.ui");
@@ -184,8 +334,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
-  object_class->constructed = phosh_settings_constructed;
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, scale_volume);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, box_settings);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_rotation);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_settings);
