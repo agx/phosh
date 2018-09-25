@@ -2,6 +2,7 @@ subdir('dbus')
 subdir('monitor')
 subdir('osk')
 subdir('wwan')
+subdir('settings')
 
 phosh_resources = gnome.compile_resources(
    'phosh-resources',
@@ -9,6 +10,11 @@ phosh_resources = gnome.compile_resources(
 
    c_name: 'phosh',
 )
+
+phosh_settings_sources = [
+  'settings.c',
+  phosh_settings_widgets_sources,
+]
 
 phosh_sources = [
   'app.c',
@@ -50,15 +56,13 @@ phosh_sources = [
   'panel.h',
   'phosh-wayland.c',
   'phosh-wayland.h',
-  'settings.c',
-  'settings.h',
-  'settings/brightness.c',
   'util.c',
   'util.h',
   'wwaninfo.c',
   'wwaninfo.h',
   generated_dbus_sources,
   phosh_resources,
+  phosh_settings_sources,
   phosh_wwan_sources,
   phosh_monitor_sources,
   phosh_osk_sources,
