@@ -134,12 +134,11 @@ endif
 
 summary = [
   '',
-  '-----',
-  'Phosh',
+  '-----------',
+  'Phosh @0@'.format(meson.project_version()),
   '',
   'Tests: @0@'.format(get_option('tests')),
- '-----',
-
+  '-----------',
 ]
 
 message('\n'.join(summary))
