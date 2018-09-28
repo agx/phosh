@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<config xmlns="http://zanata.org/namespace/config/">
+  <url>https://translate.zanata.org/</url>
+  <project>phosh</project>
+  <project-version>0.0.1</project-version>
+  <project-type>gettext</project-type>
+  <trans-dir>.</trans-dir>
+
+  <locales>
+    <locale>de</locale>
+    <locale>fr</locale>
+    <locale>it</locale>
+    <locale>ja</locale>
+    <locale>nb</locale>
+  </locales>
+
+</config>
