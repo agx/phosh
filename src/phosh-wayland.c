@@ -149,7 +149,7 @@ phosh_wayland_constructed (GObject *object)
   if (!num_outputs || !priv->layer_shell || !priv->idle_manager ||
       !priv->input_inhibit_manager || !priv->xdg_wm_base) {
     g_error ("Could not find needed globals\n"
-             "outputs: %d, layer_shell: %p, seat: %p, "
+             "outputs: %d, layer_shell: %p, idle_manager: %p, "
              "inhibit: %p, xdg_wm: %p\n",
              num_outputs, priv->layer_shell, priv->idle_manager,
              priv->input_inhibit_manager, priv->xdg_wm_base);
