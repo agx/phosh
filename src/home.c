@@ -8,16 +8,19 @@
 
 #include "config.h"
 #include "home.h"
+#include "osk/osk-button.h"
 
 /**
  * SECTION:phosh-home
  * @short_description: The ome button at the bottom of the screen
  * @Title: PhoshHome
  *
- * The #PhoshHome is displayed at the bottom of the screen.
+ * The #PhoshHome is displayed at the bottom of the screen. It features
+ * the home button and the button to toggle the OSK.
  */
 enum {
   HOME_ACTIVATED,
+  OSK_ACTIVATED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
@@ -25,6 +28,7 @@ static guint signals[N_SIGNALS] = { 0 };
 typedef struct
 {
   GtkWidget *btn_home;
+  GtkWidget *btn_osk;
 } PhoshHomePrivate;
 
 
@@ -46,6 +50,15 @@ home_clicked_cb (PhoshHome *self, GtkButton *btn)
 
 
 static void
+osk_clicked_cb (PhoshHome *self, GtkButton *btn)
+{
+  g_return_if_fail (PHOSH_IS_HOME (self));
+  g_return_if_fail (GTK_IS_BUTTON (btn));
+  g_signal_emit(self, signals[OSK_ACTIVATED], 0);
+}
+
+
+static void
 phosh_home_constructed (GObject *object)
 {
   PhoshHome *self = PHOSH_HOME (object);
@@ -54,6 +67,12 @@ phosh_home_constructed (GObject *object)
   g_signal_connect_object (priv->btn_home,
                            "clicked",
                            G_CALLBACK (home_clicked_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  g_signal_connect_object (priv->btn_osk,
+                           "clicked",
+                           G_CALLBACK (osk_clicked_cb),
                            self,
                            G_CONNECT_SWAPPED);
 
@@ -72,10 +91,15 @@ phosh_home_class_init (PhoshHomeClass *klass)
   signals[HOME_ACTIVATED] = g_signal_new ("home-activated",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
+  signals[OSK_ACTIVATED] = g_signal_new ("osk-activated",
+      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+      NULL, G_TYPE_NONE, 0);
 
+  PHOSH_TYPE_OSK_BUTTON;
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/home.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshHome, btn_home);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshHome, btn_osk);
 }
 
 
