@@ -58,7 +58,7 @@ output_handle_done (void             *data,
 {
   PhoshMonitor *self = PHOSH_MONITOR (data);
 
-  self->done = TRUE;
+  self->wl_output_done = TRUE;
 }
 
 
@@ -221,4 +221,15 @@ phosh_monitor_get_current_mode (PhoshMonitor *self)
 {
   g_return_val_if_fail (PHOSH_IS_MONITOR (self), NULL);
   return &g_array_index (self->modes, PhoshMonitorMode, self->current_mode);
+}
+
+/** phosh_monitor_is_configured:
+ *
+ * Is the monitor fully configured (did we receive all data from the compositor)?
+ */
+gboolean
+phosh_monitor_is_configured (PhoshMonitor *self)
+{
+  g_return_val_if_fail (PHOSH_IS_MONITOR (self), NULL);
+  return self->wl_output_done;
 }

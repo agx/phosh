@@ -58,7 +58,7 @@ phosh_monitor_manager_handle_get_resources (
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder transforms;
 
-    if (!monitor->done)
+    if (!phosh_monitor_is_configured(monitor))
       continue;
 
     /* TODO: add transforms */
@@ -84,7 +84,7 @@ phosh_monitor_manager_handle_get_resources (
     GVariantBuilder crtcs, modes, clones, properties;
     g_autofree gchar *output_name = NULL;
 
-    if (!monitor->done)
+    if (!phosh_monitor_is_configured(monitor))
       continue;
 
     g_variant_builder_init (&crtcs, G_VARIANT_TYPE ("au"));
@@ -120,7 +120,7 @@ phosh_monitor_manager_handle_get_resources (
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GArray *modes = monitor->modes;
 
-    if (!monitor->done)
+    if (!phosh_monitor_is_configured(monitor))
       continue;
 
     for (int k = 0; k < modes->len; k++) {
@@ -388,7 +388,7 @@ phosh_monitor_manager_handle_get_current_state (
     g_autofree gchar *serial = NULL;
     g_autofree gchar *connector = NULL;
 
-    if (!monitor->done)
+    if (!phosh_monitor_is_configured(monitor))
       continue;
 
     g_variant_builder_init (&modes_builder, G_VARIANT_TYPE (MODES_FORMAT));
@@ -449,7 +449,7 @@ phosh_monitor_manager_handle_get_current_state (
     g_autofree gchar *serial = NULL;
     g_autofree gchar *connector = NULL;
 
-    if (!monitor->done)
+    if (!phosh_monitor_is_configured(monitor))
       continue;
 
     connector = g_strdup_printf ("DP%d", i);
