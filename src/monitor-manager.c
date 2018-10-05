@@ -95,6 +95,7 @@ phosh_monitor_manager_handle_get_resources (
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder crtcs, modes, clones, properties;
+    gboolean is_primary;
 
     if (!phosh_monitor_is_configured(monitor))
       continue;
@@ -114,6 +115,9 @@ phosh_monitor_manager_handle_get_resources (
                            g_variant_new_int32 (monitor->width_mm));
     g_variant_builder_add (&properties, "{sv}", "height-mm",
                            g_variant_new_int32 (monitor->height_mm));
+    is_primary = (monitor == phosh_shell_get_primary_monitor (phosh_shell_get_default()));
+    g_variant_builder_add (&properties, "{sv}", "primary",
+                           g_variant_new_boolean (is_primary));
 
     g_variant_builder_add (&output_builder, "(uxiausauaua{sv})",
                            i, /* ID */
@@ -464,6 +468,7 @@ phosh_monitor_manager_handle_get_current_state (
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder logical_monitor_monitors_builder;
     g_autofree gchar *serial = NULL;
+    gboolean is_primary;
 
     if (!phosh_monitor_is_configured(monitor))
       continue;
@@ -479,6 +484,7 @@ phosh_monitor_manager_handle_get_current_state (
                            serial                               /* monitor_spec->serial, */
       );
 
+    is_primary = (monitor == phosh_shell_get_primary_monitor (phosh_shell_get_default()));
     g_variant_builder_add (&logical_monitors_builder,
                            LOGICAL_MONITOR_FORMAT,
                            monitor->x,           /* logical_monitor->rect.x */
@@ -486,7 +492,7 @@ phosh_monitor_manager_handle_get_current_state (
                            /* (double) logical_monitor->scale */
                            (double)monitor->scale,
                            0,                    /* logical_monitor->transform */
-                           i == 0,               /* logical_monitor->is_primary */
+                           is_primary,           /* logical_monitor->is_primary */
                            &logical_monitor_monitors_builder,
                            NULL);
   }
