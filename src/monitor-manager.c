@@ -510,7 +510,13 @@ phosh_monitor_manager_handle_get_current_state (
 
   return TRUE;
 }
-
+#undef LOGICAL_MONITORS_FORMAT
+#undef LOGICAL_MONITOR_FORMAT
+#undef LOGICAL_MONITOR_MONITORS_FORMAT
+#undef MODES_FORMAT
+#undef MODE_FORMAT
+#undef MONITORS_FORMAT
+#undef MONITOR_FORMAT
 
 static gboolean
 phosh_monitor_manager_handle_apply_monitors_config (
@@ -649,9 +655,3 @@ phosh_monitor_manager_get_num_monitors (PhoshMonitorManager *self)
 {
   return self->monitors->len;
 }
-
-
-#undef MONITOR_MODE_SPEC_FORMAT
-#undef MONITOR_CONFIG_FORMAT
-#undef MONITOR_CONFIGS_FORMAT
-#undef LOGICAL_MONITOR_CONFIG_FORMAT
