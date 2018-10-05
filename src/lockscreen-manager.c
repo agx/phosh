@@ -79,18 +79,18 @@ static void
 lockscreen_lock (PhoshLockscreenManager *self)
 {
   PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
-  PhoshMonitor *monitor;
+  PhoshMonitor *primary_monitor;
   PhoshWayland *wl = phosh_wayland_get_default ();
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshMonitorManager *monitor_manager = phosh_shell_get_monitor_manager (shell);
 
-  monitor = phosh_shell_get_primary_monitor (shell);
-  g_return_if_fail (monitor);
+  primary_monitor = phosh_shell_get_primary_monitor (shell);
+  g_return_if_fail (primary_monitor);
 
   /* The primary output gets the clock, keypad, ... */
   priv->lockscreen = PHOSH_LOCKSCREEN (phosh_lockscreen_new (
                                          phosh_wayland_get_zwlr_layer_shell_v1(wl),
-                                         monitor->wl_output));
+                                         primary_monitor->wl_output));
 
   priv->input_inhibitor =
     zwlr_input_inhibit_manager_v1_get_inhibitor(
@@ -98,9 +98,11 @@ lockscreen_lock (PhoshLockscreenManager *self)
 
   /* Lock all other outputs */
   priv->shields = g_ptr_array_new_with_free_func ((GDestroyNotify) (gtk_widget_destroy));
-  for (int i = 1; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
-    monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
-    if (monitor == NULL)
+
+  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
+    PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
+
+    if (monitor == NULL || monitor == primary_monitor)
       continue;
     g_ptr_array_add (priv->shields, phosh_lockshield_new (
                        phosh_wayland_get_zwlr_layer_shell_v1 (wl),

@@ -19,3 +19,5 @@ void                  phosh_monitor_manager_add_monitor               (PhoshMoni
 PhoshMonitor        * phosh_monitor_manager_get_monitor               (PhoshMonitorManager *self,
                                                                        guint                monitor);
 guint                 phosh_monitor_manager_get_num_monitors          (PhoshMonitorManager *self);
+PhoshMonitor        * phosh_monitor_manager_find_monitor              (PhoshMonitorManager *self,
+                                                                       const gchar *name);

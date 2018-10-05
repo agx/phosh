@@ -37,7 +37,7 @@ new_prompt_cb (GcrSystemPrompter *prompter,
   g_debug ("Building new system prompt");
   g_return_val_if_fail (GCR_IS_SYSTEM_PROMPTER (prompter), NULL);
   return GCR_PROMPT (phosh_system_prompt_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
-                                              phosh_shell_get_primary_monitor (shell)));
+                                              phosh_shell_get_primary_monitor (shell)->wl_output));
 }
 
 

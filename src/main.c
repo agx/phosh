@@ -53,7 +53,11 @@ int main(int argc, char *argv[])
   opt_context = g_option_context_new ("- A phone graphical shell");
   g_option_context_add_main_entries (opt_context, options, NULL);
   g_option_context_add_group (opt_context, gtk_get_option_group (TRUE));
-  g_option_context_parse (opt_context, &argc, &argv, &err);
+  if (!g_option_context_parse (opt_context, &argc, &argv, &err)) {
+    g_warning ("%s", err->message);
+    g_clear_error (&err);
+    return 1;
+  }
 
   if (version) {
     print_version ();

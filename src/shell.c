@@ -40,6 +40,7 @@ enum {
   PHOSH_SHELL_PROP_0,
   PHOSH_SHELL_PROP_ROTATION,
   PHOSH_SHELL_PROP_LOCKED,
+  PHOSH_SHELL_PROP_PRIMARY_MONITOR,
   PHOSH_SHELL_PROP_LAST_PROP
 };
 static GParamSpec *props[PHOSH_SHELL_PROP_LAST_PROP];
@@ -61,6 +62,7 @@ typedef struct
   struct popup *favorites;
   struct popup *settings;
 
+  PhoshMonitor *primary_monitor;
   PhoshMonitorManager *monitor_manager;
   PhoshLockscreenManager *lockscreen_manager;
 } PhoshShellPrivate;
@@ -349,6 +351,16 @@ panels_create (PhoshShell *self)
 
 
 static void
+panels_dispose (PhoshShell *self)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  g_clear_pointer (&priv->panel, phosh_cp_widget_destroy);
+  g_clear_pointer (&priv->home, phosh_cp_widget_destroy);
+}
+
+
+static void
 background_create (PhoshShell *self)
 {
 
@@ -411,6 +423,9 @@ phosh_shell_set_property (GObject *object,
   case PHOSH_SHELL_PROP_LOCKED:
     phosh_shell_set_locked (self, g_value_get_boolean (value));
     break;
+  case PHOSH_SHELL_PROP_PRIMARY_MONITOR:
+    phosh_shell_set_primary_monitor (self, g_value_get_object (value));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -435,6 +450,9 @@ phosh_shell_get_property (GObject *object,
     g_value_set_boolean (value,
                          phosh_lockscreen_manager_get_locked (priv->lockscreen_manager));
     break;
+  case PHOSH_SHELL_PROP_PRIMARY_MONITOR:
+    g_value_set_object (value, phosh_shell_get_primary_monitor (self));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -448,8 +466,8 @@ phosh_shell_dispose (GObject *object)
   PhoshShell *self = PHOSH_SHELL (object);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
+  panels_dispose (self);
   g_clear_pointer (&priv->background, phosh_cp_widget_destroy);
-  g_clear_pointer (&priv->panel, phosh_cp_widget_destroy);
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
   phosh_system_prompter_unregister ();
@@ -516,6 +534,13 @@ phosh_shell_class_init (PhoshShellClass *klass)
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
+  props[PHOSH_SHELL_PROP_PRIMARY_MONITOR] =
+    g_param_spec_object ("primary-monitor",
+                         "Primary monitor",
+                         "The primary monitor",
+                         PHOSH_TYPE_MONITOR,
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+
   g_object_class_install_properties (object_class, PHOSH_SHELL_PROP_LAST_PROP, props);
 }
 
@@ -550,6 +575,32 @@ phosh_shell_rotate_display (PhoshShell *self,
 }
 
 
+void
+phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
+{
+  PhoshShellPrivate *priv;
+  PhoshMonitor *m = NULL;
+
+  g_return_if_fail (monitor);
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  priv = phosh_shell_get_instance_private (self);
+
+  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
+    m = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
+    if (monitor == m)
+      break;
+  }
+  g_return_if_fail (monitor == m);
+
+  priv->primary_monitor = monitor;
+  /* Move panels to the new monitor be recreating the layer shell surfaces */
+  panels_dispose (self);
+  panels_create (self);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_PRIMARY_MONITOR]);
+}
+
+
 PhoshMonitor *
 phosh_shell_get_primary_monitor (PhoshShell *self)
 {
@@ -559,6 +610,10 @@ phosh_shell_get_primary_monitor (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
 
+  if (priv->primary_monitor)
+    return priv->primary_monitor;
+
+  /* When the shell started up we might not have had all monitors */
   monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
   g_return_val_if_fail (monitor, NULL);
 
