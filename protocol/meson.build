@@ -11,6 +11,7 @@ gen_scanner_client_code = generator(wl_scanner,
 
 wl_protos = [
   '/'.join([wl_protocol_dir, 'stable/xdg-shell/xdg-shell.xml']),
+  '/'.join([wl_protocol_dir, 'unstable/xdg-output/xdg-output-unstable-v1.xml']),
   'gamma-control.xml',
   'idle.xml',
   'phosh-private.xml',

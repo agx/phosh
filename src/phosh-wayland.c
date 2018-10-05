@@ -31,6 +31,7 @@ typedef struct {
   struct xdg_wm_base *xdg_wm_base;
   struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
   struct zwlr_layer_shell_v1 *layer_shell;
+  struct zxdg_output_manager_v1 *zxdg_output_manager_v1;
   GPtrArray *wl_outputs;
 } PhoshWaylandPrivate;
 
@@ -100,6 +101,12 @@ registry_handle_global (void *data,
       name,
       &gamma_control_manager_interface,
       1);
+  } else  if (!strcmp (interface, zxdg_output_manager_v1_interface.name)) {
+    priv->zxdg_output_manager_v1 = wl_registry_bind(
+      registry,
+      name,
+      &zxdg_output_manager_v1_interface,
+      2);
   }
 }
 
@@ -258,9 +265,18 @@ phosh_wayland_get_phosh_private (PhoshWayland *self)
 }
 
 
+struct zxdg_output_manager_v1*
+phosh_wayland_get_zxdg_output_manager_v1 (PhoshWayland *self)
+{
+   PhoshWaylandPrivate *priv = phosh_wayland_get_instance_private (self);
+   return priv->zxdg_output_manager_v1;
+}
+
+
 GPtrArray*
 phosh_wayland_get_wl_outputs (PhoshWayland *self)
 {
   PhoshWaylandPrivate *priv = phosh_wayland_get_instance_private (self);
   return priv->wl_outputs;
 }
+

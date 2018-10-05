@@ -12,6 +12,7 @@
 #include "wlr-input-inhibitor-unstable-v1-client-protocol.h"
 #include "wlr-layer-shell-unstable-v1-client-protocol.h"
 #include "xdg-shell-client-protocol.h"
+#include "xdg-output-unstable-v1-client-protocol.h"
 
 #include <glib-object.h>
 
@@ -28,3 +29,4 @@ struct wl_seat                       *phosh_wayland_get_wl_seat (PhoshWayland *s
 struct xdg_wm_base                   *phosh_wayland_get_xdg_wm_base (PhoshWayland *self);
 struct zwlr_input_inhibit_manager_v1 *phosh_wayland_get_zwlr_input_inhibit_manager_v1 (PhoshWayland *self);
 struct zwlr_layer_shell_v1           *phosh_wayland_get_zwlr_layer_shell_v1 (PhoshWayland *self);
+struct zxdg_output_manager_v1        *phosh_wayland_get_zxdg_output_manager_v1 (PhoshWayland *self);
