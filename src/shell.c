@@ -40,6 +40,7 @@ enum {
   PHOSH_SHELL_PROP_0,
   PHOSH_SHELL_PROP_ROTATION,
   PHOSH_SHELL_PROP_LOCKED,
+  PHOSH_SHELL_PROP_PRIMARY_MONITOR,
   PHOSH_SHELL_PROP_LAST_PROP
 };
 static GParamSpec *props[PHOSH_SHELL_PROP_LAST_PROP];
@@ -422,6 +423,9 @@ phosh_shell_set_property (GObject *object,
   case PHOSH_SHELL_PROP_LOCKED:
     phosh_shell_set_locked (self, g_value_get_boolean (value));
     break;
+  case PHOSH_SHELL_PROP_PRIMARY_MONITOR:
+    phosh_shell_set_primary_monitor (self, g_value_get_object (value));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -445,6 +449,9 @@ phosh_shell_get_property (GObject *object,
   case PHOSH_SHELL_PROP_LOCKED:
     g_value_set_boolean (value,
                          phosh_lockscreen_manager_get_locked (priv->lockscreen_manager));
+    break;
+  case PHOSH_SHELL_PROP_PRIMARY_MONITOR:
+    g_value_set_object (value, phosh_shell_get_primary_monitor (self));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -527,6 +534,13 @@ phosh_shell_class_init (PhoshShellClass *klass)
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
+  props[PHOSH_SHELL_PROP_PRIMARY_MONITOR] =
+    g_param_spec_object ("primary-monitor",
+                         "Primary monitor",
+                         "The primary monitor",
+                         PHOSH_TYPE_MONITOR,
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+
   g_object_class_install_properties (object_class, PHOSH_SHELL_PROP_LAST_PROP, props);
 }
 
@@ -582,6 +596,8 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
   /* Move panels to the new monitor be recreating the layer shell surfaces */
   panels_dispose (self);
   panels_create (self);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_PRIMARY_MONITOR]);
 }
 
 
