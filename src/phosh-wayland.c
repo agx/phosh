@@ -22,15 +22,15 @@
  */
 
 typedef struct {
+  struct gamma_control_manager *gamma_control_manager;
+  struct org_kde_kwin_idle *idle_manager;
+  struct phosh_private *phosh_private;
   struct wl_display *display;
   struct wl_registry *registry;
-  struct phosh_private *phosh_private;
-  struct zwlr_layer_shell_v1 *layer_shell;
-  struct org_kde_kwin_idle *idle_manager;
-  struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
-  struct gamma_control_manager *gamma_control_manager;
   struct wl_seat *wl_seat;
   struct xdg_wm_base *xdg_wm_base;
+  struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
+  struct zwlr_layer_shell_v1 *layer_shell;
   GPtrArray *wl_outputs;
 } PhoshWaylandPrivate;
 

@@ -6,12 +6,12 @@
  */
 #pragma once
 
+#include "gamma-control-client-protocol.h"
 #include "idle-client-protocol.h"
 #include "phosh-private-client-protocol.h"
 #include "wlr-input-inhibitor-unstable-v1-client-protocol.h"
 #include "wlr-layer-shell-unstable-v1-client-protocol.h"
 #include "xdg-shell-client-protocol.h"
-#include "gamma-control-client-protocol.h"
 
 #include <glib-object.h>
 
