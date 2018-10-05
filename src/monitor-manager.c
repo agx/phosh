@@ -38,6 +38,19 @@ G_DEFINE_TYPE_WITH_CODE (PhoshMonitorManager,
                            PHOSH_DISPLAY_DBUS_TYPE_ORG_GNOME_MUTTER_DISPLAY_CONFIG,
                            phosh_monitor_manager_display_config_init));
 
+
+static char*
+get_display_name (PhoshMonitor *monitor)
+{
+  if (phosh_monitor_is_builtin (monitor))
+    return g_strdup (_("Built-in display"));
+  else if (monitor->name)
+    return g_strdup (monitor->name);
+  else /* Translators: An unknown monitor type */
+    return g_strdup (_("Unknown"));
+}
+
+
 static gboolean
 phosh_monitor_manager_handle_get_resources (
   PhoshDisplayDbusOrgGnomeMutterDisplayConfig *skeleton,
@@ -82,7 +95,6 @@ phosh_monitor_manager_handle_get_resources (
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder crtcs, modes, clones, properties;
-    g_autofree gchar *output_name = NULL;
 
     if (!phosh_monitor_is_configured(monitor))
       continue;
@@ -103,13 +115,12 @@ phosh_monitor_manager_handle_get_resources (
     g_variant_builder_add (&properties, "{sv}", "height-mm",
                            g_variant_new_int32 (monitor->height_mm));
 
-    output_name = g_strdup_printf("DP%d", i);
     g_variant_builder_add (&output_builder, "(uxiausauaua{sv})",
                            i, /* ID */
                            i, /* (gint64)output->winsys_id, */
                            i, /* crtc_index, */
                            &crtcs,
-                           output_name, /* output->name */
+                           monitor->name, /* output->name */
                            &modes,
                            &clones,
                            &properties);
@@ -386,7 +397,8 @@ phosh_monitor_manager_handle_get_current_state (
     GVariantBuilder modes_builder, supported_scales_builder, mode_properties_builder,
       monitor_properties_builder;
     g_autofree gchar *serial = NULL;
-    g_autofree gchar *connector = NULL;
+    gchar *display_name;
+    gboolean is_builtin;
 
     if (!phosh_monitor_is_configured(monitor))
       continue;
@@ -427,14 +439,19 @@ phosh_monitor_manager_handle_get_current_state (
     g_variant_builder_init (&monitor_properties_builder,
                             G_VARIANT_TYPE ("a{sv}"));
 
+    is_builtin = phosh_monitor_is_builtin (monitor);
     g_variant_builder_add (&monitor_properties_builder, "{sv}",
                            "is-builtin",
-                           g_variant_new_boolean (TRUE));
+                           g_variant_new_boolean (is_builtin));
 
-    connector = g_strdup_printf ("DP%d", i);
+    display_name = get_display_name (monitor);
+    g_variant_builder_add (&monitor_properties_builder, "{sv}",
+                             "display-name",
+                             g_variant_new_take_string (display_name));
+
     serial = g_strdup_printf ("00%d", i);
     g_variant_builder_add (&monitors_builder, MONITOR_FORMAT,
-                           connector,                           /* monitor_spec->connector, */
+                           monitor->name,                       /* monitor_spec->connector */
                            monitor->vendor,                     /* monitor_spec->vendor, */
                            monitor->product,                    /* monitor_spec->product, */
                            serial,                              /* monitor_spec->serial, */
@@ -447,18 +464,16 @@ phosh_monitor_manager_handle_get_current_state (
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder logical_monitor_monitors_builder;
     g_autofree gchar *serial = NULL;
-    g_autofree gchar *connector = NULL;
 
     if (!phosh_monitor_is_configured(monitor))
       continue;
 
-    connector = g_strdup_printf ("DP%d", i);
     serial = g_strdup_printf ("00%d", i);
     g_variant_builder_init (&logical_monitor_monitors_builder,
                             G_VARIANT_TYPE (LOGICAL_MONITOR_MONITORS_FORMAT));
     g_variant_builder_add (&logical_monitor_monitors_builder,
                            MONITOR_SPEC_FORMAT,
-                           connector,                           /* monitor_spec->connector, */
+                           monitor->name,                       /* monitor_spec->connector, */
                            monitor->vendor,                     /* monitor_spec->vendor, */
                            monitor->product,                    /* monitor_spec->product, */
                            serial                               /* monitor_spec->serial, */
