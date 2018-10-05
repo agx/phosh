@@ -22,15 +22,16 @@
  */
 
 typedef struct {
+  struct gamma_control_manager *gamma_control_manager;
+  struct org_kde_kwin_idle *idle_manager;
+  struct phosh_private *phosh_private;
   struct wl_display *display;
   struct wl_registry *registry;
-  struct phosh_private *phosh_private;
-  struct zwlr_layer_shell_v1 *layer_shell;
-  struct org_kde_kwin_idle *idle_manager;
-  struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
-  struct gamma_control_manager *gamma_control_manager;
   struct wl_seat *wl_seat;
   struct xdg_wm_base *xdg_wm_base;
+  struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
+  struct zwlr_layer_shell_v1 *layer_shell;
+  struct zxdg_output_manager_v1 *zxdg_output_manager_v1;
   GPtrArray *wl_outputs;
 } PhoshWaylandPrivate;
 
@@ -100,6 +101,12 @@ registry_handle_global (void *data,
       name,
       &gamma_control_manager_interface,
       1);
+  } else  if (!strcmp (interface, zxdg_output_manager_v1_interface.name)) {
+    priv->zxdg_output_manager_v1 = wl_registry_bind(
+      registry,
+      name,
+      &zxdg_output_manager_v1_interface,
+      2);
   }
 }
 
@@ -143,16 +150,21 @@ phosh_wayland_constructed (GObject *object)
   /* Wait until we have been notified about the wayland globals we require */
   num_outputs = priv->wl_outputs->len;
   if (!num_outputs || !priv->layer_shell || !priv->idle_manager ||
-      !priv->input_inhibit_manager || !priv->phosh_private || !priv->xdg_wm_base)
+      !priv->input_inhibit_manager || !priv->phosh_private || !priv->xdg_wm_base ||
+      !priv->zxdg_output_manager_v1)
     wl_display_roundtrip (priv->display);
   num_outputs = priv->wl_outputs->len;
   if (!num_outputs || !priv->layer_shell || !priv->idle_manager ||
-      !priv->input_inhibit_manager || !priv->xdg_wm_base) {
+      !priv->input_inhibit_manager || !priv->xdg_wm_base ||
+      !priv->zxdg_output_manager_v1) {
     g_error ("Could not find needed globals\n"
              "outputs: %d, layer_shell: %p, idle_manager: %p, "
-             "inhibit: %p, xdg_wm: %p\n",
+             "inhibit: %p, xdg_wm: %p"
+             "xdg_output: %p"
+             "\n",
              num_outputs, priv->layer_shell, priv->idle_manager,
-             priv->input_inhibit_manager, priv->xdg_wm_base);
+             priv->input_inhibit_manager, priv->xdg_wm_base,
+             priv->zxdg_output_manager_v1);
   }
   if (!priv->phosh_private) {
     g_info ("Could not find phosh private interface, disabling some features");
@@ -258,9 +270,18 @@ phosh_wayland_get_phosh_private (PhoshWayland *self)
 }
 
 
+struct zxdg_output_manager_v1*
+phosh_wayland_get_zxdg_output_manager_v1 (PhoshWayland *self)
+{
+   PhoshWaylandPrivate *priv = phosh_wayland_get_instance_private (self);
+   return priv->zxdg_output_manager_v1;
+}
+
+
 GPtrArray*
 phosh_wayland_get_wl_outputs (PhoshWayland *self)
 {
   PhoshWaylandPrivate *priv = phosh_wayland_get_instance_private (self);
   return priv->wl_outputs;
 }
+

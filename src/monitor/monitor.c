@@ -58,7 +58,7 @@ output_handle_done (void             *data,
 {
   PhoshMonitor *self = PHOSH_MONITOR (data);
 
-  self->done = TRUE;
+  self->wl_output_done = TRUE;
 }
 
 
@@ -118,6 +118,80 @@ static const struct wl_output_listener output_listener =
 
 
 static void
+xdg_output_v1_handle_logical_position (void *data,
+                                       struct zxdg_output_v1 *zxdg_output_v1,
+                                       int32_t x,
+                                       int32_t y)
+{
+  /* TODO: use this */
+}
+
+
+static void
+xdg_output_v1_handle_logical_size (void *data,
+                                   struct zxdg_output_v1 *zxdg_output_v1,
+                                   int32_t width,
+                                   int32_t height)
+{
+  /* Nothing todo atm */
+}
+
+static void
+xdg_output_v1_handle_done (void *data,
+                           struct zxdg_output_v1 *zxdg_output_v1)
+{
+  PhoshMonitor *self = PHOSH_MONITOR (data);
+
+  self->xdg_output_done = TRUE;
+}
+
+
+static void
+xdg_output_v1_handle_name (void *data,
+                           struct zxdg_output_v1 *zxdg_output_v1,
+                           const char *name)
+{
+  PhoshMonitor *self = PHOSH_MONITOR (data);
+  /* wlroots uses the connector's name as xdg_output name */
+  g_debug("Connector name is %s", name);
+
+  self->name = g_strdup (name);
+
+  /* wlroots uses the connector's name as output name so
+     try to derive the connector type from it */
+  if (g_str_has_prefix (name, "LVDS-"))
+    self->conn_type = PHOSH_MONITOR_CONNECTOR_TYPE_LVDS;
+  else if (g_str_has_prefix (name, "HDMI-A-"))
+    self->conn_type = PHOSH_MONITOR_CONNECTOR_TYPE_HDMIA;
+  else if (g_str_has_prefix (name, "eDP-"))
+      self->conn_type = PHOSH_MONITOR_CONNECTOR_TYPE_eDP;
+  else if (g_str_has_prefix (name, "DSI-"))
+    self->conn_type = PHOSH_MONITOR_CONNECTOR_TYPE_DSI;
+  else
+    self->conn_type = PHOSH_MONITOR_CONNECTOR_TYPE_Unknown;
+}
+
+
+static void
+xdg_output_v1_handle_description(void *data,
+                                 struct zxdg_output_v1 *zxdg_output_v1,
+                                 const char *description)
+{
+  g_debug("Output description is %s", description);
+}
+
+
+static const struct zxdg_output_v1_listener xdg_output_v1_listener =
+{
+  xdg_output_v1_handle_logical_position,
+  xdg_output_v1_handle_logical_size,
+  xdg_output_v1_handle_done,
+  xdg_output_v1_handle_name,
+  xdg_output_v1_handle_description,
+};
+
+
+static void
 phosh_monitor_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
@@ -160,11 +234,13 @@ phosh_monitor_dispose (GObject *object)
 {
   PhoshMonitor *self = PHOSH_MONITOR (object);
 
-  g_clear_pointer (&self->vendor, g_free);
-  g_clear_pointer (&self->product, g_free);
-
   g_array_free (self->modes, TRUE);
   self->modes = NULL;
+
+  g_clear_pointer (&self->vendor, g_free);
+  g_clear_pointer (&self->product, g_free);
+  g_clear_pointer (&self->name, g_free);
+  g_clear_pointer (&self->xdg_output, zxdg_output_v1_destroy);
 
   G_OBJECT_CLASS (phosh_monitor_parent_class)->dispose (object);
 }
@@ -176,6 +252,12 @@ phosh_monitor_constructed (GObject *object)
   PhoshMonitor *self = PHOSH_MONITOR (object);
 
   wl_output_add_listener (self->wl_output, &output_listener, self);
+
+  self->xdg_output =
+    zxdg_output_manager_v1_get_xdg_output(phosh_wayland_get_zxdg_output_manager_v1(phosh_wayland_get_default()),
+                                          self->wl_output);
+  g_return_if_fail (self->xdg_output);
+  zxdg_output_v1_add_listener (self->xdg_output, &xdg_output_v1_listener, self);
 }
 
 
@@ -221,4 +303,49 @@ phosh_monitor_get_current_mode (PhoshMonitor *self)
 {
   g_return_val_if_fail (PHOSH_IS_MONITOR (self), NULL);
   return &g_array_index (self->modes, PhoshMonitorMode, self->current_mode);
+}
+
+/** phosh_monitor_is_configured:
+ *
+ * Is the monitor fully configured (did we receive all data from the compositor)?
+ */
+gboolean
+phosh_monitor_is_configured (PhoshMonitor *self)
+{
+  g_return_val_if_fail (PHOSH_IS_MONITOR (self), FALSE);
+  return self->wl_output_done && self->xdg_output_done;
+}
+
+
+/** phosh_monitor_is_builtin
+ *
+ * Is the monitor built in panel (e.g. laptop panel or phone LCD)
+ */
+gboolean
+phosh_monitor_is_builtin (PhoshMonitor *self)
+{
+  g_return_val_if_fail (PHOSH_IS_MONITOR (self), FALSE);
+
+  switch (self->conn_type) {
+  case PHOSH_MONITOR_CONNECTOR_TYPE_eDP:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_LVDS:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_DSI:
+    return TRUE;
+  case PHOSH_MONITOR_CONNECTOR_TYPE_Unknown:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_VGA:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_DVII:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_DVID:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_DVIA:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_Composite:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_SVIDEO:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_Component:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_9PinDIN:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_DisplayPort:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_HDMIA:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_HDMIB:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_TV:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_VIRTUAL:
+  default:
+    return FALSE;
+  }
 }
