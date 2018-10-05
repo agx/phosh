@@ -150,16 +150,21 @@ phosh_wayland_constructed (GObject *object)
   /* Wait until we have been notified about the wayland globals we require */
   num_outputs = priv->wl_outputs->len;
   if (!num_outputs || !priv->layer_shell || !priv->idle_manager ||
-      !priv->input_inhibit_manager || !priv->phosh_private || !priv->xdg_wm_base)
+      !priv->input_inhibit_manager || !priv->phosh_private || !priv->xdg_wm_base ||
+      !priv->zxdg_output_manager_v1)
     wl_display_roundtrip (priv->display);
   num_outputs = priv->wl_outputs->len;
   if (!num_outputs || !priv->layer_shell || !priv->idle_manager ||
-      !priv->input_inhibit_manager || !priv->xdg_wm_base) {
+      !priv->input_inhibit_manager || !priv->xdg_wm_base ||
+      !priv->zxdg_output_manager_v1) {
     g_error ("Could not find needed globals\n"
              "outputs: %d, layer_shell: %p, idle_manager: %p, "
-             "inhibit: %p, xdg_wm: %p\n",
+             "inhibit: %p, xdg_wm: %p"
+             "xdg_output: %p"
+             "\n",
              num_outputs, priv->layer_shell, priv->idle_manager,
-             priv->input_inhibit_manager, priv->xdg_wm_base);
+             priv->input_inhibit_manager, priv->xdg_wm_base,
+             priv->zxdg_output_manager_v1);
   }
   if (!priv->phosh_private) {
     g_info ("Could not find phosh private interface, disabling some features");

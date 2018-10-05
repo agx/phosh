@@ -118,6 +118,63 @@ static const struct wl_output_listener output_listener =
 
 
 static void
+xdg_output_v1_handle_logical_position (void *data,
+                                       struct zxdg_output_v1 *zxdg_output_v1,
+                                       int32_t x,
+                                       int32_t y)
+{
+  /* TODO: use this */
+}
+
+
+static void
+xdg_output_v1_handle_logical_size (void *data,
+                                   struct zxdg_output_v1 *zxdg_output_v1,
+                                   int32_t width,
+                                   int32_t height)
+{
+  /* Nothing todo atm */
+}
+
+static void
+xdg_output_v1_handle_done (void *data,
+                           struct zxdg_output_v1 *zxdg_output_v1)
+{
+  PhoshMonitor *self = PHOSH_MONITOR (data);
+
+  self->xdg_output_done = TRUE;
+}
+
+
+static void
+xdg_output_v1_handle_name (void *data,
+                           struct zxdg_output_v1 *zxdg_output_v1,
+                           const char *name)
+{
+  g_debug("Output name is %s", name);
+}
+
+
+static void
+xdg_output_v1_handle_description(void *data,
+                                 struct zxdg_output_v1 *zxdg_output_v1,
+                                 const char *description)
+{
+  g_debug("Output description is %s", description);
+}
+
+
+static const struct zxdg_output_v1_listener xdg_output_v1_listener =
+{
+  xdg_output_v1_handle_logical_position,
+  xdg_output_v1_handle_logical_size,
+  xdg_output_v1_handle_done,
+  xdg_output_v1_handle_name,
+  xdg_output_v1_handle_description,
+};
+
+
+static void
 phosh_monitor_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
@@ -166,6 +223,11 @@ phosh_monitor_dispose (GObject *object)
   g_array_free (self->modes, TRUE);
   self->modes = NULL;
 
+  if (self->xdg_output) {
+    zxdg_output_v1_destroy (self->xdg_output);
+    self->xdg_output = NULL;
+  }
+
   G_OBJECT_CLASS (phosh_monitor_parent_class)->dispose (object);
 }
 
@@ -176,6 +238,12 @@ phosh_monitor_constructed (GObject *object)
   PhoshMonitor *self = PHOSH_MONITOR (object);
 
   wl_output_add_listener (self->wl_output, &output_listener, self);
+
+  self->xdg_output =
+    zxdg_output_manager_v1_get_xdg_output(phosh_wayland_get_zxdg_output_manager_v1(phosh_wayland_get_default()),
+                                          self->wl_output);
+  g_return_if_fail (self->xdg_output);
+  zxdg_output_v1_add_listener (self->xdg_output, &xdg_output_v1_listener, self);
 }
 
 
@@ -230,6 +298,6 @@ phosh_monitor_get_current_mode (PhoshMonitor *self)
 gboolean
 phosh_monitor_is_configured (PhoshMonitor *self)
 {
-  g_return_val_if_fail (PHOSH_IS_MONITOR (self), NULL);
-  return self->wl_output_done;
+  g_return_val_if_fail (PHOSH_IS_MONITOR (self), FALSE);
+  return self->wl_output_done && self->xdg_output_done;
 }

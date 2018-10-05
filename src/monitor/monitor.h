@@ -5,8 +5,11 @@
  */
 #pragma once
 
+#include "phosh-wayland.h"
+
 #include <glib-object.h>
 #include <gdk/gdk.h>
+
 
 typedef struct _PhoshMonitorMode
 {
@@ -22,6 +25,7 @@ struct _PhoshMonitor {
   GObject parent;
 
   struct wl_output *wl_output;
+  struct zxdg_output_v1 *xdg_output;
   gint x, y, width, height;
   gint subpixel;
   gint32 transform, scale;
