@@ -518,6 +518,86 @@ phosh_monitor_manager_handle_get_current_state (
 #undef MONITORS_FORMAT
 #undef MONITOR_FORMAT
 
+
+#define MONITOR_CONFIG_FORMAT "(ssa{sv})"
+#define MONITOR_CONFIGS_FORMAT "a" MONITOR_CONFIG_FORMAT
+
+
+/* TODO: This can later become get_monitor_config_from_variant */
+static PhoshMonitor *
+find_monitor_from_variant(PhoshMonitorManager *self,
+                                 GVariant     *monitor_config_variant,
+                                 GError      **err)
+{
+  g_autofree char *connector = NULL;
+  g_autofree char *mode_id = NULL;
+  g_autoptr (GVariant) properties_variant = NULL;
+  PhoshMonitor *monitor;
+
+  g_variant_get (monitor_config_variant, "(ss@a{sv})",
+                 &connector,
+                 &mode_id,
+                 &properties_variant);
+
+  /* Look for the monitor associated with this connector
+     TODO: We don't do any actual configuration yet.
+   */
+  monitor = phosh_monitor_manager_find_monitor (self, connector);
+  if (monitor == NULL) {
+    g_set_error (err, G_IO_ERROR, G_IO_ERROR_FAILED,
+                 "Could not find monitor for connector '%s'", connector);
+  }
+  return monitor;
+}
+
+#define LOGICAL_MONITOR_CONFIG_FORMAT "(iidub" MONITOR_CONFIGS_FORMAT ")"
+
+/* TODO: this can later become get-logical_monitor_config_from_variant */
+static PhoshMonitor *
+check_primary_monitor_from_variant (PhoshMonitorManager *self,
+                                    GVariant            *logical_monitor_config_variant,
+                                    GError             **err)
+{
+  int x, y;
+  unsigned int transform;
+  double scale;
+  gboolean is_primary;
+  GVariantIter *monitor_configs_iter;
+  PhoshMonitor *monitor = NULL;
+
+  g_variant_get (logical_monitor_config_variant, LOGICAL_MONITOR_CONFIG_FORMAT,
+                 &x,
+                 &y,
+                 &scale,
+                 &transform,
+                 &is_primary,
+                 &monitor_configs_iter);
+
+  if (!is_primary)
+    return NULL;
+
+  while (TRUE) {
+    GVariant *monitor_config_variant =
+      g_variant_iter_next_value (monitor_configs_iter);
+
+    if (!monitor_config_variant)
+      break;
+
+    monitor =
+      find_monitor_from_variant (self,
+                                 monitor_config_variant, err);
+    g_variant_unref (monitor_config_variant);
+
+    if (monitor == NULL)
+      break;
+  }
+  g_variant_iter_free (monitor_configs_iter);
+  return monitor;
+}
+#undef LOGICAL_MONITOR_CONFIG_FORMAT
+#undef MONITOR_CONFIGS_FORMAT
+#undef MONITOR_CONFIG_FORMAT
+
 static gboolean
 phosh_monitor_manager_handle_apply_monitors_config (
   PhoshDisplayDbusOrgGnomeMutterDisplayConfig *skeleton,
@@ -527,9 +607,59 @@ phosh_monitor_manager_handle_apply_monitors_config (
   GVariant              *logical_monitor_configs_variant,
   GVariant              *properties_variant)
 {
-  g_debug ("Stubbed DBus call %s", __func__);
+  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
+  GVariantIter logical_monitor_configs_iter;
+  GError *err = NULL;
+  PhoshMonitor *primary_monitor = NULL;
+  PhoshShell *shell = phosh_shell_get_default();
 
-  /* Just do nothing for the moment */
+  g_debug ("Mostly Stubbed DBus call %s", __func__);
+
+  if (serial != self->serial) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                             "The requested configuration is based on stale information");
+    return TRUE;
+  }
+
+  g_variant_iter_init (&logical_monitor_configs_iter,
+                       logical_monitor_configs_variant);
+
+  while (TRUE) {
+    GVariant *logical_monitor_config_variant =
+      g_variant_iter_next_value (&logical_monitor_configs_iter);
+
+    if (!logical_monitor_config_variant)
+      break;
+
+    g_variant_unref (logical_monitor_config_variant);
+
+    primary_monitor =
+      check_primary_monitor_from_variant (self,
+                                          logical_monitor_config_variant,
+                                          &err);
+    if (primary_monitor == NULL && err) {
+      g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                             G_DBUS_ERROR_ACCESS_DENIED,
+                                             "%s", err->message);
+      return TRUE;
+    }
+
+    if (primary_monitor)
+      break;
+  }
+
+  if (primary_monitor == NULL) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                           "No primary monitor found");
+    return TRUE;
+  }
+  if (primary_monitor != phosh_shell_get_primary_monitor (shell)) {
+    g_debug ("New primary monitor is %s", primary_monitor->name);
+    phosh_shell_set_primary_monitor (shell, primary_monitor);
+  }
+
   phosh_display_dbus_org_gnome_mutter_display_config_complete_apply_monitors_config (
     skeleton,
     invocation);
@@ -647,6 +777,18 @@ phosh_monitor_manager_get_monitor (PhoshMonitorManager *self, guint num)
     return NULL;
 
   return g_ptr_array_index (self->monitors, num);
+}
+
+
+PhoshMonitor *
+phosh_monitor_manager_find_monitor (PhoshMonitorManager *self, const gchar *name)
+{
+  for (int i = 0; i < self->monitors->len; i++) {
+    PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
+    if (!g_strcmp0 (monitor->name, name))
+        return monitor;
+  }
+  return NULL;
 }
 
 
