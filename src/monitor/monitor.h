@@ -40,6 +40,8 @@ struct _PhoshMonitor {
   guint current_mode;
   guint preferred_mode;
 
+  char *name;
+
   gboolean wl_output_done;
   gboolean xdg_output_done;
 };

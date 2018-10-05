@@ -152,6 +152,7 @@ xdg_output_v1_handle_name (void *data,
                            const char *name)
 {
   g_debug("Output name is %s", name);
+  self->name = g_strdup (name);
 }
 
 
@@ -217,16 +218,13 @@ phosh_monitor_dispose (GObject *object)
 {
   PhoshMonitor *self = PHOSH_MONITOR (object);
 
-  g_clear_pointer (&self->vendor, g_free);
-  g_clear_pointer (&self->product, g_free);
-
   g_array_free (self->modes, TRUE);
   self->modes = NULL;
 
-  if (self->xdg_output) {
-    zxdg_output_v1_destroy (self->xdg_output);
-    self->xdg_output = NULL;
-  }
+  g_clear_pointer (&self->vendor, g_free);
+  g_clear_pointer (&self->product, g_free);
+  g_clear_pointer (&self->name, g_free);
+  g_clear_pointer (&self->xdg_output, zxdg_output_v1_destroy);
 
   G_OBJECT_CLASS (phosh_monitor_parent_class)->dispose (object);
 }
