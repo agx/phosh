@@ -28,6 +28,7 @@ void                 phosh_shell_get_usable_area (PhoshShell *self,
 void                 phosh_shell_set_locked      (PhoshShell *self, gboolean locked);
 void                 phosh_shell_lock            (PhoshShell *self);
 void                 phosh_shell_unlock          (PhoshShell *self);
+void                 phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor);
 PhoshMonitor        *phosh_shell_get_primary_monitor (PhoshShell *self);
 PhoshMonitorManager *phosh_shell_get_monitor_manager (PhoshShell *self);
 #endif /* PHOSH_H */
