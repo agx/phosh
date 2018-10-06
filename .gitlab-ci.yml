@@ -1,5 +1,5 @@
 variables:
-  DEPS: build-essential git libwlroots-examples wget gnome-session gdb weston
+  DEPS: build-essential git wget
   WANT_BUILD_DEPS: "true"
 
 # For the smoke tests we also want debug packages, wlroots/rootston,
