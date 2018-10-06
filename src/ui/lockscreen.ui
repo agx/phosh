@@ -45,6 +45,7 @@
                 <property name="valign">center</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
+                <property name="relief">none</property>
                 <signal name="notify::number" handler="keypad_number_notified_cb" swapped="yes"/>
               </object>
               <packing>

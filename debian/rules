@@ -10,6 +10,6 @@ override_dh_installsystemd:
 
 override_dh_auto_test:
 ifeq ($(filter nocheck,$(DEB_BUILD_OPTIONS)),)
-	xvfb-run ninja -C _build test
+	LC_ALL=C.UTF-8 xvfb-run ninja -C _build test
 endif
 
