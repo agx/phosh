@@ -1,8 +1,4 @@
-# Norwegian (bokmål) translation for phosh
-# Copyright (C) 2018 THE phosh'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the phosh package.
-# Flemming Richter <quatrox@member.fsf.org>, 2018
-# Guido Günther <agx@sigxcpu.org>, 2018. #zanata
+# Daniel Brunkhorst <daniel.brunkhorst@posteo.de>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
@@ -11,55 +7,55 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-09-28 06:49+0000\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
-"Language-Team: none\n"
-"Language: nb\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"PO-Revision-Date: 2018-10-16 11:05+0000\n"
+"Last-Translator: Daniel Brunkhorst <daniel.brunkhorst@posteo.de>\n"
+"Language-Team: German (Germany)\n"
+"Language: de_DE\n"
 "X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr ""
+msgstr "Phone Shell"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr ""
+msgstr "Fenster management und Starten von Apps für mobile Geräte"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
 msgid "Phosh"
-msgstr ""
+msgstr "Phosh"
 
 #: src/lockscreen.c:82 src/ui/lockscreen.ui:61
 msgid "Enter PIN to unlock"
-msgstr "Tast inn PIN-koden for å låse opp"
+msgstr "PIN eingeben zum Entsperren"
 
 #: src/lockscreen.c:174
 msgid "Checking PIN"
-msgstr "Sjekker PIN-koden"
+msgstr "Überprüfe PIN"
 
 #: src/monitor-manager.c:46
 msgid "Built-in display"
-msgstr ""
+msgstr "Eingebauter Bildschirm"
 
 #. Translators: An unknown monitor type
 #: src/monitor-manager.c:50
 msgid "Unknown"
-msgstr ""
+msgstr "Unbekannt"
 
 #: src/system-prompt.c:359
 msgid "Passwords do not match."
-msgstr ""
+msgstr "Passworte stimmen nicht überein"
 
 #: src/system-prompt.c:366
 msgid "Password cannot be blank"
-msgstr ""
+msgstr "Passwort darf nicht leer sein"
 
 #: src/ui/lockscreen.ui:182
 msgid "Slide up to unlock"
-msgstr "Trekk bildet opp for å låse opp"
+msgstr "Nach oben wischen zum Entsperren"
 
 #: src/ui/settings-menu.ui:123
 msgid "Rotation"
-msgstr "Rotasjon"
+msgstr "Rotation"

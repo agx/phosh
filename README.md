@@ -69,6 +69,4 @@ any user by using an override file:
     WorkingDirectory=<your_home_directory>
 
 # Translations
-Please use zanata for translations at
-
-    https://translate.zanata.org/project/view/phosh?dswid=-3784
+Please use zanata for translations at https://translate.zanata.org/project/view/phosh?dswid=-3784

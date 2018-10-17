@@ -1,3 +1,4 @@
+.zanata-cache/
 _build
 vgdump
 *.swp
