@@ -2,21 +2,35 @@
 # Copyright (C) 2018 THE phosh'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
 # Scott Anecito <sanecito@users.noreply.github.com>, 2018.
-#
+# Guido Günther <agx@sigxcpu.org>, 2018. #zanata
+# Punleuk Oum <sirstrangerthesecond@gmail.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-11 06:26+0000\n"
-"PO-Revision-Date: 2018-09-05 16:40-0700\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2018-10-05 11:27+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1.1\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2018-10-17 01:15+0000\n"
+"Language-Team: \n"
+"X-Generator: Zanata 4.6.2\n"
+"Last-Translator: Punleuk Oum <sirstrangerthesecond@gmail.com>\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Language: ja\n"
+
+#: data/sm.puri.Phosh.desktop.in.in:4
+msgid "Phone Shell"
+msgstr "Phone Shell"
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "モバイルでアプリケーションを整理したり、開いたりするためのグラフィカルシェル"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
 
 #: src/lockscreen.c:82 src/ui/lockscreen.ui:61
 msgid "Enter PIN to unlock"
@@ -26,9 +40,22 @@ msgstr "PINを入力してください"
 msgid "Checking PIN"
 msgstr "PINを検証してます"
 
-#: src/panel.c:95
-msgid "Librem5 dev board"
-msgstr "Librem5開発元のボード"
+#: src/monitor-manager.c:46
+msgid "Built-in display"
+msgstr "一体型のディスプレー"
+
+#. Translators: An unknown monitor type
+#: src/monitor-manager.c:50
+msgid "Unknown"
+msgstr "不明なディスプレー"
+
+#: src/system-prompt.c:359
+msgid "Passwords do not match."
+msgstr "パスワードが一致しません"
+
+#: src/system-prompt.c:366
+msgid "Password cannot be blank"
+msgstr "パスワードを空欄にすることはできません"
 
 #: src/ui/lockscreen.ui:182
 msgid "Slide up to unlock"
