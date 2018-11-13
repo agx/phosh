@@ -8,7 +8,7 @@ phosh is licensed under the GPLv3+.
 
 ## Dependencies
 
-    sudo apt-get install libgnome-desktop-3-dev libgtk-3-dev libpam0g-dev libupower-glib-dev libwayland-dev meson
+    sudo apt-get install libgcr-3-dev libgnome-desktop-3-dev libgtk-3-dev libpam0g-dev libupower-glib-dev libwayland-dev meson
 
 Until distros ship [libhandy](https://source.puri.sm/Librem5/libhandy) you
 need to build that from source as well.
@@ -39,7 +39,7 @@ When running from the source tree start the compositor *rootston*. Then start
 
 or in one command:
 
-    ../wlroots/_build/rootston/rootston -E '_build/run -U' -C ./rootston.ini
+    ../wlroots/_build/rootston/rootston -E '_build/run -U' -C ./data/rootston.ini
 
 This will make sure the needed gsettings schema is found. The '-U' option makes
 sure the shell is not locked on startup so you can test with arbitrary
