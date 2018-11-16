@@ -725,6 +725,8 @@ phosh_monitor_manager_finalize (GObject *object)
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
 
   g_ptr_array_free (self->monitors, TRUE);
+
+  G_OBJECT_CLASS (phosh_monitor_manager_parent_class)->finalize (object);
 }
 
 
@@ -733,6 +735,7 @@ phosh_monitor_manager_constructed (GObject *object)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
 
+  G_OBJECT_CLASS (phosh_monitor_manager_parent_class)->constructed (object);
   self->dbus_name_id = g_bus_own_name (G_BUS_TYPE_SESSION,
                                        "org.gnome.Mutter.DisplayConfig",
                                        G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT |

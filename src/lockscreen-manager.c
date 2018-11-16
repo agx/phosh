@@ -120,7 +120,8 @@ lockscreen_lock (PhoshLockscreenManager *self)
 }
 
 
-static void lock_idle_cb(void* data, struct org_kde_kwin_idle_timeout *timer)
+static void
+lock_idle_cb(void* data, struct org_kde_kwin_idle_timeout *timer)
 {
   PhoshLockscreenManager *self = data;
 
@@ -129,7 +130,8 @@ static void lock_idle_cb(void* data, struct org_kde_kwin_idle_timeout *timer)
 }
 
 
-static void lock_resume_cb(void* data, struct org_kde_kwin_idle_timeout *timer)
+static void
+lock_resume_cb(void* data, struct org_kde_kwin_idle_timeout *timer)
 {
 }
 
