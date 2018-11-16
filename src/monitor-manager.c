@@ -725,6 +725,8 @@ phosh_monitor_manager_finalize (GObject *object)
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
 
   g_ptr_array_free (self->monitors, TRUE);
+
+  G_OBJECT_CLASS (phosh_monitor_manager_parent_class)->finalize (object);
 }
 
 
