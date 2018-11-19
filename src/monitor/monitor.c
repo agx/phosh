@@ -302,6 +302,7 @@ PhoshMonitorMode *
 phosh_monitor_get_current_mode (PhoshMonitor *self)
 {
   g_return_val_if_fail (PHOSH_IS_MONITOR (self), NULL);
+  g_return_val_if_fail (self->current_mode < self->modes->len, NULL);
   return &g_array_index (self->modes, PhoshMonitorMode, self->current_mode);
 }
 

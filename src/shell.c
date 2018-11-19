@@ -653,6 +653,7 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail(monitor);
   mode = phosh_monitor_get_current_mode (monitor);
+  g_return_if_fail (mode != NULL);
 
   scale = monitor->scale ? monitor->scale : 1;
   if (priv->rotation) {
