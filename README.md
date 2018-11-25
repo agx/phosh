@@ -70,3 +70,11 @@ any user by using an override file:
 
 # Translations
 Please use zanata for translations at https://translate.zanata.org/project/view/phosh?dswid=-3784
+
+# Getting in Touch
+* Issue tracker: https://source.puri.sm/Librem5/phosh
+* Mailing list: https://lists.community.puri.sm/listinfo/librem-5-dev
+* Matrix: https://im.puri.sm/#/room/#phosh:talk.puri.sm
+* XMPP: phosh@conference.sigxcpu.org
+
+For details see the [developer documentation](https://developer.puri.sm/Contact.html).
