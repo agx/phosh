@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the phosh package.
 # Ant Pandolfo <ant.pandolfo@gmail.com>, 2018.
 # Guido Günther <agx@sigxcpu.org>, 2018. #zanata
+# antpanlinux <ant.pandolfo@gmail.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
@@ -11,25 +12,25 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-09-28 06:49+0000\n"
+"PO-Revision-Date: 2018-10-22 04:20+0000\n"
 "Language-Team: antpanlinux <ant.pandolfo@gmail.com>\n"
 "X-Generator: Zanata 4.6.2\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
+"Last-Translator: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: it\n"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr ""
+msgstr "Shell telefono"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr ""
+msgstr "Finestra gestore ed avviatore applicazioni per cellulare"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
 msgid "Phosh"
-msgstr ""
+msgstr "Posh"
 
 #: src/lockscreen.c:82 src/ui/lockscreen.ui:61
 msgid "Enter PIN to unlock"
@@ -41,20 +42,20 @@ msgstr "Controllo PIN"
 
 #: src/monitor-manager.c:46
 msgid "Built-in display"
-msgstr ""
+msgstr "Schermo integrato"
 
 #. Translators: An unknown monitor type
 #: src/monitor-manager.c:50
 msgid "Unknown"
-msgstr ""
+msgstr "Sconosciuto"
 
 #: src/system-prompt.c:359
 msgid "Passwords do not match."
-msgstr ""
+msgstr "Le passwords non corrispondono"
 
 #: src/system-prompt.c:366
 msgid "Password cannot be blank"
-msgstr ""
+msgstr "La password non può essere vuota"
 
 #: src/ui/lockscreen.ui:182
 msgid "Slide up to unlock"

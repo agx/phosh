@@ -4,6 +4,7 @@
 # Guido Günther <agx@sigxcpu.org>, 2018
 # Daniel Brunkhorst <daniel.brunkhorst@posteo.de>, 2018. #zanata
 # Guido Günther <agx@sigxcpu.org>, 2018. #zanata
+# kai <kai.klingenhagen@kabelmail.de>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
@@ -12,8 +13,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-10-16 11:10+0000\n"
-"Last-Translator: Daniel Brunkhorst <daniel.brunkhorst@posteo.de>\n"
+"PO-Revision-Date: 2018-10-24 07:10+0000\n"
+"Last-Translator: kai <kai.klingenhagen@kabelmail.de>\n"
 "Language-Team: none\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -25,7 +26,7 @@ msgstr "Phone Shell"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr "Fenster management und Starten von Apps für mobile Geräte"
+msgstr "Fensterverwaltung und Starten von Apps für mobile Geräte"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4

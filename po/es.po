@@ -1,22 +1,31 @@
-# Spanish translation for phosh
-# Copyright (C) 2018 THE phosh'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the phosh package.
-# Alberto Fanjul <albfan@gnome.org>, 2018.
-#
+# Roberto MF <zanata@virgulilla.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-11 06:26+0000\n"
-"PO-Revision-Date: 2018-07-11 07:42+0200\n"
-"Last-Translator: \n"
-"Language-Team: none\n"
-"Language: es\n"
+"POT-Creation-Date: 2018-10-05 11:27+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.8\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"PO-Revision-Date: 2018-10-17 05:19+0000\n"
+"Last-Translator: Roberto MF <zanata@virgulilla.com>\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: data/sm.puri.Phosh.desktop.in.in:4
+msgid "Phone Shell"
+msgstr "Interfaz móvil"
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "Gestor de ventanas y lanzador de aplicaciones para móviles"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
 
 #: src/lockscreen.c:82 src/ui/lockscreen.ui:61
 msgid "Enter PIN to unlock"
@@ -26,13 +35,26 @@ msgstr "Introduce el PIN para desbloquear"
 msgid "Checking PIN"
 msgstr "Comprobando PIN"
 
-#: src/panel.c:95
-msgid "Librem5 dev board"
-msgstr "Placa de Desarrollo para Librem5"
+#: src/monitor-manager.c:46
+msgid "Built-in display"
+msgstr "Pantalla integrada"
+
+#. Translators: An unknown monitor type
+#: src/monitor-manager.c:50
+msgid "Unknown"
+msgstr "Desconocido"
+
+#: src/system-prompt.c:359
+msgid "Passwords do not match."
+msgstr "Las contraseñas no coinciden."
+
+#: src/system-prompt.c:366
+msgid "Password cannot be blank"
+msgstr "La contraseña no puede estar en blanco"
 
 #: src/ui/lockscreen.ui:182
 msgid "Slide up to unlock"
-msgstr "Deslizar hacia arriba para desbloquear"
+msgstr "Desliza hacia arriba para desbloquear"
 
 #: src/ui/settings-menu.ui:123
 msgid "Rotation"
