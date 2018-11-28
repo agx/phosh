@@ -25,6 +25,7 @@
 #include "phosh-wayland.h"
 #include "monitor/monitor.h"
 #include "background.h"
+#include "idle-manager.h"
 #include "lockscreen-manager.h"
 #include "monitor-manager.h"
 #include "panel.h"
@@ -65,6 +66,8 @@ typedef struct
   PhoshMonitor *primary_monitor;
   PhoshMonitorManager *monitor_manager;
   PhoshLockscreenManager *lockscreen_manager;
+  PhoshIdleManager *idle_manager;
+
 } PhoshShellPrivate;
 
 
@@ -504,6 +507,8 @@ phosh_shell_constructed (GObject *object)
   /* Create background after panel since it needs the panel's size */
   background_create (self);
   priv->lockscreen_manager = phosh_lockscreen_manager_new ();
+  priv->idle_manager = phosh_idle_manager_get_default();
+
   phosh_session_register ("sm.puri.Phosh");
   phosh_system_prompter_register ();
 }
@@ -653,6 +658,7 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail(monitor);
   mode = phosh_monitor_get_current_mode (monitor);
+  g_return_if_fail (mode != NULL);
 
   scale = monitor->scale ? monitor->scale : 1;
   if (priv->rotation) {

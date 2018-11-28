@@ -1,6 +1,7 @@
-subdir('wwan')
+subdir('idle')
 subdir('monitor')
 subdir('osk')
+subdir('wwan')
 
 phosh_resources = gnome.compile_resources(
    'phosh-resources',
@@ -22,6 +23,8 @@ phosh_sources = [
   'favorites.h',
   'home.c',
   'home.h',
+  'idle-manager.c',
+  'idle-manager.h',
   'layersurface.c',
   'layersurface.h',
   'lockscreen.c',
@@ -53,6 +56,7 @@ phosh_sources = [
   'wwaninfo.c',
   'wwaninfo.h',
   phosh_resources,
+  phosh_idle_sources,
   phosh_wwan_sources,
   phosh_monitor_sources,
   phosh_osk_sources,
