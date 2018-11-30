@@ -15,7 +15,7 @@ static GMainLoop *loop;
 gint fire = 1000; /* fire after 1 second */
 
 static void
-watch_fired_cb (PhoshIdleDbusOrgGnomeMutterIdleMonitor *proxy,
+watch_fired_cb (PhoshIdleDbusIdleMonitor *proxy,
                 guint                id,
                 gpointer            *data)
 {
@@ -38,7 +38,7 @@ test_phosh_idle_add_watch(void)
 {
   gint timeout_id;
   GError *err = NULL;
-  PhoshIdleDbusOrgGnomeMutterIdleMonitor *proxy;
+  PhoshIdleDbusIdleMonitor *proxy;
   PhoshIdleDbusObjectManagerClient *client;
   GDBusObject *object;
 
@@ -61,11 +61,11 @@ test_phosh_idle_add_watch(void)
                                              OBJECT_PATH);
   g_assert (object);
 
-  proxy = phosh_idle_dbus_object_get_org_gnome_mutter_idle_monitor (PHOSH_IDLE_DBUS_OBJECT (object));
+  proxy = phosh_idle_dbus_object_get_idle_monitor (PHOSH_IDLE_DBUS_OBJECT (object));
   g_assert (proxy);
 
   g_signal_connect_object (proxy, "watch-fired", G_CALLBACK (watch_fired_cb), NULL, 0);
-  g_assert (phosh_idle_dbus_org_gnome_mutter_idle_monitor_call_add_idle_watch_sync (
+  g_assert (phosh_idle_dbus_idle_monitor_call_add_idle_watch_sync (
               proxy, fire, &watch_id, NULL, NULL));
   g_assert (watch_id);
 
@@ -74,7 +74,7 @@ test_phosh_idle_add_watch(void)
   g_main_loop_run (loop);
   /* Remove watch that fired */
   g_source_remove (timeout_id);
-  g_assert (phosh_idle_dbus_org_gnome_mutter_idle_monitor_call_remove_watch_sync (
+  g_assert (phosh_idle_dbus_idle_monitor_call_remove_watch_sync (
               proxy, watch_id, NULL, NULL));
 }
 
@@ -83,7 +83,7 @@ static void
 test_phosh_idle_remove_watch(void)
 {
   GError *err = NULL;
-  PhoshIdleDbusOrgGnomeMutterIdleMonitor *proxy;
+  PhoshIdleDbusIdleMonitor *proxy;
   PhoshIdleDbusObjectManagerClient *client;
   GDBusObject *object;
 
@@ -106,14 +106,14 @@ test_phosh_idle_remove_watch(void)
                                              OBJECT_PATH);
   g_assert (object);
 
-  proxy = phosh_idle_dbus_object_get_org_gnome_mutter_idle_monitor (PHOSH_IDLE_DBUS_OBJECT (object));
+  proxy = phosh_idle_dbus_object_get_idle_monitor (PHOSH_IDLE_DBUS_OBJECT (object));
   g_assert (proxy);
 
-  g_assert (phosh_idle_dbus_org_gnome_mutter_idle_monitor_call_add_idle_watch_sync (
+  g_assert (phosh_idle_dbus_idle_monitor_call_add_idle_watch_sync (
               proxy, fire, &watch_id, NULL, NULL));
   g_assert (watch_id);
   /* Remove watch that did not yet fire */
-  g_assert (phosh_idle_dbus_org_gnome_mutter_idle_monitor_call_remove_watch_sync (
+  g_assert (phosh_idle_dbus_idle_monitor_call_remove_watch_sync (
               proxy, watch_id, NULL, NULL));
 }
 

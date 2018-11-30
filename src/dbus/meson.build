@@ -10,6 +10,6 @@ generated_dbus_sources += gnome.gdbus_codegen('gnome-session-presence-dbus',
 # DBus server protocole
 generated_dbus_sources += gnome.gdbus_codegen('phosh-idle-dbus',
 					     'org.gnome.Mutter.IdleMonitor.xml',
-					     interface_prefix: 'org.gnome.Mutter.IdleMonitor.',
+					     interface_prefix: 'org.gnome.Mutter',
 					     object_manager: true,
 					     namespace: 'PhoshIdleDbus')
