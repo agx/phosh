@@ -84,7 +84,7 @@ output_handle_mode (void             *data,
   PhoshMonitor *self = PHOSH_MONITOR (data);
   PhoshMonitorMode mode;
 
-  g_debug ("handle mode output %p, size %d %d, rate %d",
+  g_debug ("handle mode output %p: %dx%d@%d",
            self, width, height, refresh);
 
   mode.width = width;
