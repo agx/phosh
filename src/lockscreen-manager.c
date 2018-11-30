@@ -84,6 +84,8 @@ lockscreen_lock (PhoshLockscreenManager *self)
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshMonitorManager *monitor_manager = phosh_shell_get_monitor_manager (shell);
 
+  g_return_if_fail (!priv->locked);
+
   primary_monitor = phosh_shell_get_primary_monitor (shell);
   g_return_if_fail (primary_monitor);
 
