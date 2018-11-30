@@ -9,10 +9,10 @@
 #include "lockscreen-manager.h"
 #include "lockscreen.h"
 #include "lockshield.h"
-#include "shell.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
 #include "phosh-wayland.h"
+#include "shell.h"
 #include "util.h"
 
 #include <gdk/gdkwayland.h>
