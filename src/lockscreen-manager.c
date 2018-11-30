@@ -14,7 +14,7 @@
 #include "phosh-wayland.h"
 #include "shell.h"
 #include "util.h"
-
+#include "session-presence.h"
 #include <gdk/gdkwayland.h>
 
 
@@ -30,14 +30,15 @@ static GParamSpec *props[PHOSH_LOCKSCREEN_MANAGER_PROP_LAST_PROP];
 typedef struct {
   GObject parent;
 
-  PhoshLockscreen *lockscreen;   /* phone display lock screen */
-  GPtrArray *shields;            /* other outputs */
+  PhoshLockscreen *lockscreen;     /* phone display lock screen */
+  PhoshSessionPresence *presence;  /* gnome-session's presence interface */
+  GPtrArray *shields;              /* other outputs */
   gulong unlock_handler_id;
   struct org_kde_kwin_idle_timeout *lock_timer;
   struct zwlr_input_inhibitor_v1 *input_inhibitor;
   GSettings *settings;
 
-  gint timeout;                  /* timeout in seconds before screen locks */
+  gint timeout;                    /* timeout in seconds before screen locks */
   gboolean locked;
 } PhoshLockscreenManagerPrivate;
 
@@ -145,6 +146,16 @@ static const struct org_kde_kwin_idle_timeout_listener idle_timer_listener = {
 
 
 static void
+presence_status_changed_cb (PhoshLockscreenManager *self, guint32 status, gpointer *data)
+{
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
+
+  g_debug ("Presence status changed: %d", status);
+  phosh_lockscreen_manager_set_locked (self, TRUE);
+}
+
+
+static void
 phosh_lockscreen_manager_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
@@ -217,6 +228,14 @@ phosh_lockscreen_manager_constructed (GObject *object)
 
   priv->settings = g_settings_new ("org.gnome.desktop.session");
   g_settings_bind (priv->settings, "idle-delay", self, "timeout", G_SETTINGS_BIND_GET);
+
+  priv->presence = phosh_session_presence_get_default_failable ();
+  if (priv->presence) {
+    g_signal_connect_swapped (priv->presence,
+                              "status-changed",
+                              (GCallback) presence_status_changed_cb,
+                              self);
+  }
 }
 
 
