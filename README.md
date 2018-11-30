@@ -30,6 +30,10 @@ To run the tests run
 
 For details see the *.gitlab-ci.yml* file.
 
+There are some thorough tests not run during CI which can e.g. be run via
+
+    gtester -m thorough  _build/tests/test-idle-manager
+
 ## Running
 ### Running from the source tree
 When running from the source tree start the compositor *rootston*. Then start

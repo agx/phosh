@@ -9,12 +9,12 @@
 #include "lockscreen-manager.h"
 #include "lockscreen.h"
 #include "lockshield.h"
-#include "shell.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
 #include "phosh-wayland.h"
+#include "shell.h"
 #include "util.h"
-
+#include "session-presence.h"
 #include <gdk/gdkwayland.h>
 
 
@@ -30,14 +30,13 @@ static GParamSpec *props[PHOSH_LOCKSCREEN_MANAGER_PROP_LAST_PROP];
 typedef struct {
   GObject parent;
 
-  PhoshLockscreen *lockscreen;   /* phone display lock screen */
-  GPtrArray *shields;            /* other outputs */
+  PhoshLockscreen *lockscreen;     /* phone display lock screen */
+  PhoshSessionPresence *presence;  /* gnome-session's presence interface */
+  GPtrArray *shields;              /* other outputs */
   gulong unlock_handler_id;
-  struct org_kde_kwin_idle_timeout *lock_timer;
-  struct zwlr_input_inhibitor_v1 *input_inhibitor;
   GSettings *settings;
 
-  gint timeout;                  /* timeout in seconds before screen locks */
+  gint timeout;                    /* timeout in seconds before screen locks */
   gboolean locked;
 } PhoshLockscreenManagerPrivate;
 
@@ -67,9 +66,6 @@ lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
   /* Unlock all other outputs */
   g_clear_pointer (&priv->shields, g_ptr_array_unref);
 
-  zwlr_input_inhibitor_v1_destroy(priv->input_inhibitor);
-  priv->input_inhibitor = NULL;
-
   priv->locked = FALSE;
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED]);
 }
@@ -84,6 +80,8 @@ lockscreen_lock (PhoshLockscreenManager *self)
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshMonitorManager *monitor_manager = phosh_shell_get_monitor_manager (shell);
 
+  g_return_if_fail (!priv->locked);
+
   primary_monitor = phosh_shell_get_primary_monitor (shell);
   g_return_if_fail (primary_monitor);
 
@@ -91,10 +89,6 @@ lockscreen_lock (PhoshLockscreenManager *self)
   priv->lockscreen = PHOSH_LOCKSCREEN (phosh_lockscreen_new (
                                          phosh_wayland_get_zwlr_layer_shell_v1(wl),
                                          primary_monitor->wl_output));
-
-  priv->input_inhibitor =
-    zwlr_input_inhibit_manager_v1_get_inhibitor(
-      phosh_wayland_get_zwlr_input_inhibit_manager_v1 (wl));
 
   /* Lock all other outputs */
   priv->shields = g_ptr_array_new_with_free_func ((GDestroyNotify) (gtk_widget_destroy));
@@ -121,25 +115,13 @@ lockscreen_lock (PhoshLockscreenManager *self)
 
 
 static void
-lock_idle_cb(void* data, struct org_kde_kwin_idle_timeout *timer)
+presence_status_changed_cb (PhoshLockscreenManager *self, guint32 status, gpointer *data)
 {
-  PhoshLockscreenManager *self = data;
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
 
-  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (data));
+  g_debug ("Presence status changed: %d", status);
   phosh_lockscreen_manager_set_locked (self, TRUE);
 }
-
-
-static void
-lock_resume_cb(void* data, struct org_kde_kwin_idle_timeout *timer)
-{
-}
-
-
-static const struct org_kde_kwin_idle_timeout_listener idle_timer_listener = {
-  .idle = lock_idle_cb,
-  .resumed = lock_resume_cb,
-};
 
 
 static void
@@ -215,6 +197,14 @@ phosh_lockscreen_manager_constructed (GObject *object)
 
   priv->settings = g_settings_new ("org.gnome.desktop.session");
   g_settings_bind (priv->settings, "idle-delay", self, "timeout", G_SETTINGS_BIND_GET);
+
+  priv->presence = phosh_session_presence_get_default_failable ();
+  if (priv->presence) {
+    g_signal_connect_swapped (priv->presence,
+                              "status-changed",
+                              (GCallback) presence_status_changed_cb,
+                              self);
+  }
 }
 
 
@@ -290,28 +280,13 @@ void
 phosh_lockscreen_manager_set_timeout (PhoshLockscreenManager *self, gint timeout)
 {
   PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
-  PhoshWayland *wl = phosh_wayland_get_default ();
-  struct org_kde_kwin_idle *idle_manager = phosh_wayland_get_org_kde_kwin_idle (wl);
 
-  g_return_if_fail (idle_manager);
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
   if (timeout == priv->timeout)
     return;
 
   g_debug("Setting lock screen idle timeout to %d seconds", timeout);
   priv->timeout = timeout;
-
-  if (priv->lock_timer) {
-    org_kde_kwin_idle_timeout_release (priv->lock_timer);
-  }
-  /* Rearm the timer */
-  priv->lock_timer = org_kde_kwin_idle_get_idle_timeout(idle_manager,
-                                                        phosh_wayland_get_wl_seat (wl),
-                                                        priv->timeout * 1000);
-  g_return_if_fail (priv->lock_timer);
-  org_kde_kwin_idle_timeout_add_listener(priv->lock_timer,
-                                         &idle_timer_listener,
-                                         self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LOCKSCREEN_MANAGER_PROP_TIMEOUT]);
 }

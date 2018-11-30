@@ -1,4 +1,4 @@
-subdir('idle')
+subdir('dbus')
 subdir('monitor')
 subdir('osk')
 subdir('wwan')
@@ -38,6 +38,8 @@ phosh_sources = [
   'monitor-manager.h',
   'session.c',
   'session.h',
+  'session-presence.c',
+  'session-presence.h',
   'shell.c',
   'shell.h',
   'system-prompt.c',
@@ -55,8 +57,8 @@ phosh_sources = [
   'util.h',
   'wwaninfo.c',
   'wwaninfo.h',
+  generated_dbus_sources,
   phosh_resources,
-  phosh_idle_sources,
   phosh_wwan_sources,
   phosh_monitor_sources,
   phosh_osk_sources,

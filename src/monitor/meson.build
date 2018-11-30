@@ -1,7 +1,7 @@
 generated_monitor_sources = gnome.gdbus_codegen(
   'phosh-display-dbus',
   'org.gnome.Mutter.DisplayConfig.xml',
-  interface_prefix: 'org.gnome.Mutter.DisplayConfig.',
+  interface_prefix: 'org.gnome.Mutter',
   namespace: 'PhoshDisplayDbus',
 )
 

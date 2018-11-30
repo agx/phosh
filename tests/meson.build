@@ -14,7 +14,7 @@ test_cflags = [
   '-fPIE',
   '-I../src',
   '-I@0@/../src'.format(meson.current_build_dir()),
-  '-I@0@/../src/idle'.format(meson.current_build_dir()),
+  '-I@0@/../src/dbus'.format(meson.current_build_dir()),
   '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
 ]
 
@@ -52,7 +52,7 @@ endif
 
 # Integration tests
 t = executable('test-idle-manager',
-		 ['test-idle-manager.c', generated_idle_sources],
+		 ['test-idle-manager.c', generated_dbus_sources],
 		 c_args: test_cflags,
 		 link_args: test_link_args,
 		 dependencies: phosh_deps,
