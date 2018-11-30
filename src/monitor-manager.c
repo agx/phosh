@@ -687,6 +687,19 @@ phosh_monitor_manager_display_config_init (PhoshDisplayDbusDisplayConfigIface *i
 
 
 static void
+power_save_mode_changed_cb (PhoshMonitorManager *self,
+                            GParamSpec          *pspec,
+                            gpointer             user_data)
+{
+  gint mode;
+
+  mode = phosh_display_dbus_display_config_get_power_save_mode (
+    PHOSH_DISPLAY_DBUS_DISPLAY_CONFIG (self));
+  g_debug ("Power save mode %d requested", mode);
+}
+
+
+static void
 on_name_acquired (GDBusConnection *connection,
                   const char      *name,
                   gpointer         user_data)
@@ -745,6 +758,9 @@ phosh_monitor_manager_constructed (GObject *object)
                                        on_name_lost,
                                        g_object_ref (self),
                                        g_object_unref);
+
+  g_signal_connect (self, "notify::power-save-mode",
+                    G_CALLBACK (power_save_mode_changed_cb), NULL);
 }
 
 
