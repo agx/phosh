@@ -175,7 +175,10 @@ phosh_monitor_manager_handle_change_backlight (
   gint                   value)
 {
   g_debug ("Unimplemented DBus call %s", __func__);
-  return FALSE;
+  g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                         G_DBUS_ERROR_NOT_SUPPORTED,
+                                         "Changing backlight not supported");
+  return TRUE;
 }
 
 
