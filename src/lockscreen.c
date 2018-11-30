@@ -37,7 +37,7 @@ typedef struct _PhoshLockscreen
 } PhoshLockscreen;
 
 
-typedef struct PhoshLockscreen {
+typedef struct {
   GtkWidget *stack;
 
   /* info page */
