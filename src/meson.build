@@ -1,5 +1,4 @@
 subdir('dbus')
-subdir('idle')
 subdir('monitor')
 subdir('osk')
 subdir('wwan')
@@ -60,7 +59,6 @@ phosh_sources = [
   'wwaninfo.h',
   generated_dbus_sources,
   phosh_resources,
-  phosh_idle_sources,
   phosh_wwan_sources,
   phosh_monitor_sources,
   phosh_osk_sources,
