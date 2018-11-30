@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
+  <interface name="org.gnome.SessionManager.Presence">
+
+    <property name="status" type="u" access="readwrite">
+      <doc:doc>
+        <doc:description>
+          <doc:para>
+            The status of the session.
+          </doc:para>
+          <doc:para>
+            The status parameter must be one of the following:
+            <doc:list>
+              <doc:item>
+                <doc:term>0</doc:term>
+                <doc:definition>Available</doc:definition>
+              </doc:item>
+              <doc:item>
+                <doc:term>1</doc:term>
+                <doc:definition>Invisible</doc:definition>
+              </doc:item>
+              <doc:item>
+                <doc:term>2</doc:term>
+                <doc:definition>Busy</doc:definition>
+              </doc:item>
+              <doc:item>
+                <doc:term>3</doc:term>
+                <doc:definition>Idle</doc:definition>
+              </doc:item>
+            </doc:list>
+          </doc:para>
+        </doc:description>
+      </doc:doc>
+    </property>
+    <signal name="StatusChanged">
+      <arg name="status" type="u">
+        <doc:doc>
+          <doc:summary>The new status value</doc:summary>
+        </doc:doc>
+      </arg>
+      <doc:doc>
+        <doc:description>
+          <doc:para>Indicates that the session status value has changed.</doc:para>
+        </doc:description>
+      </doc:doc>
+    </signal>
+  </interface>
+</node>
