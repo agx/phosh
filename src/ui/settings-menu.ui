@@ -184,7 +184,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="btn_airplane_mode">
+                  <object class="GtkButton" id="btn_shutdown">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
