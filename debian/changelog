@@ -1,3 +1,33 @@
+phosh (0.0.2) purple; urgency=medium
+
+  [ Guido Günther ]
+  * Update translations from zanata
+  * home: Add keyboard button.
+    Add a keyboard button to the home buttons bar. This will allow to unfold
+    the OSK.
+  * monitor-manager: Use output names.
+    This allows us to give the monitors more meaningful names instead of
+    made up numbers and to correctly identify built in displays.
+  * shell: Move panels on primary monitor change.
+    When a new primary monitor is set move the panels around.
+    This also fixes the home panel not being disposed.
+  * system-prompter: Pass on the wl_output and not the monitor to new
+    prompters.  This makes sure they always end up on the primary monitor.
+  * Add basic org.gnome.Mutter.Idle DBus protocol support.
+    This allows e.g. g-s-d power to track our idle time for e.g. dimming the
+    display.
+  * LockscreenManager: Rely on gnome-session for idle detection.
+    This makes us properly respect idle inhibitors e.g. when watching movies.
+  * Favorites: Drop weston terminal.
+    Don't hardcode weston terminal anymore since gnome-terminal now also on
+    the dev boards.
+  * Settings menu: Add shutdown button
+
+  [ David Boddie ]
+  * Updated Debian package dependencies and .ini file location.
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 01 Dec 2018 17:59:07 +0100
+
 phosh (0.0.1) unstable; urgency=medium
 
   * Initial release
