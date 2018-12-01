@@ -6,5 +6,8 @@
 
 #pragma once
 
+#include <glib-object.h>
+
 void phosh_session_register (const char *client_id);
 void phosh_session_unregister (void);
+void phosh_session_shutdown (GError **err);
