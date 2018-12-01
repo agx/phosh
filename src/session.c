@@ -20,11 +20,11 @@
 
 /**
  * SECTION:phosh-session
- * @short_description: Manages gnome-session registration
+ * @short_description: Manages gnome-session registration and shutdown
  * @Title: PhoshSession
  *
  * The #PhoshSession is responsible for registration with
- * gnome-session
+ * gnome-session and system shutdown
  */
 static GDBusProxy *_proxy;
 
@@ -147,4 +147,20 @@ void
 phosh_session_unregister (void)
 {
   g_clear_object (&_proxy);
+}
+
+
+void
+phosh_session_shutdown (GError **err)
+{
+  g_return_if_fail (G_IS_DBUS_PROXY(_proxy));
+
+  g_dbus_proxy_call (_proxy,
+                     "Shutdown",
+                     NULL,
+                     G_DBUS_CALL_FLAGS_NONE,
+                     -1,
+                     NULL,
+                     NULL,
+                     err);
 }
