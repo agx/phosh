@@ -12,7 +12,7 @@ test_env = [
 
 test_cflags = [
   '-fPIE',
-  '-I../src',
+  '-I@0@/../src'.format(meson.current_source_dir()),
   '-I@0@/../src'.format(meson.current_build_dir()),
   '-I@0@/../src/dbus'.format(meson.current_build_dir()),
   '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
