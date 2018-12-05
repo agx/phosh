@@ -247,7 +247,7 @@ handle_add_idle_watch (PhoshIdleDbusIdleMonitor *skeleton,
     return TRUE;
   }
 
-  g_debug ("Created idle-timer %d for %ld msec", watch->watch_id, arg_interval);
+  g_debug ("Created idle-timer %d for %" G_GUINT64_FORMAT " msec", watch->watch_id, arg_interval);
   g_hash_table_insert (self->watches, &watch->watch_id, watch);
   phosh_idle_dbus_idle_monitor_complete_add_idle_watch (
     skeleton, invocation, watch->watch_id);
