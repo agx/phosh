@@ -351,3 +351,27 @@ phosh_monitor_is_builtin (PhoshMonitor *self)
     return FALSE;
   }
 }
+
+
+/** phosh_monitor_is_flipped
+ *
+ * Is the monitor's output flipped
+ */
+gboolean
+phosh_monitor_is_flipped (PhoshMonitor *self)
+{
+    switch (self->transform) {
+    case WL_OUTPUT_TRANSFORM_FLIPPED_90:
+    case WL_OUTPUT_TRANSFORM_FLIPPED_270:
+    case WL_OUTPUT_TRANSFORM_FLIPPED:
+    case WL_OUTPUT_TRANSFORM_FLIPPED_180:
+      return TRUE;
+    case WL_OUTPUT_TRANSFORM_90:
+    case WL_OUTPUT_TRANSFORM_270:
+    case WL_OUTPUT_TRANSFORM_NORMAL:
+    case WL_OUTPUT_TRANSFORM_180:
+      return FALSE;
+    default:
+      g_assert_not_reached ();
+    }
+}

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0+
  * Author: Guido Günther <agx@sigxcpu.org>
  *
- * Based on maynard's panel which is
+ * Once based on maynard's panel which is
  * Copyright (C) 2014 Collabora Ltd. *
  * Author: Jonny Lamb <jonny.lamb@collabora.co.uk>
  */
