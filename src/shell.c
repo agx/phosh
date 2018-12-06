@@ -648,12 +648,10 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
 {
   PhoshMonitor *monitor;
   PhoshMonitorMode *mode;
-  PhoshShellPrivate *priv;
   gint w, h;
   gint scale;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
-  priv = phosh_shell_get_instance_private (self);
 
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail(monitor);
@@ -661,12 +659,22 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
   g_return_if_fail (mode != NULL);
 
   scale = monitor->scale ? monitor->scale : 1;
-  if (priv->rotation) {
-    w = mode->height / scale;
-    h = mode->width / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
-  } else {
+
+  g_debug ("Primary monitor %p scale is %d, transform is %d",
+           monitor,
+           monitor->scale,
+           monitor->transform);
+
+  switch (phosh_monitor_get_rotation(monitor)) {
+  case 0:
+  case 180:
     w = mode->width / scale;
     h = mode->height / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
+    break;
+  default:
+    w = mode->height / scale;
+    h = mode->width / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
+    break;
   }
 
   if (x)
