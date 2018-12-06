@@ -77,3 +77,4 @@ PhoshMonitorMode * phosh_monitor_get_current_mode (PhoshMonitor *monitor);
 gboolean           phosh_monitor_is_configured (PhoshMonitor *monitor);
 gboolean           phosh_monitor_is_builtin (PhoshMonitor *monitor);
 gboolean           phosh_monitor_is_flipped (PhoshMonitor *monitor);
+guint              phosh_monitor_get_rotation (PhoshMonitor *monitor);

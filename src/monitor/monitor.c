@@ -375,3 +375,29 @@ phosh_monitor_is_flipped (PhoshMonitor *self)
       g_assert_not_reached ();
     }
 }
+
+
+/** phosh_monitor_get_rotation
+ *
+ * Get the monitor's rotation in degrees
+ */
+guint
+phosh_monitor_get_rotation (PhoshMonitor *self)
+{
+    switch (self->transform) {
+    case WL_OUTPUT_TRANSFORM_90:
+    case WL_OUTPUT_TRANSFORM_FLIPPED_90:
+      return 90;
+    case WL_OUTPUT_TRANSFORM_180:
+    case WL_OUTPUT_TRANSFORM_FLIPPED_180:
+      return 180;
+    case WL_OUTPUT_TRANSFORM_270:
+    case WL_OUTPUT_TRANSFORM_FLIPPED_270:
+      return 270;
+    case WL_OUTPUT_TRANSFORM_NORMAL:
+    case WL_OUTPUT_TRANSFORM_FLIPPED:
+      return 0;
+    default:
+      g_assert_not_reached ();
+    }
+}
