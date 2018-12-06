@@ -74,9 +74,9 @@ phosh_monitor_manager_handle_get_resources (
     if (!phosh_monitor_is_configured(monitor))
       continue;
 
-    /* TODO: add transforms */
     g_variant_builder_init (&transforms, G_VARIANT_TYPE ("au"));
-    g_variant_builder_add (&transforms, "u", 0);
+    for (int j = 0; j <= WL_OUTPUT_TRANSFORM_FLIPPED_270; j++)
+      g_variant_builder_add (&transforms, "u", j);
 
     g_variant_builder_add (&crtc_builder, "(uxiiiiiuaua{sv})",
                            i,           /* ID */
@@ -86,7 +86,7 @@ phosh_monitor_manager_handle_get_resources (
                            monitor->width,
                            monitor->height,
                            0,           /* current_mode_index, */
-                           0,           /* (guint32)crtc->transform, */
+                           monitor->transform,
                            &transforms,
                            NULL         /* properties */);
   }
@@ -494,7 +494,7 @@ phosh_monitor_manager_handle_get_current_state (
                            monitor->y,          /* logical_monitor->rect.y */
                            /* (double) logical_monitor->scale */
                            (double)monitor->scale,
-                           0,                    /* logical_monitor->transform */
+                           monitor->transform,   /* logical_monitor->transform */
                            is_primary,           /* logical_monitor->is_primary */
                            &logical_monitor_monitors_builder,
                            NULL);
