@@ -49,6 +49,7 @@ output_handle_geometry (void             *data,
   self->subpixel = subpixel;
   self->vendor = g_strdup (make);
   self->product = g_strdup (model);
+  self->transform = transform;
 }
 
 
