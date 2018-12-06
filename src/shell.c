@@ -496,6 +496,10 @@ phosh_shell_constructed (GObject *object)
        priv->monitor_manager,
        phosh_monitor_new_from_wl_output(outputs->pdata[i]));
   }
+  if (outputs->len) {
+    priv->primary_monitor = phosh_monitor_manager_get_monitor (
+      priv->monitor_manager, 0);
+  }
 
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
                                     "/sm/puri/phosh/icons");
