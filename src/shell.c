@@ -526,11 +526,13 @@ phosh_shell_class_init (PhoshShellClass *klass)
   object_class->get_property = phosh_shell_get_property;
 
   props[PHOSH_SHELL_PROP_ROTATION] =
-    g_param_spec_string ("rotation",
-                         "Rotation",
-                         "Clockwise display rotation in degree",
-                         "",
-                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+    g_param_spec_uint ("rotation",
+                       "Rotation",
+                       "Clockwise display rotation in degree",
+                       0,
+                       360,
+                       0,
+                       G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_SHELL_PROP_LOCKED] =
     g_param_spec_boolean ("locked",
