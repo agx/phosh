@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0+
  * Author: Guido Günther <agx@sigxcpu.org>
  *
- * Based on maynard's panel which is
+ * Once based on maynard's panel which is
  * Copyright (C) 2014 Collabora Ltd. *
  * Author: Jonny Lamb <jonny.lamb@collabora.co.uk>
  */
@@ -55,8 +55,6 @@ struct popup {
 
 typedef struct
 {
-  gint rotation;
-
   PhoshLayerSurface *panel;
   PhoshLayerSurface *home;
   PhoshLayerSurface *background;
@@ -447,7 +445,7 @@ phosh_shell_get_property (GObject *object,
 
   switch (property_id) {
   case PHOSH_SHELL_PROP_ROTATION:
-    g_value_set_uint (value, priv->rotation);
+    g_value_set_uint (value, phosh_monitor_get_rotation(priv->primary_monitor));
     break;
   case PHOSH_SHELL_PROP_LOCKED:
     g_value_set_boolean (value,
@@ -498,6 +496,10 @@ phosh_shell_constructed (GObject *object)
        priv->monitor_manager,
        phosh_monitor_new_from_wl_output(outputs->pdata[i]));
   }
+  if (outputs->len) {
+    priv->primary_monitor = phosh_monitor_manager_get_monitor (
+      priv->monitor_manager, 0);
+  }
 
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
                                     "/sm/puri/phosh/icons");
@@ -526,11 +528,13 @@ phosh_shell_class_init (PhoshShellClass *klass)
   object_class->get_property = phosh_shell_get_property;
 
   props[PHOSH_SHELL_PROP_ROTATION] =
-    g_param_spec_string ("rotation",
-                         "Rotation",
-                         "Clockwise display rotation in degree",
-                         "",
-                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+    g_param_spec_uint ("rotation",
+                       "Rotation",
+                       "Clockwise display rotation in degree",
+                       0,
+                       360,
+                       0,
+                       G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_SHELL_PROP_LOCKED] =
     g_param_spec_boolean ("locked",
@@ -559,8 +563,12 @@ phosh_shell_init (PhoshShell *self)
 gint
 phosh_shell_get_rotation (PhoshShell *self)
 {
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  return priv->rotation;
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), 0);
+  priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (priv->primary_monitor, 0);
+  return phosh_monitor_get_rotation (priv->primary_monitor);
 }
 
 
@@ -570,9 +578,14 @@ phosh_shell_rotate_display (PhoshShell *self,
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   PhoshWayland *wl = phosh_wayland_get_default();
+  guint current;
 
   g_return_if_fail (phosh_wayland_get_phosh_private (wl));
-  priv->rotation = degree;
+  g_return_if_fail (priv->primary_monitor);
+  current = phosh_monitor_get_rotation (priv->primary_monitor);
+  if (current == degree)
+    return;
+
   phosh_private_rotate_display (phosh_wayland_get_phosh_private (wl),
                                 phosh_layer_surface_get_wl_surface (priv->panel),
                                 degree);
@@ -648,12 +661,10 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
 {
   PhoshMonitor *monitor;
   PhoshMonitorMode *mode;
-  PhoshShellPrivate *priv;
   gint w, h;
   gint scale;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
-  priv = phosh_shell_get_instance_private (self);
 
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail(monitor);
@@ -661,12 +672,22 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
   g_return_if_fail (mode != NULL);
 
   scale = monitor->scale ? monitor->scale : 1;
-  if (priv->rotation) {
-    w = mode->height / scale;
-    h = mode->width / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
-  } else {
+
+  g_debug ("Primary monitor %p scale is %d, transform is %d",
+           monitor,
+           monitor->scale,
+           monitor->transform);
+
+  switch (phosh_monitor_get_rotation(monitor)) {
+  case 0:
+  case 180:
     w = mode->width / scale;
     h = mode->height / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
+    break;
+  default:
+    w = mode->height / scale;
+    h = mode->width / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
+    break;
   }
 
   if (x)
