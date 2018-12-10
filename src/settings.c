@@ -62,12 +62,7 @@ rotation_changed_cb (GtkSwitch *btn, GParamSpec *pspec, PhoshSettings *self)
   gboolean rotate;
 
   rotate = gtk_switch_get_active(btn);
-
-  if (rotate)
-    phosh_shell_rotate_display (shell, 90);
-  else
-    phosh_shell_rotate_display (shell, 0);
-
+  phosh_shell_rotate_display (shell, rotate ? 90 : 0);
   g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 
