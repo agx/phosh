@@ -79,16 +79,16 @@ phosh_monitor_manager_handle_get_resources (
       g_variant_builder_add (&transforms, "u", j);
 
     g_variant_builder_add (&crtc_builder, "(uxiiiiiuaua{sv})",
-                           i,           /* ID */
-                           i,           /* (gint64)crtc->crtc_id, */
-                           monitor->x,
-                           monitor->y,
-                           monitor->width,
-                           monitor->height,
-                           0,           /* current_mode_index, */
-                           monitor->transform,
+                           (guint32)i,           /* ID */
+                           (guint64)i,           /* crtc->crtc_id, */
+                           (gint32)monitor->x,
+                           (gint32)monitor->y,
+                           (gint32)monitor->width,
+                           (gint32)monitor->height,
+                           (gint32)0,           /* current_mode_index, */
+                           (guint32)monitor->transform,
                            &transforms,
-                           NULL         /* properties */);
+                           NULL                 /* properties */);
   }
 
   /* outputs */
@@ -120,9 +120,9 @@ phosh_monitor_manager_handle_get_resources (
                            g_variant_new_boolean (is_primary));
 
     g_variant_builder_add (&output_builder, "(uxiausauaua{sv})",
-                           i, /* ID */
-                           i, /* (gint64)output->winsys_id, */
-                           i, /* crtc_index, */
+                           (guint32)i, /* ID */
+                           (guint64)i, /* output->winsys_id, */
+                           (gint)i,    /* crtc_index, */
                            &crtcs,
                            monitor->name, /* output->name */
                            &modes,
@@ -141,12 +141,12 @@ phosh_monitor_manager_handle_get_resources (
     for (int k = 0; k < modes->len; k++) {
       PhoshMonitorMode *mode = &g_array_index (modes, PhoshMonitorMode, k);
       g_variant_builder_add (&mode_builder, "(uxuudu)",
-                             k,            /* ID */
-                             k,            /* (gint64)mode->mode_id, */
-                             mode->width,  /* (guint32)mode->width, */
-                             mode->height, /* (guint32)mode->height, */
+                             (guint32)k,            /* ID */
+                             (guint64)k,            /* mode->mode_id, */
+                             (guint32)mode->width,  /* mode->width, */
+                             (guint32)mode->height, /* mode->height, */
                              (double)mode->refresh / 1000.0, /* (double)mode->refresh_rate, */
-                             0             /* (guint32)mode->flags); */
+                             (guint32)0             /* mode->flags); */
       );
     }
   }
@@ -435,10 +435,10 @@ phosh_monitor_manager_handle_get_current_state (
 
       g_variant_builder_add (&modes_builder, MODE_FORMAT,
                              mode_name, /* mode_id */
-                             mode->width,
-                             mode->height,
-                             (double) mode->refresh / 1000.0,
-                             scale,  /* (double) preferred_scale, */
+                             (gint32)mode->width,
+                             (gint32)mode->height,
+                             (double)mode->refresh / 1000.0,
+                             (double)scale,  /* preferred_scale, */
                              &supported_scales_builder,
                              &mode_properties_builder);
     }
@@ -490,10 +490,10 @@ phosh_monitor_manager_handle_get_current_state (
     is_primary = (monitor == phosh_shell_get_primary_monitor (phosh_shell_get_default()));
     g_variant_builder_add (&logical_monitors_builder,
                            LOGICAL_MONITOR_FORMAT,
-                           monitor->x,             /* logical_monitor->rect.x */
-                           monitor->y,             /* logical_monitor->rect.y */
+                           (gint32)monitor->x,     /* logical_monitor->rect.x */
+                           (gint32)monitor->y,     /* logical_monitor->rect.y */
                            (double)monitor->scale, /* (double) logical_monitor->scale */
-                           monitor->transform,     /* logical_monitor->transform */
+                           (guint32)monitor->transform, /* logical_monitor->transform */
                            is_primary,             /* logical_monitor->is_primary */
                            &logical_monitor_monitors_builder,
                            NULL);
