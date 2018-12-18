@@ -186,12 +186,16 @@ phosh_app_constructed (GObject *object)
     priv->image = get_missing_image (scale);
   }
 
-  if (priv->title) {
-      lbl_title = gtk_label_new (priv->title);
-      gtk_label_set_max_width_chars (GTK_LABEL (lbl_title), 30);
-      gtk_label_set_ellipsize (GTK_LABEL (lbl_title), PANGO_ELLIPSIZE_MIDDLE);
-      gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET(lbl_title)),
-                                   "phosh-app-title");
+  lbl_title = gtk_label_new ("");
+  gtk_label_set_max_width_chars (GTK_LABEL (lbl_title), 30);
+  gtk_label_set_ellipsize (GTK_LABEL (lbl_title), PANGO_ELLIPSIZE_MIDDLE);
+  gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET(lbl_title)),
+                               "phosh-app-title");
+  /* Only set a title if it's different from the applications name to
+     avoid printing the same thing twice */
+  if (g_strcmp0(gtk_label_get_text(GTK_LABEL(lbl_name)),
+                 priv->title)) {
+    gtk_label_set_text (GTK_LABEL (lbl_title), priv->title);
   }
 
   priv->box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
