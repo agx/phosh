@@ -1,5 +1,7 @@
 .zanata-cache/
 _build
+TAGS
+tags
 vgdump
 *.swp
 *~
