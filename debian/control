@@ -16,7 +16,7 @@ Build-Depends:
  xvfb,
  xauth,
 Standards-Version: 4.1.3
-Homepage: https://code.puri.sm/guido.gunther/phosh
+Homepage: https://source.puri.sm/Librem5/phosh
 
 Package: phosh
 Architecture: any
