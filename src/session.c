@@ -151,7 +151,7 @@ phosh_session_unregister (void)
 
 
 void
-phosh_session_shutdown (GError **err)
+phosh_session_shutdown (void)
 {
   g_return_if_fail (G_IS_DBUS_PROXY(_proxy));
 
@@ -162,5 +162,5 @@ phosh_session_shutdown (GError **err)
                      -1,
                      NULL,
                      NULL,
-                     err);
+                     NULL);
 }
