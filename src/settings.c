@@ -95,10 +95,10 @@ lock_screen_clicked_cb (PhoshSettings *self, gpointer *unused)
 static void
 shutdown_clicked_cb (PhoshSettings *self, gpointer *unused)
 {
-  phosh_session_shutdown (NULL);
+  phosh_session_shutdown ();
   /* TODO: Since we don't implement
    * gnome.SessionManager.EndSessionDialog yet */
-  phosh_session_shutdown (NULL);
+  phosh_session_shutdown ();
   g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 

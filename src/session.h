@@ -10,4 +10,4 @@
 
 void phosh_session_register (const char *client_id);
 void phosh_session_unregister (void);
-void phosh_session_shutdown (GError **err);
+void phosh_session_shutdown (void);
