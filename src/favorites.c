@@ -39,7 +39,6 @@ typedef struct
   /* Running apps */
   GtkWidget *evbox_running_apps;
   GtkWidget *sw_running_apps;
-  GtkWidget *fb_running_apps;
   GtkWidget *box_running_apps;
   struct phosh_private_xdg_switcher *xdg_switcher;
 
@@ -92,7 +91,7 @@ handle_xdg_switcher_xdg_surface (
 
   g_debug ("Building activator for '%s' (%s)", app_id, title);
   app = phosh_app_new (app_id, title);
-  gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_running_apps), app, -1);
+  gtk_box_pack_end (GTK_BOX (priv->box_running_apps), app, FALSE, FALSE, 0);
 
   g_signal_connect (app, "clicked", G_CALLBACK (app_clicked_cb), self);
   gtk_widget_show (GTK_WIDGET (self));
@@ -284,17 +283,13 @@ phosh_favorites_constructed (GObject *object)
   favorites_changed (priv->settings, "favorites", self);
 
   /* Running apps */
-  priv->fb_running_apps = gtk_widget_new (GTK_TYPE_FLOW_BOX,
+  priv->box_running_apps = gtk_widget_new (GTK_TYPE_BOX,
                                           "halign", GTK_ALIGN_CENTER,
                                           "valign", GTK_ALIGN_FILL,
-                                          "selection-mode", GTK_SELECTION_NONE,
-                                          "orientation", GTK_ORIENTATION_HORIZONTAL,
                                           NULL);
-  gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET(priv->fb_running_apps)),
+  gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET(priv->box_running_apps)),
                                "phosh-running-apps-flowbox");
-  gtk_flow_box_set_max_children_per_line (GTK_FLOW_BOX(priv->fb_running_apps), G_MAXINT);
-  gtk_flow_box_set_homogeneous (GTK_FLOW_BOX(priv->fb_running_apps), TRUE);
-  gtk_container_add (GTK_CONTAINER (priv->sw_running_apps), priv->fb_running_apps);
+  gtk_container_add (GTK_CONTAINER (priv->sw_running_apps), priv->box_running_apps);
   gtk_widget_show (GTK_WIDGET(priv->evbox_running_apps));
   /* Close on click */
   g_signal_connect_swapped (priv->evbox_running_apps, "button_press_event",

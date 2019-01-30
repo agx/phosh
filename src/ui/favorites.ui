@@ -45,7 +45,7 @@
                   <object class="GtkScrolledWindow" id="sw_running_apps">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="shadow_type">in</property>
+                    <property name="vscrollbar_policy">never</property>
                     <child>
                       <placeholder/>
                     </child>
