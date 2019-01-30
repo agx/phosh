@@ -224,11 +224,13 @@ phosh_settings_constructed (GObject *object)
   PhoshSettingsPrivate *priv = phosh_settings_get_instance_private (self);
   GtkWidget *image;
   GtkAdjustment *adj;
+  gint width;
 
   /* window properties */
+  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, NULL);
   gtk_window_set_title (GTK_WINDOW (self), "phosh settings");
   gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
-  gtk_window_resize (GTK_WINDOW (self), 100, 100);
+  gtk_window_resize (GTK_WINDOW (self), width, 100);
   gtk_widget_realize(GTK_WIDGET (self));
 
   gtk_range_set_range (GTK_RANGE (priv->scale_brightness), 0, 100);
