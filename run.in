@@ -20,7 +20,7 @@ elif [ "${PHOSH_GDB}" = 1 ]; then
 fi
 
 # Start up g-s-d, etc.
-gnome-session --session=gnome-dummy --disable-acceleration-check &
+[ -n "${SKIP_GNOME_SESSION}" ] || gnome-session --session=gnome-dummy --disable-acceleration-check &
 
 export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data"
 export G_MESSAGES_DEBUG=all

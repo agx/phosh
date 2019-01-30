@@ -91,6 +91,7 @@ test:smoke:valgrind:
     - export OUTDIR=output
     - export G_DEBUG=fatal-criticals
     - export WLR_X11_OUTPUTS=1
+    - export SKIP_GNOME_SESSION=1
     - tests/smoke -V -T 30
   artifacts:
     paths:
