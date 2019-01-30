@@ -82,22 +82,3 @@ test:smoke:two-outputs:
       - output/*.png
     when: always
 
-test:smoke:valgrind:
-  <<: *tags
-  stage: test
-  variables: *smoketest_vars
-  dependencies:
-    - build:native
-  script:
-    - export OUTDIR=output
-    - export G_DEBUG=fatal-criticals
-    - export WLR_X11_OUTPUTS=1
-    - export SKIP_GNOME_SESSION=1
-    - tests/smoke -V -T 30
-  artifacts:
-    paths:
-      - vgdump
-      - output/*.log
-      - output/*.png
-    when: always
-
