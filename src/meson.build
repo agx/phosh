@@ -2,6 +2,7 @@ subdir('dbus')
 subdir('monitor')
 subdir('osk')
 subdir('wwan')
+subdir('settings')
 
 phosh_resources = gnome.compile_resources(
    'phosh-resources',
@@ -9,6 +10,11 @@ phosh_resources = gnome.compile_resources(
 
    c_name: 'phosh',
 )
+
+phosh_settings_sources = [
+  'settings.c',
+  phosh_settings_widgets_sources,
+]
 
 phosh_sources = [
   'app.c',
@@ -50,15 +56,13 @@ phosh_sources = [
   'panel.h',
   'phosh-wayland.c',
   'phosh-wayland.h',
-  'settings.c',
-  'settings.h',
-  'settings/brightness.c',
   'util.c',
   'util.h',
   'wwaninfo.c',
   'wwaninfo.h',
   generated_dbus_sources,
   phosh_resources,
+  phosh_settings_sources,
   phosh_wwan_sources,
   phosh_monitor_sources,
   phosh_osk_sources,
@@ -78,12 +82,14 @@ phosh_deps = [
   dependency('wayland-client', version: '>=1.14'),
   dependency('libhandy-0.0', version: '>=0.0.1'),
   dependency('upower-glib', version: '>=0.99.1'),
+  libgvc_dep,
   cc.find_library('pam', required: true),
   cc.find_library('m', required: false),
   cc.find_library('rt', required: false),
 ]
 
 phosh = executable('phosh', phosh_sources,
+  include_directories: [root_inc, src_inc],
   dependencies: phosh_deps,
   install: true,
   install_dir: libexecdir,

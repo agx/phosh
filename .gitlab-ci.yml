@@ -35,6 +35,7 @@ build:native:
     paths:
       - _build
   script:
+    - git submodule update --recursive
     - meson --werror . _build
     - ninja -C _build
 
@@ -77,25 +78,6 @@ test:smoke:two-outputs:
     - tests/smoke
   artifacts:
     paths:
-      - output/*.log
-      - output/*.png
-    when: always
-
-test:smoke:valgrind:
-  <<: *tags
-  stage: test
-  variables: *smoketest_vars
-  dependencies:
-    - build:native
-  script:
-    - export OUTDIR=output
-    - export G_DEBUG=fatal-criticals
-    - export WLR_X11_OUTPUTS=1
-    - export SKIP_GNOME_SESSION=1
-    - tests/smoke -V -T 30
-  artifacts:
-    paths:
-      - vgdump
       - output/*.log
       - output/*.png
     when: always
