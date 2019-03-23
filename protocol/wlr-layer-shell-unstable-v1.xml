@@ -47,12 +47,16 @@
         or manipulate a buffer prior to the first layer_surface.configure call
         must also be treated as errors.
 
+        You may pass NULL for output to allow the compositor to decide which
+        output to use. Generally this will be the one that the user most
+        recently interacted with.
+
         Clients can specify a namespace that defines the purpose of the layer
         surface.
       </description>
       <arg name="id" type="new_id" interface="zwlr_layer_surface_v1"/>
       <arg name="surface" type="object" interface="wl_surface"/>
-      <arg name="output" type="object" interface="wl_output"/>
+      <arg name="output" type="object" interface="wl_output" allow-null="true"/>
       <arg name="layer" type="uint" enum="layer" summary="layer to add this surface to"/>
       <arg name="namespace" type="string" summary="namespace for the layer surface"/>
     </request>
@@ -111,7 +115,7 @@
     <request name="set_anchor">
       <description summary="configures the anchor point of the surface">
         Requests that the compositor anchor the surface to the specified edges
-        and corners. If two orthoginal edges are specified (e.g. 'top' and
+        and corners. If two orthogonal edges are specified (e.g. 'top' and
         'left'), then the anchor point will be the intersection of the edges
         (e.g. the top left corner of the output); otherwise the anchor point
         will be centered on that edge, or in the center if none is specified.
@@ -130,13 +134,13 @@
 
         A positive value is only meaningful if the surface is anchored to an
         edge, rather than a corner. The zone is the number of surface-local
-        coordinates from the edge that are considered exclusive.
+        coordinates from the edge that is considered exclusive.
 
         Surfaces that do not wish to have an exclusive zone may instead specify
         how they should interact with surfaces that do. If set to zero, the
         surface indicates that it would like to be moved to avoid occluding
-        surfaces with a positive excluzive zone. If set to -1, the surface
-        indicates that it would not like to be moved to accomodate for other
+        surfaces with a positive exclusive zone. If set to -1, the surface
+        indicates that it would not like to be moved to accommodate for other
         surfaces, and the compositor should extend it all the way to the edges
         it is anchored to.
 
