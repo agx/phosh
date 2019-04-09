@@ -557,6 +557,10 @@ phosh_shell_class_init (PhoshShellClass *klass)
 static void
 phosh_shell_init (PhoshShell *self)
 {
+  GtkSettings *gtk_settings;
+
+  gtk_settings = gtk_settings_get_default ();
+  g_object_set (G_OBJECT (gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
 }
 
 
