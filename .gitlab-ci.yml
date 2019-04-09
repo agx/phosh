@@ -1,3 +1,8 @@
+stages:
+ - build
+ - test
+ - package
+
 variables:
   DEPS: build-essential git wget
   WANT_BUILD_DEPS: "true"
@@ -82,3 +87,12 @@ test:smoke:two-outputs:
       - output/*.png
     when: always
 
+package:deb:
+  <<: *tags
+  stage: package
+  script:
+    - dpkg-buildpackage -uc -us
+    - cp ../*.deb .
+  artifacts:
+    paths:
+      - "*.deb"
