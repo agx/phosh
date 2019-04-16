@@ -111,6 +111,7 @@ libgvc = subproject('gvc',
     'alsa=false'
   ])
 libgvc_dep = libgvc.get_variable('libgvc_dep')
+libnm_dep = dependency('libnm', version: '>= 1.14')
 
 subdir('data')
 subdir('po')

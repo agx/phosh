@@ -67,6 +67,7 @@ typedef struct
   PhoshMonitorManager *monitor_manager;
   PhoshLockscreenManager *lockscreen_manager;
   PhoshIdleManager *idle_manager;
+  PhoshWifiManager *wifi_manager;
 
 } PhoshShellPrivate;
 
@@ -473,6 +474,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_pointer (&priv->background, phosh_cp_widget_destroy);
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
+  g_clear_object (&priv->wifi_manager);
   phosh_system_prompter_unregister ();
   phosh_session_unregister ();
 
@@ -675,6 +677,22 @@ phosh_shell_get_monitor_manager (PhoshShell *self)
 
   g_return_val_if_fail (PHOSH_IS_MONITOR_MANAGER (priv->monitor_manager), NULL);
   return priv->monitor_manager;
+}
+
+
+PhoshWifiManager *
+phosh_shell_get_wifi_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->wifi_manager)
+      priv->wifi_manager = phosh_wifi_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (priv->wifi_manager), NULL);
+  return priv->wifi_manager;
 }
 
 
