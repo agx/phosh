@@ -14,7 +14,6 @@
 #include "wwan/phosh-wwan-mm.h"
 
 #define WWAN_INFO_DEFAULT_ICON_SIZE 24
-#define WWAN_INFO_WWAN_NUM_SIGNALS 4
 
 /**
  * SECTION:phosh-wwan-info
@@ -27,7 +26,6 @@ typedef struct
   PhoshWWanMM *wwan;
   GtkStyleContext *style_context;
   gint size;
-  guint wwan_signal_ids[WWAN_INFO_WWAN_NUM_SIGNALS];
 
 } PhoshWWanInfoPrivate;
 
@@ -215,12 +213,10 @@ phosh_wwan_info_constructed (GObject *object)
   priv->style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
   priv->wwan = phosh_wwan_mm_new();
 
-  g_assert (WWAN_INFO_WWAN_NUM_SIGNALS == g_strv_length(signals));
-  for (int i = 0; i < WWAN_INFO_WWAN_NUM_SIGNALS; i++) {
-    priv->wwan_signal_ids[i] = g_signal_connect_swapped (priv->wwan,
-                                                         signals[i],
-                                                         G_CALLBACK (update_icon_data),
-                                                         self);
+  for (int i = 0; i < g_strv_length(signals); i++) {
+    g_signal_connect_swapped (priv->wwan, signals[i],
+                              G_CALLBACK (update_icon_data),
+                              self);
   }
 
   update_icon_data (self, NULL, NULL);
@@ -230,15 +226,11 @@ phosh_wwan_info_constructed (GObject *object)
 static void
 phosh_wwan_info_dispose (GObject *object)
 {
-  PhoshWWanInfoPrivate *priv = phosh_wwan_info_get_instance_private (PHOSH_WWAN_INFO(object));
+  PhoshWWanInfo *self = PHOSH_WWAN_INFO(object);
+  PhoshWWanInfoPrivate *priv = phosh_wwan_info_get_instance_private (self);
 
   if (priv->wwan) {
-    for (int i=0; i < WWAN_INFO_WWAN_NUM_SIGNALS; i++) {
-      if (priv->wwan_signal_ids[i] > 0) {
-        g_signal_handler_disconnect (priv->wwan, priv->wwan_signal_ids[i]);
-        priv->wwan_signal_ids[i] = 0;
-      }
-    }
+    g_signal_handlers_disconnect_by_data (priv->wwan, self);
     g_clear_object (&priv->wwan);
   }
 
