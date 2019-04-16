@@ -36,6 +36,7 @@
 #include "settings.h"
 #include "system-prompter.h"
 #include "util.h"
+#include "wifiinfo.h"
 #include "wwaninfo.h"
 
 
@@ -498,6 +499,7 @@ static void
 type_setup (void)
 {
   phosh_battery_info_get_type();
+  phosh_wifi_info_get_type();
   phosh_wwan_info_get_type();
 }
 

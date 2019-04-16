@@ -10,6 +10,7 @@
 
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
+#include "wifimanager.h"
 
 #include <gtk/gtk.h>
 

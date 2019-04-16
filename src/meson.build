@@ -60,6 +60,8 @@ phosh_sources = [
   'util.h',
   'wifimanager.c',
   'wifimanager.h',
+  'wifiinfo.c',
+  'wifiinfo.h',
   'wwaninfo.c',
   'wwaninfo.h',
   generated_dbus_sources,
