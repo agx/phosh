@@ -151,7 +151,7 @@ pixbuf_overlay_access_tec (PhoshWWanInfo *self,
 
 
 static void
-update_icon_data(PhoshWWanInfo *self, PhoshWWanMM *wwan, gpointer unused)
+update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
 {
   PhoshWWanInfoPrivate *priv;
   guint quality;
