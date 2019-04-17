@@ -478,6 +478,17 @@ phosh_shell_dispose (GObject *object)
 }
 
 
+static gboolean
+setup_idle_cb (PhoshShell *self)
+{
+  panels_create (self);
+  /* Create background after panel since it needs the panel's size */
+  background_create (self);
+
+  return FALSE;
+}
+
+
 static void
 phosh_shell_constructed (GObject *object)
 {
@@ -500,19 +511,18 @@ phosh_shell_constructed (GObject *object)
     priv->primary_monitor = phosh_monitor_manager_get_monitor (
       priv->monitor_manager, 0);
   }
-
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
                                     "/sm/puri/phosh/icons");
   env_setup ();
   css_setup (self);
-  panels_create (self);
-  /* Create background after panel since it needs the panel's size */
-  background_create (self);
+
   priv->lockscreen_manager = phosh_lockscreen_manager_new ();
   priv->idle_manager = phosh_idle_manager_get_default();
 
   phosh_session_register ("sm.puri.Phosh");
   phosh_system_prompter_register ();
+
+  g_idle_add ((GSourceFunc) setup_idle_cb, self);
 }
 
 
@@ -711,6 +721,7 @@ phosh_shell_get_default (void)
   static PhoshShell *instance;
 
   if (instance == NULL) {
+    g_debug("Creating shell");
     instance = g_object_new (PHOSH_TYPE_SHELL, NULL);
     g_object_add_weak_pointer (G_OBJECT (instance), (gpointer *)&instance);
   }
