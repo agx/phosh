@@ -22,6 +22,7 @@
 #include "config.h"
 #include "shell.h"
 
+#include "batteryinfo.h"
 #include "background.h"
 #include "favorites.h"
 #include "home.h"
@@ -35,6 +36,7 @@
 #include "settings.h"
 #include "system-prompter.h"
 #include "util.h"
+#include "wwaninfo.h"
 
 
 enum {
@@ -489,6 +491,15 @@ setup_idle_cb (PhoshShell *self)
 }
 
 
+/* Load all types that might be used in UI files */
+static void
+type_setup (void)
+{
+  phosh_battery_info_get_type();
+  phosh_wwan_info_get_type();
+}
+
+
 static void
 phosh_shell_constructed (GObject *object)
 {
@@ -515,6 +526,7 @@ phosh_shell_constructed (GObject *object)
                                     "/sm/puri/phosh/icons");
   env_setup ();
   css_setup (self);
+  type_setup ();
 
   priv->lockscreen_manager = phosh_lockscreen_manager_new ();
   priv->idle_manager = phosh_idle_manager_get_default();
