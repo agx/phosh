@@ -28,8 +28,6 @@ static GParamSpec *props[PHOSH_LOCKSCREEN_MANAGER_PROP_LAST_PROP];
 
 
 typedef struct {
-  GObject parent;
-
   PhoshLockscreen *lockscreen;     /* phone display lock screen */
   PhoshSessionPresence *presence;  /* gnome-session's presence interface */
   GPtrArray *shields;              /* other outputs */
