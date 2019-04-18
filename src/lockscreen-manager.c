@@ -195,6 +195,8 @@ phosh_lockscreen_manager_constructed (GObject *object)
   PhoshLockscreenManager *self = PHOSH_LOCKSCREEN_MANAGER (object);
   PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
 
+  G_OBJECT_CLASS (phosh_lockscreen_manager_parent_class)->constructed (object);
+
   priv->settings = g_settings_new ("org.gnome.desktop.session");
   g_settings_bind (priv->settings, "idle-delay", self, "timeout", G_SETTINGS_BIND_GET);
 
