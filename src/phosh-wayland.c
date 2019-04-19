@@ -148,11 +148,7 @@ phosh_wayland_constructed (GObject *object)
   wl_registry_add_listener (priv->registry, &registry_listener, self);
 
   /* Wait until we have been notified about the wayland globals we require */
-  num_outputs = priv->wl_outputs->len;
-  if (!num_outputs || !priv->layer_shell || !priv->idle_manager ||
-      !priv->input_inhibit_manager || !priv->phosh_private || !priv->xdg_wm_base ||
-      !priv->zxdg_output_manager_v1)
-    wl_display_roundtrip (priv->display);
+  phosh_wayland_roundtrip (self);
   num_outputs = priv->wl_outputs->len;
   if (!num_outputs || !priv->layer_shell || !priv->idle_manager ||
       !priv->input_inhibit_manager || !priv->xdg_wm_base ||
@@ -285,3 +281,9 @@ phosh_wayland_get_wl_outputs (PhoshWayland *self)
   return priv->wl_outputs;
 }
 
+void
+phosh_wayland_roundtrip (PhoshWayland *self)
+{
+  PhoshWaylandPrivate *priv = phosh_wayland_get_instance_private (self);
+  wl_display_roundtrip(priv->display);
+}
