@@ -15,6 +15,7 @@ Build-Depends:
  libwayland-dev,
  meson,
 # to run the tests
+ at-spi2-core,
  xvfb,
  xauth,
 Standards-Version: 4.1.3
