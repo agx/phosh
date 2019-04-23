@@ -134,7 +134,19 @@ registry_handle_global_remove (void *data,
                                struct wl_registry *registry,
                                uint32_t name)
 {
-  // TODO
+  PhoshWayland *self = data;
+  PhoshWaylandPrivate *priv = phosh_wayland_get_instance_private (self);
+  struct wl_output *wl_output;
+
+  wl_output = g_hash_table_lookup (priv->wl_outputs, GINT_TO_POINTER (name));
+  if (wl_output) {
+    g_debug ("Output %d removed", name);
+    g_hash_table_remove (priv->wl_outputs, GINT_TO_POINTER (name));
+    wl_output_destroy (wl_output);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WAYLAND_PROP_WL_OUTPUTS]);
+  } else {
+    g_warning ("Global %d removed but not handled", name);
+  }
 }
 
 
