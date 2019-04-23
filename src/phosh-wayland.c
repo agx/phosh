@@ -21,6 +21,13 @@
  * them available to Phosh's other classes.
  */
 
+enum {
+  PHOSH_WAYLAND_PROP_0,
+  PHOSH_WAYLAND_PROP_WL_OUTPUTS,
+  PHOSH_WAYLAND_PROP_LAST_PROP,
+};
+static GParamSpec *props[PHOSH_WAYLAND_PROP_LAST_PROP];
+
 typedef struct {
   struct gamma_control_manager *gamma_control_manager;
   struct org_kde_kwin_idle *idle_manager;
@@ -34,6 +41,7 @@ typedef struct {
   struct zxdg_output_manager_v1 *zxdg_output_manager_v1;
   struct zwlr_output_manager_v1 *zwlr_output_manager_v1;
   GPtrArray *wl_outputs;
+  GHashTable *wl_outputs2;
 } PhoshWaylandPrivate;
 
 
@@ -73,7 +81,10 @@ registry_handle_global (void *data,
       registry,
       name,
       &wl_output_interface, 2);
+    g_debug ("Got new output %p", output);
     g_ptr_array_add (priv->wl_outputs, output);
+    g_hash_table_insert (priv->wl_outputs2, GINT_TO_POINTER (name), output);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WAYLAND_PROP_WL_OUTPUTS]);
   } else if (!strcmp (interface, "org_kde_kwin_idle")) {
     priv->idle_manager = wl_registry_bind (
       registry,
@@ -134,6 +145,41 @@ static const struct wl_registry_listener registry_listener = {
 
 
 static void
+phosh_wayland_set_property (GObject *object,
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
+{
+  switch (property_id) {
+    /* all props are read only */
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
+phosh_wayland_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
+{
+  PhoshWayland *self = PHOSH_WAYLAND (object);
+  PhoshWaylandPrivate *priv = phosh_wayland_get_instance_private(self);
+
+  switch (property_id) {
+  case PHOSH_WAYLAND_PROP_WL_OUTPUTS:
+    g_value_set_boxed (value, priv->wl_outputs2);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
 phosh_wayland_constructed (GObject *object)
 {
   PhoshWayland *self = PHOSH_WAYLAND (object);
@@ -183,6 +229,7 @@ phosh_wayland_dispose (GObject *object)
   PhoshWaylandPrivate *priv = phosh_wayland_get_instance_private (self);
 
   g_clear_pointer (&priv->wl_outputs, g_ptr_array_unref);
+  g_clear_pointer (&priv->wl_outputs2, g_hash_table_destroy);
   G_OBJECT_CLASS (phosh_wayland_parent_class)->dispose (object);
 }
 
@@ -194,6 +241,17 @@ phosh_wayland_class_init (PhoshWaylandClass *klass)
 
   object_class->constructed = phosh_wayland_constructed;
   object_class->dispose = phosh_wayland_dispose;
+
+  object_class->set_property = phosh_wayland_set_property;
+  object_class->get_property = phosh_wayland_get_property;
+
+  props[PHOSH_WAYLAND_PROP_WL_OUTPUTS] =
+    g_param_spec_boxed ("wl-outputs",
+                        "Wayland Outputs",
+                        "The currently known wayland outputs",
+                        G_TYPE_HASH_TABLE,
+                        G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+  g_object_class_install_properties (object_class, PHOSH_WAYLAND_PROP_LAST_PROP, props);
 }
 
 
@@ -202,6 +260,7 @@ phosh_wayland_init (PhoshWayland *self)
 {
   PhoshWaylandPrivate *priv = phosh_wayland_get_instance_private (self);
   priv->wl_outputs = g_ptr_array_new ();
+  priv->wl_outputs2 = g_hash_table_new (g_direct_hash, g_direct_equal);
 }
 
 
