@@ -7,12 +7,28 @@ a trivial wayland shell for prototyping things.
 
 phosh is licensed under the GPLv3+.
 
+## Getting the source
+
+```sh
+    git clone https://source.puri.sm/Librem5/phosh
+    cd phosh
+```
+
+The master branch has the current development version.
+
 ## Dependencies
+On a Debian based system run
 
-    sudo apt-get install libgcr-3-dev libgnome-desktop-3-dev libgtk-3-dev libpam0g-dev libupower-glib-dev libwayland-dev meson
+```sh
+    sudo apt-get -y install build-essential
+    sudo apt-get -y build-dep .
+```
 
-Until distros ship [libhandy](https://source.puri.sm/Librem5/libhandy) you
-need to build that from source as well.
+For an explicit list of dependencies check the `Build-Depends` entry in the
+[debian/control][] file.
+
+Until distros ship [libhandy](https://source.puri.sm/Librem5/libhandy) you need
+to build that from source. More details are in the [gitlab-ci.yml][] file.
 
 ## Building
 
@@ -83,3 +99,6 @@ Please use zanata for translations at https://translate.zanata.org/project/view/
 * XMPP: phosh@conference.sigxcpu.org
 
 For details see the [developer documentation](https://developer.puri.sm/Contact.html).
+
+[gitlab-ci.yml]: https://source.puri.sm/Librem5/phosh/blob/master/.gitlab-ci.yml
+[debian/control]: https://source.puri.sm/Librem5/phosh/blob/master/debian/control
