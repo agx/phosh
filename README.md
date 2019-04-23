@@ -1,4 +1,5 @@
 # Phosh
+[![Pipeline status](https://source.puri.sm/Librem5/phosh/badges/master/build.svg)](https://source.puri.sm/Librem5/phosh/commits/master)
 
 a trivial wayland shell for prototyping things.
 
