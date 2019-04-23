@@ -18,6 +18,13 @@
 #include <gdk/gdkwayland.h>
 
 
+enum {
+  SIGNAL_MONITOR_ADDED,
+  SIGNAL_MONITOR_REMOVED,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
+
 static void phosh_monitor_manager_display_config_init (
   PhoshDisplayDbusDisplayConfigIface *iface);
 
@@ -734,6 +741,63 @@ on_bus_acquired (GDBusConnection *connection,
 }
 
 
+static PhoshMonitor *
+find_monitor_by_wl_output (PhoshMonitorManager *self, struct wl_output *output)
+{
+  for (int i = 0; i < self->monitors->len; i++) {
+    PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
+    if (monitor->wl_output == output)
+        return monitor;
+  }
+  return NULL;
+}
+
+static void
+on_monitor_removed (PhoshMonitorManager *self,
+                    PhoshMonitor        *monitor,
+                    gpointer            *data)
+{
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+  g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
+
+  g_debug("Monitor %p (%s) removed", monitor, monitor->name);
+  g_ptr_array_remove (self->monitors, monitor);
+}
+
+
+static void
+on_wl_outputs_changed (PhoshMonitorManager *self, GParamSpec *pspec, PhoshWayland *wl)
+{
+  GHashTable *wl_outputs = phosh_wayland_get_wl_outputs2 (wl);
+  GHashTableIter iter;
+  struct wl_output *wl_output;
+  PhoshMonitor *monitor;
+
+  /* Check for gone outputs */
+  for (int i = 0; i < self->monitors->len; i++) {
+    monitor = g_ptr_array_index (self->monitors, i);
+    if (!phosh_wayland_has_wl_output2 (wl, monitor->wl_output)) {
+      g_debug ("Monitor %p (%s) gone", monitor, monitor->name);
+      g_signal_emit (self, signals[SIGNAL_MONITOR_REMOVED], 0, monitor);
+      /* The monitor is removed from monitors in the class'es default
+       * signal handler */
+      return;
+    }
+  }
+
+  /* Check for new outputs */
+  g_hash_table_iter_init (&iter, wl_outputs);
+  while (g_hash_table_iter_next (&iter, NULL, (gpointer)&wl_output)) {
+    if (!find_monitor_by_wl_output (self, wl_output)) {
+      monitor = phosh_monitor_new_from_wl_output (wl_output);
+      phosh_monitor_manager_add_monitor (self, monitor);
+      g_debug ("Monitor %p added", monitor);
+      return;
+    }
+  }
+}
+
+
 static void
 phosh_monitor_manager_finalize (GObject *object)
 {
@@ -763,6 +827,11 @@ phosh_monitor_manager_constructed (GObject *object)
 
   g_signal_connect (self, "notify::power-save-mode",
                     G_CALLBACK (power_save_mode_changed_cb), NULL);
+
+  g_signal_connect_swapped (phosh_wayland_get_default(),
+                            "notify::wl-outputs",
+                            G_CALLBACK (on_wl_outputs_changed),
+                            self);
 }
 
 
@@ -773,6 +842,35 @@ phosh_monitor_manager_class_init (PhoshMonitorManagerClass *klass)
 
   object_class->constructed = phosh_monitor_manager_constructed;
   object_class->finalize = phosh_monitor_manager_finalize;
+
+  /**
+   * PhoshMonitorManager::monitor-added:
+   * @manager: The #PhoshMonitorManager emitting the signal.
+   * @monitor: The #PhoshMonitor being added.
+   *
+   * Emitted whenever a monitor is about to be added. Note
+   * that the monitor might not yet be fully initialized. Use
+   * phosh_monitor_is_configured() to check or listen for
+   * the #PhoshMonitor::configured signal.
+   */
+  signals[SIGNAL_MONITOR_ADDED] = g_signal_new (
+    "monitor-added",
+    G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+    NULL, G_TYPE_NONE, 1, PHOSH_TYPE_MONITOR);
+
+  /**
+   * PhoshMonitorManager::monitor-removed:
+   * @manager: The #PhoshMonitorManager emitting the signal.
+   * @monitor: The #PhoshMonitor being removed.
+   *
+   * Emitted whenever a monitor is about to be removed.
+   */
+  signals[SIGNAL_MONITOR_REMOVED] = g_signal_new_class_handler (
+    "monitor-removed",
+    G_TYPE_FROM_CLASS (klass),
+    G_SIGNAL_RUN_CLEANUP,
+    G_CALLBACK (on_monitor_removed),
+    NULL, NULL,  NULL, G_TYPE_NONE, 1, PHOSH_TYPE_MONITOR);
 }
 
 
@@ -794,6 +892,7 @@ void
 phosh_monitor_manager_add_monitor (PhoshMonitorManager *self, PhoshMonitor *monitor)
 {
   g_ptr_array_add (self->monitors, monitor);
+  g_signal_emit (self, signals[SIGNAL_MONITOR_ADDED], 0, monitor);
 }
 
 
