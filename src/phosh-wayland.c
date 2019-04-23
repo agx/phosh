@@ -361,6 +361,33 @@ phosh_wayland_get_zwlr_output_manager_v1 (PhoshWayland *self)
 }
 
 
+GHashTable*
+phosh_wayland_get_wl_outputs2 (PhoshWayland *self)
+{
+  PhoshWaylandPrivate *priv = phosh_wayland_get_instance_private (self);
+  return priv->wl_outputs2;
+}
+
+
+gboolean
+phosh_wayland_has_wl_output2 (PhoshWayland *self, struct wl_output *wl_output)
+{
+  PhoshWaylandPrivate *priv;
+  GHashTableIter iter;
+  gpointer key, value;
+
+  g_return_val_if_fail (PHOSH_IS_WAYLAND (self), FALSE);
+  priv = phosh_wayland_get_instance_private (self);
+
+  g_hash_table_iter_init (&iter, priv->wl_outputs2);
+  while (g_hash_table_iter_next (&iter, &key, &value)) {
+    if ((struct wl_output *) value == wl_output)
+      return TRUE;
+  }
+  return FALSE;
+}
+
+
 GPtrArray*
 phosh_wayland_get_wl_outputs (PhoshWayland *self)
 {
