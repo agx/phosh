@@ -31,7 +31,6 @@ typedef struct {
   PhoshLockscreen *lockscreen;     /* phone display lock screen */
   PhoshSessionPresence *presence;  /* gnome-session's presence interface */
   GPtrArray *shields;              /* other outputs */
-  gulong unlock_handler_id;
   GSettings *settings;
 
   gint timeout;                    /* timeout in seconds before screen locks */
@@ -57,10 +56,7 @@ lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (lockscreen));
   g_return_if_fail (lockscreen == PHOSH_LOCKSCREEN (priv->lockscreen));
 
-  if (priv->unlock_handler_id) {
-    g_signal_handler_disconnect (lockscreen, priv->unlock_handler_id);
-    priv->unlock_handler_id = 0;
-  }
+  g_signal_handlers_disconnect_by_data (lockscreen, self);
   g_signal_handlers_disconnect_by_data (monitor_manager, self);
   g_clear_pointer (&priv->lockscreen, phosh_cp_widget_destroy);
 
@@ -154,11 +150,10 @@ lockscreen_lock (PhoshLockscreenManager *self)
     lock_monitor (self, monitor);
   }
 
-  priv->unlock_handler_id = g_signal_connect_swapped (
-    priv->lockscreen,
-    "lockscreen-unlock",
-    G_CALLBACK(lockscreen_unlock_cb),
-    self);
+  g_signal_connect_swapped (priv->lockscreen,
+                            "lockscreen-unlock",
+                            G_CALLBACK(lockscreen_unlock_cb),
+                            self);
 
   priv->locked = TRUE;
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED]);
@@ -228,10 +223,7 @@ phosh_lockscreen_manager_dispose (GObject *object)
 
   g_clear_pointer (&priv->shields, g_ptr_array_unref);
   if (priv->lockscreen) {
-    if (priv->unlock_handler_id) {
-      g_signal_handler_disconnect (priv->lockscreen, priv->unlock_handler_id);
-      priv->unlock_handler_id = 0;
-    }
+    g_signal_handlers_disconnect_by_data (priv->lockscreen, self);
     g_clear_pointer (&priv->lockscreen, phosh_cp_widget_destroy);
   }
   g_clear_object (&priv->settings);
