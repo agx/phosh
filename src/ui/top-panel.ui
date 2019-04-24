@@ -12,9 +12,6 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="receives_default">False</property>
-        <style>
-           <class name="phosh-panel-btn"/>
-        </style>
         <child>
           <object class="GtkBox" id="box_top_panel">
             <property name="visible">True</property>
@@ -25,10 +22,22 @@
                 <property name="can_focus">False</property>
                 <child>
                   <object class="PhoshWWanInfo" id="wwaninfo">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin-left">8</property>
-              </object>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin-left">8</property>
+		  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="PhoshWifiInfo" id="wifiinfo">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin-left">8</property>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
@@ -44,10 +53,10 @@
             </child>
             <child type="center">
               <object class="GtkLabel" id="lbl_clock">
-                <property name="label">00:00</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="label">00:00</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -82,6 +91,9 @@
             </child>
           </object>
         </child>
+        <style>
+          <class name="phosh-panel-btn"/>
+        </style>
       </object>
     </child>
   </template>

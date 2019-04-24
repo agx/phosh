@@ -147,9 +147,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
                                                "/sm/puri/phosh/ui/top-panel.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_top_panel);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_clock);
-  PHOSH_TYPE_WWAN_INFO; /* make sure the type is known */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, wwaninfo);
-  PHOSH_TYPE_BATTERY_INFO; /* make sure the type is known */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, batteryinfo);
 }
 

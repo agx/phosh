@@ -22,6 +22,7 @@
 #include "config.h"
 #include "shell.h"
 
+#include "batteryinfo.h"
 #include "background.h"
 #include "favorites.h"
 #include "home.h"
@@ -35,6 +36,8 @@
 #include "settings.h"
 #include "system-prompter.h"
 #include "util.h"
+#include "wifiinfo.h"
+#include "wwaninfo.h"
 
 
 enum {
@@ -65,6 +68,7 @@ typedef struct
   PhoshMonitorManager *monitor_manager;
   PhoshLockscreenManager *lockscreen_manager;
   PhoshIdleManager *idle_manager;
+  PhoshWifiManager *wifi_manager;
 
 } PhoshShellPrivate;
 
@@ -471,10 +475,32 @@ phosh_shell_dispose (GObject *object)
   g_clear_pointer (&priv->background, phosh_cp_widget_destroy);
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
+  g_clear_object (&priv->wifi_manager);
   phosh_system_prompter_unregister ();
   phosh_session_unregister ();
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->dispose (object);
+}
+
+
+static gboolean
+setup_idle_cb (PhoshShell *self)
+{
+  panels_create (self);
+  /* Create background after panel since it needs the panel's size */
+  background_create (self);
+
+  return FALSE;
+}
+
+
+/* Load all types that might be used in UI files */
+static void
+type_setup (void)
+{
+  phosh_battery_info_get_type();
+  phosh_wifi_info_get_type();
+  phosh_wwan_info_get_type();
 }
 
 
@@ -500,19 +526,19 @@ phosh_shell_constructed (GObject *object)
     priv->primary_monitor = phosh_monitor_manager_get_monitor (
       priv->monitor_manager, 0);
   }
-
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
                                     "/sm/puri/phosh/icons");
   env_setup ();
   css_setup (self);
-  panels_create (self);
-  /* Create background after panel since it needs the panel's size */
-  background_create (self);
+  type_setup ();
+
   priv->lockscreen_manager = phosh_lockscreen_manager_new ();
   priv->idle_manager = phosh_idle_manager_get_default();
 
   phosh_session_register ("sm.puri.Phosh");
   phosh_system_prompter_register ();
+
+  g_idle_add ((GSourceFunc) setup_idle_cb, self);
 }
 
 
@@ -656,6 +682,22 @@ phosh_shell_get_monitor_manager (PhoshShell *self)
 }
 
 
+PhoshWifiManager *
+phosh_shell_get_wifi_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->wifi_manager)
+      priv->wifi_manager = phosh_wifi_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (priv->wifi_manager), NULL);
+  return priv->wifi_manager;
+}
+
+
 /**
  * Returns the usable area in pixels usable by a client on the phone
  * display
@@ -711,6 +753,7 @@ phosh_shell_get_default (void)
   static PhoshShell *instance;
 
   if (instance == NULL) {
+    g_debug("Creating shell");
     instance = g_object_new (PHOSH_TYPE_SHELL, NULL);
     g_object_add_weak_pointer (G_OBJECT (instance), (gpointer *)&instance);
   }

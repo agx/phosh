@@ -10,6 +10,7 @@
 
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
+#include "wifimanager.h"
 
 #include <gtk/gtk.h>
 
@@ -31,4 +32,5 @@ void                 phosh_shell_unlock          (PhoshShell *self);
 void                 phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor);
 PhoshMonitor        *phosh_shell_get_primary_monitor (PhoshShell *self);
 PhoshMonitorManager *phosh_shell_get_monitor_manager (PhoshShell *self);
+PhoshWifiManager    *phosh_shell_get_wifi_manager    (PhoshShell *self);
 #endif /* PHOSH_H */
