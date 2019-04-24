@@ -813,6 +813,9 @@ static void
 phosh_monitor_manager_constructed (GObject *object)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
+  PhoshWayland *wl = phosh_wayland_get_default();
+  GHashTableIter iter;
+  struct wl_output *wl_output;
 
   G_OBJECT_CLASS (phosh_monitor_manager_parent_class)->constructed (object);
   self->dbus_name_id = g_bus_own_name (G_BUS_TYPE_SESSION,
@@ -832,6 +835,12 @@ phosh_monitor_manager_constructed (GObject *object)
                             "notify::wl-outputs",
                             G_CALLBACK (on_wl_outputs_changed),
                             self);
+  /* Get initial output list */
+  g_hash_table_iter_init (&iter, phosh_wayland_get_wl_outputs2 (wl));
+  while (g_hash_table_iter_next (&iter, NULL, (gpointer)&wl_output)) {
+    PhoshMonitor *monitor = phosh_monitor_new_from_wl_output (wl_output);
+    phosh_monitor_manager_add_monitor (self, monitor);
+  }
 }
 
 
