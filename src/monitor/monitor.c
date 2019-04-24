@@ -22,6 +22,12 @@ enum {
 };
 static GParamSpec *props[PHOSH_MONITOR_PROP_LAST_PROP];
 
+enum {
+  SIGNAL_CONFIGURED,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
+
 G_DEFINE_TYPE (PhoshMonitor, phosh_monitor, G_TYPE_OBJECT)
 
 static void
@@ -60,6 +66,9 @@ output_handle_done (void             *data,
   PhoshMonitor *self = PHOSH_MONITOR (data);
 
   self->wl_output_done = TRUE;
+
+  if (phosh_monitor_is_configured (self))
+    g_signal_emit (self, signals[SIGNAL_CONFIGURED], 0);
 }
 
 
@@ -144,6 +153,9 @@ xdg_output_v1_handle_done (void *data,
   PhoshMonitor *self = PHOSH_MONITOR (data);
 
   self->xdg_output_done = TRUE;
+
+  if (phosh_monitor_is_configured (self))
+    g_signal_emit (self, signals[SIGNAL_CONFIGURED], 0);
 }
 
 
@@ -281,6 +293,19 @@ phosh_monitor_class_init (PhoshMonitorClass *klass)
                           G_PARAM_CONSTRUCT_ONLY |
                           G_PARAM_STATIC_STRINGS);
   g_object_class_install_properties (object_class, PHOSH_MONITOR_PROP_LAST_PROP, props);
+
+  /**
+   * PhoshMonitor::configured:
+   * @monitor: The #PhoshManager emitting the signal.
+   *
+   * Emitted whenever a monitor is fully configured (that is it
+   * received all configuration data from the various wayland
+   * protocols).
+   */
+  signals[SIGNAL_CONFIGURED] = g_signal_new (
+    "configured",
+    G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+    NULL, G_TYPE_NONE, 0);
 }
 
 
