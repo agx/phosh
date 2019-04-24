@@ -5,9 +5,7 @@
  */
 
 /**
- * A monitor. Currently we just wrap GDK but this will change once we have
- * outputdevice handling in wlroots:
- * https://github.com/swaywm/wlr-protocols/issues/15
+ * A monitor matching a {wl,xdg}_output.
  */
 
 #define G_LOG_DOMAIN "phosh-monitor"
