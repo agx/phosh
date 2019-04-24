@@ -768,7 +768,7 @@ on_monitor_removed (PhoshMonitorManager *self,
 static void
 on_wl_outputs_changed (PhoshMonitorManager *self, GParamSpec *pspec, PhoshWayland *wl)
 {
-  GHashTable *wl_outputs = phosh_wayland_get_wl_outputs2 (wl);
+  GHashTable *wl_outputs = phosh_wayland_get_wl_outputs (wl);
   GHashTableIter iter;
   struct wl_output *wl_output;
   PhoshMonitor *monitor;
@@ -776,7 +776,7 @@ on_wl_outputs_changed (PhoshMonitorManager *self, GParamSpec *pspec, PhoshWaylan
   /* Check for gone outputs */
   for (int i = 0; i < self->monitors->len; i++) {
     monitor = g_ptr_array_index (self->monitors, i);
-    if (!phosh_wayland_has_wl_output2 (wl, monitor->wl_output)) {
+    if (!phosh_wayland_has_wl_output (wl, monitor->wl_output)) {
       g_debug ("Monitor %p (%s) gone", monitor, monitor->name);
       g_signal_emit (self, signals[SIGNAL_MONITOR_REMOVED], 0, monitor);
       /* The monitor is removed from monitors in the class'es default
@@ -836,7 +836,7 @@ phosh_monitor_manager_constructed (GObject *object)
                             G_CALLBACK (on_wl_outputs_changed),
                             self);
   /* Get initial output list */
-  g_hash_table_iter_init (&iter, phosh_wayland_get_wl_outputs2 (wl));
+  g_hash_table_iter_init (&iter, phosh_wayland_get_wl_outputs (wl));
   while (g_hash_table_iter_next (&iter, NULL, (gpointer)&wl_output)) {
     PhoshMonitor *monitor = phosh_monitor_new_from_wl_output (wl_output);
     phosh_monitor_manager_add_monitor (self, monitor);

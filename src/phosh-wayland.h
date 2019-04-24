@@ -22,9 +22,8 @@
 G_DECLARE_FINAL_TYPE (PhoshWayland, phosh_wayland, PHOSH, WAYLAND, GObject)
 
 PhoshWayland                         *phosh_wayland_get_default (void);
-GPtrArray                            *phosh_wayland_get_wl_outputs (PhoshWayland *self);
-GHashTable                           *phosh_wayland_get_wl_outputs2 (PhoshWayland *self);
-gboolean                              phosh_wayland_has_wl_output2 (PhoshWayland *self,
+GHashTable                           *phosh_wayland_get_wl_outputs (PhoshWayland *self);
+gboolean                              phosh_wayland_has_wl_output  (PhoshWayland *self,
                                                                     struct wl_output *wl_output);
 struct gamma_control_manager         *phosh_wayland_get_gamma_control_manager (PhoshWayland *self);
 struct org_kde_kwin_idle             *phosh_wayland_get_org_kde_kwin_idle (PhoshWayland *self);
