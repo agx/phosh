@@ -509,20 +509,11 @@ phosh_shell_constructed (GObject *object)
 {
   PhoshShell *self = PHOSH_SHELL (object);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  PhoshWayland *wl = phosh_wayland_get_default();
-  GPtrArray *outputs;
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->constructed (object);
 
   priv->monitor_manager = phosh_monitor_manager_new ();
-  /* Add all initial outputs */
-  outputs = phosh_wayland_get_wl_outputs (wl);
-  for (int i = 0; i < outputs->len; i++) {
-     phosh_monitor_manager_add_monitor (
-       priv->monitor_manager,
-       phosh_monitor_new_from_wl_output(outputs->pdata[i]));
-  }
-  if (outputs->len) {
+  if (phosh_monitor_manager_get_num_monitors(priv->monitor_manager)) {
     priv->primary_monitor = phosh_monitor_manager_get_monitor (
       priv->monitor_manager, 0);
   }

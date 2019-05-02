@@ -31,7 +31,6 @@ typedef struct {
   PhoshLockscreen *lockscreen;     /* phone display lock screen */
   PhoshSessionPresence *presence;  /* gnome-session's presence interface */
   GPtrArray *shields;              /* other outputs */
-  gulong unlock_handler_id;
   GSettings *settings;
 
   gint timeout;                    /* timeout in seconds before screen locks */
@@ -51,14 +50,14 @@ static void
 lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
 {
   PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshMonitorManager *monitor_manager = phosh_shell_get_monitor_manager (shell);
 
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (lockscreen));
   g_return_if_fail (lockscreen == PHOSH_LOCKSCREEN (priv->lockscreen));
 
-  if (priv->unlock_handler_id) {
-    g_signal_handler_disconnect (lockscreen, priv->unlock_handler_id);
-    priv->unlock_handler_id = 0;
-  }
+  g_signal_handlers_disconnect_by_data (lockscreen, self);
+  g_signal_handlers_disconnect_by_data (monitor_manager, self);
   g_clear_pointer (&priv->lockscreen, phosh_cp_widget_destroy);
 
   /* Unlock all other outputs */
@@ -66,6 +65,47 @@ lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
 
   priv->locked = FALSE;
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED]);
+}
+
+
+/* Lock a particular monitor bringing up a shield */
+static void
+lock_monitor (PhoshLockscreenManager *self,
+              PhoshMonitor           *monitor)
+{
+  PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
+  PhoshWayland *wl = phosh_wayland_get_default ();
+
+  g_ptr_array_add (priv->shields, phosh_lockshield_new (
+                     phosh_wayland_get_zwlr_layer_shell_v1 (wl),
+                     monitor->wl_output));
+}
+
+
+static void
+on_monitor_removed (PhoshLockscreenManager *self,
+                    PhoshMonitor           *monitor,
+                    PhoshMonitorManager    *monitormanager)
+{
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
+
+  g_debug ("Monitor removed");
+  /* TODO: We just leave the widget dangling, it will be destroyed on
+   * unlock */
+}
+
+
+static void
+on_monitor_added (PhoshLockscreenManager *self,
+                  PhoshMonitor           *monitor,
+                  PhoshMonitorManager    *monitormanager)
+{
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
+
+  g_warning ("Monitor added");
+  lock_monitor (self, monitor);
 }
 
 
@@ -83,6 +123,17 @@ lockscreen_lock (PhoshLockscreenManager *self)
   primary_monitor = phosh_shell_get_primary_monitor (shell);
   g_return_if_fail (primary_monitor);
 
+  /* Listen for monitor changes */
+  g_signal_connect_object (monitor_manager, "monitor-added",
+                           G_CALLBACK (on_monitor_added),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  g_signal_connect_object (monitor_manager, "monitor-removed",
+                           G_CALLBACK (on_monitor_removed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
   /* The primary output gets the clock, keypad, ... */
   priv->lockscreen = PHOSH_LOCKSCREEN (phosh_lockscreen_new (
                                          phosh_wayland_get_zwlr_layer_shell_v1(wl),
@@ -96,16 +147,13 @@ lockscreen_lock (PhoshLockscreenManager *self)
 
     if (monitor == NULL || monitor == primary_monitor)
       continue;
-    g_ptr_array_add (priv->shields, phosh_lockshield_new (
-                       phosh_wayland_get_zwlr_layer_shell_v1 (wl),
-                       monitor->wl_output));
+    lock_monitor (self, monitor);
   }
 
-  priv->unlock_handler_id = g_signal_connect_swapped (
-    priv->lockscreen,
-    "lockscreen-unlock",
-    G_CALLBACK(lockscreen_unlock_cb),
-    self);
+  g_signal_connect_swapped (priv->lockscreen,
+                            "lockscreen-unlock",
+                            G_CALLBACK(lockscreen_unlock_cb),
+                            self);
 
   priv->locked = TRUE;
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED]);
@@ -175,10 +223,7 @@ phosh_lockscreen_manager_dispose (GObject *object)
 
   g_clear_pointer (&priv->shields, g_ptr_array_unref);
   if (priv->lockscreen) {
-    if (priv->unlock_handler_id) {
-      g_signal_handler_disconnect (priv->lockscreen, priv->unlock_handler_id);
-      priv->unlock_handler_id = 0;
-    }
+    g_signal_handlers_disconnect_by_data (priv->lockscreen, self);
     g_clear_pointer (&priv->lockscreen, phosh_cp_widget_destroy);
   }
   g_clear_object (&priv->settings);
