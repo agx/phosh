@@ -157,6 +157,15 @@ phosh-home, .phosh-panel {
     padding: 18px;
 }
 
+/* switcher */
+phosh-favorites {
+    background: rgba(0,0,0,0.6);
+}
+
+phosh-app-grid {
+    background: rgba(0,0,0,0.4);
+}
+
 phosh-app-grid-button {
     font-size: 0.8rem;
 }

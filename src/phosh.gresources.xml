@@ -2,6 +2,7 @@
 <gresources>
   <gresource prefix="/sm/puri/phosh">
     <file preprocess="xml-stripblanks">ui/activity.ui</file>
+    <file preprocess="xml-stripblanks">ui/app-grid.ui</file>
     <file preprocess="xml-stripblanks">ui/app-grid-button.ui</file>
     <file preprocess="xml-stripblanks">ui/overview.ui</file>
     <file preprocess="xml-stripblanks">ui/home.ui</file>

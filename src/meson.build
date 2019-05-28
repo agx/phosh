@@ -31,6 +31,8 @@ libphosh_sources = [
   phosh_enums,
   'activity.c',
   'activity.h',
+  'app-grid.c',
+  'app-grid.h',
   'app-grid-button.c',
   'app-grid-button.h',
   'app-list-model.c',
