@@ -33,6 +33,8 @@ libphosh_sources = [
   'activity.h',
   'app-grid-button.c',
   'app-grid-button.h',
+  'app-list-model.c',
+  'app-list-model.h',
   'favorites.c',
   'favorites.h',
   phosh_resources,
