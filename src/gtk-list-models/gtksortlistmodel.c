@@ -21,8 +21,7 @@
 
 #include "gtksortlistmodel.h"
 
-#include "gtkintl.h"
-#include "gtkprivate.h"
+#include <glib/gi18n-lib.h>
 
 /**
  * SECTION:gtksortlistmodel
@@ -311,10 +310,10 @@ gtk_sort_list_model_class_init (GtkSortListModelClass *class)
    */
   properties[PROP_HAS_SORT] =
       g_param_spec_boolean ("has-sort",
-                            P_("has sort"),
-                            P_("If a sort function is set for this model"),
+                            N_("has sort"),
+                            N_("If a sort function is set for this model"),
                             FALSE,
-                            GTK_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+                            G_PARAM_STATIC_STRINGS | G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
   /**
    * GtkSortListModel:item-type:
@@ -323,10 +322,10 @@ gtk_sort_list_model_class_init (GtkSortListModelClass *class)
    */
   properties[PROP_ITEM_TYPE] =
       g_param_spec_gtype ("item-type",
-                          P_("Item type"),
-                          P_("The type of items of this list"),
+                          N_("Item type"),
+                          N_("The type of items of this list"),
                           G_TYPE_OBJECT,
-                          GTK_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_EXPLICIT_NOTIFY);
+                          G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_EXPLICIT_NOTIFY);
 
   /**
    * GtkSortListModel:model:
@@ -335,10 +334,10 @@ gtk_sort_list_model_class_init (GtkSortListModelClass *class)
    */
   properties[PROP_MODEL] =
       g_param_spec_object ("model",
-                           P_("Model"),
-                           P_("The model being sorted"),
+                           N_("Model"),
+                           N_("The model being sorted"),
                            G_TYPE_LIST_MODEL,
-                           GTK_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_EXPLICIT_NOTIFY);
+                           G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (gobject_class, NUM_PROPERTIES, properties);
 }

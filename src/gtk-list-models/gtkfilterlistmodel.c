@@ -22,8 +22,8 @@
 #include "gtkfilterlistmodel.h"
 
 #include "gtkrbtreeprivate.h"
-#include "gtkintl.h"
-#include "gtkprivate.h"
+
+#include <glib/gi18n-lib.h>
 
 /**
  * SECTION:gtkfilterlistmodel
@@ -389,10 +389,10 @@ gtk_filter_list_model_class_init (GtkFilterListModelClass *class)
    */
   properties[PROP_HAS_FILTER] =
       g_param_spec_boolean ("has-filter",
-                            P_("has filter"),
-                            P_("If a filter is set for this model"),
+                            N_("has filter"),
+                            N_("If a filter is set for this model"),
                             FALSE,
-                            GTK_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+                            G_PARAM_STATIC_STRINGS | G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
   /**
    * GtkFilterListModel:item-type:
@@ -401,10 +401,10 @@ gtk_filter_list_model_class_init (GtkFilterListModelClass *class)
    */
   properties[PROP_ITEM_TYPE] =
       g_param_spec_gtype ("item-type",
-                          P_("Item type"),
-                          P_("The type of elements of this object"),
+                          N_("Item type"),
+                          N_("The type of elements of this object"),
                           G_TYPE_OBJECT,
-                          GTK_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_EXPLICIT_NOTIFY);
+                          G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_EXPLICIT_NOTIFY);
 
   /**
    * GtkFilterListModel:model:
@@ -413,10 +413,10 @@ gtk_filter_list_model_class_init (GtkFilterListModelClass *class)
    */
   properties[PROP_MODEL] =
       g_param_spec_object ("model",
-                           P_("Model"),
-                           P_("The model being filtered"),
+                           N_("Model"),
+                           N_("The model being filtered"),
                            G_TYPE_LIST_MODEL,
-                           GTK_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_EXPLICIT_NOTIFY);
+                           G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (gobject_class, NUM_PROPERTIES, properties);
 }

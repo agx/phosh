@@ -3,6 +3,7 @@ subdir('monitor')
 subdir('osk')
 subdir('wwan')
 subdir('settings')
+subdir('gtk-list-models')
 
 phosh_resources = gnome.compile_resources(
   'phosh-resources',
@@ -34,6 +35,7 @@ libphosh_sources = [
   'favorites.h',
   phosh_resources,
   wl_proto_sources,
+  phosh_gtk_list_models_sources,
 ]
 
 phosh_sources = [

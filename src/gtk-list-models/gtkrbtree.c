@@ -19,8 +19,6 @@
 
 #include "gtkrbtreeprivate.h"
 
-#include "gtkdebug.h"
-
 /* Define the following to print adds and removals to stdout.
  * The format of the printout will be suitable for addition as a new test to
  * testsuite/gtk/rbtree-crash.c
