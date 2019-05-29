@@ -31,6 +31,8 @@ libphosh_sources = [
   phosh_enums,
   'activity.c',
   'activity.h',
+  'app-grid-button.c',
+  'app-grid-button.h',
   'favorites.c',
   'favorites.h',
   phosh_resources,
