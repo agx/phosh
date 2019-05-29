@@ -14,6 +14,7 @@
 
 #include "favorites.h"
 #include "activity.h"
+#include "app-grid-button.h"
 #include "shell.h"
 #include "util.h"
 #include "toplevel-manager.h"
@@ -173,14 +174,10 @@ phosh_favorites_size_allocate (GtkWidget     *widget,
 }
 
 static void
-favorite_clicked_cb (GtkWidget *widget,
-                     GDesktopAppInfo *info)
+app_launched_cb (PhoshFavorites *self,
+                 GAppInfo       *info,
+                 GtkWidget      *widget)
 {
-  PhoshFavorites *self;
-
-  g_app_info_launch (G_APP_INFO (info), NULL, NULL, NULL);
-
-  self = g_object_get_data (G_OBJECT (widget), "favorites");
   g_return_if_fail (PHOSH_IS_FAVORITES (self));
 
   g_signal_emit (self, signals[ACTIVITY_LAUNCHED], 0);
@@ -189,39 +186,19 @@ favorite_clicked_cb (GtkWidget *widget,
 
 static GtkWidget*
 create_favorite (PhoshFavorites *self,
-                 const gchar *favorite,
-                 gint scale)
+                 const gchar    *favorite)
 {
-  g_autoptr (GIcon) icon = NULL;
   GDesktopAppInfo *info;
-  GtkImage *image;
   GtkWidget *btn;
 
   info = g_desktop_app_info_new (favorite);
   if (!info)
     return NULL;
 
-  icon = g_app_info_get_icon (G_APP_INFO (info));
+  btn = phosh_app_grid_button_new_favorite (G_APP_INFO (info));
 
-  image = GTK_IMAGE (gtk_image_new ());
-  /* Setting pixel size makes gtk ignore the size argument
-   * gtk_image_set_from_gicon () */
-  gtk_image_set_pixel_size (image, FAVORITES_ICON_SIZE);
-  gtk_image_set_from_gicon (image, icon, -1);
-
-  btn = gtk_button_new ();
-  gtk_style_context_remove_class (gtk_widget_get_style_context (btn),
-                                  "button");
-  gtk_style_context_remove_class (gtk_widget_get_style_context (btn),
-                                  "image-button");
-  gtk_style_context_add_class (gtk_widget_get_style_context (btn),
-                               "phosh-favorite");
-
-  gtk_button_set_image (GTK_BUTTON (btn), GTK_WIDGET (image));
-  g_object_set (image, "margin", 10, NULL);
-
-  g_object_set_data (G_OBJECT (btn), "favorites", self);
-  g_signal_connect (btn, "clicked", G_CALLBACK (favorite_clicked_cb), info);
+  g_signal_connect_swapped (btn, "app-launched",
+                            G_CALLBACK (app_launched_cb), self);
 
   return btn;
 }
@@ -242,7 +219,7 @@ favorites_changed (GSettings *settings,
 
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
-    btn = create_favorite (self, fav, 1);
+    btn = create_favorite (self, fav);
     if (btn) {
       gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_favorites), btn, -1);
       gtk_widget_show (btn);

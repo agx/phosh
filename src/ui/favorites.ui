@@ -84,6 +84,8 @@
                     <property name="homogeneous">True</property>
                     <property name="min_children_per_line">4</property>
                     <property name="max_children_per_line">4</property>
+                    <property name="column-spacing">20</property>
+                    <property name="row-spacing">20</property>
                     <property name="selection_mode">none</property>
                     <property name="activate_on_single_click">False</property>
                     <style>
