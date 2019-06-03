@@ -6,8 +6,10 @@
 
 #define G_LOG_DOMAIN "phosh-osk-manager"
 
+#include "lockscreen-manager.h"
 #include "osk-manager.h"
 #include "phosh-osk0-dbus.h"
+#include "shell.h"
 
 #include <gio/gio.h>
 
@@ -36,6 +38,7 @@ struct _PhoshOskManager
   /* Currently the only impl. We can use an interface once we support
    * different OSK types */
   PhoshOsk0SmPuriOSK0 *proxy;
+  PhoshLockscreenManager *lockscreen_manger;
   gboolean visible;
   gboolean available;
 };
@@ -109,6 +112,14 @@ on_availability_changed (PhoshOskManager *self, GParamSpec *pspec, gpointer unus
 
 
 static void
+on_lockscreen_manager_locked (PhoshOskManager *self, GParamSpec *pspec, gpointer unused)
+{
+  g_return_if_fail (PHOSH_IS_OSK_MANAGER (self));
+  phosh_osk_manager_set_visible (self, FALSE);
+}
+
+
+static void
 phosh_osk_manager_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
@@ -153,6 +164,7 @@ static void
 phosh_osk_manager_constructed (GObject *object)
 {
   PhoshOskManager *self = PHOSH_OSK_MANAGER (object);
+  PhoshShell *shell;
   GError *err = NULL;
 
   G_OBJECT_CLASS (phosh_osk_manager_parent_class)->constructed (object);
@@ -189,6 +201,14 @@ phosh_osk_manager_constructed (GObject *object)
                     G_CALLBACK (on_availability_changed),
                     NULL);
 
+  shell = phosh_shell_get_default();
+  self->lockscreen_manger = g_object_ref(phosh_shell_get_lockscreen_manager(shell));
+
+  g_signal_connect_swapped (self->lockscreen_manger,
+                            "notify::locked",
+                            G_CALLBACK (on_lockscreen_manager_locked),
+                            self);
+
   phosh_osk_manager_set_visible (self, phosh_osk0_sm_puri_osk0_get_visible (self->proxy));
 }
 
@@ -199,6 +219,7 @@ phosh_osk_manager_dispose (GObject *object)
   PhoshOskManager *self = PHOSH_OSK_MANAGER (object);
 
   g_clear_object (&self->proxy);
+  g_clear_object (&self->lockscreen_manger);
   G_OBJECT_CLASS (phosh_osk_manager_parent_class)->dispose (object);
 }
 

@@ -232,7 +232,7 @@ home_activated_cb (PhoshShell *self,
                             G_CALLBACK(close_favorites_menu_cb),
                             self);
 }
-
+ 
 
 static void
 setting_done_cb (PhoshShell *self,
