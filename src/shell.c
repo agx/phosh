@@ -30,6 +30,7 @@
 #include "lockscreen-manager.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
+#include "osk-manager.h"
 #include "panel.h"
 #include "phosh-wayland.h"
 #include "session.h"
@@ -68,8 +69,8 @@ typedef struct
   PhoshMonitorManager *monitor_manager;
   PhoshLockscreenManager *lockscreen_manager;
   PhoshIdleManager *idle_manager;
+  PhoshOskManager  *osk_manager;
   PhoshWifiManager *wifi_manager;
-
 } PhoshShellPrivate;
 
 
@@ -476,6 +477,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
   g_clear_object (&priv->wifi_manager);
+  g_clear_object (&priv->osk_manager);
   phosh_system_prompter_unregister ();
   phosh_session_unregister ();
 
@@ -688,6 +690,21 @@ phosh_shell_get_wifi_manager (PhoshShell *self)
   return priv->wifi_manager;
 }
 
+
+PhoshOskManager *
+phosh_shell_get_osk_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->osk_manager)
+      priv->osk_manager = phosh_osk_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_OSK_MANAGER (priv->osk_manager), NULL);
+  return priv->osk_manager;
+}
 
 /**
  * Returns the usable area in pixels usable by a client on the phone
