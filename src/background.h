@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0+
  */
 
-#ifndef PHOSH_BACKGROUND_H
-#define PHOSH_BACKGROUND_H
+#pragma once
 
 #include <gtk/gtk.h>
 #include "layersurface.h"
@@ -15,5 +14,3 @@
 G_DECLARE_FINAL_TYPE (PhoshBackground, phosh_background, PHOSH, BACKGROUND, PhoshLayerSurface)
 
 GtkWidget *phosh_background_new (gpointer layer_shell, gpointer wl_output, guint width, guint height);
-
-#endif /* PHOSH_BACKGROUND_H */

@@ -5,8 +5,7 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#ifndef PHOSH_H
-#define PHOSH_H
+#pragma once
 
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
@@ -33,4 +32,3 @@ void                 phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMon
 PhoshMonitor        *phosh_shell_get_primary_monitor (PhoshShell *self);
 PhoshMonitorManager *phosh_shell_get_monitor_manager (PhoshShell *self);
 PhoshWifiManager    *phosh_shell_get_wifi_manager    (PhoshShell *self);
-#endif /* PHOSH_H */

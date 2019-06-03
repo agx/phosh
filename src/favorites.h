@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0+
  */
 
-#ifndef PHOSH_FAVORITES_H
-#define PHOSH_FAVORITES_H
+#pragma once
 
 #include <gtk/gtk.h>
 
@@ -14,5 +13,3 @@
 G_DECLARE_FINAL_TYPE (PhoshFavorites, phosh_favorites, PHOSH, FAVORITES, GtkWindow)
 
 GtkWidget * phosh_favorites_new (void);
-
-#endif /* PHOSH_FAVORITES_H */
