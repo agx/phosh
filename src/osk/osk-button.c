@@ -23,46 +23,41 @@
  *
  * The #PhoshOskButton is responsible for toggling the on screen keyboard
  */
-typedef struct
-{
-  PhoshOskManager *osk;
-  gboolean setting_visibility;
-} PhoshOskButtonPrivate;
-
-typedef struct _PhoshOskButton
+struct _PhoshOskButton
 {
   GtkToggleButton parent;
-} PhoshOskButton;
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshOskButton, phosh_osk_button, GTK_TYPE_TOGGLE_BUTTON)
+  PhoshOskManager *osk;
+  gboolean setting_visibility;
+};
+
+G_DEFINE_TYPE (PhoshOskButton, phosh_osk_button, GTK_TYPE_TOGGLE_BUTTON)
 
 
 static void
 toggled_cb (PhoshOskButton *self, gpointer data)
 {
-  PhoshOskButtonPrivate *priv = phosh_osk_button_get_instance_private (self);
   gboolean visible, active;
 
-  priv->setting_visibility = TRUE;
-  visible = phosh_osk_manager_get_visible (priv->osk);
+  self->setting_visibility = TRUE;
+  visible = phosh_osk_manager_get_visible (self->osk);
 
   active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self));
   if (visible != active)
-    phosh_osk_manager_set_visible (priv->osk, active);
+    phosh_osk_manager_set_visible (self->osk, active);
 
-  priv->setting_visibility = FALSE;
+  self->setting_visibility = FALSE;
 }
 
 
 static void
 on_osk_availability_changed (PhoshOskButton *self, GParamSpec *pspec, PhoshOskManager *osk)
 {
-  PhoshOskButtonPrivate *priv = phosh_osk_button_get_instance_private (self);
   gboolean available;
 
   g_return_if_fail (PHOSH_IS_OSK_BUTTON (self));
   g_return_if_fail (PHOSH_IS_OSK_MANAGER (osk));
-  g_return_if_fail (priv->osk == osk);
+  g_return_if_fail (self->osk == osk);
 
   available = phosh_osk_manager_get_available (osk);
   gtk_widget_set_sensitive (GTK_WIDGET (self), available);
@@ -72,15 +67,14 @@ on_osk_availability_changed (PhoshOskButton *self, GParamSpec *pspec, PhoshOskMa
 static void
 on_osk_visibility_changed (PhoshOskButton *self, GParamSpec *pspec, PhoshOskManager *osk)
 {
-  PhoshOskButtonPrivate *priv = phosh_osk_button_get_instance_private (self);
   gboolean visible;
 
   g_return_if_fail (PHOSH_IS_OSK_BUTTON (self));
   g_return_if_fail (PHOSH_IS_OSK_MANAGER (osk));
-  g_return_if_fail (priv->osk == osk);
+  g_return_if_fail (self->osk == osk);
 
   visible = phosh_osk_manager_get_visible (osk);
-  if (!priv->setting_visibility)
+  if (!self->setting_visibility)
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self), visible);
 }
 
@@ -89,23 +83,22 @@ static void
 phosh_osk_button_constructed (GObject *object)
 {
   PhoshOskButton *self = PHOSH_OSK_BUTTON (object);
-  PhoshOskButtonPrivate *priv = phosh_osk_button_get_instance_private (self);
   PhoshShell *shell;
   GtkWidget *image;
 
   G_OBJECT_CLASS (phosh_osk_button_parent_class)->constructed (object);
 
   shell = phosh_shell_get_default ();
-  priv->osk = g_object_ref(phosh_shell_get_osk_manager (shell));
+  self->osk = g_object_ref(phosh_shell_get_osk_manager (shell));
 
   g_signal_connect_swapped (
-    priv->osk,
+    self->osk,
     "notify::visible",
     G_CALLBACK (on_osk_visibility_changed),
     self);
 
   g_signal_connect_swapped (
-    priv->osk,
+    self->osk,
     "notify::available",
     G_CALLBACK (on_osk_availability_changed),
     self);
@@ -119,17 +112,17 @@ phosh_osk_button_constructed (GObject *object)
   gtk_button_set_image (GTK_BUTTON (self), image);
   gtk_button_set_always_show_image (GTK_BUTTON (self), TRUE);
 
-  on_osk_availability_changed (self, NULL, priv->osk);
-  on_osk_visibility_changed (self, NULL, priv->osk);
+  on_osk_availability_changed (self, NULL, self->osk);
+  on_osk_visibility_changed (self, NULL, self->osk);
 }
 
 
 static void
 phosh_osk_button_dispose (GObject *object)
 {
-  PhoshOskButtonPrivate *priv = phosh_osk_button_get_instance_private (PHOSH_OSK_BUTTON(object));
+  PhoshOskButton *self = PHOSH_OSK_BUTTON (object);
 
-  g_clear_object (&priv->osk);
+  g_clear_object (&self->osk);
   G_OBJECT_CLASS (phosh_osk_button_parent_class)->dispose (object);
 }
 
