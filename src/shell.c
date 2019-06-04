@@ -662,6 +662,19 @@ phosh_shell_get_primary_monitor (PhoshShell *self)
 }
 
 
+PhoshLockscreenManager *
+phosh_shell_get_lockscreen_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (priv->lockscreen_manager), NULL);
+  return priv->lockscreen_manager;
+}
+
+
 PhoshMonitorManager *
 phosh_shell_get_monitor_manager (PhoshShell *self)
 {
