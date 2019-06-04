@@ -188,6 +188,8 @@ home_activated_cb (PhoshShell *self,
     return;
   }
 
+  phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
+
   favorites = calloc (1, sizeof *favorites);
   favorites->window = phosh_favorites_new ();
 
@@ -232,7 +234,7 @@ home_activated_cb (PhoshShell *self,
                             G_CALLBACK(close_favorites_menu_cb),
                             self);
 }
- 
+
 
 static void
 setting_done_cb (PhoshShell *self,
@@ -264,6 +266,8 @@ settings_activated_cb (PhoshShell *self,
     close_menu (&priv->settings);
     return;
   }
+
+  phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
 
   settings = calloc (1, sizeof *settings);
   settings->window = phosh_settings_new ();
