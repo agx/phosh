@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0+
  */
 
-#ifndef PHOSH_SETTINGS_H
-#define PHOSH_SETTINGS_H
+#pragma once
 
 #include <gtk/gtk.h>
 
@@ -14,5 +13,3 @@
 G_DECLARE_FINAL_TYPE (PhoshSettings, phosh_settings, PHOSH, SETTINGS, GtkWindow)
 
 GtkWidget * phosh_settings_new (void);
-
-#endif /* PHOSH_SETTINGS_H */

@@ -30,6 +30,7 @@
 #include "lockscreen-manager.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
+#include "osk-manager.h"
 #include "panel.h"
 #include "phosh-wayland.h"
 #include "session.h"
@@ -68,8 +69,8 @@ typedef struct
   PhoshMonitorManager *monitor_manager;
   PhoshLockscreenManager *lockscreen_manager;
   PhoshIdleManager *idle_manager;
+  PhoshOskManager  *osk_manager;
   PhoshWifiManager *wifi_manager;
-
 } PhoshShellPrivate;
 
 
@@ -187,6 +188,8 @@ home_activated_cb (PhoshShell *self,
     return;
   }
 
+  phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
+
   favorites = calloc (1, sizeof *favorites);
   favorites->window = phosh_favorites_new ();
 
@@ -263,6 +266,8 @@ settings_activated_cb (PhoshShell *self,
     close_menu (&priv->settings);
     return;
   }
+
+  phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
 
   settings = calloc (1, sizeof *settings);
   settings->window = phosh_settings_new ();
@@ -476,6 +481,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
   g_clear_object (&priv->wifi_manager);
+  g_clear_object (&priv->osk_manager);
   phosh_system_prompter_unregister ();
   phosh_session_unregister ();
 
@@ -660,6 +666,19 @@ phosh_shell_get_primary_monitor (PhoshShell *self)
 }
 
 
+PhoshLockscreenManager *
+phosh_shell_get_lockscreen_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (priv->lockscreen_manager), NULL);
+  return priv->lockscreen_manager;
+}
+
+
 PhoshMonitorManager *
 phosh_shell_get_monitor_manager (PhoshShell *self)
 {
@@ -688,6 +707,21 @@ phosh_shell_get_wifi_manager (PhoshShell *self)
   return priv->wifi_manager;
 }
 
+
+PhoshOskManager *
+phosh_shell_get_osk_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->osk_manager)
+      priv->osk_manager = phosh_osk_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_OSK_MANAGER (priv->osk_manager), NULL);
+  return priv->osk_manager;
+}
 
 /**
  * Returns the usable area in pixels usable by a client on the phone
