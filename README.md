@@ -66,6 +66,14 @@ This will make sure the needed gsettings schema is found. The '-U' option makes
 sure the shell is not locked on startup so you can test with arbitrary
 passwords.
 
+If you're not running natively on hardware but nested e.g. for development
+under GNOME make sure rootston uses the X11 backend so the window scales
+correctly to the Librem5's size:
+
+    WLR_BACKENDS=x11 ../wlroots/_build/rootston/rootston -E '_build/run -U' -C ./data/rootston.ini
+
+For that it doesn't matter if you're using GNOME's Wayland or X11 session.
+
 ### Running from the Debian packages
 If installed via the Debian packages you can also run phosh via gnome-session.
 It ships a file in /usr/share/gnome-session/sessions so you can bring up a
