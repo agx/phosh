@@ -346,8 +346,12 @@ panels_create (PhoshShell *self)
 
   priv->panel = PHOSH_LAYER_SURFACE(phosh_panel_new (phosh_wayland_get_zwlr_layer_shell_v1(wl),
                                                      monitor->wl_output));
+  gtk_widget_show (GTK_WIDGET (priv->panel));
+
   priv->home = PHOSH_LAYER_SURFACE(phosh_home_new (phosh_wayland_get_zwlr_layer_shell_v1(wl),
                                                     monitor->wl_output));
+  gtk_widget_show (GTK_WIDGET (priv->home));
+
   g_signal_connect_swapped (
     priv->panel,
     "settings-activated",

@@ -75,10 +75,14 @@ lock_monitor (PhoshLockscreenManager *self,
 {
   PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
   PhoshWayland *wl = phosh_wayland_get_default ();
+  GtkWidget *shield;
 
-  g_ptr_array_add (priv->shields, phosh_lockshield_new (
-                     phosh_wayland_get_zwlr_layer_shell_v1 (wl),
-                     monitor->wl_output));
+  shield = phosh_lockshield_new (
+    phosh_wayland_get_zwlr_layer_shell_v1 (wl),
+    monitor->wl_output);
+
+  g_ptr_array_add (priv->shields, shield);
+  gtk_widget_show (shield);
 }
 
 
@@ -138,6 +142,7 @@ lockscreen_lock (PhoshLockscreenManager *self)
   priv->lockscreen = PHOSH_LOCKSCREEN (phosh_lockscreen_new (
                                          phosh_wayland_get_zwlr_layer_shell_v1(wl),
                                          primary_monitor->wl_output));
+  gtk_widget_show (GTK_WIDGET (priv->lockscreen));
 
   /* Lock all other outputs */
   priv->shields = g_ptr_array_new_with_free_func ((GDestroyNotify) (gtk_widget_destroy));
