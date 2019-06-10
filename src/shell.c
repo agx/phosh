@@ -33,6 +33,7 @@
 #include "osk-manager.h"
 #include "panel.h"
 #include "phosh-wayland.h"
+#include "polkit-auth-agent.h"
 #include "session.h"
 #include "settings.h"
 #include "system-prompter.h"
@@ -71,6 +72,7 @@ typedef struct
   PhoshIdleManager *idle_manager;
   PhoshOskManager  *osk_manager;
   PhoshWifiManager *wifi_manager;
+  PhoshPolkitAuthAgent *polkit_auth_agent;
 } PhoshShellPrivate;
 
 
@@ -482,6 +484,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->monitor_manager);
   g_clear_object (&priv->wifi_manager);
   g_clear_object (&priv->osk_manager);
+  g_clear_object (&priv->polkit_auth_agent);
   phosh_system_prompter_unregister ();
   phosh_session_unregister ();
 
@@ -534,6 +537,7 @@ phosh_shell_constructed (GObject *object)
 
   phosh_session_register ("sm.puri.Phosh");
   phosh_system_prompter_register ();
+  priv->polkit_auth_agent = phosh_polkit_auth_agent_new ();
 
   g_idle_add ((GSourceFunc) setup_idle_cb, self);
 }
