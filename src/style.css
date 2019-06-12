@@ -35,3 +35,9 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+phosh-home, .phosh-panel {
+    background: black;
+    color: white;
+}
+
