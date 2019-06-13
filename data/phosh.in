@@ -1,14 +1,18 @@
 #!/bin/sh
 
-ROOTSTON="/usr/bin/rootston"
+COMPOSITOR="/usr/bin/rootston"
 ROOTSTON_INI="@pkgdatadir@/rootston.ini"
 
-if [ -x @wlrootsdir@/rootston ]; then
-  ROOTSTON=@wlrootsdir@/rootston
+if [ -x @bindir@/phoc ]; then
+  COMPOSITOR=@bindir@/phoc
+elif [ -x /usr/bin/phoc ]; then
+  COMPOSITOR=/usr/bin/phoc
+elif [ -x @wlrootsdir@/rootston ]; then
+  COMPOSITOR=@wlrootsdir@/rootston
 elif [ -x @bindir@/rootston ]; then
-  ROOTSTON=@bindir@/rootston
+  COMPOSITOR=@bindir@/rootston
 elif [ -x /usr/lib/wlroots/rootston ]; then
-  ROOTSTON=/usr/lib/wlroots/rootston
+  COMPOSITOR=/usr/lib/wlroots/rootston
 fi
 
 if [ -f "/etc/phosh/rootston.ini" ]; then
@@ -17,4 +21,4 @@ fi
 
 # Run gnome-session through a login shell so it picks
 # variables from /etc/profile.d (XDG_*)
-exec "${ROOTSTON}" -C "${ROOTSTON_INI}" -E "bash -lc 'gnome-session --disable-acceleration-check --session=phosh'"
+exec "${COMPOSITOR}" -C "${ROOTSTON_INI}" -E "bash -lc 'gnome-session --disable-acceleration-check --session=phosh'"
