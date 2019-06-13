@@ -24,7 +24,7 @@
                   <object class="PhoshWWanInfo" id="wwaninfo">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin-left">8</property>
+                    <property name="margin-left">0</property>
 		  </object>
                   <packing>
                     <property name="expand">False</property>
@@ -73,7 +73,7 @@
                   <object class="PhoshBatteryInfo" id="batteryinfo">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin-left">8</property>
+                <property name="margin-right">0</property>
               </object>
                   <packing>
                     <property name="expand">False</property>
