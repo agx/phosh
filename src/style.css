@@ -14,9 +14,19 @@
 
 /* Settings menu */
 .phosh-settings-menu {
+    background-color: black;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
  }
+
+.phosh-settings-listboxrow {
+    padding: 0;
+}
+
+.phosh-settings-row {
+    box-shadow: none;
+    background-color: black;
+}
 
 /* Favorites / Home screen */
 .phosh-app-btn {
