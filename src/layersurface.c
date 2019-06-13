@@ -59,7 +59,7 @@ static void layer_surface_configure(void                         *data,
   PhoshLayerSurface *self = data;
   gtk_window_resize (GTK_WINDOW (self), width, height);
   zwlr_layer_surface_v1_ack_configure(surface, serial);
-  gtk_widget_show_all (GTK_WIDGET (self));
+  gtk_widget_show (GTK_WIDGET (self));
 
   g_signal_emit (self, signals[CONFIGURED], 0);
 }

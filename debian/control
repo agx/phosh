@@ -10,6 +10,7 @@ Build-Depends:
  libhandy-0.0-dev (>= 0.0.1),
  libnm-dev,
  libpam0g-dev,
+ libpolkit-agent-1-dev,
  libpulse-dev,
  libupower-glib-dev,
  libwayland-dev,
