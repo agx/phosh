@@ -1,11 +1,15 @@
 /* Top bar panel */
 .phosh-panel {
-    font: 15px lato-regular;
+    font: 15px Cantarell;
 }
 
 .phosh-panel-btn {
     background-image: none;
     border-width: 0;
+}
+
+.phosh-time {
+    font-weight: bold;
 }
 
 /* Settings menu */
@@ -40,4 +44,5 @@ phosh-home, .phosh-panel {
     background: black;
     color: white;
 }
+
 
