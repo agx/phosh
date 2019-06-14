@@ -41,6 +41,10 @@
     background-color: black;
 }
 
+button.circular:not(:hover):not(:active) {
+    border: 2px solid @theme_bg_color;
+}
+
 /* Favorites / Home screen */
 .phosh-app-btn {
     background-image: none;
