@@ -11,18 +11,6 @@
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <child>
-          <object class="PhoshOskButton" id="btn_osk">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
         <child type="center">
           <object class="GtkButton" id="btn_home">
             <property name="visible">True</property>
@@ -37,9 +25,18 @@
             </style>
           </object>
           <packing>
-            <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="PhoshOskButton" id="btn_osk">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+          </object>
+          <packing>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
           </packing>
         </child>
       </object>
