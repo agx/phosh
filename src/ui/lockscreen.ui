@@ -59,7 +59,7 @@
                 <property name="can_focus">False</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
-                <property name="label" translatable="yes">Enter PIN to unlock</property>
+                <property name="label" translatable="yes">Enter Passcode</property>
                 <attributes>
                   <attribute name="font-desc" value="Cantarell 16"/>
                 </attributes>
