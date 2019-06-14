@@ -26,8 +26,8 @@
               <object class="GtkLabel" id="lbl_keypad">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_top">10</property>
-                <property name="margin_bottom">10</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
                 <attributes>
                   <attribute name="font-desc" value="Cantarell Bold 16"/>
                 </attributes>
@@ -57,8 +57,8 @@
               <object class="GtkLabel" id="lbl_unlock_status">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_top">10</property>
-                <property name="margin_bottom">10</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
                 <property name="label" translatable="yes">Enter PIN to unlock</property>
                 <attributes>
                   <attribute name="font-desc" value="Cantarell 16"/>
@@ -95,9 +95,10 @@
                     <property name="label">00:00</property>
                     <property name="single_line_mode">True</property>
                     <property name="track_visited_links">False</property>
-                    <attributes>
-                      <attribute name="font-desc" value="Cantarell 64"/>
-                    </attributes>
+                    <property name="margin_bottom">18</property>
+                    <style>
+                      <class name="phosh-lockscreen-clock"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -119,7 +120,8 @@
                         <property name="hexpand">False</property>
                         <property name="pixel_size">24</property>
                         <property name="use_fallback">True</property>
-                        <property name="margin-right">4</property>
+                        <property name="margin_left">6</property>
+                        <property name="margin_right">6</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -136,7 +138,8 @@
                         <property name="hexpand">False</property>
                         <property name="pixel_size">24</property>
                         <property name="use_fallback">True</property>
-                        <property name="margin-right">4</property>
+                        <property name="margin_left">6</property>
+                        <property name="margin_right">6</property>
                         <property name="no_show_all">True</property>
                       </object>
                       <packing>
@@ -154,7 +157,8 @@
                         <property name="hexpand">False</property>
                         <property name="pixel_size">24</property>
                         <property name="use_fallback">True</property>
-                        <property name="margin-left">4</property>
+                        <property name="margin_left">6</property>
+                        <property name="margin_right">6</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -182,7 +186,7 @@
                         <property name="can_focus">False</property>
                         <property name="halign">center</property>
                         <property name="valign">end</property>
-                        <property name="count">3</property>
+                        <property name="count">2</property>
                         <property name="duration">1500</property>
                       </object>
                       <packing>
@@ -196,8 +200,8 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="valign">end</property>
-                        <property name="margin_top">10</property>
-                        <property name="margin_bottom">10</property>
+                        <property name="margin_top">24</property>
+                        <property name="margin_bottom">32</property>
                         <property name="label" translatable="yes">Slide up to unlock</property>
                       </object>
                       <packing>
@@ -221,6 +225,9 @@
             <property name="position">1</property>
           </packing>
         </child>
+        <style>
+          <class name="phosh-lockscreen"/>
+        </style>
       </object>
     </child>
   </template>

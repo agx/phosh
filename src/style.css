@@ -55,4 +55,13 @@ phosh-home, .phosh-panel {
     color: white;
 }
 
+/* Lock screen */
+.phosh-lockscreen {
+    background-color: black;
+}
+
+.phosh-lockscreen-clock {
+    font-size: 72;
+    font-weight: 100;
+}
 
