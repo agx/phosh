@@ -100,6 +100,8 @@ phosh_home_class_init (PhoshHomeClass *klass)
                                                "/sm/puri/phosh/ui/home.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshHome, btn_home);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshHome, btn_osk);
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-home");
 }
 
 

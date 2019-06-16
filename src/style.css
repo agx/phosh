@@ -1,6 +1,6 @@
 /* Top bar panel */
 .phosh-panel {
-    font: 15px lato-regular;
+    font: 15px Cantarell;
 }
 
 .phosh-panel-btn {
@@ -8,11 +8,25 @@
     border-width: 0;
 }
 
+.phosh-time {
+    font-weight: bold;
+}
+
 /* Settings menu */
 .phosh-settings-menu {
+    background-color: black;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
  }
+
+.phosh-settings-listboxrow {
+    padding: 0;
+}
+
+.phosh-settings-row {
+    box-shadow: none;
+    background-color: black;
+}
 
 /* Favorites / Home screen */
 .phosh-app-btn {
@@ -35,3 +49,10 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+phosh-home, .phosh-panel {
+    background: black;
+    color: white;
+}
+
+
