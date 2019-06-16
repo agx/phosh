@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the phosh package.
 # Scott Anecito <sanecito@users.noreply.github.com>, 2018.
 # Guido Günther <agx@sigxcpu.org>, 2018. #zanata
-# Punleuk Oum <sirstrangerthesecond@gmail.com>, 2018. #zanata
+# Punleuk Oum <punleuk.oum@gmail.com>, 2018. #zanata
 # Scott <xmrscott@protonmail.com>, 2018. #zanata
 msgid ""
 msgstr ""
