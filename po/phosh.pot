@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-05 11:27+0200\n"
+"POT-Creation-Date: 2019-06-16 13:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,20 +30,20 @@ msgstr ""
 msgid "Phosh"
 msgstr ""
 
-#: src/lockscreen.c:82 src/ui/lockscreen.ui:61
-msgid "Enter PIN to unlock"
+#: src/lockscreen.c:82 src/ui/lockscreen.ui:62
+msgid "Enter Passcode"
 msgstr ""
 
 #: src/lockscreen.c:174
-msgid "Checking PIN"
+msgid "Checking..."
 msgstr ""
 
-#: src/monitor-manager.c:46
+#: src/monitor-manager.c:53
 msgid "Built-in display"
 msgstr ""
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:50
+#: src/monitor-manager.c:57
 msgid "Unknown"
 msgstr ""
 
@@ -55,10 +55,10 @@ msgstr ""
 msgid "Password cannot be blank"
 msgstr ""
 
-#: src/ui/lockscreen.ui:182
+#: src/ui/lockscreen.ui:205
 msgid "Slide up to unlock"
 msgstr ""
 
-#: src/ui/settings-menu.ui:123
+#: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr ""
