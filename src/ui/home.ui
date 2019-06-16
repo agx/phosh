@@ -11,18 +11,6 @@
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <child>
-          <object class="PhoshOskButton" id="btn_osk">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
         <child type="center">
           <object class="GtkButton" id="btn_home">
             <property name="visible">True</property>
@@ -37,9 +25,23 @@
             </style>
           </object>
           <packing>
-            <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="PhoshOskButton" id="btn_osk">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="halign">end</property>
+            <property name="valign">center</property>
+            <property name="margin_right">6</property>
+            <property name="receives_default">True</property>
+            <style>
+              <class name="phosh-osk-button"/>
+            </style>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
           </packing>
         </child>
       </object>
@@ -48,6 +50,7 @@
   <object class="GtkImage" id="img_home">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="icon_name">go-up-symbolic</property>
+    <property name="icon_name">swipe-arrow-symbolic</property>
+    <property name="pixel_size">24</property>
   </object>
 </interface>

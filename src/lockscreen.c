@@ -79,7 +79,7 @@ keypad_update_labels (PhoshLockscreen *self)
   for (int i = 0; i < len; i++)
     pos = g_stpcpy (pos, "●");
   gtk_label_set_text (GTK_LABEL (priv->lbl_keypad), dots);
-  gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Enter PIN to unlock"));
+  gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Enter Passcode"));
 }
 
 
@@ -171,7 +171,7 @@ keypad_number_notified_cb (PhoshLockscreen *self)
 
   keypad_update_labels (self);
   if (strlen (number) == phosh_auth_get_pin_length()) {
-    gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Checking PIN"));
+    gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Checking..."));
     gtk_widget_set_sensitive (priv->dialer_keypad, FALSE);
 
     if (priv->auth == NULL)

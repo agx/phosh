@@ -13,5 +13,6 @@
   <gresource prefix="/sm/puri/phosh/icons/scalable/status/">
     <file alias="auth-sim-missing-symbolic.svg">../data/auth-sim-missing-symbolic.svg</file>
     <file alias="auth-sim-locked-symbolic.svg">../data/auth-sim-locked-symbolic.svg</file>
+    <file alias="swipe-arrow-symbolic.svg">../data/swipe-arrow-symbolic.svg</file>
   </gresource>
 </gresources>

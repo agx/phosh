@@ -12,6 +12,15 @@
     font-weight: bold;
 }
 
+/* Home bar */
+
+.phosh-osk-button {
+  border-radius: 50%;
+  min-width: 0;
+  min-height: 0;
+  padding: 6px;
+}
+
 /* Settings menu */
 .phosh-settings-menu {
     background-color: black;
@@ -55,4 +64,13 @@ phosh-home, .phosh-panel {
     color: white;
 }
 
+/* Lock screen */
+.phosh-lockscreen {
+    background-color: black;
+}
+
+.phosh-lockscreen-clock {
+    font-size: 72;
+    font-weight: 100;
+}
 
