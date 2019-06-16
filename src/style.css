@@ -65,7 +65,7 @@ phosh-home, .phosh-panel {
 }
 
 /* Lock screen */
-.phosh-lockscreen {
+.phosh-lockscreen, .phosh-lockshield {
     background-color: black;
 }
 
