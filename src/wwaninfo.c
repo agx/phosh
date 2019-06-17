@@ -21,22 +21,16 @@
  * @Title: PhoshWWanInfo
  */
 
-typedef struct
+struct _PhoshWWanInfo
 {
+  GtkImage parent;
+
   PhoshWWanMM *wwan;
   GtkStyleContext *style_context;
   gint size;
+};
 
-} PhoshWWanInfoPrivate;
-
-
-typedef struct _PhoshWWanInfo
-{
-  GtkImage parent;
-} PhoshWWanInfo;
-
-
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshWWanInfo, phosh_wwan_info, GTK_TYPE_IMAGE)
+G_DEFINE_TYPE (PhoshWWanInfo, phosh_wwan_info, GTK_TYPE_IMAGE)
 
 
 static const char *
@@ -60,18 +54,17 @@ icon_to_pixbuf (PhoshWWanInfo *self,
                 const gchar *name,
                 GtkIconTheme *theme)
 {
-  PhoshWWanInfoPrivate *priv = phosh_wwan_info_get_instance_private (self);
   g_autoptr(GtkIconInfo) info = NULL;
   GdkPixbuf    *pixbuf;
   GError       *error = NULL;
 
   info = gtk_icon_theme_lookup_icon (theme,
                                      name,
-                                     priv->size,
+                                     self->size,
                                      0);
   g_return_val_if_fail (info, NULL);
   pixbuf = gtk_icon_info_load_symbolic_for_context (info,
-                                                    priv->style_context,
+                                                    self->style_context,
                                                     NULL,
                                                     &error);
 
@@ -88,7 +81,6 @@ pixbuf_overlay_access_tec (PhoshWWanInfo *self,
                            const char *access_tec,
                            GdkPixbuf *source)
 {
-  PhoshWWanInfoPrivate *priv = phosh_wwan_info_get_instance_private (self);
   GdkRGBA color;
   PangoLayout *layout;
   cairo_t *cr;
@@ -108,7 +100,7 @@ pixbuf_overlay_access_tec (PhoshWWanInfo *self,
   cairo_rectangle (cr, 0, 0, width, height);
   cairo_fill (cr);
 
-  gtk_style_context_get_color(priv->style_context, GTK_STATE_FLAG_NORMAL, &color);
+  gtk_style_context_get_color(self->style_context, GTK_STATE_FLAG_NORMAL, &color);
 
   layout = pango_cairo_create_layout (cr);
 
@@ -135,7 +127,7 @@ pixbuf_overlay_access_tec (PhoshWWanInfo *self,
                    tw, th);
   cairo_fill (cr);
   cairo_restore (cr);
-  gtk_render_layout (priv->style_context, cr,
+  gtk_render_layout (self->style_context, cr,
                      (width  - 1) - tw,
                      (height - 1) - th,
                      layout);
@@ -151,7 +143,6 @@ pixbuf_overlay_access_tec (PhoshWWanInfo *self,
 static void
 update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
 {
-  PhoshWWanInfoPrivate *priv;
   guint quality;
   GtkIconTheme *icon_theme;
   g_autoptr(GdkPixbuf) src = NULL, dest = NULL;
@@ -160,25 +151,24 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
 
   g_debug ("Updating wwan icon");
   g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
-  priv = phosh_wwan_info_get_instance_private (self);
 
   icon_theme = gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET(self)));
   /* SIM missing */
-  if (!phosh_wwan_has_sim (PHOSH_WWAN (priv->wwan))) {
+  if (!phosh_wwan_has_sim (PHOSH_WWAN (self->wwan))) {
     src = icon_to_pixbuf (self, "auth-sim-missing-symbolic", icon_theme);
     gtk_image_set_from_pixbuf (GTK_IMAGE (self), src);
     return;
   }
 
   /* SIM unlock required */
-  if (!phosh_wwan_is_unlocked (PHOSH_WWAN (priv->wwan))) {
+  if (!phosh_wwan_is_unlocked (PHOSH_WWAN (self->wwan))) {
     src = icon_to_pixbuf (self, "auth-sim-locked-symbolic", icon_theme);
     gtk_image_set_from_pixbuf (GTK_IMAGE (self), src);
     return;
   }
 
   /* Signal quality */
-  quality = phosh_wwan_get_signal_quality (PHOSH_WWAN (priv->wwan));
+  quality = phosh_wwan_get_signal_quality (PHOSH_WWAN (self->wwan));
   icon_name = g_strdup_printf ("network-cellular-signal-%s-symbolic",
                                signal_quality_descriptive (quality));
 
@@ -186,7 +176,7 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
   g_return_if_fail (src);
 
   /* Access technology */
-  access_tec = phosh_wwan_get_access_tec (PHOSH_WWAN (priv->wwan));
+  access_tec = phosh_wwan_get_access_tec (PHOSH_WWAN (self->wwan));
   if (access_tec)
     dest = pixbuf_overlay_access_tec (self, access_tec, src);
   else
@@ -200,7 +190,6 @@ static void
 phosh_wwan_info_constructed (GObject *object)
 {
   PhoshWWanInfo *self = PHOSH_WWAN_INFO (object);
-  PhoshWWanInfoPrivate *priv = phosh_wwan_info_get_instance_private (self);
   GStrv signals = (char *[]) {"notify::signal-quality",
                               "notify::access-tec",
                               "notify::unlocked",
@@ -210,11 +199,11 @@ phosh_wwan_info_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_wwan_info_parent_class)->constructed (object);
 
-  priv->style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
-  priv->wwan = phosh_wwan_mm_new();
+  self->style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
+  self->wwan = phosh_wwan_mm_new();
 
   for (int i = 0; i < g_strv_length(signals); i++) {
-    g_signal_connect_swapped (priv->wwan, signals[i],
+    g_signal_connect_swapped (self->wwan, signals[i],
                               G_CALLBACK (update_icon_data),
                               self);
   }
@@ -227,11 +216,10 @@ static void
 phosh_wwan_info_dispose (GObject *object)
 {
   PhoshWWanInfo *self = PHOSH_WWAN_INFO(object);
-  PhoshWWanInfoPrivate *priv = phosh_wwan_info_get_instance_private (self);
 
-  if (priv->wwan) {
-    g_signal_handlers_disconnect_by_data (priv->wwan, self);
-    g_clear_object (&priv->wwan);
+  if (self->wwan) {
+    g_signal_handlers_disconnect_by_data (self->wwan, self);
+    g_clear_object (&self->wwan);
   }
 
   G_OBJECT_CLASS (phosh_wwan_info_parent_class)->dispose (object);
@@ -251,10 +239,8 @@ phosh_wwan_info_class_init (PhoshWWanInfoClass *klass)
 static void
 phosh_wwan_info_init (PhoshWWanInfo *self)
 {
-  PhoshWWanInfoPrivate *priv = phosh_wwan_info_get_instance_private (self);
-
   /* TODO: make scalable? */
-  priv->size = WWAN_INFO_DEFAULT_ICON_SIZE;
+  self->size = WWAN_INFO_DEFAULT_ICON_SIZE;
 }
 
 
