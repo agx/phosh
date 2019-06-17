@@ -182,6 +182,8 @@
                     </child>
                     <child>
                       <object class="HdyArrows" id="arrows">
+                        <property name="width_request">80</property>
+                        <property name="height_request">60</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="halign">center</property>
