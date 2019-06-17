@@ -26,6 +26,7 @@
           </object>
           <packing>
             <property name="fill">True</property>
+	    <property name="expand">True</property>
           </packing>
         </child>
         <child>
