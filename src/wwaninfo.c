@@ -20,6 +20,13 @@
  * @short_description: A widget to display the wwan status
  * @Title: PhoshWWanInfo
  */
+enum {
+  PROP_0,
+  PROP_SIZE,
+  PROP_LAST_PROP,
+};
+static GParamSpec *props[PROP_LAST_PROP];
+
 
 struct _PhoshWWanInfo
 {
@@ -31,6 +38,43 @@ struct _PhoshWWanInfo
 };
 
 G_DEFINE_TYPE (PhoshWWanInfo, phosh_wwan_info, GTK_TYPE_IMAGE)
+
+static void
+phosh_wwan_info_set_property (GObject *object,
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
+{
+  PhoshWWanInfo *self = PHOSH_WWAN_INFO (object);
+
+  switch (property_id) {
+  case PROP_SIZE:
+    phosh_wwan_info_set_size (self, g_value_get_int(value));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
+phosh_wwan_info_get_property (GObject *object,
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
+{
+  PhoshWWanInfo *self = PHOSH_WWAN_INFO (object);
+
+  switch (property_id) {
+  case PROP_SIZE:
+    g_value_set_int (value, self->size);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
 
 
 static const char *
@@ -202,6 +246,9 @@ phosh_wwan_info_constructed (GObject *object)
   self->style_context = gtk_widget_get_style_context (GTK_WIDGET (self));
   self->wwan = phosh_wwan_mm_new();
 
+  if (self->size == -1)
+    phosh_wwan_info_set_size (self, WWAN_INFO_DEFAULT_ICON_SIZE);
+
   for (int i = 0; i < g_strv_length(signals); i++) {
     g_signal_connect_swapped (self->wwan, signals[i],
                               G_CALLBACK (update_icon_data),
@@ -231,16 +278,29 @@ phosh_wwan_info_class_init (PhoshWWanInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
+  object_class->set_property = phosh_wwan_info_set_property;
+  object_class->get_property = phosh_wwan_info_get_property;
+
   object_class->constructed = phosh_wwan_info_constructed;
   object_class->dispose = phosh_wwan_info_dispose;
+
+  props[PROP_SIZE] =
+    g_param_spec_int (
+      "size",
+      "Size",
+      "The icon's size",
+      -1,
+      G_MAXINT,
+      -1,
+      G_PARAM_CONSTRUCT | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
 
 static void
 phosh_wwan_info_init (PhoshWWanInfo *self)
 {
-  /* TODO: make scalable? */
-  self->size = WWAN_INFO_DEFAULT_ICON_SIZE;
 }
 
 
@@ -248,4 +308,27 @@ GtkWidget *
 phosh_wwan_info_new (void)
 {
   return g_object_new (PHOSH_TYPE_WWAN_INFO, NULL);
+}
+
+void
+phosh_wwan_info_set_size (PhoshWWanInfo *self, gint size)
+{
+  g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
+
+  if (self->size == size)
+    return;
+
+  self->size = size;
+  gtk_widget_queue_resize (GTK_WIDGET (self));
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SIZE]);
+}
+
+
+gint
+phosh_wwan_info_get_size (PhoshWWanInfo *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WWAN_INFO (self), 0);
+
+  return self->size;
 }
