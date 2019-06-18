@@ -59,7 +59,7 @@
                 <property name="receives_default">True</property>
                 <property name="label">00:00</property>
                 <style>
-                  <class name="phosh-time"/>
+                  <class name="phosh-topbar-clock"/>
                 </style>
               </object>
               <packing>
