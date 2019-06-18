@@ -25,8 +25,8 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin-left">0</property>
-                    <property name="size">24</property>
-		  </object>
+                    <property name="size">16</property>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
@@ -37,6 +37,7 @@
                   <object class="PhoshWifiInfo" id="wifiinfo">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="pixel_size">16</property>
                     <property name="margin-left">8</property>
                   </object>
                   <packing>
@@ -75,10 +76,11 @@
                 <property name="halign">end</property>
                 <child>
                   <object class="PhoshBatteryInfo" id="batteryinfo">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin-right">0</property>
-              </object>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin-right">0</property>
+                    <property name="pixel_size">16</property>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
