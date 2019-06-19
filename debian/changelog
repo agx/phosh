@@ -1,3 +1,206 @@
+phosh (0.0.3) purple; urgency=medium
+
+  [ Guido Günther ]
+  * IdleManager: Use G_GUINT64_FORMAT.
+    We missed that one. This breaks the build on armhf.
+  * Monitor: Save transform too
+  * Monitor: Allow to detect flipped outputs
+  * Monitor: Allow to get rotation by degrees
+  * Shell: Determine usable area by output transform.
+    Instead of looking at our rotation property look at the monitors actual
+    transform instead. (Closes: #55)
+  * MonitorMnager: Report transform too
+  * MonitorManager: Fix formatting
+  * Shell: Fix type of 'rotation' property
+  * Shell: Derive rotation property from primary monitor's rotation.
+    This way they can never get out of sync.
+  * Shell: Setup a primary monitor after probing outputs.
+    This way we don't have to make any assumptions. We don't do this via
+    set_primary_monitor since we don't want to trigger panel recreation to
+    avoid flickering.
+  * Settings: Switch shutdown and lockscreen.
+    This matche gnome-shell's layout.
+  * Settings: Make sure the buttons stay circular
+  * MonitorManager: Specify integer types in g_variant_builder_add.
+    This makes sure we treat guint64 correctly.
+  * App: Don't print title if it's identical to the appplications name.
+    This avoids printing the same thing twice.
+  * rooston.ini: Drop scale=2.
+    We had this for the testing the OLED displays. The devkit has a separte
+    HDMI to attach large screens.
+  * gitignore tag files
+  * Fix URLs and copyright holder.
+    We moved repos a while ago
+  * rootston.ini: Scale rootston on DSI-1 output.
+    The devkit's LCD panel is DSI-1 and we want scaled output there.
+  * session: Remove incorrect error parameter in DBus call
+  * run: Allow to skip gnome-session.
+    It's not always needed and floods the CI logs
+  * ci: Skip gnome-session for valgrind run.
+    This makes the logs better readable and we don't need it there.
+  * meson: Print phosh version as well
+  * run: Use glib's valgrind suppressions as well
+  * settings: Add separate meson file.
+    It's better to track sources per directory.
+  * Settings: Simplify rotate evaluation
+  * Add gvc submodule.
+    This submodule will be used for volume control. It's also used
+    by gnome-shell and g-c-c.
+  * Wire up output volume control.
+    Based on gvc-channel-bar from gnome-control-center. We'll split this out
+    of settings.c once we handle more volume controls.
+  * ci: Drop valgrind run until we have more RAM.
+    It seems the build node drops out atm
+  * settings: Make settings use the full screen width.
+    Wrap it in a HdyColumn for that to not look totally out of place
+    on large screens.
+  * Remove some unused components from the session.
+    This brings down the number of X11 dependencies and drops things that
+    crash frequently (although unused). We can add these back later once
+    needed and when the necessary wayland protocols are in place.
+  * Favorites: Use a GtkBox instead of a GtkFloxBox for running apps.
+    This allows to scroll vertically
+  * rootston.ini: Map seat to DSI-1 instead of HDMI.
+    This makes rotation work and it's far more likely to be used on the LCD
+    atm. This needs a proper fix in the compositor to be better at input
+    mapping (https://source.puri.sm/Librem5/wlroots/issues/23).
+  * gitlab-ci: Build debs too
+  * shell: Prefer dark theme.
+    See: https://source.puri.sm/Librem5/librem5-base/issues/6
+  * PhoshWayland: Add and use phosh_wayland_roundtrip.
+    Based on a patch by Simon Ser.
+  * PhoshLockscreenManager: Add missing chain up in constructed()
+  * PhoshLockscreenManager: Drop unused parent
+  * PhoshWwanInfo: Fix callback signature.
+    We don't use the other params but it's better to have this correct.
+  * PhoshWwanInfo: Simplify signal handler disconnects
+  * PhoshPanel: Fix element order.
+    This makes glade happy so we get no diff when saving.
+  * top-panel.ui: Fix indentation
+  * PhoshShell: Delay gui setup.
+    If we do it in an idle callback we're sure the shell object is already
+    there so we have all the managers at our disposal to e.g. connect
+    widgets to them.
+  * PhoshShell: Make custom widget types known.
+    This makes sure we can use them in UI files independent from any loading
+    order.
+  * Add PhoshWifiManager.
+    This keeps track of the wifi devices by interfacing with NetworkManager
+    and gets the current signal ruality. We delay it's creation until it's
+    needed.
+    We can later on add support for ad-hoc networks.
+  * Add PhoshWifiInfo widget.
+    This connects to the wifi manager to display the current wifi state.
+    Using it in the panel is then just a matter of adding it to the ui file.
+  * PhoshLockScreen: Display wifi status.
+    Hook the wifi status into the lockscreen too
+    Use the WifiInfo widget here too. (Closes: #10)
+  * d/control: Build-dep on at-spi2-core.
+    On the devkit we don't pull in recommends but GTK+ wants it to run the
+    tests in a meaningfull way.
+  * Add HACKING to clarify coding style and other matters
+  * README: Add pipeline status
+  * README: Make sure build-deps are up to date.
+    Use the tested list from d/control instead of hardcoding it.
+  * PhoshMonitor: Emit signal when monitor is fully configured.
+    Emit a signal when we received all of the configuration data from
+    the compositor.
+  * PhoshMonitor: Update comment
+  * PhoshMonitorManager: Fix function declartion.
+    Use a better variable name.
+  * PhoshWayland: Maintain outputs in hash table.
+    This duplicates the static wl_ouput GPtrArray which will be removed
+    at the end of this series.
+  * PhoshWayland: listen for outputs going away
+  * PhoshWayland: Add functions to query outputs
+  * PhoshMonitorManager: Pick up changed wl_outputs
+    and signal when we added/removed a monitor. (Closes: #46)
+  * Move initial handling from PhoshShell to PhoshMonitorManager.
+    This move wl_output processing into the one place that has a way better
+    idea what to do.
+  * PhoshWayland: Kill the GPtrArray in favour of the GHashTable
+  * LockScreenManager: Listen for monitor changes (Closes: #51)
+  * PhoshLockscreenManager: simplify signal disconnects
+  * Use #pragma in all headers
+  * Add PhoshOskManager.
+    Class to handle OSK interaction.
+  * PhoshShell: Add PhoshOskManager
+  * PhoshOskButton: Use PhoshOskManager.
+    Don't dupliate code that is in PhoshOskManager and keep the DBus
+    interaction in one place.
+  * PhoshOskButton: Drop private data
+  * PhoshShell: Add getter for lockscreen manager
+  * PhoshOskManager: Hide keyboard on screen lock (Closes: #75)
+  * PhoshShell: Close OSK when displaying favorites or settings (Closes: #81)
+  * README: Prefer wlroot's X11 backend when nested.
+    This one gets the window size right.
+  * rooston.ini: Use the phone's resolution with the X11 backend
+  * PhoshLockScreen: Only show clock on the lock screen.
+    We don't want date or weekday there. (Closes: #85)
+  * helpers: Make it simple to use glade with PhoshLayerShells.
+    Temporarily replace the PhoshLayerShell by a GtkWindow known to glade.
+    We could extend the glade-catalog but this way doesn't require any
+    special setup.
+  * rootston.ini: Don't scale X11 display.
+    This helps people with screens that don't have 1440 vertical pixels.
+  * phosh.in: Prefer phoc over rootston
+  * PhoshLayerSurface: Don't use gtk_widget_show_all()
+    gtk_widget_show ought to be enough. Widgets need to setup themselfes
+    properly.
+  * Become a policy kit authentiation agent.
+    Somewhat based on gnome-shell's implementation. (Closes: #22)
+  * debian: Add dependency so we can be a polkit auth agent
+  * pot: Update translatable strings
+  * Update translations from zanata
+  * rootston.ini: Fix horizontal resolution.
+    We have 360 not only 320 pixels.
+    Thanks to Zander Brown
+  * Lockshield: Use black background too
+  * Lockscreen: Make arrows a bit thinner
+  * Home: Make center button expand again.
+    This unbreaks clicking the home bar. Otherwise only the image
+    itself would be sensitive.
+  * css: Add unit to font size.
+    Silences a gtk warning.
+  * PhoshWWanInfo: Drop priv.
+    We're not going to derive from it and this makes the code simpler.
+  * PhoshWWanInfo: Allow to set icon size
+  * rooston.ini: Set window size for wayland as well
+  * README: Fix some wording
+  * README: Don't special case running nested on x11
+    wayland works too.
+
+  [ Dorota Czaplejewicz ]
+  * build: Use the right path to the source.
+    Tests wouldn't build if the build directory was outside of the source
+    tree.
+  * build: Remove duplicated gio dependency
+
+  [ emersion ]
+  * Update the wlr-layer-shell-unstable-v1 protocol
+  * PhoshWayland: Add wlr_output_manager v1 protocol.
+    We don't make the lack of that protocol fatal atm since the rootston
+    currently on the devkit doesn't have that code yet.
+
+  [ Zander Brown ]
+  * Make top and home-bar black.
+
+  [ Tobias Bernard ]
+  * Top panel: equal spacing on icons on left and right
+  * Top panel: make time bold
+  * Settings menu: Black background, simplified styling
+  * Lock screen: black background, margin fixes, thinner clock font
+  * Minor: Change "PIN" to "Passcode"
+  * Home bar: use custom, wider swipe arrow icon
+  * Home bar: move keyboard button to the right
+  * Home bar: rounded, smaller OSK button
+  * Lockscreen: replace HdyArrows with a an image + CSS animation
+  * Settings menu: add button outlines, improve spacing
+  * Minor: better top bar clock style class name
+  * Top bar: make status icons 16px
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 19 Jun 2019 09:07:57 +0200
+
 phosh (0.0.2) purple; urgency=medium
 
   [ Guido Günther ]
