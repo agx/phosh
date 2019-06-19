@@ -54,26 +54,22 @@ There are some thorough tests not run during CI which can e.g. be run via
 
 ## Running
 ### Running from the source tree
-When running from the source tree start the compositor *rootston*. Then start
-*phosh* using:
+When running from the source tree start the compositor *[phoc][]*
+ (*[rootston][]* will do as well). Then start *phosh* using:
 
     _build/run -U
 
 or in one command:
 
-    ../wlroots/_build/rootston/rootston -E '_build/run -U' -C ./data/rootston.ini
+    ../phoc/_build/run -E '_build/run -U' -C ./data/rootston.ini
 
 This will make sure the needed gsettings schema is found. The '-U' option makes
 sure the shell is not locked on startup so you can test with arbitrary
 passwords.
+This works on hardware as well as nested on other desktop environments. The
+result should look something like this:
 
-If you're not running natively on hardware but nested e.g. for development
-under GNOME make sure rootston uses the X11 backend so the window scales
-correctly to the Librem5's size:
-
-    WLR_BACKENDS=x11 ../wlroots/_build/rootston/rootston -E '_build/run -U' -C ./data/rootston.ini
-
-For that it doesn't matter if you're using GNOME's Wayland or X11 session.
+![phosh](screenshots/phosh.png)
 
 ### Running from the Debian packages
 If installed via the Debian packages you can also run phosh as a gnome-session.
@@ -110,3 +106,5 @@ For details see the [developer documentation](https://developer.puri.sm/Contact.
 
 [gitlab-ci.yml]: https://source.puri.sm/Librem5/phosh/blob/master/.gitlab-ci.yml
 [debian/control]: https://source.puri.sm/Librem5/phosh/blob/master/debian/control
+[phoc]: https://source.puri.sm/Librem5/phoc
+[rootston]: https://github.com/swaywm/wlroots/tree/master/rootston
