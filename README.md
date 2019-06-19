@@ -27,8 +27,9 @@ On a Debian based system run
 For an explicit list of dependencies check the `Build-Depends` entry in the
 [debian/control][] file.
 
-Until distros ship [libhandy](https://source.puri.sm/Librem5/libhandy) you need
-to build that from source. More details are in the [gitlab-ci.yml][] file.
+If your distro doesn't ship [libhandy](https://source.puri.sm/Librem5/libhandy)
+you need to build that from source. More details are in the [gitlab-ci.yml][]
+file.
 
 ## Building
 
@@ -75,21 +76,20 @@ correctly to the Librem5's size:
 For that it doesn't matter if you're using GNOME's Wayland or X11 session.
 
 ### Running from the Debian packages
-If installed via the Debian packages you can also run phosh via gnome-session.
+If installed via the Debian packages you can also run phosh as a gnome-session.
 It ships a file in /usr/share/gnome-session/sessions so you can bring up a
 session using
 
     gnome-session --disable-acceleration-check --session=phosh
 
-This assumes you have the compositor already running. If you want to start
-phosh at system boot there's a systemd unit file in */lib/systemd/system/phosh*
-which is disabled by default:
+If you want to start phosh at system boot there's a systemd unit file in
+*/lib/systemd/system/phosh* which is disabled by default:
 
     systemctl enable phosh
     systemctl start phosh
 
 This runs *phosh* as user *purism* (which needs to exist). If you don't have a
-user *purism* and don't want to create on you can make systemd run *phosh* as
+user *purism* and don't want to create one you can make systemd run *phosh* as
 any user by using an override file:
 
     $ cat /etc/systemd/system/phosh.service.d/override.conf
