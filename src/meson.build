@@ -177,11 +177,14 @@ phosh_tool_dep = declare_dependency(sources: libphosh_generated_sources,
   link_with: phosh_tool_lib,
   dependencies: phosh_deps)
 
-phosh_lib = library('phosh', [libphosh_sources, libphosh_tool_sources], dependencies: phosh_deps)
-phosh_dep = declare_dependency(sources: libphosh_generated_sources,
+if get_option('gtk_doc')
+# We only build the shared lib for gtk-doc:
+phosh_doc_lib = library('phosh-doc', [libphosh_sources, libphosh_tool_sources], dependencies: phosh_deps)
+phosh_doc_dep = declare_dependency(sources: libphosh_generated_sources,
   include_directories: [root_inc, phosh_inc],
-  link_with: phosh_lib,
+  link_with: phosh_doc_lib,
   dependencies: phosh_deps)
+endif
 
 phosh = executable('phosh', ['main.c', libphosh_sources],
   dependencies: phosh_tool_dep,

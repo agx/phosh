@@ -136,6 +136,7 @@ subdir('protocol')
 subdir('src')
 subdir('tools')
 subdir('tests')
+subdir('docs')
 
 summary = [
   '',
@@ -143,6 +144,7 @@ summary = [
   'Phosh @0@'.format(meson.project_version()),
   '',
   'Tests: @0@'.format(get_option('tests')),
+  'Documentation: @0@'.format(get_option('gtk_doc')),
   '-----------',
 ]
 

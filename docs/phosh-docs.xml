@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+  <!ENTITY % gtkdocentities SYSTEM "xml/gtkdocentities.ent">
+  %gtkdocentities;
+]>
+<book id="index">
+  <bookinfo>
+    <title>&package_name; Manual</title>
+    <releaseinfo>
+      <para>
+        This document is the development reference for &package_name; &package_version;
+      </para>
+      <para>
+        <ulink type="http" url="&package_url;">Phosh</ulink> is a pure Wayland graphical shell for mobile devices.
+      </para>
+      <para>
+        If you find any issues in this development reference, please report it using
+        <ulink type="http" url="&package_bugreport;">the bugtracker</ulink>.
+      </para>
+    </releaseinfo>
+
+    <copyright>
+      <year>2020</year>
+      <holder>Purism SPC</holder>
+    </copyright>
+  </bookinfo>
+
+  <part id="api-reference">
+
+    <chapter id="classes">
+      <title>Widgets and Objects</title>
+      <xi:include href="xml/activity.xml"/>
+      <xi:include href="xml/app-grid-button.xml"/>
+      <xi:include href="xml/app-grid.xml"/>
+      <xi:include href="xml/app-list-model.xml"/>
+      <xi:include href="xml/arrow.xml"/>
+      <xi:include href="xml/auth.xml"/>
+      <xi:include href="xml/background-manager.xml"/>
+      <xi:include href="xml/background.xml"/>
+      <xi:include href="xml/batteryinfo.xml"/>
+      <xi:include href="xml/fader.xml"/>
+      <xi:include href="xml/favorite-list-model.xml"/>
+      <xi:include href="xml/feedback-manager.xml"/>
+      <xi:include href="xml/feedbackinfo.xml"/>
+      <xi:include href="xml/gnome-session-presence-dbus.xml"/>
+      <xi:include href="xml/home.xml"/>
+      <xi:include href="xml/idle-manager.xml"/>
+      <xi:include href="xml/iio-sensor-proxy-dbus.xml"/>
+      <xi:include href="xml/layersurface.xml"/>
+      <xi:include href="xml/lockscreen-manager.xml"/>
+      <xi:include href="xml/lockscreen.xml"/>
+      <xi:include href="xml/lockshield.xml"/>
+      <xi:include href="xml/monitor-manager.xml"/>
+      <xi:include href="xml/monitor.xml"/>
+      <xi:include href="xml/network-auth-prompt.xml"/>
+      <xi:include href="xml/notification-banner.xml"/>
+      <xi:include href="xml/notification-content.xml"/>
+      <xi:include href="xml/notification-frame.xml"/>
+      <xi:include href="xml/notification-list.xml"/>
+      <xi:include href="xml/notification-source.xml"/>
+      <xi:include href="xml/notification.xml"/>
+      <xi:include href="xml/notify-manager.xml"/>
+      <xi:include href="xml/osk-button.xml"/>
+      <xi:include href="xml/osk-manager.xml"/>
+      <xi:include href="xml/overview.xml"/>
+      <xi:include href="xml/panel.xml"/>
+      <xi:include href="xml/phosh-wayland.xml"/>
+      <xi:include href="xml/phosh-wwan-iface.xml"/>
+      <xi:include href="xml/phosh-wwan-mm.xml"/>
+      <xi:include href="xml/polkit-auth-agent.xml"/>
+      <xi:include href="xml/polkit-auth-prompt.xml"/>
+      <xi:include href="xml/proximity.xml"/>
+      <xi:include href="xml/quick-setting.xml"/>
+      <xi:include href="xml/rotateinfo.xml"/>
+      <xi:include href="xml/screen-saver-manager.xml"/>
+      <xi:include href="xml/sensor-proxy-manager.xml"/>
+      <xi:include href="xml/session.xml"/>
+      <xi:include href="xml/settings.xml"/>
+      <xi:include href="xml/shell-network-agent.xml"/>
+      <xi:include href="xml/shell.xml"/>
+      <xi:include href="xml/status-icon.xml"/>
+      <xi:include href="xml/system-prompt.xml"/>
+      <xi:include href="xml/system-prompter.xml"/>
+      <xi:include href="xml/toplevel.xml"/>
+      <xi:include href="xml/toplevel-manager.xml"/>
+      <xi:include href="xml/wifiinfo.xml"/>
+      <xi:include href="xml/wifimanager.xml"/>
+      <xi:include href="xml/wwaninfo.xml"/>
+    </chapter>
+
+    <chapter id="utils">
+      <title>Utilities</title>
+      <xi:include href="xml/brightness.xml"/>
+      <xi:include href="xml/util.xml"/>
+    </chapter>
+
+    <chapter id="gen_dbus_servers">
+      <title>Generated DBus Servers</title>
+      <xi:include href="xml/phosh-display-dbus.xml"/>
+      <xi:include href="xml/phosh-screen-saver-dbus.xml"/>
+      <xi:include href="xml/notify-dbus.xml"/>
+    </chapter>
+
+    <chapter id="gen_dbus_clients">
+      <title>Generated DBus Clients</title>
+      <xi:include href="xml/phosh-idle-dbus.xml"/>
+      <xi:include href="xml/phosh-osk0-dbus.xml"/>
+      <xi:include href="xml/phosh-wwan-mm-dbus.xml"/>
+    </chapter>
+
+    <chapter id="wayland_protocols">
+      <title>Wayland protocols</title>
+      <xi:include href="xml/gamma-control-client-protocol.xml"/>
+      <xi:include href="xml/idle-client-protocol.xml"/>
+      <xi:include href="xml/phosh-private-client-protocol.xml"/>
+      <xi:include href="xml/wlr-foreign-toplevel-management-unstable-v1-client-protocol.xml"/>
+      <xi:include href="xml/wlr-input-inhibitor-unstable-v1-client-protocol.xml"/>
+      <xi:include href="xml/wlr-layer-shell-unstable-v1-client-protocol.xml"/>
+      <xi:include href="xml/wlr-output-management-unstable-v1-client-protocol.xml"/>
+      <xi:include href="xml/wlr-output-power-management-unstable-v1-client-protocol.xml"/>
+      <xi:include href="xml/xdg-output-unstable-v1-client-protocol.xml"/>
+      <xi:include href="xml/xdg-shell-client-protocol.xml"/>
+    </chapter>
+
+  </part>
+
+  <part id="annexes">
+
+    <chapter id="object-tree">
+      <title>Object Hierarchy</title>
+      <xi:include href="xml/tree_index.sgml"/>
+    </chapter>
+
+    <index id="api-index-full">
+      <title>API Index</title>
+      <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+    </index>
+
+    <index id="annotations-glossary">
+      <title>Annotations glossary</title>
+      <xi:include href="xml/annotation-glossary.xml"><xi:fallback /></xi:include>
+    </index>
+  </part>
+
+</book>
