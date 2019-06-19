@@ -58,6 +58,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="margin-top">2</property>
                 <property name="label">00:00</property>
                 <style>
                   <class name="phosh-topbar-clock"/>
