@@ -89,3 +89,10 @@ phosh-home, .phosh-panel {
     35% {-gtk-icon-transform: translateY(-14px); opacity: 1}
     100% {-gtk-icon-transform: translateY(0); opacity: 0.7}
 }
+
+/* polkit auth agent */
+.phosh-polkit-auth-agent {
+    background-color: black;
+    border: solid 20px;
+    border-color: black;
+}

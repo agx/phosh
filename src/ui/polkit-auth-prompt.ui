@@ -178,12 +178,9 @@
         <child>
           <placeholder/>
         </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
+        <style>
+          <class name="phosh-polkit-auth-agent"/>
+        </style>
       </object>
     </child>
   </template>
