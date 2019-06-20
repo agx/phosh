@@ -572,9 +572,6 @@ phosh_system_prompt_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_system_prompt_parent_class)->constructed (object);
 
-  gtk_widget_set_valign (priv->grid, GTK_ALIGN_CENTER);
-  gtk_widget_set_halign (priv->grid, GTK_ALIGN_CENTER);
-
   g_object_bind_property (self, "message", priv->lbl_message, "label", G_BINDING_DEFAULT);
   g_object_bind_property (self, "description", priv->lbl_description, "label", G_BINDING_DEFAULT);
   g_object_bind_property (self, "password-visible", priv->lbl_password, "visible", G_BINDING_DEFAULT);
