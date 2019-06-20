@@ -42,20 +42,22 @@
 }
 
 /* Favorites / Home screen */
-.phosh-app-btn {
-    background-image: none;
-    background-color: black;
-    border-width: 3px;
-    border-radius: 10px;
+phosh-app {
+    background: rgba(255,255,255,0.8);
+    border: none;
+    border-radius: 0;
+    background: url('resource:///sm/puri/phosh/fake-app.svg');
+    background-size: cover;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.4), 0 3px 16px rgba(0,0,0,0.3);
 }
 
-.phosh-app-name {
-    font-size: larger;
+phosh-app box {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 6px;
+    color: white;
+    margin: 6px;
+    border-radius: 6px;
     font-weight: bold;
-}
-
-.phosh-app-title {
-    font-size: larger;
 }
 
 .phosh-running-apps-flowbox {
