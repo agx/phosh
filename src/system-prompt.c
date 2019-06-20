@@ -71,8 +71,19 @@ typedef struct
   gchar *continue_label;
   gchar *cancel_label;
 
-  GtkWidget *grid;
+  GtkWidget *btn_cancel;
   GtkWidget *btn_continue;
+  GtkWidget *checkbtn_choice;
+  GtkWidget *entry_confirm;
+  GtkWidget *entry_password;
+  GtkWidget *grid;
+  GtkWidget *lbl_confirm;
+  GtkWidget *lbl_description;
+  GtkWidget *lbl_message;
+  GtkWidget *lbl_password;
+  GtkWidget *lbl_warning;
+  GtkWidget *pbar_quality;
+
   GtkEntryBuffer *password_buffer;
   GtkEntryBuffer *confirm_buffer;
 
@@ -558,82 +569,55 @@ phosh_system_prompt_constructed (GObject *object)
 {
   PhoshSystemPrompt *self = PHOSH_SYSTEM_PROMPT (object);
   PhoshSystemPromptPrivate *priv = phosh_system_prompt_get_instance_private (self);
-  GtkBuilder *builder;
-  GtkWidget *widget;
-  GtkEntry *entry;
 
   G_OBJECT_CLASS (phosh_system_prompt_parent_class)->constructed (object);
 
-  /*
-   * We use gtk_buidler_* instead of the nicer
-   * gtk_widget_class_set_template_from_resource since
-   * PhoshLayerSuface isn't supported as type in glade yet.
-   */
-  builder = gtk_builder_new_from_resource ("/sm/puri/phosh/ui/system-prompt.ui");
-  widget = GTK_WIDGET (gtk_builder_get_object (builder, "grid_system_prompt"));
-  gtk_container_add (GTK_CONTAINER (self), widget);
-  gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
-  gtk_widget_set_halign (widget, GTK_ALIGN_CENTER);
-  priv->grid = widget;
+  gtk_widget_set_valign (priv->grid, GTK_ALIGN_CENTER);
+  gtk_widget_set_halign (priv->grid, GTK_ALIGN_CENTER);
 
-  widget = GTK_WIDGET (gtk_builder_get_object (builder, "lbl_message"));
-  g_object_bind_property (self, "message", widget, "label", G_BINDING_DEFAULT);
-
-  widget = GTK_WIDGET (gtk_builder_get_object (builder, "lbl_description"));
-  g_object_bind_property (self, "description", widget, "label", G_BINDING_DEFAULT);
-
-  widget = GTK_WIDGET (gtk_builder_get_object (builder, "lbl_password"));
-  g_object_bind_property (self, "password-visible", widget, "visible", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "message", priv->lbl_message, "label", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "description", priv->lbl_description, "label", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "password-visible", priv->lbl_password, "visible", G_BINDING_DEFAULT);
 
   priv->password_buffer = gcr_secure_entry_buffer_new ();
-  entry =
-    GTK_ENTRY (gtk_builder_get_object (builder, "entry_password"));
-  gtk_entry_set_buffer (GTK_ENTRY (entry), GTK_ENTRY_BUFFER (priv->password_buffer));
-  g_object_bind_property (self, "password-visible", entry, "visible", G_BINDING_DEFAULT);
+  gtk_entry_set_buffer (GTK_ENTRY (priv->entry_password), GTK_ENTRY_BUFFER (priv->password_buffer));
+  g_object_bind_property (self, "password-visible", priv->entry_password,
+                          "visible", G_BINDING_DEFAULT);
 
-  widget = GTK_WIDGET (gtk_builder_get_object (builder, "lbl_confirm"));
-  g_object_bind_property (self, "confirm-visible", widget, "visible", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "confirm-visible", priv->lbl_confirm, "visible", G_BINDING_DEFAULT);
 
   priv->confirm_buffer = gcr_secure_entry_buffer_new ();
-  widget =
-    GTK_WIDGET (gtk_builder_get_object (builder, "entry_confirm"));
-  gtk_entry_set_buffer (GTK_ENTRY (widget), GTK_ENTRY_BUFFER (priv->confirm_buffer));
-  g_object_bind_property (self, "confirm-visible", widget, "visible", G_BINDING_DEFAULT);
+  gtk_entry_set_buffer (GTK_ENTRY (priv->entry_confirm), GTK_ENTRY_BUFFER (priv->confirm_buffer));
+  g_object_bind_property (self, "confirm-visible", priv->entry_confirm, "visible", G_BINDING_DEFAULT);
 
-  widget = GTK_WIDGET (gtk_builder_get_object (builder, "pbar_quality"));
-  g_object_bind_property (self, "confirm-visible", widget, "visible", G_BINDING_DEFAULT);
-  g_signal_connect (entry, "changed", G_CALLBACK (on_password_changed), widget);
+  g_object_bind_property (self, "confirm-visible", priv->pbar_quality, "visible", G_BINDING_DEFAULT);
+  g_signal_connect (priv->entry_password, "changed",
+                    G_CALLBACK (on_password_changed), priv->pbar_quality);
 
-  widget = GTK_WIDGET (gtk_builder_get_object (builder, "lbl_warning"));
-  g_object_bind_property (self, "warning", widget, "label", G_BINDING_DEFAULT);
-  g_object_bind_property (self, "warning-visible", widget, "visible", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "warning", priv->lbl_warning, "label", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "warning-visible", priv->lbl_warning, "visible", G_BINDING_DEFAULT);
 
-  widget = GTK_WIDGET (gtk_builder_get_object (builder, "checkbtn_choice"));
-  g_object_bind_property (self, "choice-label", widget, "label", G_BINDING_DEFAULT);
-  g_object_bind_property (self, "choice-visible", widget, "visible", G_BINDING_DEFAULT);
-  g_object_bind_property (self, "choice-chosen", widget, "active", G_BINDING_BIDIRECTIONAL);
+  g_object_bind_property (self, "choice-label", priv->checkbtn_choice,
+                          "label", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "choice-visible", priv->checkbtn_choice,
+                          "visible", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "choice-chosen", priv->checkbtn_choice,
+                          "active", G_BINDING_BIDIRECTIONAL);
 
-  widget = GTK_WIDGET (gtk_builder_get_object (builder, "btn_cancel"));
-  g_object_bind_property (self, "cancel-label", widget, "label", G_BINDING_DEFAULT);
-  g_signal_connect_object (widget,
+  g_object_bind_property (self, "cancel-label", priv->btn_cancel, "label", G_BINDING_DEFAULT);
+  g_signal_connect_object (priv->btn_cancel,
                            "clicked",
                            G_CALLBACK (btn_cancel_clicked_cb),
                            self,
                            G_CONNECT_SWAPPED);
 
-  widget = GTK_WIDGET (gtk_builder_get_object (builder, "btn_continue"));
-  g_object_bind_property (self, "continue-label", widget, "label", G_BINDING_DEFAULT);
-  g_signal_connect_object (widget,
+  g_object_bind_property (self, "continue-label", priv->btn_continue, "label", G_BINDING_DEFAULT);
+  g_signal_connect_object (priv->btn_continue,
                            "clicked",
                            G_CALLBACK (btn_continue_clicked_cb),
                            self,
                            G_CONNECT_SWAPPED);
-  gtk_widget_grab_default (widget);
-  priv->btn_continue = widget;
-
-  gtk_style_context_add_class (
-    gtk_widget_get_style_context (GTK_WIDGET (self)),
-    "phosh-system-prompt");
+  gtk_widget_grab_default (priv->btn_continue);
 
   gtk_widget_set_app_paintable(GTK_WIDGET (self), TRUE);
   g_signal_connect (G_OBJECT(self),
@@ -647,6 +631,7 @@ static void
 phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->get_property = phosh_system_prompt_get_property;
   object_class->set_property = phosh_system_prompt_set_property;
@@ -701,6 +686,22 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
   g_object_class_install_property (object_class, PROP_CHOICE_VISIBLE,
                                    g_param_spec_boolean ("choice-visible", "Choice visible", "Choice is visible",
                                                          FALSE, G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
+
+  gtk_widget_class_set_template_from_resource (widget_class,
+                                               "/sm/puri/phosh/ui/system-prompt.ui");
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, grid);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, lbl_message);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, lbl_description);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, lbl_password);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, entry_password);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, lbl_confirm);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, entry_confirm);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, pbar_quality);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, lbl_warning);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, checkbtn_choice);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, btn_cancel);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, btn_continue);
+
 }
 
 
@@ -715,6 +716,7 @@ phosh_system_prompt_init (PhoshSystemPrompt *self)
    * Otherwise it gets clean up too early.
    */
   gtk_window_set_has_user_ref_count (GTK_WINDOW (self), FALSE);
+  gtk_widget_init_template (GTK_WIDGET (self));
 }
 
 
