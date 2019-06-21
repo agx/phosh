@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-16 13:29+0200\n"
+"POT-Creation-Date: 2019-06-21 17:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,12 +30,18 @@ msgstr ""
 msgid "Phosh"
 msgstr ""
 
-#: src/lockscreen.c:82 src/ui/lockscreen.ui:62
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:62
 msgid "Enter Passcode"
 msgstr ""
 
-#: src/lockscreen.c:174
+#: src/lockscreen.c:176
 msgid "Checking..."
+msgstr ""
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/lockscreen.c:255
+msgid "%A, %B %d"
 msgstr ""
 
 #: src/monitor-manager.c:53
@@ -47,15 +53,15 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: src/system-prompt.c:359
+#: src/system-prompt.c:370
 msgid "Passwords do not match."
 msgstr ""
 
-#: src/system-prompt.c:366
+#: src/system-prompt.c:377
 msgid "Password cannot be blank"
 msgstr ""
 
-#: src/ui/lockscreen.ui:205
+#: src/ui/lockscreen.ui:187
 msgid "Slide up to unlock"
 msgstr ""
 

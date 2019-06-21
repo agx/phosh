@@ -10,14 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-05 11:27+0200\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-06-21 15:53+0200\n"
 "PO-Revision-Date: 2019-01-19 10:03+0000\n"
 "Last-Translator: Max Schmidt <grell.robin@gmail.com>\n"
 "Language-Team: none\n"
 "Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Zanata 4.6.2\n"
 
@@ -34,35 +34,45 @@ msgstr "Fensterverwaltung und Starten von Apps für mobile Geräte"
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/lockscreen.c:82 src/ui/lockscreen.ui:61
-msgid "Enter PIN to unlock"
-msgstr "PIN eingeben um zu entsperren"
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:62
+msgid "Enter Passcode"
+msgstr ""
 
-#: src/lockscreen.c:174
-msgid "Checking PIN"
+#: src/lockscreen.c:176
+#, fuzzy
+msgid "Checking..."
 msgstr "Überprüfe PIN"
 
-#: src/monitor-manager.c:46
+#. Translators: This is a time format for a date in
+#. long format
+#: src/lockscreen.c:250 src/lockscreen.c:251
+msgid "%A, %B %d"
+msgstr "%A %d. %B"
+
+#: src/monitor-manager.c:53
 msgid "Built-in display"
 msgstr "Eingebauter Bildschirm"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:50
+#: src/monitor-manager.c:57
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: src/system-prompt.c:359
+#: src/system-prompt.c:370
 msgid "Passwords do not match."
 msgstr "Passwörter stimmen nicht überein"
 
-#: src/system-prompt.c:366
+#: src/system-prompt.c:377
 msgid "Password cannot be blank"
 msgstr "Passwort darf nicht leer sein"
 
-#: src/ui/lockscreen.ui:182
+#: src/ui/lockscreen.ui:187
 msgid "Slide up to unlock"
 msgstr "Nach oben wischen zum Entsperren"
 
-#: src/ui/settings-menu.ui:123
+#: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr "Drehung"
+
+#~ msgid "Enter PIN to unlock"
+#~ msgstr "PIN eingeben um zu entsperren"
