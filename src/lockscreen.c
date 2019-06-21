@@ -15,6 +15,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <math.h>
+#include <time.h>
 
 #define HANDY_USE_UNSTABLE_API
 #include <handy.h>
@@ -44,6 +45,7 @@ typedef struct {
   GtkWidget *ebox_info;
   GtkWidget *grid_info;
   GtkWidget *lbl_clock;
+  GtkWidget *lbl_date;
   GtkGesture *ebox_pan_gesture;
 
   /* unlock page */
@@ -231,16 +233,77 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
 }
 
 
+/**
+ * date_fmt: Get a date format based on LC_TIME
+ *
+ * This is done by temporarily swithcing LC_MESSAGES so we can look up
+ * the format in our message catalog.  This will fail if LANGUAGE is
+ * set to something different since LANGUAGE overrides
+ * LC_{ALL,MESSAGE}.
+ */
+static const gchar *
+date_fmt (void)
+{
+  const char *locale;
+  const char *fmt;
+
+  locale = setlocale (LC_TIME, NULL);
+  if (locale) /* Lookup date format via messages catalog */
+    setlocale (LC_MESSAGES, locale);
+  /* Translators: This is a time format for a date in
+     long format */
+  fmt = _("%A, %B %d");
+  setlocale (LC_MESSAGES, "");
+  return fmt;
+}
+
+/**
+ * local_date: Get the local date as string
+ *
+ * We honor LC_MESSAGES so we e.g. don't get a translated date when
+ * the user has LC_MESSAGES=en_US.UTF-8 but LC_TIME to their local
+ * time zone.
+ */
+static gchar*
+local_date (void)
+{
+  time_t current = time (NULL);
+  struct tm local;
+  g_autofree gchar *date = NULL;
+  const gchar *fmt;
+  const char *locale;
+
+  g_return_val_if_fail (current != (time_t) -1, NULL);
+  g_return_val_if_fail (localtime_r (&current, &local), NULL);
+
+  date = g_malloc0 (256);
+  fmt = date_fmt ();
+  locale = setlocale (LC_MESSAGES, NULL);
+  if (locale) /* make sure weekday and month use LC_MESSAGES */
+    setlocale (LC_TIME, locale);
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+  /* Can't use a string literal since it needs to be translated */
+  g_return_val_if_fail (strftime (date, 255, fmt, &local), NULL);
+#pragma GCC diagnostic error "-Wformat-nonliteral"
+  setlocale (LC_TIME, "");
+  return g_steal_pointer (&date);
+}
+
+
 static void
 wall_clock_notify_cb (PhoshLockscreen *self,
                       GParamSpec *pspec,
                       GnomeWallClock *wall_clock)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  const gchar *str;
+  const gchar *time;
+  g_autofree gchar *date = NULL;
 
-  str = gnome_wall_clock_get_clock(wall_clock);
-  gtk_label_set_text (GTK_LABEL (priv->lbl_clock), str);
+  time = gnome_wall_clock_get_clock(wall_clock);
+  gtk_label_set_text (GTK_LABEL (priv->lbl_clock), time);
+
+  date = local_date ();
+  gtk_label_set_label (GTK_LABEL (priv->lbl_date), date);
 }
 
 
@@ -331,6 +394,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, ebox_info);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, grid_info);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, wwaninfo);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, batteryinfo);
 }

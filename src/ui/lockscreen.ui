@@ -169,7 +169,7 @@
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
+                    <property name="top_attach">3</property>
                   </packing>
                 </child>
                 <child>
@@ -190,31 +190,45 @@
                         </style>
                       </object>
                       <packing>
-                        <property name="pack_type">end</property>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkImage" id="lock-arrow">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="icon_name">swipe-arrow-symbolic</property>
                         <property name="pixel_size">24</property>
+                        <property name="icon_name">swipe-arrow-symbolic</property>
                         <style>
                           <class name="phosh-lockscreen-arrow"/>
                         </style>
                       </object>
                       <packing>
-                        <property name="pack_type">end</property>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack_type">end</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
-                    <property name="top_attach">3</property>
+                    <property name="top_attach">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="lbl_date">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="valign">start</property>
+                    <property name="label" translatable="yes"></property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">2</property>
                   </packing>
                 </child>
               </object>
