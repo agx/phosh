@@ -30,6 +30,7 @@ Depends:
  fonts-lato,
 Recommends:
  gnome-session,
+Provides: polkit-1-auth-agent
 Description: Pure Wayland shell for mobile devices
  Phosh is a simple shell for Wayland compositors speaking the layer-surface
  protocol. It currently supports
