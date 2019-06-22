@@ -38,9 +38,10 @@ Description: Pure Wayland shell for mobile devices
   * a lockscreen
   * brightness control and nighlight
   * the gcr system-prompter interface
+  * acting as a polkit auth agent
   * enough of org.gnome.Mutter.DisplayConfig to make gnome-settings-daemon happy
   * a homebutton that toggles a simple favorites menu
-  * status icons for battary and wwan
+  * status icons for battery, wwan and wifi
  .
  If you're not working on a Wayland compositor then this package is likely not
  very useful for you.
