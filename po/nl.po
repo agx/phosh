@@ -1,4 +1,5 @@
-# Ludwig Johnson <public@ludwigjohnson.se>, 2018. #zanata
+# Joachim Moernaut <joachim@mailfence.com>, 2018. #zanata
+# Joachim Moernaut <joachim@mailfence.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
@@ -7,10 +8,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-12-01 10:56+0000\n"
-"Last-Translator: Ludwig Johnson <public@ludwigjohnson.se>\n"
-"Language-Team: Swedish\n"
-"Language: sv\n"
+"PO-Revision-Date: 2019-06-17 03:11+0000\n"
+"Last-Translator: Joachim Moernaut <joachim@mailfence.com>\n"
+"Language-Team: Dutch\n"
+"Language: nl\n"
 "X-Generator: Zanata 4.6.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -20,7 +21,7 @@ msgstr "Phone Shell"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr "Fönsterhantering och applikationsstartare för mobil"
+msgstr "Vensterbeheer en opstarten van mobiele toepassingen"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -29,11 +30,11 @@ msgstr "Phosh"
 
 #: src/lockscreen.c:84 src/ui/lockscreen.ui:62
 msgid "Enter Passcode"
-msgstr ""
+msgstr "Pin invoeren"
 
 #: src/lockscreen.c:176
 msgid "Checking..."
-msgstr ""
+msgstr "Verifieren..."
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -43,25 +44,25 @@ msgstr ""
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
-msgstr "Inbyggd skärm"
+msgstr "Ingebouwd scherm"
 
 #. Translators: An unknown monitor type
 #: src/monitor-manager.c:57
 msgid "Unknown"
-msgstr "Okänd"
+msgstr "onbekend"
 
 #: src/system-prompt.c:370
 msgid "Passwords do not match."
-msgstr "Lösenorden överensstämmer inte."
+msgstr "Wachtwoorden komen niet overeen."
 
 #: src/system-prompt.c:377
 msgid "Password cannot be blank"
-msgstr "Lösenordet får inte vara tomt"
+msgstr "Wachtwoord mag niet leeg zijn."
 
 #: src/ui/lockscreen.ui:187
 msgid "Slide up to unlock"
-msgstr "Svep uppåt för att låsa upp"
+msgstr "Veeg omhoog om de telefoon te ontgrendelen."
 
 #: src/ui/settings-menu.ui:92
 msgid "Rotation"
-msgstr "Rotation"
+msgstr "Rotatie"

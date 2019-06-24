@@ -1,14 +1,15 @@
 # Jaroslav Svoboda <multi.flexi@seznam.cz>, 2018. #zanata
+# Lighting <glighting@gmail.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-05 11:27+0200\n"
+"POT-Creation-Date: 2019-06-21 17:26+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-10-17 08:07+0000\n"
-"Last-Translator: Jaroslav Svoboda <multi.flexi@seznam.cz>\n"
+"PO-Revision-Date: 2019-06-23 08:05+0000\n"
+"Last-Translator: Lighting <glighting@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "X-Generator: Zanata 4.6.2\n"
@@ -28,35 +29,41 @@ msgstr "Управление окнами и запуск приложений �
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/lockscreen.c:82 src/ui/lockscreen.ui:61
-msgid "Enter PIN to unlock"
-msgstr "Введите PIN-код для разблокировки"
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:62
+msgid "Enter Passcode"
+msgstr "Введите код доступа"
 
-#: src/lockscreen.c:174
-msgid "Checking PIN"
-msgstr "Проверка PIN-кода"
+#: src/lockscreen.c:176
+msgid "Checking..."
+msgstr "Проверка..."
 
-#: src/monitor-manager.c:46
+#. Translators: This is a time format for a date in
+#. long format
+#: src/lockscreen.c:255
+msgid "%A, %B %d"
+msgstr ""
+
+#: src/monitor-manager.c:53
 msgid "Built-in display"
 msgstr "Встроенный дисплей"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:50
+#: src/monitor-manager.c:57
 msgid "Unknown"
 msgstr "Неизвестный"
 
-#: src/system-prompt.c:359
+#: src/system-prompt.c:370
 msgid "Passwords do not match."
 msgstr "Пароли не совпадают."
 
-#: src/system-prompt.c:366
+#: src/system-prompt.c:377
 msgid "Password cannot be blank"
 msgstr "Поле пароля не может быть пустым"
 
-#: src/ui/lockscreen.ui:182
+#: src/ui/lockscreen.ui:187
 msgid "Slide up to unlock"
-msgstr "Разблокируйте движением пальца вверх"
+msgstr "Разблокируйте движением пальца"
 
-#: src/ui/settings-menu.ui:123
+#: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr "Вращение"

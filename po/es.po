@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-05 11:27+0200\n"
+"POT-Creation-Date: 2019-06-21 17:26+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,35 +27,41 @@ msgstr "Gestor de ventanas y lanzador de aplicaciones para móviles"
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/lockscreen.c:82 src/ui/lockscreen.ui:61
-msgid "Enter PIN to unlock"
-msgstr "Introduce el PIN para desbloquear"
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:62
+msgid "Enter Passcode"
+msgstr ""
 
-#: src/lockscreen.c:174
-msgid "Checking PIN"
-msgstr "Comprobando PIN"
+#: src/lockscreen.c:176
+msgid "Checking..."
+msgstr ""
 
-#: src/monitor-manager.c:46
+#. Translators: This is a time format for a date in
+#. long format
+#: src/lockscreen.c:255
+msgid "%A, %B %d"
+msgstr ""
+
+#: src/monitor-manager.c:53
 msgid "Built-in display"
 msgstr "Pantalla integrada"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:50
+#: src/monitor-manager.c:57
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: src/system-prompt.c:359
+#: src/system-prompt.c:370
 msgid "Passwords do not match."
 msgstr "Las contraseñas no coinciden."
 
-#: src/system-prompt.c:366
+#: src/system-prompt.c:377
 msgid "Password cannot be blank"
 msgstr "La contraseña no puede estar en blanco"
 
-#: src/ui/lockscreen.ui:182
+#: src/ui/lockscreen.ui:187
 msgid "Slide up to unlock"
 msgstr "Desliza hacia arriba para desbloquear"
 
-#: src/ui/settings-menu.ui:123
+#: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr "Rotación"

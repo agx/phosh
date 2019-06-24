@@ -1,14 +1,15 @@
 # Dawid Potocki <dpot@tuta.io>, 2018. #zanata
+# Kacper Paczos <kacper-paczos@linux.pl>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-05 11:27+0200\n"
+"POT-Creation-Date: 2019-06-21 17:26+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-10-16 05:00+0000\n"
-"Last-Translator: Dawid Potocki <dpot@tuta.io>\n"
+"PO-Revision-Date: 2019-06-20 04:21+0000\n"
+"Last-Translator: Kacper Paczos <kacper-paczos@linux.pl>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
 "X-Generator: Zanata 4.6.2\n"
@@ -17,46 +18,52 @@ msgstr ""
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr ""
+msgstr "Powłoka telefonu"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr "Zarządzanie oknami i uruchamianie aplikacji dla urządzeń mobilnych"
+msgstr "Zarządzanie oknami oraz uruchamianie aplikacji na urządzeniu mobilnym"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/lockscreen.c:82 src/ui/lockscreen.ui:61
-msgid "Enter PIN to unlock"
-msgstr "Wprowadź kod PIN, aby odblokować"
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:62
+msgid "Enter Passcode"
+msgstr "Wprowadź kod dostępu"
 
-#: src/lockscreen.c:174
-msgid "Checking PIN"
-msgstr "Sprawdzanie kodu PIN"
+#: src/lockscreen.c:176
+msgid "Checking..."
+msgstr "Sprawdzanie..."
 
-#: src/monitor-manager.c:46
+#. Translators: This is a time format for a date in
+#. long format
+#: src/lockscreen.c:255
+msgid "%A, %B %d"
+msgstr ""
+
+#: src/monitor-manager.c:53
 msgid "Built-in display"
 msgstr "Wbudowany wyświetlacz"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:50
+#: src/monitor-manager.c:57
 msgid "Unknown"
 msgstr "Nieznany"
 
-#: src/system-prompt.c:359
+#: src/system-prompt.c:370
 msgid "Passwords do not match."
 msgstr "Hasła nie pasują do siebie"
 
-#: src/system-prompt.c:366
+#: src/system-prompt.c:377
 msgid "Password cannot be blank"
 msgstr "Hasło nie może być puste"
 
-#: src/ui/lockscreen.ui:182
+#: src/ui/lockscreen.ui:187
 msgid "Slide up to unlock"
 msgstr "Przesuń w góre, by odblokować"
 
-#: src/ui/settings-menu.ui:123
+#: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr "Obrót"

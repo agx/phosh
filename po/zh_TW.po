@@ -1,4 +1,5 @@
-# Ludwig Johnson <public@ludwigjohnson.se>, 2018. #zanata
+# Martin Chang <marty188586@gmail.com>, 2018. #zanata
+# Martin Chang <marty188586@gmail.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
@@ -7,20 +8,20 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-12-01 10:56+0000\n"
-"Last-Translator: Ludwig Johnson <public@ludwigjohnson.se>\n"
-"Language-Team: Swedish\n"
-"Language: sv\n"
+"PO-Revision-Date: 2019-06-22 02:36+0000\n"
+"Last-Translator: Martin Chang <marty188586@gmail.com>\n"
+"Language-Team: Chinese (Taiwan)\n"
+"Language: zh_TW\n"
 "X-Generator: Zanata 4.6.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr "Phone Shell"
+msgstr "手機介面"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr "Fönsterhantering och applikationsstartare för mobil"
+msgstr "視窗管理與啟動手機應用程式"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -29,11 +30,11 @@ msgstr "Phosh"
 
 #: src/lockscreen.c:84 src/ui/lockscreen.ui:62
 msgid "Enter Passcode"
-msgstr ""
+msgstr "請輸入密碼"
 
 #: src/lockscreen.c:176
 msgid "Checking..."
-msgstr ""
+msgstr "檢查中..."
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -43,25 +44,25 @@ msgstr ""
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
-msgstr "Inbyggd skärm"
+msgstr "內建顯示器"
 
 #. Translators: An unknown monitor type
 #: src/monitor-manager.c:57
 msgid "Unknown"
-msgstr "Okänd"
+msgstr "未知"
 
 #: src/system-prompt.c:370
 msgid "Passwords do not match."
-msgstr "Lösenorden överensstämmer inte."
+msgstr "密碼不相符"
 
 #: src/system-prompt.c:377
 msgid "Password cannot be blank"
-msgstr "Lösenordet får inte vara tomt"
+msgstr "密碼不可為空"
 
 #: src/ui/lockscreen.ui:187
 msgid "Slide up to unlock"
-msgstr "Svep uppåt för att låsa upp"
+msgstr "向上滑以解鎖"
 
 #: src/ui/settings-menu.ui:92
 msgid "Rotation"
-msgstr "Rotation"
+msgstr "旋轉"
