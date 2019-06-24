@@ -68,6 +68,12 @@ phosh-home, .phosh-panel {
     color: white;
 }
 
+/* Overview (app switcher, favorites) */
+
+.phosh-overview {
+    background: black;
+}
+
 .phosh-favorite {
     background: none;
     border: none;

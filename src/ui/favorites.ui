@@ -108,7 +108,7 @@
       </object>
     </child>
     <style>
-      <class name="phosh-favorites"/>
+      <class name="phosh-overview"/>
     </style>
   </template>
 </interface>

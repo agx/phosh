@@ -253,24 +253,6 @@ favorites_changed (GSettings *settings,
 
 
 static gboolean
-draw_cb (GtkWidget *widget, cairo_t *cr, gpointer unused)
-{
-  GtkStyleContext *context = gtk_widget_get_style_context (widget);
-  GdkRGBA c;
-
-  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-    gtk_style_context_get_background_color (context,
-                                            gtk_style_context_get_state (context),
-                                            &c);
-  G_GNUC_END_IGNORE_DEPRECATIONS
-  cairo_set_source_rgba (cr, c.red, c.green, c.blue, 0.8);
-  cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
-  cairo_paint (cr);
-  return FALSE;
-}
-
-
-static gboolean
 evbox_button_press_event_cb (PhoshFavorites *self, GdkEventButton *event)
 {
   g_signal_emit(self, signals[SELECTION_ABORTED], 0);
@@ -293,12 +275,6 @@ phosh_favorites_constructed (GObject *object)
   gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
   gtk_window_resize (GTK_WINDOW (self), width, height);
   gtk_widget_realize(GTK_WIDGET (self));
-  gtk_widget_set_app_paintable(GTK_WIDGET (self), TRUE);
-
-  g_signal_connect (G_OBJECT(self),
-                    "draw",
-                    G_CALLBACK(draw_cb),
-                    NULL);
 
   /* Close on click */
   g_signal_connect_swapped (priv->evbox_favorites, "button_press_event",
