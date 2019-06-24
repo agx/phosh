@@ -2,11 +2,8 @@
   <schema id="sm.puri.phosh"
           path="/sm/puri/phosh/">
     <key name="favorites" type="as">
-      <default>[ 'org.gnome.Contacts.desktop',
-                 'sm.puri.Calls.desktop',
+      <default>[ 'sm.puri.Calls.desktop',
                  'sm.puri.Chatty.desktop',
-                 'org.gnome.Calendar.desktop',
-                 'org.gnome.Evince.desktop',
                  'org.gnome.Epiphany.desktop',
                  'org.gnome.Terminal.desktop'
                ]</default>
