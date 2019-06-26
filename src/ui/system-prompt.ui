@@ -13,16 +13,15 @@
         <property name="can_focus">False</property>
         <property name="halign">center</property>
         <property name="valign">center</property>
-        <property name="margin_top">20</property>
-        <property name="margin_bottom">20</property>
-        <property name="row_spacing">12</property>
+        <property name="border_width">18</property>
+        <property name="row_spacing">6</property>
         <property name="column_spacing">12</property>
         <child>
           <object class="GtkLabel" id="lbl_description">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">start</property>
-            <property name="margin_bottom">4</property>
+            <property name="margin_bottom">12</property>
             <property name="hexpand">True</property>
             <property name="wrap">True</property>
           </object>
@@ -108,6 +107,8 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="wrap">True</property>
+            <property name="margin_top">12</property>
+            <property name="margin_bottom">12</property>
             <attributes>
               <attribute name="style" value="italic"/>
             </attributes>
@@ -132,25 +133,6 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="btn_continue">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="can_default">True</property>
-            <property name="has_default">True</property>
-            <property name="receives_default">True</property>
-            <property name="halign">start</property>
-            <property name="valign">center</property>
-            <property name="use_stock">True</property>
-            <style>
-              <class name="suggested-action"/>
-            </style>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">7</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkButton" id="btn_cancel">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -158,6 +140,7 @@
             <property name="receives_default">False</property>
             <property name="halign">end</property>
             <property name="valign">center</property>
+            <property name="margin_top">12</property>
             <property name="use_stock">True</property>
           </object>
           <packing>
@@ -170,7 +153,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">start</property>
-            <property name="margin_bottom">8</property>
+            <property name="margin_bottom">12</property>
             <property name="hexpand">True</property>
             <property name="wrap">True</property>
             <attributes>
@@ -187,12 +170,33 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">start</property>
+            <property name="margin_bottom">12</property>
             <property name="icon_name">dialog-password-symbolic</property>
             <property name="icon_size">6</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
             <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btn_continue">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="can_default">True</property>
+            <property name="has_default">True</property>
+            <property name="receives_default">True</property>
+            <property name="halign">start</property>
+            <property name="valign">center</property>
+            <property name="margin_top">12</property>
+            <property name="use_stock">True</property>
+            <style>
+              <class name="suggested-action"/>
+            </style>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">7</property>
           </packing>
         </child>
         <child>
