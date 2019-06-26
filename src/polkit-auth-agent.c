@@ -179,7 +179,6 @@ auth_request_initiate (AuthRequest *request)
       user_names,
       phosh_wayland_get_zwlr_layer_shell_v1(wl),
       primary_monitor->wl_output));
-  gtk_widget_show (GTK_WIDGET (request->agent->current_prompt));
 
   g_signal_connect (request->agent->current_prompt,
                     "done",
