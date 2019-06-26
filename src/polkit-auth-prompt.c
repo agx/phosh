@@ -271,6 +271,10 @@ on_auth_session_request (PhoshPolkitAuthPrompt *self,
   if (self->done_emitted)
     return;
 
+  /* Translate the most common request */
+  if (!g_strcmp0 (request, "Password: ") || !g_strcmp0 (request, "Password:"))
+    request = _("Password:");
+
   gtk_label_set_text(GTK_LABEL (self->lbl_password), request);
   gtk_entry_set_visibility (GTK_ENTRY (self->entry_password), echo_on);
   gtk_entry_set_text (GTK_ENTRY (self->entry_password), "");
