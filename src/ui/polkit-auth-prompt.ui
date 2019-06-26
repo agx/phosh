@@ -24,6 +24,9 @@
             <property name="halign">start</property>
             <property name="margin_bottom">4</property>
             <property name="hexpand">True</property>
+            <attributes>
+              <attribute name="weight" value="bold"/>
+            </attributes>
           </object>
           <packing>
             <property name="left_attach">1</property>
