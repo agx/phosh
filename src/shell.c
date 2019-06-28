@@ -379,8 +379,7 @@ panels_dispose (PhoshShell *self)
 static void
 background_create (PhoshShell *self)
 {
-
-#ifdef WITH_PHOSH_BACKGROUND
+  PhoshWayland *wl = phosh_wayland_get_default();
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   PhoshMonitor *monitor;
   gint width, height;
@@ -390,10 +389,12 @@ background_create (PhoshShell *self)
   phosh_shell_get_usable_area (self, NULL, NULL, &width, &height);
 
   /* set it up as the background */
-  priv->background = phosh_background_new (
-    priv->layer_shell, monitor->wl_output, width, height);
-#endif
+  priv->background = PHOSH_LAYER_SURFACE (phosh_background_new (
+    phosh_wayland_get_zwlr_layer_shell_v1(wl),
+    monitor->wl_output, width, height));
+  gtk_widget_show (GTK_WIDGET (priv->background));
 }
+
 
 static void
 css_setup (PhoshShell *self)
