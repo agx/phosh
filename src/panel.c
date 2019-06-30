@@ -57,12 +57,15 @@ top_panel_clicked_cb (PhoshPanel *self, GtkButton *btn)
 
 
 static void
-wall_clock_notify_cb (GnomeWallClock *wall_clock,
-    GParamSpec *pspec,
-    PhoshPanel *self)
+wall_clock_notify_cb (PhoshPanel *self,
+                      GParamSpec *pspec,
+                      GnomeWallClock *wall_clock)
 {
   PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
   const gchar *str;
+
+  g_return_if_fail (PHOSH_IS_PANEL (self));
+  g_return_if_fail (GNOME_IS_WALL_CLOCK (wall_clock));
 
   str = gnome_wall_clock_get_clock(wall_clock);
   gtk_label_set_text (GTK_LABEL (priv->lbl_clock), str);
@@ -88,10 +91,11 @@ phosh_panel_constructed (GObject *object)
 
   priv->wall_clock = gnome_wall_clock_new ();
 
-  g_signal_connect (priv->wall_clock,
-                    "notify::clock",
-                    G_CALLBACK (wall_clock_notify_cb),
-                    self);
+  g_signal_connect_object (priv->wall_clock,
+                           "notify::clock",
+                           G_CALLBACK (wall_clock_notify_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   g_signal_connect_object (priv->btn_top_panel,
                            "clicked",
@@ -114,7 +118,7 @@ phosh_panel_constructed (GObject *object)
   gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_top_panel),
                                   "image-button");
 
-  wall_clock_notify_cb (priv->wall_clock, NULL, self);
+  wall_clock_notify_cb (self, NULL, priv->wall_clock);
 }
 
 
