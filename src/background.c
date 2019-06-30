@@ -225,10 +225,6 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
 static void
 phosh_background_init (PhoshBackground *self)
 {
-  PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (PHOSH_BACKGROUND(self));
-
-  priv->pixbuf = NULL;
-  priv->settings = NULL;
 }
 
 
