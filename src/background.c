@@ -85,7 +85,7 @@ load_background (PhoshBackground *self,
                  const char* uri)
 {
   PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (self);
-  GdkPixbuf *image = NULL;
+  g_autoptr(GdkPixbuf) image = NULL;
   const gchar *xpm_data[] = {"1 1 1 1", "_ c WebGrey", "_"};
   GError *err = NULL;
   gint width, height;
@@ -114,7 +114,6 @@ load_background (PhoshBackground *self,
 
   gtk_window_get_size (GTK_WINDOW (self), &width, &height);
   priv->pixbuf = image_background (image, width, height);
-  g_object_unref (image);
 
   /* force background redraw */
   gtk_widget_queue_draw (GTK_WIDGET (self));
