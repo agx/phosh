@@ -129,6 +129,8 @@ background_draw_cb (PhoshBackground *self,
   PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (self);
   gint x, y, width, height;
 
+  g_return_val_if_fail (PHOSH_IS_BACKGROUND (self), TRUE);
+
   phosh_shell_get_usable_area (phosh_shell_get_default (), &x, &y, &width, &height);
   gdk_cairo_set_source_pixbuf (cr, priv->pixbuf, x, y);
   cairo_paint (cr);
@@ -137,11 +139,14 @@ background_draw_cb (PhoshBackground *self,
 
 
 static void
-background_setting_changed_cb (GSettings       *settings,
+background_setting_changed_cb (PhoshBackground *self,
                                const gchar     *key,
-                               PhoshBackground *self)
+                               GSettings       *settings)
 {
   g_autofree gchar *uri = g_settings_get_string (settings, key);
+
+  g_return_if_fail (PHOSH_IS_BACKGROUND (self));
+  g_return_if_fail (G_IS_SETTINGS (settings));
 
   if (!uri)
     return;
@@ -152,10 +157,15 @@ background_setting_changed_cb (GSettings       *settings,
 
 static void
 rotation_notify_cb (PhoshBackground *self,
+                    GParamSpec *pspec,
                     PhoshShell *shell)
 {
   PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (self);
-  background_setting_changed_cb (priv->settings, "picture-uri", self);
+
+  g_return_if_fail (PHOSH_IS_BACKGROUND (self));
+  g_return_if_fail (PHOSH_IS_SHELL (shell));
+
+  background_setting_changed_cb (self, "picture-uri", priv->settings);
 }
 
 
@@ -170,8 +180,8 @@ phosh_background_constructed (GObject *object)
   g_signal_connect (self, "draw", G_CALLBACK (background_draw_cb), NULL);
 
   priv->settings = g_settings_new ("org.gnome.desktop.background");
-  g_signal_connect (priv->settings, "changed::picture-uri",
-                    G_CALLBACK (background_setting_changed_cb), self);
+  g_signal_connect_swapped (priv->settings, "changed::picture-uri",
+                            G_CALLBACK (background_setting_changed_cb), self);
 
   g_signal_connect_swapped (phosh_shell_get_default (),
                             "notify::rotation",
@@ -188,7 +198,7 @@ phosh_background_configured (PhoshBackground *self)
   g_signal_chain_from_overridden_handler (self, 0);
 
   /* Load background initially */
-  background_setting_changed_cb (priv->settings, "picture-uri", self);
+  background_setting_changed_cb (self,  "picture-uri", priv->settings);
 }
 
 
