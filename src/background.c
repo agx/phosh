@@ -174,11 +174,6 @@ phosh_background_constructed (GObject *object)
   g_signal_connect (priv->settings, "changed::picture-uri",
                     G_CALLBACK (background_setting_changed_cb), self);
 
-  /* Window properties */
-  gtk_window_set_title (GTK_WINDOW (self), "phosh background");
-  gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
-  gtk_widget_realize (GTK_WIDGET (self));
-
   g_signal_connect_swapped (phosh_shell_get_default (),
                             "notify::rotation",
                             G_CALLBACK (rotation_notify_cb),
