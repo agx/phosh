@@ -12,6 +12,7 @@
 #include "wwaninfo.h"
 #include "batteryinfo.h"
 
+#include <locale.h>
 #include <string.h>
 #include <glib/gi18n.h>
 #include <math.h>
