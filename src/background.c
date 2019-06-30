@@ -112,7 +112,7 @@ load_background (PhoshBackground *self,
   if (!image)
     image = gdk_pixbuf_new_from_xpm_data (xpm_data);
 
-  gtk_window_get_size (GTK_WINDOW (self), &width, &height);
+  g_object_get (self, "width", &width, "height", &height, NULL);
   priv->pixbuf = image_background (image, width, height);
 
   /* force background redraw */
