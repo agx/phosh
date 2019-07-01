@@ -162,6 +162,16 @@ rotation_notify_cb (PhoshBackground *self,
 
 
 static void
+on_phosh_background_configured (PhoshLayerSurface *surface)
+{
+  PhoshBackground *self = PHOSH_BACKGROUND (surface);
+
+  /* Load background initially */
+  background_setting_changed_cb (self,  "picture-uri", self->settings);
+}
+
+
+static void
 phosh_background_constructed (GObject *object)
 {
   PhoshBackground *self = PHOSH_BACKGROUND (object);
@@ -178,16 +188,8 @@ phosh_background_constructed (GObject *object)
                             "notify::rotation",
                             G_CALLBACK (rotation_notify_cb),
                             self);
-}
 
-
-static void
-phosh_background_configured (PhoshBackground *self)
-{
-  g_signal_chain_from_overridden_handler (self, 0);
-
-  /* Load background initially */
-  background_setting_changed_cb (self,  "picture-uri", self->settings);
+  g_signal_connect (self, "configured", G_CALLBACK (on_phosh_background_configured), self);
 }
 
 
@@ -215,10 +217,6 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
 
   object_class->constructed = phosh_background_constructed;
   object_class->finalize = phosh_background_finalize;
-
-  g_signal_override_class_handler ("configured",
-                                   PHOSH_TYPE_LAYER_SURFACE,
-                                   (GCallback) phosh_background_configured);
 }
 
 
