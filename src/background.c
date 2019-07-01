@@ -20,20 +20,16 @@ enum {
 };
 static guint signals[N_SIGNALS];
 
-typedef struct
-{
-  GdkPixbuf *pixbuf;
-  GSettings *settings;
-} PhoshBackgroundPrivate;
-
-
-typedef struct _PhoshBackground
+struct _PhoshBackground
 {
   PhoshLayerSurface parent;
-} PhoshBackground;
+
+  GdkPixbuf *pixbuf;
+  GSettings *settings;
+};
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshBackground, phosh_background, PHOSH_TYPE_LAYER_SURFACE)
+G_DEFINE_TYPE (PhoshBackground, phosh_background, PHOSH_TYPE_LAYER_SURFACE)
 
 
 static GdkPixbuf *
@@ -84,15 +80,14 @@ static void
 load_background (PhoshBackground *self,
                  const char* uri)
 {
-  PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (self);
   g_autoptr(GdkPixbuf) image = NULL;
   const gchar *xpm_data[] = {"1 1 1 1", "_ c WebGrey", "_"};
   GError *err = NULL;
   gint width, height;
 
-  if (priv->pixbuf) {
-    g_object_unref (priv->pixbuf);
-    priv->pixbuf = NULL;
+  if (self->pixbuf) {
+    g_object_unref (self->pixbuf);
+    self->pixbuf = NULL;
   }
 
   /* FIXME: support GnomeDesktop.BGSlideShow as well */
@@ -113,7 +108,7 @@ load_background (PhoshBackground *self,
     image = gdk_pixbuf_new_from_xpm_data (xpm_data);
 
   g_object_get (self, "width", &width, "height", &height, NULL);
-  priv->pixbuf = image_background (image, width, height);
+  self->pixbuf = image_background (image, width, height);
 
   /* force background redraw */
   gtk_widget_queue_draw (GTK_WIDGET (self));
@@ -126,13 +121,12 @@ background_draw_cb (PhoshBackground *self,
                     cairo_t         *cr,
                     gpointer         data)
 {
-  PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (self);
   gint x, y, width, height;
 
   g_return_val_if_fail (PHOSH_IS_BACKGROUND (self), TRUE);
 
   phosh_shell_get_usable_area (phosh_shell_get_default (), &x, &y, &width, &height);
-  gdk_cairo_set_source_pixbuf (cr, priv->pixbuf, x, y);
+  gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x, y);
   cairo_paint (cr);
   return TRUE;
 }
@@ -160,12 +154,10 @@ rotation_notify_cb (PhoshBackground *self,
                     GParamSpec *pspec,
                     PhoshShell *shell)
 {
-  PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (self);
-
   g_return_if_fail (PHOSH_IS_BACKGROUND (self));
   g_return_if_fail (PHOSH_IS_SHELL (shell));
 
-  background_setting_changed_cb (self, "picture-uri", priv->settings);
+  background_setting_changed_cb (self, "picture-uri", self->settings);
 }
 
 
@@ -173,14 +165,13 @@ static void
 phosh_background_constructed (GObject *object)
 {
   PhoshBackground *self = PHOSH_BACKGROUND (object);
-  PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (self);
 
   G_OBJECT_CLASS (phosh_background_parent_class)->constructed (object);
 
   g_signal_connect (self, "draw", G_CALLBACK (background_draw_cb), NULL);
 
-  priv->settings = g_settings_new ("org.gnome.desktop.background");
-  g_signal_connect_swapped (priv->settings, "changed::picture-uri",
+  self->settings = g_settings_new ("org.gnome.desktop.background");
+  g_signal_connect_swapped (self->settings, "changed::picture-uri",
                             G_CALLBACK (background_setting_changed_cb), self);
 
   g_signal_connect_swapped (phosh_shell_get_default (),
@@ -193,23 +184,21 @@ phosh_background_constructed (GObject *object)
 static void
 phosh_background_configured (PhoshBackground *self)
 {
-  PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (self);
-
   g_signal_chain_from_overridden_handler (self, 0);
 
   /* Load background initially */
-  background_setting_changed_cb (self,  "picture-uri", priv->settings);
+  background_setting_changed_cb (self,  "picture-uri", self->settings);
 }
 
 
 static void
 phosh_background_finalize (GObject *object)
 {
-  PhoshBackgroundPrivate *priv = phosh_background_get_instance_private (PHOSH_BACKGROUND(object));
   GObjectClass *parent_class = G_OBJECT_CLASS (phosh_background_parent_class);
+  PhoshBackground *self = PHOSH_BACKGROUND (object);
 
-  g_object_unref (priv->pixbuf);
-  g_clear_object (&priv->settings);
+  g_object_unref (self->pixbuf);
+  g_clear_object (&self->settings);
 
   parent_class->finalize (object);
 }
