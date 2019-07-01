@@ -42,12 +42,18 @@ update_icon (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
 
   g_object_get (wifi, "icon-name", &icon_name, NULL);
 
-  if (icon_name) {
+  if (icon_name)
     gtk_image_set_from_icon_name (GTK_IMAGE (self), icon_name, self->size);
-    gtk_widget_show (GTK_WIDGET (self));
-  } else {
-    gtk_widget_hide (GTK_WIDGET (self));
-  }
+
+  gtk_widget_set_visible (GTK_WIDGET (self), icon_name ? TRUE : FALSE);
+}
+
+
+static gboolean
+on_idle (PhoshWifiInfo *self)
+{
+  update_icon (self, NULL, self->wifi);
+  return FALSE;
 }
 
 
@@ -72,7 +78,7 @@ phosh_wifi_info_constructed (GObject *object)
                             "notify::icon-name",
                             G_CALLBACK (update_icon),
                             self);
-  update_icon (self, NULL, self->wifi);
+  g_idle_add ((GSourceFunc) on_idle, self);
 }
 
 
