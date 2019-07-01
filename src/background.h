@@ -6,11 +6,19 @@
 
 #pragma once
 
-#include <gtk/gtk.h>
 #include "layersurface.h"
+#include "monitor/monitor.h"
+
+#include <gtk/gtk.h>
+
 
 #define PHOSH_TYPE_BACKGROUND (phosh_background_get_type())
 
 G_DECLARE_FINAL_TYPE (PhoshBackground, phosh_background, PHOSH, BACKGROUND, PhoshLayerSurface)
 
-GtkWidget *phosh_background_new (gpointer layer_shell, gpointer wl_output, guint width, guint height);
+GtkWidget *phosh_background_new (gpointer layer_shell,
+                                 gpointer wl_output,
+                                 guint width,
+                                 guint height,
+                                 gboolean primary);
+void phosh_background_set_primary (PhoshBackground *self, gboolean primary);

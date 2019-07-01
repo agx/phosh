@@ -27,6 +27,8 @@ phosh_sources = [
   'polkit-auth-prompt.h',
   'background.c',
   'background.h',
+  'background-manager.c',
+  'background-manager.h',
   'batteryinfo.c',
   'batteryinfo.h',
   'favorites.c',

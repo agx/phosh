@@ -23,7 +23,7 @@
 #include "shell.h"
 
 #include "batteryinfo.h"
-#include "background.h"
+#include "background-manager.h"
 #include "favorites.h"
 #include "home.h"
 #include "idle-manager.h"
@@ -62,10 +62,10 @@ typedef struct
 {
   PhoshLayerSurface *panel;
   PhoshLayerSurface *home;
-  PhoshLayerSurface *background;
   struct popup *favorites;
   struct popup *settings;
 
+  PhoshBackgroundManager *background_manager;
   PhoshMonitor *primary_monitor;
   PhoshMonitorManager *monitor_manager;
   PhoshLockscreenManager *lockscreen_manager;
@@ -377,24 +377,6 @@ panels_dispose (PhoshShell *self)
 
 
 static void
-background_create (PhoshShell *self)
-{
-  PhoshWayland *wl = phosh_wayland_get_default();
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  PhoshMonitor *monitor;
-
-  monitor = phosh_shell_get_primary_monitor (self);
-  g_return_if_fail (monitor);
-
-  /* background spans the whole monitor */
-  priv->background = PHOSH_LAYER_SURFACE (phosh_background_new (
-    phosh_wayland_get_zwlr_layer_shell_v1(wl),
-    monitor->wl_output, monitor->width, monitor->height));
-  gtk_widget_show (GTK_WIDGET (priv->background));
-}
-
-
-static void
 css_setup (PhoshShell *self)
 {
   GtkCssProvider *provider;
@@ -482,12 +464,12 @@ phosh_shell_dispose (GObject *object)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   panels_dispose (self);
-  g_clear_pointer (&priv->background, phosh_cp_widget_destroy);
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
   g_clear_object (&priv->wifi_manager);
   g_clear_object (&priv->osk_manager);
   g_clear_object (&priv->polkit_auth_agent);
+  g_clear_object (&priv->background_manager);
   phosh_system_prompter_unregister ();
   phosh_session_unregister ();
 
@@ -498,9 +480,11 @@ phosh_shell_dispose (GObject *object)
 static gboolean
 setup_idle_cb (PhoshShell *self)
 {
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
   panels_create (self);
   /* Create background after panel since it needs the panel's size */
-  background_create (self);
+  priv->background_manager = phosh_background_manager_new ();
 
   return FALSE;
 }

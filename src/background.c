@@ -22,6 +22,15 @@
 #include <math.h>
 #include <string.h>
 
+
+enum {
+  PROP_0,
+  PROP_PRIMARY,
+  PROP_LAST_PROP
+};
+static GParamSpec *props[PROP_LAST_PROP];
+
+
 enum {
   BACKGROUND_LOADED,
   N_SIGNALS
@@ -35,12 +44,51 @@ struct _PhoshBackground
   gchar *uri;
   GDesktopBackgroundStyle style;
 
+  gboolean primary;
   GdkPixbuf *pixbuf;
   GSettings *settings;
 };
 
 
-G_DEFINE_TYPE (PhoshBackground, phosh_background, PHOSH_TYPE_LAYER_SURFACE)
+G_DEFINE_TYPE (PhoshBackground, phosh_background, PHOSH_TYPE_LAYER_SURFACE);
+
+
+static void
+phosh_background_set_property (GObject *object,
+                               guint property_id,
+                               const GValue *value,
+                               GParamSpec *pspec)
+{
+  PhoshBackground *self = PHOSH_BACKGROUND (object);
+
+  switch (property_id) {
+  case PROP_PRIMARY:
+    phosh_background_set_primary (self, g_value_get_boolean (value));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
+phosh_background_get_property (GObject *object,
+                               guint property_id,
+                               GValue *value,
+                               GParamSpec *pspec)
+{
+  PhoshBackground *self = PHOSH_BACKGROUND (object);
+
+  switch (property_id) {
+  case PROP_PRIMARY:
+    g_value_set_boolean (value, self->primary);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
 
 
 static GdkPixbuf *
@@ -172,7 +220,11 @@ load_background (PhoshBackground *self)
   if (!image)
     image = gdk_pixbuf_new_from_xpm_data (xpm_data);
 
-  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
+  if (self->primary)
+    phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
+  else
+    g_object_get (self, "width", &width, "height", &height, NULL);
+  
   self->pixbuf = image_background (image, width, height, self->style);
 
   /* force background redraw */
@@ -186,12 +238,14 @@ background_draw_cb (PhoshBackground *self,
                     cairo_t         *cr,
                     gpointer         data)
 {
-  gint x, y;
+  gint x = 0, y = 0;
 
   g_return_val_if_fail (PHOSH_IS_BACKGROUND (self), TRUE);
   g_return_val_if_fail (GDK_IS_PIXBUF (self->pixbuf), TRUE);
 
-  phosh_shell_get_usable_area (phosh_shell_get_default (), &x, &y, NULL, NULL);
+  if (self->primary)
+    phosh_shell_get_usable_area (phosh_shell_get_default (), &x, &y, NULL, NULL);
+
   gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x, y);
   cairo_paint (cr);
   return TRUE;
@@ -285,6 +339,26 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
 
   object_class->constructed = phosh_background_constructed;
   object_class->finalize = phosh_background_finalize;
+
+  object_class->set_property = phosh_background_set_property;
+  object_class->get_property = phosh_background_get_property;
+
+  /**
+   * PhoshBackground:primary:
+   *
+   * Whether this is the background for the primary monitor.
+   */
+  props[PROP_PRIMARY] =
+    g_param_spec_boolean ("primary",
+                          "Primary",
+                          "Primary monitor",
+                          FALSE,
+                          G_PARAM_READWRITE |
+                          G_PARAM_STATIC_STRINGS |
+                          G_PARAM_EXPLICIT_NOTIFY |
+                          G_PARAM_CONSTRUCT);
+
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
 
@@ -298,7 +372,8 @@ GtkWidget *
 phosh_background_new (gpointer layer_shell,
                       gpointer wl_output,
                       guint width,
-                      guint height)
+                      guint height,
+                      gboolean primary)
 {
   return g_object_new (PHOSH_TYPE_BACKGROUND,
                        "layer-shell", layer_shell,
@@ -313,5 +388,21 @@ phosh_background_new (gpointer layer_shell,
                        "kbd-interactivity", FALSE,
                        "exclusive-zone", -1,
                        "namespace", "phosh background",
+                       "primary", primary,
                        NULL);
 }
+
+
+void
+phosh_background_set_primary (PhoshBackground *self, gboolean primary)
+{
+  if (self->primary == primary)
+    return;
+
+  self->primary = primary;
+  if (self->uri)
+    load_background (self);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY]);
+}
+
+
