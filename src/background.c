@@ -45,8 +45,7 @@ image_background (GdkPixbuf *image, guint width, guint height)
   bg = gdk_pixbuf_new_from_xpm_data (xpm_data);
   scaled_bg = gdk_pixbuf_scale_simple (bg,
                                        width,
-                                       /* since we can't offset the pixmap */
-                                       height + PHOSH_PANEL_HEIGHT,
+                                       height,
                                        GDK_INTERP_BILINEAR);
   g_object_unref (bg);
 
@@ -107,7 +106,7 @@ load_background (PhoshBackground *self,
   if (!image)
     image = gdk_pixbuf_new_from_xpm_data (xpm_data);
 
-  g_object_get (self, "width", &width, "height", &height, NULL);
+  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
   self->pixbuf = image_background (image, width, height);
 
   /* force background redraw */

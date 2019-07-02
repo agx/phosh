@@ -382,16 +382,14 @@ background_create (PhoshShell *self)
   PhoshWayland *wl = phosh_wayland_get_default();
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   PhoshMonitor *monitor;
-  gint width, height;
 
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail (monitor);
-  phosh_shell_get_usable_area (self, NULL, NULL, &width, &height);
 
-  /* set it up as the background */
+  /* background spans the whole monitor */
   priv->background = PHOSH_LAYER_SURFACE (phosh_background_new (
     phosh_wayland_get_zwlr_layer_shell_v1(wl),
-    monitor->wl_output, width, height));
+    monitor->wl_output, monitor->width, monitor->height));
   gtk_widget_show (GTK_WIDGET (priv->background));
 }
 
