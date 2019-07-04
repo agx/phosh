@@ -101,6 +101,11 @@ phosh_deps = [
   cc.find_library('rt', required: false),
 ]
 
+add_project_arguments([
+  '-DPOLKIT_AGENT_MAJOR_VERSION=' + libpolkit_agent_dep.version().split('.')[0],
+  '-DPOLKIT_AGENT_MINOR_VERSION=' + libpolkit_agent_dep.version().split('.')[1]
+], language: 'c')
+
 phosh = executable('phosh', phosh_sources,
   include_directories: [root_inc, src_inc],
   dependencies: phosh_deps,

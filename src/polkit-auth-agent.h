@@ -14,7 +14,9 @@
 G_BEGIN_DECLS
 
 /* libpolkit lacks these */
+#if POLKIT_AGENT_MAJOR_VERSION == 0 && POLKIT_AGENT_MINOR_VERSION < 114
 G_DEFINE_AUTOPTR_CLEANUP_FUNC(PolkitSubject, g_object_unref)
+#endif
 G_DEFINE_AUTOPTR_CLEANUP_FUNC(PolkitAgentListener, g_object_unref)
 
 #define PHOSH_TYPE_POLKIT_AUTH_AGENT (phosh_polkit_auth_agent_get_type())
