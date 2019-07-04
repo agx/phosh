@@ -29,6 +29,11 @@
 #define BG_KEY_PICTURE_OPACITY    "picture-opacity"
 #define BG_KEY_PICTURE_URI        "picture-uri"
 
+#define COLOR_TO_PIXEL(color)     ((((int)(color->red   * 255)) << 24) | \
+                                   (((int)(color->green * 255)) << 16) | \
+                                   (((int)(color->blue  * 255)) << 8)  | \
+                                   (((int)(color->alpha * 255))))
+
 enum {
   PROP_0,
   PROP_PRIMARY,
@@ -49,6 +54,7 @@ struct _PhoshBackground
 
   gchar *uri;
   GDesktopBackgroundStyle style;
+  GdkRGBA color;
 
   gboolean primary;
   GdkPixbuf *pixbuf;
@@ -132,23 +138,37 @@ pb_scale_to_min (GdkPixbuf *src, int min_width, int min_height)
 }
 
 
+static void
+color_from_string (GdkRGBA    *color, const char *string)
+{
+  if (!gdk_rgba_parse (color, string))
+    gdk_rgba_parse (color, "black");
+}
+
+
 static GdkPixbuf *
-pb_scale_to_fit (GdkPixbuf *src, int width, int height)
+pb_fill_color (int width, int height, GdkRGBA *color)
+{
+  GdkPixbuf *bg;
+
+  bg = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, width, height);
+  gdk_pixbuf_fill (bg, COLOR_TO_PIXEL(color));
+
+  return bg;
+}
+
+
+static GdkPixbuf *
+pb_scale_to_fit (GdkPixbuf *src, int width, int height, GdkRGBA *color)
 {
   gint orig_width, orig_height;
   gint final_width, final_height;
   gint off_x, off_y;
   gdouble ratio_horiz, ratio_vert, ratio;
-  g_autoptr(GdkPixbuf) bg = NULL;
-  GdkPixbuf *scaled_bg;
-  const gchar *xpm_data[] = {"1 1 1 1", "_ c WebGrey", "_"};
-  /* todo: use correct color */
+  GdkPixbuf *bg;
 
-  bg = gdk_pixbuf_new_from_xpm_data (xpm_data);
-  scaled_bg = gdk_pixbuf_scale_simple (bg,
-                                       width,
-                                       height,
-                                       GDK_INTERP_BILINEAR);
+  bg = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, width, height);
+  gdk_pixbuf_fill (bg, COLOR_TO_PIXEL(color));
 
   orig_width = gdk_pixbuf_get_width (src);
   orig_height = gdk_pixbuf_get_height (src);
@@ -162,7 +182,7 @@ pb_scale_to_fit (GdkPixbuf *src, int width, int height)
   off_x = (width - final_width) / 2;
   off_y = (height - final_height) / 2;
   gdk_pixbuf_composite (src,
-                        scaled_bg,
+                        bg,
                         off_x, off_y, /* dest x,y */
                         final_width,
                         final_height,
@@ -171,19 +191,25 @@ pb_scale_to_fit (GdkPixbuf *src, int width, int height)
                         ratio,
                         GDK_INTERP_BILINEAR,
                         255);
-  return scaled_bg;
+  return bg;
 }
 
 static GdkPixbuf *
-image_background (GdkPixbuf *image, guint width, guint height, GDesktopBackgroundStyle style)
+image_background (GdkPixbuf               *image,
+                  guint                    width,
+                  guint                    height,
+                  GDesktopBackgroundStyle  style,
+                  GdkRGBA                 *color)
 {
   GdkPixbuf *scaled_bg;
 
   switch (style) {
   case G_DESKTOP_BACKGROUND_STYLE_SCALED:
-    scaled_bg = pb_scale_to_fit (image, width, height);
+    scaled_bg = pb_scale_to_fit (image, width, height, color);
     break;
   case G_DESKTOP_BACKGROUND_STYLE_NONE:
+    scaled_bg = pb_fill_color (width, height, color);
+    break;
   case G_DESKTOP_BACKGROUND_STYLE_WALLPAPER:
   case G_DESKTOP_BACKGROUND_STYLE_CENTERED:
   case G_DESKTOP_BACKGROUND_STYLE_STRETCHED:
@@ -201,72 +227,12 @@ image_background (GdkPixbuf *image, guint width, guint height, GDesktopBackgroun
 
 
 static void
-color_from_string (const char *string,
-                   GdkColor   *colorp)
-{
-        /* If all else fails use black */
-        gdk_color_parse ("black", colorp);
-
-        if (!string)
-                return;
-
-        gdk_color_parse (string, colorp);
-}
-
-#if 0
-        ctype = g_settings_get_enum (settings, BG_KEY_COLOR_TYPE);
-
-
-                static void
-draw_color_area (GnomeBG *bg,
-                 GdkPixbuf *dest,
-                 GdkRectangle *rect)
-{
-        guint32 pixel;
-        GdkRectangle extent;
-
-        extent.x = 0;
-        extent.y = 0;
-        extent.width = gdk_pixbuf_get_width (dest);
-        extent.height = gdk_pixbuf_get_height (dest);
-
-        gdk_rectangle_intersect (rect, &extent, rect);
-
-        switch (bg->color_type) {
-        case G_DESKTOP_BACKGROUND_SHADING_SOLID:
-                /* not really a big deal to ignore the area of interest */
-                pixel = ((bg->primary.red >> 8) << 24)      |
-                        ((bg->primary.green >> 8) << 16)    |
-                        ((bg->primary.blue >> 8) << 8)      |
-                        (0xff);
-
-                gdk_pixbuf_fill (dest, pixel);
-                break;
-
-        case G_DESKTOP_BACKGROUND_SHADING_HORIZONTAL:
-                pixbuf_draw_gradient (dest, TRUE, &(bg->primary), &(bg->secondary), rect);
-                break;
-
-        case G_DESKTOP_BACKGROUND_SHADING_VERTICAL:
-                pixbuf_draw_gradient (dest, FALSE, &(bg->primary), &(bg->secondary), rect);
-                break;
-
-        default:
-                break;
-        }
-}
-
-#endif
-
-
-static void
 load_background (PhoshBackground *self)
 {
   g_autoptr(GdkPixbuf) image = NULL;
-  /* todo: use correct color */
-  const gchar *xpm_data[] = {"1 1 1 1", "_ c WebGrey", "_"};
   GError *err = NULL;
   gint width, height;
+  GDesktopBackgroundStyle style = self->style;
 
   g_clear_object (&self->pixbuf);
 
@@ -283,16 +249,16 @@ load_background (PhoshBackground *self)
     }
   }
 
-  /* Fallback if image can't be loaded */
+  /* Fallback to solid fill if  image can't be loaded */
   if (!image)
-    image = gdk_pixbuf_new_from_xpm_data (xpm_data);
+    style = G_DESKTOP_BACKGROUND_STYLE_NONE;
 
   if (self->primary)
     phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
   else
     g_object_get (self, "width", &width, "height", &height, NULL);
   
-  self->pixbuf = image_background (image, width, height, self->style);
+  self->pixbuf = image_background (image, width, height, style, &self->color);
 
   /* force background redraw */
   gtk_widget_queue_draw (GTK_WIDGET (self));
@@ -330,6 +296,8 @@ on_background_setting_changed (PhoshBackground *self,
   g_free (self->uri);
   self->uri = g_settings_get_string (settings, BG_KEY_PICTURE_URI);
   self->style = g_settings_get_enum (settings, BG_KEY_PICTURE_OPTIONS);
+  color_from_string (&self->color,
+                     g_settings_get_string (settings, BG_KEY_PRIMARY_COLOR));
 
   load_background (self);
 }
@@ -371,6 +339,8 @@ phosh_background_constructed (GObject *object)
                     "swapped_signal::changed::" BG_KEY_PICTURE_URI,
                     G_CALLBACK (on_background_setting_changed), self,
                     "swapped_signal::changed::" BG_KEY_PICTURE_OPTIONS,
+                    G_CALLBACK (on_background_setting_changed), self,
+                    "swapped_signal::changed::" BG_KEY_PRIMARY_COLOR,
                     G_CALLBACK (on_background_setting_changed), self,
                     NULL);
 
