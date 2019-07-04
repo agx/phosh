@@ -22,6 +22,12 @@
 #include <math.h>
 #include <string.h>
 
+#define BG_KEY_PRIMARY_COLOR      "primary-color"
+#define BG_KEY_SECONDARY_COLOR    "secondary-color"
+#define BG_KEY_COLOR_TYPE         "color-shading-type"
+#define BG_KEY_PICTURE_OPTIONS    "picture-options"
+#define BG_KEY_PICTURE_OPACITY    "picture-opacity"
+#define BG_KEY_PICTURE_URI        "picture-uri"
 
 enum {
   PROP_0,
@@ -322,8 +328,8 @@ on_background_setting_changed (PhoshBackground *self,
   g_return_if_fail (G_IS_SETTINGS (settings));
 
   g_free (self->uri);
-  self->uri = g_settings_get_string (settings, "picture-uri");
-  self->style = g_settings_get_enum (settings, "picture-options");
+  self->uri = g_settings_get_string (settings, BG_KEY_PICTURE_URI);
+  self->style = g_settings_get_enum (settings, BG_KEY_PICTURE_OPTIONS);
 
   load_background (self);
 }
@@ -362,9 +368,9 @@ phosh_background_constructed (GObject *object)
 
   self->settings = g_settings_new ("org.gnome.desktop.background");
   g_object_connect (self->settings,
-                    "swapped_signal::changed::picture-uri",
+                    "swapped_signal::changed::" BG_KEY_PICTURE_URI,
                     G_CALLBACK (on_background_setting_changed), self,
-                    "swapped_signal::changed::picture-options",
+                    "swapped_signal::changed::" BG_KEY_PICTURE_OPTIONS,
                     G_CALLBACK (on_background_setting_changed), self,
                     NULL);
 
