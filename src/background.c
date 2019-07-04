@@ -136,6 +136,7 @@ pb_scale_to_fit (GdkPixbuf *src, int width, int height)
   g_autoptr(GdkPixbuf) bg = NULL;
   GdkPixbuf *scaled_bg;
   const gchar *xpm_data[] = {"1 1 1 1", "_ c WebGrey", "_"};
+  /* todo: use correct color */
 
   bg = gdk_pixbuf_new_from_xpm_data (xpm_data);
   scaled_bg = gdk_pixbuf_scale_simple (bg,
@@ -194,9 +195,69 @@ image_background (GdkPixbuf *image, guint width, guint height, GDesktopBackgroun
 
 
 static void
+color_from_string (const char *string,
+                   GdkColor   *colorp)
+{
+        /* If all else fails use black */
+        gdk_color_parse ("black", colorp);
+
+        if (!string)
+                return;
+
+        gdk_color_parse (string, colorp);
+}
+
+#if 0
+        ctype = g_settings_get_enum (settings, BG_KEY_COLOR_TYPE);
+
+
+                static void
+draw_color_area (GnomeBG *bg,
+                 GdkPixbuf *dest,
+                 GdkRectangle *rect)
+{
+        guint32 pixel;
+        GdkRectangle extent;
+
+        extent.x = 0;
+        extent.y = 0;
+        extent.width = gdk_pixbuf_get_width (dest);
+        extent.height = gdk_pixbuf_get_height (dest);
+
+        gdk_rectangle_intersect (rect, &extent, rect);
+
+        switch (bg->color_type) {
+        case G_DESKTOP_BACKGROUND_SHADING_SOLID:
+                /* not really a big deal to ignore the area of interest */
+                pixel = ((bg->primary.red >> 8) << 24)      |
+                        ((bg->primary.green >> 8) << 16)    |
+                        ((bg->primary.blue >> 8) << 8)      |
+                        (0xff);
+
+                gdk_pixbuf_fill (dest, pixel);
+                break;
+
+        case G_DESKTOP_BACKGROUND_SHADING_HORIZONTAL:
+                pixbuf_draw_gradient (dest, TRUE, &(bg->primary), &(bg->secondary), rect);
+                break;
+
+        case G_DESKTOP_BACKGROUND_SHADING_VERTICAL:
+                pixbuf_draw_gradient (dest, FALSE, &(bg->primary), &(bg->secondary), rect);
+                break;
+
+        default:
+                break;
+        }
+}
+
+#endif
+
+
+static void
 load_background (PhoshBackground *self)
 {
   g_autoptr(GdkPixbuf) image = NULL;
+  /* todo: use correct color */
   const gchar *xpm_data[] = {"1 1 1 1", "_ c WebGrey", "_"};
   GError *err = NULL;
   gint width, height;
@@ -300,10 +361,12 @@ phosh_background_constructed (GObject *object)
   g_signal_connect (self, "draw", G_CALLBACK (background_draw_cb), NULL);
 
   self->settings = g_settings_new ("org.gnome.desktop.background");
-  g_signal_connect_swapped (self->settings, "changed::picture-uri",
-                            G_CALLBACK (on_background_setting_changed), self);
-  g_signal_connect_swapped (self->settings, "changed::picture-options",
-                            G_CALLBACK (on_background_setting_changed), self);
+  g_object_connect (self->settings,
+                    "swapped_signal::changed::picture-uri",
+                    G_CALLBACK (on_background_setting_changed), self,
+                    "swapped_signal::changed::picture-options",
+                    G_CALLBACK (on_background_setting_changed), self,
+                    NULL);
 
   g_signal_connect_swapped (phosh_shell_get_default (),
                             "notify::rotation",
