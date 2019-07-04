@@ -81,7 +81,7 @@ phosh-home, .phosh-panel {
 .phosh-lockscreen-arrow {
     transition: 400ms linear;
     animation: pulsate 1.8s ease-out;
-    animation-iteration-count: infinite;
+    animation-iteration-count: 15;
 }
 
 @keyframes pulsate {
