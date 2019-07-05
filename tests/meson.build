@@ -11,7 +11,6 @@ test_env = [
 ]
 
 test_cflags = [
-  '-fPIE',
   '-I@0@/../src'.format(meson.current_source_dir()),
   '-I@0@/../src'.format(meson.current_build_dir()),
   '-I@0@/../src/dbus'.format(meson.current_build_dir()),
@@ -45,6 +44,7 @@ foreach test : tests
 		  test[1],
 		  test_deps],
 		 c_args: test_cflags,
+		 pie: true,
 		 link_args: test_link_args,
 		 dependencies: phosh_deps,
 		)
