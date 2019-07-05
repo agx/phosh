@@ -76,6 +76,14 @@ phosh-home, .phosh-panel {
     -gtk-icon-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 1px 8px rgba(0,0,0,0.2);
 }
 
+.phosh-favorite:hover {
+    -gtk-icon-effect: none;
+}
+
+.phosh-favorite:active {
+    -gtk-icon-effect: highlight;
+}
+
 /* Lock screen */
 .phosh-lockscreen, .phosh-lockshield {
     background-color: black;
