@@ -37,7 +37,7 @@
     background-color: black;
 }
 
-button.circular:not(:hover):not(:active) {
+.phosh-settings-menu button.circular:not(:hover):not(:active) {
     border: 2px solid @theme_bg_color;
 }
 
