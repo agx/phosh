@@ -176,9 +176,6 @@ add_favorite (PhoshFavorites *self,
   gtk_style_context_add_class (gtk_widget_get_style_context (btn),
                                "phosh-favorite");
 
-  gtk_style_context_add_class (gtk_widget_get_style_context( GTK_WIDGET(btn) ),
-                               "circular");
-
   gtk_button_set_image (GTK_BUTTON (btn), image);
   g_object_set (image, "margin", 10, NULL);
 
