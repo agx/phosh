@@ -157,7 +157,7 @@ add_favorite (PhoshFavorites *self,
 {
   g_autoptr (GIcon) icon = NULL;
   GDesktopAppInfo *info;
-  GtkWidget *image;
+  GtkImage *image;
   GtkWidget *btn;
 
   info = g_desktop_app_info_new (favorite);
@@ -165,8 +165,12 @@ add_favorite (PhoshFavorites *self,
     return NULL;
 
   icon = g_app_info_get_icon (G_APP_INFO (info));
-  image = phosh_get_image_from_gicon (icon, FAVORITES_ICON_SIZE, scale);
-  g_return_val_if_fail (image, NULL);
+
+  image = GTK_IMAGE (gtk_image_new ());
+  /* Setting pixel size makes gtk ignore the size argument
+   * gtk_image_set_from_gicon () */
+  gtk_image_set_pixel_size (image, FAVORITES_ICON_SIZE);
+  gtk_image_set_from_gicon (image, icon, -1);
 
   btn = gtk_button_new ();
   gtk_style_context_remove_class (gtk_widget_get_style_context (btn),
@@ -176,7 +180,7 @@ add_favorite (PhoshFavorites *self,
   gtk_style_context_add_class (gtk_widget_get_style_context (btn),
                                "phosh-favorite");
 
-  gtk_button_set_image (GTK_BUTTON (btn), image);
+  gtk_button_set_image (GTK_BUTTON (btn), GTK_WIDGET (image));
   g_object_set (image, "margin", 10, NULL);
 
   g_object_set_data (G_OBJECT (btn), "favorites", self);

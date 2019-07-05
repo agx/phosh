@@ -8,4 +8,3 @@
 #include <gtk/gtk.h>
 
 void phosh_cp_widget_destroy (void *widget);
-GtkWidget *phosh_get_image_from_gicon (GIcon *icon, int size, int scale);
