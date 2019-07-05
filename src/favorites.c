@@ -194,11 +194,6 @@ favorites_changed (GSettings *settings,
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
   gchar **favorites = g_settings_get_strv (settings, key);
   GtkWidget *btn;
-  gint scale = 1;
-  PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default());
-
-  if (monitor)
-    scale = monitor->scale;
 
   /* Remove all favorites first */
   gtk_container_foreach (GTK_CONTAINER (priv->fb_favorites),
@@ -206,7 +201,7 @@ favorites_changed (GSettings *settings,
 
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
-    btn = add_favorite (self, fav, scale);
+    btn = add_favorite (self, fav, 1);
     if (btn)
       gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_favorites), btn, -1);
   }
