@@ -21,8 +21,6 @@
  * in the favorites overview.
  */
 
-#define APP_ICON_SIZE GTK_ICON_SIZE_DIALOG
-
 enum {
   PHOSH_APP_PROP_0,
   PHOSH_APP_PROP_APP_ID,

@@ -15,10 +15,13 @@
 #include "favorites.h"
 #include "app.h"
 #include "shell.h"
+#include "util.h"
 #include "phosh-private-client-protocol.h"
 #include "phosh-wayland.h"
 
 #include <gio/gdesktopappinfo.h>
+
+#define FAVORITES_ICON_SIZE 64
 
 enum {
   APP_LAUNCHED,
@@ -149,9 +152,10 @@ favorite_clicked_cb (GtkWidget *widget,
 
 static GtkWidget*
 add_favorite (PhoshFavorites *self,
-              const gchar *favorite)
+              const gchar *favorite,
+              gint scale)
 {
-  GIcon *icon;
+  g_autoptr (GIcon) icon = NULL;
   GDesktopAppInfo *info;
   GtkWidget *image;
   GtkWidget *btn;
@@ -161,8 +165,8 @@ add_favorite (PhoshFavorites *self,
     return NULL;
 
   icon = g_app_info_get_icon (G_APP_INFO (info));
-  image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DIALOG);
-  g_object_unref (icon);
+  image = phosh_get_image_from_gicon (icon, FAVORITES_ICON_SIZE, scale);
+  g_return_val_if_fail (image, NULL);
 
   btn = gtk_button_new ();
   gtk_style_context_remove_class (gtk_widget_get_style_context (btn),
@@ -193,6 +197,11 @@ favorites_changed (GSettings *settings,
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
   gchar **favorites = g_settings_get_strv (settings, key);
   GtkWidget *btn;
+  gint scale = 1;
+  PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default());
+
+  if (monitor)
+    scale = monitor->scale;
 
   /* Remove all favorites first */
   gtk_container_foreach (GTK_CONTAINER (priv->fb_favorites),
@@ -200,7 +209,7 @@ favorites_changed (GSettings *settings,
 
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
-    btn = add_favorite (self, fav);
+    btn = add_favorite (self, fav, scale);
     if (btn)
       gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_favorites), btn, -1);
   }

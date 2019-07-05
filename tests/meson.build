@@ -31,7 +31,10 @@ test_deps = [
 
 tests = [
   ['app', []],
-  ['favorites', [ '@0@/src/app.c'.format(meson.source_root())]],
+  ['favorites', [ '@0@/src/app.c'.format(meson.source_root()),
+                  '@0@/src/util.c'.format(meson.source_root()),
+		]
+  ],
 ]
 
 # Unit tests
