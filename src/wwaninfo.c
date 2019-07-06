@@ -319,6 +319,7 @@ phosh_wwan_info_set_size (PhoshWWanInfo *self, gint size)
     return;
 
   self->size = size;
+  gtk_image_set_pixel_size (GTK_IMAGE (self), size);
   gtk_widget_queue_resize (GTK_WIDGET (self));
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SIZE]);
