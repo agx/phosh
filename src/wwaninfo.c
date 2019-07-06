@@ -199,15 +199,13 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
   icon_theme = gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET(self)));
   /* SIM missing */
   if (!phosh_wwan_has_sim (PHOSH_WWAN (self->wwan))) {
-    src = icon_to_pixbuf (self, "auth-sim-missing-symbolic", icon_theme);
-    gtk_image_set_from_pixbuf (GTK_IMAGE (self), src);
+    gtk_image_set_from_icon_name (GTK_IMAGE (self), "auth-sim-missing-symbolic", -1);
     return;
   }
 
   /* SIM unlock required */
   if (!phosh_wwan_is_unlocked (PHOSH_WWAN (self->wwan))) {
-    src = icon_to_pixbuf (self, "auth-sim-locked-symbolic", icon_theme);
-    gtk_image_set_from_pixbuf (GTK_IMAGE (self), src);
+    gtk_image_set_from_icon_name (GTK_IMAGE (self), "auth-sim-locked-symbolic", -1);
     return;
   }
 
