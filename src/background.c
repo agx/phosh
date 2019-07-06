@@ -231,7 +231,7 @@ load_background (PhoshBackground *self)
 {
   g_autoptr(GdkPixbuf) image = NULL;
   GError *err = NULL;
-  gint width, height;
+  gint width, height, scale = gtk_widget_get_scale_factor(GTK_WIDGET(self));
   GDesktopBackgroundStyle style = self->style;
 
   g_clear_object (&self->pixbuf);
@@ -258,7 +258,7 @@ load_background (PhoshBackground *self)
   else
     g_object_get (self, "width", &width, "height", &height, NULL);
   
-  self->pixbuf = image_background (image, width, height, style, &self->color);
+  self->pixbuf = image_background (image, width * scale, height * scale, style, &self->color);
 
   /* force background redraw */
   gtk_widget_queue_draw (GTK_WIDGET (self));
@@ -271,7 +271,7 @@ background_draw_cb (PhoshBackground *self,
                     cairo_t         *cr,
                     gpointer         data)
 {
-  gint x = 0, y = 0;
+  gint x = 0, y = 0, scale = gtk_widget_get_scale_factor (GTK_WIDGET (self));
 
   g_return_val_if_fail (PHOSH_IS_BACKGROUND (self), TRUE);
   g_return_val_if_fail (GDK_IS_PIXBUF (self->pixbuf), TRUE);
@@ -279,8 +279,11 @@ background_draw_cb (PhoshBackground *self,
   if (self->primary)
     phosh_shell_get_usable_area (phosh_shell_get_default (), &x, &y, NULL, NULL);
 
-  gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x, y);
+  cairo_save(cr);
+  cairo_scale(cr, 1.0 / scale, 1.0 / scale);
+  gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x * scale, y * scale);
   cairo_paint (cr);
+  cairo_restore(cr);
   return TRUE;
 }
 
