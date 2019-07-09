@@ -27,10 +27,12 @@ ConditionPathExists=/dev/tty0
 [Service]
 Environment=LANG=C.UTF-8
 ExecStart=/usr/bin/phosh
-TimeoutStartSec=60
+TimeoutStartSec=30
 User=purism
 PAMName=login
 WorkingDirectory=/home/purism
+Restart=on-failure
+RestartSec=5s
 
 # A virtual terminal is needed.
 TTYPath=/dev/tty7
