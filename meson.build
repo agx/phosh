@@ -117,6 +117,7 @@ subdir('data')
 subdir('po')
 subdir('protocol')
 subdir('src')
+subdir('tools')
 subdir('tests')
 
 git = find_program('git', required: false)
