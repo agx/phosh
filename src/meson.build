@@ -16,9 +16,16 @@ phosh_settings_sources = [
   phosh_settings_widgets_sources,
 ]
 
-phosh_sources = [
+libphosh_sources = [
   'app.c',
   'app.h',
+  'favorites.c',
+  'favorites.h',
+  phosh_resources,
+  wl_proto_sources,
+]
+
+phosh_sources = [
   'auth.c',
   'auth.h',
   'polkit-auth-agent.c',
@@ -31,8 +38,6 @@ phosh_sources = [
   'background-manager.h',
   'batteryinfo.c',
   'batteryinfo.h',
-  'favorites.c',
-  'favorites.h',
   'home.c',
   'home.h',
   'idle-manager.c',
@@ -73,12 +78,10 @@ phosh_sources = [
   'wwaninfo.c',
   'wwaninfo.h',
   generated_dbus_sources,
-  phosh_resources,
   phosh_settings_sources,
   phosh_wwan_sources,
   phosh_monitor_sources,
   phosh_osk_sources,
-  wl_proto_sources,
 ]
 
 phosh_deps = [
@@ -106,10 +109,15 @@ add_project_arguments([
   '-DPOLKIT_AGENT_MINOR_VERSION=' + libpolkit_agent_dep.version().split('.')[1]
 ], language: 'c')
 
-phosh = executable('phosh', phosh_sources,
-  include_directories: [root_inc, src_inc],
-  dependencies: phosh_deps,
-  install: true,
-  install_dir: libexecdir,
-)
+phosh_lib = static_library('phosh', libphosh_sources, dependencies: phosh_deps)
+phosh_inc = include_directories('.')
 
+phosh_dep = declare_dependency(sources: libphosh_sources,
+                               include_directories: [root_inc, phosh_inc],
+                               link_with: phosh_lib,
+                               dependencies: phosh_deps)
+
+phosh = executable('phosh', phosh_sources,
+                   dependencies: phosh_dep,
+  install: true,
+                   install_dir: libexecdir)

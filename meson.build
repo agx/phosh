@@ -33,7 +33,6 @@ add_project_arguments([
 ], language: 'c')
 
 root_inc = include_directories('.')
-src_inc = include_directories('src')
 
 cc = meson.get_compiler('c')
 
