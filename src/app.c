@@ -25,6 +25,12 @@
 #define APP_ICON_SIZE -1
 
 enum {
+  APP_CLOSED,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
+
+enum {
   PROP_0,
   PROP_APP_ID,
   PROP_TITLE,
@@ -41,6 +47,7 @@ typedef struct
   GtkWidget *icon;
   GtkWidget *app_name;
   GtkWidget *box;
+  GtkWidget *btn_close;
 
   int win_width;
   int win_height;
@@ -142,6 +149,17 @@ phosh_app_get_property (GObject *object,
   }
 }
 
+
+static void
+on_btn_close_clicked (PhoshApp *self, GtkButton *button)
+{
+  g_return_if_fail (PHOSH_IS_APP (self));
+  g_return_if_fail (GTK_IS_BUTTON (button));
+
+  g_signal_emit(self, signals[APP_CLOSED], 0);
+}
+
+
 static void
 phosh_app_constructed (GObject *object)
 {
@@ -178,6 +196,11 @@ phosh_app_constructed (GObject *object)
                                   "missing-image",
                                   APP_ICON_SIZE);
   }
+
+  g_signal_connect_swapped (priv->btn_close,
+                            "clicked",
+                            (GCallback) on_btn_close_clicked,
+                            self);
 
   G_OBJECT_CLASS (phosh_app_parent_class)->constructed (object);
 }
@@ -364,11 +387,16 @@ phosh_app_class_init (PhoshAppClass *klass)
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
+  signals[APP_CLOSED] = g_signal_new ("app-closed",
+      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+      NULL, G_TYPE_NONE, 0);
+
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/app.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshApp, app_name);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshApp, icon);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshApp, box);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshApp, btn_close);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-app");
 }
