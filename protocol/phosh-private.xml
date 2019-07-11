@@ -1,5 +1,5 @@
 <protocol name="phosh">
-  <interface name="phosh_private" version="2">
+  <interface name="phosh_private" version="3">
     <description summary="Phone shell extensions">
       Private protocol between phosh and the compositor.
     </description>
@@ -23,8 +23,8 @@
     </request>
   </interface>
 
-  <!-- application switch handling -->
-  <interface name="phosh_private_xdg_switcher" version="2">
+  <!-- application switch/close handling -->
+  <interface name="phosh_private_xdg_switcher" version="3">
     <description summary="Interface to list and raise xdg surfaces">
       The interface is meant to list xdg surfaces (see the xdg-shell
       stable wayland protocol) and to raise these surfaces to the top
@@ -65,5 +65,13 @@
     <event name="list_xdg_surfaces_done" since="2">
       <description summary="all xdg surfaces were sent"/>
     </event>
+
+    <request name="close_xdg_surface" since="3">
+      <description summary="close the given xdg surface">
+      </description>
+      <arg name="app_id" type="string" summary="The app_id of the xdg surface"/>
+      <arg name="title" type="string" summary="The title of the xdg surface" allow-null="true"/>
+    </request>
+
   </interface>
 </protocol>
