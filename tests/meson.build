@@ -39,7 +39,7 @@ foreach test : tests
                  pie: true,
                  link_args: test_link_args,
                  dependencies: phosh_dep)
-  test(test[0], t, env: test_env)
+  test(test, t, env: test_env)
 endforeach
 
 endif
