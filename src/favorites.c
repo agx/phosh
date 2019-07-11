@@ -26,6 +26,7 @@
 enum {
   APP_LAUNCHED,
   APP_RAISED,
+  APP_CLOSED,
   SELECTION_ABORTED,
   N_SIGNALS
 };
@@ -76,6 +77,27 @@ app_clicked_cb (GtkButton *btn, gpointer user_data)
 }
 
 
+static void
+on_app_closed (PhoshFavorites *self, PhoshApp *app)
+{
+  PhoshFavoritesPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_FAVORITES (self));
+  g_return_if_fail (PHOSH_IS_APP (app));
+
+  priv = phosh_favorites_get_instance_private (self);
+  g_return_if_fail (priv->xdg_switcher);
+
+  g_debug("Will close %s (%s)",
+          phosh_app_get_app_id (app),
+          phosh_app_get_title (app));
+  phosh_private_xdg_switcher_close_xdg_surface (priv->xdg_switcher,
+                                                phosh_app_get_app_id (app),
+                                                phosh_app_get_title (app));
+  gtk_widget_destroy (GTK_WIDGET (app));
+  g_signal_emit(self, signals[APP_CLOSED], 0);
+}
+
 
 static void
 handle_xdg_switcher_xdg_surface (
@@ -108,6 +130,8 @@ handle_xdg_switcher_xdg_surface (
   gtk_widget_show (app);
 
   g_signal_connect (app, "clicked", G_CALLBACK (app_clicked_cb), self);
+  g_signal_connect_swapped (app, "app-closed", G_CALLBACK (on_app_closed), self);
+
   gtk_widget_show (GTK_WIDGET (self));
 }
 
@@ -342,6 +366,9 @@ phosh_favorites_class_init (PhoshFavoritesClass *klass)
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
   signals[SELECTION_ABORTED] = g_signal_new ("selection-aborted",
+      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+      NULL, G_TYPE_NONE, 0);
+  signals[APP_CLOSED] = g_signal_new ("app-closed",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 }
