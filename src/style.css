@@ -68,6 +68,14 @@ phosh-home, .phosh-panel {
     color: white;
 }
 
+.phosh-app-close-button {
+  border-radius: 50%;
+  min-width: 0;
+  min-height: 0;
+  margin: 12px;
+  padding: 12px;
+}
+
 /* Overview (app switcher, favorites) */
 
 .phosh-overview {
