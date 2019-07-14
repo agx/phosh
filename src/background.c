@@ -240,12 +240,17 @@ load_background (PhoshBackground *self)
   if (!g_str_has_prefix(self->uri, "file:///")) {
     g_warning ("Only file URIs supported for backgrounds not %s", self->uri);
   } else {
-    image = gdk_pixbuf_new_from_file (&self->uri[strlen("file://")], &err);
-    if (!image) {
-      const char *reason = err ? err->message : "unknown error";
-      g_warning ("Failed to load background: %s", reason);
-      if (err)
-        g_clear_error (&err);
+    g_autofree gchar *path = g_uri_unescape_string (&self->uri[strlen("file://")], NULL);
+    if (!path) {
+      g_warning ("Invalid background URI: %s", self->uri);
+    } else {
+      image = gdk_pixbuf_new_from_file (path, &err);
+      if (!image) {
+        const char *reason = err ? err->message : "unknown error";
+        g_warning ("Failed to load background: %s", reason);
+        if (err)
+          g_clear_error (&err);
+      }
     }
   }
 
