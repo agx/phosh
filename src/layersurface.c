@@ -185,7 +185,7 @@ on_phosh_layer_surface_realized (PhoshLayerSurface *self, gpointer unused)
   gdk_window = gtk_widget_get_window (GTK_WIDGET (self));
   gdk_wayland_window_set_use_custom_surface (gdk_window);
 
-  wl_display_roundtrip (gdk_wayland_display_get_wl_display (gdk_display_get_default ()));
+  phosh_wayland_roundtrip (phosh_wayland_get_default());
 
   priv->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
 
