@@ -154,7 +154,7 @@ phosh_layer_surface_get_property (GObject    *object,
     g_value_set_boolean (value, priv->kbd_interactivity);
     break;
   case PHOSH_LAYER_SURFACE_PROP_EXCLUSIVE_ZONE:
-    g_value_set_boolean (value, priv->exclusive_zone);
+    g_value_set_int (value, priv->exclusive_zone);
     break;
   case PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH:
     g_value_set_uint (value, priv->width);
