@@ -439,6 +439,7 @@ phosh_polkit_auth_prompt_constructed (GObject *object)
   gtk_entry_set_buffer (GTK_ENTRY (self->entry_password),
                         GTK_ENTRY_BUFFER (self->password_buffer));
 
+  gtk_widget_set_app_paintable(GTK_WIDGET (self), TRUE);
   g_signal_connect (G_OBJECT(self),
                     "draw",
                     G_CALLBACK(draw_cb),
