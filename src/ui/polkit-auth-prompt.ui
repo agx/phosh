@@ -174,9 +174,9 @@
             <property name="width">2</property>
           </packing>
         </child>
-        <child>
-          <placeholder/>
-        </child>
+        <style>
+          <class name="phosh-system-modal-dialog"/>
+        </style>
         <style>
           <class name="phosh-polkit-auth-agent"/>
         </style>

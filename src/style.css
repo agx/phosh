@@ -112,18 +112,8 @@ phosh-home, .phosh-panel {
     100% {-gtk-icon-transform: translateY(0); opacity: 0.7}
 }
 
-/* polkit auth agent */
-.phosh-polkit-auth-agent {
-    background-color: black;
-    border: solid 20px;
-    border-color: black;
-}
-
-.phosh-system-prompt {
-    background-color: black;
-}
-
-.phosh-system-dialog {
+/* system modal dialogs (polkit, gcr) */
+.phosh-system-modal-dialog {
     background-color: black;
     border: solid 2px;
     border-color: white;
