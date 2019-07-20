@@ -7,8 +7,8 @@ set -e
 WORKDIR=$(mktemp -d)
 [ -n "${OUTDIR}" ] || OUTDIR="${WORKDIR}"
 PHOSH_LOG="${OUTDIR}/phosh.log"
-WLROOTS_LOG="${OUTDIR}/rootston.log"
-ROOTSTON_CONFIG="${WORKDIR}/rootston.ini"
+WLROOTS_LOG="${OUTDIR}/phoc.log"
+PHOC_CONFIG="${WORKDIR}/phoc.ini"
 VGDUMP="./vgdump"
 TIMEOUT=5
 DISPLAY=:99
@@ -57,7 +57,7 @@ while getopts "hT:V" opt; do
 done
 
 [ -z "${OUTDIR}" ] || mkdir -p "${OUTDIR}"
-cat <<EOF > "${ROOTSTON_CONFIG}"
+cat <<EOF > "${PHOC_CONFIG}"
 [output:X11-1]
 mode = 768x1024
 
@@ -68,15 +68,15 @@ EOF
 XVFB_OPTS="${DISPLAY} -screen 0 768x1024x24 -ac +extension GLX +render -noreset"
 export WLR_BACKENDS=x11
 export XDG_RUNTIME_DIR="${WORKDIR}"
-xvfb-run -s "${XVFB_OPTS}" -a /usr/lib/wlroots/rootston \
-	 -C "${ROOTSTON_CONFIG}" \
+xvfb-run -s "${XVFB_OPTS}" -a /usr/bin/phoc \
+	 -C "${PHOC_CONFIG}" \
 	 -E "printenv | grep WAYLAND_DISPLAY= > ${WORKDIR}/wl-info" \
 	 >& "${WLROOTS_LOG}" &
 XVFB_PID=$!
 echo "xvfb PID is $XVFB_PID"
 export DISPLAY
 
-echo -n "Waiting for rootston to start..."
+echo -n "Waiting for phoc to start..."
 # Wait for startup
 WAIT=5
 while [ ${WAIT} -gt 0 ]; do
