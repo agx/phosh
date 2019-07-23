@@ -184,10 +184,27 @@ on_phosh_layer_surface_realized (PhoshLayerSurface *self, gpointer unused)
 
   gdk_window = gtk_widget_get_window (GTK_WIDGET (self));
   gdk_wayland_window_set_use_custom_surface (gdk_window);
-
-  phosh_wayland_roundtrip (phosh_wayland_get_default());
-
   priv->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
+
+  gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
+}
+
+
+static void
+on_phosh_layer_surface_mapped (PhoshLayerSurface *self, gpointer unused)
+{
+  PhoshLayerSurfacePrivate *priv;
+  GdkWindow *gdk_window;
+
+  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  if (!priv->wl_surface) {
+      gdk_window = gtk_widget_get_window (GTK_WIDGET (self));
+      gdk_wayland_window_set_use_custom_surface (gdk_window);
+      priv->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
+  }
+  g_debug ("Mapped %p", priv->wl_surface);
 
   priv->layer_surface = zwlr_layer_shell_v1_get_layer_surface(priv->layer_shell,
                                                               priv->wl_surface,
@@ -203,18 +220,26 @@ on_phosh_layer_surface_realized (PhoshLayerSurface *self, gpointer unused)
                                      self);
   wl_surface_commit(priv->wl_surface);
 
-  gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
-}
-
-
-static void
-on_phosh_layer_surface_mapped (PhoshLayerSurface *self, gpointer unused)
-{
   /* Process all pending events, otherwise we end up sending ack configure
    * to a not yet configured surface */
-  phosh_wayland_roundtrip (phosh_wayland_get_default());
+  wl_display_roundtrip (gdk_wayland_display_get_wl_display (gdk_display_get_default ()));
 }
 
+static void
+on_phosh_layer_surface_unmapped (PhoshLayerSurface *self, gpointer unused)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  priv = phosh_layer_surface_get_instance_private (self);
+  if (priv->layer_surface) {
+    zwlr_layer_surface_v1_destroy(priv->layer_surface);
+    priv->layer_surface = NULL;
+  }
+  priv->wl_surface = NULL;
+}
 
 static void
 phosh_layer_surface_constructed (GObject *object)
@@ -226,6 +251,9 @@ phosh_layer_surface_constructed (GObject *object)
                     NULL);
   g_signal_connect (self, "map",
                     G_CALLBACK (on_phosh_layer_surface_mapped),
+                    NULL);
+  g_signal_connect (self, "unmap",
+                    G_CALLBACK (on_phosh_layer_surface_unmapped),
                     NULL);
 }
 
