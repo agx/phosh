@@ -25,19 +25,14 @@ enum {
 };
 static guint signals[N_SIGNALS] = { 0 };
 
-typedef struct
-{
-  GtkWidget *btn_home;
-  GtkWidget *btn_osk;
-} PhoshHomePrivate;
-
-
 struct _PhoshHome
 {
   PhoshLayerSurface parent;
-};
 
-G_DEFINE_TYPE_WITH_PRIVATE(PhoshHome, phosh_home, PHOSH_TYPE_LAYER_SURFACE)
+  GtkWidget *btn_home;
+  GtkWidget *btn_osk;
+};
+G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_LAYER_SURFACE);
 
 
 static void
@@ -62,15 +57,14 @@ static void
 phosh_home_constructed (GObject *object)
 {
   PhoshHome *self = PHOSH_HOME (object);
-  PhoshHomePrivate *priv = phosh_home_get_instance_private (self);
 
-  g_signal_connect_object (priv->btn_home,
+  g_signal_connect_object (self->btn_home,
                            "clicked",
                            G_CALLBACK (home_clicked_cb),
                            self,
                            G_CONNECT_SWAPPED);
 
-  g_signal_connect_object (priv->btn_osk,
+  g_signal_connect_object (self->btn_osk,
                            "clicked",
                            G_CALLBACK (osk_clicked_cb),
                            self,
@@ -98,8 +92,8 @@ phosh_home_class_init (PhoshHomeClass *klass)
   PHOSH_TYPE_OSK_BUTTON;
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/home.ui");
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshHome, btn_home);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshHome, btn_osk);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_home);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_osk);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-home");
 }
