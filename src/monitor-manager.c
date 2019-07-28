@@ -14,11 +14,14 @@
 #include "monitor/head.h"
 #include "monitor/monitor.h"
 
-#include "gamma-control-client-protocol.h"
+#include "wlr-gamma-control-unstable-v1-client-protocol.h"
 #include "phosh-wayland.h"
 #include "shell.h"
 
 #include <gdk/gdkwayland.h>
+
+#include <sys/mman.h>
+#include <errno.h>
 
 /**
  * SECTION:monitor-manager
@@ -305,46 +308,6 @@ struct get_wl_gamma_callback_data {
 };
 
 
-static void handle_wl_gamma_size(void *data, struct gamma_control *gamma_control,
-                                 uint32_t size) {
-  struct get_wl_gamma_callback_data *gamma_callback_data = data;
-  GBytes *red_bytes, *green_bytes, *blue_bytes;
-  GVariant *red_v, *green_v, *blue_v;
-  /* All known clients using libgnome-desktop's
-     gnome_rr_crtc_get_gamma only do so to get the size of the gamma
-     table. So don't bother getting the real table since this is not
-     supported by wlroots: https://github.com/swaywm/wlroots/pull/1059.
-     Return an empty table instead.
-  */
-  size *= sizeof(unsigned short);
-  red_bytes = g_bytes_new_take (g_malloc0 (size), size);
-  green_bytes = g_bytes_new_take (g_malloc0 (size), size);
-  blue_bytes = g_bytes_new_take (g_malloc0 (size), size);
-
-  red_v = g_variant_new_from_bytes (G_VARIANT_TYPE ("aq"), red_bytes, TRUE);
-  green_v = g_variant_new_from_bytes (G_VARIANT_TYPE ("aq"), green_bytes, TRUE);
-  blue_v = g_variant_new_from_bytes (G_VARIANT_TYPE ("aq"), blue_bytes, TRUE);
-
-  phosh_dbus_display_config_complete_get_crtc_gamma (
-    gamma_callback_data->skeleton,
-    gamma_callback_data->invocation,
-    red_v, green_v, blue_v);
-
-  g_bytes_unref (red_bytes);
-  g_bytes_unref (green_bytes);
-  g_bytes_unref (blue_bytes);
-
-  g_free (gamma_callback_data);
-  gamma_control_destroy (gamma_control);
-}
-
-
-static const struct
-gamma_control_listener gamma_control_listener = {
-	.gamma_size = handle_wl_gamma_size,
-};
-
-
 static gboolean
 phosh_monitor_manager_handle_get_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
                                              GDBusMethodInvocation  *invocation,
@@ -353,9 +316,9 @@ phosh_monitor_manager_handle_get_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
   PhoshMonitor *monitor;
-  struct gamma_control *gamma_control;
-  struct gamma_control_manager *gamma_control_manager;
-  struct get_wl_gamma_callback_data *data;;
+  guint32 n_bytes;
+  g_autoptr (GBytes) red_bytes = NULL, green_bytes = NULL, blue_bytes = NULL;
+  GVariant *red_v, *green_v, *blue_v;
 
   g_debug ("DBus call %s for crtc %d, serial %d", __func__, crtc_id, serial);
 
@@ -373,24 +336,32 @@ phosh_monitor_manager_handle_get_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
     return TRUE;
   }
 
-  gamma_control_manager = phosh_wayland_get_gamma_control_manager (
-    phosh_wayland_get_default ());
-  if (gamma_control_manager == NULL) {
+  monitor = g_ptr_array_index (self->monitors, crtc_id);
+
+  if (!monitor->gamma_control) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_NOT_SUPPORTED,
                                            "gamma control not supported");
     return TRUE;
   }
 
-  data = g_new0 (struct get_wl_gamma_callback_data, 1);
-  data->skeleton = skeleton;
-  data->invocation = invocation;
+  /* All known clients using libgnome-desktop's
+     gnome_rr_crtc_get_gamma only do so to get the size of the gamma
+     table. So don't bother getting the real table since this is not
+     supported by wlroots: https://github.com/swaywm/wlroots/pull/1059.
+     Return an empty table instead.
+  */
+  n_bytes = monitor->n_gamma_entries * 2;
+  g_debug ("Gamma table entries: %d", monitor->n_gamma_entries);
+  red_bytes = g_bytes_new_take (g_malloc0 (n_bytes), n_bytes);
+  green_bytes = g_bytes_new_take (g_malloc0 (n_bytes), n_bytes);
+  blue_bytes = g_bytes_new_take (g_malloc0 (n_bytes), n_bytes);
 
-  monitor = g_ptr_array_index (self->monitors, crtc_id);
-  gamma_control = gamma_control_manager_get_gamma_control (
-    gamma_control_manager,
-    monitor->wl_output);
-  gamma_control_add_listener (gamma_control, &gamma_control_listener, data);
+  red_v = g_variant_new_from_bytes (G_VARIANT_TYPE ("aq"), red_bytes, TRUE);
+  green_v = g_variant_new_from_bytes (G_VARIANT_TYPE ("aq"), green_bytes, TRUE);
+  blue_v = g_variant_new_from_bytes (G_VARIANT_TYPE ("aq"), blue_bytes, TRUE);
+
+  phosh_dbus_display_config_complete_get_crtc_gamma (skeleton, invocation, red_v, green_v, blue_v);
 
   return TRUE;
 }
@@ -407,12 +378,12 @@ phosh_monitor_manager_handle_set_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
   PhoshMonitor *monitor;
-  unsigned short *red, *green, *blue;
-  GBytes *red_bytes, *green_bytes, *blue_bytes;
-  gsize size, dummy;
-  struct gamma_control_manager *gamma_control_manager;
-  struct gamma_control *gamma_control;
-  struct wl_array wl_red, wl_green, wl_blue;
+  guint16 *red, *green, *blue, *data;
+  g_autoptr (GBytes) red_bytes = NULL, green_bytes = NULL, blue_bytes = NULL;
+  gsize n_bytes, n_entries;
+  gint fd, ret;
+  g_autofree gchar *filename = NULL;
+  g_autoptr (GError) err = NULL;
 
   g_debug ("DBus call %s for crtc %d, serial %d", __func__, crtc_id, serial);
   if (serial != self->serial) {
@@ -429,63 +400,76 @@ phosh_monitor_manager_handle_set_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
     return TRUE;
   }
 
-  gamma_control_manager = phosh_wayland_get_gamma_control_manager (
-    phosh_wayland_get_default ());
-  if (!gamma_control_manager) {
+  monitor = g_ptr_array_index (self->monitors, crtc_id);
+
+  if (!monitor->gamma_control) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_NOT_SUPPORTED,
                                            "gamma control not supported");
     return TRUE;
   }
 
-  monitor = g_ptr_array_index (self->monitors, crtc_id);
-
   red_bytes = g_variant_get_data_as_bytes (red_v);
   green_bytes = g_variant_get_data_as_bytes (green_v);
   blue_bytes = g_variant_get_data_as_bytes (blue_v);
 
-  size = g_bytes_get_size (red_bytes);
-  if (size != g_bytes_get_size (blue_bytes) || size != g_bytes_get_size (green_bytes)) {
-        g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+  n_bytes = g_bytes_get_size (red_bytes);
+  if (n_bytes != g_bytes_get_size (blue_bytes) || n_bytes != g_bytes_get_size (green_bytes)) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_NOT_SUPPORTED,
-                                           "gamma for each color must have same size");
-    goto err;
+                                           "gamma for each channel must have same size");
+    return TRUE;
   }
 
-  red = (unsigned short*) g_bytes_get_data (red_bytes, &dummy);
-  green = (unsigned short*) g_bytes_get_data (green_bytes, &dummy);
-  blue = (unsigned short*) g_bytes_get_data (blue_bytes, &dummy);
+  red = (guint16*) g_bytes_get_data (red_bytes, NULL);
+  green = (guint16*) g_bytes_get_data (green_bytes, NULL);
+  blue = (guint16*) g_bytes_get_data (blue_bytes, NULL);
+  if (!red || !green || !blue) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_NOT_SUPPORTED,
+                                           "could not extract gamma values");
+    return TRUE;
+  }
 
-  wl_array_init (&wl_red);
-  wl_array_init (&wl_green);
-  wl_array_init (&wl_blue);
+  fd = g_file_open_tmp("phosh-XXXXXX", &filename, &err);
+  do {
+    errno = 0;
+    ret = ftruncate(fd, n_bytes * 3);
+  } while (errno == EINTR);
 
-  wl_array_add (&wl_red, size);
-  wl_array_add (&wl_green, size);
-  wl_array_add (&wl_blue, size);
+  if (ret < 0) {
+    close(fd);
+    fd = -1;
+  }
 
-  memcpy(wl_red.data, red, size);
-  memcpy(wl_green.data, green, size);
-  memcpy(wl_blue.data, blue, size);
+  if (fd < 0 || err) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_IO_ERROR,
+                                           "could not create temporary file for gamma ramps data");
+    return TRUE;
+  }
+  unlink(filename);
 
-  gamma_control = gamma_control_manager_get_gamma_control (
-    gamma_control_manager,
-    monitor->wl_output);
-  gamma_control_set_gamma(gamma_control, &wl_red, &wl_green, &wl_blue);
-  gamma_control_destroy (gamma_control);
+  data = mmap(NULL, n_bytes * 3, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+  if (data == MAP_FAILED) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_IO_ERROR,
+                                           "could not memory map temporary file for gamma ramps data");
+    return TRUE;
+  }
+  n_entries = n_bytes / sizeof(guint16);
+  for (gsize i = 0; i < n_entries; i++) {
+    data[(0 * n_entries) + i] = red[i];
+    data[(1 * n_entries) + i] = green[i];
+    data[(2 * n_entries) + i] = blue[i];
+  }
+  munmap(data, n_bytes * 3);
+  zwlr_gamma_control_v1_set_gamma (monitor->gamma_control, fd);
 
   phosh_dbus_display_config_complete_set_crtc_gamma (
       skeleton,
       invocation);
 
-  wl_array_release (&wl_red);
-  wl_array_release (&wl_green);
-  wl_array_release (&wl_blue);
-
- err:
-  g_bytes_unref (red_bytes);
-  g_bytes_unref (green_bytes);
-  g_bytes_unref (blue_bytes);
   return TRUE;
 }
 

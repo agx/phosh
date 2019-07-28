@@ -272,6 +272,33 @@ static const struct zwlr_output_power_v1_listener wlr_output_power_listener_v1 =
 
 
 static void
+handle_wl_gamma_size (void *data, struct zwlr_gamma_control_v1 *gamma_control, uint32_t size)
+{
+  PhoshMonitor *self = PHOSH_MONITOR (data);
+
+  self->n_gamma_entries = size;
+}
+
+
+static void handle_wl_gamma_failed (void *data, struct zwlr_gamma_control_v1 *gamma_control)
+{
+  PhoshMonitor *self = PHOSH_MONITOR (data);
+
+  /* Only warn if we ever saw a non-0 gamma table so avoid warnings with e.g. headless backend */
+  if (self->n_gamma_entries)
+    g_warning ("wl_gamma failed for %s", self->name);
+  g_clear_pointer (&self->gamma_control, zwlr_gamma_control_v1_destroy);
+}
+
+
+static const struct
+zwlr_gamma_control_v1_listener gamma_control_listener = {
+  .gamma_size = handle_wl_gamma_size,
+  .failed = handle_wl_gamma_failed,
+};
+
+
+static void
 phosh_monitor_set_property (GObject *object,
                             guint property_id,
                             const GValue *value,
@@ -319,6 +346,7 @@ phosh_monitor_dispose (GObject *object)
 
   g_clear_pointer (&self->xdg_output, zxdg_output_v1_destroy);
   g_clear_pointer (&self->wlr_output_power, zwlr_output_power_v1_destroy);
+  g_clear_pointer (&self->gamma_control, zwlr_gamma_control_v1_destroy);
 
   G_OBJECT_CLASS (phosh_monitor_parent_class)->dispose (object);
 }
@@ -365,6 +393,12 @@ phosh_monitor_constructed (GObject *object)
     g_return_if_fail (self->wlr_output_power);
     zwlr_output_power_v1_add_listener(self->wlr_output_power, &wlr_output_power_listener_v1, self);
   }
+
+  self->gamma_control =
+    zwlr_gamma_control_manager_v1_get_gamma_control (phosh_wayland_get_zwlr_gamma_control_manager_v1 (phosh_wayland_get_default ()),
+                                                     self->wl_output);
+  g_return_if_fail (self->gamma_control);
+  zwlr_gamma_control_v1_add_listener (self->gamma_control, &gamma_control_listener, self);
 }
 
 
