@@ -2,6 +2,12 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkImage" id="img_home">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="pixel_size">24</property>
+    <property name="icon_name">swipe-arrow-symbolic</property>
+  </object>
   <template class="PhoshHome" parent="PhoshLayerSurface">
     <property name="can_focus">False</property>
     <child>
@@ -11,47 +17,69 @@
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <child type="center">
-          <object class="GtkButton" id="btn_home">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkBox">
+            <property name="height_request">40</property>
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="hexpand">True</property>
-            <property name="image">img_home</property>
-            <property name="image_position">top</property>
-            <property name="always_show_image">True</property>
-            <style>
-              <class name="phosh-panel-btn"/>
-            </style>
+            <property name="can_focus">False</property>
+            <child type="center">
+              <object class="GtkButton" id="btn_home">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="hexpand">True</property>
+                <property name="image">img_home</property>
+                <property name="image_position">top</property>
+                <property name="always_show_image">True</property>
+                <style>
+                  <class name="phosh-panel-btn"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="PhoshOskButton" id="btn_osk">
+		<property name="visible">True</property>
+		<property name="can_focus">True</property>
+		<property name="halign">end</property>
+		<property name="valign">center</property>
+		<property name="margin_right">6</property>
+		<property name="receives_default">True</property>
+		<style>
+		  <class name="phosh-osk-button"/>
+		</style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack_type">end</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
           <packing>
+            <property name="expand">False</property>
             <property name="fill">True</property>
-	    <property name="expand">True</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <object class="PhoshOskButton" id="btn_osk">
+          <object class="PhoshFavorites" id="favorites">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="halign">end</property>
-            <property name="valign">center</property>
-            <property name="margin_right">6</property>
-            <property name="receives_default">True</property>
-            <style>
-              <class name="phosh-osk-button"/>
-            </style>
+            <property name="can_focus">False</property>
           </object>
           <packing>
-            <property name="pack_type">end</property>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>
     </child>
   </template>
-  <object class="GtkImage" id="img_home">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">swipe-arrow-symbolic</property>
-    <property name="pixel_size">24</property>
-  </object>
 </interface>

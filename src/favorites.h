@@ -10,6 +10,6 @@
 
 #define PHOSH_TYPE_FAVORITES (phosh_favorites_get_type())
 
-G_DECLARE_FINAL_TYPE (PhoshFavorites, phosh_favorites, PHOSH, FAVORITES, GtkWindow)
+G_DECLARE_FINAL_TYPE (PhoshFavorites, phosh_favorites, PHOSH, FAVORITES, GtkBox)
 
 GtkWidget * phosh_favorites_new (void);

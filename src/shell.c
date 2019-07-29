@@ -24,7 +24,6 @@
 
 #include "batteryinfo.h"
 #include "background-manager.h"
-#include "favorites.h"
 #include "home.h"
 #include "idle-manager.h"
 #include "lockscreen-manager.h"
@@ -62,7 +61,6 @@ typedef struct
 {
   PhoshLayerSurface *panel;
   PhoshLayerSurface *home;
-  struct popup *favorites;
   struct popup *settings;
 
   PhoshBackgroundManager *background_manager;
@@ -94,11 +92,10 @@ get_popup_from_xdg_popup (PhoshShell *self, struct xdg_popup *xdg_popup)
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
 
   priv = phosh_shell_get_instance_private (self);
-  if (priv->favorites && xdg_popup == priv->favorites->popup) {
-    popup = &priv->favorites;
-  } else if (priv->settings && xdg_popup == priv->settings->popup) {
+
+  if (priv->settings && xdg_popup == priv->settings->popup)
     popup = &priv->settings;
-  }
+
   g_return_val_if_fail (popup, NULL);
   return popup;
 }
@@ -114,17 +111,6 @@ close_menu (struct popup **popup)
   gtk_widget_destroy (GTK_WIDGET ((*popup)->window));
   free (*popup);
   *popup = NULL;
-}
-
-
-static void
-close_favorites_menu_cb (PhoshShell *self,
-                         PhoshFavorites *favorites)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-
-  g_return_if_fail (priv->favorites);
-  close_menu (&priv->favorites);
 }
 
 
@@ -172,74 +158,6 @@ static const struct xdg_popup_listener xdg_popup_listener = {
 
 
 static void
-home_activated_cb (PhoshShell *self,
-                   PhoshPanel *window)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  GdkWindow *gdk_window;
-  struct popup *favorites;
-  struct xdg_surface *xdg_surface;
-  struct xdg_positioner *xdg_positioner;
-  gint width, height;
-  PhoshWayland *wl = phosh_wayland_get_default();
-  struct xdg_wm_base* xdg_wm_base = phosh_wayland_get_xdg_wm_base (wl);
-  struct zwlr_layer_surface_v1 *panel_surface;
-
-  close_menu (&priv->settings);
-  if (priv->favorites) {
-    close_menu (&priv->favorites);
-    return;
-  }
-
-  phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
-
-  favorites = calloc (1, sizeof *favorites);
-  favorites->window = phosh_favorites_new ();
-
-  gdk_window = gtk_widget_get_window (favorites->window);
-  gdk_wayland_window_set_use_custom_surface (gdk_window);
-  favorites->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
-
-  xdg_surface = xdg_wm_base_get_xdg_surface(xdg_wm_base, favorites->wl_surface);
-  g_return_if_fail (xdg_surface);
-  xdg_positioner = xdg_wm_base_create_positioner(xdg_wm_base);
-  gtk_window_get_size (GTK_WINDOW (favorites->window), &width, &height);
-  xdg_positioner_set_size(xdg_positioner, width, height);
-  xdg_positioner_set_offset(xdg_positioner, 0, PHOSH_PANEL_HEIGHT-1);
-  xdg_positioner_set_anchor_rect(xdg_positioner, 0, 0, 1, 1);
-  xdg_positioner_set_anchor(xdg_positioner, XDG_POSITIONER_ANCHOR_BOTTOM_LEFT);
-  xdg_positioner_set_gravity(xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM_RIGHT);
-
-  favorites->popup = xdg_surface_get_popup(xdg_surface, NULL, xdg_positioner);
-  g_return_if_fail (favorites->popup);
-  priv->favorites = favorites;
-
-  panel_surface = phosh_layer_surface_get_layer_surface(priv->panel);
-  /* TODO: how to get meaningful serial from gdk? */
-  xdg_popup_grab(favorites->popup, phosh_wayland_get_wl_seat (wl), 1);
-  zwlr_layer_surface_v1_get_popup(panel_surface, favorites->popup);
-  xdg_surface_add_listener(xdg_surface, &xdg_surface_listener, NULL);
-  xdg_popup_add_listener(favorites->popup, &xdg_popup_listener, self);
-
-  wl_surface_commit(favorites->wl_surface);
-  xdg_positioner_destroy(xdg_positioner);
-
-  g_signal_connect_swapped (priv->favorites->window,
-                            "activity-launched",
-                            G_CALLBACK(close_favorites_menu_cb),
-                            self);
-  g_signal_connect_swapped (priv->favorites->window,
-                            "activity-raised",
-                            G_CALLBACK(close_favorites_menu_cb),
-                            self);
-  g_signal_connect_swapped (priv->favorites->window,
-                            "selection-aborted",
-                            G_CALLBACK(close_favorites_menu_cb),
-                            self);
-}
-
-
-static void
 setting_done_cb (PhoshShell *self,
                  PhoshSettings *settings)
 {
@@ -264,7 +182,6 @@ settings_activated_cb (PhoshShell *self,
   gpointer xdg_wm_base = phosh_wayland_get_xdg_wm_base(wl);
   struct zwlr_layer_surface_v1 *panel_surface;
 
-  close_menu (&priv->favorites);
   if (priv->settings) {
     close_menu (&priv->settings);
     return;
@@ -357,12 +274,6 @@ panels_create (PhoshShell *self)
     priv->panel,
     "settings-activated",
     G_CALLBACK(settings_activated_cb),
-    self);
-
-  g_signal_connect_swapped (
-    priv->home,
-    "home-activated",
-    G_CALLBACK(home_activated_cb),
     self);
 }
 

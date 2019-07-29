@@ -49,10 +49,10 @@ typedef struct
 
 struct _PhoshFavorites
 {
-  GtkWindowClass parent;
+  GtkBoxClass parent;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, GTK_TYPE_BOX)
 
 
 static void
@@ -278,16 +278,8 @@ phosh_favorites_constructed (GObject *object)
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
   PhoshToplevelManager *toplevel_manager =
       phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
-  gint width, height;
 
   G_OBJECT_CLASS (phosh_favorites_parent_class)->constructed (object);
-
-  /* window properties */
-  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
-  gtk_window_set_title (GTK_WINDOW (self), "phosh favorites");
-  gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
-  gtk_window_resize (GTK_WINDOW (self), width, height);
-  gtk_widget_realize(GTK_WIDGET (self));
 
   /* Close on click */
   g_signal_connect_swapped (priv->evbox_favorites, "button_press_event",
@@ -316,6 +308,7 @@ phosh_favorites_constructed (GObject *object)
                     "size-allocate",
                     G_CALLBACK (running_activities_resized),
                     self);
+  gtk_widget_show_all (GTK_WIDGET(self));
 }
 
 

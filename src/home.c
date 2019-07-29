@@ -7,6 +7,7 @@
 #define G_LOG_DOMAIN "phosh-home"
 
 #include "config.h"
+#include "favorites.h"
 #include "home.h"
 #include "shell.h"
 #include "phosh-enums.h"
@@ -42,6 +43,7 @@ struct _PhoshHome
 
   GtkWidget *btn_home;
   GtkWidget *btn_osk;
+  GtkWidget *favorites;
 
   PhoshHomeState state;
 };
@@ -107,6 +109,17 @@ osk_clicked_cb (PhoshHome *self, GtkButton *btn)
 
 
 static void
+fold_cb (PhoshHome *self, PhoshFavorites *favorites)
+{
+  g_return_if_fail (PHOSH_IS_HOME (self));
+  g_return_if_fail (PHOSH_IS_FAVORITES (favorites));
+
+  phosh_home_set_state (self, PHOSH_HOME_STATE_FOLDED);
+}
+
+
+
+static void
 phosh_home_constructed (GObject *object)
 {
   PhoshHome *self = PHOSH_HOME (object);
@@ -122,6 +135,19 @@ phosh_home_constructed (GObject *object)
                            G_CALLBACK (osk_clicked_cb),
                            self,
                            G_CONNECT_SWAPPED);
+
+  g_signal_connect_swapped (self->favorites,
+                            "activity-launched",
+                            G_CALLBACK(fold_cb),
+                            self);
+  g_signal_connect_swapped (self->favorites,
+                            "activity-raised",
+                            G_CALLBACK(fold_cb),
+                            self);
+  g_signal_connect_swapped (self->favorites,
+                            "selection-aborted",
+                            G_CALLBACK(fold_cb),
+                            self);
 
   G_OBJECT_CLASS (phosh_home_parent_class)->constructed (object);
 }
@@ -153,10 +179,12 @@ phosh_home_class_init (PhoshHomeClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   PHOSH_TYPE_OSK_BUTTON;
+  PHOSH_TYPE_FAVORITES;
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/home.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_home);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_osk);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, favorites);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-home");
 }
@@ -197,6 +225,8 @@ phosh_home_new (struct zwlr_layer_shell_v1 *layer_shell,
 void
 phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
 {
+  int width, height;
+
   g_return_if_fail (PHOSH_IS_HOME (self));
 
   if (self->state == state)
@@ -205,15 +235,14 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   self->state = state;
   g_debug ("Setting state to %s", g_enum_to_string (PHOSH_TYPE_HOME_STATE, state));
 
+  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
   /* We don't change the exclusive zone since we don't want to push all clients upward */
-  if (state == PHOSH_HOME_STATE_UNFOLDED) {
-    int height;
+  if (state == PHOSH_HOME_STATE_UNFOLDED)
+    height = PHOSH_HOME_BUTTON_HEIGHT + height;
+  else
+    height = PHOSH_HOME_BUTTON_HEIGHT;
 
-    phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, NULL, &height);
-    phosh_layer_surface_set_size (PHOSH_LAYER_SURFACE (self), -1, PHOSH_HOME_BUTTON_HEIGHT + height);
-  } else {
-    phosh_layer_surface_set_size (PHOSH_LAYER_SURFACE (self), -1, PHOSH_HOME_BUTTON_HEIGHT);
-  }
+  phosh_layer_surface_set_size (PHOSH_LAYER_SURFACE (self), width, height);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
 }
