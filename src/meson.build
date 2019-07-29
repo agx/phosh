@@ -5,10 +5,10 @@ subdir('wwan')
 subdir('settings')
 
 phosh_resources = gnome.compile_resources(
-   'phosh-resources',
-   'phosh.gresources.xml',
+  'phosh-resources',
+  'phosh.gresources.xml',
 
-   c_name: 'phosh',
+  c_name: 'phosh',
 )
 
 phosh_settings_sources = [
@@ -113,11 +113,11 @@ phosh_lib = static_library('phosh', libphosh_sources, dependencies: phosh_deps)
 phosh_inc = include_directories('.')
 
 phosh_dep = declare_dependency(sources: libphosh_sources,
-                               include_directories: [root_inc, phosh_inc],
-                               link_with: phosh_lib,
-                               dependencies: phosh_deps)
+  include_directories: [root_inc, phosh_inc],
+  link_with: phosh_lib,
+  dependencies: phosh_deps)
 
 phosh = executable('phosh', phosh_sources,
-                   dependencies: phosh_dep,
+  dependencies: phosh_dep,
   install: true,
-                   install_dir: libexecdir)
+  install_dir: libexecdir)
