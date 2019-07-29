@@ -10,7 +10,7 @@
 
 #define PHOSH_TYPE_HOME (phosh_home_get_type())
 
-#define PHOSH_HOME_HEIGHT 40
+#define PHOSH_HOME_BUTTON_HEIGHT 40
 
 G_DECLARE_FINAL_TYPE (PhoshHome, phosh_home, PHOSH, HOME, PhoshLayerSurface)
 

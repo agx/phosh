@@ -113,13 +113,13 @@ phosh_home_new (struct zwlr_layer_shell_v1 *layer_shell,
   return g_object_new (PHOSH_TYPE_HOME,
                        "layer-shell", layer_shell,
                        "wl-output", wl_output,
-                       "height", PHOSH_HOME_HEIGHT,
+                       "height", PHOSH_HOME_BUTTON_HEIGHT,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
                        "layer", ZWLR_LAYER_SHELL_V1_LAYER_TOP,
                        "kbd-interactivity", FALSE,
-                       "exclusive-zone", PHOSH_HOME_HEIGHT,
+                       "exclusive-zone", PHOSH_HOME_BUTTON_HEIGHT,
                        "namespace", "phosh home",
                        NULL);
 }

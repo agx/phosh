@@ -761,11 +761,11 @@ phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gi
   case 0:
   case 180:
     w = mode->width / scale;
-    h = mode->height / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
+    h = mode->height / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_BUTTON_HEIGHT;
     break;
   default:
     w = mode->height / scale;
-    h = mode->width / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_HEIGHT;
+    h = mode->width / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_BUTTON_HEIGHT;
     break;
   }
 
