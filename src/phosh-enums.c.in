@@ -1,6 +1,7 @@
 /*** BEGIN file-header ***/
 
 #include "config.h"
+#include "home.h"
 #include "phosh-enums.h"
 
 /*** END file-header ***/

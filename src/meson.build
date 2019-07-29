@@ -12,6 +12,7 @@ phosh_resources = gnome.compile_resources(
 )
 
 phosh_enum_headers = [
+  'home.h',
 ]
 
 phosh_enums = gnome.mkenums('phosh-enums',
