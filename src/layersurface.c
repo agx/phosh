@@ -355,7 +355,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       0,
       G_MAXUINT,
       0,
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PHOSH_LAYER_SURFACE_PROP_NAMESPACE] =
     g_param_spec_string (
@@ -430,4 +430,29 @@ phosh_layer_surface_get_wl_surface(PhoshLayerSurface *self)
   g_return_val_if_fail (PHOSH_IS_LAYER_SURFACE (self), NULL);
   priv = phosh_layer_surface_get_instance_private (self);
   return priv->wl_surface;
+}
+
+/**
+ * phosh_layer_surface_set_size:
+ *
+ * Set the size of a layer surface. A value of '-1' indicates 'use old value'
+ */
+void
+phosh_layer_surface_set_size(PhoshLayerSurface *self, gint width, gint height)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  if (priv->height == height && priv->width == width)
+    return;
+
+  if (width != -1)
+    priv->width = width;
+
+  if (height != -1)
+    priv->height = height;
+
+  zwlr_layer_surface_v1_set_size(priv->layer_surface, priv->width, priv->height);
 }
