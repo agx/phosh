@@ -11,12 +11,22 @@ phosh_resources = gnome.compile_resources(
   c_name: 'phosh',
 )
 
+phosh_enum_headers = [
+]
+
+phosh_enums = gnome.mkenums('phosh-enums',
+  h_template: 'phosh-enums.h.in',
+  c_template: 'phosh-enums.c.in',
+  sources: phosh_enum_headers,
+)
+
 phosh_settings_sources = [
   'settings.c',
   phosh_settings_widgets_sources,
 ]
 
 libphosh_sources = [
+  phosh_enums,
   'app.c',
   'app.h',
   'favorites.c',
