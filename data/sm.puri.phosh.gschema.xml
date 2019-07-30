@@ -5,7 +5,8 @@
       <default>[ 'sm.puri.Calls.desktop',
                  'sm.puri.Chatty.desktop',
                  'org.gnome.Epiphany.desktop',
-                 'org.gnome.zbrown.KingsCross.desktop'
+                 'org.gnome.zbrown.KingsCross.desktop',
+                 'org.gnome.Contacts.desktop'
                ]</default>
       <summary>List of desktop file IDs for favorite applications</summary>
       <description>
