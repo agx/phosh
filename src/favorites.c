@@ -16,6 +16,7 @@
 #include "app.h"
 #include "shell.h"
 #include "util.h"
+#include "toplevel-manager.h"
 #include "phosh-private-client-protocol.h"
 #include "phosh-wayland.h"
 
@@ -42,7 +43,6 @@ typedef struct
   /* Running apps */
   GtkWidget *evbox_running_apps;
   GtkWidget *box_running_apps;
-  struct phosh_private_xdg_switcher *xdg_switcher;
 
 } PhoshFavoritesPrivate;
 
@@ -56,23 +56,20 @@ G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, GTK_TYPE_WINDOW)
 
 
 static void
-app_clicked_cb (GtkButton *btn, gpointer user_data)
+on_app_clicked (PhoshFavorites *self, PhoshApp *app)
 {
-  PhoshFavorites *self = PHOSH_FAVORITES (user_data);
-  PhoshFavoritesPrivate *priv;
-  PhoshApp *app = PHOSH_APP (btn);
-
+  PhoshToplevel *toplevel;
   g_return_if_fail (PHOSH_IS_FAVORITES (self));
-  priv = phosh_favorites_get_instance_private (self);
-  g_return_if_fail (priv->xdg_switcher);
+  g_return_if_fail (PHOSH_IS_APP (app));
+
+  toplevel = g_object_get_data(G_OBJECT (app), "toplevel");
+  g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
 
   g_debug("Will raise %s (%s)",
           phosh_app_get_app_id (app),
           phosh_app_get_title (app));
 
-  phosh_private_xdg_switcher_raise_xdg_surface (priv->xdg_switcher,
-                                                phosh_app_get_app_id (app),
-                                                phosh_app_get_title (app));
+  phosh_toplevel_raise (toplevel, phosh_wayland_get_wl_seat (phosh_wayland_get_default ()));
   g_signal_emit(self, signals[APP_RAISED], 0);
 }
 
@@ -80,43 +77,45 @@ app_clicked_cb (GtkButton *btn, gpointer user_data)
 static void
 on_app_closed (PhoshFavorites *self, PhoshApp *app)
 {
-  PhoshFavoritesPrivate *priv;
-
+  PhoshToplevel *toplevel;
   g_return_if_fail (PHOSH_IS_FAVORITES (self));
   g_return_if_fail (PHOSH_IS_APP (app));
 
-  priv = phosh_favorites_get_instance_private (self);
-  g_return_if_fail (priv->xdg_switcher);
+  toplevel = g_object_get_data(G_OBJECT (app), "toplevel");
+  g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
 
   g_debug("Will close %s (%s)",
           phosh_app_get_app_id (app),
           phosh_app_get_title (app));
-  phosh_private_xdg_switcher_close_xdg_surface (priv->xdg_switcher,
-                                                phosh_app_get_app_id (app),
-                                                phosh_app_get_title (app));
-  gtk_widget_destroy (GTK_WIDGET (app));
+
+  phosh_toplevel_close (toplevel);
   g_signal_emit(self, signals[APP_CLOSED], 0);
 }
 
-
 static void
-handle_xdg_switcher_xdg_surface (
-  void *data,
-  struct phosh_private_xdg_switcher *phosh_private_xdg_switcher,
-  const char *app_id,
-  const char *title)
+on_toplevel_closed (PhoshToplevel *toplevel, PhoshApp *app)
 {
-  PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default());
-  PhoshFavorites *self = data;
+  g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
+  g_return_if_fail (PHOSH_IS_APP (app));
+  gtk_widget_destroy (GTK_WIDGET (app));
+}
+
+static void add_app (PhoshFavorites *self, PhoshToplevel *toplevel)
+{
+  PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
   PhoshFavoritesPrivate *priv;
   GtkWidget *app;
   int max_width = 0;
+  const gchar *app_id, *title;
 
   g_return_if_fail (PHOSH_IS_FAVORITES (self));
   priv = phosh_favorites_get_instance_private (self);
 
   max_width = ((gdouble) monitor->width / (gdouble) monitor->scale) * 0.75;
   max_width = MIN (max_width, 450);
+
+  app_id = phosh_toplevel_get_app_id (toplevel);
+  title = phosh_toplevel_get_title (toplevel);
 
   g_debug ("Building activator for '%s' (%s)", app_id, title);
   app = phosh_app_new (app_id, title);
@@ -126,49 +125,37 @@ handle_xdg_switcher_xdg_surface (
                 "max-height", 445,
                 "max-width", max_width,
                 NULL);
+  g_object_set_data (G_OBJECT(app), "toplevel", toplevel);
   gtk_box_pack_end (GTK_BOX (priv->box_running_apps), app, FALSE, FALSE, 0);
   gtk_widget_show (app);
 
-  g_signal_connect (app, "clicked", G_CALLBACK (app_clicked_cb), self);
+  g_signal_connect_swapped (app, "clicked", G_CALLBACK (on_app_clicked), self);
   g_signal_connect_swapped (app, "app-closed", G_CALLBACK (on_app_closed), self);
 
-  gtk_widget_show (GTK_WIDGET (self));
+  g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), app, 0);
 }
-
-
-static void
-handle_xdg_switcher_list_xdg_surfaces_done(
-  void *data,
-  struct phosh_private_xdg_switcher *phosh_private_xdg_switcher)
-{
-  g_debug ("Got all apps");
-}
-
-
-static const struct phosh_private_xdg_switcher_listener xdg_switcher_listener = {
-  handle_xdg_switcher_xdg_surface,
-  handle_xdg_switcher_list_xdg_surfaces_done,
-};
-
 
 static void
 get_running_apps (PhoshFavorites *self)
 {
-  PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
-  struct phosh_private *phosh_private;
+  PhoshToplevelManager *toplevel_manager = phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
+  guint toplevels_num = phosh_toplevel_manager_get_num_toplevels (toplevel_manager);
 
-  phosh_private = phosh_wayland_get_phosh_private (
-    phosh_wayland_get_default ());
-
-  if (!phosh_private) {
-    g_debug ("Skipping app list due to missing phosh_private protocol extension");
-    return;
+  for (guint i = 0; i < toplevels_num; i++) {
+    PhoshToplevel *toplevel = phosh_toplevel_manager_get_toplevel (toplevel_manager, i);
+    add_app (self, toplevel);
   }
-
-  priv->xdg_switcher = phosh_private_get_xdg_switcher (phosh_private);
-  phosh_private_xdg_switcher_add_listener (priv->xdg_switcher, &xdg_switcher_listener, self);
-  phosh_private_xdg_switcher_list_xdg_surfaces (priv->xdg_switcher);
 }
+
+static void
+toplevel_added_cb (PhoshFavorites *self, PhoshToplevel *toplevel, PhoshToplevelManager *manager)
+{
+  g_return_if_fail (PHOSH_IS_FAVORITES (self));
+  g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
+  g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (manager));
+  add_app (self, toplevel);
+}
+
 
 static void
 set_max_height (GtkWidget *widget,
@@ -289,6 +276,8 @@ phosh_favorites_constructed (GObject *object)
 {
   PhoshFavorites *self = PHOSH_FAVORITES (object);
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
+  PhoshToplevelManager *toplevel_manager =
+      phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
   gint width, height;
 
   G_OBJECT_CLASS (phosh_favorites_parent_class)->constructed (object);
@@ -318,6 +307,11 @@ phosh_favorites_constructed (GObject *object)
   gtk_widget_set_events (priv->evbox_running_apps, GDK_BUTTON_PRESS_MASK);
   get_running_apps (self);
 
+  g_signal_connect_object (toplevel_manager, "toplevel-added",
+                           G_CALLBACK (toplevel_added_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
+
   g_signal_connect (priv->evbox_running_apps,
                     "size-allocate",
                     G_CALLBACK (running_apps_resized),
@@ -332,11 +326,6 @@ phosh_favorites_dispose (GObject *object)
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
 
   g_clear_object (&priv->settings);
-
-  if (priv->xdg_switcher) {
-    phosh_private_xdg_switcher_destroy (priv->xdg_switcher);
-    priv->xdg_switcher = NULL;
-  }
 
   G_OBJECT_CLASS (phosh_favorites_parent_class)->dispose (object);
 }

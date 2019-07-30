@@ -23,7 +23,9 @@ test_link_args = [
 
 # Deps for all tests
 test_deps = [
-  'phoshstub.c',
+  'stubs/phosh.c',
+  'stubs/toplevel.c',
+  'stubs/toplevel-manager.c'
 ]
 
 tests = [

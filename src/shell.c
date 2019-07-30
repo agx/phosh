@@ -71,6 +71,7 @@ typedef struct
   PhoshLockscreenManager *lockscreen_manager;
   PhoshIdleManager *idle_manager;
   PhoshOskManager  *osk_manager;
+  PhoshToplevelManager *toplevel_manager;
   PhoshWifiManager *wifi_manager;
   PhoshPolkitAuthAgent *polkit_auth_agent;
 } PhoshShellPrivate;
@@ -466,6 +467,7 @@ phosh_shell_dispose (GObject *object)
   panels_dispose (self);
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
+  g_clear_object (&priv->toplevel_manager);
   g_clear_object (&priv->wifi_manager);
   g_clear_object (&priv->osk_manager);
   g_clear_object (&priv->polkit_auth_agent);
@@ -521,6 +523,8 @@ phosh_shell_constructed (GObject *object)
 
   priv->lockscreen_manager = phosh_lockscreen_manager_new ();
   priv->idle_manager = phosh_idle_manager_get_default();
+
+  priv->toplevel_manager = phosh_toplevel_manager_new ();
 
   phosh_session_register ("sm.puri.Phosh");
   phosh_system_prompter_register ();
@@ -713,6 +717,19 @@ phosh_shell_get_osk_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_OSK_MANAGER (priv->osk_manager), NULL);
   return priv->osk_manager;
 }
+
+PhoshToplevelManager *
+phosh_shell_get_toplevel_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (priv->toplevel_manager), NULL);
+  return priv->toplevel_manager;
+}
+
 
 /**
  * Returns the usable area in pixels usable by a client on the phone

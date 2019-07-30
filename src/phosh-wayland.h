@@ -14,6 +14,7 @@
 #include "xdg-shell-client-protocol.h"
 #include "xdg-output-unstable-v1-client-protocol.h"
 #include "wlr-output-management-unstable-v1-client-protocol.h"
+#include "wlr-foreign-toplevel-management-unstable-v1-client-protocol.h"
 
 #include <glib-object.h>
 
@@ -34,4 +35,5 @@ struct zwlr_input_inhibit_manager_v1 *phosh_wayland_get_zwlr_input_inhibit_manag
 struct zwlr_layer_shell_v1           *phosh_wayland_get_zwlr_layer_shell_v1 (PhoshWayland *self);
 struct zxdg_output_manager_v1        *phosh_wayland_get_zxdg_output_manager_v1 (PhoshWayland *self);
 struct zwlr_output_manager_v1        *phosh_wayland_get_zwlr_output_manager_v1 (PhoshWayland *self);
+struct zwlr_foreign_toplevel_manager_v1 *phosh_wayland_get_zwlr_foreign_toplevel_manager_v1 (PhoshWayland *self);
 void                                  phosh_wayland_roundtrip (PhoshWayland *self);

@@ -24,6 +24,8 @@ src/settings.c
 src/shell.c
 src/system-prompt.c
 src/system-prompter.c
+src/toplevel-manager.c
+src/toplevel.c
 src/util.c
 src/wifiinfo.c
 src/wifimanager.c

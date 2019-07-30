@@ -4,6 +4,8 @@
 #include "phosh-wayland.h"
 #include "shell.h"
 
+PhoshToplevelManager *toplevel_manager = NULL;
+
 PhoshShell*
 phosh_shell_get_default (void)
 {
@@ -37,9 +39,26 @@ phosh_wayland_get_phosh_private (PhoshWayland *self)
   return NULL;
 }
 
+struct zwlr_foreign_toplevel_manager_v1*
+phosh_wayland_get_zwlr_foreign_toplevel_manager_v1 (PhoshWayland *self)
+{
+  return NULL;
+}
+
 PhoshMonitor *
 phosh_shell_get_primary_monitor (PhoshShell *self)
 {
   return NULL;
 }
 
+PhoshToplevelManager*
+phosh_shell_get_toplevel_manager (PhoshShell *self)
+{
+  return g_object_new (PHOSH_TYPE_TOPLEVEL_MANAGER, NULL);
+}
+
+struct wl_seat*
+phosh_wayland_get_wl_seat (PhoshWayland *self)
+{
+  return NULL;
+}
