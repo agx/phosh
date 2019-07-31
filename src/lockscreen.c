@@ -120,7 +120,6 @@ show_unlock_page (PhoshLockscreen *self)
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
   gtk_stack_set_visible_child (GTK_STACK (priv->stack), priv->grid_unlock);
-  hdy_dialer_set_show_action_buttons (HDY_DIALER (priv->dialer_keypad), FALSE);
   gtk_widget_grab_focus (GTK_WIDGET (priv->dialer_keypad));
   if (!priv->idle_timer) {
     priv->last_input = g_get_monotonic_time ();
