@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="PhoshApp" parent="GtkButton">
+  <template class="PhoshActivity" parent="GtkButton">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <property name="receives_default">True</property>
@@ -75,7 +75,7 @@
               </object>
             </child>
             <style>
-              <class name="phosh-app-close-button"/>
+              <class name="phosh-activity-close-button"/>
               <class name="osd"/>
             </style>
           </object>

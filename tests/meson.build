@@ -29,7 +29,7 @@ test_deps = [
 ]
 
 tests = [
-  'app',
+  'activity',
   'favorites',
 ]
 

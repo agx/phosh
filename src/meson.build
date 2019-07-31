@@ -27,8 +27,8 @@ phosh_settings_sources = [
 
 libphosh_sources = [
   phosh_enums,
-  'app.c',
-  'app.h',
+  'activity.c',
+  'activity.h',
   'favorites.c',
   'favorites.h',
   phosh_resources,

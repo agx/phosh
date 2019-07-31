@@ -225,11 +225,11 @@ home_activated_cb (PhoshShell *self,
   xdg_positioner_destroy(xdg_positioner);
 
   g_signal_connect_swapped (priv->favorites->window,
-                            "app-launched",
+                            "activity-launched",
                             G_CALLBACK(close_favorites_menu_cb),
                             self);
   g_signal_connect_swapped (priv->favorites->window,
-                            "app-raised",
+                            "activity-raised",
                             G_CALLBACK(close_favorites_menu_cb),
                             self);
   g_signal_connect_swapped (priv->favorites->window,

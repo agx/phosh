@@ -42,7 +42,7 @@
 }
 
 /* Favorites / Home screen */
-phosh-app {
+phosh-activity {
     background: rgba(255,255,255,0.8);
     border: none;
     border-radius: 0;
@@ -51,14 +51,14 @@ phosh-app {
     box-shadow: 0 2px 2px rgba(0,0,0,0.4), 0 3px 16px rgba(0,0,0,0.3);
 }
 
-phosh-app box {
+phosh-activity box {
     background: rgba(0, 0, 0, 0.7);
     padding: 6px;
     color: white;
     font-weight: bold;
 }
 
-.phosh-running-apps-flowbox {
+.phosh-running-activities-flowbox {
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -68,7 +68,7 @@ phosh-home, .phosh-panel {
     color: white;
 }
 
-.phosh-app-close-button {
+.phosh-activity-close-button {
   border-radius: 50%;
   min-width: 0;
   min-height: 0;

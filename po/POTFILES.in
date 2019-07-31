@@ -1,6 +1,6 @@
 data/sm.puri.Phosh.desktop.in.in
 data/phosh.session.desktop.in.in
-src/app.c
+src/activity.c
 src/auth.c
 src/background.c
 src/batteryinfo.c

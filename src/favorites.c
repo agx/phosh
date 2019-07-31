@@ -13,7 +13,7 @@
 #include "config.h"
 
 #include "favorites.h"
-#include "app.h"
+#include "activity.h"
 #include "shell.h"
 #include "util.h"
 #include "toplevel-manager.h"
@@ -25,9 +25,9 @@
 #define FAVORITES_ICON_SIZE 64
 
 enum {
-  APP_LAUNCHED,
-  APP_RAISED,
-  APP_CLOSED,
+  ACTIVITY_LAUNCHED,
+  ACTIVITY_RAISED,
+  ACTIVITY_CLOSED,
   SELECTION_ABORTED,
   N_SIGNALS
 };
@@ -40,9 +40,9 @@ typedef struct
   GtkWidget *fb_favorites;
   GSettings *settings;
 
-  /* Running apps */
-  GtkWidget *evbox_running_apps;
-  GtkWidget *box_running_apps;
+  /* Running activities */
+  GtkWidget *evbox_running_activities;
+  GtkWidget *box_running_activities;
 
 } PhoshFavoritesPrivate;
 
@@ -56,55 +56,55 @@ G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, GTK_TYPE_WINDOW)
 
 
 static void
-on_app_clicked (PhoshFavorites *self, PhoshApp *app)
+on_activity_clicked (PhoshFavorites *self, PhoshActivity *activity)
 {
   PhoshToplevel *toplevel;
   g_return_if_fail (PHOSH_IS_FAVORITES (self));
-  g_return_if_fail (PHOSH_IS_APP (app));
+  g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
 
-  toplevel = g_object_get_data(G_OBJECT (app), "toplevel");
+  toplevel = g_object_get_data(G_OBJECT (activity), "toplevel");
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
 
   g_debug("Will raise %s (%s)",
-          phosh_app_get_app_id (app),
-          phosh_app_get_title (app));
+          phosh_activity_get_app_id (activity),
+          phosh_activity_get_title (activity));
 
   phosh_toplevel_raise (toplevel, phosh_wayland_get_wl_seat (phosh_wayland_get_default ()));
-  g_signal_emit(self, signals[APP_RAISED], 0);
+  g_signal_emit(self, signals[ACTIVITY_RAISED], 0);
 }
 
 
 static void
-on_app_closed (PhoshFavorites *self, PhoshApp *app)
+on_activity_closed (PhoshFavorites *self, PhoshActivity *activity)
 {
   PhoshToplevel *toplevel;
   g_return_if_fail (PHOSH_IS_FAVORITES (self));
-  g_return_if_fail (PHOSH_IS_APP (app));
+  g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
 
-  toplevel = g_object_get_data(G_OBJECT (app), "toplevel");
+  toplevel = g_object_get_data(G_OBJECT (activity), "toplevel");
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
 
   g_debug("Will close %s (%s)",
-          phosh_app_get_app_id (app),
-          phosh_app_get_title (app));
+          phosh_activity_get_app_id (activity),
+          phosh_activity_get_title (activity));
 
   phosh_toplevel_close (toplevel);
-  g_signal_emit(self, signals[APP_CLOSED], 0);
+  g_signal_emit(self, signals[ACTIVITY_CLOSED], 0);
 }
 
 static void
-on_toplevel_closed (PhoshToplevel *toplevel, PhoshApp *app)
+on_toplevel_closed (PhoshToplevel *toplevel, PhoshActivity *activity)
 {
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
-  g_return_if_fail (PHOSH_IS_APP (app));
-  gtk_widget_destroy (GTK_WIDGET (app));
+  g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
+  gtk_widget_destroy (GTK_WIDGET (activity));
 }
 
-static void add_app (PhoshFavorites *self, PhoshToplevel *toplevel)
+static void add_activity (PhoshFavorites *self, PhoshToplevel *toplevel)
 {
   PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
   PhoshFavoritesPrivate *priv;
-  GtkWidget *app;
+  GtkWidget *activity;
   int max_width = 0;
   const gchar *app_id, *title;
 
@@ -118,32 +118,32 @@ static void add_app (PhoshFavorites *self, PhoshToplevel *toplevel)
   title = phosh_toplevel_get_title (toplevel);
 
   g_debug ("Building activator for '%s' (%s)", app_id, title);
-  app = phosh_app_new (app_id, title);
-  g_object_set (app,
+  activity = phosh_activity_new (app_id, title);
+  g_object_set (activity,
                 "win-width", 360,  // TODO: Get the real size somehow
                 "win-height", 640,
                 "max-height", 445,
                 "max-width", max_width,
                 NULL);
-  g_object_set_data (G_OBJECT(app), "toplevel", toplevel);
-  gtk_box_pack_end (GTK_BOX (priv->box_running_apps), app, FALSE, FALSE, 0);
-  gtk_widget_show (app);
+  g_object_set_data (G_OBJECT(activity), "toplevel", toplevel);
+  gtk_box_pack_end (GTK_BOX (priv->box_running_activities), activity, FALSE, FALSE, 0);
+  gtk_widget_show (activity);
 
-  g_signal_connect_swapped (app, "clicked", G_CALLBACK (on_app_clicked), self);
-  g_signal_connect_swapped (app, "app-closed", G_CALLBACK (on_app_closed), self);
+  g_signal_connect_swapped (activity, "clicked", G_CALLBACK (on_activity_clicked), self);
+  g_signal_connect_swapped (activity, "activity-closed", G_CALLBACK (on_activity_closed), self);
 
-  g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), app, 0);
+  g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), activity, 0);
 }
 
 static void
-get_running_apps (PhoshFavorites *self)
+get_running_activities (PhoshFavorites *self)
 {
   PhoshToplevelManager *toplevel_manager = phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
   guint toplevels_num = phosh_toplevel_manager_get_num_toplevels (toplevel_manager);
 
   for (guint i = 0; i < toplevels_num; i++) {
     PhoshToplevel *toplevel = phosh_toplevel_manager_get_toplevel (toplevel_manager, i);
-    add_app (self, toplevel);
+    add_activity (self, toplevel);
   }
 }
 
@@ -153,7 +153,7 @@ toplevel_added_cb (PhoshFavorites *self, PhoshToplevel *toplevel, PhoshToplevelM
   g_return_if_fail (PHOSH_IS_FAVORITES (self));
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (manager));
-  add_app (self, toplevel);
+  add_activity (self, toplevel);
 }
 
 
@@ -163,7 +163,7 @@ set_max_height (GtkWidget *widget,
 {
   int height = GPOINTER_TO_INT (user_data);
 
-  if (!PHOSH_IS_APP (widget)) {
+  if (!PHOSH_IS_ACTIVITY (widget)) {
     return;
   }
 
@@ -173,7 +173,7 @@ set_max_height (GtkWidget *widget,
 }
 
 static void
-running_apps_resized (GtkWidget     *widget,
+running_activities_resized (GtkWidget     *widget,
                       GtkAllocation *alloc,
                       gpointer       data)
 {
@@ -181,7 +181,7 @@ running_apps_resized (GtkWidget     *widget,
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
   int height = alloc->height * 0.8;
 
-  gtk_container_foreach (GTK_CONTAINER (priv->box_running_apps),
+  gtk_container_foreach (GTK_CONTAINER (priv->box_running_activities),
                          set_max_height,
                          GINT_TO_POINTER (height));
 }
@@ -196,7 +196,7 @@ favorite_clicked_cb (GtkWidget *widget,
 
   self = g_object_get_data (G_OBJECT (widget), "favorites");
   g_assert (self);
-  g_signal_emit (self, signals[APP_LAUNCHED], 0);
+  g_signal_emit (self, signals[ACTIVITY_LAUNCHED], 0);
 }
 
 
@@ -301,20 +301,20 @@ phosh_favorites_constructed (GObject *object)
   favorites_changed (priv->settings, "favorites", self);
 
   /* Close on click */
-  g_signal_connect_swapped (priv->evbox_running_apps, "button_press_event",
+  g_signal_connect_swapped (priv->evbox_running_activities, "button_press_event",
                             G_CALLBACK (evbox_button_press_event_cb),
                             self);
-  gtk_widget_set_events (priv->evbox_running_apps, GDK_BUTTON_PRESS_MASK);
-  get_running_apps (self);
+  gtk_widget_set_events (priv->evbox_running_activities, GDK_BUTTON_PRESS_MASK);
+  get_running_activities (self);
 
   g_signal_connect_object (toplevel_manager, "toplevel-added",
                            G_CALLBACK (toplevel_added_cb),
                            self,
                            G_CONNECT_SWAPPED);
 
-  g_signal_connect (priv->evbox_running_apps,
+  g_signal_connect (priv->evbox_running_activities,
                     "size-allocate",
-                    G_CALLBACK (running_apps_resized),
+                    G_CALLBACK (running_activities_resized),
                     self);
 }
 
@@ -345,19 +345,19 @@ phosh_favorites_class_init (PhoshFavoritesClass *klass)
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshFavorites, evbox_favorites);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshFavorites, fb_favorites);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshFavorites, evbox_running_apps);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshFavorites, box_running_apps);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshFavorites, evbox_running_activities);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshFavorites, box_running_activities);
 
-  signals[APP_LAUNCHED] = g_signal_new ("app-launched",
+  signals[ACTIVITY_LAUNCHED] = g_signal_new ("activity-launched",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
-  signals[APP_RAISED] = g_signal_new ("app-raised",
+  signals[ACTIVITY_RAISED] = g_signal_new ("activity-raised",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
   signals[SELECTION_ABORTED] = g_signal_new ("selection-aborted",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
-  signals[APP_CLOSED] = g_signal_new ("app-closed",
+  signals[ACTIVITY_CLOSED] = g_signal_new ("activity-closed",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 }

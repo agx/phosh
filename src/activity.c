@@ -4,28 +4,28 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#define G_LOG_DOMAIN "phosh-app"
+#define G_LOG_DOMAIN "phosh-activity"
 
 #include "config.h"
-#include "app.h"
+#include "activity.h"
 #include "shell.h"
 
 #include <gio/gdesktopappinfo.h>
 
 /**
- * SECTION:phosh-app
+ * SECTION:phosh-activity
  * @short_description: An app in the faovorites overview
- * @Title: PhoshApp
+ * @Title: PhoshActivity
  *
- * The #PhoshApp is used to select a running application
+ * The #PhoshActivity is used to select a running application
  * in the favorites overview.
  */
 
 // Icons actually sized according to the pixel-size set in the template
-#define APP_ICON_SIZE -1
+#define ACTIVITY_ICON_SIZE -1
 
 enum {
-  APP_CLOSED,
+  ACTIVITY_CLOSED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
@@ -57,25 +57,25 @@ typedef struct
   char *app_id;
   char *title;
   GDesktopAppInfo *info;
-} PhoshAppPrivate;
+} PhoshActivityPrivate;
 
 
-struct _PhoshApp
+struct _PhoshActivity
 {
   GtkButton parent;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(PhoshApp, phosh_app, GTK_TYPE_BUTTON)
+G_DEFINE_TYPE_WITH_PRIVATE(PhoshActivity, phosh_activity, GTK_TYPE_BUTTON)
 
 
 static void
-phosh_app_set_property (GObject *object,
-                          guint property_id,
-                          const GValue *value,
-                          GParamSpec *pspec)
+phosh_activity_set_property (GObject *object,
+                             guint property_id,
+                             const GValue *value,
+                             GParamSpec *pspec)
 {
-  PhoshApp *self = PHOSH_APP (object);
-  PhoshAppPrivate *priv = phosh_app_get_instance_private(self);
+  PhoshActivity *self = PHOSH_ACTIVITY (object);
+  PhoshActivityPrivate *priv = phosh_activity_get_instance_private(self);
 
   switch (property_id) {
     case PROP_APP_ID:
@@ -116,13 +116,13 @@ phosh_app_set_property (GObject *object,
 
 
 static void
-phosh_app_get_property (GObject *object,
-                          guint property_id,
-                          GValue *value,
-                          GParamSpec *pspec)
+phosh_activity_get_property (GObject *object,
+                             guint property_id,
+                             GValue *value,
+                             GParamSpec *pspec)
 {
-  PhoshApp *self = PHOSH_APP (object);
-  PhoshAppPrivate *priv = phosh_app_get_instance_private(self);
+  PhoshActivity *self = PHOSH_ACTIVITY (object);
+  PhoshActivityPrivate *priv = phosh_activity_get_instance_private(self);
 
   switch (property_id) {
     case PROP_APP_ID:
@@ -151,20 +151,20 @@ phosh_app_get_property (GObject *object,
 
 
 static void
-on_btn_close_clicked (PhoshApp *self, GtkButton *button)
+on_btn_close_clicked (PhoshActivity *self, GtkButton *button)
 {
-  g_return_if_fail (PHOSH_IS_APP (self));
+  g_return_if_fail (PHOSH_IS_ACTIVITY (self));
   g_return_if_fail (GTK_IS_BUTTON (button));
 
-  g_signal_emit(self, signals[APP_CLOSED], 0);
+  g_signal_emit(self, signals[ACTIVITY_CLOSED], 0);
 }
 
 
 static void
-phosh_app_constructed (GObject *object)
+phosh_activity_constructed (GObject *object)
 {
-  PhoshApp *self = PHOSH_APP (object);
-  PhoshAppPrivate *priv = phosh_app_get_instance_private (self);
+  PhoshActivity *self = PHOSH_ACTIVITY (object);
+  PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
   g_autofree gchar *desktop_id = NULL;
   g_autofree gchar *name = NULL;
 
@@ -190,11 +190,11 @@ phosh_app_constructed (GObject *object)
   if (priv->info) {
     gtk_image_set_from_gicon (GTK_IMAGE (priv->icon),
                               g_app_info_get_icon (G_APP_INFO (priv->info)),
-                              APP_ICON_SIZE);
+                              ACTIVITY_ICON_SIZE);
   } else {
     gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon),
                                   "missing-image",
-                                  APP_ICON_SIZE);
+                                  ACTIVITY_ICON_SIZE);
   }
 
   g_signal_connect_swapped (priv->btn_close,
@@ -202,55 +202,55 @@ phosh_app_constructed (GObject *object)
                             (GCallback) on_btn_close_clicked,
                             self);
 
-  G_OBJECT_CLASS (phosh_app_parent_class)->constructed (object);
+  G_OBJECT_CLASS (phosh_activity_parent_class)->constructed (object);
 }
 
 
 static void
-phosh_app_dispose (GObject *object)
+phosh_activity_dispose (GObject *object)
 {
-  PhoshApp *self = PHOSH_APP (object);
-  PhoshAppPrivate *priv = phosh_app_get_instance_private (self);
+  PhoshActivity *self = PHOSH_ACTIVITY (object);
+  PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
 
   g_clear_object (&priv->info);
 
-  G_OBJECT_CLASS (phosh_app_parent_class)->dispose (object);
+  G_OBJECT_CLASS (phosh_activity_parent_class)->dispose (object);
 }
 
 
 static void
-phosh_app_finalize (GObject *object)
+phosh_activity_finalize (GObject *object)
 {
-  PhoshApp *self = PHOSH_APP (object);
-  PhoshAppPrivate *priv = phosh_app_get_instance_private (self);
+  PhoshActivity *self = PHOSH_ACTIVITY (object);
+  PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
 
   g_free (priv->app_id);
   g_free (priv->title);
 
-  G_OBJECT_CLASS (phosh_app_parent_class)->finalize (object);
+  G_OBJECT_CLASS (phosh_activity_parent_class)->finalize (object);
 }
 
 static GtkSizeRequestMode
-phosh_app_get_request_mode (GtkWidget *widgte)
+phosh_activity_get_request_mode (GtkWidget *widgte)
 {
   return GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH;
 }
 
 static void
-phosh_app_get_preferred_height_for_width (GtkWidget *widget,
-                                          int        width,
-                                          int       *min,
-                                          int       *nat)
+phosh_activity_get_preferred_height_for_width (GtkWidget *widget,
+                                               int        width,
+                                               int       *min,
+                                               int       *nat)
 {
-  PhoshAppPrivate *priv;
+  PhoshActivityPrivate *priv;
   int smallest = 0;
   int size = 420;
   int box_smallest = 0;
 
-  g_return_if_fail (PHOSH_IS_APP (widget));
-  priv = phosh_app_get_instance_private (PHOSH_APP (widget));
+  g_return_if_fail (PHOSH_IS_ACTIVITY (widget));
+  priv = phosh_activity_get_instance_private (PHOSH_ACTIVITY (widget));
 
-  GTK_WIDGET_CLASS (phosh_app_parent_class)->get_preferred_height_for_width (widget,
+  GTK_WIDGET_CLASS (phosh_activity_parent_class)->get_preferred_height_for_width (widget,
                                                                              width,
                                                                              &smallest,
                                                                              NULL);
@@ -272,17 +272,17 @@ phosh_app_get_preferred_height_for_width (GtkWidget *widget,
 }
 
 static void
-phosh_app_get_preferred_width (GtkWidget *widget, int *min, int *nat)
+phosh_activity_get_preferred_width (GtkWidget *widget, int *min, int *nat)
 {
-  PhoshAppPrivate *priv;
+  PhoshActivityPrivate *priv;
   int smallest = 0;
   int box_smallest = 0;
   int size = 250;
 
-  g_return_if_fail (PHOSH_IS_APP (widget));
-  priv = phosh_app_get_instance_private (PHOSH_APP (widget));
+  g_return_if_fail (PHOSH_IS_ACTIVITY (widget));
+  priv = phosh_activity_get_instance_private (PHOSH_ACTIVITY (widget));
 
-  GTK_WIDGET_CLASS (phosh_app_parent_class)->get_preferred_width (widget,
+  GTK_WIDGET_CLASS (phosh_activity_parent_class)->get_preferred_width (widget,
                                                                   &smallest,
                                                                   NULL);
   gtk_widget_get_preferred_width (priv->box, &box_smallest, NULL);
@@ -303,31 +303,31 @@ phosh_app_get_preferred_width (GtkWidget *widget, int *min, int *nat)
 }
 
 static void
-phosh_app_get_preferred_width_for_height (GtkWidget *widget,
-                                          int        height,
-                                          int       *min,
-                                          int       *nat)
+phosh_activity_get_preferred_width_for_height (GtkWidget *widget,
+                                               int        height,
+                                               int       *min,
+                                               int       *nat)
 {
-  phosh_app_get_preferred_width (widget, min, nat);
+  phosh_activity_get_preferred_width (widget, min, nat);
 }
 
 static void
-phosh_app_class_init (PhoshAppClass *klass)
+phosh_activity_class_init (PhoshActivityClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-  object_class->constructed = phosh_app_constructed;
-  object_class->dispose = phosh_app_dispose;
-  object_class->finalize = phosh_app_finalize;
+  object_class->constructed = phosh_activity_constructed;
+  object_class->dispose = phosh_activity_dispose;
+  object_class->finalize = phosh_activity_finalize;
 
-  object_class->set_property = phosh_app_set_property;
-  object_class->get_property = phosh_app_get_property;
+  object_class->set_property = phosh_activity_set_property;
+  object_class->get_property = phosh_activity_get_property;
 
-  widget_class->get_request_mode = phosh_app_get_request_mode;
-  widget_class->get_preferred_width = phosh_app_get_preferred_width;
-  widget_class->get_preferred_height_for_width = phosh_app_get_preferred_height_for_width;
-  widget_class->get_preferred_width_for_height = phosh_app_get_preferred_width_for_height;
+  widget_class->get_request_mode = phosh_activity_get_request_mode;
+  widget_class->get_preferred_width = phosh_activity_get_preferred_width;
+  widget_class->get_preferred_height_for_width = phosh_activity_get_preferred_height_for_width;
+  widget_class->get_preferred_width_for_height = phosh_activity_get_preferred_width_for_height;
 
   props[PROP_APP_ID] =
     g_param_spec_string (
@@ -387,25 +387,25 @@ phosh_app_class_init (PhoshAppClass *klass)
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
-  signals[APP_CLOSED] = g_signal_new ("app-closed",
+  signals[ACTIVITY_CLOSED] = g_signal_new ("activity-closed",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/app.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/activity.ui");
 
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshApp, app_name);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshApp, icon);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshApp, box);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshApp, btn_close);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, app_name);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, icon);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, box);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, btn_close);
 
-  gtk_widget_class_set_css_name (widget_class, "phosh-app");
+  gtk_widget_class_set_css_name (widget_class, "phosh-activity");
 }
 
 
 static void
-phosh_app_init (PhoshApp *self)
+phosh_activity_init (PhoshActivity *self)
 {
-  PhoshAppPrivate *priv = phosh_app_get_instance_private (self);
+  PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
@@ -417,10 +417,10 @@ phosh_app_init (PhoshApp *self)
 
 
 GtkWidget *
-phosh_app_new (const char *app_id,
-               const char *title)
+phosh_activity_new (const char *app_id,
+                    const char *title)
 {
-  return g_object_new (PHOSH_TYPE_APP,
+  return g_object_new (PHOSH_TYPE_ACTIVITY,
                        "app-id", app_id,
                        "title", title,
                        NULL);
@@ -428,24 +428,24 @@ phosh_app_new (const char *app_id,
 
 
 const char *
-phosh_app_get_app_id (PhoshApp *self)
+phosh_activity_get_app_id (PhoshActivity *self)
 {
-  PhoshAppPrivate *priv;
+  PhoshActivityPrivate *priv;
 
-  g_return_val_if_fail (PHOSH_IS_APP (self), NULL);
-  priv = phosh_app_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_ACTIVITY (self), NULL);
+  priv = phosh_activity_get_instance_private (self);
 
   return priv->app_id;
 }
 
 
 const char *
-phosh_app_get_title (PhoshApp *self)
+phosh_activity_get_title (PhoshActivity *self)
 {
-  PhoshAppPrivate *priv;
+  PhoshActivityPrivate *priv;
 
-  g_return_val_if_fail (PHOSH_IS_APP (self), NULL);
-  priv = phosh_app_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_ACTIVITY (self), NULL);
+  priv = phosh_activity_get_instance_private (self);
 
   return priv->title;
 }

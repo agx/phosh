@@ -13,11 +13,11 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkEventBox" id="evbox_running_apps">
+          <object class="GtkEventBox" id="evbox_running_activities">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkScrolledWindow" id="sw_running_apps">
+              <object class="GtkScrolledWindow" id="sw_running_activities">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="vscrollbar_policy">never</property>
@@ -27,7 +27,7 @@
                     <property name="can_focus">False</property>
                     <property name="shadow_type">none</property>
                     <child>
-                      <object class="GtkBox" id="box_running_apps">
+                      <object class="GtkBox" id="box_running_activities">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
@@ -45,7 +45,7 @@
                           <placeholder/>
                         </child>
                         <style>
-                          <class name="phosh-running-apps-flowbox"/>
+                          <class name="phosh-running-activities-flowbox"/>
                         </style>
                       </object>
                     </child>

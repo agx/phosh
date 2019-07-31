@@ -6,7 +6,7 @@
  */
 
 #include <gtk/gtk.h>
-#include <app.h>
+#include <activity.h>
 
 int
 main (int argc, char **argv)
@@ -14,7 +14,7 @@ main (int argc, char **argv)
   GtkWidget *window = NULL;
   GtkWidget *scrolled = NULL;
   GtkWidget *box = NULL;
-  GtkWidget *app = NULL;
+  GtkWidget *activity = NULL;
   GtkCssProvider *provider = NULL;
   GFile *file = NULL;
   GError *error = NULL;
@@ -61,7 +61,7 @@ main (int argc, char **argv)
                       NULL);
   gtk_container_add (GTK_CONTAINER (scrolled), box);
 
-  app = g_object_new (PHOSH_TYPE_APP,
+  activity = g_object_new (PHOSH_TYPE_ACTIVITY,
                       "app-id", "org.gnome.Calculator",
                       "title", "1 + 1 = 2",
                       "win-width", 360,
@@ -70,9 +70,9 @@ main (int argc, char **argv)
                       "max-height", 400,
                       "visible", TRUE,
                       NULL);
-  gtk_container_add (GTK_CONTAINER (box), app);
+  gtk_container_add (GTK_CONTAINER (box), activity);
 
-  app = g_object_new (PHOSH_TYPE_APP,
+  activity = g_object_new (PHOSH_TYPE_ACTIVITY,
                       "app-id", "org.gnome.Nautilus",
                       "title", "Home",
                       "win-width", 640,
@@ -81,7 +81,7 @@ main (int argc, char **argv)
                       "max-height", 400,
                       "visible", TRUE,
                       NULL);
-  gtk_container_add (GTK_CONTAINER (box), app);
+  gtk_container_add (GTK_CONTAINER (box), activity);
 
   gtk_main ();
 
