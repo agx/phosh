@@ -41,14 +41,12 @@ typedef struct _PhoshLockscreen
 
 
 typedef struct {
-  GtkWidget *stack;
+  GtkWidget *paginator;
 
   /* info page */
-  GtkWidget *ebox_info;
   GtkWidget *grid_info;
   GtkWidget *lbl_clock;
   GtkWidget *lbl_date;
-  GtkGesture *ebox_pan_gesture;
 
   /* unlock page */
   GtkWidget *grid_unlock;
@@ -92,9 +90,7 @@ show_info_page (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  hdy_dialer_clear_number (HDY_DIALER (priv->dialer_keypad));
-  keypad_update_labels (self);
-  gtk_stack_set_visible_child (GTK_STACK (priv->stack), priv->ebox_info);
+  hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator), priv->grid_info);
 }
 
 
@@ -119,14 +115,7 @@ show_unlock_page (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  gtk_stack_set_visible_child (GTK_STACK (priv->stack), priv->grid_unlock);
-  gtk_widget_grab_focus (GTK_WIDGET (priv->dialer_keypad));
-  if (!priv->idle_timer) {
-    priv->last_input = g_get_monotonic_time ();
-    priv->idle_timer = g_timeout_add_seconds (LOCKSCREEN_IDLE_SECONDS,
-                                              (GSourceFunc) keypad_check_idle,
-                                              self);
-  }
+  hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator), priv->grid_unlock);
 
   /* skip signal on init */
   if (signals[WAKEUP_OUTPUT])
@@ -192,13 +181,6 @@ keypad_number_notified_cb (PhoshLockscreen *self)
 }
 
 
-static void
-info_pan_cb (PhoshLockscreen *self, GtkPanDirection dir, gdouble offset, GtkGesturePan *pan)
-{
-  if (dir == GTK_PAN_DIRECTION_UP)
-    show_unlock_page (self);
-}
-
 
 static gboolean
 key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
@@ -207,7 +189,7 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
   gboolean handled = FALSE;
   g_autofree gchar *number = NULL;
 
-  if (gtk_stack_get_visible_child (GTK_STACK (priv->stack)) == priv->ebox_info) {
+  if (hdy_paginator_get_position (HDY_PAGINATOR (priv->paginator)) <= 0) {
     switch (event->keyval) {
     case GDK_KEY_space:
       show_unlock_page (self);
@@ -223,7 +205,7 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
       /* nothing to do */
       break;
     }
-  } else if (gtk_stack_get_visible_child (GTK_STACK (priv->stack)) == priv->grid_unlock) {
+  } else {
     switch (event->keyval) {
     case GDK_KEY_Escape:
       show_info_page (self);
@@ -312,6 +294,42 @@ wall_clock_notify_cb (PhoshLockscreen *self,
 }
 
 
+
+static void
+paginator_position_notified_cb (PhoshLockscreen *self,
+                                GParamSpec      *pspec,
+                                HdyPaginator    *paginator)
+{
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  double position;
+
+  position = hdy_paginator_get_position (HDY_PAGINATOR (priv->paginator));
+
+  if (position <= 0) {
+    hdy_dialer_clear_number (HDY_DIALER (priv->dialer_keypad));
+    keypad_update_labels (self);
+    return;
+  }
+
+  if (position >= 1) {
+    gtk_widget_grab_focus (GTK_WIDGET (priv->dialer_keypad));
+
+    if (!priv->idle_timer) {
+      priv->last_input = g_get_monotonic_time ();
+      priv->idle_timer = g_timeout_add_seconds (LOCKSCREEN_IDLE_SECONDS,
+                                                (GSourceFunc) keypad_check_idle,
+                                                self);
+    }
+
+    return;
+  }
+
+  if (priv->idle_timer) {
+    g_source_remove (priv->idle_timer);
+    priv->idle_timer = 0;
+  }
+}
+
 static void
 phosh_lockscreen_constructed (GObject *object)
 {
@@ -328,15 +346,6 @@ phosh_lockscreen_constructed (GObject *object)
   gtk_style_context_add_class (
       gtk_widget_get_style_context (GTK_WIDGET (self)),
       "phosh-lockscreen");
-
-  gtk_stack_set_visible_child (GTK_STACK (priv->stack), priv->ebox_info);
-
-  priv->ebox_pan_gesture = gtk_gesture_pan_new (GTK_WIDGET (priv->ebox_info),
-                                                GTK_ORIENTATION_VERTICAL);
-  g_signal_connect_swapped (priv->ebox_pan_gesture,
-                            "pan",
-                            G_CALLBACK (info_pan_cb),
-                            self);
 
   gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
   g_signal_connect (G_OBJECT (self),
@@ -395,7 +404,10 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/lockscreen.ui");
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, stack);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, paginator);
+  gtk_widget_class_bind_template_callback_full (widget_class,
+                                                "paginator_position_notified_cb",
+                                                G_CALLBACK(paginator_position_notified_cb));
 
   /* unlock page */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, grid_unlock);
@@ -406,7 +418,6 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
                                                 "keypad_number_notified_cb",
                                                 G_CALLBACK(keypad_number_notified_cb));
   /* info page */
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, ebox_info);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, grid_info);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);

@@ -9,195 +9,186 @@
       <placeholder/>
     </child>
     <child>
-      <object class="GtkStack" id="stack">
+      <object class="HdyPaginator" id="paginator">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="transition_duration">500</property>
-        <property name="transition_type">slide-up-down</property>
-        <child>
-          <object class="GtkEventBox" id="ebox_info">
+        <property name="orientation">vertical</property>
+        <property name="animation-duration">400</property>
+        <signal name="notify::position" handler="paginator_position_notified_cb" swapped="yes"/>
+         <child>
+          <object class="GtkGrid" id="grid_info">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="above_child">True</property>
+            <property name="expand">True</property>
             <child>
-              <object class="GtkGrid" id="grid_info">
+              <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="valign">end</property>
-                        <property name="margin_top">6</property>
-                        <property name="margin_bottom">32</property>
-                        <property name="label" translatable="yes">Slide up to unlock</property>
-                        <style>
-                          <class name="dim-label"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="pack_type">end</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkImage" id="lock-arrow">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="pixel_size">24</property>
-                        <property name="icon_name">swipe-arrow-symbolic</property>
-                        <style>
-                          <class name="phosh-lockscreen-arrow"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="pack_type">end</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
+                    <property name="valign">end</property>
+                    <property name="margin_top">6</property>
+                    <property name="margin_bottom">32</property>
+                    <property name="label" translatable="yes">Slide up to unlock</property>
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
                   </object>
                   <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">3</property>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack_type">end</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkImage" id="lock-arrow">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="pixel_size">24</property>
+                    <property name="icon_name">swipe-arrow-symbolic</property>
+                    <style>
+                      <class name="phosh-lockscreen-arrow"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack_type">end</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="valign">center</property>
+                <property name="vexpand">True</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">5</property>
+                <child>
+                  <object class="GtkLabel" id="lbl_clock">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="valign">center</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">False</property>
+                    <property name="label">00:00</property>
+                    <property name="single_line_mode">True</property>
+                    <property name="track_visited_links">False</property>
+                    <style>
+                      <class name="phosh-lockscreen-clock"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="lbl_date">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="valign">center</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="halign">center</property>
                     <property name="valign">center</property>
-                    <property name="vexpand">True</property>
-                    <property name="orientation">vertical</property>
-                    <property name="spacing">5</property>
+                    <property name="margin_top">24</property>
                     <child>
-                      <object class="GtkLabel" id="lbl_clock">
+                      <object class="PhoshWWanInfo" id="wwaninfo">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="valign">center</property>
-                        <property name="hexpand">True</property>
-                        <property name="vexpand">False</property>
-                        <property name="label">00:00</property>
-                        <property name="single_line_mode">True</property>
-                        <property name="track_visited_links">False</property>
-                        <style>
-                          <class name="phosh-lockscreen-clock"/>
-                        </style>
+                        <property name="valign">start</property>
+                        <property name="halign">end</property>
+                        <property name="hexpand">False</property>
+                        <property name="use_fallback">True</property>
+                        <property name="margin_left">6</property>
+                        <property name="margin_right">6</property>
+                        <property name="size">24</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">True</property>
+                        <property name="fill">False</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="lbl_date">
-                        <property name="visible">True</property>
+                      <object class="PhoshWifiInfo" id="wifiinfo">
+                        <property name="visible">False</property>
                         <property name="can_focus">False</property>
-                        <property name="valign">center</property>
+                        <property name="valign">start</property>
+                        <property name="halign">end</property>
+                        <property name="hexpand">False</property>
+                        <property name="pixel_size">24</property>
+                        <property name="use_fallback">True</property>
+                        <property name="margin_left">6</property>
+                        <property name="margin_right">6</property>
+                        <property name="no_show_all">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">True</property>
+                        <property name="fill">False</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkBox">
+                      <object class="PhoshBatteryInfo" id="batteryinfo">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="halign">center</property>
-                        <property name="valign">center</property>
-                        <property name="margin_top">24</property>
-                        <child>
-                          <object class="PhoshWWanInfo" id="wwaninfo">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="valign">start</property>
-                            <property name="halign">end</property>
-                            <property name="hexpand">False</property>
-                            <property name="use_fallback">True</property>
-                            <property name="margin_left">6</property>
-                            <property name="margin_right">6</property>
-                            <property name="size">24</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="PhoshWifiInfo" id="wifiinfo">
-                            <property name="visible">False</property>
-                            <property name="can_focus">False</property>
-                            <property name="valign">start</property>
-                            <property name="halign">end</property>
-                            <property name="hexpand">False</property>
-                            <property name="pixel_size">24</property>
-                            <property name="use_fallback">True</property>
-                            <property name="margin_left">6</property>
-                            <property name="margin_right">6</property>
-                            <property name="no_show_all">True</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="PhoshBatteryInfo" id="batteryinfo">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="valign">start</property>
-                            <property name="halign">end</property>
-                            <property name="hexpand">False</property>
-                            <property name="pixel_size">24</property>
-                            <property name="use_fallback">True</property>
-                            <property name="margin_left">6</property>
-                            <property name="margin_right">6</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">2</property>
-                          </packing>
-                        </child>
+                        <property name="valign">start</property>
+                        <property name="halign">end</property>
+                        <property name="hexpand">False</property>
+                        <property name="pixel_size">24</property>
+                        <property name="use_fallback">True</property>
+                        <property name="margin_left">6</property>
+                        <property name="margin_right">6</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">True</property>
+                        <property name="fill">False</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
               </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
           </object>
-          <packing>
-            <property name="name">info</property>
-            <property name="title">info</property>
-          </packing>
         </child>
         <child>
           <object class="GtkGrid" id="grid_unlock">
@@ -256,11 +247,6 @@
               </packing>
             </child>
           </object>
-          <packing>
-            <property name="name">unlock</property>
-            <property name="title">unlock</property>
-            <property name="position">1</property>
-          </packing>
         </child>
         <style>
           <class name="phosh-lockscreen"/>
