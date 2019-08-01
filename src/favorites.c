@@ -173,17 +173,18 @@ set_max_height (GtkWidget *widget,
 }
 
 static void
-running_activities_resized (GtkWidget     *widget,
-                      GtkAllocation *alloc,
-                      gpointer       data)
+phosh_favorites_size_allocate (GtkWidget     *widget,
+                               GtkAllocation *alloc)
 {
-  PhoshFavorites *self = PHOSH_FAVORITES (data);
+  PhoshFavorites *self = PHOSH_FAVORITES (widget);
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
-  int height = alloc->height * 0.8;
+  int height = gtk_widget_get_allocated_height (priv->evbox_running_activities) * 0.8;
 
   gtk_container_foreach (GTK_CONTAINER (priv->box_running_activities),
                          set_max_height,
                          GINT_TO_POINTER (height));
+
+  GTK_WIDGET_CLASS (phosh_favorites_parent_class)->size_allocate (widget, alloc);
 }
 
 static void
@@ -297,17 +298,13 @@ phosh_favorites_constructed (GObject *object)
                             G_CALLBACK (evbox_button_press_event_cb),
                             self);
   gtk_widget_set_events (priv->evbox_running_activities, GDK_BUTTON_PRESS_MASK);
-  get_running_activities (self);
 
   g_signal_connect_object (toplevel_manager, "toplevel-added",
                            G_CALLBACK (toplevel_added_cb),
                            self,
                            G_CONNECT_SWAPPED);
 
-  g_signal_connect (priv->evbox_running_activities,
-                    "size-allocate",
-                    G_CALLBACK (running_activities_resized),
-                    self);
+  get_running_activities (self);
   gtk_widget_show_all (GTK_WIDGET(self));
 }
 
@@ -332,6 +329,7 @@ phosh_favorites_class_init (PhoshFavoritesClass *klass)
 
   object_class->dispose = phosh_favorites_dispose;
   object_class->constructed = phosh_favorites_constructed;
+  widget_class->size_allocate = phosh_favorites_size_allocate;
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/favorites.ui");
