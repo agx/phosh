@@ -47,6 +47,8 @@ libphosh_sources = [
 ]
 
 phosh_sources = [
+  'arrow.c',
+  'arrow.h',
   'auth.c',
   'auth.h',
   'polkit-auth-agent.c',
