@@ -62,11 +62,6 @@ phosh-activity:focus box {
     background: rgba(38, 35, 83, 0.7);
 }
 
-.phosh-running-activities-flowbox {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
 phosh-home, .phosh-panel {
     background: black;
     color: white;

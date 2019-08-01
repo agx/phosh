@@ -20,6 +20,9 @@
 
 #include <gio/gdesktopappinfo.h>
 
+#define HANDY_USE_UNSTABLE_API
+#include <handy.h>
+
 #define OVERVIEW_ICON_SIZE 64
 
 enum {
@@ -34,9 +37,7 @@ static guint signals[N_SIGNALS] = { 0 };
 typedef struct
 {
   /* Running activities */
-  GtkWidget *evbox_running_activities;
-  GtkWidget *box_running_activities;
-
+  GtkWidget *paginator_running_activities;
   GtkWidget *app_grid;
 } PhoshOverviewPrivate;
 
@@ -115,7 +116,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
                 "win-height", monitor->height,
                 NULL);
   g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);
-  gtk_box_pack_end (GTK_BOX (priv->box_running_activities), activity, FALSE, FALSE, 0);
+  gtk_container_add (GTK_CONTAINER (priv->paginator_running_activities), activity);
   gtk_widget_show (activity);
 
   g_signal_connect_swapped (activity, "clicked", G_CALLBACK (on_activity_clicked), self);
@@ -135,7 +136,7 @@ get_running_activities (PhoshOverview *self)
   priv = phosh_overview_get_instance_private (self);
 
   if (toplevels_num == 0)
-    gtk_widget_hide (priv->evbox_running_activities);
+    gtk_widget_hide (priv->paginator_running_activities);
 
   for (guint i = 0; i < toplevels_num; i++) {
     PhoshToplevel *toplevel = phosh_toplevel_manager_get_toplevel (toplevel_manager, i);
@@ -164,9 +165,9 @@ num_toplevels_cb (PhoshOverview        *self,
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (manager));
   priv = phosh_overview_get_instance_private (self);
   if (phosh_toplevel_manager_get_num_toplevels (manager)) {
-    gtk_widget_show (priv->evbox_running_activities);
+    gtk_widget_show (priv->paginator_running_activities);
   } else {
-    gtk_widget_hide (priv->evbox_running_activities);
+    gtk_widget_hide (priv->paginator_running_activities);
   }
 }
 
@@ -179,7 +180,7 @@ phosh_overview_size_allocate (GtkWidget     *widget,
   PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
   GList *children, *l;
 
-  children = gtk_container_get_children (GTK_CONTAINER (priv->box_running_activities));
+  children = gtk_container_get_children (GTK_CONTAINER (priv->paginator_running_activities));
 
   for (l = children; l; l = l->next) {
     g_object_set (l->data,
@@ -247,8 +248,7 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/overview.ui");
 
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, evbox_running_activities);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, box_running_activities);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, paginator_running_activities);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, app_grid);
 
   signals[ACTIVITY_LAUNCHED] = g_signal_new ("activity-launched",
