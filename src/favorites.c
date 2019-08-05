@@ -164,10 +164,7 @@ set_max_height (GtkWidget *widget,
 {
   int height = GPOINTER_TO_INT (user_data);
 
-  if (!PHOSH_IS_ACTIVITY (widget)) {
-    return;
-  }
-
+  g_return_if_fail (PHOSH_IS_ACTIVITY (widget));
   g_object_set (widget,
                 "max-height", height,
                 NULL);
