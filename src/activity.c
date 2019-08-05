@@ -405,10 +405,10 @@ phosh_activity_init (PhoshActivity *self)
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  priv->max_height = 100;
-  priv->max_width = 100;
+  priv->max_height = 300;
+  priv->max_width = 300;
   priv->win_height = 300;
-  priv->win_width = 450;
+  priv->win_width = 300;
 }
 
 
