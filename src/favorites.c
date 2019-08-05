@@ -105,14 +105,10 @@ static void add_activity (PhoshFavorites *self, PhoshToplevel *toplevel)
   PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
   PhoshFavoritesPrivate *priv;
   GtkWidget *activity;
-  int max_width = 0;
   const gchar *app_id, *title;
 
   g_return_if_fail (PHOSH_IS_FAVORITES (self));
   priv = phosh_favorites_get_instance_private (self);
-
-  max_width = ((gdouble) monitor->width / (gdouble) monitor->scale) * 0.75;
-  max_width = MIN (max_width, 450);
 
   app_id = phosh_toplevel_get_app_id (toplevel);
   title = phosh_toplevel_get_title (toplevel);
@@ -120,10 +116,8 @@ static void add_activity (PhoshFavorites *self, PhoshToplevel *toplevel)
   g_debug ("Building activator for '%s' (%s)", app_id, title);
   activity = phosh_activity_new (app_id, title);
   g_object_set (activity,
-                "win-width", 360,  // TODO: Get the real size somehow
-                "win-height", 640,
-                "max-height", 445,
-                "max-width", max_width,
+                "win-width", monitor->width,  // TODO: Get the real size somehow
+                "win-height", monitor->height,
                 NULL);
   g_object_set_data (G_OBJECT(activity), "toplevel", toplevel);
   gtk_box_pack_end (GTK_BOX (priv->box_running_activities), activity, FALSE, FALSE, 0);
@@ -157,30 +151,23 @@ toplevel_added_cb (PhoshFavorites *self, PhoshToplevel *toplevel, PhoshToplevelM
   add_activity (self, toplevel);
 }
 
-
-static void
-set_max_height (GtkWidget *widget,
-                gpointer   user_data)
-{
-  int height = GPOINTER_TO_INT (user_data);
-
-  g_return_if_fail (PHOSH_IS_ACTIVITY (widget));
-  g_object_set (widget,
-                "max-height", height,
-                NULL);
-}
-
 static void
 phosh_favorites_size_allocate (GtkWidget     *widget,
                                GtkAllocation *alloc)
 {
   PhoshFavorites *self = PHOSH_FAVORITES (widget);
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
-  int height = gtk_widget_get_allocated_height (priv->evbox_running_activities) * 0.8;
+  GList *children, *l;
 
-  gtk_container_foreach (GTK_CONTAINER (priv->box_running_activities),
-                         set_max_height,
-                         GINT_TO_POINTER (height));
+  children = gtk_container_get_children (GTK_CONTAINER (priv->box_running_activities));
+
+  for (l = children; l; l = l->next)
+    g_object_set (l->data,
+                  "win-width", alloc->width,
+                  "win-height", alloc->height,
+                  NULL);
+
+  g_list_free (children);
 
   GTK_WIDGET_CLASS (phosh_favorites_parent_class)->size_allocate (widget, alloc);
 }

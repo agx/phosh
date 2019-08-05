@@ -34,8 +34,6 @@ enum {
   PROP_0,
   PROP_APP_ID,
   PROP_TITLE,
-  PROP_MAX_WIDTH,
-  PROP_MAX_HEIGHT,
   PROP_WIN_WIDTH,
   PROP_WIN_HEIGHT,
   LAST_PROP,
@@ -51,8 +49,6 @@ typedef struct
 
   int win_width;
   int win_height;
-  int max_width;
-  int max_height;
 
   char *app_id;
   char *title;
@@ -105,22 +101,6 @@ phosh_activity_set_property (GObject *object,
         g_object_notify_by_pspec (G_OBJECT (self), props[PROP_WIN_HEIGHT]);
       }
       break;
-    case PROP_MAX_WIDTH:
-      width = g_value_get_int (value);
-      if (width != priv->max_width) {
-        priv->max_width = width;
-        gtk_widget_queue_resize (GTK_WIDGET (self));
-        g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MAX_WIDTH]);
-      }
-      break;
-    case PROP_MAX_HEIGHT:
-      height = g_value_get_int (value);
-      if (height !=  priv->max_height) {
-        priv->max_height = height;
-        gtk_widget_queue_resize (GTK_WIDGET (self));
-        g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MAX_HEIGHT]);
-      }
-      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
@@ -149,12 +129,6 @@ phosh_activity_get_property (GObject *object,
       break;
     case PROP_WIN_HEIGHT:
       g_value_set_int (value, priv->win_height);
-      break;
-    case PROP_MAX_WIDTH:
-      g_value_set_int (value, priv->max_width);
-      break;
-    case PROP_MAX_HEIGHT:
-      g_value_set_int (value, priv->max_height);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -246,69 +220,33 @@ phosh_activity_finalize (GObject *object)
 static GtkSizeRequestMode
 phosh_activity_get_request_mode (GtkWidget *widgte)
 {
-  return GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH;
+  return GTK_SIZE_REQUEST_WIDTH_FOR_HEIGHT;
 }
 
 static void
-phosh_activity_get_preferred_height_for_width (GtkWidget *widget,
-                                               int        width,
-                                               int       *min,
-                                               int       *nat)
+phosh_activity_get_preferred_height (GtkWidget *widget,
+                                     int       *min,
+                                     int       *nat)
 {
   PhoshActivityPrivate *priv;
-  int size;
   int smallest = 0;
   int box_smallest = 0;
 
   g_return_if_fail (PHOSH_IS_ACTIVITY (widget));
   priv = phosh_activity_get_instance_private (PHOSH_ACTIVITY (widget));
 
-  GTK_WIDGET_CLASS (phosh_activity_parent_class)->get_preferred_height_for_width (widget,
-                                                                             width,
-                                                                             &smallest,
-                                                                             NULL);
-  gtk_widget_get_preferred_height_for_width (priv->box, width, &box_smallest, NULL);
-
-  smallest = MAX (smallest, box_smallest);
-
-  size = MAX ((width / ((gdouble) priv->win_width / (gdouble) priv->win_height)), smallest);
-
-  size = MIN (size, priv->max_height);
-
-  if (min)
-    *min = size;
-
-  if (nat)
-    *nat = size;
-}
-
-static void
-phosh_activity_get_preferred_width (GtkWidget *widget, int *min, int *nat)
-{
-  PhoshActivityPrivate *priv;
-  int size;
-  int smallest = 0;
-  int box_smallest = 0;
-
-  g_return_if_fail (PHOSH_IS_ACTIVITY (widget));
-  priv = phosh_activity_get_instance_private (PHOSH_ACTIVITY (widget));
-
-  GTK_WIDGET_CLASS (phosh_activity_parent_class)->get_preferred_width (widget,
-                                                                  &smallest,
-                                                                  NULL);
+  GTK_WIDGET_CLASS (phosh_activity_parent_class)->get_preferred_height (widget,
+                                                                        &smallest,
+                                                                        NULL);
   gtk_widget_get_preferred_width (priv->box, &box_smallest, NULL);
 
   smallest = MAX (smallest, box_smallest);
 
-  size = MAX ((priv->max_height / ((gdouble) priv->win_height / (gdouble) priv->win_width)), smallest);
-
-  size = MIN (size, priv->max_width);
-
   if (min)
-    *min = size;
+    *min = smallest;
 
   if (nat)
-    *nat = size;
+    *nat = smallest;
 }
 
 static void
@@ -317,7 +255,40 @@ phosh_activity_get_preferred_width_for_height (GtkWidget *widget,
                                                int       *min,
                                                int       *nat)
 {
-  phosh_activity_get_preferred_width (widget, min, nat);
+  PhoshActivityPrivate *priv;
+  int smallest = 0;
+  int box_smallest = 0;
+  int size;
+  double aspect_ratio;
+
+  g_return_if_fail (PHOSH_IS_ACTIVITY (widget));
+  priv = phosh_activity_get_instance_private (PHOSH_ACTIVITY (widget));
+
+  GTK_WIDGET_CLASS (phosh_activity_parent_class)->get_preferred_width_for_height (widget,
+                                                                                  height,
+                                                                                  &smallest,
+                                                                                  NULL);
+  gtk_widget_get_preferred_width_for_height (priv->box, height, &box_smallest, NULL);
+
+  smallest = MAX (smallest, box_smallest);
+
+  aspect_ratio = (double) priv->win_width / priv->win_height;
+  size = MAX (smallest, height * aspect_ratio);
+
+  if (min)
+    *min = size;
+
+  if (nat)
+    *nat = size;
+}
+
+static void
+phosh_activity_get_preferred_height_for_width (GtkWidget *widget,
+                                               int        width,
+                                               int       *min,
+                                               int       *nat)
+{
+  phosh_activity_get_preferred_height (widget, min, nat);
 }
 
 static void
@@ -334,7 +305,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   object_class->get_property = phosh_activity_get_property;
 
   widget_class->get_request_mode = phosh_activity_get_request_mode;
-  widget_class->get_preferred_width = phosh_activity_get_preferred_width;
+  widget_class->get_preferred_height = phosh_activity_get_preferred_height;
   widget_class->get_preferred_height_for_width = phosh_activity_get_preferred_height_for_width;
   widget_class->get_preferred_width_for_height = phosh_activity_get_preferred_width_for_height;
 
@@ -376,26 +347,6 @@ phosh_activity_class_init (PhoshActivityClass *klass)
       300,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
-  props[PROP_MAX_WIDTH] =
-    g_param_spec_int (
-      "max-width",
-      "Max Width",
-      "The button's max width",
-      0,
-      G_MAXINT,
-      300,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
-
-  props[PROP_MAX_HEIGHT] =
-    g_param_spec_int (
-      "max-height",
-      "Max Height",
-      "The button max height",
-      0,
-      G_MAXINT,
-      300,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
-
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
   signals[CLOSE_CLICKED] = g_signal_new ("close-clicked",
@@ -420,8 +371,6 @@ phosh_activity_init (PhoshActivity *self)
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  priv->max_height = 300;
-  priv->max_width = 300;
   priv->win_height = 300;
   priv->win_width = 300;
 }

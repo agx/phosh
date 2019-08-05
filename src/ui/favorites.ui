@@ -25,9 +25,11 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
-                    <property name="valign">center</property>
+                    <property name="valign">fill</property>
                     <property name="margin_start">24</property>
                     <property name="margin_end">24</property>
+                    <property name="margin_top">46</property>
+                    <property name="margin_bottom">47</property>
                     <property name="vexpand">True</property>
                     <property name="spacing">18</property>
                     <child>
