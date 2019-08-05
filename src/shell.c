@@ -390,6 +390,22 @@ phosh_shell_dispose (GObject *object)
 }
 
 
+static void
+on_num_toplevels_changed (PhoshShell *self, GParamSpec *pspec, PhoshToplevelManager *toplevel_manager)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (toplevel_manager));
+
+  priv = phosh_shell_get_instance_private (self);
+  /* all toplevels gone, show the overview */
+  /* TODO: once we have the app-drawer unfold that too */
+  if (!phosh_toplevel_manager_get_num_toplevels (toplevel_manager))
+    phosh_home_set_state (PHOSH_HOME (priv->home), PHOSH_HOME_STATE_UNFOLDED);
+}
+
+
 static gboolean
 setup_idle_cb (PhoshShell *self)
 {
@@ -398,6 +414,13 @@ setup_idle_cb (PhoshShell *self)
   panels_create (self);
   /* Create background after panel since it needs the panel's size */
   priv->background_manager = phosh_background_manager_new ();
+
+  g_signal_connect_object (priv->toplevel_manager,
+                           "notify::num-toplevels",
+                           G_CALLBACK(on_num_toplevels_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_num_toplevels_changed (self, NULL, priv->toplevel_manager);
 
   return FALSE;
 }
