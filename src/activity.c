@@ -25,7 +25,7 @@
 #define ACTIVITY_ICON_SIZE -1
 
 enum {
-  ACTIVITY_CLOSED,
+  CLOSE_CLICKED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
@@ -156,7 +156,7 @@ on_btn_close_clicked (PhoshActivity *self, GtkButton *button)
   g_return_if_fail (PHOSH_IS_ACTIVITY (self));
   g_return_if_fail (GTK_IS_BUTTON (button));
 
-  g_signal_emit(self, signals[ACTIVITY_CLOSED], 0);
+  g_signal_emit(self, signals[CLOSE_CLICKED], 0);
 }
 
 
@@ -387,7 +387,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
-  signals[ACTIVITY_CLOSED] = g_signal_new ("activity-closed",
+  signals[CLOSE_CLICKED] = g_signal_new ("close-clicked",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 

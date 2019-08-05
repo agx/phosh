@@ -75,7 +75,7 @@ on_activity_clicked (PhoshFavorites *self, PhoshActivity *activity)
 
 
 static void
-on_activity_closed (PhoshFavorites *self, PhoshActivity *activity)
+on_activity_close_clicked (PhoshFavorites *self, PhoshActivity *activity)
 {
   PhoshToplevel *toplevel;
   g_return_if_fail (PHOSH_IS_FAVORITES (self));
@@ -130,7 +130,8 @@ static void add_activity (PhoshFavorites *self, PhoshToplevel *toplevel)
   gtk_widget_show (activity);
 
   g_signal_connect_swapped (activity, "clicked", G_CALLBACK (on_activity_clicked), self);
-  g_signal_connect_swapped (activity, "activity-closed", G_CALLBACK (on_activity_closed), self);
+  g_signal_connect_swapped (activity, "close-clicked",
+                            G_CALLBACK (on_activity_close_clicked), self);
 
   g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), activity, 0);
 }
