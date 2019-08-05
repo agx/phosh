@@ -23,6 +23,13 @@
  */
 
 enum {
+  PROP_0,
+  PROP_NUM_TOPLEVELS,
+  PROP_LAST_PROP,
+};
+static GParamSpec *props[PROP_LAST_PROP];
+
+enum {
   SIGNAL_TOPLEVEL_ADDED,
   N_SIGNALS
 };
@@ -35,6 +42,33 @@ struct _PhoshToplevelManager {
 
 G_DEFINE_TYPE (PhoshToplevelManager, phosh_toplevel_manager, G_TYPE_OBJECT);
 
+static void
+phosh_toplevel_set_property (GObject *object,
+                          guint property_id,
+                          const GValue *value,
+                          GParamSpec *pspec)
+{
+  G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+
+static void
+phosh_toplevel_get_property (GObject *object,
+                          guint property_id,
+                          GValue *value,
+                          GParamSpec *pspec)
+{
+  PhoshToplevelManager *self = PHOSH_TOPLEVEL_MANAGER (object);
+
+  switch (property_id) {
+  case PROP_NUM_TOPLEVELS:
+    g_value_set_int (value, self->toplevels->len);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
 
 static void
 on_toplevel_closed (PhoshToplevelManager *self, PhoshToplevel *toplevel)
@@ -44,6 +78,8 @@ on_toplevel_closed (PhoshToplevelManager *self, PhoshToplevel *toplevel)
   g_return_if_fail (self->toplevels);
 
   g_assert_true(g_ptr_array_remove (self->toplevels, toplevel));
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_NUM_TOPLEVELS]);
 }
 
 
@@ -60,6 +96,7 @@ on_toplevel_configured (PhoshToplevelManager *self, GParamSpec *pspec, PhoshTopl
   if (configured && !g_ptr_array_find (self->toplevels, toplevel, NULL)) {
     g_ptr_array_add (self->toplevels, toplevel);
     g_signal_emit (self, signals[SIGNAL_TOPLEVEL_ADDED], 0, toplevel);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_NUM_TOPLEVELS]);
   }
 }
 
@@ -115,6 +152,21 @@ phosh_toplevel_manager_class_init (PhoshToplevelManagerClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->dispose = phosh_toplevel_manager_dispose;
+  object_class->set_property = phosh_toplevel_set_property;
+  object_class->get_property = phosh_toplevel_get_property;
+
+  props[PROP_NUM_TOPLEVELS] =
+    g_param_spec_int ("num-toplevels",
+                      "Number of toplevels",
+                      "The current number of toplevels",
+                      0,
+                      G_MAXINT,
+                      0,
+                      G_PARAM_READABLE |
+                      G_PARAM_STATIC_STRINGS |
+                      G_PARAM_EXPLICIT_NOTIFY);
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
+
   /**
    * PhoshToplevelManager::toplevel-added:
    * @manager: The #PhoshToplevelManager emitting the signal.
@@ -174,5 +226,3 @@ phosh_toplevel_manager_get_num_toplevels (PhoshToplevelManager *self)
 
   return self->toplevels->len;
 }
-
-
