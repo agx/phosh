@@ -114,6 +114,7 @@ phosh_toplevel_manager_class_init (PhoshToplevelManagerClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
+  object_class->dispose = phosh_toplevel_manager_dispose;
   /**
    * PhoshToplevelManager::toplevel-added:
    * @manager: The #PhoshToplevelManager emitting the signal.
@@ -125,8 +126,6 @@ phosh_toplevel_manager_class_init (PhoshToplevelManagerClass *klass)
     "toplevel-added",
     G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
     NULL, G_TYPE_NONE, 1, PHOSH_TYPE_TOPLEVEL);
-
-  object_class->dispose = phosh_toplevel_manager_dispose;
 }
 
 
