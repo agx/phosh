@@ -262,13 +262,11 @@ phosh_activity_get_preferred_height_for_width (GtkWidget *widget,
 
   size = MIN (size, priv->max_height);
 
-  if (min) {
+  if (min)
     *min = size;
-  }
 
-  if (nat) {
+  if (nat)
     *nat = size;
-  }
 }
 
 static void
@@ -293,13 +291,11 @@ phosh_activity_get_preferred_width (GtkWidget *widget, int *min, int *nat)
 
   size = MIN (size, priv->max_width);
 
-  if (min) {
+  if (min)
     *min = size;
-  }
 
-  if (nat) {
+  if (nat)
     *nat = size;
-  }
 }
 
 static void
