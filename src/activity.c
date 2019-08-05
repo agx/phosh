@@ -243,8 +243,8 @@ phosh_activity_get_preferred_height_for_width (GtkWidget *widget,
                                                int       *nat)
 {
   PhoshActivityPrivate *priv;
+  int size;
   int smallest = 0;
-  int size = 420;
   int box_smallest = 0;
 
   g_return_if_fail (PHOSH_IS_ACTIVITY (widget));
@@ -275,9 +275,9 @@ static void
 phosh_activity_get_preferred_width (GtkWidget *widget, int *min, int *nat)
 {
   PhoshActivityPrivate *priv;
+  int size;
   int smallest = 0;
   int box_smallest = 0;
-  int size = 250;
 
   g_return_if_fail (PHOSH_IS_ACTIVITY (widget));
   priv = phosh_activity_get_instance_private (PHOSH_ACTIVITY (widget));
