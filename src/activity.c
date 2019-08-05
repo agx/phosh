@@ -76,6 +76,7 @@ phosh_activity_set_property (GObject *object,
 {
   PhoshActivity *self = PHOSH_ACTIVITY (object);
   PhoshActivityPrivate *priv = phosh_activity_get_instance_private(self);
+  gint height, width;
 
   switch (property_id) {
     case PROP_APP_ID:
@@ -89,24 +90,36 @@ phosh_activity_set_property (GObject *object,
       g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TITLE]);
       break;
     case PROP_WIN_WIDTH:
-      priv->win_width = g_value_get_int (value);
-      gtk_widget_queue_resize (GTK_WIDGET (self));
-      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_WIN_WIDTH]);
+      width = g_value_get_int (value);
+      if (width != priv->win_width) {
+        priv->win_width = width;
+        gtk_widget_queue_resize (GTK_WIDGET (self));
+        g_object_notify_by_pspec (G_OBJECT (self), props[PROP_WIN_WIDTH]);
+      }
       break;
     case PROP_WIN_HEIGHT:
-      priv->win_height = g_value_get_int (value);
-      gtk_widget_queue_resize (GTK_WIDGET (self));
-      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_WIN_HEIGHT]);
+      height = g_value_get_int (value);
+      if (height != priv->win_height) {
+        priv->win_height = height;
+        gtk_widget_queue_resize (GTK_WIDGET (self));
+        g_object_notify_by_pspec (G_OBJECT (self), props[PROP_WIN_HEIGHT]);
+      }
       break;
     case PROP_MAX_WIDTH:
-      priv->max_width = g_value_get_int (value);
-      gtk_widget_queue_resize (GTK_WIDGET (self));
-      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MAX_WIDTH]);
+      width = g_value_get_int (value);
+      if (width != priv->max_width) {
+        priv->max_width = width;
+        gtk_widget_queue_resize (GTK_WIDGET (self));
+        g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MAX_WIDTH]);
+      }
       break;
     case PROP_MAX_HEIGHT:
-      priv->max_height = g_value_get_int (value);
-      gtk_widget_queue_resize (GTK_WIDGET (self));
-      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MAX_HEIGHT]);
+      height = g_value_get_int (value);
+      if (height !=  priv->max_height) {
+        priv->max_height = height;
+        gtk_widget_queue_resize (GTK_WIDGET (self));
+        g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MAX_HEIGHT]);
+      }
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
