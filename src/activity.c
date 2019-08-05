@@ -331,7 +331,8 @@ phosh_activity_class_init (PhoshActivityClass *klass)
       "app-id",
       "The application id",
       "",
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
+      G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PROP_TITLE] =
     g_param_spec_string (
@@ -339,7 +340,8 @@ phosh_activity_class_init (PhoshActivityClass *klass)
       "title",
       "The window's title",
       "",
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
+      G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PROP_WIN_WIDTH] =
     g_param_spec_int (
@@ -349,7 +351,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
       0,
       G_MAXINT,
       300,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PROP_WIN_HEIGHT] =
     g_param_spec_int (
@@ -359,7 +361,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
       0,
       G_MAXINT,
       300,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PROP_MAX_WIDTH] =
     g_param_spec_int (
@@ -369,7 +371,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
       0,
       G_MAXINT,
       300,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PROP_MAX_HEIGHT] =
     g_param_spec_int (
@@ -379,7 +381,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
       0,
       G_MAXINT,
       300,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
