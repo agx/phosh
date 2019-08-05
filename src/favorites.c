@@ -197,7 +197,8 @@ favorite_clicked_cb (GtkWidget *widget,
   g_app_info_launch (G_APP_INFO (info), NULL, NULL, NULL);
 
   self = g_object_get_data (G_OBJECT (widget), "favorites");
-  g_assert (self);
+  g_return_if_fail (PHOSH_IS_FAVORITES (self));
+
   g_signal_emit (self, signals[ACTIVITY_LAUNCHED], 0);
 }
 
