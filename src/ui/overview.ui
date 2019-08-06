@@ -10,8 +10,6 @@
       <object class="GtkEventBox" id="evbox_running_activities">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
-        <signal name="button-press-event" handler="evbox_button_press_event_cb" object="PhoshOverview" swapped="yes"/>
         <child>
           <object class="GtkScrolledWindow" id="sw_running_activities">
             <property name="visible">True</property>
@@ -56,8 +54,6 @@
       <object class="GtkEventBox" id="evbox_app_grid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
-        <signal name="button-press-event" handler="evbox_button_press_event_cb" object="PhoshOverview" swapped="yes"/>
         <child>
           <object class="PhoshAppGrid" id="app_grid">
             <property name="visible">True</property>

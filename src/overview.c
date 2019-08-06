@@ -204,14 +204,6 @@ app_launched_cb (PhoshOverview *self,
 }
 
 
-static gboolean
-evbox_button_press_event_cb (PhoshOverview *self, GdkEventButton *event)
-{
-  g_signal_emit (self, signals[SELECTION_ABORTED], 0);
-  return FALSE;
-}
-
-
 static void
 phosh_overview_constructed (GObject *object)
 {
@@ -221,12 +213,6 @@ phosh_overview_constructed (GObject *object)
       phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
 
   G_OBJECT_CLASS (phosh_overview_parent_class)->constructed (object);
-
-  /* Close on click */
-  g_signal_connect_swapped (priv->evbox_running_activities, "button_press_event",
-                            G_CALLBACK (evbox_button_press_event_cb),
-                            self);
-  gtk_widget_set_events (priv->evbox_running_activities, GDK_BUTTON_PRESS_MASK);
 
   g_signal_connect_object (toplevel_manager, "toplevel-added",
                            G_CALLBACK (toplevel_added_cb),
@@ -264,8 +250,6 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, evbox_running_activities);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, box_running_activities);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, app_grid);
-
-  gtk_widget_class_bind_template_callback (widget_class, evbox_button_press_event_cb);
 
   signals[ACTIVITY_LAUNCHED] = g_signal_new ("activity-launched",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
