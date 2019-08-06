@@ -32,7 +32,7 @@
                     <property name="pixel_size">24</property>
                     <property name="icon_name">swipe-arrow-symbolic</property>
                     <style>
-                      <class name="phosh-home-btn-image-down"/>
+                      <class name="phosh-home-btn-image-up"/>
                     </style>
                   </object>
                 </child>
