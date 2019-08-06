@@ -292,7 +292,6 @@ phosh_favorites_constructed (GObject *object)
                            G_CONNECT_SWAPPED);
 
   get_running_activities (self);
-  gtk_widget_show_all (GTK_WIDGET(self));
 }
 
 
