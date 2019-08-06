@@ -243,8 +243,10 @@ favorites_changed (GSettings *settings,
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
     btn = create_favorite (self, fav, 1);
-    if (btn)
+    if (btn) {
       gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_favorites), btn, -1);
+      gtk_widget_show (btn);
+    }
   }
 }
 
