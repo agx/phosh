@@ -233,7 +233,7 @@ favorites_changed (GSettings *settings,
                    PhoshFavorites *self)
 {
   PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
-  gchar **favorites = g_settings_get_strv (settings, key);
+  g_auto(GStrv) favorites = g_settings_get_strv (settings, key);
   GtkWidget *btn;
 
   /* Remove all favorites first */
@@ -246,7 +246,6 @@ favorites_changed (GSettings *settings,
     if (btn)
       gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_favorites), btn, -1);
   }
-  g_strfreev (favorites);
 }
 
 
