@@ -188,9 +188,9 @@ favorite_clicked_cb (GtkWidget *widget,
 
 
 static GtkWidget*
-add_favorite (PhoshFavorites *self,
-              const gchar *favorite,
-              gint scale)
+create_favorite (PhoshFavorites *self,
+                 const gchar *favorite,
+                 gint scale)
 {
   g_autoptr (GIcon) icon = NULL;
   GDesktopAppInfo *info;
@@ -242,7 +242,7 @@ favorites_changed (GSettings *settings,
 
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
-    btn = add_favorite (self, fav, 1);
+    btn = create_favorite (self, fav, 1);
     if (btn)
       gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_favorites), btn, -1);
   }
