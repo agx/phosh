@@ -42,6 +42,7 @@ struct _PhoshHome
   PhoshLayerSurface parent;
 
   GtkWidget *btn_home;
+  GtkWidget *img_home;
   GtkWidget *btn_osk;
   GtkWidget *favorites;
 
@@ -183,6 +184,7 @@ phosh_home_class_init (PhoshHomeClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/home.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_home);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, img_home);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_osk);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, favorites);
 
@@ -226,6 +228,7 @@ void
 phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
 {
   int width, height;
+  GtkStyleContext *context;
 
   g_return_if_fail (PHOSH_IS_HOME (self));
 
@@ -243,6 +246,17 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
     height = PHOSH_HOME_BUTTON_HEIGHT;
 
   phosh_layer_surface_set_size (PHOSH_LAYER_SURFACE (self), width, height);
+
+  context = gtk_widget_get_style_context(self->img_home);
+  gtk_widget_hide (self->img_home);
+  if (state == PHOSH_HOME_STATE_UNFOLDED) {
+    gtk_style_context_add_class(context, "phosh-home-btn-image-down");
+    gtk_style_context_remove_class(context, "phosh-home-btn-image-up");
+  } else {
+    gtk_style_context_remove_class(context, "phosh-home-btn-image-down");
+    gtk_style_context_add_class(context, "phosh-home-btn-image-up");
+  }
+  gtk_widget_show (self->img_home);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
 }

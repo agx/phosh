@@ -31,6 +31,9 @@
                     <property name="can_focus">False</property>
                     <property name="pixel_size">24</property>
                     <property name="icon_name">swipe-arrow-symbolic</property>
+                    <style>
+                      <class name="phosh-home-btn-image-down"/>
+                    </style>
                   </object>
                 </child>
                 <style>
