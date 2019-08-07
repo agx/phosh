@@ -33,6 +33,7 @@
 #include "panel.h"
 #include "phosh-wayland.h"
 #include "polkit-auth-agent.h"
+#include "screen-saver-manager.h"
 #include "session.h"
 #include "settings.h"
 #include "system-prompter.h"
@@ -72,6 +73,7 @@ typedef struct
   PhoshToplevelManager *toplevel_manager;
   PhoshWifiManager *wifi_manager;
   PhoshPolkitAuthAgent *polkit_auth_agent;
+  PhoshScreenSaverManager *screen_saver_manager;
 } PhoshShellPrivate;
 
 
@@ -376,6 +378,7 @@ phosh_shell_dispose (GObject *object)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   panels_dispose (self);
+  g_clear_object (&priv->screen_saver_manager);
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
   g_clear_object (&priv->toplevel_manager);
@@ -421,6 +424,10 @@ setup_idle_cb (PhoshShell *self)
                            self,
                            G_CONNECT_SWAPPED);
   on_num_toplevels_changed (self, NULL, priv->toplevel_manager);
+
+  /* Screen saver manager needs lock screen manager */
+  priv->screen_saver_manager = phosh_screen_saver_manager_get_default (
+    priv->lockscreen_manager);
 
   return FALSE;
 }

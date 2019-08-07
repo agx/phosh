@@ -5,6 +5,7 @@
  */
 #pragma once
 
+#include "lockscreen-manager.h"
 #include "dbus/phosh-screen-saver-dbus.h"
 #include <glib-object.h>
 
@@ -12,4 +13,4 @@
 G_DECLARE_FINAL_TYPE (PhoshScreenSaverManager, phosh_screen_saver_manager, PHOSH, SCREEN_SAVER_MANAGER,
                       PhoshScreenSaverDbusScreenSaverSkeleton)
 
-PhoshScreenSaverManager * phosh_screen_saver_manager_get_default               (void);
+PhoshScreenSaverManager * phosh_screen_saver_manager_get_default (PhoshLockscreenManager *lockscreen_manager);
