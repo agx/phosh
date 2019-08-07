@@ -40,6 +40,7 @@ typedef struct {
 
   gint timeout;                    /* timeout in seconds before screen locks */
   gboolean locked;
+  gint64 active_time;              /* when lock was activated (in us) */
 } PhoshLockscreenManagerPrivate;
 
 
@@ -69,6 +70,7 @@ lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
   g_clear_pointer (&priv->shields, g_ptr_array_unref);
 
   priv->locked = FALSE;
+  priv->active_time = 0;
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED]);
 }
 
@@ -166,6 +168,7 @@ lockscreen_lock (PhoshLockscreenManager *self)
                             self);
 
   priv->locked = TRUE;
+  priv->active_time = g_get_monotonic_time ();
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED]);
 }
 
@@ -355,4 +358,14 @@ phosh_lockscreen_manager_get_timeout (PhoshLockscreenManager *self)
 
   g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self), 0);
   return priv->timeout;
+}
+
+
+gint64
+phosh_lockscreen_manager_get_active_time (PhoshLockscreenManager *self)
+{
+  PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self), 0);
+  return priv->active_time;
 }
