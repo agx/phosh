@@ -18,55 +18,24 @@
  * The #PhoshLockshield is displayed on lock screens which are not the
  * primary one.
  */
-typedef struct
-{
-  GtkWidget *background;
-} PhoshLockshieldPrivate;
-
-
 struct _PhoshLockshield
 {
   PhoshLayerSurface parent;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(PhoshLockshield, phosh_lockshield, PHOSH_TYPE_LAYER_SURFACE) 
-
-
-static gboolean
-draw_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
-{
-  PhoshLockshield *self = PHOSH_LOCKSHIELD (widget);
-  PhoshLockshieldPrivate *priv = phosh_lockshield_get_instance_private (self);
-  GtkStyleContext *context;
-  gint width, height;
-
-  width = gtk_widget_get_allocated_width (priv->background);
-  height = gtk_widget_get_allocated_height (priv->background);
-
-  context = gtk_widget_get_style_context (priv->background);
-  gtk_render_background (context, cr, 0, 0, width, height);
-  return FALSE;
-}
+G_DEFINE_TYPE(PhoshLockshield, phosh_lockshield, PHOSH_TYPE_LAYER_SURFACE)
 
 
 static void
 phosh_lockshield_constructed (GObject *object)
 {
   PhoshLockshield *self = PHOSH_LOCKSHIELD (object);
-  PhoshLockshieldPrivate *priv = phosh_lockshield_get_instance_private (self);
 
   G_OBJECT_CLASS (phosh_lockshield_parent_class)->constructed (object);
-
-  priv->background = gtk_drawing_area_new ();
 
   gtk_style_context_add_class (
       gtk_widget_get_style_context (GTK_WIDGET (self)),
       "phosh-lockshield");
-
-  g_signal_connect (GTK_WIDGET (self),
-                    "draw",
-                    G_CALLBACK (draw_cb),
-                    NULL);
 }
 
 
