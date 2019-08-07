@@ -17,6 +17,11 @@
 #include "session-presence.h"
 #include <gdk/gdkwayland.h>
 
+/* See https://people.gnome.org/~mccann/gnome-session/docs/gnome-session.html#org.gnome.SessionManager.Presence:status */
+#define GNOME_SESSION_STATUS_AVAILABLE 0
+#define GNOME_SESSION_STATUS_INVISIBLE 1
+#define GNOME_SESSION_STATUS_BUSY      2
+#define GNOME_SESSION_STATUS_IDLE      3
 
 enum {
   PHOSH_LOCKSCREEN_MANAGER_PROP_0,
@@ -171,7 +176,8 @@ presence_status_changed_cb (PhoshLockscreenManager *self, guint32 status, gpoint
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
 
   g_debug ("Presence status changed: %d", status);
-  phosh_lockscreen_manager_set_locked (self, TRUE);
+  if (status == GNOME_SESSION_STATUS_IDLE)
+      phosh_lockscreen_manager_set_locked (self, TRUE);
 }
 
 
