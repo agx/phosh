@@ -28,6 +28,7 @@
 
 enum {
   LOCKSCREEN_UNLOCK,
+  WAKEUP_OUTPUT,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
@@ -127,6 +128,10 @@ show_unlock_page (PhoshLockscreen *self)
                                               (GSourceFunc) keypad_check_idle,
                                               self);
   }
+
+  /* skip signal on init */
+  if (signals[WAKEUP_OUTPUT])
+    g_signal_emit (self, signals[WAKEUP_OUTPUT], 0);
 }
 
 
@@ -376,6 +381,16 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   object_class->dispose = phosh_lockscreen_dispose;
 
   signals[LOCKSCREEN_UNLOCK] = g_signal_new ("lockscreen-unlock",
+      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+      NULL, G_TYPE_NONE, 0);
+  /**
+   * PhoshLockscreen::wakeup-screen
+   * @self: The #PhoshLockscreen emitting this signal
+   *
+   * Emitted when the output showing the lock screen should be woken
+   * up.
+   */
+  signals[WAKEUP_OUTPUT] = g_signal_new ("wakeup-output",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
