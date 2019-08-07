@@ -98,8 +98,8 @@ static void
 lock_screen_clicked_cb (PhoshSettings *self, gpointer *unused)
 {
   g_return_if_fail (PHOSH_IS_SETTINGS (self));
-  phosh_shell_lock (phosh_shell_get_default ());
   g_signal_emit (self, signals[SETTING_DONE], 0);
+  phosh_shell_lock (phosh_shell_get_default ());
 }
 
 
