@@ -74,6 +74,7 @@ rotation_changed_cb (GtkSwitch *btn, GParamSpec *pspec, PhoshSettings *self)
   PhoshShell *shell = phosh_shell_get_default ();
   gboolean rotate;
 
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
   rotate = gtk_switch_get_active(btn);
   phosh_shell_rotate_display (shell, rotate ? 90 : 0);
   g_signal_emit (self, signals[SETTING_DONE], 0);
@@ -85,6 +86,7 @@ settings_clicked_cb (PhoshSettings *self, gpointer *unused)
 {
   PhoshSettingsPrivate *priv = phosh_settings_get_instance_private (self);
 
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
   g_return_if_fail (priv->settings_info);
   g_app_info_launch (G_APP_INFO (priv->settings_info), NULL, NULL, NULL);
 
@@ -95,6 +97,7 @@ settings_clicked_cb (PhoshSettings *self, gpointer *unused)
 static void
 lock_screen_clicked_cb (PhoshSettings *self, gpointer *unused)
 {
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
   phosh_shell_lock (phosh_shell_get_default ());
   g_signal_emit (self, signals[SETTING_DONE], 0);
 }
