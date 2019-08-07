@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+if [ -z "$1" ]; then
+  gdbus call --session --dest org.gnome.ScreenSaver --object-path /org/gnome/ScreenSaver --method org.gnome.ScreenSaver.GetActive
+else
+  case "$1" in
+    on|1|ON)
+        gdbus call --session --dest org.gnome.ScreenSaver --object-path /org/gnome/ScreenSaver --method org.gnome.ScreenSaver.Lock
+        ;;
+    *)
+        echo "Unknown state"
+        ;;
+    esac
+fi
