@@ -26,7 +26,7 @@ typedef struct
 
 struct _PhoshLockshield
 {
-  PhoshLayerSurfaceClass parent;
+  PhoshLayerSurface parent;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE(PhoshLockshield, phosh_lockshield, PHOSH_TYPE_LAYER_SURFACE) 
