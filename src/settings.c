@@ -69,7 +69,7 @@ brightness_value_changed_cb (GtkScale *scale_brightness, gpointer *unused)
 
 
 static void
-rotation_changed_cb (GtkSwitch *btn, GParamSpec *pspec, PhoshSettings *self)
+rotation_changed_cb (PhoshSettings *self, GParamSpec *pspec, GtkSwitch *btn)
 {
   PhoshShell *shell = phosh_shell_get_default ();
   gboolean rotate;
@@ -251,10 +251,10 @@ phosh_settings_constructed (GObject *object)
 
   if (phosh_shell_get_rotation (phosh_shell_get_default ()))
     gtk_switch_set_active (GTK_SWITCH (priv->btn_rotation), TRUE);
-  g_signal_connect (priv->btn_rotation,
-                    "notify::active",
-                    G_CALLBACK (rotation_changed_cb),
-                    self);
+  g_signal_connect_swapped (priv->btn_rotation,
+                            "notify::active",
+                            G_CALLBACK (rotation_changed_cb),
+                            self);
 
   gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
                                   "button");
