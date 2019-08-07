@@ -24,6 +24,12 @@
 #define GNOME_SESSION_STATUS_IDLE      3
 
 enum {
+  WAKEUP_OUTPUTS,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
+
+enum {
   PHOSH_LOCKSCREEN_MANAGER_PROP_0,
   PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED,
   PHOSH_LOCKSCREEN_MANAGER_PROP_TIMEOUT,
@@ -72,6 +78,17 @@ lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
   priv->locked = FALSE;
   priv->active_time = 0;
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED]);
+}
+
+
+static void
+lockscreen_wakeup_output_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
+{
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (lockscreen));
+
+  /* we just proxy the signal here */
+  g_signal_emit (self, signals[WAKEUP_OUTPUTS], 0);
 }
 
 
@@ -162,10 +179,11 @@ lockscreen_lock (PhoshLockscreenManager *self)
     lock_monitor (self, monitor);
   }
 
-  g_signal_connect_swapped (priv->lockscreen,
-                            "lockscreen-unlock",
-                            G_CALLBACK(lockscreen_unlock_cb),
-                            self);
+  g_object_connect (
+    priv->lockscreen,
+    "swapped-object-signal::lockscreen-unlock", G_CALLBACK(lockscreen_unlock_cb), self,
+    "swapped-object-signal::wakeup-output", G_CALLBACK(lockscreen_wakeup_output_cb), self,
+    NULL);
 
   priv->locked = TRUE;
   priv->active_time = g_get_monotonic_time ();
@@ -293,6 +311,17 @@ phosh_lockscreen_manager_class_init (PhoshLockscreenManagerClass *klass)
                       300,
                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   g_object_class_install_properties (object_class, PHOSH_LOCKSCREEN_MANAGER_PROP_LAST_PROP, props);
+
+  /**
+   * PhoshLockscreenManager::wakeup-outputs
+   * @self: The #PhoshLockscreenManager emitting this signal
+   *
+   * Emitted when the outputs should be woken up.
+   */
+  signals[WAKEUP_OUTPUTS] = g_signal_new (
+    "wakeup-outputs",
+    G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+    NULL, G_TYPE_NONE, 0);
 }
 
 
