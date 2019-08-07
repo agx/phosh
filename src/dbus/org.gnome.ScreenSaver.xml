@@ -1,0 +1,23 @@
+<!DOCTYPE node PUBLIC
+'-//freedesktop//DTD D-BUS Object Introspection 1.0//EN'
+'http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd'>
+<node>
+  <interface name="org.gnome.ScreenSaver">
+    <method name="Lock">
+    </method>
+    <method name="GetActive">
+      <arg name="active" direction="out" type="b" />
+    </method>
+    <method name="SetActive">
+      <arg name="value" direction="in" type="b" />
+    </method>
+    <method name="GetActiveTime">
+      <arg name="value" direction="out" type="u" />
+    </method>
+    <signal name="ActiveChanged">
+      <arg name="new_value" type="b" />
+    </signal>
+    <signal name="WakeUpScreen" />
+  </interface>
+</node>
+

@@ -86,6 +86,8 @@ phosh_sources = [
   'panel.h',
   'phosh-wayland.c',
   'phosh-wayland.h',
+  'screen-saver-manager.c',
+  'screen-saver-manager.h',
   'util.c',
   'util.h',
   'wifimanager.c',
