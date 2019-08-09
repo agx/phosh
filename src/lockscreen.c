@@ -123,6 +123,43 @@ show_unlock_page (PhoshLockscreen *self)
 }
 
 
+static gboolean
+finish_shake_label (PhoshLockscreen *self) {
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  hdy_dialer_clear_number (HDY_DIALER (priv->dialer_keypad));
+  gtk_widget_set_sensitive (priv->dialer_keypad, TRUE);
+  gtk_widget_grab_focus (GTK_WIDGET (priv->dialer_keypad));
+  return FALSE;
+}
+
+
+static gboolean
+shake_label (GtkWidget *widget,
+                         GdkFrameClock *frame_clock,
+                         gpointer data) {
+  PhoshLockscreen *self = PHOSH_LOCKSCREEN (widget);
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  gint64 start_time = g_variant_get_int64 (data);
+  gint64 end_time = start_time + 1000 * 300;
+  gint64 now = gdk_frame_clock_get_frame_time (frame_clock);
+
+  gfloat t = (gfloat) (now - start_time) / (gfloat)(end_time - start_time);
+  gfloat pos = sin(t * 10) * 0.05 + 0.5;
+
+  if (now > end_time) {
+    /* Stop the animation only when we would step over the idle position (0.5) */
+    if ((gtk_label_get_xalign (GTK_LABEL (priv->lbl_keypad)) > 0.5 && pos < 0.5) || pos > 0.5) {
+      gtk_label_set_xalign (GTK_LABEL (priv->lbl_keypad), 0.5);
+      g_timeout_add (400, (GSourceFunc) finish_shake_label, self);
+      return FALSE;
+    }
+  }
+
+  gtk_label_set_xalign (GTK_LABEL (priv->lbl_keypad), pos);
+  return TRUE;
+}
+
+
 /* callback of async auth task */
 static void
 auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
@@ -143,10 +180,17 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
     g_signal_emit(self, signals[LOCKSCREEN_UNLOCK], 0);
     g_clear_object (&priv->auth);
   } else {
-    /* FIXME: give visual feedback */
-    hdy_dialer_clear_number (HDY_DIALER (priv->dialer_keypad));
-    gtk_widget_set_sensitive (priv->dialer_keypad, TRUE);
-    gtk_widget_grab_focus (GTK_WIDGET (priv->dialer_keypad));
+    GdkFrameClock *clock;
+    gint64 now;
+    /* give visual feedback on error */
+    clock = gtk_widget_get_frame_clock (priv->lbl_keypad);
+    now = gdk_frame_clock_get_frame_time (clock);
+    gtk_widget_add_tick_callback (GTK_WIDGET (self),
+                                  shake_label,
+                                  g_variant_ref_sink (g_variant_new_int64 (now)),
+                                  (GDestroyNotify) g_variant_unref);
+
+
   }
   /* FIXME: must clear out the buffer and use secmem, see secmem branch */
   priv->last_input = g_get_monotonic_time ();
