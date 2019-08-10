@@ -7,7 +7,7 @@
 #define G_LOG_DOMAIN "phosh-home"
 
 #include "config.h"
-#include "favorites.h"
+#include "overview.h"
 #include "home.h"
 #include "shell.h"
 #include "phosh-enums.h"
@@ -44,7 +44,7 @@ struct _PhoshHome
   GtkWidget *btn_home;
   GtkWidget *img_home;
   GtkWidget *btn_osk;
-  GtkWidget *favorites;
+  GtkWidget *overview;
 
   struct {
     gdouble progress;
@@ -147,10 +147,10 @@ osk_clicked_cb (PhoshHome *self, GtkButton *btn)
 
 
 static void
-fold_cb (PhoshHome *self, PhoshFavorites *favorites)
+fold_cb (PhoshHome *self, PhoshOverview *overview)
 {
   g_return_if_fail (PHOSH_IS_HOME (self));
-  g_return_if_fail (PHOSH_IS_FAVORITES (favorites));
+  g_return_if_fail (PHOSH_IS_OVERVIEW (overview));
 
   phosh_home_set_state (self, PHOSH_HOME_STATE_FOLDED);
 }
@@ -174,15 +174,15 @@ phosh_home_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
 
-  g_signal_connect_swapped (self->favorites,
+  g_signal_connect_swapped (self->overview,
                             "activity-launched",
                             G_CALLBACK(fold_cb),
                             self);
-  g_signal_connect_swapped (self->favorites,
+  g_signal_connect_swapped (self->overview,
                             "activity-raised",
                             G_CALLBACK(fold_cb),
                             self);
-  g_signal_connect_swapped (self->favorites,
+  g_signal_connect_swapped (self->overview,
                             "selection-aborted",
                             G_CALLBACK(fold_cb),
                             self);
@@ -221,14 +221,15 @@ phosh_home_class_init (PhoshHomeClass *klass)
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
-  PHOSH_TYPE_OSK_BUTTON;
-  PHOSH_TYPE_FAVORITES;
+  g_type_ensure (PHOSH_TYPE_OSK_BUTTON);
+  g_type_ensure (PHOSH_TYPE_OVERVIEW);
+
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/home.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_home);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, img_home);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_osk);
-  gtk_widget_class_bind_template_child (widget_class, PhoshHome, favorites);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, overview);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-home");
 }

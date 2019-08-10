@@ -32,7 +32,7 @@ tests = [
   'activity',
   'app-grid-button',
   'app-list-model',
-  'favorites',
+  'overview',
 ]
 
 # Unit tests

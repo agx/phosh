@@ -4,12 +4,12 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "favorites.h"
+#include "overview.h"
 
 static void
-test_phosh_favorites_new(void)
+test_phosh_overview_new(void)
 {
-  GtkWidget *window = phosh_favorites_new ();
+  GtkWidget *window = phosh_overview_new ();
   g_assert (window);
   gtk_widget_destroy (window);
 }
@@ -21,6 +21,6 @@ main (gint argc,
 {
   gtk_test_init (&argc, &argv, NULL);
 
-  g_test_add_func("/phosh/favorites/new", test_phosh_favorites_new);
+  g_test_add_func("/phosh/overview/new", test_phosh_overview_new);
   return g_test_run();
 }

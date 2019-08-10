@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: GPL-3.0+
  * Author: Guido Günther <agx@sigxcpu.org>
  *
- * Based on maynard's favorites whish is
+ * Based on maynard's favorites which is
  * Copyright (C) 2013 Collabora Ltd.
  * Author: Emilio Pozuelo Monfort <emilio.pozuelo@collabora.co.uk>
  */
 
-#define G_LOG_DOMAIN "phosh-favorites"
+#define G_LOG_DOMAIN "phosh-overview"
 
 #include "config.h"
 
-#include "favorites.h"
+#include "overview.h"
 #include "activity.h"
 #include "app-grid-button.h"
 #include "shell.h"
@@ -23,7 +23,7 @@
 
 #include <gio/gdesktopappinfo.h>
 
-#define FAVORITES_ICON_SIZE 64
+#define OVERVIEW_ICON_SIZE 64
 
 enum {
   ACTIVITY_LAUNCHED,
@@ -37,33 +37,33 @@ static guint signals[N_SIGNALS] = { 0 };
 typedef struct
 {
   /* Favorites */
-  GtkWidget *evbox_favorites;
-  GtkWidget *fb_favorites;
+  GtkWidget *evbox_overview;
+  GtkWidget *fb_overview;
   GSettings *settings;
 
   /* Running activities */
   GtkWidget *evbox_running_activities;
   GtkWidget *box_running_activities;
 
-} PhoshFavoritesPrivate;
+} PhoshOverviewPrivate;
 
 
-struct _PhoshFavorites
+struct _PhoshOverview
 {
   GtkBoxClass parent;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE(PhoshFavorites, phosh_favorites, GTK_TYPE_BOX)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshOverview, phosh_overview, GTK_TYPE_BOX)
 
 
 static void
-on_activity_clicked (PhoshFavorites *self, PhoshActivity *activity)
+on_activity_clicked (PhoshOverview *self, PhoshActivity *activity)
 {
   PhoshToplevel *toplevel;
-  g_return_if_fail (PHOSH_IS_FAVORITES (self));
+  g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
 
-  toplevel = g_object_get_data(G_OBJECT (activity), "toplevel");
+  toplevel = g_object_get_data (G_OBJECT (activity), "toplevel");
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
 
   g_debug("Will raise %s (%s)",
@@ -71,26 +71,26 @@ on_activity_clicked (PhoshFavorites *self, PhoshActivity *activity)
           phosh_activity_get_title (activity));
 
   phosh_toplevel_raise (toplevel, phosh_wayland_get_wl_seat (phosh_wayland_get_default ()));
-  g_signal_emit(self, signals[ACTIVITY_RAISED], 0);
+  g_signal_emit (self, signals[ACTIVITY_RAISED], 0);
 }
 
 
 static void
-on_activity_close_clicked (PhoshFavorites *self, PhoshActivity *activity)
+on_activity_close_clicked (PhoshOverview *self, PhoshActivity *activity)
 {
   PhoshToplevel *toplevel;
-  g_return_if_fail (PHOSH_IS_FAVORITES (self));
+  g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
 
-  toplevel = g_object_get_data(G_OBJECT (activity), "toplevel");
+  toplevel = g_object_get_data (G_OBJECT (activity), "toplevel");
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
 
-  g_debug("Will close %s (%s)",
-          phosh_activity_get_app_id (activity),
-          phosh_activity_get_title (activity));
+  g_debug ("Will close %s (%s)",
+           phosh_activity_get_app_id (activity),
+           phosh_activity_get_title (activity));
 
   phosh_toplevel_close (toplevel);
-  g_signal_emit(self, signals[ACTIVITY_CLOSED], 0);
+  g_signal_emit (self, signals[ACTIVITY_CLOSED], 0);
 }
 
 static void
@@ -101,15 +101,16 @@ on_toplevel_closed (PhoshToplevel *toplevel, PhoshActivity *activity)
   gtk_widget_destroy (GTK_WIDGET (activity));
 }
 
-static void add_activity (PhoshFavorites *self, PhoshToplevel *toplevel)
+static void
+add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
 {
   PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
-  PhoshFavoritesPrivate *priv;
+  PhoshOverviewPrivate *priv;
   GtkWidget *activity;
   const gchar *app_id, *title;
 
-  g_return_if_fail (PHOSH_IS_FAVORITES (self));
-  priv = phosh_favorites_get_instance_private (self);
+  g_return_if_fail (PHOSH_IS_OVERVIEW (self));
+  priv = phosh_overview_get_instance_private (self);
 
   app_id = phosh_toplevel_get_app_id (toplevel);
   title = phosh_toplevel_get_title (toplevel);
@@ -120,7 +121,7 @@ static void add_activity (PhoshFavorites *self, PhoshToplevel *toplevel)
                 "win-width", monitor->width,  // TODO: Get the real size somehow
                 "win-height", monitor->height,
                 NULL);
-  g_object_set_data (G_OBJECT(activity), "toplevel", toplevel);
+  g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);
   gtk_box_pack_end (GTK_BOX (priv->box_running_activities), activity, FALSE, FALSE, 0);
   gtk_widget_show (activity);
 
@@ -132,7 +133,7 @@ static void add_activity (PhoshFavorites *self, PhoshToplevel *toplevel)
 }
 
 static void
-get_running_activities (PhoshFavorites *self)
+get_running_activities (PhoshOverview *self)
 {
   PhoshToplevelManager *toplevel_manager = phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
   guint toplevels_num = phosh_toplevel_manager_get_num_toplevels (toplevel_manager);
@@ -144,49 +145,52 @@ get_running_activities (PhoshFavorites *self)
 }
 
 static void
-toplevel_added_cb (PhoshFavorites *self, PhoshToplevel *toplevel, PhoshToplevelManager *manager)
+toplevel_added_cb (PhoshOverview        *self,
+                   PhoshToplevel        *toplevel,
+                   PhoshToplevelManager *manager)
 {
-  g_return_if_fail (PHOSH_IS_FAVORITES (self));
+  g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (manager));
   add_activity (self, toplevel);
 }
 
 static void
-phosh_favorites_size_allocate (GtkWidget     *widget,
-                               GtkAllocation *alloc)
+phosh_overview_size_allocate (GtkWidget     *widget,
+                              GtkAllocation *alloc)
 {
-  PhoshFavorites *self = PHOSH_FAVORITES (widget);
-  PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
+  PhoshOverview *self = PHOSH_OVERVIEW (widget);
+  PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
   GList *children, *l;
 
   children = gtk_container_get_children (GTK_CONTAINER (priv->box_running_activities));
 
-  for (l = children; l; l = l->next)
+  for (l = children; l; l = l->next) {
     g_object_set (l->data,
                   "win-width", alloc->width,
                   "win-height", alloc->height,
                   NULL);
+  }
 
   g_list_free (children);
 
-  GTK_WIDGET_CLASS (phosh_favorites_parent_class)->size_allocate (widget, alloc);
+  GTK_WIDGET_CLASS (phosh_overview_parent_class)->size_allocate (widget, alloc);
 }
 
 static void
-app_launched_cb (PhoshFavorites *self,
-                 GAppInfo       *info,
-                 GtkWidget      *widget)
+app_launched_cb (PhoshOverview *self,
+                 GAppInfo      *info,
+                 GtkWidget     *widget)
 {
-  g_return_if_fail (PHOSH_IS_FAVORITES (self));
+  g_return_if_fail (PHOSH_IS_OVERVIEW (self));
 
   g_signal_emit (self, signals[ACTIVITY_LAUNCHED], 0);
 }
 
 
 static GtkWidget*
-create_favorite (PhoshFavorites *self,
-                 const gchar    *favorite)
+create_favorite (PhoshOverview *self,
+                 const gchar   *favorite)
 {
   GDesktopAppInfo *info;
   GtkWidget *btn;
@@ -205,23 +209,23 @@ create_favorite (PhoshFavorites *self,
 
 
 static void
-favorites_changed (GSettings *settings,
-                   const gchar *key,
-                   PhoshFavorites *self)
+favorites_changed (GSettings     *settings,
+                   const gchar   *key,
+                   PhoshOverview *self)
 {
-  PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
+  PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
   g_auto(GStrv) favorites = g_settings_get_strv (settings, key);
   GtkWidget *btn;
 
   /* Remove all favorites first */
-  gtk_container_foreach (GTK_CONTAINER (priv->fb_favorites),
+  gtk_container_foreach (GTK_CONTAINER (priv->fb_overview),
                          (GtkCallback) gtk_widget_destroy, NULL);
 
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
     btn = create_favorite (self, fav);
     if (btn) {
-      gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_favorites), btn, -1);
+      gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_overview), btn, -1);
       gtk_widget_show (btn);
     }
   }
@@ -229,28 +233,28 @@ favorites_changed (GSettings *settings,
 
 
 static gboolean
-evbox_button_press_event_cb (PhoshFavorites *self, GdkEventButton *event)
+evbox_button_press_event_cb (PhoshOverview *self, GdkEventButton *event)
 {
-  g_signal_emit(self, signals[SELECTION_ABORTED], 0);
+  g_signal_emit (self, signals[SELECTION_ABORTED], 0);
   return FALSE;
 }
 
 
 static void
-phosh_favorites_constructed (GObject *object)
+phosh_overview_constructed (GObject *object)
 {
-  PhoshFavorites *self = PHOSH_FAVORITES (object);
-  PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
+  PhoshOverview *self = PHOSH_OVERVIEW (object);
+  PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
   PhoshToplevelManager *toplevel_manager =
       phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
 
-  G_OBJECT_CLASS (phosh_favorites_parent_class)->constructed (object);
+  G_OBJECT_CLASS (phosh_overview_parent_class)->constructed (object);
 
   /* Close on click */
-  g_signal_connect_swapped (priv->evbox_favorites, "button_press_event",
+  g_signal_connect_swapped (priv->evbox_overview, "button_press_event",
                             G_CALLBACK (evbox_button_press_event_cb),
                             self);
-  gtk_widget_set_events (priv->evbox_favorites, GDK_BUTTON_PRESS_MASK);
+  gtk_widget_set_events (priv->evbox_overview, GDK_BUTTON_PRESS_MASK);
 
   priv->settings = g_settings_new ("sm.puri.phosh");
   g_signal_connect (priv->settings, "changed::favorites",
@@ -273,34 +277,35 @@ phosh_favorites_constructed (GObject *object)
 
 
 static void
-phosh_favorites_dispose (GObject *object)
+phosh_overview_dispose (GObject *object)
 {
-  PhoshFavorites *self = PHOSH_FAVORITES (object);
-  PhoshFavoritesPrivate *priv = phosh_favorites_get_instance_private (self);
+  PhoshOverview *self = PHOSH_OVERVIEW (object);
+  PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
 
   g_clear_object (&priv->settings);
 
-  G_OBJECT_CLASS (phosh_favorites_parent_class)->dispose (object);
+  G_OBJECT_CLASS (phosh_overview_parent_class)->dispose (object);
 }
 
 
 static void
-phosh_favorites_class_init (PhoshFavoritesClass *klass)
+phosh_overview_class_init (PhoshOverviewClass *klass)
 {
-  GObjectClass *object_class = (GObjectClass *)klass;
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-  object_class->dispose = phosh_favorites_dispose;
-  object_class->constructed = phosh_favorites_constructed;
-  widget_class->size_allocate = phosh_favorites_size_allocate;
+  object_class->dispose = phosh_overview_dispose;
+  object_class->constructed = phosh_overview_constructed;
+  widget_class->size_allocate = phosh_overview_size_allocate;
 
+  gtk_widget_class_set_css_name (widget_class, "phosh-overview");
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/favorites.ui");
+                                               "/sm/puri/phosh/ui/overview.ui");
 
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshFavorites, evbox_favorites);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshFavorites, fb_favorites);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshFavorites, evbox_running_activities);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshFavorites, box_running_activities);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, evbox_overview);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, fb_overview);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, evbox_running_activities);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, box_running_activities);
 
   signals[ACTIVITY_LAUNCHED] = g_signal_new ("activity-launched",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
@@ -318,14 +323,14 @@ phosh_favorites_class_init (PhoshFavoritesClass *klass)
 
 
 static void
-phosh_favorites_init (PhoshFavorites *self)
+phosh_overview_init (PhoshOverview *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
 }
 
 
 GtkWidget *
-phosh_favorites_new (void)
+phosh_overview_new (void)
 {
-  return g_object_new (PHOSH_TYPE_FAVORITES, NULL);
+  return g_object_new (PHOSH_TYPE_OVERVIEW, NULL);
 }

@@ -73,7 +73,7 @@
           </packing>
         </child>
         <child>
-          <object class="PhoshFavorites" id="favorites">
+          <object class="PhoshOverview" id="overview">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
           </object>

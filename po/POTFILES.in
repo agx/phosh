@@ -4,7 +4,7 @@ src/activity.c
 src/auth.c
 src/background.c
 src/batteryinfo.c
-src/favorites.c
+src/overview.c
 src/home.c
 src/idle-manager.c
 src/layersurface.c
@@ -30,7 +30,7 @@ src/util.c
 src/wifiinfo.c
 src/wifimanager.c
 src/wwaninfo.c
-src/ui/favorites.ui
+src/ui/overview.ui
 src/ui/home.ui
 src/ui/lockscreen.ui
 src/ui/polkit-auth-prompt.ui

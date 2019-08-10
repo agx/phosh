@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="PhoshFavorites" parent="GtkBox">
+  <template class="PhoshOverview" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
@@ -58,14 +58,14 @@
       </packing>
     </child>
     <child>
-      <object class="GtkEventBox" id="evbox_favorites">
+      <object class="GtkEventBox" id="evbox_overview">
         <property name="name">evbox</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">end</property>
         <child>
-          <object class="GtkScrolledWindow" id="sw_favorites">
-            <property name="name">sw_favorites</property>
+          <object class="GtkScrolledWindow" id="sw_overview">
+            <property name="name">sw_overview</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="valign">end</property>
@@ -76,7 +76,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkFlowBox" id="fb_favorites">
+                  <object class="GtkFlowBox" id="fb_overview">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
@@ -89,7 +89,7 @@
                     <property name="selection_mode">none</property>
                     <property name="activate_on_single_click">False</property>
                     <style>
-                      <class name="phosh-favorites-flowbox"/>
+                      <class name="phosh-overview-flowbox"/>
                     </style>
                   </object>
                 </child>

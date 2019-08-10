@@ -17,8 +17,7 @@
  * @short_description: An app in the faovorites overview
  * @Title: PhoshActivity
  *
- * The #PhoshActivity is used to select a running application
- * in the favorites overview.
+ * The #PhoshActivity is used to select a running application in the overview.
  */
 
 // Icons actually sized according to the pixel-size set in the template
