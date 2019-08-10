@@ -227,7 +227,7 @@ phosh_home_new (struct zwlr_layer_shell_v1 *layer_shell,
 void
 phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
 {
-  int width, height;
+  int height;
   GtkStyleContext *context;
 
   g_return_if_fail (PHOSH_IS_HOME (self));
@@ -238,14 +238,14 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   self->state = state;
   g_debug ("Setting state to %s", g_enum_to_string (PHOSH_TYPE_HOME_STATE, state));
 
-  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
+  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, NULL, &height);
   /* We don't change the exclusive zone since we don't want to push all clients upward */
   if (state == PHOSH_HOME_STATE_UNFOLDED)
     height = PHOSH_HOME_BUTTON_HEIGHT + height;
   else
     height = PHOSH_HOME_BUTTON_HEIGHT;
 
-  phosh_layer_surface_set_size (PHOSH_LAYER_SURFACE (self), width, height);
+  phosh_layer_surface_set_size (PHOSH_LAYER_SURFACE (self), 0, height);
 
   context = gtk_widget_get_style_context(self->img_home);
   gtk_widget_hide (self->img_home);
