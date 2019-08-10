@@ -258,5 +258,10 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   }
   gtk_widget_show (self->img_home);
 
+  if (state == PHOSH_HOME_STATE_UNFOLDED)
+    gtk_widget_hide (self->btn_osk);
+  else
+    gtk_widget_show (self->btn_osk);
+
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
 }
