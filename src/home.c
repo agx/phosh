@@ -248,7 +248,6 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   phosh_layer_surface_set_size (PHOSH_LAYER_SURFACE (self), 0, height);
 
   context = gtk_widget_get_style_context(self->img_home);
-  gtk_widget_hide (self->img_home);
   if (state == PHOSH_HOME_STATE_UNFOLDED) {
     gtk_style_context_add_class(context, "phosh-home-btn-image-down");
     gtk_style_context_remove_class(context, "phosh-home-btn-image-up");
@@ -256,7 +255,6 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
     gtk_style_context_remove_class(context, "phosh-home-btn-image-down");
     gtk_style_context_add_class(context, "phosh-home-btn-image-up");
   }
-  gtk_widget_show (self->img_home);
 
   if (state == PHOSH_HOME_STATE_UNFOLDED)
     gtk_widget_hide (self->btn_osk);
