@@ -5,6 +5,7 @@
   <template class="PhoshAppGridButton" parent="GtkFlowBoxChild">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
+    <property name="sensitive">False</property>
     <signal name="activate" handler="activate_cb" swapped="no"/>
     <child>
       <object class="GtkButton">

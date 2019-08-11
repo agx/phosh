@@ -6,7 +6,10 @@
 
 #define G_LOG_DOMAIN "phosh-app-grid-button"
 
+#include "config.h"
 #include "app-grid-button.h"
+
+#include <glib/gi18n-lib.h>
 
 typedef struct _PhoshAppGridButtonPrivate PhoshAppGridButtonPrivate;
 struct _PhoshAppGridButtonPrivate {
@@ -47,10 +50,21 @@ phosh_app_grid_button_set_property (GObject      *object,
     case PROP_APP_INFO:
       g_clear_object (&priv->info);
       priv->info = g_value_dup_object (value);
-      name = g_app_info_get_display_name (G_APP_INFO (priv->info));
-      gtk_label_set_label (GTK_LABEL (priv->label), name);
-      icon = g_app_info_get_icon (priv->info);
-      gtk_image_set_from_gicon (GTK_IMAGE (priv->icon), icon, GTK_ICON_SIZE_DIALOG);
+      if (priv->info) {
+        name = g_app_info_get_display_name (G_APP_INFO (priv->info));
+        gtk_label_set_label (GTK_LABEL (priv->label), name);
+        icon = g_app_info_get_icon (priv->info);
+        gtk_image_set_from_gicon (GTK_IMAGE (priv->icon),
+                                  icon,
+                                  GTK_ICON_SIZE_DIALOG);
+        gtk_widget_set_sensitive (GTK_WIDGET (self), TRUE);
+      } else {
+        gtk_label_set_label (GTK_LABEL (priv->label), _("Application"));
+        gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon),
+                                      "application-x-executable",
+                                      GTK_ICON_SIZE_DIALOG);
+        gtk_widget_set_sensitive (GTK_WIDGET (self), FALSE);
+      }
       break;
     case PROP_IS_FAVORITE:
       gtk_widget_set_visible (priv->label, !g_value_get_boolean (value));
