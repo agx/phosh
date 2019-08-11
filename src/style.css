@@ -37,6 +37,7 @@
     animation-timing-function: linear;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
+    -gtk-icon-transform: rotate(180deg);
 }
 
 .phosh-home-btn-image-up {
@@ -45,6 +46,7 @@
     animation-timing-function: linear;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
+    -gtk-icon-transform: rotate(0deg);
 }
 
 /* Settings menu */
