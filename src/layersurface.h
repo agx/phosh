@@ -34,3 +34,8 @@ struct     wl_surface            *phosh_layer_surface_get_wl_surface(PhoshLayerS
 void                              phosh_layer_surface_set_size(PhoshLayerSurface *self,
                                                                gint width,
                                                                gint height);
+void                              phosh_layer_surface_set_margins(PhoshLayerSurface *self,
+                                                                  gint top,
+                                                                  gint right,
+                                                                  gint bottom,
+                                                                  gint left);

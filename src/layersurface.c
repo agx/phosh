@@ -20,6 +20,10 @@ enum {
   PHOSH_LAYER_SURFACE_PROP_LAYER,
   PHOSH_LAYER_SURFACE_PROP_KBD_INTERACTIVITY,
   PHOSH_LAYER_SURFACE_PROP_EXCLUSIVE_ZONE,
+  PHOSH_LAYER_SURFACE_PROP_MARGIN_TOP,
+  PHOSH_LAYER_SURFACE_PROP_MARGIN_BOTTOM,
+  PHOSH_LAYER_SURFACE_PROP_MARGIN_LEFT,
+  PHOSH_LAYER_SURFACE_PROP_MARGIN_RIGHT,
   PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH,
   PHOSH_LAYER_SURFACE_PROP_LAYER_HEIGHT,
   PHOSH_LAYER_SURFACE_PROP_NAMESPACE,
@@ -43,6 +47,8 @@ typedef struct {
   guint layer;
   gboolean kbd_interactivity;
   gint exclusive_zone;
+  gint margin_top, margin_bottom;
+  gint margin_left, margin_right;
   gint width, height;
   gchar *namespace;
   struct zwlr_layer_shell_v1 *layer_shell;
@@ -112,6 +118,34 @@ phosh_layer_surface_set_property (GObject      *object,
   case PHOSH_LAYER_SURFACE_PROP_EXCLUSIVE_ZONE:
     priv->exclusive_zone = g_value_get_int (value);
     break;
+  case PHOSH_LAYER_SURFACE_PROP_MARGIN_TOP:
+    phosh_layer_surface_set_margins (self,
+                                     g_value_get_int (value),
+                                     priv->margin_right,
+                                     priv->margin_bottom,
+                                     priv->margin_left);
+    break;
+  case PHOSH_LAYER_SURFACE_PROP_MARGIN_BOTTOM:
+    phosh_layer_surface_set_margins (self,
+                                     priv->margin_top,
+                                     priv->margin_right,
+                                     g_value_get_int (value),
+                                     priv->margin_left);
+    break;
+  case PHOSH_LAYER_SURFACE_PROP_MARGIN_LEFT:
+    phosh_layer_surface_set_margins (self,
+                                     priv->margin_top,
+                                     priv->margin_right,
+                                     priv->margin_bottom,
+                                     g_value_get_int (value));
+    break;
+  case PHOSH_LAYER_SURFACE_PROP_MARGIN_RIGHT:
+    phosh_layer_surface_set_margins (self,
+                                     priv->margin_top,
+                                     g_value_get_int (value),
+                                     priv->margin_bottom,
+                                     priv->margin_left);
+    break;
   case PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH:
     priv->width = g_value_get_uint (value);
     break;
@@ -156,6 +190,18 @@ phosh_layer_surface_get_property (GObject    *object,
     break;
   case PHOSH_LAYER_SURFACE_PROP_EXCLUSIVE_ZONE:
     g_value_set_int (value, priv->exclusive_zone);
+    break;
+  case PHOSH_LAYER_SURFACE_PROP_MARGIN_TOP:
+    g_value_set_int (value, priv->margin_top);
+    break;
+  case PHOSH_LAYER_SURFACE_PROP_MARGIN_BOTTOM:
+    g_value_set_int (value, priv->margin_bottom);
+    break;
+  case PHOSH_LAYER_SURFACE_PROP_MARGIN_LEFT:
+    g_value_set_int (value, priv->margin_left);
+    break;
+  case PHOSH_LAYER_SURFACE_PROP_MARGIN_RIGHT:
+    g_value_set_int (value, priv->margin_right);
     break;
   case PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH:
     g_value_set_uint (value, priv->width);
@@ -215,6 +261,11 @@ on_phosh_layer_surface_mapped (PhoshLayerSurface *self, gpointer unused)
   zwlr_layer_surface_v1_set_exclusive_zone(priv->layer_surface, priv->exclusive_zone);
   zwlr_layer_surface_v1_set_size(priv->layer_surface, priv->width, priv->height);
   zwlr_layer_surface_v1_set_anchor(priv->layer_surface, priv->anchor);
+  zwlr_layer_surface_v1_set_margin(priv->layer_surface,
+                                   priv->margin_top,
+                                   priv->margin_right,
+                                   priv->margin_bottom,
+                                   priv->margin_left);
   zwlr_layer_surface_v1_set_keyboard_interactivity(priv->layer_surface, priv->kbd_interactivity);
   zwlr_layer_surface_v1_add_listener(priv->layer_surface,
                                      &layer_surface_listener,
@@ -340,6 +391,46 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       0,
       G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
+  props[PHOSH_LAYER_SURFACE_PROP_MARGIN_LEFT] =
+    g_param_spec_int (
+      "margin-left",
+      "Left margin",
+      "Distance away from the left anchor point",
+      G_MININT,
+      G_MAXINT,
+      0,
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PHOSH_LAYER_SURFACE_PROP_MARGIN_RIGHT] =
+    g_param_spec_int (
+      "margin-right",
+      "Right margin",
+      "Distance away from the right anchor point",
+      G_MININT,
+      G_MAXINT,
+      0,
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PHOSH_LAYER_SURFACE_PROP_MARGIN_TOP] =
+    g_param_spec_int (
+      "margin-top",
+      "Top margin",
+      "Distance away from the top anchor point",
+      G_MININT,
+      G_MAXINT,
+      0,
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PHOSH_LAYER_SURFACE_PROP_MARGIN_BOTTOM] =
+    g_param_spec_int (
+      "margin-bottom",
+      "Bottom margin",
+      "Distance away from the bottom anchor point",
+      G_MININT,
+      G_MAXINT,
+      0,
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
   props[PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH] =
     g_param_spec_uint (
       "width",
@@ -358,7 +449,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       0,
       G_MAXUINT,
       0,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PHOSH_LAYER_SURFACE_PROP_NAMESPACE] =
     g_param_spec_string (
@@ -458,4 +549,44 @@ phosh_layer_surface_set_size(PhoshLayerSurface *self, gint width, gint height)
     priv->height = height;
 
   zwlr_layer_surface_v1_set_size(priv->layer_surface, priv->width, priv->height);
+}
+
+/**
+ * phosh_layer_surface_set_margins:
+ *
+ * Set anchor margins of a layer surface.
+ */
+void
+phosh_layer_surface_set_margins(PhoshLayerSurface *self, gint top, gint right, gint bottom, gint left)
+{
+  PhoshLayerSurfacePrivate *priv;
+  gint old_top, old_bottom, old_left, old_right;
+
+  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  old_top = priv->margin_top;
+  old_left = priv->margin_left;
+  old_right = priv->margin_right;
+  old_bottom = priv->margin_bottom;
+
+  if (old_top == top && old_left == left && old_right == right && old_bottom == bottom)
+    return;
+
+  priv->margin_top = top;
+  priv->margin_left = left;
+  priv->margin_right = right;
+  priv->margin_bottom = bottom;
+
+  if (priv->layer_surface)
+    zwlr_layer_surface_v1_set_margin(priv->layer_surface, top, right, bottom, left);
+
+  if (old_top != top)
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_MARGIN_TOP]);
+  if (old_bottom != bottom)
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_MARGIN_BOTTOM]);
+  if (old_left != left)
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_MARGIN_LEFT]);
+  if (old_right != right)
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_MARGIN_RIGHT]);
 }
