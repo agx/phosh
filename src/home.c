@@ -46,6 +46,11 @@ struct _PhoshHome
   GtkWidget *btn_osk;
   GtkWidget *favorites;
 
+  struct {
+    gdouble progress;
+    gint64 last_frame;
+  } animation;
+
   PhoshHomeState state;
 };
 G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_LAYER_SURFACE);
@@ -87,6 +92,38 @@ phosh_home_get_property (GObject *object,
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
   }
+}
+
+
+static gdouble
+ease_out_cubic (gdouble t)
+{
+  gdouble p = t - 1;
+  return p * p * p + 1;
+}
+
+
+static void
+phosh_home_resize (PhoshHome *self)
+{
+  gint margin;
+  gint height;
+  gdouble progress = ease_out_cubic (self->animation.progress);
+
+  if (self->state == PHOSH_HOME_STATE_UNFOLDED)
+    progress = 1.0 - progress;
+
+  gtk_window_get_size (GTK_WINDOW (self), NULL, &height);
+  margin = (-height + PHOSH_HOME_BUTTON_HEIGHT) * progress;
+
+  phosh_layer_surface_set_margins (PHOSH_LAYER_SURFACE (self), 0, 0, margin, 0);
+  /* Adjust the exclusive zone since exclusive zone includes margins.
+     We don't want to change the effective exclusive zone at all to
+     prevent all clients from being resized. */
+  phosh_layer_surface_set_exclusive_zone (PHOSH_LAYER_SURFACE (self),
+                                          -margin + PHOSH_HOME_BUTTON_HEIGHT);
+
+  gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 
@@ -150,6 +187,11 @@ phosh_home_constructed (GObject *object)
                             G_CALLBACK(fold_cb),
                             self);
 
+  g_signal_connect (self,
+                    "size-allocate",
+                    G_CALLBACK (phosh_home_resize),
+                    NULL);
+
   G_OBJECT_CLASS (phosh_home_parent_class)->constructed (object);
 }
 
@@ -196,6 +238,7 @@ static void
 phosh_home_init (PhoshHome *self)
 {
   self->state = PHOSH_HOME_STATE_FOLDED;
+  self->animation.progress = 1.0;
 
   gtk_widget_init_template (GTK_WIDGET (self));
 }
@@ -208,7 +251,6 @@ phosh_home_new (struct zwlr_layer_shell_v1 *layer_shell,
   return g_object_new (PHOSH_TYPE_HOME,
                        "layer-shell", layer_shell,
                        "wl-output", wl_output,
-                       "height", PHOSH_HOME_BUTTON_HEIGHT,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
@@ -219,6 +261,34 @@ phosh_home_new (struct zwlr_layer_shell_v1 *layer_shell,
                        NULL);
 }
 
+
+static gboolean
+animate_cb(GtkWidget *widget,
+           GdkFrameClock *frame_clock,
+           gpointer user_data)
+{
+  gint64 time;
+  gboolean finished = FALSE;
+  PhoshHome *self = PHOSH_HOME (widget);
+
+  time = gdk_frame_clock_get_frame_time (frame_clock) - self->animation.last_frame;
+  if (self->animation.last_frame < 0) {
+    time = 0;
+  }
+
+  self->animation.progress += 0.06666 * time / 16666.00;
+  self->animation.last_frame = gdk_frame_clock_get_frame_time (frame_clock);
+
+  if (self->animation.progress >= 1.0) {
+    finished = TRUE;
+    self->animation.progress = 1.0;
+  }
+
+  phosh_home_resize (self);
+
+  return finished ? G_SOURCE_REMOVE : G_SOURCE_CONTINUE;
+}
+
 /**
  * phosh_home_set_state:
  *
@@ -227,25 +297,24 @@ phosh_home_new (struct zwlr_layer_shell_v1 *layer_shell,
 void
 phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
 {
-  int height;
   GtkStyleContext *context;
+  gboolean enable_animations;
 
   g_return_if_fail (PHOSH_IS_HOME (self));
 
   if (self->state == state)
     return;
 
+  g_object_get (gtk_settings_get_default (),
+                "gtk-enable-animations", &enable_animations,
+                NULL);
+
   self->state = state;
   g_debug ("Setting state to %s", g_enum_to_string (PHOSH_TYPE_HOME_STATE, state));
 
-  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, NULL, &height);
-  /* We don't change the exclusive zone since we don't want to push all clients upward */
-  if (state == PHOSH_HOME_STATE_UNFOLDED)
-    height = PHOSH_HOME_BUTTON_HEIGHT + height;
-  else
-    height = PHOSH_HOME_BUTTON_HEIGHT;
-
-  phosh_layer_surface_set_size (PHOSH_LAYER_SURFACE (self), 0, height);
+  self->animation.last_frame = -1;
+  self->animation.progress = enable_animations ? (1.0 - self->animation.progress) : 1.0;
+  gtk_widget_add_tick_callback (GTK_WIDGET (self), animate_cb, NULL, NULL);
 
   context = gtk_widget_get_style_context(self->img_home);
   if (state == PHOSH_HOME_STATE_UNFOLDED) {
