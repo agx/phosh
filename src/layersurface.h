@@ -39,3 +39,5 @@ void                              phosh_layer_surface_set_margins(PhoshLayerSurf
                                                                   gint right,
                                                                   gint bottom,
                                                                   gint left);
+void                              phosh_layer_surface_set_exclusive_zone(PhoshLayerSurface *self,
+                                                                         gint zone);

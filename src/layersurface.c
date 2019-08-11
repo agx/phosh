@@ -116,7 +116,7 @@ phosh_layer_surface_set_property (GObject      *object,
     priv->kbd_interactivity = g_value_get_boolean (value);
     break;
   case PHOSH_LAYER_SURFACE_PROP_EXCLUSIVE_ZONE:
-    priv->exclusive_zone = g_value_get_int (value);
+    phosh_layer_surface_set_exclusive_zone (self, g_value_get_int (value));
     break;
   case PHOSH_LAYER_SURFACE_PROP_MARGIN_TOP:
     phosh_layer_surface_set_margins (self,
@@ -389,7 +389,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       -1,
       G_MAXINT,
       0,
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_LAYER_SURFACE_PROP_MARGIN_LEFT] =
     g_param_spec_int (
@@ -589,4 +589,31 @@ phosh_layer_surface_set_margins(PhoshLayerSurface *self, gint top, gint right, g
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_MARGIN_LEFT]);
   if (old_right != right)
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_MARGIN_RIGHT]);
+}
+
+/**
+ * phosh_layer_surface_set_exclusive_zone:
+ *
+ * Set exclusive zone of a layer surface.
+ */
+void
+phosh_layer_surface_set_exclusive_zone(PhoshLayerSurface *self, gint zone)
+{
+  PhoshLayerSurfacePrivate *priv;
+  gint old_zone;
+
+  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  old_zone = priv->exclusive_zone;
+
+  if (old_zone == zone)
+    return;
+
+  priv->exclusive_zone = zone;
+
+  if (priv->layer_surface)
+    zwlr_layer_surface_v1_set_exclusive_zone(priv->layer_surface, zone);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_EXCLUSIVE_ZONE]);
 }
