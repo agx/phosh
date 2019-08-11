@@ -33,7 +33,7 @@
 
 .phosh-home-btn-image-down {
     animation-name: spin-ff;
-    animation-duration: 0.5s;
+    animation-duration: 0.25s;
     animation-timing-function: linear;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
@@ -41,7 +41,7 @@
 
 .phosh-home-btn-image-up {
     animation-name: spin-bw;
-    animation-duration: 0.5s;
+    animation-duration: 0.25s;
     animation-timing-function: linear;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
