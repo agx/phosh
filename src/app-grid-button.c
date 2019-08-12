@@ -167,7 +167,7 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
                                         G_SIGNAL_RUN_LAST,
                                         0, NULL, NULL, NULL,
                                         G_TYPE_NONE, 1, G_TYPE_APP_INFO);
- 
+
   gtk_widget_class_set_css_name (widget_class, "phosh-app-grid-button");
 }
 
@@ -184,6 +184,7 @@ phosh_app_grid_button_new (GAppInfo *info)
                        "app-info", info,
                        NULL);
 }
+
 
 GtkWidget *
 phosh_app_grid_button_new_favorite (GAppInfo *info)
