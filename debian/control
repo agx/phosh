@@ -20,6 +20,8 @@ Build-Depends:
  meson,
 # to run the tests
  at-spi2-core,
+ gnome-themes-extra-data,
+ phoc,
  xvfb,
  xauth,
 Standards-Version: 4.1.3
