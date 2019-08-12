@@ -22,5 +22,8 @@ struct _PhoshAppGridButtonClass
 
 GtkWidget *phosh_app_grid_button_new          (GAppInfo *info);
 GtkWidget *phosh_app_grid_button_new_favorite (GAppInfo *info);
+void       phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
+                                               GAppInfo *info);
+GAppInfo  *phosh_app_grid_button_get_app_info (PhoshAppGridButton *self);
 
 G_END_DECLS

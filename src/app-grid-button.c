@@ -43,28 +43,10 @@ phosh_app_grid_button_set_property (GObject      *object,
 {
   PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (object);
   PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
-  GIcon *icon;
-  const gchar* name;
 
   switch (property_id) {
     case PROP_APP_INFO:
-      g_clear_object (&priv->info);
-      priv->info = g_value_dup_object (value);
-      if (priv->info) {
-        name = g_app_info_get_display_name (G_APP_INFO (priv->info));
-        gtk_label_set_label (GTK_LABEL (priv->label), name);
-        icon = g_app_info_get_icon (priv->info);
-        gtk_image_set_from_gicon (GTK_IMAGE (priv->icon),
-                                  icon,
-                                  GTK_ICON_SIZE_DIALOG);
-        gtk_widget_set_sensitive (GTK_WIDGET (self), TRUE);
-      } else {
-        gtk_label_set_label (GTK_LABEL (priv->label), _("Application"));
-        gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon),
-                                      "application-x-executable",
-                                      GTK_ICON_SIZE_DIALOG);
-        gtk_widget_set_sensitive (GTK_WIDGET (self), FALSE);
-      }
+      phosh_app_grid_button_set_app_info (self, g_value_get_object (value));
       break;
     case PROP_IS_FAVORITE:
       gtk_widget_set_visible (priv->label, !g_value_get_boolean (value));
@@ -86,7 +68,7 @@ phosh_app_grid_button_get_property (GObject    *object,
 
   switch (property_id) {
     case PROP_APP_INFO:
-      g_value_set_object (value, priv->info);
+      g_value_set_object (value, phosh_app_grid_button_get_app_info (self));
       break;
     case PROP_IS_FAVORITE:
       g_value_set_boolean (value, !gtk_widget_get_visible (priv->label));
@@ -193,4 +175,55 @@ phosh_app_grid_button_new_favorite (GAppInfo *info)
                        "app-info", info,
                        "is-favorite", TRUE,
                        NULL);
+}
+
+
+void
+phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
+                                    GAppInfo *info)
+{
+  PhoshAppGridButtonPrivate *priv;
+  GIcon *icon;
+  const gchar* name;
+
+  g_return_if_fail (PHOSH_IS_APP_GRID_BUTTON (self));
+  g_return_if_fail (G_IS_APP_INFO (info));
+
+  priv = phosh_app_grid_button_get_instance_private (self);
+
+  if (priv->info == info)
+      return;
+
+  g_clear_object (&priv->info);
+
+  if (info) {
+    priv->info = g_object_ref (info);
+    name = g_app_info_get_display_name (G_APP_INFO (priv->info));
+    gtk_label_set_label (GTK_LABEL (priv->label), name);
+    icon = g_app_info_get_icon (priv->info);
+    gtk_image_set_from_gicon (GTK_IMAGE (priv->icon),
+                              icon,
+                              GTK_ICON_SIZE_DIALOG);
+    gtk_widget_set_sensitive (GTK_WIDGET (self), TRUE);
+  } else {
+    gtk_label_set_label (GTK_LABEL (priv->label), _("Application"));
+    gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon),
+                                  "application-x-executable",
+                                  GTK_ICON_SIZE_DIALOG);
+    gtk_widget_set_sensitive (GTK_WIDGET (self), FALSE);
+  }
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_INFO]);
+}
+
+
+GAppInfo *
+phosh_app_grid_button_get_app_info (PhoshAppGridButton *self)
+{
+  PhoshAppGridButtonPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_APP_GRID_BUTTON (self), NULL);
+  priv = phosh_app_grid_button_get_instance_private (self);
+
+  return priv->info;
 }
