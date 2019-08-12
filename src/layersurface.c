@@ -256,6 +256,8 @@ phosh_layer_surface_constructed (GObject *object)
   g_signal_connect (self, "unmap",
                     G_CALLBACK (on_phosh_layer_surface_unmapped),
                     NULL);
+
+  G_OBJECT_CLASS (phosh_layer_surface_parent_class)->constructed (object);
 }
 
 
