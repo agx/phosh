@@ -187,7 +187,7 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
   const gchar* name;
 
   g_return_if_fail (PHOSH_IS_APP_GRID_BUTTON (self));
-  g_return_if_fail (G_IS_APP_INFO (info));
+  g_return_if_fail (G_IS_APP_INFO (info) || info == NULL);
 
   priv = phosh_app_grid_button_get_instance_private (self);
 
