@@ -27,13 +27,13 @@ enum {
   PROP_IS_FAVORITE,
   LAST_PROP
 };
-static GParamSpec *pspecs[LAST_PROP] = { NULL, };
+static GParamSpec *pspecs[LAST_PROP];
 
 enum {
   APP_LAUNCHED,
   N_SIGNALS
 };
-static guint signals[N_SIGNALS] = { 0 };
+static guint signals[N_SIGNALS];
 
 static void
 phosh_app_grid_button_set_property (GObject      *object,
