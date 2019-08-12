@@ -27,7 +27,7 @@ enum {
   PROP_IS_FAVORITE,
   LAST_PROP
 };
-static GParamSpec *pspecs[LAST_PROP];
+static GParamSpec *props[LAST_PROP];
 
 enum {
   APP_LAUNCHED,
@@ -141,17 +141,19 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
   object_class->get_property = phosh_app_grid_button_get_property;
   object_class->finalize = phosh_app_grid_button_finalize;
 
-  pspecs[PROP_APP_INFO] =
+  props[PROP_APP_INFO] =
     g_param_spec_object ("app-info", "App", "App Info",
                          G_TYPE_APP_INFO,
-                         G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE);
+                         G_PARAM_STATIC_STRINGS |
+                         G_PARAM_READWRITE |
+                         G_PARAM_EXPLICIT_NOTIFY);
 
-  pspecs[PROP_IS_FAVORITE] =
+  props[PROP_IS_FAVORITE] =
     g_param_spec_boolean ("is-favorite", "Favorite", "Is a favorite app",
                           FALSE,
                           G_PARAM_STATIC_STRINGS | G_PARAM_READWRITE);
 
-  g_object_class_install_properties (object_class, LAST_PROP, pspecs);
+  g_object_class_install_properties (object_class, LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/app-grid-button.ui");
 
