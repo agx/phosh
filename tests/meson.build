@@ -71,6 +71,7 @@ tests = [
 ]
 
 tests_phoc = [
+  'layer-surface',
 ]
 
 # Unit tests
