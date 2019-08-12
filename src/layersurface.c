@@ -546,7 +546,8 @@ phosh_layer_surface_new (gpointer layer_shell,
 {
   return g_object_new (PHOSH_TYPE_LAYER_SURFACE,
                        "layer-shell", layer_shell,
-                       "wl-output", wl_output);
+                       "wl-output", wl_output,
+                       NULL);
 }
 
 /**
