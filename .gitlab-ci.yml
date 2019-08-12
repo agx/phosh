@@ -4,7 +4,7 @@ stages:
  - package
 
 variables:
-  DEPS: build-essential git wget
+  DEPS: build-essential git wget lcov
   WANT_BUILD_DEPS: "true"
 
 # For the smoke tests we also want debug packages, phoc,
@@ -41,17 +41,22 @@ build:native:
       - _build
   script:
     - git submodule update --recursive
-    - meson --werror . _build
+    - meson -Db_coverage=true --werror . _build
     - ninja -C _build
 
-test:native:
+unit-test:native:
   <<: *tags
   stage: test
   dependencies:
     - build:native
   script:
     - export LC_ALL=C.UTF-8
-    - xvfb-run ninja -C _build test
+    - xvfb-run ninja -C _build test coverage
+  coverage: '/^\s+lines\.+:\s+([\d.]+\%)\s+/'
+  artifacts:
+    when: always
+    paths:
+      - _build
 
 test:smoke:one-output:
   <<: *tags
