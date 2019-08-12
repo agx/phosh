@@ -31,6 +31,7 @@ test_deps = [
 tests = [
   'activity',
   'app-grid-button',
+  'app-list-model',
   'favorites',
 ]
 
