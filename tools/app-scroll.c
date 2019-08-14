@@ -66,8 +66,6 @@ main (int argc, char **argv)
                       "title", "1 + 1 = 2",
                       "win-width", 360,
                       "win-height", 640,
-                      "max-width", 240,
-                      "max-height", 400,
                       "visible", TRUE,
                       NULL);
   gtk_container_add (GTK_CONTAINER (box), activity);
@@ -77,8 +75,6 @@ main (int argc, char **argv)
                       "title", "Home",
                       "win-width", 640,
                       "win-height", 360,
-                      "max-width", 240,
-                      "max-height", 400,
                       "visible", TRUE,
                       NULL);
   gtk_container_add (GTK_CONTAINER (box), activity);
