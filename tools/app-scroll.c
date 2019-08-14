@@ -56,7 +56,7 @@ main (int argc, char **argv)
                       "margin-top", 10,
                       "margin-bottom", 10,
                       "halign", GTK_ALIGN_CENTER,
-                      "valign", GTK_ALIGN_CENTER,
+                      "valign", GTK_ALIGN_FILL,
                       "visible", TRUE,
                       NULL);
   gtk_container_add (GTK_CONTAINER (scrolled), box);
