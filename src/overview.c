@@ -36,9 +36,9 @@ static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct
 {
-  /* Favorites */
-  GtkWidget *evbox_overview;
-  GtkWidget *fb_overview;
+  /* Favorites and later on installed apps */
+  GtkWidget *evbox_apps;
+  GtkWidget *fb_apps;
   GSettings *settings;
 
   /* Running activities */
@@ -218,14 +218,14 @@ favorites_changed (GSettings     *settings,
   GtkWidget *btn;
 
   /* Remove all favorites first */
-  gtk_container_foreach (GTK_CONTAINER (priv->fb_overview),
+  gtk_container_foreach (GTK_CONTAINER (priv->fb_apps),
                          (GtkCallback) gtk_widget_destroy, NULL);
 
   for (gint i = 0; i < g_strv_length (favorites); i++) {
     gchar *fav = favorites[i];
     btn = create_favorite (self, fav);
     if (btn) {
-      gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_overview), btn, -1);
+      gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_apps), btn, -1);
       gtk_widget_show (btn);
     }
   }
@@ -251,10 +251,10 @@ phosh_overview_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_overview_parent_class)->constructed (object);
 
   /* Close on click */
-  g_signal_connect_swapped (priv->evbox_overview, "button_press_event",
+  g_signal_connect_swapped (priv->evbox_apps, "button_press_event",
                             G_CALLBACK (evbox_button_press_event_cb),
                             self);
-  gtk_widget_set_events (priv->evbox_overview, GDK_BUTTON_PRESS_MASK);
+  gtk_widget_set_events (priv->evbox_apps, GDK_BUTTON_PRESS_MASK);
 
   priv->settings = g_settings_new ("sm.puri.phosh");
   g_signal_connect (priv->settings, "changed::favorites",
@@ -302,8 +302,8 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/overview.ui");
 
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, evbox_overview);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, fb_overview);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, evbox_apps);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, fb_apps);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, evbox_running_activities);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, box_running_activities);
 
