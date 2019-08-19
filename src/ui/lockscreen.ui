@@ -13,68 +13,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="transition_duration">500</property>
-        <property name="transition_type">slide-up</property>
-        <child>
-          <object class="GtkGrid" id="grid_unlock">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
-            <property name="hexpand">False</property>
-            <property name="vexpand">False</property>
-            <child>
-              <object class="GtkLabel" id="lbl_keypad">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">12</property>
-                <attributes>
-                  <attribute name="font-desc" value="Cantarell Bold 16"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="HdyDialer" id="dialer_keypad">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">12</property>
-                <property name="relief">none</property>
-                <signal name="notify::number" handler="keypad_number_notified_cb" swapped="yes"/>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="lbl_unlock_status">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">12</property>
-                <property name="label" translatable="yes">Enter Passcode</property>
-                <attributes>
-                  <attribute name="font-desc" value="Cantarell 16"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="name">unlock</property>
-            <property name="title">unlock</property>
-          </packing>
-        </child>
+        <property name="transition_type">slide-up-down</property>
         <child>
           <object class="GtkEventBox" id="ebox_info">
             <property name="visible">True</property>
@@ -84,7 +23,6 @@
               <object class="GtkGrid" id="grid_info">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="row_homogeneous">False</property>
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
@@ -259,6 +197,67 @@
           <packing>
             <property name="name">info</property>
             <property name="title">info</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkGrid" id="grid_unlock">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <property name="hexpand">False</property>
+            <property name="vexpand">False</property>
+            <child>
+              <object class="GtkLabel" id="lbl_keypad">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <attributes>
+                  <attribute name="font-desc" value="Cantarell Bold 16"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="HdyDialer" id="dialer_keypad">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="relief">none</property>
+                <signal name="notify::number" handler="keypad_number_notified_cb" swapped="yes"/>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="lbl_unlock_status">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="label" translatable="yes">Enter Passcode</property>
+                <attributes>
+                  <attribute name="font-desc" value="Cantarell 16"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="name">unlock</property>
+            <property name="title">unlock</property>
             <property name="position">1</property>
           </packing>
         </child>
