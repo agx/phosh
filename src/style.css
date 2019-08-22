@@ -21,34 +21,6 @@
   padding: 6px;
 }
 
-@keyframes spin-ff {
-    from {-gtk-icon-transform:rotate(0deg);}
-    to {-gtk-icon-transform:rotate(180deg);}
-}
-
-@keyframes spin-bw {
-    from {-gtk-icon-transform:rotate(180deg);}
-    to {-gtk-icon-transform:rotate(0deg);}
-}
-
-.phosh-home-btn-image-down {
-    animation-name: spin-ff;
-    animation-duration: 0.25s;
-    animation-timing-function: linear;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    -gtk-icon-transform: rotate(180deg);
-}
-
-.phosh-home-btn-image-up {
-    animation-name: spin-bw;
-    animation-duration: 0.25s;
-    animation-timing-function: linear;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    -gtk-icon-transform: rotate(0deg);
-}
-
 /* Settings menu */
 .phosh-settings-menu {
     background-color: black;

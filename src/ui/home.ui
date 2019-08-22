@@ -23,17 +23,10 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="hexpand">True</property>
-                <property name="image_position">top</property>
-                <property name="always_show_image">True</property>
                 <child>
-                  <object class="GtkImage" id="img_home">
+                  <object class="PhoshArrow" id="arrow_home">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="pixel_size">24</property>
-                    <property name="icon_name">swipe-arrow-symbolic</property>
-                    <style>
-                      <class name="phosh-home-btn-image-up"/>
-                    </style>
+                    <property name="valign">center</property>
                   </object>
                 </child>
                 <style>

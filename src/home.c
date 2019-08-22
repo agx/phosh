@@ -7,6 +7,7 @@
 #define G_LOG_DOMAIN "phosh-home"
 
 #include "config.h"
+#include "arrow.h"
 #include "overview.h"
 #include "home.h"
 #include "shell.h"
@@ -42,7 +43,7 @@ struct _PhoshHome
   PhoshLayerSurface parent;
 
   GtkWidget *btn_home;
-  GtkWidget *img_home;
+  GtkWidget *arrow_home;
   GtkWidget *btn_osk;
   GtkWidget *overview;
 
@@ -112,6 +113,8 @@ phosh_home_resize (PhoshHome *self)
 
   if (self->state == PHOSH_HOME_STATE_UNFOLDED)
     progress = 1.0 - progress;
+
+  phosh_arrow_set_progress (PHOSH_ARROW (self->arrow_home), 1 - progress);
 
   gtk_window_get_size (GTK_WINDOW (self), NULL, &height);
   margin = (-height + PHOSH_HOME_BUTTON_HEIGHT) * progress;
@@ -221,13 +224,14 @@ phosh_home_class_init (PhoshHomeClass *klass)
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
+  g_type_ensure (PHOSH_TYPE_ARROW);
   g_type_ensure (PHOSH_TYPE_OSK_BUTTON);
   g_type_ensure (PHOSH_TYPE_OVERVIEW);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/home.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_home);
-  gtk_widget_class_bind_template_child (widget_class, PhoshHome, img_home);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, arrow_home);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_osk);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, overview);
 
@@ -298,7 +302,6 @@ animate_cb(GtkWidget *widget,
 void
 phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
 {
-  GtkStyleContext *context;
   gboolean enable_animations;
   gboolean kbd_interactivity;
 
@@ -318,15 +321,10 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   self->animation.progress = enable_animations ? (1.0 - self->animation.progress) : 1.0;
   gtk_widget_add_tick_callback (GTK_WIDGET (self), animate_cb, NULL, NULL);
 
-  context = gtk_widget_get_style_context(self->img_home);
   if (state == PHOSH_HOME_STATE_UNFOLDED) {
-    gtk_style_context_add_class(context, "phosh-home-btn-image-down");
-    gtk_style_context_remove_class(context, "phosh-home-btn-image-up");
     gtk_widget_hide (self->btn_osk);
     kbd_interactivity = TRUE;
   } else {
-    gtk_style_context_remove_class(context, "phosh-home-btn-image-down");
-    gtk_style_context_add_class(context, "phosh-home-btn-image-up");
     gtk_widget_show (self->btn_osk);
     kbd_interactivity = FALSE;
   }
