@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+ABS_BUILDDIR='@ABS_BUILDDIR@'
+
+export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data"
+export G_MESSAGES_DEBUG=all
+set -x
+exec $@
