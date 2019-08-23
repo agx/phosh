@@ -14,6 +14,7 @@
 
 #include "overview.h"
 #include "activity.h"
+#include "app-grid.h"
 #include "app-grid-button.h"
 #include "shell.h"
 #include "util.h"
@@ -299,6 +300,9 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
   widget_class->size_allocate = phosh_overview_size_allocate;
 
   gtk_widget_class_set_css_name (widget_class, "phosh-overview");
+
+  /* ensure used custom types */
+  PHOSH_TYPE_APP_GRID;
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/overview.ui");
 
@@ -306,6 +310,8 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, fb_apps);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, evbox_running_activities);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, box_running_activities);
+
+  gtk_widget_class_bind_template_callback (widget_class, evbox_button_press_event_cb);
 
   signals[ACTIVITY_LAUNCHED] = g_signal_new ("activity-launched",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
@@ -319,6 +325,8 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
   signals[ACTIVITY_CLOSED] = g_signal_new ("activity-closed",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-favorites");
 }
 
 
