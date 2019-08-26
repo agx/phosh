@@ -700,11 +700,26 @@ power_save_mode_changed_cb (PhoshMonitorManager *self,
                             GParamSpec          *pspec,
                             gpointer             user_data)
 {
-  gint mode;
+  gint mode, ps_mode;
 
   mode = phosh_display_dbus_display_config_get_power_save_mode (
     PHOSH_DISPLAY_DBUS_DISPLAY_CONFIG (self));
   g_debug ("Power save mode %d requested", mode);
+
+  switch (mode) {
+  case 0:
+    ps_mode = PHOSH_MONITOR_POWER_SAVE_MODE_ON;
+    break;
+  default:
+    ps_mode = PHOSH_MONITOR_POWER_SAVE_MODE_OFF;
+    break;
+  }
+
+  for (int i = 0; i < self->monitors->len; i++) {
+    PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
+
+    phosh_monitor_set_power_save_mode (monitor, ps_mode);
+  }
 }
 
 
