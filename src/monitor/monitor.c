@@ -13,6 +13,14 @@
 #include "monitor.h"
 #include <gdk/gdkwayland.h>
 
+/**
+ * SECTION:phosh-monitor
+ * @short_description: A monitor
+ * @description: A rectangualar area in the compositor space, usally
+ * corresponds to a enabled physical monitor.
+ * @Title: PhoshMonitor
+ */
+
 enum {
   PHOSH_MONITOR_PROP_0,
   PHOSH_MONITOR_PROP_WL_OUTPUT,
