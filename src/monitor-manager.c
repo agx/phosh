@@ -11,6 +11,7 @@
 #define G_LOG_DOMAIN "phosh-monitor-manager"
 
 #include "monitor-manager.h"
+#include "monitor/head.h"
 #include "monitor/monitor.h"
 
 #include "gamma-control-client-protocol.h"
@@ -40,9 +41,12 @@ typedef struct _PhoshMonitorManager
   PhoshDisplayDbusDisplayConfigSkeleton parent;
 
   GPtrArray *monitors;   /* Currently known monitors */
+  GPtrArray *heads;      /* Currently known heads */
 
   int dbus_name_id;
   int serial;
+
+  uint32_t zwlr_output_serial;
 } PhoshMonitorManager;
 
 G_DEFINE_TYPE_WITH_CODE (PhoshMonitorManager,
@@ -834,12 +838,66 @@ on_wl_outputs_changed (PhoshMonitorManager *self, GParamSpec *pspec, PhoshWaylan
 }
 
 
+/*
+ * wlr_output_manager wayland protocol
+ */
+
+static void
+on_head_finished (PhoshMonitorManager *self,
+                  PhoshHead *head)
+{
+  g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
+
+  if (g_ptr_array_remove (self->heads, head))
+    g_debug ("Removing head %p", head);
+  else
+    g_warning ("Tried to remove inexistend head %p", head);
+}
+
+
+static void
+zwlr_output_manager_v1_handle_head (void *data,
+                                    struct zwlr_output_manager_v1 *manager,
+                                    struct zwlr_output_head_v1 *wlr_head)
+{
+  PhoshMonitorManager *self = data;
+  PhoshHead *head;
+
+  g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
+
+  head = phosh_head_new_from_wlr_head (wlr_head);
+  g_debug ("New head %p", head);
+  g_ptr_array_add (self->heads, head);
+  g_signal_connect_swapped (head, "head-finished", G_CALLBACK (on_head_finished), self);
+}
+
+
+static void
+zwlr_output_manager_v1_handle_done (void *data,
+                                    struct zwlr_output_manager_v1 *manager,
+                                    uint32_t serial)
+{
+  PhoshMonitorManager *self = data;
+
+  g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
+  g_debug ("Got zwlr_output_serial %u", serial);
+  self->zwlr_output_serial = serial;
+}
+
+
+static const struct zwlr_output_manager_v1_listener zwlr_output_manager_v1_listener = {
+  .head = zwlr_output_manager_v1_handle_head,
+  .done = zwlr_output_manager_v1_handle_done,
+};
+
+
 static void
 phosh_monitor_manager_finalize (GObject *object)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
 
   g_ptr_array_free (self->monitors, TRUE);
+  g_ptr_array_free (self->heads, TRUE);
 
   G_OBJECT_CLASS (phosh_monitor_manager_parent_class)->finalize (object);
 }
@@ -855,6 +913,7 @@ phosh_monitor_manager_constructed (GObject *object)
   PhoshWayland *wl = phosh_wayland_get_default();
   GHashTableIter iter;
   struct wl_output *wl_output;
+  struct zwlr_output_manager_v1 *zwlr_output_manager_v1;
 
   G_OBJECT_CLASS (phosh_monitor_manager_parent_class)->constructed (object);
   self->dbus_name_id = g_bus_own_name (G_BUS_TYPE_SESSION,
@@ -880,6 +939,11 @@ phosh_monitor_manager_constructed (GObject *object)
     PhoshMonitor *monitor = phosh_monitor_new_from_wl_output (wl_output);
     phosh_monitor_manager_add_monitor (self, monitor);
   }
+
+  zwlr_output_manager_v1 = phosh_wayland_get_zwlr_output_manager_v1 (wl);
+  zwlr_output_manager_v1_add_listener (zwlr_output_manager_v1,
+                                       &zwlr_output_manager_v1_listener,
+                                       self);
 }
 
 
@@ -926,6 +990,7 @@ static void
 phosh_monitor_manager_init (PhoshMonitorManager *self)
 {
   self->monitors = g_ptr_array_new_with_free_func ((GDestroyNotify) (g_object_unref));
+  self->heads = g_ptr_array_new_with_free_func ((GDestroyNotify) (g_object_unref));
   self->serial = 1;
 }
 
