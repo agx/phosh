@@ -302,7 +302,7 @@ phosh_monitor_class_init (PhoshMonitorClass *klass)
 
   /**
    * PhoshMonitor::configured:
-   * @monitor: The #PhoshManager emitting the signal.
+   * @monitor: The #PhoshMonitor emitting the signal.
    *
    * Emitted whenever a monitor is fully configured (that is it
    * received all configuration data from the various wayland
