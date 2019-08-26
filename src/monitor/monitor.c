@@ -338,7 +338,8 @@ phosh_monitor_get_current_mode (PhoshMonitor *self)
   return &g_array_index (self->modes, PhoshMonitorMode, self->current_mode);
 }
 
-/** phosh_monitor_is_configured:
+/**
+ * phosh_monitor_is_configured:
  *
  * Is the monitor fully configured (did we receive all data from the compositor)?
  */
@@ -350,7 +351,8 @@ phosh_monitor_is_configured (PhoshMonitor *self)
 }
 
 
-/** phosh_monitor_is_builtin
+/**
+ * phosh_monitor_is_builtin:
  *
  * Is the monitor built in panel (e.g. laptop panel or phone LCD)
  */
@@ -384,7 +386,8 @@ phosh_monitor_is_builtin (PhoshMonitor *self)
 }
 
 
-/** phosh_monitor_is_flipped
+/**
+ * phosh_monitor_is_flipped:
  *
  * Is the monitor's output flipped
  */
@@ -408,7 +411,8 @@ phosh_monitor_is_flipped (PhoshMonitor *self)
 }
 
 
-/** phosh_monitor_get_rotation
+/**
+ * phosh_monitor_get_rotation:
  *
  * Get the monitor's rotation in degrees
  */
