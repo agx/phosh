@@ -300,6 +300,7 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
 {
   GtkStyleContext *context;
   gboolean enable_animations;
+  gboolean kbd_interactivity;
 
   g_return_if_fail (PHOSH_IS_HOME (self));
 
@@ -322,11 +323,14 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
     gtk_style_context_add_class(context, "phosh-home-btn-image-down");
     gtk_style_context_remove_class(context, "phosh-home-btn-image-up");
     gtk_widget_hide (self->btn_osk);
+    kbd_interactivity = TRUE;
   } else {
     gtk_style_context_remove_class(context, "phosh-home-btn-image-down");
     gtk_style_context_add_class(context, "phosh-home-btn-image-up");
     gtk_widget_show (self->btn_osk);
+    kbd_interactivity = FALSE;
   }
+  phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
 }
