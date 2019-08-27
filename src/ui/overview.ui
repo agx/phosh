@@ -10,6 +10,8 @@
       <object class="GtkEventBox" id="evbox_running_activities">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
+        <signal name="button-press-event" handler="evbox_button_press_event_cb" object="PhoshOverview" swapped="yes"/>
         <child>
           <object class="GtkScrolledWindow" id="sw_running_activities">
             <property name="visible">True</property>
@@ -58,82 +60,21 @@
       </packing>
     </child>
     <child>
-      <object class="GtkEventBox" id="evbox_apps">
-        <property name="name">evbox</property>
+      <object class="GtkEventBox" id="evbox_app_grid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="valign">end</property>
+        <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
+        <signal name="button-press-event" handler="evbox_button_press_event_cb" object="PhoshOverview" swapped="yes"/>
         <child>
-          <object class="GtkScrolledWindow" id="sw_apps">
-            <property name="name">sw_overview</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="valign">end</property>
-            <property name="hscrollbar_policy">never</property>
-            <property name="propagate_natural_height">True</property>
-            <child>
-              <object class="GtkViewport">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkFlowBox" id="fb_apps">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">center</property>
-                    <property name="valign">end</property>
-                    <property name="homogeneous">True</property>
-                    <property name="min_children_per_line">4</property>
-                    <property name="max_children_per_line">4</property>
-                    <property name="column-spacing">20</property>
-                    <property name="row-spacing">20</property>
-                    <property name="selection_mode">none</property>
-                    <property name="activate_on_single_click">False</property>
-                    <style>
-                      <class name="phosh-overview-flowbox"/>
-                    </style>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkBox">
+          <object class="PhoshAppGrid" id="app_grid">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="vexpand">True</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <object class="GtkEventBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
-                <signal name="button-press-event" handler="evbox_button_press_event_cb" object="PhoshFavorites" swapped="yes"/>
-                <child>
-                  <object class="PhoshAppGrid">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
           </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="pack_type">end</property>
-            <property name="position">2</property>
-          </packing>
         </child>
       </object>
       <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
         <property name="position">1</property>
       </packing>
     </child>

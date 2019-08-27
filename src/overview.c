@@ -2,10 +2,6 @@
  * Copyright (C) 2018 Purism SPC
  * SPDX-License-Identifier: GPL-3.0+
  * Author: Guido Günther <agx@sigxcpu.org>
- *
- * Based on maynard's favorites which is
- * Copyright (C) 2013 Collabora Ltd.
- * Author: Emilio Pozuelo Monfort <emilio.pozuelo@collabora.co.uk>
  */
 
 #define G_LOG_DOMAIN "phosh-overview"
@@ -37,15 +33,11 @@ static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct
 {
-  /* Favorites and later on installed apps */
-  GtkWidget *evbox_apps;
-  GtkWidget *fb_apps;
-  GSettings *settings;
-
   /* Running activities */
   GtkWidget *evbox_running_activities;
   GtkWidget *box_running_activities;
 
+  GtkWidget *app_grid;
 } PhoshOverviewPrivate;
 
 
@@ -189,50 +181,6 @@ app_launched_cb (PhoshOverview *self,
 }
 
 
-static GtkWidget*
-create_favorite (PhoshOverview *self,
-                 const gchar   *favorite)
-{
-  GDesktopAppInfo *info;
-  GtkWidget *btn;
-
-  info = g_desktop_app_info_new (favorite);
-  if (!info)
-    return NULL;
-
-  btn = phosh_app_grid_button_new_favorite (G_APP_INFO (info));
-
-  g_signal_connect_swapped (btn, "app-launched",
-                            G_CALLBACK (app_launched_cb), self);
-
-  return btn;
-}
-
-
-static void
-favorites_changed (GSettings     *settings,
-                   const gchar   *key,
-                   PhoshOverview *self)
-{
-  PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
-  g_auto(GStrv) favorites = g_settings_get_strv (settings, key);
-  GtkWidget *btn;
-
-  /* Remove all favorites first */
-  gtk_container_foreach (GTK_CONTAINER (priv->fb_apps),
-                         (GtkCallback) gtk_widget_destroy, NULL);
-
-  for (gint i = 0; i < g_strv_length (favorites); i++) {
-    gchar *fav = favorites[i];
-    btn = create_favorite (self, fav);
-    if (btn) {
-      gtk_flow_box_insert (GTK_FLOW_BOX (priv->fb_apps), btn, -1);
-      gtk_widget_show (btn);
-    }
-  }
-}
-
-
 static gboolean
 evbox_button_press_event_cb (PhoshOverview *self, GdkEventButton *event)
 {
@@ -252,17 +200,6 @@ phosh_overview_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_overview_parent_class)->constructed (object);
 
   /* Close on click */
-  g_signal_connect_swapped (priv->evbox_apps, "button_press_event",
-                            G_CALLBACK (evbox_button_press_event_cb),
-                            self);
-  gtk_widget_set_events (priv->evbox_apps, GDK_BUTTON_PRESS_MASK);
-
-  priv->settings = g_settings_new ("sm.puri.phosh");
-  g_signal_connect (priv->settings, "changed::favorites",
-                    G_CALLBACK (favorites_changed), self);
-  favorites_changed (priv->settings, "favorites", self);
-
-  /* Close on click */
   g_signal_connect_swapped (priv->evbox_running_activities, "button_press_event",
                             G_CALLBACK (evbox_button_press_event_cb),
                             self);
@@ -274,18 +211,9 @@ phosh_overview_constructed (GObject *object)
                            G_CONNECT_SWAPPED);
 
   get_running_activities (self);
-}
 
-
-static void
-phosh_overview_dispose (GObject *object)
-{
-  PhoshOverview *self = PHOSH_OVERVIEW (object);
-  PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
-
-  g_clear_object (&priv->settings);
-
-  G_OBJECT_CLASS (phosh_overview_parent_class)->dispose (object);
+  g_signal_connect_swapped (priv->app_grid, "app-launched",
+                            G_CALLBACK (app_launched_cb), self);
 }
 
 
@@ -295,7 +223,6 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-  object_class->dispose = phosh_overview_dispose;
   object_class->constructed = phosh_overview_constructed;
   widget_class->size_allocate = phosh_overview_size_allocate;
 
@@ -306,10 +233,9 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/overview.ui");
 
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, evbox_apps);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, fb_apps);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, evbox_running_activities);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, box_running_activities);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, app_grid);
 
   gtk_widget_class_bind_template_callback (widget_class, evbox_button_press_event_cb);
 
@@ -326,7 +252,7 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
-  gtk_widget_class_set_css_name (widget_class, "phosh-favorites");
+  gtk_widget_class_set_css_name (widget_class, "phosh-overview");
 }
 
 

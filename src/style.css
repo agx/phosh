@@ -158,12 +158,17 @@ phosh-home, .phosh-panel {
 }
 
 /* switcher */
-phosh-favorites {
+phosh-overview {
     background: rgba(0,0,0,0.6);
 }
 
 phosh-app-grid {
     background: rgba(0,0,0,0.4);
+}
+
+phosh-app-grid separator {
+    background: gray;
+    padding: 1px;
 }
 
 phosh-app-grid-button {
