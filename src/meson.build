@@ -15,6 +15,7 @@ phosh_resources = gnome.compile_resources(
 phosh_enum_headers = [
   'home.h',
   'notification.h',
+  'notify-manager.h',
 ]
 
 phosh_enums = gnome.mkenums('phosh-enums',
