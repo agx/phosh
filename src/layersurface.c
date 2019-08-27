@@ -113,7 +113,7 @@ phosh_layer_surface_set_property (GObject      *object,
     priv->layer = g_value_get_uint (value);
     break;
   case PHOSH_LAYER_SURFACE_PROP_KBD_INTERACTIVITY:
-    priv->kbd_interactivity = g_value_get_boolean (value);
+    phosh_layer_surface_set_kbd_interactivity (self, g_value_get_boolean (value));
     break;
   case PHOSH_LAYER_SURFACE_PROP_EXCLUSIVE_ZONE:
     phosh_layer_surface_set_exclusive_zone (self, g_value_get_int (value));
@@ -379,7 +379,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       "Keyboard interactivity",
       "Whether the surface interacts with the keyboard",
       FALSE,
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_LAYER_SURFACE_PROP_EXCLUSIVE_ZONE] =
     g_param_spec_int (
@@ -616,4 +616,28 @@ phosh_layer_surface_set_exclusive_zone(PhoshLayerSurface *self, gint zone)
     zwlr_layer_surface_v1_set_exclusive_zone(priv->layer_surface, zone);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_EXCLUSIVE_ZONE]);
+}
+
+/**
+ * phosh_layer_surface_set_keyboard_interactivity:
+ *
+ * Set keyboard ineractivity a layer surface.
+ */
+void
+phosh_layer_surface_set_kbd_interactivity (PhoshLayerSurface *self, gboolean interactivity)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
+  priv = phosh_layer_surface_get_instance_private (self);
+
+    if (priv->kbd_interactivity == interactivity)
+    return;
+
+  priv->kbd_interactivity = interactivity;
+
+  if (priv->layer_surface)
+    zwlr_layer_surface_v1_set_keyboard_interactivity (priv->layer_surface, interactivity);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_KBD_INTERACTIVITY]);
 }

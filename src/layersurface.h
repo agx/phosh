@@ -41,3 +41,5 @@ void                              phosh_layer_surface_set_margins(PhoshLayerSurf
                                                                   gint left);
 void                              phosh_layer_surface_set_exclusive_zone(PhoshLayerSurface *self,
                                                                          gint zone);
+void                              phosh_layer_surface_set_kbd_interactivity(PhoshLayerSurface *self,
+                                                                            gboolean interactivity);
