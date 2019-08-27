@@ -321,15 +321,12 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   if (state == PHOSH_HOME_STATE_UNFOLDED) {
     gtk_style_context_add_class(context, "phosh-home-btn-image-down");
     gtk_style_context_remove_class(context, "phosh-home-btn-image-up");
+    gtk_widget_hide (self->btn_osk);
   } else {
     gtk_style_context_remove_class(context, "phosh-home-btn-image-down");
     gtk_style_context_add_class(context, "phosh-home-btn-image-up");
-  }
-
-  if (state == PHOSH_HOME_STATE_UNFOLDED)
-    gtk_widget_hide (self->btn_osk);
-  else
     gtk_widget_show (self->btn_osk);
+  }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
 }
