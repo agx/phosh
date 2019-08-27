@@ -72,6 +72,8 @@ phosh_sources = [
   'main.c',
   'monitor-manager.c',
   'monitor-manager.h',
+  'notify-manager.c',
+  'notify-manager.h',
   'osk-manager.c',
   'osk-manager.h',
   'session.c',

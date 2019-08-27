@@ -29,6 +29,7 @@
 #include "lockscreen-manager.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
+#include "notify-manager.h"
 #include "osk-manager.h"
 #include "panel.h"
 #include "phosh-wayland.h"
@@ -74,6 +75,7 @@ typedef struct
   PhoshWifiManager *wifi_manager;
   PhoshPolkitAuthAgent *polkit_auth_agent;
   PhoshScreenSaverManager *screen_saver_manager;
+  PhoshNotifyManager *notify_manager;
 } PhoshShellPrivate;
 
 
@@ -378,6 +380,7 @@ phosh_shell_dispose (GObject *object)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   panels_dispose (self);
+  g_clear_object (&priv->notify_manager);
   g_clear_object (&priv->screen_saver_manager);
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
@@ -428,6 +431,8 @@ setup_idle_cb (PhoshShell *self)
   /* Screen saver manager needs lock screen manager */
   priv->screen_saver_manager = phosh_screen_saver_manager_get_default (
     priv->lockscreen_manager);
+
+  priv->notify_manager = phosh_notify_manager_get_default ();
 
   return FALSE;
 }
