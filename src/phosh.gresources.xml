@@ -7,6 +7,7 @@
     <file preprocess="xml-stripblanks">ui/overview.ui</file>
     <file preprocess="xml-stripblanks">ui/home.ui</file>
     <file preprocess="xml-stripblanks">ui/lockscreen.ui</file>
+    <file preprocess="xml-stripblanks">ui/notification.ui</file>
     <file preprocess="xml-stripblanks">ui/polkit-auth-prompt.ui</file>
     <file preprocess="xml-stripblanks">ui/settings-menu.ui</file>
     <file preprocess="xml-stripblanks">ui/system-prompt.ui</file>

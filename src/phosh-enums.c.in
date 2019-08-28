@@ -2,6 +2,7 @@
 
 #include "config.h"
 #include "home.h"
+#include "notification.h"
 #include "phosh-enums.h"
 
 /*** END file-header ***/
