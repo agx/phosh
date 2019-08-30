@@ -1,14 +1,16 @@
 # Roberto MF <zanata@virgulilla.com>, 2018. #zanata
+# Amos Batto <amosbatto@yahoo.com>, 2019. #zanata
+# Maximilian <maxi.madlung@gmx.de>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-21 17:26+0200\n"
+"POT-Creation-Date: 2019-06-26 13:58+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-10-17 05:19+0000\n"
-"Last-Translator: Roberto MF <zanata@virgulilla.com>\n"
+"PO-Revision-Date: 2019-08-04 03:27+0000\n"
+"Last-Translator: Amos Batto <amosbatto@yahoo.com>\n"
 "Language-Team: Spanish\n"
 "Language: es\n"
 "X-Generator: Zanata 4.6.2\n"
@@ -29,17 +31,17 @@ msgstr "Phosh"
 
 #: src/lockscreen.c:84 src/ui/lockscreen.ui:62
 msgid "Enter Passcode"
-msgstr ""
+msgstr "Insertar código de acceso"
 
 #: src/lockscreen.c:176
 msgid "Checking..."
-msgstr ""
+msgstr "Comprobando…"
 
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:255
 msgid "%A, %B %d"
-msgstr ""
+msgstr "%A, %d de %B"
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
@@ -50,6 +52,23 @@ msgstr "Pantalla integrada"
 msgid "Unknown"
 msgstr "Desconocido"
 
+#: src/polkit-auth-agent.c:229
+msgid "Authentication dialog was dismissed by the user"
+msgstr "El diálogo de autenticación fue descartado por el usuario"
+
+#: src/polkit-auth-prompt.c:276 src/ui/polkit-auth-prompt.ui:41
+#: src/ui/system-prompt.ui:39
+msgid "Password:"
+msgstr "Contraseña:"
+
+#: src/polkit-auth-prompt.c:322
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "Eso no funcionó. Por favor inténtelo de nuevo."
+
+#: src/polkit-auth-prompt.c:460
+msgid "Authenticate"
+msgstr "Autenticar"
+
 #: src/system-prompt.c:370
 msgid "Passwords do not match."
 msgstr "Las contraseñas no coinciden."
@@ -58,10 +77,18 @@ msgstr "Las contraseñas no coinciden."
 msgid "Password cannot be blank"
 msgstr "La contraseña no puede estar en blanco"
 
-#: src/ui/lockscreen.ui:187
+#: src/ui/lockscreen.ui:100
 msgid "Slide up to unlock"
 msgstr "Desliza hacia arriba para desbloquear"
+
+#: src/ui/polkit-auth-prompt.ui:105
+msgid "User:"
+msgstr "Usuario"
 
 #: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr "Rotación"
+
+#: src/ui/system-prompt.ui:69
+msgid "Confirm:"
+msgstr "Confirmar:"

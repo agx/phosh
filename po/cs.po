@@ -1,13 +1,14 @@
 # Jaroslav Svoboda <multi.flexi@seznam.cz>, 2018. #zanata
+# Jaroslav Svoboda <multi.flexi@seznam.cz>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-21 17:26+0200\n"
+"POT-Creation-Date: 2019-06-26 13:58+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-10-17 07:57+0000\n"
+"PO-Revision-Date: 2019-07-12 06:32+0000\n"
 "Last-Translator: Jaroslav Svoboda <multi.flexi@seznam.cz>\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
@@ -16,7 +17,7 @@ msgstr ""
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr "Phone Shell"
+msgstr "Shell telefonu"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
@@ -29,17 +30,17 @@ msgstr "Phosh"
 
 #: src/lockscreen.c:84 src/ui/lockscreen.ui:62
 msgid "Enter Passcode"
-msgstr ""
+msgstr "Vložte heslo"
 
 #: src/lockscreen.c:176
 msgid "Checking..."
-msgstr ""
+msgstr "Kontroluji..."
 
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:255
 msgid "%A, %B %d"
-msgstr ""
+msgstr "%A, %B %d"
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
@@ -50,6 +51,23 @@ msgstr "Vestavěný displej"
 msgid "Unknown"
 msgstr "Neznámý"
 
+#: src/polkit-auth-agent.c:229
+msgid "Authentication dialog was dismissed by the user"
+msgstr "Autentizační dialog byl zavřen uživatelem"
+
+#: src/polkit-auth-prompt.c:276 src/ui/polkit-auth-prompt.ui:41
+#: src/ui/system-prompt.ui:39
+msgid "Password:"
+msgstr "Heslo:"
+
+#: src/polkit-auth-prompt.c:322
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "Promiňte, toto nefungovalo. Zkuste to prosím znovu."
+
+#: src/polkit-auth-prompt.c:460
+msgid "Authenticate"
+msgstr "Autentizovat"
+
 #: src/system-prompt.c:370
 msgid "Passwords do not match."
 msgstr "Hesla nesouhlasí."
@@ -58,10 +76,18 @@ msgstr "Hesla nesouhlasí."
 msgid "Password cannot be blank"
 msgstr "Heslo nemůže být prázdné"
 
-#: src/ui/lockscreen.ui:187
+#: src/ui/lockscreen.ui:100
 msgid "Slide up to unlock"
 msgstr "Táhnutím nahoru odemknete"
+
+#: src/ui/polkit-auth-prompt.ui:105
+msgid "User:"
+msgstr "Uživatel:"
 
 #: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr "Otočení"
+
+#: src/ui/system-prompt.ui:69
+msgid "Confirm:"
+msgstr "Potvrdit:"

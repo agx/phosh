@@ -4,11 +4,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-21 17:26+0200\n"
+"POT-Creation-Date: 2019-06-26 13:58+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-06-22 02:41+0000\n"
+"PO-Revision-Date: 2019-07-22 04:48+0000\n"
 "Last-Translator: Martin Chang <marty188586@gmail.com>\n"
 "Language-Team: Esperanto\n"
 "Language: eo\n"
@@ -40,7 +40,7 @@ msgstr "Kontroli..."
 #. long format
 #: src/lockscreen.c:255
 msgid "%A, %B %d"
-msgstr ""
+msgstr "%A, %B %d"
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
@@ -51,6 +51,23 @@ msgstr "Integra vidigo"
 msgid "Unknown"
 msgstr "Nekonate"
 
+#: src/polkit-auth-agent.c:229
+msgid "Authentication dialog was dismissed by the user"
+msgstr "La aŭtentiga dialogo estis forigi laŭ la uzanto"
+
+#: src/polkit-auth-prompt.c:276 src/ui/polkit-auth-prompt.ui:41
+#: src/ui/system-prompt.ui:39
+msgid "Password:"
+msgstr "Pasvorto:"
+
+#: src/polkit-auth-prompt.c:322
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "Pardonu, ĉi tio ne efikas. Bonvolu reprovi malfrue."
+
+#: src/polkit-auth-prompt.c:460
+msgid "Authenticate"
+msgstr "Permesi"
+
 #: src/system-prompt.c:370
 msgid "Passwords do not match."
 msgstr "Pasvortoj ne kongruas"
@@ -59,10 +76,18 @@ msgstr "Pasvortoj ne kongruas"
 msgid "Password cannot be blank"
 msgstr "Pasvorto devas ne malpleni"
 
-#: src/ui/lockscreen.ui:187
+#: src/ui/lockscreen.ui:100
 msgid "Slide up to unlock"
 msgstr "Ŝovi supre por malŝlosi"
+
+#: src/ui/polkit-auth-prompt.ui:105
+msgid "User:"
+msgstr "Uzanto:"
 
 #: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr "Rotacio"
+
+#: src/ui/system-prompt.ui:69
+msgid "Confirm:"
+msgstr "Konfirmi:"

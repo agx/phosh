@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the phosh package.
 # Ant Pandolfo <ant.pandolfo@gmail.com>, 2018.
 # antpanlinux <ant.pandolfo@gmail.com>, 2018. #zanata
+# antpanlinux <ant.pandolfo@gmail.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-21 17:26+0200\n"
+"POT-Creation-Date: 2019-06-26 13:58+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-11-25 08:50+0000\n"
+"PO-Revision-Date: 2019-08-14 09:35+0000\n"
 "Language-Team: antpanlinux <ant.pandolfo@gmail.com>\n"
 "X-Generator: Zanata 4.6.2\n"
 "Last-Translator: antpanlinux <ant.pandolfo@gmail.com>\n"
@@ -33,17 +34,17 @@ msgstr "Phosh"
 
 #: src/lockscreen.c:84 src/ui/lockscreen.ui:62
 msgid "Enter Passcode"
-msgstr ""
+msgstr "Inserisci codice"
 
 #: src/lockscreen.c:176
 msgid "Checking..."
-msgstr ""
+msgstr "Controllo..."
 
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:255
 msgid "%A, %B %d"
-msgstr ""
+msgstr "%A, %B %d"
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
@@ -54,6 +55,23 @@ msgstr "Schermo integrato"
 msgid "Unknown"
 msgstr "Sconosciuto"
 
+#: src/polkit-auth-agent.c:229
+msgid "Authentication dialog was dismissed by the user"
+msgstr "La finestra di autenticazione è stata chiusa dall'utente"
+
+#: src/polkit-auth-prompt.c:276 src/ui/polkit-auth-prompt.ui:41
+#: src/ui/system-prompt.ui:39
+msgid "Password:"
+msgstr "Password:"
+
+#: src/polkit-auth-prompt.c:322
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "Scusa non ha funzionato.Per favore riprova."
+
+#: src/polkit-auth-prompt.c:460
+msgid "Authenticate"
+msgstr "Autenticato"
+
 #: src/system-prompt.c:370
 msgid "Passwords do not match."
 msgstr "Le password non corrispondono"
@@ -62,10 +80,18 @@ msgstr "Le password non corrispondono"
 msgid "Password cannot be blank"
 msgstr "La password non può essere vuota"
 
-#: src/ui/lockscreen.ui:187
+#: src/ui/lockscreen.ui:100
 msgid "Slide up to unlock"
 msgstr "Scorri verso l'alto per sbloccare"
+
+#: src/ui/polkit-auth-prompt.ui:105
+msgid "User:"
+msgstr "Utente:"
 
 #: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr "Rotazione"
+
+#: src/ui/system-prompt.ui:69
+msgid "Confirm:"
+msgstr "Conferma:"

@@ -1,13 +1,14 @@
 # Simon Jespersen <mail@simonjespersen.dk>, 2018. #zanata
+# Simon Jespersen <mail@simonjespersen.dk>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-21 17:26+0200\n"
+"POT-Creation-Date: 2019-06-26 13:58+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-10-09 09:02+0000\n"
+"PO-Revision-Date: 2019-07-03 06:26+0000\n"
 "Last-Translator: Simon Jespersen <mail@simonjespersen.dk>\n"
 "Language-Team: Danish\n"
 "Language: da\n"
@@ -31,17 +32,17 @@ msgstr "Phosh"
 
 #: src/lockscreen.c:84 src/ui/lockscreen.ui:62
 msgid "Enter Passcode"
-msgstr ""
+msgstr "Indtast adgangskode"
 
 #: src/lockscreen.c:176
 msgid "Checking..."
-msgstr ""
+msgstr "Kontrollerer..."
 
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:255
 msgid "%A, %B %d"
-msgstr ""
+msgstr "%A, %B %d"
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
@@ -52,6 +53,25 @@ msgstr "Indbygget skærm"
 msgid "Unknown"
 msgstr "Ukendt"
 
+#: src/polkit-auth-agent.c:229
+#, fuzzy
+msgid "Authentication dialog was dismissed by the user"
+msgstr "Godkendelsesdialog blev lukket af brugeren"
+
+#: src/polkit-auth-prompt.c:276 src/ui/polkit-auth-prompt.ui:41
+#: src/ui/system-prompt.ui:39
+msgid "Password:"
+msgstr "Kodeord:"
+
+#: src/polkit-auth-prompt.c:322
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "Beklager, det fungerede ikke. Prøv igen, tak. "
+
+#: src/polkit-auth-prompt.c:460
+#, fuzzy
+msgid "Authenticate"
+msgstr "Godkend"
+
 #: src/system-prompt.c:370
 msgid "Passwords do not match."
 msgstr "Kodeordene stemmer ikke overens"
@@ -60,10 +80,18 @@ msgstr "Kodeordene stemmer ikke overens"
 msgid "Password cannot be blank"
 msgstr "Kodeordet kan ikke være tomt"
 
-#: src/ui/lockscreen.ui:187
+#: src/ui/lockscreen.ui:100
 msgid "Slide up to unlock"
-msgstr "Skub for at låse op"
+msgstr "Skub op for at låse op"
+
+#: src/ui/polkit-auth-prompt.ui:105
+msgid "User:"
+msgstr "Bruger:"
 
 #: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr "Rotation"
+
+#: src/ui/system-prompt.ui:69
+msgid "Confirm:"
+msgstr "Bekræft: "

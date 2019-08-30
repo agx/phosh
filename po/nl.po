@@ -1,15 +1,16 @@
 # Joachim Moernaut <joachim@mailfence.com>, 2018. #zanata
 # Joachim Moernaut <joachim@mailfence.com>, 2019. #zanata
+# Willem Sonke <willem@wimiso.nl>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-21 17:26+0200\n"
+"POT-Creation-Date: 2019-06-26 13:58+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-06-17 03:11+0000\n"
-"Last-Translator: Joachim Moernaut <joachim@mailfence.com>\n"
+"PO-Revision-Date: 2019-07-30 10:27+0000\n"
+"Last-Translator: Willem Sonke <willem@wimiso.nl>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
 "X-Generator: Zanata 4.6.2\n"
@@ -34,13 +35,13 @@ msgstr "Pin invoeren"
 
 #: src/lockscreen.c:176
 msgid "Checking..."
-msgstr "Verifieren..."
+msgstr "Verifiëren..."
 
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:255
 msgid "%A, %B %d"
-msgstr ""
+msgstr "%A %d %B"
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
@@ -49,7 +50,24 @@ msgstr "Ingebouwd scherm"
 #. Translators: An unknown monitor type
 #: src/monitor-manager.c:57
 msgid "Unknown"
-msgstr "onbekend"
+msgstr "Onbekend"
+
+#: src/polkit-auth-agent.c:229
+msgid "Authentication dialog was dismissed by the user"
+msgstr "Aanmelddialoog geannuleerd door gebruiker"
+
+#: src/polkit-auth-prompt.c:276 src/ui/polkit-auth-prompt.ui:41
+#: src/ui/system-prompt.ui:39
+msgid "Password:"
+msgstr "Wachtwoord:"
+
+#: src/polkit-auth-prompt.c:322
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "Aanmelden mislukt. Probeer het nogmaals."
+
+#: src/polkit-auth-prompt.c:460
+msgid "Authenticate"
+msgstr "Aanmelden"
 
 #: src/system-prompt.c:370
 msgid "Passwords do not match."
@@ -59,10 +77,18 @@ msgstr "Wachtwoorden komen niet overeen."
 msgid "Password cannot be blank"
 msgstr "Wachtwoord mag niet leeg zijn."
 
-#: src/ui/lockscreen.ui:187
+#: src/ui/lockscreen.ui:100
 msgid "Slide up to unlock"
-msgstr "Veeg omhoog om de telefoon te ontgrendelen."
+msgstr "Veeg omhoog om te ontgrendelen"
+
+#: src/ui/polkit-auth-prompt.ui:105
+msgid "User:"
+msgstr "Gebruikersnaam:"
 
 #: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr "Rotatie"
+
+#: src/ui/system-prompt.ui:69
+msgid "Confirm:"
+msgstr "Bevestigen:"

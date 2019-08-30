@@ -5,18 +5,19 @@
 # Guido Günther <agx@sigxcpu.org>, 2018. #zanata
 # Punleuk Oum <punleuk.oum@gmail.com>, 2018. #zanata
 # Scott <xmrscott@protonmail.com>, 2018. #zanata
+# Scott Anecito <scott.anecito@linux.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-21 17:26+0200\n"
+"POT-Creation-Date: 2019-06-26 13:58+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-10-18 02:07+0000\n"
+"PO-Revision-Date: 2019-08-24 04:51+0000\n"
 "Language-Team: \n"
 "X-Generator: Zanata 4.6.2\n"
-"Last-Translator: Scott <xmrscott@protonmail.com>\n"
+"Last-Translator: Scott Anecito <scott.anecito@linux.com>\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Language: ja\n"
 
@@ -35,17 +36,17 @@ msgstr "Phosh"
 
 #: src/lockscreen.c:84 src/ui/lockscreen.ui:62
 msgid "Enter Passcode"
-msgstr ""
+msgstr "パスコードを入力"
 
 #: src/lockscreen.c:176
 msgid "Checking..."
-msgstr ""
+msgstr "確認中。。。"
 
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:255
 msgid "%A, %B %d"
-msgstr ""
+msgstr "%A, %B %d"
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
@@ -56,6 +57,23 @@ msgstr "ビルトインディスプレイ"
 msgid "Unknown"
 msgstr "不明なディスプレー"
 
+#: src/polkit-auth-agent.c:229
+msgid "Authentication dialog was dismissed by the user"
+msgstr "ユーザーにより認証のダイアログボックスを閉じた"
+
+#: src/polkit-auth-prompt.c:276 src/ui/polkit-auth-prompt.ui:41
+#: src/ui/system-prompt.ui:39
+msgid "Password:"
+msgstr "パスワード:"
+
+#: src/polkit-auth-prompt.c:322
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "それをできませんでした。もう一度お試しください。"
+
+#: src/polkit-auth-prompt.c:460
+msgid "Authenticate"
+msgstr "認証"
+
 #: src/system-prompt.c:370
 msgid "Passwords do not match."
 msgstr "パスワードが一致しません。"
@@ -64,10 +82,18 @@ msgstr "パスワードが一致しません。"
 msgid "Password cannot be blank"
 msgstr "パスワードを空欄にすることはできません"
 
-#: src/ui/lockscreen.ui:187
+#: src/ui/lockscreen.ui:100
 msgid "Slide up to unlock"
 msgstr "ロック解除"
+
+#: src/ui/polkit-auth-prompt.ui:105
+msgid "User:"
+msgstr "ユーザー:"
 
 #: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr "回転"
+
+#: src/ui/system-prompt.ui:69
+msgid "Confirm:"
+msgstr "確認"

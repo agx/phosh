@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-21 17:26+0200\n"
+"POT-Creation-Date: 2019-06-26 13:58+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -50,6 +50,23 @@ msgstr "Ενσωματομένη οθόνη"
 msgid "Unknown"
 msgstr "Άγνωστος τύπος οθόνης"
 
+#: src/polkit-auth-agent.c:229
+msgid "Authentication dialog was dismissed by the user"
+msgstr ""
+
+#: src/polkit-auth-prompt.c:276 src/ui/polkit-auth-prompt.ui:41
+#: src/ui/system-prompt.ui:39
+msgid "Password:"
+msgstr ""
+
+#: src/polkit-auth-prompt.c:322
+msgid "Sorry, that didn’t work. Please try again."
+msgstr ""
+
+#: src/polkit-auth-prompt.c:460
+msgid "Authenticate"
+msgstr ""
+
 #: src/system-prompt.c:370
 msgid "Passwords do not match."
 msgstr "Οι κωδικοί πρόσβασης δεν ταιριάζουν."
@@ -58,10 +75,18 @@ msgstr "Οι κωδικοί πρόσβασης δεν ταιριάζουν."
 msgid "Password cannot be blank"
 msgstr "Ο κωδικός δεν μπορεί να είναι κενός"
 
-#: src/ui/lockscreen.ui:187
+#: src/ui/lockscreen.ui:100
 msgid "Slide up to unlock"
 msgstr "Τραβήξτε προς τα πάνω για ξεκλείδωμα"
+
+#: src/ui/polkit-auth-prompt.ui:105
+msgid "User:"
+msgstr ""
 
 #: src/ui/settings-menu.ui:92
 msgid "Rotation"
 msgstr "Περιστροφή"
+
+#: src/ui/system-prompt.ui:69
+msgid "Confirm:"
+msgstr ""
