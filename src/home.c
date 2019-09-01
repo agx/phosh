@@ -121,7 +121,7 @@ phosh_home_resize (PhoshHome *self)
   phosh_layer_surface_set_exclusive_zone (PHOSH_LAYER_SURFACE (self),
                                           -margin + PHOSH_HOME_BUTTON_HEIGHT);
 
-  gtk_widget_queue_draw (GTK_WIDGET (self));
+  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
 }
 
 
