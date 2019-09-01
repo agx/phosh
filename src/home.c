@@ -14,6 +14,9 @@
 #include "phosh-enums.h"
 #include "osk/osk-button.h"
 
+#define HANDY_USE_UNSTABLE_API
+#include <handy.h>
+
 /**
  * SECTION:phosh-home
  * @short_description: The home screen (sometimes called overview)  and the corrsponding
@@ -96,20 +99,12 @@ phosh_home_get_property (GObject *object,
 }
 
 
-static gdouble
-ease_out_cubic (gdouble t)
-{
-  gdouble p = t - 1;
-  return p * p * p + 1;
-}
-
-
 static void
 phosh_home_resize (PhoshHome *self)
 {
   gint margin;
   gint height;
-  gdouble progress = ease_out_cubic (self->animation.progress);
+  gdouble progress = hdy_ease_out_cubic (self->animation.progress);
 
   if (self->state == PHOSH_HOME_STATE_UNFOLDED)
     progress = 1.0 - progress;
@@ -310,9 +305,7 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   if (self->state == state)
     return;
 
-  g_object_get (gtk_settings_get_default (),
-                "gtk-enable-animations", &enable_animations,
-                NULL);
+  enable_animations = hdy_get_enable_animations (GTK_WIDGET (self));
 
   self->state = state;
   g_debug ("Setting state to %s", g_enum_to_string (PHOSH_TYPE_HOME_STATE, state));
