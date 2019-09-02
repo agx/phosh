@@ -114,11 +114,23 @@ evbox_button_press_event_cb (PhoshNotification *self, GdkEventButton *event)
 
 
 static void
+phosh_notification_finalize (GObject *object)
+{
+  PhoshNotification *self = PHOSH_NOTIFICATION (object);
+
+  g_clear_pointer (&self->app_icon, g_free);
+
+  G_OBJECT_CLASS (phosh_notification_parent_class)->finalize (object);
+}
+
+
+static void
 phosh_notification_class_init (PhoshNotificationClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
+  object_class->finalize = phosh_notification_finalize;
   object_class->set_property = phosh_notification_set_property;
   object_class->get_property = phosh_notification_get_property;
 
