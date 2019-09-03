@@ -192,6 +192,7 @@ settings_activated_cb (PhoshShell *self,
   }
 
   phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
+  phosh_home_set_state (PHOSH_HOME (priv->home), PHOSH_HOME_STATE_FOLDED);
 
   settings = calloc (1, sizeof *settings);
   settings->window = phosh_settings_new ();
