@@ -406,9 +406,22 @@ on_num_toplevels_changed (PhoshShell *self, GParamSpec *pspec, PhoshToplevelMana
 
   priv = phosh_shell_get_instance_private (self);
   /* all toplevels gone, show the overview */
-  /* TODO: once we have the app-drawer unfold that too */
+  /* TODO: once we have unfoldable app-drawer unfold that too */
   if (!phosh_toplevel_manager_get_num_toplevels (toplevel_manager))
     phosh_home_set_state (PHOSH_HOME (priv->home), PHOSH_HOME_STATE_UNFOLDED);
+}
+
+
+static void
+on_toplevel_added (PhoshShell *self, GParamSpec *pspec, PhoshToplevelManager *toplevel_manager)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (toplevel_manager));
+
+  priv = phosh_shell_get_instance_private (self);
+  phosh_home_set_state (PHOSH_HOME (priv->home), PHOSH_HOME_STATE_FOLDED);
 }
 
 
@@ -427,6 +440,12 @@ setup_idle_cb (PhoshShell *self)
                            self,
                            G_CONNECT_SWAPPED);
   on_num_toplevels_changed (self, NULL, priv->toplevel_manager);
+
+  g_signal_connect_object (priv->toplevel_manager,
+                           "toplevel-added",
+                           G_CALLBACK(on_toplevel_added),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   /* Screen saver manager needs lock screen manager */
   priv->screen_saver_manager = phosh_screen_saver_manager_get_default (
