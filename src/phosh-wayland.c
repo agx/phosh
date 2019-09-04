@@ -222,7 +222,7 @@ phosh_wayland_constructed (GObject *object)
   num_outputs = g_hash_table_size(priv->wl_outputs);
   if (!num_outputs || !priv->layer_shell || !priv->idle_manager ||
       !priv->input_inhibit_manager || !priv->xdg_wm_base ||
-      !priv->zxdg_output_manager_v1 || !priv->zwlr_foreign_toplevel_manager_v1) {
+      !priv->zxdg_output_manager_v1) {
     g_error ("Could not find needed globals\n"
              "outputs: %d, layer_shell: %p, idle_manager: %p, "
              "inhibit: %p, xdg_wm: %p, "
