@@ -96,6 +96,22 @@ on_toplevel_closed (PhoshToplevel *toplevel, PhoshActivity *activity)
 }
 
 static void
+on_toplevel_activated_changed (PhoshToplevel *toplevel, GParamSpec *pspec, PhoshOverview *overview)
+{
+  PhoshActivity *activity;
+  PhoshOverviewPrivate *priv;
+  g_return_if_fail (PHOSH_IS_OVERVIEW (overview));
+  g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
+  priv = phosh_overview_get_instance_private (overview);
+
+  activity =  g_object_get_data(G_OBJECT(toplevel), "activity");
+  g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
+  if (phosh_toplevel_is_activated (toplevel))
+    hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator_running_activities), GTK_WIDGET (activity));
+}
+
+
+static void
 add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
 {
   PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
@@ -116,6 +132,8 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
                 "win-height", monitor->height,
                 NULL);
   g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);
+  g_object_set_data (G_OBJECT (toplevel), "activity", activity);
+
   gtk_container_add (GTK_CONTAINER (priv->paginator_running_activities), activity);
   gtk_widget_show (activity);
 
@@ -124,6 +142,10 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
                             G_CALLBACK (on_activity_close_clicked), self);
 
   g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), activity, 0);
+  g_signal_connect_object (toplevel, "notify::activated", G_CALLBACK (on_toplevel_activated_changed), self, 0);
+
+  if (phosh_toplevel_is_activated (toplevel))
+    hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator_running_activities), activity);
 }
 
 static void
