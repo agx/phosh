@@ -258,6 +258,23 @@ phosh_shell_set_locked (PhoshShell *self, gboolean state)
 
 
 static void
+on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
+{
+  PhoshShellPrivate *priv;
+  PhoshHomeState state;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  g_return_if_fail (PHOSH_IS_HOME (home));
+
+  priv = phosh_shell_get_instance_private (self);
+
+  g_object_get (priv->home, "state", &state, NULL);
+  if (state == PHOSH_HOME_STATE_UNFOLDED)
+    phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
+}
+
+
+static void
 panels_create (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
@@ -279,6 +296,12 @@ panels_create (PhoshShell *self)
     priv->panel,
     "settings-activated",
     G_CALLBACK(settings_activated_cb),
+    self);
+
+  g_signal_connect_swapped (
+    priv->home,
+    "notify::state",
+    G_CALLBACK(on_home_state_changed),
     self);
 }
 
