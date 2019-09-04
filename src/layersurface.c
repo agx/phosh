@@ -641,3 +641,20 @@ phosh_layer_surface_set_kbd_interactivity (PhoshLayerSurface *self, gboolean int
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_KBD_INTERACTIVITY]);
 }
+
+/**
+ * phosh_layer_surface_wl_surface_commit:
+ *
+ * Forces a commit of layer surface's state.
+ */
+void
+phosh_layer_surface_wl_surface_commit (PhoshLayerSurface *self)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  if (priv->wl_surface)
+    wl_surface_commit (priv->wl_surface);
+}

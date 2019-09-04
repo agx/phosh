@@ -43,3 +43,4 @@ void                              phosh_layer_surface_set_exclusive_zone(PhoshLa
                                                                          gint zone);
 void                              phosh_layer_surface_set_kbd_interactivity(PhoshLayerSurface *self,
                                                                             gboolean interactivity);
+void                              phosh_layer_surface_wl_surface_commit (PhoshLayerSurface *self);
