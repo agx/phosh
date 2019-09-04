@@ -153,6 +153,24 @@ fold_cb (PhoshHome *self, PhoshOverview *overview)
   phosh_home_set_state (self, PHOSH_HOME_STATE_FOLDED);
 }
 
+static gboolean
+key_press_event_cb (PhoshHome *self, GdkEventKey *event, gpointer data)
+{
+  gboolean handled = FALSE;
+  g_return_val_if_fail (PHOSH_IS_HOME (self), FALSE);
+
+  switch (event->keyval) {
+    case GDK_KEY_Escape:
+      phosh_home_set_state (self, PHOSH_HOME_STATE_FOLDED);
+      handled = TRUE;
+      break;
+    default:
+      /* nothing to do */
+      break;
+  }
+
+  return handled;
+}
 
 
 static void
@@ -188,6 +206,12 @@ phosh_home_constructed (GObject *object)
   g_signal_connect (self,
                     "size-allocate",
                     G_CALLBACK (phosh_home_resize),
+                    NULL);
+
+  gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
+  g_signal_connect (G_OBJECT (self),
+                    "key_press_event",
+                    G_CALLBACK (key_press_event_cb),
                     NULL);
 
   G_OBJECT_CLASS (phosh_home_parent_class)->constructed (object);
