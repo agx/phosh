@@ -25,6 +25,7 @@ enum {
   PHOSH_TOPLEVEL_PROP_CONFIGURED,
   PHOSH_TOPLEVEL_PROP_TITLE,
   PHOSH_TOPLEVEL_PROP_APP_ID,
+  PHOSH_TOPLEVEL_PROP_ACTIVATED,
   PHOSH_TOPLEVEL_PROP_LAST_PROP,
 };
 static GParamSpec *props[PHOSH_TOPLEVEL_PROP_LAST_PROP];
@@ -38,7 +39,7 @@ static guint signals[N_SIGNALS] = { 0 };
 struct _PhoshToplevel {
   GObject parent;
   struct zwlr_foreign_toplevel_handle_v1 *handle;
-  gboolean configured;
+  gboolean configured, activated;
   gchar *title;
   gchar *app_id;
 };
@@ -101,6 +102,23 @@ handle_zwlr_foreign_toplevel_handle_state(
   struct zwlr_foreign_toplevel_handle_v1 *zwlr_foreign_toplevel_handle_v1,
   struct wl_array *state)
 {
+  PhoshToplevel *self = data;
+  enum zwlr_foreign_toplevel_handle_v1_state *value;
+  gboolean activated = FALSE;
+
+  g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
+  wl_array_for_each (value, state) {
+    g_debug("toplevel_handle %p: has state %d", self, *value);
+
+    if (*value == ZWLR_FOREIGN_TOPLEVEL_HANDLE_V1_STATE_ACTIVATED) {
+      activated = TRUE;
+    }
+  }
+
+  if (self->activated != activated) {
+    self->activated = activated;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_TOPLEVEL_PROP_ACTIVATED]);
+  }
 }
 
 
@@ -193,6 +211,9 @@ phosh_toplevel_get_property (GObject *object,
   case PHOSH_TOPLEVEL_PROP_CONFIGURED:
     g_value_set_boolean (value, self->configured);
     break;
+  case PHOSH_TOPLEVEL_PROP_ACTIVATED:
+    g_value_set_boolean (value, self->activated);
+    break;
   case PHOSH_TOPLEVEL_PROP_TITLE:
     g_value_set_string (value, self->title);
     break;
@@ -228,6 +249,14 @@ phosh_toplevel_class_init (PhoshToplevelClass *klass)
     g_param_spec_boolean ("configured",
                           "configured",
                           "Whether the toplevel has been already filled with all initial data",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS);
+
+  props[PHOSH_TOPLEVEL_PROP_ACTIVATED] =
+    g_param_spec_boolean ("activated",
+                          "activated",
+                          "Whether the toplevel is currently focused",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_STATIC_STRINGS);
@@ -270,6 +299,7 @@ phosh_toplevel_init (PhoshToplevel *self)
   self->app_id = NULL;
   self->handle = NULL;
   self->configured = FALSE;
+  self->activated = FALSE;
 }
 
 
@@ -291,6 +321,13 @@ gboolean
 phosh_toplevel_is_configured (PhoshToplevel *self) {
   g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), FALSE);
   return self->configured;
+}
+
+
+gboolean
+phosh_toplevel_is_activated (PhoshToplevel *self) {
+  g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), FALSE);
+  return self->activated;
 }
 
 
