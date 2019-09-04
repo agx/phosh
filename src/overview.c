@@ -128,8 +128,14 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
 static void
 get_running_activities (PhoshOverview *self)
 {
+  PhoshOverviewPrivate *priv;
   PhoshToplevelManager *toplevel_manager = phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
   guint toplevels_num = phosh_toplevel_manager_get_num_toplevels (toplevel_manager);
+  g_return_if_fail (PHOSH_IS_OVERVIEW (self));
+  priv = phosh_overview_get_instance_private (self);
+
+  if (toplevels_num == 0)
+    gtk_widget_hide (priv->evbox_running_activities);
 
   for (guint i = 0; i < toplevels_num; i++) {
     PhoshToplevel *toplevel = phosh_toplevel_manager_get_toplevel (toplevel_manager, i);
@@ -147,6 +153,23 @@ toplevel_added_cb (PhoshOverview        *self,
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (manager));
   add_activity (self, toplevel);
 }
+
+static void
+num_toplevels_cb (PhoshOverview        *self,
+                   GParamSpec *pspec,
+                   PhoshToplevelManager *manager)
+{
+  PhoshOverviewPrivate *priv;
+  g_return_if_fail (PHOSH_IS_OVERVIEW (self));
+  g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (manager));
+  priv = phosh_overview_get_instance_private (self);
+  if (phosh_toplevel_manager_get_num_toplevels (manager)) {
+    gtk_widget_show (priv->evbox_running_activities);
+  } else {
+    gtk_widget_hide (priv->evbox_running_activities);
+  }
+}
+
 
 static void
 phosh_overview_size_allocate (GtkWidget     *widget,
@@ -207,6 +230,11 @@ phosh_overview_constructed (GObject *object)
 
   g_signal_connect_object (toplevel_manager, "toplevel-added",
                            G_CALLBACK (toplevel_added_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  g_signal_connect_object (toplevel_manager, "notify::num-toplevels",
+                           G_CALLBACK (num_toplevels_cb),
                            self,
                            G_CONNECT_SWAPPED);
 
