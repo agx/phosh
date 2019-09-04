@@ -12,4 +12,5 @@
 
 G_DECLARE_FINAL_TYPE (PhoshOverview, phosh_overview, PHOSH, OVERVIEW, GtkBox)
 
+void phosh_overview_reset (PhoshOverview *self);
 GtkWidget * phosh_overview_new (void);

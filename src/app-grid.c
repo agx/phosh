@@ -20,6 +20,7 @@ struct _PhoshAppGridPrivate {
   GtkWidget *search;
   GtkWidget *apps;
   GtkWidget *favs;
+  GtkWidget *scrolled_window;
 
   GSettings *settings;
 };
@@ -238,6 +239,7 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, search);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, apps);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, scrolled_window);
 
   gtk_widget_class_bind_template_callback (widget_class, search_changed);
 
@@ -248,6 +250,18 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
                                         G_TYPE_NONE, 1, G_TYPE_APP_INFO);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-app-grid");
+}
+
+void
+phosh_app_grid_reset (PhoshAppGrid *self)
+{
+  PhoshAppGridPrivate *priv;
+  GtkAdjustment *adjustment;
+  g_return_if_fail(PHOSH_IS_APP_GRID (self));
+  priv = phosh_app_grid_get_instance_private (self);
+  adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->scrolled_window));
+  gtk_adjustment_set_value(adjustment, 0);
+  gtk_entry_set_text(GTK_ENTRY (priv->search), "");
 }
 
 GtkWidget *

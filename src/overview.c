@@ -291,6 +291,16 @@ phosh_overview_init (PhoshOverview *self)
 }
 
 
+void
+phosh_overview_reset (PhoshOverview *self)
+{
+  PhoshOverviewPrivate *priv;
+  g_return_if_fail(PHOSH_IS_OVERVIEW (self));
+  priv = phosh_overview_get_instance_private (self);
+  phosh_app_grid_reset (PHOSH_APP_GRID (priv->app_grid));
+}
+
+
 GtkWidget *
 phosh_overview_new (void)
 {

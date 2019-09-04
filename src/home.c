@@ -341,6 +341,7 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   if (state == PHOSH_HOME_STATE_UNFOLDED) {
     gtk_widget_hide (self->btn_osk);
     kbd_interactivity = TRUE;
+    phosh_overview_reset (PHOSH_OVERVIEW (self->overview));
   } else {
     gtk_widget_show (self->btn_osk);
     kbd_interactivity = FALSE;
