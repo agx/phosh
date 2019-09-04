@@ -105,6 +105,9 @@ search_apps (gpointer item, gpointer data)
 
   search = gtk_entry_get_text (GTK_ENTRY (priv->search));
 
+  if ((str = g_app_info_get_id (info)) && g_strv_contains ((const gchar* const*) priv->favorites_list, str))
+    return FALSE;
+
   if (search == NULL)
     return TRUE;
 
