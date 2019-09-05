@@ -23,6 +23,7 @@ struct _PhoshAppGridPrivate {
   GtkWidget *scrolled_window;
 
   GSettings *settings;
+  GStrv favorites_list;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGrid, phosh_app_grid, GTK_TYPE_BOX)
@@ -47,15 +48,16 @@ favorites_changed (GSettings    *settings,
                    PhoshAppGrid *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
-  g_auto(GStrv) favorites = g_settings_get_strv (settings, key);
   GtkWidget *btn;
+  g_strfreev (priv->favorites_list);
+  priv->favorites_list = g_settings_get_strv (settings, key);
 
   /* Remove all favorites first */
   gtk_container_foreach (GTK_CONTAINER (priv->favs),
                          (GtkCallback) gtk_widget_destroy, NULL);
 
-  for (gint i = 0; i < g_strv_length (favorites); i++) {
-    gchar *fav = favorites[i];
+  for (gint i = 0; i < g_strv_length (priv->favorites_list); i++) {
+    gchar *fav = priv->favorites_list[i];
     GDesktopAppInfo *info;
 
     info = g_desktop_app_info_new (fav);
@@ -166,6 +168,7 @@ phosh_app_grid_init (PhoshAppGrid *self)
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
+  priv->favorites_list = NULL;
   priv->settings = g_settings_new ("sm.puri.phosh");
   g_signal_connect (priv->settings, "changed::favorites",
                     G_CALLBACK (favorites_changed), self);
@@ -192,6 +195,7 @@ phosh_app_grid_finalize (GObject *object)
 
   g_clear_object (&priv->model);
   g_clear_object (&priv->settings);
+  g_strfreev (priv->favorites_list);
 
   G_OBJECT_CLASS (phosh_app_grid_parent_class)->finalize (object);
 }
@@ -203,7 +207,7 @@ phosh_app_grid_key_press_event (GtkWidget   *widget,
   PhoshAppGrid *self = PHOSH_APP_GRID (widget);
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
-  return gtk_search_entry_handle_event (GTK_SEARCH_ENTRY (priv->search), 
+  return gtk_search_entry_handle_event (GTK_SEARCH_ENTRY (priv->search),
                                         (GdkEvent *) event);
 }
 
