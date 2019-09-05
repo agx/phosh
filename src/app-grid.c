@@ -47,7 +47,7 @@ favorites_changed (GSettings    *settings,
                    PhoshAppGrid *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
-  gchar **favorites = g_settings_get_strv (settings, key);
+  g_auto(GStrv) favorites = g_settings_get_strv (settings, key);
   GtkWidget *btn;
 
   /* Remove all favorites first */
@@ -73,7 +73,6 @@ favorites_changed (GSettings    *settings,
     if (btn)
       gtk_flow_box_insert (GTK_FLOW_BOX (priv->favs), btn, -1);
   }
-  g_strfreev (favorites);
 }
 
 static gint
@@ -83,18 +82,11 @@ sort_apps (gconstpointer a,
 {
   GAppInfo *info1 = G_APP_INFO (a);
   GAppInfo *info2 = G_APP_INFO (b);
-  gchar *s1, *s2;
-  gint ret;
 
-  s1 = g_utf8_casefold (g_app_info_get_display_name (info1), -1);
-  s2 = g_utf8_casefold (g_app_info_get_display_name (info2), -1);
+  g_autofree gchar *s1 = g_utf8_casefold (g_app_info_get_display_name (info1), -1);
+  g_autofree gchar *s2 = g_utf8_casefold (g_app_info_get_display_name (info2), -1);
 
-  ret = g_strcmp0 (s1, s2);
-
-  g_free (s1);
-  g_free (s2);
-
-  return ret;
+  return g_strcmp0 (s1, s2);
 }
 
 static gboolean
