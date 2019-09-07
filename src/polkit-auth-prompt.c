@@ -402,6 +402,27 @@ draw_cb (GtkWidget *widget, cairo_t *cr, gpointer unused)
 }
 
 
+static gboolean
+on_key_press_event (PhoshPolkitAuthPrompt *self, GdkEventKey *event, gpointer data)
+{
+  gboolean handled = FALSE;
+  g_return_val_if_fail (PHOSH_IS_POLKIT_AUTH_PROMPT (self), FALSE);
+
+  switch (event->keyval) {
+    case GDK_KEY_Escape:
+      polkit_agent_session_cancel (self->session);
+      emit_done (self, TRUE);
+      handled = TRUE;
+      break;
+    default:
+      /* nothing to do */
+      break;
+  }
+
+  return handled;
+}
+
+
 static void
 phosh_polkit_auth_prompt_dispose (GObject *obj)
 {
@@ -455,6 +476,12 @@ phosh_polkit_auth_prompt_constructed (GObject *object)
                            G_CALLBACK (on_btn_authenticate_clicked),
                            self,
                            G_CONNECT_SWAPPED);
+
+  gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
+  g_signal_connect (G_OBJECT (self),
+                    "key_press_event",
+                    G_CALLBACK (on_key_press_event),
+                    NULL);
 
   {
     GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
