@@ -256,7 +256,8 @@ phosh_system_prompt_password_async (GcrPrompt *prompt,
   priv->task = g_task_new (self, NULL, callback, user_data);
   g_task_set_source_tag (priv->task, phosh_system_prompt_password_async);
 
-  gtk_widget_set_sensitive (priv->btn_continue, TRUE);
+  if (!gtk_entry_get_text_length (GTK_ENTRY (priv->entry_password)))
+    gtk_widget_set_sensitive (priv->btn_continue, FALSE);
   gtk_widget_set_sensitive (priv->grid, TRUE);
 
   obj = G_OBJECT (self);
@@ -433,14 +434,24 @@ prompt_cancel (PhoshSystemPrompt *self)
 
 
 static void
-on_password_changed (GtkEditable *editable,
-                     gpointer user_data)
+on_password_changed (PhoshSystemPrompt *self,
+                     GtkEditable *editable)
 {
+  PhoshSystemPromptPrivate *priv;
   int upper, lower, digit, misc;
   const char *password;
   gdouble pwstrength;
   int length, i;
 
+  g_return_if_fail (PHOSH_IS_SYSTEM_PROMPT (self));
+  g_return_if_fail (GTK_IS_EDITABLE (editable));
+
+  priv = phosh_system_prompt_get_instance_private (self);
+
+  if (!gtk_entry_get_text_length (GTK_ENTRY (editable)))
+    return;
+
+  gtk_widget_set_sensitive (priv->btn_continue, TRUE);
   password = gtk_entry_get_text (GTK_ENTRY (editable));
 
   /*
@@ -486,7 +497,7 @@ on_password_changed (GtkEditable *editable,
   if (pwstrength > 1.0)
     pwstrength = 1.0;
 
-  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (user_data), pwstrength);
+  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (priv->pbar_quality), pwstrength);
 }
 
 
@@ -608,8 +619,8 @@ phosh_system_prompt_constructed (GObject *object)
   g_object_bind_property (self, "confirm-visible", priv->entry_confirm, "visible", G_BINDING_DEFAULT);
 
   g_object_bind_property (self, "confirm-visible", priv->pbar_quality, "visible", G_BINDING_DEFAULT);
-  g_signal_connect (priv->entry_password, "changed",
-                    G_CALLBACK (on_password_changed), priv->pbar_quality);
+  g_signal_connect_swapped (priv->entry_password, "changed",
+                            G_CALLBACK (on_password_changed), self);
 
   g_object_bind_property (self, "warning", priv->lbl_warning, "label", G_BINDING_DEFAULT);
   g_object_bind_property (self, "warning-visible", priv->lbl_warning, "visible", G_BINDING_DEFAULT);
