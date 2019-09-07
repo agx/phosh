@@ -529,6 +529,26 @@ draw_cb (GtkWidget *widget, cairo_t *cr, gpointer unused)
 }
 
 
+static gboolean
+on_key_press_event (PhoshSystemPrompt *self, GdkEventKey *event, gpointer data)
+{
+  gboolean handled = FALSE;
+  g_return_val_if_fail (PHOSH_IS_SYSTEM_PROMPT (self), FALSE);
+
+  switch (event->keyval) {
+    case GDK_KEY_Escape:
+      prompt_cancel (self);
+      handled = TRUE;
+      break;
+    default:
+      /* nothing to do */
+      break;
+  }
+
+  return handled;
+}
+
+
 static void
 phosh_system_prompt_dispose (GObject *obj)
 {
@@ -620,6 +640,12 @@ phosh_system_prompt_constructed (GObject *object)
   g_signal_connect (G_OBJECT(self),
                     "draw",
                     G_CALLBACK(draw_cb),
+                    NULL);
+
+  gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
+  g_signal_connect (G_OBJECT (self),
+                    "key_press_event",
+                    G_CALLBACK (on_key_press_event),
                     NULL);
 }
 
