@@ -10,6 +10,7 @@ static void
 test_phosh_app_grid_button_new(void)
 {
   gboolean is_favorite;
+  PhoshAppGridButtonMode mode;
   GAppInfo *info = g_app_info_create_from_commandline ("foo",
                                                        "com.example.foo",
                                                        G_APP_INFO_CREATE_NONE,
@@ -17,9 +18,14 @@ test_phosh_app_grid_button_new(void)
   GtkWidget *btn;
 
   btn = phosh_app_grid_button_new (info);
-  g_assert_true (PHOSH_IS_APP_GRID_BUTTON(btn));
-  g_object_get (btn, "is-favorite", &is_favorite, NULL);
-  g_assert_false (is_favorite);
+  g_assert_true (PHOSH_IS_APP_GRID_BUTTON (btn));
+
+  is_favorite = phosh_app_grid_button_is_favourite (PHOSH_APP_GRID_BUTTON (btn));
+  g_assert_true (is_favorite);
+
+  mode = phosh_app_grid_button_get_mode (PHOSH_APP_GRID_BUTTON (btn));
+  g_assert_true (mode == PHOSH_APP_GRID_BUTTON_FAVOURITES);
+
   g_assert_true (info == phosh_app_grid_button_get_app_info (
                    PHOSH_APP_GRID_BUTTON (btn)));
   gtk_widget_destroy (btn);
@@ -30,6 +36,7 @@ static void
 test_phosh_app_grid_button_new_favorite(void)
 {
   gboolean is_favorite;
+  PhoshAppGridButtonMode mode;
   GAppInfo *info = g_app_info_create_from_commandline ("foo",
                                                        "com.example.foo",
                                                        G_APP_INFO_CREATE_NONE,
@@ -37,9 +44,14 @@ test_phosh_app_grid_button_new_favorite(void)
   GtkWidget *btn;
 
   btn = phosh_app_grid_button_new_favorite (info);
-  g_assert_true (PHOSH_IS_APP_GRID_BUTTON(btn));
-  g_object_get (btn, "is-favorite", &is_favorite, NULL);
+  g_assert_true (PHOSH_IS_APP_GRID_BUTTON (btn));
+
+  is_favorite = phosh_app_grid_button_is_favourite (PHOSH_APP_GRID_BUTTON (btn));
   g_assert_true (is_favorite);
+
+  mode = phosh_app_grid_button_get_mode (PHOSH_APP_GRID_BUTTON (btn));
+  g_assert_true (mode == PHOSH_APP_GRID_BUTTON_FAVOURITES);
+
   gtk_widget_destroy (btn);
 }
 

@@ -23,5 +23,9 @@ executable('image-notify', ['image-notify.c'] + stubs,
            dependencies: phosh_dep)
 
 executable('phosh-osk-stub', ['phosh-osk-stub.c'],
-	   install: true,
+           install: true,
            dependencies: osk_stub_deps)
+
+executable('app-buttons', ['app-buttons.c'] + stubs,
+           dependencies: phosh_dep)
+

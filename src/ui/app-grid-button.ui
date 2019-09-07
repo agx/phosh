@@ -64,4 +64,23 @@
       </object>
     </child>
   </template>
+  <object class="GtkPopover" id="popover">
+    <property name="relative-to">PhoshAppGridButton</property>
+  </object>
+  <menu id="menu">
+    <section id="actions">
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Remove from _Favourites</attribute>
+        <attribute name="action">favourite-remove</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Add to _Favourites</attribute>
+        <attribute name="action">favourite-add</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
+    </section>
+  </menu>
 </interface>

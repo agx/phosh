@@ -11,6 +11,7 @@
 #include "app-grid.h"
 #include "app-grid-button.h"
 #include "app-list-model.h"
+#include "favourite-list-model.h"
 
 #include "gtk-list-models/gtksortlistmodel.h"
 #include "gtk-list-models/gtkfilterlistmodel.h"
@@ -25,8 +26,6 @@ struct _PhoshAppGridPrivate {
   GtkWidget *favs_revealer;
   GtkWidget *scrolled_window;
 
-  GSettings *settings;
-  GStrv favorites_list;
   gchar *search_string;
 };
 
@@ -46,40 +45,6 @@ app_launched_cb (GtkWidget    *widget,
   g_signal_emit (self, signals[APP_LAUNCHED], 0, info);
 }
 
-static void
-favorites_changed (GSettings    *settings,
-                   const gchar  *key,
-                   PhoshAppGrid *self)
-{
-  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
-  GtkWidget *btn;
-  g_strfreev (priv->favorites_list);
-  priv->favorites_list = g_settings_get_strv (settings, key);
-
-  /* Remove all favorites first */
-  gtk_container_foreach (GTK_CONTAINER (priv->favs),
-                         (GtkCallback) gtk_widget_destroy, NULL);
-
-  for (gint i = 0; i < g_strv_length (priv->favorites_list); i++) {
-    gchar *fav = priv->favorites_list[i];
-    GDesktopAppInfo *info;
-
-    info = g_desktop_app_info_new (fav);
-
-    if (!info)
-      continue;
-
-    btn = phosh_app_grid_button_new_favorite (G_APP_INFO (info));
-
-    g_signal_connect (btn, "app-launched",
-                      G_CALLBACK (app_launched_cb), self);
-
-    gtk_widget_show (btn);
-
-    if (btn)
-      gtk_flow_box_insert (GTK_FLOW_BOX (priv->favs), btn, -1);
-  }
-}
 
 static gint
 sort_apps (gconstpointer a,
@@ -123,7 +88,7 @@ search_apps (gpointer item, gpointer data)
 
   /* filter out favorites when not searching */
   if (search == NULL || strlen (search) == 0) {
-    if ((str = g_app_info_get_id (info)) && g_strv_contains ((const gchar* const*) priv->favorites_list, str))
+    if (phosh_favourite_list_model_app_is_favourite (NULL, info))
       return FALSE;
 
     return TRUE;
@@ -177,6 +142,36 @@ search_apps (gpointer item, gpointer data)
   return FALSE;
 }
 
+
+static GtkWidget *
+create_favourite_launcher (gpointer item,
+                           gpointer self)
+{
+  GtkWidget *btn = phosh_app_grid_button_new_favorite (G_APP_INFO (item));
+
+  g_signal_connect (btn, "app-launched",
+                    G_CALLBACK (app_launched_cb), self);
+
+  gtk_widget_show (btn);
+
+  return btn;
+}
+
+
+static void
+favourites_changed (GListModel   *list,
+                    guint         position,
+                    guint         removed,
+                    guint         added,
+                    PhoshAppGrid *self)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+
+  // We don't show favourites in the main list, filter them out
+  gtk_filter_list_model_refilter (priv->model);
+}
+
+
 static GtkWidget *
 create_launcher (gpointer item,
                  gpointer self)
@@ -191,19 +186,25 @@ create_launcher (gpointer item,
   return btn;
 }
 
+
 static void
 phosh_app_grid_init (PhoshAppGrid *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GtkSortListModel *sorted;
+  PhoshFavouriteListModel *favourites;
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  priv->favorites_list = NULL;
-  priv->settings = g_settings_new ("sm.puri.phosh");
-  g_signal_connect (priv->settings, "changed::favorites",
-                    G_CALLBACK (favorites_changed), self);
-  favorites_changed (priv->settings, "favorites", self);
+  favourites = phosh_favourite_list_model_get_default ();
+
+  gtk_flow_box_bind_model (GTK_FLOW_BOX (priv->favs),
+                           G_LIST_MODEL (favourites),
+                           create_favourite_launcher, self, NULL);
+  g_signal_connect (favourites,
+                    "items-changed",
+                    G_CALLBACK (favourites_changed),
+                    self);
 
   /* fill the grid with apps */
   sorted = gtk_sort_list_model_new (G_LIST_MODEL (phosh_app_list_model_get_default ()),
@@ -214,9 +215,11 @@ phosh_app_grid_init (PhoshAppGrid *self)
                                            search_apps,
                                            self,
                                            NULL);
-  gtk_flow_box_bind_model (GTK_FLOW_BOX (priv->apps), G_LIST_MODEL (priv->model),
+  gtk_flow_box_bind_model (GTK_FLOW_BOX (priv->apps),
+                           G_LIST_MODEL (priv->model),
                            create_launcher, self, NULL);
 }
+
 
 static void
 phosh_app_grid_finalize (GObject *object)
@@ -225,8 +228,6 @@ phosh_app_grid_finalize (GObject *object)
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
   g_clear_object (&priv->model);
-  g_clear_object (&priv->settings);
-  g_strfreev (priv->favorites_list);
   g_clear_pointer (&priv->search_string, g_free);
 
   G_OBJECT_CLASS (phosh_app_grid_parent_class)->finalize (object);
@@ -390,11 +391,15 @@ phosh_app_grid_reset (PhoshAppGrid *self)
 {
   PhoshAppGridPrivate *priv;
   GtkAdjustment *adjustment;
-  g_return_if_fail(PHOSH_IS_APP_GRID (self));
+
+  g_return_if_fail (PHOSH_IS_APP_GRID (self));
+
   priv = phosh_app_grid_get_instance_private (self);
+
   adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->scrolled_window));
-  gtk_adjustment_set_value(adjustment, 0);
-  gtk_entry_set_text(GTK_ENTRY (priv->search), "");
+
+  gtk_adjustment_set_value (adjustment, 0);
+  gtk_entry_set_text (GTK_ENTRY (priv->search), "");
   g_clear_pointer (&priv->search_string, g_free);
 }
 

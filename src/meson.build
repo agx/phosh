@@ -16,6 +16,7 @@ phosh_enum_headers = [
   'home.h',
   'notification.h',
   'notify-manager.h',
+  'app-grid-button.h'
 ]
 
 phosh_enums = gnome.mkenums('phosh-enums',
@@ -44,6 +45,8 @@ libphosh_sources = [
   'app-grid-button.h',
   'app-list-model.c',
   'app-list-model.h',
+  'favourite-list-model.c',
+  'favourite-list-model.h',
   'overview.c',
   'overview.h',
   'util.c',
