@@ -224,6 +224,33 @@ search_changed (GtkSearchEntry *entry,
 }
 
 static void
+search_activated (GtkSearchEntry *entry,
+                  PhoshAppGrid    *self)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+  GtkFlowBoxChild *child;
+
+  // Don't activate when there isn't an active search
+  if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))) < 1) {
+    return;
+  }
+
+  child = gtk_flow_box_get_child_at_index (GTK_FLOW_BOX (priv->apps), 0);
+
+  // No results
+  if (child == NULL) {
+    return;
+  }
+
+  if (G_LIKELY (PHOSH_IS_APP_GRID_BUTTON (child))) {
+    gtk_widget_activate (GTK_WIDGET (child));
+  } else {
+    g_critical ("Unexpected child type, %s",
+                g_type_name (G_TYPE_FROM_INSTANCE (child)));
+  }
+}
+
+static void
 phosh_app_grid_class_init (PhoshAppGridClass *klass)
 {
   GObjectClass   *object_class = G_OBJECT_CLASS (klass);
@@ -241,6 +268,7 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, scrolled_window);
 
   gtk_widget_class_bind_template_callback (widget_class, search_changed);
+  gtk_widget_class_bind_template_callback (widget_class, search_activated);
 
   signals[APP_LAUNCHED] = g_signal_new ("app-launched",
                                         G_TYPE_FROM_CLASS (klass),

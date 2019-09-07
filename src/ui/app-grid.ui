@@ -20,6 +20,7 @@
         <property name="primary_icon_activatable">False</property>
         <property name="primary_icon_sensitive">False</property>
         <signal name="search-changed" handler="search_changed" object="PhoshAppGrid" swapped="no"/>
+        <signal name="activate" handler="search_activated" object="PhoshAppGrid" swapped="no"/>
       </object>
       <packing>
         <property name="expand">False</property>
