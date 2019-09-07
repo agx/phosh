@@ -33,72 +33,65 @@
         <property name="can_focus">True</property>
         <property name="hexpand">True</property>
         <child>
-          <object class="GtkViewport">
+          <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="hexpand">True</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">6</property>
             <child>
-              <object class="GtkBox">
+              <object class="GtkFlowBox" id="favs">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">6</property>
-                <child>
-                  <object class="GtkFlowBox" id="favs">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_left">3</property>
-                    <property name="margin_right">3</property>
-                    <property name="margin_bottom">3</property>
-                    <property name="hexpand">True</property>
-                    <property name="homogeneous">True</property>
-                    <property name="selection_mode">none</property>
-                    <property name="activate_on_single_click">False</property>
-                    <property name="column-spacing">6</property>
-                    <property name="row-spacing">6</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSeparator">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_left">6</property>
-                    <property name="margin_right">6</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkFlowBox" id="apps">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_left">3</property>
-                    <property name="margin_right">3</property>
-                    <property name="margin_bottom">3</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">False</property>
-                    <property name="valign">start</property>
-                    <property name="homogeneous">True</property>
-                    <property name="selection_mode">none</property>
-                    <property name="activate_on_single_click">False</property>
-                    <property name="column-spacing">6</property>
-                    <property name="row-spacing">6</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
+                <property name="margin_left">3</property>
+                <property name="margin_right">3</property>
+                <property name="margin_bottom">3</property>
+                <property name="hexpand">True</property>
+                <property name="homogeneous">True</property>
+                <property name="selection_mode">none</property>
+                <property name="activate_on_single_click">False</property>
+                <property name="column-spacing">6</property>
+                <property name="row-spacing">6</property>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSeparator">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">6</property>
+                <property name="margin_right">6</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFlowBox" id="apps">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_left">3</property>
+                <property name="margin_right">3</property>
+                <property name="margin_bottom">3</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">False</property>
+                <property name="valign">start</property>
+                <property name="homogeneous">True</property>
+                <property name="selection_mode">none</property>
+                <property name="activate_on_single_click">False</property>
+                <property name="column-spacing">6</property>
+                <property name="row-spacing">6</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
             </child>
           </object>
         </child>
