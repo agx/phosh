@@ -1,3 +1,449 @@
+phosh (0.0.4) purple; urgency=medium
+
+  [ Guido Günther ]
+  * PhoshLayerShell: Don't realize layer shell's right away.
+    This allows us to create them early and keep them around. It also
+    makes them behave more like regular Gtk widgets. (Closes: #91)
+  * system-prompt: Use a template instead of builder.
+    This makes this prompt consistent with all the other layer surfaces we
+    have.
+  * debian: We can act as polkit auth agent
+  * debian: Update description a bit
+  * po: Update LINGUAS
+  * system-prompt: Wrap on word boundary.
+    Otherwise we overflow on small screen sizes
+  * system-prompt: Add a border.
+    This makes sure we don't have text and buttons pressed to the left and
+    right screen edges.
+  * lockscreen: Add date (Closes: #101)
+  * Update pot file with new strings.
+    The date format needs a string to be printed correctly in the
+    different locales.
+  * lockscreen: Move date, time and icons into a common box.
+    This allows spacing.
+  * po: Update translations from zanata
+  * favorites: Drop labels.
+    This makes the "overview issue" go away with up to 8 favorites.
+    This improves the status quo until we fixe #89 and merged !187.
+  * favorites: Trim down app list.
+    These are the ones that the focus is on atm. (Closes: #100)
+  * css: Drop HdyArrow css.
+    We're currently not using this widget
+  * css: Make polkit auth agent's background black too
+  * SystemPrompt: Set grid alignment in the ui file
+  * system-prompt: Right align labels.
+    Following https://developer.gnome.org/hig/stable/visual-layout.html.en
+  * system-prompt: Move checkbox below text inputs
+  * system-prompt: Adjust spacing.
+    Following https://developer.gnome.org/hig/stable/visual-layout.html.en
+  * polkit-auth-prompt: Right align labels.
+    Following https://developer.gnome.org/hig/stable/visual-layout.html.en
+  * polkit-auth-prompt: Adjust spacing.
+    Following https://developer.gnome.org/hig/stable/visual-layout.html.en
+  * polkit-auth-prompt: Use bold font for user name
+  * polkit-auth-prompt: Remove empty row
+  * PolkitAuthAgent: Remove duplicate gtk_widget_show ()
+  * PolkitAuthPrompt: Translate most common request
+  * po: Update translatable files
+  * po: Update pot file
+  * shell: Activate background again
+    https://github.com/swaywm/wlroots/issues/897 is true independent if
+    there's background surface or not so we're not making matters worse
+    by enabling it. (Closes: #76)
+  * PhoshPanel: Make signal handlers consistent
+  * PhoshLockscreen: include locale.h.
+    Fixes build with -O0
+  * PoshBackground: Drop things now handled by PhoshLayerSurface
+  * PhoshBackground: Use g_autoptr instead of explicit unref
+  * PhoshBackground: Get width and height from layer surface
+  * PhoshBackground: Drop pointless defaults from init
+  * PhoshBackground: Validate signal handler signatures
+    while at that move 'self' first like in the rest of the codebase.
+  * PhoshBackground: unref settings
+  * lockscreen: Set wifi icon visible by default (Closes: #111)
+  * PhoshBackground: Drop priv.
+    Less code and consistent with other new code.
+  * PhoshBackground: Listen to configured signal.
+    This is simpler then g_signal_override_class_handler()
+  * lockscreen: Deterine wifi status on idle.
+    This makes sure we determine the wifi status after the widget set up.
+    Otherwise the widget might sometimes stay invisible.
+  * PhoshShell: Make background surface span the whole output.
+    The background will make sure to not draw over/under panels. (Closes: #6)
+  * PhoshBackground: Implement zoom style.
+    Listen for picture-option and handle scaled (as already implemented)
+    and zoom. If the style is unknown default to zoom like gnome-shell.
+    Code taken from GnomeBG.
+  * PhoshBackgroundManager: Add manager to handle multiple outputs.
+    This handles multiple output making sure we update the backgrounds
+    on output changes. (Closes: #113)
+  * PhoshBackground: Use g_object_connect
+  * PhoshBackground: Use defines for setting keys.
+    We need them in several places.
+  * PhoshBackground: Don't hardode grey as color.
+    This allows to set the background color from gsettings.
+  * PhoshFavorites: Scale icon images to 64px
+  * favorites: Don't scale by output scale.
+    Otherwise icons are way to large.
+  * favorites: Use gtk_image_set_pixel_size.
+    This leaves the scaling to gtk.
+  * PhoshWWanInfo: Set pixel_size when setting widget size
+  * PhoshWWanInfo: Don't round trip through pixbuf when using theme icons.
+    There's no need to roundtrip through a pixbuf when we're using theme
+    icons. This removes blur from the no-sim and sim locked case.
+    See: #118
+  * favorites: Drop custom drawing
+  * service: Restart on compositor crashes.
+    So far we wanted to keep the state around for debuggig but it's stable
+    enough now that we can restart.
+  * layersurface: Use phosh_wayland_get_default() everywhere.
+    This makes it consistent with _mapped()
+  * Add editorconfig.
+    Prompted by tabs in ui files.
+  * PolkitAuthPrompt: Make background app paintable.
+    This makes it consistent with the gcr system modal dialogs.
+  * Use the same style class for gcr and polkit prompts.
+    This makes sure they stay visually consistent.
+  * PhoshSystemPrompt: Swap ok and cancel.
+    Conform to GNOME HIG.
+  * PolkitAuthPrompt: Swap ok and cancel.
+    Conform to GNOME HIG.
+  * app: Add close button.
+    Emit a 'app-closed' signal when that button is clicked.
+  * Update phosh private protocol to v3
+  * PhoshFavorites: Close application on 'app-close' signal (Closes: #67)
+  * tests: Use phoc instead of rootston.
+    This is our primary compositor and while the usage of the phosh-private
+    protocol is optional if we bind to it we require at least version 3
+    which is not supported by our rootston fork.
+  * PhoshLayerSurface: Destroy layer surface on unmap.
+    This and moving some of the initilization from `realized` to `mapped`
+    allows us to properly `gtk_widget_{show,hide}()` layer surface widgets.
+    This is brought over from squeekboard
+    c3a54595ea72638fbc7b65ffc3c26966de772e15
+  * PhoshHome: Drop priv.
+    This makes the code smaller and esier to read.
+  * build: Fix indentation.
+    We want two spaces.
+  * Use glib-mkenums.
+    This will allow us to use enums as types.
+  * PhoshLayerSurface: Allow to set size of the layer surface.
+    This can be useful to fold/unfold surfaces.
+  * PhoshHome: Clarify PHOSH_HOME_HEIGHT.
+    Rename to PHOSH_HOME_BUTTON_HEIGHT since to not confuse the home button
+    with the home screen (which takes the full screen except for the panel).
+  * PhoshHome: Track folded/unfolded state.
+    We fold/unfold the surface on home button clicks.
+    We use an enum since we might end up with half folded states
+    or a different state when using app switch via swipe.
+    This surface will later on have the app drawer. (Closes: #89)
+  * PhoshHome: Show favorites on home screen.
+    Instead of making PhoshFavorites a separate layer surface popup show the
+    widget on the home screen by deriving from GtkBox instead of GtkWindow.
+  * PhoshActivity: Rename activity-closed signal.
+    The name is misleading since the signal is emitted when the close
+    button is clicked not when the actual activity is being closed.
+    Rename to 'close-clicked' to make that obvious.
+  * favorites: Replace assert by g_return_if_fail ()
+  * favorites: Use g_return_if_fail in type check.
+    This makes sure we don't silently ignore the error.
+  * PhoshTopLevelManager: Move function assignments to top.
+    This makes it consistent with other classes.
+  * PhoshTopLevelManager: Move public methods to the bottom.
+    This makes it consistent with other classes.
+  * PhoshToplevelManager: Add num-toplevels property.
+    This allows us to keep track about opened toplevels.
+  * PhoshShell: Unfold home screen when no application is running.
+    When we don't have any wayland toplevels show the overview. (Closes: #99)
+  * PhoshActivity: Remove unused defaults
+  * PhoshAcivities: Drop superfluous braces
+  * PhoshActivities: Match property defaults to what's set in `_init()`
+  * PhoshActivities: Mark properties as G_PARAM_EXPLICIT_NOTIFY.
+    Because they are.
+  * PhoshAcitivity: Avoid superfluous object emission and resizes.
+    No need to do anything if the propoerty does not change.
+  * PhoshLayerSurface: Be verbose when acking configure.
+    This is an important event when surface properties change.
+  * Add gtk4's list model.
+    This is from commit ddc74a08bea170c73effe6eddca45a077bf130a7
+  * PhoshHome; Make Image a child of the button.
+    This allows for more fine grained styling.
+  * PhoshHome: Use CSS animations to change home button arrow direction
+  * PhoshHome: Set initial arrow state to 'up'
+    Intially the surface is folded. That doesn't matter when starting up
+    but it matters when phosh restarts with windows already open.
+  * PhoshFavorites: Rename to create_favorite.
+    We create a widget but don't add it to the flowbox yet.
+  * PhoshFavorites: Use g_auto()
+  * PhoshFavorites: Show created favorite.
+    This makes sure changing favorites refreshes without restarting phosh.
+    This wasn't a problem when favorites was a pop up since the widget
+    got recreated when opened.
+    Brokey-by: bc2198f6bbe8d3132d711cfa30719578eada5473
+  * PhoshFavorites: Avoid gtk_widget_show_all()
+    All widgets are being gtk_widget_show()n correctly now.
+  * home: Drop superfluous gtk_widget_{show,hide}
+  * Settings: Add type checks to callbacks
+    while debugging it became obvious that we don't type check
+    here which makes life cycle issue fixing harder then necessary.
+  * Settings: Swap signal emission and lock trigger.
+    The lock trigger brings up new surfaces which discards the popup so the
+    object might not exist anymore once we want to emit the signal.
+    Fixes
+    (phosh:5485): GLib-GObject-WARNING **: 17:11:59.262: instance with invalid (NULL) class pointer
+    (phosh:5485): GLib-GObject-CRITICAL **: 17:11:59.262: g_signal_emit_valist: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+    Broken-by: cb7b20ebf94177199d6a7347d5fe48b144bf81f0
+  * Settings: rotation_changed_cb: Move self in front.
+    This makes it match the other call backs.
+  * LockscreenManager: Only lock session when we go idle.
+    So far we locked on any status change which didn't matter since we
+    only get the idle information. Now that we get org.gnome.ScreenSaver
+    we get other states reported as well.
+  * LockScreen: Emit signal when the output should be woken up.
+    This is useful to indicate that  the output used by the lock screen
+    should be woken up e.g.  on keypress.
+  * LockScreenManager: Remember activation time.
+    Save the point in time the lock screen gets activated, this will
+    be used by the screen saver manager.
+  * LockscreenManager: Emit signal when all screens should be woken up.
+    This is mostly meant for org.gnome.ScreenSaver
+  * Add PhoshScreenSaverManager.
+    This adds the skeletion for the org.gnome.ScreenSaver
+    DBus API that allows applications get the lock state
+    and ask for screen lock.
+  * ScreensaverManager: Hook up to LockscreenManager.
+    Implement org.gnome.ScreenSaver by invoking the appropriate methods
+    on our Lockscreenmanager and listen to it's releveant signals.
+    We keep this in a separte object to keep the lock screen code
+    separte from the DBus interaction.
+    We inject the lock screen manager instead of fetching the singleton
+    to make the code more self contained.
+  * helpers: Add script to check screen saver state
+  * Lockshield: Use type as parent, not class
+  * LockShield: Drop unneeded custom rendering.
+    We don't need a drawing area and no custom rendering when we just
+    want to render a black background.
+  * tests: Test AppGridButton
+  * AppGridButton: Remove superfluous initializers
+  * AppGridButton: Rename pspec to props.
+    Just cosmetics to make it consistent with the other classes.
+  * AppGridButton: Whitespace cleanups
+  * AppGridButton: Use getters and setters for GAppInfo.
+    This makes the property hander sway smaller
+  * PhoshAppInfo: Add tests for new methods and constructor
+  * gitlab-ci: Add coverage information
+  * README: coverage badge.
+    This is a bit misleading since it only covers unit test coverage and
+    even that dosn't run all the tests.
+  * tests: Add app-list-model tests
+  * tools/app-scroll: Fix activity scaling.
+    Otherwise activities are just as large as the close button.
+  * tools/app-scroll: Drop max-* properties.
+    They were dropped from app-grid-button as well.
+    Spotted-by: Zander Brown
+  * Overview: Rename overview evbox and flowbox to apps.
+    This contains the application (favorites and later on installed
+    applications).
+  * lockscreen: Slide lockscreen down on timeout.
+    This makes the lock screen slide down instead of coming back up after
+    timeout. (Closes: #105)
+  * layer-surface: Allow to set keyboard interactivity
+  * home: Move fold/unfold logic into a single if/else
+  * home: Allow keyboard input when unfolded.
+    This allows application search to receive keyboard input and will
+    e.g. allow keyboard based window switching later on.
+  * defaults: Drop terminal from favorites.
+    With the app drawer it's easily accessible and we're back
+    to one line of favorites which looks way better.
+  * Update translations from zanata
+  * build: bump version.
+    We released 0.0.3 a while ago
+  * Add PhoshNotifyManager.
+    This will handle the org.freedestkop.Notifications DBus protocol
+  * phosh-notification: Add notification widget.
+    This is a layer surface that handles displaying a single notification.
+    When adding notifications to the lock screen, etc. we will likel make
+    this a data only type that is consumed by the various implementations
+    but that depends on how the designs for this will look like.
+  * notify-manager: Create basic notifications.
+    Activities, animating slide in/out, showing notification on the lock
+    screen, do not disturb mode and silencing individual application are
+    left as follow-ups.
+  * debian: Provide notification-daemon.
+    We provide the DBus daemon and basic functionality
+  * Bump libhandy requirement.
+    The arrows need 0.0.11
+  * notifications: Don't leak app_icon
+  * Release phosh 0.0.4
+
+  [ Tobias Bernard ]
+  * Top panel: move clock down a tiny bit
+  * Lockscreen: improve spacing on clock, date, icons
+  * Minor: lockscreen.ui indentation
+  * Lockscreen: Stop arrow animation after 15 cycles.
+    This should mitigate #108 somewhat.
+  * Settings: make circular button styling specific to settings
+  * Favorites: remove button styling and circular shape, add icon shadow.
+    This also makes 4 icons fit into onto the screen at 360px.
+  * Favorites: highlight on click, instead of hover
+  * App switcher: No margin and border radius on the title overlay
+  * Fake app placeholder: round top corners
+  * App Switcher: styling for temporary close button
+
+  [ Dorota Czaplejewicz ]
+  * session: Use the default OSK instead of Virtboard
+
+  [ Sebastian Krzyszkowiak ]
+  * PolkitAuthAgent: fix build with Polkit >= 0.114.
+    Polkit 0.114 introduced bunch of predefined g_autoptr cleanups, which
+    leads to compilation failure due to duplicate cleanup definition for
+    PolkitSubject. Note that even the latest polkit doesn't have a cleanup
+    for PolkitAgentListener defined, so it's left there unguarded.
+  * PhoshBackground: Draw the wallpaper at full resolution on HiDPI screens
+  * background: Unescape the URI of the background file.
+    Fixes #130
+  * Use wlr-foreign-toplevel-management instead of private protocol.
+    Introduces PhoshToplevelManager and PhoshToplevel classes for
+    managing and representing toplevel surfaces.
+    Thanks to that:
+     - it doesn't match the window to close via its title or app id,
+       always trying to close the correct window instead
+     - it removes the window from the overview only after it really got
+       closed - which is especially noticable in case of windows that
+       refuse to be closed
+     - it updates the list automatically as the changes happen, without
+       having to close and open the overview back again
+    Closes #37
+  * PhoshApp: Rename to PhoshActivity.
+    Single application can be represented by multiple PhoshApps. It's also
+    not a window, as in the future, multiple windows may be represented
+    as a single PhoshApp as well - therefore, PhoshActivity seems to be
+    the most fitting name to this entity.
+  * PhoshHome: Hide the keyboard button when unfolded
+  * PhoshHome: Don't set the width of the home bar.
+    When setting 0 as width value, the compositor will set the width
+    automatically according to anchors.
+    This fixes an issue of folded home bar size not being updated after screen
+    rotation until it's unfolded.
+  * PhoshLayerSurface: Allow to set anchor margins of the surface
+  * PhoshLayerSurface: Allow to change the exclusive zone value
+  * PhoshHome: (Un)folding animation.
+    Uses layer-surface margins to animate the unfolding without resizing
+    the surface.
+  * PhoshHome: Adjust arrow transition duration to match unfolding time
+  * PhoshHome: Show correct arrow orientation with GTK animations disabled
+  * shell: Fold home screen when a new toplevel appears.
+    Closes #154
+  * home: Fold on Escape key press.
+    This doesn't matter much for phone, but makes the interaction much
+    more pleasant on desktop.
+  * overview: Hide the list of activities when there are none.
+    This allows the app launcher to take all available space.
+  * phosh-wayland: Don't require wlr-foreign-toplevel-manager extension.
+    It's not very widely implemented yet and it's considered a privileged
+    protocol that's unlikely to be exposed by default anyway.
+    Closes #144
+  * layersurface: Add phosh_layer_surface_wl_surface_commit function
+  * home: Remove gtk_widget_queue_draw from (un)folding animation.
+    This was causing a massive performance drop on the devkit, while a surface
+    commit is all that's really needed there.
+  * home: Reset the app grid state when unfolding.
+    This includes clearing the search field and scrolling the list to the top.
+  * shell: Fold the home screen when unfolding settings screen
+  * shell: Hide the keyboard when unfolding the home screen
+  * app-grid: Use g_auto cleanup macros
+  * app-grid: Store the list of favorites.
+    This will allow to skip allocate/free cycle per every entry when filtering.
+  * app-grid: Don't show favorites on the app list.
+    Fixes #164
+
+  [ Zander Brown ]
+  * build: use the kwarg for PIE
+  * switcher: Rework app switcher.
+    This moves the window title and application icons to the bottom of the
+    running application widget and uses a fake window where the actual app
+    conent will go later on.
+  * build: handy as a subproject.
+    Some of us don't want to install handy master globally
+  * general: ignore VSCode settings/metadata
+  * build: split some components into static lib
+    makes tests/demos simpler
+  * tools: app-scroll demo.
+    Simple demo of PhoshApp
+  * tests: use the full name not just the first letter.
+    Meson being too clever for it's own good
+  * favorites: Switch to kgx (Closes: #133)
+  * gtk-list-model: Adjust to build out of gtk4's tree
+  * Add PhoshAppGridButton.
+    This will be used in the app drawer for launchers
+  * Favorites: Use PhoshAppGridButton.
+    This will be used in the app drawer for all launchers but for now it's
+    just favourites
+  * launcher: force wrapping of long titles
+  * app-grid-button: handle NULL app-info
+  * launcher: import app-list-model.
+    Taken from my maynard fork
+  * overview: rename PhoshFavorites now it's funcation has changed.
+    The overview is the widget that contains the
+     - activities (running applications)
+     - the favorites
+     - the app drawer
+  * app-grid: AppGrid widget to launch installed applications
+  * overview: Add app-grid
+  * tools: Add wrapper to run standalone tools.
+    Similar to phosh's run to set e.g. the schema dir
+  * tools: Add tool to show app-grid outside the shell.
+    Provider wrapper to setup env to run tools
+  * overview: Move favorites launchers into app-grid.
+    They inetract closely, e.g. on search so it makes sense to have them in
+    the same widget.
+    TODO: the css name change from phosh-favorites to phosh-overview should
+    go in a separte commit (Closes: #38)
+
+  [ Adrien Plazas ]
+  * system-prompt: Style overhaul.
+    This makes system prompts look more like part of the shell than part of
+    apps.
+
+  [ Sybolt de Boer ]
+  * Use g_value_set_int() to set an int
+
+  [ Heather Ellsworth ]
+  * Add Contacts to list of favorites
+
+  [ Alexander Mikhaylenko ]
+  * favorites: Resize apps before size allocation.
+    Instead of connecting to 'size-allocate' signal on evbox_running_apps,
+    override size_allocate vfunc on the window itself, then do the resizing
+    before chaining up.
+    This will allow to avoid glitches with paginator.
+  * activity: Simplify sizing.
+    Follow window aspect ratio without minimum width and height. Switch to
+    width-for-height geometry management.
+    When favorites widget is allocated, set window width and height from
+    favorites's own allocation before chaining up, this avoids any glitches
+    on the first allocation.
+    Remove now unused max-width and max-height properties.
+  * Introduce PhoshArrow.
+    An animated arrow. This will be used for home/overview transition.
+  * home: Use PhoshArrow for animation
+  * home: Use libhandy animation functions.
+    See https://source.puri.sm/Librem5/libhandy/merge_requests/308
+  * meson: Bump libhandy version to 0.0.11
+  * lockscreen: Fix indentation in xml
+  * lockscreen: Hide dialer action buttons in xml.
+    There's no point in doing this only on swipe up.
+  * lockscreen: Follow finger when swiping.
+    Pack the two pages into a PhoshPaginator. This also allows to swipe back
+    from keypad to the info screen.
+    Remove the GtkEventBox around the info page, as the paginator is already
+    a subclass of GtkEventBox.
+
+  [ Hysterical Raisins ]
+  * LayerSurface: constructed() needs to be chained up
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 07 Sep 2019 01:36:19 -0700
+
 phosh (0.0.3) purple; urgency=medium
 
   [ Guido Günther ]
