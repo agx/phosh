@@ -84,6 +84,8 @@
                     <property name="margin_right">3</property>
                     <property name="margin_bottom">3</property>
                     <property name="hexpand">True</property>
+                    <property name="vexpand">False</property>
+                    <property name="valign">start</property>
                     <property name="homogeneous">True</property>
                     <property name="selection_mode">none</property>
                     <property name="activate_on_single_click">False</property>
