@@ -6,6 +6,8 @@
 
 #define G_LOG_DOMAIN "phosh-app-grid"
 
+#define ACTIVE_SEARCH_CLASS "search-active"
+
 #include "app-grid.h"
 #include "app-grid-button.h"
 #include "app-list-model.h"
@@ -216,16 +218,24 @@ phosh_app_grid_key_press_event (GtkWidget   *widget,
 
 static void
 search_changed (GtkSearchEntry *entry,
-                PhoshAppGrid    *self)
+                PhoshAppGrid   *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+
+  if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))) > 0) {
+    gtk_style_context_add_class (gtk_widget_get_style_context (priv->apps),
+                                 ACTIVE_SEARCH_CLASS);
+  } else {
+    gtk_style_context_remove_class (gtk_widget_get_style_context (priv->apps),
+                                    ACTIVE_SEARCH_CLASS);
+  }
 
   gtk_filter_list_model_refilter (priv->model);
 }
 
 static void
 search_activated (GtkSearchEntry *entry,
-                  PhoshAppGrid    *self)
+                  PhoshAppGrid   *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GtkFlowBoxChild *child;
@@ -251,6 +261,30 @@ search_activated (GtkSearchEntry *entry,
 }
 
 static void
+search_lost_focus (GtkWidget    *widget,
+                   GdkEvent     *event,
+                   PhoshAppGrid *self)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+
+  gtk_style_context_remove_class (gtk_widget_get_style_context (priv->apps),
+                                  ACTIVE_SEARCH_CLASS);
+}
+
+static void
+search_gained_focus (GtkWidget    *widget,
+                     GdkEvent     *event,
+                     PhoshAppGrid *self)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+
+  if (strlen (gtk_entry_get_text (GTK_ENTRY (priv->search))) > 0) {
+    gtk_style_context_add_class (gtk_widget_get_style_context (priv->apps),
+                                 ACTIVE_SEARCH_CLASS);
+  }
+}
+
+static void
 phosh_app_grid_class_init (PhoshAppGridClass *klass)
 {
   GObjectClass   *object_class = G_OBJECT_CLASS (klass);
@@ -269,6 +303,8 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
 
   gtk_widget_class_bind_template_callback (widget_class, search_changed);
   gtk_widget_class_bind_template_callback (widget_class, search_activated);
+  gtk_widget_class_bind_template_callback (widget_class, search_gained_focus);
+  gtk_widget_class_bind_template_callback (widget_class, search_lost_focus);
 
   signals[APP_LAUNCHED] = g_signal_new ("app-launched",
                                         G_TYPE_FROM_CLASS (klass),

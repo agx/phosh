@@ -153,7 +153,9 @@ phosh-app-grid-button button, phosh-app-grid-button button:hover {
     border: 1px solid transparent;
 }
 
-phosh-app-grid-button button:hover, phosh-app-grid-button button:focus {
+phosh-app-grid-button button:hover,
+phosh-app-grid-button button:focus,
+.search-active phosh-app-grid-button:first-child button {
   background: rgba(46, 45, 45, 0.6);
   border-radius: 5px;
 }
