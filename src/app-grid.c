@@ -107,11 +107,13 @@ search_apps (gpointer item, gpointer data)
 
   search = gtk_entry_get_text (GTK_ENTRY (priv->search));
 
-  if ((str = g_app_info_get_id (info)) && g_strv_contains ((const gchar* const*) priv->favorites_list, str))
-    return FALSE;
+  /* filter out favorites when not searching */
+  if (search == NULL || strlen (search) == 0) {
+    if ((str = g_app_info_get_id (info)) && g_strv_contains ((const gchar* const*) priv->favorites_list, str))
+      return FALSE;
 
-  if (search == NULL)
     return TRUE;
+  }
 
   if ((str = g_app_info_get_display_name (info)) && strstr (str, search))
     return TRUE;
@@ -221,11 +223,16 @@ search_changed (GtkSearchEntry *entry,
                 PhoshAppGrid   *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+  GtkAdjustment *adjustment;
 
   if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))) > 0) {
+    gtk_widget_hide (priv->favs);
     gtk_style_context_add_class (gtk_widget_get_style_context (priv->apps),
                                  ACTIVE_SEARCH_CLASS);
   } else {
+    gtk_widget_show (priv->favs);
+    adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->scrolled_window));
+    gtk_adjustment_set_value (adjustment, 0);
     gtk_style_context_remove_class (gtk_widget_get_style_context (priv->apps),
                                     ACTIVE_SEARCH_CLASS);
   }
