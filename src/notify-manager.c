@@ -15,6 +15,9 @@
 #define NOTIFICATION_DEFAULT_TIMEOUT 5000 /* ms */
 #define NOTIFICATIONS_SPEC_VERSION "1.2"
 
+#define NOTIFICATIONS_SCHEMA_ID "org.gnome.desktop.notifications"
+#define NOTIFICATIONS_KEY_SHOW_BANNERS "show-banners"
+
 /**
  * SECTION:phosh-notify-manager
  * @short_description: Provides the org.freedesktop.Notification DBus interface
@@ -33,8 +36,10 @@ typedef struct _PhoshNotifyManager
 
   int dbus_name_id;
   guint next_id;
+  gboolean show_banners;
 
   GHashTable *notifications;
+  GSettings *settings;
 } PhoshNotifyManager;
 
 G_DEFINE_TYPE_WITH_CODE (PhoshNotifyManager,
@@ -243,7 +248,8 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                              self,
                              G_CONNECT_SWAPPED);
 
-    gtk_widget_show (GTK_WIDGET (notification));
+    if (self->show_banners)
+      gtk_widget_show (GTK_WIDGET (notification));
   }
 
   phosh_notify_dbus_notifications_complete_notify (
@@ -260,6 +266,18 @@ phosh_notify_manager_notify_iface_init (PhoshNotifyDbusNotificationsIface *iface
   iface->handle_get_capabilities = handle_get_capabilities;
   iface->handle_get_server_information = handle_get_server_information;
   iface->handle_notify = handle_notify;
+}
+
+
+static void
+on_notifications_setting_changed (PhoshNotifyManager *self,
+                                  const gchar        *key,
+                                  GSettings          *settings)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
+  g_return_if_fail (G_IS_SETTINGS (settings));
+
+  self->show_banners = g_settings_get_boolean (settings, NOTIFICATIONS_KEY_SHOW_BANNERS);
 }
 
 
@@ -303,6 +321,7 @@ phosh_notify_manager_dispose (GObject *object)
 {
   PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (object);
 
+  g_clear_object (&self->settings);
   g_clear_pointer (&self->notifications, g_hash_table_destroy);
 
   G_OBJECT_CLASS (phosh_notify_manager_parent_class)->dispose (object);
@@ -324,6 +343,11 @@ phosh_notify_manager_constructed (GObject *object)
                                        on_name_lost,
                                        g_object_ref (self),
                                        g_object_unref);
+
+  self->settings = g_settings_new (NOTIFICATIONS_SCHEMA_ID);
+  g_signal_connect_swapped (self->settings, "changed::" NOTIFICATIONS_KEY_SHOW_BANNERS,
+                            G_CALLBACK (on_notifications_setting_changed), self);
+  on_notifications_setting_changed (self, NULL, self->settings);
 }
 
 
