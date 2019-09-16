@@ -8,6 +8,8 @@
 
 #include "config.h"
 
+#include <gio/gdesktopappinfo.h>
+
 #include "notification.h"
 #include "notify-manager.h"
 #include "shell.h"
@@ -104,7 +106,7 @@ handle_get_capabilities (PhoshNotifyDbusNotifications *skeleton,
                          GDBusMethodInvocation        *invocation)
 {
   const gchar *const capabilities[] = {
-    "body", "icon-static", NULL,
+    "body", "body-markup", "icon-static", NULL,
   };
 
   g_debug ("DBus call GetCapabilities");
@@ -154,6 +156,81 @@ on_notification_dismissed (PhoshNotifyManager *self, PhoshNotification *notifica
                                            PHOSH_NOTIFY_MANAGER_REASON_DISMISSED);
 }
 
+static GIcon *
+parse_icon_data (GVariant *variant)
+{
+  GVariant *wrapped_data = NULL;
+  guchar *data = NULL;
+  GIcon *icon = NULL;
+  int width = 0;
+  int height = 0;
+  int row_stride = 0;
+  int has_alpha = 0;
+  int sample_size = 0;
+  int channels = 0;
+  gsize size_should_be = 0;
+
+  if (g_variant_is_of_type (variant, G_VARIANT_TYPE ("(iiibiiay)"))) {
+    g_variant_get (variant,
+                   "(iiibii@ay)",
+                   &width,
+                   &height,
+                   &row_stride,
+                   &has_alpha,
+                   &sample_size,
+                   &channels,
+                   &wrapped_data);
+
+    size_should_be = (height - 1) * row_stride + width * ((channels * sample_size + 7) / 8);
+
+    if (size_should_be != g_variant_get_size (wrapped_data)) {
+      g_warning ("Rejecting image, %" G_GSIZE_FORMAT
+                 " (expected) != %" G_GSIZE_FORMAT,
+                 size_should_be, g_variant_get_size (wrapped_data));
+
+      return NULL;
+    }
+
+    // Extract a copy of the raw data
+    data = (guchar *) g_memdup (g_variant_get_data (wrapped_data),
+                                size_should_be);
+
+    icon = G_ICON (gdk_pixbuf_new_from_data (data,
+                                             GDK_COLORSPACE_RGB,
+                                             has_alpha,
+                                             sample_size,
+                                             width,
+                                             height,
+                                             row_stride,
+                                             (GdkPixbufDestroyNotify) g_free,
+                                             NULL));
+  }
+
+  return icon;
+}
+
+static GIcon *
+parse_icon_string (const char *string)
+{
+  g_autoptr (GFile) file = NULL;
+  GIcon *icon = NULL;
+
+  if (string == NULL || strlen (string) < 1) {
+    return NULL;
+  }
+
+  if (g_str_has_prefix (string, "file://")) {
+    file = g_file_new_for_uri (string);
+    icon = g_file_icon_new (file);
+  } else if (g_str_has_prefix (string, "/")) {
+    file = g_file_new_for_path (string);
+    icon = g_file_icon_new (file);
+  } else {
+    icon = g_themed_icon_new (string);
+  }
+
+  return icon;
+}
 
 static gboolean
 handle_notify (PhoshNotifyDbusNotifications *skeleton,
@@ -172,12 +249,22 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
   GVariant *item;
   GVariantIter iter;
   guint id;
-  g_autofree gchar *image_path = NULL;
   g_autofree gchar *desktop_id = NULL;
+  g_autoptr (GAppInfo) info = NULL;
+  PhoshNotificationUrgency urgency = PHOSH_NOTIFICATION_URGENCY_NORMAL;
+  g_autoptr (GIcon) data_gicon = NULL;
+  g_autoptr (GIcon) path_gicon = NULL;
+  g_autoptr (GIcon) app_gicon = NULL;
+  g_autoptr (GIcon) old_data_gicon = NULL;
+  g_autoptr (GIcon) fallback_gicon = NULL;
+  GIcon *icon = NULL;
+  GIcon *image = NULL;
 
   g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
 
   g_debug ("DBus call Notify: %s (%u): %s (%s), %s, %d", app_name, replaces_id, summary, body, app_icon, expire_timeout);
+
+  app_gicon = parse_icon_string (app_icon);
 
   g_variant_iter_init (&iter, hints);
   while ((item = g_variant_iter_next_value (&iter))) {
@@ -193,23 +280,46 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
       }
     } else if ((g_strcmp0 (key, "image-data") == 0) ||
                (g_strcmp0 (key, "image_data") == 0)) {
-      /* TBD */
-    }
-    else if ((g_strcmp0 (key, "icon-data") == 0) ||
-             (g_strcmp0 (key, "icon_data") == 0)) {
-      /* TBD */
-    }
-    else if ((g_strcmp0 (key, "image-path") == 0) ||
-             (g_strcmp0 (key, "image_path") == 0)) {
-      if (g_variant_is_of_type (value, G_VARIANT_TYPE_STRING))
-        image_path = g_variant_dup_string (value, NULL);
-    }
-    else if ((g_strcmp0 (key, "desktop_entry") == 0) ||
-             (g_strcmp0 (key, "desktop-entry") == 0)) {
+      data_gicon = parse_icon_data (value);
+    } else if ((g_strcmp0 (key, "image-path") == 0) ||
+               (g_strcmp0 (key, "image_path") == 0)) {
+      if (g_variant_is_of_type (value, G_VARIANT_TYPE_STRING)) {
+        path_gicon = parse_icon_string (g_variant_get_string (value, NULL));
+      }
+    } else if (g_strcmp0 (key, "icon_data") == 0) {
+      old_data_gicon = parse_icon_data (value);
+    } else if ((g_strcmp0 (key, "desktop_entry") == 0) ||
+               (g_strcmp0 (key, "desktop-entry") == 0)) {
       if (g_variant_is_of_type (value, G_VARIANT_TYPE_STRING))
         desktop_id = g_variant_dup_string (value, NULL);
     }
     g_variant_unref(item);
+  }
+
+  if (data_gicon) {
+    image = data_gicon;
+  } else if (path_gicon) {
+    image = path_gicon;
+  } else if (old_data_gicon) {
+    image = old_data_gicon;
+  } else if (urgency == PHOSH_NOTIFICATION_URGENCY_CRITICAL) {
+    fallback_gicon = g_themed_icon_new ("dialog-error");
+    image = fallback_gicon;
+  } else {
+    image = NULL;
+  }
+
+  icon = app_gicon;
+
+  if (desktop_id) {
+    GDesktopAppInfo *desktop_info;
+    g_autofree char *full_id = g_strdup_printf ("%s.desktop", desktop_id);
+
+    desktop_info = g_desktop_app_info_new (full_id);
+
+    if (desktop_info) {
+      info = G_APP_INFO (desktop_info);
+    }
   }
 
   if (expire_timeout == -1)
@@ -224,13 +334,19 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                   "app_name", app_name,
                   "summary", summary,
                   "body", body,
-                  "app_icon", image_path ?: app_icon,
+                  "app-icon", icon,
+                  "app-info", info,
+                  "image", image,
                   NULL);
   } else {
     id = self->next_id++;
 
-    notification = g_object_ref_sink (phosh_notification_new (app_name, summary,
-                                                              body, image_path ?: app_icon));
+    notification = g_object_ref_sink (phosh_notification_new (app_name,
+                                                              info,
+                                                              summary,
+                                                              body,
+                                                              icon,
+                                                              image));
     g_hash_table_insert (self->notifications,
                          GUINT_TO_POINTER (id),
                          notification);
