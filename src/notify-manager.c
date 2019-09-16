@@ -204,6 +204,7 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
       if (g_variant_is_of_type (value, G_VARIANT_TYPE_STRING))
         desktop_id = g_variant_dup_string (value, NULL);
     }
+    g_variant_unref(item);
   }
 
   if (expire_timeout == -1)
