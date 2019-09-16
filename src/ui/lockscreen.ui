@@ -200,14 +200,15 @@
             <property name="hexpand">False</property>
             <property name="vexpand">False</property>
             <child>
-              <object class="GtkLabel" id="lbl_keypad">
+              <object class="GtkEntry" id="entry_pin">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="has-frame">False</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
-                <attributes>
-                  <attribute name="font-desc" value="Cantarell Bold 16"/>
-                </attributes>
+                <property name="visibility">False</property>
+                <property name="xalign">0.5</property>
+                <property name="input-purpose">GTK_INPUT_PURPOSE_PIN</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -215,16 +216,17 @@
               </packing>
             </child>
             <child>
-              <object class="HdyDialer" id="dialer_keypad">
+              <object class="HdyKeypad" id="keypad">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
-                <property name="relief">none</property>
-                <property name="show-action-buttons">False</property>
-                <signal name="notify::number" handler="keypad_number_notified_cb" swapped="yes"/>
+                <property name="only_digits">True</property>
+                <property name="show_symbols">True</property>
+                <property name="entry">entry_pin</property>
+                <property name="right-action">delete_btn</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -255,4 +257,20 @@
       </object>
     </child>
   </template>
+  <object class="GtkButton" id="delete_btn">
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <property name="focus-on-click">False</property>
+    <signal name="clicked" handler="delete_button_clicked_cb" object="PhoshLockscreen" swapped="true"/>
+    <child>
+      <object class="GtkImage">
+        <property name="visible">True</property>
+        <property name="icon-name">edit-clear-symbolic</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkGestureLongPress" id="long_press_del_gesture">
+    <property name="widget">delete_btn</property>
+    <signal name="pressed" handler="long_press_del_cb" object="PhoshLockscreen" swapped="true"/>
+  </object>
 </interface>

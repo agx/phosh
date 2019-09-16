@@ -52,8 +52,9 @@ typedef struct {
 
   /* unlock page */
   GtkWidget *grid_unlock;
-  GtkWidget *dialer_keypad;
-  GtkWidget *lbl_keypad;
+  GtkWidget *keypad;
+  GtkWidget  *entry_pin;
+  GtkGesture *long_press_del_gesture;
   GtkWidget *lbl_unlock_status;
   GtkWidget *wwaninfo;
   GtkWidget *batteryinfo;
@@ -68,22 +69,15 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshLockscreen, phosh_lockscreen, PHOSH_TYPE_LAYER_
 
 
 static void
-keypad_update_labels (PhoshLockscreen *self)
-{
+clear_input (PhoshLockscreen *self, gboolean clear_all) {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  gint len;
-  gchar *pos;
-  const gchar *number;
-  g_autofree gchar *dots = NULL;
 
-  number = hdy_dialer_get_number (HDY_DIALER (priv->dialer_keypad));
-  len = strlen (number);
-  dots = pos = g_malloc0 (len * 3 + 1);
-  g_return_if_fail (dots);
-  for (int i = 0; i < len; i++)
-    pos = g_stpcpy (pos, "●");
-  gtk_label_set_text (GTK_LABEL (priv->lbl_keypad), dots);
-  gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Enter Passcode"));
+  if (clear_all) {
+    gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Enter Passcode"));
+    gtk_editable_delete_text (GTK_EDITABLE (priv->entry_pin), 0, -1);
+  } else {
+    g_signal_emit_by_name (priv->entry_pin, "backspace", NULL);
+  }
 }
 
 
@@ -91,6 +85,8 @@ static void
 show_info_page (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  if (hdy_paginator_get_position (HDY_PAGINATOR (priv->paginator)) <= 0)
+    return;
 
   hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator), priv->grid_info);
 }
@@ -116,6 +112,8 @@ static void
 show_unlock_page (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  if (hdy_paginator_get_position (HDY_PAGINATOR (priv->paginator)) > 0)
+    return;
 
   hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator), priv->grid_unlock);
 
@@ -127,10 +125,8 @@ show_unlock_page (PhoshLockscreen *self)
 
 static gboolean
 finish_shake_label (PhoshLockscreen *self) {
-  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  hdy_dialer_clear_number (HDY_DIALER (priv->dialer_keypad));
-  gtk_widget_set_sensitive (priv->dialer_keypad, TRUE);
-  gtk_widget_grab_focus (GTK_WIDGET (priv->dialer_keypad));
+  clear_input (self, TRUE);
+  gtk_widget_set_sensitive (GTK_WIDGET (self), TRUE);
   return FALSE;
 }
 
@@ -150,14 +146,14 @@ shake_label (GtkWidget *widget,
 
   if (now > end_time) {
     /* Stop the animation only when we would step over the idle position (0.5) */
-    if ((gtk_label_get_xalign (GTK_LABEL (priv->lbl_keypad)) > 0.5 && pos < 0.5) || pos > 0.5) {
-      gtk_label_set_xalign (GTK_LABEL (priv->lbl_keypad), 0.5);
+    if ((gtk_entry_get_alignment (GTK_ENTRY (priv->entry_pin)) > 0.5 && pos < 0.5) || pos > 0.5) {
+      gtk_entry_set_alignment (GTK_ENTRY (priv->entry_pin), 0.5);
       g_timeout_add (400, (GSourceFunc) finish_shake_label, self);
       return FALSE;
     }
   }
 
-  gtk_label_set_xalign (GTK_LABEL (priv->lbl_keypad), pos);
+  gtk_entry_set_alignment (GTK_ENTRY (priv->entry_pin), pos);
   return TRUE;
 }
 
@@ -185,7 +181,7 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
     GdkFrameClock *clock;
     gint64 now;
     /* give visual feedback on error */
-    clock = gtk_widget_get_frame_clock (priv->lbl_keypad);
+    clock = gtk_widget_get_frame_clock (priv->entry_pin);
     now = gdk_frame_clock_get_frame_time (clock);
     gtk_widget_add_tick_callback (GTK_WIDGET (self),
                                   shake_label,
@@ -201,25 +197,46 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
 
 
 static void
-keypad_number_notified_cb (PhoshLockscreen *self)
+delete_button_clicked_cb (PhoshLockscreen *self,
+                          GtkWidget      *widget)
+{
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+
+  clear_input (self, FALSE);
+}
+
+
+static void
+long_press_del_cb (PhoshLockscreen *self,
+                   gdouble              x,
+                   gdouble              y,
+                   GtkGesture      *gesture)
+{
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  g_debug ("Long press on delete button");
+  clear_input (self, TRUE);
+}
+
+
+static void
+input_changed_cb (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv;
-  const gchar *number;
+  const gchar *input;
 
   g_assert (PHOSH_IS_LOCKSCREEN (self));
   priv = phosh_lockscreen_get_instance_private (self);
-  number = hdy_dialer_get_number (HDY_DIALER (priv->dialer_keypad));
   priv->last_input = g_get_monotonic_time ();
+  input = gtk_entry_get_text (GTK_ENTRY (priv->entry_pin));
 
-  keypad_update_labels (self);
-  if (strlen (number) == phosh_auth_get_pin_length()) {
+  if (strlen (input) == phosh_auth_get_pin_length()) {
     gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Checking…"));
-    gtk_widget_set_sensitive (priv->dialer_keypad, FALSE);
+    gtk_widget_set_sensitive (GTK_WIDGET (self), FALSE);
 
     if (priv->auth == NULL)
       priv->auth = PHOSH_AUTH (phosh_auth_new ());
     phosh_auth_authenticate_async_start (priv->auth,
-                                         number,
+                                         input,
                                          NULL,
                                          (GAsyncReadyCallback)auth_async_cb,
                                          self);
@@ -227,34 +244,32 @@ keypad_number_notified_cb (PhoshLockscreen *self)
 }
 
 
-
 static gboolean
 key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
 {
-  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  PhoshLockscreenPrivate *priv;
   gboolean handled = FALSE;
-  g_autofree gchar *number = NULL;
 
-  if (hdy_paginator_get_position (HDY_PAGINATOR (priv->paginator)) <= 0) {
+  g_assert (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  if (gtk_entry_im_context_filter_keypress (GTK_ENTRY (priv->entry_pin), event)) {
+    show_unlock_page (self);
+    handled = TRUE;
+  } else {
     switch (event->keyval) {
     case GDK_KEY_space:
       show_unlock_page (self);
       handled = TRUE;
       break;
-    case GDK_KEY_1...GDK_KEY_9:
-      number = g_strdup_printf ("%d", event->keyval - GDK_KEY_1 + 1);
-      hdy_dialer_set_number (HDY_DIALER (priv->dialer_keypad), number);
-      show_unlock_page (self);
-      handled = TRUE;
-      break;
-    default:
-      /* nothing to do */
-      break;
-    }
-  } else {
-    switch (event->keyval) {
     case GDK_KEY_Escape:
       show_info_page (self);
+      handled = TRUE;
+      break;
+    case GDK_KEY_Delete:
+    case GDK_KEY_KP_Delete:
+    case GDK_KEY_BackSpace:
+      clear_input (self, FALSE);
       handled = TRUE;
       break;
     default:
@@ -262,6 +277,8 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
       break;
     }
   }
+
+  priv->last_input = g_get_monotonic_time ();
   return handled;
 }
 
@@ -352,14 +369,11 @@ paginator_position_notified_cb (PhoshLockscreen *self,
   position = hdy_paginator_get_position (HDY_PAGINATOR (priv->paginator));
 
   if (position <= 0) {
-    hdy_dialer_clear_number (HDY_DIALER (priv->dialer_keypad));
-    keypad_update_labels (self);
+    clear_input (self, TRUE);
     return;
   }
 
   if (position >= 1) {
-    gtk_widget_grab_focus (GTK_WIDGET (priv->dialer_keypad));
-
     if (!priv->idle_timer) {
       priv->last_input = g_get_monotonic_time ();
       priv->idle_timer = g_timeout_add_seconds (LOCKSCREEN_IDLE_SECONDS,
@@ -457,12 +471,13 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 
   /* unlock page */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, grid_unlock);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, dialer_keypad);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_keypad);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, keypad);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, entry_pin);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_unlock_status);
-  gtk_widget_class_bind_template_callback_full (widget_class,
-                                                "keypad_number_notified_cb",
-                                                G_CALLBACK(keypad_number_notified_cb));
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, long_press_del_gesture);
+  gtk_widget_class_bind_template_callback (widget_class, long_press_del_cb);
+  gtk_widget_class_bind_template_callback (widget_class, delete_button_clicked_cb);
+
   /* info page */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, grid_info);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
@@ -476,20 +491,13 @@ static void
 phosh_lockscreen_init (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  GtkWidget *grid, *old_widget;
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  /* HACK: remove # and * buttons from the hdydialer */
-  grid = gtk_bin_get_child (GTK_BIN (priv->dialer_keypad));
-
-  old_widget = gtk_grid_get_child_at (GTK_GRID (grid), 2, 3);
-  if (old_widget != NULL)
-    gtk_container_remove (GTK_CONTAINER (grid), old_widget);
-
-  old_widget = gtk_grid_get_child_at (GTK_GRID (grid), 0, 3);
-  if (old_widget != NULL)
-    gtk_container_remove (GTK_CONTAINER (grid), old_widget);
+  g_signal_connect_swapped (G_OBJECT (priv->entry_pin),
+                            "changed",
+                            G_CALLBACK (input_changed_cb),
+                            self);
 }
 
 

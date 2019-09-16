@@ -245,3 +245,26 @@ phosh-notification .notification-image {
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
 }
+
+/* Style for the keypad */
+hdykeypad > button {
+  border-radius: 9999px;
+  -gtk-outline-radius: 9999px;
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 16px;
+  border: 0;
+  box-shadow: none;
+  background: 0;
+  border: 0;
+}
+
+hdykeypad > button:active {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+hdykeypad > button:focus {
+  outline-style: none;
+}
