@@ -56,6 +56,8 @@ typedef struct {
   GtkWidget  *entry_pin;
   GtkGesture *long_press_del_gesture;
   GtkWidget *lbl_unlock_status;
+  GtkWidget *btn_submit;
+  GtkWidget *btn_emergency;
   GtkWidget *wwaninfo;
   GtkWidget *batteryinfo;
   guint      idle_timer;
@@ -222,25 +224,47 @@ static void
 input_changed_cb (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv;
-  const gchar *input;
+  guint16 length;
 
   g_assert (PHOSH_IS_LOCKSCREEN (self));
   priv = phosh_lockscreen_get_instance_private (self);
   priv->last_input = g_get_monotonic_time ();
+
+  length = gtk_entry_get_text_length (GTK_ENTRY (priv->entry_pin));
+
+  gtk_widget_set_sensitive (priv->btn_submit, length != 0);
+}
+
+
+static void
+submit_cb (PhoshLockscreen *self)
+{
+  PhoshLockscreenPrivate *priv;
+  const gchar *input;
+  guint16 length;
+
+  g_assert (PHOSH_IS_LOCKSCREEN (self));
+
+  priv = phosh_lockscreen_get_instance_private (self);
+  priv->last_input = g_get_monotonic_time ();
+
+  length = gtk_entry_get_text_length (GTK_ENTRY (priv->entry_pin));
+  if (length == 0) {
+    return;
+  }
+
   input = gtk_entry_get_text (GTK_ENTRY (priv->entry_pin));
 
-  if (strlen (input) == phosh_auth_get_pin_length()) {
-    gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Checking…"));
-    gtk_widget_set_sensitive (GTK_WIDGET (self), FALSE);
+  gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Checking…"));
+  gtk_widget_set_sensitive (GTK_WIDGET (self), FALSE);
 
-    if (priv->auth == NULL)
-      priv->auth = PHOSH_AUTH (phosh_auth_new ());
-    phosh_auth_authenticate_async_start (priv->auth,
-                                         input,
-                                         NULL,
-                                         (GAsyncReadyCallback)auth_async_cb,
-                                         self);
-  }
+  if (priv->auth == NULL)
+    priv->auth = PHOSH_AUTH (phosh_auth_new ());
+  phosh_auth_authenticate_async_start (priv->auth,
+                                       input,
+                                       NULL,
+                                       (GAsyncReadyCallback)auth_async_cb,
+                                       self);
 }
 
 
@@ -270,6 +294,12 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
     case GDK_KEY_KP_Delete:
     case GDK_KEY_BackSpace:
       clear_input (self, FALSE);
+      handled = TRUE;
+      break;
+    case GDK_KEY_Return:
+    case GDK_KEY_ISO_Enter:
+    case GDK_KEY_KP_Enter:
+      submit_cb (self),
       handled = TRUE;
       break;
     default:
@@ -475,8 +505,13 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, entry_pin);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_unlock_status);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, long_press_del_gesture);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, btn_submit);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, btn_emergency);
+
   gtk_widget_class_bind_template_callback (widget_class, long_press_del_cb);
   gtk_widget_class_bind_template_callback (widget_class, delete_button_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, submit_cb);
+  gtk_widget_class_bind_template_callback (widget_class, input_changed_cb);
 
   /* info page */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, grid_info);
@@ -490,14 +525,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 static void
 phosh_lockscreen_init (PhoshLockscreen *self)
 {
-  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-
   gtk_widget_init_template (GTK_WIDGET (self));
-
-  g_signal_connect_swapped (G_OBJECT (priv->entry_pin),
-                            "changed",
-                            G_CALLBACK (input_changed_cb),
-                            self);
 }
 
 

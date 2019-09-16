@@ -191,13 +191,25 @@
           </object>
         </child>
         <child>
-          <object class="GtkGrid" id="grid_unlock">
+          <object class="GtkBox" id="grid_unlock">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
             <property name="halign">center</property>
             <property name="valign">center</property>
             <property name="hexpand">False</property>
             <property name="vexpand">False</property>
+            <property name="spacing">12</property>
+            <child>
+              <object class="GtkLabel" id="lbl_unlock_status">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Enter Passcode</property>
+                <attributes>
+                  <attribute name="font-desc" value="Cantarell 16"/>
+                </attributes>
+              </object>
+            </child>
             <child>
               <object class="GtkEntry" id="entry_pin">
                 <property name="visible">True</property>
@@ -212,11 +224,8 @@
                 <style>
                   <class name="phosh-lockscreen-pin"/>
                 </style>
+                <signal name="changed" handler="input_changed_cb" swapped="yes"/>
               </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">1</property>
-              </packing>
             </child>
             <child>
               <object class="HdyKeypad" id="keypad">
@@ -231,26 +240,41 @@
                 <property name="entry">entry_pin</property>
                 <property name="right-action">delete_btn</property>
               </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">2</property>
-              </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="lbl_unlock_status">
+              <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">12</property>
-                <property name="label" translatable="yes">Enter Passcode</property>
-                <attributes>
-                  <attribute name="font-desc" value="Cantarell 16"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing>
+                <child>
+                  <object class="GtkButton" id="btn_emergency">
+                    <property name="visible">False</property>
+                    <property name="label" translatable="yes">Emergency</property>
+                    <style>
+                      <class name="text-only-button"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack_type">start</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="btn_submit">
+                    <property name="visible">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="label" translatable="yes">Submit</property>
+                    <signal name="clicked" handler="submit_cb" swapped="yes"/>
+                    <style>
+                      <class name="text-only-button"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack_type">end</property>
+                  </packing>
+                </child>
+              </object>>
             </child>
           </object>
         </child>

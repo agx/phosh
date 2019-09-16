@@ -243,10 +243,20 @@ hdykeypad > button {
   border: 0;
 }
 
-hdykeypad > button:active {
+hdykeypad > button:active, .text-only-button:active {
   background: rgba(255, 255, 255, 0.3);
 }
 
-hdykeypad > button:focus {
+hdykeypad > button:focus, .text-only-button:focus {
   outline-style: none;
+}
+
+.text-only-button {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 16px;
+  border: 0;
+  box-shadow: none;
+  background: 0;
+  border: 0;
 }
