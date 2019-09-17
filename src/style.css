@@ -113,6 +113,28 @@ phosh-home, .phosh-panel {
     animation-iteration-count: 15;
 }
 
+/* Lockscreen Keypad */
+hdydialer button {
+    border-radius: 9999px;
+    -gtk-outline-radius: 9999px;
+    background-origin: padding-box, border-box;
+    background-clip: padding-box, border-box;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 16px;
+    border: 0;
+    box-shadow: none;
+    background: 0;
+}
+
+hdydialer button:active {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+hdydialer button:focus {
+    outline-style: none;
+}
+
 @keyframes pulsate {
     0% {-gtk-icon-transform: translateY(0); opacity: 0.7}
     35% {-gtk-icon-transform: translateY(-14px); opacity: 1}
