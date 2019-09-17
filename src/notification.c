@@ -10,6 +10,9 @@
 #include "notification.h"
 #include "shell.h"
 
+#define HANDY_USE_UNSTABLE_API
+#include <handy.h>
+
 /**
  * SECTION:phosh-notification
  * @short_description: A notification
@@ -45,13 +48,19 @@ typedef struct _PhoshNotification
   GtkWidget *img_icon;
   GtkWidget *img_image;
   GtkWidget *box_actions;
+
   GIcon     *icon;
   GIcon     *image;
   GAppInfo  *info;
   GStrv      actions;
+
+  struct {
+    gdouble progress;
+    gint64  last_frame;
+  } animation;
 } PhoshNotification;
 
-G_DEFINE_TYPE(PhoshNotification, phosh_notification, PHOSH_TYPE_LAYER_SURFACE)
+G_DEFINE_TYPE (PhoshNotification, phosh_notification, PHOSH_TYPE_LAYER_SURFACE)
 
 
 static void
@@ -154,6 +163,68 @@ phosh_notification_finalize (GObject *object)
 
 
 static void
+phosh_notification_slide (PhoshNotification *self)
+{
+  gint margin;
+  gint height;
+  gdouble progress = hdy_ease_out_cubic (self->animation.progress);
+
+  progress = 1.0 - progress;
+
+  gtk_window_get_size (GTK_WINDOW (self), NULL, &height);
+  margin = (height - 300) * progress;
+
+  phosh_layer_surface_set_margins (PHOSH_LAYER_SURFACE (self), margin, 0, 0, 0);
+
+  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
+}
+
+
+static gboolean
+animate_down_cb (GtkWidget     *widget,
+                 GdkFrameClock *frame_clock,
+                 gpointer       user_data)
+{
+  gint64 time;
+  gboolean finished = FALSE;
+  PhoshNotification *self = PHOSH_NOTIFICATION (widget);
+
+  time = gdk_frame_clock_get_frame_time (frame_clock) - self->animation.last_frame;
+  if (self->animation.last_frame < 0) {
+    time = 0;
+  }
+
+  self->animation.progress += 0.06666 * time / 16666.00;
+  self->animation.last_frame = gdk_frame_clock_get_frame_time (frame_clock);
+
+  if (self->animation.progress >= 1.0) {
+    finished = TRUE;
+    self->animation.progress = 1.0;
+  }
+
+  phosh_notification_slide (self);
+
+  return finished ? G_SOURCE_REMOVE : G_SOURCE_CONTINUE;
+}
+
+
+static void
+phosh_notification_show (GtkWidget *widget)
+{
+  PhoshNotification *self = PHOSH_NOTIFICATION (widget);
+  gboolean enable_animations;
+
+  enable_animations = hdy_get_enable_animations (GTK_WIDGET (self));
+
+  self->animation.last_frame = -1;
+  self->animation.progress = enable_animations ? 0.0 : 1.0;
+  gtk_widget_add_tick_callback (GTK_WIDGET (self), animate_down_cb, NULL, NULL);
+
+  GTK_WIDGET_CLASS (phosh_notification_parent_class)->show (widget);
+}
+
+
+static void
 phosh_notification_class_init (PhoshNotificationClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
@@ -162,6 +233,8 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
   object_class->finalize = phosh_notification_finalize;
   object_class->set_property = phosh_notification_set_property;
   object_class->get_property = phosh_notification_get_property;
+
+  widget_class->show = phosh_notification_show;
 
   props[PROP_APP_NAME] =
     g_param_spec_string (
@@ -277,7 +350,9 @@ static void
 phosh_notification_init (PhoshNotification *self)
 {
   g_autoptr (GActionMap) map = NULL;
-  
+
+  self->animation.progress = 0.0;
+
   map = G_ACTION_MAP (g_simple_action_group_new ());
   g_action_map_add_action_entries (map,
                                    entries,
@@ -314,6 +389,7 @@ phosh_notification_new (const char *app_name,
                        "image", image,
                        "actions", actions,
                        /* layer surface */
+                       "margin-top", -300,
                        "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(wl),
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP,
                        "height", 50,
