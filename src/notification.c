@@ -442,6 +442,8 @@ phosh_notification_set_app_info (PhoshNotification *self,
     phosh_notification_set_app_icon (self, icon);
     phosh_notification_set_app_name (self, name);
   }
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_INFO]);
 }
 
 void
