@@ -473,7 +473,21 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 static void
 phosh_lockscreen_init (PhoshLockscreen *self)
 {
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  GtkWidget *grid, *old_widget;
+
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  /* HACK: remove # and * buttons from the hdydialer */
+  grid = gtk_bin_get_child (GTK_BIN (priv->dialer_keypad));
+
+  old_widget = gtk_grid_get_child_at (GTK_GRID (grid), 2, 3);
+  if (old_widget != NULL)
+    gtk_container_remove (GTK_CONTAINER (grid), old_widget);
+
+  old_widget = gtk_grid_get_child_at (GTK_GRID (grid), 0, 3);
+  if (old_widget != NULL)
+    gtk_container_remove (GTK_CONTAINER (grid), old_widget);
 }
 
 
