@@ -24,7 +24,8 @@ PhoshNotification *phosh_notification_new             (const char        *app_na
                                                        const char        *summary,
                                                        const char        *body,
                                                        GIcon             *icon,
-                                                       GIcon             *image);
+                                                       GIcon             *image,
+                                                       GStrv              actions);
 void               phosh_notification_set_summary     (PhoshNotification *self,
                                                        const gchar       *summary);
 void               phosh_notification_set_body        (PhoshNotification *self,
@@ -37,5 +38,7 @@ void               phosh_notification_set_app_info    (PhoshNotification *self,
                                                        GAppInfo          *info);
 void               phosh_notification_set_image       (PhoshNotification *self,
                                                        GIcon             *icon);
+void               phosh_notification_set_actions     (PhoshNotification *self,
+                                                       GStrv              actions);
 
 G_END_DECLS

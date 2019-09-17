@@ -22,9 +22,12 @@ typedef enum {
 G_DECLARE_FINAL_TYPE (PhoshNotifyManager, phosh_notify_manager, PHOSH, NOTIFY_MANAGER,
                       PhoshNotifyDbusNotificationsSkeleton)
 
-PhoshNotifyManager * phosh_notify_manager_get_default (void);
+PhoshNotifyManager * phosh_notify_manager_get_default        (void);
 gboolean             phosh_notify_manager_close_notification (PhoshNotifyManager *self,
                                                               guint id,
-                                                              PhoshNotifyManagerReason reason);
+                                                              PhoshNotifyManagerReason  reason);
+gboolean             phosh_notify_manager_action_invoked     (PhoshNotifyManager       *self,
+                                                              guint                     id,
+                                                              const char               *action);
 
 G_END_DECLS

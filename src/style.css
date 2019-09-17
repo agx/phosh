@@ -195,17 +195,28 @@ phosh-notification {
 }
 
 phosh-notification .content {
-  border-radius: 7px;
+  border-radius: 6px;
   background-color: #282828;
-  padding: 12px;
   margin: 12px;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.33),
               0px 5px 6px 0px rgba(0, 0, 0, 0.07),
               0px 0px 0px 1px rgba(0, 0, 0, 0.2);
 }
 
-phosh-notification image {
+phosh-notification .message-area {
+  padding: 12px;
+}
+
+phosh-notification .message-area image {
     -gtk-icon-style: symbolic;
+}
+
+phosh-notification .actions-area button {
+  border-radius: 0;
+}
+
+phosh-notification .actions-area button:last-child {
+  border-radius: 0 0 6px 6px;
 }
 
 phosh-notification .notification-image {

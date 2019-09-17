@@ -106,7 +106,7 @@ handle_get_capabilities (PhoshNotifyDbusNotifications *skeleton,
                          GDBusMethodInvocation        *invocation)
 {
   const gchar *const capabilities[] = {
-    "body", "body-markup", "icon-static", NULL,
+    "body", "body-markup", "actions", "icon-static", NULL,
   };
 
   g_debug ("DBus call GetCapabilities");
@@ -142,7 +142,9 @@ on_notification_expired (gpointer data)
 }
 
 static void
-on_notification_dismissed (PhoshNotifyManager *self, PhoshNotification *notification)
+on_notification_actioned (PhoshNotifyManager *self,
+                          const char         *action,
+                          PhoshNotification  *notification)
 {
   gpointer data;
 
@@ -152,7 +154,9 @@ on_notification_dismissed (PhoshNotifyManager *self, PhoshNotification *notifica
   data = g_object_get_data (G_OBJECT (notification), "notify-id");
   g_return_if_fail (data);
 
-  phosh_notify_manager_close_notification (self, GPOINTER_TO_UINT(data),
+  phosh_notify_manager_action_invoked (self, GPOINTER_TO_UINT (data), action);
+
+  phosh_notify_manager_close_notification (self, GPOINTER_TO_UINT (data),
                                            PHOSH_NOTIFY_MANAGER_REASON_DISMISSED);
 }
 
@@ -337,6 +341,7 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                   "app-icon", icon,
                   "app-info", info,
                   "image", image,
+                  "actions", actions,
                   NULL);
   } else {
     id = self->next_id++;
@@ -346,7 +351,8 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                                                               summary,
                                                               body,
                                                               icon,
-                                                              image));
+                                                              image,
+                                                              (GStrv) actions));
     g_hash_table_insert (self->notifications,
                          GUINT_TO_POINTER (id),
                          notification);
@@ -359,8 +365,8 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
     }
 
     g_signal_connect_object (notification,
-                             "dismissed",
-                             G_CALLBACK (on_notification_dismissed),
+                             "actioned",
+                             G_CALLBACK (on_notification_actioned),
                              self,
                              G_CONNECT_SWAPPED);
 
@@ -523,6 +529,35 @@ phosh_notify_manager_close_notification (PhoshNotifyManager *self, guint id,
 
   phosh_notify_dbus_notifications_emit_notification_closed (
     PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), id, reason);
+
+  return TRUE;
+}
+
+/**
+ * phosh_notify_manager_action_invoked:
+ * @self: the #PhoshNotifyManager
+ * @id: the notification
+ * @action: the action id
+ *
+ * Activate @action on @id
+ * 
+ * Returns: %TRUE if the notification was actioned, %FALSE if it didn't exist.
+ */
+gboolean
+phosh_notify_manager_action_invoked (PhoshNotifyManager *self,
+                                     guint               id,
+                                     const char         *action)
+{
+  g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
+  g_return_val_if_fail (id > 0, FALSE);
+
+  if (!g_hash_table_contains (self->notifications, GUINT_TO_POINTER (id)))
+    return FALSE;
+
+  g_debug ("Emitting ActionInvoked: %d, %s", id, action);
+
+  phosh_notify_dbus_notifications_emit_action_invoked (
+    PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), id, action);
 
   return TRUE;
 }

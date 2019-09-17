@@ -8,83 +8,65 @@
       <placeholder/>
     </child>
     <child>
-      <object class="GtkEventBox">
+      <object class="GtkBox">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
-        <signal name="button-press-event" handler="evbox_button_press_event_cb" swapped="yes"/>
+        <property name="orientation">vertical</property>
+        <property name="valign">start</property>
         <child>
-          <object class="GtkBox">
+          <object class="GtkEventBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="valign">start</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">12</property>
+            <property name="events">GDK_BUTTON_PRESS_MASK | GDK_STRUCTURE_MASK</property>
+            <signal name="button-press-event" handler="activate_notification" swapped="yes"/>
             <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="valign">start</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">12</property>
                 <child>
-                  <object class="GtkImage" id="img_icon">
+                  <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="pixel_size">16</property>
-                    <property name="icon_name">application-x-executable</property>
-                    <style>
-                      <class name="app-icon"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="lbl_app_name">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label">App Name</property>
-                    <property name="ellipsize">end</property>
-                    <property name="single_line_mode">True</property>
-                    <property name="xalign">0</property>
-                    <style>
-                      <class name="dim-label"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="spacing">12</property>
-                <child>
-                  <object class="GtkImage" id="img_image">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">start</property>
-                    <property name="valign">start</property>
-                    <property name="pixel_size">32</property>
-                    <property name="icon_name">dialog-information</property>
-                    <style>
-                      <class name="notification-image"/>
-                    </style>
+                    <property name="spacing">12</property>
+                    <child>
+                      <object class="GtkImage" id="img_icon">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="pixel_size">16</property>
+                        <property name="icon_name">application-x-executable</property>
+                        <style>
+                          <class name="app-icon"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="lbl_app_name">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label">App Name</property>
+                        <property name="ellipsize">end</property>
+                        <property name="single_line_mode">True</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -96,21 +78,18 @@
                   <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="valign">center</property>
-                    <property name="orientation">vertical</property>
-                    <property name="spacing">2</property>
+                    <property name="spacing">12</property>
                     <child>
-                      <object class="GtkLabel" id="lbl_summary">
+                      <object class="GtkImage" id="img_image">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label">Title</property>
-                        <property name="justify">center</property>
-                        <property name="ellipsize">end</property>
-                        <property name="single_line_mode">True</property>
-                        <property name="xalign">0</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"/>
-                        </attributes>
+                        <property name="halign">start</property>
+                        <property name="valign">start</property>
+                        <property name="pixel_size">32</property>
+                        <property name="icon_name">dialog-information</property>
+                        <style>
+                          <class name="notification-image"/>
+                        </style>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -119,17 +98,50 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="lbl_body">
+                      <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
-                        <property name="label">Message</property>
-                        <property name="justify">left</property>
-                        <property name="wrap">True</property>
-                        <property name="wrap-mode">word-char</property>
-                        <property name="ellipsize">end</property>
-                        <property name="lines">3</property>
-                        <property name="xalign">0</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">2</property>
+                        <child>
+                          <object class="GtkLabel" id="lbl_summary">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label">Title</property>
+                            <property name="justify">center</property>
+                            <property name="ellipsize">end</property>
+                            <property name="single_line_mode">True</property>
+                            <property name="xalign">0</property>
+                            <attributes>
+                              <attribute name="weight" value="bold"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="lbl_body">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="valign">center</property>
+                            <property name="label">Message</property>
+                            <property name="justify">left</property>
+                            <property name="wrap">True</property>
+                            <property name="wrap-mode">word-char</property>
+                            <property name="ellipsize">end</property>
+                            <property name="lines">3</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -144,18 +156,27 @@
                     <property name="position">1</property>
                   </packing>
                 </child>
+                <style>
+                  <class name="message-area"/>
+                </style>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="box_actions">
+            <property name="visible">True</property>
+            <property name="orientation">vertical</property>
+            <property name="valign">end</property>
             <style>
-              <class name="content"/>
+              <class name="linked"/>
+              <class name="actions-area"/>
             </style>
           </object>
         </child>
+        <style>
+          <class name="content"/>
+        </style>
       </object>
     </child>
   </template>

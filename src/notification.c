@@ -24,12 +24,13 @@ enum {
   PROP_APP_ICON,
   PROP_APP_INFO,
   PROP_IMAGE,
+  PROP_ACTIONS,
   LAST_PROP
 };
 static GParamSpec *props[LAST_PROP];
 
 enum {
-  SIGNAL_DISMISSED,
+  SIGNAL_ACTIONED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS];
@@ -43,9 +44,11 @@ typedef struct _PhoshNotification
   GtkWidget *lbl_body;
   GtkWidget *img_icon;
   GtkWidget *img_image;
+  GtkWidget *box_actions;
   GIcon     *icon;
   GIcon     *image;
   GAppInfo  *info;
+  GStrv      actions;
 } PhoshNotification;
 
 G_DEFINE_TYPE(PhoshNotification, phosh_notification, PHOSH_TYPE_LAYER_SURFACE)
@@ -77,6 +80,9 @@ phosh_notification_set_property (GObject      *object,
     break;
   case PROP_IMAGE:
     phosh_notification_set_image (self, g_value_get_object (value));
+    break;
+  case PROP_ACTIONS:
+    phosh_notification_set_actions (self, g_value_get_boxed (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -112,6 +118,9 @@ phosh_notification_get_property (GObject    *object,
   case PROP_IMAGE:
     g_value_set_object (value, self->image);
     break;
+  case PROP_ACTIONS:
+    g_value_set_boxed (value, self->actions);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -120,11 +129,12 @@ phosh_notification_get_property (GObject    *object,
 
 
 static gboolean
-evbox_button_press_event_cb (PhoshNotification *self, GdkEventButton *event)
+activate_notification (PhoshNotification *self, GdkEventButton *event)
 {
   g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), FALSE);
 
-  g_signal_emit(self, signals[SIGNAL_DISMISSED], 0);
+  g_signal_emit (self, signals[SIGNAL_ACTIONED], 0, "default");
+
   return FALSE;
 }
 
@@ -137,6 +147,7 @@ phosh_notification_finalize (GObject *object)
   g_clear_object (&self->icon);
   g_clear_object (&self->image);
   g_clear_object (&self->info);
+  g_clear_pointer (&self->actions, g_strfreev);
 
   G_OBJECT_CLASS (phosh_notification_parent_class)->finalize (object);
 }
@@ -206,17 +217,28 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
       G_TYPE_ICON,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+  props[PROP_ACTIONS] =
+    g_param_spec_boxed (
+      "actions",
+      "Actions",
+      "Notification actions",
+      G_TYPE_STRV,
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
   /**
-   * PhoshNotifiation::dismissed:
+   * PhoshNotifiation::actioned:
    *
-   * Notification is dismissed by the user and can be closed
+   * When the user activates one of the provided actions (inc default)
    */
-  signals[SIGNAL_DISMISSED] = g_signal_new ("dismissed",
-                                            G_TYPE_FROM_CLASS (klass),
-                                            G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-                                            NULL, G_TYPE_NONE, 0);
+  signals[SIGNAL_ACTIONED] = g_signal_new ("actioned",
+                                           G_TYPE_FROM_CLASS (klass),
+                                           G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+                                           NULL,
+                                           G_TYPE_NONE,
+                                           1,
+                                           G_TYPE_STRING);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/notification.ui");
@@ -225,15 +247,46 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshNotification, lbl_body);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotification, img_icon);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotification, img_image);
-  gtk_widget_class_bind_template_callback (widget_class, evbox_button_press_event_cb);
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotification, box_actions);
+
+  gtk_widget_class_bind_template_callback (widget_class, activate_notification);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-notification");
 }
 
+static void
+action_activate (GSimpleAction *action,
+                 GVariant      *parameter,
+                 gpointer       data)
+{
+  const char *target;
+
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (data));
+
+  target = g_variant_get_string (parameter, NULL);
+
+  g_signal_emit (data, signals[SIGNAL_ACTIONED], 0, target);
+}
+
+static GActionEntry entries[] =
+{
+  { "activate", action_activate, "s", NULL, NULL },
+};
 
 static void
 phosh_notification_init (PhoshNotification *self)
 {
+  g_autoptr (GActionMap) map = NULL;
+  
+  map = G_ACTION_MAP (g_simple_action_group_new ());
+  g_action_map_add_action_entries (map,
+                                   entries,
+                                   G_N_ELEMENTS (entries),
+                                   self);
+  gtk_widget_insert_action_group (GTK_WIDGET (self),
+                                  "noti",
+                                  G_ACTION_GROUP (map));
+
   gtk_widget_init_template (GTK_WIDGET (self));
 }
 
@@ -244,7 +297,8 @@ phosh_notification_new (const char *app_name,
                         const char *summary,
                         const char *body,
                         GIcon      *icon,
-                        GIcon      *image)
+                        GIcon      *image,
+                        GStrv       actions)
 {
   PhoshWayland *wl = phosh_wayland_get_default ();
   PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
@@ -256,6 +310,7 @@ phosh_notification_new (const char *app_name,
                        "app-icon", icon,
                        "app-info", info,
                        "image", image,
+                       "actions", actions,
                        /* layer surface */
                        "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(wl),
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP,
@@ -376,4 +431,52 @@ phosh_notification_set_app_name (PhoshNotification *self, const gchar *app_name)
   }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_NAME]);
+}
+
+void
+phosh_notification_set_actions (PhoshNotification *self,
+                                GStrv              actions)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+
+  g_clear_pointer (&self->actions, g_strfreev);
+
+  gtk_container_foreach (GTK_CONTAINER (self->box_actions),
+                         (GtkCallback) gtk_widget_destroy,
+                         NULL);
+
+  for (int i = 0; actions[i] != NULL; i += 2) {
+    GtkWidget *btn;
+    GtkWidget *lbl;
+
+    // The default action is already trigged by the notification body
+    if (g_strcmp0 (actions[i], "default") == 0) {
+      continue;
+    }
+
+    if (actions[i + 1] == NULL) {
+      g_warning ("Expected action label at %i, got NULL", i);
+
+      break;
+    }
+
+    lbl = g_object_new (GTK_TYPE_LABEL,
+                        "label", actions[i + 1],
+                        "xalign", 0.0,
+                        "visible", TRUE,
+                        NULL);
+
+    btn = g_object_new (GTK_TYPE_BUTTON,
+                        "action-name", "noti.activate",
+                        "action-target", g_variant_new_string (actions[i]),
+                        "visible", TRUE,
+                        NULL);
+    gtk_container_add (GTK_CONTAINER (btn), lbl);
+
+    gtk_container_add (GTK_CONTAINER (self->box_actions), btn);
+  }
+
+  self->actions = g_boxed_copy (G_TYPE_STRV, actions);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACTIONS]);
 }
