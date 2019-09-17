@@ -301,7 +301,9 @@ phosh_notification_new (const char *app_name,
                         GStrv       actions)
 {
   PhoshWayland *wl = phosh_wayland_get_default ();
-  PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
+  int width = 360;
+  phosh_shell_get_usable_area (phosh_shell_get_default (),
+                               NULL, NULL, &width, NULL);
 
   return g_object_new (PHOSH_TYPE_NOTIFICATION,
                        "app_name", app_name,
@@ -315,7 +317,7 @@ phosh_notification_new (const char *app_name,
                        "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(wl),
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP,
                        "height", 50,
-                       "width", MIN (monitor->width, 450),
+                       "width", MIN (width, 450),
                        "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                        "kbd-interactivity", FALSE,
                        "exclusive-zone", 0,
