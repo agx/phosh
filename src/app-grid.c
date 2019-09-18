@@ -247,6 +247,9 @@ search_activated (GtkSearchEntry *entry,
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GtkFlowBoxChild *child;
 
+  if (!gtk_widget_has_focus (GTK_WIDGET (entry)))
+    return;
+
   // Don't activate when there isn't an active search
   if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))) < 1) {
     return;
