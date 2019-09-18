@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Med
-Exec=med
+Exec=echo med
 # Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 Icon=org.gnome.zbrown.Med
 # Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!

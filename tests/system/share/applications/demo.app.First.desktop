@@ -1,0 +1,27 @@
+[Desktop Entry]
+Name[da]=Terminal
+Name[en_GB]=Terminal
+Name[es]=Terminal
+Name[fi]=Pääte
+Name[hu]=Terminál
+Name[pl]=Terminal
+Name[pt_BR]=Terminal
+Name=Terminal
+Exec=echo kgx
+# Translators: Do NOT translate or transliterate this text (this is an icon file name)!
+Icon=org.gnome.zbrown.KingsCross.Generic
+# Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+Keywords[da]=kommando;prompt;cmd;kommandolinje;kør;skal;terminal;rdg;
+Keywords[en_GB]=command;prompt;cmd;commandline;run;shell;terminal;kgx;
+Keywords[es]=comando;prompt;cmd;línea;ejecutar;shell;terminal;kgx;
+Keywords[fi]=command;prompt;cmd;commandline;run;shell;terminal;kgx;pääte;terminaali;komentorivi;
+Keywords[hu]=parancs;bekérés;cmd;parancssor;futtatás;parancsértelmező;terminál;kgx;
+Keywords[pl]=powłoka;shell;prompt;polecenie;komenda;wiersz poleceń;linia poleceń;wiersz komend;linia komend;cmd;konsola;terminal;kgx;kings cross;
+Keywords[pt_BR]=comando;command;prompt;cmd;linha de comando;commandline;executar;run;shell;terminal;kgx;
+Keywords=command;prompt;cmd;commandline;run;shell;terminal;kgx;
+Terminal=false
+Type=Application
+Categories=System;TerminalEmulator;X-GNOME-Utilities;GTK;GNOME;
+StartupNotify=true
+DBusActivatable=true
+X-GNOME-UsesNotifications=true

@@ -146,14 +146,19 @@ test_phosh_app_grid_button_menu (void)
   GtkWidget *btn;
   gboolean is_favourite;
   g_autoptr (GAppInfo) info = NULL;
-  g_autofree char *filename = NULL;
   GActionGroup *actions;
+  GList *apps = g_app_info_get_all ();
+
+  g_message ("~~~~~~~~");
+  while (apps) {
+    g_message ("%p %s", apps->data, g_app_info_get_id (G_APP_INFO (apps->data)));
+    apps = g_list_next (apps);
+  }
+  g_message ("~~~~~~~~");
 
   list = phosh_favourite_list_model_get_default ();
 
-  filename = g_test_build_filename (G_TEST_DIST, "sm.puri.TestData.desktop", NULL);
-
-  info = G_APP_INFO (g_desktop_app_info_new_from_filename (filename));
+  info = G_APP_INFO (g_desktop_app_info_new ("demo.app.Second.desktop"));
 
   btn = phosh_app_grid_button_new (info);
 
@@ -184,15 +189,11 @@ test_phosh_app_grid_button_is_favourite (void)
   gboolean is_favourite;
   g_autoptr (GSettings) settings = NULL;
   g_autoptr (GAppInfo) info = NULL;
-  g_autofree char *filename = NULL;
   GtkWidget *btn;
 
   list = phosh_favourite_list_model_get_default ();
 
-  // Load a file so that _get_id is non-NULL
-  filename = g_test_build_filename (G_TEST_DIST, "sm.puri.TestData.desktop", NULL);
-
-  info = G_APP_INFO (g_desktop_app_info_new_from_filename (filename));
+  info = G_APP_INFO (g_desktop_app_info_new ("demo.app.Second.desktop"));
 
   // Clear all favourites
   settings = g_settings_new ("sm.puri.phosh");

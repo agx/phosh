@@ -52,6 +52,7 @@ libphosh_sources = [
   'util.c',
   'util.h',
   phosh_gtk_list_models_sources,
+  libphosh_generated_sources,
 ]
 
 phosh_sources = [

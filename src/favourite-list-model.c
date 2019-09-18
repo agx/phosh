@@ -207,7 +207,7 @@ phosh_favourite_list_model_add_app (PhoshFavouriteListModel *self,
   PhoshFavouriteListModelPrivate *priv = phosh_favourite_list_model_get_instance_private (list);
   const char *id;
   int old_length = 0;
-  g_auto(GStrv) new_favourites = NULL;
+  g_auto (GStrv) new_favourites = NULL;
 
   g_return_if_fail (G_IS_APP_INFO (app));
 
@@ -221,7 +221,7 @@ phosh_favourite_list_model_add_app (PhoshFavouriteListModel *self,
 
   old_length = g_strv_length (priv->items_inc_missing);
 
-  new_favourites = g_new (char *, old_length + 2);
+  new_favourites = g_new0 (char *, old_length + 2);
 
   for (int i = 0; i < old_length; i++) {
     // Avoid having the same favourite twice

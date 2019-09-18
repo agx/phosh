@@ -1,19 +1,22 @@
 if get_option('tests')
 
-test_env = [
-  'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
-  'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
-  'G_DEBUG=gc-friendly,fatal-warnings',
-  'GSETTINGS_BACKEND=memory',
-  'GSETTINGS_SCHEMA_DIR=@0@/data'.format(meson.build_root()),
-  'PYTHONDONTWRITEBYTECODE=yes',
-  'MALLOC_CHECK_=2',
-]
+subdir('system')
+subdir('user')
+
+test_env = environment()
+test_env.set('G_TEST_SRCDIR', meson.current_source_dir())
+test_env.set('G_TEST_BUILDDIR', meson.current_build_dir())
+test_env.set('G_DEBUG', 'gc-friendly,fatal-warnings')
+test_env.set('GSETTINGS_BACKEND', 'memory')
+test_env.set('GSETTINGS_SCHEMA_DIR', '@0@/data'.format(meson.build_root()))
+test_env.set('PYTHONDONTWRITEBYTECODE', 'yes')
+test_env.set('MALLOC_CHECK_', '2')
+test_env.set('XDG_CONFIG_HOME', '@0@/user/config/'.format(meson.current_source_dir()))
+test_env.set('XDG_CONFIG_DIRS', '@0@/system/config/'.format(meson.current_source_dir()))
+test_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
+test_env.set('XDG_DATA_DIRS', '@0@/system/share/'.format(meson.current_source_dir()))
 
 test_cflags = [
-  '-I@0@/../src'.format(meson.current_source_dir()),
-  '-I@0@/../src'.format(meson.current_build_dir()),
-  '-I@0@/../src/dbus'.format(meson.current_build_dir()),
   '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
 ]
 
@@ -33,6 +36,7 @@ tests = [
   'app-grid-button',
   'app-list-model',
   'overview',
+  'favourite-model',
 ]
 
 # Unit tests
