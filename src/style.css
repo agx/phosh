@@ -43,12 +43,12 @@
 
 /* Favorites / Home screen */
 phosh-activity {
-    background: rgba(255,255,255,0.8);
+    background: white;
     border: none;
     border-radius: 0;
     background: url('resource:///sm/puri/phosh/fake-app.svg');
     background-size: cover;
-    box-shadow: 0 2px 2px rgba(0,0,0,0.4), 0 3px 16px rgba(0,0,0,0.3);
+    /* box-shadow: 0 2px 2px rgba(0,0,0,0.4), 0 3px 16px rgba(0,0,0,0.3); */
 }
 
 phosh-activity box {
@@ -86,7 +86,6 @@ phosh-home, .phosh-panel {
     border: none;
     box-shadow: none;
     padding: 0;
-    -gtk-icon-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 1px 8px rgba(0,0,0,0.2);
 }
 
 .phosh-favorite:hover {
@@ -152,11 +151,11 @@ hdydialer button:focus {
 
 /* switcher */
 phosh-overview {
-    background: rgba(0,0,0,0.6);
+    background: black;
 }
 
 phosh-app-grid {
-    background: rgba(0,0,0,0.4);
+    background: black;
 }
 
 phosh-app-grid separator {
