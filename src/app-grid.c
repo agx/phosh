@@ -22,6 +22,7 @@ struct _PhoshAppGridPrivate {
   GtkWidget *search;
   GtkWidget *apps;
   GtkWidget *favs;
+  GtkWidget *favs_revealer;
   GtkWidget *scrolled_window;
 
   GSettings *settings;
@@ -226,11 +227,11 @@ search_changed (GtkSearchEntry *entry,
   GtkAdjustment *adjustment;
 
   if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))) > 0) {
-    gtk_widget_hide (priv->favs);
+    gtk_revealer_set_reveal_child (GTK_REVEALER (priv->favs_revealer), FALSE);
     gtk_style_context_add_class (gtk_widget_get_style_context (priv->apps),
                                  ACTIVE_SEARCH_CLASS);
   } else {
-    gtk_widget_show (priv->favs);
+    gtk_revealer_set_reveal_child (GTK_REVEALER (priv->favs_revealer), TRUE);
     adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->scrolled_window));
     gtk_adjustment_set_value (adjustment, 0);
     gtk_style_context_remove_class (gtk_widget_get_style_context (priv->apps),
@@ -309,6 +310,7 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, search);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, apps);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs_revealer);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, scrolled_window);
 
   gtk_widget_class_bind_template_callback (widget_class, search_changed);
