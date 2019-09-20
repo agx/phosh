@@ -49,15 +49,14 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
-                    <property name="spacing">6</property>
-                    <property name="margin_top">6</property>
                     <child>
                       <object class="GtkFlowBox" id="favs">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">3</property>
                         <property name="margin_right">3</property>
-                        <property name="margin_bottom">3</property>
+                        <property name="margin_top">18</property>
+                        <property name="margin_bottom">18</property>
                         <property name="hexpand">True</property>
                         <property name="homogeneous">True</property>
                         <property name="selection_mode">none</property>
@@ -92,7 +91,7 @@
               <object class="GtkFlowBox" id="apps">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_top">12</property>
+                <property name="margin_top">18</property>
                 <property name="margin_left">3</property>
                 <property name="margin_right">3</property>
                 <property name="margin_bottom">3</property>
