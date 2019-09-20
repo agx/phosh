@@ -105,7 +105,7 @@ search_apps (gpointer item, gpointer data)
   g_return_val_if_fail (priv != NULL, TRUE);
   g_return_val_if_fail (priv->search != NULL, TRUE);
 
-  search = gtk_entry_get_text (GTK_ENTRY (priv->search));
+  search = g_utf8_casefold (gtk_entry_get_text (GTK_ENTRY (priv->search)), -1);
 
   /* filter out favorites when not searching */
   if (search == NULL || strlen (search) == 0) {
@@ -115,16 +115,16 @@ search_apps (gpointer item, gpointer data)
     return TRUE;
   }
 
-  if ((str = g_app_info_get_display_name (info)) && strstr (str, search))
+  if ((str = g_app_info_get_display_name (info)) && strstr (g_utf8_casefold (str, -1), search))
     return TRUE;
 
-  if ((str = g_app_info_get_name (info)) && strstr (str, search))
+  if ((str = g_app_info_get_name (info)) && strstr (g_utf8_casefold (str, -1), search))
     return TRUE;
 
-  if ((str = g_app_info_get_description (info)) && strstr (str, search))
+  if ((str = g_app_info_get_description (info)) && strstr (g_utf8_casefold (str, -1), search))
     return TRUE;
 
-  if ((str = g_app_info_get_executable (info)) && strstr (str, search))
+  if ((str = g_app_info_get_executable (info)) && strstr (g_utf8_casefold (str, -1), search))
     return TRUE;
 
   if (G_IS_DESKTOP_APP_INFO (info)) {
@@ -132,18 +132,18 @@ search_apps (gpointer item, gpointer data)
     int i = 0;
 
     if ((str = g_desktop_app_info_get_generic_name (G_DESKTOP_APP_INFO (info))) &&
-         strstr (str, search))
+         strstr (g_utf8_casefold (str, -1), search))
       return TRUE;
 
     if ((str = g_desktop_app_info_get_categories (G_DESKTOP_APP_INFO (info))) &&
-         strstr (str, search))
+         strstr (g_utf8_casefold (str, -1), search))
       return TRUE;
 
     kwds = g_desktop_app_info_get_keywords (G_DESKTOP_APP_INFO (info));
 
     if (kwds) {
       while ((str = kwds[i])) {
-        if (strstr (str, search))
+        if (strstr (g_utf8_casefold (str, -1), search))
           return TRUE;
         i++;
       }
