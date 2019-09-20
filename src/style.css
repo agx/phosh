@@ -160,8 +160,8 @@ phosh-app-grid {
 }
 
 phosh-app-grid separator {
-    background: gray;
-    padding: 1px;
+    background: rgba(51, 51, 51, 1);
+    min-height: 2px
 }
 
 phosh-app-grid-button {
