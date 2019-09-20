@@ -437,7 +437,7 @@ phosh_notification_set_app_info (PhoshNotification *self,
     self->info = g_object_ref (info);
 
     icon = g_app_info_get_icon (info);
-    name = g_app_info_get_display_name (info);
+    name = g_app_info_get_name (info);
 
     phosh_notification_set_app_icon (self, icon);
     phosh_notification_set_app_name (self, name);

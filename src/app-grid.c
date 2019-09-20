@@ -87,8 +87,8 @@ sort_apps (gconstpointer a,
   GAppInfo *info1 = G_APP_INFO (a);
   GAppInfo *info2 = G_APP_INFO (b);
 
-  g_autofree gchar *s1 = g_utf8_casefold (g_app_info_get_display_name (info1), -1);
-  g_autofree gchar *s2 = g_utf8_casefold (g_app_info_get_display_name (info2), -1);
+  g_autofree gchar *s1 = g_utf8_casefold (g_app_info_get_name (info1), -1);
+  g_autofree gchar *s2 = g_utf8_casefold (g_app_info_get_name (info2), -1);
 
   return g_strcmp0 (s1, s2);
 }

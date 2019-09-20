@@ -198,7 +198,7 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
 
   if (info) {
     priv->info = g_object_ref (info);
-    name = g_app_info_get_display_name (G_APP_INFO (priv->info));
+    name = g_app_info_get_name (G_APP_INFO (priv->info));
     gtk_label_set_label (GTK_LABEL (priv->label), name);
     icon = g_app_info_get_icon (priv->info);
     gtk_image_set_from_gicon (GTK_IMAGE (priv->icon),
