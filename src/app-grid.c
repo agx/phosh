@@ -271,7 +271,7 @@ search_activated (GtkSearchEntry *entry,
   }
 }
 
-static void
+static gboolean
 search_lost_focus (GtkWidget    *widget,
                    GdkEvent     *event,
                    PhoshAppGrid *self)
@@ -280,9 +280,11 @@ search_lost_focus (GtkWidget    *widget,
 
   gtk_style_context_remove_class (gtk_widget_get_style_context (priv->apps),
                                   ACTIVE_SEARCH_CLASS);
+
+  return GDK_EVENT_PROPAGATE;
 }
 
-static void
+static gboolean
 search_gained_focus (GtkWidget    *widget,
                      GdkEvent     *event,
                      PhoshAppGrid *self)
@@ -293,6 +295,8 @@ search_gained_focus (GtkWidget    *widget,
     gtk_style_context_add_class (gtk_widget_get_style_context (priv->apps),
                                  ACTIVE_SEARCH_CLASS);
   }
+
+  return GDK_EVENT_PROPAGATE;
 }
 
 static void
