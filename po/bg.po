@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-26 13:58+0200\n"
+"POT-Creation-Date: 2019-09-24 01:38+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,17 +28,21 @@ msgstr ""
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/lockscreen.c:84 src/ui/lockscreen.ui:62
+#: src/app-grid-button.c:209
+msgid "Application"
+msgstr ""
+
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:239
 msgid "Enter Passcode"
 msgstr ""
 
-#: src/lockscreen.c:176
+#: src/lockscreen.c:214
 msgid "Checking..."
 msgstr ""
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:255
+#: src/lockscreen.c:286
 msgid "%A, %B %d"
 msgstr ""
 
@@ -50,6 +54,10 @@ msgstr "Вграден дисплей"
 #: src/monitor-manager.c:57
 msgid "Unknown"
 msgstr "Неизвестна"
+
+#: src/notification.c:510
+msgid "Notification"
+msgstr ""
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -64,7 +72,7 @@ msgstr ""
 msgid "Sorry, that didn’t work. Please try again."
 msgstr ""
 
-#: src/polkit-auth-prompt.c:460
+#: src/polkit-auth-prompt.c:488
 msgid "Authenticate"
 msgstr ""
 
@@ -76,7 +84,11 @@ msgstr "Паролите не съвпадат."
 msgid "Password cannot be blank"
 msgstr "Паролата не може да бъде празна"
 
-#: src/ui/lockscreen.ui:100
+#: src/ui/app-grid-button.ui:48
+msgid "App"
+msgstr ""
+
+#: src/ui/lockscreen.ui:35
 msgid "Slide up to unlock"
 msgstr "Плъзнете нагоре за да отключите"
 

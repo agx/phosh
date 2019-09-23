@@ -2,7 +2,7 @@
 <config xmlns="http://zanata.org/namespace/config/">
   <url>https://translate.zanata.org/</url>
   <project>phosh</project>
-  <project-version>0.0.1</project-version>
+  <project-version>0.1.0</project-version>
   <project-type>gettext</project-type>
   <trans-dir>.</trans-dir>
 </config>

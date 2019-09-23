@@ -1,34 +1,32 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the phosh package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Cristovão Osório de Aragão Gomes Ferreira <eu@cristovao-gomes-ferreira.pt>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-24 01:38+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-07-28 11:47+0000\n"
+"Last-Translator: Cristovão Osório de Aragão Gomes Ferreira <eu@cristovao-"
+"gomes-ferreira.pt>\n"
+"Language-Team: Portuguese (Portugal)\n"
+"Language: pt_PT\n"
+"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr ""
+msgstr "Interface do telemóvel"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr ""
+msgstr "Gestão de janelas e lançamento de aplicações para telemóveis"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
 msgid "Phosh"
-msgstr ""
+msgstr "Phosh"
 
 #: src/app-grid-button.c:209
 msgid "Application"
@@ -36,11 +34,11 @@ msgstr ""
 
 #: src/lockscreen.c:84 src/ui/lockscreen.ui:239
 msgid "Enter Passcode"
-msgstr ""
+msgstr "Introduza o código"
 
 #: src/lockscreen.c:214
 msgid "Checking..."
-msgstr ""
+msgstr "A verificar..."
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -50,12 +48,12 @@ msgstr ""
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
-msgstr ""
+msgstr "Ecrã integrado"
 
 #. Translators: An unknown monitor type
 #: src/monitor-manager.c:57
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #: src/notification.c:510
 msgid "Notification"
@@ -63,28 +61,28 @@ msgstr ""
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
-msgstr ""
+msgstr "A janela de autenticação foi fechada pelo utilizador"
 
 #: src/polkit-auth-prompt.c:276 src/ui/polkit-auth-prompt.ui:41
 #: src/ui/system-prompt.ui:39
 msgid "Password:"
-msgstr ""
+msgstr "Palavra-passe:"
 
 #: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
-msgstr ""
+msgstr "Desculpe, não funcionou. Por favor, tente outra vez."
 
 #: src/polkit-auth-prompt.c:488
 msgid "Authenticate"
-msgstr ""
+msgstr "Autenticar"
 
 #: src/system-prompt.c:370
 msgid "Passwords do not match."
-msgstr ""
+msgstr "As palavras-passe não batem certo."
 
 #: src/system-prompt.c:377
 msgid "Password cannot be blank"
-msgstr ""
+msgstr "A palavra-passe não pode ficar vazia"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
@@ -92,16 +90,16 @@ msgstr ""
 
 #: src/ui/lockscreen.ui:35
 msgid "Slide up to unlock"
-msgstr ""
+msgstr "Deslizar para cima para destrancar"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
-msgstr ""
+msgstr "Utilizador:"
 
 #: src/ui/settings-menu.ui:92
 msgid "Rotation"
-msgstr ""
+msgstr "Rotação"
 
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
-msgstr ""
+msgstr "Confirmar:"
