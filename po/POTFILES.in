@@ -30,9 +30,13 @@ src/util.c
 src/wifiinfo.c
 src/wifimanager.c
 src/wwaninfo.c
-src/ui/overview.ui
+src/ui/activity.ui
+src/ui/app-grid-button.ui
+src/ui/app-grid.ui
 src/ui/home.ui
 src/ui/lockscreen.ui
+src/ui/notification.ui
+src/ui/overview.ui
 src/ui/polkit-auth-prompt.ui
 src/ui/settings-menu.ui
 src/ui/system-prompt.ui
