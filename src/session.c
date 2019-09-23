@@ -32,18 +32,18 @@ static GDBusProxy *_proxy;
 static void
 respond_to_end_session (GDBusProxy *proxy)
 {
-        /* we must answer with "EndSessionResponse" */
-        g_dbus_proxy_call (proxy, "EndSessionResponse",
-                           g_variant_new ("(bs)", TRUE, ""),
-                           G_DBUS_CALL_FLAGS_NONE,
-                           -1, NULL, NULL, NULL);
+  /* we must answer with "EndSessionResponse" */
+  g_dbus_proxy_call (proxy, "EndSessionResponse",
+                     g_variant_new ("(bs)", TRUE, ""),
+                     G_DBUS_CALL_FLAGS_NONE,
+                     -1, NULL, NULL, NULL);
 }
 
 
 static void
 do_stop (void)
 {
-        gtk_main_quit ();
+  gtk_main_quit ();
 }
 
 
@@ -54,16 +54,16 @@ client_proxy_signal_cb (GDBusProxy *proxy,
                         GVariant *parameters,
                         gpointer user_data)
 {
-        if (g_strcmp0 (signal_name, "QueryEndSession") == 0) {
-                g_debug ("Got QueryEndSession signal");
-                respond_to_end_session (proxy);
-        } else if (g_strcmp0 (signal_name, "EndSession") == 0) {
-                g_debug ("Got EndSession signal");
-                respond_to_end_session (proxy);
-        } else if (g_strcmp0 (signal_name, "Stop") == 0) {
-                g_debug ("Got Stop signal");
-                do_stop ();
-        }
+  if (g_strcmp0 (signal_name, "QueryEndSession") == 0) {
+    g_debug ("Got QueryEndSession signal");
+    respond_to_end_session (proxy);
+  } else if (g_strcmp0 (signal_name, "EndSession") == 0) {
+    g_debug ("Got EndSession signal");
+    respond_to_end_session (proxy);
+  } else if (g_strcmp0 (signal_name, "Stop") == 0) {
+    g_debug ("Got Stop signal");
+    do_stop ();
+  }
 }
 
 
