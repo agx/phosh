@@ -24,6 +24,7 @@
 
 #include "batteryinfo.h"
 #include "background-manager.h"
+#include "fader.h"
 #include "home.h"
 #include "idle-manager.h"
 #include "lockscreen-manager.h"
@@ -63,6 +64,7 @@ typedef struct
 {
   PhoshLayerSurface *panel;
   PhoshLayerSurface *home;
+  GPtrArray *faders;              /* for final fade out */
   struct popup *settings;
 
   PhoshBackgroundManager *background_manager;
@@ -313,6 +315,7 @@ panels_dispose (PhoshShell *self)
 
   g_clear_pointer (&priv->panel, phosh_cp_widget_destroy);
   g_clear_pointer (&priv->home, phosh_cp_widget_destroy);
+  g_clear_pointer (&priv->faders, g_ptr_array_unref);
 }
 
 
@@ -514,6 +517,7 @@ phosh_shell_constructed (GObject *object)
   priv->idle_manager = phosh_idle_manager_get_default();
 
   priv->toplevel_manager = phosh_toplevel_manager_new ();
+  priv->faders = g_ptr_array_new_with_free_func ((GDestroyNotify) (gtk_widget_destroy));
 
   phosh_session_register ("sm.puri.Phosh");
   phosh_system_prompter_register ();
@@ -780,4 +784,26 @@ phosh_shell_get_default (void)
     g_object_add_weak_pointer (G_OBJECT (instance), (gpointer *)&instance);
   }
   return instance;
+}
+
+void
+phosh_shell_fade_out (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+  PhoshWayland *wl = phosh_wayland_get_default ();
+  PhoshMonitorManager *monitor_manager = phosh_shell_get_monitor_manager (self);
+
+  g_debug ("Fading out...");
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  priv = phosh_shell_get_instance_private (self);
+
+  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
+    PhoshFader *fader;
+    PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
+
+    fader = phosh_fader_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
+                             monitor->wl_output);
+    g_ptr_array_add (priv->faders, fader);
+    gtk_widget_show (GTK_WIDGET (fader));
+  }
 }

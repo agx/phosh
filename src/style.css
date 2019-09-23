@@ -227,3 +227,17 @@ phosh-notification .actions-area button:last-child {
 phosh-notification .notification-image {
   border-radius: 50%;
 }
+
+/* fader */
+@keyframes phosh-fade-in {
+    from {background:rgba(0, 0, 0, 0);}
+    to {background:rgba(0, 0, 0, 0.8);}
+}
+
+.phosh-fader-fade-in {
+    animation-name: phosh-fade-in;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}

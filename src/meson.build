@@ -57,6 +57,8 @@ phosh_sources = [
   'background.h',
   'batteryinfo.c',
   'batteryinfo.h',
+  'fader.c',
+  'fader.h',
   'home.c',
   'home.h',
   'idle-manager.c',
