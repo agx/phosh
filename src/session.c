@@ -9,6 +9,7 @@
 #define G_LOG_DOMAIN "phosh-session"
 
 #include "session.h"
+#include "shell.h"
 
 #include <gio/gio.h>
 #include <gtk/gtk.h>
@@ -32,6 +33,7 @@ static GDBusProxy *_proxy;
 static void
 respond_to_end_session (GDBusProxy *proxy)
 {
+  phosh_shell_fade_out (phosh_shell_get_default ());
   /* we must answer with "EndSessionResponse" */
   g_dbus_proxy_call (proxy, "EndSessionResponse",
                      g_variant_new ("(bs)", TRUE, ""),
