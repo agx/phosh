@@ -16,10 +16,21 @@
 
 
 static gboolean
-sigterm_cb (gpointer unused)
+quit (gpointer unused)
 {
   g_debug ("Cleaning up");
   gtk_main_quit ();
+
+  return G_SOURCE_REMOVE;
+}
+
+
+static gboolean
+sigterm_cb (gpointer unused)
+{
+  phosh_shell_fade_out (phosh_shell_get_default ());
+  g_timeout_add_seconds (2, (GSourceFunc)quit, NULL);
+
   return FALSE;
 }
 
