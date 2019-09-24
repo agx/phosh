@@ -32,6 +32,7 @@
 enum {
   PHOSH_WIFI_MANAGER_PROP_0,
   PHOSH_WIFI_MANAGER_PROP_ICON_NAME,
+  PHOSH_WIFI_MANAGER_PROP_SSID,
   PHOSH_WIFI_MANAGER_PROP_LAST_PROP
 };
 static GParamSpec *props[PHOSH_WIFI_MANAGER_PROP_LAST_PROP];
@@ -47,6 +48,7 @@ struct _PhoshWifiManager
   gboolean           have_wifi_dev;
 
   gchar              *icon_name;
+  gchar              *ssid;
 
   NMClient           *nmclient;
   /* The access point we're connected to */
@@ -99,6 +101,9 @@ phosh_wifi_manager_get_property (GObject *object,
   case PHOSH_WIFI_MANAGER_PROP_ICON_NAME:
     g_value_set_string (value, self->icon_name);
     break;
+  case PHOSH_WIFI_MANAGER_PROP_SSID:
+    g_value_set_string (value, self->ssid);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -126,6 +131,8 @@ static void
 on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self, GParamSpec *pspec, NMDeviceWifi *dev)
 {
   NMAccessPoint *old_ap;
+  GBytes *ssid;
+  g_autofree gchar *old_ssid = NULL;
 
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
   g_return_if_fail (NM_IS_DEVICE_WIFI (dev));
@@ -148,10 +155,21 @@ on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self, GParamSpe
     g_object_unref (old_ap);
   }
 
+  old_ssid = self->ssid;
+  self->ssid = NULL;
+
   if(self->ap) {
     g_signal_connect_swapped (self->ap, "notify::strength",
                               G_CALLBACK (on_nm_access_point_strength_changed), self);
     on_nm_access_point_strength_changed (self, NULL, self->ap);
+
+    ssid = nm_access_point_get_ssid (self->ap);
+    self->ssid = nm_utils_ssid_to_utf8 (g_bytes_get_data (ssid, NULL), g_bytes_get_size (ssid));
+    g_debug ("Wifi network name was set to '%s'", self->ssid);
+  }
+
+  if (g_strcmp0 (self->ssid, old_ssid) != 0) {
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_SSID]);
   }
 }
 
@@ -535,6 +553,14 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
                          "The wifi icon name",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PHOSH_WIFI_MANAGER_PROP_SSID] =
+    g_param_spec_string ("ssid",
+                         "ssid",
+                         "The wifis ssid, if connected",
+                         NULL,
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+
   g_object_class_install_properties (object_class, PHOSH_WIFI_MANAGER_PROP_LAST_PROP, props);
 }
 
@@ -569,4 +595,13 @@ phosh_wifi_manager_get_icon_name (PhoshWifiManager *self)
   g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (self), NULL);
 
   return self->icon_name;
+}
+
+
+const gchar*
+phosh_wifi_manager_get_ssid (PhoshWifiManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (self), NULL);
+
+  return self->ssid;
 }
