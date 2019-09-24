@@ -99,7 +99,7 @@ phosh-home, .phosh-panel {
 .phosh-search-bar {
     border-radius: 9999px;
     padding: 3px 18px 3px 14px;
-    margin: 0 10px;
+    margin: 0 10px 6px;
 }
 
 /* Lock screen */
