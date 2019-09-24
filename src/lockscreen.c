@@ -211,7 +211,7 @@ keypad_number_notified_cb (PhoshLockscreen *self)
 
   keypad_update_labels (self);
   if (strlen (number) == phosh_auth_get_pin_length()) {
-    gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Checking..."));
+    gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Checking…"));
     gtk_widget_set_sensitive (priv->dialer_keypad, FALSE);
 
     if (priv->auth == NULL)
