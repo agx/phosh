@@ -28,7 +28,7 @@ quit (gpointer unused)
 static gboolean
 sigterm_cb (gpointer unused)
 {
-  phosh_shell_fade_out (phosh_shell_get_default ());
+  phosh_shell_fade_out (phosh_shell_get_default (), 0);
   g_timeout_add_seconds (2, (GSourceFunc)quit, NULL);
 
   return FALSE;

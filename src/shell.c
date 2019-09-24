@@ -453,6 +453,21 @@ on_toplevel_added (PhoshShell *self, GParamSpec *pspec, PhoshToplevelManager *to
 
 
 static gboolean
+on_fade_out_timeout (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), G_SOURCE_REMOVE);
+
+  priv = phosh_shell_get_instance_private (self);
+
+  /* kill all faders if we time out */
+  g_clear_pointer (&priv->faders, g_ptr_array_unref);
+  return G_SOURCE_REMOVE;
+}
+
+
+static gboolean
 setup_idle_cb (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
@@ -787,7 +802,7 @@ phosh_shell_get_default (void)
 }
 
 void
-phosh_shell_fade_out (PhoshShell *self)
+phosh_shell_fade_out (PhoshShell *self, guint timeout)
 {
   PhoshShellPrivate *priv;
   PhoshWayland *wl = phosh_wayland_get_default ();
@@ -805,5 +820,7 @@ phosh_shell_fade_out (PhoshShell *self)
                              monitor->wl_output);
     g_ptr_array_add (priv->faders, fader);
     gtk_widget_show (GTK_WIDGET (fader));
+    if (timeout > 0)
+      g_timeout_add_seconds (timeout, (GSourceFunc) on_fade_out_timeout, self);
   }
 }

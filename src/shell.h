@@ -38,4 +38,4 @@ PhoshMonitorManager *phosh_shell_get_monitor_manager (PhoshShell *self);
 PhoshOskManager     *phosh_shell_get_osk_manager     (PhoshShell *self);
 PhoshToplevelManager *phosh_shell_get_toplevel_manager (PhoshShell *self);
 PhoshWifiManager    *phosh_shell_get_wifi_manager    (PhoshShell *self);
-void                 phosh_shell_fade_out (PhoshShell *self);
+void                 phosh_shell_fade_out (PhoshShell *self, guint timeout);

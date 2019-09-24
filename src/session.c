@@ -19,6 +19,8 @@
 #define GNOME_SESSION_DBUS_INTERFACE "org.gnome.SessionManager"
 #define GNOME_SESSION_CLIENT_PRIVATE_DBUS_INTERFACE "org.gnome.SessionManager.ClientPrivate"
 
+#define SESSION_SHUTDOWN_TIMEOUT 15
+
 /**
  * SECTION:phosh-session
  * @short_description: Manages gnome-session registration and shutdown
@@ -34,7 +36,7 @@ static void
 respond_to_end_session (GDBusProxy *proxy, gboolean shutdown)
 {
   if (shutdown)
-    phosh_shell_fade_out (phosh_shell_get_default ());
+    phosh_shell_fade_out (phosh_shell_get_default (), SESSION_SHUTDOWN_TIMEOUT);
   /* we must answer with "EndSessionResponse" */
   g_dbus_proxy_call (proxy, "EndSessionResponse",
                      g_variant_new ("(bs)", TRUE, ""),
