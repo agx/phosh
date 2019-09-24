@@ -31,9 +31,10 @@ static GDBusProxy *_proxy;
 
 
 static void
-respond_to_end_session (GDBusProxy *proxy)
+respond_to_end_session (GDBusProxy *proxy, gboolean shutdown)
 {
-  phosh_shell_fade_out (phosh_shell_get_default ());
+  if (shutdown)
+    phosh_shell_fade_out (phosh_shell_get_default ());
   /* we must answer with "EndSessionResponse" */
   g_dbus_proxy_call (proxy, "EndSessionResponse",
                      g_variant_new ("(bs)", TRUE, ""),
@@ -58,10 +59,10 @@ client_proxy_signal_cb (GDBusProxy *proxy,
 {
   if (g_strcmp0 (signal_name, "QueryEndSession") == 0) {
     g_debug ("Got QueryEndSession signal");
-    respond_to_end_session (proxy);
+    respond_to_end_session (proxy, FALSE);
   } else if (g_strcmp0 (signal_name, "EndSession") == 0) {
     g_debug ("Got EndSession signal");
-    respond_to_end_session (proxy);
+    respond_to_end_session (proxy, TRUE);
   } else if (g_strcmp0 (signal_name, "Stop") == 0) {
     g_debug ("Got Stop signal");
     do_stop ();
