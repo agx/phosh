@@ -94,11 +94,9 @@ authenticate (PhoshAuth *self, const gchar* number)
   }
 
   ret = pam_end(priv->pamh, ret);
-  if (ret == PAM_SUCCESS) {
-    priv->pamh = NULL;
-  } else {
-    g_warning("pam_end error %s", pam_strerror (priv->pamh, ret));
-  }
+  if (ret != PAM_SUCCESS)
+    g_warning("pam_end error %d", ret);
+  priv->pamh = NULL;
 
  out:
   return authenticated;
@@ -163,7 +161,6 @@ phosh_auth_new (void)
 {
   return g_object_new (PHOSH_TYPE_AUTH, NULL);
 }
-
 
 
 void
