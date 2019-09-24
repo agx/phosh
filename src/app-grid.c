@@ -94,13 +94,25 @@ sort_apps (gconstpointer a,
   return g_strcmp0 (s1, s2);
 }
 
+static const gchar *(*app_attr[]) (GAppInfo *info) = {
+  g_app_info_get_display_name,
+  g_app_info_get_name,
+  g_app_info_get_description,
+  g_app_info_get_executable,
+};
+
+static const gchar *(*desktop_attr[]) (GDesktopAppInfo *info) = {
+  g_desktop_app_info_get_generic_name,
+  g_desktop_app_info_get_categories,
+};
+
 static gboolean
 search_apps (gpointer item, gpointer data)
 {
   PhoshAppGrid *self = data;
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GAppInfo *info = item;
-  const char *search = NULL;
+  g_autofree gchar *search = NULL;
   const char *str = NULL;
 
   g_return_val_if_fail (priv != NULL, TRUE);
@@ -116,35 +128,45 @@ search_apps (gpointer item, gpointer data)
     return TRUE;
   }
 
-  if ((str = g_app_info_get_display_name (info)) && strstr (g_utf8_casefold (str, -1), search))
-    return TRUE;
+  for (int i = 0; i < G_N_ELEMENTS (app_attr); i++) {
+    g_autofree gchar *folded = NULL;
 
-  if ((str = g_app_info_get_name (info)) && strstr (g_utf8_casefold (str, -1), search))
-    return TRUE;
+    str = app_attr[i] (info);
 
-  if ((str = g_app_info_get_description (info)) && strstr (g_utf8_casefold (str, -1), search))
-    return TRUE;
+    if (!str || *str == '\0')
+      continue;
 
-  if ((str = g_app_info_get_executable (info)) && strstr (g_utf8_casefold (str, -1), search))
-    return TRUE;
+    folded = g_utf8_casefold (str, -1);
+
+    if (strstr (folded, search))
+      return TRUE;
+  }
 
   if (G_IS_DESKTOP_APP_INFO (info)) {
     const char * const *kwds;
-    int i = 0;
 
-    if ((str = g_desktop_app_info_get_generic_name (G_DESKTOP_APP_INFO (info))) &&
-         strstr (g_utf8_casefold (str, -1), search))
-      return TRUE;
+    for (int i = 0; i < G_N_ELEMENTS (desktop_attr); i++) {
+      g_autofree gchar *folded = NULL;
 
-    if ((str = g_desktop_app_info_get_categories (G_DESKTOP_APP_INFO (info))) &&
-         strstr (g_utf8_casefold (str, -1), search))
-      return TRUE;
+      str = desktop_attr[i] (G_DESKTOP_APP_INFO (info));
+
+      if (!str || *str == '\0')
+        continue;
+
+      folded = g_utf8_casefold (str, -1);
+
+      if (strstr (folded, search))
+        return TRUE;
+    }
 
     kwds = g_desktop_app_info_get_keywords (G_DESKTOP_APP_INFO (info));
 
     if (kwds) {
+      int i = 0;
+
       while ((str = kwds[i])) {
-        if (strstr (g_utf8_casefold (str, -1), search))
+        g_autofree gchar *folded = g_utf8_casefold (str, -1);
+        if (strstr (folded, search))
           return TRUE;
         i++;
       }
