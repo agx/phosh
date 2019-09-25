@@ -5,7 +5,7 @@
  */
 
 #include "app-grid-button.h"
-#include "favourite-list-model.h"
+#include "favorite-list-model.h"
 
 static void
 test_phosh_app_grid_button_new (void)
@@ -48,10 +48,10 @@ test_phosh_app_grid_button_new_favorite (void)
   g_assert_true (PHOSH_IS_APP_GRID_BUTTON (btn));
 
   mode = phosh_app_grid_button_get_mode (PHOSH_APP_GRID_BUTTON (btn));
-  g_assert_true (mode == PHOSH_APP_GRID_BUTTON_FAVOURITES);
+  g_assert_true (mode == PHOSH_APP_GRID_BUTTON_FAVORITES);
 
   g_object_get (btn, "mode", &mode, NULL);
-  g_assert_true (mode == PHOSH_APP_GRID_BUTTON_FAVOURITES);
+  g_assert_true (mode == PHOSH_APP_GRID_BUTTON_FAVORITES);
 
   gtk_widget_destroy (btn);
 }
@@ -103,10 +103,10 @@ test_phosh_app_grid_button_set_mode (void)
   g_assert_true (PHOSH_IS_APP_GRID_BUTTON (btn));
 
   phosh_app_grid_button_set_mode (PHOSH_APP_GRID_BUTTON (btn),
-                                  PHOSH_APP_GRID_BUTTON_FAVOURITES);
+                                  PHOSH_APP_GRID_BUTTON_FAVORITES);
 
   mode = phosh_app_grid_button_get_mode (PHOSH_APP_GRID_BUTTON (btn));
-  g_assert_true (mode == PHOSH_APP_GRID_BUTTON_FAVOURITES);
+  g_assert_true (mode == PHOSH_APP_GRID_BUTTON_FAVORITES);
 
   phosh_app_grid_button_set_mode (PHOSH_APP_GRID_BUTTON (btn),
                                   PHOSH_APP_GRID_BUTTON_LAUNCHER);
@@ -142,21 +142,13 @@ test_phosh_app_grid_button_null_app_info (void)
 static void
 test_phosh_app_grid_button_menu (void)
 {
-  PhoshFavouriteListModel *list;
+  PhoshFavoriteListModel *list;
   GtkWidget *btn;
-  gboolean is_favourite;
+  gboolean is_favorite;
   g_autoptr (GAppInfo) info = NULL;
   GActionGroup *actions;
-  GList *apps = g_app_info_get_all ();
 
-  g_message ("~~~~~~~~");
-  while (apps) {
-    g_message ("%p %s", apps->data, g_app_info_get_id (G_APP_INFO (apps->data)));
-    apps = g_list_next (apps);
-  }
-  g_message ("~~~~~~~~");
-
-  list = phosh_favourite_list_model_get_default ();
+  list = phosh_favorite_list_model_get_default ();
 
   info = G_APP_INFO (g_desktop_app_info_new ("demo.app.Second.desktop"));
 
@@ -167,35 +159,35 @@ test_phosh_app_grid_button_menu (void)
   // Ideally we would check the popover actually opened
 
   actions = gtk_widget_get_action_group (btn, "app-btn");
-  g_action_group_activate_action (actions, "favourite-add", NULL);
+  g_action_group_activate_action (actions, "favorite-add", NULL);
 
-  is_favourite = phosh_favourite_list_model_app_is_favourite (list, info);
-  g_assert_true (is_favourite);
+  is_favorite = phosh_favorite_list_model_app_is_favorite (list, info);
+  g_assert_true (is_favorite);
 
-  g_action_group_activate_action (actions, "favourite-remove", NULL);
+  g_action_group_activate_action (actions, "favorite-remove", NULL);
 
-  is_favourite = phosh_favourite_list_model_app_is_favourite (list, info);
-  g_assert_false (is_favourite);
+  is_favorite = phosh_favorite_list_model_app_is_favorite (list, info);
+  g_assert_false (is_favorite);
 
   gtk_widget_destroy (btn);
 }
 
 
 static void
-test_phosh_app_grid_button_is_favourite (void)
+test_phosh_app_grid_button_is_favorite (void)
 {
-  PhoshFavouriteListModel *list;
+  PhoshFavoriteListModel *list;
   PhoshAppGridButtonMode mode;
-  gboolean is_favourite;
+  gboolean is_favorite;
   g_autoptr (GSettings) settings = NULL;
   g_autoptr (GAppInfo) info = NULL;
   GtkWidget *btn;
 
-  list = phosh_favourite_list_model_get_default ();
+  list = phosh_favorite_list_model_get_default ();
 
   info = G_APP_INFO (g_desktop_app_info_new ("demo.app.Second.desktop"));
 
-  // Clear all favourites
+  // Clear all favorites
   settings = g_settings_new ("sm.puri.phosh");
   g_settings_set_strv (settings, "favorites", NULL);
 
@@ -205,16 +197,16 @@ test_phosh_app_grid_button_is_favourite (void)
   mode = phosh_app_grid_button_get_mode (PHOSH_APP_GRID_BUTTON (btn));
   g_assert_true (mode == PHOSH_APP_GRID_BUTTON_LAUNCHER);
 
-  is_favourite = phosh_app_grid_button_is_favourite (PHOSH_APP_GRID_BUTTON (btn));
-  g_assert_false (is_favourite);
+  is_favorite = phosh_app_grid_button_is_favorite (PHOSH_APP_GRID_BUTTON (btn));
+  g_assert_false (is_favorite);
 
-  phosh_favourite_list_model_add_app (list, info);
+  phosh_favorite_list_model_add_app (list, info);
 
-  is_favourite = phosh_app_grid_button_is_favourite (PHOSH_APP_GRID_BUTTON (btn));
-  g_assert_true (is_favourite);
+  is_favorite = phosh_app_grid_button_is_favorite (PHOSH_APP_GRID_BUTTON (btn));
+  g_assert_true (is_favorite);
 
-  g_object_get (btn, "is-favourite", &is_favourite, NULL);
-  g_assert_true (is_favourite);
+  g_object_get (btn, "is-favorite", &is_favorite, NULL);
+  g_assert_true (is_favorite);
 
   g_assert_true (info == phosh_app_grid_button_get_app_info (
                    PHOSH_APP_GRID_BUTTON (btn)));
@@ -234,7 +226,7 @@ main (gint argc,
   g_test_add_func("/phosh/app-grid-button/set_mode", test_phosh_app_grid_button_set_mode);
   g_test_add_func("/phosh/app-grid-button/null_app_info", test_phosh_app_grid_button_null_app_info);
   g_test_add_func("/phosh/app-grid-button/menu", test_phosh_app_grid_button_menu);
-  g_test_add_func("/phosh/app-grid-button/is_favourite", test_phosh_app_grid_button_is_favourite);
+  g_test_add_func("/phosh/app-grid-button/is_favorite", test_phosh_app_grid_button_is_favorite);
 
   return g_test_run();
 }

@@ -71,7 +71,7 @@ main (int argc, char **argv)
   info = g_desktop_app_info_new ("org.gnome.Contacts.desktop");
   btn = g_object_new (PHOSH_TYPE_APP_GRID_BUTTON,
                       "app-info", info,
-                      "mode", PHOSH_APP_GRID_BUTTON_FAVOURITES,
+                      "mode", PHOSH_APP_GRID_BUTTON_FAVORITES,
                       "visible", TRUE,
                       NULL);
   gtk_container_add (GTK_CONTAINER (box), btn);
@@ -79,7 +79,7 @@ main (int argc, char **argv)
   info = g_desktop_app_info_new ("org.gnome.Nautilus.desktop");
   btn = g_object_new (PHOSH_TYPE_APP_GRID_BUTTON,
                       "app-info", info,
-                      "mode", PHOSH_APP_GRID_BUTTON_FAVOURITES,
+                      "mode", PHOSH_APP_GRID_BUTTON_FAVORITES,
                       "visible", TRUE,
                       NULL);
   gtk_container_add (GTK_CONTAINER (box), btn);

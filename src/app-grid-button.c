@@ -9,7 +9,7 @@
 #include "config.h"
 #include "app-grid-button.h"
 #include "phosh-enums.h"
-#include "favourite-list-model.h"
+#include "favorite-list-model.h"
 
 #include "toplevel-manager.h"
 #include "shell.h"
@@ -18,10 +18,10 @@
 typedef struct _PhoshAppGridButtonPrivate PhoshAppGridButtonPrivate;
 struct _PhoshAppGridButtonPrivate {
   GAppInfo *info;
-  gboolean is_favourite;
+  gboolean is_favorite;
   PhoshAppGridButtonMode mode;
 
-  gulong favourite_changed_watcher;
+  gulong favorite_changed_watcher;
 
   GtkWidget *icon;
   GtkWidget *label;
@@ -38,7 +38,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGridButton, phosh_app_grid_button, GTK_TYPE_
 enum {
   PROP_0,
   PROP_APP_INFO,
-  PROP_IS_FAVOURITE,
+  PROP_IS_FAVORITE,
   PROP_MODE,
   LAST_PROP
 };
@@ -83,8 +83,8 @@ phosh_app_grid_button_get_property (GObject    *object,
     case PROP_APP_INFO:
       g_value_set_object (value, phosh_app_grid_button_get_app_info (self));
       break;
-    case PROP_IS_FAVOURITE:
-      g_value_set_boolean (value, phosh_app_grid_button_is_favourite (self));
+    case PROP_IS_FAVORITE:
+      g_value_set_boolean (value, phosh_app_grid_button_is_favorite (self));
       break;
     case PROP_MODE:
       g_value_set_enum (value, phosh_app_grid_button_get_mode (self));
@@ -107,10 +107,10 @@ phosh_app_grid_button_finalize (GObject *object)
   g_clear_object (&priv->action_map);
 
   // Emulating g_clear_signal_handler for older glib
-  if (priv->favourite_changed_watcher > 0) {
-    g_signal_handler_disconnect (phosh_favourite_list_model_get_default (),
-                                 priv->favourite_changed_watcher);
-    priv->favourite_changed_watcher = 0;
+  if (priv->favorite_changed_watcher > 0) {
+    g_signal_handler_disconnect (phosh_favorite_list_model_get_default (),
+                                 priv->favorite_changed_watcher);
+    priv->favorite_changed_watcher = 0;
   }
 
   G_OBJECT_CLASS (phosh_app_grid_button_parent_class)->finalize (object);
@@ -217,14 +217,14 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
                          G_PARAM_EXPLICIT_NOTIFY);
 
   /**
-   * PhoshAppGridButton:is-favourite:
+   * PhoshAppGridButton:is-favorite:
    * 
-   * %TRUE when the application is currently favourited
+   * %TRUE when the application is currently favorited
    * 
    * Stability: Private
    */
-  props[PROP_IS_FAVOURITE] =
-    g_param_spec_boolean ("is-favourite", "Favourite", "Is a favourite app",
+  props[PROP_IS_FAVORITE] =
+    g_param_spec_boolean ("is-favorite", "Favorite", "Is a favorite app",
                           FALSE,
                           G_PARAM_STATIC_STRINGS |
                           G_PARAM_READABLE |
@@ -235,7 +235,7 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
    * 
    * The #PhoshAppGridButtonMode of the button
    * 
-   * In %PHOSH_APP_GRID_BUTTON_FAVOURITES the label is
+   * In %PHOSH_APP_GRID_BUTTON_FAVORITES the label is
    * hidden
    * 
    * Stability: Private
@@ -300,26 +300,26 @@ action_activated (GSimpleAction *action,
 
 
 static void
-favourite_remove_activated (GSimpleAction *action,
-                            GVariant      *parameter,
-                            gpointer       data)
+favorite_remove_activated (GSimpleAction *action,
+                           GVariant      *parameter,
+                           gpointer       data)
 {
   PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (data);
   PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
 
-  phosh_favourite_list_model_remove_app (NULL, priv->info);
+  phosh_favorite_list_model_remove_app (NULL, priv->info);
 }
 
 
 static void
-favourite_add_activated (GSimpleAction *action,
-                         GVariant      *parameter,
-                         gpointer       data)
+favorite_add_activated (GSimpleAction *action,
+                        GVariant      *parameter,
+                        gpointer       data)
 {
   PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (data);
   PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
 
-  phosh_favourite_list_model_add_app (NULL, priv->info);
+  phosh_favorite_list_model_add_app (NULL, priv->info);
 }
 
 
@@ -336,8 +336,8 @@ long_pressed (GtkGestureLongPress *gesture,
 static GActionEntry entries[] =
 {
   { "action", action_activated, "s", NULL, NULL },
-  { "favourite-remove", favourite_remove_activated, NULL, NULL, NULL },
-  { "favourite-add", favourite_add_activated, NULL, NULL, NULL },
+  { "favorite-remove", favorite_remove_activated, NULL, NULL, NULL },
+  { "favorite-add", favorite_add_activated, NULL, NULL, NULL },
 };
 
 
@@ -348,9 +348,9 @@ phosh_app_grid_button_init (PhoshAppGridButton *self)
   GtkGesture *gesture;
   GAction *act;
 
-  priv->is_favourite = FALSE;
+  priv->is_favorite = FALSE;
   priv->mode = PHOSH_APP_GRID_BUTTON_LAUNCHER;
-  priv->favourite_changed_watcher = 0;
+  priv->favorite_changed_watcher = 0;
 
   priv->action_map = G_ACTION_MAP (g_simple_action_group_new ());
   g_action_map_add_action_entries (priv->action_map,
@@ -361,9 +361,9 @@ phosh_app_grid_button_init (PhoshAppGridButton *self)
                                   "app-btn",
                                   G_ACTION_GROUP (priv->action_map));
 
-  act = g_action_map_lookup_action (priv->action_map, "favourite-add");
+  act = g_action_map_lookup_action (priv->action_map, "favorite-add");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), TRUE);
-  act = g_action_map_lookup_action (priv->action_map, "favourite-remove");
+  act = g_action_map_lookup_action (priv->action_map, "favorite-remove");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
 
   gtk_widget_init_template (GTK_WIDGET (self));
@@ -394,42 +394,42 @@ phosh_app_grid_button_new_favorite (GAppInfo *info)
 {
   return g_object_new (PHOSH_TYPE_APP_GRID_BUTTON,
                        "app-info", info,
-                       "mode", PHOSH_APP_GRID_BUTTON_FAVOURITES,
+                       "mode", PHOSH_APP_GRID_BUTTON_FAVORITES,
                        NULL);
 }
 
 
 static void
-favourites_changed (GListModel         *list,
-                    guint               position,
-                    guint               removed,
-                    guint               added,
-                    PhoshAppGridButton *self)
+favorites_changed (GListModel         *list,
+                   guint               position,
+                   guint               removed,
+                   guint               added,
+                   PhoshAppGridButton *self)
 {
   PhoshAppGridButtonPrivate *priv;
-  gboolean favourite = FALSE;
+  gboolean favorite = FALSE;
   GAction *act;
 
   g_return_if_fail (PHOSH_IS_APP_GRID_BUTTON (self));
-  g_return_if_fail (PHOSH_IS_FAVOURITE_LIST_MODEL (list));
+  g_return_if_fail (PHOSH_IS_FAVORITE_LIST_MODEL (list));
 
   priv = phosh_app_grid_button_get_instance_private (self);
 
-  favourite = phosh_favourite_list_model_app_is_favourite (PHOSH_FAVOURITE_LIST_MODEL (list),
+  favorite = phosh_favorite_list_model_app_is_favorite (PHOSH_FAVORITE_LIST_MODEL (list),
                                                            priv->info);
 
-  if (priv->is_favourite == favourite) {
+  if (priv->is_favorite == favorite) {
     return;
   }
 
-  act = g_action_map_lookup_action (priv->action_map, "favourite-add");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (act), !favourite);
-  act = g_action_map_lookup_action (priv->action_map, "favourite-remove");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (act), favourite);
+  act = g_action_map_lookup_action (priv->action_map, "favorite-add");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (act), !favorite);
+  act = g_action_map_lookup_action (priv->action_map, "favorite-remove");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (act), favorite);
 
-  priv->is_favourite = favourite;
+  priv->is_favorite = favorite;
 
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_FAVOURITE]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_FAVORITE]);
 }
 
 
@@ -437,7 +437,7 @@ void
 phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
                                     GAppInfo *info)
 {
-  PhoshFavouriteListModel *list = NULL;
+  PhoshFavoriteListModel *list = NULL;
   PhoshAppGridButtonPrivate *priv;
   GIcon *icon;
   const gchar* name;
@@ -454,23 +454,23 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
 
   g_menu_remove_all (priv->actions);
 
-  list = phosh_favourite_list_model_get_default ();
+  list = phosh_favorite_list_model_get_default ();
 
   // Emulating g_clear_signal_handler for older glib
-  if (priv->favourite_changed_watcher > 0) {
+  if (priv->favorite_changed_watcher > 0) {
     g_signal_handler_disconnect (list,
-                                 priv->favourite_changed_watcher);
-    priv->favourite_changed_watcher = 0;
+                                 priv->favorite_changed_watcher);
+    priv->favorite_changed_watcher = 0;
   }
   
   if (info) {
     priv->info = g_object_ref (info);
 
-    priv->favourite_changed_watcher = g_signal_connect (list,
+    priv->favorite_changed_watcher = g_signal_connect (list,
                                                         "items-changed",
-                                                        G_CALLBACK (favourites_changed),
+                                                        G_CALLBACK (favorites_changed),
                                                         self);
-    favourites_changed (G_LIST_MODEL (list), 0, 0, 0, self);
+    favorites_changed (G_LIST_MODEL (list), 0, 0, 0, self);
 
     name = g_app_info_get_name (G_APP_INFO (priv->info));
     gtk_label_set_label (GTK_LABEL (priv->label), name);
@@ -545,14 +545,14 @@ phosh_app_grid_button_get_app_info (PhoshAppGridButton *self)
 
 
 gboolean
-phosh_app_grid_button_is_favourite (PhoshAppGridButton *self)
+phosh_app_grid_button_is_favorite (PhoshAppGridButton *self)
 {
   PhoshAppGridButtonPrivate *priv;
 
   g_return_val_if_fail (PHOSH_IS_APP_GRID_BUTTON (self), FALSE);
   priv = phosh_app_grid_button_get_instance_private (self);
 
-  return priv->is_favourite;
+  return priv->is_favorite;
 }
 
 
@@ -573,7 +573,7 @@ phosh_app_grid_button_set_mode (PhoshAppGridButton     *self,
     case PHOSH_APP_GRID_BUTTON_LAUNCHER:
       gtk_widget_set_visible (priv->label, TRUE);
       break;
-    case PHOSH_APP_GRID_BUTTON_FAVOURITES:
+    case PHOSH_APP_GRID_BUTTON_FAVORITES:
       gtk_widget_set_visible (priv->label, FALSE);
       break;
     default:

@@ -72,13 +72,13 @@
     </section>
     <section>
       <item>
-        <attribute name="label" translatable="yes">Remove from _Favourites</attribute>
-        <attribute name="action">favourite-remove</attribute>
+        <attribute name="label" translatable="yes">Remove from _Favorites</attribute>
+        <attribute name="action">favorite-remove</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
       <item>
-        <attribute name="label" translatable="yes">Add to _Favourites</attribute>
-        <attribute name="action">favourite-add</attribute>
+        <attribute name="label" translatable="yes">Add to _Favorites</attribute>
+        <attribute name="action">favorite-add</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
     </section>

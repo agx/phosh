@@ -11,7 +11,7 @@
 #include "app-grid.h"
 #include "app-grid-button.h"
 #include "app-list-model.h"
-#include "favourite-list-model.h"
+#include "favorite-list-model.h"
 
 #include "gtk-list-models/gtksortlistmodel.h"
 #include "gtk-list-models/gtkfilterlistmodel.h"
@@ -88,7 +88,7 @@ search_apps (gpointer item, gpointer data)
 
   /* filter out favorites when not searching */
   if (search == NULL || strlen (search) == 0) {
-    if (phosh_favourite_list_model_app_is_favourite (NULL, info))
+    if (phosh_favorite_list_model_app_is_favorite (NULL, info))
       return FALSE;
 
     return TRUE;
@@ -144,8 +144,8 @@ search_apps (gpointer item, gpointer data)
 
 
 static GtkWidget *
-create_favourite_launcher (gpointer item,
-                           gpointer self)
+create_favorite_launcher (gpointer item,
+                          gpointer self)
 {
   GtkWidget *btn = phosh_app_grid_button_new_favorite (G_APP_INFO (item));
 
@@ -159,15 +159,15 @@ create_favourite_launcher (gpointer item,
 
 
 static void
-favourites_changed (GListModel   *list,
-                    guint         position,
-                    guint         removed,
-                    guint         added,
-                    PhoshAppGrid *self)
+favorites_changed (GListModel   *list,
+                   guint         position,
+                   guint         removed,
+                   guint         added,
+                   PhoshAppGrid *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
-  // We don't show favourites in the main list, filter them out
+  // We don't show favorites in the main list, filter them out
   gtk_filter_list_model_refilter (priv->model);
 }
 
@@ -192,18 +192,18 @@ phosh_app_grid_init (PhoshAppGrid *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GtkSortListModel *sorted;
-  PhoshFavouriteListModel *favourites;
+  PhoshFavoriteListModel *favorites;
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  favourites = phosh_favourite_list_model_get_default ();
+  favorites = phosh_favorite_list_model_get_default ();
 
   gtk_flow_box_bind_model (GTK_FLOW_BOX (priv->favs),
-                           G_LIST_MODEL (favourites),
-                           create_favourite_launcher, self, NULL);
-  g_signal_connect (favourites,
+                           G_LIST_MODEL (favorites),
+                           create_favorite_launcher, self, NULL);
+  g_signal_connect (favorites,
                     "items-changed",
-                    G_CALLBACK (favourites_changed),
+                    G_CALLBACK (favorites_changed),
                     self);
 
   /* fill the grid with apps */
