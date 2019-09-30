@@ -1,3 +1,111 @@
+phosh (0.1.0) amber-phone; urgency=medium
+
+  [ Zander Brown ]
+  * app-grid: align top
+  * overview: focus styling, follow focus
+  * app-grid: enter activates first app search result.
+    Fix https://source.puri.sm/Librem5/phosh/issues/171
+  * app-grid: hint app that will launch on enter
+  * notifications: support images, bring styles close to design
+  * notifications: add actions.
+    This means firefox doesn't complain anymore and actions are clickable
+  * notifications: handle display scaling and rotation
+  * notifications: slide down from top
+  * tools: test notification sender
+  * notifications: emit notify::app-info
+  * apps: display name not display name.
+    This makes sure apps have the same name as in shell
+
+  [ Alexander Mikhaylenko ]
+  * overview: Remove close on click.
+    It's triggered wher swiping PhoshPaginator. I'm not sure this is wanted
+    from design standpoint anyway, so remove it for now.
+  * overview: Use paginator for switching apps
+
+  [ Guido Günther ]
+  * polkit-auth-agent: Allow to cancel dialog via escape key.
+    I've seen gnome-shell users hitting that a lot.
+  * system-prompt: Allow to cancel dialog via escape key.
+    I've seen gnome-shell users hitting that a lot.
+  * notify-manager: Handle org.gnome.desktop.notifications show-banners.
+    This allows to globally enable / disable message bunners aka
+    'notification popups' as gnome-control-center calls them. (Closes: #167)
+  * build: sort source alphabetically
+  * session: Reindent.
+    Reindent according to coding style
+  * Add fader that fades from transparent to almost black.
+    We might want to make this more flexible later so we can also use
+    it for the fade in animation on startup.
+  * session: Use fader on shutdown.
+    This gives immediate visual feedback.
+  * main: Fade out on sigterm
+  * po: Update translatable files
+  * session: Only show fader on EndSession.
+    QueryEndSession only asks for a shutdown, we don't want to fade
+    in that case.
+  * Kill fader after 15 seconds
+    if we can't shut down promptly kill the fader instead of leaving
+    the shell in an unusable state.
+  * auth: Unconditionally set pamh to NULL.
+    Don't do it only in the successful case since the handle is
+    not useful afterwards and later calls might otherwise reuse the handle.
+    Also don't use the handle in the error path after pam_end.
+  * rootston.ini: Remove 'binding' section.
+    This is now handled via gsettings and triggers a warning
+    on phoc startup.
+  * po: Update translatable files
+  * po: Update translations from zanata
+
+  [ Julian Sparber ]
+  * Lockscreen: Give visual feedback on wrong password.
+    This makes the dots shake when the user enters a wrong password
+  * Lockscreen: add hack to remove # and * form the keypad
+  * Lockscreen: Style keypad buttons.
+    Fixes: phoc#18
+  * AppGrid: make search case insensitive.
+    Fixes: #186
+  * AppGrid: Make line below favorites darker and thiner
+    fixes #182
+  * AppGrid: use a revealer to hide the favorites when search is started
+    fixes: #185
+  * AppGrid: increase spacing around line below favorites
+
+  [ Sebastian Krzyszkowiak ]
+  * PhoshBackgroundManager: Divide the background size by scale.
+    Without this the background surface buffer is needlessly oversized,
+    putting unnecesary load on the GPU.
+  * toplevel: Add "activated" property and its getter
+  * overview: Scroll to currently focused activity
+  * style: Remove unnecessary blending.
+    GTK uses software rendering and pixman isn't optimized on aarch64.
+    This makes blending huge surfaces pretty expensive - and there's
+    no reason to do that if we're blending black on black anyway.
+    This makes fullscreen scrolling in app drawer way smoother.
+
+  [ Hysterical Raisins ]
+  * AppGrid: hide favorites on search
+    - conserve vertical screen space (which will be at a premium when both osk
+      and overview are visible at the same time)
+    - blend in favorites when searching
+    Fixes phosh#177
+  * NotifyManager: plug a leak in variant iteration
+  * AppGrid: Don't activate first item unless search has focus.
+    Fixes #177 (for real this time)
+  * AppGrid: Correct return types for focus events
+  * AppGrid: plug casefold leaks.
+    Fixes #190
+
+  [ Tobias Bernard ]
+  * Style: prettier search bar
+    - Minor styling changes (rounded corners, more padding)
+    - Add placeholder text
+  * Style: adjust margins around search bar and favorites.
+    Fixes an issue with icons being cut-off only on the sides
+    when scrolling.
+  * Minor: fix ellipsis and string in search placeholder
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 30 Sep 2019 10:54:01 +0200
+
 phosh (0.0.4) purple; urgency=medium
 
   [ Guido Günther ]
