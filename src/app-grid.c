@@ -27,6 +27,7 @@ struct _PhoshAppGridPrivate {
 
   GSettings *settings;
   GStrv favorites_list;
+  gchar *search_string;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGrid, phosh_app_grid, GTK_TYPE_BOX)
@@ -112,13 +113,13 @@ search_apps (gpointer item, gpointer data)
   PhoshAppGrid *self = data;
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GAppInfo *info = item;
-  g_autofree gchar *search = NULL;
+  const char *search = NULL;
   const char *str = NULL;
 
   g_return_val_if_fail (priv != NULL, TRUE);
   g_return_val_if_fail (priv->search != NULL, TRUE);
 
-  search = g_utf8_casefold (gtk_entry_get_text (GTK_ENTRY (priv->search)), -1);
+  search = priv->search_string;
 
   /* filter out favorites when not searching */
   if (search == NULL || strlen (search) == 0) {
@@ -226,6 +227,7 @@ phosh_app_grid_finalize (GObject *object)
   g_clear_object (&priv->model);
   g_clear_object (&priv->settings);
   g_strfreev (priv->favorites_list);
+  g_clear_pointer (&priv->search_string, g_free);
 
   G_OBJECT_CLASS (phosh_app_grid_parent_class)->finalize (object);
 }
@@ -242,13 +244,12 @@ phosh_app_grid_key_press_event (GtkWidget   *widget,
 }
 
 static void
-search_changed (GtkSearchEntry *entry,
-                PhoshAppGrid   *self)
+do_search (PhoshAppGrid *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GtkAdjustment *adjustment;
 
-  if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))) > 0) {
+  if (priv->search_string && *priv->search_string != '\0') {
     gtk_revealer_set_reveal_child (GTK_REVEALER (priv->favs_revealer), FALSE);
     gtk_style_context_add_class (gtk_widget_get_style_context (priv->apps),
                                  ACTIVE_SEARCH_CLASS);
@@ -264,6 +265,36 @@ search_changed (GtkSearchEntry *entry,
 }
 
 static void
+search_changed (GtkSearchEntry *entry,
+                PhoshAppGrid   *self)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+  const char *search = gtk_entry_get_text (GTK_ENTRY (entry));
+
+  g_clear_pointer (&priv->search_string, g_free);
+
+  if (search && *search != '\0')
+      priv->search_string = g_utf8_casefold (search, -1);
+
+  do_search (self);
+}
+
+static void
+search_preedit_changed (GtkSearchEntry *entry,
+                        const gchar    *preedit,
+                        PhoshAppGrid   *self)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+
+  g_clear_pointer (&priv->search_string, g_free);
+
+  if (preedit && *preedit != '\0')
+      priv->search_string = g_utf8_casefold (preedit, -1);
+
+  do_search (self);
+}
+
+static void
 search_activated (GtkSearchEntry *entry,
                   PhoshAppGrid   *self)
 {
@@ -274,7 +305,7 @@ search_activated (GtkSearchEntry *entry,
     return;
 
   // Don't activate when there isn't an active search
-  if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))) < 1) {
+  if (!priv->search_string || *priv->search_string == '\0') {
     return;
   }
 
@@ -313,7 +344,7 @@ search_gained_focus (GtkWidget    *widget,
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
-  if (strlen (gtk_entry_get_text (GTK_ENTRY (priv->search))) > 0) {
+  if (priv->search_string && *priv->search_string != '\0') {
     gtk_style_context_add_class (gtk_widget_get_style_context (priv->apps),
                                  ACTIVE_SEARCH_CLASS);
   }
@@ -340,6 +371,7 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, scrolled_window);
 
   gtk_widget_class_bind_template_callback (widget_class, search_changed);
+  gtk_widget_class_bind_template_callback (widget_class, search_preedit_changed);
   gtk_widget_class_bind_template_callback (widget_class, search_activated);
   gtk_widget_class_bind_template_callback (widget_class, search_gained_focus);
   gtk_widget_class_bind_template_callback (widget_class, search_lost_focus);
@@ -363,6 +395,7 @@ phosh_app_grid_reset (PhoshAppGrid *self)
   adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->scrolled_window));
   gtk_adjustment_set_value(adjustment, 0);
   gtk_entry_set_text(GTK_ENTRY (priv->search), "");
+  g_clear_pointer (&priv->search_string, g_free);
 }
 
 GtkWidget *
