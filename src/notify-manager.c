@@ -89,10 +89,12 @@ handle_close_notification (PhoshNotifyDbusNotifications *skeleton,
   g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
   g_debug ("DBus call CloseNotification %u", arg_id);
 
-  if (!phosh_notify_manager_close_notification (self, arg_id,
-                                                PHOSH_NOTIFY_MANAGER_REASON_CLOSED)) {
-    return FALSE;
-  }
+  /*
+   * ignore errors when closing non-existent notifcation, at least qt 5.11 is not
+   * happy about it.
+   */
+  phosh_notify_manager_close_notification (self, arg_id,
+                                           PHOSH_NOTIFY_MANAGER_REASON_CLOSED);
 
   phosh_notify_dbus_notifications_complete_close_notification (
     skeleton, invocation);
