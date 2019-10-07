@@ -5,11 +5,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-24 01:38+0200\n"
+"POT-Creation-Date: 2019-10-07 09:39+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-07-30 10:27+0000\n"
+"PO-Revision-Date: 2019-10-02 09:46+0000\n"
 "Last-Translator: Willem Sonke <willem@wimiso.nl>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -31,15 +31,15 @@ msgstr "Phosh"
 
 #: src/app-grid-button.c:209
 msgid "Application"
-msgstr ""
+msgstr "Toepassing"
 
 #: src/lockscreen.c:84 src/ui/lockscreen.ui:239
 msgid "Enter Passcode"
 msgstr "Pin invoeren"
 
 #: src/lockscreen.c:214
-msgid "Checking..."
-msgstr "Verifiëren..."
+msgid "Checking…"
+msgstr ""
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -58,7 +58,7 @@ msgstr "Onbekend"
 
 #: src/notification.c:510
 msgid "Notification"
-msgstr ""
+msgstr "Notificatie"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -87,6 +87,10 @@ msgstr "Wachtwoord mag niet leeg zijn."
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
+msgstr ""
+
+#: src/ui/app-grid.ui:21
+msgid "Search apps…"
 msgstr ""
 
 #: src/ui/lockscreen.ui:35

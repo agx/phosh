@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-24 01:38+0200\n"
+"POT-Creation-Date: 2019-10-07 09:39+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,8 +37,8 @@ msgid "Enter Passcode"
 msgstr "請輸入密碼"
 
 #: src/lockscreen.c:214
-msgid "Checking..."
-msgstr "檢查中..."
+msgid "Checking…"
+msgstr ""
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -87,6 +87,10 @@ msgstr "密碼不可為空"
 #: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "App"
+
+#: src/ui/app-grid.ui:21
+msgid "Search apps…"
+msgstr ""
 
 #: src/ui/lockscreen.ui:35
 msgid "Slide up to unlock"

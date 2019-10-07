@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-24 01:38+0200\n"
+"POT-Creation-Date: 2019-10-07 09:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgid "Enter Passcode"
 msgstr ""
 
 #: src/lockscreen.c:214
-msgid "Checking..."
+msgid "Checking…"
 msgstr ""
 
 #. Translators: This is a time format for a date in
@@ -88,6 +88,10 @@ msgstr ""
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
+msgstr ""
+
+#: src/ui/app-grid.ui:21
+msgid "Search apps…"
 msgstr ""
 
 #: src/ui/lockscreen.ui:35
