@@ -33,9 +33,10 @@ before_script:
   tags:
     - librem5
 
-build:native:
+build:native-debian-buster:
   <<: *tags
   stage: build
+  image: debian:buster
   artifacts:
     paths:
       - _build
@@ -44,11 +45,12 @@ build:native:
     - meson -Db_coverage=true --werror . _build
     - ninja -C _build
 
-unit-test:native:
+unit-test:native-debian-buster:
   <<: *tags
   stage: test
+  image: debian:buster
   dependencies:
-    - build:native
+    - build:native-debian-buster
   script:
     - export LC_ALL=C.UTF-8
     - xvfb-run ninja -C _build test coverage
@@ -61,9 +63,10 @@ unit-test:native:
 test:smoke:one-output:
   <<: *tags
   stage: test
+  image: debian:buster
   variables: *smoketest_vars
   dependencies:
-    - build:native
+    - build:native-debian-buster
   script:
     - export OUTDIR=output
     - export G_DEBUG=fatal-criticals
@@ -78,9 +81,10 @@ test:smoke:one-output:
 test:smoke:two-outputs:
   <<: *tags
   stage: test
+  image: debian:buster
   variables: *smoketest_vars
   dependencies:
-    - build:native
+    - build:native-debian-buster
   script:
     - export OUTDIR=output
     - export G_DEBUG=fatal-criticals
@@ -95,6 +99,7 @@ test:smoke:two-outputs:
 package:deb:
   <<: *tags
   stage: package
+  image: debian:buster
   script:
     - dpkg-buildpackage -uc -us
     - cp ../*.deb .
