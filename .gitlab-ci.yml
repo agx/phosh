@@ -60,6 +60,33 @@ unit-test:native-debian-buster:
     paths:
       - _build
 
+build:native-debian-bullseye:
+  <<: *tags
+  stage: build
+  image: debian:bullseye
+  artifacts:
+    paths:
+      - _build
+  script:
+    - git submodule update --recursive
+    - meson -Db_coverage=true --werror . _build
+    - ninja -C _build
+
+unit-test:native-debian-bullseye:
+  <<: *tags
+  stage: test
+  image: debian:bullseye
+  dependencies:
+    - build:native-debian-bullseye
+  script:
+    - export LC_ALL=C.UTF-8
+    - xvfb-run ninja -C _build test coverage
+  coverage: '/^\s+lines\.+:\s+([\d.]+\%)\s+/'
+  artifacts:
+    when: always
+    paths:
+      - _build
+
 test:smoke:one-output:
   <<: *tags
   stage: test
