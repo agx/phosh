@@ -87,6 +87,40 @@ unit-test:native-debian-bullseye:
     paths:
       - _build
 
+build:native-alpinelinux-edge:
+  <<: *tags
+  stage: build
+  image: alpine:edge
+  allow_failure: true
+  before_script:
+    - apk -q add alpine-sdk
+    - apk -q add meson ninja gtk+3.0-dev gnome-desktop-dev libhandy-dev gcr-dev upower-dev linux-pam-dev git pulseaudio-dev networkmanager-dev polkit-elogind-dev
+  artifacts:
+    paths:
+      - _build
+  script:
+    - git submodule update --recursive
+    - meson -Db_coverage=true --werror . _build
+    - ninja -C _build
+
+unit-test:native-alpinelinux-edge:
+  <<: *tags
+  stage: test
+  image: alpine:edge
+  allow_failure: true
+  dependencies:
+    - build:native-alpinelinux-edge
+  before_script:
+    - apk -q add alpine-sdk
+    - apk -q add xvfb-run meson ninja glib-dev wayland-protocols wayland-dev musl-dev gnome-desktop-dev libhandy-dev gcr-dev upower-dev linux-pam-dev pulseaudio-dev networkmanager-dev polkit-elogind-dev gcovr
+  script:
+    - export LC_ALL=C.UTF-8
+    - xvfb-run ninja -C _build test
+  artifacts:
+    when: always
+    paths:
+      - _build
+
 test:smoke:one-output:
   <<: *tags
   stage: test
