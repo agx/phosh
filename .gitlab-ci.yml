@@ -100,7 +100,7 @@ build:native-alpinelinux-edge:
       - _build
   script:
     - git submodule update --recursive
-    - meson -Db_coverage=true --werror . _build
+    - meson --werror . _build
     - ninja -C _build
 
 unit-test:native-alpinelinux-edge:
