@@ -8,7 +8,6 @@
 
 #include "config.h"
 #include "layersurface.h"
-#include "phosh-wayland.h"
 
 #include <gdk/gdkwayland.h>
 
