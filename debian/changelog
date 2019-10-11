@@ -1,3 +1,29 @@
+phosh (0.1.1) amber-phone; urgency=medium
+
+  [ Guido Günther ]
+  * lockscreen: Use proper ellipsis.
+    Use '…' instead of '...'
+  * session: Drop org.gnome.SettingsDaemon.Clipboard.
+    It was unused anyway. (Closes: #195)
+  * notify-manager: ignore errors closing inexistent notifications.
+    This trips up qt 5.11 otherwise
+  * debian: Don't restart session on package upgrades.
+    Otherwise a logged in user will get logged out. (Closes: #193)
+  * gitlab-ci: Make current image explicit
+  * gitlab-ci: Build and unit test for Debian Bullseye as well.
+    We keep the smoketests at buster for the moment
+  * debian: Add gbp.conf.
+    This makes `gbp tag` do the right thing.
+  * Update translations from zanata
+
+  [ Hysterical Raisins ]
+  * AppGrid: Live update search when using an input method.
+
+  [ Bart Ribbers ]
+  * gitlab-ci: Build and unit test for Alpine Linux edge as well
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 11 Oct 2019 11:54:52 +0200
+
 phosh (0.1.0) amber-phone; urgency=medium
 
   [ Zander Brown ]
