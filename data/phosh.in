@@ -7,12 +7,6 @@ if [ -x @bindir@/phoc ]; then
   COMPOSITOR=@bindir@/phoc
 elif [ -x /usr/bin/phoc ]; then
   COMPOSITOR=/usr/bin/phoc
-elif [ -x @wlrootsdir@/rootston ]; then
-  COMPOSITOR=@wlrootsdir@/rootston
-elif [ -x @bindir@/rootston ]; then
-  COMPOSITOR=@bindir@/rootston
-elif [ -x /usr/lib/wlroots/rootston ]; then
-  COMPOSITOR=/usr/lib/wlroots/rootston
 fi
 
 if [ -f "/etc/phosh/rootston.ini" ]; then
