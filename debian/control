@@ -30,6 +30,7 @@ Depends:
  fonts-lato,
 Recommends:
  gnome-session,
+ phoc,
 Provides:
  notification-daemon,
  polkit-1-auth-agent,
