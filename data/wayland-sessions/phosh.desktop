@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Phosh
+Comment=Phone Shell
+Exec=phosh
+Type=Application
+
