@@ -46,7 +46,6 @@ print_version (void)
 int main(int argc, char *argv[])
 {
   g_autoptr(GSource) sigterm = NULL;
-  GMainContext *context = NULL;
   g_autoptr(GOptionContext) opt_context = NULL;
   GError *err = NULL;
   gboolean unlocked = FALSE, version = FALSE;
@@ -79,10 +78,7 @@ int main(int argc, char *argv[])
   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
   gtk_init (&argc, &argv);
 
-  sigterm = g_unix_signal_source_new (SIGTERM);
-  context = g_main_context_default ();
-  g_source_set_callback (sigterm, sigterm_cb, NULL, NULL);
-  g_source_attach (sigterm, context);
+  g_unix_signal_add (SIGTERM, sigterm_cb, NULL);
 
   wl = phosh_wayland_get_default ();
   shell = phosh_shell_get_default ();
