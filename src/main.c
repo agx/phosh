@@ -26,7 +26,7 @@ quit (gpointer unused)
 
 
 static gboolean
-sigterm_cb (gpointer unused)
+on_shutdown_signal (gpointer unused)
 {
   phosh_shell_fade_out (phosh_shell_get_default (), 0);
   g_timeout_add_seconds (2, (GSourceFunc)quit, NULL);
@@ -78,7 +78,8 @@ int main(int argc, char *argv[])
   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
   gtk_init (&argc, &argv);
 
-  g_unix_signal_add (SIGTERM, sigterm_cb, NULL);
+  g_unix_signal_add (SIGTERM, on_shutdown_signal, NULL);
+  g_unix_signal_add (SIGINT, on_shutdown_signal, NULL);
 
   wl = phosh_wayland_get_default ();
   shell = phosh_shell_get_default ();
