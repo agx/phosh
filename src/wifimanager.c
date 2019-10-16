@@ -10,14 +10,23 @@
 
 #include "config.h"
 
+#include "contrib/shell-network-agent.h"
+#include "network-auth-prompt.h"
 #include "wifimanager.h"
+#include "shell.h"
+#include "phosh-wayland.h"
 
 #include <NetworkManager.h>
 
 /**
  * SECTION:phosh-wifi-manager
- * @short_description: Tracks the Wifi status
+ * @short_description: Tracks the Wifi status and handle wifi credentials entry
  * @Title: PhoshWifiManager
+ *
+ * Wi-Fi credentials are handled with #ShellNetworkAgent which implements
+ * #NMSecretAgentOld.  When a credential for some wi-fi network is requested,
+ * A new #PhoshNetworkAuthPrompt is created, which asks the user various
+ * credentials required depending on the Access point security method.
  */
 
 enum {
@@ -46,7 +55,8 @@ struct _PhoshWifiManager
   NMActiveConnection *active;
   /* The wifi device used in the active connection */
   NMDeviceWifi       *dev;
-
+  ShellNetworkAgent  *network_agent;
+  PhoshNetworkAuthPrompt *network_prompt;
 };
 G_DEFINE_TYPE (PhoshWifiManager, phosh_wifi_manager, G_TYPE_OBJECT);
 
@@ -303,6 +313,118 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
 
 
 static void
+network_prompt_done_cb (PhoshWifiManager *self)
+{
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+
+  if (self->network_prompt)
+    gtk_widget_hide (GTK_WIDGET (self->network_prompt));
+
+  g_clear_pointer ((GtkWidget **)&self->network_prompt, gtk_widget_destroy);
+}
+
+static void
+network_agent_setup_prompt (PhoshWifiManager *self)
+{
+  PhoshMonitor *primary_monitor;
+  PhoshWayland *wl = phosh_wayland_get_default ();
+  PhoshShell *shell = phosh_shell_get_default ();
+  GtkWidget *network_prompt;
+
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+
+  if (self->network_prompt)
+    return;
+
+  primary_monitor = phosh_shell_get_primary_monitor (shell);
+  network_prompt = phosh_network_auth_prompt_new (self->network_agent,
+                                                  self->nmclient,
+                                                  phosh_wayland_get_zwlr_layer_shell_v1(wl),
+                                                  primary_monitor->wl_output);
+  self->network_prompt = PHOSH_NETWORK_AUTH_PROMPT (network_prompt);
+
+  g_signal_connect_object (self->network_prompt, "done",
+                           G_CALLBACK (network_prompt_done_cb),
+                           self, G_CONNECT_SWAPPED);
+}
+
+static void
+secret_request_new_cb (PhoshWifiManager              *self,
+                       gchar                         *request_id,
+                       NMConnection                  *connection,
+                       gchar                         *setting_name,
+                       gchar                        **hints,
+                       NMSecretAgentGetSecretsFlags   flags,
+                       ShellNetworkAgent             *agent)
+{
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+
+  if (!self->network_prompt)
+    network_agent_setup_prompt (self);
+
+  phosh_network_auth_prompt_set_request (self->network_prompt,
+                                         request_id, connection, setting_name,
+                                         hints, flags);
+  gtk_widget_show (GTK_WIDGET (self->network_prompt));
+}
+
+static void
+secret_request_cancelled_cb (PhoshWifiManager  *self,
+                             gchar             *request_id,
+                             ShellNetworkAgent *agent)
+{
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+  g_return_if_fail (SHELL_IS_NETWORK_AGENT (agent));
+
+  network_prompt_done_cb (self);
+}
+
+
+static void
+secret_agent_register_cb (GObject      *object,
+                          GAsyncResult *result,
+                          gpointer      user_data)
+{
+  PhoshWifiManager *self = user_data;
+  NMSecretAgentOld *agent = NM_SECRET_AGENT_OLD (object);
+  g_autoptr(GError) error = NULL;
+
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+
+  if (!nm_secret_agent_old_register_finish (agent, result, &error)) {
+    g_warning ("Error registering network agent: %s", error->message);
+    return;
+  }
+
+  g_signal_connect_object (self->network_agent, "new-request",
+                           G_CALLBACK (secret_request_new_cb),
+                           self, G_CONNECT_SWAPPED);
+  g_signal_connect_object (self->network_agent, "cancel-request",
+                           G_CALLBACK (secret_request_cancelled_cb),
+                           self, G_CONNECT_SWAPPED);
+}
+
+static void
+setup_network_agent (PhoshWifiManager *self)
+{
+  g_autoptr(GError) error = NULL;
+
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+
+  self->network_agent = g_initable_new (SHELL_TYPE_NETWORK_AGENT, NULL, &error,
+                                        "identifier", "sm.puri.phosh.NetworkAgent",
+                                        "auto-register", FALSE, NULL);
+
+  if (error) {
+    g_warning ("Error: %s", error->message);
+    return;
+  }
+
+  nm_secret_agent_old_register_async (NM_SECRET_AGENT_OLD (self->network_agent), NULL,
+                                      secret_agent_register_cb, self);
+}
+
+static void
 on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
 {
   g_autoptr(GError) err = NULL;
@@ -319,6 +441,7 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
 
   g_return_if_fail (NM_IS_CLIENT (self->nmclient));
 
+  setup_network_agent (self);
   g_signal_connect_swapped (self->nmclient, "notify::wireless-enabled",
                             G_CALLBACK (on_nmclient_wireless_enabled_changed), self);
   g_signal_connect_swapped (self->nmclient, "notify::active-connections",
@@ -350,6 +473,7 @@ phosh_wifi_manager_finalize (GObject *object)
 {
   PhoshWifiManager *self = PHOSH_WIFI_MANAGER(object);
 
+  g_clear_object (&self->network_agent);
   g_clear_object (&self->nmclient);
 
   if (self->ap) {

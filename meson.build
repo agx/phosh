@@ -115,6 +115,7 @@ libgvc = subproject('gvc',
 libgvc_dep = libgvc.get_variable('libgvc_dep')
 libnm_dep = dependency('libnm', version: '>= 1.14')
 libpolkit_agent_dep = dependency('polkit-agent-1', version: '>= 0.105')
+network_agent_dep = dependency('libsecret-1')
 
 subdir('data')
 subdir('po')
