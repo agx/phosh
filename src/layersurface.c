@@ -63,9 +63,22 @@ static void layer_surface_configure(void                         *data,
                                     uint32_t                      height)
 {
   PhoshLayerSurface *self = data;
+  PhoshLayerSurfacePrivate *priv;
 
+  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
+  priv = phosh_layer_surface_get_instance_private (self);
   gtk_window_resize (GTK_WINDOW (self), width, height);
   zwlr_layer_surface_v1_ack_configure(surface, serial);
+
+  if (priv->height != height) {
+    priv->height = height;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_LAYER_HEIGHT]);
+  }
+
+  if (priv->width != width) {
+    priv->width = width;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH]);
+  }
 
   g_debug("Configured %p", self);
   g_signal_emit (self, signals[CONFIGURED], 0);
@@ -147,9 +160,13 @@ phosh_layer_surface_set_property (GObject      *object,
     break;
   case PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH:
     priv->width = g_value_get_uint (value);
+    /* construct-only, so we can always emit the signal */
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH]);
     break;
   case PHOSH_LAYER_SURFACE_PROP_LAYER_HEIGHT:
     priv->height = g_value_get_uint (value);
+    /* construct-only, so we can always emit the signal */
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_LAYER_HEIGHT]);
     break;
   case PHOSH_LAYER_SURFACE_PROP_NAMESPACE:
     g_free (priv->namespace);
@@ -430,6 +447,10 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       0,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+  /*
+   * construct only since we don't want width height to be set individually
+   * but rather through set_size to avoid multiple calls to zwlr_layer_surface_v1_set_size
+   */
   props[PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH] =
     g_param_spec_uint (
       "width",
@@ -438,7 +459,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       0,
       G_MAXUINT,
       0,
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_LAYER_SURFACE_PROP_LAYER_HEIGHT] =
     g_param_spec_uint (
@@ -448,7 +469,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       0,
       G_MAXUINT,
       0,
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_LAYER_SURFACE_PROP_NAMESPACE] =
     g_param_spec_string (
@@ -534,12 +555,16 @@ void
 phosh_layer_surface_set_size(PhoshLayerSurface *self, gint width, gint height)
 {
   PhoshLayerSurfacePrivate *priv;
+  gint old_width, old_height;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   priv = phosh_layer_surface_get_instance_private (self);
 
   if (priv->height == height && priv->width == width)
     return;
+
+  old_width = priv->width;
+  old_height = priv->height;
 
   if (width != -1)
     priv->width = width;
@@ -548,6 +573,12 @@ phosh_layer_surface_set_size(PhoshLayerSurface *self, gint width, gint height)
     priv->height = height;
 
   zwlr_layer_surface_v1_set_size(priv->layer_surface, priv->width, priv->height);
+
+  if (priv->height != old_height)
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_LAYER_HEIGHT]);
+
+  if (priv->width != old_width)
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH]);
 }
 
 /**
