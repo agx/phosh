@@ -94,7 +94,7 @@ build:native-alpinelinux-edge:
   allow_failure: true
   before_script:
     - apk -q add alpine-sdk
-    - apk -q add meson ninja gtk+3.0-dev gnome-desktop-dev libhandy-dev gcr-dev upower-dev linux-pam-dev git pulseaudio-dev networkmanager-dev polkit-elogind-dev
+    - apk -q add meson ninja gtk+3.0-dev gnome-desktop-dev libhandy-dev gcr-dev upower-dev linux-pam-dev git pulseaudio-dev networkmanager-dev polkit-elogind-dev libsecret-dev
   artifacts:
     paths:
       - _build
@@ -112,7 +112,7 @@ unit-test:native-alpinelinux-edge:
     - build:native-alpinelinux-edge
   before_script:
     - apk -q add alpine-sdk
-    - apk -q add xvfb-run meson ninja glib-dev wayland-protocols wayland-dev musl-dev gnome-desktop-dev libhandy-dev gcr-dev upower-dev linux-pam-dev pulseaudio-dev networkmanager-dev polkit-elogind-dev gcovr
+    - apk -q add xvfb-run meson ninja glib-dev wayland-protocols wayland-dev musl-dev gnome-desktop-dev libhandy-dev gcr-dev upower-dev linux-pam-dev pulseaudio-dev networkmanager-dev polkit-elogind-dev libsecret-dev gcovr
   script:
     - export LC_ALL=C.UTF-8
     - xvfb-run ninja -C _build test
