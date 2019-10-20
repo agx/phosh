@@ -130,6 +130,8 @@ activate_cb (PhoshAppGridButton *self)
     g_critical ("Failed to launch app %s: %s",
                 g_app_info_get_id (priv->info),
                 error->message);
+
+    return;
   }
 
   g_signal_emit (self, signals[APP_LAUNCHED], 0, priv->info);
