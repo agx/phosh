@@ -29,8 +29,13 @@ phosh_settings_sources = [
   phosh_settings_widgets_sources,
 ]
 
-libphosh_sources = [
+libphosh_generated_sources = [
   phosh_enums,
+  phosh_resources,
+  wl_proto_sources,
+]
+
+libphosh_sources = [
   'activity.c',
   'activity.h',
   'app-grid.c',
@@ -43,8 +48,6 @@ libphosh_sources = [
   'overview.h',
   'util.c',
   'util.h',
-  phosh_resources,
-  wl_proto_sources,
   phosh_gtk_list_models_sources,
 ]
 
@@ -152,7 +155,7 @@ add_project_arguments([
 phosh_lib = static_library('phosh', libphosh_sources, dependencies: phosh_deps)
 phosh_inc = include_directories('.')
 
-phosh_dep = declare_dependency(sources: libphosh_sources,
+phosh_dep = declare_dependency(sources: libphosh_generated_sources,
   include_directories: [root_inc, phosh_inc],
   link_with: phosh_lib,
   dependencies: phosh_deps)
