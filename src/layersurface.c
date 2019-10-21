@@ -25,6 +25,8 @@ enum {
   PHOSH_LAYER_SURFACE_PROP_MARGIN_RIGHT,
   PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH,
   PHOSH_LAYER_SURFACE_PROP_LAYER_HEIGHT,
+  PHOSH_LAYER_SURFACE_PROP_CONFIGURED_WIDTH,
+  PHOSH_LAYER_SURFACE_PROP_CONFIGURED_HEIGHT,
   PHOSH_LAYER_SURFACE_PROP_NAMESPACE,
   PHOSH_LAYER_SURFACE_PROP_LAST_PROP
 };
@@ -49,6 +51,7 @@ typedef struct {
   gint margin_top, margin_bottom;
   gint margin_left, margin_right;
   gint width, height;
+  gint configured_width, configured_height;
   gchar *namespace;
   struct zwlr_layer_shell_v1 *layer_shell;
   struct wl_output *wl_output;
@@ -70,14 +73,14 @@ static void layer_surface_configure(void                         *data,
   gtk_window_resize (GTK_WINDOW (self), width, height);
   zwlr_layer_surface_v1_ack_configure(surface, serial);
 
-  if (priv->height != height) {
-    priv->height = height;
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_LAYER_HEIGHT]);
+  if (priv->configured_height != height) {
+    priv->configured_height = height;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_CONFIGURED_HEIGHT]);
   }
 
-  if (priv->width != width) {
-    priv->width = width;
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH]);
+  if (priv->configured_width != width) {
+    priv->configured_width = width;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_CONFIGURED_WIDTH]);
   }
 
   g_debug("Configured %p", self);
@@ -223,6 +226,12 @@ phosh_layer_surface_get_property (GObject    *object,
     break;
   case PHOSH_LAYER_SURFACE_PROP_LAYER_HEIGHT:
     g_value_set_uint (value, priv->height);
+    break;
+  case PHOSH_LAYER_SURFACE_PROP_CONFIGURED_WIDTH:
+    g_value_set_uint (value, priv->configured_width);
+    break;
+  case PHOSH_LAYER_SURFACE_PROP_CONFIGURED_HEIGHT:
+    g_value_set_uint (value, priv->configured_height);
     break;
   case PHOSH_LAYER_SURFACE_PROP_NAMESPACE:
     g_value_set_string (value, priv->namespace);
@@ -465,6 +474,27 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       G_MAXUINT,
       0,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+
+  props[PHOSH_LAYER_SURFACE_PROP_CONFIGURED_WIDTH] =
+    g_param_spec_uint (
+      "configured-width",
+      "Configured width",
+      "The width of the layer surface set by the compositor",
+      0,
+      G_MAXUINT,
+      0,
+      G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PHOSH_LAYER_SURFACE_PROP_CONFIGURED_HEIGHT] =
+    g_param_spec_uint (
+      "configured-height",
+      "Configured height",
+      "The height of the layer surface set by the compositor",
+      0,
+      G_MAXUINT,
+      0,
+      G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_LAYER_SURFACE_PROP_NAMESPACE] =
     g_param_spec_string (
