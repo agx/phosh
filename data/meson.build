@@ -4,6 +4,7 @@ desktopconf.set('libexecdir', libexecdir)
 
 desktop_files = [
   'sm.puri.Phosh.desktop',
+  'sm.puri.OSK0.desktop',
 ]
 foreach desktop_file : desktop_files
   i18n.merge_file('desktop',

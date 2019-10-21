@@ -48,3 +48,14 @@ Description: Pure Wayland shell for mobile devices
  .
  If you're not working on a Wayland compositor then this package is likely not
  very useful for you.
+
+Package: phosh-osk-stub
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Conflicts:
+ librem5-base
+Description: OSK stub to fulfil session dependencies
+ Phosh's session wants a sm.puri.OSK0. For testing on non-phone's
+ this stub fulfills the necessary dependencies.
