@@ -99,6 +99,9 @@ configure_file(
 gnome = import('gnome')
 i18n  = import('i18n')
 
+gio_dep = dependency('gio-2.0', version: '>=2.56')
+gio_unix_dep =  dependency('gio-unix-2.0', version: '>=2.50.0')
+glib_dep = dependency('glib-2.0', version: '>=2.50.0')
 libgvc = subproject('gvc',
   default_options: [
     'package_name=' + meson.project_name(),
