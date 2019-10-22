@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-07 09:39+0200\n"
+"POT-Creation-Date: 2019-10-22 15:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,6 +57,11 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
+#: src/network-auth-prompt.c:183
+#, c-format
+msgid "Enter password for the wifi network “%s”"
+msgstr ""
+
 #: src/notification.c:510
 msgid "Notification"
 msgstr ""
@@ -65,8 +70,8 @@ msgstr ""
 msgid "Authentication dialog was dismissed by the user"
 msgstr ""
 
-#: src/polkit-auth-prompt.c:276 src/ui/polkit-auth-prompt.ui:41
-#: src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
+#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
 msgid "Password:"
 msgstr ""
 
@@ -96,6 +101,14 @@ msgstr ""
 
 #: src/ui/lockscreen.ui:35
 msgid "Slide up to unlock"
+msgstr ""
+
+#: src/ui/network-auth-prompt.ui:90
+msgid "_Cancel"
+msgstr ""
+
+#: src/ui/network-auth-prompt.ui:106
+msgid "C_onnect"
 msgstr ""
 
 #: src/ui/polkit-auth-prompt.ui:105
