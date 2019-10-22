@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-07-25 06:31+0000\n"
+"PO-Revision-Date: 2019-10-11 07:05+0000\n"
 "Language-Team: \n"
 "X-Generator: Zanata 4.6.2\n"
 "Last-Translator: Frl5 <zanata@videca.fr>\n"
@@ -36,7 +36,7 @@ msgstr "Phosh"
 
 #: src/app-grid-button.c:209
 msgid "Application"
-msgstr ""
+msgstr "Application"
 
 #: src/lockscreen.c:84 src/ui/lockscreen.ui:239
 msgid "Enter Passcode"
@@ -44,7 +44,7 @@ msgstr "Entrer le mot de passe"
 
 #: src/lockscreen.c:214
 msgid "Checking…"
-msgstr ""
+msgstr "Vérification..."
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -63,11 +63,11 @@ msgstr "Inconnu"
 
 #: src/notification.c:510
 msgid "Notification"
-msgstr ""
+msgstr "Notification"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
-msgstr "La fenêtre d'authentification a été fermé par l'utilisateur"
+msgstr "La fenêtre d'authentification a été fermée par l'utilisateur"
 
 #: src/polkit-auth-prompt.c:276 src/ui/polkit-auth-prompt.ui:41
 #: src/ui/system-prompt.ui:39
@@ -92,11 +92,11 @@ msgstr "Le mot de passe ne doit pas être vide"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
-msgstr ""
+msgstr "App"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr ""
+msgstr "Recherche d'apps..."
 
 #: src/ui/lockscreen.ui:35
 msgid "Slide up to unlock"

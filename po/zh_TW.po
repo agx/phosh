@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-09-27 06:54+0000\n"
+"PO-Revision-Date: 2019-10-20 04:25+0000\n"
 "Last-Translator: Martin Chang <marty188586@gmail.com>\n"
 "Language-Team: Chinese (Taiwan)\n"
 "Language: zh_TW\n"
@@ -38,7 +38,7 @@ msgstr "請輸入密碼"
 
 #: src/lockscreen.c:214
 msgid "Checking…"
-msgstr ""
+msgstr "檢查中…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -90,7 +90,7 @@ msgstr "App"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr ""
+msgstr "尋找應用程式…"
 
 #: src/ui/lockscreen.ui:35
 msgid "Slide up to unlock"
