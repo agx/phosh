@@ -1,3 +1,49 @@
+phosh (0.1.2) amber; urgency=medium
+
+  [ Bart Ribbers ]
+  * gitlab-ci: don't build test coverage for Alpine Linux
+
+  [ Guido Günther ]
+  * Add wayland session file.
+    This allows to run phosh directly from e.g. gdm which makes testing
+    on GNOME way easier
+  * Recommend phoc. We don't make it a hard dependency since we can run with
+    other compositors as well.
+  * Drop all rootston fallbacks. rootston is unmaintained and has only very
+    limited functionality while phoc had a release.
+  * debian: Bump compat to 12.
+    This makes some things simpler like dh_nissing and it moves
+    phosh to /u/libexec where it should have always been.
+  * debian: Add install file for phosh.
+    This makes us pick up the right files when we add more binary packages
+  * build: move glib/gio dependency to toplevel meson file.
+    This and assigining it to variables makes it simpler for
+    other meson files to use.
+  * Add keyboard stub.
+    This helps to fulfil gnome-session dependencies on desktops where we
+    don't have squeekboard (yet) and where it should not unfold
+  * layer-surface: Emit signals on width/height changes.
+    We missed signals on phosh_layer_surface_set_size().
+  * layer-surface: Don't make width/height construct only.
+  * po: Update translatable files
+  * po: Update translations from zanata
+
+  [ Dorota Czaplejewicz ]
+  * layersurface: remove phosh-wayland include.
+    This makes the file copy-portable again.
+  * layer-surface: Distinguish requested and configured width/height
+    {width,height} represent the user request while
+    configured_{width,height} represent what the compositor sent us.
+    This allows clients to see how their size request matches the
+    actual surface size.
+
+  [ Mohammed Sadiq ]
+  * Add shell-network-agent.
+  * Add network agent. Network agent is responsible for requesting credentials
+    when connecting to networks that requires credentials
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 25 Oct 2019 21:07:24 +0200
+
 phosh (0.1.1) amber-phone; urgency=medium
 
   [ Guido Günther ]
