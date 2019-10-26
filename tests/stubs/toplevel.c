@@ -63,7 +63,7 @@ phosh_toplevel_is_activated (PhoshToplevel *self) {
 
 
 void
-phosh_toplevel_raise (PhoshToplevel *self, struct wl_seat *seat) {
+phosh_toplevel_activate (PhoshToplevel *self, struct wl_seat *seat) {
   g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
 }
 

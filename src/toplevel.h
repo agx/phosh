@@ -22,5 +22,5 @@ const gchar *phosh_toplevel_get_title (PhoshToplevel *self);
 const gchar *phosh_toplevel_get_app_id (PhoshToplevel *self);
 gboolean phosh_toplevel_is_configured (PhoshToplevel *self);
 gboolean phosh_toplevel_is_activated (PhoshToplevel *self);
-void phosh_toplevel_raise (PhoshToplevel *self, struct wl_seat *seat);
+void phosh_toplevel_activate (PhoshToplevel *self, struct wl_seat *seat);
 void phosh_toplevel_close (PhoshToplevel *self);
