@@ -163,10 +163,16 @@ phosh_activity_constructed (GObject *object)
      detect this case (no dot in app_id and starts with
      lowercase) work around this by trying org.gnome.<capitalized
      app_id>.
+     Applications with "gnome-" prefix in their name also need to be
+     handled there ("gnome-software" -> "org.gnome.Software").
   */
   if (!priv->info && strchr (priv->app_id, '.') == NULL && !g_ascii_isupper (priv->app_id[0])) {
+    guint first_char = 0;
+    if (g_str_has_prefix (priv->app_id, "gnome-")) {
+      first_char = strlen ("gnome-");
+    }
     g_free (desktop_id);
-    desktop_id = g_strdup_printf ("org.gnome.%c%s.desktop", priv->app_id[0] - 32, &(priv->app_id[1]));
+    desktop_id = g_strdup_printf ("org.gnome.%c%s.desktop", priv->app_id[first_char] - 32, &(priv->app_id[first_char + 1]));
     g_debug ("%s has broken app_id, should be %s", priv->app_id, desktop_id);
     priv->info = g_desktop_app_info_new (desktop_id);
   }
