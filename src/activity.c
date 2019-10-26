@@ -9,6 +9,7 @@
 #include "config.h"
 #include "activity.h"
 #include "shell.h"
+#include "util.h"
 
 #include <gio/gdesktopappinfo.h>
 
@@ -152,27 +153,17 @@ phosh_activity_constructed (GObject *object)
   PhoshActivity *self = PHOSH_ACTIVITY (object);
   PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
   g_autofree gchar *desktop_id = NULL;
-  g_autofree gchar *name = NULL;
 
   desktop_id = g_strdup_printf ("%s.desktop", priv->app_id);
   g_return_if_fail (desktop_id);
   priv->info = g_desktop_app_info_new (desktop_id);
 
-  /* For GTK+3 apps the desktop_id and the app_id often don't match
-     because the app_id is incorrectly just $(basename argv[0]). If we
-     detect this case (no dot in app_id and starts with
-     lowercase) work around this by trying org.gnome.<capitalized
-     app_id>.
-     Applications with "gnome-" prefix in their name also need to be
-     handled there ("gnome-software" -> "org.gnome.Software").
-  */
-  if (!priv->info && strchr (priv->app_id, '.') == NULL && !g_ascii_isupper (priv->app_id[0])) {
-    guint first_char = 0;
-    if (g_str_has_prefix (priv->app_id, "gnome-")) {
-      first_char = strlen ("gnome-");
-    }
+  if (!priv->info) {
+    g_autofree gchar *name = phosh_fix_app_id (priv->app_id);
+    g_return_if_fail (name);
     g_free (desktop_id);
-    desktop_id = g_strdup_printf ("org.gnome.%c%s.desktop", priv->app_id[first_char] - 32, &(priv->app_id[first_char + 1]));
+    desktop_id = g_strdup_printf ("%s.desktop", name);
+    g_return_if_fail (desktop_id);
     g_debug ("%s has broken app_id, should be %s", priv->app_id, desktop_id);
     priv->info = g_desktop_app_info_new (desktop_id);
   }
