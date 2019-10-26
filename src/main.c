@@ -64,13 +64,15 @@ int main(int argc, char *argv[])
   g_autoptr(GSource) sigterm = NULL;
   g_autoptr(GOptionContext) opt_context = NULL;
   GError *err = NULL;
-  gboolean unlocked = FALSE, version = FALSE;
+  gboolean unlocked = FALSE, locked = FALSE, version = FALSE;
   g_autoptr(PhoshWayland) wl = NULL;
   g_autoptr(PhoshShell) shell = NULL;
 
   const GOptionEntry options [] = {
     {"unlocked", 'U', 0, G_OPTION_ARG_NONE, &unlocked,
      "Don't start with screen locked", NULL},
+    {"locked", 'L', 0, G_OPTION_ARG_NONE, &locked,
+     "Start with screen locked, no matter what", NULL},
     {"version", 0, 0, G_OPTION_ARG_NONE, &version,
      "Show version information", NULL},
     { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
@@ -99,7 +101,7 @@ int main(int argc, char *argv[])
 
   wl = phosh_wayland_get_default ();
   shell = phosh_shell_get_default ();
-  if (!(unlocked || started_by_display_manager()))
+  if (!(unlocked || started_by_display_manager()) || locked)
     phosh_shell_lock (shell);
 
   gtk_main ();
