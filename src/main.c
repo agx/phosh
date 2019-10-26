@@ -35,6 +35,22 @@ on_shutdown_signal (gpointer unused)
 }
 
 
+/**
+ * started_by_display_manager:
+ *
+ * returns %TRUE if we were started from a
+ * display manager. %FALSE otherwise.
+ */
+static gboolean
+started_by_display_manager(void)
+{
+  if (!g_strcmp0 (g_getenv ("GDMSESSION"), "phosh"))
+    return TRUE;
+
+  return FALSE;
+}
+
+
 static void
 print_version (void)
 {
@@ -83,7 +99,7 @@ int main(int argc, char *argv[])
 
   wl = phosh_wayland_get_default ();
   shell = phosh_shell_get_default ();
-  if (!unlocked)
+  if (!(unlocked || started_by_display_manager()))
     phosh_shell_lock (shell);
 
   gtk_main ();
