@@ -9,7 +9,9 @@
 #include "config.h"
 #include "app-grid-button.h"
 
-#include <glib/gi18n-lib.h>
+#include "toplevel-manager.h"
+#include "shell.h"
+#include "util.h"
 
 typedef struct _PhoshAppGridButtonPrivate PhoshAppGridButtonPrivate;
 struct _PhoshAppGridButtonPrivate {
@@ -96,8 +98,28 @@ activate_cb (PhoshAppGridButton *self)
   PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
   g_autoptr (GdkAppLaunchContext) context = NULL;
   g_autoptr (GError) error = NULL;
+  PhoshToplevelManager *toplevel_manager = phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
+  g_autofree gchar *app_id = g_strdup (g_app_info_get_id (G_APP_INFO (priv->info)));
 
-  g_debug ("Launching %s", g_app_info_get_id (priv->info));
+  g_debug ("Launching %s", app_id);
+
+  // strip ".desktop" suffix
+  if (app_id && g_str_has_suffix (app_id, ".desktop")) {
+    *(app_id + strlen (app_id) - strlen (".desktop")) = '\0';
+  }
+
+  for (guint i=0; i < phosh_toplevel_manager_get_num_toplevels (toplevel_manager); i++) {
+    PhoshToplevel *toplevel = phosh_toplevel_manager_get_toplevel (toplevel_manager, i);
+    const gchar *window_id = phosh_toplevel_get_app_id (toplevel);
+    g_autofree gchar *fixed_id = phosh_fix_app_id (window_id);
+
+    if (g_strcmp0 (app_id, window_id) == 0 || g_strcmp0 (app_id, fixed_id) == 0) {
+      // activate the first matching window for now, since we don't have toplevels sorted by last-focus yet
+      phosh_toplevel_activate (toplevel, phosh_wayland_get_wl_seat (phosh_wayland_get_default ()));
+      g_signal_emit (self, signals[APP_LAUNCHED], 0, priv->info);
+      return;
+    }
+  }
 
   context = gdk_display_get_app_launch_context (gtk_widget_get_display (GTK_WIDGET (self)));
 
