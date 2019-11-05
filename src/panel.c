@@ -18,6 +18,7 @@
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-wall-clock.h>
+#include <libgnome-desktop/gnome-xkb-info.h>
 
 #include <glib/gi18n.h>
 
@@ -33,10 +34,14 @@ typedef struct {
   GtkWidget *btn_top_panel;
   GtkWidget *lbl_clock;
   GtkWidget *wwaninfo;
+  GtkWidget *lbl_lang;
   GtkWidget *batteryinfo;
   gint height;
 
   GnomeWallClock *wall_clock;
+  GnomeXkbInfo *xkbinfo;
+  GSettings *input_settings;
+  GdkSeat *seat;
 } PhoshPanelPrivate;
 
 typedef struct _PhoshPanel
@@ -81,11 +86,70 @@ size_allocated_cb (PhoshPanel *self, gpointer unused)
   gtk_window_get_size (GTK_WINDOW (self), &width, &priv->height);
 }
 
+
+static void
+on_seat_device_changed (PhoshPanel *self, GdkDevice  *device, GdkSeat *seat)
+{
+  PhoshPanelPrivate *priv;
+  gboolean visible = FALSE;
+  GList *slaves;
+
+  g_return_if_fail (PHOSH_IS_PANEL (self));
+  g_return_if_fail (GDK_IS_SEAT (seat));
+  priv = phosh_panel_get_instance_private (self);
+
+  slaves = gdk_seat_get_slaves (seat, GDK_SEAT_CAPABILITY_KEYBOARD);
+  if (slaves) {
+    g_debug ("Keyboard attached");
+    visible = TRUE;
+    g_list_free (slaves);
+  }
+
+  gtk_widget_set_visible (priv->lbl_lang, visible);
+}
+
+
+static void
+on_input_setting_changed (PhoshPanel  *self,
+                          const gchar *key,
+                          GSettings   *settings)
+{
+  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
+  g_autoptr(GVariant) sources = NULL;
+  GVariantIter iter;
+  g_autofree gchar *id = NULL;
+  g_autofree gchar *type = NULL;
+  const gchar *name;
+
+  sources = g_settings_get_value(settings, "sources");
+
+  if (g_variant_n_children (sources) < 2)
+    return;
+
+  g_variant_iter_init (&iter, sources);
+  g_variant_iter_next (&iter, "(ss)", &type, &id);
+
+  if (g_strcmp0 (type, "xkb")) {
+    g_debug ("Not a xkb layout: '%s' - ignoring", id);
+    return;
+  }
+
+  if (!gnome_xkb_info_get_layout_info (priv->xkbinfo, id,
+                                       NULL, &name, NULL, NULL)) {
+    g_debug ("Failed to get layout info for %s", id);
+    name = id;
+  }
+  g_debug ("Layout is %s", name);
+  gtk_label_set_text (GTK_LABEL (priv->lbl_lang), name);
+}
+
+
 static void
 phosh_panel_constructed (GObject *object)
 {
   PhoshPanel *self = PHOSH_PANEL (object);
   PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
+  GdkDisplay *display = gdk_display_get_default ();
 
   G_OBJECT_CLASS (phosh_panel_parent_class)->constructed (object);
 
@@ -119,6 +183,23 @@ phosh_panel_constructed (GObject *object)
                                   "image-button");
 
   wall_clock_notify_cb (self, NULL, priv->wall_clock);
+
+  /* language indicator */
+  if (display) {
+    priv->xkbinfo = gnome_xkb_info_new ();
+    priv->seat = gdk_display_get_default_seat (display);
+    g_object_connect (priv->seat,
+                      "swapped_signal::device-added", G_CALLBACK (on_seat_device_changed), self,
+                      "swapped_signal::device-removed", G_CALLBACK (on_seat_device_changed), self,
+                      NULL);
+
+    on_seat_device_changed (self, NULL, priv->seat);
+    priv->input_settings = g_settings_new ("org.gnome.desktop.input-sources");
+    g_signal_connect_swapped (priv->input_settings,
+                              "changed::sources", G_CALLBACK (on_input_setting_changed),
+                              self);
+    on_input_setting_changed (self, NULL, priv->input_settings);
+  }
 }
 
 
@@ -129,6 +210,9 @@ phosh_panel_dispose (GObject *object)
   PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
 
   g_clear_object (&priv->wall_clock);
+  g_clear_object (&priv->xkbinfo);
+  g_clear_object (&priv->input_settings);
+  priv->seat = NULL;
 
   G_OBJECT_CLASS (phosh_panel_parent_class)->dispose (object);
 }
@@ -153,6 +237,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, wwaninfo);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, batteryinfo);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_lang);
 }
 
 
