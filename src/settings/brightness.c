@@ -27,7 +27,6 @@ brightness_changed_cb (GDBusProxy *proxy,
   gint value;
   gboolean ret;
 
-  setting_brightness = TRUE;
   ret = g_variant_lookup (changed_props,
                           "Brightness",
                           "i", &value);
