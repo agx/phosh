@@ -83,3 +83,8 @@ generated_dbus_sources += gnome.gdbus_codegen('phosh-screen-saver-dbus',
                                               'org.gnome.ScreenSaver.xml',
 					      interface_prefix: 'org.gnome',
 					      namespace: 'PhoshScreenSaverDBus')
+
+generated_dbus_sources += gnome.gdbus_codegen('phosh-end-session-dialog-dbus',
+                                              'org.gnome.SessionManager.EndSessionDialog.xml',
+					      interface_prefix: 'org.gnome.SessionManager',
+					      namespace: 'PhoshDBus')

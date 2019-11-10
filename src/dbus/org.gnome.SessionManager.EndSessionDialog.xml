@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
+  <interface name="org.gnome.SessionManager.EndSessionDialog">
+    <method name="Open">
+      <arg type="u" name="type" direction="in">
+        <doc:doc>
+          <doc:summary>
+            The type of dialog to show.
+            0 for logout, 1 for shutdown, 2 for restart, 3 for hibernate,
+            4 for suspend and 5 hybrid sleep.
+          </doc:summary>
+        </doc:doc>
+      </arg>
+      <arg type="u" name="timestamp" direction="in">
+        <doc:doc>
+          <doc:summary>
+            Timestamp of the user-initiated event which triggered
+            the call, or 0 if the call was not triggered by an event.
+          </doc:summary>
+        </doc:doc>
+      </arg>
+      <arg type="u" name="seconds_to_stay_open" direction="in">
+        <doc:doc>
+          <doc:summary>
+            The number of seconds which the dialog should stay open
+            before automatic action is taken.
+          </doc:summary>
+        </doc:doc>
+      </arg>
+      <arg type="ao" name="inhibitor_object_paths" direction="in">
+        <doc:doc>
+          <doc:summary>
+            The object paths of all inhibitors that are registered
+            for the action.
+          </doc:summary>
+        </doc:doc>
+      </arg>
+      <doc:doc>
+        <doc:summary>
+          This function opens a dialog which asks the user for confirmation
+          of a logout, poweroff or reboot action. The dialog has a timeout
+          after which the action is automatically taken, and it should show
+          the inhibitors to the user.
+        </doc:summary>
+      </doc:doc>
+    </method>
+    <signal name="ConfirmedLogout" />
+    <signal name="ConfirmedReboot" />
+    <signal name="ConfirmedShutdown" />
+    <signal name="ConfirmedHibernate" />
+    <signal name="ConfirmedSuspend" />
+    <signal name="ConfirmedHybridSleep" />
+    <signal name="Canceled" />
+    <signal name="Closed" />
+  </interface>
+</node>
