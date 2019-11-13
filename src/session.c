@@ -145,6 +145,7 @@ phosh_session_register (const char *client_id)
                      NULL,
                      (GAsyncReadyCallback) on_client_registered,
                      NULL);
+  g_unsetenv ("DESKTOP_AUTOSTART_ID");
 }
 
 
