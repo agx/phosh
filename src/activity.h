@@ -15,3 +15,5 @@ GtkWidget  *phosh_activity_new        (const char *app_id,
                                        const char *title);
 const char *phosh_activity_get_app_id (PhoshActivity   *self);
 const char *phosh_activity_get_title  (PhoshActivity   *self);
+void        phosh_activity_set_title  (PhoshActivity   *self,
+                                       const char      *title);

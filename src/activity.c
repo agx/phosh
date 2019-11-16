@@ -81,9 +81,7 @@ phosh_activity_set_property (GObject *object,
       g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_ID]);
       break;
     case PROP_TITLE:
-      g_free (priv->title);
-      priv->title = g_value_dup_string (value);
-      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TITLE]);
+      phosh_activity_set_title (self, g_value_get_string (value));
       break;
     case PROP_WIN_WIDTH:
       width = g_value_get_int (value);
@@ -394,6 +392,21 @@ phosh_activity_get_app_id (PhoshActivity *self)
   return priv->app_id;
 }
 
+void
+phosh_activity_set_title (PhoshActivity *self, const char *title)
+{
+  PhoshActivityPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_ACTIVITY (self));
+  priv = phosh_activity_get_instance_private (self);
+
+  if (!g_strcmp0 (priv->title, title))
+    return;
+
+  g_free (priv->title);
+  priv->title = g_strdup (title);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TITLE]);
+}
 
 const char *
 phosh_activity_get_title (PhoshActivity *self)
