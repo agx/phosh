@@ -31,6 +31,7 @@ static GParamSpec *props[PROP_LAST_PROP];
 
 enum {
   SIGNAL_TOPLEVEL_ADDED,
+  SIGNAL_TOPLEVEL_CHANGED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
@@ -93,7 +94,12 @@ on_toplevel_configured (PhoshToplevelManager *self, GParamSpec *pspec, PhoshTopl
 
   configured = phosh_toplevel_is_configured (toplevel);
 
-  if (configured && !g_ptr_array_find (self->toplevels, toplevel, NULL)) {
+  if (!configured)
+    return;
+
+  if (g_ptr_array_find (self->toplevels, toplevel, NULL)) {
+    g_signal_emit (self, signals[SIGNAL_TOPLEVEL_CHANGED], 0, toplevel);
+  } else {
     g_ptr_array_add (self->toplevels, toplevel);
     g_signal_emit (self, signals[SIGNAL_TOPLEVEL_ADDED], 0, toplevel);
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_NUM_TOPLEVELS]);
@@ -176,6 +182,17 @@ phosh_toplevel_manager_class_init (PhoshToplevelManagerClass *klass)
    */
   signals[SIGNAL_TOPLEVEL_ADDED] = g_signal_new (
     "toplevel-added",
+    G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+    NULL, G_TYPE_NONE, 1, PHOSH_TYPE_TOPLEVEL);
+  /**
+   * PhoshToplevelManager::toplevel-changed:
+   * @manager: The #PhoshToplevelManager emitting the signal.
+   * @toplevel: The #PhoshToplevel that changed properties.
+   *
+   * Emitted whenever a toplevel has changed properties.
+   */
+  signals[SIGNAL_TOPLEVEL_CHANGED] = g_signal_new (
+    "toplevel-changed",
     G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
     NULL, G_TYPE_NONE, 1, PHOSH_TYPE_TOPLEVEL);
 }
