@@ -166,8 +166,6 @@ phosh_activity_constructed (GObject *object)
     priv->info = g_desktop_app_info_new (desktop_id);
   }
 
-  gtk_label_set_label (GTK_LABEL (priv->app_name), priv->title);
-
   if (priv->info) {
     gtk_image_set_from_gicon (GTK_IMAGE (priv->icon),
                               g_app_info_get_icon (G_APP_INFO (priv->info)),
@@ -405,6 +403,7 @@ phosh_activity_set_title (PhoshActivity *self, const char *title)
 
   g_free (priv->title);
   priv->title = g_strdup (title);
+  gtk_label_set_label (GTK_LABEL (priv->app_name), priv->title);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TITLE]);
 }
 
