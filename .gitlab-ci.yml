@@ -157,10 +157,26 @@ test:smoke:two-outputs:
       - output/*.png
     when: always
 
-package:deb:
+package:deb-debian-buster:
   <<: *tags
   stage: package
   image: debian:buster
+  script:
+    - dpkg-buildpackage -uc -us
+    - cp ../*.deb .
+  artifacts:
+    paths:
+      - "*.deb"
+
+package:deb-pureos-amber:
+  <<: *tags
+  stage: package
+  image: pureos/amber
+  before_script:
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt-get -y update
+    - apt-get -y build-dep .
+    - apt-get -y install $DEPS
   script:
     - dpkg-buildpackage -uc -us
     - cp ../*.deb .
