@@ -87,24 +87,41 @@ size_allocated_cb (PhoshPanel *self, gpointer unused)
 }
 
 
+static gboolean
+needs_keyboard_label (PhoshPanel *self)
+{
+  PhoshPanelPrivate *priv;
+  GList *slaves;
+  g_autoptr(GVariant) sources = NULL;
+
+  priv = phosh_panel_get_instance_private (self);
+  g_return_val_if_fail (GDK_IS_SEAT (priv->seat), FALSE);
+  g_return_val_if_fail (G_IS_SETTINGS (priv->input_settings), FALSE);
+
+  sources = g_settings_get_value(priv->input_settings, "sources");
+  if (g_variant_n_children (sources) < 2)
+    return FALSE;
+
+  slaves = gdk_seat_get_slaves (priv->seat, GDK_SEAT_CAPABILITY_KEYBOARD);
+  if (!slaves)
+    return FALSE;
+
+  g_list_free (slaves);
+  return TRUE;
+}
+
+
 static void
 on_seat_device_changed (PhoshPanel *self, GdkDevice  *device, GdkSeat *seat)
 {
+  gboolean visible;
   PhoshPanelPrivate *priv;
-  gboolean visible = FALSE;
-  GList *slaves;
 
   g_return_if_fail (PHOSH_IS_PANEL (self));
   g_return_if_fail (GDK_IS_SEAT (seat));
+
   priv = phosh_panel_get_instance_private (self);
-
-  slaves = gdk_seat_get_slaves (seat, GDK_SEAT_CAPABILITY_KEYBOARD);
-  if (slaves) {
-    g_debug ("Keyboard attached");
-    visible = TRUE;
-    g_list_free (slaves);
-  }
-
+  visible = needs_keyboard_label (self);
   gtk_widget_set_visible (priv->lbl_lang, visible);
 }
 
@@ -121,11 +138,12 @@ on_input_setting_changed (PhoshPanel  *self,
   g_autofree gchar *type = NULL;
   const gchar *name;
 
-  sources = g_settings_get_value(settings, "sources");
-
-  if (g_variant_n_children (sources) < 2)
+  if (!needs_keyboard_label (self)) {
+    gtk_widget_hide (priv->lbl_lang);
     return;
+  }
 
+  sources = g_settings_get_value(settings, "sources");
   g_variant_iter_init (&iter, sources);
   g_variant_iter_next (&iter, "(ss)", &type, &id);
 
@@ -141,6 +159,7 @@ on_input_setting_changed (PhoshPanel  *self,
   }
   g_debug ("Layout is %s", name);
   gtk_label_set_text (GTK_LABEL (priv->lbl_lang), name);
+  gtk_widget_show (priv->lbl_lang);
 }
 
 
@@ -186,15 +205,13 @@ phosh_panel_constructed (GObject *object)
 
   /* language indicator */
   if (display) {
+    priv->input_settings = g_settings_new ("org.gnome.desktop.input-sources");
     priv->xkbinfo = gnome_xkb_info_new ();
     priv->seat = gdk_display_get_default_seat (display);
     g_object_connect (priv->seat,
                       "swapped_signal::device-added", G_CALLBACK (on_seat_device_changed), self,
                       "swapped_signal::device-removed", G_CALLBACK (on_seat_device_changed), self,
                       NULL);
-
-    on_seat_device_changed (self, NULL, priv->seat);
-    priv->input_settings = g_settings_new ("org.gnome.desktop.input-sources");
     g_signal_connect_swapped (priv->input_settings,
                               "changed::sources", G_CALLBACK (on_input_setting_changed),
                               self);
