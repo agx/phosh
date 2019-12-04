@@ -209,6 +209,7 @@
                 <property name="visibility">False</property>
                 <property name="xalign">0.5</property>
                 <property name="input-purpose">GTK_INPUT_PURPOSE_PIN</property>
+                <property name="buffer">pin_buffer</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -272,5 +273,7 @@
   <object class="GtkGestureLongPress" id="long_press_del_gesture">
     <property name="widget">delete_btn</property>
     <signal name="pressed" handler="long_press_del_cb" object="PhoshLockscreen" swapped="true"/>
+  </object>
+  <object class="GcrSecureEntryBuffer" id="pin_buffer">
   </object>
 </interface>
