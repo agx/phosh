@@ -1,0 +1,4 @@
+Test-Command: /usr/libexec/phosh --help
+Restrictions: superficial
+Depends: phosh
+
