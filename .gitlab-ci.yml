@@ -1,7 +1,11 @@
+include:
+ - 'https://source.puri.sm/Librem5/librem5-ci/raw/master/librem5-pipeline-definitions.yml'
+
 stages:
  - build
  - test
  - package
+ - test-package
 
 variables:
   DEPS: build-essential git wget lcov
@@ -158,28 +162,21 @@ test:smoke:two-outputs:
     when: always
 
 package:deb-debian-buster:
-  <<: *tags
-  stage: package
-  image: debian:buster
-  script:
-    - dpkg-buildpackage -uc -us
-    - cp ../*.deb .
-  artifacts:
-    paths:
-      - "*.deb"
+  extends: .l5-build-debian-package
 
 package:deb-pureos-amber:
-  <<: *tags
-  stage: package
-  image: pureos/amber
-  before_script:
-    - export DEBIAN_FRONTEND=noninteractive
-    - apt-get -y update
-    - apt-get -y build-dep .
-    - apt-get -y install $DEPS
-  script:
-    - dpkg-buildpackage -uc -us
-    - cp ../*.deb .
-  artifacts:
-    paths:
-      - "*.deb"
+  variables:
+    L5_DOCKER_IMAGE: pureos/amber
+    L5_ADD_SCRATCH_CI: 'false'
+  extends: .l5-build-debian-package
+
+autopkgtest-debian-buster-package:
+  dependencies:
+    - package:deb-debian-buster
+  extends: .l5-autopkgtest-debian-package
+
+lintian-debian-buster-package:
+  dependencies:
+    - package:deb-debian-buster
+  extends: .l5-lintian-debian-package
+
