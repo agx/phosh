@@ -14,7 +14,8 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (PhoshWifiManager, phosh_wifi_manager, PHOSH, WIFI_MANAGER, GObject)
 
-PhoshWifiManager * phosh_wifi_manager_new (void);
+PhoshWifiManager  *phosh_wifi_manager_new (void);
 guint8             phosh_wifi_manager_get_strength (PhoshWifiManager *self);
+const gchar       *phosh_wifi_manager_get_icon_name (PhoshWifiManager *self);
 
 G_END_DECLS

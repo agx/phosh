@@ -539,3 +539,11 @@ phosh_wifi_manager_get_strength (PhoshWifiManager *self)
 
   return nm_access_point_get_strength (self->ap);
 }
+
+const gchar*
+phosh_wifi_manager_get_icon_name (PhoshWifiManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (self), NULL);
+
+  return self->icon_name;
+}
