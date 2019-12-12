@@ -294,7 +294,7 @@ static void
 init_modem (PhoshWWanMM *self, const gchar *object_path)
 {
   PhoshWWanMMPrivate *priv = phosh_wwan_mm_get_instance_private (self);
-  GError *err = NULL;
+  g_autoptr(GError) err = NULL;
 
   priv->proxy = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_proxy_new_for_bus_sync (
     G_BUS_TYPE_SYSTEM,
@@ -306,7 +306,7 @@ init_modem (PhoshWWanMM *self, const gchar *object_path)
 
   if (priv->proxy == NULL) {
     g_warning ("Can't query modem at %s: %s", object_path, err->message);
-    g_clear_error (&err);
+    return;
   }
 
   priv->object_path = g_strdup (object_path);
