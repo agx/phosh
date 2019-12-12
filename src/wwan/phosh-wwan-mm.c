@@ -395,6 +395,7 @@ phosh_wwan_mm_constructed (GObject *object)
 
   modems = g_dbus_object_manager_get_objects (G_DBUS_OBJECT_MANAGER (priv->manager));
   if (modems) {
+    /* Look at the first modem */
     modem_object_path = g_dbus_object_get_object_path (G_DBUS_OBJECT (modems->data));
     g_debug ("modem path: %s", modem_object_path);
     init_modem (self, modem_object_path);
