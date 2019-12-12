@@ -190,9 +190,12 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
   g_autoptr(GdkPixbuf) src = NULL, dest = NULL;
   g_autofree gchar *icon_name = NULL;
   const char *access_tec;
+  gboolean visible;
 
-  g_debug ("Updating wwan icon");
   g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
+  visible = phosh_wwan_is_present (PHOSH_WWAN (self->wwan));
+  g_debug ("Updating wwan icon, shown: %d", visible);
+  gtk_widget_set_visible (GTK_WIDGET (self), visible);
 
   icon_theme = gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET(self)));
   /* SIM missing */
@@ -226,6 +229,14 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
 }
 
 
+static gboolean
+on_idle (PhoshWWanInfo *self)
+{
+  update_icon_data (self, NULL, NULL);
+  return FALSE;
+}
+
+
 static void
 phosh_wwan_info_constructed (GObject *object)
 {
@@ -234,6 +245,7 @@ phosh_wwan_info_constructed (GObject *object)
                               "notify::access-tec",
                               "notify::unlocked",
                               "notify::sim",
+                              "notify::present",
                               NULL,
   };
 
@@ -250,8 +262,7 @@ phosh_wwan_info_constructed (GObject *object)
                               G_CALLBACK (update_icon_data),
                               self);
   }
-
-  update_icon_data (self, NULL, NULL);
+  g_idle_add ((GSourceFunc) on_idle, self);
 }
 
 
