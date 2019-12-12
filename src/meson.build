@@ -140,7 +140,11 @@ phosh_deps = [
   dependency('gtk+-3.0', version: '>=3.22'),
   dependency('gtk+-wayland-3.0', version: '>=3.22'),
   dependency('wayland-client', version: '>=1.14'),
-  dependency('libhandy-0.0', version: '>=0.0.11', fallback: ['libhandy', 'libhandy_dep']),
+  dependency('libhandy-0.0',
+    version: '>=0.0.12',
+    fallback: ['libhandy', 'libhandy_dep'],
+    default_options: ['introspection=disabled']
+    ),
   dependency('upower-glib', version: '>=0.99.1'),
   libgvc_dep,
   libnm_dep,
