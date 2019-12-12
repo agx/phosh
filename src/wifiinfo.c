@@ -34,14 +34,13 @@ G_DEFINE_TYPE (PhoshWifiInfo, phosh_wifi_info, GTK_TYPE_IMAGE);
 static void
 update_icon (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
 {
-  g_autofree gchar *icon_name = NULL;
+  const gchar *icon_name;
 
   g_debug ("Updating wifi icon");
   g_return_if_fail (PHOSH_IS_WIFI_INFO (self));
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (wifi));
 
-  g_object_get (wifi, "icon-name", &icon_name, NULL);
-
+  icon_name = phosh_wifi_manager_get_icon_name (wifi);
   if (icon_name)
     gtk_image_set_from_icon_name (GTK_IMAGE (self), icon_name, self->size);
 
