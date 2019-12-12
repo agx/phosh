@@ -20,10 +20,11 @@ struct _PhoshWWanInterface
   const char*   (*get_access_tec)     (PhoshWWan *self);
   gboolean      (*is_unlocked)        (PhoshWWan *self);
   gboolean      (*has_sim)            (PhoshWWan *self);
-
+  gboolean      (*is_present)         (PhoshWWan *self);
 };
 
 guint         phosh_wwan_get_signal_quality (PhoshWWan* self);
 const char*   phosh_wwan_get_access_tec     (PhoshWWan* self);
 gboolean      phosh_wwan_is_unlocked        (PhoshWWan* self);
 gboolean      phosh_wwan_has_sim            (PhoshWWan* self);
+gboolean      phosh_wwan_is_present         (PhoshWWan* self);

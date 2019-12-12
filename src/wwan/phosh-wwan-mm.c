@@ -54,6 +54,7 @@ enum {
   PHOSH_WWAN_MM_PROP_ACCESS_TEC,
   PHOSH_WWAN_MM_PROP_UNLOCKED,
   PHOSH_WWAN_MM_PROP_SIM,
+  PHOSH_WWAN_MM_PROP_PRESENT,
   PHOSH_WWAN_MM_PROP_LAST_PROP,
 };
 
@@ -72,6 +73,7 @@ typedef struct
   const char *access_tec;
   gboolean unlocked;
   gboolean sim;
+  gboolean present;
 } PhoshWWanMMPrivate;
 
 
@@ -192,6 +194,21 @@ phosh_wwan_mm_update_sim_status (PhoshWWanMM *self)
 
 
 static void
+phosh_wwan_mm_update_present (PhoshWWanMM *self, gboolean present)
+{
+  PhoshWWanMMPrivate *priv = phosh_wwan_mm_get_instance_private (self);
+
+  g_return_if_fail (self);
+
+  if (priv->present != present) {
+    g_debug ("Modem is %spresent", present ? "" : "not ");
+    priv->present = present;
+    g_object_notify (G_OBJECT (self), "present");
+  }
+}
+
+
+static void
 dbus_props_changed_cb(PhoshWWanMMOrgFreedesktopModemManager1Modem *proxy,
                       GVariant *changed_properties,
                       GStrv invaliated,
@@ -276,6 +293,8 @@ destroy_modem (PhoshWWanMM *self)
 
   g_clear_pointer (&priv->object_path, g_free);
 
+  phosh_wwan_mm_update_present (self, FALSE);
+
   priv->signal_quality = 0;
   g_object_notify (G_OBJECT (self), "signal-quality");
 
@@ -323,6 +342,7 @@ init_modem (PhoshWWanMM *self, const gchar *object_path)
   phosh_wwan_mm_update_access_tec (self);
   phosh_wwan_mm_update_lock_status (self);
   phosh_wwan_mm_update_sim_status (self);
+  phosh_wwan_mm_update_present (self, TRUE);
 }
 
 
@@ -399,6 +419,8 @@ phosh_wwan_mm_constructed (GObject *object)
     modem_object_path = g_dbus_object_get_object_path (G_DBUS_OBJECT (modems->data));
     g_debug ("modem path: %s", modem_object_path);
     init_modem (self, modem_object_path);
+  } else {
+    g_debug ("No modem found");
   }
 }
 
@@ -448,6 +470,9 @@ phosh_wwan_mm_class_init (PhoshWWanMMClass *klass)
   g_object_class_override_property (object_class,
                                     PHOSH_WWAN_MM_PROP_SIM,
                                     "sim");
+  g_object_class_override_property (object_class,
+                                    PHOSH_WWAN_MM_PROP_PRESENT,
+                                    "present");
 }
 
 
@@ -497,6 +522,18 @@ phosh_wwan_mm_has_sim (PhoshWWan *phosh_wwan)
 }
 
 
+static gboolean
+phosh_wwan_mm_is_present (PhoshWWan *phosh_wwan)
+{
+  PhoshWWanMM *self = PHOSH_WWAN_MM (phosh_wwan);
+  PhoshWWanMMPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_WWAN_MM (self), FALSE);
+  priv = phosh_wwan_mm_get_instance_private (self);
+  return priv->present;
+}
+
+
 static void
 phosh_wwan_mm_interface_init (PhoshWWanInterface *iface)
 {
@@ -504,6 +541,7 @@ phosh_wwan_mm_interface_init (PhoshWWanInterface *iface)
   iface->get_access_tec = phosh_wwan_mm_get_access_tec;
   iface->is_unlocked = phosh_wwan_mm_is_unlocked;
   iface->has_sim = phosh_wwan_mm_has_sim;
+  iface->is_present = phosh_wwan_mm_is_present;
 }
 
 

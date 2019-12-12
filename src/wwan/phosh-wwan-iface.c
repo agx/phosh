@@ -45,7 +45,15 @@ phosh_wwan_default_init (PhoshWWanInterface *iface)
                           "Modem has a sim card inserted",
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
-}
+
+  g_object_interface_install_property (
+    iface,
+    g_param_spec_boolean ("present",
+                          "Modem present",
+                          "Whether there is a modem present",
+                          FALSE,
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
+  }
 
 
 guint
@@ -96,4 +104,16 @@ phosh_wwan_has_sim (PhoshWWan *self)
   iface = PHOSH_WWAN_GET_IFACE (self);
   g_return_val_if_fail (iface->has_sim != NULL, FALSE);
   return iface->has_sim (self);
+}
+
+gboolean
+phosh_wwan_is_present (PhoshWWan *self)
+{
+  PhoshWWanInterface *iface;
+
+  g_return_val_if_fail (PHOSH_IS_WWAN (self), FALSE);
+
+  iface = PHOSH_WWAN_GET_IFACE (self);
+  g_return_val_if_fail (iface->is_present != NULL, FALSE);
+  return iface->is_present (self);
 }
