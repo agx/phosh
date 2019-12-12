@@ -4,8 +4,6 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-/* WWAN Info widget */
-
 #define G_LOG_DOMAIN "phosh-wwaninfo"
 
 #include "config.h"
