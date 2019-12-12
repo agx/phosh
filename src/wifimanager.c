@@ -115,6 +115,7 @@ on_nm_access_point_strength_changed (PhoshWifiManager *self, GParamSpec *pspec, 
 
   strength = phosh_wifi_manager_get_strength (self);
   g_debug ("Strength changed: %d", strength);
+  g_free (self->icon_name);
   self->icon_name = g_strdup_printf("network-wireless-signal-%s-symbolic",
                                     signal_strength_descriptive (strength));
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME]);
