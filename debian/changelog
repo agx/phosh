@@ -1,3 +1,32 @@
+phosh (0.1.5) amber; urgency=medium
+
+  [ Guido Günther ]
+  * rootston.ini: Drop keyboard config section.
+    Not parsed anymore by phoc, uses GSettings now
+  * Turn on autorestart.
+    Mitigates #212
+  * gitlab-ci: Switch to shared gitlab-ci jobs.
+    This gives us more tests with less code.
+  * debian: Add trivial autopkgtest.
+    This makes sure we at least install correctly
+  * wifimanager: Don't leak icon name
+  * d/control: Depend on the used gsettings schema
+  * gitlab-ci: Test pureos against staging.
+  * build: Make libhandy dep explicit
+  * wwan-mm: Give up if we can't get proxy.
+    Just printing a warning is no enough.
+  * wwaninfo: Only show wwan icon if a modem is present
+    (Closes: #64)
+
+  [ Julian Sparber ]
+  * Bump libhandy to 0.0.12
+
+  [ Alexander Mikhaylenko ]
+  * lockscreen: Allow mouse dragging for lockscreen.
+    See https://source.puri.sm/Librem5/libhandy/merge_requests/344
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 13 Dec 2019 17:43:41 +0100
+
 phosh (0.1.4) amber; urgency=medium
 
   * activity: Add title setter
