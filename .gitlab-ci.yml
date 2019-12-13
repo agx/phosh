@@ -168,6 +168,15 @@ package:deb-pureos-amber:
   variables:
     L5_DOCKER_IMAGE: pureos/amber
     L5_ADD_SCRATCH_CI: 'false'
+  before_script:
+    - export DEBIAN_FRONTEND=noninteractive
+    - echo "man-db man-db/auto-update boolean false" | debconf-set-selections
+    - echo "deb https://repo.pureos.net/pureos amber-phone-staging main" > /etc/apt/sources.list.d/staging.list
+    - echo "deb https://repo.pureos.net/pureos amber-proposed-updates main" >> /etc/apt/sources.list.d/staging.list
+    - apt-get -y update
+    - apt-get -y build-dep .
+    - apt-get -y install build-essential git
+    - git submodule update --recursive
   extends: .l5-build-debian-package
 
 autopkgtest-debian-buster-package:
