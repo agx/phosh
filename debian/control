@@ -29,6 +29,7 @@ Depends:
  ${misc:Depends},
  ${shlibs:Depends},
  fonts-lato,
+ gsettings-desktop-schemas,
 Recommends:
  gnome-session,
  phoc,
