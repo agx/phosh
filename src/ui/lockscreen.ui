@@ -210,6 +210,9 @@
                 <property name="xalign">0.5</property>
                 <property name="input-purpose">GTK_INPUT_PURPOSE_PIN</property>
                 <property name="buffer">pin_buffer</property>
+                <style>
+                  <class name="phosh-lockscreen-pin"/>
+                </style>
               </object>
               <packing>
                 <property name="left_attach">0</property>
