@@ -15,7 +15,9 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhoshWWanInfo, phosh_wwan_info, PHOSH, WWAN_INFO, GtkBox)
 
 GtkWidget * phosh_wwan_info_new (void);
-void phosh_wwan_info_set_size (PhoshWWanInfo *self, gint size);
-gint phosh_wwan_info_get_size (PhoshWWanInfo *self);
+void        phosh_wwan_info_set_size (PhoshWWanInfo *self, gint size);
+gint        phosh_wwan_info_get_size (PhoshWWanInfo *self);
+void        phosh_wwan_info_set_show_detail (PhoshWWanInfo *self, gboolean show);
+gboolean    phosh_wwan_info_get_show_detail (PhoshWWanInfo *self);
 
 G_END_DECLS

@@ -21,6 +21,7 @@
 enum {
   PROP_0,
   PROP_SIZE,
+  PROP_SHOW_DETAIL,
   PROP_LAST_PROP,
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -34,6 +35,7 @@ struct _PhoshWWanInfo
 
   GtkImage *icon;
   GtkLabel *access_tec;
+  gboolean show_detail;
 
   gint size;
 };
@@ -51,6 +53,9 @@ phosh_wwan_info_set_property (GObject *object,
   switch (property_id) {
   case PROP_SIZE:
     phosh_wwan_info_set_size (self, g_value_get_int(value));
+    break;
+  case PROP_SHOW_DETAIL:
+    phosh_wwan_info_set_show_detail (self, g_value_get_boolean (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -70,6 +75,9 @@ phosh_wwan_info_get_property (GObject *object,
   switch (property_id) {
   case PROP_SIZE:
     g_value_set_int (value, self->size);
+    break;
+  case PROP_SHOW_DETAIL:
+    g_value_set_boolean (value, self->show_detail);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -129,6 +137,11 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
                                signal_quality_descriptive (quality));
   gtk_image_set_from_icon_name (GTK_IMAGE (self->icon), icon_name, -1);
   gtk_widget_show (GTK_WIDGET (self->icon));
+
+  if (!self->show_detail) {
+    gtk_widget_hide (GTK_WIDGET(self->access_tec));
+    return;
+  }
 
   /* Access technology */
   access_tec = phosh_wwan_get_access_tec (PHOSH_WWAN (self->wwan));
@@ -214,6 +227,14 @@ phosh_wwan_info_class_init (PhoshWWanInfoClass *klass)
       -1,
       G_PARAM_CONSTRUCT | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
+  props[PROP_SHOW_DETAIL] =
+    g_param_spec_boolean (
+      "show-detail",
+      "Show detail",
+      "Show wwan details",
+      FALSE,
+      G_PARAM_CONSTRUCT | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
@@ -260,4 +281,27 @@ phosh_wwan_info_get_size (PhoshWWanInfo *self)
   g_return_val_if_fail (PHOSH_IS_WWAN_INFO (self), 0);
 
   return self->size;
+}
+
+void
+phosh_wwan_info_set_show_detail (PhoshWWanInfo *self, gboolean show)
+{
+  g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
+
+  if (self->show_detail == show)
+    return;
+
+  self->show_detail = !!show;
+
+  gtk_widget_set_visible (GTK_WIDGET (self->access_tec), show);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SHOW_DETAIL]);
+}
+
+gboolean
+phosh_wwan_info_get_show_detail (PhoshWWanInfo *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WWAN_INFO (self), 0);
+
+  return self->show_detail;
 }
