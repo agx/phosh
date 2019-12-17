@@ -122,7 +122,6 @@
                         <property name="valign">start</property>
                         <property name="halign">end</property>
                         <property name="hexpand">False</property>
-                        <property name="use_fallback">True</property>
                         <property name="margin_left">6</property>
                         <property name="margin_right">6</property>
                         <property name="size">24</property>
