@@ -159,7 +159,8 @@ static void
 phosh_toplevel_dispose (GObject *object)
 {
   PhoshToplevel *self = PHOSH_TOPLEVEL (object);
-  zwlr_foreign_toplevel_handle_v1_destroy (self->handle);
+
+  g_clear_pointer (&self->handle, zwlr_foreign_toplevel_handle_v1_destroy);
 
   G_OBJECT_CLASS (phosh_toplevel_parent_class)->dispose (object);
 }
