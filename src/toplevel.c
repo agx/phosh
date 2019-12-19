@@ -171,6 +171,7 @@ phosh_toplevel_finalize (GObject *object)
   PhoshToplevel *self = PHOSH_TOPLEVEL(object);
 
   g_clear_pointer (&self->app_id, g_free);
+  g_clear_pointer (&self->title, g_free);
   G_OBJECT_CLASS (phosh_toplevel_parent_class)->finalize (object);
 }
 
