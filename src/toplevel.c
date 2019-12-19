@@ -70,8 +70,7 @@ handle_zwlr_foreign_toplevel_handle_app_id(
 {
   PhoshToplevel *self = data;
   g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
-  if (self->app_id)
-    g_free (self->app_id);
+  g_free (self->app_id);
   self->app_id = g_strdup (app_id);
   g_debug ("%p: Got app_id %s", zwlr_foreign_toplevel_handle_v1, app_id);
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_TOPLEVEL_PROP_APP_ID]);
