@@ -321,6 +321,7 @@ animate_cb(GtkWidget *widget,
 void
 phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
 {
+  g_autofree gchar *state_name = NULL;
   gboolean enable_animations;
   gboolean kbd_interactivity;
 
@@ -332,7 +333,9 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   enable_animations = hdy_get_enable_animations (GTK_WIDGET (self));
 
   self->state = state;
-  g_debug ("Setting state to %s", g_enum_to_string (PHOSH_TYPE_HOME_STATE, state));
+
+  state_name = g_enum_to_string (PHOSH_TYPE_HOME_STATE, state);
+  g_debug ("Setting state to %s", state_name);
 
   self->animation.last_frame = -1;
   self->animation.progress = enable_animations ? (1.0 - self->animation.progress) : 1.0;
