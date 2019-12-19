@@ -262,7 +262,7 @@ load_background (PhoshBackground *self)
     phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
   else
     g_object_get (self, "width", &width, "height", &height, NULL);
-  
+
   self->pixbuf = image_background (image, width * scale, height * scale, style, &self->color);
 
   /* force background redraw */
@@ -298,14 +298,16 @@ on_background_setting_changed (PhoshBackground *self,
                                const gchar     *key,
                                GSettings       *settings)
 {
+  g_autofree gchar *color = NULL;
+
   g_return_if_fail (PHOSH_IS_BACKGROUND (self));
   g_return_if_fail (G_IS_SETTINGS (settings));
 
   g_free (self->uri);
   self->uri = g_settings_get_string (settings, BG_KEY_PICTURE_URI);
   self->style = g_settings_get_enum (settings, BG_KEY_PICTURE_OPTIONS);
-  color_from_string (&self->color,
-                     g_settings_get_string (settings, BG_KEY_PRIMARY_COLOR));
+  color = g_settings_get_string (settings, BG_KEY_PRIMARY_COLOR);
+  color_from_string (&self->color, color);
 
   load_background (self);
 }
@@ -451,5 +453,3 @@ phosh_background_set_primary (PhoshBackground *self, gboolean primary)
     load_background (self);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY]);
 }
-
-
