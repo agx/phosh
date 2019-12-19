@@ -166,6 +166,16 @@ phosh_toplevel_dispose (GObject *object)
 
 
 static void
+phosh_toplevel_finalize (GObject *object)
+{
+  PhoshToplevel *self = PHOSH_TOPLEVEL(object);
+
+  g_clear_pointer (&self->app_id, g_free);
+  G_OBJECT_CLASS (phosh_toplevel_parent_class)->finalize (object);
+}
+
+
+static void
 phosh_toplevel_constructed (GObject *object)
 {
   PhoshToplevel *self = PHOSH_TOPLEVEL (object);
@@ -235,6 +245,7 @@ phosh_toplevel_class_init (PhoshToplevelClass *klass)
   object_class->get_property = phosh_toplevel_get_property;
   object_class->constructed = phosh_toplevel_constructed;
   object_class->dispose = phosh_toplevel_dispose;
+  object_class->finalize = phosh_toplevel_finalize;
 
   props[PHOSH_TOPLEVEL_PROP_HANDLE] =
     g_param_spec_pointer ("handle",
