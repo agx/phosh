@@ -8,6 +8,7 @@
       <object class="GtkImage" id="icon">
         <property name="can_focus">False</property>
         <property name="icon_name">auth-sim-missing-symbolic</property>
+        <property name="margin_right">8</property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -18,7 +19,7 @@
     <child>
       <object class="GtkLabel" id="access_tec">
         <property name="can_focus">False</property>
-        <property name="margin_left">8</property>
+        <property name="margin_right">8</property>
         <property name="margin_top">2</property>
       </object>
       <packing>
