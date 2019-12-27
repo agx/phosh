@@ -1,3 +1,29 @@
+phosh (0.1.6) amber; urgency=medium
+
+  [ Julian Sparber ]
+  * Lockscreen: replace HdyDialer with HdyKeypad.
+    The new Keypad uses a GtkEntry to store the entered pin/password.
+  * Lockscreen: use GcrSecureEntryBuffer for the pin entry.
+  * BatteryInfo: drop private data for gobject.
+    Since the BatteryInfo is a final it can't be subclassed, therefore it
+    doesn't need private data.
+
+  [ Guido Günther ]
+  * background: Plug leak
+  * home: Plug leak
+  * topevel: Avoid NULL check
+  * toplevel: Don't leak app_id and title
+  * toplevel: Guard handle from being destroyed multiple times
+  * wwaninfo: Seperate access tec and signal srength (Closes: #118)
+  * top-panel: Adjust label margins.
+    Use the same margins as for other text in the top panel.
+  * top-panel: Use only right margins.
+
+  [ Darren R ]
+  * lockscreen: Use show_symbols False
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 27 Dec 2019 23:05:07 +0100
+
 phosh (0.1.5) amber; urgency=medium
 
   [ Guido Günther ]
