@@ -3,6 +3,19 @@
 COMPOSITOR="/usr/bin/rootston"
 ROOTSTON_INI="@pkgdatadir@/rootston.ini"
 
+gnome_session_args()
+{
+    ARGS="--disable-acceleration-check --session=phosh"
+
+    # Use builtin session handling until we can rely
+    # on a newer gnome-session everywhere
+    if gnome-session --help | grep -qs -e--builtin; then
+        ARGS="--builtin ${ARGS}"
+    fi
+
+    echo "${ARGS}"
+}
+
 if [ -x @bindir@/phoc ]; then
   COMPOSITOR=@bindir@/phoc
 elif [ -x /usr/bin/phoc ]; then
@@ -15,4 +28,4 @@ fi
 
 # Run gnome-session through a login shell so it picks
 # variables from /etc/profile.d (XDG_*)
-exec "${COMPOSITOR}" -C "${ROOTSTON_INI}" -E "bash -lc 'gnome-session --disable-acceleration-check --session=phosh'"
+exec "${COMPOSITOR}" -C "${ROOTSTON_INI}" -E "bash -lc 'gnome-session $(gnome_session_args)'"
