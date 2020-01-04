@@ -157,6 +157,40 @@ on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self, GParamSpe
 
 
 static void
+check_device (PhoshWifiManager *self)
+
+{
+  const GPtrArray *devs;
+  NMDevice *dev;
+
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+
+  devs = nm_active_connection_get_devices (self->active);
+  if (!devs || !devs->len) {
+      g_warning("Found active connection but no device");
+      return;
+  }
+
+  dev = g_ptr_array_index (devs, 0);
+  if (NM_IS_DEVICE_WIFI (dev)) {
+    g_debug("conn %p uses a wifi device", self->active);
+
+    /* Is this still the same device? */
+    if (dev != NM_DEVICE (self->dev)) {
+      if (self->dev) {
+        g_signal_handlers_disconnect_by_data (self->dev, self);
+        g_object_unref (self->dev);
+      }
+      self->dev = g_object_ref(NM_DEVICE_WIFI (dev));
+      g_signal_connect_swapped (self->dev, "notify::active-access-point",
+                                G_CALLBACK (on_nm_device_wifi_active_access_point_changed), self);
+      on_nm_device_wifi_active_access_point_changed (self, NULL, self->dev);
+    }
+  }
+}
+
+
+static void
 on_nm_active_connection_state_changed (PhoshWifiManager *self,
                                        NMActiveConnectionState state,
                                        NMActiveConnectionStateReason reason,
@@ -173,6 +207,7 @@ on_nm_active_connection_state_changed (PhoshWifiManager *self,
      break;
    case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
      self->icon_name = g_strdup("network-wireless-connected-symbolic");
+     check_device (self);
      break;
    case NM_ACTIVE_CONNECTION_STATE_UNKNOWN:
    case NM_ACTIVE_CONNECTION_STATE_DEACTIVATING:
@@ -217,9 +252,8 @@ on_nmclient_wireless_enabled_changed (PhoshWifiManager *self, GParamSpec *pspec,
 static void
 on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient *nmclient)
 {
-  const GPtrArray *conns, *devs;
+  const GPtrArray *conns;
   NMActiveConnection *conn;
-  NMDevice *dev;
   gboolean found = FALSE;
 
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
@@ -228,42 +262,29 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
   conns = nm_client_get_active_connections(nmclient);
 
   for (int i = 0; i < conns->len; i++) {
+    const char *type;
+
     conn = g_ptr_array_index (conns, i);
-    devs = nm_active_connection_get_devices (conn);
-    if (!devs || !devs->len) {
-      g_warning("Found active connection but no device");
-      continue;
-    }
+    type = nm_active_connection_get_connection_type (conn);
 
-    dev = g_ptr_array_index (devs, 0);
-    if (NM_IS_DEVICE_WIFI (dev)) {
-      g_debug("conn %d uses a wifi device", i);
-      found = TRUE;
+    /* We only care about wireless connections */
+    if (g_strcmp0 (type, NM_SETTING_WIRELESS_SETTING_NAME))
+        continue;
 
-      /* active connection changed but wifi device is still the same */
-      if (self->dev && dev == NM_DEVICE (self->dev))
-        break;
-
-      /* otherwise update the device information */
-      if (self->dev) {
-        g_signal_handlers_disconnect_by_data (self->dev, self);
-        g_object_unref (self->dev);
-      }
-      self->dev = g_object_ref(NM_DEVICE_WIFI (dev));
-      g_signal_connect_swapped (self->dev, "notify::active-access-point",
-                                G_CALLBACK (on_nm_device_wifi_active_access_point_changed), self);
-      on_nm_device_wifi_active_access_point_changed (self, NULL, self->dev);
-
-      /* Is this still the same connection? */
-      if (self->active && conn != self->active) {
+    found = TRUE;
+    /* Is this still the same connection? */
+    if (conn != self->active) {
+      g_debug ("New active connection %p", conn);
+      if (self->active) {
         g_signal_handlers_disconnect_by_data (self->active, self);
         g_object_unref (self->active);
-        self->active = g_object_ref (conn);
-        g_signal_connect_swapped (self->active, "state-changed",
-                                  G_CALLBACK (on_nm_active_connection_state_changed), self);
       }
-      break;
+      self->active = g_object_ref (conn);
+      g_signal_connect_swapped (self->active, "state-changed",
+                                G_CALLBACK (on_nm_active_connection_state_changed), self);
     }
+    check_device (self);
+    break;
   }
 
   if (!found && self->dev) {
