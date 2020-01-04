@@ -191,6 +191,21 @@ check_device (PhoshWifiManager *self)
 
 
 static void
+cleanup_device (PhoshWifiManager *self)
+{
+  if (self->ap) {
+    g_signal_handlers_disconnect_by_data (self->ap, self);
+    g_clear_object (&self->ap);
+  }
+
+  if (self->dev) {
+    g_signal_handlers_disconnect_by_data (self->dev, self);
+    g_clear_object (&self->dev);
+  }
+}
+
+
+static void
 on_nm_active_connection_state_changed (PhoshWifiManager *self,
                                        NMActiveConnectionState state,
                                        NMActiveConnectionStateReason reason,
@@ -275,10 +290,7 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
     /* Is this still the same connection? */
     if (conn != self->active) {
       g_debug ("New active connection %p", conn);
-      if (self->active) {
-        g_signal_handlers_disconnect_by_data (self->active, self);
-        g_object_unref (self->active);
-      }
+      cleanup_device (self);
       self->active = g_object_ref (conn);
       g_signal_connect_swapped (self->active, "state-changed",
                                 G_CALLBACK (on_nm_active_connection_state_changed), self);
@@ -287,14 +299,9 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
     break;
   }
 
-  if (!found && self->dev) {
-    if (self->ap) {
-      g_signal_handlers_disconnect_by_data (self->ap, self);
-      g_clear_object (&self->ap);
-    }
-    g_signal_handlers_disconnect_by_data (self->dev, self);
-    g_clear_object (&self->dev);
-  }
+  /* Clean up if there's no active wifi connection */
+  if (!found && self->dev)
+    cleanup_device (self);
 }
 
 
@@ -498,15 +505,7 @@ phosh_wifi_manager_finalize (GObject *object)
   g_clear_object (&self->network_agent);
   g_clear_object (&self->nmclient);
 
-  if (self->ap) {
-    g_signal_handlers_disconnect_by_data (self->ap, self);
-    g_clear_object (&self->ap);
-  }
-
-  if (self->dev) {
-    g_signal_handlers_disconnect_by_data (self->dev, self);
-    g_clear_object (&self->dev);
-  }
+  cleanup_device (self);
 
   if (self->active) {
     g_signal_handlers_disconnect_by_data (self->active, self);
