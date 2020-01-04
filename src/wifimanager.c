@@ -219,6 +219,7 @@ on_nm_active_connection_state_changed (PhoshWifiManager *self,
    switch (state) {
    case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
      self->icon_name = g_strdup("network-wireless-acquiring-symbolic");
+     cleanup_device (self);
      break;
    case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
      self->icon_name = g_strdup("network-wireless-connected-symbolic");
@@ -229,6 +230,7 @@ on_nm_active_connection_state_changed (PhoshWifiManager *self,
    case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
    default:
      self->icon_name = g_strdup("network-wireless-offline-symbolic");
+     cleanup_device (self);
      break;
    }
    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME]);
