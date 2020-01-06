@@ -192,7 +192,6 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
 
 
   }
-  /* FIXME: must clear out the buffer and use secmem, see secmem branch */
   priv->last_input = g_get_monotonic_time ();
   g_object_unref (self);
 }
