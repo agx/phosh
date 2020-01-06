@@ -57,6 +57,7 @@ struct _PhoshNetworkAuthPrompt
   ShellNetworkAgent *agent;
 
   gboolean done_emitted;
+  gboolean visible; /* is input visible */
 };
 
 G_DEFINE_TYPE(PhoshNetworkAuthPrompt, phosh_network_auth_prompt, PHOSH_TYPE_LAYER_SURFACE);
@@ -306,6 +307,27 @@ network_prompt_wpa_password_changed_cb (PhoshNetworkAuthPrompt *self)
 }
 
 static void
+network_prompt_icon_press_cb (PhoshNetworkAuthPrompt *self,
+                              GtkEntryIconPosition    icon_pos,
+                              GdkEvent               *event,
+                              GtkEntry               *entry)
+{
+  const char *icon_name = "eye-not-looking-symbolic";
+
+  g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
+  g_return_if_fail (GTK_IS_ENTRY (entry));
+  g_return_if_fail (icon_pos == GTK_ENTRY_ICON_SECONDARY);
+
+  self->visible = !self->visible;
+  gtk_entry_set_visibility (entry, self->visible);
+  if (self->visible)
+    icon_name = "eye-open-negative-filled-symbolic";
+
+  gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY,
+                                     icon_name);
+}
+
+static void
 phosh_network_auth_prompt_class_init (PhoshNetworkAuthPromptClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
@@ -342,6 +364,7 @@ phosh_network_auth_prompt_class_init (PhoshNetworkAuthPromptClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_draw_cb);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_key_press_event_cb);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_wpa_password_changed_cb);
+  gtk_widget_class_bind_template_callback (widget_class, network_prompt_icon_press_cb);
 }
 
 
