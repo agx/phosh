@@ -47,6 +47,7 @@ typedef struct {
   gint timeout;                    /* timeout in seconds before screen locks */
   gboolean locked;
   gint64 active_time;              /* when lock was activated (in us) */
+  gint rotation;                   /* the shell rotation before locking */
 } PhoshLockscreenManagerPrivate;
 
 
@@ -64,6 +65,9 @@ lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
   PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshMonitorManager *monitor_manager = phosh_shell_get_monitor_manager (shell);
+
+  phosh_shell_rotate_display (shell, priv->rotation);
+  priv->rotation = 0;
 
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (lockscreen));
   g_return_if_fail (lockscreen == PHOSH_LOCKSCREEN (priv->lockscreen));
@@ -150,6 +154,10 @@ lockscreen_lock (PhoshLockscreenManager *self)
 
   primary_monitor = phosh_shell_get_primary_monitor (shell);
   g_return_if_fail (primary_monitor);
+
+  /* Undo any rotation so the keypad becomes usable */
+  priv->rotation = phosh_shell_get_rotation (shell);
+  phosh_shell_rotate_display (shell, 0);
 
   /* Listen for monitor changes */
   g_signal_connect_object (monitor_manager, "monitor-added",
