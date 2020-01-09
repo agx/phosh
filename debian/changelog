@@ -1,3 +1,38 @@
+phosh (0.1.7) amber; urgency=medium
+
+  [ Darren R ]
+  * Update meson.build to show version 0.1.6
+
+  [ Guido Günther ]
+  * phosh.in: Use builtin session handling.
+    Until we can rely on a newer gnome-session use the builtin session
+    handling everywhere for now instead of systemd. (Closes: #181)
+  * gitlab-ci: Build an arm64 deb
+  * wifi-manager: Rework connection handling.
+    So far we gave up early when the currently active connection did not
+    have any devices. It seems this can happen early up in the connection
+    process of *new* connections. Hence always redo the device check on
+    connection state changes.
+  * wifimanager: Consolidate device cleanup.
+  * wifimanager: Clean up device state when (de)activating a connection.
+    Don't use the device and access point information before we're
+    actually associted. Otherwise we show strength information from
+    outdated access points. (Closes: #202)
+  * lockscreen-manager: Undo rotation when locking the screen.
+    This makes sure we don't leave the user with a screen that can't be
+    unlocked. (Closes: #73)
+  * auth: Drop pin length limitation.  (Closes: #233, #234)
+  * network-auth-prompt: Allow to toggle password visibility.
+    This makes entering wifi passwords a bit simpler. Inspired by
+    GTK4's GtkPasswordEntry.
+
+  [ Julian Sparber ]
+  * Lockscreen: add submit button, allows arbitrary pin lengths.
+    This also adds the emergency button but for now it is hidden, because
+    emergency calls don't work yet.
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 09 Jan 2020 15:34:36 +0100
+
 phosh (0.1.6) amber; urgency=medium
 
   [ Julian Sparber ]
