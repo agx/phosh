@@ -10,9 +10,6 @@
 
 #include <security/pam_appl.h>
 
-#define PIN_LENGTH 6
-
-
 typedef struct
 {
   pam_handle_t *pamh;
@@ -44,7 +41,7 @@ pam_conversation_cb(int num_msg, const struct pam_message **msg,
     switch (msg[i]->msg_style) {
     case PAM_PROMPT_ECHO_OFF:
     case PAM_PROMPT_ECHO_ON:
-      pam_resp[i].resp = g_strndup(pin, phosh_auth_get_pin_length ());
+      pam_resp[i].resp = g_strdup(pin);
       ret = PAM_SUCCESS;
       break;
     case PAM_ERROR_MSG: /* TBD */
@@ -186,11 +183,4 @@ phosh_auth_authenticate_async_finish (PhoshAuth     *self,
 {
   g_return_val_if_fail (g_task_is_valid (result, self), FALSE);
   return g_task_propagate_boolean (G_TASK (result), error);
-}
-
-
-guint
-phosh_auth_get_pin_length (void)
-{
-  return PIN_LENGTH;
 }
