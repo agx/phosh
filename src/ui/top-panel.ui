@@ -39,7 +39,7 @@
                   <object class="PhoshWifiInfo" id="wifiinfo">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="pixel_size">16</property>
+                    <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                     <property name="margin_right">8</property>
                   </object>
                   <packing>

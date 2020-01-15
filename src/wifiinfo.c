@@ -13,8 +13,6 @@
 #include "shell.h"
 #include "wifiinfo.h"
 
-#define WIFI_INFO_DEFAULT_ICON_SIZE GTK_ICON_SIZE_LARGE_TOOLBAR
-
 /**
  * SECTION:phosh-wifi-info
  * @short_description: A widget to display the wifi status
@@ -22,13 +20,11 @@
  */
 
 struct _PhoshWifiInfo {
-  GtkImage   parent;
+  PhoshStatusIcon parent;
 
   PhoshWifiManager *wifi;
-  GtkImage         *icon;
-  gint              size;
 };
-G_DEFINE_TYPE (PhoshWifiInfo, phosh_wifi_info, GTK_TYPE_IMAGE);
+G_DEFINE_TYPE (PhoshWifiInfo, phosh_wifi_info, PHOSH_TYPE_STATUS_ICON);
 
 
 static void
@@ -42,7 +38,7 @@ update_icon (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
 
   icon_name = phosh_wifi_manager_get_icon_name (wifi);
   if (icon_name)
-    gtk_image_set_from_icon_name (GTK_IMAGE (self), icon_name, self->size);
+    phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
 
   gtk_widget_set_visible (GTK_WIDGET (self), icon_name ? TRUE : FALSE);
 }
@@ -66,7 +62,6 @@ phosh_wifi_info_constructed (GObject *object)
 
   shell = phosh_shell_get_default();
   self->wifi = g_object_ref(phosh_shell_get_wifi_manager (shell));
-  self->size = WIFI_INFO_DEFAULT_ICON_SIZE;
 
   if (self->wifi == NULL) {
     g_warning ("Failed to get wifi manager");
@@ -77,6 +72,7 @@ phosh_wifi_info_constructed (GObject *object)
                             "notify::icon-name",
                             G_CALLBACK (update_icon),
                             self);
+
   g_idle_add ((GSourceFunc) on_idle, self);
 }
 
