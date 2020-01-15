@@ -241,6 +241,9 @@
             <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
+                <property name="margin_start">16</property>
+                <property name="margin_end">16</property>
+                <property name="halign">center</property>
                 <child>
                   <object class="GtkButton" id="btn_emergency">
                     <property name="visible">False</property>
