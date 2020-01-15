@@ -254,7 +254,7 @@ hdykeypad > button:focus, .text-only-button:focus {
 .text-only-button {
   font-size: 16px;
   font-weight: bold;
-  padding: 16px;
+  padding: 16px 24px;
   border: 0;
   box-shadow: none;
   background: 0;
