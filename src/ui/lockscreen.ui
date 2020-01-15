@@ -157,8 +157,7 @@
                         <property name="valign">start</property>
                         <property name="halign">end</property>
                         <property name="hexpand">False</property>
-                        <property name="pixel_size">24</property>
-                        <property name="use_fallback">True</property>
+                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                         <property name="margin_left">6</property>
                         <property name="margin_right">6</property>
                       </object>

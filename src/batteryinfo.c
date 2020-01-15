@@ -13,8 +13,6 @@
 #include "batteryinfo.h"
 #include "upower.h"
 
-#define BATTERY_INFO_DEFAULT_ICON_SIZE GTK_ICON_SIZE_LARGE_TOOLBAR
-
 /**
  * SECTION:phosh-battery-info
  * @short_description: A widget to display the battery status
@@ -22,34 +20,13 @@
  */
 
 typedef struct _PhoshBatteryInfo {
-  GtkImage      parent;
-
+  PhoshStatusIcon parent;
   UpClient     *upower;
   UpDevice     *device;
-  GtkImage     *icon;
-  gint          size;
-  guint         update_icon_id;
 } PhoshBatteryInfo;
 
 
-G_DEFINE_TYPE (PhoshBatteryInfo, phosh_battery_info, GTK_TYPE_IMAGE)
-
-
-static void
-update_icon (PhoshBatteryInfo *self, gpointer unused)
-{
-  g_autofree gchar *icon_name = NULL;
-
-  g_debug ("Updating battery icon");
-  g_return_if_fail (PHOSH_IS_BATTERY_INFO (self));
-
-  g_return_if_fail (self->device);
-
-  g_object_get (self->device, "icon-name", &icon_name, NULL);
-
-  if (icon_name)
-    gtk_image_set_from_icon_name (GTK_IMAGE (self), icon_name, self->size);
-}
+G_DEFINE_TYPE (PhoshBatteryInfo, phosh_battery_info, PHOSH_TYPE_STATUS_ICON)
 
 
 static void
@@ -70,11 +47,6 @@ setup_display_device (PhoshBatteryInfo *self)
     g_warning ("Failed to get upowerd display device");
     return;
   }
-
-  self->update_icon_id = g_signal_connect_swapped (self->device,
-                                                   "notify::icon-name",
-                                                   G_CALLBACK (update_icon),
-                                                   self);
 }
 
 
@@ -86,8 +58,10 @@ phosh_battery_info_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_battery_info_parent_class)->constructed (object);
 
   setup_display_device (self);
-  if (self->device)
-    update_icon (self, NULL);
+
+  if (self->device) {
+    g_object_bind_property (self->device, "icon-name", self, "icon-name", G_BINDING_SYNC_CREATE);
+  }
 }
 
 
@@ -96,11 +70,8 @@ phosh_battery_info_dispose (GObject *object)
 {
   PhoshBatteryInfo *self = PHOSH_BATTERY_INFO (object);
 
-  if (self->device) {
-    g_signal_handler_disconnect (self->device, self->update_icon_id);
-    self->update_icon_id = 0;
+  if (self->device)
     g_clear_object (&self->device);
-  }
 
   if (self->upower)
     g_clear_object (&self->upower);
@@ -122,8 +93,6 @@ phosh_battery_info_class_init (PhoshBatteryInfoClass *klass)
 static void
 phosh_battery_info_init (PhoshBatteryInfo *self)
 {
-  /* TODO: make scalable? */
-  self->size = BATTERY_INFO_DEFAULT_ICON_SIZE;
 }
 
 
