@@ -49,6 +49,8 @@ libphosh_sources = [
   'favorite-list-model.h',
   'overview.c',
   'overview.h',
+  'status-icon.c',
+  'status-icon.h',
   'util.c',
   'util.h',
   phosh_gtk_list_models_sources,
