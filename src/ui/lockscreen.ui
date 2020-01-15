@@ -262,7 +262,7 @@
                   <object class="GtkButton" id="btn_submit">
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
-                    <property name="label" translatable="yes">Submit</property>
+                    <property name="label" translatable="yes">Unlock</property>
                     <signal name="clicked" handler="submit_cb" swapped="yes"/>
                     <style>
                       <class name="text-only-button"/>
