@@ -124,7 +124,7 @@
                         <property name="hexpand">False</property>
                         <property name="margin_left">6</property>
                         <property name="margin_right">6</property>
-                        <property name="size">24</property>
+                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>

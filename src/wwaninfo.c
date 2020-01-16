@@ -20,7 +20,6 @@
  */
 enum {
   PROP_0,
-  PROP_SIZE,
   PROP_SHOW_DETAIL,
   PROP_LAST_PROP,
 };
@@ -32,15 +31,10 @@ struct _PhoshWWanInfo
   GtkBox parent;
 
   PhoshWWanMM *wwan;
-
-  GtkImage *icon;
-  GtkLabel *access_tec;
   gboolean show_detail;
-
-  gint size;
 };
 
-G_DEFINE_TYPE (PhoshWWanInfo, phosh_wwan_info, GTK_TYPE_BOX)
+G_DEFINE_TYPE (PhoshWWanInfo, phosh_wwan_info, PHOSH_TYPE_STATUS_ICON)
 
 static void
 phosh_wwan_info_set_property (GObject *object,
@@ -51,9 +45,6 @@ phosh_wwan_info_set_property (GObject *object,
   PhoshWWanInfo *self = PHOSH_WWAN_INFO (object);
 
   switch (property_id) {
-  case PROP_SIZE:
-    phosh_wwan_info_set_size (self, g_value_get_int(value));
-    break;
   case PROP_SHOW_DETAIL:
     phosh_wwan_info_set_show_detail (self, g_value_get_boolean (value));
     break;
@@ -73,9 +64,6 @@ phosh_wwan_info_get_property (GObject *object,
   PhoshWWanInfo *self = PHOSH_WWAN_INFO (object);
 
   switch (property_id) {
-  case PROP_SIZE:
-    g_value_set_int (value, self->size);
-    break;
   case PROP_SHOW_DETAIL:
     g_value_set_boolean (value, self->show_detail);
     break;
@@ -105,8 +93,8 @@ signal_quality_descriptive(guint quality)
 static void
 update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
 {
+  GtkWidget *access_tec_widget;
   guint quality;
-  g_autoptr(GdkPixbuf) src = NULL, dest = NULL;
   g_autofree gchar *icon_name = NULL;
   const char *access_tec;
   gboolean visible;
@@ -115,6 +103,8 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
   visible = phosh_wwan_is_present (PHOSH_WWAN (self->wwan));
   g_debug ("Updating wwan icon, shown: %d", visible);
   gtk_widget_set_visible (GTK_WIDGET (self), visible);
+
+  access_tec_widget = phosh_status_icon_get_extra_widget (PHOSH_STATUS_ICON (self));
 
   /* SIM missing */
   if (!phosh_wwan_has_sim (PHOSH_WWAN (self->wwan)))
@@ -125,9 +115,8 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
     icon_name = g_strdup ("auth-sim-locked-symbolic");
 
   if (icon_name) {
-    gtk_image_set_from_icon_name (GTK_IMAGE (self->icon), icon_name, -1);
-    gtk_widget_show (GTK_WIDGET (self->icon));
-    gtk_widget_hide (GTK_WIDGET (self->access_tec));
+    phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
+    gtk_widget_hide (access_tec_widget);
     return;
   }
 
@@ -135,23 +124,22 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
   quality = phosh_wwan_get_signal_quality (PHOSH_WWAN (self->wwan));
   icon_name = g_strdup_printf ("network-cellular-signal-%s-symbolic",
                                signal_quality_descriptive (quality));
-  gtk_image_set_from_icon_name (GTK_IMAGE (self->icon), icon_name, -1);
-  gtk_widget_show (GTK_WIDGET (self->icon));
+  phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
 
   if (!self->show_detail) {
-    gtk_widget_hide (GTK_WIDGET(self->access_tec));
+    gtk_widget_hide (access_tec_widget);
     return;
   }
 
   /* Access technology */
   access_tec = phosh_wwan_get_access_tec (PHOSH_WWAN (self->wwan));
   if (access_tec == NULL) {
-    gtk_widget_hide (GTK_WIDGET(self->access_tec));
+    gtk_widget_hide (access_tec_widget);
     return;
   }
 
-  gtk_label_set_text (self->access_tec, access_tec);
-  gtk_widget_show (GTK_WIDGET(self->access_tec));
+  gtk_label_set_text (GTK_LABEL (access_tec_widget), access_tec);
+  gtk_widget_show (access_tec_widget);
 }
 
 
@@ -178,9 +166,6 @@ phosh_wwan_info_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_wwan_info_parent_class)->constructed (object);
 
   self->wwan = phosh_wwan_mm_new();
-
-  if (self->size == -1)
-    phosh_wwan_info_set_size (self, WWAN_INFO_DEFAULT_ICON_SIZE);
 
   for (int i = 0; i < g_strv_length(signals); i++) {
     g_signal_connect_swapped (self->wwan, signals[i],
@@ -209,23 +194,12 @@ static void
 phosh_wwan_info_class_init (PhoshWWanInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
-  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->set_property = phosh_wwan_info_set_property;
   object_class->get_property = phosh_wwan_info_get_property;
 
   object_class->constructed = phosh_wwan_info_constructed;
   object_class->dispose = phosh_wwan_info_dispose;
-
-  props[PROP_SIZE] =
-    g_param_spec_int (
-      "size",
-      "Size",
-      "The icon's size",
-      -1,
-      G_MAXINT,
-      -1,
-      G_PARAM_CONSTRUCT | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PROP_SHOW_DETAIL] =
     g_param_spec_boolean (
@@ -236,18 +210,14 @@ phosh_wwan_info_class_init (PhoshWWanInfoClass *klass)
       G_PARAM_CONSTRUCT | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
-
-  gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/wwaninfo.ui");
-  gtk_widget_class_bind_template_child (widget_class, PhoshWWanInfo, icon);
-  gtk_widget_class_bind_template_child (widget_class, PhoshWWanInfo, access_tec);
 }
 
 
 static void
 phosh_wwan_info_init (PhoshWWanInfo *self)
 {
-  gtk_widget_init_template (GTK_WIDGET (self));
+  GtkWidget *access_tec = gtk_label_new (NULL);
+  phosh_status_icon_set_extra_widget (PHOSH_STATUS_ICON (self), access_tec);
 }
 
 
@@ -257,35 +227,12 @@ phosh_wwan_info_new (void)
   return g_object_new (PHOSH_TYPE_WWAN_INFO, NULL);
 }
 
-void
-phosh_wwan_info_set_size (PhoshWWanInfo *self, gint size)
-{
-  g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
-
-  if (self->size == size)
-    return;
-
-  self->size = size;
-  gtk_image_set_pixel_size (GTK_IMAGE (self->icon), size);
-  /* fixme: set text size */
-  //gtk_label_set_ (GTK_IMAGE (self->icon), size);
-  gtk_widget_queue_resize (GTK_WIDGET (self));
-
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SIZE]);
-}
-
-
-gint
-phosh_wwan_info_get_size (PhoshWWanInfo *self)
-{
-  g_return_val_if_fail (PHOSH_IS_WWAN_INFO (self), 0);
-
-  return self->size;
-}
 
 void
 phosh_wwan_info_set_show_detail (PhoshWWanInfo *self, gboolean show)
 {
+  GtkWidget *access_tec;
+
   g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
 
   if (self->show_detail == show)
@@ -293,10 +240,12 @@ phosh_wwan_info_set_show_detail (PhoshWWanInfo *self, gboolean show)
 
   self->show_detail = !!show;
 
-  gtk_widget_set_visible (GTK_WIDGET (self->access_tec), show);
+  access_tec = phosh_status_icon_get_extra_widget (PHOSH_STATUS_ICON (self));
+  gtk_widget_set_visible (access_tec, show);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SHOW_DETAIL]);
 }
+
 
 gboolean
 phosh_wwan_info_get_show_detail (PhoshWWanInfo *self)
