@@ -84,20 +84,10 @@ phosh_status_icon_get_property (GObject *object,
 
 
 static void
-phosh_status_icon_constructed (GObject *object)
-{
-  G_OBJECT_CLASS (phosh_status_icon_parent_class)->constructed (object);
-
-  gtk_widget_show_all (GTK_WIDGET (object));
-}
-
-
-static void
 phosh_status_icon_class_init (PhoshStatusIconClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-  object_class->constructed = phosh_status_icon_constructed;
   object_class->set_property = phosh_status_icon_set_property;
   object_class->get_property = phosh_status_icon_get_property;
 
@@ -133,13 +123,18 @@ phosh_status_icon_init (PhoshStatusIcon *self)
   PhoshStatusIconPrivate *priv = phosh_status_icon_get_instance_private (self);
   GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 
+  gtk_widget_set_visible (box, TRUE);
+
   priv->icon_size = GTK_ICON_SIZE_LARGE_TOOLBAR;
   priv->image = gtk_image_new();
+  gtk_widget_set_visible (priv->image, TRUE);
 
   gtk_container_add (GTK_CONTAINER (box), GTK_WIDGET (priv->image));
 
-  if (priv->extra_widget)
+  if (priv->extra_widget) {
     gtk_container_add (GTK_CONTAINER (box), GTK_WIDGET (priv->extra_widget));
+    gtk_widget_set_visible (priv->extra_widget, TRUE);
+  }
 
   gtk_container_add (GTK_CONTAINER (self), box);
 }

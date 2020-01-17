@@ -37,6 +37,7 @@ tests = [
   'app-list-model',
   'overview',
   'favourite-model',
+  'status-icon'
 ]
 
 # Unit tests
