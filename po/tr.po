@@ -1,4 +1,4 @@
-# son of dirt <philsawa@gmail.com>, 2019. #zanata
+# Emin Tufan Çetin <etcetin@gmail.com>, 2019. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
@@ -7,32 +7,29 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-06-29 07:23+0000\n"
-"Last-Translator: son of dirt <philsawa@gmail.com>\n"
-"Language-Team: Hebrew\n"
-"Language: he\n"
+"PO-Revision-Date: 2019-11-04 06:49+0000\n"
+"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"Language-Team: Turkish\n"
+"Language: tr\n"
 "X-Generator: Zanata 4.6.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n>1)\n"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
-#, fuzzy
 msgid "Phone Shell"
-msgstr "טלפון מעטפת"
+msgstr "Telefon Kabuğu"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
-#, fuzzy
 msgid "Window management and application launching for mobile"
-msgstr "ניהול חלונות ויישום יישומים לנייד"
+msgstr "Mobil için pencere yönetimi ve uygulama başlatımı"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
-#, fuzzy
 msgid "Phosh"
-msgstr "פוש"
+msgstr "Phosh"
 
 #: src/app-grid-button.c:523
 msgid "Application"
-msgstr ""
+msgstr "Uygulama"
 
 #: src/feedbackinfo.c:38
 msgid "Quiet"
@@ -47,29 +44,27 @@ msgid "Full"
 msgstr ""
 
 #: src/lockscreen.c:78 src/ui/lockscreen.ui:204
-#, fuzzy
 msgid "Enter Passcode"
-msgstr "הזן קוד גישה"
+msgstr "Parolayı Gir"
 
 #: src/lockscreen.c:257
 msgid "Checking…"
-msgstr ""
+msgstr "Denetleniyor..."
 
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:334
 msgid "%A, %B %d"
-msgstr ""
+msgstr "%A, %B %d"
 
 #: src/monitor-manager.c:53
-#, fuzzy
 msgid "Built-in display"
-msgstr "תצוגה מובנית"
+msgstr "İç ekran"
 
 #. Translators: An unknown monitor type
 #: src/monitor-manager.c:57
 msgid "Unknown"
-msgstr "לא ידוע"
+msgstr "Bilinmeyen"
 
 #: src/network-auth-prompt.c:184
 #, c-format
@@ -77,35 +72,29 @@ msgid "Enter password for the wifi network “%s”"
 msgstr ""
 
 #: src/polkit-auth-agent.c:229
-#, fuzzy
 msgid "Authentication dialog was dismissed by the user"
-msgstr "תיבת הדו-שיח לאימות נדחתה על ידי המשתמש"
+msgstr "Yetkilendirme kutusu kullanıcı tarafından görmezden gelindi"
 
 #: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
 #: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
-#, fuzzy
 msgid "Password:"
-msgstr "סיסמה:"
+msgstr "Parola:"
 
 #: src/polkit-auth-prompt.c:322
-#, fuzzy
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "סליחה, זה לא עבד. בבקשה נסה שוב."
+msgstr "Üzgünüz, bu işe yaramadı. Lütfen yeniden deneyin."
 
 #: src/polkit-auth-prompt.c:488
-#, fuzzy
 msgid "Authenticate"
-msgstr "בצע אימות"
+msgstr "Yetkilendir"
 
 #: src/system-prompt.c:371
-#, fuzzy
 msgid "Passwords do not match."
-msgstr "סיסמאות לא תואמות."
+msgstr "Parolalar eşleşmedi."
 
 #: src/system-prompt.c:378
-#, fuzzy
 msgid "Password cannot be blank"
-msgstr "סיסמאות אינן יכולות להיות ריקות"
+msgstr "Parola boş olamaz"
 
 #: src/wifiinfo.c:55
 msgid "Wi-Fi"
@@ -113,7 +102,7 @@ msgstr ""
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
-msgstr ""
+msgstr "Uygulama"
 
 #: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
@@ -125,12 +114,11 @@ msgstr ""
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr ""
+msgstr "Uygulama ara…"
 
 #: src/ui/lockscreen.ui:36
-#, fuzzy
 msgid "Slide up to unlock"
-msgstr "החלק כלפי מעלה כדי לפתוח את הנעילה"
+msgstr "Açmak için kaldır"
 
 #: src/ui/lockscreen.ui:250
 msgid "Emergency"
@@ -149,11 +137,9 @@ msgid "C_onnect"
 msgstr ""
 
 #: src/ui/polkit-auth-prompt.ui:105
-#, fuzzy
 msgid "User:"
-msgstr "משתמש:"
+msgstr "Kullanıcı:"
 
 #: src/ui/system-prompt.ui:69
-#, fuzzy
 msgid "Confirm:"
-msgstr "אשר:"
+msgstr "Doğrula:"

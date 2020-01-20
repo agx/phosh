@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-07 09:39+0200\n"
+"POT-Creation-Date: 2020-02-25 19:07+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,21 +32,33 @@ msgstr "Finestra gestore ed avviatore applicazioni per cellulare"
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/app-grid-button.c:209
+#: src/app-grid-button.c:523
 msgid "Application"
 msgstr "Applicazione"
 
-#: src/lockscreen.c:84 src/ui/lockscreen.ui:239
+#: src/feedbackinfo.c:38
+msgid "Quiet"
+msgstr ""
+
+#: src/feedbackinfo.c:40
+msgid "Silent"
+msgstr ""
+
+#: src/feedbackinfo.c:42
+msgid "Full"
+msgstr ""
+
+#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
 msgid "Enter Passcode"
 msgstr "Inserisci codice"
 
-#: src/lockscreen.c:214
+#: src/lockscreen.c:257
 msgid "Checking…"
 msgstr "Sto controllando..."
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:286
+#: src/lockscreen.c:334
 msgid "%A, %B %d"
 msgstr "%A, %B %d"
 
@@ -59,16 +71,17 @@ msgstr "Schermo integrato"
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: src/notification.c:510
-msgid "Notification"
-msgstr "Notifica"
+#: src/network-auth-prompt.c:184
+#, c-format
+msgid "Enter password for the wifi network “%s”"
+msgstr ""
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
 msgstr "La finestra di autenticazione è stata chiusa dall'utente"
 
-#: src/polkit-auth-prompt.c:276 src/ui/polkit-auth-prompt.ui:41
-#: src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
+#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
 msgid "Password:"
 msgstr "Password:"
 
@@ -80,33 +93,57 @@ msgstr "Scusa non ha funzionato.Per favore riprova."
 msgid "Authenticate"
 msgstr "Autenticato"
 
-#: src/system-prompt.c:370
+#: src/system-prompt.c:371
 msgid "Passwords do not match."
 msgstr "Le password non corrispondono"
 
-#: src/system-prompt.c:377
+#: src/system-prompt.c:378
 msgid "Password cannot be blank"
 msgstr "La password non può essere vuota"
+
+#: src/wifiinfo.c:55
+msgid "Wi-Fi"
+msgstr ""
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "App"
 
+#: src/ui/app-grid-button.ui:75
+msgid "Remove from _Favorites"
+msgstr ""
+
+#: src/ui/app-grid-button.ui:80
+msgid "Add to _Favorites"
+msgstr ""
+
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Ricerca app..."
 
-#: src/ui/lockscreen.ui:35
+#: src/ui/lockscreen.ui:36
 msgid "Slide up to unlock"
 msgstr "Scorri verso l'alto per sbloccare"
+
+#: src/ui/lockscreen.ui:250
+msgid "Emergency"
+msgstr ""
+
+#: src/ui/lockscreen.ui:266
+msgid "Unlock"
+msgstr ""
+
+#: src/ui/network-auth-prompt.ui:90
+msgid "_Cancel"
+msgstr ""
+
+#: src/ui/network-auth-prompt.ui:106
+msgid "C_onnect"
+msgstr ""
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
 msgstr "Utente:"
-
-#: src/ui/settings-menu.ui:92
-msgid "Rotation"
-msgstr "Rotazione"
 
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
