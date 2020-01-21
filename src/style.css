@@ -264,3 +264,14 @@ hdykeypad > button:focus, .text-only-button:focus {
   background: rgba(255, 255, 255, 0.3);
   border: 0;
 }
+
+.phosh-quick-setting {
+  font-size: 9px;
+  padding: 9px;
+  border: 0;
+  box-shadow: 0 0;
+}
+
+.phosh-quick-setting:not(:hover):not(:active) {
+  background: none;
+}

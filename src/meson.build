@@ -55,6 +55,8 @@ libphosh_sources = [
   'overview.h',
   'status-icon.c',
   'status-icon.h',
+  'quick-setting.c',
+  'quick-setting.h',
   'util.c',
   'util.h',
   phosh_gtk_list_models_sources,
