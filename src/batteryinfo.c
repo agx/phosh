@@ -50,6 +50,16 @@ setup_display_device (PhoshBatteryInfo *self)
 }
 
 
+static gboolean
+format_label_cb (GBinding *binding,
+                 const GValue *from_value,
+                 GValue *to_value,
+                 gpointer user_data) {
+  g_value_set_string(to_value, g_strdup_printf ("%d%%", (int)(g_value_get_double(from_value) + 0.5)));
+  return TRUE;
+}
+
+
 static void
 phosh_battery_info_constructed (GObject *object)
 {
@@ -58,9 +68,17 @@ phosh_battery_info_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_battery_info_parent_class)->constructed (object);
 
   setup_display_device (self);
-
   if (self->device) {
     g_object_bind_property (self->device, "icon-name", self, "icon-name", G_BINDING_SYNC_CREATE);
+    g_object_bind_property_full (self->device,
+                            "percentage",
+                            self,
+                            "info",
+                            G_BINDING_SYNC_CREATE,
+                            format_label_cb,
+                            NULL,
+                            NULL,
+                            NULL);
   }
 }
 
