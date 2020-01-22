@@ -229,6 +229,7 @@ on_nm_active_connection_state_changed (PhoshWifiManager *self,
                                        NMActiveConnectionStateReason reason,
                                        NMActiveConnection *active)
 {
+   gboolean enabled;
    g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
    g_return_if_fail (NM_IS_ACTIVE_CONNECTION (active));
 
@@ -247,7 +248,13 @@ on_nm_active_connection_state_changed (PhoshWifiManager *self,
    case NM_ACTIVE_CONNECTION_STATE_DEACTIVATING:
    case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
    default:
-     self->icon_name = g_strdup("network-wireless-offline-symbolic");
+     enabled = nm_client_wireless_get_enabled (self->nmclient);
+
+     if (enabled)
+       self->icon_name = g_strdup("network-wireless-offline-symbolic");
+     else
+       self->icon_name = g_strdup("network-wireless-disabled-symbolic");
+
      cleanup_device (self);
      break;
    }
@@ -271,8 +278,15 @@ on_nmclient_wireless_enabled_changed (PhoshWifiManager *self, GParamSpec *pspec,
   g_debug ("Wifi %sabled", self->enabled ? "en" : "dis");
 
   g_clear_pointer (&self->icon_name, g_free);
-  if (self->enabled && self->have_wifi_dev)
+  if (self->enabled)
     self->icon_name = g_strdup("network-wireless-offline-symbolic");
+  else
+    self->icon_name = g_strdup("network-wireless-disabled-symbolic");
+
+  if (self->ssid != NULL) {
+    g_clear_pointer (&self->ssid, g_free);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_SSID]);
+  }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME]);
 }
@@ -353,11 +367,6 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
     return;
 
   self->have_wifi_dev = have_wifi_dev;
-  g_clear_pointer (&self->icon_name, g_free);
-  if (self->enabled && self->have_wifi_dev) {
-    self->icon_name = g_strdup("network-wireless-offline-symbolic");
-  }
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME]);
 }
 
 
@@ -477,6 +486,7 @@ static void
 on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
 {
   g_autoptr(GError) err = NULL;
+  gboolean enabled;
   PhoshWifiManager *self;
 
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (data));
@@ -498,7 +508,18 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
   g_signal_connect_swapped (self->nmclient, "notify::devices",
                             G_CALLBACK (on_nmclient_devices_changed), self);
 
-  on_nmclient_wireless_enabled_changed (self, NULL, self->nmclient);
+  enabled = nm_client_wireless_get_enabled (self->nmclient);
+  if (enabled)
+    self->icon_name = g_strdup("network-wireless-offline-symbolic");
+  else
+    self->icon_name = g_strdup("network-wireless-disabled-symbolic");
+
+  if (enabled != self->enabled) {
+    self->enabled = enabled;
+  }
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME]);
+
   on_nmclient_active_connections_changed (self, NULL, self->nmclient);
   on_nmclient_devices_changed (self, NULL, self->nmclient);
 

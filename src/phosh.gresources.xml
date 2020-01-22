@@ -22,5 +22,6 @@
     <file alias="swipe-arrow-symbolic.svg">../data/swipe-arrow-symbolic.svg</file>
     <file alias="eye-not-looking-symbolic.svg">../data/eye-not-looking-symbolic.svg</file>
     <file alias="eye-open-negative-filled-symbolic.svg">../data/eye-open-negative-filled-symbolic.svg</file>
+    <file alias="network-wireless-disabled-symbolic.svg">../data/network-wireless-disabled-symbolic.svg</file>
   </gresource>
 </gresources>
