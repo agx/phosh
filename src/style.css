@@ -217,7 +217,7 @@ phosh-notification .notification-image {
 /* fader */
 @keyframes phosh-fade-in {
     from {background:rgba(0, 0, 0, 0);}
-    to {background:rgba(0, 0, 0, 0.8);}
+    to {background:rgba(0, 0, 0, 1);}
 }
 
 .phosh-fader-fade-in {
