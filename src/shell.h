@@ -16,7 +16,10 @@
 
 #include <gtk/gtk.h>
 
+G_BEGIN_DECLS
+
 #define PHOSH_TYPE_SHELL phosh_shell_get_type()
+
 
 G_DECLARE_FINAL_TYPE (PhoshShell, phosh_shell, PHOSH, SHELL, GObject)
 
@@ -40,3 +43,5 @@ PhoshOskManager     *phosh_shell_get_osk_manager     (PhoshShell *self);
 PhoshToplevelManager *phosh_shell_get_toplevel_manager (PhoshShell *self);
 PhoshWifiManager    *phosh_shell_get_wifi_manager    (PhoshShell *self);
 void                 phosh_shell_fade_out (PhoshShell *self, guint timeout);
+
+G_END_DECLS
