@@ -155,6 +155,7 @@ phosh_deps = [
   libhandy_dep,
   dependency('upower-glib', version: '>=0.99.1'),
   libgvc_dep,
+  libfeedback_dep,
   libnm_dep,
   libpolkit_agent_dep,
   network_agent_dep,

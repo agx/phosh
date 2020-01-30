@@ -122,6 +122,7 @@ libhandy_dep = dependency('libhandy-0.0',
   fallback: ['libhandy', 'libhandy_dep'],
   default_options: ['introspection=disabled']
   )
+libfeedback_dep = dependency('libfeedback-0.0')
 libnm_dep = dependency('libnm', version: '>= 1.14')
 libpolkit_agent_dep = dependency('polkit-agent-1', version: '>= 0.105')
 network_agent_dep = dependency('libsecret-1')
