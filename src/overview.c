@@ -83,6 +83,7 @@ static void
 on_activity_close_clicked (PhoshOverview *self, PhoshActivity *activity)
 {
   PhoshToplevel *toplevel;
+
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
 
@@ -94,6 +95,7 @@ on_activity_close_clicked (PhoshOverview *self, PhoshActivity *activity)
            phosh_activity_get_title (activity));
 
   phosh_toplevel_close (toplevel);
+  phosh_trigger_feedback ("window-close");
   g_signal_emit (self, signals[ACTIVITY_CLOSED], 0);
 }
 
