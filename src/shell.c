@@ -517,7 +517,7 @@ setup_idle_cb (PhoshShell *self)
     /* TODO: accelerometer */
   }
 
-  phosh_session_register ("sm.puri.Phosh");
+  phosh_session_register (PHOSH_APP_ID);
   return FALSE;
 }
 
