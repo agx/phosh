@@ -134,6 +134,7 @@ home_clicked_cb (PhoshHome *self, GtkButton *btn)
   g_return_if_fail (GTK_IS_BUTTON (btn));
 
   phosh_home_set_state (self, !self->state);
+  phosh_trigger_feedback ("button-pressed");
 }
 
 
