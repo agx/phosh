@@ -26,5 +26,7 @@ void phosh_status_icon_set_icon_name (PhoshStatusIcon *self, const gchar *icon_n
 gchar * phosh_status_icon_get_icon_name (PhoshStatusIcon *self);
 void phosh_status_icon_set_extra_widget (PhoshStatusIcon *self, GtkWidget *widget);
 GtkWidget * phosh_status_icon_get_extra_widget (PhoshStatusIcon *self);
+void phosh_status_icon_set_info (PhoshStatusIcon *self, const gchar *info);
+gchar * phosh_status_icon_get_info (PhoshStatusIcon *self);
 
 G_END_DECLS
