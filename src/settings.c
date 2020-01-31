@@ -16,6 +16,7 @@
 #include "settings/brightness.h"
 #include "settings/gvc-channel-bar.h"
 #include "wwan/phosh-wwan-mm.h"
+#include "rotateinfo.h"
 
 #include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
@@ -36,7 +37,6 @@ typedef struct
   GtkWidget *quick_setting;
   GtkWidget *scale_brightness;
   GtkWidget *output_vol_bar;
-  GtkWidget *btn_rotation;
 
   GtkWidget *btn_settings;
   GDesktopAppInfo *settings_info;
@@ -72,14 +72,14 @@ brightness_value_changed_cb (GtkScale *scale_brightness, gpointer *unused)
 
 
 static void
-rotation_changed_cb (PhoshSettings *self, GParamSpec *pspec, GtkSwitch *btn)
+rotation_setting_clicked_cb (PhoshSettings *self)
 {
   PhoshShell *shell = phosh_shell_get_default ();
-  gboolean rotate;
+  gboolean rotated;
 
   g_return_if_fail (PHOSH_IS_SETTINGS (self));
-  rotate = gtk_switch_get_active(btn);
-  phosh_shell_rotate_display (shell, rotate ? 90 : 0);
+  rotated = phosh_shell_get_rotation (shell);
+  phosh_shell_rotate_display (shell, !rotated ? 90 : 0);
   g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 
@@ -260,13 +260,6 @@ phosh_settings_constructed (GObject *object)
   gtk_box_pack_start (GTK_BOX (priv->box_settings), priv->output_vol_bar, FALSE, FALSE, 0);
   gtk_box_reorder_child (GTK_BOX (priv->box_settings), priv->output_vol_bar, 1);
 
-  if (phosh_shell_get_rotation (phosh_shell_get_default ()))
-    gtk_switch_set_active (GTK_SWITCH (priv->btn_rotation), TRUE);
-  g_signal_connect_swapped (priv->btn_rotation,
-                            "notify::active",
-                            G_CALLBACK (rotation_changed_cb),
-                            self);
-
   gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
                                   "button");
   gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_settings),
@@ -353,12 +346,12 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, box_settings);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, quick_setting);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, scale_brightness);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_rotation);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_settings);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_lock_screen);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_shutdown);
 
   gtk_widget_class_bind_template_callback (widget_class, batteryinfo_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);
 }
 
 
@@ -366,6 +359,7 @@ static void
 phosh_settings_init (PhoshSettings *self)
 {
   g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
+  g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
   gtk_widget_init_template (GTK_WIDGET (self));
 }
 

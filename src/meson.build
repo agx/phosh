@@ -111,6 +111,8 @@ phosh_sources = [
   'proximity.c',
   'sensor-proxy-manager.c',
   'sensor-proxy-manager.h',
+  'rotateinfo.c',
+  'rotateinfo.h',
   'screen-saver-manager.c',
   'screen-saver-manager.h',
   'session-presence.c',

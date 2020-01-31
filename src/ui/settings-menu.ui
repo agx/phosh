@@ -49,6 +49,20 @@
                     </child>
                   </object>
                 </child>
+                <child>
+                  <object class="PhoshQuickSetting">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <signal name="clicked" handler="rotation_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                    <child>
+                      <object class="PhoshRotateInfo" id="rotateinfo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -93,74 +107,6 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkListBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="hexpand">True</property>
-                <property name="selection_mode">none</property>
-                <property name="activate_on_single_click">False</property>
-                <child>
-                  <object class="GtkListBoxRow">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="activatable">False</property>
-                    <property name="selectable">False</property>
-                    <child>
-                      <object class="GtkBox">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="valign">center</property>
-                        <child>
-                          <object class="GtkLabel">
-                            <property name="height_request">32</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="halign">start</property>
-                            <property name="margin_top">8</property>
-                            <property name="margin_bottom">8</property>
-                            <property name="hexpand">True</property>
-                            <property name="label" translatable="yes">Rotation</property>
-                            <property name="xalign">0</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSwitch" id="btn_rotation">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="halign">end</property>
-                            <property name="valign">center</property>
-                            <property name="margin_right">12</property>
-                            <property name="margin_end">12</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <style>
-                          <class name="phosh-settings-row"/>
-                        </style>
-                      </object>
-                    </child>
-                    <style>
-                      <class name="phosh-settings-listboxrow"/>
-                    </style>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">3</property>
               </packing>
             </child>
             <child>
