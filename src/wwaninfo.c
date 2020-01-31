@@ -173,6 +173,8 @@ phosh_wwan_info_constructed (GObject *object)
                               self);
   }
   g_idle_add ((GSourceFunc) on_idle, self);
+
+  phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), "Cellular");
 }
 
 
