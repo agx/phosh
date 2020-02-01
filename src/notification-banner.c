@@ -4,19 +4,19 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#define G_LOG_DOMAIN "phosh-notification"
+#define G_LOG_DOMAIN "phosh-notification-banner"
 
 #include "config.h"
-#include "notification.h"
+#include "notification-banner.h"
 #include "shell.h"
 
 #define HANDY_USE_UNSTABLE_API
 #include <handy.h>
 
 /**
- * SECTION:phosh-notification
- * @short_description: A notification
- * @Title: PhoshNotification
+ * SECTION:phosh-notification-banner
+ * @short_description: A floating notification
+ * @Title: PhoshNotificationBanner
  */
 
 enum {
@@ -32,13 +32,15 @@ enum {
 };
 static GParamSpec *props[LAST_PROP];
 
+
 enum {
   SIGNAL_ACTIONED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS];
 
-typedef struct _PhoshNotification
+
+typedef struct _PhoshNotificationBanner
 {
   PhoshLayerSurface parent;
 
@@ -58,40 +60,40 @@ typedef struct _PhoshNotification
     gdouble progress;
     gint64  last_frame;
   } animation;
-} PhoshNotification;
+} PhoshNotificationBanner;
 
-G_DEFINE_TYPE (PhoshNotification, phosh_notification, PHOSH_TYPE_LAYER_SURFACE)
+G_DEFINE_TYPE (PhoshNotificationBanner, phosh_notification_banner, PHOSH_TYPE_LAYER_SURFACE)
 
 
 static void
-phosh_notification_set_property (GObject      *object,
-                                 guint         property_id,
-                                 const GValue *value,
-                                 GParamSpec   *pspec)
+phosh_notification_banner_set_property (GObject      *object,
+                                        guint         property_id,
+                                        const GValue *value,
+                                        GParamSpec   *pspec)
 {
-  PhoshNotification *self = PHOSH_NOTIFICATION (object);
+  PhoshNotificationBanner *self = PHOSH_NOTIFICATION_BANNER (object);
 
   switch (property_id) {
   case PROP_APP_NAME:
-    phosh_notification_set_app_name (self, g_value_get_string (value));
+    phosh_notification_banner_set_app_name (self, g_value_get_string (value));
     break;
   case PROP_SUMMARY:
-    phosh_notification_set_summary (self, g_value_get_string (value));
+    phosh_notification_banner_set_summary (self, g_value_get_string (value));
     break;
   case PROP_BODY:
-    phosh_notification_set_body (self, g_value_get_string (value));
+    phosh_notification_banner_set_body (self, g_value_get_string (value));
     break;
   case PROP_APP_ICON:
-    phosh_notification_set_app_icon (self, g_value_get_object (value));
+    phosh_notification_banner_set_app_icon (self, g_value_get_object (value));
     break;
   case PROP_APP_INFO:
-    phosh_notification_set_app_info (self, g_value_get_object (value));
+    phosh_notification_banner_set_app_info (self, g_value_get_object (value));
     break;
   case PROP_IMAGE:
-    phosh_notification_set_image (self, g_value_get_object (value));
+    phosh_notification_banner_set_image (self, g_value_get_object (value));
     break;
   case PROP_ACTIONS:
-    phosh_notification_set_actions (self, g_value_get_boxed (value));
+    phosh_notification_banner_set_actions (self, g_value_get_boxed (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -101,12 +103,12 @@ phosh_notification_set_property (GObject      *object,
 
 
 static void
-phosh_notification_get_property (GObject    *object,
-                                 guint       property_id,
-                                 GValue     *value,
-                                 GParamSpec *pspec)
+phosh_notification_banner_get_property (GObject    *object,
+                                        guint       property_id,
+                                        GValue     *value,
+                                        GParamSpec *pspec)
 {
-  PhoshNotification *self = PHOSH_NOTIFICATION (object);
+  PhoshNotificationBanner *self = PHOSH_NOTIFICATION_BANNER (object);
 
   switch (property_id) {
   case PROP_APP_NAME:
@@ -138,9 +140,9 @@ phosh_notification_get_property (GObject    *object,
 
 
 static gboolean
-activate_notification (PhoshNotification *self, GdkEventButton *event)
+activate_notification (PhoshNotificationBanner *self, GdkEventButton *event)
 {
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), FALSE);
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self), FALSE);
 
   g_signal_emit (self, signals[SIGNAL_ACTIONED], 0, "default");
 
@@ -149,21 +151,21 @@ activate_notification (PhoshNotification *self, GdkEventButton *event)
 
 
 static void
-phosh_notification_finalize (GObject *object)
+phosh_notification_banner_finalize (GObject *object)
 {
-  PhoshNotification *self = PHOSH_NOTIFICATION (object);
+  PhoshNotificationBanner *self = PHOSH_NOTIFICATION_BANNER (object);
 
   g_clear_object (&self->icon);
   g_clear_object (&self->image);
   g_clear_object (&self->info);
   g_clear_pointer (&self->actions, g_strfreev);
 
-  G_OBJECT_CLASS (phosh_notification_parent_class)->finalize (object);
+  G_OBJECT_CLASS (phosh_notification_banner_parent_class)->finalize (object);
 }
 
 
 static void
-phosh_notification_slide (PhoshNotification *self)
+phosh_notification_banner_slide (PhoshNotificationBanner *self)
 {
   gint margin;
   gint height;
@@ -187,7 +189,7 @@ animate_down_cb (GtkWidget     *widget,
 {
   gint64 time;
   gboolean finished = FALSE;
-  PhoshNotification *self = PHOSH_NOTIFICATION (widget);
+  PhoshNotificationBanner *self = PHOSH_NOTIFICATION_BANNER (widget);
 
   time = gdk_frame_clock_get_frame_time (frame_clock) - self->animation.last_frame;
   if (self->animation.last_frame < 0) {
@@ -202,16 +204,16 @@ animate_down_cb (GtkWidget     *widget,
     self->animation.progress = 1.0;
   }
 
-  phosh_notification_slide (self);
+  phosh_notification_banner_slide (self);
 
   return finished ? G_SOURCE_REMOVE : G_SOURCE_CONTINUE;
 }
 
 
 static void
-phosh_notification_show (GtkWidget *widget)
+phosh_notification_banner_show (GtkWidget *widget)
 {
-  PhoshNotification *self = PHOSH_NOTIFICATION (widget);
+  PhoshNotificationBanner *self = PHOSH_NOTIFICATION_BANNER (widget);
   gboolean enable_animations;
 
   enable_animations = hdy_get_enable_animations (GTK_WIDGET (self));
@@ -220,21 +222,21 @@ phosh_notification_show (GtkWidget *widget)
   self->animation.progress = enable_animations ? 0.0 : 1.0;
   gtk_widget_add_tick_callback (GTK_WIDGET (self), animate_down_cb, NULL, NULL);
 
-  GTK_WIDGET_CLASS (phosh_notification_parent_class)->show (widget);
+  GTK_WIDGET_CLASS (phosh_notification_banner_parent_class)->show (widget);
 }
 
 
 static void
-phosh_notification_class_init (PhoshNotificationClass *klass)
+phosh_notification_banner_class_init (PhoshNotificationBannerClass *klass)
 {
-  GObjectClass *object_class = (GObjectClass *)klass;
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-  object_class->finalize = phosh_notification_finalize;
-  object_class->set_property = phosh_notification_set_property;
-  object_class->get_property = phosh_notification_get_property;
+  object_class->finalize = phosh_notification_banner_finalize;
+  object_class->set_property = phosh_notification_banner_set_property;
+  object_class->get_property = phosh_notification_banner_get_property;
 
-  widget_class->show = phosh_notification_show;
+  widget_class->show = phosh_notification_banner_show;
 
   props[PROP_APP_NAME] =
     g_param_spec_string (
@@ -269,10 +271,10 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   /**
-   * PhoshNotification:app-info:
+   * PhoshNotificationBanner:app-info:
    * 
-   * When not %NULL this overrides the values of #PhoshNotification:app-name
-   * and #PhoshNotification:app-icon with those of the #GAppInfo
+   * When not %NULL this overrides the values of #PhoshNotificationBanner:app-name
+   * and #PhoshNotificationBanner:app-icon with those of the #GAppInfo
    */
   props[PROP_APP_INFO] =
     g_param_spec_object (
@@ -314,18 +316,19 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
                                            G_TYPE_STRING);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/notification.ui");
-  gtk_widget_class_bind_template_child (widget_class, PhoshNotification, lbl_app_name);
-  gtk_widget_class_bind_template_child (widget_class, PhoshNotification, lbl_summary);
-  gtk_widget_class_bind_template_child (widget_class, PhoshNotification, lbl_body);
-  gtk_widget_class_bind_template_child (widget_class, PhoshNotification, img_icon);
-  gtk_widget_class_bind_template_child (widget_class, PhoshNotification, img_image);
-  gtk_widget_class_bind_template_child (widget_class, PhoshNotification, box_actions);
+                                               "/sm/puri/phosh/ui/notification-banner.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationBanner, lbl_app_name);
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationBanner, lbl_summary);
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationBanner, lbl_body);
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationBanner, img_icon);
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationBanner, img_image);
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationBanner, box_actions);
 
   gtk_widget_class_bind_template_callback (widget_class, activate_notification);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-notification");
 }
+
 
 static void
 action_activate (GSimpleAction *action,
@@ -334,20 +337,22 @@ action_activate (GSimpleAction *action,
 {
   const char *target;
 
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (data));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (data));
 
   target = g_variant_get_string (parameter, NULL);
 
   g_signal_emit (data, signals[SIGNAL_ACTIONED], 0, target);
 }
 
+
 static GActionEntry entries[] =
 {
   { "activate", action_activate, "s", NULL, NULL },
 };
 
+
 static void
-phosh_notification_init (PhoshNotification *self)
+phosh_notification_banner_init (PhoshNotificationBanner *self)
 {
   g_autoptr (GActionMap) map = NULL;
 
@@ -366,21 +371,21 @@ phosh_notification_init (PhoshNotification *self)
 }
 
 
-PhoshNotification *
-phosh_notification_new (const char *app_name,
-                        GAppInfo   *info,
-                        const char *summary,
-                        const char *body,
-                        GIcon      *icon,
-                        GIcon      *image,
-                        GStrv       actions)
+PhoshNotificationBanner *
+phosh_notification_banner_new (const char *app_name,
+                               GAppInfo   *info,
+                               const char *summary,
+                               const char *body,
+                               GIcon      *icon,
+                               GIcon      *image,
+                               GStrv       actions)
 {
   PhoshWayland *wl = phosh_wayland_get_default ();
   int width = 360;
   phosh_shell_get_usable_area (phosh_shell_get_default (),
                                NULL, NULL, &width, NULL);
 
-  return g_object_new (PHOSH_TYPE_NOTIFICATION,
+  return g_object_new (PHOSH_TYPE_NOTIFICATION_BANNER,
                        "app_name", app_name,
                        "summary", summary,
                        "body", body,
@@ -390,7 +395,7 @@ phosh_notification_new (const char *app_name,
                        "actions", actions,
                        /* layer surface */
                        "margin-top", -300,
-                       "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(wl),
+                       "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP,
                        "height", 50,
                        "width", MIN (width, 450),
@@ -401,10 +406,12 @@ phosh_notification_new (const char *app_name,
                        NULL);
 }
 
+
 void
-phosh_notification_set_app_icon (PhoshNotification *self, GIcon *icon)
+phosh_notification_banner_set_app_icon (PhoshNotificationBanner *self,
+                                        GIcon                   *icon)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self));
 
   g_clear_object (&self->icon);
   if (icon != NULL) {
@@ -422,11 +429,12 @@ phosh_notification_set_app_icon (PhoshNotification *self, GIcon *icon)
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_ICON]);
 }
 
+
 void
-phosh_notification_set_app_info (PhoshNotification *self,
-                                 GAppInfo          *info)
+phosh_notification_banner_set_app_info (PhoshNotificationBanner *self,
+                                        GAppInfo                *info)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self));
 
   g_clear_object (&self->info);
 
@@ -439,17 +447,19 @@ phosh_notification_set_app_info (PhoshNotification *self,
     icon = g_app_info_get_icon (info);
     name = g_app_info_get_name (info);
 
-    phosh_notification_set_app_icon (self, icon);
-    phosh_notification_set_app_name (self, name);
+    phosh_notification_banner_set_app_icon (self, icon);
+    phosh_notification_banner_set_app_name (self, name);
   }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_INFO]);
 }
 
+
 void
-phosh_notification_set_image (PhoshNotification *self, GIcon *image)
+phosh_notification_banner_set_image (PhoshNotificationBanner *self,
+                                     GIcon                   *image)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self));
 
   g_clear_object (&self->image);
 
@@ -467,10 +477,12 @@ phosh_notification_set_image (PhoshNotification *self, GIcon *image)
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IMAGE]);
 }
 
+
 void
-phosh_notification_set_summary (PhoshNotification *self, const gchar *summary)
+phosh_notification_banner_set_summary (PhoshNotificationBanner *self,
+                                       const gchar             *summary)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self));
 
   gtk_label_set_label (GTK_LABEL (self->lbl_summary), summary);
 
@@ -482,10 +494,12 @@ phosh_notification_set_summary (PhoshNotification *self, const gchar *summary)
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SUMMARY]);
 }
 
+
 void
-phosh_notification_set_body (PhoshNotification *self, const gchar *body)
+phosh_notification_banner_set_body (PhoshNotificationBanner *self,
+                                    const gchar             *body)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self));
 
   gtk_label_set_markup (GTK_LABEL (self->lbl_body), body);
 
@@ -497,10 +511,12 @@ phosh_notification_set_body (PhoshNotification *self, const gchar *body)
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_BODY]);
 }
 
+
 void
-phosh_notification_set_app_name (PhoshNotification *self, const gchar *app_name)
+phosh_notification_banner_set_app_name (PhoshNotificationBanner *self,
+                                        const gchar             *app_name)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self));
 
   if (app_name &&
       strlen (app_name) > 0 &&
@@ -513,11 +529,12 @@ phosh_notification_set_app_name (PhoshNotification *self, const gchar *app_name)
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_NAME]);
 }
 
+
 void
-phosh_notification_set_actions (PhoshNotification *self,
-                                GStrv              actions)
+phosh_notification_banner_set_actions (PhoshNotificationBanner *self,
+                                       GStrv                    actions)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self));
 
   g_clear_pointer (&self->actions, g_strfreev);
 

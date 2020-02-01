@@ -14,7 +14,7 @@ phosh_resources = gnome.compile_resources(
 
 phosh_enum_headers = [
   'home.h',
-  'notification.h',
+  'notification-banner.h',
   'notify-manager.h',
   'app-grid-button.h'
 ]
@@ -89,8 +89,8 @@ phosh_sources = [
   'monitor-manager.h',
   'network-auth-prompt.c',
   'network-auth-prompt.h',
-  'notification.c',
-  'notification.h',
+  'notification-banner.c',
+  'notification-banner.h',
   'notify-manager.c',
   'notify-manager.h',
   'osk-manager.c',

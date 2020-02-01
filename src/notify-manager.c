@@ -10,7 +10,7 @@
 
 #include <gio/gdesktopappinfo.h>
 
-#include "notification.h"
+#include "notification-banner.h"
 #include "notify-manager.h"
 #include "shell.h"
 
@@ -144,14 +144,14 @@ on_notification_expired (gpointer data)
 }
 
 static void
-on_notification_actioned (PhoshNotifyManager *self,
-                          const char         *action,
-                          PhoshNotification  *notification)
+on_notification_actioned (PhoshNotifyManager      *self,
+                          const char              *action,
+                          PhoshNotificationBanner *notification)
 {
   gpointer data;
 
   g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (notification));
 
   data = g_object_get_data (G_OBJECT (notification), "notify-id");
   g_return_if_fail (data);
@@ -251,7 +251,7 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                gint                          expire_timeout)
 {
   PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (skeleton);
-  PhoshNotification *notification = NULL;
+  PhoshNotificationBanner *notification = NULL;
   GVariant *item;
   GVariantIter iter;
   guint id;
@@ -348,13 +348,13 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
   } else {
     id = self->next_id++;
 
-    notification = g_object_ref_sink (phosh_notification_new (app_name,
-                                                              info,
-                                                              summary,
-                                                              body,
-                                                              icon,
-                                                              image,
-                                                              (GStrv) actions));
+    notification = g_object_ref_sink (phosh_notification_banner_new (app_name,
+                                                                     info,
+                                                                     summary,
+                                                                     body,
+                                                                     icon,
+                                                                     image,
+                                                                     (GStrv) actions));
     g_hash_table_insert (self->notifications,
                          GUINT_TO_POINTER (id),
                          notification);
