@@ -166,11 +166,13 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
   object_class->get_property = phosh_notification_get_property;
 
   props[PROP_ID] =
-    g_param_spec_string (
+    g_param_spec_uint (
       "id",
       "ID",
       "Notification ID",
-      "",
+      0,
+      G_MAXUINT,
+      0,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PROP_APP_NAME] =
@@ -255,6 +257,7 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
 static void
 phosh_notification_init (PhoshNotification *self)
 {
+  self->app_name = g_strdup (_("Notification"));
 }
 
 
