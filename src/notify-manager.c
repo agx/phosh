@@ -143,24 +143,27 @@ on_notification_expired (gpointer data)
   return G_SOURCE_REMOVE;
 }
 
+
 static void
-on_notification_actioned (PhoshNotifyManager      *self,
-                          const char              *action,
-                          PhoshNotificationBanner *notification)
+on_notification_actioned (PhoshNotifyManager *self,
+                          const char         *action,
+                          PhoshNotification  *notification)
 {
-  gpointer data;
+  guint data;
 
   g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
-  g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (notification));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
 
-  data = g_object_get_data (G_OBJECT (notification), "notify-id");
+  data = phosh_notification_get_id (notification);
+
   g_return_if_fail (data);
 
-  phosh_notify_manager_action_invoked (self, GPOINTER_TO_UINT (data), action);
+  phosh_notify_manager_action_invoked (self, data, action);
 
-  phosh_notify_manager_close_notification (self, GPOINTER_TO_UINT (data),
+  phosh_notify_manager_close_notification (self, data,
                                            PHOSH_NOTIFY_MANAGER_REASON_DISMISSED);
 }
+
 
 static GIcon *
 parse_icon_data (GVariant *variant)
@@ -251,7 +254,8 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                gint                          expire_timeout)
 {
   PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (skeleton);
-  PhoshNotificationBanner *notification = NULL;
+  PhoshNotificationBanner *banner = NULL;
+  PhoshNotification *notification = NULL;
   GVariant *item;
   GVariantIter iter;
   guint id;
@@ -332,10 +336,13 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
     expire_timeout = NOTIFICATION_DEFAULT_TIMEOUT;
 
   if (replaces_id)
-    notification = g_hash_table_lookup (self->notifications, GUINT_TO_POINTER (replaces_id));
+    banner = g_hash_table_lookup (self->notifications, GUINT_TO_POINTER (replaces_id));
 
-  if (notification) {
+  if (banner) {
     id = replaces_id;
+
+    notification = phosh_notification_banner_get_notification (banner);
+
     g_object_set (notification,
                   "app_name", app_name,
                   "summary", summary,
@@ -348,21 +355,22 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
   } else {
     id = self->next_id++;
 
-    notification = g_object_ref_sink (phosh_notification_banner_new (app_name,
-                                                                     info,
-                                                                     summary,
-                                                                     body,
-                                                                     icon,
-                                                                     image,
-                                                                     (GStrv) actions));
+    notification = phosh_notification_new (app_name,
+                                           info,
+                                           summary,
+                                           body,
+                                           icon,
+                                           image,
+                                           (GStrv) actions);
+    banner = phosh_notification_banner_new (notification);
     g_hash_table_insert (self->notifications,
                          GUINT_TO_POINTER (id),
-                         notification);
-    g_object_set_data (G_OBJECT (notification), "notify-id", GUINT_TO_POINTER(id));
+                         banner);
+    phosh_notification_set_id (notification, id);
 
     if (expire_timeout) {
       g_timeout_add_seconds (expire_timeout / 1000,
-                             (GSourceFunc)on_notification_expired,
+                             (GSourceFunc) on_notification_expired,
                              GUINT_TO_POINTER (id));
     }
 
@@ -372,8 +380,9 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                              self,
                              G_CONNECT_SWAPPED);
 
-    if (self->show_banners)
-      gtk_widget_show (GTK_WIDGET (notification));
+    if (self->show_banners) {
+      gtk_widget_show (GTK_WIDGET (banner));
+    }
   }
 
   phosh_notify_dbus_notifications_complete_notify (
