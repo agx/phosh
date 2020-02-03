@@ -18,8 +18,8 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhoshNotificationBanner, phosh_notification_banner, PHOSH, NOTIFICATION_BANNER, PhoshLayerSurface)
 
 
-PhoshNotificationBanner *phosh_notification_banner_new              (PhoshNotification       *notification);
-PhoshNotification       *phosh_notification_banner_get_notification (PhoshNotificationBanner *self);
+GtkWidget         *phosh_notification_banner_new              (PhoshNotification       *notification);
+PhoshNotification *phosh_notification_banner_get_notification (PhoshNotificationBanner *self);
 
 
 G_END_DECLS

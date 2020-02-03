@@ -51,6 +51,8 @@ libphosh_sources = [
   'notification.h',
   'notification-banner.c',
   'notification-banner.h',
+  'notification-content.c',
+  'notification-content.h',
   'overview.c',
   'overview.h',
   'status-icon.c',

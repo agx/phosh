@@ -179,13 +179,41 @@ phosh-app-grid-button image {
 
 /* notifications */
 
-phosh-notification {
+phosh-notification-content {
+  background: transparent;
+}
+
+phosh-notification-content .message-area {
+  padding: 12px;
+}
+
+phosh-notification-content .message-area image {
+  border-radius: 50%;
+}
+
+phosh-notification-content .actions-area button {
+  border-radius: 0;
+  box-shadow: none;
+  border-left: none;
+  border-right: none;
+}
+
+phosh-notification-content:last-child .actions-area button:last-child {
+  border-radius: 0 0 6px 6px;
+  border-bottom: none;
+}
+
+phosh-notification-banner {
   border: none;
   background: transparent;
   padding: 12px;
 }
 
-phosh-notification .content {
+phosh-notification-banner list {
+  background: transparent;
+}
+
+phosh-notification-banner .content {
   border-radius: 6px;
   background-color: #282828;
   margin: 12px;
@@ -194,24 +222,12 @@ phosh-notification .content {
               0px 0px 0px 1px rgba(0, 0, 0, 0.2);
 }
 
-phosh-notification .message-area {
-  padding: 12px;
+phosh-notification-banner .header-area {
+  padding: 12px 12px 0 12px;
 }
 
-phosh-notification .message-area image {
-    -gtk-icon-style: symbolic;
-}
-
-phosh-notification .actions-area button {
-  border-radius: 0;
-}
-
-phosh-notification .actions-area button:last-child {
-  border-radius: 0 0 6px 6px;
-}
-
-phosh-notification .notification-image {
-  border-radius: 50%;
+phosh-notification-banner .header-area image {
+  -gtk-icon-style: symbolic;
 }
 
 /* fader */

@@ -254,7 +254,7 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                gint                          expire_timeout)
 {
   PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (skeleton);
-  PhoshNotificationBanner *banner = NULL;
+  GtkWidget *banner = NULL;
   PhoshNotification *notification = NULL;
   GVariant *item;
   GVariantIter iter;
@@ -341,7 +341,7 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
   if (banner) {
     id = replaces_id;
 
-    notification = phosh_notification_banner_get_notification (banner);
+    notification = phosh_notification_banner_get_notification (PHOSH_NOTIFICATION_BANNER (banner));
 
     g_object_set (notification,
                   "app_name", app_name,
