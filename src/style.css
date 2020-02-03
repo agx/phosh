@@ -203,17 +203,7 @@ phosh-notification-content:last-child .actions-area button:last-child {
   border-bottom: none;
 }
 
-phosh-notification-banner {
-  border: none;
-  background: transparent;
-  padding: 12px;
-}
-
-phosh-notification-banner list {
-  background: transparent;
-}
-
-phosh-notification-banner .content {
+phosh-notification-frame {
   border-radius: 6px;
   background-color: #282828;
   margin: 12px;
@@ -222,12 +212,22 @@ phosh-notification-banner .content {
               0px 0px 0px 1px rgba(0, 0, 0, 0.2);
 }
 
-phosh-notification-banner .header-area {
+phosh-notification-frame list {
+  background: transparent;
+}
+
+phosh-notification-frame .header-area {
   padding: 12px 12px 0 12px;
 }
 
-phosh-notification-banner .header-area image {
+phosh-notification-frame .header-area image {
   -gtk-icon-style: symbolic;
+}
+
+phosh-notification-banner {
+  border: none;
+  background: transparent;
+  padding: 12px;
 }
 
 /* fader */

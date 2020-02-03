@@ -1,5 +1,5 @@
 /*
- * Copyright © Zander Brown <zbrown@gnome.org>
+ * Copyright © 2020 Zander Brown <zbrown@gnome.org>
  *
  * SPDX-License-Identifier: GPL-3.0+
  *

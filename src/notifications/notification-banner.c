@@ -8,7 +8,7 @@
 
 #include "config.h"
 #include "notification-banner.h"
-#include "notification-content.h"
+#include "notification-frame.h"
 #include "shell.h"
 
 #define HANDY_USE_UNSTABLE_API
@@ -33,10 +33,6 @@ struct _PhoshNotificationBanner {
 
   PhoshNotification *notification;
 
-  GtkWidget *lbl_app_name;
-  GtkWidget *img_icon;
-  GtkWidget *list_notifs;
-
   struct {
     gdouble progress;
     gint64  last_frame;
@@ -56,17 +52,8 @@ phosh_notification_banner_set_notification (PhoshNotificationBanner *self,
 
   g_set_object (&self->notification, notification);
 
-  g_object_bind_property (self->notification, "app-name",
-                          self->lbl_app_name, "label",
-                          G_BINDING_SYNC_CREATE);
-
-  // If unset PhoshNotification provides a fallback
-  g_object_bind_property (self->notification, "app-icon",
-                          self->img_icon,     "gicon",
-                          G_BINDING_SYNC_CREATE);
-
-  content = phosh_notification_content_new (self->notification);
-  gtk_container_add (GTK_CONTAINER (self->list_notifs), content);
+  content = phosh_notification_frame_new (self->notification);
+  gtk_container_add (GTK_CONTAINER (self), content);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_NOTIFICATION]);
 }
@@ -108,38 +95,6 @@ phosh_notification_banner_get_property (GObject    *object,
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
   }
-}
-
-
-static gboolean
-header_activated (PhoshNotificationBanner *self, GdkEventButton *event)
-{
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self), FALSE);
-
-  phosh_notification_activate (self->notification,
-                               PHOSH_NOTIFICATION_DEFAULT_ACTION);
-
-  return FALSE;
-}
-
-
-static void
-notification_activated (PhoshNotificationBanner *self,
-                        GtkListBoxRow           *row,
-                        GtkListBox              *list)
-{
-  PhoshNotificationContent *content;
-  PhoshNotification *notification;
-
-  g_return_if_fail (PHOSH_IS_NOTIFICATION_CONTENT (row));
-
-  gtk_container_remove (GTK_CONTAINER (list), GTK_WIDGET (row));
-
-  content = PHOSH_NOTIFICATION_CONTENT (row);
-  notification = phosh_notification_content_get_notification (content);
-
-  phosh_notification_activate (notification,
-                               PHOSH_NOTIFICATION_DEFAULT_ACTION);
 }
 
 
@@ -244,15 +199,6 @@ phosh_notification_banner_class_init (PhoshNotificationBannerClass *klass)
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
-  gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/notification-banner.ui");
-  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationBanner, lbl_app_name);
-  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationBanner, img_icon);
-  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationBanner, list_notifs);
-
-  gtk_widget_class_bind_template_callback (widget_class, header_activated);
-  gtk_widget_class_bind_template_callback (widget_class, notification_activated);
-
   gtk_widget_class_set_css_name (widget_class, "phosh-notification-banner");
 }
 
@@ -261,8 +207,6 @@ static void
 phosh_notification_banner_init (PhoshNotificationBanner *self)
 {
   self->animation.progress = 0.0;
-
-  gtk_widget_init_template (GTK_WIDGET (self));
 }
 
 

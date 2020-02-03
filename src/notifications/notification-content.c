@@ -112,6 +112,10 @@ set_actions (PhoshNotification        *notification,
                          (GtkCallback) gtk_widget_destroy,
                          NULL);
 
+  if (actions == NULL) {
+    return;
+  }
+
   for (int i = 0; actions[i] != NULL; i += 2) {
     GtkWidget *btn;
     GtkWidget *lbl;

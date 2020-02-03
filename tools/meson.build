@@ -29,3 +29,5 @@ executable('phosh-osk-stub', ['phosh-osk-stub.c'],
 executable('app-buttons', ['app-buttons.c'] + stubs,
            dependencies: phosh_dep)
 
+executable('notify-blocks', ['notify-blocks.c'],
+           dependencies: phosh_dep)

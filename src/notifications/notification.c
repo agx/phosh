@@ -271,10 +271,11 @@ phosh_notification_new (const char *app_name,
                         GStrv       actions)
 {
   return g_object_new (PHOSH_TYPE_NOTIFICATION,
-                       "app_name", app_name,
                        "summary", summary,
                        "body", body,
+                       "app-name", app_name,
                        "app-icon", icon,
+                       // Set info after fallback name and icon
                        "app-info", info,
                        "image", image,
                        "actions", actions,
