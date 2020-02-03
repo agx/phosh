@@ -1,12 +1,12 @@
 /*
  * Copyright © 2020 Zander Brown
- * 
+ *
  * SPDX-License-Identifier: GPL-3.0+
- * 
+ *
  * Author: Zander Brown <zbrown@gnome.org>
  */
 
-#include "notification.h"
+#include "notifications/notification.h"
 
 #include <gio/gdesktopappinfo.h>
 
@@ -193,7 +193,7 @@ test_phosh_notification_actions (void)
 
   g_assert_true (strv_equal ((const gchar * const*) original_actions,
                              (const gchar * const*) actions));
-  
+
   g_signal_connect (noti, "actioned", G_CALLBACK (actioned), NULL);
   phosh_notification_activate (noti, "app.test");
 
@@ -232,7 +232,7 @@ test_phosh_notification_get (void)
                 "image", &image,
                 "actions", &actions,
                 NULL);
-  
+
   g_assert_nonnull (app_name);
   g_assert_null (app_info);
   g_assert_nonnull (summary);

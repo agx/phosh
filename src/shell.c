@@ -31,7 +31,7 @@
 #include "lockscreen-manager.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
-#include "notify-manager.h"
+#include "notifications/notify-manager.h"
 #include "osk-manager.h"
 #include "panel.h"
 #include "phosh-wayland.h"

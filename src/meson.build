@@ -1,5 +1,6 @@
 subdir('dbus')
 subdir('monitor')
+subdir('notifications')
 subdir('osk')
 subdir('wwan')
 subdir('settings')
@@ -14,8 +15,8 @@ phosh_resources = gnome.compile_resources(
 
 phosh_enum_headers = [
   'home.h',
-  'notification.h',
-  'notify-manager.h',
+  'notifications/notification.h',
+  'notifications/notify-manager.h',
   'app-grid-button.h'
 ]
 
@@ -47,12 +48,6 @@ libphosh_sources = [
   'app-list-model.h',
   'favorite-list-model.c',
   'favorite-list-model.h',
-  'notification.c',
-  'notification.h',
-  'notification-banner.c',
-  'notification-banner.h',
-  'notification-content.c',
-  'notification-content.h',
   'overview.c',
   'overview.h',
   'status-icon.c',
@@ -62,6 +57,7 @@ libphosh_sources = [
   'util.c',
   'util.h',
   phosh_gtk_list_models_sources,
+  phosh_notifications_sources,
   libphosh_generated_sources,
 ]
 
@@ -101,8 +97,6 @@ phosh_sources = [
   'monitor-manager.h',
   'network-auth-prompt.c',
   'network-auth-prompt.h',
-  'notify-manager.c',
-  'notify-manager.h',
   'osk-manager.c',
   'osk-manager.h',
   'panel.c',

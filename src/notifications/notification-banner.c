@@ -231,7 +231,7 @@ phosh_notification_banner_class_init (PhoshNotificationBannerClass *klass)
   /**
    * PhoshNotificationBanner:notification:
    * @self: the #PhoshNotificationBanner
-   * 
+   *
    * The #PhoshNotification shown in @self
    */
   props[PROP_NOTIFICATION] =

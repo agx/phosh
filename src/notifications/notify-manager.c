@@ -6,7 +6,7 @@
 
 #define G_LOG_DOMAIN "phosh-notify-manager"
 
-#include "config.h"
+#include "../config.h"
 
 #include <gio/gdesktopappinfo.h>
 
@@ -551,7 +551,7 @@ phosh_notify_manager_close_notification (PhoshNotifyManager *self, guint id,
  * @action: the action id
  *
  * Activate @action on @id
- * 
+ *
  * Returns: %TRUE if the notification was actioned, %FALSE if it didn't exist.
  */
 gboolean

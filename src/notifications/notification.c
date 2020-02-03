@@ -2,7 +2,7 @@
  * Copyright © 2020 Zander Brown <zbrown@gnome.org>
  *
  * SPDX-License-Identifier: GPL-3.0+
- * 
+ *
  * Author: Zander Brown <zbrown@gnome.org>
  */
 
@@ -209,7 +209,7 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
 
   /**
    * PhoshNotification:app-info:
-   * 
+   *
    * When non-%NULL this overrides the values of #PhoshNotification:app-name
    * and #PhoshNotification:app-icon with those from the #GAppInfo
    */

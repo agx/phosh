@@ -2,8 +2,8 @@
 
 #include "config.h"
 #include "home.h"
-#include "notification.h"
-#include "notify-manager.h"
+#include "notifications/notification.h"
+#include "notifications/notify-manager.h"
 #include "app-grid-button.h"
 #include "phosh-enums.h"
 
