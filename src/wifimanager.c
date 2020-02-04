@@ -33,6 +33,7 @@ enum {
   PHOSH_WIFI_MANAGER_PROP_0,
   PHOSH_WIFI_MANAGER_PROP_ICON_NAME,
   PHOSH_WIFI_MANAGER_PROP_SSID,
+  PHOSH_WIFI_MANAGER_PROP_ENABLED,
   PHOSH_WIFI_MANAGER_PROP_LAST_PROP
 };
 static GParamSpec *props[PHOSH_WIFI_MANAGER_PROP_LAST_PROP];
@@ -103,6 +104,9 @@ phosh_wifi_manager_get_property (GObject *object,
     break;
   case PHOSH_WIFI_MANAGER_PROP_SSID:
     g_value_set_string (value, self->ssid);
+    break;
+  case PHOSH_WIFI_MANAGER_PROP_ENABLED:
+    g_value_set_boolean (value, self->enabled);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -289,6 +293,7 @@ on_nmclient_wireless_enabled_changed (PhoshWifiManager *self, GParamSpec *pspec,
   }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ENABLED]);
 }
 
 
@@ -516,6 +521,7 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
 
   if (enabled != self->enabled) {
     self->enabled = enabled;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ENABLED]);
   }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME]);
@@ -581,6 +587,15 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
                          "The wifis ssid, if connected",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PHOSH_WIFI_MANAGER_PROP_ENABLED] =
+    g_param_spec_boolean ("enabled",
+                         "enabled",
+                         "Wether the wifi is enabled or not",
+                         FALSE,
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+
+
 
   g_object_class_install_properties (object_class, PHOSH_WIFI_MANAGER_PROP_LAST_PROP, props);
 }
