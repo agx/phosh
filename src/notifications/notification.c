@@ -10,6 +10,7 @@
 
 #include "config.h"
 #include "notification.h"
+#include "phosh-enums.h"
 
 #include <glib/gi18n-lib.h>
 
@@ -36,6 +37,8 @@ static GParamSpec *props[LAST_PROP];
 
 enum {
   SIGNAL_ACTIONED,
+  SIGNAL_EXPIRED,
+  SIGNAL_CLOSED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS];
@@ -52,6 +55,8 @@ struct _PhoshNotification {
   GIcon    *image;
   GAppInfo *info;
   GStrv     actions;
+
+  gulong    timeout;
 };
 typedef struct _PhoshNotification PhoshNotification;
 
@@ -143,6 +148,11 @@ static void
 phosh_notification_finalize (GObject *object)
 {
   PhoshNotification *self = PHOSH_NOTIFICATION (object);
+
+  // If we've been dismissed cancel the auto timeout
+  if (self->timeout != 0) {
+    g_source_remove (self->timeout);
+  }
 
   g_clear_pointer (&self->app_name, g_free);
   g_clear_pointer (&self->summary, g_free);
@@ -251,6 +261,33 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
                                            G_TYPE_NONE,
                                            1,
                                            G_TYPE_STRING);
+
+  /**
+   * PhoshNotifiation::expired:
+   *
+   * The timeout set by phosh_notification_expires() has expired
+   */
+  signals[SIGNAL_EXPIRED] = g_signal_new ("expired",
+                                          G_TYPE_FROM_CLASS (klass),
+                                          G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+                                          NULL,
+                                          G_TYPE_NONE,
+                                          0);
+
+  /**
+   * PhoshNotifiation::closed:
+   * @self: the #PhoshNotifiation
+   * @reason: why @self was closed
+   *
+   * The notification has been closed
+   */
+  signals[SIGNAL_CLOSED] = g_signal_new ("closed",
+                                         G_TYPE_FROM_CLASS (klass),
+                                         G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+                                         NULL,
+                                         G_TYPE_NONE,
+                                         1,
+                                         PHOSH_TYPE_NOTIFICATION_REASON);
 }
 
 
@@ -513,4 +550,57 @@ phosh_notification_activate (PhoshNotification *self,
   g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
 
   g_signal_emit (self, signals[SIGNAL_ACTIONED], 0, action);
+}
+
+
+static gboolean
+expired (gpointer data)
+{
+  PhoshNotification *self = data;
+
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), G_SOURCE_REMOVE);
+
+  g_debug ("%i expired", self->id);
+
+  self->timeout= 0;
+
+  g_signal_emit (self, signals[SIGNAL_EXPIRED], 0);
+
+  return G_SOURCE_REMOVE;
+}
+
+
+/**
+ * phosh_notification_expires:
+ * @self: the #PhoshNotification
+ * @timeout: delay (in milliseconds)
+ *
+ * Set @self to expire after @timeout (from this call)
+ *
+ * Note doesn't close the notification, for that call
+ * phosh_notification_close() is response to #PhoshNotification::expired
+ */
+void
+phosh_notification_expires (PhoshNotification *self,
+                            int                timeout)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  g_return_if_fail (timeout > 0);
+
+  self->timeout = g_timeout_add (timeout, expired, self);
+}
+
+
+/**
+ * phosh_notification_close:
+ * @self: the #PhoshNotification
+ * @reason: Why the notification is closing
+ */
+void
+phosh_notification_close (PhoshNotification       *self,
+                          PhoshNotificationReason  reason)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+
+  g_signal_emit (self, signals[SIGNAL_CLOSED], 0, reason);
 }

@@ -84,17 +84,26 @@ handle_close_notification (PhoshNotifyDbusNotifications *skeleton,
                            GDBusMethodInvocation        *invocation,
                            guint                         arg_id)
 {
+  PhoshNotification *notification = NULL;
   PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (skeleton);
 
   g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
   g_debug ("DBus call CloseNotification %u", arg_id);
 
+  notification = g_hash_table_lookup (self->notifications,
+                                      GUINT_TO_POINTER (arg_id));
+
   /*
    * ignore errors when closing non-existent notifcation, at least qt 5.11 is not
    * happy about it.
    */
-  phosh_notify_manager_close_notification (self, arg_id,
-                                           PHOSH_NOTIFY_MANAGER_REASON_CLOSED);
+  if (notification && PHOSH_IS_NOTIFICATION (notification)) {
+    phosh_notification_close (notification, PHOSH_NOTIFICATION_REASON_CLOSED);
+  } else {
+    phosh_notify_dbus_notifications_emit_notification_closed (
+      PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), arg_id,
+      PHOSH_NOTIFICATION_REASON_CLOSED);
+  }
 
   phosh_notify_dbus_notifications_complete_close_notification (
     skeleton, invocation);
@@ -130,17 +139,21 @@ handle_get_server_information (PhoshNotifyDbusNotifications *skeleton,
 }
 
 
-static gboolean
-on_notification_expired (gpointer data)
+static void
+on_notification_expired (PhoshNotifyManager *self,
+                         PhoshNotification  *notification)
 {
-  guint id = GPOINTER_TO_UINT (data);
-  PhoshNotifyManager *self = phosh_notify_manager_get_default ();
+  guint id = 0;
+
+  g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+
+  id = phosh_notification_get_id (notification);
 
   g_debug ("Notification %u expired", id);
-  phosh_notify_manager_close_notification (self, id,
-                                           PHOSH_NOTIFY_MANAGER_REASON_EXPIRED);
 
-  return G_SOURCE_REMOVE;
+  phosh_notification_close (notification,
+                            PHOSH_NOTIFICATION_REASON_EXPIRED);
 }
 
 
@@ -149,19 +162,44 @@ on_notification_actioned (PhoshNotifyManager *self,
                           const char         *action,
                           PhoshNotification  *notification)
 {
-  guint data;
+  guint id;
 
   g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
   g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
 
-  data = phosh_notification_get_id (notification);
+  id = phosh_notification_get_id (notification);
 
-  g_return_if_fail (data);
+  g_return_if_fail (id);
 
-  phosh_notify_manager_action_invoked (self, data, action);
+  g_debug ("Emitting ActionInvoked: %d, %s", id, action);
 
-  phosh_notify_manager_close_notification (self, data,
-                                           PHOSH_NOTIFY_MANAGER_REASON_DISMISSED);
+  phosh_notify_dbus_notifications_emit_action_invoked (
+    PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), id, action);
+
+  phosh_notification_close (notification,
+                            PHOSH_NOTIFICATION_REASON_DISMISSED);
+}
+
+
+static void
+on_notification_closed (PhoshNotifyManager      *self,
+                        PhoshNotificationReason  reason,
+                        PhoshNotification       *notification)
+{
+  guint id;
+
+  g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+
+  id = phosh_notification_get_id (notification);
+
+  if (!g_hash_table_remove (self->notifications, GUINT_TO_POINTER (id)))
+    return;
+
+  g_debug ("Emitting NotificationClosed: %d, %d", id, reason);
+
+  phosh_notify_dbus_notifications_emit_notification_closed (
+    PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), id, reason);
 }
 
 
@@ -254,7 +292,6 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                gint                          expire_timeout)
 {
   PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (skeleton);
-  GtkWidget *banner = NULL;
   PhoshNotification *notification = NULL;
   GVariant *item;
   GVariantIter iter;
@@ -336,12 +373,10 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
     expire_timeout = NOTIFICATION_DEFAULT_TIMEOUT;
 
   if (replaces_id)
-    banner = g_hash_table_lookup (self->notifications, GUINT_TO_POINTER (replaces_id));
+    notification = g_hash_table_lookup (self->notifications, GUINT_TO_POINTER (replaces_id));
 
-  if (banner) {
+  if (notification) {
     id = replaces_id;
-
-    notification = phosh_notification_banner_get_notification (PHOSH_NOTIFICATION_BANNER (banner));
 
     g_object_set (notification,
                   "app_name", app_name,
@@ -362,25 +397,38 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                                            icon,
                                            image,
                                            (GStrv) actions);
-    banner = phosh_notification_banner_new (notification);
-    g_hash_table_insert (self->notifications,
-                         GUINT_TO_POINTER (id),
-                         banner);
+
     phosh_notification_set_id (notification, id);
 
-    if (expire_timeout) {
-      g_timeout_add_seconds (expire_timeout / 1000,
-                             (GSourceFunc) on_notification_expired,
-                             GUINT_TO_POINTER (id));
-    }
+    g_hash_table_insert (self->notifications,
+                         GUINT_TO_POINTER (id),
+                         notification);
 
+    g_signal_connect_object (notification,
+                             "expired",
+                             G_CALLBACK (on_notification_expired),
+                             self,
+                             G_CONNECT_SWAPPED);
     g_signal_connect_object (notification,
                              "actioned",
                              G_CALLBACK (on_notification_actioned),
                              self,
                              G_CONNECT_SWAPPED);
+    g_signal_connect_object (notification,
+                             "closed",
+                             G_CALLBACK (on_notification_closed),
+                             self,
+                             G_CONNECT_SWAPPED);
+
+    if (expire_timeout) {
+      phosh_notification_expires (notification, expire_timeout);
+    }
 
     if (self->show_banners) {
+      GtkWidget *banner = NULL;
+
+      banner = phosh_notification_banner_new (notification);
+
       gtk_widget_show (GTK_WIDGET (banner));
     }
   }
@@ -502,7 +550,7 @@ phosh_notify_manager_init (PhoshNotifyManager *self)
   self->notifications = g_hash_table_new_full (g_direct_hash,
                                                g_direct_equal,
                                                NULL,
-                                               (GDestroyNotify)gtk_widget_destroy);
+                                               (GDestroyNotify) g_object_unref);
   self->next_id = 1;
 }
 
@@ -518,57 +566,4 @@ phosh_notify_manager_get_default (void)
   }
 
   return instance;
-}
-
-/**
- * phosh_notify_manager_close_notification:
- *
- * Close a notification due to the give reason
- * Returns: %TRUE if the notification was closed, %FALSE if it didn't exist.
- */
-gboolean
-phosh_notify_manager_close_notification (PhoshNotifyManager *self, guint id,
-                                         PhoshNotifyManagerReason reason)
-{
-  g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
-  g_return_val_if_fail (id > 0, FALSE);
-
-  if (!g_hash_table_remove (self->notifications, GUINT_TO_POINTER (id)))
-    return FALSE;
-
-  g_debug ("Emitting NotificationClosed: %d, %d", id, reason);
-
-  phosh_notify_dbus_notifications_emit_notification_closed (
-    PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), id, reason);
-
-  return TRUE;
-}
-
-/**
- * phosh_notify_manager_action_invoked:
- * @self: the #PhoshNotifyManager
- * @id: the notification
- * @action: the action id
- *
- * Activate @action on @id
- *
- * Returns: %TRUE if the notification was actioned, %FALSE if it didn't exist.
- */
-gboolean
-phosh_notify_manager_action_invoked (PhoshNotifyManager *self,
-                                     guint               id,
-                                     const char         *action)
-{
-  g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
-  g_return_val_if_fail (id > 0, FALSE);
-
-  if (!g_hash_table_contains (self->notifications, GUINT_TO_POINTER (id)))
-    return FALSE;
-
-  g_debug ("Emitting ActionInvoked: %d, %s", id, action);
-
-  phosh_notify_dbus_notifications_emit_action_invoked (
-    PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), id, action);
-
-  return TRUE;
 }

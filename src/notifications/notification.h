@@ -17,6 +17,14 @@ typedef enum {
 } PhoshNotificationUrgency;
 
 
+typedef enum {
+  PHOSH_NOTIFICATION_REASON_EXPIRED = 1,
+  PHOSH_NOTIFICATION_REASON_DISMISSED = 2,
+  PHOSH_NOTIFICATION_REASON_CLOSED = 3,
+  PHOSH_NOTIFICATION_REASON_UNDEFINED = 4,
+} PhoshNotificationReason;
+
+
 #define PHOSH_NOTIFICATION_DEFAULT_ACTION "default"
 
 
@@ -25,38 +33,42 @@ typedef enum {
 G_DECLARE_FINAL_TYPE (PhoshNotification, phosh_notification, PHOSH, NOTIFICATION, GObject)
 
 
-PhoshNotification *phosh_notification_new          (const char        *app_name,
-                                                    GAppInfo          *info,
-                                                    const char        *summary,
-                                                    const char        *body,
-                                                    GIcon             *icon,
-                                                    GIcon             *image,
-                                                    GStrv              actions);
-void               phosh_notification_set_id       (PhoshNotification *self,
-                                                    guint              id);
-guint              phosh_notification_get_id       (PhoshNotification *self);
-void               phosh_notification_set_summary  (PhoshNotification *self,
-                                                    const char        *summary);
-const char        *phosh_notification_get_summary  (PhoshNotification *self);
-void               phosh_notification_set_body     (PhoshNotification *self,
-                                                    const char        *body);
-const char        *phosh_notification_get_body     (PhoshNotification *self);
-void               phosh_notification_set_app_name (PhoshNotification *self,
-                                                    const char        *app_name);
-const char        *phosh_notification_get_app_name (PhoshNotification *self);
-void               phosh_notification_set_app_icon (PhoshNotification *self,
-                                                    GIcon             *icon);
-GIcon             *phosh_notification_get_app_icon (PhoshNotification *self);
-void               phosh_notification_set_app_info (PhoshNotification *self,
-                                                    GAppInfo          *info);
-GAppInfo          *phosh_notification_get_app_info (PhoshNotification *self);
-void               phosh_notification_set_image    (PhoshNotification *self,
-                                                    GIcon             *icon);
-GIcon             *phosh_notification_get_image    (PhoshNotification *self);
-void               phosh_notification_set_actions  (PhoshNotification *self,
-                                                    GStrv              actions);
-const GStrv        phosh_notification_get_actions  (PhoshNotification *self);
-void               phosh_notification_activate     (PhoshNotification *self,
-                                                    const char        *action);
+PhoshNotification *phosh_notification_new          (const char              *app_name,
+                                                    GAppInfo                *info,
+                                                    const char              *summary,
+                                                    const char              *body,
+                                                    GIcon                   *icon,
+                                                    GIcon                   *image,
+                                                    GStrv                    actions);
+void               phosh_notification_set_id       (PhoshNotification       *self,
+                                                    guint                    id);
+guint              phosh_notification_get_id       (PhoshNotification       *self);
+void               phosh_notification_set_summary  (PhoshNotification       *self,
+                                                    const char              *summary);
+const char        *phosh_notification_get_summary  (PhoshNotification       *self);
+void               phosh_notification_set_body     (PhoshNotification       *self,
+                                                    const char              *body);
+const char        *phosh_notification_get_body     (PhoshNotification       *self);
+void               phosh_notification_set_app_name (PhoshNotification       *self,
+                                                    const char              *app_name);
+const char        *phosh_notification_get_app_name (PhoshNotification       *self);
+void               phosh_notification_set_app_icon (PhoshNotification       *self,
+                                                    GIcon                   *icon);
+GIcon             *phosh_notification_get_app_icon (PhoshNotification       *self);
+void               phosh_notification_set_app_info (PhoshNotification       *self,
+                                                    GAppInfo                *info);
+GAppInfo          *phosh_notification_get_app_info (PhoshNotification       *self);
+void               phosh_notification_set_image    (PhoshNotification       *self,
+                                                    GIcon                   *icon);
+GIcon             *phosh_notification_get_image    (PhoshNotification       *self);
+void               phosh_notification_set_actions  (PhoshNotification       *self,
+                                                    GStrv                    actions);
+const GStrv        phosh_notification_get_actions  (PhoshNotification       *self);
+void               phosh_notification_activate     (PhoshNotification       *self,
+                                                    const char              *action);
+void               phosh_notification_expires      (PhoshNotification       *self,
+                                                    int                      timeout);
+void               phosh_notification_close        (PhoshNotification       *self,
+                                                    PhoshNotificationReason  reason);
 
 G_END_DECLS

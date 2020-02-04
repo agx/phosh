@@ -19,6 +19,8 @@ action_test (GSimpleAction *action,
   noti = g_notification_new ("Okay");
 
   g_application_send_notification (app, "test", noti);
+
+  g_application_release (app);
 }
 
 
@@ -54,7 +56,7 @@ main (int argc, char **argv)
                            G_APPLICATION_FLAGS_NONE);
   g_action_map_add_action_entries (G_ACTION_MAP (app), entries, 1, app);
 
-  g_application_set_inactivity_timeout (app, 10000);
+  g_application_hold (app);
 
   g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
 
