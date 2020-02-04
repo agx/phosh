@@ -28,5 +28,7 @@ void phosh_status_icon_set_extra_widget (PhoshStatusIcon *self, GtkWidget *widge
 GtkWidget * phosh_status_icon_get_extra_widget (PhoshStatusIcon *self);
 void phosh_status_icon_set_info (PhoshStatusIcon *self, const gchar *info);
 gchar * phosh_status_icon_get_info (PhoshStatusIcon *self);
+void phosh_status_icon_set_show_always (PhoshStatusIcon *self, gboolean show_always);
+gboolean phosh_status_icon_get_show_always (PhoshStatusIcon *self);
 
 G_END_DECLS
