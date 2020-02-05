@@ -22,6 +22,7 @@
 struct _PhoshWifiInfo {
   PhoshStatusIcon parent;
 
+  GBinding *enabled_binding;
   PhoshWifiManager *wifi;
 };
 G_DEFINE_TYPE (PhoshWifiInfo, phosh_wifi_info, PHOSH_TYPE_STATUS_ICON);
@@ -39,8 +40,6 @@ update_icon (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
   icon_name = phosh_wifi_manager_get_icon_name (wifi);
   if (icon_name)
     phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
-
-  gtk_widget_set_visible (GTK_WIDGET (self), icon_name ? TRUE : FALSE);
 }
 
 static void
@@ -57,11 +56,29 @@ update_info (PhoshWifiInfo *self)
 }
 
 
+static void
+show_always_changed_cb (PhoshWifiInfo *self)
+{
+  if (!phosh_status_icon_get_show_always (PHOSH_STATUS_ICON (self))) {
+    if (self->enabled_binding == NULL) {
+      self->enabled_binding = g_object_bind_property (self->wifi,
+                                                      "enabled",
+                                                      self,
+                                                      "visible",
+                                                      G_BINDING_SYNC_CREATE);
+    }
+  } else {
+    g_clear_pointer (&self->enabled_binding, g_binding_unbind);
+  }
+}
+
+
 static gboolean
 on_idle (PhoshWifiInfo *self)
 {
   update_icon (self, NULL, self->wifi);
   update_info (self);
+  show_always_changed_cb (self);
   return FALSE;
 }
 
@@ -90,6 +107,10 @@ phosh_wifi_info_constructed (GObject *object)
   g_signal_connect_swapped (self->wifi,
                             "notify::ssid",
                             G_CALLBACK (update_info),
+                            self);
+
+  g_signal_connect_swapped (self, "notify::show-always",
+                            G_CALLBACK (show_always_changed_cb),
                             self);
 
   g_idle_add ((GSourceFunc) on_idle, self);
