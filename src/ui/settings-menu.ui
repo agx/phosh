@@ -37,6 +37,8 @@
                   <object class="PhoshQuickSetting">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <signal name="clicked" handler="batteryinfo_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                    <signal name="long-pressed" handler="batteryinfo_clicked_cb" object="PhoshSettings" swapped="yes"/>
                     <child>
                       <object class="PhoshBatteryInfo" id="batteryinfo">
                         <property name="visible">True</property>

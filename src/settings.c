@@ -15,6 +15,7 @@
 #include "quick-setting.h"
 #include "settings/brightness.h"
 #include "settings/gvc-channel-bar.h"
+#include "wwan/phosh-wwan-mm.h"
 
 #include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
@@ -79,6 +80,14 @@ rotation_changed_cb (PhoshSettings *self, GParamSpec *pspec, GtkSwitch *btn)
   g_return_if_fail (PHOSH_IS_SETTINGS (self));
   rotate = gtk_switch_get_active(btn);
   phosh_shell_rotate_display (shell, rotate ? 90 : 0);
+  g_signal_emit (self, signals[SETTING_DONE], 0);
+}
+
+
+static void
+batteryinfo_clicked_cb (PhoshSettings *self)
+{
+  phosh_quick_setting_open_settings_panel ("power");
   g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 
@@ -348,6 +357,8 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_settings);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_lock_screen);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_shutdown);
+
+  gtk_widget_class_bind_template_callback (widget_class, batteryinfo_clicked_cb);
 }
 
 
