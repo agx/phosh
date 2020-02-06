@@ -27,8 +27,12 @@ configure_file(
   configuration: config_h,
 )
 
+glib_ver = 'GLIB_VERSION_2_58'
+
 add_project_arguments([
   '-DHAVE_CONFIG_H',
+  '-DGLIB_VERSION_MIN_REQUIRED=@0@'.format(glib_ver),
+  '-DGLIB_VERSION_MAX_ALLOWED=@0@'.format(glib_ver),
   '-I' + meson.build_root(),
 ], language: 'c')
 
@@ -99,9 +103,9 @@ configure_file(
 gnome = import('gnome')
 i18n  = import('i18n')
 
-gio_dep = dependency('gio-2.0', version: '>=2.56')
-gio_unix_dep =  dependency('gio-unix-2.0', version: '>=2.50.0')
-glib_dep = dependency('glib-2.0', version: '>=2.50.0')
+gio_dep = dependency('gio-2.0', version: '>=2.58')
+gio_unix_dep =  dependency('gio-unix-2.0', version: '>=2.58')
+glib_dep = dependency('glib-2.0', version: '>=2.58')
 libgvc = subproject('gvc',
   default_options: [
     'package_name=' + meson.project_name(),
