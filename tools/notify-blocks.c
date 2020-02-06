@@ -82,7 +82,9 @@ main (int argc, char **argv)
                                          NULL,
                                          NULL,
                                          actions);
-  frame = phosh_notification_frame_new (notification);
+  frame = phosh_notification_frame_new ();
+  phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
+                                              notification);
   g_signal_connect (frame, "empty", G_CALLBACK (empty), box);
   gtk_container_add (GTK_CONTAINER (box), frame);
 
@@ -94,7 +96,9 @@ main (int argc, char **argv)
                                          NULL,
                                          image,
                                          NULL);
-  frame = phosh_notification_frame_new (notification);
+  frame = phosh_notification_frame_new ();
+  phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
+                                              notification);
   g_signal_connect (frame, "empty", G_CALLBACK (empty), box);
   gtk_container_add (GTK_CONTAINER (box), frame);
 

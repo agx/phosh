@@ -151,7 +151,7 @@ set_actions (PhoshNotification        *notification,
 
 static void
 phosh_notification_content_set_notification (PhoshNotificationContent *self,
-                                            PhoshNotification       *notification)
+                                             PhoshNotification        *notification)
 {
   g_set_object (&self->notification, notification);
 
@@ -266,6 +266,7 @@ phosh_notification_content_class_init (PhoshNotificationContentClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/notification-content.ui");
+
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationContent, lbl_summary);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationContent, lbl_body);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationContent, img_image);

@@ -18,18 +18,14 @@
  * @Title: PhoshNotificationFrame
  */
 
-enum {
-  PROP_0,
-  PROP_NOTIFICATION,
-  LAST_PROP
-};
-static GParamSpec *props[LAST_PROP];
-
 
 struct _PhoshNotificationFrame {
   GtkBox parent;
 
-  PhoshNotification *notification;
+  GListModel *model;
+
+  GBinding *bind_name;
+  GBinding *bind_icon;
 
   GtkWidget *lbl_app_name;
   GtkWidget *img_icon;
@@ -41,67 +37,11 @@ typedef struct _PhoshNotificationFrame PhoshNotificationFrame;
 G_DEFINE_TYPE (PhoshNotificationFrame, phosh_notification_frame, GTK_TYPE_BOX)
 
 
-static void
-phosh_notification_frame_set_notification (PhoshNotificationFrame *self,
-                                            PhoshNotification     *notification)
-{
-  GtkWidget *content;
-
-  g_set_object (&self->notification, notification);
-
-  g_object_bind_property (self->notification, "app-name",
-                          self->lbl_app_name, "label",
-                          G_BINDING_SYNC_CREATE);
-
-  // If unset PhoshNotification provides a fallback
-  g_object_bind_property (self->notification, "app-icon",
-                          self->img_icon,     "gicon",
-                          G_BINDING_SYNC_CREATE);
-
-  content = phosh_notification_content_new (self->notification);
-  gtk_container_add (GTK_CONTAINER (self->list_notifs), content);
-
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_NOTIFICATION]);
-}
-
-
-static void
-phosh_notification_frame_set_property (GObject      *object,
-                                       guint         property_id,
-                                       const GValue *value,
-                                       GParamSpec   *pspec)
-{
-  PhoshNotificationFrame *self = PHOSH_NOTIFICATION_FRAME (object);
-
-  switch (property_id) {
-    case PROP_NOTIFICATION:
-      phosh_notification_frame_set_notification (self,
-                                                 g_value_get_object (value));
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
-  }
-}
-
-
-static void
-phosh_notification_frame_get_property (GObject    *object,
-                                       guint       property_id,
-                                       GValue     *value,
-                                       GParamSpec *pspec)
-{
-  PhoshNotificationFrame *self = PHOSH_NOTIFICATION_FRAME (object);
-
-  switch (property_id) {
-    case PROP_NOTIFICATION:
-      g_value_set_object (value, self->notification);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
-  }
-}
+enum {
+  SIGNAL_EMPTY,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
 
 
 static void
@@ -109,18 +49,27 @@ phosh_notification_frame_finalize (GObject *object)
 {
   PhoshNotificationFrame *self = PHOSH_NOTIFICATION_FRAME (object);
 
-  g_clear_object (&self->notification);
+  // Don't clear bindings, they're already unref'd before here
+
+  g_clear_object (&self->model);
 
   G_OBJECT_CLASS (phosh_notification_frame_parent_class)->finalize (object);
 }
 
 
+// When the title row is clicked we proxy it to the first item
 static gboolean
 header_activated (PhoshNotificationFrame *self, GdkEventButton *event)
 {
+  PhoshNotification *notification;
+
   g_return_val_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self), FALSE);
 
-  phosh_notification_activate (self->notification,
+  notification = g_list_model_get_item (self->model, 0);
+
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (notification), FALSE);
+
+  phosh_notification_activate (notification,
                                PHOSH_NOTIFICATION_DEFAULT_ACTION);
 
   return FALSE;
@@ -137,8 +86,6 @@ notification_activated (PhoshNotificationFrame *self,
 
   g_return_if_fail (PHOSH_IS_NOTIFICATION_CONTENT (row));
 
-  gtk_container_remove (GTK_CONTAINER (list), GTK_WIDGET (row));
-
   content = PHOSH_NOTIFICATION_CONTENT (row);
   notification = phosh_notification_content_get_notification (content);
 
@@ -154,24 +101,16 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->finalize = phosh_notification_frame_finalize;
-  object_class->set_property = phosh_notification_frame_set_property;
-  object_class->get_property = phosh_notification_frame_get_property;
 
-  /**
-   * PhoshNotificationFrame:notification:
-   * @self: the #PhoshNotificationFrame
-   *
-   * The #PhoshNotification shown in @self
-   */
-  props[PROP_NOTIFICATION] =
-    g_param_spec_object ("notification",
-                         "Notification",
-                         "Notification in the frame",
-                         PHOSH_TYPE_NOTIFICATION,
-                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
-                         G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
-
-  g_object_class_install_properties (object_class, LAST_PROP, props);
+  signals[SIGNAL_EMPTY] = g_signal_new ("empty",
+                                        G_TYPE_FROM_CLASS (klass),
+                                        G_SIGNAL_RUN_LAST,
+                                        0,
+                                        NULL,
+                                        NULL,
+                                        NULL,
+                                        G_TYPE_NONE,
+                                        0);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/notification-frame.ui");
@@ -194,18 +133,118 @@ phosh_notification_frame_init (PhoshNotificationFrame *self)
 
 
 GtkWidget *
-phosh_notification_frame_new (PhoshNotification *notification)
+phosh_notification_frame_new (void)
 {
-  return g_object_new (PHOSH_TYPE_NOTIFICATION_FRAME,
-                       "notification", notification,
-                       NULL);
+  return g_object_new (PHOSH_TYPE_NOTIFICATION_FRAME, NULL);
 }
 
 
-PhoshNotification *
-phosh_notification_frame_get_notification (PhoshNotificationFrame *self)
+static GtkWidget *
+create_row (gpointer item, gpointer data)
 {
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self), NULL);
+  PhoshNotification *notification = item;
 
-  return self->notification;
+  return phosh_notification_content_new (notification);
+}
+
+
+static void
+items_changed (GListModel             *list,
+               guint                   position,
+               guint                   removed,
+               guint                   added,
+               PhoshNotificationFrame *self)
+{
+  PhoshNotification *notification;
+
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self));
+
+  // Disconnect from the last notification (if any)
+  g_clear_object (&self->bind_name);
+  g_clear_object (&self->bind_icon);
+
+  // Get the latest notification in the model
+  notification = g_list_model_get_item (self->model, 0);
+
+  if (notification == NULL) {
+    /* No first notification means no notfications aka we're empty
+     * and should be removed from $thing we're in (banner or list)
+     */
+    g_signal_emit (self, signals[SIGNAL_EMPTY], 0);
+
+    return;
+  }
+
+  // Bind to the new one
+  self->bind_name = g_object_bind_property (notification,       "app-name",
+                                            self->lbl_app_name, "label",
+                                            G_BINDING_SYNC_CREATE);
+
+  self->bind_icon = g_object_bind_property (notification,   "app-icon",
+                                            self->img_icon, "gicon",
+                                            G_BINDING_SYNC_CREATE);
+}
+
+
+void
+phosh_notification_frame_bind_model (PhoshNotificationFrame *self,
+                                     GListModel             *model)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self));
+  g_return_if_fail (G_IS_LIST_MODEL (model));
+  g_return_if_fail (g_type_is_a (g_list_model_get_item_type (model),
+                                 PHOSH_TYPE_NOTIFICATION));
+
+  g_set_object (&self->model, model);
+
+  gtk_list_box_bind_model (GTK_LIST_BOX (self->list_notifs),
+                           model,
+                           create_row,
+                           self,
+                           NULL);
+
+  g_signal_connect (model, "items-changed",
+                    G_CALLBACK (items_changed), self);
+  items_changed (model, 0, 0, 0, self);
+}
+
+
+static void
+closed (PhoshNotificationFrame  *self,
+        PhoshNotificationReason  reason,
+        PhoshNotification       *notification)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self));
+  g_return_if_fail (G_IS_LIST_STORE (self->model));
+
+  // Since we created this model we know it's a GListStore
+  g_list_store_remove (G_LIST_STORE (self->model), 0);
+}
+
+
+/**
+ * phosh_notification_frame_bind_notification:
+ * @self: the #PhoshNotificationFrame
+ * @notification: a #PhoshNotification
+ *
+ * Helper function for frames that only need to contain a single notification
+ *
+ * Wraps phosh_notification_frame_bind_model() by placing @notification in
+ * a #GListStore
+ */
+void
+phosh_notification_frame_bind_notification (PhoshNotificationFrame *self,
+                                            PhoshNotification      *notification)
+{
+  g_autoptr (GListStore) store = g_list_store_new (PHOSH_TYPE_NOTIFICATION);
+
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+
+  g_list_store_append (store, notification);
+
+  g_signal_connect_swapped (notification, "closed",
+                            G_CALLBACK (closed), self);
+
+  phosh_notification_frame_bind_model (self, G_LIST_MODEL (store));
 }

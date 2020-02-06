@@ -550,6 +550,9 @@ phosh_notification_activate (PhoshNotification *self,
   g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
 
   g_signal_emit (self, signals[SIGNAL_ACTIONED], 0, action);
+
+  phosh_notification_close (self,
+                            PHOSH_NOTIFICATION_REASON_DISMISSED);
 }
 
 
@@ -562,7 +565,7 @@ expired (gpointer data)
 
   g_debug ("%i expired", self->id);
 
-  self->timeout= 0;
+  self->timeout = 0;
 
   g_signal_emit (self, signals[SIGNAL_EXPIRED], 0);
 
@@ -601,6 +604,12 @@ phosh_notification_close (PhoshNotification       *self,
                           PhoshNotificationReason  reason)
 {
   g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+
+  // No point running the timeout, we're already closing
+  if (self->timeout != 0) {
+    g_source_remove (self->timeout);
+    self->timeout = 0;
+  }
 
   g_signal_emit (self, signals[SIGNAL_CLOSED], 0, reason);
 }

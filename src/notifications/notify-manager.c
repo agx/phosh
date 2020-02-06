@@ -13,6 +13,7 @@
 #include "notification-banner.h"
 #include "notify-manager.h"
 #include "shell.h"
+#include "phosh-enums.h"
 
 #define NOTIFICATION_DEFAULT_TIMEOUT 5000 /* ms */
 #define NOTIFICATIONS_SPEC_VERSION "1.2"
@@ -175,9 +176,6 @@ on_notification_actioned (PhoshNotifyManager *self,
 
   phosh_notify_dbus_notifications_emit_action_invoked (
     PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), id, action);
-
-  phosh_notification_close (notification,
-                            PHOSH_NOTIFICATION_REASON_DISMISSED);
 }
 
 

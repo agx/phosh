@@ -21,8 +21,10 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhoshNotificationFrame, phosh_notification_frame, PHOSH, NOTIFICATION_FRAME, GtkBox)
 
 
-GtkWidget         *phosh_notification_frame_new              (PhoshNotification      *notification);
-PhoshNotification *phosh_notification_frame_get_notification (PhoshNotificationFrame *self);
-
+GtkWidget         *phosh_notification_frame_new               (void);
+void               phosh_notification_frame_bind_notification (PhoshNotificationFrame *self,
+                                                               PhoshNotification      *notification);
+void               phosh_notification_frame_bind_model        (PhoshNotificationFrame *self,
+                                                               GListModel             *model);
 
 G_END_DECLS

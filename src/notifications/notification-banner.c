@@ -32,6 +32,8 @@ struct _PhoshNotificationBanner {
   PhoshLayerSurface parent;
 
   PhoshNotification *notification;
+  gulong handler_expired;
+  gulong handler_closed;
 
   struct {
     gdouble progress;
@@ -45,6 +47,37 @@ G_DEFINE_TYPE (PhoshNotificationBanner, phosh_notification_banner, PHOSH_TYPE_LA
 
 
 static void
+expired (PhoshNotification       *notification,
+         PhoshNotificationBanner *self)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+
+  g_clear_signal_handler (&self->handler_expired, self->notification);
+  g_clear_signal_handler (&self->handler_closed, self->notification);
+
+  // Close the banner
+  gtk_widget_destroy (GTK_WIDGET (self));
+}
+
+
+static void
+closed (PhoshNotification       *notification,
+        PhoshNotificationReason  reason,
+        PhoshNotificationBanner *self)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+
+  g_clear_signal_handler (&self->handler_expired, self->notification);
+  g_clear_signal_handler (&self->handler_closed, self->notification);
+
+  // Close the banner
+  gtk_widget_destroy (GTK_WIDGET (self));
+}
+
+
+static void
 phosh_notification_banner_set_notification (PhoshNotificationBanner *self,
                                             PhoshNotification       *notification)
 {
@@ -52,8 +85,15 @@ phosh_notification_banner_set_notification (PhoshNotificationBanner *self,
 
   g_set_object (&self->notification, notification);
 
-  content = phosh_notification_frame_new (self->notification);
+  content = phosh_notification_frame_new ();
+  phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (content),
+                                              self->notification);
   gtk_container_add (GTK_CONTAINER (self), content);
+
+  self->handler_expired = g_signal_connect (self->notification, "expired",
+                                            G_CALLBACK (expired), self);
+  self->handler_closed = g_signal_connect (self->notification, "closed",
+                                           G_CALLBACK (closed), self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_NOTIFICATION]);
 }
@@ -103,6 +143,8 @@ phosh_notification_banner_finalize (GObject *object)
 {
   PhoshNotificationBanner *self = PHOSH_NOTIFICATION_BANNER (object);
 
+  g_clear_signal_handler (&self->handler_expired, self->notification);
+  g_clear_signal_handler (&self->handler_closed, self->notification);
   g_clear_object (&self->notification);
 
   G_OBJECT_CLASS (phosh_notification_banner_parent_class)->finalize (object);

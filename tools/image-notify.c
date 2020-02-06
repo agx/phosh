@@ -32,6 +32,13 @@ static GActionEntry entries[] = {
 static void
 activate (GApplication *app)
 {
+  // Do nothing
+}
+
+
+static void
+startup (GApplication *app)
+{
   g_autoptr (GNotification) noti = NULL;
   g_autoptr (GIcon) icon = NULL;
 
@@ -59,6 +66,7 @@ main (int argc, char **argv)
   g_application_hold (app);
 
   g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
+  g_signal_connect (app, "startup", G_CALLBACK (startup), NULL);
 
   return g_application_run (G_APPLICATION (app), argc, argv);
 }
