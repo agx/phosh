@@ -47,14 +47,32 @@ G_DEFINE_TYPE (PhoshNotificationBanner, phosh_notification_banner, PHOSH_TYPE_LA
 
 
 static void
+clear_handler (PhoshNotificationBanner *self)
+{
+  // Emulating g_clear_signal_handler for older glib
+
+  if (self->handler_expired > 0) {
+    g_signal_handler_disconnect (self->notification,
+                                 self->handler_expired);
+    self->handler_expired = 0;
+  }
+
+  if (self->handler_closed > 0) {
+    g_signal_handler_disconnect (self->notification,
+                                 self->handler_closed);
+    self->handler_closed = 0;
+  }
+}
+
+
+static void
 expired (PhoshNotification       *notification,
          PhoshNotificationBanner *self)
 {
   g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self));
   g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
 
-  g_clear_signal_handler (&self->handler_expired, self->notification);
-  g_clear_signal_handler (&self->handler_closed, self->notification);
+  clear_handler (self);
 
   // Close the banner
   gtk_widget_destroy (GTK_WIDGET (self));
@@ -69,8 +87,7 @@ closed (PhoshNotification       *notification,
   g_return_if_fail (PHOSH_IS_NOTIFICATION_BANNER (self));
   g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
 
-  g_clear_signal_handler (&self->handler_expired, self->notification);
-  g_clear_signal_handler (&self->handler_closed, self->notification);
+  clear_handler (self);
 
   // Close the banner
   gtk_widget_destroy (GTK_WIDGET (self));
@@ -143,8 +160,8 @@ phosh_notification_banner_finalize (GObject *object)
 {
   PhoshNotificationBanner *self = PHOSH_NOTIFICATION_BANNER (object);
 
-  g_clear_signal_handler (&self->handler_expired, self->notification);
-  g_clear_signal_handler (&self->handler_closed, self->notification);
+  clear_handler (self);
+
   g_clear_object (&self->notification);
 
   G_OBJECT_CLASS (phosh_notification_banner_parent_class)->finalize (object);
