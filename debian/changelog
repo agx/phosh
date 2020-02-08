@@ -1,3 +1,29 @@
+phosh (0.1.8) amber; urgency=medium
+
+  [ Julian Sparber ]
+  * Lockscreen: Replace submit btn with unlock btn
+  * Fader: fade completely to black on shutdown.
+    Closes: #257
+  * Fix brightness slider being jumpy while sliding.
+    Closes: #258
+  * StatusIcon: Introduce base class for status icons
+    and use for top panel icons.
+
+  [ Guido Günther ]
+  * phosh-system-prompt: Toggle ok button sensitivity.
+    Pressing <return> so far caused to send e.g. an empty pin to a smart card
+    and we'd rather not run out of retries so require a non empty password.
+
+  [ Zander Brown ]
+  * build: bump glib dep.
+    We where using stuff from 2.54 already and buster ships 2.58
+  * notifications: seperate the data and widget.
+    Move notification information into a seperate class from the banner,
+    moving forward this will ease lockscreen/notification drawer
+    implementatinon
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 08 Feb 2020 13:44:20 +0100
+
 phosh (0.1.7) amber; urgency=medium
 
   [ Darren R ]
