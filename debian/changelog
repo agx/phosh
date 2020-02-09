@@ -13,6 +13,9 @@ phosh (0.1.8) amber; urgency=medium
   * phosh-system-prompt: Toggle ok button sensitivity.
     Pressing <return> so far caused to send e.g. an empty pin to a smart card
     and we'd rather not run out of retries so require a non empty password.
+  * build: Bump version to 0.1.8
+  * build: Use libhandy 0.x branch if used as a subproject.
+    Closes: #264
 
   [ Zander Brown ]
   * build: bump glib dep.
