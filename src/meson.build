@@ -105,6 +105,8 @@ phosh_sources = [
   'polkit-auth-agent.h',
   'polkit-auth-prompt.c',
   'polkit-auth-prompt.h',
+  'sensor-proxy-manager.c',
+  'sensor-proxy-manager.h',
   'screen-saver-manager.c',
   'screen-saver-manager.h',
   'session-presence.c',

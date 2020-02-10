@@ -7,6 +7,12 @@ generated_dbus_sources += gnome.gdbus_codegen('gnome-session-presence-dbus',
 					      interface_prefix: 'org.gnome.SessionManager',
 					      namespace: 'PhoshSessionPresenceDbus')
 
+# iio-sensor-proxy
+generated_dbus_sources += gnome.gdbus_codegen('iio-sensor-proxy-dbus',
+					      'net.hadess.SensorProxy.xml',
+					      interface_prefix: 'net.hadess',
+					      namespace: 'PhoshDbus')
+
 # DBus server protocols
 generated_dbus_sources += gnome.gdbus_codegen('phosh-idle-dbus',
 					     'org.gnome.Mutter.IdleMonitor.xml',
