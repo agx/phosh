@@ -38,6 +38,7 @@ tests = [
   'overview',
   'favourite-model',
   'status-icon',
+  'quick-setting',
   'notification',
 ]
 
