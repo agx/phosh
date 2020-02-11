@@ -35,6 +35,8 @@
 #include "panel.h"
 #include "phosh-wayland.h"
 #include "polkit-auth-agent.h"
+#include "proximity.h"
+#include "sensor-proxy-manager.h"
 #include "screen-saver-manager.h"
 #include "session.h"
 #include "settings.h"
@@ -78,6 +80,10 @@ typedef struct
   PhoshPolkitAuthAgent *polkit_auth_agent;
   PhoshScreenSaverManager *screen_saver_manager;
   PhoshNotifyManager *notify_manager;
+
+  /* sensors */
+  PhoshSensorProxyManager *sensor_proxy_manager;
+  PhoshProximity *proximity;
 } PhoshShellPrivate;
 
 
@@ -406,6 +412,13 @@ phosh_shell_dispose (GObject *object)
   PhoshShell *self = PHOSH_SHELL (object);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
+  if (priv->sensor_proxy_manager) {
+    phosh_dbus_sensor_proxy_call_release_accelerometer_sync (
+      PHOSH_DBUS_SENSOR_PROXY(priv->sensor_proxy_manager),
+      NULL, NULL);
+      g_clear_object (&priv->sensor_proxy_manager);
+  }
+
   panels_dispose (self);
   g_clear_object (&priv->notify_manager);
   g_clear_object (&priv->screen_saver_manager);
@@ -416,6 +429,8 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->osk_manager);
   g_clear_object (&priv->polkit_auth_agent);
   g_clear_object (&priv->background_manager);
+  g_clear_object (&priv->proximity);
+  g_clear_object (&priv->sensor_proxy_manager);
   phosh_system_prompter_unregister ();
   phosh_session_unregister ();
 
@@ -494,6 +509,13 @@ setup_idle_cb (PhoshShell *self)
     priv->lockscreen_manager);
 
   priv->notify_manager = phosh_notify_manager_get_default ();
+
+  priv->sensor_proxy_manager = phosh_sensor_proxy_manager_get_default_failable ();
+  if (priv->sensor_proxy_manager) {
+    priv->proximity = phosh_proximity_new (priv->sensor_proxy_manager,
+                                           priv->lockscreen_manager);
+    /* TODO: accelerometer */
+  }
 
   phosh_session_register ("sm.puri.Phosh");
   return FALSE;
@@ -646,6 +668,29 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
   panels_create (self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_PRIMARY_MONITOR]);
+}
+
+
+PhoshMonitor *
+phosh_shell_get_builtin_monitor (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+  PhoshMonitor *monitor = NULL;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
+    monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
+    if (phosh_monitor_is_builtin (monitor))
+      break;
+  }
+
+  if (!monitor)
+    monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+  g_return_val_if_fail (monitor, NULL);
+
+  return monitor;
 }
 
 

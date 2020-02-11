@@ -33,6 +33,7 @@ void                 phosh_shell_lock            (PhoshShell *self);
 void                 phosh_shell_unlock          (PhoshShell *self);
 void                 phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor);
 PhoshMonitor        *phosh_shell_get_primary_monitor (PhoshShell *self);
+PhoshMonitor        *phosh_shell_get_builtin_monitor (PhoshShell *self);
 PhoshLockscreenManager *phosh_shell_get_lockscreen_manager (PhoshShell *self);
 PhoshMonitorManager *phosh_shell_get_monitor_manager (PhoshShell *self);
 PhoshOskManager     *phosh_shell_get_osk_manager     (PhoshShell *self);
