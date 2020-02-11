@@ -79,13 +79,12 @@ on_client_registered (GObject             *source_object,
 {
   GVariant *variant;
   GDBusProxy *client_proxy;
-  GError *error = NULL;
+  g_autoptr (GError) error = NULL;
   gchar *object_path = NULL;
 
   variant = g_dbus_proxy_call_finish (G_DBUS_PROXY (source_object), res, &error);
   if (!variant) {
     g_warning ("Unable to register client: %s", error->message);
-    g_error_free (error);
     return;
   }
 
@@ -101,7 +100,6 @@ on_client_registered (GObject             *source_object,
                                                 &error);
   if (!client_proxy) {
     g_warning ("Unable to get the session client proxy: %s", error->message);
-    g_error_free (error);
     return;
   }
 
@@ -117,7 +115,7 @@ void
 phosh_session_register (const char *client_id)
 {
   const char *startup_id;
-  GError *err = NULL;
+  g_autoptr (GError) err = NULL;
 
   if (!_proxy) {
     _proxy = g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
@@ -131,7 +129,6 @@ phosh_session_register (const char *client_id)
                                             &err);
     if (!_proxy) {
       g_debug ("Failed to contact gnome-session: %s", err->message);
-      g_clear_error (&err);
       return;
     }
   };
