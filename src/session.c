@@ -80,7 +80,7 @@ on_client_registered (GObject             *source_object,
   GVariant *variant;
   GDBusProxy *client_proxy;
   g_autoptr (GError) error = NULL;
-  gchar *object_path = NULL;
+  g_autofree gchar *object_path = NULL;
 
   variant = g_dbus_proxy_call_finish (G_DBUS_PROXY (source_object), res, &error);
   if (!variant) {
@@ -105,8 +105,6 @@ on_client_registered (GObject             *source_object,
 
   g_signal_connect (client_proxy, "g-signal",
                     G_CALLBACK (client_proxy_signal_cb), NULL);
-
-  g_free (object_path);
   g_variant_unref (variant);
 }
 
