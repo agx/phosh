@@ -495,6 +495,7 @@ setup_idle_cb (PhoshShell *self)
 
   priv->notify_manager = phosh_notify_manager_get_default ();
 
+  phosh_session_register ("sm.puri.Phosh");
   return FALSE;
 }
 
@@ -534,7 +535,6 @@ phosh_shell_constructed (GObject *object)
   priv->toplevel_manager = phosh_toplevel_manager_new ();
   priv->faders = g_ptr_array_new_with_free_func ((GDestroyNotify) (gtk_widget_destroy));
 
-  phosh_session_register ("sm.puri.Phosh");
   phosh_system_prompter_register ();
   priv->polkit_auth_agent = phosh_polkit_auth_agent_new ();
 
