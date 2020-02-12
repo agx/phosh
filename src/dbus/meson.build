@@ -6,6 +6,11 @@ generated_dbus_sources += gnome.gdbus_codegen('iio-sensor-proxy-dbus',
 					      'net.hadess.SensorProxy.xml',
 					      interface_prefix: 'net.hadess',
 					      namespace: 'PhoshDBus')
+# Geoclue
+generated_dbus_sources += gnome.gdbus_codegen('geoclue-manager-dbus',
+                                              'org.freedesktop.GeoClue2.Manager.xml',
+                                              interface_prefix: 'org.freedesktop.GeoClue2',
+                                              namespace: 'PhoshGeoClueDBus')
 # org.freedesktop.hostname1
 generated_dbus_sources += gnome.gdbus_codegen('hostname1-dbus',
 					      'org.freedesktop.hostname1.xml',
@@ -53,6 +58,11 @@ generated_dbus_sources += gnome.gdbus_codegen('mpris-dbus',
 					      namespace: 'PhoshMprisDBus')
 
 # DBus server protocols
+generated_dbus_sources += gnome.gdbus_codegen('geoclue-agent-dbus',
+                                              'org.freedesktop.GeoClue2.Agent.xml',
+                                              interface_prefix: 'org.freedesktop.Agent',
+                                              namespace: 'PhoshGeoClueDBus')
+
 generated_dbus_sources += gnome.gdbus_codegen('notify-dbus',
                                               'org.freedesktop.Notifications.xml',
 					      interface_prefix: 'org.freedesktop',
