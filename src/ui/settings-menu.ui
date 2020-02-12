@@ -34,6 +34,21 @@
                   <object class="PhoshQuickSetting">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <signal name="clicked" handler="wifi_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                    <child>
+                      <object class="PhoshWifiInfo" id="wifiinfo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="show-always">True</property>
+                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="PhoshQuickSetting">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <signal name="clicked" handler="batteryinfo_clicked_cb" object="PhoshSettings" swapped="yes"/>
                     <signal name="long-pressed" handler="batteryinfo_clicked_cb" object="PhoshSettings" swapped="yes"/>
                     <child>
