@@ -134,6 +134,8 @@ libphosh_sources = [
   'keyboard-events.h',
   'idle-manager.c',
   'idle-manager.h',
+  'location-manager.c',
+  'location-manager.h',
   'lockscreen-manager.c',
   'lockscreen-manager.h',
   'lockscreen.c',

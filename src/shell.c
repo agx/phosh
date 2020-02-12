@@ -40,6 +40,7 @@
 #include "home.h"
 #include "idle-manager.h"
 #include "keyboard-events.h"
+#include "location-manager.h"
 #include "lockscreen-manager.h"
 #include "media-player.h"
 #include "mode-manager.h"
@@ -120,6 +121,7 @@ typedef struct
   PhoshDockedManager *docked_manager;
   PhoshHksManager *hks_manager;
   PhoshKeyboardEvents *keyboard_events;
+  PhoshLocationManager *location_manager;
   PhoshGnomeShellManager *gnome_shell_manager;
 
   /* sensors */
@@ -350,6 +352,7 @@ phosh_shell_dispose (GObject *object)
 
   g_clear_object (&priv->keyboard_events);
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->location_manager);
   g_clear_object (&priv->hks_manager);
   g_clear_object (&priv->docked_manager);
   g_clear_object (&priv->mode_manager);
@@ -492,6 +495,7 @@ setup_idle_cb (PhoshShell *self)
                            self,
                            G_CONNECT_SWAPPED);
 
+  priv->location_manager = phosh_location_manager_new ();
   priv->sensor_proxy_manager = phosh_sensor_proxy_manager_get_default_failable ();
   if (priv->sensor_proxy_manager) {
     priv->proximity = phosh_proximity_new (priv->sensor_proxy_manager,
@@ -1043,6 +1047,22 @@ phosh_shell_get_hks_manager (PhoshShell *self)
 
   g_return_val_if_fail (PHOSH_IS_HKS_MANAGER (priv->hks_manager), NULL);
   return priv->hks_manager;
+}
+
+
+PhoshLocationManager *
+phosh_shell_get_location_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->torch_manager)
+    priv->location_manager = phosh_location_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_LOCATION_MANAGER (priv->location_manager), NULL);
+  return priv->location_manager;
 }
 
 

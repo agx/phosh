@@ -12,6 +12,7 @@
 #include "docked-manager.h"
 #include "feedback-manager.h"
 #include "hks-manager.h"
+#include "location-manager.h"
 #include "lockscreen-manager.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
@@ -81,6 +82,7 @@ PhoshWWan           *phosh_shell_get_wwan        (PhoshShell *self);
 PhoshTorchManager   *phosh_shell_get_torch_manager (PhoshShell *self);
 PhoshDockedManager  *phosh_shell_get_docked_manager (PhoshShell *self);
 PhoshHksManager *    phosh_shell_get_hks_manager     (PhoshShell *self);
+PhoshLocationManager *phosh_shell_get_location_manager (PhoshShell *self);
 PhoshSessionManager *phosh_shell_get_session_manager (PhoshShell *self);
 void                 phosh_shell_fade_out (PhoshShell *self, guint timeout);
 void                 phosh_shell_enable_power_save (PhoshShell *self, gboolean enable);
