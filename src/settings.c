@@ -12,6 +12,7 @@
 #include "shell.h"
 #include "session.h"
 #include "settings.h"
+#include "quick-setting.h"
 #include "settings/brightness.h"
 #include "settings/gvc-channel-bar.h"
 
@@ -31,6 +32,7 @@ static guint signals[N_SIGNALS] = { 0 };
 typedef struct
 {
   GtkWidget *box_settings;
+  GtkWidget *quick_setting;
   GtkWidget *scale_brightness;
   GtkWidget *output_vol_bar;
   GtkWidget *btn_rotation;
@@ -247,7 +249,7 @@ phosh_settings_constructed (GObject *object)
 
   priv->output_vol_bar = create_vol_channel_bar (self);
   gtk_box_pack_start (GTK_BOX (priv->box_settings), priv->output_vol_bar, FALSE, FALSE, 0);
-  gtk_box_reorder_child (GTK_BOX (priv->box_settings), priv->output_vol_bar, 0);
+  gtk_box_reorder_child (GTK_BOX (priv->box_settings), priv->output_vol_bar, 1);
 
   if (phosh_shell_get_rotation (phosh_shell_get_default ()))
     gtk_switch_set_active (GTK_SWITCH (priv->btn_rotation), TRUE);
@@ -340,6 +342,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
       NULL, G_TYPE_NONE, 0);
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, box_settings);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, quick_setting);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_rotation);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSettings, btn_settings);
@@ -351,6 +354,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 static void
 phosh_settings_init (PhoshSettings *self)
 {
+  g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
   gtk_widget_init_template (GTK_WIDGET (self));
 }
 
