@@ -80,6 +80,82 @@ signal_strength_descriptive(guint strength)
 }
 
 
+static gchar *
+get_icon_name (PhoshWifiManager *self)
+{
+  NMActiveConnectionState state;
+  guint8 strength;
+
+  if (!self->dev) {
+    if (self->enabled && self->have_wifi_dev) {
+      return g_strdup ("network-wireless-offline-symbolic");
+    }
+    return NULL;
+  }
+
+  state = nm_active_connection_get_state (self->active);
+
+  switch (state) {
+  case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
+    return g_strdup("network-wireless-acquiring-symbolic");
+  case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
+    if (!self->ap) {
+      return g_strdup ("network-wireless-connected-symbolic");
+    } else {
+      strength = phosh_wifi_manager_get_strength (self);
+      return g_strdup_printf("network-wireless-signal-%s-symbolic",
+                             signal_strength_descriptive (strength));
+    }
+  case NM_ACTIVE_CONNECTION_STATE_UNKNOWN:
+  case NM_ACTIVE_CONNECTION_STATE_DEACTIVATING:
+  case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
+    return g_strdup("network-wireless-offline-symbolic");
+  default:
+    return NULL;
+  }
+}
+
+
+static void
+update_icon_name (PhoshWifiManager *self)
+{
+  g_autofree gchar *old_icon_name = NULL;
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+
+  old_icon_name = self->icon_name;
+  self->icon_name = get_icon_name (self);
+
+  if (g_strcmp0 (self->icon_name, old_icon_name) != 0) {
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME]);
+  }
+}
+
+
+/* Update enabled state based on nm's state and wifi dev availability */
+static void
+update_enabled_state (PhoshWifiManager *self)
+{
+   gboolean enabled;
+
+   g_return_if_fail (NM_IS_CLIENT (self->nmclient));
+   enabled = nm_client_wireless_get_enabled (self->nmclient) && self->have_wifi_dev;
+   g_debug ("NM wifi enabled: %d, wifi dev: %d", enabled, self->have_wifi_dev);
+
+   if (enabled != self->enabled) {
+     self->enabled = enabled;
+     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ENABLED]);
+   }
+}
+
+
+static void
+update_state (PhoshWifiManager *self)
+{
+  update_enabled_state (self);
+  update_icon_name (self);
+}
+
+
 static void
 phosh_wifi_manager_set_property (GObject *object,
                                  guint property_id,
@@ -124,10 +200,8 @@ on_nm_access_point_strength_changed (PhoshWifiManager *self, GParamSpec *pspec, 
 
   strength = phosh_wifi_manager_get_strength (self);
   g_debug ("Strength changed: %d", strength);
-  g_free (self->icon_name);
-  self->icon_name = g_strdup_printf("network-wireless-signal-%s-symbolic",
-                                    signal_strength_descriptive (strength));
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME]);
+
+  update_state (self);
 }
 
 
@@ -226,31 +300,6 @@ cleanup_device (PhoshWifiManager *self)
   }
 }
 
-/* Update enabled state based on nm's state and wifi dev availability */
-static void
-update_enabled_state (PhoshWifiManager *self)
-{
-   const gchar *icon_name = "network-wireless-disabled-symbolic";
-   gboolean enabled;
-
-   g_return_if_fail (NM_IS_CLIENT (self->nmclient));
-   enabled = nm_client_wireless_get_enabled (self->nmclient) && self->have_wifi_dev;
-   g_debug ("NM wifi enabled: %d, wifi dev: %d", enabled, self->have_wifi_dev);
-   if (enabled)
-       icon_name = "network-wireless-offline-symbolic";
-
-   if (g_strcmp0 (self->icon_name, icon_name)) {
-     g_free (self->icon_name);
-     self->icon_name = g_strdup (icon_name);
-     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME]);
-   }
-
-   if (enabled != self->enabled) {
-     self->enabled = enabled;
-     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ENABLED]);
-   }
-}
-
 static void
 on_nm_active_connection_state_changed (PhoshWifiManager *self,
                                        NMActiveConnectionState state,
@@ -261,39 +310,33 @@ on_nm_active_connection_state_changed (PhoshWifiManager *self,
    g_return_if_fail (NM_IS_ACTIVE_CONNECTION (active));
 
    g_debug("Active connection state changed %d", state);
-   g_clear_pointer (&self->icon_name, g_free);
+
+   update_state (self);
+
    switch (state) {
    case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
-     self->icon_name = g_strdup("network-wireless-acquiring-symbolic");
      cleanup_device (self);
      break;
    case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
-     self->icon_name = g_strdup("network-wireless-connected-symbolic");
      check_device (self);
      break;
    case NM_ACTIVE_CONNECTION_STATE_UNKNOWN:
    case NM_ACTIVE_CONNECTION_STATE_DEACTIVATING:
    case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
    default:
-     update_enabled_state (self);
      cleanup_device (self);
      return;
    }
-   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME]);
 }
 
 
 static void
 on_nmclient_wireless_enabled_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient *nmclient)
 {
-  gboolean enabled;
-
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
   g_return_if_fail (NM_IS_CLIENT (nmclient));
 
-  enabled = nm_client_wireless_get_enabled (nmclient);
-  g_debug ("Wifi %sabled", enabled ? "en" : "dis");
-  update_enabled_state (self);
+  update_state (self);
 
   if (self->ssid != NULL) {
     g_clear_pointer (&self->ssid, g_free);
@@ -362,7 +405,7 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
   devs = nm_client_get_devices (nmclient);
 
   if (!devs || !devs->len) {
-    update_enabled_state (self);
+    update_state (self);
     self->have_wifi_dev = FALSE;
     return;
   }
@@ -377,7 +420,7 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
   }
 
   self->have_wifi_dev = have_wifi_dev;
-  update_enabled_state (self);
+  update_state (self);
 }
 
 
@@ -518,7 +561,7 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
   g_signal_connect_swapped (self->nmclient, "notify::devices",
                             G_CALLBACK (on_nmclient_devices_changed), self);
 
-  update_enabled_state (self);
+  update_state (self);
 
   on_nmclient_active_connections_changed (self, NULL, self->nmclient);
   on_nmclient_devices_changed (self, NULL, self->nmclient);
