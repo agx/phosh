@@ -14,6 +14,7 @@ wl_protos = [
   '/'.join([wl_protocol_dir, 'unstable/xdg-output/xdg-output-unstable-v1.xml']),
   'gamma-control.xml',
   'idle.xml',
+  'wlr-screencopy-unstable-v1.xml',
   'phosh-private.xml',
   'wlr-foreign-toplevel-management-unstable-v1.xml',
   'wlr-input-inhibitor-unstable-v1.xml',

@@ -123,6 +123,7 @@
       <xi:include href="xml/wlr-layer-shell-unstable-v1-client-protocol.xml"/>
       <xi:include href="xml/wlr-output-management-unstable-v1-client-protocol.xml"/>
       <xi:include href="xml/wlr-output-power-management-unstable-v1-client-protocol.xml"/>
+      <xi:include href="xml/wlr-screencopy-unstable-v1-client-protocol.xml"/>
       <xi:include href="xml/xdg-output-unstable-v1-client-protocol.xml"/>
       <xi:include href="xml/xdg-shell-client-protocol.xml"/>
     </chapter>
