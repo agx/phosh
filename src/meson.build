@@ -78,6 +78,8 @@ phosh_sources = [
   'contrib/shell-network-agent.h',
   'fader.c',
   'fader.h',
+  'feedback-manager.c',
+  'feedback-manager.h',
   'home.c',
   'home.h',
   'idle-manager.c',

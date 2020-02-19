@@ -25,6 +25,7 @@
 #include "batteryinfo.h"
 #include "background-manager.h"
 #include "fader.h"
+#include "feedback-manager.h"
 #include "home.h"
 #include "idle-manager.h"
 #include "lockscreen-manager.h"
@@ -80,6 +81,7 @@ typedef struct
   PhoshPolkitAuthAgent *polkit_auth_agent;
   PhoshScreenSaverManager *screen_saver_manager;
   PhoshNotifyManager *notify_manager;
+  PhoshFeedbackManager *feedback_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -431,6 +433,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->background_manager);
   g_clear_object (&priv->proximity);
   g_clear_object (&priv->sensor_proxy_manager);
+  g_clear_object (&priv->feedback_manager);
   phosh_system_prompter_unregister ();
   phosh_session_unregister ();
 
@@ -559,6 +562,8 @@ phosh_shell_constructed (GObject *object)
 
   phosh_system_prompter_register ();
   priv->polkit_auth_agent = phosh_polkit_auth_agent_new ();
+
+  priv->feedback_manager = phosh_feedback_manager_new ();
 
   g_idle_add ((GSourceFunc) setup_idle_cb, self);
 }
