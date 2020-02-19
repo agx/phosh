@@ -17,6 +17,8 @@
 #include "settings/gvc-channel-bar.h"
 #include "wwan/phosh-wwan-mm.h"
 #include "rotateinfo.h"
+#include "feedbackinfo.h"
+#include "feedback-manager.h"
 
 #include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
@@ -83,6 +85,19 @@ rotation_setting_clicked_cb (PhoshSettings *self)
   g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 
+static void
+feedback_setting_clicked_cb (PhoshSettings *self)
+{
+  PhoshShell *shell;
+  PhoshFeedbackManager *manager;
+
+  shell = phosh_shell_get_default ();
+  g_return_if_fail (PHOSH_IS_SHELL (shell));
+  manager = phosh_shell_get_feedback_manager (shell);
+  g_return_if_fail (PHOSH_IS_FEEDBACK_MANAGER (manager));
+  manager = phosh_shell_get_feedback_manager (shell);
+  phosh_feedback_manager_toggle (manager);
+}
 
 static void
 batteryinfo_clicked_cb (PhoshSettings *self)
@@ -352,6 +367,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 
   gtk_widget_class_bind_template_callback (widget_class, batteryinfo_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, feedback_setting_clicked_cb);
 }
 
 
@@ -360,6 +376,7 @@ phosh_settings_init (PhoshSettings *self)
 {
   g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
   g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
+  g_type_ensure (PHOSH_TYPE_FEEDBACK_INFO);
   gtk_widget_init_template (GTK_WIDGET (self));
 }
 
