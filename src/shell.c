@@ -788,6 +788,17 @@ phosh_shell_get_toplevel_manager (PhoshShell *self)
   return priv->toplevel_manager;
 }
 
+PhoshFeedbackManager *
+phosh_shell_get_feedback_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_FEEDBACK_MANAGER (priv->feedback_manager), NULL);
+
+  return priv->feedback_manager;
+}
 
 /**
  * Returns the usable area in pixels usable by a client on the phone
