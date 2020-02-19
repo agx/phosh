@@ -80,6 +80,8 @@ phosh_sources = [
   'fader.h',
   'feedback-manager.c',
   'feedback-manager.h',
+  'feedbackinfo.c',
+  'feedbackinfo.h',
   'home.c',
   'home.h',
   'idle-manager.c',
