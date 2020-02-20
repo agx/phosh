@@ -35,6 +35,7 @@ libphosh_generated_sources = [
   phosh_enums,
   phosh_resources,
   wl_proto_sources,
+  generated_dbus_sources,
 ]
 
 libphosh_sources = [
@@ -48,6 +49,8 @@ libphosh_sources = [
   'app-list-model.h',
   'favorite-list-model.c',
   'favorite-list-model.h',
+  'layersurface.c',
+  'layersurface.h',
   'overview.c',
   'overview.h',
   'status-icon.c',
@@ -84,8 +87,6 @@ phosh_sources = [
   'home.h',
   'idle-manager.c',
   'idle-manager.h',
-  'layersurface.c',
-  'layersurface.h',
   'lockscreen-manager.c',
   'lockscreen-manager.h',
   'lockscreen.c',
@@ -135,7 +136,6 @@ phosh_sources = [
   'wifimanager.h',
   'wwaninfo.c',
   'wwaninfo.h',
-  generated_dbus_sources,
   phosh_settings_sources,
   phosh_wwan_sources,
   phosh_monitor_sources,

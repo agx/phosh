@@ -45,6 +45,12 @@ phosh_wayland_get_zwlr_foreign_toplevel_manager_v1 (PhoshWayland *self)
   return NULL;
 }
 
+struct zwlr_layer_shell_v1 *
+phosh_wayland_get_zwlr_layer_shell_v1 (PhoshWayland *self)
+{
+  return NULL;
+}
+
 PhoshMonitor *
 phosh_shell_get_primary_monitor (PhoshShell *self)
 {

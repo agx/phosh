@@ -14,7 +14,9 @@ test_env.set('MALLOC_CHECK_', '2')
 test_env.set('XDG_CONFIG_HOME', '@0@/user/config/'.format(meson.current_source_dir()))
 test_env.set('XDG_CONFIG_DIRS', '@0@/system/config/'.format(meson.current_source_dir()))
 test_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
-test_env.set('XDG_DATA_DIRS', '@0@/system/share/'.format(meson.current_source_dir()))
+# Ideally we would just set it so that we have a known set of .desktop etc
+# but then we can't find the system gschemas
+test_env.prepend('XDG_DATA_DIRS', '@0@/system/share/'.format(meson.current_source_dir()))
 
 test_cflags = [
   '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
@@ -40,6 +42,9 @@ tests = [
   'status-icon',
   'quick-setting',
   'notification',
+  'notification-banner',
+  'notification-content',
+  'notification-frame',
 ]
 
 # Unit tests

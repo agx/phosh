@@ -6,7 +6,8 @@
  * Author: Zander Brown <zbrown@gnome.org>
  */
 
-#include "notifications/notification.h"
+#include "notifications/notification.c"
+#include "stubs/bad-prop.h"
 
 #include <gio/gdesktopappinfo.h>
 
@@ -241,15 +242,93 @@ test_phosh_notification_get (void)
   g_assert_null (image);
   g_assert_null (actions);
 
-  g_test_expect_message ("GLib-GObject",
-                         G_LOG_LEVEL_WARNING,
-                         "g_object_get_is_valid_property: object class 'PhoshNotification' has no property named 'bad-prop'");
-  g_object_get (noti, "bad-prop", &app_name, NULL);
+  BAD_PROP (noti, phosh_notification, PhoshNotification);
+}
 
-  g_test_expect_message ("GLib-GObject",
-                         G_LOG_LEVEL_WARNING,
-                         "g_object_set_is_valid_property: object class 'PhoshNotification' has no property named 'bad-prop'");
-  g_object_set (noti, "bad-prop", app_name, NULL);
+
+static gboolean did_expire = FALSE;
+
+
+static void
+noti_expired (PhoshNotification *self, gpointer data)
+{
+  GMainLoop *loop = data;
+
+  g_main_loop_quit (loop);
+
+  did_expire = TRUE;
+}
+
+
+
+static gboolean
+timeout (gpointer data)
+{
+  GMainLoop *loop = data;
+
+  g_main_loop_quit (loop);
+
+  g_test_fail ();
+
+  return G_SOURCE_REMOVE;
+}
+
+
+static void
+test_phosh_notification_expires (void)
+{
+  g_autoptr (PhoshNotification) noti = NULL;
+  g_autoptr (GMainLoop) loop = NULL;
+
+  noti = phosh_notification_new (NULL,
+                                 NULL,
+                                 "Hey",
+                                 "Testing",
+                                 NULL,
+                                 NULL,
+                                 NULL);
+
+  loop = g_main_loop_new (NULL, FALSE);
+
+  g_timeout_add (130, timeout, loop);
+
+  did_expire = TRUE;
+
+  g_signal_connect (noti, "expired", G_CALLBACK (noti_expired), loop);
+
+  phosh_notification_expires (noti, 100);
+
+  g_main_loop_run (loop);
+
+  g_assert_true (did_expire);
+
+  // Set it to expire in the future
+  phosh_notification_expires (noti, 100000);
+
+  // Kill the object taking the timeout with it
+  g_clear_object (&noti);
+}
+
+
+static void
+test_phosh_notification_close (void)
+{
+  g_autoptr (PhoshNotification) noti = NULL;
+  g_autoptr (GMainLoop) loop = NULL;
+
+  noti = phosh_notification_new (NULL,
+                                 NULL,
+                                 "Hey",
+                                 "Testing",
+                                 NULL,
+                                 NULL,
+                                 NULL);
+
+  // Set it to expire in the future
+  phosh_notification_expires (noti, 1000);
+
+  // Send a close event, kills any timeout
+  phosh_notification_close (noti, PHOSH_NOTIFICATION_REASON_CLOSED);
 }
 
 
@@ -262,6 +341,8 @@ main (int argc, char **argv)
   g_test_add_func ("/phosh/notification/new", test_phosh_notification_new);
   g_test_add_func ("/phosh/notification/actions", test_phosh_notification_actions);
   g_test_add_func ("/phosh/notification/get", test_phosh_notification_get);
+  g_test_add_func ("/phosh/notification/expires", test_phosh_notification_expires);
+  g_test_add_func ("/phosh/notification/close", test_phosh_notification_close);
 
   return g_test_run ();
 }
