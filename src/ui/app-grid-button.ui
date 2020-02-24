@@ -13,6 +13,7 @@
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
         <property name="relief">none</property>
+        <property name="focus-on-click">False</property>
         <signal name="clicked" handler="activate_cb" object="PhoshAppGridButton" swapped="yes"/>
         <child>
           <object class="GtkBox">
