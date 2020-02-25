@@ -361,8 +361,10 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
 
   devs = nm_client_get_devices (nmclient);
 
-  if (!devs || !devs->len)
+  if (!devs || !devs->len) {
+    self->have_wifi_dev = FALSE;
     return;
+  }
 
   for (int i = 0; i < devs->len; i++) {
     dev = g_ptr_array_index (devs, i);
@@ -372,9 +374,6 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
       break;
     }
   }
-
-  if (have_wifi_dev == self->have_wifi_dev)
-    return;
 
   self->have_wifi_dev = have_wifi_dev;
 }
