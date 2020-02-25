@@ -362,6 +362,7 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
   devs = nm_client_get_devices (nmclient);
 
   if (!devs || !devs->len) {
+    update_enabled_state (self);
     self->have_wifi_dev = FALSE;
     return;
   }
@@ -376,6 +377,7 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
   }
 
   self->have_wifi_dev = have_wifi_dev;
+  update_enabled_state (self);
 }
 
 
@@ -583,7 +585,7 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
   props[PHOSH_WIFI_MANAGER_PROP_ENABLED] =
     g_param_spec_boolean ("enabled",
                          "enabled",
-                         "Wether the wifi is enabled or not",
+                         "Wether wifi is enabled and a wifi device is available",
                          FALSE,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
