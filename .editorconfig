@@ -4,13 +4,14 @@ root = true
 charset = utf-8
 end_of_line = lf
 insert_final_newline = true
+trim_trailing_whitespace = true
 
 [meson.build]
 indent_size = 2
 tab_size = 2
 indent_style = space
 
-[*.{c,h,h.in}]
+[*.{c,h,c.in,h.in}]
 indent_size = 2
 tab_size = 2
 indent_style = space
