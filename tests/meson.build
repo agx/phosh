@@ -53,8 +53,6 @@ foreach test : tests
   test(test, t, env: test_env)
 endforeach
 
-endif
-
 # Integration tests
 t = executable('test-idle-manager',
 		 ['test-idle-manager.c', generated_dbus_sources],
@@ -63,3 +61,5 @@ t = executable('test-idle-manager',
 		 dependencies: phosh_deps,
 		 )
 test('test-idle', t, env: test_env)
+
+endif # tests
