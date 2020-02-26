@@ -45,7 +45,7 @@ test_phosh_notification_new_basic (void)
   g_assert_true (G_IS_THEMED_ICON (icon));
   g_assert_cmpstr (g_themed_icon_get_names (G_THEMED_ICON (icon))[0],
                    ==,
-                   "application-x-executable");
+                   PHOSH_APP_UNKNOWN_ICON);
 
   g_assert_null (phosh_notification_get_image (noti));
   g_assert_null (phosh_notification_get_actions (noti));

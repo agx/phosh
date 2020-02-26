@@ -33,7 +33,7 @@
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="pixel_size">32</property>
-                <property name="icon_name">application-x-executable</property>
+                <property name="icon_name">app-icon-unknown</property>
                 <property name="icon_size">6</property>
               </object>
               <packing>

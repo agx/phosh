@@ -12,6 +12,14 @@
 
 G_BEGIN_DECLS
 
+
+/**
+ * PHOSH_APP_UNKNOWN_ICON:
+ *
+ * Icon name to use for apps we can't identify or whose icon is invalid
+ */
+#define PHOSH_APP_UNKNOWN_ICON "app-icon-unknown"
+
 #define PHOSH_TYPE_APP_GRID_BUTTON phosh_app_grid_button_get_type()
 
 /**

@@ -10,6 +10,7 @@
 #include "activity.h"
 #include "shell.h"
 #include "util.h"
+#include "app-grid-button.h"
 
 #include <gio/gdesktopappinfo.h>
 
@@ -172,7 +173,7 @@ phosh_activity_constructed (GObject *object)
                               ACTIVITY_ICON_SIZE);
   } else {
     gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon),
-                                  "missing-image",
+                                  PHOSH_APP_UNKNOWN_ICON,
                                   ACTIVITY_ICON_SIZE);
   }
 

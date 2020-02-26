@@ -11,6 +11,7 @@
 #include "config.h"
 #include "notification.h"
 #include "phosh-enums.h"
+#include "app-grid-button.h"
 
 #include <glib/gi18n-lib.h>
 
@@ -355,7 +356,7 @@ phosh_notification_set_app_icon (PhoshNotification *self,
   if (icon != NULL) {
     self->icon = g_object_ref (icon);
   } else {
-    self->icon = g_themed_icon_new ("application-x-executable");
+    self->icon = g_themed_icon_new (PHOSH_APP_UNKNOWN_ICON);
   }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_ICON]);

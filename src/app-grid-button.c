@@ -478,9 +478,13 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
     icon = g_app_info_get_icon (priv->info);
     if (G_UNLIKELY (icon == NULL)) {
       gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon),
-                                    "application-x-executable-symbolic",
+                                    PHOSH_APP_UNKNOWN_ICON,
                                     GTK_ICON_SIZE_DIALOG);
     } else {
+      if (G_IS_THEMED_ICON (icon)) {
+        g_themed_icon_append_name (G_THEMED_ICON (icon),
+                                   PHOSH_APP_UNKNOWN_ICON);
+      }
       gtk_image_set_from_gicon (GTK_IMAGE (priv->icon),
                                 icon,
                                 GTK_ICON_SIZE_DIALOG);
@@ -522,7 +526,7 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
   } else {
     gtk_label_set_label (GTK_LABEL (priv->label), _("Application"));
     gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon),
-                                  "application-x-executable",
+                                  PHOSH_APP_UNKNOWN_ICON,
                                   GTK_ICON_SIZE_DIALOG);
 
     gtk_widget_set_sensitive (GTK_WIDGET (self), FALSE);
