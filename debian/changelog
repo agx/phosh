@@ -1,3 +1,43 @@
+phosh (0.2.0) amber-phone; urgency=medium
+
+  [ Guido Günther ]
+  * Upload to amber-phone (since amber has no feedbackd yet)
+  * phosh: Register the session late so calls sees the right status
+    Closes: https://source.puri.sm/Librem5/calls/issues/126
+  * Proximity sensor support
+    Closes: #120
+  * Add Feedback quick settings to toggle current feedback status.
+  * wifimanager: consistently update icon on enable/disable/kill switch
+  * Fix build with meson 0.53
+  * Fix build with tests disabled
+  * build: Allow to build libfeedback as subproject.
+  * phosh: Use drm backend by default to help wlroots 0.10.0 and hence phoc
+    0.1.6.
+  * Update translations including 7 completely new ones. Thanks everyone! 
+
+  [ Sebastian Krzyszkowiak ]
+  * ui: Adjust the icon margin of backlight slider in settings menu.
+
+  [ Julian Sparber ]
+  * Improve lockscreen unlock button styling
+  * Introduce QuickSetting base class for quicksettings
+  * Introduce StatusIcon base class for top bar icons and
+    quicksettings
+  * Groundwork for WWan and Wifi quicksettings
+  * Add BatteryInfo quick setting and show percentage
+    Closes: #268
+  * Make rotation a quick setting
+
+  [ Zander Brown ]
+  * Groundwork for future notification improvements:
+    - split out notification content from banner
+    - split the frame from the banner.
+    - track notifications not widgets as preparation
+    - introduce NotificationFrame
+  * editorconfig: strip whitespace.
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 26 Feb 2020 09:34:47 +0100
+
 phosh (0.1.8) amber; urgency=medium
 
   [ Julian Sparber ]
