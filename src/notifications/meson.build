@@ -7,6 +7,8 @@ phosh_notifications_sources = [
   'notifications/notification-content.h',
   'notifications/notification-frame.c',
   'notifications/notification-frame.h',
+  'notifications/notification-source.c',
+  'notifications/notification-source.h',
   'notifications/notify-manager.c',
   'notifications/notify-manager.h',
 ]
