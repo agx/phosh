@@ -30,7 +30,11 @@ enum {
   PROP_APP_ICON,
   PROP_APP_INFO,
   PROP_IMAGE,
+  PROP_URGENCY,
   PROP_ACTIONS,
+  PROP_TRANSIENT,
+  PROP_RESIDENT,
+  PROP_CATEGORY,
   LAST_PROP
 };
 static GParamSpec *props[LAST_PROP];
@@ -46,18 +50,22 @@ static guint signals[N_SIGNALS];
 
 
 struct _PhoshNotification {
-  GObject   parent;
+  GObject                   parent;
 
-  guint     id;
-  char     *app_name;
-  char     *summary;
-  char     *body;
-  GIcon    *icon;
-  GIcon    *image;
-  GAppInfo *info;
-  GStrv     actions;
+  guint                     id;
+  char                     *app_name;
+  char                     *summary;
+  char                     *body;
+  GIcon                    *icon;
+  GIcon                    *image;
+  GAppInfo                 *info;
+  PhoshNotificationUrgency  urgency;
+  GStrv                     actions;
+  gboolean                  transient;
+  gboolean                  resident;
+  char                     *category;
 
-  gulong    timeout;
+  gulong                    timeout;
 };
 typedef struct _PhoshNotification PhoshNotification;
 
@@ -95,8 +103,20 @@ phosh_notification_set_property (GObject      *object,
     case PROP_IMAGE:
       phosh_notification_set_image (self, g_value_get_object (value));
       break;
+    case PROP_URGENCY:
+      phosh_notification_set_urgency (self, g_value_get_enum (value));
+      break;
     case PROP_ACTIONS:
       phosh_notification_set_actions (self, g_value_get_boxed (value));
+      break;
+    case PROP_TRANSIENT:
+      phosh_notification_set_transient (self, g_value_get_boolean (value));
+      break;
+    case PROP_RESIDENT:
+      phosh_notification_set_resident (self, g_value_get_boolean (value));
+      break;
+    case PROP_CATEGORY:
+      phosh_notification_set_category (self, g_value_get_string (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -135,8 +155,20 @@ phosh_notification_get_property (GObject    *object,
     case PROP_IMAGE:
       g_value_set_object (value, phosh_notification_get_image (self));
       break;
+    case PROP_URGENCY:
+      g_value_set_enum (value, phosh_notification_get_urgency (self));
+      break;
     case PROP_ACTIONS:
       g_value_set_boxed (value, phosh_notification_get_actions (self));
+      break;
+    case PROP_TRANSIENT:
+      g_value_set_boolean (value, phosh_notification_get_transient (self));
+      break;
+    case PROP_RESIDENT:
+      g_value_set_boolean (value, phosh_notification_get_resident (self));
+      break;
+    case PROP_CATEGORY:
+      g_value_set_string (value, phosh_notification_get_category (self));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -162,6 +194,7 @@ phosh_notification_finalize (GObject *object)
   g_clear_object (&self->image);
   g_clear_object (&self->info);
   g_clear_pointer (&self->actions, g_strfreev);
+  g_clear_pointer (&self->category, g_free);
 
   G_OBJECT_CLASS (phosh_notification_parent_class)->finalize (object);
 }
@@ -240,6 +273,15 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
       G_TYPE_ICON,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+  props[PROP_URGENCY] =
+    g_param_spec_enum (
+      "urgency",
+      "Urgency",
+      "Notification urgency",
+      PHOSH_TYPE_NOTIFICATION_URGENCY,
+      PHOSH_NOTIFICATION_URGENCY_NORMAL,
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
   props[PROP_ACTIONS] =
     g_param_spec_boxed (
       "actions",
@@ -247,6 +289,31 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
       "Notification actions",
       G_TYPE_STRV,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PROP_TRANSIENT] =
+    g_param_spec_boolean (
+      "transient",
+      "Transient",
+      "The notification is transient",
+      FALSE,
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PROP_RESIDENT] =
+    g_param_spec_boolean (
+      "resident",
+      "Resident",
+      "The notification is resident",
+      FALSE,
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PROP_CATEGORY] =
+    g_param_spec_string (
+      "category",
+      "Category",
+      "The notification's category",
+      "",
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
@@ -300,15 +367,21 @@ phosh_notification_init (PhoshNotification *self)
 
 
 PhoshNotification *
-phosh_notification_new (const char *app_name,
-                        GAppInfo   *info,
-                        const char *summary,
-                        const char *body,
-                        GIcon      *icon,
-                        GIcon      *image,
-                        GStrv       actions)
+phosh_notification_new (guint                     id,
+                        const char               *app_name,
+                        GAppInfo                 *info,
+                        const char               *summary,
+                        const char               *body,
+                        GIcon                    *icon,
+                        GIcon                    *image,
+                        PhoshNotificationUrgency  urgency,
+                        GStrv                     actions,
+                        gboolean                  transient,
+                        gboolean                  resident,
+                        const char               *category)
 {
   return g_object_new (PHOSH_TYPE_NOTIFICATION,
+                       "id", id,
                        "summary", summary,
                        "body", body,
                        "app-name", app_name,
@@ -316,7 +389,11 @@ phosh_notification_new (const char *app_name,
                        // Set info after fallback name and icon
                        "app-info", info,
                        "image", image,
+                       "urgency", urgency,
                        "actions", actions,
+                       "transient", transient,
+                       "resident", resident,
+                       "category", category,
                        NULL);
 }
 
@@ -535,12 +612,157 @@ phosh_notification_set_actions (PhoshNotification *self,
 }
 
 
-GStrv
+const GStrv
 phosh_notification_get_actions (PhoshNotification *self)
 {
   g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
 
   return self->actions;
+}
+
+
+void
+phosh_notification_set_urgency (PhoshNotification        *self,
+                                PhoshNotificationUrgency  urgency)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+
+  if (self->urgency == urgency)
+    return;
+
+  self->urgency = urgency;
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_URGENCY]);
+}
+
+
+PhoshNotificationUrgency
+phosh_notification_get_urgency (PhoshNotification *self)
+{
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self),
+                        PHOSH_NOTIFICATION_URGENCY_NORMAL);
+
+  return self->urgency;
+}
+
+
+/**
+ * phosh_notification_set_transient:
+ * @self: the #PhoshNotification
+ * @transient: if @self is transient
+ *
+ * Set if @self should go to the message tray
+ */
+void
+phosh_notification_set_transient (PhoshNotification *self,
+                                  gboolean           transient)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+
+  if (self->transient == transient)
+    return;
+
+  self->transient = transient;
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TRANSIENT]);
+}
+
+
+/**
+ * phosh_notification_get_transient:
+ * @self: the #PhoshNotification
+ *
+ * Transient notifications don't go to the message tray
+ *
+ * Returns: %TRUE when transient, otherwise %FALSE
+ */
+gboolean
+phosh_notification_get_transient (PhoshNotification *self)
+{
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), TRUE);
+
+  return self->transient;
+}
+
+
+/**
+ * phosh_notification_set_resident:
+ * @self: the #PhoshNotification
+ * @resident: is the notification resident
+ *
+ * Set whether of not invoking actions dismiss @self
+ */
+void
+phosh_notification_set_resident (PhoshNotification *self,
+                                 gboolean           resident)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+
+  if (self->resident == resident)
+    return;
+
+  self->resident = resident;
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_RESIDENT]);
+}
+
+
+/**
+ * phosh_notification_get_resident:
+ * @self: the #PhoshNotification
+ *
+ * When %TRUE invoking an action _doesn't_ dismiss the notification
+ *
+ * Returns: %TRUE when resident, otherwise %FALSE
+ */
+gboolean
+phosh_notification_get_resident (PhoshNotification *self)
+{
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), FALSE);
+
+  return self->resident;
+}
+
+
+/**
+ * phosh_notification_set_category:
+ * @self: the #PhoshNotification
+ * @category: the new category
+ *
+ * Set the type of notification, such as "email.arrived"
+ */
+void
+phosh_notification_set_category (PhoshNotification *self,
+                                 const char        *category)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+
+  if (g_strcmp0 (self->category, category) == 0)
+    return;
+
+  g_clear_pointer (&self->category, g_free);
+  self->category = g_strdup (category);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CATEGORY]);
+}
+
+
+/**
+ * phosh_notification_get_category:
+ * @self: the #PhoshNotification
+ *
+ * Get the category hint the notification was sent with
+ *
+ * See https://people.gnome.org/~mccann/docs/notification-spec/notification-spec-latest.html#categories
+ *
+ * Returns: the category or %NULL
+ */
+const char *
+phosh_notification_get_category (PhoshNotification *self)
+{
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), NULL);
+
+  return self->category;
 }
 
 

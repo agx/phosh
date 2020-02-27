@@ -75,13 +75,18 @@ main (int argc, char **argv)
   gtk_container_add (GTK_CONTAINER (scrolled), box);
 
   app = g_desktop_app_info_new ("org.gnome.Calculator.desktop");
-  notification = phosh_notification_new ("Not Shown",
+  notification = phosh_notification_new (0,
+                                         "Not Shown",
                                          G_APP_INFO (app),
                                          "2 + 2",
                                          "= 4",
                                          NULL,
                                          NULL,
-                                         actions);
+                                         PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                         actions,
+                                         FALSE,
+                                         FALSE,
+                                         NULL);
   frame = phosh_notification_frame_new ();
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
                                               notification);
@@ -89,12 +94,17 @@ main (int argc, char **argv)
   gtk_container_add (GTK_CONTAINER (box), frame);
 
   image = g_themed_icon_new ("org.gnome.Software");
-  notification = phosh_notification_new ("Some App",
+  notification = phosh_notification_new (1,
+                                         "Some App",
                                          NULL,
                                          "2 + 2",
                                          "= 4",
                                          NULL,
                                          image,
+                                         PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                         NULL,
+                                         FALSE,
+                                         FALSE,
                                          NULL);
   frame = phosh_notification_frame_new ();
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),

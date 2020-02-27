@@ -27,12 +27,17 @@ test_phosh_notification_banner_new (void)
   PhoshNotification *noti_test = NULL;
   GtkWidget *banner = NULL;
 
-  noti = phosh_notification_new (NULL,
+  noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
                                  NULL,
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 NULL,
+                                 FALSE,
+                                 FALSE,
                                  NULL);
 
   banner = phosh_notification_banner_new (noti);
@@ -55,12 +60,17 @@ test_phosh_notification_banner_closed (void)
   g_autoptr (PhoshNotification) noti = NULL;
   GtkWidget *banner = NULL;
 
-  noti = phosh_notification_new (NULL,
+  noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
                                  NULL,
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 NULL,
+                                 FALSE,
+                                 FALSE,
                                  NULL);
 
   banner = phosh_notification_banner_new (noti);
@@ -93,12 +103,17 @@ test_phosh_notification_banner_expired (void)
   g_autoptr (GMainLoop) loop = NULL;
   GtkWidget *banner = NULL;
 
-  noti = phosh_notification_new (NULL,
+  noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
                                  NULL,
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 NULL,
+                                 FALSE,
+                                 FALSE,
                                  NULL);
 
   banner = phosh_notification_banner_new (noti);

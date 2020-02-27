@@ -28,12 +28,17 @@ test_phosh_notification_new_basic (void)
   g_autoptr (PhoshNotification) noti = NULL;
   GIcon *icon;
 
-  noti = phosh_notification_new (NULL,
+  noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
                                  NULL,
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 NULL,
+                                 FALSE,
+                                 FALSE,
                                  NULL);
 
   g_assert_cmpstr (phosh_notification_get_app_name (noti), ==, "Notification");
@@ -117,12 +122,17 @@ test_phosh_notification_new (void)
 
   image = g_themed_icon_new ("image-missing");
 
-  noti = phosh_notification_new ("should-not-be-seen",
+  noti = phosh_notification_new (0,
+                                 "should-not-be-seen",
                                  info,
                                  "Hey",
                                  "Testing",
                                  icon,
                                  image,
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 NULL,
+                                 FALSE,
+                                 FALSE,
                                  NULL);
 
   g_assert_cmpstr (phosh_notification_get_app_name (noti), ==, "Med");
@@ -182,13 +192,18 @@ test_phosh_notification_actions (void)
   GStrv original_actions = (char *[]) { "app.test", "Test", "app.test", "Me", NULL };
   GStrv actions;
 
-  noti = phosh_notification_new (NULL,
+  noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
                                  NULL,
-                                 original_actions);
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 original_actions,
+                                 FALSE,
+                                 FALSE,
+                                 NULL);
 
   actions = phosh_notification_get_actions (noti);
 
@@ -214,14 +229,23 @@ test_phosh_notification_get (void)
   GIcon *app_icon = NULL;
   GIcon *image = NULL;
   GStrv actions = NULL;
+  gboolean transient = FALSE;
+  gboolean resident = FALSE;
+  const char *category = NULL;
+  PhoshNotificationUrgency urgency = PHOSH_NOTIFICATION_URGENCY_NORMAL;
 
-  noti = phosh_notification_new (NULL,
+  noti = phosh_notification_new (123,
+                                 NULL,
                                  NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
                                  NULL,
-                                 NULL);
+                                 PHOSH_NOTIFICATION_URGENCY_CRITICAL,
+                                 NULL,
+                                 TRUE,
+                                 TRUE,
+                                 "email.arrived");
 
   g_object_get (noti,
                 "id", &id,
@@ -232,8 +256,13 @@ test_phosh_notification_get (void)
                 "app-icon", &app_icon,
                 "image", &image,
                 "actions", &actions,
+                "transient", &transient,
+                "resident", &resident,
+                "category", &category,
+                "urgency", &urgency,
                 NULL);
 
+  g_assert_cmpuint (id, ==, 123);
   g_assert_nonnull (app_name);
   g_assert_null (app_info);
   g_assert_nonnull (summary);
@@ -241,6 +270,10 @@ test_phosh_notification_get (void)
   g_assert_nonnull (app_icon);
   g_assert_null (image);
   g_assert_null (actions);
+  g_assert_true (transient);
+  g_assert_true (resident);
+  g_assert_cmpstr (category, ==, "email.arrived");
+  g_assert_cmpint (urgency, ==, PHOSH_NOTIFICATION_URGENCY_CRITICAL);
 
   BAD_PROP (noti, phosh_notification, PhoshNotification);
 }
@@ -280,12 +313,17 @@ test_phosh_notification_expires (void)
   g_autoptr (PhoshNotification) noti = NULL;
   g_autoptr (GMainLoop) loop = NULL;
 
-  noti = phosh_notification_new (NULL,
+  noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
                                  NULL,
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 NULL,
+                                 FALSE,
+                                 FALSE,
                                  NULL);
 
   loop = g_main_loop_new (NULL, FALSE);
@@ -316,12 +354,17 @@ test_phosh_notification_close (void)
   g_autoptr (PhoshNotification) noti = NULL;
   g_autoptr (GMainLoop) loop = NULL;
 
-  noti = phosh_notification_new (NULL,
+  noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
                                  NULL,
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 NULL,
+                                 FALSE,
+                                 FALSE,
                                  NULL);
 
   // Set it to expire in the future

@@ -17,12 +17,17 @@ test_phosh_notification_content_new (void)
   PhoshNotification *noti_test = NULL;
   GtkWidget *content = NULL;
 
-  noti = phosh_notification_new (NULL,
+  noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  "Hey",
                                  "Testing",
                                  NULL,
                                  NULL,
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 NULL,
+                                 FALSE,
+                                 FALSE,
                                  NULL);
 
   content = phosh_notification_content_new (noti);
@@ -45,12 +50,17 @@ test_phosh_notification_content_no_summary (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
 
-  noti = phosh_notification_new (NULL,
+  noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Testing",
                                  NULL,
                                  NULL,
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 NULL,
+                                 FALSE,
+                                 FALSE,
                                  NULL);
 
   phosh_notification_content_new (noti);
@@ -77,13 +87,18 @@ test_phosh_notification_content_actions (void)
   GtkWidget *content = NULL;
   GStrv actions = (char *[]) { "app.test", "Test", "default", "Me", NULL };
 
-  noti = phosh_notification_new (NULL,
+  noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Testing",
                                  NULL,
                                  NULL,
-                                 actions);
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 actions,
+                                 FALSE,
+                                 FALSE,
+                                 NULL);
 
   content = phosh_notification_content_new (noti);
 
@@ -105,13 +120,18 @@ test_phosh_notification_content_bad_action (void)
   g_autoptr (PhoshNotification) noti = NULL;
   GStrv actions = (char *[]) { "app.test", NULL };
 
-  noti = phosh_notification_new (NULL,
+  noti = phosh_notification_new (0,
+                                 NULL,
                                  NULL,
                                  NULL,
                                  "Testing",
                                  NULL,
                                  NULL,
-                                 actions);
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 actions,
+                                 FALSE,
+                                 FALSE,
+                                 NULL);
 
   g_test_expect_message ("phosh-notification-content",
                          G_LOG_LEVEL_WARNING,

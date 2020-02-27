@@ -302,6 +302,9 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
   g_autoptr (GIcon) app_gicon = NULL;
   g_autoptr (GIcon) old_data_gicon = NULL;
   g_autoptr (GIcon) fallback_gicon = NULL;
+  gboolean transient = FALSE;
+  gboolean resident = FALSE;
+  g_autofree char *category = NULL;
   GIcon *icon = NULL;
   GIcon *image = NULL;
 
@@ -337,8 +340,18 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                (g_strcmp0 (key, "desktop-entry") == 0)) {
       if (g_variant_is_of_type (value, G_VARIANT_TYPE_STRING))
         desktop_id = g_variant_dup_string (value, NULL);
+    } else if ((g_strcmp0 (key, "transient") == 0)) {
+      if (g_variant_is_of_type (value, G_VARIANT_TYPE_BOOLEAN))
+        transient = g_variant_get_boolean (value);
+    } else if ((g_strcmp0 (key, "resident") == 0)) {
+      if (g_variant_is_of_type (value, G_VARIANT_TYPE_BOOLEAN))
+        resident = g_variant_get_boolean (value);
+    } else if ((g_strcmp0 (key, "category") == 0)) {
+      if (g_variant_is_of_type (value, G_VARIANT_TYPE_STRING))
+        category = g_variant_dup_string (value, NULL);
     }
-    g_variant_unref(item);
+
+    g_variant_unref (item);
   }
 
   if (data_gicon) {
@@ -383,20 +396,24 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                   "app-icon", icon,
                   "app-info", info,
                   "image", image,
+                  "urgency", urgency,
                   "actions", actions,
                   NULL);
   } else {
     id = self->next_id++;
 
-    notification = phosh_notification_new (app_name,
+    notification = phosh_notification_new (id,
+                                           app_name,
                                            info,
                                            summary,
                                            body,
                                            icon,
                                            image,
-                                           (GStrv) actions);
-
-    phosh_notification_set_id (notification, id);
+                                           urgency,
+                                           (GStrv) actions,
+                                           transient,
+                                           resident,
+                                           category);
 
     g_hash_table_insert (self->notifications,
                          GUINT_TO_POINTER (id),
