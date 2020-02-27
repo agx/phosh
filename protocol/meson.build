@@ -19,6 +19,7 @@ wl_protos = [
   'wlr-input-inhibitor-unstable-v1.xml',
   'wlr-layer-shell-unstable-v1.xml',
   'wlr-output-management-unstable-v1.xml',
+  'wlr-output-power-management-unstable-v1.xml',
 ]
 wl_proto_sources = []
 foreach proto: wl_protos
