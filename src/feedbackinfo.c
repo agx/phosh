@@ -39,7 +39,7 @@ on_icon_name_changed (PhoshFeedbackInfo *self, GParamSpec *psepc, gpointer unuse
   else if (!g_strcmp0 (profile, "silent"))
     name = _("Silent");
   else
-    name = _("Full");
+    name = _("On");
 
   phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), name);
 }
