@@ -12,6 +12,7 @@
 #include "notification-content.h"
 #include "notification-frame.h"
 #include "notification-source.h"
+#include "util.h"
 
 /**
  * SECTION:phosh-notification-frame
@@ -24,6 +25,7 @@ struct _PhoshNotificationFrame {
   GtkBox parent;
 
   GListModel *model;
+  gulong      model_watch;
 
   GBinding *bind_name;
   GBinding *bind_icon;
@@ -51,6 +53,8 @@ phosh_notification_frame_finalize (GObject *object)
   PhoshNotificationFrame *self = PHOSH_NOTIFICATION_FRAME (object);
 
   // Don't clear bindings, they're already unref'd before here
+
+  phosh_clear_handler (&self->model_watch, self->model);
 
   g_clear_object (&self->model);
 
@@ -204,8 +208,8 @@ phosh_notification_frame_bind_model (PhoshNotificationFrame *self,
                            self,
                            NULL);
 
-  g_signal_connect (model, "items-changed",
-                    G_CALLBACK (items_changed), self);
+  self->model_watch = g_signal_connect (model, "items-changed",
+                                        G_CALLBACK (items_changed), self);
   items_changed (model, 0, 0, 0, self);
 }
 

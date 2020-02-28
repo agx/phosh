@@ -31,3 +31,6 @@ executable('app-buttons', ['app-buttons.c'] + stubs,
 
 executable('notify-blocks', ['notify-blocks.c'],
            dependencies: phosh_dep)
+
+executable('notify-server-standalone', ['notify-server-standalone.c'] + stubs,
+           dependencies: phosh_dep)
