@@ -36,11 +36,11 @@ typedef struct {
   struct wl_registry *registry;
   struct wl_seat *wl_seat;
   struct xdg_wm_base *xdg_wm_base;
+  struct zwlr_foreign_toplevel_manager_v1 *zwlr_foreign_toplevel_manager_v1;
   struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
   struct zwlr_layer_shell_v1 *layer_shell;
-  struct zxdg_output_manager_v1 *zxdg_output_manager_v1;
   struct zwlr_output_manager_v1 *zwlr_output_manager_v1;
-  struct zwlr_foreign_toplevel_manager_v1 *zwlr_foreign_toplevel_manager_v1;
+  struct zxdg_output_manager_v1 *zxdg_output_manager_v1;
   GHashTable *wl_outputs;
 } PhoshWaylandPrivate;
 
