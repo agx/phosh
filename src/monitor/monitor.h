@@ -49,6 +49,8 @@ struct _PhoshMonitor {
 
   struct wl_output *wl_output;
   struct zxdg_output_v1 *xdg_output;
+  struct zwlr_output_power_v1 *wlr_output_power;
+
   gint x, y, width, height;
   gint subpixel;
   gint32 transform, scale;

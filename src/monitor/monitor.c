@@ -209,6 +209,42 @@ static const struct zxdg_output_v1_listener xdg_output_v1_listener =
   xdg_output_v1_handle_description,
 };
 
+static void
+wlr_output_power_handle_mode(void *data,
+                             struct zwlr_output_power_v1 *output_power,
+                             enum zwlr_output_power_v1_mode mode)
+{
+  PhoshMonitor *self = data;
+
+  g_return_if_fail (PHOSH_IS_MONITOR (self));
+
+  switch (mode) {
+  case ZWLR_OUTPUT_POWER_V1_MODE_OFF:
+    printf("Monitor %s disabled\n", self->name);
+    break;
+  case ZWLR_OUTPUT_POWER_V1_MODE_ON:
+    printf("Monitor %p enabled\n", self->name);
+    break;
+  default:
+    g_return_if_reached ();
+  }
+}
+
+static void
+wlr_output_power_handle_failed(void *data,
+                               struct zwlr_output_power_v1 *output_power)
+{
+  PhoshMonitor *self = data;
+
+  g_return_if_fail (PHOSH_IS_MONITOR (self));
+  g_warning("Failed to set output power mode for %s\n", self->name);
+}
+
+static const struct zwlr_output_power_v1_listener wlr_output_power_listener_v1 = {
+	.mode = wlr_output_power_handle_mode,
+	.failed = wlr_output_power_handle_failed,
+};
+
 
 static void
 phosh_monitor_set_property (GObject *object,
@@ -260,6 +296,7 @@ phosh_monitor_dispose (GObject *object)
   g_clear_pointer (&self->product, g_free);
   g_clear_pointer (&self->name, g_free);
   g_clear_pointer (&self->xdg_output, zxdg_output_v1_destroy);
+  g_clear_pointer (&self->wlr_output_power, zwlr_output_power_v1_destroy);
 
   G_OBJECT_CLASS (phosh_monitor_parent_class)->dispose (object);
 }
@@ -269,6 +306,7 @@ static void
 phosh_monitor_constructed (GObject *object)
 {
   PhoshMonitor *self = PHOSH_MONITOR (object);
+  struct zwlr_output_power_manager_v1 *zwlr_output_power_manager_v1;
 
   wl_output_add_listener (self->wl_output, &output_listener, self);
 
@@ -277,6 +315,17 @@ phosh_monitor_constructed (GObject *object)
                                           self->wl_output);
   g_return_if_fail (self->xdg_output);
   zxdg_output_v1_add_listener (self->xdg_output, &xdg_output_v1_listener, self);
+
+  zwlr_output_power_manager_v1 = phosh_wayland_get_zwlr_output_power_manager_v1 (
+    phosh_wayland_get_default ());
+
+  /* Output power protocol is optional until compositors catched up */
+  if (zwlr_output_power_manager_v1) {
+    self->wlr_output_power = zwlr_output_power_manager_v1_get_output_power (
+      zwlr_output_power_manager_v1, self->wl_output);
+    g_return_if_fail (self->wlr_output_power);
+    zwlr_output_power_v1_add_listener(self->wlr_output_power, &wlr_output_power_listener_v1, self);
+  }
 }
 
 
