@@ -40,6 +40,7 @@ typedef struct {
   struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
   struct zwlr_layer_shell_v1 *layer_shell;
   struct zwlr_output_manager_v1 *zwlr_output_manager_v1;
+  struct zwlr_output_power_manager_v1 *zwlr_output_power_manager_v1;
   struct zxdg_output_manager_v1 *zxdg_output_manager_v1;
   GHashTable *wl_outputs;
 } PhoshWaylandPrivate;
@@ -123,6 +124,12 @@ registry_handle_global (void *data,
       registry,
       name,
       &zwlr_output_manager_v1_interface,
+      1);
+  } else  if (!strcmp (interface, zwlr_output_power_manager_v1_interface.name)) {
+    priv->zwlr_output_power_manager_v1 = wl_registry_bind(
+      registry,
+      name,
+      &zwlr_output_power_manager_v1_interface,
       1);
   } else if (!strcmp (interface, zwlr_foreign_toplevel_manager_v1_interface.name)) {
     priv->zwlr_foreign_toplevel_manager_v1 = wl_registry_bind(
@@ -365,6 +372,16 @@ phosh_wayland_get_zwlr_output_manager_v1 (PhoshWayland *self)
   return priv->zwlr_output_manager_v1;
 }
 
+struct zwlr_output_power_manager_v1*
+phosh_wayland_get_zwlr_output_power_manager_v1 (PhoshWayland *self)
+{
+  PhoshWaylandPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
+  priv = phosh_wayland_get_instance_private (self);
+
+  return priv->zwlr_output_power_manager_v1;
+}
 
 struct zwlr_foreign_toplevel_manager_v1*
 phosh_wayland_get_zwlr_foreign_toplevel_manager_v1 (PhoshWayland *self)
