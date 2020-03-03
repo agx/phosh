@@ -109,10 +109,10 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
   /* SIM missing */
   if (!phosh_wwan_has_sim (PHOSH_WWAN (self->wwan)))
     icon_name = g_strdup ("auth-sim-missing-symbolic");
-
-  /* SIM unlock required */
-  if (!phosh_wwan_is_unlocked (PHOSH_WWAN (self->wwan)))
-    icon_name = g_strdup ("auth-sim-locked-symbolic");
+  else { /* SIM unlock required */
+    if (!phosh_wwan_is_unlocked (PHOSH_WWAN (self->wwan)))
+      icon_name = g_strdup ("auth-sim-locked-symbolic");
+  }
 
   if (icon_name) {
     phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
