@@ -45,6 +45,8 @@ tests = [
   'notification-banner',
   'notification-content',
   'notification-frame',
+  'notification-source',
+  'notification-list',
 ]
 
 # Unit tests

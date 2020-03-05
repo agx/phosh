@@ -164,17 +164,21 @@ list_iface_init (GListModelInterface *iface)
 
 
 static void
-item_schanged (GListModel              *list,
+items_changed (GListModel              *list,
                guint                    position,
                guint                    removed,
                guint                    added,
                PhoshNotificationSource *self)
 {
+  g_autoptr (PhoshNotification) item = NULL;
+
   g_return_if_fail (PHOSH_IS_NOTIFICATION_SOURCE (self));
 
   g_list_model_items_changed (G_LIST_MODEL (self), position, removed, added);
 
-  if (g_list_model_get_item (G_LIST_MODEL (self->list), 0) == NULL) {
+  item = g_list_model_get_item (G_LIST_MODEL (self->list), 0);
+
+  if (item == NULL) {
     g_signal_emit (self, signals[SIGNAL_EMPTY], 0);
   }
 }
@@ -187,7 +191,7 @@ phosh_notification_source_init (PhoshNotificationSource *self)
 
   g_signal_connect (self->list,
                     "items-changed",
-                    G_CALLBACK (item_schanged),
+                    G_CALLBACK (items_changed),
                     self);
 }
 
@@ -218,10 +222,12 @@ closed (PhoshNotification       *notification,
       g_list_store_remove (self->list, i);
       g_clear_object (&item);
       found = TRUE;
+      g_clear_object (&item);
       break;
     }
     g_clear_object (&item);
     i++;
+    g_clear_object (&item);
   }
 
   if (!found) {

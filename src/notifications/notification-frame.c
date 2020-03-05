@@ -160,7 +160,7 @@ items_changed (GListModel             *list,
                guint                   added,
                PhoshNotificationFrame *self)
 {
-  PhoshNotification *notification;
+  g_autoptr (PhoshNotification) notification = NULL;
 
   g_return_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self));
 
