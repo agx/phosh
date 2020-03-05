@@ -7,7 +7,7 @@ gen_scanner_client_header = generator(wl_scanner,
     arguments: ['client-header', '@INPUT@', '@OUTPUT@'])
 gen_scanner_client_code = generator(wl_scanner,
     output: '@BASENAME@-protocol.c',
-    arguments: ['public-code', '@INPUT@', '@OUTPUT@'])
+    arguments: ['private-code', '@INPUT@', '@OUTPUT@'])
 
 wl_protos = [
   '/'.join([wl_protocol_dir, 'stable/xdg-shell/xdg-shell.xml']),
