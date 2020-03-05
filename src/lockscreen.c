@@ -9,8 +9,6 @@
 #include "config.h"
 #include "auth.h"
 #include "lockscreen.h"
-#include "wwaninfo.h"
-#include "batteryinfo.h"
 
 #include <locale.h>
 #include <string.h>
@@ -58,8 +56,6 @@ typedef struct {
   GtkWidget *lbl_unlock_status;
   GtkWidget *btn_submit;
   GtkWidget *btn_emergency;
-  GtkWidget *wwaninfo;
-  GtkWidget *batteryinfo;
   guint      idle_timer;
   gint64     last_input;
   PhoshAuth *auth;
@@ -516,8 +512,6 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, grid_info);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, wwaninfo);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, batteryinfo);
 }
 
 
