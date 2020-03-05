@@ -96,7 +96,7 @@ test_phosh_notification_source_close_invalid (void)
   g_test_expect_message ("phosh-notification-source",
                          G_LOG_LEVEL_CRITICAL,
                          "Can't remove unknown notification *");
-  closed (noti, PHOSH_NOTIFICATION_REASON_DISMISSED, source);
+  closed (source, PHOSH_NOTIFICATION_REASON_DISMISSED, noti);
 }
 
 

@@ -206,9 +206,9 @@ phosh_notification_source_new (const char *name)
 
 
 static void
-closed (PhoshNotification       *notification,
+closed (PhoshNotificationSource *self,
         PhoshNotificationReason  reason,
-        PhoshNotificationSource *self)
+        PhoshNotification       *notification)
 {
   int i = 0;
   gpointer item = NULL;
@@ -245,7 +245,11 @@ phosh_notification_source_add (PhoshNotificationSource *self,
 
   g_list_store_insert (self->list, 0, notification);
 
-  g_signal_connect (notification, "closed", G_CALLBACK (closed), self);
+  g_signal_connect_object (notification,
+                           "closed",
+                           G_CALLBACK (closed),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 

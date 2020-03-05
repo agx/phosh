@@ -56,6 +56,13 @@ G_DEFINE_TYPE_WITH_CODE (PhoshNotifyManager,
                            phosh_notify_manager_notify_iface_init));
 
 
+enum {
+  SIGNAL_NEW_NOTIFICATION,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
+
+
 static gboolean
 handle_close_notification (PhoshNotifyDbusNotifications *skeleton,
                            GDBusMethodInvocation        *invocation,
@@ -128,8 +135,11 @@ on_notification_expired (PhoshNotifyManager *self,
 
   g_debug ("Notification %u expired", id);
 
-  phosh_notification_close (notification,
-                            PHOSH_NOTIFICATION_REASON_EXPIRED);
+  /* Transient notifications are closed rather than staying in the tray */
+  if (phosh_notification_get_transient (notification)) {
+    phosh_notification_close (notification,
+                              PHOSH_NOTIFICATION_REASON_EXPIRED);
+  }
 }
 
 
@@ -151,6 +161,12 @@ on_notification_actioned (PhoshNotifyManager *self,
 
   phosh_notify_dbus_notifications_emit_action_invoked (
     PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), id, action);
+
+  /* Resident notifications stay after being actioned */
+  if (!phosh_notification_get_resident (notification)) {
+    phosh_notification_close (notification,
+                              PHOSH_NOTIFICATION_REASON_DISMISSED);
+  }
 }
 
 
@@ -418,13 +434,7 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
       phosh_notification_expires (notification, expire_timeout);
     }
 
-    if (self->show_banners) {
-      GtkWidget *banner = NULL;
-
-      banner = phosh_notification_banner_new (notification);
-
-      gtk_widget_show (GTK_WIDGET (banner));
-    }
+    g_signal_emit (self, signals[SIGNAL_NEW_NOTIFICATION], 0, notification);
   }
 
   phosh_notify_dbus_notifications_complete_notify (
@@ -534,6 +544,26 @@ phosh_notify_manager_class_init (PhoshNotifyManagerClass *klass)
 
   object_class->constructed = phosh_notify_manager_constructed;
   object_class->dispose = phosh_notify_manager_dispose;
+
+
+  /**
+   * PhoshNotifyManager::new-notification:
+   * @self: the #PhoshNotifyManager
+   * @notification: the new #PhoshNotification
+   *
+   * Emitted when a new notification is received and a banner should (possibly)
+   * be shown
+   */
+  signals[SIGNAL_NEW_NOTIFICATION] = g_signal_new ("new-notification",
+                                                   G_TYPE_FROM_CLASS (klass),
+                                                   G_SIGNAL_RUN_LAST,
+                                                   0,
+                                                   NULL,
+                                                   NULL,
+                                                   g_cclosure_marshal_VOID__OBJECT,
+                                                   G_TYPE_NONE,
+                                                   1,
+                                                   PHOSH_TYPE_NOTIFICATION);
 }
 
 
@@ -574,4 +604,21 @@ phosh_notify_manager_get_list (PhoshNotifyManager *self)
   g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), NULL);
 
   return self->list;
+}
+
+
+/**
+ * phosh_notify_manager_get_show_banners:
+ * @self: the #PhoshNotifyManager
+ *
+ * Are notififcation banners enabled
+ *
+ * Returns: %TRUE if banners should be shown, otherwise %FALSE
+ */
+gboolean
+phosh_notify_manager_get_show_banners (PhoshNotifyManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
+
+  return self->show_banners;
 }

@@ -32,6 +32,7 @@
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
 #include "notifications/notify-manager.h"
+#include "notifications/notification-banner.h"
 #include "osk-manager.h"
 #include "panel.h"
 #include "phosh-wayland.h"
@@ -60,6 +61,8 @@ typedef struct
   PhoshLayerSurface *panel;
   PhoshLayerSurface *home;
   GPtrArray *faders;              /* for final fade out */
+
+  GtkWidget *notification_banner;
 
   PhoshBackgroundManager *background_manager;
   PhoshMonitor *primary_monitor;
@@ -281,6 +284,7 @@ phosh_shell_dispose (GObject *object)
   }
 
   panels_dispose (self);
+  g_clear_object (&priv->notification_banner);
   g_clear_object (&priv->notify_manager);
   g_clear_object (&priv->screen_saver_manager);
   g_clear_object (&priv->lockscreen_manager);
@@ -329,6 +333,34 @@ on_toplevel_added (PhoshShell *self, GParamSpec *pspec, PhoshToplevelManager *to
 }
 
 
+static void
+on_new_notification (PhoshShell         *self,
+                     PhoshNotification  *notification,
+                     PhoshNotifyManager *manager)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+  g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (manager));
+
+  priv = phosh_shell_get_instance_private (self);
+
+  /* Clear existing banner */
+  if (priv->notification_banner && GTK_IS_WIDGET (priv->notification_banner)) {
+    gtk_widget_destroy (priv->notification_banner);
+  }
+
+  if (phosh_notify_manager_get_show_banners (manager) &&
+      !phosh_lockscreen_manager_get_locked (priv->lockscreen_manager)) {
+    g_set_weak_pointer (&priv->notification_banner,
+                        phosh_notification_banner_new (notification));
+
+    gtk_widget_show (GTK_WIDGET (priv->notification_banner));
+  }
+}
+
+
 static gboolean
 on_fade_out_timeout (PhoshShell *self)
 {
@@ -371,6 +403,11 @@ setup_idle_cb (PhoshShell *self)
     priv->lockscreen_manager);
 
   priv->notify_manager = phosh_notify_manager_get_default ();
+  g_signal_connect_object (priv->notify_manager,
+                           "new-notification",
+                           G_CALLBACK (on_new_notification),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   priv->sensor_proxy_manager = phosh_sensor_proxy_manager_get_default_failable ();
   if (priv->sensor_proxy_manager) {

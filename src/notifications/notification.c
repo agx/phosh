@@ -773,9 +773,6 @@ phosh_notification_activate (PhoshNotification *self,
   g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
 
   g_signal_emit (self, signals[SIGNAL_ACTIONED], 0, action);
-
-  phosh_notification_close (self,
-                            PHOSH_NOTIFICATION_REASON_DISMISSED);
 }
 
 
