@@ -42,9 +42,6 @@
                 <property name="ellipsize">end</property>
                 <property name="single_line_mode">True</property>
                 <property name="xalign">0</property>
-                <style>
-                  <class name="dim-label"/>
-                </style>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -66,6 +63,7 @@
               </packing>
             </child>
             <style>
+              <class name="dim-label"/>
               <class name="header-area"/>
             </style>
           </object>
