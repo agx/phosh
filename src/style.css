@@ -41,6 +41,10 @@
     border: 2px solid @theme_bg_color;
 }
 
+.phosh-notification-tray, .phosh-notification-tray list {
+    background-color: transparent;
+}
+
 /* Favorites / Home screen */
 phosh-activity {
     background: white;

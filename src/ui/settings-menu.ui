@@ -121,6 +121,24 @@
                 <property name="position">2</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="visible">True</property>
+                <property name="vscrollbar-policy">automatic</property>
+                <property name="hscrollbar-policy">never</property>
+                <property name="propagate-natural-height">True</property>
+                <property name="min-content-height">250</property>
+                <child>
+                  <object class="GtkListBox" id="list_notifications">
+                    <property name="visible">True</property>
+                    <property name="selection-mode">none</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="phosh-notification-tray"/>
+                </style>
+              </object>
+            </child>
           </object>
         </child>
       </object>

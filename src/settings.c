@@ -18,6 +18,8 @@
 #include "rotateinfo.h"
 #include "feedbackinfo.h"
 #include "feedback-manager.h"
+#include "notifications/notify-manager.h"
+#include "notifications/notification-frame.h"
 
 #include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
@@ -46,6 +48,8 @@ typedef struct _PhoshSettings
   GvcMixerStream *output_stream;
   gboolean allow_volume_above_100_percent;
   gboolean setting_volume;
+
+  GtkWidget *list_notifications;
 } PhoshSettings;
 
 
@@ -216,10 +220,33 @@ on_quicksetting_activated (PhoshSettings   *self,
 }
 
 
+static GtkWidget *
+create_notification_row (gpointer item, gpointer data)
+{
+  GtkWidget *row = NULL;
+  GtkWidget *frame = NULL;
+
+  row = g_object_new (GTK_TYPE_LIST_BOX_ROW,
+                      "activatable", FALSE,
+                      "visible", TRUE,
+                      NULL);
+
+  frame = phosh_notification_frame_new ();
+  phosh_notification_frame_bind_model (PHOSH_NOTIFICATION_FRAME (frame), item);
+
+  gtk_widget_show (frame);
+
+  gtk_container_add (GTK_CONTAINER (row), frame);
+
+  return row;
+}
+
+
 static void
 phosh_settings_constructed (GObject *object)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
+  PhoshNotifyManager *manager;
   GtkAdjustment *adj;
 
   gtk_range_set_range (GTK_RANGE (self->scale_brightness), 0, 100);
@@ -253,6 +280,13 @@ phosh_settings_constructed (GObject *object)
                     "child-activated",
                     G_CALLBACK (on_quicksetting_activated),
                     self);
+
+  manager = phosh_notify_manager_get_default ();
+  gtk_list_box_bind_model (GTK_LIST_BOX (self->list_notifications),
+                           G_LIST_MODEL (phosh_notify_manager_get_list (manager)),
+                           create_notification_row,
+                           NULL,
+                           NULL);
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
@@ -303,6 +337,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);
 
   gtk_widget_class_bind_template_callback (widget_class, batteryinfo_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);
