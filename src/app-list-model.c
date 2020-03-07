@@ -1,6 +1,6 @@
 /*
  * Copyright © 2019 Zander Brown <zbrown@gnome.org>
- * 
+ *
  * Inspired by gliststore.c:
  *     Copyright 2015 Lars Uebernickel
  *     Copyright 2015 Ryan Lortie
@@ -137,6 +137,10 @@ items_changed (gpointer data)
 
   g_list_free_full (new_apps, g_object_unref);
 
+  priv->last.is_valid = FALSE;
+  priv->last.iter = NULL;
+  priv->last.position = 0;
+
   g_list_model_items_changed (G_LIST_MODEL (self), 0, removed, added);
 
   priv->debounce = 0;
@@ -164,6 +168,8 @@ phosh_app_list_model_init (PhoshAppListModel *self)
   PhoshAppListModelPrivate *priv = phosh_app_list_model_get_instance_private (self);
 
   priv->debounce = 0;
+
+  priv->last.is_valid = FALSE;
 
   priv->items = g_sequence_new ((GDestroyNotify) g_object_unref);
   priv->monitor = g_app_info_monitor_get ();
