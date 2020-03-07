@@ -118,8 +118,9 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
 
   access_tec_widget = phosh_status_icon_get_extra_widget (PHOSH_STATUS_ICON (self));
 
-  /* SIM missing */
-  if (!phosh_wwan_has_sim (PHOSH_WWAN (self->wwan)))
+  if (!present) {
+    icon_name = ("network-cellular-disabled-symbolic");
+  } else if (!phosh_wwan_has_sim (PHOSH_WWAN (self->wwan))) /* SIM missing */
     icon_name = "auth-sim-missing-symbolic";
   else { /* SIM unlock required */
     if (!phosh_wwan_is_unlocked (PHOSH_WWAN (self->wwan)))
