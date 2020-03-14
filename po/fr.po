@@ -5,15 +5,16 @@
 # Bruno Veilleux <brunoveilleux@yandex.com>, 2018. #zanata
 # Frl5 <zanata@videca.fr>, 2019. #zanata
 # Thibault <mail@thibaultmart.in>, 2019. #zanata
+# Frl5 <zanata@videca.fr>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-25 19:07+0100\n"
+"POT-Creation-Date: 2020-03-14 13:18+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-10-11 07:05+0000\n"
+"PO-Revision-Date: 2020-02-27 08:21+0000\n"
 "Language-Team: \n"
 "X-Generator: Zanata 4.6.2\n"
 "Last-Translator: Frl5 <zanata@videca.fr>\n"
@@ -39,14 +40,14 @@ msgstr "Application"
 
 #: src/feedbackinfo.c:38
 msgid "Quiet"
-msgstr ""
+msgstr "Silencieux"
 
 #: src/feedbackinfo.c:40
 msgid "Silent"
-msgstr ""
+msgstr "Muet"
 
 #: src/feedbackinfo.c:42
-msgid "Full"
+msgid "On"
 msgstr ""
 
 #: src/lockscreen.c:78 src/ui/lockscreen.ui:204
@@ -75,7 +76,7 @@ msgstr "Inconnu"
 #: src/network-auth-prompt.c:184
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "Entrer le mot de passe du réseau wifi “%s”"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -104,7 +105,7 @@ msgstr "Le mot de passe ne doit pas être vide"
 
 #: src/wifiinfo.c:55
 msgid "Wi-Fi"
-msgstr ""
+msgstr "Wi-Fi"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
@@ -112,11 +113,11 @@ msgstr "App"
 
 #: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Supprimer des _Favoris"
 
 #: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Ajouter au _Favoris"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
@@ -128,19 +129,19 @@ msgstr "Glisser vers le haut pour déverrouiller"
 
 #: src/ui/lockscreen.ui:250
 msgid "Emergency"
-msgstr ""
+msgstr "Urgences"
 
 #: src/ui/lockscreen.ui:266
 msgid "Unlock"
-msgstr ""
+msgstr "Déverrouiller"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
-msgstr ""
+msgstr "_Annuler"
 
 #: src/ui/network-auth-prompt.ui:106
 msgid "C_onnect"
-msgstr ""
+msgstr "C_onnecter"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
