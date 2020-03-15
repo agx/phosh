@@ -63,6 +63,11 @@ or in one command:
 
     ../phoc/_build/run -E '_build/run -U' -C ./data/rootston.ini
 
+When running nested it's recommended to skip the `gnome-session` setup:
+
+    SKIP_GNOME_SESSION=1 ../phoc/_build/run -E '_build/run -U' -C ./data/rootston.ini
+
+
 This will make sure the needed gsettings schema is found. The '-U' option makes
 sure the shell is not locked on startup so you can test with arbitrary
 passwords.
