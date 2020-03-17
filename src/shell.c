@@ -867,10 +867,12 @@ phosh_shell_fade_out (PhoshShell *self, guint timeout)
 {
   PhoshShellPrivate *priv;
   PhoshWayland *wl = phosh_wayland_get_default ();
-  PhoshMonitorManager *monitor_manager = phosh_shell_get_monitor_manager (self);
+  PhoshMonitorManager *monitor_manager;
 
   g_debug ("Fading out...");
   g_return_if_fail (PHOSH_IS_SHELL (self));
+  monitor_manager = phosh_shell_get_monitor_manager (self);
+  g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (monitor_manager));
   priv = phosh_shell_get_instance_private (self);
 
   for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
