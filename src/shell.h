@@ -47,5 +47,6 @@ PhoshToplevelManager *phosh_shell_get_toplevel_manager (PhoshShell *self);
 PhoshWifiManager    *phosh_shell_get_wifi_manager    (PhoshShell *self);
 PhoshFeedbackManager *phosh_shell_get_feedback_manager (PhoshShell *self);
 void                 phosh_shell_fade_out (PhoshShell *self, guint timeout);
+void                 phosh_shell_enable_power_save (PhoshShell *self, gboolean enable);
 
 G_END_DECLS

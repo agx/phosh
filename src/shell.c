@@ -777,3 +777,27 @@ phosh_shell_fade_out (PhoshShell *self, guint timeout)
       g_timeout_add_seconds (timeout, (GSourceFunc) on_fade_out_timeout, self);
   }
 }
+
+/**
+ * phosh_shell_set_power_save:
+ *
+ * Enter power saving mode. This currently blanks all monitors.
+ */
+void
+phosh_shell_enable_power_save (PhoshShell *self, gboolean enable)
+{
+  PhoshMonitorPowerSaveMode mode;
+  PhoshMonitorManager *monitor_manager;
+
+  g_debug ("Entering power save mode");
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  monitor_manager = phosh_shell_get_monitor_manager (self);
+
+  mode = enable ? PHOSH_MONITOR_POWER_SAVE_MODE_OFF : PHOSH_MONITOR_POWER_SAVE_MODE_ON;
+  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
+    PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
+
+    phosh_monitor_set_power_save_mode (monitor, mode);
+  }
+  /* TODO: other means of power saving */
+}
