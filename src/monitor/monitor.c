@@ -220,10 +220,10 @@ wlr_output_power_handle_mode(void *data,
 
   switch (mode) {
   case ZWLR_OUTPUT_POWER_V1_MODE_OFF:
-    printf("Monitor %s disabled\n", self->name);
+    g_debug ("Monitor %s disabled\n", self->name);
     break;
   case ZWLR_OUTPUT_POWER_V1_MODE_ON:
-    printf("Monitor %p enabled\n", self->name);
+    g_debug ("Monitor %p enabled\n", self->name);
     break;
   default:
     g_return_if_reached ();
