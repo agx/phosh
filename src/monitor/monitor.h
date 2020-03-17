@@ -41,6 +41,10 @@ typedef struct _PhoshMonitorMode
   guint32 flags;
 } PhoshMonitorMode;
 
+typedef enum _PhoshMonitorPowerSaveMode {
+  PHOSH_MONITOR_POWER_SAVE_MODE_OFF = 0,
+  PHOSH_MONITOR_POWER_SAVE_MODE_ON  = 1,
+} PhoshMonitorPowerSaveMode;
 
 #define PHOSH_TYPE_MONITOR                 (phosh_monitor_get_type ())
 
@@ -81,3 +85,5 @@ gboolean           phosh_monitor_is_configured (PhoshMonitor *monitor);
 gboolean           phosh_monitor_is_builtin (PhoshMonitor *monitor);
 gboolean           phosh_monitor_is_flipped (PhoshMonitor *monitor);
 guint              phosh_monitor_get_rotation (PhoshMonitor *monitor);
+void               phosh_monitor_set_power_save_mode (PhoshMonitor *self,
+                                                      PhoshMonitorPowerSaveMode mode);

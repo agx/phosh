@@ -502,3 +502,26 @@ phosh_monitor_get_rotation (PhoshMonitor *self)
       g_assert_not_reached ();
     }
 }
+
+void
+phosh_monitor_set_power_save_mode (PhoshMonitor *self, PhoshMonitorPowerSaveMode mode)
+{
+  enum zwlr_output_power_v1_mode wl_mode;
+
+  g_return_if_fail (PHOSH_IS_MONITOR (self));
+  g_return_if_fail (phosh_monitor_is_configured (self));
+  g_return_if_fail (self->wlr_output_power);
+
+  switch (mode) {
+  case PHOSH_MONITOR_POWER_SAVE_MODE_OFF:
+    wl_mode = ZWLR_OUTPUT_POWER_V1_MODE_OFF;
+    break;
+  case PHOSH_MONITOR_POWER_SAVE_MODE_ON:
+    wl_mode = ZWLR_OUTPUT_POWER_V1_MODE_ON;
+    break;
+  default:
+    g_return_if_reached ();
+  }
+
+  zwlr_output_power_v1_set_mode (self->wlr_output_power, wl_mode);
+}
