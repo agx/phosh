@@ -60,8 +60,8 @@ enum {
 
 typedef struct
 {
-  PhoshWWanMMOrgFreedesktopModemManager1Modem *proxy;
-  PhoshWWanMMObjectManagerClient *manager;
+  PhoshMMDBusModem *proxy;
+  PhoshMMDBusObjectManagerClient *manager;
 
   /** Signals we connect to */
   gulong manager_object_added_signal_id;
@@ -98,7 +98,7 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
 
   g_return_if_fail (self);
   g_return_if_fail (priv->proxy);
-  v = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_signal_quality (priv->proxy);
+  v = phosh_mmdbus_modem_get_signal_quality (priv->proxy);
   if (v) {
     g_variant_get(v, "(ub)", &priv->signal_quality, NULL);
     g_object_notify (G_OBJECT (self), "signal-quality");
@@ -146,7 +146,7 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
 
   g_return_if_fail (self);
   g_return_if_fail (priv->proxy);
-  access_tec = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_access_technologies (
+  access_tec = phosh_mmdbus_modem_get_access_technologies (
     priv->proxy);
   priv->access_tec = user_friendly_access_tec (access_tec);
   g_debug("Access tec is %s", priv->access_tec);
@@ -164,10 +164,10 @@ phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
   g_return_if_fail (self);
   g_return_if_fail (priv->proxy);
   /* Whether any kind of PIN is required */
-  unlock_required = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_unlock_required (
+  unlock_required = phosh_mmdbus_modem_get_unlock_required (
     priv->proxy);
   /* Whether the sim card is currently locked */
-  state = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_state (
+  state = phosh_mmdbus_modem_get_state (
     priv->proxy);
   priv->unlocked = !!(unlock_required == MM_MODEM_LOCK_NONE ||
                       (state != MM_MODEM_STATE_LOCKED &&
@@ -185,7 +185,7 @@ phosh_wwan_mm_update_sim_status (PhoshWWanMM *self)
 
   g_return_if_fail (self);
   g_return_if_fail (priv->proxy);
-  sim = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_get_sim (priv->proxy);
+  sim = phosh_mmdbus_modem_get_sim (priv->proxy);
   g_debug ("SIM path %s", sim);
   priv->sim = !!(sim != NULL && strcmp (sim, "/"));
   g_debug ("SIM is %spresent", priv->sim ? "" : "not ");
@@ -209,7 +209,7 @@ phosh_wwan_mm_update_present (PhoshWWanMM *self, gboolean present)
 
 
 static void
-dbus_props_changed_cb(PhoshWWanMMOrgFreedesktopModemManager1Modem *proxy,
+dbus_props_changed_cb(PhoshMMDBusModem *proxy,
                       GVariant *changed_properties,
                       GStrv invaliated,
                       PhoshWWanMM *self)
@@ -315,7 +315,7 @@ init_modem (PhoshWWanMM *self, const gchar *object_path)
   PhoshWWanMMPrivate *priv = phosh_wwan_mm_get_instance_private (self);
   g_autoptr(GError) err = NULL;
 
-  priv->proxy = phosh_wwan_mm_org_freedesktop_modem_manager1_modem_proxy_new_for_bus_sync (
+  priv->proxy = phosh_mmdbus_modem_proxy_new_for_bus_sync (
     G_BUS_TYPE_SYSTEM,
     G_DBUS_PROXY_FLAGS_NONE,
     BUS_NAME,
@@ -347,7 +347,7 @@ init_modem (PhoshWWanMM *self, const gchar *object_path)
 
 
 static void
-object_added_cb (PhoshWWanMM *self, GDBusObject *object, PhoshWWanMMObjectManagerClient *manager)
+object_added_cb (PhoshWWanMM *self, GDBusObject *object, PhoshMMDBusObjectManagerClient *manager)
 {
   PhoshWWanMMPrivate *priv = phosh_wwan_mm_get_instance_private (self);
   const gchar *modem_object_path;
@@ -362,7 +362,7 @@ object_added_cb (PhoshWWanMM *self, GDBusObject *object, PhoshWWanMMObjectManage
 
 
 static void
-object_removed_cb (PhoshWWanMM *self, GDBusObject *object, PhoshWWanMMObjectManagerClient *manager)
+object_removed_cb (PhoshWWanMM *self, GDBusObject *object, PhoshMMDBusObjectManagerClient *manager)
 {
   PhoshWWanMMPrivate *priv = phosh_wwan_mm_get_instance_private (self);
   const gchar *modem_object_path;
@@ -387,8 +387,8 @@ phosh_wwan_mm_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_wwan_mm_parent_class)->constructed (object);
 
-  priv->manager = PHOSH_WWAN_MM_OBJECT_MANAGER_CLIENT (
-    phosh_wwan_mm_object_manager_client_new_for_bus_sync (
+  priv->manager = PHOSH_MMDBUS_OBJECT_MANAGER_CLIENT (
+    phosh_mmdbus_object_manager_client_new_for_bus_sync (
       G_BUS_TYPE_SYSTEM,
       G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
       BUS_NAME,
