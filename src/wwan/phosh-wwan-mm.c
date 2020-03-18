@@ -377,27 +377,20 @@ object_removed_cb (PhoshWWanMM *self, GDBusObject *object, PhoshMMDBusObjectMana
 
 
 static void
-phosh_wwan_mm_constructed (GObject *object)
+on_mm_object_manager_created (GObject *source_object, GAsyncResult *res, PhoshWWanMM *self)
 {
-  PhoshWWanMM *self = PHOSH_WWAN_MM (object);
   PhoshWWanMMPrivate *priv = phosh_wwan_mm_get_instance_private (self);
-  const gchar *modem_object_path;
-  GError *err = NULL;
+  g_autoptr (GError) err = NULL;
   g_autoptr(GList) modems = NULL;
-
-  G_OBJECT_CLASS (phosh_wwan_mm_parent_class)->constructed (object);
+  const gchar *modem_object_path;
 
   priv->manager = PHOSH_MMDBUS_OBJECT_MANAGER_CLIENT (
-    phosh_mmdbus_object_manager_client_new_for_bus_sync (
-      G_BUS_TYPE_SYSTEM,
-      G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
-      BUS_NAME,
-      OBJECT_PATH,
-      NULL,
+    phosh_mmdbus_object_manager_client_new_for_bus_finish (
+      res,
       &err));
+
   if (priv->manager == NULL) {
     g_warning ("Failed to connect modem manager: %s", err->message);
-    g_clear_error (&err);
     return;
   }
 
@@ -422,6 +415,23 @@ phosh_wwan_mm_constructed (GObject *object)
   } else {
     g_debug ("No modem found");
   }
+}
+
+static void
+phosh_wwan_mm_constructed (GObject *object)
+{
+  PhoshWWanMM *self = PHOSH_WWAN_MM (object);
+
+  G_OBJECT_CLASS (phosh_wwan_mm_parent_class)->constructed (object);
+
+  phosh_mmdbus_object_manager_client_new_for_bus (
+    G_BUS_TYPE_SYSTEM,
+    G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
+    BUS_NAME,
+    OBJECT_PATH,
+    NULL,
+    (GAsyncReadyCallback)on_mm_object_manager_created,
+    self);
 }
 
 
