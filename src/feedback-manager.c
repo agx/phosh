@@ -20,7 +20,7 @@
 
 /* TODO: proper icons */
 #define PHOSH_FEEDBACK_ICON_FULL "preferences-system-notifications-symbolic"
-#define PHOSH_FEEDBACK_ICON_QUIET "notifications-disabled-symbolic"
+#define PHOSH_FEEDBACK_ICON_SILENT "notifications-disabled-symbolic"
 
 enum {
   PHOSH_FEEDBACK_MANAGER_PROP_0,
@@ -67,7 +67,7 @@ phosh_feedback_manager_update (PhoshFeedbackManager *self)
   if (g_strcmp0 (self->profile, "quiet") && g_strcmp0 (self->profile, "silent"))
     self->icon_name = PHOSH_FEEDBACK_ICON_FULL;
   else
-    self->icon_name = PHOSH_FEEDBACK_ICON_QUIET;
+    self->icon_name = PHOSH_FEEDBACK_ICON_SILENT;
 
   g_debug("Feedback profile set to: '%s', icon '%s'\n", self->profile,  self->icon_name);
   if (old != self->icon_name)
@@ -165,7 +165,7 @@ phosh_feedback_manager_get_profile (PhoshFeedbackManager *self)
 void
 phosh_feedback_manager_toggle (PhoshFeedbackManager *self)
 {
-  const char *profile = "quiet";
+  const char *profile = "silent";
 
   if (g_strcmp0 (lfb_get_feedback_profile (), "full"))
     profile = "full";
