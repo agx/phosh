@@ -49,7 +49,7 @@ typedef struct {
   GtkWidget *lbl_date;
 
   /* unlock page */
-  GtkWidget *grid_unlock;
+  GtkWidget *box_unlock;
   GtkWidget *keypad;
   GtkWidget  *entry_pin;
   GtkGesture *long_press_del_gesture;
@@ -113,7 +113,7 @@ show_unlock_page (PhoshLockscreen *self)
   if (hdy_paginator_get_position (HDY_PAGINATOR (priv->paginator)) > 0)
     return;
 
-  hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator), priv->grid_unlock);
+  hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator), priv->box_unlock);
 
   /* skip signal on init */
   if (signals[WAKEUP_OUTPUT])
@@ -495,7 +495,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
                                                 G_CALLBACK(paginator_position_notified_cb));
 
   /* unlock page */
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, grid_unlock);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_unlock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, keypad);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, entry_pin);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_unlock_status);
