@@ -1,3 +1,51 @@
+phosh (0.2.1) amber-phone; urgency=medium
+
+  [ Guido Günther ]
+  * feedbackinfo: Use 'On' for the 'full' feedback theme.
+    See: #276
+  * wwaninfo: Don't overwrite sim missing status.
+    This allows the sim-missing status to be displayed. (Closes: #281)
+  * monitor: Wire up zwlr_output_power_management.
+  * protocol: Generate protocol with private code.
+    That's sufficient since we don't want to export anything
+  * po: Update translations from zanata
+    Thanks to all the translators!
+  * Settings: wire up feedback setting long press.
+    This opens the notifications panel now that we can configure
+    feedback there.
+  * Shell: Don't access variable before type check
+  * Feedbackinfo: Toggle to silent instead of quiet.
+    Also turn of vibra with the quick setting. Vibra can be turned on via
+    g-c-c.
+  * gitlab-ci: Run xvfb-run with no-reset.
+    This avoids spurious test failures.
+
+  [ Rasmus Thomsen ]
+  * gitlab-ci: pull in feedbackd on Alpine too
+    fixes #278
+
+  [ Julian Sparber ]
+  * Wifimangager: set icon-name always via the same function.
+
+  [ Zander Brown ]
+  * protocols: generate with public-code not code
+    public-code does the same thing but without logging warnings
+  * app-list: fix lookup cache.
+    We never invalidated the cache leaving us in an invalid state after
+    install/remove
+    This potentially explains the missing icons that turn up after reboot
+    (probably) fix https://source.puri.sm/Librem5/phosh/issues/213
+  * apps: use a common placeholder icon (Closes: #197)
+
+  [ Darren R ]
+  * README: Explain how to skip gnome-session setup.
+    This avoids spawning unintended services.
+
+  [ Sebastian Krzyszkowiak ]
+  * panel: Clean up unused widget references
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 19 Mar 2020 19:07:18 +0100
+
 phosh (0.2.0) amber-phone; urgency=medium
 
   [ Guido Günther ]
