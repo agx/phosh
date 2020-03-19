@@ -78,7 +78,7 @@ phosh_app_grid_button_get_property (GObject    *object,
                                     GParamSpec *pspec)
 {
   PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (object);
- 
+
   switch (property_id) {
     case PROP_APP_INFO:
       g_value_set_object (value, phosh_app_grid_button_get_app_info (self));
@@ -218,9 +218,9 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
 
   /**
    * PhoshAppGridButton:is-favorite:
-   * 
+   *
    * %TRUE when the application is currently favorited
-   * 
+   *
    * Stability: Private
    */
   props[PROP_IS_FAVORITE] =
@@ -232,12 +232,12 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
 
   /**
    * PhoshAppGridButton:mode:
-   * 
+   *
    * The #PhoshAppGridButtonMode of the button
-   * 
+   *
    * In %PHOSH_APP_GRID_BUTTON_FAVORITES the label is
    * hidden
-   * 
+   *
    * Stability: Private
    */
   props[PROP_MODE] =
@@ -462,7 +462,7 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
                                  priv->favorite_changed_watcher);
     priv->favorite_changed_watcher = 0;
   }
-  
+
   if (info) {
     priv->info = g_object_ref (info);
 

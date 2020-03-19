@@ -18,7 +18,7 @@ G_BEGIN_DECLS
  * PhoshAppGridButtonMode:
  * @PHOSH_APP_GRID_BUTTON_LAUNCHER: Standard mode used in drawer/search etc
  * @PHOSH_APP_GRID_BUTTON_FAVORITES: Fovourites area (doesn't show label)
- * 
+ *
  * Display mode of a #PhoshAppGridButton
  */
 typedef enum /*< enum,prefix=PHOSH >*/
