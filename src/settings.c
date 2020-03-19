@@ -185,6 +185,7 @@ create_vol_channel_bar (PhoshSettings *self)
 
   bar = gvc_channel_bar_new ();
   gtk_widget_set_sensitive (bar, TRUE);
+  gtk_widget_show (bar);
   return bar;
 }
 

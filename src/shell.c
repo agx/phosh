@@ -152,7 +152,7 @@ xdg_popup_configure(void *data, struct xdg_popup *xdg_popup,
   g_return_if_fail (popup);
   g_debug("Popup configured %dx%d@%d,%d\n", w, h, x, y);
   gtk_window_resize (GTK_WINDOW (popup->window), w, h);
-  gtk_widget_show_all (popup->window);
+  gtk_widget_show (popup->window);
 }
 
 static void xdg_popup_done(void *data, struct xdg_popup *xdg_popup) {
