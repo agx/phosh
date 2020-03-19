@@ -10,6 +10,7 @@ stages:
 variables:
   DEPS: build-essential git wget lcov
   WANT_BUILD_DEPS: "true"
+  XVFB_RUN: xvfb-run -s -noreset
 
 # For the smoke tests we also want debug packages, phoc,
 # weston-info, gdb, valgrind, ...
@@ -57,7 +58,7 @@ unit-test:native-debian-buster:
     - build:native-debian-buster
   script:
     - export LC_ALL=C.UTF-8
-    - xvfb-run ninja -C _build test coverage
+    - ${XVFB_RUN} ninja -C _build test coverage
   coverage: '/^\s+lines\.+:\s+([\d.]+\%)\s+/'
   artifacts:
     when: always
@@ -84,7 +85,7 @@ unit-test:native-debian-bullseye:
     - build:native-debian-bullseye
   script:
     - export LC_ALL=C.UTF-8
-    - xvfb-run ninja -C _build test coverage
+    - ${XVFB_RUN} ninja -C _build test coverage
   coverage: '/^\s+lines\.+:\s+([\d.]+\%)\s+/'
   artifacts:
     when: always
@@ -121,7 +122,7 @@ unit-test:native-alpinelinux-edge:
     - apk -q add xvfb-run meson ninja glib-dev wayland-protocols wayland-dev musl-dev gnome-desktop-dev libhandy-dev gcr-dev upower-dev linux-pam-dev pulseaudio-dev networkmanager-dev polkit-elogind-dev libsecret-dev gcovr feedbackd-dev
   script:
     - export LC_ALL=C.UTF-8
-    - xvfb-run ninja -C _build test
+    - ${XVFB_RUN} ninja -C _build test
   artifacts:
     when: always
     paths:
