@@ -8,6 +8,8 @@
  * A "real" notification daemon for testing the notification list
  *
  * NOTE: Remember to close this, otherwise you'll miss things
+ *
+ * If you just want to play around with styles, see notify-blocks
  */
 
 #include <gtk/gtk.h>

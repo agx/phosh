@@ -4,6 +4,11 @@
  * SPDX-License-Identifier: GPL-3.0+
  *
  * Author: Zander Brown <zbrown@gnome.org>
+ *
+ * Static notification blocks for experimenting with styles
+ *
+ * For testing the notification sever (rather than widget style) see
+ * notify-server-standalone
  */
 
 #include <gtk/gtk.h>
