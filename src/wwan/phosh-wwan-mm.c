@@ -381,7 +381,7 @@ on_mm_object_manager_created (GObject *source_object, GAsyncResult *res, PhoshWW
 {
   PhoshWWanMMPrivate *priv = phosh_wwan_mm_get_instance_private (self);
   g_autoptr (GError) err = NULL;
-  g_autoptr(GList) modems = NULL;
+  g_autolist (GDBusObject) modems = NULL;
   const gchar *modem_object_path;
 
   priv->manager = PHOSH_MMDBUS_OBJECT_MANAGER_CLIENT (
