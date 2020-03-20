@@ -61,7 +61,7 @@ phosh_notification_frame_finalize (GObject *object)
 static gboolean
 header_activated (PhoshNotificationFrame *self, GdkEventButton *event)
 {
-  PhoshNotification *notification;
+  g_autoptr (PhoshNotification) notification = NULL;
 
   g_return_val_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self), FALSE);
 
