@@ -90,7 +90,7 @@ get_icon_name (PhoshWifiManager *self)
     if (self->enabled && self->have_wifi_dev) {
       return "network-wireless-offline-symbolic";
     }
-    return NULL;
+    return "network-wireless-disabled-symbolic";
   }
 
   state = nm_active_connection_get_state (self->active);
@@ -110,7 +110,7 @@ get_icon_name (PhoshWifiManager *self)
   case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
     return "network-wireless-offline-symbolic";
   default:
-    return NULL;
+    return "network-wireless-disabled-symbolic";
   }
 }
 
