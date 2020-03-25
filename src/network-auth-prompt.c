@@ -414,8 +414,6 @@ phosh_network_auth_prompt_set_request (PhoshNetworkAuthPrompt        *self,
                                        gchar                        **hints,
                                        NMSecretAgentGetSecretsFlags   flags)
 {
-  NMSettingWireless *setting;
-
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
   g_return_if_fail (NM_IS_CONNECTION (connection));
 
@@ -425,10 +423,5 @@ phosh_network_auth_prompt_set_request (PhoshNetworkAuthPrompt        *self,
   self->setting_name = g_strdup (setting_name);
   g_set_object (&self->connection, connection);
 
-  setting = nm_connection_get_setting_wireless (connection);
-
-  if (setting)
-    network_prompt_setup_dialog (self);
-  else
-    g_warning ("Only Wifi Networks currently supported");
+  network_prompt_setup_dialog (self);
 }

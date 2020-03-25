@@ -471,6 +471,11 @@ secret_request_new_cb (PhoshWifiManager              *self,
 {
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
 
+  if (!nm_connection_is_type(connection, NM_SETTING_WIRELESS_SETTING_NAME)) {
+    g_warning ("Only Wifi Networks currently supported");
+    return;
+  }
+
   if (!self->network_prompt)
     network_agent_setup_prompt (self);
 
