@@ -171,16 +171,21 @@ network_prompt_setup_dialog (PhoshNetworkAuthPrompt *self)
   self->key_type = network_connection_get_key_type (self->connection);
   self->security_type = network_prompt_get_type (self);
 
-  if (self->security_type != NMU_SEC_WPA_PSK &&
-      self->security_type != NMU_SEC_WPA2_PSK &&
-      self->security_type != NMU_SEC_STATIC_WEP) {
-    g_warning ("Network security method not supported");
-    return;
-  }
-
   bytes = nm_setting_wireless_get_ssid (setting);
   ssid = nm_utils_ssid_to_utf8 (g_bytes_get_data (bytes, NULL),
                                 g_bytes_get_size (bytes));
+
+  if (self->security_type != NMU_SEC_WPA_PSK &&
+      self->security_type != NMU_SEC_WPA2_PSK &&
+      self->security_type != NMU_SEC_STATIC_WEP) {
+    g_debug ("Network security method %d of %s not supported",
+             self->security_type, ssid);
+    str =  g_strdup_printf(_(
+      "Authentication type of wifi network “%s” not supported"), ssid);
+    gtk_label_set_label (GTK_LABEL (self->message_label), str);
+    return;
+  }
+
   str = g_strdup_printf (_("Enter password for the wifi network “%s”"), ssid);
   gtk_label_set_label (GTK_LABEL (self->message_label), str);
 
