@@ -16,3 +16,6 @@ G_DECLARE_FINAL_TYPE (PhoshPanel, phosh_panel, PHOSH, PANEL, PhoshLayerSurface)
 
 GtkWidget * phosh_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
                              struct wl_output *wl_output);
+void        phosh_panel_toggle_fold (PhoshPanel *self);
+void        phosh_panel_fold (PhoshPanel *self);
+void        phosh_panel_unfold (PhoshPanel *self);

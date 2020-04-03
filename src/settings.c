@@ -35,7 +35,7 @@ static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct _PhoshSettings
 {
-  GtkWindow parent;
+  GtkBin parent;
 
   GtkWidget *box_settings;
   GtkWidget *quick_setting;
@@ -55,7 +55,7 @@ typedef struct _PhoshSettings
 } PhoshSettings;
 
 
-G_DEFINE_TYPE (PhoshSettings, phosh_settings, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE (PhoshSettings, phosh_settings, GTK_TYPE_BIN)
 
 
 static void
@@ -247,14 +247,6 @@ phosh_settings_constructed (GObject *object)
   PhoshSettings *self = PHOSH_SETTINGS (object);
   GtkWidget *image;
   GtkAdjustment *adj;
-  gint width;
-
-  /* window properties */
-  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, NULL);
-  gtk_window_set_title (GTK_WINDOW (self), "phosh settings");
-  gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
-  gtk_window_resize (GTK_WINDOW (self), width, 100);
-  gtk_widget_realize(GTK_WIDGET (self));
 
   gtk_range_set_range (GTK_RANGE (self->scale_brightness), 0, 100);
   gtk_range_set_round_digits (GTK_RANGE (self->scale_brightness), 0);

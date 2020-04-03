@@ -10,6 +10,6 @@
 
 #define PHOSH_TYPE_SETTINGS (phosh_settings_get_type())
 
-G_DECLARE_FINAL_TYPE (PhoshSettings, phosh_settings, PHOSH, SETTINGS, GtkWindow)
+G_DECLARE_FINAL_TYPE (PhoshSettings, phosh_settings, PHOSH, SETTINGS, GtkBin)
 
 GtkWidget * phosh_settings_new (void);

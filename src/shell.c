@@ -40,7 +40,6 @@
 #include "sensor-proxy-manager.h"
 #include "screen-saver-manager.h"
 #include "session.h"
-#include "settings.h"
 #include "system-prompter.h"
 #include "util.h"
 #include "wifiinfo.h"
@@ -188,59 +187,9 @@ settings_activated_cb (PhoshShell *self,
                        PhoshPanel *window)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  GdkWindow *gdk_window;
-  struct popup *settings;
-  struct xdg_surface *xdg_surface;
-  struct xdg_positioner *xdg_positioner;
-  gint width, height, panel_width;
-  PhoshWayland *wl = phosh_wayland_get_default ();
-  gpointer xdg_wm_base = phosh_wayland_get_xdg_wm_base(wl);
-  struct zwlr_layer_surface_v1 *panel_surface;
 
-  if (priv->settings) {
-    close_menu (&priv->settings);
-    return;
-  }
-
-  phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
-  phosh_home_set_state (PHOSH_HOME (priv->home), PHOSH_HOME_STATE_FOLDED);
-
-  settings = calloc (1, sizeof *settings);
-  settings->window = phosh_settings_new ();
-
-  gdk_window = gtk_widget_get_window (settings->window);
-  gdk_wayland_window_set_use_custom_surface (gdk_window);
-  settings->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
-
-  xdg_surface = xdg_wm_base_get_xdg_surface(xdg_wm_base, settings->wl_surface);
-  g_return_if_fail (xdg_surface);
-  xdg_positioner = xdg_wm_base_create_positioner(xdg_wm_base);
-  gtk_window_get_size (GTK_WINDOW (settings->window), &width, &height);
-  xdg_positioner_set_size(xdg_positioner, width, height);
-  phosh_shell_get_usable_area (self, NULL, NULL, &panel_width, NULL);
-  xdg_positioner_set_offset(xdg_positioner, -width+1, PHOSH_PANEL_HEIGHT-1);
-  xdg_positioner_set_anchor_rect(xdg_positioner, panel_width-1, 0, panel_width-2, 1);
-  xdg_positioner_set_anchor(xdg_positioner, XDG_POSITIONER_ANCHOR_BOTTOM_LEFT);
-  xdg_positioner_set_gravity(xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM_RIGHT);
-
-  settings->popup = xdg_surface_get_popup(xdg_surface, NULL, xdg_positioner);
-  g_return_if_fail (settings->popup);
-  priv->settings = settings;
-
-  panel_surface = phosh_layer_surface_get_layer_surface(priv->panel);
-  /* TODO: how to get meaningful serial from GDK? */
-  xdg_popup_grab(settings->popup, phosh_wayland_get_wl_seat (wl), 1);
-  zwlr_layer_surface_v1_get_popup(panel_surface, settings->popup);
-  xdg_surface_add_listener(xdg_surface, &xdg_surface_listener, NULL);
-  xdg_popup_add_listener(settings->popup, &xdg_popup_listener, self);
-
-  wl_surface_commit(settings->wl_surface);
-  xdg_positioner_destroy(xdg_positioner);
-
-  g_signal_connect_swapped (priv->settings->window,
-                            "setting-done",
-                            G_CALLBACK(setting_done_cb),
-                            self);
+  g_return_if_fail (PHOSH_IS_PANEL (priv->panel));
+  phosh_panel_toggle_fold (PHOSH_PANEL(priv->panel));
 }
 
 
@@ -280,8 +229,10 @@ on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
   priv = phosh_shell_get_instance_private (self);
 
   g_object_get (priv->home, "state", &state, NULL);
-  if (state == PHOSH_HOME_STATE_UNFOLDED)
+  if (state == PHOSH_HOME_STATE_UNFOLDED) {
+    phosh_panel_fold (PHOSH_PANEL (priv->panel));
     phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
+  }
 }
 
 

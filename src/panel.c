@@ -13,6 +13,8 @@
 #include "config.h"
 
 #include "panel.h"
+#include "settings.h"
+#include "util.h"
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-wall-clock.h>
@@ -29,9 +31,11 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct {
+  GtkWidget *box;            /* main content box */
   GtkWidget *btn_top_panel;
   GtkWidget *lbl_clock;
   GtkWidget *lbl_lang;
+  GtkWidget *settings;       /* settings menu */
 
   GnomeWallClock *wall_clock;
   GnomeXkbInfo *xkbinfo;
@@ -233,6 +237,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_top_panel);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_lang);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, box);
 }
 
 
@@ -259,4 +264,54 @@ phosh_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
                        "exclusive-zone", PHOSH_PANEL_HEIGHT,
                        "namespace", "phosh",
                        NULL);
+}
+
+void
+phosh_panel_fold (PhoshPanel *self)
+{
+  PhoshPanelPrivate *priv;
+  gint width;
+
+  g_return_if_fail (PHOSH_IS_PANEL (self));
+  priv = phosh_panel_get_instance_private (self);
+
+  if (priv->settings == NULL)
+	return;
+
+  gtk_container_remove (GTK_CONTAINER (priv->box), priv->settings);
+  priv->settings = NULL;
+  gtk_window_get_size (GTK_WINDOW (self), &width, NULL);
+  gtk_window_resize (GTK_WINDOW (self), width, PHOSH_PANEL_HEIGHT);
+}
+
+void
+phosh_panel_unfold (PhoshPanel *self)
+{
+  PhoshPanelPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_PANEL (self));
+  priv = phosh_panel_get_instance_private (self);
+  g_return_if_fail (priv->settings == NULL);
+
+  priv->settings = phosh_settings_new ();
+  gtk_box_pack_end (GTK_BOX (priv->box), priv->settings, FALSE, TRUE, 0);
+  gtk_widget_show (priv->settings);
+  g_signal_connect_swapped (priv->settings,
+                            "setting-done",
+                            G_CALLBACK(phosh_panel_fold),
+                            self);
+}
+
+void
+phosh_panel_toggle_fold (PhoshPanel *self)
+{
+  PhoshPanelPrivate *priv;
+  g_return_if_fail (PHOSH_IS_PANEL (self));
+
+  priv = phosh_panel_get_instance_private (self);
+  if (priv->settings) {
+    phosh_panel_fold (self);
+  } else {
+    phosh_panel_unfold (self);
+  }
 }
