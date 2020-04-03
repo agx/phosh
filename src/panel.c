@@ -151,6 +151,36 @@ on_input_setting_changed (PhoshPanel  *self,
   gtk_widget_show (priv->lbl_lang);
 }
 
+static gboolean
+on_key_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
+{
+  gboolean handled = FALSE;
+  PhoshPanelPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_PANEL (self), FALSE);
+  priv = phosh_panel_get_instance_private (self);
+
+  if (!priv->settings)
+    return handled;
+
+  switch (event->keyval) {
+    case GDK_KEY_Escape:
+      phosh_panel_fold (self);
+      handled = TRUE;
+      break;
+    default:
+      /* nothing to do */
+      break;
+    }
+  return handled;
+}
+
+static gboolean
+on_button_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
+{
+  phosh_panel_fold (self);
+  return FALSE;
+}
 
 static void
 phosh_panel_constructed (GObject *object)
@@ -202,6 +232,16 @@ phosh_panel_constructed (GObject *object)
                               self);
     on_input_setting_changed (self, NULL, priv->input_settings);
   }
+
+  gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
+  g_signal_connect (G_OBJECT (self),
+                    "key-press-event",
+                    G_CALLBACK (on_key_press_event),
+                    NULL);
+  g_signal_connect (G_OBJECT (self),
+                    "button-press-event",
+                    G_CALLBACK (on_button_press_event),
+                    NULL);
 }
 
 
