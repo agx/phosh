@@ -55,19 +55,11 @@ enum {
 };
 static GParamSpec *props[PHOSH_SHELL_PROP_LAST_PROP];
 
-
-struct popup {
-  GtkWidget *window;
-  struct wl_surface *wl_surface;
-  struct xdg_popup *popup;
-};
-
 typedef struct
 {
   PhoshLayerSurface *panel;
   PhoshLayerSurface *home;
   GPtrArray *faders;              /* for final fade out */
-  struct popup *settings;
 
   PhoshBackgroundManager *background_manager;
   PhoshMonitor *primary_monitor;
@@ -95,91 +87,6 @@ typedef struct _PhoshShell
 } PhoshShell;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshShell, phosh_shell, G_TYPE_OBJECT)
-
-
-static struct popup**
-get_popup_from_xdg_popup (PhoshShell *self, struct xdg_popup *xdg_popup)
-{
-  PhoshShellPrivate *priv;
-  struct popup **popup = NULL;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
-
-  priv = phosh_shell_get_instance_private (self);
-
-  if (priv->settings && xdg_popup == priv->settings->popup)
-    popup = &priv->settings;
-
-  g_return_val_if_fail (popup, NULL);
-  return popup;
-}
-
-
-static void
-close_menu (struct popup **popup)
-{
-  if (*popup == NULL)
-    return;
-
-  gtk_window_close (GTK_WINDOW ((*popup)->window));
-  gtk_widget_destroy (GTK_WIDGET ((*popup)->window));
-  free (*popup);
-  *popup = NULL;
-}
-
-
-static void
-xdg_surface_handle_configure(void *data,
-                             struct xdg_surface *xdg_surface,
-                             uint32_t serial)
-{
-  xdg_surface_ack_configure(xdg_surface, serial);
-  // Whatever
-}
-
-static const struct xdg_surface_listener xdg_surface_listener = {
-	.configure = xdg_surface_handle_configure,
-};
-
-
-static void
-xdg_popup_configure(void *data, struct xdg_popup *xdg_popup,
-                    int32_t x, int32_t y, int32_t w, int32_t h)
-{
-  PhoshShell *self = data;
-  struct popup *popup = *get_popup_from_xdg_popup(self, xdg_popup);
-
-  g_return_if_fail (popup);
-  g_debug("Popup configured %dx%d@%d,%d\n", w, h, x, y);
-  gtk_window_resize (GTK_WINDOW (popup->window), w, h);
-  gtk_widget_show (popup->window);
-}
-
-static void xdg_popup_done(void *data, struct xdg_popup *xdg_popup) {
-  PhoshShell *self = data;
-  struct popup **popup = get_popup_from_xdg_popup(self, xdg_popup);
-
-  g_return_if_fail (popup);
-  xdg_popup_destroy((*popup)->popup);
-  gtk_widget_destroy ((*popup)->window);
-  *popup = NULL;
-}
-
-static const struct xdg_popup_listener xdg_popup_listener = {
-	.configure = xdg_popup_configure,
-	.popup_done = xdg_popup_done,
-};
-
-
-static void
-setting_done_cb (PhoshShell *self,
-                 PhoshSettings *settings)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-
-  g_return_if_fail (priv->settings);
-  close_menu (&priv->settings);
-}
 
 
 static void
