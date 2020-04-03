@@ -242,6 +242,19 @@ shutdown_clicked_cb (PhoshSettings *self, gpointer *unused)
 
 
 static void
+on_quicksetting_activated (PhoshSettings   *self,
+                           GtkFlowBoxChild *child,
+                           GtkFlowBox      *box)
+
+{
+  GtkWidget *quick_setting;
+
+  quick_setting = gtk_bin_get_child (GTK_BIN (child));
+  gtk_button_clicked (GTK_BUTTON (quick_setting));
+}
+
+
+static void
 phosh_settings_constructed (GObject *object)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
@@ -299,6 +312,11 @@ phosh_settings_constructed (GObject *object)
   g_signal_connect (adj,
                     "value-changed",
                     G_CALLBACK (vol_adjustment_value_changed_cb),
+                    self);
+
+  g_signal_connect (self->quick_settings,
+                    "child-activated",
+                    G_CALLBACK (on_quicksetting_activated),
                     self);
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
