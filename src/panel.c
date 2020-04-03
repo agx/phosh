@@ -280,6 +280,7 @@ phosh_panel_fold (PhoshPanel *self)
 
   gtk_container_remove (GTK_CONTAINER (priv->box), priv->settings);
   priv->settings = NULL;
+  phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), FALSE);
   gtk_window_get_size (GTK_WINDOW (self), &width, NULL);
   gtk_window_resize (GTK_WINDOW (self), width, PHOSH_PANEL_HEIGHT);
 }
@@ -293,6 +294,7 @@ phosh_panel_unfold (PhoshPanel *self)
   priv = phosh_panel_get_instance_private (self);
   g_return_if_fail (priv->settings == NULL);
 
+  phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), TRUE);
   priv->settings = phosh_settings_new ();
   gtk_box_pack_end (GTK_BOX (priv->box), priv->settings, FALSE, TRUE, 0);
   gtk_widget_show (priv->settings);
