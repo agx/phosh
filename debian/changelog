@@ -1,3 +1,31 @@
+phosh (0.2.2) amber-phone; urgency=medium
+
+  [ Guido Günther ]
+  * wwan: use interface prefix.  This shortens the function names
+  * WWan: Connect to ModemManager async.
+    The rest is all propert access which is async.
+    (Closes: #289)
+  * wwan: Free GDBusObjects too. We only freed the list itself so far.
+  * lockscreen: Drop unused variables
+  * settings-menu: Drop expand from feedback button.
+    This makes sure we don't use up extra space when other elements get
+    hidden (like the music player)
+  * shell: Avoid gtk_widget_show_all.
+    This is needed in preparation for #155 anyway.
+  * lockscreen: Fix unlock page type.
+    It's a grid not a box
+  * network-auth-prompt: Inform user about unknown auth types.
+    This avoids another empty dialog similar to #292.
+
+  [ Arnaud Ferraris ]
+  * wifimanager: create network-auth-prompt only for WiFi connections.
+    While the network-auth-prompt only supports only WiFi connections, it
+    would still show (empty) if NM sends a secrets request for WWAN.
+    This patch makes sure the prompt isn't created if the connection type
+    isn't WiFi. (Closes: #292)
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 03 Apr 2020 11:26:01 +0200
+
 phosh (0.2.1) amber-phone; urgency=medium
 
   [ Guido Günther ]
