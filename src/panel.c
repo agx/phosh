@@ -32,7 +32,6 @@ typedef struct {
   GtkWidget *btn_top_panel;
   GtkWidget *lbl_clock;
   GtkWidget *lbl_lang;
-  gint height;
 
   GnomeWallClock *wall_clock;
   GnomeXkbInfo *xkbinfo;
@@ -70,16 +69,6 @@ wall_clock_notify_cb (PhoshPanel *self,
 
   str = gnome_wall_clock_get_clock(wall_clock);
   gtk_label_set_text (GTK_LABEL (priv->lbl_clock), str);
-}
-
-
-static void
-size_allocated_cb (PhoshPanel *self, gpointer unused)
-{
-  gint width;
-  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
-
-  gtk_window_get_size (GTK_WINDOW (self), &width, &priv->height);
 }
 
 
@@ -181,10 +170,6 @@ phosh_panel_constructed (GObject *object)
                            G_CALLBACK (top_panel_clicked_cb),
                            self,
                            G_CONNECT_SWAPPED);
-  g_signal_connect (self,
-                    "size-allocate",
-                    G_CALLBACK (size_allocated_cb),
-                    NULL);
 
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
   gtk_style_context_add_class (
@@ -230,7 +215,6 @@ phosh_panel_dispose (GObject *object)
   G_OBJECT_CLASS (phosh_panel_parent_class)->dispose (object);
 }
 
-
 static void
 phosh_panel_class_init (PhoshPanelClass *klass)
 {
@@ -275,13 +259,4 @@ phosh_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
                        "exclusive-zone", PHOSH_PANEL_HEIGHT,
                        "namespace", "phosh",
                        NULL);
-}
-
-
-gint
-phosh_panel_get_height (PhoshPanel *self)
-{
-  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
-
-  return priv->height;
 }

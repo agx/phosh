@@ -16,4 +16,3 @@ G_DECLARE_FINAL_TYPE (PhoshPanel, phosh_panel, PHOSH, PANEL, PhoshLayerSurface)
 
 GtkWidget * phosh_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
                              struct wl_output *wl_output);
-gint        phosh_panel_get_height (PhoshPanel *self);
