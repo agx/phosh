@@ -38,7 +38,7 @@ typedef struct _PhoshSettings
   GtkBin parent;
 
   GtkWidget *box_settings;
-  GtkWidget *quick_setting;
+  GtkWidget *quick_settings;
   GtkWidget *scale_brightness;
   GtkWidget *output_vol_bar;
 
@@ -348,7 +348,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   g_type_ensure (PHOSH_TYPE_FEEDBACK_INFO);
 
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_settings);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_setting);
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, btn_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, btn_lock_screen);
