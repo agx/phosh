@@ -19,12 +19,14 @@
 
 /**
  * SECTION:phosh-home
- * @short_description: The home screen (sometimes called overview)  and the corrsponding
- * button at the bottom of the screen
+ * @short_description: The home surface contains the overview and
+ * the button to fold and unfold the overview.
  * @Title: PhoshHome
  *
- * The #PhoshHome is displayed at the bottom of the screen. It features
- * the home button and the button to toggle the OSK.
+ * #PhoshHome contains the #PhoshOverview that manages running
+ * applications and the app grid. It also manages a button
+ * at the bottom of the screen to fold and unfold the #PhoshOverview
+ * and a button to toggle the OSK.
  */
 enum {
   OSK_ACTIVATED,

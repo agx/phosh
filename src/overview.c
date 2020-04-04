@@ -25,6 +25,16 @@
 
 #define OVERVIEW_ICON_SIZE 64
 
+/**
+ * SECTION:phosh-overview
+ * @short_description: The overview shows running apps and the
+ * app grid to launch new applications.
+ * @Title: PhoshOverview
+ *
+ * The #PhoshOverview shows running apps (#PhoshActivity) and
+ * the app grid (#PhoshAppGrid) to launch new applications.
+ */
+
 enum {
   ACTIVITY_LAUNCHED,
   ACTIVITY_RAISED,
