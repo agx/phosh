@@ -2,6 +2,21 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkPopoverMenu" id="menu_power">
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="margin">10</property>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="action-name">win.poweroff</property>
+            <property name="text" translatable="yes">Power off</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
   <template class="PhoshPanel" parent="PhoshLayerSurface">
     <property name="can_focus">False</property>
     <child type="titlebar">
@@ -144,6 +159,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+		    <property name="popover">menu_power</property>
                     <child>
                       <object class="GtkImage">
                         <property name="visible">True</property>
