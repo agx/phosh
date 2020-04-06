@@ -15,6 +15,13 @@
             <property name="text" translatable="yes">Lock Screen</property>
           </object>
         </child>
+	<child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="action-name">panel.suspend</property>
+            <property name="text" translatable="yes">Suspend</property>
+          </object>
+        </child>
         <child>
           <object class="GtkModelButton">
             <property name="visible">True</property>
