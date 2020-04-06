@@ -29,6 +29,7 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct {
+  GtkWidget *stack;
   GtkWidget *box;            /* main content box */
   GtkWidget *btn_top_panel;
   GtkWidget *lbl_clock;
@@ -276,6 +277,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_lang);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, box);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, stack);
 }
 
 
@@ -317,6 +319,8 @@ phosh_panel_fold (PhoshPanel *self)
 	return;
 
   gtk_container_remove (GTK_CONTAINER (priv->box), priv->settings);
+  gtk_stack_set_transition_type (GTK_STACK (priv->stack), GTK_STACK_TRANSITION_TYPE_SLIDE_UP);
+  gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "topbar");
   priv->settings = NULL;
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), FALSE);
   gtk_window_get_size (GTK_WINDOW (self), &width, NULL);
@@ -336,6 +340,8 @@ phosh_panel_unfold (PhoshPanel *self)
   priv->settings = phosh_settings_new ();
   gtk_box_pack_end (GTK_BOX (priv->box), priv->settings, FALSE, TRUE, 0);
   gtk_widget_show (priv->settings);
+  gtk_stack_set_transition_type (GTK_STACK (priv->stack), GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN);
+  gtk_stack_set_visible_child_name(GTK_STACK (priv->stack), "settings");
   g_signal_connect_swapped (priv->settings,
                             "setting-done",
                             G_CALLBACK(phosh_panel_fold),
