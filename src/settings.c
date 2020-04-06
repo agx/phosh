@@ -10,7 +10,6 @@
 #include <glib/gi18n.h>
 
 #include "shell.h"
-#include "session.h"
 #include "settings.h"
 #include "quick-setting.h"
 #include "settings/brightness.h"
@@ -44,7 +43,6 @@ typedef struct _PhoshSettings
 
   GtkWidget *btn_settings;
   GDesktopAppInfo *settings_info;
-  GtkWidget *btn_shutdown;
   GtkWidget *btn_lock_screen;
 
   /* Output volume control */
@@ -231,17 +229,6 @@ vol_adjustment_value_changed_cb (GtkAdjustment *adjustment,
 
 
 static void
-shutdown_clicked_cb (PhoshSettings *self, gpointer *unused)
-{
-  phosh_session_shutdown ();
-  /* TODO: Since we don't implement
-   * gnome.SessionManager.EndSessionDialog yet */
-  phosh_session_shutdown ();
-  g_signal_emit (self, signals[SETTING_DONE], 0);
-}
-
-
-static void
 on_quicksetting_activated (PhoshSettings   *self,
                            GtkFlowBoxChild *child,
                            GtkFlowBox      *box)
@@ -291,13 +278,6 @@ phosh_settings_constructed (GObject *object)
   g_signal_connect_swapped (self->btn_lock_screen,
                             "clicked",
                             G_CALLBACK (lock_screen_clicked_cb),
-                            self);
-
-  image = gtk_image_new_from_icon_name ("system-shutdown-symbolic", GTK_ICON_SIZE_BUTTON);
-  gtk_button_set_image(GTK_BUTTON (self->btn_shutdown), image);
-  g_signal_connect_swapped (self->btn_shutdown,
-                            "clicked",
-                            G_CALLBACK (shutdown_clicked_cb),
                             self);
 
   self->mixer_control = gvc_mixer_control_new ("Phone Shell Volume Control");
@@ -370,7 +350,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, btn_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, btn_lock_screen);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, btn_shutdown);
 
   gtk_widget_class_bind_template_callback (widget_class, batteryinfo_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);

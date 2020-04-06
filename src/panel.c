@@ -13,6 +13,7 @@
 #include "config.h"
 
 #include "panel.h"
+#include "session.h"
 #include "settings.h"
 #include "util.h"
 
@@ -40,6 +41,8 @@ typedef struct {
   GnomeXkbInfo *xkbinfo;
   GSettings *input_settings;
   GdkSeat *seat;
+
+  GSimpleActionGroup *actions;
 } PhoshPanelPrivate;
 
 typedef struct _PhoshPanel
@@ -48,6 +51,22 @@ typedef struct _PhoshPanel
 } PhoshPanel;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshPanel, phosh_panel, PHOSH_TYPE_LAYER_SURFACE)
+
+
+static void
+on_shutdown_action (GSimpleAction *action,
+                    GVariant      *parameter,
+                    gpointer      data)
+{
+  PhoshPanel *self = PHOSH_PANEL(data);
+
+  g_return_if_fail (PHOSH_IS_PANEL (self));
+  phosh_session_shutdown ();
+  /* TODO: Since we don't implement
+   * gnome.SessionManager.EndSessionDialog yet */
+  phosh_session_shutdown ();
+  phosh_panel_fold (self);
+}
 
 
 static void
@@ -181,6 +200,10 @@ on_button_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
   return FALSE;
 }
 
+static GActionEntry entries[] = {
+  { "poweroff", on_shutdown_action, NULL, NULL, NULL },
+};
+
 static void
 phosh_panel_constructed (GObject *object)
 {
@@ -241,6 +264,13 @@ phosh_panel_constructed (GObject *object)
                     "button-press-event",
                     G_CALLBACK (on_button_press_event),
                     NULL);
+
+  priv->actions = g_simple_action_group_new ();
+  gtk_widget_insert_action_group (GTK_WIDGET (self), "panel",
+                                  G_ACTION_GROUP (priv->actions));
+  g_action_map_add_action_entries (G_ACTION_MAP (priv->actions),
+                                   entries, G_N_ELEMENTS (entries),
+                                   self);
 }
 
 
@@ -253,6 +283,7 @@ phosh_panel_dispose (GObject *object)
   g_clear_object (&priv->wall_clock);
   g_clear_object (&priv->xkbinfo);
   g_clear_object (&priv->input_settings);
+  g_clear_object (&priv->actions);
   priv->seat = NULL;
 
   G_OBJECT_CLASS (phosh_panel_parent_class)->dispose (object);

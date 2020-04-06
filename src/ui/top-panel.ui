@@ -10,8 +10,8 @@
         <child>
           <object class="GtkModelButton">
             <property name="visible">True</property>
-            <property name="action-name">win.poweroff</property>
-            <property name="text" translatable="yes">Power off</property>
+            <property name="action-name">panel.poweroff</property>
+            <property name="text" translatable="yes">Power Off</property>
           </object>
         </child>
       </object>
