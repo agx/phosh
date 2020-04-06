@@ -24,6 +24,7 @@
 enum {
   PHOSH_MONITOR_PROP_0,
   PHOSH_MONITOR_PROP_WL_OUTPUT,
+  PHOSH_MONITOR_PROP_POWER_MODE,
   PHOSH_MONITOR_PROP_LAST_PROP,
 };
 static GParamSpec *props[PHOSH_MONITOR_PROP_LAST_PROP];
@@ -228,6 +229,9 @@ wlr_output_power_handle_mode(void *data,
   default:
     g_return_if_reached ();
   }
+
+  self->power_mode = mode;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_MONITOR_PROP_POWER_MODE]);
 }
 
 static void
@@ -276,6 +280,9 @@ phosh_monitor_get_property (GObject *object,
   switch (property_id) {
   case PHOSH_MONITOR_PROP_WL_OUTPUT:
     g_value_set_pointer (value, self->wl_output);
+    break;
+  case PHOSH_MONITOR_PROP_POWER_MODE:
+    g_value_set_uint (value, self->power_mode);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -347,6 +354,15 @@ phosh_monitor_class_init (PhoshMonitorClass *klass)
                           G_PARAM_READWRITE |
                           G_PARAM_CONSTRUCT_ONLY |
                           G_PARAM_STATIC_STRINGS);
+  props[PHOSH_MONITOR_PROP_POWER_MODE] =
+    g_param_spec_uint ("power-mode",
+                       "power-mode",
+                       "The wayland power mode for this monitor",
+                       ZWLR_OUTPUT_POWER_V1_MODE_OFF,
+                       ZWLR_OUTPUT_POWER_V1_MODE_ON,
+                       ZWLR_OUTPUT_POWER_V1_MODE_OFF,
+                       G_PARAM_READABLE |
+                       G_PARAM_STATIC_STRINGS);
   g_object_class_install_properties (object_class, PHOSH_MONITOR_PROP_LAST_PROP, props);
 
   /**
@@ -369,6 +385,7 @@ phosh_monitor_init (PhoshMonitor *self)
 {
   self->scale = 1.0;
   self->modes = g_array_new (FALSE, FALSE, sizeof(PhoshMonitorMode));
+  self->power_mode = ZWLR_OUTPUT_POWER_V1_MODE_OFF;
 }
 
 
