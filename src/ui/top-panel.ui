@@ -7,6 +7,14 @@
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="margin">10</property>
+	<property name="orientation">vertical</property>
+	<child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="action-name">panel.lockscreen</property>
+            <property name="text" translatable="yes">Lock Screen</property>
+          </object>
+        </child>
         <child>
           <object class="GtkModelButton">
             <property name="visible">True</property>

@@ -13,6 +13,7 @@
 #include "config.h"
 
 #include "panel.h"
+#include "shell.h"
 #include "session.h"
 #include "settings.h"
 #include "util.h"
@@ -65,6 +66,19 @@ on_shutdown_action (GSimpleAction *action,
   /* TODO: Since we don't implement
    * gnome.SessionManager.EndSessionDialog yet */
   phosh_session_shutdown ();
+  phosh_panel_fold (self);
+}
+
+
+static void
+on_lockscreen_action (GSimpleAction *action,
+                      GVariant      *parameter,
+                      gpointer      data)
+{
+  PhoshPanel *self = PHOSH_PANEL(data);
+
+  g_return_if_fail (PHOSH_IS_PANEL (self));
+  phosh_shell_lock (phosh_shell_get_default ());
   phosh_panel_fold (self);
 }
 
@@ -202,6 +216,7 @@ on_button_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
 
 static GActionEntry entries[] = {
   { "poweroff", on_shutdown_action, NULL, NULL, NULL },
+  { "lockscreen", on_lockscreen_action, NULL, NULL, NULL },
 };
 
 static void

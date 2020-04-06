@@ -43,7 +43,6 @@ typedef struct _PhoshSettings
 
   GtkWidget *btn_settings;
   GDesktopAppInfo *settings_info;
-  GtkWidget *btn_lock_screen;
 
   /* Output volume control */
   GvcMixerControl *mixer_control;
@@ -115,15 +114,6 @@ settings_clicked_cb (PhoshSettings *self, gpointer *unused)
   g_app_info_launch (G_APP_INFO (self->settings_info), NULL, NULL, NULL);
 
   g_signal_emit (self, signals[SETTING_DONE], 0);
-}
-
-
-static void
-lock_screen_clicked_cb (PhoshSettings *self, gpointer *unused)
-{
-  g_return_if_fail (PHOSH_IS_SETTINGS (self));
-  g_signal_emit (self, signals[SETTING_DONE], 0);
-  phosh_shell_lock (phosh_shell_get_default ());
 }
 
 
@@ -273,13 +263,6 @@ phosh_settings_constructed (GObject *object)
                             G_CALLBACK (settings_clicked_cb),
                             self);
 
-  image = gtk_image_new_from_icon_name ("system-lock-screen-symbolic", GTK_ICON_SIZE_BUTTON);
-  gtk_button_set_image(GTK_BUTTON (self->btn_lock_screen), image);
-  g_signal_connect_swapped (self->btn_lock_screen,
-                            "clicked",
-                            G_CALLBACK (lock_screen_clicked_cb),
-                            self);
-
   self->mixer_control = gvc_mixer_control_new ("Phone Shell Volume Control");
   g_return_if_fail (self->mixer_control);
 
@@ -349,7 +332,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, btn_settings);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, btn_lock_screen);
 
   gtk_widget_class_bind_template_callback (widget_class, batteryinfo_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);
