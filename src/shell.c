@@ -72,6 +72,7 @@ typedef struct
 
   PhoshBackgroundManager *background_manager;
   PhoshMonitor *primary_monitor;
+  PhoshMonitor *builtin_monitor;
   PhoshMonitorManager *monitor_manager;
   PhoshLockscreenManager *lockscreen_manager;
   PhoshIdleManager *idle_manager;
@@ -536,6 +537,20 @@ type_setup (void)
 
 
 static void
+on_builtin_monitor_power_mode_changed (PhoshShell *self, GParamSpec *pspec, PhoshMonitor *monitor)
+{
+  enum zwlr_output_power_v1_mode mode;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+
+  g_object_get (monitor, "power-mode", &mode, NULL);
+  if (mode == ZWLR_OUTPUT_POWER_V1_MODE_OFF)
+    phosh_shell_lock (self);
+}
+
+
+static void
 phosh_shell_constructed (GObject *object)
 {
   PhoshShell *self = PHOSH_SHELL (object);
@@ -548,6 +563,12 @@ phosh_shell_constructed (GObject *object)
     priv->primary_monitor = phosh_monitor_manager_get_monitor (
       priv->monitor_manager, 0);
   }
+
+  if (phosh_monitor_is_builtin(priv->primary_monitor))
+    priv->builtin_monitor = priv->primary_monitor;
+  else
+    priv->builtin_monitor = phosh_shell_get_builtin_monitor(self);
+
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
                                     "/sm/puri/phosh/icons");
   env_setup ();
@@ -564,6 +585,14 @@ phosh_shell_constructed (GObject *object)
   priv->polkit_auth_agent = phosh_polkit_auth_agent_new ();
 
   priv->feedback_manager = phosh_feedback_manager_new ();
+
+  if (priv->builtin_monitor) {
+    g_signal_connect_swapped (
+      priv->builtin_monitor,
+      "notify::power-mode",
+      G_CALLBACK(on_builtin_monitor_power_mode_changed),
+      self);
+  }
 
   g_idle_add ((GSourceFunc) setup_idle_cb, self);
 }
@@ -684,6 +713,9 @@ phosh_shell_get_builtin_monitor (PhoshShell *self)
 
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
+
+  if (priv->builtin_monitor)
+    return priv->builtin_monitor;
 
   for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
     monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
