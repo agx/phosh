@@ -211,7 +211,9 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="PhoshSettings" id="settings">
+            <property name="visible">False</property>
+          </object>
         </child>
       </object>
     </child>
