@@ -801,3 +801,20 @@ phosh_shell_enable_power_save (PhoshShell *self, gboolean enable)
   }
   /* TODO: other means of power saving */
 }
+
+/**
+ * phosh_shell_started_by_display_manager:
+ *
+ * returns %TRUE if we were started from a
+ * display manager. %FALSE otherwise.
+ */
+gboolean
+phosh_shell_started_by_display_manager(PhoshShell *self)
+{
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), FALSE);
+
+  if (!g_strcmp0 (g_getenv ("GDMSESSION"), "phosh"))
+    return TRUE;
+
+  return FALSE;
+}
