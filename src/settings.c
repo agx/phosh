@@ -41,9 +41,6 @@ typedef struct _PhoshSettings
   GtkWidget *scale_brightness;
   GtkWidget *output_vol_bar;
 
-  GtkWidget *btn_settings;
-  GDesktopAppInfo *settings_info;
-
   /* Output volume control */
   GvcMixerControl *mixer_control;
   GvcMixerStream *output_stream;
@@ -104,18 +101,6 @@ batteryinfo_clicked_cb (PhoshSettings *self)
   phosh_quick_setting_open_settings_panel ("power");
   g_signal_emit (self, signals[SETTING_DONE], 0);
 }
-
-
-static void
-settings_clicked_cb (PhoshSettings *self, gpointer *unused)
-{
-  g_return_if_fail (PHOSH_IS_SETTINGS (self));
-  g_return_if_fail (self->settings_info);
-  g_app_info_launch (G_APP_INFO (self->settings_info), NULL, NULL, NULL);
-
-  g_signal_emit (self, signals[SETTING_DONE], 0);
-}
-
 
 static void
 update_output_vol_bar (PhoshSettings *self)
@@ -235,7 +220,6 @@ static void
 phosh_settings_constructed (GObject *object)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
-  GtkWidget *image;
   GtkAdjustment *adj;
 
   gtk_range_set_range (GTK_RANGE (self->scale_brightness), 0, 100);
@@ -250,18 +234,6 @@ phosh_settings_constructed (GObject *object)
   self->output_vol_bar = create_vol_channel_bar (self);
   gtk_box_pack_start (GTK_BOX (self->box_settings), self->output_vol_bar, FALSE, FALSE, 0);
   gtk_box_reorder_child (GTK_BOX (self->box_settings), self->output_vol_bar, 1);
-
-  gtk_style_context_remove_class (gtk_widget_get_style_context (self->btn_settings),
-                                  "button");
-  gtk_style_context_remove_class (gtk_widget_get_style_context (self->btn_settings),
-                                  "image-button");
-  image = gtk_image_new_from_icon_name ("preferences-system-symbolic", GTK_ICON_SIZE_BUTTON);
-  gtk_button_set_image(GTK_BUTTON (self->btn_settings), image);
-  self->settings_info = g_desktop_app_info_new ("gnome-control-center.desktop");
-  g_signal_connect_swapped (self->btn_settings,
-                            "clicked",
-                            G_CALLBACK (settings_clicked_cb),
-                            self);
 
   self->mixer_control = gvc_mixer_control_new ("Phone Shell Volume Control");
   g_return_if_fail (self->mixer_control);
@@ -331,7 +303,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, btn_settings);
 
   gtk_widget_class_bind_template_callback (widget_class, batteryinfo_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);
