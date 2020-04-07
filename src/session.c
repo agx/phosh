@@ -109,6 +109,21 @@ on_client_registered (GObject             *source_object,
 }
 
 
+static void
+on_logout_finished (GObject *proxy,
+                    GAsyncResult *res,
+                    gpointer unused)
+{
+  g_autoptr(GVariant) ret;
+  g_autoptr(GError) err = NULL;
+
+  ret = g_dbus_proxy_call_finish (G_DBUS_PROXY (proxy), res, &err);
+  if (!ret) {
+    g_warning ("Failed to logout: %s", err->message);
+  }
+}
+
+
 void
 phosh_session_register (const char *client_id)
 {
@@ -163,5 +178,20 @@ phosh_session_shutdown (void)
                      -1,
                      NULL,
                      NULL,
+                     NULL);
+}
+
+void
+phosh_session_logout (void)
+{
+  g_return_if_fail (G_IS_DBUS_PROXY(_proxy));
+
+  g_dbus_proxy_call (_proxy,
+                     "Logout",
+                     g_variant_new ("(u)", 1 /* no dialog */),
+                     G_DBUS_CALL_FLAGS_NONE,
+                     -1,
+                     NULL,
+                     (GAsyncReadyCallback)on_logout_finished,
                      NULL);
 }
