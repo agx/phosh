@@ -31,6 +31,8 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct {
+  PhoshPanelState state;
+
   GtkWidget *stack;
   GtkWidget *box;            /* main content box */
   GtkWidget *btn_top_panel;
@@ -256,6 +258,7 @@ phosh_panel_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_panel_parent_class)->constructed (object);
 
+  priv->state = PHOSH_PANEL_STATE_FOLDED;
   priv->wall_clock = gnome_wall_clock_new ();
 
   g_signal_connect_object (priv->wall_clock,
@@ -394,7 +397,7 @@ phosh_panel_fold (PhoshPanel *self)
   g_return_if_fail (PHOSH_IS_PANEL (self));
   priv = phosh_panel_get_instance_private (self);
 
-  if (priv->settings == NULL)
+  if (priv->state == PHOSH_PANEL_STATE_FOLDED)
 	return;
 
   gtk_container_remove (GTK_CONTAINER (priv->box), priv->settings);
@@ -404,6 +407,7 @@ phosh_panel_fold (PhoshPanel *self)
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), FALSE);
   gtk_window_get_size (GTK_WINDOW (self), &width, NULL);
   gtk_window_resize (GTK_WINDOW (self), width, PHOSH_PANEL_HEIGHT);
+  priv->state = PHOSH_PANEL_STATE_FOLDED;
 }
 
 void
@@ -413,7 +417,9 @@ phosh_panel_unfold (PhoshPanel *self)
 
   g_return_if_fail (PHOSH_IS_PANEL (self));
   priv = phosh_panel_get_instance_private (self);
-  g_return_if_fail (priv->settings == NULL);
+
+  if (priv->state == PHOSH_PANEL_STATE_UNFOLDED)
+	return;
 
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), TRUE);
   priv->settings = phosh_settings_new ();
@@ -425,6 +431,7 @@ phosh_panel_unfold (PhoshPanel *self)
                             "setting-done",
                             G_CALLBACK(phosh_panel_fold),
                             self);
+  priv->state =PHOSH_PANEL_STATE_UNFOLDED;
 }
 
 void
@@ -434,7 +441,7 @@ phosh_panel_toggle_fold (PhoshPanel *self)
   g_return_if_fail (PHOSH_IS_PANEL (self));
 
   priv = phosh_panel_get_instance_private (self);
-  if (priv->settings) {
+  if (priv->state == PHOSH_PANEL_STATE_UNFOLDED) {
     phosh_panel_fold (self);
   } else {
     phosh_panel_unfold (self);
