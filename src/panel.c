@@ -97,6 +97,19 @@ on_lockscreen_action (GSimpleAction *action,
 
 
 static void
+on_logout_action (GSimpleAction *action,
+                  GVariant      *parameter,
+                  gpointer      data)
+{
+  PhoshPanel *self = PHOSH_PANEL(data);
+
+  g_return_if_fail (PHOSH_IS_PANEL (self));
+  phosh_session_logout ();
+  phosh_panel_fold (self);
+}
+
+
+static void
 top_panel_clicked_cb (PhoshPanel *self, GtkButton *btn)
 {
   g_return_if_fail (PHOSH_IS_PANEL (self));
@@ -231,6 +244,7 @@ static GActionEntry entries[] = {
   { "suspend", on_suspend_action, NULL, NULL, NULL },
   { "poweroff", on_shutdown_action, NULL, NULL, NULL },
   { "lockscreen", on_lockscreen_action, NULL, NULL, NULL },
+  { "logout", on_logout_action, NULL, NULL, NULL },
 };
 
 static void
@@ -300,6 +314,11 @@ phosh_panel_constructed (GObject *object)
   g_action_map_add_action_entries (G_ACTION_MAP (priv->actions),
                                    entries, G_N_ELEMENTS (entries),
                                    self);
+  if (!phosh_shell_started_by_display_manager (phosh_shell_get_default ())) {
+    GAction *action = g_action_map_lookup_action (G_ACTION_MAP (priv->actions),
+                                                  "logout");
+    g_simple_action_set_enabled (G_SIMPLE_ACTION(action), FALSE);
+  }
 }
 
 
