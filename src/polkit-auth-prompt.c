@@ -136,7 +136,7 @@ set_icon_name (PhoshPolkitAuthPrompt *self, const gchar *icon_name)
   g_clear_pointer (&self->icon_name, g_free);
   self->icon_name = g_strdup (icon_name);
   gtk_image_set_from_icon_name (GTK_IMAGE (self->img_icon),
-                                (icon_name && strlen(icon_name)) ? icon_name : "dialog-password",
+                                (icon_name && strlen(icon_name)) ? icon_name : "dialog-password-symbolic",
                                 GTK_ICON_SIZE_DIALOG);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ICON_NAME]);
