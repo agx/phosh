@@ -5,6 +5,7 @@
  */
 #pragma once
 
+#include "phosh-enums.h"
 #include "phosh-wayland.h"
 
 #include <gdk/gdk.h>
@@ -12,7 +13,7 @@
 #include <glib/gi18n.h>
 
 /* This matches the values in drm_mode.h */
-typedef enum
+typedef enum _PhoshMonitorConnectorType
 {
   PHOSH_MONITOR_CONNECTOR_TYPE_Unknown = 0,
   PHOSH_MONITOR_CONNECTOR_TYPE_VGA = 1,

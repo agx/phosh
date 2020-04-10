@@ -15,6 +15,7 @@ phosh_resources = gnome.compile_resources(
 
 phosh_enum_headers = [
   'home.h',
+  'monitor/monitor.h',
   'notifications/notification.h',
   'notifications/notify-manager.h',
   'app-grid-button.h'
