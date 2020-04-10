@@ -55,7 +55,7 @@ struct _PhoshMonitor {
   struct wl_output *wl_output;
   struct zxdg_output_v1 *xdg_output;
   struct zwlr_output_power_v1 *wlr_output_power;
-  enum zwlr_output_power_v1_mode power_mode;
+  PhoshMonitorPowerSaveMode power_mode;
 
   gint x, y, width, height;
   gint subpixel;

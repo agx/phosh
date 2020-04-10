@@ -397,13 +397,13 @@ type_setup (void)
 static void
 on_builtin_monitor_power_mode_changed (PhoshShell *self, GParamSpec *pspec, PhoshMonitor *monitor)
 {
-  enum zwlr_output_power_v1_mode mode;
+  PhoshMonitorPowerSaveMode mode;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
 
   g_object_get (monitor, "power-mode", &mode, NULL);
-  if (mode == ZWLR_OUTPUT_POWER_V1_MODE_OFF)
+  if (mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF)
     phosh_shell_lock (self);
 }
 
