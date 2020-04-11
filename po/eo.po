@@ -1,19 +1,20 @@
-# Martin Chang <marty188586@gmail.com>, 2018. #zanata
-# Martin Chang <marty188586@gmail.com>, 2019. #zanata
+# Martin CHANG <marty188586@gmail.com>, 2018-2019. #zanata
+# Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>, 2020.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
+"POT-Creation-Date: 2020-03-28 17:26+0000\n"
+"PO-Revision-Date: 2020-04-11 21:11+0200\n"
+"Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
+"Language-Team: Esperanto <gnome-eo-list@gnome.org>\n"
+"Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-12-04 04:34+0000\n"
-"Last-Translator: Martin Chang <marty188586@gmail.com>\n"
-"Language-Team: Esperanto\n"
-"Language: eo\n"
-"X-Generator: Zanata 4.6.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Poedit 2.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -28,33 +29,33 @@ msgstr "Fenestroj administri kaj lanĉi aplikaĵoj por poŝtelefono"
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/app-grid-button.c:523
+#: src/app-grid-button.c:527
 msgid "Application"
 msgstr "Aplikaĵo"
 
 #: src/feedbackinfo.c:38
 msgid "Quiet"
-msgstr ""
+msgstr "Softa"
 
 #: src/feedbackinfo.c:40
 msgid "Silent"
-msgstr ""
+msgstr "Muta"
 
 #: src/feedbackinfo.c:42
 msgid "On"
-msgstr ""
+msgstr "Ŝaltita"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
+#: src/lockscreen.c:74 src/ui/lockscreen.ui:204
 msgid "Enter Passcode"
 msgstr "Enigu pasvorton"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:253
 msgid "Checking…"
 msgstr "Kontroli…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:334
+#: src/lockscreen.c:330
 msgid "%A, %B %d"
 msgstr "%A, %B %d"
 
@@ -69,8 +70,13 @@ msgstr "Nekonate"
 
 #: src/network-auth-prompt.c:184
 #, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Aŭtentiga tipo de la vifia reto “%s” ne estas subtenata"
+
+#: src/network-auth-prompt.c:189
+#, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "Enigu pasvorton por la vifia reto “%s”"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -91,7 +97,7 @@ msgstr "Permesi"
 
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
-msgstr "Pasvortoj ne kongruas"
+msgstr "Pasvortoj ne kongruas."
 
 #: src/system-prompt.c:378
 msgid "Password cannot be blank"
@@ -99,7 +105,7 @@ msgstr "Pasvorto devas ne malpleni"
 
 #: src/wifiinfo.c:55
 msgid "Wi-Fi"
-msgstr ""
+msgstr "Vifio"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
@@ -107,11 +113,11 @@ msgstr "Aplikaĵo"
 
 #: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Forigi el _preferataj"
 
 #: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Aldoni al _preferataj"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
@@ -123,19 +129,19 @@ msgstr "Ŝovi supre por malŝlosi"
 
 #: src/ui/lockscreen.ui:250
 msgid "Emergency"
-msgstr ""
+msgstr "Krizo"
 
 #: src/ui/lockscreen.ui:266
 msgid "Unlock"
-msgstr ""
+msgstr "Malŝlosi"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
-msgstr ""
+msgstr "_Nuligi"
 
 #: src/ui/network-auth-prompt.ui:106
 msgid "C_onnect"
-msgstr ""
+msgstr "K_onekti"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
