@@ -10,6 +10,7 @@
 # M.Ehl <1mail4me@web.de>, 2019. #zanata
 # Max Schmidt <grell.robin@gmail.com>, 2019. #zanata
 # Mike Ballmann <mikeballmann@web.de>, 2019. #zanata
+# Mike Ballmann <mikeballmann@web.de>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
@@ -18,7 +19,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-10-13 06:04+0000\n"
+"PO-Revision-Date: 2020-03-28 06:13-0400\n"
 "Last-Translator: Mike Ballmann <mikeballmann@web.de>\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -48,7 +49,7 @@ msgstr ""
 
 #: src/feedbackinfo.c:40
 msgid "Silent"
-msgstr ""
+msgstr "Lautlos"
 
 #: src/feedbackinfo.c:42
 msgid "On"
@@ -80,7 +81,7 @@ msgstr "Unbekannt"
 #: src/network-auth-prompt.c:184
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "Gib das Passwort des WLAN-Netzwerks „%s“ ein"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -109,7 +110,7 @@ msgstr "Passwort darf nicht leer sein"
 
 #: src/wifiinfo.c:55
 msgid "Wi-Fi"
-msgstr ""
+msgstr "WLAN"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
@@ -117,11 +118,11 @@ msgstr "App"
 
 #: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Von _Favoriten entfernen"
 
 #: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Zu _Favoriten hinzufügen"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
@@ -133,19 +134,19 @@ msgstr "Nach oben wischen zum Entsperren"
 
 #: src/ui/lockscreen.ui:250
 msgid "Emergency"
-msgstr ""
+msgstr "Notruf"
 
 #: src/ui/lockscreen.ui:266
 msgid "Unlock"
-msgstr ""
+msgstr "Entsperren"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
-msgstr ""
+msgstr "_Abbrechen"
 
 #: src/ui/network-auth-prompt.ui:106
 msgid "C_onnect"
-msgstr ""
+msgstr "_Verbinden"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"

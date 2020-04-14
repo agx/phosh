@@ -1,5 +1,6 @@
 # Simon Jespersen <mail@simonjespersen.dk>, 2018. #zanata
 # Simon Jespersen <mail@simonjespersen.dk>, 2019. #zanata
+# scootergrisen <scootergrisen@gmail.com>, 2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
@@ -8,8 +9,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-07-03 06:26+0000\n"
-"Last-Translator: Simon Jespersen <mail@simonjespersen.dk>\n"
+"PO-Revision-Date: 2020-04-12 01:44-0400\n"
+"Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish\n"
 "Language: da\n"
 "X-Generator: Zanata 4.6.2\n"
@@ -18,12 +19,12 @@ msgstr ""
 #: data/sm.puri.Phosh.desktop.in.in:4
 #, fuzzy
 msgid "Phone Shell"
-msgstr "Phone Shell"
+msgstr "Telefonskal"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 #, fuzzy
 msgid "Window management and application launching for mobile"
-msgstr "Håndtering af vinduer og programstart til mobil"
+msgstr "Vindueshåndtering og programstarter til mobiltelefon"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -32,19 +33,22 @@ msgstr "Phosh"
 
 #: src/app-grid-button.c:523
 msgid "Application"
-msgstr ""
+msgstr "Program"
 
 #: src/feedbackinfo.c:38
+#, fuzzy
 msgid "Quiet"
-msgstr ""
+msgstr "Stille/Lydløs"
 
 #: src/feedbackinfo.c:40
+#, fuzzy
 msgid "Silent"
-msgstr ""
+msgstr "Stille/Lydløs"
 
 #: src/feedbackinfo.c:42
+#, fuzzy
 msgid "On"
-msgstr ""
+msgstr "Til/Tændt"
 
 #: src/lockscreen.c:78 src/ui/lockscreen.ui:204
 msgid "Enter Passcode"
@@ -52,13 +56,13 @@ msgstr "Indtast adgangskode"
 
 #: src/lockscreen.c:257
 msgid "Checking…"
-msgstr ""
+msgstr "Tjekker …"
 
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:334
 msgid "%A, %B %d"
-msgstr "%A, %B %d"
+msgstr "%A %d. %B"
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
@@ -72,54 +76,52 @@ msgstr "Ukendt"
 #: src/network-auth-prompt.c:184
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "Indtast adgangskode til wifi-netværket “%s”"
 
 #: src/polkit-auth-agent.c:229
-#, fuzzy
 msgid "Authentication dialog was dismissed by the user"
-msgstr "Godkendelsesdialog blev lukket af brugeren"
+msgstr "Godkendelsesdialogen blev lukket af brugeren"
 
 #: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
 #: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
 msgid "Password:"
-msgstr "Kodeord:"
+msgstr "Adgangskode:"
 
 #: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "Beklager, det fungerede ikke. Prøv igen, tak. "
+msgstr "Beklager, det virkede ikke. Prøv venligst igen."
 
 #: src/polkit-auth-prompt.c:488
-#, fuzzy
 msgid "Authenticate"
 msgstr "Godkend"
 
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
-msgstr "Kodeordene stemmer ikke overens"
+msgstr "Adgangskoderne er ikke ens."
 
 #: src/system-prompt.c:378
 msgid "Password cannot be blank"
-msgstr "Kodeordet kan ikke være tomt"
+msgstr "Adgangskoden må ikke være tom"
 
 #: src/wifiinfo.c:55
 msgid "Wi-Fi"
-msgstr ""
+msgstr "Wi-Fi"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
-msgstr ""
+msgstr "Program"
 
 #: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Fjern fra _favoritter"
 
 #: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Tilføj til _favoritter"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr ""
+msgstr "Søger efter programmer …"
 
 #: src/ui/lockscreen.ui:36
 msgid "Slide up to unlock"
@@ -127,19 +129,19 @@ msgstr "Skub op for at låse op"
 
 #: src/ui/lockscreen.ui:250
 msgid "Emergency"
-msgstr ""
+msgstr "Nødopkald"
 
 #: src/ui/lockscreen.ui:266
 msgid "Unlock"
-msgstr ""
+msgstr "Lås op"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
-msgstr ""
+msgstr "_Annuller"
 
 #: src/ui/network-auth-prompt.ui:106
 msgid "C_onnect"
-msgstr ""
+msgstr "_Opret forbindelse"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"

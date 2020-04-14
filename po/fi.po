@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2020-02-27 09:17+0000\n"
+"PO-Revision-Date: 2020-03-27 10:56-0400\n"
 "Last-Translator: JR-Fi <juho@reivo.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -44,7 +44,7 @@ msgstr "Hiljainen"
 
 #: src/feedbackinfo.c:42
 msgid "On"
-msgstr ""
+msgstr "Päällä"
 
 #: src/lockscreen.c:78 src/ui/lockscreen.ui:204
 msgid "Enter Passcode"
