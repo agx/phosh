@@ -68,6 +68,7 @@ EOF
 XVFB_OPTS="${DISPLAY} -screen 0 768x1024x24 -ac +extension GLX +render -noreset"
 export WLR_BACKENDS=x11
 export XDG_RUNTIME_DIR="${WORKDIR}"
+export PHOC_DEBUG=no-quit
 xvfb-run -s "${XVFB_OPTS}" -a /usr/bin/phoc \
 	 -C "${PHOC_CONFIG}" \
 	 -E "printenv | grep WAYLAND_DISPLAY= > ${WORKDIR}/wl-info" \
