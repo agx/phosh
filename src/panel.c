@@ -22,8 +22,6 @@
 
 #include <glib/gi18n.h>
 
-#define _(String) gettext (String)
-
 enum {
   SETTINGS_ACTIVATED,
   N_SIGNALS
