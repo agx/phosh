@@ -99,7 +99,9 @@ any user by using an override file:
     WorkingDirectory=<your_home_directory>
 
 # Translations
-Please use zanata for translations at https://translate.zanata.org/project/view/phosh?dswid=-3784
+This is handled via GNOMEs infra, see
+<https://wiki.gnome.org/TranslationProject> and
+<https://l10n.gnome.org/module/phosh/>.
 
 # Getting in Touch
 * Issue tracker: https://source.puri.sm/Librem5/phosh
