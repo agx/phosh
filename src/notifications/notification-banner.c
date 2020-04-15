@@ -10,6 +10,7 @@
 #include "notification-banner.h"
 #include "notification-frame.h"
 #include "shell.h"
+#include "util.h"
 
 #define HANDY_USE_UNSTABLE_API
 #include <handy.h>
@@ -49,19 +50,8 @@ G_DEFINE_TYPE (PhoshNotificationBanner, phosh_notification_banner, PHOSH_TYPE_LA
 static void
 clear_handler (PhoshNotificationBanner *self)
 {
-  // Emulating g_clear_signal_handler for older glib
-
-  if (self->handler_expired > 0) {
-    g_signal_handler_disconnect (self->notification,
-                                 self->handler_expired);
-    self->handler_expired = 0;
-  }
-
-  if (self->handler_closed > 0) {
-    g_signal_handler_disconnect (self->notification,
-                                 self->handler_closed);
-    self->handler_closed = 0;
-  }
+  phosh_clear_handler (&self->handler_expired, self->notification);
+  phosh_clear_handler (&self->handler_closed, self->notification);
 }
 
 

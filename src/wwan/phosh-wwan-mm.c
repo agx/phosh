@@ -10,6 +10,7 @@
 #include "phosh-wwan-iface.h"
 #include "phosh-wwan-mm.h"
 #include "phosh-wwan-mm-dbus.h"
+#include "util.h"
 
 #define BUS_NAME "org.freedesktop.ModemManager1"
 #define OBJECT_PATH "/org/freedesktop/ModemManager1"
@@ -285,9 +286,8 @@ destroy_modem (PhoshWWanMM *self)
   PhoshWWanMMPrivate *priv = phosh_wwan_mm_get_instance_private (self);
 
   if (priv->proxy) {
-    g_signal_handler_disconnect (priv->proxy,
-                                 priv->proxy_props_signal_id);
-    priv->proxy_props_signal_id = 0;
+    phosh_clear_handler (&priv->proxy_props_signal_id, priv->proxy);
+
     g_clear_object (&priv->proxy);
   }
 
@@ -444,12 +444,11 @@ phosh_wwan_mm_dispose (GObject *object)
 
   destroy_modem (self);
   if (priv->manager) {
-    g_signal_handler_disconnect (priv->manager,
-                                 priv->manager_object_added_signal_id);
-    priv->manager_object_added_signal_id = 0;
-    g_signal_handler_disconnect (priv->manager,
-                                 priv->manager_object_removed_signal_id);
-    priv->manager_object_removed_signal_id = 0;
+    phosh_clear_handler (&priv->manager_object_added_signal_id,
+                         priv->manager);
+    phosh_clear_handler (&priv->manager_object_removed_signal_id,
+                         priv->manager);
+
     g_clear_object (&priv->manager);
   }
   g_clear_pointer (&priv->object_path, g_free);
