@@ -10,7 +10,7 @@ static void
 test_phosh_status_icon_new (void)
 {
   GtkWidget *widget;
-  const gchar *icon_name;
+  g_autofree gchar *icon_name = NULL;
   GtkIconSize icon_size;
 
   widget = phosh_status_icon_new ();
@@ -18,6 +18,10 @@ test_phosh_status_icon_new (void)
 
   icon_name = phosh_status_icon_get_icon_name (PHOSH_STATUS_ICON (widget));
   g_assert_null (icon_name);
+
+  phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (widget), "does-not-matter");
+  icon_name = phosh_status_icon_get_icon_name (PHOSH_STATUS_ICON (widget));
+  g_assert_cmpstr (icon_name, ==, "does-not-matter");
 
   icon_size = phosh_status_icon_get_icon_size (PHOSH_STATUS_ICON (widget));
   g_assert_true (icon_size == GTK_ICON_SIZE_LARGE_TOOLBAR);
