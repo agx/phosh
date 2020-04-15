@@ -193,11 +193,14 @@ void
 phosh_status_icon_set_icon_name (PhoshStatusIcon *self, const gchar *icon_name)
 {
   PhoshStatusIconPrivate *priv;
+  g_autofree gchar *old_icon_name = NULL;
+
   g_return_if_fail (PHOSH_IS_STATUS_ICON (self));
 
   priv = phosh_status_icon_get_instance_private (self);
 
-  if (phosh_status_icon_get_icon_name (self) == icon_name)
+  old_icon_name = phosh_status_icon_get_icon_name (self);
+  if (!g_strcmp0 (old_icon_name, icon_name))
     return;
 
   gtk_image_set_from_icon_name (GTK_IMAGE (priv->image),
