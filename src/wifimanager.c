@@ -48,7 +48,7 @@ struct _PhoshWifiManager
    * connection state */
   gboolean           have_wifi_dev;
 
-  gchar              *icon_name;
+  const gchar        *icon_name;
   gchar              *ssid;
 
   NMClient           *nmclient;
@@ -65,22 +65,22 @@ G_DEFINE_TYPE (PhoshWifiManager, phosh_wifi_manager, G_TYPE_OBJECT);
 
 
 static const char *
-signal_strength_descriptive(guint strength)
+signal_strength_icon_name (guint strength)
 {
   if (strength > 80)
-    return "excellent";
+    return "network-wireless-signal-excellent-symbolic";
   else if (strength > 55)
-    return "good";
+    return "network-wireless-signal-good-symbolic";
   else if (strength > 30)
-    return "ok";
+    return "network-wireless-signal-ok-symbolic";
   else if (strength > 5)
-    return "weak";
+    return "network-wireless-signal-weak-symbolic";
   else
-    return "none";
+    return "network-wireless-signal-none-symbolic";
 }
 
 
-static gchar *
+static const gchar *
 get_icon_name (PhoshWifiManager *self)
 {
   NMActiveConnectionState state;
@@ -88,7 +88,7 @@ get_icon_name (PhoshWifiManager *self)
 
   if (!self->dev) {
     if (self->enabled && self->have_wifi_dev) {
-      return g_strdup ("network-wireless-offline-symbolic");
+      return "network-wireless-offline-symbolic";
     }
     return NULL;
   }
@@ -97,19 +97,18 @@ get_icon_name (PhoshWifiManager *self)
 
   switch (state) {
   case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
-    return g_strdup("network-wireless-acquiring-symbolic");
+    return "network-wireless-acquiring-symbolic";
   case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
     if (!self->ap) {
-      return g_strdup ("network-wireless-connected-symbolic");
+      return "network-wireless-connected-symbolic";
     } else {
       strength = phosh_wifi_manager_get_strength (self);
-      return g_strdup_printf("network-wireless-signal-%s-symbolic",
-                             signal_strength_descriptive (strength));
+      return signal_strength_icon_name (strength);
     }
   case NM_ACTIVE_CONNECTION_STATE_UNKNOWN:
   case NM_ACTIVE_CONNECTION_STATE_DEACTIVATING:
   case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
-    return g_strdup("network-wireless-offline-symbolic");
+    return "network-wireless-offline-symbolic";
   default:
     return NULL;
   }
@@ -119,7 +118,7 @@ get_icon_name (PhoshWifiManager *self)
 static void
 update_icon_name (PhoshWifiManager *self)
 {
-  g_autofree gchar *old_icon_name = NULL;
+  const gchar *old_icon_name;
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
 
   old_icon_name = self->icon_name;
