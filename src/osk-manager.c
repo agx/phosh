@@ -244,7 +244,7 @@ phosh_osk_manager_class_init (PhoshOskManagerClass *klass)
   props[PHOSH_OSK_MANAGER_PROP_VISIBLE] =
     g_param_spec_boolean ("visible",
                           "visible",
-                          "Wheter the OSK is currently visible",
+                          "Whether the OSK is currently visible",
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   g_object_class_install_properties (object_class, PHOSH_OSK_MANAGER_PROP_LAST_PROP, props);

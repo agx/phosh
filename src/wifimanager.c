@@ -632,7 +632,7 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
   props[PHOSH_WIFI_MANAGER_PROP_ENABLED] =
     g_param_spec_boolean ("enabled",
                          "enabled",
-                         "Wether wifi is enabled and a wifi device is available",
+                         "Whether wifi is enabled and a wifi device is available",
                          FALSE,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
