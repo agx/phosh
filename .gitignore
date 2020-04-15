@@ -9,3 +9,4 @@ vgdump
 .\#*
 /subprojects/libhandy
 .vscode/
+*.gcov
