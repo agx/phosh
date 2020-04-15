@@ -75,18 +75,18 @@ phosh_wwan_info_get_property (GObject *object,
 
 
 static const char *
-signal_quality_descriptive(guint quality)
+signal_quality_icon_name (guint quality)
 {
   if (quality > 80)
-    return "excellent";
+    return "network-cellular-signal-excellent-symbolic";
   else if (quality > 55)
-    return "good";
+    return "network-cellular-signal-good-symbolic";
   else if (quality > 30)
-    return "ok";
+    return "network-cellular-signal-ok-symbolic";
   else if (quality > 5)
-    return "weak";
+    return "network-cellular-signal-weak-symbolic";
   else
-    return "none";
+    return "network-cellular-signal-none-symbolic";
 }
 
 
@@ -95,7 +95,7 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
 {
   GtkWidget *access_tec_widget;
   guint quality;
-  g_autofree gchar *icon_name = NULL;
+  const gchar *icon_name = NULL;
   const char *access_tec;
   gboolean visible;
 
@@ -108,10 +108,10 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
 
   /* SIM missing */
   if (!phosh_wwan_has_sim (PHOSH_WWAN (self->wwan)))
-    icon_name = g_strdup ("auth-sim-missing-symbolic");
+    icon_name = "auth-sim-missing-symbolic";
   else { /* SIM unlock required */
     if (!phosh_wwan_is_unlocked (PHOSH_WWAN (self->wwan)))
-      icon_name = g_strdup ("auth-sim-locked-symbolic");
+      icon_name = "auth-sim-locked-symbolic";
   }
 
   if (icon_name) {
@@ -122,8 +122,7 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
 
   /* Signal quality */
   quality = phosh_wwan_get_signal_quality (PHOSH_WWAN (self->wwan));
-  icon_name = g_strdup_printf ("network-cellular-signal-%s-symbolic",
-                               signal_quality_descriptive (quality));
+  icon_name = signal_quality_icon_name (quality);
   phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
 
   if (!self->show_detail) {
