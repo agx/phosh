@@ -8,6 +8,7 @@
 
 #define ACTIVE_SEARCH_CLASS "search-active"
 
+#include "feedback-manager.h"
 #include "app-grid.h"
 #include "app-grid-button.h"
 #include "app-list-model.h"
@@ -42,6 +43,7 @@ app_launched_cb (GtkWidget    *widget,
                  GAppInfo     *info,
                  PhoshAppGrid *self)
 {
+  phosh_trigger_feedback ("button-pressed");
   g_signal_emit (self, signals[APP_LAUNCHED], 0, info);
 }
 
