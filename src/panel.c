@@ -116,6 +116,7 @@ top_panel_clicked_cb (PhoshPanel *self, GtkButton *btn)
 {
   g_return_if_fail (PHOSH_IS_PANEL (self));
   g_return_if_fail (GTK_IS_BUTTON (btn));
+  phosh_trigger_feedback ("button-pressed");
   g_signal_emit(self, signals[SETTINGS_ACTIVATED], 0);
 }
 
@@ -238,6 +239,7 @@ on_key_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
 static gboolean
 on_button_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
 {
+  phosh_trigger_feedback ("button-pressed");
   phosh_panel_fold (self);
   return FALSE;
 }
