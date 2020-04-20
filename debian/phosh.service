@@ -28,9 +28,9 @@ ConditionPathExists=/dev/tty0
 Environment=LANG=C.UTF-8
 ExecStart=/usr/bin/phosh
 TimeoutStartSec=30
-User=purism
+User=1000
 PAMName=login
-WorkingDirectory=/home/purism
+WorkingDirectory=~
 Restart=on-failure
 RestartSec=5s
 
