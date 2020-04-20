@@ -1,6 +1,6 @@
 #!/bin/sh
 
-COMPOSITOR="/usr/bin/rootston"
+COMPOSITOR="/usr/bin/phoc"
 PHOC_INI="@pkgdatadir@/phoc.ini"
 
 gnome_session_args()
@@ -18,8 +18,6 @@ gnome_session_args()
 
 if [ -x @bindir@/phoc ]; then
   COMPOSITOR=@bindir@/phoc
-elif [ -x /usr/bin/phoc ]; then
-  COMPOSITOR=/usr/bin/phoc
 fi
 
 if [ -f /etc/phosh/phoc.ini ]; then
