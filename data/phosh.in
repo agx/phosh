@@ -1,7 +1,7 @@
 #!/bin/sh
 
 COMPOSITOR="/usr/bin/rootston"
-ROOTSTON_INI="@pkgdatadir@/rootston.ini"
+PHOC_INI="@pkgdatadir@/phoc.ini"
 
 gnome_session_args()
 {
@@ -22,12 +22,15 @@ elif [ -x /usr/bin/phoc ]; then
   COMPOSITOR=/usr/bin/phoc
 fi
 
-if [ -f "/etc/phosh/rootston.ini" ]; then
-  ROOTSTON_INI=/etc/phosh/rootston.ini
+if [ -f /etc/phosh/phoc.ini ]; then
+  PHOC_INI=/etc/phosh/phoc.ini
+elif  [ -f /etc/phosh/rootston.ini ]; then
+  # honor old configs
+  PHOC_INI=/etc/phosh/rootston.ini
 fi
 
 # Run gnome-session through a login shell so it picks
 # variables from /etc/profile.d (XDG_*)
 [ -z "WLR_BACKENDS" ] || WLR_BACKENDS=drm,libinput
 export WLR_BACKENDS
-exec "${COMPOSITOR}" -C "${ROOTSTON_INI}" -E "bash -lc 'gnome-session $(gnome_session_args)'"
+exec "${COMPOSITOR}" -C "${PHOC_INI}" -E "bash -lc 'gnome-session $(gnome_session_args)'"

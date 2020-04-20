@@ -64,7 +64,7 @@ install_data(
   install_dir: 'share/glib-2.0/schemas'
 )
 
-install_data('rootston.ini', install_dir : pkgdatadir)
+install_data('phoc.ini', install_dir : pkgdatadir)
 install_data('wayland-sessions/phosh.desktop',
 	     install_dir : 'share/wayland-sessions')
 
