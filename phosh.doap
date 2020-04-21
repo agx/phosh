@@ -10,7 +10,7 @@
   <shortdesc>A wayland shell PoC for for mobile phones</shortdesc>
   <description>Phosh aims to be a wayland shell for mobile phones.
   This is merely a PoC at the moment.</description>
-  <homepage rdf:resource="https://code.puri.sm/Librem5/phosh" />
+  <homepage rdf:resource="https://source.puri.sm/Librem5/phosh" />
   <license rdf:resource="http://usefulinc.com/doap/licenses/gpl" />
 
   <programming-language>C</programming-language>
