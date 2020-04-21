@@ -49,6 +49,9 @@ build:native-debian-buster:
     - git submodule update --recursive
     - meson -Db_coverage=true --werror . _build
     - ninja -C _build
+  except:
+    variables:
+      - $PKG_ONLY == "1"
 
 unit-test:native-debian-buster:
   <<: *tags
@@ -64,6 +67,9 @@ unit-test:native-debian-buster:
     when: always
     paths:
       - _build
+  except:
+    variables:
+      - $PKG_ONLY == "1"
 
 build:native-debian-bullseye:
   <<: *tags
@@ -76,6 +82,9 @@ build:native-debian-bullseye:
     - git submodule update --recursive
     - meson -Db_coverage=true --werror . _build
     - ninja -C _build
+  except:
+    variables:
+      - $PKG_ONLY == "1"
 
 unit-test:native-debian-bullseye:
   <<: *tags
@@ -91,6 +100,9 @@ unit-test:native-debian-bullseye:
     when: always
     paths:
       - _build
+  except:
+    variables:
+      - $PKG_ONLY == "1"
 
 check-po:
   <<: *tags
@@ -124,6 +136,9 @@ build:native-alpinelinux-edge:
     - git submodule update --recursive
     - meson --werror . _build
     - ninja -C _build
+  except:
+    variables:
+      - $PKG_ONLY == "1"
 
 unit-test:native-alpinelinux-edge:
   <<: *tags
@@ -143,6 +158,9 @@ unit-test:native-alpinelinux-edge:
     when: always
     paths:
       - _build
+  except:
+    variables:
+      - $PKG_ONLY == "1"
 
 test:smoke:one-output:
   <<: *tags
@@ -161,6 +179,9 @@ test:smoke:one-output:
       - output/*.log
       - output/*.png
     when: always
+  except:
+    variables:
+      - $PKG_ONLY == "1"
 
 test:smoke:two-outputs:
   <<: *tags
@@ -179,6 +200,9 @@ test:smoke:two-outputs:
       - output/*.log
       - output/*.png
     when: always
+  except:
+    variables:
+      - $PKG_ONLY == "1"
 
 package:deb-debian-buster:
   extends: .l5-build-debian-package
