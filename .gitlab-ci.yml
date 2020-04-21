@@ -92,6 +92,22 @@ unit-test:native-debian-bullseye:
     paths:
       - _build
 
+check-po:
+  <<: *tags
+  stage: test
+  image: debian:bullseye
+  dependencies:
+    - build:native-debian-bullseye
+  before_script:
+    - apt-get -y update
+    - apt-get -y install intltool
+  script:
+    # barf on untranslated C files. Seems intltool
+    # can't be told to exit with non-zero exit status
+    # in this case
+    - cd po/
+    - intltool-update -m 2>&1 | grep -qs '/.*\.c' && { intltool-update -m; exit 1; } || exit 0
+
 build:native-alpinelinux-edge:
   <<: *tags
   stage: build
