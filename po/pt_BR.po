@@ -1,19 +1,24 @@
+# Brazilian Portuguese translaiton to phosh.
+# Copyright (C) 2020 THE phosh'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the phosh package.
 # Luís Fernando Stürmer da Rosa <luisfsr@dismail.de>, 2018. #zanata
 # Luís Fernando Stürmer da Rosa <luisfsr@dismail.de>, 2019. #zanata
+# Rafael Fontenelle <rafaelff@gnome.org>, 2020.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
+"POT-Creation-Date: 2020-04-17 15:32+0000\n"
+"PO-Revision-Date: 2020-04-20 21:00-0300\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-10-19 12:14+0000\n"
-"Last-Translator: Luís Fernando Stürmer da Rosa <luisfsr@dismail.de>\n"
-"Language-Team: Portuguese (Brazil)\n"
-"Language: pt_BR\n"
-"X-Generator: Zanata 4.6.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Gtranslator 3.36.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -28,35 +33,35 @@ msgstr "Gerenciador de janelas e lançador de aplicativos para telefone"
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/app-grid-button.c:523
+#: src/app-grid-button.c:527
 msgid "Application"
 msgstr "Aplicativo"
 
 #: src/feedbackinfo.c:38
 msgid "Quiet"
-msgstr ""
+msgstr "Quieto"
 
 #: src/feedbackinfo.c:40
 msgid "Silent"
-msgstr ""
+msgstr "Silêncio"
 
 #: src/feedbackinfo.c:42
 msgid "On"
-msgstr ""
+msgstr "Ligado"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
+#: src/lockscreen.c:74 src/ui/lockscreen.ui:204
 msgid "Enter Passcode"
 msgstr "Insira a senha"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:253
 msgid "Checking…"
-msgstr "Verificando..."
+msgstr "Verificando…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:334
+#: src/lockscreen.c:330
 msgid "%A, %B %d"
-msgstr ""
+msgstr "%A, %d de %B"
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
@@ -69,8 +74,13 @@ msgstr "Desconhecido"
 
 #: src/network-auth-prompt.c:184
 #, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Tipo de autenticação da rede wifi “%s” sem suporte"
+
+#: src/network-auth-prompt.c:189
+#, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "Insira a senha para a rede wifi “%s”"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -83,7 +93,7 @@ msgstr "Senha:"
 
 #: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "Ops! Não deu! Tente de novo."
+msgstr "Ops! Não deu! Tente novamente."
 
 #: src/polkit-auth-prompt.c:488
 msgid "Authenticate"
@@ -99,7 +109,7 @@ msgstr "A senha não pode ficar em branco"
 
 #: src/wifiinfo.c:55
 msgid "Wi-Fi"
-msgstr ""
+msgstr "Wi-Fi"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
@@ -107,15 +117,15 @@ msgstr "Aplicativo"
 
 #: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Remover dos _favoritos"
 
 #: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Adicionar aos _favoritos"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Procurar aplicativos..."
+msgstr "Procurar aplicativos…"
 
 #: src/ui/lockscreen.ui:36
 msgid "Slide up to unlock"
@@ -123,19 +133,19 @@ msgstr "Deslize para desbloquear"
 
 #: src/ui/lockscreen.ui:250
 msgid "Emergency"
-msgstr ""
+msgstr "Emergência"
 
 #: src/ui/lockscreen.ui:266
 msgid "Unlock"
-msgstr ""
+msgstr "Desbloquear"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cancelar"
 
 #: src/ui/network-auth-prompt.ui:106
 msgid "C_onnect"
-msgstr ""
+msgstr "C_onectar"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
@@ -144,3 +154,19 @@ msgstr "Usuário:"
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
 msgstr "Confirmar:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Tela de bloqueio"
+
+#: src/ui/top-panel.ui:22
+msgid "Suspend"
+msgstr "Suspender"
+
+#: src/ui/top-panel.ui:29
+msgid "Logout"
+msgstr "Encerrar sessão"
+
+#: src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Desligar"
