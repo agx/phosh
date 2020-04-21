@@ -1,5 +1,5 @@
-data/sm.puri.Phosh.desktop.in.in
 data/phosh.session.desktop.in.in
+data/sm.puri.Phosh.desktop.in.in
 src/activity.c
 src/app-grid-button.c
 src/app-grid.c
@@ -42,10 +42,6 @@ src/system-prompt.c
 src/system-prompter.c
 src/toplevel.c
 src/toplevel-manager.c
-src/util.c
-src/wifiinfo.c
-src/wifimanager.c
-src/wwaninfo.c
 src/ui/activity.ui
 src/ui/app-grid-button.ui
 src/ui/app-grid.ui
@@ -60,3 +56,7 @@ src/ui/quick-setting.ui
 src/ui/settings-menu.ui
 src/ui/system-prompt.ui
 src/ui/top-panel.ui
+src/util.c
+src/wifiinfo.c
+src/wifimanager.c
+src/wwaninfo.c
