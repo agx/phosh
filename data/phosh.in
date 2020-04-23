@@ -29,6 +29,6 @@ fi
 
 # Run gnome-session through a login shell so it picks
 # variables from /etc/profile.d (XDG_*)
-[ -z "WLR_BACKENDS" ] || WLR_BACKENDS=drm,libinput
+[ -n "$WLR_BACKENDS" ] || WLR_BACKENDS=drm,libinput
 export WLR_BACKENDS
 exec "${COMPOSITOR}" -C "${PHOC_INI}" -E "bash -lc 'gnome-session $(gnome_session_args)'"
