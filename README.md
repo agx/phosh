@@ -77,26 +77,25 @@ result should look something like this:
 ![phosh](screenshots/phosh.png)
 
 ### Running from the Debian packages
-If installed via the Debian packages you can also run phosh as a gnome-session.
-It ships a file in /usr/share/gnome-session/sessions so you can bring up a
-session using
-
-    gnome-session --disable-acceleration-check --session=phosh
-
-If you want to start phosh at system boot there's a systemd unit file in
-*/lib/systemd/system/phosh* which is disabled by default:
+If you're running a display manager like GDM or LightDM you can select the
+`Phosh` session from the display managers menu. If you want run without a
+display manager but nevertheless start phosh at system boot there's a systemd
+unit file in */lib/systemd/system/phosh* which is disabled by default:
 
     systemctl enable phosh
     systemctl start phosh
 
-This runs *phosh* as user *purism* (which needs to exist). If you don't have a
-user *purism* and don't want to create one you can make systemd run *phosh* as
-any user by using an override file:
+This runs *phosh* as the user with user id 1000 (which needs to exist). If you
+don't have that user and don't want to create one you can make systemd
+run *phosh* as any user by using an override file:
 
     $ cat /etc/systemd/system/phosh.service.d/override.conf
     [Service]
     User=<your_user>
-    WorkingDirectory=<your_home_directory>
+
+All of the above use the `/usr/bin/phosh` script to start compositor and shell
+under the hood so if you just want to start phosh from the system console once
+invoke that script directly.
 
 # Translations
 This is handled via GNOMEs infra, see
