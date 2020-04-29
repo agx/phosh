@@ -42,7 +42,8 @@
 }
 
 .phosh-notification-tray, .phosh-notification-tray list {
-    background-color: transparent;
+  border-radius: 6px;
+  background-color: #282828;
 }
 
 /* Favorites / Home screen */
@@ -211,6 +212,9 @@ phosh-notification-frame {
   border-radius: 6px;
   background-color: #282828;
   margin: 12px;
+}
+
+phosh-notification-banner > phosh-notification-frame {
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.33),
               0px 5px 6px 0px rgba(0, 0, 0, 0.07),
               0px 0px 0px 1px rgba(0, 0, 0, 0.2);
