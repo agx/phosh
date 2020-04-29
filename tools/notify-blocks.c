@@ -7,7 +7,7 @@
  *
  * Static notification blocks for experimenting with styles
  *
- * For testing the notification sever (rather than widget style) see
+ * For testing the notification server (rather than widget style) see
  * notify-server-standalone
  */
 
