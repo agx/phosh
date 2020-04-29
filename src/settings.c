@@ -258,6 +258,8 @@ on_notifcation_items_changed (PhoshSettings *self,
   visible = !!g_list_model_get_n_items (list);
   g_debug("%d", visible);
   gtk_widget_set_visible (GTK_WIDGET (self->sw_notifications), visible);
+  if (!visible)
+    g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 
 static void
