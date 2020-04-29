@@ -49,7 +49,9 @@ typedef struct _PhoshSettings
   gboolean allow_volume_above_100_percent;
   gboolean setting_volume;
 
+  /* Notifications */
   GtkWidget *list_notifications;
+  GtkWidget *sw_notifications;
 } PhoshSettings;
 
 
@@ -241,6 +243,22 @@ create_notification_row (gpointer item, gpointer data)
   return row;
 }
 
+static void
+on_notifcation_items_changed (PhoshSettings *self,
+                              guint position,
+                              guint removed,
+                              guint added,
+                              GListModel *list)
+{
+  gboolean visible;
+
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+  g_return_if_fail (G_IS_LIST_MODEL (list));
+
+  visible = !!g_list_model_get_n_items (list);
+  g_debug("%d", visible);
+  gtk_widget_set_visible (GTK_WIDGET (self->sw_notifications), visible);
+}
 
 static void
 phosh_settings_constructed (GObject *object)
@@ -287,6 +305,10 @@ phosh_settings_constructed (GObject *object)
                            create_notification_row,
                            NULL,
                            NULL);
+  g_signal_connect_swapped (phosh_notify_manager_get_list (manager),
+                            "items-changed",
+                            G_CALLBACK (on_notifcation_items_changed),
+                            self);
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
@@ -338,6 +360,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, sw_notifications);
 
   gtk_widget_class_bind_template_callback (widget_class, batteryinfo_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);
