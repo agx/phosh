@@ -81,6 +81,8 @@ typedef struct
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
   PhoshProximity *proximity;
+
+  gboolean startup_finished;
 } PhoshShellPrivate;
 
 
@@ -428,6 +430,9 @@ setup_idle_cb (PhoshShell *self)
   }
 
   phosh_session_register (PHOSH_APP_ID);
+
+  priv->startup_finished = TRUE;
+
   return FALSE;
 }
 
@@ -865,4 +870,20 @@ phosh_shell_started_by_display_manager(PhoshShell *self)
     return TRUE;
 
   return FALSE;
+}
+
+/**
+ * phosh_shell_is_startup_finished:
+ *
+ * returns %TRUE if the shell finished startup. %FALSE otherwise.
+ */
+gboolean
+phosh_shell_is_startup_finished(PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), FALSE);
+  priv = phosh_shell_get_instance_private (self);
+
+  return priv->startup_finished;
 }
