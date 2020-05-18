@@ -164,7 +164,7 @@ mixer_control_output_update_cb (GvcMixerControl *mixer, guint id, gpointer *data
 {
   PhoshSettings *self = PHOSH_SETTINGS (data);
 
-  g_debug ("Output updated: %d", id);
+  g_debug ("Audio output updated: %d", id);
 
   g_return_if_fail (PHOSH_IS_SETTINGS (self));
 
