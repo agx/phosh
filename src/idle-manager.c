@@ -123,6 +123,7 @@ active_timer_resume_cb(void* data, struct org_kde_kwin_idle_timeout *timer)
   GDBusInterfaceSkeleton *skeleton = G_DBUS_INTERFACE_SKELETON (watch->dbus_monitor);
 
   g_debug ("Active Timer %d fired", watch->watch_id);
+
   g_dbus_connection_emit_signal (g_dbus_interface_skeleton_get_connection (skeleton),
                                  watch->dbus_name,
                                  g_dbus_interface_skeleton_get_object_path (skeleton),
@@ -152,9 +153,9 @@ name_vanished_callback (GDBusConnection *connection,
 
 static DBusWatch *
 watch_new (PhoshIdleDbusIdleMonitor *skeleton,
-           GDBusMethodInvocation                  *invocation,
-           PhoshMonitor                           *monitor,
-           guint32                                interval)
+           GDBusMethodInvocation    *invocation,
+           PhoshMonitor             *monitor,
+           guint32                  interval)
 {
   DBusWatch *watch;
   guint32 watch_id;
