@@ -57,19 +57,6 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshPanel, phosh_panel, PHOSH_TYPE_LAYER_SURFACE)
 
 
 static void
-on_suspend_action (GSimpleAction *action,
-                   GVariant      *parameter,
-                   gpointer      data)
-{
-  PhoshPanel *self = PHOSH_PANEL(data);
-
-  g_return_if_fail (PHOSH_IS_PANEL (self));
-  phosh_shell_enable_power_save (phosh_shell_get_default (), TRUE);
-  phosh_panel_fold (self);
-}
-
-
-static void
 on_shutdown_action (GSimpleAction *action,
                     GVariant      *parameter,
                     gpointer      data)
@@ -245,7 +232,6 @@ on_button_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
 }
 
 static GActionEntry entries[] = {
-  { "suspend", on_suspend_action, NULL, NULL, NULL },
   { "poweroff", on_shutdown_action, NULL, NULL, NULL },
   { "lockscreen", on_lockscreen_action, NULL, NULL, NULL },
   { "logout", on_logout_action, NULL, NULL, NULL },
