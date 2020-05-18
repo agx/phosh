@@ -82,7 +82,7 @@ phosh_feedback_manager_update (PhoshFeedbackManager *self)
   else
     self->icon_name = PHOSH_FEEDBACK_ICON_SILENT;
 
-  g_debug("Feedback profile set to: '%s', icon '%s'\n", self->profile,  self->icon_name);
+  g_debug("Feedback profile set to: '%s', icon '%s'", self->profile,  self->icon_name);
   if (old != self->icon_name)
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_FEEDBACK_MANAGER_PROP_ICON_NAME]);
 }

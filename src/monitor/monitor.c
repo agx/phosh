@@ -222,11 +222,11 @@ wlr_output_power_handle_mode(void *data,
 
   switch (mode) {
   case ZWLR_OUTPUT_POWER_V1_MODE_OFF:
-    g_debug ("Monitor %s disabled\n", self->name);
+    g_debug ("Monitor %s disabled", self->name);
     m = PHOSH_MONITOR_POWER_SAVE_MODE_OFF;
     break;
   case ZWLR_OUTPUT_POWER_V1_MODE_ON:
-    g_debug ("Monitor %s enabled\n", self->name);
+    g_debug ("Monitor %s enabled", self->name);
     m = PHOSH_MONITOR_POWER_SAVE_MODE_ON;
     break;
   default:
