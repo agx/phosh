@@ -1,3 +1,165 @@
+phosh (0.3.0) amber-phone; urgency=medium
+
+  [ Arnaud Ferraris ]
+  * monitor: add "power-mode" property.
+    In order to be able to notify other objects when the power state of a
+    monitor changes, this commit adds a `power-mode` property to the monitor
+    class.
+  * shell: lock screen when builtin monitor is powered off
+  * src: fix typos
+  * phosh.service: don't hardcode user name.
+    In order to allow the user to change the default username, use the UID
+    instead of the username.
+  * po: fix French translation.
+    This patch fixes the long date format on the lockscreen.
+
+  [ Mohammed Sadiq ]
+  * polkit-auth-prompt: Use symbolic icon
+
+  [ Guido Günther ]
+  * settings: Drop PhoshSettingsPrivate.
+    We'll never derive from that widget so drop the indirections.
+  * settings: Ensure types during class_init.
+    No need to do so during each instance creation.
+  * panel: Drop unused height getter
+  * shell: Move settings into top bar widget.
+    This will allow us to drop the xdg popup code.
+    (Closes: #155, #216)
+  * shell: Drop xdg popup handling.
+    We don't use it atm and if we need popups again we want to wrap
+    them in proper objects.
+  * panel: Set keyboard interactivity.
+    This allows us for keyboard navigation in the settings menu
+  * panel: Disallow focus on panel widgets.
+    We only want to keyboard navigate settings
+  * settings: Fix QuickSetting keyboard focus behaviour.
+    We set each QuickSetting to not-focusable since we otherwise
+    have to press TAB twice on each button: once for the flowbox
+    focus and one for the button focus.
+    To trigger the QuickSetting we wire up the FlowBox's `child-activated`
+    signal.
+  * panel: Close settings menu on ESC and when clicking/touching into empty
+    area.
+  * smoketest: Keep phoc around.
+    Phoc changed to exit after the session exited but the smoke tests rely on
+    a running compositor so keep it around to parse some parameters.
+  * po: Last time sync from zanata.
+    We're switching to GNOME infra.
+  * README: Point to GNOMEs translation system
+  * panel: Drop superfluous gettext define.
+    We have gi18n.h for that.
+  * monitor: Allow to set power save mode.
+    This allows to set a monitors power save mode:
+    OFF: monitor is turned off
+    ON: monitor is turned on
+    We don't use the constants from the wayland protocol
+    to not leak the implementation.
+  * Process enums for monitor.h too.
+    They will be used in the following commit
+  * shell: Add method to turn on power saving.
+    This method can be used to turn power saving on or off.
+    Currently it only turn on power saving for the display but
+    this can be extended in the future.
+  * monitor: Use PhoshMonitorPowerSaveMode enum.
+    This makes sure we treat the wayland protocol enum as internal
+    to the monitor implementation.
+  * monitor-manager: Remove unused PowerSaveMode
+  * panel: Add a GtkStack to switch top bar.
+    The top bar has a different content when the settings menu is
+    unfolded. Add a stack for that.
+  * panel: Move shutdown to power popover
+  * Move power off from settings menu to top bar
+  * Move lock screen button to power popover
+  * session: Add logout.
+    Since we don't have a logout dialog yet we don't ask gnome-session
+    to show one either.
+  * panel: Wire up logout (Closes: #234)
+  * settings: Drop button to launch settings.
+    This frees up space for the notification area.
+  * panel: Keep settings widget around.
+    This avoids e.g. a jumpy volume slider when unfolding the
+    settings menu. We manage it outside the stack for later gesture support.
+  * wifimanager: Avoid excessive g_strdup() on signal strength changes.
+    Suggested by Zander Brown.
+  * wwaninfo: Avoid excessive g_strdup() on signal strength changes
+  * status-icon: Don't leak icon name
+    phosh_status_icon_get_icon_name() returns a copy so we need to
+    free it and also can't compare by address.
+  * tests: Test phosh_status_icon_set_icon_name()
+  * gitlab-ci: Barf on files with translations but not in POTFILES.in
+  * po: Add files not needing translations to POTFILES.skip
+  * po: Sort POTFILES.in alphabetically
+  * po: Add missing source file (Closes: #305)
+  * po: Update pot file
+  * gitlab-ci: Allow to skip build and test.
+    Sometimes we just want a package (e.g. when only changing the packaging or
+    when we're sure(tm) we didn't break anything). Hence allo to skip the
+    build and test stages via `PKG_ONLY = 1`
+  * data: Rename compositor config to phoc.ini.
+  * data: phoc.ini: Don't fall back to rootston.
+    This gives confusing error messages when e.g. phoc is not installed.
+  * data: phoc.ini: Honor WLR_BACKENDS.
+  * settings: Hide notification box when empty
+  * notification-tray: Move style closer to designs.
+    Use a gray background for the tray and no drop shadows for individual
+    bubbles.
+  * settings: Close settings after acting on the last notification
+  * feedback-manager: Add helper to trigger async feedback.
+    We don't pass the manager itself since it's not needed.
+  * home: Emit feedback event on home bar press
+  * overview: Trigger feedback on window close
+  * panel: Trigger feedback when top bar is clicked.
+    This can go away once we have gestures in place.
+  * app-grid: Provide haptic feedback on app launch
+  * shell: Avoid signal emission when shell is already locked.
+    LockscreenManager got this right but the shell would emit a signal on
+    every invcation although the state would not change.
+  * MonitorManager: Use wlr-power-manager to set handle GNOMEs power_save_mode
+    requests. This allows the screen to blank when g-s-d thinks so.
+  * shell: powersave: Just lock the screen.
+    With the monitor-manager's PowerSaveMode wired up it's enough to lock
+    the screen to make g-s-d then tell us to blank the screen.
+    This makes sure compositor, shell and g-s-d have the same idea about
+    the screen state.
+
+  [ Efstathios Iosifidis ]
+  * Update Greek translation
+
+  [ Rafael Fontenelle ]
+  * phosh.doap: fix URL to source code repository
+  * Update Brazilian Portuguese translation
+
+  [ Danial Behzadi ]
+  * Add Persian Translation
+  * Add Persian to Linguas
+
+  [ Zander Brown ]
+  * utils: phosh_clear_handler, g_clear_handler for older GLib.
+    This can go away once we dep on 2.62
+  * notification-frame: fix a leak when header tapped
+    get_item returns a reference which we weren't dropping causing some
+    notifications to live forever
+  * notification: store the urgency/transient/resident/category hints
+    urgency/transient/resident modify the behaviour of the message tray
+    category is included for completeness, we may never use it
+    (sound hints are still ignored as we don't declare support for it)
+  * notifications: a model for notifications from a single source
+  * notifications: keep a list of notifications
+  * tests: test the new notification models
+  * notifications: maintain a message list
+    expired notifications are no longer automatically dismissed
+  * notifications: add list to settings drop-down
+  * tools: explain notify-[blocks/server-standalone] use
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Yi-Jyun Pan ]
+  * i18n: zh_TW: update translation
+    https://l10n.gnome.org/vertimus/phosh/master/po/zh_TW/
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 19 May 2020 08:08:34 +0200
+
 phosh (0.2.2) amber-phone; urgency=medium
 
   [ Guido Günther ]
