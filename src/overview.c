@@ -136,8 +136,7 @@ on_toplevel_activated_changed (PhoshToplevel *toplevel, GParamSpec *pspec, Phosh
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
   priv = phosh_overview_get_instance_private (overview);
 
-  activity =  g_object_get_data(G_OBJECT(toplevel), "activity");
-  g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
+  activity = PHOSH_ACTIVITY (find_activity_by_toplevel (overview, toplevel));
   if (phosh_toplevel_is_activated (toplevel))
     hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator_running_activities), GTK_WIDGET (activity));
 }
@@ -165,7 +164,6 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
                 "maximized", phosh_toplevel_is_maximized (toplevel),
                 NULL);
   g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);
-  g_object_set_data (G_OBJECT (toplevel), "activity", activity);
 
   gtk_container_add (GTK_CONTAINER (priv->paginator_running_activities), activity);
   gtk_widget_show (activity);
