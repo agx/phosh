@@ -15,6 +15,7 @@
 #include "shell.h"
 #include "util.h"
 #include "toplevel-manager.h"
+#include "toplevel-thumbnail.h"
 #include "phosh-private-client-protocol.h"
 #include "phosh-wayland.h"
 
@@ -141,6 +142,27 @@ on_toplevel_activated_changed (PhoshToplevel *toplevel, GParamSpec *pspec, Phosh
     hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator_running_activities), GTK_WIDGET (activity));
 }
 
+static void
+on_thumbnail_ready_changed (PhoshThumbnail *thumbnail, GParamSpec *pspec, PhoshActivity *activity)
+{
+  g_return_if_fail (PHOSH_IS_THUMBNAIL (thumbnail));
+  g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
+
+  phosh_activity_set_thumbnail (activity, thumbnail);
+}
+
+
+static void
+request_thumbnail (PhoshOverview *self, PhoshToplevel *toplevel)
+{
+  PhoshToplevelThumbnail *thumbnail;
+  gint width, height;
+  PhoshActivity *activity = PHOSH_ACTIVITY (find_activity_by_toplevel (self, toplevel));
+  gint scale = gtk_widget_get_scale_factor (GTK_WIDGET (activity));
+  g_object_get (activity, "win-width", &width, "win-height", &height, NULL);
+  thumbnail = phosh_toplevel_thumbnail_new_from_toplevel (toplevel, width * scale, height * scale);
+  g_signal_connect_object (thumbnail, "notify::ready", G_CALLBACK (on_thumbnail_ready_changed), activity, 0);
+}
 
 static void
 add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
@@ -159,8 +181,8 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   g_debug ("Building activator for '%s' (%s)", app_id, title);
   activity = phosh_activity_new (app_id, title);
   g_object_set (activity,
-                "win-width", monitor->width,  // TODO: Get the real size somehow
-                "win-height", monitor->height,
+                "win-width", monitor->width / monitor->scale,  // TODO: Get the real size somehow
+                "win-height", monitor->height / monitor->scale,
                 "maximized", phosh_toplevel_is_maximized (toplevel),
                 NULL);
   g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);
@@ -228,6 +250,7 @@ toplevel_changed_cb (PhoshOverview        *self,
   /* TODO: update other properties */
   phosh_activity_set_title (PHOSH_ACTIVITY (activity),
                             phosh_toplevel_get_title (toplevel));
+  request_thumbnail (self, toplevel);
 }
 
 static void
@@ -246,7 +269,6 @@ num_toplevels_cb (PhoshOverview        *self,
   }
 }
 
-
 static void
 phosh_overview_size_allocate (GtkWidget     *widget,
                               GtkAllocation *alloc)
@@ -258,10 +280,18 @@ phosh_overview_size_allocate (GtkWidget     *widget,
   children = gtk_container_get_children (GTK_CONTAINER (priv->paginator_running_activities));
 
   for (l = children; l; l = l->next) {
-    g_object_set (l->data,
-                  "win-width", alloc->width,
-                  "win-height", alloc->height,
-                  NULL);
+    gint old_width, old_height;
+    g_object_get (l->data,
+                 "win-width", &old_width,
+                 "win-height", &old_height,
+                 NULL);
+    if (old_width != alloc->width || old_height != alloc->height) {
+      g_object_set (l->data,
+                    "win-width", alloc->width,
+                    "win-height", alloc->height,
+                    NULL);
+      request_thumbnail (self, g_object_get_data (G_OBJECT (l->data), "toplevel"));
+    }
   }
 
   g_list_free (children);
