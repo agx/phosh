@@ -1,5 +1,5 @@
 <protocol name="phosh">
-  <interface name="phosh_private" version="3">
+  <interface name="phosh_private" version="4">
     <description summary="Phone shell extensions">
       Private protocol between phosh and the compositor.
     </description>
@@ -20,6 +20,21 @@
 
     <request name="get_xdg_switcher" since="2">
       <arg name="id" type="new_id" interface="phosh_private_xdg_switcher"/>
+    </request>
+
+    <request name="get_thumbnail" since="4">
+      <description summary="request a window thumbnail for a given toplevel">
+        Allows to retrieve a window thumbnail image for a given foreign
+        toplevel via wlr_screencopy protocol.
+        
+        The thumbnail will be scaled down to the size provided by
+        max_width and max_height arguments, preserving original aspect
+        ratio. Pass 0 to leave it unconstrained.
+      </description>
+      <arg name="id" type="new_id" interface="zwlr_screencopy_frame_v1"/>
+      <arg name="toplevel" type="object" interface="zwlr_foreign_toplevel_handle_v1"/>
+      <arg name="max_width" type="uint" />
+      <arg name="max_height" type="uint" />
     </request>
   </interface>
 
@@ -72,6 +87,5 @@
       <arg name="app_id" type="string" summary="The app_id of the xdg surface"/>
       <arg name="title" type="string" summary="The title of the xdg surface" allow-null="true"/>
     </request>
-
   </interface>
 </protocol>
