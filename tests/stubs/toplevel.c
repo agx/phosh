@@ -62,6 +62,14 @@ phosh_toplevel_is_activated (PhoshToplevel *self) {
 }
 
 
+gboolean
+phosh_toplevel_is_maximized (PhoshToplevel *self)
+{
+  g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), FALSE);
+  return FALSE;
+}
+
+
 void
 phosh_toplevel_activate (PhoshToplevel *self, struct wl_seat *seat) {
   g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
