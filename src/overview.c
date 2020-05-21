@@ -162,6 +162,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   g_object_set (activity,
                 "win-width", monitor->width,  // TODO: Get the real size somehow
                 "win-height", monitor->height,
+                "maximized", phosh_toplevel_is_maximized (toplevel),
                 NULL);
   g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);
   g_object_set_data (G_OBJECT (toplevel), "activity", activity);
@@ -175,6 +176,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
 
   g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), activity, 0);
   g_signal_connect_object (toplevel, "notify::activated", G_CALLBACK (on_toplevel_activated_changed), self, 0);
+  g_object_bind_property (toplevel, "maximized", activity, "maximized", G_BINDING_DEFAULT);
 
   phosh_connect_button_feedback (GTK_BUTTON (activity));
 
