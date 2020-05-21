@@ -37,8 +37,9 @@ test_link_args = [
 test_deps = [
   'stubs/phosh.c',
   'stubs/toplevel.c',
-  'stubs/toplevel-manager.c'
- ]
+  'stubs/toplevel-manager.c',
+  'stubs/thumbnail.c',
+]
 
 testlib_sources = [
   'testlib.c',
