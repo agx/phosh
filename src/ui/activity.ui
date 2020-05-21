@@ -13,9 +13,10 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkDrawingArea">
+          <object class="GtkDrawingArea" id="preview">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <signal name="draw" handler="draw_cb" object="PhoshActivity" swapped="true"/>
           </object>
           <packing>
             <property name="index">-1</property>

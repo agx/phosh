@@ -9,6 +9,7 @@
 #include "config.h"
 #include "activity.h"
 #include "shell.h"
+#include "thumbnail.h"
 #include "util.h"
 #include "app-grid-button.h"
 
@@ -56,6 +57,9 @@ typedef struct
   char *app_id;
   char *title;
   GDesktopAppInfo *info;
+
+  cairo_surface_t *surface;
+  PhoshThumbnail *thumbnail;
 } PhoshActivityPrivate;
 
 
@@ -154,6 +158,54 @@ on_btn_close_clicked (PhoshActivity *self, GtkButton *button)
 }
 
 
+static gboolean
+draw_cb (PhoshActivity *self, cairo_t *cairo, GtkDrawingArea *area)
+{
+  int width, height, image_width, image_height, x, y;
+  float scale;
+  PhoshActivityPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_ACTIVITY (self), FALSE);
+  g_return_val_if_fail (GTK_IS_DRAWING_AREA (area), FALSE);
+  width = gtk_widget_get_allocated_width (GTK_WIDGET (area));
+  height = gtk_widget_get_allocated_height (GTK_WIDGET (area));
+  priv = phosh_activity_get_instance_private (self);
+
+  if (!priv->surface)
+    return FALSE;
+
+  image_width = cairo_image_surface_get_width (priv->surface);
+  image_height = cairo_image_surface_get_height (priv->surface);
+
+  scale = width / (float)image_width;
+
+  if (height / (float)image_height < scale)
+    scale = height / (float)image_height;
+
+  // If the window is maximized, draw it from the top with a grayish background;
+  // otherwise center it on transparent background - a poor man's way to take
+  // exclusive areas like virtual keyboard into account.
+
+  if (priv->maximized)
+    cairo_set_source_rgba (cairo, 0.1, 0.1, 0.1, 1.0);
+  else
+    cairo_set_source_rgba (cairo, 0, 0, 0, 0);
+
+  cairo_set_operator (cairo, CAIRO_OPERATOR_SOURCE);
+  cairo_paint (cairo);
+
+  cairo_scale (cairo, scale, scale);
+
+  x = (width - image_width * scale) / 2.0 / scale;
+  y = priv->maximized ? 0 : ((height - image_height * scale) / 2.0 / scale);
+
+  cairo_rectangle (cairo, x, y, image_width, image_height);
+  cairo_set_source_surface (cairo, priv->surface, x, y);
+  cairo_fill (cairo);
+
+  return FALSE;
+}
+
 static void
 phosh_activity_constructed (GObject *object)
 {
@@ -185,6 +237,8 @@ phosh_activity_constructed (GObject *object)
                                   ACTIVITY_ICON_SIZE);
   }
 
+  gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-activity-empty");
+
   g_signal_connect_swapped (priv->btn_close,
                             "clicked",
                             (GCallback) on_btn_close_clicked,
@@ -200,6 +254,8 @@ phosh_activity_dispose (GObject *object)
   PhoshActivity *self = PHOSH_ACTIVITY (object);
   PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
 
+  g_clear_pointer (&priv->surface, cairo_surface_destroy);
+  g_clear_object (&priv->thumbnail);
   g_clear_object (&priv->info);
 
   G_OBJECT_CLASS (phosh_activity_parent_class)->dispose (object);
@@ -368,6 +424,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, icon);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, box);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, btn_close);
+  gtk_widget_class_bind_template_callback (widget_class, draw_cb);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-activity");
 }
@@ -433,4 +490,29 @@ phosh_activity_get_title (PhoshActivity *self)
   priv = phosh_activity_get_instance_private (self);
 
   return priv->title;
+}
+
+void
+phosh_activity_set_thumbnail (PhoshActivity *self, PhoshThumbnail *thumbnail)
+{
+  PhoshActivityPrivate *priv;
+  void *data;
+  guint width, height, stride;
+
+  g_return_if_fail (PHOSH_IS_ACTIVITY (self));
+  priv = phosh_activity_get_instance_private (self);
+
+  g_clear_pointer (&priv->surface, cairo_surface_destroy);
+  g_clear_object (&priv->thumbnail);
+
+  data = phosh_thumbnail_get_image (thumbnail);
+  phosh_thumbnail_get_size (thumbnail, &width, &height, &stride);
+
+  priv->surface = cairo_image_surface_create_for_data (
+      data, CAIRO_FORMAT_ARGB32, width, height, stride);
+  priv->thumbnail = thumbnail;
+
+  gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-activity-empty");
+
+  gtk_widget_queue_draw (GTK_WIDGET (self));
 }
