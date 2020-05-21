@@ -8,6 +8,7 @@
 
 #include "gamma-control-client-protocol.h"
 #include "idle-client-protocol.h"
+#include "wlr-screencopy-unstable-v1-client-protocol.h"
 #include "phosh-private-client-protocol.h"
 #include "wlr-foreign-toplevel-management-unstable-v1-client-protocol.h"
 #include "wlr-input-inhibitor-unstable-v1-client-protocol.h"
@@ -31,6 +32,7 @@ struct gamma_control_manager         *phosh_wayland_get_gamma_control_manager (P
 struct org_kde_kwin_idle             *phosh_wayland_get_org_kde_kwin_idle (PhoshWayland *self);
 struct phosh_private                 *phosh_wayland_get_phosh_private (PhoshWayland *self);
 struct wl_seat                       *phosh_wayland_get_wl_seat (PhoshWayland *self);
+struct wl_shm                        *phosh_wayland_get_wl_shm (PhoshWayland *self);
 struct xdg_wm_base                   *phosh_wayland_get_xdg_wm_base (PhoshWayland *self);
 struct zwlr_foreign_toplevel_manager_v1 *phosh_wayland_get_zwlr_foreign_toplevel_manager_v1 (PhoshWayland *self);
 struct zwlr_input_inhibit_manager_v1 *phosh_wayland_get_zwlr_input_inhibit_manager_v1 (PhoshWayland *self);
