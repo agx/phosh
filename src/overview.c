@@ -59,6 +59,26 @@ struct _PhoshOverview
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshOverview, phosh_overview, GTK_TYPE_BOX)
 
+static GtkWidget *
+find_activity_by_toplevel (PhoshOverview        *self,
+                           PhoshToplevel        *needle)
+{
+  g_autoptr(GList) children;
+  GtkWidget *activity = NULL;
+  PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
+
+  children = gtk_container_get_children (GTK_CONTAINER (priv->paginator_running_activities));
+  for (GList *l = children; l; l = l->next) {
+    PhoshToplevel *toplevel;
+
+    activity = l->data;
+    toplevel = g_object_get_data (G_OBJECT (activity), "toplevel");
+    if (toplevel == needle)
+      break;
+  }
+
+  return activity;
+}
 
 static void
 on_activity_clicked (PhoshOverview *self, PhoshActivity *activity)
@@ -191,30 +211,6 @@ toplevel_added_cb (PhoshOverview        *self,
   add_activity (self, toplevel);
 }
 
-
-static GtkWidget *
-find_activity_by_toplevel (PhoshOverview        *self,
-                           PhoshToplevel        *needle,
-                           PhoshToplevelManager *manager)
-{
-  GList *children;
-  GtkWidget *activity = NULL;
-  PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
-
-  children = gtk_container_get_children (GTK_CONTAINER (priv->paginator_running_activities));
-  for (GList *l = children; l; l = l->next) {
-    PhoshToplevel *toplevel;
-
-    activity = l->data;
-    toplevel = g_object_get_data (G_OBJECT (activity), "toplevel");
-    if (toplevel == needle)
-      break;
-  }
-
-  g_list_free (children);
-  return activity;
-}
-
 static void
 toplevel_changed_cb (PhoshOverview        *self,
                      PhoshToplevel        *toplevel,
@@ -226,7 +222,7 @@ toplevel_changed_cb (PhoshOverview        *self,
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (manager));
 
-  activity = find_activity_by_toplevel (self, toplevel, manager);
+  activity = find_activity_by_toplevel (self, toplevel);
   g_return_if_fail (GTK_IS_WIDGET (activity));
 
   /* TODO: update other properties */
