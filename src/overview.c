@@ -75,6 +75,7 @@ on_activity_clicked (PhoshOverview *self, PhoshActivity *activity)
           phosh_activity_get_title (activity));
 
   phosh_toplevel_activate (toplevel, phosh_wayland_get_wl_seat (phosh_wayland_get_default ()));
+  phosh_trigger_feedback ("button-pressed");
   g_signal_emit (self, signals[ACTIVITY_RAISED], 0);
 }
 
