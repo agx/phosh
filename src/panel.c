@@ -103,7 +103,6 @@ top_panel_clicked_cb (PhoshPanel *self, GtkButton *btn)
 {
   g_return_if_fail (PHOSH_IS_PANEL (self));
   g_return_if_fail (GTK_IS_BUTTON (btn));
-  phosh_trigger_feedback ("button-pressed");
   g_signal_emit(self, signals[SETTINGS_ACTIVATED], 0);
 }
 
@@ -260,6 +259,8 @@ phosh_panel_constructed (GObject *object)
                            G_CALLBACK (top_panel_clicked_cb),
                            self,
                            G_CONNECT_SWAPPED);
+
+  phosh_connect_feedback (GTK_WIDGET (priv->btn_top_panel));
 
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
   gtk_style_context_add_class (
