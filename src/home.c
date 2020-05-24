@@ -134,7 +134,6 @@ home_clicked_cb (PhoshHome *self, GtkButton *btn)
   g_return_if_fail (GTK_IS_BUTTON (btn));
 
   phosh_home_set_state (self, !self->state);
-  phosh_trigger_feedback ("button-pressed");
 }
 
 
@@ -216,6 +215,8 @@ phosh_home_constructed (GObject *object)
                     "key_press_event",
                     G_CALLBACK (key_press_event_cb),
                     NULL);
+
+  phosh_connect_feedback (GTK_WIDGET (self->btn_home));
 
   G_OBJECT_CLASS (phosh_home_parent_class)->constructed (object);
 }
