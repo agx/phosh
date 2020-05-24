@@ -75,7 +75,6 @@ on_activity_clicked (PhoshOverview *self, PhoshActivity *activity)
           phosh_activity_get_title (activity));
 
   phosh_toplevel_activate (toplevel, phosh_wayland_get_wl_seat (phosh_wayland_get_default ()));
-  phosh_trigger_feedback ("button-pressed");
   g_signal_emit (self, signals[ACTIVITY_RAISED], 0);
 }
 
@@ -156,6 +155,8 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
 
   g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), activity, 0);
   g_signal_connect_object (toplevel, "notify::activated", G_CALLBACK (on_toplevel_activated_changed), self, 0);
+
+  phosh_connect_feedback (GTK_WIDGET (activity));
 
   if (phosh_toplevel_is_activated (toplevel))
     hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator_running_activities), activity);
