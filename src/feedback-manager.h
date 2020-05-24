@@ -7,6 +7,7 @@
 #pragma once
 
 #include <glib-object.h>
+#include <gtk/gtk.h>
 
 #define PHOSH_TYPE_FEEDBACK_MANAGER (phosh_feedback_manager_get_type())
 
@@ -22,3 +23,4 @@ const gchar*          phosh_feedback_manager_get_icon_name (PhoshFeedbackManager
 const gchar*          phosh_feedback_manager_get_profile (PhoshFeedbackManager *self);
 void                  phosh_feedback_manager_trigger_feedback (PhoshFeedbackManager *self, const char *event);
 void                  phosh_trigger_feedback (const char *name);
+void                  phosh_connect_feedback (GtkWidget *button);

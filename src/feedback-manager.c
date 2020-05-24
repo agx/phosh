@@ -53,6 +53,13 @@ on_event_triggered (LfbEvent      *event,
 }
 
 static void
+on_button_event_triggered (GtkButton *button,
+                           const char* event)
+{
+  phosh_trigger_feedback (event);
+}
+
+static void
 phosh_feedback_manager_get_property (GObject *object,
                                      guint property_id,
                                      GValue *value,
@@ -202,4 +209,24 @@ phosh_trigger_feedback (const char *name)
                                     NULL,
                                     (GAsyncReadyCallback)on_event_triggered,
                                     NULL);
+}
+
+/**
+ * phosh_connect_feedback:
+ *
+ * Installs "pressed" and "released" signal handlers
+ * for haptic feedback.
+ */
+void
+phosh_connect_feedback (GtkWidget *button)
+{
+  g_signal_connect (button,
+                    "pressed",
+                    G_CALLBACK (on_button_event_triggered),
+                    "button-pressed");
+
+  g_signal_connect (button,
+                    "released",
+                    G_CALLBACK (on_button_event_triggered),
+                    "button-released");
 }
