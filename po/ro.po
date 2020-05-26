@@ -1,0 +1,176 @@
+# Romanian translation for phosh.
+# Copyright (C) 2020 phosh's COPYRIGHT HOLDER
+# This file is distributed under the same license as the phosh package.
+# Florentina Mușat <emryslokasdottir@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: phosh master\n"
+"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
+"POT-Creation-Date: 2020-05-11 03:34+0000\n"
+"PO-Revision-Date: 2020-05-11 13:35+0200\n"
+"Last-Translator: Florentina Mușat <florentina.musat.28 [at] gmail [dot] "
+"com>\n"
+"Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);;\n"
+"X-Generator: Poedit 2.3\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
+
+#: data/sm.puri.Phosh.desktop.in.in:4
+msgid "Phone Shell"
+msgstr "Shell telefon"
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "Administrare de fereastră și lansare de aplicație pentru mobil"
+
+#: src/app-grid-button.c:518
+msgid "Application"
+msgstr "Aplicație"
+
+#: src/feedbackinfo.c:38
+msgid "Quiet"
+msgstr "Încet"
+
+#: src/feedbackinfo.c:40
+msgid "Silent"
+msgstr "Silențios"
+
+#: src/feedbackinfo.c:42
+msgid "On"
+msgstr "Pornit"
+
+#: src/lockscreen.c:74 src/ui/lockscreen.ui:204
+msgid "Enter Passcode"
+msgstr "Introduceți parola"
+
+#: src/lockscreen.c:253
+msgid "Checking…"
+msgstr "Se verifică…"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/lockscreen.c:330
+msgid "%A, %B %d"
+msgstr "%A, %B %d"
+
+#: src/monitor-manager.c:53
+msgid "Built-in display"
+msgstr "Afișaj integrat"
+
+#. Translators: An unknown monitor type
+#: src/monitor-manager.c:57
+msgid "Unknown"
+msgstr "Necunoscut"
+
+#: src/network-auth-prompt.c:184
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Tipul de autentificare de rețea de wifi „%s” nu este suportat"
+
+#: src/network-auth-prompt.c:189
+#, c-format
+msgid "Enter password for the wifi network “%s”"
+msgstr "Introduceți parola pentru rețeaua de wifi „%s”"
+
+#: src/notifications/notification.c:365 src/notifications/notification.c:581
+msgid "Notification"
+msgstr "Notificare"
+
+#: src/polkit-auth-agent.c:229
+msgid "Authentication dialog was dismissed by the user"
+msgstr "Fereastra de autentificare a fost închisă de către utilizator"
+
+#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
+#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+msgid "Password:"
+msgstr "Parolă:"
+
+#: src/polkit-auth-prompt.c:322
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "Nu a funcționat. Încercați din nou."
+
+#: src/polkit-auth-prompt.c:488
+msgid "Authenticate"
+msgstr "Autentificare"
+
+#: src/system-prompt.c:371
+msgid "Passwords do not match."
+msgstr "Parolele nu se potrivesc."
+
+#: src/system-prompt.c:378
+msgid "Password cannot be blank"
+msgstr "Parola nu poate fi goală"
+
+#: src/ui/app-grid-button.ui:48
+msgid "App"
+msgstr "Aplicație"
+
+#: src/ui/app-grid-button.ui:75
+msgid "Remove from _Favorites"
+msgstr "Elimină din _favorite"
+
+#: src/ui/app-grid-button.ui:80
+msgid "Add to _Favorites"
+msgstr "Adaugă la _favorite"
+
+#: src/ui/app-grid.ui:21
+msgid "Search apps…"
+msgstr "Caută aplicații…"
+
+#: src/ui/lockscreen.ui:36
+msgid "Slide up to unlock"
+msgstr "Glisează în sus pentru a debloca"
+
+#: src/ui/lockscreen.ui:250
+msgid "Emergency"
+msgstr "Urgență"
+
+#: src/ui/lockscreen.ui:266
+msgid "Unlock"
+msgstr "Deblocare"
+
+#: src/ui/network-auth-prompt.ui:90
+msgid "_Cancel"
+msgstr "_Anulează"
+
+#: src/ui/network-auth-prompt.ui:106
+msgid "C_onnect"
+msgstr "C_onectează"
+
+#: src/ui/polkit-auth-prompt.ui:105
+msgid "User:"
+msgstr "Utilizator:"
+
+#: src/ui/system-prompt.ui:69
+msgid "Confirm:"
+msgstr "Confirmă:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Ecran de blocare"
+
+#: src/ui/top-panel.ui:22
+msgid "Suspend"
+msgstr "Suspendă"
+
+#: src/ui/top-panel.ui:29
+msgid "Logout"
+msgstr "Deautentificare"
+
+#: src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Oprire"
+
+#: src/wifiinfo.c:55
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
