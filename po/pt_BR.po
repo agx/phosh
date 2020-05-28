@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-04-17 15:32+0000\n"
-"PO-Revision-Date: 2020-04-20 21:00-0300\n"
+"POT-Creation-Date: 2020-05-28 15:34+0000\n"
+"PO-Revision-Date: 2020-05-28 14:21-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -20,6 +20,11 @@ msgstr ""
 "X-Generator: Gtranslator 3.36.0\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
+
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
 msgstr "Interface de telefone"
@@ -28,12 +33,7 @@ msgstr "Interface de telefone"
 msgid "Window management and application launching for mobile"
 msgstr "Gerenciador de janelas e lançador de aplicativos para telefone"
 
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
-msgid "Phosh"
-msgstr "Phosh"
-
-#: src/app-grid-button.c:527
+#: src/app-grid-button.c:518
 msgid "Application"
 msgstr "Aplicativo"
 
@@ -82,6 +82,10 @@ msgstr "Tipo de autenticação da rede wifi “%s” sem suporte"
 msgid "Enter password for the wifi network “%s”"
 msgstr "Insira a senha para a rede wifi “%s”"
 
+#: src/notifications/notification.c:365 src/notifications/notification.c:581
+msgid "Notification"
+msgstr "Notificação"
+
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Diálogo de autenticação dispensado pelo usuário"
@@ -106,10 +110,6 @@ msgstr "As senhas não conferem."
 #: src/system-prompt.c:378
 msgid "Password cannot be blank"
 msgstr "A senha não pode ficar em branco"
-
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
@@ -160,13 +160,16 @@ msgid "Lock Screen"
 msgstr "Tela de bloqueio"
 
 #: src/ui/top-panel.ui:22
-msgid "Suspend"
-msgstr "Suspender"
-
-#: src/ui/top-panel.ui:29
 msgid "Logout"
 msgstr "Encerrar sessão"
 
-#: src/ui/top-panel.ui:36
+#: src/ui/top-panel.ui:29
 msgid "Power Off"
 msgstr "Desligar"
+
+#: src/wifiinfo.c:55
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#~ msgid "Suspend"
+#~ msgstr "Suspender"
