@@ -218,7 +218,7 @@ phosh_trigger_feedback (const char *name)
  * for haptic feedback.
  */
 void
-phosh_connect_feedback (GtkWidget *button)
+phosh_connect_button_feedback (GtkButton *button)
 {
   g_signal_connect (button,
                     "pressed",

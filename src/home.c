@@ -216,7 +216,7 @@ phosh_home_constructed (GObject *object)
                     G_CALLBACK (key_press_event_cb),
                     NULL);
 
-  phosh_connect_feedback (GTK_WIDGET (self->btn_home));
+  phosh_connect_button_feedback (GTK_BUTTON (self->btn_home));
 
   G_OBJECT_CLASS (phosh_home_parent_class)->constructed (object);
 }

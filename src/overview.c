@@ -156,7 +156,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), activity, 0);
   g_signal_connect_object (toplevel, "notify::activated", G_CALLBACK (on_toplevel_activated_changed), self, 0);
 
-  phosh_connect_feedback (GTK_WIDGET (activity));
+  phosh_connect_button_feedback (GTK_BUTTON (activity));
 
   if (phosh_toplevel_is_activated (toplevel))
     hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator_running_activities), activity);

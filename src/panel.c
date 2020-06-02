@@ -260,7 +260,7 @@ phosh_panel_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
 
-  phosh_connect_feedback (GTK_WIDGET (priv->btn_top_panel));
+  phosh_connect_button_feedback (GTK_BUTTON (priv->btn_top_panel));
 
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
   gtk_style_context_add_class (
