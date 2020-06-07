@@ -23,9 +23,10 @@ struct _PhoshAppGridButtonPrivate {
 
   gulong favorite_changed_watcher;
 
-  GtkWidget *icon;
-  GtkWidget *label;
-  GtkWidget *popover;
+  GtkWidget  *icon;
+  GtkWidget  *label;
+  GtkWidget  *popover;
+  GtkGesture *gesture;
 
   GMenu *menu;
   GMenu *actions;
@@ -93,6 +94,17 @@ phosh_app_grid_button_get_property (GObject    *object,
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
   }
+}
+
+static void
+phosh_app_grid_button_dispose (GObject *object)
+{
+  PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (object);
+  PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
+
+  g_clear_object (&priv->gesture);
+
+  G_OBJECT_CLASS (phosh_app_grid_button_parent_class)->dispose (object);
 }
 
 static void
@@ -200,6 +212,7 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
 
   object_class->set_property = phosh_app_grid_button_set_property;
   object_class->get_property = phosh_app_grid_button_get_property;
+  object_class->dispose = phosh_app_grid_button_dispose;
   object_class->finalize = phosh_app_grid_button_finalize;
 
   widget_class->popup_menu = phosh_app_grid_button_popup_menu;
@@ -341,7 +354,6 @@ static void
 phosh_app_grid_button_init (PhoshAppGridButton *self)
 {
   PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
-  GtkGesture *gesture;
   GAction *act;
 
   priv->is_favorite = FALSE;
@@ -364,11 +376,11 @@ phosh_app_grid_button_init (PhoshAppGridButton *self)
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  gesture = gtk_gesture_long_press_new (GTK_WIDGET (self));
-  gtk_gesture_single_set_touch_only (GTK_GESTURE_SINGLE (gesture), TRUE);
-  gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (gesture),
+  priv->gesture = gtk_gesture_long_press_new (GTK_WIDGET (self));
+  gtk_gesture_single_set_touch_only (GTK_GESTURE_SINGLE (priv->gesture), TRUE);
+  gtk_event_controller_set_propagation_phase (GTK_EVENT_CONTROLLER (priv->gesture),
                                               GTK_PHASE_CAPTURE);
-  g_signal_connect (gesture, "pressed", G_CALLBACK (long_pressed), self);
+  g_signal_connect (priv->gesture, "pressed", G_CALLBACK (long_pressed), self);
 
   gtk_popover_bind_model (GTK_POPOVER (priv->popover),
                           G_MENU_MODEL (priv->menu),
