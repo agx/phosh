@@ -13,7 +13,7 @@
 
 
 /**
- * SECTION:phosh-notification-content
+ * SECTION:notification-content
  * @short_description: Content of a notification
  * @Title: PhoshNotificationContent
  */
