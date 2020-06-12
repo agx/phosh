@@ -12,6 +12,12 @@
 #define HEIGHT 16
 #define LENGTH 11
 
+/**
+ * SECTION:arrow
+ * @short_description: An animated arrow
+ * @Title: PhoshArrow
+ */
+
 struct _PhoshArrow
 {
   GtkDrawingArea parent_instance;
