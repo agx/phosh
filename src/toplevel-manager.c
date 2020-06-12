@@ -16,7 +16,7 @@
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:phosh-toplevel-manager
+ * SECTION:toplevel-manager
  * @short_description: Tracks and interacts with toplevel surfaces
  * for window management purposes.
  * @Title: PhoshToplevelManager
