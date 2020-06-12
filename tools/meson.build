@@ -14,23 +14,23 @@ osk_stub_deps = [
 ]
 
 executable('app-scroll', ['app-scroll.c'] + stubs,
-           dependencies: phosh_dep)
+           dependencies: phosh_tool_dep)
 
 executable('app-grid-standalone', ['app-grid-standalone.c'] + stubs,
-           dependencies: phosh_dep)
+           dependencies: phosh_tool_dep)
 
 executable('image-notify', ['image-notify.c'] + stubs,
-           dependencies: phosh_dep)
+           dependencies: phosh_tool_dep)
 
 executable('phosh-osk-stub', ['phosh-osk-stub.c'],
            install: true,
            dependencies: osk_stub_deps)
 
 executable('app-buttons', ['app-buttons.c'] + stubs,
-           dependencies: phosh_dep)
+           dependencies: phosh_tool_dep)
 
 executable('notify-blocks', ['notify-blocks.c'],
-           dependencies: phosh_dep)
+           dependencies: phosh_tool_dep)
 
 executable('notify-server-standalone', ['notify-server-standalone.c'] + stubs,
-           dependencies: phosh_dep)
+           dependencies: phosh_tool_dep)

@@ -56,7 +56,7 @@ foreach test : tests
                  c_args: test_cflags,
                  pie: true,
                  link_args: test_link_args,
-                 dependencies: phosh_dep)
+                 dependencies: phosh_tool_dep)
   test(test, t, env: test_env)
 endforeach
 

@@ -39,7 +39,7 @@ libphosh_generated_sources = [
   generated_dbus_sources,
 ]
 
-libphosh_sources = [
+libphosh_tool_sources = [
   'activity.c',
   'activity.h',
   'app-grid.c',
@@ -67,7 +67,7 @@ libphosh_sources = [
   libphosh_generated_sources,
 ]
 
-phosh_sources = [
+libphosh_sources = [
   'arrow.c',
   'arrow.h',
   'auth.c',
@@ -94,7 +94,6 @@ phosh_sources = [
   'lockscreen.h',
   'lockshield.c',
   'lockshield.h',
-  'main.c',
   'monitor-manager.c',
   'monitor-manager.h',
   'network-auth-prompt.c',
@@ -170,15 +169,21 @@ add_project_arguments([
   '-DPOLKIT_AGENT_MINOR_VERSION=' + libpolkit_agent_dep.version().split('.')[1]
 ], language: 'c')
 
-phosh_lib = static_library('phosh', libphosh_sources, dependencies: phosh_deps)
 phosh_inc = include_directories('.')
+# A static library used by tests and tools
+phosh_tool_lib = static_library('phosh-tool', libphosh_tool_sources, dependencies: phosh_deps)
+phosh_tool_dep = declare_dependency(sources: libphosh_generated_sources,
+  include_directories: [root_inc, phosh_inc],
+  link_with: phosh_tool_lib,
+  dependencies: phosh_deps)
 
+phosh_lib = library('phosh', [libphosh_sources, libphosh_tool_sources], dependencies: phosh_deps)
 phosh_dep = declare_dependency(sources: libphosh_generated_sources,
   include_directories: [root_inc, phosh_inc],
   link_with: phosh_lib,
   dependencies: phosh_deps)
 
-phosh = executable('phosh', phosh_sources,
-  dependencies: phosh_dep,
+phosh = executable('phosh', ['main.c', libphosh_sources],
+  dependencies: phosh_tool_dep,
   install: true,
   install_dir: libexecdir)
