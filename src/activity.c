@@ -15,7 +15,7 @@
 #include <gio/gdesktopappinfo.h>
 
 /**
- * SECTION:phosh-activity
+ * SECTION:activity
  * @short_description: An app in the faovorites overview
  * @Title: PhoshActivity
  *
