@@ -34,6 +34,12 @@
                                    (((int)(color->blue  * 255)) << 8)  | \
                                    (((int)(color->alpha * 255))))
 
+/**
+ * SECTION:background
+ * @short_description: The monitor's background
+ * @Title: PhoshBackground
+ */
+
 enum {
   PROP_0,
   PROP_PRIMARY,
