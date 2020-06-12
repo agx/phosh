@@ -19,7 +19,7 @@
 #include <glib/gi18n.h>
 
 /**
- * SECTION:phosh-system-prompt
+ * SECTION:system-prompt
  * @short_description: A modal system prompt
  * @Title: PhoshSystemPrompt
  *
