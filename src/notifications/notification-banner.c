@@ -16,7 +16,7 @@
 #include <handy.h>
 
 /**
- * SECTION:phosh-notification-banner
+ * SECTION:notification-banner
  * @short_description: A floating notification
  * @Title: PhoshNotificationBanner
  */
