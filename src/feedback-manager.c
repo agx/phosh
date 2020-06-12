@@ -13,7 +13,7 @@
 #include <libfeedback.h>
 
 /**
- * SECTION:phosh-feedback-manager
+ * SECTION:feedback-manager
  * @short_description: Sends and configures user feedback
  * @Title: PhoshFeedbackManager
  */
