@@ -22,7 +22,7 @@
 #include <glib/gi18n.h>
 
 /**
- * SECTION:phosh-polkit-auth-prompt
+ * SECTION:polkit-auth-prompt
  * @short_description: A modal prompt for policy kit authentication
  * @Title: PhoshPolkitAuthPrompt
  *
