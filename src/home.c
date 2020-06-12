@@ -18,7 +18,7 @@
 #include <handy.h>
 
 /**
- * SECTION:phosh-home
+ * SECTION:home
  * @short_description: The home surface contains the overview and
  * the button to fold and unfold the overview.
  * @Title: PhoshHome
