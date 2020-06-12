@@ -11,7 +11,7 @@
 #include "status-icon.h"
 
 /**
- * SECTION:phosh-status-icon
+ * SECTION:status-icon
  * @short_description: Base clase for different status icons e.g in the top bar
  * @Title: PhoshStatusIcon
  */
