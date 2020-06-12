@@ -12,7 +12,7 @@
 #include "notification-source.h"
 
 /**
- * SECTION:phosh-notification-source
+ * SECTION:notification-source
  * @short_description: A #GListModel containing one or more notifications
  * @Title: PhoshNotificationSource
  */
