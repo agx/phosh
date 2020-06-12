@@ -17,7 +17,7 @@
 #include <glib/gi18n.h>
 
 /**
- * SECTION:phosh-network-auth-prompt
+ * SECTION:network-auth-prompt
  * @short_description: A modal prompt for asking Network credentials
  * @Title: PhoshNetworkAuthPrompt
  *
