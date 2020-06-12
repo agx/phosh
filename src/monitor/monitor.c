@@ -14,11 +14,12 @@
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:phosh-monitor
+ * SECTION:monitor
  * @short_description: A monitor
- * @description: A rectangualar area in the compositor space, usally
- * corresponds to a enabled physical monitor.
  * @Title: PhoshMonitor
+ *
+ * A rectangualar area in the compositor space, usally corresponds to a enabled
+ * physical monitor.
  */
 
 enum {
