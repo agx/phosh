@@ -12,7 +12,7 @@
 #include "shell.h"
 
 /**
- * SECTION:phosh-feedback-info
+ * SECTION:feedbackinfo
  * @short_description: A widget to toggle feedback modes
  * @Title: PhoshFeedbackInfo
  */
