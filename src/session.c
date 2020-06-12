@@ -22,7 +22,7 @@
 #define SESSION_SHUTDOWN_TIMEOUT 15
 
 /**
- * SECTION:phosh-session
+ * SECTION:session
  * @short_description: Manages gnome-session registration and shutdown
  * @Title: PhoshSession
  *
