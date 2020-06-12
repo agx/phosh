@@ -14,7 +14,7 @@
 #include "wifiinfo.h"
 
 /**
- * SECTION:phosh-wifi-info
+ * SECTION:wifiinfo
  * @short_description: A widget to display the wifi status
  * @Title: PhoshWifiInfo
  */
