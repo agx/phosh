@@ -17,9 +17,9 @@
 #define VIRTBOARD_DBUS_OBJECT    "/sm/puri/OSK0"
 
 /**
- * SECTION:phosh-osk-manager
+ * SECTION:osk-manager
  * @short_description: A manager that handles the OSK
- * @Title: PhoshOsk
+ * @Title: PhoshOskManager
  *
  * The #PhoshOskManager is responsible for handling the on screen keyboard
  */
