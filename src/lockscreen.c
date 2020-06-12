@@ -16,8 +16,6 @@
 #include <math.h>
 #include <time.h>
 
-/* Until we switched to HdyKeypad */
-#define HDY_DISABLE_DEPRECATION_WARNINGS 
 #define HANDY_USE_UNSTABLE_API
 #include <handy.h>
 
