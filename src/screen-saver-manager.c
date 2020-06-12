@@ -11,7 +11,7 @@
 #include "lockscreen-manager.h"
 
 /**
- * SECTION:phosh-screen-saver-manager
+ * SECTION:screen-saver-manager
  * @short_description: Provides the org.gnome.ScreenSaver DBus interface
  * @Title: PhoshScreenSaverManager
  *
