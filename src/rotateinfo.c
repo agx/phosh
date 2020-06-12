@@ -4,8 +4,6 @@
  * Author: Julian Sparber <julian.sparber@puri.sm>
  */
 
-/* Rotate Info widget */
-
 #define G_LOG_DOMAIN "phosh-rotateinfo"
 
 #include "config.h"
@@ -14,9 +12,11 @@
 #include "shell.h"
 
 /**
- * SECTION:phosh-rotate-info
+ * SECTION:rotateinfo
  * @short_description: A widget to display the rotate status
  * @Title: PhoshRotateInfo
+ *
+ * Rotate Info widget
  */
 
 typedef struct _PhoshRotateInfo {
