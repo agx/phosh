@@ -11,12 +11,12 @@
 #include "lockshield.h"
 
 /**
- * SECTION:phosh-lockshield
+ * SECTION:lockshield
  * @short_description: Lock shield for non primary screens
  * @Title: PhoshLockshield
  *
- * The #PhoshLockshield is displayed on lock screens which are not the
- * primary one.
+ * The #PhoshLockshield is displayed on lock screens
+ * which are not the primary one.
  */
 struct _PhoshLockshield
 {
