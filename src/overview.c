@@ -26,7 +26,7 @@
 #define OVERVIEW_ICON_SIZE 64
 
 /**
- * SECTION:phosh-overview
+ * SECTION:overview
  * @short_description: The overview shows running apps and the
  * app grid to launch new applications.
  * @Title: PhoshOverview
