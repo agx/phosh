@@ -14,9 +14,11 @@
 #include <handy.h>
 
 /**
- * SECTION:phosh-fader
+ * SECTION:fader
  * @short_description: A fader
- * @Title: A fullsreen surface that fades in
+ * @Title: PhoshFader
+ *
+ * A fullsreen surface that fades in
  */
 
 typedef struct _PhoshFader
