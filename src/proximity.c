@@ -13,6 +13,13 @@
 #include "sensor-proxy-manager.h"
 #include "util.h"
 
+/**
+ * SECTION:proximity
+ * @short_description: Proximity sensor handling
+ * @Title: PhoshProximity
+ */
+
+
 enum {
   PROP_0,
   PROP_SENSOR_PROXY_MANAGER,
