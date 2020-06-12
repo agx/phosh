@@ -28,6 +28,12 @@
 
 #include <math.h>
 
+/**
+ * SECTION:settings
+ * @short_description: The settings menu
+ * @Title: PhoshSettings
+ */
+
 enum {
   SETTING_DONE,
   N_SIGNALS
