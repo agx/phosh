@@ -15,7 +15,7 @@
 #include "util.h"
 
 /**
- * SECTION:phosh-notification-frame
+ * SECTION:notification-frame
  * @short_description: A frame containing one or more notifications
  * @Title: PhoshNotificationFrame
  */
