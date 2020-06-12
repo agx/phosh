@@ -48,6 +48,8 @@ libphosh_tool_sources = [
   'app-grid-button.h',
   'app-list-model.c',
   'app-list-model.h',
+  'connectivity-info.c',
+  'connectivity-info.h',
   'favorite-list-model.c',
   'favorite-list-model.h',
   'feedback-manager.c',

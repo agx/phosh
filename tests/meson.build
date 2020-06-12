@@ -37,6 +37,7 @@ tests = [
   'activity',
   'app-grid-button',
   'app-list-model',
+  'connectivity-info',
   'overview',
   'favourite-model',
   'status-icon',
