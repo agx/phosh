@@ -17,6 +17,12 @@
 #include "session-presence.h"
 #include <gdk/gdkwayland.h>
 
+/**
+ * SECTION:lockscreen-manager
+ * @short_description: The singleton that manages screen locking
+ * @Title: PhoshLockscreenManager
+ */
+
 /* See https://people.gnome.org/~mccann/gnome-session/docs/gnome-session.html#org.gnome.SessionManager.Presence:status */
 #define GNOME_SESSION_STATUS_AVAILABLE 0
 #define GNOME_SESSION_STATUS_INVISIBLE 1
