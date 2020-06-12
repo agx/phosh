@@ -23,9 +23,10 @@
 #define NOTIFICATIONS_KEY_SHOW_BANNERS "show-banners"
 
 /**
- * SECTION:phosh-notify-manager
+ * SECTION:notify-manager
  * @short_description: Provides the org.freedesktop.Notification DBus interface
  * @Title: PhoshNotifyManager
+ *
  * See https://developer.gnome.org/notification-spec/
  */
 
