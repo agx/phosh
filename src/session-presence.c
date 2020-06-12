@@ -13,7 +13,7 @@
 #define GNOME_SESSION_DBUS_OBJECT    "/org/gnome/SessionManager/Presence"
 
 /**
- * SECTION:phosh-session-presence
+ * SECTION:session-presence
  * @short_description: Interface with gnome-session's Presence interface
  * @Title: PhoshSessionPresence
  *
