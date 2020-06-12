@@ -17,7 +17,7 @@
 #define VIRTBOARD_DBUS_OBJECT    "/sm/puri/OSK0"
 
 /**
- * SECTION:phosh-osk-button
+ * SECTION:osk-button
  * @short_description: A button that toggles the OSK
  * @Title: PhoshOsk
  *
