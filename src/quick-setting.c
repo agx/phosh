@@ -12,7 +12,7 @@
 #include "quick-setting.h"
 
 /**
- * SECTION:phosh-quick-setting
+ * SECTION:quick-setting
  * @short_description: A quick setting for the notification drawer
  * @Title: PhoshQuickSetting
  *
