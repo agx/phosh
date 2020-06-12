@@ -14,7 +14,7 @@
 #include "upower.h"
 
 /**
- * SECTION:phosh-battery-info
+ * SECTION:batteryinfo
  * @short_description: A widget to display the battery status
  * @Title: PhoshBatteryInfo
  */
