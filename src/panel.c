@@ -24,6 +24,14 @@
 
 #include <glib/gi18n.h>
 
+/**
+ * SECTION:panel
+ * @short_description: The top panel
+ * @Title: PhoshPanel
+ *
+ * The top panel containing the clock and status indicators.
+ */
+
 enum {
   SETTINGS_ACTIVATED,
   N_SIGNALS
