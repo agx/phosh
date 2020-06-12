@@ -23,7 +23,7 @@ static void auth_debug(const gchar *str, ...) {}
 #endif
 
 /**
- * SECTION:phosh-pokit-auth-agent
+ * SECTION:polkit-auth-agent
  * @short_description: PolicyKit Authentication Agent
  * @Title: PhoshPolkitAuthAgent
  *
