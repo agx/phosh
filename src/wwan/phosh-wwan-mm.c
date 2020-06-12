@@ -15,6 +15,11 @@
 #define BUS_NAME "org.freedesktop.ModemManager1"
 #define OBJECT_PATH "/org/freedesktop/ModemManager1"
 
+/**
+ * SECTION:phosh-wwan-mm
+ * @short_description: Implementation of the #PhoshWWanInterface
+ * @Title: PhoshWWanMM
+ */
 
 typedef enum { /* From ModemManager-enums.h */
     MM_MODEM_ACCESS_TECHNOLOGY_UNKNOWN     = 0,
