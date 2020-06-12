@@ -13,7 +13,7 @@
 #include "notification-list.h"
 
 /**
- * SECTION:phosh-notification-list
+ * SECTION:notification-list
  * @short_description: A list containing one or more #PhoshNotificationSource
  * @Title: PhoshNotificationList
  */
