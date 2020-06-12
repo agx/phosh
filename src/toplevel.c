@@ -14,7 +14,7 @@
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:phosh-toplevel
+ * SECTION:toplevel
  * @short_description: Represents a single toplevel surface.
  * @Title: PhoshToplevel
  */
