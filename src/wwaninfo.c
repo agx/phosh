@@ -14,7 +14,7 @@
 #define WWAN_INFO_DEFAULT_ICON_SIZE 24
 
 /**
- * SECTION:phosh-wwan-info
+ * SECTION:wwaninfo
  * @short_description: A widget to display the wwan status
  * @Title: PhoshWWanInfo
  */
