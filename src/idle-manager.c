@@ -3,10 +3,6 @@
  * SPDX-License-Identifier: GPL-3.0+
  * Author: Guido Günther <agx@sigxcpu.org>
  *
- * This uses org_kde_kwin_idle_timeout_listener implement mutter's
- * org.gnome.Mutter.IdleMonitor. Since we don't have per monitor
- * information we only care about core.
- *
  * Somewhat based on mutter's src/backends/meta-idle-monitor-dbus.c
  */
 
@@ -17,6 +13,16 @@
 
 #include <gdk/gdkwayland.h>
 
+/**
+ * SECTION:idle-manager
+ * @short_description: The idle manager singleton
+ * @Title: PhoshIdleManager
+ *
+ * This uses org_kde_kwin_idle_timeout_listener to
+ * implement mutter's org.gnome.Mutter.IdleMonitor DBus
+ * interface. Since we don't have per monitor information we only care
+ * about core.
+ */
 
 /* A DBus watch corresponding to either an idle or active timer */
 typedef struct {
