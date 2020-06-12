@@ -14,7 +14,7 @@
 #include "phosh-wayland.h"
 
 /**
- * SECTION:phosh-system_prompter
+ * SECTION:system-prompter
  * @short_description: Manages system prompter registration
  * @Title: PhoshSystemPrompter
  *
