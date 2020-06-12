@@ -16,7 +16,7 @@
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:phosh-background-manager
+ * SECTION:background-manager
  * @short_description: Tracks screen related events and updates
  * backgrounds accordingly.
  * @Title: PhoshBackgroundManager
