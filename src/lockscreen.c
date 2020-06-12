@@ -24,6 +24,15 @@
 
 #define LOCKSCREEN_IDLE_SECONDS 5
 
+/**
+ * SECTION:lockscreen
+ * @short_description: The main lock screen
+ * @Title: PhoshLockscreen
+ *
+ * The lock screen featuring the clock
+ * and unlock keypad.
+ */
+
 enum {
   LOCKSCREEN_UNLOCK,
   WAKEUP_OUTPUT,
