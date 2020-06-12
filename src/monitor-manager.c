@@ -17,6 +17,11 @@
 
 #include <gdk/gdkwayland.h>
 
+/**
+ * SECTION:monitor-manager
+ * @short_description: The singleton that manages available monitors
+ * @Title: PhoshMonitorManager
+ */
 
 enum {
   SIGNAL_MONITOR_ADDED,
