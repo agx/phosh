@@ -46,6 +46,16 @@
 #include "wifiinfo.h"
 #include "wwaninfo.h"
 
+/**
+ * SECTION:shell
+ * @short_description: The shell singleton
+ * @Title: PhoshShell
+ *
+ * #Phosh shell is responsible for instantiating the GUI
+ * parts of the shell#PhoshPanel, #PhoshHome,… and the managers that
+ * interface with DBus #PhoshMonitorManager, #PhoshFeedbackManager, …
+ * and coordinates between them.
+ */
 
 enum {
   PHOSH_SHELL_PROP_0,
