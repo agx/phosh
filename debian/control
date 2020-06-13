@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Guido Günther <agx@sigxcpu.org>
 Build-Depends:
  debhelper (>= 12),
+ gtk-doc-tools,
  libsecret-1-dev,
  libfeedback-dev,
  libgcr-3-dev,
@@ -64,3 +65,13 @@ Conflicts:
 Description: OSK stub to fulfil session dependencies
  Phosh's session wants a sm.puri.OSK0. For testing on non-phone's
  this stub fulfills the necessary dependencies.
+
+Package: phosh-doc
+Architecture: all
+Depends:
+ ${misc:Depends},
+Description: Pure Wayland shell for mobile devices - development documentation
+ Phosh is a simple shell for Wayland compositors speaking the layer-surface
+ protocol.
+ .
+ This package contains the development documentation.
