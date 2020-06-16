@@ -223,6 +223,22 @@ hdykeypad > button:focus, .text-only-button:focus {
   border: 0;
 }
 
+phosh-lockscreen phosh-media-player {
+  background: none;
+  border: solid 1px;
+  border-color: rgb(51,51,51);
+  border-radius: 0;
+}
+
+phosh-lockscreen phosh-media-player button {
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+}
+
+phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
+  background: none;
+}
+
 /*
  * System modal dialogs (polkit, gcr)
  */

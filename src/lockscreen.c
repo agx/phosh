@@ -9,6 +9,7 @@
 #include "config.h"
 #include "auth.h"
 #include "lockscreen.h"
+#include "media-player.h"
 
 #include <locale.h>
 #include <string.h>
@@ -479,6 +480,8 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   GObjectClass *object_class = (GObjectClass *)klass;
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
+  g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
+
   object_class->constructed = phosh_lockscreen_constructed;
   object_class->dispose = phosh_lockscreen_dispose;
 
@@ -522,6 +525,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_info);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);
+  gtk_widget_class_bind_template_callback (widget_class, show_unlock_page);
 }
 
 
