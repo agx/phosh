@@ -20,6 +20,7 @@
 #include "feedback-manager.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
+#include "media-player.h"
 
 #include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
@@ -227,6 +228,13 @@ on_quicksetting_activated (PhoshSettings   *self,
   gtk_button_clicked (GTK_BUTTON (quick_setting));
 }
 
+static void
+on_media_player_raised (PhoshSettings *self,
+                        gpointer       unused)
+{
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+  g_signal_emit (self, signals[SETTING_DONE], 0);
+}
 
 static GtkWidget *
 create_notification_row (gpointer item, gpointer data)
@@ -363,6 +371,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
   g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
   g_type_ensure (PHOSH_TYPE_FEEDBACK_INFO);
+  g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
 
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
@@ -374,6 +383,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, feedback_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, feedback_setting_long_pressed_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_media_player_raised);
 }
 
 

@@ -486,7 +486,6 @@ find_player_cb (GObject          *source_object,
   const gchar *name;
   GVariantIter iter;
   gboolean found = FALSE;
-  guint prefix_len = strlen (MPRIS_PREFIX);
 
   g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
   g_return_if_fail (G_IS_DBUS_CONNECTION (self->session_bus));
