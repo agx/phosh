@@ -56,6 +56,8 @@ libphosh_tool_sources = [
   'feedback-manager.h',
   'layersurface.c',
   'layersurface.h',
+  'media-player.c',
+  'media-player.h',
   'overview.c',
   'overview.h',
   'status-icon.c',

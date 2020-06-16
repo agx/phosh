@@ -307,3 +307,25 @@ phosh-notification-banner {
   animation-fill-mode: forwards;
 }
 
+/*
+ *Media player
+ */
+phosh-media-player {
+  background: rgb(51,51,51);
+  border-radius: 5%;
+  padding: 9px;
+  border: 0;
+  box-shadow: 0 0;
+}
+
+phosh-media-player > button {
+  border-radius: 0;
+  box-shadow: none;
+  outline-style: none;
+}
+
+/* The details button should not look inactive even when disabled */
+phosh-media-player box *:disabled {
+  color: white;
+  -gtk-icon-effect: none;
+}

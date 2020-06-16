@@ -20,6 +20,7 @@ src/lockscreen.c
 src/lockscreen-manager.c
 src/lockshield.c
 src/main.c
+src/media-player.c
 src/monitor-manager.c
 src/network-auth-prompt.c
 src/notifications/notification.c
@@ -48,6 +49,7 @@ src/ui/app-grid-button.ui
 src/ui/app-grid.ui
 src/ui/home.ui
 src/ui/lockscreen.ui
+src/ui/media-player.ui
 src/ui/network-auth-prompt.ui
 src/ui/notification-content.ui
 src/ui/notification-frame.ui

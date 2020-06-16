@@ -43,6 +43,7 @@ tests = [
   'favourite-model',
   'status-icon',
   'quick-setting',
+  'media-player',
   'notification',
   'notification-banner',
   'notification-content',
