@@ -12,6 +12,11 @@ generated_dbus_sources += gnome.gdbus_codegen('iio-sensor-proxy-dbus',
 					      'net.hadess.SensorProxy.xml',
 					      interface_prefix: 'net.hadess',
 					      namespace: 'PhoshDbus')
+# MPris2
+generated_dbus_sources += gnome.gdbus_codegen('mpris-dbus',
+					      'org.mpris.MediaPlayer2.xml',
+					      interface_prefix: 'org.mpris',
+					      namespace: 'PhoshMprisDBus')
 
 # DBus server protocols
 generated_dbus_sources += gnome.gdbus_codegen('phosh-idle-dbus',
