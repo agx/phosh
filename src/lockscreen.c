@@ -51,7 +51,7 @@ typedef struct {
   GtkWidget *paginator;
 
   /* info page */
-  GtkWidget *grid_info;
+  GtkWidget *box_info;
   GtkWidget *lbl_clock;
   GtkWidget *lbl_date;
 
@@ -93,7 +93,7 @@ show_info_page (PhoshLockscreen *self)
   if (hdy_paginator_get_position (HDY_PAGINATOR (priv->paginator)) <= 0)
     return;
 
-  hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator), priv->grid_info);
+  hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator), priv->box_info);
 }
 
 
@@ -519,7 +519,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, input_changed_cb);
 
   /* info page */
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, grid_info);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_info);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);
 }

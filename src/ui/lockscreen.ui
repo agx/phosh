@@ -17,8 +17,9 @@
         <property name="allow-mouse-drag">True</property>
         <signal name="notify::position" handler="paginator_position_notified_cb" swapped="yes"/>
          <child>
-          <object class="GtkGrid" id="grid_info">
+          <object class="GtkBox" id="box_info">
             <property name="visible">True</property>
+            <property name="orientation">vertical</property>
             <property name="can_focus">False</property>
             <property name="expand">True</property>
             <child>
@@ -64,11 +65,11 @@
                 </child>
               </object>
               <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">3</property>
+                <property name="pack_type">end</property>
+                <property name="position">0</property>
               </packing>
             </child>
-            <child>
+            <child type="center">
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -175,16 +176,6 @@
                   </packing>
                 </child>
               </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
             </child>
           </object>
         </child>
