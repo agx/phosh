@@ -61,7 +61,8 @@ unit-test:native-debian-buster:
     - build:native-debian-buster
   script:
     - export LC_ALL=C.UTF-8
-    - ${XVFB_RUN} ninja -C _build test coverage
+    - ${XVFB_RUN} ninja -C _build test
+    - ${XVFB_RUN} ninja -C _build coverage
   coverage: '/^\s+lines\.+:\s+([\d.]+\%)\s+/'
   artifacts:
     when: always
@@ -97,7 +98,8 @@ unit-test:native-debian-bullseye:
     - build:native-debian-bullseye
   script:
     - export LC_ALL=C.UTF-8
-    - ${XVFB_RUN} ninja -C _build test coverage
+    - ${XVFB_RUN} ninja -C _build test
+    - ${XVFB_RUN} ninja -C _build coverage
   coverage: '/^\s+lines\.+:\s+([\d.]+\%)\s+/'
   artifacts:
     when: always
