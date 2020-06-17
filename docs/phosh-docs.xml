@@ -29,7 +29,7 @@
   </bookinfo>
 
   <part id="api-reference">
-
+    <title>Api Reference</title>
     <chapter id="classes">
       <title>Widgets and Objects</title>
       <xi:include href="xml/activity.xml"/>
@@ -129,7 +129,7 @@
   </part>
 
   <part id="annexes">
-
+    <title>Annexes</title>
     <chapter id="object-tree">
       <title>Object Hierarchy</title>
       <xi:include href="xml/tree_index.sgml"/>
