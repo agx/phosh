@@ -51,7 +51,7 @@
  * @short_description: The shell singleton
  * @Title: PhoshShell
  *
- * #Phosh shell is responsible for instantiating the GUI
+ * #PhoshShell is responsible for instantiating the GUI
  * parts of the shell#PhoshPanel, #PhoshHome,… and the managers that
  * interface with DBus #PhoshMonitorManager, #PhoshFeedbackManager, …
  * and coordinates between them.
