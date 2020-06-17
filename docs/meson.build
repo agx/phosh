@@ -7,8 +7,6 @@ private_headers = [
 ]
 
 content_files = [
-  'build-howto.xml',
-  'visual-index.xml',
 ]
 
 glib_prefix = dependency('glib-2.0').get_pkgconfig_variable('prefix')
@@ -17,6 +15,7 @@ docpath = join_paths(get_option('datadir'), 'gtk-doc', 'html')
 
 gnome.gtkdoc('phosh',
            main_xml: 'phosh-docs.xml',
+      content_files: content_files,
             src_dir: [
                        join_paths(meson.source_root(), 'src'),
                        join_paths(meson.build_root(), 'src'),
