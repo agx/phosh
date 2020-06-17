@@ -3,11 +3,6 @@
  * SPDX-License-Identifier: GPL-3.0+
  * Author: Guido Günther <agx@sigxcpu.org>
  */
-
-/**
- * A monitor matching a {wl,xdg}_output.
- */
-
 #define G_LOG_DOMAIN "phosh-monitor"
 
 #include "monitor.h"
@@ -18,8 +13,8 @@
  * @short_description: A monitor
  * @Title: PhoshMonitor
  *
- * A rectangualar area in the compositor space, usally corresponds to a enabled
- * physical monitor.
+ * A rectangualar area in the compositor space, usally corresponds to
+ * physical monitor using wl_output and xdg_output Wayland protocols.
  */
 
 enum {
