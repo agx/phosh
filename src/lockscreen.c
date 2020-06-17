@@ -316,8 +316,9 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
 
 
 /**
- * date_fmt: Get a date format based on LC_TIME
+ * date_fmt:
  *
+ * Get a date format based on LC_TIME.
  * This is done by temporarily swithcing LC_MESSAGES so we can look up
  * the format in our message catalog.  This will fail if LANGUAGE is
  * set to something different since LANGUAGE overrides
@@ -340,8 +341,9 @@ date_fmt (void)
 }
 
 /**
- * local_date: Get the local date as string
+ * local_date:
  *
+ * Get the local date as string
  * We honor LC_MESSAGES so we e.g. don't get a translated date when
  * the user has LC_MESSAGES=en_US.UTF-8 but LC_TIME to their local
  * time zone.
