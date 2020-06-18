@@ -39,39 +39,25 @@ brightness_changed_cb (GDBusProxy *proxy,
   gtk_range_set_value (GTK_RANGE (scale), value);
 }
 
-
-void
-brightness_init (GtkScale *scale)
+static void
+brightness_init_cb (GObject      *source_object,
+                    GAsyncResult *res,
+                    GtkScale     *scale)
 {
-  GError *err = NULL;
-  GDBusConnection *session_con;
-  GDBusProxy *proxy;
+  g_autoptr(GError) err = NULL;
   GVariant *var;
   gint value;
 
-  session_con = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &err);
-  if (err != NULL) {
-    g_error ("Can not connect to session bus: %s", err->message);
-    g_error_free (err);
+  brightness_proxy = g_dbus_proxy_new_finish (res, &err);
+  if (!brightness_proxy || err) {
+    g_warning ("Could not connect to brightness service %s", err->message);
     return;
   }
 
-  proxy = g_dbus_proxy_new_sync (session_con,
-                                 G_DBUS_PROXY_FLAGS_NONE,
-                                 NULL,
-                                 "org.gnome.SettingsDaemon.Power",
-                                 "/org/gnome/SettingsDaemon/Power",
-                                 "org.gnome.SettingsDaemon.Power.Screen",
-                                 NULL,
-                                 &err);
-  if (!proxy || err) {
-    g_warning ("Could not connect to brightness service %s", err->message);
-    g_error_free (err);
-    return;
-  }
+  g_return_if_fail (GTK_IS_SCALE (scale));
 
   /* Set scale to current brightness */
-  var = g_dbus_proxy_get_cached_property (proxy, "Brightness");
+  var = g_dbus_proxy_get_cached_property (brightness_proxy, "Brightness");
   if (var) {
     g_variant_get (var, "i", &value);
     setting_brightness = TRUE;
@@ -80,14 +66,34 @@ brightness_init (GtkScale *scale)
     g_variant_unref (var);
   }
 
-  g_signal_connect (proxy,
+  g_signal_connect (brightness_proxy,
                     "g-properties-changed",
                     G_CALLBACK(brightness_changed_cb),
                     scale);
-
-  brightness_proxy = proxy;
 }
 
+void
+brightness_init (GtkScale *scale)
+{
+  g_autoptr(GError) err = NULL;
+  g_autoptr(GDBusConnection) session_con = NULL;
+
+  session_con = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &err);
+  if (err != NULL) {
+    g_error ("Can not connect to session bus: %s", err->message);
+    return;
+  }
+
+  g_dbus_proxy_new (session_con,
+                    G_DBUS_PROXY_FLAGS_NONE,
+                    NULL,
+                    "org.gnome.SettingsDaemon.Power",
+                    "/org/gnome/SettingsDaemon/Power",
+                    "org.gnome.SettingsDaemon.Power.Screen",
+                    NULL,
+                    (GAsyncReadyCallback)brightness_init_cb,
+                    scale);
+}
 
 
 static void
