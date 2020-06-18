@@ -112,6 +112,41 @@ phosh-home, .phosh-panel {
     margin: 0 10px 6px;
 }
 
+phosh-app-grid {
+    background: black;
+}
+
+phosh-app-grid separator {
+    background: rgba(51, 51, 51, 1);
+    min-height: 2px
+}
+
+phosh-app-grid-button {
+    font-size: 0.8rem;
+}
+
+phosh-app-grid-button button, phosh-app-grid-button button:hover {
+    background: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid transparent;
+}
+
+phosh-app-grid-button button:hover,
+phosh-app-grid-button button:focus,
+.search-active phosh-app-grid-button:first-child button {
+  background: rgba(46, 45, 45, 0.6);
+  border-radius: 5px;
+}
+
+phosh-app-grid-button button:focus {
+  border-color: @theme_selected_bg_color;
+}
+
+phosh-app-grid-button image {
+  /* -gtk-icon-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 1px 8px rgba(0,0,0,0.2); */
+}
+
 /*
  * Lock screen
  */
@@ -149,48 +184,6 @@ phosh-home, .phosh-panel {
     border-color: white;
     border-radius: 10px;
     padding: 18px;
-}
-
-/*
- * Overview
- */
-phosh-overview {
-    background: black;
-}
-
-phosh-app-grid {
-    background: black;
-}
-
-phosh-app-grid separator {
-    background: rgba(51, 51, 51, 1);
-    min-height: 2px
-}
-
-phosh-app-grid-button {
-    font-size: 0.8rem;
-}
-
-phosh-app-grid-button button, phosh-app-grid-button button:hover {
-    background: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid transparent;
-}
-
-phosh-app-grid-button button:hover,
-phosh-app-grid-button button:focus,
-.search-active phosh-app-grid-button:first-child button {
-  background: rgba(46, 45, 45, 0.6);
-  border-radius: 5px;
-}
-
-phosh-app-grid-button button:focus {
-  border-color: @theme_selected_bg_color;
-}
-
-phosh-app-grid-button image {
-  /* -gtk-icon-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 1px 8px rgba(0,0,0,0.2); */
 }
 
 /*
