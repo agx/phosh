@@ -1,4 +1,6 @@
-/* Top bar panel */
+/*
+ * Top bar panel
+ */
 .phosh-panel {
     font: 15px Cantarell;
 }
@@ -12,8 +14,9 @@
     font-weight: bold;
 }
 
-/* Home bar */
-
+/*
+ * Home bar
+ */
 .phosh-osk-button {
   border-radius: 50%;
   min-width: 0;
@@ -21,7 +24,9 @@
   padding: 6px;
 }
 
-/* Settings menu */
+/*
+ * Settings menu
+ */
 .phosh-settings-menu {
     background-color: black;
     border-bottom-right-radius: 10px;
@@ -46,7 +51,9 @@
   background-color: #282828;
 }
 
-/* Favorites / Home screen */
+/*
+ * Overview (app grid with favories and, activities)
+ */
 phosh-activity {
     background: white;
     border: none;
@@ -80,8 +87,6 @@ phosh-home, .phosh-panel {
   padding: 12px;
 }
 
-/* Overview (app switcher, favorites) */
-
 .phosh-overview {
     background: black;
 }
@@ -107,7 +112,9 @@ phosh-home, .phosh-panel {
     margin: 0 10px 6px;
 }
 
-/* Lock screen */
+/*
+ * Lock screen
+ */
 .phosh-lockscreen, .phosh-lockshield {
     background-color: black;
 }
@@ -133,7 +140,9 @@ phosh-home, .phosh-panel {
     100% {-gtk-icon-transform: translateY(0); opacity: 0.7}
 }
 
-/* system modal dialogs (polkit, gcr) */
+/*
+ * System modal dialogs (polkit, gcr)
+ */
 .phosh-system-modal-dialog {
     background-color: black;
     border: solid 2px;
@@ -142,7 +151,9 @@ phosh-home, .phosh-panel {
     padding: 18px;
 }
 
-/* switcher */
+/*
+ * Overview
+ */
 phosh-overview {
     background: black;
 }
@@ -182,8 +193,9 @@ phosh-app-grid-button image {
   /* -gtk-icon-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 1px 8px rgba(0,0,0,0.2); */
 }
 
-/* notifications */
-
+/*
+ * Notifications
+ */
 phosh-notification-content {
   background: transparent;
 }
@@ -238,7 +250,9 @@ phosh-notification-banner {
   padding: 12px;
 }
 
-/* fader */
+/*
+ * Output fader
+ */
 @keyframes phosh-fade-in {
     from {background:rgba(0, 0, 0, 0);}
     to {background:rgba(0, 0, 0, 1);}
@@ -252,7 +266,9 @@ phosh-notification-banner {
     animation-fill-mode: forwards;
 }
 
-/* Style for the keypad */
+/*
+ * Lockscreen keypad
+ */
 hdykeypad > button {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
