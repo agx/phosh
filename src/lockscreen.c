@@ -496,6 +496,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
+  gtk_widget_class_set_css_name (widget_class, "phosh-lockscreen");
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/lockscreen.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, paginator);

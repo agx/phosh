@@ -161,7 +161,7 @@ phosh-app-grid-button image {
 /*
  * Lock screen
  */
-.phosh-lockscreen, .phosh-lockshield {
+phosh-lockscreen, .phosh-lockshield {
   background-color: black;
 }
 
