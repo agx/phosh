@@ -51,6 +51,17 @@
   background-color: #282828;
 }
 
+.phosh-quick-setting {
+  font-size: 9px;
+  padding: 9px;
+  border: 0;
+  box-shadow: 0 0;
+}
+
+.phosh-quick-setting:not(:hover):not(:active) {
+  background: none;
+}
+
 /*
  * Overview (app grid with favories and, activities)
  */
@@ -210,17 +221,6 @@ hdykeypad > button:focus, .text-only-button:focus {
   box-shadow: none;
   background: rgba(255, 255, 255, 0.3);
   border: 0;
-}
-
-.phosh-quick-setting {
-  font-size: 9px;
-  padding: 9px;
-  border: 0;
-  box-shadow: 0 0;
-}
-
-.phosh-quick-setting:not(:hover):not(:active) {
-  background: none;
 }
 
 /*
