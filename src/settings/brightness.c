@@ -19,9 +19,9 @@ gboolean setting_brightness;
 
 static void
 brightness_changed_cb (GDBusProxy *proxy,
-                       GVariant *changed_props,
-                       GVariant *invalidated_props,
-                       gpointer *user_data)
+                       GVariant   *changed_props,
+                       GVariant   *invalidated_props,
+                       gpointer   *user_data)
 {
   GtkScale *scale = GTK_SCALE (user_data);
   gint value;
@@ -49,24 +49,24 @@ brightness_init (GtkScale *scale)
   GVariant *var;
   gint value;
 
-  session_con = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, &err);
+  session_con = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &err);
   if (err != NULL) {
-        g_error ("Can not connect to session bus: %s", err->message);
-        g_error_free (err);
-        return;
+    g_error ("Can not connect to session bus: %s", err->message);
+    g_error_free (err);
+    return;
   }
 
-  proxy = g_dbus_proxy_new_sync(session_con,
-                                G_DBUS_PROXY_FLAGS_NONE,
-                                NULL,
-                                "org.gnome.SettingsDaemon.Power",
-                                "/org/gnome/SettingsDaemon/Power",
-                                "org.gnome.SettingsDaemon.Power.Screen",
-                                NULL,
-                                &err);
+  proxy = g_dbus_proxy_new_sync (session_con,
+                                 G_DBUS_PROXY_FLAGS_NONE,
+                                 NULL,
+                                 "org.gnome.SettingsDaemon.Power",
+                                 "/org/gnome/SettingsDaemon/Power",
+                                 "org.gnome.SettingsDaemon.Power.Screen",
+                                 NULL,
+                                 &err);
   if (!proxy || err) {
-    g_warning("Could not connect to brightness service %s", err->message);
-    g_error_free(err);
+    g_warning ("Could not connect to brightness service %s", err->message);
+    g_error_free (err);
     return;
   }
 
@@ -99,8 +99,8 @@ brightness_set_cb (GDBusProxy *proxy, GAsyncResult *res, gpointer unused)
   var = g_dbus_proxy_call_finish (proxy, res, &err);
 
   if (err) {
-    g_warning("Could not set brightness %s", err->message);
-    g_error_free(err);
+    g_warning ("Could not set brightness %s", err->message);
+    g_error_free (err);
     return;
   }
 
