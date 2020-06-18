@@ -6,7 +6,7 @@
   <!ENTITY % gtkdocentities SYSTEM "xml/gtkdocentities.ent">
   %gtkdocentities;
 ]>
-<book id="index">
+<book xmlns="http://docbook.org/ns/docbook" id="index">
   <bookinfo>
     <title>&package_name; Manual</title>
     <releaseinfo>
@@ -27,6 +27,12 @@
       <holder>Purism SPC</holder>
     </copyright>
   </bookinfo>
+
+  <part id="overview">
+    <title>Phosh Overview</title>
+    <xi:include href="xml/patterns.md.xml"/>
+    <xi:include href="xml/special.xml"/>
+  </part>
 
   <part id="api-reference">
     <title>Api Reference</title>

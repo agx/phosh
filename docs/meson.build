@@ -7,15 +7,31 @@ private_headers = [
 ]
 
 content_files = [
+  'special.xml',
+]
+
+expand_content_md_files = [
+  'patterns.md',
 ]
 
 glib_prefix = glib_dep.get_pkgconfig_variable('prefix')
 glib_docpath = join_paths(glib_prefix, 'share', 'gtk-doc', 'html')
 docpath = join_paths(get_option('datadir'), 'gtk-doc', 'html')
 
+# gtk-markdown-to-docbook uses pandoc
+pandoc = find_program('pandoc', required: true)
+expand_md = find_program('gtk-markdown-to-docbook')
+expand_md_files = []
+foreach t : expand_content_md_files
+  expand_md_files += custom_target(t,
+                                     input   : [ t ],
+                                     output  : [ t + '.xml' ],
+                                     command : [ expand_md, '@INPUT@', '@OUTPUT@'])
+endforeach
+
 gnome.gtkdoc('phosh',
            main_xml: 'phosh-docs.xml',
-      content_files: content_files,
+      content_files: content_files + expand_md_files,
             src_dir: [
                        join_paths(meson.source_root(), 'src'),
                        join_paths(meson.build_root(), 'src'),
