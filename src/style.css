@@ -175,6 +175,54 @@ phosh-app-grid-button image {
     100% {-gtk-icon-transform: translateY(0); opacity: 0.7}
 }
 
+/* Lockscreen keypad */
+hdykeypad > button {
+  border-radius: 9999px;
+  -gtk-outline-radius: 9999px;
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 16px;
+  border: 0;
+  box-shadow: none;
+  background: 0;
+  border: 0;
+}
+
+hdykeypad > button:active {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.text-only-button:active {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+hdykeypad > button:focus, .text-only-button:focus {
+  outline-style: none;
+}
+
+.text-only-button {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 16px 36px;
+  border: 0;
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.3);
+  border: 0;
+}
+
+.phosh-quick-setting {
+  font-size: 9px;
+  padding: 9px;
+  border: 0;
+  box-shadow: 0 0;
+}
+
+.phosh-quick-setting:not(:hover):not(:active) {
+  background: none;
+}
+
 /*
  * System modal dialogs (polkit, gcr)
  */
@@ -259,52 +307,3 @@ phosh-notification-banner {
     animation-fill-mode: forwards;
 }
 
-/*
- * Lockscreen keypad
- */
-hdykeypad > button {
-  border-radius: 9999px;
-  -gtk-outline-radius: 9999px;
-  background-origin: padding-box, border-box;
-  background-clip: padding-box, border-box;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 16px;
-  border: 0;
-  box-shadow: none;
-  background: 0;
-  border: 0;
-}
-
-hdykeypad > button:active {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.text-only-button:active {
-  background: rgba(255, 255, 255, 0.5);
-}
-
-hdykeypad > button:focus, .text-only-button:focus {
-  outline-style: none;
-}
-
-.text-only-button {
-  font-size: 16px;
-  font-weight: bold;
-  padding: 16px 36px;
-  border: 0;
-  box-shadow: none;
-  background: rgba(255, 255, 255, 0.3);
-  border: 0;
-}
-
-.phosh-quick-setting {
-  font-size: 9px;
-  padding: 9px;
-  border: 0;
-  box-shadow: 0 0;
-}
-
-.phosh-quick-setting:not(:hover):not(:active) {
-  background: none;
-}
