@@ -1,12 +1,14 @@
 /*
- * Copyright © 2019 Zander Brown <zbrown@gnome.org>
+ * Copyright © 2019-2020 Zander Brown <zbrown@gnome.org>
  *
  * Inspired by gliststore.c:
  *     Copyright 2015 Lars Uebernickel
  *     Copyright 2015 Ryan Lortie
  * https://gitlab.gnome.org/GNOME/glib/blob/713fec9dcb1ee49c4f64bbb6f483a5cd1db9966a/gio/gliststore.c
  *
- * SPDX-License-Identifier: GPL-3.0+
+ * SPDX-License-Identifier: GPL-3-or-later
+ *
+ * Author: Zander Brown <zbrown@gnome.org>
  */
 
 #include "app-list-model.h"
@@ -116,26 +118,26 @@ items_changed (gpointer data)
 {
   PhoshAppListModel *self = PHOSH_APP_LIST_MODEL (data);
   PhoshAppListModelPrivate *priv = phosh_app_list_model_get_instance_private (self);
-  GList *new_apps;
+  g_autolist(GAppInfo) new_apps = NULL;
   int removed;
   int added = 0;
 
   new_apps = g_app_info_get_all ();
+
+  g_return_val_if_fail (new_apps != NULL, G_SOURCE_REMOVE);
 
   removed = g_sequence_get_length (priv->items);
 
   g_sequence_remove_range (g_sequence_get_begin_iter (priv->items),
                            g_sequence_get_end_iter (priv->items));
 
-  while ((new_apps = g_list_next (new_apps))) {
-    if (!g_app_info_should_show (G_APP_INFO (new_apps->data))) {
+  for (GList *l = new_apps; l; l = g_list_next (l)) {
+    if (!g_app_info_should_show (G_APP_INFO (l->data))) {
       continue;
     }
-    g_sequence_append (priv->items, g_object_ref (new_apps->data));
+    g_sequence_append (priv->items, g_object_ref (l->data));
     added++;
   }
-
-  g_list_free_full (new_apps, g_object_unref);
 
   priv->last.is_valid = FALSE;
   priv->last.iter = NULL;

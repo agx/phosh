@@ -34,3 +34,6 @@ executable('notify-blocks', ['notify-blocks.c'],
 
 executable('notify-server-standalone', ['notify-server-standalone.c'] + stubs,
            dependencies: phosh_tool_dep)
+
+executable('dump-app-list', ['dump-app-list.c'],
+           dependencies: phosh_tool_dep)
