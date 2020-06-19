@@ -1,3 +1,92 @@
+phosh (0.3.1) amber-phone; urgency=medium
+
+  [ Sebastian Krzyszkowiak ]
+  * PhoshOverview: Add haptic feedback when clicking on activity
+  * feedback-manager: Add a helper to trigger feedback on button press/release
+
+  [ Daniel Șerbănescu ]
+  * po: Add Romanian translation
+
+  [ Rafael Fontenelle ]
+  * Update Brazilian Portuguese translation
+
+  [ Guido Günther ]
+  * feedback-manager: Make 'connect_feedback' specific to buttons.
+    Those have 'clicked' and 'released' signals.
+  * app-grid-button: Make sure we unref the allocated gesture
+  * build: Bump version
+  * lockscreen: Drop HDY_DISABLE_DEPRECATION_WARNINGS.
+    We're not using any deprecated widgets
+  * lockscreen: Add G_{BEGIN,END}_DECLS
+  * Lots of gtk-doc fixups
+  * Build documentation via gtk-doc.
+    We need a shared lib for gtk-doc, only build this
+    when building Documentation.
+    Closes: #88
+  * debian: Add phoc-doc.
+    This makes the documentation useable via devhelp.
+  * gitlab-ci: Build documentation
+  * docs: Document C file layout
+  * gitlabci: Move coverage gathering to different step
+    Fixes spurious build failures.
+  * phoc.ini: Drop cursor config.
+    Phoc does not care anymore and with one output it does not match
+    anyway. So people with multiple outputs and touch need to run
+    the latest phoc release. This avoids a warning on phoc startup.
+  * phosh: Indicate connectivity state.
+    We show no icon if we're connected but indicate the lack of a connection
+    (or if we have a connection and can't reach the internet)
+    Closes: #229
+  * brightness: Connect async to g-s-d.
+    Shell startup sometimes stalls for a longer period of time. Connect
+    async to g-s-d to avoid at least one stall spotted with gdb.
+    It also fixes a leaked DBus connection.
+  * css cleanups
+  * tests: Don't try to spawn atk bridge.
+  * Add media-player widget.
+    This interfaces with mpris Mediaplayer2 based players
+    Closes: #94
+  * settings: Add media player.
+    Will only be shown when a player is present
+  * lockscreen: Add media player widget
+  * po: Update pot file.
+    This introduces the new translatable strings for the music player.
+  * layer-surface: Add the configured width and height to debug message.
+    We have that anyway so make it more useful
+  * layer-surface: Fix indentation
+  * layer-surface: Add a section header
+  * top-panel: Drop useless placeholder
+  * top-panel: Remove extra vertical padding from power button
+  * gitlab-ci: Skip po and doc when using PKG_ONLY
+  * media-player: Wire up Can{Go{Forward,Previous},Play}
+    This makes sure we don't enable ui elements the player can't handle
+  * media-player: Add a playable property.
+    The player might be stopped or not have a song list. Add a playable
+    property so the container has a better idea if it's worth showing
+    the player.
+  * lockscreen: Use playable property of media player.
+    We don't need a widget for a stopped or unusable player.
+  * settings: Use playable property of media player.
+    We don't need a widget for a stopped or unusable player.
+    Closes: #315
+  * feedbackinfo: Listen for feedback changes.
+    When switching from silent to quiet (and back) the icon name does not
+    change so we need to listen to profile name changes to update the
+    text below the icon.
+
+  [ Zander Brown ]
+  * app-list-model: phantom launcher.
+    At last a fix for the missing item problem
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+  [ Alexander Mittermeier ]
+  * Remove reference to rootston as the link was broken and the project is
+    deprecated. https://github.com/swaywm/rootston
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 22 Jun 2020 16:27:59 +0200
+
 phosh (0.3.0) amber-phone; urgency=medium
 
   [ Arnaud Ferraris ]
