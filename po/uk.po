@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-04-23 03:36+0000\n"
-"PO-Revision-Date: 2020-05-15 21:09+0300\n"
+"POT-Creation-Date: 2020-06-20 03:29+0000\n"
+"PO-Revision-Date: 2020-06-20 08:52+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -33,7 +33,7 @@ msgstr "Інтерфейс користувача телефону"
 msgid "Window management and application launching for mobile"
 msgstr "Керування вікнами і запуск програм для мобільних"
 
-#: src/app-grid-button.c:527
+#: src/app-grid-button.c:530
 msgid "Application"
 msgstr "Програма"
 
@@ -49,26 +49,34 @@ msgstr "Беззвучно"
 msgid "On"
 msgstr "Увімкнено"
 
-#: src/lockscreen.c:74 src/ui/lockscreen.ui:204
+#: src/lockscreen.c:82 src/ui/lockscreen.ui:217
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:253
+#: src/lockscreen.c:261
 msgid "Checking…"
 msgstr "Звіряю…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:330
+#: src/lockscreen.c:339
 msgid "%A, %B %d"
 msgstr "%A, %-d %B"
 
-#: src/monitor-manager.c:53
+#: src/media-player.c:244
+msgid "Unknown title"
+msgstr "Невідома назва"
+
+#: src/media-player.c:252
+msgid "Unknown artist"
+msgstr "Невідомий виконавець"
+
+#: src/monitor-manager.c:58
 msgid "Built-in display"
 msgstr "Вбудований дисплей"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:62
 msgid "Unknown"
 msgstr "Нетиповий"
 
@@ -82,8 +90,7 @@ msgstr "Підтримки типу розпізнавання у мережі w
 msgid "Enter password for the wifi network “%s”"
 msgstr "Введіть пароль до мережі wifi «%s»"
 
-#: src/notifications/notification.c:298 src/notifications/notification.c:504
-#| msgid "Application"
+#: src/notifications/notification.c:365 src/notifications/notification.c:581
 msgid "Notification"
 msgstr "Сповіщення"
 
@@ -128,17 +135,25 @@ msgstr "Додати до _вибраних"
 msgid "Search apps…"
 msgstr "Шукати серед застосунків…"
 
-#: src/ui/lockscreen.ui:36
+#: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr "Протягність угору, щоб розблокувати"
 
-#: src/ui/lockscreen.ui:250
+#: src/ui/lockscreen.ui:263
 msgid "Emergency"
 msgstr "Екстрений виклик"
 
-#: src/ui/lockscreen.ui:266
+#: src/ui/lockscreen.ui:279
 msgid "Unlock"
 msgstr "Розблокувати"
+
+#: src/ui/media-player.ui:107
+msgid "Unknown Song"
+msgstr "Невідома композиція"
+
+#: src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Невідомий виконавець"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
@@ -161,14 +176,10 @@ msgid "Lock Screen"
 msgstr "Заблокувати екран"
 
 #: src/ui/top-panel.ui:22
-msgid "Suspend"
-msgstr "Призупинити"
-
-#: src/ui/top-panel.ui:29
 msgid "Logout"
 msgstr "Вийти"
 
-#: src/ui/top-panel.ui:36
+#: src/ui/top-panel.ui:29
 msgid "Power Off"
 msgstr "Вимкнути"
 
