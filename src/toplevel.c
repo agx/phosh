@@ -349,6 +349,14 @@ phosh_toplevel_get_app_id (PhoshToplevel *self) {
 }
 
 
+struct zwlr_foreign_toplevel_handle_v1 *
+phosh_toplevel_get_handle (PhoshToplevel *self)
+{
+  g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), NULL);
+  return self->handle;
+}
+
+
 gboolean
 phosh_toplevel_is_configured (PhoshToplevel *self) {
   g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), FALSE);

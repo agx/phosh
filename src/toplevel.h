@@ -20,6 +20,7 @@ G_DECLARE_FINAL_TYPE (PhoshToplevel,
 PhoshToplevel *phosh_toplevel_new_from_handle (struct zwlr_foreign_toplevel_handle_v1 *handle);
 const gchar *phosh_toplevel_get_title (PhoshToplevel *self);
 const gchar *phosh_toplevel_get_app_id (PhoshToplevel *self);
+struct zwlr_foreign_toplevel_handle_v1 *phosh_toplevel_get_handle (PhoshToplevel *self);
 gboolean phosh_toplevel_is_configured (PhoshToplevel *self);
 gboolean phosh_toplevel_is_activated (PhoshToplevel *self);
 gboolean phosh_toplevel_is_maximized (PhoshToplevel *self);
