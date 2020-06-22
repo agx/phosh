@@ -29,11 +29,11 @@
       </packing>
     </child>
     <child>
-      <object class="GtkButton" id="btn_ff">
+      <object class="GtkButton" id="btn_next">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
-        <signal name="clicked" handler="btn_ff_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
+        <signal name="clicked" handler="btn_next_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
         <child>
           <object class="GtkImage">
             <property name="visible">True</property>
@@ -48,11 +48,11 @@
       </packing>
     </child>
     <child>
-      <object class="GtkButton" id="btn_rew">
+      <object class="GtkButton" id="btn_prev">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
-        <signal name="clicked" handler="btn_rew_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
+        <signal name="clicked" handler="btn_prev_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
         <child>
           <object class="GtkImage">
             <property name="visible">True</property>
