@@ -304,6 +304,46 @@ on_playback_status_changed (PhoshMediaPlayer                 *self,
   }
 }
 
+
+static void
+on_can_go_next_changed (PhoshMediaPlayer                 *self,
+                        GParamSpec                       *psepc,
+                        PhoshMprisDBusMediaPlayer2Player *player)
+{
+  gboolean sensitive;
+
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
+  sensitive = phosh_mpris_dbus_media_player2_player_get_can_go_next (player);
+  g_debug ("Can go next: %d", sensitive);
+  gtk_widget_set_sensitive (self->btn_next, sensitive);
+}
+
+static void
+on_can_go_previous_changed (PhoshMediaPlayer                 *self,
+                            GParamSpec                       *psepc,
+                            PhoshMprisDBusMediaPlayer2Player *player)
+{
+  gboolean sensitive;
+
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
+  sensitive = phosh_mpris_dbus_media_player2_player_get_can_go_previous (player);
+  g_debug ("Can go prev: %d", sensitive);
+  gtk_widget_set_sensitive (self->btn_prev, sensitive);
+}
+
+static void
+on_can_play (PhoshMediaPlayer                 *self,
+             GParamSpec                       *psepc,
+             PhoshMprisDBusMediaPlayer2Player *player)
+{
+  gboolean sensitive;
+
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
+  sensitive = phosh_mpris_dbus_media_player2_player_get_can_play (player);
+  g_debug ("Can play: %d", sensitive);
+  gtk_widget_set_sensitive (self->btn_play, sensitive);
+}
+
 static void
 phosh_media_player_dispose (GObject *object)
 {
@@ -396,10 +436,22 @@ attach_player_cb (GObject          *source_object,
                     "swapped_object_signal::notify::playback-status",
                     G_CALLBACK (on_playback_status_changed),
                     self,
+                    "swapped_object_signal::notify::can-go-next",
+                    G_CALLBACK (on_can_go_next_changed),
+                    self,
+                    "swapped_object_signal::notify::can-go-previous",
+                    G_CALLBACK (on_can_go_previous_changed),
+                    self,
+                    "swapped_object_signal::notify::can-play",
+                    G_CALLBACK (on_can_play),
+                    self,
                     NULL);
 
   g_object_notify (G_OBJECT (self->player), "metadata");
   g_object_notify (G_OBJECT (self->player), "playback-status");
+  g_object_notify (G_OBJECT (self->player), "can-go-next");
+  g_object_notify (G_OBJECT (self->player), "can-go-previous");
+  g_object_notify (G_OBJECT (self->player), "can-play");
 
   g_debug ("Connected player");
   set_attached (self, TRUE);
