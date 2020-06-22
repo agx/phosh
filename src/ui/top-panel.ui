@@ -34,9 +34,6 @@
   </object>
   <template class="PhoshPanel" parent="PhoshLayerSurface">
     <property name="can_focus">False</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
     <child>
       <object class="GtkBox" id="box">
         <property name="visible">True</property>
