@@ -241,7 +241,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
   if (title) {
     gtk_label_set_label (GTK_LABEL (self->lbl_title), title);
   } else {
-    gtk_label_set_label (GTK_LABEL (self->lbl_title), _ ("Unknown title"));
+    gtk_label_set_label (GTK_LABEL (self->lbl_title), _("Unknown title"));
   }
 
   g_variant_dict_lookup (&dict, "xesam:artist", "^as", &artist);
@@ -249,7 +249,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     g_autofree gchar *artists = g_strjoinv (", ", artist);
     gtk_label_set_label (GTK_LABEL (self->lbl_artist), artists);
   } else {
-    gtk_label_set_label (GTK_LABEL (self->lbl_artist), _ ("Unknown artist"));
+    gtk_label_set_label (GTK_LABEL (self->lbl_artist), _("Unknown artist"));
   }
 
   g_variant_dict_lookup (&dict, "mpris:artUrl", "&s", &url);
