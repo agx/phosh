@@ -83,7 +83,7 @@ static void layer_surface_configure(void                         *data,
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_CONFIGURED_WIDTH]);
   }
 
-  g_debug("Configured %p", self);
+  g_debug("Configured %p (%dx%d)", self, width, height);
   g_signal_emit (self, signals[CONFIGURED], 0);
 }
 
