@@ -33,17 +33,27 @@ G_DEFINE_TYPE (PhoshBackgroundManager, phosh_background_manager, G_TYPE_OBJECT);
 static PhoshBackground *
 create_background_for_monitor (PhoshBackgroundManager *self, PhoshMonitor *monitor)
 {
- PhoshShell *shell = phosh_shell_get_default ();
+  PhoshShell *shell = phosh_shell_get_default ();
   PhoshWayland *wl = phosh_wayland_get_default();
   PhoshMonitor *primary_monitor;
   PhoshBackground *background;
+  gint display_width;
+  gint display_height;
+
+  if (phosh_monitor_get_rotation(monitor) == 0 || phosh_monitor_get_rotation(monitor) == 180) {
+    display_height = monitor->height;
+    display_width = monitor->width;
+  } else {
+    display_height = monitor->width;
+    display_width = monitor->height;
+  }
 
   primary_monitor = phosh_shell_get_primary_monitor (shell);
   background = g_object_ref_sink(PHOSH_BACKGROUND (phosh_background_new (
                                                      phosh_wayland_get_zwlr_layer_shell_v1(wl),
                                                      monitor->wl_output,
-                                                     monitor->width / monitor->scale,
-                                                     monitor->height / monitor->scale,
+                                                     display_width / monitor->scale,
+                                                     display_height / monitor->scale,
                                                      monitor == primary_monitor)));
   g_hash_table_insert (self->backgrounds,
                        g_object_ref (monitor),
@@ -68,7 +78,6 @@ create_all_backgrounds (PhoshBackgroundManager *self)
   }
 }
 
-
 static void
 on_monitor_removed (PhoshBackgroundManager *self,
                     PhoshMonitor           *monitor,
@@ -87,8 +96,6 @@ on_monitor_configured (PhoshBackgroundManager *self,
                        PhoshMonitor *monitor)
 {
   create_background_for_monitor (self, monitor);
-
-  g_signal_handlers_disconnect_by_func (monitor, on_monitor_configured, self);
 }
 
 
@@ -153,6 +160,16 @@ phosh_background_manager_constructed (GObject *object)
                            G_CALLBACK (on_primary_monitor_changed),
                            self,
                            G_CONNECT_SWAPPED);
+
+  /* catch up with monitors already present */
+  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
+    PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
+ 
+    g_signal_connect_object (monitor, "configured",
+                             G_CALLBACK (on_monitor_configured),
+                             self,
+                             G_CONNECT_SWAPPED);
+  }
 
   create_all_backgrounds (self);
 }

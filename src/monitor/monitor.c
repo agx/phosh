@@ -60,6 +60,7 @@ output_handle_geometry (void             *data,
   self->vendor = g_strdup (make);
   self->product = g_strdup (model);
   self->transform = transform;
+  self->wl_output_done = FALSE;
 }
 
 
