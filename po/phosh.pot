@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-21 15:16+0200\n"
+"POT-Creation-Date: 2020-06-22 16:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr ""
 msgid "Window management and application launching for mobile"
 msgstr ""
 
-#: src/app-grid-button.c:527
+#: src/app-grid-button.c:530
 msgid "Application"
 msgstr ""
 
@@ -46,26 +46,34 @@ msgstr ""
 msgid "On"
 msgstr ""
 
-#: src/lockscreen.c:74 src/ui/lockscreen.ui:204
+#: src/lockscreen.c:82 src/ui/lockscreen.ui:217
 msgid "Enter Passcode"
 msgstr ""
 
-#: src/lockscreen.c:253
+#: src/lockscreen.c:261
 msgid "Checking…"
 msgstr ""
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:330
+#: src/lockscreen.c:339
 msgid "%A, %B %d"
 msgstr ""
 
-#: src/monitor-manager.c:53
+#: src/media-player.c:244
+msgid "Unknown title"
+msgstr ""
+
+#: src/media-player.c:252
+msgid "Unknown artist"
+msgstr ""
+
+#: src/monitor-manager.c:58
 msgid "Built-in display"
 msgstr ""
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:62
 msgid "Unknown"
 msgstr ""
 
@@ -79,7 +87,7 @@ msgstr ""
 msgid "Enter password for the wifi network “%s”"
 msgstr ""
 
-#: src/notifications/notification.c:298 src/notifications/notification.c:504
+#: src/notifications/notification.c:365 src/notifications/notification.c:581
 msgid "Notification"
 msgstr ""
 
@@ -124,16 +132,24 @@ msgstr ""
 msgid "Search apps…"
 msgstr ""
 
-#: src/ui/lockscreen.ui:36
+#: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr ""
 
-#: src/ui/lockscreen.ui:250
+#: src/ui/lockscreen.ui:263
 msgid "Emergency"
 msgstr ""
 
-#: src/ui/lockscreen.ui:266
+#: src/ui/lockscreen.ui:279
 msgid "Unlock"
+msgstr ""
+
+#: src/ui/media-player.ui:107
+msgid "Unknown Song"
+msgstr ""
+
+#: src/ui/media-player.ui:127
+msgid "Unknown Artist"
 msgstr ""
 
 #: src/ui/network-auth-prompt.ui:90
@@ -157,14 +173,10 @@ msgid "Lock Screen"
 msgstr ""
 
 #: src/ui/top-panel.ui:22
-msgid "Suspend"
-msgstr ""
-
-#: src/ui/top-panel.ui:29
 msgid "Logout"
 msgstr ""
 
-#: src/ui/top-panel.ui:36
+#: src/ui/top-panel.ui:29
 msgid "Power Off"
 msgstr ""
 
