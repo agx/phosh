@@ -47,6 +47,7 @@ typedef enum {
 enum {
   PROP_0,
   PROP_ATTACHED,
+  PROP_PLAYABLE,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -76,6 +77,7 @@ typedef struct _PhoshMediaPlayer {
   guint                             dbus_id;
   PhoshMediaPlayerStatus            status;
   gboolean                          attached;
+  gboolean                          playable;
 } PhoshMediaPlayer;
 
 G_DEFINE_TYPE (PhoshMediaPlayer, phosh_media_player, GTK_TYPE_GRID);
@@ -92,10 +94,24 @@ phosh_media_player_get_property (GObject    *object,
   case PROP_ATTACHED:
     g_value_set_boolean (value, self->attached);
     break;
+  case PROP_PLAYABLE:
+    g_value_set_boolean (value, self->playable);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
   }
+}
+
+static void
+set_playable (PhoshMediaPlayer *self, gboolean playable)
+{
+  if (self->playable == playable)
+    return;
+
+  self->playable = playable;
+  g_debug ("Playable: %d", playable);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PLAYABLE]);
 }
 
 static void
@@ -105,6 +121,8 @@ set_attached (PhoshMediaPlayer *self, gboolean attached)
     return;
 
   self->attached = attached;
+  if (!attached)
+    set_playable (self, FALSE);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ATTACHED]);
 }
 
@@ -287,12 +305,15 @@ on_playback_status_changed (PhoshMediaPlayer                 *self,
   if (!g_strcmp0 ("Playing", status)) {
     self->status = PHOSH_MEDIA_PLAYER_STATUS_PLAYING;
     icon = "media-playback-pause-symbolic";
+    set_playable (self, TRUE);
   } else if (!g_strcmp0 ("Paused", status)) {
     self->status = PHOSH_MEDIA_PLAYER_STATUS_PAUSED;
+    set_playable (self, TRUE);
   } else if (!g_strcmp0 ("Stopped", status)) {
     self->status = PHOSH_MEDIA_PLAYER_STATUS_STOPPED;
     gtk_label_set_label (GTK_LABEL (self->lbl_artist), "");
     gtk_label_set_label (GTK_LABEL (self->lbl_title), "");
+    set_playable (self, FALSE);
   } else {
     g_warning ("Unknown status %s", status);
     g_warn_if_reached ();
@@ -374,6 +395,23 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
     g_param_spec_boolean ("attached",
                           "Player attached",
                           "Whether a player is attached",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS |
+                          G_PARAM_EXPLICIT_NOTIFY);
+
+  /**
+   * PhoshMediaPlayer:playable
+   *
+   * Whether the player has a playable track. This is mostly
+   * useful to ignore states where the player does not know
+   * about any track and so no sensible information can be
+   * shown.
+   */
+  props[PROP_PLAYABLE] =
+    g_param_spec_boolean ("playable",
+                          "Playable",
+                          "Whether the player has a playable track",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_STATIC_STRINGS |
