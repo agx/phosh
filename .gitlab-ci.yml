@@ -121,6 +121,9 @@ build-gtkdoc:
   artifacts:
     paths:
       - _reference
+  except:
+    variables:
+      - $PKG_ONLY == "1"
 
 check-po:
   <<: *tags
@@ -137,6 +140,9 @@ check-po:
     # in this case
     - cd po/
     - intltool-update -m 2>&1 | grep -qs '/.*\.c' && { intltool-update -m; exit 1; } || exit 0
+  except:
+    variables:
+      - $PKG_ONLY == "1"
 
 build:native-alpinelinux-edge:
   <<: *tags
