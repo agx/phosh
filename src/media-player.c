@@ -389,18 +389,16 @@ attach_player_cb (GObject          *source_object,
     goto out;
   }
 
-  g_signal_connect_object (self->player,
-                           "notify::metadata",
-                           G_CALLBACK (on_metadata_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-  g_object_notify (G_OBJECT (self->player), "metadata");
+  g_object_connect (self->player,
+                    "swapped_object_signal::notify::metadata",
+                    G_CALLBACK (on_metadata_changed),
+                    self,
+                    "swapped_object_signal::notify::playback-status",
+                    G_CALLBACK (on_playback_status_changed),
+                    self,
+                    NULL);
 
-  g_signal_connect_object (self->player,
-                           "notify::playback-status",
-                           G_CALLBACK (on_playback_status_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
+  g_object_notify (G_OBJECT (self->player), "metadata");
   g_object_notify (G_OBJECT (self->player), "playback-status");
 
   g_debug ("Connected player");
