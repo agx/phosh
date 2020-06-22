@@ -11,6 +11,16 @@
 
 #include <gdk/gdkwayland.h>
 
+/**
+ * SECTION:layersurface
+ * @short_description: A #GtkWindow rendered as a LayerSurface by the compositor
+ * @Title: PhoshLayerSurface
+ *
+ * #PhoshLayerSurface allows to use a Wayland surface backed by the
+ * layer-shell protocol as #GtkWindow. This allows to render e.g. panels and
+ * backgrounds using GTK.
+ */
+
 enum {
   PHOSH_LAYER_SURFACE_PROP_0,
   PHOSH_LAYER_SURFACE_PROP_LAYER_SHELL,
@@ -37,7 +47,6 @@ enum {
   N_SIGNALS
 };
 static guint signals [N_SIGNALS];
-
 
 typedef struct {
   struct wl_surface            *wl_surface;
