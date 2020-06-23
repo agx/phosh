@@ -25,6 +25,7 @@
 enum {
   PHOSH_FEEDBACK_MANAGER_PROP_0,
   PHOSH_FEEDBACK_MANAGER_PROP_ICON_NAME,
+  PHOSH_FEEDBACK_MANAGER_PROP_PROFILE,
   PHOSH_FEEDBACK_MANAGER_PROP_LAST_PROP
 };
 static GParamSpec *props[PHOSH_FEEDBACK_MANAGER_PROP_LAST_PROP];
@@ -71,6 +72,9 @@ phosh_feedback_manager_get_property (GObject *object,
   case PHOSH_FEEDBACK_MANAGER_PROP_ICON_NAME:
     g_value_set_string (value, self->icon_name);
     break;
+  case PHOSH_FEEDBACK_MANAGER_PROP_PROFILE:
+    g_value_set_string (value, self->profile);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -80,9 +84,9 @@ phosh_feedback_manager_get_property (GObject *object,
 static void
 phosh_feedback_manager_update (PhoshFeedbackManager *self)
 {
-  const char *old;
+  const char *icon_name = self->icon_name;
+  const char *profile = self->profile;
 
-  old = self->icon_name;
   self->profile = lfb_get_feedback_profile ();
   if (g_strcmp0 (self->profile, "quiet") && g_strcmp0 (self->profile, "silent"))
     self->icon_name = PHOSH_FEEDBACK_ICON_FULL;
@@ -90,7 +94,10 @@ phosh_feedback_manager_update (PhoshFeedbackManager *self)
     self->icon_name = PHOSH_FEEDBACK_ICON_SILENT;
 
   g_debug("Feedback profile set to: '%s', icon '%s'", self->profile,  self->icon_name);
-  if (old != self->icon_name)
+
+  if (profile != self->profile)
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_FEEDBACK_MANAGER_PROP_PROFILE]);
+  if (icon_name != self->icon_name)
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_FEEDBACK_MANAGER_PROP_ICON_NAME]);
 }
 
@@ -151,6 +158,13 @@ phosh_feedback_manager_class_init (PhoshFeedbackManagerClass *klass)
                          "The feedback icon name",
                          PHOSH_FEEDBACK_ICON_FULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+  props[PHOSH_FEEDBACK_MANAGER_PROP_PROFILE] =
+    g_param_spec_string ("profile",
+                         "Profile",
+                         "The feedback profile name",
+                         "",
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+
   g_object_class_install_properties (object_class, PHOSH_FEEDBACK_MANAGER_PROP_LAST_PROP, props);
 }
 
