@@ -27,7 +27,7 @@ typedef struct _PhoshFeedbackInfo {
 G_DEFINE_TYPE (PhoshFeedbackInfo, phosh_feedback_info, PHOSH_TYPE_STATUS_ICON)
 
 static void
-on_icon_name_changed (PhoshFeedbackInfo *self, GParamSpec *psepc, gpointer unused)
+on_profile_changed (PhoshFeedbackInfo *self, GParamSpec *psepc, gpointer unused)
 {
   const char *profile, *name;
 
@@ -52,7 +52,11 @@ phosh_feedback_info_constructed (GObject *object)
 
   self->manager = g_object_ref(phosh_shell_get_feedback_manager (shell));
 
-  g_signal_connect (self, "notify::icon-name", (GCallback)on_icon_name_changed, NULL);
+  g_signal_connect_swapped (self->manager,
+                            "notify::profile",
+                            G_CALLBACK(on_profile_changed),
+                            self);
+  on_profile_changed (self, NULL, NULL);
   g_object_bind_property (self->manager, "icon-name", self, "icon-name",
                           G_BINDING_SYNC_CREATE);
 
