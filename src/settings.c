@@ -20,6 +20,7 @@
 #include "feedback-manager.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
+#include "rotateinfo.h"
 
 #include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
@@ -82,14 +83,57 @@ static void
 rotation_setting_clicked_cb (PhoshSettings *self)
 {
   PhoshShell *shell = phosh_shell_get_default ();
+  PhoshRotationManager *rotation_manager;
+  PhoshRotationManagerMode mode;
   PhoshMonitorTransform transform;
+  gboolean locked;
 
   g_return_if_fail (PHOSH_IS_SETTINGS (self));
-  transform = phosh_shell_get_transform (shell);
-  phosh_shell_set_transform (shell, transform == PHOSH_MONITOR_TRANSFORM_NORMAL
-                             ? PHOSH_MONITOR_TRANSFORM_270
-                             : PHOSH_MONITOR_TRANSFORM_NORMAL);
+
+  rotation_manager = phosh_shell_get_rotation_manager (shell);
+  g_return_if_fail (rotation_manager);
+  mode = phosh_rotation_manager_get_mode (PHOSH_ROTATION_MANAGER (rotation_manager));
+
+  switch (mode) {
+  case PHOSH_ROTATION_MANAGER_MODE_OFF:
+    transform = phosh_rotation_manager_get_transform (rotation_manager) ?
+      PHOSH_MONITOR_TRANSFORM_NORMAL : PHOSH_MONITOR_TRANSFORM_270;
+    phosh_rotation_manager_set_transform (rotation_manager, transform);
+    break;
+  case PHOSH_ROTATION_MANAGER_MODE_SENSOR:
+    locked = phosh_rotation_manager_get_orientation_locked (rotation_manager);
+    phosh_rotation_manager_set_orientation_locked (rotation_manager, !locked);
+    break;
+  default:
+    g_assert_not_reached ();
+  }
+
   g_signal_emit (self, signals[SETTING_DONE], 0);
+}
+
+static void
+rotation_setting_long_pressed_cb (PhoshSettings *self)
+{
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshRotateInfoMode mode;
+  PhoshRotationManager *rotation_manager;
+
+  rotation_manager = phosh_shell_get_rotation_manager (shell);
+  g_return_if_fail (rotation_manager);
+
+  mode = phosh_rotation_manager_get_mode (rotation_manager);
+  switch (mode) {
+  case PHOSH_ROTATION_MANAGER_MODE_OFF:
+    mode = PHOSH_ROTATION_MANAGER_MODE_SENSOR;
+    break;
+  case PHOSH_ROTATION_MANAGER_MODE_SENSOR:
+    mode = PHOSH_ROTATION_MANAGER_MODE_OFF;
+    break;
+  default:
+    g_assert_not_reached ();
+  }
+  g_debug ("Rotation manager mode: %d", mode);
+  phosh_rotation_manager_set_mode (rotation_manager, mode);
 }
 
 static void
@@ -481,6 +525,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, feedback_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_media_player_raised);
   gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, rotation_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, torch_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, wifi_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, wwan_setting_clicked_cb);
