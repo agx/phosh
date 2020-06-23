@@ -113,4 +113,3 @@ For details see the [developer documentation](https://developer.puri.sm/Contact.
 [gitlab-ci.yml]: https://source.puri.sm/Librem5/phosh/blob/master/.gitlab-ci.yml
 [debian/control]: https://source.puri.sm/Librem5/phosh/blob/master/debian/control
 [phoc]: https://source.puri.sm/Librem5/phoc
-[rootston]: https://github.com/swaywm/wlroots/tree/master/rootston
