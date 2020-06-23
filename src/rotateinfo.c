@@ -15,27 +15,34 @@
 
 /**
  * SECTION:rotateinfo
- * @short_description: A widget to display the rotate status
+ * @short_description: A widget to display the rotate lock status
  * @Title: PhoshRotateInfo
  *
- * Rotate Info widget
+ * A #PhoshStatusIcon to display the rotation lock status.
+ * It can either display whether a rotation lock is currently active or
+ * if the output is in portrait/landscape mode.
  */
 
 typedef struct _PhoshRotateInfo {
-  PhoshStatusIcon parent;
+  PhoshStatusIcon     parent;
+
+  PhoshRotationManager *manager;
 } PhoshRotateInfo;
 
 
 G_DEFINE_TYPE (PhoshRotateInfo, phosh_rotate_info, PHOSH_TYPE_STATUS_ICON)
 
-
 static void
-set_state (PhoshRotateInfo *self)
+on_transform_changed (PhoshRotateInfo *self)
 {
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshMonitor *monitor = phosh_shell_get_primary_monitor (shell);
   gboolean monitor_is_landscape;
   gboolean portrait;
+
+  if (phosh_rotation_manager_get_mode (self->manager) != PHOSH_ROTATION_MANAGER_MODE_OFF) {
+    return;
+  }
 
   switch (phosh_shell_get_transform (shell)) {
   case PHOSH_MONITOR_TRANSFORM_NORMAL:
@@ -71,37 +78,70 @@ set_state (PhoshRotateInfo *self)
 
 
 static void
-phosh_rotate_info_finalize (GObject *object)
+on_orientation_lock_changed (PhoshRotateInfo *self)
 {
-  PhoshRotateInfo *self = PHOSH_ROTATE_INFO(object);
+  gboolean locked = phosh_rotation_manager_get_orientation_locked (self->manager);
+  const char *icon_name;
 
-  g_signal_handlers_disconnect_by_data (phosh_shell_get_default (), self);
+  if (phosh_rotation_manager_get_mode (self->manager) != PHOSH_ROTATION_MANAGER_MODE_SENSOR)
+    return;
 
-  G_OBJECT_CLASS (phosh_rotate_info_parent_class)->finalize (object);
+  g_debug ("Orientation locked: %d", locked);
+
+  icon_name = locked ? "rotation-locked-symbolic" : "rotation-allowed-symbolic";
+  phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
+  /* Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled) */
+  phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), locked ? _("Off") : _("On"));
+
+  return;
+}
+
+
+static void
+on_mode_changed (PhoshRotateInfo *self)
+{
+  PhoshRotationManagerMode mode = phosh_rotation_manager_get_mode (self->manager);
+
+  g_debug ("Rotation manager mode: %d", mode);
+  switch (mode) {
+  case PHOSH_ROTATION_MANAGER_MODE_OFF:
+    on_transform_changed (self);
+    break;
+  case PHOSH_ROTATION_MANAGER_MODE_SENSOR:
+    on_orientation_lock_changed (self);
+    break;
+  default:
+    g_assert_not_reached ();
+  }
 }
 
 
 static void
 phosh_rotate_info_class_init (PhoshRotateInfoClass *klass)
 {
-  GObjectClass *object_class = G_OBJECT_CLASS (klass);
-  object_class->finalize = phosh_rotate_info_finalize;
 }
 
 
 static void
 phosh_rotate_info_init (PhoshRotateInfo *self)
 {
-  g_signal_connect_swapped (phosh_shell_get_default (),
-                            "notify::transform",
-                            G_CALLBACK (set_state),
-                            self);
-  set_state (self);
-}
+  self->manager = phosh_shell_get_rotation_manager (phosh_shell_get_default());
 
-
-GtkWidget *
-phosh_rotate_info_new (void)
-{
-  return g_object_new (PHOSH_TYPE_ROTATE_INFO, NULL);
+  /* We don't use property bindings since we flip info/icon based on rotation and lock */
+  g_signal_connect_object (phosh_shell_get_default (),
+                           "notify::transform",
+                           G_CALLBACK (on_transform_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (self->manager,
+                           "notify::orientation-locked",
+                           G_CALLBACK (on_orientation_lock_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (self->manager,
+                           "notify::mode",
+                           G_CALLBACK (on_mode_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_mode_changed (self);
 }

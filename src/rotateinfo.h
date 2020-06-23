@@ -11,10 +11,24 @@
 
 G_BEGIN_DECLS
 
+/**
+ * PhoshRotateInfoMode:
+ * @PHOSH_ROTATE_INFO_MODE_LOCK: Button toggles rotation lock
+ * @PHOSH_ROTATE_INFO_MODE_TOGGLE: Button toggles potrait/landscape
+ *
+ * The power save mode of a monitor
+ */
+typedef enum {
+  PHOSH_ROTATE_INFO_MODE_LOCK,
+  PHOSH_ROTATE_INFO_MODE_TOGGLE,
+} PhoshRotateInfoMode;
+
 #define PHOSH_TYPE_ROTATE_INFO (phosh_rotate_info_get_type())
 
 G_DECLARE_FINAL_TYPE (PhoshRotateInfo, phosh_rotate_info, PHOSH, ROTATE_INFO, PhoshStatusIcon)
 
-GtkWidget * phosh_rotate_info_new (void);
+GtkWidget           *phosh_rotate_info_new (void);
+PhoshRotateInfoMode  phosh_rotate_info_get_mode (PhoshRotateInfo *self);
+void                 phosh_rotate_info_set_mode (PhoshRotateInfo *self, PhoshRotateInfoMode mode);
 
 G_END_DECLS
