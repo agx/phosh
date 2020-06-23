@@ -59,6 +59,7 @@
 #include "proximity.h"
 #include "quick-setting.h"
 #include "rotateinfo.h"
+#include "rotation-manager.h"
 #include "sensor-proxy-manager.h"
 #include "screen-saver-manager.h"
 #include "session-manager.h"
@@ -129,6 +130,7 @@ typedef struct
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
   PhoshProximity *proximity;
+  PhoshRotationManager *rotation_manager;
 
   gboolean startup_finished;
   PhoshMonitorTransform transform; /* current rotation of primary monitor */
@@ -372,7 +374,9 @@ phosh_shell_dispose (GObject *object)
 
   /* sensors */
   g_clear_object (&priv->proximity);
+  g_clear_object (&priv->rotation_manager);
   g_clear_object (&priv->sensor_proxy_manager);
+
   phosh_system_prompter_unregister ();
   g_clear_object (&priv->session_manager);
 
@@ -1093,6 +1097,24 @@ phosh_shell_get_session_manager (PhoshShell *self)
   return priv->session_manager;
 }
 
+
+PhoshRotationManager *
+phosh_shell_get_rotation_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->rotation_manager)
+    priv->rotation_manager = phosh_rotation_manager_new (priv->sensor_proxy_manager,
+                                                         priv->lockscreen_manager,
+                                                         priv->builtin_monitor);
+
+  g_return_val_if_fail (PHOSH_IS_ROTATION_MANAGER (priv->rotation_manager), NULL);
+
+  return priv->rotation_manager;
+}
 
 /**
  * Returns the usable area in pixels usable by a client on the phone

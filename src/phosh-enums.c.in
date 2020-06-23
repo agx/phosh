@@ -11,6 +11,7 @@
 #include "notifications/notification.h"
 #include "notifications/notify-manager.h"
 #include "phosh-wayland.h"
+#include "rotation-manager.h"
 #include "shell.h"
 #include "wwan/phosh-wwan-backend.h"
 
