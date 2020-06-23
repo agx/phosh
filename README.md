@@ -54,8 +54,8 @@ There are some thorough tests not run during CI which can e.g. be run via
 
 ## Running
 ### Running from the source tree
-When running from the source tree start the compositor *[phoc][]*
- (*[rootston][]* will do as well). Then start *phosh* using:
+When running from the source tree start the compositor *[phoc][]*.
+Then start *phosh* using:
 
     _build/run -U
 
