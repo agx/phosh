@@ -38,7 +38,19 @@ test_deps = [
   'stubs/phosh.c',
   'stubs/toplevel.c',
   'stubs/toplevel-manager.c'
+ ]
+
+testlib_sources = [
+  'testlib.c',
 ]
+
+testlib = static_library('phoshtest', testlib_sources,
+  dependencies: [phosh_deps, phosh_tool_dep],
+  c_args: test_cflags)
+testlib_dep = declare_dependency(
+  include_directories: include_directories('.'),
+  dependencies: phosh_tool_dep,
+  link_with: testlib)
 
 tests = [
   'activity',
@@ -68,7 +80,7 @@ foreach test : tests
                  c_args: test_cflags,
                  pie: true,
                  link_args: test_link_args,
-                 dependencies: phosh_tool_dep)
+                 dependencies: testlib_dep)
   test(test, t, env: test_env)
 endforeach
 
