@@ -39,17 +39,17 @@ tests = [
   'app-grid-button',
   'app-list-model',
   'connectivity-info',
-  'overview',
   'favourite-model',
-  'status-icon',
-  'quick-setting',
   'media-player',
   'notification',
   'notification-banner',
   'notification-content',
   'notification-frame',
-  'notification-source',
   'notification-list',
+  'notification-source',
+  'overview',
+  'quick-setting',
+  'status-icon',
 ]
 
 # Unit tests
