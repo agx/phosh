@@ -41,7 +41,7 @@ on_layer_surface_notify (PhoshLayerSurface *surface,
 static void
 test_layer_surface_new (Fixture *fixture, gconstpointer unused)
 {
-  GtkWidget *surface = phosh_layer_surface_new (fixture->state->layer_shell,
+  GtkWidget *surface = phosh_layer_surface_new (phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
                                                 fixture->state->output);
 
   g_assert_true (PHOSH_IS_LAYER_SURFACE (surface));
@@ -54,7 +54,7 @@ test_layer_surface_g_object_new (Fixture *fixture, gconstpointer unused)
 {
   g_autofree gchar *namespace = g_strdup_printf ("phosh test %s", __func__);
   GtkWidget *surface = g_object_new (PHOSH_TYPE_LAYER_SURFACE,
-                                     "layer-shell", fixture->state->layer_shell,
+                                     "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
                                      "wl-output", fixture->state->output,
                                      "width", 10,
                                      "height", 10,
@@ -92,7 +92,7 @@ test_layer_surface_set_size (Fixture *fixture, gconstpointer unused)
   g_autofree gchar *namespace = g_strdup_printf ("phosh test %s", __func__);
 
   GtkWidget *surface = g_object_new (PHOSH_TYPE_LAYER_SURFACE,
-                                     "layer-shell", fixture->state->layer_shell,
+                                     "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
                                      "wl-output", fixture->state->output,
                                      "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                                      "kbd-interactivity", FALSE,
@@ -141,7 +141,7 @@ test_layer_surface_set_kbd_interactivity (Fixture *fixture, gconstpointer unused
   g_autofree gchar *namespace = g_strdup_printf ("phosh test %s", __func__);
 
   GtkWidget *surface = g_object_new (PHOSH_TYPE_LAYER_SURFACE,
-                                     "layer-shell", fixture->state->layer_shell,
+                                     "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
                                      "wl-output", fixture->state->output,
                                      "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                                      "kbd-interactivity", FALSE,

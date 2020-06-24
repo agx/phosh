@@ -34,7 +34,7 @@ test_link_args = [
 ]
 
 # Deps for all tests
-test_deps = [
+test_stub_deps = [
   'stubs/phosh.c',
   'stubs/toplevel.c',
   'stubs/toplevel-manager.c',
@@ -79,7 +79,7 @@ tests_phoc = [
 # Unit tests
 foreach test : tests
   t = executable('test-@0@'.format(test),
-                 test_deps + ['test-@0@.c'.format(test)],
+                 test_stub_deps + ['test-@0@.c'.format(test)],
                  c_args: test_cflags,
                  pie: true,
                  link_args: test_link_args,
@@ -95,7 +95,7 @@ if run_phoc_tests
 # Unit tests
   foreach test : tests_phoc
     t = executable('test-@0@'.format(test),
-                   test_deps + ['test-@0@.c'.format(test)],
+                   ['test-@0@.c'.format(test)],
                    c_args: test_cflags,
                    pie: true,
                    link_args: test_link_args,

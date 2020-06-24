@@ -14,48 +14,6 @@
 
 #include <stdint.h>
 
-static void
-registry_handle_global (void               *data,
-                        struct wl_registry *registry,
-                        uint32_t            name,
-                        const char         *interface,
-                        uint32_t            version)
-{
-  PhoshTestCompositorState *state = data;
-
-  if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
-    state->layer_shell = wl_registry_bind (
-      registry,
-      name,
-      &zwlr_layer_shell_v1_interface,
-      1);
-    g_assert (state->layer_shell);
-    g_debug ("Bound layer shell interface");
-  } else if (!strcmp (interface, "wl_output")) {
-    state->output = wl_registry_bind (
-      registry,
-      name,
-      &wl_output_interface, 2);
-    g_assert (state->output);
-    g_debug ("Bound wl_output interface");
-  }
-}
-
-
-static void
-registry_handle_global_remove (void               *data,
-                               struct wl_registry *registry,
-                               uint32_t            name)
-{
-  /* intentionally left blank */
-}
-
-
-static const struct wl_registry_listener registry_listener = {
-  registry_handle_global,
-  registry_handle_global_remove
-};
-
 typedef struct _PhocOutputWatch {
   gchar     *socket;
   GMainLoop *loop;
@@ -147,6 +105,8 @@ phosh_test_compositor_new (void)
   g_autoptr (GMainLoop) mainloop = NULL;
   PhoshTestCompositorState *state;
   GSpawnFlags flags = G_SPAWN_DO_NOT_REAP_CHILD;
+  GHashTable *outputs;
+  GHashTableIter iter;
   const gchar *comp;
   gboolean ret;
   int outfd;
@@ -203,14 +163,19 @@ phosh_test_compositor_new (void)
 
   /* Set up wayland protocol */
   gdk_set_allowed_backends ("wayland");
+  /*
+   * Don't let GDK decide whether to open a display, we want the one
+   * from the freshly spawned compositor
+   */
   state->gdk_display = gdk_display_open (watch.socket);
-  state->display = gdk_wayland_display_get_wl_display (state->gdk_display);
-  state->registry = wl_display_get_registry (state->display);
-  g_assert (wl_registry_add_listener (state->registry, &registry_listener, state) == 0);
-  wl_display_roundtrip (state->display);
-  g_assert_nonnull (state->output);
-  g_assert_nonnull (state->layer_shell);
   g_free (watch.socket);
+  state->wl = phosh_wayland_get_default ();
+
+  /* Get us the first output just so it's simpler to use */
+  outputs = phosh_wayland_get_wl_outputs (state->wl);
+  g_hash_table_iter_init (&iter, outputs);
+  g_hash_table_iter_next (&iter, NULL, (gpointer*)&state->output);
+  g_assert_nonnull (state->output);
 
   return state;
 }
@@ -224,5 +189,12 @@ phosh_test_compositor_free (PhoshTestCompositorState *state)
   gdk_display_close (state->gdk_display);
   kill (state->pid, SIGTERM);
   g_spawn_close_pid (state->pid);
+
+#if GLIB_CHECK_VERSION(2,62,0)
+  g_assert_finalize_object (state->wl);
+#else
+  g_object_unref (state->wl);
+#endif
+
   g_clear_pointer (&state, g_free);
 }

@@ -4,16 +4,16 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
+#include "phosh-wayland.h"
+
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
 typedef struct _PhoshTestCompositorState {
   GPid                        pid;
-  struct wl_display          *display;
-  struct wl_registry         *registry;
+  PhoshWayland               *wl;
   struct wl_output           *output;
-  struct zwlr_layer_shell_v1 *layer_shell;
   GdkDisplay                 *gdk_display;
 } PhoshTestCompositorState;
 

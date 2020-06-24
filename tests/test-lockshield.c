@@ -29,7 +29,7 @@ compositor_teardown (Fixture *fixture, gconstpointer unused)
 static void
 test_lockshield_new (Fixture *fixture, gconstpointer unused)
 {
-  GtkWidget *panel = phosh_lockshield_new (fixture->state->layer_shell,
+  GtkWidget *panel = phosh_lockshield_new (phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
                                            fixture->state->output);
 
   g_assert_true (PHOSH_IS_LOCKSHIELD (panel));
