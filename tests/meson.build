@@ -72,6 +72,7 @@ tests = [
 
 tests_phoc = [
   'layer-surface',
+  'lockshield',
 ]
 
 # Unit tests
