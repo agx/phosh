@@ -68,6 +68,9 @@ output_handle_done (void             *data,
 {
   PhoshMonitor *self = PHOSH_MONITOR (data);
 
+  if (phosh_monitor_is_configured (self))
+    return;
+
   self->wl_output_done = TRUE;
 
   if (phosh_monitor_is_configured (self))
@@ -154,6 +157,9 @@ xdg_output_v1_handle_done (void *data,
                            struct zxdg_output_v1 *zxdg_output_v1)
 {
   PhoshMonitor *self = PHOSH_MONITOR (data);
+
+  if (phosh_monitor_is_configured (self))
+    return;
 
   self->xdg_output_done = TRUE;
 
