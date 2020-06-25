@@ -143,7 +143,8 @@ summary = [
   '-----------',
   'Phosh @0@'.format(meson.project_version()),
   '',
-  'Tests: @0@'.format(get_option('tests')),
+  '        Tests: @0@'.format(get_option('tests')),
+  '   Phoc Tests: @0@'.format(run_phoc_tests),
   'Documentation: @0@'.format(get_option('gtk_doc')),
   '-----------',
 ]

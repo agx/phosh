@@ -58,6 +58,9 @@ tests = [
   'status-icon',
 ]
 
+tests_phoc = [
+]
+
 # Unit tests
 foreach test : tests
   t = executable('test-@0@'.format(test),
@@ -68,6 +71,23 @@ foreach test : tests
                  dependencies: phosh_tool_dep)
   test(test, t, env: test_env)
 endforeach
+
+if run_phoc_tests
+  test_env_phoc = test_env_common
+  # Make sure this is valid when running the compositor
+  test_env_phoc.set('XDG_RUNTIME_DIR', meson.current_build_dir())
+
+# Unit tests
+  foreach test : tests_phoc
+    t = executable('test-@0@'.format(test),
+                   test_deps + ['test-@0@.c'.format(test)],
+                   c_args: test_cflags,
+                   pie: true,
+                   link_args: test_link_args,
+                   dependencies: testlib_dep)
+    test(test, t, env: test_env_phoc)
+  endforeach
+endif
 
 # Integration tests
 t = executable('test-idle-manager',

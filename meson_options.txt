@@ -2,6 +2,10 @@ option('tests',
        type: 'boolean', value: true,
        description: 'Whether to compile unit tests')
 
+option('phoc_tests',
+       type: 'feature', value: 'auto',
+       description: 'Whether to enable tests that need phoc')
+
 option('gtk_doc',
        type: 'boolean', value: false,
        description: 'Whether to generate the API reference for Handy')
