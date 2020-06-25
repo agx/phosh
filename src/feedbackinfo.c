@@ -34,12 +34,19 @@ on_profile_changed (PhoshFeedbackInfo *self, GParamSpec *psepc, gpointer unused)
   g_return_if_fail (PHOSH_IS_FEEDBACK_INFO (self));
 
   profile = phosh_feedback_manager_get_profile (self->manager);
-  if (!g_strcmp0 (profile, "quiet"))
+  if (!g_strcmp0 (profile, "quiet")) {
+    /* Translators: quiet and silent are fbd profiles names:
+       see https://source.puri.sm/Librem5/feedbackd#profiles
+       for details */
     name = _("Quiet");
-  else if (!g_strcmp0 (profile, "silent"))
+  } else if (!g_strcmp0 (profile, "silent")) {
+    /* Translators: quiet and silent are fbd profiles names:
+       see https://source.puri.sm/Librem5/feedbackd#profiles
+       for details */
     name = _("Silent");
-  else
+  } else {
     name = _("On");
+  }
 
   phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), name);
 }
