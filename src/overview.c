@@ -60,6 +60,17 @@ struct _PhoshOverview
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshOverview, phosh_overview, GTK_TYPE_BOX)
 
+static PhoshToplevel *
+get_toplevel_from_activity (PhoshActivity *activity)
+{
+  PhoshToplevel *toplevel;
+  g_return_val_if_fail (PHOSH_IS_ACTIVITY (activity), NULL);
+  toplevel = g_object_get_data (G_OBJECT (activity), "toplevel");
+  g_return_val_if_fail (PHOSH_IS_TOPLEVEL (toplevel), NULL);
+
+  return toplevel;
+}
+
 static GtkWidget *
 find_activity_by_toplevel (PhoshOverview        *self,
                            PhoshToplevel        *needle)
@@ -73,7 +84,7 @@ find_activity_by_toplevel (PhoshOverview        *self,
     PhoshToplevel *toplevel;
 
     activity = l->data;
-    toplevel = g_object_get_data (G_OBJECT (activity), "toplevel");
+    toplevel = get_toplevel_from_activity (activity);
     if (toplevel == needle)
       break;
   }
@@ -88,8 +99,8 @@ on_activity_clicked (PhoshOverview *self, PhoshActivity *activity)
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
 
-  toplevel = g_object_get_data (G_OBJECT (activity), "toplevel");
-  g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
+  toplevel = get_toplevel_from_activity (activity);
+  g_return_if_fail (toplevel);
 
   g_debug("Will raise %s (%s)",
           phosh_activity_get_app_id (activity),
@@ -290,7 +301,7 @@ phosh_overview_size_allocate (GtkWidget     *widget,
                     "win-width", alloc->width,
                     "win-height", alloc->height,
                     NULL);
-      request_thumbnail (self, g_object_get_data (G_OBJECT (l->data), "toplevel"));
+      request_thumbnail (self, get_toplevel_from_activity (PHOSH_ACTIVITY (l->data)));
     }
   }
 
