@@ -407,14 +407,19 @@ phosh_wayland_get_zwlr_foreign_toplevel_manager_v1 (PhoshWayland *self)
   return priv->zwlr_foreign_toplevel_manager_v1;
 }
 
-
-GHashTable*
+/**
+ * phosh_wayland_get_wl_outputs:
+ * @self: The #PhoshWayland singleton
+ *
+ * Returns: (transfer none): A list of outputs as a #GHashTable
+ * keyed by the output's name with wl_output's as values.
+ */
+GHashTable *
 phosh_wayland_get_wl_outputs (PhoshWayland *self)
 {
   PhoshWaylandPrivate *priv = phosh_wayland_get_instance_private (self);
   return priv->wl_outputs;
 }
-
 
 gboolean
 phosh_wayland_has_wl_output (PhoshWayland *self, struct wl_output *wl_output)
