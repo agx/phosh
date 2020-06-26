@@ -61,7 +61,6 @@ tests = [
   'favourite-model',
   'media-player',
   'notification',
-  'notification-banner',
   'notification-content',
   'notification-frame',
   'notification-list',
@@ -74,6 +73,7 @@ tests = [
 tests_phoc = [
   'layer-surface',
   'lockshield',
+  'notification-banner',
 ]
 
 # Unit tests
@@ -95,7 +95,7 @@ if run_phoc_tests
 # Unit tests
   foreach test : tests_phoc
     t = executable('test-@0@'.format(test),
-                   ['test-@0@.c'.format(test)],
+                   test_stub_deps + ['test-@0@.c'.format(test)],
                    c_args: test_cflags,
                    pie: true,
                    link_args: test_link_args,
