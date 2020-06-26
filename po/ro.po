@@ -7,10 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-05-11 03:34+0000\n"
-"PO-Revision-Date: 2020-05-11 13:35+0200\n"
-"Last-Translator: Florentina Mușat <florentina.musat.28 [at] gmail [dot] "
-"com>\n"
+"POT-Creation-Date: 2020-06-26 03:29+0000\n"
+"PO-Revision-Date: 2020-06-20 12:25+0300\n"
+"Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);;\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -33,42 +32,56 @@ msgstr "Shell telefon"
 msgid "Window management and application launching for mobile"
 msgstr "Administrare de fereastră și lansare de aplicație pentru mobil"
 
-#: src/app-grid-button.c:518
+#: src/app-grid-button.c:530
 msgid "Application"
 msgstr "Aplicație"
 
-#: src/feedbackinfo.c:38
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:41
 msgid "Quiet"
 msgstr "Încet"
 
-#: src/feedbackinfo.c:40
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:46
 msgid "Silent"
 msgstr "Silențios"
 
-#: src/feedbackinfo.c:42
+#: src/feedbackinfo.c:48
 msgid "On"
 msgstr "Pornit"
 
-#: src/lockscreen.c:74 src/ui/lockscreen.ui:204
+#: src/lockscreen.c:82 src/ui/lockscreen.ui:217
 msgid "Enter Passcode"
 msgstr "Introduceți parola"
 
-#: src/lockscreen.c:253
+#: src/lockscreen.c:261
 msgid "Checking…"
 msgstr "Se verifică…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:330
+#: src/lockscreen.c:339
 msgid "%A, %B %d"
 msgstr "%A, %B %d"
 
-#: src/monitor-manager.c:53
+#: src/media-player.c:262
+msgid "Unknown title"
+msgstr "Titlu necunoscut"
+
+#: src/media-player.c:270
+msgid "Unknown artist"
+msgstr "Artist necunoscut"
+
+#: src/monitor-manager.c:58
 msgid "Built-in display"
 msgstr "Afișaj integrat"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:62
 msgid "Unknown"
 msgstr "Necunoscut"
 
@@ -127,17 +140,25 @@ msgstr "Adaugă la _favorite"
 msgid "Search apps…"
 msgstr "Caută aplicații…"
 
-#: src/ui/lockscreen.ui:36
+#: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr "Glisează în sus pentru a debloca"
 
-#: src/ui/lockscreen.ui:250
+#: src/ui/lockscreen.ui:263
 msgid "Emergency"
 msgstr "Urgență"
 
-#: src/ui/lockscreen.ui:266
+#: src/ui/lockscreen.ui:279
 msgid "Unlock"
 msgstr "Deblocare"
+
+#: src/ui/media-player.ui:107
+msgid "Unknown Song"
+msgstr "Cântec necunoscut"
+
+#: src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Artist necunoscut"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
@@ -160,17 +181,16 @@ msgid "Lock Screen"
 msgstr "Ecran de blocare"
 
 #: src/ui/top-panel.ui:22
-msgid "Suspend"
-msgstr "Suspendă"
-
-#: src/ui/top-panel.ui:29
 msgid "Logout"
 msgstr "Deautentificare"
 
-#: src/ui/top-panel.ui:36
+#: src/ui/top-panel.ui:29
 msgid "Power Off"
 msgstr "Oprire"
 
 #: src/wifiinfo.c:55
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
+
+#~ msgid "Suspend"
+#~ msgstr "Suspendă"
