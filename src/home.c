@@ -113,7 +113,7 @@ phosh_home_resize (PhoshHome *self)
 
   phosh_arrow_set_progress (PHOSH_ARROW (self->arrow_home), 1 - progress);
 
-  gtk_window_get_size (GTK_WINDOW (self), NULL, &height);
+  g_object_get (self, "configured-height", &height, NULL);
   margin = (-height + PHOSH_HOME_BUTTON_HEIGHT) * progress;
 
   phosh_layer_surface_set_margins (PHOSH_LAYER_SURFACE (self), 0, 0, margin, 0);
@@ -206,7 +206,7 @@ phosh_home_constructed (GObject *object)
                             self);
 
   g_signal_connect (self,
-                    "size-allocate",
+                    "configured",
                     G_CALLBACK (phosh_home_resize),
                     NULL);
 
