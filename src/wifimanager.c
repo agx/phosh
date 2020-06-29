@@ -591,7 +591,10 @@ phosh_wifi_manager_dispose (GObject *object)
   PhoshWifiManager *self = PHOSH_WIFI_MANAGER(object);
 
   g_clear_object (&self->network_agent);
-  g_clear_object (&self->nmclient);
+  if (self->nmclient) {
+    g_signal_handlers_disconnect_by_data (self->nmclient, self);
+    g_clear_object (&self->nmclient);
+  }
 
   cleanup_device (self);
 
