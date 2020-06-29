@@ -11,6 +11,8 @@
 #include "wwaninfo.h"
 #include "wwan/phosh-wwan-mm.h"
 
+#include <glib/gi18n.h>
+
 #define WWAN_INFO_DEFAULT_ICON_SIZE 24
 
 /**
@@ -154,11 +156,24 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
   gtk_widget_show (access_tec_widget);
 }
 
+static void
+update_info (PhoshWWanInfo *self)
+{
+  const gchar *info;
+  g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
+
+  info = phosh_wwan_get_operator (PHOSH_WWAN (self->wwan));
+  if (!info || !g_strcmp0(info, ""))
+    info = _("Cellular");
+
+  phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), info);
+}
 
 static gboolean
 on_idle (PhoshWWanInfo *self)
 {
   update_icon_data (self, NULL, NULL);
+  update_info (self);
   return FALSE;
 }
 
@@ -184,9 +199,13 @@ phosh_wwan_info_constructed (GObject *object)
                               G_CALLBACK (update_icon_data),
                               self);
   }
-  g_idle_add ((GSourceFunc) on_idle, self);
 
-  phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), "Cellular");
+  g_signal_connect_swapped (self->wwan,
+                            "notify::operator",
+                            G_CALLBACK (update_info),
+                            self);
+
+  g_idle_add ((GSourceFunc) on_idle, self);
 }
 
 
