@@ -26,7 +26,7 @@ phosh_wwan_default_init (PhoshWWanInterface *iface)
     iface,
     g_param_spec_string ("access-tec",
                          "Access technology",
-                         "Network access technoligy",
+                         "Network access technology",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
 
