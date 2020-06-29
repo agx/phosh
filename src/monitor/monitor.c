@@ -50,6 +50,7 @@ output_handle_geometry (void             *data,
   g_debug ("handle geometry output %p, position %d %d, size %dx%d, subpixel layout %d, vendor %s, "
            "product %s, transform %d",
            self, x, y, physical_width, physical_height, subpixel, make, model, transform);
+  self->wl_output_done = FALSE;
 
   self->x = x;
   self->y = y;
@@ -85,6 +86,7 @@ output_handle_scale (void             *data,
 {
   PhoshMonitor *self = PHOSH_MONITOR (data);
 
+  self->wl_output_done = FALSE;
   self->scale = scale;
 }
 
@@ -102,6 +104,7 @@ output_handle_mode (void             *data,
 
   g_debug ("handle mode output %p: %dx%d@%d",
            self, width, height, refresh);
+  self->wl_output_done = FALSE;
 
   mode.width = width;
   mode.height = height;
