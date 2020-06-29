@@ -26,6 +26,7 @@
 enum {
   PROP_0,
   PROP_ENABLED,
+  PROP_PRESENT,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -34,6 +35,7 @@ struct _PhoshWifiInfo {
   PhoshStatusIcon parent;
 
   gboolean          enabled;
+  gboolean          present;
   PhoshWifiManager *wifi;
 };
 G_DEFINE_TYPE (PhoshWifiInfo, phosh_wifi_info, PHOSH_TYPE_STATUS_ICON);
@@ -49,6 +51,9 @@ phosh_wifi_info_get_property (GObject    *object,
   switch (property_id) {
   case PROP_ENABLED:
     g_value_set_boolean (value, self->enabled);
+    break;
+  case PROP_PRESENT:
+    g_value_set_boolean (value, self->present);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -100,6 +105,22 @@ on_wifi_enabled (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
 }
 
+static void
+on_wifi_present (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
+{
+  gboolean present;
+
+  g_return_if_fail (PHOSH_IS_WIFI_INFO (self));
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (wifi));
+
+  present = phosh_wifi_manager_get_present (wifi);
+  if (self->present == present)
+    return;
+
+  self->present = present;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
+}
+
 static gboolean
 on_idle (PhoshWifiInfo *self)
 {
@@ -142,6 +163,10 @@ phosh_wifi_info_constructed (GObject *object)
                             "notify::enabled",
                             G_CALLBACK (on_wifi_enabled),
                             self);
+  g_signal_connect_swapped (self->wifi,
+                            "notify::present",
+                            G_CALLBACK (on_wifi_present),
+                            self);
 
   g_idle_add ((GSourceFunc) on_idle, self);
 }
@@ -178,6 +203,15 @@ phosh_wifi_info_class_init (PhoshWifiInfoClass *klass)
                           G_PARAM_READABLE |
                           G_PARAM_STATIC_STRINGS |
                           G_PARAM_EXPLICIT_NOTIFY);
+  props[PROP_PRESENT] =
+    g_param_spec_boolean ("present",
+                          "Present",
+                          "Whether wifi hardware is present",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS |
+                          G_PARAM_EXPLICIT_NOTIFY);
+
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
