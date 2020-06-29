@@ -40,7 +40,6 @@
                       <object class="PhoshWifiInfo" id="wifiinfo">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="show-always">True</property>
                         <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                       </object>
                     </child>
@@ -56,7 +55,6 @@
                       <object class="PhoshBatteryInfo" id="batteryinfo">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="show-always">True</property>
                         <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                       </object>
                     </child>

@@ -22,7 +22,6 @@ enum {
   PHOSH_STATUS_ICON_PROP_ICON_SIZE,
   PHOSH_STATUS_ICON_PROP_EXTRA_WIDGET,
   PHOSH_STATUS_ICON_PROP_INFO,
-  PHOSH_STATUS_ICON_PROP_SHOW_ALWAYS,
   PHOSH_STATUS_ICON_PROP_LAST_PROP
 };
 static GParamSpec *props[PHOSH_STATUS_ICON_PROP_LAST_PROP];
@@ -33,7 +32,6 @@ typedef struct
   GtkWidget *extra_widget;
   GtkIconSize icon_size;
   gchar *info;
-  gboolean show_always;
 } PhoshStatusIconPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshStatusIcon, phosh_status_icon, GTK_TYPE_BIN);
@@ -59,9 +57,6 @@ phosh_status_icon_set_property (GObject *object,
     break;
   case PHOSH_STATUS_ICON_PROP_INFO:
     phosh_status_icon_set_info (self, g_value_get_string (value));
-    break;
-  case PHOSH_STATUS_ICON_PROP_SHOW_ALWAYS:
-    phosh_status_icon_set_show_always (self, g_value_get_boolean (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -89,9 +84,6 @@ phosh_status_icon_get_property (GObject *object,
     break;
   case PHOSH_STATUS_ICON_PROP_INFO:
     g_value_set_string (value, phosh_status_icon_get_info (self));
-    break;
-  case PHOSH_STATUS_ICON_PROP_SHOW_ALWAYS:
-    g_value_set_boolean (value, phosh_status_icon_get_show_always (self));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -147,13 +139,6 @@ phosh_status_icon_class_init (PhoshStatusIconClass *klass)
                         "Additional state information",
                         NULL,
                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-
-  props[PHOSH_STATUS_ICON_PROP_SHOW_ALWAYS] =
-   g_param_spec_boolean ("show-always",
-                         "show always",
-                         "Show icon even when the corresponding manager indicates disabled or missing hardware",
-                         FALSE,
-                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PHOSH_STATUS_ICON_PROP_LAST_PROP, props);
 }
@@ -326,32 +311,3 @@ phosh_status_icon_set_info (PhoshStatusIcon *self, const gchar *info)
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_STATUS_ICON_PROP_INFO]);
 }
 
-
-gboolean
-phosh_status_icon_get_show_always (PhoshStatusIcon *self)
-{
-  PhoshStatusIconPrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_STATUS_ICON (self), FALSE);
-
-  priv = phosh_status_icon_get_instance_private (self);
-
-  return priv->show_always;
-}
-
-
-void
-phosh_status_icon_set_show_always (PhoshStatusIcon *self, gboolean show_always)
-{
-  PhoshStatusIconPrivate *priv;
-  g_return_if_fail (PHOSH_IS_STATUS_ICON (self));
-
-  priv = phosh_status_icon_get_instance_private (self);
-
-  if (priv->show_always == show_always)
-    return;
-
-  priv->show_always = show_always;
-
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_STATUS_ICON_PROP_SHOW_ALWAYS]);
-}

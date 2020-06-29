@@ -19,8 +19,6 @@
  * The #QuickSetting is a widget which is meant to be placed inside the top drawer.
  * It contains a #GtkLabel and accepts one #StatusIcon as a child. The info property
  * of the #StatusIcon is bind to the #GtkLabel.
- * It's ideal to set show-always property to true of the #StatusIcon, because
- * otherways #QuickSetting would lose it's icon.
  * A #QuickSetting has two signals long_press and clicked, where the first is emited
  * when the user performs a long press, the second signal is a normal single click.
  */
