@@ -610,6 +610,9 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
   g_return_if_fail (PHOSH_IS_SHELL (self));
   priv = phosh_shell_get_instance_private (self);
 
+  if (monitor == priv->primary_monitor)
+    return;
+
   for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
     m = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
     if (monitor == m)
