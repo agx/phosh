@@ -618,7 +618,7 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
   g_return_if_fail (monitor == m);
 
   priv->primary_monitor = monitor;
-  /* Move panels to the new monitor be recreating the layer shell surfaces */
+  /* Move panels to the new monitor by recreating the layer shell surfaces */
   panels_dispose (self);
   panels_create (self);
 
