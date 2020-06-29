@@ -685,3 +685,11 @@ phosh_wifi_manager_get_ssid (PhoshWifiManager *self)
 
   return self->ssid;
 }
+
+gboolean
+phosh_wifi_manager_get_enabled (PhoshWifiManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (self), FALSE);
+
+  return self->enabled;
+}
