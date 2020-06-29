@@ -299,27 +299,19 @@ destroy_modem (PhoshWWanMM *self)
 
 
 static void
-init_modem (PhoshWWanMM *self, const gchar *object_path)
+on_proxy_new_for_bus_finish (GObject      *source_object,
+                              GAsyncResult *res,
+                              PhoshWWanMM  *self)
 {
-  g_autoptr (GError) err = NULL;
+  g_autoptr(GError) err = NULL;
 
-  self->proxy = phosh_mmdbus_modem_proxy_new_for_bus_sync (
-    G_BUS_TYPE_SYSTEM,
-    G_DBUS_PROXY_FLAGS_NONE,
-    BUS_NAME,
-    object_path,
-    NULL,
+  self->proxy = phosh_mmdbus_modem_proxy_new_for_bus_finish (
+    res,
     &err);
 
-  if (self->proxy == NULL) {
-    g_warning ("Can't query modem at %s: %s", object_path, err->message);
-    return;
-  }
-
-  self->object_path = g_strdup (object_path);
-  if (self->object_path == NULL) {
-    g_clear_object (&self->proxy);
-    g_return_if_fail (self->object_path);
+  if (!self->proxy) {
+    g_warning ("Failed to get modem proxy for %s: %s", self->object_path, err->message);
+    g_object_unref (self);
   }
 
   self->proxy_props_signal_id = g_signal_connect (self->proxy,
@@ -331,6 +323,25 @@ init_modem (PhoshWWanMM *self, const gchar *object_path)
   phosh_wwan_mm_update_lock_status (self);
   phosh_wwan_mm_update_sim_status (self);
   phosh_wwan_mm_update_present (self, TRUE);
+  g_object_unref (self);
+}
+
+
+static void
+init_modem (PhoshWWanMM *self, const gchar *object_path)
+{
+  g_return_if_fail (object_path);
+
+  self->object_path = g_strdup (object_path);
+
+  phosh_mmdbus_modem_proxy_new_for_bus (
+    G_BUS_TYPE_SYSTEM,
+    G_DBUS_PROXY_FLAGS_NONE,
+    BUS_NAME,
+    object_path,
+    NULL,
+    (GAsyncReadyCallback)on_proxy_new_for_bus_finish,
+    g_object_ref (self));
 }
 
 
