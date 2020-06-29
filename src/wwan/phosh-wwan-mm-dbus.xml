@@ -6,4 +6,8 @@
     <property name="State" type="i" access="read" />
     <property name="Sim" type="o" access="read" />
   </interface>
+
+  <interface name="org.freedesktop.ModemManager1.Modem.Modem3gpp">
+    <property name="OperatorName" type="s" access="read" />
+  </interface>
 </node>

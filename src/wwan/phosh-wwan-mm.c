@@ -61,6 +61,7 @@ enum {
   PHOSH_WWAN_MM_PROP_UNLOCKED,
   PHOSH_WWAN_MM_PROP_SIM,
   PHOSH_WWAN_MM_PROP_PRESENT,
+  PHOSH_WWAN_MM_PROP_OPERATOR,
   PHOSH_WWAN_MM_PROP_LAST_PROP,
 };
 
@@ -68,12 +69,14 @@ typedef struct _PhoshWWanMM {
   GObject                         parent;
 
   PhoshMMDBusModem               *proxy;
+  PhoshMMDBusModemModem3gpp      *proxy_3gpp;
   PhoshMMDBusObjectManagerClient *manager;
 
   /** Signals we connect to */
   gulong                          manager_object_added_signal_id;
   gulong                          manager_object_removed_signal_id;
   gulong                          proxy_props_signal_id;
+  gulong                          proxy_3gpp_props_signal_id;
 
   gchar                          *object_path;
   guint                           signal_quality;
@@ -81,6 +84,7 @@ typedef struct _PhoshWWanMM {
   gboolean                        unlocked;
   gboolean                        sim;
   gboolean                        present;
+  gchar                          *operator;
 } PhoshWWanMM;
 
 
@@ -150,6 +154,23 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
   g_object_notify (G_OBJECT (self), "access-tec");
 }
 
+static void
+phosh_wwan_mm_update_operator (PhoshWWanMM *self)
+{
+  const gchar *operator;
+
+  g_return_if_fail (self);
+  g_return_if_fail (self->proxy_3gpp);
+  operator = phosh_mmdbus_modem_modem3gpp_get_operator_name (
+    self->proxy_3gpp);
+
+  if (g_strcmp0 (operator, self->operator)) {
+    g_debug("Operator is '%s'", operator);
+    g_free (self->operator);
+    self->operator = g_strdup (operator);
+    g_object_notify (G_OBJECT (self), "operator");
+  }
+}
 
 static void
 phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
@@ -231,6 +252,23 @@ dbus_props_changed_cb (PhoshMMDBusModem *proxy,
   }
 }
 
+static void
+dbus_3gpp_props_changed_cb(PhoshMMDBusModem *proxy,
+                           GVariant *changed_properties,
+                           GStrv invaliated,
+                           PhoshWWanMM *self)
+{
+  char *property;
+  GVariantIter i;
+
+  g_variant_iter_init (&i, changed_properties);
+  while (g_variant_iter_next (&i, "{&sv}", &property, NULL)) {
+    g_debug ("WWAN 3gpp property %s changed", property);
+    if (strcmp (property, "OperatorName") == 0) {
+      phosh_wwan_mm_update_operator (self);
+    }
+  }
+}
 
 static void
 phosh_wwan_mm_set_property (GObject      *object,
@@ -264,6 +302,9 @@ phosh_wwan_mm_get_property (GObject    *object,
   case PHOSH_WWAN_MM_PROP_SIM:
     g_value_set_boolean (value, self->sim);
     break;
+  case PHOSH_WWAN_MM_PROP_OPERATOR:
+    g_value_set_string (value, self->operator);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -278,6 +319,11 @@ destroy_modem (PhoshWWanMM *self)
     phosh_clear_handler (&self->proxy_props_signal_id, self->proxy);
 
     g_clear_object (&self->proxy);
+  }
+
+  if (self->proxy_3gpp) {
+    phosh_clear_handler (&self->proxy_3gpp_props_signal_id, self->proxy_3gpp);
+    g_clear_object (&self->proxy_3gpp);
   }
 
   g_clear_pointer (&self->object_path, g_free);
@@ -295,6 +341,34 @@ destroy_modem (PhoshWWanMM *self)
 
   self->sim = FALSE;
   g_object_notify (G_OBJECT (self), "sim");
+
+  g_clear_pointer (&self->operator, g_free);
+  g_object_notify (G_OBJECT (self), "operator");
+}
+
+
+static void
+on_proxy_3gpp_new_for_bus_finish (GObject      *source_object,
+                                  GAsyncResult *res,
+                                  PhoshWWanMM  *self)
+{
+  g_autoptr (GError) err = NULL;
+
+  self->proxy_3gpp = phosh_mmdbus_modem_modem3gpp_proxy_new_for_bus_finish (
+    res,
+    &err);
+
+  if (!self->proxy_3gpp) {
+    g_warning ("Failed to get 3gpp proxy for %s: %s", self->object_path, err->message);
+    g_object_unref (self);
+  }
+
+  self->proxy_3gpp_props_signal_id = g_signal_connect (self->proxy_3gpp,
+                                                       "g-properties-changed",
+                                                       G_CALLBACK (dbus_3gpp_props_changed_cb),
+                                                       self);
+  phosh_wwan_mm_update_operator (self);
+  g_object_unref (self);
 }
 
 
@@ -341,6 +415,15 @@ init_modem (PhoshWWanMM *self, const gchar *object_path)
     object_path,
     NULL,
     (GAsyncReadyCallback)on_proxy_new_for_bus_finish,
+    g_object_ref (self));
+
+  phosh_mmdbus_modem_modem3gpp_proxy_new_for_bus (
+    G_BUS_TYPE_SYSTEM,
+    G_DBUS_PROXY_FLAGS_NONE,
+    BUS_NAME,
+    object_path,
+    NULL,
+    (GAsyncReadyCallback)on_proxy_3gpp_new_for_bus_finish,
     g_object_ref (self));
 }
 
@@ -451,7 +534,6 @@ phosh_wwan_mm_dispose (GObject *object)
   parent_class->dispose (object);
 }
 
-
 static void
 phosh_wwan_mm_class_init (PhoshWWanMMClass *klass)
 {
@@ -477,6 +559,9 @@ phosh_wwan_mm_class_init (PhoshWWanMMClass *klass)
   g_object_class_override_property (object_class,
                                     PHOSH_WWAN_MM_PROP_PRESENT,
                                     "present");
+  g_object_class_override_property (object_class,
+                                    PHOSH_WWAN_MM_PROP_OPERATOR,
+                                    "operator");
 }
 
 
@@ -528,6 +613,16 @@ phosh_wwan_mm_is_present (PhoshWWan *phosh_wwan)
 }
 
 
+static const char*
+phosh_wwan_mm_get_operator (PhoshWWan *phosh_wwan)
+{
+  PhoshWWanMM *self = PHOSH_WWAN_MM (phosh_wwan);
+
+  g_return_val_if_fail (PHOSH_IS_WWAN_MM (self), NULL);
+  return self->operator;
+}
+
+
 static void
 phosh_wwan_mm_interface_init (PhoshWWanInterface *iface)
 {
@@ -536,6 +631,7 @@ phosh_wwan_mm_interface_init (PhoshWWanInterface *iface)
   iface->is_unlocked = phosh_wwan_mm_is_unlocked;
   iface->has_sim = phosh_wwan_mm_has_sim;
   iface->is_present = phosh_wwan_mm_is_present;
+  iface->get_operator = phosh_wwan_mm_get_operator;
 }
 
 
