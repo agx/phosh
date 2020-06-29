@@ -208,7 +208,6 @@ panels_dispose (PhoshShell *self)
 
   g_clear_pointer (&priv->panel, phosh_cp_widget_destroy);
   g_clear_pointer (&priv->home, phosh_cp_widget_destroy);
-  g_clear_pointer (&priv->faders, g_ptr_array_unref);
 }
 
 
@@ -307,6 +306,7 @@ phosh_shell_dispose (GObject *object)
   }
 
   panels_dispose (self);
+  g_clear_pointer (&priv->faders, g_ptr_array_unref);
   g_clear_object (&priv->notification_banner);
   g_clear_object (&priv->notify_manager);
   g_clear_object (&priv->screen_saver_manager);
@@ -394,7 +394,8 @@ on_fade_out_timeout (PhoshShell *self)
   priv = phosh_shell_get_instance_private (self);
 
   /* kill all faders if we time out */
-  g_clear_pointer (&priv->faders, g_ptr_array_unref);
+  priv->faders = g_ptr_array_remove_range (priv->faders, 0, priv->faders->len);
+
   return G_SOURCE_REMOVE;
 }
 
