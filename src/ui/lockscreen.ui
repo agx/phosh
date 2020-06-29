@@ -157,7 +157,7 @@
                     </child>
                     <child>
                       <object class="PhoshWifiInfo" id="wifiinfo">
-                        <property name="visible">False</property>
+                        <property name="visible" bind-source="wifiinfo" bind-property="enabled" bind-flags="sync-create"/>
                         <property name="can_focus">False</property>
                         <property name="valign">start</property>
                         <property name="halign">end</property>
