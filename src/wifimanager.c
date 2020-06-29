@@ -586,7 +586,7 @@ phosh_wifi_manager_constructed (GObject *object)
 
 
 static void
-phosh_wifi_manager_finalize (GObject *object)
+phosh_wifi_manager_dispose (GObject *object)
 {
   PhoshWifiManager *self = PHOSH_WIFI_MANAGER(object);
 
@@ -600,7 +600,7 @@ phosh_wifi_manager_finalize (GObject *object)
     g_clear_object (&self->active);
   }
 
-  G_OBJECT_CLASS (phosh_wifi_manager_parent_class)->finalize (object);
+  G_OBJECT_CLASS (phosh_wifi_manager_parent_class)->dispose (object);
 }
 
 
@@ -610,7 +610,7 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->constructed = phosh_wifi_manager_constructed;
-  object_class->finalize = phosh_wifi_manager_finalize;
+  object_class->dispose = phosh_wifi_manager_dispose;
 
   object_class->set_property = phosh_wifi_manager_set_property;
   object_class->get_property = phosh_wifi_manager_get_property;
