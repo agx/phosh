@@ -22,36 +22,36 @@
  */
 
 typedef enum { /* From ModemManager-enums.h */
-    MM_MODEM_ACCESS_TECHNOLOGY_UNKNOWN     = 0,
-    MM_MODEM_ACCESS_TECHNOLOGY_POTS        = 1 << 0,
-    MM_MODEM_ACCESS_TECHNOLOGY_GSM         = 1 << 1,
-    MM_MODEM_ACCESS_TECHNOLOGY_GSM_COMPACT = 1 << 2,
-    MM_MODEM_ACCESS_TECHNOLOGY_GPRS        = 1 << 3,
-    MM_MODEM_ACCESS_TECHNOLOGY_EDGE        = 1 << 4,
-    MM_MODEM_ACCESS_TECHNOLOGY_UMTS        = 1 << 5,
-    MM_MODEM_ACCESS_TECHNOLOGY_HSDPA       = 1 << 6,
-    MM_MODEM_ACCESS_TECHNOLOGY_HSUPA       = 1 << 7,
-    MM_MODEM_ACCESS_TECHNOLOGY_HSPA        = 1 << 8,
-    MM_MODEM_ACCESS_TECHNOLOGY_HSPA_PLUS   = 1 << 9,
-    MM_MODEM_ACCESS_TECHNOLOGY_1XRTT       = 1 << 10,
-    MM_MODEM_ACCESS_TECHNOLOGY_EVDO0       = 1 << 11,
-    MM_MODEM_ACCESS_TECHNOLOGY_EVDOA       = 1 << 12,
-    MM_MODEM_ACCESS_TECHNOLOGY_EVDOB       = 1 << 13,
-    MM_MODEM_ACCESS_TECHNOLOGY_LTE         = 1 << 14,
+  MM_MODEM_ACCESS_TECHNOLOGY_UNKNOWN     = 0,
+  MM_MODEM_ACCESS_TECHNOLOGY_POTS        = 1 << 0,
+  MM_MODEM_ACCESS_TECHNOLOGY_GSM         = 1 << 1,
+  MM_MODEM_ACCESS_TECHNOLOGY_GSM_COMPACT = 1 << 2,
+  MM_MODEM_ACCESS_TECHNOLOGY_GPRS        = 1 << 3,
+  MM_MODEM_ACCESS_TECHNOLOGY_EDGE        = 1 << 4,
+  MM_MODEM_ACCESS_TECHNOLOGY_UMTS        = 1 << 5,
+  MM_MODEM_ACCESS_TECHNOLOGY_HSDPA       = 1 << 6,
+  MM_MODEM_ACCESS_TECHNOLOGY_HSUPA       = 1 << 7,
+  MM_MODEM_ACCESS_TECHNOLOGY_HSPA        = 1 << 8,
+  MM_MODEM_ACCESS_TECHNOLOGY_HSPA_PLUS   = 1 << 9,
+  MM_MODEM_ACCESS_TECHNOLOGY_1XRTT       = 1 << 10,
+  MM_MODEM_ACCESS_TECHNOLOGY_EVDO0       = 1 << 11,
+  MM_MODEM_ACCESS_TECHNOLOGY_EVDOA       = 1 << 12,
+  MM_MODEM_ACCESS_TECHNOLOGY_EVDOB       = 1 << 13,
+  MM_MODEM_ACCESS_TECHNOLOGY_LTE         = 1 << 14,
 } PhoshWWanMMAccessTechnology;
 
 typedef enum { /* From ModemManager-enums.h */
-    MM_MODEM_LOCK_UNKNOWN        = 0,
-    MM_MODEM_LOCK_NONE           = 1,
-    /* ... */
+  MM_MODEM_LOCK_UNKNOWN        = 0,
+  MM_MODEM_LOCK_NONE           = 1,
+  /* ... */
 } PhoshMMModemLock;
 
 typedef enum { /*< underscore_name=mm_modem_state >*/
-    MM_MODEM_STATE_FAILED        = -1,
-    MM_MODEM_STATE_UNKNOWN       = 0,
-    MM_MODEM_STATE_INITIALIZING  = 1,
-    MM_MODEM_STATE_LOCKED        = 2,
-    /* ... */
+  MM_MODEM_STATE_FAILED        = -1,
+  MM_MODEM_STATE_UNKNOWN       = 0,
+  MM_MODEM_STATE_INITIALIZING  = 1,
+  MM_MODEM_STATE_LOCKED        = 2,
+  /* ... */
 } PhoshMMModemState;
 
 enum {
@@ -64,24 +64,23 @@ enum {
   PHOSH_WWAN_MM_PROP_LAST_PROP,
 };
 
-typedef struct _PhoshWWanMM
-{
-  GObject parent;
+typedef struct _PhoshWWanMM {
+  GObject                         parent;
 
-  PhoshMMDBusModem *proxy;
+  PhoshMMDBusModem               *proxy;
   PhoshMMDBusObjectManagerClient *manager;
 
   /** Signals we connect to */
-  gulong manager_object_added_signal_id;
-  gulong manager_object_removed_signal_id;
-  gulong proxy_props_signal_id;
+  gulong                          manager_object_added_signal_id;
+  gulong                          manager_object_removed_signal_id;
+  gulong                          proxy_props_signal_id;
 
-  gchar *object_path;
-  guint signal_quality;
-  const char *access_tec;
-  gboolean unlocked;
-  gboolean sim;
-  gboolean present;
+  gchar                          *object_path;
+  guint                           signal_quality;
+  const char                     *access_tec;
+  gboolean                        unlocked;
+  gboolean                        sim;
+  gboolean                        present;
 } PhoshWWanMM;
 
 
@@ -99,7 +98,7 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
   g_return_if_fail (self->proxy);
   v = phosh_mmdbus_modem_get_signal_quality (self->proxy);
   if (v) {
-    g_variant_get(v, "(ub)", &self->signal_quality, NULL);
+    g_variant_get (v, "(ub)", &self->signal_quality, NULL);
     g_object_notify (G_OBJECT (self), "signal-quality");
   }
 }
@@ -147,7 +146,7 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
   access_tec = phosh_mmdbus_modem_get_access_technologies (
     self->proxy);
   self->access_tec = user_friendly_access_tec (access_tec);
-  g_debug("Access tec is %s", self->access_tec);
+  g_debug ("Access tec is %s", self->access_tec);
   g_object_notify (G_OBJECT (self), "access-tec");
 }
 
@@ -203,10 +202,10 @@ phosh_wwan_mm_update_present (PhoshWWanMM *self, gboolean present)
 
 
 static void
-dbus_props_changed_cb(PhoshMMDBusModem *proxy,
-                      GVariant *changed_properties,
-                      GStrv invaliated,
-                      PhoshWWanMM *self)
+dbus_props_changed_cb (PhoshMMDBusModem *proxy,
+                       GVariant         *changed_properties,
+                       GStrv             invaliated,
+                       PhoshWWanMM      *self)
 {
   char *property;
   GVariantIter i;
@@ -234,10 +233,10 @@ dbus_props_changed_cb(PhoshMMDBusModem *proxy,
 
 
 static void
-phosh_wwan_mm_set_property (GObject *object,
-                            guint property_id,
+phosh_wwan_mm_set_property (GObject      *object,
+                            guint         property_id,
                             const GValue *value,
-                            GParamSpec *pspec)
+                            GParamSpec   *pspec)
 {
   /* All props are ro */
   G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -245,9 +244,9 @@ phosh_wwan_mm_set_property (GObject *object,
 
 
 static void
-phosh_wwan_mm_get_property (GObject *object,
-                            guint property_id,
-                            GValue *value,
+phosh_wwan_mm_get_property (GObject    *object,
+                            guint       property_id,
+                            GValue     *value,
                             GParamSpec *pspec)
 {
   PhoshWWanMM *self = PHOSH_WWAN_MM (object);
@@ -302,7 +301,7 @@ destroy_modem (PhoshWWanMM *self)
 static void
 init_modem (PhoshWWanMM *self, const gchar *object_path)
 {
-  g_autoptr(GError) err = NULL;
+  g_autoptr (GError) err = NULL;
 
   self->proxy = phosh_mmdbus_modem_proxy_new_for_bus_sync (
     G_BUS_TYPE_SYSTEM,
@@ -387,10 +386,10 @@ on_mm_object_manager_created (GObject *source_object, GAsyncResult *res, PhoshWW
                               self);
 
   self->manager_object_removed_signal_id =
-  g_signal_connect_swapped (self->manager,
-                            "object-removed",
-                            G_CALLBACK (object_removed_cb),
-                            self);
+    g_signal_connect_swapped (self->manager,
+                              "object-removed",
+                              G_CALLBACK (object_removed_cb),
+                              self);
 
   modems = g_dbus_object_manager_get_objects (G_DBUS_OBJECT_MANAGER (self->manager));
   if (modems) {
