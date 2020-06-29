@@ -25,4 +25,9 @@ PhoshMonitor        * phosh_monitor_manager_get_monitor               (PhoshMoni
 guint                 phosh_monitor_manager_get_num_monitors          (PhoshMonitorManager *self);
 PhoshMonitor        * phosh_monitor_manager_find_monitor              (PhoshMonitorManager *self,
                                                                        const char          *name);
+void                  phosh_monitor_manager_set_monitor_transform     (PhoshMonitorManager *self,
+                                                                       PhoshMonitor        *monitor,
+                                                                       PhoshMonitorTransform transform);
+void                  phosh_monitor_manager_apply_monitor_config      (PhoshMonitorManager *self);
+
 G_END_DECLS

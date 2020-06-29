@@ -68,6 +68,20 @@ get_display_name (PhoshMonitor *monitor)
     return g_strdup (_("Unknown"));
 }
 
+
+static PhoshHead *
+phosh_monitor_manager_get_head_from_monitor (PhoshMonitorManager *self, PhoshMonitor *monitor)
+{
+  for (int i = 0; i < self->heads->len; i++) {
+    PhoshHead *head = g_ptr_array_index (self->heads, i);
+    if (!g_strcmp0 (monitor->name, head->name)) {
+      return head;
+    }
+  }
+
+  return NULL;
+}
+
 /*
  * DBus Interface
  */
@@ -892,6 +906,41 @@ static const struct zwlr_output_manager_v1_listener zwlr_output_manager_v1_liste
 
 
 static void
+zwlr_output_configuration_v1_handle_succeeded (void *data,
+                                               struct zwlr_output_configuration_v1 *config)
+{
+  g_debug ("New output configuration %p applied", config);
+  zwlr_output_configuration_v1_destroy (config);
+}
+
+
+static void
+zwlr_output_configuration_v1_handle_failed (void *data,
+                                            struct zwlr_output_configuration_v1 *config)
+{
+  /* TODO: bubble up error */
+  g_warning ("Failed to apply New output %p configuration", config);
+  zwlr_output_configuration_v1_destroy (config);
+}
+
+
+static void
+zwlr_output_configuration_v1_handle_cancelled (void *data,
+                                               struct zwlr_output_configuration_v1 *config)
+{
+  zwlr_output_configuration_v1_destroy(config);
+  g_warning("Failed to apply New output configuration %p due to changes", config);
+}
+
+
+static const struct zwlr_output_configuration_v1_listener config_listener = {
+  .succeeded = zwlr_output_configuration_v1_handle_succeeded,
+  .failed = zwlr_output_configuration_v1_handle_failed,
+  .cancelled = zwlr_output_configuration_v1_handle_cancelled,
+};
+
+
+static void
 phosh_monitor_manager_finalize (GObject *object)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
@@ -1036,4 +1085,74 @@ guint
 phosh_monitor_manager_get_num_monitors (PhoshMonitorManager *self)
 {
   return self->monitors->len;
+}
+
+/**
+ * phosh_monitor_set_transform:
+ * @self: A #PhoshMonitor
+ * @mode: The #PhoshMonitorPowerSaveMode
+ *
+ * Sets monitor's transform. This will become active after the next
+ * call to #phosh_monitor_manager_apply_monitor_config().
+ */
+void
+phosh_monitor_manager_set_monitor_transform (PhoshMonitorManager *self,
+                                             PhoshMonitor *monitor,
+                                             PhoshMonitorTransform transform)
+{
+  g_autoptr(PhoshHead) head = NULL;
+
+  g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+  g_return_if_fail (phosh_monitor_is_configured (monitor));
+  head = g_object_ref (phosh_monitor_manager_get_head_from_monitor (self, monitor));
+  g_return_if_fail (PHOSH_IS_HEAD (head));
+
+  head->pending.transform = transform;
+}
+
+/**
+ * phosh_monitor_manager_apply_monitor_config
+ * @self: a #PhoshMonitorManager
+ *
+ * Applies a full output configuration
+ */
+void
+phosh_monitor_manager_apply_monitor_config (PhoshMonitorManager *self)
+{
+  PhoshWayland *wl = phosh_wayland_get_default();
+  struct zwlr_output_configuration_v1 *config;
+  struct zwlr_output_manager_v1 *output_manager =
+    phosh_wayland_get_zwlr_output_manager_v1 (wl);
+
+  g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
+
+  config = zwlr_output_manager_v1_create_configuration (output_manager,
+                                                        self->zwlr_output_serial);
+
+  zwlr_output_configuration_v1_add_listener (config, &config_listener, self);
+  for (int i = 0; i < self->heads->len; i++) {
+    struct zwlr_output_configuration_head_v1 *config_head;
+    PhoshHead *head = g_ptr_array_index (self->heads, i);
+    struct zwlr_output_head_v1 *wlr_head = phosh_head_get_wlr_head (head);
+
+    g_debug ("Adding head %s to configuration", head->name);
+
+    if (!phosh_head_get_enabled (head)) {
+      zwlr_output_configuration_v1_disable_head (config, wlr_head);
+      continue;
+    }
+
+    config_head = zwlr_output_configuration_v1_enable_head (config, wlr_head);
+    zwlr_output_configuration_head_v1_set_mode (config_head,
+                                                head->pending.mode->wlr_mode);
+    zwlr_output_configuration_head_v1_set_position (config_head,
+                                                    head->pending.x, head->pending.y);
+    zwlr_output_configuration_head_v1_set_transform (config_head,
+                                                     head->pending.transform);
+    zwlr_output_configuration_head_v1_set_scale (config_head,
+                                                 wl_fixed_from_double(head->pending.scale));
+  }
+
+  zwlr_output_configuration_v1_apply (config);
 }
