@@ -17,16 +17,44 @@
  * SECTION:wifiinfo
  * @short_description: A widget to display the wifi status
  * @Title: PhoshWifiInfo
+ *
+ * #PhoshWifiInfo displays the current wifi status based on information
+ * from #PhoshWifiManager. To figure out if the widget should be shown
+ * the #PhoshWifiInfo:enabled property can be useful.
  */
+
+enum {
+  PROP_0,
+  PROP_ENABLED,
+  PROP_LAST_PROP
+};
+static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshWifiInfo {
   PhoshStatusIcon parent;
 
-  GBinding *enabled_binding;
+  gboolean          enabled;
   PhoshWifiManager *wifi;
 };
 G_DEFINE_TYPE (PhoshWifiInfo, phosh_wifi_info, PHOSH_TYPE_STATUS_ICON);
 
+static void
+phosh_wifi_info_get_property (GObject    *object,
+                              guint       property_id,
+                              GValue     *value,
+                              GParamSpec *pspec)
+{
+  PhoshWifiInfo *self = PHOSH_WIFI_INFO (object);
+
+  switch (property_id) {
+  case PROP_ENABLED:
+    g_value_set_boolean (value, self->enabled);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
 
 static void
 update_icon (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
@@ -55,30 +83,29 @@ update_info (PhoshWifiInfo *self)
     phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("Wi-Fi"));
 }
 
-
 static void
-show_always_changed_cb (PhoshWifiInfo *self)
+on_wifi_enabled (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
 {
-  if (!phosh_status_icon_get_show_always (PHOSH_STATUS_ICON (self))) {
-    if (self->enabled_binding == NULL) {
-      self->enabled_binding = g_object_bind_property (self->wifi,
-                                                      "enabled",
-                                                      self,
-                                                      "visible",
-                                                      G_BINDING_SYNC_CREATE);
-    }
-  } else {
-    g_clear_pointer (&self->enabled_binding, g_binding_unbind);
-  }
-}
+  gboolean enabled;
 
+  g_debug ("Updating wifi status");
+  g_return_if_fail (PHOSH_IS_WIFI_INFO (self));
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (wifi));
+
+  enabled = phosh_wifi_manager_get_enabled (wifi);
+  if (self->enabled == enabled)
+    return;
+
+  self->enabled = enabled;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
+}
 
 static gboolean
 on_idle (PhoshWifiInfo *self)
 {
   update_icon (self, NULL, self->wifi);
   update_info (self);
-  show_always_changed_cb (self);
+  on_wifi_enabled (self, NULL, self->wifi);
   return FALSE;
 }
 
@@ -109,8 +136,11 @@ phosh_wifi_info_constructed (GObject *object)
                             G_CALLBACK (update_info),
                             self);
 
-  g_signal_connect_swapped (self, "notify::show-always",
-                            G_CALLBACK (show_always_changed_cb),
+  /* We don't use a binding for self->enabled so we can keep
+     the property r/o */
+  g_signal_connect_swapped (self->wifi,
+                            "notify::enabled",
+                            G_CALLBACK (on_wifi_enabled),
                             self);
 
   g_idle_add ((GSourceFunc) on_idle, self);
@@ -138,6 +168,17 @@ phosh_wifi_info_class_init (PhoshWifiInfoClass *klass)
 
   object_class->constructed = phosh_wifi_info_constructed;
   object_class->dispose = phosh_wifi_info_dispose;
+  object_class->get_property = phosh_wifi_info_get_property;
+
+  props[PROP_ENABLED] =
+    g_param_spec_boolean ("enabled",
+                          "enabled",
+                          "Whether a wifi device is enabled",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS |
+                          G_PARAM_EXPLICIT_NOTIFY);
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
 
