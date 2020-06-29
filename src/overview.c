@@ -165,15 +165,23 @@ on_thumbnail_ready_changed (PhoshThumbnail *thumbnail, GParamSpec *pspec, PhoshA
 
 
 static void
-request_thumbnail (PhoshOverview *self, PhoshToplevel *toplevel)
+request_thumbnail (PhoshActivity *activity, PhoshToplevel *toplevel)
 {
   PhoshToplevelThumbnail *thumbnail;
-  gint width, height;
-  PhoshActivity *activity = find_activity_by_toplevel (self, toplevel);
-  gint scale = gtk_widget_get_scale_factor (GTK_WIDGET (activity));
-  g_object_get (activity, "win-width", &width, "win-height", &height, NULL);
-  thumbnail = phosh_toplevel_thumbnail_new_from_toplevel (toplevel, width * scale, height * scale);
+  GtkAllocation allocation;
+  gint scale;
+  g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
+  g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
+  scale = gtk_widget_get_scale_factor (GTK_WIDGET (activity));
+  gtk_widget_get_allocation (GTK_WIDGET (activity), &allocation);
+  thumbnail = phosh_toplevel_thumbnail_new_from_toplevel (toplevel, allocation.width * scale, allocation.height * scale);
   g_signal_connect_object (thumbnail, "notify::ready", G_CALLBACK (on_thumbnail_ready_changed), activity, 0);
+}
+
+static void
+on_activity_size_allocated (PhoshActivity *activity, GtkAllocation *alloc, PhoshToplevel *toplevel)
+{
+  request_thumbnail (activity, toplevel);
 }
 
 static void
@@ -209,6 +217,8 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), activity, 0);
   g_signal_connect_object (toplevel, "notify::activated", G_CALLBACK (on_toplevel_activated_changed), self, 0);
   g_object_bind_property (toplevel, "maximized", activity, "maximized", G_BINDING_DEFAULT);
+
+  g_signal_connect (activity, "size-allocate", G_CALLBACK (on_activity_size_allocated), toplevel);
 
   phosh_connect_button_feedback (GTK_BUTTON (activity));
 
@@ -262,7 +272,7 @@ toplevel_changed_cb (PhoshOverview        *self,
   /* TODO: update other properties */
   phosh_activity_set_title (activity,
                             phosh_toplevel_get_title (toplevel));
-  request_thumbnail (self, toplevel);
+  request_thumbnail (activity, toplevel);
 }
 
 static void
@@ -302,7 +312,6 @@ phosh_overview_size_allocate (GtkWidget     *widget,
                     "win-width", alloc->width,
                     "win-height", alloc->height,
                     NULL);
-      request_thumbnail (self, get_toplevel_from_activity (PHOSH_ACTIVITY (l->data)));
     }
   }
 
