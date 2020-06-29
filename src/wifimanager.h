@@ -19,5 +19,6 @@ guint8             phosh_wifi_manager_get_strength (PhoshWifiManager *self);
 const gchar       *phosh_wifi_manager_get_icon_name (PhoshWifiManager *self);
 const gchar       *phosh_wifi_manager_get_ssid (PhoshWifiManager *self);
 gboolean           phosh_wifi_manager_get_enabled (PhoshWifiManager *self);
+gboolean           phosh_wifi_manager_get_present (PhoshWifiManager *self);
 
 G_END_DECLS
