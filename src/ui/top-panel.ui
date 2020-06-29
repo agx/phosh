@@ -59,7 +59,7 @@
                         <property name="can_focus">False</property>
                         <child>
                           <object class="PhoshWWanInfo" id="wwaninfo">
-			    <property name="visible">False</property>
+                            <property name="visible" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
 			    <property name="can_focus">False</property>
 			    <property name="margin-left">0</property>
 			    <property name="margin_right">8</property>
