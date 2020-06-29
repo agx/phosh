@@ -31,8 +31,9 @@
                 <property name="homogeneous">True</property>
                 <property name="margin_bottom">18</property>
                 <child>
-                  <object class="PhoshQuickSetting">
+                  <object class="PhoshQuickSetting" id="wifi_quick_setting">
                     <property name="visible">True</property>
+                    <property name="sensitive" bind-source="wifiinfo" bind-property="present" bind-flags="sync-create"/>
                     <property name="can_focus">False</property>
                     <signal name="clicked" handler="wifi_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
                     <child>
