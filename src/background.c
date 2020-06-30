@@ -269,6 +269,7 @@ load_background (PhoshBackground *self)
   else
     g_object_get (self, "configured-width", &width, "configured-height", &height, NULL);
 
+  g_debug ("Scaling %p to %dx%d, scale %d", self, width, height, scale);
   self->pixbuf = image_background (image, width * scale, height * scale, style, &self->color);
 
   /* force background redraw */
