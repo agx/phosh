@@ -10,7 +10,7 @@ stages:
 variables:
   DEPS: build-essential git wget lcov
   WANT_BUILD_DEPS: "true"
-  XVFB_RUN: xvfb-run -s -noreset
+  XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
 
 .buster_vars: &buster_vars
