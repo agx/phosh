@@ -8,7 +8,7 @@ phosh (0.4.0) amber-phone; urgency=high
     lead to a slight flicker of the widget e.g. on audio events or
     notifications (which was especially noticeable on the lock screen).
   * PhoshLayerSurface: Add missing sentinel
-  * Add small testlib allowing for wayland based tests using phosh-wayland 
+  * Add small testlib allowing for wayland based tests using phosh-wayland
     and spawning a phoc instance. Add two initial tests using that.
   * monitor: Properly invaliate wl_output_done.
     On `wl_output` configuration changes invalidate the done flag
