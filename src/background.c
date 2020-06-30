@@ -439,3 +439,9 @@ phosh_background_set_primary (PhoshBackground *self, gboolean primary)
     load_background (self);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY]);
 }
+
+void
+phosh_background_reload (PhoshBackground *self)
+{
+  load_background (self);
+}

@@ -74,7 +74,7 @@ on_monitor_configured (PhoshBackgroundManager *self,
   g_return_if_fail (background);
 
   gtk_widget_show (GTK_WIDGET (background));
-  /* TODO: handle monitor config changes */
+  phosh_background_reload (background);
 }
 
 
