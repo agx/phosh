@@ -1,3 +1,61 @@
+phosh (0.4.0) amber-phone; urgency=high
+
+  [ Guido Günther ]
+  * feedbackinfo: Add translation note.
+    Link to feedbackd's theme description to help translators
+  * media-player: Don't act on every name change.
+    We were looking at all vanished DBus names instead of only players. This
+    lead to a slight flicker of the widget e.g. on audio events or
+    notifications (which was especially noticeable on the lock screen).
+  * PhoshLayerSurface: Add missing sentinel
+  * Add small testlib allowing for wayland based tests using phosh-wayland 
+    and spawning a phoc instance. Add two initial tests using that.
+  * monitor: Properly invaliate wl_output_done.
+    On `wl_output` configuration changes invalidate the done flag
+    so another `configured` signal is emitted once all changes
+    are processed. So far we only handled the initial configure.
+  * phosh-wayland: Clarify ownership of phosh_wayland_get_wl_outputs
+  * shell: Do nothing when primary monitor does not change
+  * shell: Don't clear faders when we dispose the panels
+  * status-icon: Drop show-always (Closes: #312)
+  * Add WWAN quicksetting
+  * gitlab-ci: be more robust when using xvfb
+  * background-manager: Avoid recreating backgrounds too often
+    Only do so initially and let PhoshBackground adjust to configuration
+    changes notified by PhoshBackground intead.
+  * background: Skip image loading when using colored mode.
+    There's no need to even try to load an image if we're not using
+    it later on.
+  * tests: Add a simple background test.
+  * d/rules: Depend on phoc >= 0.4.0.
+    While we can run with older versions this makes sure people
+    pull in a recent enough version for all the feaures.
+
+  [ Daniel Șerbănescu ]
+  * po: Update Romanian Translation
+
+  [ Sebastian Krzyszkowiak ]
+  * PhoshHome: Use PhoshLayerSurface signals and props to handle resizing.
+    This fixes the issue with disappearing bottom bar when output dimensions
+    change and it actually more in line with what we wanted to achieve there.
+  * PhoshWayland: Don't require phosh_private interface in latest version.
+    We can still deal with earlier ones.
+  * Render window thumbnails in the overview
+  * wwaninfo: Use network-cellular-disabled-symbolic when no hw is present
+  * background: Stop listening to `rotation`
+    PhoshMonitor now signals rotation correctly
+
+  [ marty1885 ]
+  * monitor: prevent sending multiple event in one monitor configuration
+    change
+  * background: recreate background on monitor geometry change
+
+  [ Julian Sparber ]
+  * wifimanager: Use disabled icon for unknown states.
+  * Add Wifi quicksetting
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 30 Jun 2020 14:14:27 +0200
+
 phosh (0.3.1) amber-phone; urgency=medium
 
   [ Sebastian Krzyszkowiak ]
