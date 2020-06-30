@@ -372,23 +372,27 @@ background_draw_cb (PhoshBackground *self,
   return TRUE;
 }
 
+static void
+get_settings (PhoshBackground *self)
+{
+  g_autofree gchar *color = NULL;
+
+  g_free (self->uri);
+  self->uri = g_settings_get_string (self->settings, BG_KEY_PICTURE_URI);
+  self->style = g_settings_get_enum (self->settings, BG_KEY_PICTURE_OPTIONS);
+  color = g_settings_get_string (self->settings, BG_KEY_PRIMARY_COLOR);
+  color_from_string (&self->color, color);
+}
 
 static void
 on_background_setting_changed (PhoshBackground *self,
                                const gchar     *key,
                                GSettings       *settings)
 {
-  g_autofree gchar *color = NULL;
-
   g_return_if_fail (PHOSH_IS_BACKGROUND (self));
   g_return_if_fail (G_IS_SETTINGS (settings));
 
-  g_free (self->uri);
-  self->uri = g_settings_get_string (settings, BG_KEY_PICTURE_URI);
-  self->style = g_settings_get_enum (settings, BG_KEY_PICTURE_OPTIONS);
-  color = g_settings_get_string (settings, BG_KEY_PRIMARY_COLOR);
-  color_from_string (&self->color, color);
-
+  get_settings (self);
   load_background (self);
 }
 
@@ -398,8 +402,8 @@ on_phosh_background_configured (PhoshLayerSurface *surface)
 {
   PhoshBackground *self = PHOSH_BACKGROUND (surface);
 
-  /* Load background initially */
-  on_background_setting_changed (self, NULL, self->settings);
+  g_debug ("Layer surface of background %p configured", self);
+  load_background (self);
 }
 
 
@@ -407,8 +411,6 @@ static void
 phosh_background_constructed (GObject *object)
 {
   PhoshBackground *self = PHOSH_BACKGROUND (object);
-
-  G_OBJECT_CLASS (phosh_background_parent_class)->constructed (object);
 
   g_signal_connect (self, "draw", G_CALLBACK (background_draw_cb), NULL);
 
@@ -422,7 +424,10 @@ phosh_background_constructed (GObject *object)
                     G_CALLBACK (on_background_setting_changed), self,
                     NULL);
 
+  get_settings (self);
   g_signal_connect (self, "configured", G_CALLBACK (on_phosh_background_configured), self);
+
+  G_OBJECT_CLASS (phosh_background_parent_class)->constructed (object);
 }
 
 
@@ -508,13 +513,6 @@ phosh_background_set_primary (PhoshBackground *self, gboolean primary)
     return;
 
   self->primary = primary;
-  if (self->uri)
-    load_background (self);
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY]);
-}
-
-void
-phosh_background_reload (PhoshBackground *self)
-{
   load_background (self);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY]);
 }

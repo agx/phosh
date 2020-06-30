@@ -64,19 +64,18 @@ on_monitor_removed (PhoshBackgroundManager *self,
 
 static void
 on_monitor_configured (PhoshBackgroundManager *self,
-                       PhoshMonitor *monitor)
+                       PhoshMonitor           *monitor)
 {
   PhoshBackground *background;
 
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
   g_debug ("Monitor %p (%s) configured", monitor, monitor->name);
 
   background = g_hash_table_lookup (self->backgrounds, monitor);
   g_return_if_fail (background);
 
   gtk_widget_show (GTK_WIDGET (background));
-  phosh_background_reload (background);
 }
-
 
 static void
 on_monitor_added (PhoshBackgroundManager *self,
@@ -89,10 +88,13 @@ on_monitor_added (PhoshBackgroundManager *self,
   g_debug ("Monitor %p added", monitor);
 
   create_background_for_monitor (self, monitor);
+
   g_signal_connect_object (monitor, "configured",
                            G_CALLBACK (on_monitor_configured),
                            self,
                            G_CONNECT_SWAPPED);
+  if (phosh_monitor_is_configured (monitor))
+    on_monitor_configured (self, monitor);
 }
 
 
@@ -167,7 +169,6 @@ phosh_background_manager_constructed (GObject *object)
     PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
 
     on_monitor_added (self, monitor, NULL);
-    on_monitor_configured (self, monitor);
   }
 }
 
