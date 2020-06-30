@@ -37,46 +37,18 @@ create_background_for_monitor (PhoshBackgroundManager *self, PhoshMonitor *monit
   PhoshWayland *wl = phosh_wayland_get_default();
   PhoshMonitor *primary_monitor;
   PhoshBackground *background;
-  gint display_width;
-  gint display_height;
-
-  if (phosh_monitor_get_rotation(monitor) == 0 || phosh_monitor_get_rotation(monitor) == 180) {
-    display_height = monitor->height;
-    display_width = monitor->width;
-  } else {
-    display_height = monitor->width;
-    display_width = monitor->height;
-  }
 
   primary_monitor = phosh_shell_get_primary_monitor (shell);
   background = g_object_ref_sink(PHOSH_BACKGROUND (phosh_background_new (
                                                      phosh_wayland_get_zwlr_layer_shell_v1(wl),
                                                      monitor->wl_output,
-                                                     display_width / monitor->scale,
-                                                     display_height / monitor->scale,
                                                      monitor == primary_monitor)));
   g_hash_table_insert (self->backgrounds,
                        g_object_ref (monitor),
                        background);
-  gtk_widget_show (GTK_WIDGET (background));
   return background;
 }
 
-
-static void
-create_all_backgrounds (PhoshBackgroundManager *self)
-{
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshMonitorManager *monitor_manager = phosh_shell_get_monitor_manager (shell);
-
-  g_hash_table_remove_all (self->backgrounds);
-
-  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
-    PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
-
-    create_background_for_monitor (self, monitor);
-  }
-}
 
 static void
 on_monitor_removed (PhoshBackgroundManager *self,
@@ -95,7 +67,15 @@ static void
 on_monitor_configured (PhoshBackgroundManager *self,
                        PhoshMonitor *monitor)
 {
-  create_background_for_monitor (self, monitor);
+  PhoshBackground *background;
+
+  g_debug ("Monitor %p (%s) configured", monitor, monitor->name);
+
+  background = g_hash_table_lookup (self->backgrounds, monitor);
+  g_return_if_fail (background);
+
+  gtk_widget_show (GTK_WIDGET (background));
+  /* TODO: handle monitor config changes */
 }
 
 
@@ -109,6 +89,7 @@ on_monitor_added (PhoshBackgroundManager *self,
 
   g_debug ("Monitor %p added", monitor);
 
+  create_background_for_monitor (self, monitor);
   g_signal_connect_object (monitor, "configured",
                            G_CALLBACK (on_monitor_configured),
                            self,
@@ -124,7 +105,7 @@ on_primary_monitor_changed (PhoshBackgroundManager *self,
   g_return_if_fail (PHOSH_IS_BACKGROUND_MANAGER (self));
   g_return_if_fail (PHOSH_IS_SHELL (shell));
 
-  create_all_backgrounds (self);
+  /* TODO: handle primary monitor change */
 }
 
 
@@ -164,14 +145,10 @@ phosh_background_manager_constructed (GObject *object)
   /* catch up with monitors already present */
   for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
     PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
- 
-    g_signal_connect_object (monitor, "configured",
-                             G_CALLBACK (on_monitor_configured),
-                             self,
-                             G_CONNECT_SWAPPED);
-  }
 
-  create_all_backgrounds (self);
+    on_monitor_added (self, monitor, NULL);
+    on_monitor_configured (self, monitor);
+  }
 }
 
 
