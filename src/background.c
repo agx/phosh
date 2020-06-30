@@ -267,7 +267,7 @@ load_background (PhoshBackground *self)
   if (self->primary)
     phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
   else
-    g_object_get (self, "width", &width, "height", &height, NULL);
+    g_object_get (self, "configured-width", &width, "configured-height", &height, NULL);
 
   self->pixbuf = image_background (image, width * scale, height * scale, style, &self->color);
 
@@ -320,18 +320,6 @@ on_background_setting_changed (PhoshBackground *self,
 
 
 static void
-rotation_notify_cb (PhoshBackground *self,
-                    GParamSpec *pspec,
-                    PhoshShell *shell)
-{
-  g_return_if_fail (PHOSH_IS_BACKGROUND (self));
-  g_return_if_fail (PHOSH_IS_SHELL (shell));
-
-  on_background_setting_changed (self, NULL, self->settings);
-}
-
-
-static void
 on_phosh_background_configured (PhoshLayerSurface *surface)
 {
   PhoshBackground *self = PHOSH_BACKGROUND (surface);
@@ -359,11 +347,6 @@ phosh_background_constructed (GObject *object)
                     "swapped_signal::changed::" BG_KEY_PRIMARY_COLOR,
                     G_CALLBACK (on_background_setting_changed), self,
                     NULL);
-
-  g_signal_connect_swapped (phosh_shell_get_default (),
-                            "notify::rotation",
-                            G_CALLBACK (rotation_notify_cb),
-                            self);
 
   g_signal_connect (self, "configured", G_CALLBACK (on_phosh_background_configured), self);
 }
@@ -426,15 +409,11 @@ phosh_background_init (PhoshBackground *self)
 GtkWidget *
 phosh_background_new (gpointer layer_shell,
                       gpointer wl_output,
-                      guint width,
-                      guint height,
                       gboolean primary)
 {
   return g_object_new (PHOSH_TYPE_BACKGROUND,
                        "layer-shell", layer_shell,
                        "wl-output", wl_output,
-                       "width", width,
-                       "height", height,
                        "anchor", (ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
