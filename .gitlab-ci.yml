@@ -36,7 +36,7 @@ variables:
   script:
     - export LC_ALL=C.UTF-8
     - ${XVFB_RUN} ninja -C _build test
-    - ${XVFB_RUN} ninja -C _build coverage
+    - ninja -C _build coverage
 
 # For the smoke tests we also want debug packages, phoc,
 # weston-info, gdb, valgrind, ...
