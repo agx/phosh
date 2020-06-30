@@ -71,6 +71,7 @@ tests = [
 ]
 
 tests_phoc = [
+  'background',
   'layer-surface',
   'lockshield',
   'notification-banner',
