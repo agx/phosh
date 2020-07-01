@@ -19,6 +19,8 @@
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-bg.h>
 
+#include <gio/gio.h>
+
 #include <math.h>
 #include <string.h>
 
@@ -65,6 +67,8 @@ struct _PhoshBackground
   gboolean primary;
   GdkPixbuf *pixbuf;
   GSettings *settings;
+
+  GCancellable *cancel;
 };
 
 
@@ -232,39 +236,20 @@ image_background (GdkPixbuf               *image,
 }
 
 
+/**
+ * background_update:
+ * @self: A #PhoshBackground
+ * @pixbuf: The pixbuf to use or %NULL for a single colored background
+ * @style: The background style
+ *
+ * Update the background pixbuf or colored image and draw it
+ */
 static void
-load_background (PhoshBackground *self)
+background_update (PhoshBackground *self, GdkPixbuf *pixbuf, GDesktopBackgroundStyle style)
 {
-  g_autoptr(GdkPixbuf) image = NULL;
-  GError *err = NULL;
   gint width, height, scale = gtk_widget_get_scale_factor(GTK_WIDGET(self));
-  GDesktopBackgroundStyle style = self->style;
 
   g_clear_object (&self->pixbuf);
-
-  if (style != G_DESKTOP_BACKGROUND_STYLE_NONE) {
-    /* FIXME: support GnomeDesktop.BGSlideShow as well */
-    if (!g_str_has_prefix(self->uri, "file:///")) {
-      g_warning ("Only file URIs supported for backgrounds not %s", self->uri);
-    } else {
-      g_autofree gchar *path = g_uri_unescape_string (&self->uri[strlen("file://")], NULL);
-      if (!path) {
-        g_warning ("Invalid background URI: %s", self->uri);
-      } else {
-        image = gdk_pixbuf_new_from_file (path, &err);
-        if (!image) {
-          const char *reason = err ? err->message : "unknown error";
-          g_warning ("Failed to load background: %s", reason);
-          if (err)
-            g_clear_error (&err);
-        }
-      }
-    }
-  }
-
-  /* Fallback to solid fill if  image can't be loaded */
-  if (!image)
-    style = G_DESKTOP_BACKGROUND_STYLE_NONE;
 
   if (self->primary)
     phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
@@ -272,11 +257,97 @@ load_background (PhoshBackground *self)
     g_object_get (self, "configured-width", &width, "configured-height", &height, NULL);
 
   g_debug ("Scaling %p to %dx%d, scale %d", self, width, height, scale);
-  self->pixbuf = image_background (image, width * scale, height * scale, style, &self->color);
-
+  self->pixbuf = image_background (pixbuf, width * scale, height * scale, style, &self->color);
   /* force background redraw */
   gtk_widget_queue_draw (GTK_WIDGET (self));
   g_signal_emit(self, signals[BACKGROUND_LOADED], 0);
+}
+
+/**
+ * background_fallback:
+ * @self: A #PhoshBackground
+ *
+ * Draw the fallback background.
+ */
+static void
+background_fallback (PhoshBackground *self)
+{
+  background_update (self, NULL, G_DESKTOP_BACKGROUND_STYLE_NONE);
+}
+
+
+static void
+on_pixbuf_loaded (GObject         *source_object,
+                  GAsyncResult    *res,
+                  PhoshBackground *self)
+{
+  g_autoptr(GdkPixbuf) image = NULL;
+  g_autoptr(GError) err = NULL;
+
+  g_return_if_fail (self);
+
+  image = gdk_pixbuf_new_from_stream_finish (res, &err);
+  if (!image) {
+    if (g_error_matches (err, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+      /* Do nothing we expect a new load to be triggered */
+      g_debug ("Load of %s canceled", self->uri);
+    } else {
+      g_warning ("Failed to load background: %s", err->message);
+    }
+    if (!self->pixbuf)
+      background_fallback (self);
+    g_object_unref (self);
+    return;
+  }
+  g_debug ("loaded %s", self->uri);
+  background_update (self, image, self->style);
+  g_object_unref (self);
+}
+
+
+static void
+load_background (PhoshBackground *self)
+{
+  GError *err = NULL;
+  g_autoptr(GFile) file = NULL;
+  g_autoptr(GInputStream) stream = NULL;
+
+  if (self->style == G_DESKTOP_BACKGROUND_STYLE_NONE) {
+    background_update (self, NULL, self->style);
+    return;
+  }
+
+  g_debug ("open %s", self->uri);
+  /* FIXME: support GnomeDesktop.BGSlideShow as well */
+  if (!g_str_has_prefix(self->uri, "file:///")) {
+    g_warning ("Only file URIs supported for backgrounds not %s", self->uri);
+    goto fallback;
+  }
+
+  file = g_file_new_for_uri (self->uri);
+  stream = G_INPUT_STREAM (g_file_read (file, NULL, &err));
+  if (!stream) {
+    g_warning ("Unable to open %s: %s", self->uri, err->message);
+    goto fallback;
+  }
+
+  /* Cancel background load if in progress */
+  if (self->cancel) {
+    g_cancellable_cancel (self->cancel);
+    g_clear_object (&self->cancel);
+  }
+
+  self->cancel = g_cancellable_new ();
+  g_debug ("loading %s", self->uri);
+  gdk_pixbuf_new_from_stream_async (stream,
+                                    self->cancel,
+                                    (GAsyncReadyCallback)on_pixbuf_loaded,
+                                    g_object_ref(self));
+  return;
+
+fallback:
+  /* No proper background format found */
+  background_fallback (self);
 }
 
 
