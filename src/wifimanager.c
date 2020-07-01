@@ -47,7 +47,7 @@ struct _PhoshWifiManager
   gboolean           enabled;
   /* Whether we have a wifi device at all (independent from the
    * connection state */
-  gboolean           have_wifi_dev;
+  gboolean           present;
 
   const gchar        *icon_name;
   gchar              *ssid;
@@ -88,7 +88,7 @@ get_icon_name (PhoshWifiManager *self)
   guint8 strength;
 
   if (!self->dev) {
-    if (self->enabled && self->have_wifi_dev) {
+    if (self->enabled && self->present) {
       return "network-wireless-offline-symbolic";
     }
     return "network-wireless-disabled-symbolic";
@@ -138,8 +138,8 @@ update_enabled_state (PhoshWifiManager *self)
    gboolean enabled;
 
    g_return_if_fail (NM_IS_CLIENT (self->nmclient));
-   enabled = nm_client_wireless_get_enabled (self->nmclient) && self->have_wifi_dev;
-   g_debug ("NM wifi enabled: %d, wifi dev: %d", enabled, self->have_wifi_dev);
+   enabled = nm_client_wireless_get_enabled (self->nmclient) && self->present;
+   g_debug ("NM wifi enabled: %d, present: %d", enabled, self->present);
 
    if (enabled != self->enabled) {
      self->enabled = enabled;
@@ -185,7 +185,7 @@ phosh_wifi_manager_get_property (GObject *object,
     g_value_set_boolean (value, self->enabled);
     break;
   case PHOSH_WIFI_MANAGER_PROP_PRESENT:
-    g_value_set_boolean (value, self->have_wifi_dev);
+    g_value_set_boolean (value, self->present);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -409,8 +409,8 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
 
   if (!devs || !devs->len) {
     update_state (self);
-    if (self->have_wifi_dev) {
-      self->have_wifi_dev = FALSE;
+    if (self->present) {
+      self->present = FALSE;
       g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_PRESENT]);
     }
     return;
@@ -425,8 +425,8 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
     }
   }
 
-  if (have_wifi_dev != self->have_wifi_dev) {
-    self->have_wifi_dev = have_wifi_dev;
+  if (have_wifi_dev != self->present) {
+    self->present = have_wifi_dev;
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_PRESENT]);
   }
   update_state (self);
@@ -719,5 +719,5 @@ phosh_wifi_manager_get_present (PhoshWifiManager *self)
 {
   g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (self), FALSE);
 
-  return self->have_wifi_dev;
+  return self->present;
 }
