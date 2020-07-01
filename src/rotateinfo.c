@@ -32,10 +32,10 @@ set_state (PhoshRotateInfo *self)
 {
   if (!phosh_shell_get_rotation (phosh_shell_get_default ())) {
     phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), "screen-rotation-portrait-symbolic");
-    phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), "Portrait");
+    phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("Portrait"));
   } else {
     phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), "screen-rotation-landscape-symbolic");
-    phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), "Landscape");
+    phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("Landscape")x);
   }
 }
 
