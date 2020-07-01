@@ -444,6 +444,10 @@ setup_idle_cb (PhoshShell *self)
 
   phosh_session_register (PHOSH_APP_ID);
 
+  /* If we start rotated, fix this up */
+  if (phosh_shell_get_rotation (self))
+    phosh_shell_rotate_display (self, 0);
+
   priv->startup_finished = TRUE;
 
   return FALSE;
