@@ -398,21 +398,21 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
 static void
 on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient *nmclient)
 {
-  gboolean have_wifi_dev = FALSE;
+  gboolean have_wifi_dev = FALSE, present;
   const GPtrArray *devs;
   NMDevice *dev;
 
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
   g_return_if_fail (NM_IS_CLIENT (nmclient));
 
-  devs = nm_client_get_devices (nmclient);
+  present = self->present;
 
+  devs = nm_client_get_devices (nmclient);
   if (!devs || !devs->len) {
     update_state (self);
-    if (self->present) {
-      self->present = FALSE;
+    self->present = FALSE;
+    if (self->present != present)
       g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_PRESENT]);
-    }
     return;
   }
 
@@ -425,10 +425,9 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
     }
   }
 
-  if (have_wifi_dev != self->present) {
-    self->present = have_wifi_dev;
+  self->present = have_wifi_dev;
+  if (self->present != present)
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_PRESENT]);
-  }
   update_state (self);
 }
 
