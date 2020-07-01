@@ -30,12 +30,23 @@ G_DEFINE_TYPE (PhoshRotateInfo, phosh_rotate_info, PHOSH_TYPE_STATUS_ICON)
 static void
 set_state (PhoshRotateInfo *self)
 {
-  if (!phosh_shell_get_rotation (phosh_shell_get_default ())) {
+  PhoshShell *shell = phosh_shell_get_default ();
+  /* TODO: switch to builtin monitor once we support wlr-output-management */
+  PhoshMonitor *monitor = phosh_shell_get_primary_monitor (shell);
+  gboolean monitor_is_landscape;
+  gboolean portrait = !phosh_shell_get_rotation (shell);
+
+  /* If we have a landscape monitor (tv, laptop) flip the rotation */
+  monitor_is_landscape = ((double)monitor->width / (double)monitor->height) > 1.0;
+  portrait = monitor_is_landscape ? !portrait : portrait;
+
+  g_debug ("Potrait: %d, width: %d, height: %d", portrait, monitor->width , monitor->height);
+  if (portrait) {
     phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), "screen-rotation-portrait-symbolic");
     phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("Portrait"));
   } else {
     phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), "screen-rotation-landscape-symbolic");
-    phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("Landscape")x);
+    phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("Landscape"));
   }
 }
 
