@@ -52,6 +52,7 @@ test_background_new (Fixture *fixture, gconstpointer unused)
 
   background = phosh_background_new (phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
                                      fixture->state->output,
+                                     1,
                                      TRUE);
   g_assert_true (PHOSH_IS_BACKGROUND (background));
   g_object_get (background, "primary", &primary, NULL);

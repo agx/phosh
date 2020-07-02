@@ -45,6 +45,7 @@
 enum {
   PROP_0,
   PROP_PRIMARY,
+  PROP_SCALE,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -65,6 +66,7 @@ struct _PhoshBackground
   GdkRGBA color;
 
   gboolean primary;
+  guint scale;
   GdkPixbuf *pixbuf;
   GSettings *settings;
 
@@ -87,6 +89,9 @@ phosh_background_set_property (GObject *object,
   case PROP_PRIMARY:
     phosh_background_set_primary (self, g_value_get_boolean (value));
     break;
+  case PROP_SCALE:
+    phosh_background_set_scale (self, g_value_get_uint (value));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -105,6 +110,9 @@ phosh_background_get_property (GObject *object,
   switch (property_id) {
   case PROP_PRIMARY:
     g_value_set_boolean (value, self->primary);
+    break;
+  case PROP_SCALE:
+    g_value_set_uint (value, self->scale);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -247,7 +255,7 @@ image_background (GdkPixbuf               *image,
 static void
 background_update (PhoshBackground *self, GdkPixbuf *pixbuf, GDesktopBackgroundStyle style)
 {
-  gint width, height, scale = gtk_widget_get_scale_factor(GTK_WIDGET(self));
+  gint width, height;
 
   g_clear_object (&self->pixbuf);
 
@@ -256,8 +264,8 @@ background_update (PhoshBackground *self, GdkPixbuf *pixbuf, GDesktopBackgroundS
   else
     g_object_get (self, "configured-width", &width, "configured-height", &height, NULL);
 
-  g_debug ("Scaling %p to %dx%d, scale %d", self, width, height, scale);
-  self->pixbuf = image_background (pixbuf, width * scale, height * scale, style, &self->color);
+  g_debug ("Scaling %p to %dx%d, scale %d", self, width, height, self->scale);
+  self->pixbuf = image_background (pixbuf, width * self->scale, height * self->scale, style, &self->color);
   /* force background redraw */
   gtk_widget_queue_draw (GTK_WIDGET (self));
   g_signal_emit(self, signals[BACKGROUND_LOADED], 0);
@@ -356,7 +364,7 @@ background_draw_cb (PhoshBackground *self,
                     cairo_t         *cr,
                     gpointer         data)
 {
-  gint x = 0, y = 0, scale = gtk_widget_get_scale_factor (GTK_WIDGET (self));
+  gint x = 0, y = 0;
 
   g_return_val_if_fail (PHOSH_IS_BACKGROUND (self), TRUE);
   g_return_val_if_fail (GDK_IS_PIXBUF (self->pixbuf), TRUE);
@@ -365,8 +373,8 @@ background_draw_cb (PhoshBackground *self,
     phosh_shell_get_usable_area (phosh_shell_get_default (), &x, &y, NULL, NULL);
 
   cairo_save(cr);
-  cairo_scale(cr, 1.0 / scale, 1.0 / scale);
-  gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x * scale, y * scale);
+  cairo_scale(cr, 1.0 / self->scale, 1.0 / self->scale);
+  gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x * self->scale, y * self->scale);
   cairo_paint (cr);
   cairo_restore(cr);
   return TRUE;
@@ -474,6 +482,17 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
                           G_PARAM_STATIC_STRINGS |
                           G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_CONSTRUCT);
+  props[PROP_SCALE] =
+    g_param_spec_uint ("scale",
+                       "Scale",
+                       "The output scale",
+                       1,
+                       G_MAXUINT,
+                       1,
+                       G_PARAM_READWRITE |
+                       G_PARAM_STATIC_STRINGS |
+                       G_PARAM_EXPLICIT_NOTIFY |
+                       G_PARAM_CONSTRUCT);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
@@ -482,12 +501,14 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
 static void
 phosh_background_init (PhoshBackground *self)
 {
+  self->scale = 1;
 }
 
 
 GtkWidget *
 phosh_background_new (gpointer layer_shell,
                       gpointer wl_output,
+                      guint    scale,
                       gboolean primary)
 {
   return g_object_new (PHOSH_TYPE_BACKGROUND,
@@ -501,6 +522,7 @@ phosh_background_new (gpointer layer_shell,
                        "kbd-interactivity", FALSE,
                        "exclusive-zone", -1,
                        "namespace", "phosh background",
+                       "scale", scale,
                        "primary", primary,
                        NULL);
 }
@@ -515,4 +537,15 @@ phosh_background_set_primary (PhoshBackground *self, gboolean primary)
   self->primary = primary;
   load_background (self);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY]);
+}
+
+void
+phosh_background_set_scale (PhoshBackground *self, guint scale)
+{
+  if (self->scale == scale)
+    return;
+
+  self->scale = scale;
+  load_background (self);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SCALE]);
 }
