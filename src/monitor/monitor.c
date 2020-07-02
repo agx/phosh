@@ -366,7 +366,7 @@ phosh_monitor_class_init (PhoshMonitorClass *klass)
   props[PHOSH_MONITOR_PROP_POWER_MODE] =
     g_param_spec_enum ("power-mode",
                        "power-mode",
-                       "The wayland power mode for this monitor",
+                       "The  power save mode for this monitor",
                        PHOSH_TYPE_MONITOR_POWER_SAVE_MODE,
                        PHOSH_MONITOR_POWER_SAVE_MODE_OFF,
                        G_PARAM_READABLE |
@@ -414,8 +414,10 @@ phosh_monitor_get_current_mode (PhoshMonitor *self)
 
 /**
  * phosh_monitor_is_configured:
+ * @self: A #PhoshMonitor
  *
- * Is the monitor fully configured (did we receive all data from the compositor)?
+ * Returns: %TRUE if the monitor fully configured (received all
+ * state updates from the compositor).
  */
 gboolean
 phosh_monitor_is_configured (PhoshMonitor *self)
@@ -424,11 +426,12 @@ phosh_monitor_is_configured (PhoshMonitor *self)
   return self->wl_output_done && self->xdg_output_done;
 }
 
-
 /**
  * phosh_monitor_is_builtin:
+ * @self: A #PhoshMonitor
  *
- * Is the monitor built in panel (e.g. laptop panel or phone LCD)
+ * Returns: %TRUE if the monitor built in panel (e.g. laptop panel or
+ * phone LCD)
  */
 gboolean
 phosh_monitor_is_builtin (PhoshMonitor *self)
@@ -462,8 +465,9 @@ phosh_monitor_is_builtin (PhoshMonitor *self)
 
 /**
  * phosh_monitor_is_flipped:
+ * @self: A #PhoshMonitor
  *
- * Is the monitor's output flipped
+ * Returns: %TRUE if the monitor's output is flipped
  */
 gboolean
 phosh_monitor_is_flipped (PhoshMonitor *self)
@@ -487,8 +491,9 @@ phosh_monitor_is_flipped (PhoshMonitor *self)
 
 /**
  * phosh_monitor_get_rotation:
+ * @self: A #PhoshMonitor
  *
- * Get the monitor's rotation in degrees
+ * Returns: The monitor's rotation in degrees.
  */
 guint
 phosh_monitor_get_rotation (PhoshMonitor *self)
@@ -511,6 +516,13 @@ phosh_monitor_get_rotation (PhoshMonitor *self)
     }
 }
 
+/**
+ * phosh_monitor_set_power_save_mode:
+ * @self: A #PhoshMonitor
+ * @mode: The #PhoshMonitorPowerSaveMode
+ *
+ * Sets monitor's power save mode.
+ */
 void
 phosh_monitor_set_power_save_mode (PhoshMonitor *self, PhoshMonitorPowerSaveMode mode)
 {
