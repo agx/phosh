@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-06-20 03:29+0000\n"
-"PO-Revision-Date: 2020-06-20 08:52+0300\n"
+"POT-Creation-Date: 2020-07-02 03:37+0000\n"
+"PO-Revision-Date: 2020-07-02 12:48+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -37,15 +37,21 @@ msgstr "Керування вікнами і запуск програм для 
 msgid "Application"
 msgstr "Програма"
 
-#: src/feedbackinfo.c:38
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:41
 msgid "Quiet"
 msgstr "Тихо"
 
-#: src/feedbackinfo.c:40
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:46
 msgid "Silent"
 msgstr "Беззвучно"
 
-#: src/feedbackinfo.c:42
+#: src/feedbackinfo.c:48
 msgid "On"
 msgstr "Увімкнено"
 
@@ -63,11 +69,11 @@ msgstr "Звіряю…"
 msgid "%A, %B %d"
 msgstr "%A, %-d %B"
 
-#: src/media-player.c:244
+#: src/media-player.c:262
 msgid "Unknown title"
 msgstr "Невідома назва"
 
-#: src/media-player.c:252
+#: src/media-player.c:270
 msgid "Unknown artist"
 msgstr "Невідомий виконавець"
 
@@ -111,6 +117,14 @@ msgstr "На жаль, це не спрацювало. Будь ласка, сп
 msgid "Authenticate"
 msgstr "Автентифікуватися"
 
+#: src/rotateinfo.c:46
+msgid "Portrait"
+msgstr "Книжкова"
+
+#: src/rotateinfo.c:49
+msgid "Landscape"
+msgstr "Альбомна"
+
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
 msgstr "Паролі не збігаються."
@@ -121,7 +135,7 @@ msgstr "Пароль не може бути порожнім"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
-msgstr "Застосунок"
+msgstr "Програма"
 
 #: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
@@ -133,7 +147,7 @@ msgstr "Додати до _вибраних"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Шукати серед застосунків…"
+msgstr "Шукати серед програм…"
 
 #: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
@@ -183,6 +197,6 @@ msgstr "Вийти"
 msgid "Power Off"
 msgstr "Вимкнути"
 
-#: src/wifiinfo.c:55
+#: src/wifiinfo.c:88
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
