@@ -69,6 +69,7 @@ struct _PhoshBackground
   guint scale;
   GdkPixbuf *pixbuf;
   GSettings *settings;
+  gboolean configured;
 
   GCancellable *cancel;
 };
@@ -412,6 +413,7 @@ on_phosh_background_configured (PhoshLayerSurface *surface)
 
   g_debug ("Layer surface of background %p configured", self);
   load_background (self);
+  self->configured = TRUE;
 }
 
 
@@ -535,7 +537,8 @@ phosh_background_set_primary (PhoshBackground *self, gboolean primary)
     return;
 
   self->primary = primary;
-  load_background (self);
+  if (self->configured)
+    load_background (self);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY]);
 }
 
@@ -546,6 +549,7 @@ phosh_background_set_scale (PhoshBackground *self, guint scale)
     return;
 
   self->scale = scale;
-  load_background (self);
+  if (self->configured)
+    load_background (self);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SCALE]);
 }
