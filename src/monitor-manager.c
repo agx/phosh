@@ -502,10 +502,10 @@ phosh_monitor_manager_handle_get_current_state (
     is_primary = (monitor == phosh_shell_get_primary_monitor (phosh_shell_get_default()));
     g_variant_builder_add (&logical_monitors_builder,
                            LOGICAL_MONITOR_FORMAT,
-                           (gint32)monitor->x,     /* logical_monitor->rect.x */
-                           (gint32)monitor->y,     /* logical_monitor->rect.y */
-                           (double)monitor->scale, /* (double) logical_monitor->scale */
-                           (guint32)monitor->transform, /* logical_monitor->transform */
+                           (gint32)monitor->logical.x,     /* logical_monitor->rect.x */
+                           (gint32)monitor->logical.y,     /* logical_monitor->rect.y */
+                           (double)monitor->scale,         /* (double) logical_monitor->scale */
+                           (guint32)monitor->transform,    /* logical_monitor->transform */
                            is_primary,             /* logical_monitor->is_primary */
                            &logical_monitor_monitors_builder,
                            NULL);

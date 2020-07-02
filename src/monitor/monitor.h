@@ -68,6 +68,10 @@ struct _PhoshMonitor {
   gint subpixel;
   gint32 transform, scale;
 
+  struct {
+    gint32 x, y, width, height;
+  } logical;
+
   gint width_mm;
   gint height_mm;
 
