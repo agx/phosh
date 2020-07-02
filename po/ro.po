@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-06-26 03:29+0000\n"
-"PO-Revision-Date: 2020-06-20 12:25+0300\n"
+"POT-Creation-Date: 2020-07-02 03:37+0000\n"
+"PO-Revision-Date: 2020-07-02 12:44+0300\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -116,6 +116,14 @@ msgstr "Nu a funcționat. Încercați din nou."
 msgid "Authenticate"
 msgstr "Autentificare"
 
+#: src/rotateinfo.c:46
+msgid "Portrait"
+msgstr "Portret"
+
+#: src/rotateinfo.c:49
+msgid "Landscape"
+msgstr "Peisaj"
+
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
 msgstr "Parolele nu se potrivesc."
@@ -188,7 +196,7 @@ msgstr "Deautentificare"
 msgid "Power Off"
 msgstr "Oprire"
 
-#: src/wifiinfo.c:55
+#: src/wifiinfo.c:88
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
