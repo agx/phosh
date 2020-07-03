@@ -87,6 +87,20 @@
                           </packing>
                         </child>
                         <child>
+                          <object class="PhoshBtInfo" id="btinfo">
+			    <property name="visible">True</property>
+			    <property name="visible" bind-source="btinfo" bind-property="enabled" bind-flags="sync-create"/>
+			    <property name="can_focus">False</property>
+			    <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+			    <property name="margin_right">8</property>
+			  </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
                           <object class="PhoshConnectivityInfo" id="connectivity_info">
 			    <property name="visible" bind-source="connectivity_info" bind-property="connectivity" bind-flags="invert-boolean|sync-create"/>
 			    <property name="can_focus">False</property>
@@ -96,7 +110,7 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">True</property>
-                            <property name="position">2</property>
+                            <property name="position">3</property>
                           </packing>
                         </child>
                       </object>

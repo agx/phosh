@@ -12,6 +12,7 @@
 
 #include "config.h"
 
+#include "bt-info.h"
 #include "connectivity-info.h"
 #include "panel.h"
 #include "shell.h"
@@ -352,6 +353,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
+  g_type_ensure (PHOSH_TYPE_BT_INFO);
   g_type_ensure (PHOSH_TYPE_CONNECTIVITY_INFO);
   g_type_ensure (PHOSH_TYPE_SETTINGS);
 
