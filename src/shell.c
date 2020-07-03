@@ -45,6 +45,7 @@
 #include "util.h"
 #include "wifiinfo.h"
 #include "wwaninfo.h"
+#include "bt-manager.h"
 
 /**
  * SECTION:shell
@@ -87,6 +88,7 @@ typedef struct
   PhoshScreenSaverManager *screen_saver_manager;
   PhoshNotifyManager *notify_manager;
   PhoshFeedbackManager *feedback_manager;
+  PhoshBtManager *bt_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -765,6 +767,20 @@ phosh_shell_get_wifi_manager (PhoshShell *self)
   return priv->wifi_manager;
 }
 
+PhoshBtManager *
+phosh_shell_get_bt_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->bt_manager)
+      priv->bt_manager = phosh_bt_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_BT_MANAGER (priv->bt_manager), NULL);
+  return priv->bt_manager;
+}
 
 PhoshOskManager *
 phosh_shell_get_osk_manager (PhoshShell *self)
