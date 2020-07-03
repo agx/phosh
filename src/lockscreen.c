@@ -7,7 +7,9 @@
 #define G_LOG_DOMAIN "phosh-lockscreen"
 
 #include "config.h"
+
 #include "auth.h"
+#include "bt-info.h"
 #include "lockscreen.h"
 #include "media-player.h"
 
@@ -480,6 +482,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   GObjectClass *object_class = (GObjectClass *)klass;
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
+  g_type_ensure (PHOSH_TYPE_BT_INFO);
   g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
 
   object_class->constructed = phosh_lockscreen_constructed;
