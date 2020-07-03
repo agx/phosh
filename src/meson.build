@@ -88,6 +88,8 @@ libphosh_sources = [
   'background-manager.h',
   'batteryinfo.c',
   'batteryinfo.h',
+  'bt-info.c',
+  'bt-info.h',
   'bt-manager.c',
   'bt-manager.h',
   'contrib/shell-network-agent.c',

@@ -9,6 +9,7 @@ src/auth.c
 src/background.c
 src/background-manager.c
 src/batteryinfo.c
+src/bt-info.c
 src/fader.c
 src/favorite-list-model.c
 src/feedbackinfo.c

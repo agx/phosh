@@ -42,6 +42,7 @@
       <xi:include href="xml/background.xml"/>
       <xi:include href="xml/batteryinfo.xml"/>
       <xi:include href="xml/bt-manager.xml"/>
+      <xi:include href="xml/bt-info.xml"/>
       <xi:include href="xml/connectivity-info.xml"/>
       <xi:include href="xml/fader.xml"/>
       <xi:include href="xml/favorite-list-model.xml"/>
