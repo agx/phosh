@@ -9,7 +9,7 @@ private_headers = [
 content_files = [
 ]
 
-glib_prefix = dependency('glib-2.0').get_pkgconfig_variable('prefix')
+glib_prefix = glib_dep.get_pkgconfig_variable('prefix')
 glib_docpath = join_paths(glib_prefix, 'share', 'gtk-doc', 'html')
 docpath = join_paths(get_option('datadir'), 'gtk-doc', 'html')
 

@@ -1,5 +1,4 @@
-wayland_protos = dependency('wayland-protocols', version: '>=1.12')
-wl_protocol_dir = wayland_protos.get_pkgconfig_variable('pkgdatadir')
+wl_protocol_dir = wayland_protos_dep.get_pkgconfig_variable('pkgdatadir')
 
 wl_scanner = find_program('wayland-scanner')
 gen_scanner_client_header = generator(wl_scanner,
