@@ -12,6 +12,11 @@ generated_dbus_sources += gnome.gdbus_codegen('gnome-session-presence-dbus',
 					      'org.gnome.SessionManager.Presence.xml',
 					      interface_prefix: 'org.gnome.SessionManager',
 					      namespace: 'PhoshSessionPresenceDbus')
+# org.gnome.SettingsDaemon.Rfkill
+generated_dbus_sources += gnome.gdbus_codegen('gsd-rfkill-dbus',
+					      'org.gnome.SettingsDaemon.Rfkill.xml',
+					      interface_prefix: 'org.gnome.SettingsDaemon',
+					      namespace: 'PhoshRfkillDbus')
 # MPris2
 generated_dbus_sources += gnome.gdbus_codegen('mpris-dbus',
 					      'org.mpris.MediaPlayer2.xml',
