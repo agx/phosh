@@ -163,10 +163,12 @@ phosh_wifi_info_constructed (GObject *object)
                             "notify::enabled",
                             G_CALLBACK (on_wifi_enabled),
                             self);
+  on_wifi_enabled (self, NULL, self->wifi);
   g_signal_connect_swapped (self->wifi,
                             "notify::present",
                             G_CALLBACK (on_wifi_present),
                             self);
+  on_wifi_present (self, NULL, self->wifi);
 
   g_idle_add ((GSourceFunc) on_idle, self);
 }
