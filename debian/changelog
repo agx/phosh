@@ -1,3 +1,75 @@
+phosh (0.4.1) amber-phone; urgency=medium
+
+  [ Guido Günther ]
+  * wifimanager: Make variable name match property.  Otherwise it's confusing
+    what it refers too.
+  * wifimanager: Compare to the old state rather than the probed state.  Emit
+    property changes when the old and new state differ not when our state
+    differs from detected devices.
+  * shell: Attach to primary monitors configured signal.  This allows us to
+    emit the 'rotated' signal when it really happened.
+  * rotateinfo: Mark orientations as translatable
+  * rotateinfo: Take display geometry into account.
+    We assumed portrait from the very beginning but that's not correct
+    on laptops and TVs. (Closes: #326)
+  * shell: Undo rotation on startup.
+    This makes sure we get an unrotated shell in any case
+    (e.g. if phosh crashes in landscape mode) (Closes: #265)
+  * monitor: Fix several gtk-doc strings.
+    This fixes some of the warnings during doc generation
+  * background: Load image async.
+    This avoids blocking on I/O.
+  * background: Avoid updating the background twice.
+    Only update the settings on layer-surface configure but wait for the
+    monitor::configured signal before drawing anything.
+    This avoids drawing the background twice on each rotation causing even
+    more flicker.
+  * background-manager: Tell background about it's scale
+    gtk_widget_get_scale_factor gives us the wrong value with multiple
+    outputs of different scale.
+  * background: Skip any image loading if layer surface isn't configured.
+    There's no point to waste resources and we don't have valid dimensios
+    and it breaks the tests.
+  * wifiinfo: Sync initial state.
+    The downside of not using a property binding is that we need to
+    do that on our own.
+  * monitor-manager: Set logical position.
+    This makes the monitor layout in g-c-c match what the compositor thinks
+    it is so monitors are displayed next to each other rather than over
+    each other.
+  * build: Move all dependency() calls to top level build file
+  * Bluetooth quick setting and status indicator
+  * background: Avoid warning on NULL pixbuf.
+  * wwan-mm: Connect to modem async
+  * wwaninfo: Use operator name as detail.
+    This gives us the operator name in quick settings
+
+  [ Julian Sparber ]
+  * AppGrid: Don't set the focus to AppGridButton when clicking on them.
+    Set the property `focus-on-click` to TRUE so that we don't show the blue
+    border and don't set the focus to the AppGridButton when clicking on
+    them.
+
+  [ Emin Tufan Çetin ]
+  * po: Update Turkish translation
+
+  [ Daniel Șerbănescu ]
+  * po: Update Romanian translation
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+  [ scootergrisen ]
+  * po: Update Danish translation
+
+  [ Balázs Meskó ]
+  * po: Update Hungarian translation
+
+  [ Sebastian Krzyszkowiak ]
+  * overview: Clean up unneeded size checks.
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 06 Jul 2020 10:25:20 +0200
+
 phosh (0.4.0) amber-phone; urgency=high
 
   [ Guido Günther ]
