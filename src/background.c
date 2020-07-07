@@ -368,6 +368,10 @@ background_draw_cb (PhoshBackground *self,
   gint x = 0, y = 0;
 
   g_return_val_if_fail (PHOSH_IS_BACKGROUND (self), TRUE);
+
+  if (self->pixbuf == NULL)
+    return TRUE;
+
   g_return_val_if_fail (GDK_IS_PIXBUF (self->pixbuf), TRUE);
 
   if (self->primary)
