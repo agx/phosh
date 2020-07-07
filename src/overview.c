@@ -302,17 +302,10 @@ phosh_overview_size_allocate (GtkWidget     *widget,
   children = gtk_container_get_children (GTK_CONTAINER (priv->paginator_running_activities));
 
   for (l = children; l; l = l->next) {
-    gint old_width, old_height;
-    g_object_get (l->data,
-                 "win-width", &old_width,
-                 "win-height", &old_height,
-                 NULL);
-    if (old_width != alloc->width || old_height != alloc->height) {
-      g_object_set (l->data,
-                    "win-width", alloc->width,
-                    "win-height", alloc->height,
-                    NULL);
-    }
+    g_object_set (l->data,
+                  "win-width", alloc->width,
+                  "win-height", alloc->height,
+                  NULL);
   }
 
   g_list_free (children);
