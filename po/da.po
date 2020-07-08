@@ -1,82 +1,101 @@
-# Simon Jespersen <mail@simonjespersen.dk>, 2018. #zanata
-# Simon Jespersen <mail@simonjespersen.dk>, 2019. #zanata
-# scootergrisen <scootergrisen@gmail.com>, 2020. #zanata
+# Simon Jespersen <mail@simonjespersen.dk>, 2018-2019. #zanata
+# scootergrisen, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
+"POT-Creation-Date: 2020-07-02 03:37+0000\n"
+"PO-Revision-Date: 2020-07-08 14:34+0200\n"
+"Last-Translator: scootergrisen\n"
+"Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2020-04-12 01:44-0400\n"
-"Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
-"Language-Team: Danish\n"
-"Language: da\n"
-"X-Generator: Zanata 4.6.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-
-#: data/sm.puri.Phosh.desktop.in.in:4
-#, fuzzy
-msgid "Phone Shell"
-msgstr "Telefonskal"
-
-#: data/sm.puri.Phosh.desktop.in.in:5
-#, fuzzy
-msgid "Window management and application launching for mobile"
-msgstr "Vindueshåndtering og programstarter til mobiltelefon"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/app-grid-button.c:523
+#: data/sm.puri.Phosh.desktop.in.in:4
+msgid "Phone Shell"
+msgstr "Telefonskal"
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "Vindueshåndtering og programstarter til mobiltelefon"
+
+#: src/app-grid-button.c:530
 msgid "Application"
 msgstr "Program"
 
-#: src/feedbackinfo.c:38
-#, fuzzy
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:41
 msgid "Quiet"
-msgstr "Stille/Lydløs"
+msgstr "Stille"
 
-#: src/feedbackinfo.c:40
-#, fuzzy
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:46
 msgid "Silent"
-msgstr "Stille/Lydløs"
+msgstr "Lydløs"
 
-#: src/feedbackinfo.c:42
-#, fuzzy
+#: src/feedbackinfo.c:48
 msgid "On"
-msgstr "Til/Tændt"
+msgstr "Til"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
+#: src/lockscreen.c:82 src/ui/lockscreen.ui:217
 msgid "Enter Passcode"
 msgstr "Indtast adgangskode"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:261
 msgid "Checking…"
 msgstr "Tjekker …"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:334
+#: src/lockscreen.c:339
 msgid "%A, %B %d"
 msgstr "%A %d. %B"
 
-#: src/monitor-manager.c:53
+#: src/media-player.c:262
+#| msgid "Unknown"
+msgid "Unknown title"
+msgstr "Ukendt titel"
+
+#: src/media-player.c:270
+#| msgid "Unknown"
+msgid "Unknown artist"
+msgstr "Ukendt kunstner"
+
+#: src/monitor-manager.c:58
 msgid "Built-in display"
 msgstr "Indbygget skærm"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:62
 msgid "Unknown"
 msgstr "Ukendt"
 
 #: src/network-auth-prompt.c:184
 #, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Godkendelsestypen for wifi-netværket “%s” understøttes ikke"
+
+#: src/network-auth-prompt.c:189
+#, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Indtast adgangskode til wifi-netværket “%s”"
+
+#: src/notifications/notification.c:365 src/notifications/notification.c:581
+#| msgid "Application"
+msgid "Notification"
+msgstr "Underretning"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -95,6 +114,14 @@ msgstr "Beklager, det virkede ikke. Prøv venligst igen."
 msgid "Authenticate"
 msgstr "Godkend"
 
+#: src/rotateinfo.c:46
+msgid "Portrait"
+msgstr "Portræt"
+
+#: src/rotateinfo.c:49
+msgid "Landscape"
+msgstr "Landskab"
+
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
 msgstr "Adgangskoderne er ikke ens."
@@ -102,10 +129,6 @@ msgstr "Adgangskoderne er ikke ens."
 #: src/system-prompt.c:378
 msgid "Password cannot be blank"
 msgstr "Adgangskoden må ikke være tom"
-
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
@@ -123,17 +146,27 @@ msgstr "Tilføj til _favoritter"
 msgid "Search apps…"
 msgstr "Søger efter programmer …"
 
-#: src/ui/lockscreen.ui:36
+#: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr "Skub op for at låse op"
 
-#: src/ui/lockscreen.ui:250
+#: src/ui/lockscreen.ui:263
 msgid "Emergency"
 msgstr "Nødopkald"
 
-#: src/ui/lockscreen.ui:266
+#: src/ui/lockscreen.ui:279
 msgid "Unlock"
 msgstr "Lås op"
+
+#: src/ui/media-player.ui:107
+#| msgid "Unknown"
+msgid "Unknown Song"
+msgstr "Ukendt sang"
+
+#: src/ui/media-player.ui:127
+#| msgid "Unknown"
+msgid "Unknown Artist"
+msgstr "Ukendt kunstner"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
@@ -150,3 +183,19 @@ msgstr "Bruger:"
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
 msgstr "Bekræft: "
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Lås skærm"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "Log ud"
+
+#: src/ui/top-panel.ui:29
+msgid "Power Off"
+msgstr "Sluk"
+
+#: src/wifiinfo.c:88
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
