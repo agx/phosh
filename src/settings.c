@@ -22,16 +22,20 @@
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
 #include "media-player.h"
+#include "keyboard-events.h"
 
 #include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
 #include "gvc-mixer-stream.h"
 #include <gio/gdesktopappinfo.h>
+#include <xkbcommon/xkbcommon.h>
 
 #include <math.h>
 
 #define LIBFEEDBACK_USE_UNSTABLE_API
 #include <libfeedback.h>
+
+#define VOLUME_SCALE 5
 
 /**
  * SECTION:settings
@@ -64,6 +68,10 @@ typedef struct _PhoshSettings
   GtkWidget *list_notifications;
   GtkWidget *sw_notifications;
   LfbEvent  *notify_event;
+
+  /* KeyboardEvents */
+  PhoshKeyboardEvents *keyboard_events;
+  GHashTable *accelerator_callbacks;
 } PhoshSettings;
 
 
@@ -78,7 +86,6 @@ brightness_value_changed_cb (GtkScale *scale_brightness, gpointer *unused)
   brightness = (int)gtk_range_get_value (GTK_RANGE (scale_brightness));
   brightness_set (brightness);
 }
-
 
 static void
 rotation_setting_clicked_cb (PhoshSettings *self)
@@ -139,6 +146,64 @@ battery_setting_clicked_cb (PhoshSettings *self)
 {
   phosh_quick_setting_open_settings_panel ("power");
   g_signal_emit (self, signals[SETTING_DONE], 0);
+}
+
+static void change_volume (PhoshSettings *self,
+                           gint steps)
+{
+  GtkAdjustment *adj;
+  gdouble vol, inc;
+
+  adj = GTK_ADJUSTMENT (gvc_channel_bar_get_adjustment (GVC_CHANNEL_BAR (self->output_vol_bar)));
+
+  vol = gtk_adjustment_get_value (adj);
+  inc = gtk_adjustment_get_step_increment (adj);
+
+  vol += steps * inc * VOLUME_SCALE;
+
+  g_debug ("Setting volume to %f", vol);
+
+  gtk_adjustment_set_value (adj, vol);
+}
+
+static void lower_volume (PhoshSettings *self)
+{
+  change_volume (self, -1);
+}
+
+static void raise_volume (PhoshSettings *self)
+{
+  change_volume (self, 1);
+}
+
+static void
+accelerator_grabbed_cb (PhoshSettings *self,
+                        const gchar *accelerator,
+                        uint32_t action_id)
+{
+  guint64 action = action_id;
+  if (g_strcmp0 (accelerator, "XF86AudioLowerVolume") == 0) {
+    g_hash_table_insert (self->accelerator_callbacks, (gpointer) action, (gpointer) lower_volume);
+  }
+  else if (g_strcmp0 (accelerator, "XF86AudioRaiseVolume") == 0) {
+     g_hash_table_insert (self->accelerator_callbacks, (gpointer) action, (gpointer) raise_volume);
+  }
+}
+
+static void
+accelerator_activated_cb (PhoshSettings *self,
+                          uint32_t action_id,
+                          uint32_t timestamp)
+{
+  void (*callback)(PhoshSettings *);
+  guint64 action = action_id;
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+  callback = g_hash_table_lookup (self->accelerator_callbacks, (gpointer) action);
+  if (callback == NULL) {
+    g_warning ("No callback for action %d", action_id);
+    return;
+  }
+  callback (self);
 }
 
 static void
@@ -383,6 +448,13 @@ phosh_settings_dispose (GObject *object)
     g_clear_object (&self->notify_event);
   }
 
+  if (self->accelerator_callbacks != NULL)
+  {
+    g_hash_table_remove_all (self->accelerator_callbacks);
+    g_hash_table_unref (self->accelerator_callbacks);
+    self->accelerator_callbacks = NULL;
+  }
+
   G_OBJECT_CLASS (phosh_settings_parent_class)->dispose (object);
 }
 
@@ -442,9 +514,35 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 static void
 phosh_settings_init (PhoshSettings *self)
 {
+  gchar *subscribe_accelerators[] = {
+    "XF86AudioLowerVolume",
+    "XF86AudioRaiseVolume",
+    "XF86AudioMute",
+  };
+
   self->notify_event = lfb_event_new ("message-missed-notification");
 
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  self->keyboard_events = phosh_keyboard_events_new ();
+
+  if (!self->keyboard_events)
+    return;
+
+  self->accelerator_callbacks = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+  phosh_keyboard_events_register_keys (self->keyboard_events,
+                                       subscribe_accelerators,
+                                       G_N_ELEMENTS (subscribe_accelerators));
+  g_signal_connect_swapped (self->keyboard_events,
+                            "accelerator-activated",
+                            G_CALLBACK (accelerator_activated_cb),
+                            self);
+  g_signal_connect_swapped (self->keyboard_events,
+                            "accelerator-grabbed",
+                            G_CALLBACK (accelerator_grabbed_cb),
+                            self);
+
 }
 
 GtkWidget *

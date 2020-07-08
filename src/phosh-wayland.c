@@ -71,7 +71,7 @@ registry_handle_global (void *data,
       registry,
       name,
       &phosh_private_interface,
-      MIN(4, version));
+      MIN(5, version));
   } else if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
     priv->layer_shell = wl_registry_bind (
       registry,

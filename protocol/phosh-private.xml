@@ -1,5 +1,5 @@
 <protocol name="phosh">
-  <interface name="phosh_private" version="4">
+  <interface name="phosh_private" version="5">
     <description summary="Phone shell extensions">
       Private protocol between phosh and the compositor.
     </description>
@@ -35,6 +35,90 @@
       <arg name="toplevel" type="object" interface="zwlr_foreign_toplevel_handle_v1"/>
       <arg name="max_width" type="uint" />
       <arg name="max_height" type="uint" />
+    </request>
+
+    <request name="get_keyboard_event" since="5">
+      <description summary="request a keyboard event handler">
+        Allows to subscribe to specific keyboard events.
+
+        The client grabs an accelerator by a string and gets an action id returned.
+        When the accelerator is used the client will be informed via the corresponding
+        action id.
+      </description>
+      <arg name="id" type="new_id" interface="phosh_private_keyboard_event"/>
+    </request>
+
+  </interface>
+
+  <interface name="phosh_private_keyboard_event" version="5">
+    <description summary="Interface for additional keyboard events">
+      The interface is meant to allow subscription and forwarding of keyboard events.
+    </description>
+    <enum name="error">
+      <entry name="invalid_argument" value="0"
+             summary="an invalid argument was provided in a request"/>
+      <entry name="invalid_keysym" value="1"
+             summary="keysym not subscribeable"/>
+      <entry name="already_subscribed" value="2"
+             summary="accelerator has already been subscribed to"/>
+      <entry name="misc_error" value="3"
+             summary="an miscellaneous error has occured"/>
+    </enum>
+    <event name="accelerator_activated_event" since="5">
+      <description summary="Report an accelerator press">
+        Forward an action to the client.
+      </description>
+      <arg name="action_id" type="uint" summary="The previously assigned action_id"/>
+      <arg name="timestamp" type="uint" summary="The timestamp when the key has been pressed"/>
+    </event>
+
+    <event name="grab_failed_event" since="5">
+      <description summary="Report subscription failure">
+        A previous accelerator grab request has failed.
+      </description>
+      <arg name="accelerator" type="string" summary="The failed accelerator"/>
+      <arg name="error" type="uint" summary="The error code"/>
+    </event>
+
+    <event name="grab_success_event" since="5">
+      <description summary="Report subscription success">
+        A previous accelerator grab request has succeeded.
+      </description>
+      <arg name="accelerator" type="string" summary="The subscribed accelerator"/>
+      <arg name="action_id" type="uint" summary="The id that has been assigned to the accelerator"/>
+    </event>
+
+    <request name="grab_accelerator_request" since="5">
+      <description summary="Subscribe to an accelerator">
+        Client subscribes to a specific accelerator.
+      </description>
+      <arg name="accelerator" type="string" summary="The accelerator string (with modifiers)"/>
+    </request>
+
+    <event name="ungrab_failed_event" since="5">
+      <description summary="Report unsubscription failure">
+        A previous accelerator ungrab request has failed.
+      </description>
+      <arg name="action_id" type="uint" summary="The failed action"/>
+      <arg name="error" type="uint" summary="The error code"/>
+    </event>
+
+    <event name="ungrab_success_event" since="5">
+      <description summary="Report unsubscription success">
+        A previous accelerator ungrab request has suceeded.
+      </description>
+      <arg name="action" type="uint" summary="The unsubscribed action"/>
+    </event>
+
+    <request name="ungrab_accelerator_request" since="5">
+      <description summary="Unsubscribe to an accelerator">
+        Client unsubscribes a specific accelerator"
+      </description>
+      <arg name="action_id" type="uint" summary="The action to unsubscribe"/>
+    </request>
+
+    <request name="destroy" type="destructor" since="5">
+      <description summary="destroy the keyboard_event interface instance"/>
     </request>
   </interface>
 

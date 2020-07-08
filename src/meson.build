@@ -100,6 +100,8 @@ libphosh_sources = [
   'feedbackinfo.h',
   'home.c',
   'home.h',
+  'keyboard-events.c',
+  'keyboard-events.h',
   'idle-manager.c',
   'idle-manager.h',
   'lockscreen-manager.c',
@@ -202,3 +204,4 @@ phosh = executable('phosh', ['main.c', libphosh_sources],
   dependencies: phosh_tool_dep,
   install: true,
   install_dir: libexecdir)
+
