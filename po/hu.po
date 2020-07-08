@@ -2,17 +2,22 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
+"POT-Creation-Date: 2020-07-06 03:30+0000\n"
+"PO-Revision-Date: 2020-07-08 12:55+0200\n"
+"Last-Translator: Meskó Balázs <mesko.balazs@fsf.hu>\n"
+"Language-Team: Hungarian\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-11-23 12:23+0000\n"
-"Last-Translator: Csaba Fazekas <csab.faz.2@gmail.com>\n"
-"Language-Team: Hungarian\n"
-"Language: hu\n"
-"X-Generator: Zanata 4.6.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Poedit 2.3.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -20,61 +25,78 @@ msgstr "Telefon Shell"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr "Ablak kezelő és alkalmazás folyamatok megkezdése"
+msgstr "Ablakkezelés és alkalmazásindítás mobilra"
 
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
-msgid "Phosh"
-msgstr "Phosh"
-
-#: src/app-grid-button.c:523
+#: src/app-grid-button.c:530
 msgid "Application"
 msgstr "Alkalmazás"
 
-#: src/feedbackinfo.c:38
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:41
 msgid "Quiet"
-msgstr ""
+msgstr "Csendes"
 
-#: src/feedbackinfo.c:40
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:46
 msgid "Silent"
-msgstr ""
+msgstr "Néma"
 
-#: src/feedbackinfo.c:42
+#: src/feedbackinfo.c:48
 msgid "On"
-msgstr ""
+msgstr "Be"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
-#, fuzzy
+#: src/lockscreen.c:82 src/ui/lockscreen.ui:217
 msgid "Enter Passcode"
-msgstr "Írja be a jelszót"
+msgstr "Adja meg a jelkódot"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:261
 msgid "Checking…"
-msgstr "Ellenőrzés..."
+msgstr "Ellenőrzés…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:334
+#: src/lockscreen.c:339
 msgid "%A, %B %d"
-msgstr ""
+msgstr "%B %-d. %A"
 
-#: src/monitor-manager.c:53
+#: src/media-player.c:262
+msgid "Unknown title"
+msgstr "Ismeretlen cím"
+
+#: src/media-player.c:270
+msgid "Unknown artist"
+msgstr "Ismeretlen előadó"
+
+#: src/monitor-manager.c:58
 msgid "Built-in display"
 msgstr "Beépített kijelző"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:62
 msgid "Unknown"
 msgstr "Ismeretlen"
 
 #: src/network-auth-prompt.c:184
 #, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "A(z) „%s” Wi-Fi-hálózat hitelesítési típusa nem támogatott"
+
+#: src/network-auth-prompt.c:189
+#, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "Adja meg a(z) „%s” Wi-Fi-hálózat jelszavát"
+
+#: src/notifications/notification.c:365 src/notifications/notification.c:581
+msgid "Notification"
+msgstr "Értesítés"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
-msgstr "A hitelesítési párbeszédet alutasította a felhasználó"
+msgstr "A felhasználó bezárta a hitelesítési párbeszédet"
 
 #: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
 #: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
@@ -83,11 +105,19 @@ msgstr "Jelszó:"
 
 #: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "Sajnálom, ez nem jó. Kérem próbálja meg újra"
+msgstr "Sajnáljuk, ez nem működött. Próbálja meg újra."
 
 #: src/polkit-auth-prompt.c:488
 msgid "Authenticate"
 msgstr "Hitelesítés"
+
+#: src/rotateinfo.c:46
+msgid "Portrait"
+msgstr "Álló"
+
+#: src/rotateinfo.c:49
+msgid "Landscape"
+msgstr "Fekvő"
 
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
@@ -97,45 +127,49 @@ msgstr "A jelszavak nem egyeznek."
 msgid "Password cannot be blank"
 msgstr "A jelszavak nem lehetnek üresek"
 
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr ""
-
 #: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "Alkalmazás"
 
 #: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Eltávolítás a _Kedvencek közül"
 
 #: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Hozzáadás a _Kedvencekhez"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Keress alkalmazásokat"
+msgstr "Alkalmazások keresése…"
 
-#: src/ui/lockscreen.ui:36
+#: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr "Csúsztassa fel a feloldáshoz"
 
-#: src/ui/lockscreen.ui:250
+#: src/ui/lockscreen.ui:263
 msgid "Emergency"
-msgstr ""
+msgstr "Vészhelyzet"
 
-#: src/ui/lockscreen.ui:266
+#: src/ui/lockscreen.ui:279
 msgid "Unlock"
-msgstr ""
+msgstr "Feloldás"
+
+#: src/ui/media-player.ui:107
+msgid "Unknown Song"
+msgstr "Ismeretlen szám"
+
+#: src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Ismeretlen előadó"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
-msgstr ""
+msgstr "_Mégse"
 
 #: src/ui/network-auth-prompt.ui:106
 msgid "C_onnect"
-msgstr ""
+msgstr "Kapcs_olódás"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
@@ -144,3 +178,19 @@ msgstr "Felhasználó:"
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
 msgstr "Megerősítés:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Képernyő zárolása"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "Kilépés"
+
+#: src/ui/top-panel.ui:29
+msgid "Power Off"
+msgstr "Kikapcsolás"
+
+#: src/wifiinfo.c:88
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
