@@ -67,17 +67,17 @@ registry_handle_global (void *data,
   struct wl_output *output;
 
   if (!strcmp (interface, "phosh_private")) {
-      priv->phosh_private = wl_registry_bind (
-        registry,
-        name,
-        &phosh_private_interface,
-        MIN(4, version));
-  } else  if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
-      priv->layer_shell = wl_registry_bind (
-        registry,
-        name,
-        &zwlr_layer_shell_v1_interface,
-        1);
+    priv->phosh_private = wl_registry_bind (
+      registry,
+      name,
+      &phosh_private_interface,
+      MIN(4, version));
+  } else if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
+    priv->layer_shell = wl_registry_bind (
+      registry,
+      name,
+      &zwlr_layer_shell_v1_interface,
+      1);
   } else if (!strcmp (interface, "wl_output")) {
     output = wl_registry_bind (
       registry,
