@@ -132,7 +132,23 @@ phosh_shell_unlock (PhoshShell *self)
 }
 
 /**
+ * phosh_shell_get_locked:
+ * @self: The #PhoshShell singleton
+ *
+ * Returns: %TRUE if the shell is currently locked, otherwise %FALSE.
+ */
+gboolean
+phosh_shell_get_locked (PhoshShell *self)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  return phosh_lockscreen_manager_get_locked (priv->lockscreen_manager);
+}
+
+/**
  * phosh_shell_set_locked:
+ * @self: The #PhoshShell singleton
+ * @state: %TRUE to lock the shell
  *
  * Lock the shell. We proxy to lockscreen-manager to avoid
  * that other parts of the shell need to care about this
