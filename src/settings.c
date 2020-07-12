@@ -30,6 +30,9 @@
 
 #include <math.h>
 
+#define LIBFEEDBACK_USE_UNSTABLE_API
+#include <libfeedback.h>
+
 /**
  * SECTION:settings
  * @short_description: The settings menu
@@ -60,6 +63,7 @@ typedef struct _PhoshSettings
   /* Notifications */
   GtkWidget *list_notifications;
   GtkWidget *sw_notifications;
+  LfbEvent  *notify_event;
 } PhoshSettings;
 
 
@@ -279,6 +283,15 @@ create_notification_row (gpointer item, gpointer data)
   return row;
 }
 
+
+static void
+end_notify_feedback (PhoshSettings *self)
+{
+  if (lfb_event_get_state (self->notify_event) == LFB_EVENT_STATE_RUNNING)
+    lfb_event_end_feedback_async (self->notify_event, NULL, NULL, NULL);
+}
+
+
 static void
 on_notifcation_items_changed (PhoshSettings *self,
                               guint position,
@@ -286,16 +299,22 @@ on_notifcation_items_changed (PhoshSettings *self,
                               guint added,
                               GListModel *list)
 {
-  gboolean visible;
+  gboolean is_empty;
 
   g_return_if_fail (PHOSH_IS_SETTINGS (self));
   g_return_if_fail (G_IS_LIST_MODEL (list));
 
-  visible = !!g_list_model_get_n_items (list);
-  g_debug("%d", visible);
-  gtk_widget_set_visible (GTK_WIDGET (self->sw_notifications), visible);
-  if (!visible)
+  is_empty = !g_list_model_get_n_items (list);
+  g_debug("Notification list empty: %d", is_empty);
+
+  gtk_widget_set_visible (GTK_WIDGET (self->sw_notifications), !is_empty);
+  if (is_empty) {
     g_signal_emit (self, signals[SETTING_DONE], 0);
+    end_notify_feedback (self);
+  } else if (phosh_shell_get_locked (phosh_shell_get_default ())) {
+    if (lfb_event_get_state (self->notify_event) != LFB_EVENT_STATE_RUNNING)
+      lfb_event_trigger_feedback_async (self->notify_event, NULL, NULL, NULL);
+  }
 }
 
 static void
@@ -355,7 +374,14 @@ phosh_settings_constructed (GObject *object)
 static void
 phosh_settings_dispose (GObject *object)
 {
+  PhoshSettings *self = PHOSH_SETTINGS (object);
+
   brightness_dispose ();
+
+  if (self->notify_event) {
+    end_notify_feedback (self);
+    g_clear_object (&self->notify_event);
+  }
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->dispose (object);
 }
@@ -416,6 +442,8 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 static void
 phosh_settings_init (PhoshSettings *self)
 {
+  self->notify_event = lfb_event_new ("message-missed-notification");
+
   gtk_widget_init_template (GTK_WIDGET (self));
 }
 
