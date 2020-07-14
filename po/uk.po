@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-07-02 03:37+0000\n"
-"PO-Revision-Date: 2020-07-02 12:48+0300\n"
+"POT-Creation-Date: 2020-07-14 15:30+0000\n"
+"PO-Revision-Date: 2020-07-14 20:16+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -37,6 +37,14 @@ msgstr "Керування вікнами і запуск програм для 
 msgid "Application"
 msgstr "Програма"
 
+#: src/bt-info.c:89 src/feedbackinfo.c:48
+msgid "On"
+msgstr "Увімкнено"
+
+#: src/bt-info.c:91
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
@@ -51,21 +59,17 @@ msgstr "Тихо"
 msgid "Silent"
 msgstr "Беззвучно"
 
-#: src/feedbackinfo.c:48
-msgid "On"
-msgstr "Увімкнено"
-
-#: src/lockscreen.c:82 src/ui/lockscreen.ui:217
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:261
+#: src/lockscreen.c:263
 msgid "Checking…"
 msgstr "Звіряю…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:339
+#: src/lockscreen.c:341
 msgid "%A, %B %d"
 msgstr "%A, %-d %B"
 
@@ -133,15 +137,15 @@ msgstr "Паролі не збігаються."
 msgid "Password cannot be blank"
 msgstr "Пароль не може бути порожнім"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:49
 msgid "App"
 msgstr "Програма"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
 msgstr "Вилучити з _вибраних"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
 msgstr "Додати до _вибраних"
 
@@ -153,11 +157,11 @@ msgstr "Шукати серед програм…"
 msgid "Slide up to unlock"
 msgstr "Протягність угору, щоб розблокувати"
 
-#: src/ui/lockscreen.ui:263
+#: src/ui/lockscreen.ui:280
 msgid "Emergency"
 msgstr "Екстрений виклик"
 
-#: src/ui/lockscreen.ui:279
+#: src/ui/lockscreen.ui:296
 msgid "Unlock"
 msgstr "Розблокувати"
 
@@ -200,3 +204,7 @@ msgstr "Вимкнути"
 #: src/wifiinfo.c:88
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
+
+#: src/wwaninfo.c:167
+msgid "Cellular"
+msgstr "Стільниковий"
