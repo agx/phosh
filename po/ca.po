@@ -1,80 +1,107 @@
 # Walter Garcia-Fontes <walter.garcia@upf.edu>, 2018. #zanata
 # Roberto MF <zanata@virgulilla.com>, 2019. #zanata
+# Marc Riera <marcriera@softcatala.org>, 2020.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
+"POT-Creation-Date: 2020-07-18 15:28+0000\n"
+"PO-Revision-Date: 2020-07-18 18:45+0200\n"
+"Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
+"Language-Team: Catalan\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-11-17 06:53+0000\n"
-"Last-Translator: Roberto MF <zanata@virgulilla.com>\n"
-"Language-Team: Catalan\n"
-"Language: ca\n"
-"X-Generator: Zanata 4.6.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-
-#: data/sm.puri.Phosh.desktop.in.in:4
-msgid "Phone Shell"
-msgstr "Intèrpret d'ordres del telèfon"
-
-#: data/sm.puri.Phosh.desktop.in.in:5
-msgid "Window management and application launching for mobile"
-msgstr "Gestió de finestres i llançament d'aplicacions per a mòbils"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/app-grid-button.c:523
+#: data/sm.puri.Phosh.desktop.in.in:4
+msgid "Phone Shell"
+msgstr "Shell del telèfon"
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "Gestió de finestres i llançament d'aplicacions per a mòbils"
+
+#: src/app-grid-button.c:530
 msgid "Application"
 msgstr "Aplicació"
 
-#: src/feedbackinfo.c:38
-msgid "Quiet"
-msgstr ""
-
-#: src/feedbackinfo.c:40
-msgid "Silent"
-msgstr ""
-
-#: src/feedbackinfo.c:42
+#: src/bt-info.c:89 src/feedbackinfo.c:48
 msgid "On"
-msgstr ""
+msgstr "Activat"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
+#: src/bt-info.c:91
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:41
+msgid "Quiet"
+msgstr "Silenciós"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:46
+msgid "Silent"
+msgstr "Desactivat"
+
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
-msgstr ""
+msgstr "Introduïu la contrasenya"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:263
 msgid "Checking…"
-msgstr "Comprovant…"
+msgstr "S'està comprovant…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:334
+#: src/lockscreen.c:341
 msgid "%A, %B %d"
-msgstr "%A, %d de %B"
+msgstr "%A, %d %B"
 
-#: src/monitor-manager.c:53
+#: src/media-player.c:262
+msgid "Unknown title"
+msgstr "Títol desconegut"
+
+#: src/media-player.c:270
+msgid "Unknown artist"
+msgstr "Artista desconegut"
+
+#: src/monitor-manager.c:58
 msgid "Built-in display"
 msgstr "Pantalla interna"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:62
 msgid "Unknown"
 msgstr "Desconegut"
 
 #: src/network-auth-prompt.c:184
 #, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "No s'admet el tipus d'autenticació de la xarxa sense fil «%s»"
+
+#: src/network-auth-prompt.c:189
+#, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "Introduïu la contrasenya de la xarxa sense fil «%s»"
+
+#: src/notifications/notification.c:365 src/notifications/notification.c:581
+msgid "Notification"
+msgstr "Notificació"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
-msgstr ""
+msgstr "L'usuari ha descartat el diàleg d'autenticació"
 
 #: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
 #: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
@@ -83,59 +110,71 @@ msgstr "Contrasenya:"
 
 #: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "No s'ha pogut fer això. Torneu-ho a provar."
+msgstr "S'ha produït un error. Torneu-ho a provar."
 
 #: src/polkit-auth-prompt.c:488
 msgid "Authenticate"
-msgstr ""
+msgstr "Autenticació"
+
+#: src/rotateinfo.c:46
+msgid "Portrait"
+msgstr "Vertical"
+
+#: src/rotateinfo.c:49
+msgid "Landscape"
+msgstr "Apaïsat"
 
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
-msgstr "Les contrasenyes no són iguals."
+msgstr "Les contrasenyes no coincideixen."
 
 #: src/system-prompt.c:378
 msgid "Password cannot be blank"
 msgstr "La contrasenya no pot estar en blanc"
 
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr ""
-
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:49
 msgid "App"
-msgstr "Apli"
+msgstr "Aplicació"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Suprimeix dels _preferits"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Afegeix als _preferits"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Cercar aplis…"
+msgstr "Cerca aplicacions…"
 
-#: src/ui/lockscreen.ui:36
+#: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr "Llisqueu cap amunt per desbloquejar"
 
-#: src/ui/lockscreen.ui:250
+#: src/ui/lockscreen.ui:280
 msgid "Emergency"
-msgstr ""
+msgstr "Emergència"
 
-#: src/ui/lockscreen.ui:266
+#: src/ui/lockscreen.ui:296
 msgid "Unlock"
-msgstr ""
+msgstr "Desbloca"
+
+#: src/ui/media-player.ui:107
+msgid "Unknown Song"
+msgstr "Cançó desconeguda"
+
+#: src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Artista desconegut"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cancel·la"
 
 #: src/ui/network-auth-prompt.ui:106
 msgid "C_onnect"
-msgstr ""
+msgstr "C_onnecta"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
@@ -143,4 +182,24 @@ msgstr "Usuari:"
 
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
-msgstr ""
+msgstr "Confirmació:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Bloqueja la pantalla"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "Surt"
+
+#: src/ui/top-panel.ui:29
+msgid "Power Off"
+msgstr "Apaga"
+
+#: src/wifiinfo.c:88
+msgid "Wi-Fi"
+msgstr "Sense fil"
+
+#: src/wwaninfo.c:167
+msgid "Cellular"
+msgstr "Mòbil"
