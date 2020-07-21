@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-07-02 03:37+0000\n"
-"PO-Revision-Date: 2020-07-02 12:44+0300\n"
+"POT-Creation-Date: 2020-07-18 03:30+0000\n"
+"PO-Revision-Date: 2020-07-18 16:59+0300\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -36,6 +36,14 @@ msgstr "Administrare de fereastră și lansare de aplicație pentru mobil"
 msgid "Application"
 msgstr "Aplicație"
 
+#: src/bt-info.c:89 src/feedbackinfo.c:48
+msgid "On"
+msgstr "Pornit"
+
+#: src/bt-info.c:91
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
@@ -50,21 +58,17 @@ msgstr "Încet"
 msgid "Silent"
 msgstr "Silențios"
 
-#: src/feedbackinfo.c:48
-msgid "On"
-msgstr "Pornit"
-
-#: src/lockscreen.c:82 src/ui/lockscreen.ui:217
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr "Introduceți parola"
 
-#: src/lockscreen.c:261
+#: src/lockscreen.c:263
 msgid "Checking…"
 msgstr "Se verifică…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:339
+#: src/lockscreen.c:341
 msgid "%A, %B %d"
 msgstr "%A, %B %d"
 
@@ -132,15 +136,15 @@ msgstr "Parolele nu se potrivesc."
 msgid "Password cannot be blank"
 msgstr "Parola nu poate fi goală"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:49
 msgid "App"
 msgstr "Aplicație"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
 msgstr "Elimină din _favorite"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
 msgstr "Adaugă la _favorite"
 
@@ -152,11 +156,11 @@ msgstr "Caută aplicații…"
 msgid "Slide up to unlock"
 msgstr "Glisează în sus pentru a debloca"
 
-#: src/ui/lockscreen.ui:263
+#: src/ui/lockscreen.ui:280
 msgid "Emergency"
 msgstr "Urgență"
 
-#: src/ui/lockscreen.ui:279
+#: src/ui/lockscreen.ui:296
 msgid "Unlock"
 msgstr "Deblocare"
 
@@ -199,6 +203,10 @@ msgstr "Oprire"
 #: src/wifiinfo.c:88
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
+
+#: src/wwaninfo.c:167
+msgid "Cellular"
+msgstr "Celular"
 
 #~ msgid "Suspend"
 #~ msgstr "Suspendă"
