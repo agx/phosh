@@ -18,6 +18,7 @@ Build-Depends:
  libupower-glib-dev,
  libwayland-dev,
  meson,
+ pandoc,
 # to run the tests
  at-spi2-core,
  gnome-themes-extra-data,
