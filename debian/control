@@ -39,7 +39,6 @@ Recommends:
  feedbackd,
  iio-sensor-proxy,
  gnome-session,
- phoc,
 Provides:
  notification-daemon,
  polkit-1-auth-agent,
