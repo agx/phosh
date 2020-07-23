@@ -83,6 +83,22 @@ on_shutdown_action (GSimpleAction *action,
 
 
 static void
+on_restart_action (GSimpleAction *action,
+                   GVariant      *parameter,
+                   gpointer       data)
+{
+  PhoshPanel *self = PHOSH_PANEL(data);
+
+  g_return_if_fail (PHOSH_IS_PANEL (self));
+  phosh_session_reboot ();
+  /* TODO: Since we don't implement
+   * gnome.SessionManager.EndSessionDialog yet */
+  phosh_session_reboot ();
+  phosh_panel_fold (self);
+}
+
+
+static void
 on_lockscreen_action (GSimpleAction *action,
                       GVariant      *parameter,
                       gpointer      data)
@@ -242,6 +258,7 @@ on_button_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
 
 static GActionEntry entries[] = {
   { "poweroff", on_shutdown_action, NULL, NULL, NULL },
+  { "restart", on_restart_action, NULL, NULL, NULL },
   { "lockscreen", on_lockscreen_action, NULL, NULL, NULL },
   { "logout", on_logout_action, NULL, NULL, NULL },
 };

@@ -25,6 +25,13 @@
         <child>
           <object class="GtkModelButton">
             <property name="visible">True</property>
+            <property name="action-name">panel.restart</property>
+            <property name="text" translatable="yes">Restart</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
             <property name="action-name">panel.poweroff</property>
             <property name="text" translatable="yes">Power Off</property>
           </object>

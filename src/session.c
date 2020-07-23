@@ -181,6 +181,23 @@ phosh_session_shutdown (void)
                      NULL);
 }
 
+
+void
+phosh_session_reboot (void)
+{
+  g_return_if_fail (G_IS_DBUS_PROXY(_proxy));
+
+  g_dbus_proxy_call (_proxy,
+                     "Reboot",
+                     NULL,
+                     G_DBUS_CALL_FLAGS_NONE,
+                     -1,
+                     NULL,
+                     NULL,
+                     NULL);
+}
+
+
 void
 phosh_session_logout (void)
 {
