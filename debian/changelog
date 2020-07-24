@@ -1,3 +1,31 @@
+phosh (0.4.2) amber-phone; urgency=medium
+
+  [ Guido Günther ]
+  * shell: Add phosh_shell_get_locked ()
+    This makes it symmetric with `phosh_shell_set_locked ()`.
+  * settings: Emit feedback when notifications get added.
+    We only to so when the screen is locked. The feedback is ended
+    when the list is cleared.
+
+  [ Marc Riera Irigoyen ]
+  * po: Update Catalan translation
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+  [ Tim Sabsch ]
+  * po: Update German translation
+
+  [ Daniel Șerbănescu ]
+  * po: Update Romanian translation
+
+  [ Arnaud Ferraris ]
+  * d/control: drop Recommends: phoc
+    phoc is now a dependency, it shouldn't appear in the `Recommends:`
+    section anymore
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 24 Jul 2020 10:55:08 +0200
+
 phosh (0.4.1) amber-phone; urgency=medium
 
   [ Guido Günther ]
