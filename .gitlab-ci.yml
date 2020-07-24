@@ -268,7 +268,7 @@ package:deb-pureos-amber:
     - echo "deb https://repo.pureos.net/pureos amber-proposed-updates main" >> /etc/apt/sources.list.d/staging.list
     - apt-get -y update
     - apt-get -y build-dep .
-    - apt-get -y install build-essential git
+    - apt-get -y install build-essential git devscripts
     - git submodule update --recursive
   extends: .l5-build-debian-package
 
