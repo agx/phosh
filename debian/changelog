@@ -24,6 +24,10 @@ phosh (0.4.2) amber-phone; urgency=medium
     phoc is now a dependency, it shouldn't appear in the `Recommends:`
     section anymore
 
+  [ Luca Weiss ]
+  * panel: implement restart action.
+    Fixes #241
+
  -- Guido Günther <agx@sigxcpu.org>  Fri, 24 Jul 2020 10:55:08 +0200
 
 phosh (0.4.1) amber-phone; urgency=medium
