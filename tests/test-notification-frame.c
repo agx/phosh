@@ -29,6 +29,7 @@ test_phosh_notification_frame_new (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
   GtkWidget *frame = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
                                  NULL,
@@ -41,7 +42,8 @@ test_phosh_notification_frame_new (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   frame = phosh_notification_frame_new ();
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
@@ -54,6 +56,7 @@ test_phosh_notification_frame_header_activated (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
   GtkWidget *frame = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
                                  NULL,
@@ -66,7 +69,8 @@ test_phosh_notification_frame_header_activated (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   frame = phosh_notification_frame_new ();
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
@@ -88,6 +92,7 @@ test_phosh_notification_frame_notification_activated (void)
   GtkWidget *frame = NULL;
   GtkWidget *list = NULL;
   GtkListBoxRow *row = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
                                  NULL,
@@ -100,7 +105,8 @@ test_phosh_notification_frame_notification_activated (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   frame = phosh_notification_frame_new ();
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),

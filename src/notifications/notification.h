@@ -44,7 +44,8 @@ PhoshNotification        *phosh_notification_new           (guint               
                                                             GStrv                     actions,
                                                             gboolean                  transient,
                                                             gboolean                  resident,
-                                                            const char               *category);
+                                                            const char               *category,
+                                                            GDateTime                *timestamp);
 void                      phosh_notification_set_id        (PhoshNotification        *self,
                                                             guint                     id);
 guint                     phosh_notification_get_id        (PhoshNotification        *self);
@@ -57,6 +58,9 @@ const char               *phosh_notification_get_body      (PhoshNotification   
 void                      phosh_notification_set_app_name  (PhoshNotification        *self,
                                                             const char               *app_name);
 const char               *phosh_notification_get_app_name  (PhoshNotification        *self);
+GDateTime                *phosh_notification_get_timestamp (PhoshNotification        *self);
+void                      phosh_notification_set_timestamp (PhoshNotification        *self,
+                                                            GDateTime                *timestamp);
 void                      phosh_notification_set_app_icon  (PhoshNotification        *self,
                                                             GIcon                    *icon);
 GIcon                    *phosh_notification_get_app_icon  (PhoshNotification        *self);

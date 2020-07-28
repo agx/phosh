@@ -27,6 +27,8 @@ test_phosh_notification_new_basic (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
   GIcon *icon;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
+  g_autoptr (GDateTime) now2 = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
                                  NULL,
@@ -39,7 +41,8 @@ test_phosh_notification_new_basic (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   g_assert_cmpstr (phosh_notification_get_app_name (noti), ==, "Notification");
   g_assert_null (phosh_notification_get_app_info (noti));
@@ -106,6 +109,30 @@ test_phosh_notification_new_basic (void)
   g_assert_false (was_notified);
 
   g_signal_handlers_disconnect_by_func (noti, G_CALLBACK (notified), NULL);
+
+  was_notified = FALSE;
+  g_signal_connect (noti, "notify::timestamp", G_CALLBACK (notified), NULL);
+
+  g_object_set (noti, "timestamp", now, NULL);
+
+  g_assert_false (was_notified);
+
+  was_notified = FALSE;
+  g_signal_connect (noti, "notify::timestamp", G_CALLBACK (notified), NULL);
+
+  g_object_set (noti, "timestamp", now, NULL);
+
+  g_assert_false (was_notified);
+
+  was_notified = FALSE;
+  g_signal_connect (noti, "notify::timestamp", G_CALLBACK (notified), NULL);
+
+  g_object_set (noti, "timestamp", now2, NULL);
+
+  g_assert_true (was_notified);
+
+
+  g_signal_handlers_disconnect_by_func (noti, G_CALLBACK (notified), NULL);
 }
 
 
@@ -116,6 +143,7 @@ test_phosh_notification_new (void)
   g_autoptr (GAppInfo) info = NULL;
   GIcon *icon;
   GIcon *image;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   info = G_APP_INFO (g_desktop_app_info_new ("demo.app.Second.desktop"));
   icon = g_themed_icon_new ("should-not-be-seen");
@@ -133,7 +161,8 @@ test_phosh_notification_new (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   g_assert_cmpstr (phosh_notification_get_app_name (noti), ==, "Med");
   g_assert_true (phosh_notification_get_app_info (noti) == info);
@@ -191,6 +220,7 @@ test_phosh_notification_actions (void)
   g_autoptr (PhoshNotification) noti = NULL;
   GStrv original_actions = (char *[]) { "app.test", "Test", "app.test", "Me", NULL };
   GStrv actions;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
                                  NULL,
@@ -203,7 +233,8 @@ test_phosh_notification_actions (void)
                                  original_actions,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   actions = phosh_notification_get_actions (noti);
 
@@ -233,6 +264,8 @@ test_phosh_notification_get (void)
   gboolean resident = FALSE;
   const char *category = NULL;
   PhoshNotificationUrgency urgency = PHOSH_NOTIFICATION_URGENCY_NORMAL;
+  GDateTime *timestamp = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (123,
                                  NULL,
@@ -245,7 +278,8 @@ test_phosh_notification_get (void)
                                  NULL,
                                  TRUE,
                                  TRUE,
-                                 "email.arrived");
+                                 "email.arrived",
+                                 now);
 
   g_object_get (noti,
                 "id", &id,
@@ -260,6 +294,7 @@ test_phosh_notification_get (void)
                 "resident", &resident,
                 "category", &category,
                 "urgency", &urgency,
+                "timestamp", &timestamp,
                 NULL);
 
   g_assert_cmpuint (id, ==, 123);
@@ -274,6 +309,8 @@ test_phosh_notification_get (void)
   g_assert_true (resident);
   g_assert_cmpstr (category, ==, "email.arrived");
   g_assert_cmpint (urgency, ==, PHOSH_NOTIFICATION_URGENCY_CRITICAL);
+  g_assert_nonnull (timestamp);
+  g_assert_true (timestamp == now);
 
   BAD_PROP (noti, phosh_notification, PhoshNotification);
 }
@@ -312,6 +349,7 @@ test_phosh_notification_expires (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
   g_autoptr (GMainLoop) loop = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
                                  NULL,
@@ -324,7 +362,8 @@ test_phosh_notification_expires (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   loop = g_main_loop_new (NULL, FALSE);
 
@@ -353,6 +392,7 @@ test_phosh_notification_close (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
   g_autoptr (GMainLoop) loop = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
                                  NULL,
@@ -365,7 +405,8 @@ test_phosh_notification_close (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   // Set it to expire in the future
   phosh_notification_expires (noti, 1000);

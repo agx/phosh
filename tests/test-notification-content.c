@@ -16,6 +16,7 @@ test_phosh_notification_content_new (void)
   g_autoptr (PhoshNotification) noti = NULL;
   PhoshNotification *noti_test = NULL;
   GtkWidget *content = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
                                  NULL,
@@ -28,7 +29,8 @@ test_phosh_notification_content_new (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   content = phosh_notification_content_new (noti);
 
@@ -49,6 +51,7 @@ static void
 test_phosh_notification_content_no_summary (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
                                  NULL,
@@ -61,7 +64,8 @@ test_phosh_notification_content_no_summary (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   phosh_notification_content_new (noti);
 }
@@ -86,6 +90,7 @@ test_phosh_notification_content_actions (void)
   g_autoptr (PhoshNotification) noti = NULL;
   GtkWidget *content = NULL;
   GStrv actions = (char *[]) { "app.test", "Test", "default", "Me", NULL };
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
                                  NULL,
@@ -98,7 +103,8 @@ test_phosh_notification_content_actions (void)
                                  actions,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   content = phosh_notification_content_new (noti);
 
@@ -119,6 +125,7 @@ test_phosh_notification_content_bad_action (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
   GStrv actions = (char *[]) { "app.test", NULL };
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
                                  NULL,
@@ -131,7 +138,8 @@ test_phosh_notification_content_bad_action (void)
                                  actions,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   g_test_expect_message ("phosh-notification-content",
                          G_LOG_LEVEL_WARNING,

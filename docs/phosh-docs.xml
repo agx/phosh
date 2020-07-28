@@ -65,6 +65,7 @@
       <xi:include href="xml/notification-source.xml"/>
       <xi:include href="xml/notification.xml"/>
       <xi:include href="xml/notify-manager.xml"/>
+      <xi:include href="xml/timestamp-label.xml"/>
       <xi:include href="xml/osk-button.xml"/>
       <xi:include href="xml/osk-manager.xml"/>
       <xi:include href="xml/overview.xml"/>

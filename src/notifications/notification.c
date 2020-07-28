@@ -35,6 +35,7 @@ enum {
   PROP_TRANSIENT,
   PROP_RESIDENT,
   PROP_CATEGORY,
+  PROP_TIMESTAMP,
   LAST_PROP
 };
 static GParamSpec *props[LAST_PROP];
@@ -54,6 +55,7 @@ struct _PhoshNotification {
 
   guint                     id;
   char                     *app_name;
+  GDateTime                *updated;
   char                     *summary;
   char                     *body;
   GIcon                    *icon;
@@ -87,6 +89,9 @@ phosh_notification_set_property (GObject      *object,
       break;
     case PROP_APP_NAME:
       phosh_notification_set_app_name (self, g_value_get_string (value));
+      break;
+    case PROP_TIMESTAMP:
+      phosh_notification_set_timestamp (self, g_value_get_boxed (value));
       break;
     case PROP_SUMMARY:
       phosh_notification_set_summary (self, g_value_get_string (value));
@@ -140,6 +145,9 @@ phosh_notification_get_property (GObject    *object,
     case PROP_APP_NAME:
       g_value_set_string (value, phosh_notification_get_app_name (self));
       break;
+    case PROP_TIMESTAMP:
+      g_value_set_boxed (value, phosh_notification_get_timestamp (self));
+      break;
     case PROP_SUMMARY:
       g_value_set_string (value, phosh_notification_get_summary (self));
       break;
@@ -188,6 +196,7 @@ phosh_notification_finalize (GObject *object)
   }
 
   g_clear_pointer (&self->app_name, g_free);
+  g_clear_pointer (&self->updated, g_date_time_unref);
   g_clear_pointer (&self->summary, g_free);
   g_clear_pointer (&self->body, g_free);
   g_clear_object (&self->icon);
@@ -225,6 +234,14 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
       "App Name",
       "The applications's name",
       "",
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PROP_TIMESTAMP] =
+    g_param_spec_boxed (
+      "timestamp",
+      "Timestamp",
+      "The time that notification came in.",
+      G_TYPE_DATE_TIME,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PROP_SUMMARY] =
@@ -378,8 +395,10 @@ phosh_notification_new (guint                     id,
                         GStrv                     actions,
                         gboolean                  transient,
                         gboolean                  resident,
-                        const char               *category)
+                        const char               *category,
+                        GDateTime                *timestamp)
 {
+
   return g_object_new (PHOSH_TYPE_NOTIFICATION,
                        "id", id,
                        "summary", summary,
@@ -394,6 +413,7 @@ phosh_notification_new (guint                     id,
                        "transient", transient,
                        "resident", resident,
                        "category", category,
+                       "timestamp", timestamp,
                        NULL);
 }
 
@@ -597,6 +617,30 @@ phosh_notification_get_app_name (PhoshNotification *self)
   return self->app_name;
 }
 
+
+void
+phosh_notification_set_timestamp (PhoshNotification *self,
+                                  GDateTime         *timestamp)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+
+  g_return_if_fail (timestamp != NULL);
+
+  if (self->updated != NULL && g_date_time_compare (self->updated, timestamp) == 0)
+     return;
+
+  g_clear_pointer (&self->updated, g_date_time_unref);
+  self->updated = g_date_time_ref (timestamp);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TIMESTAMP]);
+}
+
+
+GDateTime *
+phosh_notification_get_timestamp (PhoshNotification *self)
+{
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), NULL);
+  return self->updated;
+}
 
 
 void

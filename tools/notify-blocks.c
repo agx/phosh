@@ -38,6 +38,7 @@ main (int argc, char **argv)
   GtkCssProvider *provider = NULL;
   GFile *file = NULL;
   GError *error = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   gtk_init (&argc, &argv);
 
@@ -91,7 +92,8 @@ main (int argc, char **argv)
                                          actions,
                                          FALSE,
                                          FALSE,
-                                         NULL);
+                                         NULL,
+                                         now);
   frame = phosh_notification_frame_new ();
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
                                               notification);
@@ -110,7 +112,8 @@ main (int argc, char **argv)
                                          NULL,
                                          FALSE,
                                          FALSE,
-                                         NULL);
+                                         NULL,
+                                         now);
   frame = phosh_notification_frame_new ();
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
                                               notification);

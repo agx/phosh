@@ -75,6 +75,7 @@ tests_phoc = [
   'layer-surface',
   'lockshield',
   'notification-banner',
+  'timestamp-label',
 ]
 
 # Unit tests

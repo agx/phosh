@@ -13,6 +13,7 @@
 #include "notification-frame.h"
 #include "notification-source.h"
 #include "util.h"
+#include "timestamp-label.h"
 
 /**
  * SECTION:notification-frame
@@ -29,10 +30,12 @@ struct _PhoshNotificationFrame {
 
   GBinding *bind_name;
   GBinding *bind_icon;
+  GBinding *bind_timestamp;
 
   GtkWidget *lbl_app_name;
   GtkWidget *img_icon;
   GtkWidget *list_notifs;
+  GtkWidget *updated;
 };
 typedef struct _PhoshNotificationFrame PhoshNotificationFrame;
 
@@ -116,12 +119,14 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
                                         NULL,
                                         G_TYPE_NONE,
                                         0);
+  g_type_ensure (PHOSH_TYPE_TIMESTAMP_LABEL);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/notification-frame.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, lbl_app_name);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, img_icon);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, list_notifs);
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, updated);
 
   gtk_widget_class_bind_template_callback (widget_class, header_activated);
   gtk_widget_class_bind_template_callback (widget_class, notification_activated);
@@ -167,6 +172,7 @@ items_changed (GListModel             *list,
   // Disconnect from the last notification (if any)
   g_clear_object (&self->bind_name);
   g_clear_object (&self->bind_icon);
+  g_clear_object (&self->bind_timestamp);
 
   // Get the latest notification in the model
   notification = g_list_model_get_item (self->model, 0);
@@ -188,6 +194,11 @@ items_changed (GListModel             *list,
   self->bind_icon = g_object_bind_property (notification,   "app-icon",
                                             self->img_icon, "gicon",
                                             G_BINDING_SYNC_CREATE);
+
+  self->bind_timestamp = g_object_bind_property (notification,   "timestamp",
+                                                 self->updated,  "timestamp",
+                                                 G_BINDING_SYNC_CREATE);
+
 }
 
 

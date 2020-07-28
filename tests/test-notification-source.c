@@ -16,6 +16,7 @@ test_phosh_notification_source_new (void)
   g_autoptr (PhoshNotificationSource) source = NULL;
   g_autoptr (PhoshNotification) noti = NULL;
   const char *name;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   source = phosh_notification_source_new ("org.gnome.zbrown.KingsCross");
 
@@ -30,7 +31,8 @@ test_phosh_notification_source_new (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   phosh_notification_source_add (source, noti);
 
@@ -64,6 +66,8 @@ test_phosh_notification_source_close_invalid (void)
   g_autoptr (PhoshNotificationSource) source = NULL;
   g_autoptr (PhoshNotification) noti = NULL;
 
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
+
   source = phosh_notification_source_new ("org.gnome.zbrown.KingsCross");
 
   noti = phosh_notification_new (0,
@@ -77,7 +81,8 @@ test_phosh_notification_source_close_invalid (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
   phosh_notification_source_add (source, noti);
 
   noti = phosh_notification_new (1,
@@ -91,7 +96,8 @@ test_phosh_notification_source_close_invalid (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   g_test_expect_message ("phosh-notification-source",
                          G_LOG_LEVEL_CRITICAL,

@@ -17,6 +17,7 @@ test_phosh_notification_list_new (void)
   g_autoptr (PhoshNotification) noti = NULL;
   g_autoptr (PhoshNotificationSource) source = NULL;
   const char *name;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   list = phosh_notification_list_new ();
 
@@ -31,7 +32,8 @@ test_phosh_notification_list_new (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
@@ -56,6 +58,7 @@ test_phosh_notification_list_get_by (void)
   g_autoptr (PhoshNotificationList) list = NULL;
   g_autoptr (PhoshNotification) noti = NULL;
   PhoshNotification *test_noti = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   list = phosh_notification_list_new ();
 
@@ -70,7 +73,8 @@ test_phosh_notification_list_get_by (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
@@ -87,6 +91,7 @@ test_phosh_notification_list_latest_on_top (void)
   g_autoptr (PhoshNotification) noti = NULL;
   g_autoptr (PhoshNotificationSource) source = NULL;
   g_autoptr (PhoshNotification) test_noti = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   list = phosh_notification_list_new ();
 
@@ -101,7 +106,8 @@ test_phosh_notification_list_latest_on_top (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
   noti = phosh_notification_new (567,
@@ -115,7 +121,8 @@ test_phosh_notification_list_latest_on_top (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
   phosh_notification_list_add (list, "org.gnome.design.Palette", noti);
 
   noti = phosh_notification_new (678,
@@ -129,7 +136,8 @@ test_phosh_notification_list_latest_on_top (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
   noti = phosh_notification_new (789,
@@ -143,7 +151,8 @@ test_phosh_notification_list_latest_on_top (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
   source = g_list_model_get_item (G_LIST_MODEL (list), 0);
@@ -180,6 +189,7 @@ test_phosh_notification_list_source_empty (void)
   g_autoptr (PhoshNotificationSource) source = NULL;
   g_autoptr (PhoshNotificationList) list = NULL;
   g_autoptr (PhoshNotification) noti = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   list = phosh_notification_list_new ();
 
@@ -194,7 +204,8 @@ test_phosh_notification_list_source_empty (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
 
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
@@ -218,6 +229,7 @@ test_phosh_notification_list_seek (void)
   g_autoptr (PhoshNotificationSource) first = NULL;
   g_autoptr (PhoshNotificationList) list = NULL;
   g_autoptr (PhoshNotification) noti = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   list = phosh_notification_list_new ();
 
@@ -232,7 +244,8 @@ test_phosh_notification_list_seek (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
   noti = phosh_notification_new (1,
@@ -246,7 +259,8 @@ test_phosh_notification_list_seek (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
-                                 NULL);
+                                 NULL,
+                                 now);
   phosh_notification_list_add (list, "org.gnome.design.Palette", noti);
 
   first = g_list_model_get_item (G_LIST_MODEL (list), 0);
