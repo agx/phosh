@@ -17,9 +17,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-07-14 15:30+0000\n"
-"PO-Revision-Date: 2020-07-18 10:34+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-25 08:32+0200\n"
+"PO-Revision-Date: 2020-07-29 10:16+0200\n"
 "Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
 "Language-Team: German <gnome-de@SPAMFREEgnome.org>\n"
 "Language: de\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -46,14 +46,6 @@ msgstr "Fensterverwaltung und Starten von Apps für mobile Geräte"
 msgid "Application"
 msgstr "Anwendung"
 
-#: src/bt-info.c:89 src/feedbackinfo.c:48
-msgid "On"
-msgstr "An"
-
-#: src/bt-info.c:91
-msgid "Bluetooth"
-msgstr "Bluetooth"
-
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
@@ -68,25 +60,29 @@ msgstr "Leise"
 msgid "Silent"
 msgstr "Lautlos"
 
-#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
+#: src/feedbackinfo.c:42
+msgid "On"
+msgstr "An"
+
+#: src/lockscreen.c:82 src/ui/lockscreen.ui:217
 msgid "Enter Passcode"
 msgstr "Zugangscode eingeben"
 
-#: src/lockscreen.c:263
+#: src/lockscreen.c:261
 msgid "Checking…"
 msgstr "Überprüfung läuft …"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:341
+#: src/lockscreen.c:339
 msgid "%A, %B %d"
 msgstr "%A %d. %B"
 
-#: src/media-player.c:262
+#: src/media-player.c:244
 msgid "Unknown title"
 msgstr "Unbekannter Titel"
 
-#: src/media-player.c:270
+#: src/media-player.c:252
 msgid "Unknown artist"
 msgstr "Unbekannter Künstler"
 
@@ -130,14 +126,6 @@ msgstr "Entschuldigung, das hat nicht funktioniert. Bitte versuchen Sie es erneu
 msgid "Authenticate"
 msgstr "Legitimieren"
 
-#: src/rotateinfo.c:46
-msgid "Portrait"
-msgstr "Hochformat"
-
-#: src/rotateinfo.c:49
-msgid "Landscape"
-msgstr "Querformat"
-
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
 msgstr "Die Passwörter stimmen nicht überein."
@@ -146,15 +134,15 @@ msgstr "Die Passwörter stimmen nicht überein."
 msgid "Password cannot be blank"
 msgstr "Das Passwort darf nicht leer sein"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "App"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
 msgstr "Aus _Favoriten entfernen"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
 msgstr "Zu _Favoriten hinzufügen"
 
@@ -166,11 +154,11 @@ msgstr "Apps suchen …"
 msgid "Slide up to unlock"
 msgstr "Nach oben wischen zum Entsperren"
 
-#: src/ui/lockscreen.ui:280
+#: src/ui/lockscreen.ui:263
 msgid "Emergency"
 msgstr "Notruf"
 
-#: src/ui/lockscreen.ui:296
+#: src/ui/lockscreen.ui:279
 msgid "Unlock"
 msgstr "Entsperren"
 
@@ -210,13 +198,21 @@ msgstr "Abmelden"
 msgid "Power Off"
 msgstr "Ausschalten"
 
-#: src/wifiinfo.c:88
+#: src/wifiinfo.c:55
 msgid "Wi-Fi"
 msgstr "WLAN"
 
-#: src/wwaninfo.c:167
-msgid "Cellular"
-msgstr "Mobilfunk"
+#~ msgid "Bluetooth"
+#~ msgstr "Bluetooth"
+
+#~ msgid "Portrait"
+#~ msgstr "Hochformat"
+
+#~ msgid "Landscape"
+#~ msgstr "Querformat"
+
+#~ msgid "Cellular"
+#~ msgstr "Mobilfunk"
 
 #~ msgid "Suspend"
 #~ msgstr "Bereitschaft"
