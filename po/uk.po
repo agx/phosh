@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-07-14 15:30+0000\n"
-"PO-Revision-Date: 2020-07-14 20:16+0300\n"
+"POT-Creation-Date: 2020-07-29 03:31+0000\n"
+"PO-Revision-Date: 2020-07-29 08:39+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -100,9 +100,54 @@ msgstr "Підтримки типу розпізнавання у мережі w
 msgid "Enter password for the wifi network “%s”"
 msgstr "Введіть пароль до мережі wifi «%s»"
 
-#: src/notifications/notification.c:365 src/notifications/notification.c:581
+#: src/notifications/notification.c:382 src/notifications/notification.c:601
 msgid "Notification"
 msgstr "Сповіщення"
+
+#: src/notifications/timestamp-label.c:83
+msgid "s"
+msgstr "с"
+
+#: src/notifications/timestamp-label.c:84
+#: src/notifications/timestamp-label.c:85
+msgid "m"
+msgstr "хв"
+
+#: src/notifications/timestamp-label.c:86
+#: src/notifications/timestamp-label.c:87
+msgid "h"
+msgstr "г"
+
+#: src/notifications/timestamp-label.c:88
+#: src/notifications/timestamp-label.c:89
+msgid "d"
+msgstr "д"
+
+#: src/notifications/timestamp-label.c:90
+msgid "mo"
+msgstr "міс"
+
+#: src/notifications/timestamp-label.c:91
+msgid "mos"
+msgstr "міс"
+
+#: src/notifications/timestamp-label.c:92
+#: src/notifications/timestamp-label.c:93
+msgid "y"
+msgstr "р"
+
+#. Translators: this is the date in number only format
+#: src/notifications/timestamp-label.c:96
+msgid "%d.%m.%y"
+msgstr "%d.%m.%y"
+
+#: src/notifications/timestamp-label.c:186
+msgid "Over"
+msgstr "Понад"
+
+#: src/notifications/timestamp-label.c:190
+msgid "Almost"
+msgstr "Майже"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -198,6 +243,10 @@ msgid "Logout"
 msgstr "Вийти"
 
 #: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Перезапустити"
+
+#: src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Вимкнути"
 
