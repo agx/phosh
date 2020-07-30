@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-25 08:32+0200\n"
+"POT-Creation-Date: 2020-07-30 09:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,6 +34,14 @@ msgstr ""
 msgid "Application"
 msgstr ""
 
+#: src/bt-info.c:89 src/feedbackinfo.c:48
+msgid "On"
+msgstr ""
+
+#: src/bt-info.c:91
+msgid "Bluetooth"
+msgstr ""
+
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
@@ -48,29 +56,25 @@ msgstr ""
 msgid "Silent"
 msgstr ""
 
-#: src/feedbackinfo.c:42
-msgid "On"
-msgstr ""
-
-#: src/lockscreen.c:82 src/ui/lockscreen.ui:217
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr ""
 
-#: src/lockscreen.c:261
+#: src/lockscreen.c:263
 msgid "Checking…"
 msgstr ""
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:339
+#: src/lockscreen.c:341
 msgid "%A, %B %d"
 msgstr ""
 
-#: src/media-player.c:244
+#: src/media-player.c:262
 msgid "Unknown title"
 msgstr ""
 
-#: src/media-player.c:252
+#: src/media-player.c:270
 msgid "Unknown artist"
 msgstr ""
 
@@ -93,8 +97,53 @@ msgstr ""
 msgid "Enter password for the wifi network “%s”"
 msgstr ""
 
-#: src/notifications/notification.c:365 src/notifications/notification.c:581
+#: src/notifications/notification.c:382 src/notifications/notification.c:601
 msgid "Notification"
+msgstr ""
+
+#: src/notifications/timestamp-label.c:83
+msgid "s"
+msgstr ""
+
+#: src/notifications/timestamp-label.c:84
+#: src/notifications/timestamp-label.c:85
+msgid "m"
+msgstr ""
+
+#: src/notifications/timestamp-label.c:86
+#: src/notifications/timestamp-label.c:87
+msgid "h"
+msgstr ""
+
+#: src/notifications/timestamp-label.c:88
+#: src/notifications/timestamp-label.c:89
+msgid "d"
+msgstr ""
+
+#: src/notifications/timestamp-label.c:90
+msgid "mo"
+msgstr ""
+
+#: src/notifications/timestamp-label.c:91
+msgid "mos"
+msgstr ""
+
+#: src/notifications/timestamp-label.c:92
+#: src/notifications/timestamp-label.c:93
+msgid "y"
+msgstr ""
+
+#. Translators: this is the date in number only format
+#: src/notifications/timestamp-label.c:96
+msgid "%d.%m.%y"
+msgstr ""
+
+#: src/notifications/timestamp-label.c:186
+msgid "Over"
+msgstr ""
+
+#: src/notifications/timestamp-label.c:190
+msgid "Almost"
 msgstr ""
 
 #: src/polkit-auth-agent.c:229
@@ -114,6 +163,14 @@ msgstr ""
 msgid "Authenticate"
 msgstr ""
 
+#: src/rotateinfo.c:46
+msgid "Portrait"
+msgstr ""
+
+#: src/rotateinfo.c:49
+msgid "Landscape"
+msgstr ""
+
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
 msgstr ""
@@ -122,15 +179,15 @@ msgstr ""
 msgid "Password cannot be blank"
 msgstr ""
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:49
 msgid "App"
 msgstr ""
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
 msgstr ""
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
 msgstr ""
 
@@ -142,11 +199,11 @@ msgstr ""
 msgid "Slide up to unlock"
 msgstr ""
 
-#: src/ui/lockscreen.ui:263
+#: src/ui/lockscreen.ui:280
 msgid "Emergency"
 msgstr ""
 
-#: src/ui/lockscreen.ui:279
+#: src/ui/lockscreen.ui:296
 msgid "Unlock"
 msgstr ""
 
@@ -183,9 +240,17 @@ msgid "Logout"
 msgstr ""
 
 #: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr ""
+
+#: src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr ""
 
-#: src/wifiinfo.c:55
+#: src/wifiinfo.c:88
 msgid "Wi-Fi"
+msgstr ""
+
+#: src/wwaninfo.c:167
+msgid "Cellular"
 msgstr ""
