@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-30 09:07+0200\n"
+"POT-Creation-Date: 2020-08-14 09:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,12 +70,14 @@ msgstr ""
 msgid "%A, %B %d"
 msgstr ""
 
-#: src/media-player.c:262
-msgid "Unknown title"
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:263 src/ui/media-player.ui:107
+msgid "Unknown Title"
 msgstr ""
 
-#: src/media-player.c:270
-msgid "Unknown artist"
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:272 src/ui/media-player.ui:127
+msgid "Unknown Artist"
 msgstr ""
 
 #: src/monitor-manager.c:58
@@ -101,48 +103,84 @@ msgstr ""
 msgid "Notification"
 msgstr ""
 
-#: src/notifications/timestamp-label.c:83
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
 msgid "s"
 msgstr ""
 
-#: src/notifications/timestamp-label.c:84
-#: src/notifications/timestamp-label.c:85
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
 msgid "m"
 msgstr ""
 
-#: src/notifications/timestamp-label.c:86
-#: src/notifications/timestamp-label.c:87
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr ""
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
 msgid "h"
 msgstr ""
 
-#: src/notifications/timestamp-label.c:88
-#: src/notifications/timestamp-label.c:89
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr ""
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
 msgid "d"
 msgstr ""
 
-#: src/notifications/timestamp-label.c:90
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr ""
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
 msgid "mo"
 msgstr ""
 
-#: src/notifications/timestamp-label.c:91
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
 msgid "mos"
 msgstr ""
 
-#: src/notifications/timestamp-label.c:92
-#: src/notifications/timestamp-label.c:93
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
 msgid "y"
 msgstr ""
 
-#. Translators: this is the date in number only format
-#: src/notifications/timestamp-label.c:96
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr ""
+
+#. Translators: this is the date in (short) number only format
+#: src/notifications/timestamp-label.c:107
 msgid "%d.%m.%y"
 msgstr ""
 
-#: src/notifications/timestamp-label.c:186
+#. Translators: Timestamp prefix (e.g. Over 5h)
+#: src/notifications/timestamp-label.c:198
 msgid "Over"
 msgstr ""
 
-#: src/notifications/timestamp-label.c:190
+#. Translators: Timestamp prefix (e.g. Almost 5h)
+#: src/notifications/timestamp-label.c:203
 msgid "Almost"
 msgstr ""
 
@@ -207,14 +245,6 @@ msgstr ""
 msgid "Unlock"
 msgstr ""
 
-#: src/ui/media-player.ui:107
-msgid "Unknown Song"
-msgstr ""
-
-#: src/ui/media-player.ui:127
-msgid "Unknown Artist"
-msgstr ""
-
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
 msgstr ""
@@ -251,6 +281,7 @@ msgstr ""
 msgid "Wi-Fi"
 msgstr ""
 
-#: src/wwaninfo.c:167
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:168
 msgid "Cellular"
 msgstr ""
