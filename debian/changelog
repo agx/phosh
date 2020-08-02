@@ -1,3 +1,27 @@
+phosh (0.4.3) amber-phone; urgency=medium
+
+  [ Darren R ]
+  * Add timestamp-label. The PhoshTimeStamp label display relative times and
+    will be used in notifications.
+
+  [ chefe ]
+  * po: Merge all german translations together
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+  [ Guido Günther ]
+  * po: Update pot file
+
+  [ Evangelos Ribeiro Tzaras ]
+  * Add keyboard forwarding protocol. This will allow the
+    Volume Buttons to work with recent phoc.
+
+  [ Daniel Mustieles ]
+  * po: Update Spanish translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 02 Aug 2020 18:47:19 +0200
+
 phosh (0.4.2) amber-phone; urgency=medium
 
   [ Guido Günther ]
