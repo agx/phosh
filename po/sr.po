@@ -1,0 +1,257 @@
+# Serbian translations for phosh package.
+# Copyright (C) 2020 THE phosh'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the phosh package.
+# nikp123 <pavlica.nikola@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: phosh\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-30 09:07+0200\n"
+"PO-Revision-Date: 2020-08-03 11:00+0200\n"
+"Last-Translator: Nikola Pavlica <pavlica.nikola@gmail.com>\n"
+"Language-Team: Serbian <(nothing)>\n"
+"Language: sr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
+
+#: data/sm.puri.Phosh.desktop.in.in:4
+msgid "Phone Shell"
+msgstr ""
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr ""
+
+#: src/app-grid-button.c:530
+msgid "Application"
+msgstr "Апликација"
+
+#: src/bt-info.c:89 src/feedbackinfo.c:48
+msgid "On"
+msgstr "Укључено"
+
+#: src/bt-info.c:91
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:41
+msgid "Quiet"
+msgstr "Тихи режим"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:46
+msgid "Silent"
+msgstr "Режим потпуне тишине"
+
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
+msgid "Enter Passcode"
+msgstr "Унесите шифри"
+
+#: src/lockscreen.c:263
+msgid "Checking…"
+msgstr "Провјеравање…"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/lockscreen.c:341
+msgid "%A, %B %d"
+msgstr ""
+
+#: src/media-player.c:262
+msgid "Unknown title"
+msgstr "Непознати наслов"
+
+#: src/media-player.c:270
+msgid "Unknown artist"
+msgstr "Непознати аутор"
+
+#: src/monitor-manager.c:58
+msgid "Built-in display"
+msgstr "Уграђени екран"
+
+#. Translators: An unknown monitor type
+#: src/monitor-manager.c:62
+msgid "Unknown"
+msgstr "Не познати монитор"
+
+#: src/network-auth-prompt.c:184
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Начин пријаве “%s” није подржан"
+
+#: src/network-auth-prompt.c:189
+#, c-format
+msgid "Enter password for the wifi network “%s”"
+msgstr "Унесите шифру за Wi-Fi мрежу “%s”"
+
+#: src/notifications/notification.c:382 src/notifications/notification.c:601
+msgid "Notification"
+msgstr "Обавјештење"
+
+#: src/notifications/timestamp-label.c:83
+msgid "s"
+msgstr "сек."
+
+#: src/notifications/timestamp-label.c:84
+#: src/notifications/timestamp-label.c:85
+msgid "m"
+msgstr "м."
+
+#: src/notifications/timestamp-label.c:86
+#: src/notifications/timestamp-label.c:87
+msgid "h"
+msgstr "сат."
+
+#: src/notifications/timestamp-label.c:88
+#: src/notifications/timestamp-label.c:89
+msgid "d"
+msgstr "д."
+
+#: src/notifications/timestamp-label.c:90
+msgid "mo"
+msgstr "мј."
+
+#: src/notifications/timestamp-label.c:91
+msgid "mos"
+msgstr ""
+
+#: src/notifications/timestamp-label.c:92
+#: src/notifications/timestamp-label.c:93
+msgid "y"
+msgstr "д"
+
+#. Translators: this is the date in number only format
+#: src/notifications/timestamp-label.c:96
+msgid "%d.%m.%y"
+msgstr "%d.%m.%y"
+
+#: src/notifications/timestamp-label.c:186
+msgid "Over"
+msgstr "Готово"
+
+#: src/notifications/timestamp-label.c:190
+msgid "Almost"
+msgstr "Још мало"
+
+#: src/polkit-auth-agent.c:229
+msgid "Authentication dialog was dismissed by the user"
+msgstr "Пријава отказана од стране корисника"
+
+#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
+#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+msgid "Password:"
+msgstr "Шифра:"
+
+#: src/polkit-auth-prompt.c:322
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "Извињавамо се, то није успјело. Молимо Вас да покушате поново."
+
+#: src/polkit-auth-prompt.c:488
+msgid "Authenticate"
+msgstr "Пријавите се"
+
+#: src/rotateinfo.c:46
+msgid "Portrait"
+msgstr "Усправно"
+
+#: src/rotateinfo.c:49
+msgid "Landscape"
+msgstr "Водоравно"
+
+#: src/system-prompt.c:371
+msgid "Passwords do not match."
+msgstr "Унесене шифре нису исте."
+
+#: src/system-prompt.c:378
+msgid "Password cannot be blank"
+msgstr "Шифра не смије бити празна"
+
+#: src/ui/app-grid-button.ui:49
+msgid "App"
+msgstr "Апликација"
+
+#: src/ui/app-grid-button.ui:76
+msgid "Remove from _Favorites"
+msgstr "Одузети из омиљених"
+
+#: src/ui/app-grid-button.ui:81
+msgid "Add to _Favorites"
+msgstr "Додати у омиљене"
+
+#: src/ui/app-grid.ui:21
+msgid "Search apps…"
+msgstr "Потрагжити апликацију..."
+
+#: src/ui/lockscreen.ui:37
+msgid "Slide up to unlock"
+msgstr "Повуците горе за откључавање"
+
+#: src/ui/lockscreen.ui:280
+msgid "Emergency"
+msgstr "Вандредан позив"
+
+#: src/ui/lockscreen.ui:296
+msgid "Unlock"
+msgstr "Откључати"
+
+#: src/ui/media-player.ui:107
+msgid "Unknown Song"
+msgstr "Непозната пјесма"
+
+#: src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Непознати аутор"
+
+#: src/ui/network-auth-prompt.ui:90
+msgid "_Cancel"
+msgstr "Отказати"
+
+#: src/ui/network-auth-prompt.ui:106
+msgid "C_onnect"
+msgstr "Спојити се"
+
+#: src/ui/polkit-auth-prompt.ui:105
+msgid "User:"
+msgstr "Корисник:"
+
+#: src/ui/system-prompt.ui:69
+msgid "Confirm:"
+msgstr "Потврдити:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Закључати екран"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "Излоговати"
+
+#: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Поново покренути"
+
+#: src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Искључити"
+
+#: src/wifiinfo.c:88
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#: src/wwaninfo.c:167
+msgid "Cellular"
+msgstr "Телефонска мрежа"
