@@ -2,20 +2,27 @@
 # Amos Batto <amosbatto@yahoo.com>, 2019. #zanata
 # Maximilian <maxi.madlung@gmx.de>, 2019. #zanata
 # Roberto MF <zanata@virgulilla.com>, 2019. #zanata
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2020.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
+"POT-Creation-Date: 2020-07-25 15:29+0000\n"
+"PO-Revision-Date: 2020-07-27 08:32+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-11-17 06:40+0000\n"
-"Last-Translator: Roberto MF <zanata@virgulilla.com>\n"
-"Language-Team: Spanish\n"
-"Language: es\n"
-"X-Generator: Zanata 4.6.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Gtranslator 3.36.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -25,58 +32,80 @@ msgstr "Interfaz de teléfono"
 msgid "Window management and application launching for mobile"
 msgstr "Gestor de ventanas y lanzador de aplicaciones para móviles"
 
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
-msgid "Phosh"
-msgstr "Phosh"
-
-#: src/app-grid-button.c:523
+#: src/app-grid-button.c:530
 msgid "Application"
 msgstr "Aplicación"
 
-#: src/feedbackinfo.c:38
-msgid "Quiet"
-msgstr ""
-
-#: src/feedbackinfo.c:40
-msgid "Silent"
-msgstr ""
-
-#: src/feedbackinfo.c:42
+#: src/bt-info.c:89 src/feedbackinfo.c:48
 msgid "On"
-msgstr ""
+msgstr "Activado"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
+#: src/bt-info.c:91
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:41
+msgid "Quiet"
+msgstr "Tranquilo"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:46
+msgid "Silent"
+msgstr "Silencio"
+
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr "Introduzca el código de desbloqueo"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:263
 msgid "Checking…"
 msgstr "Verificando…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:334
+#: src/lockscreen.c:341
 msgid "%A, %B %d"
 msgstr "%A, %d de %B"
 
-#: src/monitor-manager.c:53
+#: src/media-player.c:262
+msgid "Unknown title"
+msgstr "Título desconocido"
+
+#: src/media-player.c:270
+msgid "Unknown artist"
+msgstr "Artista desconocido"
+
+#: src/monitor-manager.c:58
 msgid "Built-in display"
 msgstr "Pantalla integrada"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:62
 msgid "Unknown"
 msgstr "Desconocido"
 
 #: src/network-auth-prompt.c:184
 #, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Tipo de autenticación «%s» de red inalámbrica no soportado"
+
+#: src/network-auth-prompt.c:189
+#, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "Introduzca la contraseña de la red inalámbrica «%s»"
+
+#: src/notifications/notification.c:365 src/notifications/notification.c:581
+msgid "Notification"
+msgstr "Notificación"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
-msgstr "El diálogo de autenticación fue descartado por el usuario"
+msgstr "El usuario ha descartado el diálogo de autenticación"
 
 #: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
 #: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
@@ -85,11 +114,19 @@ msgstr "Contraseña:"
 
 #: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "Eso no funcionó. Por favor, inténtelo de nuevo."
+msgstr "Eso no ha funcionado, inténtelo de nuevo."
 
 #: src/polkit-auth-prompt.c:488
 msgid "Authenticate"
-msgstr "Autentifíquese"
+msgstr "Autenticar"
+
+#: src/rotateinfo.c:46
+msgid "Portrait"
+msgstr "Vertical"
+
+#: src/rotateinfo.c:49
+msgid "Landscape"
+msgstr "Horizontal"
 
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
@@ -99,45 +136,49 @@ msgstr "Las contraseñas no coinciden."
 msgid "Password cannot be blank"
 msgstr "La contraseña no puede estar en blanco"
 
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr ""
-
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:49
 msgid "App"
-msgstr "Apli"
+msgstr "Aplicación"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Quitar de _favoritos"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Añadir a _favoritos"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Buscar aplis…"
+msgstr "Buscar aplicaciones…"
 
-#: src/ui/lockscreen.ui:36
+#: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr "Deslice hacia arriba para desbloquear"
 
-#: src/ui/lockscreen.ui:250
+#: src/ui/lockscreen.ui:280
 msgid "Emergency"
-msgstr ""
+msgstr "Emergencia"
 
-#: src/ui/lockscreen.ui:266
+#: src/ui/lockscreen.ui:296
 msgid "Unlock"
-msgstr ""
+msgstr "Desbloquear"
+
+#: src/ui/media-player.ui:107
+msgid "Unknown Song"
+msgstr "Canción desconocida"
+
+#: src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Artista desconocido"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cancelar"
 
 #: src/ui/network-auth-prompt.ui:106
 msgid "C_onnect"
-msgstr ""
+msgstr "C_onectar"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
@@ -146,3 +187,27 @@ msgstr "Usuario:"
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
 msgstr "Confirmar:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Bloquear la pantalla"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "Salir"
+
+#: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Reiniciar"
+
+#: src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Apagar"
+
+#: src/wifiinfo.c:88
+msgid "Wi-Fi"
+msgstr "Inalámbrica"
+
+#: src/wwaninfo.c:167
+msgid "Cellular"
+msgstr "Teléfono móvil"
