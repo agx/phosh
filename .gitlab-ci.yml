@@ -111,6 +111,33 @@ build:native-debian-bullseye:
     variables:
       - $PKG_ONLY == "1"
 
+build:cross-debian-bullseye:i386:
+  <<: *tags
+  stage: build
+  image: debian:bullseye
+  allow_failure: true
+  before_script:
+    - export DEBIAN_FRONTEND=noninteractive
+    - echo "deb [arch=i386] http://deb.debian.org/debian/ testing main" > /etc/apt/sources.list.d/i386.list
+    - apt-get -y update
+    - apt-get -y install eatmydata
+    - dpkg --add-architecture i386
+    - eatmydata apt-get -y update
+    - eatmydata apt-get -y -a i386 build-dep .
+    - eatmydata apt-get -y install $DEPS crossbuild-essential-i386
+  script:
+    - git submodule update --recursive
+    - 'echo "Build opts: ${BUILD_OPTS}"'
+    - /usr/share/meson/debcrossgen --arch i386 -o cross-i386.txt
+    - meson ${BUILD_OPTS} . _build --cross-file cross-i386.txt
+    - ninja -C _build
+  artifacts:
+    paths:
+      - _build
+  except:
+    variables:
+      - $PKG_ONLY == "1"
+
 unit-test:native-debian-bullseye:
   <<: *tags
   stage: test+docs
