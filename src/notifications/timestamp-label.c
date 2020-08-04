@@ -255,7 +255,7 @@ phosh_timestamp_label_calc_timeout (PhoshTimestampLabel *self)
     break;
   }
   timeout_diff = g_date_time_difference (timeout_time, time_now);
-  g_debug ("time out duration = %ld", timeout_diff);
+  g_debug ("time out duration: %" G_GINT64_FORMAT, timeout_diff);
   return timeout_diff;
 }
 
