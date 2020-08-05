@@ -59,7 +59,7 @@ set_state (PhoshRotateInfo *self)
   monitor_is_landscape = ((double)monitor->width / (double)monitor->height) > 1.0;
   portrait = monitor_is_landscape ? !portrait : portrait;
 
-  g_debug ("Potrait: %d, width: %d, height: %d", portrait, monitor->width , monitor->height);
+  g_debug ("Potrait: %d, width: %d, height: %d", portrait, monitor->width, monitor->height);
   if (portrait) {
     phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), "screen-rotation-portrait-symbolic");
     phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("Portrait"));
