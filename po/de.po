@@ -36,7 +36,7 @@ msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr "Telefonhülle"
+msgstr "Phone Shell"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
