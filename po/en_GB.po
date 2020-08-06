@@ -1,19 +1,25 @@
 # son of dirt <philsawa@gmail.com>, 2019. #zanata
-# Zander Brown <zbrown@gnome.org>, 2020. #zanata
+# Zander Brown <zbrown@gnome.org>, 2020. #zanata-2020.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
+"POT-Creation-Date: 2020-08-07 15:31+0000\n"
+"PO-Revision-Date: 2020-08-08 09:41+0100\n"
+"Last-Translator: Zander Brown <zbrown@gnome.org>\n"
+"Language-Team: English - United Kingdom <en_GB@li.org>\n"
+"Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2020-01-15 05:46+0000\n"
-"Last-Translator: Zander Brown <zbrown@gnome.org>\n"
-"Language-Team: English (United Kingdom)\n"
-"Language: en_GB\n"
-"X-Generator: Zanata 4.6.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Gtranslator 3.36.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -23,54 +29,160 @@ msgstr "Phone Shell"
 msgid "Window management and application launching for mobile"
 msgstr "Window management and application launching for mobile"
 
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
-msgid "Phosh"
-msgstr "Phosh"
-
-#: src/app-grid-button.c:523
+#: src/app-grid-button.c:530
 msgid "Application"
 msgstr "Application"
 
-#: src/feedbackinfo.c:38
-msgid "Quiet"
-msgstr ""
-
-#: src/feedbackinfo.c:40
-msgid "Silent"
-msgstr ""
-
-#: src/feedbackinfo.c:42
+#: src/bt-info.c:89 src/feedbackinfo.c:48
 msgid "On"
-msgstr ""
+msgstr "On"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
+#: src/bt-info.c:91
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:41
+msgid "Quiet"
+msgstr "Quiet"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:46
+msgid "Silent"
+msgstr "Silent"
+
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr "Enter Passcode"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:263
 msgid "Checking…"
 msgstr "Checking…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:334
+#: src/lockscreen.c:341
 msgid "%A, %B %d"
-msgstr "%A, %B %d"
+msgstr "%A, %d %B"
 
-#: src/monitor-manager.c:53
+#: src/media-player.c:262
+#| msgid "Unknown"
+msgid "Unknown title"
+msgstr "Unknown title"
+
+#: src/media-player.c:270
+#| msgid "Unknown"
+msgid "Unknown artist"
+msgstr "Unknown artist"
+
+#: src/monitor-manager.c:58
 msgid "Built-in display"
 msgstr "Built-in display"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:62
 msgid "Unknown"
 msgstr "Unknown"
 
 #: src/network-auth-prompt.c:184
 #, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Authentication type of Wi-Fi network “%s” not supported"
+
+#: src/network-auth-prompt.c:189
+#, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "Enter password for the Wi-Fi network “%s”"
+
+#: src/notifications/notification.c:382 src/notifications/notification.c:601
+#| msgid "Application"
+msgid "Notification"
+msgstr "Notification"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "s"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "h"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "h"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "d"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "d"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "mo"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "mos"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "y"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "y"
+
+#. Translators: this is the date in (short) number only format
+#: src/notifications/timestamp-label.c:107
+msgid "%d.%m.%y"
+msgstr "%d/%m/%y"
+
+#. Translators: Timestamp prefix (e.g. Over 5h)
+#: src/notifications/timestamp-label.c:198
+msgid "Over"
+msgstr "Over"
+
+#. Translators: Timestamp prefix (e.g. Almost 5h)
+#: src/notifications/timestamp-label.c:203
+msgid "Almost"
+msgstr "Almost"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -89,6 +201,14 @@ msgstr "Sorry, that didn’t work. Please try again."
 msgid "Authenticate"
 msgstr "Authenticate"
 
+#: src/rotateinfo.c:46
+msgid "Portrait"
+msgstr "Portrait"
+
+#: src/rotateinfo.c:49
+msgid "Landscape"
+msgstr "Landscape"
+
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
 msgstr "Passwords do not match."
@@ -97,45 +217,51 @@ msgstr "Passwords do not match."
 msgid "Password cannot be blank"
 msgstr "Password cannot be blank"
 
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr ""
-
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:49
 msgid "App"
 msgstr "App"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Remove from _Favourites"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Add to _Favourites"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Search apps…"
 
-#: src/ui/lockscreen.ui:36
+#: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr "Slide up to unlock"
 
-#: src/ui/lockscreen.ui:250
+#: src/ui/lockscreen.ui:280
 msgid "Emergency"
-msgstr ""
+msgstr "Emergency"
 
-#: src/ui/lockscreen.ui:266
+#: src/ui/lockscreen.ui:296
 msgid "Unlock"
-msgstr ""
+msgstr "Unlock"
+
+#: src/ui/media-player.ui:107
+#| msgid "Unknown"
+msgid "Unknown Song"
+msgstr "Unknown Song"
+
+#: src/ui/media-player.ui:127
+#| msgid "Unknown"
+msgid "Unknown Artist"
+msgstr "Unknown Artist"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cancel"
 
 #: src/ui/network-auth-prompt.ui:106
 msgid "C_onnect"
-msgstr ""
+msgstr "C_onnect"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
@@ -144,3 +270,27 @@ msgstr "User:"
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
 msgstr "Confirm:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Lock Screen"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "Logout"
+
+#: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Restart"
+
+#: src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Power Off"
+
+#: src/wifiinfo.c:88
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#: src/wwaninfo.c:167
+msgid "Cellular"
+msgstr "Cellular"
