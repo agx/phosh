@@ -104,7 +104,7 @@
                     <property name="can_focus">False</property>
                     <property name="margin_top">3</property>
                     <property name="margin_bottom">3</property>
-                    <property name="label" translatable="yes">Unknown Song</property>
+                    <property name="label" translatable="yes">Unknown Title</property>
                     <property name="justify">center</property>
                     <property name="ellipsize">middle</property>
                     <property name="single_line_mode">True</property>

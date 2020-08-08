@@ -260,7 +260,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     gtk_label_set_label (GTK_LABEL (self->lbl_title), title);
   } else {
     /* Translators: Used when the title of a song is unknown */
-    gtk_label_set_label (GTK_LABEL (self->lbl_title), _("Unknown title"));
+    gtk_label_set_label (GTK_LABEL (self->lbl_title), _("Unknown Title"));
   }
 
   g_variant_dict_lookup (&dict, "xesam:artist", "^as", &artist);
@@ -269,7 +269,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     gtk_label_set_label (GTK_LABEL (self->lbl_artist), artists);
   } else {
     /* Translators: Used when the artist of a song is unknown */
-    gtk_label_set_label (GTK_LABEL (self->lbl_artist), _("Unknown artist"));
+    gtk_label_set_label (GTK_LABEL (self->lbl_artist), _("Unknown Artist"));
   }
 
   g_variant_dict_lookup (&dict, "mpris:artUrl", "&s", &url);
