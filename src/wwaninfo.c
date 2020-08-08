@@ -163,8 +163,10 @@ update_info (PhoshWWanInfo *self)
   g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
 
   info = phosh_wwan_get_operator (PHOSH_WWAN (self->wwan));
-  if (!info || !g_strcmp0(info, ""))
+  if (!info || !g_strcmp0(info, "")) {
+    /* Translators: Refers to the cellular wireless network */
     info = _("Cellular");
+  }
 
   phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), info);
 }
