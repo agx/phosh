@@ -259,6 +259,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
   if (title) {
     gtk_label_set_label (GTK_LABEL (self->lbl_title), title);
   } else {
+    /* Translators: Used when the title of a song is unknown */
     gtk_label_set_label (GTK_LABEL (self->lbl_title), _("Unknown title"));
   }
 
@@ -267,6 +268,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     g_autofree gchar *artists = g_strjoinv (", ", artist);
     gtk_label_set_label (GTK_LABEL (self->lbl_artist), artists);
   } else {
+    /* Translators: Used when the artist of a song is unknown */
     gtk_label_set_label (GTK_LABEL (self->lbl_artist), _("Unknown artist"));
   }
 
