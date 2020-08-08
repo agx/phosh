@@ -123,7 +123,7 @@ build:cross-debian-bullseye:i386:
     - apt-get -y install eatmydata
     - dpkg --add-architecture i386
     - eatmydata apt-get -y update
-    - eatmydata apt-get -y -a i386 build-dep .
+    - eatmydata apt-get -y -a i386 -o APT::Immediate-Configure=false build-dep .
     - eatmydata apt-get -y install $DEPS crossbuild-essential-i386
   script:
     - git submodule update --recursive
