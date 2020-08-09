@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-07-29 03:31+0000\n"
-"PO-Revision-Date: 2020-07-29 08:39+0300\n"
+"POT-Creation-Date: 2020-08-07 15:31+0000\n"
+"PO-Revision-Date: 2020-08-09 11:36+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -104,48 +104,95 @@ msgstr "Введіть пароль до мережі wifi «%s»"
 msgid "Notification"
 msgstr "Сповіщення"
 
-#: src/notifications/timestamp-label.c:83
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+#| msgid "s"
+msgctxt "timestamp-suffix-seconds"
 msgid "s"
 msgstr "с"
 
-#: src/notifications/timestamp-label.c:84
-#: src/notifications/timestamp-label.c:85
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+#| msgid "m"
+msgctxt "timestamp-suffix-minute"
 msgid "m"
 msgstr "хв"
 
-#: src/notifications/timestamp-label.c:86
-#: src/notifications/timestamp-label.c:87
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+#| msgid "m"
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "хв"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+#| msgid "h"
+msgctxt "timestamp-suffix-hour"
 msgid "h"
 msgstr "г"
 
-#: src/notifications/timestamp-label.c:88
-#: src/notifications/timestamp-label.c:89
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+#| msgid "h"
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "г"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+#| msgid "d"
+msgctxt "timestamp-suffix-day"
 msgid "d"
 msgstr "д"
 
-#: src/notifications/timestamp-label.c:90
-msgid "mo"
-msgstr "міс"
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+#| msgid "d"
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "д"
 
-#: src/notifications/timestamp-label.c:91
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+#| msgid "mo"
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "м"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+#| msgid "mos"
+msgctxt "timestamp-suffix-months"
 msgid "mos"
 msgstr "міс"
 
-#: src/notifications/timestamp-label.c:92
-#: src/notifications/timestamp-label.c:93
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+#| msgid "y"
+msgctxt "timestamp-suffix-year"
 msgid "y"
 msgstr "р"
 
-#. Translators: this is the date in number only format
-#: src/notifications/timestamp-label.c:96
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+#| msgid "y"
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "р"
+
+#. Translators: this is the date in (short) number only format
+#: src/notifications/timestamp-label.c:107
 msgid "%d.%m.%y"
 msgstr "%d.%m.%y"
 
-#: src/notifications/timestamp-label.c:186
+#. Translators: Timestamp prefix (e.g. Over 5h)
+#: src/notifications/timestamp-label.c:198
 msgid "Over"
 msgstr "Понад"
 
-#: src/notifications/timestamp-label.c:190
+#. Translators: Timestamp prefix (e.g. Almost 5h)
+#: src/notifications/timestamp-label.c:203
 msgid "Almost"
 msgstr "Майже"
 
