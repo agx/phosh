@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-07-02 03:37+0000\n"
-"PO-Revision-Date: 2020-07-02 19:36+0300\n"
+"POT-Creation-Date: 2020-08-07 15:31+0000\n"
+"PO-Revision-Date: 2020-08-10 14:22+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -33,6 +33,14 @@ msgstr "Mobil için pencere yönetimi ve uygulama başlatımı"
 msgid "Application"
 msgstr "Uygulama"
 
+#: src/bt-info.c:89 src/feedbackinfo.c:48
+msgid "On"
+msgstr "Açık"
+
+#: src/bt-info.c:91
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
@@ -47,21 +55,17 @@ msgstr "Titreşim"
 msgid "Silent"
 msgstr "Sessiz"
 
-#: src/feedbackinfo.c:48
-msgid "On"
-msgstr "Açık"
-
-#: src/lockscreen.c:82 src/ui/lockscreen.ui:217
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr "Parolayı Gir"
 
-#: src/lockscreen.c:261
+#: src/lockscreen.c:263
 msgid "Checking…"
 msgstr "Denetleniyor…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:339
+#: src/lockscreen.c:341
 msgid "%A, %B %d"
 msgstr "%A, %B %d"
 
@@ -92,9 +96,90 @@ msgstr "“%s” wifi ağının yetkilendirme türü desteklenmiyor"
 msgid "Enter password for the wifi network “%s”"
 msgstr "“%s” wifi ağı için parolayı gir"
 
-#: src/notifications/notification.c:365 src/notifications/notification.c:581
+#: src/notifications/notification.c:382 src/notifications/notification.c:601
 msgid "Notification"
 msgstr "Bildirim"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "sn"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "d"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "d"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "s"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "s"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "g"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "g"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "a"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "a"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "y"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "y"
+
+#. Translators: this is the date in (short) number only format
+#: src/notifications/timestamp-label.c:107
+msgid "%d.%m.%y"
+msgstr "%d.%m.%y"
+
+#. Translators: Timestamp prefix (e.g. Over 5h)
+#: src/notifications/timestamp-label.c:198
+msgid "Over"
+msgstr "Geçik"
+
+#. Translators: Timestamp prefix (e.g. Almost 5h)
+#: src/notifications/timestamp-label.c:203
+msgid "Almost"
+msgstr "Neredeyse"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -129,15 +214,15 @@ msgstr "Parolalar eşleşmedi."
 msgid "Password cannot be blank"
 msgstr "Parola boş olamaz"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:49
 msgid "App"
 msgstr "Uygulama"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
 msgstr "_Gözdelerden kaldır"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
 msgstr "_Gözdelere ekle"
 
@@ -149,11 +234,11 @@ msgstr "Uygulama ara…"
 msgid "Slide up to unlock"
 msgstr "Açmak için kaldır"
 
-#: src/ui/lockscreen.ui:263
+#: src/ui/lockscreen.ui:280
 msgid "Emergency"
 msgstr "Acil"
 
-#: src/ui/lockscreen.ui:279
+#: src/ui/lockscreen.ui:296
 msgid "Unlock"
 msgstr "Kilidi Aç"
 
@@ -190,12 +275,20 @@ msgid "Logout"
 msgstr "Oturumu Kapat"
 
 #: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Yeniden Başlat"
+
+#: src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Gücü Kapat"
 
 #: src/wifiinfo.c:88
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
+
+#: src/wwaninfo.c:167
+msgid "Cellular"
+msgstr "Hücresel"
 
 #~ msgid "Suspend"
 #~ msgstr "Askıya Al"
