@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-08-07 15:31+0000\n"
-"PO-Revision-Date: 2020-08-09 11:36+0300\n"
+"POT-Creation-Date: 2020-08-14 15:29+0000\n"
+"PO-Revision-Date: 2020-08-14 18:59+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.07.70\n"
+"X-Generator: Lokalize 20.11.70\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
 "=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
@@ -73,12 +73,15 @@ msgstr "Звіряю…"
 msgid "%A, %B %d"
 msgstr "%A, %-d %B"
 
-#: src/media-player.c:262
-msgid "Unknown title"
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:263 src/ui/media-player.ui:107
+#| msgid "Unknown title"
+msgid "Unknown Title"
 msgstr "Невідома назва"
 
-#: src/media-player.c:270
-msgid "Unknown artist"
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:272 src/ui/media-player.ui:127
+msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
 #: src/monitor-manager.c:58
@@ -106,77 +109,66 @@ msgstr "Сповіщення"
 
 #. Translators: Timestamp seconds suffix
 #: src/notifications/timestamp-label.c:84
-#| msgid "s"
 msgctxt "timestamp-suffix-seconds"
 msgid "s"
 msgstr "с"
 
 #. Translators: Timestamp minute suffix
 #: src/notifications/timestamp-label.c:86
-#| msgid "m"
 msgctxt "timestamp-suffix-minute"
 msgid "m"
 msgstr "хв"
 
 #. Translators: Timestamp minutes suffix
 #: src/notifications/timestamp-label.c:88
-#| msgid "m"
 msgctxt "timestamp-suffix-minutes"
 msgid "m"
 msgstr "хв"
 
 #. Translators: Timestamp hour suffix
 #: src/notifications/timestamp-label.c:90
-#| msgid "h"
 msgctxt "timestamp-suffix-hour"
 msgid "h"
 msgstr "г"
 
 #. Translators: Timestamp hours suffix
 #: src/notifications/timestamp-label.c:92
-#| msgid "h"
 msgctxt "timestamp-suffix-hours"
 msgid "h"
 msgstr "г"
 
 #. Translators: Timestamp day suffix
 #: src/notifications/timestamp-label.c:94
-#| msgid "d"
 msgctxt "timestamp-suffix-day"
 msgid "d"
 msgstr "д"
 
 #. Translators: Timestamp days suffix
 #: src/notifications/timestamp-label.c:96
-#| msgid "d"
 msgctxt "timestamp-suffix-days"
 msgid "d"
 msgstr "д"
 
 #. Translators: Timestamp month suffix
 #: src/notifications/timestamp-label.c:98
-#| msgid "mo"
 msgctxt "timestamp-suffix-month"
 msgid "mo"
 msgstr "м"
 
 #. Translators: Timestamp months suffix
 #: src/notifications/timestamp-label.c:100
-#| msgid "mos"
 msgctxt "timestamp-suffix-months"
 msgid "mos"
 msgstr "міс"
 
 #. Translators: Timestamp year suffix
 #: src/notifications/timestamp-label.c:102
-#| msgid "y"
 msgctxt "timestamp-suffix-year"
 msgid "y"
 msgstr "р"
 
 #. Translators: Timestamp years suffix
 #: src/notifications/timestamp-label.c:104
-#| msgid "y"
 msgctxt "timestamp-suffix-years"
 msgid "y"
 msgstr "р"
@@ -257,14 +249,6 @@ msgstr "Екстрений виклик"
 msgid "Unlock"
 msgstr "Розблокувати"
 
-#: src/ui/media-player.ui:107
-msgid "Unknown Song"
-msgstr "Невідома композиція"
-
-#: src/ui/media-player.ui:127
-msgid "Unknown Artist"
-msgstr "Невідомий виконавець"
-
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
 msgstr "_Скасувати"
@@ -301,6 +285,7 @@ msgstr "Вимкнути"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/wwaninfo.c:167
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:168
 msgid "Cellular"
 msgstr "Стільниковий"
