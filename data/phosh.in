@@ -16,6 +16,25 @@ gnome_session_args()
     echo "${ARGS}"
 }
 
+help()
+{
+  cat <<EOF
+phosh - Session start script for Phosh
+
+This is usually invoked by a display manager but you can
+also run it from a tty.
+
+Usage: phosh
+EOF
+exit 0
+}
+
+case "$1" in
+  -h|-\?|--help)
+    help
+    ;;
+esac
+
 if [ -x @bindir@/phoc ]; then
   COMPOSITOR=@bindir@/phoc
 fi
