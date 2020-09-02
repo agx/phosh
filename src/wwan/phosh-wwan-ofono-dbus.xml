@@ -1,0 +1,34 @@
+<node>
+  <interface name="org.ofono.SimManager">
+    <signal name="PropertyChanged">
+      <arg type="s"/>
+      <arg type="v"/>
+    </signal>
+    <method name="GetProperties">
+      <arg name="properties" type="a{sv}" direction="out"/>
+    </method>
+  </interface>
+
+  <interface name="org.ofono.NetworkRegistration">
+    <signal name="PropertyChanged">
+      <arg type="s"/>
+      <arg type="v"/>
+    </signal>
+    <method name="GetProperties">
+      <arg name="properties" type="a{sv}" direction="out"/>
+    </method>
+  </interface>
+
+  <interface name="org.ofono.Manager">
+    <method name="GetModems">
+      <arg type="a(oa{sv})" direction="out"/>
+    </method>
+    <signal name="ModemAdded">
+      <arg type="o"/>
+      <arg type="a{sv}"/>
+    </signal>
+    <signal name="ModemRemoved">
+      <arg type="o"/>
+    </signal>
+  </interface>
+</node>
