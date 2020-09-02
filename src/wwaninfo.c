@@ -37,7 +37,7 @@ struct _PhoshWWanInfo
 {
   GtkBox parent;
 
-  PhoshWWanMM *wwan;
+  PhoshWWan *wwan;
   gboolean present;
   gboolean show_detail;
 };
@@ -102,7 +102,7 @@ signal_quality_icon_name (guint quality)
 
 
 static void
-update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
+update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWan *wwan)
 {
   GtkWidget *access_tec_widget;
   guint quality;
@@ -111,7 +111,7 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
   gboolean present;
 
   g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
-  present = phosh_wwan_is_present (PHOSH_WWAN (self->wwan));
+  present = phosh_wwan_is_present (self->wwan);
   g_debug ("Updating wwan present: %d", present);
   if (present != self->present) {
     self->present = present;
@@ -122,10 +122,10 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
 
   if (!present) {
     icon_name = ("network-cellular-disabled-symbolic");
-  } else if (!phosh_wwan_has_sim (PHOSH_WWAN (self->wwan))) /* SIM missing */
+  } else if (!phosh_wwan_has_sim (self->wwan)) /* SIM missing */
     icon_name = "auth-sim-missing-symbolic";
   else { /* SIM unlock required */
-    if (!phosh_wwan_is_unlocked (PHOSH_WWAN (self->wwan)))
+    if (!phosh_wwan_is_unlocked (self->wwan))
       icon_name = "auth-sim-locked-symbolic";
   }
 
@@ -136,7 +136,7 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
   }
 
   /* Signal quality */
-  quality = phosh_wwan_get_signal_quality (PHOSH_WWAN (self->wwan));
+  quality = phosh_wwan_get_signal_quality (self->wwan);
   icon_name = signal_quality_icon_name (quality);
   phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
 
@@ -146,7 +146,7 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWanMM *wwan)
   }
 
   /* Access technology */
-  access_tec = phosh_wwan_get_access_tec (PHOSH_WWAN (self->wwan));
+  access_tec = phosh_wwan_get_access_tec (self->wwan);
   if (access_tec == NULL) {
     gtk_widget_hide (access_tec_widget);
     return;
@@ -162,7 +162,7 @@ update_info (PhoshWWanInfo *self)
   const gchar *info;
   g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
 
-  info = phosh_wwan_get_operator (PHOSH_WWAN (self->wwan));
+  info = phosh_wwan_get_operator (self->wwan);
   if (!info || !g_strcmp0(info, "")) {
     /* Translators: Refers to the cellular wireless network */
     info = _("Cellular");
@@ -194,7 +194,7 @@ phosh_wwan_info_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_wwan_info_parent_class)->constructed (object);
 
-  self->wwan = phosh_wwan_mm_new();
+  self->wwan = PHOSH_WWAN (phosh_wwan_mm_new());
 
   for (int i = 0; i < g_strv_length(signals); i++) {
     g_signal_connect_swapped (self->wwan, signals[i],
