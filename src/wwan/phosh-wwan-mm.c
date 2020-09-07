@@ -109,7 +109,7 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
 
 
 static const char *
-user_friendly_access_tec (guint access_tec)
+phosh_wwan_mm_user_friendly_access_tec (guint access_tec)
 {
   switch (access_tec) {
   case MM_MODEM_ACCESS_TECHNOLOGY_GSM:
@@ -149,10 +149,11 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
   g_return_if_fail (self->proxy);
   access_tec = phosh_mmdbus_modem_get_access_technologies (
     self->proxy);
-  self->access_tec = user_friendly_access_tec (access_tec);
+  self->access_tec = phosh_wwan_mm_user_friendly_access_tec (access_tec);
   g_debug ("Access tec is %s", self->access_tec);
   g_object_notify (G_OBJECT (self), "access-tec");
 }
+
 
 static void
 phosh_wwan_mm_update_operator (PhoshWWanMM *self)
@@ -171,6 +172,7 @@ phosh_wwan_mm_update_operator (PhoshWWanMM *self)
     g_object_notify (G_OBJECT (self), "operator");
   }
 }
+
 
 static void
 phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
@@ -203,7 +205,7 @@ phosh_wwan_mm_update_sim_status (PhoshWWanMM *self)
   g_return_if_fail (self->proxy);
   sim = phosh_mmdbus_modem_get_sim (self->proxy);
   g_debug ("SIM path %s", sim);
-  self->sim = !!(sim != NULL && strcmp (sim, "/"));
+  self->sim = !!g_strcmp0 (sim, "/");
   g_debug ("SIM is %spresent", self->sim ? "" : "not ");
   g_object_notify (G_OBJECT (self), "sim");
 }
@@ -223,10 +225,10 @@ phosh_wwan_mm_update_present (PhoshWWanMM *self, gboolean present)
 
 
 static void
-dbus_props_changed_cb (PhoshMMDBusModem *proxy,
-                       GVariant         *changed_properties,
-                       GStrv             invaliated,
-                       PhoshWWanMM      *self)
+phosh_wwan_mm_dbus_props_changed_cb (PhoshMMDBusModem *proxy,
+                                     GVariant         *changed_properties,
+                                     GStrv             invaliated,
+                                     PhoshWWanMM      *self)
 {
   char *property;
   GVariantIter i;
@@ -234,29 +236,25 @@ dbus_props_changed_cb (PhoshMMDBusModem *proxy,
   g_variant_iter_init (&i, changed_properties);
   while (g_variant_iter_next (&i, "{&sv}", &property, NULL)) {
     g_debug ("WWAN property %s changed", property);
-    if (strcmp (property, "AccessTechnologies") == 0) {
+    if (g_strcmp0 (property, "AccessTechnologies") == 0) {
       phosh_wwan_mm_update_access_tec (self);
-    }
-    if (strcmp (property, "SignalQuality") == 0) {
+    } else if (g_strcmp0 (property, "SignalQuality") == 0) {
       phosh_wwan_mm_update_signal_quality (self);
-    }
-    if (strcmp (property, "UnlockRequired") == 0) {
+    } else if (g_strcmp0 (property, "UnlockRequired") == 0) {
       phosh_wwan_mm_update_lock_status (self);
-    }
-    if (strcmp (property, "State") == 0) {
+    } else if (g_strcmp0 (property, "State") == 0) {
       phosh_wwan_mm_update_lock_status (self);
-    }
-    if (strcmp (property, "Sim") == 0) {
+    } else if (g_strcmp0 (property, "Sim") == 0) {
       phosh_wwan_mm_update_sim_status (self);
     }
   }
 }
 
 static void
-dbus_3gpp_props_changed_cb(PhoshMMDBusModem *proxy,
-                           GVariant *changed_properties,
-                           GStrv invaliated,
-                           PhoshWWanMM *self)
+phosh_wwan_mm_dbus_3gpp_props_changed_cb (PhoshMMDBusModem *proxy,
+                                          GVariant *changed_properties,
+                                          GStrv invaliated,
+                                          PhoshWWanMM *self)
 {
   char *property;
   GVariantIter i;
@@ -264,20 +262,10 @@ dbus_3gpp_props_changed_cb(PhoshMMDBusModem *proxy,
   g_variant_iter_init (&i, changed_properties);
   while (g_variant_iter_next (&i, "{&sv}", &property, NULL)) {
     g_debug ("WWAN 3gpp property %s changed", property);
-    if (strcmp (property, "OperatorName") == 0) {
+    if (g_strcmp0 (property, "OperatorName") == 0) {
       phosh_wwan_mm_update_operator (self);
     }
   }
-}
-
-static void
-phosh_wwan_mm_set_property (GObject      *object,
-                            guint         property_id,
-                            const GValue *value,
-                            GParamSpec   *pspec)
-{
-  /* All props are ro */
-  G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 
@@ -313,7 +301,7 @@ phosh_wwan_mm_get_property (GObject    *object,
 
 
 static void
-destroy_modem (PhoshWWanMM *self)
+phosh_wwan_mm_destroy_modem (PhoshWWanMM *self)
 {
   if (self->proxy) {
     phosh_clear_handler (&self->proxy_props_signal_id, self->proxy);
@@ -348,9 +336,9 @@ destroy_modem (PhoshWWanMM *self)
 
 
 static void
-on_proxy_3gpp_new_for_bus_finish (GObject      *source_object,
-                                  GAsyncResult *res,
-                                  PhoshWWanMM  *self)
+phosh_wwan_mm_on_proxy_3gpp_new_for_bus_finish (GObject      *source_object,
+                                                GAsyncResult *res,
+                                                PhoshWWanMM  *self)
 {
   g_autoptr (GError) err = NULL;
 
@@ -365,7 +353,7 @@ on_proxy_3gpp_new_for_bus_finish (GObject      *source_object,
 
   self->proxy_3gpp_props_signal_id = g_signal_connect (self->proxy_3gpp,
                                                        "g-properties-changed",
-                                                       G_CALLBACK (dbus_3gpp_props_changed_cb),
+                                                       G_CALLBACK (phosh_wwan_mm_dbus_3gpp_props_changed_cb),
                                                        self);
   phosh_wwan_mm_update_operator (self);
   g_object_unref (self);
@@ -373,11 +361,11 @@ on_proxy_3gpp_new_for_bus_finish (GObject      *source_object,
 
 
 static void
-on_proxy_new_for_bus_finish (GObject      *source_object,
-                              GAsyncResult *res,
-                              PhoshWWanMM  *self)
+phosh_wwan_mm_on_proxy_new_for_bus_finish (GObject      *source_object,
+                                           GAsyncResult *res,
+                                           PhoshWWanMM  *self)
 {
-  g_autoptr(GError) err = NULL;
+  g_autoptr (GError) err = NULL;
 
   self->proxy = phosh_mmdbus_modem_proxy_new_for_bus_finish (
     res,
@@ -390,7 +378,7 @@ on_proxy_new_for_bus_finish (GObject      *source_object,
 
   self->proxy_props_signal_id = g_signal_connect (self->proxy,
                                                   "g-properties-changed",
-                                                  G_CALLBACK (dbus_props_changed_cb),
+                                                  G_CALLBACK (phosh_wwan_mm_dbus_props_changed_cb),
                                                   self);
   phosh_wwan_mm_update_signal_quality (self);
   phosh_wwan_mm_update_access_tec (self);
@@ -402,7 +390,7 @@ on_proxy_new_for_bus_finish (GObject      *source_object,
 
 
 static void
-init_modem (PhoshWWanMM *self, const gchar *object_path)
+phosh_wwan_mm_init_modem (PhoshWWanMM *self, const gchar *object_path)
 {
   g_return_if_fail (object_path);
 
@@ -414,7 +402,7 @@ init_modem (PhoshWWanMM *self, const gchar *object_path)
     BUS_NAME,
     object_path,
     NULL,
-    (GAsyncReadyCallback)on_proxy_new_for_bus_finish,
+    (GAsyncReadyCallback)phosh_wwan_mm_on_proxy_new_for_bus_finish,
     g_object_ref (self));
 
   phosh_mmdbus_modem_modem3gpp_proxy_new_for_bus (
@@ -423,13 +411,15 @@ init_modem (PhoshWWanMM *self, const gchar *object_path)
     BUS_NAME,
     object_path,
     NULL,
-    (GAsyncReadyCallback)on_proxy_3gpp_new_for_bus_finish,
+    (GAsyncReadyCallback)phosh_wwan_mm_on_proxy_3gpp_new_for_bus_finish,
     g_object_ref (self));
 }
 
 
 static void
-object_added_cb (PhoshWWanMM *self, GDBusObject *object, PhoshMMDBusObjectManagerClient *manager)
+phosh_wwan_mm_object_added_cb (PhoshWWanMM                    *self,
+                               GDBusObject                    *object,
+                               PhoshMMDBusObjectManagerClient *manager)
 {
   const gchar *modem_object_path;
 
@@ -437,13 +427,15 @@ object_added_cb (PhoshWWanMM *self, GDBusObject *object, PhoshMMDBusObjectManage
   g_debug ("Modem added at path: %s", modem_object_path);
   if (self->object_path == NULL) {
     g_debug ("Tracking modem at: %s", modem_object_path);
-    init_modem (self, modem_object_path);
+    phosh_wwan_mm_init_modem (self, modem_object_path);
   }
 }
 
 
 static void
-object_removed_cb (PhoshWWanMM *self, GDBusObject *object, PhoshMMDBusObjectManagerClient *manager)
+phosh_wwan_mm_object_removed_cb (PhoshWWanMM                    *self,
+                                 GDBusObject                    *object,
+                                 PhoshMMDBusObjectManagerClient *manager)
 {
   const gchar *modem_object_path;
 
@@ -451,13 +443,15 @@ object_removed_cb (PhoshWWanMM *self, GDBusObject *object, PhoshMMDBusObjectMana
   g_debug ("Modem removed at path: %s", modem_object_path);
   if (!g_strcmp0 (modem_object_path, self->object_path)) {
     g_debug ("Dropping modem at: %s", modem_object_path);
-    destroy_modem (self);
+    phosh_wwan_mm_destroy_modem (self);
   }
 }
 
 
 static void
-on_mm_object_manager_created (GObject *source_object, GAsyncResult *res, PhoshWWanMM *self)
+phosh_wwan_mm_on_mm_object_manager_created (GObject      *source_object,
+                                            GAsyncResult *res,
+                                            PhoshWWanMM  *self)
 {
   g_autoptr (GError) err = NULL;
   g_autolist (GDBusObject) modems = NULL;
@@ -476,13 +470,13 @@ on_mm_object_manager_created (GObject *source_object, GAsyncResult *res, PhoshWW
   self->manager_object_added_signal_id =
     g_signal_connect_swapped (self->manager,
                               "object-added",
-                              G_CALLBACK (object_added_cb),
+                              G_CALLBACK (phosh_wwan_mm_object_added_cb),
                               self);
 
   self->manager_object_removed_signal_id =
     g_signal_connect_swapped (self->manager,
                               "object-removed",
-                              G_CALLBACK (object_removed_cb),
+                              G_CALLBACK (phosh_wwan_mm_object_removed_cb),
                               self);
 
   modems = g_dbus_object_manager_get_objects (G_DBUS_OBJECT_MANAGER (self->manager));
@@ -490,11 +484,12 @@ on_mm_object_manager_created (GObject *source_object, GAsyncResult *res, PhoshWW
     /* Look at the first modem */
     modem_object_path = g_dbus_object_get_object_path (G_DBUS_OBJECT (modems->data));
     g_debug ("modem path: %s", modem_object_path);
-    init_modem (self, modem_object_path);
+    phosh_wwan_mm_init_modem (self, modem_object_path);
   } else {
     g_debug ("No modem found");
   }
 }
+
 
 static void
 phosh_wwan_mm_constructed (GObject *object)
@@ -509,7 +504,7 @@ phosh_wwan_mm_constructed (GObject *object)
     BUS_NAME,
     OBJECT_PATH,
     NULL,
-    (GAsyncReadyCallback)on_mm_object_manager_created,
+    (GAsyncReadyCallback)phosh_wwan_mm_on_mm_object_manager_created,
     self);
 }
 
@@ -520,7 +515,7 @@ phosh_wwan_mm_dispose (GObject *object)
   PhoshWWanMM *self = PHOSH_WWAN_MM (object);
   GObjectClass *parent_class = G_OBJECT_CLASS (phosh_wwan_mm_parent_class);
 
-  destroy_modem (self);
+  phosh_wwan_mm_destroy_modem (self);
   if (self->manager) {
     phosh_clear_handler (&self->manager_object_added_signal_id,
                          self->manager);
@@ -534,6 +529,7 @@ phosh_wwan_mm_dispose (GObject *object)
   parent_class->dispose (object);
 }
 
+
 static void
 phosh_wwan_mm_class_init (PhoshWWanMMClass *klass)
 {
@@ -541,7 +537,6 @@ phosh_wwan_mm_class_init (PhoshWWanMMClass *klass)
 
   object_class->constructed = phosh_wwan_mm_constructed;
   object_class->dispose = phosh_wwan_mm_dispose;
-  object_class->set_property = phosh_wwan_mm_set_property;
   object_class->get_property = phosh_wwan_mm_get_property;
 
   g_object_class_override_property (object_class,
@@ -568,37 +563,51 @@ phosh_wwan_mm_class_init (PhoshWWanMMClass *klass)
 static guint
 phosh_wwan_mm_get_signal_quality (PhoshWWan *phosh_wwan)
 {
-  PhoshWWanMM *self = PHOSH_WWAN_MM (phosh_wwan);
+  PhoshWWanMM *self;
 
-  g_return_val_if_fail (PHOSH_IS_WWAN_MM (self), 0);
+  g_return_val_if_fail (PHOSH_IS_WWAN_MM (phosh_wwan), 0);
+
+  self = PHOSH_WWAN_MM (phosh_wwan);
+
   return self->signal_quality;
 }
 
 
-static const char*
+static const char *
 phosh_wwan_mm_get_access_tec (PhoshWWan *phosh_wwan)
 {
-  PhoshWWanMM *self = PHOSH_WWAN_MM (phosh_wwan);
+  PhoshWWanMM *self;
 
-  g_return_val_if_fail (PHOSH_IS_WWAN_MM (self), NULL);
+  g_return_val_if_fail (PHOSH_IS_WWAN_MM (phosh_wwan), NULL);
+
+  self = PHOSH_WWAN_MM (phosh_wwan);
+
   return self->access_tec;
 }
+
 
 static gboolean
 phosh_wwan_mm_is_unlocked (PhoshWWan *phosh_wwan)
 {
-  PhoshWWanMM *self = PHOSH_WWAN_MM (phosh_wwan);
+  PhoshWWanMM *self;
 
-  g_return_val_if_fail (PHOSH_IS_WWAN_MM (self), FALSE);
+  g_return_val_if_fail (PHOSH_IS_WWAN_MM (phosh_wwan), FALSE);
+
+  self = PHOSH_WWAN_MM (phosh_wwan);
+
   return self->unlocked;
 }
+
 
 static gboolean
 phosh_wwan_mm_has_sim (PhoshWWan *phosh_wwan)
 {
-  PhoshWWanMM *self = PHOSH_WWAN_MM (phosh_wwan);
+  PhoshWWanMM *self;
 
-  g_return_val_if_fail (PHOSH_IS_WWAN_MM (self), FALSE);
+  g_return_val_if_fail (PHOSH_IS_WWAN_MM (phosh_wwan), FALSE);
+
+  self = PHOSH_WWAN_MM (phosh_wwan);
+
   return self->sim;
 }
 
@@ -606,19 +615,25 @@ phosh_wwan_mm_has_sim (PhoshWWan *phosh_wwan)
 static gboolean
 phosh_wwan_mm_is_present (PhoshWWan *phosh_wwan)
 {
-  PhoshWWanMM *self = PHOSH_WWAN_MM (phosh_wwan);
+  PhoshWWanMM *self;
 
-  g_return_val_if_fail (PHOSH_IS_WWAN_MM (self), FALSE);
+  g_return_val_if_fail (PHOSH_IS_WWAN_MM (phosh_wwan), FALSE);
+
+  self = PHOSH_WWAN_MM (phosh_wwan);
+
   return self->present;
 }
 
 
-static const char*
+static const char *
 phosh_wwan_mm_get_operator (PhoshWWan *phosh_wwan)
 {
-  PhoshWWanMM *self = PHOSH_WWAN_MM (phosh_wwan);
+  PhoshWWanMM *self;
 
-  g_return_val_if_fail (PHOSH_IS_WWAN_MM (self), NULL);
+  g_return_val_if_fail (PHOSH_IS_WWAN_MM (phosh_wwan), NULL);
+
+  self = PHOSH_WWAN_MM (phosh_wwan);
+
   return self->operator;
 }
 
