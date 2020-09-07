@@ -326,20 +326,28 @@ phosh_shell_dispose (GObject *object)
 
   panels_dispose (self);
   g_clear_pointer (&priv->faders, g_ptr_array_unref);
+
   g_clear_object (&priv->notification_banner);
+
+  /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->bt_manager);
+  g_clear_object (&priv->feedback_manager);
   g_clear_object (&priv->notify_manager);
   g_clear_object (&priv->screen_saver_manager);
+  g_clear_object (&priv->polkit_auth_agent);
+  g_clear_object (&priv->wifi_manager);
+  g_clear_object (&priv->toplevel_manager);
+  g_clear_object (&priv->osk_manager);
+  g_clear_object (&priv->idle_manager);
   g_clear_object (&priv->lockscreen_manager);
   g_clear_object (&priv->monitor_manager);
-  g_clear_object (&priv->toplevel_manager);
-  g_clear_object (&priv->wifi_manager);
-  g_clear_object (&priv->osk_manager);
-  g_clear_object (&priv->polkit_auth_agent);
+  g_clear_object (&priv->builtin_monitor);
+  g_clear_object (&priv->primary_monitor);
   g_clear_object (&priv->background_manager);
+
+  /* sensors */
   g_clear_object (&priv->proximity);
   g_clear_object (&priv->sensor_proxy_manager);
-  g_clear_object (&priv->feedback_manager);
-  g_clear_object (&priv->primary_monitor);
   phosh_system_prompter_unregister ();
   phosh_session_unregister ();
 
