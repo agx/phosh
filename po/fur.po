@@ -1,0 +1,288 @@
+# Friulian translations for phosh.
+# Copyright (C) YEAR THE phosh'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the phosh package.
+# Fabio Tomat <f.t.public@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: phosh\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-14 09:33+0200\n"
+"PO-Revision-Date: 2020-09-07 09:29+0200\n"
+"Language-Team: Friulian (f.t.public@gmail.com)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.1\n"
+"Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: fur\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
+
+#: data/sm.puri.Phosh.desktop.in.in:4
+msgid "Phone Shell"
+msgstr "Phone Shell"
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "Gjestion barcons e inviament aplicazions par celulârs"
+
+#: src/app-grid-button.c:530
+msgid "Application"
+msgstr "Aplicazion"
+
+#: src/bt-info.c:89 src/feedbackinfo.c:48
+msgid "On"
+msgstr "Ativât"
+
+#: src/bt-info.c:91
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:41
+msgid "Quiet"
+msgstr "Cuiet"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:46
+msgid "Silent"
+msgstr "Cidin"
+
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
+msgid "Enter Passcode"
+msgstr "Inserìs codiç di sbloc"
+
+#: src/lockscreen.c:263
+msgid "Checking…"
+msgstr "Verifiche…"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/lockscreen.c:341
+msgid "%A, %B %d"
+msgstr "%A, %d di %B"
+
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:263 src/ui/media-player.ui:107
+msgid "Unknown Title"
+msgstr "Titul no cognossût"
+
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:272 src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Artist no cognossût"
+
+#: src/monitor-manager.c:58
+msgid "Built-in display"
+msgstr "Display integrât"
+
+#. Translators: An unknown monitor type
+#: src/monitor-manager.c:62
+msgid "Unknown"
+msgstr "No cognossût"
+
+#: src/network-auth-prompt.c:184
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Gjenar di autenticazion de rêt wifi “%s” no supuartât"
+
+#: src/network-auth-prompt.c:189
+#, c-format
+msgid "Enter password for the wifi network “%s”"
+msgstr "Inserìs la password pe rêt wifi “%s”"
+
+#: src/notifications/notification.c:382 src/notifications/notification.c:601
+msgid "Notification"
+msgstr "Notifiche"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "s"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "o"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "o"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "d"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "d"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "mês"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "mês"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "a"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "a"
+
+#. Translators: this is the date in (short) number only format
+#: src/notifications/timestamp-label.c:107
+msgid "%d.%m.%y"
+msgstr "%d.%m.%y"
+
+#. Translators: Timestamp prefix (e.g. Over 5h)
+#: src/notifications/timestamp-label.c:198
+msgid "Over"
+msgstr "Plui di"
+
+#. Translators: Timestamp prefix (e.g. Almost 5h)
+#: src/notifications/timestamp-label.c:203
+msgid "Almost"
+msgstr "Cuasi"
+
+#: src/polkit-auth-agent.c:229
+msgid "Authentication dialog was dismissed by the user"
+msgstr "Dialic di autenticazion refudât dal utent"
+
+#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
+#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+msgid "Password:"
+msgstr "Password:"
+
+#: src/polkit-auth-prompt.c:322
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "Mi displâs, no je lade drete. Prove di gnûf."
+
+#: src/polkit-auth-prompt.c:488
+msgid "Authenticate"
+msgstr "Autentiche"
+
+#: src/rotateinfo.c:46
+msgid "Portrait"
+msgstr "Verticâl"
+
+#: src/rotateinfo.c:49
+msgid "Landscape"
+msgstr "Orizontâl"
+
+#: src/system-prompt.c:371
+msgid "Passwords do not match."
+msgstr "Lis password no corispuindin."
+
+#: src/system-prompt.c:378
+msgid "Password cannot be blank"
+msgstr "La password no pues jessi vueide"
+
+#: src/ui/app-grid-button.ui:49
+msgid "App"
+msgstr "Aplicazion"
+
+#: src/ui/app-grid-button.ui:76
+msgid "Remove from _Favorites"
+msgstr "Gjave dai _preferîts"
+
+#: src/ui/app-grid-button.ui:81
+msgid "Add to _Favorites"
+msgstr "Zonte tai _preferîts"
+
+#: src/ui/app-grid.ui:21
+msgid "Search apps…"
+msgstr "Cîr aplicazions…"
+
+#: src/ui/lockscreen.ui:37
+msgid "Slide up to unlock"
+msgstr "Scor in sù par sblocâ"
+
+#: src/ui/lockscreen.ui:280
+msgid "Emergency"
+msgstr "Emergjence"
+
+#: src/ui/lockscreen.ui:296
+msgid "Unlock"
+msgstr "Sbloche"
+
+#: src/ui/network-auth-prompt.ui:90
+msgid "_Cancel"
+msgstr "_Anule"
+
+#: src/ui/network-auth-prompt.ui:106
+msgid "C_onnect"
+msgstr "C_onet"
+
+#: src/ui/polkit-auth-prompt.ui:105
+msgid "User:"
+msgstr "Utent:"
+
+#: src/ui/system-prompt.ui:69
+msgid "Confirm:"
+msgstr "Conferme:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Bloche schermi"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "Jes"
+
+#: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Torne invie"
+
+#: src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Distude"
+
+#: src/wifiinfo.c:88
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:168
+msgid "Cellular"
+msgstr "Cellulâr"
