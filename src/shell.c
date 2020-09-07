@@ -783,6 +783,7 @@ phosh_shell_get_wifi_manager (PhoshShell *self)
   return priv->wifi_manager;
 }
 
+
 PhoshBtManager *
 phosh_shell_get_bt_manager (PhoshShell *self)
 {
@@ -797,6 +798,7 @@ phosh_shell_get_bt_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_BT_MANAGER (priv->bt_manager), NULL);
   return priv->bt_manager;
 }
+
 
 PhoshOskManager *
 phosh_shell_get_osk_manager (PhoshShell *self)
@@ -813,6 +815,7 @@ phosh_shell_get_osk_manager (PhoshShell *self)
   return priv->osk_manager;
 }
 
+
 PhoshToplevelManager *
 phosh_shell_get_toplevel_manager (PhoshShell *self)
 {
@@ -825,6 +828,7 @@ phosh_shell_get_toplevel_manager (PhoshShell *self)
   return priv->toplevel_manager;
 }
 
+
 PhoshFeedbackManager *
 phosh_shell_get_feedback_manager (PhoshShell *self)
 {
@@ -836,6 +840,7 @@ phosh_shell_get_feedback_manager (PhoshShell *self)
 
   return priv->feedback_manager;
 }
+
 
 /**
  * Returns the usable area in pixels usable by a client on the phone
