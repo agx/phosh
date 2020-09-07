@@ -100,7 +100,7 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
 
   g_return_if_fail (self);
   g_return_if_fail (self->proxy);
-  v = phosh_mmdbus_modem_get_signal_quality (self->proxy);
+  v = phosh_mm_dbus_modem_get_signal_quality (self->proxy);
   if (v) {
     g_variant_get (v, "(ub)", &self->signal_quality, NULL);
     g_object_notify (G_OBJECT (self), "signal-quality");
@@ -147,7 +147,7 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
 
   g_return_if_fail (self);
   g_return_if_fail (self->proxy);
-  access_tec = phosh_mmdbus_modem_get_access_technologies (
+  access_tec = phosh_mm_dbus_modem_get_access_technologies (
     self->proxy);
   self->access_tec = phosh_wwan_mm_user_friendly_access_tec (access_tec);
   g_debug ("Access tec is %s", self->access_tec);
@@ -162,7 +162,7 @@ phosh_wwan_mm_update_operator (PhoshWWanMM *self)
 
   g_return_if_fail (self);
   g_return_if_fail (self->proxy_3gpp);
-  operator = phosh_mmdbus_modem_modem3gpp_get_operator_name (
+  operator = phosh_mm_dbus_modem_modem3gpp_get_operator_name (
     self->proxy_3gpp);
 
   if (g_strcmp0 (operator, self->operator)) {
@@ -183,10 +183,10 @@ phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
   g_return_if_fail (self);
   g_return_if_fail (self->proxy);
   /* Whether any kind of PIN is required */
-  unlock_required = phosh_mmdbus_modem_get_unlock_required (
+  unlock_required = phosh_mm_dbus_modem_get_unlock_required (
     self->proxy);
   /* Whether the sim card is currently locked */
-  state = phosh_mmdbus_modem_get_state (
+  state = phosh_mm_dbus_modem_get_state (
     self->proxy);
   self->unlocked = !!(unlock_required == MM_MODEM_LOCK_NONE ||
                       (state != MM_MODEM_STATE_LOCKED &&
@@ -203,7 +203,7 @@ phosh_wwan_mm_update_sim_status (PhoshWWanMM *self)
 
   g_return_if_fail (self);
   g_return_if_fail (self->proxy);
-  sim = phosh_mmdbus_modem_get_sim (self->proxy);
+  sim = phosh_mm_dbus_modem_get_sim (self->proxy);
   g_debug ("SIM path %s", sim);
   self->sim = !!g_strcmp0 (sim, "/");
   g_debug ("SIM is %spresent", self->sim ? "" : "not ");
@@ -252,9 +252,9 @@ phosh_wwan_mm_dbus_props_changed_cb (PhoshMMDBusModem *proxy,
 
 static void
 phosh_wwan_mm_dbus_3gpp_props_changed_cb (PhoshMMDBusModem *proxy,
-                                          GVariant *changed_properties,
-                                          GStrv invaliated,
-                                          PhoshWWanMM *self)
+                                          GVariant         *changed_properties,
+                                          GStrv             invaliated,
+                                          PhoshWWanMM      *self)
 {
   char *property;
   GVariantIter i;
@@ -342,7 +342,7 @@ phosh_wwan_mm_on_proxy_3gpp_new_for_bus_finish (GObject      *source_object,
 {
   g_autoptr (GError) err = NULL;
 
-  self->proxy_3gpp = phosh_mmdbus_modem_modem3gpp_proxy_new_for_bus_finish (
+  self->proxy_3gpp = phosh_mm_dbus_modem_modem3gpp_proxy_new_for_bus_finish (
     res,
     &err);
 
@@ -367,7 +367,7 @@ phosh_wwan_mm_on_proxy_new_for_bus_finish (GObject      *source_object,
 {
   g_autoptr (GError) err = NULL;
 
-  self->proxy = phosh_mmdbus_modem_proxy_new_for_bus_finish (
+  self->proxy = phosh_mm_dbus_modem_proxy_new_for_bus_finish (
     res,
     &err);
 
@@ -396,7 +396,7 @@ phosh_wwan_mm_init_modem (PhoshWWanMM *self, const gchar *object_path)
 
   self->object_path = g_strdup (object_path);
 
-  phosh_mmdbus_modem_proxy_new_for_bus (
+  phosh_mm_dbus_modem_proxy_new_for_bus (
     G_BUS_TYPE_SYSTEM,
     G_DBUS_PROXY_FLAGS_NONE,
     BUS_NAME,
@@ -405,7 +405,7 @@ phosh_wwan_mm_init_modem (PhoshWWanMM *self, const gchar *object_path)
     (GAsyncReadyCallback)phosh_wwan_mm_on_proxy_new_for_bus_finish,
     g_object_ref (self));
 
-  phosh_mmdbus_modem_modem3gpp_proxy_new_for_bus (
+  phosh_mm_dbus_modem_modem3gpp_proxy_new_for_bus (
     G_BUS_TYPE_SYSTEM,
     G_DBUS_PROXY_FLAGS_NONE,
     BUS_NAME,
@@ -457,8 +457,8 @@ phosh_wwan_mm_on_mm_object_manager_created (GObject      *source_object,
   g_autolist (GDBusObject) modems = NULL;
   const gchar *modem_object_path;
 
-  self->manager = PHOSH_MMDBUS_OBJECT_MANAGER_CLIENT (
-    phosh_mmdbus_object_manager_client_new_for_bus_finish (
+  self->manager = PHOSH_MM_DBUS_OBJECT_MANAGER_CLIENT (
+    phosh_mm_dbus_object_manager_client_new_for_bus_finish (
       res,
       &err));
 
@@ -498,7 +498,7 @@ phosh_wwan_mm_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_wwan_mm_parent_class)->constructed (object);
 
-  phosh_mmdbus_object_manager_client_new_for_bus (
+  phosh_mm_dbus_object_manager_client_new_for_bus (
     G_BUS_TYPE_SYSTEM,
     G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
     BUS_NAME,
