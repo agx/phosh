@@ -6,14 +6,14 @@
 
 #define G_LOG_DOMAIN "phosh-wwaninfo"
 
-#include "config.h"
-
-#include "wwaninfo.h"
-#include "wwan/phosh-wwan-mm.h"
+#define WWAN_INFO_DEFAULT_ICON_SIZE 24
 
 #include <glib/gi18n.h>
 
-#define WWAN_INFO_DEFAULT_ICON_SIZE 24
+#include "config.h"
+#include "wwaninfo.h"
+
+#include "wwan/phosh-wwan-mm.h"
 
 /**
  * SECTION:wwaninfo
