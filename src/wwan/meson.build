@@ -1,9 +1,11 @@
 iface = 'phosh-wwan-mm-dbus'
-generated_wwan_sources = gnome.gdbus_codegen(iface,
-					     iface + '.xml',
-					     namespace: 'Phosh_MM_DBus',
-					     interface_prefix: 'org.freedesktop.ModemManager1',
-					     object_manager: true)
+generated_wwan_sources = gnome.gdbus_codegen(
+  iface,
+  iface + '.xml',
+  namespace: 'Phosh_MM_DBus',
+  interface_prefix: 'org.freedesktop.ModemManager1',
+  object_manager: true
+)
 
 phosh_wwan_sources = [
   'wwan/phosh-wwan-mm.c',
