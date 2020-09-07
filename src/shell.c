@@ -24,6 +24,7 @@
 
 #include "batteryinfo.h"
 #include "background-manager.h"
+#include "bt-manager.h"
 #include "fader.h"
 #include "feedback-manager.h"
 #include "home.h"
@@ -45,7 +46,6 @@
 #include "util.h"
 #include "wifiinfo.h"
 #include "wwaninfo.h"
-#include "bt-manager.h"
 
 /**
  * SECTION:shell
