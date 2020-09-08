@@ -298,6 +298,7 @@ package:deb-pureos-amber:
     - apt-get -y install build-essential git devscripts
     - git submodule update --recursive
   extends: .l5-build-debian-package
+  allow_failure: true
 
 autopkgtest-debian-buster-package:
   dependencies:
