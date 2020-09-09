@@ -1,5 +1,5 @@
 [wrap-git]
 directory=libhandy
-url=https://source.puri.sm/Librem5/libhandy.git
-revision=origin/libhandy-0-0
+url=https://gitlab.gnome.org/GNOME/libhandy.git
+revision=origin/master
 
