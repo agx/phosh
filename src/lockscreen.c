@@ -51,7 +51,7 @@ typedef struct _PhoshLockscreen
 
 
 typedef struct {
-  GtkWidget *paginator;
+  GtkWidget *carousel;
 
   /* info page */
   GtkWidget *box_info;
@@ -93,10 +93,10 @@ static void
 show_info_page (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  if (hdy_paginator_get_position (HDY_PAGINATOR (priv->paginator)) <= 0)
+  if (hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel)) <= 0)
     return;
 
-  hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator), priv->box_info);
+  hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel), priv->box_info);
 }
 
 
@@ -120,10 +120,10 @@ static void
 show_unlock_page (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  if (hdy_paginator_get_position (HDY_PAGINATOR (priv->paginator)) > 0)
+  if (hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel)) > 0)
     return;
 
-  hdy_paginator_scroll_to (HDY_PAGINATOR (priv->paginator), priv->box_unlock);
+  hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel), priv->box_unlock);
 
   /* skip signal on init */
   if (signals[WAKEUP_OUTPUT])
@@ -396,14 +396,14 @@ wall_clock_notify_cb (PhoshLockscreen *self,
 
 
 static void
-paginator_position_notified_cb (PhoshLockscreen *self,
-                                GParamSpec      *pspec,
-                                HdyPaginator    *paginator)
+carousel_position_notified_cb (PhoshLockscreen *self,
+                               GParamSpec      *pspec,
+                               HdyCarousel     *carousel)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   double position;
 
-  position = hdy_paginator_get_position (HDY_PAGINATOR (priv->paginator));
+  position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
 
   if (position <= 0) {
     clear_input (self, TRUE);
@@ -505,10 +505,10 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_set_css_name (widget_class, "phosh-lockscreen");
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/lockscreen.ui");
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, paginator);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, carousel);
   gtk_widget_class_bind_template_callback_full (widget_class,
-                                                "paginator_position_notified_cb",
-                                                G_CALLBACK(paginator_position_notified_cb));
+                                                "carousel_position_notified_cb",
+                                                G_CALLBACK(carousel_position_notified_cb));
 
   /* unlock page */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_unlock);
