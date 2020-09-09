@@ -70,10 +70,10 @@
               </packing>
             </child>
             <child>
-              <object class="HdyColumn">
+              <object class="HdyClamp">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="maximum_width">350</property>
+                <property name="maximum_size">350</property>
                 <property name="margin_bottom">100</property>
                 <property name="vexpand">True</property>
                 <property name="valign">center</property>

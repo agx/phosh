@@ -7,10 +7,10 @@
     <property name="width_request">250</property>
     <property name="can_focus">False</property>
     <child>
-      <object class="HdyColumn">
+      <object class="HdyClamp">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="maximum_width">350</property>
+        <property name="maximum_size">350</property>
         <child>
           <object class="GtkBox" id="box_settings">
             <property name="visible">True</property>
