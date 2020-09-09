@@ -11,6 +11,8 @@
 #include "shell.h"
 #include "phosh-wayland.h"
 
+#include <handy.h>
+
 #include <glib/gi18n.h>
 #include <glib-unix.h>
 
@@ -79,6 +81,7 @@ int main(int argc, char *argv[])
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
   gtk_init (&argc, &argv);
+  hdy_init ();
 
   g_unix_signal_add (SIGTERM, on_shutdown_signal, NULL);
   g_unix_signal_add (SIGINT, on_shutdown_signal, NULL);
