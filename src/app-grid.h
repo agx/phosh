@@ -7,7 +7,6 @@
 #include <gio/gio.h>
 #include <gio/gdesktopappinfo.h>
 
-#define HANDY_USE_UNSTABLE_API
 #include <handy.h>
 
 #pragma once

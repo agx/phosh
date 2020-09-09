@@ -10,7 +10,6 @@
 #include "fader.h"
 #include "shell.h"
 
-#define HANDY_USE_UNSTABLE_API
 #include <handy.h>
 
 /**
