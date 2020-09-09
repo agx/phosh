@@ -7,7 +7,7 @@
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
     <child>
-      <object class="HdyPaginator" id="paginator_running_activities">
+      <object class="HdyCarousel" id="carousel_running_activities">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">horizontal</property>
