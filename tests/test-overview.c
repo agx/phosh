@@ -23,7 +23,7 @@ main (gint argc,
       gchar *argv[])
 {
   gtk_test_init (&argc, &argv, NULL);
-  hdy_init (&argc, &argv);
+  hdy_init ();
 
   g_test_add_func("/phosh/overview/new", test_phosh_overview_new);
   return g_test_run();
