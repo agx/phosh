@@ -195,7 +195,7 @@ phosh-lockscreen, .phosh-lockshield {
 }
 
 /* Lockscreen keypad */
-hdykeypad > button {
+keypad > grid > button {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   background-origin: padding-box, border-box;
@@ -209,7 +209,7 @@ hdykeypad > button {
   border: 0;
 }
 
-hdykeypad > button:active {
+keypad > grid > button:active {
   background: rgba(255, 255, 255, 0.3);
 }
 
@@ -217,7 +217,7 @@ hdykeypad > button:active {
   background: rgba(255, 255, 255, 0.5);
 }
 
-hdykeypad > button:focus, .text-only-button:focus {
+keypad > grid > button:focus, .text-only-button:focus {
   outline-style: none;
 }
 
