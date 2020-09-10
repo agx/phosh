@@ -54,14 +54,44 @@ configure_file(
   install: true
 )
 
+schemasdir = 'share/glib-2.0/schemas'
+
+#generate XML enum definitions for GSettings schema
+schema_enum_headers = files(
+  '../src/wwan/phosh-wwan-backend.h'
+)
+generate_enums_schema = gnome.mkenums('sm.puri.phosh.enums.xml',
+  sources: schema_enum_headers,
+  comments: '<!-- @comment@ -->',
+  fhead: '<schemalist>',
+  vhead: '  <@type@ id="sm.puri.phosh.@EnumName@">',
+  vprod: '    <value nick="@valuenick@" value="@valuenum@"/>',
+  vtail: '  </@type@>',
+  ftail: '</schemalist>',
+  install_header: true,
+  install_dir: schemasdir
+)
+
+#workaround due to https://github.com/mesonbuild/meson/issues/1687
+copy_schema = custom_target('copy-gschema-to-builddir',
+  input: 'sm.puri.phosh.gschema.xml',
+  output: 'sm.puri.phosh.gschema.xml',
+  command: ['cp', '@INPUT@', '@OUTPUT@']
+)
 schemas = ['sm.puri.phosh.gschema.xml']
-compiled = gnome.compile_schemas(
-  build_by_default: true
+compile_schemas = custom_target('glib-compile-schemas',
+  build_by_default: true,
+  output: 'gschemas.compiled',
+  install: false,
+  command: [find_program('glib-compile-schemas'),
+    meson.current_build_dir()
+  ],
+  depends: [generate_enums_schema, copy_schema]
 )
 
 install_data(
   schemas,
-  install_dir: 'share/glib-2.0/schemas'
+  install_dir: schemasdir
 )
 
 install_data('phoc.ini', install_dir : pkgdatadir)

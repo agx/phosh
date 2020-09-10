@@ -15,6 +15,7 @@
 #include "toplevel-manager.h"
 #include "wifimanager.h"
 #include "bt-manager.h"
+#include "wwan/phosh-wwan-iface.h"
 
 #include <gtk/gtk.h>
 
@@ -49,6 +50,7 @@ PhoshToplevelManager *phosh_shell_get_toplevel_manager (PhoshShell *self);
 PhoshWifiManager    *phosh_shell_get_wifi_manager    (PhoshShell *self);
 PhoshFeedbackManager *phosh_shell_get_feedback_manager (PhoshShell *self);
 PhoshBtManager      *phosh_shell_get_bt_manager      (PhoshShell *self);
+PhoshWWan           *phosh_shell_get_wwan        (PhoshShell *self);
 void                 phosh_shell_fade_out (PhoshShell *self, guint timeout);
 void                 phosh_shell_enable_power_save (PhoshShell *self, gboolean enable);
 gboolean             phosh_shell_started_by_display_manager(PhoshShell *self);

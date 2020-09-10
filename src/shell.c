@@ -10,6 +10,8 @@
 
 #define G_LOG_DOMAIN "phosh-shell"
 
+#define WWAN_BACKEND_KEY "wwan-backend"
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -46,6 +48,9 @@
 #include "util.h"
 #include "wifiinfo.h"
 #include "wwaninfo.h"
+#include "wwan/phosh-wwan-ofono.h"
+#include "wwan/phosh-wwan-mm.h"
+#include "wwan/phosh-wwan-backend.h"
 
 /**
  * SECTION:shell
@@ -89,6 +94,7 @@ typedef struct
   PhoshNotifyManager *notify_manager;
   PhoshFeedbackManager *feedback_manager;
   PhoshBtManager *bt_manager;
+  PhoshWWan *wwan;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -330,6 +336,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->notification_banner);
 
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->wwan);
   g_clear_object (&priv->bt_manager);
   g_clear_object (&priv->feedback_manager);
   g_clear_object (&priv->notify_manager);
@@ -847,6 +854,34 @@ phosh_shell_get_feedback_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_FEEDBACK_MANAGER (priv->feedback_manager), NULL);
 
   return priv->feedback_manager;
+}
+
+
+PhoshWWan *
+phosh_shell_get_wwan (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->wwan) {
+    g_autoptr (GSettings) settings = g_settings_new ("sm.puri.phosh");
+    PhoshWWanBackend backend = g_settings_get_enum (settings, WWAN_BACKEND_KEY);
+
+    switch (backend) {
+      default:
+      case PHOSH_WWAN_BACKEND_MM:
+        priv->wwan = PHOSH_WWAN (phosh_wwan_mm_new());
+        break;
+      case PHOSH_WWAN_BACKEND_OFONO:
+        priv->wwan = PHOSH_WWAN (phosh_wwan_ofono_new());
+        break;
+    }
+  }
+
+  g_return_val_if_fail (PHOSH_IS_WWAN (priv->wwan), NULL);
+  return priv->wwan;
 }
 
 

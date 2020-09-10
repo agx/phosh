@@ -19,7 +19,7 @@ phosh_enum_headers = [
   'notifications/notification.h',
   'notifications/notify-manager.h',
   'app-grid-button.h'
-]
+] + schema_enum_headers
 
 phosh_enums = gnome.mkenums('phosh-enums',
   h_template: 'phosh-enums.h.in',

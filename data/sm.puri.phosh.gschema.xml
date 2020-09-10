@@ -13,5 +13,14 @@
         displayed in the favorites panel along with running applications.
       </description>
     </key>
+    <key name="wwan-backend" enum="sm.puri.phosh.PhoshWWanBackend">
+      <default>'modemmanager'</default>
+      <summary>Which backend to use for interfacing with the cellular modem</summary>
+      <description>
+        The available backends are 'modemmanager' for ModemManager (the default)
+        and 'ofono' for oFono. This setting is only read when Phosh starts, so a
+        shell restart is required after changing it.
+      </description>
+    </key>
   </schema>
 </schemalist>

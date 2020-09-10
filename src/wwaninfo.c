@@ -13,7 +13,7 @@
 #include "config.h"
 #include "wwaninfo.h"
 
-#include "wwan/phosh-wwan-mm.h"
+#include "shell.h"
 
 /**
  * SECTION:wwaninfo
@@ -194,7 +194,7 @@ phosh_wwan_info_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_wwan_info_parent_class)->constructed (object);
 
-  self->wwan = PHOSH_WWAN (phosh_wwan_mm_new());
+  self->wwan = g_object_ref (phosh_shell_get_wwan (phosh_shell_get_default ()));
 
   for (int i = 0; i < g_strv_length(signals); i++) {
     g_signal_connect_swapped (self->wwan, signals[i],
