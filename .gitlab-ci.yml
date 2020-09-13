@@ -45,7 +45,7 @@ variables:
     CI_REPO: "deb http://ci.puri.sm/ scratch librem5"
     DIST: buster
     DEPS: phoc wget gnome-session gdb weston valgrind
-          libhandy-0.0-0-dbgsym libgtk-3-0-dbgsym libglib2.0-0-dbgsym
+          libhandy-1-0-dbgsym libgtk-3-0-dbgsym libglib2.0-0-dbgsym
           dconf-gsettings-backend-dbgsym libfeedback-0.0-0-dbgsym
           xvfb imagemagick
     WANT_BUILD_DEPS: "false"
