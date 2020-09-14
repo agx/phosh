@@ -21,5 +21,11 @@
       <foaf:mbox rdf:resource="mailto:agx@sigxcpu.org" />
     </foaf:Person>
   </maintainer>
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Zander Brown</foaf:name>
+      <foaf:mbox rdf:resource="mailto:zbrown@gnome.org" />
+    </foaf:Person>
+  </maintainer>
 </Project>
 
