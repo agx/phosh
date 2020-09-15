@@ -203,7 +203,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   g_debug ("Building activator for '%s' (%s)", app_id, title);
   activity = phosh_activity_new (app_id, title);
   g_object_set (activity,
-                "win-width", monitor->width / monitor->scale,  // TODO: Get the real size somehow
+                "win-width", monitor->width / monitor->scale,  /* TODO: Get the real size somehow */
                 "win-height", monitor->height / monitor->scale,
                 "maximized", phosh_toplevel_is_maximized (toplevel),
                 NULL);

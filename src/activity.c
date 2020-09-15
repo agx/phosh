@@ -184,9 +184,11 @@ draw_cb (PhoshActivity *self, cairo_t *cairo, GtkDrawingArea *area)
   if (height / (float)image_height < scale)
     scale = height / (float)image_height;
 
-  // If the window is maximized, draw it from the top with a grayish background;
-  // otherwise center it on transparent background - a poor man's way to take
-  // exclusive areas like virtual keyboard into account.
+  /*
+   * If the window is maximized, draw it from the top with a grayish background;
+   * otherwise center it on transparent background - a poor man's way to take
+   * exclusive areas like virtual keyboard into account.
+   */
 
   if (priv->maximized)
     cairo_set_source_rgba (cairo, 0.1, 0.1, 0.1, 1.0);

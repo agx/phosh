@@ -172,7 +172,7 @@ activate_cb (PhoshAppGridButton *self)
 
   g_debug ("Launching %s", app_id);
 
-  // strip ".desktop" suffix
+  /* strip ".desktop" suffix */
   if (app_id && g_str_has_suffix (app_id, ".desktop")) {
     *(app_id + strlen (app_id) - strlen (".desktop")) = '\0';
   }
@@ -183,7 +183,7 @@ activate_cb (PhoshAppGridButton *self)
     g_autofree char *fixed_id = phosh_fix_app_id (window_id);
 
     if (g_strcmp0 (app_id, window_id) == 0 || g_strcmp0 (app_id, fixed_id) == 0) {
-      // activate the first matching window for now, since we don't have toplevels sorted by last-focus yet
+      /* activate the first matching window for now, since we don't have toplevels sorted by last-focus yet */
       phosh_toplevel_activate (toplevel, phosh_wayland_get_wl_seat (phosh_wayland_get_default ()));
       g_signal_emit (self, signals[APP_LAUNCHED], 0, priv->info);
       return;

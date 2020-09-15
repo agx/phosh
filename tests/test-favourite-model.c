@@ -56,12 +56,12 @@ test_phosh_favorite_list_model_get_length (void)
 
   g_settings_set_strv (settings, "favorites", items_missing);
 
-  // Should have skipped the non existant item, thus still not items
+  /* Should have skipped the non existant item, thus still not items */
   g_assert_cmpint (g_list_model_get_n_items (G_LIST_MODEL (model)), ==, 0);
 
   g_settings_set_strv (settings, "favorites", items);
 
-  // Should have skipped the non existant item, thus still not items
+  /* Should have skipped the non existant item, thus still not items */
   g_assert_cmpint (g_list_model_get_n_items (G_LIST_MODEL (model)), ==, 1);
 }
 
@@ -150,7 +150,7 @@ test_phosh_favorite_list_model_remove (void)
 
   info_desktop = G_APP_INFO (g_desktop_app_info_new ("demo.app.First.desktop"));
 
-  // Add an app so we can remove it
+  /* Add an app so we can remove it */
   phosh_favorite_list_model_add_app (model, info_desktop);
 
   g_assert_cmpint (g_list_model_get_n_items (G_LIST_MODEL (model)), ==, 1);
@@ -196,7 +196,7 @@ test_phosh_favorite_list_model_is_favorite (void)
 
   info_desktop = G_APP_INFO (g_desktop_app_info_new ("demo.app.First.desktop"));
 
-  // Add an app so we can remove it
+  /* Add an app so we can remove it */
   phosh_favorite_list_model_add_app (model, info_desktop);
 
   g_assert_true (phosh_favorite_list_model_app_is_favorite (model, info_desktop));

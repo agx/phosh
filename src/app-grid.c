@@ -170,7 +170,7 @@ favorites_changed (GListModel   *list,
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
-  // We don't show favorites in the main list, filter them out
+  /* We don't show favorites in the main list, filter them out */
   gtk_filter_list_model_refilter (priv->model);
 }
 
@@ -312,14 +312,14 @@ search_activated (GtkSearchEntry *entry,
   if (!gtk_widget_has_focus (GTK_WIDGET (entry)))
     return;
 
-  // Don't activate when there isn't an active search
+  /* Don't activate when there isn't an active search */
   if (!priv->search_string || *priv->search_string == '\0') {
     return;
   }
 
   child = gtk_flow_box_get_child_at_index (GTK_FLOW_BOX (priv->apps), 0);
 
-  // No results
+  /* No results */
   if (child == NULL) {
     return;
   }

@@ -227,7 +227,7 @@ parse_icon_data (GVariant *variant)
       return NULL;
     }
 
-    // Extract a copy of the raw data
+    /* Extract a copy of the raw data */
     data = (guchar *) g_memdup (g_variant_get_data (wrapped_data),
                                 size_should_be);
 

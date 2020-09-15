@@ -193,7 +193,7 @@ actioned (PhoshNotification *noti,
 }
 
 
-// g_strv_equal from GLib 2.60
+/* g_strv_equal from GLib 2.60 */
 static gboolean
 strv_equal (const char *const *strv1,
             const char *const *strv2)
@@ -379,10 +379,10 @@ test_phosh_notification_expires (void)
 
   g_assert_true (did_expire);
 
-  // Set it to expire in the future
+  /* Set it to expire in the future */
   phosh_notification_expires (noti, 100000);
 
-  // Kill the object taking the timeout with it
+  /* Kill the object taking the timeout with it */
   g_clear_object (&noti);
 }
 
@@ -408,10 +408,10 @@ test_phosh_notification_close (void)
                                  NULL,
                                  now);
 
-  // Set it to expire in the future
+  /* Set it to expire in the future */
   phosh_notification_expires (noti, 1000);
 
-  // Send a close event, kills any timeout
+  /* Send a close event, kills any timeout */
   phosh_notification_close (noti, PHOSH_NOTIFICATION_REASON_CLOSED);
 }
 

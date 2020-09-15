@@ -15,12 +15,12 @@
 
 typedef struct _PhoshFavoriteListModelPrivate PhoshFavoriteListModelPrivate;
 struct _PhoshFavoriteListModelPrivate {
-  // The complete list as stored in @settings
+  /* The complete list as stored in @settings */
   GStrv items_inc_missing;
 
-  // The sanitised list
+  /* The sanitised list */
   GStrv items;
-  // Cached length of @items
+  /* Cached length of @items */
   guint len;
 
   GSettings *settings;
@@ -101,13 +101,13 @@ favorites_changed (GSettings              *settings,
   int new_length = 0;
   int i = 0;
 
-  // Clear the old items
+  /* Clear the old items */
   removed = priv->len;
 
   g_clear_pointer (&priv->items_inc_missing, g_strfreev);
   g_clear_pointer (&priv->items, g_strfreev);
 
-  // Get the new list
+  /* Get the new list */
   priv->items_inc_missing = g_settings_get_strv (settings, key);
   new_length = g_strv_length (priv->items_inc_missing);
 
@@ -116,7 +116,7 @@ favorites_changed (GSettings              *settings,
   while (priv->items_inc_missing[i]) {
     g_autoptr (GDesktopAppInfo) info = NULL;
 
-    // We don't actually care about this value, just that it isn't NULL
+    /* We don't actually care about this value, just that it isn't NULL */
     info = g_desktop_app_info_new (priv->items_inc_missing[i]);
 
     if (G_LIKELY (info != NULL)) {
@@ -224,7 +224,7 @@ phosh_favorite_list_model_add_app (PhoshFavoriteListModel *self,
   new_favorites = g_new0 (char *, old_length + 2);
 
   for (int i = 0; i < old_length; i++) {
-    // Avoid having the same favorite twice
+    /* Avoid having the same favorite twice */
     if (G_UNLIKELY (g_strcmp0 (priv->items_inc_missing[i], id) == 0)) {
       g_warning ("%s is already a favorite", id);
 
@@ -232,11 +232,11 @@ phosh_favorite_list_model_add_app (PhoshFavoriteListModel *self,
     }
     new_favorites[i] = g_strdup (priv->items_inc_missing[i]);
   }
-  // Add the new id
+  /* Add the new id */
   new_favorites[old_length] = g_strdup (id);
   new_favorites[old_length + 1] = NULL;
 
-  // Indirectly calls favorites_changed which updates the model
+  /* Indirectly calls favorites_changed which updates the model */
   g_settings_set_strv (priv->settings,
                        FAVORITES_KEY,
                        (const char *const *) new_favorites);
@@ -269,7 +269,7 @@ phosh_favorite_list_model_remove_app (PhoshFavoriteListModel *self,
   new_favorites = g_new (char *, old_length + 1);
 
   while (priv->items_inc_missing[old_idx]) {
-    // Skip over the favorite being removed
+    /* Skip over the favorite being removed */
     if (G_LIKELY (g_strcmp0 (priv->items_inc_missing[old_idx], id) != 0)) {
       new_favorites[new_idx] = g_strdup (priv->items_inc_missing[old_idx]);
       new_idx++;
@@ -278,14 +278,14 @@ phosh_favorite_list_model_remove_app (PhoshFavoriteListModel *self,
   }
   new_favorites[new_idx] = NULL;
 
-  // If we actually removed id then old_idx should be ahead of new_idx
+  /* If we actually removed id then old_idx should be ahead of new_idx */
   if (G_UNLIKELY (old_idx <= new_idx)) {
     g_warning ("%s wasn't a favorite", id);
 
     return;
   }
 
-  // Indirectly calls favorites_changed which updates the model
+  /* Indirectly calls favorites_changed which updates the model */
   g_settings_set_strv (priv->settings,
                        FAVORITES_KEY,
                        (const char *const *) new_favorites);

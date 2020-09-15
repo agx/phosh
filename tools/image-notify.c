@@ -34,7 +34,7 @@ static GActionEntry entries[] = {
 static void
 activate (GApplication *app)
 {
-  // Do nothing
+  /* Do nothing */
 }
 
 

@@ -190,7 +190,7 @@ phosh_notification_finalize (GObject *object)
 {
   PhoshNotification *self = PHOSH_NOTIFICATION (object);
 
-  // If we've been dismissed cancel the auto timeout
+  /* If we've been dismissed cancel the auto timeout */
   if (self->timeout != 0) {
     g_source_remove (self->timeout);
   }
@@ -405,7 +405,7 @@ phosh_notification_new (guint                     id,
                        "body", body,
                        "app-name", app_name,
                        "app-icon", icon,
-                       // Set info after fallback name and icon
+                       /* Set info after fallback name and icon */
                        "app-info", info,
                        "image", image,
                        "urgency", urgency,
@@ -869,7 +869,7 @@ phosh_notification_close (PhoshNotification       *self,
 {
   g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
 
-  // No point running the timeout, we're already closing
+  /* No point running the timeout, we're already closing */
   if (self->timeout != 0) {
     g_source_remove (self->timeout);
     self->timeout = 0;

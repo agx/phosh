@@ -66,7 +66,7 @@ expired (PhoshNotification       *notification,
 
   clear_handler (self);
 
-  // Close the banner
+  /* Close the banner */
   gtk_widget_destroy (GTK_WIDGET (self));
 }
 
@@ -81,7 +81,7 @@ closed (PhoshNotification       *notification,
 
   clear_handler (self);
 
-  // Close the banner
+  /* Close the banner */
   gtk_widget_destroy (GTK_WIDGET (self));
 }
 

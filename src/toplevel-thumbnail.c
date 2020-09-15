@@ -64,7 +64,7 @@ anonymous_shm_open (void)
   do {
     randname (name + strlen (name) - 6);
     --retries;
-    // shm_open guarantees that O_CLOEXEC is set
+    /* shm_open guarantees that O_CLOEXEC is set */
     fd = shm_open (name, O_RDWR | O_CREAT | O_EXCL, 0600);
     if (fd >= 0) {
       shm_unlink (name);

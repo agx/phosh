@@ -120,7 +120,7 @@ set_actions (PhoshNotification        *notification,
     GtkWidget *btn;
     GtkWidget *lbl;
 
-    // The default action is already trigged by the notification body
+    /* The default action is already trigged by the notification body */
     if (g_strcmp0 (actions[i], "default") == 0) {
       continue;
     }
@@ -155,7 +155,7 @@ phosh_notification_content_set_notification (PhoshNotificationContent *self,
 {
   g_set_object (&self->notification, notification);
 
-  // Use the "transform" function to show/hide when set/unset
+  /* Use the "transform" function to show/hide when set/unset */
   g_object_bind_property_full (self->notification, "image",
                                self->img_image,    "gicon",
                                G_BINDING_SYNC_CREATE,

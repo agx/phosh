@@ -55,7 +55,7 @@ phosh_notification_frame_finalize (GObject *object)
 {
   PhoshNotificationFrame *self = PHOSH_NOTIFICATION_FRAME (object);
 
-  // Don't clear bindings, they're already unref'd before here
+  /* Don't clear bindings, they're already unref'd before here */
 
   phosh_clear_handler (&self->model_watch, self->model);
 
@@ -65,7 +65,7 @@ phosh_notification_frame_finalize (GObject *object)
 }
 
 
-// When the title row is clicked we proxy it to the first item
+/* When the title row is clicked we proxy it to the first item */
 static gboolean
 header_activated (PhoshNotificationFrame *self, GdkEventButton *event)
 {
@@ -169,12 +169,12 @@ items_changed (GListModel             *list,
 
   g_return_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self));
 
-  // Disconnect from the last notification (if any)
+  /* Disconnect from the last notification (if any) */
   g_clear_object (&self->bind_name);
   g_clear_object (&self->bind_icon);
   g_clear_object (&self->bind_timestamp);
 
-  // Get the latest notification in the model
+  /* Get the latest notification in the model */
   notification = g_list_model_get_item (self->model, 0);
 
   if (notification == NULL) {
@@ -186,7 +186,7 @@ items_changed (GListModel             *list,
     return;
   }
 
-  // Bind to the new one
+  /* Bind to the new one */
   self->bind_name = g_object_bind_property (notification,       "app-name",
                                             self->lbl_app_name, "label",
                                             G_BINDING_SYNC_CREATE);

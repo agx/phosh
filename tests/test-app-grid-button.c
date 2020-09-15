@@ -121,7 +121,7 @@ test_phosh_app_grid_button_set_mode (void)
                          "Invalid mode*");
   phosh_app_grid_button_set_mode (PHOSH_APP_GRID_BUTTON (btn),
                                   G_MAXINT);
-  // The mode shouldn't have actually changed
+  /* The mode shouldn't have actually changed */
   mode = phosh_app_grid_button_get_mode (PHOSH_APP_GRID_BUTTON (btn));
   g_assert_true (mode == PHOSH_APP_GRID_BUTTON_LAUNCHER);
 
@@ -156,9 +156,9 @@ test_phosh_app_grid_button_menu (void)
 
   btn = phosh_app_grid_button_new (info);
 
-  // Pretend someone pressed the menu button
+  /* Pretend someone pressed the menu button */
   GTK_WIDGET_GET_CLASS (btn)->popup_menu (btn);
-  // Ideally we would check the popover actually opened
+  /* Ideally we would check the popover actually opened */
 
   actions = gtk_widget_get_action_group (btn, "app-btn");
   g_action_group_activate_action (actions, "favorite-add", NULL);
@@ -189,7 +189,7 @@ test_phosh_app_grid_button_is_favorite (void)
 
   info = G_APP_INFO (g_desktop_app_info_new ("demo.app.Second.desktop"));
 
-  // Clear all favorites
+  /* Clear all favorites */
   settings = g_settings_new ("sm.puri.phosh");
   g_settings_set_strv (settings, "favorites", NULL);
 
