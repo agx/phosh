@@ -1,22 +1,24 @@
-# Serbian translations for phosh package.
-# Copyright (C) 2020 THE phosh'S COPYRIGHT HOLDER
+# Serbian translation for phosh.
+# Copyright (C) 2020 phosh's COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
 # nikp123 <pavlica.nikola@gmail.com>, 2020.
+# Марко М. Костић <marko.m.kostic@gmail.com>, 2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-30 09:07+0200\n"
-"PO-Revision-Date: 2020-08-03 11:00+0200\n"
-"Last-Translator: Nikola Pavlica <pavlica.nikola@gmail.com>\n"
-"Language-Team: Serbian <(nothing)>\n"
+"Project-Id-Version: phosh master\n"
+"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
+"POT-Creation-Date: 2020-09-15 15:30+0000\n"
+"PO-Revision-Date: 2020-09-15 22:35+0200\n"
+"Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
+"Language-Team: Serbian <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -25,11 +27,11 @@ msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr ""
+msgstr "Мобилна шкољка"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr ""
+msgstr "Управљање прозорима и покретање програма на мобилним уређајима"
 
 #: src/app-grid-button.c:530
 msgid "Application"
@@ -37,47 +39,49 @@ msgstr "Апликација"
 
 #: src/bt-info.c:89 src/feedbackinfo.c:48
 msgid "On"
-msgstr "Укључено"
+msgstr "Укљ."
 
 #: src/bt-info.c:91
 msgid "Bluetooth"
-msgstr "Bluetooth"
+msgstr "Блутут"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
 #: src/feedbackinfo.c:41
 msgid "Quiet"
-msgstr "Тихи режим"
+msgstr "Тихо"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
 #: src/feedbackinfo.c:46
 msgid "Silent"
-msgstr "Режим потпуне тишине"
+msgstr "Утишано"
 
 #: src/lockscreen.c:84 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
-msgstr "Унесите шифри"
+msgstr "Унеси код"
 
 #: src/lockscreen.c:263
 msgid "Checking…"
-msgstr "Провјеравање…"
+msgstr "Проверавам…"
 
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:341
 msgid "%A, %B %d"
-msgstr ""
+msgstr "%A, %d. %B"
 
-#: src/media-player.c:262
-msgid "Unknown title"
-msgstr "Непознати наслов"
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:263 src/ui/media-player.ui:107
+msgid "Unknown Title"
+msgstr "Непознат наслов"
 
-#: src/media-player.c:270
-msgid "Unknown artist"
-msgstr "Непознати аутор"
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:272 src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Непознат извођач"
 
 #: src/monitor-manager.c:58
 msgid "Built-in display"
@@ -86,83 +90,119 @@ msgstr "Уграђени екран"
 #. Translators: An unknown monitor type
 #: src/monitor-manager.c:62
 msgid "Unknown"
-msgstr "Не познати монитор"
+msgstr "Непознато"
 
 #: src/network-auth-prompt.c:184
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
-msgstr "Начин пријаве “%s” није подржан"
+msgstr "Тип пријављивања на бежичној мрежи „%s“ није подржан"
 
 #: src/network-auth-prompt.c:189
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr "Унесите шифру за Wi-Fi мрежу “%s”"
+msgstr "Унесите лозинку бежичне мреже „%s“"
 
 #: src/notifications/notification.c:382 src/notifications/notification.c:601
 msgid "Notification"
-msgstr "Обавјештење"
+msgstr "Обавештење"
 
-#: src/notifications/timestamp-label.c:83
-msgid "s"
-msgstr "сек."
-
+#. Translators: Timestamp seconds suffix
 #: src/notifications/timestamp-label.c:84
-#: src/notifications/timestamp-label.c:85
-msgid "m"
-msgstr "м."
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "с"
 
+#. Translators: Timestamp minute suffix
 #: src/notifications/timestamp-label.c:86
-#: src/notifications/timestamp-label.c:87
-msgid "h"
-msgstr "сат."
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "м"
 
+#. Translators: Timestamp minutes suffix
 #: src/notifications/timestamp-label.c:88
-#: src/notifications/timestamp-label.c:89
-msgid "d"
-msgstr "д."
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "м"
 
+#. Translators: Timestamp hour suffix
 #: src/notifications/timestamp-label.c:90
-msgid "mo"
-msgstr "мј."
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "ч"
 
-#: src/notifications/timestamp-label.c:91
-msgid "mos"
-msgstr ""
-
+#. Translators: Timestamp hours suffix
 #: src/notifications/timestamp-label.c:92
-#: src/notifications/timestamp-label.c:93
-msgid "y"
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "ч"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
 msgstr "д"
 
-#. Translators: this is the date in number only format
+#. Translators: Timestamp days suffix
 #: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "д"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "мес."
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "мес."
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "г"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "г"
+
+#. Translators: this is the date in (short) number only format
+#: src/notifications/timestamp-label.c:107
 msgid "%d.%m.%y"
 msgstr "%d.%m.%y"
 
-#: src/notifications/timestamp-label.c:186
+#. Translators: Timestamp prefix (e.g. Over 5h)
+#: src/notifications/timestamp-label.c:198
 msgid "Over"
-msgstr "Готово"
+msgstr "Више од"
 
-#: src/notifications/timestamp-label.c:190
+#. Translators: Timestamp prefix (e.g. Almost 5h)
+#: src/notifications/timestamp-label.c:203
 msgid "Almost"
-msgstr "Још мало"
+msgstr "Скоро "
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
-msgstr "Пријава отказана од стране корисника"
+msgstr "Корисник је одбацио прозорче за потврђивање идентитета"
 
 #: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
 #: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
 msgid "Password:"
-msgstr "Шифра:"
+msgstr "Лозинка:"
 
 #: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "Извињавамо се, то није успјело. Молимо Вас да покушате поново."
+msgstr "Нетачно. Покушајте поново."
 
 #: src/polkit-auth-prompt.c:488
 msgid "Authenticate"
-msgstr "Пријавите се"
+msgstr "Потврди идентитет"
 
 #: src/rotateinfo.c:46
 msgid "Portrait"
@@ -170,59 +210,51 @@ msgstr "Усправно"
 
 #: src/rotateinfo.c:49
 msgid "Landscape"
-msgstr "Водоравно"
+msgstr "Положено"
 
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
-msgstr "Унесене шифре нису исте."
+msgstr "Лозинке се не подударају."
 
 #: src/system-prompt.c:378
 msgid "Password cannot be blank"
-msgstr "Шифра не смије бити празна"
+msgstr "Лозинка не може бити празна"
 
 #: src/ui/app-grid-button.ui:49
 msgid "App"
-msgstr "Апликација"
+msgstr "Програм"
 
 #: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
-msgstr "Одузети из омиљених"
+msgstr "Уклони из о_миљених"
 
 #: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
-msgstr "Додати у омиљене"
+msgstr "Додај у о_миљено"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Потрагжити апликацију..."
+msgstr "Претражи апликације…"
 
 #: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
-msgstr "Повуците горе за откључавање"
+msgstr "Превуци нагоре за откључавање"
 
 #: src/ui/lockscreen.ui:280
 msgid "Emergency"
-msgstr "Вандредан позив"
+msgstr "Хитни позив"
 
 #: src/ui/lockscreen.ui:296
 msgid "Unlock"
-msgstr "Откључати"
-
-#: src/ui/media-player.ui:107
-msgid "Unknown Song"
-msgstr "Непозната пјесма"
-
-#: src/ui/media-player.ui:127
-msgid "Unknown Artist"
-msgstr "Непознати аутор"
+msgstr "Откључај"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
-msgstr "Отказати"
+msgstr "_Откажи"
 
 #: src/ui/network-auth-prompt.ui:106
 msgid "C_onnect"
-msgstr "Спојити се"
+msgstr "П_овежи се"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
@@ -230,28 +262,32 @@ msgstr "Корисник:"
 
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
-msgstr "Потврдити:"
+msgstr "Потврди:"
 
 #: src/ui/top-panel.ui:15
 msgid "Lock Screen"
-msgstr "Закључати екран"
+msgstr "Закључавање екрана"
 
 #: src/ui/top-panel.ui:22
 msgid "Logout"
-msgstr "Излоговати"
+msgstr "Одјава"
 
 #: src/ui/top-panel.ui:29
 msgid "Restart"
-msgstr "Поново покренути"
+msgstr "Поново покрени"
 
 #: src/ui/top-panel.ui:36
 msgid "Power Off"
-msgstr "Искључити"
+msgstr "Искључивање"
 
 #: src/wifiinfo.c:88
 msgid "Wi-Fi"
-msgstr "Wi-Fi"
+msgstr "Бежична"
 
-#: src/wwaninfo.c:167
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:168
 msgid "Cellular"
-msgstr "Телефонска мрежа"
+msgstr "Мобилна"
+
+#~ msgid "Suspend"
+#~ msgstr "Обустави"
