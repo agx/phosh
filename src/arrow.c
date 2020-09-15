@@ -47,7 +47,7 @@ interpolate_progress (double t)
   return 0.5;
 }
 
-// GtkWidget
+/* GtkWidget */
 
 static gboolean
 phosh_arrow_draw (GtkWidget *widget,

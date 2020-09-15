@@ -25,7 +25,7 @@
  * The #PhoshActivity is used to select a running application in the overview.
  */
 
-// Icons actually sized according to the pixel-size set in the template
+/* Icons actually sized according to the pixel-size set in the template */
 #define ACTIVITY_ICON_SIZE -1
 
 enum {

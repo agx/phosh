@@ -505,16 +505,18 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
 
       actions = g_desktop_app_info_list_actions (G_DESKTOP_APP_INFO (priv->info));
 
-      // So the dummy GAppInfo for the tests is (for reasons known only to gio)
-      // actually a GDesktopAppInfo rather than something like GDummyAppInfo,
-      // this means that guarding this block with G_IS_DESKTOP_APP_INFO
-      // doesn't actually help much. This seems to surprise even gio as instead
-      // of always returning at least an empty array (as the API promises) it
-      // returns NULL
-      //
-      // tl;dr: we do (actions && actions[i]) instead of (actions[i]) otherwise
-      //        the tests explode because of a condition that can only exist in
-      //        the tests
+      /*
+       * So the dummy GAppInfo for the tests is (for reasons known only to gio)
+       * actually a GDesktopAppInfo rather than something like GDummyAppInfo,
+       * this means that guarding this block with G_IS_DESKTOP_APP_INFO
+       * doesn't actually help much. This seems to surprise even gio as instead
+       * of always returning at least an empty array (as the API promises) it
+       * returns NULL
+       *
+       * tl;dr: we do (actions && actions[i]) instead of (actions[i]) otherwise
+       *        the tests explode because of a condition that can only exist in
+       *        the tests
+       */
 
       while (actions && actions[i]) {
         g_autofree char *detailed_action = NULL;
