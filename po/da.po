@@ -1,11 +1,14 @@
+# Danish translation for phosh.
+# Copyright (C) 2020 phosh's COPYRIGHT HOLDER
+# This file is distributed under the same license as the phosh package.
 # Simon Jespersen <mail@simonjespersen.dk>, 2018-2019. #zanata
 # scootergrisen, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-07-02 03:37+0000\n"
-"PO-Revision-Date: 2020-07-08 14:34+0200\n"
+"POT-Creation-Date: 2020-08-14 15:29+0000\n"
+"PO-Revision-Date: 2020-09-15 00:00+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -31,6 +34,14 @@ msgstr "Vindueshåndtering og programstarter til mobiltelefon"
 msgid "Application"
 msgstr "Program"
 
+#: src/bt-info.c:89 src/feedbackinfo.c:48
+msgid "On"
+msgstr "Til"
+
+#: src/bt-info.c:91
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
@@ -45,32 +56,29 @@ msgstr "Stille"
 msgid "Silent"
 msgstr "Lydløs"
 
-#: src/feedbackinfo.c:48
-msgid "On"
-msgstr "Til"
-
-#: src/lockscreen.c:82 src/ui/lockscreen.ui:217
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr "Indtast adgangskode"
 
-#: src/lockscreen.c:261
+#: src/lockscreen.c:263
 msgid "Checking…"
 msgstr "Tjekker …"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:339
+#: src/lockscreen.c:341
 msgid "%A, %B %d"
 msgstr "%A %d. %B"
 
-#: src/media-player.c:262
-#| msgid "Unknown"
-msgid "Unknown title"
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:263 src/ui/media-player.ui:107
+#| msgid "Unknown title"
+msgid "Unknown Title"
 msgstr "Ukendt titel"
 
-#: src/media-player.c:270
-#| msgid "Unknown"
-msgid "Unknown artist"
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:272 src/ui/media-player.ui:127
+msgid "Unknown Artist"
 msgstr "Ukendt kunstner"
 
 #: src/monitor-manager.c:58
@@ -92,10 +100,90 @@ msgstr "Godkendelsestypen for wifi-netværket “%s” understøttes ikke"
 msgid "Enter password for the wifi network “%s”"
 msgstr "Indtast adgangskode til wifi-netværket “%s”"
 
-#: src/notifications/notification.c:365 src/notifications/notification.c:581
-#| msgid "Application"
+#: src/notifications/notification.c:382 src/notifications/notification.c:601
 msgid "Notification"
 msgstr "Underretning"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "s"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "t"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "t"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "d"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "d"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "må"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "må"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "å"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "å"
+
+#. Translators: this is the date in (short) number only format
+#: src/notifications/timestamp-label.c:107
+msgid "%d.%m.%y"
+msgstr "%d.%m.%y"
+
+#. Translators: Timestamp prefix (e.g. Over 5h)
+#: src/notifications/timestamp-label.c:198
+msgid "Over"
+msgstr "Over"
+
+#. Translators: Timestamp prefix (e.g. Almost 5h)
+#: src/notifications/timestamp-label.c:203
+msgid "Almost"
+msgstr "Næsten"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -130,15 +218,15 @@ msgstr "Adgangskoderne er ikke ens."
 msgid "Password cannot be blank"
 msgstr "Adgangskoden må ikke være tom"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:49
 msgid "App"
 msgstr "Program"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
 msgstr "Fjern fra _favoritter"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
 msgstr "Tilføj til _favoritter"
 
@@ -150,23 +238,13 @@ msgstr "Søger efter programmer …"
 msgid "Slide up to unlock"
 msgstr "Skub op for at låse op"
 
-#: src/ui/lockscreen.ui:263
+#: src/ui/lockscreen.ui:280
 msgid "Emergency"
 msgstr "Nødopkald"
 
-#: src/ui/lockscreen.ui:279
+#: src/ui/lockscreen.ui:296
 msgid "Unlock"
 msgstr "Lås op"
-
-#: src/ui/media-player.ui:107
-#| msgid "Unknown"
-msgid "Unknown Song"
-msgstr "Ukendt sang"
-
-#: src/ui/media-player.ui:127
-#| msgid "Unknown"
-msgid "Unknown Artist"
-msgstr "Ukendt kunstner"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
@@ -182,7 +260,7 @@ msgstr "Bruger:"
 
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
-msgstr "Bekræft: "
+msgstr "Bekræft:"
 
 #: src/ui/top-panel.ui:15
 msgid "Lock Screen"
@@ -193,9 +271,18 @@ msgid "Logout"
 msgstr "Log ud"
 
 #: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Genstart"
+
+#: src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Sluk"
 
 #: src/wifiinfo.c:88
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:168
+msgid "Cellular"
+msgstr "Mobil"
