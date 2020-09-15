@@ -39,10 +39,10 @@ static double
 interpolate_progress (double t)
 {
   if (t < 1.0 / 3.0)
-    return sin (t * 1.5 * M_PI) / 2.0;
+    return sin (t * 1.5 * G_PI) / 2.0;
 
   if (t > 2.0 / 3.0)
-    return cos (t * 1.5 * M_PI) / 2.0 + 1;
+    return cos (t * 1.5 * G_PI) / 2.0 + 1;
 
   return 0.5;
 }
@@ -61,7 +61,7 @@ phosh_arrow_draw (GtkWidget *widget,
 
   progress = interpolate_progress (self->progress);
 
-  angle = (0.5 - progress) * M_PI / 2.5;
+  angle = (0.5 - progress) * G_PI / 2.5;
 
   center_x = gtk_widget_get_allocated_width (widget) / 2.0;
   center_y = (gtk_widget_get_allocated_height (widget) / 2.0 - 0.5) * (0.5 + progress);
