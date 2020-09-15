@@ -35,6 +35,7 @@ static guint signals[N_SIGNALS] = { 0 };
 
 G_DEFINE_TYPE (PhoshMonitor, phosh_monitor, G_TYPE_OBJECT)
 
+
 static void
 output_handle_geometry (void             *data,
                         struct wl_output *wl_output,
@@ -171,6 +172,7 @@ xdg_output_v1_handle_logical_size (void *data,
 
 }
 
+
 static void
 xdg_output_v1_handle_done (void *data,
                            struct zxdg_output_v1 *zxdg_output_v1)
@@ -232,6 +234,7 @@ static const struct zxdg_output_v1_listener xdg_output_v1_listener =
   xdg_output_v1_handle_description,
 };
 
+
 static void
 wlr_output_power_handle_mode(void *data,
                              struct zwlr_output_power_v1 *output_power,
@@ -259,6 +262,7 @@ wlr_output_power_handle_mode(void *data,
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_MONITOR_PROP_POWER_MODE]);
 }
 
+
 static void
 wlr_output_power_handle_failed(void *data,
                                struct zwlr_output_power_v1 *output_power)
@@ -268,6 +272,7 @@ wlr_output_power_handle_failed(void *data,
   g_return_if_fail (PHOSH_IS_MONITOR (self));
   g_warning("Failed to set output power mode for %s\n", self->name);
 }
+
 
 static const struct zwlr_output_power_v1_listener wlr_output_power_listener_v1 = {
 	.mode = wlr_output_power_handle_mode,
@@ -428,6 +433,7 @@ phosh_monitor_get_current_mode (PhoshMonitor *self)
   return &g_array_index (self->modes, PhoshMonitorMode, self->current_mode);
 }
 
+
 /**
  * phosh_monitor_is_configured:
  * @self: A #PhoshMonitor
@@ -441,6 +447,7 @@ phosh_monitor_is_configured (PhoshMonitor *self)
   g_return_val_if_fail (PHOSH_IS_MONITOR (self), FALSE);
   return self->wl_output_done && self->xdg_output_done;
 }
+
 
 /**
  * phosh_monitor_is_builtin:
@@ -531,6 +538,7 @@ phosh_monitor_get_rotation (PhoshMonitor *self)
       g_assert_not_reached ();
     }
 }
+
 
 /**
  * phosh_monitor_set_power_save_mode:

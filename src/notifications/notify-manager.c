@@ -245,6 +245,7 @@ parse_icon_data (GVariant *variant)
   return icon;
 }
 
+
 static GIcon *
 parse_icon_string (const char *string)
 {
@@ -267,6 +268,7 @@ parse_icon_string (const char *string)
 
   return icon;
 }
+
 
 static gboolean
 handle_notify (PhoshNotifyDbusNotifications *skeleton,

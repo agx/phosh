@@ -400,6 +400,7 @@ get_settings (PhoshBackground *self)
   color_from_string (&self->color, color);
 }
 
+
 static void
 on_background_setting_changed (PhoshBackground *self,
                                const char      *key,

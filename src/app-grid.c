@@ -62,12 +62,14 @@ sort_apps (gconstpointer a,
   return g_strcmp0 (s1, s2);
 }
 
+
 static const char *(*app_attr[]) (GAppInfo *info) = {
   g_app_info_get_display_name,
   g_app_info_get_name,
   g_app_info_get_description,
   g_app_info_get_executable,
 };
+
 
 static const char *(*desktop_attr[]) (GDesktopAppInfo *info) = {
   g_desktop_app_info_get_generic_name,
@@ -285,6 +287,7 @@ search_changed (GtkSearchEntry *entry,
 
   do_search (self);
 }
+
 
 static void
 search_preedit_changed (GtkSearchEntry *entry,

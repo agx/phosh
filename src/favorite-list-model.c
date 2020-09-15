@@ -32,6 +32,7 @@ G_DEFINE_TYPE_WITH_CODE (PhoshFavoriteListModel, phosh_favorite_list_model, G_TY
                          G_ADD_PRIVATE (PhoshFavoriteListModel)
                          G_IMPLEMENT_INTERFACE (G_TYPE_LIST_MODEL, list_iface_init))
 
+
 static void
 phosh_favorite_list_model_finalize (GObject *object)
 {
@@ -46,6 +47,7 @@ phosh_favorite_list_model_finalize (GObject *object)
   G_OBJECT_CLASS (phosh_favorite_list_model_parent_class)->finalize (object);
 }
 
+
 static void
 phosh_favorite_list_model_class_init (PhoshFavoriteListModelClass *klass)
 {
@@ -54,11 +56,13 @@ phosh_favorite_list_model_class_init (PhoshFavoriteListModelClass *klass)
   gobject_class->finalize = phosh_favorite_list_model_finalize;
 }
 
+
 static GType
 list_get_item_type (GListModel *list)
 {
   return G_TYPE_APP_INFO;
 }
+
 
 static gpointer
 list_get_item (GListModel *list, guint position)
@@ -73,6 +77,7 @@ list_get_item (GListModel *list, guint position)
   return g_desktop_app_info_new (priv->items[position]);
 }
 
+
 static unsigned int
 list_get_n_items (GListModel *list)
 {
@@ -82,6 +87,7 @@ list_get_n_items (GListModel *list)
   return priv->len;
 }
 
+
 static void
 list_iface_init (GListModelInterface *iface)
 {
@@ -89,6 +95,7 @@ list_iface_init (GListModelInterface *iface)
   iface->get_item = list_get_item;
   iface->get_n_items = list_get_n_items;
 }
+
 
 static void
 favorites_changed (GSettings              *settings,
@@ -151,6 +158,7 @@ phosh_favorite_list_model_init (PhoshFavoriteListModel *self)
   favorites_changed (priv->settings, FAVORITES_KEY, self);
 }
 
+
 /**
  * phosh_favorite_list_model_get_default:
  *
@@ -168,6 +176,7 @@ phosh_favorite_list_model_get_default (void)
 
   return instance;
 }
+
 
 /**
  * phosh_favorite_list_model_app_is_favorite:
@@ -198,6 +207,7 @@ phosh_favorite_list_model_app_is_favorite (PhoshFavoriteListModel *self,
 
   return FALSE;
 }
+
 
 void
 phosh_favorite_list_model_add_app (PhoshFavoriteListModel *self,
@@ -241,6 +251,7 @@ phosh_favorite_list_model_add_app (PhoshFavoriteListModel *self,
                        FAVORITES_KEY,
                        (const char *const *) new_favorites);
 }
+
 
 void
 phosh_favorite_list_model_remove_app (PhoshFavoriteListModel *self,

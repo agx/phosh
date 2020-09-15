@@ -357,6 +357,7 @@ phosh_activity_get_preferred_height_for_width (GtkWidget *widget,
   phosh_activity_get_preferred_height (widget, min, nat);
 }
 
+
 static void
 phosh_activity_class_init (PhoshActivityClass *klass)
 {

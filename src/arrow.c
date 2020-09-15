@@ -35,6 +35,7 @@ enum {
 
 static GParamSpec *properties [N_PROPS];
 
+
 static double
 interpolate_progress (double t)
 {
@@ -47,7 +48,9 @@ interpolate_progress (double t)
   return 0.5;
 }
 
+
 /* GtkWidget */
+
 
 static gboolean
 phosh_arrow_draw (GtkWidget *widget,

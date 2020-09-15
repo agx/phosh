@@ -227,6 +227,7 @@ network_prompt_cancel_clicked_cb (PhoshNetworkAuthPrompt *self)
   emit_done (self, TRUE);
 }
 
+
 static void
 network_prompt_connect_clicked_cb (PhoshNetworkAuthPrompt *self)
 {
@@ -276,6 +277,7 @@ network_prompt_draw_cb (GtkWidget *widget,
   return FALSE;
 }
 
+
 static gboolean
 network_prompt_key_press_event_cb (PhoshNetworkAuthPrompt *self,
                                    GdkEventKey            *event)
@@ -313,6 +315,7 @@ network_prompt_wpa_password_changed_cb (PhoshNetworkAuthPrompt *self)
   gtk_widget_set_sensitive (self->connect_button, valid);
 }
 
+
 static void
 network_prompt_icon_press_cb (PhoshNetworkAuthPrompt *self,
                               GtkEntryIconPosition    icon_pos,
@@ -333,6 +336,7 @@ network_prompt_icon_press_cb (PhoshNetworkAuthPrompt *self,
   gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY,
                                      icon_name);
 }
+
 
 static void
 phosh_network_auth_prompt_class_init (PhoshNetworkAuthPromptClass *klass)

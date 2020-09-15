@@ -84,6 +84,7 @@ typedef struct _PhoshMediaPlayer {
 
 G_DEFINE_TYPE (PhoshMediaPlayer, phosh_media_player, GTK_TYPE_GRID);
 
+
 static void
 phosh_media_player_get_property (GObject    *object,
                                  guint       property_id,
@@ -105,6 +106,7 @@ phosh_media_player_get_property (GObject    *object,
   }
 }
 
+
 static void
 set_playable (PhoshMediaPlayer *self, gboolean playable)
 {
@@ -115,6 +117,7 @@ set_playable (PhoshMediaPlayer *self, gboolean playable)
   g_debug ("Playable: %d", playable);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PLAYABLE]);
 }
+
 
 static void
 set_attached (PhoshMediaPlayer *self, gboolean attached)
@@ -127,6 +130,7 @@ set_attached (PhoshMediaPlayer *self, gboolean attached)
     set_playable (self, FALSE);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ATTACHED]);
 }
+
 
 static void
 on_play_pause_done (PhoshMprisDBusMediaPlayer2Player *player,
@@ -143,6 +147,7 @@ on_play_pause_done (PhoshMprisDBusMediaPlayer2Player *player,
   }
 }
 
+
 static void
 btn_play_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
 {
@@ -156,6 +161,7 @@ btn_play_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
                                                          self);
 }
 
+
 static void
 on_next_done (PhoshMprisDBusMediaPlayer2Player *player, GAsyncResult *res, PhoshMediaPlayer *self)
 {
@@ -167,6 +173,7 @@ on_next_done (PhoshMprisDBusMediaPlayer2Player *player, GAsyncResult *res, Phosh
   if (!phosh_mpris_dbus_media_player2_player_call_next_finish (player, res, &err))
     g_warning ("Failed to trigger next: %s", err->message);
 }
+
 
 static void
 btn_next_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
@@ -181,6 +188,7 @@ btn_next_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
                                                    self);
 }
 
+
 static void
 on_previous_done (PhoshMprisDBusMediaPlayer2Player *player, GAsyncResult *res, PhoshMediaPlayer *self)
 {
@@ -192,6 +200,7 @@ on_previous_done (PhoshMprisDBusMediaPlayer2Player *player, GAsyncResult *res, P
   if (!phosh_mpris_dbus_media_player2_player_call_previous_finish (player, res, &err))
     g_warning ("Failed to trigger prev: %s", err->message);
 }
+
 
 static void
 btn_prev_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
@@ -205,6 +214,7 @@ btn_prev_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
                                                        (GAsyncReadyCallback)on_previous_done,
                                                        self);
 }
+
 
 static void
 on_raise_done (PhoshMprisDBusMediaPlayer2 *mpris, GAsyncResult *res, PhoshMediaPlayer *self)
@@ -222,6 +232,7 @@ on_raise_done (PhoshMprisDBusMediaPlayer2 *mpris, GAsyncResult *res, PhoshMediaP
   g_signal_emit (self, signals[PLAYER_RAISED], 0);
 }
 
+
 static void
 btn_details_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
 {
@@ -238,6 +249,7 @@ btn_details_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
                                              (GAsyncReadyCallback)on_raise_done,
                                              self);
 }
+
 
 static void
 on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMediaPlayer2Player *player)
@@ -287,6 +299,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
                                   GTK_ICON_SIZE_DIALOG);
   }
 }
+
 
 static void
 on_playback_status_changed (PhoshMediaPlayer                 *self,
@@ -343,6 +356,7 @@ on_can_go_next_changed (PhoshMediaPlayer                 *self,
   gtk_widget_set_sensitive (self->btn_next, sensitive);
 }
 
+
 static void
 on_can_go_previous_changed (PhoshMediaPlayer                 *self,
                             GParamSpec                       *psepc,
@@ -356,6 +370,7 @@ on_can_go_previous_changed (PhoshMediaPlayer                 *self,
   gtk_widget_set_sensitive (self->btn_prev, sensitive);
 }
 
+
 static void
 on_can_play (PhoshMediaPlayer                 *self,
              GParamSpec                       *psepc,
@@ -368,6 +383,7 @@ on_can_play (PhoshMediaPlayer                 *self,
   g_debug ("Can play: %d", sensitive);
   gtk_widget_set_sensitive (self->btn_play, sensitive);
 }
+
 
 static void
 phosh_media_player_dispose (GObject *object)
@@ -453,6 +469,7 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, btn_details_clicked_cb);
 }
 
+
 static void
 attach_player_cb (GObject          *source_object,
                   GAsyncResult     *res,
@@ -501,6 +518,7 @@ out:
   g_object_unref (self);
 }
 
+
 static void
 attach_mpris_cb (GObject          *source_object,
                  GAsyncResult     *res,
@@ -523,6 +541,7 @@ attach_mpris_cb (GObject          *source_object,
 
   g_object_unref (self);
 }
+
 
 static void
 attach_player (PhoshMediaPlayer *self, const char *name)
@@ -555,6 +574,7 @@ attach_player (PhoshMediaPlayer *self, const char *name)
     g_object_ref (self));
 }
 
+
 static gboolean
 is_valid_player (const char *bus_name)
 {
@@ -566,6 +586,7 @@ is_valid_player (const char *bus_name)
 
   return TRUE;
 }
+
 
 static void
 find_player_cb (GObject          *source_object,
@@ -611,6 +632,7 @@ out:
   g_object_unref (self);
 }
 
+
 static void
 find_player_async (PhoshMediaPlayer *self)
 {
@@ -629,6 +651,7 @@ find_player_async (PhoshMediaPlayer *self)
                           (GAsyncReadyCallback)find_player_cb,
                           g_object_ref (self));
 }
+
 
 static void
 on_dbus_name_owner_changed (GDBusConnection  *connection,
@@ -659,6 +682,7 @@ on_dbus_name_owner_changed (GDBusConnection  *connection,
   /* New player showed up, pick up */
   attach_player (self, name);
 }
+
 
 static void
 on_bus_get_finished (GObject          *source_object,
@@ -692,6 +716,7 @@ out:
   g_object_unref (self);
 }
 
+
 static gboolean
 on_idle (PhoshMediaPlayer *self)
 {
@@ -701,6 +726,7 @@ on_idle (PhoshMediaPlayer *self)
              g_object_ref (self));
   return G_SOURCE_REMOVE;
 }
+
 
 static void
 phosh_media_player_init (PhoshMediaPlayer *self)

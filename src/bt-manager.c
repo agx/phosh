@@ -51,6 +51,7 @@ struct _PhoshBtManager {
 };
 G_DEFINE_TYPE (PhoshBtManager, phosh_bt_manager, G_TYPE_OBJECT);
 
+
 static void
 phosh_bt_manager_get_property (GObject    *object,
                                guint       property_id,
@@ -213,6 +214,7 @@ on_idle (PhoshBtManager *self)
                                               g_object_ref (self));
   return G_SOURCE_REMOVE;
 }
+
 
 static void
 phosh_bt_manager_init (PhoshBtManager *self)

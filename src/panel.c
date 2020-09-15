@@ -226,6 +226,7 @@ on_input_setting_changed (PhoshPanel *self,
   gtk_widget_show (priv->lbl_lang);
 }
 
+
 static gboolean
 on_key_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
 {
@@ -250,6 +251,7 @@ on_key_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
   return handled;
 }
 
+
 static gboolean
 on_button_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
 {
@@ -258,12 +260,14 @@ on_button_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
   return FALSE;
 }
 
+
 static GActionEntry entries[] = {
   { "poweroff", on_shutdown_action, NULL, NULL, NULL },
   { "restart", on_restart_action, NULL, NULL, NULL },
   { "lockscreen", on_lockscreen_action, NULL, NULL, NULL },
   { "logout", on_logout_action, NULL, NULL, NULL },
 };
+
 
 static void
 phosh_panel_constructed (GObject *object)
@@ -359,6 +363,7 @@ phosh_panel_dispose (GObject *object)
   G_OBJECT_CLASS (phosh_panel_parent_class)->dispose (object);
 }
 
+
 static void
 phosh_panel_class_init (PhoshPanelClass *klass)
 {
@@ -412,6 +417,7 @@ phosh_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
                        NULL);
 }
 
+
 void
 phosh_panel_fold (PhoshPanel *self)
 {
@@ -432,6 +438,7 @@ phosh_panel_fold (PhoshPanel *self)
   gtk_window_resize (GTK_WINDOW (self), width, PHOSH_PANEL_HEIGHT);
   priv->state = PHOSH_PANEL_STATE_FOLDED;
 }
+
 
 void
 phosh_panel_unfold (PhoshPanel *self)
@@ -454,6 +461,7 @@ phosh_panel_unfold (PhoshPanel *self)
                             self);
   priv->state =PHOSH_PANEL_STATE_UNFOLDED;
 }
+
 
 void
 phosh_panel_toggle_fold (PhoshPanel *self)

@@ -62,6 +62,7 @@ struct _PhoshOverview
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshOverview, phosh_overview, GTK_TYPE_BOX)
 
+
 static PhoshToplevel *
 get_toplevel_from_activity (PhoshActivity *activity)
 {
@@ -72,6 +73,7 @@ get_toplevel_from_activity (PhoshActivity *activity)
 
   return toplevel;
 }
+
 
 static PhoshActivity *
 find_activity_by_toplevel (PhoshOverview        *self,
@@ -94,6 +96,7 @@ find_activity_by_toplevel (PhoshOverview        *self,
   g_return_val_if_fail (activity, NULL);
   return activity;
 }
+
 
 static void
 on_activity_clicked (PhoshOverview *self, PhoshActivity *activity)
@@ -134,6 +137,7 @@ on_activity_close_clicked (PhoshOverview *self, PhoshActivity *activity)
   g_signal_emit (self, signals[ACTIVITY_CLOSED], 0);
 }
 
+
 static void
 on_toplevel_closed (PhoshToplevel *toplevel, PhoshActivity *activity)
 {
@@ -141,6 +145,7 @@ on_toplevel_closed (PhoshToplevel *toplevel, PhoshActivity *activity)
   g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
   gtk_widget_destroy (GTK_WIDGET (activity));
 }
+
 
 static void
 on_toplevel_activated_changed (PhoshToplevel *toplevel, GParamSpec *pspec, PhoshOverview *overview)
@@ -155,6 +160,7 @@ on_toplevel_activated_changed (PhoshToplevel *toplevel, GParamSpec *pspec, Phosh
   if (phosh_toplevel_is_activated (toplevel))
     hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel_running_activities), GTK_WIDGET (activity));
 }
+
 
 static void
 on_thumbnail_ready_changed (PhoshThumbnail *thumbnail, GParamSpec *pspec, PhoshActivity *activity)
@@ -180,11 +186,13 @@ request_thumbnail (PhoshActivity *activity, PhoshToplevel *toplevel)
   g_signal_connect_object (thumbnail, "notify::ready", G_CALLBACK (on_thumbnail_ready_changed), activity, 0);
 }
 
+
 static void
 on_activity_size_allocated (PhoshActivity *activity, GtkAllocation *alloc, PhoshToplevel *toplevel)
 {
   request_thumbnail (activity, toplevel);
 }
+
 
 static void
 add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
@@ -228,6 +236,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
     hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel_running_activities), activity);
 }
 
+
 static void
 get_running_activities (PhoshOverview *self)
 {
@@ -246,6 +255,7 @@ get_running_activities (PhoshOverview *self)
   }
 }
 
+
 static void
 toplevel_added_cb (PhoshOverview        *self,
                    PhoshToplevel        *toplevel,
@@ -256,6 +266,7 @@ toplevel_added_cb (PhoshOverview        *self,
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (manager));
   add_activity (self, toplevel);
 }
+
 
 static void
 toplevel_changed_cb (PhoshOverview        *self,
@@ -277,6 +288,7 @@ toplevel_changed_cb (PhoshOverview        *self,
   request_thumbnail (activity, toplevel);
 }
 
+
 static void
 num_toplevels_cb (PhoshOverview        *self,
                    GParamSpec *pspec,
@@ -292,6 +304,7 @@ num_toplevels_cb (PhoshOverview        *self,
     gtk_widget_hide (priv->carousel_running_activities);
   }
 }
+
 
 static void
 phosh_overview_size_allocate (GtkWidget     *widget,
@@ -314,6 +327,7 @@ phosh_overview_size_allocate (GtkWidget     *widget,
 
   GTK_WIDGET_CLASS (phosh_overview_parent_class)->size_allocate (widget, alloc);
 }
+
 
 static void
 app_launched_cb (PhoshOverview *self,

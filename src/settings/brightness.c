@@ -40,6 +40,7 @@ brightness_changed_cb (GDBusProxy *proxy,
   gtk_range_set_value (GTK_RANGE (scale), value);
 }
 
+
 static void
 brightness_init_cb (GObject      *source_object,
                     GAsyncResult *res,
@@ -72,6 +73,7 @@ brightness_init_cb (GObject      *source_object,
                     G_CALLBACK(brightness_changed_cb),
                     scale);
 }
+
 
 void
 brightness_init (GtkScale *scale)

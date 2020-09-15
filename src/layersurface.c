@@ -70,6 +70,7 @@ typedef struct {
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshLayerSurface, phosh_layer_surface, GTK_TYPE_WINDOW)
 
+
 static void
 layer_surface_configure (void                         *data,
                          struct zwlr_layer_surface_v1 *surface,
@@ -113,10 +114,12 @@ layer_surface_closed (void                         *data,
   gtk_widget_destroy (GTK_WIDGET (self));
 }
 
+
 static struct zwlr_layer_surface_v1_listener layer_surface_listener = {
   .configure = layer_surface_configure,
   .closed = layer_surface_closed,
 };
+
 
 static void
 phosh_layer_surface_set_property (GObject      *object,
@@ -314,6 +317,7 @@ on_phosh_layer_surface_mapped (PhoshLayerSurface *self, gpointer unused)
   wl_display_roundtrip (gdk_wayland_display_get_wl_display (gdk_display_get_default ()));
 }
 
+
 static void
 on_phosh_layer_surface_unmapped (PhoshLayerSurface *self, gpointer unused)
 {
@@ -329,6 +333,7 @@ on_phosh_layer_surface_unmapped (PhoshLayerSurface *self, gpointer unused)
   }
   priv->wl_surface = NULL;
 }
+
 
 static void
 phosh_layer_surface_constructed (GObject *object)
@@ -552,6 +557,7 @@ phosh_layer_surface_new (gpointer layer_shell,
                        NULL);
 }
 
+
 /**
  * phosh_layer_surface_get_surface:
  *
@@ -584,6 +590,7 @@ phosh_layer_surface_get_wl_surface (PhoshLayerSurface *self)
   priv = phosh_layer_surface_get_instance_private (self);
   return priv->wl_surface;
 }
+
 
 /**
  * phosh_layer_surface_set_size:
@@ -621,6 +628,7 @@ phosh_layer_surface_set_size (PhoshLayerSurface *self, int width, int height)
   if (priv->width != old_width)
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_LAYER_WIDTH]);
 }
+
 
 /**
  * phosh_layer_surface_set_margins:
@@ -662,6 +670,7 @@ phosh_layer_surface_set_margins (PhoshLayerSurface *self, int top, int right, in
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_MARGIN_RIGHT]);
 }
 
+
 /**
  * phosh_layer_surface_set_exclusive_zone:
  *
@@ -689,6 +698,7 @@ phosh_layer_surface_set_exclusive_zone (PhoshLayerSurface *self, int zone)
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_EXCLUSIVE_ZONE]);
 }
 
+
 /**
  * phosh_layer_surface_set_keyboard_interactivity:
  *
@@ -712,6 +722,7 @@ phosh_layer_surface_set_kbd_interactivity (PhoshLayerSurface *self, gboolean int
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_KBD_INTERACTIVITY]);
 }
+
 
 /**
  * phosh_layer_surface_wl_surface_commit:

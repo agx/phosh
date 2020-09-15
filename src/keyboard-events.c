@@ -59,6 +59,7 @@ handle_accelerator_activated_event (void *data,
                  timestamp);
 }
 
+
 static void
 handle_grab_failed_event (void *data,
                           struct phosh_private_keyboard_event *kbevent,
@@ -79,6 +80,7 @@ handle_grab_failed_event (void *data,
   }
 }
 
+
 static void
 handle_grab_success_event (void *data,
                            struct phosh_private_keyboard_event *kbevent,
@@ -98,6 +100,7 @@ static const struct phosh_private_keyboard_event_listener keyboard_event_listene
   .grab_failed_event = handle_grab_failed_event,
   .grab_success_event = handle_grab_success_event,
 };
+
 
 static gboolean
 initable_init (GInitable    *initable,
@@ -140,11 +143,13 @@ initable_init (GInitable    *initable,
   return TRUE;
 }
 
+
 static void
 initable_iface_init (GInitableIface *iface)
 {
   iface->init = initable_init;
 }
+
 
 static void
 phosh_keyboard_events_dispose (GObject *object)
@@ -192,6 +197,7 @@ phosh_keyboard_events_class_init (PhoshKeyboardEventsClass *klass)
 
 }
 
+
 void
 phosh_keyboard_events_register_keys (PhoshKeyboardEvents *self,
                                      char               **accelerators,
@@ -204,10 +210,12 @@ phosh_keyboard_events_register_keys (PhoshKeyboardEvents *self,
   }
 }
 
+
 static void
 phosh_keyboard_events_init (PhoshKeyboardEvents *self)
 {
 }
+
 
 PhoshKeyboardEvents *
 phosh_keyboard_events_new (void)

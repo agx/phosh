@@ -28,6 +28,7 @@ typedef struct _PhoshFeedbackInfo {
 
 G_DEFINE_TYPE (PhoshFeedbackInfo, phosh_feedback_info, PHOSH_TYPE_STATUS_ICON)
 
+
 static void
 on_profile_changed (PhoshFeedbackInfo *self, GParamSpec *psepc, gpointer unused)
 {
@@ -53,6 +54,7 @@ on_profile_changed (PhoshFeedbackInfo *self, GParamSpec *psepc, gpointer unused)
   phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), name);
 }
 
+
 static void
 phosh_feedback_info_constructed (GObject *object)
 {
@@ -71,6 +73,7 @@ phosh_feedback_info_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_feedback_info_parent_class)->constructed (object);
 }
+
 
 static void
 phosh_feedback_info_dispose (GObject *object)

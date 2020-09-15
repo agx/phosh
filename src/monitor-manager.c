@@ -388,6 +388,7 @@ phosh_monitor_manager_handle_set_crtc_gamma (
   return TRUE;
 }
 
+
 #define MODE_FORMAT "(siiddada{sv})"
 #define MODES_FORMAT "a" MODE_FORMAT
 #define MONITOR_SPEC_FORMAT "(ssss)"
@@ -397,6 +398,7 @@ phosh_monitor_manager_handle_set_crtc_gamma (
 #define LOGICAL_MONITOR_MONITORS_FORMAT "a" MONITOR_SPEC_FORMAT
 #define LOGICAL_MONITOR_FORMAT "(iidub" LOGICAL_MONITOR_MONITORS_FORMAT "a{sv})"
 #define LOGICAL_MONITORS_FORMAT "a" LOGICAL_MONITOR_FORMAT
+
 
 static gboolean
 phosh_monitor_manager_handle_get_current_state (
@@ -532,6 +534,8 @@ phosh_monitor_manager_handle_get_current_state (
 
   return TRUE;
 }
+
+
 #undef LOGICAL_MONITORS_FORMAT
 #undef LOGICAL_MONITOR_FORMAT
 #undef LOGICAL_MONITOR_MONITORS_FORMAT
@@ -572,7 +576,9 @@ find_monitor_from_variant(PhoshMonitorManager *self,
   return monitor;
 }
 
+
 #define LOGICAL_MONITOR_CONFIG_FORMAT "(iidub" MONITOR_CONFIGS_FORMAT ")"
+
 
 /* TODO: this can later become get-logical_monitor_config_from_variant */
 static PhoshMonitor *
@@ -616,9 +622,12 @@ check_primary_monitor_from_variant (PhoshMonitorManager *self,
   g_variant_iter_free (monitor_configs_iter);
   return monitor;
 }
+
+
 #undef LOGICAL_MONITOR_CONFIG_FORMAT
 #undef MONITOR_CONFIGS_FORMAT
 #undef MONITOR_CONFIG_FORMAT
+
 
 static gboolean
 phosh_monitor_manager_handle_apply_monitors_config (
@@ -774,6 +783,7 @@ find_monitor_by_wl_output (PhoshMonitorManager *self, struct wl_output *output)
   return NULL;
 }
 
+
 static void
 on_monitor_removed (PhoshMonitorManager *self,
                     PhoshMonitor        *monitor,
@@ -911,6 +921,7 @@ phosh_monitor_manager_init (PhoshMonitorManager *self)
   self->monitors = g_ptr_array_new_with_free_func ((GDestroyNotify) (g_object_unref));
   self->serial = 1;
 }
+
 
 PhoshMonitorManager *
 phosh_monitor_manager_new (void)

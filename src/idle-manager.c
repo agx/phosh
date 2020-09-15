@@ -110,6 +110,7 @@ idle_timer_resume_cb (void* data, struct org_kde_kwin_idle_timeout *timer)
   g_debug ("Idle Timer %d resumed", watch->watch_id);
 }
 
+
 /* An DBus idle watch uses an idle_timeout but doesn't care about resume */
 static const struct org_kde_kwin_idle_timeout_listener idle_timer_listener = {
   .idle = idle_timer_idle_cb,

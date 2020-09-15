@@ -156,6 +156,7 @@ fold_cb (PhoshHome *self, PhoshOverview *overview)
   phosh_home_set_state (self, PHOSH_HOME_STATE_FOLDED);
 }
 
+
 static gboolean
 key_press_event_cb (PhoshHome *self, GdkEventKey *event, gpointer data)
 {
@@ -317,6 +318,7 @@ animate_cb(GtkWidget *widget,
 
   return finished ? G_SOURCE_REMOVE : G_SOURCE_CONTINUE;
 }
+
 
 /**
  * phosh_home_set_state:

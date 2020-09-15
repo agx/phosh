@@ -345,6 +345,7 @@ date_fmt (void)
   return fmt;
 }
 
+
 /**
  * local_date:
  *
@@ -396,7 +397,6 @@ wall_clock_notify_cb (PhoshLockscreen *self,
 }
 
 
-
 static void
 carousel_position_notified_cb (PhoshLockscreen *self,
                                GParamSpec      *pspec,
@@ -428,6 +428,7 @@ carousel_position_notified_cb (PhoshLockscreen *self,
     priv->idle_timer = 0;
   }
 }
+
 
 static void
 phosh_lockscreen_constructed (GObject *object)
@@ -461,6 +462,7 @@ phosh_lockscreen_constructed (GObject *object)
                             self);
   wall_clock_notify_cb (self, NULL, priv->wall_clock);
 }
+
 
 static void
 phosh_lockscreen_dispose (GObject *object)

@@ -41,6 +41,7 @@ struct _PhoshConnectivityInfo {
 };
 G_DEFINE_TYPE (PhoshConnectivityInfo, phosh_connectivity_info, PHOSH_TYPE_STATUS_ICON);
 
+
 static void
 phosh_connectivity_info_get_property (GObject    *object,
                                       guint       property_id,
@@ -127,6 +128,7 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, PhoshConnectivityInfo *self
 
   g_idle_add ((GSourceFunc) on_idle, self);
 }
+
 
 static void
 phosh_connectivity_info_constructed (GObject *object)

@@ -92,6 +92,7 @@ phosh_wwan_get_access_tec (PhoshWWan *self)
 
 }
 
+
 gboolean
 phosh_wwan_is_unlocked (PhoshWWan *self)
 {
@@ -103,6 +104,7 @@ phosh_wwan_is_unlocked (PhoshWWan *self)
   g_return_val_if_fail (iface->is_unlocked != NULL, FALSE);
   return iface->is_unlocked (self);
 }
+
 
 gboolean
 phosh_wwan_has_sim (PhoshWWan *self)
@@ -116,6 +118,7 @@ phosh_wwan_has_sim (PhoshWWan *self)
   return iface->has_sim (self);
 }
 
+
 gboolean
 phosh_wwan_is_present (PhoshWWan *self)
 {
@@ -127,6 +130,7 @@ phosh_wwan_is_present (PhoshWWan *self)
   g_return_val_if_fail (iface->is_present != NULL, FALSE);
   return iface->is_present (self);
 }
+
 
 const char *
 phosh_wwan_get_operator (PhoshWWan *self)

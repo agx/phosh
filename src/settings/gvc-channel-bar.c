@@ -70,6 +70,7 @@ static gboolean on_scale_scroll_event         (GtkWidget      *widget,
 
 G_DEFINE_TYPE (GvcChannelBar, gvc_channel_bar, GTK_TYPE_BOX)
 
+
 static GtkWidget *
 _scale_box_new (GvcChannelBar *self)
 {
@@ -438,7 +439,6 @@ gvc_channel_bar_get_property (GObject     *object,
     break;
   }
 }
-
 
 
 static void
