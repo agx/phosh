@@ -214,6 +214,7 @@ pb_scale_to_fit (GdkPixbuf *src, int width, int height, GdkRGBA *color)
   return bg;
 }
 
+
 static GdkPixbuf *
 image_background (GdkPixbuf               *image,
                   guint                    width,
@@ -272,6 +273,7 @@ background_update (PhoshBackground *self, GdkPixbuf *pixbuf, GDesktopBackgroundS
   gtk_widget_queue_draw (GTK_WIDGET (self));
   g_signal_emit(self, signals[BACKGROUND_LOADED], 0);
 }
+
 
 /**
  * background_fallback:
@@ -546,6 +548,7 @@ phosh_background_set_primary (PhoshBackground *self, gboolean primary)
     load_background (self);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY]);
 }
+
 
 void
 phosh_background_set_scale (PhoshBackground *self, guint scale)

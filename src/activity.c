@@ -208,6 +208,7 @@ draw_cb (PhoshActivity *self, cairo_t *cairo, GtkDrawingArea *area)
   return FALSE;
 }
 
+
 static void
 phosh_activity_constructed (GObject *object)
 {
@@ -276,11 +277,13 @@ phosh_activity_finalize (GObject *object)
   G_OBJECT_CLASS (phosh_activity_parent_class)->finalize (object);
 }
 
+
 static GtkSizeRequestMode
 phosh_activity_get_request_mode (GtkWidget *widgte)
 {
   return GTK_SIZE_REQUEST_WIDTH_FOR_HEIGHT;
 }
+
 
 static void
 phosh_activity_get_preferred_height (GtkWidget *widget,
@@ -307,6 +310,7 @@ phosh_activity_get_preferred_height (GtkWidget *widget,
   if (nat)
     *nat = smallest;
 }
+
 
 static void
 phosh_activity_get_preferred_width_for_height (GtkWidget *widget,
@@ -340,6 +344,7 @@ phosh_activity_get_preferred_width_for_height (GtkWidget *widget,
   if (nat)
     *nat = size;
 }
+
 
 static void
 phosh_activity_get_preferred_height_for_width (GtkWidget *widget,
@@ -466,6 +471,7 @@ phosh_activity_get_app_id (PhoshActivity *self)
   return priv->app_id;
 }
 
+
 void
 phosh_activity_set_title (PhoshActivity *self, const char *title)
 {
@@ -483,6 +489,7 @@ phosh_activity_set_title (PhoshActivity *self, const char *title)
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TITLE]);
 }
 
+
 const char *
 phosh_activity_get_title (PhoshActivity *self)
 {
@@ -493,6 +500,7 @@ phosh_activity_get_title (PhoshActivity *self)
 
   return priv->title;
 }
+
 
 void
 phosh_activity_set_thumbnail (PhoshActivity *self, PhoshThumbnail *thumbnail)

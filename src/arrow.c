@@ -85,6 +85,7 @@ phosh_arrow_draw (GtkWidget *widget,
   return GDK_EVENT_PROPAGATE;
 }
 
+
 static void
 phosh_arrow_get_property (GObject    *object,
                           guint       prop_id,
@@ -102,6 +103,7 @@ phosh_arrow_get_property (GObject    *object,
   }
 }
 
+
 static void
 phosh_arrow_set_property (GObject      *object,
                           guint         prop_id,
@@ -118,6 +120,7 @@ phosh_arrow_set_property (GObject      *object,
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
   }
 }
+
 
 static void
 phosh_arrow_class_init (PhoshArrowClass *klass)
@@ -139,6 +142,7 @@ phosh_arrow_class_init (PhoshArrowClass *klass)
   g_object_class_install_properties(object_class, N_PROPS, properties);
 }
 
+
 static void
 phosh_arrow_init (PhoshArrow *self)
 {
@@ -149,11 +153,13 @@ phosh_arrow_init (PhoshArrow *self)
                 NULL);
 }
 
+
 PhoshArrow *
 phosh_arrow_new (void)
 {
   return g_object_new (PHOSH_TYPE_ARROW, NULL);
 }
+
 
 double
 phosh_arrow_get_progress (PhoshArrow *self)
@@ -162,6 +168,7 @@ phosh_arrow_get_progress (PhoshArrow *self)
 
   return self->progress;
 }
+
 
 void
 phosh_arrow_set_progress (PhoshArrow *self,

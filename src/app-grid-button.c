@@ -72,6 +72,7 @@ phosh_app_grid_button_set_property (GObject      *object,
   }
 }
 
+
 static void
 phosh_app_grid_button_get_property (GObject    *object,
                                     guint       property_id,
@@ -96,6 +97,7 @@ phosh_app_grid_button_get_property (GObject    *object,
   }
 }
 
+
 static void
 phosh_app_grid_button_dispose (GObject *object)
 {
@@ -106,6 +108,7 @@ phosh_app_grid_button_dispose (GObject *object)
 
   G_OBJECT_CLASS (phosh_app_grid_button_parent_class)->dispose (object);
 }
+
 
 static void
 phosh_app_grid_button_finalize (GObject *object)
@@ -279,6 +282,7 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
 
   gtk_widget_class_set_css_name (widget_class, "phosh-app-grid-button");
 }
+
 
 static void
 action_activated (GSimpleAction *action,

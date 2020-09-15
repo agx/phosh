@@ -74,6 +74,7 @@ static const gchar *(*desktop_attr[]) (GDesktopAppInfo *info) = {
   g_desktop_app_info_get_categories,
 };
 
+
 static gboolean
 search_apps (gpointer item, gpointer data)
 {
@@ -235,6 +236,7 @@ phosh_app_grid_finalize (GObject *object)
   G_OBJECT_CLASS (phosh_app_grid_parent_class)->finalize (object);
 }
 
+
 static gboolean
 phosh_app_grid_key_press_event (GtkWidget   *widget,
                               GdkEventKey *event)
@@ -245,6 +247,7 @@ phosh_app_grid_key_press_event (GtkWidget   *widget,
   return gtk_search_entry_handle_event (GTK_SEARCH_ENTRY (priv->search),
                                         (GdkEvent *) event);
 }
+
 
 static void
 do_search (PhoshAppGrid *self)
@@ -266,6 +269,7 @@ do_search (PhoshAppGrid *self)
 
   gtk_filter_list_model_refilter (priv->model);
 }
+
 
 static void
 search_changed (GtkSearchEntry *entry,
@@ -297,6 +301,7 @@ search_preedit_changed (GtkSearchEntry *entry,
   do_search (self);
 }
 
+
 static void
 search_activated (GtkSearchEntry *entry,
                   PhoshAppGrid   *self)
@@ -327,6 +332,7 @@ search_activated (GtkSearchEntry *entry,
   }
 }
 
+
 static gboolean
 search_lost_focus (GtkWidget    *widget,
                    GdkEvent     *event,
@@ -339,6 +345,7 @@ search_lost_focus (GtkWidget    *widget,
 
   return GDK_EVENT_PROPAGATE;
 }
+
 
 static gboolean
 search_gained_focus (GtkWidget    *widget,
@@ -354,6 +361,7 @@ search_gained_focus (GtkWidget    *widget,
 
   return GDK_EVENT_PROPAGATE;
 }
+
 
 static void
 phosh_app_grid_class_init (PhoshAppGridClass *klass)
@@ -388,6 +396,7 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
   gtk_widget_class_set_css_name (widget_class, "phosh-app-grid");
 }
 
+
 void
 phosh_app_grid_reset (PhoshAppGrid *self)
 {
@@ -404,6 +413,7 @@ phosh_app_grid_reset (PhoshAppGrid *self)
   gtk_entry_set_text (GTK_ENTRY (priv->search), "");
   g_clear_pointer (&priv->search_string, g_free);
 }
+
 
 GtkWidget *
 phosh_app_grid_new (void)

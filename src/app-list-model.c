@@ -38,6 +38,7 @@ G_DEFINE_TYPE_WITH_CODE (PhoshAppListModel, phosh_app_list_model, G_TYPE_OBJECT,
                          G_ADD_PRIVATE (PhoshAppListModel)
                          G_IMPLEMENT_INTERFACE (G_TYPE_LIST_MODEL, list_iface_init))
 
+
 static void
 phosh_app_list_model_finalize (GObject *object)
 {
@@ -51,6 +52,7 @@ phosh_app_list_model_finalize (GObject *object)
   G_OBJECT_CLASS (phosh_app_list_model_parent_class)->finalize (object);
 }
 
+
 static void
 phosh_app_list_model_class_init (PhoshAppListModelClass *klass)
 {
@@ -59,11 +61,13 @@ phosh_app_list_model_class_init (PhoshAppListModelClass *klass)
   gobject_class->finalize = phosh_app_list_model_finalize;
 }
 
+
 static GType
 list_get_item_type (GListModel *list)
 {
   return G_TYPE_APP_INFO;
 }
+
 
 static gpointer
 list_get_item (GListModel *list, guint position)
@@ -96,6 +100,7 @@ list_get_item (GListModel *list, guint position)
 
 }
 
+
 static unsigned int
 list_get_n_items (GListModel *list)
 {
@@ -105,6 +110,7 @@ list_get_n_items (GListModel *list)
   return g_sequence_get_length (priv->items);
 }
 
+
 static void
 list_iface_init (GListModelInterface *iface)
 {
@@ -112,6 +118,7 @@ list_iface_init (GListModelInterface *iface)
   iface->get_item = list_get_item;
   iface->get_n_items = list_get_n_items;
 }
+
 
 static gboolean
 items_changed (gpointer data)
@@ -150,6 +157,7 @@ items_changed (gpointer data)
   return G_SOURCE_REMOVE;
 }
 
+
 static void
 on_monitor_changed_cb (GAppInfoMonitor *monitor,
                        gpointer         data)
@@ -163,6 +171,7 @@ on_monitor_changed_cb (GAppInfoMonitor *monitor,
   priv->debounce = g_timeout_add (500, items_changed, data);
   g_source_set_name_by_id (priv->debounce, "debounce app changes");
 }
+
 
 static void
 phosh_app_list_model_init (PhoshAppListModel *self)
@@ -179,6 +188,7 @@ phosh_app_list_model_init (PhoshAppListModel *self)
 
   on_monitor_changed_cb (priv->monitor, self);
 }
+
 
 /**
  * phosh_app_list_model_get_default:
