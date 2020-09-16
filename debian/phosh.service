@@ -26,6 +26,7 @@ ConditionPathExists=/dev/tty0
 
 [Service]
 Environment=LANG=C.UTF-8
+Environment=XDG_CURRENT_DESKTOP=GNOME
 ExecStart=/usr/bin/phosh
 TimeoutStartSec=30
 User=1000
