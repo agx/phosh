@@ -261,13 +261,6 @@ css_setup (PhoshShell *self)
 
 
 static void
-env_setup (void)
-{
-  g_setenv ("XDG_CURRENT_DESKTOP", "GNOME", TRUE);
-}
-
-
-static void
 phosh_shell_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
@@ -563,7 +556,6 @@ phosh_shell_constructed (GObject *object)
 
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
                                     "/sm/puri/phosh/icons");
-  env_setup ();
   css_setup (self);
   type_setup ();
 
