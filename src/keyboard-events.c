@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2020 Evangelos Ribeiro Tzaras
- * SPDX-License-Identifier: GPL-3.0+
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
  * Author: Evangelos Ribeiro Tzaras <devrtz@fortysixandtwo.eu>
  */
 

@@ -1,6 +1,5 @@
-/* timestamp-label.h
- *
- * Copyright 2020 Lugsole
+/*
+ * Copyright © 2020 Lugsole
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */

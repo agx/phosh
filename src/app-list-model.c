@@ -1,12 +1,12 @@
 /*
  * Copyright © 2019-2020 Zander Brown <zbrown@gnome.org>
  *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
  * Inspired by gliststore.c:
  *     Copyright 2015 Lars Uebernickel
  *     Copyright 2015 Ryan Lortie
  * https://gitlab.gnome.org/GNOME/glib/blob/713fec9dcb1ee49c4f64bbb6f483a5cd1db9966a/gio/gliststore.c
- *
- * SPDX-License-Identifier: GPL-3-or-later
  *
  * Author: Zander Brown <zbrown@gnome.org>
  */

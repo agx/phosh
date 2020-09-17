@@ -1,7 +1,7 @@
 /*
  * Copyright © 2019 Zander Brown <zbrown@gnome.org>
  *
- * SPDX-License-Identifier: GPL-3.0+
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 #include <gtk/gtk.h>

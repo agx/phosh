@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Purism SPC
  *
- * SPDX-License-Identifier: GPL-3+
+ * SPDX-License-Identifier: GPL-3.0-or-later
  *
  * based on gvc-channel-bar.h from g-c-c which is
  * Copyright (C) 2008 Red Hat, Inc.

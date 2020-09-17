@@ -1,7 +1,7 @@
 /*
- * Copyright © 2019 Alexander Mikhaylenko <exalm7659@gmail.com>
+ * Copyright © 2019 Alexander Mikhaylenko <alexm@gnome.org>
  *
- * SPDX-License-Identifier: GPL-3.0+
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 #include "arrow.h"

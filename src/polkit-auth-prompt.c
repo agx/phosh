@@ -1,9 +1,11 @@
 /*
  * Copyright (C) 2019 Purism SPC
- * SPDX-License-Identifier: GPL-3.0+
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
  * Author: Guido Günther <agx@sigxcpu.org>
  *
- * Based on  gnome-shell's shell-keyring-prompt.c
+ * Based on gnome-shell's shell-keyring-prompt.c
  * Author: Stef Walter <stefw@gnome.org>
  */
 

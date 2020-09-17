@@ -1,6 +1,12 @@
-#pragma once
+/*
+ * Copyright © 2019 Alexander Mikhaylenko <alexm@gnome.org>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 #include <gtk/gtk.h>
+
+#pragma once
 
 G_BEGIN_DECLS
 

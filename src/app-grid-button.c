@@ -1,7 +1,7 @@
 /*
  * Copyright © 2019 Zander Brown <zbrown@gnome.org>
  *
- * SPDX-License-Identifier: GPL-3.0+
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 #define G_LOG_DOMAIN "phosh-app-grid-button"

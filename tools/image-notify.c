@@ -1,6 +1,8 @@
 /*
- * Copyright (C) 2019 Zander Brown
- * SPDX-License-Identifier: GPL-3.0+
+ * Copyright © 2019 Zander Brown <zbrown@gnome.org>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
  * Author: Zander Brown <zbrown@gnome.org>
  */
 
