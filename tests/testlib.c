@@ -86,7 +86,7 @@ on_phoc_startup_timeout (gpointer unused)
 
 static void
 on_phoc_exit (GPid     pid,
-              gint     status,
+              int      status,
               gpointer user_data)
 {
   g_autoptr (GError) err = NULL;

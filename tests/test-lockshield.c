@@ -39,8 +39,8 @@ test_lockshield_new (Fixture *fixture, gconstpointer unused)
   gtk_widget_destroy (panel);
 }
 
-gint
-main (gint   argc,
+int
+main (int   argc,
       char *argv[])
 {
   g_test_init (&argc, &argv, NULL);

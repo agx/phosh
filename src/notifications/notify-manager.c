@@ -278,7 +278,7 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                const char                   *body,
                const char *const            *actions,
                GVariant                     *hints,
-               gint                          expire_timeout)
+               int                           expire_timeout)
 {
   PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (skeleton);
   PhoshNotification *notification = NULL;

@@ -136,7 +136,7 @@ phosh_monitor_manager_handle_get_resources (
     g_variant_builder_add (&output_builder, "(uxiausauaua{sv})",
                            (guint32)i, /* ID */
                            (guint64)i, /* output->winsys_id, */
-                           (gint)i,    /* crtc_index, */
+                           (int) i,    /* crtc_index, */
                            &crtcs,
                            monitor->name, /* output->name */
                            &modes,
@@ -186,7 +186,7 @@ phosh_monitor_manager_handle_change_backlight (
   GDBusMethodInvocation *invocation,
   guint                  serial,
   guint                  output_index,
-  gint                   value)
+  int                    value)
 {
   g_debug ("Unimplemented DBus call %s", __func__);
   g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
@@ -707,7 +707,7 @@ power_save_mode_changed_cb (PhoshMonitorManager *self,
                             GParamSpec          *pspec,
                             gpointer             user_data)
 {
-  gint mode, ps_mode;
+  int mode, ps_mode;
 
   mode = phosh_display_dbus_display_config_get_power_save_mode (
     PHOSH_DISPLAY_DBUS_DISPLAY_CONFIG (self));

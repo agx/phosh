@@ -39,7 +39,7 @@ struct _PhoshNotificationBanner {
   gulong handler_closed;
 
   struct {
-    gdouble progress;
+    double progress;
     gint64  last_frame;
   } animation;
 };
@@ -163,9 +163,9 @@ phosh_notification_banner_finalize (GObject *object)
 static void
 phosh_notification_banner_slide (PhoshNotificationBanner *self)
 {
-  gint margin;
-  gint height;
-  gdouble progress = hdy_ease_out_cubic (self->animation.progress);
+  int margin;
+  int height;
+  double progress = hdy_ease_out_cubic (self->animation.progress);
 
   progress = 1.0 - progress;
 

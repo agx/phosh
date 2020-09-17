@@ -171,7 +171,7 @@ request_thumbnail (PhoshActivity *activity, PhoshToplevel *toplevel)
 {
   PhoshToplevelThumbnail *thumbnail;
   GtkAllocation allocation;
-  gint scale;
+  int scale;
   g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
   scale = gtk_widget_get_scale_factor (GTK_WIDGET (activity));

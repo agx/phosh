@@ -58,11 +58,11 @@ typedef struct {
   guint                         anchor;
   guint                         layer;
   gboolean                      kbd_interactivity;
-  gint                          exclusive_zone;
-  gint                          margin_top, margin_bottom;
-  gint                          margin_left, margin_right;
-  gint                          width, height;
-  gint                          configured_width, configured_height;
+  int                           exclusive_zone;
+  int                           margin_top, margin_bottom;
+  int                           margin_left, margin_right;
+  int                           width, height;
+  int                           configured_width, configured_height;
   char                         *namespace;
   struct zwlr_layer_shell_v1   *layer_shell;
   struct wl_output             *wl_output;
@@ -126,7 +126,7 @@ phosh_layer_surface_set_property (GObject      *object,
 {
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (object);
   PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
-  gint width, height;
+  int width, height;
 
   switch (property_id) {
   case PHOSH_LAYER_SURFACE_PROP_LAYER_SHELL:
@@ -591,10 +591,10 @@ phosh_layer_surface_get_wl_surface (PhoshLayerSurface *self)
  * Set the size of a layer surface. A value of '-1' indicates 'use old value'
  */
 void
-phosh_layer_surface_set_size (PhoshLayerSurface *self, gint width, gint height)
+phosh_layer_surface_set_size (PhoshLayerSurface *self, int width, int height)
 {
   PhoshLayerSurfacePrivate *priv;
-  gint old_width, old_height;
+  int old_width, old_height;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   priv = phosh_layer_surface_get_instance_private (self);
@@ -628,10 +628,10 @@ phosh_layer_surface_set_size (PhoshLayerSurface *self, gint width, gint height)
  * Set anchor margins of a layer surface.
  */
 void
-phosh_layer_surface_set_margins (PhoshLayerSurface *self, gint top, gint right, gint bottom, gint left)
+phosh_layer_surface_set_margins (PhoshLayerSurface *self, int top, int right, int bottom, int left)
 {
   PhoshLayerSurfacePrivate *priv;
-  gint old_top, old_bottom, old_left, old_right;
+  int old_top, old_bottom, old_left, old_right;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   priv = phosh_layer_surface_get_instance_private (self);
@@ -668,10 +668,10 @@ phosh_layer_surface_set_margins (PhoshLayerSurface *self, gint top, gint right, 
  * Set exclusive zone of a layer surface.
  */
 void
-phosh_layer_surface_set_exclusive_zone (PhoshLayerSurface *self, gint zone)
+phosh_layer_surface_set_exclusive_zone (PhoshLayerSurface *self, int zone)
 {
   PhoshLayerSurfacePrivate *priv;
-  gint old_zone;
+  int old_zone;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   priv = phosh_layer_surface_get_instance_private (self);

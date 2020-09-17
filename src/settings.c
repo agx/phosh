@@ -150,10 +150,10 @@ battery_setting_clicked_cb (PhoshSettings *self)
 }
 
 static void change_volume (PhoshSettings *self,
-                           gint steps)
+                           int steps)
 {
   GtkAdjustment *adj;
-  gdouble vol, inc;
+  double vol, inc;
 
   adj = GTK_ADJUSTMENT (gvc_channel_bar_get_adjustment (GVC_CHANNEL_BAR (self->output_vol_bar)));
 
@@ -290,7 +290,7 @@ static void
 vol_adjustment_value_changed_cb (GtkAdjustment *adjustment,
                                  PhoshSettings *self)
 {
-  gdouble volume, rounded;
+  double volume, rounded;
   g_autofree char *name = NULL;
 
   if (!self->output_stream)

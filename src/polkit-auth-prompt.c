@@ -149,7 +149,7 @@ set_user_names (PhoshPolkitAuthPrompt *self, const GStrv user_names)
 {
   const char *user_name = NULL;
   GError *err = NULL;
-  gint len;
+  int len;
 
   g_return_if_fail (PHOSH_IS_POLKIT_AUTH_PROMPT (self));
 

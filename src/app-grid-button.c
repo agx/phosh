@@ -338,8 +338,8 @@ favorite_add_activated (GSimpleAction *action,
 
 static void
 long_pressed (GtkGestureLongPress *gesture,
-              gdouble              x,
-              gdouble              y,
+              double               x,
+              double               y,
               GtkWidget           *self)
 {
   context_menu (self, NULL);

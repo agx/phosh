@@ -28,7 +28,7 @@ char *
 phosh_fix_app_id (const char *app_id)
 {
   if (strchr (app_id, '.') == NULL && !g_ascii_isupper (app_id[0])) {
-    gint first_char = 0;
+    int first_char = 0;
     if (g_str_has_prefix (app_id, "gnome-")) {
       first_char = strlen ("gnome-");
     }

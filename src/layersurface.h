@@ -32,15 +32,15 @@ GtkWidget *phosh_layer_surface_new (gpointer layer_shell,
 struct     zwlr_layer_surface_v1 *phosh_layer_surface_get_layer_surface(PhoshLayerSurface *self);
 struct     wl_surface            *phosh_layer_surface_get_wl_surface(PhoshLayerSurface *self);
 void                              phosh_layer_surface_set_size(PhoshLayerSurface *self,
-                                                               gint width,
-                                                               gint height);
+                                                               int width,
+                                                               int height);
 void                              phosh_layer_surface_set_margins(PhoshLayerSurface *self,
-                                                                  gint top,
-                                                                  gint right,
-                                                                  gint bottom,
-                                                                  gint left);
+                                                                  int top,
+                                                                  int right,
+                                                                  int bottom,
+                                                                  int left);
 void                              phosh_layer_surface_set_exclusive_zone(PhoshLayerSurface *self,
-                                                                         gint zone);
+                                                                         int zone);
 void                              phosh_layer_surface_set_kbd_interactivity(PhoshLayerSurface *self,
                                                                             gboolean interactivity);
 void                              phosh_layer_surface_wl_surface_commit (PhoshLayerSurface *self);

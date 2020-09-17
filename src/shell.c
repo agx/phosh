@@ -103,7 +103,7 @@ typedef struct
   PhoshProximity *proximity;
 
   gboolean startup_finished;
-  gint rot; /* current rotation of primary monitor */
+  int rot; /* current rotation of primary monitor */
 } PhoshShellPrivate;
 
 
@@ -638,7 +638,7 @@ phosh_shell_init (PhoshShell *self)
 }
 
 
-gint
+int
 phosh_shell_get_rotation (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
@@ -892,12 +892,12 @@ phosh_shell_get_wwan (PhoshShell *self)
  * display
  */
 void
-phosh_shell_get_usable_area (PhoshShell *self, gint *x, gint *y, gint *width, gint *height)
+phosh_shell_get_usable_area (PhoshShell *self, int *x, int *y, int *width, int *height)
 {
   PhoshMonitor *monitor;
   PhoshMonitorMode *mode;
-  gint w, h;
-  gint scale;
+  int w, h;
+  int scale;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
 

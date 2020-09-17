@@ -144,7 +144,7 @@ auth_request_initiate (AuthRequest *request)
   for (l = request->identities; l != NULL; l = l->next) {
       if (POLKIT_IS_UNIX_USER (l->data)) {
           PolkitUnixUser *user = POLKIT_UNIX_USER (l->data);
-          gint uid;
+          int uid;
           char buf[4096];
           struct passwd pwd;
           struct passwd *ppwd;

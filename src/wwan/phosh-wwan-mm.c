@@ -180,7 +180,7 @@ static void
 phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
 {
   guint unlock_required;
-  gint state;
+  int state;
 
   g_return_if_fail (self);
   g_return_if_fail (self->proxy);

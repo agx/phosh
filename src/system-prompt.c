@@ -442,7 +442,7 @@ on_password_changed (PhoshSystemPrompt *self,
   PhoshSystemPromptPrivate *priv;
   int upper, lower, digit, misc;
   const char *password;
-  gdouble pwstrength;
+  double pwstrength;
   int length, i;
 
   g_return_if_fail (PHOSH_IS_SYSTEM_PROMPT (self));

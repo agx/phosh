@@ -25,7 +25,7 @@ brightness_changed_cb (GDBusProxy *proxy,
                        gpointer   *user_data)
 {
   GtkScale *scale = GTK_SCALE (user_data);
-  gint value;
+  int value;
   gboolean ret;
 
   if (setting_brightness)
@@ -47,7 +47,7 @@ brightness_init_cb (GObject      *source_object,
 {
   g_autoptr(GError) err = NULL;
   GVariant *var;
-  gint value;
+  int value;
 
   brightness_proxy = g_dbus_proxy_new_finish (res, &err);
   if (!brightness_proxy || err) {

@@ -81,7 +81,7 @@ phosh_activity_set_property (GObject *object,
 {
   PhoshActivity *self = PHOSH_ACTIVITY (object);
   PhoshActivityPrivate *priv = phosh_activity_get_instance_private(self);
-  gint height, width;
+  int height, width;
 
   switch (property_id) {
     case PROP_APP_ID:

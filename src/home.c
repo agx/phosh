@@ -54,7 +54,7 @@ struct _PhoshHome
   GtkWidget *overview;
 
   struct {
-    gdouble progress;
+    double progress;
     gint64 last_frame;
   } animation;
 
@@ -105,9 +105,9 @@ phosh_home_get_property (GObject *object,
 static void
 phosh_home_resize (PhoshHome *self)
 {
-  gint margin;
-  gint height;
-  gdouble progress = hdy_ease_out_cubic (self->animation.progress);
+  int margin;
+  int height;
+  double progress = hdy_ease_out_cubic (self->animation.progress);
 
   if (self->state == PHOSH_HOME_STATE_UNFOLDED)
     progress = 1.0 - progress;

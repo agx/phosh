@@ -181,10 +181,10 @@ pb_fill_color (int width, int height, GdkRGBA *color)
 static GdkPixbuf *
 pb_scale_to_fit (GdkPixbuf *src, int width, int height, GdkRGBA *color)
 {
-  gint orig_width, orig_height;
-  gint final_width, final_height;
-  gint off_x, off_y;
-  gdouble ratio_horiz, ratio_vert, ratio;
+  int orig_width, orig_height;
+  int final_width, final_height;
+  int off_x, off_y;
+  double ratio_horiz, ratio_vert, ratio;
   GdkPixbuf *bg;
 
   bg = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, width, height);
@@ -258,7 +258,7 @@ image_background (GdkPixbuf               *image,
 static void
 background_update (PhoshBackground *self, GdkPixbuf *pixbuf, GDesktopBackgroundStyle style)
 {
-  gint width, height;
+  int width, height;
 
   g_clear_object (&self->pixbuf);
 
@@ -368,7 +368,7 @@ background_draw_cb (PhoshBackground *self,
                     cairo_t         *cr,
                     gpointer         data)
 {
-  gint x = 0, y = 0;
+  int x = 0, y = 0;
 
   g_return_val_if_fail (PHOSH_IS_BACKGROUND (self), TRUE);
 

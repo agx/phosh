@@ -216,8 +216,8 @@ test_phosh_app_grid_button_is_favorite (void)
 }
 
 
-gint
-main (gint argc,
+int
+main (int   argc,
       char *argv[])
 {
   gtk_test_init (&argc, &argv, NULL);

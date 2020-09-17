@@ -151,8 +151,8 @@ shake_label (GtkWidget *widget,
   gint64 end_time = start_time + 1000 * 300;
   gint64 now = gdk_frame_clock_get_frame_time (frame_clock);
 
-  gfloat t = (gfloat) (now - start_time) / (gfloat)(end_time - start_time);
-  gfloat pos = sin(t * 10) * 0.05 + 0.5;
+  float t = (float) (now - start_time) / (float) (end_time - start_time);
+  float pos = sin (t * 10) * 0.05 + 0.5;
 
   if (now > end_time) {
     /* Stop the animation only when we would step over the idle position (0.5) */
@@ -217,8 +217,8 @@ delete_button_clicked_cb (PhoshLockscreen *self,
 
 static void
 long_press_del_cb (PhoshLockscreen *self,
-                   gdouble              x,
-                   gdouble              y,
+                   double           x,
+                   double           y,
                    GtkGesture      *gesture)
 {
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));

@@ -21,6 +21,6 @@ void                    phosh_lockscreen_manager_set_locked  (PhoshLockscreenMan
                                                               gboolean state);
 gboolean                phosh_lockscreen_manager_get_locked  (PhoshLockscreenManager *self);
 void                    phosh_lockscreen_manager_set_timeout (PhoshLockscreenManager *self,
-                                                              gint timeout);
-gint                    phosh_lockscreen_manager_get_timeout (PhoshLockscreenManager *self);
+                                                              int timeout);
+int                     phosh_lockscreen_manager_get_timeout (PhoshLockscreenManager *self);
 gint64                  phosh_lockscreen_manager_get_active_time (PhoshLockscreenManager *self);

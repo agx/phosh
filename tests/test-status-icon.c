@@ -94,8 +94,8 @@ test_phosh_status_icon_extra_widget (void)
 
 
 
-gint
-main (gint argc,
+int
+main (int   argc,
       char *argv[])
 {
   gtk_test_init (&argc, &argv, NULL);

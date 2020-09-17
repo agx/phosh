@@ -51,10 +51,10 @@ test_phosh_media_player_new (TestFixture *fixture, gconstpointer data)
 #endif
 }
 
-gint
-main (gint argc, char *argv[])
+int
+main (int argc, char *argv[])
 {
-  gint ret = -1;
+  int ret = -1;
 
   g_autoptr(GTestDBus) bus = NULL;
   const char *display;

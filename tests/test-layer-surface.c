@@ -175,8 +175,8 @@ test_layer_surface_set_kbd_interactivity (Fixture *fixture, gconstpointer unused
 }
 
 
-gint
-main (gint   argc,
+int
+main (int   argc,
       char *argv[])
 {
   g_test_init (&argc, &argv, NULL);

@@ -48,7 +48,7 @@ app_launched_cb (GtkWidget    *widget,
 }
 
 
-static gint
+static int
 sort_apps (gconstpointer a,
            gconstpointer b,
            gpointer      data)

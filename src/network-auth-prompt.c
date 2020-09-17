@@ -204,7 +204,7 @@ network_prompt_setup_dialog (PhoshNetworkAuthPrompt *self)
         self->security_type == NMU_SEC_WPA2_PSK)
       password = nm_setting_wireless_security_get_psk (wireless_setting);
     else if (self->security_type == NMU_SEC_STATIC_WEP) {
-      gint index;
+      int index;
 
       index = nm_setting_wireless_security_get_wep_tx_keyidx (wireless_setting);
       password = nm_setting_wireless_security_get_wep_key (wireless_setting, index);

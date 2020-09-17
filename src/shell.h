@@ -33,10 +33,10 @@ PhoshShell          *phosh_shell_get_default     (void);
 void                 phosh_shell_rotate_display  (PhoshShell *self, guint degrees);
 int                  phosh_shell_get_rotation    (PhoshShell *self);
 void                 phosh_shell_get_usable_area (PhoshShell *self,
-                                                  gint *x,
-                                                  gint *y,
-                                                  gint *width,
-                                                  gint *height);
+                                                  int        *x,
+                                                  int        *y,
+                                                  int        *width,
+                                                  int        *height);
 void                 phosh_shell_set_locked      (PhoshShell *self, gboolean locked);
 gboolean             phosh_shell_get_locked      (PhoshShell *self);
 void                 phosh_shell_lock            (PhoshShell *self);

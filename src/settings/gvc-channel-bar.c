@@ -190,7 +190,7 @@ on_scale_button_release_event (GtkWidget      *widget,
                                GvcChannelBar  *self)
 {
   GtkAdjustment *adj;
-  gdouble value;
+  double value;
 
   self->click_lock = FALSE;
 
@@ -211,9 +211,9 @@ gboolean
 gvc_channel_bar_scroll (GvcChannelBar *self, GdkEventScroll *event)
 {
   GtkAdjustment *adj;
-  gdouble value;
+  double value;
   GdkScrollDirection direction;
-  gdouble dx, dy;
+  double dx, dy;
 
   g_return_val_if_fail (self != NULL, FALSE);
   g_return_val_if_fail (GVC_IS_CHANNEL_BAR (self), FALSE);
@@ -273,7 +273,7 @@ gvc_channel_bar_scroll (GvcChannelBar *self, GdkEventScroll *event)
       value = value + dy * SCROLLSTEP;
   }
 
-  gvc_channel_bar_set_is_muted (self, ((gint)value == 0));
+  gvc_channel_bar_set_is_muted (self, ((int) value == 0));
   adj = gtk_range_get_adjustment (GTK_RANGE (self->scale));
   gtk_adjustment_set_value (adj, value);
 
@@ -294,7 +294,7 @@ static void
 on_zero_adjustment_value_changed (GtkAdjustment *adjustment,
                                   GvcChannelBar *self)
 {
-  gdouble value;
+  double value;
 
   if (self->click_lock != FALSE) {
     return;

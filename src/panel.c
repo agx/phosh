@@ -416,7 +416,7 @@ void
 phosh_panel_fold (PhoshPanel *self)
 {
   PhoshPanelPrivate *priv;
-  gint width;
+  int width;
 
   g_return_if_fail (PHOSH_IS_PANEL (self));
   priv = phosh_panel_get_instance_private (self);

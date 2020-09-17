@@ -39,8 +39,8 @@ typedef enum _PhoshMonitorConnectorType
 
 typedef struct _PhoshMonitorMode
 {
-  gint width, height;
-  gint refresh;
+  int width, height;
+  int refresh;
   guint32 flags;
 } PhoshMonitorMode;
 
@@ -66,16 +66,16 @@ struct _PhoshMonitor {
   struct zwlr_output_power_v1 *wlr_output_power;
   PhoshMonitorPowerSaveMode power_mode;
 
-  gint x, y, width, height;
-  gint subpixel;
+  int x, y, width, height;
+  int subpixel;
   gint32 transform, scale;
 
   struct {
     gint32 x, y, width, height;
   } logical;
 
-  gint width_mm;
-  gint height_mm;
+  int width_mm;
+  int height_mm;
 
   char *vendor;
   char *product;

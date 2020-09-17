@@ -134,7 +134,7 @@ phosh_auth_finalize (GObject *object)
 {
   PhoshAuthPrivate *priv = phosh_auth_get_instance_private (PHOSH_AUTH(object));
   GObjectClass *parent_class = G_OBJECT_CLASS (phosh_auth_parent_class);
-  gint ret;
+  int ret;
 
   if (priv->pamh) {
     ret = pam_end(priv->pamh, PAM_AUTH_ERR);

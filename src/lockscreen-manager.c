@@ -52,10 +52,10 @@ typedef struct {
   GPtrArray *shields;              /* other outputs */
   GSettings *settings;
 
-  gint timeout;                    /* timeout in seconds before screen locks */
+  int timeout;                     /* timeout in seconds before screen locks */
   gboolean locked;
   gint64 active_time;              /* when lock was activated (in us) */
-  gint rotation;                   /* the shell rotation before locking */
+  int rotation;                    /* the shell rotation before locking */
 } PhoshLockscreenManagerPrivate;
 
 
@@ -381,7 +381,7 @@ phosh_lockscreen_manager_get_locked (PhoshLockscreenManager *self)
 
 
 void
-phosh_lockscreen_manager_set_timeout (PhoshLockscreenManager *self, gint timeout)
+phosh_lockscreen_manager_set_timeout (PhoshLockscreenManager *self, int timeout)
 {
   PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);
 
@@ -396,7 +396,7 @@ phosh_lockscreen_manager_set_timeout (PhoshLockscreenManager *self, gint timeout
 }
 
 
-gint
+int
 phosh_lockscreen_manager_get_timeout (PhoshLockscreenManager *self)
 {
   PhoshLockscreenManagerPrivate *priv = phosh_lockscreen_manager_get_instance_private (self);

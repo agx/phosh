@@ -19,8 +19,8 @@ test_phosh_connectivity_info_new (void)
   gtk_widget_destroy (widget);
 }
 
-gint
-main (gint   argc,
+int
+main (int   argc,
       char *argv[])
 {
   gtk_test_init (&argc, &argv, NULL);

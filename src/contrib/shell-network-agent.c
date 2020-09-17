@@ -33,7 +33,7 @@ enum {
   SIGNAL_LAST
 };
 
-static gint signals[SIGNAL_LAST];
+static int signals[SIGNAL_LAST];
 
 typedef struct {
   GCancellable *                    cancellable;
@@ -546,7 +546,7 @@ create_keyring_add_attr_list (NMConnection *connection,
 typedef struct
 {
   /* Sort of ref count, indicates the number of secrets we still need to save */
-  gint              n_secrets;
+  int               n_secrets;
 
   NMSecretAgentOld *self;
   NMConnection     *connection;
