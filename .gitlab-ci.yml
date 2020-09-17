@@ -192,6 +192,21 @@ check-po:
     variables:
       - $PKG_ONLY == "1"
 
+check-license-headers:
+  <<: *tags
+  stage: test+docs
+  image: debian:bullseye
+  dependencies:
+    - build:native-debian-bullseye
+  <<: *bullseye_vars
+  script:
+    # Checks .c and .h files begin with a license header as
+    # defined in HACKING.md
+    - ./tools/check-license-headers.py
+  except:
+    variables:
+      - $PKG_ONLY == "1"
+
 build:native-alpinelinux-edge:
   <<: *tags
   stage: build
