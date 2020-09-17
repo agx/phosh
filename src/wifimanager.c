@@ -51,8 +51,8 @@ struct _PhoshWifiManager
    * connection state */
   gboolean           present;
 
-  const gchar        *icon_name;
-  gchar              *ssid;
+  const char         *icon_name;
+  char               *ssid;
 
   NMClient           *nmclient;
   /* The access point we're connected to */
@@ -83,7 +83,7 @@ signal_strength_icon_name (guint strength)
 }
 
 
-static const gchar *
+static const char *
 get_icon_name (PhoshWifiManager *self)
 {
   NMActiveConnectionState state;
@@ -121,7 +121,7 @@ get_icon_name (PhoshWifiManager *self)
 static void
 update_icon_name (PhoshWifiManager *self)
 {
-  const gchar *old_icon_name;
+  const char *old_icon_name;
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
 
   old_icon_name = self->icon_name;
@@ -215,7 +215,7 @@ on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self, GParamSpe
 {
   NMAccessPoint *old_ap;
   GBytes *ssid;
-  g_autofree gchar *old_ssid = NULL;
+  g_autofree char *old_ssid = NULL;
 
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
   g_return_if_fail (NM_IS_DEVICE_WIFI (dev));
@@ -472,10 +472,10 @@ network_agent_setup_prompt (PhoshWifiManager *self)
 
 static void
 secret_request_new_cb (PhoshWifiManager              *self,
-                       gchar                         *request_id,
+                       char                          *request_id,
                        NMConnection                  *connection,
-                       gchar                         *setting_name,
-                       gchar                        **hints,
+                       char                          *setting_name,
+                       char                         **hints,
                        NMSecretAgentGetSecretsFlags   flags,
                        ShellNetworkAgent             *agent)
 {
@@ -497,7 +497,7 @@ secret_request_new_cb (PhoshWifiManager              *self,
 
 static void
 secret_request_cancelled_cb (PhoshWifiManager  *self,
-                             gchar             *request_id,
+                             char              *request_id,
                              ShellNetworkAgent *agent)
 {
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
@@ -689,7 +689,7 @@ phosh_wifi_manager_get_strength (PhoshWifiManager *self)
   return nm_access_point_get_strength (self->ap);
 }
 
-const gchar*
+const char *
 phosh_wifi_manager_get_icon_name (PhoshWifiManager *self)
 {
   g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (self), NULL);
@@ -698,7 +698,7 @@ phosh_wifi_manager_get_icon_name (PhoshWifiManager *self)
 }
 
 
-const gchar*
+const char *
 phosh_wifi_manager_get_ssid (PhoshWifiManager *self)
 {
   g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (self), NULL);

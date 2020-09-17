@@ -50,9 +50,9 @@ struct _PhoshNetworkAuthPrompt
 
   NMClient       *nm_client;
   NMConnection   *connection;
-  const gchar    *key_type;
-  gchar          *request_id;
-  gchar          *setting_name;
+  const char     *key_type;
+  char           *request_id;
+  char           *setting_name;
   NMUtilsSecurityType security_type;
   NMSecretAgentGetSecretsFlags flags;
 
@@ -140,11 +140,11 @@ network_prompt_get_type (PhoshNetworkAuthPrompt *self)
 }
 
 
-static const gchar *
+static const char *
 network_connection_get_key_type (NMConnection *connection)
 {
   NMSettingWirelessSecurity *setting;
-  const gchar *key_mgmt;
+  const char *key_mgmt;
 
   g_return_val_if_fail (NM_IS_CONNECTION (connection), NULL);
 
@@ -163,8 +163,8 @@ static void
 network_prompt_setup_dialog (PhoshNetworkAuthPrompt *self)
 {
   NMSettingWireless *setting;
-  g_autofree gchar *str = NULL;
-  g_autofree gchar *ssid = NULL;
+  g_autofree char *str = NULL;
+  g_autofree char *ssid = NULL;
   GBytes *bytes;
 
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
@@ -196,7 +196,7 @@ network_prompt_setup_dialog (PhoshNetworkAuthPrompt *self)
   /* Load password */
   if (self->security_type != NMU_SEC_NONE) {
     NMSettingWirelessSecurity *wireless_setting;
-    const gchar *password = "";
+    const char *password = "";
 
     wireless_setting = nm_connection_get_setting_wireless_security (self->connection);
 
@@ -230,13 +230,13 @@ network_prompt_cancel_clicked_cb (PhoshNetworkAuthPrompt *self)
 static void
 network_prompt_connect_clicked_cb (PhoshNetworkAuthPrompt *self)
 {
-  const gchar *password;
+  const char *password;
 
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
 
   password = gtk_entry_buffer_get_text (GTK_ENTRY_BUFFER (self->password_buffer));
   shell_network_agent_set_password (self->agent, self->request_id,
-                                    (gchar *)self->key_type, (gchar *)password);
+                                    (char *) self->key_type, (char *) password);
   shell_network_agent_respond (self->agent, self->request_id, SHELL_NETWORK_AGENT_CONFIRMED);
 
   emit_done (self, FALSE);
@@ -293,7 +293,7 @@ network_prompt_key_press_event_cb (PhoshNetworkAuthPrompt *self,
 static void
 network_prompt_wpa_password_changed_cb (PhoshNetworkAuthPrompt *self)
 {
-  const gchar *password;
+  const char *password;
   gboolean valid = FALSE;
 
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
@@ -415,10 +415,10 @@ phosh_network_auth_prompt_new (ShellNetworkAgent *agent,
 
 void
 phosh_network_auth_prompt_set_request (PhoshNetworkAuthPrompt        *self,
-                                       gchar                         *request_id,
+                                       char                          *request_id,
                                        NMConnection                  *connection,
-                                       gchar                         *setting_name,
-                                       gchar                        **hints,
+                                       char                          *setting_name,
+                                       char                         **hints,
                                        NMSecretAgentGetSecretsFlags   flags)
 {
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));

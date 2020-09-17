@@ -17,7 +17,7 @@ G_DECLARE_FINAL_TYPE (PhoshAuth, phosh_auth, PHOSH, AUTH, GObject)
 GObject *phosh_auth_new (void);
 
 void     phosh_auth_authenticate_async_start  (PhoshAuth           *self,
-                                               const gchar         *number,
+                                               const char          *number,
                                                GCancellable        *cancellable,
                                                GAsyncReadyCallback  callback,
                                                gpointer             user_data);

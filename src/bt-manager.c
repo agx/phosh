@@ -45,7 +45,7 @@ struct _PhoshBtManager {
   gboolean               enabled;
   /* Whether we have a bt device is present */
   gboolean               present;
-  const gchar           *icon_name;
+  const char            *icon_name;
 
   PhoshRfkillDbusRfkill *proxy;
 };
@@ -82,7 +82,7 @@ on_bt_airplane_mode_changed (PhoshBtManager        *self,
                              PhoshRfkillDbusRfkill *proxy)
 {
   gboolean enabled;
-  const gchar *icon_name;
+  const char *icon_name;
 
   g_return_if_fail (PHOSH_IS_BT_MANAGER (self));
   g_return_if_fail (PHOSH_RFKILL_DBUS_IS_RFKILL (proxy));
@@ -230,7 +230,7 @@ phosh_bt_manager_new (void)
 }
 
 
-const gchar*
+const char *
 phosh_bt_manager_get_icon_name (PhoshBtManager *self)
 {
   g_return_val_if_fail (PHOSH_IS_BT_MANAGER (self), NULL);

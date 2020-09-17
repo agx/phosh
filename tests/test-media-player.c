@@ -52,7 +52,7 @@ test_phosh_media_player_new (TestFixture *fixture, gconstpointer data)
 }
 
 gint
-main (gint argc, gchar *argv[])
+main (gint argc, char *argv[])
 {
   gint ret = -1;
 

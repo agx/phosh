@@ -108,7 +108,7 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWan *wwan)
 {
   GtkWidget *access_tec_widget;
   guint quality;
-  const gchar *icon_name = NULL;
+  const char *icon_name = NULL;
   const char *access_tec;
   gboolean present;
 
@@ -161,7 +161,7 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWan *wwan)
 static void
 update_info (PhoshWWanInfo *self)
 {
-  const gchar *info;
+  const char *info;
   g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
 
   info = phosh_wwan_get_operator (self->wwan);

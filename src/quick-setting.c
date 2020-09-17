@@ -238,7 +238,7 @@ call_dbus_cb (GDBusProxy *proxy,
 }
 
 static void
-create_dbus_proxy_cb (GObject *source_object, GAsyncResult *res, gchar *panel)
+create_dbus_proxy_cb (GObject *source_object, GAsyncResult *res, char *panel)
 {
   g_autoptr (GDBusProxy) proxy = NULL;
   g_autoptr (GError) err = NULL;
@@ -276,7 +276,7 @@ create_dbus_proxy_cb (GObject *source_object, GAsyncResult *res, gchar *panel)
 
 
 void
-phosh_quick_setting_open_settings_panel (gchar *panel)
+phosh_quick_setting_open_settings_panel (char *panel)
 {
   g_dbus_proxy_new_for_bus (G_BUS_TYPE_SESSION,
 			    G_DBUS_PROXY_FLAGS_NONE,

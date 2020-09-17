@@ -67,7 +67,7 @@ phosh_bt_info_get_property (GObject    *object,
 static void
 update_icon (PhoshBtInfo *self, GParamSpec *pspec, PhoshBtManager *bt)
 {
-  const gchar *icon_name;
+  const char *icon_name;
 
   g_return_if_fail (PHOSH_IS_BT_INFO (self));
   g_return_if_fail (PHOSH_IS_BT_MANAGER (bt));

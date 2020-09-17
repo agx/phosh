@@ -141,7 +141,7 @@ wall_clock_notify_cb (PhoshPanel *self,
                       GnomeWallClock *wall_clock)
 {
   PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
-  const gchar *str;
+  const char *str;
 
   g_return_if_fail (PHOSH_IS_PANEL (self));
   g_return_if_fail (GNOME_IS_WALL_CLOCK (wall_clock));
@@ -191,16 +191,16 @@ on_seat_device_changed (PhoshPanel *self, GdkDevice  *device, GdkSeat *seat)
 
 
 static void
-on_input_setting_changed (PhoshPanel  *self,
-                          const gchar *key,
-                          GSettings   *settings)
+on_input_setting_changed (PhoshPanel *self,
+                          const char *key,
+                          GSettings  *settings)
 {
   PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
   g_autoptr(GVariant) sources = NULL;
   GVariantIter iter;
-  g_autofree gchar *id = NULL;
-  g_autofree gchar *type = NULL;
-  const gchar *name;
+  g_autofree char *id = NULL;
+  g_autofree char *type = NULL;
+  const char *name;
 
   if (!needs_keyboard_label (self)) {
     gtk_widget_hide (priv->lbl_lang);

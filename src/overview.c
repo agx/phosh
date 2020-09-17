@@ -192,7 +192,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
   PhoshOverviewPrivate *priv;
   GtkWidget *activity;
-  const gchar *app_id, *title;
+  const char *app_id, *title;
 
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   priv = phosh_overview_get_instance_private (self);

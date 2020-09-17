@@ -54,7 +54,7 @@ test_layer_surface_new (Fixture *fixture, gconstpointer unused)
 static void
 test_layer_surface_g_object_new (Fixture *fixture, gconstpointer unused)
 {
-  g_autofree gchar *namespace = g_strdup_printf ("phosh test %s", __func__);
+  g_autofree char *namespace = g_strdup_printf ("phosh test %s", __func__);
   GtkWidget *surface = g_object_new (PHOSH_TYPE_LAYER_SURFACE,
                                      "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
                                      "wl-output", fixture->state->output,
@@ -91,7 +91,7 @@ static void
 test_layer_surface_set_size (Fixture *fixture, gconstpointer unused)
 {
   guint width_count = 0, height_count = 0;
-  g_autofree gchar *namespace = g_strdup_printf ("phosh test %s", __func__);
+  g_autofree char *namespace = g_strdup_printf ("phosh test %s", __func__);
 
   GtkWidget *surface = g_object_new (PHOSH_TYPE_LAYER_SURFACE,
                                      "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
@@ -140,7 +140,7 @@ test_layer_surface_set_kbd_interactivity (Fixture *fixture, gconstpointer unused
 {
   guint count = 0;
   gboolean kbd_interacivity;
-  g_autofree gchar *namespace = g_strdup_printf ("phosh test %s", __func__);
+  g_autofree char *namespace = g_strdup_printf ("phosh test %s", __func__);
 
   GtkWidget *surface = g_object_new (PHOSH_TYPE_LAYER_SURFACE,
                                      "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
@@ -177,7 +177,7 @@ test_layer_surface_set_kbd_interactivity (Fixture *fixture, gconstpointer unused
 
 gint
 main (gint   argc,
-      gchar *argv[])
+      char *argv[])
 {
   g_test_init (&argc, &argv, NULL);
 

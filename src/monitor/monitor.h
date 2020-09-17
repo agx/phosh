@@ -77,14 +77,14 @@ struct _PhoshMonitor {
   gint width_mm;
   gint height_mm;
 
-  gchar *vendor;
-  gchar *product;
+  char *vendor;
+  char *product;
 
   GArray *modes;
   guint current_mode;
   guint preferred_mode;
 
-  gchar *name;
+  char *name;
   PhoshMonitorConnectorType conn_type;
 
   gboolean wl_output_done;

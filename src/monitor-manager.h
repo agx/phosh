@@ -22,4 +22,4 @@ PhoshMonitor        * phosh_monitor_manager_get_monitor               (PhoshMoni
                                                                        guint                num);
 guint                 phosh_monitor_manager_get_num_monitors          (PhoshMonitorManager *self);
 PhoshMonitor        * phosh_monitor_manager_find_monitor              (PhoshMonitorManager *self,
-                                                                       const gchar *name);
+                                                                       const char          *name);

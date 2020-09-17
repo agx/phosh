@@ -62,7 +62,7 @@ phosh_connectivity_info_get_property (GObject    *object,
 static void
 on_connectivity_changed (PhoshConnectivityInfo *self, GParamSpec *pspec, NMClient *nmclient)
 {
-  const gchar *icon_name;
+  const char *icon_name;
   NMConnectivityState state;
   gboolean connectivity = FALSE;
 

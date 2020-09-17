@@ -66,7 +66,7 @@ phosh_wifi_info_get_property (GObject    *object,
 static void
 update_icon (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
 {
-  const gchar *icon_name;
+  const char *icon_name;
 
   g_debug ("Updating wifi icon");
   g_return_if_fail (PHOSH_IS_WIFI_INFO (self));
@@ -80,7 +80,7 @@ update_icon (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
 static void
 update_info (PhoshWifiInfo *self)
 {
-  const gchar *info;
+  const char *info;
   g_return_if_fail (PHOSH_IS_WIFI_INFO (self));
 
   info = phosh_wifi_manager_get_ssid (self->wifi);

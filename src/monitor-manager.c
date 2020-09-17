@@ -417,8 +417,8 @@ phosh_monitor_manager_handle_get_current_state (
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder modes_builder, supported_scales_builder, mode_properties_builder,
       monitor_properties_builder;
-    g_autofree gchar *serial = NULL;
-    gchar *display_name;
+    g_autofree char *serial = NULL;
+    char *display_name;
     gboolean is_builtin;
 
     if (!phosh_monitor_is_configured(monitor))
@@ -428,7 +428,7 @@ phosh_monitor_manager_handle_get_current_state (
 
     for (int k = 0; k < monitor->modes->len; k++) {
       PhoshMonitorMode *mode = &g_array_index (monitor->modes, PhoshMonitorMode, k);
-      g_autofree gchar *mode_name = NULL;
+      g_autofree char *mode_name = NULL;
 
       g_variant_builder_init (&supported_scales_builder,
                               G_VARIANT_TYPE ("ad"));
@@ -484,7 +484,7 @@ phosh_monitor_manager_handle_get_current_state (
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder logical_monitor_monitors_builder;
-    g_autofree gchar *serial = NULL;
+    g_autofree char *serial = NULL;
     gboolean is_primary;
 
     if (!phosh_monitor_is_configured(monitor))
@@ -938,7 +938,7 @@ phosh_monitor_manager_get_monitor (PhoshMonitorManager *self, guint num)
 
 
 PhoshMonitor *
-phosh_monitor_manager_find_monitor (PhoshMonitorManager *self, const gchar *name)
+phosh_monitor_manager_find_monitor (PhoshMonitorManager *self, const char *name)
 {
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);

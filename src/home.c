@@ -326,7 +326,7 @@ animate_cb(GtkWidget *widget,
 void
 phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
 {
-  g_autofree gchar *state_name = NULL;
+  g_autofree char *state_name = NULL;
   gboolean enable_animations;
   gboolean kbd_interactivity;
 

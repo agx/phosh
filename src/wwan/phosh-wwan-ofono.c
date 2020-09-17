@@ -47,13 +47,13 @@ typedef struct _PhoshWWanOfono {
   gulong                             proxy_netreg_props_signal_id;
   gulong                             proxy_sim_props_signal_id;
 
-  gchar                             *object_path;
+  char                              *object_path;
   guint                              signal_quality;
   const char                        *access_tec;
   gboolean                           locked;
   gboolean                           sim;
   gboolean                           present;
-  gchar                             *operator;
+  char                              *operator;
 } PhoshWWanOfono;
 
 
@@ -74,7 +74,7 @@ phosh_wwan_ofono_update_signal_quality (PhoshWWanOfono *self, GVariant *v)
 
 
 static const char *
-phosh_wwan_ofono_user_friendly_access_tec (const gchar *access_tec)
+phosh_wwan_ofono_user_friendly_access_tec (const char *access_tec)
 {
   if (!access_tec)
     return NULL;
@@ -97,7 +97,7 @@ phosh_wwan_ofono_user_friendly_access_tec (const gchar *access_tec)
 static void
 phosh_wwan_ofono_update_access_tec (PhoshWWanOfono *self, GVariant *v)
 {
-  const gchar *access_tec;
+  const char *access_tec;
 
   g_return_if_fail (self);
   g_return_if_fail (v);
@@ -113,7 +113,7 @@ phosh_wwan_ofono_update_access_tec (PhoshWWanOfono *self, GVariant *v)
 static void
 phosh_wwan_ofono_update_operator (PhoshWWanOfono *self, GVariant *v)
 {
-  const gchar *operator;
+  const char *operator;
 
   g_return_if_fail (self);
   g_return_if_fail (v);
@@ -133,7 +133,7 @@ phosh_wwan_ofono_update_operator (PhoshWWanOfono *self, GVariant *v)
 static void
 phosh_wwan_ofono_update_lock_status (PhoshWWanOfono *self, GVariant *v)
 {
-  const gchar *pin_required;
+  const char *pin_required;
 
   g_return_if_fail (self);
   g_return_if_fail (v);
@@ -175,7 +175,7 @@ phosh_wwan_ofono_update_present (PhoshWWanOfono *self, gboolean present)
 
 static void
 phosh_wwan_ofono_dbus_netreg_update_prop (PhoshOfonoDBusNetworkRegistration *proxy,
-                                          const gchar                       *property,
+                                          const char                        *property,
                                           GVariant                          *value,
                                           PhoshWWanOfono                    *self)
 {
@@ -190,7 +190,7 @@ phosh_wwan_ofono_dbus_netreg_update_prop (PhoshOfonoDBusNetworkRegistration *pro
 
 static void
 phosh_wwan_ofono_dbus_netreg_prop_changed_cb (PhoshOfonoDBusNetworkRegistration *proxy,
-                                              const gchar *property,
+                                              const char *property,
                                               GVariant *value,
                                               PhoshWWanOfono *self)
 {
@@ -201,7 +201,7 @@ phosh_wwan_ofono_dbus_netreg_prop_changed_cb (PhoshOfonoDBusNetworkRegistration 
 
 static void
 phosh_wwan_ofono_dbus_sim_update_prop (PhoshOfonoDBusSimManager *proxy,
-                                       const gchar              *property,
+                                       const char               *property,
                                        GVariant                 *value,
                                        PhoshWWanOfono           *self)
 {
@@ -218,7 +218,7 @@ phosh_wwan_ofono_dbus_sim_update_prop (PhoshOfonoDBusSimManager *proxy,
 
 static void
 phosh_wwan_ofono_dbus_sim_prop_changed_cb (PhoshOfonoDBusSimManager *proxy,
-                                           const gchar              *property,
+                                           const char               *property,
                                            GVariant                 *value,
                                            PhoshWWanOfono           *self)
 {
@@ -435,7 +435,7 @@ phosh_wwan_ofono_on_proxy_netreg_new_for_bus_finish (GObject        *source_obje
 
 
 static void
-phosh_wwan_ofono_init_modem (PhoshWWanOfono *self, const gchar *object_path)
+phosh_wwan_ofono_init_modem (PhoshWWanOfono *self, const char *object_path)
 {
   g_return_if_fail (object_path);
 
@@ -466,7 +466,7 @@ phosh_wwan_ofono_init_modem (PhoshWWanOfono *self, const gchar *object_path)
 
 static void
 phosh_wwan_ofono_modem_added_cb (PhoshWWanOfono        *self,
-                                 const gchar           *modem_object_path,
+                                 const char            *modem_object_path,
                                  GVariant              *modem_properties,
                                  PhoshOfonoDBusManager *proxy_manager)
 {
@@ -480,7 +480,7 @@ phosh_wwan_ofono_modem_added_cb (PhoshWWanOfono        *self,
 
 static void
 phosh_wwan_ofono_modem_removed_cb (PhoshWWanOfono        *self,
-                                   const gchar           *modem_object_path,
+                                   const char            *modem_object_path,
                                    PhoshOfonoDBusManager *proxy_manager)
 {
   g_debug ("Modem removed at path: %s", modem_object_path);
@@ -499,7 +499,7 @@ phosh_wwan_ofono_on_get_modems_finish (GObject        *source_object,
   g_autoptr (GError) err = NULL;
   g_autoptr (GVariant) modems = NULL;
   GVariantIter i;
-  const gchar *modem_object_path = NULL;
+  const char *modem_object_path = NULL;
 
   if (!phosh_ofono_dbus_manager_call_get_modems_finish (
     self->proxy_manager,

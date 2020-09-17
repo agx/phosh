@@ -40,7 +40,7 @@ test_phosh_app_list_model_g_list_iface (void)
 
 gint
 main (gint argc,
-      gchar *argv[])
+      char *argv[])
 {
   g_test_init (&argc, &argv, NULL);
 

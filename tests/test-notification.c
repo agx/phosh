@@ -195,8 +195,8 @@ actioned (PhoshNotification *noti,
 
 // g_strv_equal from GLib 2.60
 static gboolean
-strv_equal (const gchar * const *strv1,
-            const gchar * const *strv2)
+strv_equal (const char *const *strv1,
+            const char *const *strv2)
 {
   g_return_val_if_fail (strv1 != NULL, FALSE);
   g_return_val_if_fail (strv2 != NULL, FALSE);
@@ -238,8 +238,8 @@ test_phosh_notification_actions (void)
 
   actions = phosh_notification_get_actions (noti);
 
-  g_assert_true (strv_equal ((const gchar * const*) original_actions,
-                             (const gchar * const*) actions));
+  g_assert_true (strv_equal ((const char *const *) original_actions,
+                             (const char *const *) actions));
 
   g_signal_connect (noti, "actioned", G_CALLBACK (actioned), NULL);
   phosh_notification_activate (noti, "app.test");

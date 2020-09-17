@@ -243,8 +243,8 @@ static void
 on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMediaPlayer2Player *player)
 {
   GVariant *metadata;
-  gchar *title = NULL;
-  gchar *url = NULL;
+  char *title = NULL;
+  char *url = NULL;
 
   g_auto (GStrv) artist = NULL;
   g_auto (GVariantDict) dict = G_VARIANT_DICT_INIT (NULL);
@@ -267,7 +267,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
 
   g_variant_dict_lookup (&dict, "xesam:artist", "^as", &artist);
   if (artist && g_strv_length (artist) > 0) {
-    g_autofree gchar *artists = g_strjoinv (", ", artist);
+    g_autofree char *artists = g_strjoinv (", ", artist);
     gtk_label_set_label (GTK_LABEL (self->lbl_artist), artists);
   } else {
     /* Translators: Used when the artist of a song is unknown */
@@ -525,7 +525,7 @@ attach_mpris_cb (GObject          *source_object,
 }
 
 static void
-attach_player (PhoshMediaPlayer *self, const gchar *name)
+attach_player (PhoshMediaPlayer *self, const char *name)
 {
   g_autoptr (GError) err = NULL;
 
@@ -556,7 +556,7 @@ attach_player (PhoshMediaPlayer *self, const gchar *name)
 }
 
 static gboolean
-is_valid_player (const gchar *bus_name)
+is_valid_player (const char *bus_name)
 {
   if (!g_str_has_prefix (bus_name, MPRIS_PREFIX))
     return FALSE;
@@ -575,7 +575,7 @@ find_player_cb (GObject          *source_object,
   g_autoptr (GVariant) result = NULL;
   g_autoptr (GVariant) names = NULL;
   g_autoptr (GError) err = NULL;
-  const gchar *name;
+  const char *name;
   GVariantIter iter;
   gboolean found = FALSE;
 
@@ -632,10 +632,10 @@ find_player_async (PhoshMediaPlayer *self)
 
 static void
 on_dbus_name_owner_changed (GDBusConnection  *connection,
-                            const gchar      *sender_name,
-                            const gchar      *object_path,
-                            const gchar      *interface_name,
-                            const gchar      *signal_name,
+                            const char       *sender_name,
+                            const char       *object_path,
+                            const char       *interface_name,
+                            const char       *signal_name,
                             GVariant         *parameters,
                             PhoshMediaPlayer *self)
 {

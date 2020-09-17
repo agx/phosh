@@ -27,7 +27,7 @@ struct _PhoshAppGridPrivate {
   GtkWidget *favs_revealer;
   GtkWidget *scrolled_window;
 
-  gchar *search_string;
+  char *search_string;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGrid, phosh_app_grid, GTK_TYPE_BOX)
@@ -56,20 +56,20 @@ sort_apps (gconstpointer a,
   GAppInfo *info1 = G_APP_INFO (a);
   GAppInfo *info2 = G_APP_INFO (b);
 
-  g_autofree gchar *s1 = g_utf8_casefold (g_app_info_get_name (info1), -1);
-  g_autofree gchar *s2 = g_utf8_casefold (g_app_info_get_name (info2), -1);
+  g_autofree char *s1 = g_utf8_casefold (g_app_info_get_name (info1), -1);
+  g_autofree char *s2 = g_utf8_casefold (g_app_info_get_name (info2), -1);
 
   return g_strcmp0 (s1, s2);
 }
 
-static const gchar *(*app_attr[]) (GAppInfo *info) = {
+static const char *(*app_attr[]) (GAppInfo *info) = {
   g_app_info_get_display_name,
   g_app_info_get_name,
   g_app_info_get_description,
   g_app_info_get_executable,
 };
 
-static const gchar *(*desktop_attr[]) (GDesktopAppInfo *info) = {
+static const char *(*desktop_attr[]) (GDesktopAppInfo *info) = {
   g_desktop_app_info_get_generic_name,
   g_desktop_app_info_get_categories,
 };
@@ -98,7 +98,7 @@ search_apps (gpointer item, gpointer data)
   }
 
   for (int i = 0; i < G_N_ELEMENTS (app_attr); i++) {
-    g_autofree gchar *folded = NULL;
+    g_autofree char *folded = NULL;
 
     str = app_attr[i] (info);
 
@@ -115,7 +115,7 @@ search_apps (gpointer item, gpointer data)
     const char * const *kwds;
 
     for (int i = 0; i < G_N_ELEMENTS (desktop_attr); i++) {
-      g_autofree gchar *folded = NULL;
+      g_autofree char *folded = NULL;
 
       str = desktop_attr[i] (G_DESKTOP_APP_INFO (info));
 
@@ -134,7 +134,7 @@ search_apps (gpointer item, gpointer data)
       int i = 0;
 
       while ((str = kwds[i])) {
-        g_autofree gchar *folded = g_utf8_casefold (str, -1);
+        g_autofree char *folded = g_utf8_casefold (str, -1);
         if (strstr (folded, search))
           return TRUE;
         i++;
@@ -288,7 +288,7 @@ search_changed (GtkSearchEntry *entry,
 
 static void
 search_preedit_changed (GtkSearchEntry *entry,
-                        const gchar    *preedit,
+                        const char     *preedit,
                         PhoshAppGrid   *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);

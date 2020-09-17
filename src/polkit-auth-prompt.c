@@ -64,10 +64,10 @@ struct _PhoshPolkitAuthPrompt
   GtkWidget *entry_password;
   GtkEntryBuffer *password_buffer;
 
-  gchar *action_id;
-  gchar *message;
-  gchar *icon_name;
-  gchar *cookie;
+  char  *action_id;
+  char  *message;
+  char  *icon_name;
+  char  *cookie;
   GStrv  user_names;
 
   PolkitIdentity *identity;
@@ -82,7 +82,7 @@ static void phosh_polkit_auth_prompt_initiate (PhoshPolkitAuthPrompt *self);
 
 
 static void
-set_action_id (PhoshPolkitAuthPrompt *self, const gchar *action_id)
+set_action_id (PhoshPolkitAuthPrompt *self, const char *action_id)
 {
   g_return_if_fail (PHOSH_IS_POLKIT_AUTH_PROMPT (self));
 
@@ -97,7 +97,7 @@ set_action_id (PhoshPolkitAuthPrompt *self, const gchar *action_id)
 
 
 static void
-set_cookie (PhoshPolkitAuthPrompt *self, const gchar *cookie)
+set_cookie (PhoshPolkitAuthPrompt *self, const char *cookie)
 {
   g_return_if_fail (PHOSH_IS_POLKIT_AUTH_PROMPT (self));
 
@@ -112,7 +112,7 @@ set_cookie (PhoshPolkitAuthPrompt *self, const gchar *cookie)
 
 
 static void
-set_message (PhoshPolkitAuthPrompt *self, const gchar *message)
+set_message (PhoshPolkitAuthPrompt *self, const char *message)
 {
   g_return_if_fail (PHOSH_IS_POLKIT_AUTH_PROMPT (self));
 
@@ -128,7 +128,7 @@ set_message (PhoshPolkitAuthPrompt *self, const gchar *message)
 
 
 static void
-set_icon_name (PhoshPolkitAuthPrompt *self, const gchar *icon_name)
+set_icon_name (PhoshPolkitAuthPrompt *self, const char *icon_name)
 {
   g_return_if_fail (PHOSH_IS_POLKIT_AUTH_PROMPT (self));
 
@@ -147,7 +147,7 @@ set_icon_name (PhoshPolkitAuthPrompt *self, const gchar *icon_name)
 static void
 set_user_names (PhoshPolkitAuthPrompt *self, const GStrv user_names)
 {
-  const gchar *user_name = NULL;
+  const char *user_name = NULL;
   GError *err = NULL;
   gint len;
 
@@ -169,10 +169,10 @@ set_user_names (PhoshPolkitAuthPrompt *self, const GStrv user_names)
     g_debug ("Received %d user names, only using one", len);
     user_name = g_get_user_name();
 
-    if (!g_strv_contains ((const gchar * const *)user_names, user_name))
+    if (!g_strv_contains ((const char *const *)user_names, user_name))
       user_name = "root";
 
-    if (!g_strv_contains ((const gchar * const *)user_names, user_name))
+    if (!g_strv_contains ((const char *const *)user_names, user_name))
       user_name = user_names[0];
   };
 
@@ -264,7 +264,7 @@ emit_done (PhoshPolkitAuthPrompt *self, gboolean cancelled)
 
 static void
 on_auth_session_request (PhoshPolkitAuthPrompt *self,
-                         gchar                 *request,
+                         char                  *request,
                          gboolean               echo_on,
                          gpointer               user_data)
 {
@@ -284,7 +284,7 @@ on_auth_session_request (PhoshPolkitAuthPrompt *self,
 
 static void
 on_auth_session_show_error (PhoshPolkitAuthPrompt *self,
-                            gchar                 *text,
+                            char                  *text,
                             PolkitAgentSession    *session)
 {
   g_debug ("%s", text);
@@ -294,7 +294,7 @@ on_auth_session_show_error (PhoshPolkitAuthPrompt *self,
 
 static void
 on_auth_session_show_info (PhoshPolkitAuthPrompt *self,
-                           gchar                 *text,
+                           char                  *text,
                            PolkitAgentSession    *session)
 {
   g_debug ("%s", text);
@@ -374,7 +374,7 @@ on_btn_cancel_clicked (PhoshPolkitAuthPrompt *self, GtkButton *btn)
 static void
 on_btn_authenticate_clicked (PhoshPolkitAuthPrompt *self, GtkButton *btn)
 {
-  const gchar *password;
+  const char *password;
 
   password = gtk_entry_buffer_get_text (self->password_buffer);
 
@@ -577,10 +577,10 @@ phosh_polkit_auth_prompt_init (PhoshPolkitAuthPrompt *self)
 
 
 GtkWidget *
-phosh_polkit_auth_prompt_new (const gchar *action_id,
-                              const gchar *message,
-                              const gchar *icon_name,
-                              const gchar *cookie,
+phosh_polkit_auth_prompt_new (const char *action_id,
+                              const char *message,
+                              const char *icon_name,
+                              const char *cookie,
                               GStrv user_names,
                               gpointer layer_shell,
                               gpointer wl_output)

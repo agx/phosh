@@ -199,7 +199,7 @@ phosh_keyboard_events_class_init (PhoshKeyboardEventsClass *klass)
 
 void
 phosh_keyboard_events_register_keys (PhoshKeyboardEvents *self,
-                                     gchar              **accelerators,
+                                     char               **accelerators,
                                      size_t               len)
 {
   g_return_if_fail (self->kbevent);

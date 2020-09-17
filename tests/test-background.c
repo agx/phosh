@@ -70,7 +70,7 @@ test_background_new (Fixture *fixture, gconstpointer unused)
 
 gint
 main (gint   argc,
-      gchar *argv[])
+      char *argv[])
 {
   g_test_init (&argc, &argv, NULL);
 

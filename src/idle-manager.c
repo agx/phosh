@@ -368,7 +368,7 @@ on_bus_acquired (GDBusConnection *connection,
 {
   PhoshIdleManager *self = user_data;
   PhoshMonitor *monitor;
-  g_autofree gchar *path = NULL;
+  g_autofree char *path = NULL;
 
   /* We need to use Mutter's object path here to make gnome-session happy */
   self->manager = g_dbus_object_manager_server_new ("/org/gnome/Mutter/IdleMonitor");

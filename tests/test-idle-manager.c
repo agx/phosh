@@ -122,7 +122,7 @@ test_phosh_idle_remove_watch(void)
 
 gint
 main (gint argc,
-      gchar *argv[])
+      char *argv[])
 {
   g_test_init (&argc, &argv, NULL);
 

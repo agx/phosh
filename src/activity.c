@@ -214,14 +214,14 @@ phosh_activity_constructed (GObject *object)
 {
   PhoshActivity *self = PHOSH_ACTIVITY (object);
   PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
-  g_autofree gchar *desktop_id = NULL;
+  g_autofree char *desktop_id = NULL;
 
   desktop_id = g_strdup_printf ("%s.desktop", priv->app_id);
   g_return_if_fail (desktop_id);
   priv->info = g_desktop_app_info_new (desktop_id);
 
   if (!priv->info) {
-    g_autofree gchar *name = phosh_fix_app_id (priv->app_id);
+    g_autofree char *name = phosh_fix_app_id (priv->app_id);
     g_return_if_fail (name);
     g_free (desktop_id);
     desktop_id = g_strdup_printf ("%s.desktop", name);

@@ -247,7 +247,7 @@ static void
 submit_cb (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv;
-  const gchar *input;
+  const char *input;
   guint16 length;
 
   g_assert (PHOSH_IS_LOCKSCREEN (self));
@@ -329,7 +329,7 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
  * set to something different since LANGUAGE overrides
  * LC_{ALL,MESSAGE}.
  */
-static const gchar *
+static const char *
 date_fmt (void)
 {
   const char *locale;
@@ -353,13 +353,13 @@ date_fmt (void)
  * the user has LC_MESSAGES=en_US.UTF-8 but LC_TIME to their local
  * time zone.
  */
-static gchar*
+static char *
 local_date (void)
 {
   time_t current = time (NULL);
   struct tm local;
-  g_autofree gchar *date = NULL;
-  const gchar *fmt;
+  g_autofree char *date = NULL;
+  const char *fmt;
   const char *locale;
 
   g_return_val_if_fail (current != (time_t) -1, NULL);
@@ -385,8 +385,8 @@ wall_clock_notify_cb (PhoshLockscreen *self,
                       GnomeWallClock *wall_clock)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  const gchar *time;
-  g_autofree gchar *date = NULL;
+  const char *time;
+  g_autofree char *date = NULL;
 
   time = gnome_wall_clock_get_clock(wall_clock);
   gtk_label_set_text (GTK_LABEL (priv->lbl_clock), time);

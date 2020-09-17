@@ -102,7 +102,7 @@ static gboolean
 handle_get_capabilities (PhoshNotifyDbusNotifications *skeleton,
                          GDBusMethodInvocation        *invocation)
 {
-  const gchar *const capabilities[] = {
+  const char *const capabilities[] = {
     "body", "body-markup", "actions", "icon-static", NULL,
   };
 
@@ -273,10 +273,10 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
                GDBusMethodInvocation        *invocation,
                const char                   *app_name,
                guint                         replaces_id,
-               const gchar                  *app_icon,
-               const gchar                  *summary,
-               const gchar                  *body,
-               const gchar * const          *actions,
+               const char                   *app_icon,
+               const char                   *summary,
+               const char                   *body,
+               const char *const            *actions,
                GVariant                     *hints,
                gint                          expire_timeout)
 {
@@ -285,8 +285,8 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
   GVariant *item;
   GVariantIter iter;
   guint id;
-  g_autofree gchar *desktop_id = NULL;
-  g_autofree gchar *source_id = NULL;
+  g_autofree char *desktop_id = NULL;
+  g_autofree char *source_id = NULL;
   g_autoptr (GAppInfo) info = NULL;
   PhoshNotificationUrgency urgency = PHOSH_NOTIFICATION_URGENCY_NORMAL;
   g_autoptr (GIcon) data_gicon = NULL;
@@ -311,7 +311,7 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
 
   g_variant_iter_init (&iter, hints);
   while ((item = g_variant_iter_next_value (&iter))) {
-    g_autofree gchar *key = NULL;
+    g_autofree char *key = NULL;
     g_autoptr(GVariant) value = NULL;
 
     g_variant_get (item, "{sv}", &key, &value);
@@ -464,7 +464,7 @@ phosh_notify_manager_notify_iface_init (PhoshNotifyDbusNotificationsIface *iface
 
 static void
 on_notifications_setting_changed (PhoshNotifyManager *self,
-                                  const gchar        *key,
+                                  const char         *key,
                                   GSettings          *settings)
 {
   g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));

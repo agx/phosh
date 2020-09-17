@@ -43,8 +43,8 @@ struct _PhoshToplevel {
   GObject parent;
   struct zwlr_foreign_toplevel_handle_v1 *handle;
   gboolean configured, activated, maximized;
-  gchar *title;
-  gchar *app_id;
+  char *title;
+  char *app_id;
 };
 
 G_DEFINE_TYPE (PhoshToplevel, phosh_toplevel, G_TYPE_OBJECT);
@@ -337,14 +337,14 @@ phosh_toplevel_init (PhoshToplevel *self)
 }
 
 
-const gchar*
+const char *
 phosh_toplevel_get_title (PhoshToplevel *self) {
   g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), NULL);
   return self->title;
 }
 
 
-const gchar*
+const char *
 phosh_toplevel_get_app_id (PhoshToplevel *self) {
   g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), NULL);
   return self->app_id;

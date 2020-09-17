@@ -24,8 +24,8 @@ phosh_cp_widget_destroy (void *widget)
    Applications with "gnome-" prefix in their name also need to be
    handled there ("gnome-software" -> "org.gnome.Software").
 */
-gchar*
-phosh_fix_app_id (const gchar* app_id)
+char *
+phosh_fix_app_id (const char *app_id)
 {
   if (strchr (app_id, '.') == NULL && !g_ascii_isupper (app_id[0])) {
     gint first_char = 0;

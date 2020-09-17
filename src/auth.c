@@ -70,12 +70,12 @@ pam_conversation_cb(int num_msg, const struct pam_message **msg,
 
 /* return TRUE if pin is correct, FALSE otherwise */
 static gboolean
-authenticate (PhoshAuth *self, const gchar* number)
+authenticate (PhoshAuth *self, const char *number)
 {
   PhoshAuthPrivate *priv = phosh_auth_get_instance_private (self);
   int ret;
   gboolean authenticated = FALSE;
-  const gchar *username;
+  const char *username;
   const struct pam_conv conv = {
     .conv = pam_conversation_cb,
     .appdata_ptr = (void*)number,
@@ -171,7 +171,7 @@ phosh_auth_new (void)
 
 void
 phosh_auth_authenticate_async_start (PhoshAuth           *self,
-                                     const gchar         *number,
+                                     const char          *number,
                                      GCancellable        *cancellable,
                                      GAsyncReadyCallback  callback,
                                      gpointer             callback_data)

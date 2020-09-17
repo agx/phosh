@@ -39,10 +39,10 @@ typedef struct {
   GCancellable *                    cancellable;
   ShellNetworkAgent                *self;
 
-  gchar                            *request_id;
+  char                             *request_id;
   NMConnection                     *connection;
-  gchar                            *setting_name;
-  gchar                           **hints;
+  char                             *setting_name;
+  char                            **hints;
   NMSecretAgentGetSecretsFlags      flags;
   NMSecretAgentOldGetSecretsFunc    callback;
   gpointer                          callback_data;
@@ -51,7 +51,7 @@ typedef struct {
 } ShellAgentRequest;
 
 struct _ShellNetworkAgentPrivate {
-  /* <gchar *request_id, ShellAgentRequest *request> */
+  /* <char *request_id, ShellAgentRequest *request> */
   GHashTable *requests;
 };
 
@@ -157,7 +157,7 @@ request_secrets_from_ui (ShellAgentRequest *request)
 
 static void
 check_always_ask_cb (NMSetting    *setting,
-                     const gchar  *key,
+                     const char   *key,
                      const GValue *value,
                      GParamFlags   flags,
                      gpointer      user_data)
@@ -188,7 +188,7 @@ static gboolean
 is_connection_always_ask (NMConnection *connection)
 {
   NMSettingConnection *s_con;
-  const gchar *ctype;
+  const char *ctype;
   NMSetting *setting;
 
   /* For the given connection type, check if the secrets for that connection
@@ -276,7 +276,7 @@ get_secrets_keyring_cb (GObject            *source,
       SecretItem *item = l->data;
       GHashTable *attributes;
       GHashTableIter iter;
-      const gchar *name, *attribute;
+      const char *name, *attribute;
       SecretValue *secret = secret_item_get_secret (item);
 
       /* This can happen if the user denied a request to unlock */
@@ -338,9 +338,9 @@ get_secrets_keyring_cb (GObject            *source,
 static void
 shell_network_agent_get_secrets (NMSecretAgentOld                 *agent,
 				 NMConnection                     *connection,
-				 const gchar                      *connection_path,
-				 const gchar                      *setting_name,
-				 const gchar                     **hints,
+                                 const char                       *connection_path,
+                                 const char                       *setting_name,
+                                 const char                      **hints,
 				 NMSecretAgentGetSecretsFlags      flags,
 				 NMSecretAgentOldGetSecretsFunc    callback,
 				 gpointer                          callback_data)
@@ -365,7 +365,7 @@ shell_network_agent_get_secrets (NMSecretAgentOld                 *agent,
   request->cancellable = g_cancellable_new ();
   request->connection = g_object_ref (connection);
   request->setting_name = g_strdup (setting_name);
-  request->hints = g_strdupv ((gchar **)hints);
+  request->hints = g_strdupv ((char **) hints);
   request->flags = flags;
   request->callback = callback;
   request->callback_data = callback_data;
@@ -396,9 +396,9 @@ shell_network_agent_get_secrets (NMSecretAgentOld                 *agent,
 
 void
 shell_network_agent_set_password (ShellNetworkAgent *self,
-                                  gchar             *request_id,
-                                  gchar             *setting_key,
-                                  gchar             *setting_value)
+                                  char              *request_id,
+                                  char              *setting_key,
+                                  char              *setting_value)
 {
   ShellNetworkAgentPrivate *priv;
   ShellAgentRequest *request;
@@ -414,7 +414,7 @@ shell_network_agent_set_password (ShellNetworkAgent *self,
 
 void
 shell_network_agent_respond (ShellNetworkAgent         *self,
-                             gchar                     *request_id,
+                             char                      *request_id,
                              ShellNetworkAgentResponse  response)
 {
   ShellNetworkAgentPrivate *priv;
@@ -480,12 +480,12 @@ shell_network_agent_respond (ShellNetworkAgent         *self,
 
 static void
 shell_network_agent_cancel_get_secrets (NMSecretAgentOld *agent,
-                                        const gchar      *connection_path,
-                                        const gchar      *setting_name)
+                                        const char       *connection_path,
+                                        const char       *setting_name)
 {
   ShellNetworkAgent *self = SHELL_NETWORK_AGENT (agent);
   ShellNetworkAgentPrivate *priv = self->priv;
-  gchar *request_id;
+  char *request_id;
   ShellAgentRequest *request;
 
   request_id = g_strdup_printf ("%s/%s", connection_path, setting_name);
@@ -507,11 +507,11 @@ shell_network_agent_cancel_get_secrets (NMSecretAgentOld *agent,
 
 static GHashTable *
 create_keyring_add_attr_list (NMConnection *connection,
-                              const gchar  *connection_uuid,
-                              const gchar  *connection_id,
-                              const gchar  *setting_name,
-                              const gchar  *setting_key,
-                              gchar       **out_display_name)
+                              const char   *connection_uuid,
+                              const char   *connection_id,
+                              const char   *setting_name,
+                              const char   *setting_key,
+                              char        **out_display_name)
 {
   NMSettingConnection *s_con;
 
@@ -584,13 +584,13 @@ save_secret_cb (GObject           *source,
 static void
 save_one_secret (KeyringRequest *r,
                  NMSetting      *setting,
-                 const gchar    *key,
-                 const gchar    *secret,
-                 const gchar    *display_name)
+                 const char     *key,
+                 const char     *secret,
+                 const char     *display_name)
 {
   GHashTable *attrs;
-  gchar *alt_display_name = NULL;
-  const gchar *setting_name;
+  char *alt_display_name = NULL;
+  const char *setting_name;
   NMSettingSecretFlags secret_flags = NM_SETTING_SECRET_FLAG_NONE;
 
   /* Only save agent-owned secrets (not system-owned or always-ask) */
@@ -616,14 +616,14 @@ save_one_secret (KeyringRequest *r,
 }
 
 static void
-vpn_secret_iter_cb (const gchar *key,
-                    const gchar *secret,
-                    gpointer     user_data)
+vpn_secret_iter_cb (const char *key,
+                    const char *secret,
+                    gpointer    user_data)
 {
   KeyringRequest *r = user_data;
   NMSetting *setting;
-  const gchar *service_name, *id;
-  gchar *display_name;
+  const char *service_name, *id;
+  char *display_name;
 
   if (secret && strlen (secret))
     {
@@ -645,13 +645,13 @@ vpn_secret_iter_cb (const gchar *key,
 
 static void
 write_one_secret_to_keyring (NMSetting    *setting,
-                             const gchar  *key,
+                             const char   *key,
                              const GValue *value,
                              GParamFlags   flags,
                              gpointer      user_data)
 {
   KeyringRequest *r = user_data;
-  const gchar *secret;
+  const char *secret;
 
   /* Non-secrets obviously don't get saved in the keyring */
   if (!(flags & NM_SETTING_PARAM_SECRET))
@@ -702,7 +702,7 @@ save_delete_cb (NMSecretAgentOld *agent,
 static void
 shell_network_agent_save_secrets (NMSecretAgentOld                *agent,
                                   NMConnection                    *connection,
-                                  const gchar                     *connection_path,
+                                  const char                      *connection_path,
                                   NMSecretAgentOldSaveSecretsFunc  callback,
                                   gpointer                         callback_data)
 {
@@ -747,13 +747,13 @@ delete_items_cb (GObject *source,
 static void
 shell_network_agent_delete_secrets (NMSecretAgentOld                  *agent,
                                     NMConnection                      *connection,
-                                    const gchar                       *connection_path,
+                                    const char                        *connection_path,
                                     NMSecretAgentOldDeleteSecretsFunc  callback,
                                     gpointer                           callback_data)
 {
   KeyringRequest *r;
   NMSettingConnection *s_con;
-  const gchar *uuid;
+  const char *uuid;
 
   r = g_slice_new (KeyringRequest);
   r->n_secrets = 0; /* ignored by delete secrets calls */

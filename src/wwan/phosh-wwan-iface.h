@@ -29,4 +29,4 @@ const char*   phosh_wwan_get_access_tec     (PhoshWWan* self);
 gboolean      phosh_wwan_is_unlocked        (PhoshWWan* self);
 gboolean      phosh_wwan_has_sim            (PhoshWWan* self);
 gboolean      phosh_wwan_is_present         (PhoshWWan* self);
-const gchar  *phosh_wwan_get_operator       (PhoshWWan *self);
+const char   *phosh_wwan_get_operator       (PhoshWWan *self);

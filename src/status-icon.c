@@ -33,7 +33,7 @@ typedef struct
   GtkWidget *image;
   GtkWidget *extra_widget;
   GtkIconSize icon_size;
-  gchar *info;
+  char *info;
 } PhoshStatusIconPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshStatusIcon, phosh_status_icon, GTK_TYPE_BIN);
@@ -177,10 +177,10 @@ phosh_status_icon_new (void)
 
 
 void
-phosh_status_icon_set_icon_name (PhoshStatusIcon *self, const gchar *icon_name)
+phosh_status_icon_set_icon_name (PhoshStatusIcon *self, const char *icon_name)
 {
   PhoshStatusIconPrivate *priv;
-  g_autofree gchar *old_icon_name = NULL;
+  g_autofree char *old_icon_name = NULL;
 
   g_return_if_fail (PHOSH_IS_STATUS_ICON (self));
 
@@ -198,11 +198,11 @@ phosh_status_icon_set_icon_name (PhoshStatusIcon *self, const gchar *icon_name)
 }
 
 
-gchar *
+char *
 phosh_status_icon_get_icon_name (PhoshStatusIcon *self)
 {
   PhoshStatusIconPrivate *priv;
-  gchar *icon_name;
+  char *icon_name;
 
   g_return_val_if_fail (PHOSH_IS_STATUS_ICON (self), 0);
 
@@ -283,7 +283,7 @@ phosh_status_icon_get_extra_widget (PhoshStatusIcon *self)
 }
 
 
-gchar *
+char *
 phosh_status_icon_get_info (PhoshStatusIcon *self)
 {
   PhoshStatusIconPrivate *priv;
@@ -297,7 +297,7 @@ phosh_status_icon_get_info (PhoshStatusIcon *self)
 
 
 void
-phosh_status_icon_set_info (PhoshStatusIcon *self, const gchar *info)
+phosh_status_icon_set_info (PhoshStatusIcon *self, const char *info)
 {
   PhoshStatusIconPrivate *priv;
   g_return_if_fail (PHOSH_IS_STATUS_ICON (self));

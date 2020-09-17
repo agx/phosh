@@ -44,11 +44,11 @@ struct _ShellNetworkAgentClass
 GType shell_network_agent_get_type (void);
 
 void               shell_network_agent_set_password (ShellNetworkAgent *self,
-                                                     gchar             *request_id,
-                                                     gchar             *setting_key,
-                                                     gchar             *setting_value);
+                                                     char              *request_id,
+                                                     char              *setting_key,
+                                                     char              *setting_value);
 void               shell_network_agent_respond      (ShellNetworkAgent *self,
-                                                     gchar             *request_id,
+                                                     char              *request_id,
                                                      ShellNetworkAgentResponse response);
 
 /* If these are kept in sync with nm-applet, secrets will be shared */

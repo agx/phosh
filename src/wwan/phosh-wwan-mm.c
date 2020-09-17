@@ -80,13 +80,13 @@ typedef struct _PhoshWWanMM {
   gulong                          proxy_props_signal_id;
   gulong                          proxy_3gpp_props_signal_id;
 
-  gchar                          *object_path;
+  char                           *object_path;
   guint                           signal_quality;
   const char                     *access_tec;
   gboolean                        unlocked;
   gboolean                        sim;
   gboolean                        present;
-  gchar                          *operator;
+  char                           *operator;
 } PhoshWWanMM;
 
 
@@ -160,7 +160,7 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
 static void
 phosh_wwan_mm_update_operator (PhoshWWanMM *self)
 {
-  const gchar *operator;
+  const char *operator;
 
   g_return_if_fail (self);
   g_return_if_fail (self->proxy_3gpp);
@@ -201,7 +201,7 @@ phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
 static void
 phosh_wwan_mm_update_sim_status (PhoshWWanMM *self)
 {
-  const gchar *sim;
+  const char *sim;
 
   g_return_if_fail (self);
   g_return_if_fail (self->proxy);
@@ -392,7 +392,7 @@ phosh_wwan_mm_on_proxy_new_for_bus_finish (GObject      *source_object,
 
 
 static void
-phosh_wwan_mm_init_modem (PhoshWWanMM *self, const gchar *object_path)
+phosh_wwan_mm_init_modem (PhoshWWanMM *self, const char *object_path)
 {
   g_return_if_fail (object_path);
 
@@ -423,7 +423,7 @@ phosh_wwan_mm_object_added_cb (PhoshWWanMM                    *self,
                                GDBusObject                    *object,
                                PhoshMMDBusObjectManagerClient *manager)
 {
-  const gchar *modem_object_path;
+  const char *modem_object_path;
 
   modem_object_path = g_dbus_object_get_object_path (object);
   g_debug ("Modem added at path: %s", modem_object_path);
@@ -439,7 +439,7 @@ phosh_wwan_mm_object_removed_cb (PhoshWWanMM                    *self,
                                  GDBusObject                    *object,
                                  PhoshMMDBusObjectManagerClient *manager)
 {
-  const gchar *modem_object_path;
+  const char *modem_object_path;
 
   modem_object_path = g_dbus_object_get_object_path (object);
   g_debug ("Modem removed at path: %s", modem_object_path);
@@ -457,7 +457,7 @@ phosh_wwan_mm_on_mm_object_manager_created (GObject      *source_object,
 {
   g_autoptr (GError) err = NULL;
   g_autolist (GDBusObject) modems = NULL;
-  const gchar *modem_object_path;
+  const char *modem_object_path;
 
   self->manager = PHOSH_MM_DBUS_OBJECT_MANAGER_CLIENT (
     phosh_mm_dbus_object_manager_client_new_for_bus_finish (

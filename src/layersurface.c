@@ -63,7 +63,7 @@ typedef struct {
   gint                          margin_left, margin_right;
   gint                          width, height;
   gint                          configured_width, configured_height;
-  gchar                        *namespace;
+  char                         *namespace;
   struct zwlr_layer_shell_v1   *layer_shell;
   struct wl_output             *wl_output;
 } PhoshLayerSurfacePrivate;

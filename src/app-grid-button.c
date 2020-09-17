@@ -168,7 +168,7 @@ activate_cb (PhoshAppGridButton *self)
   g_autoptr (GdkAppLaunchContext) context = NULL;
   g_autoptr (GError) error = NULL;
   PhoshToplevelManager *toplevel_manager = phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
-  g_autofree gchar *app_id = g_strdup (g_app_info_get_id (G_APP_INFO (priv->info)));
+  g_autofree char *app_id = g_strdup (g_app_info_get_id (G_APP_INFO (priv->info)));
 
   g_debug ("Launching %s", app_id);
 
@@ -179,8 +179,8 @@ activate_cb (PhoshAppGridButton *self)
 
   for (guint i=0; i < phosh_toplevel_manager_get_num_toplevels (toplevel_manager); i++) {
     PhoshToplevel *toplevel = phosh_toplevel_manager_get_toplevel (toplevel_manager, i);
-    const gchar *window_id = phosh_toplevel_get_app_id (toplevel);
-    g_autofree gchar *fixed_id = phosh_fix_app_id (window_id);
+    const char *window_id = phosh_toplevel_get_app_id (toplevel);
+    g_autofree char *fixed_id = phosh_fix_app_id (window_id);
 
     if (g_strcmp0 (app_id, window_id) == 0 || g_strcmp0 (app_id, fixed_id) == 0) {
       // activate the first matching window for now, since we don't have toplevels sorted by last-focus yet
@@ -452,7 +452,7 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
   PhoshFavoriteListModel *list = NULL;
   PhoshAppGridButtonPrivate *priv;
   GIcon *icon;
-  const gchar* name;
+  const char *name;
 
   g_return_if_fail (PHOSH_IS_APP_GRID_BUTTON (self));
   g_return_if_fail (G_IS_APP_INFO (info) || info == NULL);

@@ -17,7 +17,7 @@
 #include <stdint.h>
 
 typedef struct _PhocOutputWatch {
-  gchar     *socket;
+  char      *socket;
   GMainLoop *loop;
 } PhocOutputWatch;
 
@@ -31,7 +31,7 @@ phoc_stdout_watch (GIOChannel      *source,
   if (condition & G_IO_IN) {
     GIOStatus status;
     g_autoptr (GError) err = NULL;
-    g_autofree gchar *line = NULL;
+    g_autofree char *line = NULL;
 
     line = NULL;
     status = g_io_channel_read_line (source, &line, NULL, NULL, &err);
@@ -102,14 +102,14 @@ phosh_test_compositor_new (void)
 {
   g_autoptr (GError) err = NULL;
   g_autoptr (GPtrArray) argv = NULL;
-  g_autofree gchar *run_arg = NULL;
+  g_autofree char *run_arg = NULL;
   g_autoptr (GIOChannel) channel = NULL;
   g_autoptr (GMainLoop) mainloop = NULL;
   PhoshTestCompositorState *state;
   GSpawnFlags flags = G_SPAWN_DO_NOT_REAP_CHILD;
   GHashTable *outputs;
   GHashTableIter iter;
-  const gchar *comp;
+  const char *comp;
   gboolean ret;
   int outfd;
   PhocOutputWatch watch;

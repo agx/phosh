@@ -62,8 +62,8 @@ respond_to_end_session (GDBusProxy *proxy, gboolean shutdown)
 
 static void
 client_proxy_signal_cb (GDBusProxy *proxy,
-                        gchar *sender_name,
-                        gchar *signal_name,
+                        char *sender_name,
+                        char *signal_name,
                         GVariant *parameters,
                         gpointer user_data)
 {
@@ -88,7 +88,7 @@ on_client_registered (GObject      *source_object,
   GVariant *variant;
   GDBusProxy *client_proxy;
   GError *error = NULL;
-  gchar *object_path = NULL;
+  char *object_path = NULL;
 
   variant = g_dbus_proxy_call_finish (G_DBUS_PROXY (source_object), res, &error);
   if (!variant) {

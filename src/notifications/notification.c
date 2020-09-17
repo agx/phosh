@@ -556,7 +556,7 @@ phosh_notification_get_summary (PhoshNotification *self)
 
 void
 phosh_notification_set_body (PhoshNotification *self,
-                             const gchar       *body)
+                             const char        *body)
 {
   g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
 
@@ -583,7 +583,7 @@ phosh_notification_get_body (PhoshNotification *self)
 
 void
 phosh_notification_set_app_name (PhoshNotification *self,
-                                 const gchar       *app_name)
+                                 const char        *app_name)
 {
   g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
 

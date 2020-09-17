@@ -62,7 +62,7 @@ struct _PhoshBackground
 {
   PhoshLayerSurface parent;
 
-  gchar *uri;
+  char *uri;
   GDesktopBackgroundStyle style;
   GdkRGBA color;
 
@@ -391,7 +391,7 @@ background_draw_cb (PhoshBackground *self,
 static void
 get_settings (PhoshBackground *self)
 {
-  g_autofree gchar *color = NULL;
+  g_autofree char *color = NULL;
 
   g_free (self->uri);
   self->uri = g_settings_get_string (self->settings, BG_KEY_PICTURE_URI);
@@ -402,7 +402,7 @@ get_settings (PhoshBackground *self)
 
 static void
 on_background_setting_changed (PhoshBackground *self,
-                               const gchar     *key,
+                               const char      *key,
                                GSettings       *settings)
 {
   g_return_if_fail (PHOSH_IS_BACKGROUND (self));

@@ -211,7 +211,7 @@ test_phosh_favorite_list_model_is_favorite (void)
 
 gint
 main (gint argc,
-      gchar *argv[])
+      char *argv[])
 {
   g_test_init (&argc, &argv, NULL);
 

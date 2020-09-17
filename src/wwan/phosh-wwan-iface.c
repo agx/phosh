@@ -128,7 +128,7 @@ phosh_wwan_is_present (PhoshWWan *self)
   return iface->is_present (self);
 }
 
-const gchar *
+const char *
 phosh_wwan_get_operator (PhoshWWan *self)
 {
   PhoshWWanInterface *iface;

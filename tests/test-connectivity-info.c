@@ -21,7 +21,7 @@ test_phosh_connectivity_info_new (void)
 
 gint
 main (gint   argc,
-      gchar *argv[])
+      char *argv[])
 {
   gtk_test_init (&argc, &argv, NULL);
 

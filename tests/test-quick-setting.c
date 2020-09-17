@@ -62,7 +62,7 @@ test_phosh_quick_setting_with_status_icon (void)
 
 gint
 main (gint argc,
-      gchar *argv[])
+      char *argv[])
 {
   gtk_test_init (&argc, &argv, NULL);
 

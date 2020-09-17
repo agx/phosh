@@ -15,7 +15,7 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhoshBtManager, phosh_bt_manager, PHOSH, BT_MANAGER, GObject)
 
 PhoshBtManager    *phosh_bt_manager_new (void);
-const gchar *phosh_bt_manager_get_icon_name (PhoshBtManager *self);
+const char  *phosh_bt_manager_get_icon_name (PhoshBtManager *self);
 gboolean     phosh_bt_manager_get_enabled (PhoshBtManager *self);
 gboolean     phosh_bt_manager_get_present (PhoshBtManager *self);
 

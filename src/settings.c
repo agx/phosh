@@ -179,7 +179,7 @@ static void raise_volume (PhoshSettings *self)
 
 static void
 accelerator_grabbed_cb (PhoshSettings *self,
-                        const gchar *accelerator,
+                        const char *accelerator,
                         uint32_t action_id)
 {
   guint64 action = action_id;
@@ -291,7 +291,7 @@ vol_adjustment_value_changed_cb (GtkAdjustment *adjustment,
                                  PhoshSettings *self)
 {
   gdouble volume, rounded;
-  g_autofree gchar *name = NULL;
+  g_autofree char *name = NULL;
 
   if (!self->output_stream)
     self->output_stream = gvc_mixer_control_get_default_sink (self->mixer_control);
@@ -515,7 +515,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 static void
 phosh_settings_init (PhoshSettings *self)
 {
-  gchar *subscribe_accelerators[] = {
+  char *subscribe_accelerators[] = {
     "XF86AudioLowerVolume",
     "XF86AudioRaiseVolume",
     "XF86AudioMute",

@@ -182,7 +182,7 @@ phosh_feedback_manager_new (void)
   return g_object_new (PHOSH_TYPE_FEEDBACK_MANAGER, NULL);
 }
 
-const gchar*
+const char *
 phosh_feedback_manager_get_icon_name (PhoshFeedbackManager *self)
 {
   g_return_val_if_fail (PHOSH_IS_FEEDBACK_MANAGER (self), NULL);
@@ -190,7 +190,7 @@ phosh_feedback_manager_get_icon_name (PhoshFeedbackManager *self)
   return self->icon_name;
 }
 
-const gchar*
+const char *
 phosh_feedback_manager_get_profile (PhoshFeedbackManager *self)
 {
   g_return_val_if_fail (PHOSH_IS_FEEDBACK_MANAGER (self), NULL);

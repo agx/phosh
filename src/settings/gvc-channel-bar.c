@@ -343,7 +343,7 @@ gvc_channel_bar_set_is_amplified (GvcChannelBar *self, gboolean amplified)
   gtk_scale_clear_marks (GTK_SCALE (self->scale));
 
   if (amplified) {
-    g_autofree gchar *str = NULL;
+    g_autofree char *str = NULL;
 
     if ((int)self->base_volume == (int)ADJUSTMENT_MAX_NORMAL) {
       str = g_strdup_printf ("<small>%s</small>", C_("volume", "100%"));

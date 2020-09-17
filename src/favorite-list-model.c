@@ -92,7 +92,7 @@ list_iface_init (GListModelInterface *iface)
 
 static void
 favorites_changed (GSettings              *settings,
-                   const gchar            *key,
+                   const char             *key,
                    PhoshFavoriteListModel *self)
 {
   PhoshFavoriteListModelPrivate *priv = phosh_favorite_list_model_get_instance_private (self);
@@ -115,7 +115,7 @@ favorites_changed (GSettings              *settings,
 
   while (priv->items_inc_missing[i]) {
     g_autoptr (GDesktopAppInfo) info = NULL;
-    
+
     // We don't actually care about this value, just that it isn't NULL
     info = g_desktop_app_info_new (priv->items_inc_missing[i]);
 
@@ -192,7 +192,7 @@ phosh_favorite_list_model_app_is_favorite (PhoshFavoriteListModel *self,
     return FALSE;
   }
 
-  if (g_strv_contains ((const gchar* const*) priv->items_inc_missing, id)) {
+  if (g_strv_contains ((const char *const *) priv->items_inc_missing, id)) {
     return TRUE;
   }
 
