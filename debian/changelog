@@ -1,3 +1,104 @@
+phosh (0.4.4) amber-phone; urgency=medium
+
+  [ Guido Günther ]
+  * gitlab-ci: Add i386 cross build.
+    This ensures we don't break 32bit again. We allow failure
+    though since we need to pull packages from Debian for that
+    that might not always be up to date.
+  * timestamp-label: Unbreak build on 32 bit platforms.
+    Use a G_ format specifier for GTimeSpan.
+  * gitlab-ci: Don't use Immediate-Configure.
+    This confuses apt like.
+  * media-player: Clarify some translatable strings
+  * media-player.ui: Match ui strings with the ones in the code
+  * wwaninfo: Disambiguate 'cellular'
+  * po: Update pot file
+  * Drop zanata.xml.
+    We're using GNOME's translation infrastructure
+  * README: update description.
+  * d/rules: Work around failed doc build on install.
+    This works around a problem where an invocation
+    of `meson-install` does not generate all docs. See
+    https://github.com/mesonbuild/meson/issues/2831
+  * docs: Split out homepage url
+  * debian: Build-depend on pandoc for the deb build
+  * Add gtk-markdown-to-docbook (taken from GTK)
+  * docs: Add some context
+  * data/phosh.in: Be a bit more friendly when asked for help
+  * po: Add initial Korean translation. Thanks Seong-ho Cho
+  * doap: Add Zander Brown.
+  * debian: Install all phosh related schema files.
+    Otherwise we lack the enums and fail to start
+  * Switch to libhandy 1.0
+  * treewide: Replace HdyColumn by HdyClamp
+  * lockscreen: Adjust to HdyKeypad API changes
+  * treewide: libhandy API is stable now
+  * lockscreen: Use HdyCarousel instead of HdyPaginator
+  * overview: Use HdyCarousel instead of HdyPaginator
+  * style: Adust to HdyKeypad internal changes.
+    The grid is now embeded in the widget.
+  * gitlab-ci: Use libhandy-1 in smoketests too
+
+  [ Zander Brown ]
+  * l10n: disambiguate timestamp strings
+  * po: Update British English translation
+  * general: update license headers.
+    Make sure all our license headers match the style in HACKING.md
+  * ci: validate license headers
+  * treewide: Use two empty lines between functions.
+  * arrow: Use G_PI instead of M_PI
+  * treewide: Don't use C++ style comments. As per coding style.
+  * general: use char instead of gchar.
+    Usage of gchar is discouraged in projects such as glib/gtk
+    In gtk4 all usage of gchar has been dropped
+    Closes: #364
+  * general: use int/double/float instead of gint etc.
+    Usage of gint,gdouble,gfloat is discouraged in projects such as glib/gtk
+    In gtk4 all usage of gint/gdouble/gfloat has been dropped
+    Closes: #364
+  * keyboard-events: drop unused props global
+
+  [ anteater ]
+  * wwan-mm: cleanups for style/consistency
+  * wwan-mm: use Ugly_Case to correct MMDBus codegen
+  * wwan: build: reformat
+    make things more like other meson.build files and avoid rightward drift
+  * wwaninfo: use PHOSH_WWAN interface to access wwan object
+    This is more flexible and PhoshWwanInfo doesn't care about the
+    implementing type
+  * wwaninfo: reorder includes
+  * wwan: add PhoshWWanOfono
+  * shell: add missing whitespace
+  * shell: clean up dispose, fixing leaks
+  * shell: reorder includes
+  * Add and use wwan-backend setting
+
+  [ Luís Fernando Stürmer da Rosa ]
+  * po: Update Brazilian Portuguese translation
+
+  [ Sebastian Spaeth ]
+  * po: Fix German translation of Phone Shell.
+
+  [ Nikola Pavlica ]
+  * po: Add Serbian (Cyrilic) translation
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+  [ Emin Tufan Çetin ]
+  * po: Update Turkish translation
+
+  [ Fabio Tomat ]
+  * po: Add friulian translations
+
+  [ scootergrisen ]
+  * po: Update Danish translation
+
+  [ Марко М. Костић (Marko M. Kostić) ]
+  * po: Update Serbian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 18 Sep 2020 13:37:36 +0200
+
 phosh (0.4.3) amber-phone; urgency=medium
 
   [ Darren R ]
