@@ -19,11 +19,6 @@
  * @Title: PhoshKeyboardEvents
  */
 
-enum {
-  PROP_0,
-  PROP_LAST_PROP,
-};
-//static GParamSpec *props[PROP_LAST_PROP];
 
 enum {
   SIGNAL_ACCELERATOR_ACTIVATED,
