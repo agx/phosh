@@ -48,6 +48,13 @@ struct _PhoshHead {
   PhoshHeadMode              *mode;
   GPtrArray                  *modes;
 
+  struct pending {
+    int32_t x, y;
+    enum wl_output_transform transform;
+    PhoshHeadMode *mode;
+    double scale;
+  } pending;
+
   struct zwlr_output_head_v1 *wlr_head;
 };
 

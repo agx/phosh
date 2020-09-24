@@ -198,7 +198,7 @@ head_handle_current_mode (void                       *data,
 
     if (mode->wlr_mode == wlr_mode) {
       g_debug ("Head %p has current mode %p", self, mode);
-      self->mode = mode;
+      self->mode = self->pending.mode = mode;
       return;
     }
   }
@@ -216,8 +216,8 @@ head_handle_position (void *data,
 
   g_return_if_fail (PHOSH_IS_HEAD (self));
   g_debug ("Head %p has pos %d,%d", self, x, y);
-  self->x = x;
-  self->y = y;
+  self->x = self->pending.x = x;
+  self->y = self->pending.y = y;
 }
 
 
@@ -230,7 +230,7 @@ head_handle_transform (void                       *data,
 
   g_return_if_fail (PHOSH_IS_HEAD (self));
   g_debug ("Head %p has transform %d", self, transform);
-  self->transform = transform;
+  self->transform = self->pending.transform = transform;
 }
 
 
@@ -242,7 +242,7 @@ head_handle_scale (void                       *data,
   PhoshHead *self = PHOSH_HEAD (data);
 
   g_return_if_fail (PHOSH_IS_HEAD (self));
-  self->scale = wl_fixed_to_double (scale);
+  self->scale = self->pending.scale = wl_fixed_to_double(scale);
   g_debug ("Head %p has scale %f", self, self->scale);
 
 }
