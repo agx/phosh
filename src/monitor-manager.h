@@ -11,6 +11,8 @@
 #include "monitor/monitor.h"
 #include <glib-object.h>
 
+G_BEGIN_DECLS
+
 #define PHOSH_TYPE_MONITOR_MANAGER                 (phosh_monitor_manager_get_type ())
 G_DECLARE_FINAL_TYPE (PhoshMonitorManager, phosh_monitor_manager, PHOSH, MONITOR_MANAGER,
                       PhoshDisplayDbusDisplayConfigSkeleton)
@@ -23,3 +25,4 @@ PhoshMonitor        * phosh_monitor_manager_get_monitor               (PhoshMoni
 guint                 phosh_monitor_manager_get_num_monitors          (PhoshMonitorManager *self);
 PhoshMonitor        * phosh_monitor_manager_find_monitor              (PhoshMonitorManager *self,
                                                                        const char          *name);
+G_END_DECLS
