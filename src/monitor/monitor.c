@@ -513,27 +513,31 @@ phosh_monitor_is_flipped (PhoshMonitor *self)
 
 
 /**
- * phosh_monitor_get_rotation:
+ * phosh_monitor_get_transform:
  * @self: A #PhoshMonitor
  *
- * Returns: The monitor's rotation in degrees.
+ * Returns: The monitor's output transform
  */
 guint
-phosh_monitor_get_rotation (PhoshMonitor *self)
+phosh_monitor_get_transform (PhoshMonitor *self)
 {
     switch (self->transform) {
     case WL_OUTPUT_TRANSFORM_90:
+      return PHOSH_MONITOR_TRANSFORM_90;
     case WL_OUTPUT_TRANSFORM_FLIPPED_90:
-      return 90;
+      return PHOSH_MONITOR_TRANSFORM_FLIPPED_90;
     case WL_OUTPUT_TRANSFORM_180:
+      return PHOSH_MONITOR_TRANSFORM_180;
     case WL_OUTPUT_TRANSFORM_FLIPPED_180:
-      return 180;
+      return PHOSH_MONITOR_TRANSFORM_FLIPPED_180;
     case WL_OUTPUT_TRANSFORM_270:
+      return PHOSH_MONITOR_TRANSFORM_270;
     case WL_OUTPUT_TRANSFORM_FLIPPED_270:
-      return 270;
+      return PHOSH_MONITOR_TRANSFORM_FLIPPED_270;
     case WL_OUTPUT_TRANSFORM_NORMAL:
+      return PHOSH_MONITOR_TRANSFORM_NORMAL;
     case WL_OUTPUT_TRANSFORM_FLIPPED:
-      return 0;
+      return PHOSH_MONITOR_TRANSFORM_FLIPPED;
     default:
       g_assert_not_reached ();
     }

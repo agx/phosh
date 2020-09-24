@@ -67,7 +67,7 @@
 
 enum {
   PHOSH_SHELL_PROP_0,
-  PHOSH_SHELL_PROP_ROTATION,
+  PHOSH_SHELL_PROP_TRANSFORM,
   PHOSH_SHELL_PROP_LOCKED,
   PHOSH_SHELL_PROP_PRIMARY_MONITOR,
   PHOSH_SHELL_PROP_LAST_PROP
@@ -103,7 +103,7 @@ typedef struct
   PhoshProximity *proximity;
 
   gboolean startup_finished;
-  int rot; /* current rotation of primary monitor */
+  PhoshMonitorTransform transform; /* current rotation of primary monitor */
 } PhoshShellPrivate;
 
 
@@ -292,8 +292,8 @@ phosh_shell_get_property (GObject *object,
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   switch (property_id) {
-  case PHOSH_SHELL_PROP_ROTATION:
-    g_value_set_uint (value, phosh_monitor_get_rotation(priv->primary_monitor));
+  case PHOSH_SHELL_PROP_TRANSFORM:
+    g_value_set_enum (value, phosh_monitor_get_transform(priv->primary_monitor));
     break;
   case PHOSH_SHELL_PROP_LOCKED:
     g_value_set_boolean (value,
@@ -470,8 +470,8 @@ setup_idle_cb (PhoshShell *self)
   phosh_session_register (PHOSH_APP_ID);
 
   /* If we start rotated, fix this up */
-  if (phosh_shell_get_rotation (self))
-    phosh_shell_rotate_display (self, 0);
+  if (phosh_shell_get_transform (self) != PHOSH_MONITOR_TRANSFORM_NORMAL)
+    phosh_shell_set_transform (self, PHOSH_MONITOR_TRANSFORM_NORMAL);
 
   priv->startup_finished = TRUE;
 
@@ -508,19 +508,19 @@ on_primary_monitor_configured (PhoshShell   *self,
                                PhoshMonitor *monitor)
 {
   PhoshShellPrivate *priv;
-  guint rot;
+  PhoshMonitorTransform transform;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
 
   priv = phosh_shell_get_instance_private (self);
-  rot = phosh_monitor_get_rotation (monitor);
-  if (rot == priv->rot)
+  transform = phosh_monitor_get_transform (monitor);
+  if (transform == priv->transform)
     return;
 
-  priv->rot = rot;
-  g_debug ("Primary monitor rotated to %d", rot);
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_ROTATION]);
+  priv->transform = transform;
+  g_debug ("Primary monitor transform %d", transform);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_TRANSFORM]);
 }
 
 
@@ -532,7 +532,7 @@ phosh_shell_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->constructed (object);
 
-  priv->rot = -1; /* force initial update */
+  priv->transform = -1; /* force initial update */
   priv->monitor_manager = phosh_monitor_manager_new ();
   if (phosh_monitor_manager_get_num_monitors(priv->monitor_manager)) {
     PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
@@ -590,13 +590,12 @@ phosh_shell_class_init (PhoshShellClass *klass)
   object_class->set_property = phosh_shell_set_property;
   object_class->get_property = phosh_shell_get_property;
 
-  props[PHOSH_SHELL_PROP_ROTATION] =
-    g_param_spec_uint ("rotation",
-                       "Rotation",
-                       "Clockwise display rotation in degree",
-                       0,
-                       360,
-                       0,
+  props[PHOSH_SHELL_PROP_TRANSFORM] =
+    g_param_spec_enum ("transform",
+                       "Transform",
+                       "Monitor transform of the primary monitor",
+                       PHOSH_TYPE_MONITOR_TRANSFORM,
+                       PHOSH_MONITOR_TRANSFORM_NORMAL,
                        G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_SHELL_PROP_LOCKED] =
@@ -627,36 +626,57 @@ phosh_shell_init (PhoshShell *self)
 }
 
 
-int
-phosh_shell_get_rotation (PhoshShell *self)
+PhoshMonitorTransform
+phosh_shell_get_transform (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
 
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), 0);
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), PHOSH_MONITOR_TRANSFORM_NORMAL);
   priv = phosh_shell_get_instance_private (self);
-  g_return_val_if_fail (priv->primary_monitor, 0);
-  return phosh_monitor_get_rotation (priv->primary_monitor);
+  g_return_val_if_fail (priv->primary_monitor, PHOSH_MONITOR_TRANSFORM_NORMAL);
+  return phosh_monitor_get_transform (priv->primary_monitor);
 }
 
 
 void
-phosh_shell_rotate_display (PhoshShell *self,
-                            guint degree)
+phosh_shell_set_transform (PhoshShell *self,
+                           PhoshMonitorTransform transform)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  PhoshMonitorTransform current;
+  guint degree = 0;
   PhoshWayland *wl = phosh_wayland_get_default();
-  guint current;
 
-  /* TODO: Use builtin monitor once we support wlr-output-management */
-  g_return_if_fail (phosh_wayland_get_phosh_private (wl));
   g_return_if_fail (priv->primary_monitor);
-  current = phosh_monitor_get_rotation (priv->primary_monitor);
-  if (current == degree)
+  current = phosh_monitor_get_transform (priv->primary_monitor);
+  if (current == transform)
     return;
+
+  switch (phosh_shell_get_transform (self)) {
+  case PHOSH_MONITOR_TRANSFORM_NORMAL:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED:
+    degree = 0;
+    break;
+  case PHOSH_MONITOR_TRANSFORM_180:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_180:
+    degree = 180;
+    break;
+  case PHOSH_MONITOR_TRANSFORM_90:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_90:
+    degree = 90;
+    break;
+  case PHOSH_MONITOR_TRANSFORM_270:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_270:
+    degree = 270;
+    break;
+  default:
+    g_warn_if_reached ();
+  }
 
   phosh_private_rotate_display (phosh_wayland_get_phosh_private (wl),
                                 phosh_layer_surface_get_wl_surface (priv->panel),
                                 degree);
+ /* Notification change signalled in on_primary_monitor_configured */
 }
 
 
@@ -665,7 +685,7 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
 {
   PhoshShellPrivate *priv;
   PhoshMonitor *m = NULL;
-  guint rot;
+  PhoshMonitorTransform transform;
 
   g_return_if_fail (monitor);
   g_return_if_fail (PHOSH_IS_SHELL (self));
@@ -690,8 +710,8 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
                             G_CALLBACK (on_primary_monitor_configured),
                             self);
   /* Catch up if old and new primary monitor's rotation are different */
-  rot = phosh_monitor_get_rotation (priv->primary_monitor);
-  if (rot != priv->rot)
+  transform = phosh_monitor_get_transform (priv->primary_monitor);
+  if (transform != priv->transform)
     on_primary_monitor_configured (self, priv->primary_monitor);
 
   /* Move panels to the new monitor by recreating the layer shell surfaces */
@@ -902,9 +922,11 @@ phosh_shell_get_usable_area (PhoshShell *self, int *x, int *y, int *width, int *
            monitor->scale,
            monitor->transform);
 
-  switch (phosh_monitor_get_rotation(monitor)) {
-  case 0:
-  case 180:
+  switch (phosh_monitor_get_transform(monitor)) {
+  case PHOSH_MONITOR_TRANSFORM_NORMAL:
+  case PHOSH_MONITOR_TRANSFORM_180:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_180:
     w = mode->width / scale;
     h = mode->height / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_BUTTON_HEIGHT;
     break;

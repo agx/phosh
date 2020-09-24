@@ -33,10 +33,27 @@ static void
 set_state (PhoshRotateInfo *self)
 {
   PhoshShell *shell = phosh_shell_get_default ();
-  /* TODO: switch to builtin monitor once we support wlr-output-management */
   PhoshMonitor *monitor = phosh_shell_get_primary_monitor (shell);
   gboolean monitor_is_landscape;
-  gboolean portrait = !phosh_shell_get_rotation (shell);
+  gboolean portrait;
+
+  switch (phosh_shell_get_transform (shell)) {
+  case PHOSH_MONITOR_TRANSFORM_NORMAL:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED:
+  case PHOSH_MONITOR_TRANSFORM_180:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_180:
+    portrait = TRUE;
+    break;
+  case PHOSH_MONITOR_TRANSFORM_90:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_90:
+  case PHOSH_MONITOR_TRANSFORM_270:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_270:
+    portrait = FALSE;
+    break;
+  default:
+    g_warn_if_reached();
+    portrait = TRUE;
+  }
 
   /* If we have a landscape monitor (tv, laptop) flip the rotation */
   monitor_is_landscape = ((double)monitor->width / (double)monitor->height) > 1.0;
@@ -76,7 +93,7 @@ static void
 phosh_rotate_info_init (PhoshRotateInfo *self)
 {
   g_signal_connect_swapped (phosh_shell_get_default (),
-                            "notify::rotation",
+                            "notify::transform",
                             G_CALLBACK (set_state),
                             self);
   set_state (self);

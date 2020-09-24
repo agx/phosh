@@ -30,8 +30,8 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhoshShell, phosh_shell, PHOSH, SHELL, GObject)
 
 PhoshShell          *phosh_shell_get_default     (void);
-void                 phosh_shell_rotate_display  (PhoshShell *self, guint degrees);
-int                  phosh_shell_get_rotation    (PhoshShell *self);
+void                 phosh_shell_set_transform   (PhoshShell *self, PhoshMonitorTransform transform);
+PhoshMonitorTransform phosh_shell_get_transform   (PhoshShell *self);
 void                 phosh_shell_get_usable_area (PhoshShell *self,
                                                   int        *x,
                                                   int        *y,
