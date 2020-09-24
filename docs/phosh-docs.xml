@@ -54,9 +54,9 @@
       <xi:include href="xml/favorite-list-model.xml"/>
       <xi:include href="xml/feedback-manager.xml"/>
       <xi:include href="xml/feedbackinfo.xml"/>
-      <xi:include href="xml/keyboard-events.xml"/>
       <xi:include href="xml/home.xml"/>
       <xi:include href="xml/idle-manager.xml"/>
+      <xi:include href="xml/keyboard-events.xml"/>
       <xi:include href="xml/layersurface.xml"/>
       <xi:include href="xml/lockscreen-manager.xml"/>
       <xi:include href="xml/lockscreen.xml"/>
