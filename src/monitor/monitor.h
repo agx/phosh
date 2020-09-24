@@ -14,6 +14,8 @@
 #include <glib-object.h>
 #include <glib/gi18n.h>
 
+G_BEGIN_DECLS
+
 /**
  * PhoshMonitorConnectorType:
  * @PHOSH_MONITOR_CONNECTOR_TYPE_Unknown: unknown connector type
@@ -122,3 +124,5 @@ gboolean           phosh_monitor_is_flipped (PhoshMonitor *self);
 guint              phosh_monitor_get_rotation (PhoshMonitor *self);
 void               phosh_monitor_set_power_save_mode (PhoshMonitor *self,
                                                       PhoshMonitorPowerSaveMode mode);
+
+G_END_DECLS
