@@ -269,9 +269,6 @@ phosh_shell_set_property (GObject *object,
   PhoshShell *self = PHOSH_SHELL (object);
 
   switch (property_id) {
-  case PHOSH_SHELL_PROP_ROTATION:
-    phosh_shell_rotate_display (self, g_value_get_uint (value));
-    break;
   case PHOSH_SHELL_PROP_LOCKED:
     phosh_shell_set_locked (self, g_value_get_boolean (value));
     break;
