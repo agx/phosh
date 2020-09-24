@@ -59,6 +59,31 @@ typedef enum _PhoshMonitorConnectorType
   PHOSH_MONITOR_CONNECTOR_TYPE_DSI = 16,
 } PhoshMonitorConnectorType;
 
+/**
+ * PhoshMonitorTransform:
+ * @PHOSH_MONITOR_TRANSFORM_NORMAL: normal
+ * @PHOSH_MONITOR_TRANSFORM_90: 90 degree clockwise
+ * @PHOSH_MONITOR_TRANSFORM_180: 180 degree clockwise
+ * @PHOSH_MONITOR_TRANSFORM_270: 270 degree clockwise
+ * @PHOSH_MONITOR_TRANSFORM_FLIPPED: flipped clockwise
+ * @PHOSH_MONITOR_TRANSFORM_FLIPPED_90: flipped and 90 deg
+ * @PHOSH_MONITOR_TRANSFORM_FLIPPED_180: flipped and 180 deg
+ * @PHOSH_MONITOR_TRANSFORM_FLIPPED_270: flipped and 270 deg
+ *
+ * the monitors rotation.
+ */
+typedef enum _PhoshMonitorTransform
+{
+  PHOSH_MONITOR_TRANSFORM_NORMAL,
+  PHOSH_MONITOR_TRANSFORM_90,
+  PHOSH_MONITOR_TRANSFORM_180,
+  PHOSH_MONITOR_TRANSFORM_270,
+  PHOSH_MONITOR_TRANSFORM_FLIPPED,
+  PHOSH_MONITOR_TRANSFORM_FLIPPED_90,
+  PHOSH_MONITOR_TRANSFORM_FLIPPED_180,
+  PHOSH_MONITOR_TRANSFORM_FLIPPED_270,
+} PhoshMonitorTransform;
+
 
 typedef struct _PhoshMonitorMode
 {
