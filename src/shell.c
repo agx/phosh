@@ -32,6 +32,7 @@
 #include "docked-manager.h"
 #include "fader.h"
 #include "feedback-manager.h"
+#include "gnome-shell-manager.h"
 #include "home.h"
 #include "idle-manager.h"
 #include "keyboard-events.h"
@@ -108,6 +109,7 @@ typedef struct
   PhoshModeManager *mode_manager;
   PhoshDockedManager *docked_manager;
   PhoshKeyboardEvents *keyboard_events;
+  PhoshGnomeShellManager *gnome_shell_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -343,6 +345,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->docked_manager);
   g_clear_object (&priv->mode_manager);
   g_clear_object (&priv->torch_manager);
+  g_clear_object (&priv->gnome_shell_manager);
   g_clear_object (&priv->wwan);
   g_clear_object (&priv->mount_manager);
   g_clear_object (&priv->bt_manager);
@@ -632,6 +635,7 @@ phosh_shell_constructed (GObject *object)
   priv->polkit_auth_agent = phosh_polkit_auth_agent_new ();
 
   priv->feedback_manager = phosh_feedback_manager_new ();
+  priv->gnome_shell_manager = phosh_gnome_shell_manager_new ();
 
   if (priv->builtin_monitor) {
     g_signal_connect_swapped (

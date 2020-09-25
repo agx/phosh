@@ -64,6 +64,8 @@ libphosh_tool_sources = [
   'favorite-list-model.h',
   'feedback-manager.c',
   'feedback-manager.h',
+  'gnome-shell-manager.c',
+  'gnome-shell-manager.h',
   'layersurface.c',
   'layersurface.h',
   'lockshield.c',

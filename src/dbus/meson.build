@@ -48,6 +48,11 @@ generated_dbus_sources += gnome.gdbus_codegen('notify-dbus',
 					      interface_prefix: 'org.freedesktop',
 					      namespace: 'PhoshNotifyDBus')
 
+generated_dbus_sources += gnome.gdbus_codegen('phosh-gnome-shell-dbus',
+					      'org.gnome.Shell.xml',
+					      interface_prefix: 'org.gnome',
+					      namespace: 'PhoshGnomeShellDBus')
+
 generated_dbus_sources += gnome.gdbus_codegen('phosh-idle-dbus',
 					     'org.gnome.Mutter.IdleMonitor.xml',
 					     interface_prefix: 'org.gnome.Mutter',
