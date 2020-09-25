@@ -168,21 +168,29 @@ phosh_monitor_manager_handle_get_resources (
   /* modes */
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
-    GArray *modes = monitor->modes;
+    PhoshHead *head;
+    GPtrArray *modes;
 
     if (!phosh_monitor_is_configured(monitor))
       continue;
 
+    head = phosh_monitor_manager_get_head_from_monitor (self, monitor);
+    if (!head) {
+      g_warning ("Failed to get head for monitor %p", monitor);
+      continue;
+    }
+
+    modes = head->modes;
     for (int k = 0; k < modes->len; k++) {
-      PhoshMonitorMode *mode = &g_array_index (modes, PhoshMonitorMode, k);
+      PhoshHeadMode *mode = g_ptr_array_index (modes, k);
       g_variant_builder_add (&mode_builder, "(uxuudu)",
                              (guint32)k,            /* ID */
                              (guint64)k,            /* mode->mode_id, */
-                             (guint32)mode->width,  /* mode->width, */
-                             (guint32)mode->height, /* mode->height, */
-                             (double)mode->refresh / 1000.0, /* (double)mode->refresh_rate, */
+                             (guint32)mode->width,
+                             (guint32)mode->height,
+                             (double)mode->refresh / 1000.0,
                              (guint32)0             /* mode->flags); */
-      );
+        );
     }
   }
 
@@ -440,32 +448,41 @@ phosh_monitor_manager_handle_get_current_state (
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder modes_builder, supported_scales_builder, mode_properties_builder,
       monitor_properties_builder;
-    g_autofree char *serial = NULL;
     char *display_name;
     gboolean is_builtin;
+    PhoshHeadMode *preferred;
+    g_autofree char *serial = NULL;
+    PhoshHead *head = NULL;
 
     if (!phosh_monitor_is_configured(monitor))
       continue;
 
+    head = phosh_monitor_manager_get_head_from_monitor (self, monitor);
+    if (!head) {
+      g_warning ("Failed to get head for monitor %p", monitor);
+      continue;
+    }
+
     g_variant_builder_init (&modes_builder, G_VARIANT_TYPE (MODES_FORMAT));
 
-    for (int k = 0; k < monitor->modes->len; k++) {
-      PhoshMonitorMode *mode = &g_array_index (monitor->modes, PhoshMonitorMode, k);
+    preferred = phosh_head_get_preferred_mode (head);
+    for (int k = 0; k < head->modes->len; k++) {
+      PhoshHeadMode *mode = g_ptr_array_index (head->modes, k);
       g_autofree char *mode_name = NULL;
 
       g_variant_builder_init (&supported_scales_builder,
                               G_VARIANT_TYPE ("ad"));
       g_variant_builder_add (&supported_scales_builder, "d",
-                             (double)monitor->scale);
+                             (double)head->scale);
 
       g_variant_builder_init (&mode_properties_builder,
                               G_VARIANT_TYPE ("a{sv}"));
       g_variant_builder_add (&mode_properties_builder, "{sv}",
                              "is-current",
-                             g_variant_new_boolean (k == monitor->current_mode));
+                             g_variant_new_boolean (mode == head->mode));
       g_variant_builder_add (&mode_properties_builder, "{sv}",
                              "is-preferred",
-                             g_variant_new_boolean (k == monitor->preferred_mode));
+                             g_variant_new_boolean (mode == preferred));
 
       mode_name = g_strdup_printf ("%dx%d@%.0f", mode->width, mode->height,
                                    mode->refresh / 1000.0);
