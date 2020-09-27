@@ -1,15 +1,23 @@
 /*
- * Copyright (C) 2018 Purism SPC
+ * Copyright (C) 2018-2020 Purism SPC
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
  * Author: Guido Günther <agx@sigxcpu.org>
  */
-/* Modem abstraction */
 
 #define G_LOG_DOMAIN "phosh-wwan-iface"
 
 #include "phosh-wwan-iface.h"
+
+/**
+ * SECTION:phosh-wwan-iface
+ * @short_description: Interface for modem handling
+ * @Title: PhoshWWanInterface
+ *
+ * A #PhoshWWanInterface handles modem interaction such as getting
+ * network information and signal strength.
+ **/
 
 G_DEFINE_INTERFACE (PhoshWWan, phosh_wwan, G_TYPE_OBJECT)
 

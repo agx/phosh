@@ -12,6 +12,19 @@ G_BEGIN_DECLS
 #define PHOSH_TYPE_WWAN (phosh_wwan_get_type())
 G_DECLARE_INTERFACE (PhoshWWan, phosh_wwan, PHOSH, WWAN, GObject)
 
+/**
+ * PhoshWWanInterface
+ * @parent_iface: The parent interface
+ * @get_signal_quality: Get the current signal quality
+ * @get_access_tec: Get the current access technology (2G, 3G, ...)
+ * @is_unlocked: whether the SIM in the modem is locked
+ * @has_sim: Whether there's a sim in the modem
+ * @is_present: whether a modem is present at all
+ * @get_operator: Get the current network operator name
+ *
+ * Provides an interface for interacting with a modem
+*/
+
 struct _PhoshWWanInterface
 {
   GTypeInterface parent_iface;
