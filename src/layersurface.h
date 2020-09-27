@@ -10,6 +10,8 @@
 /* TODO: We use the enum constants from here, use glib-mkenums */
 #include "wlr-layer-shell-unstable-v1-client-protocol.h"
 
+G_BEGIN_DECLS
+
 #define PHOSH_TYPE_LAYER_SURFACE                 (phosh_layer_surface_get_type ())
 
 G_DECLARE_DERIVABLE_TYPE (PhoshLayerSurface, phosh_layer_surface, PHOSH, LAYER_SURFACE, GtkWindow)
@@ -45,3 +47,5 @@ void                              phosh_layer_surface_set_exclusive_zone(PhoshLa
 void                              phosh_layer_surface_set_kbd_interactivity(PhoshLayerSurface *self,
                                                                             gboolean interactivity);
 void                              phosh_layer_surface_wl_surface_commit (PhoshLayerSurface *self);
+
+G_END_DECLS
