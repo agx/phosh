@@ -969,6 +969,8 @@ phosh_shell_fade_out (PhoshShell *self, guint timeout)
 
 /**
  * phosh_shell_set_power_save:
+ * @self: The shell
+ * @enable: Wether power save mode should be enabled
  *
  * Enter power saving mode. This currently blanks all monitors.
  */
@@ -989,9 +991,9 @@ phosh_shell_enable_power_save (PhoshShell *self, gboolean enable)
 
 /**
  * phosh_shell_started_by_display_manager:
+ * @self: The shell
  *
- * returns %TRUE if we were started from a
- * display manager. %FALSE otherwise.
+ * Returns: %TRUE if we were started from a display manager. %FALSE otherwise.
  */
 gboolean
 phosh_shell_started_by_display_manager(PhoshShell *self)
@@ -1006,8 +1008,9 @@ phosh_shell_started_by_display_manager(PhoshShell *self)
 
 /**
  * phosh_shell_is_startup_finished:
+ * @self: The shell
  *
- * returns %TRUE if the shell finished startup. %FALSE otherwise.
+ * Returns: %TRUE if the shell finished startup. %FALSE otherwise.
  */
 gboolean
 phosh_shell_is_startup_finished(PhoshShell *self)
