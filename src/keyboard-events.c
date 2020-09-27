@@ -48,9 +48,6 @@ handle_accelerator_activated_event (void *data,
 {
   PhoshKeyboardEvents *self = PHOSH_KEYBOARD_EVENTS (data);
   g_debug ("incoming action! %d", action_id);
-  /** Emitting a signal allows other "modules" to connect to a signal
-   *  and take appropriate action (f.e. change the volume)
-   */
 
   g_signal_emit (self,
                  signals[SIGNAL_ACCELERATOR_ACTIVATED],
