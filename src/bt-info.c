@@ -6,8 +6,6 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-/* Bt Info widget */
-
 #define G_LOG_DOMAIN "phosh-bt-info"
 
 #include "config.h"
@@ -23,7 +21,7 @@
  *
  * #PhoshBtInfo displays the current bluetooth status based on information
  * from #PhoshBtManager. To figure out if the widget should be shown
- * the #PhoshBtInfo::enabled property can be useful.
+ * the #PhoshBtInfo:enabled property can be useful.
  */
 
 enum {
