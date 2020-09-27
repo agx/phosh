@@ -94,10 +94,10 @@ struct _PhoshMonitor {
 G_DECLARE_FINAL_TYPE (PhoshMonitor, phosh_monitor, PHOSH, MONITOR, GObject)
 
 PhoshMonitor     * phosh_monitor_new_from_wl_output (gpointer wl_output);
-PhoshMonitorMode * phosh_monitor_get_current_mode (PhoshMonitor *monitor);
-gboolean           phosh_monitor_is_configured (PhoshMonitor *monitor);
-gboolean           phosh_monitor_is_builtin (PhoshMonitor *monitor);
-gboolean           phosh_monitor_is_flipped (PhoshMonitor *monitor);
-guint              phosh_monitor_get_rotation (PhoshMonitor *monitor);
+PhoshMonitorMode * phosh_monitor_get_current_mode (PhoshMonitor *self);
+gboolean           phosh_monitor_is_configured (PhoshMonitor *self);
+gboolean           phosh_monitor_is_builtin (PhoshMonitor *self);
+gboolean           phosh_monitor_is_flipped (PhoshMonitor *self);
+guint              phosh_monitor_get_rotation (PhoshMonitor *self);
 void               phosh_monitor_set_power_save_mode (PhoshMonitor *self,
                                                       PhoshMonitorPowerSaveMode mode);
