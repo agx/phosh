@@ -21,6 +21,8 @@
  * SECTION:phosh-wwan-mm
  * @short_description: Implementation of the #PhoshWWanInterface
  * @Title: PhoshWWanMM
+ *
+ * This implements #PhoshWWanInterface for ModemManager.
  */
 
 typedef enum { /* From ModemManager-enums.h */
