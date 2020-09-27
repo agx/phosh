@@ -322,6 +322,8 @@ animate_cb(GtkWidget *widget,
 
 /**
  * phosh_home_set_state:
+ * @self: The home surface
+ * @state: The state to set
  *
  * Set the state of the home screen. See #PhoshHomeState.
  */
