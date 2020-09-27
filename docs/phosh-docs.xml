@@ -123,9 +123,12 @@
       <title>Generated DBus Clients</title>
       <xi:include href="xml/phosh-idle-dbus.xml"/>
       <xi:include href="xml/phosh-osk0-dbus.xml"/>
+      <xi:include href="xml/phosh-screen-saver-dbus.xml"/>
       <xi:include href="xml/phosh-wwan-mm-dbus.xml"/>
       <xi:include href="xml/phosh-wwan-ofono-dbus.xml"/>
+      <xi:include href="xml/gsd-rfkill-dbus.xml"/>
       <xi:include href="xml/iio-sensor-proxy-dbus.xml"/>
+      <xi:include href="xml/mpris-dbus.xml"/>
     </chapter>
 
     <chapter id="wayland_protocols">
