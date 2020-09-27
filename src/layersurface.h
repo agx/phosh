@@ -17,6 +17,7 @@ G_DECLARE_DERIVABLE_TYPE (PhoshLayerSurface, phosh_layer_surface, PHOSH, LAYER_S
 /**
  * PhoshLayerSurfaceClass
  * @parent_class: The parent class
+ * @configured: invoked when layer surface is configured
  */
 struct _PhoshLayerSurfaceClass
 {

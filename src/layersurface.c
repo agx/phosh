@@ -525,8 +525,8 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
   g_object_class_install_properties (object_class, PHOSH_LAYER_SURFACE_PROP_LAST_PROP, props);
 
   /**
-   * PhoshLayersurface::configured
-   * @self: The #PhoshLayersurface instance.
+   * PhoshLayerSurface::configured
+   * @self: The #PhoshLayerSurface instance.
    *
    * This signal is emitted once we received the configure event from the
    * compositor.
