@@ -9,6 +9,8 @@
 #include <NetworkManager.h>
 #include "layersurface.h"
 
+G_BEGIN_DECLS
+
 #define PHOSH_TYPE_NETWORK_AUTH_PROMPT (phosh_network_auth_prompt_get_type())
 
 G_DECLARE_FINAL_TYPE (PhoshNetworkAuthPrompt, phosh_network_auth_prompt, PHOSH, NETWORK_AUTH_PROMPT, PhoshLayerSurface);
@@ -23,3 +25,4 @@ void       phosh_network_auth_prompt_set_request (PhoshNetworkAuthPrompt        
                                                   char                          *setting_name,
                                                   char                         **hints,
                                                   NMSecretAgentGetSecretsFlags   flags);
+G_END_DECLS
