@@ -14,9 +14,14 @@ G_DECLARE_FINAL_TYPE (PhoshPanel, phosh_panel, PHOSH, PANEL, PhoshLayerSurface)
 
 #define PHOSH_PANEL_HEIGHT 32
 
+/**
+ * PhoshPanelState:
+ * @PHOSH_PANEL_STATE_FOLDED: Ony top-bar is visible
+ * @PHOSH_PANEL_STATE_UNFOLDED: Settings menu is unfolded
+ */
 typedef enum {
-  PHOSH_PANEL_STATE_FOLDED,    /* Only top-bar is visible */
-  PHOSH_PANEL_STATE_UNFOLDED,  /* Settings menu is unfolded */
+  PHOSH_PANEL_STATE_FOLDED,
+  PHOSH_PANEL_STATE_UNFOLDED,
 } PhoshPanelState;
 
 GtkWidget * phosh_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
