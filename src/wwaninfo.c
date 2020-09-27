@@ -23,7 +23,7 @@
  * @Title: PhoshWWanInfo
  *
  * A good indicator whether to show the icon is the
- * #PhoshWwanInfo:present property that indicates if
+ * #PhoshWWanInfo:present property that indicates if
  * hardware is present.
  */
 enum {
