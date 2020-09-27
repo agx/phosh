@@ -64,6 +64,9 @@ get_display_name (PhoshMonitor *monitor)
     return g_strdup (_("Unknown"));
 }
 
+/*
+ * DBus Interface
+ */
 
 static gboolean
 phosh_monitor_manager_handle_get_resources (
@@ -769,6 +772,9 @@ on_bus_acquired (GDBusConnection *connection,
                                     NULL);
 }
 
+/*
+ * wl_output wayland protocol
+ */
 
 static PhoshMonitor *
 find_monitor_by_wl_output (PhoshMonitorManager *self, struct wl_output *output)
@@ -838,6 +844,9 @@ phosh_monitor_manager_finalize (GObject *object)
   G_OBJECT_CLASS (phosh_monitor_manager_parent_class)->finalize (object);
 }
 
+/*
+ * PhoshMonitorManager Class
+ */
 
 static void
 phosh_monitor_manager_constructed (GObject *object)
