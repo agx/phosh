@@ -29,7 +29,7 @@
  * @Title: PhoshPolkitAuthPrompt
  *
  * The #PhoshPolkitAuthPrompt is used to ask policy kit authentication.
- * This handles the interaction with #PolkitAgentSession.
+ * This handles the interaction with PolkitAgentSession.
  */
 
 enum {
