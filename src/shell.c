@@ -156,24 +156,24 @@ phosh_shell_get_locked (PhoshShell *self)
 /**
  * phosh_shell_set_locked:
  * @self: The #PhoshShell singleton
- * @state: %TRUE to lock the shell
+ * @locked: %TRUE to lock the shell
  *
  * Lock the shell. We proxy to lockscreen-manager to avoid
  * that other parts of the shell need to care about this
  * abstraction.
  */
 void
-phosh_shell_set_locked (PhoshShell *self, gboolean state)
+phosh_shell_set_locked (PhoshShell *self, gboolean locked)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   gboolean current;
 
   current = phosh_lockscreen_manager_get_locked (priv->lockscreen_manager);
 
-  if (current == state)
+  if (current == locked)
     return;
 
-  phosh_lockscreen_manager_set_locked (priv->lockscreen_manager, state);
+  phosh_lockscreen_manager_set_locked (priv->lockscreen_manager, locked);
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_LOCKED]);
 }
 
