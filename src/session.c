@@ -28,8 +28,8 @@
  * @short_description: Manages gnome-session registration and shutdown
  * @Title: PhoshSession
  *
- * The #PhoshSession is responsible for registration with
- * gnome-session and system shutdown
+ * The PhoshSession is responsible for registration with
+ * gnome-session and for triggering system shutdown and reboot.
  */
 static GDBusProxy *_proxy;
 
