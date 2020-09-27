@@ -20,7 +20,7 @@
  * @short_description: Manages system prompter registration
  * @Title: PhoshSystemPrompter
  *
- * The #PhoshSystemPrompter is responsible for displaying system
+ * The PhoshSystemPrompter is responsible for displaying system
  * wide modal #PhoshSystemPrompt dialogs
  */
 static GcrSystemPrompter *_prompter;
