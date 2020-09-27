@@ -224,6 +224,7 @@ phosh_feedback_manager_toggle (PhoshFeedbackManager *self)
 
 /**
  * phosh_trigger_feedback:
+ * @name: The event's name to trigger feedback for
  *
  * Trigger feedback for the given event asynchronously
  */
@@ -242,6 +243,7 @@ phosh_trigger_feedback (const char *name)
 
 /**
  * phosh_connect_feedback:
+ * @button: The button that should trigger feedback
  *
  * Installs "pressed" and "released" signal handlers
  * for haptic feedback.
