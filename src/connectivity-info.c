@@ -22,7 +22,7 @@
  * #PhoshConnectivityInfo monitors the connectivity to the internet
  * via NetworkManager and alerts the user about connectivity problems.
  * Usually there's no point in showing the widget when
- * #Phosh:connectivity it %TRUE but it's up to the container to
+ * #PhoshConnectivityInfo:connectivity it %TRUE but it's up to the container to
  * decide.
  */
 
