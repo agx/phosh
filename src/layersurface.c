@@ -560,6 +560,7 @@ phosh_layer_surface_new (gpointer layer_shell,
 
 /**
  * phosh_layer_surface_get_surface:
+ * @self: The #PhoshLayerSurface
  *
  * Get the layer layer surface or #NULL if the window
  * is not yet realized.
@@ -577,6 +578,7 @@ phosh_layer_surface_get_layer_surface (PhoshLayerSurface *self)
 
 /**
  * phosh_layer_surface_get_wl_surface:
+ * @self: The #PhoshLayerSurface
  *
  * Get the layer wayland surface or #NULL if the window
  * is not yet realized.
@@ -594,6 +596,9 @@ phosh_layer_surface_get_wl_surface (PhoshLayerSurface *self)
 
 /**
  * phosh_layer_surface_set_size:
+ * @self: The #PhoshLayerSurface
+ * @width: the height in pixels
+ * @height: the width in pixels
  *
  * Set the size of a layer surface. A value of '-1' indicates 'use old value'
  */
@@ -632,6 +637,11 @@ phosh_layer_surface_set_size (PhoshLayerSurface *self, int width, int height)
 
 /**
  * phosh_layer_surface_set_margins:
+ * @self: The #PhoshLayerSurface
+ * @top: the top margin in pixels
+ * @right: the right margin in pixels
+ * @bottom: the bottom margin in pixels
+ * @left: the left margin in pixels
  *
  * Set anchor margins of a layer surface.
  */
@@ -673,6 +683,8 @@ phosh_layer_surface_set_margins (PhoshLayerSurface *self, int top, int right, in
 
 /**
  * phosh_layer_surface_set_exclusive_zone:
+ * @self: The #PhoshLayerSurface
+ * @zone: Size of the exclusive zone.
  *
  * Set exclusive zone of a layer surface.
  */
@@ -701,6 +713,8 @@ phosh_layer_surface_set_exclusive_zone (PhoshLayerSurface *self, int zone)
 
 /**
  * phosh_layer_surface_set_keyboard_interactivity:
+ * @self: The #PhoshLayerSurface
+ * @interactivity: %TRUE if the #PhoshLayerSurface should receive keyboard input.
  *
  * Set keyboard ineractivity a layer surface.
  */
@@ -726,6 +740,7 @@ phosh_layer_surface_set_kbd_interactivity (PhoshLayerSurface *self, gboolean int
 
 /**
  * phosh_layer_surface_wl_surface_commit:
+ * @self: The #PhoshLayerSurface
  *
  * Forces a commit of layer surface's state.
  */
