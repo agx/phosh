@@ -16,6 +16,14 @@ G_DECLARE_DERIVABLE_TYPE (PhoshThumbnail,
                           THUMBNAIL,
                           GObject)
 
+/**
+ * PhoshThumbnailClass:
+ * @parent_class: the parent class
+ * @get_image: Get the current image data
+ * @get_size: get current image size and stride
+ * @is_ready: wether the image is ready to be fetched
+ * @set_ready: set image as ready
+ */
 struct _PhoshThumbnailClass
 {
   GObjectClass parent_class;
