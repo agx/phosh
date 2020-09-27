@@ -644,39 +644,17 @@ phosh_shell_set_transform (PhoshShell *self,
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   PhoshMonitorTransform current;
-  guint degree = 0;
-  PhoshWayland *wl = phosh_wayland_get_default();
 
   g_return_if_fail (priv->primary_monitor);
   current = phosh_monitor_get_transform (priv->primary_monitor);
   if (current == transform)
     return;
 
-  switch (phosh_shell_get_transform (self)) {
-  case PHOSH_MONITOR_TRANSFORM_NORMAL:
-  case PHOSH_MONITOR_TRANSFORM_FLIPPED:
-    degree = 0;
-    break;
-  case PHOSH_MONITOR_TRANSFORM_180:
-  case PHOSH_MONITOR_TRANSFORM_FLIPPED_180:
-    degree = 180;
-    break;
-  case PHOSH_MONITOR_TRANSFORM_90:
-  case PHOSH_MONITOR_TRANSFORM_FLIPPED_90:
-    degree = 90;
-    break;
-  case PHOSH_MONITOR_TRANSFORM_270:
-  case PHOSH_MONITOR_TRANSFORM_FLIPPED_270:
-    degree = 270;
-    break;
-  default:
-    g_warn_if_reached ();
-  }
-
-  phosh_private_rotate_display (phosh_wayland_get_phosh_private (wl),
-                                phosh_layer_surface_get_wl_surface (priv->panel),
-                                degree);
- /* Notification change signalled in on_primary_monitor_configured */
+  phosh_monitor_manager_set_monitor_transform (priv->monitor_manager,
+                                               priv->primary_monitor,
+                                               transform);
+  phosh_monitor_manager_apply_monitor_config (priv->monitor_manager);
+  /* Notification change signalled in on_primary_monitor_configured */
 }
 
 
