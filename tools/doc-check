@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -eo pipefail
+
+WARNINGS=_build/gtk-doc-warnings.log
+ERRORS=_build/doc-errors.log
+
+ninja -C _build phosh-doc |& tee | grep warning: > "${WARNINGS}"
+
+if [ ! -s "${WARNINGS}" ]; then
+    exit 0
+fi
+
+# We ignore errors from generated DBus bindings and wayland protocols for the
+# moment.
+if ! grep -v -E '(^html/api-index-full.html)|(^./phosh-decl.txt)'\
+'|(^\./phosh-sections.txt:[0-9]+: warning: Double)'\
+'|client-protocol.h'\
+'|(no link for: "gdbus)|(_build/src/.*dbus.c)'\
+'|(descriptions for (struct )?zwlr_)|(descriptions for (struct )?z?xdg_)'\
+'|gamma_control_error|gamma_control_listener|org_kde_kwin_idle_timeout_listener'\
+'|phosh_private_error|phosh_private_keyboard_event_error'\
+'|phosh_private_keyboard_event_listener|phosh_private_xdg_switcher_error'\
+'|phosh_private_xdg_switcher_listener'\
+ "${WARNINGS}" > "${ERRORS}"; then
+   echo "No critical errors found."
+else
+   echo "Documentation errors:"
+   cat "${ERRORS}"
+   exit 1
+fi
+
+exit 0
