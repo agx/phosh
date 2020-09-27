@@ -163,7 +163,7 @@ build-gtkdoc:
     - build:native-debian-bullseye
   <<: *bullseye_vars
   script:
-    - ninja -C _build phosh-doc
+    - tools/doc-check
     - mv _build/docs/html/ _reference/
   artifacts:
     paths:
