@@ -215,7 +215,7 @@ build:native-alpinelinux-edge:
   before_script:
     - echo "https://alpine.global.ssl.fastly.net/alpine/edge/testing" >> /etc/apk/repositories
     - apk -q add alpine-sdk
-    - apk -q add meson ninja gtk+3.0-dev gnome-desktop-dev libhandy-dev gcr-dev upower-dev linux-pam-dev git pulseaudio-dev networkmanager-dev polkit-elogind-dev libsecret-dev feedbackd-dev
+    - apk -q add meson ninja gtk+3.0-dev gnome-desktop-dev libhandy1-dev gcr-dev upower-dev linux-pam-dev git pulseaudio-dev networkmanager-dev polkit-elogind-dev libsecret-dev feedbackd-dev
   artifacts:
     paths:
       - _build
@@ -237,7 +237,7 @@ unit-test:native-alpinelinux-edge:
   before_script:
     - echo "https://alpine.global.ssl.fastly.net/alpine/edge/testing" >> /etc/apk/repositories
     - apk -q add alpine-sdk
-    - apk -q add xvfb-run meson ninja glib-dev wayland-protocols wayland-dev musl-dev gnome-desktop-dev libhandy-dev gcr-dev upower-dev linux-pam-dev pulseaudio-dev networkmanager-dev polkit-elogind-dev libsecret-dev gcovr feedbackd-dev
+    - apk -q add xvfb-run meson ninja glib-dev wayland-protocols wayland-dev musl-dev gnome-desktop-dev libhandy1-dev gcr-dev upower-dev linux-pam-dev pulseaudio-dev networkmanager-dev polkit-elogind-dev libsecret-dev gcovr feedbackd-dev
   script:
     - export LC_ALL=C.UTF-8
     - ${XVFB_RUN} ninja -C _build test
