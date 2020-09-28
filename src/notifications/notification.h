@@ -22,7 +22,13 @@ typedef enum {
   PHOSH_NOTIFICATION_URGENCY_CRITICAL,
 } PhoshNotificationUrgency;
 
-
+/**
+ * PhoshNotificationReason:
+ * @PHOSH_NOTIFICATION_REASON_EXPIRED: notification expired
+ * @PHOSH_NOTIFICATION_REASON_DISMISSED: notification was dismissed
+ * @PHOSH_NOTIFICATION_REASON_CLOSED: notification was closed
+ * @PHOSH_NOTIFICATION_REASON_UNDEFINED: undefined reason
+*/
 typedef enum {
   PHOSH_NOTIFICATION_REASON_EXPIRED = 1,
   PHOSH_NOTIFICATION_REASON_DISMISSED = 2,
