@@ -150,7 +150,7 @@ xdg_output_v1_handle_logical_position (void *data,
 
   g_return_if_fail (PHOSH_IS_MONITOR (self));
   self->xdg_output_done = FALSE;
-  g_debug ("%p: Logical pos: %d,%d", self, x, y);
+  g_debug ("Monitor %p: Logical pos: %d,%d", self, x, y);
   self->logical.x = x;
   self->logical.y = y;
 }
@@ -166,7 +166,7 @@ xdg_output_v1_handle_logical_size (void *data,
 
   g_return_if_fail (PHOSH_IS_MONITOR (self));
   self->xdg_output_done = FALSE;
-  g_debug ("%p: Logical size: %dx%d", self, width, height);
+  g_debug ("Monitor %p: Logical size: %dx%d", self, width, height);
   self->logical.width = width;
   self->logical.height = height;
 
@@ -196,7 +196,7 @@ xdg_output_v1_handle_name (void *data,
 {
   PhoshMonitor *self = PHOSH_MONITOR (data);
   /* wlroots uses the connector's name as xdg_output name */
-  g_debug("Connector name is %s", name);
+  g_debug("Monitor %p: Connector name is %s", self, name);
 
   self->xdg_output_done = FALSE;
   self->name = g_strdup (name);
