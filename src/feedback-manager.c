@@ -20,7 +20,6 @@
  * @Title: PhoshFeedbackManager
  */
 
-/* TODO: proper icons */
 #define PHOSH_FEEDBACK_ICON_FULL "preferences-system-notifications-symbolic"
 #define PHOSH_FEEDBACK_ICON_SILENT "notifications-disabled-symbolic"
 
