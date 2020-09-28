@@ -47,6 +47,7 @@
 #include "screen-saver-manager.h"
 #include "session.h"
 #include "system-prompter.h"
+#include "torch-manager.h"
 #include "util.h"
 #include "wifiinfo.h"
 #include "wwaninfo.h"
@@ -97,6 +98,7 @@ typedef struct
   PhoshFeedbackManager *feedback_manager;
   PhoshBtManager *bt_manager;
   PhoshWWan *wwan;
+  PhoshTorchManager *torch_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -328,6 +330,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->notification_banner);
 
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->torch_manager);
   g_clear_object (&priv->wwan);
   g_clear_object (&priv->bt_manager);
   g_clear_object (&priv->feedback_manager);
@@ -873,6 +876,21 @@ phosh_shell_get_wwan (PhoshShell *self)
   return priv->wwan;
 }
 
+
+PhoshTorchManager *
+phosh_shell_get_torch_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->torch_manager)
+    priv->torch_manager = phosh_torch_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_TORCH_MANAGER (priv->torch_manager), NULL);
+  return priv->torch_manager;
+}
 
 /**
  * Returns the usable area in pixels usable by a client on the phone

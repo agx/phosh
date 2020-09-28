@@ -16,6 +16,7 @@
 #include "quick-setting.h"
 #include "settings/brightness.h"
 #include "settings/gvc-channel-bar.h"
+#include "torch-info.h"
 #include "wwan/phosh-wwan-mm.h"
 #include "rotateinfo.h"
 #include "feedbackinfo.h"
@@ -149,6 +150,20 @@ battery_setting_clicked_cb (PhoshSettings *self)
 {
   phosh_quick_setting_open_settings_panel ("power");
   g_signal_emit (self, signals[SETTING_DONE], 0);
+}
+
+
+static void
+torch_setting_clicked_cb (PhoshSettings *self)
+{
+  PhoshShell *shell;
+  PhoshTorchManager *manager;
+
+  shell = phosh_shell_get_default ();
+  g_return_if_fail (PHOSH_IS_SHELL (shell));
+  manager = phosh_shell_get_torch_manager (shell);
+  g_return_if_fail (PHOSH_IS_TORCH_MANAGER (manager));
+  phosh_torch_manager_toggle (manager);
 }
 
 static void
@@ -502,6 +517,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
   g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
   g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
+  g_type_ensure (PHOSH_TYPE_TORCH_INFO);
 
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);
@@ -515,6 +531,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, feedback_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_media_player_raised);
   gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, torch_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, wifi_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, wwan_setting_clicked_cb);
 }
