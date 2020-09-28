@@ -9,7 +9,11 @@
 
 G_BEGIN_DECLS
 
+/**
+ * ShellNetworkAgentResponse:
+ */
 typedef enum {
+  /*<private >*/
   SHELL_NETWORK_AGENT_CONFIRMED,
   SHELL_NETWORK_AGENT_USER_CANCELED,
   SHELL_NETWORK_AGENT_INTERNAL_ERROR
