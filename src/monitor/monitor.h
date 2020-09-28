@@ -14,7 +14,28 @@
 #include <glib-object.h>
 #include <glib/gi18n.h>
 
-/* This matches the values in drm_mode.h */
+/**
+ * PhoshMonitorConnectorType:
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_Unknown: unknown connector type
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_VGA: a VGA connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_DVII: a DVII connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_DVID: a DVID connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_DVIA: a DVIA connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_Composite: a Composite connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_SVIDEO: a SVIDEO connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_LVDS: a LVDS connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_Component: a Component connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_9PinDIN: a 9PinDIN connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_DisplayPort: a DisplayPort connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_HDMIA: a HDMIA connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_HDMIB: a HDMIB connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_TV: a TV connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_eDP: a eDP connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_VIRTUAL: a Virtual connector
+ * @PHOSH_MONITOR_CONNECTOR_TYPE_DSI: a DSI connector
+ *
+ * This matches the values in drm_mode.h
+ */
 typedef enum _PhoshMonitorConnectorType
 {
   PHOSH_MONITOR_CONNECTOR_TYPE_Unknown = 0,
