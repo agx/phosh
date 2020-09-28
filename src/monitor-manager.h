@@ -13,6 +13,21 @@
 
 G_BEGIN_DECLS
 
+/**
+ * PhoshMonitorManagerConfigMethod:
+ * @PHOSH_MONITOR_MANAGER_CONFIG_METHOD_VERIFY: verify the configuration
+ * @PHOSH_MONITOR_MANAGER_CONFIG_METHOD_TEMPORARY: configuration is temporary
+ * @PHOSH_MONITOR_MANAGER_CONFIG_METHOD_PERSISTENT: configuration is permanent
+ *
+ * Equivalent to the 'method' enum in org.gnome.Mutter.DisplayConfig
+ */
+typedef enum _MetaMonitorsConfigMethod
+{
+  PHOSH_MONITOR_MANAGER_CONFIG_METHOD_VERIFY = 0,
+  PHOSH_MONITOR_MANAGER_CONFIG_METHOD_TEMPORARY = 1,
+  PHOSH_MONITOR_MANAGER_CONFIG_METHOD_PERSISTENT = 2,
+} PhoshMonitorManagerConfigMethod;
+
 #define PHOSH_TYPE_MONITOR_MANAGER                 (phosh_monitor_manager_get_type ())
 G_DECLARE_FINAL_TYPE (PhoshMonitorManager, phosh_monitor_manager, PHOSH, MONITOR_MANAGER,
                       PhoshDisplayDbusDisplayConfigSkeleton)

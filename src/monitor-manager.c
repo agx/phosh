@@ -682,7 +682,7 @@ phosh_monitor_manager_handle_apply_monitors_config (
   PhoshMonitor *primary_monitor = NULL;
   PhoshShell *shell = phosh_shell_get_default();
 
-  g_debug ("Mostly Stubbed DBus call %s", __func__);
+  g_debug ("Mostly Stubbed DBus call %s, method: %d", __func__, method);
 
   if (serial != self->serial) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
@@ -722,9 +722,12 @@ phosh_monitor_manager_handle_apply_monitors_config (
                                            "No primary monitor found");
     return TRUE;
   }
-  if (primary_monitor != phosh_shell_get_primary_monitor (shell)) {
-    g_debug ("New primary monitor is %s", primary_monitor->name);
-    phosh_shell_set_primary_monitor (shell, primary_monitor);
+
+  if (method == PHOSH_MONITOR_MANAGER_CONFIG_METHOD_PERSISTENT) {
+    if (primary_monitor != phosh_shell_get_primary_monitor (shell)) {
+      g_debug ("New primary monitor is %s", primary_monitor->name);
+      phosh_shell_set_primary_monitor (shell, primary_monitor);
+    }
   }
 
   phosh_display_dbus_display_config_complete_apply_monitors_config (
