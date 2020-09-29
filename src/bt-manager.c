@@ -41,7 +41,7 @@ static GParamSpec *props[PROP_LAST_PROP];
 struct _PhoshBtManager {
   GObject                parent;
 
-  /* Wheter bt  radio is on */
+  /* Whether bt radio is on */
   gboolean               enabled;
   /* Whether we have a bt device is present */
   gboolean               present;
