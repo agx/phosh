@@ -201,6 +201,52 @@
               </packing>
             </child>
             <child>
+              <object class="GtkRevealer" id="revealer">
+                <property name="visible">True</property>
+                <property name="reveal-child" bind-source="torchinfo" bind-property="enabled" bind-flags="sync-create"/>
+                <child>
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_bottom">5</property>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_right">6</property>
+                        <property name="icon_name">torch-enabled-symbolic</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkScale" id="scale_torch">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="adjustment">adj_torch</property>
+                        <property name="round_digits">0</property>
+                        <property name="draw_value">False</property>
+                        <signal name="value-changed" handler="on_torch_scale_value_changed" object="PhoshSettings" swapped="yes"/>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkScrolledWindow" id="sw_notifications">
                 <property name="visible">False</property>
                 <property name="vscrollbar-policy">automatic</property>
@@ -234,4 +280,7 @@
       <class name="phosh-settings-menu"/>
     </style>
   </template>
+  <object class="GtkAdjustment" id="adj_torch">
+    <property name="step-increment">1</property>
+  </object>
 </interface>

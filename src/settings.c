@@ -16,6 +16,8 @@
 #include "quick-setting.h"
 #include "settings/brightness.h"
 #include "settings/gvc-channel-bar.h"
+#include "torch-info.h"
+#include "torch-manager.h"
 #include "wwan/phosh-wwan-mm.h"
 #include "feedback-manager.h"
 #include "notifications/notify-manager.h"
@@ -64,6 +66,11 @@ typedef struct _PhoshSettings
   GtkWidget *list_notifications;
   GtkWidget *sw_notifications;
   LfbEvent  *notify_event;
+
+  /* Torch */
+  PhoshTorchManager *torch_manager;
+  GtkWidget *scale_torch;
+  gboolean setting_torch;
 } PhoshSettings;
 
 
@@ -402,6 +409,41 @@ end_notify_feedback (PhoshSettings *self)
 
 
 static void
+on_torch_scale_value_changed (PhoshSettings *self, GtkScale *scale_torch)
+{
+  double value;
+
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+  g_return_if_fail (PHOSH_IS_TORCH_MANAGER (self->torch_manager));
+
+  /* Only react to scale changes when torch is enabled */
+  if (!phosh_torch_manager_get_enabled (self->torch_manager))
+      return;
+  
+  self->setting_torch = TRUE;
+  value = gtk_range_get_value (GTK_RANGE (self->scale_torch));
+  g_debug ("Setting torch brightness to %.2f", value);
+  phosh_torch_manager_set_scaled_brightness (self->torch_manager, value / 100.0);
+}
+
+
+static void
+on_torch_brightness_changed (PhoshSettings *self, GParamSpec *pspec, PhoshTorchManager *manager)
+{
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+  g_return_if_fail (PHOSH_IS_TORCH_MANAGER (manager));
+
+  if (self->setting_torch) {
+    self->setting_torch = FALSE;
+    return;
+  }
+
+  gtk_range_set_value (GTK_RANGE (self->scale_torch),
+                       100.0 * phosh_torch_manager_get_scaled_brightness (self->torch_manager));
+}
+
+
+static void
 on_notifcation_items_changed (PhoshSettings *self,
                               guint          position,
                               guint          removed,
@@ -442,6 +484,24 @@ setup_brightness_range (PhoshSettings *self)
 
 
 static void
+setup_torch (PhoshSettings *self)
+{
+  PhoshShell *shell = phosh_shell_get_default ();
+
+  self->torch_manager = g_object_ref(phosh_shell_get_torch_manager (shell));
+
+  gtk_range_set_range (GTK_RANGE (self->scale_torch), 40, 100);
+  gtk_range_set_value (GTK_RANGE (self->scale_torch),
+                       phosh_torch_manager_get_scaled_brightness (self->torch_manager) * 100.0);
+  g_signal_connect_object (self->torch_manager,
+                           "notify::brightness",
+                           G_CALLBACK(on_torch_brightness_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+}
+
+
+static void
 setup_volume_bar (PhoshSettings *self)
 {
   GtkAdjustment *adj;
@@ -477,6 +537,7 @@ phosh_settings_constructed (GObject *object)
 
   setup_brightness_range (self);
   setup_volume_bar (self);
+  setup_torch (self);
 
   g_signal_connect (self->quick_settings,
                     "child-activated",
@@ -515,6 +576,8 @@ phosh_settings_dispose (GObject *object)
     g_clear_object (&self->notify_event);
   }
 
+  g_clear_object (&self->torch_manager);
+
   G_OBJECT_CLASS (phosh_settings_parent_class)->dispose (object);
 }
 
@@ -552,6 +615,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_torch);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, sw_notifications);
 
   gtk_widget_class_bind_template_callback (widget_class, battery_setting_clicked_cb);
@@ -568,6 +632,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, wifi_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, wifi_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, wwan_setting_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_torch_scale_value_changed);
 }
 
 
