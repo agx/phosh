@@ -5,16 +5,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-08-07 15:31+0000\n"
-"PO-Revision-Date: 2020-08-10 14:22+0300\n"
+"POT-Creation-Date: 2020-08-14 15:29+0000\n"
+"PO-Revision-Date: 2020-09-29 14:55+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 3.36.0\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: Poedit 2.4.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -69,13 +69,15 @@ msgstr "Denetleniyor…"
 msgid "%A, %B %d"
 msgstr "%A, %B %d"
 
-#: src/media-player.c:262
-msgid "Unknown title"
-msgstr "Bilinmeyen başlık"
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:263 src/ui/media-player.ui:107
+msgid "Unknown Title"
+msgstr "Bilinmeyen Başlık"
 
-#: src/media-player.c:270
-msgid "Unknown artist"
-msgstr "Bilinmeyen sanatçı"
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:272 src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Bilinmeyen Sanatçı"
 
 #: src/monitor-manager.c:58
 msgid "Built-in display"
@@ -94,7 +96,7 @@ msgstr "“%s” wifi ağının yetkilendirme türü desteklenmiyor"
 #: src/network-auth-prompt.c:189
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr "“%s” wifi ağı için parolayı gir"
+msgstr "“%s” wifi ağı için parola gir"
 
 #: src/notifications/notification.c:382 src/notifications/notification.c:601
 msgid "Notification"
@@ -242,14 +244,6 @@ msgstr "Acil"
 msgid "Unlock"
 msgstr "Kilidi Aç"
 
-#: src/ui/media-player.ui:107
-msgid "Unknown Song"
-msgstr "Bilinmeyen Şarkı"
-
-#: src/ui/media-player.ui:127
-msgid "Unknown Artist"
-msgstr "Bilinmeyen Sanatçı"
-
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
 msgstr "_İptal"
@@ -286,9 +280,16 @@ msgstr "Gücü Kapat"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/wwaninfo.c:167
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:168
 msgid "Cellular"
 msgstr "Hücresel"
+
+#~ msgid "Unknown artist"
+#~ msgstr "Bilinmeyen sanatçı"
+
+#~ msgid "Unknown Song"
+#~ msgstr "Bilinmeyen Şarkı"
 
 #~ msgid "Suspend"
 #~ msgstr "Askıya Al"
