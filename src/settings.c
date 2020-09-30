@@ -187,8 +187,7 @@ accelerator_grabbed_cb (PhoshSettings *self,
   guint64 action = action_id;
   if (g_strcmp0 (accelerator, "XF86AudioLowerVolume") == 0) {
     g_hash_table_insert (self->accelerator_callbacks, (gpointer) action, (gpointer) lower_volume);
-  }
-  else if (g_strcmp0 (accelerator, "XF86AudioRaiseVolume") == 0) {
+  } else if (g_strcmp0 (accelerator, "XF86AudioRaiseVolume") == 0) {
      g_hash_table_insert (self->accelerator_callbacks, (gpointer) action, (gpointer) raise_volume);
   }
 }
@@ -451,8 +450,7 @@ phosh_settings_dispose (GObject *object)
     g_clear_object (&self->notify_event);
   }
 
-  if (self->accelerator_callbacks != NULL)
-  {
+  if (self->accelerator_callbacks != NULL) {
     g_hash_table_remove_all (self->accelerator_callbacks);
     g_hash_table_unref (self->accelerator_callbacks);
     self->accelerator_callbacks = NULL;
