@@ -24,14 +24,14 @@
     <file alias="app-icon-unknown-symbolic.svg">../data/app-icon-unknown-symbolic.svg</file>
   </gresource>
   <gresource prefix="/sm/puri/phosh/icons/scalable/status/">
-    <file alias="auth-sim-missing-symbolic.svg">../data/auth-sim-missing-symbolic.svg</file>
     <file alias="auth-sim-locked-symbolic.svg">../data/auth-sim-locked-symbolic.svg</file>
-    <file alias="swipe-arrow-symbolic.svg">../data/swipe-arrow-symbolic.svg</file>
+    <file alias="auth-sim-missing-symbolic.svg">../data/auth-sim-missing-symbolic.svg</file>
     <file alias="eye-not-looking-symbolic.svg">../data/eye-not-looking-symbolic.svg</file>
     <file alias="eye-open-negative-filled-symbolic.svg">../data/eye-open-negative-filled-symbolic.svg</file>
-    <file alias="network-wireless-disabled-symbolic.svg">../data/network-wireless-disabled-symbolic.svg</file>
-    <file alias="screen-rotation-portrait-symbolic.svg">../data/screen-rotation-portrait-symbolic.svg</file>
-    <file alias="screen-rotation-landscape-symbolic.svg">../data/screen-rotation-landscape-symbolic.svg</file>
     <file alias="network-cellular-disabled-symbolic.svg">../data/network-cellular-disabled-symbolic.svg</file>
+    <file alias="network-wireless-disabled-symbolic.svg">../data/network-wireless-disabled-symbolic.svg</file>
+    <file alias="screen-rotation-landscape-symbolic.svg">../data/screen-rotation-landscape-symbolic.svg</file>
+    <file alias="screen-rotation-portrait-symbolic.svg">../data/screen-rotation-portrait-symbolic.svg</file>
+    <file alias="swipe-arrow-symbolic.svg">../data/swipe-arrow-symbolic.svg</file>
   </gresource>
 </gresources>
