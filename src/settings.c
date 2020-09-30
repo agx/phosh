@@ -249,19 +249,6 @@ output_stream_notify_volume_cb (GvcMixerStream *stream, GParamSpec *pspec, gpoin
 }
 
 
-
-static GtkWidget *
-create_vol_channel_bar (PhoshSettings *self)
-{
-  GtkWidget *bar;
-
-  bar = gvc_channel_bar_new ();
-  gtk_widget_set_sensitive (bar, TRUE);
-  gtk_widget_show (bar);
-  return bar;
-}
-
-
 static void
 mixer_control_output_update_cb (GvcMixerControl *mixer, guint id, gpointer *data)
 {
@@ -387,13 +374,10 @@ on_notifcation_items_changed (PhoshSettings *self,
   }
 }
 
-static void
-phosh_settings_constructed (GObject *object)
-{
-  PhoshSettings *self = PHOSH_SETTINGS (object);
-  PhoshNotifyManager *manager;
-  GtkAdjustment *adj;
 
+static void
+setup_brightness_range (PhoshSettings *self)
+{
   gtk_range_set_range (GTK_RANGE (self->scale_brightness), 0, 100);
   gtk_range_set_round_digits (GTK_RANGE (self->scale_brightness), 0);
   gtk_range_set_increments (GTK_RANGE (self->scale_brightness), 1, 10);
@@ -402,8 +386,18 @@ phosh_settings_constructed (GObject *object)
                     "value-changed",
                     G_CALLBACK(brightness_value_changed_cb),
                     NULL);
+}
 
-  self->output_vol_bar = create_vol_channel_bar (self);
+
+static void
+setup_volume_bar (PhoshSettings *self)
+{
+  GtkAdjustment *adj;
+
+  self->output_vol_bar = gvc_channel_bar_new ();
+  gtk_widget_set_sensitive (self->output_vol_bar, TRUE);
+  gtk_widget_show (self->output_vol_bar);
+
   gtk_box_pack_start (GTK_BOX (self->box_settings), self->output_vol_bar, FALSE, FALSE, 0);
   gtk_box_reorder_child (GTK_BOX (self->box_settings), self->output_vol_bar, 1);
 
@@ -420,6 +414,17 @@ phosh_settings_constructed (GObject *object)
                     "value-changed",
                     G_CALLBACK (vol_adjustment_value_changed_cb),
                     self);
+}
+
+
+static void
+phosh_settings_constructed (GObject *object)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (object);
+  PhoshNotifyManager *manager;
+
+  setup_brightness_range (self);
+  setup_volume_bar (self);
 
   g_signal_connect (self->quick_settings,
                     "child-activated",
