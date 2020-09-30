@@ -1,4 +1,6 @@
 # Cristovão Osório de Aragão Gomes Ferreira <eu@cristovao-gomes-ferreira.pt>, 2019. #zanata
+# Juliano de Souza Camargo <julianosc@pm.me>, 2020.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
@@ -7,12 +9,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-07-28 11:47+0000\n"
-"Last-Translator: Cristovão Osório de Aragão Gomes Ferreira <eu@cristovao-"
-"gomes-ferreira.pt>\n"
-"Language-Team: Portuguese (Portugal)\n"
-"Language: pt_PT\n"
-"X-Generator: Zanata 4.6.2\n"
+"PO-Revision-Date: 2020-09-30 19:20+0100\n"
+"Last-Translator: Juliano de Souza Camargo <julianosc@pm.me>\n"
+"Language-Team: Portuguese <>\n"
+"Language: pt\n"
+"X-Generator: Gtranslator 3.38.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
@@ -30,19 +31,19 @@ msgstr "Phosh"
 
 #: src/app-grid-button.c:523
 msgid "Application"
-msgstr ""
+msgstr "Aplicação"
 
 #: src/feedbackinfo.c:38
 msgid "Quiet"
-msgstr ""
+msgstr "Silencioso"
 
 #: src/feedbackinfo.c:40
 msgid "Silent"
-msgstr ""
+msgstr "Silenciar"
 
 #: src/feedbackinfo.c:42
 msgid "On"
-msgstr ""
+msgstr "Ligado"
 
 #: src/lockscreen.c:78 src/ui/lockscreen.ui:204
 msgid "Enter Passcode"
@@ -50,13 +51,13 @@ msgstr "Introduza o código"
 
 #: src/lockscreen.c:257
 msgid "Checking…"
-msgstr ""
+msgstr "A verificar…"
 
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:334
 msgid "%A, %B %d"
-msgstr ""
+msgstr "%A, %d de %B"
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"
@@ -70,7 +71,7 @@ msgstr "Desconhecido"
 #: src/network-auth-prompt.c:184
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "Insira a palavra-passe para a rede wi-fi “%s”"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -99,23 +100,23 @@ msgstr "A palavra-passe não pode ficar vazia"
 
 #: src/wifiinfo.c:55
 msgid "Wi-Fi"
-msgstr ""
+msgstr "Wi-Fi"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
-msgstr ""
+msgstr "Aplicação"
 
 #: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Remover dos _Favoritos"
 
 #: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Adicionar aos Favoritos"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr ""
+msgstr "Procurar aplicações…"
 
 #: src/ui/lockscreen.ui:36
 msgid "Slide up to unlock"
@@ -123,19 +124,19 @@ msgstr "Deslizar para cima para destrancar"
 
 #: src/ui/lockscreen.ui:250
 msgid "Emergency"
-msgstr ""
+msgstr "Emergência"
 
 #: src/ui/lockscreen.ui:266
 msgid "Unlock"
-msgstr ""
+msgstr "Desbloquear"
 
 #: src/ui/network-auth-prompt.ui:90
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cancelar"
 
 #: src/ui/network-auth-prompt.ui:106
 msgid "C_onnect"
-msgstr ""
+msgstr "_Ligar"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
