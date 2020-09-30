@@ -493,25 +493,25 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
       NULL, G_TYPE_NONE, 0);
 
   g_type_ensure (PHOSH_TYPE_BT_INFO);
-  g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
-  g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
   g_type_ensure (PHOSH_TYPE_FEEDBACK_INFO);
   g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
+  g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
+  g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
 
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_settings);
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, sw_notifications);
 
   gtk_widget_class_bind_template_callback (widget_class, battery_setting_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, bt_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, feedback_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, feedback_setting_long_pressed_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_media_player_raised);
+  gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, wifi_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, wwan_setting_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, bt_setting_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, on_media_player_raised);
 }
 
 
