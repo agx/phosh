@@ -657,13 +657,11 @@ phosh_monitor_manager_handle_apply_monitors_config (
                        logical_monitor_configs_variant);
 
   while (TRUE) {
-    GVariant *logical_monitor_config_variant =
+    g_autoptr (GVariant) logical_monitor_config_variant =
       g_variant_iter_next_value (&logical_monitor_configs_iter);
 
     if (!logical_monitor_config_variant)
       break;
-
-    g_variant_unref (logical_monitor_config_variant);
 
     primary_monitor =
       check_primary_monitor_from_variant (self,
