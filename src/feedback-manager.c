@@ -122,6 +122,8 @@ phosh_feedback_manager_constructed (GObject *object)
   PhoshFeedbackManager *self = PHOSH_FEEDBACK_MANAGER (object);
   g_autoptr(GError) error = NULL;
 
+  G_OBJECT_CLASS (phosh_feedback_manager_parent_class)->constructed (object);
+
   if (lfb_init (PHOSH_APP_ID, &error)) {
     g_debug ("Libfeedback inited");
     self->inited = TRUE;
