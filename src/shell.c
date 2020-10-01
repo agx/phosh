@@ -39,6 +39,7 @@
 #include "mode-manager.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
+#include "mount-manager.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-banner.h"
 #include "osk-manager.h"
@@ -102,6 +103,7 @@ typedef struct
   PhoshNotifyManager *notify_manager;
   PhoshFeedbackManager *feedback_manager;
   PhoshBtManager *bt_manager;
+  PhoshMountManager *mount_manager;
   PhoshWWan *wwan;
   PhoshTorchManager *torch_manager;
   PhoshModeManager *mode_manager;
@@ -343,6 +345,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->mode_manager);
   g_clear_object (&priv->torch_manager);
   g_clear_object (&priv->wwan);
+  g_clear_object (&priv->mount_manager);
   g_clear_object (&priv->bt_manager);
   g_clear_object (&priv->feedback_manager);
   g_clear_object (&priv->notify_manager);
@@ -485,6 +488,7 @@ setup_idle_cb (PhoshShell *self)
                                            priv->lockscreen_manager);
     /* TODO: accelerometer */
   }
+  priv->mount_manager = phosh_mount_manager_new ();
 
   phosh_session_register (PHOSH_APP_ID);
 
@@ -980,6 +984,19 @@ phosh_shell_get_docked_manager (PhoshShell *self)
 
   g_return_val_if_fail (PHOSH_IS_DOCKED_MANAGER (priv->docked_manager), NULL);
   return priv->docked_manager;
+}
+
+
+PhoshSessionManager *
+phosh_shell_get_session_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_SESSION_MANAGER (priv->session_manager), NULL);
+
+  return priv->session_manager;
 }
 
 

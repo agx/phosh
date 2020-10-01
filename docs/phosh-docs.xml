@@ -68,6 +68,7 @@
       <xi:include href="xml/mode-manager.xml"/>
       <xi:include href="xml/monitor-manager.xml"/>
       <xi:include href="xml/monitor.xml"/>
+      <xi:include href="xml/mount-manager.xml"/>
       <xi:include href="xml/network-auth-prompt.xml"/>
       <xi:include href="xml/notification-banner.xml"/>
       <xi:include href="xml/notification-content.xml"/>

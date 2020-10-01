@@ -74,6 +74,8 @@ libphosh_tool_sources = [
   'media-player.h',
   'mode-manager.c',
   'mode-manager.h',
+  'mount-manager.c',
+  'mount-manager.h',
   'overview.c',
   'overview.h',
   'status-icon.c',
