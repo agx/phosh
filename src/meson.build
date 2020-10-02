@@ -146,6 +146,8 @@ libphosh_sources = [
   'session-presence.h',
   'session.c',
   'session.h',
+  'session-manager.c',
+  'session-manager.h',
   'shell.c',
   'shell.h',
   'system-prompt.c',

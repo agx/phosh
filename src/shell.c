@@ -49,6 +49,7 @@
 #include "sensor-proxy-manager.h"
 #include "screen-saver-manager.h"
 #include "session.h"
+#include "session-manager.h"
 #include "system-prompter.h"
 #include "torch-manager.h"
 #include "util.h"
@@ -86,6 +87,7 @@ typedef struct
 
   GtkWidget *notification_banner;
 
+  PhoshSessionManager *session_manager;
   PhoshBackgroundManager *background_manager;
   PhoshMonitor *primary_monitor;
   PhoshMonitor *builtin_monitor;
@@ -361,6 +363,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->sensor_proxy_manager);
   phosh_system_prompter_unregister ();
   phosh_session_unregister ();
+  g_clear_object (&priv->session_manager);
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->dispose (object);
 }
@@ -445,6 +448,7 @@ setup_idle_cb (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
+  priv->session_manager = phosh_session_manager_new ();
   priv->mode_manager = phosh_mode_manager_new ();
 
   panels_create (self);
