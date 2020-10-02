@@ -36,7 +36,7 @@ generated_dbus_sources += gnome.gdbus_codegen('mpris-dbus',
 generated_dbus_sources += gnome.gdbus_codegen('notify-dbus',
                                               'org.freedesktop.Notifications.xml',
 					      interface_prefix: 'org.freedesktop',
-					      namespace: 'PhoshNotifyDbus')
+					      namespace: 'PhoshNotifyDBus')
 
 generated_dbus_sources += gnome.gdbus_codegen('phosh-idle-dbus',
 					     'org.gnome.Mutter.IdleMonitor.xml',

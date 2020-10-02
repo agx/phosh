@@ -35,11 +35,11 @@
 #define NOTIFY_DBUS_NAME "org.freedesktop.Notifications"
 
 static void phosh_notify_manager_notify_iface_init (
-  PhoshNotifyDbusNotificationsIface *iface);
+  PhoshNotifyDBusNotificationsIface *iface);
 
 typedef struct _PhoshNotifyManager
 {
-  PhoshNotifyDbusNotificationsSkeleton parent;
+  PhoshNotifyDBusNotificationsSkeleton parent;
 
   int dbus_name_id;
   guint next_id;
@@ -67,7 +67,7 @@ static guint signals[N_SIGNALS] = { 0 };
 
 
 static gboolean
-handle_close_notification (PhoshNotifyDbusNotifications *skeleton,
+handle_close_notification (PhoshNotifyDBusNotifications *skeleton,
                            GDBusMethodInvocation        *invocation,
                            guint                         arg_id)
 {
@@ -99,7 +99,7 @@ handle_close_notification (PhoshNotifyDbusNotifications *skeleton,
 
 
 static gboolean
-handle_get_capabilities (PhoshNotifyDbusNotifications *skeleton,
+handle_get_capabilities (PhoshNotifyDBusNotifications *skeleton,
                          GDBusMethodInvocation        *invocation)
 {
   const char *const capabilities[] = {
@@ -114,7 +114,7 @@ handle_get_capabilities (PhoshNotifyDbusNotifications *skeleton,
 
 
 static gboolean
-handle_get_server_information (PhoshNotifyDbusNotifications *skeleton,
+handle_get_server_information (PhoshNotifyDBusNotifications *skeleton,
                                GDBusMethodInvocation        *invocation)
 {
   g_debug ("DBus call GetServerInformation");
@@ -271,7 +271,7 @@ parse_icon_string (const char *string)
 
 
 static gboolean
-handle_notify (PhoshNotifyDbusNotifications *skeleton,
+handle_notify (PhoshNotifyDBusNotifications *skeleton,
                GDBusMethodInvocation        *invocation,
                const char                   *app_name,
                guint                         replaces_id,
@@ -455,7 +455,7 @@ handle_notify (PhoshNotifyDbusNotifications *skeleton,
 
 
 static void
-phosh_notify_manager_notify_iface_init (PhoshNotifyDbusNotificationsIface *iface)
+phosh_notify_manager_notify_iface_init (PhoshNotifyDBusNotificationsIface *iface)
 {
   iface->handle_close_notification = handle_close_notification;
   iface->handle_get_capabilities = handle_get_capabilities;
