@@ -17,7 +17,7 @@ static GMainLoop *loop;
 int fire = 1000; /* fire after 1 second */
 
 static void
-watch_fired_cb (PhoshIdleDbusIdleMonitor *proxy,
+watch_fired_cb (PhoshIdleDBusIdleMonitor *proxy,
                 guint                id,
                 gpointer            *data)
 {
@@ -40,8 +40,8 @@ test_phosh_idle_add_watch(void)
 {
   int timeout_id;
   GError *err = NULL;
-  PhoshIdleDbusIdleMonitor *proxy;
-  PhoshIdleDbusObjectManagerClient *client;
+  PhoshIdleDBusIdleMonitor *proxy;
+  PhoshIdleDBusObjectManagerClient *client;
   GDBusObject *object;
 
   if (!g_test_slow()) {
@@ -85,8 +85,8 @@ static void
 test_phosh_idle_remove_watch(void)
 {
   GError *err = NULL;
-  PhoshIdleDbusIdleMonitor *proxy;
-  PhoshIdleDbusObjectManagerClient *client;
+  PhoshIdleDBusIdleMonitor *proxy;
+  PhoshIdleDBusObjectManagerClient *client;
   GDBusObject *object;
 
   if (!g_test_slow()) {

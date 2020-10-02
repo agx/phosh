@@ -28,7 +28,7 @@
 
 /* A DBus watch corresponding to either an idle or active timer */
 typedef struct {
-  PhoshIdleDbusIdleMonitor *dbus_monitor;
+  PhoshIdleDBusIdleMonitor *dbus_monitor;
   struct org_kde_kwin_idle_timeout *idle_timer;
   PhoshMonitor *monitor;
   char *dbus_name;
@@ -161,7 +161,7 @@ name_vanished_callback (GDBusConnection *connection,
 
 
 static DBusWatch *
-watch_new (PhoshIdleDbusIdleMonitor *skeleton,
+watch_new (PhoshIdleDBusIdleMonitor *skeleton,
            GDBusMethodInvocation    *invocation,
            PhoshMonitor             *monitor,
            guint32                  interval)
@@ -198,7 +198,7 @@ watch_new (PhoshIdleDbusIdleMonitor *skeleton,
 
 
 static DBusWatch *
-idle_watch_new (PhoshIdleDbusIdleMonitor *skeleton,
+idle_watch_new (PhoshIdleDBusIdleMonitor *skeleton,
                 GDBusMethodInvocation    *invocation,
                 PhoshMonitor             *monitor,
                 guint32                  interval)
@@ -215,7 +215,7 @@ idle_watch_new (PhoshIdleDbusIdleMonitor *skeleton,
 
 
 static DBusWatch *
-active_watch_new (PhoshIdleDbusIdleMonitor *skeleton,
+active_watch_new (PhoshIdleDBusIdleMonitor *skeleton,
                   GDBusMethodInvocation    *invocation,
                   PhoshMonitor             *monitor)
 {
@@ -232,7 +232,7 @@ active_watch_new (PhoshIdleDbusIdleMonitor *skeleton,
 
 
 static gboolean
-handle_add_idle_watch (PhoshIdleDbusIdleMonitor *skeleton,
+handle_add_idle_watch (PhoshIdleDBusIdleMonitor *skeleton,
                        GDBusMethodInvocation    *invocation,
                        guint64                   arg_interval,
                        PhoshMonitor             *monitor)
@@ -265,7 +265,7 @@ handle_add_idle_watch (PhoshIdleDbusIdleMonitor *skeleton,
 }
 
 
-static gboolean handle_add_user_active_watch (PhoshIdleDbusIdleMonitor *skeleton,
+static gboolean handle_add_user_active_watch (PhoshIdleDBusIdleMonitor *skeleton,
                                               GDBusMethodInvocation    *invocation,
                                               PhoshMonitor             *monitor)
 {
@@ -289,7 +289,7 @@ static gboolean handle_add_user_active_watch (PhoshIdleDbusIdleMonitor *skeleton
 
 
 static gboolean
-handle_get_idle_time (PhoshIdleDbusIdleMonitor *skeleton,
+handle_get_idle_time (PhoshIdleDBusIdleMonitor *skeleton,
                       GDBusMethodInvocation    *invocation,
                       PhoshMonitor             *monitor)
 {
@@ -302,7 +302,7 @@ handle_get_idle_time (PhoshIdleDbusIdleMonitor *skeleton,
 
 
 static gboolean
-handle_remove_watch (PhoshIdleDbusIdleMonitor *skeleton,
+handle_remove_watch (PhoshIdleDBusIdleMonitor *skeleton,
                      GDBusMethodInvocation    *invocation,
                      guint                     arg_id,
                      PhoshMonitor             *monitor)
