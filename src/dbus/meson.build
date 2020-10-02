@@ -11,7 +11,7 @@ generated_dbus_sources += gnome.gdbus_codegen('iio-sensor-proxy-dbus',
 generated_dbus_sources += gnome.gdbus_codegen('gnome-session-presence-dbus',
 					      'org.gnome.SessionManager.Presence.xml',
 					      interface_prefix: 'org.gnome.SessionManager',
-					      namespace: 'PhoshSessionPresenceDbus')
+					      namespace: 'PhoshSessionPresenceDBus')
 # org.gnome.SettingsDaemon.Rfkill
 generated_dbus_sources += gnome.gdbus_codegen('gsd-rfkill-dbus',
 					      'org.gnome.SettingsDaemon.Rfkill.xml',
