@@ -30,7 +30,7 @@
 
 typedef struct _PhoshSensorProxyManager
 {
-  PhoshDbusSensorProxyProxy parent;
+  PhoshDBusSensorProxyProxy parent;
 
 } PhoshSensorProxyManager;
 

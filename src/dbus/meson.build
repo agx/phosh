@@ -6,7 +6,7 @@ generated_dbus_sources = []
 generated_dbus_sources += gnome.gdbus_codegen('iio-sensor-proxy-dbus',
 					      'net.hadess.SensorProxy.xml',
 					      interface_prefix: 'net.hadess',
-					      namespace: 'PhoshDbus')
+					      namespace: 'PhoshDBus')
 # org.gnome.SessionManager.Presence
 generated_dbus_sources += gnome.gdbus_codegen('gnome-session-presence-dbus',
 					      'org.gnome.SessionManager.Presence.xml',

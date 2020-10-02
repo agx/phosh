@@ -11,7 +11,7 @@
 #define PHOSH_TYPE_SENSOR_PROXY_MANAGER     (phosh_sensor_proxy_manager_get_type ())
 
 G_DECLARE_FINAL_TYPE (PhoshSensorProxyManager, phosh_sensor_proxy_manager,
-                      PHOSH, SENSOR_PROXY_MANAGER, PhoshDbusSensorProxyProxy)
+                      PHOSH, SENSOR_PROXY_MANAGER, PhoshDBusSensorProxyProxy)
 
 PhoshSensorProxyManager *phosh_sensor_proxy_manager_get_default_failable (void);
 gboolean phosh_sensor_proxy_manager_claim_proximity_sync (PhoshSensorProxyManager *self,
