@@ -14,6 +14,6 @@
 
 #define PHOSH_TYPE_SCREEN_SAVER_MANAGER             (phosh_screen_saver_manager_get_type ())
 G_DECLARE_FINAL_TYPE (PhoshScreenSaverManager, phosh_screen_saver_manager, PHOSH, SCREEN_SAVER_MANAGER,
-                      PhoshScreenSaverDbusScreenSaverSkeleton)
+                      PhoshScreenSaverDBusScreenSaverSkeleton)
 
 PhoshScreenSaverManager * phosh_screen_saver_manager_get_default (PhoshLockscreenManager *lockscreen_manager);

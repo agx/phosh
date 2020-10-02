@@ -31,11 +31,11 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 static void phosh_screen_saver_manager_screen_saver_iface_init (
-  PhoshScreenSaverDbusScreenSaverIface *iface);
+  PhoshScreenSaverDBusScreenSaverIface *iface);
 
 typedef struct _PhoshScreenSaverManager
 {
-  PhoshScreenSaverDbusScreenSaverSkeleton parent;
+  PhoshScreenSaverDBusScreenSaverSkeleton parent;
 
   int dbus_name_id;
   PhoshLockscreenManager *lockscreen_manager;
@@ -87,7 +87,7 @@ phosh_screen_saver_manager_get_property (GObject *object,
 }
 
 static gboolean
-handle_get_active (PhoshScreenSaverDbusScreenSaver *skeleton,
+handle_get_active (PhoshScreenSaverDBusScreenSaver *skeleton,
                    GDBusMethodInvocation           *invocation)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (skeleton);
@@ -107,7 +107,7 @@ handle_get_active (PhoshScreenSaverDbusScreenSaver *skeleton,
 
 
 static gboolean
-handle_get_active_time (PhoshScreenSaverDbusScreenSaver *skeleton,
+handle_get_active_time (PhoshScreenSaverDBusScreenSaver *skeleton,
                         GDBusMethodInvocation           *invocation)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (skeleton);
@@ -129,7 +129,7 @@ handle_get_active_time (PhoshScreenSaverDbusScreenSaver *skeleton,
 }
 
 static gboolean
-handle_lock (PhoshScreenSaverDbusScreenSaver *skeleton,
+handle_lock (PhoshScreenSaverDBusScreenSaver *skeleton,
              GDBusMethodInvocation           *invocation)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (skeleton);
@@ -147,7 +147,7 @@ handle_lock (PhoshScreenSaverDbusScreenSaver *skeleton,
 }
 
 static gboolean
-handle_set_active (PhoshScreenSaverDbusScreenSaver *skeleton,
+handle_set_active (PhoshScreenSaverDBusScreenSaver *skeleton,
                    GDBusMethodInvocation           *invocation,
                    gboolean                         lock)
 {
@@ -173,7 +173,7 @@ handle_set_active (PhoshScreenSaverDbusScreenSaver *skeleton,
 
 
 static void
-phosh_screen_saver_manager_screen_saver_iface_init (PhoshScreenSaverDbusScreenSaverIface *iface)
+phosh_screen_saver_manager_screen_saver_iface_init (PhoshScreenSaverDBusScreenSaverIface *iface)
 {
   iface->handle_get_active = handle_get_active;
   iface->handle_get_active_time = handle_get_active_time;
