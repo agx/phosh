@@ -20,7 +20,7 @@
  * @short_description: Interface with iio-sensor-proxy
  * @Title: PhoshSensorProxyManager
  *
- * @descroption: The #PhoshSensorProxyManager is responsible for
+ * The #PhoshSensorProxyManager is responsible for
  * getting events from iio-sensor-proxy.
  *
  * This is just a minimal wrapper so we don't have to provide the
