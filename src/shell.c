@@ -1167,3 +1167,21 @@ phosh_shell_remove_global_keyboard_action_entries (PhoshShell *self,
   }
 }
 
+
+/**
+ * phosh_shell_is_session_active
+ * @self: The shell
+ *
+ * Whether this shell is part of the active session
+ */
+gboolean
+phosh_shell_is_session_active (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), FALSE);
+  priv = phosh_shell_get_instance_private (self);
+
+  return phosh_session_manager_is_active (priv->session_manager);
+}
+

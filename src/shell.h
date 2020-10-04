@@ -68,5 +68,6 @@ void                 phosh_shell_add_global_keyboard_action_entries (PhoshShell 
 void                 phosh_shell_remove_global_keyboard_action_entries (PhoshShell *self,
                                                                         const GActionEntry *actions,
                                                                         gint n_entries);
+gboolean             phosh_shell_is_session_active (PhoshShell *self);
 
 G_END_DECLS
