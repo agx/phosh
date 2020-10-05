@@ -7,7 +7,6 @@
  */
 
 #include "notifications/notification-list.c"
-#include "stubs/bad-prop.h"
 
 
 static void

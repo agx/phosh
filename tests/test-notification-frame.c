@@ -7,7 +7,6 @@
  */
 
 #include "notifications/notification-frame.c"
-#include "stubs/bad-prop.h"
 
 
 static gboolean actioned_called = FALSE;
