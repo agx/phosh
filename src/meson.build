@@ -60,6 +60,8 @@ libphosh_tool_sources = [
   'layersurface.h',
   'lockshield.c',
   'lockshield.h',
+  'log.h',
+  'log.c',
   'media-player.c',
   'media-player.h',
   'overview.c',
