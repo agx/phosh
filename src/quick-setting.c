@@ -250,6 +250,7 @@ create_dbus_proxy_cb (GObject *source_object, GAsyncResult *res, char *panel)
 
   if (err != NULL) {
     g_warning ("Can't open panel %s: %s", panel, err->message);
+    g_free (panel);
     return;
   }
 
