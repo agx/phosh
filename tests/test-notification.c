@@ -311,8 +311,6 @@ test_phosh_notification_get (void)
   g_assert_cmpint (urgency, ==, PHOSH_NOTIFICATION_URGENCY_CRITICAL);
   g_assert_nonnull (timestamp);
   g_assert_true (timestamp == now);
-
-  BAD_PROP (noti, phosh_notification, PhoshNotification);
 }
 
 
@@ -415,6 +413,47 @@ test_phosh_notification_close (void)
   phosh_notification_close (noti, PHOSH_NOTIFICATION_REASON_CLOSED);
 }
 
+static void
+test_phosh_notification_set_prop_invalid (void)
+{
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
+  g_autoptr (PhoshNotification) noti = phosh_notification_new (0,
+                                                               NULL,
+                                                               NULL,
+                                                               "Hey",
+                                                               "Testing",
+                                                               NULL,
+                                                               NULL,
+                                                               PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                                               NULL,
+                                                               FALSE,
+                                                               FALSE,
+                                                               NULL,
+                                                               now);
+  BAD_PROP_SET (noti, phosh_notification, PhoshNotification);
+}
+
+
+static void
+test_phosh_notification_get_prop_invalid (void)
+{
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
+  g_autoptr (PhoshNotification) noti = phosh_notification_new (0,
+                                                               NULL,
+                                                               NULL,
+                                                               "Hey",
+                                                               "Testing",
+                                                               NULL,
+                                                               NULL,
+                                                               PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                                               NULL,
+                                                               FALSE,
+                                                               FALSE,
+                                                               NULL,
+                                                               now);
+  BAD_PROP_GET (noti, phosh_notification, PhoshNotification);
+}
+
 
 int
 main (int argc, char **argv)
@@ -427,6 +466,8 @@ main (int argc, char **argv)
   g_test_add_func ("/phosh/notification/get", test_phosh_notification_get);
   g_test_add_func ("/phosh/notification/expires", test_phosh_notification_expires);
   g_test_add_func ("/phosh/notification/close", test_phosh_notification_close);
+  g_test_add_func ("/phosh/notification/get_prop_invalid", test_phosh_notification_get_prop_invalid);
+  g_test_add_func ("/phosh/notification/set_prop_invalid", test_phosh_notification_set_prop_invalid);
 
   return g_test_run ();
 }

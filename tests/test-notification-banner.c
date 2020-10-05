@@ -7,7 +7,6 @@
  */
 
 #include "notifications/notification-banner.c"
-#include "stubs/bad-prop.h"
 
 #include "testlib.h"
 
@@ -69,8 +68,6 @@ test_phosh_notification_banner_new (Fixture *fixture, gconstpointer unused)
 
   g_object_get (banner, "notification", &noti_test, NULL);
   g_assert_true (noti == noti_test);
-
-  BAD_PROP (banner, phosh_notification_banner, PhoshNotificationBanner);
 }
 
 
