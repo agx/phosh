@@ -183,7 +183,7 @@ head_handle_enabled (void                       *data,
   PhoshHead *self = PHOSH_HEAD (data);
 
   g_return_if_fail (PHOSH_IS_HEAD (self));
-  self->enabled = !!enabled;
+  self->enabled = self->pending.enabled = !!enabled;
   g_debug ("Head %p is %sabled", self, self->enabled ? "en" : "dis");
 }
 

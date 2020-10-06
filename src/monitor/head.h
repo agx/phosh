@@ -54,6 +54,8 @@ struct _PhoshHead {
     enum wl_output_transform transform;
     PhoshHeadMode *mode;
     double scale;
+    gboolean enabled;
+    gboolean seen;
   } pending;
 
   PhoshMonitorConnectorType conn_type;

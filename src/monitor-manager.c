@@ -24,7 +24,16 @@
  * SECTION:monitor-manager
  * @short_description: The singleton that manages available monitors
  * @Title: PhoshMonitorManager
+ *
+ * #PhoshMonitorManager keeps tracks of and configure available monitors
+ * and handles the "org.gnome.Mutter.DisplayConfig" DBus protocol.
  */
+
+/* Equivalent to the 'layout-mode' enum in org.gnome.Mutter.DisplayConfig */
+typedef enum PhoshMonitorMAnagerLayoutMode {
+  PHOSH_MONITOR_MANAGER_LAYOUT_MODE_LOGICAL = 1,
+  PHOSH_MONITOR_MANAGER_LAYOUT_MODE_PHYSICAL = 2
+} PhoshMonitorManagerLayoutMode;
 
 enum {
   PROP_0,
@@ -100,21 +109,40 @@ phosh_monitor_manager_handle_get_resources (
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
   GVariantBuilder crtc_builder, output_builder, mode_builder;
+  PhoshMonitor *primary_monitor;
+  PhoshHead *primary_head;
 
   g_return_val_if_fail (self->monitors->len, FALSE);
   g_debug ("DBus %s", __func__);
+
+  primary_monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default());
+  if (!primary_monitor) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                           "No primary monitor found");
+    return TRUE;
+  }
+  primary_head = phosh_monitor_manager_get_head_from_monitor (self, primary_monitor);
+  if (!primary_head) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                           "No primary monitor found");
+    return TRUE;
+  }
 
   g_variant_builder_init (&crtc_builder, G_VARIANT_TYPE ("a(uxiiiiiuaua{sv})"));
   g_variant_builder_init (&output_builder, G_VARIANT_TYPE ("a(uxiausauaua{sv})"));
   g_variant_builder_init (&mode_builder, G_VARIANT_TYPE ("a(uxuudu)"));
 
   /* CRTCs (logical monitor) */
-  for (int i = 0; i < self->monitors->len; i++) {
-    PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
+  for (int i = 0; i < self->heads->len; i++) {
+    PhoshHead *head = g_ptr_array_index (self->heads, i);
     GVariantBuilder transforms;
 
-    if (!phosh_monitor_is_configured(monitor))
+    if (!head->enabled) {
+      g_debug ("Skipping disabled %s", head->name);
       continue;
+    }
 
     g_variant_builder_init (&transforms, G_VARIANT_TYPE ("au"));
     for (int j = 0; j <= WL_OUTPUT_TRANSFORM_FLIPPED_270; j++)
@@ -123,24 +151,21 @@ phosh_monitor_manager_handle_get_resources (
     g_variant_builder_add (&crtc_builder, "(uxiiiiiuaua{sv})",
                            (guint32)i,           /* ID */
                            (guint64)i,           /* crtc->crtc_id, */
-                           (gint32)monitor->x,
-                           (gint32)monitor->y,
-                           (gint32)monitor->width,
-                           (gint32)monitor->height,
+                           (gint32)head->x,
+                           (gint32)head->y,
+                           (gint32)head->mode->width,
+                           (gint32)head->mode->height,
                            (gint32)0,           /* current_mode_index, */
-                           (guint32)monitor->transform,
+                           (guint32)head->transform,
                            &transforms,
                            NULL                 /* properties */);
   }
 
   /* outputs (physical screen) */
-  for (int i = 0; i < self->monitors->len; i++) {
-    PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
+  for (int i = 0; i < self->heads->len; i++) {
+    PhoshHead *head = g_ptr_array_index (self->heads, i);
     GVariantBuilder crtcs, modes, clones, properties;
     gboolean is_primary;
-
-    if (!phosh_monitor_is_configured(monitor))
-      continue;
 
     g_variant_builder_init (&crtcs, G_VARIANT_TYPE ("au"));
     g_variant_builder_add (&crtcs, "u", i /* possible_crtc_index */);
@@ -150,14 +175,14 @@ phosh_monitor_manager_handle_get_resources (
     g_variant_builder_add (&clones, "u", -1 /* possible_clone_index */);
     g_variant_builder_init (&properties, G_VARIANT_TYPE ("a{sv}"));
     g_variant_builder_add (&properties, "{sv}", "vendor",
-                           g_variant_new_string (monitor->vendor));
+                           g_variant_new_string (""));
     g_variant_builder_add (&properties, "{sv}", "product",
-                           g_variant_new_string (monitor->product));
+                           g_variant_new_string (""));
     g_variant_builder_add (&properties, "{sv}", "width-mm",
-                           g_variant_new_int32 (monitor->width_mm));
+                           g_variant_new_int32 (head->phys.width));
     g_variant_builder_add (&properties, "{sv}", "height-mm",
-                           g_variant_new_int32 (monitor->height_mm));
-    is_primary = (monitor == phosh_shell_get_primary_monitor (phosh_shell_get_default()));
+                           g_variant_new_int32 (head->phys.height));
+    is_primary = (head == primary_head);
     g_variant_builder_add (&properties, "{sv}", "primary",
                            g_variant_new_boolean (is_primary));
 
@@ -166,7 +191,7 @@ phosh_monitor_manager_handle_get_resources (
                            (guint64)i, /* output->winsys_id, */
                            (int) i,    /* crtc_index, */
                            &crtcs,
-                           monitor->name, /* output->name */
+                           head->name, /* output->name */
                            &modes,
                            &clones,
                            &properties);
@@ -416,8 +441,26 @@ phosh_monitor_manager_handle_get_current_state (
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
   GVariantBuilder monitors_builder, logical_monitors_builder, properties_builder;
+  PhoshMonitor *primary_monitor;
+  PhoshHead *primary_head;
 
   g_debug ("DBus call %s", __func__);
+
+  primary_monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default());
+  if (!primary_monitor) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                           "No primary monitor found");
+    return TRUE;
+  }
+  primary_head = phosh_monitor_manager_get_head_from_monitor (self, primary_monitor);
+  if (!primary_head) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                           "No primary monitor found");
+    return TRUE;
+  }
+
   g_variant_builder_init (&monitors_builder,
                           G_VARIANT_TYPE (MONITORS_FORMAT));
   g_variant_builder_init (&logical_monitors_builder,
@@ -484,19 +527,19 @@ phosh_monitor_manager_handle_get_current_state (
                            head->name,                       /* monitor_spec->connector */
                            "",                               /* monitor_spec->vendor, */
                            "",                               /* monitor_spec->product, */
-                           serial,                           /* monitor_spec->serial, */
+                           "",                               /* monitor_spec->serial, */
                            &modes_builder,
                            &monitor_properties_builder);
   }
 
   /* Current logical monitor configuration */
-  for (int i = 0; i < self->monitors->len; i++) {
-    PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
+  for (int i = 0; i < self->heads->len; i++) {
+    PhoshHead *head = g_ptr_array_index (self->heads, i);
     GVariantBuilder logical_monitor_monitors_builder;
     g_autofree char *serial = NULL;
     gboolean is_primary;
 
-    if (!phosh_monitor_is_configured(monitor))
+    if (!head->enabled)
       continue;
 
     serial = g_strdup_printf ("00%d", i);
@@ -504,19 +547,19 @@ phosh_monitor_manager_handle_get_current_state (
                             G_VARIANT_TYPE (LOGICAL_MONITOR_MONITORS_FORMAT));
     g_variant_builder_add (&logical_monitor_monitors_builder,
                            MONITOR_SPEC_FORMAT,
-                           monitor->name,                       /* monitor_spec->connector, */
-                           monitor->vendor,                     /* monitor_spec->vendor, */
-                           monitor->product,                    /* monitor_spec->product, */
-                           serial                               /* monitor_spec->serial, */
+                           head->name,                       /* monitor_spec->connector, */
+                           "",                     /* monitor_spec->vendor, */
+                           "",                    /* monitor_spec->product, */
+                           ""                               /* monitor_spec->serial, */
       );
 
-    is_primary = (monitor == phosh_shell_get_primary_monitor (phosh_shell_get_default()));
+    is_primary = (head == primary_head);
     g_variant_builder_add (&logical_monitors_builder,
                            LOGICAL_MONITOR_FORMAT,
-                           (gint32)monitor->logical.x,     /* logical_monitor->rect.x */
-                           (gint32)monitor->logical.y,     /* logical_monitor->rect.y */
-                           (double)monitor->scale,         /* (double) logical_monitor->scale */
-                           (guint32)monitor->transform,    /* logical_monitor->transform */
+                           (gint32)head->x,             /* logical_monitor->rect.x */
+                           (gint32)head->y,             /* logical_monitor->rect.y */
+                           (double)head->scale,         /* (double) logical_monitor->scale */
+                           (guint32)head->transform,    /* logical_monitor->transform */
                            is_primary,             /* logical_monitor->is_primary */
                            &logical_monitor_monitors_builder,
                            NULL);
@@ -529,11 +572,11 @@ phosh_monitor_manager_handle_get_current_state (
 
   g_variant_builder_add (&properties_builder, "{sv}",
                          "layout-mode",
-                         g_variant_new_uint32 (0));
+                         g_variant_new_uint32 (PHOSH_MONITOR_MANAGER_LAYOUT_MODE_LOGICAL));
 
   g_variant_builder_add (&properties_builder, "{sv}",
                          "supports-changing-layout-mode",
-                         g_variant_new_boolean (FALSE));
+                         g_variant_new_boolean (TRUE));
 
   phosh_display_dbus_display_config_complete_get_current_state (
     skeleton,
@@ -559,49 +602,73 @@ phosh_monitor_manager_handle_get_current_state (
 #define MONITOR_CONFIG_FORMAT "(ssa{sv})"
 #define MONITOR_CONFIGS_FORMAT "a" MONITOR_CONFIG_FORMAT
 
+static PhoshHead *
+phosh_monitor_manager_find_head (PhoshMonitorManager *self, const char *name)
+{
+  for (int i = 0; i < self->heads->len; i++) {
+    PhoshHead *head = g_ptr_array_index (self->heads, i);
+    if (!g_strcmp0 (head->name, name))
+        return head;
+  }
+  return NULL;
+}
 
-/* TODO: This can later become get_monitor_config_from_variant */
-static PhoshMonitor *
-find_monitor_from_variant(PhoshMonitorManager *self,
-                                 GVariant     *monitor_config_variant,
-                                 GError      **err)
+static PhoshHead *
+find_head_from_variant (PhoshMonitorManager *self,
+                        GVariant            *monitor_config_variant,
+                        PhoshMonitor       **monitor,
+                        gchar              **mode,
+                        GError             **err)
 {
   g_autofree char *connector = NULL;
-  g_autofree char *mode_id = NULL;
+  char *mode_id = NULL;
   g_autoptr (GVariant) properties_variant = NULL;
-  PhoshMonitor *monitor;
+  GVariantIter iter;
+  GVariant *value;
+  PhoshHead *head;
+  gchar *key;
+
+  g_return_val_if_fail (*mode == NULL || *monitor == NULL, NULL);
 
   g_variant_get (monitor_config_variant, "(ss@a{sv})",
                  &connector,
                  &mode_id,
                  &properties_variant);
 
-  /* Look for the monitor associated with this connector
-     TODO: We don't do any actual configuration yet.
-   */
-  monitor = phosh_monitor_manager_find_monitor (self, connector);
-  if (monitor == NULL) {
+  /* Look for the monitor associated with this connector */
+  *monitor = phosh_monitor_manager_find_monitor (self, connector);
+  head = phosh_monitor_manager_find_head (self, connector);
+  if (head == NULL) {
     g_set_error (err, G_IO_ERROR, G_IO_ERROR_FAILED,
                  "Could not find monitor for connector '%s'", connector);
+    return NULL;
   }
-  return monitor;
+  g_debug ("%s should have mode id %s", head->name, mode_id);
+
+  g_variant_iter_init (&iter, properties_variant);
+  while (g_variant_iter_loop (&iter, "{sv}", &key, &value)) {
+    /* We don't bother about any properties here */
+    g_debug ("Monitor '%s':  prop '%s'", connector, key);
+  }
+
+  *mode = mode_id;
+  return head;
 }
 
 
 #define LOGICAL_MONITOR_CONFIG_FORMAT "(iidub" MONITOR_CONFIGS_FORMAT ")"
 
 
-/* TODO: this can later become get-logical_monitor_config_from_variant */
 static PhoshMonitor *
-check_primary_monitor_from_variant (PhoshMonitorManager *self,
-                                    GVariant            *logical_monitor_config_variant,
-                                    GError             **err)
+config_head_config_from_logical_monitor_variant (PhoshMonitorManager *self,
+                                                 GVariant            *logical_monitor_config_variant,
+                                                 GError             **err)
 {
   int x, y;
   unsigned int transform;
   double scale;
   gboolean is_primary;
-  GVariantIter *monitor_configs_iter;
+  g_autoptr (GVariantIter) monitor_configs_iter = NULL;
   PhoshMonitor *monitor = NULL;
 
   g_variant_get (logical_monitor_config_variant, LOGICAL_MONITOR_CONFIG_FORMAT,
@@ -612,26 +679,38 @@ check_primary_monitor_from_variant (PhoshMonitorManager *self,
                  &is_primary,
                  &monitor_configs_iter);
 
-  if (!is_primary)
-    return NULL;
-
   while (TRUE) {
-    GVariant *monitor_config_variant =
+    PhoshHead *head;
+    g_autofree char *mode = NULL;
+
+    g_autoptr (GVariant) monitor_config_variant =
       g_variant_iter_next_value (monitor_configs_iter);
 
     if (!monitor_config_variant)
       break;
 
-    monitor =
-      find_monitor_from_variant (self,
-                                 monitor_config_variant, err);
-    g_variant_unref (monitor_config_variant);
-
-    if (monitor == NULL)
+    monitor = NULL;
+    head = find_head_from_variant (self,
+                                   monitor_config_variant,
+                                   &monitor,
+                                   &mode,
+                                   err);
+    if (head == NULL)
       break;
+
+    g_debug ("Head %s in logical monitor config %p",
+             head->name,
+             logical_monitor_config_variant);
+    /* TODO: find new head mode from mode name */
+    head->pending.scale = scale;
+    head->pending.x = x;
+    head->pending.y = y;
+    head->pending.transform = transform;
+    head->pending.enabled = TRUE;
+    head->pending.seen = TRUE;
   }
-  g_variant_iter_free (monitor_configs_iter);
-  return monitor;
+
+  return is_primary ? monitor : NULL;
 }
 
 
@@ -654,8 +733,10 @@ phosh_monitor_manager_handle_apply_monitors_config (
   GError *err = NULL;
   PhoshMonitor *primary_monitor = NULL;
   PhoshShell *shell = phosh_shell_get_default();
+  GVariant *layout_mode_variant = NULL;
+  PhoshMonitorManagerLayoutMode layout_mode = PHOSH_MONITOR_MANAGER_LAYOUT_MODE_LOGICAL;
 
-  g_debug ("Mostly Stubbed DBus call %s, method: %d", __func__, method);
+  g_debug ("DBus call %s, method: %d", __func__, method);
 
   if (serial != self->serial) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
@@ -664,29 +745,70 @@ phosh_monitor_manager_handle_apply_monitors_config (
     return TRUE;
   }
 
+  if (phosh_shell_get_locked (phosh_shell_get_default ())) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                             "Can't configure outputs when locked");
+    return TRUE;
+  }
+
+  if (properties_variant) {
+    layout_mode_variant = g_variant_lookup_value (properties_variant,
+                                                  "layout-mode",
+                                                  G_VARIANT_TYPE ("u"));
+    if (layout_mode_variant) {
+      g_variant_get (layout_mode_variant, "u", &layout_mode);
+      g_debug ("Requested layout mode %d", layout_mode);
+    }
+  }
+
+  if (layout_mode != PHOSH_MONITOR_MANAGER_LAYOUT_MODE_LOGICAL) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                           "Invalid layout mode specified");
+    return TRUE;
+  }
+
+
+  /* Make sure we refresh only heads from this config run */
+  for (int i = 0; i < self->heads->len; i++) {
+    PhoshHead *head = g_ptr_array_index (self->heads, i);
+    head->pending.seen = FALSE;
+  }
+
   g_variant_iter_init (&logical_monitor_configs_iter,
                        logical_monitor_configs_variant);
 
   while (TRUE) {
+    PhoshMonitor *mon;
+
     g_autoptr (GVariant) logical_monitor_config_variant =
       g_variant_iter_next_value (&logical_monitor_configs_iter);
 
     if (!logical_monitor_config_variant)
       break;
 
-    primary_monitor =
-      check_primary_monitor_from_variant (self,
-                                          logical_monitor_config_variant,
-                                          &err);
-    if (primary_monitor == NULL && err) {
+    mon = config_head_config_from_logical_monitor_variant (self,
+                                                           logical_monitor_config_variant,
+                                                           &err);
+
+    if (mon == NULL && err) {
       g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                              G_DBUS_ERROR_ACCESS_DENIED,
                                              "%s", err->message);
       return TRUE;
     }
 
-    if (primary_monitor)
-      break;
+    if (mon) {
+      if (primary_monitor) {
+        g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                               G_DBUS_ERROR_ACCESS_DENIED,
+                                               "Only one primary monitor possible");
+        return TRUE;
+      } else {
+        primary_monitor = mon;
+      }
+    }
   }
 
   if (primary_monitor == NULL) {
@@ -697,10 +819,27 @@ phosh_monitor_manager_handle_apply_monitors_config (
   }
 
   if (method == PHOSH_MONITOR_MANAGER_CONFIG_METHOD_PERSISTENT) {
+
+    /* TODO: This only works when both monitors are enabled. So
+       we need to first enable the head, wait for monitor to be
+       configured then move the primary output */
     if (primary_monitor != phosh_shell_get_primary_monitor (shell)) {
       g_debug ("New primary monitor is %s", primary_monitor->name);
       phosh_shell_set_primary_monitor (shell, primary_monitor);
     }
+
+    for (int i = 0; i < self->heads->len; i++) {
+      PhoshHead *head = g_ptr_array_index (self->heads, i);
+
+      /* If head was not seen during this invocation, disable it */
+      if (!head->pending.seen)
+        head->pending.enabled = FALSE;
+
+      head->pending.seen = FALSE;
+    }
+
+    /* Apply new config */
+    phosh_monitor_manager_apply_monitor_config (self);
   }
 
   phosh_display_dbus_display_config_complete_apply_monitors_config (
@@ -1179,21 +1318,30 @@ phosh_monitor_manager_apply_monitor_config (PhoshMonitorManager *self)
     struct zwlr_output_configuration_head_v1 *config_head;
     PhoshHead *head = g_ptr_array_index (self->heads, i);
     struct zwlr_output_head_v1 *wlr_head = phosh_head_get_wlr_head (head);
+    struct zwlr_output_mode_v1 *wlr_mode;
 
-    g_debug ("Adding head %s to configuration", head->name);
+    g_debug ("Adding %sabled head %s to configuration",
+             head->pending.enabled ? "en" : "dis",
+             head->name);
 
-    if (!phosh_head_get_enabled (head)) {
+    if (!head->pending.enabled) {
       zwlr_output_configuration_v1_disable_head (config, wlr_head);
       continue;
     }
 
     config_head = zwlr_output_configuration_v1_enable_head (config, wlr_head);
-    zwlr_output_configuration_head_v1_set_mode (config_head,
-                                                head->pending.mode->wlr_mode);
+
+    /* A disabled head might not have a mode when set */
+    if (head->pending.mode) {
+      wlr_mode = head->pending.mode->wlr_mode;
+    } else {
+      wlr_mode = phosh_head_get_preferred_mode (head)->wlr_mode;
+    }
+
+    zwlr_output_configuration_head_v1_set_mode (config_head, wlr_mode);
     zwlr_output_configuration_head_v1_set_position (config_head,
                                                     head->pending.x, head->pending.y);
-    zwlr_output_configuration_head_v1_set_transform (config_head,
-                                                     head->pending.transform);
+    zwlr_output_configuration_head_v1_set_transform (config_head, head->pending.transform);
     zwlr_output_configuration_head_v1_set_scale (config_head,
                                                  wl_fixed_from_double(head->pending.scale));
   }

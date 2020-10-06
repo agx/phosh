@@ -70,7 +70,8 @@ typedef enum _PhoshMonitorConnectorType
  * @PHOSH_MONITOR_TRANSFORM_FLIPPED_180: flipped and 180 deg
  * @PHOSH_MONITOR_TRANSFORM_FLIPPED_270: flipped and 270 deg
  *
- * the monitors rotation.
+ * the monitors rotation. This corresponds to the values in
+ * the org.gnome.Mutter.DisplayConfig DBus protocol.
  */
 typedef enum _PhoshMonitorTransform
 {
