@@ -8,6 +8,7 @@
 #pragma once
 
 #include "phosh-wayland.h"
+#include "monitor.h"
 
 #include <gdk/gdk.h>
 #include <glib-object.h>
@@ -55,6 +56,7 @@ struct _PhoshHead {
     double scale;
   } pending;
 
+  PhoshMonitorConnectorType conn_type;
   struct zwlr_output_head_v1 *wlr_head;
 };
 
@@ -63,5 +65,6 @@ PhoshHead                  *phosh_head_new_from_wlr_head (gpointer wlr_head);
 struct zwlr_output_head_v1 *phosh_head_get_wlr_head (PhoshHead *self);
 gboolean                    phosh_head_get_enabled (PhoshHead *self);
 PhoshHeadMode              *phosh_head_get_preferred_mode (PhoshHead *self);
+gboolean                    phosh_head_is_builtin (PhoshHead *self);
 
 G_END_DECLS

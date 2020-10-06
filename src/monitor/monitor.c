@@ -202,16 +202,7 @@ xdg_output_v1_handle_name (void *data,
 
   /* wlroots uses the connector's name as output name so
      try to derive the connector type from it */
-  if (g_str_has_prefix (name, "LVDS-"))
-    self->conn_type = PHOSH_MONITOR_CONNECTOR_TYPE_LVDS;
-  else if (g_str_has_prefix (name, "HDMI-A-"))
-    self->conn_type = PHOSH_MONITOR_CONNECTOR_TYPE_HDMIA;
-  else if (g_str_has_prefix (name, "eDP-"))
-      self->conn_type = PHOSH_MONITOR_CONNECTOR_TYPE_eDP;
-  else if (g_str_has_prefix (name, "DSI-"))
-    self->conn_type = PHOSH_MONITOR_CONNECTOR_TYPE_DSI;
-  else
-    self->conn_type = PHOSH_MONITOR_CONNECTOR_TYPE_Unknown;
+  self->conn_type = phosh_monitor_connector_type_from_name (name);
 }
 
 
@@ -463,28 +454,7 @@ phosh_monitor_is_builtin (PhoshMonitor *self)
 {
   g_return_val_if_fail (PHOSH_IS_MONITOR (self), FALSE);
 
-  switch (self->conn_type) {
-  case PHOSH_MONITOR_CONNECTOR_TYPE_eDP:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_LVDS:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_DSI:
-    return TRUE;
-  case PHOSH_MONITOR_CONNECTOR_TYPE_Unknown:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_VGA:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_DVII:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_DVID:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_DVIA:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_Composite:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_SVIDEO:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_Component:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_9PinDIN:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_DisplayPort:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_HDMIA:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_HDMIB:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_TV:
-  case PHOSH_MONITOR_CONNECTOR_TYPE_VIRTUAL:
-  default:
-    return FALSE;
-  }
+  return phosh_monitor_connector_is_builtin (self->conn_type);
 }
 
 
@@ -586,4 +556,48 @@ PhoshMonitorPowerSaveMode
 phosh_monitor_get_power_save_mode (PhoshMonitor *self)
 {
   return self->power_mode;
+}
+
+
+PhoshMonitorConnectorType
+phosh_monitor_connector_type_from_name (const char *name)
+{
+  if (g_str_has_prefix (name, "LVDS-"))
+    return PHOSH_MONITOR_CONNECTOR_TYPE_LVDS;
+  else if (g_str_has_prefix (name, "HDMI-A-"))
+    return PHOSH_MONITOR_CONNECTOR_TYPE_HDMIA;
+  else if (g_str_has_prefix (name, "eDP-"))
+    return PHOSH_MONITOR_CONNECTOR_TYPE_eDP;
+  else if (g_str_has_prefix (name, "DSI-"))
+    return PHOSH_MONITOR_CONNECTOR_TYPE_DSI;
+  else
+    return PHOSH_MONITOR_CONNECTOR_TYPE_Unknown;
+}
+
+
+gboolean
+phosh_monitor_connector_is_builtin (PhoshMonitorConnectorType conn_type)
+{
+  switch (conn_type) {
+  case PHOSH_MONITOR_CONNECTOR_TYPE_eDP:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_LVDS:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_DSI:
+    return TRUE;
+  case PHOSH_MONITOR_CONNECTOR_TYPE_Unknown:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_VGA:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_DVII:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_DVID:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_DVIA:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_Composite:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_SVIDEO:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_Component:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_9PinDIN:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_DisplayPort:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_HDMIA:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_HDMIB:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_TV:
+  case PHOSH_MONITOR_CONNECTOR_TYPE_VIRTUAL:
+  default:
+    return FALSE;
+  }
 }

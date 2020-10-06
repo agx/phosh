@@ -151,5 +151,7 @@ guint              phosh_monitor_get_transform (PhoshMonitor *self);
 void               phosh_monitor_set_power_save_mode (PhoshMonitor *self,
                                                       PhoshMonitorPowerSaveMode mode);
 PhoshMonitorPowerSaveMode phosh_monitor_get_power_save_mode (PhoshMonitor *self);
+PhoshMonitorConnectorType phosh_monitor_connector_type_from_name (const char *name);
+gboolean           phosh_monitor_connector_is_builtin (PhoshMonitorConnectorType type);
 
 G_END_DECLS

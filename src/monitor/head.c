@@ -124,6 +124,10 @@ head_handle_name (void                       *data,
   g_debug ("Head %p is named %s", self, name);
 
   self->name = g_strdup (name);
+
+  /* wlroots uses the connector's name as output name so
+     try to derive the connector type from it */
+  self->conn_type = phosh_monitor_connector_type_from_name (name);
 }
 
 
@@ -441,4 +445,20 @@ phosh_head_get_preferred_mode (PhoshHead *self)
   }
 
   return NULL;
+}
+
+
+/**
+ * phosh_head_is_builtin:
+ * @self: A #PhoshHead
+ *
+ * Returns: %TRUE if the head built in panel (e.g. laptop panel or
+ * phone LCD)
+ */
+gboolean
+phosh_head_is_builtin (PhoshHead *self)
+{
+  g_return_val_if_fail (PHOSH_IS_HEAD (self), FALSE);
+
+  return phosh_monitor_connector_is_builtin (self->conn_type);
 }
