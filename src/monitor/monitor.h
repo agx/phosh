@@ -127,6 +127,7 @@ struct _PhoshMonitor {
 
   char *vendor;
   char *product;
+  char *description;
 
   GArray *modes;
   guint current_mode;

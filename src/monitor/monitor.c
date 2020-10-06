@@ -220,7 +220,9 @@ xdg_output_v1_handle_description(void *data,
                                  struct zxdg_output_v1 *zxdg_output_v1,
                                  const char *description)
 {
+  PhoshMonitor *self = PHOSH_MONITOR (data);
   g_debug("Output description is %s", description);
+  self->description = g_strdup (description);
 }
 
 
@@ -328,6 +330,7 @@ phosh_monitor_dispose (GObject *object)
   g_array_free (self->modes, TRUE);
   self->modes = NULL;
 
+  g_clear_pointer (&self->description, g_free);
   g_clear_pointer (&self->vendor, g_free);
   g_clear_pointer (&self->product, g_free);
   g_clear_pointer (&self->name, g_free);
