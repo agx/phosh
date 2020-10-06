@@ -235,12 +235,13 @@ call_dbus_cb (GDBusProxy *proxy,
   if (err) {
     g_warning ("Can't open panel %s", err->message);
   }
+  g_object_unref (proxy);
 }
 
 static void
 create_dbus_proxy_cb (GObject *source_object, GAsyncResult *res, char *panel)
 {
-  g_autoptr (GDBusProxy) proxy = NULL;
+  GDBusProxy *proxy;
   g_autoptr (GError) err = NULL;
   GVariantBuilder builder;
   GVariant *params[3];
