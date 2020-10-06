@@ -890,6 +890,7 @@ zwlr_output_manager_v1_handle_done (void *data,
   g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
   g_debug ("Got zwlr_output_serial %u", serial);
   self->zwlr_output_serial = serial;
+  self->serial++;
 }
 
 
