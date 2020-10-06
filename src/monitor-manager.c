@@ -108,7 +108,7 @@ phosh_monitor_manager_handle_get_resources (
   g_variant_builder_init (&output_builder, G_VARIANT_TYPE ("a(uxiausauaua{sv})"));
   g_variant_builder_init (&mode_builder, G_VARIANT_TYPE ("a(uxuudu)"));
 
-  /* CRTCs */
+  /* CRTCs (logical monitor) */
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder transforms;
@@ -133,7 +133,7 @@ phosh_monitor_manager_handle_get_resources (
                            NULL                 /* properties */);
   }
 
-  /* outputs */
+  /* outputs (physical screen) */
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder crtcs, modes, clones, properties;
@@ -450,6 +450,7 @@ phosh_monitor_manager_handle_get_current_state (
   g_variant_builder_init (&logical_monitors_builder,
                           G_VARIANT_TYPE (LOGICAL_MONITORS_FORMAT));
 
+  /* connected physical monitors */
   for (int i = 0; i < self->monitors->len; i++) {
     double scale = 1.0;
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
@@ -527,7 +528,7 @@ phosh_monitor_manager_handle_get_current_state (
                            &monitor_properties_builder);
   }
 
-
+  /* Current logical monitor configuration */
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     GVariantBuilder logical_monitor_monitors_builder;
@@ -568,6 +569,10 @@ phosh_monitor_manager_handle_get_current_state (
   g_variant_builder_add (&properties_builder, "{sv}",
                          "layout-mode",
                          g_variant_new_uint32 (0));
+
+  g_variant_builder_add (&properties_builder, "{sv}",
+                         "supports-changing-layout-mode",
+                         g_variant_new_boolean (FALSE));
 
   phosh_display_dbus_display_config_complete_get_current_state (
     skeleton,
