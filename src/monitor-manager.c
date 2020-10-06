@@ -65,12 +65,12 @@ G_DEFINE_TYPE_WITH_CODE (PhoshMonitorManager,
 
 
 static char*
-get_display_name (PhoshMonitor *monitor)
+get_display_name (PhoshHead *head)
 {
-  if (phosh_monitor_is_builtin (monitor))
+  if (phosh_head_is_builtin (head))
     return g_strdup (_("Built-in display"));
-  else if (monitor->name)
-    return g_strdup (monitor->name);
+  else if (head->name)
+    return g_strdup (head->name);
   else /* Translators: An unknown monitor type */
     return g_strdup (_("Unknown"));
 }
@@ -451,29 +451,17 @@ phosh_monitor_manager_handle_get_current_state (
                           G_VARIANT_TYPE (LOGICAL_MONITORS_FORMAT));
 
   /* connected physical monitors */
-  for (int i = 0; i < self->monitors->len; i++) {
+  for (int i = 0; i < self->heads->len; i++) {
     double scale = 1.0;
-    PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
+    PhoshHead *head = g_ptr_array_index (self->heads, i);
     GVariantBuilder modes_builder, supported_scales_builder, mode_properties_builder,
       monitor_properties_builder;
     char *display_name;
     gboolean is_builtin;
-    PhoshHeadMode *preferred;
     g_autofree char *serial = NULL;
-    PhoshHead *head = NULL;
-
-    if (!phosh_monitor_is_configured(monitor))
-      continue;
-
-    head = phosh_monitor_manager_get_head_from_monitor (self, monitor);
-    if (!head) {
-      g_warning ("Failed to get head for monitor %p", monitor);
-      continue;
-    }
 
     g_variant_builder_init (&modes_builder, G_VARIANT_TYPE (MODES_FORMAT));
 
-    preferred = phosh_head_get_preferred_mode (head);
     for (int k = 0; k < head->modes->len; k++) {
       PhoshHeadMode *mode = g_ptr_array_index (head->modes, k);
       g_autofree char *mode_name = NULL;
@@ -487,10 +475,10 @@ phosh_monitor_manager_handle_get_current_state (
                               G_VARIANT_TYPE ("a{sv}"));
       g_variant_builder_add (&mode_properties_builder, "{sv}",
                              "is-current",
-                             g_variant_new_boolean (mode == head->mode));
+                             g_variant_new_boolean (head->mode == mode));
       g_variant_builder_add (&mode_properties_builder, "{sv}",
                              "is-preferred",
-                             g_variant_new_boolean (mode == preferred));
+                             g_variant_new_boolean (mode->preferred));
 
       mode_name = g_strdup_printf ("%dx%d@%.0f", mode->width, mode->height,
                                    mode->refresh / 1000.0);
@@ -508,22 +496,22 @@ phosh_monitor_manager_handle_get_current_state (
     g_variant_builder_init (&monitor_properties_builder,
                             G_VARIANT_TYPE ("a{sv}"));
 
-    is_builtin = phosh_monitor_is_builtin (monitor);
+    is_builtin = phosh_head_is_builtin (head);
     g_variant_builder_add (&monitor_properties_builder, "{sv}",
                            "is-builtin",
                            g_variant_new_boolean (is_builtin));
 
-    display_name = get_display_name (monitor);
+    display_name = get_display_name (head);
     g_variant_builder_add (&monitor_properties_builder, "{sv}",
                              "display-name",
                              g_variant_new_take_string (display_name));
 
     serial = g_strdup_printf ("00%d", i);
     g_variant_builder_add (&monitors_builder, MONITOR_FORMAT,
-                           monitor->name,                       /* monitor_spec->connector */
-                           monitor->vendor,                     /* monitor_spec->vendor, */
-                           monitor->product,                    /* monitor_spec->product, */
-                           serial,                              /* monitor_spec->serial, */
+                           head->name,                       /* monitor_spec->connector */
+                           "",                               /* monitor_spec->vendor, */
+                           "",                               /* monitor_spec->product, */
+                           serial,                           /* monitor_spec->serial, */
                            &modes_builder,
                            &monitor_properties_builder);
   }
