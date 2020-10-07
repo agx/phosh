@@ -151,8 +151,9 @@ battery_setting_clicked_cb (PhoshSettings *self)
   g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 
-static void change_volume (PhoshSettings *self,
-                           int steps)
+static void
+change_volume (PhoshSettings *self,
+               int            steps)
 {
   GtkAdjustment *adj;
   double vol, inc;
@@ -169,20 +170,22 @@ static void change_volume (PhoshSettings *self,
   gtk_adjustment_set_value (adj, vol);
 }
 
-static void lower_volume (PhoshSettings *self)
+static void
+lower_volume (PhoshSettings *self)
 {
   change_volume (self, -1);
 }
 
-static void raise_volume (PhoshSettings *self)
+static void
+raise_volume (PhoshSettings *self)
 {
   change_volume (self, 1);
 }
 
 static void
 accelerator_grabbed_cb (PhoshSettings *self,
-                        const char *accelerator,
-                        uint32_t action_id)
+                        const char    *accelerator,
+                        uint32_t       action_id)
 {
   guint64 action = action_id;
   if (g_strcmp0 (accelerator, "XF86AudioLowerVolume") == 0) {
@@ -194,8 +197,8 @@ accelerator_grabbed_cb (PhoshSettings *self,
 
 static void
 accelerator_activated_cb (PhoshSettings *self,
-                          uint32_t action_id,
-                          uint32_t timestamp)
+                          uint32_t       action_id,
+                          uint32_t       timestamp)
 {
   void (*callback)(PhoshSettings *);
   guint64 action = action_id;
@@ -361,10 +364,10 @@ end_notify_feedback (PhoshSettings *self)
 
 static void
 on_notifcation_items_changed (PhoshSettings *self,
-                              guint position,
-                              guint removed,
-                              guint added,
-                              GListModel *list)
+                              guint          position,
+                              guint          removed,
+                              guint          added,
+                              GListModel    *list)
 {
   gboolean is_empty;
 
