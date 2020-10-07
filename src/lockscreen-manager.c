@@ -173,7 +173,7 @@ lockscreen_lock (PhoshLockscreenManager *self)
 
   /* The primary output gets the clock, keypad, ... */
   self->lockscreen = PHOSH_LOCKSCREEN (phosh_lockscreen_new (
-                                         phosh_wayland_get_zwlr_layer_shell_v1(wl),
+                                         phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                          primary_monitor->wl_output));
   gtk_widget_show (GTK_WIDGET (self->lockscreen));
 
@@ -190,8 +190,8 @@ lockscreen_lock (PhoshLockscreenManager *self)
 
   g_object_connect (
     self->lockscreen,
-    "swapped-object-signal::lockscreen-unlock", G_CALLBACK(lockscreen_unlock_cb), self,
-    "swapped-object-signal::wakeup-output", G_CALLBACK(lockscreen_wakeup_output_cb), self,
+    "swapped-object-signal::lockscreen-unlock", G_CALLBACK (lockscreen_unlock_cb), self,
+    "swapped-object-signal::wakeup-output", G_CALLBACK (lockscreen_wakeup_output_cb), self,
     NULL);
 
   self->locked = TRUE;
@@ -207,15 +207,15 @@ presence_status_changed_cb (PhoshLockscreenManager *self, guint32 status, gpoint
 
   g_debug ("Presence status changed: %d", status);
   if (status == GNOME_SESSION_STATUS_IDLE)
-      phosh_lockscreen_manager_set_locked (self, TRUE);
+    phosh_lockscreen_manager_set_locked (self, TRUE);
 }
 
 
 static void
-phosh_lockscreen_manager_set_property (GObject *object,
-                          guint property_id,
-                          const GValue *value,
-                          GParamSpec *pspec)
+phosh_lockscreen_manager_set_property (GObject      *object,
+                                       guint         property_id,
+                                       const GValue *value,
+                                       GParamSpec   *pspec)
 {
   PhoshLockscreenManager *self = PHOSH_LOCKSCREEN_MANAGER (object);
 
@@ -234,10 +234,10 @@ phosh_lockscreen_manager_set_property (GObject *object,
 
 
 static void
-phosh_lockscreen_manager_get_property (GObject *object,
-                          guint property_id,
-                          GValue *value,
-                          GParamSpec *pspec)
+phosh_lockscreen_manager_get_property (GObject    *object,
+                                       guint       property_id,
+                                       GValue     *value,
+                                       GParamSpec *pspec)
 {
   PhoshLockscreenManager *self = PHOSH_LOCKSCREEN_MANAGER (object);
 
@@ -375,7 +375,7 @@ phosh_lockscreen_manager_set_timeout (PhoshLockscreenManager *self, int timeout)
   if (timeout == self->timeout)
     return;
 
-  g_debug("Setting lock screen idle timeout to %d seconds", timeout);
+  g_debug ("Setting lock screen idle timeout to %d seconds", timeout);
   self->timeout = timeout;
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LOCKSCREEN_MANAGER_PROP_TIMEOUT]);
