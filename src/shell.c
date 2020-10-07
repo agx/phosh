@@ -528,6 +528,39 @@ on_primary_monitor_configured (PhoshShell   *self,
 
 
 static void
+on_monitor_removed (PhoshShell *self, PhoshMonitor *monitor)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+  priv = phosh_shell_get_instance_private (self);
+
+  if (priv->primary_monitor != monitor)
+    return;
+
+  g_debug ("Primary monitor removed %p", monitor);
+
+  /* Prefer built in monitor when primary is gone... */
+  if (priv->builtin_monitor && monitor != priv->builtin_monitor) {
+    phosh_shell_set_primary_monitor (self, priv->builtin_monitor);
+    return;
+  }
+
+  /* ...just pick the first one available otherwise */
+  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
+    PhoshMonitor *new_primary = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
+    if (new_primary != monitor) {
+      phosh_shell_set_primary_monitor (self, new_primary);
+      break;
+    }
+  }
+
+  g_assert (priv->primary_monitor && priv->primary_monitor != monitor);
+}
+
+
+static void
 phosh_shell_constructed (GObject *object)
 {
   PhoshShell *self = PHOSH_SHELL (object);
@@ -537,6 +570,11 @@ phosh_shell_constructed (GObject *object)
 
   priv->transform = -1; /* force initial update */
   priv->monitor_manager = phosh_monitor_manager_new ();
+  g_signal_connect_swapped (priv->monitor_manager,
+                            "monitor-removed",
+                            G_CALLBACK (on_monitor_removed),
+                            self);
+
   if (phosh_monitor_manager_get_num_monitors(priv->monitor_manager)) {
     PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
     /* Can't invoke phosh_shell_set_primary_monitor () since the shell
@@ -686,6 +724,7 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
     g_signal_handlers_disconnect_by_data (priv->primary_monitor, self);
   g_clear_object (&priv->primary_monitor);
   priv->primary_monitor = g_object_ref (monitor);
+  g_debug ("New primary monitor is %s", monitor->name);
   g_signal_connect_swapped (priv->primary_monitor,
                             "configured",
                             G_CALLBACK (on_primary_monitor_configured),
