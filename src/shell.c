@@ -540,7 +540,7 @@ phosh_shell_constructed (GObject *object)
   if (phosh_monitor_manager_get_num_monitors(priv->monitor_manager)) {
     PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
     /* Can't invoke phosh_shell_set_primary_monitor () since the shell
-       object does not really exit yet but we need the primary monitor
+       object does not really exist yet but we need the primary monitor
        early for the panels */
     priv->primary_monitor = g_object_ref (monitor);
     g_signal_connect_swapped (priv->primary_monitor,
