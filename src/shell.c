@@ -29,6 +29,7 @@
 #include "batteryinfo.h"
 #include "background-manager.h"
 #include "bt-manager.h"
+#include "docked-manager.h"
 #include "fader.h"
 #include "feedback-manager.h"
 #include "home.h"
@@ -102,6 +103,7 @@ typedef struct
   PhoshWWan *wwan;
   PhoshTorchManager *torch_manager;
   PhoshModeManager *mode_manager;
+  PhoshDockedManager *docked_manager;
   PhoshKeyboardEvents *keyboard_events;
 
   /* sensors */
@@ -335,6 +337,7 @@ phosh_shell_dispose (GObject *object)
 
   g_clear_object (&priv->keyboard_events);
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->docked_manager);
   g_clear_object (&priv->mode_manager);
   g_clear_object (&priv->torch_manager);
   g_clear_object (&priv->wwan);
@@ -945,6 +948,23 @@ phosh_shell_get_torch_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_TORCH_MANAGER (priv->torch_manager), NULL);
   return priv->torch_manager;
 }
+
+
+PhoshDockedManager *
+phosh_shell_get_docked_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->docked_manager)
+    priv->docked_manager = phosh_docked_manager_new (priv->mode_manager);
+
+  g_return_val_if_fail (PHOSH_IS_DOCKED_MANAGER (priv->docked_manager), NULL);
+  return priv->docked_manager;
+}
+
 
 /**
  * Returns the usable area in pixels usable by a client on the phone

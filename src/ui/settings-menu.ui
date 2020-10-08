@@ -134,6 +134,21 @@
                     </child>
                   </object>
                 </child>
+                <child>
+                  <object class="PhoshQuickSetting" id="docked_quick_setting">
+                    <property name="visible">True</property>
+                    <property name="sensitive" bind-source="dockedinfo" bind-property="present" bind-flags="sync-create"/>
+                    <property name="can_focus">False</property>
+                    <signal name="clicked" handler="docked_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                    <child>
+                      <object class="PhoshDockedInfo" id="dockedinfo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>

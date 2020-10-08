@@ -11,6 +11,8 @@
 #include <glib/gi18n.h>
 
 #include "bt-info.h"
+#include "docked-info.h"
+#include "mode-manager.h"
 #include "shell.h"
 #include "settings.h"
 #include "quick-setting.h"
@@ -168,6 +170,24 @@ torch_setting_clicked_cb (PhoshSettings *self)
   g_return_if_fail (PHOSH_IS_TORCH_MANAGER (manager));
   phosh_torch_manager_toggle (manager);
 }
+
+
+static void
+docked_setting_clicked_cb (PhoshSettings *self)
+{
+  PhoshShell *shell;
+  PhoshDockedManager *manager;
+  gboolean enabled;
+
+  shell = phosh_shell_get_default ();
+  g_return_if_fail (PHOSH_IS_SHELL (shell));
+  manager = phosh_shell_get_docked_manager (shell);
+  g_return_if_fail (PHOSH_IS_DOCKED_MANAGER (manager));
+
+  enabled = phosh_docked_manager_get_enabled (manager);
+  phosh_docked_manager_set_enabled (manager, !enabled);
+}
+
 
 static void
 change_volume (PhoshSettings *self,
@@ -498,6 +518,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
       NULL, G_TYPE_NONE, 0);
 
   g_type_ensure (PHOSH_TYPE_BT_INFO);
+  g_type_ensure (PHOSH_TYPE_DOCKED_INFO);
   g_type_ensure (PHOSH_TYPE_FEEDBACK_INFO);
   g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
   g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
@@ -512,6 +533,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 
   gtk_widget_class_bind_template_callback (widget_class, battery_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, bt_setting_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, docked_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, feedback_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, feedback_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_media_player_raised);
