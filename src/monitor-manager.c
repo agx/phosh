@@ -27,6 +27,13 @@
  */
 
 enum {
+  PROP_0,
+  PROP_N_MONITORS,
+  PROP_LAST_PROP
+};
+static GParamSpec *props[PROP_LAST_PROP];
+
+enum {
   SIGNAL_MONITOR_ADDED,
   SIGNAL_MONITOR_REMOVED,
   N_SIGNALS
@@ -836,6 +843,7 @@ on_monitor_removed (PhoshMonitorManager *self,
 
   g_debug("Monitor %p (%s) removed", monitor, monitor->name);
   g_ptr_array_remove (self->monitors, monitor);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_N_MONITORS]);
 }
 
 
@@ -976,6 +984,24 @@ phosh_monitor_manager_finalize (GObject *object)
  */
 
 static void
+phosh_monitor_manager_get_property (GObject    *object,
+                                    guint       property_id,
+                                    GValue     *value,
+                                    GParamSpec *pspec)
+{
+  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
+
+  switch (property_id) {
+  case PROP_N_MONITORS:
+    g_value_set_int (value, self->monitors->len);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+static void
 phosh_monitor_manager_constructed (GObject *object)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
@@ -1023,6 +1049,20 @@ phosh_monitor_manager_class_init (PhoshMonitorManagerClass *klass)
 
   object_class->constructed = phosh_monitor_manager_constructed;
   object_class->finalize = phosh_monitor_manager_finalize;
+  object_class->get_property = phosh_monitor_manager_get_property;
+
+  props[PROP_N_MONITORS] =
+    g_param_spec_int ("n-monitors",
+                      "Number of monitors",
+                      "The number of enabled monitors",
+                      0,
+                      G_MAXINT,
+                      0,
+                      G_PARAM_READABLE |
+                      G_PARAM_EXPLICIT_NOTIFY |
+                      G_PARAM_STATIC_STRINGS);
+
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   /**
    * PhoshMonitorManager::monitor-added:
@@ -1076,6 +1116,7 @@ phosh_monitor_manager_add_monitor (PhoshMonitorManager *self, PhoshMonitor *moni
 {
   g_ptr_array_add (self->monitors, monitor);
   g_signal_emit (self, signals[SIGNAL_MONITOR_ADDED], 0, monitor);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_N_MONITORS]);
 }
 
 
