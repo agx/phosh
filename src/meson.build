@@ -14,11 +14,11 @@ phosh_resources = gnome.compile_resources(
 )
 
 phosh_enum_headers = [
+  'app-grid-button.h',
   'home.h',
   'monitor/monitor.h',
   'notifications/notification.h',
   'notifications/notify-manager.h',
-  'app-grid-button.h'
 ] + schema_enum_headers
 
 phosh_enums = gnome.mkenums('phosh-enums',
