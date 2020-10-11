@@ -1,3 +1,196 @@
+phosh (0.4.5) amber-phone; urgency=medium
+
+  [ Anders Jonsson ]
+  * po: Update Swedish translation
+
+  [ Guido Günther ]
+  * phosh.desktop: Add 'DesktopNames'
+    Handle it where it's supposed to be handled.
+  * shell: Drop env setup.
+    The session manager is supposed to handle this.
+  * d/phosh.service: Set XDG_CURRENT_DESKTOP.
+    Do it here until we run a display manager.
+  * gitlab-ci: Use libhandy1 for alpine builds.
+    This fixes the CI builds
+  * po: Rename pt_PT.po to pt.po.
+    This allows to fall back for other Portugese translations.
+  * feedback-manager: Drop TODO.
+    We use the correct icons since some time
+  * keyboard-events: Move comment to signal description.
+    The comment confused gtk-doc since it stared with /** and the signal has
+    a clearer gtk-doc string already.
+  * feedback-manager: Fix gtk-doc strings
+  * home: Fix gtk-doc strings
+  * home: Properly document enum values.
+    This allows gtk-doc to pick it up.
+  * monitor: Make declaration match definition.
+    We call the object we act on self.
+  * layersurface: Fix gtk-doc strings.
+    Document the function parameters
+  * phosh-wwan-iface: Document interface.
+    This makes gtk-doc happy.
+  * phosh-wwan-mm: Mention ModemManager.
+    Now that we have two implementations mention MM here.
+  * docs: Add some missing client protocols.
+    This brings down the number of warnings significantly.
+  * quick-setting: Fix class names.
+    Several lacked the Phosh prefix and hence did not turn into links.
+  * connectivity-info: Fix class name
+  * bt-info: Fix property separator.
+    It's ':' for props not '::'.
+  * shell: Make definition match declaration.
+    Fixes several gtk-doc warnings
+  * wwaninfo: Fix class name.
+    Fixes another gtk-doc warning.
+  * shell: Add missing parameter docs
+  * layser-surface: Document configured signal
+    and fix typos related to that.
+  * thumbnail: Add class doc.
+    Avoids another gtk-doc warning.
+  * panel: Properly document enum.
+    Use gtk-doc strings to avoid warning and make them show up in
+    the documentation.
+  * tools: Add a tool to check for gtk-doc warnings.
+    This ignores warnings from the generated DBus and wayland
+    protocols for the moment but reduces the noise so we avoid
+    errors in new code.
+  * system-prompter: Unlink PhoshSystemPromtper.
+    It's not a class, so we can't link to it.
+  * session: Unlink PhoshSession.
+    It's not a class, so we can't link to it. Update the doc
+    string while at it.
+  * polkit-auth-prompt: Unlink PolkitAgentSession.
+    Polkitsdocumentation does not end up in /u/s/gtk-doc
+    on Debian so the reference can't be resolved.
+  * layersuface: Add missing G_{BEGIN,END}_DECLS
+  * network-auth-prompt: Add missing G_{BEGIN,END}_DECLS
+  * docs: Drop gi ref.
+    We don't use it.
+  * d/control: Add doc packages.
+    Needed to get the cross references right
+  * doc-check: Ignore linke to NMClient|NMConnection.
+    They can' be properly linked to even with the docs installed
+    due to their odd type.
+  * monitor: Document PhoshMonitorConnectorType
+  * notification: Document PhoshNotificationUrgency
+  * notification: Document PhoshNotificationReason
+  * shell-network-agent: Stub enum doc.
+    Use a minimal change since this file is in contrib/.
+  * gitlab-ci: Run documentation check.
+    This avoids regression on the generated documentation. We
+    ignore errors from generated files.
+  * Rename session presence dbus interface class to  PhoshSessionPresenceDBusPresence.
+    We have mixed Dbus vs DBus spelling in several interfaces but we want to
+    use the later.
+  * Rename sensor-proxy dbus interface class to PhoshDBusSensorProxyProxy.
+    We have mixed Dbus vs DBus spelling in several interfaces but we want to
+    use the later.
+  * Rename rfkill dbus interface class to PhoshRfkillDBus.
+    We have mixed Dbus vs DBus spelling in several interfaces but we want to
+    use the later.
+  * docs: Sort in keyboard-events alphabetically
+  * monitor-manager: Add missing G_{BEGIN,END}_DECLS
+  * monitor-manager: Use g_autoptr.
+    Eases upcoming additions
+  * monitor: Add missing G_{BEGIN,END}_DECLS
+  * monitor: Make debugging more useful
+  * shell: Don't allow to set rotation property.
+    It's marked as read-only
+  * monitor-manager: Add sections.
+    This makes it easier to figure out where to add new
+    private methods.
+  * Wire up zwlr_output_management_v1.
+    This does the minimum to maintain a list of heads. A
+    head represents a display device that might or might
+    not be part of the current compositor space.
+  * monitor: Add monitor transforms.
+    This allows us to not leak the wayland transforms to classes
+    outside PhoshMonitor and PhoshMonitorManager.
+  * phosh-head: Add pending state.
+    This will allow monitor-manager to prepare pending configuration
+    updates.
+  * PhoshMonitorManager: Allow to apply state changes.
+    This adds the methods to change and apply new
+    configuration state.
+  * Switch from primary monitor rotation to transform.
+    Use the output transform in instead of a degree value.
+    This will allow us to handle flipped configuraitons correctly.
+  * shell: Use wlr-output-management instead of phosh private protocol.
+    This gives us better control which output to rotate and does
+    away with one more private protocol.
+  * monitor-manager: Get modes from head instead of monitor
+    wlr-output-management has all the modes listed while wlroots only
+    gives us the current mode via xdg_output.
+  * monitor-manager: Don't apply non persistent config changes.
+    This makes sure we don't switch the primary display right away
+    but rather on 'apply'.
+  * quick-settings: Don't leak panel in error path
+  * quick-settings: Keep DBus proxy around long enough
+    g_dbus_proxy_call does not take a ref so we were just lucky
+    that proxy was still valid in `call_dbus_cb` so far.
+  * Move helpers to tools/
+    There's no clear distinction between them.
+  * gresources: Sort icons alphabetically
+  * bt-manager: Fix typo
+  * settings: Fix indentation error
+  * settings: Fix misaligned function definitions
+  * settings: Sort type_ensures and template bindings alphabetically
+  * settings: Don't let settings_constructed grow out of bounds.
+    Use separate `setup_` functions for individual widgets. This
+    helps shuffling stuff around later on and we can drop
+    create_vol_channel_bar.
+  * dbus: Add (not yet merged) UPower Torch interface
+  * Add initial torch support.
+    Add a simple torch quick setting.
+  * shell: Fix typo
+  * shell: Update primary monitor when it goes away (Closes: #382)
+  * lockscreen-manager: Drop PhoshLockscreenManagerPrivate.
+    It's a finaly type so no need for priv (and it's very unlikely
+    we'll ever derive here)
+  * lockscreen-manager: Fix up indentation.
+    Since we created enough churn in the previous commit let's
+    fix the indentation too.
+  * tests: Drop unused test.
+    It's neither built nor run
+  * tests: Don't include bad-props.h when unused
+  * tests: Rework tests using g_test_expect_message.
+    This no longer works with structured logging so use
+    g_test_trap_assert_stderr() as recomended by glib docs.
+  * Use structured logging.
+    This will pick a suitable log writer automatically and
+    pass on structed information when e.g. logging to the journal.
+  * Add a custom log handler.
+    This is to a large extend what glib does but we don't read the levels
+    from the environment but allow to set them when setting the handler.
+    Resetting the handler instead of just adjusting the domains has the
+    advantage that we can pass in new user_data. Otherwise we'd have to keep
+    the current log domains around and protect them by an additional mutex
+    to not corrupt the log domains of handlers running in other threads.
+    When setting the handler glib handles that for us since handler
+    replacement is already mutex protected.
+  * main: Toggle debug messages on SIGUSR1.
+    We need to use a custom log handler to stay clear
+    of modifying the env var.
+  * d/gbp.conf: Automatically bump meson.build version.
+    No more manual editing.
+
+  [ Juliano de Souza Camargo ]
+  * po: Update Portuguese translation
+
+  [ Emin Tufan Çetin ]
+  * po: Update Turkish translation
+
+  [ Julian Sparber ]
+  * docs: add info about the env GTK_INSPECTOR_DISPLAY
+
+  [ Tobias Bernard ]
+  * Add torch icons
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 11 Oct 2020 13:50:48 +0200
+
 phosh (0.4.4) amber-phone; urgency=medium
 
   [ Guido Günther ]
