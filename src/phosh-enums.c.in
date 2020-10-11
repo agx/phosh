@@ -1,12 +1,14 @@
 /*** BEGIN file-header ***/
 
 #include "config.h"
+
+#include "app-grid-button.h"
 #include "home.h"
 #include "monitor/monitor.h"
 #include "notifications/notification.h"
 #include "notifications/notify-manager.h"
 #include "wwan/phosh-wwan-backend.h"
-#include "app-grid-button.h"
+
 #include "phosh-enums.h"
 
 /*** END file-header ***/
