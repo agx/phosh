@@ -6,6 +6,11 @@ generated_dbus_sources += gnome.gdbus_codegen('iio-sensor-proxy-dbus',
 					      'net.hadess.SensorProxy.xml',
 					      interface_prefix: 'net.hadess',
 					      namespace: 'PhoshDBus')
+# org.freedesktop.hostname1
+generated_dbus_sources += gnome.gdbus_codegen('hostname1-dbus',
+					      'org.freedesktop.hostname1.xml',
+					      interface_prefix: 'org.freedesktop',
+					      namespace: 'PhoshHostname1DBus')
 # org.freedesktop.UPower.Torch
 generated_dbus_sources += gnome.gdbus_codegen('upower-torch-dbus',
 					      'org.freedesktop.UPower.Torch.xml',
