@@ -196,11 +196,23 @@ on_name_owner_changed (PhoshTorchManager    *self,
 
 
 static void
+phosh_torch_manager_dispose (GObject *object)
+{
+  PhoshTorchManager *self = PHOSH_TORCH_MANAGER(object);
+
+  g_clear_object (&self->proxy);
+
+  G_OBJECT_CLASS (phosh_torch_manager_parent_class)->dispose (object);
+}
+
+
+static void
 phosh_torch_manager_class_init (PhoshTorchManagerClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->get_property = phosh_torch_manager_get_property;
+  object_class->dispose = phosh_torch_manager_dispose;
 
   props[PROP_ICON_NAME] =
     g_param_spec_string ("icon-name",
