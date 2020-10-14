@@ -16,7 +16,7 @@ G_DECLARE_FINAL_TYPE (PhoshPanel, phosh_panel, PHOSH, PANEL, PhoshLayerSurface)
 
 /**
  * PhoshPanelState:
- * @PHOSH_PANEL_STATE_FOLDED: Ony top-bar is visible
+ * @PHOSH_PANEL_STATE_FOLDED: Only top-bar is visible
  * @PHOSH_PANEL_STATE_UNFOLDED: Settings menu is unfolded
  */
 typedef enum {
