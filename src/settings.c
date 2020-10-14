@@ -452,10 +452,11 @@ phosh_settings_constructed (GObject *object)
                            create_notification_row,
                            NULL,
                            NULL);
-  g_signal_connect_swapped (phosh_notify_manager_get_list (manager),
-                            "items-changed",
-                            G_CALLBACK (on_notifcation_items_changed),
-                            self);
+  g_signal_connect_object (phosh_notify_manager_get_list (manager),
+                           "items-changed",
+                           G_CALLBACK (on_notifcation_items_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
