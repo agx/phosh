@@ -16,6 +16,7 @@ phosh_resources = gnome.compile_resources(
 phosh_enum_headers = [
   'app-grid-button.h',
   'home.h',
+  'mode-manager.h',
   'monitor/monitor.h',
   'notifications/notification.h',
   'notifications/notify-manager.h',
@@ -65,6 +66,8 @@ libphosh_tool_sources = [
   'log.c',
   'media-player.c',
   'media-player.h',
+  'mode-manager.c',
+  'mode-manager.h',
   'overview.c',
   'overview.h',
   'status-icon.c',

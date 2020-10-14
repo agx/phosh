@@ -35,6 +35,7 @@
 #include "idle-manager.h"
 #include "keyboard-events.h"
 #include "lockscreen-manager.h"
+#include "mode-manager.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
 #include "notifications/notify-manager.h"
@@ -100,6 +101,7 @@ typedef struct
   PhoshBtManager *bt_manager;
   PhoshWWan *wwan;
   PhoshTorchManager *torch_manager;
+  PhoshModeManager *mode_manager;
   PhoshKeyboardEvents *keyboard_events;
 
   /* sensors */
@@ -333,6 +335,7 @@ phosh_shell_dispose (GObject *object)
 
   g_clear_object (&priv->keyboard_events);
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->mode_manager);
   g_clear_object (&priv->torch_manager);
   g_clear_object (&priv->wwan);
   g_clear_object (&priv->bt_manager);
@@ -438,6 +441,8 @@ static gboolean
 setup_idle_cb (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  priv->mode_manager = phosh_mode_manager_new ();
 
   panels_create (self);
   /* Create background after panel since it needs the panel's size */

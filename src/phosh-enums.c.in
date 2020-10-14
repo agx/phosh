@@ -4,6 +4,7 @@
 
 #include "app-grid-button.h"
 #include "home.h"
+#include "mode-manager.h"
 #include "monitor/monitor.h"
 #include "notifications/notification.h"
 #include "notifications/notify-manager.h"
