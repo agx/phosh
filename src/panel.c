@@ -16,6 +16,7 @@
 
 #include "bt-info.h"
 #include "connectivity-info.h"
+#include "docked-info.h"
 #include "panel.h"
 #include "shell.h"
 #include "session.h"
@@ -379,6 +380,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
 
   g_type_ensure (PHOSH_TYPE_BT_INFO);
   g_type_ensure (PHOSH_TYPE_CONNECTIVITY_INFO);
+  g_type_ensure (PHOSH_TYPE_DOCKED_INFO);
   g_type_ensure (PHOSH_TYPE_SETTINGS);
 
   gtk_widget_class_set_template_from_resource (widget_class,

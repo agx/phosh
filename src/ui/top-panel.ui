@@ -120,6 +120,19 @@
                             <property name="position">3</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="PhoshDockedInfo" id="docked_info">
+			    <property name="visible" bind-source="docked_info" bind-property="enabled" bind-flags="sync-create"/>
+			    <property name="can_focus">False</property>
+			    <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+			    <property name="margin_right">8</property>
+			  </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">4</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
