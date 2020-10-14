@@ -405,7 +405,8 @@ on_new_notification (PhoshShell         *self,
   }
 
   if (phosh_notify_manager_get_show_banners (manager) &&
-      !phosh_lockscreen_manager_get_locked (priv->lockscreen_manager)) {
+      !phosh_lockscreen_manager_get_locked (priv->lockscreen_manager) &&
+      phosh_panel_get_state (PHOSH_PANEL (priv->panel)) == PHOSH_PANEL_STATE_FOLDED) {
     g_set_weak_pointer (&priv->notification_banner,
                         phosh_notification_banner_new (notification));
 

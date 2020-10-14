@@ -29,3 +29,4 @@ GtkWidget * phosh_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
 void        phosh_panel_toggle_fold (PhoshPanel *self);
 void        phosh_panel_fold (PhoshPanel *self);
 void        phosh_panel_unfold (PhoshPanel *self);
+PhoshPanelState phosh_panel_get_state (PhoshPanel *self);

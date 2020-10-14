@@ -476,3 +476,14 @@ phosh_panel_toggle_fold (PhoshPanel *self)
     phosh_panel_unfold (self);
   }
 }
+
+
+PhoshPanelState
+phosh_panel_get_state (PhoshPanel *self)
+{
+  PhoshPanelPrivate *priv;
+  g_return_val_if_fail (PHOSH_IS_PANEL (self), PHOSH_PANEL_STATE_FOLDED);
+
+  priv = phosh_panel_get_instance_private (self);
+  return priv->state;
+}
