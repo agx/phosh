@@ -21,6 +21,8 @@
 
 #include <glib-object.h>
 
+G_BEGIN_DECLS
+
 #define PHOSH_TYPE_WAYLAND phosh_wayland_get_type()
 
 G_DECLARE_FINAL_TYPE (PhoshWayland, phosh_wayland, PHOSH, WAYLAND, GObject)
@@ -42,3 +44,5 @@ struct zwlr_output_manager_v1        *phosh_wayland_get_zwlr_output_manager_v1 (
 struct zwlr_output_power_manager_v1 *phosh_wayland_get_zwlr_output_power_manager_v1 (PhoshWayland *self);
 struct zxdg_output_manager_v1        *phosh_wayland_get_zxdg_output_manager_v1 (PhoshWayland *self);
 void                                  phosh_wayland_roundtrip (PhoshWayland *self);
+
+G_END_DECLS
