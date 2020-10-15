@@ -138,7 +138,7 @@ on_monitor_added (PhoshLockscreenManager *self,
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
 
-  g_warning ("Monitor added");
+  g_debug ("Monitor added");
   lock_monitor (self, monitor);
 }
 
