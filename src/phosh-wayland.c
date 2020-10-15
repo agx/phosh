@@ -176,21 +176,6 @@ static const struct wl_registry_listener registry_listener = {
 
 
 static void
-phosh_wayland_set_property (GObject *object,
-                            guint property_id,
-                            const GValue *value,
-                            GParamSpec *pspec)
-{
-  switch (property_id) {
-    /* all props are read only */
-  default:
-    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-    break;
-  }
-}
-
-
-static void
 phosh_wayland_get_property (GObject *object,
                             guint property_id,
                             GValue *value,
@@ -274,7 +259,6 @@ phosh_wayland_class_init (PhoshWaylandClass *klass)
   object_class->constructed = phosh_wayland_constructed;
   object_class->dispose = phosh_wayland_dispose;
 
-  object_class->set_property = phosh_wayland_set_property;
   object_class->get_property = phosh_wayland_get_property;
 
   props[PHOSH_WAYLAND_PROP_WL_OUTPUTS] =
