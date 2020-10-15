@@ -19,6 +19,7 @@ phosh_enum_headers = [
   'monitor/monitor.h',
   'notifications/notification.h',
   'notifications/notify-manager.h',
+  'phosh-wayland.h',
 ] + schema_enum_headers
 
 phosh_enums = gnome.mkenums('phosh-enums',

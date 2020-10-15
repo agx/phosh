@@ -9,6 +9,7 @@
 #define G_LOG_DOMAIN "phosh-wayland"
 
 #include "config.h"
+#include "phosh-enums.h"
 #include "phosh-wayland.h"
 
 #include <gdk/gdkwayland.h>
@@ -26,6 +27,7 @@
 enum {
   PHOSH_WAYLAND_PROP_0,
   PHOSH_WAYLAND_PROP_WL_OUTPUTS,
+  PHOSH_WAYLAND_PROP_SEAT_CAPABILITIES,
   PHOSH_WAYLAND_PROP_LAST_PROP,
 };
 static GParamSpec *props[PHOSH_WAYLAND_PROP_LAST_PROP];
@@ -48,6 +50,7 @@ struct _PhoshWayland {
   struct zxdg_output_manager_v1 *zxdg_output_manager_v1;
   struct wl_shm *wl_shm;
   GHashTable *wl_outputs;
+  PhoshWaylandSeatCapabilities seat_capabilities;
 };
 
 G_DEFINE_TYPE (PhoshWayland, phosh_wayland, G_TYPE_OBJECT)
@@ -181,11 +184,45 @@ phosh_wayland_get_property (GObject *object,
   case PHOSH_WAYLAND_PROP_WL_OUTPUTS:
     g_value_set_boxed (value, self->wl_outputs);
     break;
+  case PHOSH_WAYLAND_PROP_SEAT_CAPABILITIES:
+    g_value_set_flags (value, self->seat_capabilities);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
   }
 }
+
+
+static void
+seat_handle_capabilities (void *data,
+                         struct wl_seat *wl_seat,
+                         uint32_t capabilities)
+{
+  PhoshWayland *self = PHOSH_WAYLAND (data);
+
+  if (self->seat_capabilities != capabilities) {
+    g_debug ("Seat capabilities: %d", capabilities);
+    self->seat_capabilities = capabilities;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WAYLAND_PROP_SEAT_CAPABILITIES]);
+  }
+}
+
+
+static void
+seat_handle_name (void *data,
+                  struct wl_seat *wl_seat,
+                  const char *name)
+{
+  /* nothing to do */
+}
+
+
+static const struct wl_seat_listener seat_listener =
+{
+  seat_handle_capabilities,
+  seat_handle_name,
+};
 
 
 static void
@@ -229,6 +266,8 @@ phosh_wayland_constructed (GObject *object)
   if (!self->phosh_private) {
     g_info ("Could not find phosh private interface, disabling some features");
   }
+
+  wl_seat_add_listener (self->wl_seat, &seat_listener, self);
 }
 
 
@@ -238,6 +277,7 @@ phosh_wayland_dispose (GObject *object)
   PhoshWayland *self = PHOSH_WAYLAND (object);
 
   g_clear_pointer (&self->wl_outputs, g_hash_table_destroy);
+
   G_OBJECT_CLASS (phosh_wayland_parent_class)->dispose (object);
 }
 
@@ -258,6 +298,15 @@ phosh_wayland_class_init (PhoshWaylandClass *klass)
                         "The currently known wayland outputs",
                         G_TYPE_HASH_TABLE,
                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+
+  props[PHOSH_WAYLAND_PROP_SEAT_CAPABILITIES] =
+    g_param_spec_flags ("seat-capabilities",
+                        "Seat capabilities",
+                        "The current seat capabilities",
+                        PHOSH_TYPE_WAYLAND_SEAT_CAPABILITIES,
+                        PHOSH_WAYLAND_SEAT_CAPABILITY_NONE,
+                        G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+
   g_object_class_install_properties (object_class, PHOSH_WAYLAND_PROP_LAST_PROP, props);
 }
 
@@ -425,4 +474,13 @@ phosh_wayland_roundtrip (PhoshWayland *self)
   g_return_if_fail (PHOSH_IS_WAYLAND (self));
 
   wl_display_roundtrip(self->display);
+}
+
+
+PhoshWaylandSeatCapabilities
+phosh_wayland_get_seat_capabilities (PhoshWayland *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WAYLAND (self), PHOSH_WAYLAND_SEAT_CAPABILITY_NONE);
+
+  return self->seat_capabilities;
 }
