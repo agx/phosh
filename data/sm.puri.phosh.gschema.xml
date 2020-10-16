@@ -13,6 +13,18 @@
         displayed in the favorites panel along with running applications.
       </description>
     </key>
+    <key name="force-adaptive" type="as">
+      <default>[]</default>
+      <summary>
+	List of desktop file IDs for applications that are adaptive for phone
+	usage but not marked as such in their desktop file.
+      </summary>
+      <description>
+        The applications corresponding to these identifiers will be
+        displayed in the app grid panel even when in mobile mode that only
+	lists touch capable apps that adapt to small screen sizes.
+      </description>
+    </key>
     <key name="wwan-backend" enum="sm.puri.phosh.PhoshWWanBackend">
       <default>'modemmanager'</default>
       <summary>Which backend to use for interfacing with the cellular modem</summary>
