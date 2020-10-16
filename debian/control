@@ -4,14 +4,14 @@ Priority: optional
 Maintainer: Guido Günther <agx@sigxcpu.org>
 Build-Depends:
  debhelper (>= 12),
- gtk-doc-tools,
+ gtk-doc-tools <!nodoc>,
  libsecret-1-dev,
  libfeedback-dev,
  libgcr-3-dev,
- libglib2.0-doc,
+ libglib2.0-doc <!nodoc>,
  libgnome-desktop-3-dev,
  libgtk-3-dev,
- libgtk-3-doc,
+ libgtk-3-doc <!nodoc>,
  libhandy-1-dev (>= 1.0.0),
  libnm-dev,
  libpam0g-dev,
@@ -20,7 +20,7 @@ Build-Depends:
  libupower-glib-dev,
  libwayland-dev,
  meson,
- pandoc,
+ pandoc <!nodoc>,
 # to run the tests
  at-spi2-core,
  gnome-themes-extra-data,
@@ -74,6 +74,7 @@ Description: OSK stub to fulfil session dependencies
 
 Package: phosh-doc
 Architecture: all
+Build-Profiles: <!nodoc>
 Depends:
  ${misc:Depends},
 Description: Pure Wayland shell for mobile devices - development documentation
