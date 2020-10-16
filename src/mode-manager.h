@@ -50,6 +50,7 @@ typedef enum {
 /* TODO: keyboard is hard to detect due to gpio keys, etc */
 #define PHOSH_MODE_DOCKED_PHONE_MASK (PHOSH_MODE_HW_EXT_DISPLAY \
                                       | PHOSH_MODE_HW_POINTER)
+#define PHOSH_MODE_DOCKED_TABLET_MASK (PHOSH_MODE_HW_POINTER)
 
 #define PHOSH_TYPE_MODE_MANAGER (phosh_mode_manager_get_type ())
 

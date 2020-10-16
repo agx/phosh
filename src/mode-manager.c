@@ -118,6 +118,9 @@ update_props (PhoshModeManager *self)
   if (device_type == PHOSH_MODE_DEVICE_TYPE_PHONE &&
       (hw & PHOSH_MODE_DOCKED_PHONE_MASK) == PHOSH_MODE_DOCKED_PHONE_MASK) {
     mimicry = PHOSH_MODE_DEVICE_TYPE_DESKTOP;
+  } else if (device_type == PHOSH_MODE_DEVICE_TYPE_TABLET &&
+      (hw & PHOSH_MODE_DOCKED_TABLET_MASK) == PHOSH_MODE_DOCKED_TABLET_MASK) {
+    mimicry = PHOSH_MODE_DEVICE_TYPE_DESKTOP;
   }
 
   g_object_freeze_notify (G_OBJECT (self));
