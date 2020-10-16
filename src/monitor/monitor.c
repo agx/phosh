@@ -53,8 +53,8 @@ output_handle_geometry (void             *data,
   g_debug ("handle geometry output %p, position %d %d, size %dx%d, subpixel layout %d, vendor %s, "
            "product %s, transform %d",
            self, x, y, physical_width, physical_height, subpixel, make, model, transform);
-  self->wl_output_done = FALSE;
 
+  self->wl_output_done = FALSE;
   self->x = x;
   self->y = y;
   self->width_mm = physical_width;
@@ -63,7 +63,6 @@ output_handle_geometry (void             *data,
   self->vendor = g_strdup (make);
   self->product = g_strdup (model);
   self->transform = transform;
-  self->wl_output_done = FALSE;
 }
 
 
