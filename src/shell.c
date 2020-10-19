@@ -583,6 +583,9 @@ phosh_shell_constructed (GObject *object)
                             G_CALLBACK (on_monitor_removed),
                             self);
 
+  /* Make sure we processed wayland protocol events */
+  phosh_wayland_roundtrip (phosh_wayland_get_default ());
+
   if (phosh_monitor_manager_get_num_monitors(priv->monitor_manager)) {
     PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
     /* Can't invoke phosh_shell_set_primary_monitor () since the shell
