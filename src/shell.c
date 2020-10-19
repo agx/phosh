@@ -572,6 +572,10 @@ phosh_shell_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->constructed (object);
 
+  /* We bind this early since a wl_display_roundtrip () would make us miss
+     exising toplevels */
+  priv->toplevel_manager = phosh_toplevel_manager_new ();
+
   priv->transform = -1; /* force initial update */
   priv->monitor_manager = phosh_monitor_manager_new ();
   g_signal_connect_swapped (priv->monitor_manager,
@@ -604,7 +608,6 @@ phosh_shell_constructed (GObject *object)
   priv->lockscreen_manager = phosh_lockscreen_manager_new ();
   priv->idle_manager = phosh_idle_manager_get_default();
 
-  priv->toplevel_manager = phosh_toplevel_manager_new ();
   priv->faders = g_ptr_array_new_with_free_func ((GDestroyNotify) (gtk_widget_destroy));
 
   phosh_system_prompter_register ();
