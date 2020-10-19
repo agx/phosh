@@ -1001,6 +1001,23 @@ phosh_monitor_manager_get_property (GObject    *object,
   }
 }
 
+
+static gboolean
+on_idle (PhoshMonitorManager *self)
+{
+  self->dbus_name_id = g_bus_own_name (G_BUS_TYPE_SESSION,
+                                       "org.gnome.Mutter.DisplayConfig",
+                                       G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT |
+                                       G_BUS_NAME_OWNER_FLAGS_REPLACE,
+                                       on_bus_acquired,
+                                       on_name_acquired,
+                                       on_name_lost,
+                                       g_object_ref (self),
+                                       g_object_unref);
+  return FALSE;
+}
+
+
 static void
 phosh_monitor_manager_constructed (GObject *object)
 {
@@ -1011,15 +1028,6 @@ phosh_monitor_manager_constructed (GObject *object)
   struct zwlr_output_manager_v1 *zwlr_output_manager_v1;
 
   G_OBJECT_CLASS (phosh_monitor_manager_parent_class)->constructed (object);
-  self->dbus_name_id = g_bus_own_name (G_BUS_TYPE_SESSION,
-                                       "org.gnome.Mutter.DisplayConfig",
-                                       G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT |
-                                       G_BUS_NAME_OWNER_FLAGS_REPLACE,
-                                       on_bus_acquired,
-                                       on_name_acquired,
-                                       on_name_lost,
-                                       g_object_ref (self),
-                                       g_object_unref);
 
   g_signal_connect (self, "notify::power-save-mode",
                     G_CALLBACK (power_save_mode_changed_cb), NULL);
@@ -1039,6 +1047,8 @@ phosh_monitor_manager_constructed (GObject *object)
   zwlr_output_manager_v1_add_listener (zwlr_output_manager_v1,
                                        &zwlr_output_manager_v1_listener,
                                        self);
+
+  g_idle_add ((GSourceFunc) on_idle, self);
 }
 
 
