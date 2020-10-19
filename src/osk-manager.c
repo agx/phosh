@@ -111,10 +111,13 @@ on_availability_changed (PhoshOskManager *self, GParamSpec *pspec, gpointer unus
 
 
 static void
-on_lockscreen_manager_locked (PhoshOskManager *self, GParamSpec *pspec, gpointer unused)
+on_lockscreen_manager_locked_changed (PhoshOskManager *self, GParamSpec *pspec, gpointer unused)
 {
   g_return_if_fail (PHOSH_IS_OSK_MANAGER (self));
-  phosh_osk_manager_set_visible (self, FALSE);
+
+  /* Hide OSK on lock screen lock */
+  if (phosh_lockscreen_manager_get_locked (self->lockscreen_manager))
+      phosh_osk_manager_set_visible (self, FALSE);
 }
 
 
@@ -205,7 +208,7 @@ phosh_osk_manager_constructed (GObject *object)
 
   g_signal_connect_swapped (self->lockscreen_manager,
                             "notify::locked",
-                            G_CALLBACK (on_lockscreen_manager_locked),
+                            G_CALLBACK (on_lockscreen_manager_locked_changed),
                             self);
 
   phosh_osk_manager_set_visible (self, phosh_osk0_sm_puri_osk0_get_visible (self->proxy));
