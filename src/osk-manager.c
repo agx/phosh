@@ -40,7 +40,7 @@ struct _PhoshOskManager
   /* Currently the only impl. We can use an interface once we support
    * different OSK types */
   PhoshOsk0SmPuriOSK0 *proxy;
-  PhoshLockscreenManager *lockscreen_manger;
+  PhoshLockscreenManager *lockscreen_manager;
   gboolean visible;
   gboolean available;
 };
@@ -202,9 +202,9 @@ phosh_osk_manager_constructed (GObject *object)
                     NULL);
 
   shell = phosh_shell_get_default();
-  self->lockscreen_manger = g_object_ref(phosh_shell_get_lockscreen_manager(shell));
+  self->lockscreen_manager = g_object_ref(phosh_shell_get_lockscreen_manager(shell));
 
-  g_signal_connect_swapped (self->lockscreen_manger,
+  g_signal_connect_swapped (self->lockscreen_manager,
                             "notify::locked",
                             G_CALLBACK (on_lockscreen_manager_locked),
                             self);
@@ -219,7 +219,7 @@ phosh_osk_manager_dispose (GObject *object)
   PhoshOskManager *self = PHOSH_OSK_MANAGER (object);
 
   g_clear_object (&self->proxy);
-  g_clear_object (&self->lockscreen_manger);
+  g_clear_object (&self->lockscreen_manager);
   G_OBJECT_CLASS (phosh_osk_manager_parent_class)->dispose (object);
 }
 
