@@ -583,25 +583,23 @@ phosh_shell_constructed (GObject *object)
                             G_CALLBACK (on_monitor_removed),
                             self);
 
-  /* Make sure we processed wayland protocol events */
+  /* Make sure all outputs are up to date */
   phosh_wayland_roundtrip (phosh_wayland_get_default ());
 
   if (phosh_monitor_manager_get_num_monitors(priv->monitor_manager)) {
-    PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+    priv->builtin_monitor = phosh_shell_get_builtin_monitor (self);
+
+    g_debug ("Builtin monitor is %s, %d", priv->builtin_monitor->name,
+             phosh_monitor_is_configured (priv->builtin_monitor));
     /* Can't invoke phosh_shell_set_primary_monitor () since the shell
        object does not really exist yet but we need the primary monitor
        early for the panels */
-    priv->primary_monitor = g_object_ref (monitor);
+    priv->primary_monitor = g_object_ref (priv->builtin_monitor);
     g_signal_connect_swapped (priv->primary_monitor,
                               "configured",
                               G_CALLBACK (on_primary_monitor_configured),
                               self);
   }
-
-  if (phosh_monitor_is_builtin(priv->primary_monitor))
-    priv->builtin_monitor = priv->primary_monitor;
-  else
-    priv->builtin_monitor = phosh_shell_get_builtin_monitor(self);
 
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
                                     "/sm/puri/phosh/icons");
