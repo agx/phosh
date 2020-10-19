@@ -72,7 +72,7 @@ dbus_props_changed_cb (PhoshOsk0SmPuriOSK0 *proxy,
   PhoshOskManager *self = PHOSH_OSK_MANAGER (data);
   char *property;
   GVariantIter i;
-  GVariant *value;
+  g_autoptr (GVariant) value = NULL;
 
   g_variant_iter_init (&i, changed_properties);
   while (g_variant_iter_next (&i, "{&sv}", &property, &value)) {
@@ -80,7 +80,6 @@ dbus_props_changed_cb (PhoshOsk0SmPuriOSK0 *proxy,
     if (strcmp (property, "Visible") == 0) {
       phosh_osk_manager_set_visible (self, g_variant_get_boolean (value));
     }
-    g_variant_unref (value);
   }
 }
 
