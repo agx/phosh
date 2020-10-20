@@ -52,16 +52,14 @@ on_osk_show (GObject             *source_object,
              GAsyncResult        *res,
              gpointer             user_data)
 {
-  GVariant *variant;
-  GError *err = NULL;
+  g_autoptr (GVariant) variant = NULL;
+  g_autoptr (GError) err = NULL;
 
   variant = g_dbus_proxy_call_finish (G_DBUS_PROXY (source_object), res, &err);
   if (!variant) {
     g_warning ("Unable to toggle OSK: %s", err->message);
-    g_clear_error (&err);
     return;
   }
-  g_variant_unref (variant);
 }
 
 
