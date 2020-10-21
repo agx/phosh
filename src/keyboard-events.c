@@ -82,10 +82,36 @@ handle_grab_success_event (void *data,
   g_hash_table_insert (self->accelerators, GINT_TO_POINTER (action_id), g_strdup (accelerator));
 }
 
+
+static void
+handle_ungrab_success_event (void *data,
+                             struct phosh_private_keyboard_event *kbevent,
+                             uint32_t action_id)
+{
+  PhoshKeyboardEvents *self = PHOSH_KEYBOARD_EVENTS (data);
+
+  g_return_if_fail (PHOSH_IS_KEYBOARD_EVENTS (data));
+  g_debug ("Ungrab of %d successful", action_id);
+  g_hash_table_remove (self->accelerators, GINT_TO_POINTER (action_id));
+}
+
+
+static void
+handle_ungrab_failed_event (void *data,
+                            struct phosh_private_keyboard_event *kbevent,
+                            uint32_t action_id,
+                            uint32_t error)
+{
+  g_warning ("Ungrab of %d failed: %d\n", action_id, error);
+}
+
+
 static const struct phosh_private_keyboard_event_listener keyboard_event_listener = {
   .accelerator_activated_event = handle_accelerator_activated_event,
   .grab_failed_event = handle_grab_failed_event,
   .grab_success_event = handle_grab_success_event,
+  .ungrab_failed_event = handle_ungrab_failed_event,
+  .ungrab_success_event = handle_ungrab_success_event,
 };
 
 
@@ -104,7 +130,18 @@ on_action_removed (PhoshKeyboardEvents *self,
                    gchar               *action_name,
                    GActionGroup        *action_group)
 {
-  g_debug ("Should ungrab accelerator %s", action_name);
+  GHashTableIter iter;
+  gpointer key, value;
+
+  g_debug ("Ungrabbing accelerator %s", action_name);
+
+  g_hash_table_iter_init (&iter, self->accelerators);
+  while (g_hash_table_iter_next (&iter, &key, &value)) {
+    if (!g_strcmp0 (action_name, value)) {
+      phosh_private_keyboard_event_ungrab_accelerator_request (self->kbevent,
+                                                               GPOINTER_TO_INT (key));
+    }
+  }
 }
 
 

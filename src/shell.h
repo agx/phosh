@@ -62,5 +62,8 @@ void                 phosh_shell_add_global_keyboard_action_entries (PhoshShell 
                                                                      const GActionEntry *actions,
                                                                      gint n_entries,
                                                                      gpointer user_data);
+void                 phosh_shell_remove_global_keyboard_action_entries (PhoshShell *self,
+                                                                        const GActionEntry *actions,
+                                                                        gint n_entries);
 
 G_END_DECLS
