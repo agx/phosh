@@ -33,6 +33,7 @@
 #include "feedback-manager.h"
 #include "home.h"
 #include "idle-manager.h"
+#include "keyboard-events.h"
 #include "lockscreen-manager.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
@@ -99,6 +100,7 @@ typedef struct
   PhoshBtManager *bt_manager;
   PhoshWWan *wwan;
   PhoshTorchManager *torch_manager;
+  PhoshKeyboardEvents *keyboard_events;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -329,6 +331,7 @@ phosh_shell_dispose (GObject *object)
 
   g_clear_object (&priv->notification_banner);
 
+  g_clear_object (&priv->keyboard_events);
   /* dispose managers in opposite order of declaration */
   g_clear_object (&priv->torch_manager);
   g_clear_object (&priv->wwan);
@@ -616,6 +619,8 @@ phosh_shell_constructed (GObject *object)
       G_CALLBACK(on_builtin_monitor_power_mode_changed),
       self);
   }
+
+  priv->keyboard_events = phosh_keyboard_events_new ();
 
   g_idle_add ((GSourceFunc) setup_idle_cb, self);
 }
@@ -1076,4 +1081,23 @@ phosh_shell_is_startup_finished(PhoshShell *self)
   priv = phosh_shell_get_instance_private (self);
 
   return priv->startup_finished;
+}
+
+
+void
+phosh_shell_add_global_keyboard_action_entries (PhoshShell *self,
+                                                const GActionEntry *entries,
+                                                gint n_entries,
+                                                gpointer user_data)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  priv = phosh_shell_get_instance_private (self);
+  g_return_if_fail (priv->keyboard_events);
+
+  g_action_map_add_action_entries (G_ACTION_MAP (priv->keyboard_events),
+                                   entries,
+                                   n_entries,
+                                   user_data);
 }

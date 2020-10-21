@@ -58,5 +58,9 @@ void                 phosh_shell_fade_out (PhoshShell *self, guint timeout);
 void                 phosh_shell_enable_power_save (PhoshShell *self, gboolean enable);
 gboolean             phosh_shell_started_by_display_manager(PhoshShell *self);
 gboolean             phosh_shell_is_startup_finished (PhoshShell *self);
+void                 phosh_shell_add_global_keyboard_action_entries (PhoshShell *self,
+                                                                     const GActionEntry *actions,
+                                                                     gint n_entries,
+                                                                     gpointer user_data);
 
 G_END_DECLS

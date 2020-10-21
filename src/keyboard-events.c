@@ -19,26 +19,17 @@
  * @Title: PhoshKeyboardEvents
  */
 
-
-enum {
-  SIGNAL_ACCELERATOR_ACTIVATED,
-  SIGNAL_ACCELERATOR_GRABBED,
-  N_SIGNALS,
-};
-static guint signals[N_SIGNALS] = { 0 };
-
 struct _PhoshKeyboardEvents {
-  GObject parent;
+  GSimpleActionGroup                   parent;
 
   struct phosh_private_keyboard_event *kbevent;
-
+  GHashTable                          *accelerators;
 };
 
 static void initable_iface_init (GInitableIface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (PhoshKeyboardEvents, phosh_keyboard_events, G_TYPE_OBJECT,
+G_DEFINE_TYPE_WITH_CODE (PhoshKeyboardEvents, phosh_keyboard_events, G_TYPE_SIMPLE_ACTION_GROUP,
                          G_IMPLEMENT_INTERFACE(G_TYPE_INITABLE, initable_iface_init));
-
 
 static void
 handle_accelerator_activated_event (void *data,
@@ -46,14 +37,16 @@ handle_accelerator_activated_event (void *data,
                                     uint32_t action_id,
                                     uint32_t timestamp)
 {
+  const gchar *action;
   PhoshKeyboardEvents *self = PHOSH_KEYBOARD_EVENTS (data);
-  g_debug ("incoming action! %d", action_id);
 
-  g_signal_emit (self,
-                 signals[SIGNAL_ACCELERATOR_ACTIVATED],
-                 0,
-                 action_id,
-                 timestamp);
+  action = g_hash_table_lookup (self->accelerators, GINT_TO_POINTER (action_id));
+  g_return_if_fail (action);
+
+  g_debug ("Accelerator %d activated: %s", action_id, action);
+
+  g_return_if_fail (g_action_group_has_action (G_ACTION_GROUP (self), action));
+  g_action_group_activate_action (G_ACTION_GROUP (self), action, NULL);
 }
 
 
@@ -85,11 +78,8 @@ handle_grab_success_event (void *data,
                            uint32_t action_id)
 {
   PhoshKeyboardEvents *self = PHOSH_KEYBOARD_EVENTS (data);
-  g_signal_emit (self,
-                 signals[SIGNAL_ACCELERATOR_GRABBED],
-                 0,
-                 accelerator,
-                 action_id);
+
+  g_hash_table_insert (self->accelerators, GINT_TO_POINTER (action_id), g_strdup (accelerator));
 }
 
 static const struct phosh_private_keyboard_event_listener keyboard_event_listener = {
@@ -97,6 +87,25 @@ static const struct phosh_private_keyboard_event_listener keyboard_event_listene
   .grab_failed_event = handle_grab_failed_event,
   .grab_success_event = handle_grab_success_event,
 };
+
+
+static void
+on_action_added (PhoshKeyboardEvents *self,
+                 gchar               *action_name,
+                 GActionGroup        *action_group)
+{
+  g_debug ("Grabbing accelerator %s", action_name);
+  phosh_private_keyboard_event_grab_accelerator_request (self->kbevent, action_name);
+}
+
+
+static void
+on_action_removed (PhoshKeyboardEvents *self,
+                   gchar               *action_name,
+                   GActionGroup        *action_group)
+{
+  g_debug ("Should ungrab accelerator %s", action_name);
+}
 
 
 static gboolean
@@ -137,6 +146,16 @@ initable_init (GInitable    *initable,
 
   phosh_private_keyboard_event_add_listener (self->kbevent, &keyboard_event_listener, self);
 
+  g_signal_connect (self,
+                    "action-added",
+                    G_CALLBACK (on_action_added),
+                    NULL);
+
+  g_signal_connect (self,
+                    "action-removed",
+                    G_CALLBACK (on_action_removed),
+                    NULL);
+
   return TRUE;
 }
 
@@ -152,10 +171,23 @@ static void
 phosh_keyboard_events_dispose (GObject *object)
 {
   PhoshKeyboardEvents *self = PHOSH_KEYBOARD_EVENTS (object);
-  g_clear_pointer(&self->kbevent, phosh_private_keyboard_event_destroy);
+
+  g_clear_pointer (&self->kbevent, phosh_private_keyboard_event_destroy);
 
   G_OBJECT_CLASS (phosh_keyboard_events_parent_class)->dispose (object);
 }
+
+
+static void
+phosh_keyboard_events_finalize (GObject *object)
+{
+  PhoshKeyboardEvents *self = PHOSH_KEYBOARD_EVENTS (object);
+
+  g_clear_pointer (&self->accelerators, g_hash_table_unref);
+
+  G_OBJECT_CLASS (phosh_keyboard_events_parent_class)->finalize (object);
+}
+
 
 
 static void
@@ -164,53 +196,17 @@ phosh_keyboard_events_class_init (PhoshKeyboardEventsClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->dispose = phosh_keyboard_events_dispose;
-
-  /**
-   * PhoshKeyboardEvents::keypress:
-   * @kbevent: The #PhoshKeyboardEvents emitting the signal.
-   * @action_id: The id of the forwarded action
-   * @timestamp: The timestamp when the key has been pressed
-   *
-   * Emitted whenever a subscribed accelerator/action has been received
-   */
-  signals[SIGNAL_ACCELERATOR_ACTIVATED] = g_signal_new (
-    "accelerator-activated",
-    G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-    NULL, G_TYPE_NONE, 2, G_TYPE_UINT, G_TYPE_UINT);
-
-  /**
-   * PhoshKeyboardEvents::accelerator-grabbed:
-   * @kbevent: The #PhoshKeyboardEvents emitting the signal.
-   * @accelerator: The accelerator which has been grabbed
-   * @action_id: The assigned id of the accelerator
-   *
-   * Emitted whenever an accelerator subscription has been successfull
-   */
-
-  signals[SIGNAL_ACCELERATOR_GRABBED] = g_signal_new (
-    "accelerator-grabbed",
-    G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-    NULL, G_TYPE_NONE, 2, G_TYPE_STRING, G_TYPE_UINT);
-
-}
-
-
-void
-phosh_keyboard_events_register_keys (PhoshKeyboardEvents *self,
-                                     char               **accelerators,
-                                     size_t               len)
-{
-  g_return_if_fail (self->kbevent);
-
-  for (size_t i = 0; i < len; ++i) {
-    phosh_private_keyboard_event_grab_accelerator_request (self->kbevent, accelerators[i]);
-  }
+  object_class->finalize = phosh_keyboard_events_finalize;
 }
 
 
 static void
 phosh_keyboard_events_init (PhoshKeyboardEvents *self)
 {
+  self->accelerators = g_hash_table_new_full (g_direct_hash,
+                                              g_direct_equal,
+                                              NULL,
+                                              g_free);
 }
 
 

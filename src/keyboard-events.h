@@ -17,9 +17,7 @@ G_DECLARE_FINAL_TYPE (PhoshKeyboardEvents,
                       phosh_keyboard_events,
                       PHOSH,
                       KEYBOARD_EVENTS,
-                      GObject)
+                      GSimpleActionGroup)
 
 PhoshKeyboardEvents  *phosh_keyboard_events_new           (void);
-void                  phosh_keyboard_events_register_keys (PhoshKeyboardEvents *self,
-                                                           char               **keys,
-                                                           size_t               len);
+
