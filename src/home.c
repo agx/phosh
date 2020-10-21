@@ -18,6 +18,10 @@
 
 #include <handy.h>
 
+#define KEYBINDINGS_SCHEMA_ID "org.gnome.shell.keybindings"
+#define KEYBINDING_KEY_TOGGLE_OVERVIEW "toggle-overview"
+#define KEYBINDING_KEY_TOGGLE_APPLICATION_VIEW "toggle-application-view"
+
 /**
  * SECTION:home
  * @short_description: The home surface contains the overview and
@@ -59,6 +63,10 @@ struct _PhoshHome
   } animation;
 
   PhoshHomeState state;
+
+  /* Keybinding */
+  GArray         *actions;
+  GSettings      *settings;
 };
 G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_LAYER_SURFACE);
 
@@ -178,6 +186,77 @@ key_press_event_cb (PhoshHome *self, GdkEventKey *event, gpointer data)
 
 
 static void
+toggle_overview_action (GSimpleAction *action, GVariant *param, gpointer data)
+{
+  PhoshHome *self = PHOSH_HOME (data);
+  PhoshHomeState state;
+
+  g_return_if_fail (PHOSH_IS_HOME (self));
+
+  state = self->state == PHOSH_HOME_STATE_UNFOLDED ?
+    PHOSH_HOME_STATE_FOLDED : PHOSH_HOME_STATE_UNFOLDED;
+  phosh_home_set_state (self, state);
+}
+
+
+static void
+toggle_application_view_action (GSimpleAction *action, GVariant *param, gpointer data)
+{
+  PhoshHome *self = PHOSH_HOME (data);
+  PhoshHomeState state;
+
+  g_return_if_fail (PHOSH_IS_HOME (self));
+
+  state = self->state == PHOSH_HOME_STATE_UNFOLDED ?
+    PHOSH_HOME_STATE_FOLDED : PHOSH_HOME_STATE_UNFOLDED;
+  phosh_home_set_state (self, state);
+  phosh_overview_focus_app_search (PHOSH_OVERVIEW (self->overview));
+}
+
+
+static void
+add_keybindings (PhoshHome *self)
+{
+  g_auto (GStrv) bindings = NULL;
+  g_autoptr (GSettings) settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
+
+  bindings = g_settings_get_strv (settings, KEYBINDING_KEY_TOGGLE_OVERVIEW);
+  for (int i = 0; i < g_strv_length (bindings); i++) {
+    GActionEntry entry = { bindings[i],
+                           toggle_overview_action, };
+    g_array_append_val (self->actions, entry);
+  }
+
+  bindings = g_settings_get_strv (settings, KEYBINDING_KEY_TOGGLE_APPLICATION_VIEW);
+  for (int i = 0; i < g_strv_length (bindings); i++) {
+    GActionEntry entry = { bindings[i],
+                           toggle_application_view_action, };
+    g_array_append_val (self->actions, entry);
+  }
+
+  phosh_shell_add_global_keyboard_action_entries (phosh_shell_get_default (),
+                                                  (GActionEntry*)self->actions->data,
+                                                  self->actions->len,
+                                                  self);
+}
+
+
+static void
+on_keybindings_changed (PhoshHome  *self,
+                        gchar     *key,
+                        GSettings *settings)
+{
+  /* For now just redo all keybindings */
+  g_debug ("Updating keybindings");
+  phosh_shell_remove_global_keyboard_action_entries (phosh_shell_get_default (),
+                                                     (GActionEntry*)self->actions->data,
+                                                     self->actions->len);
+  g_array_set_size (self->actions, 0);
+  add_keybindings (self);
+}
+
+
+static void
 phosh_home_constructed (GObject *object)
 {
   PhoshHome *self = PHOSH_HOME (object);
@@ -218,9 +297,36 @@ phosh_home_constructed (GObject *object)
                     G_CALLBACK (key_press_event_cb),
                     NULL);
 
+  g_object_connect (self->settings,
+                    "swapped-signal::changed::" KEYBINDING_KEY_TOGGLE_OVERVIEW,
+                    on_keybindings_changed, self,
+                    "swapped-signal::changed::" KEYBINDING_KEY_TOGGLE_APPLICATION_VIEW,
+                    on_keybindings_changed, self,
+                    NULL);
+  add_keybindings (self);
+
   phosh_connect_button_feedback (GTK_BUTTON (self->btn_home));
 
+
   G_OBJECT_CLASS (phosh_home_parent_class)->constructed (object);
+}
+
+
+static void
+phosh_home_dispose (GObject *object)
+{
+  PhoshHome *self = PHOSH_HOME (object);
+
+  g_clear_object (&self->settings);
+
+  if (self->actions) {
+    phosh_shell_remove_global_keyboard_action_entries (phosh_shell_get_default (),
+                                                       (GActionEntry*)self->actions->data,
+                                                       self->actions->len);
+    g_clear_pointer (&self->actions, g_array_unref);
+  }
+
+  G_OBJECT_CLASS (phosh_home_parent_class)->dispose (object);
 }
 
 
@@ -231,6 +337,7 @@ phosh_home_class_init (PhoshHomeClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->constructed = phosh_home_constructed;
+  object_class->dispose = phosh_home_dispose;
 
   object_class->set_property = phosh_home_set_property;
   object_class->get_property = phosh_home_get_property;
@@ -269,6 +376,8 @@ phosh_home_init (PhoshHome *self)
 {
   self->state = PHOSH_HOME_STATE_FOLDED;
   self->animation.progress = 1.0;
+  self->actions = g_array_new (FALSE, TRUE, sizeof (GActionEntry));
+  self->settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
 
   gtk_widget_init_template (GTK_WIDGET (self));
 }
