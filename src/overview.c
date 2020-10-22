@@ -435,6 +435,13 @@ phosh_overview_init (PhoshOverview *self)
 }
 
 
+GtkWidget *
+phosh_overview_new (void)
+{
+  return g_object_new (PHOSH_TYPE_OVERVIEW, NULL);
+}
+
+
 void
 phosh_overview_reset (PhoshOverview *self)
 {
@@ -445,11 +452,4 @@ phosh_overview_reset (PhoshOverview *self)
 
   if (priv->activity)
     gtk_widget_grab_focus (GTK_WIDGET (priv->activity));
-}
-
-
-GtkWidget *
-phosh_overview_new (void)
-{
-  return g_object_new (PHOSH_TYPE_OVERVIEW, NULL);
 }
