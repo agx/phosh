@@ -460,6 +460,10 @@ phosh_settings_dispose (GObject *object)
     g_clear_object (&self->notify_event);
   }
 
+  phosh_shell_remove_global_keyboard_action_entries (phosh_shell_get_default (),
+                                                     action_entries,
+                                                     G_N_ELEMENTS (action_entries));
+
   G_OBJECT_CLASS (phosh_settings_parent_class)->dispose (object);
 }
 
