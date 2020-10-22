@@ -400,6 +400,13 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
 }
 
 
+GtkWidget *
+phosh_app_grid_new (void)
+{
+  return g_object_new (PHOSH_TYPE_APP_GRID, NULL);
+}
+
+
 void
 phosh_app_grid_reset (PhoshAppGrid *self)
 {
@@ -415,11 +422,4 @@ phosh_app_grid_reset (PhoshAppGrid *self)
   gtk_adjustment_set_value (adjustment, 0);
   gtk_entry_set_text (GTK_ENTRY (priv->search), "");
   g_clear_pointer (&priv->search_string, g_free);
-}
-
-
-GtkWidget *
-phosh_app_grid_new (void)
-{
-  return g_object_new (PHOSH_TYPE_APP_GRID, NULL);
 }
