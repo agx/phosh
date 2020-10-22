@@ -453,3 +453,13 @@ phosh_overview_reset (PhoshOverview *self)
   if (priv->activity)
     gtk_widget_grab_focus (GTK_WIDGET (priv->activity));
 }
+
+void
+phosh_overview_focus_app_search (PhoshOverview *self)
+{
+  PhoshOverviewPrivate *priv;
+
+  g_return_if_fail(PHOSH_IS_OVERVIEW (self));
+  priv = phosh_overview_get_instance_private (self);
+  phosh_app_grid_focus_search (PHOSH_APP_GRID (priv->app_grid));
+}

@@ -423,3 +423,14 @@ phosh_app_grid_reset (PhoshAppGrid *self)
   gtk_entry_set_text (GTK_ENTRY (priv->search), "");
   g_clear_pointer (&priv->search_string, g_free);
 }
+
+
+void
+phosh_app_grid_focus_search (PhoshAppGrid *self)
+{
+  PhoshAppGridPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_APP_GRID (self));
+  priv = phosh_app_grid_get_instance_private (self);
+  gtk_widget_grab_focus (priv->search);
+}
