@@ -46,6 +46,7 @@ handle_accelerator_activated_event (void *data,
   g_debug ("Accelerator %d activated: %s", action_id, action);
 
   g_return_if_fail (g_action_group_has_action (G_ACTION_GROUP (self), action));
+
   g_action_group_activate_action (G_ACTION_GROUP (self), action, NULL);
 }
 

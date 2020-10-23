@@ -635,7 +635,7 @@ phosh_shell_constructed (GObject *object)
   priv->polkit_auth_agent = phosh_polkit_auth_agent_new ();
 
   priv->feedback_manager = phosh_feedback_manager_new ();
-  priv->gnome_shell_manager = phosh_gnome_shell_manager_new ();
+  priv->gnome_shell_manager = phosh_gnome_shell_manager_get_default ();
 
   if (priv->builtin_monitor) {
     g_signal_connect_swapped (

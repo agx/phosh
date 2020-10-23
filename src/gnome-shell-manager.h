@@ -1,9 +1,10 @@
 /*
- * Copyright (C) 2018 Purism SPC
+ * Copyright (C) 2020 Purism SPC
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
  * Author: Guido Günther <agx@sigxcpu.org>
+ *         Evangelos Ribeiro Tzaras <devrtz@fortysixandtwo.eu>
  */
 #pragma once
 
@@ -16,6 +17,6 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhoshGnomeShellManager, phosh_gnome_shell_manager, PHOSH, GNOME_SHELL_MANAGER,
                       PhoshGnomeShellDBusShellSkeleton)
 
-PhoshGnomeShellManager *phosh_gnome_shell_manager_new      (void);
+PhoshGnomeShellManager *phosh_gnome_shell_manager_get_default      (void);
 
 G_END_DECLS
