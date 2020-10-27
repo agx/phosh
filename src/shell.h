@@ -47,6 +47,7 @@ void                 phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMon
 PhoshMonitor        *phosh_shell_get_primary_monitor (PhoshShell *self);
 PhoshMonitor        *phosh_shell_get_builtin_monitor (PhoshShell *self);
 PhoshLockscreenManager *phosh_shell_get_lockscreen_manager (PhoshShell *self);
+PhoshModeManager    *phosh_shell_get_mode_manager    (PhoshShell *self);
 PhoshMonitorManager *phosh_shell_get_monitor_manager (PhoshShell *self);
 PhoshOskManager     *phosh_shell_get_osk_manager     (PhoshShell *self);
 PhoshToplevelManager *phosh_shell_get_toplevel_manager (PhoshShell *self);
