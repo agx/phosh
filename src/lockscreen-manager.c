@@ -177,6 +177,14 @@ on_primary_monitor_power_mode_changed (PhoshLockscreenManager *self,
                                        PhoshMonitor           *monitor)
 {
   PhoshShell *shell = phosh_shell_get_default ();
+  PhoshModeManager *mode_manager = phosh_shell_get_mode_manager(shell);
+
+  /*
+   * Only phones need to switch orientation so that the lock screen fits
+   * https://source.puri.sm/Librem5/phosh/-/issues/388
+   */
+  if (phosh_mode_manager_get_device_type(mode_manager) != PHOSH_MODE_DEVICE_TYPE_PHONE)
+    return;
 
   switch (phosh_monitor_get_power_save_mode (monitor)) {
   case PHOSH_MONITOR_POWER_SAVE_MODE_ON:
