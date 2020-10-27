@@ -1,3 +1,113 @@
+phosh (0.5.0) amber-phone; urgency=medium
+
+  [ Guido Günther ]
+  * build: Sort enums alphabetically
+  * enums: Sort types alphabetically
+  * torch-manager: Cleanup DBus proxy
+  * feedback-manager: Chain up constructed
+  * shell: Don't show notification when settings menu is open.
+    This avoids a notification banner when the notificaiton list
+    is already open.
+  * settings: Use g_signal_connect_object.
+    The panel might go away (e.g. when moved between outputs). This
+    makes sure the notification list does not send to an already
+    disposed object.
+  * settings: Make sure we fill the notification list initially.
+    Otherwise it remains empty e.g. when we move the primary display.
+  * lockscreen-manager: Use correct level for debug message
+  * wayland: Drop unused property setter
+  * settings: Enforce four quick settings per row.
+    We allowed to go down to three which makes things look bad when quick
+    settings information gets too wide (e.g. wifi SSID).
+  * debian: Support nodoc build profile.
+    The doc build takes ages and it's often not needed on the device
+  * monitor: Drop duplicate setting of wl_output_done
+  * wayland: Drop priv
+    for less code. And rather check for the right type in public methods
+    instead.
+  * osk-button: Show/hide depending on a11y setting.
+    This makes sure we don't show the button even though
+    squeekboard would not unfold. (Closes: #363)
+  * osk-manager: Simplify on_osk_show
+  * osk-manager: Fix lockscreen_manager typo
+  * osk-manager: Use g_autoptr
+  * osk-manager: Only hide the keyboard when we lock the screen.
+    So far we hid it on every state change.
+  * osk-manager: Handle visibility property directly.
+    This makes the visibility property r/o and makes sure
+    it gets updated when the corresponding DBus property actually changes
+    (after the async call or when we're told it changed from the OSK).
+    This makes sure they stay in sync. This is also simpler since we don't
+    need to bother with variant parsing, etc.
+  * overview: Focus current activity.
+    This allows to keyboard navigate on the home screen
+  * Switch keyboard-events to GAction.
+    This allows to register global keyboard events from different
+    parts of the shell easily and moves it's handling out of
+    the overcrowded settings.
+  * keyboard-events: Ungrab accelerator when GAction is removed
+  * overview: Move public functions past `_new`
+    As per coding style
+  * app-grid: Move public functions past `_new`
+    As per conding style.
+  * overview: Add helper to focus app search
+  * settings: Ungrab keyboard events (Closes: #398)
+  * home: Bind key to show overview.
+    We use org.gnome.shell.keybindings `toggle-overview` and
+    `toggle-application-view` to focus the application switcher
+    and app search respectively.
+  * d/control: Depend on phoc that doesn't crash when unbinding keyboard grabs
+  * shell: Create toplevel manager early.
+    So far we were lucky that no wl_display_roundtrip () would let
+    us miss existing toplevels.
+  * shell: Process all pending wayland events on startup.
+    This is needed to get reliable monitor information.
+  * shell: Pick correct built in monitor.
+    Simplify the code now that we know we have all the monitor
+    information (Closes: #392)
+  * panel: Fix typo
+  * monitor-manager: Add property for number of monitors.
+    This allows to listen to a single signal when the number
+    of monitors changed.
+  * monitor-manager: move DBus setup into idle callback.
+    This makes sure we expose the DBus interface past setting
+    up all the monitor related wayland protocol listeners
+  * wayland: Add G_{BEGIN,END}_DECLS
+  * wayland: Provide seat capabilities.
+    We don't bother to introduce a separate PhoshWlSeat object
+    for that yet.
+  * dbus: Add org.freedesktop.hostname1 interface.
+    So we can cherry the chassis type
+  * data: Add symbolic phone icons.
+    From
+    https://gitlab.gnome.org/Teams/Design/icon-development-kit/
+    as of
+    0831cbb900e02aaa37bd270a25171c1751394cb8
+  * Add mode-manager to handle different device modes.
+    This uses logind's chassis type and informtion about
+    connected hardware to dermine the device type and
+    what the device acts like (e.g. a phone with monitor
+    and keyboard/mouse should be handled like a desktop).
+  * Add 'docked' quick setting and manager.
+    Docked manager figures out if a device has enough
+    hardware around to be treated as desktop/laptop.
+    If so it sets the corresponding settings like
+    floating windows, etc.
+    The quick setting allows to override this.
+  * status-bar: Add docked icon when docked.
+    Show no icon when undocked
+  * osk-button: Show/hide depending on a11y setting.
+    This makes sure we don't show the button even though
+    squeekboard would not unfold. (Closes: #363)
+  * schema: Add adaptive apps filter entry.
+    This will allow the shell to have a positive list of adaptive
+    apps in case their desktop files aren't up to date yet.
+
+  [ Марко М. Костић (Marko M. Kostić) ]
+  * po: Update Serbian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 27 Oct 2020 10:13:19 +0100
+
 phosh (0.4.5) amber-phone; urgency=medium
 
   [ Anders Jonsson ]
