@@ -105,7 +105,7 @@ on_availability_changed (PhoshOskManager *self, GParamSpec *pspec, gpointer unus
   g_return_if_fail (PHOSH_IS_OSK_MANAGER (self));
 
   /* When there's no OSK we always want the manager to be unpressed */
-  if (!self->available || phosh_lockscreen_manager_get_locked (self->lockscreen_manager))
+  if (!self->available)
     set_visible_real (self, FALSE);
 }
 
@@ -119,12 +119,7 @@ on_visible_changed (PhoshOskManager *self, GParamSpec *pspec, PhoshOsk0SmPuriOSK
   g_return_if_fail (G_IS_DBUS_PROXY (proxy));
 
   visible = phosh_osk0_sm_puri_osk0_get_visible (proxy);
-  /* Make sure the OSK stays hidden on the lockscreen... */
-  if (visible && phosh_lockscreen_manager_get_locked (self->lockscreen_manager)) {
-    set_visible_real (self, FALSE);
-    return;
-  }
-  /* ...otherwise just sync the properties */
+  /* Just need to sync the property, osk shows/hides itself */
   if (visible != self->visible) {
     self->visible = visible;
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_OSK_MANAGER_PROP_VISIBLE]);
