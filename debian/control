@@ -38,6 +38,7 @@ Depends:
  ${shlibs:Depends},
  fonts-lato,
  gsettings-desktop-schemas,
+ gnome-shell-common,
  phoc (>= 0.4.4~),
 Recommends:
  feedbackd,
