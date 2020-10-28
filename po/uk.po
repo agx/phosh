@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-10-08 15:31+0000\n"
-"PO-Revision-Date: 2020-10-09 15:22+0300\n"
+"POT-Creation-Date: 2020-10-27 15:31+0000\n"
+"PO-Revision-Date: 2020-10-28 18:28+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -44,6 +44,14 @@ msgstr "Увімкнено"
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Зафіксовано"
+
+#: src/docked-info.c:195
+msgid "Undocked"
+msgstr "Від'єднано"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -83,12 +91,12 @@ msgstr "Невідома назва"
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
-#: src/monitor-manager.c:64
+#: src/monitor-manager.c:71
 msgid "Built-in display"
 msgstr "Вбудований дисплей"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:68
+#: src/monitor-manager.c:75
 msgid "Unknown"
 msgstr "Нетиповий"
 
