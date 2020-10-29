@@ -104,9 +104,9 @@ on_availability_changed (PhoshOskManager *self, GParamSpec *pspec, gpointer unus
 {
   g_return_if_fail (PHOSH_IS_OSK_MANAGER (self));
 
-  /* When there's no OSK we always want the manager to be unpressed */
+  /* Sync on visibility when osk is unavailable so buttons, etc look correct */
   if (!self->available)
-    set_visible_real (self, FALSE);
+    phosh_osk_manager_set_visible (self, FALSE);
 }
 
 
@@ -134,7 +134,7 @@ on_lockscreen_manager_locked_changed (PhoshOskManager *self, GParamSpec *pspec, 
 
   /* Hide OSK on lock screen lock */
   if (phosh_lockscreen_manager_get_locked (self->lockscreen_manager))
-      set_visible_real (self, FALSE);
+    set_visible_real (self, FALSE);
 }
 
 
