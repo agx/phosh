@@ -15,9 +15,6 @@
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 
-#define VIRTBOARD_DBUS_NAME      "sm.puri.OSK0"
-#define VIRTBOARD_DBUS_OBJECT    "/sm/puri/OSK0"
-
 /**
  * SECTION:osk-button
  * @short_description: A button that toggles the OSK
