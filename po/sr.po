@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-10-08 15:31+0000\n"
-"PO-Revision-Date: 2020-10-25 05:32+0100\n"
+"POT-Creation-Date: 2020-10-29 15:33+0000\n"
+"PO-Revision-Date: 2020-10-30 02:03+0100\n"
 "Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "Language-Team: Serbian <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
@@ -44,6 +44,14 @@ msgstr "Укљ."
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Блутут"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Усидрен"
+
+#: src/docked-info.c:195
+msgid "Undocked"
+msgstr "Одсидрен"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -83,12 +91,12 @@ msgstr "Непознат наслов"
 msgid "Unknown Artist"
 msgstr "Непознат извођач"
 
-#: src/monitor-manager.c:64
+#: src/monitor-manager.c:71
 msgid "Built-in display"
 msgstr "Уграђени екран"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:68
+#: src/monitor-manager.c:75
 msgid "Unknown"
 msgstr "Непознато"
 
