@@ -1,3 +1,32 @@
+phosh (0.5.1) amber-phone; urgency=medium
+
+  [ Guido Günther ]
+  * debian: Depend on gnome-shell-common.
+    We use that schema for the keybindings.
+  * ci: Don't depend on gnome-session.
+    This would have avoided the missing schema regression
+  * osk-button: Remove unused defines
+  * Don't hide OSK on lock screen.
+    Let is pop up if requested, only hide it when locking.
+    Closes: #406
+  * osk-manager: Fix availability->visibility sync.
+    Things like osk-button should look unpressed when the dbus name
+    goes away.
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+  [ Марко М. Костић (Marko M. Kostić) ]
+  * po: Update Serbian translation
+
+  [ Arnaud Ferraris ]
+  * docked-manager: make tablets dockable too.
+    The current code considers that only phones are dockable. This patch
+    improves the device mode check so that tablets also benefit from auto mode
+    switch (tested on the PineTab).
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 03 Nov 2020 17:18:48 +0100
+
 phosh (0.5.0) amber-phone; urgency=medium
 
   [ Guido Günther ]
