@@ -121,7 +121,8 @@ mode_changed_cb (PhoshDockedManager *self, GParamSpec *pspec, PhoshModeManager *
    * Desktops, laptops and phones with enough external hardware should get floating
    * windows, etc
    */
-  if (phosh_mode_manager_get_mimicry (manager) != PHOSH_MODE_DEVICE_TYPE_PHONE)
+  if (phosh_mode_manager_get_mimicry (manager) != PHOSH_MODE_DEVICE_TYPE_PHONE &&
+      phosh_mode_manager_get_mimicry (manager) != PHOSH_MODE_DEVICE_TYPE_TABLET)
     can_dock = TRUE;
 
   if (can_dock == self->can_dock)
