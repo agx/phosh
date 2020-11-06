@@ -53,6 +53,7 @@ typedef struct
   GtkWidget *icon;
   GtkWidget *app_name;
   GtkWidget *box;
+  GtkWidget *revealer;
 
   gboolean maximized;
   int win_width;
@@ -64,6 +65,8 @@ typedef struct
 
   cairo_surface_t *surface;
   PhoshThumbnail *thumbnail;
+
+  gboolean hovering;
 } PhoshActivityPrivate;
 
 
@@ -371,6 +374,77 @@ phosh_activity_get_preferred_height_for_width (GtkWidget *widget,
 
 
 static void
+set_hovering (PhoshActivity *self,
+              gboolean       hovering)
+{
+  PhoshActivityPrivate *priv = phosh_activity_get_instance_private(self);
+
+  if (hovering == priv->hovering)
+    return;
+
+  priv->hovering = hovering;
+
+  // Revealer won't animate if not mapped, show it preemptively
+  if (hovering)
+    gtk_widget_show (priv->revealer);
+
+  gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer), hovering);
+}
+
+
+static gboolean
+phosh_activity_enter_notify_event (GtkWidget        *widget,
+                                   GdkEventCrossing *event)
+{
+  if (event->window != gtk_widget_get_window (widget) ||
+      event->detail == GDK_NOTIFY_INFERIOR)
+    return GDK_EVENT_PROPAGATE;
+
+  /* enter-notify never happens on touch, so we don't need to check it */
+  set_hovering (PHOSH_ACTIVITY (widget), TRUE);
+
+  return GDK_EVENT_PROPAGATE;
+}
+
+
+static gboolean
+phosh_activity_leave_notify_event (GtkWidget        *widget,
+                                   GdkEventCrossing *event)
+{
+  if (event->window != gtk_widget_get_window (widget) ||
+      event->detail == GDK_NOTIFY_INFERIOR)
+    return GDK_EVENT_PROPAGATE;
+
+  set_hovering (PHOSH_ACTIVITY (widget), FALSE);
+
+  return GDK_EVENT_PROPAGATE;
+}
+
+
+static gboolean
+phosh_activity_motion_notify_event (GtkWidget      *widget,
+                                    GdkEventMotion *event)
+{
+  GdkDevice *source_device = gdk_event_get_source_device ((GdkEvent *) event);
+  GdkInputSource input_source = gdk_device_get_source (source_device);
+
+  if (input_source != GDK_SOURCE_TOUCHSCREEN)
+    set_hovering (PHOSH_ACTIVITY (widget), TRUE);
+
+  return GDK_EVENT_PROPAGATE;
+}
+
+
+static void
+phosh_activity_unmap (GtkWidget *widget)
+{
+  set_hovering (PHOSH_ACTIVITY (widget), FALSE);
+
+  GTK_WIDGET_CLASS (phosh_activity_parent_class)->unmap (widget);
+}
+
+
+static void
 phosh_activity_class_init (PhoshActivityClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
@@ -387,6 +461,10 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   widget_class->get_preferred_height = phosh_activity_get_preferred_height;
   widget_class->get_preferred_height_for_width = phosh_activity_get_preferred_height_for_width;
   widget_class->get_preferred_width_for_height = phosh_activity_get_preferred_width_for_height;
+  widget_class->enter_notify_event = phosh_activity_enter_notify_event;
+  widget_class->leave_notify_event = phosh_activity_leave_notify_event;
+  widget_class->motion_notify_event = phosh_activity_motion_notify_event;
+  widget_class->unmap = phosh_activity_unmap;
 
   props[PROP_APP_ID] =
     g_param_spec_string (
@@ -452,6 +530,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, app_name);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, icon);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, box);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, revealer);
   gtk_widget_class_bind_template_callback (widget_class, clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, draw_cb);
   gtk_widget_class_bind_template_callback (widget_class, closed_cb);

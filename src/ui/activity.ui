@@ -70,24 +70,31 @@
                   </packing>
                 </child>
                 <child type="overlay">
-                  <object class="GtkButton" id="btn_close">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="receives_default">False</property>
+                  <object class="GtkRevealer" id="revealer">
+                    <property name="transition-type">crossfade</property>
+                    <property name="visible" bind-source="revealer" bind-property="child-revealed" bind-flags="sync-create"/>
                     <property name="halign">end</property>
                     <property name="valign">start</property>
-                    <signal name="clicked" handler="closed_cb" swapped="true"/>
+                    <property name="margin">12</property>
                     <child>
-                      <object class="GtkImage" id="img_close_icon">
+                      <object class="GtkButton" id="btn_close">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="icon_name">window-close-symbolic</property>
+                        <property name="receives_default">False</property>
+                        <signal name="clicked" handler="closed_cb" swapped="true"/>
+                        <child>
+                          <object class="GtkImage" id="img_close_icon">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon_name">window-close-symbolic</property>
+                          </object>
+                        </child>
+                        <style>
+                          <class name="phosh-activity-close-button"/>
+                          <class name="osd"/>
+                        </style>
                       </object>
                     </child>
-                    <style>
-                      <class name="phosh-activity-close-button"/>
-                      <class name="osd"/>
-                    </style>
                   </object>
                   <packing>
                     <property name="pass_through">True</property>
