@@ -14,6 +14,7 @@
         <property name="spacing">18</property>
         <property name="valign">fill</property>
         <property name="vexpand">true</property>
+        <property name="reveal-duration">200</property>
       </object>
       <packing>
         <property name="expand">True</property>
