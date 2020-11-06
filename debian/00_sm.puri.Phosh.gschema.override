@@ -1,0 +1,7 @@
+[org.gnome.desktop.a11y.applications]
+screen-keyboard-enabled=true
+
+[org.gnome.desktop.interface]
+clock-show-date=false
+clock-show-weekday=false
+
