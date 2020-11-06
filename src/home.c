@@ -305,7 +305,7 @@ phosh_home_constructed (GObject *object)
                     NULL);
   add_keybindings (self);
 
-  phosh_connect_button_feedback (GTK_BUTTON (self->btn_home));
+  phosh_connect_feedback (self->btn_home);
 
 
   G_OBJECT_CLASS (phosh_home_parent_class)->constructed (object);

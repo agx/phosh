@@ -56,11 +56,12 @@ on_event_triggered (LfbEvent      *event,
 }
 
 
-static void
-on_button_event_triggered (GtkButton *button,
-                           const char* event)
+static gboolean
+on_button_event_triggered (const char* event)
 {
   phosh_trigger_feedback (event);
+
+  return GDK_EVENT_PROPAGATE;
 }
 
 
@@ -245,21 +246,21 @@ phosh_trigger_feedback (const char *name)
 
 /**
  * phosh_connect_feedback:
- * @button: The button that should trigger feedback
+ * @widget: The widget that should trigger feedback
  *
  * Installs "pressed" and "released" signal handlers
  * for haptic feedback.
  */
 void
-phosh_connect_button_feedback (GtkButton *button)
+phosh_connect_feedback (GtkWidget *widget)
 {
-  g_signal_connect (button,
-                    "pressed",
-                    G_CALLBACK (on_button_event_triggered),
-                    "button-pressed");
+  g_signal_connect_swapped (widget,
+                            "button-press-event",
+                            G_CALLBACK (on_button_event_triggered),
+                            "button-pressed");
 
-  g_signal_connect (button,
-                    "released",
-                    G_CALLBACK (on_button_event_triggered),
-                    "button-released");
+  g_signal_connect_swapped (widget,
+                            "button-release-event",
+                            G_CALLBACK (on_button_event_triggered),
+                            "button-released");
 }

@@ -248,7 +248,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   g_signal_connect (activity, "size-allocate", G_CALLBACK (on_activity_size_allocated), toplevel);
   g_signal_connect_swapped (activity, "notify::has-focus", G_CALLBACK (on_activity_has_focus_changed), self);
 
-  phosh_connect_button_feedback (GTK_BUTTON (activity));
+  phosh_connect_feedback (activity);
 
   if (phosh_toplevel_is_activated (toplevel)) {
     hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel_running_activities), activity);
