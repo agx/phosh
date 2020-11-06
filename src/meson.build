@@ -44,6 +44,8 @@ libphosh_generated_sources = [
 libphosh_tool_sources = [
   'activity.c',
   'activity.h',
+  'animation.c',
+  'animation.h',
   'app-grid.c',
   'app-grid.h',
   'app-grid-button.c',
