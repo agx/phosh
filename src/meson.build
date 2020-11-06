@@ -84,6 +84,8 @@ libphosh_tool_sources = [
   'quick-setting.h',
   'phosh-wayland.c',
   'phosh-wayland.h',
+  'swipe-away-bin.c',
+  'swipe-away-bin.h',
   'util.c',
   'util.h',
   phosh_gtk_list_models_sources,
