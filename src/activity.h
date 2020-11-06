@@ -10,7 +10,7 @@
 
 #define PHOSH_TYPE_ACTIVITY (phosh_activity_get_type())
 
-G_DECLARE_FINAL_TYPE (PhoshActivity, phosh_activity, PHOSH, ACTIVITY, GtkButton)
+G_DECLARE_FINAL_TYPE (PhoshActivity, phosh_activity, PHOSH, ACTIVITY, GtkEventBox)
 
 GtkWidget  *phosh_activity_new        (const char *app_id,
                                        const char *title);

@@ -70,7 +70,16 @@
 /*
  * Overview (app grid with favories and, activities)
  */
-phosh-activity {
+phosh-activity > widget > button {
+  background: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+}
+
+phosh-activity box button {
   background: white;
   border: none;
   border-radius: 0;

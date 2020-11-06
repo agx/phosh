@@ -119,7 +119,7 @@ on_activity_clicked (PhoshOverview *self, PhoshActivity *activity)
 
 
 static void
-on_activity_close_clicked (PhoshOverview *self, PhoshActivity *activity)
+on_activity_closed (PhoshOverview *self, PhoshActivity *activity)
 {
   PhoshToplevel *toplevel;
 
@@ -238,8 +238,8 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   gtk_widget_show (activity);
 
   g_signal_connect_swapped (activity, "clicked", G_CALLBACK (on_activity_clicked), self);
-  g_signal_connect_swapped (activity, "close-clicked",
-                            G_CALLBACK (on_activity_close_clicked), self);
+  g_signal_connect_swapped (activity, "closed",
+                            G_CALLBACK (on_activity_closed), self);
 
   g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), activity, 0);
   g_signal_connect_object (toplevel, "notify::activated", G_CALLBACK (on_toplevel_activated_changed), self, 0);
