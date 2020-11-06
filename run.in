@@ -25,5 +25,9 @@ fi
 
 export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data:${GSETTINGS_SCHEMA_DIR}"
 export G_MESSAGES_DEBUG=all
+if [ -z "${GSETTINGS_BACKEND}" ]; then
+  # Make sure we don't mess with the systems gsettings:
+  export GSETTINGS_BACKEND=memory
+fi
 set -x
 exec ${WRAPPER} "${ABS_BUILDDIR}/src/phosh" $@
