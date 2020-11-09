@@ -40,7 +40,7 @@ handle_accelerator_activated_event (void *data,
   const gchar *action;
   PhoshKeyboardEvents *self = PHOSH_KEYBOARD_EVENTS (data);
 
-  action = g_hash_table_lookup (self->accelerators, GINT_TO_POINTER (action_id));
+  action = g_hash_table_lookup (self->accelerators, GUINT_TO_POINTER (action_id));
   g_return_if_fail (action);
 
   g_debug ("Accelerator %d activated: %s", action_id, action);
@@ -79,7 +79,7 @@ handle_grab_success_event (void *data,
 {
   PhoshKeyboardEvents *self = PHOSH_KEYBOARD_EVENTS (data);
 
-  g_hash_table_insert (self->accelerators, GINT_TO_POINTER (action_id), g_strdup (accelerator));
+  g_hash_table_insert (self->accelerators, GUINT_TO_POINTER (action_id), g_strdup (accelerator));
 }
 
 
@@ -92,7 +92,7 @@ handle_ungrab_success_event (void *data,
 
   g_return_if_fail (PHOSH_IS_KEYBOARD_EVENTS (data));
   g_debug ("Ungrab of %d successful", action_id);
-  g_hash_table_remove (self->accelerators, GINT_TO_POINTER (action_id));
+  g_hash_table_remove (self->accelerators, GUINT_TO_POINTER (action_id));
 }
 
 
@@ -139,7 +139,7 @@ on_action_removed (PhoshKeyboardEvents *self,
   while (g_hash_table_iter_next (&iter, &key, &value)) {
     if (!g_strcmp0 (action_name, value)) {
       phosh_private_keyboard_event_ungrab_accelerator_request (self->kbevent,
-                                                               GPOINTER_TO_INT (key));
+                                                               GPOINTER_TO_UINT (key));
     }
   }
 }
