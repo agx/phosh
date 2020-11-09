@@ -139,6 +139,11 @@ upower_glib_dep = dependency('upower-glib', version: '>=0.99.1')
 wayland_client_dep = dependency('wayland-client', version: '>=1.14')
 wayland_protos_dep = dependency('wayland-protocols', version: '>=1.12')
 
+meson.add_install_script(
+  join_paths('build-aux', 'post_install.py'),
+  datadir
+)
+
 subdir('data')
 subdir('po')
 subdir('protocol')
