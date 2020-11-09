@@ -294,6 +294,14 @@ test:smoke:two-outputs:
 package:deb-debian-buster:
   extends: .l5-build-debian-package
 
+package:deb-debian-bullseye:arm64:
+  tags:
+    - librem5:arm64
+  variables:
+    L5_DOCKER_IMAGE: debian:bullseye
+    L5_ADD_SCRATCH_CI: 'false'
+  extends: .l5-build-debian-package
+
 package:deb-debian-buster:arm64:
   tags:
     - librem5:arm64
