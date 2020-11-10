@@ -79,7 +79,6 @@ lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (lockscreen));
   g_return_if_fail (lockscreen == PHOSH_LOCKSCREEN (self->lockscreen));
 
-  g_signal_handlers_disconnect_by_data (lockscreen, self);
   g_signal_handlers_disconnect_by_data (monitor_manager, self);
   g_clear_pointer (&self->lockscreen, phosh_cp_widget_destroy);
 
@@ -265,10 +264,7 @@ phosh_lockscreen_manager_dispose (GObject *object)
   PhoshLockscreenManager *self = PHOSH_LOCKSCREEN_MANAGER (object);
 
   g_clear_pointer (&self->shields, g_ptr_array_unref);
-  if (self->lockscreen) {
-    g_signal_handlers_disconnect_by_data (self->lockscreen, self);
-    g_clear_pointer (&self->lockscreen, phosh_cp_widget_destroy);
-  }
+  g_clear_pointer (&self->lockscreen, phosh_cp_widget_destroy);
   g_clear_object (&self->settings);
 
   G_OBJECT_CLASS (phosh_lockscreen_manager_parent_class)->dispose (object);
