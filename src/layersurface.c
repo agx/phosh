@@ -109,6 +109,7 @@ layer_surface_closed (void                         *data,
   PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
 
   g_return_if_fail (priv->layer_surface == surface);
+  g_debug ("Destroying layer surface '%s'", priv->namespace);
   zwlr_layer_surface_v1_destroy (priv->layer_surface);
   priv->layer_surface = NULL;
   gtk_widget_destroy (GTK_WIDGET (self));
