@@ -23,6 +23,10 @@
  * SECTION:lockscreen-manager
  * @short_description: The singleton that manages screen locking
  * @Title: PhoshLockscreenManager
+ *
+ * The #PhoshLockscreenManager is responsible for putting the #PhoshLockscreen
+ * on the primary output and a #PhoshLockshield on other outputs when the session
+ * becomes idle or when invoked explicitly via phosh_lockscreen_manager_set_locked().
  */
 
 /* See https://people.gnome.org/~mccann/gnome-session/docs/gnome-session.html#org.gnome.SessionManager.Presence:status */
