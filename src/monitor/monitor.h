@@ -149,5 +149,6 @@ gboolean           phosh_monitor_is_flipped (PhoshMonitor *self);
 guint              phosh_monitor_get_transform (PhoshMonitor *self);
 void               phosh_monitor_set_power_save_mode (PhoshMonitor *self,
                                                       PhoshMonitorPowerSaveMode mode);
+PhoshMonitorPowerSaveMode phosh_monitor_get_power_save_mode (PhoshMonitor *self);
 
 G_END_DECLS

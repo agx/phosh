@@ -572,3 +572,15 @@ phosh_monitor_set_power_save_mode (PhoshMonitor *self, PhoshMonitorPowerSaveMode
 
   zwlr_output_power_v1_set_mode (self->wlr_output_power, wl_mode);
 }
+
+/**
+ * phosh_monitor_get_power_save_mode:
+ * @self: A #PhoshMonitor
+ *
+ * Returns: The current power save mode
+ */
+PhoshMonitorPowerSaveMode
+phosh_monitor_get_power_save_mode (PhoshMonitor *self)
+{
+  return self->power_mode;
+}
