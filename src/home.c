@@ -43,6 +43,7 @@ static guint signals[N_SIGNALS] = { 0 };
 enum {
   PROP_0,
   PROP_HOME_STATE,
+  PROP_OSK_ENABLED,
   PROP_LAST_PROP,
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -67,8 +68,21 @@ struct _PhoshHome
   /* Keybinding */
   GArray         *actions;
   GSettings      *settings;
+
+  /* osk button */
+  gboolean        osk_enabled;
 };
 G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_LAYER_SURFACE);
+
+
+static void
+phosh_home_update_osk_button (PhoshHome *self)
+{
+  if (self->osk_enabled && self->state == PHOSH_HOME_STATE_FOLDED)
+    gtk_widget_show (self->btn_osk);
+  else
+    gtk_widget_hide (self->btn_osk);
+}
 
 
 static void
@@ -83,6 +97,11 @@ phosh_home_set_property (GObject *object,
     case PROP_HOME_STATE:
       self->state = g_value_get_enum (value);
       g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
+      break;
+    case PROP_OSK_ENABLED:
+      self->osk_enabled = g_value_get_boolean (value);
+      phosh_home_update_osk_button (self);
+      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_OSK_ENABLED]);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -102,6 +121,9 @@ phosh_home_get_property (GObject *object,
   switch (property_id) {
     case PROP_HOME_STATE:
       g_value_set_enum (value, self->state);
+      break;
+    case PROP_OSK_ENABLED:
+      g_value_set_boolean (value, self->osk_enabled);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -256,6 +278,19 @@ on_keybindings_changed (PhoshHome  *self,
 }
 
 
+static gboolean
+on_idle (PhoshOskButton *self)
+{
+  g_autoptr (GSettings) settings = NULL;
+
+  settings = g_settings_new ("org.gnome.desktop.a11y.applications");
+  g_settings_bind (settings, "screen-keyboard-enabled",
+                   self, "osk-enabled", G_SETTINGS_BIND_GET);
+
+  return FALSE;
+}
+
+
 static void
 phosh_home_constructed (GObject *object)
 {
@@ -307,6 +342,7 @@ phosh_home_constructed (GObject *object)
 
   phosh_connect_feedback (self->btn_home);
 
+  g_idle_add ((GSourceFunc) on_idle, self);
 
   G_OBJECT_CLASS (phosh_home_parent_class)->constructed (object);
 }
@@ -353,6 +389,13 @@ phosh_home_class_init (PhoshHomeClass *klass)
                        PHOSH_TYPE_HOME_STATE,
                        PHOSH_HOME_STATE_FOLDED,
                        G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PROP_OSK_ENABLED] =
+    g_param_spec_boolean ("osk-enabled",
+                          "OSK enabled",
+                          "Whether the on screen keyboard is enabled",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
@@ -460,13 +503,12 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   gtk_widget_add_tick_callback (GTK_WIDGET (self), animate_cb, NULL, NULL);
 
   if (state == PHOSH_HOME_STATE_UNFOLDED) {
-    gtk_widget_hide (self->btn_osk);
     kbd_interactivity = TRUE;
     phosh_overview_reset (PHOSH_OVERVIEW (self->overview));
   } else {
-    gtk_widget_show (self->btn_osk);
     kbd_interactivity = FALSE;
   }
+  phosh_home_update_osk_button (self);
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);

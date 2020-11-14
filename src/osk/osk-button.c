@@ -78,19 +78,6 @@ on_osk_visibility_changed (PhoshOskButton *self, GParamSpec *pspec, PhoshOskMana
 }
 
 
-static gboolean
-on_idle (PhoshOskButton *self)
-{
-  g_autoptr (GSettings) settings = NULL;
-
-  settings = g_settings_new ("org.gnome.desktop.a11y.applications");
-  g_settings_bind (settings, "screen-keyboard-enabled",
-                   self, "visible", G_SETTINGS_BIND_GET);
-
-  return FALSE;
-}
-
-
 static void
 phosh_osk_button_constructed (GObject *object)
 {
@@ -126,8 +113,6 @@ phosh_osk_button_constructed (GObject *object)
 
   on_osk_availability_changed (self, NULL, self->osk);
   on_osk_visibility_changed (self, NULL, self->osk);
-
-  g_idle_add ((GSourceFunc) on_idle, self);
 }
 
 
