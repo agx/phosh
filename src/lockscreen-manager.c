@@ -186,6 +186,10 @@ on_primary_monitor_power_mode_changed (PhoshLockscreenManager *self,
   if (phosh_mode_manager_get_device_type(mode_manager) != PHOSH_MODE_DEVICE_TYPE_PHONE)
     return;
 
+  /* Don't mess with transforms on external screens either */
+  if (!phosh_monitor_is_builtin (monitor))
+    return;
+
   switch (phosh_monitor_get_power_save_mode (monitor)) {
   case PHOSH_MONITOR_POWER_SAVE_MODE_ON:
     phosh_shell_set_transform (shell, PHOSH_MONITOR_TRANSFORM_NORMAL);
