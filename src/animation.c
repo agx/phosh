@@ -24,6 +24,7 @@ struct _PhoshAnimation
   double value_from;
   double value_to;
   gint64 duration;
+  PhoshAnimationType type;
 
   gint64 start_time;
   guint tick_cb_id;
@@ -42,6 +43,49 @@ set_value (PhoshAnimation *self,
 }
 
 #define LERP(a, b, t) (a) * (1.0 - (t)) + (b) * (t)
+
+/* Adapted from https://github.com/janrembold/es6-easings/blob/master/src/index.ts#L135 */
+/* TODO: Move to libhandy at some point */
+static double
+ease_out_bounce (double t)
+{
+  double p;
+
+  if (t < 1.0 / 2.75)
+    return 7.5625 * t * t;
+
+  if (t < 2.0 / 2.75) {
+    p = t - (1.5 / 2.75);
+
+    return 7.5625 * p * p + 0.75;
+  }
+
+  if (t < 2.5 / 2.75) {
+    p = t - (2.25 / 2.75);
+
+    return 7.5625 * p * p + 0.9375;
+  }
+
+  p = t - (2.625 / 2.75);
+
+  return 7.5625 * p * p + 0.984375;
+}
+
+static inline double
+interpolate (PhoshAnimationType type,
+             double             t)
+{
+  switch (type) {
+  case PHOSH_ANIMATION_TYPE_EASE_OUT_CUBIC:
+    return hdy_ease_out_cubic (t);
+
+  case PHOSH_ANIMATION_TYPE_EASE_OUT_BOUNCE:
+    return ease_out_bounce (t);
+
+  default:
+    g_assert_not_reached ();
+  }
+}
 
 static gboolean
 tick_cb (GtkWidget       *widget,
@@ -63,7 +107,7 @@ tick_cb (GtkWidget       *widget,
     return G_SOURCE_REMOVE;
   }
 
-  set_value (self, LERP (self->value_from, self->value_to, hdy_ease_out_cubic (t)));
+  set_value (self, LERP (self->value_from, self->value_to, interpolate (self->type, t)));
 
   return G_SOURCE_CONTINUE;
 }
@@ -81,6 +125,7 @@ phosh_animation_new (GtkWidget                   *widget,
                      double                       from,
                      double                       to,
                      gint64                       duration,
+                     PhoshAnimationType           type,
                      PhoshAnimationValueCallback  value_cb,
                      PhoshAnimationDoneCallback   done_cb,
                      gpointer                     user_data)
@@ -99,6 +144,7 @@ phosh_animation_new (GtkWidget                   *widget,
   self->value_from = from;
   self->value_to = to;
   self->duration = duration;
+  self->type = type;
   self->value_cb = value_cb;
   self->done_cb = done_cb;
   self->user_data = user_data;

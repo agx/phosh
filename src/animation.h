@@ -13,6 +13,18 @@ G_BEGIN_DECLS
 
 #define PHOSH_TYPE_ANIMATION (phosh_animation_get_type())
 
+/**
+ * PhoshAnimationType:
+ * @PHOSH_ANIMATION_TYPE_EASE_OUT_CUBIC: Use easeOutCubic interpolation.
+ * @PHOSH_ANIMATION_TYPE_EASE_OUT_BOUNCE: Use easeOutBounce interpolation.
+ *
+ * The animation type of #PhoshAnimationType.
+ */
+typedef enum {
+  PHOSH_ANIMATION_TYPE_EASE_OUT_CUBIC,
+  PHOSH_ANIMATION_TYPE_EASE_OUT_BOUNCE,
+} PhoshAnimationType;
+
 typedef struct _PhoshAnimation PhoshAnimation;
 
 typedef void (*PhoshAnimationValueCallback) (double   value,
@@ -25,6 +37,7 @@ PhoshAnimation *phosh_animation_new       (GtkWidget                   *widget,
                                            double                       from,
                                            double                       to,
                                            gint64                       duration,
+                                           PhoshAnimationType           type,
                                            PhoshAnimationValueCallback  value_cb,
                                            PhoshAnimationDoneCallback   done_cb,
                                            gpointer                     user_data);
