@@ -270,3 +270,15 @@ phosh_swipe_away_bin_remove (PhoshSwipeAwayBin *self)
 
   animate (self, 200, 1);
 }
+
+
+void
+phosh_swipe_away_bin_undo (PhoshSwipeAwayBin *self)
+{
+  g_return_if_fail (PHOSH_IS_SWIPE_AWAY_BIN (self));
+
+  if (self->animation)
+    phosh_animation_stop (self->animation);
+
+  animate (self, 200, 0);
+}

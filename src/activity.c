@@ -67,6 +67,7 @@ typedef struct
   PhoshThumbnail *thumbnail;
 
   gboolean hovering;
+  guint remove_timeout_id;
 } PhoshActivityPrivate;
 
 
@@ -171,9 +172,31 @@ closed_cb (PhoshActivity *self)
 }
 
 
+static gboolean
+remove_timeout_cb (PhoshActivity *self)
+{
+  PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
+
+  phosh_swipe_away_bin_undo (PHOSH_SWIPE_AWAY_BIN (priv->swipe_bin));
+
+  priv->remove_timeout_id = 0;
+
+  return G_SOURCE_REMOVE;
+}
+
+
 static void
 removed_cb (PhoshActivity *self)
 {
+  PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
+
+  if (priv->remove_timeout_id)
+    g_source_remove (priv->remove_timeout_id);
+
+  priv->remove_timeout_id =
+    g_timeout_add_seconds (1, (GSourceFunc) remove_timeout_cb, self);
+  g_source_set_name_by_id (priv->remove_timeout_id, "[phosh] remove_timeout_id");
+
   g_signal_emit (self, signals[CLOSED], 0);
 }
 
@@ -275,6 +298,11 @@ phosh_activity_dispose (GObject *object)
   g_clear_pointer (&priv->surface, cairo_surface_destroy);
   g_clear_object (&priv->thumbnail);
   g_clear_object (&priv->info);
+
+  if (priv->remove_timeout_id) {
+    g_source_remove (priv->remove_timeout_id);
+    priv->remove_timeout_id = 0;
+  }
 
   G_OBJECT_CLASS (phosh_activity_parent_class)->dispose (object);
 }
