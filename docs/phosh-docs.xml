@@ -94,7 +94,7 @@
       <xi:include href="xml/rotateinfo.xml"/>
       <xi:include href="xml/screen-saver-manager.xml"/>
       <xi:include href="xml/sensor-proxy-manager.xml"/>
-      <xi:include href="xml/session.xml"/>
+      <xi:include href="xml/session-manager.xml"/>
       <xi:include href="xml/settings.xml"/>
       <xi:include href="xml/shell-network-agent.xml"/>
       <xi:include href="xml/shell.xml"/>

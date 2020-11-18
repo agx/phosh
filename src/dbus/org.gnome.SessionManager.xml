@@ -12,6 +12,11 @@
       <arg type="u" direction="in"/>
       <arg type="b" direction="out"/>
     </method>
+    <method name="RegisterClient">
+      <arg type="s" name="app_id" direction="in"/>
+      <arg type="s" name="client_startup_id" direction="in"/>
+      <arg type="o" name="client_id" direction="out"/>
+    </method>
     <property name="SessionIsActive" type="b" access="read"/>
     <signal name="InhibitorAdded">
       <arg type="o" direction="out"/>

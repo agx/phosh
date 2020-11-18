@@ -17,5 +17,9 @@ G_DECLARE_FINAL_TYPE (PhoshSessionManager, phosh_session_manager,
 
 PhoshSessionManager *phosh_session_manager_new (void);
 gboolean phosh_session_manager_is_active (PhoshSessionManager *self);
+void     phosh_session_manager_register (PhoshSessionManager *self, const gchar *app_id, const gchar *startup_id);
+void     phosh_session_manager_logout (PhoshSessionManager *self);
+void     phosh_session_manager_shutdown (PhoshSessionManager *self);
+void     phosh_session_manager_reboot (PhoshSessionManager *self);
 
 G_END_DECLS

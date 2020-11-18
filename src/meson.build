@@ -146,8 +146,6 @@ libphosh_sources = [
   'screen-saver-manager.h',
   'session-presence.c',
   'session-presence.h',
-  'session.c',
-  'session.h',
   'session-manager.c',
   'session-manager.h',
   'shell.c',

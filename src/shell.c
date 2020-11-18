@@ -49,7 +49,6 @@
 #include "proximity.h"
 #include "sensor-proxy-manager.h"
 #include "screen-saver-manager.h"
-#include "session.h"
 #include "session-manager.h"
 #include "system-prompter.h"
 #include "torch-manager.h"
@@ -365,7 +364,6 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->proximity);
   g_clear_object (&priv->sensor_proxy_manager);
   phosh_system_prompter_unregister ();
-  phosh_session_unregister ();
   g_clear_object (&priv->session_manager);
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->dispose (object);
@@ -490,7 +488,10 @@ setup_idle_cb (PhoshShell *self)
   }
   priv->mount_manager = phosh_mount_manager_new ();
 
-  phosh_session_register (PHOSH_APP_ID);
+  phosh_session_manager_register (priv->session_manager,
+                                  PHOSH_APP_ID,
+                                  g_getenv ("DESKTOP_AUTOSTART_ID"));
+  g_unsetenv ("DESKTOP_AUTOSTART_ID");
 
   /* If we start rotated, fix this up */
   if (phosh_shell_get_transform (self) != PHOSH_MONITOR_TRANSFORM_NORMAL)

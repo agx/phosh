@@ -21,6 +21,11 @@ generated_dbus_sources += gnome.gdbus_codegen('gnome-session-dbus',
 					      'org.gnome.SessionManager.xml',
 					      interface_prefix: 'org.gnome',
 					      namespace: 'PhoshSessionDBus')
+# org.gnome.SessionManager.ClientPrivate
+generated_dbus_sources += gnome.gdbus_codegen('gnome-session-client-private-dbus',
+					      'org.gnome.SessionManager.ClientPrivate.xml',
+					      interface_prefix: 'org.gnome.SessionManager',
+					      namespace: 'PhoshSessionClientPrivateDBus')
 # org.gnome.SessionManager.Presence
 generated_dbus_sources += gnome.gdbus_codegen('gnome-session-presence-dbus',
 					      'org.gnome.SessionManager.Presence.xml',

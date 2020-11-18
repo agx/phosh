@@ -19,7 +19,7 @@
 #include "docked-info.h"
 #include "panel.h"
 #include "shell.h"
-#include "session.h"
+#include "session-manager.h"
 #include "settings.h"
 #include "util.h"
 
@@ -75,12 +75,13 @@ on_shutdown_action (GSimpleAction *action,
                     gpointer      data)
 {
   PhoshPanel *self = PHOSH_PANEL(data);
+  PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
 
   g_return_if_fail (PHOSH_IS_PANEL (self));
-  phosh_session_shutdown ();
+  phosh_session_manager_shutdown (sm);
   /* TODO: Since we don't implement
    * gnome.SessionManager.EndSessionDialog yet */
-  phosh_session_shutdown ();
+  phosh_session_manager_shutdown (sm);
   phosh_panel_fold (self);
 }
 
@@ -91,12 +92,15 @@ on_restart_action (GSimpleAction *action,
                    gpointer       data)
 {
   PhoshPanel *self = PHOSH_PANEL(data);
+  PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
 
   g_return_if_fail (PHOSH_IS_PANEL (self));
-  phosh_session_reboot ();
+  g_return_if_fail (PHOSH_IS_SESSION_MANAGER (sm));
+
+  phosh_session_manager_reboot (sm);
   /* TODO: Since we don't implement
    * gnome.SessionManager.EndSessionDialog yet */
-  phosh_session_reboot ();
+  phosh_session_manager_reboot (sm);
   phosh_panel_fold (self);
 }
 
@@ -120,9 +124,11 @@ on_logout_action (GSimpleAction *action,
                   gpointer      data)
 {
   PhoshPanel *self = PHOSH_PANEL(data);
+  PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
 
   g_return_if_fail (PHOSH_IS_PANEL (self));
-  phosh_session_logout ();
+  g_return_if_fail (PHOSH_IS_SESSION_MANAGER (sm));
+  phosh_session_manager_logout (sm);
   phosh_panel_fold (self);
 }
 
