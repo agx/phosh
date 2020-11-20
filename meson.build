@@ -1,7 +1,7 @@
 project('phosh', 'c',
           version: '0.6.0',
           license: 'GPLv3+',
-    meson_version: '>= 0.49.0',
+    meson_version: '>= 0.50.0',
   default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
 )
 
