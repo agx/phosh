@@ -64,7 +64,7 @@ phosh_time_ago_in_words (GDateTime *time_stamp)
   g_autofree char *fallback = NULL;
 
   const char *unit;
-  const char *prefix;
+  const char *prefix = NULL;
 
   const char *str_about, *str_less_than;
   const char *str_seconds, *str_minute, *str_minutes;
@@ -120,8 +120,8 @@ phosh_time_ago_in_words (GDateTime *time_stamp)
 
     switch (seconds) {
     case 0 ... 14:
-      prefix = str_less_than;
-      number = 15;
+      prefix = NULL;
+      number = 0;
       break;
     case 15 ... 29:
       prefix = str_less_than;
@@ -204,8 +204,11 @@ phosh_time_ago_in_words (GDateTime *time_stamp)
     break;
   }
 
-  return show_date ? g_strdup (fallback) :
-    g_strdup_printf ("%s%d%s", prefix, number, unit);
+  if (show_date) {
+    return g_strdup (fallback);
+  } else {
+    return prefix ? g_strdup_printf ("%s%d%s", prefix, number, unit) : g_strdup(_("now"));
+  }
 }
 
 
