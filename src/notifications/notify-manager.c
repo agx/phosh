@@ -26,9 +26,11 @@
 
 /**
  * SECTION:notify-manager
- * @short_description: Provides the org.freedesktop.Notification DBus interface
+ * @short_description: Manages notifications
  * @Title: PhoshNotifyManager
  *
+ * #PhoshNotifyManager manages notifications sent from the shell
+ * iself and via the org.freedesktop.Notification DBus interface.
  * See https://developer.gnome.org/notification-spec/
  */
 
@@ -385,9 +387,6 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
     source_id = g_strdup_printf ("unknown-app-%i", self->unknown_source++);
   }
 
-  if (expire_timeout == -1)
-    expire_timeout = NOTIFICATION_DEFAULT_TIMEOUT;
-
   if (replaces_id)
     notification = phosh_notification_list_get_by_id (self->list, replaces_id);
 
@@ -406,7 +405,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
                   "timestamp", timestamp,
                   NULL);
   } else {
-    id = self->next_id++;
+    id = phosh_notify_manager_get_notification_id (self);
 
     notification = phosh_notification_new (id,
                                            app_name,
@@ -422,29 +421,10 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
                                            category,
                                            timestamp);
 
-    phosh_notification_list_add (self->list, source_id, notification);
-
-    g_signal_connect_object (notification,
-                             "expired",
-                             G_CALLBACK (on_notification_expired),
-                             self,
-                             G_CONNECT_SWAPPED);
-    g_signal_connect_object (notification,
-                             "actioned",
-                             G_CALLBACK (on_notification_actioned),
-                             self,
-                             G_CONNECT_SWAPPED);
-    g_signal_connect_object (notification,
-                             "closed",
-                             G_CALLBACK (on_notification_closed),
-                             self,
-                             G_CONNECT_SWAPPED);
-
-    if (expire_timeout) {
-      phosh_notification_expires (notification, expire_timeout);
-    }
-
-    g_signal_emit (self, signals[SIGNAL_NEW_NOTIFICATION], 0, notification);
+    phosh_notify_manager_add_notification (self,
+                                           source_id,
+                                           expire_timeout,
+                                           notification);
   }
 
   phosh_notify_dbus_notifications_complete_notify (
@@ -631,4 +611,86 @@ phosh_notify_manager_get_show_banners (PhoshNotifyManager *self)
   g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
 
   return self->show_banners;
+}
+
+/**
+ * phosh_notify_manager_get_notification_id:
+ * @self: the #PhoshNotifyManager
+ *
+ * Get a notification id
+ *
+ * Returns: a notification id that can be used to create new
+ * notifications.
+ */
+guint
+phosh_notify_manager_get_notification_id (PhoshNotifyManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
+
+  return self->next_id++;
+}
+
+/**
+ * phosh_notify_manager_add_notification
+ * @self: the #PhoshNotifyManager
+ * @source_id: The notification source's app_id
+ * @expire_timeout: When the notification should expire
+ * @notification: The notification
+ *
+ * Returns: Adds a notification
+ * notifications.
+ */
+void
+phosh_notify_manager_add_notification (PhoshNotifyManager *self,
+                                       const gchar *source_id,
+                                       int expire_timeout,
+                                       PhoshNotification *notification)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+  g_return_if_fail (source_id);
+
+  if (expire_timeout == -1)
+    expire_timeout = NOTIFICATION_DEFAULT_TIMEOUT;
+
+  phosh_notification_list_add (self->list, source_id, notification);
+
+  g_signal_connect_object (notification,
+                           "expired",
+                           G_CALLBACK (on_notification_expired),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (notification,
+                           "actioned",
+                           G_CALLBACK (on_notification_actioned),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (notification,
+                           "closed",
+                           G_CALLBACK (on_notification_closed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  if (expire_timeout) {
+    phosh_notification_expires (notification, expire_timeout);
+  }
+
+  g_signal_emit (self, signals[SIGNAL_NEW_NOTIFICATION], 0, notification);
+}
+
+gboolean
+phosh_notify_manager_close_notification_by_id (PhoshNotifyManager *self,
+                                               int id,
+                                               PhoshNotificationReason reason)
+{
+  PhoshNotification *notification = NULL;
+
+  g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
+
+  notification = phosh_notification_list_get_by_id (self->list, id);
+  if (!notification)
+    return FALSE;
+
+  phosh_notification_close (notification, reason);
+  return TRUE;
 }

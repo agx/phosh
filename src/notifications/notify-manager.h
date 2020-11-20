@@ -22,6 +22,12 @@ G_DECLARE_FINAL_TYPE (PhoshNotifyManager, phosh_notify_manager, PHOSH, NOTIFY_MA
 PhoshNotifyManager    *phosh_notify_manager_get_default      (void);
 PhoshNotificationList *phosh_notify_manager_get_list         (PhoshNotifyManager *self);
 gboolean               phosh_notify_manager_get_show_banners (PhoshNotifyManager *self);
-
-
+guint                  phosh_notify_manager_get_notification_id (PhoshNotifyManager *self);
+void                   phosh_notify_manager_add_notification (PhoshNotifyManager *self,
+                                                              const gchar *source_id,
+                                                              int expire_timeout,
+                                                              PhoshNotification *notification);
+gboolean               phosh_notify_manager_close_notification_by_id (PhoshNotifyManager *self,
+                                                                      int id,
+                                                                      PhoshNotificationReason reason);
 G_END_DECLS
