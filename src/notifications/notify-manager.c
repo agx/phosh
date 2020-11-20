@@ -308,10 +308,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
   g_autofree char *category = NULL;
   GIcon *icon = NULL;
   GIcon *image = NULL;
-  g_autoptr (GDateTime) timestamp = g_date_time_new_now_local ();
 
-  if (timestamp == NULL)
-    g_warning ("Could not get local time");
   g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
 
   g_debug ("DBus call Notify: %s (%u): %s (%s), %s, %d", app_name, replaces_id, summary, body, app_icon, expire_timeout);
@@ -407,7 +404,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
                   "image", image,
                   "urgency", urgency,
                   "actions", actions,
-                  "timestamp", timestamp,
+                  "timestamp", NULL,
                   NULL);
   } else {
     id = phosh_notify_manager_get_notification_id (self);
@@ -424,7 +421,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
                                            transient,
                                            resident,
                                            category,
-                                           timestamp);
+                                           NULL);
 
     phosh_notify_manager_add_notification (self,
                                            source_id,

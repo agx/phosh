@@ -43,3 +43,9 @@ phosh_shell_get_toplevel_manager (PhoshShell *self)
 {
   return g_object_new (PHOSH_TYPE_TOPLEVEL_MANAGER, NULL);
 }
+
+GdkAppLaunchContext*
+phosh_shell_get_app_launch_context (PhoshShell *self)
+{
+  return gdk_display_get_app_launch_context (gdk_display_get_default ());
+}

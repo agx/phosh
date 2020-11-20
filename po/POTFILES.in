@@ -25,6 +25,7 @@ src/main.c
 src/media-player.c
 src/monitor-manager.c
 src/network-auth-prompt.c
+src/notifications/mount-notification.c
 src/notifications/notification.c
 src/notifications/timestamp-label.c
 src/osk-manager.c

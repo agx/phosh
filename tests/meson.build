@@ -60,6 +60,7 @@ tests = [
   'connectivity-info',
   'favourite-model',
   'media-player',
+  'mount-notification',
   'notification',
   'notification-content',
   'notification-frame',

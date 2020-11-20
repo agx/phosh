@@ -11,6 +11,8 @@
 #include "config.h"
 #include "feedback-manager.h"
 #include "mount-manager.h"
+#include "notifications/mount-notification.h"
+#include "notifications/notify-manager.h"
 #include "shell.h"
 
 #include <gio/gio.h>
@@ -158,6 +160,59 @@ on_volume_removed (PhoshMountManager *self, GVolume *vol, GVolumeMonitor *monito
 
 
 static void
+on_mount_added (PhoshMountManager *self, GMount *mount, GVolumeMonitor *monitor)
+{
+  g_autoptr (PhoshMountNotification) notification = NULL;
+  PhoshNotifyManager *nm;
+  guint id;
+
+  g_return_if_fail (PHOSH_IS_MOUNT_MANAGER (self));
+  g_return_if_fail (G_IS_MOUNT (mount));
+
+  if (!phosh_shell_is_session_active (phosh_shell_get_default ()))
+    return;
+
+  /* No notifications when mounting all volumes e.g. on startup */
+  if (phosh_shell_get_locked (phosh_shell_get_default ()))
+    return;
+
+  nm = phosh_notify_manager_get_default ();
+  id = phosh_notify_manager_get_notification_id (nm);
+  notification = phosh_mount_notification_new_from_mount (id, mount);
+
+  g_object_set_data (G_OBJECT (mount), "phosh-notify-id", GINT_TO_POINTER (id));
+  phosh_notify_manager_add_notification (nm, PHOSH_APP_ID ".desktop", -1,
+                                         PHOSH_NOTIFICATION (notification));
+}
+
+
+static void
+on_mount_removed (PhoshMountManager *self, GMount *mount, GVolumeMonitor *monitor)
+{
+  g_autofree gchar *name = NULL;
+  PhoshNotifyManager *nm;
+  gpointer data;
+  int id;
+
+  g_return_if_fail (PHOSH_IS_MOUNT_MANAGER (self));
+  g_return_if_fail (G_IS_MOUNT (mount));
+
+  if (!phosh_shell_is_session_active (phosh_shell_get_default ()))
+    return;
+
+  data = g_object_get_data (G_OBJECT (mount), "phosh-notify-id");
+  if (!data)
+    return;
+
+  id = GPOINTER_TO_INT (data);
+  name = g_mount_get_name (mount);
+  g_debug ("Mount '%s' removed, id %d", name, id);
+  nm = phosh_notify_manager_get_default ();
+  phosh_notify_manager_close_notification_by_id (nm, id, PHOSH_NOTIFICATION_REASON_UNDEFINED);
+}
+
+
+static void
 on_session_active_changed (PhoshMountManager *self, GParamSpec *pspec, PhoshSessionManager *sm)
 {
   /* on_volume_added takes a ref on vol itself so we can cleanup here */
@@ -181,6 +236,8 @@ on_session_active_changed (PhoshMountManager *self, GParamSpec *pspec, PhoshSess
                     "swapped-signal::drive-disconnected", on_drive_disconnected, self,
                     "swapped-signal::volume-added", on_volume_added, self,
                     "swapped-signal::volume-removed", on_volume_removed, self,
+                    "swapped-signal::mount-added", on_mount_added, self,
+                    "swapped-signal::mount-removed", on_mount_removed, self,
                     NULL);
   volumes = g_volume_monitor_get_volumes (self->monitor);
   for (GList *elem = volumes; elem != NULL; elem = elem->next) {
