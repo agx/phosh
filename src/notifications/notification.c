@@ -618,13 +618,26 @@ phosh_notification_get_app_name (PhoshNotification *self)
 }
 
 
+/**
+ * phosh_notification_set_timestamp:
+ * @self: A #PhoshNotification
+ * @timestamp: (nullable): A timestamp or %NULL
+ *
+ * Sets the timestamp of a notification. If %NULL is passed it's set
+ * to the current date and time.
+ */
 void
 phosh_notification_set_timestamp (PhoshNotification *self,
                                   GDateTime         *timestamp)
 {
+  g_autoptr (GDateTime) now = NULL;
+
   g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
 
-  g_return_if_fail (timestamp != NULL);
+  if (timestamp == NULL) {
+    now = g_date_time_new_now_local ();
+    timestamp = now;
+  }
 
   if (self->updated != NULL && g_date_time_compare (self->updated, timestamp) == 0)
      return;
