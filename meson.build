@@ -32,7 +32,6 @@ glib_ver = 'GLIB_VERSION_2_58'
 add_project_arguments([
   '-DHAVE_CONFIG_H',
   '-DGLIB_VERSION_MIN_REQUIRED=@0@'.format(glib_ver),
-  '-DGLIB_VERSION_MAX_ALLOWED=@0@'.format(glib_ver),
   '-DG_LOG_USE_STRUCTURED',
   '-I' + meson.build_root(),
 ], language: 'c')
