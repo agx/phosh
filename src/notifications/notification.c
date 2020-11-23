@@ -868,6 +868,7 @@ phosh_notification_expires (PhoshNotification *self,
   g_return_if_fail (timeout > 0);
 
   self->timeout = g_timeout_add (timeout, expired, self);
+  g_source_set_name_by_id (self->timeout, "[phosh] notification_expires_id");
 }
 
 
