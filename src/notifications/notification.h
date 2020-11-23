@@ -44,9 +44,20 @@ typedef enum {
 
 G_DECLARE_DERIVABLE_TYPE (PhoshNotification, phosh_notification, PHOSH, NOTIFICATION, GObject)
 
+/**
+ * PhoshNotificationClass:
+ * @parent_class: The object class structure needs to be the first
+ *   element in the widget class structure in order for the class mechanism
+ *   to work correctly. This allows a PhoshNotificationClass pointer to be cast to
+ *   a GObjectClass pointer.
+ * @do_action: This function allows the notification to implement their own
+ *   action behaviour instead of the default DBus interface.
+ */  
 struct _PhoshNotificationClass
 {
   GObjectClass parent_class;
+
+  void (*do_action)(PhoshNotification *self, guint id, const char *action);
 };
 
 

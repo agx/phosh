@@ -164,8 +164,13 @@ on_notification_actioned (PhoshNotifyManager *self,
 
   g_debug ("Emitting ActionInvoked: %d, %s", id, action);
 
-  phosh_notify_dbus_notifications_emit_action_invoked (
-    PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), id, action);
+  if (PHOSH_NOTIFICATION_GET_CLASS (notification)->do_action) {
+    PHOSH_NOTIFICATION_GET_CLASS (notification)->do_action (notification, id, action);
+  } else {
+    /* TODO: introduce PhoshDBusNotification */
+    phosh_notify_dbus_notifications_emit_action_invoked (
+      PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), id, action);
+  }
 
   /* Resident notifications stay after being actioned */
   if (!phosh_notification_get_resident (notification)) {
