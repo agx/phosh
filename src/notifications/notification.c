@@ -50,9 +50,7 @@ enum {
 static guint signals[N_SIGNALS];
 
 
-struct _PhoshNotification {
-  GObject                   parent;
-
+typedef struct _PhoshNotificationPrivate {
   guint                     id;
   char                     *app_name;
   GDateTime                *updated;
@@ -68,11 +66,9 @@ struct _PhoshNotification {
   char                     *category;
 
   gulong                    timeout;
-};
-typedef struct _PhoshNotification PhoshNotification;
+} PhoshNotificationPrivate;
 
-
-G_DEFINE_TYPE (PhoshNotification, phosh_notification, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshNotification, phosh_notification, G_TYPE_OBJECT)
 
 
 static void
@@ -189,21 +185,22 @@ static void
 phosh_notification_finalize (GObject *object)
 {
   PhoshNotification *self = PHOSH_NOTIFICATION (object);
+  PhoshNotificationPrivate *priv = phosh_notification_get_instance_private (self);
 
   /* If we've been dismissed cancel the auto timeout */
-  if (self->timeout != 0) {
-    g_source_remove (self->timeout);
+  if (priv->timeout != 0) {
+    g_source_remove (priv->timeout);
   }
 
-  g_clear_pointer (&self->app_name, g_free);
-  g_clear_pointer (&self->updated, g_date_time_unref);
-  g_clear_pointer (&self->summary, g_free);
-  g_clear_pointer (&self->body, g_free);
-  g_clear_object (&self->icon);
-  g_clear_object (&self->image);
-  g_clear_object (&self->info);
-  g_clear_pointer (&self->actions, g_strfreev);
-  g_clear_pointer (&self->category, g_free);
+  g_clear_pointer (&priv->app_name, g_free);
+  g_clear_pointer (&priv->updated, g_date_time_unref);
+  g_clear_pointer (&priv->summary, g_free);
+  g_clear_pointer (&priv->body, g_free);
+  g_clear_object (&priv->icon);
+  g_clear_object (&priv->image);
+  g_clear_object (&priv->info);
+  g_clear_pointer (&priv->actions, g_strfreev);
+  g_clear_pointer (&priv->category, g_free);
 
   G_OBJECT_CLASS (phosh_notification_parent_class)->finalize (object);
 }
@@ -379,7 +376,9 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
 static void
 phosh_notification_init (PhoshNotification *self)
 {
-  self->app_name = g_strdup (_("Notification"));
+  PhoshNotificationPrivate *priv = phosh_notification_get_instance_private (self);
+
+  priv->app_name = g_strdup (_("Notification"));
 }
 
 
@@ -422,13 +421,15 @@ void
 phosh_notification_set_id (PhoshNotification *self,
                            guint              id)
 {
+  PhoshNotificationPrivate *priv;
   g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
 
-  if (self->id == id) {
+  if (priv->id == id) {
     return;
   }
 
-  self->id = id;
+  priv->id = id;
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ID]);
 }
@@ -437,9 +438,12 @@ phosh_notification_set_id (PhoshNotification *self,
 guint
 phosh_notification_get_id (PhoshNotification *self)
 {
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  PhoshNotificationPrivate *priv;
 
-  return self->id;
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  priv = phosh_notification_get_instance_private (self);
+
+  return priv->id;
 }
 
 
@@ -447,13 +451,16 @@ void
 phosh_notification_set_app_icon (PhoshNotification *self,
                                  GIcon             *icon)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  PhoshNotificationPrivate *priv;
 
-  g_clear_object (&self->icon);
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  g_clear_object (&priv->icon);
   if (icon != NULL) {
-    self->icon = g_object_ref (icon);
+    priv->icon = g_object_ref (icon);
   } else {
-    self->icon = g_themed_icon_new (PHOSH_APP_UNKNOWN_ICON);
+    priv->icon = g_themed_icon_new (PHOSH_APP_UNKNOWN_ICON);
   }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_ICON]);
@@ -463,13 +470,16 @@ phosh_notification_set_app_icon (PhoshNotification *self,
 GIcon *
 phosh_notification_get_app_icon (PhoshNotification *self)
 {
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  PhoshNotificationPrivate *priv;
 
-  if (self->info && g_app_info_get_icon (self->info)) {
-    return g_app_info_get_icon (self->info);
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  priv = phosh_notification_get_instance_private (self);
+
+  if (priv->info && g_app_info_get_icon (priv->info)) {
+    return g_app_info_get_icon (priv->info);
   }
 
-  return self->icon;
+  return priv->icon;
 }
 
 
@@ -477,15 +487,18 @@ void
 phosh_notification_set_app_info (PhoshNotification *self,
                                  GAppInfo          *info)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  PhoshNotificationPrivate *priv;
 
-  g_clear_object (&self->info);
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  g_clear_object (&priv->info);
 
   if (info != NULL) {
     GIcon *icon;
     const char *name;
 
-    self->info = g_object_ref (info);
+    priv->info = g_object_ref (info);
 
     icon = g_app_info_get_icon (info);
     name = g_app_info_get_name (info);
@@ -501,9 +514,12 @@ phosh_notification_set_app_info (PhoshNotification *self,
 GAppInfo *
 phosh_notification_get_app_info (PhoshNotification *self)
 {
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  PhoshNotificationPrivate *priv;
 
-  return self->info;
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  priv = phosh_notification_get_instance_private (self);
+
+  return priv->info;
 }
 
 
@@ -511,9 +527,12 @@ void
 phosh_notification_set_image (PhoshNotification *self,
                               GIcon             *image)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  PhoshNotificationPrivate *priv;
 
-  if (g_set_object (&self->image, image)) {
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  if (g_set_object (&priv->image, image)) {
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IMAGE]);
   }
 }
@@ -522,9 +541,11 @@ phosh_notification_set_image (PhoshNotification *self,
 GIcon *
 phosh_notification_get_image (PhoshNotification *self)
 {
+  PhoshNotificationPrivate *priv;
   g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  priv = phosh_notification_get_instance_private (self);
 
-  return self->image;
+  return priv->image;
 }
 
 
@@ -532,14 +553,17 @@ void
 phosh_notification_set_summary (PhoshNotification *self,
                                 const char        *summary)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  PhoshNotificationPrivate *priv;
 
-  if (g_strcmp0 (self->summary, summary) == 0) {
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  if (g_strcmp0 (priv->summary, summary) == 0) {
     return;
   }
 
-  g_clear_pointer (&self->summary, g_free);
-  self->summary = g_strdup (summary);
+  g_clear_pointer (&priv->summary, g_free);
+  priv->summary = g_strdup (summary);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SUMMARY]);
 }
@@ -548,9 +572,12 @@ phosh_notification_set_summary (PhoshNotification *self,
 const char *
 phosh_notification_get_summary (PhoshNotification *self)
 {
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  PhoshNotificationPrivate *priv;
 
-  return self->summary;
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  priv = phosh_notification_get_instance_private (self);
+
+  return priv->summary;
 }
 
 
@@ -558,14 +585,17 @@ void
 phosh_notification_set_body (PhoshNotification *self,
                              const char        *body)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  PhoshNotificationPrivate *priv;
 
-  if (g_strcmp0 (self->body, body) == 0) {
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  if (g_strcmp0 (priv->body, body) == 0) {
     return;
   }
 
-  g_clear_pointer (&self->body, g_free);
-  self->body = g_strdup (body);
+  g_clear_pointer (&priv->body, g_free);
+  priv->body = g_strdup (body);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_BODY]);
 }
@@ -574,9 +604,12 @@ phosh_notification_set_body (PhoshNotification *self,
 const char *
 phosh_notification_get_body (PhoshNotification *self)
 {
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  PhoshNotificationPrivate *priv;
 
-  return self->body;
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  priv = phosh_notification_get_instance_private (self);
+
+  return priv->body;
 }
 
 
@@ -585,20 +618,23 @@ void
 phosh_notification_set_app_name (PhoshNotification *self,
                                  const char        *app_name)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  PhoshNotificationPrivate *priv;
 
-  if (g_strcmp0 (self->app_name, app_name) == 0) {
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  if (g_strcmp0 (priv->app_name, app_name) == 0) {
     return;
   }
 
-  g_clear_pointer (&self->app_name, g_free);
+  g_clear_pointer (&priv->app_name, g_free);
 
   if (app_name &&
       strlen (app_name) > 0 &&
       g_strcmp0 (app_name, "notify-send") != 0) {
-    self->app_name = g_strdup (app_name);
+    priv->app_name = g_strdup (app_name);
   } else {
-    self->app_name = g_strdup (_("Notification"));
+    priv->app_name = g_strdup (_("Notification"));
   }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_NAME]);
@@ -608,13 +644,16 @@ phosh_notification_set_app_name (PhoshNotification *self,
 const char *
 phosh_notification_get_app_name (PhoshNotification *self)
 {
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  PhoshNotificationPrivate *priv;
 
-  if (self->info && g_app_info_get_name (self->info)) {
-    return g_app_info_get_name (self->info);
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  priv = phosh_notification_get_instance_private (self);
+
+  if (priv->info && g_app_info_get_name (priv->info)) {
+    return g_app_info_get_name (priv->info);
   }
 
-  return self->app_name;
+  return priv->app_name;
 }
 
 
@@ -630,20 +669,22 @@ void
 phosh_notification_set_timestamp (PhoshNotification *self,
                                   GDateTime         *timestamp)
 {
+  PhoshNotificationPrivate *priv;
   g_autoptr (GDateTime) now = NULL;
 
   g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
 
   if (timestamp == NULL) {
     now = g_date_time_new_now_local ();
     timestamp = now;
   }
 
-  if (self->updated != NULL && g_date_time_compare (self->updated, timestamp) == 0)
+  if (priv->updated != NULL && g_date_time_compare (priv->updated, timestamp) == 0)
      return;
 
-  g_clear_pointer (&self->updated, g_date_time_unref);
-  self->updated = g_date_time_ref (timestamp);
+  g_clear_pointer (&priv->updated, g_date_time_unref);
+  priv->updated = g_date_time_ref (timestamp);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TIMESTAMP]);
 }
 
@@ -651,8 +692,12 @@ phosh_notification_set_timestamp (PhoshNotification *self,
 GDateTime *
 phosh_notification_get_timestamp (PhoshNotification *self)
 {
+  PhoshNotificationPrivate *priv;
+
   g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), NULL);
-  return self->updated;
+  priv = phosh_notification_get_instance_private (self);
+
+  return priv->updated;
 }
 
 
@@ -660,10 +705,13 @@ void
 phosh_notification_set_actions (PhoshNotification *self,
                                 GStrv              actions)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  PhoshNotificationPrivate *priv;
 
-  g_clear_pointer (&self->actions, g_strfreev);
-  self->actions = g_strdupv (actions);
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  g_clear_pointer (&priv->actions, g_strfreev);
+  priv->actions = g_strdupv (actions);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACTIONS]);
 }
@@ -672,9 +720,12 @@ phosh_notification_set_actions (PhoshNotification *self,
 const GStrv
 phosh_notification_get_actions (PhoshNotification *self)
 {
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  PhoshNotificationPrivate *priv;
 
-  return self->actions;
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), 0);
+  priv = phosh_notification_get_instance_private (self);
+
+  return priv->actions;
 }
 
 
@@ -682,12 +733,15 @@ void
 phosh_notification_set_urgency (PhoshNotification        *self,
                                 PhoshNotificationUrgency  urgency)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  PhoshNotificationPrivate *priv;
 
-  if (self->urgency == urgency)
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  if (priv->urgency == urgency)
     return;
 
-  self->urgency = urgency;
+  priv->urgency = urgency;
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_URGENCY]);
 }
@@ -696,10 +750,13 @@ phosh_notification_set_urgency (PhoshNotification        *self,
 PhoshNotificationUrgency
 phosh_notification_get_urgency (PhoshNotification *self)
 {
+  PhoshNotificationPrivate *priv;
+
   g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self),
                         PHOSH_NOTIFICATION_URGENCY_NORMAL);
+  priv = phosh_notification_get_instance_private (self);
 
-  return self->urgency;
+  return priv->urgency;
 }
 
 
@@ -714,12 +771,15 @@ void
 phosh_notification_set_transient (PhoshNotification *self,
                                   gboolean           transient)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  PhoshNotificationPrivate *priv;
 
-  if (self->transient == transient)
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  if (priv->transient == transient)
     return;
 
-  self->transient = transient;
+  priv->transient = transient;
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TRANSIENT]);
 }
@@ -736,9 +796,12 @@ phosh_notification_set_transient (PhoshNotification *self,
 gboolean
 phosh_notification_get_transient (PhoshNotification *self)
 {
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), TRUE);
+  PhoshNotificationPrivate *priv;
 
-  return self->transient;
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), TRUE);
+  priv = phosh_notification_get_instance_private (self);
+
+  return priv->transient;
 }
 
 
@@ -753,12 +816,15 @@ void
 phosh_notification_set_resident (PhoshNotification *self,
                                  gboolean           resident)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  PhoshNotificationPrivate *priv;
 
-  if (self->resident == resident)
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  if (priv->resident == resident)
     return;
 
-  self->resident = resident;
+  priv->resident = resident;
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_RESIDENT]);
 }
@@ -775,9 +841,12 @@ phosh_notification_set_resident (PhoshNotification *self,
 gboolean
 phosh_notification_get_resident (PhoshNotification *self)
 {
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), FALSE);
+  PhoshNotificationPrivate *priv;
 
-  return self->resident;
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), FALSE);
+  priv = phosh_notification_get_instance_private (self);
+
+  return priv->resident;
 }
 
 
@@ -792,13 +861,16 @@ void
 phosh_notification_set_category (PhoshNotification *self,
                                  const char        *category)
 {
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  PhoshNotificationPrivate *priv;
 
-  if (g_strcmp0 (self->category, category) == 0)
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  if (g_strcmp0 (priv->category, category) == 0)
     return;
 
-  g_clear_pointer (&self->category, g_free);
-  self->category = g_strdup (category);
+  g_clear_pointer (&priv->category, g_free);
+  priv->category = g_strdup (category);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CATEGORY]);
 }
@@ -817,9 +889,12 @@ phosh_notification_set_category (PhoshNotification *self,
 const char *
 phosh_notification_get_category (PhoshNotification *self)
 {
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), NULL);
+  PhoshNotificationPrivate *priv;
 
-  return self->category;
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), NULL);
+  priv = phosh_notification_get_instance_private (self);
+
+  return priv->category;
 }
 
 
@@ -837,12 +912,14 @@ static gboolean
 expired (gpointer data)
 {
   PhoshNotification *self = data;
+  PhoshNotificationPrivate *priv;
 
   g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), G_SOURCE_REMOVE);
+  priv = phosh_notification_get_instance_private (self);
 
-  g_debug ("%i expired", self->id);
+  g_debug ("%i expired", priv->id);
 
-  self->timeout = 0;
+  priv->timeout = 0;
 
   g_signal_emit (self, signals[SIGNAL_EXPIRED], 0);
 
@@ -864,11 +941,14 @@ void
 phosh_notification_expires (PhoshNotification *self,
                             int                timeout)
 {
+  PhoshNotificationPrivate *priv;
+
   g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
   g_return_if_fail (timeout > 0);
+  priv = phosh_notification_get_instance_private (self);
 
-  self->timeout = g_timeout_add (timeout, expired, self);
-  g_source_set_name_by_id (self->timeout, "[phosh] notification_expires_id");
+  priv->timeout = g_timeout_add (timeout, expired, self);
+  g_source_set_name_by_id (priv->timeout, "[phosh] notification_expires_id");
 }
 
 
@@ -881,12 +961,15 @@ void
 phosh_notification_close (PhoshNotification       *self,
                           PhoshNotificationReason  reason)
 {
+  PhoshNotificationPrivate *priv;
+
   g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
 
   /* No point running the timeout, we're already closing */
-  if (self->timeout != 0) {
-    g_source_remove (self->timeout);
-    self->timeout = 0;
+  if (priv->timeout != 0) {
+    g_source_remove (priv->timeout);
+    priv->timeout = 0;
   }
 
   g_signal_emit (self, signals[SIGNAL_CLOSED], 0, reason);

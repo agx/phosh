@@ -42,7 +42,12 @@ typedef enum {
 
 #define PHOSH_TYPE_NOTIFICATION (phosh_notification_get_type ())
 
-G_DECLARE_FINAL_TYPE (PhoshNotification, phosh_notification, PHOSH, NOTIFICATION, GObject)
+G_DECLARE_DERIVABLE_TYPE (PhoshNotification, phosh_notification, PHOSH, NOTIFICATION, GObject)
+
+struct _PhoshNotificationClass
+{
+  GObjectClass parent_class;
+};
 
 
 PhoshNotification        *phosh_notification_new           (guint                     id,
