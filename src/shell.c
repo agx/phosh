@@ -1203,3 +1203,20 @@ phosh_shell_is_session_active (PhoshShell *self)
   return phosh_session_manager_is_active (priv->session_manager);
 }
 
+
+/**
+ * phosh_get_app_launch_context:
+ * @self: The shell
+ *
+ * Returns: a an app launch context for the primary display
+ */
+GdkAppLaunchContext*
+phosh_shell_get_app_launch_context (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  return gdk_display_get_app_launch_context (gtk_widget_get_display (GTK_WIDGET (priv->panel)));
+}

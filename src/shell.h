@@ -71,5 +71,6 @@ void                 phosh_shell_remove_global_keyboard_action_entries (PhoshShe
                                                                         const GActionEntry *actions,
                                                                         gint n_entries);
 gboolean             phosh_shell_is_session_active (PhoshShell *self);
+GdkAppLaunchContext *phosh_shell_get_app_launch_context (PhoshShell *self);
 
 G_END_DECLS
