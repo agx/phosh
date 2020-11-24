@@ -1,4 +1,6 @@
 phosh_notifications_sources = [
+  'notifications/dbus-notification.c',
+  'notifications/dbus-notification.h',
   'notifications/mount-notification.c',
   'notifications/mount-notification.h',
   'notifications/notification.c',
