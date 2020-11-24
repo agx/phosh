@@ -12,6 +12,7 @@
 
 #include <gio/gdesktopappinfo.h>
 
+#include "dbus-notification.h"
 #include "notification-banner.h"
 #include "notification-list.h"
 #include "notify-manager.h"
@@ -164,13 +165,7 @@ on_notification_actioned (PhoshNotifyManager *self,
 
   g_debug ("Emitting ActionInvoked: %d, %s", id, action);
 
-  if (PHOSH_NOTIFICATION_GET_CLASS (notification)->do_action) {
-    PHOSH_NOTIFICATION_GET_CLASS (notification)->do_action (notification, id, action);
-  } else {
-    /* TODO: introduce PhoshDBusNotification */
-    phosh_notify_dbus_notifications_emit_action_invoked (
-      PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), id, action);
-  }
+  phosh_notification_do_action (notification, id, action);
 
   /* Resident notifications stay after being actioned */
   if (!phosh_notification_get_resident (notification)) {
@@ -407,26 +402,28 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
                   "timestamp", NULL,
                   NULL);
   } else {
+    PhoshDBusNotification *dbus_notification;
+
     id = phosh_notify_manager_get_notification_id (self);
 
-    notification = phosh_notification_new (id,
-                                           app_name,
-                                           info,
-                                           summary,
-                                           body,
-                                           icon,
-                                           image,
-                                           urgency,
-                                           (GStrv) actions,
-                                           transient,
-                                           resident,
-                                           category,
-                                           NULL);
+    dbus_notification = phosh_dbus_notification_new (id,
+                                                     app_name,
+                                                     info,
+                                                     summary,
+                                                     body,
+                                                     icon,
+                                                     image,
+                                                     urgency,
+                                                     (GStrv) actions,
+                                                     transient,
+                                                     resident,
+                                                     category,
+                                                     NULL);
 
     phosh_notify_manager_add_notification (self,
                                            source_id,
                                            expire_timeout,
-                                           notification);
+                                           PHOSH_NOTIFICATION (dbus_notification));
   }
 
   phosh_notify_dbus_notifications_complete_notify (

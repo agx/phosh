@@ -974,3 +974,11 @@ phosh_notification_close (PhoshNotification       *self,
 
   g_signal_emit (self, signals[SIGNAL_CLOSED], 0, reason);
 }
+
+void
+phosh_notification_do_action (PhoshNotification *self, guint id, const char *action)
+{
+  g_return_if_fail (PHOSH_NOTIFICATION_GET_CLASS (self)->do_action);
+
+  PHOSH_NOTIFICATION_GET_CLASS (self)->do_action (self, id, action);
+}

@@ -119,5 +119,8 @@ void                      phosh_notification_expires       (PhoshNotification   
                                                             int                       timeout);
 void                      phosh_notification_close         (PhoshNotification        *self,
                                                             PhoshNotificationReason   reason);
+void                     phosh_notification_do_action      (PhoshNotification        *notification,
+                                                            guint                     id,
+                                                            const char               *action);
 
 G_END_DECLS

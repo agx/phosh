@@ -10,6 +10,7 @@
 
 #include "config.h"
 #include "dbus-notification.h"
+#include "notify-manager.h"
 #include "shell.h"
 
 #include <gio/gdesktopappinfo.h>
@@ -37,7 +38,10 @@ G_DEFINE_TYPE (PhoshDBusNotification, phosh_dbus_notification, PHOSH_TYPE_NOTIFI
 static void
 phosh_dbus_notification_do_action (PhoshNotification *notification, guint id, const char *action)
 {
+  PhoshNotifyManager *nm = phosh_notify_manager_get_default ();
 
+  phosh_notify_dbus_notifications_emit_action_invoked (
+    PHOSH_NOTIFY_DBUS_NOTIFICATIONS (nm), id, action);
 }
 
 
