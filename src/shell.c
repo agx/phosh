@@ -36,6 +36,7 @@
 #include "feedbackinfo.h"
 #include "feedback-manager.h"
 #include "gnome-shell-manager.h"
+#include "gtk-mount-manager.h"
 #include "hks-info.h"
 #include "home.h"
 #include "idle-manager.h"
@@ -130,6 +131,7 @@ typedef struct
   PhoshTorchManager *torch_manager;
   PhoshModeManager *mode_manager;
   PhoshDockedManager *docked_manager;
+  PhoshGtkMountManager *gtk_mount_manager;
   PhoshHksManager *hks_manager;
   PhoshKeyboardEvents *keyboard_events;
   PhoshLocationManager *location_manager;
@@ -358,6 +360,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->screenshot_manager);
   g_clear_object (&priv->location_manager);
   g_clear_object (&priv->hks_manager);
+  g_clear_object (&priv->gtk_mount_manager);
   g_clear_object (&priv->docked_manager);
   g_clear_object (&priv->mode_manager);
   g_clear_object (&priv->torch_manager);
@@ -516,6 +519,7 @@ setup_idle_cb (PhoshShell *self)
   }
 
   priv->mount_manager = phosh_mount_manager_new ();
+  priv->gtk_mount_manager = phosh_gtk_mount_manager_new ();
 
   phosh_session_manager_register (priv->session_manager,
                                   PHOSH_APP_ID,
@@ -907,6 +911,20 @@ phosh_shell_get_feedback_manager (PhoshShell *self)
 
   return priv->feedback_manager;
 }
+
+
+PhoshGtkMountManager *
+phosh_shell_get_gtk_mount_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_GTK_MOUNT_MANAGER (priv->gtk_mount_manager), NULL);
+
+  return priv->gtk_mount_manager;
+}
+
 
 
 PhoshLockscreenManager *

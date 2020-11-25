@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.2 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <template class="PhoshGtkMountPrompt" parent="PhoshSystemModalDialog">
+    <property name="can_focus">False</property>
+    <signal name="dialog-canceled" handler="on_dialog_canceled"/>
+    <child type="phosh-dialog-content">
+      <object class="GtkGrid" id="grid_system_prompt">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="halign">center</property>
+        <property name="valign">center</property>
+        <property name="row_spacing">6</property>
+        <property name="column_spacing">12</property>
+        <child>
+          <object class="GtkLabel" id="lbl_password">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">end</property>
+            <property name="label" translatable="yes">Password:</property>
+            <property name="justify">right</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="entry_password">
+            <property name="visible">True</property>
+            <property name="buffer">password_buffer</property>
+            <property name="can-focus">True</property>
+            <property name="has-focus">True</property>
+            <property name="valign">center</property>
+            <property name="hexpand">True</property>
+            <property name="visibility">False</property>
+            <property name="invisible_char">●</property>
+            <property name="activates_default">True</property>
+            <property name="secondary_icon_name">eye-not-looking-symbolic</property>
+            <property name="primary_icon_sensitive">False</property>
+            <property name="input_purpose">password</property>
+            <signal name="icon-press" handler="on_pw_vis_icon_press" swapped="yes"/>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkImage" id="img_icon">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">center</property>
+            <property name="icon_name">dialog-password-symbolic</property>
+            <property name="icon_size">6</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkLabel" id="lbl_msg">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="margin_bottom">12</property>
+                <property name="justify">center</property>
+                <property name="wrap">True</property>
+                <property name="wrap_mode">word-char</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="lbl_user">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">end</property>
+            <property name="label" translatable="yes">User:</property>
+            <property name="justify">right</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="entry_user">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="lbl_domain">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">end</property>
+            <property name="label" translatable="yes">Domain:</property>
+            <property name="justify">right</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="entry_domain">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="top_attach">4</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+
+    <child type="phosh-dialog-button">
+      <object class="GtkButton" id="btn_cancel">
+        <property name="label">gtk-cancel</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="use_stock">True</property>
+        <property name="valign">center</property>
+        <signal name="clicked" handler="on_dialog_canceled" swapped="yes"/>
+      </object>
+    </child>
+    <child type="phosh-dialog-button">
+      <object class="GtkButton" id="btn_connect">
+        <property name="label" translatable="yes">Co_nnect</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="can-default">True</property>
+        <property name="has-default">True</property>
+        <property name="valign">center</property>
+        <property name="use_underline">True</property>
+        <signal name="clicked" handler="on_connect_clicked" swapped="yes"/>
+        <style>
+          <class name="suggested-action"/>
+        </style>
+      </object>
+    </child>
+  </template>
+
+  <object class="GcrSecureEntryBuffer" id="password_buffer"/>
+</interface>

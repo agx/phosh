@@ -113,3 +113,8 @@ generated_dbus_sources += gnome.gdbus_codegen('phosh-end-session-dialog-dbus',
                                               'org.gnome.SessionManager.EndSessionDialog.xml',
 					      interface_prefix: 'org.gnome.SessionManager',
 					      namespace: 'PhoshDBus')
+
+generated_dbus_sources += gnome.gdbus_codegen('phosh-gtk-mountoperation-dbus',
+                                              'org.Gtk.MountOperationHandler.xml',
+					      interface_prefix: 'org.Gtk',
+					      namespace: 'PhoshDBus')

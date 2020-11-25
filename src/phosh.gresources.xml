@@ -6,6 +6,7 @@
     <file preprocess="xml-stripblanks">ui/app-grid.ui</file>
     <file preprocess="xml-stripblanks">ui/app-grid-button.ui</file>
     <file preprocess="xml-stripblanks">ui/end-session-dialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/gtk-mount-prompt.ui</file>
     <file preprocess="xml-stripblanks">ui/overview.ui</file>
     <file preprocess="xml-stripblanks">ui/home.ui</file>
     <file preprocess="xml-stripblanks">ui/lockscreen.ui</file>

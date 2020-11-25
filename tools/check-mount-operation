@@ -1,0 +1,57 @@
+#!/bin/sh
+
+set -e
+
+FLAGS="0x9"
+ACTION=
+
+while [ -n "$1" ]; do
+    case "$1" in
+    -p|--password)
+	ACTION=password
+        ;;
+    -q|--question)
+	ACTION=question
+        ;;
+    -P|--processes)
+	ACTION=processes
+        ;;
+    -f|--flags)
+	shift
+	FLAGS="$1"
+	;;
+  esac
+  shift
+done
+
+NAME="org.gtk.MountOperationHandler"
+OBJECT_PATH="/org/gtk/MountOperationHandler"
+
+CLOSE="org.Gtk.MountOperationHandler.Close"
+
+echo "Action: '${ACTION}'"
+
+if [ "${ACTION}" = "question" ]; then
+    gdbus call --session --dest "${NAME}" \
+          --object-path  "${OBJECT_PATH}" \
+	  --method org.Gtk.MountOperationHandler.AskQuestion \
+	  "OpId0q" "What do you want to do?\nThere's so many questions." \
+	  "drive-harddisk" "['abc', 'def', '☃']"
+elif [ "${ACTION}" = "processes" ]; then
+    gdbus call --session --dest "${NAME}" \
+          --object-path  "${OBJECT_PATH}" \
+	  --method org.Gtk.MountOperationHandler.ShowProcesses \
+	  "OpId0P" "Volume is busy\nOne or more applictions are keeping the volume busy." \
+	  "drive-harddisk" "[123, 4, 10]" "['abc', 'def', '☃']"
+else
+    gdbus call --session --dest "${NAME}" \
+          --object-path  "${OBJECT_PATH}" \
+          --method org.Gtk.MountOperationHandler.AskPassword \
+	  "OpId0p" "Enter a passphrase to unlock the volume
+The passphrase is needed to access encrypted data on your usbstick  (8.1 GB Drive)." \
+	  "drive-harddisk" "" "" "${FLAGS}"
+fi
+
+gdbus call --session --dest "${NAME}" \
+           --object-path  "${OBJECT_PATH}" \
+           --method "${CLOSE}"

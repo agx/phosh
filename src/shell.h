@@ -12,6 +12,7 @@
 #include "bt-manager.h"
 #include "docked-manager.h"
 #include "feedback-manager.h"
+#include "gtk-mount-manager.h"
 #include "hks-manager.h"
 #include "location-manager.h"
 #include "lockscreen-manager.h"
@@ -74,6 +75,7 @@ PhoshMonitor        *phosh_shell_get_builtin_monitor (PhoshShell *self);
 /* Created by the shell on startup */
 PhoshBackgroundManager *phosh_shell_get_background_manager (PhoshShell *self);
 PhoshFeedbackManager   *phosh_shell_get_feedback_manager   (PhoshShell *self);
+PhoshGtkMountManager   *phosh_shell_get_gtk_mount_manager  (PhoshShell *self);
 PhoshLockscreenManager *phosh_shell_get_lockscreen_manager (PhoshShell *self);
 PhoshModeManager       *phosh_shell_get_mode_manager       (PhoshShell *self);
 PhoshMonitorManager    *phosh_shell_get_monitor_manager    (PhoshShell *self);
