@@ -132,6 +132,7 @@ phosh_mount_notification_new_from_mount (guint id, GMount *mount)
   g_autoptr (PhoshMountNotification) notification = NULL;
   g_autoptr (GFile) root = NULL;
   g_autoptr (GAppInfo) info = NULL;
+  g_autoptr (GAppInfo) handler_info = NULL;
   GDesktopAppInfo *desktop_info;
   gchar *actions[] = { NULL, _("Open"), NULL };
 
@@ -139,9 +140,14 @@ phosh_mount_notification_new_from_mount (guint id, GMount *mount)
   g_debug ("Mount '%s' added", name);
   icon = g_mount_get_symbolic_icon (mount);
   root = g_mount_get_root (mount);
-  uri = g_file_get_uri (root);
-  if (uri)
-    actions[0] = uri;
+
+  handler_info = g_app_info_get_default_for_type ("inode/directory", FALSE);
+  /* Only add an action if we have a handler */
+  if (handler_info) {
+    uri = g_file_get_uri (root);
+    if (uri)
+      actions[0] = uri;
+  }
 
   app_icon = g_themed_icon_new ("applications-system-symbolic");
   desktop_info = g_desktop_app_info_new (PHOSH_APP_ID ".desktop");
