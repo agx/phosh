@@ -11,6 +11,7 @@
 #include "config.h"
 #include "feedback-manager.h"
 #include "mount-manager.h"
+#include "mount-operation.h"
 #include "notifications/mount-notification.h"
 #include "notifications/notify-manager.h"
 #include "shell.h"
@@ -101,8 +102,9 @@ static void
 on_volume_added (PhoshMountManager *self, GVolume *vol, GVolumeMonitor *monitor)
 {
   gboolean automount;
-  gpointer ignore_lock;
+  gboolean mount_all;
   GCancellable *cancellable;
+  g_autoptr (PhoshMountOperation) op = NULL;
 
   g_autoptr (GMount) mount = NULL;
   g_autofree gchar *name = NULL;
@@ -116,8 +118,9 @@ on_volume_added (PhoshMountManager *self, GVolume *vol, GVolumeMonitor *monitor)
   if (!phosh_shell_is_session_active (phosh_shell_get_default ()))
     return;
 
-  ignore_lock = g_object_get_data (G_OBJECT (vol), "phosh-ignore-lock");
-  if (phosh_shell_get_locked (phosh_shell_get_default ()) && !ignore_lock)
+  mount_all = !!g_object_get_data (G_OBJECT (vol), "phosh-mount-all");
+  /* Initial mount-all is o.k. even when locked */
+  if (phosh_shell_get_locked (phosh_shell_get_default ()) && !mount_all)
     return;
 
   mount = g_volume_get_mount (vol);
@@ -133,12 +136,16 @@ on_volume_added (PhoshMountManager *self, GVolume *vol, GVolumeMonitor *monitor)
     return;
   }
 
+  /* If this is not the intial 'mount-all' run allow UI interaction */
+  if (!mount_all)
+    op = phosh_mount_operation_new ();
+
   cancellable = g_cancellable_new ();
   g_object_set_data (G_OBJECT (vol), "phosh-cancel", cancellable);
   g_ptr_array_add (self->cancellables, cancellable);
   g_ptr_array_ref (self->cancellables);
   g_debug ("Mounting '%s'", name);
-  g_volume_mount (g_object_ref (vol), G_MOUNT_MOUNT_NONE, NULL, cancellable,
+  g_volume_mount (g_object_ref (vol), G_MOUNT_MOUNT_NONE, G_MOUNT_OPERATION (op), cancellable,
                   (GAsyncReadyCallback)on_mount_finished, g_object_ref (self));
 }
 
@@ -243,7 +250,7 @@ on_session_active_changed (PhoshMountManager *self, GParamSpec *pspec, PhoshSess
   for (GList *elem = volumes; elem != NULL; elem = elem->next) {
     GVolume *vol = G_VOLUME (elem->data);
     /* Ignore screen lock on initial startup */
-    g_object_set_data (G_OBJECT (vol), "phosh-ignore-lock", GINT_TO_POINTER (TRUE));
+    g_object_set_data (G_OBJECT (vol), "phosh-mount-all", GINT_TO_POINTER (TRUE));
     on_volume_added (self, vol, self->monitor);
   }
 
