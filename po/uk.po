@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-10-27 15:31+0000\n"
-"PO-Revision-Date: 2020-10-28 18:28+0200\n"
+"POT-Creation-Date: 2020-11-30 15:32+0000\n"
+"PO-Revision-Date: 2020-11-30 17:51+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -110,7 +110,11 @@ msgstr "Підтримки типу розпізнавання у мережі w
 msgid "Enter password for the wifi network “%s”"
 msgstr "Введіть пароль до мережі wifi «%s»"
 
-#: src/notifications/notification.c:382 src/notifications/notification.c:601
+#: src/notifications/mount-notification.c:137
+msgid "Open"
+msgstr "Відкрити"
+
+#: src/notifications/notification.c:381 src/notifications/notification.c:637
 msgid "Notification"
 msgstr "Сповіщення"
 
@@ -194,6 +198,10 @@ msgstr "Понад"
 #: src/notifications/timestamp-label.c:202
 msgid "Almost"
 msgstr "Майже"
+
+#: src/notifications/timestamp-label.c:210
+msgid "now"
+msgstr "зараз"
 
 #: src/polkit-auth-agent.c:231
 msgid "Authentication dialog was dismissed by the user"
