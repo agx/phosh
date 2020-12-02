@@ -5,15 +5,15 @@ PHOC_INI="@pkgdatadir@/phoc.ini"
 
 gnome_session_args()
 {
-    ARGS="--disable-acceleration-check --session=phosh"
+  ARGS="--disable-acceleration-check --session=phosh"
 
-    # Use builtin session handling until we can rely
-    # on a newer gnome-session everywhere
-    if gnome-session --help | grep -qs -e--builtin; then
-        ARGS="--builtin ${ARGS}"
-    fi
+  # Use builtin session handling until we can rely
+  # on a newer gnome-session everywhere
+  if gnome-session --help | grep -qs -e--builtin; then
+      ARGS="--builtin ${ARGS}"
+  fi
 
-    echo "${ARGS}"
+  echo "${ARGS}"
 }
 
 help()
@@ -26,7 +26,7 @@ also run it from a tty.
 
 Usage: phosh
 EOF
-exit 0
+  exit 0
 }
 
 case "$1" in
