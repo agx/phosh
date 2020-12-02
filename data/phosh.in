@@ -29,9 +29,19 @@ EOF
   exit 0
 }
 
+
+version()
+{
+   echo "@version@"
+   exit 0
+}
+
 case "$1" in
   -h|-\?|--help)
     help
+    ;;
+  --version)
+    version
     ;;
 esac
 

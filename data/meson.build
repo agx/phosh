@@ -45,6 +45,7 @@ runconf = configuration_data()
 runconf.set('bindir', bindir)
 runconf.set('libexecdir', libexecdir)
 runconf.set('pkgdatadir', pkgdatadir)
+runconf.set('version', meson.project_version())
 runconf.set('wlrootsdir', join_paths(libexecdir, 'wlroots'))
 configure_file(
   input: 'phosh.in',
