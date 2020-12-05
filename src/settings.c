@@ -26,7 +26,6 @@
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
 #include "media-player.h"
-#include "keyboard-events.h"
 
 #include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
@@ -38,8 +37,6 @@
 
 #define LIBFEEDBACK_USE_UNSTABLE_API
 #include <libfeedback.h>
-
-#define VOLUME_SCALE 5
 
 /**
  * SECTION:settings
@@ -77,13 +74,6 @@ typedef struct _PhoshSettings
 
 G_DEFINE_TYPE (PhoshSettings, phosh_settings, GTK_TYPE_BIN)
 
-static void raise_volume (GSimpleAction *action, GVariant *param, gpointer self);
-static void lower_volume (GSimpleAction *action, GVariant *param, gpointer self);
-
-const GActionEntry action_entries[] = {
-  { "XF86AudioLowerVolume", lower_volume, },
-  { "XF86AudioRaiseVolume", raise_volume, },
-};
 
 static void
 brightness_value_changed_cb (GtkScale *scale_brightness, gpointer *unused)
@@ -186,42 +176,6 @@ docked_setting_clicked_cb (PhoshSettings *self)
 
   enabled = phosh_docked_manager_get_enabled (manager);
   phosh_docked_manager_set_enabled (manager, !enabled);
-}
-
-
-static void
-change_volume (PhoshSettings *self,
-               int            steps)
-{
-  GtkAdjustment *adj;
-  double vol, inc;
-
-  adj = GTK_ADJUSTMENT (gvc_channel_bar_get_adjustment (GVC_CHANNEL_BAR (self->output_vol_bar)));
-
-  vol = gtk_adjustment_get_value (adj);
-  inc = gtk_adjustment_get_step_increment (adj);
-
-  vol += steps * inc * VOLUME_SCALE;
-
-  g_debug ("Setting volume to %f", vol);
-
-  gtk_adjustment_set_value (adj, vol);
-}
-
-static void
-lower_volume (GSimpleAction *action, GVariant *param, gpointer self)
-{
-  g_return_if_fail (PHOSH_IS_SETTINGS (self));
-
-  change_volume (PHOSH_SETTINGS (self), -1);
-}
-
-static void
-raise_volume (GSimpleAction *action, GVariant *param, gpointer self)
-{
-  g_return_if_fail (PHOSH_IS_SETTINGS (self));
-
-  change_volume (PHOSH_SETTINGS (self), 1);
 }
 
 
@@ -459,11 +413,6 @@ phosh_settings_constructed (GObject *object)
   on_notifcation_items_changed (self, -1, -1, -1,
                                 G_LIST_MODEL (phosh_notify_manager_get_list (manager)));
 
-  phosh_shell_add_global_keyboard_action_entries (phosh_shell_get_default (),
-                                                  action_entries,
-                                                  G_N_ELEMENTS (action_entries),
-                                                  self);
-
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
 
@@ -479,10 +428,6 @@ phosh_settings_dispose (GObject *object)
     end_notify_feedback (self);
     g_clear_object (&self->notify_event);
   }
-
-  phosh_shell_remove_global_keyboard_action_entries (phosh_shell_get_default (),
-                                                     action_entries,
-                                                     G_N_ELEMENTS (action_entries));
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->dispose (object);
 }
