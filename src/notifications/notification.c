@@ -18,9 +18,10 @@
 /**
  * PhoshNotification:
  *
- * A notification
+ * A notification displayed to the user
  *
- * A #PhoshNotification with summary, body, icon, actions, etc.
+ * A notification usually consists of a summary, a body (the content)
+ * and an icon.
  */
 
 enum {
@@ -275,18 +276,14 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
       "Application icon",
       G_TYPE_ICON,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
-
   /**
    * PhoshNotification:app-info:
    *
-   * When non-%NULL this overrides the values of #PhoshNotification:app-name
-   * and #PhoshNotification:app-icon with those from the #GAppInfo
+   * When non-%NULL this overrides the values of [property@Notification:app-name]
+   * and [property@Notification:app-icon] with those from the `GAppInfo`.
    */
   props[PROP_APP_INFO] =
-    g_param_spec_object (
-      "app-info",
-      "App Info",
-      "Application info",
+    g_param_spec_object ("app-info", "", "",
       G_TYPE_APP_INFO,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
@@ -338,7 +335,6 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
       "The notification's category",
       "",
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
-
   /**
    * PhoshNotification:profile:
    *
@@ -356,9 +352,13 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
   /**
-   * PhoshNotifiation::actioned:
+   * PhoshNotification::actioned:
+   * @self: The notification
+   * @action: The name of the activated action
    *
-   * When the user activates one of the provided actions (inc default)
+   * Emitted when the user activates one of the provided actions
+   *
+   * This includes the default action.
    */
   signals[SIGNAL_ACTIONED] = g_signal_new ("actioned",
                                            G_TYPE_FROM_CLASS (klass),
@@ -367,11 +367,11 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
                                            G_TYPE_NONE,
                                            1,
                                            G_TYPE_STRING);
-
   /**
-   * PhoshNotifiation::expired:
+   * PhoshNotification::expired:
+   * @self: The notification
    *
-   * The timeout set by phosh_notification_expires() has expired
+   * Emitted when the timeout set by [method@Notification.expires] has expired
    */
   signals[SIGNAL_EXPIRED] = g_signal_new ("expired",
                                           G_TYPE_FROM_CLASS (klass),
@@ -379,13 +379,12 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
                                           NULL,
                                           G_TYPE_NONE,
                                           0);
-
   /**
-   * PhoshNotifiation::closed:
-   * @self: the #PhoshNotifiation
-   * @reason: why @self was closed
+   * PhoshNotification::closed:
+   * @self: The #PhoshNotifiation
+   * @reason: Why @self was closed
    *
-   * The notification has been closed
+   * Emitted when the notification has been closed
    */
   signals[SIGNAL_CLOSED] = g_signal_new ("closed",
                                          G_TYPE_FROM_CLASS (klass),
@@ -697,7 +696,6 @@ phosh_notification_get_app_name (PhoshNotification *self)
   return priv->app_name;
 }
 
-
 /**
  * phosh_notification_set_timestamp:
  * @self: A #PhoshNotification
@@ -757,7 +755,6 @@ phosh_notification_set_actions (PhoshNotification *self,
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACTIONS]);
 }
 
-
 /**
  * phosh_notification_get_actions:
  * @self: The #PhoshNotification
@@ -806,7 +803,6 @@ phosh_notification_get_urgency (PhoshNotification *self)
   return priv->urgency;
 }
 
-
 /**
  * phosh_notification_set_transient:
  * @self: the #PhoshNotification
@@ -831,7 +827,6 @@ phosh_notification_set_transient (PhoshNotification *self,
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TRANSIENT]);
 }
 
-
 /**
  * phosh_notification_get_transient:
  * @self: the #PhoshNotification
@@ -851,13 +846,12 @@ phosh_notification_get_transient (PhoshNotification *self)
   return priv->transient;
 }
 
-
 /**
  * phosh_notification_set_resident:
  * @self: the #PhoshNotification
  * @resident: is the notification resident
  *
- * Set whether of not invoking actions dismiss @self
+ * Set whether or not invoking actions dismiss @self
  */
 void
 phosh_notification_set_resident (PhoshNotification *self,
@@ -875,7 +869,6 @@ phosh_notification_set_resident (PhoshNotification *self,
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_RESIDENT]);
 }
-
 
 /**
  * phosh_notification_get_resident:
@@ -896,13 +889,12 @@ phosh_notification_get_resident (PhoshNotification *self)
   return priv->resident;
 }
 
-
 /**
  * phosh_notification_set_category:
  * @self: the #PhoshNotification
  * @category: the new category
  *
- * Set the type of notification, such as "email.arrived"
+ * Set the category of the notification, such as `email.arrived`
  */
 void
 phosh_notification_set_category (PhoshNotification *self,
@@ -922,14 +914,13 @@ phosh_notification_set_category (PhoshNotification *self,
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CATEGORY]);
 }
 
-
 /**
  * phosh_notification_get_category:
  * @self: the #PhoshNotification
  *
  * Get the category hint the notification was sent with
  *
- * See https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html
+ * See <https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html>
  *
  * Returns: the category or %NULL
  */
@@ -1021,7 +1012,6 @@ expired (gpointer data)
   return G_SOURCE_REMOVE;
 }
 
-
 /**
  * phosh_notification_expires:
  * @self: the #PhoshNotification
@@ -1029,8 +1019,8 @@ expired (gpointer data)
  *
  * Set @self to expire after @timeout (from this call)
  *
- * Note doesn't close the notification, for that call
- * phosh_notification_close() is response to #PhoshNotification::expired
+ * Note: doesn't close the notification, for that call
+ * [method@Notification.close] in response to [signal@Notification::expired].
  */
 void
 phosh_notification_expires (PhoshNotification *self,
@@ -1045,7 +1035,6 @@ phosh_notification_expires (PhoshNotification *self,
   priv->timeout = g_timeout_add (timeout, expired, self);
   g_source_set_name_by_id (priv->timeout, "[phosh] notification_expires_id");
 }
-
 
 /**
  * phosh_notification_close:
