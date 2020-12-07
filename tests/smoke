@@ -14,7 +14,6 @@ TIMEOUT=5
 DISPLAY=:99
 
 function cleanup () {
-  [ ! -f core ] || echo bt | gdb -c core _build/src/phosh | tee >& "${OUTDIR}"/backtrace.log
   [ ! -f "${WLROOTS_LOG}" ] || cat "${WLROOTS_LOG}"                || true
   [ ! -f "${PHOSH_LOG}" ]   || cat "${PHOSH_LOG}"                  || true
   [ -z "${XVFB_PID}" ]      || kill -9 "${XVFB_PID}"  >& /dev/null || true
@@ -27,6 +26,7 @@ trap cleanup EXIT
 function usage () {
     cat <<EOF
 Usage: $0
+    -c           - Try to generate a backtrace automatically
     -h           - Display this help message."
     -T <seconds> - how long should phosh run (default $TIMEOUT seconds
     -V           - run under valgrind
@@ -34,8 +34,11 @@ EOF
 }
 
 
-while getopts "hT:V" opt; do
+while getopts "chT:V" opt; do
   case ${opt} in
+    c)
+      debug_crash=1
+      ;;
     T)
       TIMEOUT=$OPTARG
       ;;
@@ -106,6 +109,14 @@ echo "weston-info output:"
 weston-info
 
 echo "Starting phosh..."
+
+# When debugging a crash omit all session
+# and auto generate a backtrace:
+if [ -n "${debug_crash}" ]; then
+  echo "Using PHOSH_AUTO_GDB..."
+  export SKIP_GNOME_SESSION=1
+  export PHOSH_AUTO_GDB=1
+fi
 _build/run >& "${PHOSH_LOG}" &
 PHOSH_PID=$!
 
