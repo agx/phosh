@@ -19,6 +19,7 @@
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-bg.h>
+#include <libgnome-desktop/gnome-bg-slide-show.h>
 
 #include <gio/gio.h>
 
@@ -62,7 +63,7 @@ struct _PhoshBackground
 {
   PhoshLayerSurface parent;
 
-  char *uri;
+  char *uri; /* uri in the org.gnome.desktop.background gsetting */
   GDesktopBackgroundStyle style;
   GdkRGBA color;
 
@@ -71,6 +72,8 @@ struct _PhoshBackground
   GdkPixbuf *pixbuf;
   GSettings *settings;
   gboolean configured;
+
+  GnomeBGSlideShow *slideshow;
 
   GCancellable *cancel;
 };
@@ -318,26 +321,91 @@ on_pixbuf_loaded (GObject         *source_object,
 
 
 static gboolean
-load_image(PhoshBackground *self)
+load_image(PhoshBackground *self, const gchar *uri)
 {
   g_autoptr(GFile) file = NULL;
   g_autoptr(GInputStream) stream = NULL;
   GError *err = NULL;
 
-  file = g_file_new_for_uri (self->uri);
+  file = g_file_new_for_uri (uri);
+  /* TODO: should be async */
   stream = G_INPUT_STREAM (g_file_read (file, NULL, &err));
   if (!stream) {
-    g_warning ("Unable to open %s: %s", self->uri, err->message);
+    g_warning ("Unable to open %s: %s", uri, err->message);
     return FALSE;
   }
 
   self->cancel = g_cancellable_new ();
-  g_debug ("loading %s", self->uri);
+  g_debug ("loading %s", uri);
   gdk_pixbuf_new_from_stream_async (stream,
                                     self->cancel,
                                     (GAsyncReadyCallback)on_pixbuf_loaded,
                                     g_object_ref(self));
 
+  return TRUE;
+}
+
+
+static void
+on_slideshow_loaded (GnomeBGSlideShow *slideshow,
+                     GAsyncResult     *res,
+                     PhoshBackground  *self)
+{
+  g_autoptr (GError) err = NULL;
+  g_autofree gchar *image_uri = NULL;
+  gint width, height;
+  gboolean fixed;
+  const gchar *file1;
+
+  g_return_if_fail (GNOME_BG_IS_SLIDE_SHOW (slideshow));
+  g_return_if_fail (PHOSH_IS_BACKGROUND (self));
+
+  if (!g_task_propagate_boolean (G_TASK (res), &err)) {
+    g_warning ("Failed to load %s: %s", self->uri, err->message);
+    goto out;
+  }
+
+  g_debug ("Slideshow %s loaded", self->uri);
+
+  g_object_get (self, "configured-width", &width, "configured-height", &height, NULL);
+  /* TODO: handle actual slideshows (fixed == false) */
+  gnome_bg_slide_show_get_slide (self->slideshow, 0, width * self->scale, height * self->scale,
+                                 NULL, NULL, &fixed, &file1, NULL);
+
+  g_debug ("Background file: %s, fixed: %d", file1, fixed);
+  if (!fixed)
+    g_warning ("Only fixed slideshows supported properly atm");
+  image_uri = g_strdup_printf ("file://%s", file1);
+  load_image (self, image_uri);
+out:
+  g_object_unref (self);
+}
+
+
+static gboolean
+load_slideshow (PhoshBackground *self)
+{
+  g_autoptr (GError) err = NULL;
+  g_autofree gchar *filename = NULL;
+  g_autoptr (GFile) file = NULL;
+  g_autoptr (GInputStream) stream = NULL;
+
+  g_debug ("loading %s", self->uri);
+  /* Older gnome-desktop doesn't have a file property so
+     convert to filename */
+  filename = g_filename_from_uri (self->uri, NULL, &err);
+  if (!filename) {
+    g_warning ("Couldn't get filename for %s: %s", self->uri, err->message);
+    return FALSE;
+  }
+  self->slideshow = gnome_bg_slide_show_new (filename);
+
+  self->cancel = g_cancellable_new ();
+
+  gnome_bg_slide_show_load_async (self->slideshow,
+                                  self->cancel,
+                                  (GAsyncReadyCallback)on_slideshow_loaded,
+                                  g_object_ref (self));
   return TRUE;
 }
 
@@ -350,7 +418,6 @@ load_background (PhoshBackground *self)
     return;
   }
 
-  /* FIXME: support GnomeDesktop.BGSlideShow as well */
   if (!g_str_has_prefix(self->uri, "file:///")) {
     g_warning ("Only file URIs supported for backgrounds not %s", self->uri);
     goto fallback;
@@ -362,8 +429,13 @@ load_background (PhoshBackground *self)
     g_clear_object (&self->cancel);
   }
 
-  if (load_image (self))
+  if (g_str_has_suffix (self->uri, ".xml")) {
+    if (load_slideshow (self))
       return;
+  } else {
+    if (load_image (self, self->uri))
+      return;
+  }
 
 fallback:
   /* No proper background format found */
@@ -458,6 +530,17 @@ phosh_background_constructed (GObject *object)
 
 
 static void
+phosh_background_dispose (GObject *object)
+{
+  PhoshBackground *self = PHOSH_BACKGROUND (object);
+
+  g_clear_object (&self->slideshow);
+
+  G_OBJECT_CLASS (phosh_background_parent_class)->finalize (object);
+}
+
+
+static void
 phosh_background_finalize (GObject *object)
 {
   GObjectClass *parent_class = G_OBJECT_CLASS (phosh_background_parent_class);
@@ -481,6 +564,7 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
       NULL, G_TYPE_NONE, 0);
 
   object_class->constructed = phosh_background_constructed;
+  object_class->dispose = phosh_background_dispose;
   object_class->finalize = phosh_background_finalize;
 
   object_class->set_property = phosh_background_set_property;
