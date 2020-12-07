@@ -263,6 +263,30 @@ phosh_swipe_away_bin_swipeable_init (HdySwipeableInterface *iface)
 
 
 void
+phosh_swipe_away_bin_hide (PhoshSwipeAwayBin *self)
+{
+  g_return_if_fail (PHOSH_IS_SWIPE_AWAY_BIN (self));
+
+  if (self->animation)
+    phosh_animation_stop (self->animation);
+
+  set_progress (self, 1);
+}
+
+
+void
+phosh_swipe_away_bin_reveal (PhoshSwipeAwayBin *self)
+{
+  g_return_if_fail (PHOSH_IS_SWIPE_AWAY_BIN (self));
+
+  if (self->animation)
+    phosh_animation_stop (self->animation);
+
+  animate (self, 200, 0, PHOSH_ANIMATION_TYPE_EASE_OUT_CUBIC);
+}
+
+
+void
 phosh_swipe_away_bin_remove (PhoshSwipeAwayBin *self)
 {
   g_return_if_fail (PHOSH_IS_SWIPE_AWAY_BIN (self));
