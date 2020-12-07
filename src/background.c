@@ -304,7 +304,7 @@ on_pixbuf_loaded (GObject         *source_object,
       /* Do nothing we expect a new load to be triggered */
       g_debug ("Load of %s canceled", self->uri);
     } else {
-      g_warning ("Failed to load background: %s", err->message);
+      g_warning ("Failed to load background %s: %s", self->uri, err->message);
     }
     if (!self->pixbuf)
       background_fallback (self);
@@ -317,29 +317,42 @@ on_pixbuf_loaded (GObject         *source_object,
 }
 
 
-static void
-load_background (PhoshBackground *self)
+static gboolean
+load_image(PhoshBackground *self)
 {
-  GError *err = NULL;
   g_autoptr(GFile) file = NULL;
   g_autoptr(GInputStream) stream = NULL;
-
-  if (self->style == G_DESKTOP_BACKGROUND_STYLE_NONE) {
-    background_update (self, NULL, self->style);
-    return;
-  }
-
-  g_debug ("open %s", self->uri);
-  /* FIXME: support GnomeDesktop.BGSlideShow as well */
-  if (!g_str_has_prefix(self->uri, "file:///")) {
-    g_warning ("Only file URIs supported for backgrounds not %s", self->uri);
-    goto fallback;
-  }
+  GError *err = NULL;
 
   file = g_file_new_for_uri (self->uri);
   stream = G_INPUT_STREAM (g_file_read (file, NULL, &err));
   if (!stream) {
     g_warning ("Unable to open %s: %s", self->uri, err->message);
+    return FALSE;
+  }
+
+  self->cancel = g_cancellable_new ();
+  g_debug ("loading %s", self->uri);
+  gdk_pixbuf_new_from_stream_async (stream,
+                                    self->cancel,
+                                    (GAsyncReadyCallback)on_pixbuf_loaded,
+                                    g_object_ref(self));
+
+  return TRUE;
+}
+
+
+static void
+load_background (PhoshBackground *self)
+{
+  if (self->style == G_DESKTOP_BACKGROUND_STYLE_NONE) {
+    background_update (self, NULL, self->style);
+    return;
+  }
+
+  /* FIXME: support GnomeDesktop.BGSlideShow as well */
+  if (!g_str_has_prefix(self->uri, "file:///")) {
+    g_warning ("Only file URIs supported for backgrounds not %s", self->uri);
     goto fallback;
   }
 
@@ -349,13 +362,8 @@ load_background (PhoshBackground *self)
     g_clear_object (&self->cancel);
   }
 
-  self->cancel = g_cancellable_new ();
-  g_debug ("loading %s", self->uri);
-  gdk_pixbuf_new_from_stream_async (stream,
-                                    self->cancel,
-                                    (GAsyncReadyCallback)on_pixbuf_loaded,
-                                    g_object_ref(self));
-  return;
+  if (load_image (self))
+      return;
 
 fallback:
   /* No proper background format found */
