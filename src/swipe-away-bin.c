@@ -18,9 +18,20 @@ enum {
 };
 static guint signals[N_SIGNALS] = { 0 };
 
+
+enum {
+  PROP_0,
+  PROP_ORIENTATION,
+
+  LAST_PROP = PROP_ORIENTATION
+};
+
+
 struct _PhoshSwipeAwayBin
 {
   GtkEventBox parent_instance;
+
+  GtkOrientation orientation;
 
   double progress;
   HdySwipeTracker *tracker;
@@ -30,6 +41,7 @@ struct _PhoshSwipeAwayBin
 static void phosh_swipe_away_bin_swipeable_init (HdySwipeableInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (PhoshSwipeAwayBin, phosh_swipe_away_bin, GTK_TYPE_EVENT_BOX,
+                         G_IMPLEMENT_INTERFACE (GTK_TYPE_ORIENTABLE, NULL)
                          G_IMPLEMENT_INTERFACE (HDY_TYPE_SWIPEABLE, phosh_swipe_away_bin_swipeable_init))
 
 
@@ -119,6 +131,19 @@ end_swipe_cb (PhoshSwipeAwayBin *self,
 
 
 static void
+update_orientation (PhoshSwipeAwayBin *self)
+{
+  gboolean reversed =
+    self->orientation == GTK_ORIENTATION_HORIZONTAL &&
+    gtk_widget_get_direction (GTK_WIDGET (self)) == GTK_TEXT_DIR_RTL;
+
+  hdy_swipe_tracker_set_reversed (self->tracker, reversed);
+
+  gtk_widget_queue_allocate (GTK_WIDGET (self));
+}
+
+
+static void
 phosh_swipe_away_bin_finalize (GObject *object)
 {
   PhoshSwipeAwayBin *self = PHOSH_SWIPE_AWAY_BIN (object);
@@ -127,6 +152,51 @@ phosh_swipe_away_bin_finalize (GObject *object)
   g_clear_pointer (&self->animation, phosh_animation_unref);
 
   G_OBJECT_CLASS (phosh_swipe_away_bin_parent_class)->finalize (object);
+}
+
+
+static void
+phosh_swipe_away_bin_get_property (GObject    *object,
+                                   guint       prop_id,
+                                   GValue     *value,
+                                   GParamSpec *pspec)
+{
+  PhoshSwipeAwayBin *self = PHOSH_SWIPE_AWAY_BIN (object);
+
+  switch (prop_id) {
+  case PROP_ORIENTATION:
+    g_value_set_enum (value, self->orientation);
+    break;
+
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+  }
+}
+
+
+static void
+phosh_swipe_away_bin_set_property (GObject      *object,
+                                   guint         prop_id,
+                                   const GValue *value,
+                                   GParamSpec   *pspec)
+{
+  PhoshSwipeAwayBin *self = PHOSH_SWIPE_AWAY_BIN (object);
+
+  switch (prop_id) {
+  case PROP_ORIENTATION:
+    {
+      GtkOrientation orientation = g_value_get_enum (value);
+      if (orientation != self->orientation) {
+        self->orientation = orientation;
+        update_orientation (self);
+        g_object_notify (G_OBJECT (self), "orientation");
+      }
+    }
+    break;
+
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+  }
 }
 
 
@@ -143,12 +213,32 @@ phosh_swipe_away_bin_size_allocate (GtkWidget     *widget,
   if (!child || !gtk_widget_get_visible (child))
     return;
 
-  child_alloc.x = alloc->x;
-  child_alloc.y = alloc->y - (int) (self->progress * alloc->height);
+  if (self->orientation == GTK_ORIENTATION_HORIZONTAL) {
+    if (gtk_widget_get_direction (GTK_WIDGET (self)) == GTK_TEXT_DIR_RTL)
+      child_alloc.x = alloc->x + (int) (self->progress * alloc->width);
+    else
+      child_alloc.x = alloc->x - (int) (self->progress * alloc->width);
+
+    child_alloc.y = alloc->y;
+  } else {
+    child_alloc.x = alloc->x;
+    child_alloc.y = alloc->y - (int) (self->progress * alloc->height);
+  }
+
   child_alloc.width = alloc->width;
   child_alloc.height = alloc->height;
 
   gtk_widget_size_allocate (child, &child_alloc);
+}
+
+
+static void
+phosh_swipe_away_bin_direction_changed (GtkWidget        *widget,
+                                        GtkTextDirection  previous_direction)
+{
+  PhoshSwipeAwayBin *self = PHOSH_SWIPE_AWAY_BIN (widget);
+
+  update_orientation (self);
 }
 
 
@@ -159,7 +249,14 @@ phosh_swipe_away_bin_class_init (PhoshSwipeAwayBinClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->finalize = phosh_swipe_away_bin_finalize;
+  object_class->get_property = phosh_swipe_away_bin_get_property;
+  object_class->set_property = phosh_swipe_away_bin_set_property;
   widget_class->size_allocate = phosh_swipe_away_bin_size_allocate;
+  widget_class->direction_changed = phosh_swipe_away_bin_direction_changed;
+
+  g_object_class_override_property (object_class,
+                                    PROP_ORIENTATION,
+                                    "orientation");
 
   signals[REMOVED] =
     g_signal_new ("removed",
@@ -179,9 +276,11 @@ phosh_swipe_away_bin_init (PhoshSwipeAwayBin *self)
 {
   self->tracker = hdy_swipe_tracker_new (HDY_SWIPEABLE (self));
 
-  gtk_orientable_set_orientation (GTK_ORIENTABLE (self->tracker),
-                                  GTK_ORIENTATION_VERTICAL);
+  g_object_bind_property (self, "orientation",
+                          self->tracker, "orientation",
+                          G_BINDING_SYNC_CREATE);
   hdy_swipe_tracker_set_allow_mouse_drag (self->tracker, TRUE);
+  update_orientation (self);
 
   g_signal_connect_object (self->tracker, "begin-swipe",
                            G_CALLBACK (begin_swipe_cb), self,
@@ -207,7 +306,12 @@ phosh_swipe_away_bin_get_swipe_tracker (HdySwipeable *swipeable)
 static double
 phosh_swipe_away_bin_get_distance (HdySwipeable *swipeable)
 {
-  return (double) gtk_widget_get_allocated_height (GTK_WIDGET (swipeable));
+  PhoshSwipeAwayBin *self = PHOSH_SWIPE_AWAY_BIN (swipeable);
+
+  if (self->orientation == GTK_ORIENTATION_HORIZONTAL)
+    return (double) gtk_widget_get_allocated_width (GTK_WIDGET (self));
+  else
+    return (double) gtk_widget_get_allocated_height (GTK_WIDGET (self));
 }
 
 
