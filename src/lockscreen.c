@@ -340,7 +340,7 @@ date_fmt (void)
     setlocale (LC_MESSAGES, locale);
   /* Translators: This is a time format for a date in
      long format */
-  fmt = _("%A, %B %d");
+  fmt = _("%A, %B %-e");
   setlocale (LC_MESSAGES, "");
   return fmt;
 }
