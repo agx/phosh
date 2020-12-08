@@ -25,10 +25,12 @@
 
 #define NOTIFICATIONS_SCHEMA_ID "org.gnome.desktop.notifications"
 #define NOTIFICATIONS_KEY_SHOW_BANNERS "show-banners"
+#define NOTIFICATIONS_KEY_APP_CHILDREN "application-children"
 
 #define NOTIFICATIONS_APP_SCHEMA_ID NOTIFICATIONS_SCHEMA_ID ".application"
 #define NOTIFICATIONS_APP_PREFIX "/org/gnome/desktop/notifications/application"
 #define NOTIFICATIONS_APP_KEY_SHOW_BANNERS "show-banners"
+#define NOTIFICATIONS_APP_KEY_APP_ID "application-id"
 
 /**
  * SECTION:notify-manager
@@ -53,6 +55,7 @@ typedef struct _PhoshNotifyManager
   guint next_id;
   guint unknown_source;
   gboolean show_banners;
+  GStrv app_children;
 
   GSettings *settings;
 
@@ -277,6 +280,36 @@ parse_icon_string (const char *string)
 }
 
 
+static void
+phosh_notify_manager_add_application (PhoshNotifyManager *self, GAppInfo *info)
+{
+  g_autofree char *munged_id = NULL;
+  g_autofree char *path = NULL;
+  g_autoptr (GSettings) settings = NULL;
+  g_autoptr(GPtrArray) new_apps = NULL;
+  const gchar *id;
+
+  id = g_app_info_get_id(info);
+  munged_id = phosh_munge_app_id (id);
+  if (g_strv_contains ((const gchar * const *)self->app_children, munged_id))
+    return;
+
+  g_debug ("Adding new application: %s/%s", id, munged_id);
+  new_apps = g_ptr_array_sized_new (g_strv_length (self->app_children) + 1);
+  for (int i = 0; i < g_strv_length (self->app_children); i++)
+    g_ptr_array_add (new_apps, self->app_children[i]);
+
+  g_ptr_array_add (new_apps, munged_id);
+  g_ptr_array_add (new_apps, NULL);
+
+  path = g_strconcat (NOTIFICATIONS_APP_PREFIX, "/", munged_id, "/", NULL);
+  settings = g_settings_new_with_path (NOTIFICATIONS_APP_SCHEMA_ID, path);
+  g_settings_set_string (settings, NOTIFICATIONS_APP_KEY_APP_ID, id);
+  g_settings_set_strv (self->settings, NOTIFICATIONS_KEY_APP_CHILDREN,
+                       (const gchar * const *)new_apps->pdata);
+}
+
+
 static gboolean
 handle_notify (PhoshNotifyDBusNotifications *skeleton,
                GDBusMethodInvocation        *invocation,
@@ -409,8 +442,10 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
   } else {
     PhoshDBusNotification *dbus_notification;
 
-    id = phosh_notify_manager_get_notification_id (self);
+    if (info)
+      phosh_notify_manager_add_application (self, info);
 
+    id = phosh_notify_manager_get_notification_id (self);
     dbus_notification = phosh_dbus_notification_new (id,
                                                      app_name,
                                                      info,
@@ -457,6 +492,19 @@ on_notifications_setting_changed (PhoshNotifyManager *self,
   g_return_if_fail (G_IS_SETTINGS (settings));
 
   self->show_banners = g_settings_get_boolean (settings, NOTIFICATIONS_KEY_SHOW_BANNERS);
+}
+
+
+static void
+on_notification_apps_setting_changed (PhoshNotifyManager *self,
+                                      const char         *key,
+                                      GSettings          *settings)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
+  g_return_if_fail (G_IS_SETTINGS (settings));
+
+  g_strfreev (self->app_children);
+  self->app_children = g_settings_get_strv (settings, NOTIFICATIONS_KEY_APP_CHILDREN);
 }
 
 
@@ -509,6 +557,18 @@ phosh_notify_manager_dispose (GObject *object)
 
 
 static void
+phosh_notify_manager_finalize (GObject *object)
+{
+  PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (object);
+
+  g_strfreev (self->app_children);
+
+  G_OBJECT_CLASS (phosh_notify_manager_parent_class)->finalize (object);
+}
+
+
+
+static void
 phosh_notify_manager_constructed (GObject *object)
 {
   PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (object);
@@ -528,6 +588,10 @@ phosh_notify_manager_constructed (GObject *object)
   g_signal_connect_swapped (self->settings, "changed::" NOTIFICATIONS_KEY_SHOW_BANNERS,
                             G_CALLBACK (on_notifications_setting_changed), self);
   on_notifications_setting_changed (self, NULL, self->settings);
+
+  g_signal_connect_swapped (self->settings, "changed::" NOTIFICATIONS_KEY_APP_CHILDREN,
+                            G_CALLBACK (on_notification_apps_setting_changed), self);
+  on_notification_apps_setting_changed (self, NULL, self->settings);
 }
 
 
@@ -538,7 +602,7 @@ phosh_notify_manager_class_init (PhoshNotifyManagerClass *klass)
 
   object_class->constructed = phosh_notify_manager_constructed;
   object_class->dispose = phosh_notify_manager_dispose;
-
+  object_class->finalize = phosh_notify_manager_finalize;
 
   /**
    * PhoshNotifyManager::new-notification:
