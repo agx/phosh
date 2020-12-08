@@ -17,6 +17,10 @@ gboolean phosh_swipe_away_bin_get_allow_negative (PhoshSwipeAwayBin *self);
 void     phosh_swipe_away_bin_set_allow_negative (PhoshSwipeAwayBin *self,
                                                   gboolean           allow_negative);
 
+gboolean phosh_swipe_away_bin_get_reserve_size (PhoshSwipeAwayBin *self);
+void     phosh_swipe_away_bin_set_reserve_size (PhoshSwipeAwayBin *self,
+                                                gboolean           reserve_size);
+
 void phosh_swipe_away_bin_hide   (PhoshSwipeAwayBin *self);
 void phosh_swipe_away_bin_reveal (PhoshSwipeAwayBin *self);
 void phosh_swipe_away_bin_remove (PhoshSwipeAwayBin *self);

@@ -22,6 +22,7 @@ static guint signals[N_SIGNALS] = { 0 };
 enum {
   PROP_0,
   PROP_ALLOW_NEGATIVE,
+  PROP_RESERVE_SIZE,
   PROP_ORIENTATION,
 
   LAST_PROP = PROP_ORIENTATION
@@ -35,8 +36,10 @@ struct _PhoshSwipeAwayBin
 
   GtkOrientation orientation;
   gboolean allow_negative;
+  gboolean reserve_size;
 
   double progress;
+  int distance;
   HdySwipeTracker *tracker;
   PhoshAnimation *animation;
 };
@@ -171,6 +174,10 @@ phosh_swipe_away_bin_get_property (GObject    *object,
     g_value_set_boolean (value, phosh_swipe_away_bin_get_allow_negative (self));
     break;
 
+  case PROP_RESERVE_SIZE:
+    g_value_set_boolean (value, phosh_swipe_away_bin_get_reserve_size (self));
+    break;
+
   case PROP_ORIENTATION:
     g_value_set_enum (value, self->orientation);
     break;
@@ -192,6 +199,10 @@ phosh_swipe_away_bin_set_property (GObject      *object,
   switch (prop_id) {
   case PROP_ALLOW_NEGATIVE:
     phosh_swipe_away_bin_set_allow_negative (self, g_value_get_boolean (value));
+    break;
+
+  case PROP_RESERVE_SIZE:
+    phosh_swipe_away_bin_set_reserve_size (self, g_value_get_boolean (value));
     break;
 
   case PROP_ORIENTATION:
@@ -224,22 +235,81 @@ phosh_swipe_away_bin_size_allocate (GtkWidget     *widget,
   if (!child || !gtk_widget_get_visible (child))
     return;
 
-  if (self->orientation == GTK_ORIENTATION_HORIZONTAL) {
-    if (gtk_widget_get_direction (GTK_WIDGET (self)) == GTK_TEXT_DIR_RTL)
-      child_alloc.x = alloc->x + (int) (self->progress * alloc->width);
-    else
-      child_alloc.x = alloc->x - (int) (self->progress * alloc->width);
-
-    child_alloc.y = alloc->y;
-  } else {
-    child_alloc.x = alloc->x;
-    child_alloc.y = alloc->y - (int) (self->progress * alloc->height);
-  }
-
+  child_alloc.y = alloc->y;
+  child_alloc.x = alloc->x;
   child_alloc.width = alloc->width;
   child_alloc.height = alloc->height;
 
+  if (self->orientation == GTK_ORIENTATION_HORIZONTAL) {
+    if (self->reserve_size) {
+      self->distance = alloc->width / 3;
+
+      child_alloc.width = self->distance;
+      child_alloc.x += self->distance;
+    } else {
+      self->distance = alloc->width;
+    }
+
+    if (gtk_widget_get_direction (GTK_WIDGET (self)) == GTK_TEXT_DIR_RTL)
+      child_alloc.x += (int) (self->progress * self->distance);
+    else
+      child_alloc.x -= (int) (self->progress * self->distance);
+
+  } else {
+    if (self->reserve_size) {
+      self->distance = alloc->height / 3;
+
+      child_alloc.height = self->distance;
+      child_alloc.y += self->distance;
+    } else {
+      self->distance = alloc->height;
+    }
+
+    child_alloc.y -= (int) (self->progress * self->distance);
+  }
+
+
   gtk_widget_size_allocate (child, &child_alloc);
+}
+
+
+static void
+phosh_swipe_away_bin_get_preferred_width (GtkWidget *widget,
+                                          gint      *minimum,
+                                          gint      *natural)
+{
+  PhoshSwipeAwayBin *self = PHOSH_SWIPE_AWAY_BIN (widget);
+
+  GTK_WIDGET_CLASS (phosh_swipe_away_bin_parent_class)->get_preferred_width (widget, minimum, natural);
+
+  if (self->reserve_size &&
+      self->orientation == GTK_ORIENTATION_HORIZONTAL) {
+    if (minimum)
+      *minimum *= 3;
+
+    if (natural)
+      *natural *= 3;
+  }
+}
+
+
+static void
+phosh_swipe_away_bin_get_preferred_height (GtkWidget *widget,
+                                           gint      *minimum,
+                                           gint      *natural)
+{
+  PhoshSwipeAwayBin *self = PHOSH_SWIPE_AWAY_BIN (widget);
+
+  GTK_WIDGET_CLASS (phosh_swipe_away_bin_parent_class)->get_preferred_height (widget, minimum, natural);
+
+  if (self->reserve_size &&
+      self->orientation == GTK_ORIENTATION_VERTICAL) {
+    if (minimum)
+      *minimum *= 3;
+
+    if (natural)
+      *natural *= 3;
+  }
 }
 
 
@@ -263,12 +333,21 @@ phosh_swipe_away_bin_class_init (PhoshSwipeAwayBinClass *klass)
   object_class->get_property = phosh_swipe_away_bin_get_property;
   object_class->set_property = phosh_swipe_away_bin_set_property;
   widget_class->size_allocate = phosh_swipe_away_bin_size_allocate;
+  widget_class->get_preferred_width = phosh_swipe_away_bin_get_preferred_width;
+  widget_class->get_preferred_height = phosh_swipe_away_bin_get_preferred_height;
   widget_class->direction_changed = phosh_swipe_away_bin_direction_changed;
 
   props[PROP_ALLOW_NEGATIVE] =
       g_param_spec_boolean ("allow-negative",
                             "Allow Negative",
                             "Use [-1:1] progress range instead of [0:1]",
+                            FALSE,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PROP_RESERVE_SIZE] =
+      g_param_spec_boolean ("reserve-size",
+                            "Reserve Size",
+                            "Allocate larger size than the child so that the child is never clipped when animating",
                             FALSE,
                             G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
@@ -328,10 +407,7 @@ phosh_swipe_away_bin_get_distance (HdySwipeable *swipeable)
 {
   PhoshSwipeAwayBin *self = PHOSH_SWIPE_AWAY_BIN (swipeable);
 
-  if (self->orientation == GTK_ORIENTATION_HORIZONTAL)
-    return (double) gtk_widget_get_allocated_width (GTK_WIDGET (self));
-  else
-    return (double) gtk_widget_get_allocated_height (GTK_WIDGET (self));
+  return self->distance;
 }
 
 
@@ -418,6 +494,34 @@ phosh_swipe_away_bin_set_allow_negative (PhoshSwipeAwayBin *self,
   self->allow_negative = allow_negative;
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ALLOW_NEGATIVE]);
+}
+
+
+gboolean
+phosh_swipe_away_bin_get_reserve_size (PhoshSwipeAwayBin *self)
+{
+  g_return_val_if_fail (PHOSH_IS_SWIPE_AWAY_BIN (self), FALSE);
+
+  return self->reserve_size;
+}
+
+
+void
+phosh_swipe_away_bin_set_reserve_size (PhoshSwipeAwayBin *self,
+                                       gboolean           reserve_size)
+{
+  g_return_if_fail (PHOSH_IS_SWIPE_AWAY_BIN (self));
+
+  reserve_size = !!reserve_size;
+
+  if (reserve_size == self->reserve_size)
+    return;
+
+  self->reserve_size = reserve_size;
+
+  gtk_widget_queue_resize (GTK_WIDGET (self));
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_RESERVE_SIZE]);
 }
 
 
