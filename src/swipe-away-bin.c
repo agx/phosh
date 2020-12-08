@@ -21,10 +21,12 @@ static guint signals[N_SIGNALS] = { 0 };
 
 enum {
   PROP_0,
+  PROP_ALLOW_NEGATIVE,
   PROP_ORIENTATION,
 
   LAST_PROP = PROP_ORIENTATION
 };
+static GParamSpec *props[LAST_PROP];
 
 
 struct _PhoshSwipeAwayBin
@@ -32,6 +34,7 @@ struct _PhoshSwipeAwayBin
   GtkEventBox parent_instance;
 
   GtkOrientation orientation;
+  gboolean allow_negative;
 
   double progress;
   HdySwipeTracker *tracker;
@@ -164,6 +167,10 @@ phosh_swipe_away_bin_get_property (GObject    *object,
   PhoshSwipeAwayBin *self = PHOSH_SWIPE_AWAY_BIN (object);
 
   switch (prop_id) {
+  case PROP_ALLOW_NEGATIVE:
+    g_value_set_boolean (value, phosh_swipe_away_bin_get_allow_negative (self));
+    break;
+
   case PROP_ORIENTATION:
     g_value_set_enum (value, self->orientation);
     break;
@@ -183,6 +190,10 @@ phosh_swipe_away_bin_set_property (GObject      *object,
   PhoshSwipeAwayBin *self = PHOSH_SWIPE_AWAY_BIN (object);
 
   switch (prop_id) {
+  case PROP_ALLOW_NEGATIVE:
+    phosh_swipe_away_bin_set_allow_negative (self, g_value_get_boolean (value));
+    break;
+
   case PROP_ORIENTATION:
     {
       GtkOrientation orientation = g_value_get_enum (value);
@@ -253,6 +264,15 @@ phosh_swipe_away_bin_class_init (PhoshSwipeAwayBinClass *klass)
   object_class->set_property = phosh_swipe_away_bin_set_property;
   widget_class->size_allocate = phosh_swipe_away_bin_size_allocate;
   widget_class->direction_changed = phosh_swipe_away_bin_direction_changed;
+
+  props[PROP_ALLOW_NEGATIVE] =
+      g_param_spec_boolean ("allow-negative",
+                            "Allow Negative",
+                            "Use [-1:1] progress range instead of [0:1]",
+                            FALSE,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  g_object_class_install_properties (object_class, LAST_PROP, props);
 
   g_object_class_override_property (object_class,
                                     PROP_ORIENTATION,
@@ -335,12 +355,21 @@ static double *
 phosh_swipe_away_bin_get_snap_points (HdySwipeable *swipeable,
                                       int          *n_snap_points)
 {
-  double *points = g_new0 (double, 2);
+  PhoshSwipeAwayBin *self = PHOSH_SWIPE_AWAY_BIN (swipeable);
+  int n = self->allow_negative ? 3 : 2;
+  double *points;
 
-  points[1] = 1;
+  points = g_new0 (double, n);
+
+  if (self->allow_negative) {
+    points[0] = -1;
+    points[2] = 1;
+  } else {
+    points[1] = 1;
+  }
 
   if (n_snap_points)
-    *n_snap_points = 2;
+    *n_snap_points = n;
 
   return points;
 }
@@ -363,6 +392,32 @@ phosh_swipe_away_bin_swipeable_init (HdySwipeableInterface *iface)
   iface->get_progress = phosh_swipe_away_bin_get_progress;
   iface->get_snap_points = phosh_swipe_away_bin_get_snap_points;
   iface->switch_child = phosh_swipe_away_bin_switch_child;
+}
+
+
+gboolean
+phosh_swipe_away_bin_get_allow_negative (PhoshSwipeAwayBin *self)
+{
+  g_return_val_if_fail (PHOSH_IS_SWIPE_AWAY_BIN (self), FALSE);
+
+  return self->allow_negative;
+}
+
+
+void
+phosh_swipe_away_bin_set_allow_negative (PhoshSwipeAwayBin *self,
+                                         gboolean           allow_negative)
+{
+  g_return_if_fail (PHOSH_IS_SWIPE_AWAY_BIN (self));
+
+  allow_negative = !!allow_negative;
+
+  if (allow_negative == self->allow_negative)
+    return;
+
+  self->allow_negative = allow_negative;
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ALLOW_NEGATIVE]);
 }
 
 
