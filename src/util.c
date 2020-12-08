@@ -58,3 +58,36 @@ phosh_clear_handler (gulong *handler, gpointer object)
     *handler = 0;
   }
 }
+
+/**
+ * phosh_munge_app_id:
+ * @app_id: the app_id
+ *
+ * Munges an app_id according to the rules used by
+ * gnome-shell, feedbackd and phoc:
+ *
+ * Returns: The munged_app id
+ */
+char *
+phosh_munge_app_id (const char *app_id)
+{
+  char *id = g_strdup (app_id);
+  int i;
+
+  if (g_str_has_suffix (id, ".desktop")) {
+    char *c = g_strrstr (id, ".desktop");
+    if (c)
+      *c = '\0';
+  }
+
+  g_strcanon (id,
+              "0123456789"
+              "abcdefghijklmnopqrstuvwxyz"
+              "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+              "-",
+              '-');
+  for (i = 0; id[i] != '\0'; i++)
+    id[i] = g_ascii_tolower (id[i]);
+
+  return id;
+}
