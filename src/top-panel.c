@@ -70,6 +70,8 @@ typedef struct _PhoshTopPanel {
   /* Keybinding */
   GStrv           action_names;
   GSettings      *kb_settings;
+
+  GtkGesture     *click_gesture; /* needed so that the gesture isn't destroyed immediately */
 } PhoshTopPanel;
 
 G_DEFINE_TYPE (PhoshTopPanel, phosh_top_panel, PHOSH_TYPE_LAYER_SURFACE)
@@ -251,10 +253,10 @@ on_key_press_event (PhoshTopPanel *self, GdkEventKey *event, gpointer data)
 }
 
 
-static gboolean
-on_button_press_event (PhoshTopPanel *self, GdkEventButton *event, gpointer data)
+static void
+released_cb (PhoshTopPanel *self)
 {
-  phosh_trigger_feedback ("button-pressed");
+  phosh_trigger_feedback ("button-released");
 
   /*
    * The popover has to be popdown manually as it doesn't happen
@@ -265,7 +267,6 @@ on_button_press_event (PhoshTopPanel *self, GdkEventButton *event, gpointer data
   else
     phosh_top_panel_fold (self);
 
-  return GDK_EVENT_PROPAGATE;
 }
 
 
@@ -381,14 +382,10 @@ phosh_top_panel_constructed (GObject *object)
   }
 
   /* Settings menu and it's top-bar / menu */
-  gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
+  gtk_widget_add_events (GTK_WIDGET (self), GDK_ALL_EVENTS_MASK);
   g_signal_connect (G_OBJECT (self),
                     "key-press-event",
                     G_CALLBACK (on_key_press_event),
-                    NULL);
-  g_signal_connect (G_OBJECT (self),
-                    "button-press-event",
-                    G_CALLBACK (on_button_press_event),
                     NULL);
   g_signal_connect_swapped (self->settings,
                             "setting-done",
@@ -465,6 +462,8 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, box);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, stack);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, settings);
+  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, click_gesture);
+  gtk_widget_class_bind_template_callback (widget_class, released_cb);
 }
 
 
