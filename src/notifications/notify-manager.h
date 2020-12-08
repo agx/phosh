@@ -30,4 +30,8 @@ void                   phosh_notify_manager_add_notification (PhoshNotifyManager
 gboolean               phosh_notify_manager_close_notification_by_id (PhoshNotifyManager *self,
                                                                       int id,
                                                                       PhoshNotificationReason reason);
+gboolean
+                       phosh_notify_manager_get_show_notification_banner (
+                         PhoshNotifyManager *self,
+                         PhoshNotification  *notification);
 G_END_DECLS

@@ -18,12 +18,17 @@
 #include "notify-manager.h"
 #include "shell.h"
 #include "phosh-enums.h"
+#include "util.h"
 
 #define NOTIFICATION_DEFAULT_TIMEOUT 5000 /* ms */
 #define NOTIFICATIONS_SPEC_VERSION "1.2"
 
 #define NOTIFICATIONS_SCHEMA_ID "org.gnome.desktop.notifications"
 #define NOTIFICATIONS_KEY_SHOW_BANNERS "show-banners"
+
+#define NOTIFICATIONS_APP_SCHEMA_ID NOTIFICATIONS_SCHEMA_ID ".application"
+#define NOTIFICATIONS_APP_PREFIX "/org/gnome/desktop/notifications/application"
+#define NOTIFICATIONS_APP_KEY_SHOW_BANNERS "show-banners"
 
 /**
  * SECTION:notify-manager
@@ -692,4 +697,45 @@ phosh_notify_manager_close_notification_by_id (PhoshNotifyManager *self,
 
   phosh_notification_close (notification, reason);
   return TRUE;
+}
+
+/**
+ * phosh_notify_manager_get_show_notfication_banner:
+ * @self: the #PhoshNotifyManager
+ * @notification: the #PhoshNotification in question
+ *
+ * Checks whether a #PhoshNotificationBanner should be displayed
+ * for the given #PhoshNotification according to current policy.
+ *
+ * Returns: %TRUE if the banner should be shown, otherwise %FALSE
+ */
+gboolean
+phosh_notify_manager_get_show_notification_banner (PhoshNotifyManager *self,
+                                                   PhoshNotification  *notification)
+{
+  g_autoptr (GSettings) settings = NULL;
+  g_autofree char *path = NULL;
+  g_autofree char *munged_id = NULL;
+  GAppInfo *app_info;
+  gboolean show;
+
+  g_return_val_if_fail (PHOSH_IS_NOTIFY_MANAGER (self), FALSE);
+
+  if (!self->show_banners)
+    return FALSE;
+
+  if (phosh_notification_get_urgency (notification) == PHOSH_NOTIFICATION_URGENCY_CRITICAL)
+    return TRUE;
+
+  app_info = phosh_notification_get_app_info (notification);
+  if (!app_info)
+    return TRUE;
+
+  munged_id = phosh_munge_app_id (g_app_info_get_id(app_info));
+  path = g_strconcat (NOTIFICATIONS_APP_PREFIX, "/", munged_id, "/", NULL);
+  settings = g_settings_new_with_path (NOTIFICATIONS_APP_SCHEMA_ID, path);
+  show = g_settings_get_boolean (settings, NOTIFICATIONS_APP_KEY_SHOW_BANNERS);
+
+  g_debug ("Show banners for %s: %d", munged_id, show);
+  return show;
 }
