@@ -57,6 +57,7 @@
       <xi:include href="xml/favorite-list-model.xml"/>
       <xi:include href="xml/feedback-manager.xml"/>
       <xi:include href="xml/feedbackinfo.xml"/>
+      <xi:include href="xml/gnome-shell-manager.xml"/>
       <xi:include href="xml/head.xml"/>
       <xi:include href="xml/home.xml"/>
       <xi:include href="xml/idle-manager.xml"/>
@@ -127,6 +128,7 @@
       <xi:include href="xml/phosh-screen-saver-dbus.xml"/>
       <xi:include href="xml/notify-dbus.xml"/>
       <xi:include href="xml/gnome-session-presence-dbus.xml"/>
+      <xi:include href="xml/phosh-gnome-shell-dbus.xml"/>
     </chapter>
 
     <chapter id="gen_dbus_clients">
