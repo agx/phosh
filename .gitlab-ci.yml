@@ -260,7 +260,8 @@ test:smoke:one-output:
     - export OUTDIR=output
     - export G_DEBUG=fatal-criticals
     - export WLR_X11_OUTPUTS=1
-    - tests/smoke
+    - 'echo "SMOKE_PARAMS: $SMOKE_PARAMS"'
+    - tests/smoke $SMOKE_PARAMS
   artifacts:
     paths:
       - output/*.log
@@ -281,7 +282,8 @@ test:smoke:two-outputs:
     - export OUTDIR=output
     - export G_DEBUG=fatal-criticals
     - export WLR_X11_OUTPUTS=2
-    - tests/smoke
+    - 'echo "SMOKE_PARAMS: $SMOKE_PARAMS"'
+    - tests/smoke $SMOKE_PARAMS
   artifacts:
     paths:
       - output/*.log
