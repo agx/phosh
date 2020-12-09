@@ -51,40 +51,6 @@ test_phosh_notification_frame_new (void)
 
 
 static void
-test_phosh_notification_frame_header_activated (void)
-{
-  g_autoptr (PhoshNotification) noti = NULL;
-  GtkWidget *frame = NULL;
-  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
-
-  noti = phosh_notification_new (0,
-                                 NULL,
-                                 NULL,
-                                 "Hey",
-                                 "Testing",
-                                 NULL,
-                                 NULL,
-                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
-                                 NULL,
-                                 FALSE,
-                                 FALSE,
-                                 NULL,
-                                 now);
-
-  frame = phosh_notification_frame_new (TRUE);
-  phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
-                                              noti);
-  g_signal_connect (noti, "actioned", G_CALLBACK (actioned), NULL);
-
-  actioned_called = FALSE;
-
-  header_activated (PHOSH_NOTIFICATION_FRAME (frame),
-                    (GdkEventButton *) gdk_event_new (GDK_BUTTON_PRESS));
-  g_assert_true (actioned_called);
-}
-
-
-static void
 test_phosh_notification_frame_notification_activated (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
@@ -130,7 +96,6 @@ main (int argc, char **argv)
   gtk_test_init (&argc, &argv, NULL);
 
   g_test_add_func ("/phosh/notification-frame/new", test_phosh_notification_frame_new);
-  g_test_add_func ("/phosh/notification-frame/header-activated", test_phosh_notification_frame_header_activated);
   g_test_add_func ("/phosh/notification-frame/notification-activated", test_phosh_notification_frame_notification_activated);
 
   return g_test_run ();
