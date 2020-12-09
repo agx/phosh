@@ -12,6 +12,7 @@
 #include "notification-content.h"
 #include "notification-frame.h"
 #include "notification-source.h"
+#include "swipe-away-bin.h"
 #include "util.h"
 #include "timestamp-label.h"
 
@@ -33,7 +34,7 @@ static GParamSpec *props[LAST_PROP];
 
 
 struct _PhoshNotificationFrame {
-  GtkBox parent;
+  GtkEventBox parent;
 
   GListModel *model;
   gulong      model_watch;
@@ -42,6 +43,7 @@ struct _PhoshNotificationFrame {
   GBinding *bind_icon;
   GBinding *bind_timestamp;
 
+  GtkWidget *box;
   GtkWidget *lbl_app_name;
   GtkWidget *img_icon;
   GtkWidget *list_notifs;
@@ -60,7 +62,7 @@ struct _PhoshNotificationFrame {
 typedef struct _PhoshNotificationFrame PhoshNotificationFrame;
 
 
-G_DEFINE_TYPE (PhoshNotificationFrame, phosh_notification_frame, GTK_TYPE_BOX)
+G_DEFINE_TYPE (PhoshNotificationFrame, phosh_notification_frame, GTK_TYPE_EVENT_BOX)
 
 
 #define DRAG_THRESHOLD_DISTANCE 16
@@ -134,7 +136,7 @@ motion_notify (PhoshNotificationFrame *self,
     int current_x, current_y;
     double dx, dy;
 
-    gtk_widget_translate_coordinates (GTK_WIDGET (self),
+    gtk_widget_translate_coordinates (GTK_WIDGET (self->box),
                                       gtk_widget_get_toplevel (GTK_WIDGET (self)),
                                       event->x, event->y,
                                       &current_x, &current_y);
@@ -260,6 +262,22 @@ notification_activated (PhoshNotificationFrame *self,
 
 
 static void
+removed (PhoshNotificationFrame *self)
+{
+  guint i, n;
+
+  n = g_list_model_get_n_items (self->model);
+  for (i = 0; i < n; i++) {
+    g_autoptr (PhoshNotification) notification = NULL;
+
+    notification = g_list_model_get_item (self->model, 0);
+
+    phosh_notification_close (notification, PHOSH_NOTIFICATION_REASON_CLOSED);
+  }
+}
+
+
+static void
 phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -297,6 +315,7 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/notification-frame.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, box);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, lbl_app_name);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, img_icon);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, list_notifs);
@@ -309,6 +328,7 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, list_pressed);
   gtk_widget_class_bind_template_callback (widget_class, released);
   gtk_widget_class_bind_template_callback (widget_class, notification_activated);
+  gtk_widget_class_bind_template_callback (widget_class, removed);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-notification-frame");
 }
@@ -320,6 +340,8 @@ phosh_notification_frame_init (PhoshNotificationFrame *self)
   self->show_body = TRUE;
   self->start_x = -1;
   self->start_y = -1;
+
+  g_type_ensure (PHOSH_TYPE_SWIPE_AWAY_BIN);
 
   gtk_widget_init_template (GTK_WIDGET (self));
 }
