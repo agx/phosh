@@ -1,3 +1,9 @@
+phosh (0.7.0pureos0) byzantium; urgency=medium
+
+  * Build for byzantium
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 10 Dec 2020 19:01:20 +0100
+
 phosh (0.7.0) amber-phone; urgency=medium
 
   [ Guido Günther ]
