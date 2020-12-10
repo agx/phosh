@@ -121,7 +121,8 @@ network_prompt_get_type (PhoshNetworkAuthPrompt *self)
     return NMU_SEC_DYNAMIC_WEP;
   }
 
-  if (strcmp (key_mgmt, "wpa-none") == 0||
+  if (strcmp (key_mgmt, "sae") == 0 ||
+      strcmp (key_mgmt, "wpa-none") == 0 ||
       strcmp (key_mgmt, "wpa-psk") == 0) {
     if (security_has_proto (setting, "rsn"))
       return NMU_SEC_WPA2_PSK;
