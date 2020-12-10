@@ -1,3 +1,63 @@
+phosh (0.7.0) amber-phone; urgency=medium
+
+  [ Guido Günther ]
+  * Add session-manager.
+    This adds a proper object - current session.c doens't have that
+    making it hard to use signals, etc.
+  * Add mount-manager. This automounts new volumes
+  * notify-manager: Add method to submit notifiations.
+    This will allow to submit notifications from other parts of
+    the shell. Use it for the DBus part too.
+  * notification: Allow for a NULL timestamp.
+    This just uses the current time.
+  * timstamp-label: Use 'now' instead of <15s.
+    It looks odd when new notifications print '<15s' right away.
+  * notify-manager: Allow derived classes to use different action handlers.
+    We can turn the current 'default' notfication into a
+    PhoshDBusNotification to make that even more pronounced at some point.
+  * Add PhoshMountNotification.
+    A notification that displays information about newly mounted
+    file systems.
+  * mount-manager: Indicate mounts via notifiations.
+    We add a single action that opens the containing folder.
+  * mount-notification: Only add action if we have a handler.
+    Since nautilus is not adaptive don't add an action if
+    it's not available.
+  * Add PhoshDBusNotification.
+    This allows us to have notification just do the right thing.
+  * notification: Move do_action into dbus-notifiation.
+    This avoids the special case in the notification manager.
+  * data/phosh: Print version with `--version` (Closes: #425)
+  * run: Simplify oneshot gdb.
+    Often we just want to run phosh and get a backtrace e.g.
+    for G_DEBUG=fatal-criticals:
+       PHOSH_AUTO_GDB=1 SKIP_GNOME_SESSION=1  _build/run
+    does this.
+  * gitlab-ci: Make it simple to get a backtrace.
+    This can be done by passing $SMOKE_PARAMS='-c' to gitlab-ci.
+  * background: Add initial support for Background XML.
+    Many 'slideshows' are just a fixed single image so handle that
+    as a start. This allows us to use Debian's/PureOS background
+    data (as per desktop-base package)
+  * network-auth-prompt: Handle "sae" for WPA3 support.
+    This unbreaks authenticating to WPA3 networks which
+    so for ended in "not supported".
+  * shell: Only show banners for apps with show-banners on
+
+  [ Evangelos Ribeiro Tzaras ]
+  * meson: bump version to 0.50
+
+  [ Alexander Mikhaylenko ]
+  * Slide back windows that failed to close.
+    Closes: #429
+  * Use easeOutBounce interpolator for the slide back animation.
+    Make it a little fancier.
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 10 Dec 2020 13:58:42 +0100
+
 phosh (0.6.0) amber-phone; urgency=high
 
   [ Guido Günther ]
