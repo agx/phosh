@@ -11,6 +11,16 @@ generated_dbus_sources += gnome.gdbus_codegen('hostname1-dbus',
 					      'org.freedesktop.hostname1.xml',
 					      interface_prefix: 'org.freedesktop',
 					      namespace: 'PhoshHostname1DBus')
+# org.freedesktop.login1.Session
+generated_dbus_sources += gnome.gdbus_codegen('login1-session-dbus',
+					      'org.freedesktop.login1.Session.xml',
+					      interface_prefix: 'org.freedesktop.login1',
+					      namespace: 'PhoshLogin1SessionDBus')
+# org.freedesktop.login1.Manager
+generated_dbus_sources += gnome.gdbus_codegen('login1-manager-dbus',
+					      'org.freedesktop.login1.Manager.xml',
+					      interface_prefix: 'org.freedesktop.login1',
+					      namespace: 'PhoshLogin1ManagerDBus')
 # org.freedesktop.UPower.Torch
 generated_dbus_sources += gnome.gdbus_codegen('upower-torch-dbus',
 					      'org.freedesktop.UPower.Torch.xml',

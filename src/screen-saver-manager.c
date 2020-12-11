@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Purism SPC
+ * Copyright (C) 2019-2020 Purism SPC
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -10,18 +10,26 @@
 
 #include "screen-saver-manager.h"
 #include "shell.h"
+#include "login1-manager-dbus.h"
+#include "login1-session-dbus.h"
 #include "lockscreen-manager.h"
+#include "util.h"
 
 /**
  * SECTION:screen-saver-manager
- * @short_description: Provides the org.gnome.ScreenSaver DBus interface
+ * @short_description: Provides the org.gnome.ScreenSaver DBus interface and handles logind's Session
  * @Title: PhoshScreenSaverManager
  *
  * See https://people.gnome.org/~mccann/gnome-screensaver/docs/gnome-screensaver.html
- * for a (a bit outdated) interface description.
+ * for a (a bit outdated) interface description. It also handles the login1 session
+ * parts since those are closely related and this keeps #PhoshLockscreenManager free
+ * of the DBus handling.
  */
 
 #define SCREEN_SAVER_DBUS_NAME "org.gnome.ScreenSaver"
+
+#define LOGIN_BUS_NAME "org.freedesktop.login1"
+#define LOGIN_OBJECT_PATH "/org/freedesktop/login1"
 
 enum {
   PROP_0,
@@ -40,6 +48,8 @@ typedef struct _PhoshScreenSaverManager
   int dbus_name_id;
   PhoshLockscreenManager *lockscreen_manager;
 
+  PhoshLogin1SessionDBusLoginSession *logind_session_proxy;
+  PhoshLogin1ManagerDBusLoginManager *logind_manager_proxy;
 } PhoshScreenSaverManager;
 
 G_DEFINE_TYPE_WITH_CODE (PhoshScreenSaverManager,
@@ -229,6 +239,24 @@ on_lockscreen_manager_wakeup_outputs (PhoshScreenSaverManager *self,
 
 
 static void
+on_logind_lock (PhoshScreenSaverManager            *self,
+                PhoshLogin1SessionDBusLoginSession *proxy)
+{
+  g_debug ("Locking request via logind1");
+  phosh_lockscreen_manager_set_locked  (self->lockscreen_manager, TRUE);
+}
+
+
+static void
+on_logind_unlock (PhoshScreenSaverManager            *self,
+                  PhoshLogin1SessionDBusLoginSession *proxy)
+{
+  g_debug ("Unlocking request via logind1");
+  phosh_lockscreen_manager_set_locked  (self->lockscreen_manager, FALSE);
+}
+
+
+static void
 on_name_acquired (GDBusConnection *connection,
                   const char      *name,
                   gpointer         user_data)
@@ -279,8 +307,117 @@ phosh_screen_saver_manager_dispose (GObject *object)
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (object);
 
   g_clear_object (&self->lockscreen_manager);
+  g_clear_object (&self->logind_session_proxy);
+  g_clear_object (&self->logind_manager_proxy);
 
   G_OBJECT_CLASS (phosh_screen_saver_manager_parent_class)->dispose (object);
+}
+
+
+static void
+on_logind_get_session_proxy_finish  (GObject                 *object,
+                                     GAsyncResult            *res,
+                                     PhoshScreenSaverManager *self)
+{
+  g_autoptr (GError) err = NULL;
+
+  self->logind_session_proxy = phosh_login1_session_dbus_login_session_proxy_new_for_bus_finish (
+    res, &err);
+  if (!self->logind_session_proxy) {
+    g_warning ("Failed to get login1 session proxy: %s", err->message);
+    goto out;
+  }
+
+  /* finally register signals */
+  g_object_connect (
+    self->logind_session_proxy,
+    "swapped-object-signal::lock", G_CALLBACK (on_logind_lock), self,
+    "swapped-object-signal::unlock", G_CALLBACK (on_logind_unlock), self,
+    NULL);
+
+out:
+  g_object_unref (self);
+}
+
+
+static void
+on_logind_manager_get_session_finished (PhoshLogin1ManagerDBusLoginManager *object,
+                                        GAsyncResult                       *res,
+                                        PhoshScreenSaverManager            *self)
+{
+  g_autofree char *object_path = NULL;
+
+  g_autoptr (GError) err = NULL;
+
+  if (!phosh_login1_manager_dbus_login_manager_call_get_session_finish (
+        object, &object_path, res, &err)) {
+    g_warning ("Failed to get session: %s", err->message);
+    goto out;
+  }
+
+  /* Register a proxy for this session */
+  phosh_login1_session_dbus_login_session_proxy_new_for_bus (
+    G_BUS_TYPE_SYSTEM,
+    G_DBUS_PROXY_FLAGS_NONE,
+    LOGIN_BUS_NAME,
+    object_path, NULL,
+    (GAsyncReadyCallback)on_logind_get_session_proxy_finish,
+    g_object_ref (self));
+out:
+  g_object_unref (self);
+}
+
+
+static void
+on_logind_manager_proxy_new_for_bus_finish (GObject                 *source_object,
+                                            GAsyncResult            *res,
+                                            PhoshScreenSaverManager *self)
+{
+  g_autoptr (GError) err = NULL;
+  g_autofree char *session_id = NULL;
+
+  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
+
+  self->logind_manager_proxy =
+    phosh_login1_manager_dbus_login_manager_proxy_new_for_bus_finish (res, &err);
+
+  if (!self->logind_manager_proxy) {
+    g_warning ("Failed to get login1 manager proxy: %s", err->message);
+    goto out;
+  }
+
+  /* If we find a session get it object path */
+  if (phosh_find_systemd_session (&session_id)) {
+    g_debug ("Logind session %s", session_id);
+
+    phosh_login1_manager_dbus_login_manager_call_get_session (
+      self->logind_manager_proxy,
+      session_id,
+      NULL,
+      (GAsyncReadyCallback)on_logind_manager_get_session_finished,
+      g_object_ref (self));
+  }
+
+  g_debug ("Connected to logind's session interface");
+out:
+  g_object_unref (self);
+}
+
+
+static gboolean
+on_idle (PhoshTorchManager *self)
+{
+  /* Connect to logind's session manager */
+  phosh_login1_manager_dbus_login_manager_proxy_new_for_bus (
+    G_BUS_TYPE_SYSTEM,
+    G_DBUS_PROXY_FLAGS_NONE,
+    LOGIN_BUS_NAME,
+    LOGIN_OBJECT_PATH,
+    NULL,
+    (GAsyncReadyCallback) on_logind_manager_proxy_new_for_bus_finish,
+    g_object_ref (self));
+
+  return G_SOURCE_REMOVE;
 }
 
 
@@ -301,6 +438,9 @@ phosh_screen_saver_manager_constructed (GObject *object)
                                        g_object_unref);
 
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self->lockscreen_manager));
+
+  /* Perform login1 setup when idle */
+  g_idle_add ((GSourceFunc)on_idle, self);
 }
 
 

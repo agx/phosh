@@ -192,6 +192,7 @@ phosh_deps = [
   libhandy_dep,
   libnm_dep,
   libpolkit_agent_dep,
+  libsystemd_dep,
   network_agent_dep,
   upower_glib_dep,
   wayland_client_dep,

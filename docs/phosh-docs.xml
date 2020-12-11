@@ -134,6 +134,8 @@
     <chapter id="gen_dbus_clients">
       <title>Generated DBus Clients</title>
       <xi:include href="xml/phosh-idle-dbus.xml"/>
+      <xi:include href="xml/login1-manager-dbus.xml"/>
+      <xi:include href="xml/login1-session-dbus.xml"/>
       <xi:include href="xml/phosh-osk0-dbus.xml"/>
       <xi:include href="xml/phosh-screen-saver-dbus.xml"/>
       <xi:include href="xml/phosh-wwan-mm-dbus.xml"/>
