@@ -536,7 +536,7 @@ phosh_background_dispose (GObject *object)
 
   g_clear_object (&self->slideshow);
 
-  G_OBJECT_CLASS (phosh_background_parent_class)->finalize (object);
+  G_OBJECT_CLASS (phosh_background_parent_class)->dispose (object);
 }
 
 
