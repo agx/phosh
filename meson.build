@@ -133,6 +133,8 @@ libhandy_dep = dependency('libhandy-1',
   )
 libnm_dep = dependency('libnm', version: '>= 1.14')
 libpolkit_agent_dep = dependency('polkit-agent-1', version: '>= 0.105')
+# TODO: make optional for elogind?
+libsystemd_dep = dependency('libsystemd', version: '>= 241')
 network_agent_dep = dependency('libsecret-1')
 upower_glib_dep = dependency('upower-glib', version: '>=0.99.1')
 wayland_client_dep = dependency('wayland-client', version: '>=1.14')

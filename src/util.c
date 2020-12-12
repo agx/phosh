@@ -9,6 +9,8 @@
 #include "util.h"
 #include <gtk/gtk.h>
 
+#include <systemd/sd-login.h>
+
 /* Just wraps gtk_widget_destroy so we can use it with g_clear_pointer */
 void
 phosh_cp_widget_destroy (void *widget)
@@ -90,4 +92,56 @@ phosh_munge_app_id (const char *app_id)
     id[i] = g_ascii_tolower (id[i]);
 
   return id;
+}
+
+gboolean
+phosh_find_systemd_session (char **session_id)
+{
+  int n_sessions;
+
+  g_auto (GStrv) sessions = NULL;
+  char *session;
+  int i;
+
+  n_sessions = sd_uid_get_sessions (getuid (), 0, &sessions);
+
+  if (n_sessions < 0) {
+    g_debug ("Failed to get sessions for user %d", getuid ());
+    return FALSE;
+  }
+
+  session = NULL;
+  for (i = 0; i < n_sessions; i++) {
+    int r;
+    g_autofree char *type = NULL;
+    g_autofree char *desktop = NULL;
+
+    r = sd_session_get_desktop (sessions[i], &desktop);
+    if (r < 0) {
+      g_debug ("Couldn't get desktop for session '%s': %s",
+               sessions[i], strerror (-r));
+      continue;
+    }
+
+    if (g_strcmp0 (desktop, "phosh") != 0)
+      continue;
+
+    r = sd_session_get_type (sessions[i], &type);
+    if (r < 0) {
+      g_debug ("Couldn't get type for session '%s': %s",
+               sessions[i], strerror (-r));
+      continue;
+    }
+
+    if (g_strcmp0 (type, "wayland") != 0)
+      continue;
+
+    session = sessions[i];
+    break;
+  }
+
+  if (session != NULL)
+    *session_id = g_strdup (session);
+
+  return session != NULL;
 }
