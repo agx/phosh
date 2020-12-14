@@ -315,14 +315,14 @@ num_toplevels_cb (PhoshOverview        *self,
                    PhoshToplevelManager *manager)
 {
   PhoshOverviewPrivate *priv;
+  gboolean visible;
+
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (manager));
   priv = phosh_overview_get_instance_private (self);
-  if (phosh_toplevel_manager_get_num_toplevels (manager)) {
-    gtk_widget_show (priv->carousel_running_activities);
-  } else {
-    gtk_widget_hide (priv->carousel_running_activities);
-  }
+
+  visible = !!phosh_toplevel_manager_get_num_toplevels (manager);
+  gtk_widget_set_visible (priv->carousel_running_activities, visible);
 }
 
 
