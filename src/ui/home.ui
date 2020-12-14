@@ -77,6 +77,9 @@
           <object class="PhoshOverview" id="overview">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <signal name="activity-launched" handler="fold_cb" swapped="true"/>
+            <signal name="activity-raised" handler="fold_cb" swapped="true"/>
+            <signal name="selection-aborted" handler="fold_cb" swapped="true"/>
           </object>
           <packing>
             <property name="expand">True</property>
