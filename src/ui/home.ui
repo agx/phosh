@@ -41,15 +41,15 @@
             </child>
             <child>
               <object class="PhoshOskButton" id="btn_osk">
-		<property name="visible">False</property>
-		<property name="can_focus">True</property>
-		<property name="halign">end</property>
-		<property name="valign">center</property>
-		<property name="margin_right">6</property>
-		<property name="receives_default">True</property>
-		<style>
-		  <class name="phosh-osk-button"/>
-		</style>
+                <property name="visible">False</property>
+                <property name="can_focus">True</property>
+                <property name="halign">end</property>
+                <property name="valign">center</property>
+                <property name="margin_right">6</property>
+                <property name="receives_default">True</property>
+                <style>
+                  <class name="phosh-osk-button"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
