@@ -47,12 +47,22 @@ enum {
 };
 static guint signals[N_SIGNALS] = { 0 };
 
+enum {
+  PROP_0,
+  PROP_HAS_ACTIVITIES,
+  LAST_PROP,
+};
+static GParamSpec *props[LAST_PROP];
+
+
 typedef struct
 {
   /* Running activities */
   GtkWidget *carousel_running_activities;
   GtkWidget *app_grid;
   GtkWidget *activity;
+
+  int       has_activities;
 } PhoshOverviewPrivate;
 
 
@@ -62,6 +72,26 @@ struct _PhoshOverview
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshOverview, phosh_overview, GTK_TYPE_BOX)
+
+
+static void
+phosh_overview_get_property (GObject    *object,
+                             guint       property_id,
+                             GValue     *value,
+                             GParamSpec *pspec)
+{
+  PhoshOverview *self = PHOSH_OVERVIEW (object);
+  PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
+
+  switch (property_id) {
+  case PROP_HAS_ACTIVITIES:
+    g_value_set_boolean (value, priv->has_activities);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
 
 
 static PhoshToplevel *
@@ -266,6 +296,7 @@ get_running_activities (PhoshOverview *self)
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   priv = phosh_overview_get_instance_private (self);
 
+  priv->has_activities = !!toplevels_num;
   if (toplevels_num == 0)
     gtk_widget_hide (priv->carousel_running_activities);
 
@@ -311,18 +342,23 @@ toplevel_changed_cb (PhoshOverview        *self,
 
 static void
 num_toplevels_cb (PhoshOverview        *self,
-                   GParamSpec *pspec,
-                   PhoshToplevelManager *manager)
+                  GParamSpec           *pspec,
+                  PhoshToplevelManager *manager)
 {
   PhoshOverviewPrivate *priv;
-  gboolean visible;
+  gboolean has_activities;
 
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (manager));
   priv = phosh_overview_get_instance_private (self);
 
-  visible = !!phosh_toplevel_manager_get_num_toplevels (manager);
-  gtk_widget_set_visible (priv->carousel_running_activities, visible);
+  has_activities = !!phosh_toplevel_manager_get_num_toplevels (manager);
+  if (priv->has_activities == has_activities)
+    return;
+
+  priv->has_activities = has_activities;
+  gtk_widget_set_visible (priv->carousel_running_activities, has_activities);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HAS_ACTIVITIES]);
 }
 
 
@@ -399,9 +435,18 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->constructed = phosh_overview_constructed;
+  object_class->get_property = phosh_overview_get_property;
   widget_class->size_allocate = phosh_overview_size_allocate;
 
   gtk_widget_class_set_css_name (widget_class, "phosh-overview");
+
+  props[PROP_HAS_ACTIVITIES] =
+    g_param_spec_boolean (
+      "has-activities",
+      "Has activities",
+      "Whether the overview has running activities",
+      FALSE,
+      G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   /* ensure used custom types */
   PHOSH_TYPE_APP_GRID;
@@ -462,4 +507,15 @@ phosh_overview_focus_app_search (PhoshOverview *self)
   g_return_if_fail(PHOSH_IS_OVERVIEW (self));
   priv = phosh_overview_get_instance_private (self);
   phosh_app_grid_focus_search (PHOSH_APP_GRID (priv->app_grid));
+}
+
+gboolean
+phosh_overview_has_running_activities (PhoshOverview *self)
+{
+  PhoshOverviewPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_OVERVIEW (self), FALSE);
+  priv = phosh_overview_get_instance_private (self);
+
+  return priv->has_activities;
 }
