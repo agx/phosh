@@ -302,12 +302,6 @@ phosh_home_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
 
-  g_signal_connect_object (self->btn_osk,
-                           "clicked",
-                           G_CALLBACK (osk_clicked_cb),
-                           self,
-                           G_CONNECT_SWAPPED);
-
   g_signal_connect_swapped (self->overview,
                             "activity-launched",
                             G_CALLBACK(fold_cb),
@@ -409,6 +403,7 @@ phosh_home_class_init (PhoshHomeClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, arrow_home);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_osk);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, overview);
+  gtk_widget_class_bind_template_callback (widget_class, osk_clicked_cb);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-home");
 }

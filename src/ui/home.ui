@@ -54,6 +54,7 @@
                 <property name="valign">center</property>
                 <property name="margin_right">6</property>
                 <property name="receives_default">True</property>
+                <signal name="clicked" handler="osk_clicked_cb" swapped="true"/>
                 <style>
                   <class name="phosh-osk-button"/>
                 </style>
