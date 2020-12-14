@@ -12,6 +12,10 @@ variables:
   WANT_BUILD_DEPS: "true"
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
+  ALPINE_EDGE_DEPS: alpine-sdk feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
+                    gtk+3.0-dev libhandy1-dev gcr-dev libsecret-dev gcovr linux-pam-dev
+                    meson musl-dev networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
+                    upower-dev wayland-dev wayland-protocols
 
 .buster_vars: &buster_vars
   variables:
@@ -214,8 +218,7 @@ build:native-alpinelinux-edge:
   allow_failure: true
   before_script:
     - echo "https://alpine.global.ssl.fastly.net/alpine/edge/testing" >> /etc/apk/repositories
-    - apk -q add alpine-sdk
-    - apk -q add meson ninja gtk+3.0-dev gnome-desktop-dev libhandy1-dev gcr-dev upower-dev linux-pam-dev git pulseaudio-dev networkmanager-dev polkit-elogind-dev libsecret-dev feedbackd-dev
+    - apk -q add $ALPINE_EDGE_DEPS
   artifacts:
     paths:
       - _build
@@ -236,8 +239,7 @@ unit-test:native-alpinelinux-edge:
     - build:native-alpinelinux-edge
   before_script:
     - echo "https://alpine.global.ssl.fastly.net/alpine/edge/testing" >> /etc/apk/repositories
-    - apk -q add alpine-sdk
-    - apk -q add xvfb-run meson ninja glib-dev wayland-protocols wayland-dev musl-dev gnome-desktop-dev libhandy1-dev gcr-dev upower-dev linux-pam-dev pulseaudio-dev networkmanager-dev polkit-elogind-dev libsecret-dev gcovr feedbackd-dev
+    - apk -q add xvfb-run $ALPINE_EDGE_DEPS
   script:
     - export LC_ALL=C.UTF-8
     - ${XVFB_RUN} ninja -C _build test
