@@ -18,20 +18,27 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child type="center">
-              <object class="GtkButton" id="btn_home">
+              <object class="GtkRevealer" id="rev_home">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="hexpand">True</property>
+                <property name="reveal-child">True</property>
+		<property name="transition-type">crossfade</property>
                 <child>
-                  <object class="PhoshArrow" id="arrow_home">
+                  <object class="GtkButton" id="btn_home">
                     <property name="visible">True</property>
-                    <property name="valign">center</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="hexpand">True</property>
+                    <child>
+                      <object class="PhoshArrow" id="arrow_home">
+                        <property name="visible">True</property>
+                        <property name="valign">center</property>
+                      </object>
+                    </child>
+                    <style>
+                      <class name="phosh-panel-btn"/>
+                    </style>
                   </object>
                 </child>
-                <style>
-                  <class name="phosh-panel-btn"/>
-                </style>
               </object>
               <packing>
                 <property name="expand">True</property>
