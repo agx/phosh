@@ -80,6 +80,7 @@
             <property name="can_focus">False</property>
             <signal name="activity-launched" handler="fold_cb" swapped="true"/>
             <signal name="activity-raised" handler="fold_cb" swapped="true"/>
+            <signal name="notify::has-activities" handler="on_has_activities_changed" swapped="true"/>
             <signal name="selection-aborted" handler="fold_cb" swapped="true"/>
           </object>
           <packing>

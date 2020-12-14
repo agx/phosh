@@ -56,6 +56,7 @@ struct _PhoshHome
   GtkWidget *btn_home;
   GtkWidget *arrow_home;
   GtkWidget *btn_osk;
+  GtkWidget *rev_home;
   GtkWidget *overview;
 
   struct {
@@ -184,6 +185,19 @@ fold_cb (PhoshHome *self, PhoshOverview *overview)
   g_return_if_fail (PHOSH_IS_OVERVIEW (overview));
 
   phosh_home_set_state (self, PHOSH_HOME_STATE_FOLDED);
+}
+
+
+static void
+on_has_activities_changed (PhoshHome *self)
+{
+  gboolean reveal;
+
+  g_return_if_fail (PHOSH_IS_HOME (self));
+
+  reveal = (phosh_overview_has_running_activities (PHOSH_OVERVIEW (self->overview)) ||
+            self->state == PHOSH_HOME_STATE_FOLDED);
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self->rev_home), reveal);
 }
 
 
@@ -384,8 +398,10 @@ phosh_home_class_init (PhoshHomeClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_home);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_osk);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, overview);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, rev_home);
   gtk_widget_class_bind_template_callback (widget_class, fold_cb);
   gtk_widget_class_bind_template_callback (widget_class, home_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_has_activities_changed);
   gtk_widget_class_bind_template_callback (widget_class, osk_clicked_cb);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-home");
@@ -488,6 +504,8 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   }
   phosh_home_update_osk_button (self);
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
+
+  on_has_activities_changed (self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
 }
