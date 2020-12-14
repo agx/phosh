@@ -296,12 +296,6 @@ phosh_home_constructed (GObject *object)
 {
   PhoshHome *self = PHOSH_HOME (object);
 
-  g_signal_connect_object (self->btn_home,
-                           "clicked",
-                           G_CALLBACK (home_clicked_cb),
-                           self,
-                           G_CONNECT_SWAPPED);
-
   g_signal_connect (self,
                     "configured",
                     G_CALLBACK (phosh_home_resize),
@@ -391,6 +385,7 @@ phosh_home_class_init (PhoshHomeClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_osk);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, overview);
   gtk_widget_class_bind_template_callback (widget_class, fold_cb);
+  gtk_widget_class_bind_template_callback (widget_class, home_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, osk_clicked_cb);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-home");

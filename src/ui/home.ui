@@ -28,6 +28,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="hexpand">True</property>
+                    <signal name="clicked" handler="home_clicked_cb" swapped="true"/>
                     <child>
                       <object class="PhoshArrow" id="arrow_home">
                         <property name="visible">True</property>
