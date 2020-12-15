@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PhoshNetworkAuthPrompt" parent="PhoshLayerSurface">
-    <property name="app-paintable">1</property>
-    <signal name="draw" handler="network_prompt_draw_cb" />
     <signal name="key-press-event" handler="network_prompt_key_press_event_cb"/>
     <child>
       <object class="GtkBox">
@@ -15,6 +13,7 @@
         <property name="orientation">vertical</property>
         <style>
           <class name="phosh-system-modal-dialog"/>
+          <class name="phosh-network-auth-prompt"/>
         </style>
 
         <child>
@@ -115,6 +114,9 @@
 
       </object>
     </child>
+    <style>
+      <class name="phosh-system-modal"/>
+    </style>
   </template>
 
   <!-- Grid to be shown for WEP/WPA passwords -->

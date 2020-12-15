@@ -176,11 +176,12 @@
         </child>
         <style>
           <class name="phosh-system-modal-dialog"/>
-        </style>
-        <style>
-          <class name="phosh-polkit-auth-agent"/>
+          <class name="phosh-polkit-auth-prompt"/>
         </style>
       </object>
     </child>
+    <style>
+      <class name="phosh-system-modal"/>
+    </style>
   </template>
 </interface>

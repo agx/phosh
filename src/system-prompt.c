@@ -526,21 +526,6 @@ phosh_system_prompt_iface_init (GcrPromptIface *iface)
   iface->prompt_close = phosh_system_prompt_close;
 }
 
-static gboolean
-draw_cb (GtkWidget *widget, cairo_t *cr, gpointer unused)
-{
-  GtkStyleContext *context = gtk_widget_get_style_context (widget);
-  GdkRGBA c;
-
-  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-    gtk_style_context_get_background_color (context, GTK_STATE_FLAG_NORMAL, &c);
-  G_GNUC_END_IGNORE_DEPRECATIONS
-    cairo_set_source_rgba (cr, c.red, c.green, c.blue, 0.7);
-  cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
-  cairo_paint (cr);
-  return FALSE;
-}
-
 
 static gboolean
 on_key_press_event (PhoshSystemPrompt *self, GdkEventKey *event, gpointer data)
@@ -648,12 +633,6 @@ phosh_system_prompt_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
   gtk_widget_grab_default (priv->btn_continue);
-
-  gtk_widget_set_app_paintable(GTK_WIDGET (self), TRUE);
-  g_signal_connect (G_OBJECT(self),
-                    "draw",
-                    G_CALLBACK(draw_cb),
-                    NULL);
 
   gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
   g_signal_connect (G_OBJECT (self),

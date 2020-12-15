@@ -262,24 +262,6 @@ phosh_network_auth_prompt_finalize (GObject *object)
 
 
 static gboolean
-network_prompt_draw_cb (GtkWidget *widget,
-                        cairo_t   *cr)
-{
-  GtkStyleContext *context = gtk_widget_get_style_context (widget);
-  GdkRGBA c;
-
-  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-    gtk_style_context_get_background_color (context, GTK_STATE_FLAG_NORMAL, &c);
-  G_GNUC_END_IGNORE_DEPRECATIONS
-    cairo_set_source_rgba (cr, c.red, c.green, c.blue, 0.7);
-  cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
-  cairo_paint (cr);
-
-  return FALSE;
-}
-
-
-static gboolean
 network_prompt_key_press_event_cb (PhoshNetworkAuthPrompt *self,
                                    GdkEventKey            *event)
 {
@@ -373,7 +355,6 @@ phosh_network_auth_prompt_class_init (PhoshNetworkAuthPromptClass *klass)
 
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_cancel_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_connect_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, network_prompt_draw_cb);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_key_press_event_cb);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_wpa_password_changed_cb);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_icon_press_cb);

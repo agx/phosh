@@ -258,6 +258,10 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
 /*
  * System modal dialogs (polkit, gcr)
  */
+.phosh-system-modal {
+  background-color: alpha(@theme_bg_color, 0.7);
+}
+
 .phosh-system-modal-dialog {
   background-color: black;
   border: solid 2px;
