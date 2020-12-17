@@ -40,32 +40,32 @@ named Phosh.
 Since Phoc (in contrast to some other solutions) aims to be a minimal
 Wayland compositor that manages rendering, handle physical and virtual
 input and display devices but not much more it needs to provide some
-more protocols to enable graphical Shells like Phosh. These are usually
-from [wlr-protocols](https://github.com/swaywm/wlr-protocols) and the
+more protocols to enable graphical shells like Phosh. These are usually
+from [wlr-protocols](https://github.com/swaywm/wlr-protocols) and
 Phoc uses the [wlroots](https://github.com/swaywm/wlroots) library for
 implementing them.
 
 These are the most prominent ones use by Phosh:
 
-- wlr-layer-shell: Usually wayland clients have little influence on where
+- wlr-layer-shell: Usually Wayland clients have little influence on where
   the compositor places them. This protocol gives Phosh enough room
-  to build the top bar (#PhoshPanel), the home bar (#PhoshHome) at
-  the bottom, system modal dialogs (e.g. #PhoshSystemPrompt) and
-  lock screens (#PhoshLockscreen).
+  to build the top bar via #PhoshPanel, the home bar #PhoshHome at
+  the bottom, system modal dialogs e.g. #PhoshSystemPrompt and
+  lock screens via #PhoshLockscreen.
 - wlr-foreign-toplevel-management: This allows the management of
-  toplevels (windows). Phosh uses this to build an applcation switcher
-  (#PhoshOverview).
-- wlr-output-management: This allows to manage an outputs power
+  toplevels (windows). Phosh uses this to build an application switcher
+  called #PhoshOverview.
+- wlr-output-management: This allows to manage a monitors power
   state (to e.g.turn it off when unused).
 
-Besides those Phosh uses a number of "regular" wayland client
+Besides those Phosh uses a number of "regular" Wayland client
 protocols like `xdg_output`, `wl_output` or `wl_seat` (see
 #PhoshWayland for the full list).
 
 ### Session startup
 
 Since Phosh is in many aspects a regular GTK application it's started
-as part GNOME session so the start squence looks like
+as part GNOME session so the start sequence looks like
 
 ```
 phoc (compositor) -> gnome-session -> phosh (and other session components)
@@ -73,7 +73,7 @@ phoc (compositor) -> gnome-session -> phosh (and other session components)
 
 
 ## Hints
-This is a unsorted list of hints when developing for phosh
+This is a unsorted list of hints when developing for Phosh
 
 ### Manager Objects
 
@@ -101,5 +101,5 @@ hide the object via #g_object_bind_property().
 Since phosh is a GTK application you can use
 [GtkInspector](https://wiki.gnome.org/Projects/GTK/Inspector).
 You can use the `GTK_INSPECTOR_DISPLAY` enviroment variable to use a different
-wayland display for the inspector window. This can be useful to have the
-inspector windows outside of a nested wayland session.
+Wayland display for the inspector window. This can be useful to have the
+inspector windows outside of a nested Wayland session.
