@@ -1,3 +1,43 @@
+phosh (0.7.1) amber-phone; urgency=medium
+
+  [ Guido Günther ]
+  * background: Correctly chain up in dispose.
+    This fixes a crash when unplugging a 2nd screen.
+    Fixes 8828176f6c98a4bde94c9f6daa46d0a87a3c8d20
+  * Add initial stubs for org.gnome.Shell DBus protocoll.
+    This will be needed for OSD, monitor labels and grabs
+  * activity: Allow to focus.
+    This fixes the toggle-overview keybinding
+    Fixes 20c3a79fb888e876f30d1a590084c87cb1c16591
+  * home: Hide arrow when there are no activities
+    (Closes: #261)
+  * Handle logind's Lock and Unlock.
+    This allow 'loginctl lock|unlock <session-number>' to work.
+  * phosh.service: Set session type and name.
+    This way we can match the right session via phosh_find_systemd_session
+    even when not using a window manager. We can drop the XDG_SESSION_TYPE
+    once phoc switches to newer wlroots which takes care of it since 0.12.0.
+
+  [ Evangelos Ribeiro Tzaras ]
+  * shell-manager: Implement keygrabbing.
+    Ungrabbing is only allowed for the client who originally grabbed
+  * settings: get rid of explicit volume key handling.
+    With the DBus interface org.gnome.Shell now supported, g-s-d/media key
+    plugin now handles volume keys for us
+
+  [ Sebastian Krzyszkowiak ]
+  * Remove custom drawing in system prompts.
+    Custom drawing doesn't seem necessary. Fixes unwanted background in
+    popovers.
+
+  [ Arnaud Ferraris ]
+  * data: add 'System' category to desktop entries
+
+  [ Andika Triwidada ]
+  * po: Add Indonesian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 17 Dec 2020 12:46:29 +0100
+
 phosh (0.7.0) amber-phone; urgency=medium
 
   [ Guido Günther ]
