@@ -150,3 +150,18 @@ msgstr "Utilisateur :"
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
 msgstr "Confirmer :"
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Verrouiller l'écran"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Redémarrer"
+
+#: src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Éteindre"
