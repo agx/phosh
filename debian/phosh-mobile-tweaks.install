@@ -1,1 +1,1 @@
-debian/00_sm.puri.Phosh.gschema.override /usr/share/glib-2.0/schemas/
+/usr/share/glib-2.0/schemas/*.override

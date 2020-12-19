@@ -90,8 +90,10 @@ compile_schemas = custom_target('glib-compile-schemas',
   depends: [generate_enums_schema, copy_schema]
 )
 
+overrides = ['00_sm.puri.Phosh.gschema.override']
+
 install_data(
-  schemas,
+  schemas + overrides,
   install_dir: schemasdir
 )
 
