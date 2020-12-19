@@ -59,8 +59,8 @@ msgstr "Sto controllando..."
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:334
-msgid "%A, %B %d"
-msgstr "%A, %B %d"
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
 
 #: src/monitor-manager.c:53
 msgid "Built-in display"

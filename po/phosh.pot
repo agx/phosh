@@ -67,7 +67,7 @@ msgstr ""
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:341
-msgid "%A, %B %d"
+msgid "%A, %B %-e"
 msgstr ""
 
 #. Translators: Used when the title of a song is unknown

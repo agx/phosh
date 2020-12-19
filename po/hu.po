@@ -60,7 +60,7 @@ msgstr "Ellenőrzés…"
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:339
-msgid "%A, %B %d"
+msgid "%A, %B %-e"
 msgstr "%B %-d. %A"
 
 #: src/media-player.c:262

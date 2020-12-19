@@ -57,7 +57,7 @@ msgstr "در حال بررسی…"
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:330
-msgid "%A, %B %d"
+msgid "%A, %B %-e"
 msgstr "%A، %Od %OB"
 
 #: src/monitor-manager.c:53

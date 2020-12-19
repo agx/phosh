@@ -66,8 +66,8 @@ msgstr "Denetleniyor…"
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:341
-msgid "%A, %B %d"
-msgstr "%A, %B %d"
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:263 src/ui/media-player.ui:107

@@ -54,7 +54,7 @@ msgstr ""
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:334
-msgid "%A, %B %d"
+msgid "%A, %B %-e"
 msgstr ""
 
 #: src/monitor-manager.c:53
