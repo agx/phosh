@@ -374,15 +374,21 @@ phosh_lockscreen_manager_new (void)
   return g_object_new (PHOSH_TYPE_LOCKSCREEN_MANAGER, NULL);
 }
 
-
+/**
+ * phosh_lockscreen_set_locked:
+ * @self: The #PhoshLockscreenManager
+ * @lock: %TRUE to lock %FALSE to unlock
+ *
+ * Lock or unlock the screen.
+ */
 void
-phosh_lockscreen_manager_set_locked (PhoshLockscreenManager *self, gboolean state)
+phosh_lockscreen_manager_set_locked (PhoshLockscreenManager *self, gboolean lock)
 {
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
-  if (state == self->locked)
+  if (lock == self->locked)
     return;
 
-  if (state)
+  if (lock)
     lockscreen_lock (self);
   else
     lockscreen_unlock_cb (self, PHOSH_LOCKSCREEN (self->lockscreen));
