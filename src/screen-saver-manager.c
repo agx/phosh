@@ -205,7 +205,7 @@ on_lockscreen_manager_notify_locked (PhoshScreenSaverManager *self,
   skeleton = G_DBUS_INTERFACE_SKELETON (self);
   locked = phosh_lockscreen_manager_get_locked(self->lockscreen_manager);
 
-  g_debug ("Signal ActiveChanged: %d", locked);
+  g_debug ("Signaling ActiveChanged: %d", locked);
   g_dbus_connection_emit_signal (g_dbus_interface_skeleton_get_connection (skeleton),
                                  NULL,
                                  g_dbus_interface_skeleton_get_object_path (skeleton),
@@ -227,7 +227,7 @@ on_lockscreen_manager_wakeup_outputs (PhoshScreenSaverManager *self,
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (lockscreen_manager));
 
   skeleton = G_DBUS_INTERFACE_SKELETON (self);
-  g_debug ("Signal WakeUpScreen");
+  g_debug ("Signaling WakeUpScreen");
   g_dbus_connection_emit_signal (g_dbus_interface_skeleton_get_connection (skeleton),
                                  NULL,
                                  g_dbus_interface_skeleton_get_object_path (skeleton),
