@@ -25,8 +25,10 @@
  * @short_description: The singleton that manages available monitors
  * @Title: PhoshMonitorManager
  *
- * #PhoshMonitorManager keeps tracks of and configure available monitors
- * and handles the "org.gnome.Mutter.DisplayConfig" DBus protocol.
+ * This keeps track of all monitors and handles the
+ * org.gnome.Mutter.DisplayConfig DBus interface via
+ * #PhoshDisplayDbusDisplayConfig. This includes individual monitor
+ * configuration as well as blanking/power saving.
  */
 
 /* Equivalent to the 'layout-mode' enum in org.gnome.Mutter.DisplayConfig */
