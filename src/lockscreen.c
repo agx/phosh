@@ -492,7 +492,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
   /**
-   * PhoshLockscreen::wakeup-screen
+   * PhoshLockscreen::wakeup-output
    * @self: The #PhoshLockscreen emitting this signal
    *
    * Emitted when the output showing the lock screen should be woken
