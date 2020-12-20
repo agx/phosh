@@ -59,15 +59,15 @@ handle_grab_failed_event (void *data,
 {
   switch ((enum phosh_private_keyboard_event_error) error) {
   case PHOSH_PRIVATE_KEYBOARD_EVENT_ERROR_ALREADY_SUBSCRIBED:
-    g_warning ("Already subscribed to accelerator %s\n", accelerator);
+    g_warning ("Already subscribed to accelerator %s", accelerator);
     break;
   case PHOSH_PRIVATE_KEYBOARD_EVENT_ERROR_INVALID_KEYSYM:
-    g_warning ("Accelerator %s not subscribeable\n", accelerator);
+    g_warning ("Accelerator %s not subscribeable", accelerator);
     break;
   case PHOSH_PRIVATE_KEYBOARD_EVENT_ERROR_MISC_ERROR:
   case PHOSH_PRIVATE_KEYBOARD_EVENT_ERROR_INVALID_ARGUMENT:
   default:
-    g_warning ("Unknown error %d trying to subscribe accelerator %s\n", error, accelerator);
+    g_warning ("Unknown error %d trying to subscribe accelerator %s", error, accelerator);
   }
 }
 
@@ -103,7 +103,7 @@ handle_ungrab_failed_event (void *data,
                             uint32_t action_id,
                             uint32_t error)
 {
-  g_warning ("Ungrab of %d failed: %d\n", action_id, error);
+  g_warning ("Ungrab of %d failed: %d", action_id, error);
 }
 
 
