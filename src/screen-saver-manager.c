@@ -14,6 +14,7 @@
 #include "login1-manager-dbus.h"
 #include "login1-session-dbus.h"
 #include "lockscreen-manager.h"
+#include "session-presence.h"
 #include "util.h"
 
 /**
@@ -48,6 +49,7 @@ typedef struct _PhoshScreenSaverManager
   int idle_id;
   int dbus_name_id;
   PhoshLockscreenManager *lockscreen_manager;
+  PhoshSessionPresence *presence;  /* gnome-session's presence interface */
 
   PhoshDBusLoginSession *logind_session_proxy;
   PhoshDBusLoginManager *logind_manager_proxy;
@@ -278,6 +280,18 @@ on_logind_prepare_for_sleep (PhoshScreenSaverManager *self,
   }
 }
 
+
+static void
+on_presence_status_changed (PhoshScreenSaverManager *self, guint32 status, gpointer *data)
+{
+  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
+
+  g_debug ("Presence status changed: %d", status);
+  if (status == PHOSH_SESSION_PRESENCE_STATUS_IDLE)
+    phosh_lockscreen_manager_set_locked (self->lockscreen_manager, TRUE);
+}
+
+
 static void
 on_name_acquired (GDBusConnection *connection,
                   const char      *name,
@@ -340,6 +354,8 @@ phosh_screen_saver_manager_dispose (GObject *object)
   g_clear_object (&self->lockscreen_manager);
   g_clear_object (&self->logind_session_proxy);
   g_clear_object (&self->logind_manager_proxy);
+
+  g_clear_object (&self->presence);
 
   G_OBJECT_CLASS (phosh_screen_saver_manager_parent_class)->dispose (object);
 }
@@ -471,6 +487,14 @@ phosh_screen_saver_manager_constructed (GObject *object)
                                        NULL);
 
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self->lockscreen_manager));
+
+  self->presence = phosh_session_presence_get_default_failable ();
+  if (self->presence) {
+    g_signal_connect_swapped (self->presence,
+                              "status-changed",
+                              (GCallback) on_presence_status_changed,
+                              self);
+  }
 
   /* Perform login1 setup when idle */
   self->idle_id = g_idle_add ((GSourceFunc)on_idle, self);
