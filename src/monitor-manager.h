@@ -48,5 +48,7 @@ void                  phosh_monitor_manager_apply_monitor_config      (PhoshMoni
 void                  phosh_monitor_manager_set_sensor_proxy_manager  (PhoshMonitorManager     *self,
                                                                        PhoshSensorProxyManager *manager);
 gboolean              phosh_monitor_manager_enable_fallback           (PhoshMonitorManager *self);
+void                  phosh_monitor_manager_set_power_save_mode       (PhoshMonitorManager *self,
+                                                                       PhoshMonitorPowerSaveMode mode);
 
 G_END_DECLS
