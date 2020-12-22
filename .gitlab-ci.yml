@@ -5,7 +5,6 @@ stages:
  - build
  - test+docs
  - package
- - test-package
 
 variables:
   DEPS: build-essential git wget lcov
@@ -326,14 +325,4 @@ package:deb-pureos-amber:
     - git submodule update --recursive
   extends: .l5-build-debian-package
   allow_failure: true
-
-autopkgtest-debian-buster-package:
-  dependencies:
-    - package:deb-debian-buster
-  extends: .l5-autopkgtest-debian-package
-
-lintian-debian-buster-package:
-  dependencies:
-    - package:deb-debian-buster
-  extends: .l5-lintian-debian-package
 
