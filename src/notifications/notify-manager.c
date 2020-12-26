@@ -440,7 +440,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
                   "timestamp", NULL,
                   NULL);
   } else {
-    PhoshDBusNotification *dbus_notification;
+    g_autoptr(PhoshDBusNotification) dbus_notification = NULL;
 
     if (info)
       phosh_notify_manager_add_application (self, info);
