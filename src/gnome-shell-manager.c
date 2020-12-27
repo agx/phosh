@@ -47,6 +47,8 @@ typedef struct _AcceleratorInfo {
   guint                            action_id;
   gchar                           *accelerator;
   gchar                           *sender;
+  guint                            mode_flags;
+  guint                            grab_flags;
 } AcceleratorInfo;
 
 static void
@@ -129,6 +131,8 @@ grab_single_accelerator (PhoshGnomeShellManager *self,
   info->accelerator = g_strdup (accelerator);
   info->action_id = ++(self->last_action_id);
   info->sender = g_strdup (sender);
+  info->mode_flags = mode_flags;
+  info->grab_flags = grab_flags;
 
   g_debug ("Using action id %d for accelerator %s", info->action_id, info->accelerator);
 
@@ -355,6 +359,26 @@ phosh_gnome_shell_manager_shell_iface_init (PhoshGnomeShellDBusShellIface *iface
   iface->handle_ungrab_accelerators = handle_ungrab_accelerators;
 }
 
+static ShellActionMode
+get_action_mode (void)
+{
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshShellStateFlags state = phosh_shell_get_state (shell);
+
+  if (state & PHOSH_STATE_LOCKED) {
+    /* SHELL_ACTION_MODE_LOCK_SCREEN or SHELL_ACTION_MODE_UNLOCK_SCREEN */
+    return SHELL_ACTION_MODE_LOCK_SCREEN | SHELL_ACTION_MODE_UNLOCK_SCREEN;
+  }
+
+  if (state & PHOSH_STATE_MODAL_SYSTEM_PROMPT)
+    return SHELL_ACTION_MODE_SYSTEM_MODAL;
+
+  if (state & PHOSH_STATE_OVERVIEW)
+    return SHELL_ACTION_MODE_OVERVIEW;
+
+  return SHELL_ACTION_MODE_NORMAL;
+}
+
 static void
 accelerator_activated_action (GSimpleAction *action,
                               GVariant      *param,
@@ -362,12 +386,21 @@ accelerator_activated_action (GSimpleAction *action,
 {
   AcceleratorInfo *info = (AcceleratorInfo *) data;
   PhoshGnomeShellManager *self = phosh_gnome_shell_manager_get_default ();
-  g_autoptr (GVariantBuilder) builder;
+  g_autoptr (GVariantBuilder) builder = NULL;
   GVariant *parameters;
   uint32_t action_id;
+  uint32_t action_mode;
 
   action_id = info->action_id;
+  action_mode = get_action_mode ();
   g_debug ("accelerator action activated for id %u", action_id);
+
+  if ((info->mode_flags & action_mode) == 0) {
+    g_debug ("Accelerator registered for mode %u, but shell is currently in %u",
+             info->mode_flags,
+             action_mode);
+    return;
+  }
 
   builder = g_variant_builder_new (G_VARIANT_TYPE ("a{sv}"));
   /*

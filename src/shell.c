@@ -129,6 +129,8 @@ typedef struct
   /* Mirrors PhoshLockscreenManager's locked property */
   gboolean locked;
 
+  PhoshShellStateFlags shell_state;
+
 } PhoshShellPrivate;
 
 
@@ -703,10 +705,13 @@ phosh_shell_class_init (PhoshShellClass *klass)
 static void
 phosh_shell_init (PhoshShell *self)
 {
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GtkSettings *gtk_settings;
 
   gtk_settings = gtk_settings_get_default ();
   g_object_set (G_OBJECT (gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
+
+  priv->shell_state = PHOSH_STATE_NONE;
 }
 
 
@@ -1235,4 +1240,45 @@ phosh_shell_get_app_launch_context (PhoshShell *self)
   priv = phosh_shell_get_instance_private (self);
 
   return gdk_display_get_app_launch_context (gtk_widget_get_display (GTK_WIDGET (priv->panel)));
+}
+
+/**
+ * phosh_shell_get_state
+ * @self: The shell
+ *
+ * Returns: The current #PhoshShellStateFlags
+ */
+PhoshShellStateFlags
+phosh_shell_get_state (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), 0);
+  priv = phosh_shell_get_instance_private (self);
+
+  return priv->shell_state;
+}
+
+/**
+ * phosh_shell_set_state:
+ * @self: The shell
+ * @state: The #PhoshShellStateFlags to set
+ * @enabled: %TRUE to set a shell state, %FALSE to reset
+ *
+ * Set the shells state.
+ */
+void
+phosh_shell_set_state (PhoshShell          *self,
+                       PhoshShellStateFlags state,
+                       gboolean             enabled)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  priv = phosh_shell_get_instance_private (self);
+
+  if (enabled)
+    priv->shell_state = priv->shell_state | state;
+  else
+    priv->shell_state = priv->shell_state & ~state;
 }
