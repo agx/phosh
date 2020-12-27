@@ -163,7 +163,7 @@ auth_request_initiate (AuthRequest *request)
   user_names = (char **) g_ptr_array_free (p, FALSE);
 
   g_debug("New prompt for %s", request->message);
-  /* We must not issue a new prompt when there's one alread */
+  /* We must not issue a new prompt when there's one already */
   g_return_if_fail (!request->agent->current_prompt);
   request->agent->current_prompt = PHOSH_POLKIT_AUTH_PROMPT (
     phosh_polkit_auth_prompt_new (
@@ -249,7 +249,7 @@ handle_cancelled_in_idle (gpointer user_data)
 }
 
 /*
- * on_request_canelled:
+ * on_request_cancelled:
  *
  * This happens when the application requesting authentication
  * is closed.

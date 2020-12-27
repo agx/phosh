@@ -62,7 +62,7 @@ on_brightness_set (PhoshUPowerDBusTorch *proxy,
   g_autoptr (GError) err = NULL;
 
   if (!phosh_upower_dbus_torch_call_set_brightness_finish (proxy, res, &err)) {
-    g_warning ("Failed to set torch brighness: %s", err->message);
+    g_warning ("Failed to set torch brigthness: %s", err->message);
   }
   g_object_unref (self);
 }

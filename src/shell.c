@@ -1224,7 +1224,7 @@ phosh_shell_is_session_active (PhoshShell *self)
  * phosh_get_app_launch_context:
  * @self: The shell
  *
- * Returns: a an app launch context for the primary display
+ * Returns: an app launch context for the primary display
  */
 GdkAppLaunchContext*
 phosh_shell_get_app_launch_context (PhoshShell *self)

@@ -123,7 +123,7 @@ phosh_system_modal_constructed (GObject *object)
 static void
 phosh_system_modal_class_init (PhoshSystemModalClass *klass)
 {
-  GObjectClass *object_class = (GObjectClass *)klass;
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->get_property = phosh_system_modal_get_property;
   object_class->set_property = phosh_system_modal_set_property;

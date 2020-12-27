@@ -75,8 +75,8 @@ static void
 test_system_modal_g_object_new (Fixture *fixture, gconstpointer unused)
 {
   GtkWidget *modal = g_object_new (PHOSH_TYPE_SYSTEM_MODAL,
-                                     "monitor", get_monitor (),
-                                     NULL);
+                                   "monitor", get_monitor (),
+                                   NULL);
 
   g_assert_true (PHOSH_IS_SYSTEM_MODAL (modal));
 
