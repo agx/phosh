@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "lockscreen.h"
 #include <gtk/gtk.h>
 
 #define PHOSH_TYPE_LOCKSCREEN_MANAGER (phosh_lockscreen_manager_get_type())
@@ -20,6 +21,7 @@ PhoshLockscreenManager *phosh_lockscreen_manager_new (void);
 void                    phosh_lockscreen_manager_set_locked  (PhoshLockscreenManager *self,
                                                               gboolean state);
 gboolean                phosh_lockscreen_manager_get_locked  (PhoshLockscreenManager *self);
+PhoshLockscreenPage     phosh_lockscreen_manager_get_page  (PhoshLockscreenManager *self);
 void                    phosh_lockscreen_manager_set_timeout (PhoshLockscreenManager *self,
                                                               int timeout);
 int                     phosh_lockscreen_manager_get_timeout (PhoshLockscreenManager *self);

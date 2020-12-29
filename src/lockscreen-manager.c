@@ -456,6 +456,20 @@ phosh_lockscreen_manager_get_locked (PhoshLockscreenManager *self)
   return self->locked;
 }
 
+/**
+ * phosh_lockscreen_manager_get_page
+ * @self: The #PhoshLockscreenManager
+ *
+ * Returns: The currently shown #PhoshLockscreenPage in the #PhoshLockscreen
+ */
+PhoshLockscreenPage
+phosh_lockscreen_manager_get_page (PhoshLockscreenManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self), FALSE);
+
+  return phosh_lockscreen_get_page (self->lockscreen);
+}
+
 
 void
 phosh_lockscreen_manager_set_timeout (PhoshLockscreenManager *self, int timeout)

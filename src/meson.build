@@ -16,6 +16,7 @@ phosh_resources = gnome.compile_resources(
 phosh_enum_headers = [
   'app-grid-button.h',
   'home.h',
+  'lockscreen.h',
   'mode-manager.h',
   'monitor/monitor.h',
   'notifications/notification.h',
@@ -229,4 +230,3 @@ phosh = executable('phosh', ['main.c', libphosh_sources],
   dependencies: phosh_tool_dep,
   install: true,
   install_dir: libexecdir)
-

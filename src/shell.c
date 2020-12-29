@@ -285,6 +285,7 @@ phosh_shell_set_property (GObject *object,
   switch (property_id) {
   case PHOSH_SHELL_PROP_LOCKED:
     priv->locked = g_value_get_boolean (value);
+    phosh_shell_set_state (self, PHOSH_STATE_LOCKED, priv->locked);
     break;
   case PHOSH_SHELL_PROP_PRIMARY_MONITOR:
     phosh_shell_set_primary_monitor (self, g_value_get_object (value));
