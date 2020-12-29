@@ -93,7 +93,7 @@ rotation_setting_clicked_cb (PhoshSettings *self)
   g_return_if_fail (PHOSH_IS_SETTINGS (self));
   transform = phosh_shell_get_transform (shell);
   phosh_shell_set_transform (shell, transform == PHOSH_MONITOR_TRANSFORM_NORMAL
-                             ? PHOSH_MONITOR_TRANSFORM_90
+                             ? PHOSH_MONITOR_TRANSFORM_270
                              : PHOSH_MONITOR_TRANSFORM_NORMAL);
   g_signal_emit (self, signals[SETTING_DONE], 0);
 }
