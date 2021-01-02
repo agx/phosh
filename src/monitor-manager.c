@@ -860,6 +860,8 @@ on_head_finished (PhoshMonitorManager *self,
     g_debug ("Removing head %p", head);
   else
     g_warning ("Tried to remove inexistend head %p", head);
+
+  phosh_display_dbus_display_config_emit_monitors_changed (PHOSH_DISPLAY_DBUS_DISPLAY_CONFIG (self));
 }
 
 
@@ -877,6 +879,8 @@ zwlr_output_manager_v1_handle_head (void *data,
   g_debug ("New head %p", head);
   g_ptr_array_add (self->heads, head);
   g_signal_connect_swapped (head, "head-finished", G_CALLBACK (on_head_finished), self);
+
+  phosh_display_dbus_display_config_emit_monitors_changed (PHOSH_DISPLAY_DBUS_DISPLAY_CONFIG (self));
 }
 
 
@@ -891,6 +895,8 @@ zwlr_output_manager_v1_handle_done (void *data,
   g_debug ("Got zwlr_output_serial %u", serial);
   self->zwlr_output_serial = serial;
   self->serial++;
+
+  phosh_display_dbus_display_config_emit_monitors_changed (PHOSH_DISPLAY_DBUS_DISPLAY_CONFIG (self));
 }
 
 
