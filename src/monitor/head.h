@@ -37,6 +37,7 @@ struct _PhoshHead {
 
   gchar                      *name;
   gchar                      *description;
+  gchar                      *vendor, *product, *serial;
   gboolean                    enabled;
 
   struct {

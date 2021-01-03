@@ -264,6 +264,49 @@ head_handle_finished (void                       *data,
   g_signal_emit (self, signals[SIGNAL_HEAD_FINISHED], 0);
 }
 
+static void
+head_handle_make (void *data,
+                  struct zwlr_output_head_v1 *zwlr_output_head_v1,
+                  const char *make)
+{
+  PhoshHead *self = PHOSH_HEAD (data);
+
+  g_return_if_fail (PHOSH_IS_HEAD (self));
+
+  g_free (self->vendor);
+  self->vendor = g_strdup (make);
+  g_debug ("Head %p has vendor %s", self, self->vendor);
+}
+
+
+static void
+head_handle_model (void *data,
+                   struct zwlr_output_head_v1 *zwlr_output_head_v1,
+                   const char *model)
+{
+  PhoshHead *self = PHOSH_HEAD (data);
+
+  g_return_if_fail (PHOSH_IS_HEAD (self));
+
+  g_free (self->product);
+  self->product = g_strdup (model);
+  g_debug ("Head %p has product %s", self, self->product);
+}
+
+
+static void head_handle_serial_number (void *data,
+                                       struct zwlr_output_head_v1 *zwlr_output_head_v1,
+                                       const char *serial_number)
+{
+  PhoshHead *self = PHOSH_HEAD (data);
+
+  g_return_if_fail (PHOSH_IS_HEAD (self));
+
+  g_free (self->serial);
+  self->product = g_strdup (serial_number);
+  g_debug ("Head %p has serial %s", self, self->product);
+}
+
 
 static const struct zwlr_output_head_v1_listener zwlr_output_head_v1_listener =
 {
@@ -277,6 +320,9 @@ static const struct zwlr_output_head_v1_listener zwlr_output_head_v1_listener =
   .transform = head_handle_transform,
   .scale = head_handle_scale,
   .finished = head_handle_finished,
+  .make = head_handle_make,
+  .model = head_handle_model,
+  .serial_number = head_handle_serial_number,
 };
 
 
@@ -329,6 +375,9 @@ phosh_head_dispose (GObject *object)
   g_ptr_array_free (self->modes, TRUE);
   g_clear_pointer (&self->description, g_free);
   g_clear_pointer (&self->name, g_free);
+  g_clear_pointer (&self->vendor, g_free);
+  g_clear_pointer (&self->product, g_free);
+  g_clear_pointer (&self->serial, g_free);
   g_clear_pointer (&self->wlr_head, zwlr_output_head_v1_destroy);
 
   G_OBJECT_CLASS (phosh_head_parent_class)->dispose (object);

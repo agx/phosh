@@ -202,9 +202,9 @@ phosh_monitor_manager_handle_get_resources (
     g_variant_builder_add (&clones, "u", -1 /* possible_clone_index */);
     g_variant_builder_init (&properties, G_VARIANT_TYPE ("a{sv}"));
     g_variant_builder_add (&properties, "{sv}", "vendor",
-                           g_variant_new_string (""));
+                           g_variant_new_string (head->vendor ?: ""));
     g_variant_builder_add (&properties, "{sv}", "product",
-                           g_variant_new_string (""));
+                           g_variant_new_string (head->product ?: ""));
     g_variant_builder_add (&properties, "{sv}", "width-mm",
                            g_variant_new_int32 (head->phys.width));
     g_variant_builder_add (&properties, "{sv}", "height-mm",
@@ -552,9 +552,9 @@ phosh_monitor_manager_handle_get_current_state (
     serial = g_strdup_printf ("00%d", i);
     g_variant_builder_add (&monitors_builder, MONITOR_FORMAT,
                            head->name,                       /* monitor_spec->connector */
-                           "",                               /* monitor_spec->vendor, */
-                           "",                               /* monitor_spec->product, */
-                           "",                               /* monitor_spec->serial, */
+                           head->vendor ?: "",               /* monitor_spec->vendor, */
+                           head->product ?: "",              /* monitor_spec->product, */
+                           head->serial ?: "",               /* monitor_spec->serial, */
                            &modes_builder,
                            &monitor_properties_builder);
   }
@@ -575,9 +575,9 @@ phosh_monitor_manager_handle_get_current_state (
     g_variant_builder_add (&logical_monitor_monitors_builder,
                            MONITOR_SPEC_FORMAT,
                            head->name,                       /* monitor_spec->connector, */
-                           "",                     /* monitor_spec->vendor, */
-                           "",                    /* monitor_spec->product, */
-                           ""                               /* monitor_spec->serial, */
+                           head->vendor ?: "",               /* monitor_spec->vendor, */
+                           head->product ?: "",              /* monitor_spec->product, */
+                           head->serial ?:""                 /* monitor_spec->serial, */
       );
 
     is_primary = (head == primary_head);
