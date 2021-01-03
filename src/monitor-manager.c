@@ -98,6 +98,33 @@ phosh_monitor_manager_get_head_from_monitor (PhoshMonitorManager *self, PhoshMon
   return NULL;
 }
 
+static gint32
+phosh_monitor_manager_flip_transform (PhoshMonitorTransform transform)
+{
+  /* Wayland rotation is opposite from DBus */
+  switch (transform) {
+  case PHOSH_MONITOR_TRANSFORM_90:
+    return WL_OUTPUT_TRANSFORM_270;
+    break;
+  case PHOSH_MONITOR_TRANSFORM_270:
+    return WL_OUTPUT_TRANSFORM_90;
+    break;
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_90:
+    return WL_OUTPUT_TRANSFORM_FLIPPED_270;
+    break;
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_270:
+    return WL_OUTPUT_TRANSFORM_FLIPPED_90;
+    break;
+  case PHOSH_MONITOR_TRANSFORM_NORMAL:
+  case PHOSH_MONITOR_TRANSFORM_180:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_180:
+  default:
+    /* Nothing to be done */
+    return transform;
+  }
+}
+
 /*
  * DBus Interface
  */
@@ -705,7 +732,7 @@ config_head_config_from_logical_monitor_variant (PhoshMonitorManager *self,
     head->pending.scale = scale;
     head->pending.x = x;
     head->pending.y = y;
-    head->pending.transform = transform;
+    head->pending.transform = phosh_monitor_manager_flip_transform (transform);
     head->pending.enabled = TRUE;
     head->pending.seen = TRUE;
   }
