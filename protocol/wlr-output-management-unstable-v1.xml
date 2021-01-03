@@ -39,22 +39,30 @@
     interface version number is reset.
   </description>
 
-  <interface name="zwlr_output_manager_v1" version="1">
+  <interface name="zwlr_output_manager_v1" version="2">
     <description summary="output device configuration manager">
       This interface is a manager that allows reading and writing the current
       output device configuration.
 
       Output devices that display pixels (e.g. a physical monitor or a virtual
       output in a window) are represented as heads. Heads cannot be created nor
-      destroyed, but they can be enabled or disabled and their properties can be
-      changed. Each head may have one or more available modes.
+      destroyed by the client, but they can be enabled or disabled and their
+      properties can be changed. Each head may have one or more available modes.
 
-      Heads are advertised when the output manager is bound, and whenever they
-      appear.
+      Whenever a head appears (e.g. a monitor is plugged in), it will be
+      advertised via the head event. Immediately after the output manager is
+      bound, all current heads are advertised.
 
-      Whenever the number of heads or modes changes, the done event will be
-      sent. It carries a serial which can be used in a create_configuration
-      request to change heads properties.
+      Whenever a head's properties change, the relevant wlr_output_head events
+      will be sent. Not all head properties will be sent: only properties that
+      have changed need to.
+
+      Whenever a head disappears (e.g. a monitor is unplugged), a
+      wlr_output_head.finished event will be sent.
+
+      After one or more heads appear, change or disappear, the done event will
+      be sent. It carries a serial which can be used in a create_configuration
+      request to update heads properties.
 
       The information obtained from this protocol should only be used for output
       configuration purposes. This protocol is not designed to be a generic
@@ -64,7 +72,9 @@
 
     <event name="head">
       <description summary="introduce a new head">
-        This event introduces a new head.
+        This event introduces a new head. This happens whenever a new head
+        appears (e.g. a monitor is plugged in) or after the output manager is
+        bound.
       </description>
       <arg name="head" type="new_id" interface="zwlr_output_head_v1"/>
     </event>
@@ -75,7 +85,8 @@
         the output manager object and after any subsequent changes. This applies
         to child head and mode objects as well. In other words, this event is
         sent whenever a head or mode is created or destroyed and whenever one of
-        their properties has been changed.
+        their properties has been changed. Not all state is re-sent each time
+        the current configuration changes: only the actual changes are sent.
 
         This allows changes to the output configuration to be seen as atomic,
         even if they happen via multiple events.
@@ -114,14 +125,14 @@
     </event>
   </interface>
 
-  <interface name="zwlr_output_head_v1" version="1">
+  <interface name="zwlr_output_head_v1" version="2">
     <description summary="output device">
       A head is an output device. The difference between a wl_output object and
       a head is that heads are advertised even if they are turned off. A head
       object only advertises properties and cannot be used directly to change
       them.
 
-      A head has some read-only properties: mode, name, description and
+      A head has some read-only properties: modes, name, description and
       physical_size. These cannot be changed by clients.
 
       Other properties can be updated via a wlr_output_configuration object.
@@ -246,9 +257,80 @@
         resources associated with it.
       </description>
     </event>
+
+    <!-- Version 2 additions -->
+    <event name="make" since="2">
+      <description summary="head manufacturer">
+        This event describes the manufacturer of the head.
+
+        This must report the same make as the wl_output interface does in its
+        geometry event.
+
+        Together with the model and serial_number events the purpose is to
+        allow clients to recognize heads from previous sessions and for example
+        load head-specific configurations back.
+
+        It is not guaranteed this event will be ever sent. A reason for that
+        can be that the compositor does not have information about the make of
+        the head or the definition of a make is not sensible in the current
+        setup, for example in a virtual session. Clients can still try to
+        identify the head by available information from other events but should
+        be aware that there is an increased risk of false positives.
+
+        It is not recommended to display the make string in UI to users. For
+        that the string provided by the description event should be preferred.
+      </description>
+      <arg name="make" type="string"/>
+    </event>
+
+    <event name="model" since="2">
+      <description summary="head model">
+        This event describes the model of the head.
+
+        This must report the same model as the wl_output interface does in its
+        geometry event.
+
+        Together with the make and serial_number events the purpose is to
+        allow clients to recognize heads from previous sessions and for example
+        load head-specific configurations back.
+
+        It is not guaranteed this event will be ever sent. A reason for that
+        can be that the compositor does not have information about the model of
+        the head or the definition of a model is not sensible in the current
+        setup, for example in a virtual session. Clients can still try to
+        identify the head by available information from other events but should
+        be aware that there is an increased risk of false positives.
+
+        It is not recommended to display the model string in UI to users. For
+        that the string provided by the description event should be preferred.
+      </description>
+      <arg name="model" type="string"/>
+    </event>
+
+    <event name="serial_number" since="2">
+      <description summary="head serial number">
+        This event describes the serial number of the head.
+
+        Together with the make and model events the purpose is to allow clients
+        to recognize heads from previous sessions and for example load head-
+        specific configurations back.
+
+        It is not guaranteed this event will be ever sent. A reason for that
+        can be that the compositor does not have information about the serial
+        number of the head or the definition of a serial number is not sensible
+        in the current setup. Clients can still try to identify the head by
+        available information from other events but should be aware that there
+        is an increased risk of false positives.
+
+        It is not recommended to display the serial_number string in UI to
+        users. For that the string provided by the description event should be
+        preferred.
+      </description>
+      <arg name="serial_number" type="string"/>
+    </event>
   </interface>
 
-  <interface name="zwlr_output_mode_v1" version="1">
+  <interface name="zwlr_output_mode_v1" version="2">
     <description summary="output mode">
       This object describes an output mode.
 
@@ -294,7 +376,7 @@
     </event>
   </interface>
 
-  <interface name="zwlr_output_configuration_v1" version="1">
+  <interface name="zwlr_output_configuration_v1" version="2">
     <description summary="output configuration">
       This object is used by the client to describe a full output configuration.
 
@@ -371,6 +453,9 @@
         tested them.
 
         Upon receiving this event, the client should destroy this object.
+
+        If the current configuration has changed, events to describe the changes
+        will be sent followed by a wlr_output_manager.done event.
       </description>
     </event>
 
@@ -409,7 +494,7 @@
     </request>
   </interface>
 
-  <interface name="zwlr_output_configuration_head_v1" version="1">
+  <interface name="zwlr_output_configuration_head_v1" version="2">
     <description summary="head configuration">
       This object is used by the client to update a single head's configuration.
 
