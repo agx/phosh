@@ -566,7 +566,10 @@ phosh_monitor_manager_handle_get_current_state (
 
     for (int k = 0; k < head->modes->len; k++) {
       PhoshHeadMode *mode = g_ptr_array_index (head->modes, k);
-      g_autofree char *mode_name = NULL;
+      if (!mode->name) {
+        g_warning ("Skipping unnamend mode %p", mode);
+        continue;
+      }
 
       g_variant_builder_init (&supported_scales_builder,
                               G_VARIANT_TYPE ("ad"));
@@ -582,11 +585,8 @@ phosh_monitor_manager_handle_get_current_state (
                              "is-preferred",
                              g_variant_new_boolean (mode->preferred));
 
-      mode_name = g_strdup_printf ("%dx%d@%.0f", mode->width, mode->height,
-                                   mode->refresh / 1000.0);
-
       g_variant_builder_add (&modes_builder, MODE_FORMAT,
-                             mode_name, /* mode_id */
+                             mode->name,
                              (gint32)mode->width,
                              (gint32)mode->height,
                              (double)mode->refresh / 1000.0,
@@ -767,7 +767,8 @@ config_head_config_from_logical_monitor_variant (PhoshMonitorManager *self,
 
   while (TRUE) {
     PhoshHead *head;
-    g_autofree char *mode = NULL;
+    PhoshHeadMode *mode;
+    g_autofree char *mode_name = NULL;
 
     g_autoptr (GVariant) monitor_config_variant =
       g_variant_iter_next_value (monitor_configs_iter);
@@ -779,15 +780,21 @@ config_head_config_from_logical_monitor_variant (PhoshMonitorManager *self,
     head = find_head_from_variant (self,
                                    monitor_config_variant,
                                    &monitor,
-                                   &mode,
+                                   &mode_name,
                                    err);
     if (head == NULL)
       break;
 
-    g_debug ("Head %s in logical monitor config %p",
+    g_debug ("Head %s, mode %s in logical monitor config %p",
              head->name,
+             mode_name,
              logical_monitor_config_variant);
-    /* TODO: find new head mode from mode name */
+
+    mode = phosh_head_find_mode_by_name (head, mode_name);
+    if (mode)
+      head->pending.mode = mode;
+    else
+      g_warning ("Mode %s not found on head %s", mode_name, head->name);
     head->pending.scale = scale;
     head->pending.x = x;
     head->pending.y = y;
