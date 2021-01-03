@@ -73,15 +73,73 @@ G_DEFINE_TYPE_WITH_CODE (PhoshMonitorManager,
                            phosh_monitor_manager_display_config_init));
 
 
+static const double known_diagonals[] = {
+  12.1,
+  13.3,
+  15.6,
+};
+
+
+static char *
+diagonal_to_str (double d)
+{
+  unsigned int i;
+
+  for (i = 0; i < G_N_ELEMENTS (known_diagonals); i++) {
+    double delta;
+
+    delta = fabs(known_diagonals[i] - d);
+    if (delta < 0.1)
+      return g_strdup_printf ("%0.1lf\"", known_diagonals[i]);
+  }
+
+  return g_strdup_printf ("%d\"", (int) (d + 0.5));
+}
+
+
 static char*
 get_display_name (PhoshHead *head)
 {
+  const char *vendor_name = NULL;
+  const char *product_name = NULL;
+  g_autofree char *inches = NULL;
+
   if (phosh_head_is_builtin (head))
     return g_strdup (_("Built-in display"));
-  else if (head->name)
+
+  if (head->phys.width > 0 && head->phys.height > 0) {
+    double d = sqrt (head->phys.width * head->phys.width +
+                     head->phys.height * head->phys.height);
+    inches = diagonal_to_str (d / 25.4);
+  }
+
+  if (head->product && g_strcmp0 (head->product, ""))
+    product_name = head->product;
+
+  if (head->vendor && g_strcmp0 (head->vendor, ""))
+    vendor_name = head->vendor;
+
+  if (vendor_name != NULL) {
+    if (inches != NULL) {
+      return g_strdup_printf (C_("This is a monitor vendor name, followed by a "
+                                 "size in inches, like 'Dell 15\"'",
+                                 "%s %s"),
+                              vendor_name, inches);
+    }
+    if (product_name != NULL) {
+      return g_strdup_printf (C_("This is a monitor vendor name followed by "
+                                 "product/model name where size in inches "
+                                 "could not be calculated, e.g. Dell U2414H",
+                                 "%s %sn"),
+                              vendor_name, product_name);
+    }
+  }
+
+  if (head->name)
     return g_strdup (head->name);
-  else /* Translators: An unknown monitor type */
-    return g_strdup (_("Unknown"));
+
+  /* Translators: An unknown monitor type */
+  return g_strdup (_("Unknown"));
 }
 
 
@@ -97,6 +155,7 @@ phosh_monitor_manager_get_head_from_monitor (PhoshMonitorManager *self, PhoshMon
 
   return NULL;
 }
+
 
 static gint32
 phosh_monitor_manager_flip_transform (PhoshMonitorTransform transform)
