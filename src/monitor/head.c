@@ -36,6 +36,9 @@ enum {
 };
 static GParamSpec *props[PHOSH_HEAD_PROP_LAST_PROP];
 
+#define MINIMUM_LOGICAL_AREA (800 * 480)
+#define MINIMUM_SCALE_FACTOR 1
+#define MAXIMUM_SCALE_FACTOR 4
 
 G_DEFINE_TYPE (PhoshHead, phosh_head, G_TYPE_OBJECT);
 
@@ -63,6 +66,30 @@ mode_name (PhoshHeadMode *mode)
   mode->name = g_strdup_printf ("%dx%d@%.0f", mode->width, mode->height,
                                 mode->refresh / 1000.0);
 
+}
+
+
+static gboolean
+is_logical_size_large_enough (int width, int height)
+{
+  return width * height >= MINIMUM_LOGICAL_AREA;
+}
+
+
+static gboolean
+is_valid_scale (int width, int height, int scale)
+{
+  int scaled_h = height / scale;
+  int scaled_w = width / scale;
+
+  if (scale < MINIMUM_SCALE_FACTOR || scale > MAXIMUM_SCALE_FACTOR ||
+      !is_logical_size_large_enough (scaled_w, scaled_h))
+    return FALSE;
+
+  if (width % scale == 0 && height % scale == 0)
+    return TRUE;
+
+  return FALSE;
 }
 
 
@@ -552,4 +579,29 @@ phosh_head_find_mode_by_name (PhoshHead *self, const char *name)
         return mode;
   }
   return NULL;
+}
+
+
+int *
+phosh_head_calculate_supported_mode_scales (PhoshHead     *head,
+                                            PhoshHeadMode *mode,
+                                            int           *n_supported_scales)
+{
+  unsigned int i;
+  GArray *supported_scales;
+
+  supported_scales = g_array_new (FALSE, FALSE, sizeof (int));
+
+  for (i = MINIMUM_SCALE_FACTOR; i <= MAXIMUM_SCALE_FACTOR; i++) {
+    if (is_valid_scale (mode->width, mode->height, i))
+        g_array_append_val (supported_scales, i);
+  }
+
+  if (supported_scales->len == 0) {
+    int fallback_scale = 1;
+    g_array_append_val (supported_scales, fallback_scale);
+  }
+
+  *n_supported_scales = supported_scales->len;
+  return (int *) g_array_free (supported_scales, FALSE);
 }

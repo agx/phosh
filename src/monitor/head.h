@@ -71,5 +71,8 @@ gboolean                    phosh_head_get_enabled (PhoshHead *self);
 PhoshHeadMode              *phosh_head_get_preferred_mode (PhoshHead *self);
 gboolean                    phosh_head_is_builtin (PhoshHead *self);
 PhoshHeadMode              *phosh_head_find_mode_by_name (PhoshHead *self, const char *name);
+int *                       phosh_head_calculate_supported_mode_scales (PhoshHead     *head,
+                                                                        PhoshHeadMode *mode,
+                                                                        int           *n);
 
 G_END_DECLS
