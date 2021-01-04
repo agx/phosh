@@ -30,6 +30,7 @@ typedef struct _PhoshHeadMode {
   int32_t                     width, height;
   int32_t                     refresh;
   gboolean                    preferred;
+  char                       *name;
 } PhoshHeadMode;
 
 struct _PhoshHead {
@@ -69,5 +70,6 @@ struct zwlr_output_head_v1 *phosh_head_get_wlr_head (PhoshHead *self);
 gboolean                    phosh_head_get_enabled (PhoshHead *self);
 PhoshHeadMode              *phosh_head_get_preferred_mode (PhoshHead *self);
 gboolean                    phosh_head_is_builtin (PhoshHead *self);
+PhoshHeadMode              *phosh_head_find_mode_by_name (PhoshHead *self, const char *name);
 
 G_END_DECLS

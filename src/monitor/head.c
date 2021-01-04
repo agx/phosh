@@ -46,7 +46,23 @@ phosh_head_mode_destroy (PhoshHeadMode *mode)
   g_return_if_fail (PHOSH_IS_HEAD (mode->head));
 
   g_clear_pointer (&mode->wlr_mode, zwlr_output_mode_v1_destroy);
+  g_free (mode->name);
   g_free (mode);
+}
+
+
+static void
+mode_name (PhoshHeadMode *mode)
+{
+  if (mode->name)
+    return;
+
+  if (!mode->refresh || !mode->width || !mode->height)
+    return;
+
+  mode->name = g_strdup_printf ("%dx%d@%.0f", mode->width, mode->height,
+                                mode->refresh / 1000.0);
+
 }
 
 
@@ -58,6 +74,7 @@ zwlr_output_mode_v1_handle_size (void *data, struct zwlr_output_mode_v1 *wlr_mod
 
   mode->width = width;
   mode->height = height;
+  mode_name (mode);
 }
 
 
@@ -69,6 +86,7 @@ zwlr_output_mode_v1_handle_refresh (void                       *data,
   PhoshHeadMode *mode = data;
 
   mode->refresh = refresh;
+  mode_name (mode);
 }
 
 
@@ -169,8 +187,9 @@ head_handle_mode (void                       *data,
   PhoshHeadMode *mode;
 
   g_return_if_fail (PHOSH_IS_HEAD (self));
-  g_debug ("Head %p has mode %p", self, wlr_mode);
+
   mode = phosh_head_mode_new_from_wlr_mode (self, wlr_mode);
+  g_debug ("Head %p has mode %p", self, wlr_mode);
   g_ptr_array_add (self->modes, mode);
 }
 
@@ -510,4 +529,27 @@ phosh_head_is_builtin (PhoshHead *self)
   g_return_val_if_fail (PHOSH_IS_HEAD (self), FALSE);
 
   return phosh_monitor_connector_is_builtin (self->conn_type);
+}
+
+
+/**
+ * phosh_head_find_mode_by_name:
+ * @self: A #PhoshHead
+ * @name: The name of a mode
+ *
+ * Returns: The #PhoshHeadMode if found, otherwise %NULL
+ */
+PhoshHeadMode *
+phosh_head_find_mode_by_name (PhoshHead *self, const char *name)
+{
+  g_return_val_if_fail (PHOSH_IS_HEAD (self), NULL);
+  g_return_val_if_fail (name != NULL, NULL);
+
+  for (int i = 0; i < self->modes->len; i++) {
+    PhoshHeadMode *mode = g_ptr_array_index (self->modes, i);
+
+    if (!g_strcmp0 (mode->name, name))
+        return mode;
+  }
+  return NULL;
 }
