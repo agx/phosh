@@ -36,7 +36,8 @@ enum {
 };
 static GParamSpec *props[PHOSH_HEAD_PROP_LAST_PROP];
 
-#define MINIMUM_LOGICAL_AREA (800 * 480)
+#define MINIMUM_LOGICAL_AREA_LANDSCAPE (800 * 480)
+#define MINIMUM_LOGICAL_AREA_PORTRAIT (360 * 720)
 #define MINIMUM_SCALE_FACTOR 1
 #define MAXIMUM_SCALE_FACTOR 4
 
@@ -72,7 +73,10 @@ mode_name (PhoshHeadMode *mode)
 static gboolean
 is_logical_size_large_enough (int width, int height)
 {
-  return width * height >= MINIMUM_LOGICAL_AREA;
+  if (width > height)
+    return width * height >= MINIMUM_LOGICAL_AREA_LANDSCAPE;
+  else
+    return width * height >= MINIMUM_LOGICAL_AREA_PORTRAIT;
 }
 
 
