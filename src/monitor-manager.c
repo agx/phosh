@@ -560,12 +560,14 @@ phosh_monitor_manager_handle_get_current_state (
       monitor_properties_builder;
     char *display_name;
     gboolean is_builtin;
+    int n;
     g_autofree char *serial = NULL;
 
     g_variant_builder_init (&modes_builder, G_VARIANT_TYPE (MODES_FORMAT));
 
     for (int k = 0; k < head->modes->len; k++) {
       PhoshHeadMode *mode = g_ptr_array_index (head->modes, k);
+      g_autofree int *scales = NULL;
       if (!mode->name) {
         g_warning ("Skipping unnamend mode %p", mode);
         continue;
@@ -573,8 +575,11 @@ phosh_monitor_manager_handle_get_current_state (
 
       g_variant_builder_init (&supported_scales_builder,
                               G_VARIANT_TYPE ("ad"));
-      g_variant_builder_add (&supported_scales_builder, "d",
-                             (double)head->scale);
+      scales = phosh_head_calculate_supported_mode_scales (head, mode, &n);
+      for (int l = 0; l < n; l++) {
+        g_variant_builder_add (&supported_scales_builder, "d",
+                               (double)scales[l]);
+      }
 
       g_variant_builder_init (&mode_properties_builder,
                               G_VARIANT_TYPE ("a{sv}"));
