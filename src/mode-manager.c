@@ -86,6 +86,7 @@ update_props (PhoshModeManager *self)
   int n_monitors;
   PhoshModeDeviceType device_type, mimicry;
   PhoshModeHwFlags hw;
+  PhoshShell *shell = phosh_shell_get_default ();
 
   /* Self->Chassis type */
   hw = PHOSH_MODE_HW_NONE;
@@ -108,8 +109,10 @@ update_props (PhoshModeManager *self)
 
   /* Additional hardware */
   n_monitors = phosh_monitor_manager_get_num_monitors (self->monitor_manager);
-  if (n_monitors > 1)
+  if (n_monitors > 1 || (n_monitors == 1 && phosh_shell_get_builtin_monitor (shell) !=
+                         phosh_shell_get_primary_monitor (shell))) {
     hw |= PHOSH_MODE_HW_EXT_DISPLAY;
+  }
 
   if (self->wl_caps & PHOSH_WAYLAND_SEAT_CAPABILITY_POINTER)
     hw |= PHOSH_MODE_HW_POINTER;
