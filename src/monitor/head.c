@@ -609,3 +609,22 @@ phosh_head_calculate_supported_mode_scales (PhoshHead     *head,
   *n_supported_scales = supported_scales->len;
   return (int *) g_array_free (supported_scales, FALSE);
 }
+
+/**
+ * phosh_head_clear_pending:
+ * @self: A #PhoshHead
+ *
+ * Clear all pending state. This can be used if e.g.  pending state
+ * was set but the output configuration not submitted.
+ */
+void
+phosh_head_clear_pending (PhoshHead *self)
+{
+  self->pending.seen = FALSE;
+  self->pending.x = self->x;
+  self->pending.y = self->y;
+  self->pending.transform = self->transform;
+  self->pending.mode = self->mode;
+  self->pending.scale = self->scale;
+  self->pending.enabled = self->enabled;
+}

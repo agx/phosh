@@ -74,5 +74,6 @@ PhoshHeadMode              *phosh_head_find_mode_by_name (PhoshHead *self, const
 int *                       phosh_head_calculate_supported_mode_scales (PhoshHead     *head,
                                                                         PhoshHeadMode *mode,
                                                                         int           *n);
+void                        phosh_head_clear_pending (PhoshHead *self);
 
 G_END_DECLS

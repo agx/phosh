@@ -871,7 +871,7 @@ phosh_monitor_manager_handle_apply_monitors_config (
   /* Make sure we refresh only heads from this config run */
   for (int i = 0; i < self->heads->len; i++) {
     PhoshHead *head = g_ptr_array_index (self->heads, i);
-    head->pending.seen = FALSE;
+    phosh_head_clear_pending (head);
   }
 
   g_variant_iter_init (&logical_monitor_configs_iter,
