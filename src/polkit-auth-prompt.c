@@ -415,6 +415,7 @@ phosh_polkit_auth_prompt_dispose (GObject *obj)
   PhoshPolkitAuthPrompt *self = PHOSH_POLKIT_AUTH_PROMPT (obj);
 
   g_clear_object (&self->identity);
+  g_clear_object (&self->session);
 
   G_OBJECT_CLASS (phosh_polkit_auth_prompt_parent_class)->dispose (obj);
 }
