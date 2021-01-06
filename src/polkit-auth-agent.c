@@ -16,8 +16,6 @@
 #include <sys/types.h>
 #include <pwd.h>
 
-#define PHOSH_POLKIT_AUTH_DEBUG
-
 #ifdef PHOSH_POLKIT_AUTH_DEBUG
 #define auth_debug(...) g_debug(__VA_ARGS__)
 #else
