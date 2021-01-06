@@ -468,7 +468,13 @@ network_agent_setup_prompt (PhoshWifiManager *self)
   g_signal_connect_object (self->network_prompt, "done",
                            G_CALLBACK (network_prompt_done_cb),
                            self, G_CONNECT_SWAPPED);
+
+  /* Show widget when not locked and keep that in sync */
+  g_object_bind_property (phosh_shell_get_default (), "locked",
+                          self->network_prompt, "visible",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 }
+
 
 static void
 secret_request_new_cb (PhoshWifiManager              *self,
@@ -486,14 +492,15 @@ secret_request_new_cb (PhoshWifiManager              *self,
     return;
   }
 
-  if (!self->network_prompt)
-    network_agent_setup_prompt (self);
+  g_return_if_fail (!self->network_prompt);
 
+  network_agent_setup_prompt (self);
   phosh_network_auth_prompt_set_request (self->network_prompt,
                                          request_id, connection, setting_name,
                                          hints, flags);
-  gtk_widget_show (GTK_WIDGET (self->network_prompt));
+
 }
+
 
 static void
 secret_request_cancelled_cb (PhoshWifiManager  *self,
