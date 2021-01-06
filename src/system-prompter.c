@@ -42,7 +42,12 @@ new_prompt_cb (GcrSystemPrompter *prompter,
 
   prompt = phosh_system_prompt_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                     phosh_shell_get_primary_monitor (shell)->wl_output);
-  gtk_widget_show (prompt);
+
+  /* Show widget when not locked and keep that in sync */
+  g_object_bind_property (phosh_shell_get_default (), "locked",
+                          prompt, "visible",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
   return GCR_PROMPT (prompt);
 }
 
