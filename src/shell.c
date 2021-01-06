@@ -117,6 +117,10 @@ typedef struct
 
   gboolean startup_finished;
   PhoshMonitorTransform transform; /* current rotation of primary monitor */
+
+  /* Mirrors PhoshLockscreenManager's locked property */
+  gboolean locked;
+
 } PhoshShellPrivate;
 
 
@@ -163,7 +167,7 @@ phosh_shell_get_locked (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
-  return phosh_lockscreen_manager_get_locked (priv->lockscreen_manager);
+  return priv->locked;
 }
 
 /**
@@ -179,15 +183,11 @@ void
 phosh_shell_set_locked (PhoshShell *self, gboolean locked)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  gboolean current;
 
-  current = phosh_lockscreen_manager_get_locked (priv->lockscreen_manager);
-
-  if (current == locked)
+  if (locked == priv->locked)
     return;
 
   phosh_lockscreen_manager_set_locked (priv->lockscreen_manager, locked);
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_LOCKED]);
 }
 
 static void
@@ -280,10 +280,11 @@ phosh_shell_set_property (GObject *object,
                           GParamSpec *pspec)
 {
   PhoshShell *self = PHOSH_SHELL (object);
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   switch (property_id) {
   case PHOSH_SHELL_PROP_LOCKED:
-    phosh_shell_set_locked (self, g_value_get_boolean (value));
+    priv->locked = g_value_get_boolean (value);
     break;
   case PHOSH_SHELL_PROP_PRIMARY_MONITOR:
     phosh_shell_set_primary_monitor (self, g_value_get_object (value));
@@ -309,8 +310,7 @@ phosh_shell_get_property (GObject *object,
     g_value_set_enum (value, phosh_monitor_get_transform(priv->primary_monitor));
     break;
   case PHOSH_SHELL_PROP_LOCKED:
-    g_value_set_boolean (value,
-                         phosh_lockscreen_manager_get_locked (priv->lockscreen_manager));
+    g_value_set_boolean (value, priv->locked);
     break;
   case PHOSH_SHELL_PROP_PRIMARY_MONITOR:
     g_value_set_object (value, phosh_shell_get_primary_monitor (self));
@@ -421,8 +421,8 @@ on_new_notification (PhoshShell         *self,
   }
 
   if (phosh_notify_manager_get_show_notification_banner (manager, notification) &&
-      !phosh_lockscreen_manager_get_locked (priv->lockscreen_manager) &&
-      phosh_panel_get_state (PHOSH_PANEL (priv->panel)) == PHOSH_PANEL_STATE_FOLDED) {
+      phosh_panel_get_state (PHOSH_PANEL (priv->panel)) == PHOSH_PANEL_STATE_FOLDED &&
+      !priv->locked) {
     g_set_weak_pointer (&priv->notification_banner,
                         phosh_notification_banner_new (notification));
 
@@ -627,6 +627,10 @@ phosh_shell_constructed (GObject *object)
   type_setup ();
 
   priv->lockscreen_manager = phosh_lockscreen_manager_new ();
+  g_object_bind_property (priv->lockscreen_manager, "locked",
+                          self, "locked",
+                          G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
   priv->idle_manager = phosh_idle_manager_get_default();
 
   priv->faders = g_ptr_array_new_with_free_func ((GDestroyNotify) (gtk_widget_destroy));
@@ -675,7 +679,7 @@ phosh_shell_class_init (PhoshShellClass *klass)
                           "Locked",
                           "Whether the screen is locked",
                           FALSE,
-                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                          G_PARAM_READWRITE);
 
   props[PHOSH_SHELL_PROP_PRIMARY_MONITOR] =
     g_param_spec_object ("primary-monitor",
