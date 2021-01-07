@@ -340,13 +340,6 @@ phosh_shell_dispose (GObject *object)
   PhoshShell *self = PHOSH_SHELL (object);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
-  if (priv->sensor_proxy_manager) {
-    phosh_dbus_sensor_proxy_call_release_accelerometer_sync (
-      PHOSH_DBUS_SENSOR_PROXY(priv->sensor_proxy_manager),
-      NULL, NULL);
-      g_clear_object (&priv->sensor_proxy_manager);
-  }
-
   panels_dispose (self);
   g_clear_pointer (&priv->faders, g_ptr_array_unref);
 
