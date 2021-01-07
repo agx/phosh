@@ -611,6 +611,32 @@ on_monitor_removed (PhoshShell *self, PhoshMonitor *monitor)
 }
 
 
+static PhoshMonitor *
+find_builtin_monitor (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+  PhoshMonitor *monitor = NULL;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (priv->builtin_monitor)
+    return priv->builtin_monitor;
+
+  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
+    monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
+    if (phosh_monitor_is_builtin (monitor))
+      break;
+  }
+
+  if (!monitor)
+    monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
+  g_return_val_if_fail (monitor, NULL);
+
+  return monitor;
+}
+
+
 static void
 phosh_shell_constructed (GObject *object)
 {
@@ -634,7 +660,7 @@ phosh_shell_constructed (GObject *object)
   phosh_wayland_roundtrip (phosh_wayland_get_default ());
 
   if (phosh_monitor_manager_get_num_monitors(priv->monitor_manager)) {
-    priv->builtin_monitor = phosh_shell_get_builtin_monitor (self);
+    priv->builtin_monitor = g_object_ref (find_builtin_monitor (self));
 
     g_debug ("Builtin monitor is %s, %d", priv->builtin_monitor->name,
              phosh_monitor_is_configured (priv->builtin_monitor));
@@ -819,25 +845,12 @@ PhoshMonitor *
 phosh_shell_get_builtin_monitor (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
-  PhoshMonitor *monitor = NULL;
 
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_MONITOR (priv->builtin_monitor), NULL);
 
-  if (priv->builtin_monitor)
-    return priv->builtin_monitor;
-
-  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
-    monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
-    if (phosh_monitor_is_builtin (monitor))
-      break;
-  }
-
-  if (!monitor)
-    monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
-  g_return_val_if_fail (monitor, NULL);
-
-  return monitor;
+  return priv->builtin_monitor;
 }
 
 
