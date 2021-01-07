@@ -469,6 +469,8 @@ setup_idle_cb (PhoshShell *self)
   priv->session_manager = phosh_session_manager_new ();
   priv->mode_manager = phosh_mode_manager_new ();
 
+  priv->sensor_proxy_manager = phosh_sensor_proxy_manager_get_default_failable ();
+
   panels_create (self);
   /* Create background after panel since it needs the panel's size */
   priv->background_manager = phosh_background_manager_new ();
@@ -502,8 +504,8 @@ setup_idle_cb (PhoshShell *self)
   if (priv->sensor_proxy_manager) {
     priv->proximity = phosh_proximity_new (priv->sensor_proxy_manager,
                                            priv->lockscreen_manager);
-    /* TODO: accelerometer */
   }
+
   priv->mount_manager = phosh_mount_manager_new ();
 
   phosh_session_manager_register (priv->session_manager,
