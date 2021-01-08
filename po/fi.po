@@ -1,20 +1,25 @@
-# JR-Fi <juho@reivo.fi>, 2019. #zanata
 # M J <emjay.accounts+zanata@mailbox.org>, 2019. #zanata
-# JR-Fi <juho@reivo.fi>, 2020. #zanata
+# Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2020
+# JR-Fi <juho@reivo.fi>, 2019-2020. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2020-03-27 10:56-0400\n"
+"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
+"POT-Creation-Date: 2021-01-08 03:33+0000\n"
+"PO-Revision-Date: 2020-08-07 20:42+0300\n"
 "Last-Translator: JR-Fi <juho@reivo.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
-"X-Generator: Zanata 4.6.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -25,119 +30,273 @@ msgid "Window management and application launching for mobile"
 msgstr ""
 "Ikkunointijärjestelmän hallinta ja ohjelmien käynnistys mobiililaitteille"
 
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
-msgid "Phosh"
-msgstr "Phosh"
-
-#: src/app-grid-button.c:523
+#: src/app-grid-button.c:536
 msgid "Application"
 msgstr "Sovellus"
 
-#: src/feedbackinfo.c:38
-msgid "Quiet"
-msgstr "Äänetön"
-
-#: src/feedbackinfo.c:40
-msgid "Silent"
-msgstr "Hiljainen"
-
-#: src/feedbackinfo.c:42
+#: src/bt-info.c:92 src/feedbackinfo.c:51
 msgid "On"
 msgstr "Päällä"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
+#: src/bt-info.c:94
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Telakassa"
+
+#: src/docked-info.c:195
+msgid "Undocked"
+msgstr "Ei telakassa"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:44
+msgid "Quiet"
+msgstr "Äänetön"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:49
+msgid "Silent"
+msgstr "Hiljainen"
+
+#: src/lockscreen.c:86 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr "Syötä salasana"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:265
 msgid "Checking…"
-msgstr "Tarkistaa..."
+msgstr "Tarkistaa…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:334
+#: src/lockscreen.c:343
+#| msgid "%A, %B %d"
 msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
+msgstr "%A, %-e. %Bta"
 
-#: src/monitor-manager.c:53
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:277 src/ui/media-player.ui:107
+#| msgid "Unknown title"
+msgid "Unknown Title"
+msgstr "Tuntematon kappale"
+
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:286 src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Tuntematon artisti"
+
+#: src/monitor-manager.c:71
 msgid "Built-in display"
 msgstr "Sisäänrakennettu näyttö"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:75
 msgid "Unknown"
 msgstr "Tuntematon"
 
-#: src/network-auth-prompt.c:184
+#: src/network-auth-prompt.c:187
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Wifi-verkon “%s” tunnistautumistyyppi ei ole tuettu"
+
+#: src/network-auth-prompt.c:192
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Anna salasana wifi-verkolle “%s”"
 
-#: src/polkit-auth-agent.c:229
-msgid "Authentication dialog was dismissed by the user"
-msgstr "Sisäänkirjauksen dialogi peruutettu käyttäjän toimesta"
+#: src/notifications/mount-notification.c:137
+msgid "Open"
+msgstr "Avaa"
 
-#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
+#: src/notifications/notification.c:381 src/notifications/notification.c:637
+msgid "Notification"
+msgstr "Ilmoitus"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:83
+#, fuzzy
+#| msgid "s"
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "s"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:85
+#, fuzzy
+#| msgid "m"
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "min"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:87
+#, fuzzy
+#| msgid "m"
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "min"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:89
+#, fuzzy
+#| msgid "h"
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "h"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:91
+#, fuzzy
+#| msgid "h"
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "h"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:93
+#, fuzzy
+#| msgid "d"
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "pvä"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:95
+#, fuzzy
+#| msgid "d"
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "pvä"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:97
+#, fuzzy
+#| msgid "mo"
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "kk"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:99
+#, fuzzy
+#| msgid "mos"
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "kk"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:101
+#, fuzzy
+#| msgid "y"
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "v"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:103
+#, fuzzy
+#| msgid "y"
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "v"
+
+#. Translators: this is the date in (short) number only format
+#: src/notifications/timestamp-label.c:106
+msgid "%d.%m.%y"
+msgstr "%d.%m.%y"
+
+#. Translators: Timestamp prefix (e.g. Over 5h)
+#: src/notifications/timestamp-label.c:197
+msgid "Over"
+msgstr "Yli"
+
+#. Translators: Timestamp prefix (e.g. Almost 5h)
+#: src/notifications/timestamp-label.c:202
+msgid "Almost"
+msgstr "Miltei"
+
+#: src/notifications/timestamp-label.c:210
+#| msgid "Unknown"
+msgid "now"
+msgstr "nyt"
+
+#: src/polkit-auth-agent.c:232
+msgid "Authentication dialog was dismissed by the user"
+msgstr "Tunnistautumisikkuna peruutettu käyttäjän toimesta"
+
+#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:130
 #: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
 msgid "Password:"
 msgstr "Salasana:"
 
-#: src/polkit-auth-prompt.c:322
+#: src/polkit-auth-prompt.c:324
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Valitettavasti se ei toiminut. Ole hyvä ja yritä uudelleen."
 
-#: src/polkit-auth-prompt.c:488
+#: src/polkit-auth-prompt.c:469
 msgid "Authenticate"
-msgstr "Todenna"
+msgstr "Tunnistaudu"
 
-#: src/system-prompt.c:371
+#: src/rotateinfo.c:65
+msgid "Portrait"
+msgstr "Pystysuuntainen"
+
+#: src/rotateinfo.c:68
+msgid "Landscape"
+msgstr "Vaakasuuntainen"
+
+#: src/system-prompt.c:373
 msgid "Passwords do not match."
 msgstr "Salasanat eivät täsmää."
 
-#: src/system-prompt.c:378
+#: src/system-prompt.c:380
 msgid "Password cannot be blank"
 msgstr "Salasana ei voi olla tyhjä"
 
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "Taskulamppu"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:49
 msgid "App"
 msgstr "Sovellus"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
-msgstr "Poista suosikeista"
+msgstr "Poista _suosikeista"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
-msgstr "Lisää suosikkeihin"
+msgstr "Lisää _suosikkeihin"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Etsi sovelluksia..."
+msgstr "Etsi sovelluksia…"
 
-#: src/ui/lockscreen.ui:36
+#: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
-msgstr "Liuta ylös avataksesi"
+msgstr "Liu'uta ylös avataksesi"
 
-#: src/ui/lockscreen.ui:250
+#: src/ui/lockscreen.ui:280
 msgid "Emergency"
 msgstr "Hätä"
 
-#: src/ui/lockscreen.ui:266
+#: src/ui/lockscreen.ui:296
 msgid "Unlock"
-msgstr "Poista lukitus"
+msgstr "Avaa lukitus"
 
-#: src/ui/network-auth-prompt.ui:90
+#: src/ui/network-auth-prompt.ui:89
 msgid "_Cancel"
-msgstr "Peruuta"
+msgstr "_Peru"
 
-#: src/ui/network-auth-prompt.ui:106
+#: src/ui/network-auth-prompt.ui:105
 msgid "C_onnect"
-msgstr "Yhdistä"
+msgstr "_Yhdistä"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
@@ -146,3 +305,34 @@ msgstr "Käyttäjä:"
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
 msgstr "Vahvista:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Lukittu ruutu"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "Uloskirjaus"
+
+#: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Uudelleenkäynnistys"
+
+#: src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Sammutus"
+
+#: src/wifiinfo.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:170
+msgid "Cellular"
+msgstr "Puhelinverkko"
+
+#~ msgid "Unknown artist"
+#~ msgstr "Tuntematon artisti"
+
+#~ msgid "Unknown Song"
+#~ msgstr "Tuntematon kappale"
