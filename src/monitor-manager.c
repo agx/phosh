@@ -172,34 +172,7 @@ phosh_monitor_manager_handle_get_resources (
                            &properties);
   }
 
-  /* modes */
-  for (int i = 0; i < self->monitors->len; i++) {
-    PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
-    PhoshHead *head;
-    GPtrArray *modes;
-
-    if (!phosh_monitor_is_configured(monitor))
-      continue;
-
-    head = phosh_monitor_manager_get_head_from_monitor (self, monitor);
-    if (!head) {
-      g_warning ("Failed to get head for monitor %p", monitor);
-      continue;
-    }
-
-    modes = head->modes;
-    for (int k = 0; k < modes->len; k++) {
-      PhoshHeadMode *mode = g_ptr_array_index (modes, k);
-      g_variant_builder_add (&mode_builder, "(uxuudu)",
-                             (guint32)k,            /* ID */
-                             (guint64)k,            /* mode->mode_id, */
-                             (guint32)mode->width,
-                             (guint32)mode->height,
-                             (double)mode->refresh / 1000.0,
-                             (guint32)0             /* mode->flags); */
-        );
-    }
-  }
+  /* Don't bother setting up modes, they're ignored */
 
   phosh_display_dbus_display_config_complete_get_resources (
     skeleton,
