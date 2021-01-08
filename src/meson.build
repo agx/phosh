@@ -15,6 +15,7 @@ phosh_resources = gnome.compile_resources(
 
 phosh_enum_headers = [
   'app-grid-button.h',
+  'gnome-shell-manager.h',
   'home.h',
   'lockscreen.h',
   'mode-manager.h',
@@ -22,6 +23,7 @@ phosh_enum_headers = [
   'notifications/notification.h',
   'notifications/notify-manager.h',
   'phosh-wayland.h',
+  'shell.h',
 ] + schema_enum_headers
 
 phosh_enums = gnome.mkenums('phosh-enums',

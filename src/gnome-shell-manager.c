@@ -402,9 +402,11 @@ accelerator_activated_action (GSimpleAction *action,
   g_debug ("accelerator action activated for id %u", action_id);
 
   if ((info->mode_flags & action_mode) == 0) {
-    g_debug ("Accelerator registered for mode %u, but shell is currently in %u",
-             info->mode_flags,
-             action_mode);
+    g_autofree gchar *str_shell_mode = g_flags_to_string (SHELL_TYPE_ACTION_MODE, action_mode);
+    g_autofree gchar *str_grabbed_mode = g_flags_to_string (SHELL_TYPE_ACTION_MODE, info->mode_flags);
+    g_debug ("Accelerator registered for mode %s, but shell is currently in %s",
+             str_grabbed_mode,
+             str_shell_mode);
     return;
   }
 
