@@ -37,6 +37,41 @@ typedef struct {
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshSystemModal, phosh_system_modal, PHOSH_TYPE_LAYER_SURFACE);
 
+/*
+ * Keep track of opened modal dialogs
+ * Only reset PHOSH_STATE_MODAL_SYSTEM_PROMPT when there are no more dialogs
+ * see phosh_system_modal_map/unmap
+ */
+static int modal_count = 0;
+
+
+static void
+phosh_system_modal_map (GtkWidget *widget)
+{
+  g_return_if_fail (PHOSH_IS_SYSTEM_MODAL (widget));
+
+  modal_count++;
+  phosh_shell_set_state (phosh_shell_get_default (), PHOSH_STATE_MODAL_SYSTEM_PROMPT, TRUE);
+
+  GTK_WIDGET_CLASS (phosh_system_modal_parent_class)->map (widget);
+}
+
+
+static void
+phosh_system_modal_unmap (GtkWidget *widget)
+{
+  g_return_if_fail (PHOSH_IS_SYSTEM_MODAL (widget));
+
+  modal_count--;
+
+  if (modal_count == 0)
+    phosh_shell_set_state (phosh_shell_get_default (), PHOSH_STATE_MODAL_SYSTEM_PROMPT, FALSE);
+  else if (modal_count < 0)
+    g_warning ("The modal dialog counter is negative %d. This should never happen",
+               modal_count);
+
+  GTK_WIDGET_CLASS (phosh_system_modal_parent_class)->unmap (widget);
+}
 
 static void
 phosh_system_modal_set_property (GObject      *obj,
@@ -124,6 +159,10 @@ static void
 phosh_system_modal_class_init (PhoshSystemModalClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+
+  widget_class->map = phosh_system_modal_map;
+  widget_class->unmap = phosh_system_modal_unmap;
 
   object_class->get_property = phosh_system_modal_get_property;
   object_class->set_property = phosh_system_modal_set_property;

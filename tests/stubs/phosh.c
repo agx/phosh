@@ -49,3 +49,8 @@ phosh_shell_get_app_launch_context (PhoshShell *self)
 {
   return gdk_display_get_app_launch_context (gdk_display_get_default ());
 }
+
+void
+phosh_shell_set_state (PhoshShell *self, guint state, gboolean set)
+{
+}
