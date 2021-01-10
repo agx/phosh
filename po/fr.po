@@ -9,17 +9,22 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
 "POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"PO-Revision-Date: 2021-01-10 11:59+0100\n"
+"Last-Translator: Xam Ina <xamina@tutanota.com>\n"
+"Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2020-03-15 05:21-0400\n"
-"Language-Team: \n"
 "X-Generator: Zanata 4.6.2\n"
-"Last-Translator: Frl5 <zanata@videca.fr>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Language: fr\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -29,54 +34,175 @@ msgstr "Interpréteur pour téléphone"
 msgid "Window management and application launching for mobile"
 msgstr "Gestion de fenêtres et lancement d'applications pour mobile"
 
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
-msgid "Phosh"
-msgstr "Phosh"
-
-#: src/app-grid-button.c:523
+#: src/app-grid-button.c:536
 msgid "Application"
 msgstr "Application"
 
-#: src/feedbackinfo.c:38
-msgid "Quiet"
-msgstr "Silencieux"
-
-#: src/feedbackinfo.c:40
-msgid "Silent"
-msgstr "Muet"
-
-#: src/feedbackinfo.c:42
+#: src/bt-info.c:92 src/feedbackinfo.c:51
 msgid "On"
 msgstr "Actif"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
+#: src/bt-info.c:94
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Connecté"
+
+#: src/docked-info.c:195
+msgid "Undocked"
+msgstr "Non connecté"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:44
+msgid "Quiet"
+msgstr "Silencieux"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:49
+msgid "Silent"
+msgstr "Muet"
+
+#: src/lockscreen.c:86 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr "Entrer le mot de passe"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:265
 msgid "Checking…"
 msgstr "Vérification..."
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:334
+#: src/lockscreen.c:343
 msgid "%A, %B %-e"
 msgstr "%A %d %B"
 
-#: src/monitor-manager.c:53
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:277 src/ui/media-player.ui:107
+msgid "Unknown Title"
+msgstr "Titre inconnu"
+
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:286 src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Artiste inconnu"
+
+#: src/monitor-manager.c:71
 msgid "Built-in display"
 msgstr "Écran intégré"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:75
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: src/network-auth-prompt.c:184
+#: src/network-auth-prompt.c:186
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Le type d'authentification du réseau wifi “%s” n'est pas pris en charge"
+
+#: src/network-auth-prompt.c:191
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Entrer le mot de passe du réseau wifi “%s”"
+
+#: src/notifications/mount-notification.c:137
+msgid "Open"
+msgstr "Ouvert"
+
+#: src/notifications/notification.c:381 src/notifications/notification.c:637
+msgid "Notification"
+msgstr "Notification"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:83
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "s"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:85
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:87
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:89
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "h"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:91
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "h"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:93
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "d"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:95
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "d"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:97
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "mo"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:99
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "mos"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:101
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "y"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:103
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "y"
+
+#. Translators: this is the date in (short) number only format
+#: src/notifications/timestamp-label.c:106
+msgid "%d.%m.%y"
+msgstr "%d.%m.%y"
+
+#. Translators: Timestamp prefix (e.g. Over 5h)
+#: src/notifications/timestamp-label.c:197
+msgid "Over"
+msgstr "Sur"
+
+#. Translators: Timestamp prefix (e.g. Almost 5h)
+#: src/notifications/timestamp-label.c:202
+msgid "Almost"
+msgstr "Presque"
+
+#: src/notifications/timestamp-label.c:210
+msgid "now"
+msgstr "maintenant"
 
 #: src/polkit-auth-agent.c:229
 msgid "Authentication dialog was dismissed by the user"
@@ -95,6 +221,14 @@ msgstr "Désolé, ça n'a pas fonctionné. Merci de ré-essayer."
 msgid "Authenticate"
 msgstr "S'authentifier"
 
+#: src/rotateinfo.c:65
+msgid "Portrait"
+msgstr "Portrait"
+
+#: src/rotateinfo.c:68
+msgid "Landscape"
+msgstr "Paysage"
+
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
 msgstr "Les mots de passe ne sont pas identiques."
@@ -103,9 +237,9 @@ msgstr "Les mots de passe ne sont pas identiques."
 msgid "Password cannot be blank"
 msgstr "Le mot de passe ne doit pas être vide"
 
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "Torche"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
@@ -150,6 +284,7 @@ msgstr "Utilisateur :"
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
 msgstr "Confirmer :"
+
 #: src/ui/top-panel.ui:15
 msgid "Lock Screen"
 msgstr "Verrouiller l'écran"
@@ -165,3 +300,12 @@ msgstr "Redémarrer"
 #: src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Éteindre"
+
+#: src/wifiinfo.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:170
+msgid "Cellular"
+msgstr "Téléphone"
