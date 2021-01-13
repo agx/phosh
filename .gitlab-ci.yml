@@ -296,6 +296,7 @@ test:smoke:two-outputs:
 
 package:deb-debian-buster:
   extends: .l5-build-debian-package
+  before_script: []
 
 package:deb-debian-bullseye:arm64:
   tags:
@@ -303,11 +304,13 @@ package:deb-debian-bullseye:arm64:
   variables:
     L5_DOCKER_IMAGE: debian:bullseye
     L5_ADD_SCRATCH_CI: 'false'
+  before_script: []
   extends: .l5-build-debian-package
 
 package:deb-debian-buster:arm64:
   tags:
     - librem5:arm64
+  before_script: []
   extends: .l5-build-debian-package
 
 package:deb-pureos-amber:
