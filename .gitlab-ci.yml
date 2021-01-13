@@ -88,7 +88,7 @@ unit-test:native-debian-buster:
   <<: *tags
   stage: test+docs
   image: debian:buster
-  dependencies:
+  needs:
     - build:native-debian-buster
   <<: *buster_vars
   <<: *test_step
@@ -145,7 +145,7 @@ unit-test:native-debian-bullseye:
   <<: *tags
   stage: test+docs
   image: debian:bullseye
-  dependencies:
+  needs:
     - build:native-debian-bullseye
   <<: *bullseye_vars
   <<: *test_step
@@ -162,7 +162,7 @@ build-gtkdoc:
   <<: *tags
   image: debian:bullseye
   stage: test+docs
-  dependencies:
+  needs:
     - build:native-debian-bullseye
   <<: *bullseye_vars
   script:
@@ -179,7 +179,7 @@ check-po:
   <<: *tags
   stage: test+docs
   image: debian:bullseye
-  dependencies:
+  needs:
     - build:native-debian-bullseye
   before_script:
     - apt-get -y update
@@ -199,7 +199,7 @@ check-license-headers:
   <<: *tags
   stage: test+docs
   image: debian:bullseye
-  dependencies:
+  needs:
     - build:native-debian-bullseye
   <<: *bullseye_vars
   script:
@@ -234,7 +234,7 @@ unit-test:native-alpinelinux-edge:
   stage: test+docs
   image: alpine:edge
   allow_failure: true
-  dependencies:
+  needs:
     - build:native-alpinelinux-edge
   before_script:
     - echo "https://alpine.global.ssl.fastly.net/alpine/edge/testing" >> /etc/apk/repositories
@@ -255,7 +255,7 @@ test:smoke:one-output:
   stage: test+docs
   image: debian:buster
   variables: *smoketest_vars
-  dependencies:
+  needs:
     - build:native-debian-buster
   script:
     - export OUTDIR=output
@@ -277,7 +277,7 @@ test:smoke:two-outputs:
   stage: test+docs
   image: debian:buster
   variables: *smoketest_vars
-  dependencies:
+  needs:
     - build:native-debian-buster
   script:
     - export OUTDIR=output
