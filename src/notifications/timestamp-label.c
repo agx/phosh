@@ -64,7 +64,7 @@ G_DEFINE_TYPE (PhoshTimestampLabel, phosh_timestamp_label, GTK_TYPE_LABEL)
 char *
 phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
 {
-  g_autofree char *fallback = NULL;
+  char *result = NULL;
 
   const char *unit;
   const char *prefix = NULL;
@@ -103,9 +103,6 @@ phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
   /* Translators: Timestamp years suffix */
   str_years     = C_("timestamp-suffix-years", "y");
 
-  /* Translators: this is the date in (short) number only format */
-  fallback = g_date_time_format (dt, C_("timestamp-date", "%x"));
-
   dist_in_seconds = g_date_time_difference (dt_now, dt) / G_TIME_SPAN_SECOND;
 
   seconds = (int) dist_in_seconds;
@@ -118,11 +115,10 @@ phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
   switch (minutes) {
   case 0 ... 1:
     unit = str_seconds;
-
     switch (seconds) {
     case 0 ... 14:
-      prefix = NULL;
       number = 0;
+      result = g_strdup(_("now"));
       break;
     case 15 ... 29:
       prefix = str_less_than;
@@ -189,18 +185,22 @@ phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
     if (remainder < MINUTES_PER_QUARTER) {
       prefix = str_about;
     } else if (remainder < (3 * MINUTES_PER_QUARTER)) {
-      /* Translators: Timestamp prefix (e.g. Over 5h) */
-      prefix = _("Over ");
+      /* Translators: time difference "Over 5 years" */
+      result = g_strdup_printf (_("Over %dy"), number);
     } else {
       ++number;
-      unit = str_years;
-      /* Translators: Timestamp prefix (e.g. Almost 5h) */
-      prefix = _("Almost ");
+      /* Translators: time difference "almost 5 years" */
+      result = g_strdup_printf (_("Almost %dy"), number);
     }
     break;
   }
 
-  return prefix ? g_strdup_printf ("%s%d%s", prefix, number, unit) : g_strdup(_("now"));
+  if (!result) {
+    /* Translators: a time difference like '<5m', if in doubt leave untranslated */
+    result = g_strdup_printf (_("%s%d%s"), prefix, number, unit);
+  }
+
+  return result;
 }
 
 /**
