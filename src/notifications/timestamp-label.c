@@ -7,6 +7,7 @@
 #define G_LOG_DOMAIN "phosh-timestamp-label"
 
 #include "timestamp-label.h"
+#include "timestamp-label-priv.h"
 #include "config.h"
 #include <glib/gi18n.h>
 
@@ -45,22 +46,21 @@ G_DEFINE_TYPE (PhoshTimestampLabel, phosh_timestamp_label, GTK_TYPE_LABEL)
 #define SECONDS_PER_YEAR   31536000.0
 
 /**
- * phosh_time_ago_in_words:
- * @time_stamp: the time to represent
+ * phosh_time_diff_in_words:
+ * @dt: The target time
+ * @dt_now: the current time
  *
- * Generate a string to represent a datetime
+ * Generate a string to represent a #GDateTime difference. Currently @dt must be in the past of @dt_now.
+ * Times in the future aren't supported.
  *
  * Based on [ChattyListRow](https://source.puri.sm/Librem5/chatty/blob/master/src/chatty-list-row.c#L47)
  * itself based on the ruby on rails method 'distance_of_time_in_words'
  *
  * Returns: (transfer full): the generated string
  */
-static char *
-phosh_time_ago_in_words (GDateTime *time_stamp)
+char *
+phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
 {
-
-  g_autoptr (GDateTime) time_now = g_date_time_new_now_local ();
-
   g_autofree char *fallback = NULL;
 
   const char *unit;
@@ -103,9 +103,9 @@ phosh_time_ago_in_words (GDateTime *time_stamp)
   str_years     = C_("timestamp-suffix-years", "y");
 
   /* Translators: this is the date in (short) number only format */
-  fallback = g_date_time_format (time_stamp, _("%d.%m.%y"));
+  fallback = g_date_time_format (dt, C_("timestamp-date", "%x"));
 
-  dist_in_seconds = g_date_time_difference (time_now, time_stamp) / G_TIME_SPAN_SECOND;
+  dist_in_seconds = g_date_time_difference (dt_now, dt) / G_TIME_SPAN_SECOND;
 
   seconds = (int) dist_in_seconds;
   minutes = (int) (dist_in_seconds / SECONDS_PER_MINUTE);
@@ -211,6 +211,24 @@ phosh_time_ago_in_words (GDateTime *time_stamp)
   }
 }
 
+/**
+ * phosh_time_ago_in_words:
+ * @dt: the #GDateTime to represent
+ *
+ * Generate a string to represent a #GDateTime. Note that @dt must be in the past.
+ *
+ * Based on [ChattyListRow](https://source.puri.sm/Librem5/chatty/blob/master/src/chatty-list-row.c#L47)
+ * itself based on the ruby on rails method 'distance_of_time_in_words'
+ *
+ * Returns: (transfer full): the generated string
+ */
+static char *
+phosh_time_ago_in_words (GDateTime *dt)
+{
+  g_autoptr (GDateTime) dt_now = g_date_time_new_now_local ();
+
+  return phosh_time_diff_in_words (dt, dt_now);
+}
 
 static GTimeSpan
 phosh_timestamp_label_calc_timeout (PhoshTimestampLabel *self)
