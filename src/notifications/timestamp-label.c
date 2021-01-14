@@ -44,6 +44,9 @@ G_DEFINE_TYPE (PhoshTimestampLabel, phosh_timestamp_label, GTK_TYPE_LABEL)
 #define SECONDS_PER_DAY    86400.0
 #define SECONDS_PER_MONTH  2592000.0
 #define SECONDS_PER_YEAR   31536000.0
+#define MINUTES_PER_DAY    1440.0
+#define MINUTES_PER_YEAR   525600.0
+#define MINUTES_PER_QUARTER 131400.0
 
 /**
  * phosh_time_diff_in_words:
@@ -72,8 +75,6 @@ phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
   const char *str_month, *str_months, *str_year, *str_years;
 
   int number, seconds, minutes, hours, days, months, years, offset, remainder;
-
-  gboolean show_date = FALSE;
 
   double dist_in_seconds;
 
@@ -181,30 +182,25 @@ phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
 
     unit = (number == 1) ? str_year : str_years;
 
-    offset = (int)((float)years / 4.0) * 1440.0;
+    offset = ((float)years / 4.0) * MINUTES_PER_DAY;
 
-    remainder = (minutes - offset) % 525600;
-    show_date = TRUE;
+    remainder = (minutes - offset) % (int)MINUTES_PER_YEAR;
 
-    if (remainder < 131400) {
+    if (remainder < MINUTES_PER_QUARTER) {
       prefix = str_about;
-    } else if (remainder < 394200) {
+    } else if (remainder < (3 * MINUTES_PER_QUARTER)) {
       /* Translators: Timestamp prefix (e.g. Over 5h) */
-      prefix = _("Over");
+      prefix = _("Over ");
     } else {
       ++number;
       unit = str_years;
       /* Translators: Timestamp prefix (e.g. Almost 5h) */
-      prefix = _("Almost");
+      prefix = _("Almost ");
     }
     break;
   }
 
-  if (show_date) {
-    return g_strdup (fallback);
-  } else {
-    return prefix ? g_strdup_printf ("%s%d%s", prefix, number, unit) : g_strdup(_("now"));
-  }
+  return prefix ? g_strdup_printf ("%s%d%s", prefix, number, unit) : g_strdup(_("now"));
 }
 
 /**

@@ -129,7 +129,22 @@ test_phosh_time_diff_in_words (void)
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2019, 12, 31, 21, 00, 00);
   str = phosh_time_diff_in_words (dt, dt_now);
-  g_assert_cmpstr (str, ==, "12/31/19");
+  g_assert_cmpstr (str, ==, "~1y");
+
+  g_date_time_unref (dt);
+  dt = g_date_time_new_local (2019, 3, 30, 21, 00, 00);
+  str = phosh_time_diff_in_words (dt, dt_now);
+  g_assert_cmpstr (str, ==, "Almost 2y");
+
+  g_date_time_unref (dt);
+  dt = g_date_time_new_local (2018, 12, 31, 21, 00, 00);
+  str = phosh_time_diff_in_words (dt, dt_now);
+  g_assert_cmpstr (str, ==, "~2y");
+
+  g_date_time_unref (dt);
+  dt = g_date_time_new_local (2018, 6, 30, 21, 00, 00);
+  str = phosh_time_diff_in_words (dt, dt_now);
+  g_assert_cmpstr (str, ==, "Over 2y");
 
   /* Restore previous locale */
   uselocale (save_locale);
