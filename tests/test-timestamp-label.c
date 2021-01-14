@@ -106,6 +106,31 @@ test_phosh_time_diff_in_words (void)
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "~2h");
 
+  g_date_time_unref (dt);
+  dt = g_date_time_new_local (2020, 12, 30, 21, 00, 00);
+  str = phosh_time_diff_in_words (dt, dt_now);
+  g_assert_cmpstr (str, ==, "~1d");
+
+  g_date_time_unref (dt);
+  dt = g_date_time_new_local (2020, 12, 29, 21, 00, 00);
+  str = phosh_time_diff_in_words (dt, dt_now);
+  g_assert_cmpstr (str, ==, "2d");
+
+  g_date_time_unref (dt);
+  dt = g_date_time_new_local (2020, 11, 29, 21, 00, 00);
+  str = phosh_time_diff_in_words (dt, dt_now);
+  g_assert_cmpstr (str, ==, "~1mo");
+
+  g_date_time_unref (dt);
+  dt = g_date_time_new_local (2020, 10, 29, 21, 00, 00);
+  str = phosh_time_diff_in_words (dt, dt_now);
+  g_assert_cmpstr (str, ==, "2mos");
+
+  g_date_time_unref (dt);
+  dt = g_date_time_new_local (2019, 12, 31, 21, 00, 00);
+  str = phosh_time_diff_in_words (dt, dt_now);
+  g_assert_cmpstr (str, ==, "12/31/19");
+
   /* Restore previous locale */
   uselocale (save_locale);
   freelocale (locale);

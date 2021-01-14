@@ -159,25 +159,21 @@ phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
     prefix = str_about;
     number = 1;
     unit = str_day;
-    show_date = TRUE;
     break;
   case 2530 ... 43199:
     prefix = "";
     number = days;
     unit = str_days;
-    show_date = TRUE;
     break;
   case 43200 ... 86399:
     prefix = str_about;
     number = 1;
     unit = str_month;
-    show_date = TRUE;
     break;
   case 86400 ... 525600:
     prefix = "";
     number = months;
     unit = str_months;
-    show_date = TRUE;
     break;
 
   default:
