@@ -280,6 +280,7 @@ on_auth_session_request (PhoshPolkitAuthPrompt *self,
   gtk_label_set_text(GTK_LABEL (self->lbl_password), request);
   gtk_entry_set_visibility (GTK_ENTRY (self->entry_password), echo_on);
   gtk_entry_set_text (GTK_ENTRY (self->entry_password), "");
+  gtk_widget_grab_focus (self->entry_password);
 }
 
 static void
