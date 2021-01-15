@@ -319,6 +319,7 @@ phosh_system_prompt_confirm_async (GcrPrompt *prompt,
 
   gtk_widget_set_sensitive (priv->btn_continue, TRUE);
   gtk_widget_set_sensitive (priv->grid, TRUE);
+  gtk_widget_grab_focus (priv->entry_confirm);
 
   obj = G_OBJECT (self);
   g_object_notify (obj, "password-visible");
