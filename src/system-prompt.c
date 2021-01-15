@@ -261,6 +261,7 @@ phosh_system_prompt_password_async (GcrPrompt *prompt,
   if (!gtk_entry_get_text_length (GTK_ENTRY (priv->entry_password)))
     gtk_widget_set_sensitive (priv->btn_continue, FALSE);
   gtk_widget_set_sensitive (priv->grid, TRUE);
+  gtk_widget_grab_focus (priv->entry_password);
 
   obj = G_OBJECT (self);
   g_object_notify (obj, "password-visible");
