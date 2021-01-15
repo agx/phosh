@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the phosh package.
 #
 # Roman Riabenko <roman@riabenko.com>, 2020. #zanata.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-11-30 15:32+0000\n"
-"PO-Revision-Date: 2020-11-30 17:51+0200\n"
+"POT-Creation-Date: 2021-01-15 03:33+0000\n"
+"PO-Revision-Date: 2021-01-15 11:15+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -91,21 +91,36 @@ msgstr "Невідома назва"
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
-#: src/monitor-manager.c:71
+#: src/monitor-manager.c:108
 msgid "Built-in display"
 msgstr "Вбудований дисплей"
 
+#: src/monitor-manager.c:126
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:133
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %sn"
+msgstr "%s %sn"
+
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:75
+#: src/monitor-manager.c:142
 msgid "Unknown"
 msgstr "Нетиповий"
 
-#: src/network-auth-prompt.c:186
+#: src/network-auth-prompt.c:187
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Підтримки типу розпізнавання у мережі wifi «%s» не передбачено"
 
-#: src/network-auth-prompt.c:191
+#: src/network-auth-prompt.c:192
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Введіть пароль до мережі wifi «%s»"
@@ -203,11 +218,11 @@ msgstr "Майже"
 msgid "now"
 msgstr "зараз"
 
-#: src/polkit-auth-agent.c:231
+#: src/polkit-auth-agent.c:232
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Користувач перервав діалог автентифікації"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:128
+#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:130
 #: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
 msgid "Password:"
 msgstr "Пароль:"
@@ -216,7 +231,7 @@ msgstr "Пароль:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "На жаль, це не спрацювало. Будь ласка, спробуйте ще."
 
-#: src/polkit-auth-prompt.c:490
+#: src/polkit-auth-prompt.c:469
 msgid "Authenticate"
 msgstr "Автентифікуватися"
 
@@ -268,11 +283,11 @@ msgstr "Екстрений виклик"
 msgid "Unlock"
 msgstr "Розблокувати"
 
-#: src/ui/network-auth-prompt.ui:90
+#: src/ui/network-auth-prompt.ui:89
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: src/ui/network-auth-prompt.ui:106
+#: src/ui/network-auth-prompt.ui:105
 msgid "C_onnect"
 msgstr "З'_єднатися"
 
