@@ -59,6 +59,8 @@ libphosh_tool_sources = [
   'background.h',
   'connectivity-info.c',
   'connectivity-info.h',
+  'hks-manager.c',
+  'hks-manager.h',
   'docked-info.c',
   'docked-info.h',
   'docked-manager.c',
