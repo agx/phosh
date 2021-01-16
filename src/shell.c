@@ -508,10 +508,7 @@ setup_idle_cb (PhoshShell *self)
 static void
 type_setup (void)
 {
-  phosh_battery_info_get_type();
-  phosh_wifi_info_get_type();
-  phosh_wwan_info_get_type();
-
+  g_type_ensure (PHOSH_TYPE_BATTERY_INFO);
   g_type_ensure (PHOSH_TYPE_BT_INFO);
   g_type_ensure (PHOSH_TYPE_CONNECTIVITY_INFO);
   g_type_ensure (PHOSH_TYPE_DOCKED_INFO);
@@ -521,6 +518,8 @@ type_setup (void)
   g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
   g_type_ensure (PHOSH_TYPE_SETTINGS);
   g_type_ensure (PHOSH_TYPE_TORCH_INFO);
+  g_type_ensure (PHOSH_TYPE_WIFI_INFO);
+  g_type_ensure (PHOSH_TYPE_WWAN_INFO);
 }
 
 
