@@ -60,6 +60,7 @@
       <xi:include href="xml/gnome-shell-manager.xml"/>
       <xi:include href="xml/head.xml"/>
       <xi:include href="xml/home.xml"/>
+      <xi:include href="xml/hks-info.xml"/>
       <xi:include href="xml/hks-manager.xml"/>
       <xi:include href="xml/idle-manager.xml"/>
       <xi:include href="xml/keyboard-events.xml"/>
