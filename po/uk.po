@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-01-15 03:33+0000\n"
-"PO-Revision-Date: 2021-01-15 11:15+0200\n"
+"POT-Creation-Date: 2021-01-16 03:33+0000\n"
+"PO-Revision-Date: 2021-01-16 09:10+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -134,89 +134,94 @@ msgid "Notification"
 msgstr "Сповіщення"
 
 #. Translators: Timestamp seconds suffix
-#: src/notifications/timestamp-label.c:83
+#: src/notifications/timestamp-label.c:84
 msgctxt "timestamp-suffix-seconds"
 msgid "s"
 msgstr "с"
 
 #. Translators: Timestamp minute suffix
-#: src/notifications/timestamp-label.c:85
+#: src/notifications/timestamp-label.c:86
 msgctxt "timestamp-suffix-minute"
 msgid "m"
 msgstr "хв"
 
 #. Translators: Timestamp minutes suffix
-#: src/notifications/timestamp-label.c:87
+#: src/notifications/timestamp-label.c:88
 msgctxt "timestamp-suffix-minutes"
 msgid "m"
 msgstr "хв"
 
 #. Translators: Timestamp hour suffix
-#: src/notifications/timestamp-label.c:89
+#: src/notifications/timestamp-label.c:90
 msgctxt "timestamp-suffix-hour"
 msgid "h"
 msgstr "г"
 
 #. Translators: Timestamp hours suffix
-#: src/notifications/timestamp-label.c:91
+#: src/notifications/timestamp-label.c:92
 msgctxt "timestamp-suffix-hours"
 msgid "h"
 msgstr "г"
 
 #. Translators: Timestamp day suffix
-#: src/notifications/timestamp-label.c:93
+#: src/notifications/timestamp-label.c:94
 msgctxt "timestamp-suffix-day"
 msgid "d"
 msgstr "д"
 
 #. Translators: Timestamp days suffix
-#: src/notifications/timestamp-label.c:95
+#: src/notifications/timestamp-label.c:96
 msgctxt "timestamp-suffix-days"
 msgid "d"
 msgstr "д"
 
 #. Translators: Timestamp month suffix
-#: src/notifications/timestamp-label.c:97
+#: src/notifications/timestamp-label.c:98
 msgctxt "timestamp-suffix-month"
 msgid "mo"
 msgstr "м"
 
 #. Translators: Timestamp months suffix
-#: src/notifications/timestamp-label.c:99
+#: src/notifications/timestamp-label.c:100
 msgctxt "timestamp-suffix-months"
 msgid "mos"
 msgstr "міс"
 
 #. Translators: Timestamp year suffix
-#: src/notifications/timestamp-label.c:101
+#: src/notifications/timestamp-label.c:102
 msgctxt "timestamp-suffix-year"
 msgid "y"
 msgstr "р"
 
 #. Translators: Timestamp years suffix
-#: src/notifications/timestamp-label.c:103
+#: src/notifications/timestamp-label.c:104
 msgctxt "timestamp-suffix-years"
 msgid "y"
 msgstr "р"
 
-#. Translators: this is the date in (short) number only format
-#: src/notifications/timestamp-label.c:106
-msgid "%d.%m.%y"
-msgstr "%d.%m.%y"
-
-#. Translators: Timestamp prefix (e.g. Over 5h)
-#: src/notifications/timestamp-label.c:197
-msgid "Over"
-msgstr "Понад"
-
-#. Translators: Timestamp prefix (e.g. Almost 5h)
-#: src/notifications/timestamp-label.c:202
-msgid "Almost"
-msgstr "Майже"
-
-#: src/notifications/timestamp-label.c:210
+#: src/notifications/timestamp-label.c:121
 msgid "now"
 msgstr "зараз"
+
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+#| msgid "Over"
+msgid "Over %dy"
+msgstr "Понад %dр."
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+#| msgid "Almost"
+msgid "Almost %dy"
+msgstr "Майже %dр."
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d%s"
 
 #: src/polkit-auth-agent.c:232
 msgid "Authentication dialog was dismissed by the user"
@@ -227,11 +232,11 @@ msgstr "Користувач перервав діалог автентифік�
 msgid "Password:"
 msgstr "Пароль:"
 
-#: src/polkit-auth-prompt.c:324
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "На жаль, це не спрацювало. Будь ласка, спробуйте ще."
 
-#: src/polkit-auth-prompt.c:469
+#: src/polkit-auth-prompt.c:470
 msgid "Authenticate"
 msgstr "Автентифікуватися"
 
@@ -243,11 +248,11 @@ msgstr "Книжкова"
 msgid "Landscape"
 msgstr "Альбомна"
 
-#: src/system-prompt.c:373
+#: src/system-prompt.c:375
 msgid "Passwords do not match."
 msgstr "Паролі не збігаються."
 
-#: src/system-prompt.c:380
+#: src/system-prompt.c:382
 msgid "Password cannot be blank"
 msgstr "Пароль не може бути порожнім"
 
