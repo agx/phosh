@@ -6,20 +6,28 @@
 # Punleuk Oum <punleuk.oum@gmail.com>, 2018. #zanata
 # Scott <xmrscott@protonmail.com>, 2018. #zanata
 # Scott Anecito <scott.anecito@linux.com>, 2019. #zanata
+# 寮 <renraku@076.ne.jp>, 2021.
+#
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"POT-Creation-Date: 2021-01-16 10:30+0900\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-08-24 04:51+0000\n"
+"PO-Revision-Date: 2021-01-16 10:30+0900\n"
 "Language-Team: \n"
-"X-Generator: Zanata 4.6.2\n"
-"Last-Translator: Scott Anecito <scott.anecito@linux.com>\n"
+"X-Generator: \n"
+"Last-Translator: 寮 <renraku@076.ne.jp>\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Language: ja\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -29,119 +37,251 @@ msgstr "Phone Shell"
 msgid "Window management and application launching for mobile"
 msgstr "モバイルでアプリケーションを整理したり、開いたりするためのグラフィカルシェル"
 
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
-msgid "Phosh"
-msgstr "Phosh"
-
-#: src/app-grid-button.c:523
+#: src/app-grid-button.c:536
 msgid "Application"
-msgstr ""
+msgstr "アプリケーション"
 
-#: src/feedbackinfo.c:38
-msgid "Quiet"
-msgstr ""
-
-#: src/feedbackinfo.c:40
-msgid "Silent"
-msgstr ""
-
-#: src/feedbackinfo.c:42
+#: src/bt-info.c:92 src/feedbackinfo.c:51
 msgid "On"
-msgstr ""
+msgstr "普通"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
+#: src/bt-info.c:94
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "ドック中"
+
+#: src/docked-info.c:195
+msgid "Undocked"
+msgstr "ドック外"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:44
+msgid "Quiet"
+msgstr "マナーモード"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:49
+msgid "Silent"
+msgstr "サイレントマナー"
+
+#: src/lockscreen.c:86 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr "パスコードを入力"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:265
 msgid "Checking…"
-msgstr ""
+msgstr "確認中…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:334
+#: src/lockscreen.c:343
 msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
+msgstr "%x（%a）"
 
-#: src/monitor-manager.c:53
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:277 src/ui/media-player.ui:107
+msgid "Unknown Title"
+msgstr "不明な曲"
+
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:286 src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "不明なアーティスト"
+
+#: src/monitor-manager.c:71
 msgid "Built-in display"
 msgstr "ビルトインディスプレイ"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:75
 msgid "Unknown"
 msgstr "不明なディスプレー"
 
-#: src/network-auth-prompt.c:184
+#: src/network-auth-prompt.c:187
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "「%s」のWiFi種類は非対応"
+
+#: src/network-auth-prompt.c:192
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "「%s」のWiFiパスワードを入力して下さい"
 
-#: src/polkit-auth-agent.c:229
+#: src/notifications/mount-notification.c:137
+msgid "Open"
+msgstr "開く"
+
+#: src/notifications/notification.c:381 src/notifications/notification.c:637
+msgid "Notification"
+msgstr "通知"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "秒"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "分"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "分"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "時間"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "時間"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "日"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "日"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "月"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "月"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "年"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "年"
+
+#: src/notifications/timestamp-label.c:121
+msgid "now"
+msgstr "只今"
+
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "%dy以降"
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "%dy頃"
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d%s"
+
+#: src/polkit-auth-agent.c:232
 msgid "Authentication dialog was dismissed by the user"
-msgstr "ユーザーにより認証のダイアログボックスを閉じた"
+msgstr "ユーザーにより認証ダイアログを閉じた"
 
-#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
+#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:130
 #: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
 msgid "Password:"
 msgstr "パスワード:"
 
-#: src/polkit-auth-prompt.c:322
+#: src/polkit-auth-prompt.c:324
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "それをできませんでした。もう一度お試しください。"
+msgstr "残念です。もう一度お試しください。"
 
-#: src/polkit-auth-prompt.c:488
+#: src/polkit-auth-prompt.c:469
 msgid "Authenticate"
 msgstr "認証"
 
-#: src/system-prompt.c:371
+#: src/rotateinfo.c:65
+msgid "Portrait"
+msgstr "縦方向"
+
+#: src/rotateinfo.c:68
+msgid "Landscape"
+msgstr "横方向"
+
+#: src/system-prompt.c:373
 msgid "Passwords do not match."
 msgstr "パスワードが一致しません。"
 
-#: src/system-prompt.c:378
+#: src/system-prompt.c:380
 msgid "Password cannot be blank"
 msgstr "パスワードを空欄にすることはできません"
 
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr ""
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "懐中電灯"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:49
 msgid "App"
-msgstr ""
+msgstr "アプリ"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "お気に入りから消す(_F)"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "お気に入りに追加(_F)"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr ""
+msgstr "アプリの検索"
 
-#: src/ui/lockscreen.ui:36
+#: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr "ロック解除"
 
-#: src/ui/lockscreen.ui:250
+#: src/ui/lockscreen.ui:280
 msgid "Emergency"
-msgstr ""
+msgstr "緊急"
 
-#: src/ui/lockscreen.ui:266
+#: src/ui/lockscreen.ui:296
 msgid "Unlock"
-msgstr ""
+msgstr "解除"
 
-#: src/ui/network-auth-prompt.ui:90
+#: src/ui/network-auth-prompt.ui:89
 msgid "_Cancel"
-msgstr ""
+msgstr "キャンセル(_C)"
 
-#: src/ui/network-auth-prompt.ui:106
+#: src/ui/network-auth-prompt.ui:105
 msgid "C_onnect"
-msgstr ""
+msgstr "接続(_O)"
 
 #: src/ui/polkit-auth-prompt.ui:105
 msgid "User:"
@@ -149,4 +289,29 @@ msgstr "ユーザー:"
 
 #: src/ui/system-prompt.ui:69
 msgid "Confirm:"
-msgstr "確認"
+msgstr "確認:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "ロック画面"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "サインアウト"
+
+#: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "再起動"
+
+#: src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "シャットダウン"
+
+#: src/wifiinfo.c:90
+msgid "Wi-Fi"
+msgstr "WiFi"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:170
+msgid "Cellular"
+msgstr "モバイル通信"
