@@ -78,7 +78,7 @@ on_docked_mode_enabled (PhoshDockedInfo *self, GParamSpec *pspec, PhoshDockedMan
 
   self->enabled = enabled;
   phosh_status_icon_set_info (PHOSH_STATUS_ICON (self),
-                              enabled ? _("Docked") : ("Undocked"));
+                              enabled ? _("Docked") : _("Undocked"));
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
 }
