@@ -36,6 +36,7 @@
 #include "feedbackinfo.h"
 #include "feedback-manager.h"
 #include "gnome-shell-manager.h"
+#include "hks-info.h"
 #include "home.h"
 #include "idle-manager.h"
 #include "keyboard-events.h"
@@ -519,6 +520,7 @@ type_setup (void)
   g_type_ensure (PHOSH_TYPE_CONNECTIVITY_INFO);
   g_type_ensure (PHOSH_TYPE_DOCKED_INFO);
   g_type_ensure (PHOSH_TYPE_FEEDBACK_INFO);
+  g_type_ensure (PHOSH_TYPE_HKS_INFO);
   g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
   g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
   g_type_ensure (PHOSH_TYPE_ROTATE_INFO);

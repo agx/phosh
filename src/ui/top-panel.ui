@@ -178,6 +178,34 @@
                           </packing>
                         </child>
                         <child>
+                          <object class="PhoshHksInfo" id="hks_info_mic">
+                            <property name="device-type">mic</property>
+                            <property name="visible" bind-source="hks_info_mic" bind-property="blocked" bind-flags="sync-create"/>
+                            <property name="can_focus">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="margin-right">8</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="PhoshHksInfo" id="hks_info_camera">
+                            <property name="device-type">camera</property>
+                            <property name="visible" bind-source="hks_info_camera" bind-property="blocked" bind-flags="sync-create"/>
+                            <property name="can_focus">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="margin-right">8</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                        <child>
                           <object class="PhoshBatteryInfo" id="batteryinfo">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -187,7 +215,7 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">True</property>
-                            <property name="position">2</property>
+                            <property name="position">4</property>
                           </packing>
                         </child>
                       </object>
