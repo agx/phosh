@@ -632,7 +632,6 @@ phosh_shell_constructed (GObject *object)
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
                                     "/sm/puri/phosh/icons");
   css_setup (self);
-  type_setup ();
 
   priv->lockscreen_manager = phosh_lockscreen_manager_new ();
   g_object_bind_property (priv->lockscreen_manager, "locked",
@@ -673,6 +672,8 @@ phosh_shell_class_init (PhoshShellClass *klass)
 
   object_class->set_property = phosh_shell_set_property;
   object_class->get_property = phosh_shell_get_property;
+
+  type_setup ();
 
   props[PHOSH_SHELL_PROP_TRANSFORM] =
     g_param_spec_enum ("transform",
