@@ -14,9 +14,6 @@
 
 #include "config.h"
 
-#include "bt-info.h"
-#include "connectivity-info.h"
-#include "docked-info.h"
 #include "panel.h"
 #include "shell.h"
 #include "session-manager.h"
@@ -383,11 +380,6 @@ phosh_panel_class_init (PhoshPanelClass *klass)
   signals[SETTINGS_ACTIVATED] = g_signal_new ("settings-activated",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
-
-  g_type_ensure (PHOSH_TYPE_BT_INFO);
-  g_type_ensure (PHOSH_TYPE_CONNECTIVITY_INFO);
-  g_type_ensure (PHOSH_TYPE_DOCKED_INFO);
-  g_type_ensure (PHOSH_TYPE_SETTINGS);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/top-panel.ui");

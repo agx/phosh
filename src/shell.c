@@ -25,10 +25,12 @@
 
 #include "config.h"
 #include "shell.h"
-
 #include "batteryinfo.h"
 #include "background-manager.h"
+#include "bt-info.h"
 #include "bt-manager.h"
+#include "connectivity-info.h"
+#include "docked-info.h"
 #include "docked-manager.h"
 #include "fader.h"
 #include "feedback-manager.h"
@@ -41,6 +43,7 @@
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
 #include "mount-manager.h"
+#include "settings.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-banner.h"
 #include "osk-manager.h"
@@ -503,6 +506,11 @@ type_setup (void)
   phosh_battery_info_get_type();
   phosh_wifi_info_get_type();
   phosh_wwan_info_get_type();
+
+  g_type_ensure (PHOSH_TYPE_BT_INFO);
+  g_type_ensure (PHOSH_TYPE_CONNECTIVITY_INFO);
+  g_type_ensure (PHOSH_TYPE_DOCKED_INFO);
+  g_type_ensure (PHOSH_TYPE_SETTINGS);
 }
 
 
