@@ -116,6 +116,7 @@ typedef struct
   PhoshTorchManager *torch_manager;
   PhoshModeManager *mode_manager;
   PhoshDockedManager *docked_manager;
+  PhoshHksManager *hks_manager;
   PhoshKeyboardEvents *keyboard_events;
   PhoshGnomeShellManager *gnome_shell_manager;
 
@@ -344,6 +345,7 @@ phosh_shell_dispose (GObject *object)
 
   g_clear_object (&priv->keyboard_events);
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->hks_manager);
   g_clear_object (&priv->docked_manager);
   g_clear_object (&priv->mode_manager);
   g_clear_object (&priv->torch_manager);
@@ -1010,6 +1012,22 @@ phosh_shell_get_docked_manager (PhoshShell *self)
 
   g_return_val_if_fail (PHOSH_IS_DOCKED_MANAGER (priv->docked_manager), NULL);
   return priv->docked_manager;
+}
+
+
+PhoshHksManager *
+phosh_shell_get_hks_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->hks_manager)
+    priv->hks_manager = phosh_hks_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_HKS_MANAGER (priv->hks_manager), NULL);
+  return priv->hks_manager;
 }
 
 
