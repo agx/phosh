@@ -10,22 +10,16 @@
 
 #include <glib/gi18n.h>
 
-#include "bt-info.h"
-#include "docked-info.h"
 #include "mode-manager.h"
 #include "shell.h"
 #include "settings.h"
 #include "quick-setting.h"
 #include "settings/brightness.h"
 #include "settings/gvc-channel-bar.h"
-#include "torch-info.h"
 #include "wwan/phosh-wwan-mm.h"
-#include "rotateinfo.h"
-#include "feedbackinfo.h"
 #include "feedback-manager.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
-#include "media-player.h"
 
 #include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
@@ -461,14 +455,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   signals[SETTING_DONE] = g_signal_new ("setting-done",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
-
-  g_type_ensure (PHOSH_TYPE_BT_INFO);
-  g_type_ensure (PHOSH_TYPE_DOCKED_INFO);
-  g_type_ensure (PHOSH_TYPE_FEEDBACK_INFO);
-  g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
-  g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
-  g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
-  g_type_ensure (PHOSH_TYPE_TORCH_INFO);
 
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);

@@ -33,12 +33,14 @@
 #include "docked-info.h"
 #include "docked-manager.h"
 #include "fader.h"
+#include "feedbackinfo.h"
 #include "feedback-manager.h"
 #include "gnome-shell-manager.h"
 #include "home.h"
 #include "idle-manager.h"
 #include "keyboard-events.h"
 #include "lockscreen-manager.h"
+#include "media-player.h"
 #include "mode-manager.h"
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
@@ -51,11 +53,14 @@
 #include "phosh-wayland.h"
 #include "polkit-auth-agent.h"
 #include "proximity.h"
+#include "quick-setting.h"
+#include "rotateinfo.h"
 #include "sensor-proxy-manager.h"
 #include "screen-saver-manager.h"
 #include "session-manager.h"
 #include "system-prompter.h"
 #include "torch-manager.h"
+#include "torch-info.h"
 #include "util.h"
 #include "wifiinfo.h"
 #include "wwaninfo.h"
@@ -510,7 +515,12 @@ type_setup (void)
   g_type_ensure (PHOSH_TYPE_BT_INFO);
   g_type_ensure (PHOSH_TYPE_CONNECTIVITY_INFO);
   g_type_ensure (PHOSH_TYPE_DOCKED_INFO);
+  g_type_ensure (PHOSH_TYPE_FEEDBACK_INFO);
+  g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
+  g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
+  g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
   g_type_ensure (PHOSH_TYPE_SETTINGS);
+  g_type_ensure (PHOSH_TYPE_TORCH_INFO);
 }
 
 
