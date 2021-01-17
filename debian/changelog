@@ -1,3 +1,136 @@
+phosh (0.8.0) amber-phone; urgency=medium
+
+  [ xam ina ]
+  * po: Update French translation
+
+  [ Guido Günther ]
+  * keyboard-events: Drop newlines from `g_warning()`
+    g_warning newline terminates on it's own.
+  * d/control: Update from debian.
+    This typos and package sections
+  * d/control: Update dependencies/recommends from Debian.
+    We don't pull them in on amber and we want them for byzantium
+    anyway.
+  * gitlab-ci: Drop test-package stage.
+    Since we have PureOS packaging mostly separate drop the
+    last pipeline stage since that is run there. This brings
+    down build times and uses fewer runners.
+  * Move overrides to data.
+    This makes it simpler for downstreams to track changes.
+  * Move systemd service to data/
+    This makes it simpler to track for downstreams.
+  * lockscreen: Drop leading space in day of month (Closes: #225)
+  * po: Adjust locales to string change.
+    This avoids breaking all locales
+  * notify-manager: Don't leak notifiation.
+    A ref is taken when added to the list so no need to keep
+    it around
+  * settings: Make sure we rotate clockwise
+    wlroots as of 0.11.0 changed rotation correction. Adapt to that,
+    we don't bother what older versions do - downstream can just
+    revert.
+  * shell: Properly sync lock property.
+    The shell's locked property did not really reflect the state of
+    lockscreen-manager's "locked" property. Fix this by binding those two.
+    This will also simplify things like the rotation manager since we
+    don't need to pass the lockscreen-manager around anymore.
+  * polkit-auth-agent: Disable verbose debugging.
+    We don't want cookies, etc to end up in the logs
+  * polkit-auth-prompt: Unref session too.
+  * polkit-auth-agent: Toggle auth prompt with lockscreen visibility
+  * wifimanager: Toggle network auth prompt with lockscreen visibility
+    (Closes: #299)
+  * system-prompter: Toggle system auth prompt with lockscreen visibility
+  * monitor-manager: Clarify physical and logical monitors
+  * monitor-manager: Use head for physical monitors in get_current_state
+  * monitor-manager: Don't bother setting up modes in GetResources.
+    Only the ones from CurrentState are relevant.
+  * monitor-manager: Make sure to bump serial on config changes
+  * monitor-manager: Notify DBus listeners about config changes
+  * monitor: Add description.
+    We'll use that to match up with heads
+  * head: Add connector information.
+    Needed to switch monitor-manager to use heads.
+  * Allow to switch output configurations.
+    This allows to disable heads and turn them back on which is useful for
+    docked mode)
+  * monitor-manager: Flip transform.
+    The transform we get from the DBus protocol is flipped
+    regarding Waylands view on it. This is similar to what
+    was done in wlroots to preserve config changes.
+  * protocols: Update wlr-output-management
+    v2 supports make/model/serial.
+  * head: Use v2 of wlr-output-management.
+    This allows for vendor/product/serial again.
+  * monitor-manager: Improve display name.
+    We have the necessary info in the heads now. Code
+    inspired from what's done in mutter.
+  * head: Add a mode name and lookup.
+    We don't bother with a hash map since e.g. removal would mean
+    iteration too so just do a linear search when needed.
+  * monitor-manager: Set output resolution as well (Closes: #140)
+  * head: Allow to fetch supported scales.
+    We only do integer scaling and use the same limits than mutter
+    (max 400%).
+  * monitor-manager: Allow to set scaling too
+  * mode-manager: Improve external output detection.
+    If there's a single output and it's not built-in it's an external
+    one. (Closes: #436)
+  * head: Allow for smaller logical area in portrait.
+    This allows to set the scaling e.g. on the Librem 5.
+  * head: Allow to easily clear all pending state.
+    Instead of having this in different places add a single helper.
+  * polkit-auth-prompt: Grab focus on every request.
+    Otherwise the input field isn't refocused after a failed attempt.
+    (Closes: #470)
+  * system-prompter: Focus confirmation entry.
+    Select the confirmation entry when showing a confirmation prompt.
+  * system-prompter: Focus password entry.
+    Refocus the password entry when the prompt is shown. Otherwise
+    the focus is on the button after failed password attempt when
+    using touch.
+  * timestamp-label: Introduce phosh_time_diff_in_words.
+    This is mostly to make things easily testable
+  * timestamp-label: Unbreak relative days and months.
+    Phones have a long uptime so fall back to pure date printing
+    after 1y.
+  * timestamp-label: Unbreak relative years.
+    So far there always was fallback, drop that.
+  * timestamp-label: Add more flexibility to formats.
+    Some languages want to have 'almost' and 'over' past the numbers.
+  * po: Update pot file
+
+  [ Anders Jonsson ]
+  * po: Update Swedish translation
+
+  [ Tomasz ]
+  * Update Polish translation
+    po: update Polish translation
+
+  [ Timo Jyrinki ]
+  * po: Update Finnish translation
+
+  [ Sebastian Krzyszkowiak ]
+  * gitlab-ci: Don't use global before_script for package jobs.
+    It used to work accidentally because pipeline definitions
+    had been overriding before_script, which isn't the case anymore.
+  * gitlab-ci: Simplify package:deb-pureos-amber job.
+    Thanks to librem5-ci!14 our before_script doesn't have to
+    do the apt preparations anymore.
+  * gitlab-ci: Use "needs" keyword instead of "dependencies" for test+docs stage.
+    This allows for better paralelism in the pipeline.
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+  [ 寮 ]
+  * po: Update Japanese translation
+  * docked-info: Mark 'Undocked' as translatable too
+    "Docked" and "Undockd" are user visible strings and
+    only the former was marked as translatable so far
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 17 Jan 2021 17:46:56 +0100
+
 phosh (0.7.1) amber-phone; urgency=medium
 
   [ Guido Günther ]
