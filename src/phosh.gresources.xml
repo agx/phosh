@@ -37,5 +37,7 @@
     <file alias="swipe-arrow-symbolic.svg">../data/swipe-arrow-symbolic.svg</file>
     <file alias="torch-disabled-symbolic.svg">../data/torch-disabled-symbolic.svg</file>
     <file alias="torch-enabled-symbolic.svg">../data/torch-enabled-symbolic.svg</file>
+    <file alias="camera-hardware-disabled-symbolic.svg">../data/camera-hardware-disabled-symbolic.svg</file>
+    <file alias="microphone-hardware-disabled-symbolic.svg">../data/microphone-hardware-disabled-symbolic.svg</file>
   </gresource>
 </gresources>
