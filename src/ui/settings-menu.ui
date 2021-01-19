@@ -213,14 +213,14 @@
                 </style>
               </object>
             </child>
-	    <child>
+            <child>
               <object class="PhoshMediaPlayer" id="media_player">
                 <property name="visible" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
                 <property name="valign">center</property>
                 <property name="can_focus">False</property>
-		<signal name="player-raised" handler="on_media_player_raised" object="PhoshSettings" swapped="yes"/>
-	      </object>
-	    </child>
+                <signal name="player-raised" handler="on_media_player_raised" object="PhoshSettings" swapped="yes"/>
+              </object>
+            </child>
           </object>
         </child>
       </object>

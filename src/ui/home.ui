@@ -21,7 +21,7 @@
               <object class="GtkRevealer" id="rev_home">
                 <property name="visible">True</property>
                 <property name="reveal-child">True</property>
-		<property name="transition-type">crossfade</property>
+                <property name="transition-type">crossfade</property>
                 <child>
                   <object class="GtkButton" id="btn_home">
                     <property name="visible">True</property>

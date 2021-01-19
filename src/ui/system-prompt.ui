@@ -206,8 +206,8 @@
           <placeholder/>
         </child>
         <style>
-	  <class name="phosh-system-modal-dialog"/>
-	  <class name="phosh-system-prompt"/>
+          <class name="phosh-system-modal-dialog"/>
+          <class name="phosh-system-prompt"/>
         </style>
       </object>
     </child>
