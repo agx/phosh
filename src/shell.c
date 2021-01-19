@@ -254,22 +254,11 @@ panels_dispose (PhoshShell *self)
 static void
 css_setup (PhoshShell *self)
 {
-  GtkCssProvider *provider;
-  GFile *file;
-  GError *error = NULL;
+  g_autoptr (GtkCssProvider) provider = gtk_css_provider_new ();
 
-  provider = gtk_css_provider_new ();
-  file = g_file_new_for_uri ("resource:///sm/puri/phosh/style.css");
-
-  if (!gtk_css_provider_load_from_file (provider, file, &error)) {
-    g_warning ("Failed to load CSS file: %s", error->message);
-    g_clear_error (&error);
-    g_object_unref (file);
-    return;
-  }
+  gtk_css_provider_load_from_resource (provider, "/sm/puri/phosh/style.css");
   gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
                                              GTK_STYLE_PROVIDER (provider), 600);
-  g_object_unref (file);
 }
 
 
