@@ -1274,6 +1274,9 @@ phosh_shell_set_state (PhoshShell          *self,
                        gboolean             enabled)
 {
   PhoshShellPrivate *priv;
+  g_autofree gchar *str_state = g_flags_to_string (PHOSH_TYPE_SHELL_STATE_FLAGS,
+                                                  state);
+  g_autofree gchar *str_new_flags = NULL;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
   priv = phosh_shell_get_instance_private (self);
@@ -1282,4 +1285,11 @@ phosh_shell_set_state (PhoshShell          *self,
     priv->shell_state = priv->shell_state | state;
   else
     priv->shell_state = priv->shell_state & ~state;
+
+  str_new_flags = g_flags_to_string (PHOSH_TYPE_SHELL_STATE_FLAGS,
+                                     priv->shell_state);
+
+  g_debug ("%s %s to shells state. New state: %s",
+           enabled ? "Adding" : "Removing",
+           str_state, str_new_flags);
 }
