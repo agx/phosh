@@ -216,6 +216,7 @@ on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
     phosh_panel_fold (PHOSH_PANEL (priv->panel));
     phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
   }
+  phosh_shell_set_state (self, PHOSH_STATE_OVERVIEW, state == PHOSH_HOME_STATE_UNFOLDED);
 }
 
 
