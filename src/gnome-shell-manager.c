@@ -13,6 +13,7 @@
 
 #include "gnome-shell-manager.h"
 #include "shell.h"
+#include "lockscreen-manager.h"
 
 /**
  * SECTION:gnome-shell-manager
@@ -366,8 +367,13 @@ get_action_mode (void)
   PhoshShellStateFlags state = phosh_shell_get_state (shell);
 
   if (state & PHOSH_STATE_LOCKED) {
-    /* SHELL_ACTION_MODE_LOCK_SCREEN or SHELL_ACTION_MODE_UNLOCK_SCREEN */
-    return SHELL_ACTION_MODE_LOCK_SCREEN | SHELL_ACTION_MODE_UNLOCK_SCREEN;
+    PhoshLockscreenManager *lockscreen_manager = phosh_shell_get_lockscreen_manager (shell);
+    PhoshLockscreenPage page = phosh_lockscreen_manager_get_page (lockscreen_manager);
+
+    if (page == PHOSH_LOCKSCREEN_PAGE_UNLOCK)
+      return SHELL_ACTION_MODE_UNLOCK_SCREEN;
+    else
+      return SHELL_ACTION_MODE_LOCK_SCREEN;
   }
 
   if (state & PHOSH_STATE_MODAL_SYSTEM_PROMPT)
