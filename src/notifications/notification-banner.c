@@ -265,7 +265,9 @@ GtkWidget *
 phosh_notification_banner_new (PhoshNotification *notification)
 {
   PhoshWayland *wl = phosh_wayland_get_default ();
+  PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
   int width = 360;
+
   phosh_shell_get_usable_area (phosh_shell_get_default (),
                                NULL, NULL, &width, NULL);
 
@@ -274,6 +276,7 @@ phosh_notification_banner_new (PhoshNotification *notification)
                        /* layer surface */
                        "margin-top", -300,
                        "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1 (wl),
+                       "wl-output", monitor ? monitor->wl_output : NULL,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP,
                        "height", 50,
                        "width", MIN (width, 450),
