@@ -601,3 +601,11 @@ phosh_monitor_connector_is_builtin (PhoshMonitorConnectorType conn_type)
     return FALSE;
   }
 }
+
+struct wl_output*
+phosh_monitor_get_wl_output (PhoshMonitor *self)
+{
+  g_return_val_if_fail (PHOSH_IS_MONITOR (self), NULL);
+
+  return self->wl_output;
+}
