@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="PhoshNetworkAuthPrompt" parent="PhoshLayerSurface">
+  <template class="PhoshNetworkAuthPrompt" parent="PhoshSystemModal">
     <signal name="key-press-event" handler="network_prompt_key_press_event_cb"/>
     <child>
       <object class="GtkBox">

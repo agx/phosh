@@ -448,9 +448,6 @@ network_prompt_done_cb (PhoshWifiManager *self)
 static void
 network_agent_setup_prompt (PhoshWifiManager *self)
 {
-  PhoshMonitor *primary_monitor;
-  PhoshWayland *wl = phosh_wayland_get_default ();
-  PhoshShell *shell = phosh_shell_get_default ();
   GtkWidget *network_prompt;
 
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
@@ -458,11 +455,8 @@ network_agent_setup_prompt (PhoshWifiManager *self)
   if (self->network_prompt)
     return;
 
-  primary_monitor = phosh_shell_get_primary_monitor (shell);
   network_prompt = phosh_network_auth_prompt_new (self->network_agent,
-                                                  self->nmclient,
-                                                  phosh_wayland_get_zwlr_layer_shell_v1(wl),
-                                                  primary_monitor->wl_output);
+                                                  self->nmclient);
   self->network_prompt = PHOSH_NETWORK_AUTH_PROMPT (network_prompt);
 
   g_signal_connect_object (self->network_prompt, "done",

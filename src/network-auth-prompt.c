@@ -37,7 +37,7 @@ static guint signals[N_SIGNALS] = { 0 };
 
 struct _PhoshNetworkAuthPrompt
 {
-  PhoshLayerSurface parent;
+  PhoshSystemModal parent;
 
   GtkWidget      *cancel_button;
   GtkWidget      *connect_button;
@@ -62,7 +62,7 @@ struct _PhoshNetworkAuthPrompt
   gboolean visible; /* is input visible */
 };
 
-G_DEFINE_TYPE(PhoshNetworkAuthPrompt, phosh_network_auth_prompt, PHOSH_TYPE_LAYER_SURFACE);
+G_DEFINE_TYPE(PhoshNetworkAuthPrompt, phosh_network_auth_prompt, PHOSH_TYPE_SYSTEM_MODAL);
 
 
 static void
@@ -370,28 +370,14 @@ phosh_network_auth_prompt_init (PhoshNetworkAuthPrompt *self)
 
 GtkWidget *
 phosh_network_auth_prompt_new (ShellNetworkAgent *agent,
-                               NMClient          *nm_client,
-                               gpointer           layer_shell,
-                               gpointer           wl_output)
+                               NMClient          *nm_client)
 {
   PhoshNetworkAuthPrompt *self;
 
   g_return_val_if_fail (SHELL_IS_NETWORK_AGENT (agent), NULL);
   g_return_val_if_fail (NM_CLIENT (nm_client), NULL);
 
-  self = g_object_new (PHOSH_TYPE_NETWORK_AUTH_PROMPT,
-                       /* layer shell */
-                       "layer-shell", layer_shell,
-                       "wl-output", wl_output,
-                       "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
-                       ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
-                       ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
-                       ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
-                       "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
-                       "kbd-interactivity", TRUE,
-                       "exclusive-zone", -1,
-                       "namespace", "phosh prompter",
-                       NULL);
+  self = g_object_new (PHOSH_TYPE_NETWORK_AUTH_PROMPT, NULL);
   self->nm_client = g_object_ref (nm_client);
   self->agent = g_object_ref (agent);
 
