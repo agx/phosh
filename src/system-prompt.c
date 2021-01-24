@@ -98,12 +98,12 @@ typedef struct
 
 struct _PhoshSystemPrompt
 {
-  PhoshLayerSurface parent;
+  PhoshSystemModal parent;
 };
 
 
 static void phosh_system_prompt_iface_init (GcrPromptIface *iface);
-G_DEFINE_TYPE_WITH_CODE(PhoshSystemPrompt, phosh_system_prompt, PHOSH_TYPE_LAYER_SURFACE,
+G_DEFINE_TYPE_WITH_CODE(PhoshSystemPrompt, phosh_system_prompt, PHOSH_TYPE_SYSTEM_MODAL,
                         G_IMPLEMENT_INTERFACE (GCR_TYPE_PROMPT,
                                                phosh_system_prompt_iface_init)
                         G_ADD_PRIVATE (PhoshSystemPrompt));
@@ -738,18 +738,7 @@ phosh_system_prompt_init (PhoshSystemPrompt *self)
 
 
 GtkWidget *
-phosh_system_prompt_new (gpointer layer_shell,
-                         gpointer wl_output)
+phosh_system_prompt_new (void)
 {
-  return g_object_new (PHOSH_TYPE_SYSTEM_PROMPT,
-                       "wl-output", wl_output,
-                       "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
-                       ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
-                       ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
-                       ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
-                       "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
-                       "kbd-interactivity", TRUE,
-                       "exclusive-zone", -1,
-                       "namespace", "phosh prompter",
-                       NULL);
+  return g_object_new (PHOSH_TYPE_SYSTEM_PROMPT, NULL);
 }

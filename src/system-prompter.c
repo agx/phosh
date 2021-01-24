@@ -33,15 +33,12 @@ static GcrPrompt *
 new_prompt_cb (GcrSystemPrompter *prompter,
                gpointer user_data)
 {
-  PhoshWayland *wl = phosh_wayland_get_default ();
-  PhoshShell *shell = phosh_shell_get_default ();
   GtkWidget *prompt;
 
   g_debug ("Building new system prompt");
   g_return_val_if_fail (GCR_IS_SYSTEM_PROMPTER (prompter), NULL);
 
-  prompt = phosh_system_prompt_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
-                                    phosh_shell_get_primary_monitor (shell)->wl_output);
+  prompt = phosh_system_prompt_new ();
 
   /* Show widget when not locked and keep that in sync */
   g_object_bind_property (phosh_shell_get_default (), "locked",
