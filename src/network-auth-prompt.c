@@ -216,6 +216,7 @@ network_prompt_setup_dialog (PhoshNetworkAuthPrompt *self)
 
     gtk_entry_buffer_set_text (GTK_ENTRY_BUFFER (self->password_buffer), password, -1);
   }
+  gtk_widget_grab_focus (self->wpa_password_entry);
 }
 
 
