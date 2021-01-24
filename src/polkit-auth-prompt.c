@@ -51,7 +51,7 @@ static guint signals[N_SIGNALS] = { 0 };
 
 struct _PhoshPolkitAuthPrompt
 {
-  PhoshLayerSurface parent;
+  PhoshSystemModal parent;
 
   GtkWidget *lbl_message;
   GtkWidget *lbl_user_name;
@@ -75,7 +75,7 @@ struct _PhoshPolkitAuthPrompt
 
   gboolean done_emitted;
 };
-G_DEFINE_TYPE(PhoshPolkitAuthPrompt, phosh_polkit_auth_prompt, PHOSH_TYPE_LAYER_SURFACE);
+G_DEFINE_TYPE(PhoshPolkitAuthPrompt, phosh_polkit_auth_prompt, PHOSH_TYPE_SYSTEM_MODAL);
 
 
 static void phosh_polkit_auth_prompt_initiate (PhoshPolkitAuthPrompt *self);
@@ -561,9 +561,7 @@ phosh_polkit_auth_prompt_new (const char *action_id,
                               const char *message,
                               const char *icon_name,
                               const char *cookie,
-                              GStrv user_names,
-                              gpointer layer_shell,
-                              gpointer wl_output)
+                              GStrv user_names)
 {
   return g_object_new (PHOSH_TYPE_POLKIT_AUTH_PROMPT,
                        /* polkit prompt */
@@ -572,16 +570,5 @@ phosh_polkit_auth_prompt_new (const char *action_id,
                        "message", message,
                        "icon-name", icon_name,
                        "user-names", user_names,
-                       /* layer shell */
-                       "layer-shell", layer_shell,
-                       "wl-output", wl_output,
-                       "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
-                       ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
-                       ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
-                       ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
-                       "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
-                       "kbd-interactivity", TRUE,
-                       "exclusive-zone", -1,
-                       "namespace", "phosh prompter",
                        NULL);
 }

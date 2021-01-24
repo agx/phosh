@@ -11,7 +11,6 @@
 #include "polkit-auth-agent.h"
 #include "polkit-auth-prompt.h"
 #include "shell.h"
-#include "phosh-wayland.h"
 
 #include <sys/types.h>
 #include <pwd.h>
@@ -131,9 +130,6 @@ on_prompt_done (PhoshPolkitAuthPrompt *prompt, gboolean cancelled, AuthRequest *
 static void
 auth_request_initiate (AuthRequest *request)
 {
-  PhoshWayland *wl = phosh_wayland_get_default ();
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshMonitor *primary_monitor;
   g_auto(GStrv) user_names;
   GPtrArray *p;
   GList *l;
@@ -167,7 +163,6 @@ auth_request_initiate (AuthRequest *request)
   user_names = (char **) g_ptr_array_free (p, FALSE);
 
   g_debug("New prompt for %s", request->message);
-  primary_monitor = phosh_shell_get_primary_monitor (shell);
   /* We must not issue a new prompt when there's one alread */
   g_return_if_fail (!request->agent->current_prompt);
   request->agent->current_prompt = PHOSH_POLKIT_AUTH_PROMPT (
@@ -176,9 +171,7 @@ auth_request_initiate (AuthRequest *request)
       request->message,
       request->icon_name,
       request->cookie,
-      user_names,
-      phosh_wayland_get_zwlr_layer_shell_v1(wl),
-      primary_monitor->wl_output));
+      user_names));
 
   g_signal_connect (request->agent->current_prompt,
                     "done",
