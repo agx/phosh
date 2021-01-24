@@ -82,6 +82,8 @@ libphosh_tool_sources = [
   'overview.h',
   'status-icon.c',
   'status-icon.h',
+  'system-modal.c',
+  'system-modal.h',
   'thumbnail.c',
   'thumbnail.h',
   'quick-setting.c',

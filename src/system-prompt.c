@@ -742,7 +742,6 @@ phosh_system_prompt_new (gpointer layer_shell,
                          gpointer wl_output)
 {
   return g_object_new (PHOSH_TYPE_SYSTEM_PROMPT,
-                       "layer-shell", layer_shell,
                        "wl-output", wl_output,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
                        ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
