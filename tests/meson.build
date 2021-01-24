@@ -76,6 +76,7 @@ tests_phoc = [
   'layer-surface',
   'lockshield',
   'notification-banner',
+  'system-modal',
   'timestamp-label',
 ]
 
