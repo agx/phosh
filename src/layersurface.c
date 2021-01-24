@@ -387,14 +387,14 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       "layer-shell",
       "Wayland Layer Shell Global",
       "The layer shell wayland global",
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PHOSH_LAYER_SURFACE_PROP_WL_OUTPUT] =
     g_param_spec_pointer (
       "wl-output",
       "Wayland Output",
       "The wl_output associated with this surface",
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PHOSH_LAYER_SURFACE_PROP_ANCHOR] =
     g_param_spec_uint (
@@ -404,7 +404,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       0,
       G_MAXUINT,
       0,
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PHOSH_LAYER_SURFACE_PROP_LAYER] =
     g_param_spec_uint (
@@ -414,7 +414,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       0,
       G_MAXUINT,
       0,
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PHOSH_LAYER_SURFACE_PROP_KBD_INTERACTIVITY] =
     g_param_spec_boolean (
@@ -521,7 +521,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       "Namespace",
       "Namespace of the layer surface",
       "",
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PHOSH_LAYER_SURFACE_PROP_LAST_PROP, props);
 
