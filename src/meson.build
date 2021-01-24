@@ -105,6 +105,8 @@ libphosh_tool_sources = files(
   'osd-window.h',
   'status-icon.c',
   'status-icon.h',
+  'splash.c',
+  'splash.h',
   'system-modal.c',
   'system-modal.h',
   'system-modal-dialog.c',

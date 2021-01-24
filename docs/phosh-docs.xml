@@ -113,6 +113,7 @@
       <xi:include href="xml/shell-network-agent.xml"/>
       <xi:include href="xml/shell.xml"/>
       <xi:include href="xml/status-icon.xml"/>
+      <xi:include href="xml/splash.xml"/>
       <xi:include href="xml/swipe-away-bin.xml"/>
       <xi:include href="xml/system-modal.xml"/>
       <xi:include href="xml/system-modal-dialog.xml"/>
