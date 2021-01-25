@@ -63,6 +63,9 @@ test_system_modal_new (Fixture *fixture, gconstpointer unused)
   GtkWidget *modal = phosh_system_modal_new (get_monitor ());
 
   g_assert_true (PHOSH_IS_SYSTEM_MODAL (modal));
+  g_assert_true (gtk_style_context_has_class (
+                   gtk_widget_get_style_context (modal),
+                   "phosh-system-modal"));
 
   gtk_widget_destroy (modal);
 }

@@ -211,8 +211,5 @@
         </style>
       </object>
     </child>
-    <style>
-      <class name="phosh-system-modal"/>
-    </style>
   </template>
 </interface>

@@ -113,6 +113,9 @@ phosh_system_modal_constructed (GObject *object)
                 "namespace", "phosh system-modal",
                 NULL);
 
+  gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)),
+                               "phosh-system-modal");
+
   G_OBJECT_CLASS (phosh_system_modal_parent_class)->constructed (object);
 }
 
