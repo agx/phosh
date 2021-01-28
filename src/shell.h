@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "app-tracker.h"
 #include "background-manager.h"
 #include "bt-manager.h"
 #include "calls-manager.h"
@@ -74,6 +75,7 @@ PhoshMonitor        *phosh_shell_get_primary_monitor (PhoshShell *self);
 PhoshMonitor        *phosh_shell_get_builtin_monitor (PhoshShell *self);
 
 /* Created by the shell on startup */
+PhoshAppTracker        *phosh_shell_get_app_tracker        (PhoshShell *self);
 PhoshBackgroundManager *phosh_shell_get_background_manager (PhoshShell *self);
 PhoshCallsManager      *phosh_shell_get_calls_manager (PhoshShell *self);
 PhoshFeedbackManager   *phosh_shell_get_feedback_manager   (PhoshShell *self);

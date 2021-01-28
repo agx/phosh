@@ -32,13 +32,6 @@ enum {
 };
 static GParamSpec *props[PHOSH_WAYLAND_PROP_LAST_PROP];
 
-enum {
-  GTK_SHELL_SET_STARTUP_ID,
-  GTK_SHELL_NOTIFY_LAUNCH,
-  N_SIGNALS
-};
-static guint signals[N_SIGNALS];
-
 struct _PhoshWayland {
   GObject parent;
 
@@ -249,38 +242,6 @@ static const struct wl_seat_listener seat_listener =
 
 
 static void
-phosh_private_handle_set_startup_id (void *data,
-                                     struct phosh_private *phosh_private,
-                                     const char *startup_id)
-{
-  PhoshWayland *wl = PHOSH_WAYLAND (data);
-
-  g_debug ("%s: %s", __func__, startup_id);
-  g_signal_emit (wl, signals[GTK_SHELL_SET_STARTUP_ID], 0, startup_id, NULL);
-}
-
-
-static void
-phosh_private_handle_notify_launch (void *data,
-                                    struct phosh_private *phosh_private,
-                                    const char *startup_id)
-{
-  PhoshWayland *wl = PHOSH_WAYLAND (data);
-
-  g_debug ("%s: %s", __func__, startup_id);
-  g_signal_emit (wl, signals[GTK_SHELL_NOTIFY_LAUNCH], 0, startup_id, NULL);
-}
-
-
-
-static const struct phosh_private_listener phosh_private_listener =
-{
-  phosh_private_handle_set_startup_id,
-  phosh_private_handle_notify_launch,
-};
-
-
-static void
 phosh_wayland_constructed (GObject *object)
 {
   PhoshWayland *self = PHOSH_WAYLAND (object);
@@ -323,7 +284,6 @@ phosh_wayland_constructed (GObject *object)
   }
 
   wl_seat_add_listener (self->wl_seat, &seat_listener, self);
-  phosh_private_add_listener (self->phosh_private, &phosh_private_listener, self);
 }
 
 
@@ -364,22 +324,6 @@ phosh_wayland_class_init (PhoshWaylandClass *klass)
                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PHOSH_WAYLAND_PROP_LAST_PROP, props);
-
-  signals[GTK_SHELL_NOTIFY_LAUNCH] = g_signal_new ("gtk-shell-notify-launch",
-                                                   G_TYPE_FROM_CLASS (klass),
-                                                   G_SIGNAL_RUN_LAST,
-                                                   0, NULL, NULL, NULL,
-                                                   G_TYPE_NONE,
-                                                   1,
-                                                   G_TYPE_STRING);
-
-  signals[GTK_SHELL_SET_STARTUP_ID] = g_signal_new ("gtk-shell-set-startup-id",
-                                                   G_TYPE_FROM_CLASS (klass),
-                                                   G_SIGNAL_RUN_LAST,
-                                                   0, NULL, NULL, NULL,
-                                                   G_TYPE_NONE,
-                                                   1,
-                                                   G_TYPE_STRING);
 }
 
 

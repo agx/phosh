@@ -141,6 +141,8 @@ libphosh_sources = files(
   'app-auth-prompt.h',
   'arrow.c',
   'arrow.h',
+  'app-tracker.h',
+  'app-tracker.c',
   'auth.c',
   'auth.h',
   'background-manager.c',
