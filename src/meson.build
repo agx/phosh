@@ -37,8 +37,14 @@ phosh_settings_sources = files(
   phosh_settings_widgets_sources,
 ]
 
+phosh_marshalers = gnome.genmarshal('phosh-marshalers',
+  sources : 'phosh-marshalers.list',
+  prefix : '_phosh_marshal',
+  valist_marshallers : true)
+
 libphosh_generated_sources = [
   phosh_enums,
+  phosh_marshalers,
   phosh_resources,
   wl_proto_sources,
   generated_dbus_sources,
