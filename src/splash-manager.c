@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include "shell.h"
 #include "splash.h"
 #include "splash-manager.h"
 
@@ -157,11 +158,15 @@ on_app_spawned (PhoshSplashManager *self,
 {
   GtkWidget *splash;
   char *key;
+  PhoshShell *shell = phosh_shell_get_default ();
 
   g_return_if_fail (PHOSH_IS_SPLASH_MANAGER (self));
   g_return_if_fail (G_IS_DESKTOP_APP_INFO (info));
   g_return_if_fail (startup_id);
   g_return_if_fail (!g_hash_table_contains (self->splashes, startup_id));
+
+  if (!phosh_shell_get_show_splash (shell))
+    return;
 
   g_debug ("Adding splash for %s, startup_id %s", g_app_info_get_id (G_APP_INFO (info)), startup_id);
   splash = phosh_splash_new (info);
@@ -183,7 +188,7 @@ phosh_splash_manager_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_splash_manager_parent_class)->constructed (object);
 
   g_object_connect (self->app_tracker,
-                    "swapped-signal::app-launched::spawn", G_CALLBACK (on_app_spawned), self,
+                    "swapped-signal::app-launched", G_CALLBACK (on_app_spawned), self,
                     "swapped-signal::app-failed", G_CALLBACK (on_app_failed), self,
                     "swapped-signal::app-ready", G_CALLBACK (on_app_ready), self,
                     NULL);

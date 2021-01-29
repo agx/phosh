@@ -1527,3 +1527,29 @@ phosh_shell_set_locked (PhoshShell *self, gboolean locked)
 
   phosh_lockscreen_manager_set_locked (priv->lockscreen_manager, locked);
 }
+
+
+/**
+ * phosh_shell_get_show_splash:
+ * @self: The #PhoshShell singleton
+ *
+ * Whether splash screens should be used when apps start
+ * Returns: %TRUE when splash should be used, otherwise %FALSE
+ */
+gboolean
+phosh_shell_get_show_splash (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), TRUE);
+  priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_DOCKED_MANAGER (priv->docked_manager), TRUE);
+
+  if (priv->debug_flags & PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH)
+    return TRUE;
+
+  if (phosh_docked_manager_get_enabled (priv->docked_manager))
+    return FALSE;
+
+  return TRUE;
+}
