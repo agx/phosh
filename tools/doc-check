@@ -21,6 +21,7 @@ if ! grep -v -E '(^html/api-index-full.html)|(^./phosh-decl.txt)'\
 '|gamma_control_error|gamma_control_listener|org_kde_kwin_idle_timeout_listener'\
 '|phosh_private_error|phosh_private_keyboard_event_error'\
 '|phosh_private_keyboard_event_listener|phosh_private_xdg_switcher_error'\
+'|phosh_private_listener'\
 '|phosh_private_xdg_switcher_listener'\
 '|zwp_virtual_keyboard_manager_v1_error|zwp_virtual_keyboard_v1_error'\
 '|no link for: "NM(Connection|Client)"'\

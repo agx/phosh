@@ -1,5 +1,5 @@
 <protocol name="phosh">
-  <interface name="phosh_private" version="5">
+  <interface name="phosh_private" version="6">
     <description summary="Phone shell extensions">
       Private protocol between phosh and the compositor.
     </description>
@@ -9,10 +9,9 @@
              summary="an invalid argument was provided in a request"/>
     </enum>
 
-    <!-- only primary output for now -->
     <request name="rotate_display" since="1">
       <description summary="rotate output">
-        Rotate the output clockwise 0, 90, 180 or 270 degree.
+	This request is unused, ignore
       </description>
       <arg name="surface" type="object" interface="wl_surface"/>
       <arg name="degree" type="uint"/>
@@ -26,7 +25,7 @@
       <description summary="request a window thumbnail for a given toplevel">
         Allows to retrieve a window thumbnail image for a given foreign
         toplevel via wlr_screencopy protocol.
-        
+
         The thumbnail will be scaled down to the size provided by
         max_width and max_height arguments, preserving original aspect
         ratio. Pass 0 to leave it unconstrained.
@@ -46,6 +45,13 @@
         action id.
       </description>
       <arg name="id" type="new_id" interface="phosh_private_keyboard_event"/>
+    </request>
+
+    <request name="get_startup_tracker" since="6">
+      <description summary="request a keyboard event handler">
+	Allows to track application startup.
+      </description>
+      <arg name="id" type="new_id" interface="phosh_private_startup_tracker"/>
     </request>
 
   </interface>
@@ -125,13 +131,7 @@
   <!-- application switch/close handling -->
   <interface name="phosh_private_xdg_switcher" version="3">
     <description summary="Interface to list and raise xdg surfaces">
-      The interface is meant to list xdg surfaces (see the xdg-shell
-      stable wayland protocol) and to raise these surfaces to the top
-      of the window stack.
-
-      It's up to the compositor if it only lists surfaces of the
-      xdg-shell stable protocol or also surfaces using unstable versions of
-      the xdg-shell protocol.
+      This interface is unused, ignore.
     </description>
     <enum name="error">
       <entry name="invalid_argument" value="0"
@@ -139,9 +139,8 @@
     </enum>
 
     <request name="list_xdg_surfaces" since="2">
-      <description summary="Get current xdg surfaces">
-        Request to list xdg shell toplevels.
-      </description>
+      <description summary="Get current xdg surfaces"/>
+
     </request>
 
     <request name="destroy"  type="destructor" since="2">
@@ -149,8 +148,7 @@
     </request>
 
     <request name="raise_xdg_surface" since="2">
-      <description summary="raise the given xdg surface to the top of the stack">
-      </description>
+      <description summary="raise the given xdg surface to the top of the stack"/>
       <arg name="app_id" type="string" summary="The app_id of the xdg surface"/>
       <arg name="title" type="string" summary="The title of the xdg surface" allow-null="true"/>
     </request>
@@ -166,10 +164,52 @@
     </event>
 
     <request name="close_xdg_surface" since="3">
-      <description summary="close the given xdg surface">
-      </description>
+      <description summary="close the given xdg surface"/>
       <arg name="app_id" type="string" summary="The app_id of the xdg surface"/>
       <arg name="title" type="string" summary="The title of the xdg surface" allow-null="true"/>
+    </request>
+  </interface>
+
+  <!-- application startup tracking -->
+  <interface name="phosh_private_startup_tracker" version="6">
+    <description summary="Interface to track applicaation startup">
+      Allows shells to track application startup.
+    </description>
+
+    <enum name="flag" bitfield="true">
+      <entry name="none" value="0" summary="no flags"/>
+    </enum>
+
+    <enum name="protocol">
+      <entry name="unknown" value="0" summary="unknown protocol"/>
+      <entry name="x11" value="1" summary="x11 startup notification protocol"/>
+      <entry name="gtk_shell" value="2" summary="gtk_shell protocol"/>
+      <entry name="xdg_activation" value="3" summary="xdg_activation protocol"/>
+    </enum>
+
+    <event name="startup_id">
+      <description summary="Report a startup id">
+        This event indicates that the client sent it's startup id.
+        (which implies the app is running).
+      </description>
+      <arg name="startup_id" type="string" summary="The startup_id"/>
+      <arg name="protocol" type="uint" enum="protocol" summary="The protocol"/>
+      <arg name="flags" type="uint" enum="flags" summary="flags"/>
+    </event>
+
+    <event name="launched">
+      <description summary="Report an appplication launch">
+	This event indicates that the launcher spawned the app.
+      </description>
+      <arg name="startup_id" type="string" summary="The startup_id"/>
+      <arg name="protocol" type="uint" enum="protocol" summary="The protocol"/>
+      <arg name="flags" type="uint" enum="flags" summary="flags"/>
+    </event>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy the startup_tracker interface instance">
+	The Client should invoke this when done using the interface.
+      </description>
     </request>
   </interface>
 </protocol>
