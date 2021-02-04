@@ -41,6 +41,7 @@ static guint signals[N_SIGNALS] = { 0 };
 struct _PhoshToplevelManager {
   GObject parent;
   GPtrArray *toplevels;
+  GPtrArray *toplevels_pending;
 };
 
 G_DEFINE_TYPE (PhoshToplevelManager, phosh_toplevel_manager, G_TYPE_OBJECT);
@@ -79,6 +80,16 @@ on_toplevel_closed (PhoshToplevelManager *self, PhoshToplevel *toplevel)
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (self));
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
   g_return_if_fail (self->toplevels);
+  g_return_if_fail (self->toplevels_pending);
+
+  /* Check if toplevel exists in toplevels_pending, in that case it is
+   * not yet configured and we just remove it from toplevels_pending
+   * without touching the regular toplevels array. */
+  if (g_ptr_array_find (self->toplevels_pending, toplevel, NULL)) {
+    g_assert_true (g_ptr_array_remove (self->toplevels_pending, toplevel));
+    g_object_unref (toplevel);
+    return;
+  }
 
   g_assert_true(g_ptr_array_remove (self->toplevels, toplevel));
 
@@ -93,6 +104,7 @@ on_toplevel_configured (PhoshToplevelManager *self, GParamSpec *pspec, PhoshTopl
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (self));
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
   g_return_if_fail (self->toplevels);
+  g_return_if_fail (self->toplevels_pending);
 
   configured = phosh_toplevel_is_configured (toplevel);
 
@@ -102,6 +114,7 @@ on_toplevel_configured (PhoshToplevelManager *self, GParamSpec *pspec, PhoshTopl
   if (g_ptr_array_find (self->toplevels, toplevel, NULL)) {
     g_signal_emit (self, signals[SIGNAL_TOPLEVEL_CHANGED], 0, toplevel);
   } else {
+    g_assert_true (g_ptr_array_remove (self->toplevels_pending, toplevel));
     g_ptr_array_add (self->toplevels, toplevel);
     g_signal_emit (self, signals[SIGNAL_TOPLEVEL_ADDED], 0, toplevel);
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_NUM_TOPLEVELS]);
@@ -119,6 +132,8 @@ handle_zwlr_foreign_toplevel_manager_toplevel(
   PhoshToplevel *toplevel;
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (self));
   toplevel = phosh_toplevel_new_from_handle (handle);
+
+  g_ptr_array_add (self->toplevels_pending, toplevel);
 
   g_signal_connect_swapped (toplevel, "closed", G_CALLBACK (on_toplevel_closed), self);
   g_signal_connect_swapped (toplevel, "notify::configured", G_CALLBACK (on_toplevel_configured), self);
@@ -149,6 +164,10 @@ phosh_toplevel_manager_dispose (GObject *object)
   if (self->toplevels) {
     g_ptr_array_free(self->toplevels, TRUE);
     self->toplevels = NULL;
+  }
+  if (self->toplevels_pending) {
+    g_ptr_array_free (self->toplevels_pending, TRUE);
+    self->toplevels_pending = NULL;
   }
   G_OBJECT_CLASS (phosh_toplevel_manager_parent_class)->dispose (object);
 }
@@ -208,6 +227,7 @@ phosh_toplevel_manager_init (PhoshToplevelManager *self)
      phosh_wayland_get_default ());
 
   self->toplevels = g_ptr_array_new_with_free_func ((GDestroyNotify) (g_object_unref));
+  self->toplevels_pending = g_ptr_array_new ();
 
   if (!toplevel_manager) {
     g_warning ("Skipping app list due to missing wlr-foreign-toplevel-management protocol extension");
