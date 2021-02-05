@@ -172,6 +172,13 @@ docked_setting_clicked_cb (PhoshSettings *self)
   phosh_docked_manager_set_enabled (manager, !enabled);
 }
 
+static void
+docked_setting_long_pressed_cb (PhoshSettings *self)
+{
+  phosh_quick_setting_open_settings_panel ("display");
+  g_signal_emit (self, signals[SETTING_DONE], 0);
+}
+
 
 static void
 update_output_vol_bar (PhoshSettings *self)
@@ -465,6 +472,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, battery_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, bt_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, docked_setting_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, docked_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, feedback_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, feedback_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_media_player_raised);
