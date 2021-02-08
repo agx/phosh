@@ -1,3 +1,63 @@
+phosh (0.8.1) amber-phone; urgency=medium
+
+  [ Guido Günther ]
+  * shell: Simplify css loading
+  * shell: Don't use magic constant for CSS provider priority
+  * settings: Ensure types in shell.
+    We use widgets at various places. Make sure we make the types known
+    in a single location since otherwise there's duplication.
+  * panel: Ensure types in shell.
+    We use widgets at various places. Make sure we make the types known
+    in a single location since otherwise there's duplication.
+  * lockscreen: Ensure types in shell.
+    We use widgets at various places. Make sure we make the types known
+    in a single location since otherwise there's duplication.
+  * shell: Move type setup to class_init.
+    Doing it on the class level is enough. The shell is a singleton
+    so this doesn't change anything in practice.
+  * shell: Always use g_type_ensure.
+    Older code used `<type>_get_type ()`
+  * top-panel: Remove duplicate properties
+  * top-panel: Untabify.
+    It was a mixture of tabs and spaces
+  * ui: Untabify all files.
+    We want spaces there. The top-panel was the first offender
+    but let's get the others correct too.
+  * service: Always restart
+    gnome-session prefers exit status 0 - even on errors. So restart in this
+    case too.
+  * monitor: Add getter for wl_output
+  * build: Move monitor sources to tool's lib.
+    This allows usage in tests and tools. This will be needed by
+    the system-modal tests.
+  * notification-banner: Always use primary output.
+    This makes sure notification banners end up where the top bar is.
+  * layersurface: Don't make props construct-only.
+    This allows us to override in the derived classes constructor.
+  * Add PhoshSystemModal.
+    Abstract class for system-model dialogs. This allows all system modal
+    dialogs to use the same base class avoiding leaking layer-surface
+    details up into the class that initially builds the dialog.
+  * system-modal: Add minimal tests
+  * system-prompt: Use PhoshSystemModal
+  * polkit-auth-prompt: Use PhoshSystemModal
+  * network-auth-prompt: Use PhoshSystemModal
+  * network-auth-prompt: Focus password entry.
+    Similar in spirit to 0098cdfc9d791b56f580cc76ea1f8e42a31efbdb
+  * system-modal: Add style class.
+    This allow to remove it from 3 ui files
+
+  [ Sebastian Krzyszkowiak ]
+  * gitlab-ci: Use http URI for amber-phone repos.
+    Otherwise initial apt-get update fails because of missing ca-certificates.
+  * settings: Add a long-press shortcut to g-c-c display panel on "Docked" icon
+
+  [ Elias Rudberg ]
+  * Add toplevels_pending array and keep toplevel pointers
+    (Closes: #407)
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 08 Feb 2021 20:43:29 +0100
+
 phosh (0.8.0) amber-phone; urgency=medium
 
   [ xam ina ]
