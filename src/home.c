@@ -462,7 +462,13 @@ animate_cb(GtkWidget *widget,
 
   phosh_home_resize (self);
 
-  return finished ? G_SOURCE_REMOVE : G_SOURCE_CONTINUE;
+  if (finished) {
+    if (self->state == PHOSH_HOME_STATE_FOLDED)
+      gtk_widget_hide (GTK_WIDGET (self->overview));
+    return G_SOURCE_REMOVE;
+  }
+
+  return G_SOURCE_CONTINUE;
 }
 
 
@@ -499,6 +505,7 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   if (state == PHOSH_HOME_STATE_UNFOLDED) {
     kbd_interactivity = TRUE;
     phosh_overview_reset (PHOSH_OVERVIEW (self->overview));
+    gtk_widget_show (GTK_WIDGET (self->overview));
   } else {
     kbd_interactivity = FALSE;
   }
