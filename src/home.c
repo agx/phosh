@@ -472,6 +472,13 @@ animate_cb(GtkWidget *widget,
 }
 
 
+static double
+reverse_ease_out_cubic (double t)
+{
+  return cbrt(t - 1) + 1;
+}
+
+
 /**
  * phosh_home_set_state:
  * @self: The home surface
@@ -499,7 +506,7 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   g_debug ("Setting state to %s", state_name);
 
   self->animation.last_frame = -1;
-  self->animation.progress = enable_animations ? (1.0 - self->animation.progress) : 1.0;
+  self->animation.progress = enable_animations ? reverse_ease_out_cubic (1.0 - hdy_ease_out_cubic (self->animation.progress)) : 1.0;
   gtk_widget_add_tick_callback (GTK_WIDGET (self), animate_cb, NULL, NULL);
 
   if (state == PHOSH_HOME_STATE_UNFOLDED) {
