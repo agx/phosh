@@ -538,6 +538,8 @@ on_builtin_monitor_power_mode_changed (PhoshShell *self, GParamSpec *pspec, Phos
   g_object_get (monitor, "power-mode", &mode, NULL);
   if (mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF)
     phosh_shell_lock (self);
+
+  phosh_shell_set_state (self, PHOSH_STATE_BLANKED, mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF);
 }
 
 
