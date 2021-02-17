@@ -230,18 +230,20 @@ mixer_control_output_update_cb (GvcMixerControl *mixer, guint id, gpointer *data
   if (self->output_stream)
     g_signal_handlers_disconnect_by_data (self->output_stream, self);
 
-  self->output_stream = gvc_mixer_control_get_default_sink (self->mixer_control);
+  g_set_object (&self->output_stream,
+                gvc_mixer_control_get_default_sink (self->mixer_control));
   g_return_if_fail (self->output_stream);
 
-  g_signal_connect (self->output_stream,
-                    "notify::volume",
-                    G_CALLBACK (output_stream_notify_volume_cb),
-                    self);
+  g_signal_connect_object (self->output_stream,
+                           "notify::volume",
+                           G_CALLBACK (output_stream_notify_volume_cb),
+                           self, 0);
 
-  g_signal_connect (self->output_stream,
-                    "notify::is-muted",
-                    G_CALLBACK (output_stream_notify_is_muted_cb),
-                    self);
+  g_signal_connect_object (self->output_stream,
+                           "notify::is-muted",
+                           G_CALLBACK (output_stream_notify_is_muted_cb),
+                           self, 0);
+
   update_output_vol_bar (self);
 }
 
@@ -254,7 +256,7 @@ vol_adjustment_value_changed_cb (GtkAdjustment *adjustment,
   g_autofree char *name = NULL;
 
   if (!self->output_stream)
-    self->output_stream = gvc_mixer_control_get_default_sink (self->mixer_control);
+    self->output_stream = g_object_ref (gvc_mixer_control_get_default_sink (self->mixer_control));
 
   volume = gtk_adjustment_get_value (adjustment);
   rounded = round (volume);
@@ -424,6 +426,8 @@ phosh_settings_dispose (GObject *object)
   PhoshSettings *self = PHOSH_SETTINGS (object);
 
   brightness_dispose ();
+
+  g_clear_object (&self->output_stream);
 
   if (self->notify_event) {
     end_notify_feedback (self);
