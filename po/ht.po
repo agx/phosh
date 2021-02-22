@@ -1,0 +1,326 @@
+# Phosh Creole Haitian translation
+# Copyright (C) 2021 Purism
+# This file is distributed under the same license as the Phosh package.
+# Pierre Michel Augustin <augustinpierremichel@hotmail.com>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
+"POT-Creation-Date: 2021-02-07 15:30+0000\n"
+"PO-Revision-Date: 2021-02-21 17:28-0500\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ht_HT\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
+
+#: data/sm.puri.Phosh.desktop.in.in:4
+msgid "Phone Shell"
+msgstr "Shell Telefòn"
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "Jesyon fenèt ak lansman aplikasyon pou mobil"
+
+#: src/app-grid-button.c:536
+msgid "Application"
+msgstr "Aplikasyon"
+
+#: src/bt-info.c:92 src/feedbackinfo.c:51
+msgid "On"
+msgstr "Sou"
+
+#: src/bt-info.c:94
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Docked"
+
+#: src/docked-info.c:81 src/docked-info.c:195
+msgid "Undocked"
+msgstr "Undocked"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:44
+msgid "Quiet"
+msgstr "Trankil"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:49
+msgid "Silent"
+msgstr "Silans"
+
+#: src/lockscreen.c:85 src/ui/lockscreen.ui:234
+msgid "Enter Passcode"
+msgstr "Mete pas kod"
+
+#: src/lockscreen.c:264
+msgid "Checking…"
+msgstr "Ap verifye…"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/lockscreen.c:342
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
+
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:277 src/ui/media-player.ui:107
+msgid "Unknown Title"
+msgstr "Tit enkoni"
+
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:286 src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Atis enkoni"
+
+#: src/monitor-manager.c:108
+msgid "Built-in display"
+msgstr "Montre \"Built-in\""
+
+#: src/monitor-manager.c:126
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:133
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in"
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %sn"
+msgstr "%s %sn"
+
+#. Translators: An unknown monitor type
+#: src/monitor-manager.c:142
+msgid "Unknown"
+msgstr "Enkoni"
+
+#: src/network-auth-prompt.c:187
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Otantifikasyon kalite rezo wifi “%s” pa sipòte"
+
+#: src/network-auth-prompt.c:192
+#, c-format
+msgid "Enter password for the wifi network “%s”"
+msgstr "Mete modpas pou rezo wifi “%s” la"
+
+#: src/notifications/mount-notification.c:137
+msgid "Open"
+msgstr "Ouvri"
+
+#: src/notifications/notification.c:381 src/notifications/notification.c:637
+msgid "Notification"
+msgstr "Notifikasyon"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "s"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "h"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "h"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "d"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "d"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "mo"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "mos"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "y"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "y"
+
+#: src/notifications/timestamp-label.c:121
+msgid "now"
+msgstr "kounye a"
+
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "Plis pase %dy"
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "Prèske %dy"
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d%s"
+
+#: src/polkit-auth-agent.c:225
+msgid "Authentication dialog was dismissed by the user"
+msgstr "Dyalòg Otantifikasyon te ranvwaye pa itilizatè a"
+
+#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:127
+#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+msgid "Password:"
+msgstr "Mo de pas:"
+
+#: src/polkit-auth-prompt.c:325
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "Eskize, sa pa te mache. Souple eseye ankò."
+
+#: src/polkit-auth-prompt.c:470
+msgid "Authenticate"
+msgstr "Otantifye"
+
+#: src/rotateinfo.c:65
+msgid "Portrait"
+msgstr "Pòtrè"
+
+#: src/rotateinfo.c:68
+msgid "Landscape"
+msgstr "Peyizaj"
+
+#: src/system-prompt.c:375
+msgid "Passwords do not match."
+msgstr "Mo de pas pa matche ak."
+
+#: src/system-prompt.c:382
+msgid "Password cannot be blank"
+msgstr "Mo de pas pa ka vid"
+
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "Flach"
+
+#: src/ui/app-grid-button.ui:49
+msgid "App"
+msgstr "Aplikasyon"
+
+#: src/ui/app-grid-button.ui:76
+msgid "Remove from _Favorites"
+msgstr "Retire nan _sa_ou_renmen"
+
+#: src/ui/app-grid-button.ui:81
+msgid "Add to _Favorites"
+msgstr "Ajoute nan _sa_ou_renmen"
+
+#: src/ui/app-grid.ui:21
+msgid "Search apps…"
+msgstr "Chèche aplikasyon  yo…"
+
+#: src/ui/lockscreen.ui:37
+msgid "Slide up to unlock"
+msgstr "Monte pou debloke"
+
+#: src/ui/lockscreen.ui:280
+msgid "Emergency"
+msgstr "Ijans"
+
+#: src/ui/lockscreen.ui:296
+msgid "Unlock"
+msgstr "Debloke"
+
+#: src/ui/network-auth-prompt.ui:89
+msgid "_Cancel"
+msgstr "_Anile"
+
+#: src/ui/network-auth-prompt.ui:105
+msgid "C_onnect"
+msgstr "K_onekte"
+
+#: src/ui/polkit-auth-prompt.ui:105
+msgid "User:"
+msgstr "Itilizatè:"
+
+#: src/ui/system-prompt.ui:69
+msgid "Confirm:"
+msgstr "Konfime:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Bloke ekran"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "Dekonekte"
+
+#: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Redemare"
+
+#: src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Fèmen"
+
+#: src/wifiinfo.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:170
+msgid "Cellular"
+msgstr "Selilè"
