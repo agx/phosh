@@ -25,6 +25,9 @@
       <arg type="a{sv}" direction="in" name="params"/>
     </method>
     <method name="HideMonitorLabels"/>
+    <method name="ShowOSD">
+      <arg type="a{sv}" direction="in" name="params"/>
+    </method>
     <method name="GrabAccelerator">
       <arg type="s" direction="in" name="accelerator"/>
       <arg type="u" direction="in" name="modeFlags"/>

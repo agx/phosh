@@ -110,6 +110,35 @@ handle_hide_monitor_labels (PhoshGnomeShellDBusShell *skeleton,
 
 
 static gboolean
+handle_show_osd (PhoshGnomeShellDBusShell *skeleton,
+                 GDBusMethodInvocation    *invocation,
+                 GVariant                 *arg_params)
+{
+  PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
+  GVariantDict dict;
+  g_autofree gchar *connector = NULL, *icon = NULL, *label = NULL;
+  gdouble level = 0.0, maxlevel = 0.0;
+
+  g_return_val_if_fail (PHOSH_IS_GNOME_SHELL_MANAGER (self), FALSE);
+
+  g_variant_dict_init (&dict, arg_params);
+  g_variant_dict_lookup (&dict, "connector", "s", &connector);
+  g_variant_dict_lookup (&dict, "icon", "s", &icon);
+  g_variant_dict_lookup (&dict, "label", "s", &label);
+  g_variant_dict_lookup (&dict, "level", "d", &level);
+  g_variant_dict_lookup (&dict, "maxlevel", "d", &maxlevel);
+
+  g_debug ("DBus show osd: connector: %s icon: %s, label: %s, level %f/%f",
+           connector, icon, label, level, maxlevel);
+
+  phosh_gnome_shell_dbus_shell_complete_show_osd (
+    skeleton, invocation);
+
+  return TRUE;
+}
+
+
+static gboolean
 grab_single_accelerator (PhoshGnomeShellManager *self,
                          const gchar            *accelerator,
                          guint                   mode_flags,
@@ -354,6 +383,7 @@ phosh_gnome_shell_manager_shell_iface_init (PhoshGnomeShellDBusShellIface *iface
 {
   iface->handle_show_monitor_labels = handle_show_monitor_labels;
   iface->handle_hide_monitor_labels = handle_hide_monitor_labels;
+  iface->handle_show_osd = handle_show_osd;
   iface->handle_grab_accelerator = handle_grab_accelerator;
   iface->handle_grab_accelerators = handle_grab_accelerators;
   iface->handle_ungrab_accelerator = handle_ungrab_accelerator;
