@@ -365,3 +365,30 @@ phosh-media-player box *:disabled {
   color: white;
   -gtk-icon-effect: none;
 }
+
+/*
+ * OSD
+ */
+phosh-osd-window levelbar block {
+    min-height: 16px;
+    box-shadow: none;
+    border-color: white;
+    border-radius: 5px;
+}
+
+phosh-osd-window levelbar block.low {
+  background-color: white;
+}
+
+phosh-osd-window levelbar block.high {
+  background-color: white;
+}
+
+phosh-osd-window levelbar block.full {
+  background-color: white;
+}
+
+phosh-osd-window levelbar trough {
+    box-shadow: none;
+    border-width: 0px;
+}

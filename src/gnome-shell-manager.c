@@ -12,7 +12,9 @@
 #include "../config.h"
 
 #include "gnome-shell-manager.h"
+#include "osd-window.h"
 #include "shell.h"
+#include "util.h"
 #include "lockscreen-manager.h"
 
 /**
@@ -23,7 +25,7 @@
  */
 
 #define NOTIFY_DBUS_NAME "org.gnome.Shell"
-
+#define OSD_HIDE_TIMEOUT 1 /* seconds */
 
 static void phosh_gnome_shell_manager_shell_iface_init (PhoshGnomeShellDBusShellIface *iface);
 
@@ -33,6 +35,10 @@ typedef struct _PhoshGnomeShellManager {
   GHashTable                      *info_by_action;
   guint                            last_action_id;
   int                              dbus_name_id;
+
+  PhoshOsdWindow                  *osd;
+  gint                             osd_timeoutid;
+  gboolean                         osd_continue;
 } PhoshGnomeShellManager;
 
 G_DEFINE_TYPE_WITH_CODE (PhoshGnomeShellManager,
@@ -110,14 +116,37 @@ handle_hide_monitor_labels (PhoshGnomeShellDBusShell *skeleton,
 
 
 static gboolean
+on_osd_timeout (PhoshGnomeShellManager *self)
+{
+  gboolean ret;
+  ret = self->osd_continue ? G_SOURCE_CONTINUE : G_SOURCE_REMOVE;
+  if (!self->osd_continue) {
+      g_debug ("Closing osd");
+      self->osd_timeoutid = 0;
+      if (self->osd)
+        gtk_widget_destroy (GTK_WIDGET (self->osd));
+  }
+  self->osd_continue = FALSE;
+  return ret;
+}
+
+static void
+on_osd_destroyed (PhoshGnomeShellManager *self)
+{
+  self->osd = NULL;
+  g_clear_handle_id (&self->osd_timeoutid, g_source_remove);
+}
+
+
+static gboolean
 handle_show_osd (PhoshGnomeShellDBusShell *skeleton,
                  GDBusMethodInvocation    *invocation,
                  GVariant                 *arg_params)
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
   GVariantDict dict;
-  g_autofree gchar *connector = NULL, *icon = NULL, *label = NULL;
-  gdouble level = 0.0, maxlevel = 0.0;
+  g_autofree char *connector = NULL, *icon = NULL, *label = NULL;
+  gdouble level = 0.0, maxlevel = 1.0;
 
   g_return_val_if_fail (PHOSH_IS_GNOME_SHELL_MANAGER (self), FALSE);
 
@@ -126,10 +155,32 @@ handle_show_osd (PhoshGnomeShellDBusShell *skeleton,
   g_variant_dict_lookup (&dict, "icon", "s", &icon);
   g_variant_dict_lookup (&dict, "label", "s", &label);
   g_variant_dict_lookup (&dict, "level", "d", &level);
-  g_variant_dict_lookup (&dict, "maxlevel", "d", &maxlevel);
+  g_variant_dict_lookup (&dict, "max_level", "d", &maxlevel);
 
   g_debug ("DBus show osd: connector: %s icon: %s, label: %s, level %f/%f",
            connector, icon, label, level, maxlevel);
+
+  if (self->osd) {
+    self->osd_continue = TRUE;
+    g_object_set (self->osd,
+                  "connector", connector,
+                  "label", label,
+                  "icon-name", icon,
+                  "level", level,
+                  "max-level", maxlevel,
+                  NULL);
+  } else {
+    self->osd = PHOSH_OSD_WINDOW (phosh_osd_window_new (connector, label, icon, level, maxlevel));
+    g_signal_connect_swapped (self->osd, "destroy", G_CALLBACK (on_osd_destroyed), self);
+    gtk_widget_show (GTK_WIDGET (self->osd));
+  }
+
+  if (!self->osd_timeoutid) {
+    self->osd_timeoutid = g_timeout_add_seconds (OSD_HIDE_TIMEOUT,
+                                                 (GSourceFunc)on_osd_timeout,
+                                                 self);
+    g_source_set_name_by_id (self->osd_timeoutid, "[phosh] osd-timeout");
+  }
 
   phosh_gnome_shell_dbus_shell_complete_show_osd (
     skeleton, invocation);

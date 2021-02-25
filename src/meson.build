@@ -87,6 +87,8 @@ libphosh_tool_sources = [
   'mount-manager.h',
   'overview.c',
   'overview.h',
+  'osd-window.c',
+  'osd-window.h',
   'status-icon.c',
   'status-icon.h',
   'system-modal.c',
