@@ -18,7 +18,6 @@ variables:
 
 .bullseye_vars: &bullseye_vars
   variables:
-    CI_REPO: "deb http://ci.puri.sm/ bullseyeci main"
     DIST: bullseye
     BUILD_OPTS: -Dphoc_tests=enabled -Dgtk_doc=true ${COMMON_BUILD_OPTS}
 
@@ -39,7 +38,6 @@ variables:
 # weston-info, gdb, valgrind, ...
 .smoketest_vars:
   variables: &smoketest_vars
-    CI_REPO: "deb http://ci.puri.sm/ scratch librem5"
     DIST: bullseye
     DEPS: phoc wget gnome-session-bin gdb weston valgrind
           libhandy-1-0-dbgsym libgtk-3-0-dbgsym libglib2.0-0-dbgsym
@@ -52,9 +50,6 @@ before_script:
   - export DEBIAN_FRONTEND=noninteractive
   - apt-get -y update
   - apt-get -y install wget ca-certificates gnupg eatmydata
-  - echo "Using CI repo ${CI_REPO}"
-  - echo "$CI_REPO" > /etc/apt/sources.list.d/ci.list
-  - wget -O- https://ci.puri.sm/ci-repo.key | apt-key add -
   - echo "deb http://debug.mirrors.debian.org/debian-debug/ ${DIST}-debug main" > /etc/apt/sources.list.d/debug.list
   - eatmydata apt-get -y update
   - '[ "$WANT_BUILD_DEPS" != "true" ] || eatmydata apt-get -y build-dep .'
