@@ -16,12 +16,6 @@ variables:
                     meson musl-dev networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
                     upower-dev wayland-dev wayland-protocols
 
-.buster_vars: &buster_vars
-  variables:
-    CI_REPO: "deb http://ci.puri.sm/ scratch librem5"
-    DIST: buster
-    BUILD_OPTS: -Dphoc_tests=disabled -Dgtk_doc=false ${COMMON_BUILD_OPTS}
-
 .bullseye_vars: &bullseye_vars
   variables:
     CI_REPO: "deb http://ci.puri.sm/ bullseyeci main"
@@ -46,7 +40,7 @@ variables:
 .smoketest_vars:
   variables: &smoketest_vars
     CI_REPO: "deb http://ci.puri.sm/ scratch librem5"
-    DIST: buster
+    DIST: bullseye
     DEPS: phoc wget gnome-session-bin gdb weston valgrind
           libhandy-1-0-dbgsym libgtk-3-0-dbgsym libglib2.0-0-dbgsym
           dconf-gsettings-backend-dbgsym libfeedback-0.0-0-dbgsym
@@ -70,36 +64,6 @@ before_script:
 .tags: &tags
   tags:
     - librem5
-
-build:native-debian-buster:
-  <<: *tags
-  stage: build
-  image: debian:buster
-  <<: *buster_vars
-  <<: *build_step
-  artifacts:
-    paths:
-      - _build
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-
-unit-test:native-debian-buster:
-  <<: *tags
-  stage: test+docs
-  image: debian:buster
-  needs:
-    - build:native-debian-buster
-  <<: *buster_vars
-  <<: *test_step
-  coverage: '/^\s+lines\.+:\s+([\d.]+\%)\s+/'
-  artifacts:
-    when: always
-    paths:
-      - _build
-  except:
-    variables:
-      - $PKG_ONLY == "1"
 
 build:native-debian-bullseye:
   <<: *tags
@@ -253,10 +217,10 @@ unit-test:native-alpinelinux-edge:
 test:smoke:one-output:
   <<: *tags
   stage: test+docs
-  image: debian:buster
+  image: debian:bullseye
   variables: *smoketest_vars
   needs:
-    - build:native-debian-buster
+    - build:native-debian-bullseye
   script:
     - export OUTDIR=output
     - export G_DEBUG=fatal-criticals
@@ -275,10 +239,10 @@ test:smoke:one-output:
 test:smoke:two-outputs:
   <<: *tags
   stage: test+docs
-  image: debian:buster
+  image: debian:bullseye
   variables: *smoketest_vars
   needs:
-    - build:native-debian-buster
+    - build:native-debian-bullseye
   script:
     - export OUTDIR=output
     - export G_DEBUG=fatal-criticals
@@ -294,10 +258,6 @@ test:smoke:two-outputs:
     variables:
       - $PKG_ONLY == "1"
 
-package:deb-debian-buster:
-  extends: .l5-build-debian-package
-  before_script: []
-
 package:deb-debian-bullseye:arm64:
   tags:
     - librem5:arm64
@@ -307,18 +267,3 @@ package:deb-debian-bullseye:arm64:
   before_script: []
   extends: .l5-build-debian-package
 
-package:deb-debian-buster:arm64:
-  tags:
-    - librem5:arm64
-  before_script: []
-  extends: .l5-build-debian-package
-
-package:deb-pureos-amber:
-  variables:
-    L5_DOCKER_IMAGE: pureos/amber
-    L5_ADD_SCRATCH_CI: 'false'
-  before_script:
-    - echo "deb http://repo.pureos.net/pureos amber-phone-staging main" > /etc/apt/sources.list.d/staging.list
-    - echo "deb http://repo.pureos.net/pureos amber-proposed-updates main" >> /etc/apt/sources.list.d/staging.list
-  extends: .l5-build-debian-package
-  allow_failure: true
