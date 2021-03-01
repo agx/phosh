@@ -8,6 +8,7 @@ stages:
 
 variables:
   DEPS: build-essential git wget lcov
+  EXP_DEPS: libhandy-1-dev
   WANT_BUILD_DEPS: "true"
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
@@ -43,6 +44,7 @@ variables:
           libhandy-1-0-dbgsym libgtk-3-0-dbgsym libglib2.0-0-dbgsym
           dconf-gsettings-backend-dbgsym libfeedback-0.0-0-dbgsym
           xvfb imagemagick
+    EXP_DEPS: libhandy-1-0-dbgsym/experimental-debug libhandy-1-0/experimental
     WANT_BUILD_DEPS: "false"
 
 
@@ -51,8 +53,11 @@ before_script:
   - apt-get -y update
   - apt-get -y install wget ca-certificates gnupg eatmydata
   - echo "deb http://debug.mirrors.debian.org/debian-debug/ ${DIST}-debug main" > /etc/apt/sources.list.d/debug.list
+  - echo "deb http://debug.mirrors.debian.org/debian-debug/ experimental-debug main" >> /etc/apt/sources.list.d/debug.list
+  - echo "deb http://deb.debian.org/debian/ experimental main" > /etc/apt/sources.list.d/exp.list
   - eatmydata apt-get -y update
   - '[ "$WANT_BUILD_DEPS" != "true" ] || eatmydata apt-get -y build-dep .'
+  - eatmydata apt-get -y install $EXP_DEPS
   - eatmydata apt-get -y install $DEPS
   - ulimit -c unlimited
 
@@ -81,11 +86,13 @@ build:cross-debian-bullseye:i386:
   before_script:
     - export DEBIAN_FRONTEND=noninteractive
     - echo "deb [arch=i386] http://deb.debian.org/debian/ testing main" > /etc/apt/sources.list.d/i386.list
+    - echo "deb [arch=i386] http://deb.debian.org/debian/ experimental main" >> /etc/apt/sources.list.d/exp.list
     - apt-get -y update
     - apt-get -y install eatmydata
     - dpkg --add-architecture i386
     - eatmydata apt-get -y update
     - eatmydata apt-get -y -a i386 -o APT::Immediate-Configure=false build-dep .
+    - eatmydata apt-get -y install -t experimental libhandy-1-dev:i386
     - eatmydata apt-get -y install $DEPS crossbuild-essential-i386
   script:
     - git submodule update --recursive
@@ -259,6 +266,9 @@ package:deb-debian-bullseye:arm64:
   variables:
     L5_DOCKER_IMAGE: debian:bullseye
     L5_ADD_SCRATCH_CI: 'false'
-  before_script: []
+  before_script:
+    - echo "deb http://deb.debian.org/debian/ experimental main" >> /etc/apt/sources.list.d/exp.list
+    - apt-get -y update
+    - apt-get -y install -t experimental $EXP_DEPS
   extends: .l5-build-debian-package
 
