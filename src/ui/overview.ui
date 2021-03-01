@@ -15,6 +15,7 @@
         <property name="valign">fill</property>
         <property name="vexpand">true</property>
         <property name="reveal-duration">200</property>
+        <property name="allow-long-swipes">True</property>
       </object>
       <packing>
         <property name="expand">True</property>
