@@ -127,7 +127,7 @@ libgvc = subproject('gvc',
   ])
 libgvc_dep = libgvc.get_variable('libgvc_dep')
 libhandy_dep = dependency('libhandy-1',
-  version: '>=1.0.0',
+  version: '>=1.1.90',
   fallback: ['libhandy', 'libhandy_dep'],
   default_options: ['introspection=disabled']
   )
