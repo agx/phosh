@@ -1,3 +1,68 @@
+phosh (0.9.0) byzantium; urgency=medium
+
+  [ Sebastian Krzyszkowiak ]
+  * PhoshHome: Hide overview when fully folded.
+    This prevents useless rendering work from happening offscreen on window
+    focus or activator list changes.
+  * PhoshHome: Fix jumping position when reversing an active animation
+    `1.0 - self->animation.progress` assumes linear interpolation; however,
+    cubic ease out is used for animating home view position, so the new
+    reversed position needs to be adjusted for that in order to start from
+    the same place on the screen.
+
+  [ Evangelos Ribeiro Tzaras ]
+  * minor: Fix typos, indendation and code style issues
+  * shell-manager: Honor action modes
+  * lockscreen: Set shell state.
+    And allow querying the shown page
+  * gnome-shell-manager: Distinguish lock and unlock screen
+  * gnome-shell-manager: Pretty print grabMode mismatch
+  * shell: Pretty print shell state changes
+  * prompts: Update PhoshShellState
+  * home: Update PhoshShellState
+  * shell: screen blanking: Update PhoshShellState
+
+  [ Guido Günther ]
+  * settings: Ref output stream.
+    The 'default' in gvc_mixer_control_get_default_sink () made
+    me believe the object would stick around but it doesn't so
+    we need to hold a ref. (Closes: #510)
+  * Add PhoshHksManager.
+    This tracks the state of hardware kill switches (rfkill
+    hardblocked devices)
+  * shell: Add PhoshHksManager.
+    RFKILL code heavily borowed from g-s-d
+  * data: Add icons for disabled camera and mic.
+    These can be dropped once we can rely on GNOME 3.38.
+  * Add PhoshHksInfo.
+    This can be used to display info about the different HKS devices
+  * top-panel: Add camera and microphone hks info
+  * ci: Drop support for Debian buster and PureOS amber-phone.
+    Drop support for Debian buster/PureOS amber-phone since we can't
+    sensibly support these for CI builds since the packages in buster
+    are too old and amber-phone lags so we have to wait too long for
+    migrations.
+    amber-phone will be handled via pkg-phosh. Bullseye will switch
+    to bookworm once that's open.
+  * gitlab-ci: Drop CI repo remanents.
+    It's not being filled since ages
+  * gitlab-ci: Fetch libhandy-1 from Debian experimental.
+    We'll need this until either Byzantium catches up or Bookworm opens
+  * dbus: Shell: Add showOSD and add stub
+  * Add PhoshOsdWindow.
+    This finally adds OSD information. (Closes: #33)
+
+  [ Pierre Michel Augustin ]
+  * po: Add Creole Haitian translation
+
+  [ Alexander Mikhaylenko ]
+  * Bump libhandy version to 1.1.90.
+    This will be required to use #HdyCarousel:allow-long-swipes.
+  * overview: Use long swipes.
+    Allow to swipe multiple pages at once.
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 02 Mar 2021 14:52:00 +0100
+
 phosh (0.8.1) amber-phone; urgency=medium
 
   [ Guido Günther ]
