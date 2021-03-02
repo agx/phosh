@@ -8,7 +8,7 @@ stages:
 
 variables:
   DEPS: build-essential git wget lcov
-  EXP_DEPS: libhandy-1-dev
+  EXP_DEPS: libhandy-1-dev/experimental libhandy-1-0/experimental gir1.2-handy-1/experimental
   WANT_BUILD_DEPS: "true"
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
@@ -56,8 +56,8 @@ before_script:
   - echo "deb http://debug.mirrors.debian.org/debian-debug/ experimental-debug main" >> /etc/apt/sources.list.d/debug.list
   - echo "deb http://deb.debian.org/debian/ experimental main" > /etc/apt/sources.list.d/exp.list
   - eatmydata apt-get -y update
-  - '[ "$WANT_BUILD_DEPS" != "true" ] || eatmydata apt-get -y build-dep .'
   - eatmydata apt-get -y install $EXP_DEPS
+  - '[ "$WANT_BUILD_DEPS" != "true" ] || eatmydata apt-get -y build-dep .'
   - eatmydata apt-get -y install $DEPS
   - ulimit -c unlimited
 
@@ -83,16 +83,18 @@ build:cross-debian-bullseye:i386:
   stage: build
   image: debian:bullseye
   allow_failure: true
+  variables:
+    EXP_DEPS: libhandy-1-dev:i386/experimental libhandy-1-0:i386/experimental gir1.2-handy-1:i386/experimental
   before_script:
     - export DEBIAN_FRONTEND=noninteractive
     - echo "deb [arch=i386] http://deb.debian.org/debian/ testing main" > /etc/apt/sources.list.d/i386.list
-    - echo "deb [arch=i386] http://deb.debian.org/debian/ experimental main" >> /etc/apt/sources.list.d/exp.list
+    - echo "deb [arch=amd64 arch=i386] http://deb.debian.org/debian/ experimental main" >> /etc/apt/sources.list.d/exp.list
     - apt-get -y update
     - apt-get -y install eatmydata
     - dpkg --add-architecture i386
     - eatmydata apt-get -y update
+    - eatmydata apt-get -y -o APT::Immediate-Configure=false install $EXP_DEPS
     - eatmydata apt-get -y -a i386 -o APT::Immediate-Configure=false build-dep .
-    - eatmydata apt-get -y install -t experimental libhandy-1-dev:i386
     - eatmydata apt-get -y install $DEPS crossbuild-essential-i386
   script:
     - git submodule update --recursive
@@ -269,6 +271,6 @@ package:deb-debian-bullseye:arm64:
   before_script:
     - echo "deb http://deb.debian.org/debian/ experimental main" >> /etc/apt/sources.list.d/exp.list
     - apt-get -y update
-    - apt-get -y install -t experimental $EXP_DEPS
+    - apt-get -y install $EXP_DEPS
   extends: .l5-build-debian-package
 
