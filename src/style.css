@@ -391,4 +391,5 @@ phosh-osd-window levelbar block.full {
 phosh-osd-window levelbar trough {
     box-shadow: none;
     border-width: 0px;
+    padding: 0px;
 }
