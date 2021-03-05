@@ -30,6 +30,7 @@ enum {
   PHOSH_WWAN_OFONO_PROP_UNLOCKED,
   PHOSH_WWAN_OFONO_PROP_SIM,
   PHOSH_WWAN_OFONO_PROP_PRESENT,
+  PHOSH_WWAN_OFONO_PROP_ENABLED,
   PHOSH_WWAN_OFONO_PROP_OPERATOR,
   PHOSH_WWAN_OFONO_PROP_LAST_PROP,
 };
@@ -623,6 +624,9 @@ phosh_wwan_ofono_class_init (PhoshWWanOfonoClass *klass)
                                     PHOSH_WWAN_OFONO_PROP_PRESENT,
                                     "present");
   g_object_class_override_property (object_class,
+                                    PHOSH_WWAN_OFONO_PROP_ENABLED,
+                                    "enabled");
+  g_object_class_override_property (object_class,
                                     PHOSH_WWAN_OFONO_PROP_OPERATOR,
                                     "operator");
 }
@@ -693,6 +697,15 @@ phosh_wwan_ofono_is_present (PhoshWWan *phosh_wwan)
 }
 
 
+static gboolean
+phosh_wwan_ofono_is_enabled (PhoshWWan *phosh_wwan)
+{
+  g_return_val_if_fail (PHOSH_IS_WWAN_OFONO (phosh_wwan), FALSE);
+
+  return TRUE;
+}
+
+
 static const char *
 phosh_wwan_ofono_get_operator (PhoshWWan *phosh_wwan)
 {
@@ -714,6 +727,7 @@ phosh_wwan_ofono_interface_init (PhoshWWanInterface *iface)
   iface->is_unlocked = phosh_wwan_ofono_is_unlocked;
   iface->has_sim = phosh_wwan_ofono_has_sim;
   iface->is_present = phosh_wwan_ofono_is_present;
+  iface->is_enabled = phosh_wwan_ofono_is_enabled;
   iface->get_operator = phosh_wwan_ofono_get_operator;
 }
 
