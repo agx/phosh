@@ -9,6 +9,7 @@
 #define G_LOG_DOMAIN "phosh-screen-saver-manager"
 
 #include "screen-saver-manager.h"
+#include "session-presence.h"
 #include "shell.h"
 #include "idle-manager.h"
 #include "login1-manager-dbus.h"
@@ -36,6 +37,9 @@
 enum {
   PROP_0,
   PROP_LOCKSCREEN_MANAGER,
+  PROP_LOCK_ENABLED,
+  PROP_LOCK_DELAY,
+  PROP_ACTIVE,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -50,6 +54,13 @@ typedef struct _PhoshScreenSaverManager
   int dbus_name_id;
   PhoshLockscreenManager *lockscreen_manager;
   PhoshSessionPresence *presence;  /* gnome-session's presence interface */
+  gboolean active;
+
+  GSettings *settings;
+  gboolean lock_enabled;
+  gboolean lock_delay;
+  guint    lock_delay_timer_id;
+  PhoshMonitor *primary_monitor;
 
   PhoshDBusLoginSession *logind_session_proxy;
   PhoshDBusLoginManager *logind_manager_proxy;
@@ -64,6 +75,62 @@ G_DEFINE_TYPE_WITH_CODE (PhoshScreenSaverManager,
                            PHOSH_DBUS_TYPE_SCREEN_SAVER,
                            phosh_screen_saver_manager_screen_saver_iface_init));
 
+
+static gboolean
+on_lock_delay_timer_expired (gpointer data)
+{
+  PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (data);
+
+  phosh_lockscreen_manager_set_locked (self->lockscreen_manager, TRUE);
+
+  self->lock_delay_timer_id = 0;
+  return G_SOURCE_REMOVE;
+}
+
+/* Activate or deactivate screen blank based on `active`. If `lock` is %TRUE locking
+   is also enabled (honoring the configure delay */
+static void
+screen_saver_set_active (PhoshScreenSaverManager *self, gboolean active, gboolean lock)
+{
+  if (self->active == active)
+    return;
+
+  g_debug ("Activiting screen saver: %d, lock: %d, lock_delay: %d", active, lock,
+    self->lock_delay);
+
+  phosh_shell_enable_power_save (phosh_shell_get_default (), active);
+
+  /* TODO: move the lock screen timer to the lockscreen-manager as the time is independent
+     from blank (e.g. we could lock, then blank too */
+  if (!active || !lock) {
+    g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
+    return;
+  }
+
+  /* Already locked, no locking to do */
+  if (phosh_lockscreen_manager_get_locked (self->lockscreen_manager))
+    return;
+
+  /* no delay, lock right away */
+  if (self->lock_delay == 0) {
+    g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
+    phosh_lockscreen_manager_set_locked (self->lockscreen_manager, TRUE);
+    return;
+  }
+
+  /* Timer already ticking, don't rearm */
+  if (self->lock_delay_timer_id)
+    return;
+
+  g_debug ("Arming lock delay timer for %d seconds", self->lock_delay);
+  self->lock_delay_timer_id = g_timeout_add_seconds (self->lock_delay,
+                                                     on_lock_delay_timer_expired,
+                                                     self);
+  g_source_set_name_by_id (self->lock_delay_timer_id,
+                           "[phosh] lock_delay_timer");
+}
+
+
 static void
 phosh_screen_saver_manager_set_property (GObject *object,
                                          guint property_id,
@@ -75,6 +142,12 @@ phosh_screen_saver_manager_set_property (GObject *object,
   switch (property_id) {
   case PROP_LOCKSCREEN_MANAGER:
     self->lockscreen_manager = g_value_dup_object (value);
+    break;
+  case PROP_LOCK_ENABLED:
+    self->lock_enabled = g_value_get_boolean (value);
+    break;
+  case PROP_LOCK_DELAY:
+    self->lock_delay = g_value_get_int (value);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -95,6 +168,15 @@ phosh_screen_saver_manager_get_property (GObject    *object,
   case PROP_LOCKSCREEN_MANAGER:
     g_value_set_object (value, self->lockscreen_manager);
     break;
+  case PROP_LOCK_ENABLED:
+    g_value_set_boolean (value, self->lock_enabled);
+    break;
+  case PROP_LOCK_DELAY:
+    g_value_set_int (value, self->lock_delay);
+    break;
+  case PROP_ACTIVE:
+    self->active = g_value_get_boolean (value);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -106,15 +188,13 @@ handle_get_active (PhoshDBusScreenSaver  *skeleton,
                    GDBusMethodInvocation *invocation)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (skeleton);
-  gboolean locked;
 
   g_return_val_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self), FALSE);
   g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self->lockscreen_manager), FALSE);
 
-  locked = phosh_lockscreen_manager_get_locked (self->lockscreen_manager);
-  g_debug ("DBus call GetActive: %d", locked);
+  g_debug ("DBus call GetActive: %d", self->active);
 
-  phosh_dbus_screen_saver_complete_get_active (skeleton, invocation, locked);
+  phosh_dbus_screen_saver_complete_get_active (skeleton, invocation, self->active);
 
   return TRUE;
 }
@@ -152,30 +232,27 @@ handle_lock (PhoshDBusScreenSaver  *skeleton,
 
   g_debug ("DBus call lock");
   phosh_lockscreen_manager_set_locked (self->lockscreen_manager, TRUE);
+  /* TODO: wait a little before blanking */
+  screen_saver_set_active (self, TRUE, TRUE);
 
   phosh_dbus_screen_saver_complete_lock (skeleton, invocation);
 
   return TRUE;
 }
 
+
 static gboolean
 handle_set_active (PhoshDBusScreenSaver  *skeleton,
                    GDBusMethodInvocation *invocation,
-                   gboolean               lock)
+                   gboolean               active)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (skeleton);
 
   g_return_val_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self), FALSE);
   g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self->lockscreen_manager), FALSE);
 
-  g_debug ("DBus call SetActive: %d", lock);
-  if (lock) {
-    phosh_lockscreen_manager_set_locked (self->lockscreen_manager, lock);
-  } else {
-    /* Screensaver active and screeen locked is the same so just
-       discard requests to de-activate the screensaver */
-    g_debug ("Ignoring request to deactivate screen saver");
-  }
+  g_debug ("DBus call SetActive: %d, lock-enabled: %d", active, self->lock_enabled);
+  screen_saver_set_active (self, active, self->lock_enabled);
 
   phosh_dbus_screen_saver_complete_set_active (skeleton, invocation);
 
@@ -193,26 +270,21 @@ phosh_screen_saver_manager_screen_saver_iface_init (PhoshDBusScreenSaverIface *i
 }
 
 static void
-on_lockscreen_manager_notify_locked (PhoshScreenSaverManager *self,
-                                     GParamSpec *pspec,
-                                     PhoshLockscreenManager *lockscreen_manager)
+notify_active_changed (PhoshScreenSaverManager *self)
 {
-  gboolean locked;
   GDBusInterfaceSkeleton *skeleton;
 
   g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
-  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (lockscreen_manager));
 
   skeleton = G_DBUS_INTERFACE_SKELETON (self);
-  locked = phosh_lockscreen_manager_get_locked(self->lockscreen_manager);
 
-  g_debug ("Signaling ActiveChanged: %d", locked);
+  g_debug ("Signaling ActiveChanged: %d", self->active);
   g_dbus_connection_emit_signal (g_dbus_interface_skeleton_get_connection (skeleton),
                                  NULL,
                                  g_dbus_interface_skeleton_get_object_path (skeleton),
                                  SCREEN_SAVER_DBUS_NAME,
                                  "ActiveChanged",
-                                 g_variant_new ("(b)", locked),
+                                 g_variant_new ("(b)", self->active),
                                  NULL);
 }
 
@@ -288,8 +360,9 @@ on_presence_status_changed (PhoshScreenSaverManager *self, guint32 status, gpoin
   g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
 
   g_debug ("Presence status changed: %d", status);
+
   if (status == PHOSH_SESSION_PRESENCE_STATUS_IDLE)
-    phosh_lockscreen_manager_set_locked (self->lockscreen_manager, TRUE);
+    screen_saver_set_active (self, TRUE, self->lock_enabled);
 }
 
 
@@ -307,11 +380,8 @@ on_name_acquired (GDBusConnection *connection,
      end up sending out signals early */
   g_object_connect (
     self->lockscreen_manager,
-    "swapped-object-signal::notify::locked", G_CALLBACK (on_lockscreen_manager_notify_locked), self,
     "swapped-object-signal::wakeup-outputs", G_CALLBACK (on_lockscreen_manager_wakeup_outputs), self,
     NULL);
-
-  on_lockscreen_manager_notify_locked (self, NULL, self->lockscreen_manager);
 }
 
 
@@ -346,15 +416,18 @@ phosh_screen_saver_manager_dispose (GObject *object)
   g_cancellable_cancel (self->cancel);
   g_clear_object (&self->cancel);
 
+  g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
   g_clear_handle_id (&self->idle_id, g_source_remove);
   g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
 
   if (g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (self)))
     g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
 
+  g_clear_object (&self->settings);
   g_clear_object (&self->lockscreen_manager);
   g_clear_object (&self->logind_session_proxy);
   g_clear_object (&self->logind_manager_proxy);
+  g_clear_object (&self->primary_monitor);
 
   g_clear_object (&self->presence);
 
@@ -455,6 +528,56 @@ on_logind_manager_proxy_new_for_bus_finish (GObject                 *source_obje
 }
 
 
+static void
+on_primary_monitor_power_mode_changed (PhoshScreenSaverManager *self,
+                                       GParamSpec *pspec,
+                                       PhoshMonitor *monitor)
+{
+  gboolean active;
+  PhoshMonitorPowerSaveMode mode;
+
+  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+
+  mode = phosh_monitor_get_power_save_mode (monitor);
+
+  active = (mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF);
+  g_debug ("Screensaver marked as %sactive", active ? "" : "in");
+  if (active != self->active) {
+    self->active = active;
+    g_object_notify_by_pspec(G_OBJECT (self), props[PROP_ACTIVE]);
+    notify_active_changed (self);
+  }
+}
+
+
+static void
+on_primary_monitor_changed (PhoshScreenSaverManager *self,
+                            GParamSpec *psepc,
+                            PhoshShell *shell)
+{
+  g_return_if_fail (PHOSH_IS_SHELL (shell));
+  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
+
+  if (self->primary_monitor)
+    g_signal_handlers_disconnect_by_data(self->primary_monitor, self);
+
+  g_set_object (&self->primary_monitor, phosh_shell_get_primary_monitor (shell));
+
+  if (self->primary_monitor == NULL) {
+    g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
+    return;
+  }
+
+  g_signal_connect_object (self->primary_monitor,
+                           "notify::power-mode",
+                           G_CALLBACK (on_primary_monitor_power_mode_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_primary_monitor_power_mode_changed (self, NULL, self->primary_monitor);
+}
+
+
 static gboolean
 on_idle (PhoshScreenSaverManager *self)
 {
@@ -469,6 +592,13 @@ on_idle (PhoshScreenSaverManager *self)
     self);
 
   self->idle_id = 0;
+
+  g_signal_connect_swapped (phosh_shell_get_default (),
+                            "notify::primary-monitor",
+                            G_CALLBACK (on_primary_monitor_changed),
+                            self);
+  on_primary_monitor_changed (self, NULL, phosh_shell_get_default ());
+
   return G_SOURCE_REMOVE;
 }
 
@@ -490,6 +620,10 @@ phosh_screen_saver_manager_constructed (GObject *object)
                                        NULL);
 
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self->lockscreen_manager));
+
+  self->settings = g_settings_new ("org.gnome.desktop.screensaver");
+  g_settings_bind (self->settings, "lock-enabled", self, "lock-enabled", G_SETTINGS_BIND_GET);
+  g_settings_bind (self->settings, "lock-delay", self, "lock-delay", G_SETTINGS_BIND_GET);
 
   self->presence = phosh_session_presence_get_default_failable ();
   if (self->presence) {
@@ -520,6 +654,38 @@ phosh_screen_saver_manager_class_init (PhoshScreenSaverManagerClass *klass)
                            "The lockscreen manager",
                            PHOSH_TYPE_LOCKSCREEN_MANAGER,
                            G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+
+  /**
+   * PhoshScreenSaverManager:lock-enabled:
+   *
+   * Whether activating the screens saver should also lock the screen
+   */
+  props[PROP_LOCK_ENABLED] =
+    g_param_spec_boolean ("lock-enabled", "", "",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshScreenSaverManager:lock-delay:
+   *
+   * Delay in seconds for screen lock after blank
+   */
+  props[PROP_LOCK_DELAY] =
+    g_param_spec_int ("lock-delay", "", "",
+                      0,
+                      G_MAXINT,
+                      0,
+                      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  /**
+   * PhoshScreenSaverManager:active
+   *
+   * Whether the screen saver is active
+   */
+  props[PROP_ACTIVE] =
+    g_param_spec_boolean ("active", "", "",
+                          FALSE,
+                          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS |
+                          G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }

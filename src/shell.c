@@ -760,16 +760,26 @@ static void
 on_builtin_monitor_power_mode_changed (PhoshShell *self, GParamSpec *pspec, PhoshMonitor *monitor)
 {
   PhoshMonitorPowerSaveMode mode;
-  PhoshShellPrivate *priv;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
-  priv = phosh_shell_get_instance_private (self);
 
+  /*
+   * TODO: this should maybe track the primary monitor, not the built
+   * in one as that can be blanked while an attached screen (with the
+   * primary display) is still on however we want to track the
+   * built-in monitor for the proximity sensor
+   */
   g_object_get (monitor, "power-mode", &mode, NULL);
-  /* Might be emitted on startup before lockscreen_manager is up */
-  if (mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF && priv->lockscreen_manager)
+
+#if 0
+  /*
+   * TODO; Phoc currenctly just blanks the screen on power press and expects us to lock, by
+   * disabling this we fail to do so (but this lets the rest work correctly).
+   */
+  if (mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF)
     phosh_shell_lock (self);
+#endif
 
   phosh_shell_set_state (self, PHOSH_STATE_BLANKED, mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF);
 }
@@ -1642,16 +1652,16 @@ phosh_shell_fade_out (PhoshShell *self, guint timeout)
 void
 phosh_shell_enable_power_save (PhoshShell *self, gboolean enable)
 {
-  g_debug ("Entering power save mode");
+  PhoshShellPrivate *priv;
+  PhoshMonitorPowerSaveMode ps_mode;
+
+  g_debug ("Entering power save mode: %d", enable);
+
   g_return_if_fail (PHOSH_IS_SHELL (self));
+  priv = phosh_shell_get_instance_private (self);
 
-  /*
-   * Locking the outputs instructs g-s-d to tell us to put
-   * outputs into power save mode via org.gnome.Mutter.DisplayConfig
-   */
-  phosh_shell_set_locked(self, enable);
-
-  /* TODO: other means of power saving */
+  ps_mode = enable ? PHOSH_MONITOR_POWER_SAVE_MODE_OFF : PHOSH_MONITOR_POWER_SAVE_MODE_ON;
+  phosh_monitor_manager_set_power_save_mode (priv->monitor_manager, ps_mode);
 }
 
 /**
