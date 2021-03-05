@@ -20,6 +20,7 @@ G_DECLARE_INTERFACE (PhoshWWan, phosh_wwan, PHOSH, WWAN, GObject)
  * @is_unlocked: whether the SIM in the modem is locked
  * @has_sim: Whether there's a sim in the modem
  * @is_present: whether a modem is present at all
+ * @is_enabled: whether a modem is enabled
  * @get_operator: Get the current network operator name
  *
  * Provides an interface for interacting with a modem
@@ -34,6 +35,7 @@ struct _PhoshWWanInterface
   gboolean      (*is_unlocked)        (PhoshWWan *self);
   gboolean      (*has_sim)            (PhoshWWan *self);
   gboolean      (*is_present)         (PhoshWWan *self);
+  gboolean      (*is_enabled)         (PhoshWWan *self);
   const char*   (*get_operator)       (PhoshWWan *self);
 };
 
@@ -42,4 +44,5 @@ const char*   phosh_wwan_get_access_tec     (PhoshWWan* self);
 gboolean      phosh_wwan_is_unlocked        (PhoshWWan* self);
 gboolean      phosh_wwan_has_sim            (PhoshWWan* self);
 gboolean      phosh_wwan_is_present         (PhoshWWan* self);
+gboolean      phosh_wwan_is_enabled         (PhoshWWan *self);
 const char   *phosh_wwan_get_operator       (PhoshWWan *self);
