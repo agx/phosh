@@ -73,6 +73,7 @@ enum {
   PHOSH_WWAN_MM_PROP_UNLOCKED,
   PHOSH_WWAN_MM_PROP_SIM,
   PHOSH_WWAN_MM_PROP_PRESENT,
+  PHOSH_WWAN_MM_PROP_ENABLED,
   PHOSH_WWAN_MM_PROP_OPERATOR,
   PHOSH_WWAN_MM_PROP_LAST_PROP,
 };
@@ -96,6 +97,7 @@ typedef struct _PhoshWWanMM {
   gboolean                        unlocked;
   gboolean                        sim;
   gboolean                        present;
+  gboolean                        enabled;
   char                           *operator;
 } PhoshWWanMM;
 
@@ -237,6 +239,25 @@ phosh_wwan_mm_update_present (PhoshWWanMM *self, gboolean present)
 
 
 static void
+phosh_wwan_mm_update_enabled (PhoshWWanMM *self)
+{
+  PhoshMMModemState state;
+  gboolean enabled;
+
+  g_return_if_fail (self);
+
+  state = phosh_mm_dbus_modem_get_state (self->proxy);
+
+  enabled = (state > MM_MODEM_STATE_ENABLING) ? TRUE : FALSE;
+  g_debug ("Modem is %senabled, state: %d", enabled ? "" : "not ", state);
+  if (self->enabled != enabled) {
+    self->enabled = enabled;
+    g_object_notify (G_OBJECT (self), "enabled");
+  }
+}
+
+
+static void
 phosh_wwan_mm_dbus_props_changed_cb (PhoshMMDBusModem *proxy,
                                      GVariant         *changed_properties,
                                      GStrv             invaliated,
@@ -256,6 +277,7 @@ phosh_wwan_mm_dbus_props_changed_cb (PhoshMMDBusModem *proxy,
       phosh_wwan_mm_update_lock_status (self);
     } else if (g_strcmp0 (property, "State") == 0) {
       phosh_wwan_mm_update_lock_status (self);
+      phosh_wwan_mm_update_enabled (self);
     } else if (g_strcmp0 (property, "Sim") == 0) {
       phosh_wwan_mm_update_sim_status (self);
     }
@@ -330,6 +352,9 @@ phosh_wwan_mm_destroy_modem (PhoshWWanMM *self)
 
   phosh_wwan_mm_update_present (self, FALSE);
 
+  self->enabled = FALSE;
+  g_object_notify (G_OBJECT (self), "enabled");
+
   self->signal_quality = 0;
   g_object_notify (G_OBJECT (self), "signal-quality");
 
@@ -397,6 +422,7 @@ phosh_wwan_mm_on_proxy_new_for_bus_finish (GObject      *source_object,
   phosh_wwan_mm_update_lock_status (self);
   phosh_wwan_mm_update_sim_status (self);
   phosh_wwan_mm_update_present (self, TRUE);
+  phosh_wwan_mm_update_enabled (self);
   g_object_unref (self);
 }
 
@@ -567,6 +593,9 @@ phosh_wwan_mm_class_init (PhoshWWanMMClass *klass)
                                     PHOSH_WWAN_MM_PROP_PRESENT,
                                     "present");
   g_object_class_override_property (object_class,
+                                    PHOSH_WWAN_MM_PROP_ENABLED,
+                                    "enabled");
+  g_object_class_override_property (object_class,
                                     PHOSH_WWAN_MM_PROP_OPERATOR,
                                     "operator");
 }
@@ -637,6 +666,19 @@ phosh_wwan_mm_is_present (PhoshWWan *phosh_wwan)
 }
 
 
+static gboolean
+phosh_wwan_mm_is_enabled (PhoshWWan *phosh_wwan)
+{
+  PhoshWWanMM *self;
+
+  g_return_val_if_fail (PHOSH_IS_WWAN_MM (phosh_wwan), FALSE);
+
+  self = PHOSH_WWAN_MM (phosh_wwan);
+
+  return self->enabled;
+}
+
+
 static const char *
 phosh_wwan_mm_get_operator (PhoshWWan *phosh_wwan)
 {
@@ -658,6 +700,7 @@ phosh_wwan_mm_interface_init (PhoshWWanInterface *iface)
   iface->is_unlocked = phosh_wwan_mm_is_unlocked;
   iface->has_sim = phosh_wwan_mm_has_sim;
   iface->is_present = phosh_wwan_mm_is_present;
+  iface->is_enabled = phosh_wwan_mm_is_enabled;
   iface->get_operator = phosh_wwan_mm_get_operator;
 }
 
