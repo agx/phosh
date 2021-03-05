@@ -55,7 +55,15 @@ typedef enum { /*< underscore_name=mm_modem_state >*/
   MM_MODEM_STATE_UNKNOWN       = 0,
   MM_MODEM_STATE_INITIALIZING  = 1,
   MM_MODEM_STATE_LOCKED        = 2,
-  /* ... */
+  MM_MODEM_STATE_DISABLED      = 3,
+  MM_MODEM_STATE_DISABLING     = 4,
+  MM_MODEM_STATE_ENABLING      = 5,
+  MM_MODEM_STATE_ENABLED       = 6,
+  MM_MODEM_STATE_SEARCHING     = 7,
+  MM_MODEM_STATE_REGISTERED    = 8,
+  MM_MODEM_STATE_DISCONNECTING = 9,
+  MM_MODEM_STATE_CONNECTING    = 10,
+  MM_MODEM_STATE_CONNECTED     = 11,
 } PhoshMMModemState;
 
 enum {
