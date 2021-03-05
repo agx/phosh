@@ -110,7 +110,7 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWan *wwan)
   guint quality;
   const char *icon_name = NULL;
   const char *access_tec;
-  gboolean present;
+  gboolean present, enabled;
 
   g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
   present = phosh_wwan_is_present (self->wwan);
@@ -122,13 +122,15 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWan *wwan)
 
   access_tec_widget = phosh_status_icon_get_extra_widget (PHOSH_STATUS_ICON (self));
 
+  enabled = phosh_wwan_is_enabled (self->wwan);
   if (!present) {
-    icon_name = ("network-cellular-disabled-symbolic");
-  } else if (!phosh_wwan_has_sim (self->wwan)) /* SIM missing */
+    icon_name = "network-cellular-disabled-symbolic";
+  } else if (!phosh_wwan_has_sim (self->wwan)) {
     icon_name = "auth-sim-missing-symbolic";
-  else { /* SIM unlock required */
-    if (!phosh_wwan_is_unlocked (self->wwan))
+  } else if (!phosh_wwan_is_unlocked (self->wwan)) {
       icon_name = "auth-sim-locked-symbolic";
+  } else if (!enabled) {
+    icon_name = "network-cellular-disabled-symbolic";
   }
 
   if (icon_name) {
@@ -191,6 +193,7 @@ phosh_wwan_info_constructed (GObject *object)
                               "notify::unlocked",
                               "notify::sim",
                               "notify::present",
+                              "notify::enabled",
                               NULL,
   };
 
