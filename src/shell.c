@@ -85,6 +85,7 @@ enum {
   PHOSH_SHELL_PROP_TRANSFORM,
   PHOSH_SHELL_PROP_LOCKED,
   PHOSH_SHELL_PROP_PRIMARY_MONITOR,
+  PHOSH_SHELL_PROP_SHELL_STATE,
   PHOSH_SHELL_PROP_LAST_PROP
 };
 static GParamSpec *props[PHOSH_SHELL_PROP_LAST_PROP];
@@ -319,6 +320,9 @@ phosh_shell_get_property (GObject *object,
   case PHOSH_SHELL_PROP_PRIMARY_MONITOR:
     g_value_set_object (value, phosh_shell_get_primary_monitor (self));
     break;
+  case PHOSH_SHELL_PROP_SHELL_STATE:
+    g_value_set_flags (value, priv->shell_state);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -505,6 +509,8 @@ setup_idle_cb (PhoshShell *self)
   if (phosh_shell_get_transform (self) != PHOSH_MONITOR_TRANSFORM_NORMAL)
     phosh_shell_set_transform (self, PHOSH_MONITOR_TRANSFORM_NORMAL);
 
+  priv->gnome_shell_manager = phosh_gnome_shell_manager_get_default ();
+
   priv->startup_finished = TRUE;
 
   return FALSE;
@@ -655,7 +661,6 @@ phosh_shell_constructed (GObject *object)
   priv->polkit_auth_agent = phosh_polkit_auth_agent_new ();
 
   priv->feedback_manager = phosh_feedback_manager_new ();
-  priv->gnome_shell_manager = phosh_gnome_shell_manager_get_default ();
 
   if (priv->builtin_monitor) {
     g_signal_connect_swapped (
@@ -705,6 +710,14 @@ phosh_shell_class_init (PhoshShellClass *klass)
                          "The primary monitor",
                          PHOSH_TYPE_MONITOR,
                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+
+  props[PHOSH_SHELL_PROP_SHELL_STATE] =
+    g_param_spec_flags ("shell-state",
+                        "Shell state",
+                        "The state of the shell",
+                        PHOSH_TYPE_SHELL_STATE_FLAGS,
+                        PHOSH_STATE_NONE,
+                        G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PHOSH_SHELL_PROP_LAST_PROP, props);
 }
@@ -1297,22 +1310,31 @@ phosh_shell_set_state (PhoshShell          *self,
                        gboolean             enabled)
 {
   PhoshShellPrivate *priv;
-  g_autofree gchar *str_state = g_flags_to_string (PHOSH_TYPE_SHELL_STATE_FLAGS,
-                                                  state);
+  PhoshShellStateFlags old_state;
+  g_autofree gchar *str_state = NULL;
   g_autofree gchar *str_new_flags = NULL;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
   priv = phosh_shell_get_instance_private (self);
+
+  old_state = priv->shell_state;
 
   if (enabled)
     priv->shell_state = priv->shell_state | state;
   else
     priv->shell_state = priv->shell_state & ~state;
 
+  if (old_state == priv->shell_state)
+    return;
+
+  str_state = g_flags_to_string (PHOSH_TYPE_SHELL_STATE_FLAGS,
+                                 state);
   str_new_flags = g_flags_to_string (PHOSH_TYPE_SHELL_STATE_FLAGS,
                                      priv->shell_state);
 
   g_debug ("%s %s shells state. New state: %s",
            enabled ? "Adding to" : "Removing from",
            str_state, str_new_flags);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_SHELL_STATE]);
 }
