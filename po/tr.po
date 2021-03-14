@@ -1,19 +1,19 @@
 # Turkish translation of phosh.
-# Emin Tufan Çetin <etcetin@gmail.com>, 2019-2020.
+# Emin Tufan Çetin <etcetin@gmail.com>, 2019, 2020, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-08-14 15:29+0000\n"
-"PO-Revision-Date: 2020-09-29 14:55+0300\n"
+"POT-Creation-Date: 2021-01-16 03:33+0000\n"
+"PO-Revision-Date: 2021-03-14 12:50+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -29,76 +29,103 @@ msgstr "Telefon Kabuğu"
 msgid "Window management and application launching for mobile"
 msgstr "Mobil için pencere yönetimi ve uygulama başlatımı"
 
-#: src/app-grid-button.c:530
+#: src/app-grid-button.c:536
 msgid "Application"
 msgstr "Uygulama"
 
-#: src/bt-info.c:89 src/feedbackinfo.c:48
+#: src/bt-info.c:92 src/feedbackinfo.c:51
 msgid "On"
 msgstr "Açık"
 
-#: src/bt-info.c:91
+#: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Yuvada"
+
+#: src/docked-info.c:195
+msgid "Undocked"
+msgstr "Yuvada değil"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:41
+#: src/feedbackinfo.c:44
 msgid "Quiet"
 msgstr "Titreşim"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:46
+#: src/feedbackinfo.c:49
 msgid "Silent"
 msgstr "Sessiz"
 
-#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
+#: src/lockscreen.c:86 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr "Parolayı Gir"
 
-#: src/lockscreen.c:263
+#: src/lockscreen.c:265
 msgid "Checking…"
 msgstr "Denetleniyor…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:341
+#: src/lockscreen.c:343
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:263 src/ui/media-player.ui:107
+#: src/media-player.c:277 src/ui/media-player.ui:107
 msgid "Unknown Title"
 msgstr "Bilinmeyen Başlık"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:272 src/ui/media-player.ui:127
+#: src/media-player.c:286 src/ui/media-player.ui:127
 msgid "Unknown Artist"
 msgstr "Bilinmeyen Sanatçı"
 
-#: src/monitor-manager.c:58
+#: src/monitor-manager.c:108
 msgid "Built-in display"
 msgstr "İç ekran"
 
+#: src/monitor-manager.c:126
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:133
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %sn"
+msgstr "%s %sn"
+
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:62
+#: src/monitor-manager.c:142
 msgid "Unknown"
 msgstr "Bilinmeyen"
 
-#: src/network-auth-prompt.c:184
+#: src/network-auth-prompt.c:187
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "“%s” wifi ağının yetkilendirme türü desteklenmiyor"
 
-#: src/network-auth-prompt.c:189
+#: src/network-auth-prompt.c:192
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "“%s” wifi ağı için parola gir"
 
-#: src/notifications/notification.c:382 src/notifications/notification.c:601
+#: src/notifications/mount-notification.c:137
+msgid "Open"
+msgstr "Aç"
+
+#: src/notifications/notification.c:381 src/notifications/notification.c:637
 msgid "Notification"
 msgstr "Bildirim"
 
@@ -168,53 +195,64 @@ msgctxt "timestamp-suffix-years"
 msgid "y"
 msgstr "y"
 
-#. Translators: this is the date in (short) number only format
-#: src/notifications/timestamp-label.c:107
-msgid "%d.%m.%y"
-msgstr "%d.%m.%y"
+#: src/notifications/timestamp-label.c:121
+msgid "now"
+msgstr "şimdi"
 
-#. Translators: Timestamp prefix (e.g. Over 5h)
-#: src/notifications/timestamp-label.c:198
-msgid "Over"
-msgstr "Geçik"
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "%d yılı aşkın"
 
-#. Translators: Timestamp prefix (e.g. Almost 5h)
-#: src/notifications/timestamp-label.c:203
-msgid "Almost"
-msgstr "Neredeyse"
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "Neredeyse %d yıl"
 
-#: src/polkit-auth-agent.c:229
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d%s"
+
+#: src/polkit-auth-agent.c:232
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Kullanıcı, yetkilendirme kutusunu görmezden geldi"
 
-#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
+#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:130
 #: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
 msgid "Password:"
 msgstr "Parola:"
 
-#: src/polkit-auth-prompt.c:322
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Üzgünüz, işe yaramadı. Lütfen yeniden deneyin."
 
-#: src/polkit-auth-prompt.c:488
+#: src/polkit-auth-prompt.c:470
 msgid "Authenticate"
 msgstr "Yetkilendir"
 
-#: src/rotateinfo.c:46
+#: src/rotateinfo.c:65
 msgid "Portrait"
 msgstr "Dikey"
 
-#: src/rotateinfo.c:49
+#: src/rotateinfo.c:68
 msgid "Landscape"
 msgstr "Yatay"
 
-#: src/system-prompt.c:371
+#: src/system-prompt.c:375
 msgid "Passwords do not match."
 msgstr "Parolalar eşleşmedi."
 
-#: src/system-prompt.c:378
+#: src/system-prompt.c:382
 msgid "Password cannot be blank"
 msgstr "Parola boş olamaz"
+
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "Fener"
 
 #: src/ui/app-grid-button.ui:49
 msgid "App"
@@ -244,11 +282,11 @@ msgstr "Acil"
 msgid "Unlock"
 msgstr "Kilidi Aç"
 
-#: src/ui/network-auth-prompt.ui:90
+#: src/ui/network-auth-prompt.ui:89
 msgid "_Cancel"
 msgstr "_İptal"
 
-#: src/ui/network-auth-prompt.ui:106
+#: src/ui/network-auth-prompt.ui:105
 msgid "C_onnect"
 msgstr "_Bağlan"
 
@@ -276,20 +314,11 @@ msgstr "Yeniden Başlat"
 msgid "Power Off"
 msgstr "Gücü Kapat"
 
-#: src/wifiinfo.c:88
+#: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:168
+#: src/wwaninfo.c:170
 msgid "Cellular"
 msgstr "Hücresel"
-
-#~ msgid "Unknown artist"
-#~ msgstr "Bilinmeyen sanatçı"
-
-#~ msgid "Unknown Song"
-#~ msgstr "Bilinmeyen Şarkı"
-
-#~ msgid "Suspend"
-#~ msgstr "Askıya Al"
