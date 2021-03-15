@@ -1277,7 +1277,7 @@ phosh_shell_get_state (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
 
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), 0);
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), PHOSH_STATE_NONE);
   priv = phosh_shell_get_instance_private (self);
 
   return priv->shell_state;
