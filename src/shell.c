@@ -40,6 +40,7 @@
 #include "home.h"
 #include "idle-manager.h"
 #include "keyboard-events.h"
+#include "location-info.h"
 #include "location-manager.h"
 #include "lockscreen-manager.h"
 #include "media-player.h"
@@ -531,6 +532,7 @@ type_setup (void)
   g_type_ensure (PHOSH_TYPE_DOCKED_INFO);
   g_type_ensure (PHOSH_TYPE_FEEDBACK_INFO);
   g_type_ensure (PHOSH_TYPE_HKS_INFO);
+  g_type_ensure (PHOSH_TYPE_LOCATION_INFO);
   g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
   g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
   g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
