@@ -690,21 +690,21 @@ phosh_shell_class_init (PhoshShellClass *klass)
                        "Monitor transform of the primary monitor",
                        PHOSH_TYPE_MONITOR_TRANSFORM,
                        PHOSH_MONITOR_TRANSFORM_NORMAL,
-                       G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+                       G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   props[PHOSH_SHELL_PROP_LOCKED] =
     g_param_spec_boolean ("locked",
                           "Locked",
                           "Whether the screen is locked",
                           FALSE,
-                          G_PARAM_READWRITE);
+                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PHOSH_SHELL_PROP_PRIMARY_MONITOR] =
     g_param_spec_object ("primary-monitor",
                          "Primary monitor",
                          "The primary monitor",
                          PHOSH_TYPE_MONITOR,
-                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PHOSH_SHELL_PROP_LAST_PROP, props);
 }
