@@ -146,7 +146,7 @@ handle_authorize_app (PhoshGeoClueDBusOrgFreedesktopGeoClue2Agent *object,
     object,
     invocation,
     /* TODO: handle via location perm store */
-    self->enabled,
+    FALSE,
     LEVEL_EXACT);
   return TRUE;
 }
