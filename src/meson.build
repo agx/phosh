@@ -110,6 +110,8 @@ libphosh_tool_sources = [
 ]
 
 libphosh_sources = [
+  'app-auth-prompt.c',
+  'app-auth-prompt.h',
   'arrow.c',
   'arrow.h',
   'auth.c',

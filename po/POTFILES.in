@@ -49,6 +49,7 @@ src/toplevel.c
 src/toplevel-manager.c
 src/torch-info.c
 src/ui/activity.ui
+src/ui/app-auth-prompt.ui
 src/ui/app-grid-button.ui
 src/ui/app-grid.ui
 src/ui/home.ui

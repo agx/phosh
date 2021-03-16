@@ -39,6 +39,7 @@
     <chapter id="classes">
       <title>Widgets and Objects</title>
       <xi:include href="xml/activity.xml"/>
+      <xi:include href="xml/app-auth-prompt.xml"/>
       <xi:include href="xml/app-grid-button.xml"/>
       <xi:include href="xml/app-grid.xml"/>
       <xi:include href="xml/app-list-model.xml"/>
