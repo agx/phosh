@@ -220,6 +220,9 @@
                 <property name="position">1</property>
               </packing>
             </child>
+            <style>
+              <class name="phosh-system-modal-dialog-buttons"/>
+            </style>
           </object>
           <packing>
             <property name="expand">False</property>

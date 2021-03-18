@@ -270,6 +270,10 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
   padding: 18px;
 }
 
+.phosh-system-modal-dialog-buttons label {
+  margin: 12px;
+}
+
 /*
  * Notifications
  */
