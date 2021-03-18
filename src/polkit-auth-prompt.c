@@ -465,18 +465,6 @@ phosh_polkit_auth_prompt_constructed (GObject *object)
                     G_CALLBACK (on_key_press_event),
                     NULL);
 
-  {
-    GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
-    GtkWidget *lbl = gtk_label_new (_("Authenticate"));
-
-    self->spinner_authenticate = gtk_spinner_new ();
-    gtk_widget_set_no_show_all (self->spinner_authenticate, TRUE);
-    gtk_container_add (GTK_CONTAINER (self->btn_authenticate), box);
-    gtk_container_add (GTK_CONTAINER (box), self->spinner_authenticate);
-    gtk_container_add (GTK_CONTAINER (box), lbl);
-    gtk_widget_show_all (self->btn_authenticate);
-  }
-
   phosh_polkit_auth_prompt_initiate (self);
 }
 
@@ -546,6 +534,7 @@ phosh_polkit_auth_prompt_class_init (PhoshPolkitAuthPromptClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshPolkitAuthPrompt, btn_authenticate);
   gtk_widget_class_bind_template_child (widget_class, PhoshPolkitAuthPrompt, btn_cancel);
   gtk_widget_class_bind_template_child (widget_class, PhoshPolkitAuthPrompt, entry_password);
+  gtk_widget_class_bind_template_child (widget_class, PhoshPolkitAuthPrompt, spinner_authenticate);
 }
 
 
