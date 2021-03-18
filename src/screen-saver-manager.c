@@ -405,7 +405,7 @@ out:
 
 
 static gboolean
-on_idle (PhoshTorchManager *self)
+on_idle (PhoshScreenSaverManager *self)
 {
   /* Connect to logind's session manager */
   phosh_login1_manager_dbus_login_manager_proxy_new_for_bus (
