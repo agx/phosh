@@ -8,9 +8,14 @@
 #define G_LOG_DOMAIN "phosh-location-manager"
 
 #include "config.h"
+
+#include "app-auth-prompt.h"
 #include "geoclue-manager-dbus.h"
 #include "location-manager.h"
 #include "shell.h"
+#include "util.h"
+
+#include <gio/gdesktopappinfo.h>
 
 /**
  * SECTION:location-manager
@@ -64,6 +69,11 @@ typedef struct _PhoshLocationManager {
   GSettings                                          *location_settings;
   gboolean                                            enabled;
   gboolean                                            active;
+
+  /* Current Request */
+  GtkWidget                                          *prompt;
+  GDBusMethodInvocation                              *invocation;
+  AccuracyLevel                                       req_level;
 } PhoshLocationManager;
 
 static void phosh_location_manager_geoclue2_agent_iface_init (
@@ -77,13 +87,27 @@ G_DEFINE_TYPE_WITH_CODE (PhoshLocationManager,
                            phosh_location_manager_geoclue2_agent_iface_init));
 
 
-static void
-set_accuracy_level (PhoshLocationManager *self, gboolean enabled)
+static guint
+get_max_level (PhoshLocationManager *self)
 {
-  guint level;
+  gint level;
+
+  if (self->enabled)
+    level = g_settings_get_enum (self->location_settings, "max-accuracy-level");
+  else
+    level = LEVEL_NONE;
+
+  return level;
+}
+
+
+static void
+update_accuracy_level (PhoshLocationManager *self, gboolean enabled)
+{
+  int level;
 
   self->enabled = enabled;
-  level = self->enabled ? LEVEL_EXACT : LEVEL_NONE;
+  level = get_max_level (self);
 
   g_debug ("Setting accuracy level to %d", level);
   phosh_geo_clue_dbus_org_freedesktop_geo_clue2_agent_set_max_accuracy_level (
@@ -123,12 +147,43 @@ phosh_location_manager_set_property (GObject      *object,
 
   switch (property_id) {
   case PROP_ENABLED:
-    set_accuracy_level (self, g_value_get_boolean (value));
+    update_accuracy_level (self, g_value_get_boolean (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
   }
+}
+
+
+static void
+on_app_auth_prompt_closed (PhoshLocationManager *self, PhoshAppAuthPrompt *prompt)
+{
+  gboolean grant_access;
+
+  g_return_if_fail (PHOSH_IS_LOCATION_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_APP_AUTH_PROMPT (prompt));
+
+  grant_access = phosh_app_auth_prompt_get_grant_access (GTK_WIDGET (prompt));
+
+  g_debug ("Granting access for %p at level %d: %s",
+           self->invocation,
+           self->req_level,
+           grant_access ? "yes" : "no");
+
+  phosh_geo_clue_dbus_org_freedesktop_geo_clue2_agent_complete_authorize_app (
+    PHOSH_GEO_CLUE_DBUS_ORG_FREEDESKTOP_GEO_CLUE2_AGENT (self),
+    self->invocation,
+    grant_access,
+    self->req_level);
+
+  /* TODO: save in permission store */
+
+  self->req_level = LEVEL_NONE;
+  self->invocation = NULL;
+  self->prompt = NULL;
+
+  return;
 }
 
 
@@ -139,15 +194,74 @@ handle_authorize_app (PhoshGeoClueDBusOrgFreedesktopGeoClue2Agent *object,
                       guint                                        arg_req_accuracy_level)
 {
   PhoshLocationManager *self = PHOSH_LOCATION_MANAGER (object);
+  g_autofree char *desktop_file = NULL;
+  g_autofree char *body = NULL;
+  g_autofree char *subtitle = NULL;
+
+  g_autoptr (GDesktopAppInfo) app_info = NULL;
+  gint level;
 
   g_debug ("Authorizing %s: %d", arg_desktop_id, self->enabled);
 
-  phosh_geo_clue_dbus_org_freedesktop_geo_clue2_agent_complete_authorize_app (
-    object,
-    invocation,
-    /* TODO: handle via location perm store */
-    FALSE,
-    LEVEL_EXACT);
+  level = get_max_level (self);
+  if (arg_req_accuracy_level > level) {
+    g_debug ("Req accuracy level %d > max allowed %d", arg_req_accuracy_level, level);
+    phosh_geo_clue_dbus_org_freedesktop_geo_clue2_agent_complete_authorize_app (
+      object,
+      invocation,
+      FALSE,
+      arg_req_accuracy_level);
+    return TRUE;
+  }
+
+  desktop_file = g_strjoin (".", arg_desktop_id, "desktop", NULL);
+  app_info = g_desktop_app_info_new (desktop_file);
+  if (app_info == NULL) {
+    g_debug ("Failed to find %s", desktop_file);
+    phosh_geo_clue_dbus_org_freedesktop_geo_clue2_agent_complete_authorize_app (
+      object,
+      invocation,
+      FALSE,
+      arg_req_accuracy_level);
+
+    return TRUE;
+  }
+
+  /* TODO: look at location permission store */
+
+  /* Cancel any ongoing prompt */
+  if (self->prompt)
+    gtk_widget_destroy (GTK_WIDGET (self->prompt));
+
+  if (self->invocation) {
+    phosh_geo_clue_dbus_org_freedesktop_geo_clue2_agent_complete_authorize_app (
+      object,
+      self->invocation,
+      FALSE,
+      arg_req_accuracy_level);
+  }
+
+  self->req_level = arg_req_accuracy_level;
+  self->invocation = invocation;
+  subtitle = g_strdup_printf (_("Allow '%s' to access your location information?"),
+                              g_app_info_get_display_name (G_APP_INFO (app_info)));
+
+  body = g_desktop_app_info_get_string (app_info, "X-Geoclue-Reason");
+  self->prompt = phosh_app_auth_prompt_new (g_app_info_get_icon (G_APP_INFO (app_info)),
+                                            _("Geolocation"),
+                                            subtitle, body, _("Yes"), _("No"), FALSE);
+  g_signal_connect_object (self->prompt,
+                           "closed",
+                           G_CALLBACK (on_app_auth_prompt_closed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  /* Show widget when not locked and keep that in sync */
+  g_object_bind_property (phosh_shell_get_default (), "locked",
+                          self->prompt, "visible",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
+
   return TRUE;
 }
 
@@ -156,8 +270,7 @@ static guint
 handle_get_max_accuracy_level (PhoshGeoClueDBusOrgFreedesktopGeoClue2Agent *object)
 {
   PhoshLocationManager *self = PHOSH_LOCATION_MANAGER (object);
-
-  guint level = self->enabled ? LEVEL_EXACT : LEVEL_NONE;
+  gint level = get_max_level (self);
 
   g_debug ("Accuracy level %d", level);
   return level;
@@ -190,7 +303,7 @@ on_bus_acquired (GObject      *source_object,
                                     connection,
                                     LOCATION_AGENT_DBUS_PATH,
                                     NULL);
-  set_accuracy_level (self, self->enabled);
+  update_accuracy_level (self, self->enabled);
 }
 
 
@@ -292,6 +405,17 @@ static void
 phosh_location_manager_dispose (GObject *object)
 {
   PhoshLocationManager *self = PHOSH_LOCATION_MANAGER (object);
+
+  /* Close dialog and cancel pending request if ongoing */
+  g_clear_pointer (&self->prompt, phosh_cp_widget_destroy);
+  if (self->invocation) {
+    phosh_geo_clue_dbus_org_freedesktop_geo_clue2_agent_complete_authorize_app (
+      PHOSH_GEO_CLUE_DBUS_ORG_FREEDESKTOP_GEO_CLUE2_AGENT (self),
+      self->invocation,
+      FALSE,
+      LEVEL_NONE);
+    self->invocation = NULL;
+  }
 
   g_clear_object (&self->location_settings);
 
