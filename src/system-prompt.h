@@ -9,8 +9,12 @@
 #include <gtk/gtk.h>
 #include "system-modal.h"
 
+G_BEGIN_DECLS
+
 #define PHOSH_TYPE_SYSTEM_PROMPT (phosh_system_prompt_get_type())
 
 G_DECLARE_FINAL_TYPE (PhoshSystemPrompt, phosh_system_prompt, PHOSH, SYSTEM_PROMPT, PhoshSystemModal)
 
 GtkWidget *phosh_system_prompt_new (void);
+
+G_END_DECLS
