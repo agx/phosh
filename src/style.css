@@ -267,11 +267,18 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
   border: solid 2px;
   border-color: white;
   border-radius: 10px;
-  padding: 18px;
+  padding: 0px;
 }
 
 .phosh-system-modal-dialog-buttons label {
   margin: 12px;
+}
+
+.phosh-system-modal-dialog-content {
+  padding-top:   18px;
+  padding-left:  18px;
+  padding-right: 18px;
+  /* No bottom padding to the button area */
 }
 
 /*

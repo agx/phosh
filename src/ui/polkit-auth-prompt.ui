@@ -142,6 +142,9 @@
                 <property name="width">2</property>
               </packing>
             </child>
+            <style>
+              <class name="phosh-system-modal-dialog-content"/>
+            </style>
           </object>
           <packing>
             <property name="expand">False</property>
