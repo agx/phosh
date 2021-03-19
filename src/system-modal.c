@@ -20,6 +20,15 @@
  *
  * The #PhoshSystemModal is used as a base class for other
  * system modal dialogs like #PhoshSystemPrompt.
+ *
+ * # CSS Style classes
+ *
+ * A system modal dialog should attach three style classes in
+ * it's UI file to ensure consistent layout: ".phosh-system-modal-dialog"
+ * for the whole dialog area  (usually a vertical #GtkBox).
+ * ".phosh-system-modal-dialog-buttons" for the button area (usually a
+ * horizontal #GtkBox). ".phosh-system-modal-dialog-content" for the
+ * content area (usually a vertical #GtkBox or a #GtkGrid).
  */
 
 enum {
