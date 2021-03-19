@@ -144,9 +144,9 @@
                 <property name="margin-bottom">12</property>
                 <property name="hexpand">True</property>
                 <property name="wrap">True</property>
-                <attributes>
-                  <attribute name="scale" value="1.2"/>
-                </attributes>
+                <style>
+                  <class name="phosh-system-modal-title"/>
+                </style>
               </object>
               <packing>
                 <property name="left-attach">1</property>
