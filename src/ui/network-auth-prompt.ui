@@ -9,7 +9,6 @@
         <property name="halign">center</property>
         <property name="margin-start">12</property>
         <property name="margin-end">12</property>
-        <property name="margin-bottom">32</property>
         <property name="orientation">vertical</property>
         <style>
           <class name="phosh-system-modal-dialog"/>
@@ -17,57 +16,68 @@
         </style>
 
         <child>
-          <object class="GtkImage">
-            <property name="visible">1</property>
-            <property name="halign">start</property>
-            <property name="icon_name">dialog-password-symbolic</property>
-            <property name="icon_size">6</property>
-          </object>
-        </child>
 
-        <!-- Message Label -->
-        <child>
-          <object class="GtkLabel" id="message_label">
+          <object class="GtkBox">
             <property name="visible">1</property>
-            <property name="margin-bottom">12</property>
-            <property name="halign">start</property>
-            <property name="hexpand">1</property>
-            <property name="wrap">1</property>
-            <attributes>
-              <attribute name="scale" value="1.2"/>
-            </attributes>
-          </object>
-        </child>
-
-        <child>
-          <object class="GtkBox" id="main_box">
-            <property name="visible">1</property>
-            <property name="margin-bottom">12</property>
-          </object>
-        </child>
-
-        <child>
-          <object class="GtkGrid" id="system_prompt_grid">
-            <property name="visible">1</property>
-            <property name="margin-left">20</property>
-            <property name="margin-right">20</property>
-            <property name="row-spacing">6</property>
-            <property name="column-spacing">12</property>
+            <property name="orientation">vertical</property>
+            <style>
+              <class name="phosh-system-modal-dialog-content"/>
+            </style>
 
             <child>
-              <object class="GtkLabel" id="lbl_info">
-                <property name="visible">True</property>
-                <property name="margin_top">12</property>
-                <property name="wrap">True</property>
+              <object class="GtkImage">
+                <property name="visible">1</property>
+                <property name="halign">start</property>
+                <property name="icon_name">dialog-password-symbolic</property>
+                <property name="icon_size">6</property>
+              </object>
+            </child>
+
+            <!-- Message Label -->
+            <child>
+              <object class="GtkLabel" id="message_label">
+                <property name="visible">1</property>
+                <property name="margin-bottom">12</property>
+                <property name="halign">start</property>
+                <property name="hexpand">1</property>
+                <property name="wrap">1</property>
                 <attributes>
-                  <attribute name="weight" value="bold"/>
+                  <attribute name="scale" value="1.2"/>
                 </attributes>
               </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">4</property>
-                <property name="width">2</property>
-              </packing>
+            </child>
+
+            <child>
+              <object class="GtkBox" id="main_box">
+                <property name="visible">1</property>
+                <property name="margin-bottom">12</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkGrid" id="system_prompt_grid">
+                <property name="visible">1</property>
+                <property name="margin-left">20</property>
+                <property name="margin-right">20</property>
+                <property name="row-spacing">6</property>
+                <property name="column-spacing">12</property>
+
+                <child>
+                  <object class="GtkLabel" id="lbl_info">
+                    <property name="visible">True</property>
+                    <property name="margin_top">12</property>
+                    <property name="wrap">True</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">4</property>
+                    <property name="width">2</property>
+                  </packing>
+                </child>
+              </object>
             </child>
           </object>
         </child>
@@ -75,7 +85,11 @@
         <child>
           <object class="GtkBox">
             <property name="visible">1</property>
-            <property name="margin-top">12</property>
+            <property name="can-focus">False</property>
+            <property name="homogeneous">True</property>
+            <style>
+              <class name="phosh-system-modal-dialog-buttons"/>
+            </style>
 
             <!-- Cancel button -->
             <child>
@@ -83,12 +97,15 @@
                 <property name="visible">1</property>
                 <property name="receives-default">0</property>
                 <property name="hexpand">1</property>
-                <property name="halign">start</property>
                 <property name="valign">center</property>
                 <property name="use-underline">1</property>
                 <property name="label" translatable="yes">_Cancel</property>
                 <signal name="clicked" handler="network_prompt_cancel_clicked_cb" swapped="yes"/>
               </object>
+              <packing>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
             </child>
 
             <!-- Connect button -->
@@ -99,7 +116,6 @@
                 <property name="can-default">1</property>
                 <property name="has-default">1</property>
                 <property name="receives-default">1</property>
-                <property name="halign">end</property>
                 <property name="valign">center</property>
                 <property name="use-underline">1</property>
                 <property name="label" translatable="yes">C_onnect</property>
@@ -108,10 +124,16 @@
                   <class name="suggested-action"/>
                 </style>
               </object>
+              <packing>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
+          <packing>
+            <property name="fill">True</property>
+          </packing>
         </child>
-
       </object>
     </child>
   </template>
