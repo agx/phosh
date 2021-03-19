@@ -274,6 +274,23 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
   margin: 12px;
 }
 
+.phosh-system-modal-dialog-buttons button {
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  border: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  box-shadow: none;
+}
+
+.phosh-system-modal-dialog-buttons button:first-child {
+    border-bottom-right-radius: 0;
+}
+
+.phosh-system-modal-dialog-buttons button:last-child {
+    border-bottom-left-radius: 0;
+}
+
 .phosh-system-modal-dialog-content {
   padding-top:   18px;
   padding-left:  18px;
