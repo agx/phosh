@@ -263,9 +263,8 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
 }
 
 .phosh-system-modal-dialog {
-  background-color: black;
-  border: solid 2px;
-  border-color: white;
+  background-color: #393f3f;
+  border: none;
   border-radius: 10px;
   padding: 0px;
 }
