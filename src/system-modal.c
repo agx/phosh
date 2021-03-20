@@ -15,20 +15,12 @@
 
 /**
  * SECTION:system-modal
- * @short_description: A modal system modal
+ * @short_description: A modal system component
  * @Title: PhoshSystemModal
  *
  * The #PhoshSystemModal is used as a base class for other
- * system modal dialogs like #PhoshSystemPrompt.
- *
- * # CSS Style classes
- *
- * A system modal dialog should attach three style classes in
- * it's UI file to ensure consistent layout: ".phosh-system-modal-dialog"
- * for the whole dialog area  (usually a vertical #GtkBox).
- * ".phosh-system-modal-dialog-buttons" for the button area (usually a
- * horizontal #GtkBox). ".phosh-system-modal-dialog-content" for the
- * content area (usually a vertical #GtkBox or a #GtkGrid).
+ * system components such as dialogs like #PhoshSystemPrompt or
+ * the OSD display.
  */
 
 enum {
@@ -47,8 +39,8 @@ typedef struct {
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshSystemModal, phosh_system_modal, PHOSH_TYPE_LAYER_SURFACE);
 
 /*
- * Keep track of opened modal dialogs
- * Only reset PHOSH_STATE_MODAL_SYSTEM_PROMPT when there are no more dialogs
+ * Keep track of opened modals
+ * Only reset PHOSH_STATE_MODAL_SYSTEM_PROMPT when there are no more modals
  * see phosh_system_modal_map/unmap
  */
 static int modal_count = 0;
@@ -76,7 +68,7 @@ phosh_system_modal_unmap (GtkWidget *widget)
   if (modal_count == 0)
     phosh_shell_set_state (phosh_shell_get_default (), PHOSH_STATE_MODAL_SYSTEM_PROMPT, FALSE);
   else if (modal_count < 0)
-    g_warning ("The modal dialog counter is negative %d. This should never happen",
+    g_warning ("The modal counter is negative %d. This should never happen",
                modal_count);
 
   GTK_WIDGET_CLASS (phosh_system_modal_parent_class)->unmap (widget);
@@ -180,7 +172,7 @@ phosh_system_modal_class_init (PhoshSystemModalClass *klass)
 
   props[PROP_MONITOR] = g_param_spec_object ("monitor",
                                              "Monitor",
-                                             "Monitor to put dialog on",
+                                             "Monitor to put modal on",
                                              PHOSH_TYPE_MONITOR,
                                              G_PARAM_CONSTRUCT_ONLY |
                                              G_PARAM_READWRITE |
@@ -196,9 +188,9 @@ phosh_system_modal_init (PhoshSystemModal *self)
 
 /**
  * phosh_system_modal_new:
- * @monitor: The #PhoshMonitor to put the dialog on. If %NULL the primary monitor is used.
+ * @monitor: The #PhoshMonitor to put the modal surface on. If %NULL the primary monitor is used.
  *
- * Create a new system-modal dialog.
+ * Create a new system-modal surface.
  */
 GtkWidget *
 phosh_system_modal_new (PhoshMonitor *monitor)

@@ -291,16 +291,22 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
 }
 
 .phosh-system-modal-dialog-content {
-  padding-top:   18px;
   padding-left:  18px;
   padding-right: 18px;
-  /* No bottom padding to the button area */
 }
 
+.phosh-system-modal-dialog-title {
+  padding-top: 18px;
+  font-weight: 800;
+  font-size: 120%;
+}
+
+/* TODO: Remove once all dialogs are converted */
 .phosh-system-modal-title {
   font-weight: 800;
   font-size: 120%;
 }
+
 
 /*
  * Notifications

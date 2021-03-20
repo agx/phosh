@@ -49,6 +49,7 @@
 #include "monitor/monitor.h"
 #include "mount-manager.h"
 #include "settings.h"
+#include "system-modal-dialog.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-banner.h"
 #include "osk-manager.h"
@@ -537,6 +538,8 @@ type_setup (void)
   g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
   g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
   g_type_ensure (PHOSH_TYPE_SETTINGS);
+  g_type_ensure (PHOSH_TYPE_SYSTEM_MODAL);
+  g_type_ensure (PHOSH_TYPE_SYSTEM_MODAL_DIALOG);
   g_type_ensure (PHOSH_TYPE_TORCH_INFO);
   g_type_ensure (PHOSH_TYPE_WIFI_INFO);
   g_type_ensure (PHOSH_TYPE_WWAN_INFO);

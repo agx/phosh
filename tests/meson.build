@@ -77,6 +77,7 @@ tests_phoc = [
   'lockshield',
   'notification-banner',
   'system-modal',
+  'system-modal-dialog',
   'timestamp-label',
 ]
 
