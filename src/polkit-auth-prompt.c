@@ -51,7 +51,7 @@ static guint signals[N_SIGNALS] = { 0 };
 
 struct _PhoshPolkitAuthPrompt
 {
-  PhoshSystemModal parent;
+  PhoshSystemModalDialog parent;
 
   GtkWidget *lbl_message;
   GtkWidget *lbl_user_name;
@@ -75,7 +75,7 @@ struct _PhoshPolkitAuthPrompt
 
   gboolean done_emitted;
 };
-G_DEFINE_TYPE(PhoshPolkitAuthPrompt, phosh_polkit_auth_prompt, PHOSH_TYPE_SYSTEM_MODAL);
+G_DEFINE_TYPE(PhoshPolkitAuthPrompt, phosh_polkit_auth_prompt, PHOSH_TYPE_SYSTEM_MODAL_DIALOG);
 
 
 static void phosh_polkit_auth_prompt_initiate (PhoshPolkitAuthPrompt *self);
