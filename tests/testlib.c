@@ -97,6 +97,30 @@ on_phoc_exit (GPid     pid,
 }
 
 
+/*
+ * Get a #PhoshMonitor for layer-surface tests
+ */
+PhoshMonitor*
+phosh_test_get_monitor(void)
+{
+  PhoshWayland *wl = phosh_wayland_get_default ();
+  GHashTable *outputs;
+  GHashTableIter iter;
+  gpointer wl_output;
+  PhoshMonitor *monitor;
+
+  g_assert (PHOSH_IS_WAYLAND (wl));
+  outputs = phosh_wayland_get_wl_outputs (wl);
+
+  g_hash_table_iter_init (&iter, outputs);
+  g_hash_table_iter_next (&iter, NULL, &wl_output);
+
+  monitor = phosh_monitor_new_from_wl_output (wl_output);
+  g_assert (PHOSH_IS_MONITOR (monitor));
+  return monitor;
+}
+
+
 PhoshTestCompositorState *
 phosh_test_compositor_new (void)
 {

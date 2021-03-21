@@ -7,6 +7,7 @@
  */
 
 #include "phosh-wayland.h"
+#include "monitor/monitor.h"
 
 #include <gtk/gtk.h>
 
@@ -21,5 +22,6 @@ typedef struct _PhoshTestCompositorState {
 
 PhoshTestCompositorState *phosh_test_compositor_new (void);
 void                      phosh_test_compositor_free (PhoshTestCompositorState *state);
+PhoshMonitor*             phosh_test_get_monitor(void);
 
 G_END_DECLS
