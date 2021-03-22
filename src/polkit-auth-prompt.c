@@ -365,8 +365,10 @@ phosh_polkit_auth_prompt_initiate (PhoshPolkitAuthPrompt *self)
 
 
 static void
-on_btn_cancel_clicked (PhoshPolkitAuthPrompt *self, GtkButton *btn)
+on_dialog_canceled (PhoshPolkitAuthPrompt *self, gpointer unused)
 {
+  g_return_if_fail (PHOSH_IS_POLKIT_AUTH_PROMPT (self));
+
   polkit_agent_session_cancel (self->session);
   emit_done (self, TRUE);
 }
@@ -386,27 +388,6 @@ on_btn_authenticate_clicked (PhoshPolkitAuthPrompt *self, GtkButton *btn)
   gtk_widget_show (self->spinner_authenticate);
   gtk_spinner_start (GTK_SPINNER (self->spinner_authenticate));
   polkit_agent_session_response (self->session, password);
-}
-
-
-static gboolean
-on_key_press_event (PhoshPolkitAuthPrompt *self, GdkEventKey *event, gpointer data)
-{
-  gboolean handled = FALSE;
-  g_return_val_if_fail (PHOSH_IS_POLKIT_AUTH_PROMPT (self), FALSE);
-
-  switch (event->keyval) {
-    case GDK_KEY_Escape:
-      polkit_agent_session_cancel (self->session);
-      emit_done (self, TRUE);
-      handled = TRUE;
-      break;
-    default:
-      /* nothing to do */
-      break;
-  }
-
-  return handled;
 }
 
 
@@ -450,7 +431,7 @@ phosh_polkit_auth_prompt_constructed (GObject *object)
 
   g_signal_connect_object (self->btn_cancel,
                            "clicked",
-                           G_CALLBACK (on_btn_cancel_clicked),
+                           G_CALLBACK (on_dialog_canceled),
                            self,
                            G_CONNECT_SWAPPED);
   g_signal_connect_object (self->btn_authenticate,
@@ -458,12 +439,6 @@ phosh_polkit_auth_prompt_constructed (GObject *object)
                            G_CALLBACK (on_btn_authenticate_clicked),
                            self,
                            G_CONNECT_SWAPPED);
-
-  gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
-  g_signal_connect (G_OBJECT (self),
-                    "key_press_event",
-                    G_CALLBACK (on_key_press_event),
-                    NULL);
 
   phosh_polkit_auth_prompt_initiate (self);
 }
@@ -535,6 +510,7 @@ phosh_polkit_auth_prompt_class_init (PhoshPolkitAuthPromptClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshPolkitAuthPrompt, btn_cancel);
   gtk_widget_class_bind_template_child (widget_class, PhoshPolkitAuthPrompt, entry_password);
   gtk_widget_class_bind_template_child (widget_class, PhoshPolkitAuthPrompt, spinner_authenticate);
+  gtk_widget_class_bind_template_callback (widget_class, on_dialog_canceled);
 }
 
 

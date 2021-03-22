@@ -5,6 +5,7 @@
   <template class="PhoshPolkitAuthPrompt" parent="PhoshSystemModalDialog">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Authentication required</property>
+    <signal name="dialog-canceled" handler="on_dialog_canceled"/>
     <child type="phosh-dialog-content">
       <!-- n-columns=2 n-rows=4 -->
       <object class="GtkGrid" id="grid_system_prompt">
