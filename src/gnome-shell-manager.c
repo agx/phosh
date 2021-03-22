@@ -540,11 +540,15 @@ on_bus_acquired (GDBusConnection *connection,
                  gpointer         user_data)
 {
   PhoshGnomeShellManager *self = user_data;
+  PhoshSessionManager *sm;
 
   g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),
                                     connection,
                                     "/org/gnome/Shell",
                                     NULL);
+
+  sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
+  phosh_session_manager_export_end_session (sm, connection);
 }
 
 

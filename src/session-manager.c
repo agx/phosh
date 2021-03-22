@@ -9,14 +9,18 @@
 #define G_LOG_DOMAIN "phosh-session-manager"
 
 #include "config.h"
+#include "end-session-dialog.h"
 #include "session-manager.h"
 #include "shell.h"
+#include "util.h"
 
 #include "dbus/gnome-session-dbus.h"
 #include "dbus/gnome-session-client-private-dbus.h"
 
 #define BUS_NAME "org.gnome.SessionManager"
 #define OBJECT_PATH "/org/gnome/SessionManager"
+
+#define END_SESSION_DIALOG_OBJECT_PATH "/org/gnome/SessionManager/EndSessionDialog"
 
 #define SESSION_SHUTDOWN_TIMEOUT 15
 
@@ -36,17 +40,113 @@ enum {
 };
 static GParamSpec *props[PHOSH_SESSION_MANAGER_PROP_LAST_PROP];
 
+static void phosh_session_manager_end_session_dialog_iface_init (
+  PhoshDBusEndSessionDialogIface *iface);
 
 typedef struct _PhoshSessionManager {
-  GObject                                     parent;
+  PhoshDBusEndSessionDialogSkeleton           parent;
   gboolean                                    active;
 
   PhoshSessionDBusSessionManager             *proxy;
   PhoshSessionClientPrivateDBusClientPrivate *priv_proxy;
+
+  PhoshEndSessionDialog *dialog;
+
 } PhoshSessionManager;
 
 
-G_DEFINE_TYPE (PhoshSessionManager, phosh_session_manager, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (PhoshSessionManager,
+                         phosh_session_manager,
+                         PHOSH_DBUS_TYPE_END_SESSION_DIALOG_SKELETON,
+                         G_IMPLEMENT_INTERFACE (
+                           PHOSH_DBUS_TYPE_END_SESSION_DIALOG,
+                           phosh_session_manager_end_session_dialog_iface_init))
+
+
+static void
+on_end_session_dialog_closed (PhoshSessionManager *self, PhoshEndSessionDialog *dialog)
+{
+  gint action;
+  gboolean confirmed;
+  PhoshDBusEndSessionDialog *object;
+
+  g_return_if_fail (PHOSH_IS_SESSION_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_END_SESSION_DIALOG (dialog));
+
+  object = PHOSH_DBUS_END_SESSION_DIALOG (self);
+
+  confirmed = phosh_end_session_dialog_get_action_confirmed (dialog);
+  action = phosh_end_session_dialog_get_action (dialog);
+  g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
+
+  g_debug ("Action %d confirmed: %d", action, confirmed);
+
+  if (!confirmed) {
+    phosh_dbus_end_session_dialog_emit_canceled (object);
+    return;
+  }
+
+  switch (action) {
+  case PHOSH_END_SESSION_ACTION_LOGOUT:
+    phosh_dbus_end_session_dialog_emit_confirmed_logout (object);
+    break;
+  case PHOSH_END_SESSION_ACTION_SHUTDOWN:
+    phosh_dbus_end_session_dialog_emit_confirmed_shutdown (object);
+    break;
+  case PHOSH_END_SESSION_ACTION_REBOOT:
+    phosh_dbus_end_session_dialog_emit_confirmed_reboot (object);
+    break;
+  /* not used by gnome-session */
+  case PHOSH_END_SESSION_ACTION_HIBERNATE:
+  case PHOSH_END_SESSION_ACTION_SUSPEND:
+  case PHOSH_END_SESSION_ACTION_HYBRID_SLEEP:
+  default:
+    g_return_if_reached ();
+  }
+}
+
+
+static gboolean
+handle_end_session_open (PhoshDBusEndSessionDialog *object,
+                         GDBusMethodInvocation *invocation,
+                         guint arg_type,
+                         guint arg_timestamp,
+                         guint arg_seconds_to_stay_open,
+                         const gchar *const *arg_inhibitor_object_paths)
+{
+  PhoshSessionManager *self = PHOSH_SESSION_MANAGER (object);
+
+  g_debug ("DBus call %s, type: %d, seconds %d",
+           __func__, arg_type, arg_seconds_to_stay_open);
+
+  if (self->dialog != NULL) {
+      g_object_set (self->dialog,
+                    "inhibitor-paths", arg_inhibitor_object_paths,
+                    NULL);
+      gtk_widget_show (GTK_WIDGET (self->dialog));
+      phosh_dbus_end_session_dialog_complete_open (
+        object, invocation);
+      return TRUE;
+  }
+
+  self->dialog = PHOSH_END_SESSION_DIALOG (phosh_end_session_dialog_new (arg_type,
+                                                                         arg_seconds_to_stay_open,
+                                                                         arg_inhibitor_object_paths));
+  g_signal_connect_swapped (self->dialog, "closed",
+                            G_CALLBACK (on_end_session_dialog_closed), self);
+
+  gtk_widget_show (GTK_WIDGET (self->dialog));
+  phosh_dbus_end_session_dialog_complete_open (object, invocation);
+
+  return TRUE;
+}
+
+
+static void
+phosh_session_manager_end_session_dialog_iface_init (PhoshDBusEndSessionDialogIface *iface)
+{
+  iface->handle_open = handle_end_session_open;
+}
 
 
 static void
@@ -283,6 +383,7 @@ phosh_session_manager_dispose (GObject *object)
 {
   PhoshSessionManager *self = PHOSH_SESSION_MANAGER (object);
 
+  g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
   g_clear_object (&self->priv_proxy);
   g_clear_object (&self->proxy);
 
@@ -390,4 +491,16 @@ phosh_session_manager_reboot (PhoshSessionManager *self)
                                                   NULL,
                                                   (GAsyncReadyCallback)on_reboot_finished,
                                                   g_object_ref (self));
+}
+
+void
+phosh_session_manager_export_end_session (PhoshSessionManager *self,
+                                          GDBusConnection *connection)
+{
+  g_return_if_fail (PHOSH_IS_SESSION_MANAGER (self));
+
+  g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),
+                                    connection,
+                                    END_SESSION_DIALOG_OBJECT_PATH,
+                                    NULL);
 }
