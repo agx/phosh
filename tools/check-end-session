@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+ACTION="${1:-0}"
+
+gdbus call --session --dest org.gnome.Shell \
+           --object-path /org/gnome/SessionManager/EndSessionDialog \
+           --method org.gnome.SessionManager.EndSessionDialog.Open \
+	   "${ACTION}" 0 30 '["/org/example/com/foo1", "/org/example/com/foo2"]'
+
