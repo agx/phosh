@@ -37,7 +37,7 @@ static guint signals[N_SIGNALS] = { 0 };
 
 struct _PhoshNetworkAuthPrompt
 {
-  PhoshSystemModal parent;
+  PhoshSystemModalDialog parent;
 
   GtkWidget      *cancel_button;
   GtkWidget      *connect_button;
@@ -62,7 +62,7 @@ struct _PhoshNetworkAuthPrompt
   gboolean visible; /* is input visible */
 };
 
-G_DEFINE_TYPE(PhoshNetworkAuthPrompt, phosh_network_auth_prompt, PHOSH_TYPE_SYSTEM_MODAL);
+G_DEFINE_TYPE(PhoshNetworkAuthPrompt, phosh_network_auth_prompt, PHOSH_TYPE_SYSTEM_MODAL_DIALOG);
 
 
 static void
@@ -221,7 +221,7 @@ network_prompt_setup_dialog (PhoshNetworkAuthPrompt *self)
 
 
 static void
-network_prompt_cancel_clicked_cb (PhoshNetworkAuthPrompt *self)
+on_dialog_canceled (PhoshNetworkAuthPrompt *self)
 {
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
 
@@ -354,7 +354,7 @@ phosh_network_auth_prompt_class_init (PhoshNetworkAuthPromptClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshNetworkAuthPrompt, wpa_password_entry);
   gtk_widget_class_bind_template_child (widget_class, PhoshNetworkAuthPrompt, password_buffer);
 
-  gtk_widget_class_bind_template_callback (widget_class, network_prompt_cancel_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_dialog_canceled);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_connect_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_key_press_event_cb);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_wpa_password_changed_cb);

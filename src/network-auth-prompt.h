@@ -7,13 +7,13 @@
 
 #include <gtk/gtk.h>
 #include <NetworkManager.h>
-#include "system-modal.h"
+#include "system-modal-dialog.h"
 
 G_BEGIN_DECLS
 
 #define PHOSH_TYPE_NETWORK_AUTH_PROMPT (phosh_network_auth_prompt_get_type())
 
-G_DECLARE_FINAL_TYPE (PhoshNetworkAuthPrompt, phosh_network_auth_prompt, PHOSH, NETWORK_AUTH_PROMPT, PhoshSystemModal);
+G_DECLARE_FINAL_TYPE (PhoshNetworkAuthPrompt, phosh_network_auth_prompt, PHOSH, NETWORK_AUTH_PROMPT, PhoshSystemModalDialog);
 
 GtkWidget *phosh_network_auth_prompt_new         (ShellNetworkAgent *agent,
                                                   NMClient          *nm_client);

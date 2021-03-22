@@ -1,147 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="PhoshNetworkAuthPrompt" parent="PhoshSystemModal">
+  <template class="PhoshNetworkAuthPrompt" parent="PhoshSystemModalDialog">
     <signal name="key-press-event" handler="network_prompt_key_press_event_cb"/>
-    <child>
+    <signal name="dialog-canceled" handler="on_dialog_canceled"/>
+    <property name="title" translatable="yes">Authentication required</property>
+    <child type="phosh-dialog-content">
       <object class="GtkBox">
         <property name="visible">1</property>
-        <property name="valign">center</property>
-        <property name="halign">center</property>
-        <property name="margin-start">12</property>
-        <property name="margin-end">12</property>
         <property name="orientation">vertical</property>
-        <style>
-          <class name="phosh-system-modal-dialog"/>
-          <class name="phosh-network-auth-prompt"/>
-        </style>
 
+        <!-- Message Label -->
         <child>
-
-          <object class="GtkBox">
+          <object class="GtkLabel" id="message_label">
             <property name="visible">1</property>
-            <property name="orientation">vertical</property>
-            <style>
-              <class name="phosh-system-modal-dialog-content"/>
-            </style>
-
-            <child>
-              <object class="GtkLabel">
-                <property name="visible">1</property>
-                <property name="can-focus">False</property>
-                <property name="halign">center</property>
-                <property name="margin-bottom">12</property>
-                <property name="justify">center</property>
-                <property name="wrap">True</property>
-                <property name="label" translatable="yes">Authentication required</property>
-		<style>
-                  <class name="phosh-system-modal-title"/>
-		</style>
-              </object>
-            </child>
-
-            <!-- Message Label -->
-            <child>
-              <object class="GtkLabel" id="message_label">
-                <property name="visible">1</property>
-                <property name="margin-bottom">12</property>
-                <property name="halign">center</property>
-                <property name="justify">center</property>
-                <property name="hexpand">1</property>
-                <property name="wrap">1</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkBox" id="main_box">
-                <property name="visible">1</property>
-                <property name="margin-bottom">12</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkGrid" id="system_prompt_grid">
-                <property name="visible">1</property>
-                <property name="margin-left">20</property>
-                <property name="margin-right">20</property>
-                <property name="row-spacing">6</property>
-                <property name="column-spacing">12</property>
-
-                <child>
-                  <object class="GtkLabel" id="lbl_info">
-                    <property name="visible">True</property>
-                    <property name="margin_top">12</property>
-                    <property name="halign">center</property>
-                    <property name="justify">center</property>
-                    <property name="wrap">True</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">4</property>
-                    <property name="width">2</property>
-                  </packing>
-                </child>
-              </object>
-            </child>
+            <property name="margin-bottom">12</property>
+            <property name="halign">center</property>
+            <property name="justify">center</property>
+            <property name="hexpand">1</property>
+            <property name="wrap">1</property>
           </object>
         </child>
 
         <child>
-          <object class="GtkBox">
+          <object class="GtkBox" id="main_box">
             <property name="visible">1</property>
-            <property name="can-focus">False</property>
-            <property name="homogeneous">True</property>
-            <style>
-              <class name="phosh-system-modal-dialog-buttons"/>
-            </style>
+            <property name="margin-bottom">12</property>
+          </object>
+        </child>
 
-            <!-- Cancel button -->
+        <child>
+          <object class="GtkGrid" id="system_prompt_grid">
+            <property name="visible">1</property>
+            <property name="margin-left">20</property>
+            <property name="margin-right">20</property>
+            <property name="row-spacing">6</property>
+            <property name="column-spacing">12</property>
+
             <child>
-              <object class="GtkButton" id="cancel_button">
-                <property name="visible">1</property>
-                <property name="receives-default">0</property>
-                <property name="hexpand">1</property>
-                <property name="valign">center</property>
-                <property name="use-underline">1</property>
-                <property name="label" translatable="yes">_Cancel</property>
-                <signal name="clicked" handler="network_prompt_cancel_clicked_cb" swapped="yes"/>
+              <object class="GtkLabel" id="lbl_info">
+                <property name="visible">True</property>
+                <property name="margin_top">12</property>
+                <property name="halign">center</property>
+                <property name="justify">center</property>
+                <property name="wrap">True</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-
-            <!-- Connect button -->
-            <child>
-              <object class="GtkButton" id="connect_button">
-                <property name="visible">1</property>
-                <property name="sensitive">0</property>
-                <property name="can-default">1</property>
-                <property name="has-default">1</property>
-                <property name="receives-default">1</property>
-                <property name="valign">center</property>
-                <property name="use-underline">1</property>
-                <property name="label" translatable="yes">C_onnect</property>
-                <signal name="clicked" handler="network_prompt_connect_clicked_cb" swapped="yes"/>
-                <style>
-                  <class name="suggested-action"/>
-                </style>
-              </object>
-              <packing>
-                <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="left_attach">0</property>
+                <property name="top_attach">4</property>
+                <property name="width">2</property>
               </packing>
             </child>
           </object>
-          <packing>
-            <property name="fill">True</property>
-          </packing>
         </child>
       </object>
     </child>
+
+    <!-- Cancel button -->
+    <child type="phosh-dialog-button">
+      <object class="GtkButton" id="cancel_button">
+        <property name="visible">1</property>
+        <property name="receives-default">0</property>
+        <property name="hexpand">1</property>
+        <property name="valign">center</property>
+        <property name="use-underline">1</property>
+        <property name="label" translatable="yes">_Cancel</property>
+        <signal name="clicked" handler="on_dialog_canceled" swapped="yes"/>
+      </object>
+      <packing>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+
+    <!-- Connect button -->
+    <child type="phosh-dialog-button">
+      <object class="GtkButton" id="connect_button">
+        <property name="visible">1</property>
+        <property name="sensitive">0</property>
+        <property name="can-default">1</property>
+        <property name="has-default">1</property>
+        <property name="receives-default">1</property>
+        <property name="valign">center</property>
+        <property name="use-underline">1</property>
+        <property name="label" translatable="yes">C_onnect</property>
+        <signal name="clicked" handler="network_prompt_connect_clicked_cb" swapped="yes"/>
+        <style>
+          <class name="suggested-action"/>
+        </style>
+      </object>
+      <packing>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <style>
+      <class name="phosh-network-auth-prompt"/>
+    </style>
   </template>
 
   <!-- Grid to be shown for WEP/WPA passwords -->
