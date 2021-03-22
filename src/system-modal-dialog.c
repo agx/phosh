@@ -133,6 +133,13 @@ phosh_system_modal_dialog_get_property (GObject    *obj,
 }
 
 
+static void
+on_removed_by_swipe (PhoshSystemModalDialog *self)
+{
+  g_signal_emit (self, signals[DIALOG_CANCELED], 0);
+}
+
+
 static gboolean
 on_key_press_event (PhoshSystemModalDialog *self, GdkEventKey *event, gpointer data)
 {
@@ -234,6 +241,7 @@ phosh_system_modal_dialog_class_init (PhoshSystemModalDialogClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemModalDialog, lbl_title);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemModalDialog, box_dialog);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemModalDialog, box_buttons);
+  gtk_widget_class_bind_template_callback (widget_class, on_removed_by_swipe);
 }
 
 
