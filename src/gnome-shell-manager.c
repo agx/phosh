@@ -24,7 +24,7 @@
  *
  */
 
-#define NOTIFY_DBUS_NAME "org.gnome.Shell"
+#define GNOME_SHELL_DBUS_NAME "org.gnome.Shell"
 #define OSD_HIDE_TIMEOUT 1 /* seconds */
 
 static void phosh_gnome_shell_manager_shell_iface_init (PhoshGnomeShellDBusShellIface *iface);
@@ -634,7 +634,7 @@ phosh_gnome_shell_manager_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_gnome_shell_manager_parent_class)->constructed (object);
   self->dbus_name_id = g_bus_own_name (G_BUS_TYPE_SESSION,
-                                       NOTIFY_DBUS_NAME,
+                                       GNOME_SHELL_DBUS_NAME,
                                        G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT |
                                        G_BUS_NAME_OWNER_FLAGS_REPLACE,
                                        on_bus_acquired,
