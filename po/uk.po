@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-01-16 03:33+0000\n"
-"PO-Revision-Date: 2021-01-16 09:10+0200\n"
+"POT-Creation-Date: 2021-03-22 15:33+0000\n"
+"PO-Revision-Date: 2021-03-22 17:47+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -17,8 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 20.11.70\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -49,7 +48,7 @@ msgstr "Bluetooth"
 msgid "Docked"
 msgstr "Зафіксовано"
 
-#: src/docked-info.c:195
+#: src/docked-info.c:81 src/docked-info.c:195
 msgid "Undocked"
 msgstr "Від'єднано"
 
@@ -67,17 +66,17 @@ msgstr "Тихо"
 msgid "Silent"
 msgstr "Беззвучно"
 
-#: src/lockscreen.c:86 src/ui/lockscreen.ui:234
+#: src/lockscreen.c:85 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:265
+#: src/lockscreen.c:264
 msgid "Checking…"
 msgstr "Звіряю…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:343
+#: src/lockscreen.c:342
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
@@ -97,8 +96,7 @@ msgstr "Вбудований дисплей"
 
 #: src/monitor-manager.c:126
 #, c-format
-msgctxt ""
-"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgctxt "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
@@ -206,14 +204,12 @@ msgstr "зараз"
 #. Translators: time difference "Over 5 years"
 #: src/notifications/timestamp-label.c:189
 #, c-format
-#| msgid "Over"
 msgid "Over %dy"
 msgstr "Понад %dр."
 
 #. Translators: time difference "almost 5 years"
 #: src/notifications/timestamp-label.c:193
 #, c-format
-#| msgid "Almost"
 msgid "Almost %dy"
 msgstr "Майже %dр."
 
@@ -223,22 +219,18 @@ msgstr "Майже %dр."
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:232
+#: src/polkit-auth-agent.c:225
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Користувач перервав діалог автентифікації"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:130
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:155
+#: src/ui/polkit-auth-prompt.ui:45 src/ui/system-prompt.ui:44
 msgid "Password:"
 msgstr "Пароль:"
 
 #: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "На жаль, це не спрацювало. Будь ласка, спробуйте ще."
-
-#: src/polkit-auth-prompt.c:470
-msgid "Authenticate"
-msgstr "Автентифікуватися"
 
 #: src/rotateinfo.c:65
 msgid "Portrait"
@@ -288,35 +280,44 @@ msgstr "Екстрений виклик"
 msgid "Unlock"
 msgstr "Розблокувати"
 
-#: src/ui/network-auth-prompt.ui:89
+#: src/ui/network-auth-prompt.ui:35
+#| msgid "Authenticate"
+msgid "Authentication required"
+msgstr "Слід пройти розпізнавання"
+
+#: src/ui/network-auth-prompt.ui:108
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: src/ui/network-auth-prompt.ui:105
+#: src/ui/network-auth-prompt.ui:127
 msgid "C_onnect"
 msgstr "З'_єднатися"
 
-#: src/ui/polkit-auth-prompt.ui:105
+#: src/ui/polkit-auth-prompt.ui:78
 msgid "User:"
 msgstr "Користувач:"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/polkit-auth-prompt.ui:194
+msgid "Authenticate"
+msgstr "Автентифікуватися"
+
+#: src/ui/system-prompt.ui:74
 msgid "Confirm:"
 msgstr "Підтвердіть:"
 
-#: src/ui/top-panel.ui:15
+#: src/ui/top-panel.ui:16
 msgid "Lock Screen"
 msgstr "Заблокувати екран"
 
-#: src/ui/top-panel.ui:22
+#: src/ui/top-panel.ui:23
 msgid "Logout"
 msgstr "Вийти"
 
-#: src/ui/top-panel.ui:29
+#: src/ui/top-panel.ui:30
 msgid "Restart"
 msgstr "Перезапустити"
 
-#: src/ui/top-panel.ui:36
+#: src/ui/top-panel.ui:37
 msgid "Power Off"
 msgstr "Вимкнути"
 
@@ -325,6 +326,6 @@ msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:170
+#: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Стільниковий"
