@@ -28,33 +28,6 @@
           </object>
         </child>
 
-        <child>
-          <object class="GtkGrid" id="system_prompt_grid">
-            <property name="visible">1</property>
-            <property name="margin-left">20</property>
-            <property name="margin-right">20</property>
-            <property name="row-spacing">6</property>
-            <property name="column-spacing">12</property>
-
-            <child>
-              <object class="GtkLabel" id="lbl_info">
-                <property name="visible">True</property>
-                <property name="margin_top">12</property>
-                <property name="halign">center</property>
-                <property name="justify">center</property>
-                <property name="wrap">True</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">4</property>
-                <property name="width">2</property>
-              </packing>
-            </child>
-          </object>
-        </child>
       </object>
     </child>
 
