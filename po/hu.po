@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-07-06 03:30+0000\n"
+"POT-Creation-Date: 2021-01-16 03:33+0000\n"
 "PO-Revision-Date: 2020-07-08 12:55+0200\n"
 "Last-Translator: Meskó Balázs <mesko.balazs@fsf.hu>\n"
 "Language-Team: Hungarian\n"
@@ -27,115 +27,244 @@ msgstr "Telefon Shell"
 msgid "Window management and application launching for mobile"
 msgstr "Ablakkezelés és alkalmazásindítás mobilra"
 
-#: src/app-grid-button.c:530
+#: src/app-grid-button.c:536
 msgid "Application"
 msgstr "Alkalmazás"
+
+#: src/bt-info.c:92 src/feedbackinfo.c:51
+msgid "On"
+msgstr "Be"
+
+#: src/bt-info.c:94
+msgid "Bluetooth"
+msgstr ""
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr ""
+
+#: src/docked-info.c:195
+msgid "Undocked"
+msgstr ""
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:41
+#: src/feedbackinfo.c:44
 msgid "Quiet"
 msgstr "Csendes"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:46
+#: src/feedbackinfo.c:49
 msgid "Silent"
 msgstr "Néma"
 
-#: src/feedbackinfo.c:48
-msgid "On"
-msgstr "Be"
-
-#: src/lockscreen.c:82 src/ui/lockscreen.ui:217
+#: src/lockscreen.c:86 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
 msgstr "Adja meg a jelkódot"
 
-#: src/lockscreen.c:261
+#: src/lockscreen.c:265
 msgid "Checking…"
 msgstr "Ellenőrzés…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:339
+#: src/lockscreen.c:343
 msgid "%A, %B %-e"
 msgstr "%B %-d. %A"
 
-#: src/media-player.c:262
-msgid "Unknown title"
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:277 src/ui/media-player.ui:107
+#, fuzzy
+#| msgid "Unknown title"
+msgid "Unknown Title"
 msgstr "Ismeretlen cím"
 
-#: src/media-player.c:270
-msgid "Unknown artist"
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:286 src/ui/media-player.ui:127
+msgid "Unknown Artist"
 msgstr "Ismeretlen előadó"
 
-#: src/monitor-manager.c:58
+#: src/monitor-manager.c:108
 msgid "Built-in display"
 msgstr "Beépített kijelző"
 
+#: src/monitor-manager.c:126
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr ""
+
+#: src/monitor-manager.c:133
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %sn"
+msgstr ""
+
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:62
+#: src/monitor-manager.c:142
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: src/network-auth-prompt.c:184
+#: src/network-auth-prompt.c:187
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "A(z) „%s” Wi-Fi-hálózat hitelesítési típusa nem támogatott"
 
-#: src/network-auth-prompt.c:189
+#: src/network-auth-prompt.c:192
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Adja meg a(z) „%s” Wi-Fi-hálózat jelszavát"
 
-#: src/notifications/notification.c:365 src/notifications/notification.c:581
+#: src/notifications/mount-notification.c:137
+msgid "Open"
+msgstr ""
+
+#: src/notifications/notification.c:381 src/notifications/notification.c:637
 msgid "Notification"
 msgstr "Értesítés"
 
-#: src/polkit-auth-agent.c:229
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr ""
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr ""
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr ""
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr ""
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr ""
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr ""
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr ""
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr ""
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr ""
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr ""
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr ""
+
+#: src/notifications/timestamp-label.c:121
+#, fuzzy
+#| msgid "Unknown"
+msgid "now"
+msgstr "Ismeretlen"
+
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr ""
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr ""
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr ""
+
+#: src/polkit-auth-agent.c:232
 msgid "Authentication dialog was dismissed by the user"
 msgstr "A felhasználó bezárta a hitelesítési párbeszédet"
 
-#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
+#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:130
 #: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
 msgid "Password:"
 msgstr "Jelszó:"
 
-#: src/polkit-auth-prompt.c:322
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Sajnáljuk, ez nem működött. Próbálja meg újra."
 
-#: src/polkit-auth-prompt.c:488
+#: src/polkit-auth-prompt.c:470
 msgid "Authenticate"
 msgstr "Hitelesítés"
 
-#: src/rotateinfo.c:46
+#: src/rotateinfo.c:65
 msgid "Portrait"
 msgstr "Álló"
 
-#: src/rotateinfo.c:49
+#: src/rotateinfo.c:68
 msgid "Landscape"
 msgstr "Fekvő"
 
-#: src/system-prompt.c:371
+#: src/system-prompt.c:375
 msgid "Passwords do not match."
 msgstr "A jelszavak nem egyeznek."
 
-#: src/system-prompt.c:378
+#: src/system-prompt.c:382
 msgid "Password cannot be blank"
 msgstr "A jelszavak nem lehetnek üresek"
 
-#: src/ui/app-grid-button.ui:48
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr ""
+
+#: src/ui/app-grid-button.ui:49
 msgid "App"
 msgstr "Alkalmazás"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
 msgstr "Eltávolítás a _Kedvencek közül"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
 msgstr "Hozzáadás a _Kedvencekhez"
 
@@ -147,27 +276,19 @@ msgstr "Alkalmazások keresése…"
 msgid "Slide up to unlock"
 msgstr "Csúsztassa fel a feloldáshoz"
 
-#: src/ui/lockscreen.ui:263
+#: src/ui/lockscreen.ui:280
 msgid "Emergency"
 msgstr "Vészhelyzet"
 
-#: src/ui/lockscreen.ui:279
+#: src/ui/lockscreen.ui:296
 msgid "Unlock"
 msgstr "Feloldás"
 
-#: src/ui/media-player.ui:107
-msgid "Unknown Song"
-msgstr "Ismeretlen szám"
-
-#: src/ui/media-player.ui:127
-msgid "Unknown Artist"
-msgstr "Ismeretlen előadó"
-
-#: src/ui/network-auth-prompt.ui:90
+#: src/ui/network-auth-prompt.ui:89
 msgid "_Cancel"
 msgstr "_Mégse"
 
-#: src/ui/network-auth-prompt.ui:106
+#: src/ui/network-auth-prompt.ui:105
 msgid "C_onnect"
 msgstr "Kapcs_olódás"
 
@@ -188,9 +309,24 @@ msgid "Logout"
 msgstr "Kilépés"
 
 #: src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr ""
+
+#: src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Kikapcsolás"
 
-#: src/wifiinfo.c:88
+#: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:170
+msgid "Cellular"
+msgstr ""
+
+#~ msgid "Unknown artist"
+#~ msgstr "Ismeretlen előadó"
+
+#~ msgid "Unknown Song"
+#~ msgstr "Ismeretlen szám"
