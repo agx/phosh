@@ -32,7 +32,6 @@ enum {
   PROP_0,
 
   /* GcrPromptIface */
-  PROP_TITLE,
   PROP_MESSAGE,
   PROP_DESCRIPTION,
   PROP_WARNING,
@@ -62,7 +61,6 @@ typedef enum
 
 typedef struct
 {
-  char *title;
   char *message;
   char *description;
   char *warning;
@@ -81,7 +79,6 @@ typedef struct
   GtkWidget *grid;
   GtkWidget *lbl_confirm;
   GtkWidget *lbl_description;
-  GtkWidget *lbl_message;
   GtkWidget *lbl_password;
   GtkWidget *lbl_warning;
   GtkWidget *pbar_quality;
@@ -98,12 +95,12 @@ typedef struct
 
 struct _PhoshSystemPrompt
 {
-  PhoshSystemModal parent;
+  PhoshSystemModalDialog parent;
 };
 
 
 static void phosh_system_prompt_iface_init (GcrPromptIface *iface);
-G_DEFINE_TYPE_WITH_CODE(PhoshSystemPrompt, phosh_system_prompt, PHOSH_TYPE_SYSTEM_MODAL,
+G_DEFINE_TYPE_WITH_CODE(PhoshSystemPrompt, phosh_system_prompt, PHOSH_TYPE_SYSTEM_MODAL_DIALOG,
                         G_IMPLEMENT_INTERFACE (GCR_TYPE_PROMPT,
                                                phosh_system_prompt_iface_init)
                         G_ADD_PRIVATE (PhoshSystemPrompt));
@@ -119,11 +116,6 @@ phosh_system_prompt_set_property (GObject      *obj,
   PhoshSystemPromptPrivate *priv = phosh_system_prompt_get_instance_private (self);
 
   switch (prop_id) {
-  case PROP_TITLE:
-    g_free (priv->title);
-    priv->title = g_value_dup_string (value);
-    g_object_notify (obj, "title");
-    break;
   case PROP_MESSAGE:
     g_free (priv->message);
     priv->message = g_value_dup_string (value);
@@ -185,9 +177,6 @@ phosh_system_prompt_get_property (GObject    *obj,
   PhoshSystemPromptPrivate *priv = phosh_system_prompt_get_instance_private (self);
 
   switch (prop_id) {
-  case PROP_TITLE:
-    g_value_set_string (value, priv->title ? priv->title : "");
-    break;
   case PROP_MESSAGE:
     g_value_set_string (value, priv->message ? priv->message : "");
     break;
@@ -513,7 +502,7 @@ btn_continue_clicked_cb (PhoshSystemPrompt *self, GtkButton *btn)
 
 
 static void
-btn_cancel_clicked_cb (PhoshSystemPrompt *self, GtkButton *btn)
+on_dialog_canceled (PhoshSystemPrompt *self)
 {
   prompt_cancel (self);
 }
@@ -526,26 +515,6 @@ phosh_system_prompt_iface_init (GcrPromptIface *iface)
   iface->prompt_password_async = phosh_system_prompt_password_async;
   iface->prompt_password_finish = phosh_system_prompt_password_finish;
   iface->prompt_close = phosh_system_prompt_close;
-}
-
-
-static gboolean
-on_key_press_event (PhoshSystemPrompt *self, GdkEventKey *event, gpointer data)
-{
-  gboolean handled = FALSE;
-  g_return_val_if_fail (PHOSH_IS_SYSTEM_PROMPT (self), FALSE);
-
-  switch (event->keyval) {
-    case GDK_KEY_Escape:
-      prompt_cancel (self);
-      handled = TRUE;
-      break;
-    default:
-      /* nothing to do */
-      break;
-  }
-
-  return handled;
 }
 
 
@@ -572,7 +541,6 @@ phosh_system_prompt_finalize (GObject *obj)
   PhoshSystemPrompt *self = PHOSH_SYSTEM_PROMPT (obj);
   PhoshSystemPromptPrivate *priv = phosh_system_prompt_get_instance_private (self);
 
-  g_free (priv->title);
   g_free (priv->message);
   g_free (priv->description);
   g_free (priv->warning);
@@ -592,7 +560,7 @@ phosh_system_prompt_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_system_prompt_parent_class)->constructed (object);
 
-  g_object_bind_property (self, "message", priv->lbl_message, "label", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "message", self, "title", G_BINDING_DEFAULT);
   g_object_bind_property (self, "description", priv->lbl_description, "label", G_BINDING_DEFAULT);
   g_object_bind_property (self, "password-visible", priv->lbl_password, "visible", G_BINDING_DEFAULT);
 
@@ -624,7 +592,7 @@ phosh_system_prompt_constructed (GObject *object)
   g_object_bind_property (self, "cancel-label", priv->btn_cancel, "label", G_BINDING_DEFAULT);
   g_signal_connect_object (priv->btn_cancel,
                            "clicked",
-                           G_CALLBACK (btn_cancel_clicked_cb),
+                           G_CALLBACK (on_dialog_canceled),
                            self,
                            G_CONNECT_SWAPPED);
 
@@ -635,12 +603,6 @@ phosh_system_prompt_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
   gtk_widget_grab_default (priv->btn_continue);
-
-  gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
-  g_signal_connect (G_OBJECT (self),
-                    "key_press_event",
-                    G_CALLBACK (on_key_press_event),
-                    NULL);
 }
 
 
@@ -656,7 +618,6 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
   object_class->dispose = phosh_system_prompt_dispose;
   object_class->finalize = phosh_system_prompt_finalize;
 
-  g_object_class_override_property (object_class, PROP_TITLE, "title");
   g_object_class_override_property (object_class, PROP_MESSAGE, "message");
   g_object_class_override_property (object_class, PROP_DESCRIPTION, "description");
   g_object_class_override_property (object_class, PROP_WARNING, "warning");
@@ -707,7 +668,6 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/system-prompt.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, grid);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, lbl_message);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, lbl_description);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, lbl_password);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, entry_password);
@@ -718,7 +678,7 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, checkbtn_choice);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, btn_cancel);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, btn_continue);
-
+  gtk_widget_class_bind_template_callback (widget_class, on_dialog_canceled);
 }
 
 
