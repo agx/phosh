@@ -11,6 +11,7 @@ src/background-manager.c
 src/batteryinfo.c
 src/bt-info.c
 src/docked-info.c
+src/end-session-dialog.c
 src/fader.c
 src/favorite-list-model.c
 src/feedbackinfo.c
@@ -53,6 +54,7 @@ src/ui/activity.ui
 src/ui/app-auth-prompt.ui
 src/ui/app-grid-button.ui
 src/ui/app-grid.ui
+src/ui/end-session-dialog.ui
 src/ui/home.ui
 src/ui/lockscreen.ui
 src/ui/media-player.ui

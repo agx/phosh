@@ -306,6 +306,36 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
   font-size: 120%;
 }
 
+.phosh-end-session-dialog .phosh-end-session-subtitle {
+  font-feature-settings: "tnum";
+}
+
+.phosh-end-session-dialog .phosh-end-session-warning {
+  color: #ba5645;
+  font-weight: bold;
+}
+
+.phosh-end-session-dialog list {
+  border-radius: 12px;
+}
+
+.phosh-end-session-dialog list row  {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.phosh-end-session-dialog list row:first-child  {
+  margin-top: 6px;
+}
+
+.phosh-end-session-dialog list row:last-child  {
+  margin-bottom: 6px;
+}
+
+.phosh-end-session-dialog list row box box.vertical label:first-child {
+  font-weight: bold;
+}
+
 /*
  * Notifications
  */

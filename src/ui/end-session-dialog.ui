@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <template class="PhoshEndSessionDialog" parent="PhoshSystemModalDialog">
+    <property name="can-focus">False</property>
+    <signal name="dialog-canceled" handler="on_dialog_canceled"/>
+    <child type="phosh-dialog-content">
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="spacing">12</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkLabel" id="lbl_subtitle">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">center</property>
+            <property name="wrap">True</property>
+            <style>
+              <class name="phosh-end-session-subtitle"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="lbl_warn">
+            <property name="visible" bind-source="listbox" bind-property="visible" bind-flags="sync-create"/>
+            <property name="margin-top">12</property>
+            <property name="can-focus">False</property>
+            <property name="halign">center</property>
+            <property name="wrap">True</property>
+            <property name="label" translatable="yes">Some applications are busy or have unsaved work</property>
+            <style>
+              <class name="phosh-end-session-warning"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkListBox" id="listbox">
+            <property name="selection-mode">none</property>
+            <property name="visible">False</property>
+            <property name="can-focus">False</property>
+          </object>
+        </child>
+      </object>
+    </child>
+
+    <child type="phosh-dialog-button">
+      <object class="GtkButton" id="btn_cancel">
+        <property name="label" translatable="yes">Cancel</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="can-default">True</property>
+        <property name="receives-default">False</property>
+        <property name="valign">center</property>
+        <signal name="clicked" handler="on_dialog_canceled" swapped="yes"/>
+      </object>
+    </child>
+    <child type="phosh-dialog-button">
+      <object class="GtkButton" id="btn_confirm">
+        <property name="label" translatable="yes">Ok</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="can-default">True</property>
+        <property name="has-default">True</property>
+        <property name="receives-default">True</property>
+        <property name="valign">center</property>
+        <signal name="clicked" handler="on_btn_confirm_clicked" swapped="yes"/>
+        <style>
+          <class name="suggested-action"/>
+        </style>
+      </object>
+    </child>
+    <style>
+      <class name="phosh-end-session-dialog"/>
+    </style>
+  </template>
+</interface>

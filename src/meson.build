@@ -59,6 +59,8 @@ libphosh_tool_sources = [
   'background.h',
   'connectivity-info.c',
   'connectivity-info.h',
+  'end-session-dialog.c',
+  'end-session-dialog.h',
   'hks-info.c',
   'hks-info.h',
   'hks-manager.c',

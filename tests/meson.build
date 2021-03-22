@@ -73,6 +73,7 @@ tests = [
 
 tests_phoc = [
   'background',
+  'end-session-dialog',
   'layer-surface',
   'lockshield',
   'notification-banner',
