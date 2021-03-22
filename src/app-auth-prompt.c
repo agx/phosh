@@ -34,7 +34,6 @@ enum {
   PROP_0,
 
   PROP_ICON,
-  PROP_TITLE,
   PROP_SUBTITLE,
   PROP_BODY,
   PROP_DENY_LABEL,
@@ -46,10 +45,9 @@ static GParamSpec *props[PROP_LAST_PROP];
 
 
 typedef struct _PhoshAppAuthPrompt {
-  PhoshSystemModal parent;
+  PhoshSystemModalDialog parent;
 
   GIcon           *icon;
-  char            *title;
   char            *subtitle;
   char            *body;
   char            *deny_label;
@@ -57,7 +55,6 @@ typedef struct _PhoshAppAuthPrompt {
   gboolean         offer_remember;
 
   GtkWidget       *icon_app;
-  GtkWidget       *lbl_title;
   GtkWidget       *lbl_subtitle;
   GtkWidget       *lbl_body;
   GtkWidget       *btn_grant;
@@ -69,7 +66,7 @@ typedef struct _PhoshAppAuthPrompt {
 } PhoshAppAuthPrompt;
 
 
-G_DEFINE_TYPE (PhoshAppAuthPrompt, phosh_app_auth_prompt, PHOSH_TYPE_SYSTEM_MODAL)
+G_DEFINE_TYPE (PhoshAppAuthPrompt, phosh_app_auth_prompt, PHOSH_TYPE_SYSTEM_MODAL_DIALOG)
 
 
 static void
@@ -83,9 +80,6 @@ phosh_app_auth_prompt_set_property (GObject      *obj,
   switch (prop_id) {
   case PROP_ICON:
     self->icon = g_value_dup_object (value);
-    break;
-  case PROP_TITLE:
-    self->title = g_value_dup_string (value);
     break;
   case PROP_SUBTITLE:
     self->subtitle = g_value_dup_string (value);
@@ -121,9 +115,6 @@ phosh_app_auth_prompt_get_property (GObject    *obj,
   case PROP_ICON:
     g_value_set_object (value, self->icon);
     break;
-  case PROP_TITLE:
-    g_value_set_string (value, self->title);
-    break;
   case PROP_SUBTITLE:
     g_value_set_string (value, self->subtitle);
     break;
@@ -158,35 +149,15 @@ on_btn_grant_clicked (PhoshAppAuthPrompt *self, GtkButton *btn)
 
 
 static void
-on_btn_deny_clicked (PhoshAppAuthPrompt *self, GtkButton *btn)
+on_dialog_canceled (PhoshAppAuthPrompt *self)
 {
-  self->grant_access = FALSE;
+  g_return_if_fail (PHOSH_IS_APP_AUTH_PROMPT (self));
   self->remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->checkbtn_remember));
 
   g_signal_emit (self, signals[CLOSED], 0);
   gtk_widget_destroy (GTK_WIDGET (self));
 }
 
-
-static gboolean
-on_key_press_event (PhoshAppAuthPrompt *self, GdkEventKey *event, gpointer data)
-{
-  gboolean handled = FALSE;
-
-  g_return_val_if_fail (PHOSH_IS_APP_AUTH_PROMPT (self), FALSE);
-
-  switch (event->keyval) {
-  case GDK_KEY_Escape:
-    on_btn_deny_clicked (self, NULL);
-    handled = TRUE;
-    break;
-  default:
-    /* nothing to do */
-    break;
-  }
-
-  return handled;
-}
 
 
 static void
@@ -195,7 +166,6 @@ phosh_app_auth_prompt_finalize (GObject *obj)
   PhoshAppAuthPrompt *self = PHOSH_APP_AUTH_PROMPT (obj);
 
   g_clear_object (&self->icon);
-  g_clear_pointer (&self->title, g_free);
   g_clear_pointer (&self->subtitle, g_free);
   g_clear_pointer (&self->body, g_free);
   g_clear_pointer (&self->grant_label, g_free);
@@ -212,7 +182,6 @@ phosh_app_auth_prompt_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_app_auth_prompt_parent_class)->constructed (object);
 
-  g_object_bind_property (self, "title", self->lbl_title, "label", G_BINDING_DEFAULT);
   g_object_bind_property (self, "subtitle", self->lbl_subtitle, "label", G_BINDING_DEFAULT);
   g_object_bind_property (self, "body", self->lbl_body, "label", G_BINDING_DEFAULT);
   g_object_bind_property (self, "grant-label", self->btn_grant, "label", G_BINDING_DEFAULT);
@@ -221,12 +190,6 @@ phosh_app_auth_prompt_constructed (GObject *object)
   g_object_bind_property (self, "offer-remember", self->checkbtn_remember, "visible", G_BINDING_DEFAULT);
 
   gtk_widget_grab_default (self->btn_grant);
-
-  gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
-  g_signal_connect (G_OBJECT (self),
-                    "key_press_event",
-                    G_CALLBACK (on_key_press_event),
-                    NULL);
 }
 
 
@@ -247,14 +210,6 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
       "Icon",
       "The auth dialog icon",
       G_TYPE_ICON,
-      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
-
-  props[PROP_TITLE] =
-    g_param_spec_string (
-      "title",
-      "Title",
-      "The auth dialog title",
-      "",
       G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
 
   props[PROP_SUBTITLE] =
@@ -306,14 +261,13 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/app-auth-prompt.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, icon_app);
-  gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, lbl_title);
   gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, lbl_subtitle);
   gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, lbl_body);
   gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, btn_grant);
   gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, btn_deny);
   gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, checkbtn_remember);
   gtk_widget_class_bind_template_callback (widget_class, on_btn_grant_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, on_btn_deny_clicked);
+  gtk_widget_class_bind_template_callback (widget_class, on_dialog_canceled);
 }
 
 

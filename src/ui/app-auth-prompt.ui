@@ -2,174 +2,82 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="PhoshAppAuthPrompt" parent="PhoshSystemModal">
+  <template class="PhoshAppAuthPrompt" parent="PhoshSystemModalDialog">
     <property name="can-focus">False</property>
-    <child>
+    <signal name="dialog-canceled" handler="on_dialog_canceled"/>
+    <child type="phosh-dialog-content">
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="halign">center</property>
-        <property name="valign">center</property>
+        <property name="spacing">12</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkBox">
+          <object class="GtkLabel" id="lbl_subtitle">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-start">12</property>
-            <property name="margin-end">12</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <object class="GtkLabel" id="lbl_title">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">center</property>
-                <property name="margin-top">12</property>
-                <property name="margin-bottom">12</property>
-                <property name="label" translatable="yes">Title</property>
-                <property name="justify">center</property>
-                <property name="wrap">True</property>
-                <style>
-                  <class name="phosh-system-modal-title"/>
-                </style>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="lbl_subtitle">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">center</property>
-                <property name="margin-bottom">6</property>
-                <property name="wrap">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkImage" id="icon_app">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">center</property>
-                <property name="valign">start</property>
-                <property name="margin-left">12</property>
-                <property name="margin-right">12</property>
-                <property name="margin-start">12</property>
-                <property name="margin-end">12</property>
-                <property name="margin-top">12</property>
-                <property name="icon-name">dialog-password-symbolic</property>
-                <property name="icon_size">6</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="lbl_body">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">center</property>
-                <property name="margin-top">12</property>
-                <property name="margin-bottom">12</property>
-                <property name="wrap">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkCheckButton" id="checkbtn_remember">
-                <property name="label" translatable="yes">Remember decision</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="halign">center</property>
-                <property name="margin-bottom">6</property>
-                <property name="use-underline">True</property>
-                <property name="draw-indicator">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">4</property>
-              </packing>
-            </child>
-            <style>
-              <class name="phosh-system-modal-dialog-contents"/>
-            </style>
+            <property name="halign">center</property>
+            <property name="wrap">True</property>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
-          <object class="GtkBox">
+          <object class="GtkImage" id="icon_app">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="homogeneous">True</property>
-            <child>
-              <object class="GtkButton" id="btn_deny">
-                <property name="label" translatable="yes">Cancel</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="can-default">True</property>
-                <property name="receives-default">False</property>
-                <property name="valign">center</property>
-                <signal name="clicked" handler="on_btn_deny_clicked" object="PhoshAppAuthPrompt" swapped="yes"/>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="btn_grant">
-                <property name="label" translatable="yes">Ok</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="can-default">True</property>
-                <property name="has-default">True</property>
-                <property name="receives-default">True</property>
-                <property name="valign">center</property>
-                <signal name="clicked" handler="on_btn_grant_clicked" object="PhoshAppAuthPrompt" swapped="yes"/>
-                <style>
-                  <class name="suggested-action"/>
-                </style>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <style>
-              <class name="phosh-system-modal-dialog-buttons"/>
-            </style>
+            <property name="halign">center</property>
+            <property name="icon-name">dialog-password-symbolic</property>
+            <property name="icon_size">6</property>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
         </child>
+        <child>
+          <object class="GtkLabel" id="lbl_body">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">center</property>
+            <property name="wrap">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="checkbtn_remember">
+            <property name="label" translatable="yes">Remember decision</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">False</property>
+            <property name="halign">center</property>
+            <property name="use-underline">True</property>
+            <property name="draw-indicator">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+
+    <child type="phosh-dialog-button">
+      <object class="GtkButton" id="btn_deny">
+        <property name="label" translatable="yes">Cancel</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="can-default">True</property>
+        <property name="receives-default">False</property>
+        <property name="valign">center</property>
+        <signal name="clicked" handler="on_dialog_canceled" object="PhoshAppAuthPrompt" swapped="yes"/>
+      </object>
+    </child>
+    <child type="phosh-dialog-button">
+      <object class="GtkButton" id="btn_grant">
+        <property name="label" translatable="yes">Ok</property>
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="can-default">True</property>
+        <property name="has-default">True</property>
+        <property name="receives-default">True</property>
+        <property name="valign">center</property>
+        <signal name="clicked" handler="on_btn_grant_clicked" object="PhoshAppAuthPrompt" swapped="yes"/>
         <style>
-          <class name="phosh-system-modal-dialog"/>
-          <class name="phosh-app-auth-prompt"/>
+          <class name="suggested-action"/>
         </style>
       </object>
     </child>
+    <style>
+      <class name="phosh-app-auth-prompt"/>
+    </style>
   </template>
 </interface>
