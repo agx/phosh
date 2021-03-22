@@ -301,13 +301,6 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
   font-size: 120%;
 }
 
-/* TODO: Remove once all dialogs are converted */
-.phosh-system-modal-title {
-  font-weight: 800;
-  font-size: 120%;
-}
-
-
 /*
  * Notifications
  */
