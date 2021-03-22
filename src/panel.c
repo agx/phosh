@@ -76,9 +76,6 @@ on_shutdown_action (GSimpleAction *action,
 
   g_return_if_fail (PHOSH_IS_PANEL (self));
   phosh_session_manager_shutdown (sm);
-  /* TODO: Since we don't implement
-   * gnome.SessionManager.EndSessionDialog yet */
-  phosh_session_manager_shutdown (sm);
   phosh_panel_fold (self);
 }
 
@@ -94,9 +91,6 @@ on_restart_action (GSimpleAction *action,
   g_return_if_fail (PHOSH_IS_PANEL (self));
   g_return_if_fail (PHOSH_IS_SESSION_MANAGER (sm));
 
-  phosh_session_manager_reboot (sm);
-  /* TODO: Since we don't implement
-   * gnome.SessionManager.EndSessionDialog yet */
   phosh_session_manager_reboot (sm);
   phosh_panel_fold (self);
 }
