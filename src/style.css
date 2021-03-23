@@ -263,7 +263,7 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
 }
 
 .phosh-system-modal-dialog {
-  background-color: #393f3f;
+  background-color: @theme_bg_color;
   border: none;
   border-radius: 10px;
   padding: 0px;
@@ -274,20 +274,25 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
 }
 
 .phosh-system-modal-dialog-buttons button {
-  background-origin: padding-box, border-box;
-  background-clip: padding-box, border-box;
-  border: 0;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid @borders;
+  border-right: 1px solid @borders;
+  border-left-width: 0;
+  border-bottom-width: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   box-shadow: none;
+  text-shadow: none;
 }
 
 .phosh-system-modal-dialog-buttons button:first-child {
-    border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .phosh-system-modal-dialog-buttons button:last-child {
     border-bottom-left-radius: 0;
+    border-right: none;
 }
 
 .phosh-system-modal-dialog-content {
