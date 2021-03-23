@@ -169,7 +169,7 @@ on_monitor_changed_cb (GAppInfoMonitor *monitor,
     g_source_remove (priv->debounce);
   }
   priv->debounce = g_timeout_add (500, items_changed, data);
-  g_source_set_name_by_id (priv->debounce, "debounce app changes");
+  g_source_set_name_by_id (priv->debounce, "[phosh] debounce app changes");
 }
 
 
