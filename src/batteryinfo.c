@@ -57,7 +57,7 @@ format_label_cb (GBinding *binding,
                  const GValue *from_value,
                  GValue *to_value,
                  gpointer user_data) {
-  g_value_set_string(to_value, g_strdup_printf ("%d%%", (int)(g_value_get_double(from_value) + 0.5)));
+  g_value_take_string(to_value, g_strdup_printf ("%d%%", (int)(g_value_get_double(from_value) + 0.5)));
   return TRUE;
 }
 
