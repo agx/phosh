@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-03-22 15:33+0000\n"
-"PO-Revision-Date: 2021-03-22 17:47+0200\n"
+"POT-Creation-Date: 2021-03-24 03:31+0000\n"
+"PO-Revision-Date: 2021-03-24 08:36+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -65,6 +65,27 @@ msgstr "Тихо"
 #: src/feedbackinfo.c:49
 msgid "Silent"
 msgstr "Беззвучно"
+
+#: src/location-manager.c:246
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr ""
+"Дозволити «%s» доступ до даних щодо вашого місця перебування?"
+
+#: src/location-manager.c:251
+#| msgid "Application"
+msgid "Geolocation"
+msgstr "Геопозиціювання"
+
+#: src/location-manager.c:252
+msgid "Yes"
+msgstr ""
+"Так"
+
+#: src/location-manager.c:252
+msgid "No"
+msgstr ""
+"Ні"
 
 #: src/lockscreen.c:85 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
@@ -252,6 +273,26 @@ msgstr "Пароль не може бути порожнім"
 msgid "Torch"
 msgstr "Факел"
 
+#: src/ui/app-auth-prompt.ui:28
+msgid "Title"
+msgstr ""
+"Заголовок"
+
+#: src/ui/app-auth-prompt.ui:92
+msgid "Remember decision"
+msgstr ""
+"Запам'ятати вибір"
+
+#: src/ui/app-auth-prompt.ui:124
+#| msgid "_Cancel"
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: src/ui/app-auth-prompt.ui:140
+msgid "Ok"
+msgstr ""
+"Гаразд"
+
 #: src/ui/app-grid-button.ui:49
 msgid "App"
 msgstr "Програма"
@@ -281,7 +322,6 @@ msgid "Unlock"
 msgstr "Розблокувати"
 
 #: src/ui/network-auth-prompt.ui:35
-#| msgid "Authenticate"
 msgid "Authentication required"
 msgstr "Слід пройти розпізнавання"
 
