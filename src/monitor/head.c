@@ -353,8 +353,8 @@ static void head_handle_serial_number (void *data,
   g_return_if_fail (PHOSH_IS_HEAD (self));
 
   g_free (self->serial);
-  self->product = g_strdup (serial_number);
-  g_debug ("Head %p has serial %s", self, self->product);
+  self->serial = g_strdup (serial_number);
+  g_debug ("Head %p has serial %s", self, self->serial);
 }
 
 
