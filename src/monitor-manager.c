@@ -1369,9 +1369,10 @@ phosh_monitor_manager_get_num_monitors (PhoshMonitorManager *self)
 }
 
 /**
- * phosh_monitor_set_transform:
+ * phosh_monitor_manager_set_monitor_transform:
  * @self: A #PhoshMonitor
- * @mode: The #PhoshMonitorPowerSaveMode
+ * @monitor: The #PhoshMonitor to set the tansform on
+ * @transform: The #PhoshMonitorTransform to set
  *
  * Sets monitor's transform. This will become active after the next
  * call to #phosh_monitor_manager_apply_monitor_config().
