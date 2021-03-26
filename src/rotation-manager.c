@@ -216,9 +216,9 @@ on_has_accelerometer_changed (PhoshRotationManager    *self,
 /**
  * fixup_lockscreen_orientation:
  * @self: The PhoshRotationManager
- * @force: Whether to force the monitor to normal orientation
+ * @force: Whether to force the monitor to portait orientation
  *
- * On phones the lock screen doesn't work in landscape so fix that
+ * On phones the lock screen doesn't work in landscape so fix that up
  * until https://source.puri.sm/Librem5/phosh/-/issues/388
  * is fixed. Keep all of this local to this function.
  */
@@ -242,8 +242,12 @@ fixup_lockscreen_orientation (PhoshRotationManager *self, gboolean force)
 
   if (phosh_lockscreen_manager_get_locked (self->lockscreen_manager)) {
     if (force) {
-      g_debug ("Forcing normal transform");
-      apply_transform (self, PHOSH_MONITOR_TRANSFORM_NORMAL);
+      PhoshMonitorTransform transform;
+      /* Use prelock transform if portrait, else use normal */
+      transform = (self->prelock_transform % 2) == 0 ? self->prelock_transform :
+        PHOSH_MONITOR_TRANSFORM_NORMAL;
+      g_debug ("Forcing portrait transform: %d", transform);
+      apply_transform (self, transform);
     } else {
       self->prelock_transform = phosh_monitor_get_transform (self->monitor);
       g_debug ("Saving transform %d", self->prelock_transform);
