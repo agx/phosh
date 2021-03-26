@@ -86,7 +86,6 @@
 
 enum {
   PHOSH_SHELL_PROP_0,
-  PHOSH_SHELL_PROP_TRANSFORM,
   PHOSH_SHELL_PROP_LOCKED,
   PHOSH_SHELL_PROP_PRIMARY_MONITOR,
   PHOSH_SHELL_PROP_SHELL_STATE,
@@ -133,7 +132,6 @@ typedef struct
   PhoshRotationManager *rotation_manager;
 
   gboolean startup_finished;
-  PhoshMonitorTransform transform; /* current rotation of primary monitor */
 
   /* Mirrors PhoshLockscreenManager's locked property */
   gboolean locked;
@@ -317,9 +315,6 @@ phosh_shell_get_property (GObject *object,
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   switch (property_id) {
-  case PHOSH_SHELL_PROP_TRANSFORM:
-    g_value_set_enum (value, phosh_monitor_get_transform(priv->primary_monitor));
-    break;
   case PHOSH_SHELL_PROP_LOCKED:
     g_value_set_boolean (value, priv->locked);
     break;
@@ -512,10 +507,6 @@ setup_idle_cb (PhoshShell *self)
                                   g_getenv ("DESKTOP_AUTOSTART_ID"));
   g_unsetenv ("DESKTOP_AUTOSTART_ID");
 
-  /* If we start rotated, fix this up */
-  if (phosh_shell_get_transform (self) != PHOSH_MONITOR_TRANSFORM_NORMAL)
-    phosh_shell_set_transform (self, PHOSH_MONITOR_TRANSFORM_NORMAL);
-
   priv->gnome_shell_manager = phosh_gnome_shell_manager_get_default ();
 
   priv->startup_finished = TRUE;
@@ -560,27 +551,6 @@ on_builtin_monitor_power_mode_changed (PhoshShell *self, GParamSpec *pspec, Phos
     phosh_shell_lock (self);
 
   phosh_shell_set_state (self, PHOSH_STATE_BLANKED, mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF);
-}
-
-
-static void
-on_primary_monitor_configured (PhoshShell   *self,
-                               PhoshMonitor *monitor)
-{
-  PhoshShellPrivate *priv;
-  PhoshMonitorTransform transform;
-
-  g_return_if_fail (PHOSH_IS_SHELL (self));
-  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
-
-  priv = phosh_shell_get_instance_private (self);
-  transform = phosh_monitor_get_transform (monitor);
-  if (transform == priv->transform)
-    return;
-
-  priv->transform = transform;
-  g_debug ("Primary monitor transform %d", transform);
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_TRANSFORM]);
 }
 
 
@@ -655,7 +625,6 @@ phosh_shell_constructed (GObject *object)
      exising toplevels */
   priv->toplevel_manager = phosh_toplevel_manager_new ();
 
-  priv->transform = -1; /* force initial update */
   priv->monitor_manager = phosh_monitor_manager_new ();
   g_signal_connect_swapped (priv->monitor_manager,
                             "monitor-removed",
@@ -674,10 +643,6 @@ phosh_shell_constructed (GObject *object)
        object does not really exist yet but we need the primary monitor
        early for the panels */
     priv->primary_monitor = g_object_ref (priv->builtin_monitor);
-    g_signal_connect_swapped (priv->primary_monitor,
-                              "configured",
-                              G_CALLBACK (on_primary_monitor_configured),
-                              self);
   }
 
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
@@ -725,14 +690,6 @@ phosh_shell_class_init (PhoshShellClass *klass)
 
   type_setup ();
 
-  props[PHOSH_SHELL_PROP_TRANSFORM] =
-    g_param_spec_enum ("transform",
-                       "Transform",
-                       "Monitor transform of the primary monitor",
-                       PHOSH_TYPE_MONITOR_TRANSFORM,
-                       PHOSH_MONITOR_TRANSFORM_NORMAL,
-                       G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
-
   props[PHOSH_SHELL_PROP_LOCKED] =
     g_param_spec_boolean ("locked",
                           "Locked",
@@ -772,44 +729,11 @@ phosh_shell_init (PhoshShell *self)
 }
 
 
-PhoshMonitorTransform
-phosh_shell_get_transform (PhoshShell *self)
-{
-  PhoshShellPrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), PHOSH_MONITOR_TRANSFORM_NORMAL);
-  priv = phosh_shell_get_instance_private (self);
-  g_return_val_if_fail (priv->primary_monitor, PHOSH_MONITOR_TRANSFORM_NORMAL);
-  return phosh_monitor_get_transform (priv->primary_monitor);
-}
-
-
-void
-phosh_shell_set_transform (PhoshShell *self,
-                           PhoshMonitorTransform transform)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  PhoshMonitorTransform current;
-
-  g_return_if_fail (priv->primary_monitor);
-  current = phosh_monitor_get_transform (priv->primary_monitor);
-  if (current == transform)
-    return;
-
-  phosh_monitor_manager_set_monitor_transform (priv->monitor_manager,
-                                               priv->primary_monitor,
-                                               transform);
-  phosh_monitor_manager_apply_monitor_config (priv->monitor_manager);
-  /* Notification change signalled in on_primary_monitor_configured */
-}
-
-
 void
 phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
 {
   PhoshShellPrivate *priv;
   PhoshMonitor *m = NULL;
-  PhoshMonitorTransform transform;
 
   g_return_if_fail (monitor);
   g_return_if_fail (PHOSH_IS_SHELL (self));
@@ -825,19 +749,9 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
   }
   g_return_if_fail (monitor == m);
 
-  if (priv->primary_monitor)
-    g_signal_handlers_disconnect_by_data (priv->primary_monitor, self);
   g_clear_object (&priv->primary_monitor);
   priv->primary_monitor = g_object_ref (monitor);
   g_debug ("New primary monitor is %s", monitor->name);
-  g_signal_connect_swapped (priv->primary_monitor,
-                            "configured",
-                            G_CALLBACK (on_primary_monitor_configured),
-                            self);
-  /* Catch up if old and new primary monitor's rotation are different */
-  transform = phosh_monitor_get_transform (priv->primary_monitor);
-  if (transform != priv->transform)
-    on_primary_monitor_configured (self, priv->primary_monitor);
 
   /* Move panels to the new monitor by recreating the layer shell surfaces */
   panels_dispose (self);
