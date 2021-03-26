@@ -35,8 +35,7 @@ G_DEFINE_TYPE (PhoshRotateInfo, phosh_rotate_info, PHOSH_TYPE_STATUS_ICON)
 static void
 on_transform_changed (PhoshRotateInfo *self)
 {
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshMonitor *monitor = phosh_shell_get_primary_monitor (shell);
+  PhoshMonitor *monitor;
   gboolean monitor_is_landscape;
   gboolean portrait;
 
@@ -44,7 +43,7 @@ on_transform_changed (PhoshRotateInfo *self)
     return;
   }
 
-  switch (phosh_shell_get_transform (shell)) {
+  switch (phosh_rotation_manager_get_transform (self->manager)) {
   case PHOSH_MONITOR_TRANSFORM_NORMAL:
   case PHOSH_MONITOR_TRANSFORM_FLIPPED:
   case PHOSH_MONITOR_TRANSFORM_180:
@@ -63,6 +62,7 @@ on_transform_changed (PhoshRotateInfo *self)
   }
 
   /* If we have a landscape monitor (tv, laptop) flip the rotation */
+  monitor = phosh_rotation_manager_get_monitor (self->manager);
   monitor_is_landscape = ((double)monitor->width / (double)monitor->height) > 1.0;
   portrait = monitor_is_landscape ? !portrait : portrait;
 
@@ -128,7 +128,7 @@ phosh_rotate_info_init (PhoshRotateInfo *self)
   self->manager = phosh_shell_get_rotation_manager (phosh_shell_get_default());
 
   /* We don't use property bindings since we flip info/icon based on rotation and lock */
-  g_signal_connect_object (phosh_shell_get_default (),
+  g_signal_connect_object (self->manager,
                            "notify::transform",
                            G_CALLBACK (on_transform_changed),
                            self,

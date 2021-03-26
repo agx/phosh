@@ -36,6 +36,7 @@ enum {
   PROP_ORIENTATION_LOCKED,
   PROP_MONITOR,
   PROP_MODE,
+  PROP_TRANSFORM,
   LAST_PROP,
 };
 static GParamSpec *props[LAST_PROP];
@@ -47,6 +48,7 @@ typedef struct _PhoshRotationManager {
   PhoshSensorProxyManager *sensor_proxy_manager;
   PhoshLockscreenManager  *lockscreen_manager;
   PhoshMonitor            *monitor;
+  PhoshMonitorTransform    transform;
   PhoshMonitorTransform    prelock_transform;
 
   GSettings               *settings;
@@ -302,6 +304,26 @@ on_accelerometer_orientation_changed (PhoshRotationManager    *self,
   match_orientation (self);
 }
 
+
+static void
+on_monitor_configured (PhoshRotationManager   *self,
+                       PhoshMonitor           *monitor)
+{
+  PhoshMonitorTransform transform;
+
+  g_return_if_fail (PHOSH_IS_ROTATION_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+
+  transform = phosh_monitor_get_transform (monitor);
+  if (transform == self->transform)
+    return;
+
+  self->transform = transform;
+  g_debug ("Rotation-manager transform %d", transform);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TRANSFORM]);
+}
+
+
 static void
 phosh_rotation_manager_set_property (GObject      *object,
                                      guint         property_id,
@@ -357,6 +379,9 @@ phosh_rotation_manager_get_property (GObject    *object,
   case PROP_MODE:
     g_value_set_enum (value, self->mode);
     break;
+  case PROP_TRANSFORM:
+    g_value_set_enum (value, self->transform);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -391,6 +416,11 @@ phosh_rotation_manager_constructed (GObject *object)
                             self);
   on_power_mode_changed (self, NULL, self->monitor);
 
+  g_signal_connect_swapped (self->monitor,
+                            "configured",
+                            G_CALLBACK (on_monitor_configured),
+                            self);
+  on_monitor_configured (self, self->monitor);
 
   if (!self->sensor_proxy_manager) {
     g_warning ("Got not sensor-proxy, no automatic rotation");
@@ -492,6 +522,14 @@ phosh_rotation_manager_class_init (PhoshRotationManagerClass *klass)
       PHOSH_TYPE_ROTATION_MANAGER_MODE,
       PHOSH_ROTATION_MANAGER_MODE_OFF,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  props[PROP_TRANSFORM] =
+    g_param_spec_enum ("transform",
+                       "Transform",
+                       "Monitor transform of the rotation monitor",
+                       PHOSH_TYPE_MONITOR_TRANSFORM,
+                       PHOSH_MONITOR_TRANSFORM_NORMAL,
+                       G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 }
