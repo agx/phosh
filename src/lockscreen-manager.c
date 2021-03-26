@@ -77,10 +77,6 @@ lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (lockscreen));
   g_return_if_fail (lockscreen == PHOSH_LOCKSCREEN (self->lockscreen));
 
-  /* Fixup transform in case the lockscreen needed to rotate to unlock */
-  g_debug ("Restoring transform %d", self->transform);
-  phosh_shell_set_transform (shell, self->transform);
-
   g_signal_handlers_disconnect_by_data (monitor_manager, self);
   g_signal_handlers_disconnect_by_data (primary_monitor, self);
   g_signal_handlers_disconnect_by_data (shell, self);
@@ -171,35 +167,6 @@ on_monitor_added (PhoshLockscreenManager *self,
   lock_monitor (self, monitor);
 }
 
-static void
-on_primary_monitor_power_mode_changed (PhoshLockscreenManager *self,
-                                       GParamSpec             *pspec,
-                                       PhoshMonitor           *monitor)
-{
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshModeManager *mode_manager = phosh_shell_get_mode_manager(shell);
-
-  /*
-   * Only phones need to switch orientation so that the lock screen fits
-   * https://source.puri.sm/Librem5/phosh/-/issues/388
-   */
-  if (phosh_mode_manager_get_device_type(mode_manager) != PHOSH_MODE_DEVICE_TYPE_PHONE)
-    return;
-
-  /* Don't mess with transforms on external screens either */
-  if (!phosh_monitor_is_builtin (monitor))
-    return;
-
-  switch (phosh_monitor_get_power_save_mode (monitor)) {
-  case PHOSH_MONITOR_POWER_SAVE_MODE_ON:
-    phosh_shell_set_transform (shell, PHOSH_MONITOR_TRANSFORM_NORMAL);
-    break;
-  case PHOSH_MONITOR_POWER_SAVE_MODE_OFF:
-    break;
-  default:
-    g_warn_if_reached ();
-  }
-}
 
 static void
 lock_primary_monitor (PhoshLockscreenManager *self)
@@ -209,7 +176,6 @@ lock_primary_monitor (PhoshLockscreenManager *self)
   PhoshShell *shell = phosh_shell_get_default ();
 
   primary_monitor = phosh_shell_get_primary_monitor (shell);
-  self->transform = phosh_shell_get_transform (shell);
 
   /* The primary output gets the clock, keypad, ... */
   self->lockscreen = PHOSH_LOCKSCREEN (phosh_lockscreen_new (
@@ -221,10 +187,6 @@ lock_primary_monitor (PhoshLockscreenManager *self)
     "swapped-object-signal::lockscreen-unlock", G_CALLBACK (lockscreen_unlock_cb), self,
     "swapped-object-signal::wakeup-output", G_CALLBACK (lockscreen_wakeup_output_cb), self,
     NULL);
-
-  g_signal_connect_swapped (primary_monitor, "notify::power-mode",
-                            G_CALLBACK(on_primary_monitor_power_mode_changed),
-                            self);
 
   gtk_widget_show (GTK_WIDGET (self->lockscreen));
   /* Old lockscreen gets remove due to `layer_surface_closed` */

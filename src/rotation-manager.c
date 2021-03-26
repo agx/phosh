@@ -47,6 +47,7 @@ typedef struct _PhoshRotationManager {
   PhoshSensorProxyManager *sensor_proxy_manager;
   PhoshLockscreenManager  *lockscreen_manager;
   PhoshMonitor            *monitor;
+  PhoshMonitorTransform    prelock_transform;
 
   GSettings               *settings;
   gboolean                 orientation_locked;
@@ -210,6 +211,67 @@ on_has_accelerometer_changed (PhoshRotationManager    *self,
   phosh_rotation_manager_set_mode (self, mode);
 }
 
+/**
+ * fixup_lockscreen_orientation:
+ * @self: The PhoshRotationManager
+ * @force: Whether to force the monitor to normal orientation
+ *
+ * On phones the lock screen doesn't work in landscape so fix that
+ * until https://source.puri.sm/Librem5/phosh/-/issues/388
+ * is fixed. Keep all of this local to this function.
+ */
+static void
+fixup_lockscreen_orientation (PhoshRotationManager *self, gboolean force)
+{
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshModeManager *mode_manager = phosh_shell_get_mode_manager(shell);
+
+  g_return_if_fail (PHOSH_IS_MODE_MANAGER (mode_manager));
+  g_return_if_fail (PHOSH_IS_MONITOR (self->monitor));
+
+  /* Only bother on phones */
+  if (phosh_mode_manager_get_device_type(mode_manager) != PHOSH_MODE_DEVICE_TYPE_PHONE &&
+      phosh_mode_manager_get_device_type(mode_manager) != PHOSH_MODE_DEVICE_TYPE_UNKNOWN)
+    return;
+
+  /* Don't mess with transforms on external screens either */
+  if (!phosh_monitor_is_builtin (self->monitor))
+    return;
+
+  if (phosh_lockscreen_manager_get_locked (self->lockscreen_manager)) {
+    if (force) {
+      g_debug ("Forcing normal transform");
+      apply_transform (self, PHOSH_MONITOR_TRANSFORM_NORMAL);
+    } else {
+      self->prelock_transform = phosh_monitor_get_transform (self->monitor);
+      g_debug ("Saving transform %d", self->prelock_transform);
+    }
+  } else {
+    g_debug ("Restoring transform %d", self->prelock_transform);
+    apply_transform (self, self->prelock_transform);
+  }
+}
+
+
+static void
+on_power_mode_changed (PhoshRotationManager *self,
+                       GParamSpec *pspec,
+                       PhoshMonitor *monitor)
+{
+  PhoshMonitorPowerSaveMode mode;
+
+  g_return_if_fail (PHOSH_IS_ROTATION_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+
+  mode = phosh_monitor_get_power_save_mode (monitor);
+  g_debug ("Mode: %d", mode);
+  if (mode != PHOSH_MONITOR_POWER_SAVE_MODE_ON)
+    return;
+
+  fixup_lockscreen_orientation (self, TRUE);
+}
+
+
 static void
 on_lockscreen_manager_locked (PhoshRotationManager *self, GParamSpec *pspec,
                               PhoshLockscreenManager *lockscreen_manager)
@@ -225,6 +287,8 @@ on_lockscreen_manager_locked (PhoshRotationManager *self, GParamSpec *pspec,
     claim = !phosh_lockscreen_manager_get_locked (self->lockscreen_manager);
 
   phosh_rotation_manager_claim_accelerometer (self, claim);
+
+  fixup_lockscreen_orientation (self, FALSE);
 }
 
 static void
@@ -321,8 +385,17 @@ phosh_rotation_manager_constructed (GObject *object)
                             self);
   on_lockscreen_manager_locked (self, NULL, self->lockscreen_manager);
 
-  if (!self->sensor_proxy_manager)
+  g_signal_connect_swapped (self->monitor,
+                            "notify::power-mode",
+                            (GCallback) on_power_mode_changed,
+                            self);
+  on_power_mode_changed (self, NULL, self->monitor);
+
+
+  if (!self->sensor_proxy_manager) {
+    g_warning ("Got not sensor-proxy, no automatic rotation");
     return;
+  }
 
   g_signal_connect_swapped (self->sensor_proxy_manager,
                             "notify::accelerometer-orientation",
@@ -358,7 +431,12 @@ phosh_rotation_manager_dispose (GObject *object)
                                           self);
     g_clear_object (&self->lockscreen_manager);
   }
-  g_clear_object (&self->monitor);
+
+  if (self->monitor) {
+    g_signal_handlers_disconnect_by_data (self->monitor,
+                                          self);
+    g_clear_object (&self->monitor);
+  }
 
   G_OBJECT_CLASS (phosh_rotation_manager_parent_class)->dispose (object);
 }
