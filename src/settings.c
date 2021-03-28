@@ -99,6 +99,7 @@ rotation_setting_clicked_cb (PhoshSettings *self)
     transform = phosh_rotation_manager_get_transform (rotation_manager) ?
       PHOSH_MONITOR_TRANSFORM_NORMAL : PHOSH_MONITOR_TRANSFORM_270;
     phosh_rotation_manager_set_transform (rotation_manager, transform);
+    g_signal_emit (self, signals[SETTING_DONE], 0);
     break;
   case PHOSH_ROTATION_MANAGER_MODE_SENSOR:
     locked = phosh_rotation_manager_get_orientation_locked (rotation_manager);
@@ -107,8 +108,6 @@ rotation_setting_clicked_cb (PhoshSettings *self)
   default:
     g_assert_not_reached ();
   }
-
-  g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 
 static void
