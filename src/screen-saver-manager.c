@@ -142,6 +142,16 @@ screen_saver_set_active (PhoshScreenSaverManager *self, gboolean active, gboolea
 
 
 static void
+toggle_blank (GSimpleAction *action, GVariant *param, gpointer data)
+{
+  PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (data);
+
+  g_debug ("Power button press, toggling screensaver %d", !self->active);
+  screen_saver_set_active (self, !self->active, TRUE);
+}
+
+
+static void
 phosh_screen_saver_manager_set_property (GObject *object,
                                          guint property_id,
                                          const GValue *value,
@@ -614,6 +624,21 @@ on_idle (PhoshScreenSaverManager *self)
 
 
 static void
+add_keybindings (PhoshScreenSaverManager *self)
+{
+  GActionEntry entries[] = {
+    { "XF86PowerOff", toggle_blank },
+  };
+
+  /* TODO: don't bind power button when g-s-d's power-button-action != 'nothing' */
+  phosh_shell_add_global_keyboard_action_entries (phosh_shell_get_default (),
+                                                  (GActionEntry*)entries,
+                                                  G_N_ELEMENTS (entries),
+                                                  self);
+}
+
+
+static void
 phosh_screen_saver_manager_constructed (GObject *object)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (object);
@@ -634,6 +659,8 @@ phosh_screen_saver_manager_constructed (GObject *object)
   self->settings = g_settings_new ("org.gnome.desktop.screensaver");
   g_settings_bind (self->settings, "lock-enabled", self, "lock-enabled", G_SETTINGS_BIND_GET);
   g_settings_bind (self->settings, "lock-delay", self, "lock-delay", G_SETTINGS_BIND_GET);
+
+  add_keybindings (self);
 
   self->presence = phosh_session_presence_get_default_failable ();
   if (self->presence) {
