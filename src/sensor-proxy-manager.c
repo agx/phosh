@@ -52,27 +52,13 @@ phosh_sensor_proxy_manager_init (PhoshSensorProxyManager *self)
 
 
 PhoshSensorProxyManager *
-phosh_sensor_proxy_manager_get_default_failable (void)
+phosh_sensor_proxy_manager_new (GError **err)
 {
-  static PhoshSensorProxyManager *instance;
-  GError *err = NULL;
-  GInitable *ret;
-
-  if (instance == NULL) {
-    ret = g_initable_new (PHOSH_TYPE_SENSOR_PROXY_MANAGER, NULL, &err,
-                          "g-flags", G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
-                          "g-name", IIO_SENSOR_PROXY_DBUS_NAME,
-                          "g-bus-type", G_BUS_TYPE_SYSTEM,
-                          "g-object-path", IIO_SENSOR_PROXY_DBUS_OBJECT,
-                          "g-interface-name", IIO_SENSOR_PROXY_DBUS_IFACE_NAME,
-                          NULL);
-    if (ret != NULL) {
-      instance = PHOSH_SENSOR_PROXY_MANAGER (ret);
-    } else {
-      g_warning ("Can't connect to iio-sensor-sensor proxy:  %s", err->message);
-      return NULL;
-    }
-    g_object_add_weak_pointer (G_OBJECT (instance), (gpointer *)&instance);
-  }
-  return instance;
+  return g_initable_new (PHOSH_TYPE_SENSOR_PROXY_MANAGER, NULL, err,
+                         "g-flags", G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
+                         "g-name", IIO_SENSOR_PROXY_DBUS_NAME,
+                         "g-bus-type", G_BUS_TYPE_SYSTEM,
+                         "g-object-path", IIO_SENSOR_PROXY_DBUS_OBJECT,
+                         "g-interface-name", IIO_SENSOR_PROXY_DBUS_IFACE_NAME,
+                         NULL);
 }

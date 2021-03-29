@@ -457,12 +457,15 @@ on_fade_out_timeout (PhoshShell *self)
 static gboolean
 setup_idle_cb (PhoshShell *self)
 {
+  g_autoptr (GError) err = NULL;
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   priv->session_manager = phosh_session_manager_new ();
   priv->mode_manager = phosh_mode_manager_new ();
 
-  priv->sensor_proxy_manager = phosh_sensor_proxy_manager_get_default_failable ();
+  priv->sensor_proxy_manager = phosh_sensor_proxy_manager_new (&err);
+  if (!priv->sensor_proxy_manager)
+    g_warning ("Failed to connect to sensor-proxy: %s", err->message);
 
   panels_create (self);
   /* Create background after panel since it needs the panel's size */
@@ -493,7 +496,6 @@ setup_idle_cb (PhoshShell *self)
                            G_CONNECT_SWAPPED);
 
   priv->location_manager = phosh_location_manager_new ();
-  priv->sensor_proxy_manager = phosh_sensor_proxy_manager_get_default_failable ();
   if (priv->sensor_proxy_manager) {
     priv->proximity = phosh_proximity_new (priv->sensor_proxy_manager,
                                            priv->lockscreen_manager);
