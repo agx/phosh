@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-03-24 03:31+0000\n"
-"PO-Revision-Date: 2021-03-24 08:36+0200\n"
+"POT-Creation-Date: 2021-03-29 03:31+0000\n"
+"PO-Revision-Date: 2021-03-29 10:07+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -52,6 +52,57 @@ msgstr "Зафіксовано"
 msgid "Undocked"
 msgstr "Від'єднано"
 
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr ""
+"Вийти"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] ""
+"Вихід з системи %s буде здійснено автоматично за %d секунду."
+msgstr[1] ""
+"Вихід з системи %s буде здійснено автоматично за %d секунди."
+msgstr[2] ""
+"Вихід з системи %s буде здійснено автоматично за %d секунд."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+msgid "Power Off"
+msgstr "Вимкнути"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] ""
+"Система автоматично вимкнеться за %d секунду."
+msgstr[1] ""
+"Система автоматично вимкнеться за %d секунди."
+msgstr[2] ""
+"Система автоматично вимкнеться за %d секунд."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+msgid "Restart"
+msgstr "Перезапустити"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] ""
+"Система автоматично перезапуститься за %d секунду."
+msgstr[1] ""
+"Система автоматично перезапуститься за %d секунди."
+msgstr[2] ""
+"Система автоматично перезапуститься за %d секунд."
+
+#: src/end-session-dialog.c:270
+#| msgid "Application"
+msgid "Unknown application"
+msgstr "Невідома програма"
+
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
@@ -69,23 +120,19 @@ msgstr "Беззвучно"
 #: src/location-manager.c:246
 #, c-format
 msgid "Allow '%s' to access your location information?"
-msgstr ""
-"Дозволити «%s» доступ до даних щодо вашого місця перебування?"
+msgstr "Дозволити «%s» доступ до даних щодо вашого місця перебування?"
 
 #: src/location-manager.c:251
-#| msgid "Application"
 msgid "Geolocation"
 msgstr "Геопозиціювання"
 
 #: src/location-manager.c:252
 msgid "Yes"
-msgstr ""
-"Так"
+msgstr "Так"
 
 #: src/location-manager.c:252
 msgid "No"
-msgstr ""
-"Ні"
+msgstr "Ні"
 
 #: src/lockscreen.c:85 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
@@ -244,8 +291,8 @@ msgstr "%s%d%s"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Користувач перервав діалог автентифікації"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:155
-#: src/ui/polkit-auth-prompt.ui:45 src/ui/system-prompt.ui:44
+#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:85
+#: src/ui/polkit-auth-prompt.ui:57 src/ui/system-prompt.ui:33
 msgid "Password:"
 msgstr "Пароль:"
 
@@ -261,11 +308,11 @@ msgstr "Книжкова"
 msgid "Landscape"
 msgstr "Альбомна"
 
-#: src/system-prompt.c:375
+#: src/system-prompt.c:364
 msgid "Passwords do not match."
 msgstr "Паролі не збігаються."
 
-#: src/system-prompt.c:382
+#: src/system-prompt.c:371
 msgid "Password cannot be blank"
 msgstr "Пароль не може бути порожнім"
 
@@ -273,25 +320,17 @@ msgstr "Пароль не може бути порожнім"
 msgid "Torch"
 msgstr "Факел"
 
-#: src/ui/app-auth-prompt.ui:28
-msgid "Title"
-msgstr ""
-"Заголовок"
-
-#: src/ui/app-auth-prompt.ui:92
+#: src/ui/app-auth-prompt.ui:41
 msgid "Remember decision"
-msgstr ""
-"Запам'ятати вибір"
+msgstr "Запам'ятати вибір"
 
-#: src/ui/app-auth-prompt.ui:124
-#| msgid "_Cancel"
+#: src/ui/app-auth-prompt.ui:55 src/ui/end-session-dialog.ui:50
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/ui/app-auth-prompt.ui:140
+#: src/ui/app-auth-prompt.ui:66 src/ui/end-session-dialog.ui:61
 msgid "Ok"
-msgstr ""
-"Гаразд"
+msgstr "Гаразд"
 
 #: src/ui/app-grid-button.ui:49
 msgid "App"
@@ -309,6 +348,11 @@ msgstr "Додати до _вибраних"
 msgid "Search apps…"
 msgstr "Шукати серед програм…"
 
+#: src/ui/end-session-dialog.ui:32
+msgid "Some applications are busy or have unsaved work"
+msgstr ""
+"Деякі програми зайняті або мають незбережені дані"
+
 #: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr "Протягніть угору, щоб розблокувати"
@@ -321,27 +365,23 @@ msgstr "Екстрений виклик"
 msgid "Unlock"
 msgstr "Розблокувати"
 
-#: src/ui/network-auth-prompt.ui:35
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
 msgid "Authentication required"
 msgstr "Слід пройти розпізнавання"
 
-#: src/ui/network-auth-prompt.ui:108
+#: src/ui/network-auth-prompt.ui:42
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: src/ui/network-auth-prompt.ui:127
+#: src/ui/network-auth-prompt.ui:61
 msgid "C_onnect"
 msgstr "З'_єднатися"
 
-#: src/ui/polkit-auth-prompt.ui:78
-msgid "User:"
-msgstr "Користувач:"
-
-#: src/ui/polkit-auth-prompt.ui:194
+#: src/ui/polkit-auth-prompt.ui:125
 msgid "Authenticate"
 msgstr "Автентифікуватися"
 
-#: src/ui/system-prompt.ui:74
+#: src/ui/system-prompt.ui:63
 msgid "Confirm:"
 msgstr "Підтвердіть:"
 
@@ -353,14 +393,6 @@ msgstr "Заблокувати екран"
 msgid "Logout"
 msgstr "Вийти"
 
-#: src/ui/top-panel.ui:30
-msgid "Restart"
-msgstr "Перезапустити"
-
-#: src/ui/top-panel.ui:37
-msgid "Power Off"
-msgstr "Вимкнути"
-
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
@@ -369,3 +401,9 @@ msgstr "Wi-Fi"
 #: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Стільниковий"
+
+#~ msgid "Title"
+#~ msgstr "Заголовок"
+
+#~ msgid "User:"
+#~ msgstr "Користувач:"
