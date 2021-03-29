@@ -9,6 +9,9 @@
 
 #include "monitor/phosh-display-dbus.h"
 #include "monitor/monitor.h"
+
+#include "sensor-proxy-manager.h"
+
 #include <glib-object.h>
 
 G_BEGIN_DECLS
@@ -32,7 +35,7 @@ typedef enum _MetaMonitorsConfigMethod
 G_DECLARE_FINAL_TYPE (PhoshMonitorManager, phosh_monitor_manager, PHOSH, MONITOR_MANAGER,
                       PhoshDisplayDbusDisplayConfigSkeleton)
 
-PhoshMonitorManager * phosh_monitor_manager_new                       (void);
+PhoshMonitorManager * phosh_monitor_manager_new                       (PhoshSensorProxyManager *proxy);
 void                  phosh_monitor_manager_add_monitor               (PhoshMonitorManager *self,
                                                                        PhoshMonitor        *monitor);
 PhoshMonitor        * phosh_monitor_manager_get_monitor               (PhoshMonitorManager *self,
@@ -44,5 +47,6 @@ void                  phosh_monitor_manager_set_monitor_transform     (PhoshMoni
                                                                        PhoshMonitor        *monitor,
                                                                        PhoshMonitorTransform transform);
 void                  phosh_monitor_manager_apply_monitor_config      (PhoshMonitorManager *self);
-
+void                  phosh_monitor_manager_set_sensor_proxy_manager  (PhoshMonitorManager     *self,
+                                                                       PhoshSensorProxyManager *manager);
 G_END_DECLS

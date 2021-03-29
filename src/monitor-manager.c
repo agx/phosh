@@ -37,6 +37,7 @@ typedef enum PhoshMonitorMAnagerLayoutMode {
 
 enum {
   PROP_0,
+  PROP_SENSOR_PROXY_MANAGER,
   PROP_N_MONITORS,
   PROP_LAST_PROP
 };
@@ -55,6 +56,9 @@ static void phosh_monitor_manager_display_config_init (
 typedef struct _PhoshMonitorManager
 {
   PhoshDisplayDbusDisplayConfigSkeleton parent;
+
+  PhoshSensorProxyManager *sensor_proxy_manager;
+  GBinding                *sensor_proxy_binding;
 
   GPtrArray *monitors;   /* Currently known monitors */
   GPtrArray *heads;      /* Currently known heads */
@@ -1176,6 +1180,18 @@ static const struct zwlr_output_configuration_v1_listener config_listener = {
 
 
 static void
+phosh_monitor_manager_dispose (GObject *object)
+{
+  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
+
+  g_clear_object (&self->sensor_proxy_manager);
+  g_clear_pointer (&self->sensor_proxy_binding, g_binding_unbind);
+
+  G_OBJECT_CLASS (phosh_monitor_manager_parent_class)->dispose (object);
+}
+
+
+static void
 phosh_monitor_manager_finalize (GObject *object)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
@@ -1191,6 +1207,25 @@ phosh_monitor_manager_finalize (GObject *object)
  */
 
 static void
+phosh_monitor_manager_set_property (GObject      *object,
+                                    guint         property_id,
+                                    const GValue *value,
+                                    GParamSpec   *pspec)
+{
+  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
+
+  switch (property_id) {
+  case PROP_SENSOR_PROXY_MANAGER:
+    phosh_monitor_manager_set_sensor_proxy_manager (self, g_value_get_object (value));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
 phosh_monitor_manager_get_property (GObject    *object,
                                     guint       property_id,
                                     GValue     *value,
@@ -1199,6 +1234,9 @@ phosh_monitor_manager_get_property (GObject    *object,
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
 
   switch (property_id) {
+  case PROP_SENSOR_PROXY_MANAGER:
+    g_value_set_object (value, self->sensor_proxy_manager);
+    break;
   case PROP_N_MONITORS:
     g_value_set_int (value, self->monitors->len);
     break;
@@ -1265,8 +1303,18 @@ phosh_monitor_manager_class_init (PhoshMonitorManagerClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->constructed = phosh_monitor_manager_constructed;
+  object_class->dispose = phosh_monitor_manager_dispose;
   object_class->finalize = phosh_monitor_manager_finalize;
   object_class->get_property = phosh_monitor_manager_get_property;
+  object_class->set_property = phosh_monitor_manager_set_property;
+
+  props[PROP_SENSOR_PROXY_MANAGER] =
+    g_param_spec_object ("sensor-proxy-manager",
+                         "Sensor Proxy Manager",
+                         "Sensor Proxy Manager",
+                         PHOSH_TYPE_SENSOR_PROXY_MANAGER,
+                         G_PARAM_READWRITE |
+                         G_PARAM_STATIC_STRINGS);
 
   props[PROP_N_MONITORS] =
     g_param_spec_int ("n-monitors",
@@ -1322,9 +1370,11 @@ phosh_monitor_manager_init (PhoshMonitorManager *self)
 
 
 PhoshMonitorManager *
-phosh_monitor_manager_new (void)
+phosh_monitor_manager_new (PhoshSensorProxyManager *proxy)
 {
-  return g_object_new (PHOSH_TYPE_MONITOR_MANAGER, NULL);
+  return g_object_new (PHOSH_TYPE_MONITOR_MANAGER,
+                       "sensor-proxy-manager", proxy,
+                       NULL);
 }
 
 
@@ -1443,4 +1493,25 @@ phosh_monitor_manager_apply_monitor_config (PhoshMonitorManager *self)
   }
 
   zwlr_output_configuration_v1_apply (config);
+}
+
+void
+phosh_monitor_manager_set_sensor_proxy_manager (PhoshMonitorManager     *self,
+                                                PhoshSensorProxyManager *manager)
+{
+  g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_SENSOR_PROXY_MANAGER (manager) || manager == NULL);
+
+  g_clear_object (&self->sensor_proxy_manager);
+  g_clear_pointer (&self->sensor_proxy_binding, g_binding_unbind);
+
+  if (manager == NULL)
+    return;
+
+  self->sensor_proxy_manager = g_object_ref (manager);
+  self->sensor_proxy_binding = g_object_bind_property (manager, "has-accelerometer",
+                                                       self, "panel-orientation-managed",
+                                                       G_BINDING_SYNC_CREATE);
+
+
 }

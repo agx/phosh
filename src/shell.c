@@ -498,6 +498,8 @@ setup_idle_cb (PhoshShell *self)
   if (priv->sensor_proxy_manager) {
     priv->proximity = phosh_proximity_new (priv->sensor_proxy_manager,
                                            priv->lockscreen_manager);
+    phosh_monitor_manager_set_sensor_proxy_manager (priv->monitor_manager,
+                                                    priv->sensor_proxy_manager);
   }
 
   priv->mount_manager = phosh_mount_manager_new ();
@@ -625,7 +627,7 @@ phosh_shell_constructed (GObject *object)
      exising toplevels */
   priv->toplevel_manager = phosh_toplevel_manager_new ();
 
-  priv->monitor_manager = phosh_monitor_manager_new ();
+  priv->monitor_manager = phosh_monitor_manager_new (NULL);
   g_signal_connect_swapped (priv->monitor_manager,
                             "monitor-removed",
                             G_CALLBACK (on_monitor_removed),
