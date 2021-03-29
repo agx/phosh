@@ -16,4 +16,4 @@
 G_DECLARE_FINAL_TYPE (PhoshScreenSaverManager, phosh_screen_saver_manager, PHOSH, SCREEN_SAVER_MANAGER,
                       PhoshDBusScreenSaverSkeleton)
 
-PhoshScreenSaverManager * phosh_screen_saver_manager_get_default (PhoshLockscreenManager *lockscreen_manager);
+PhoshScreenSaverManager * phosh_screen_saver_manager_new (PhoshLockscreenManager *lockscreen_manager);

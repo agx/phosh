@@ -506,20 +506,9 @@ phosh_screen_saver_manager_init (PhoshScreenSaverManager *self)
 
 
 PhoshScreenSaverManager *
-phosh_screen_saver_manager_get_default (PhoshLockscreenManager *lockscreen_manager)
+phosh_screen_saver_manager_new (PhoshLockscreenManager *lockscreen_manager)
 {
-  static PhoshScreenSaverManager *instance;
-
-  if (instance == NULL) {
-    g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (lockscreen_manager), NULL);
-    instance = g_object_new (PHOSH_TYPE_SCREEN_SAVER_MANAGER,
-                             "lockscreen-manager", lockscreen_manager,
-                             NULL);
-    g_object_add_weak_pointer (G_OBJECT (instance), (gpointer *)&instance);
-  } else {
-    /* switching lockscreen manager is not allowed */
-    g_return_val_if_fail (instance->lockscreen_manager == lockscreen_manager, instance);
-  }
-
-  return instance;
+  return g_object_new (PHOSH_TYPE_SCREEN_SAVER_MANAGER,
+                       "lockscreen-manager", lockscreen_manager,
+                       NULL);
 }

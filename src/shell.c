@@ -676,7 +676,7 @@ setup_idle_cb (PhoshShell *self)
                            G_CONNECT_SWAPPED);
 
   /* Screen saver manager needs lock screen manager */
-  priv->screen_saver_manager = phosh_screen_saver_manager_get_default (
+  priv->screen_saver_manager = phosh_screen_saver_manager_new (
     priv->lockscreen_manager);
 
   priv->notify_manager = phosh_notify_manager_get_default ();
@@ -1305,6 +1305,19 @@ phosh_shell_get_toplevel_manager (PhoshShell *self)
 }
 
 
+PhoshScreenSaverManager *
+phosh_shell_get_screen_saver_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self), NULL);
+  return priv->screen_saver_manager;
+}
+
+
 PhoshSessionManager *
 phosh_shell_get_session_manager (PhoshShell *self)
 {
@@ -1428,7 +1441,6 @@ phosh_shell_get_rotation_manager (PhoshShell *self)
 
   return priv->rotation_manager;
 }
-
 
 PhoshTorchManager *
 phosh_shell_get_torch_manager (PhoshShell *self)
