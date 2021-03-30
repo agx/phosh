@@ -67,7 +67,9 @@ apply_transform (PhoshRotationManager *self, PhoshMonitorTransform transform)
   PhoshMonitorManager *monitor_manager = phosh_shell_get_monitor_manager (phosh_shell_get_default());
 
   g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (monitor_manager));
-  g_return_if_fail (PHOSH_IS_MONITOR (self->monitor));
+
+  if (!self->monitor)
+    return;
 
   g_debug ("Rotating %s: %d", self->monitor->name, transform);
 
@@ -229,7 +231,9 @@ fixup_lockscreen_orientation (PhoshRotationManager *self, gboolean force)
   PhoshModeManager *mode_manager = phosh_shell_get_mode_manager(shell);
 
   g_return_if_fail (PHOSH_IS_MODE_MANAGER (mode_manager));
-  g_return_if_fail (PHOSH_IS_MONITOR (self->monitor));
+
+  if (!self->monitor)
+    return;
 
   /* Only bother on phones */
   if (phosh_mode_manager_get_device_type(mode_manager) != PHOSH_MODE_DEVICE_TYPE_PHONE &&
@@ -346,8 +350,7 @@ phosh_rotation_manager_set_property (GObject      *object,
     self->lockscreen_manager = g_value_dup_object (value);
     break;
   case PROP_MONITOR:
-    /* construct only */
-    self->monitor = g_value_dup_object (value);
+    phosh_rotation_manager_set_monitor (self, g_value_get_object (value));
     break;
   case PROP_ORIENTATION_LOCKED:
     phosh_rotation_manager_set_orientation_locked (self,
@@ -413,18 +416,6 @@ phosh_rotation_manager_constructed (GObject *object)
                             (GCallback) on_lockscreen_manager_locked,
                             self);
   on_lockscreen_manager_locked (self, NULL, self->lockscreen_manager);
-
-  g_signal_connect_swapped (self->monitor,
-                            "notify::power-mode",
-                            (GCallback) on_power_mode_changed,
-                            self);
-  on_power_mode_changed (self, NULL, self->monitor);
-
-  g_signal_connect_swapped (self->monitor,
-                            "configured",
-                            G_CALLBACK (on_monitor_configured),
-                            self);
-  on_monitor_configured (self, self->monitor);
 
   if (!self->sensor_proxy_manager) {
     g_warning ("Got not sensor-proxy, no automatic rotation");
@@ -508,7 +499,7 @@ phosh_rotation_manager_class_init (PhoshRotationManagerClass *klass)
       "Monitor",
       "The monitor to rotate",
       PHOSH_TYPE_MONITOR,
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   props[PROP_ORIENTATION_LOCKED] =
     g_param_spec_boolean (
@@ -645,8 +636,8 @@ phosh_rotation_manager_set_transform (PhoshRotationManager   *self,
 PhoshMonitorTransform
 phosh_rotation_manager_get_transform (PhoshRotationManager *self)
 {
-  g_return_val_if_fail (PHOSH_IS_ROTATION_MANAGER (self),
-                        PHOSH_MONITOR_TRANSFORM_NORMAL);
+  g_return_val_if_fail (PHOSH_IS_ROTATION_MANAGER (self), PHOSH_MONITOR_TRANSFORM_NORMAL);
+  g_return_val_if_fail (PHOSH_IS_MONITOR (self->monitor), PHOSH_MONITOR_TRANSFORM_NORMAL);
 
   return self->monitor->transform;
 }
@@ -663,4 +654,40 @@ phosh_rotation_manager_get_monitor (PhoshRotationManager *self)
   g_return_val_if_fail (PHOSH_IS_ROTATION_MANAGER (self), NULL);
 
   return self->monitor;
+}
+
+
+void
+phosh_rotation_manager_set_monitor (PhoshRotationManager *self, PhoshMonitor *monitor)
+{
+  g_return_if_fail (PHOSH_IS_ROTATION_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor) || monitor == NULL);
+
+  g_debug ("Using monitor %p", monitor);
+
+  if (self->monitor == monitor)
+    return;
+
+  if (self->monitor) {
+    g_signal_handlers_disconnect_by_data (self->monitor, self);
+    g_clear_object (&self->monitor);
+  }
+
+  if (monitor == NULL) {
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MONITOR]);
+    return;
+  }
+
+  self->monitor = g_object_ref (monitor);
+  g_signal_connect_swapped (self->monitor,
+                            "notify::power-mode",
+                            G_CALLBACK (on_power_mode_changed),
+                            self);
+  on_power_mode_changed (self, NULL, self->monitor);
+
+  g_signal_connect_swapped (self->monitor,
+                            "configured",
+                            G_CALLBACK (on_monitor_configured),
+                            self);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MONITOR]);
 }

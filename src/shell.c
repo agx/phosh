@@ -583,6 +583,9 @@ on_monitor_added (PhoshShell *self, PhoshMonitor *monitor)
                             self);
 
   g_debug ("Updating builtin monitor to %s", monitor->name);
+  if (priv->rotation_manager)
+    phosh_rotation_manager_set_monitor (priv->rotation_manager, monitor);
+
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_BUILTIN_MONITOR]);
 }
 
@@ -604,6 +607,9 @@ on_monitor_removed (PhoshShell *self, PhoshMonitor *monitor)
       g_signal_handlers_disconnect_by_data (priv->builtin_monitor, self);
       g_clear_object (&priv->builtin_monitor);
     }
+
+    if (priv->rotation_manager)
+      phosh_rotation_manager_set_monitor (priv->rotation_manager, NULL);
 
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_BUILTIN_MONITOR]);
   }
