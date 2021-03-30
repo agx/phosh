@@ -23,10 +23,18 @@
  * if the output is in portrait/landscape mode.
  */
 
+enum {
+  PROP_0,
+  PROP_PRESENT,
+  PROP_LAST_PROP
+};
+static GParamSpec *props[PROP_LAST_PROP];
+
 typedef struct _PhoshRotateInfo {
-  PhoshStatusIcon     parent;
+  PhoshStatusIcon       parent;
 
   PhoshRotationManager *manager;
+  gboolean              present;
 } PhoshRotateInfo;
 
 
@@ -35,13 +43,15 @@ G_DEFINE_TYPE (PhoshRotateInfo, phosh_rotate_info, PHOSH_TYPE_STATUS_ICON)
 static void
 on_transform_changed (PhoshRotateInfo *self)
 {
-  PhoshMonitor *monitor;
+  PhoshMonitor *monitor = phosh_rotation_manager_get_monitor (self->manager);
   gboolean monitor_is_landscape;
   gboolean portrait;
 
-  if (phosh_rotation_manager_get_mode (self->manager) != PHOSH_ROTATION_MANAGER_MODE_OFF) {
+  if (phosh_rotation_manager_get_mode (self->manager) != PHOSH_ROTATION_MANAGER_MODE_OFF)
     return;
-  }
+
+  if (!monitor)
+    return;
 
   switch (phosh_rotation_manager_get_transform (self->manager)) {
   case PHOSH_MONITOR_TRANSFORM_NORMAL:
@@ -62,7 +72,6 @@ on_transform_changed (PhoshRotateInfo *self)
   }
 
   /* If we have a landscape monitor (tv, laptop) flip the rotation */
-  monitor = phosh_rotation_manager_get_monitor (self->manager);
   monitor_is_landscape = ((double)monitor->width / (double)monitor->height) > 1.0;
   portrait = monitor_is_landscape ? !portrait : portrait;
 
@@ -98,11 +107,12 @@ on_orientation_lock_changed (PhoshRotateInfo *self)
 
 
 static void
-on_mode_changed (PhoshRotateInfo *self)
+on_mode_or_monitor_changed (PhoshRotateInfo *self)
 {
   PhoshRotationManagerMode mode = phosh_rotation_manager_get_mode (self->manager);
+  gboolean present = !!phosh_rotation_manager_get_monitor (self->manager);
 
-  g_debug ("Rotation manager mode: %d", mode);
+  g_debug ("Rotation manager mode: %d, has-builtin: %d", mode, present);
   switch (mode) {
   case PHOSH_ROTATION_MANAGER_MODE_OFF:
     on_transform_changed (self);
@@ -113,12 +123,53 @@ on_mode_changed (PhoshRotateInfo *self)
   default:
     g_assert_not_reached ();
   }
+
+  if (self->present == present)
+    return;
+
+  self->present = present;
+  g_debug ("Built-in monitor present: %d", present);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
+}
+
+
+static void
+phosh_rotate_info_get_property (GObject    *object,
+                                guint       property_id,
+                                GValue     *value,
+                                GParamSpec *pspec)
+{
+  PhoshRotateInfo *self = PHOSH_ROTATE_INFO (object);
+
+  switch (property_id) {
+  case PROP_PRESENT:
+    g_value_set_boolean (value, self->present);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
 }
 
 
 static void
 phosh_rotate_info_class_init (PhoshRotateInfoClass *klass)
 {
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+  object_class->get_property = phosh_rotate_info_get_property;
+
+  props[PROP_PRESENT] =
+    g_param_spec_boolean ("present",
+                          "Present",
+                          "Whether a builtin display to rotate is present",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS |
+                          G_PARAM_EXPLICIT_NOTIFY);
+
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
 
@@ -126,6 +177,10 @@ static void
 phosh_rotate_info_init (PhoshRotateInfo *self)
 {
   self->manager = phosh_shell_get_rotation_manager (phosh_shell_get_default());
+
+  phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), "rotation-locked-symbolic");
+  /* Translators: Automatic screen orientation is off (locked/disabled) */
+  phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("Off"));
 
   /* We don't use property bindings since we flip info/icon based on rotation and lock */
   g_signal_connect_object (self->manager,
@@ -140,8 +195,14 @@ phosh_rotate_info_init (PhoshRotateInfo *self)
                            G_CONNECT_SWAPPED);
   g_signal_connect_object (self->manager,
                            "notify::mode",
-                           G_CALLBACK (on_mode_changed),
+                           G_CALLBACK (on_mode_or_monitor_changed),
                            self,
                            G_CONNECT_SWAPPED);
-  on_mode_changed (self);
+  g_signal_connect_object (self->manager,
+                           "notify::monitor",
+                           G_CALLBACK (on_mode_or_monitor_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  on_mode_or_monitor_changed (self);
 }
