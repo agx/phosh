@@ -398,6 +398,7 @@ load_slideshow (PhoshBackground *self)
     g_warning ("Couldn't get filename for %s: %s", self->uri, err->message);
     return FALSE;
   }
+  g_clear_object (&self->slideshow);
   self->slideshow = gnome_bg_slide_show_new (filename);
 
   self->cancel = g_cancellable_new ();
