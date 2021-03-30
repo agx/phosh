@@ -36,8 +36,6 @@ G_DECLARE_FINAL_TYPE (PhoshMonitorManager, phosh_monitor_manager, PHOSH, MONITOR
                       PhoshDisplayDbusDisplayConfigSkeleton)
 
 PhoshMonitorManager * phosh_monitor_manager_new                       (PhoshSensorProxyManager *proxy);
-void                  phosh_monitor_manager_add_monitor               (PhoshMonitorManager *self,
-                                                                       PhoshMonitor        *monitor);
 PhoshMonitor        * phosh_monitor_manager_get_monitor               (PhoshMonitorManager *self,
                                                                        guint                num);
 guint                 phosh_monitor_manager_get_num_monitors          (PhoshMonitorManager *self);

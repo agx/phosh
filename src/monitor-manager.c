@@ -1038,6 +1038,19 @@ find_monitor_by_wl_output (PhoshMonitorManager *self, struct wl_output *output)
 
 
 static void
+on_monitor_configured (PhoshMonitorManager *self, PhoshMonitor *monitor)
+{
+  g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+
+  g_signal_emit (self, signals[SIGNAL_MONITOR_ADDED], 0, monitor);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_N_MONITORS]);
+
+  g_signal_handlers_disconnect_by_data (monitor, self);
+}
+
+
+static void
 on_monitor_removed (PhoshMonitorManager *self,
                     PhoshMonitor        *monitor,
                     gpointer            *data)
@@ -1048,6 +1061,18 @@ on_monitor_removed (PhoshMonitorManager *self,
   g_debug("Monitor %p (%s) removed", monitor, monitor->name);
   g_ptr_array_remove (self->monitors, monitor);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_N_MONITORS]);
+}
+
+
+static void
+phosh_monitor_manager_add_monitor (PhoshMonitorManager *self, PhoshMonitor *monitor)
+{
+  g_ptr_array_add (self->monitors, monitor);
+  /* Delay emmission of 'monitor-added' until it's configured */
+  g_signal_connect_swapped (monitor,
+                            "configured",
+                            G_CALLBACK (on_monitor_configured),
+                            self);
 }
 
 
@@ -1334,10 +1359,7 @@ phosh_monitor_manager_class_init (PhoshMonitorManagerClass *klass)
    * @manager: The #PhoshMonitorManager emitting the signal.
    * @monitor: The #PhoshMonitor being added.
    *
-   * Emitted whenever a monitor is about to be added. Note
-   * that the monitor might not yet be fully initialized. Use
-   * phosh_monitor_is_configured() to check or listen for
-   * the #PhoshMonitor::configured signal.
+   * Emitted whenever a monitor was added.
    */
   signals[SIGNAL_MONITOR_ADDED] = g_signal_new (
     "monitor-added",
@@ -1375,15 +1397,6 @@ phosh_monitor_manager_new (PhoshSensorProxyManager *proxy)
   return g_object_new (PHOSH_TYPE_MONITOR_MANAGER,
                        "sensor-proxy-manager", proxy,
                        NULL);
-}
-
-
-void
-phosh_monitor_manager_add_monitor (PhoshMonitorManager *self, PhoshMonitor *monitor)
-{
-  g_ptr_array_add (self->monitors, monitor);
-  g_signal_emit (self, signals[SIGNAL_MONITOR_ADDED], 0, monitor);
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_N_MONITORS]);
 }
 
 
