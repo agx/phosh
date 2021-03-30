@@ -285,7 +285,7 @@ handle_grab_accelerators (PhoshGnomeShellDBusShell *skeleton,
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
   g_autoptr (GVariantBuilder) builder = NULL;
-  GVariantIter *arg_iter;
+  g_autoptr (GVariantIter) arg_iter = NULL;
   gchar *accelerator_name;
   guint accelerator_mode_flags;
   guint accelerator_grab_flags;
