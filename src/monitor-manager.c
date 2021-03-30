@@ -657,9 +657,6 @@ phosh_monitor_manager_handle_get_current_state (
   }
 
   g_variant_builder_init (&properties_builder, G_VARIANT_TYPE ("a{sv}"));
-  g_variant_builder_add (&properties_builder, "{sv}",
-                         "supports-mirroring",
-                         g_variant_new_boolean (FALSE));
 
   g_variant_builder_add (&properties_builder, "{sv}",
                          "layout-mode",
