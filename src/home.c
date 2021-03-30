@@ -253,19 +253,20 @@ toggle_application_view_action (GSimpleAction *action, GVariant *param, gpointer
 static void
 add_keybindings (PhoshHome *self)
 {
-  g_auto (GStrv) bindings = NULL;
+  g_auto (GStrv) overview_bindings = NULL;
+  g_auto (GStrv) app_view_bindings = NULL;
   g_autoptr (GSettings) settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
 
-  bindings = g_settings_get_strv (settings, KEYBINDING_KEY_TOGGLE_OVERVIEW);
-  for (int i = 0; i < g_strv_length (bindings); i++) {
-    GActionEntry entry = { bindings[i],
+  overview_bindings = g_settings_get_strv (settings, KEYBINDING_KEY_TOGGLE_OVERVIEW);
+  for (int i = 0; i < g_strv_length (overview_bindings); i++) {
+    GActionEntry entry = { overview_bindings[i],
                            toggle_overview_action, };
     g_array_append_val (self->actions, entry);
   }
 
-  bindings = g_settings_get_strv (settings, KEYBINDING_KEY_TOGGLE_APPLICATION_VIEW);
-  for (int i = 0; i < g_strv_length (bindings); i++) {
-    GActionEntry entry = { bindings[i],
+  app_view_bindings = g_settings_get_strv (settings, KEYBINDING_KEY_TOGGLE_APPLICATION_VIEW);
+  for (int i = 0; i < g_strv_length (app_view_bindings); i++) {
+    GActionEntry entry = { app_view_bindings[i],
                            toggle_application_view_action, };
     g_array_append_val (self->actions, entry);
   }
