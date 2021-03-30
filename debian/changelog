@@ -1,3 +1,163 @@
+phosh (0.10.0) byzantium; urgency=medium
+
+  [ Guido Günther ]
+  * osd-window: Drop padding around levelbar.
+    This avoids a thin black border noticeable on light backgrounds
+  * wwan-iface: Add 'enabled' property.
+    This indicates if the modem is enabled.
+  * wwan-mm: Complete PhoshMMModemState.
+    This matches MMModemState
+  * wwan-mm: Handle 'enabled' property
+  * wwan-ofono: Handle enabled property.
+    We always return TRUE here to not break existing users.
+  * wwaninfo: Correctly indicate disabled state.
+    So far we used the signal-strength 0 icon which is confusing.
+  * Add geoclue DBus interface files.
+    This were taken from gnome-shell as of
+    1dc971d76025416249598f9b8e5a12e37c9dec22
+  * Add geoclue location manager.
+    This honors the 'org.gnome.system.location enabled' GSetting for global
+    access to location services.
+    To work it needs an entry for phosh in /etc/geoclue/geoclue.conf.
+    (Closes: #153)
+  * Add "location service in use" indicator.
+    This indicates that the location sevice is in use via the status bar.
+    (Closes: #527)
+  * location-manager: Reject all per app auth requests.
+    Reject auth by default for the per-app case until we implemented per app
+    location permissions (#524).
+    It currently doesn't hurt us badly since the current test in geoclue
+    whether there should be an auth request is based on
+    gclue_client_info_get_xdg_id() returning !NULL. Due to /proc/%u/cgroup
+    not containining '1:name=systemd:' this isn't the case and hence apps
+    are authorized by geoclue by default.
+  * polkit-auth-prompt: Make buttons use the whole width
+  * polkit-auth-prompt: Move auth button creation into ui file.
+    This makes it simpler to maintain with the reset of the code
+  * polkit-auth-prpmopt: Move info label next to icon.
+    This makes it more consistent with the other dialogs.
+  * polkit-auth-agent: Make buttons a bit larger.
+    This makes them easier to use on mobile. We add a style class
+    so we can reuse that in other modal dialogs.
+  * style.css: Move spacing to content area.
+    This allows buttons to go to the very bottom of the dialog box.
+  * system-modal: Document the style classes
+  * system-prompt: Use system-modal style classes
+  * network-auth-prompt: Use system-modal style classes
+  * system-modal: Use ultrabold font for title.
+    Introduce a style class for that. The other dialogs
+    need more work since they don't use a generic title yet.
+    See #201
+  * top-panel: Add some spacing between the entries.
+    Helps #331
+  * polkit-auth-prompt: Remove the button border.
+    This gets this dialog in line with the buttons of other modal dialogs.
+  * system-modal: Adjust button layout to designs
+  * system-modal: Adjust dialog color to designs (Closes: #201)
+  * system-prompt: Adjust to designs.
+    Drop the icon and center message texts
+  * network-auth-prompt: Adjust to designs.
+    Drop the icon and center message texts
+  * system-prompt: Add missing G_{BEGIN,END}_DECLS
+  * app-auth-prompt: Used to authorize app permissions
+  * location-manager: Use app-auth-manager to ask for geoclue permissions
+    (Closes: #524, #532)
+  * dir-locals: Don't use tabs in ui files
+  * test: Move get_monitor() to testlib.
+    Useful for other layer-surface tests as well
+  * Add system-modal-dialog class.
+    This can serve as base for sytem modal dialogs
+  * polkit-auth-prompt: Use PhoshSystemModalDialog
+  * polkit-auth-prompt: Use SystemModalDialog's `dialog-canceled` signal
+  * polkit-auth-prompt: Adjust to designs.
+    Center text and icons. We need to use a label instead of
+    putting the placeholder text into the password entry since
+    GTK3 only allows for a placeholder text when the entry does
+    not have the focus.
+  * system-modal-dialog: Allow to swipe away.
+    Allow to cancel dialogs by swiping them away
+  * system-modal-dialog: Limit width to 400px.
+    Add a clamp so the dialog keeps a sane width to height ratio.
+  * app-auth-prompt: Use system-modal-dialog (Closes: #536)
+  * system-prompt: Switch to system-modal-dialog.
+    Less code and more consistency.
+  * network-auth-prompt: Switch to system-modal-dialog.
+    Less code and more consistency.
+  * network-auth-dialog: Remove unused system-prompt-grid.
+    Takes up vertical space but isn't used.
+  * style.css: Remove now unused styling.
+    All dialogs use PhoshSystemModalDialog now
+  * batteryinfo: Don't leak string
+  * head: Don't reassign product.
+    Use model as intended
+  * system-modal-dialog: Tweak system-modal-dialog CSS
+    - Use slightly darker background
+    - Use 2px separator between buttons
+    - Use 2px separator to dialog content
+    See: #537
+  * dir-locals: Use 2 spaces for css indent
+  * gnome-shell-manager: Properly name variable.
+    Looks like a c'n'p from PhoshNotifyManager
+  * docs: Add PhoshSystemModalDialog
+  * app-list-model: Prefix timer with [phosh]
+    This makes it consistent with other timers
+  * dbus: Add org.gnome.SessionManager.EndSessionDialog protocol.
+    This will be needed for the 'end session' dialog
+  * panel: Drop workarounds
+  * tools: Add script to check end-session-dialog
+  * Add PhoshEndSessionDialog.
+    This dialog will be invoked by PhoshSessionManager to present
+    logout/reboot/restart requests.
+  * session: Export end-session-dialog.
+    Export the end-session-dialog DBus API used by gnome-session. Upon
+    invocation it will spawn PhoshEndSessionDialog. (Closes: #54, #520)
+  * home: Don't reuse bindings
+    g_settings_get_strv() is transfer-full so reusing it before freeing
+    it beforehand leaks the data.
+  * background: Don't leak slideshow.
+    We need to unref it before reassigning a new one.
+  * gnome-shell-manager: Don't leak GVariantIter
+
+  [ Evangelos Ribeiro Tzaras ]
+  * shell: Use G_PARAM_STATIC_STRINGS for all properties
+  * phosh_shell_get_state: Use enum value instead of magic constant
+  * phosh_shell_get_state: Use `Removing from` instead of `Removing to` in
+    debug message
+  * shell: make `shell_state` a property.
+    This allows to bind the new GnomeShellManager:action_mode property.
+    For that we move the initial call to `phosh_gnome_shell_manager_get_default`
+    to `PhoshShell`'s `setup_idle_cb()` (which is nicer anyway since we do
+    less work on startup).
+    Closes #513
+
+  [ Sebastian Krzyszkowiak ]
+  * style.css: Disable PhoshActivity's button transitions.
+    Adwaita sets `transition: all 200ms $ease-out-quad;` for all
+    GtkButtons. In our case, the transitions being animated are
+    not visible at all, but they still cause redraws, which can
+    be rather heavy when window thumbnails are involved.
+
+  [ Andy Holmes ]
+  * screen-saver-manager: fix type name in idle callback.
+    Type name was PhoshTorchManager instead of PhoshScreenSaverManager
+
+  [ Jan Jasper de Kroon ]
+  * po: Update dutch translation
+
+  [ Emin Tufan Çetin ]
+  * po: Update Turkish translation
+
+  [ Jaroslav Svoboda ]
+  * po: Update Czech translation
+
+  [ Balázs Meskó ]
+  * po:Update Hungarian translation
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 30 Mar 2021 16:02:47 +0200
+
 phosh (0.9.0) byzantium; urgency=medium
 
   [ Sebastian Krzyszkowiak ]
