@@ -87,7 +87,6 @@ on_torch_enabled (PhoshTorchInfo *self, GParamSpec *pspec, PhoshTorchManager *to
 {
   gboolean enabled;
 
-  g_debug ("Updating torch status");
   g_return_if_fail (PHOSH_IS_TORCH_INFO (self));
   g_return_if_fail (PHOSH_IS_TORCH_MANAGER (torch));
 
@@ -96,6 +95,8 @@ on_torch_enabled (PhoshTorchInfo *self, GParamSpec *pspec, PhoshTorchManager *to
     return;
 
   self->enabled = enabled;
+  g_debug ("Updating torch enabled: %d", enabled);
+
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
 }
 
