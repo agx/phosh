@@ -148,15 +148,15 @@ on_proximity_near_changed (PhoshProximity          *self,
                            PhoshSensorProxyManager *sensor)
 {
   gboolean near;
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshMonitor *monitor = phosh_shell_get_builtin_monitor (shell);
 
   near = phosh_dbus_sensor_proxy_get_proximity_near (
     PHOSH_DBUS_SENSOR_PROXY (self->sensor_proxy_manager));
 
   g_debug ("Proximity near changed: %d", near);
-  if (near) {
-    PhoshShell *shell = phosh_shell_get_default ();
+  if (near && monitor) {
     PhoshWayland *wl = phosh_wayland_get_default ();
-    PhoshMonitor *monitor = phosh_shell_get_builtin_monitor (shell);
 
     if (!self->fader) {
       self->fader = phosh_fader_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
