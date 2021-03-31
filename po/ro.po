@@ -1,23 +1,24 @@
 # Romanian translation for phosh.
 # Copyright (C) 2020 phosh's COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
-# Florentina Mușat <emryslokasdottir@gmail.com>, 2020.
+# Florentina Mușat <florentina.musat.28@gmail.com>, 2020-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-07-18 03:30+0000\n"
-"PO-Revision-Date: 2020-07-18 16:59+0300\n"
+"POT-Creation-Date: 2021-03-31 03:33+0000\n"
+"PO-Revision-Date: 2021-03-31 11:47+0200\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2);;\n"
-"X-Generator: Poedit 2.3.1\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n==0 || (n!=1 && n%100>=1 && n"
+"%100<=19) ? 1 : 2);\n"
+"X-Generator: Poedit 2.4.2\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -30,111 +31,297 @@ msgstr "Shell telefon"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr "Administrare de fereastră și lansare de aplicație pentru mobil"
+msgstr "Gestionarea ferestrei și pornirea aplicațiilor pentru mobil"
 
-#: src/app-grid-button.c:530
+#: src/app-grid-button.c:536
 msgid "Application"
 msgstr "Aplicație"
 
-#: src/bt-info.c:89 src/feedbackinfo.c:48
+#: src/bt-info.c:92 src/feedbackinfo.c:51
 msgid "On"
 msgstr "Pornit"
 
-#: src/bt-info.c:91
+#: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#. Translators: quiet and silent are fbd profiles names:
-#. see https://source.puri.sm/Librem5/feedbackd#profiles
-#. for details
-#: src/feedbackinfo.c:41
-msgid "Quiet"
-msgstr "Încet"
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Cuplat"
+
+#: src/docked-info.c:81 src/docked-info.c:195
+msgid "Undocked"
+msgstr "Decuplat"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "Deconectare"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "%s se va deconecta automat în %d secundă."
+msgstr[1] "%s se va deconecta automat în %d secunde."
+msgstr[2] "%s se va deconecta automat în %d de secunde."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+msgid "Power Off"
+msgstr "Oprește"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "Sistemul se va opri automat în %d secundă."
+msgstr[1] "Sistemul se va opri automat în %d secunde."
+msgstr[2] "Sistemul se va opri automat în %d de secunde."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+msgid "Restart"
+msgstr "Repornește"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "Sistemul va reporni automat în %d secundă."
+msgstr[1] "Sistemul va reporni automat în %d secunde."
+msgstr[2] "Sistemul va reporni automat în %d de secunde."
+
+#: src/end-session-dialog.c:270
+msgid "Unknown application"
+msgstr "Aplicație necunoscută"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:46
+#: src/feedbackinfo.c:44
+msgid "Quiet"
+msgstr "Liniștit"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:49
 msgid "Silent"
 msgstr "Silențios"
 
-#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
-msgid "Enter Passcode"
-msgstr "Introduceți parola"
+#: src/location-manager.c:246
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "„%s” poate accesa poziția ta geografică?"
 
-#: src/lockscreen.c:263
+#: src/location-manager.c:251
+msgid "Geolocation"
+msgstr "Poziția geografică"
+
+#: src/location-manager.c:252
+msgid "Yes"
+msgstr "Da"
+
+#: src/location-manager.c:252
+msgid "No"
+msgstr "Nu"
+
+#: src/lockscreen.c:85 src/ui/lockscreen.ui:234
+msgid "Enter Passcode"
+msgstr "Introdu codul de acces"
+
+#: src/lockscreen.c:264
 msgid "Checking…"
 msgstr "Se verifică…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:341
+#: src/lockscreen.c:342
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
-#: src/media-player.c:262
-msgid "Unknown title"
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:277 src/ui/media-player.ui:107
+msgid "Unknown Title"
 msgstr "Titlu necunoscut"
 
-#: src/media-player.c:270
-msgid "Unknown artist"
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:286 src/ui/media-player.ui:127
+msgid "Unknown Artist"
 msgstr "Artist necunoscut"
 
-#: src/monitor-manager.c:58
+#: src/monitor-manager.c:108
 msgid "Built-in display"
-msgstr "Afișaj integrat"
+msgstr "Ecran integrat"
+
+#: src/monitor-manager.c:126
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:133
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %sn"
+msgstr "%s %sn"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:62
+#: src/monitor-manager.c:142
 msgid "Unknown"
 msgstr "Necunoscut"
 
-#: src/network-auth-prompt.c:184
+#: src/network-auth-prompt.c:187
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
-msgstr "Tipul de autentificare de rețea de wifi „%s” nu este suportat"
+msgstr "Tipul de autentificare pentru rețeaua Wi-Fi „%s” nu este acceptat"
 
-#: src/network-auth-prompt.c:189
+#: src/network-auth-prompt.c:192
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr "Introduceți parola pentru rețeaua de wifi „%s”"
+msgstr "Introdu parola pentru rețeaua Wi-Fi „%s”"
 
-#: src/notifications/notification.c:365 src/notifications/notification.c:581
+#: src/notifications/mount-notification.c:137
+msgid "Open"
+msgstr "Deschide"
+
+#: src/notifications/notification.c:381 src/notifications/notification.c:637
 msgid "Notification"
 msgstr "Notificare"
 
-#: src/polkit-auth-agent.c:229
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "s"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "o"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "o"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "z"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "z"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "lu"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "luni"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "a"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "a"
+
+#: src/notifications/timestamp-label.c:121
+msgid "now"
+msgstr "acum"
+
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "Peste %da"
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "Aproape %da"
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d%s"
+
+#: src/polkit-auth-agent.c:225
 msgid "Authentication dialog was dismissed by the user"
-msgstr "Fereastra de autentificare a fost închisă de către utilizator"
+msgstr "Fereastra de autentificare a fost închisă de utilizator"
 
-#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:85
+#: src/ui/polkit-auth-prompt.ui:57 src/ui/system-prompt.ui:33
 msgid "Password:"
-msgstr "Parolă:"
+msgstr "Parola:"
 
-#: src/polkit-auth-prompt.c:322
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "Nu a funcționat. Încercați din nou."
+msgstr "Nu a funcționat. Încearcă din nou."
 
-#: src/polkit-auth-prompt.c:488
-msgid "Authenticate"
-msgstr "Autentificare"
-
-#: src/rotateinfo.c:46
+#: src/rotateinfo.c:65
 msgid "Portrait"
 msgstr "Portret"
 
-#: src/rotateinfo.c:49
+#: src/rotateinfo.c:68
 msgid "Landscape"
 msgstr "Peisaj"
 
-#: src/system-prompt.c:371
+#: src/system-prompt.c:364
 msgid "Passwords do not match."
 msgstr "Parolele nu se potrivesc."
 
-#: src/system-prompt.c:378
+#: src/system-prompt.c:371
 msgid "Password cannot be blank"
 msgstr "Parola nu poate fi goală"
+
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "Lanternă"
+
+#: src/ui/app-auth-prompt.ui:41
+msgid "Remember decision"
+msgstr "Memorează decizia"
+
+#: src/ui/app-auth-prompt.ui:55 src/ui/end-session-dialog.ui:50
+msgid "Cancel"
+msgstr "Anulează"
+
+#: src/ui/app-auth-prompt.ui:66 src/ui/end-session-dialog.ui:61
+msgid "Ok"
+msgstr "De acord"
 
 #: src/ui/app-grid-button.ui:49
 msgid "App"
@@ -142,19 +329,23 @@ msgstr "Aplicație"
 
 #: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
-msgstr "Elimină din _favorite"
+msgstr "Elimină din _Favorite"
 
 #: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
-msgstr "Adaugă la _favorite"
+msgstr "Adaugă la _Favorite"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Caută aplicații…"
 
+#: src/ui/end-session-dialog.ui:32
+msgid "Some applications are busy or have unsaved work"
+msgstr "Unele aplicații sunt ocupate sau au lucrări nesalvate"
+
 #: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
-msgstr "Glisează în sus pentru a debloca"
+msgstr "Trage în sus pentru a debloca"
 
 #: src/ui/lockscreen.ui:280
 msgid "Emergency"
@@ -164,49 +355,54 @@ msgstr "Urgență"
 msgid "Unlock"
 msgstr "Deblocare"
 
-#: src/ui/media-player.ui:107
-msgid "Unknown Song"
-msgstr "Cântec necunoscut"
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+msgid "Authentication required"
+msgstr "Autentificare necesară"
 
-#: src/ui/media-player.ui:127
-msgid "Unknown Artist"
-msgstr "Artist necunoscut"
-
-#: src/ui/network-auth-prompt.ui:90
+#: src/ui/network-auth-prompt.ui:42
 msgid "_Cancel"
 msgstr "_Anulează"
 
-#: src/ui/network-auth-prompt.ui:106
+#: src/ui/network-auth-prompt.ui:61
 msgid "C_onnect"
 msgstr "C_onectează"
 
-#: src/ui/polkit-auth-prompt.ui:105
-msgid "User:"
-msgstr "Utilizator:"
+#: src/ui/polkit-auth-prompt.ui:125
+msgid "Authenticate"
+msgstr "Autentificare"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/system-prompt.ui:63
 msgid "Confirm:"
 msgstr "Confirmă:"
 
-#: src/ui/top-panel.ui:15
+#: src/ui/top-panel.ui:16
 msgid "Lock Screen"
-msgstr "Ecran de blocare"
+msgstr "Blochează ecranul"
 
-#: src/ui/top-panel.ui:22
+#: src/ui/top-panel.ui:23
 msgid "Logout"
-msgstr "Deautentificare"
+msgstr "Deconectare"
 
-#: src/ui/top-panel.ui:29
-msgid "Power Off"
-msgstr "Oprire"
-
-#: src/wifiinfo.c:88
+#: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/wwaninfo.c:167
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Celular"
+
+#~ msgid "Title"
+#~ msgstr "Titlu"
+
+#~ msgid "User:"
+#~ msgstr "Utilizator:"
+
+#~ msgid "Unknown artist"
+#~ msgstr "Artist necunoscut"
+
+#~ msgid "Unknown Song"
+#~ msgstr "Cântec necunoscut"
 
 #~ msgid "Suspend"
 #~ msgstr "Suspendă"
