@@ -303,7 +303,6 @@ add_inhibitor (PhoshEndSessionDialog *self,
 
 
   if (reason) {
-    g_warning ("adding reason");
     lbl_reason = g_object_new (GTK_TYPE_LABEL,
                                "visible", TRUE,
                                "can-focus", FALSE,
