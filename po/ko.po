@@ -29,11 +29,11 @@ msgstr "폰 셸"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr "모바일에서 창을 관리하고 프로그램을 실행합니다"
+msgstr "모바일에서 창을 관리하고 앱을 실행합니다"
 
 #: src/app-grid-button.c:530
 msgid "Application"
-msgstr "프로그램"
+msgstr "애플리케이션"
 
 #: src/bt-info.c:89 src/feedbackinfo.c:48
 msgid "On"
@@ -59,11 +59,11 @@ msgstr "무음+무진동"
 
 #: src/lockscreen.c:84 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
-msgstr "패스코드 입력"
+msgstr "패스코드를 입력하십시오"
 
 #: src/lockscreen.c:263
 msgid "Checking…"
-msgstr "검사중…"
+msgstr "확인하는 중…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -79,7 +79,7 @@ msgstr "알 수 없는 제목"
 #. Translators: Used when the artist of a song is unknown
 #: src/media-player.c:272 src/ui/media-player.ui:127
 msgid "Unknown Artist"
-msgstr "알 수 없는 작가"
+msgstr "알 수 없는 아티스트"
 
 #: src/monitor-manager.c:58
 msgid "Built-in display"
@@ -192,7 +192,7 @@ msgstr "사용자가 인증 대화상자를 닫았습니다"
 #: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
 #: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
 msgid "Password:"
-msgstr "암호:"
+msgstr "비밀번호:"
 
 #: src/polkit-auth-prompt.c:322
 msgid "Sorry, that didn’t work. Please try again."
@@ -212,15 +212,15 @@ msgstr "가로"
 
 #: src/system-prompt.c:371
 msgid "Passwords do not match."
-msgstr "암호가 일치하지 않습니다."
+msgstr "비밀번호가 틀립니다."
 
 #: src/system-prompt.c:378
 msgid "Password cannot be blank"
-msgstr "암호를 비워둘 수 없습니다"
+msgstr "비밀번호를 비워둘 수 없습니다"
 
 #: src/ui/app-grid-button.ui:49
 msgid "App"
-msgstr "프로그램"
+msgstr "앱"
 
 #: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
@@ -232,15 +232,15 @@ msgstr "즐겨찾기에 추가(_F)"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "프로그램 검색…"
+msgstr "앱 검색…"
 
 #: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
-msgstr "끌어 올려서 잠금 해제"
+msgstr "위로 밀어서 잠금 해제"
 
 #: src/ui/lockscreen.ui:280
 msgid "Emergency"
-msgstr "긴급 통화"
+msgstr "긴급통화"
 
 #: src/ui/lockscreen.ui:296
 msgid "Unlock"
@@ -280,9 +280,9 @@ msgstr "전원 끄기"
 
 #: src/wifiinfo.c:88
 msgid "Wi-Fi"
-msgstr "무선랜"
+msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwaninfo.c:168
 msgid "Cellular"
-msgstr "셀룰라"
+msgstr "데이터 네트워크"
