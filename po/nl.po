@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-03-02 03:31+0000\n"
-"PO-Revision-Date: 2021-03-02 15:57+0100\n"
+"POT-Creation-Date: 2021-04-03 15:31+0000\n"
+"PO-Revision-Date: 2021-04-03 19:25+0200\n"
 "Last-Translator: Nathan Follens <nthn@unseen.is>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -35,7 +35,7 @@ msgstr "Vensterbeheer en opstarten van mobiele toepassingen"
 msgid "Application"
 msgstr "Toepassing"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51
+#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
 msgstr "Aan"
 
@@ -51,6 +51,43 @@ msgstr "In dock"
 msgid "Undocked"
 msgstr "Uit dock"
 
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "Uitloggen"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "%s wordt automatisch uitgelogd over %d seconde."
+msgstr[1] "%s wordt automatisch uitgelogd over %d seconden."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+msgid "Power Off"
+msgstr "Uitschakelen"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "Het systeem wordt automatisch uitgeschakeld over %d seconde."
+msgstr[1] "Het systeem wordt automatisch uitgeschakeld over %d seconden."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+msgid "Restart"
+msgstr "Herstarten"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "Het systeem zal automatisch herstarten over %d seconde."
+msgstr[1] "Het systeem zal automatisch herstarten over %d seconden."
+
+#: src/end-session-dialog.c:270
+msgid "Unknown application"
+msgstr "Onbekende applicatie"
+
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
@@ -64,6 +101,23 @@ msgstr "Rustig"
 #: src/feedbackinfo.c:49
 msgid "Silent"
 msgstr "Stil"
+
+#: src/location-manager.c:246
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "‘%s’ toegang geven tot uw locatiegegevens?"
+
+#: src/location-manager.c:251
+msgid "Geolocation"
+msgstr "Geolocatie"
+
+#: src/location-manager.c:252
+msgid "Yes"
+msgstr "Ja"
+
+#: src/location-manager.c:252
+msgid "No"
+msgstr "Nee"
 
 #: src/lockscreen.c:85 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
@@ -89,18 +143,18 @@ msgstr "Onbekende titel"
 msgid "Unknown Artist"
 msgstr "Onbekende artiest"
 
-#: src/monitor-manager.c:108
+#: src/monitor-manager.c:112
 msgid "Built-in display"
 msgstr "Ingebouwd beeldscherm"
 
-#: src/monitor-manager.c:126
+#: src/monitor-manager.c:130
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:133
+#: src/monitor-manager.c:137
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -109,7 +163,7 @@ msgid "%s %sn"
 msgstr "%s %sn"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:142
+#: src/monitor-manager.c:146
 msgid "Unknown"
 msgstr "Onbekend"
 
@@ -223,8 +277,8 @@ msgstr "%s%d%s"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Authenticatievenster is door de gebruiker afgesloten"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:127
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:85
+#: src/ui/polkit-auth-prompt.ui:57 src/ui/system-prompt.ui:33
 msgid "Password:"
 msgstr "Wachtwoord:"
 
@@ -232,29 +286,43 @@ msgstr "Wachtwoord:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Helaas, dat werkte niet. Probeer het opnieuw."
 
-#: src/polkit-auth-prompt.c:470
-msgid "Authenticate"
-msgstr "Aanmelden"
-
-#: src/rotateinfo.c:65
+#: src/rotateinfo.c:81
 msgid "Portrait"
 msgstr "Staand"
 
-#: src/rotateinfo.c:68
+#: src/rotateinfo.c:84
 msgid "Landscape"
 msgstr "Liggend"
 
-#: src/system-prompt.c:375
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:183
+msgid "Off"
+msgstr "Uit"
+
+#: src/system-prompt.c:364
 msgid "Passwords do not match."
 msgstr "Wachtwoorden komen niet overeen."
 
-#: src/system-prompt.c:382
+#: src/system-prompt.c:371
 msgid "Password cannot be blank"
 msgstr "Wachtwoord mag niet leeg zijn"
 
 #: src/torch-info.c:80
 msgid "Torch"
 msgstr "Zaklamp"
+
+#: src/ui/app-auth-prompt.ui:41
+msgid "Remember decision"
+msgstr "Keuze onthouden"
+
+#: src/ui/app-auth-prompt.ui:55 src/ui/end-session-dialog.ui:50
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: src/ui/app-auth-prompt.ui:66 src/ui/end-session-dialog.ui:61
+msgid "Ok"
+msgstr "Oké"
 
 #: src/ui/app-grid-button.ui:49
 msgid "App"
@@ -272,6 +340,10 @@ msgstr "Toevoegen aan _favorieten"
 msgid "Search apps…"
 msgstr "Apps zoeken…"
 
+#: src/ui/end-session-dialog.ui:32
+msgid "Some applications are busy or have unsaved work"
+msgstr "Sommige applicaties zijn bezig of hebben niet-opgeslagen werk"
+
 #: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr "Veeg omhoog om te ontgrendelen"
@@ -284,43 +356,42 @@ msgstr "Noodgeval"
 msgid "Unlock"
 msgstr "Ontgrendelen"
 
-#: src/ui/network-auth-prompt.ui:89
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+msgid "Authentication required"
+msgstr "Verificatie vereist"
+
+#: src/ui/network-auth-prompt.ui:42
 msgid "_Cancel"
 msgstr "_Annuleren"
 
-#: src/ui/network-auth-prompt.ui:105
+#: src/ui/network-auth-prompt.ui:61
 msgid "C_onnect"
 msgstr "_Verbinden"
 
-#: src/ui/polkit-auth-prompt.ui:105
-msgid "User:"
-msgstr "Gebruikersnaam:"
+#: src/ui/polkit-auth-prompt.ui:125
+msgid "Authenticate"
+msgstr "Aanmelden"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/system-prompt.ui:63
 msgid "Confirm:"
 msgstr "Bevestigen:"
 
-#: src/ui/top-panel.ui:15
+#: src/ui/top-panel.ui:16
 msgid "Lock Screen"
 msgstr "Vergrendelscherm"
 
-#: src/ui/top-panel.ui:22
+#: src/ui/top-panel.ui:23
 msgid "Logout"
 msgstr "Afmelden"
-
-#: src/ui/top-panel.ui:29
-msgid "Restart"
-msgstr "Herstarten"
-
-#: src/ui/top-panel.ui:36
-msgid "Power Off"
-msgstr "Uitschakelen"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wifi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:170
+#: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Mobiel"
+
+#~ msgid "User:"
+#~ msgstr "Gebruikersnaam:"
