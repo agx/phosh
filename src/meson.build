@@ -57,6 +57,8 @@ libphosh_tool_sources = files(
   'app-list-model.h',
   'background.c',
   'background.h',
+  'calls-manager.c',
+  'calls-manager.h',
   'connectivity-info.c',
   'connectivity-info.h',
   'end-session-dialog.c',

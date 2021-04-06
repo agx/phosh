@@ -30,6 +30,7 @@
 #include "bt-info.h"
 #include "bt-manager.h"
 #include "connectivity-info.h"
+#include "calls-manager.h"
 #include "docked-info.h"
 #include "docked-manager.h"
 #include "fader.h"
@@ -112,6 +113,7 @@ typedef struct
 
   PhoshSessionManager *session_manager;
   PhoshBackgroundManager *background_manager;
+  PhoshCallsManager *calls_manager;
   PhoshMonitor *primary_monitor;
   PhoshMonitor *builtin_monitor;
   PhoshMonitorManager *monitor_manager;
@@ -358,6 +360,7 @@ phosh_shell_dispose (GObject *object)
 
   /* dispose managers in opposite order of declaration */
   g_clear_object (&priv->screenshot_manager);
+  g_clear_object (&priv->calls_manager);
   g_clear_object (&priv->location_manager);
   g_clear_object (&priv->hks_manager);
   g_clear_object (&priv->gtk_mount_manager);
@@ -727,6 +730,7 @@ phosh_shell_constructed (GObject *object)
                                     "/sm/puri/phosh/icons");
   css_setup (self);
 
+  priv->calls_manager = phosh_calls_manager_new ();
   priv->lockscreen_manager = phosh_lockscreen_manager_new ();
   g_object_bind_property (priv->lockscreen_manager, "locked",
                           self, "locked",
@@ -900,6 +904,19 @@ phosh_shell_get_background_manager (PhoshShell *self)
 }
 
 
+PhoshCallsManager *
+phosh_shell_get_calls_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_CALLS_MANAGER (priv->calls_manager), NULL);
+
+  return priv->calls_manager;
+}
+
+
 PhoshFeedbackManager *
 phosh_shell_get_feedback_manager (PhoshShell *self)
 {
@@ -924,7 +941,6 @@ phosh_shell_get_gtk_mount_manager (PhoshShell *self)
 
   return priv->gtk_mount_manager;
 }
-
 
 
 PhoshLockscreenManager *
