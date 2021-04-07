@@ -442,10 +442,6 @@ phosh_lockscreen_constructed (GObject *object)
   gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
   gtk_widget_realize(GTK_WIDGET (self));
 
-  gtk_style_context_add_class (
-      gtk_widget_get_style_context (GTK_WIDGET (self)),
-      "phosh-lockscreen");
-
   gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
   g_signal_connect (G_OBJECT (self),
                     "key_press_event",
