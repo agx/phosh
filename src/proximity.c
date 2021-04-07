@@ -19,13 +19,16 @@
  * SECTION:proximity
  * @short_description: Proximity sensor handling
  * @Title: PhoshProximity
+ *
+ * #PhoshProximity handles enabling and disabling the proximity detection
+ * based on e.g. active calls.
  */
 
 
 enum {
   PROP_0,
   PROP_SENSOR_PROXY_MANAGER,
-  PROP_LOCKSCREEN_MANAGER,
+  PROP_CALLS_MANAGER,
   LAST_PROP,
 };
 static GParamSpec *props[LAST_PROP];
@@ -35,7 +38,7 @@ typedef struct _PhoshProximity {
 
   gboolean claimed;
   PhoshSensorProxyManager *sensor_proxy_manager;
-  PhoshLockscreenManager *lockscreen_manager;
+  PhoshCallsManager *calls_manager;
   PhoshFader *fader;
 } PhoshProximity;
 
@@ -120,28 +123,32 @@ on_has_proximity_changed (PhoshProximity          *self,
 {
   gboolean has_proximity;
 
-  /* Don't claim if locked to save power */
-  if (phosh_lockscreen_manager_get_locked(self->lockscreen_manager))
-    return;
-
   has_proximity = phosh_dbus_sensor_proxy_get_has_proximity (
     PHOSH_DBUS_SENSOR_PROXY (self->sensor_proxy_manager));
 
   g_debug ("Found %s proximity sensor", has_proximity ? "a" : "no");
+
+  /* If prox went a way we always unclaim but only claim on ongoing calls: */
+  if (!phosh_calls_manager_get_active_call (self->calls_manager) && has_proximity)
+    return;
+
   phosh_proximity_claim_proximity (self, has_proximity);
 }
 
+
 static void
-on_lockscreen_manager_locked (PhoshProximity *self, GParamSpec *pspec,
-                              PhoshLockscreenManager *lockscreen_manager)
+on_calls_manager_active_call_changed (PhoshProximity    *self,
+                                      GParamSpec        *pspec,
+                                      PhoshCallsManager *calls_manager)
 {
-  gboolean locked;
+  gboolean active;
 
   g_return_if_fail (PHOSH_IS_PROXIMITY (self));
-  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (lockscreen_manager));
+  g_return_if_fail (PHOSH_IS_CALLS_MANAGER (calls_manager));
 
-  locked = phosh_lockscreen_manager_get_locked(self->lockscreen_manager);
-  phosh_proximity_claim_proximity (self, !locked);
+  active = !!phosh_calls_manager_get_active_call(self->calls_manager);
+  phosh_proximity_claim_proximity (self, active);
+  /* TODO: if call is over wait until we hit the threshold */
 }
 
 
@@ -184,9 +191,9 @@ phosh_proximity_set_property (GObject *object,
       /* construct only */
       self->sensor_proxy_manager = g_value_dup_object (value);
       break;
-    case PROP_LOCKSCREEN_MANAGER:
+    case PROP_CALLS_MANAGER:
       /* construct only */
-      self->lockscreen_manager = g_value_dup_object (value);
+      self->calls_manager = g_value_dup_object (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -207,8 +214,8 @@ phosh_proximity_get_property (GObject *object,
   case PROP_SENSOR_PROXY_MANAGER:
     g_value_set_object (value, self->sensor_proxy_manager);
     break;
-  case PROP_LOCKSCREEN_MANAGER:
-    g_value_set_object (value, self->lockscreen_manager);
+  case PROP_CALLS_MANAGER:
+    g_value_set_object (value, self->calls_manager);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -222,9 +229,9 @@ phosh_proximity_constructed (GObject *object)
 {
   PhoshProximity *self = PHOSH_PROXIMITY (object);
 
-  g_signal_connect_swapped (self->lockscreen_manager,
-                            "notify::locked",
-                            G_CALLBACK (on_lockscreen_manager_locked),
+  g_signal_connect_swapped (self->calls_manager,
+                            "notify::active-call",
+                            G_CALLBACK (on_calls_manager_active_call_changed),
                             self);
 
   g_signal_connect_swapped (self->sensor_proxy_manager,
@@ -255,10 +262,10 @@ phosh_proximity_dispose (GObject *object)
     g_clear_object (&self->sensor_proxy_manager);
   }
 
-  if (self->lockscreen_manager) {
-     g_signal_handlers_disconnect_by_data (self->lockscreen_manager,
+  if (self->calls_manager) {
+     g_signal_handlers_disconnect_by_data (self->calls_manager,
                                            self);
-     g_clear_object (&self->lockscreen_manager);
+     g_clear_object (&self->calls_manager);
   }
 
   g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
@@ -285,12 +292,12 @@ phosh_proximity_class_init (PhoshProximityClass *klass)
       PHOSH_TYPE_SENSOR_PROXY_MANAGER,
       G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-  props[PROP_LOCKSCREEN_MANAGER] =
+  props[PROP_CALLS_MANAGER] =
     g_param_spec_object (
-      "lockscreen-manager",
-      "Lockscren manager",
-      "The object managing the lock screen",
-      PHOSH_TYPE_LOCKSCREEN_MANAGER,
+      "calls-manager",
+      "",
+      "",
+      PHOSH_TYPE_CALLS_MANAGER,
       G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
@@ -306,10 +313,10 @@ phosh_proximity_init (PhoshProximity *self)
 
 PhoshProximity *
 phosh_proximity_new (PhoshSensorProxyManager *sensor_proxy_manager,
-                     PhoshLockscreenManager *lockscreen_manager)
+                     PhoshCallsManager *calls_manager)
 {
   return g_object_new (PHOSH_TYPE_PROXIMITY,
                        "sensor-proxy-manager", sensor_proxy_manager,
-                       "lockscreen-manager", lockscreen_manager,
+                       "calls-manager", calls_manager,
                        NULL);
 }

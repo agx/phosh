@@ -516,7 +516,7 @@ setup_idle_cb (PhoshShell *self)
   phosh_shell_get_location_manager (self);
   if (priv->sensor_proxy_manager) {
     priv->proximity = phosh_proximity_new (priv->sensor_proxy_manager,
-                                           priv->lockscreen_manager);
+                                           priv->calls_manager);
     phosh_monitor_manager_set_sensor_proxy_manager (priv->monitor_manager,
                                                     priv->sensor_proxy_manager);
   }
