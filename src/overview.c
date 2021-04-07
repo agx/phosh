@@ -23,7 +23,6 @@
 
 #include <gio/gdesktopappinfo.h>
 
-#define HANDY_USE_UNSTABLE_API
 #include <handy.h>
 
 #define OVERVIEW_ICON_SIZE 64

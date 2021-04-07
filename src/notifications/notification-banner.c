@@ -14,7 +14,6 @@
 #include "shell.h"
 #include "util.h"
 
-#define HANDY_USE_UNSTABLE_API
 #include <handy.h>
 
 /**
