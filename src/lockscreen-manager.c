@@ -44,6 +44,7 @@ static guint signals[N_SIGNALS] = { 0 };
 enum {
   PROP_0,
   PROP_LOCKED,
+  PROP_CALLS_MANAGER,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -52,13 +53,15 @@ static GParamSpec *props[PROP_LAST_PROP];
 struct _PhoshLockscreenManager {
   GObject parent;
 
-  PhoshLockscreen *lockscreen;     /* phone display lock screen */
-  PhoshSessionPresence *presence;  /* gnome-session's presence interface */
-  GPtrArray *shields;              /* other outputs */
+  PhoshLockscreen      *lockscreen;     /* phone display lock screen */
+  PhoshSessionPresence *presence;       /* gnome-session's presence interface */
+  GPtrArray             *shields;       /* other outputs */
 
   gboolean locked;
-  gint64 active_time;              /* when lock was activated (in us) */
-  int transform;                   /* the shell transform before locking */
+  gint64 active_time;                   /* when lock was activated (in us) */
+  int transform;                        /* the shell transform before locking */
+
+  PhoshCallsManager    *calls_manager;  /* Calls DBus Interface */
 };
 
 G_DEFINE_TYPE (PhoshLockscreenManager, phosh_lockscreen_manager, G_TYPE_OBJECT)
@@ -275,6 +278,9 @@ phosh_lockscreen_manager_set_property (GObject      *object,
   case PROP_LOCKED:
     phosh_lockscreen_manager_set_locked (self, g_value_get_boolean (value));
     break;
+  case PROP_CALLS_MANAGER:
+    self->calls_manager = g_value_dup_object (value);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -294,10 +300,22 @@ phosh_lockscreen_manager_get_property (GObject    *object,
   case PROP_LOCKED:
     g_value_set_boolean (value, self->locked);
     break;
+  case PROP_CALLS_MANAGER:
+    g_value_set_object (value, self->calls_manager);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
   }
+}
+
+
+static void
+on_calls_call_inbound (PhoshLockscreen *self)
+{
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
+
+  g_signal_emit (self, signals[WAKEUP_OUTPUTS], 0);
 }
 
 
@@ -308,6 +326,7 @@ phosh_lockscreen_manager_dispose (GObject *object)
 
   g_clear_pointer (&self->shields, g_ptr_array_unref);
   g_clear_pointer (&self->lockscreen, phosh_cp_widget_destroy);
+  g_clear_object (&self->calls_manager);
 
   G_OBJECT_CLASS (phosh_lockscreen_manager_parent_class)->dispose (object);
 }
@@ -327,6 +346,12 @@ phosh_lockscreen_manager_constructed (GObject *object)
                               (GCallback) presence_status_changed_cb,
                               self);
   }
+
+  g_signal_connect_object (self->calls_manager,
+                           "call-inbound",
+                           G_CALLBACK (on_calls_call_inbound),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 
@@ -347,6 +372,13 @@ phosh_lockscreen_manager_class_init (PhoshLockscreenManagerClass *klass)
                           "Whether the screen is locked",
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+
+  props[PROP_CALLS_MANAGER] =
+    g_param_spec_object ("calls-manager",
+                         "",
+                         "",
+                         PHOSH_TYPE_CALLS_MANAGER,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT_ONLY);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
@@ -370,9 +402,11 @@ phosh_lockscreen_manager_init (PhoshLockscreenManager *self)
 
 
 PhoshLockscreenManager *
-phosh_lockscreen_manager_new (void)
+phosh_lockscreen_manager_new (PhoshCallsManager *calls_manager)
 {
-  return g_object_new (PHOSH_TYPE_LOCKSCREEN_MANAGER, NULL);
+  return g_object_new (PHOSH_TYPE_LOCKSCREEN_MANAGER,
+                       "calls-manager", calls_manager,
+                       NULL);
 }
 
 /**

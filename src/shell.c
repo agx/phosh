@@ -731,7 +731,7 @@ phosh_shell_constructed (GObject *object)
   css_setup (self);
 
   priv->calls_manager = phosh_calls_manager_new ();
-  priv->lockscreen_manager = phosh_lockscreen_manager_new ();
+  priv->lockscreen_manager = phosh_lockscreen_manager_new (priv->calls_manager);
   g_object_bind_property (priv->lockscreen_manager, "locked",
                           self, "locked",
                           G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
