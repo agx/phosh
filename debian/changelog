@@ -1,3 +1,106 @@
+phosh (0.10.1) byzantium; urgency=medium
+
+  [ Guido Günther ]
+  * rotateinfo: Fix indentation
+  * monitor-manager: Fix doc string.
+    Make function name match the actual definition.
+  * torch: Make debug statement more useful.
+    We want to what things changed not only that s.th. happened.
+  * proximity: Handle NULL builtin monitor.
+    There might be no builtin monitor at all or it could be disabled.
+  * shell: Create sensor-manager early.
+    We want that before the panels since those might use other
+    managers that need the sensor-manager (e.g. rotation-manager)
+  * shell: Don't bother with accelerometer.
+    Rotation-manager takes care of that
+  * shell: Decruft builtin monitor setup.
+    Just look it up on start since it can't change.
+  * Avoid sensor-proxy singleton.
+    Treat it as regular initable that is fetched from the shell
+    like other managers.
+  * Add rotation-manager.
+    The rotation manager listens to device orientation changes
+    and adjusts the primary display accordingly.
+    This interfaces with lockscreen, iio-sensor-proxy and
+    gsettings to figure out the correct screen orientation.
+    The manager has two modes: off (don't rotate any output) and sensor
+    (adjust due to sensor values).
+  * rotateinfo: Display either rotation lock or orientation.
+    Based on the rotation managers mode dislay appropriate information.
+    (Closes: #18)
+  * settings: Add orientation lock to rotate quick setting.
+    Long press switches between potrait/landscape and rotation lock.
+  * settings: Don't close menu when toggling rotation lock.
+    This makes it consistent with other toggles like feedback toggle.
+  * Move Lockscreen rotation fixup to rotation-manager.
+    No need to have several objects involved. This avoids
+    lockscreen and rotation manager racing since we can
+    do it past the unclaim of the accelerometer.
+  * rotateinfo: Use monitor from rotation-manager consistently.
+    So far this was dependent on mode and incorrectly tracked the primary
+    monitor for manual toggle.
+  * shell: Drop transform handling.
+    This is done by the rotation-manager which always acts on the
+    given monitor. (Closes: #56)
+  * rotation-manager: Mess with transform as little as possible.
+    On phones when we're already using portrait orientation don't bother
+    fixing this up. This allows for e.g. upside down operation.
+  * monitor: Update org.gnome.Mutter.DisplayConfig.
+    This is from mutter's 331b5f356311f1dcfc1b580e349a60d25fc0e34f
+  * monitor-manager: Drop supports-mirroring prop.
+    It got removed with the DisplayConfig interface update. Mutter doesn't
+    use it anymore, g-c-c still parses it but doesn't use it in 3.38.
+  * monitor-manager: Handle panel-orientation-managed (Closes: #540)
+  * monitor-manager: Delay 'monitor-added' until monitor is configured.
+    This makes is simpler for other parts of the shell since they don't
+    need to track this on their own.
+    While at that make phosh_monitor_manager_add_monitor private since
+    this should only happen within monitor-manager.
+  * shell: Handle builtin monitor dynamically.
+    It e.g. goes away when disabled in docked mode
+  * rotation-manager: Update tracked monitor.
+    Update tracked monitor when builtin changes. We do this explicitly
+    rather than listening to changes on monitor-manager since this way
+    the rotation-manager doesn't need to be aware that it's tracking
+    a built-in monitor. It just tracks what's passed in.
+  * rotateinfo: Make insensitive when built-in monitor is disabled
+  * end-session-dialog: Drop debug leftover
+  * lockscreen-manager: Remove unused timeout property.
+    Unused since d3028d50686a1fba7876355ea3272def281ad030
+  * lockscreen-manager: Document phosh_lockscreen_manager_set_locked.
+    Use a better argument name while at that.
+  * lockscreen: Fix signal name
+  * monitor-manager: Clarify doc string
+  * screen-saver-manager: Clarify debug message.
+    Make it obvious we're sending out the DBus signal
+  * shell: Look at the right manager.
+    Don't check torch manager when we want location.
+  * shell: Don't create loctation manager twice.
+    Since the panels are constructed before the init in the shell's
+    idle_cb we'd construct twice since priv->location_manager is still
+    NULL. USe the getter instead to be independent from init order.
+  * location-manager: Translate location accuracy levels.
+    Geoclue uses something different then the desktop schemas.
+    Thanks to Dylan Van Assche for the report
+
+  [ Clayton Craft ]
+  * meson: bump version to 0.10.0.
+    Seems like this was missed when 0.10.0 was tagged.
+
+  [ Daniel Șerbănescu ]
+  * po: Update Romanian translation
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+  [ Emin Tufan Çetin ]
+  * po: Update Turkish translation
+
+  [ Jan Jasper de Kroon ]
+  * po: Update Dutch translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 10 Apr 2021 09:18:33 +0200
+
 phosh (0.10.0) byzantium; urgency=medium
 
   [ Guido Günther ]
