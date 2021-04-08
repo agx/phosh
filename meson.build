@@ -109,6 +109,7 @@ gio_unix_dep =  dependency('gio-unix-2.0', version: '>=2.58')
 glib_dep = dependency('glib-2.0', version: '>=2.58')
 gnome_desktop_dep = dependency('gnome-desktop-3.0', version: '>=3.26')
 gobject_dep =  dependency('gobject-2.0', version: '>=2.50.0')
+gsettings_desktop_schemas_dep = dependency('gsettings-desktop-schemas')
 gtk_dep = dependency('gtk+-3.0', version: '>=3.22')
 gtk_wayland_dep = dependency('gtk+-wayland-3.0', version: '>=3.22')
 libfeedback_dep = dependency('libfeedback-0.0',

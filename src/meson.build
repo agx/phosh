@@ -209,6 +209,7 @@ phosh_deps = [
   glib_dep,
   gnome_desktop_dep,
   gobject_dep,
+  gsettings_desktop_schemas_dep,
   gtk_dep,
   gtk_wayland_dep,
   libfeedback_dep,

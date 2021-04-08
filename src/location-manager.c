@@ -15,6 +15,7 @@
 #include "shell.h"
 #include "util.h"
 
+#include <gdesktop-enums.h>
 #include <gio/gdesktopappinfo.h>
 
 /**
@@ -90,12 +91,31 @@ G_DEFINE_TYPE_WITH_CODE (PhoshLocationManager,
 static guint
 get_max_level (PhoshLocationManager *self)
 {
-  gint level;
+  gint level = LEVEL_NONE;
 
-  if (self->enabled)
-    level = g_settings_get_enum (self->location_settings, "max-accuracy-level");
-  else
-    level = LEVEL_NONE;
+  if (self->enabled) {
+    GDesktopLocationAccuracyLevel val = g_settings_get_enum (self->location_settings, "max-accuracy-level");
+
+    switch (val) {
+    case G_DESKTOP_LOCATION_ACCURACY_LEVEL_COUNTRY:
+      level = LEVEL_COUNTRY;
+      break;
+    case G_DESKTOP_LOCATION_ACCURACY_LEVEL_CITY:
+      level = LEVEL_CITY;
+      break;
+    case G_DESKTOP_LOCATION_ACCURACY_LEVEL_NEIGHBORHOOD:
+      level = LEVEL_NEIGHBORHOOD;
+      break;
+    case G_DESKTOP_LOCATION_ACCURACY_LEVEL_STREET:
+      level = LEVEL_STREET;
+      break;
+    case G_DESKTOP_LOCATION_ACCURACY_LEVEL_EXACT:
+      level = LEVEL_EXACT;
+      break;
+    default:
+      g_warn_if_reached ();
+    }
+  }
 
   return level;
 }
