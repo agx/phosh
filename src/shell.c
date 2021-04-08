@@ -1062,7 +1062,7 @@ phosh_shell_get_location_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
 
-  if (!priv->torch_manager)
+  if (!priv->location_manager)
     priv->location_manager = phosh_location_manager_new ();
 
   g_return_val_if_fail (PHOSH_IS_LOCATION_MANAGER (priv->location_manager), NULL);
