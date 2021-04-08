@@ -65,6 +65,7 @@ on_proximity_claimed (PhoshSensorProxyManager *sensor_proxy_manager,
   }
 }
 
+
 static void
 on_proximity_released (PhoshSensorProxyManager *sensor_proxy_manager,
                        GAsyncResult            *res,
@@ -88,6 +89,7 @@ on_proximity_released (PhoshSensorProxyManager *sensor_proxy_manager,
   }
   g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
 }
+
 
 static void
 phosh_proximity_claim_proximity (PhoshProximity *self, gboolean claim)
@@ -192,6 +194,7 @@ phosh_proximity_set_property (GObject *object,
   }
 }
 
+
 static void
 phosh_proximity_get_property (GObject *object,
                              guint property_id,
@@ -212,6 +215,7 @@ phosh_proximity_get_property (GObject *object,
     break;
   }
 }
+
 
 static void
 phosh_proximity_constructed (GObject *object)
@@ -237,6 +241,7 @@ phosh_proximity_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_proximity_parent_class)->constructed (object);
 }
 
+
 static void
 phosh_proximity_dispose (GObject *object)
 {
@@ -259,6 +264,7 @@ phosh_proximity_dispose (GObject *object)
   g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
   G_OBJECT_CLASS (phosh_proximity_parent_class)->dispose (object);
 }
+
 
 static void
 phosh_proximity_class_init (PhoshProximityClass *klass)
@@ -290,6 +296,7 @@ phosh_proximity_class_init (PhoshProximityClass *klass)
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
 }
+
 
 static void
 phosh_proximity_init (PhoshProximity *self)
