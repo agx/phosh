@@ -498,7 +498,7 @@ setup_idle_cb (PhoshShell *self)
                            self,
                            G_CONNECT_SWAPPED);
 
-  priv->location_manager = phosh_location_manager_new ();
+  phosh_shell_get_location_manager (self);
   if (priv->sensor_proxy_manager) {
     priv->proximity = phosh_proximity_new (priv->sensor_proxy_manager,
                                            priv->lockscreen_manager);
