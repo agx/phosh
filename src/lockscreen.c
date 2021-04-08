@@ -40,6 +40,12 @@
  * #PhoshLockscreen has a CSS name with the name phosh-lockscreen.
  */
 
+
+typedef enum {
+  POS_OVERVIEW = 0,
+  POS_UNLOCK   = 1,
+} PhoshLocksreenPos;
+
 enum {
   LOCKSCREEN_UNLOCK,
   WAKEUP_OUTPUT,
@@ -409,12 +415,12 @@ carousel_position_notified_cb (PhoshLockscreen *self,
 
   position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
 
-  if (position <= 0) {
+  if (position <= POS_OVERVIEW) {
     clear_input (self, TRUE);
     return;
   }
 
-  if (position >= 1) {
+  if (position >= POS_UNLOCK) {
     if (!priv->idle_timer) {
       priv->last_input = g_get_monotonic_time ();
       priv->idle_timer = g_timeout_add_seconds (LOCKSCREEN_IDLE_SECONDS,
