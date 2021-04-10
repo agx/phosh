@@ -17,6 +17,7 @@
 #include "wlr-output-management-unstable-v1-client-protocol.h"
 #include "wlr-output-power-management-unstable-v1-client-protocol.h"
 #include "xdg-output-unstable-v1-client-protocol.h"
+#include "wlr-screencopy-unstable-v1-client-protocol.h"
 #include "xdg-shell-client-protocol.h"
 
 #include <glib-object.h>
@@ -59,6 +60,7 @@ struct zwlr_layer_shell_v1           *phosh_wayland_get_zwlr_layer_shell_v1 (Pho
 struct zwlr_output_manager_v1        *phosh_wayland_get_zwlr_output_manager_v1 (PhoshWayland *self);
 struct zwlr_output_power_manager_v1 *phosh_wayland_get_zwlr_output_power_manager_v1 (PhoshWayland *self);
 struct zxdg_output_manager_v1        *phosh_wayland_get_zxdg_output_manager_v1 (PhoshWayland *self);
+struct zwlr_screencopy_manager_v1    *phosh_wayland_get_zwlr_screencopy_manager_v1 (PhoshWayland *self);
 void                                  phosh_wayland_roundtrip (PhoshWayland *self);
 PhoshWaylandSeatCapabilities          phosh_wayland_get_seat_capabilities (PhoshWayland *self);
 

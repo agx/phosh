@@ -48,6 +48,7 @@ struct _PhoshWayland {
   struct zwlr_output_manager_v1 *zwlr_output_manager_v1;
   struct zwlr_output_power_manager_v1 *zwlr_output_power_manager_v1;
   struct zxdg_output_manager_v1 *zxdg_output_manager_v1;
+  struct zwlr_screencopy_manager_v1 *zwlr_screencopy_manager_v1;
   struct wl_shm *wl_shm;
   GHashTable *wl_outputs;
   PhoshWaylandSeatCapabilities seat_capabilities;
@@ -141,6 +142,12 @@ registry_handle_global (void *data,
       registry,
       name,
       &zwlr_foreign_toplevel_manager_v1_interface,
+      2);
+  } else if (!strcmp (interface, zwlr_screencopy_manager_v1_interface.name)) {
+    self->zwlr_screencopy_manager_v1 = wl_registry_bind (
+      registry,
+      name,
+      &zwlr_screencopy_manager_v1_interface,
       2);
   }
 }
@@ -434,6 +441,15 @@ phosh_wayland_get_zwlr_foreign_toplevel_manager_v1 (PhoshWayland *self)
   g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
 
   return self->zwlr_foreign_toplevel_manager_v1;
+}
+
+
+struct zwlr_screencopy_manager_v1*
+phosh_wayland_get_zwlr_screencopy_manager_v1 (PhoshWayland *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
+
+  return self->zwlr_screencopy_manager_v1;
 }
 
 /**
