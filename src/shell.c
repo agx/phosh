@@ -62,6 +62,7 @@
 #include "rotation-manager.h"
 #include "sensor-proxy-manager.h"
 #include "screen-saver-manager.h"
+#include "screenshot-manager.h"
 #include "session-manager.h"
 #include "system-prompter.h"
 #include "torch-manager.h"
@@ -114,6 +115,7 @@ typedef struct
   PhoshWifiManager *wifi_manager;
   PhoshPolkitAuthAgent *polkit_auth_agent;
   PhoshScreenSaverManager *screen_saver_manager;
+  PhoshScreenshotManager *screenshot_manager;  
   PhoshNotifyManager *notify_manager;
   PhoshFeedbackManager *feedback_manager;
   PhoshBtManager *bt_manager;
@@ -348,6 +350,7 @@ phosh_shell_dispose (GObject *object)
 
   g_clear_object (&priv->keyboard_events);
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->screenshot_manager);
   g_clear_object (&priv->location_manager);
   g_clear_object (&priv->hks_manager);
   g_clear_object (&priv->docked_manager);
@@ -514,7 +517,8 @@ setup_idle_cb (PhoshShell *self)
   g_unsetenv ("DESKTOP_AUTOSTART_ID");
 
   priv->gnome_shell_manager = phosh_gnome_shell_manager_get_default ();
-
+  priv->screenshot_manager = phosh_screenshot_manager_new ();
+  
   priv->startup_finished = TRUE;
 
   return FALSE;

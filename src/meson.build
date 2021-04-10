@@ -173,6 +173,8 @@ libphosh_sources = [
   'rotateinfo.h',
   'screen-saver-manager.c',
   'screen-saver-manager.h',
+  'screenshot-manager.c',
+  'screenshot-manager.h',
   'session-presence.c',
   'session-presence.h',
   'session-manager.c',
