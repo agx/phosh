@@ -108,6 +108,8 @@ libphosh_tool_sources = [
   'swipe-away-bin.h',
   'util.c',
   'util.h',
+  'wl-buffer.c',
+  'wl-buffer.h',
   phosh_gtk_list_models_sources,
   phosh_monitor_sources,
   phosh_notifications_sources,

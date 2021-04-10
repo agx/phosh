@@ -130,6 +130,7 @@
       <title>Utilities</title>
       <xi:include href="xml/brightness.xml"/>
       <xi:include href="xml/util.xml"/>
+      <xi:include href="xml/wl-buffer.xml"/>
     </chapter>
 
     <chapter id="gen_dbus_servers">
