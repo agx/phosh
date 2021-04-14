@@ -276,6 +276,7 @@ phosh_docked_manager_set_enabled (PhoshDockedManager *self, gboolean enable)
   const gchar *icon_name;
 
   g_return_if_fail (PHOSH_IS_DOCKED_MANAGER (self));
+  g_return_if_fail ((enable && self->can_dock) || !enable);
 
   if (self->enabled == enable)
     return;
