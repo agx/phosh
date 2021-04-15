@@ -136,7 +136,7 @@ get_display_name (PhoshHead *head)
       return g_strdup_printf (C_("This is a monitor vendor name followed by "
                                  "product/model name where size in inches "
                                  "could not be calculated, e.g. Dell U2414H",
-                                 "%s %sn"),
+                                 "%s %s"),
                               vendor_name, product_name);
     }
   }
