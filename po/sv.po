@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-04-01 03:31+0000\n"
-"PO-Revision-Date: 2021-04-15 02:02+0200\n"
+"POT-Creation-Date: 2021-04-15 15:34+0000\n"
+"PO-Revision-Date: 2021-04-15 21:37+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -102,20 +102,20 @@ msgstr "Ljudlös"
 msgid "Silent"
 msgstr "Tyst"
 
-#: src/location-manager.c:246
+#: src/location-manager.c:266
 #, c-format
 msgid "Allow '%s' to access your location information?"
 msgstr "Ge ”%s” tillgång till din platsinformation?"
 
-#: src/location-manager.c:251
+#: src/location-manager.c:271
 msgid "Geolocation"
 msgstr "Platsbestämning"
 
-#: src/location-manager.c:252
+#: src/location-manager.c:272
 msgid "Yes"
 msgstr "Ja"
 
-#: src/location-manager.c:252
+#: src/location-manager.c:272
 msgid "No"
 msgstr "Nej"
 
@@ -143,28 +143,27 @@ msgstr "Okänd titel"
 msgid "Unknown Artist"
 msgstr "Okänd artist"
 
-#: src/monitor-manager.c:112
+#: src/monitor-manager.c:114
 msgid "Built-in display"
 msgstr "Inbyggd skärm"
 
-#: src/monitor-manager.c:130
+#: src/monitor-manager.c:132
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-# TODO: What is the "n" for?
-#: src/monitor-manager.c:137
+#: src/monitor-manager.c:139
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
 "inches could not be calculated, e.g. Dell U2414H"
-msgid "%s %sn"
-msgstr "%s %sn"
+msgid "%s %s"
+msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:146
+#: src/monitor-manager.c:148
 msgid "Unknown"
 msgstr "Okänd"
 
