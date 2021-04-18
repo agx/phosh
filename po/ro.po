@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-03-31 03:33+0000\n"
-"PO-Revision-Date: 2021-03-31 11:47+0200\n"
+"POT-Creation-Date: 2021-04-16 03:34+0000\n"
+"PO-Revision-Date: 2021-04-16 15:21+0300\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -37,7 +37,7 @@ msgstr "Gestionarea ferestrei și pornirea aplicațiilor pentru mobil"
 msgid "Application"
 msgstr "Aplicație"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51
+#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
 msgstr "Pornit"
 
@@ -107,20 +107,20 @@ msgstr "Liniștit"
 msgid "Silent"
 msgstr "Silențios"
 
-#: src/location-manager.c:246
+#: src/location-manager.c:266
 #, c-format
 msgid "Allow '%s' to access your location information?"
 msgstr "„%s” poate accesa poziția ta geografică?"
 
-#: src/location-manager.c:251
+#: src/location-manager.c:271
 msgid "Geolocation"
 msgstr "Poziția geografică"
 
-#: src/location-manager.c:252
+#: src/location-manager.c:272
 msgid "Yes"
 msgstr "Da"
 
-#: src/location-manager.c:252
+#: src/location-manager.c:272
 msgid "No"
 msgstr "Nu"
 
@@ -148,27 +148,27 @@ msgstr "Titlu necunoscut"
 msgid "Unknown Artist"
 msgstr "Artist necunoscut"
 
-#: src/monitor-manager.c:108
+#: src/monitor-manager.c:114
 msgid "Built-in display"
 msgstr "Ecran integrat"
 
-#: src/monitor-manager.c:126
+#: src/monitor-manager.c:132
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:133
+#: src/monitor-manager.c:139
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
 "inches could not be calculated, e.g. Dell U2414H"
-msgid "%s %sn"
-msgstr "%s %sn"
+msgid "%s %s"
+msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:142
+#: src/monitor-manager.c:148
 msgid "Unknown"
 msgstr "Necunoscut"
 
@@ -291,13 +291,19 @@ msgstr "Parola:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Nu a funcționat. Încearcă din nou."
 
-#: src/rotateinfo.c:65
+#: src/rotateinfo.c:81
 msgid "Portrait"
 msgstr "Portret"
 
-#: src/rotateinfo.c:68
+#: src/rotateinfo.c:84
 msgid "Landscape"
 msgstr "Peisaj"
+
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:183
+msgid "Off"
+msgstr "Oprit"
 
 #: src/system-prompt.c:364
 msgid "Passwords do not match."
@@ -391,6 +397,12 @@ msgstr "Wi-Fi"
 #: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Celular"
+
+#~ msgctxt ""
+#~ "This is a monitor vendor name followed by product/model name where size "
+#~ "in inches could not be calculated, e.g. Dell U2414H"
+#~ msgid "%s %sn"
+#~ msgstr "%s %sn"
 
 #~ msgid "Title"
 #~ msgstr "Titlu"
