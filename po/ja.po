@@ -41,9 +41,11 @@ msgstr "モバイルでアプリケーションを整理したり、開いたり
 msgid "Application"
 msgstr "アプリケーション"
 
+#. Maintainers: while 普通 remains correct in context of normal, manner and silent manner modes,
+#. it doesn't in the context of screen rotation. So I changed it to have it make kind of make sense for both.
 #: src/bt-info.c:92 src/feedbackinfo.c:51
 msgid "On"
-msgstr "普通"
+msgstr "有効"
 
 #: src/bt-info.c:94
 msgid "Bluetooth"
@@ -56,6 +58,31 @@ msgstr "ドック中"
 #: src/docked-info.c:195
 msgid "Undocked"
 msgstr "ドック外"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "ログアウト"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "%d秒後、%sさんは自動でログアウトされます。"
+msgstr[1] "%d秒後、%sさんは自動でログアウトされます。"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "%d秒後、この端末は自動でシャットダウンされます。"
+msgstr[1] "%d秒後、この端末は自動でシャットダウンされます。"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "%d秒後、この端末は自動で再起動されます。"
+msgstr[1] "%d秒後、この端末は自動で再起動されます。"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -70,6 +97,25 @@ msgstr "マナーモード"
 #: src/feedbackinfo.c:49
 msgid "Silent"
 msgstr "サイレントマナー"
+
+#: src/location-manager.c:266
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "'%s'に位置情報へのアクセスを許可しますか？"
+
+#: src/location-manager.c:271
+msgid "Geolocation"
+msgstr "位置情報"
+
+#: src/location-manager.c:252
+#: src/location-manager.c:272
+msgid "Yes"
+msgstr "はい"
+
+#: src/location-manager.c:252
+#: src/location-manager.c:272
+msgid "No"
+msgstr "いいえ"
 
 #: src/lockscreen.c:86 src/ui/lockscreen.ui:234
 msgid "Enter Passcode"
@@ -103,6 +149,11 @@ msgstr "ビルトインディスプレイ"
 #: src/monitor-manager.c:75
 msgid "Unknown"
 msgstr "不明なディスプレー"
+
+#: src/end-session-dialog.c:270
+#| msgid "Application"
+msgid "Unknown application"
+msgstr "不明なアプリ"
 
 #: src/network-auth-prompt.c:187
 #, c-format
@@ -235,6 +286,12 @@ msgstr "縦方向"
 msgid "Landscape"
 msgstr "横方向"
 
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:183
+msgid "Off"
+msgstr "無効"
+
 #: src/system-prompt.c:373
 msgid "Passwords do not match."
 msgstr "パスワードが一致しません。"
@@ -246,6 +303,10 @@ msgstr "パスワードを空欄にすることはできません"
 #: src/torch-info.c:80
 msgid "Torch"
 msgstr "懐中電灯"
+
+#: src/ui/app-auth-prompt.ui:41
+msgid "Remember decision"
+msgstr "覚える"
 
 #: src/ui/app-grid-button.ui:49
 msgid "App"
@@ -278,6 +339,19 @@ msgstr "解除"
 #: src/ui/network-auth-prompt.ui:89
 msgid "_Cancel"
 msgstr "キャンセル(_C)"
+
+#: src/ui/end-session-dialog.ui:32
+msgid "Some applications are busy or have unsaved work"
+msgstr "使用中または未保存したデータでございます。"
+
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+#| msgid "Authenticate"
+msgid "Authentication required"
+msgstr "認証必須"
+
+#: src/ui/app-auth-prompt.ui:66 src/ui/end-session-dialog.ui:61
+msgid "Ok"
+msgstr "OK"
 
 #: src/ui/network-auth-prompt.ui:105
 msgid "C_onnect"
@@ -315,3 +389,18 @@ msgstr "WiFi"
 #: src/wwaninfo.c:170
 msgid "Cellular"
 msgstr "モバイル通信"
+
+#: src/monitor-manager.c:130
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:137
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %sn"
+msgstr "%s %sn"
