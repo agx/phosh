@@ -9,6 +9,7 @@
 #define G_LOG_DOMAIN "phosh-screenshot-manager"
 
 #include "config.h"
+#include "fader.h"
 #include "phosh-wayland.h"
 #include "screenshot-manager.h"
 #include "shell.h"
@@ -19,6 +20,8 @@
 
 #define BUS_NAME "org.gnome.Shell.Screenshot"
 #define OBJECT_PATH "/org/gnome/Shell/Screenshot"
+
+#define FLASH_FADER_TIMEOUT 500
 
 /**
  * SECTION:screenshot-manager
@@ -39,6 +42,7 @@ typedef struct _ScreencopyFrame {
   char                            *filename;
   GDBusMethodInvocation           *invocation;
   PhoshWlBuffer                   *buffer;
+  gboolean                         flash;
 } ScreencopyFrame;
 
 
@@ -48,6 +52,9 @@ typedef struct _PhoshScreenshotManager {
   int                                dbus_name_id;
   struct zwlr_screencopy_manager_v1 *wl_scm;
   ScreencopyFrame                   *frame;
+
+  PhoshFader                        *fader;
+  guint                              fader_id;
 } PhoshScreenshotManager;
 
 
@@ -103,6 +110,30 @@ screencopy_frame_handle_flags (void                            *data,
   self->frame->flags = flags;
 }
 
+static gboolean
+on_fader_timeout (gpointer user_data)
+{
+  PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (user_data);
+
+  g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
+
+  return G_SOURCE_REMOVE;
+}
+
+
+static void
+show_fader (PhoshScreenshotManager *self)
+{
+  PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
+
+  g_timeout_add (FLASH_FADER_TIMEOUT, on_fader_timeout, self);
+  self->fader = g_object_new (PHOSH_TYPE_FADER,
+                              "monitor", monitor,
+                              "style-class", "phosh-fader-flash-fade",
+                              NULL);
+  gtk_widget_show (GTK_WIDGET (self->fader));
+}
+
 
 static void
 screencopy_done (PhoshScreenshotManager *self, gboolean success)
@@ -111,9 +142,11 @@ screencopy_done (PhoshScreenshotManager *self, gboolean success)
                                              self->frame->invocation,
                                              success,
                                              self->frame->filename ?: "");
-  g_clear_pointer (&self->frame, screencopy_frame_dispose);
   /* TODO: GNOME >= 40 wants us to emit the click sound from here */
-  /* TODO: flash screen */
+  if (self->frame->flash)
+    show_fader (self);
+
+  g_clear_pointer (&self->frame, screencopy_frame_dispose);
 }
 
 
@@ -341,6 +374,7 @@ handle_screenshot (PhoshDBusScreenshot   *object,
   frame->frame = zwlr_screencopy_manager_v1_capture_output (
     self->wl_scm, arg_include_cursor, monitor->wl_output);
   frame->invocation = invocation;
+  frame->flash = arg_flash;
   self->frame = frame;
 
   if (STR_IS_NULL_OR_EMPTY (arg_filename)) {
@@ -433,6 +467,9 @@ phosh_screenshot_manager_dispose (GObject *object)
     g_bus_unown_name (self->dbus_name_id);
     self->dbus_name_id = 0;
   }
+
+  g_clear_handle_id (&self->fader_id, g_source_remove);
+  g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
 
   G_OBJECT_CLASS (phosh_screenshot_manager_parent_class)->dispose (object);
 }
