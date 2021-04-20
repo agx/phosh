@@ -67,7 +67,7 @@ struct _PhoshHome
   PhoshHomeState state;
 
   /* Keybinding */
-  GArray         *actions;
+  GStrv           action_names;
   GSettings      *settings;
 
   /* osk button */
@@ -253,28 +253,38 @@ toggle_application_view_action (GSimpleAction *action, GVariant *param, gpointer
 static void
 add_keybindings (PhoshHome *self)
 {
-  g_auto (GStrv) overview_bindings = NULL;
-  g_auto (GStrv) app_view_bindings = NULL;
+  GStrv overview_bindings;
+  GStrv app_view_bindings;
+  GPtrArray *action_names = g_ptr_array_new ();
   g_autoptr (GSettings) settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
+  g_autoptr (GArray) actions = g_array_new (FALSE, TRUE, sizeof (GActionEntry));
 
   overview_bindings = g_settings_get_strv (settings, KEYBINDING_KEY_TOGGLE_OVERVIEW);
   for (int i = 0; i < g_strv_length (overview_bindings); i++) {
     GActionEntry entry = { overview_bindings[i],
                            toggle_overview_action, };
-    g_array_append_val (self->actions, entry);
+    g_array_append_val (actions, entry);
+    g_ptr_array_add (action_names, overview_bindings[i]);
   }
+  /* Free GStrv container but keep individual strings for action_names */
+  g_free (overview_bindings);
 
   app_view_bindings = g_settings_get_strv (settings, KEYBINDING_KEY_TOGGLE_APPLICATION_VIEW);
   for (int i = 0; i < g_strv_length (app_view_bindings); i++) {
     GActionEntry entry = { app_view_bindings[i],
                            toggle_application_view_action, };
-    g_array_append_val (self->actions, entry);
+    g_array_append_val (actions, entry);
+    g_ptr_array_add (action_names, app_view_bindings[i]);
   }
+  /* Free GStrv container but keep individual strings for action_names */
+  g_free (app_view_bindings);
+  g_ptr_array_add (action_names, NULL);
 
   phosh_shell_add_global_keyboard_action_entries (phosh_shell_get_default (),
-                                                  (GActionEntry*)self->actions->data,
-                                                  self->actions->len,
+                                                  (GActionEntry*) actions->data,
+                                                  actions->len,
                                                   self);
+  self->action_names = (GStrv) g_ptr_array_free (action_names, FALSE);
 }
 
 
@@ -286,9 +296,8 @@ on_keybindings_changed (PhoshHome *self,
   /* For now just redo all keybindings */
   g_debug ("Updating keybindings");
   phosh_shell_remove_global_keyboard_action_entries (phosh_shell_get_default (),
-                                                     (GActionEntry*)self->actions->data,
-                                                     self->actions->len);
-  g_array_set_size (self->actions, 0);
+                                                     self->action_names);
+  g_clear_pointer (&self->action_names, g_strfreev);
   add_keybindings (self);
 }
 
@@ -345,11 +354,10 @@ phosh_home_dispose (GObject *object)
 
   g_clear_object (&self->settings);
 
-  if (self->actions) {
+  if (self->action_names) {
     phosh_shell_remove_global_keyboard_action_entries (phosh_shell_get_default (),
-                                                       (GActionEntry*)self->actions->data,
-                                                       self->actions->len);
-    g_clear_pointer (&self->actions, g_array_unref);
+                                                       self->action_names);
+    g_clear_pointer (&self->action_names, g_strfreev);
   }
 
   G_OBJECT_CLASS (phosh_home_parent_class)->dispose (object);
@@ -414,7 +422,6 @@ phosh_home_init (PhoshHome *self)
 {
   self->state = PHOSH_HOME_STATE_FOLDED;
   self->animation.progress = 1.0;
-  self->actions = g_array_new (FALSE, TRUE, sizeof (GActionEntry));
   self->settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
 
   gtk_widget_init_template (GTK_WIDGET (self));

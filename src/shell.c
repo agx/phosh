@@ -1273,9 +1273,7 @@ phosh_shell_add_global_keyboard_action_entries (PhoshShell *self,
 
 void
 phosh_shell_remove_global_keyboard_action_entries (PhoshShell *self,
-                                                   const GActionEntry *entries,
-                                                   gint n_entries)
-
+                                                   GStrv       action_names)
 {
   PhoshShellPrivate *priv;
 
@@ -1283,9 +1281,9 @@ phosh_shell_remove_global_keyboard_action_entries (PhoshShell *self,
   priv = phosh_shell_get_instance_private (self);
   g_return_if_fail (priv->keyboard_events);
 
-  for (int i = 0; i < n_entries; i++) {
+  for (int i = 0; i < g_strv_length (action_names); i++) {
     g_action_map_remove_action (G_ACTION_MAP (priv->keyboard_events),
-                                entries[i].name);
+                                action_names[i]);
   }
 }
 
