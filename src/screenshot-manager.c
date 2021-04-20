@@ -81,7 +81,8 @@ screencopy_frame_handle_buffer (void                            *data,
 
   g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
 
-  g_debug ("Handling buffer %dx%d for %s", width, height, self->frame->filename);
+  g_debug ("Handling buffer %dx%d for %s", width, height,
+           self->frame->filename ?: "<clipboard>");
   self->frame->buffer = phosh_wl_buffer_new (format, width, height, stride);
   g_return_if_fail (self->frame->buffer);
 
@@ -122,7 +123,6 @@ on_save_pixbuf_ready (GObject      *source_object,
                       gpointer      user_data)
 {
   gboolean success;
-
   g_autoptr (GError) err = NULL;
   PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (user_data);
 
@@ -151,6 +151,7 @@ screencopy_frame_handle_ready (void                            *data,
   g_autoptr (GError) err = NULL;
   g_autoptr (GFileOutputStream) stream = NULL;
   g_autoptr (GFile) file = NULL;
+  g_autoptr (GBytes) bytes = NULL;
 
   g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
   g_debug ("Frame %p %dx%d, stride %d, format 0x%x ready, saving to %s",
@@ -159,7 +160,7 @@ screencopy_frame_handle_ready (void                            *data,
            self->frame->buffer->height,
            self->frame->buffer->stride,
            self->frame->buffer->format,
-           self->frame->filename);
+           self->frame->filename ?: "<clipboard>");
 
   switch ((uint32_t) self->frame->buffer->format) {
   case WL_SHM_FORMAT_ABGR8888:
@@ -189,35 +190,50 @@ screencopy_frame_handle_ready (void                            *data,
     goto error;
   }
 
-  pixbuf = gdk_pixbuf_new_from_data (self->frame->buffer->data,
-                                     GDK_COLORSPACE_RGB,
-                                     TRUE,
-                                     8,
-                                     self->frame->buffer->width,
-                                     self->frame->buffer->height,
-                                     self->frame->buffer->stride,
-                                     NULL,
-                                     NULL);
+  bytes = phosh_wl_buffer_get_bytes (self->frame->buffer);
+  pixbuf = gdk_pixbuf_new_from_bytes (bytes,
+                                      GDK_COLORSPACE_RGB,
+                                      TRUE,
+                                      8,
+                                      self->frame->buffer->width,
+                                      self->frame->buffer->height,
+                                      self->frame->buffer->stride);
   if (self->frame->flags & ZWLR_SCREENCOPY_FRAME_V1_FLAGS_Y_INVERT) {
     GdkPixbuf *tmp = gdk_pixbuf_flip (pixbuf, FALSE);
     g_object_unref (pixbuf);
     pixbuf = tmp;
   }
 
-  file = g_file_new_for_path (self->frame->filename);
-  stream = g_file_create (file, G_FILE_CREATE_NONE, NULL, &err);
-  if (!stream) {
-    g_warning ("Failed to save screenshot %s: %s", self->frame->filename, err->message);
-    goto error;
-  }
+  if (self->frame->filename) {
+    file = g_file_new_for_path (self->frame->filename);
+    stream = g_file_create (file, G_FILE_CREATE_NONE, NULL, &err);
+    if (!stream) {
+      g_warning ("Failed to save screenshot %s: %s", self->frame->filename, err->message);
+      goto error;
+    }
 
-  gdk_pixbuf_save_to_stream_async (pixbuf,
-                                   G_OUTPUT_STREAM (stream),
-                                   "png",
-                                   NULL,
-                                   on_save_pixbuf_ready,
-                                   g_object_ref (self),
-                                   NULL);
+    gdk_pixbuf_save_to_stream_async (pixbuf,
+                                     G_OUTPUT_STREAM (stream),
+                                     "png",
+                                     NULL,
+                                     on_save_pixbuf_ready,
+                                     g_object_ref (self),
+                                     NULL);
+  } else {
+    GdkDisplay *display = gdk_display_get_default ();
+    GtkClipboard *clipboard;
+
+    if (!display) {
+      g_critical ("Couldn't get GDK display");
+      goto error;
+    }
+
+    /* TODO: this only works on wayland if phosh is focued */
+    clipboard = gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD);
+    gtk_clipboard_set_image (clipboard, pixbuf);
+    g_debug ("Updated clipboard with %p", self->frame);
+    screencopy_done (self, TRUE);
+  }
   return;
 
 error:
@@ -327,10 +343,15 @@ handle_screenshot (PhoshDBusScreenshot   *object,
   frame->invocation = invocation;
   self->frame = frame;
 
-  frame->filename = build_screenshot_filename (arg_filename);
-  if (!frame->filename) {
-    screencopy_done (self, FALSE);
-    return TRUE;
+  if (STR_IS_NULL_OR_EMPTY (arg_filename)) {
+    /* Copy to clipboard */
+    frame->filename = NULL;
+  } else {
+    frame->filename = build_screenshot_filename (arg_filename);
+    if (!frame->filename) {
+      screencopy_done (self, FALSE);
+      return TRUE;
+    }
   }
 
   zwlr_screencopy_frame_v1_add_listener (frame->frame, &screencopy_frame_listener, self);
