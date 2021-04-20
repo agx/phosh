@@ -279,7 +279,7 @@ add_keybindings (PhoshHome *self)
 
 
 static void
-on_keybindings_changed (PhoshHome  *self,
+on_keybindings_changed (PhoshHome *self,
                         gchar     *key,
                         GSettings *settings)
 {
