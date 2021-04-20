@@ -9,6 +9,8 @@
 
 #include <gtk/gtk.h>
 
+#define STR_IS_NULL_OR_EMPTY(x) ((x) == NULL || (x)[0] == '\0')
+
 void     phosh_cp_widget_destroy (void *widget);
 char    *phosh_fix_app_id (const char *app_id);
 void     phosh_clear_handler (gulong *handler, gpointer object);
