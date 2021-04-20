@@ -153,7 +153,7 @@ screencopy_frame_handle_ready (void                            *data,
   g_autoptr (GFile) file = NULL;
 
   g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
-  g_debug ("Frame %p %dx%d, stride %d, format 0x%x ready, saving to %s\n",
+  g_debug ("Frame %p %dx%d, stride %d, format 0x%x ready, saving to %s",
            frame,
            self->frame->buffer->width,
            self->frame->buffer->height,
