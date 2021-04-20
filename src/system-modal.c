@@ -32,7 +32,6 @@ static GParamSpec *props[PROP_LAST_PROP];
 
 typedef struct {
   PhoshMonitor               *monitor;
-  struct zwlr_layer_shell_v1 *layer_shell;
 
 } PhoshSystemModalPrivate;
 
