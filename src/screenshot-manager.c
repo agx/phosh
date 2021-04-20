@@ -246,6 +246,49 @@ static const struct zwlr_screencopy_frame_v1_listener screencopy_frame_listener 
 };
 
 
+/**
+ * build_screenshot_filename:
+ * @pattern: Absolute path or relative name without extension
+ *
+ * Builds an absolute filename based on the given input pattern.
+ * Returns: The target filename or %NULL on errors.
+ */
+static char *
+build_screenshot_filename (const char *pattern)
+{
+  g_autofree char *filename = NULL;
+
+  if (g_path_is_absolute (pattern)) {
+    return g_strdup (pattern);
+  } else {
+    const char *dir = NULL;
+    const char *const *dirs = (const char * []) {
+      g_get_user_special_dir (G_USER_DIRECTORY_PICTURES),
+      g_get_home_dir (),
+      NULL
+    };
+
+    for (int i = 0; i < g_strv_length ((GStrv) dirs); i++) {
+      if (g_file_test (dirs[i], G_FILE_TEST_EXISTS)) {
+        dir = dirs[i];
+        break;
+      }
+    }
+
+    if (!dir)
+      return NULL;
+
+    filename = g_build_filename (dir, pattern, NULL);
+  }
+  if (!g_str_has_suffix (filename, ".png")) {
+    g_autofree gchar *tmp = filename;
+    filename = g_strdup_printf ("%s.png", filename);
+  }
+
+  return g_steal_pointer (&filename);
+}
+
+
 static gboolean
 handle_screenshot (PhoshDBusScreenshot   *object,
                    GDBusMethodInvocation *invocation,
@@ -284,38 +327,13 @@ handle_screenshot (PhoshDBusScreenshot   *object,
   frame->invocation = invocation;
   self->frame = frame;
 
-  if (g_path_is_absolute (arg_filename)) {
-    frame->filename = g_strdup (arg_filename);
-  } else {
-    const char *dir = NULL;
-    const char *const *dirs = (const char * []) {
-      g_get_user_special_dir (G_USER_DIRECTORY_PICTURES),
-      g_get_home_dir (),
-      NULL
-    };
-
-    for (int i = 0; i < g_strv_length ((GStrv) dirs); i++) {
-      if (g_file_test (dirs[i], G_FILE_TEST_EXISTS)) {
-        dir = dirs[i];
-        break;
-      }
-    }
-
-    if (!dir)
-      goto error;
-
-    frame->filename = g_build_filename (dir, arg_filename, NULL);
-  }
-  if (!g_str_has_suffix (frame->filename, ".png")) {
-    g_autofree gchar *tmp = frame->filename;
-    frame->filename = g_strdup_printf ("%s.png", frame->filename);
+  frame->filename = build_screenshot_filename (arg_filename);
+  if (!frame->filename) {
+    screencopy_done (self, FALSE);
+    return TRUE;
   }
 
   zwlr_screencopy_frame_v1_add_listener (frame->frame, &screencopy_frame_listener, self);
-  return TRUE;
-
-error:
-  screencopy_done (self, FALSE);
   return TRUE;
 }
 
