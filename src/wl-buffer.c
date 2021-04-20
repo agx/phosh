@@ -119,14 +119,14 @@ phosh_wl_buffer_new (enum wl_shm_format format, uint32_t width, uint32_t height,
 
 
 void
-phosh_wl_buffer_destroy (PhoshWlBuffer *buffer)
+phosh_wl_buffer_destroy (PhoshWlBuffer *self)
 {
-  if (buffer == NULL)
+  if (self == NULL)
     return;
 
-  if (munmap (buffer->data, buffer->stride * buffer->height) < 0)
-    g_warning ("Failed to unmap buffer %p: %s", buffer, g_strerror (errno));
+  if (munmap (self->data, self->stride * self->height) < 0)
+    g_warning ("Failed to unmap buffer %p: %s", self, g_strerror (errno));
 
-  wl_buffer_destroy (buffer->wl_buffer);
-  g_free (buffer);
+  wl_buffer_destroy (self->wl_buffer);
+  g_free (self);
 }
