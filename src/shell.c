@@ -1173,7 +1173,6 @@ void
 phosh_shell_fade_out (PhoshShell *self, guint timeout)
 {
   PhoshShellPrivate *priv;
-  PhoshWayland *wl = phosh_wayland_get_default ();
   PhoshMonitorManager *monitor_manager;
 
   g_debug ("Fading out...");
@@ -1186,8 +1185,7 @@ phosh_shell_fade_out (PhoshShell *self, guint timeout)
     PhoshFader *fader;
     PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
 
-    fader = phosh_fader_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
-                             monitor->wl_output);
+    fader = phosh_fader_new (monitor);
     g_ptr_array_add (priv->faders, fader);
     gtk_widget_show (GTK_WIDGET (fader));
     if (timeout > 0)

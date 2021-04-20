@@ -5,6 +5,8 @@
  */
 #pragma once
 
+#include "monitor/monitor.h"
+
 #include <layersurface.h>
 
 G_BEGIN_DECLS
@@ -13,6 +15,6 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (PhoshFader, phosh_fader, PHOSH, FADER, PhoshLayerSurface)
 
-PhoshFader *phosh_fader_new (gpointer layer_shell,
-                             gpointer wl_output);
+PhoshFader *phosh_fader_new (PhoshMonitor *monitor);
+
 G_END_DECLS
