@@ -130,3 +130,21 @@ phosh_wl_buffer_destroy (PhoshWlBuffer *self)
   wl_buffer_destroy (self->wl_buffer);
   g_free (self);
 }
+
+gsize
+phosh_wl_buffer_get_size (PhoshWlBuffer *self)
+{
+  return self->stride * self->height;
+}
+
+/**
+ * phosh_wl_buffer_get_bytes:
+ * @self: The #PhoshWlBuffer
+ *
+ * Returns: (transfer full): A copy of data as #GBytes
+ */
+GBytes *
+phosh_wl_buffer_get_bytes (PhoshWlBuffer *self)
+{
+  return g_bytes_new (self->data, phosh_wl_buffer_get_size (self));
+}
