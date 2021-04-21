@@ -427,6 +427,10 @@ phosh-notification-banner {
   animation-fill-mode: forwards;
 }
 
+.phosh-fader-screenshot-opaque {
+  background: rgba(255, 255, 255, 0);
+}
+
 /*
  * Media player
  */

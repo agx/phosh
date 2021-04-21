@@ -43,6 +43,7 @@ typedef struct _ScreencopyFrame {
   GDBusMethodInvocation           *invocation;
   PhoshWlBuffer                   *buffer;
   gboolean                         flash;
+  GdkPixbuf                       *pixbuf;
 } ScreencopyFrame;
 
 
@@ -54,6 +55,7 @@ typedef struct _PhoshScreenshotManager {
   ScreencopyFrame                   *frame;
 
   PhoshFader                        *fader;
+  PhoshFader                        *opaque;
   guint                              fader_id;
 } PhoshScreenshotManager;
 
@@ -71,6 +73,7 @@ screencopy_frame_dispose (ScreencopyFrame *frame)
 {
   phosh_wl_buffer_destroy (frame->buffer);
   g_clear_pointer (&frame->frame, zwlr_screencopy_frame_v1_destroy);
+  g_clear_object (&frame->pixbuf);
   g_free (frame->filename);
   g_free (frame);
 }
@@ -170,6 +173,27 @@ on_save_pixbuf_ready (GObject      *source_object,
 }
 
 
+static gboolean
+on_opaque_timeout (PhoshScreenshotManager *self)
+{
+  GdkDisplay *display = gdk_display_get_default ();
+  GtkClipboard *clipboard;
+
+  if (!display) {
+    g_critical ("Couldn't get GDK display");
+    goto out;
+  }
+
+  clipboard = gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD);
+  gtk_clipboard_set_image (clipboard, self->frame->pixbuf);
+  g_debug ("Updated clipboard with %p", self->frame);
+  screencopy_done (self, TRUE);
+ out:
+  g_clear_pointer (&self->opaque, phosh_cp_widget_destroy);
+
+  return G_SOURCE_REMOVE;
+}
+
 
 static void
 screencopy_frame_handle_ready (void                            *data,
@@ -253,19 +277,19 @@ screencopy_frame_handle_ready (void                            *data,
                                      g_object_ref (self),
                                      NULL);
   } else {
-    GdkDisplay *display = gdk_display_get_default ();
-    GtkClipboard *clipboard;
+    PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
 
-    if (!display) {
-      g_critical ("Couldn't get GDK display");
-      goto error;
-    }
-
-    /* TODO: this only works on wayland if phosh is focued */
-    clipboard = gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD);
-    gtk_clipboard_set_image (clipboard, pixbuf);
-    g_debug ("Updated clipboard with %p", self->frame);
-    screencopy_done (self, TRUE);
+    /* The wayland clipboard only works if we have focus so use a fully opaque surface */
+    self->opaque = g_object_new (PHOSH_TYPE_FADER,
+                                 "monitor", monitor,
+                                 "style-class", "phosh-fader-screenshot-opaque",
+                                 "kbd-interactivity", TRUE,
+                                 NULL);
+    self->frame->pixbuf = g_steal_pointer (&pixbuf);
+    /* FIXME: Would be better to trigger when the opaque window is up and got
+       input focus but all such attempts failed */
+    g_timeout_add_seconds (1, (GSourceFunc) on_opaque_timeout, self);
+    gtk_widget_show (GTK_WIDGET (self->opaque));
   }
   return;
 
