@@ -400,13 +400,13 @@ phosh-notification-banner {
 /*
  * Output fader
  */
-@keyframes phosh-fade-in {
+@keyframes phosh-fader-default-keyframe {
   from {background:rgba(0, 0, 0, 0);}
   to {background:rgba(0, 0, 0, 1);}
 }
 
-.phosh-fader-fade-in {
-  animation-name: phosh-fade-in;
+.phosh-fader-default-fade {
+  animation-name: phosh-fader-default-keyframe;
   animation-duration: 2s;
   animation-timing-function: linear;
   animation-iteration-count: 1;

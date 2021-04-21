@@ -19,12 +19,15 @@
  * @short_description: A fader
  * @Title: PhoshFader
  *
- * A fullsreen surface that fades in
+ * A fullsreen surface that fades in or out.
  */
+
+#define PHOSH_FADER_DEFAULT_STYLE_CLASS "phosh-fader-default-fade"
 
 enum {
   PROP_0,
   PROP_MONITOR,
+  PROP_STYLE_CLASS,
   PROP_LAST_PROP,
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -33,6 +36,7 @@ typedef struct _PhoshFader
 {
   PhoshLayerSurface           parent;
   PhoshMonitor               *monitor;
+  char                       *style_class;
 } PhoshFader;
 G_DEFINE_TYPE (PhoshFader, phosh_fader, PHOSH_TYPE_LAYER_SURFACE)
 
@@ -47,7 +51,12 @@ phosh_fader_set_property (GObject      *obj,
 
   switch (prop_id) {
   case PROP_MONITOR:
+    /* construct only */
     g_set_object (&self->monitor, g_value_get_object (value));
+    break;
+  case PROP_STYLE_CLASS:
+    g_free (self->style_class);
+    self->style_class = g_value_dup_string (value);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, prop_id, pspec);
@@ -68,6 +77,9 @@ phosh_fader_get_property (GObject    *obj,
   case PROP_MONITOR:
     g_value_set_object (value, self->monitor);
     break;
+  case PROP_STYLE_CLASS:
+    g_value_set_string (value, self->style_class);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, prop_id, pspec);
     break;
@@ -78,14 +90,18 @@ phosh_fader_get_property (GObject    *obj,
 static void
 phosh_fader_show (GtkWidget *widget)
 {
+  PhoshFader *self = PHOSH_FADER (widget);
   gboolean enable_animations;
   GtkStyleContext *context;
 
   enable_animations = hdy_get_enable_animations (widget);
 
   if (enable_animations) {
-    context = gtk_widget_get_style_context(widget);
-    gtk_style_context_add_class (context, "phosh-fader-fade-in");
+    const char *style_class;
+
+    style_class = self->style_class ?: PHOSH_FADER_DEFAULT_STYLE_CLASS;
+    context = gtk_widget_get_style_context (widget);
+    gtk_style_context_add_class (context, style_class);
   }
 
   GTK_WIDGET_CLASS (phosh_fader_parent_class)->show (widget);
@@ -98,6 +114,7 @@ phosh_fader_dispose (GObject *object)
   PhoshFader *self = PHOSH_FADER (object);
 
   g_clear_object (&self->monitor);
+  g_clear_pointer (&self->style_class, g_free);
 
   G_OBJECT_CLASS (phosh_fader_parent_class)->dispose (object);
 }
@@ -148,6 +165,20 @@ phosh_fader_class_init (PhoshFaderClass *klass)
                                              G_PARAM_CONSTRUCT_ONLY |
                                              G_PARAM_READWRITE |
                                              G_PARAM_STATIC_STRINGS);
+
+  /**
+   * PhoshFader:style-class
+   *
+   * The CSS style class used for the animation
+   */
+  props[PROP_STYLE_CLASS] = g_param_spec_string ("style-class",
+                                                 "",
+                                                 "",
+                                                 NULL,
+                                                 G_PARAM_CONSTRUCT_ONLY |
+                                                 G_PARAM_READWRITE |
+                                                 G_PARAM_STATIC_STRINGS);
+
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
@@ -155,10 +186,7 @@ phosh_fader_class_init (PhoshFaderClass *klass)
 static void
 phosh_fader_init (PhoshFader *self)
 {
-  GtkStyleContext *context;
-
-  context = gtk_widget_get_style_context(GTK_WIDGET (self));
-  gtk_style_context_remove_class(context, "phosh-fader-fade-in");
+  self->style_class = g_strdup (PHOSH_FADER_DEFAULT_STYLE_CLASS);
 }
 
 
