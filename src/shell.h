@@ -93,8 +93,7 @@ void                 phosh_shell_add_global_keyboard_action_entries (PhoshShell 
                                                                      gint n_entries,
                                                                      gpointer user_data);
 void                 phosh_shell_remove_global_keyboard_action_entries (PhoshShell *self,
-                                                                        const GActionEntry *actions,
-                                                                        gint n_entries);
+                                                                        GStrv action_names);
 gboolean             phosh_shell_is_session_active (PhoshShell *self);
 GdkAppLaunchContext *phosh_shell_get_app_launch_context (PhoshShell *self);
 PhoshShellStateFlags phosh_shell_get_state (PhoshShell *self);

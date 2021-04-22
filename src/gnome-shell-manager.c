@@ -67,15 +67,12 @@ typedef struct _AcceleratorInfo {
 } AcceleratorInfo;
 
 static void
-remove_action_entries (const gchar *accelerator)
+remove_action_entries (gchar *accelerator)
 {
-  const GActionEntry action_entries[] = {
-    { accelerator, accelerator_activated_action, },
-  };
+  GStrv action_names = (char*[]){ accelerator, NULL };
 
   phosh_shell_remove_global_keyboard_action_entries (phosh_shell_get_default (),
-                                                     action_entries,
-                                                     G_N_ELEMENTS (action_entries));
+                                                     action_names);
 }
 
 static void
