@@ -48,7 +48,7 @@
 }
 
 .phosh-settings-menu button.circular:not(:hover):not(:active) {
-    border: 2px solid @theme_bg_color;
+  border: 2px solid @theme_bg_color;
 }
 
 .phosh-notification-tray, .phosh-notification-tray list {
@@ -267,6 +267,7 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
   background-color: @theme_bg_color;
   border: none;
   border-radius: 10px;
+  box-shadow: 0 0 0 1px alpha(black, .75);
   padding: 0px;
 }
 
@@ -288,12 +289,14 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
 }
 
 .phosh-system-modal-dialog-buttons button:first-child {
+  border-bottom-left-radius: 11px;
   border-bottom-right-radius: 0;
 }
 
 .phosh-system-modal-dialog-buttons button:last-child {
-    border-bottom-left-radius: 0;
-    border-right: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 11px;
+  border-right: none;
 }
 
 .phosh-system-modal-dialog-content {
@@ -437,10 +440,10 @@ phosh-media-player box *:disabled {
  * OSD
  */
 phosh-osd-window levelbar block {
-    min-height: 16px;
-    box-shadow: none;
-    border-color: white;
-    border-radius: 5px;
+  min-height: 16px;
+  box-shadow: none;
+  border-color: white;
+  border-radius: 5px;
 }
 
 phosh-osd-window levelbar block.low {
@@ -456,7 +459,7 @@ phosh-osd-window levelbar block.full {
 }
 
 phosh-osd-window levelbar trough {
-    box-shadow: none;
-    border-width: 0px;
-    padding: 0px;
+  box-shadow: none;
+  border-width: 0px;
+  padding: 0px;
 }
