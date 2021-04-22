@@ -86,6 +86,7 @@ on_proximity_released (PhoshSensorProxyManager *sensor_proxy_manager,
   } else {
     g_warning ("Failed to release proximity sensor: %s", err->message);
   }
+  g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
 }
 
 static void
