@@ -1,3 +1,5 @@
+run_phoc_tests = false
+
 if get_option('tests')
 
 subdir('system')
