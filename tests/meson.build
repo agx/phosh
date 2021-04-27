@@ -75,6 +75,7 @@ tests = [
   'connectivity-info',
   'favourite-model',
   'head',
+  'keypad',
   'media-player',
   'mount-notification',
   'notification',

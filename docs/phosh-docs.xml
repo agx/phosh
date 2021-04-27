@@ -71,6 +71,7 @@
       <xi:include href="xml/hks-manager.xml"/>
       <xi:include href="xml/idle-manager.xml"/>
       <xi:include href="xml/keyboard-events.xml"/>
+      <xi:include href="xml/keypad.xml"/>
       <xi:include href="xml/layersurface.xml"/>
       <xi:include href="xml/location-info.xml"/>
       <xi:include href="xml/location-manager.xml"/>

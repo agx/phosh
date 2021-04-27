@@ -286,17 +286,15 @@
                   </object>
                 </child>
                 <child>
-                  <object class="HdyKeypad" id="keypad">
+                  <object class="PhoshKeypad" id="keypad">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
                     <property name="valign">center</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
-                    <property name="symbols_visible">False</property>
-                    <property name="letters_visible">False</property>
                     <property name="entry">entry_pin</property>
-                    <property name="end-action">delete_btn</property>
+                    <property name="end-action">btn_delete</property>
                   </object>
                 </child>
                 <child>
@@ -387,7 +385,7 @@
       </object>
     </child>
   </template>
-  <object class="GtkButton" id="delete_btn">
+  <object class="GtkButton" id="btn_delete">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <property name="focus-on-click">False</property>
@@ -400,7 +398,7 @@
     </child>
   </object>
   <object class="GtkGestureLongPress" id="long_press_del_gesture">
-    <property name="widget">delete_btn</property>
+    <property name="widget">btn_delete</property>
     <signal name="pressed" handler="long_press_del_cb" object="PhoshLockscreen" swapped="true"/>
   </object>
   <object class="GcrSecureEntryBuffer" id="pin_buffer">
