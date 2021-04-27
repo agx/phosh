@@ -43,6 +43,7 @@ static guint signals[N_SIGNALS] = { 0 };
 typedef struct {
   PhoshPanelState state;
 
+  GtkWidget *menu_power;
   GtkWidget *stack;
   GtkWidget *box;            /* main content box */
   GtkWidget *btn_top_panel;
@@ -377,6 +378,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/top-panel.ui");
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, menu_power);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_top_panel);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_lang);
@@ -424,6 +426,7 @@ phosh_panel_fold (PhoshPanel *self)
   if (priv->state == PHOSH_PANEL_STATE_FOLDED)
 	return;
 
+  gtk_widget_hide (priv->menu_power);
   gtk_stack_set_transition_type (GTK_STACK (priv->stack), GTK_STACK_TRANSITION_TYPE_SLIDE_UP);
   gtk_stack_set_visible_child_name (GTK_STACK (priv->stack), "topbar");
   gtk_widget_hide (priv->settings);
