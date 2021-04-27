@@ -400,17 +400,35 @@ phosh-notification-banner {
 /*
  * Output fader
  */
-@keyframes phosh-fade-in {
+@keyframes phosh-fader-default-keyframe {
   from {background:rgba(0, 0, 0, 0);}
   to {background:rgba(0, 0, 0, 1);}
 }
 
-.phosh-fader-fade-in {
-  animation-name: phosh-fade-in;
+.phosh-fader-default-fade {
+  animation-name: phosh-fader-default-keyframe;
   animation-duration: 2s;
   animation-timing-function: linear;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
+}
+
+/* Fader used for screenshot flash */
+@keyframes phosh-fader-flash-keyframe {
+  from {background:rgba(255, 255, 255, 1);}
+  to {background:rgba(255, 255, 255, 0);}
+}
+
+.phosh-fader-flash-fade {
+  animation-name: phosh-fader-flash-keyframe;
+  animation-duration: 500ms;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.phosh-fader-screenshot-opaque {
+  background: rgba(255, 255, 255, 0);
 }
 
 /*

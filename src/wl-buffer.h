@@ -32,6 +32,8 @@ typedef struct {
 } PhoshWlBuffer;
 
 PhoshWlBuffer *phosh_wl_buffer_new (enum wl_shm_format format, uint32_t width, uint32_t height, uint32_t stride);
-void           phosh_wl_buffer_destroy (PhoshWlBuffer *buffer);
+void           phosh_wl_buffer_destroy (PhoshWlBuffer *self);
+gsize          phosh_wl_buffer_get_size (PhoshWlBuffer *self);
+GBytes        *phosh_wl_buffer_get_bytes (PhoshWlBuffer *self);
 
 G_END_DECLS

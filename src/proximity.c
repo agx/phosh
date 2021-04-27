@@ -157,11 +157,8 @@ on_proximity_near_changed (PhoshProximity          *self,
 
   g_debug ("Proximity near changed: %d", near);
   if (near && monitor) {
-    PhoshWayland *wl = phosh_wayland_get_default ();
-
     if (!self->fader) {
-      self->fader = phosh_fader_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
-                                     monitor->wl_output);
+      self->fader = phosh_fader_new (monitor);
       gtk_widget_show (GTK_WIDGET (self->fader));
     }
   } else {

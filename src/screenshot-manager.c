@@ -9,6 +9,7 @@
 #define G_LOG_DOMAIN "phosh-screenshot-manager"
 
 #include "config.h"
+#include "fader.h"
 #include "phosh-wayland.h"
 #include "screenshot-manager.h"
 #include "shell.h"
@@ -19,6 +20,8 @@
 
 #define BUS_NAME "org.gnome.Shell.Screenshot"
 #define OBJECT_PATH "/org/gnome/Shell/Screenshot"
+
+#define FLASH_FADER_TIMEOUT 500
 
 /**
  * SECTION:screenshot-manager
@@ -39,6 +42,8 @@ typedef struct _ScreencopyFrame {
   char                            *filename;
   GDBusMethodInvocation           *invocation;
   PhoshWlBuffer                   *buffer;
+  gboolean                         flash;
+  GdkPixbuf                       *pixbuf;
 } ScreencopyFrame;
 
 
@@ -48,6 +53,10 @@ typedef struct _PhoshScreenshotManager {
   int                                dbus_name_id;
   struct zwlr_screencopy_manager_v1 *wl_scm;
   ScreencopyFrame                   *frame;
+
+  PhoshFader                        *fader;
+  PhoshFader                        *opaque;
+  guint                              fader_id;
 } PhoshScreenshotManager;
 
 
@@ -64,6 +73,7 @@ screencopy_frame_dispose (ScreencopyFrame *frame)
 {
   phosh_wl_buffer_destroy (frame->buffer);
   g_clear_pointer (&frame->frame, zwlr_screencopy_frame_v1_destroy);
+  g_clear_object (&frame->pixbuf);
   g_free (frame->filename);
   g_free (frame);
 }
@@ -81,7 +91,8 @@ screencopy_frame_handle_buffer (void                            *data,
 
   g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
 
-  g_debug ("Handling buffer %dx%d for %s", width, height, self->frame->filename);
+  g_debug ("Handling buffer %dx%d for %s", width, height,
+           self->frame->filename ?: "<clipboard>");
   self->frame->buffer = phosh_wl_buffer_new (format, width, height, stride);
   g_return_if_fail (self->frame->buffer);
 
@@ -102,6 +113,30 @@ screencopy_frame_handle_flags (void                            *data,
   self->frame->flags = flags;
 }
 
+static gboolean
+on_fader_timeout (gpointer user_data)
+{
+  PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (user_data);
+
+  g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
+
+  return G_SOURCE_REMOVE;
+}
+
+
+static void
+show_fader (PhoshScreenshotManager *self)
+{
+  PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
+
+  g_timeout_add (FLASH_FADER_TIMEOUT, on_fader_timeout, self);
+  self->fader = g_object_new (PHOSH_TYPE_FADER,
+                              "monitor", monitor,
+                              "style-class", "phosh-fader-flash-fade",
+                              NULL);
+  gtk_widget_show (GTK_WIDGET (self->fader));
+}
+
 
 static void
 screencopy_done (PhoshScreenshotManager *self, gboolean success)
@@ -110,9 +145,11 @@ screencopy_done (PhoshScreenshotManager *self, gboolean success)
                                              self->frame->invocation,
                                              success,
                                              self->frame->filename ?: "");
-  g_clear_pointer (&self->frame, screencopy_frame_dispose);
   /* TODO: GNOME >= 40 wants us to emit the click sound from here */
-  /* TODO: flash screen */
+  if (self->frame->flash)
+    show_fader (self);
+
+  g_clear_pointer (&self->frame, screencopy_frame_dispose);
 }
 
 
@@ -122,7 +159,6 @@ on_save_pixbuf_ready (GObject      *source_object,
                       gpointer      user_data)
 {
   gboolean success;
-
   g_autoptr (GError) err = NULL;
   PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (user_data);
 
@@ -136,6 +172,27 @@ on_save_pixbuf_ready (GObject      *source_object,
   g_object_unref (self);
 }
 
+
+static gboolean
+on_opaque_timeout (PhoshScreenshotManager *self)
+{
+  GdkDisplay *display = gdk_display_get_default ();
+  GtkClipboard *clipboard;
+
+  if (!display) {
+    g_critical ("Couldn't get GDK display");
+    goto out;
+  }
+
+  clipboard = gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD);
+  gtk_clipboard_set_image (clipboard, self->frame->pixbuf);
+  g_debug ("Updated clipboard with %p", self->frame);
+  screencopy_done (self, TRUE);
+ out:
+  g_clear_pointer (&self->opaque, phosh_cp_widget_destroy);
+
+  return G_SOURCE_REMOVE;
+}
 
 
 static void
@@ -151,15 +208,16 @@ screencopy_frame_handle_ready (void                            *data,
   g_autoptr (GError) err = NULL;
   g_autoptr (GFileOutputStream) stream = NULL;
   g_autoptr (GFile) file = NULL;
+  g_autoptr (GBytes) bytes = NULL;
 
   g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
-  g_debug ("Frame %p %dx%d, stride %d, format 0x%x ready, saving to %s\n",
+  g_debug ("Frame %p %dx%d, stride %d, format 0x%x ready, saving to %s",
            frame,
            self->frame->buffer->width,
            self->frame->buffer->height,
            self->frame->buffer->stride,
            self->frame->buffer->format,
-           self->frame->filename);
+           self->frame->filename ?: "<clipboard>");
 
   switch ((uint32_t) self->frame->buffer->format) {
   case WL_SHM_FORMAT_ABGR8888:
@@ -189,35 +247,50 @@ screencopy_frame_handle_ready (void                            *data,
     goto error;
   }
 
-  pixbuf = gdk_pixbuf_new_from_data (self->frame->buffer->data,
-                                     GDK_COLORSPACE_RGB,
-                                     TRUE,
-                                     8,
-                                     self->frame->buffer->width,
-                                     self->frame->buffer->height,
-                                     self->frame->buffer->stride,
-                                     NULL,
-                                     NULL);
+  bytes = phosh_wl_buffer_get_bytes (self->frame->buffer);
+  pixbuf = gdk_pixbuf_new_from_bytes (bytes,
+                                      GDK_COLORSPACE_RGB,
+                                      TRUE,
+                                      8,
+                                      self->frame->buffer->width,
+                                      self->frame->buffer->height,
+                                      self->frame->buffer->stride);
   if (self->frame->flags & ZWLR_SCREENCOPY_FRAME_V1_FLAGS_Y_INVERT) {
     GdkPixbuf *tmp = gdk_pixbuf_flip (pixbuf, FALSE);
     g_object_unref (pixbuf);
     pixbuf = tmp;
   }
 
-  file = g_file_new_for_path (self->frame->filename);
-  stream = g_file_create (file, G_FILE_CREATE_NONE, NULL, &err);
-  if (!stream) {
-    g_warning ("Failed to save screenshot %s: %s", self->frame->filename, err->message);
-    goto error;
-  }
+  if (self->frame->filename) {
+    file = g_file_new_for_path (self->frame->filename);
+    stream = g_file_create (file, G_FILE_CREATE_NONE, NULL, &err);
+    if (!stream) {
+      g_warning ("Failed to save screenshot %s: %s", self->frame->filename, err->message);
+      goto error;
+    }
 
-  gdk_pixbuf_save_to_stream_async (pixbuf,
-                                   G_OUTPUT_STREAM (stream),
-                                   "png",
-                                   NULL,
-                                   on_save_pixbuf_ready,
-                                   g_object_ref (self),
-                                   NULL);
+    gdk_pixbuf_save_to_stream_async (pixbuf,
+                                     G_OUTPUT_STREAM (stream),
+                                     "png",
+                                     NULL,
+                                     on_save_pixbuf_ready,
+                                     g_object_ref (self),
+                                     NULL);
+  } else {
+    PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
+
+    /* The wayland clipboard only works if we have focus so use a fully opaque surface */
+    self->opaque = g_object_new (PHOSH_TYPE_FADER,
+                                 "monitor", monitor,
+                                 "style-class", "phosh-fader-screenshot-opaque",
+                                 "kbd-interactivity", TRUE,
+                                 NULL);
+    self->frame->pixbuf = g_steal_pointer (&pixbuf);
+    /* FIXME: Would be better to trigger when the opaque window is up and got
+       input focus but all such attempts failed */
+    g_timeout_add_seconds (1, (GSourceFunc) on_opaque_timeout, self);
+    gtk_widget_show (GTK_WIDGET (self->opaque));
+  }
   return;
 
 error:
@@ -244,6 +317,49 @@ static const struct zwlr_screencopy_frame_v1_listener screencopy_frame_listener 
   .ready = screencopy_frame_handle_ready,
   .failed = screencopy_frame_handle_failed,
 };
+
+
+/**
+ * build_screenshot_filename:
+ * @pattern: Absolute path or relative name without extension
+ *
+ * Builds an absolute filename based on the given input pattern.
+ * Returns: The target filename or %NULL on errors.
+ */
+static char *
+build_screenshot_filename (const char *pattern)
+{
+  g_autofree char *filename = NULL;
+
+  if (g_path_is_absolute (pattern)) {
+    return g_strdup (pattern);
+  } else {
+    const char *dir = NULL;
+    const char *const *dirs = (const char * []) {
+      g_get_user_special_dir (G_USER_DIRECTORY_PICTURES),
+      g_get_home_dir (),
+      NULL
+    };
+
+    for (int i = 0; i < g_strv_length ((GStrv) dirs); i++) {
+      if (g_file_test (dirs[i], G_FILE_TEST_EXISTS)) {
+        dir = dirs[i];
+        break;
+      }
+    }
+
+    if (!dir)
+      return NULL;
+
+    filename = g_build_filename (dir, pattern, NULL);
+  }
+  if (!g_str_has_suffix (filename, ".png")) {
+    g_autofree gchar *tmp = filename;
+    filename = g_strdup_printf ("%s.png", filename);
+  }
+
+  return g_steal_pointer (&filename);
+}
 
 
 static gboolean
@@ -282,40 +398,21 @@ handle_screenshot (PhoshDBusScreenshot   *object,
   frame->frame = zwlr_screencopy_manager_v1_capture_output (
     self->wl_scm, arg_include_cursor, monitor->wl_output);
   frame->invocation = invocation;
+  frame->flash = arg_flash;
   self->frame = frame;
 
-  if (g_path_is_absolute (arg_filename)) {
-    frame->filename = g_strdup (arg_filename);
+  if (STR_IS_NULL_OR_EMPTY (arg_filename)) {
+    /* Copy to clipboard */
+    frame->filename = NULL;
   } else {
-    const char *dir = NULL;
-    const char *const *dirs = (const char * []) {
-      g_get_user_special_dir (G_USER_DIRECTORY_PICTURES),
-      g_get_home_dir (),
-      NULL
-    };
-
-    for (int i = 0; i < g_strv_length ((GStrv) dirs); i++) {
-      if (g_file_test (dirs[i], G_FILE_TEST_EXISTS)) {
-        dir = dirs[i];
-        break;
-      }
+    frame->filename = build_screenshot_filename (arg_filename);
+    if (!frame->filename) {
+      screencopy_done (self, FALSE);
+      return TRUE;
     }
-
-    if (!dir)
-      goto error;
-
-    frame->filename = g_build_filename (dir, arg_filename, NULL);
-  }
-  if (!g_str_has_suffix (frame->filename, ".png")) {
-    g_autofree gchar *tmp = frame->filename;
-    frame->filename = g_strdup_printf ("%s.png", frame->filename);
   }
 
   zwlr_screencopy_frame_v1_add_listener (frame->frame, &screencopy_frame_listener, self);
-  return TRUE;
-
-error:
-  screencopy_done (self, FALSE);
   return TRUE;
 }
 
@@ -394,6 +491,9 @@ phosh_screenshot_manager_dispose (GObject *object)
     g_bus_unown_name (self->dbus_name_id);
     self->dbus_name_id = 0;
   }
+
+  g_clear_handle_id (&self->fader_id, g_source_remove);
+  g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
 
   G_OBJECT_CLASS (phosh_screenshot_manager_parent_class)->dispose (object);
 }
