@@ -1,3 +1,62 @@
+phosh (0.10.2) byzantium; urgency=medium
+
+  [ Sebastian Krzyszkowiak ]
+  * docked-manager: Check whether docked mode can be enabled.
+
+  [ Guido Günther ]
+  * dbus: Fix indentation
+  * Add screenshot manager.
+    This, for now, just captures the primary display which is the main
+    use case on mobile.
+  * css: Fix indentation
+  * system-modal-dialogs: Add box shadow.
+    This makes sure the dialog gets visually distinct e.g. on dark-mode
+    apps.
+    Closes: https://source.puri.sm/Librem5/phosh/-/issues/538
+  * proximity: Make sure we destroy the fader when we unclaim the sensor.
+    We must never blank screen when not tracking proximity.
+  * home: Fix use after free
+  * system-modal: Drop unused struct member
+  * fader: Simplify fader.
+    No need to bother all layers with the wayland details, just
+    pass in a monitor.
+  * fader: Allow to set style class.
+    This allows to use animations of any kind.
+  * screenshot-manager: Copy to clipboard if filename is empty.
+  * screenshot-manager: Use fader for screen flashing
+  * Various style and consistency cleanups
+
+  [ Mohammed Sadiq ]
+  * meson: Fix build with tests disabled.
+  * panel: Hide popover before folding top panel.
+    Otherwise the popover shall re-orient to adapt with the parent
+    widget before it's hidden
+  * style: Use tabular font for clocks.
+    So that the text has same size allocated and thus the text won't move
+    when the value changes, which is very much visible when clock shows
+    seconds
+  * top-panel: Update power button style to match design
+
+  [ Anders Jonsson ]
+  * po: Update Swedish translation
+
+  [ Evangelos Ribeiro Tzaras ]
+  * monitor-manager: fix typo.
+
+  [ scootergrisen ]
+  * po: Update Danish translation
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+  [ Daniel Șerbănescu ]
+  * po: Update Romanian translation
+
+  [ 寮 ]
+  * po: Update Japanese translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 27 Apr 2021 10:21:21 +0200
+
 phosh (0.10.1) byzantium; urgency=medium
 
   [ Guido Günther ]
