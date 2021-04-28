@@ -12,6 +12,7 @@
 
 .phosh-topbar-clock {
   font-weight: bold;
+  font-feature-settings: "tnum";
 }
 
 .phosh-power-button {
@@ -185,6 +186,7 @@ phosh-lockscreen, .phosh-lockshield {
 .phosh-lockscreen-clock {
   font-size: 72px;
   font-weight: 100;
+  font-feature-settings: "tnum";
 }
 
 .phosh-lockscreen-arrow {
