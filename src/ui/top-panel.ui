@@ -260,8 +260,11 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="popover">menu_power</property>
+                    <property name="width-request">32</property>
+                    <property name="height-request">32</property>
                     <style>
                       <class name="phosh-power-button"/>
+                      <class name="circular"/>
                     </style>
                     <child>
                       <object class="GtkImage">
