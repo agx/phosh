@@ -100,7 +100,7 @@ if run_phoc_tests
   # Make sure this is valid when running the compositor
   test_env_phoc.set('XDG_RUNTIME_DIR', meson.current_build_dir())
 
-# Unit tests
+  # Unit tests
   foreach test : tests_phoc
     t = executable('test-@0@'.format(test),
                    test_stub_deps + ['test-@0@.c'.format(test)],
@@ -110,9 +110,19 @@ if run_phoc_tests
                    dependencies: testlib_dep)
     test(test, t, env: test_env_phoc)
   endforeach
+
+  # Integration tests using the full libphosh
+  t = executable('test-shell',
+	         'test-shell.c',
+                 c_args: test_cflags,
+                 pie: true,
+                 link_args: test_link_args,
+                 dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
+  test('shell', t, env: test_env_phoc)
+
 endif
 
-# Integration tests
+# Integration tests that aren't yet run by default:
 t = executable('test-idle-manager',
 		 ['test-idle-manager.c', generated_dbus_sources],
 		 c_args: test_cflags,
