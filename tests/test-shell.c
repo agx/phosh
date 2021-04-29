@@ -36,11 +36,23 @@ compositor_teardown (Fixture *fixture, gconstpointer unused)
 }
 
 
+static gboolean
+on_idle (gpointer data)
+{
+  gtk_main_quit ();
+
+  *(gboolean*)data = TRUE;
+
+  return G_SOURCE_REMOVE;
+}
+
+
 static void
 test_shell_new (Fixture *fixture, gconstpointer unused)
 {
   PhoshShell *shell = NULL;
   GLogLevelFlags flags;
+  gboolean success;
 
   gtk_init (NULL, NULL);
   hdy_init ();
@@ -55,11 +67,15 @@ test_shell_new (Fixture *fixture, gconstpointer unused)
   shell = phosh_shell_get_default ();
   g_assert_true (PHOSH_IS_SHELL (shell));
 
-  g_log_set_always_fatal(flags);
-
   g_assert_false (phosh_shell_get_locked (shell));
   g_assert_false (phosh_shell_is_startup_finished (shell));
   g_assert_true (PHOSH_IS_MONITOR (phosh_shell_get_primary_monitor (shell)));
+
+  g_idle_add (on_idle, &success);
+  gtk_main ();
+
+  g_log_set_always_fatal (flags);
+  g_assert_true (success);
 
   g_object_unref (shell);
 }
