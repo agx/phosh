@@ -131,9 +131,6 @@ test_phosh_app_grid_button_set_invalid_mode (void)
                                                          NULL);
     GtkWidget *btn = phosh_app_grid_button_new (info);
 
-    g_test_expect_message ("phosh-app-grid-button",
-                           G_LOG_LEVEL_CRITICAL,
-                           "Invalid mode*");
     /* Boom */
     phosh_app_grid_button_set_mode (PHOSH_APP_GRID_BUTTON (btn),
                                     G_MAXINT);
