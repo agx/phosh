@@ -24,6 +24,7 @@ Build-Depends:
  pandoc <!nodoc>,
 # to run the tests
  at-spi2-core <!nocheck>,
+ dbus-x11 <!nocheck>,
  gnome-themes-extra-data <!nocheck>,
  phoc <!nocheck>,
  xvfb <!nocheck>,
