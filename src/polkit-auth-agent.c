@@ -64,7 +64,7 @@ static void auth_request_complete (AuthRequest *request, gboolean dismissed);
 static gboolean
 agent_register (PhoshPolkitAuthAgent *self)
 {
-  GError *err = NULL;
+  g_autoptr (GError) err = NULL;
   g_autoptr (PolkitSubject) subject;
 
   subject = polkit_unix_session_new_for_process_sync (getpid (),
