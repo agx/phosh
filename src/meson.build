@@ -13,7 +13,7 @@ phosh_resources = gnome.compile_resources(
   c_name: 'phosh',
 )
 
-phosh_enum_headers = [
+phosh_enum_headers = files(
   'app-grid-button.h',
   'gnome-shell-manager.h',
   'home.h',
@@ -25,7 +25,7 @@ phosh_enum_headers = [
   'phosh-wayland.h',
   'rotation-manager.h',
   'shell.h',
-] + schema_enum_headers
+) + schema_enum_headers
 
 phosh_enums = gnome.mkenums('phosh-enums',
   h_template: 'phosh-enums.h.in',
@@ -33,8 +33,8 @@ phosh_enums = gnome.mkenums('phosh-enums',
   sources: phosh_enum_headers,
 )
 
-phosh_settings_sources = [
-  'settings.c',
+phosh_settings_sources = files(
+  'settings.c') + [
   phosh_settings_widgets_sources,
 ]
 
@@ -45,7 +45,7 @@ libphosh_generated_sources = [
   generated_dbus_sources,
 ]
 
-libphosh_tool_sources = [
+libphosh_tool_sources = files(
   'activity.c',
   'activity.h',
   'animation.c',
@@ -110,13 +110,14 @@ libphosh_tool_sources = [
   'util.h',
   'wl-buffer.c',
   'wl-buffer.h',
+) + [
+  libphosh_generated_sources,
   phosh_gtk_list_models_sources,
   phosh_monitor_sources,
   phosh_notifications_sources,
-  libphosh_generated_sources,
 ]
 
-libphosh_sources = [
+libphosh_sources = files(
   'app-auth-prompt.c',
   'app-auth-prompt.h',
   'arrow.c',
@@ -201,9 +202,10 @@ libphosh_sources = [
   'wifimanager.h',
   'wwaninfo.c',
   'wwaninfo.h',
+) + [
+  phosh_osk_sources,
   phosh_settings_sources,
   phosh_wwan_sources,
-  phosh_osk_sources,
 ]
 
 phosh_deps = [
