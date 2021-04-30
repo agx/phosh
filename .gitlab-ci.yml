@@ -7,7 +7,7 @@ stages:
  - package
 
 variables:
-  DEPS: build-essential git wget lcov
+  DEPS: build-essential git wget gcovr
   EXP_DEPS: libhandy-1-dev/experimental libhandy-1-0/experimental gir1.2-handy-1/experimental
   WANT_BUILD_DEPS: "true"
   XVFB_RUN: xvfb-run -a -s -noreset
@@ -59,6 +59,9 @@ before_script:
   - eatmydata apt-get -y install $EXP_DEPS
   - '[ "$WANT_BUILD_DEPS" != "true" ] || eatmydata apt-get -y build-dep .'
   - eatmydata apt-get -y install $DEPS
+  # Forecully drop lcov so gcovr is used
+  # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=987818
+  - eatmydata dpkg --force-depends --remove lcov
   - ulimit -c unlimited
 
 .tags: &tags
@@ -117,7 +120,7 @@ unit-test:native-debian-bullseye:
     - build:native-debian-bullseye
   <<: *bullseye_vars
   <<: *test_step
-  coverage: '/^\s+lines\.+:\s+([\d.]+\%)\s+/'
+  coverage: '/^lines:\s+([\d.]+\%)\s+/'
   artifacts:
     when: always
     paths:
