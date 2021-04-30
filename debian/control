@@ -23,11 +23,11 @@ Build-Depends:
  meson,
  pandoc <!nodoc>,
 # to run the tests
- at-spi2-core,
- gnome-themes-extra-data,
- phoc,
- xvfb,
- xauth,
+ at-spi2-core <!nocheck>,
+ gnome-themes-extra-data <!nocheck>,
+ phoc <!nocheck>,
+ xvfb <!nocheck>,
+ xauth <!nocheck>,
 Standards-Version: 4.1.3
 Homepage: https://source.puri.sm/Librem5/phosh
 Rules-Requires-Root: no
