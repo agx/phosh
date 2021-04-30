@@ -57,7 +57,7 @@ phosh_notification_frame_finalize (GObject *object)
 
   /* Don't clear bindings, they're already unref'd before here */
 
-  phosh_clear_handler (&self->model_watch, self->model);
+  g_clear_signal_handler (&self->model_watch, self->model);
 
   g_clear_object (&self->model);
 

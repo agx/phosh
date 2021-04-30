@@ -338,13 +338,13 @@ static void
 phosh_wwan_mm_destroy_modem (PhoshWWanMM *self)
 {
   if (self->proxy) {
-    phosh_clear_handler (&self->proxy_props_signal_id, self->proxy);
+    g_clear_signal_handler (&self->proxy_props_signal_id, self->proxy);
 
     g_clear_object (&self->proxy);
   }
 
   if (self->proxy_3gpp) {
-    phosh_clear_handler (&self->proxy_3gpp_props_signal_id, self->proxy_3gpp);
+    g_clear_signal_handler (&self->proxy_3gpp_props_signal_id, self->proxy_3gpp);
     g_clear_object (&self->proxy_3gpp);
   }
 
@@ -555,10 +555,10 @@ phosh_wwan_mm_dispose (GObject *object)
 
   phosh_wwan_mm_destroy_modem (self);
   if (self->manager) {
-    phosh_clear_handler (&self->manager_object_added_signal_id,
-                         self->manager);
-    phosh_clear_handler (&self->manager_object_removed_signal_id,
-                         self->manager);
+    g_clear_signal_handler (&self->manager_object_added_signal_id,
+                            self->manager);
+    g_clear_signal_handler (&self->manager_object_removed_signal_id,
+                            self->manager);
 
     g_clear_object (&self->manager);
   }

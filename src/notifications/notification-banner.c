@@ -52,8 +52,8 @@ G_DEFINE_TYPE (PhoshNotificationBanner, phosh_notification_banner, PHOSH_TYPE_LA
 static void
 clear_handler (PhoshNotificationBanner *self)
 {
-  phosh_clear_handler (&self->handler_expired, self->notification);
-  phosh_clear_handler (&self->handler_closed, self->notification);
+  g_clear_signal_handler (&self->handler_expired, self->notification);
+  g_clear_signal_handler (&self->handler_closed, self->notification);
 }
 
 
