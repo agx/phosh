@@ -218,28 +218,6 @@ unit-test:native-alpinelinux-edge:
     variables:
       - $PKG_ONLY == "1"
 
-test:smoke:one-output:
-  <<: *tags
-  stage: test+docs
-  image: debian:bullseye
-  variables: *smoketest_vars
-  needs:
-    - build:native-debian-bullseye
-  script:
-    - export OUTDIR=output
-    - export G_DEBUG=fatal-criticals
-    - export WLR_X11_OUTPUTS=1
-    - 'echo "SMOKE_PARAMS: $SMOKE_PARAMS"'
-    - tests/smoke $SMOKE_PARAMS
-  artifacts:
-    paths:
-      - output/*.log
-      - output/*.png
-    when: always
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-
 test:smoke:two-outputs:
   <<: *tags
   stage: test+docs
