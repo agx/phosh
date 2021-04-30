@@ -25,7 +25,10 @@ Build-Depends:
 # to run the tests
  at-spi2-core <!nocheck>,
  dbus-x11 <!nocheck>,
+ gnome-settings-daemon-common <!nocheck>,
+ gnome-shell-common <!nocheck>,
  gnome-themes-extra-data <!nocheck>,
+ gsettings-desktop-schemas <!nocheck>,
  phoc <!nocheck>,
  xvfb <!nocheck>,
  xauth <!nocheck>,
