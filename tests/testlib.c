@@ -216,11 +216,7 @@ phosh_test_compositor_free (PhoshTestCompositorState *state)
   kill (state->pid, SIGTERM);
   g_spawn_close_pid (state->pid);
 
-#if GLIB_CHECK_VERSION(2,62,0)
   g_assert_finalize_object (state->wl);
-#else
-  g_object_unref (state->wl);
-#endif
 
   g_clear_pointer (&state, g_free);
 }
