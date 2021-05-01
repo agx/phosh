@@ -626,14 +626,14 @@ phosh_gnome_shell_manager_constructed (GObject *object)
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (object);
   PhoshShell *shell = phosh_shell_get_default ();
 
+  G_OBJECT_CLASS (phosh_gnome_shell_manager_parent_class)->constructed (object);
+
   g_object_bind_property_full (shell, "shell-state",
                                object, "shell-action-mode",
                                G_BINDING_SYNC_CREATE,
                                (GBindingTransformFunc) transform_state_to_action_mode,
                                NULL, NULL, NULL);
 
-
-  G_OBJECT_CLASS (phosh_gnome_shell_manager_parent_class)->constructed (object);
   self->dbus_name_id = g_bus_own_name (G_BUS_TYPE_SESSION,
                                        GNOME_SHELL_DBUS_NAME,
                                        G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT |
