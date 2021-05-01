@@ -53,6 +53,7 @@ test_shell_new (Fixture *fixture, gconstpointer unused)
   PhoshShell *shell = NULL;
   GLogLevelFlags flags;
   gboolean success;
+  GMainLoop *loop;
 
   gtk_init (NULL, NULL);
   hdy_init ();
@@ -74,10 +75,18 @@ test_shell_new (Fixture *fixture, gconstpointer unused)
   g_idle_add (on_idle, &success);
   gtk_main ();
 
+  /* No warnings allowed from here on */
   g_log_set_always_fatal (flags);
   g_assert_true (success);
 
-  g_object_unref (shell);
+  g_debug ("Finalizing shell");
+  g_assert_finalize_object (shell);
+
+  /* Process all pending events to spot missing cleanups */
+  loop = g_main_loop_new (NULL, FALSE);
+  while (g_main_context_pending (NULL))
+    g_main_context_iteration (NULL, FALSE);
+  g_main_loop_unref (loop);
 }
 
 
