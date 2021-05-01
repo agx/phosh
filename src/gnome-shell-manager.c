@@ -536,13 +536,19 @@ on_bus_acquired (GDBusConnection *connection,
                  const char      *name,
                  gpointer         user_data)
 {
+  g_autoptr (GError) err = NULL;
   PhoshGnomeShellManager *self = user_data;
   PhoshSessionManager *sm;
+  gboolean success;
 
-  g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),
-                                    connection,
-                                    "/org/gnome/Shell",
-                                    NULL);
+  success = g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),
+                                              connection,
+                                              "/org/gnome/Shell",
+                                              NULL);
+  if (!success) {
+    g_warning ("Failed to export shell interface: %s", err->message);
+    return;
+  }
 
   sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
   phosh_session_manager_export_end_session (sm, connection);
