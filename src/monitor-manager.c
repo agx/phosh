@@ -1211,6 +1211,8 @@ phosh_monitor_manager_dispose (GObject *object)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
 
+  g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
+
   g_clear_object (&self->sensor_proxy_manager);
   g_clear_pointer (&self->sensor_proxy_binding, g_binding_unbind);
 
