@@ -259,7 +259,7 @@ static void
 wlr_output_power_handle_failed(void *data,
                                struct zwlr_output_power_v1 *output_power)
 {
-  PhoshMonitor *self = data;
+  PhoshMonitor *self = PHOSH_MONITOR (data);
 
   g_return_if_fail (PHOSH_IS_MONITOR (self));
   g_warning("Failed to set output power mode for %s\n", self->name);
