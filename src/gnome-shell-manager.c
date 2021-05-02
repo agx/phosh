@@ -606,6 +606,8 @@ phosh_gnome_shell_manager_dispose (GObject *object)
   GList *grabbed;
   guint n = 0;
 
+  g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
+
   for (grabbed = g_hash_table_get_keys (self->info_by_action); grabbed != NULL; grabbed = grabbed->next) {
     AcceleratorInfo *info = grabbed->data;
 
