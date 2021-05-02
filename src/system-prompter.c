@@ -121,9 +121,10 @@ phosh_system_prompter_unregister(void)
     g_clear_object (&_prompter);
   }
 
-  if (acquired_prompter) {
+  if (owner_id) {
     g_bus_unown_name (owner_id);
     owner_id = 0;
-    acquired_prompter = FALSE;
   }
+
+  acquired_prompter = FALSE;
 }
