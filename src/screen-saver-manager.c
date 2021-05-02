@@ -69,7 +69,7 @@ phosh_screen_saver_manager_set_property (GObject *object,
 
   switch (property_id) {
   case PROP_LOCKSCREEN_MANAGER:
-    self->lockscreen_manager = g_value_get_object (value);
+    self->lockscreen_manager = g_value_dup_object (value);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
