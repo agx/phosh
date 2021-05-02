@@ -306,6 +306,8 @@ phosh_screen_saver_manager_dispose (GObject *object)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (object);
 
+  g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
+
   g_clear_object (&self->lockscreen_manager);
   g_clear_object (&self->logind_session_proxy);
   g_clear_object (&self->logind_manager_proxy);
