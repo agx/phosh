@@ -1289,8 +1289,8 @@ on_idle (PhoshMonitorManager *self)
                                        on_bus_acquired,
                                        on_name_acquired,
                                        on_name_lost,
-                                       g_object_ref (self),
-                                       g_object_unref);
+                                       self,
+                                       NULL);
   return FALSE;
 }
 
