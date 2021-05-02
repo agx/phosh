@@ -7,7 +7,7 @@ stages:
  - package
 
 variables:
-  DEPS: build-essential git wget lcov
+  DEPS: build-essential git wget gcovr
   EXP_DEPS: libhandy-1-dev/experimental libhandy-1-0/experimental gir1.2-handy-1/experimental
   WANT_BUILD_DEPS: "true"
   XVFB_RUN: xvfb-run -a -s -noreset
@@ -59,6 +59,9 @@ before_script:
   - eatmydata apt-get -y install $EXP_DEPS
   - '[ "$WANT_BUILD_DEPS" != "true" ] || eatmydata apt-get -y build-dep .'
   - eatmydata apt-get -y install $DEPS
+  # Forecully drop lcov so gcovr is used
+  # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=987818
+  - eatmydata dpkg --force-depends --remove lcov
   - ulimit -c unlimited
 
 .tags: &tags
@@ -94,7 +97,7 @@ build:cross-debian-bullseye:i386:
     - dpkg --add-architecture i386
     - eatmydata apt-get -y update
     - eatmydata apt-get -y -o APT::Immediate-Configure=false install $EXP_DEPS
-    - eatmydata apt-get -y -a i386 -o APT::Immediate-Configure=false build-dep .
+    - DEB_BUILD_PROFILES=nodoc,nocheck eatmydata apt-get -y -a i386 -o APT::Immediate-Configure=false build-dep .
     - eatmydata apt-get -y install $DEPS crossbuild-essential-i386
   script:
     - git submodule update --recursive
@@ -117,7 +120,7 @@ unit-test:native-debian-bullseye:
     - build:native-debian-bullseye
   <<: *bullseye_vars
   <<: *test_step
-  coverage: '/^\s+lines\.+:\s+([\d.]+\%)\s+/'
+  coverage: '/^lines:\s+([\d.]+\%)\s+/'
   artifacts:
     when: always
     paths:
@@ -214,28 +217,6 @@ unit-test:native-alpinelinux-edge:
     when: always
     paths:
       - _build
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-
-test:smoke:one-output:
-  <<: *tags
-  stage: test+docs
-  image: debian:bullseye
-  variables: *smoketest_vars
-  needs:
-    - build:native-debian-bullseye
-  script:
-    - export OUTDIR=output
-    - export G_DEBUG=fatal-criticals
-    - export WLR_X11_OUTPUTS=1
-    - 'echo "SMOKE_PARAMS: $SMOKE_PARAMS"'
-    - tests/smoke $SMOKE_PARAMS
-  artifacts:
-    paths:
-      - output/*.log
-      - output/*.png
-    when: always
   except:
     variables:
       - $PKG_ONLY == "1"

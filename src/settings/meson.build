@@ -1,4 +1,4 @@
-phosh_settings_widgets_sources = [
-  'settings/brightness.c',
-  'settings/gvc-channel-bar.c',
-]
+phosh_settings_widgets_sources = files(
+  'brightness.c',
+  'gvc-channel-bar.c',
+)

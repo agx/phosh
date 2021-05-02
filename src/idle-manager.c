@@ -389,8 +389,8 @@ phosh_idle_manager_dispose (GObject *object)
 {
   PhoshIdleManager *self = PHOSH_IDLE_MANAGER (object);
 
-  g_hash_table_destroy (self->watches);
-  g_object_unref (self->manager);
+  g_clear_pointer (&self->watches, g_hash_table_destroy);
+  g_clear_object (&self->manager);
   G_OBJECT_CLASS (phosh_idle_manager_parent_class)->dispose (object);
 }
 

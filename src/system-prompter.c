@@ -75,6 +75,7 @@ on_name_lost (GDBusConnection *connection,
   if (connection == NULL) {
     g_warning ("couldn't connect to session bus");
     phosh_system_prompter_unregister ();
+    registered_prompter = FALSE;
   }
 }
 
@@ -113,8 +114,11 @@ void
 phosh_system_prompter_unregister(void)
 {
   if (_prompter) {
-    gcr_system_prompter_unregister (_prompter, TRUE);
-    _prompter = NULL;
+    if (registered_prompter) {
+      gcr_system_prompter_unregister (_prompter, TRUE);
+      registered_prompter = FALSE;
+    }
+    g_clear_object (&_prompter);
   }
 
   if (acquired_prompter) {

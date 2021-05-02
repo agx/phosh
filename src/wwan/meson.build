@@ -17,12 +17,13 @@ generated_wwan_sources = [
   )
 ]
 
-phosh_wwan_sources = [
-  'wwan/phosh-wwan-ofono.c',
-  'wwan/phosh-wwan-ofono.h',
-  'wwan/phosh-wwan-mm.c',
-  'wwan/phosh-wwan-mm.h',
-  'wwan/phosh-wwan-iface.c',
-  'wwan/phosh-wwan-iface.h',
+phosh_wwan_sources = files(
+  'phosh-wwan-ofono.c',
+  'phosh-wwan-ofono.h',
+  'phosh-wwan-mm.c',
+  'phosh-wwan-mm.h',
+  'phosh-wwan-iface.c',
+  'phosh-wwan-iface.h',
+) + [
   generated_wwan_sources,
 ]

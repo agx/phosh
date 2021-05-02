@@ -64,27 +64,27 @@ static void auth_request_complete (AuthRequest *request, gboolean dismissed);
 static gboolean
 agent_register (PhoshPolkitAuthAgent *self)
 {
-  GError *err = NULL;
-  g_autoptr(PolkitSubject) subject;
+  g_autoptr (GError) err = NULL;
+  g_autoptr (PolkitSubject) subject;
 
   subject = polkit_unix_session_new_for_process_sync (getpid (),
                                                       NULL, /* GCancellable* */
                                                       &err);
   if (subject == NULL) {
-    g_warning("PolKit failed to properly get our session");
+    g_warning ("PolKit failed to properly get our session");
     return FALSE;
   }
 
   /* FIXME: this blocks so we should do it async */
   self->handle = polkit_agent_listener_register (POLKIT_AGENT_LISTENER (self),
-                                                  POLKIT_AGENT_REGISTER_FLAGS_NONE,
-                                                  subject,
-                                                  NULL, /* use default object path */
-                                                  NULL, /* GCancellable */
-                                                  &err);
+                                                 POLKIT_AGENT_REGISTER_FLAGS_NONE,
+                                                 subject,
+                                                 NULL, /* use default object path */
+                                                 NULL, /* GCancellable */
+                                                 &err);
 
   if (!self->handle) {
-    g_warning("Auth agent failed to register: %s", err->message);
+    g_warning ("Auth agent failed to register: %s", err->message);
     return FALSE;
   }
 
@@ -188,8 +188,8 @@ static void
 maybe_process_next_request (PhoshPolkitAuthAgent *self)
 {
   auth_debug ("cur=%p len(scheduled)=%d",
-           self->current_request,
-           g_list_length (self->scheduled_requests));
+              self->current_request,
+              g_list_length (self->scheduled_requests));
 
   if (self->current_request == NULL && self->scheduled_requests != NULL) {
     AuthRequest *request;
@@ -212,7 +212,7 @@ auth_request_complete (AuthRequest *request, gboolean dismissed)
   gboolean is_current = self->current_request == request;
 
   auth_debug ("completing %s %s cookie %s", is_current ? "current" : "scheduled",
-           request->action_id, request->cookie);
+              request->action_id, request->cookie);
 
   if (!is_current)
     self->scheduled_requests = g_list_remove (self->scheduled_requests, request);
