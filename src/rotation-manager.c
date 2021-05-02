@@ -45,6 +45,7 @@ typedef struct _PhoshRotationManager {
   GObject                  parent;
 
   gboolean                 claimed;
+  GCancellable            *cancel;
   PhoshSensorProxyManager *sensor_proxy_manager;
   PhoshLockscreenManager  *lockscreen_manager;
   PhoshMonitor            *monitor;
@@ -134,20 +135,22 @@ on_accelerometer_claimed (PhoshSensorProxyManager *sensor_proxy_manager,
   gboolean success;
 
   g_return_if_fail (PHOSH_IS_SENSOR_PROXY_MANAGER (sensor_proxy_manager));
-  g_return_if_fail (PHOSH_IS_ROTATION_MANAGER (self));
-  g_return_if_fail (sensor_proxy_manager == self->sensor_proxy_manager);
 
   success = phosh_dbus_sensor_proxy_call_claim_accelerometer_finish (
     PHOSH_DBUS_SENSOR_PROXY (sensor_proxy_manager),
     res, &err);
-  if (success) {
-    g_debug ("Claimed accelerometer");
-    self->claimed = TRUE;
-  } else {
-    g_warning ("Failed to claim accelerometer: %s", err->message);
+
+  if (!success) {
+    phosh_async_error_warn (err, "Failed to claim accelerometer");
+    return;
   }
+
+  g_return_if_fail (PHOSH_IS_ROTATION_MANAGER (self));
+  g_return_if_fail (sensor_proxy_manager == self->sensor_proxy_manager);
+
+  g_debug ("Claimed accelerometer");
+  self->claimed = TRUE;
   match_orientation (self);
-  g_object_unref (self);
 }
 
 static void
@@ -159,19 +162,18 @@ on_accelerometer_released (PhoshSensorProxyManager *sensor_proxy_manager,
   gboolean success;
 
   g_return_if_fail (PHOSH_IS_SENSOR_PROXY_MANAGER (sensor_proxy_manager));
-  g_return_if_fail (PHOSH_IS_ROTATION_MANAGER (self));
-  g_return_if_fail (sensor_proxy_manager == self->sensor_proxy_manager);
 
   success = phosh_dbus_sensor_proxy_call_release_accelerometer_finish (
     PHOSH_DBUS_SENSOR_PROXY (sensor_proxy_manager),
     res, &err);
-  if (success) {
-    g_debug ("Released rotation sensor");
-  } else {
-    g_warning ("Failed to release rotation sensor: %s", err->message);
+
+  if (!success) {
+    phosh_async_error_warn (err, "Failed to release accelerometer");
+    return;
   }
+
+  g_debug ("Released rotation sensor");
   self->claimed = FALSE;
-  g_object_unref (self);
 }
 
 static void
@@ -186,15 +188,15 @@ phosh_rotation_manager_claim_accelerometer (PhoshRotationManager *self, gboolean
   if (claim) {
     phosh_dbus_sensor_proxy_call_claim_accelerometer (
       PHOSH_DBUS_SENSOR_PROXY (self->sensor_proxy_manager),
-      NULL,
+      self->cancel,
       (GAsyncReadyCallback)on_accelerometer_claimed,
-      g_object_ref (self));
+      self);
   } else {
     phosh_dbus_sensor_proxy_call_release_accelerometer (
       PHOSH_DBUS_SENSOR_PROXY (self->sensor_proxy_manager),
-      NULL,
+      self->cancel,
       (GAsyncReadyCallback)on_accelerometer_released,
-      g_object_ref (self));
+      self);
   }
 }
 
@@ -418,7 +420,7 @@ phosh_rotation_manager_constructed (GObject *object)
   on_lockscreen_manager_locked (self, NULL, self->lockscreen_manager);
 
   if (!self->sensor_proxy_manager) {
-    g_warning ("Got not sensor-proxy, no automatic rotation");
+    g_warning ("Got no sensor-proxy, no automatic rotation");
     return;
   }
 
@@ -439,6 +441,9 @@ static void
 phosh_rotation_manager_dispose (GObject *object)
 {
   PhoshRotationManager *self = PHOSH_ROTATION_MANAGER (object);
+
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
 
   g_clear_object (&self->settings);
 
@@ -532,6 +537,7 @@ phosh_rotation_manager_class_init (PhoshRotationManagerClass *klass)
 static void
 phosh_rotation_manager_init (PhoshRotationManager *self)
 {
+  self->cancel = g_cancellable_new ();
 }
 
 
