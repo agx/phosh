@@ -389,6 +389,8 @@ phosh_idle_manager_dispose (GObject *object)
 {
   PhoshIdleManager *self = PHOSH_IDLE_MANAGER (object);
 
+  g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
+
   g_clear_pointer (&self->watches, g_hash_table_destroy);
   g_clear_object (&self->manager);
   G_OBJECT_CLASS (phosh_idle_manager_parent_class)->dispose (object);
@@ -431,7 +433,7 @@ phosh_idle_manager_class_init (PhoshIdleManagerClass *klass)
 static void
 phosh_idle_manager_init (PhoshIdleManager *self)
 {
-  self->dbus_name_id = -1;
+  self->dbus_name_id = 0;
 }
 
 
