@@ -12,9 +12,11 @@
 #include <gtk/gtk.h>
 
 #include "settings/brightness.h"
+#include "util.h"
 
 
 GDBusProxy *brightness_proxy;
+GCancellable *gsd_power_cancel;
 gboolean setting_brightness;
 
 
@@ -51,8 +53,8 @@ brightness_init_cb (GObject      *source_object,
   int value;
 
   brightness_proxy = g_dbus_proxy_new_finish (res, &err);
-  if (!brightness_proxy || err) {
-    g_warning ("Could not connect to brightness service %s", err->message);
+  if (brightness_proxy == NULL) {
+    phosh_async_error_warn (err, "Could not connect to brightness service");
     return;
   }
 
@@ -87,13 +89,14 @@ brightness_init (GtkScale *scale)
     return;
   }
 
+  gsd_power_cancel = g_cancellable_new ();
   g_dbus_proxy_new (session_con,
                     G_DBUS_PROXY_FLAGS_NONE,
                     NULL,
                     "org.gnome.SettingsDaemon.Power",
                     "/org/gnome/SettingsDaemon/Power",
                     "org.gnome.SettingsDaemon.Power.Screen",
-                    NULL,
+                    gsd_power_cancel,
                     (GAsyncReadyCallback)brightness_init_cb,
                     scale);
 }
@@ -148,5 +151,7 @@ brightness_set (int brightness)
 void
 brightness_dispose (void)
 {
+  g_cancellable_cancel (gsd_power_cancel);
+  g_clear_object (&gsd_power_cancel);
   g_clear_object (&brightness_proxy);
 }
