@@ -603,20 +603,10 @@ static void
 phosh_gnome_shell_manager_dispose (GObject *object)
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (object);
-  GList *grabbed;
-  guint n = 0;
 
   g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
 
-  for (grabbed = g_hash_table_get_keys (self->info_by_action); grabbed != NULL; grabbed = grabbed->next) {
-    AcceleratorInfo *info = grabbed->data;
-
-    g_hash_table_remove (self->info_by_action, GUINT_TO_POINTER (info->action_id));
-    ++n;
-  }
-  g_hash_table_unref (self->info_by_action);
-
-  g_debug ("%d accelerators needed to be cleaned up!", n);
+  g_clear_pointer (&self->info_by_action, g_hash_table_unref);
 
   G_OBJECT_CLASS (phosh_gnome_shell_manager_parent_class)->dispose (object);
 }
