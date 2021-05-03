@@ -393,8 +393,8 @@ phosh_media_player_dispose (GObject *object)
   if (self->dbus_id) {
     g_dbus_connection_signal_unsubscribe (self->session_bus, self->dbus_id);
     self->dbus_id = 0;
-    g_clear_object (&self->session_bus);
   }
+  g_clear_object (&self->session_bus);
   g_clear_object (&self->mpris);
   g_clear_object (&self->player);
 
