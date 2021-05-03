@@ -17,6 +17,7 @@
 #include "wifimanager.h"
 #include "shell.h"
 #include "phosh-wayland.h"
+#include "util.h"
 
 #include <NetworkManager.h>
 
@@ -55,6 +56,8 @@ struct _PhoshWifiManager
   char               *ssid;
 
   NMClient           *nmclient;
+  GCancellable       *cancel;
+
   /* The access point we're connected to */
   NMAccessPoint      *ap;
   /* The active connection (if it has a wifi device */
@@ -557,17 +560,16 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
 {
   g_autoptr(GError) err = NULL;
   PhoshWifiManager *self;
+  NMClient *client;
 
-  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (data));
-  self = PHOSH_WIFI_MANAGER (data);
-
-  self->nmclient = nm_client_new_finish (res, &err);
-  if (err) {
-    g_warning ("Failed to init NM: %s", err->message);
+  client = nm_client_new_finish (res, &err);
+  if (client == NULL) {
+    phosh_async_error_warn (err, "Failed to init NM");
     return;
   }
 
-  g_return_if_fail (NM_IS_CLIENT (self->nmclient));
+  self = PHOSH_WIFI_MANAGER (data);
+  self->nmclient = client;
 
   setup_network_agent (self);
   g_signal_connect_swapped (self->nmclient, "notify::wireless-enabled",
@@ -591,7 +593,8 @@ phosh_wifi_manager_constructed (GObject *object)
 {
   PhoshWifiManager *self = PHOSH_WIFI_MANAGER (object);
 
-  nm_client_new_async (NULL, on_nm_client_ready, self);
+  self->cancel = g_cancellable_new ();
+  nm_client_new_async (self->cancel, on_nm_client_ready, self);
 
   G_OBJECT_CLASS (phosh_wifi_manager_parent_class)->constructed (object);
 }
@@ -601,6 +604,9 @@ static void
 phosh_wifi_manager_dispose (GObject *object)
 {
   PhoshWifiManager *self = PHOSH_WIFI_MANAGER(object);
+
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
 
   g_clear_object (&self->network_agent);
   if (self->nmclient) {
