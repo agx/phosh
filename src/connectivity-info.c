@@ -11,6 +11,7 @@
 #include "config.h"
 
 #include "connectivity-info.h"
+#include "util.h"
 
 #include <NetworkManager.h>
 
@@ -38,6 +39,7 @@ struct _PhoshConnectivityInfo {
 
   gboolean        connectivity;
   NMClient       *nmclient;
+  GCancellable   *cancel;
 };
 G_DEFINE_TYPE (PhoshConnectivityInfo, phosh_connectivity_info, PHOSH_TYPE_STATUS_ICON);
 
@@ -112,14 +114,16 @@ static void
 on_nm_client_ready (GObject *obj, GAsyncResult *res, PhoshConnectivityInfo *self)
 {
   g_autoptr (GError) err = NULL;
+  NMClient *nmclient;
 
-  g_return_if_fail (PHOSH_IS_CONNECTIVITY_INFO (self));
-
-  self->nmclient = nm_client_new_finish (res, &err);
-  if (err) {
-    g_warning ("Failed to init NM: %s", err->message);
+  nmclient = nm_client_new_finish (res, &err);
+  if (!nmclient) {
+    phosh_async_error_warn (err, "Failed to init NM");
     return;
   }
+
+  g_return_if_fail (PHOSH_IS_CONNECTIVITY_INFO (self));
+  self->nmclient = nmclient;
 
   g_return_if_fail (NM_IS_CLIENT (self->nmclient));
 
@@ -137,7 +141,8 @@ phosh_connectivity_info_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_connectivity_info_parent_class)->constructed (object);
 
-  nm_client_new_async (NULL, (GAsyncReadyCallback)on_nm_client_ready, self);
+  self->cancel = g_cancellable_new ();
+  nm_client_new_async (self->cancel, (GAsyncReadyCallback)on_nm_client_ready, self);
 }
 
 
@@ -145,6 +150,9 @@ static void
 phosh_connectivity_info_dispose (GObject *object)
 {
   PhoshConnectivityInfo *self = PHOSH_CONNECTIVITY_INFO (object);
+
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
 
   g_clear_object (&self->nmclient);
 
