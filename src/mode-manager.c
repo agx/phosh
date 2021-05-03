@@ -49,6 +49,7 @@ struct _PhoshModeManager {
   PhoshMonitorManager         *monitor_manager;
 
   PhoshHostname1DBusHostname1 *proxy;
+  GCancellable                *cancel;
   gchar                       *chassis;
   PhoshWaylandSeatCapabilities wl_caps;
 };
@@ -207,14 +208,15 @@ on_proxy_new_for_bus_finish (GObject          *source_object,
 {
   g_autoptr (GError) err = NULL;
   PhoshWayland *wl = phosh_wayland_get_default ();
+  PhoshHostname1DBusHostname1 *proxy;
 
-  g_return_if_fail (PHOSH_IS_MODE_MANAGER (self));
-
-  self->proxy = phosh_hostname1_dbus_hostname1_proxy_new_for_bus_finish (res, &err);
-  if (!self->proxy) {
+  proxy = phosh_hostname1_dbus_hostname1_proxy_new_for_bus_finish (res, &err);
+  if (proxy == NULL) {
     g_warning ("Failed to get hostname1 proxy: %s", err->message);
-    goto out;
+    return;
   }
+  g_return_if_fail (PHOSH_IS_MODE_MANAGER (self));
+  self->proxy = proxy;
 
   g_debug ("Hostname1 interface initialized");
   g_signal_connect_object (self->proxy,
@@ -237,9 +239,6 @@ on_proxy_new_for_bus_finish (GObject          *source_object,
                            self,
                            G_CONNECT_SWAPPED);
   /* n_monitors is always updated in update_props () */
-
-out:
-  g_object_unref (self);
 }
 
 
@@ -250,9 +249,9 @@ on_idle (PhoshModeManager *self)
                                                     G_DBUS_PROXY_FLAGS_NONE,
                                                     BUS_NAME,
                                                     OBJECT_PATH,
-                                                    NULL,
+                                                    self->cancel,
                                                     (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
-                                                    g_object_ref (self));
+                                                    self);
 
   return G_SOURCE_REMOVE;
 }
@@ -275,6 +274,9 @@ static void
 phosh_mode_manager_dispose (GObject *object)
 {
   PhoshModeManager *self = PHOSH_MODE_MANAGER (object);
+
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
 
   g_clear_object (&self->proxy);
 
@@ -351,6 +353,7 @@ phosh_mode_manager_init (PhoshModeManager *self)
   self->hw_flags = PHOSH_MODE_HW_NONE;
   self->device_type = PHOSH_MODE_DEVICE_TYPE_UNKNOWN;
   self->mimicry = PHOSH_MODE_DEVICE_TYPE_UNKNOWN;
+  self->cancel = g_cancellable_new ();
 }
 
 
