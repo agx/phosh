@@ -244,7 +244,7 @@ out:
 
 
 static gboolean
-on_idle (PhoshTorchManager *self)
+on_idle (PhoshModeManager *self)
 {
   phosh_hostname1_dbus_hostname1_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
                                                     G_DBUS_PROXY_FLAGS_NONE,
