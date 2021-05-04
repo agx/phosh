@@ -162,18 +162,6 @@ on_key_press_event (PhoshSystemModalDialog *self, GdkEventKey *event, gpointer d
 
 
 static void
-phosh_system_modal_dialog_dispose (GObject *obj)
-{
-#if 0
-  PhoshSystemModalDialog *self = PHOSH_SYSTEM_MODAL_DIALOG (obj);
-  PhoshSystemModalDialogPrivate *priv = phosh_system_modal_dialog_get_instance_private (self);
-
-#endif
-  G_OBJECT_CLASS (phosh_system_modal_dialog_parent_class)->dispose (obj);
-}
-
-
-static void
 phosh_system_modal_dialog_finalize (GObject *obj)
 {
   PhoshSystemModalDialog *self = PHOSH_SYSTEM_MODAL_DIALOG (obj);
@@ -212,7 +200,6 @@ phosh_system_modal_dialog_class_init (PhoshSystemModalDialogClass *klass)
   object_class->get_property = phosh_system_modal_dialog_get_property;
   object_class->set_property = phosh_system_modal_dialog_set_property;
   object_class->constructed = phosh_system_modal_dialog_constructed;
-  object_class->dispose = phosh_system_modal_dialog_dispose;
   object_class->finalize = phosh_system_modal_dialog_finalize;
 
   props[PROP_TITLE] = g_param_spec_string ("title",
