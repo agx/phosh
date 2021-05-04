@@ -40,6 +40,10 @@
             <property name="selection-mode">none</property>
             <property name="visible">False</property>
             <property name="can-focus">False</property>
+            <property name="sensitive">False</property>
+            <style>
+              <class name="phosh-end-session-listbox"/>
+            </style>
           </object>
         </child>
       </object>

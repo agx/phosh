@@ -342,6 +342,12 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
   font-weight: bold;
 }
 
+/* Don't dim list of inhibited applications */
+.phosh-end-session-dialog list * {
+  color: @theme_text_color;
+  -gtk-icon-effect: none;
+}
+
 /*
  * Notifications
  */
