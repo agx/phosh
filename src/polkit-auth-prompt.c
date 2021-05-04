@@ -289,7 +289,7 @@ on_auth_session_show_error (PhoshPolkitAuthPrompt *self,
                             PolkitAgentSession    *session)
 {
   g_debug ("%s", text);
-  gtk_entry_set_text (GTK_ENTRY (self->lbl_info), text);
+  gtk_label_set_text (GTK_LABEL (self->lbl_info), text);
 }
 
 
@@ -299,7 +299,7 @@ on_auth_session_show_info (PhoshPolkitAuthPrompt *self,
                            PolkitAgentSession    *session)
 {
   g_debug ("%s", text);
-  gtk_entry_set_text (GTK_ENTRY (self->lbl_info), text);
+  gtk_label_set_text (GTK_LABEL (self->lbl_info), text);
 }
 
 
