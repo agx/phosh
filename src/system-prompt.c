@@ -495,7 +495,7 @@ on_password_changed (PhoshSystemPrompt *self,
 
 
 static void
-btn_continue_clicked_cb (PhoshSystemPrompt *self, GtkButton *btn)
+on_btn_continue_clicked (PhoshSystemPrompt *self, GtkButton *btn)
 {
   prompt_complete (self);
 }
@@ -590,18 +590,8 @@ phosh_system_prompt_constructed (GObject *object)
                           "active", G_BINDING_BIDIRECTIONAL);
 
   g_object_bind_property (self, "cancel-label", priv->btn_cancel, "label", G_BINDING_DEFAULT);
-  g_signal_connect_object (priv->btn_cancel,
-                           "clicked",
-                           G_CALLBACK (on_dialog_canceled),
-                           self,
-                           G_CONNECT_SWAPPED);
-
   g_object_bind_property (self, "continue-label", priv->btn_continue, "label", G_BINDING_DEFAULT);
-  g_signal_connect_object (priv->btn_continue,
-                           "clicked",
-                           G_CALLBACK (btn_continue_clicked_cb),
-                           self,
-                           G_CONNECT_SWAPPED);
+
   gtk_widget_grab_default (priv->btn_continue);
 }
 
@@ -679,6 +669,7 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, btn_cancel);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, btn_continue);
   gtk_widget_class_bind_template_callback (widget_class, on_dialog_canceled);
+  gtk_widget_class_bind_template_callback (widget_class, on_btn_continue_clicked);
 }
 
 

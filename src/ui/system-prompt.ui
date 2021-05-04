@@ -137,6 +137,7 @@
         <property name="receives-default">False</property>
         <property name="valign">center</property>
         <property name="use-stock">True</property>
+        <signal name="clicked" handler="on_dialog_canceled" swapped="true"/>
       </object>
     </child>
     <child type="phosh-dialog-button">
@@ -148,6 +149,7 @@
         <property name="receives-default">True</property>
         <property name="valign">center</property>
         <property name="use-stock">True</property>
+        <signal name="clicked" handler="on_btn_continue_clicked" swapped="true"/>
         <style>
           <class name="suggested-action"/>
         </style>
