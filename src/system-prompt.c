@@ -635,7 +635,7 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
    * Whether the password entry is visible or not.
    */
   g_object_class_install_property (object_class, PROP_PASSWORD_VISIBLE,
-                                   g_param_spec_boolean ("password-visible", "Password visible", "Password field is visible",
+                                   g_param_spec_boolean ("password-visible", "", "",
                                                          FALSE, G_PARAM_READABLE));
 
   /**
@@ -644,7 +644,7 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
    * Whether the password confirm entry is visible or not.
    */
   g_object_class_install_property (object_class, PROP_CONFIRM_VISIBLE,
-                                   g_param_spec_boolean ("confirm-visible", "Confirm visible", "Confirm field is visible",
+                                   g_param_spec_boolean ("confirm-visible", "", "",
                                                          FALSE, G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   /**
@@ -653,7 +653,7 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
    * Whether the warning label is visible or not.
    */
   g_object_class_install_property (object_class, PROP_WARNING_VISIBLE,
-                                   g_param_spec_boolean ("warning-visible", "Warning visible", "Warning is visible",
+                                   g_param_spec_boolean ("warning-visible", "", "",
                                                          FALSE, G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   /**
@@ -662,7 +662,7 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
    * Whether the choice check box is visible or not.
    */
   g_object_class_install_property (object_class, PROP_CHOICE_VISIBLE,
-                                   g_param_spec_boolean ("choice-visible", "Choice visible", "Choice is visible",
+                                   g_param_spec_boolean ("choice-visible", "", "",
                                                          FALSE, G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   gtk_widget_class_set_template_from_resource (widget_class,
