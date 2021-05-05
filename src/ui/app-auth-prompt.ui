@@ -41,7 +41,6 @@
             <property name="label" translatable="yes">Remember decision</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
-            <property name="receives-default">False</property>
             <property name="halign">center</property>
             <property name="use-underline">True</property>
             <property name="draw-indicator">True</property>
