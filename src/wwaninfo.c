@@ -175,12 +175,14 @@ update_info (PhoshWWanInfo *self)
   phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), info);
 }
 
-static gboolean
-on_idle (PhoshWWanInfo *self)
+
+static void
+phosh_wwan_info_idle_init (PhoshStatusIcon *icon)
 {
+  PhoshWWanInfo *self = PHOSH_WWAN_INFO (icon);
+
   update_icon_data (self, NULL, NULL);
   update_info (self);
-  return FALSE;
 }
 
 
@@ -211,8 +213,6 @@ phosh_wwan_info_constructed (GObject *object)
                             "notify::operator",
                             G_CALLBACK (update_info),
                             self);
-
-  g_idle_add ((GSourceFunc) on_idle, self);
 }
 
 
@@ -234,12 +234,15 @@ static void
 phosh_wwan_info_class_init (PhoshWWanInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  PhoshStatusIconClass *status_icon_class = PHOSH_STATUS_ICON_CLASS (klass);
 
   object_class->set_property = phosh_wwan_info_set_property;
   object_class->get_property = phosh_wwan_info_get_property;
 
   object_class->constructed = phosh_wwan_info_constructed;
   object_class->dispose = phosh_wwan_info_dispose;
+
+  status_icon_class->idle_init = phosh_wwan_info_idle_init;
 
   props[PROP_SHOW_DETAIL] =
     g_param_spec_boolean (
