@@ -10,6 +10,7 @@
 
 #include "log.h"
 #include "shell.h"
+#include "background-manager.h"
 #include "phosh-wayland.h"
 
 #include <glib.h>
@@ -24,14 +25,28 @@ typedef struct _Fixture {
 static void
 compositor_setup (Fixture *fixture, gconstpointer unused)
 {
+  g_setenv ("WLR_HEADLESS_OUTPUTS", "1", TRUE);
+
   fixture->state = phosh_test_compositor_new ();
   g_assert_nonnull (fixture->state);
 }
+
+
+static void
+compositor_setup_dualhead (Fixture *fixture, gconstpointer unused)
+{
+  g_setenv ("WLR_HEADLESS_OUTPUTS", "2", TRUE);
+
+  fixture->state = phosh_test_compositor_new ();
+  g_assert_nonnull (fixture->state);
+}
+
 
 static void
 compositor_teardown (Fixture *fixture, gconstpointer unused)
 {
   phosh_test_compositor_free (fixture->state);
+  g_unsetenv("WLR_HEADLESS_OUTPUTS");
 }
 
 
@@ -119,9 +134,41 @@ test_shell_new (Fixture *fixture, gconstpointer unused)
 
   /* No warnings allowed from here on */
   g_log_set_always_fatal (flags);
+
   g_assert_true (success);
 
   g_debug ("Finalizing shell");
+  g_assert_finalize_object (shell);
+
+  phosh_test_drain_events ();
+}
+
+
+static void
+test_shell_new_two_outputs (Fixture *fixture, gconstpointer unused)
+{
+  PhoshShell *shell;
+  PhoshMonitorManager *mm;
+  PhoshBackgroundManager *bm;
+  g_autoptr (GList) bgs = NULL;
+  GLogLevelFlags flags;
+  gboolean success;
+
+  shell = phosh_test_get_shell (&flags);
+
+  mm = phosh_shell_get_monitor_manager (shell);
+  g_assert_cmpint (phosh_monitor_manager_get_num_monitors (mm), ==, 2);
+
+  g_idle_add (on_idle, &success);
+  gtk_main ();
+
+  g_log_set_always_fatal (flags);
+  g_assert_true (success);
+
+  bm = phosh_shell_get_background_manager (shell);
+  bgs = phosh_background_manager_get_backgrounds (bm);
+  g_assert_cmpint (g_list_length (bgs), ==, 2);
+
   g_assert_finalize_object (shell);
 
   phosh_test_drain_events ();
@@ -136,6 +183,8 @@ main (int   argc,
 
   g_test_add ("/phosh/shell/new", Fixture, NULL,
               compositor_setup, test_shell_new, compositor_teardown);
+  g_test_add ("/phosh/shell/dualhead", Fixture, NULL,
+              compositor_setup_dualhead, test_shell_new_two_outputs, compositor_teardown);
 
   return g_test_run ();
 }
