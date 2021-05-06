@@ -39,28 +39,6 @@ phosh_fix_app_id (const char *app_id)
   return g_strdup (app_id);
 }
 
-
-/**
- * phosh_clear_handler:
- * @handler: the signal handler to disconnect
- * @object: the #GObject to remove the handler from
- *
- * Emulates g_clear_signal_handler for pre-2.62 GLib
- *
- * @handler is zerod when removed, can be called on a zerod @handler
- */
-void
-phosh_clear_handler (gulong *handler, gpointer object)
-{
-  g_return_if_fail (handler);
-  g_return_if_fail (G_IS_OBJECT (object));
-
-  if (*handler > 0) {
-    g_signal_handler_disconnect (object, *handler);
-    *handler = 0;
-  }
-}
-
 /**
  * phosh_munge_app_id:
  * @app_id: the app_id

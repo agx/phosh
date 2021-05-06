@@ -121,8 +121,8 @@ phosh_app_grid_button_finalize (GObject *object)
   g_clear_object (&priv->actions);
   g_clear_object (&priv->action_map);
 
-  phosh_clear_handler (&priv->favorite_changed_watcher,
-                       phosh_favorite_list_model_get_default ());
+  g_clear_signal_handler (&priv->favorite_changed_watcher,
+                          phosh_favorite_list_model_get_default ());
 
   G_OBJECT_CLASS (phosh_app_grid_button_parent_class)->finalize (object);
 }
@@ -468,7 +468,7 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
 
   list = phosh_favorite_list_model_get_default ();
 
-  phosh_clear_handler (&priv->favorite_changed_watcher, list);
+  g_clear_signal_handler (&priv->favorite_changed_watcher, list);
 
   if (info) {
     priv->info = g_object_ref (info);

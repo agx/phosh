@@ -27,11 +27,12 @@ configure_file(
   configuration: config_h,
 )
 
-glib_ver = 'GLIB_VERSION_2_58'
+glib_ver = 'GLIB_VERSION_2_62'
 
 add_project_arguments([
   '-DHAVE_CONFIG_H',
   '-DGLIB_VERSION_MIN_REQUIRED=@0@'.format(glib_ver),
+  '-DGLIB_VERSION_MAX_REQUIRED=@0@'.format(glib_ver),
   '-DG_LOG_USE_STRUCTURED',
   '-I' + meson.build_root(),
 ], language: 'c')
@@ -104,11 +105,11 @@ gnome = import('gnome')
 i18n  = import('i18n')
 
 gcr_dep = dependency('gcr-3', version: '>= 3.7.5')
-gio_dep = dependency('gio-2.0', version: '>=2.58')
-gio_unix_dep =  dependency('gio-unix-2.0', version: '>=2.58')
-glib_dep = dependency('glib-2.0', version: '>=2.58')
+gio_dep = dependency('gio-2.0', version: '>=2.62')
+gio_unix_dep =  dependency('gio-unix-2.0', version: '>=2.62')
+glib_dep = dependency('glib-2.0', version: '>=2.62')
 gnome_desktop_dep = dependency('gnome-desktop-3.0', version: '>=3.26')
-gobject_dep =  dependency('gobject-2.0', version: '>=2.50.0')
+gobject_dep =  dependency('gobject-2.0', version: '>=2.62')
 gsettings_desktop_schemas_dep = dependency('gsettings-desktop-schemas')
 gtk_dep = dependency('gtk+-3.0', version: '>=3.22')
 gtk_wayland_dep = dependency('gtk+-wayland-3.0', version: '>=3.22')

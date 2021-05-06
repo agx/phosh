@@ -44,11 +44,7 @@ test_phosh_media_player_new (TestFixture *fixture, gconstpointer data)
   g_timeout_add_seconds (1, (GSourceFunc)on_timeout, fixture->mainloop);
   g_main_loop_run (fixture->mainloop);
 
-#if GLIB_CHECK_VERSION(2,62,0)
   g_assert_finalize_object (widget);
-#else
-  g_object_unref (widget);
-#endif
 }
 
 int

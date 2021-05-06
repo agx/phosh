@@ -35,7 +35,6 @@ typedef struct _PhoshMountNotification {
 G_DEFINE_TYPE (PhoshMountNotification, phosh_mount_notification, PHOSH_TYPE_NOTIFICATION)
 
 
-#if GLIB_CHECK_VERSION(2,60,0)
 static void
 on_launch_finished (GAppInfo               *source,
                     GAsyncResult           *result,
@@ -51,7 +50,7 @@ on_launch_finished (GAppInfo               *source,
 
   g_object_unref (self);
 }
-#endif
+
 
 static void
 phosh_mount_notification_do_action (PhoshNotification *notification, guint id, const char *action)
@@ -70,7 +69,6 @@ phosh_mount_notification_do_action (PhoshNotification *notification, guint id, c
 
   l = g_list_append (l, (gpointer)action);
   context = phosh_shell_get_app_launch_context (phosh_shell_get_default ());
-#if GLIB_CHECK_VERSION(2,60,0)
   self->cancellable = g_cancellable_new ();
   g_app_info_launch_uris_async (info,
                                 l,
@@ -78,19 +76,6 @@ phosh_mount_notification_do_action (PhoshNotification *notification, guint id, c
                                 self->cancellable,
                                 (GAsyncReadyCallback)on_launch_finished,
                                 g_object_ref (self));
-#else
-  {
-    g_autoptr (GError) err = NULL;
-    if (!g_app_info_launch_uris (info,
-                                 l,
-                                 G_APP_LAUNCH_CONTEXT (context),
-                                 &err)) {
-      g_warning ("Failed to open %s: %s",
-                 phosh_notification_get_summary (PHOSH_NOTIFICATION (self)),
-                 err->message);
-    }
-  }
-#endif
 }
 
 
