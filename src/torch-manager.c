@@ -40,7 +40,7 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshTorchManager {
-  GObject               parent;
+  PhoshManager          parent;
 
   /* Whether upower sees a torch device */
   gboolean              present;
@@ -51,7 +51,7 @@ struct _PhoshTorchManager {
 
   PhoshUPowerDBusTorch *proxy;
 };
-G_DEFINE_TYPE (PhoshTorchManager, phosh_torch_manager, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhoshTorchManager, phosh_torch_manager, PHOSH_TYPE_MANAGER);
 
 
 static void
@@ -230,8 +230,8 @@ out:
 }
 
 
-static gboolean
-on_idle (PhoshTorchManager *self)
+static void
+phosh_torch_manager_idle_init (PhoshManager *self)
 {
   phosh_upower_dbus_torch_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
                                              G_DBUS_PROXY_FLAGS_NONE,
@@ -240,7 +240,6 @@ on_idle (PhoshTorchManager *self)
                                              NULL,
                                              (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
                                              g_object_ref (self));
-  return G_SOURCE_REMOVE;
 }
 
 
@@ -259,9 +258,12 @@ static void
 phosh_torch_manager_class_init (PhoshTorchManagerClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  PhoshManagerClass *manager_class = PHOSH_MANAGER_CLASS (klass);
 
   object_class->get_property = phosh_torch_manager_get_property;
   object_class->dispose = phosh_torch_manager_dispose;
+
+  manager_class->idle_init = phosh_torch_manager_idle_init;
 
   props[PROP_ICON_NAME] =
     g_param_spec_string ("icon-name",
@@ -308,8 +310,6 @@ phosh_torch_manager_init (PhoshTorchManager *self)
 {
   self->icon_name = TORCH_DISABLED_ICON;
   self->max_brightness = 1;
-  /* Perform DBus setup when idle */
-  g_idle_add ((GSourceFunc)on_idle, self);
 }
 
 
