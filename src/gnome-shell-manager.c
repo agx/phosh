@@ -612,6 +612,9 @@ phosh_gnome_shell_manager_dispose (GObject *object)
 
   g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
 
+  if (g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (self)))
+    g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
+
   g_clear_pointer (&self->info_by_action, g_hash_table_unref);
 
   G_OBJECT_CLASS (phosh_gnome_shell_manager_parent_class)->dispose (object);
