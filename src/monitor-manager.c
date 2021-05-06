@@ -1213,6 +1213,9 @@ phosh_monitor_manager_dispose (GObject *object)
 
   g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
 
+  if (g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (self)))
+    g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
+
   g_clear_object (&self->sensor_proxy_manager);
   g_clear_pointer (&self->sensor_proxy_binding, g_binding_unbind);
 
