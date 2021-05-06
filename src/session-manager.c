@@ -383,6 +383,9 @@ phosh_session_manager_dispose (GObject *object)
 {
   PhoshSessionManager *self = PHOSH_SESSION_MANAGER (object);
 
+  if (g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (self)))
+    g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
+
   g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
   g_clear_object (&self->priv_proxy);
   g_clear_object (&self->proxy);
