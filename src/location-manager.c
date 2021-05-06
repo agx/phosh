@@ -66,7 +66,7 @@ typedef struct _PhoshLocationManager {
   PhoshGeoClueDBusOrgFreedesktopGeoClue2AgentSkeleton parent;
 
   PhoshGeoClueDBusManager                            *manager_proxy;
-  int                                                 dbus_name_id;
+  guint                                               dbus_name_id;
   GSettings                                          *location_settings;
   gboolean                                            enabled;
   gboolean                                            active;
@@ -428,6 +428,7 @@ phosh_location_manager_dispose (GObject *object)
 
   /* Close dialog and cancel pending request if ongoing */
   g_clear_pointer (&self->prompt, phosh_cp_widget_destroy);
+
   if (self->invocation) {
     phosh_geo_clue_dbus_org_freedesktop_geo_clue2_agent_complete_authorize_app (
       PHOSH_GEO_CLUE_DBUS_ORG_FREEDESKTOP_GEO_CLUE2_AGENT (self),
@@ -436,6 +437,8 @@ phosh_location_manager_dispose (GObject *object)
       LEVEL_NONE);
     self->invocation = NULL;
   }
+
+  g_clear_handle_id (&self->dbus_name_id, g_bus_unwatch_name);
 
   g_clear_object (&self->location_settings);
 
@@ -462,13 +465,13 @@ phosh_location_manager_constructed (GObject *object)
              on_bus_acquired,
              self);
 
-  g_bus_watch_name (G_BUS_TYPE_SYSTEM,
-                    GEOCLUE_SERVICE,
-                    G_BUS_NAME_WATCHER_FLAGS_NONE,
-                    (GBusNameAppearedCallback) on_manager_name_appeared,
-                    (GBusNameVanishedCallback) on_manager_name_vanished,
-                    self,
-                    NULL);
+  self->dbus_name_id = g_bus_watch_name (G_BUS_TYPE_SYSTEM,
+                                         GEOCLUE_SERVICE,
+                                         G_BUS_NAME_WATCHER_FLAGS_NONE,
+                                         (GBusNameAppearedCallback) on_manager_name_appeared,
+                                         (GBusNameVanishedCallback) on_manager_name_vanished,
+                                         g_object_ref (self),
+                                         g_object_unref);
 }
 
 
