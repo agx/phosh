@@ -308,6 +308,9 @@ phosh_screen_saver_manager_dispose (GObject *object)
 
   g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
 
+  if (g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (self)))
+    g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
+
   g_clear_object (&self->lockscreen_manager);
   g_clear_object (&self->logind_session_proxy);
   g_clear_object (&self->logind_manager_proxy);
