@@ -1014,7 +1014,7 @@ on_bus_acquired (GDBusConnection *connection,
                  const char      *name,
                  gpointer         user_data)
 {
-  PhoshMonitorManager *self = user_data;
+  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (user_data);
 
   /* We need to use Mutter's object path here to make gnome-settings happy */
   g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),

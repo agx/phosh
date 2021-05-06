@@ -367,7 +367,7 @@ on_bus_acquired (GDBusConnection *connection,
                  const char      *name,
                  gpointer         user_data)
 {
-  PhoshIdleManager *self = user_data;
+  PhoshIdleManager *self = PHOSH_IDLE_MANAGER (user_data);
   PhoshMonitor *monitor;
   g_autofree char *path = NULL;
 

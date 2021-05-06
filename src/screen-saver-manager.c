@@ -292,7 +292,7 @@ on_bus_acquired (GDBusConnection *connection,
                  const char      *name,
                  gpointer         user_data)
 {
-  PhoshScreenSaverManager *self = user_data;
+  PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (user_data);
 
   g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),
                                     connection,

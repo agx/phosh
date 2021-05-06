@@ -311,7 +311,7 @@ on_bus_acquired (GObject      *source_object,
                  gpointer      user_data)
 {
   g_autoptr (GError) err = NULL;
-  PhoshLocationManager *self = user_data;
+  PhoshLocationManager *self = PHOSH_LOCATION_MANAGER (user_data);
   GDBusConnection *connection;
 
   connection = g_bus_get_finish (res, &err);

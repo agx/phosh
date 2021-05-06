@@ -537,7 +537,7 @@ on_bus_acquired (GDBusConnection *connection,
                  gpointer         user_data)
 {
   g_autoptr (GError) err = NULL;
-  PhoshGnomeShellManager *self = user_data;
+  PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (user_data);
   PhoshSessionManager *sm;
   gboolean success;
 

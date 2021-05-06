@@ -450,7 +450,7 @@ on_bus_acquired (GDBusConnection *connection,
                  const char      *name,
                  gpointer         user_data)
 {
-  PhoshScreenshotManager *self = user_data;
+  PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (user_data);
 
   g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),
                                     connection,
