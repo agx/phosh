@@ -123,13 +123,15 @@ on_wifi_present (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
 }
 
-static gboolean
-on_idle (PhoshWifiInfo *self)
+
+static void
+phosh_wifi_info_idle_init (PhoshStatusIcon *icon)
 {
+  PhoshWifiInfo *self = PHOSH_WIFI_INFO (icon);
+
   update_icon (self, NULL, self->wifi);
   update_info (self);
   on_wifi_enabled (self, NULL, self->wifi);
-  return FALSE;
 }
 
 
@@ -171,8 +173,6 @@ phosh_wifi_info_constructed (GObject *object)
                             G_CALLBACK (on_wifi_present),
                             self);
   on_wifi_present (self, NULL, self->wifi);
-
-  g_idle_add ((GSourceFunc) on_idle, self);
 }
 
 
@@ -194,10 +194,13 @@ static void
 phosh_wifi_info_class_init (PhoshWifiInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  PhoshStatusIconClass *status_icon_class = PHOSH_STATUS_ICON_CLASS (klass);
 
   object_class->constructed = phosh_wifi_info_constructed;
   object_class->dispose = phosh_wifi_info_dispose;
   object_class->get_property = phosh_wifi_info_get_property;
+
+  status_icon_class->idle_init = phosh_wifi_info_idle_init;
 
   props[PROP_ENABLED] =
     g_param_spec_boolean ("enabled",
