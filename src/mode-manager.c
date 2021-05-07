@@ -40,7 +40,7 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshModeManager {
-  GObject                      parent;
+  PhoshManager                 parent;
 
   PhoshModeDeviceType          device_type;
   PhoshModeDeviceType          mimicry;
@@ -53,7 +53,7 @@ struct _PhoshModeManager {
   gchar                       *chassis;
   PhoshWaylandSeatCapabilities wl_caps;
 };
-G_DEFINE_TYPE (PhoshModeManager, phosh_mode_manager, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhoshModeManager, phosh_mode_manager, PHOSH_TYPE_MANAGER);
 
 
 static void
@@ -242,9 +242,11 @@ on_proxy_new_for_bus_finish (GObject          *source_object,
 }
 
 
-static gboolean
-on_idle (PhoshModeManager *self)
+static void
+phosh_mode_manager_idle_init (PhoshManager *manager)
 {
+  PhoshModeManager *self = PHOSH_MODE_MANAGER (manager);
+
   phosh_hostname1_dbus_hostname1_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
                                                     G_DBUS_PROXY_FLAGS_NONE,
                                                     BUS_NAME,
@@ -252,8 +254,6 @@ on_idle (PhoshModeManager *self)
                                                     self->cancel,
                                                     (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
                                                     self);
-
-  return G_SOURCE_REMOVE;
 }
 
 static void
@@ -264,9 +264,6 @@ phosh_mode_manager_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_mode_manager_parent_class)->constructed (object);
 
   self->monitor_manager = phosh_shell_get_monitor_manager (phosh_shell_get_default ());
-
-  /* Perform DBus setup when idle */
-  g_idle_add ((GSourceFunc)on_idle, self);
 }
 
 
@@ -299,11 +296,14 @@ static void
 phosh_mode_manager_class_init (PhoshModeManagerClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  PhoshManagerClass *manager_class = PHOSH_MANAGER_CLASS (klass);
 
   object_class->constructed = phosh_mode_manager_constructed;
   object_class->dispose = phosh_mode_manager_dispose;
   object_class->finalize = phosh_mode_manager_finalize;
   object_class->get_property = phosh_mode_manager_get_property;
+
+  manager_class->idle_init = phosh_mode_manager_idle_init;
 
   props[PROP_DEVICE_TYPE] =
     g_param_spec_enum ("device-type",
