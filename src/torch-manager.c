@@ -196,6 +196,55 @@ on_name_owner_changed (PhoshTorchManager    *self,
 
 
 static void
+on_proxy_new_for_bus_finish (GObject           *source_object,
+                             GAsyncResult      *res,
+                             PhoshTorchManager *self)
+{
+  g_autoptr (GError) err = NULL;
+
+  g_return_if_fail (PHOSH_IS_TORCH_MANAGER (self));
+
+  self->proxy = phosh_upower_dbus_torch_proxy_new_for_bus_finish (res, &err);
+
+  if (!self->proxy) {
+    g_warning ("Failed to get upower torch proxy: %s", err->message);
+    goto out;
+  }
+
+  g_signal_connect_object (self->proxy,
+                           "notify::g-name-owner",
+                           G_CALLBACK (on_name_owner_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_name_owner_changed (self, NULL, self->proxy);
+  g_signal_connect_object (self->proxy,
+                           "notify::brightness",
+                           G_CALLBACK (on_torch_brightness_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_torch_brightness_changed (self, NULL, self->proxy);
+
+  g_debug ("Torch manager initialized");
+out:
+  g_object_unref (self);
+}
+
+
+static gboolean
+on_idle (PhoshTorchManager *self)
+{
+  phosh_upower_dbus_torch_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
+                                             G_DBUS_PROXY_FLAGS_NONE,
+                                             BUS_NAME,
+                                             OBJECT_PATH,
+                                             NULL,
+                                             (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
+                                             g_object_ref (self));
+  return G_SOURCE_REMOVE;
+}
+
+
+static void
 phosh_torch_manager_dispose (GObject *object)
 {
   PhoshTorchManager *self = PHOSH_TORCH_MANAGER(object);
@@ -251,55 +300,6 @@ phosh_torch_manager_class_init (PhoshTorchManagerClass *klass)
                       G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
-}
-
-
-static void
-on_proxy_new_for_bus_finish (GObject           *source_object,
-                             GAsyncResult      *res,
-                             PhoshTorchManager *self)
-{
-  g_autoptr (GError) err = NULL;
-
-  g_return_if_fail (PHOSH_IS_TORCH_MANAGER (self));
-
-  self->proxy = phosh_upower_dbus_torch_proxy_new_for_bus_finish (res, &err);
-
-  if (!self->proxy) {
-    g_warning ("Failed to get upower torch proxy: %s", err->message);
-    goto out;
-  }
-
-  g_signal_connect_object (self->proxy,
-                           "notify::g-name-owner",
-                           G_CALLBACK (on_name_owner_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-  on_name_owner_changed (self, NULL, self->proxy);
-  g_signal_connect_object (self->proxy,
-                           "notify::brightness",
-                           G_CALLBACK (on_torch_brightness_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-  on_torch_brightness_changed (self, NULL, self->proxy);
-
-  g_debug ("Torch manager initialized");
-out:
-  g_object_unref (self);
-}
-
-
-static gboolean
-on_idle (PhoshTorchManager *self)
-{
-  phosh_upower_dbus_torch_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
-                                             G_DBUS_PROXY_FLAGS_NONE,
-                                             BUS_NAME,
-                                             OBJECT_PATH,
-                                             NULL,
-                                             (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
-                                             g_object_ref (self));
-  return G_SOURCE_REMOVE;
 }
 
 
