@@ -80,6 +80,8 @@ typedef struct _PhoshMediaPlayer {
   PhoshMediaPlayerStatus            status;
   gboolean                          attached;
   gboolean                          playable;
+
+  guint                             idle_id;
 } PhoshMediaPlayer;
 
 G_DEFINE_TYPE (PhoshMediaPlayer, phosh_media_player, GTK_TYPE_GRID);
@@ -389,6 +391,8 @@ static void
 phosh_media_player_dispose (GObject *object)
 {
   PhoshMediaPlayer *self = PHOSH_MEDIA_PLAYER (object);
+
+  g_clear_handle_id (&self->idle_id, g_source_remove);
 
   if (self->dbus_id) {
     g_dbus_connection_signal_unsubscribe (self->session_bus, self->dbus_id);
@@ -724,6 +728,8 @@ on_idle (PhoshMediaPlayer *self)
              NULL,
              (GAsyncReadyCallback)on_bus_get_finished,
              g_object_ref (self));
+
+  self->idle_id = 0;
   return G_SOURCE_REMOVE;
 }
 
@@ -734,7 +740,7 @@ phosh_media_player_init (PhoshMediaPlayer *self)
   gtk_widget_init_template (GTK_WIDGET (self));
 
   /* Perform DBus setup when idle */
-  g_idle_add ((GSourceFunc)on_idle, self);
+  self->idle_id = g_idle_add ((GSourceFunc)on_idle, self);
 }
 
 
