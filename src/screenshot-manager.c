@@ -487,10 +487,7 @@ phosh_screenshot_manager_dispose (GObject *object)
 {
   PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (object);
 
-  if (self->dbus_name_id) {
-    g_bus_unown_name (self->dbus_name_id);
-    self->dbus_name_id = 0;
-  }
+  g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
 
   g_clear_handle_id (&self->fader_id, g_source_remove);
   g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
