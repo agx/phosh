@@ -302,23 +302,11 @@ on_keybindings_changed (PhoshHome *self,
 }
 
 
-static gboolean
-on_idle (PhoshHome *self)
-{
-  g_autoptr (GSettings) settings = NULL;
-
-  settings = g_settings_new ("org.gnome.desktop.a11y.applications");
-  g_settings_bind (settings, "screen-keyboard-enabled",
-                   self, "osk-enabled", G_SETTINGS_BIND_GET);
-
-  return FALSE;
-}
-
-
 static void
 phosh_home_constructed (GObject *object)
 {
   PhoshHome *self = PHOSH_HOME (object);
+  g_autoptr (GSettings) settings = NULL;
 
   g_signal_connect (self,
                     "configured",
@@ -341,7 +329,9 @@ phosh_home_constructed (GObject *object)
 
   phosh_connect_feedback (self->btn_home);
 
-  g_idle_add ((GSourceFunc) on_idle, self);
+  settings = g_settings_new ("org.gnome.desktop.a11y.applications");
+  g_settings_bind (settings, "screen-keyboard-enabled",
+                   self, "osk-enabled", G_SETTINGS_BIND_GET);
 
   G_OBJECT_CLASS (phosh_home_parent_class)->constructed (object);
 }
