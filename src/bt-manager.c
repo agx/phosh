@@ -134,42 +134,6 @@ on_bt_has_airplane_mode_changed (PhoshBtManager        *self,
 
 
 static void
-phosh_bt_manager_class_init (PhoshBtManagerClass *klass)
-{
-  GObjectClass *object_class = G_OBJECT_CLASS (klass);
-
-  object_class->get_property = phosh_bt_manager_get_property;
-
-  props[PROP_ICON_NAME] =
-    g_param_spec_string ("icon-name",
-                         "icon name",
-                         "The bt icon name",
-                         "bluetooth-disabled-symbolic",
-                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
-
-  props[PROP_ENABLED] =
-    g_param_spec_boolean ("enabled",
-                          "enabled",
-                          "Whether bluetooth hardware is enabled",
-                          FALSE,
-                          G_PARAM_READABLE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
-
-  props[PROP_PRESENT] =
-    g_param_spec_boolean ("present",
-                          "Present",
-                          "Whether bluettoh hardware is present",
-                          FALSE,
-                          G_PARAM_READABLE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
-
-  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
-}
-
-
-static void
 on_proxy_new_for_bus_finish (GObject        *source_object,
                              GAsyncResult   *res,
                              PhoshBtManager *self)
@@ -213,6 +177,42 @@ on_idle (PhoshBtManager *self)
                                               (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
                                               g_object_ref (self));
   return G_SOURCE_REMOVE;
+}
+
+
+static void
+phosh_bt_manager_class_init (PhoshBtManagerClass *klass)
+{
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+  object_class->get_property = phosh_bt_manager_get_property;
+
+  props[PROP_ICON_NAME] =
+    g_param_spec_string ("icon-name",
+                         "icon name",
+                         "The bt icon name",
+                         "bluetooth-disabled-symbolic",
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+
+  props[PROP_ENABLED] =
+    g_param_spec_boolean ("enabled",
+                          "enabled",
+                          "Whether bluetooth hardware is enabled",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_EXPLICIT_NOTIFY |
+                          G_PARAM_STATIC_STRINGS);
+
+  props[PROP_PRESENT] =
+    g_param_spec_boolean ("present",
+                          "Present",
+                          "Whether bluettoh hardware is present",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_EXPLICIT_NOTIFY |
+                          G_PARAM_STATIC_STRINGS);
+
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
 
