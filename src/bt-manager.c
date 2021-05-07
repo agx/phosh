@@ -39,7 +39,7 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshBtManager {
-  GObject                parent;
+  PhoshManager           manager;
 
   /* Whether bt radio is on */
   gboolean               enabled;
@@ -49,7 +49,7 @@ struct _PhoshBtManager {
 
   PhoshRfkillDBusRfkill *proxy;
 };
-G_DEFINE_TYPE (PhoshBtManager, phosh_bt_manager, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhoshBtManager, phosh_bt_manager, PHOSH_TYPE_MANAGER);
 
 
 static void
@@ -166,9 +166,11 @@ out:
 }
 
 
-static gboolean
-on_idle (PhoshBtManager *self)
+static void
+phosh_bt_manager_idle_init (PhoshManager *manager)
 {
+  PhoshBtManager *self = PHOSH_BT_MANAGER (manager);
+
   phosh_rfkill_dbus_rfkill_proxy_new_for_bus (G_BUS_TYPE_SESSION,
                                               G_DBUS_PROXY_FLAGS_NONE,
                                               BUS_NAME,
@@ -176,7 +178,6 @@ on_idle (PhoshBtManager *self)
                                               NULL,
                                               (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
                                               g_object_ref (self));
-  return G_SOURCE_REMOVE;
 }
 
 
@@ -184,8 +185,11 @@ static void
 phosh_bt_manager_class_init (PhoshBtManagerClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  PhoshManagerClass *manager_class = PHOSH_MANAGER_CLASS (klass);
 
   object_class->get_property = phosh_bt_manager_get_property;
+
+  manager_class->idle_init = phosh_bt_manager_idle_init;
 
   props[PROP_ICON_NAME] =
     g_param_spec_string ("icon-name",
@@ -220,8 +224,6 @@ static void
 phosh_bt_manager_init (PhoshBtManager *self)
 {
   self->icon_name = "bluetooth-disabled-symbolic";
-  /* Perform DBus setup when idle */
-  g_idle_add ((GSourceFunc)on_idle, self);
 }
 
 
