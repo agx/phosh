@@ -137,6 +137,19 @@ phosh_find_systemd_session (char **session_id)
  * Returns: TRUE if #err is cancellation.
  */
 
+/**
+ * phosh_dbus_service_error_warn
+ * @err: (nullable): The error to check and print
+ * @...: Format string followed by parameters to insert
+ *       into the format string (as with printf())
+ *
+ * Prints a warning when @err is 'real' error. If it merely indicates
+ * that the DBus service is not present at all it just logs a debug
+ * message.
+ *
+ * Returns: TRUE if #err is cancellation.
+ */
+
 /* Helper since phosh_async_error_warn needs to be a macro to capture log_domain */
 gboolean
 phosh_error_warnv (const char *log_domain,

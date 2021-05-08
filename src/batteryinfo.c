@@ -14,6 +14,7 @@
 
 #include "batteryinfo.h"
 #include "upower.h"
+#include "util.h"
 
 /**
  * SECTION:batteryinfo
@@ -38,7 +39,7 @@ setup_display_device (PhoshBatteryInfo *self)
 
   self->upower = up_client_new_full (NULL, &err);
   if (self->upower == NULL) {
-    g_warning ("Failed to connect to upowerd: %s", err->message);
+    phosh_dbus_service_error_warn (err, "Failed to connect to upowerd");
     return;
   }
 

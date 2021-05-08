@@ -13,6 +13,7 @@
 #include "bt-manager.h"
 #include "shell.h"
 #include "dbus/gsd-rfkill-dbus.h"
+#include "util.h"
 
 #define BUS_NAME "org.gnome.SettingsDaemon.Rfkill"
 #define OBJECT_PATH "/org/gnome/SettingsDaemon/Rfkill"
@@ -145,7 +146,7 @@ on_proxy_new_for_bus_finish (GObject        *source_object,
   self->proxy = phosh_rfkill_dbus_rfkill_proxy_new_for_bus_finish (res, &err);
 
   if (!self->proxy) {
-    g_warning ("Failed to get gsd rfkill proxy: %s", err->message);
+    phosh_dbus_service_error_warn (err, "Failed to get gsd rfkill proxy");
     goto out;
   }
 

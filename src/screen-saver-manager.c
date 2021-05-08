@@ -329,7 +329,7 @@ on_logind_get_session_proxy_finish  (GObject                 *object,
   self->logind_session_proxy = phosh_login1_session_dbus_login_session_proxy_new_for_bus_finish (
     res, &err);
   if (!self->logind_session_proxy) {
-    g_warning ("Failed to get login1 session proxy: %s", err->message);
+    phosh_dbus_service_error_warn (err, "Failed to get login1 session proxy");
     goto out;
   }
 
@@ -387,7 +387,7 @@ on_logind_manager_proxy_new_for_bus_finish (GObject                 *source_obje
     phosh_login1_manager_dbus_login_manager_proxy_new_for_bus_finish (res, &err);
 
   if (!self->logind_manager_proxy) {
-    g_warning ("Failed to get login1 manager proxy: %s", err->message);
+    phosh_dbus_service_error_warn (err, "Failed to get login1 manager proxy");
     goto out;
   }
 
