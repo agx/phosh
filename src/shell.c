@@ -471,7 +471,7 @@ setup_idle_cb (PhoshShell *self)
 
   priv->sensor_proxy_manager = phosh_sensor_proxy_manager_new (&err);
   if (!priv->sensor_proxy_manager)
-    g_warning ("Failed to connect to sensor-proxy: %s", err->message);
+    g_message ("Failed to connect to sensor-proxy: %s", err->message);
 
   panels_create (self);
   /* Create background after panel since it needs the panel's size */

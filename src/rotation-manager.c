@@ -420,7 +420,7 @@ phosh_rotation_manager_constructed (GObject *object)
   on_lockscreen_manager_locked (self, NULL, self->lockscreen_manager);
 
   if (!self->sensor_proxy_manager) {
-    g_warning ("Got no sensor-proxy, no automatic rotation");
+    g_message ("Got no sensor-proxy, no automatic rotation");
     return;
   }
 
