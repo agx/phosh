@@ -45,6 +45,7 @@ typedef struct _PhoshScreenSaverManager
 {
   PhoshScreenSaverDBusScreenSaverSkeleton parent;
 
+  int idle_id;
   int dbus_name_id;
   PhoshLockscreenManager *lockscreen_manager;
 
@@ -306,6 +307,7 @@ phosh_screen_saver_manager_dispose (GObject *object)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (object);
 
+  g_clear_handle_id (&self->idle_id, g_source_remove);
   g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
 
   if (g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (self)))
@@ -422,6 +424,7 @@ on_idle (PhoshScreenSaverManager *self)
     (GAsyncReadyCallback) on_logind_manager_proxy_new_for_bus_finish,
     g_object_ref (self));
 
+  self->idle_id = 0;
   return G_SOURCE_REMOVE;
 }
 
@@ -445,7 +448,7 @@ phosh_screen_saver_manager_constructed (GObject *object)
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self->lockscreen_manager));
 
   /* Perform login1 setup when idle */
-  g_idle_add ((GSourceFunc)on_idle, self);
+  self->idle_id = g_idle_add ((GSourceFunc)on_idle, self);
 }
 
 
