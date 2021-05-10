@@ -204,3 +204,18 @@ phosh_background_manager_new (void)
 {
   return g_object_new (PHOSH_TYPE_BACKGROUND_MANAGER, NULL);
 }
+
+
+/**
+ * phosh_background_manager_get_backgrounds:
+ * @self: The #PhoshBackgroundManager
+ *
+ * Returns: (transfer container) (element-type PhoshBackground): The current backgrounds
+ */
+GList *
+phosh_background_manager_get_backgrounds (PhoshBackgroundManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_BACKGROUND_MANAGER (self), NULL);
+
+  return g_hash_table_get_values (self->backgrounds);
+}

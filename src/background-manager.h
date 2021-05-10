@@ -16,4 +16,5 @@ G_DECLARE_FINAL_TYPE (PhoshBackgroundManager,
                       BACKGROUND_MANAGER,
                       GObject)
 
-PhoshBackgroundManager *phosh_background_manager_new (void);
+PhoshBackgroundManager *phosh_background_manager_new     (void);
+GList                  *phosh_background_manager_get_backgrounds (PhoshBackgroundManager *self);
