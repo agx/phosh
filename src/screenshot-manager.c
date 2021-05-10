@@ -146,7 +146,7 @@ screencopy_done (PhoshScreenshotManager *self, gboolean success)
                                              success,
                                              self->frame->filename ?: "");
   /* TODO: GNOME >= 40 wants us to emit the click sound from here */
-  if (self->frame->flash)
+  if (self->frame->flash && success)
     show_fader (self);
 
   g_clear_pointer (&self->frame, screencopy_frame_dispose);
