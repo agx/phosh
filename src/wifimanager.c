@@ -564,7 +564,7 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
 
   client = nm_client_new_finish (res, &err);
   if (client == NULL) {
-    phosh_async_error_warn (err, "Failed to init NM");
+    g_message ("Failed to init NM: %s", err->message);
     return;
   }
 
