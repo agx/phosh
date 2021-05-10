@@ -908,6 +908,19 @@ phosh_shell_get_monitor_manager (PhoshShell *self)
 }
 
 
+PhoshBackgroundManager *
+phosh_shell_get_background_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_BACKGROUND_MANAGER (priv->background_manager), NULL);
+
+  return priv->background_manager;
+}
+
+
 PhoshWifiManager *
 phosh_shell_get_wifi_manager (PhoshShell *self)
 {
