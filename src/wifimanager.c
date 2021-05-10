@@ -523,7 +523,7 @@ secret_agent_register_cb (GObject      *object,
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
 
   if (!nm_secret_agent_old_register_finish (agent, result, &error)) {
-    g_warning ("Error registering network agent: %s", error->message);
+    g_message ("Error registering network agent: %s", error->message);
     return;
   }
 
