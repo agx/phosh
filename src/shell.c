@@ -115,7 +115,7 @@ typedef struct
   PhoshWifiManager *wifi_manager;
   PhoshPolkitAuthAgent *polkit_auth_agent;
   PhoshScreenSaverManager *screen_saver_manager;
-  PhoshScreenshotManager *screenshot_manager;  
+  PhoshScreenshotManager *screenshot_manager;
   PhoshNotifyManager *notify_manager;
   PhoshFeedbackManager *feedback_manager;
   PhoshBtManager *bt_manager;
@@ -518,7 +518,7 @@ setup_idle_cb (PhoshShell *self)
 
   priv->gnome_shell_manager = phosh_gnome_shell_manager_get_default ();
   priv->screenshot_manager = phosh_screenshot_manager_new ();
-  
+
   priv->startup_finished = TRUE;
 
   return FALSE;
