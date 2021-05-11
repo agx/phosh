@@ -14,7 +14,7 @@
 #include "home.h"
 #include "shell.h"
 #include "phosh-enums.h"
-#include "osk/osk-button.h"
+#include "osk-button.h"
 
 #include <handy.h>
 
