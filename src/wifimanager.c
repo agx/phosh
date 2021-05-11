@@ -608,6 +608,11 @@ phosh_wifi_manager_dispose (GObject *object)
   g_cancellable_cancel (self->cancel);
   g_clear_object (&self->cancel);
 
+  if (self->ap) {
+    g_signal_handlers_disconnect_by_data (self->ap, self);
+    g_clear_object (&self->ap);
+  }
+
   g_clear_object (&self->network_agent);
   if (self->nmclient) {
     g_signal_handlers_disconnect_by_data (self->nmclient, self);
