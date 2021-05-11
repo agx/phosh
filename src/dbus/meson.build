@@ -66,8 +66,12 @@ generated_dbus_sources += gnome.gdbus_codegen('mpris-dbus',
 generated_dbus_sources += gnome.gdbus_codegen('phosh-wwan-ofono-dbus',
                                               'org.ofono.xml',
                                               namespace: 'PhoshOfonoDBus',
-                                              interface_prefix: 'org.ofono',
-                                              object_manager: false)
+                                              interface_prefix: 'org.ofono')
+
+generated_dbus_sources += gnome.gdbus_codegen('phosh-osk0-dbus',
+                                              'sm.puri.OSK0.xml',
+                                              namespace: 'PhoshOsk0')
+
 # DBus server protocols
 generated_dbus_sources += gnome.gdbus_codegen('geoclue-agent-dbus',
                                               'org.freedesktop.GeoClue2.Agent.xml',
