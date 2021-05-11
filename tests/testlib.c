@@ -133,8 +133,6 @@ phosh_test_compositor_new (void)
   g_autoptr (GMainLoop) mainloop = NULL;
   PhoshTestCompositorState *state;
   GSpawnFlags flags = G_SPAWN_DO_NOT_REAP_CHILD;
-  GHashTable *outputs;
-  GHashTableIter iter;
   const char *comp;
   gboolean ret;
   int outfd;
@@ -199,13 +197,8 @@ phosh_test_compositor_new (void)
    */
   state->gdk_display = gdk_display_open (watch.socket);
   g_free (watch.socket);
-  state->wl = phosh_wayland_get_default ();
 
-  /* Get us the first output just so it's simpler to use */
-  outputs = phosh_wayland_get_wl_outputs (state->wl);
-  g_hash_table_iter_init (&iter, outputs);
-  g_hash_table_iter_next (&iter, NULL, (gpointer*)&state->output);
-  g_assert_nonnull (state->output);
+  state->wl = phosh_wayland_get_default ();
 
   return state;
 }
