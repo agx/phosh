@@ -348,7 +348,6 @@ phosh_shell_dispose (GObject *object)
 
   g_clear_object (&priv->notification_banner);
 
-  g_clear_object (&priv->keyboard_events);
   /* dispose managers in opposite order of declaration */
   g_clear_object (&priv->screenshot_manager);
   g_clear_object (&priv->location_manager);
@@ -373,6 +372,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->builtin_monitor);
   g_clear_object (&priv->primary_monitor);
   g_clear_object (&priv->background_manager);
+  g_clear_object (&priv->keyboard_events);
 
   /* sensors */
   g_clear_object (&priv->proximity);

@@ -303,7 +303,7 @@ on_keybindings_changed (PhoshHome *self,
 
 
 static gboolean
-on_idle (PhoshOskButton *self)
+on_idle (PhoshHome *self)
 {
   g_autoptr (GSettings) settings = NULL;
 

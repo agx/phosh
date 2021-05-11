@@ -69,7 +69,7 @@ phosh_screen_saver_manager_set_property (GObject *object,
 
   switch (property_id) {
   case PROP_LOCKSCREEN_MANAGER:
-    self->lockscreen_manager = g_value_get_object (value);
+    self->lockscreen_manager = g_value_dup_object (value);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -292,7 +292,7 @@ on_bus_acquired (GDBusConnection *connection,
                  const char      *name,
                  gpointer         user_data)
 {
-  PhoshScreenSaverManager *self = user_data;
+  PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (user_data);
 
   g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),
                                     connection,
@@ -305,6 +305,11 @@ static void
 phosh_screen_saver_manager_dispose (GObject *object)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (object);
+
+  g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
+
+  if (g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (self)))
+    g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
 
   g_clear_object (&self->lockscreen_manager);
   g_clear_object (&self->logind_session_proxy);

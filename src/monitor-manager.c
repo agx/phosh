@@ -1014,7 +1014,7 @@ on_bus_acquired (GDBusConnection *connection,
                  const char      *name,
                  gpointer         user_data)
 {
-  PhoshMonitorManager *self = user_data;
+  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (user_data);
 
   /* We need to use Mutter's object path here to make gnome-settings happy */
   g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),
@@ -1210,6 +1210,11 @@ static void
 phosh_monitor_manager_dispose (GObject *object)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
+
+  g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
+
+  if (g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (self)))
+    g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
 
   g_clear_object (&self->sensor_proxy_manager);
   g_clear_pointer (&self->sensor_proxy_binding, g_binding_unbind);
