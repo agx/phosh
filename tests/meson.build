@@ -29,6 +29,7 @@ test_env.prepend('XDG_DATA_DIRS', '@0@/system/share/'.format(meson.current_sourc
 
 test_cflags = [
   '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
+  '-DTEST_OUTPUT_DIR="@0@"'.format(meson.current_build_dir()),
 ]
 
 test_link_args = [
@@ -84,6 +85,12 @@ tests_phoc = [
   'timestamp-label',
 ]
 
+tests_manager = [
+  'idle-manager',
+  'screenshot-manager',
+]
+
+
 # Unit tests
 foreach test : tests
   t = executable('test-@0@'.format(test),
@@ -119,14 +126,16 @@ if run_phoc_tests
                  link_args: test_link_args,
                  dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
   test('shell', t, env: test_env_phoc, is_parallel : false)
+  foreach test : tests_manager
+    t = executable('test-@0@'.format(test),
+		   ['test-@0@.c'.format(test), generated_dbus_sources],
+                   c_args: test_cflags,
+                   pie: true,
+                   link_args: test_link_args,
+		   dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
+    test(test, t, env: test_env_phoc, is_parallel : false)
+  endforeach
 
-  t = executable('test-idle-manager',
-		 ['test-idle-manager.c', generated_dbus_sources],
-                 c_args: test_cflags,
-                 pie: true,
-                 link_args: test_link_args,
-		 dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
-  test('test-idle', t, env: test_env_phoc, is_parallel : false)
 endif
 
 endif # tests
