@@ -84,6 +84,11 @@ generated_dbus_sources += gnome.gdbus_codegen('phosh-gnome-shell-dbus',
 					      interface_prefix: 'org.gnome',
 					      namespace: 'PhoshGnomeShellDBus')
 
+generated_dbus_sources += gnome.gdbus_codegen('phosh-display-dbus',
+                                              'org.gnome.Mutter.DisplayConfig.xml',
+                                              interface_prefix: 'org.gnome.Mutter',
+                                              namespace: 'PhoshDisplayDbus')
+
 generated_dbus_sources += gnome.gdbus_codegen('phosh-idle-dbus',
 					      'org.gnome.Mutter.IdleMonitor.xml',
 					      interface_prefix: 'org.gnome.Mutter',

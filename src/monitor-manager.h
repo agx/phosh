@@ -7,7 +7,7 @@
  */
 #pragma once
 
-#include "monitor/phosh-display-dbus.h"
+#include "phosh-display-dbus.h"
 #include "monitor/monitor.h"
 
 #include "sensor-proxy-manager.h"
