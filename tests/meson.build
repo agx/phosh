@@ -118,17 +118,15 @@ if run_phoc_tests
                  pie: true,
                  link_args: test_link_args,
                  dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
-  test('shell', t, env: test_env_phoc)
+  test('shell', t, env: test_env_phoc, is_parallel : false)
 
-endif
-
-# Integration tests that aren't yet run by default:
-t = executable('test-idle-manager',
+  t = executable('test-idle-manager',
 		 ['test-idle-manager.c', generated_dbus_sources],
-		 c_args: test_cflags,
-		 link_args: test_link_args,
-		 dependencies: phosh_deps,
-		 )
-test('test-idle', t, env: test_env)
+                 c_args: test_cflags,
+                 pie: true,
+                 link_args: test_link_args,
+		 dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
+  test('test-idle', t, env: test_env_phoc, is_parallel : false)
+endif
 
 endif # tests
