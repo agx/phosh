@@ -87,6 +87,7 @@ tests_phoc = [
 
 tests_manager = [
   'idle-manager',
+  'monitor-manager',
   'screenshot-manager',
 ]
 
