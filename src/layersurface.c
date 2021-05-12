@@ -327,7 +327,6 @@ on_phosh_layer_surface_unmapped (PhoshLayerSurface *self, gpointer unused)
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   priv = phosh_layer_surface_get_instance_private (self);
 
-  priv = phosh_layer_surface_get_instance_private (self);
   if (priv->layer_surface) {
     zwlr_layer_surface_v1_destroy (priv->layer_surface);
     priv->layer_surface = NULL;
