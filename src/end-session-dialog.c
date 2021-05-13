@@ -145,7 +145,7 @@ static void
 end_session_dialog_update (PhoshEndSessionDialog *self)
 {
   gboolean inhibited;
-  gint seconds = self->timeout;
+  gint seconds;
   const char *title;
   g_autofree char *description = NULL;
   g_autofree char *user_name = NULL;
