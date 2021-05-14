@@ -42,11 +42,11 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 enum {
-  PHOSH_LOCKSCREEN_MANAGER_PROP_0,
-  PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED,
-  PHOSH_LOCKSCREEN_MANAGER_PROP_LAST_PROP
+  PROP_0,
+  PROP_LOCKED,
+  PROP_LAST_PROP
 };
-static GParamSpec *props[PHOSH_LOCKSCREEN_MANAGER_PROP_LAST_PROP];
+static GParamSpec *props[PROP_LAST_PROP];
 
 
 struct _PhoshLockscreenManager {
@@ -84,7 +84,7 @@ lockscreen_unlock_cb (PhoshLockscreenManager *self, PhoshLockscreen *lockscreen)
 
   self->locked = FALSE;
   self->active_time = 0;
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_LOCKED]);
 }
 
 
@@ -248,7 +248,7 @@ lockscreen_lock (PhoshLockscreenManager *self)
 
   self->locked = TRUE;
   self->active_time = g_get_monotonic_time ();
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_LOCKED]);
 }
 
 
@@ -272,7 +272,7 @@ phosh_lockscreen_manager_set_property (GObject      *object,
   PhoshLockscreenManager *self = PHOSH_LOCKSCREEN_MANAGER (object);
 
   switch (property_id) {
-  case PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED:
+  case PROP_LOCKED:
     phosh_lockscreen_manager_set_locked (self, g_value_get_boolean (value));
     break;
   default:
@@ -291,7 +291,7 @@ phosh_lockscreen_manager_get_property (GObject    *object,
   PhoshLockscreenManager *self = PHOSH_LOCKSCREEN_MANAGER (object);
 
   switch (property_id) {
-  case PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED:
+  case PROP_LOCKED:
     g_value_set_boolean (value, self->locked);
     break;
   default:
@@ -341,13 +341,14 @@ phosh_lockscreen_manager_class_init (PhoshLockscreenManagerClass *klass)
   object_class->set_property = phosh_lockscreen_manager_set_property;
   object_class->get_property = phosh_lockscreen_manager_get_property;
 
-  props[PHOSH_LOCKSCREEN_MANAGER_PROP_LOCKED] =
+  props[PROP_LOCKED] =
     g_param_spec_boolean ("locked",
                           "Locked",
                           "Whether the screen is locked",
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
-  g_object_class_install_properties (object_class, PHOSH_LOCKSCREEN_MANAGER_PROP_LAST_PROP, props);
+
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   /**
    * PhoshLockscreenManager::wakeup-outputs
