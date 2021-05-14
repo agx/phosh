@@ -158,7 +158,10 @@ on_proximity_near_changed (PhoshProximity          *self,
   g_debug ("Proximity near changed: %d", near);
   if (near && monitor) {
     if (!self->fader) {
-      self->fader = phosh_fader_new (monitor);
+      self->fader = g_object_new (PHOSH_TYPE_FADER,
+                                  "monitor", monitor,
+                                  "style-class", "phosh-fader-proximity-fade",
+                                  NULL);
       gtk_widget_show (GTK_WIDGET (self->fader));
     }
   } else {
