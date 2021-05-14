@@ -207,7 +207,7 @@ on_proxy_new_for_bus_finish (GObject          *source_object,
                              PhoshModeManager *self)
 {
   g_autoptr (GError) err = NULL;
-  PhoshWayland *wl = phosh_wayland_get_default ();
+  PhoshWayland *wl;
   PhoshHostname1DBusHostname1 *proxy;
 
   proxy = phosh_hostname1_dbus_hostname1_proxy_new_for_bus_finish (res, &err);
@@ -226,6 +226,7 @@ on_proxy_new_for_bus_finish (GObject          *source_object,
                            G_CONNECT_SWAPPED);
   on_chassis_changed (self, NULL, self->proxy);
 
+  wl = phosh_wayland_get_default ();
   g_signal_connect_object (wl,
                            "notify::seat-capabilities",
                            G_CALLBACK (on_seat_capabilities_changed),
