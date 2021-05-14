@@ -121,6 +121,7 @@ on_fader_timeout (gpointer user_data)
 
   g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
 
+  self->fader_id = 0;
   return G_SOURCE_REMOVE;
 }
 
@@ -130,7 +131,8 @@ show_fader (PhoshScreenshotManager *self)
 {
   PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
 
-  g_timeout_add (FLASH_FADER_TIMEOUT, on_fader_timeout, self);
+  self->fader_id = g_timeout_add (FLASH_FADER_TIMEOUT, on_fader_timeout, self);
+  g_source_set_name_by_id (self->fader_id, "[phosh] screenshot fader");
   self->fader = g_object_new (PHOSH_TYPE_FADER,
                               "monitor", monitor,
                               "style-class", "phosh-fader-flash-fade",
