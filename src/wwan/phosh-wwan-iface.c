@@ -9,6 +9,7 @@
 #define G_LOG_DOMAIN "phosh-wwan-iface"
 
 #include "phosh-wwan-iface.h"
+#include "wwanmanager.h"
 
 /**
  * SECTION:phosh-wwan-iface
@@ -158,6 +159,18 @@ phosh_wwan_is_enabled (PhoshWWan *self)
   iface = PHOSH_WWAN_GET_IFACE (self);
   g_return_val_if_fail (iface->is_enabled != NULL, FALSE);
   return iface->is_enabled (self);
+}
+
+
+void
+phosh_wwan_set_enabled (PhoshWWan *self, gboolean enabled)
+{
+  PhoshWWanManager *manager;
+
+  g_return_if_fail (PHOSH_IS_WWAN_MANAGER (self));
+
+  manager = PHOSH_WWAN_MANAGER (self);
+  phosh_wwan_manager_set_enabled (manager, enabled);
 }
 
 

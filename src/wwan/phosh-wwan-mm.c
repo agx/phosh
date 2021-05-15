@@ -79,7 +79,7 @@ enum {
 };
 
 typedef struct _PhoshWWanMM {
-  GObject                         parent;
+  PhoshWWanManager                parent;
 
   PhoshMMDBusModem               *proxy;
   PhoshMMDBusModemModem3gpp      *proxy_3gpp;
@@ -104,7 +104,7 @@ typedef struct _PhoshWWanMM {
 
 
 static void phosh_wwan_mm_interface_init (PhoshWWanInterface *iface);
-G_DEFINE_TYPE_WITH_CODE (PhoshWWanMM, phosh_wwan_mm, G_TYPE_OBJECT,
+G_DEFINE_TYPE_WITH_CODE (PhoshWWanMM, phosh_wwan_mm, PHOSH_TYPE_WWAN_MANAGER,
                          G_IMPLEMENT_INTERFACE (PHOSH_TYPE_WWAN,
                                                 phosh_wwan_mm_interface_init))
 
