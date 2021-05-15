@@ -215,12 +215,14 @@ phosh_feedback_manager_get_profile (PhoshFeedbackManager *self)
 void
 phosh_feedback_manager_toggle (PhoshFeedbackManager *self)
 {
-  const char *profile = "silent";
+  const char *profile = "silent", *old = lfb_get_feedback_profile ();
 
-  if (g_strcmp0 (lfb_get_feedback_profile (), "full"))
+  if (!g_strcmp0 (old, "silent"))
     profile = "full";
+  else if (!g_strcmp0 (old, "full"))
+    profile = "quiet";
 
-  g_debug ("Setting feedback profile to %s", profile);
+  g_debug ("Setting feedback profile to %s, was %s", profile, old);
   lfb_set_feedback_profile (profile);
 }
 
