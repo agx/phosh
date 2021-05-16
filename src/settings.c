@@ -145,7 +145,6 @@ feedback_setting_clicked_cb (PhoshSettings *self)
   g_return_if_fail (PHOSH_IS_SHELL (shell));
   manager = phosh_shell_get_feedback_manager (shell);
   g_return_if_fail (PHOSH_IS_FEEDBACK_MANAGER (manager));
-  manager = phosh_shell_get_feedback_manager (shell);
   phosh_feedback_manager_toggle (manager);
 }
 
