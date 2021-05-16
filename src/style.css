@@ -415,6 +415,15 @@ phosh-notification-banner {
   animation-fill-mode: forwards;
 }
 
+/* Fader used for proximity dimming */
+.phosh-fader-proximity-fade {
+  animation-name: phosh-fader-default-keyframe;
+  animation-duration: 200ms;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
 /* Fader used for screenshot flash */
 @keyframes phosh-fader-flash-keyframe {
   from {background:rgba(255, 255, 255, 1);}
