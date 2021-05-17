@@ -85,7 +85,7 @@ brightness_init (GtkScale *scale)
 
   session_con = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &err);
   if (err != NULL) {
-    g_error ("Can not connect to session bus: %s", err->message);
+    g_warning ("Can not connect to session bus: %s", err->message);
     return;
   }
 
