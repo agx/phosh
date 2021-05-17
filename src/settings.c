@@ -71,6 +71,13 @@ G_DEFINE_TYPE (PhoshSettings, phosh_settings, GTK_TYPE_BIN)
 
 
 static void
+close_settings_menu (PhoshSettings *self)
+{
+  g_signal_emit (self, signals[SETTING_DONE], 0);
+  phosh_trigger_feedback ("button-pressed");
+}
+
+static void
 brightness_value_changed_cb (GtkScale *scale_brightness, gpointer *unused)
 {
   int brightness;
@@ -151,36 +158,68 @@ feedback_setting_clicked_cb (PhoshSettings *self)
 static void
 wifi_setting_clicked_cb (PhoshSettings *self)
 {
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshWifiManager *manager;
+  gboolean enabled;
+
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+
+  manager = phosh_shell_get_wifi_manager (shell);
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (manager));
+
+  enabled = phosh_wifi_manager_get_enabled (manager);
+  phosh_wifi_manager_set_enabled (manager, !enabled);
+}
+
+static void
+wifi_setting_long_pressed_cb (PhoshSettings *self)
+{
   phosh_quick_setting_open_settings_panel ("wifi");
-  g_signal_emit (self, signals[SETTING_DONE], 0);
+  close_settings_menu (self);
 }
 
 static void
 wwan_setting_clicked_cb (PhoshSettings *self)
 {
   phosh_quick_setting_open_settings_panel ("wwan");
-  g_signal_emit (self, signals[SETTING_DONE], 0);
+  close_settings_menu (self);
 }
 
 static void
 bt_setting_clicked_cb (PhoshSettings *self)
 {
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshBtManager *manager;
+  gboolean enabled;
+
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+
+  manager = phosh_shell_get_bt_manager (shell);
+  g_return_if_fail (PHOSH_IS_BT_MANAGER (manager));
+
+  enabled = phosh_bt_manager_get_enabled (manager);
+  phosh_bt_manager_set_enabled (manager, !enabled);
+}
+
+static void
+bt_setting_long_pressed_cb (PhoshSettings *self)
+{
   phosh_quick_setting_open_settings_panel ("bluetooth");
-  g_signal_emit (self, signals[SETTING_DONE], 0);
+  close_settings_menu (self);
 }
 
 static void
 feedback_setting_long_pressed_cb (PhoshSettings *self)
 {
   phosh_quick_setting_open_settings_panel ("notifications");
-  g_signal_emit (self, signals[SETTING_DONE], 0);
+  close_settings_menu (self);
 }
 
 static void
 battery_setting_clicked_cb (PhoshSettings *self)
 {
   phosh_quick_setting_open_settings_panel ("power");
-  g_signal_emit (self, signals[SETTING_DONE], 0);
+  close_settings_menu (self);
 }
 
 
@@ -218,7 +257,7 @@ static void
 docked_setting_long_pressed_cb (PhoshSettings *self)
 {
   phosh_quick_setting_open_settings_panel ("display");
-  g_signal_emit (self, signals[SETTING_DONE], 0);
+  close_settings_menu (self);
 }
 
 
@@ -517,6 +556,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 
   gtk_widget_class_bind_template_callback (widget_class, battery_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, bt_setting_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, bt_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, docked_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, docked_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, feedback_setting_clicked_cb);
@@ -526,6 +566,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, rotation_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, torch_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, wifi_setting_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, wifi_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, wwan_setting_clicked_cb);
 }
 

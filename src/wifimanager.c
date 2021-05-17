@@ -726,6 +726,25 @@ phosh_wifi_manager_get_enabled (PhoshWifiManager *self)
   return self->enabled;
 }
 
+void
+phosh_wifi_manager_set_enabled (PhoshWifiManager *self, gboolean enabled)
+{
+  int DEFAULT_TIMEOUT_MSEC = -1;
+
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+
+  if (enabled == self->enabled)
+    return;
+
+  g_return_if_fail (NM_IS_CLIENT (self->nmclient));
+
+  nm_client_dbus_set_property (
+    self->nmclient, NM_DBUS_PATH, NM_DBUS_INTERFACE,
+    "WirelessEnabled", g_variant_new_boolean (enabled),
+    DEFAULT_TIMEOUT_MSEC, NULL, NULL, NULL
+  );
+}
+
 
 gboolean
 phosh_wifi_manager_get_present (PhoshWifiManager *self)

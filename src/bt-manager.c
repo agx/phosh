@@ -253,6 +253,24 @@ phosh_bt_manager_get_enabled (PhoshBtManager *self)
 }
 
 
+void
+phosh_bt_manager_set_enabled (PhoshBtManager *self, gboolean enabled)
+{
+  g_return_if_fail (PHOSH_IS_BT_MANAGER (self));
+
+  if (!self->present)
+    return;
+
+  if (enabled == self->enabled)
+    return;
+
+  g_return_if_fail (self->proxy);
+
+  self->enabled = enabled;
+  phosh_rfkill_dbus_rfkill_set_bluetooth_airplane_mode (self->proxy, !enabled);
+}
+
+
 gboolean
 phosh_bt_manager_get_present (PhoshBtManager *self)
 {

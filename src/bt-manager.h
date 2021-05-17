@@ -19,6 +19,7 @@ G_DECLARE_FINAL_TYPE (PhoshBtManager, phosh_bt_manager, PHOSH, BT_MANAGER, Phosh
 PhoshBtManager    *phosh_bt_manager_new (void);
 const char  *phosh_bt_manager_get_icon_name (PhoshBtManager *self);
 gboolean     phosh_bt_manager_get_enabled (PhoshBtManager *self);
+void         phosh_bt_manager_set_enabled (PhoshBtManager *self, gboolean enabled);
 gboolean     phosh_bt_manager_get_present (PhoshBtManager *self);
 
 G_END_DECLS
