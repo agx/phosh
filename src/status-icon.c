@@ -30,10 +30,12 @@ static GParamSpec *props[PHOSH_STATUS_ICON_PROP_LAST_PROP];
 
 typedef struct
 {
-  GtkWidget *image;
-  GtkWidget *extra_widget;
-  GtkIconSize icon_size;
-  char *info;
+  GtkWidget   *image;
+  GtkWidget   *extra_widget;
+  GtkIconSize  icon_size;
+  char        *info;
+
+  guint        idle_id;
 } PhoshStatusIconPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshStatusIcon, phosh_status_icon, GTK_TYPE_BIN);
@@ -93,6 +95,46 @@ phosh_status_icon_get_property (GObject *object,
 }
 
 
+static gboolean
+on_idle (PhoshStatusIcon *self)
+{
+  PhoshStatusIconClass *klass = PHOSH_STATUS_ICON_GET_CLASS (self);
+  PhoshStatusIconPrivate *priv = phosh_status_icon_get_instance_private (self);
+
+  if (klass->idle_init)
+    (*klass->idle_init) (self);
+
+  priv->idle_id = 0;
+  return G_SOURCE_REMOVE;
+}
+
+
+static void
+phosh_status_icon_constructed (GObject *object)
+{
+  PhoshStatusIcon *self = PHOSH_STATUS_ICON (object);
+  PhoshStatusIconPrivate *priv = phosh_status_icon_get_instance_private (self);
+  PhoshStatusIconClass *klass = PHOSH_STATUS_ICON_GET_CLASS (self);
+
+  G_OBJECT_CLASS (phosh_status_icon_parent_class)->constructed (object);
+
+  if (klass->idle_init)
+    priv->idle_id = g_idle_add ((GSourceFunc) on_idle, self);
+}
+
+
+static void
+phosh_status_icon_dispose (GObject *object)
+{
+  PhoshStatusIcon *self = PHOSH_STATUS_ICON (object);
+  PhoshStatusIconPrivate *priv = phosh_status_icon_get_instance_private (self);
+
+  g_clear_handle_id (&priv->idle_id, g_source_remove);
+
+  G_OBJECT_CLASS (phosh_status_icon_parent_class)->dispose (object);
+}
+
+
 static void
 phosh_status_icon_finalize (GObject *gobject)
 {
@@ -111,6 +153,8 @@ phosh_status_icon_class_init (PhoshStatusIconClass *klass)
 
   object_class->set_property = phosh_status_icon_set_property;
   object_class->get_property = phosh_status_icon_get_property;
+  object_class->constructed = phosh_status_icon_constructed;
+  object_class->dispose = phosh_status_icon_dispose;
   object_class->finalize = phosh_status_icon_finalize;
 
   props[PHOSH_STATUS_ICON_PROP_ICON_NAME] =
@@ -312,4 +356,3 @@ phosh_status_icon_set_info (PhoshStatusIcon *self, const char *info)
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_STATUS_ICON_PROP_INFO]);
 }
-

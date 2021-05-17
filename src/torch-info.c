@@ -118,9 +118,11 @@ on_torch_present (PhoshTorchInfo *self, GParamSpec *pspec, PhoshTorchManager *to
 }
 
 
-static gboolean
-on_idle (PhoshTorchInfo *self)
+static void
+phosh_torch_info_idle_init (PhoshStatusIcon *icon)
 {
+  PhoshTorchInfo *self = PHOSH_TORCH_INFO (icon);
+
   g_object_bind_property (self->torch, "icon-name", self, "icon-name",
                           G_BINDING_SYNC_CREATE);
 
@@ -143,8 +145,6 @@ on_idle (PhoshTorchInfo *self)
                             G_CALLBACK (on_torch_present),
                             self);
   on_torch_present (self, NULL, self->torch);
-
-  return FALSE;
 }
 
 
@@ -163,8 +163,6 @@ phosh_torch_info_constructed (GObject *object)
     g_warning ("Failed to get torch manager");
     return;
   }
-
-  g_idle_add ((GSourceFunc) on_idle, self);
 }
 
 
@@ -186,10 +184,13 @@ static void
 phosh_torch_info_class_init (PhoshTorchInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  PhoshStatusIconClass *status_icon_class = PHOSH_STATUS_ICON_CLASS (klass);
 
   object_class->constructed = phosh_torch_info_constructed;
   object_class->dispose = phosh_torch_info_dispose;
   object_class->get_property = phosh_torch_info_get_property;
+
+  status_icon_class->idle_init = phosh_torch_info_idle_init;
 
   props[PROP_ENABLED] =
     g_param_spec_boolean ("enabled",

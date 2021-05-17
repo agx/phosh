@@ -642,8 +642,8 @@ phosh_gnome_shell_manager_constructed (GObject *object)
                                        on_bus_acquired,
                                        on_name_acquired,
                                        on_name_lost,
-                                       g_object_ref (self),
-                                       g_object_unref);
+                                       self,
+                                       NULL);
 }
 
 

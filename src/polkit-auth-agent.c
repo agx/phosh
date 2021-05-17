@@ -68,10 +68,13 @@ agent_register (PhoshPolkitAuthAgent *self)
   g_autoptr (PolkitSubject) subject;
 
   subject = polkit_unix_session_new_for_process_sync (getpid (),
-                                                      NULL, /* GCancellable* */
+                                                      NULL, /* GCancellable */
                                                       &err);
   if (subject == NULL) {
-    g_warning ("PolKit failed to properly get our session");
+    if (g_str_has_prefix (err->message, "No session for pid"))
+      g_message ("PolKit failed to properly get our session: %s", err->message);
+    else
+      g_warning ("PolKit failed to properly get our session: %s", err->message);
     return FALSE;
   }
 

@@ -13,6 +13,7 @@
 #include "bt-manager.h"
 #include "shell.h"
 #include "dbus/gsd-rfkill-dbus.h"
+#include "util.h"
 
 #define BUS_NAME "org.gnome.SettingsDaemon.Rfkill"
 #define OBJECT_PATH "/org/gnome/SettingsDaemon/Rfkill"
@@ -39,7 +40,7 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshBtManager {
-  GObject                parent;
+  PhoshManager           manager;
 
   /* Whether bt radio is on */
   gboolean               enabled;
@@ -49,7 +50,7 @@ struct _PhoshBtManager {
 
   PhoshRfkillDBusRfkill *proxy;
 };
-G_DEFINE_TYPE (PhoshBtManager, phosh_bt_manager, G_TYPE_OBJECT);
+G_DEFINE_TYPE (PhoshBtManager, phosh_bt_manager, PHOSH_TYPE_MANAGER);
 
 
 static void
@@ -134,11 +135,62 @@ on_bt_has_airplane_mode_changed (PhoshBtManager        *self,
 
 
 static void
+on_proxy_new_for_bus_finish (GObject        *source_object,
+                             GAsyncResult   *res,
+                             PhoshBtManager *self)
+{
+  g_autoptr (GError) err = NULL;
+
+  g_return_if_fail (PHOSH_IS_BT_MANAGER (self));
+
+  self->proxy = phosh_rfkill_dbus_rfkill_proxy_new_for_bus_finish (res, &err);
+
+  if (!self->proxy) {
+    phosh_dbus_service_error_warn (err, "Failed to get gsd rfkill proxy");
+    goto out;
+  }
+
+  g_object_connect (self->proxy,
+                    "swapped_object_signal::notify::bluetooth-airplane-mode",
+                    G_CALLBACK (on_bt_airplane_mode_changed),
+                    self,
+                    "swapped_object_signal::notify::bluetooth-has-airplane-mode",
+                    G_CALLBACK (on_bt_has_airplane_mode_changed),
+                    self,
+                    NULL);
+  on_bt_airplane_mode_changed (self, NULL, self->proxy);
+  on_bt_has_airplane_mode_changed (self, NULL, self->proxy);
+
+  g_debug ("BT manager initialized");
+out:
+  g_object_unref (self);
+}
+
+
+static void
+phosh_bt_manager_idle_init (PhoshManager *manager)
+{
+  PhoshBtManager *self = PHOSH_BT_MANAGER (manager);
+
+  phosh_rfkill_dbus_rfkill_proxy_new_for_bus (G_BUS_TYPE_SESSION,
+                                              G_DBUS_PROXY_FLAGS_NONE,
+                                              BUS_NAME,
+                                              OBJECT_PATH,
+                                              NULL,
+                                              (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
+                                              g_object_ref (self));
+}
+
+
+static void
 phosh_bt_manager_class_init (PhoshBtManagerClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  PhoshManagerClass *manager_class = PHOSH_MANAGER_CLASS (klass);
 
   object_class->get_property = phosh_bt_manager_get_property;
+
+  manager_class->idle_init = phosh_bt_manager_idle_init;
 
   props[PROP_ICON_NAME] =
     g_param_spec_string ("icon-name",
@@ -170,58 +222,9 @@ phosh_bt_manager_class_init (PhoshBtManagerClass *klass)
 
 
 static void
-on_proxy_new_for_bus_finish (GObject        *source_object,
-                             GAsyncResult   *res,
-                             PhoshBtManager *self)
-{
-  g_autoptr (GError) err = NULL;
-
-  g_return_if_fail (PHOSH_IS_BT_MANAGER (self));
-
-  self->proxy = phosh_rfkill_dbus_rfkill_proxy_new_for_bus_finish (res, &err);
-
-  if (!self->proxy) {
-    g_warning ("Failed to get gsd rfkill proxy: %s", err->message);
-    goto out;
-  }
-
-  g_object_connect (self->proxy,
-                    "swapped_object_signal::notify::bluetooth-airplane-mode",
-                    G_CALLBACK (on_bt_airplane_mode_changed),
-                    self,
-                    "swapped_object_signal::notify::bluetooth-has-airplane-mode",
-                    G_CALLBACK (on_bt_has_airplane_mode_changed),
-                    self,
-                    NULL);
-  on_bt_airplane_mode_changed (self, NULL, self->proxy);
-  on_bt_has_airplane_mode_changed (self, NULL, self->proxy);
-
-  g_debug ("BT manager initialized");
-out:
-  g_object_unref (self);
-}
-
-
-static gboolean
-on_idle (PhoshBtManager *self)
-{
-  phosh_rfkill_dbus_rfkill_proxy_new_for_bus (G_BUS_TYPE_SESSION,
-                                              G_DBUS_PROXY_FLAGS_NONE,
-                                              BUS_NAME,
-                                              OBJECT_PATH,
-                                              NULL,
-                                              (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
-                                              g_object_ref (self));
-  return G_SOURCE_REMOVE;
-}
-
-
-static void
 phosh_bt_manager_init (PhoshBtManager *self)
 {
   self->icon_name = "bluetooth-disabled-symbolic";
-  /* Perform DBus setup when idle */
-  g_idle_add ((GSourceFunc)on_idle, self);
 }
 
 

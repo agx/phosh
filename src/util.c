@@ -123,3 +123,58 @@ phosh_find_systemd_session (char **session_id)
 
   return session != NULL;
 }
+
+/**
+ * phosh_async_error_warn:
+ * @err: (nullable): The error to check and print
+ * @...: Format string followed by parameters to insert
+ *       into the format string (as with printf())
+ *
+ * Prints a warning when @err is 'real' error. If it merely represents
+ * a canceled operation it just logs a debug message. This is useful
+ * to avoid this common pattern in async callbacks.
+ *
+ * Returns: TRUE if #err is cancellation.
+ */
+
+/**
+ * phosh_dbus_service_error_warn
+ * @err: (nullable): The error to check and print
+ * @...: Format string followed by parameters to insert
+ *       into the format string (as with printf())
+ *
+ * Prints a warning when @err is 'real' error. If it merely indicates
+ * that the DBus service is not present at all it just logs a debug
+ * message.
+ *
+ * Returns: TRUE if #err is cancellation.
+ */
+
+/* Helper since phosh_async_error_warn needs to be a macro to capture log_domain */
+gboolean
+phosh_error_warnv (const char *log_domain,
+                   GError     *err,
+                   GQuark      domain,
+                   gint        code,
+                   const gchar *fmt, ...)
+{
+  g_autofree char *msg = NULL;
+  gboolean matched = FALSE;
+  va_list args;
+
+  if (err == NULL)
+    return FALSE;
+
+  va_start (args, fmt);
+  msg = g_strdup_vprintf(fmt, args);
+  va_end (args);
+
+  if (g_error_matches (err, domain, code))
+    matched = TRUE;
+
+  g_log (log_domain,
+         matched ? G_LOG_LEVEL_DEBUG : G_LOG_LEVEL_WARNING,
+         "%s: %s", msg, err->message);
+
+  return matched;
+}

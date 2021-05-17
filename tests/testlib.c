@@ -16,6 +16,8 @@
 
 #include <stdint.h>
 
+#define STARTUP_TIMEOUT 10
+
 typedef struct _PhocOutputWatch {
   char      *socket;
   GMainLoop *loop;
@@ -179,7 +181,7 @@ phosh_test_compositor_new (void)
                   &watch);
   g_child_watch_add (state->pid, on_phoc_exit, NULL);
 
-  g_timeout_add_seconds (10, on_phoc_startup_timeout, NULL);
+  g_timeout_add_seconds (STARTUP_TIMEOUT, on_phoc_startup_timeout, NULL);
   g_main_loop_run (mainloop);
 
   /* I/O watch in main should have gotten the socket name */

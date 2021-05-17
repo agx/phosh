@@ -16,6 +16,7 @@
 #include "background.h"
 #include "shell.h"
 #include "panel.h"
+#include "util.h"
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-bg.h>
@@ -303,18 +304,13 @@ on_pixbuf_loaded (GObject         *source_object,
 
   image = gdk_pixbuf_new_from_stream_finish (res, &err);
   if (!image) {
-    if (g_error_matches (err, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-      /* Do nothing we expect a new load to be triggered */
-      g_debug ("Load of %s canceled", self->uri);
-    } else {
-      g_warning ("Failed to load background %s: %s", self->uri, err->message);
-    }
-    if (!self->pixbuf)
+    /* Do nothing on cancel since we expect a new load to be triggered */
+    if (!phosh_async_error_warn (err, "Failed to load background"))
       background_fallback (self);
     g_object_unref (self);
     return;
   }
-  g_debug ("loaded %s", self->uri);
+  g_debug ("Loaded %s", self->uri);
   background_update (self, image, self->style);
   g_object_unref (self);
 }
@@ -361,7 +357,7 @@ on_slideshow_loaded (GnomeBGSlideShow *slideshow,
   g_return_if_fail (PHOSH_IS_BACKGROUND (self));
 
   if (!g_task_propagate_boolean (G_TASK (res), &err)) {
-    g_warning ("Failed to load %s: %s", self->uri, err->message);
+    phosh_async_error_warn (err, "%s", self->uri);
     goto out;
   }
 
@@ -534,6 +530,9 @@ static void
 phosh_background_dispose (GObject *object)
 {
   PhoshBackground *self = PHOSH_BACKGROUND (object);
+
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
 
   g_clear_object (&self->slideshow);
 

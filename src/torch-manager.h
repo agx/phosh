@@ -6,13 +6,15 @@
 
 #pragma once
 
+#include "manager.h"
+
 #include <glib-object.h>
 
 G_BEGIN_DECLS
 
 #define PHOSH_TYPE_TORCH_MANAGER (phosh_torch_manager_get_type ())
 
-G_DECLARE_FINAL_TYPE (PhoshTorchManager, phosh_torch_manager, PHOSH, TORCH_MANAGER, GObject)
+G_DECLARE_FINAL_TYPE (PhoshTorchManager, phosh_torch_manager, PHOSH, TORCH_MANAGER, PhoshManager)
 
 PhoshTorchManager *phosh_torch_manager_new (void);
 const char        *phosh_torch_manager_get_icon_name (PhoshTorchManager *self);

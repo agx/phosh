@@ -101,9 +101,11 @@ on_docked_present (PhoshDockedInfo *self, GParamSpec *pspec, PhoshDockedManager 
 }
 
 
-static gboolean
-on_idle (PhoshDockedInfo *self)
+static void
+phosh_docked_info_idle_init (PhoshStatusIcon *icon)
 {
+  PhoshDockedInfo *self = PHOSH_DOCKED_INFO (icon);
+
   g_object_bind_property (self->manager, "icon-name", self, "icon-name",
                           G_BINDING_SYNC_CREATE);
 
@@ -120,8 +122,6 @@ on_idle (PhoshDockedInfo *self)
                             G_CALLBACK (on_docked_mode_enabled),
                             self);
   on_docked_mode_enabled (self, NULL, self->manager);
-
-  return FALSE;
 }
 
 
@@ -140,8 +140,6 @@ phosh_docked_info_constructed (GObject *object)
     g_warning ("Failed to get docked manager");
     return;
   }
-
-  g_idle_add ((GSourceFunc) on_idle, self);
 }
 
 
@@ -163,10 +161,13 @@ static void
 phosh_docked_info_class_init (PhoshDockedInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  PhoshStatusIconClass *status_icon_class = PHOSH_STATUS_ICON_CLASS (klass);
 
   object_class->constructed = phosh_docked_info_constructed;
   object_class->dispose = phosh_docked_info_dispose;
   object_class->get_property = phosh_docked_info_get_property;
+
+  status_icon_class->idle_init = phosh_docked_info_idle_init;
 
   props[PROP_ENABLED] =
     g_param_spec_boolean ("enabled",

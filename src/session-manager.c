@@ -48,6 +48,7 @@ typedef struct _PhoshSessionManager {
   gboolean                                    active;
 
   PhoshSessionDBusSessionManager             *proxy;
+  GCancellable                               *cancel;
   PhoshSessionClientPrivateDBusClientPrivate *priv_proxy;
 
   PhoshEndSessionDialog *dialog;
@@ -284,14 +285,12 @@ on_client_registered (PhoshSessionDBusSessionManager *proxy,
                       PhoshSessionManager            *self)
 {
   g_autofree gchar *client_id = NULL;
-
   g_autoptr (GError) err = NULL;
 
   if (!phosh_session_dbus_session_manager_call_register_client_finish (proxy, &client_id, res, &err)) {
-    g_warning ("Failed to register client: %s", err->message);
-    goto out;
+    phosh_async_error_warn (err, "Failed to register client");
+    return;
   }
-
   g_debug ("Registered client at '%s'", client_id);
 
   phosh_session_client_private_dbus_client_private_proxy_new_for_bus (
@@ -302,9 +301,6 @@ on_client_registered (PhoshSessionDBusSessionManager *proxy,
     NULL,
     (GAsyncReadyCallback)on_client_private_proxy_new_for_bus_finish,
     g_object_ref (self));
-
-out:
-  g_object_unref (self);
 }
 
 
@@ -383,6 +379,9 @@ phosh_session_manager_dispose (GObject *object)
 {
   PhoshSessionManager *self = PHOSH_SESSION_MANAGER (object);
 
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
+
   if (g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (self)))
     g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
 
@@ -422,6 +421,7 @@ phosh_session_manager_class_init (PhoshSessionManagerClass *klass)
 static void
 phosh_session_manager_init (PhoshSessionManager *self)
 {
+  self->cancel = g_cancellable_new ();
 }
 
 
@@ -452,9 +452,9 @@ phosh_session_manager_register (PhoshSessionManager *self,
   phosh_session_dbus_session_manager_call_register_client (self->proxy,
                                                            app_id,
                                                            startup_id ? startup_id : "",
-                                                           NULL,
+                                                           self->cancel,
                                                            (GAsyncReadyCallback) on_client_registered,
-                                                           g_object_ref (self));
+                                                           self);
 }
 
 void

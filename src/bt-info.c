@@ -130,13 +130,14 @@ on_bt_present (PhoshBtInfo *self, GParamSpec *pspec, PhoshBtManager *bt)
 }
 
 
-static gboolean
-on_idle (PhoshBtInfo *self)
+static void
+phosh_bt_info_idle_init (PhoshStatusIcon *icon)
 {
+  PhoshBtInfo *self = PHOSH_BT_INFO (icon);
+
   update_icon (self, NULL, self->bt);
   update_info (self);
   on_bt_enabled (self, NULL, self->bt);
-  return G_SOURCE_REMOVE;
 }
 
 
@@ -177,8 +178,6 @@ phosh_bt_info_constructed (GObject *object)
                             "notify::present",
                             G_CALLBACK (on_bt_present),
                             self);
-
-  g_idle_add ((GSourceFunc) on_idle, self);
 }
 
 
@@ -200,10 +199,13 @@ static void
 phosh_bt_info_class_init (PhoshBtInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  PhoshStatusIconClass *status_icon_class = PHOSH_STATUS_ICON_CLASS (klass);
 
   object_class->constructed = phosh_bt_info_constructed;
   object_class->dispose = phosh_bt_info_dispose;
   object_class->get_property = phosh_bt_info_get_property;
+
+  status_icon_class->idle_init = phosh_bt_info_idle_init;
 
   props[PROP_ENABLED] =
     g_param_spec_boolean ("enabled",

@@ -82,6 +82,8 @@ libphosh_tool_sources = files(
   'lockshield.h',
   'log.h',
   'log.c',
+  'manager.h',
+  'manager.c',
   'media-player.c',
   'media-player.h',
   'mode-manager.c',

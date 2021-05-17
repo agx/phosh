@@ -115,7 +115,7 @@ typedef struct
   PhoshWifiManager *wifi_manager;
   PhoshPolkitAuthAgent *polkit_auth_agent;
   PhoshScreenSaverManager *screen_saver_manager;
-  PhoshScreenshotManager *screenshot_manager;  
+  PhoshScreenshotManager *screenshot_manager;
   PhoshNotifyManager *notify_manager;
   PhoshFeedbackManager *feedback_manager;
   PhoshBtManager *bt_manager;
@@ -471,7 +471,7 @@ setup_idle_cb (PhoshShell *self)
 
   priv->sensor_proxy_manager = phosh_sensor_proxy_manager_new (&err);
   if (!priv->sensor_proxy_manager)
-    g_warning ("Failed to connect to sensor-proxy: %s", err->message);
+    g_message ("Failed to connect to sensor-proxy: %s", err->message);
 
   panels_create (self);
   /* Create background after panel since it needs the panel's size */
@@ -518,7 +518,7 @@ setup_idle_cb (PhoshShell *self)
 
   priv->gnome_shell_manager = phosh_gnome_shell_manager_get_default ();
   priv->screenshot_manager = phosh_screenshot_manager_new ();
-  
+
   priv->startup_finished = TRUE;
 
   return FALSE;
@@ -905,6 +905,19 @@ phosh_shell_get_monitor_manager (PhoshShell *self)
 
   g_return_val_if_fail (PHOSH_IS_MONITOR_MANAGER (priv->monitor_manager), NULL);
   return priv->monitor_manager;
+}
+
+
+PhoshBackgroundManager *
+phosh_shell_get_background_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_BACKGROUND_MANAGER (priv->background_manager), NULL);
+
+  return priv->background_manager;
 }
 
 

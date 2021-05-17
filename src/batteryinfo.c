@@ -14,6 +14,7 @@
 
 #include "batteryinfo.h"
 #include "upower.h"
+#include "util.h"
 
 /**
  * SECTION:batteryinfo
@@ -34,12 +35,11 @@ G_DEFINE_TYPE (PhoshBatteryInfo, phosh_battery_info, PHOSH_TYPE_STATUS_ICON)
 static void
 setup_display_device (PhoshBatteryInfo *self)
 {
-  GError *err = NULL;
+  g_autoptr (GError) err = NULL;
 
   self->upower = up_client_new_full (NULL, &err);
   if (self->upower == NULL) {
-    g_warning ("Failed to connect to upowerd: %s", err->message);
-    g_clear_error (&err);
+    phosh_dbus_service_error_warn (err, "Failed to connect to upowerd");
     return;
   }
 

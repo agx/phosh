@@ -17,6 +17,7 @@
 #include "wifimanager.h"
 #include "shell.h"
 #include "phosh-wayland.h"
+#include "util.h"
 
 #include <NetworkManager.h>
 
@@ -55,6 +56,8 @@ struct _PhoshWifiManager
   char               *ssid;
 
   NMClient           *nmclient;
+  GCancellable       *cancel;
+
   /* The access point we're connected to */
   NMAccessPoint      *ap;
   /* The active connection (if it has a wifi device */
@@ -520,7 +523,7 @@ secret_agent_register_cb (GObject      *object,
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
 
   if (!nm_secret_agent_old_register_finish (agent, result, &error)) {
-    g_warning ("Error registering network agent: %s", error->message);
+    g_message ("Error registering network agent: %s", error->message);
     return;
   }
 
@@ -557,17 +560,16 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
 {
   g_autoptr(GError) err = NULL;
   PhoshWifiManager *self;
+  NMClient *client;
 
-  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (data));
-  self = PHOSH_WIFI_MANAGER (data);
-
-  self->nmclient = nm_client_new_finish (res, &err);
-  if (err) {
-    g_warning ("Failed to init NM: %s", err->message);
+  client = nm_client_new_finish (res, &err);
+  if (client == NULL) {
+    g_message ("Failed to init NM: %s", err->message);
     return;
   }
 
-  g_return_if_fail (NM_IS_CLIENT (self->nmclient));
+  self = PHOSH_WIFI_MANAGER (data);
+  self->nmclient = client;
 
   setup_network_agent (self);
   g_signal_connect_swapped (self->nmclient, "notify::wireless-enabled",
@@ -591,7 +593,8 @@ phosh_wifi_manager_constructed (GObject *object)
 {
   PhoshWifiManager *self = PHOSH_WIFI_MANAGER (object);
 
-  nm_client_new_async (NULL, on_nm_client_ready, self);
+  self->cancel = g_cancellable_new ();
+  nm_client_new_async (self->cancel, on_nm_client_ready, self);
 
   G_OBJECT_CLASS (phosh_wifi_manager_parent_class)->constructed (object);
 }
@@ -601,6 +604,14 @@ static void
 phosh_wifi_manager_dispose (GObject *object)
 {
   PhoshWifiManager *self = PHOSH_WIFI_MANAGER(object);
+
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
+
+  if (self->ap) {
+    g_signal_handlers_disconnect_by_data (self->ap, self);
+    g_clear_object (&self->ap);
+  }
 
   g_clear_object (&self->network_agent);
   if (self->nmclient) {

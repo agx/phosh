@@ -316,7 +316,7 @@ on_bus_acquired (GObject      *source_object,
 
   connection = g_bus_get_finish (res, &err);
   if (!connection) {
-    g_warning ("Failed to connect to system bus: %s", err->message);
+    phosh_dbus_service_error_warn (err, "Failed to connect to system bus");
     return;
   }
   g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),

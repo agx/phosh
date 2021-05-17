@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <manager.h>
+
 #include <glib-object.h>
 
 
@@ -54,7 +56,7 @@ typedef enum {
 
 #define PHOSH_TYPE_MODE_MANAGER (phosh_mode_manager_get_type ())
 
-G_DECLARE_FINAL_TYPE (PhoshModeManager, phosh_mode_manager, PHOSH, MODE_MANAGER, GObject)
+G_DECLARE_FINAL_TYPE (PhoshModeManager, phosh_mode_manager, PHOSH, MODE_MANAGER, PhoshManager)
 
 PhoshModeManager *phosh_mode_manager_new (void);
 PhoshModeDeviceType phosh_mode_manager_get_device_type (PhoshModeManager *self);

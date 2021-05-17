@@ -84,6 +84,7 @@ typedef struct _PhoshWWanMM {
   PhoshMMDBusModem               *proxy;
   PhoshMMDBusModemModem3gpp      *proxy_3gpp;
   PhoshMMDBusObjectManagerClient *manager;
+  GCancellable                   *cancel;
 
   /** Signals we connect to */
   gulong                          manager_object_added_signal_id;
@@ -493,17 +494,20 @@ phosh_wwan_mm_on_mm_object_manager_created (GObject      *source_object,
 {
   g_autoptr (GError) err = NULL;
   g_autolist (GDBusObject) modems = NULL;
+  PhoshMMDBusObjectManagerClient *client;
   const char *modem_object_path;
 
-  self->manager = PHOSH_MM_DBUS_OBJECT_MANAGER_CLIENT (
+  client = PHOSH_MM_DBUS_OBJECT_MANAGER_CLIENT (
     phosh_mm_dbus_object_manager_client_new_for_bus_finish (
       res,
       &err));
 
-  if (self->manager == NULL) {
-    g_warning ("Failed to connect modem manager: %s", err->message);
+  if (client == NULL) {
+    g_message ("Failed to connect modem manager: %s", err->message);
     return;
   }
+
+  self->manager = client;
 
   self->manager_object_added_signal_id =
     g_signal_connect_swapped (self->manager,
@@ -541,7 +545,7 @@ phosh_wwan_mm_constructed (GObject *object)
     G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
     BUS_NAME,
     OBJECT_PATH,
-    NULL,
+    self->cancel,
     (GAsyncReadyCallback)phosh_wwan_mm_on_mm_object_manager_created,
     self);
 }
@@ -552,6 +556,9 @@ phosh_wwan_mm_dispose (GObject *object)
 {
   PhoshWWanMM *self = PHOSH_WWAN_MM (object);
   GObjectClass *parent_class = G_OBJECT_CLASS (phosh_wwan_mm_parent_class);
+
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
 
   phosh_wwan_mm_destroy_modem (self);
   if (self->manager) {
@@ -708,6 +715,7 @@ phosh_wwan_mm_interface_init (PhoshWWanInterface *iface)
 static void
 phosh_wwan_mm_init (PhoshWWanMM *self)
 {
+  self->cancel = g_cancellable_new ();
 }
 
 
