@@ -289,7 +289,7 @@ on_auth_session_show_error (PhoshPolkitAuthPrompt *self,
                             PolkitAgentSession    *session)
 {
   g_debug ("%s", text);
-  gtk_entry_set_text (GTK_ENTRY (self->lbl_info), text);
+  gtk_label_set_text (GTK_LABEL (self->lbl_info), text);
 }
 
 
@@ -299,7 +299,7 @@ on_auth_session_show_info (PhoshPolkitAuthPrompt *self,
                            PolkitAgentSession    *session)
 {
   g_debug ("%s", text);
-  gtk_entry_set_text (GTK_ENTRY (self->lbl_info), text);
+  gtk_label_set_text (GTK_LABEL (self->lbl_info), text);
 }
 
 
@@ -429,17 +429,6 @@ phosh_polkit_auth_prompt_constructed (GObject *object)
   gtk_entry_set_buffer (GTK_ENTRY (self->entry_password),
                         GTK_ENTRY_BUFFER (self->password_buffer));
 
-  g_signal_connect_object (self->btn_cancel,
-                           "clicked",
-                           G_CALLBACK (on_dialog_canceled),
-                           self,
-                           G_CONNECT_SWAPPED);
-  g_signal_connect_object (self->btn_authenticate,
-                           "clicked",
-                           G_CALLBACK (on_btn_authenticate_clicked),
-                           self,
-                           G_CONNECT_SWAPPED);
-
   phosh_polkit_auth_prompt_initiate (self);
 }
 
@@ -511,6 +500,7 @@ phosh_polkit_auth_prompt_class_init (PhoshPolkitAuthPromptClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshPolkitAuthPrompt, entry_password);
   gtk_widget_class_bind_template_child (widget_class, PhoshPolkitAuthPrompt, spinner_authenticate);
   gtk_widget_class_bind_template_callback (widget_class, on_dialog_canceled);
+  gtk_widget_class_bind_template_callback (widget_class, on_btn_authenticate_clicked);
 }
 
 

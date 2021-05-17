@@ -119,7 +119,6 @@
           <object class="GtkCheckButton" id="checkbtn_choice">
             <property name="visible">True</property>
             <property name="can-focus">True</property>
-            <property name="receives-default">False</property>
             <property name="use-underline">True</property>
             <property name="draw-indicator">True</property>
           </object>
@@ -134,10 +133,9 @@
       <object class="GtkButton" id="btn_cancel">
         <property name="visible">True</property>
         <property name="can-focus">True</property>
-        <property name="can-default">True</property>
-        <property name="receives-default">False</property>
         <property name="valign">center</property>
         <property name="use-stock">True</property>
+        <signal name="clicked" handler="on_dialog_canceled" swapped="true"/>
       </object>
     </child>
     <child type="phosh-dialog-button">
@@ -146,9 +144,9 @@
         <property name="can-focus">True</property>
         <property name="can-default">True</property>
         <property name="has-default">True</property>
-        <property name="receives-default">True</property>
         <property name="valign">center</property>
         <property name="use-stock">True</property>
+        <signal name="clicked" handler="on_btn_continue_clicked" swapped="true"/>
         <style>
           <class name="suggested-action"/>
         </style>

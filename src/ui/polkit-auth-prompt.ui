@@ -93,11 +93,9 @@
         <property name="label">gtk-cancel</property>
         <property name="visible">True</property>
         <property name="can-focus">True</property>
-        <property name="can-default">True</property>
-        <property name="receives-default">False</property>
-        <property name="double-buffered">False</property>
         <property name="valign">center</property>
         <property name="use-stock">True</property>
+        <signal name="clicked" handler="on_dialog_canceled" swapped="true"/>
       </object>
       <packing>
         <property name="expand">True</property>
@@ -111,7 +109,7 @@
         <property name="can-focus">True</property>
         <property name="can-default">True</property>
         <property name="has-default">True</property>
-        <property name="receives-default">True</property>
+        <signal name="clicked" handler="on_btn_authenticate_clicked" swapped="true"/>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>

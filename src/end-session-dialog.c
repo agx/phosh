@@ -242,7 +242,6 @@ add_inhibitor (PhoshEndSessionDialog *self,
   const char *icon_name = NULL;
   const char *name = NULL;
   GIcon *icon = NULL;
-  GtkWidget *row;
   GtkWidget *box;
   GtkWidget *box_text;
   GtkWidget *label;
@@ -327,14 +326,7 @@ add_inhibitor (PhoshEndSessionDialog *self,
   gtk_box_pack_start (GTK_BOX (box), img, TRUE, TRUE, 0);
   gtk_box_pack_end (GTK_BOX (box), box_text, FALSE, FALSE, 0);
 
-  row = g_object_new (GTK_TYPE_LIST_BOX_ROW,
-                      "visible", TRUE,
-                      "can-focus", FALSE,
-                      "activatable", FALSE,
-                      NULL);
-
-  gtk_container_add (GTK_CONTAINER (row), box);
-  gtk_container_add (GTK_CONTAINER (self->listbox), row);
+  gtk_list_box_insert (GTK_LIST_BOX (self->listbox), GTK_WIDGET (box), -1);
 }
 
 

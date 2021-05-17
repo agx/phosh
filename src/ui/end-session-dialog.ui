@@ -40,6 +40,10 @@
             <property name="selection-mode">none</property>
             <property name="visible">False</property>
             <property name="can-focus">False</property>
+            <property name="sensitive">False</property>
+            <style>
+              <class name="phosh-end-session-listbox"/>
+            </style>
           </object>
         </child>
       </object>
@@ -50,8 +54,6 @@
         <property name="label" translatable="yes">Cancel</property>
         <property name="visible">True</property>
         <property name="can-focus">True</property>
-        <property name="can-default">True</property>
-        <property name="receives-default">False</property>
         <property name="valign">center</property>
         <signal name="clicked" handler="on_dialog_canceled" swapped="yes"/>
       </object>
@@ -63,7 +65,7 @@
         <property name="can-focus">True</property>
         <property name="can-default">True</property>
         <property name="has-default">True</property>
-        <property name="receives-default">True</property>
+        <property name="has-focus">True</property>
         <property name="valign">center</property>
         <signal name="clicked" handler="on_btn_confirm_clicked" swapped="yes"/>
         <style>
