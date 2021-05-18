@@ -1,7 +1,6 @@
 subdir('dbus')
 subdir('monitor')
 subdir('notifications')
-subdir('osk')
 subdir('wwan')
 subdir('settings')
 subdir('gtk-list-models')
@@ -158,6 +157,8 @@ libphosh_sources = files(
   'monitor-manager.h',
   'network-auth-prompt.c',
   'network-auth-prompt.h',
+  'osk-button.c',
+  'osk-button.h',
   'osk-manager.c',
   'osk-manager.h',
   'panel.c',
@@ -205,7 +206,6 @@ libphosh_sources = files(
   'wwaninfo.c',
   'wwaninfo.h',
 ) + [
-  phosh_osk_sources,
   phosh_settings_sources,
   phosh_wwan_sources,
 ]

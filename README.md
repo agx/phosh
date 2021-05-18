@@ -1,5 +1,4 @@
 # Phosh
-[![Code coverage](https://source.puri.sm/Librem5/phosh/badges/master/coverage.svg)](https://source.puri.sm/Librem5/phosh/commits/master)
 
 a pure wayland shell for mobile devices like Purism's Librem 5.
 

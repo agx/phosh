@@ -520,12 +520,12 @@ secret_agent_register_cb (GObject      *object,
   NMSecretAgentOld *agent = NM_SECRET_AGENT_OLD (object);
   g_autoptr(GError) error = NULL;
 
-  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
-
   if (!nm_secret_agent_old_register_finish (agent, result, &error)) {
     g_message ("Error registering network agent: %s", error->message);
     return;
   }
+
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
 
   g_signal_connect_object (self->network_agent, "new-request",
                            G_CALLBACK (secret_request_new_cb),
