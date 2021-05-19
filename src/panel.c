@@ -50,10 +50,12 @@ typedef struct {
   GtkWidget *lbl_clock;
   GtkWidget *lbl_lang;
   GtkWidget *settings;       /* settings menu */
+  GtkWidget *batteryinfo;
 
   GnomeWallClock *wall_clock;
   GnomeXkbInfo *xkbinfo;
   GSettings *input_settings;
+  GSettings *interface_settings;
   GdkSeat *seat;
 
   GSimpleActionGroup *actions;
@@ -341,6 +343,13 @@ phosh_panel_constructed (GObject *object)
                                                   "logout");
     g_simple_action_set_enabled (G_SIMPLE_ACTION(action), FALSE);
   }
+
+  priv->interface_settings = g_settings_new ("org.gnome.desktop.interface");
+  g_settings_bind (priv->interface_settings,
+                   "show-battery-percentage",
+                   priv->batteryinfo,
+                   "show-detail",
+                   G_SETTINGS_BIND_GET);
 }
 
 
@@ -353,6 +362,7 @@ phosh_panel_dispose (GObject *object)
   g_clear_object (&priv->wall_clock);
   g_clear_object (&priv->xkbinfo);
   g_clear_object (&priv->input_settings);
+  g_clear_object (&priv->interface_settings);
   g_clear_object (&priv->actions);
   priv->seat = NULL;
 
@@ -379,6 +389,7 @@ phosh_panel_class_init (PhoshPanelClass *klass)
                                                "/sm/puri/phosh/ui/top-panel.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, menu_power);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_top_panel);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, batteryinfo);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_lang);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, box);
