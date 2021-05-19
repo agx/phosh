@@ -91,11 +91,8 @@ phosh_battery_info_dispose (GObject *object)
 {
   PhoshBatteryInfo *self = PHOSH_BATTERY_INFO (object);
 
-  if (self->device)
-    g_clear_object (&self->device);
-
-  if (self->upower)
-    g_clear_object (&self->upower);
+  g_clear_object (&self->device);
+  g_clear_object (&self->upower);
 
   G_OBJECT_CLASS (phosh_battery_info_parent_class)->dispose (object);
 }
