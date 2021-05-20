@@ -8,7 +8,7 @@ stages:
 
 variables:
   DEPS: build-essential git wget gcovr
-  EXP_DEPS: libhandy-1-dev/experimental libhandy-1-0/experimental gir1.2-handy-1/experimental
+  EXP_DEPS: libhandy-1-dev/experimental libhandy-1-0/experimental gir1.2-handy-1/experimental libgladeui-common/experimental
   WANT_BUILD_DEPS: "true"
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
