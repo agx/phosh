@@ -8,7 +8,7 @@ stages:
 
 variables:
   DEPS: build-essential git wget gcovr
-  EXP_DEPS: libhandy-1-dev/experimental libhandy-1-0/experimental gir1.2-handy-1/experimental
+  EXP_DEPS: libhandy-1-dev/experimental libhandy-1-0/experimental gir1.2-handy-1/experimental libgladeui-common/experimental
   WANT_BUILD_DEPS: "true"
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
@@ -154,14 +154,10 @@ check-po:
     - build:native-debian-bullseye
   before_script:
     - apt-get -y update
-    - apt-get -y install intltool
+    - apt-get -y install intltool gettext
   <<: *bullseye_vars
   script:
-    # barf on untranslated C files. Seems intltool
-    # can't be told to exit with non-zero exit status
-    # in this case
-    - cd po/
-    - intltool-update -m 2>&1 | grep -qs '/.*\.c' && { intltool-update -m; exit 1; } || exit 0
+    - tools/check-po
   except:
     variables:
       - $PKG_ONLY == "1"
