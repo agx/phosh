@@ -157,11 +157,7 @@ check-po:
     - apt-get -y install intltool gettext
   <<: *bullseye_vars
   script:
-    # barf on untranslated C files. Seems intltool
-    # can't be told to exit with non-zero exit status
-    # in this case
-    - cd po/
-    - intltool-update -m 2>&1 | grep -qs '/.*\.c' && { intltool-update -m; exit 1; } || exit 0
+    - tools/check-po
   except:
     variables:
       - $PKG_ONLY == "1"

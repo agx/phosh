@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd po/ || exit 1
+# barf on untranslated C files. Seems intltool
+# can't be told to exit with non-zero exit status
+# in this case
+
+if intltool-update -m 2>&1 | grep -qs '/.*\.c'; then
+  intltool-update -m
+  exit 1
+fi
