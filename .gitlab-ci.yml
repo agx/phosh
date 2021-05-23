@@ -154,7 +154,7 @@ check-po:
     - build:native-debian-bullseye
   before_script:
     - apt-get -y update
-    - apt-get -y install intltool
+    - apt-get -y install intltool gettext
   <<: *bullseye_vars
   script:
     # barf on untranslated C files. Seems intltool
