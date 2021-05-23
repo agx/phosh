@@ -68,21 +68,18 @@ msgstr "ログアウト"
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%2$d秒後、%1$sさんは自動でログアウトされます。"
-msgstr[1] "%2$d秒後、%1$sさんは自動でログアウトされます。"
 
 #: src/end-session-dialog.c:172
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "%d秒後、この端末は自動でシャットダウンされます。"
-msgstr[1] "%d秒後、この端末は自動でシャットダウンされます。"
 
 #: src/end-session-dialog.c:179
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "%d秒後、この端末は自動で再起動されます。"
-msgstr[1] "%d秒後、この端末は自動で再起動されます。"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
