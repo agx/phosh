@@ -295,9 +295,6 @@ phosh_panel_constructed (GObject *object)
   phosh_connect_feedback (priv->btn_top_panel);
 
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
-  gtk_style_context_add_class (
-      gtk_widget_get_style_context (GTK_WIDGET (self)),
-      "phosh-panel");
 
   /* Button properites */
   gtk_style_context_remove_class (gtk_widget_get_style_context (priv->btn_top_panel),
@@ -371,6 +368,8 @@ phosh_panel_class_init (PhoshPanelClass *klass)
 
   object_class->constructed = phosh_panel_constructed;
   object_class->dispose = phosh_panel_dispose;
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-top-panel");
 
   signals[SETTINGS_ACTIVATED] = g_signal_new ("settings-activated",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,

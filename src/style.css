@@ -1,7 +1,7 @@
 /*
- * Top bar panel
+ * Top panel bar
  */
-.phosh-panel {
+phosh-top-panel {
   font: 15px Cantarell;
 }
 
@@ -104,7 +104,7 @@ phosh-activity:focus box {
   background: rgba(38, 35, 83, 0.7);
 }
 
-phosh-home, .phosh-panel {
+phosh-home, phosh-top-panel {
   background: black;
   color: white;
 }
