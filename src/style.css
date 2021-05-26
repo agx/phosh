@@ -10,6 +10,11 @@ phosh-top-panel {
   border-width: 0;
 }
 
+phosh-top-panel .indicators {
+  font-weight: bold;
+  font-feature-settings: "tnum";
+}
+
 .phosh-topbar-clock {
   font-weight: bold;
   font-feature-settings: "tnum";
