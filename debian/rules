@@ -2,7 +2,7 @@
 
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
-CONFIGURE_OPTS=-Dphoc_tests=disabled
+CONFIGURE_OPTS=-Dphoc_tests=disabled -Dsystemd=true
 
 ifeq ($(filter nodoc,$(DEB_BUILD_PROFILES)),)
   CONFIGURE_OPTS+=-Dgtk_doc=true
@@ -24,7 +24,8 @@ ifeq ($(filter nodoc,$(DEB_BUILD_PROFILES)),)
 endif
 
 override_dh_installsystemd:
-	rm -f debian/phosh.service ; cp data/phosh.service debian/phosh.service
+	rm -f debian/phosh.service
+	cp data/phosh.service debian/phosh.service
 	dh_installsystemd --no-start --no-enable --no-restart-on-upgrade --no-restart-after-upgrade
 
 override_dh_auto_test:
