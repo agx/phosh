@@ -93,9 +93,12 @@ static void
 phosh_feedback_info_class_init (PhoshFeedbackInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->constructed = phosh_feedback_info_constructed;
   object_class->dispose = phosh_feedback_info_dispose;
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-feedback-info");
 }
 
 

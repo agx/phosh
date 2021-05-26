@@ -159,12 +159,15 @@ static void
 phosh_hks_info_class_init (PhoshHksInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->constructed = phosh_hks_info_constructed;
   object_class->dispose = phosh_hks_info_dispose;
   object_class->finalize = phosh_hks_info_finalize;
   object_class->get_property = phosh_hks_info_get_property;
   object_class->set_property = phosh_hks_info_set_property;
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-hks-info");
 
   props[PROP_DEV_TYPE] =
     g_param_spec_string ("device-type",

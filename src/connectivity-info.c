@@ -164,10 +164,13 @@ static void
 phosh_connectivity_info_class_init (PhoshConnectivityInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->constructed = phosh_connectivity_info_constructed;
   object_class->dispose = phosh_connectivity_info_dispose;
   object_class->get_property = phosh_connectivity_info_get_property;
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-connectivity-info");
 
   props[PROP_CONNECTIVITY] =
     g_param_spec_boolean ("connectivity",

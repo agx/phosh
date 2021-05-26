@@ -162,12 +162,15 @@ phosh_docked_info_class_init (PhoshDockedInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   PhoshStatusIconClass *status_icon_class = PHOSH_STATUS_ICON_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->constructed = phosh_docked_info_constructed;
   object_class->dispose = phosh_docked_info_dispose;
   object_class->get_property = phosh_docked_info_get_property;
 
   status_icon_class->idle_init = phosh_docked_info_idle_init;
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-docked-info");
 
   props[PROP_ENABLED] =
     g_param_spec_boolean ("enabled",
