@@ -9,3 +9,7 @@ option('phoc_tests',
 option('gtk_doc',
        type: 'boolean', value: false,
        description: 'Whether to generate the API reference for Handy')
+
+option('systemd',
+       type: 'boolean', value: false,
+       description: 'Whether to generate systemd user units')
