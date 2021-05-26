@@ -13,3 +13,7 @@ option('gtk_doc',
 option('systemd',
        type: 'boolean', value: false,
        description: 'Whether to generate systemd user units')
+
+option('compositor',
+       type: 'string', value: '/usr/bin/phoc',
+       description: 'Path to the Phoc compositor for use in the launcher script')

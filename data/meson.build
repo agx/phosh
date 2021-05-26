@@ -75,6 +75,7 @@ runconf.set('libexecdir', libexecdir)
 runconf.set('pkgdatadir', pkgdatadir)
 runconf.set('version', meson.project_version())
 runconf.set('wlrootsdir', join_paths(libexecdir, 'wlroots'))
+runconf.set('compositor', get_option('compositor'))
 
 if get_option('systemd')
   runconf.set('session_manager', '--systemd')

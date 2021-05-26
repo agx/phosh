@@ -164,6 +164,7 @@ summary = [
   '',
   '        Tests: @0@'.format(get_option('tests')),
   '   Phoc Tests: @0@'.format(run_phoc_tests),
+  '   Compositor: @0@'.format(get_option('compositor')),
   '      Systemd: @0@'.format(get_option('systemd')),
   'Documentation: @0@'.format(get_option('gtk_doc')),
   '-----------',
