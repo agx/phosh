@@ -180,8 +180,8 @@ phosh_notification_content_set_notification (PhoshNotificationContent *self,
                                self,
                                NULL);
 
-  g_signal_connect (self->notification, "notify::actions",
-                    G_CALLBACK (set_actions), self);
+  g_signal_connect_object (self->notification, "notify::actions",
+                           G_CALLBACK (set_actions), self, 0);
   set_actions (self->notification, NULL, self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_NOTIFICATION]);
