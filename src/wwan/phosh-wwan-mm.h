@@ -7,12 +7,13 @@
 
 #include <glib-object.h>
 #include "phosh-wwan-iface.h"
+#include "wwanmanager.h"
 
 G_BEGIN_DECLS
 
 #define PHOSH_TYPE_WWAN_MM (phosh_wwan_mm_get_type())
 
-G_DECLARE_FINAL_TYPE (PhoshWWanMM, phosh_wwan_mm, PHOSH, WWAN_MM, GObject)
+G_DECLARE_FINAL_TYPE (PhoshWWanMM, phosh_wwan_mm, PHOSH, WWAN_MM, PhoshWWanManager)
 
 PhoshWWanMM * phosh_wwan_mm_new                (void);
 

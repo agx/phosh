@@ -36,7 +36,7 @@ enum {
 };
 
 typedef struct _PhoshWWanOfono {
-  GObject                            parent;
+  PhoshWWanManager                   parent;
 
   PhoshOfonoDBusNetworkRegistration *proxy_netreg;
   PhoshOfonoDBusSimManager          *proxy_sim;
@@ -59,7 +59,7 @@ typedef struct _PhoshWWanOfono {
 
 
 static void phosh_wwan_ofono_interface_init (PhoshWWanInterface *iface);
-G_DEFINE_TYPE_WITH_CODE (PhoshWWanOfono, phosh_wwan_ofono, G_TYPE_OBJECT,
+G_DEFINE_TYPE_WITH_CODE (PhoshWWanOfono, phosh_wwan_ofono, PHOSH_TYPE_WWAN_MANAGER,
                          G_IMPLEMENT_INTERFACE (PHOSH_TYPE_WWAN,
                                                 phosh_wwan_ofono_interface_init))
 

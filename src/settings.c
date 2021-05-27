@@ -188,6 +188,22 @@ wifi_setting_long_pressed_cb (PhoshSettings *self)
 static void
 wwan_setting_clicked_cb (PhoshSettings *self)
 {
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshWWan *wwan;
+  gboolean enabled;
+
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+
+  wwan = phosh_shell_get_wwan (shell);
+  g_return_if_fail (PHOSH_IS_WWAN (wwan));
+
+  enabled = phosh_wwan_is_enabled (wwan);
+  phosh_wwan_set_enabled (wwan, !enabled);
+}
+
+static void
+wwan_setting_long_pressed_cb (PhoshSettings *self)
+{
   phosh_quick_setting_open_settings_panel ("wwan");
   close_settings_menu (self);
 }
@@ -632,6 +648,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, wifi_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, wifi_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, wwan_setting_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, wwan_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_torch_scale_value_changed);
 }
 
