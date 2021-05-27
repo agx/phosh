@@ -150,12 +150,15 @@ static void
 phosh_status_icon_class_init (PhoshStatusIconClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->set_property = phosh_status_icon_set_property;
   object_class->get_property = phosh_status_icon_get_property;
   object_class->constructed = phosh_status_icon_constructed;
   object_class->dispose = phosh_status_icon_dispose;
   object_class->finalize = phosh_status_icon_finalize;
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-status-icon");
 
   props[PHOSH_STATUS_ICON_PROP_ICON_NAME] =
    g_param_spec_string ("icon-name",

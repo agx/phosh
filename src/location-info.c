@@ -130,11 +130,14 @@ static void
 phosh_location_info_class_init (PhoshLocationInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->constructed = phosh_location_info_constructed;
   object_class->dispose = phosh_location_info_dispose;
   object_class->get_property = phosh_location_info_get_property;
   object_class->set_property = phosh_location_info_set_property;
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-location-info");
 
   props[PROP_ACTIVE] =
     g_param_spec_boolean ("active",

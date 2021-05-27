@@ -106,8 +106,8 @@ individual C files should be structured as (top to bottom of file):
     ```
   - private methods and callbacks (these can also go at convenient
     places above `phosh_thing_constructed ()`
-  - `phosh_thing_set_properties ()`
-  - `phosh_thing_get_properties ()`
+  - `phosh_thing_set_property ()`
+  - `phosh_thing_get_property ()`
   - `phosh_thing_constructed ()`
   - `phosh_thing_dispose ()`
   - `phosh_thing_finalize ()`

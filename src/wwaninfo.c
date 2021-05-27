@@ -235,12 +235,15 @@ phosh_wwan_info_class_init (PhoshWWanInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   PhoshStatusIconClass *status_icon_class = PHOSH_STATUS_ICON_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->set_property = phosh_wwan_info_set_property;
   object_class->get_property = phosh_wwan_info_get_property;
 
   object_class->constructed = phosh_wwan_info_constructed;
   object_class->dispose = phosh_wwan_info_dispose;
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-wwan-info");
 
   status_icon_class->idle_init = phosh_wwan_info_idle_init;
 

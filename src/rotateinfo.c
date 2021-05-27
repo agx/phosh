@@ -157,8 +157,11 @@ static void
 phosh_rotate_info_class_init (PhoshRotateInfoClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->get_property = phosh_rotate_info_get_property;
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-rotate-info");
 
   props[PROP_PRESENT] =
     g_param_spec_boolean ("present",
