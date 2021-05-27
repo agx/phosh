@@ -40,6 +40,8 @@
  * #PhoshNotifyManager manages notifications sent from the shell
  * iself and via the org.freedesktop.Notification DBus interface.
  * See https://developer.gnome.org/notification-spec/
+ *
+ * It maintains a list of notifications via a #PhoshNotificationList.
  */
 
 #define NOTIFY_DBUS_NAME "org.freedesktop.Notifications"

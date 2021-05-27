@@ -15,6 +15,9 @@
  * SECTION:notification-source
  * @short_description: A #GListModel containing one or more notifications
  * @Title: PhoshNotificationSource
+ *
+ * A #PhoshNotificationSource groups notifications. A source has a name
+ * which is usually the app_id of the sending application.
  */
 
 
