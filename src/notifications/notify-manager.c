@@ -710,8 +710,7 @@ phosh_notify_manager_get_notification_id (PhoshNotifyManager *self)
  * @expire_timeout: When the notification should expire
  * @notification: The notification
  *
- * Returns: Adds a notification
- * notifications.
+ * Adds @notification to the current list of notifications.
  */
 void
 phosh_notify_manager_add_notification (PhoshNotifyManager *self,
