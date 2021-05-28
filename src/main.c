@@ -19,6 +19,7 @@
 #include <glib/gi18n.h>
 #include <glib-unix.h>
 
+#include <systemd/sd-daemon.h>
 
 static gboolean
 quit (gpointer unused)
@@ -75,6 +76,9 @@ on_shell_ready (PhoshShell *shell, GTimer *timer)
 {
   g_timer_stop (timer);
   g_debug ("Phosh ready after %.2fs", g_timer_elapsed (timer, NULL));
+
+  /* Inform systemd we're up */
+  sd_notify (0, "READY=1");
 
   g_signal_handlers_disconnect_by_data (shell, timer);
 }
