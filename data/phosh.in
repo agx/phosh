@@ -1,20 +1,8 @@
 #!/bin/sh
 
-COMPOSITOR="/usr/bin/phoc"
+COMPOSITOR="@compositor@"
 PHOC_INI="@pkgdatadir@/phoc.ini"
-
-gnome_session_args()
-{
-  ARGS="--disable-acceleration-check --session=phosh"
-
-  # Use builtin session handling until we can rely
-  # on a newer gnome-session everywhere
-  if gnome-session --help | grep -qs -e--builtin; then
-      ARGS="--builtin ${ARGS}"
-  fi
-
-  echo "${ARGS}"
-}
+GNOME_SESSION=${GNOME_SESSION:-gnome-session}
 
 help()
 {
@@ -60,4 +48,4 @@ fi
 # variables from /etc/profile.d (XDG_*)
 [ -n "$WLR_BACKENDS" ] || WLR_BACKENDS=drm,libinput
 export WLR_BACKENDS
-exec "${COMPOSITOR}" -C "${PHOC_INI}" -E "bash -lc 'gnome-session $(gnome_session_args)'"
+exec "${COMPOSITOR}" -C "${PHOC_INI}" -E "bash -lc '${GNOME_SESSION} --disable-acceleration-check --session=phosh @session_manager@'"

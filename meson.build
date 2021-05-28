@@ -15,6 +15,8 @@ desktopdir = join_paths(datadir, 'applications')
 sessiondir = join_paths(datadir, 'gnome-session')
 pkgdatadir = join_paths(datadir, meson.project_name())
 pkglibdir = join_paths(libdir, meson.project_name())
+systemddir = join_paths(prefix, 'lib/systemd')
+systemduserdir = join_paths(systemddir, 'user')
 
 config_h = configuration_data()
 config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
@@ -162,6 +164,8 @@ summary = [
   '',
   '        Tests: @0@'.format(get_option('tests')),
   '   Phoc Tests: @0@'.format(run_phoc_tests),
+  '   Compositor: @0@'.format(get_option('compositor')),
+  '      Systemd: @0@'.format(get_option('systemd')),
   'Documentation: @0@'.format(get_option('gtk_doc')),
   '-----------',
 ]

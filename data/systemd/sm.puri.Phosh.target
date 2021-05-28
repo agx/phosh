@@ -1,0 +1,10 @@
+[Unit]
+Description=Phosh
+DefaultDependencies=no
+
+Requisite=gnome-session-initialized.target
+PartOf=gnome-session-initialized.target
+Before=gnome-session-initialized.target
+
+Requires=sm.puri.Phosh.service
+After=sm.puri.Phosh.service

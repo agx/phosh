@@ -1,4 +1,5 @@
 usr/bin/phosh
+usr/lib/systemd/user/
 usr/libexec/phosh
 usr/share/locale
 usr/share/wayland-sessions/phosh.desktop
