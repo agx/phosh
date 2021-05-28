@@ -40,6 +40,8 @@
  * #PhoshNotifyManager manages notifications sent from the shell
  * iself and via the org.freedesktop.Notification DBus interface.
  * See https://developer.gnome.org/notification-spec/
+ *
+ * It maintains a list of notifications via a #PhoshNotificationList.
  */
 
 #define NOTIFY_DBUS_NAME "org.freedesktop.Notifications"
@@ -710,8 +712,7 @@ phosh_notify_manager_get_notification_id (PhoshNotifyManager *self)
  * @expire_timeout: When the notification should expire
  * @notification: The notification
  *
- * Returns: Adds a notification
- * notifications.
+ * Adds @notification to the current list of notifications.
  */
 void
 phosh_notify_manager_add_notification (PhoshNotifyManager *self,

@@ -16,6 +16,9 @@
  * SECTION:notification-list
  * @short_description: A list containing one or more #PhoshNotificationSource
  * @Title: PhoshNotificationList
+ *
+ * #PhoshNotificationList maps between #PhoshNotificationSource objects and their
+ * notifications creating and removing sources on the fly.
  */
 
 
