@@ -95,6 +95,12 @@ enum {
 };
 static GParamSpec *props[PHOSH_SHELL_PROP_LAST_PROP];
 
+enum {
+  READY,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
+
 typedef struct
 {
   PhoshLayerSurface *panel;
@@ -520,6 +526,7 @@ setup_idle_cb (PhoshShell *self)
   priv->screenshot_manager = phosh_screenshot_manager_new ();
 
   priv->startup_finished = TRUE;
+  g_signal_emit (self, signals[READY], 0);
 
   return FALSE;
 }
@@ -788,6 +795,12 @@ phosh_shell_class_init (PhoshShellClass *klass)
                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PHOSH_SHELL_PROP_LAST_PROP, props);
+
+  signals[READY] = g_signal_new ("ready",
+                                 G_TYPE_FROM_CLASS (klass),
+                                 G_SIGNAL_RUN_LAST, 0,
+                                 NULL, NULL, NULL,
+                                 G_TYPE_NONE, 0);
 }
 
 
