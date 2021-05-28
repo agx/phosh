@@ -117,14 +117,23 @@ phosh_test_drain_events (void)
 
 
 static void
+on_shell_ready (PhoshShell *shell, gboolean *ready)
+{
+  *ready = TRUE;
+}
+
+
+static void
 test_shell_new (Fixture *fixture, gconstpointer unused)
 {
   PhoshShell *shell;
   PhoshMonitorManager *mm;
   GLogLevelFlags flags;
   gboolean success;
+  gboolean ready = FALSE;
 
   shell = phosh_test_get_shell (&flags);
+  g_signal_connect (shell, "ready", G_CALLBACK (on_shell_ready), &ready);
 
   mm = phosh_shell_get_monitor_manager (shell);
   g_assert_cmpint (phosh_monitor_manager_get_num_monitors (mm), ==, 1);
@@ -135,6 +144,7 @@ test_shell_new (Fixture *fixture, gconstpointer unused)
   /* No warnings allowed from here on */
   g_log_set_always_fatal (flags);
 
+  g_assert_true (ready);
   g_assert_true (success);
 
   g_debug ("Finalizing shell");
