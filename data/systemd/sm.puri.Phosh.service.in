@@ -20,6 +20,7 @@ RefuseManualStart=on
 RefuseManualStop=on
 
 [Service]
+Type=notify
 ExecStart=@libexecdir@/phosh
 Restart=on-failure
 RestartSec=0ms
