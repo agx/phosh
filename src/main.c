@@ -19,6 +19,7 @@
 #include <glib/gi18n.h>
 #include <glib-unix.h>
 
+#include <systemd/sd-daemon.h>
 
 static gboolean
 quit (gpointer unused)
@@ -70,6 +71,19 @@ print_version (void)
 }
 
 
+static void
+on_shell_ready (PhoshShell *shell, GTimer *timer)
+{
+  g_timer_stop (timer);
+  g_debug ("Phosh ready after %.2fs", g_timer_elapsed (timer, NULL));
+
+  /* Inform systemd we're up */
+  sd_notify (0, "READY=1");
+
+  g_signal_handlers_disconnect_by_data (shell, timer);
+}
+
+
 int main(int argc, char *argv[])
 {
   g_autoptr(GSource) sigterm = NULL;
@@ -78,6 +92,7 @@ int main(int argc, char *argv[])
   gboolean unlocked = FALSE, locked = FALSE, version = FALSE;
   g_autoptr(PhoshWayland) wl = NULL;
   g_autoptr(PhoshShell) shell = NULL;
+  g_autoptr (GTimer) timer = g_timer_new ();
 
   const GOptionEntry options [] = {
     {"unlocked", 'U', 0, G_OPTION_ARG_NONE, &unlocked,
@@ -116,6 +131,9 @@ int main(int argc, char *argv[])
 
   wl = phosh_wayland_get_default ();
   shell = phosh_shell_get_default ();
+
+  g_signal_connect (shell, "ready", G_CALLBACK (on_shell_ready), timer);
+
   if (!(unlocked || phosh_shell_started_by_display_manager(shell)) || locked)
     phosh_shell_lock (shell);
 
