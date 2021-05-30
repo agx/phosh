@@ -6,6 +6,8 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
+#include "config.h"
+
 #include "notify-dbus.h"
 #include "log.h"
 #include "shell.h"
@@ -173,7 +175,7 @@ test_phosh_notify_manager_server_info (Fixture *fixture, gconstpointer unused)
 
   g_assert_cmpstr ("Phosh Notify Daemon", ==, name);
   g_assert_cmpstr ("Phosh", ==, vendor);
-  g_assert_cmpstr ("0.10.2", ==, version);
+  g_assert_cmpstr (PHOSH_VERSION, ==, version);
   g_assert_cmpstr ("1.2", ==, spec_ver);
 }
 
