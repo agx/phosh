@@ -220,8 +220,8 @@ window_key_press_event_cb (PhoshHome *self, GdkEvent *event, gpointer data)
       ret = GDK_EVENT_STOP;
       break;
     default:
-      /* nothing to do */
-      break;
+      /* Focus search when typing */
+      ret = phosh_overview_handle_search (PHOSH_OVERVIEW (self->overview), event);
   }
 
   return ret;

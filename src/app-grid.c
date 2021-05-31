@@ -605,6 +605,22 @@ phosh_app_grid_focus_search (PhoshAppGrid *self)
 }
 
 
+gboolean
+phosh_app_grid_handle_search (PhoshAppGrid *self, GdkEvent *event)
+{
+  PhoshAppGridPrivate *priv;
+  gboolean ret;
+
+  g_return_val_if_fail (PHOSH_IS_APP_GRID (self), GDK_EVENT_PROPAGATE);
+  priv = phosh_app_grid_get_instance_private (self);
+  ret = gtk_search_entry_handle_event (GTK_SEARCH_ENTRY (priv->search), event);
+  if (ret == GDK_EVENT_STOP)
+    gtk_entry_grab_focus_without_selecting (GTK_ENTRY (priv->search));
+
+  return ret;
+}
+
+
 void
 phosh_app_grid_set_filter_adaptive (PhoshAppGrid *self, gboolean enable)
 {
