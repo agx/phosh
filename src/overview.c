@@ -438,8 +438,6 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
   object_class->get_property = phosh_overview_get_property;
   widget_class->size_allocate = phosh_overview_size_allocate;
 
-  gtk_widget_class_set_css_name (widget_class, "phosh-overview");
-
   props[PROP_HAS_ACTIVITIES] =
     g_param_spec_boolean (
       "has-activities",
