@@ -15,6 +15,11 @@
 #include <glib/gstdio.h>
 
 #include <stdint.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+
 
 #define STARTUP_TIMEOUT 10
 
@@ -96,6 +101,27 @@ on_phoc_exit (GPid     pid,
     return;
   g_spawn_check_exit_status (status, &err);
   g_assert_no_error (err);
+}
+
+
+static void
+install_keymap (struct zwp_virtual_keyboard_v1 *keyboard)
+{
+  int fd;
+  void *ptr;
+  size_t size;
+
+  fd = open (TEST_DATA_DIR  "/keymap.txt", O_RDONLY);
+  g_assert_cmpint (fd, >=, 0);
+  size = lseek(fd, 0, SEEK_END);
+
+  ptr = mmap (NULL, size, PROT_READ, MAP_SHARED, fd, 0);
+  g_assert_true (ptr != (void *)-1);
+
+  zwp_virtual_keyboard_v1_keymap(keyboard,
+                                 WL_KEYBOARD_KEYMAP_FORMAT_XKB_V1,
+                                 fd, size);
+  close (fd);
 }
 
 
@@ -216,4 +242,51 @@ phosh_test_compositor_free (PhoshTestCompositorState *state)
   g_assert_finalize_object (state->wl);
 
   g_clear_pointer (&state, g_free);
+}
+
+/**
+ * phosh_test_keyboard_new:
+ * @wl: A #PhoshWayland object to get the necessary interfaces from
+ *
+ * Set up a vitual keyboard and add a keymap.
+ */
+struct zwp_virtual_keyboard_v1 *
+phosh_test_keyboard_new (PhoshWayland *wl)
+{
+  struct zwp_virtual_keyboard_v1 *keyboard;
+
+  keyboard = zwp_virtual_keyboard_manager_v1_create_virtual_keyboard (
+    phosh_wayland_get_zwp_virtual_keyboard_manager_v1 (wl),
+    phosh_wayland_get_wl_seat (wl));
+  install_keymap (keyboard);
+
+  return keyboard;
+}
+
+/**
+ * phosh_test_press_key:
+ * @keyboard: A virtual keyboard
+ * @timer: A #GTimer to get timestamps from.
+ *
+ * Emits keyboard events based on input event codes.
+ */
+void
+phosh_test_keyboard_press_keys (struct zwp_virtual_keyboard_v1 *keyboard, GTimer *timer, ...)
+{
+  va_list args;
+  guint key;
+  guint time;
+
+  va_start (args, timer);
+  do {
+    key = va_arg (args, guint);
+    if (key == 0)
+      break;
+
+    time = (guint)g_timer_elapsed (timer, NULL) * 1000;
+    zwp_virtual_keyboard_v1_key (keyboard, time, key, WL_KEYBOARD_KEY_STATE_PRESSED);
+    time = (guint)g_timer_elapsed (timer, NULL) * 1000;
+    zwp_virtual_keyboard_v1_key (keyboard, time, key, WL_KEYBOARD_KEY_STATE_RELEASED);
+  } while (TRUE);
+  va_end (args);
 }

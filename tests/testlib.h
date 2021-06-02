@@ -11,6 +11,8 @@
 
 #include <gtk/gtk.h>
 
+#include <linux/input-event-codes.h>
+
 G_BEGIN_DECLS
 
 typedef struct _PhoshTestCompositorState {
@@ -23,5 +25,8 @@ typedef struct _PhoshTestCompositorState {
 PhoshTestCompositorState *phosh_test_compositor_new (void);
 void                      phosh_test_compositor_free (PhoshTestCompositorState *state);
 PhoshMonitor*             phosh_test_get_monitor(void);
+struct zwp_virtual_keyboard_v1 * phosh_test_keyboard_new (PhoshWayland *wl);
+void                      phosh_test_keyboard_press_keys (struct zwp_virtual_keyboard_v1 *keyboard,
+                                                          GTimer *timer, ...) G_GNUC_NULL_TERMINATED;
 
 G_END_DECLS
