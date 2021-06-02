@@ -9,16 +9,18 @@
 
 #include "gamma-control-client-protocol.h"
 #include "idle-client-protocol.h"
-#include "wlr-screencopy-unstable-v1-client-protocol.h"
-#include "phosh-private-client-protocol.h"
 #include "wlr-foreign-toplevel-management-unstable-v1-client-protocol.h"
 #include "wlr-input-inhibitor-unstable-v1-client-protocol.h"
 #include "wlr-layer-shell-unstable-v1-client-protocol.h"
 #include "wlr-output-management-unstable-v1-client-protocol.h"
 #include "wlr-output-power-management-unstable-v1-client-protocol.h"
-#include "xdg-output-unstable-v1-client-protocol.h"
 #include "wlr-screencopy-unstable-v1-client-protocol.h"
+#include "wlr-screencopy-unstable-v1-client-protocol.h"
+#include "xdg-output-unstable-v1-client-protocol.h"
 #include "xdg-shell-client-protocol.h"
+
+/* This goes past the other wl protocols since it might need their structs */
+#include "phosh-private-client-protocol.h"
 
 #include <glib-object.h>
 
