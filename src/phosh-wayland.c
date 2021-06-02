@@ -38,6 +38,7 @@ struct _PhoshWayland {
   struct gamma_control_manager *gamma_control_manager;
   struct org_kde_kwin_idle *idle_manager;
   struct phosh_private *phosh_private;
+  struct zwp_virtual_keyboard_manager_v1 *zwp_virtual_keyboard_manager_v1;
   struct wl_display *display;
   struct wl_registry *registry;
   struct wl_seat *wl_seat;
@@ -149,6 +150,12 @@ registry_handle_global (void *data,
       name,
       &zwlr_screencopy_manager_v1_interface,
       2);
+  } else if (!strcmp (interface, zwp_virtual_keyboard_manager_v1_interface.name)) {
+    self->zwp_virtual_keyboard_manager_v1 = wl_registry_bind (
+      registry,
+      name,
+      &zwp_virtual_keyboard_manager_v1_interface,
+      1);
   }
 }
 
@@ -451,6 +458,15 @@ phosh_wayland_get_zwlr_screencopy_manager_v1 (PhoshWayland *self)
 
   return self->zwlr_screencopy_manager_v1;
 }
+
+struct zwp_virtual_keyboard_manager_v1*
+phosh_wayland_get_zwp_virtual_keyboard_manager_v1 (PhoshWayland *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
+
+  return self->zwp_virtual_keyboard_manager_v1;
+}
+
 
 /**
  * phosh_wayland_get_wl_outputs:

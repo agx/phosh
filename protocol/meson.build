@@ -14,6 +14,7 @@ wl_protos = [
   'gamma-control.xml',
   'idle.xml',
   'phosh-private.xml',
+  'virtual-keyboard-unstable-v1.xml',
   'wlr-foreign-toplevel-management-unstable-v1.xml',
   'wlr-input-inhibitor-unstable-v1.xml',
   'wlr-layer-shell-unstable-v1.xml',
