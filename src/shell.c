@@ -881,6 +881,33 @@ phosh_shell_get_primary_monitor (PhoshShell *self)
   return monitor;
 }
 
+/* Manager getters */
+
+PhoshBackgroundManager *
+phosh_shell_get_background_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_BACKGROUND_MANAGER (priv->background_manager), NULL);
+
+  return priv->background_manager;
+}
+
+
+PhoshFeedbackManager *
+phosh_shell_get_feedback_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_FEEDBACK_MANAGER (priv->feedback_manager), NULL);
+
+  return priv->feedback_manager;
+}
+
 
 PhoshLockscreenManager *
 phosh_shell_get_lockscreen_manager (PhoshShell *self)
@@ -921,34 +948,32 @@ phosh_shell_get_monitor_manager (PhoshShell *self)
 }
 
 
-PhoshBackgroundManager *
-phosh_shell_get_background_manager (PhoshShell *self)
-{
-  PhoshShellPrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
-  priv = phosh_shell_get_instance_private (self);
-  g_return_val_if_fail (PHOSH_IS_BACKGROUND_MANAGER (priv->background_manager), NULL);
-
-  return priv->background_manager;
-}
-
-
-PhoshWifiManager *
-phosh_shell_get_wifi_manager (PhoshShell *self)
+PhoshToplevelManager *
+phosh_shell_get_toplevel_manager (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
 
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
 
-  if (!priv->wifi_manager)
-      priv->wifi_manager = phosh_wifi_manager_new ();
-
-  g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (priv->wifi_manager), NULL);
-  return priv->wifi_manager;
+  g_return_val_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (priv->toplevel_manager), NULL);
+  return priv->toplevel_manager;
 }
 
+
+PhoshSessionManager *
+phosh_shell_get_session_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_SESSION_MANAGER (priv->session_manager), NULL);
+
+  return priv->session_manager;
+}
+
+/* Manager getters that create them as needed */
 
 PhoshBtManager *
 phosh_shell_get_bt_manager (PhoshShell *self)
@@ -963,92 +988,6 @@ phosh_shell_get_bt_manager (PhoshShell *self)
 
   g_return_val_if_fail (PHOSH_IS_BT_MANAGER (priv->bt_manager), NULL);
   return priv->bt_manager;
-}
-
-
-PhoshOskManager *
-phosh_shell_get_osk_manager (PhoshShell *self)
-{
-  PhoshShellPrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
-  priv = phosh_shell_get_instance_private (self);
-
-  if (!priv->osk_manager)
-      priv->osk_manager = phosh_osk_manager_new ();
-
-  g_return_val_if_fail (PHOSH_IS_OSK_MANAGER (priv->osk_manager), NULL);
-  return priv->osk_manager;
-}
-
-
-PhoshToplevelManager *
-phosh_shell_get_toplevel_manager (PhoshShell *self)
-{
-  PhoshShellPrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
-  priv = phosh_shell_get_instance_private (self);
-
-  g_return_val_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (priv->toplevel_manager), NULL);
-  return priv->toplevel_manager;
-}
-
-
-PhoshFeedbackManager *
-phosh_shell_get_feedback_manager (PhoshShell *self)
-{
-  PhoshShellPrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
-  priv = phosh_shell_get_instance_private (self);
-  g_return_val_if_fail (PHOSH_IS_FEEDBACK_MANAGER (priv->feedback_manager), NULL);
-
-  return priv->feedback_manager;
-}
-
-
-PhoshWWan *
-phosh_shell_get_wwan (PhoshShell *self)
-{
-  PhoshShellPrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
-  priv = phosh_shell_get_instance_private (self);
-
-  if (!priv->wwan) {
-    g_autoptr (GSettings) settings = g_settings_new ("sm.puri.phosh");
-    PhoshWWanBackend backend = g_settings_get_enum (settings, WWAN_BACKEND_KEY);
-
-    switch (backend) {
-      default:
-      case PHOSH_WWAN_BACKEND_MM:
-        priv->wwan = PHOSH_WWAN (phosh_wwan_mm_new());
-        break;
-      case PHOSH_WWAN_BACKEND_OFONO:
-        priv->wwan = PHOSH_WWAN (phosh_wwan_ofono_new());
-        break;
-    }
-  }
-
-  g_return_val_if_fail (PHOSH_IS_WWAN (priv->wwan), NULL);
-  return priv->wwan;
-}
-
-
-PhoshTorchManager *
-phosh_shell_get_torch_manager (PhoshShell *self)
-{
-  PhoshShellPrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
-  priv = phosh_shell_get_instance_private (self);
-
-  if (!priv->torch_manager)
-    priv->torch_manager = phosh_torch_manager_new ();
-
-  g_return_val_if_fail (PHOSH_IS_TORCH_MANAGER (priv->torch_manager), NULL);
-  return priv->torch_manager;
 }
 
 
@@ -1100,16 +1039,19 @@ phosh_shell_get_location_manager (PhoshShell *self)
 }
 
 
-PhoshSessionManager *
-phosh_shell_get_session_manager (PhoshShell *self)
+PhoshOskManager *
+phosh_shell_get_osk_manager (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
 
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
-  g_return_val_if_fail (PHOSH_IS_SESSION_MANAGER (priv->session_manager), NULL);
 
-  return priv->session_manager;
+  if (!priv->osk_manager)
+      priv->osk_manager = phosh_osk_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_OSK_MANAGER (priv->osk_manager), NULL);
+  return priv->osk_manager;
 }
 
 
@@ -1129,6 +1071,66 @@ phosh_shell_get_rotation_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_ROTATION_MANAGER (priv->rotation_manager), NULL);
 
   return priv->rotation_manager;
+}
+
+
+PhoshTorchManager *
+phosh_shell_get_torch_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->torch_manager)
+    priv->torch_manager = phosh_torch_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_TORCH_MANAGER (priv->torch_manager), NULL);
+  return priv->torch_manager;
+}
+
+
+PhoshWifiManager *
+phosh_shell_get_wifi_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->wifi_manager)
+      priv->wifi_manager = phosh_wifi_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (priv->wifi_manager), NULL);
+  return priv->wifi_manager;
+}
+
+
+PhoshWWan *
+phosh_shell_get_wwan (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->wwan) {
+    g_autoptr (GSettings) settings = g_settings_new ("sm.puri.phosh");
+    PhoshWWanBackend backend = g_settings_get_enum (settings, WWAN_BACKEND_KEY);
+
+    switch (backend) {
+      default:
+      case PHOSH_WWAN_BACKEND_MM:
+        priv->wwan = PHOSH_WWAN (phosh_wwan_mm_new());
+        break;
+      case PHOSH_WWAN_BACKEND_OFONO:
+        priv->wwan = PHOSH_WWAN (phosh_wwan_ofono_new());
+        break;
+    }
+  }
+
+  g_return_val_if_fail (PHOSH_IS_WWAN (priv->wwan), NULL);
+  return priv->wwan;
 }
 
 /**
