@@ -14,6 +14,7 @@ gsd_required_components = [
   'org.gnome.SettingsDaemon.Sound',
   'org.gnome.SettingsDaemon.UsbProtection',
   'org.gnome.SettingsDaemon.Wacom',
+  'org.gnome.SettingsDaemon.Wwan',
   'org.gnome.SettingsDaemon.XSettings',
 ]
 
