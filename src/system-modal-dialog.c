@@ -336,6 +336,32 @@ phosh_system_modal_dialog_add_button (PhoshSystemModalDialog *self, GtkWidget *b
     gtk_box_reorder_child (GTK_BOX (priv->box_dialog), GTK_WIDGET (button), position);
 }
 
+
+void
+phosh_system_modal_dialog_remove_button (PhoshSystemModalDialog *self, GtkWidget *button)
+{
+  PhoshSystemModalDialogPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SYSTEM_MODAL_DIALOG (self));
+  g_return_if_fail (GTK_IS_BUTTON (button));
+  priv = phosh_system_modal_dialog_get_instance_private (PHOSH_SYSTEM_MODAL_DIALOG (self));
+
+  gtk_container_remove (GTK_CONTAINER (priv->box_buttons), button);
+}
+
+
+GList *
+phosh_system_modal_dialog_get_buttons (PhoshSystemModalDialog *self)
+{
+  PhoshSystemModalDialogPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SYSTEM_MODAL_DIALOG (self), NULL);
+  priv = phosh_system_modal_dialog_get_instance_private (PHOSH_SYSTEM_MODAL_DIALOG (self));
+
+  return gtk_container_get_children (GTK_CONTAINER (priv->box_buttons));
+}
+
+
 void
 phosh_system_modal_dialog_set_title (PhoshSystemModalDialog *self, const gchar *title)
 {

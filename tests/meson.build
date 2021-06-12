@@ -90,6 +90,7 @@ tests_manager = [
   'monitor-manager',
   'notify-manager',
   'screenshot-manager',
+  'gtk-mount-manager',
 ]
 
 

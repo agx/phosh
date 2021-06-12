@@ -264,7 +264,7 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
 }
 
 /*
- * System modal dialogs (polkit, gcr)
+ * System modal dialogs (polkit, gcr, ...)
  */
 .phosh-system-modal {
   background-color: alpha(@theme_bg_color, 0.7);
@@ -351,6 +351,10 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
 .phosh-end-session-dialog list * {
   color: @theme_text_color;
   -gtk-icon-effect: none;
+}
+
+phosh-gtk-mount-prompt .phosh-system-modal-dialog-content > image {
+  -gtk-icon-style: symbolic;
 }
 
 /*

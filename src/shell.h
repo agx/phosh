@@ -12,6 +12,7 @@
 #include "bt-manager.h"
 #include "docked-manager.h"
 #include "feedback-manager.h"
+#include "gtk-mount-manager.h"
 #include "hks-manager.h"
 #include "location-manager.h"
 #include "lockscreen-manager.h"
@@ -70,22 +71,27 @@ void                 phosh_shell_unlock          (PhoshShell *self);
 void                 phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor);
 PhoshMonitor        *phosh_shell_get_primary_monitor (PhoshShell *self);
 PhoshMonitor        *phosh_shell_get_builtin_monitor (PhoshShell *self);
-PhoshLockscreenManager *phosh_shell_get_lockscreen_manager (PhoshShell *self);
+
+/* Created by the shell on startup */
 PhoshBackgroundManager *phosh_shell_get_background_manager (PhoshShell *self);
-PhoshModeManager    *phosh_shell_get_mode_manager    (PhoshShell *self);
-PhoshMonitorManager *phosh_shell_get_monitor_manager (PhoshShell *self);
-PhoshOskManager     *phosh_shell_get_osk_manager     (PhoshShell *self);
-PhoshToplevelManager *phosh_shell_get_toplevel_manager (PhoshShell *self);
-PhoshWifiManager    *phosh_shell_get_wifi_manager    (PhoshShell *self);
-PhoshFeedbackManager *phosh_shell_get_feedback_manager (PhoshShell *self);
-PhoshBtManager      *phosh_shell_get_bt_manager      (PhoshShell *self);
-PhoshWWan           *phosh_shell_get_wwan        (PhoshShell *self);
-PhoshRotationManager *phosh_shell_get_rotation_manager (PhoshShell *self);
-PhoshTorchManager   *phosh_shell_get_torch_manager (PhoshShell *self);
-PhoshDockedManager  *phosh_shell_get_docked_manager (PhoshShell *self);
-PhoshHksManager *    phosh_shell_get_hks_manager     (PhoshShell *self);
-PhoshLocationManager *phosh_shell_get_location_manager (PhoshShell *self);
-PhoshSessionManager *phosh_shell_get_session_manager (PhoshShell *self);
+PhoshFeedbackManager   *phosh_shell_get_feedback_manager   (PhoshShell *self);
+PhoshGtkMountManager   *phosh_shell_get_gtk_mount_manager  (PhoshShell *self);
+PhoshLockscreenManager *phosh_shell_get_lockscreen_manager (PhoshShell *self);
+PhoshModeManager       *phosh_shell_get_mode_manager       (PhoshShell *self);
+PhoshMonitorManager    *phosh_shell_get_monitor_manager    (PhoshShell *self);
+PhoshToplevelManager   *phosh_shell_get_toplevel_manager   (PhoshShell *self);
+PhoshSessionManager    *phosh_shell_get_session_manager    (PhoshShell *self);
+/* Created on the fly */
+PhoshBtManager         *phosh_shell_get_bt_manager         (PhoshShell *self);
+PhoshDockedManager     *phosh_shell_get_docked_manager     (PhoshShell *self);
+PhoshHksManager        *phosh_shell_get_hks_manager        (PhoshShell *self);
+PhoshLocationManager   *phosh_shell_get_location_manager   (PhoshShell *self);
+PhoshOskManager        *phosh_shell_get_osk_manager        (PhoshShell *self);
+PhoshRotationManager   *phosh_shell_get_rotation_manager   (PhoshShell *self);
+PhoshTorchManager      *phosh_shell_get_torch_manager      (PhoshShell *self);
+PhoshWifiManager       *phosh_shell_get_wifi_manager       (PhoshShell *self);
+PhoshWWan              *phosh_shell_get_wwan               (PhoshShell *self);
+
 void                 phosh_shell_fade_out (PhoshShell *self, guint timeout);
 void                 phosh_shell_enable_power_save (PhoshShell *self, gboolean enable);
 gboolean             phosh_shell_started_by_display_manager(PhoshShell *self);

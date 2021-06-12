@@ -9,16 +9,19 @@
 
 #include "gamma-control-client-protocol.h"
 #include "idle-client-protocol.h"
-#include "wlr-screencopy-unstable-v1-client-protocol.h"
-#include "phosh-private-client-protocol.h"
+#include "virtual-keyboard-unstable-v1-client-protocol.h"
 #include "wlr-foreign-toplevel-management-unstable-v1-client-protocol.h"
 #include "wlr-input-inhibitor-unstable-v1-client-protocol.h"
 #include "wlr-layer-shell-unstable-v1-client-protocol.h"
 #include "wlr-output-management-unstable-v1-client-protocol.h"
 #include "wlr-output-power-management-unstable-v1-client-protocol.h"
-#include "xdg-output-unstable-v1-client-protocol.h"
 #include "wlr-screencopy-unstable-v1-client-protocol.h"
+#include "wlr-screencopy-unstable-v1-client-protocol.h"
+#include "xdg-output-unstable-v1-client-protocol.h"
 #include "xdg-shell-client-protocol.h"
+
+/* This goes past the other wl protocols since it might need their structs */
+#include "phosh-private-client-protocol.h"
 
 #include <glib-object.h>
 
@@ -61,6 +64,7 @@ struct zwlr_output_manager_v1        *phosh_wayland_get_zwlr_output_manager_v1 (
 struct zwlr_output_power_manager_v1 *phosh_wayland_get_zwlr_output_power_manager_v1 (PhoshWayland *self);
 struct zxdg_output_manager_v1        *phosh_wayland_get_zxdg_output_manager_v1 (PhoshWayland *self);
 struct zwlr_screencopy_manager_v1    *phosh_wayland_get_zwlr_screencopy_manager_v1 (PhoshWayland *self);
+struct zwp_virtual_keyboard_manager_v1 *phosh_wayland_get_zwp_virtual_keyboard_manager_v1 (PhoshWayland *self);
 void                                  phosh_wayland_roundtrip (PhoshWayland *self);
 PhoshWaylandSeatCapabilities          phosh_wayland_get_seat_capabilities (PhoshWayland *self);
 
