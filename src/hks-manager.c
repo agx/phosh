@@ -151,7 +151,7 @@ op_to_string (unsigned int op)
   case RFKILL_OP_CHANGE_ALL:
     return "CHANGE_ALL";
   default:
-    g_assert_not_reached ();
+    return "Unknown";
   }
 }
 
