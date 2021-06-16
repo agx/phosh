@@ -19,7 +19,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-/* rfkill types not yet upsterm */
+/* rfkill types not yet upstream */
 #define RFKILL_TYPE_CAMERA_ 9
 #define RFKILL_TYPE_MIC_ 10
 
