@@ -11,3 +11,4 @@
 
 #mesondefine LOCALEDIR
 
+#mesondefine HAVE_RFKILL_EVENT_EXT

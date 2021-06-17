@@ -133,10 +133,18 @@ wayland_client_dep = dependency('wayland-client', version: '>=1.14')
 wayland_protos_dep = dependency('wayland-protocols', version: '>=1.12')
 
 
+code ='''
+#include <linux/rfkill.h>
+
+struct rfkill_event_ext e;
+'''
+have_rfkill_event_ext = cc.compiles(code, name : 'Have rfkill_event_ext')
+
 config_h = configuration_data()
 config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
 config_h.set_quoted('LOCALEDIR', localedir)
 config_h.set_quoted('PHOSH_VERSION', meson.project_version())
+config_h.set('HAVE_RFKILL_EVENT_EXT', have_rfkill_event_ext)
 
 configure_file(
   input: 'config.h.in',
