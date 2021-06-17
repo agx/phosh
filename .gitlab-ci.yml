@@ -217,15 +217,11 @@ unit-test:native-alpinelinux-edge:
     variables:
       - $PKG_ONLY == "1"
 
-package:deb-debian-bullseye:arm64:
+package:deb-pureos-byzantium:arm64:
   tags:
     - librem5:arm64
+  before_script: []
   variables:
-    L5_DOCKER_IMAGE: debian:bullseye
-    L5_ADD_SCRATCH_CI: 'false'
-  before_script:
-    - echo "deb http://deb.debian.org/debian/ experimental main" >> /etc/apt/sources.list.d/exp.list
-    - apt-get -y update
-    - apt-get -y install $EXP_DEPS
+    L5_DOCKER_IMAGE: pureos/byzantium
   extends: .l5-build-debian-package
 
