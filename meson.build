@@ -18,17 +18,6 @@ pkglibdir = join_paths(libdir, meson.project_name())
 systemddir = join_paths(prefix, 'lib/systemd')
 systemduserdir = join_paths(systemddir, 'user')
 
-config_h = configuration_data()
-config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
-config_h.set_quoted('LOCALEDIR', localedir)
-config_h.set_quoted('PHOSH_VERSION', meson.project_version())
-
-configure_file(
-  input: 'config.h.in',
-  output: 'config.h',
-  configuration: config_h,
-)
-
 glib_ver = 'GLIB_VERSION_2_62'
 
 add_project_arguments([
@@ -142,6 +131,18 @@ network_agent_dep = dependency('libsecret-1')
 upower_glib_dep = dependency('upower-glib', version: '>=0.99.1')
 wayland_client_dep = dependency('wayland-client', version: '>=1.14')
 wayland_protos_dep = dependency('wayland-protocols', version: '>=1.12')
+
+
+config_h = configuration_data()
+config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
+config_h.set_quoted('LOCALEDIR', localedir)
+config_h.set_quoted('PHOSH_VERSION', meson.project_version())
+
+configure_file(
+  input: 'config.h.in',
+  output: 'config.h',
+  configuration: config_h,
+)
 
 meson.add_install_script(
   join_paths('build-aux', 'post_install.py'),
