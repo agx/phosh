@@ -29,6 +29,8 @@ desktopconf.set('libexecdir', libexecdir)
 desktopconf.set('required_components', ';'.join(desktop_required_components) + ';')
 if get_option('systemd')
   desktopconf.set('hidden_under_systemd', 'X-GNOME-HiddenUnderSystemd=true')
+else
+  desktopconf.set('hidden_under_systemd', '')
 endif
 
 desktop_files = [
