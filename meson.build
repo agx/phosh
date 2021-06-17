@@ -36,7 +36,6 @@ add_project_arguments([
   '-DGLIB_VERSION_MIN_REQUIRED=@0@'.format(glib_ver),
   '-DGLIB_VERSION_MAX_REQUIRED=@0@'.format(glib_ver),
   '-DG_LOG_USE_STRUCTURED',
-  '-I' + meson.build_root(),
 ], language: 'c')
 
 root_inc = include_directories('.')
