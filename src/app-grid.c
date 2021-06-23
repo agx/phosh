@@ -341,13 +341,24 @@ phosh_app_grid_init (PhoshAppGrid *self)
 
 
 static void
-phosh_app_grid_finalize (GObject *object)
+phosh_app_grid_dispose (GObject *object)
 {
   PhoshAppGrid *self = PHOSH_APP_GRID (object);
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
   g_clear_object (&priv->model);
   g_clear_object (&priv->settings);
+
+  G_OBJECT_CLASS (phosh_app_grid_parent_class)->dispose (object);
+}
+
+
+static void
+phosh_app_grid_finalize (GObject *object)
+{
+  PhoshAppGrid *self = PHOSH_APP_GRID (object);
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+
   g_clear_pointer (&priv->search_string, g_free);
   g_strfreev (priv->force_adaptive);
 
@@ -488,6 +499,7 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
   GObjectClass   *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
+  object_class->dispose = phosh_app_grid_dispose;
   object_class->finalize = phosh_app_grid_finalize;
 
   object_class->set_property = phosh_app_grid_set_property;
