@@ -21,6 +21,13 @@
 #include "gtk-list-models/gtkfilterlistmodel.h"
 
 enum {
+  PROP_0,
+  PROP_FILTER_ADAPTIVE,
+  PROP_LAST_PROP
+};
+static GParamSpec *props[PROP_LAST_PROP];
+
+enum {
   APP_LAUNCHED,
   N_SIGNALS
 };
@@ -43,6 +50,44 @@ struct _PhoshAppGridPrivate {
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGrid, phosh_app_grid, GTK_TYPE_BOX)
+
+static void
+phosh_app_grid_set_property (GObject      *object,
+                             guint         property_id,
+                             const GValue *value,
+                             GParamSpec   *pspec)
+{
+  PhoshAppGrid *self = PHOSH_APP_GRID (object);
+
+  switch (property_id) {
+  case PROP_FILTER_ADAPTIVE:
+    phosh_app_grid_set_filter_adaptive (self, g_value_get_boolean (value));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
+phosh_app_grid_get_property (GObject    *object,
+                             guint       property_id,
+                             GValue     *value,
+                             GParamSpec *pspec)
+{
+  PhoshAppGrid *self = PHOSH_APP_GRID (object);
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+
+  switch (property_id) {
+  case PROP_FILTER_ADAPTIVE:
+    g_value_set_boolean (value, priv->filter_adaptive);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
 
 
 static void
@@ -445,7 +490,24 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
 
   object_class->finalize = phosh_app_grid_finalize;
 
+  object_class->set_property = phosh_app_grid_set_property;
+  object_class->get_property = phosh_app_grid_get_property;
+
   widget_class->key_press_event = phosh_app_grid_key_press_event;
+
+  /**
+   * PhoshAppGrid:filter-adaptive:
+   *
+   * Whether only adaptive apps should be shown
+   */
+  props[PROP_FILTER_ADAPTIVE] =
+    g_param_spec_boolean ("filter-adaptive",
+                          "",
+                          "",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/app-grid.ui");
 
@@ -504,4 +566,25 @@ phosh_app_grid_focus_search (PhoshAppGrid *self)
   g_return_if_fail (PHOSH_IS_APP_GRID (self));
   priv = phosh_app_grid_get_instance_private (self);
   gtk_widget_grab_focus (priv->search);
+}
+
+
+void
+phosh_app_grid_set_filter_adaptive (PhoshAppGrid *self, gboolean enable)
+{
+  PhoshAppGridPrivate *priv;
+
+  g_debug ("Filter-adaptive: %d", enable);
+
+  g_return_if_fail (PHOSH_IS_APP_GRID (self));
+  priv = phosh_app_grid_get_instance_private (self);
+
+  if (priv->filter_adaptive == enable)
+    return;
+
+  priv->filter_adaptive = enable;
+
+  gtk_filter_list_model_refilter (priv->model);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_FILTER_ADAPTIVE]);
 }
