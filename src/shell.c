@@ -88,14 +88,14 @@
  */
 
 enum {
-  PHOSH_SHELL_PROP_0,
-  PHOSH_SHELL_PROP_LOCKED,
-  PHOSH_SHELL_PROP_BUILTIN_MONITOR,
-  PHOSH_SHELL_PROP_PRIMARY_MONITOR,
-  PHOSH_SHELL_PROP_SHELL_STATE,
-  PHOSH_SHELL_PROP_LAST_PROP
+  PROP_0,
+  PROP_LOCKED,
+  PROP_BUILTIN_MONITOR,
+  PROP_PRIMARY_MONITOR,
+  PROP_SHELL_STATE,
+  PROP_LAST_PROP
 };
-static GParamSpec *props[PHOSH_SHELL_PROP_LAST_PROP];
+static GParamSpec *props[PROP_LAST_PROP];
 
 enum {
   READY,
@@ -304,11 +304,11 @@ phosh_shell_set_property (GObject *object,
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   switch (property_id) {
-  case PHOSH_SHELL_PROP_LOCKED:
+  case PROP_LOCKED:
     priv->locked = g_value_get_boolean (value);
     phosh_shell_set_state (self, PHOSH_STATE_LOCKED, priv->locked);
     break;
-  case PHOSH_SHELL_PROP_PRIMARY_MONITOR:
+  case PROP_PRIMARY_MONITOR:
     phosh_shell_set_primary_monitor (self, g_value_get_object (value));
     break;
   default:
@@ -328,16 +328,16 @@ phosh_shell_get_property (GObject *object,
   PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   switch (property_id) {
-  case PHOSH_SHELL_PROP_LOCKED:
+  case PROP_LOCKED:
     g_value_set_boolean (value, priv->locked);
     break;
-  case PHOSH_SHELL_PROP_BUILTIN_MONITOR:
+  case PROP_BUILTIN_MONITOR:
     g_value_set_object (value, phosh_shell_get_builtin_monitor (self));
     break;
-  case PHOSH_SHELL_PROP_PRIMARY_MONITOR:
+  case PROP_PRIMARY_MONITOR:
     g_value_set_object (value, phosh_shell_get_primary_monitor (self));
     break;
-  case PHOSH_SHELL_PROP_SHELL_STATE:
+  case PROP_SHELL_STATE:
     g_value_set_flags (value, priv->shell_state);
     break;
   default:
@@ -604,7 +604,7 @@ on_monitor_added (PhoshShell *self, PhoshMonitor *monitor)
   if (priv->rotation_manager)
     phosh_rotation_manager_set_monitor (priv->rotation_manager, monitor);
 
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_BUILTIN_MONITOR]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_BUILTIN_MONITOR]);
 }
 
 
@@ -629,7 +629,7 @@ on_monitor_removed (PhoshShell *self, PhoshMonitor *monitor)
     if (priv->rotation_manager)
       phosh_rotation_manager_set_monitor (priv->rotation_manager, NULL);
 
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_BUILTIN_MONITOR]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_BUILTIN_MONITOR]);
   }
 
   if (priv->primary_monitor == monitor) {
@@ -763,7 +763,7 @@ phosh_shell_class_init (PhoshShellClass *klass)
 
   type_setup ();
 
-  props[PHOSH_SHELL_PROP_LOCKED] =
+  props[PROP_LOCKED] =
     g_param_spec_boolean ("locked",
                           "Locked",
                           "Whether the screen is locked",
@@ -776,7 +776,7 @@ phosh_shell_class_init (PhoshShellClass *klass)
    * The built in monitor. This is a hardware property and hence can
    * only be read. It can be %NULL when not present or disabled.
    */
-  props[PHOSH_SHELL_PROP_BUILTIN_MONITOR] =
+  props[PROP_BUILTIN_MONITOR] =
     g_param_spec_object ("builtin-monitor",
                          "Built in monitor",
                          "The builtin monitor",
@@ -787,14 +787,14 @@ phosh_shell_class_init (PhoshShellClass *klass)
    *
    * The primary monitor that has the panels, lock screen etc. This can't be %NULL.
    */
-  props[PHOSH_SHELL_PROP_PRIMARY_MONITOR] =
+  props[PROP_PRIMARY_MONITOR] =
     g_param_spec_object ("primary-monitor",
                          "Primary monitor",
                          "The primary monitor",
                          PHOSH_TYPE_MONITOR,
                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
-  props[PHOSH_SHELL_PROP_SHELL_STATE] =
+  props[PROP_SHELL_STATE] =
     g_param_spec_flags ("shell-state",
                         "Shell state",
                         "The state of the shell",
@@ -802,7 +802,7 @@ phosh_shell_class_init (PhoshShellClass *klass)
                         PHOSH_STATE_NONE,
                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
-  g_object_class_install_properties (object_class, PHOSH_SHELL_PROP_LAST_PROP, props);
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[READY] = g_signal_new ("ready",
                                  G_TYPE_FROM_CLASS (klass),
@@ -853,7 +853,7 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
   panels_dispose (self);
   panels_create (self);
 
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_PRIMARY_MONITOR]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY_MONITOR]);
 }
 
 
@@ -1440,5 +1440,5 @@ phosh_shell_set_state (PhoshShell          *self,
            enabled ? "Adding to" : "Removing from",
            str_state, str_new_flags);
 
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_SHELL_PROP_SHELL_STATE]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SHELL_STATE]);
 }
