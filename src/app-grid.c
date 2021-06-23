@@ -8,6 +8,9 @@
 
 #define ACTIVE_SEARCH_CLASS "search-active"
 
+#define _GNU_SOURCE
+#include <string.h>
+
 #include "feedback-manager.h"
 #include "app-grid.h"
 #include "app-grid-button.h"
@@ -16,6 +19,7 @@
 
 #include "gtk-list-models/gtksortlistmodel.h"
 #include "gtk-list-models/gtkfilterlistmodel.h"
+
 
 typedef struct _PhoshAppGridPrivate PhoshAppGridPrivate;
 struct _PhoshAppGridPrivate {
@@ -28,6 +32,7 @@ struct _PhoshAppGridPrivate {
   GtkWidget *scrolled_window;
 
   char *search_string;
+  gboolean filter_adaptive;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGrid, phosh_app_grid, GTK_TYPE_BOX)
@@ -63,6 +68,30 @@ sort_apps (gconstpointer a,
 }
 
 
+static gboolean
+filter_adaptive (PhoshAppGrid *self, GDesktopAppInfo *info)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+  g_autofree char *mobile = NULL;
+
+  if (!priv->filter_adaptive)
+    return TRUE;
+
+  mobile = g_desktop_app_info_get_string (G_DESKTOP_APP_INFO (info),
+                                          "X-Purism-FormFactor");
+  if (mobile && strcasestr (mobile, "mobile;"))
+    return TRUE;
+
+  g_free (mobile);
+  mobile = g_desktop_app_info_get_string (G_DESKTOP_APP_INFO (info),
+                                          "X-KDE-FormFactor");
+  if (mobile && strcasestr (mobile, "handset;"))
+    return TRUE;
+
+  return FALSE;
+}
+
+
 static const char *(*app_attr[]) (GAppInfo *info) = {
   g_app_info_get_display_name,
   g_app_info_get_name,
@@ -90,6 +119,11 @@ search_apps (gpointer item, gpointer data)
   g_return_val_if_fail (priv->search != NULL, TRUE);
 
   search = priv->search_string;
+
+  if (G_IS_DESKTOP_APP_INFO (info)) {
+    if (!filter_adaptive (self, G_DESKTOP_APP_INFO (info)))
+      return FALSE;
+  }
 
   /* filter out favorites when not searching */
   if (search == NULL || strlen (search) == 0) {
