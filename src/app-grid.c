@@ -20,6 +20,11 @@
 #include "gtk-list-models/gtksortlistmodel.h"
 #include "gtk-list-models/gtkfilterlistmodel.h"
 
+enum {
+  APP_LAUNCHED,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct _PhoshAppGridPrivate PhoshAppGridPrivate;
 struct _PhoshAppGridPrivate {
@@ -39,11 +44,6 @@ struct _PhoshAppGridPrivate {
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGrid, phosh_app_grid, GTK_TYPE_BOX)
 
-enum {
-  APP_LAUNCHED,
-  N_SIGNALS
-};
-static guint signals[N_SIGNALS] = { 0 };
 
 static void
 app_launched_cb (GtkWidget    *widget,
