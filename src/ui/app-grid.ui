@@ -9,30 +9,60 @@
     <property name="vexpand">True</property>
     <property name="orientation">vertical</property>
     <child>
-      <object class="GtkSearchEntry" id="search">
+      <object class="GtkBox">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="margin_left">6</property>
-        <property name="margin_right">6</property>
-        <property name="margin_top">6</property>
-        <property name="primary_icon_name">edit-find-symbolic</property>
-        <property name="primary_icon_activatable">False</property>
-        <property name="primary_icon_sensitive">False</property>
-        <property name="placeholder_text" translatable="yes">Search apps…</property>
-        <signal name="search-changed" handler="search_changed" object="PhoshAppGrid" swapped="no"/>
-        <signal name="preedit-changed" handler="search_preedit_changed" object="PhoshAppGrid" swapped="no"/>
-        <signal name="activate" handler="search_activated" object="PhoshAppGrid" swapped="no"/>
-        <signal name="focus-in-event" handler="search_gained_focus" object="PhoshAppGrid" swapped="no"/>
-        <signal name="focus-out-event" handler="search_lost_focus" object="PhoshAppGrid" swapped="no"/>
+        <property name="can_focus">False</property>
+        <child>
+	  <object class="GtkSearchEntry" id="search">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="primary_icon_name">edit-find-symbolic</property>
+            <property name="primary_icon_activatable">False</property>
+            <property name="primary_icon_sensitive">False</property>
+            <property name="placeholder_text" translatable="yes">Search apps…</property>
+            <signal name="search-changed" handler="search_changed" object="PhoshAppGrid" swapped="no"/>
+            <signal name="preedit-changed" handler="search_preedit_changed" object="PhoshAppGrid" swapped="no"/>
+            <signal name="activate" handler="search_activated" object="PhoshAppGrid" swapped="no"/>
+            <signal name="focus-in-event" handler="search_gained_focus" object="PhoshAppGrid" swapped="no"/>
+            <signal name="focus-out-event" handler="search_lost_focus" object="PhoshAppGrid" swapped="no"/>
+            <style>
+              <class name="phosh-search-bar"/>
+            </style>
+	  </object>
+	  <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+	  </packing>
+	</child>
+	<child>
+          <object class="GtkMenuButton" id="menu_button">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="focus_on_click">False</property>
+            <property name="receives-default">True</property>
+            <property name="popover">menu_filter</property>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="icon_name">open-menu</property>
+              </object>
+            </child>
+            <style>
+              <class name="phosh-menu-button"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
         <style>
-          <class name="phosh-search-bar"/>
+          <class name="phosh-search-bar-box"/>
         </style>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
     </child>
     <child>
       <object class="GtkScrolledWindow" id="scrolled_window">
@@ -125,4 +155,21 @@
       </packing>
     </child>
   </template>
+  <object class="GtkPopoverMenu" id="menu_filter">
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="margin">10</property>
+        <property name="spacing">6</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkModelButton">
+            <property name="visible">True</property>
+            <property name="action-name">app-grid.filter-adaptive</property>
+            <property name="text" translatable="yes">Show only adaptive apps</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
 </interface>

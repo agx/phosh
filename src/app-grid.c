@@ -16,6 +16,7 @@
 #include "app-grid-button.h"
 #include "app-list-model.h"
 #include "favorite-list-model.h"
+#include "shell.h"
 
 #include "gtk-list-models/gtksortlistmodel.h"
 #include "gtk-list-models/gtkfilterlistmodel.h"
@@ -47,6 +48,7 @@ struct _PhoshAppGridPrivate {
   gboolean filter_adaptive;
   GSettings *settings;
   GStrv force_adaptive;
+  GSimpleActionGroup *actions;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGrid, phosh_app_grid, GTK_TYPE_BOX)
@@ -303,6 +305,7 @@ phosh_app_grid_init (PhoshAppGrid *self)
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GtkSortListModel *sorted;
   PhoshFavoriteListModel *favorites;
+  g_autoptr (GAction) action = NULL;
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
@@ -337,6 +340,12 @@ phosh_app_grid_init (PhoshAppGrid *self)
                            self,
                            G_CONNECT_SWAPPED);
   on_force_adaptive_changed (self, NULL, NULL);
+
+  priv->actions = g_simple_action_group_new ();
+  gtk_widget_insert_action_group (GTK_WIDGET (self), "app-grid",
+                                  G_ACTION_GROUP (priv->actions));
+  action = (GAction*) g_property_action_new ("filter-adaptive", self, "filter-adaptive");
+  g_action_map_add_action (G_ACTION_MAP (priv->actions), action);
 }
 
 
@@ -346,6 +355,7 @@ phosh_app_grid_dispose (GObject *object)
   PhoshAppGrid *self = PHOSH_APP_GRID (object);
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
+  g_clear_object (&priv->actions);
   g_clear_object (&priv->model);
   g_clear_object (&priv->settings);
 
