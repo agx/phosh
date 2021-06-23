@@ -33,6 +33,8 @@ struct _PhoshAppGridPrivate {
 
   char *search_string;
   gboolean filter_adaptive;
+  GSettings *settings;
+  GStrv force_adaptive;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGrid, phosh_app_grid, GTK_TYPE_BOX)
@@ -68,11 +70,31 @@ sort_apps (gconstpointer a,
 }
 
 
+
+static void
+on_force_adaptive_changed (PhoshAppGrid *self,
+                           GParamSpec   *pspec,
+                           gpointer     *unused)
+{
+  PhoshAppGridPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_APP_GRID (self));
+
+  priv = phosh_app_grid_get_instance_private (self);
+
+  g_strfreev (priv->force_adaptive);
+  priv->force_adaptive = g_settings_get_strv (priv->settings,
+                                              "force-adaptive");
+  gtk_filter_list_model_refilter (priv->model);
+}
+
+
 static gboolean
 filter_adaptive (PhoshAppGrid *self, GDesktopAppInfo *info)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   g_autofree char *mobile = NULL;
+  const char *id;
 
   if (!priv->filter_adaptive)
     return TRUE;
@@ -86,6 +108,10 @@ filter_adaptive (PhoshAppGrid *self, GDesktopAppInfo *info)
   mobile = g_desktop_app_info_get_string (G_DESKTOP_APP_INFO (info),
                                           "X-KDE-FormFactor");
   if (mobile && strcasestr (mobile, "handset;"))
+    return TRUE;
+
+  id = g_app_info_get_id (G_APP_INFO (info));
+  if (id && g_strv_contains ((const char * const*)priv->force_adaptive, id))
     return TRUE;
 
   return FALSE;
@@ -258,6 +284,14 @@ phosh_app_grid_init (PhoshAppGrid *self)
   gtk_flow_box_bind_model (GTK_FLOW_BOX (priv->apps),
                            G_LIST_MODEL (priv->model),
                            create_launcher, self, NULL);
+
+  priv->settings = g_settings_new ("sm.puri.phosh");
+  g_signal_connect_object (priv->settings,
+                           "changed::force-adaptive",
+                           G_CALLBACK (on_force_adaptive_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_force_adaptive_changed (self, NULL, NULL);
 }
 
 
@@ -268,7 +302,9 @@ phosh_app_grid_finalize (GObject *object)
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
   g_clear_object (&priv->model);
+  g_clear_object (&priv->settings);
   g_clear_pointer (&priv->search_string, g_free);
+  g_strfreev (priv->force_adaptive);
 
   G_OBJECT_CLASS (phosh_app_grid_parent_class)->finalize (object);
 }
