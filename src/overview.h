@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "app-grid.h"
+
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
@@ -19,5 +21,6 @@ GtkWidget *phosh_overview_new (void);
 void       phosh_overview_reset (PhoshOverview *self);
 void       phosh_overview_focus_app_search (PhoshOverview *self);
 gboolean   phosh_overview_has_running_activities (PhoshOverview *self);
+PhoshAppGrid *phosh_overview_get_app_grid (PhoshOverview *self);
 
 G_END_DECLS
