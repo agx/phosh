@@ -43,12 +43,14 @@ struct _PhoshAppGridPrivate {
   GtkWidget *favs;
   GtkWidget *favs_revealer;
   GtkWidget *scrolled_window;
+  GtkWidget *menu_button;
 
   char *search_string;
   gboolean filter_adaptive;
   GSettings *settings;
   GStrv force_adaptive;
   GSimpleActionGroup *actions;
+  PhoshAppFilterModeFlags filter_mode;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGrid, phosh_app_grid, GTK_TYPE_BOX)
@@ -119,11 +121,12 @@ sort_apps (gconstpointer a,
 
 
 static void
-on_force_adaptive_changed (PhoshAppGrid *self,
+on_filter_setting_changed (PhoshAppGrid *self,
                            GParamSpec   *pspec,
                            gpointer     *unused)
 {
   PhoshAppGridPrivate *priv;
+  gboolean show;
 
   g_return_if_fail (PHOSH_IS_APP_GRID (self));
 
@@ -132,6 +135,12 @@ on_force_adaptive_changed (PhoshAppGrid *self,
   g_strfreev (priv->force_adaptive);
   priv->force_adaptive = g_settings_get_strv (priv->settings,
                                               "force-adaptive");
+  priv->filter_mode = g_settings_get_flags (priv->settings,
+                                            "app-filter-mode");
+
+  show = !!(priv->filter_mode & PHOSH_APP_FILTER_MODE_FLAGS_ADAPTIVE);
+  gtk_widget_set_visible (priv->menu_button, show);
+
   gtk_filter_list_model_refilter (priv->model);
 }
 
@@ -142,6 +151,9 @@ filter_adaptive (PhoshAppGrid *self, GDesktopAppInfo *info)
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   g_autofree char *mobile = NULL;
   const char *id;
+
+  if (!(priv->filter_mode & PHOSH_APP_FILTER_MODE_FLAGS_ADAPTIVE))
+    return TRUE;
 
   if (!priv->filter_adaptive)
     return TRUE;
@@ -334,12 +346,13 @@ phosh_app_grid_init (PhoshAppGrid *self)
                            create_launcher, self, NULL);
 
   priv->settings = g_settings_new ("sm.puri.phosh");
-  g_signal_connect_object (priv->settings,
-                           "changed::force-adaptive",
-                           G_CALLBACK (on_force_adaptive_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-  on_force_adaptive_changed (self, NULL, NULL);
+  g_object_connect (priv->settings,
+                    "swapped-signal::changed::force-adaptive",
+                    G_CALLBACK (on_filter_setting_changed), self,
+                    "swapped-signal::changed::app-filter-mode",
+                    G_CALLBACK (on_filter_setting_changed), self,
+                    NULL);
+  on_filter_setting_changed (self, NULL, NULL);
 
   priv->actions = g_simple_action_group_new ();
   gtk_widget_insert_action_group (GTK_WIDGET (self), "app-grid",
@@ -538,6 +551,7 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs_revealer);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, scrolled_window);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, menu_button);
 
   gtk_widget_class_bind_template_callback (widget_class, search_changed);
   gtk_widget_class_bind_template_callback (widget_class, search_preedit_changed);
