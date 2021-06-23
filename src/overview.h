@@ -8,6 +8,8 @@
 
 #include <gtk/gtk.h>
 
+G_BEGIN_DECLS
+
 #define PHOSH_TYPE_OVERVIEW (phosh_overview_get_type())
 
 G_DECLARE_FINAL_TYPE (PhoshOverview, phosh_overview, PHOSH, OVERVIEW, GtkBox)
@@ -17,3 +19,5 @@ GtkWidget *phosh_overview_new (void);
 void       phosh_overview_reset (PhoshOverview *self);
 void       phosh_overview_focus_app_search (PhoshOverview *self);
 gboolean   phosh_overview_has_running_activities (PhoshOverview *self);
+
+G_END_DECLS
