@@ -5,8 +5,10 @@
  */
 #pragma once
 
-#include <gtk/gtk.h>
 #include "layersurface.h"
+#include "overview.h"
+
+#include <gtk/gtk.h>
 
 #define PHOSH_TYPE_HOME (phosh_home_get_type())
 
@@ -29,3 +31,4 @@ G_DECLARE_FINAL_TYPE (PhoshHome, phosh_home, PHOSH, HOME, PhoshLayerSurface)
 GtkWidget * phosh_home_new (struct zwlr_layer_shell_v1 *layer_shell,
                             struct wl_output *wl_output);
 void phosh_home_set_state (PhoshHome *self, PhoshHomeState state);
+PhoshOverview *phosh_home_get_overview (PhoshHome *self);
