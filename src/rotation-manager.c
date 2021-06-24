@@ -276,7 +276,7 @@ on_power_mode_changed (PhoshRotationManager *self,
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
 
   mode = phosh_monitor_get_power_save_mode (monitor);
-  g_debug ("Mode: %d", mode);
+  g_debug ("Powersave mode: %d", mode);
   if (mode != PHOSH_MONITOR_POWER_SAVE_MODE_ON)
     return;
 
