@@ -285,23 +285,40 @@ on_power_mode_changed (PhoshRotationManager *self,
 
 
 static void
+claim_or_release_accelerometer (PhoshRotationManager *self)
+{
+  gboolean claim = TRUE;
+
+  /* No need for accel on screen lock, saves power */
+  if (phosh_lockscreen_manager_get_locked (self->lockscreen_manager))
+    claim = FALSE;
+
+  /* No need for accel on orientation lock, saves power */
+  if (self->orientation_locked)
+    claim = FALSE;
+
+  /* No need for accel when automatic rotation is not requested or possible */
+  if (self->mode == PHOSH_ROTATION_MANAGER_MODE_OFF)
+    claim = FALSE;
+
+  if (claim == self->claimed)
+    return;
+
+  phosh_rotation_manager_claim_accelerometer (self, claim);
+}
+
+
+static void
 on_lockscreen_manager_locked (PhoshRotationManager *self, GParamSpec *pspec,
                               PhoshLockscreenManager *lockscreen_manager)
 {
-  gboolean claim;
-
   g_return_if_fail (PHOSH_IS_ROTATION_MANAGER (self));
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (lockscreen_manager));
 
-  if (self->mode == PHOSH_ROTATION_MANAGER_MODE_OFF)
-    claim = FALSE;
-  else
-    claim = !phosh_lockscreen_manager_get_locked (self->lockscreen_manager);
-
-  phosh_rotation_manager_claim_accelerometer (self, claim);
-
+  claim_or_release_accelerometer (self);
   fixup_lockscreen_orientation (self, FALSE);
 }
+
 
 static void
 on_accelerometer_orientation_changed (PhoshRotationManager    *self,
@@ -563,7 +580,12 @@ phosh_rotation_manager_set_orientation_locked (PhoshRotationManager *self, gbool
 
   self->orientation_locked = locked;
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ORIENTATION_LOCKED]);
-  match_orientation (self);
+
+  /* We don't need accel if orientation locked and vice versa */
+  if (self->claimed == self->orientation_locked)
+    claim_or_release_accelerometer (self);
+  else
+    match_orientation (self);
 }
 
 gboolean
@@ -610,19 +632,7 @@ phosh_rotation_manager_set_mode (PhoshRotationManager *self, PhoshRotationManage
   self->mode = mode;
 
   g_debug ("Setting mode: %d", mode);
-  switch (mode) {
-  case PHOSH_ROTATION_MANAGER_MODE_OFF:
-    phosh_rotation_manager_claim_accelerometer (self, FALSE);
-    break;
-  case PHOSH_ROTATION_MANAGER_MODE_SENSOR:
-    /* Don't claim during screen lock, enables runtime pm and will be
-       claimed on unlock */
-    if (!phosh_lockscreen_manager_get_locked (self->lockscreen_manager))
-      phosh_rotation_manager_claim_accelerometer (self, TRUE);
-    break;
-  default:
-    g_assert_not_reached ();
-  }
+  claim_or_release_accelerometer (self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MODE]);
   return TRUE;
