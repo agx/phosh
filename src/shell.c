@@ -173,53 +173,6 @@ settings_activated_cb (PhoshShell *self,
 }
 
 
-void
-phosh_shell_lock (PhoshShell *self)
-{
-  phosh_shell_set_locked (self, TRUE);
-}
-
-
-void
-phosh_shell_unlock (PhoshShell *self)
-{
-  phosh_shell_set_locked (self, FALSE);
-}
-
-/**
- * phosh_shell_get_locked:
- * @self: The #PhoshShell singleton
- *
- * Returns: %TRUE if the shell is currently locked, otherwise %FALSE.
- */
-gboolean
-phosh_shell_get_locked (PhoshShell *self)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-
-  return priv->locked;
-}
-
-/**
- * phosh_shell_set_locked:
- * @self: The #PhoshShell singleton
- * @locked: %TRUE to lock the shell
- *
- * Lock the shell. We proxy to lockscreen-manager to avoid
- * that other parts of the shell need to care about this
- * abstraction.
- */
-void
-phosh_shell_set_locked (PhoshShell *self, gboolean locked)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-
-  if (locked == priv->locked)
-    return;
-
-  phosh_lockscreen_manager_set_locked (priv->lockscreen_manager, locked);
-}
-
 static void
 on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
 {
@@ -1449,4 +1402,51 @@ phosh_shell_set_state (PhoshShell          *self,
            str_state, str_new_flags);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SHELL_STATE]);
+}
+
+void
+phosh_shell_lock (PhoshShell *self)
+{
+  phosh_shell_set_locked (self, TRUE);
+}
+
+
+void
+phosh_shell_unlock (PhoshShell *self)
+{
+  phosh_shell_set_locked (self, FALSE);
+}
+
+/**
+ * phosh_shell_get_locked:
+ * @self: The #PhoshShell singleton
+ *
+ * Returns: %TRUE if the shell is currently locked, otherwise %FALSE.
+ */
+gboolean
+phosh_shell_get_locked (PhoshShell *self)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  return priv->locked;
+}
+
+/**
+ * phosh_shell_set_locked:
+ * @self: The #PhoshShell singleton
+ * @locked: %TRUE to lock the shell
+ *
+ * Lock the shell. We proxy to lockscreen-manager to avoid
+ * that other parts of the shell need to care about this
+ * abstraction.
+ */
+void
+phosh_shell_set_locked (PhoshShell *self, gboolean locked)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  if (locked == priv->locked)
+    return;
+
+  phosh_lockscreen_manager_set_locked (priv->lockscreen_manager, locked);
 }
