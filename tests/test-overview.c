@@ -8,7 +8,6 @@
 
 #include "overview.h"
 
-#define HANDY_USE_UNSTABLE_API
 #include <handy.h>
 
 static void

@@ -220,6 +220,7 @@ phosh_app_grid_init (PhoshAppGrid *self)
                                            search_apps,
                                            self,
                                            NULL);
+  g_object_unref (sorted);
   gtk_flow_box_bind_model (GTK_FLOW_BOX (priv->apps),
                            G_LIST_MODEL (priv->model),
                            create_launcher, self, NULL);
