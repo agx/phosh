@@ -1407,6 +1407,8 @@ phosh_shell_set_state (PhoshShell          *self,
 void
 phosh_shell_lock (PhoshShell *self)
 {
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+
   phosh_shell_set_locked (self, TRUE);
 }
 
@@ -1414,6 +1416,8 @@ phosh_shell_lock (PhoshShell *self)
 void
 phosh_shell_unlock (PhoshShell *self)
 {
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+
   phosh_shell_set_locked (self, FALSE);
 }
 
@@ -1426,7 +1430,10 @@ phosh_shell_unlock (PhoshShell *self)
 gboolean
 phosh_shell_get_locked (PhoshShell *self)
 {
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), FALSE);
+  priv = phosh_shell_get_instance_private (self);
 
   return priv->locked;
 }
@@ -1443,7 +1450,10 @@ phosh_shell_get_locked (PhoshShell *self)
 void
 phosh_shell_set_locked (PhoshShell *self, gboolean locked)
 {
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  PhoshShellPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  priv = phosh_shell_get_instance_private (self);
 
   if (locked == priv->locked)
     return;
