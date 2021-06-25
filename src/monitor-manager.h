@@ -33,7 +33,7 @@ typedef enum _MetaMonitorsConfigMethod
 
 #define PHOSH_TYPE_MONITOR_MANAGER                 (phosh_monitor_manager_get_type ())
 G_DECLARE_FINAL_TYPE (PhoshMonitorManager, phosh_monitor_manager, PHOSH, MONITOR_MANAGER,
-                      PhoshDisplayDbusDisplayConfigSkeleton)
+                      PhoshDBusDisplayConfigSkeleton)
 
 PhoshMonitorManager * phosh_monitor_manager_new                       (PhoshSensorProxyManager *proxy);
 PhoshMonitor        * phosh_monitor_manager_get_monitor               (PhoshMonitorManager *self,
