@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "calls-manager.h"
 #include "lockscreen.h"
 #include <gtk/gtk.h>
 
@@ -17,7 +18,7 @@ G_DECLARE_FINAL_TYPE (PhoshLockscreenManager,
                       LOCKSCREEN_MANAGER,
                       GObject)
 
-PhoshLockscreenManager *phosh_lockscreen_manager_new (void);
+PhoshLockscreenManager *phosh_lockscreen_manager_new (PhoshCallsManager *calls_manager);
 void                    phosh_lockscreen_manager_set_locked  (PhoshLockscreenManager *self,
                                                               gboolean state);
 gboolean                phosh_lockscreen_manager_get_locked  (PhoshLockscreenManager *self);

@@ -56,6 +56,8 @@ Recommends:
 Provides:
  notification-daemon,
  polkit-1-auth-agent,
+Breaks:
+ gnome-calls (<< 0.3.4),
 Description: Pure Wayland shell for mobile devices
  Phosh is a graphical shell for Wayland compositors speaking the layer-surface
  protocol and aimed at mobile devices like smart phones and tablets using touch

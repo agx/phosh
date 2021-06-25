@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "lockscreen-manager.h"
+#include "calls-manager.h"
 #include "sensor-proxy-manager.h"
 
 G_BEGIN_DECLS
@@ -16,6 +16,6 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhoshProximity, phosh_proximity, PHOSH, PROXIMITY, GObject);
 
 PhoshProximity *phosh_proximity_new (PhoshSensorProxyManager *sensor_proxy_manager,
-                                     PhoshLockscreenManager *lockscreen_manager);
+                                     PhoshCallsManager       *calls_manager);
 
 G_END_DECLS
