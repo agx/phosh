@@ -187,8 +187,8 @@ on_toplevel_activated_changed (PhoshToplevel *toplevel, GParamSpec *pspec, Phosh
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
   priv = phosh_overview_get_instance_private (overview);
 
-  activity = find_activity_by_toplevel (overview, toplevel);
   if (phosh_toplevel_is_activated (toplevel)) {
+    activity = find_activity_by_toplevel (overview, toplevel);
     priv->activity = GTK_WIDGET (activity);
     hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel_running_activities), GTK_WIDGET (activity));
   }
