@@ -170,11 +170,21 @@ on_activity_closed (PhoshOverview *self, PhoshActivity *activity)
 
 
 static void
-on_toplevel_closed (PhoshToplevel *toplevel, PhoshActivity *activity)
+on_toplevel_closed (PhoshToplevel *toplevel, PhoshOverview *overview)
 {
+  PhoshActivity *activity;
+  PhoshOverviewPrivate *priv;
+
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
+  g_return_if_fail (PHOSH_IS_OVERVIEW (overview));
+  priv = phosh_overview_get_instance_private (overview);
+
+  activity = find_activity_by_toplevel (overview, toplevel);
   g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
   gtk_widget_destroy (GTK_WIDGET (activity));
+
+  if (priv->activity == activity)
+    priv->activity = NULL;
 }
 
 
@@ -271,7 +281,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   g_signal_connect_swapped (activity, "closed",
                             G_CALLBACK (on_activity_closed), self);
 
-  g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), activity, 0);
+  g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), self, 0);
   g_signal_connect_object (toplevel, "notify::activated", G_CALLBACK (on_toplevel_activated_changed), self, 0);
   g_object_bind_property (toplevel, "maximized", activity, "maximized", G_BINDING_DEFAULT);
 
