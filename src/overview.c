@@ -60,7 +60,7 @@ typedef struct
   /* Running activities */
   GtkWidget *carousel_running_activities;
   GtkWidget *app_grid;
-  GtkWidget *activity;
+  PhoshActivity *activity;
 
   int       has_activities;
 } PhoshOverviewPrivate;
@@ -189,7 +189,7 @@ on_toplevel_activated_changed (PhoshToplevel *toplevel, GParamSpec *pspec, Phosh
 
   if (phosh_toplevel_is_activated (toplevel)) {
     activity = find_activity_by_toplevel (overview, toplevel);
-    priv->activity = GTK_WIDGET (activity);
+    priv->activity = activity;
     hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel_running_activities), GTK_WIDGET (activity));
   }
 }
@@ -282,7 +282,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
 
   if (phosh_toplevel_is_activated (toplevel)) {
     hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel_running_activities), activity);
-    priv->activity = GTK_WIDGET (activity);
+    priv->activity = PHOSH_ACTIVITY (activity);
   }
 }
 
