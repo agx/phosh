@@ -527,12 +527,15 @@ static void
 on_builtin_monitor_power_mode_changed (PhoshShell *self, GParamSpec *pspec, PhoshMonitor *monitor)
 {
   PhoshMonitorPowerSaveMode mode;
+  PhoshShellPrivate *priv;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+  priv = phosh_shell_get_instance_private (self);
 
   g_object_get (monitor, "power-mode", &mode, NULL);
-  if (mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF)
+  /* Might be emitted on startup before lockscreen_manager is up */
+  if (mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF && priv->lockscreen_manager)
     phosh_shell_lock (self);
 
   phosh_shell_set_state (self, PHOSH_STATE_BLANKED, mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF);
