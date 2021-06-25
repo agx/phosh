@@ -25,7 +25,7 @@ typedef struct rfkill_event_ext RfKillEvent;
 #else
 typedef struct rfkill_event RfKillEvent;
 #endif
-
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (RfKillEvent, g_free);
 
 /* rfkill types not yet upstream */
 #define RFKILL_TYPE_CAMERA_ 9
@@ -226,7 +226,7 @@ update_props (PhoshHksManager *self, Hks *hks, PhoshHksManagerProps prop)
 
 
 static void
-process_events_and_free (PhoshHksManager *self, GList *events)
+process_events (PhoshHksManager *self, GList *events)
 {
   GList *l;
   int value;
@@ -273,6 +273,8 @@ process_events_and_free (PhoshHksManager *self, GList *events)
   update_props (self, &self->mic, PROP_MIC_PRESENT);
   update_props (self, &self->camera, PROP_CAMERA_PRESENT);
   g_object_thaw_notify (G_OBJECT (self));
+
+
 }
 
 
@@ -281,7 +283,7 @@ rfkill_event_cb (GIOChannel      *source,
                  GIOCondition     condition,
                  PhoshHksManager *self)
 {
-  GList *events = NULL;
+  g_autolist (RfKillEvent) events = NULL;
 
   if (condition & G_IO_IN) {
     GIOStatus status;
@@ -312,7 +314,7 @@ rfkill_event_cb (GIOChannel      *source,
     return FALSE;
   }
 
-  process_events_and_free (self, events);
+  process_events (self, events);
   return TRUE;
 }
 
@@ -321,7 +323,7 @@ static gboolean
 setup_rfkill (PhoshHksManager *self)
 {
   int fd, ret;
-  GList *events = NULL;
+  g_autolist (RfKillEvent) events = NULL;
 
   fd = open ("/dev/rfkill", O_RDONLY);
   if (fd < 0)
@@ -373,7 +375,7 @@ setup_rfkill (PhoshHksManager *self)
 
   if (events) {
     events = g_list_reverse (events);
-    process_events_and_free (self, events);
+    process_events (self, events);
   } else {
     g_debug ("No rfkill device available on startup");
   }
