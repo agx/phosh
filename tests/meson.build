@@ -86,11 +86,11 @@ tests_phoc = [
 ]
 
 tests_manager = [
+  'gtk-mount-manager',
   'idle-manager',
   'monitor-manager',
   'notify-manager',
   'screenshot-manager',
-  'gtk-mount-manager',
 ]
 
 
