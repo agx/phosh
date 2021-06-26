@@ -23,6 +23,7 @@ executable('image-notify', ['image-notify.c'] + stubs,
            dependencies: phosh_tool_dep)
 
 executable('phosh-osk-stub', ['phosh-osk-stub.c'],
+           include_directories: [root_inc, phosh_inc],
            install: true,
            dependencies: osk_stub_deps)
 

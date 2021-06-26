@@ -247,7 +247,10 @@ add_project_arguments([
 
 phosh_inc = include_directories('.')
 # A static library used by tests and tools
-phosh_tool_lib = static_library('phosh-tool', libphosh_tool_sources, dependencies: phosh_deps)
+phosh_tool_lib = static_library('phosh-tool',
+  libphosh_tool_sources,
+  include_directories: [root_inc, phosh_inc],
+  dependencies: phosh_deps)
 phosh_tool_dep = declare_dependency(sources: libphosh_generated_sources,
   include_directories: [root_inc, phosh_inc],
   link_with: phosh_tool_lib,
@@ -255,6 +258,7 @@ phosh_tool_dep = declare_dependency(sources: libphosh_generated_sources,
 
 phosh_lib = both_libraries('phosh',
   libphosh_sources,
+  include_directories: [root_inc, phosh_inc],
   dependencies: [phosh_tool_dep, phosh_deps])
 
 # Shared lib used by docs

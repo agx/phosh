@@ -19,7 +19,15 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-/* rfkill types not yet upsterm */
+
+#ifdef HAVE_RFKILL_EVENT_EXT
+typedef struct rfkill_event_ext RfKillEvent;
+#else
+typedef struct rfkill_event RfKillEvent;
+#endif
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (RfKillEvent, g_free);
+
+/* rfkill types not yet upstream */
 #define RFKILL_TYPE_CAMERA_ 9
 #define RFKILL_TYPE_MIC_ 10
 
@@ -151,13 +159,13 @@ op_to_string (unsigned int op)
   case RFKILL_OP_CHANGE_ALL:
     return "CHANGE_ALL";
   default:
-    g_assert_not_reached ();
+    return "Unknown";
   }
 }
 
 
 static void
-print_event (struct rfkill_event *event)
+print_event (RfKillEvent *event)
 {
   g_debug ("RFKILL event: idx %u type %u (%s) op %u (%s) soft %u hard %u",
            event->idx,
@@ -218,13 +226,13 @@ update_props (PhoshHksManager *self, Hks *hks, PhoshHksManagerProps prop)
 
 
 static void
-process_events_and_free (PhoshHksManager *self, GList *events)
+process_events (PhoshHksManager *self, GList *events)
 {
   GList *l;
   int value;
 
   for (l = events; l != NULL; l = l->next) {
-    struct rfkill_event *event = l->data;
+    RfKillEvent *event = l->data;
 
     switch (event->op) {
     case RFKILL_OP_ADD:
@@ -265,6 +273,8 @@ process_events_and_free (PhoshHksManager *self, GList *events)
   update_props (self, &self->mic, PROP_MIC_PRESENT);
   update_props (self, &self->camera, PROP_CAMERA_PRESENT);
   g_object_thaw_notify (G_OBJECT (self));
+
+
 }
 
 
@@ -273,12 +283,12 @@ rfkill_event_cb (GIOChannel      *source,
                  GIOCondition     condition,
                  PhoshHksManager *self)
 {
-  GList *events = NULL;
+  g_autolist (RfKillEvent) events = NULL;
 
   if (condition & G_IO_IN) {
     GIOStatus status;
-    struct rfkill_event event;
-    struct rfkill_event *event_ptr;
+    RfKillEvent event = { 0 };
+    RfKillEvent *event_ptr;
     gsize read;
 
     status = g_io_channel_read_chars (source,
@@ -287,8 +297,7 @@ rfkill_event_cb (GIOChannel      *source,
                                       &read,
                                       NULL);
 
-    while (status == G_IO_STATUS_NORMAL && read == sizeof(event)) {
-
+    while (status == G_IO_STATUS_NORMAL && read >= RFKILL_EVENT_SIZE_V1) {
       print_event (&event);
       event_ptr = g_memdup (&event, sizeof(event));
       events = g_list_prepend (events, event_ptr);
@@ -305,7 +314,7 @@ rfkill_event_cb (GIOChannel      *source,
     return FALSE;
   }
 
-  process_events_and_free (self, events);
+  process_events (self, events);
   return TRUE;
 }
 
@@ -314,7 +323,7 @@ static gboolean
 setup_rfkill (PhoshHksManager *self)
 {
   int fd, ret;
-  GList *events = NULL;
+  g_autolist (RfKillEvent) events = NULL;
 
   fd = open ("/dev/rfkill", O_RDONLY);
   if (fd < 0)
@@ -328,8 +337,8 @@ setup_rfkill (PhoshHksManager *self)
   }
 
   while (1) {
-    struct rfkill_event event;
-    struct rfkill_event *event_ptr;
+    RfKillEvent event;
+    RfKillEvent *event_ptr;
     ssize_t len;
 
     len = read (fd, &event, sizeof(event));
@@ -340,7 +349,7 @@ setup_rfkill (PhoshHksManager *self)
       break;
     }
 
-    if (len != RFKILL_EVENT_SIZE_V1) {
+    if (len < RFKILL_EVENT_SIZE_V1) {
       g_warning ("Wrong size of RFKILL event\n");
       continue;
     }
@@ -366,7 +375,7 @@ setup_rfkill (PhoshHksManager *self)
 
   if (events) {
     events = g_list_reverse (events);
-    process_events_and_free (self, events);
+    process_events (self, events);
   } else {
     g_debug ("No rfkill device available on startup");
   }

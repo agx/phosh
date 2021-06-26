@@ -18,17 +18,6 @@ pkglibdir = join_paths(libdir, meson.project_name())
 systemddir = join_paths(prefix, 'lib/systemd')
 systemduserdir = join_paths(systemddir, 'user')
 
-config_h = configuration_data()
-config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
-config_h.set_quoted('LOCALEDIR', localedir)
-config_h.set_quoted('PHOSH_VERSION', meson.project_version())
-
-configure_file(
-  input: 'config.h.in',
-  output: 'config.h',
-  configuration: config_h,
-)
-
 glib_ver = 'GLIB_VERSION_2_62'
 
 add_project_arguments([
@@ -36,7 +25,6 @@ add_project_arguments([
   '-DGLIB_VERSION_MIN_REQUIRED=@0@'.format(glib_ver),
   '-DGLIB_VERSION_MAX_REQUIRED=@0@'.format(glib_ver),
   '-DG_LOG_USE_STRUCTURED',
-  '-I' + meson.build_root(),
 ], language: 'c')
 
 root_inc = include_directories('.')
@@ -143,6 +131,26 @@ network_agent_dep = dependency('libsecret-1')
 upower_glib_dep = dependency('upower-glib', version: '>=0.99.1')
 wayland_client_dep = dependency('wayland-client', version: '>=1.14')
 wayland_protos_dep = dependency('wayland-protocols', version: '>=1.12')
+
+
+code ='''
+#include <linux/rfkill.h>
+
+struct rfkill_event_ext e;
+'''
+have_rfkill_event_ext = cc.compiles(code, name : 'Have rfkill_event_ext')
+
+config_h = configuration_data()
+config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
+config_h.set_quoted('LOCALEDIR', localedir)
+config_h.set_quoted('PHOSH_VERSION', meson.project_version())
+config_h.set('HAVE_RFKILL_EVENT_EXT', have_rfkill_event_ext)
+
+configure_file(
+  input: 'config.h.in',
+  output: 'config.h',
+  configuration: config_h,
+)
 
 meson.add_install_script(
   join_paths('build-aux', 'post_install.py'),
