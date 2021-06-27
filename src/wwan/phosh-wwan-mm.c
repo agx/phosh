@@ -571,6 +571,9 @@ phosh_wwan_mm_dispose (GObject *object)
   }
   g_clear_pointer (&self->object_path, g_free);
 
+  g_clear_object (&self->proxy);
+  g_clear_object (&self->proxy_3gpp);
+
   parent_class->dispose (object);
 }
 
