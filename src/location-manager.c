@@ -444,6 +444,7 @@ phosh_location_manager_dispose (GObject *object)
     g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
 
   g_clear_object (&self->location_settings);
+  g_clear_object (&self->manager_proxy);
 
   G_OBJECT_CLASS (phosh_location_manager_parent_class)->dispose (object);
 }
