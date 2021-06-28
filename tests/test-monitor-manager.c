@@ -7,102 +7,17 @@
  */
 
 #include "phosh-display-dbus.h"
-#include "log.h"
 #include "shell.h"
 
-#include "testlib.h"
-
-#include <handy.h>
+#include "testlib-full-shell.h"
 
 #define BUS_NAME "org.gnome.Mutter.DisplayConfig"
 #define OBJECT_PATH "/org/gnome/Mutter/DisplayConfig"
 
 #define POP_TIMEOUT 50000000
 
-
-typedef struct _Fixture {
-  GThread                  *comp_and_shell;
-  GAsyncQueue              *queue;
-  PhoshTestCompositorState *state;
-} Fixture;
-
-
-static gboolean
-stop_shell (gpointer unused)
-{
-  g_debug ("Stopping shell");
-  gtk_main_quit ();
-
-  return G_SOURCE_REMOVE;
-}
-
-
-static gpointer
-comp_and_shell_thread (gpointer data)
-{
-  PhoshShell *shell;
-  GLogLevelFlags flags;
-  Fixture *fixture = (Fixture *)data;
-
-  /* compositor setup in thread since this invokes gdk already */
-  fixture->state = phosh_test_compositor_new ();
-
-  gtk_init (NULL, NULL);
-  hdy_init ();
-
-  phosh_log_set_log_domains ("phosh-monitor-manager");
-
-  /* Drop warnings from the fatal log mask since there's plenty
-   * when running without recommended DBus services */
-  flags = g_log_set_always_fatal (0);
-  g_log_set_always_fatal (flags & ~G_LOG_LEVEL_WARNING);
-
-  shell = phosh_shell_get_default ();
-  g_assert_true (PHOSH_IS_SHELL (shell));
-
-  g_assert_false (phosh_shell_is_startup_finished (shell));
-
-  /* Process events to startup shell */
-  while (g_main_context_pending (NULL))
-    g_main_context_iteration (NULL, FALSE);
-
-  g_assert_true (phosh_shell_is_startup_finished (shell));
-
-  g_async_queue_push (fixture->queue, (gpointer)TRUE);
-
-  gtk_main ();
-
-  g_assert_finalize_object (shell);
-  phosh_test_compositor_free (fixture->state);
-
-  /* Process events to tear down compositor */
-  while (g_main_context_pending (NULL))
-    g_main_context_iteration (NULL, FALSE);
-
-  return NULL;
-}
-
-
 static void
-comp_and_shell_setup (Fixture *fixture, gconstpointer unused)
-{
-  /* Run shell in a thread so we can sync call to the DBus interfaces */
-  fixture->queue = g_async_queue_new ();
-  fixture->comp_and_shell = g_thread_new ("comp-and-shell-thread", comp_and_shell_thread, fixture);
-}
-
-
-static void
-comp_and_shell_teardown (Fixture *fixture, gconstpointer unused)
-{
-  gdk_threads_add_idle (stop_shell, NULL);
-  g_thread_join (fixture->comp_and_shell);
-  g_async_queue_unref (fixture->queue);
-}
-
-
-static void
-test_phosh_monitor_manager_current_state (Fixture *fixture, gconstpointer unused)
+test_phosh_monitor_manager_current_state (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 {
   g_autoptr (GError) err = NULL;
   g_autoptr (PhoshDBusDisplayConfig) proxy = NULL;
@@ -147,10 +62,16 @@ test_phosh_monitor_manager_current_state (Fixture *fixture, gconstpointer unused
 int
 main (int argc, char *argv[])
 {
+  g_autofree gchar *display = NULL;
+  g_autoptr (PhoshTestFullShellFixtureCfg) cfg = NULL;
+
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add ("/phosh/dbus/monitor-manager/current_state", Fixture, NULL,
-              comp_and_shell_setup, test_phosh_monitor_manager_current_state, comp_and_shell_teardown);
+  /* Preserve DISPLAY for wlroots x11 backend */
+  cfg = phosh_test_full_shell_fixture_cfg_new (g_getenv ("DISPLAY"), "phosh-monitor-manager");
+
+  g_test_add ("/phosh/dbus/monitor-manager/current_state", PhoshTestFullShellFixture, cfg,
+              phosh_test_full_shell_setup, test_phosh_monitor_manager_current_state, phosh_test_full_shell_teardown);
 
   return g_test_run ();
 }
