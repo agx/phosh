@@ -555,7 +555,6 @@ static void
 phosh_wwan_mm_dispose (GObject *object)
 {
   PhoshWWanMM *self = PHOSH_WWAN_MM (object);
-  GObjectClass *parent_class = G_OBJECT_CLASS (phosh_wwan_mm_parent_class);
 
   g_cancellable_cancel (self->cancel);
   g_clear_object (&self->cancel);
@@ -574,7 +573,7 @@ phosh_wwan_mm_dispose (GObject *object)
   g_clear_object (&self->proxy);
   g_clear_object (&self->proxy_3gpp);
 
-  parent_class->dispose (object);
+  G_OBJECT_CLASS (phosh_wwan_mm_parent_class)->dispose (object);
 }
 
 
