@@ -13,16 +13,16 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkBox">
-            <property name="height_request">40</property>
+          <object class="GtkRevealer" id="rev_home">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child type="center">
-              <object class="GtkRevealer" id="rev_home">
+            <property name="reveal-child">True</property>
+            <property name="transition-type">slide-up</property>
+            <child>
+              <object class="GtkBox">
+                <property name="height_request">40</property>
                 <property name="visible">True</property>
-                <property name="reveal-child">True</property>
-                <property name="transition-type">crossfade</property>
-                <child>
+                <property name="can_focus">False</property>
+                <child type="center">
                   <object class="GtkButton" id="btn_home">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -39,33 +39,33 @@
                       <class name="phosh-panel-btn"/>
                     </style>
                   </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="PhoshOskButton" id="btn_osk">
+                    <property name="visible">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">end</property>
+                    <property name="valign">center</property>
+                    <property name="margin_right">6</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="osk_clicked_cb" swapped="true"/>
+                    <style>
+                      <class name="phosh-osk-button"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack_type">end</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="PhoshOskButton" id="btn_osk">
-                <property name="visible">False</property>
-                <property name="can_focus">True</property>
-                <property name="halign">end</property>
-                <property name="valign">center</property>
-                <property name="margin_right">6</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="osk_clicked_cb" swapped="true"/>
-                <style>
-                  <class name="phosh-osk-button"/>
-                </style>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="pack_type">end</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
           <packing>
