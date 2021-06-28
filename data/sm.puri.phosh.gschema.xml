@@ -2,15 +2,25 @@
   <schema id="sm.puri.phosh"
           path="/sm/puri/phosh/">
     <key name="favorites" type="as">
-      <default>[ 'sm.puri.Calls.desktop',
-                 'sm.puri.Chatty.desktop',
-                 'org.gnome.Epiphany.desktop',
-                 'org.gnome.Contacts.desktop'
+      <default>[ 'gnome-control-center.desktop',
+                 'org.gnome.zbrown.KingsCross.desktop',
+                 'org.postmarketos.Megapixels.desktop'
                ]</default>
       <summary>List of desktop file IDs for favorite applications</summary>
       <description>
         The applications corresponding to these identifiers will be
         displayed in the favorites panel along with running applications.
+      </description>
+    </key>
+    <key name="app-filter-mode" flags="sm.puri.phosh.PhoshAppFilterModeFlags">
+      <default>['adaptive']</default>
+      <summary>
+        How to filter apps in the overview. The default 'adaptive' shows only
+        adaptive apps in mobile mode and all apps in docked mode. 'off' turns
+        of all filtering.
+      </summary>
+      <description>
+        Whether to filter out apps that aren't marked as adaptive in mobile mode.
       </description>
     </key>
     <key name="force-adaptive" type="as">

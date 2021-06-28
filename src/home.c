@@ -521,3 +521,12 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
 }
+
+
+PhoshOverview*
+phosh_home_get_overview (PhoshHome *self)
+{
+  g_return_val_if_fail (PHOSH_IS_HOME (self), NULL);
+
+  return PHOSH_OVERVIEW (self->overview);
+}

@@ -246,6 +246,7 @@ panels_create (PhoshShell *self)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   PhoshMonitor *monitor;
   PhoshWayland *wl = phosh_wayland_get_default ();
+  PhoshAppGrid *app_grid;
 
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail (monitor);
@@ -269,6 +270,13 @@ panels_create (PhoshShell *self)
     "notify::state",
     G_CALLBACK(on_home_state_changed),
     self);
+
+  app_grid = phosh_overview_get_app_grid (phosh_home_get_overview (PHOSH_HOME (priv->home)));
+  g_object_bind_property (priv->docked_manager,
+                          "enabled",
+                          app_grid,
+                          "filter-adaptive",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 }
 
 

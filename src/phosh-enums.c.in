@@ -2,6 +2,7 @@
 
 #include "config.h"
 
+#include "app-grid.h"
 #include "app-grid-button.h"
 #include "gnome-shell-manager.h"
 #include "home.h"

@@ -517,3 +517,15 @@ phosh_overview_has_running_activities (PhoshOverview *self)
 
   return priv->has_activities;
 }
+
+
+PhoshAppGrid *
+phosh_overview_get_app_grid (PhoshOverview *self)
+{
+  PhoshOverviewPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_OVERVIEW (self), NULL);
+  priv = phosh_overview_get_instance_private (self);
+
+  return PHOSH_APP_GRID (priv->app_grid);
+}
