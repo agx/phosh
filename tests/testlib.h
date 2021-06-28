@@ -13,6 +13,8 @@
 
 #include <linux/input-event-codes.h>
 
+#pragma once
+
 G_BEGIN_DECLS
 
 typedef struct _PhoshTestCompositorState {
