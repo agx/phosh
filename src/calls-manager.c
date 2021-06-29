@@ -75,6 +75,20 @@ struct _PhoshCallsManager {
 G_DEFINE_TYPE (PhoshCallsManager, phosh_calls_manager, PHOSH_TYPE_MANAGER);
 
 
+static gboolean
+is_active (PhoshCallState state)
+{
+  gboolean ret = FALSE;
+
+  if (state == PHOSH_CALL_STATE_ACTIVE ||
+      state == PHOSH_CALL_STATE_ALERTING ||
+      state == PHOSH_CALL_STATE_DIALING)
+    ret = TRUE;
+
+  return ret;
+}
+
+
 static void
 on_call_state_changed (PhoshCallsManager       *self,
                        GParamSpec              *pspec,
@@ -89,10 +103,10 @@ on_call_state_changed (PhoshCallsManager       *self,
   path = g_dbus_proxy_get_object_path (G_DBUS_PROXY (proxy));
   state = phosh_calls_dbus_calls_call_get_state (proxy);
 
+  g_debug ("Call %s, state %d", path, state);
   if (g_strcmp0 (path, self->active_call) == 0) {
     /* current active call became inactive> */
-    if (state != PHOSH_CALL_STATE_ACTIVE &&
-        state != PHOSH_CALL_STATE_DIALING) {
+    if (!is_active (state)) {
       g_debug ("No active call, was %s", path);
       g_clear_pointer (&self->active_call, g_free);
       g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACTIVE_CALL]);
@@ -101,8 +115,8 @@ on_call_state_changed (PhoshCallsManager       *self,
     return;
   }
 
-  if (state != PHOSH_CALL_STATE_ACTIVE && state != PHOSH_CALL_STATE_DIALING)
-    return;
+  if (!is_active (state))
+      return;
 
   /* New active call */
   g_free (self->active_call);
