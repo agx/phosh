@@ -17,3 +17,8 @@ option('systemd',
 option('compositor',
        type: 'string', value: '/usr/bin/phoc',
        description: 'Path to the Phoc compositor for use in the launcher script')
+
+# For some tests we need (unreleased) glib >= 2.69
+option('g_tests',
+       type: 'boolean', value: false,
+       description: 'Whether to build tests that require recent glib')
