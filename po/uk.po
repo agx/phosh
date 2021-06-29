@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-04-15 15:34+0000\n"
-"PO-Revision-Date: 2021-04-15 19:00+0300\n"
+"POT-Creation-Date: 2021-06-29 03:33+0000\n"
+"PO-Revision-Date: 2021-06-29 08:31+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -48,7 +48,7 @@ msgstr "Bluetooth"
 msgid "Docked"
 msgstr "Зафіксовано"
 
-#: src/docked-info.c:81 src/docked-info.c:195
+#: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
 msgstr "Від'єднано"
 
@@ -88,7 +88,7 @@ msgstr[0] "Система автоматично перезапуститься 
 msgstr[1] "Система автоматично перезапуститься за %d секунди."
 msgstr[2] "Система автоматично перезапуститься за %d секунд."
 
-#: src/end-session-dialog.c:270
+#: src/end-session-dialog.c:269
 msgid "Unknown application"
 msgstr "Невідома програма"
 
@@ -123,27 +123,27 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: src/lockscreen.c:85 src/ui/lockscreen.ui:234
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:233
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:264
+#: src/lockscreen.c:263
 msgid "Checking…"
 msgstr "Звіряю…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:342
+#: src/lockscreen.c:341
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:277 src/ui/media-player.ui:107
+#: src/media-player.c:279 src/ui/media-player.ui:107
 msgid "Unknown Title"
 msgstr "Невідома назва"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:286 src/ui/media-player.ui:127
+#: src/media-player.c:288 src/ui/media-player.ui:127
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
@@ -159,10 +159,6 @@ msgstr "%s %s"
 
 #: src/monitor-manager.c:139
 #, c-format
-#| msgctxt ""
-#| "This is a monitor vendor name, followed by a size in inches, like 'Dell "
-#| "15\"'"
-#| msgid "%s %s"
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
 "inches could not be calculated, e.g. Dell U2414H"
@@ -184,11 +180,11 @@ msgstr "Підтримки типу розпізнавання у мережі w
 msgid "Enter password for the wifi network “%s”"
 msgstr "Введіть пароль до мережі wifi «%s»"
 
-#: src/notifications/mount-notification.c:137
+#: src/notifications/mount-notification.c:122
 msgid "Open"
 msgstr "Відкрити"
 
-#: src/notifications/notification.c:381 src/notifications/notification.c:637
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
 msgid "Notification"
 msgstr "Сповіщення"
 
@@ -280,11 +276,11 @@ msgstr "Майже %dр."
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:225
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Користувач перервав діалог автентифікації"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:85
+#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:83
 #: src/ui/polkit-auth-prompt.ui:57 src/ui/system-prompt.ui:33
 msgid "Password:"
 msgstr "Пароль:"
@@ -303,7 +299,7 @@ msgstr "Альбомна"
 
 #. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
 #. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:183
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
 msgid "Off"
 msgstr "○"
 
@@ -323,11 +319,11 @@ msgstr "Факел"
 msgid "Remember decision"
 msgstr "Запам'ятати вибір"
 
-#: src/ui/app-auth-prompt.ui:55 src/ui/end-session-dialog.ui:50
+#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/ui/app-auth-prompt.ui:66 src/ui/end-session-dialog.ui:61
+#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
 msgid "Ok"
 msgstr "Гаразд"
 
@@ -343,9 +339,14 @@ msgstr "Вилучити з _вибраних"
 msgid "Add to _Favorites"
 msgstr "Додати до _вибраних"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid.ui:22
 msgid "Search apps…"
 msgstr "Шукати серед програм…"
+
+#: src/ui/app-grid.ui:169
+msgid "Show only adaptive apps"
+msgstr ""
+"Показувати лише адаптивні програми"
 
 #: src/ui/end-session-dialog.ui:32
 msgid "Some applications are busy or have unsaved work"
@@ -355,11 +356,11 @@ msgstr "Деякі програми зайняті або мають незбе�
 msgid "Slide up to unlock"
 msgstr "Протягніть угору, щоб розблокувати"
 
-#: src/ui/lockscreen.ui:280
+#: src/ui/lockscreen.ui:279
 msgid "Emergency"
 msgstr "Екстрений виклик"
 
-#: src/ui/lockscreen.ui:296
+#: src/ui/lockscreen.ui:295
 msgid "Unlock"
 msgstr "Розблокувати"
 
@@ -367,15 +368,15 @@ msgstr "Розблокувати"
 msgid "Authentication required"
 msgstr "Слід пройти розпізнавання"
 
-#: src/ui/network-auth-prompt.ui:42
+#: src/ui/network-auth-prompt.ui:41
 msgid "_Cancel"
 msgstr "_Скасувати"
 
-#: src/ui/network-auth-prompt.ui:61
+#: src/ui/network-auth-prompt.ui:59
 msgid "C_onnect"
 msgstr "З'_єднатися"
 
-#: src/ui/polkit-auth-prompt.ui:125
+#: src/ui/polkit-auth-prompt.ui:123
 msgid "Authenticate"
 msgstr "Автентифікуватися"
 
