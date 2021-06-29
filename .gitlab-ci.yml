@@ -20,7 +20,7 @@ variables:
 .bullseye_vars: &bullseye_vars
   variables:
     DIST: bullseye
-    BUILD_OPTS: -Dphoc_tests=enabled -Dgtk_doc=true ${COMMON_BUILD_OPTS}
+    BUILD_OPTS: -Dphoc_tests=enabled -Dg_tests=true ${COMMON_BUILD_OPTS}
 
 .build_step: &build_step
   script:
@@ -101,9 +101,9 @@ build:cross-debian-bullseye:i386:
     - eatmydata apt-get -y install $DEPS crossbuild-essential-i386
   script:
     - git submodule update --recursive
-    - 'echo "Build opts: ${BUILD_OPTS}"'
+    - 'echo "Build opts: ${COMMON_BUILD_OPTS}"'
     - /usr/share/meson/debcrossgen --arch i386 -o cross-i386.txt
-    - meson ${BUILD_OPTS} . _build --cross-file cross-i386.txt
+    - meson ${COMMON_BUILD_OPTS} . _build --cross-file cross-i386.txt
     - ninja -C _build
   artifacts:
     paths:
@@ -133,10 +133,14 @@ build-gtkdoc:
   <<: *tags
   image: debian:bullseye
   stage: test+docs
-  needs:
-    - build:native-debian-bullseye
-  <<: *bullseye_vars
+  variables:
+    DIST: bullseye
+    BUILD_OPTS: -Dgtk_doc=true ${COMMON_BUILD_OPTS}
   script:
+    - git clean -dfx
+    - 'echo "Build opts: ${BUILD_OPTS}"'
+    - meson ${BUILD_OPTS} . _build
+    - ninja -C _build
     - tools/doc-check
     - mv _build/docs/html/ _reference/
   artifacts:
