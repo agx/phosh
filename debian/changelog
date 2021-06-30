@@ -1,3 +1,127 @@
+phosh (0.11.1) byzantium; urgency=medium
+
+  [ Guido Günther ]
+  * data: Add gsd-wwan to required components.
+    This makes sure it's also started in systemd mode so the PIN request
+    happens.
+  * tests: Remove smoke test.
+    It served us well initally but since we can now tests against
+    the headless compositor without extra setup.
+  * overview: Don't set CSS name twice
+  * protocol: Sort wayland protocols alphabetically
+  * phosh-wayland: Sort wayland protocol headers alphabetically
+  * shell: Sort manager objects.
+    Sort the ones that get created by the shell and those created on the fly
+    into separate sections and sort those alphabetically. Ideally we want
+    to distingiush the getters by name at some point.
+    (There's a third type (singletons) which we dont' bother about here and
+    which we're reducing bit by bit)
+  * phosh-wayland: Get virtual-keyboard-manager.
+    This is only used in the tests.
+  * tests: Allow to inject virtual keyboard events.
+    That's fairly minimal at the moment but sufficient to test
+    dialogs, etc.
+  * system-modal-dialog: Allow to get and remove buttons.
+    Add API to query the current buttons and remove them. This just
+    proxies to GtkContainer.
+  * Implement most parts of org.Gtk.MountOperationHandler.
+    This allows to mount e.g. LUKS encrypted volumes via nautilus.
+    (Closes: #158)
+  * data: Add Phosh to DestkopNames.
+    This adds 'Phosh' to XDG_CURRENT_DESKTOP
+  * data: Only apply gsetting overrides to Phosh session.
+    This makes sure we don't e.g. messup settings for GNOME like
+    enabling the OSK.
+  * screenshot-manager: Remove opaque handler in dispose
+  * screenshot-manager: Actually set fader_id.
+    It got cleared but never set.
+  * lockscreen-manager: Shorten property enum values.
+    This is what we recommend in Hacking.md.
+  * proximity: Fix function spacing
+  * lockscreen: Drop style class.
+    We set it in the ui file already.
+  * Drop HANDY_USE_UNSTABLE_API.
+    Libhany's API isn't unstable anymore
+  * Add calls manager.
+    This tracks ongoing calls via the sm.puri.Calls DBus interface.
+    This can be used to (e.g. activate the proximity sensor and to
+    unblank the screen on incoming calls).
+  * lockscreen-manager: Unblank on incoming calls.
+    Do it here instead of in lockscreen-manager since
+    is where we'd also switch to the calls page later on.
+  * proximity: Only use proximity sensor on active calls.
+    See https://source.puri.sm/Librem5/calls/-/issues/175
+  * debian: Add breaks relationship on older calls.
+    This makes sure calls we don't try to run against a calls without
+    the DBus interface.
+  * libhandy API isn't unstable anymore.
+    So drop HANDY_USE_UNSTABLE_API.
+  * overview: sort includes
+  * shell: Shorten property names.
+    This is what we recommend in HACKING.md
+  * overview: Add missing G_{BEGIN,END}_DECLS
+  * app-grid: Unref sorted model.
+    The following gtk_filter_list_model_new() takes a ref on its own.
+  * gitlab-ci: Build against PureOS byzantium.
+    Debian currently lacks recent enough kernel headers
+  * data: Always set `hidden_under_systemd`
+    This avoids a meson warning
+  * build: Set include dirs explicitly.
+    Otherwise we might end up with the toplevel include dir pretty late in
+    the search path and pick up GVCs config.h.
+  * build: Drop -I. from project_arguments
+    root_inc handles this for us.
+  * hks-manager: Fix typo
+  * hks-manager: Don't assert but rather use unknown opration type.
+    Getting odd info from /dev/rfkill is not worth crashing the shell.
+  * build: Write config.h later.
+    This allows us to use more results from feature detection.
+  * hks-manager: Use rfkill_event_ext when available.
+    This makes sure we parse two consecutive results correctly. If the
+    header is not available fall back to rfkill_event which works correctly
+    on kernels that don't expose this field.
+  * debian: Build-depend on recent kernel headers.
+    These provide rfkill_event_ext
+  * hks-manger: Don't leak list.
+    Allthough we had a `_and_free()` funciton we didnt' clean it up.
+    Instead of cleaning up within that rather use automatic cleanup.
+  * home: Reveal whole home-bar instead of only arrow.
+    This gives us 40px more vertical space when there's no open applications
+    and removes the somewhat odd looking black bar.
+  * home: Add getter for overview
+  * overview: Add getter for the app-grid
+  * app-grid: Allow to filter for adaptive apps only
+  * app-grid: Allow for a configured list of adaptive apps.
+    This will help to avoid frustration until apps are tagged as such.
+  * app-grid: Move signal enum above class.
+    This makes it match the proposed layout in HACKING.md
+  * app-grid: Allow to toggle adaptive app filtering via setter and property.
+    This allows other parts of the shell to turn adaptive app filtering on
+    or off.
+  * app-grid: Move object cleanup to dispose()
+    Otherwise we get a reference cycle between self->actions and
+    and self disposal which keeps the app-grid around a bit longer
+    and just long enough to make app-list-model emit another items-changed.
+    Since `priv->search` is then gone we fail the 'priv->search != NULL'
+    check in search_apps.
+  * app-grid: Add menu button to toggle adaptive app filtering.
+    Add a menu next to the search bar that allows to filter adaptive apps
+  * shell: Sync adaptive app filtering with docked mode
+  * Allow to toggle app filtering globally.
+    This allows to turn of adaptive app filtering completely.
+  * data: Update adaptive app defaults.
+    Add those from phosh's default set that aren't marked yet
+    but are adaptive and drop those that are and had a release.
+  * Add NEWS file
+
+  [ ZenWalker ]
+  * brightness: 'g_warning' instead 'g_error'
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 29 Jun 2021 09:56:16 +0200
+
 phosh (0.11.0) byzantium; urgency=medium
 
   [ Guido Günther ]
@@ -1163,80 +1287,6 @@ phosh (0.6.0) amber-phone; urgency=high
     rotated, we should not try to rotate it back to the default orientation.
 
  -- Guido Günther <agx@sigxcpu.org>  Sun, 15 Nov 2020 11:35:52 +0100
-
-phosh (0.5.2) amber-phone; urgency=medium
-
-  [ Guido Günther ]
-  * run: Prepend current schema dir.
-    This allows phosh to e.g. find phoc's schema if that also uses run.in
-    like:
-      SKIP_GNOME_SESSION=1 ../phoc/_build/run -E '_build/run -U' -C ./data/phoc.ini
-  * run.in: Use memory GSettings backend.
-    This makes sure we don't mess with systems settings.
-    Sine this affects testing docked mode we allow to override
-    it.
-  * gitlab-ci: Build bullseye packages as well.
-    This helps testing MRs against PureOS byzantium and Debian Bullseye
-  * d/control: Update package description
-  * debian: Add phosh-mobile-tweaks.
-    We have this in Debian and it's useful overall since it
-    minimizes librem5-base and makes it simpler to track
-    changes for downstreams.
-  * Rename notify dbus interface class to PhoshNotifyDBus.
-    We have mixed Dbus vs DBus spelling in several interfaces but we want to
-    use the later.
-  * Rename idle dbus interface class to PhoshIdleDBus.
-    We have mixed Dbus vs DBus spelling in several interfaces but we want to
-    use the later.
-  * Rename screensaver dbus interface class to PhoshScreenSaverDBus.
-    We have mixed Dbus vs DBus spelling in several interfaces but we want to
-    use the later.
-  * layer-surface: Add debugging when a surface goes away.
-    This helps tracing the order of events
-  * lockscreen-manager: Explain purpose
-  * lockscreen-manager: No need to disconnect signals from lockscreen.
-    We're about to destroy the lockscreen object a couple of lines later
-  * lockscreen-manager: Move lock screen when output goes away.
-    We move the lock screen in case the monitor it's on goes away.
-    (Closes: #385)
-  * monitor: Add phosh_monitor_get_power_save_mode.
-    Simple getter
-  * lockscreen-manager: Handle transform only on power mode changes.
-    This makes sure we rotate correctly when the screen unblanks and
-    we don't operate on disabled outputs which trips up phoc.
-  * lockscreen-manager: Don't rotate external screens.
-    We keep the transform there as well assuming the lock screen fits.
-  * home: Handle osk-button visibility.
-    This was currently split between the button and the home
-    bar which resulted in the button being shown although
-    it should stay hidden because the OSK was disbled. (Closes: #403)
-
-  [ Alexander Mikhaylenko ]
-  * build: Compile gschemas on install
-  * overview: Enable carousel reveal animation
-  * feedback-manager: Stop using deprecated signals.
-    This will be useful when PhoshActivity stops subclassing GtkButton.
-  * Add PhoshAnimation.
-    This will help us to have less verbose code later.
-  * Add PhoshSwipeAwayBin.
-    Implement a simple widget for swipe-to-remove pattern. It's always
-    vertical and changes the child's position and opacity during the swipe.
-  * activity: Implement swipe-to-close.
-    Stop subclassing GtkButton, instead contain a PhoshSwipeAwayBin
-    and a GtkButton inside. Pass through the clicked signal from the button.
-    Make close button animate the swipe bin so that closing is animated too.
-  * activity: Show close button only on hover.
-    Now that we have another way to close apps on touch, let's hide the button
-    and show it only on hover. This essentially makes it pointer-only.
-
-  [ Arnaud Ferraris ]
-  * shell: add an accessor for the mode manager.
-    Other modules should be able to query the device type too.
-  * lockscreen-manager: undo transform only for phones.
-    If the display is large enough to make the keypad usable even when
-    rotated, we should not try to rotate it back to the default orientation.
-
- -- Guido Günther <agx@sigxcpu.org>  Sat, 14 Nov 2020 18:08:20 +0100
 
 phosh (0.5.1) amber-phone; urgency=medium
 
