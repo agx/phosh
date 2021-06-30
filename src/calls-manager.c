@@ -28,23 +28,6 @@
  * interaction with them.
  */
 
-/**
- * PhoshCallState:
- *
- * The call state. Must match call's CallsCallState.
- */
-typedef enum
-{
-  /*< private >*/
-  PHOSH_CALL_STATE_ACTIVE = 1,
-  PHOSH_CALL_STATE_HELD,
-  PHOSH_CALL_STATE_DIALING,
-  PHOSH_CALL_STATE_ALERTING,
-  PHOSH_CALL_STATE_INCOMING,
-  PHOSH_CALL_STATE_WAITING,
-  PHOSH_CALL_STATE_DISCONNECTED
-} PhoshCallState;
-
 enum {
   PROP_0,
   PROP_PRESENT,
