@@ -226,6 +226,7 @@ phosh_deps = [
   gsettings_desktop_schemas_dep,
   gtk_dep,
   gtk_wayland_dep,
+  libcall_ui_dep,
   gudev_dep,
   libfeedback_dep,
   libgvc_dep,
