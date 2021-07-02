@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "call.h"
 #include "manager.h"
 
 #include <glib-object.h>
@@ -35,8 +36,9 @@ typedef enum
 G_DECLARE_FINAL_TYPE (PhoshCallsManager, phosh_calls_manager, PHOSH, CALLS_MANAGER, PhoshManager)
 
 PhoshCallsManager *phosh_calls_manager_new (void);
-gboolean phosh_calls_manager_get_present (PhoshCallsManager *self);
-gboolean phosh_calls_manager_get_incoming (PhoshCallsManager *self);
-const char *phosh_calls_manager_get_active_call (PhoshCallsManager *self);
+gboolean           phosh_calls_manager_get_present (PhoshCallsManager *self);
+gboolean           phosh_calls_manager_get_incoming (PhoshCallsManager *self);
+const char        *phosh_calls_manager_get_active_call_handle (PhoshCallsManager *self);
+PhoshCall         *phosh_calls_manager_get_call (PhoshCallsManager *self, const char *handle);
 
 G_END_DECLS

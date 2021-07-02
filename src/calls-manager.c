@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include "call.h"
 #include "calls-manager.h"
 #include "shell.h"
 #include "util.h"
@@ -24,8 +25,10 @@
  * @short_description: Track ongoing phone calls
  * @Title: PhoshCallsManager
  *
- * #PhoshCallsManager tracks on going calls and allows
- * interaction with them.
+ * #PhoshCallsManager tracks on going calls on the sm.puri.Calls DBus
+ * interface and allows interaction with them by wrapping the
+ * #PhoshCallsDBusCallsCall proxies in #PhoshCall so all DBus and
+ * ObjectManager related logic stays local within #PhoshCallsManager.
  */
 
 enum {
@@ -39,6 +42,7 @@ static GParamSpec *props[PROP_LAST_PROP];
 
 enum {
   CALL_INBOUND,
+  CALL_REMOVED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
@@ -79,9 +83,13 @@ on_call_state_changed (PhoshCallsManager       *self,
 {
   const char *path;
   PhoshCallState state;
+  PhoshCall *call;
 
   g_return_if_fail (PHOSH_IS_CALLS_MANAGER (self));
   g_return_if_fail (PHOSH_CALLS_DBUS_IS_CALLS_CALL (proxy));
+
+  call = g_object_get_data (G_OBJECT (proxy), "call");
+  g_return_if_fail (call);
 
   path = g_dbus_proxy_get_object_path (G_DBUS_PROXY (proxy));
   state = phosh_calls_dbus_calls_call_get_state (proxy);
@@ -117,8 +125,8 @@ on_call_proxy_new_for_bus_finish (GObject      *source_object,
   const char *path;
   gboolean inbound;
   PhoshCallsManager *self;
-  PhoshCallsDBusCallsCall *proxy;
-
+  g_autoptr (PhoshCallsDBusCallsCall) proxy = NULL;
+  g_autoptr (PhoshCall) call = NULL;
   g_autoptr (GError) err = NULL;
 
   proxy = phosh_calls_dbus_calls_call_proxy_new_for_bus_finish (res, &err);
@@ -130,10 +138,15 @@ on_call_proxy_new_for_bus_finish (GObject      *source_object,
   self = PHOSH_CALLS_MANAGER (data);
   path = g_dbus_proxy_get_object_path (G_DBUS_PROXY (proxy));
 
+  /* Wrap DBus proxy in PhoshCall */
+  call = phosh_call_new (proxy);
+  g_object_set_data (G_OBJECT (proxy), "call", call);
+
   if (g_hash_table_contains (self->calls, path))
     g_critical ("Already got a call with path %s", path);
   else
-    g_hash_table_insert (self->calls, g_strdup (path), proxy);
+    g_hash_table_insert (self->calls, g_strdup (path), g_steal_pointer (&call));
+
 
   g_signal_connect_swapped (proxy,
                             "notify::state",
@@ -142,9 +155,10 @@ on_call_proxy_new_for_bus_finish (GObject      *source_object,
   on_call_state_changed (self, NULL, proxy);
 
   inbound = phosh_calls_dbus_calls_call_get_inbound (proxy);
-  g_debug ("Added call %s, incoming: %d", path, inbound);
+  g_debug ("Added call %s, inbound: %d", path, inbound);
+
   if (inbound)
-    g_signal_emit (self, signals[CALL_INBOUND], 0);
+    g_signal_emit (self, signals[CALL_INBOUND], 0, path);
 }
 
 
@@ -191,7 +205,8 @@ on_call_obj_removed (PhoshCallsManager *self,
   }
 
   g_debug ("Removed call %s", path);
-
+  g_signal_emit (self, signals[CALL_REMOVED], 0, path);
+  /* This disposes the call object and hence the proxy */
   g_return_if_fail (g_hash_table_remove (self->calls, path));
 }
 
@@ -368,8 +383,22 @@ phosh_calls_manager_class_init (PhoshCallsManagerClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[CALL_INBOUND] = g_signal_new ("call-inbound",
-                                        G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-                                        NULL, G_TYPE_NONE, 0);
+                                        G_TYPE_FROM_CLASS (klass),
+                                        G_SIGNAL_RUN_LAST,
+                                        0, NULL, NULL,
+                                        NULL,
+                                        G_TYPE_NONE,
+                                        1,
+                                        G_TYPE_STRING);
+
+  signals[CALL_REMOVED] = g_signal_new ("call-removed",
+                                        G_TYPE_FROM_CLASS (klass),
+                                        G_SIGNAL_RUN_LAST,
+                                        0, NULL, NULL,
+                                        NULL,
+                                        G_TYPE_NONE,
+                                        1,
+                                        G_TYPE_STRING);
 }
 
 
@@ -407,9 +436,18 @@ phosh_calls_manager_get_incoming (PhoshCallsManager *self)
 
 
 const char *
-phosh_calls_manager_get_active_call (PhoshCallsManager *self)
+phosh_calls_manager_get_active_call_handle (PhoshCallsManager *self)
 {
   g_return_val_if_fail (PHOSH_IS_CALLS_MANAGER (self), NULL);
 
   return self->active_call;
+}
+
+
+PhoshCall *
+phosh_calls_manager_get_call (PhoshCallsManager *self, const char *handle)
+{
+  g_return_val_if_fail (PHOSH_IS_CALLS_MANAGER (self), NULL);
+
+  return g_hash_table_lookup (self->calls, handle);
 }
