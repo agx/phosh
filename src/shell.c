@@ -173,53 +173,6 @@ settings_activated_cb (PhoshShell *self,
 }
 
 
-void
-phosh_shell_lock (PhoshShell *self)
-{
-  phosh_shell_set_locked (self, TRUE);
-}
-
-
-void
-phosh_shell_unlock (PhoshShell *self)
-{
-  phosh_shell_set_locked (self, FALSE);
-}
-
-/**
- * phosh_shell_get_locked:
- * @self: The #PhoshShell singleton
- *
- * Returns: %TRUE if the shell is currently locked, otherwise %FALSE.
- */
-gboolean
-phosh_shell_get_locked (PhoshShell *self)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-
-  return priv->locked;
-}
-
-/**
- * phosh_shell_set_locked:
- * @self: The #PhoshShell singleton
- * @locked: %TRUE to lock the shell
- *
- * Lock the shell. We proxy to lockscreen-manager to avoid
- * that other parts of the shell need to care about this
- * abstraction.
- */
-void
-phosh_shell_set_locked (PhoshShell *self, gboolean locked)
-{
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-
-  if (locked == priv->locked)
-    return;
-
-  phosh_lockscreen_manager_set_locked (priv->lockscreen_manager, locked);
-}
-
 static void
 on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
 {
@@ -574,12 +527,15 @@ static void
 on_builtin_monitor_power_mode_changed (PhoshShell *self, GParamSpec *pspec, PhoshMonitor *monitor)
 {
   PhoshMonitorPowerSaveMode mode;
+  PhoshShellPrivate *priv;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+  priv = phosh_shell_get_instance_private (self);
 
   g_object_get (monitor, "power-mode", &mode, NULL);
-  if (mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF)
+  /* Might be emitted on startup before lockscreen_manager is up */
+  if (mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF && priv->lockscreen_manager)
     phosh_shell_lock (self);
 
   phosh_shell_set_state (self, PHOSH_STATE_BLANKED, mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF);
@@ -1449,4 +1405,61 @@ phosh_shell_set_state (PhoshShell          *self,
            str_state, str_new_flags);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SHELL_STATE]);
+}
+
+void
+phosh_shell_lock (PhoshShell *self)
+{
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+
+  phosh_shell_set_locked (self, TRUE);
+}
+
+
+void
+phosh_shell_unlock (PhoshShell *self)
+{
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+
+  phosh_shell_set_locked (self, FALSE);
+}
+
+/**
+ * phosh_shell_get_locked:
+ * @self: The #PhoshShell singleton
+ *
+ * Returns: %TRUE if the shell is currently locked, otherwise %FALSE.
+ */
+gboolean
+phosh_shell_get_locked (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), FALSE);
+  priv = phosh_shell_get_instance_private (self);
+
+  return priv->locked;
+}
+
+/**
+ * phosh_shell_set_locked:
+ * @self: The #PhoshShell singleton
+ * @locked: %TRUE to lock the shell
+ *
+ * Lock the shell. We proxy to lockscreen-manager to avoid
+ * that other parts of the shell need to care about this
+ * abstraction.
+ */
+void
+phosh_shell_set_locked (PhoshShell *self, gboolean locked)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  priv = phosh_shell_get_instance_private (self);
+
+  if (locked == priv->locked)
+    return;
+
+  phosh_lockscreen_manager_set_locked (priv->lockscreen_manager, locked);
 }
