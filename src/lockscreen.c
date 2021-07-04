@@ -34,6 +34,10 @@
  *
  * The lock screen featuring the clock
  * and unlock keypad.
+ *
+ * # CSS nodes
+ *
+ * #PhoshLockscreen has a CSS name with the name phosh-lockscreen.
  */
 
 enum {

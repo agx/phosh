@@ -309,9 +309,6 @@
             </child>
           </object>
         </child>
-        <style>
-          <class name="phosh-lockscreen"/>
-        </style>
       </object>
     </child>
   </template>
