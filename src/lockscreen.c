@@ -480,10 +480,7 @@ phosh_lockscreen_dispose (GObject *object)
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
   g_clear_object (&priv->wall_clock);
-  if (priv->idle_timer) {
-    g_source_remove (priv->idle_timer);
-    priv->idle_timer = 0;
-  }
+  g_clear_handle_id (&priv->idle_timer, g_source_remove);
 
   G_OBJECT_CLASS (phosh_lockscreen_parent_class)->dispose (object);
 }
