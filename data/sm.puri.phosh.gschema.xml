@@ -2,9 +2,10 @@
   <schema id="sm.puri.phosh"
           path="/sm/puri/phosh/">
     <key name="favorites" type="as">
-      <default>[ 'gnome-control-center.desktop',
-                 'org.gnome.zbrown.KingsCross.desktop',
-                 'org.postmarketos.Megapixels.desktop'
+      <default>[ 'sm.puri.Calls.desktop',
+                 'sm.puri.Chatty.desktop',
+                 'org.gnome.Epiphany.desktop',
+                 'org.gnome.Contacts.desktop'
                ]</default>
       <summary>List of desktop file IDs for favorite applications</summary>
       <description>
