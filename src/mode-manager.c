@@ -12,6 +12,7 @@
 
 #include "mode-manager.h"
 #include "shell.h"
+#include "util.h"
 #include "dbus/hostname1-dbus.h"
 
 #define BUS_NAME "org.freedesktop.hostname1"
@@ -212,7 +213,7 @@ on_proxy_new_for_bus_finish (GObject          *source_object,
 
   proxy = phosh_hostname1_dbus_hostname1_proxy_new_for_bus_finish (res, &err);
   if (proxy == NULL) {
-    g_warning ("Failed to get hostname1 proxy: %s", err->message);
+    phosh_async_error_warn (err, "Failed to get hostname1 proxy");
     return;
   }
   g_return_if_fail (PHOSH_IS_MODE_MANAGER (self));

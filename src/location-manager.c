@@ -75,6 +75,8 @@ typedef struct _PhoshLocationManager {
   GtkWidget                                          *prompt;
   GDBusMethodInvocation                              *invocation;
   AccuracyLevel                                       req_level;
+
+  GCancellable                                       *cancel;
 } PhoshLocationManager;
 
 static void phosh_location_manager_geoclue2_agent_iface_init (
@@ -311,14 +313,16 @@ on_bus_acquired (GObject      *source_object,
                  gpointer      user_data)
 {
   g_autoptr (GError) err = NULL;
-  PhoshLocationManager *self = PHOSH_LOCATION_MANAGER (user_data);
+  PhoshLocationManager *self;
   GDBusConnection *connection;
 
   connection = g_bus_get_finish (res, &err);
   if (!connection) {
-    phosh_dbus_service_error_warn (err, "Failed to connect to system bus");
+    phosh_async_error_warn (err, "Failed to connect to system bus");
     return;
   }
+
+  self = PHOSH_LOCATION_MANAGER (user_data);
   g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),
                                     connection,
                                     LOCATION_AGENT_DBUS_PATH,
@@ -426,6 +430,9 @@ phosh_location_manager_dispose (GObject *object)
 {
   PhoshLocationManager *self = PHOSH_LOCATION_MANAGER (object);
 
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
+
   /* Close dialog and cancel pending request if ongoing */
   g_clear_pointer (&self->prompt, phosh_cp_widget_destroy);
 
@@ -444,6 +451,7 @@ phosh_location_manager_dispose (GObject *object)
     g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
 
   g_clear_object (&self->location_settings);
+  g_clear_object (&self->manager_proxy);
 
   G_OBJECT_CLASS (phosh_location_manager_parent_class)->dispose (object);
 }
@@ -464,7 +472,7 @@ phosh_location_manager_constructed (GObject *object)
                    G_SETTINGS_BIND_DEFAULT);
 
   g_bus_get (G_BUS_TYPE_SYSTEM,
-             NULL,
+             self->cancel,
              on_bus_acquired,
              self);
 
@@ -473,8 +481,8 @@ phosh_location_manager_constructed (GObject *object)
                                          G_BUS_NAME_WATCHER_FLAGS_NONE,
                                          (GBusNameAppearedCallback) on_manager_name_appeared,
                                          (GBusNameVanishedCallback) on_manager_name_vanished,
-                                         g_object_ref (self),
-                                         g_object_unref);
+                                         self,
+                                         NULL);
 }
 
 
@@ -512,6 +520,7 @@ phosh_location_manager_class_init (PhoshLocationManagerClass *klass)
 static void
 phosh_location_manager_init (PhoshLocationManager *self)
 {
+  self->cancel = g_cancellable_new ();
 }
 
 

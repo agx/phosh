@@ -183,10 +183,23 @@ phosh_bt_manager_idle_init (PhoshManager *manager)
 
 
 static void
+phosh_bt_manager_dispose (GObject *object)
+{
+  PhoshBtManager *self = PHOSH_BT_MANAGER (object);
+
+  g_clear_object (&self->proxy);
+
+  G_OBJECT_CLASS (phosh_bt_manager_parent_class)->dispose (object);
+}
+
+
+static void
 phosh_bt_manager_class_init (PhoshBtManagerClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   PhoshManagerClass *manager_class = PHOSH_MANAGER_CLASS (klass);
+
+  object_class->dispose = phosh_bt_manager_dispose;
 
   object_class->get_property = phosh_bt_manager_get_property;
 

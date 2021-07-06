@@ -12,6 +12,7 @@
 
 #include "torch-manager.h"
 #include "shell.h"
+#include "util.h"
 #include "dbus/upower-torch-dbus.h"
 
 #define BUS_NAME "org.freedesktop.UPower"
@@ -50,6 +51,7 @@ struct _PhoshTorchManager {
   int                   last_brightness;
 
   PhoshUPowerDBusTorch *proxy;
+  GCancellable         *cancel;
 };
 G_DEFINE_TYPE (PhoshTorchManager, phosh_torch_manager, PHOSH_TYPE_MANAGER);
 
@@ -201,15 +203,16 @@ on_proxy_new_for_bus_finish (GObject           *source_object,
                              PhoshTorchManager *self)
 {
   g_autoptr (GError) err = NULL;
+  PhoshUPowerDBusTorch *proxy;
+
+  proxy = phosh_upower_dbus_torch_proxy_new_for_bus_finish (res, &err);
+  if (!proxy) {
+    phosh_async_error_warn (err, "Failed to get upower torch proxy");
+    return;
+  }
 
   g_return_if_fail (PHOSH_IS_TORCH_MANAGER (self));
-
-  self->proxy = phosh_upower_dbus_torch_proxy_new_for_bus_finish (res, &err);
-
-  if (!self->proxy) {
-    g_warning ("Failed to get upower torch proxy: %s", err->message);
-    goto out;
-  }
+  self->proxy = proxy;
 
   g_signal_connect_object (self->proxy,
                            "notify::g-name-owner",
@@ -225,21 +228,22 @@ on_proxy_new_for_bus_finish (GObject           *source_object,
   on_torch_brightness_changed (self, NULL, self->proxy);
 
   g_debug ("Torch manager initialized");
-out:
-  g_object_unref (self);
 }
 
 
 static void
-phosh_torch_manager_idle_init (PhoshManager *self)
+phosh_torch_manager_idle_init (PhoshManager *manager)
 {
+  PhoshTorchManager *self = PHOSH_TORCH_MANAGER (manager);
+
+  self->cancel = g_cancellable_new ();
   phosh_upower_dbus_torch_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
                                              G_DBUS_PROXY_FLAGS_NONE,
                                              BUS_NAME,
                                              OBJECT_PATH,
-                                             NULL,
+                                             self->cancel,
                                              (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
-                                             g_object_ref (self));
+                                             self);
 }
 
 
@@ -247,6 +251,9 @@ static void
 phosh_torch_manager_dispose (GObject *object)
 {
   PhoshTorchManager *self = PHOSH_TORCH_MANAGER(object);
+
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
 
   g_clear_object (&self->proxy);
 

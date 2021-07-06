@@ -46,6 +46,7 @@ test_stub_deps = [
 
 testlib_sources = [
   'testlib.c',
+  'testlib-full-shell.c',
 ]
 
 testlib = static_library('phoshtest', testlib_sources,
@@ -86,11 +87,11 @@ tests_phoc = [
 ]
 
 tests_manager = [
+  'gtk-mount-manager',
   'idle-manager',
   'monitor-manager',
   'notify-manager',
   'screenshot-manager',
-  'gtk-mount-manager',
 ]
 
 

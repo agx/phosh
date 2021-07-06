@@ -27,7 +27,7 @@
  *
  * This keeps track of all monitors and handles the
  * org.gnome.Mutter.DisplayConfig DBus interface via
- * #PhoshDisplayDbusDisplayConfig. This includes individual monitor
+ * #PhoshDBusDisplayConfig. This includes individual monitor
  * configuration as well as blanking/power saving.
  */
 
@@ -53,11 +53,11 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 static void phosh_monitor_manager_display_config_init (
-  PhoshDisplayDbusDisplayConfigIface *iface);
+  PhoshDBusDisplayConfigIface *iface);
 
 typedef struct _PhoshMonitorManager
 {
-  PhoshDisplayDbusDisplayConfigSkeleton parent;
+  PhoshDBusDisplayConfigSkeleton parent;
 
   PhoshSensorProxyManager *sensor_proxy_manager;
   GBinding                *sensor_proxy_binding;
@@ -73,9 +73,9 @@ typedef struct _PhoshMonitorManager
 
 G_DEFINE_TYPE_WITH_CODE (PhoshMonitorManager,
                          phosh_monitor_manager,
-                         PHOSH_DISPLAY_DBUS_TYPE_DISPLAY_CONFIG_SKELETON,
+                         PHOSH_DBUS_TYPE_DISPLAY_CONFIG_SKELETON,
                          G_IMPLEMENT_INTERFACE (
-                           PHOSH_DISPLAY_DBUS_TYPE_DISPLAY_CONFIG,
+                           PHOSH_DBUS_TYPE_DISPLAY_CONFIG,
                            phosh_monitor_manager_display_config_init));
 
 
@@ -195,9 +195,8 @@ phosh_monitor_manager_flip_transform (PhoshMonitorTransform transform)
  */
 
 static gboolean
-phosh_monitor_manager_handle_get_resources (
-  PhoshDisplayDbusDisplayConfig *skeleton,
-  GDBusMethodInvocation *invocation)
+phosh_monitor_manager_handle_get_resources (PhoshDBusDisplayConfig *skeleton,
+                                            GDBusMethodInvocation  *invocation)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
   GVariantBuilder crtc_builder, output_builder, mode_builder;
@@ -291,7 +290,7 @@ phosh_monitor_manager_handle_get_resources (
 
   /* Don't bother setting up modes, they're ignored */
 
-  phosh_display_dbus_display_config_complete_get_resources (
+  phosh_dbus_display_config_complete_get_resources (
     skeleton,
     invocation,
     self->serial,
@@ -307,12 +306,11 @@ phosh_monitor_manager_handle_get_resources (
 
 
 static gboolean
-phosh_monitor_manager_handle_change_backlight (
-  PhoshDisplayDbusDisplayConfig *skeleton,
-  GDBusMethodInvocation *invocation,
-  guint                  serial,
-  guint                  output_index,
-  int                    value)
+phosh_monitor_manager_handle_change_backlight (PhoshDBusDisplayConfig *skeleton,
+                                               GDBusMethodInvocation  *invocation,
+                                               guint                   serial,
+                                               guint                   output_index,
+                                               int                     value)
 {
   g_debug ("Unimplemented DBus call %s", __func__);
   g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
@@ -323,7 +321,7 @@ phosh_monitor_manager_handle_change_backlight (
 
 
 struct get_wl_gamma_callback_data {
-  PhoshDisplayDbusDisplayConfig *skeleton;
+  PhoshDBusDisplayConfig *skeleton;
   GDBusMethodInvocation *invocation;
 };
 
@@ -348,7 +346,7 @@ static void handle_wl_gamma_size(void *data, struct gamma_control *gamma_control
   green_v = g_variant_new_from_bytes (G_VARIANT_TYPE ("aq"), green_bytes, TRUE);
   blue_v = g_variant_new_from_bytes (G_VARIANT_TYPE ("aq"), blue_bytes, TRUE);
 
-  phosh_display_dbus_display_config_complete_get_crtc_gamma (
+  phosh_dbus_display_config_complete_get_crtc_gamma (
     gamma_callback_data->skeleton,
     gamma_callback_data->invocation,
     red_v, green_v, blue_v);
@@ -369,11 +367,10 @@ gamma_control_listener gamma_control_listener = {
 
 
 static gboolean
-phosh_monitor_manager_handle_get_crtc_gamma (
-  PhoshDisplayDbusDisplayConfig *skeleton,
-  GDBusMethodInvocation *invocation,
-  guint                  serial,
-  guint                  crtc_id)
+phosh_monitor_manager_handle_get_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
+                                             GDBusMethodInvocation  *invocation,
+                                             guint                   serial,
+                                             guint                   crtc_id)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
   PhoshMonitor *monitor;
@@ -421,14 +418,13 @@ phosh_monitor_manager_handle_get_crtc_gamma (
 
 
 static gboolean
-phosh_monitor_manager_handle_set_crtc_gamma (
-  PhoshDisplayDbusDisplayConfig *skeleton,
-  GDBusMethodInvocation *invocation,
-  guint                  serial,
-  guint                  crtc_id,
-  GVariant              *red_v,
-  GVariant              *green_v,
-  GVariant              *blue_v)
+phosh_monitor_manager_handle_set_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
+                                             GDBusMethodInvocation  *invocation,
+                                             guint                   serial,
+                                             guint                   crtc_id,
+                                             GVariant               *red_v,
+                                             GVariant               *green_v,
+                                             GVariant               *blue_v)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
   PhoshMonitor *monitor;
@@ -499,7 +495,7 @@ phosh_monitor_manager_handle_set_crtc_gamma (
   gamma_control_set_gamma(gamma_control, &wl_red, &wl_green, &wl_blue);
   gamma_control_destroy (gamma_control);
 
-  phosh_display_dbus_display_config_complete_set_crtc_gamma (
+  phosh_dbus_display_config_complete_set_crtc_gamma (
       skeleton,
       invocation);
 
@@ -527,9 +523,8 @@ phosh_monitor_manager_handle_set_crtc_gamma (
 
 
 static gboolean
-phosh_monitor_manager_handle_get_current_state (
-  PhoshDisplayDbusDisplayConfig *skeleton,
-  GDBusMethodInvocation *invocation)
+phosh_monitor_manager_handle_get_current_state (PhoshDBusDisplayConfig *skeleton,
+                                                GDBusMethodInvocation  *invocation)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
   GVariantBuilder monitors_builder, logical_monitors_builder, properties_builder;
@@ -672,7 +667,7 @@ phosh_monitor_manager_handle_get_current_state (
                          "supports-changing-layout-mode",
                          g_variant_new_boolean (TRUE));
 
-  phosh_display_dbus_display_config_complete_get_current_state (
+  phosh_dbus_display_config_complete_get_current_state (
     skeleton,
     invocation,
     self->serial,
@@ -821,13 +816,12 @@ config_head_config_from_logical_monitor_variant (PhoshMonitorManager *self,
 
 
 static gboolean
-phosh_monitor_manager_handle_apply_monitors_config (
-  PhoshDisplayDbusDisplayConfig *skeleton,
-  GDBusMethodInvocation *invocation,
-  guint                  serial,
-  guint                  method,
-  GVariant              *logical_monitor_configs_variant,
-  GVariant              *properties_variant)
+phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skeleton,
+                                                    GDBusMethodInvocation  *invocation,
+                                                    guint                   serial,
+                                                    guint                   method,
+                                                    GVariant               *logical_monitor_configs_variant,
+                                                    GVariant               *properties_variant)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
   GVariantIter logical_monitor_configs_iter;
@@ -943,7 +937,7 @@ phosh_monitor_manager_handle_apply_monitors_config (
     phosh_monitor_manager_apply_monitor_config (self);
   }
 
-  phosh_display_dbus_display_config_complete_apply_monitors_config (
+  phosh_dbus_display_config_complete_apply_monitors_config (
     skeleton,
     invocation);
 
@@ -952,7 +946,7 @@ phosh_monitor_manager_handle_apply_monitors_config (
 
 
 static void
-phosh_monitor_manager_display_config_init (PhoshDisplayDbusDisplayConfigIface *iface)
+phosh_monitor_manager_display_config_init (PhoshDBusDisplayConfigIface *iface)
 {
   iface->handle_get_resources = phosh_monitor_manager_handle_get_resources;
   iface->handle_change_backlight = phosh_monitor_manager_handle_change_backlight;
@@ -970,8 +964,8 @@ power_save_mode_changed_cb (PhoshMonitorManager *self,
 {
   int mode, ps_mode;
 
-  mode = phosh_display_dbus_display_config_get_power_save_mode (
-    PHOSH_DISPLAY_DBUS_DISPLAY_CONFIG (self));
+  mode = phosh_dbus_display_config_get_power_save_mode (
+    PHOSH_DBUS_DISPLAY_CONFIG (self));
   g_debug ("Power save mode %d requested", mode);
 
   switch (mode) {
@@ -1126,7 +1120,7 @@ on_head_finished (PhoshMonitorManager *self,
   else
     g_warning ("Tried to remove inexistend head %p", head);
 
-  phosh_display_dbus_display_config_emit_monitors_changed (PHOSH_DISPLAY_DBUS_DISPLAY_CONFIG (self));
+  phosh_dbus_display_config_emit_monitors_changed (PHOSH_DBUS_DISPLAY_CONFIG (self));
 }
 
 
@@ -1145,7 +1139,7 @@ zwlr_output_manager_v1_handle_head (void *data,
   g_ptr_array_add (self->heads, head);
   g_signal_connect_swapped (head, "head-finished", G_CALLBACK (on_head_finished), self);
 
-  phosh_display_dbus_display_config_emit_monitors_changed (PHOSH_DISPLAY_DBUS_DISPLAY_CONFIG (self));
+  phosh_dbus_display_config_emit_monitors_changed (PHOSH_DBUS_DISPLAY_CONFIG (self));
 }
 
 
@@ -1161,7 +1155,7 @@ zwlr_output_manager_v1_handle_done (void *data,
   self->zwlr_output_serial = serial;
   self->serial++;
 
-  phosh_display_dbus_display_config_emit_monitors_changed (PHOSH_DISPLAY_DBUS_DISPLAY_CONFIG (self));
+  phosh_dbus_display_config_emit_monitors_changed (PHOSH_DBUS_DISPLAY_CONFIG (self));
 }
 
 

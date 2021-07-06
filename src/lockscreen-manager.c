@@ -327,6 +327,7 @@ phosh_lockscreen_manager_dispose (GObject *object)
   g_clear_pointer (&self->shields, g_ptr_array_unref);
   g_clear_pointer (&self->lockscreen, phosh_cp_widget_destroy);
   g_clear_object (&self->calls_manager);
+  g_clear_object (&self->presence);
 
   G_OBJECT_CLASS (phosh_lockscreen_manager_parent_class)->dispose (object);
 }

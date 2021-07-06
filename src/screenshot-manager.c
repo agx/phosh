@@ -457,11 +457,15 @@ on_bus_acquired (GDBusConnection *connection,
                  gpointer         user_data)
 {
   PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (user_data);
+  g_autoptr (GError) err = NULL;
 
-  g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),
-                                    connection,
-                                    OBJECT_PATH,
-                                    NULL);
+  if (!g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),
+                                         connection,
+                                         OBJECT_PATH,
+                                         &err)) {
+    g_warning ("Failed to export screensaver interface skeleton: %s", err->message);
+  }
+
 }
 
 
@@ -480,8 +484,8 @@ phosh_screenshot_manager_constructed (GObject *object)
                                        on_bus_acquired,
                                        on_name_acquired,
                                        on_name_lost,
-                                       g_object_ref (self),
-                                       g_object_unref);
+                                       self,
+                                       NULL);
 
   g_return_if_fail (PHOSH_IS_WAYLAND (wl));
   self->wl_scm = phosh_wayland_get_zwlr_screencopy_manager_v1 (wl);
