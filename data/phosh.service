@@ -26,7 +26,7 @@ ConditionPathExists=/dev/tty0
 
 [Service]
 Environment=LANG=C.UTF-8
-Environment=XDG_CURRENT_DESKTOP=GNOME
+Environment=XDG_CURRENT_DESKTOP=GNOME:Phosh
 Environment=XDG_SESSION_DESKTOP=phosh
 Environment=XDG_SESSION_TYPE=wayland
 ExecStart=/usr/bin/phosh
