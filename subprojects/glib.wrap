@@ -1,0 +1,5 @@
+[wrap-git]
+directory=glib
+url=https://gitlab.gnome.org/GNOME/glib.git
+revision=2.69.0
+

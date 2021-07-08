@@ -94,6 +94,9 @@ tests_manager = [
   'screenshot-manager',
 ]
 
+if get_option('g_tests')
+  tests_manager += ['calls-manager']
+endif
 
 # Unit tests
 foreach test : tests

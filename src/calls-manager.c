@@ -28,23 +28,6 @@
  * interaction with them.
  */
 
-/**
- * PhoshCallState:
- *
- * The call state. Must match call's CallsCallState.
- */
-typedef enum
-{
-  /*< private >*/
-  PHOSH_CALL_STATE_ACTIVE = 1,
-  PHOSH_CALL_STATE_HELD,
-  PHOSH_CALL_STATE_DIALING,
-  PHOSH_CALL_STATE_ALERTING,
-  PHOSH_CALL_STATE_INCOMING,
-  PHOSH_CALL_STATE_WAITING,
-  PHOSH_CALL_STATE_DISCONNECTED
-} PhoshCallState;
-
 enum {
   PROP_0,
   PROP_PRESENT,
@@ -249,9 +232,7 @@ on_name_owner_changed (PhoshCallsManager        *self,
   owner = g_dbus_object_manager_client_get_name_owner (om);
   present = owner ? TRUE : FALSE;
 
-  if (!present) {
-    g_hash_table_remove_all (self->calls);
-  } else {
+  if (present) {
     g_autolist (GDBusObject) objs = g_dbus_object_manager_get_objects (
       G_DBUS_OBJECT_MANAGER (self->om_client));
 
@@ -259,7 +240,9 @@ on_name_owner_changed (PhoshCallsManager        *self,
     for (GList *elem = objs; elem; elem = elem->next) {
       on_call_obj_added (self, elem->data);
     }
-  }
+  } /* else {} is not necessary since we get object-removed signals
+     * when name owner quits
+     */
 
   if (present != self->present) {
     self->present = present;
