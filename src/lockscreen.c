@@ -34,7 +34,17 @@
  *
  * The lock screen featuring the clock
  * and unlock keypad.
+ *
+ * # CSS nodes
+ *
+ * #PhoshLockscreen has a CSS name with the name phosh-lockscreen.
  */
+
+
+typedef enum {
+  POS_OVERVIEW = 0,
+  POS_UNLOCK   = 1,
+} PhoshLocksreenPos;
 
 enum {
   LOCKSCREEN_UNLOCK,
@@ -77,7 +87,8 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshLockscreen, phosh_lockscreen, PHOSH_TYPE_LAYER_
 
 
 static void
-clear_input (PhoshLockscreen *self, gboolean clear_all) {
+clear_input (PhoshLockscreen *self, gboolean clear_all)
+{
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
   if (clear_all) {
@@ -93,6 +104,7 @@ static void
 show_info_page (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+
   if (hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel)) <= 0)
     return;
 
@@ -120,6 +132,7 @@ static void
 show_unlock_page (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+
   if (hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel)) > 0)
     return;
 
@@ -132,7 +145,8 @@ show_unlock_page (PhoshLockscreen *self)
 
 
 static gboolean
-finish_shake_label (PhoshLockscreen *self) {
+finish_shake_label (PhoshLockscreen *self)
+{
   clear_input (self, TRUE);
   gtk_widget_set_sensitive (GTK_WIDGET (self), TRUE);
   return FALSE;
@@ -140,9 +154,10 @@ finish_shake_label (PhoshLockscreen *self) {
 
 
 static gboolean
-shake_label (GtkWidget *widget,
-                         GdkFrameClock *frame_clock,
-                         gpointer data) {
+shake_label (GtkWidget     *widget,
+             GdkFrameClock *frame_clock,
+             gpointer       data)
+{
   PhoshLockscreen *self = PHOSH_LOCKSCREEN (widget);
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   gint64 start_time = g_variant_get_int64 (data);
@@ -183,7 +198,7 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
 
   g_object_ref (self);
   if (authenticated) {
-    g_signal_emit(self, signals[LOCKSCREEN_UNLOCK], 0);
+    g_signal_emit (self, signals[LOCKSCREEN_UNLOCK], 0);
     g_clear_object (&priv->auth);
   } else {
     GdkFrameClock *clock;
@@ -205,7 +220,7 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
 
 static void
 delete_button_clicked_cb (PhoshLockscreen *self,
-                          GtkWidget      *widget)
+                          GtkWidget       *widget)
 {
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
 
@@ -380,14 +395,14 @@ local_date (void)
 
 static void
 wall_clock_notify_cb (PhoshLockscreen *self,
-                      GParamSpec *pspec,
-                      GnomeWallClock *wall_clock)
+                      GParamSpec      *pspec,
+                      GnomeWallClock  *wall_clock)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   const char *time;
   g_autofree char *date = NULL;
 
-  time = gnome_wall_clock_get_clock(wall_clock);
+  time = gnome_wall_clock_get_clock (wall_clock);
   gtk_label_set_text (GTK_LABEL (priv->lbl_clock), time);
 
   date = local_date ();
@@ -405,12 +420,12 @@ carousel_position_notified_cb (PhoshLockscreen *self,
 
   position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
 
-  if (position <= 0) {
+  if (position <= POS_OVERVIEW) {
     clear_input (self, TRUE);
     return;
   }
 
-  if (position >= 1) {
+  if (position >= POS_UNLOCK) {
     if (!priv->idle_timer) {
       priv->last_input = g_get_monotonic_time ();
       priv->idle_timer = g_timeout_add_seconds (LOCKSCREEN_IDLE_SECONDS,
@@ -439,7 +454,7 @@ phosh_lockscreen_constructed (GObject *object)
   /* window properties */
   gtk_window_set_title (GTK_WINDOW (self), "phosh lockscreen");
   gtk_window_set_decorated (GTK_WINDOW (self), FALSE);
-  gtk_widget_realize(GTK_WIDGET (self));
+  gtk_widget_realize (GTK_WIDGET (self));
 
   gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
   g_signal_connect (G_OBJECT (self),
@@ -465,10 +480,7 @@ phosh_lockscreen_dispose (GObject *object)
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
   g_clear_object (&priv->wall_clock);
-  if (priv->idle_timer) {
-    g_source_remove (priv->idle_timer);
-    priv->idle_timer = 0;
-  }
+  g_clear_handle_id (&priv->idle_timer, g_source_remove);
 
   G_OBJECT_CLASS (phosh_lockscreen_parent_class)->dispose (object);
 }
@@ -484,8 +496,8 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   object_class->dispose = phosh_lockscreen_dispose;
 
   signals[LOCKSCREEN_UNLOCK] = g_signal_new ("lockscreen-unlock",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
+                                             G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+                                             NULL, G_TYPE_NONE, 0);
   /**
    * PhoshLockscreen::wakeup-output
    * @self: The #PhoshLockscreen emitting this signal
@@ -494,8 +506,8 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
    * up.
    */
   signals[WAKEUP_OUTPUT] = g_signal_new ("wakeup-output",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
+                                         G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+                                         NULL, G_TYPE_NONE, 0);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-lockscreen");
   gtk_widget_class_set_template_from_resource (widget_class,
@@ -503,7 +515,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, carousel);
   gtk_widget_class_bind_template_callback_full (widget_class,
                                                 "carousel_position_notified_cb",
-                                                G_CALLBACK(carousel_position_notified_cb));
+                                                G_CALLBACK (carousel_position_notified_cb));
 
   /* unlock page */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_unlock);

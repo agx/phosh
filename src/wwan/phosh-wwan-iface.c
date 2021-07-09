@@ -179,7 +179,7 @@ phosh_wwan_get_operator (PhoshWWan *self)
 {
   PhoshWWanInterface *iface;
 
-  g_return_val_if_fail (PHOSH_IS_WWAN (self), FALSE);
+  g_return_val_if_fail (PHOSH_IS_WWAN (self), NULL);
 
   iface = PHOSH_WWAN_GET_IFACE (self);
   return iface->get_operator (self);

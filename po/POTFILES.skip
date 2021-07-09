@@ -1,4 +1,4 @@
 src/gtk-list-models/gtkfilterlistmodel.c
 src/gtk-list-models/gtksortlistmodel.c
 src/settings/gvc-channel-bar.c
-subprojects/gvc/gvc-mixer-control.c
+subprojects/**

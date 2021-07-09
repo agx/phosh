@@ -120,4 +120,33 @@ individual C files should be structured as (top to bottom of file):
   the header file and can thus be referenced from anywhere else in the source
   file.
 
+CSS Theming
+===========
+For custom widget always set the css name using `gtk_widget_class_set_css_name ()`.
+There's no need set an (additional) style class in the ui file.
+
+*Good*:
+
+```c
+static void
+phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
+{
+  …
+  gtk_widget_class_set_css_name (widget_class, "phosh-lockscreen");
+  …
+}
+```
+
+*Bad*:
+
+```xml
+  <template class="PhoshLockscreen" parent="…">
+  …
+     <style>
+         <class name="phosh-lockscreen"/>
+      </style>
+  …
+  </template>
+```
+
 [1]: https://source.puri.sm/Librem5/libhandy/blob/master/HACKING.md#coding-style
