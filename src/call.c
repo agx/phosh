@@ -21,6 +21,7 @@ enum {
   PROP_ID,
   PROP_STATE,
   PROP_ENCRYPTED,
+  PROP_CAN_DTMF,
   PROP_LAST_PROP = PROP_DISPLAY_NAME,
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -31,6 +32,8 @@ typedef struct _PhoshCall {
 
   PhoshCallsDBusCallsCall *proxy; /* DBus proxy to a single call on for gnome-calls' DBus service */
   GCancellable            *cancel;
+
+  gboolean                 can_dtmf;
 } PhoshCall;
 
 
@@ -86,6 +89,19 @@ phosh_call_get_encrypted (CuiCall *call)
 
   return phosh_calls_dbus_calls_call_get_encrypted (self->proxy);
 }
+
+
+static gboolean
+phosh_call_get_can_dtmf (CuiCall *call)
+{
+  PhoshCall *self;
+
+  g_return_val_if_fail (PHOSH_IS_CALL (call), CUI_CALL_STATE_UNKNOWN);
+  self = PHOSH_CALL (call);
+
+  return self->can_dtmf;
+}
+
 
 static void
 on_prop_changed (PhoshCall *self, GParamSpec *pspec)
@@ -163,6 +179,9 @@ phosh_call_get_property (GObject    *object,
   case PROP_ENCRYPTED:
     g_value_set_boolean (value, phosh_call_get_encrypted (iface));
     break;
+  case PROP_CAN_DTMF:
+    g_value_set_boolean (value, phosh_call_get_can_dtmf (iface));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -221,6 +240,10 @@ phosh_call_class_init (PhoshCallClass *klass)
   g_object_class_override_property (object_class,
 				    PROP_ENCRYPTED,
                                     "encrypted");
+
+  g_object_class_override_property (object_class,
+				    PROP_CAN_DTMF,
+                                    "can-dtmf");
 }
 
 
@@ -282,15 +305,26 @@ phosh_call_hang_up (CuiCall *call)
 
 
 static void
+phosh_call_send_dtmf (CuiCall *call, const char *dtmf)
+{
+  g_return_if_fail (PHOSH_IS_CALL (call));
+
+  /* TBD */
+}
+
+
+static void
 phosh_call_cui_call_interface_init (CuiCallInterface *iface)
 {
   iface->get_id = phosh_call_get_id;
   iface->get_display_name = phosh_call_get_display_name;
   iface->get_state = phosh_call_get_state;
   iface->get_encrypted = phosh_call_get_encrypted;
+  iface->get_can_dtmf = phosh_call_get_can_dtmf;
 
   iface->accept = phosh_call_accept;
   iface->hang_up = phosh_call_hang_up;
+  iface->send_dtmf = phosh_call_send_dtmf;
 }
 
 
@@ -298,6 +332,9 @@ static void
 phosh_call_init (PhoshCall *self)
 {
   self->cancel = g_cancellable_new ();
+
+  /* TODO: once DBus handles it */
+  self->can_dtmf = FALSE;
 }
 
 
