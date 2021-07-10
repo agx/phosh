@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-05-17 15:32+0000\n"
-"PO-Revision-Date: 2021-05-02 17:22+0200\n"
+"POT-Creation-Date: 2021-06-29 03:33+0000\n"
+"PO-Revision-Date: 2021-07-07 18:10+0200\n"
 "Last-Translator: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language-Team: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language: it\n"
@@ -48,7 +48,7 @@ msgstr "Bluetooth"
 msgid "Docked"
 msgstr "Agganciato"
 
-#: src/docked-info.c:81 src/docked-info.c:196
+#: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
 msgstr "Sganciato"
 
@@ -120,17 +120,17 @@ msgstr "Sì"
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:85 src/ui/lockscreen.ui:233
+#: src/lockscreen.c:84 src/ui/lockscreen.ui:233
 msgid "Enter Passcode"
 msgstr "Inserire la password"
 
-#: src/lockscreen.c:264
+#: src/lockscreen.c:263
 msgid "Checking…"
 msgstr "Sto controllando…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:342
+#: src/lockscreen.c:341
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -182,7 +182,7 @@ msgstr "Inserire la password per la rete Wi-Fi “%s”"
 msgid "Open"
 msgstr "Apri"
 
-#: src/notifications/notification.c:381 src/notifications/notification.c:637
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
 msgid "Notification"
 msgstr "Notifica"
 
@@ -297,7 +297,7 @@ msgstr "Orizzontale"
 
 #. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
 #. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:183
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
 msgid "Off"
 msgstr "Inattivo"
 
@@ -337,9 +337,13 @@ msgstr "Rimuovi dai _Preferiti"
 msgid "Add to _Favorites"
 msgstr "Aggiungi ai _Preferiti"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid.ui:22
 msgid "Search apps…"
 msgstr "Ricerca app…"
+
+#: src/ui/app-grid.ui:169
+msgid "Show only adaptive apps"
+msgstr "Mostra solo le app adattive"
 
 #: src/ui/end-session-dialog.ui:32
 msgid "Some applications are busy or have unsaved work"
