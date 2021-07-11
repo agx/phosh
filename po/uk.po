@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-06-29 03:33+0000\n"
-"PO-Revision-Date: 2021-06-29 08:31+0300\n"
+"POT-Creation-Date: 2021-07-09 15:31+0000\n"
+"PO-Revision-Date: 2021-07-11 16:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -106,34 +106,34 @@ msgstr "Тихо"
 msgid "Silent"
 msgstr "Беззвучно"
 
-#: src/location-manager.c:266
+#: src/location-manager.c:268
 #, c-format
 msgid "Allow '%s' to access your location information?"
 msgstr "Дозволити «%s» доступ до даних щодо вашого місця перебування?"
 
-#: src/location-manager.c:271
+#: src/location-manager.c:273
 msgid "Geolocation"
 msgstr "Геопозиціювання"
 
-#: src/location-manager.c:272
+#: src/location-manager.c:274
 msgid "Yes"
 msgstr "Так"
 
-#: src/location-manager.c:272
+#: src/location-manager.c:274
 msgid "No"
 msgstr "Ні"
 
-#: src/lockscreen.c:84 src/ui/lockscreen.ui:233
+#: src/lockscreen.c:95 src/ui/lockscreen.ui:233
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:263
+#: src/lockscreen.c:278
 msgid "Checking…"
 msgstr "Звіряю…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:341
+#: src/lockscreen.c:356
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
@@ -280,8 +280,9 @@ msgstr "%s%d%s"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Користувач перервав діалог автентифікації"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:83
-#: src/ui/polkit-auth-prompt.ui:57 src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
+#: src/ui/system-prompt.ui:33
 msgid "Password:"
 msgstr "Пароль:"
 
@@ -345,12 +346,26 @@ msgstr "Шукати серед програм…"
 
 #: src/ui/app-grid.ui:169
 msgid "Show only adaptive apps"
-msgstr ""
-"Показувати лише адаптивні програми"
+msgstr "Показувати лише адаптивні програми"
 
 #: src/ui/end-session-dialog.ui:32
 msgid "Some applications are busy or have unsaved work"
 msgstr "Деякі програми зайняті або мають незбережені дані"
+
+#: src/ui/gtk-mount-prompt.ui:95
+msgid "User:"
+msgstr ""
+"Користувач:"
+
+#: src/ui/gtk-mount-prompt.ui:118
+msgid "Domain:"
+msgstr ""
+"Домен:"
+
+#: src/ui/gtk-mount-prompt.ui:151
+#| msgid "C_onnect"
+msgid "Co_nnect"
+msgstr "З'єд_натися"
 
 #: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
