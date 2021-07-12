@@ -1,3 +1,123 @@
+phosh (0.12.1) byzantium; urgency=medium
+
+  [ Guido Günther ]
+  * d/control: Bump phoc recommends.
+    Recommend a version that allows us to bind all the interesting
+    keys.
+  * rotation-manager: Clarify debug message.
+    Otherwise it can be confused with the rotation mode
+  * rotation-manager: Don't claim accelerometer with orientation-lock.
+    This reduces the work for iio-sensor-proxy a lot improving battery life.
+  * shell: Move public functions to the end of the file.
+    This makes it consistent with HACKING.md
+  * shell: Add guards to public functions
+  * shell: Protect against lockscreen-manager not being up yet.
+    We get the monitors very early and the lockscreen_manager is not yet
+    created. Avoid a critical (and potential crash if we wiggle code around
+    later on).
+  * overview: Only lookup activity if needed.
+    No need to lookup the activity if the toplevel didn't get activated.
+  * overview: Change activity type.
+    This avoids some casting
+  * overview: Unset activity when toplevel goes away.
+    This prevents us from trying to set a focus on an
+    inexistent activity in phosh_overview_reset.
+    Fixes: 009177fac12b41d780ffc255bbb1105915407ead
+  * location-manager: Unref dbus proxy
+  * bt-manager: Unref dbus proxy
+  * wwan-mm: Unref modem dbus proxies
+  * wwan-mm: Simplify chain up.
+    Use same pattern as elsewhere
+  * lockscreen-manager Unref session-presence proxy
+  * screenshot-manager: Don't hold ref when acquiring the bus.
+    Otherwise we never dispose since the ref would only be dropped
+    on g_bus_unown_name which is called in dispose.
+    Since the manager stays around until shell shutdown this isn't a
+    problem.
+  * location-manager: Don't hold a ref during name watching.
+    Since the unwatch happens in dispose only we'd never drop that ref.
+    Since the manager stays around during the shell's lifetime this
+    is not a problem.
+  * torch-manager: Cancel proxy creation on dispose.
+    This makes sure there's no lingering async callbacks.
+  * monitor-manager: Adjust DBus naming.
+    Use DBus instead of Dbus as with all other protocols and drop
+    use PhoshDBus as namespace which we want to use for all protocols
+    that don't need an object manager.
+    Reindent the interface function arguments while at that.
+    Fixes: a749990f0c37c7e361f6c1df945053b0432d0415
+  * mode-manager: Avoid warning when DBus operation got cancelled
+  * tests: Fix alphabetic ordering
+  * testlib: Simplify getting a useful shell object.
+    This adds functions to get a compositor, shell and isolated
+    session bus for testing which allows us to deduplicate some
+    code.
+  * test-notify-manager: Use testlib helpers.
+    Simplifies the code.
+  * test-monitor-manager: Use testlib helpers
+  * test-screenshot-manager: Use testlib helpers
+  * calls-manager: Move state enum to header file.
+    This makes it useable in the tests
+  * calls-manager: Don't clear calls hash when name owner goes away
+    gio's object-manager sends us proper remove signals for each object.
+  * gcovr: Exclude subprojects from coverage.
+    We don't bother about glib or gvc test coverate
+  * Add support for using glib as a subproject.
+    This allows us to run the tests that have our object manager fixes.
+  * gitlab-ci: Run extended tests on bullseye.
+    Don't bother for the crossbuild since we don't run tests there and this
+    would just make build times longer.
+    Since we dont't want to build documentation for glib we need to do an
+    extra build for gtk-doc that uses system glib.
+    This gets simpler again once the next glib is released.
+  * calls-manager: Add test.
+    We need to preserve DISPLAY for xvfb and set XDG_RUNTIME_DIR since
+    g_test_dbus_up unsets those via g_test_dbus_unset.
+    This needs https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2120
+    to not deadlock.
+  * build: It's phosh, not libhandy
+  * phosh-wwan: Return NULL not boolean.
+    The operator is a string.
+  * check-po: Check for ui files too.
+    Use an extended regexp so we don't miss ui files
+  * po: Add gtk-mount-prompt.ui
+  * po: Use wildcard to ignore subprojects.
+    This makes sure we don't have to catch up when the subproject changes
+  * docs: Add calls DBus protocol
+  * HACKING: document that we prefer css names over style classes
+  * lockscreen: Drop style class.
+    We use gtk_widget_class_set_css_name so don't need an additional
+    style class.
+  * lockscreen: Use enum for page names.
+    It quickly becomes confusing otherwise
+  * lockscreen: Fix indentation.
+    Bring this in line with current coding standards.
+  * lockscreen: Use g_clear_handle_id ()
+
+  [ Sebastian Krzyszkowiak ]
+  * Revert "data: Update adaptive app defaults"
+    The commit intended to update adaptive app list, but it actually
+    changed the default favorites.
+    This reverts commit 19ebe2ec3a0df741b6935ac37de610b3c5e01117.
+  * data/phosh.service: Add Phosh to XDG_CURRENT_DESKTOP.
+    Commit 86dad1dfcc20b56add8a1dff5c4637ce51a0ec69 has already done
+    that for the Wayland session, but missed adding a similar change
+    to the systemd service.
+  * style: Adjust search bar spacing.
+    This brings it back to how it looked before introducing
+    app filtering, which was closer to the mockups.
+
+  [ Vittorio Monti ]
+  * po: Update Italian translation
+
+  [ Yuri Chornoivan ]
+  * po: Update Ukrainian translation
+
+  [ Anders Jonsson ]
+  * po: Update Swedish translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 12 Jul 2021 16:01:37 +0200
+
 phosh (0.12.0) byzantium; urgency=medium
 
   [ Guido Günther ]
