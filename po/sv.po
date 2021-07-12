@@ -1,13 +1,14 @@
 # Ludwig Johnson <public@ludwigjohnson.se>, 2018. #zanata
 # Nami <namii@tutamail.com>, 2019. #zanata
 # Anders Jonsson <anders.jonsson@norsjovallen.se>, 2020, 2021.
+# Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-04-15 15:34+0000\n"
-"PO-Revision-Date: 2021-04-15 21:37+0200\n"
+"POT-Creation-Date: 2021-07-11 15:34+0000\n"
+"PO-Revision-Date: 2021-07-11 19:58+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -46,7 +47,7 @@ msgstr "Bluetooth"
 msgid "Docked"
 msgstr "Dockad"
 
-#: src/docked-info.c:81 src/docked-info.c:195
+#: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
 msgstr "Ej dockad"
 
@@ -83,7 +84,7 @@ msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "Systemet kommer att startas om automatiskt om %d sekund."
 msgstr[1] "Systemet kommer att startas om automatiskt om %d sekunder."
 
-#: src/end-session-dialog.c:270
+#: src/end-session-dialog.c:269
 msgid "Unknown application"
 msgstr "Okänt program"
 
@@ -102,44 +103,44 @@ msgstr "Ljudlös"
 msgid "Silent"
 msgstr "Tyst"
 
-#: src/location-manager.c:266
+#: src/location-manager.c:268
 #, c-format
 msgid "Allow '%s' to access your location information?"
 msgstr "Ge ”%s” tillgång till din platsinformation?"
 
-#: src/location-manager.c:271
+#: src/location-manager.c:273
 msgid "Geolocation"
 msgstr "Platsbestämning"
 
-#: src/location-manager.c:272
+#: src/location-manager.c:274
 msgid "Yes"
 msgstr "Ja"
 
-#: src/location-manager.c:272
+#: src/location-manager.c:274
 msgid "No"
 msgstr "Nej"
 
-#: src/lockscreen.c:85 src/ui/lockscreen.ui:234
+#: src/lockscreen.c:95 src/ui/lockscreen.ui:233
 msgid "Enter Passcode"
 msgstr "Ange lösenord"
 
-#: src/lockscreen.c:264
+#: src/lockscreen.c:278
 msgid "Checking…"
 msgstr "Kontrollerar…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:342
+#: src/lockscreen.c:356
 msgid "%A, %B %-e"
 msgstr "%A, %-e %B"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:277 src/ui/media-player.ui:107
+#: src/media-player.c:279 src/ui/media-player.ui:107
 msgid "Unknown Title"
 msgstr "Okänd titel"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:286 src/ui/media-player.ui:127
+#: src/media-player.c:288 src/ui/media-player.ui:127
 msgid "Unknown Artist"
 msgstr "Okänd artist"
 
@@ -177,11 +178,11 @@ msgstr "Autentiseringstyp för wifi-nätverket ”%s” stöds ej"
 msgid "Enter password for the wifi network “%s”"
 msgstr "Ange lösenord för wifi-nätverket ”%s”"
 
-#: src/notifications/mount-notification.c:137
+#: src/notifications/mount-notification.c:122
 msgid "Open"
 msgstr "Öppna"
 
-#: src/notifications/notification.c:381 src/notifications/notification.c:637
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
 msgid "Notification"
 msgstr "Avisering"
 
@@ -273,12 +274,13 @@ msgstr "Nästan %då"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:225
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Autentiseringsdialogen avvisades av användaren"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:85
-#: src/ui/polkit-auth-prompt.ui:57 src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
+#: src/ui/system-prompt.ui:33
 msgid "Password:"
 msgstr "Lösenord:"
 
@@ -296,7 +298,7 @@ msgstr "Liggande"
 
 #. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
 #. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:183
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
 msgid "Off"
 msgstr "Av"
 
@@ -316,11 +318,11 @@ msgstr "Ficklampa"
 msgid "Remember decision"
 msgstr "Kom ihåg beslut"
 
-#: src/ui/app-auth-prompt.ui:55 src/ui/end-session-dialog.ui:50
+#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: src/ui/app-auth-prompt.ui:66 src/ui/end-session-dialog.ui:61
+#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
 msgid "Ok"
 msgstr "OK"
 
@@ -336,23 +338,39 @@ msgstr "Ta bort från _favoriter"
 msgid "Add to _Favorites"
 msgstr "Lägg till i _favoriter"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid.ui:22
 msgid "Search apps…"
 msgstr "Sök appar…"
+
+#: src/ui/app-grid.ui:169
+msgid "Show only adaptive apps"
+msgstr "Visa endast adaptiva appar"
 
 #: src/ui/end-session-dialog.ui:32
 msgid "Some applications are busy or have unsaved work"
 msgstr "Några program är upptagna eller innehåller icke sparat arbete"
 
+#: src/ui/gtk-mount-prompt.ui:95
+msgid "User:"
+msgstr "Användare:"
+
+#: src/ui/gtk-mount-prompt.ui:118
+msgid "Domain:"
+msgstr "Domän:"
+
+#: src/ui/gtk-mount-prompt.ui:151
+msgid "Co_nnect"
+msgstr "A_nslut"
+
 #: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr "Svep uppåt för att låsa upp"
 
-#: src/ui/lockscreen.ui:280
+#: src/ui/lockscreen.ui:279
 msgid "Emergency"
 msgstr "Nödläge"
 
-#: src/ui/lockscreen.ui:296
+#: src/ui/lockscreen.ui:295
 msgid "Unlock"
 msgstr "Lås upp"
 
@@ -360,15 +378,15 @@ msgstr "Lås upp"
 msgid "Authentication required"
 msgstr "Autentisering krävs"
 
-#: src/ui/network-auth-prompt.ui:42
+#: src/ui/network-auth-prompt.ui:41
 msgid "_Cancel"
 msgstr "A_vbryt"
 
-#: src/ui/network-auth-prompt.ui:61
+#: src/ui/network-auth-prompt.ui:59
 msgid "C_onnect"
 msgstr "A_nslut"
 
-#: src/ui/polkit-auth-prompt.ui:125
+#: src/ui/polkit-auth-prompt.ui:123
 msgid "Authenticate"
 msgstr "Godkänn"
 
