@@ -21,7 +21,7 @@
 
 <node>
 
-  <interface name="sm.puri.Calls.Call">
+  <interface name="org.gnome.Calls.Call">
     <method name="Accept"/>
     <method name="Hangup"/>
     <property name="Inbound" type="b" access="read"/>

@@ -16,8 +16,8 @@
 #include "util.h"
 #include "dbus/calls-dbus.h"
 
-#define BUS_NAME "sm.puri.Calls"
-#define OBJECT_PATH "/sm/puri/Calls"
+#define BUS_NAME "org.gnome.Calls"
+#define OBJECT_PATH "/org/gnome/Calls"
 #define OBJECT_PATHS_CALLS_PREFIX OBJECT_PATH "/Call/"
 
 /**
@@ -25,7 +25,7 @@
  * @short_description: Track ongoing phone calls
  * @Title: PhoshCallsManager
  *
- * #PhoshCallsManager tracks on going calls on the sm.puri.Calls DBus
+ * #PhoshCallsManager tracks on going calls on the org.gnome.Calls DBus
  * interface and allows interaction with them by wrapping the
  * #PhoshCallsDBusCallsCall proxies in #PhoshCall so all DBus and
  * ObjectManager related logic stays local within #PhoshCallsManager.
