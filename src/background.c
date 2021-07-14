@@ -69,7 +69,7 @@ struct _PhoshBackground
   GdkRGBA color;
 
   gboolean primary;
-  guint scale;
+  float scale;
   GdkPixbuf *pixbuf;
   GSettings *settings;
   gboolean configured;
@@ -96,7 +96,7 @@ phosh_background_set_property (GObject *object,
     phosh_background_set_primary (self, g_value_get_boolean (value));
     break;
   case PROP_SCALE:
-    phosh_background_set_scale (self, g_value_get_uint (value));
+    phosh_background_set_scale (self, g_value_get_float (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -118,7 +118,7 @@ phosh_background_get_property (GObject *object,
     g_value_set_boolean (value, self->primary);
     break;
   case PROP_SCALE:
-    g_value_set_uint (value, self->scale);
+    g_value_set_float (value, self->scale);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -271,7 +271,7 @@ background_update (PhoshBackground *self, GdkPixbuf *pixbuf, GDesktopBackgroundS
   else
     g_object_get (self, "configured-width", &width, "configured-height", &height, NULL);
 
-  g_debug ("Scaling %p to %dx%d, scale %d", self, width, height, self->scale);
+  g_debug ("Scaling %p to %dx%d, scale %f", self, width, height, self->scale);
   self->pixbuf = image_background (pixbuf, width * self->scale, height * self->scale, style, &self->color);
   /* force background redraw */
   gtk_widget_queue_draw (GTK_WIDGET (self));
@@ -585,16 +585,16 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
                           G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_CONSTRUCT);
   props[PROP_SCALE] =
-    g_param_spec_uint ("scale",
-                       "Scale",
-                       "The output scale",
-                       1,
-                       G_MAXUINT,
-                       1,
-                       G_PARAM_READWRITE |
-                       G_PARAM_STATIC_STRINGS |
-                       G_PARAM_EXPLICIT_NOTIFY |
-                       G_PARAM_CONSTRUCT);
+    g_param_spec_float ("scale",
+                        "Scale",
+                        "The output scale",
+                        1.0,
+                        G_MAXFLOAT,
+                        1.0,
+                        G_PARAM_READWRITE |
+                        G_PARAM_STATIC_STRINGS |
+                        G_PARAM_EXPLICIT_NOTIFY |
+                        G_PARAM_CONSTRUCT);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
@@ -610,7 +610,7 @@ phosh_background_init (PhoshBackground *self)
 GtkWidget *
 phosh_background_new (gpointer layer_shell,
                       gpointer wl_output,
-                      guint    scale,
+                      float    scale,
                       gboolean primary)
 {
   return g_object_new (PHOSH_TYPE_BACKGROUND,
@@ -644,9 +644,9 @@ phosh_background_set_primary (PhoshBackground *self, gboolean primary)
 
 
 void
-phosh_background_set_scale (PhoshBackground *self, guint scale)
+phosh_background_set_scale (PhoshBackground *self, float scale)
 {
-  if (self->scale == scale)
+  if ((int)(self->scale * 1000) == (int)(scale * 1000))
     return;
 
   self->scale = scale;
