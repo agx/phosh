@@ -168,7 +168,6 @@ xdg_output_v1_handle_logical_size (void *data,
   g_debug ("Monitor %p: Logical size: %dx%d", self, width, height);
   self->logical.width = width;
   self->logical.height = height;
-
 }
 
 
@@ -608,4 +607,33 @@ phosh_monitor_get_wl_output (PhoshMonitor *self)
   g_return_val_if_fail (PHOSH_IS_MONITOR (self), NULL);
 
   return self->wl_output;
+}
+
+/**
+ * phosh_monitor_get_fractional_scale:
+ * @self: The monitor
+ *
+ * Get the fractinoal scale determined from the output width and the
+ * current logical width.
+ * Returns: the fractional scale
+*/
+float
+phosh_monitor_get_fractional_scale (PhoshMonitor *self)
+{
+  float width;
+
+  g_return_val_if_fail (PHOSH_IS_MONITOR (self), 1.0);
+  g_return_val_if_fail (phosh_monitor_is_configured (self), 1.0);
+
+  switch (self->transform) {
+  case PHOSH_MONITOR_TRANSFORM_NORMAL:
+  case PHOSH_MONITOR_TRANSFORM_180:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_180:
+    width = self->logical.width;
+    break;
+  default:
+    width = self->logical.height;
+  }
+  return self->width / width;
 }
