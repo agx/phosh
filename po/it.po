@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-06-29 03:33+0000\n"
-"PO-Revision-Date: 2021-07-07 18:10+0200\n"
+"POT-Creation-Date: 2021-07-22 03:33+0000\n"
+"PO-Revision-Date: 2021-07-10 15:47+0200\n"
 "Last-Translator: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language-Team: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language: it\n"
@@ -103,34 +103,34 @@ msgstr "Muto"
 msgid "Silent"
 msgstr "Silenzioso"
 
-#: src/location-manager.c:266
+#: src/location-manager.c:268
 #, c-format
 msgid "Allow '%s' to access your location information?"
 msgstr "Consenti a '%s' di conoscere la tua posizione?"
 
-#: src/location-manager.c:271
+#: src/location-manager.c:273
 msgid "Geolocation"
 msgstr "Posizione"
 
-#: src/location-manager.c:272
+#: src/location-manager.c:274
 msgid "Yes"
 msgstr "Sì"
 
-#: src/location-manager.c:272
+#: src/location-manager.c:274
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:84 src/ui/lockscreen.ui:233
+#: src/lockscreen.c:95 src/ui/lockscreen.ui:233
 msgid "Enter Passcode"
 msgstr "Inserire la password"
 
-#: src/lockscreen.c:263
+#: src/lockscreen.c:278
 msgid "Checking…"
 msgstr "Sto controllando…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:341
+#: src/lockscreen.c:356
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -278,8 +278,9 @@ msgstr "%s%d%s"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "La finestra di autenticazione è stata chiusa dall'utente"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:83
-#: src/ui/polkit-auth-prompt.ui:57 src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
+#: src/ui/system-prompt.ui:33
 msgid "Password:"
 msgstr "Password:"
 
@@ -349,6 +350,18 @@ msgstr "Mostra solo le app adattive"
 msgid "Some applications are busy or have unsaved work"
 msgstr "Alcune applicazioni sono occupate o hanno del lavoro non salvato"
 
+#: src/ui/gtk-mount-prompt.ui:95
+msgid "User:"
+msgstr "Utente:"
+
+#: src/ui/gtk-mount-prompt.ui:118
+msgid "Domain:"
+msgstr "Dominio:"
+
+#: src/ui/gtk-mount-prompt.ui:151
+msgid "Co_nnect"
+msgstr "Co_nnetti"
+
 #: src/ui/lockscreen.ui:37
 msgid "Slide up to unlock"
 msgstr "Scorri verso l'alto per sbloccare"
@@ -397,12 +410,3 @@ msgstr "Wi-Fi"
 #: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Cellulare"
-
-#~ msgctxt ""
-#~ "This is a monitor vendor name followed by product/model name where size "
-#~ "in inches could not be calculated, e.g. Dell U2414H"
-#~ msgid "%s %sn"
-#~ msgstr "%s %sn"
-
-#~ msgid "User:"
-#~ msgstr "Utente:"
