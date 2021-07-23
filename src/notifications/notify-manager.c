@@ -16,6 +16,7 @@
 #include "notification-banner.h"
 #include "notification-list.h"
 #include "notify-manager.h"
+#include "notify-feedback.h"
 #include "shell.h"
 #include "phosh-enums.h"
 #include "util.h"
@@ -62,6 +63,7 @@ typedef struct _PhoshNotifyManager
   GSettings *settings;
 
   PhoshNotificationList *list;
+  PhoshNotifyFeedback *feedback;
 } PhoshNotifyManager;
 
 G_DEFINE_TYPE_WITH_CODE (PhoshNotifyManager,
@@ -556,7 +558,7 @@ phosh_notify_manager_dispose (GObject *object)
     g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
 
   g_clear_object (&self->settings);
-
+  g_clear_object (&self->feedback);
   g_clear_object (&self->list);
 
   G_OBJECT_CLASS (phosh_notify_manager_parent_class)->dispose (object);
@@ -599,6 +601,8 @@ phosh_notify_manager_constructed (GObject *object)
   g_signal_connect_swapped (self->settings, "changed::" NOTIFICATIONS_KEY_APP_CHILDREN,
                             G_CALLBACK (on_notification_apps_setting_changed), self);
   on_notification_apps_setting_changed (self, NULL, self->settings);
+
+  self->feedback = phosh_notify_feedback_new (self->list);
 }
 
 

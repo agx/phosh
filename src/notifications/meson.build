@@ -17,6 +17,8 @@ phosh_notifications_sources = [
   'notifications/notification-source.h',
   'notifications/notify-manager.c',
   'notifications/notify-manager.h',
+  'notifications/notify-feedback.c',
+  'notifications/notify-feedback.h',
   'notifications/timestamp-label.c',
   'notifications/timestamp-label.h',
 ]
