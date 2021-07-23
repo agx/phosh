@@ -61,7 +61,22 @@ find_event (const char *category)
   const char *ret = NULL;
 
   if (locked) {
-    ret = "message-missed-notification";
+    if (g_strcmp0 (category, "email.arrived") == 0)
+      ret = "message-missed-email";
+    else if (g_strcmp0 (category, "im.received") == 0)
+      ret = "message-missed-instant";
+    else if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0)
+      ret = "phone-missed-call";
+    else
+      ret = "message-missed-notification";
+  } else {
+    if (g_strcmp0 (category, "email.arrived") == 0)
+      ret = "message-new-email";
+    else if (g_strcmp0 (category, "im.received") == 0)
+      ret = "message-new-instant";
+    else if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0)
+      ret = "phone-missed-call";
+    /* no additional feedback when not locked */
   }
 
   return ret;
