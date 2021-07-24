@@ -13,7 +13,7 @@ variables:
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
   ALPINE_EDGE_DEPS: alpine-sdk elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
-                    gtk+3.0-dev libhandy1-dev gcr-dev libsecret-dev gcovr linux-pam-dev
+                    gtk+3.0-dev libgudev-dev libhandy1-dev gcr-dev libsecret-dev gcovr linux-pam-dev
                     meson musl-dev networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
                     upower-dev wayland-dev wayland-protocols
 
