@@ -10,13 +10,17 @@
 
 #include "config.h"
 
+#include <gudev/gudev.h>
+
 #include "torch-manager.h"
 #include "shell.h"
 #include "util.h"
-#include "dbus/upower-torch-dbus.h"
+#include "dbus/login1-session-dbus.h"
 
-#define BUS_NAME "org.freedesktop.UPower"
-#define OBJECT_PATH "/org/freedesktop/UPower/Torch"
+#define BUS_NAME "org.freedesktop.login1"
+#define OBJECT_PATH "/org/freedesktop/login1/session/auto"
+
+#define TORCH_SUBSYSTEM "leds"
 
 #define TORCH_DISABLED_ICON "torch-disabled-symbolic"
 #define TORCH_ENABLED_ICON  "torch-enabled-symbolic"
@@ -41,42 +45,84 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshTorchManager {
-  PhoshManager          parent;
+  PhoshManager                        parent;
 
-  /* Whether upower sees a torch device */
-  gboolean              present;
-  const char           *icon_name;
-  int                   brightness;
-  int                   max_brightness;
-  int                   last_brightness;
+  /* Whether we found a torch device */
+  gboolean                            present;
+  const char                         *icon_name;
+  int                                 brightness;
+  int                                 max_brightness;
+  int                                 last_brightness;
 
-  PhoshUPowerDBusTorch *proxy;
-  GCancellable         *cancel;
+  GUdevClient                        *udev_client;
+  GUdevDevice                        *udev_device;
+
+  PhoshLogin1SessionDBusLoginSession *proxy;
+  GCancellable                       *cancel;
 };
 G_DEFINE_TYPE (PhoshTorchManager, phosh_torch_manager, PHOSH_TYPE_MANAGER);
 
 
 static void
-on_brightness_set (PhoshUPowerDBusTorch *proxy,
-                   GAsyncResult         *res,
-                   PhoshTorchManager    *self)
+apply_brightness (PhoshTorchManager *self)
+{
+  const char *icon_name;
+
+  g_return_if_fail (PHOSH_IS_TORCH_MANAGER (self));
+  g_return_if_fail (G_UDEV_IS_DEVICE (self->udev_device));
+
+  g_object_freeze_notify (G_OBJECT (self));
+
+  self->brightness = g_udev_device_get_sysfs_attr_as_int_uncached (self->udev_device,
+                                                                   "brightness");
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_BRIGHTNESS]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
+
+  icon_name = self->brightness ? TORCH_ENABLED_ICON : TORCH_DISABLED_ICON;
+  if (icon_name != self->icon_name) {
+    self->icon_name = icon_name;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ICON_NAME]);
+  }
+
+  g_object_thaw_notify (G_OBJECT (self));
+}
+
+static void
+on_brightness_set (PhoshLogin1SessionDBusLoginSession *proxy,
+                   GAsyncResult                       *res,
+                   PhoshTorchManager                  *self)
 {
   g_autoptr (GError) err = NULL;
 
-  if (!phosh_upower_dbus_torch_call_set_brightness_finish (proxy, res, &err)) {
+  g_return_if_fail (PHOSH_IS_TORCH_MANAGER (self));
+  g_return_if_fail (PHOSH_LOGIN1_SESSION_DBUS_IS_LOGIN_SESSION (proxy));
+
+  if (!phosh_login1_session_dbus_login_session_call_set_brightness_finish (proxy, res, &err)) {
     g_warning ("Failed to set torch brigthness: %s", err->message);
+    return;
   }
-  g_object_unref (self);
+
+  apply_brightness (self);
 }
 
 
 static void
 set_brightness (PhoshTorchManager *self, int brightness)
 {
-  phosh_upower_dbus_torch_call_set_brightness (self->proxy, brightness,
-                                               NULL,
-                                               (GAsyncReadyCallback) on_brightness_set,
-                                               g_object_ref (self));
+  g_return_if_fail (G_UDEV_IS_DEVICE (self->udev_device));
+
+  if (self->brightness == brightness)
+    return;
+
+  g_debug("Setting brightness to %d", brightness);
+
+  phosh_login1_session_dbus_login_session_call_set_brightness (self->proxy,
+                                                               TORCH_SUBSYSTEM,
+                                                               g_udev_device_get_name (self->udev_device),
+                                                               (guint) brightness,
+                                                               NULL,
+                                                               (GAsyncReadyCallback) on_brightness_set,
+                                                               self);
 }
 
 static void
@@ -108,92 +154,47 @@ phosh_torch_manager_get_property (GObject    *object,
 
 
 static void
-on_torch_brightness_changed (PhoshTorchManager    *self,
-                             GParamSpec           *pspec,
-                             PhoshUPowerDBusTorch *proxy)
+get_first_torch_device (gpointer data, gpointer manager)
 {
-  int brightness;
-  const char *icon_name;
+  PhoshTorchManager *self = PHOSH_TORCH_MANAGER (manager);
+  GUdevDevice *device = G_UDEV_DEVICE (data);
 
-  g_autoptr (GError) err = NULL;
-
-  g_return_if_fail (PHOSH_IS_TORCH_MANAGER (self));
-  g_return_if_fail (PHOSH_UPOWER_DBUS_IS_TORCH (proxy));
-
-  brightness = phosh_upower_dbus_torch_get_brightness (proxy);
-  if (brightness == self->brightness)
-    return;
-
-  g_debug ("Torch brightness: %d", brightness);
-
-  g_object_freeze_notify (G_OBJECT (self));
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_BRIGHTNESS]);
-
-  if (!!self->brightness != !!brightness)
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
-  self->brightness = brightness;
-
-  icon_name = self->brightness ? TORCH_ENABLED_ICON : TORCH_DISABLED_ICON;
-  if (icon_name != self->icon_name) {
-    self->icon_name = icon_name;
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ICON_NAME]);
-  }
-
-  g_object_thaw_notify (G_OBJECT (self));
+  /* Keep only the first torch device found */
+  if (!self->udev_device)
+    self->udev_device = g_object_ref (device);
 }
 
-
-static void
-on_get_max_brightness_finished (PhoshUPowerDBusTorch *proxy,
-                                GAsyncResult         *res,
-                                PhoshTorchManager    *self)
+static gboolean
+find_torch_device (PhoshTorchManager *self)
 {
-  g_autoptr (GError) err = NULL;
-  gboolean present = TRUE;
-  int value;
+  g_autoptr (GUdevEnumerator) udev_enumerator = NULL;
+  g_autolist (GUdevDevice) device_list = NULL;
 
-  if (phosh_upower_dbus_torch_call_get_max_brightness_finish (proxy, &value, res, &err)) {
-    self->max_brightness = value;
-  } else {
-    g_debug ("Failed to get torch brightness: %s", err->message);
-    present = FALSE;
+  self->udev_device = NULL;
+
+  udev_enumerator = g_udev_enumerator_new (self->udev_client);
+  g_udev_enumerator_add_match_subsystem (udev_enumerator, TORCH_SUBSYSTEM);
+  g_udev_enumerator_add_match_name (udev_enumerator, "*:torch");
+  g_udev_enumerator_add_match_name (udev_enumerator, "*:flash");
+
+  device_list = g_udev_enumerator_execute (udev_enumerator);
+  if (!device_list) {
+    g_warning ("Failed to find a torch device");
+    return FALSE;
   }
 
-  if (self->present != present) {
-    self->present = present;
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
+  g_list_foreach (device_list, get_first_torch_device, self);
+
+  if (!self->udev_device) {
+    g_warning ("Failed to find a usable torch device");
+    return FALSE;
   }
 
-  g_debug ("Torch present: %d", self->present);
-  g_object_unref (self);
-}
-
-
-static void
-on_name_owner_changed (PhoshTorchManager    *self,
-                       GParamSpec           *pspec,
-                       PhoshUPowerDBusTorch *proxy)
-{
-  g_autofree char *owner = NULL;
-  gboolean present;
-
-  g_return_if_fail (PHOSH_IS_TORCH_MANAGER (self));
-  g_return_if_fail (G_IS_DBUS_PROXY (proxy));
-
-  owner = g_dbus_proxy_get_name_owner (G_DBUS_PROXY (proxy));
-  present = owner ? TRUE : FALSE;
-  /* Name owner went away */
-  if (!present && self->present) {
-    self->present = present;
-    g_debug ("Torch present: %d", self->present);
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
-    return;
-  }
-
-  /* Check max brightness as indicator if we can drive that DBus interface */
-  phosh_upower_dbus_torch_call_get_max_brightness (
-    proxy, NULL, (GAsyncReadyCallback)on_get_max_brightness_finished,
-    g_object_ref (self));
+  self->max_brightness = g_udev_device_get_sysfs_attr_as_int (self->udev_device,
+                                                              "max_brightness");
+  g_debug("Found torch device '%s' with max brightness %d",
+          g_udev_device_get_name (self->udev_device), self->max_brightness);
+  return TRUE;
 }
 
 
@@ -203,31 +204,26 @@ on_proxy_new_for_bus_finish (GObject           *source_object,
                              PhoshTorchManager *self)
 {
   g_autoptr (GError) err = NULL;
-  PhoshUPowerDBusTorch *proxy;
+  PhoshLogin1SessionDBusLoginSession *proxy;
 
-  proxy = phosh_upower_dbus_torch_proxy_new_for_bus_finish (res, &err);
+  proxy = phosh_login1_session_dbus_login_session_proxy_new_for_bus_finish (res, &err);
   if (!proxy) {
-    phosh_async_error_warn (err, "Failed to get upower torch proxy");
+    phosh_async_error_warn (err, "Failed to get login1 session proxy");
     return;
   }
 
   g_return_if_fail (PHOSH_IS_TORCH_MANAGER (self));
   self->proxy = proxy;
 
-  g_signal_connect_object (self->proxy,
-                           "notify::g-name-owner",
-                           G_CALLBACK (on_name_owner_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-  on_name_owner_changed (self, NULL, self->proxy);
-  g_signal_connect_object (self->proxy,
-                           "notify::brightness",
-                           G_CALLBACK (on_torch_brightness_changed),
-                           self,
-                           G_CONNECT_SWAPPED);
-  on_torch_brightness_changed (self, NULL, self->proxy);
+  self->present = find_torch_device (self);
+  if (self->present) {
+    g_object_freeze_notify (G_OBJECT (self));
 
-  g_debug ("Torch manager initialized");
+    apply_brightness (self);
+
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
+    g_object_thaw_notify (G_OBJECT (self));
+  }
 }
 
 
@@ -235,15 +231,19 @@ static void
 phosh_torch_manager_idle_init (PhoshManager *manager)
 {
   PhoshTorchManager *self = PHOSH_TORCH_MANAGER (manager);
+  const char * const subsystems[] = { TORCH_SUBSYSTEM, NULL };
+
+  self->udev_client = g_udev_client_new (subsystems);
+  g_return_if_fail (self->udev_client != NULL);
 
   self->cancel = g_cancellable_new ();
-  phosh_upower_dbus_torch_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
-                                             G_DBUS_PROXY_FLAGS_NONE,
-                                             BUS_NAME,
-                                             OBJECT_PATH,
-                                             self->cancel,
-                                             (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
-                                             self);
+  phosh_login1_session_dbus_login_session_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
+                                                             G_DBUS_PROXY_FLAGS_NONE,
+                                                             BUS_NAME,
+                                                             OBJECT_PATH,
+                                                             self->cancel,
+                                                             (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
+                                                             self);
 }
 
 
@@ -256,6 +256,9 @@ phosh_torch_manager_dispose (GObject *object)
   g_clear_object (&self->cancel);
 
   g_clear_object (&self->proxy);
+
+  g_clear_object (&self->udev_client);
+  g_clear_object (&self->udev_device);
 
   G_OBJECT_CLASS (phosh_torch_manager_parent_class)->dispose (object);
 }
@@ -412,7 +415,7 @@ void
 phosh_torch_manager_toggle (PhoshTorchManager *self)
 {
   g_return_if_fail (PHOSH_IS_TORCH_MANAGER (self));
-  g_return_if_fail (PHOSH_UPOWER_DBUS_IS_TORCH (self->proxy));
+  g_return_if_fail (PHOSH_LOGIN1_SESSION_DBUS_IS_LOGIN_SESSION (self->proxy));
 
   if (self->brightness) {
     g_debug ("Disabling torch");
