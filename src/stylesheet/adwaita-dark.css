@@ -1,0 +1,7 @@
+/* Adwaita dark them variant */
+
+@define-color phosh_fg_color white;
+@define-color phosh_bg_color black;
+@define-color phosh_notification_bg_color #282828;
+
+@import url("resource:///sm/puri/phosh/stylesheet/common.css");

@@ -151,6 +151,8 @@ typedef struct
 
   PhoshShellStateFlags shell_state;
 
+  char           *theme_name;
+  GtkCssProvider *css_provider;
 } PhoshShellPrivate;
 
 
@@ -243,15 +245,38 @@ panels_dispose (PhoshShell *self)
 }
 
 
+/* Select proper style sheet in case of high contrast */
 static void
-css_setup (PhoshShell *self)
+on_gtk_theme_name_changed (PhoshShell *self, GParamSpec *pspec, GtkSettings *settings)
 {
+  const char *style;
+  g_autofree char *name = NULL;
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   g_autoptr (GtkCssProvider) provider = gtk_css_provider_new ();
 
-  gtk_css_provider_load_from_resource (provider, "/sm/puri/phosh/style.css");
+  g_object_get (settings, "gtk-theme-name", &name, NULL);
+
+  if (g_strcmp0 (priv->theme_name, name) == 0)
+    return;
+
+  priv->theme_name = g_steal_pointer (&name);
+  g_debug ("GTK theme: %s", priv->theme_name);
+
+  if (priv->css_provider) {
+    gtk_style_context_remove_provider_for_screen(gdk_screen_get_default (),
+                                                 GTK_STYLE_PROVIDER (priv->css_provider));
+  }
+
+  if (g_strcmp0 (priv->theme_name, "HighContrast") == 0)
+    style = "/sm/puri/phosh/stylesheet/adwaita-hc-light.css";
+  else
+    style = "/sm/puri/phosh/stylesheet/adwaita-dark.css";
+
+  gtk_css_provider_load_from_resource (provider, style);
   gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
                                              GTK_STYLE_PROVIDER (provider),
                                              GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  g_set_object (&priv->css_provider, provider);
 }
 
 
@@ -354,6 +379,9 @@ phosh_shell_dispose (GObject *object)
 
   phosh_system_prompter_unregister ();
   g_clear_object (&priv->session_manager);
+
+  g_clear_pointer (&priv->theme_name, g_free);
+  g_clear_object (&priv->css_provider);
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->dispose (object);
 }
@@ -692,7 +720,6 @@ phosh_shell_constructed (GObject *object)
 
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
                                     "/sm/puri/phosh/icons");
-  css_setup (self);
 
   priv->calls_manager = phosh_calls_manager_new ();
   priv->lockscreen_manager = phosh_lockscreen_manager_new (priv->calls_manager);
@@ -784,6 +811,9 @@ phosh_shell_init (PhoshShell *self)
 
   gtk_settings = gtk_settings_get_default ();
   g_object_set (G_OBJECT (gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
+
+  g_signal_connect_swapped (gtk_settings, "notify::gtk-theme-name", G_CALLBACK (on_gtk_theme_name_changed), self);
+  on_gtk_theme_name_changed (self, NULL, gtk_settings);
 
   priv->shell_state = PHOSH_STATE_NONE;
 }

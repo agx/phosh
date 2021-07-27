@@ -39,7 +39,7 @@ phosh-top-panel .indicators {
  * Settings menu
  */
 .phosh-settings-menu {
-  background-color: black;
+  background-color: @phosh_bg_color;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
 }
@@ -50,7 +50,7 @@ phosh-top-panel .indicators {
 
 .phosh-settings-row {
   box-shadow: none;
-  background-color: black;
+  background-color: @phosh_bg_color;
 }
 
 .phosh-settings-menu button.circular:not(:hover):not(:active) {
@@ -59,7 +59,7 @@ phosh-top-panel .indicators {
 
 .phosh-notification-tray, .phosh-notification-tray list {
   border-radius: 6px;
-  background-color: #282828;
+  background-color: @phosh_notification_bg_color;
 }
 
 .phosh-quick-setting {
@@ -110,8 +110,8 @@ phosh-activity:focus box {
 }
 
 phosh-home, phosh-top-panel {
-  background: black;
-  color: white;
+  background: @phosh_bg_color;
+  color: @phosh_fg_color;
 }
 
 .phosh-activity-close-button {
@@ -122,7 +122,7 @@ phosh-home, phosh-top-panel {
 }
 
 .phosh-overview {
-  background: black;
+  background: @phosh_bg_color;
 }
 
 .phosh-favorite {
@@ -154,7 +154,7 @@ phosh-home, phosh-top-panel {
 }
 
 phosh-app-grid {
-  background: black;
+  background: @phosh_bg_color;
 }
 
 phosh-app-grid separator {
@@ -192,7 +192,7 @@ phosh-app-grid-button image {
  * Lock screen
  */
 phosh-lockscreen, .phosh-lockshield {
-  background-color: black;
+  background-color: @phosh_bg_color;
 }
 
 .phosh-lockscreen-clock {
@@ -393,7 +393,7 @@ phosh-notification-content:last-child .actions-area button:last-child {
 
 phosh-notification-frame {
   border-radius: 6px;
-  background-color: #282828;
+  background-color: @phosh_notification_bg_color;
   margin: 12px;
 }
 
@@ -468,7 +468,7 @@ phosh-notification-banner {
  * Media player
  */
 phosh-media-player {
-  background: rgb(51,51,51);
+  background: @phosh_notification_bg_color;
   border-radius: 5%;
   padding: 9px;
   border: 0;
@@ -483,7 +483,7 @@ phosh-media-player > button {
 
 /* The details button should not look inactive even when disabled */
 phosh-media-player box *:disabled {
-  color: white;
+  color: @theme_fg_color;
   -gtk-icon-effect: none;
 }
 
