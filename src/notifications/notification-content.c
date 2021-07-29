@@ -21,6 +21,7 @@
 enum {
   PROP_0,
   PROP_NOTIFICATION,
+  PROP_SHOW_BODY,
   LAST_PROP
 };
 static GParamSpec *props[LAST_PROP];
@@ -35,6 +36,8 @@ struct _PhoshNotificationContent {
   GtkWidget *lbl_body;
   GtkWidget *img_image;
   GtkWidget *box_actions;
+
+  gboolean show_body;
 };
 typedef struct _PhoshNotificationContent PhoshNotificationContent;
 
@@ -90,7 +93,7 @@ set_body (GBinding     *binding,
   const char* body = g_value_get_string (from_value);
   gboolean visible;
 
-  visible = body != NULL && g_strcmp0 (body, "");
+  visible = body != NULL && g_strcmp0 (body, "") && self->show_body;
   gtk_widget_set_visible (self->lbl_body, visible);
 
   g_value_set_string (to_value, body);
@@ -201,6 +204,10 @@ phosh_notification_content_set_property (GObject      *object,
       phosh_notification_content_set_notification (self,
                                                   g_value_get_object (value));
       break;
+    case PROP_SHOW_BODY:
+      self->show_body = g_value_get_boolean (value);
+      break;
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
@@ -219,6 +226,9 @@ phosh_notification_content_get_property (GObject    *object,
   switch (property_id) {
     case PROP_NOTIFICATION:
       g_value_set_object (value, self->notification);
+      break;
+    case PROP_SHOW_BODY:
+      g_value_set_boolean (value, self->show_body);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -262,6 +272,19 @@ phosh_notification_content_class_init (PhoshNotificationContentClass *klass)
                          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
                          G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+  /**
+   * PhoshNotificationContent:show-body:
+   *
+   * Whether the body of the notification is shown
+   */
+  props[PROP_SHOW_BODY] =
+    g_param_spec_boolean ("show-body",
+                          "",
+                          "",
+                          TRUE,
+                          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
+                          G_PARAM_STATIC_STRINGS);
+
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
@@ -302,6 +325,8 @@ phosh_notification_content_init (PhoshNotificationContent *self)
 {
   g_autoptr (GActionMap) map = NULL;
 
+  self->show_body = TRUE;
+
   map = G_ACTION_MAP (g_simple_action_group_new ());
   g_action_map_add_action_entries (map,
                                    entries,
@@ -312,14 +337,28 @@ phosh_notification_content_init (PhoshNotificationContent *self)
                                   G_ACTION_GROUP (map));
 
   gtk_widget_init_template (GTK_WIDGET (self));
+
+
+  g_object_bind_property (self,
+                          "show-body",
+                          self->lbl_body,
+                          "visible",
+                          G_BINDING_DEFAULT);
+
+  g_object_bind_property (self,
+                          "show-body",
+                          self->box_actions,
+                          "visible",
+                          G_BINDING_DEFAULT);
 }
 
 
 GtkWidget *
-phosh_notification_content_new (PhoshNotification *notification)
+phosh_notification_content_new (PhoshNotification *notification, gboolean show_body)
 {
   return g_object_new (PHOSH_TYPE_NOTIFICATION_CONTENT,
                        "notification", notification,
+                       "show-body", show_body,
                        NULL);
 }
 

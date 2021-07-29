@@ -154,7 +154,7 @@ create_row (gpointer item, gpointer data)
 {
   PhoshNotification *notification = item;
 
-  return phosh_notification_content_new (notification);
+  return phosh_notification_content_new (notification, TRUE);
 }
 
 
