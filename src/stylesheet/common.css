@@ -44,15 +44,6 @@ phosh-top-panel .indicators {
   border-bottom-left-radius: 10px;
 }
 
-.phosh-settings-listboxrow {
-  padding: 0;
-}
-
-.phosh-settings-row {
-  box-shadow: none;
-  background-color: @phosh_bg_color;
-}
-
 .phosh-settings-menu button.circular:not(:hover):not(:active) {
   border: 2px solid @theme_bg_color;
 }
