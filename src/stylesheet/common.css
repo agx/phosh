@@ -220,7 +220,6 @@ keypad > grid > button {
   border: 0;
   box-shadow: none;
   background: 0;
-  border: 0;
 }
 
 keypad > grid > button:active {
@@ -242,7 +241,6 @@ keypad > grid > button:focus, .text-only-button:focus {
   border: 0;
   box-shadow: none;
   background: rgba(255, 255, 255, 0.3);
-  border: 0;
 }
 
 phosh-lockscreen phosh-media-player {
