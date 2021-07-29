@@ -22,6 +22,14 @@
  */
 
 
+enum {
+  PROP_0,
+  PROP_SHOW_BODY,
+  LAST_PROP
+};
+static GParamSpec *props[LAST_PROP];
+
+
 struct _PhoshNotificationFrame {
   GtkBox parent;
 
@@ -36,6 +44,8 @@ struct _PhoshNotificationFrame {
   GtkWidget *img_icon;
   GtkWidget *list_notifs;
   GtkWidget *updated;
+
+  gboolean   show_body;
 };
 typedef struct _PhoshNotificationFrame PhoshNotificationFrame;
 
@@ -48,6 +58,44 @@ enum {
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
+
+
+static void
+phosh_notification_frame_set_property (GObject      *object,
+                                        guint         property_id,
+                                        const GValue *value,
+                                        GParamSpec   *pspec)
+{
+  PhoshNotificationFrame *self = PHOSH_NOTIFICATION_FRAME (object);
+
+  switch (property_id) {
+  case PROP_SHOW_BODY:
+    self->show_body = g_value_get_boolean (value);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
+phosh_notification_frame_get_property (GObject    *object,
+                                        guint       property_id,
+                                        GValue     *value,
+                                        GParamSpec *pspec)
+{
+  PhoshNotificationFrame *self = PHOSH_NOTIFICATION_FRAME (object);
+
+  switch (property_id) {
+    case PROP_SHOW_BODY:
+      g_value_set_boolean (value, self->show_body);
+      break;
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+      break;
+  }
+}
 
 
 static void
@@ -109,6 +157,23 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->finalize = phosh_notification_frame_finalize;
+  object_class->set_property = phosh_notification_frame_set_property;
+  object_class->get_property = phosh_notification_frame_get_property;
+
+  /**
+   * PhoshNotificationFrame:show-body:
+   *
+   * Whether notificaions in this frame should show the notification body
+   */
+  props[PROP_SHOW_BODY] =
+    g_param_spec_boolean ("show-body",
+                          "",
+                          "",
+                          TRUE,
+                          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
+                          G_PARAM_STATIC_STRINGS);
+
+  g_object_class_install_properties (object_class, LAST_PROP, props);
 
   signals[SIGNAL_EMPTY] = g_signal_new ("empty",
                                         G_TYPE_FROM_CLASS (klass),
@@ -138,14 +203,15 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
 static void
 phosh_notification_frame_init (PhoshNotificationFrame *self)
 {
+  self->show_body = TRUE;
   gtk_widget_init_template (GTK_WIDGET (self));
 }
 
 
 GtkWidget *
-phosh_notification_frame_new (void)
+phosh_notification_frame_new (gboolean show_body)
 {
-  return g_object_new (PHOSH_TYPE_NOTIFICATION_FRAME, NULL);
+  return g_object_new (PHOSH_TYPE_NOTIFICATION_FRAME, "show-body", show_body, NULL);
 }
 
 
@@ -153,8 +219,11 @@ static GtkWidget *
 create_row (gpointer item, gpointer data)
 {
   PhoshNotification *notification = item;
+  PhoshNotificationFrame *self = PHOSH_NOTIFICATION_FRAME (data);
 
-  return phosh_notification_content_new (notification, TRUE);
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self), NULL);
+
+  return phosh_notification_content_new (notification, self->show_body);
 }
 
 

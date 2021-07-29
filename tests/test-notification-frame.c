@@ -44,7 +44,7 @@ test_phosh_notification_frame_new (void)
                                  NULL,
                                  now);
 
-  frame = phosh_notification_frame_new ();
+  frame = phosh_notification_frame_new (TRUE);
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
                                               noti);
 }
@@ -71,7 +71,7 @@ test_phosh_notification_frame_header_activated (void)
                                  NULL,
                                  now);
 
-  frame = phosh_notification_frame_new ();
+  frame = phosh_notification_frame_new (TRUE);
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
                                               noti);
   g_signal_connect (noti, "actioned", G_CALLBACK (actioned), NULL);
@@ -107,7 +107,7 @@ test_phosh_notification_frame_notification_activated (void)
                                  NULL,
                                  now);
 
-  frame = phosh_notification_frame_new ();
+  frame = phosh_notification_frame_new (TRUE);
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
                                               noti);
   g_signal_connect (noti, "actioned", G_CALLBACK (actioned), NULL);
