@@ -81,6 +81,7 @@ typedef struct {
   GtkWidget         *lbl_date;
   GtkWidget         *list_notifications;
   GtkWidget         *sw_notifications;
+  GSettings         *settings;
 
   /* unlock page */
   GtkWidget         *box_unlock;
@@ -586,6 +587,10 @@ on_notifcation_items_changed (PhoshLockscreen *self,
   is_empty = !g_list_model_get_n_items (list);
   g_debug("Notification list empty: %d", is_empty);
 
+  /* Don't unhide when we don't want notification on the lock screen */
+  if (!is_empty && !g_settings_get_boolean (priv->settings, "show-in-lock-screen"))
+    return;
+
   gtk_widget_set_visible (GTK_WIDGET (priv->sw_notifications), !is_empty);
 }
 
@@ -637,6 +642,11 @@ phosh_lockscreen_constructed (GObject *object)
     on_calls_call_inbound (self, active);
 
   manager = phosh_notify_manager_get_default ();
+  /* TODO: deduplicate after !862 */
+  priv->settings = g_settings_new("org.gnome.desktop.notifications");
+  g_settings_bind (priv->settings, "show-in-lock-screen",
+                   priv->list_notifications, "visible",
+                   G_SETTINGS_BIND_GET);
   gtk_list_box_bind_model (GTK_LIST_BOX (priv->list_notifications),
                            G_LIST_MODEL (phosh_notify_manager_get_list (manager)),
                            create_notification_row,
@@ -667,6 +677,7 @@ phosh_lockscreen_dispose (GObject *object)
   PhoshLockscreen *self = PHOSH_LOCKSCREEN (object);
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
+  g_clear_object (&priv->settings);
   g_clear_object (&priv->wall_clock);
   g_clear_handle_id (&priv->idle_timer, g_source_remove);
   g_clear_object (&priv->calls_manager);
