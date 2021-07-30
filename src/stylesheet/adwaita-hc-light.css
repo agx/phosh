@@ -1,0 +1,12 @@
+/* HighContrast theme variant */
+
+@define-color phosh_fg_color black;
+@define-color phosh_bg_color white;
+@define-color phosh_notification_bg_color #e0e0e0;
+
+@import url("resource:///sm/puri/phosh/stylesheet/common.css");
+
+.phosh-panel-btn {
+  border-width: 1px;
+  border-radius: 0;
+}

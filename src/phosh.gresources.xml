@@ -21,7 +21,9 @@
     <file preprocess="xml-stripblanks">ui/system-prompt.ui</file>
     <file preprocess="xml-stripblanks">ui/top-panel.ui</file>
     <file preprocess="xml-stripblanks">ui/quick-setting.ui</file>
-    <file compressed="true">style.css</file>
+    <file compressed="true">stylesheet/adwaita-dark.css</file>
+    <file compressed="true">stylesheet/adwaita-hc-light.css</file>
+    <file compressed="true">stylesheet/common.css</file>
     <file compressed="true" alias="fake-app.svg">../data/fake-app.svg</file>
   </gresource>
   <gresource prefix="/sm/puri/phosh/icons/">
