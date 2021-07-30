@@ -729,3 +729,24 @@ phosh_lockscreen_get_page (PhoshLockscreen *self)
   else
     return PHOSH_LOCKSCREEN_PAGE_UNLOCK;
 }
+
+/*
+ * phosh_lockscreen_set_page
+ * @self: The #PhoshLockscreen
+ * PhoshLockscreenPage: the page to scroll to
+ *
+ * Scrolls to a specific page in the carousel. The state of the deck isn't changed.
+ */
+void
+phosh_lockscreen_set_page (PhoshLockscreen *self, PhoshLockscreenPage page)
+{
+  GtkWidget *scroll_to;
+  PhoshLockscreenPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  scroll_to = (page == PHOSH_LOCKSCREEN_PAGE_UNLOCK) ? priv->box_unlock : priv->box_info;
+
+  hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel), scroll_to);
+}
