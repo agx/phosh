@@ -13,6 +13,12 @@
       <arg direction="in" type="b" />
     </method>
 
+    <method name="SetBrightness">
+      <arg name="subsystem" direction="in" type="s" />
+      <arg name="name" direction="in" type="s" />
+      <arg name="brightness" direction="in" type="u" />
+    </method>
+
     <signal name="Lock" />
 
     <signal name="Unlock" />

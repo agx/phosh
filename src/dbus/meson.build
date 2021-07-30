@@ -32,11 +32,6 @@ generated_dbus_sources +=  gnome.gdbus_codegen('phosh-wwan-mm-dbus',
                                                namespace: 'Phosh_MM_DBus',
                                                interface_prefix: 'org.freedesktop.ModemManager1',
                                                object_manager: true)
-# org.freedesktop.UPower.Torch
-generated_dbus_sources += gnome.gdbus_codegen('upower-torch-dbus',
-					      'org.freedesktop.UPower.Torch.xml',
-					      interface_prefix: 'org.freedesktop.UPower',
-					      namespace: 'PhoshUPowerDBus')
 # org.gnome.SessionManager
 generated_dbus_sources += gnome.gdbus_codegen('gnome-session-dbus',
 					      'org.gnome.SessionManager.xml',

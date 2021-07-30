@@ -121,6 +121,7 @@ gnome_desktop_dep = dependency('gnome-desktop-3.0', version: '>=3.26')
 gsettings_desktop_schemas_dep = dependency('gsettings-desktop-schemas')
 gtk_dep = dependency('gtk+-3.0', version: '>=3.22')
 gtk_wayland_dep = dependency('gtk+-wayland-3.0', version: '>=3.22')
+gudev_dep = dependency('gudev-1.0')
 libfeedback_dep = dependency('libfeedback-0.0',
   fallback: ['libfeedback', 'libfeedback_dep'],
   default_options: ['introspection=disabled', 'daemon=false', 'gtk_doc=false']
