@@ -14,6 +14,8 @@
 #include "bt-info.h"
 #include "calls-manager.h"
 #include "lockscreen.h"
+#include "notifications/notify-manager.h"
+#include "notifications/notification-frame.h"
 #include "util.h"
 
 #include <locale.h>
@@ -77,6 +79,8 @@ typedef struct {
   GtkWidget         *box_info;
   GtkWidget         *lbl_clock;
   GtkWidget         *lbl_date;
+  GtkWidget         *list_notifications;
+  GtkWidget         *sw_notifications;
 
   /* unlock page */
   GtkWidget         *box_unlock;
@@ -544,12 +548,55 @@ on_calls_call_removed (PhoshLockscreen *self, const gchar *path)
 }
 
 
+static GtkWidget *
+create_notification_row (gpointer item, gpointer data)
+{
+  GtkWidget *row = NULL;
+  GtkWidget *frame = NULL;
+
+  row = g_object_new (GTK_TYPE_LIST_BOX_ROW,
+                      "activatable", FALSE,
+                      "visible", TRUE,
+                      NULL);
+
+  frame = phosh_notification_frame_new (FALSE);
+  phosh_notification_frame_bind_model (PHOSH_NOTIFICATION_FRAME (frame), item);
+
+  gtk_widget_show (frame);
+  gtk_container_add (GTK_CONTAINER (row), frame);
+
+  return row;
+}
+
+
+static void
+on_notifcation_items_changed (PhoshLockscreen *self,
+                              guint            position,
+                              guint            removed,
+                              guint            added,
+                              GListModel      *list)
+{
+  PhoshLockscreenPrivate *priv;
+  gboolean is_empty;
+
+  g_return_if_fail (G_IS_LIST_MODEL (list));
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  is_empty = !g_list_model_get_n_items (list);
+  g_debug("Notification list empty: %d", is_empty);
+
+  gtk_widget_set_visible (GTK_WIDGET (priv->sw_notifications), !is_empty);
+}
+
+
 static void
 phosh_lockscreen_constructed (GObject *object)
 {
   PhoshLockscreen *self = PHOSH_LOCKSCREEN (object);
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   const char *active;
+  PhoshNotifyManager *manager;
 
   G_OBJECT_CLASS (phosh_lockscreen_parent_class)->constructed (object);
 
@@ -583,10 +630,25 @@ phosh_lockscreen_constructed (GObject *object)
                            G_CALLBACK (on_calls_call_removed),
                            self,
                            G_CONNECT_SWAPPED);
+
   /* If a call is ongoing show it when locking until we show a notification */
   active = phosh_calls_manager_get_active_call_handle (priv->calls_manager);
   if (active)
     on_calls_call_inbound (self, active);
+
+  manager = phosh_notify_manager_get_default ();
+  gtk_list_box_bind_model (GTK_LIST_BOX (priv->list_notifications),
+                           G_LIST_MODEL (phosh_notify_manager_get_list (manager)),
+                           create_notification_row,
+                           NULL,
+                           NULL);
+  g_signal_connect_object (phosh_notify_manager_get_list (manager),
+                           "items-changed",
+                           G_CALLBACK (on_notifcation_items_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_notifcation_items_changed (self, -1, -1, -1,
+                                G_LIST_MODEL (phosh_notify_manager_get_list (manager)));
 }
 
 static void
@@ -675,6 +737,8 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_info);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, list_notifications);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, sw_notifications);
   gtk_widget_class_bind_template_callback (widget_class, show_unlock_page);
 
   /* Call UI */
