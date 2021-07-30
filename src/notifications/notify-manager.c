@@ -62,6 +62,12 @@ typedef struct _PhoshNotifyManager
 
   GSettings *settings;
 
+  /* Notification to be handled on unlock */
+  struct {
+    PhoshNotification *notification;
+    char              *action;
+  } unlock_notify;
+
   PhoshNotificationList *list;
   PhoshNotifyFeedback *feedback;
 } PhoshNotifyManager;
@@ -162,19 +168,39 @@ on_notification_expired (PhoshNotifyManager *self,
 
 
 static void
-on_notification_actioned (PhoshNotifyManager *self,
-                          const char         *action,
-                          PhoshNotification  *notification)
+on_unlock_notify_ref_gone (gpointer data, GObject *gone)
 {
-  guint id;
+  PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (data);
 
   g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
-  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+
+  self->unlock_notify.notification = NULL;
+  g_clear_pointer (&self->unlock_notify.action, g_free);
+}
+
+
+static void
+forget_unlock_notify (PhoshNotifyManager *self)
+{
+  if (!self->unlock_notify.notification)
+    return;
+
+  g_object_weak_unref (G_OBJECT (self->unlock_notify.notification),
+                       on_unlock_notify_ref_gone,
+                       self);
+  self->unlock_notify.notification = NULL;
+  g_clear_pointer (&self->unlock_notify.action, g_free);
+}
+
+
+static void
+invoke_action (PhoshNotification *notification, const gchar *action)
+{
+  guint id;
 
   id = phosh_notification_get_id (notification);
 
   g_return_if_fail (id);
-
   g_debug ("Emitting ActionInvoked: %d, %s", id, action);
 
   phosh_notification_do_action (notification, id, action);
@@ -183,6 +209,55 @@ on_notification_actioned (PhoshNotifyManager *self,
   if (!phosh_notification_get_resident (notification)) {
     phosh_notification_close (notification,
                               PHOSH_NOTIFICATION_REASON_DISMISSED);
+  }
+}
+
+
+
+static void
+on_shell_lock_changed (PhoshNotifyManager* self, GParamSpec *pspec, PhoshShell *shell)
+{
+  gboolean locked;
+
+  g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
+
+  locked = phosh_shell_get_locked (shell);
+  if (!locked && self->unlock_notify.notification) {
+    invoke_action (self->unlock_notify.notification, self->unlock_notify.action);
+    forget_unlock_notify (self);
+  }
+}
+
+
+static void
+on_notification_actioned (PhoshNotifyManager *self,
+                          const char         *action,
+                          PhoshNotification  *notification)
+{
+  PhoshShell *shell = phosh_shell_get_default();
+
+  g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
+
+  /* Postpone action when shell is locked */
+  if (phosh_shell_get_locked (shell)) {
+    PhoshLockscreenManager *lm;
+
+    /* Forget any pending actions */
+    forget_unlock_notify (self);
+
+    /* Clear out notification if it goes away in the meantime */
+    g_object_weak_ref (G_OBJECT (notification),
+                       on_unlock_notify_ref_gone,
+                       self);
+    self->unlock_notify.notification = notification;
+    self->unlock_notify.action = g_strdup (action);
+
+    /* Scroll to unlock page */
+    lm = phosh_shell_get_lockscreen_manager (shell);
+    phosh_lockscreen_manager_set_page (lm, PHOSH_LOCKSCREEN_PAGE_UNLOCK);
+  } else {
+    invoke_action (notification, action);
   }
 }
 
@@ -581,6 +656,7 @@ static void
 phosh_notify_manager_constructed (GObject *object)
 {
   PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (object);
+  PhoshShell *shell = phosh_shell_get_default();
 
   G_OBJECT_CLASS (phosh_notify_manager_parent_class)->constructed (object);
   self->dbus_name_id = g_bus_own_name (G_BUS_TYPE_SESSION,
@@ -601,6 +677,8 @@ phosh_notify_manager_constructed (GObject *object)
   g_signal_connect_swapped (self->settings, "changed::" NOTIFICATIONS_KEY_APP_CHILDREN,
                             G_CALLBACK (on_notification_apps_setting_changed), self);
   on_notification_apps_setting_changed (self, NULL, self->settings);
+
+  g_signal_connect_swapped (shell, "notify::locked", G_CALLBACK (on_shell_lock_changed), self);
 
   self->feedback = phosh_notify_feedback_new (self->list);
 }
