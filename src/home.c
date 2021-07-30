@@ -202,22 +202,29 @@ on_has_activities_changed (PhoshHome *self)
 
 
 static gboolean
-key_press_event_cb (PhoshHome *self, GdkEventKey *event, gpointer data)
+window_key_press_event_cb (PhoshHome *self, GdkEvent *event, gpointer data)
 {
-  gboolean handled = FALSE;
-  g_return_val_if_fail (PHOSH_IS_HOME (self), FALSE);
+  gboolean ret = GDK_EVENT_PROPAGATE;
+  guint keyval;
+  g_return_val_if_fail (PHOSH_IS_HOME (self), GDK_EVENT_PROPAGATE);
 
-  switch (event->keyval) {
+  if (self->state != PHOSH_HOME_STATE_UNFOLDED)
+    return GDK_EVENT_PROPAGATE;
+
+  if (!gdk_event_get_keyval (event, &keyval))
+    return GDK_EVENT_PROPAGATE;
+
+  switch (keyval) {
     case GDK_KEY_Escape:
       phosh_home_set_state (self, PHOSH_HOME_STATE_FOLDED);
-      handled = TRUE;
+      ret = GDK_EVENT_STOP;
       break;
     default:
-      /* nothing to do */
-      break;
+      /* Focus search when typing */
+      ret = phosh_overview_handle_search (PHOSH_OVERVIEW (self->overview), event);
   }
 
-  return handled;
+  return ret;
 }
 
 
@@ -313,12 +320,6 @@ phosh_home_constructed (GObject *object)
                     G_CALLBACK (phosh_home_resize),
                     NULL);
 
-  gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
-  g_signal_connect (G_OBJECT (self),
-                    "key_press_event",
-                    G_CALLBACK (key_press_event_cb),
-                    NULL);
-
   g_object_connect (self->settings,
                     "swapped-signal::changed::" KEYBINDING_KEY_TOGGLE_OVERVIEW,
                     on_keybindings_changed, self,
@@ -402,6 +403,7 @@ phosh_home_class_init (PhoshHomeClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, home_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_has_activities_changed);
   gtk_widget_class_bind_template_callback (widget_class, osk_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, window_key_press_event_cb);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-home");
 }

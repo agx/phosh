@@ -37,6 +37,7 @@ struct _PhoshAppGridClass
 GtkWidget *phosh_app_grid_new (void);
 void       phosh_app_grid_reset (PhoshAppGrid *self);
 void       phosh_app_grid_focus_search (PhoshAppGrid *self);
+gboolean   phosh_app_grid_handle_search (PhoshAppGrid *self, GdkEvent *event);
 void       phosh_app_grid_set_filter_adaptive (PhoshAppGrid *self, gboolean enable);
 
 

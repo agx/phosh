@@ -517,6 +517,18 @@ phosh_overview_focus_app_search (PhoshOverview *self)
   phosh_app_grid_focus_search (PHOSH_APP_GRID (priv->app_grid));
 }
 
+
+gboolean
+phosh_overview_handle_search (PhoshOverview *self, GdkEvent *event)
+{
+  PhoshOverviewPrivate *priv;
+
+  g_return_val_if_fail(PHOSH_IS_OVERVIEW (self), GDK_EVENT_PROPAGATE);
+  priv = phosh_overview_get_instance_private (self);
+  return phosh_app_grid_handle_search (PHOSH_APP_GRID (priv->app_grid), event);
+}
+
+
 gboolean
 phosh_overview_has_running_activities (PhoshOverview *self)
 {
