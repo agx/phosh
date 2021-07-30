@@ -785,8 +785,12 @@ phosh_lockscreen_new (gpointer layer_shell,
 PhoshLockscreenPage
 phosh_lockscreen_get_page (PhoshLockscreen *self)
 {
-  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  gdouble position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
+  PhoshLockscreenPrivate *priv;
+  gdouble position;
+
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN (self), PHOSH_LOCKSCREEN_PAGE_DEFAULT);
+  priv = phosh_lockscreen_get_instance_private (self);
+  position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
 
   if (position <= 0)
     return PHOSH_LOCKSCREEN_PAGE_DEFAULT;
