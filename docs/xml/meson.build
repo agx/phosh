@@ -1,4 +1,4 @@
-url = 'https://source.puri.sm/Librem5/phosh'
+url = 'https://gitlab.gnome.org/World/Phosh/phosh'
 
 ent_conf = configuration_data()
 ent_conf.set('PACKAGE', 'Phosh')

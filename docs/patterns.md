@@ -16,12 +16,12 @@ extend) when running on a laptop.
 Since it acts as a Wayland client it needs a compositor to function
 that provides the necessary protocols (most notably
 wlr-layer-shell). It's usually used with
-[phoc](https://source.puri.sm/Librem5/phoc) (the PHOne Compositor).
+[phoc](hhttps://gitlab.gnome.org/World/Phosh/phoc) (the PHOne Compositor).
 
 On the GNOME side it interfaces with the usual components
 (e.g. [gnome-settings-daemon](https://gitlab.gnome.org/GNOME/gnome-settings-daemon),
 [upower](https://gitlab.freedesktop.org/upower/upower),
-[iio-sensor-proxy](https://source.puri.sm/Librem5/debs/iio-sensor-proxy))
+[iio-sensor-proxy](https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/))
 via DBus. For haptic feedback it uses
 [feedbackd](https://source.puri.sm/Librem5/feedbackd/).
 
@@ -31,7 +31,7 @@ widgets.
 
 Although targeted at touch devices Phosh does not implement a
 on screen keyboard (OSK) but leaves this to
-[squeekboard](https://source.puri.sm/Librem5/squeekboard).
+[squeekboard](hhttps://gitlab.gnome.org/World/Phosh/squeekboard).
 
 The above combination of software is also often (a bit imprecisely)
 named Phosh.

@@ -149,4 +149,4 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   </template>
 ```
 
-[1]: https://source.puri.sm/Librem5/libhandy/blob/master/HACKING.md#coding-style
+[1]: https://gitlab.gnome.org/GNOME/libhandy/blob/master/HACKING.md#coding-style
