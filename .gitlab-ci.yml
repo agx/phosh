@@ -201,6 +201,7 @@ package:deb-pureos-byzantium:arm64:
   before_script: []
   variables:
     L5_DOCKER_IMAGE: pureos/byzantium
+    DEB_BUILD_PROFILES: nodoc
   extends: .l5-build-debian-package
   tags:
     - aarch64
