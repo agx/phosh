@@ -51,12 +51,7 @@ before_script:
   - eatmydata dpkg --force-depends --remove lcov
   - ulimit -c unlimited
 
-.tags: &tags
-  tags:
-    - librem5
-
 build:native-debian-bullseye:
-  <<: *tags
   stage: build
   image: debian:bullseye
   <<: *bullseye_vars
@@ -69,7 +64,6 @@ build:native-debian-bullseye:
       - $PKG_ONLY == "1"
 
 build:cross-debian-bullseye:i386:
-  <<: *tags
   stage: build
   image: debian:bullseye
   allow_failure: true
@@ -100,7 +94,6 @@ build:cross-debian-bullseye:i386:
       - $PKG_ONLY == "1"
 
 unit-test:native-debian-bullseye:
-  <<: *tags
   stage: test+docs
   image: debian:bullseye
   needs:
@@ -117,7 +110,6 @@ unit-test:native-debian-bullseye:
       - $PKG_ONLY == "1"
 
 build-gtkdoc:
-  <<: *tags
   image: debian:bullseye
   stage: test+docs
   variables:
@@ -138,7 +130,6 @@ build-gtkdoc:
       - $PKG_ONLY == "1"
 
 check-po:
-  <<: *tags
   stage: test+docs
   image: debian:bullseye
   needs:
@@ -154,7 +145,6 @@ check-po:
       - $PKG_ONLY == "1"
 
 check-license-headers:
-  <<: *tags
   stage: test+docs
   image: debian:bullseye
   needs:
@@ -169,7 +159,6 @@ check-license-headers:
       - $PKG_ONLY == "1"
 
 build:native-alpinelinux-edge:
-  <<: *tags
   stage: build
   image: alpine:edge
   allow_failure: true
@@ -188,7 +177,6 @@ build:native-alpinelinux-edge:
       - $PKG_ONLY == "1"
 
 unit-test:native-alpinelinux-edge:
-  <<: *tags
   stage: test+docs
   image: alpine:edge
   allow_failure: true
@@ -209,10 +197,10 @@ unit-test:native-alpinelinux-edge:
       - $PKG_ONLY == "1"
 
 package:deb-pureos-byzantium:arm64:
-  tags:
-    - librem5:arm64
   before_script: []
   variables:
     L5_DOCKER_IMAGE: pureos/byzantium
   extends: .l5-build-debian-package
+  tags:
+    - aarch64
 
