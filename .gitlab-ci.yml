@@ -35,19 +35,6 @@ variables:
     - ${XVFB_RUN} ninja -C _build test
     - ninja -C _build coverage
 
-# For the smoke tests we also want debug packages, phoc,
-# weston-info, gdb, valgrind, ...
-.smoketest_vars:
-  variables: &smoketest_vars
-    DIST: bullseye
-    DEPS: phoc wget gnome-session-bin gdb weston valgrind
-          libhandy-1-0-dbgsym libgtk-3-0-dbgsym libglib2.0-0-dbgsym
-          dconf-gsettings-backend-dbgsym libfeedback-0.0-0-dbgsym
-          xvfb imagemagick
-    EXP_DEPS: libhandy-1-0-dbgsym/experimental-debug libhandy-1-0/experimental
-    WANT_BUILD_DEPS: "false"
-
-
 before_script:
   - export DEBIAN_FRONTEND=noninteractive
   - apt-get -y update
