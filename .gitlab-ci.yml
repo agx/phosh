@@ -5,6 +5,7 @@ stages:
  - build
  - test+docs
  - package
+ - deploy
 
 variables:
   DEPS: build-essential git wget gcovr
@@ -203,4 +204,17 @@ package:deb-pureos-byzantium:arm64:
   extends: .l5-build-debian-package
   tags:
     - aarch64
+
+pages:
+  stage: deploy
+  before_script: []
+  needs:
+    - build-gtkdoc
+  script:
+    - mv _reference/ public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
 
