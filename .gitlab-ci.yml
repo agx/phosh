@@ -8,9 +8,7 @@ stages:
  - deploy
 
 variables:
-  DEPS: build-essential git wget gcovr
-  EXP_DEPS: libhandy-1-dev/experimental libhandy-1-0/experimental gir1.2-handy-1/experimental libgladeui-common/experimental
-  WANT_BUILD_DEPS: "true"
+  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20210802
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
   ALPINE_EDGE_DEPS: alpine-sdk elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
@@ -36,25 +34,9 @@ variables:
     - ${XVFB_RUN} ninja -C _build test
     - ninja -C _build coverage
 
-before_script:
-  - export DEBIAN_FRONTEND=noninteractive
-  - apt-get -y update
-  - apt-get -y install wget ca-certificates gnupg eatmydata
-  - echo "deb http://debug.mirrors.debian.org/debian-debug/ ${DIST}-debug main" > /etc/apt/sources.list.d/debug.list
-  - echo "deb http://debug.mirrors.debian.org/debian-debug/ experimental-debug main" >> /etc/apt/sources.list.d/debug.list
-  - echo "deb http://deb.debian.org/debian/ experimental main" > /etc/apt/sources.list.d/exp.list
-  - eatmydata apt-get -y update
-  - eatmydata apt-get -y install $EXP_DEPS
-  - '[ "$WANT_BUILD_DEPS" != "true" ] || eatmydata apt-get -y build-dep .'
-  - eatmydata apt-get -y install $DEPS
-  # Forecully drop lcov so gcovr is used
-  # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=987818
-  - eatmydata dpkg --force-depends --remove lcov
-  - ulimit -c unlimited
-
 build:native-debian-bullseye:
   stage: build
-  image: debian:bullseye
+  image: ${DEBIAN_IMAGE}
   <<: *bullseye_vars
   <<: *build_step
   artifacts:
@@ -96,7 +78,7 @@ build:cross-debian-bullseye:i386:
 
 unit-test:native-debian-bullseye:
   stage: test+docs
-  image: debian:bullseye
+  image: ${DEBIAN_IMAGE}
   needs:
     - build:native-debian-bullseye
   <<: *bullseye_vars
@@ -111,8 +93,8 @@ unit-test:native-debian-bullseye:
       - $PKG_ONLY == "1"
 
 build-gtkdoc:
-  image: debian:bullseye
   stage: test+docs
+  image: ${DEBIAN_IMAGE}
   variables:
     DIST: bullseye
     BUILD_OPTS: -Dgtk_doc=true ${COMMON_BUILD_OPTS}
@@ -132,12 +114,13 @@ build-gtkdoc:
 
 check-po:
   stage: test+docs
-  image: debian:bullseye
   needs:
     - build:native-debian-bullseye
+  image: ${DEBIAN_IMAGE}
   before_script:
-    - apt-get -y update
-    - apt-get -y install intltool gettext
+    - eatmydata apt-get -y -f install
+    - eatmydata apt-get -y update
+    - eatmydata apt-get -y install intltool gettext
   <<: *bullseye_vars
   script:
     - tools/check-po
@@ -147,9 +130,9 @@ check-po:
 
 check-license-headers:
   stage: test+docs
-  image: debian:bullseye
   needs:
     - build:native-debian-bullseye
+  image: ${DEBIAN_IMAGE}
   <<: *bullseye_vars
   script:
     # Checks .c and .h files begin with a license header as
@@ -198,7 +181,6 @@ unit-test:native-alpinelinux-edge:
       - $PKG_ONLY == "1"
 
 package:deb-pureos-byzantium:arm64:
-  before_script: []
   variables:
     L5_DOCKER_IMAGE: pureos/byzantium
     DEB_BUILD_PROFILES: nodoc
@@ -208,7 +190,6 @@ package:deb-pureos-byzantium:arm64:
 
 pages:
   stage: deploy
-  before_script: []
   needs:
     - build-gtkdoc
   script:
