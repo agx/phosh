@@ -1,5 +1,0 @@
-# Use via environment variable LSAN_OPTIONS=suppressions=data/leak-suppress.txt
-# Ignore fontconfig reported leaks. It's caches cause false positives.
-leak:libfontconfig.so.1
-# https://gitlab.gnome.org/GNOME/gtk/merge_requests/823
-leak:gtk_header_bar_set_decoration_layout
