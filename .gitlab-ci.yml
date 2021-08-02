@@ -9,6 +9,7 @@ stages:
 
 variables:
   DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20210802
+  DEBIAN_CROSS_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian-cross:v0.0.20210802
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
   ALPINE_EDGE_DEPS: alpine-sdk elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
@@ -46,23 +47,11 @@ build:native-debian-bullseye:
     variables:
       - $PKG_ONLY == "1"
 
+# Build for 32bit architecture to catch common errors
 build:cross-debian-bullseye:i386:
   stage: build
-  image: debian:bullseye
+  image: "${DEBIAN_CROSS_IMAGE}"
   allow_failure: true
-  variables:
-    EXP_DEPS: libhandy-1-dev:i386/experimental libhandy-1-0:i386/experimental gir1.2-handy-1:i386/experimental
-  before_script:
-    - export DEBIAN_FRONTEND=noninteractive
-    - echo "deb [arch=i386] http://deb.debian.org/debian/ testing main" > /etc/apt/sources.list.d/i386.list
-    - echo "deb [arch=amd64 arch=i386] http://deb.debian.org/debian/ experimental main" >> /etc/apt/sources.list.d/exp.list
-    - apt-get -y update
-    - apt-get -y install eatmydata
-    - dpkg --add-architecture i386
-    - eatmydata apt-get -y update
-    - eatmydata apt-get -y -o APT::Immediate-Configure=false install $EXP_DEPS
-    - DEB_BUILD_PROFILES=nodoc,nocheck eatmydata apt-get -y -a i386 -o APT::Immediate-Configure=false build-dep .
-    - eatmydata apt-get -y install $DEPS crossbuild-essential-i386
   script:
     - git submodule update --recursive
     - 'echo "Build opts: ${COMMON_BUILD_OPTS}"'
