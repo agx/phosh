@@ -142,6 +142,17 @@ libhandy_dep = dependency('libhandy-1',
   fallback: ['libhandy', 'libhandy_dep'],
   default_options: ['introspection=disabled']
   )
+libcall_ui = subproject('libcall-ui',
+  default_options: [
+    'package_name=' + meson.project_name(),
+    'package_version=' + meson.project_version(),
+    'pkgdatadir=' + pkgdatadir,
+    'pkglibdir=' + pkglibdir,
+    'examples=false',
+    'gtk_doc=false',
+    'tests=false',
+  ])
+libcall_ui_dep = libcall_ui.get_variable('libcall_ui_dep')
 libnm_dep = dependency('libnm', version: '>= 1.14')
 libpolkit_agent_dep = dependency('polkit-agent-1', version: '>= 0.105')
 # TODO: make optional for elogind?

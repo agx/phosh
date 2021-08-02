@@ -5,6 +5,7 @@
  */
 #pragma once
 
+#include "calls-manager.h"
 #include "layersurface.h"
 
 G_BEGIN_DECLS
@@ -28,7 +29,7 @@ typedef enum {
 G_DECLARE_FINAL_TYPE (PhoshLockscreen, phosh_lockscreen, PHOSH, LOCKSCREEN,
                       PhoshLayerSurface)
 
-GtkWidget * phosh_lockscreen_new (gpointer layer_shell, gpointer wl_output);
+GtkWidget * phosh_lockscreen_new (gpointer layer_shell, gpointer wl_output, PhoshCallsManager *calls_manager);
 PhoshLockscreenPage phosh_lockscreen_get_page (PhoshLockscreen *self);
 
 G_END_DECLS

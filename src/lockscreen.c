@@ -12,7 +12,9 @@
 
 #include "auth.h"
 #include "bt-info.h"
+#include "calls-manager.h"
 #include "lockscreen.h"
+#include "util.h"
 
 #include <locale.h>
 #include <string.h>
@@ -21,6 +23,8 @@
 #include <time.h>
 
 #include <handy.h>
+#include <cui-call-display.h>
+
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-wall-clock.h>
@@ -47,12 +51,18 @@ typedef enum {
 } PhoshLocksreenPos;
 
 enum {
+  PROP_0,
+  PROP_CALLS_MANAGER,
+  PROP_LAST_PROP
+};
+static GParamSpec *props[PROP_LAST_PROP];
+
+enum {
   LOCKSCREEN_UNLOCK,
   WAKEUP_OUTPUT,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
-
 
 typedef struct _PhoshLockscreen
 {
@@ -61,29 +71,76 @@ typedef struct _PhoshLockscreen
 
 
 typedef struct {
-  GtkWidget *carousel;
+  GtkWidget         *carousel;
 
   /* info page */
-  GtkWidget *box_info;
-  GtkWidget *lbl_clock;
-  GtkWidget *lbl_date;
+  GtkWidget         *box_info;
+  GtkWidget         *lbl_clock;
+  GtkWidget         *lbl_date;
 
   /* unlock page */
-  GtkWidget *box_unlock;
-  GtkWidget *keypad;
-  GtkWidget  *entry_pin;
-  GtkGesture *long_press_del_gesture;
-  GtkWidget *lbl_unlock_status;
-  GtkWidget *btn_submit;
-  GtkWidget *btn_emergency;
-  guint      idle_timer;
-  gint64     last_input;
-  PhoshAuth *auth;
+  GtkWidget         *box_unlock;
+  GtkWidget         *keypad;
+  GtkWidget         *entry_pin;
+  GtkGesture        *long_press_del_gesture;
+  GtkWidget         *lbl_unlock_status;
+  GtkWidget         *btn_submit;
+  GtkWidget         *btn_emergency;
+  guint              idle_timer;
+  gint64             last_input;
+  PhoshAuth         *auth;
 
-  GnomeWallClock *wall_clock;
+  /* Call page */
+  HdyDeck           *deck;
+  GtkBox            *box_call_display;
+  CuiCallDisplay    *call_display;
+
+  GnomeWallClock    *wall_clock;
+  PhoshCallsManager *calls_manager;
+  char              *active; /* opaque handle to the active call */
 } PhoshLockscreenPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshLockscreen, phosh_lockscreen, PHOSH_TYPE_LAYER_SURFACE)
+
+
+static void
+phosh_lockscreen_set_property (GObject      *object,
+                               guint         property_id,
+                               const GValue *value,
+                               GParamSpec   *pspec)
+{
+  PhoshLockscreen *self = PHOSH_LOCKSCREEN (object);
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+
+  switch (property_id) {
+  case PROP_CALLS_MANAGER:
+    priv->calls_manager = g_value_dup_object (value);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
+phosh_lockscreen_get_property (GObject    *object,
+                               guint       property_id,
+                               GValue     *value,
+                               GParamSpec *pspec)
+{
+  PhoshLockscreen *self = PHOSH_LOCKSCREEN (object);
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+
+  switch (property_id) {
+  case PROP_CALLS_MANAGER:
+    g_value_set_object (value, priv->calls_manager);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
 
 
 static void
@@ -444,10 +501,55 @@ carousel_position_notified_cb (PhoshLockscreen *self,
 
 
 static void
+on_calls_call_inbound (PhoshLockscreen *self, const gchar *path)
+{
+  PhoshLockscreenPrivate *priv;
+  PhoshCall *call;
+
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+  g_return_if_fail (PHOSH_IS_CALLS_MANAGER (priv->calls_manager));
+
+  g_debug ("New inbound call %s", path);
+  g_signal_emit (self, signals[WAKEUP_OUTPUT], 0);
+
+  g_free (priv->active);
+  priv->active = g_strdup (path);
+
+  call = phosh_calls_manager_get_call (priv->calls_manager, path);
+  g_return_if_fail (PHOSH_IS_CALL (call));
+
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->box_call_display));
+
+  cui_call_display_set_call (priv->call_display, CUI_CALL (call));
+}
+
+
+static void
+on_calls_call_removed (PhoshLockscreen *self, const gchar *path)
+{
+  PhoshLockscreenPrivate *priv;
+
+  g_return_if_fail (path != NULL);
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  g_debug ("Call %s removed, active: %s", path, priv->active);
+
+  if (g_strcmp0 (path, priv->active))
+    return;
+
+  g_clear_pointer (&priv->active, g_free);
+  hdy_deck_navigate (priv->deck, HDY_NAVIGATION_DIRECTION_BACK);
+}
+
+
+static void
 phosh_lockscreen_constructed (GObject *object)
 {
   PhoshLockscreen *self = PHOSH_LOCKSCREEN (object);
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  const char *active;
 
   G_OBJECT_CLASS (phosh_lockscreen_parent_class)->constructed (object);
 
@@ -470,6 +572,30 @@ phosh_lockscreen_constructed (GObject *object)
                             G_CALLBACK (wall_clock_notify_cb),
                             self);
   wall_clock_notify_cb (self, NULL, priv->wall_clock);
+
+  g_signal_connect_object (priv->calls_manager,
+                           "call-inbound",
+                           G_CALLBACK (on_calls_call_inbound),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (priv->calls_manager,
+                           "call-removed",
+                           G_CALLBACK (on_calls_call_removed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  /* If a call is ongoing show it when locking until we show a notification */
+  active = phosh_calls_manager_get_active_call_handle (priv->calls_manager);
+  if (active)
+    on_calls_call_inbound (self, active);
+}
+
+static void
+deck_back_clicked_cb (GtkWidget       *sender,
+                      PhoshLockscreen *self)
+{
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+
+  hdy_deck_navigate (priv->deck, HDY_NAVIGATION_DIRECTION_BACK);
 }
 
 
@@ -481,6 +607,8 @@ phosh_lockscreen_dispose (GObject *object)
 
   g_clear_object (&priv->wall_clock);
   g_clear_handle_id (&priv->idle_timer, g_source_remove);
+  g_clear_object (&priv->calls_manager);
+  g_clear_pointer (&priv->active, g_free);
 
   G_OBJECT_CLASS (phosh_lockscreen_parent_class)->dispose (object);
 }
@@ -494,6 +622,18 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 
   object_class->constructed = phosh_lockscreen_constructed;
   object_class->dispose = phosh_lockscreen_dispose;
+
+  object_class->set_property = phosh_lockscreen_set_property;
+  object_class->get_property = phosh_lockscreen_get_property;
+
+  props[PROP_CALLS_MANAGER] =
+    g_param_spec_object ("calls-manager",
+                         "",
+                         "",
+                         PHOSH_TYPE_CALLS_MANAGER,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT_ONLY);
+
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[LOCKSCREEN_UNLOCK] = g_signal_new ("lockscreen-unlock",
                                              G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
@@ -536,6 +676,12 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);
   gtk_widget_class_bind_template_callback (widget_class, show_unlock_page);
+
+  /* Call UI */
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, deck);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_call_display);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, call_display);
+  gtk_widget_class_bind_template_callback (widget_class, deck_back_clicked_cb);
 }
 
 
@@ -548,7 +694,8 @@ phosh_lockscreen_init (PhoshLockscreen *self)
 
 GtkWidget *
 phosh_lockscreen_new (gpointer layer_shell,
-                      gpointer wl_output)
+                      gpointer wl_output,
+                      PhoshCallsManager *calls_manager)
 {
   return g_object_new (PHOSH_TYPE_LOCKSCREEN,
                        "layer-shell", layer_shell,
@@ -561,6 +708,7 @@ phosh_lockscreen_new (gpointer layer_shell,
                        "kbd-interactivity", TRUE,
                        "exclusive-zone", -1,
                        "namespace", "phosh lockscreen",
+                       "calls-manager", calls_manager,
                        NULL);
 }
 

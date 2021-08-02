@@ -129,7 +129,7 @@ on_has_proximity_changed (PhoshProximity          *self,
   g_debug ("Found %s proximity sensor", has_proximity ? "a" : "no");
 
   /* If prox went a way we always unclaim but only claim on ongoing calls: */
-  if (!phosh_calls_manager_get_active_call (self->calls_manager) && has_proximity)
+  if (!phosh_calls_manager_get_active_call_handle (self->calls_manager) && has_proximity)
     return;
 
   phosh_proximity_claim_proximity (self, has_proximity);
@@ -146,7 +146,7 @@ on_calls_manager_active_call_changed (PhoshProximity    *self,
   g_return_if_fail (PHOSH_IS_PROXIMITY (self));
   g_return_if_fail (PHOSH_IS_CALLS_MANAGER (calls_manager));
 
-  active = !!phosh_calls_manager_get_active_call(self->calls_manager);
+  active = !!phosh_calls_manager_get_active_call_handle (self->calls_manager);
   phosh_proximity_claim_proximity (self, active);
   /* TODO: if call is over wait until we hit the threshold */
 }

@@ -180,8 +180,8 @@ lock_primary_monitor (PhoshLockscreenManager *self)
   /* The primary output gets the clock, keypad, ... */
   self->lockscreen = PHOSH_LOCKSCREEN (phosh_lockscreen_new (
                                          phosh_wayland_get_zwlr_layer_shell_v1 (wl),
-                                         primary_monitor->wl_output));
-
+                                         primary_monitor->wl_output,
+                                         self->calls_manager));
   g_object_connect (
     self->lockscreen,
     "swapped-object-signal::lockscreen-unlock", G_CALLBACK (lockscreen_unlock_cb), self,

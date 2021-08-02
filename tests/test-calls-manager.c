@@ -11,8 +11,8 @@
 #include "testlib-full-shell.h"
 #include "calls-dbus.h"
 
-#define BUS_NAME "sm.puri.Calls"
-#define OBJECT_PATH "/sm/puri/Calls"
+#define BUS_NAME "org.gnome.Calls"
+#define OBJECT_PATH "/org/gnome/Calls"
 
 #define POP_TIMEOUT 50000000
 

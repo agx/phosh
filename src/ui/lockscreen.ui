@@ -9,303 +9,352 @@
       <placeholder/>
     </child>
     <child>
-      <object class="HdyCarousel" id="carousel">
+      <object class="HdyDeck" id="deck">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="animation-duration">400</property>
-        <property name="allow-mouse-drag">True</property>
-        <signal name="notify::position" handler="carousel_position_notified_cb" swapped="yes"/>
-         <child>
-          <object class="GtkBox" id="box_info">
+        <property name="transition-type">over</property>
+        <property name="can-swipe-back">True</property>
+        <property name="transition-duration">400</property>
+        <child>
+          <object class="HdyCarousel" id="carousel">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="can_focus">False</property>
-            <property name="expand">True</property>
+            <property name="orientation">vertical</property>
+            <property name="animation-duration">400</property>
+            <property name="allow-mouse-drag">True</property>
+            <signal name="notify::position" handler="carousel_position_notified_cb" swapped="yes"/>
             <child>
-              <object class="GtkBox">
+              <object class="GtkBox" id="box_info">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="valign">end</property>
-                    <property name="margin_top">6</property>
-                    <property name="margin_bottom">32</property>
-                    <property name="label" translatable="yes">Slide up to unlock</property>
-                    <style>
-                      <class name="dim-label"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack_type">end</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkImage" id="lock-arrow">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="pixel_size">24</property>
-                    <property name="icon_name">swipe-arrow-symbolic</property>
-                    <style>
-                      <class name="phosh-lockscreen-arrow"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack_type">end</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="pack_type">end</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child type="center">
-              <object class="GtkBox">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="valign">center</property>
-                <property name="vexpand">True</property>
-                <property name="orientation">vertical</property>
-                <property name="spacing">5</property>
-                <child>
-                  <object class="GtkLabel" id="lbl_clock">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="valign">center</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">False</property>
-                    <property name="label">00:00</property>
-                    <property name="single_line_mode">True</property>
-                    <property name="track_visited_links">False</property>
-                    <style>
-                      <class name="phosh-lockscreen-clock"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="lbl_date">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="valign">center</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
+                <property name="expand">True</property>
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="halign">center</property>
-                    <property name="valign">center</property>
-                    <property name="margin_top">24</property>
+                    <property name="orientation">vertical</property>
                     <child>
-                      <object class="PhoshWWanInfo" id="wwaninfo">
-                        <property name="visible" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="valign">start</property>
-                        <property name="halign">end</property>
-                        <property name="hexpand">False</property>
-                        <property name="margin_left">6</property>
-                        <property name="margin_right">6</property>
-                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                        <property name="valign">end</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">32</property>
+                        <property name="label" translatable="yes">Slide up to unlock</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="fill">True</property>
+                        <property name="pack_type">end</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="PhoshWifiInfo" id="wifiinfo">
-                        <property name="visible" bind-source="wifiinfo" bind-property="enabled" bind-flags="sync-create"/>
+                      <object class="GtkImage" id="lock-arrow">
+                        <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="valign">start</property>
-                        <property name="halign">end</property>
-                        <property name="hexpand">False</property>
-                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
-                        <property name="margin_left">6</property>
-                        <property name="margin_right">6</property>
-                        <property name="no_show_all">True</property>
+                        <property name="pixel_size">32</property>
+                        <property name="icon_name">swipe-arrow-symbolic</property>
+                        <style>
+                          <class name="phosh-lockscreen-arrow"/>
+                        </style>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="fill">True</property>
+                        <property name="pack_type">end</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="pack_type">end</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child type="center">
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="valign">center</property>
+                    <property name="vexpand">True</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">5</property>
+                    <child>
+                      <object class="GtkLabel" id="lbl_clock">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="valign">center</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">False</property>
+                        <property name="label">00:00</property>
+                        <property name="single_line_mode">True</property>
+                        <property name="track_visited_links">False</property>
+                        <style>
+                          <class name="phosh-lockscreen-clock"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="lbl_date">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="valign">center</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="PhoshBtInfo" id="btinfo">
-                        <property name="visible" bind-source="btinfo" bind-property="enabled" bind-flags="sync-create"/>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="valign">start</property>
-                        <property name="halign">end</property>
-                        <property name="hexpand">False</property>
-                        <property name="margin_left">6</property>
-                        <property name="margin_right">6</property>
-                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="margin_top">24</property>
+                        <child>
+                          <object class="PhoshWWanInfo" id="wwaninfo">
+                            <property name="visible" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
+                            <property name="can_focus">False</property>
+                            <property name="valign">start</property>
+                            <property name="halign">end</property>
+                            <property name="hexpand">False</property>
+                            <property name="margin_left">6</property>
+                            <property name="margin_right">6</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="PhoshWifiInfo" id="wifiinfo">
+                            <property name="visible" bind-source="wifiinfo" bind-property="enabled" bind-flags="sync-create"/>
+                            <property name="can_focus">False</property>
+                            <property name="valign">start</property>
+                            <property name="halign">end</property>
+                            <property name="hexpand">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                            <property name="margin_left">6</property>
+                            <property name="margin_right">6</property>
+                            <property name="no_show_all">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="PhoshBtInfo" id="btinfo">
+                            <property name="visible" bind-source="btinfo" bind-property="enabled" bind-flags="sync-create"/>
+                            <property name="can_focus">False</property>
+                            <property name="valign">start</property>
+                            <property name="halign">end</property>
+                            <property name="hexpand">False</property>
+                            <property name="margin_left">6</property>
+                            <property name="margin_right">6</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="PhoshBatteryInfo" id="batteryinfo">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="valign">start</property>
+                            <property name="halign">end</property>
+                            <property name="hexpand">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                            <property name="margin_left">6</property>
+                            <property name="margin_right">6</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="fill">True</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="PhoshBatteryInfo" id="batteryinfo">
-                        <property name="visible">True</property>
+                      <object class="HdyClamp">
+                        <property name="visible" bind-source="media_player" bind-property="visible" bind-flags="sync-create"/>
                         <property name="can_focus">False</property>
-                        <property name="valign">start</property>
-                        <property name="halign">end</property>
-                        <property name="hexpand">False</property>
-                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
-                        <property name="margin_left">6</property>
-                        <property name="margin_right">6</property>
+                        <property name="maximum_size">350</property>
+                        <property name="margin_top">25</property>
+                        <property name="vexpand">True</property>
+                        <property name="valign">center</property>
+                        <child>
+                          <object class="PhoshMediaPlayer" id="media_player">
+                            <property name="visible" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
+                            <property name="valign">center</property>
+                            <property name="can_focus">False</property>
+                            <signal name="player-raised" handler="show_unlock_page" object="PhoshLockscreen" swapped="yes"/>
+                          </object>
+                        </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
                         <property name="position">3</property>
                       </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox" id="box_unlock">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="spacing">12</property>
+                <property name="margin_top">100</property>
+                <child>
+                  <object class="GtkLabel" id="lbl_unlock_status">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Enter Passcode</property>
+                    <attributes>
+                      <attribute name="font-desc" value="Cantarell 16"/>
+                    </attributes>
+                  </object>
                 </child>
                 <child>
-                  <object class="HdyClamp">
-                    <property name="visible" bind-source="media_player" bind-property="visible" bind-flags="sync-create"/>
+                  <object class="GtkEntry" id="entry_pin">
+                    <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="maximum_size">350</property>
-                    <property name="margin_top">25</property>
-                    <property name="vexpand">True</property>
-                    <property name="valign">center</property>
-                    <child>
-                      <object class="PhoshMediaPlayer" id="media_player">
-                        <property name="visible" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
-                        <property name="valign">center</property>
-                        <property name="can_focus">False</property>
-                        <signal name="player-raised" handler="show_unlock_page" object="PhoshLockscreen" swapped="yes"/>
-                      </object>
-                    </child>
+                    <property name="has-frame">False</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="visibility">False</property>
+                    <property name="xalign">0.5</property>
+                    <property name="input-purpose">GTK_INPUT_PURPOSE_PIN</property>
+                    <property name="buffer">pin_buffer</property>
+                    <style>
+                      <class name="phosh-lockscreen-pin"/>
+                    </style>
+                    <signal name="changed" handler="input_changed_cb" swapped="yes"/>
                   </object>
-                  <packing>
-                    <property name="position">3</property>
-                  </packing>
+                </child>
+                <child>
+                  <object class="HdyKeypad" id="keypad">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="symbols_visible">False</property>
+                    <property name="letters_visible">False</property>
+                    <property name="entry">entry_pin</property>
+                    <property name="end-action">delete_btn</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="margin_start">16</property>
+                    <property name="margin_end">16</property>
+                    <property name="halign">center</property>
+                    <child>
+                      <object class="GtkButton" id="btn_emergency">
+                        <property name="visible">False</property>
+                        <property name="label" translatable="yes">Emergency</property>
+                        <style>
+                          <class name="text-only-button"/>
+                          <class name="circular"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="pack_type">start</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="btn_submit">
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="label" translatable="yes">Unlock</property>
+                        <signal name="clicked" handler="submit_cb" swapped="yes"/>
+                        <style>
+                          <class name="text-only-button"/>
+                          <class name="circular"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="pack_type">end</property>
+                      </packing>
+                    </child>
+                    </object>>
                 </child>
               </object>
             </child>
           </object>
         </child>
         <child>
-          <object class="GtkBox" id="box_unlock">
+          <object class="GtkBox" id="box_call_display">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
+            <property name="can_focus">False</property>
+            <property name="expand">False</property>
             <property name="spacing">12</property>
-            <property name="margin_top">100</property>
             <child>
-              <object class="GtkLabel" id="lbl_unlock_status">
+              <object class="GtkButton">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Enter Passcode</property>
-                <attributes>
-                  <attribute name="font-desc" value="Cantarell 16"/>
-                </attributes>
-              </object>
-            </child>
-            <child>
-              <object class="GtkEntry" id="entry_pin">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="has-frame">False</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">12</property>
-                <property name="visibility">False</property>
-                <property name="xalign">0.5</property>
-                <property name="input-purpose">GTK_INPUT_PURPOSE_PIN</property>
-                <property name="buffer">pin_buffer</property>
+                <property name="halign">start</property>
+                <property name="expand">False</property>
+                <property name="margin-left">16</property>
+                <property name="margin-top">16</property>
+                <signal name="clicked" handler="deck_back_clicked_cb"/>
                 <style>
-                  <class name="phosh-lockscreen-pin"/>
+                  <class name="image-button"/>
+                  <class name="circular"/>
                 </style>
-                <signal name="changed" handler="input_changed_cb" swapped="yes"/>
-              </object>
-            </child>
-            <child>
-              <object class="HdyKeypad" id="keypad">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">12</property>
-                <property name="symbols_visible">False</property>
-                <property name="letters_visible">False</property>
-                <property name="entry">entry_pin</property>
-                <property name="end-action">delete_btn</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="margin_start">16</property>
-                <property name="margin_end">16</property>
-                <property name="halign">center</property>
-                <child>
-                  <object class="GtkButton" id="btn_emergency">
-                    <property name="visible">False</property>
-                    <property name="label" translatable="yes">Emergency</property>
-                    <style>
-                      <class name="text-only-button"/>
-                      <class name="circular"/>
-                    </style>
+                <child internal-child="accessible">
+                  <object class="AtkObject" id="a11y-deck-sub-back">
+                    <property name="accessible-name" translatable="yes">Back</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack_type">start</property>
-                  </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="btn_submit">
+                  <object class="GtkImage">
                     <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="label" translatable="yes">Unlock</property>
-                    <signal name="clicked" handler="submit_cb" swapped="yes"/>
-                    <style>
-                      <class name="text-only-button"/>
-                      <class name="circular"/>
-                    </style>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">go-previous-symbolic</property>
+                    <property name="icon_size">1</property>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack_type">end</property>
-                  </packing>
                 </child>
-              </object>>
+              </object>
+            </child>
+            <child type="center">
+              <object class="CuiCallDisplay" id="call_display">
+                <property name="visible">True</property>
+              </object>
             </child>
           </object>
         </child>

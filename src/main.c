@@ -15,6 +15,7 @@
 #include "phosh-wayland.h"
 
 #include <handy.h>
+#include <call-ui.h>
 
 #include <glib/gi18n.h>
 #include <glib-unix.h>
@@ -124,6 +125,7 @@ int main(int argc, char *argv[])
   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
   gtk_init (&argc, &argv);
   hdy_init ();
+  cui_init (TRUE);
 
   g_unix_signal_add (SIGTERM, on_shutdown_signal, NULL);
   g_unix_signal_add (SIGINT, on_shutdown_signal, NULL);
@@ -138,6 +140,8 @@ int main(int argc, char *argv[])
     phosh_shell_lock (shell);
 
   gtk_main ();
+
+  cui_uninit ();
 
   return EXIT_SUCCESS;
 }
