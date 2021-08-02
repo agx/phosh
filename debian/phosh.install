@@ -1,9 +1,0 @@
-usr/bin/phosh
-usr/lib/systemd/user/
-usr/libexec/phosh
-usr/share/locale
-usr/share/wayland-sessions/phosh.desktop
-usr/share/phosh/phoc.ini
-usr/share/glib-2.0/schemas/sm.puri.phosh*.xml
-usr/share/gnome-session/sessions/phosh.session
-usr/share/applications/sm.puri.Phosh.desktop
