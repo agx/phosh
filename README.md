@@ -9,7 +9,7 @@ phosh is licensed under the GPLv3+.
 ## Getting the source
 
 ```sh
-    git clone https://source.puri.sm/Librem5/phosh
+    git clone https://gitlab.gnome.org/World/Phosh/phosh
     cd phosh
 ```
 
@@ -26,7 +26,7 @@ On a Debian based system run
 For an explicit list of dependencies check the `Build-Depends` entry in the
 [debian/control][] file.
 
-If your distro doesn't ship [libhandy](https://source.puri.sm/Librem5/libhandy)
+If your distro doesn't ship [libhandy](https://gitlab.gnome.org/GNOME/libhandy)
 you need to build that from source. More details are in the [gitlab-ci.yml][]
 file.
 
@@ -102,13 +102,17 @@ This is handled via GNOMEs infra, see
 <https://l10n.gnome.org/module/phosh/>.
 
 # Getting in Touch
-* Issue tracker: https://source.puri.sm/Librem5/phosh
+* Issue tracker: https://gitlab.gnome.org/World/Phosh/phosh/issues
 * Mailing list: https://lists.community.puri.sm/listinfo/librem-5-dev
 * Matrix: https://im.puri.sm/#/room/#phosh:talk.puri.sm
 * XMPP: phosh@conference.sigxcpu.org
 
 For details see the [developer documentation](https://developer.puri.sm/Contact.html).
 
-[gitlab-ci.yml]: https://source.puri.sm/Librem5/phosh/blob/master/.gitlab-ci.yml
-[debian/control]: https://source.puri.sm/Librem5/phosh/blob/master/debian/control
-[phoc]: https://source.puri.sm/Librem5/phoc
+### Development Documentation
+
+API documentation is at https://world.pages.gitlab.gnome.org/Phosh/phosh
+
+[gitlab-ci.yml]: https://gitlab.gnome.org/World/Phosh/phosh/blob/master/.gitlab-ci.yml
+[debian/control]: https://gitlab.gnome.org/World/Phosh/phosh/blob/master/debian/control
+[phoc]: https://gitlab.gnome.org/World/Phosh/phoc
