@@ -1,4 +1,0 @@
-[GNOME Session]
-# Translators: this is the session name, no need to translate it
-Name=Phosh
-RequiredComponents=@required_components@

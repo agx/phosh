@@ -1,4 +1,0 @@
-[Unit]
-@gsd_wants@
-
-Requires=sm.puri.Phosh.target
