@@ -60,3 +60,9 @@ phosh_shell_get_locked (PhoshShell *self)
 {
   return FALSE;
 }
+
+PhoshLockscreenManager *
+phosh_shell_get_lockscreen_manager (PhoshShell *self)
+{
+  return NULL;
+}

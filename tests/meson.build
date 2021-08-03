@@ -39,6 +39,7 @@ test_link_args = [
 # Deps for all tests
 test_stub_deps = [
   'stubs/phosh.c',
+  'stubs/lockscreen-manager.c',
   'stubs/toplevel.c',
   'stubs/toplevel-manager.c',
   'stubs/thumbnail.c',
