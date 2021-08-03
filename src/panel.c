@@ -270,7 +270,7 @@ on_button_press_event (PhoshPanel *self, GdkEventButton *event, gpointer data)
   else
     phosh_panel_fold (self);
 
-  return FALSE;
+  return GDK_EVENT_PROPAGATE;
 }
 
 
