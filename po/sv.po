@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-07-11 15:34+0000\n"
-"PO-Revision-Date: 2021-07-11 19:58+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2021-08-03 09:16+0000\n"
+"PO-Revision-Date: 2021-08-03 16:29+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -120,17 +120,17 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nej"
 
-#: src/lockscreen.c:95 src/ui/lockscreen.ui:233
+#: src/lockscreen.c:152 src/ui/lockscreen.ui:239
 msgid "Enter Passcode"
 msgstr "Ange lösenord"
 
-#: src/lockscreen.c:278
+#: src/lockscreen.c:335
 msgid "Checking…"
 msgstr "Kontrollerar…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:356
+#: src/lockscreen.c:413
 msgid "%A, %B %-e"
 msgstr "%A, %-e %B"
 
@@ -362,17 +362,21 @@ msgstr "Domän:"
 msgid "Co_nnect"
 msgstr "A_nslut"
 
-#: src/ui/lockscreen.ui:37
+#: src/ui/lockscreen.ui:43
 msgid "Slide up to unlock"
 msgstr "Svep uppåt för att låsa upp"
 
-#: src/ui/lockscreen.ui:279
+#: src/ui/lockscreen.ui:285
 msgid "Emergency"
 msgstr "Nödläge"
 
-#: src/ui/lockscreen.ui:295
+#: src/ui/lockscreen.ui:301
 msgid "Unlock"
 msgstr "Lås upp"
+
+#: src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Bakåt"
 
 #: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
 msgid "Authentication required"
