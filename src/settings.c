@@ -19,7 +19,6 @@
 #include "torch-info.h"
 #include "torch-manager.h"
 #include "wwan/phosh-wwan-mm.h"
-#include "feedback-manager.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
 #include "rotateinfo.h"
@@ -31,9 +30,6 @@
 #include <xkbcommon/xkbcommon.h>
 
 #include <math.h>
-
-#define LIBFEEDBACK_USE_UNSTABLE_API
-#include <libfeedback.h>
 
 /**
  * SECTION:settings
@@ -65,7 +61,6 @@ typedef struct _PhoshSettings
   /* Notifications */
   GtkWidget *list_notifications;
   GtkWidget *sw_notifications;
-  LfbEvent  *notify_event;
 
   /* Torch */
   PhoshTorchManager *torch_manager;
@@ -394,6 +389,7 @@ on_media_player_raised (PhoshSettings *self,
   g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 
+
 static GtkWidget *
 create_notification_row (gpointer item, gpointer data)
 {
@@ -417,14 +413,6 @@ create_notification_row (gpointer item, gpointer data)
 
 
 static void
-end_notify_feedback (PhoshSettings *self)
-{
-  if (lfb_event_get_state (self->notify_event) == LFB_EVENT_STATE_RUNNING)
-    lfb_event_end_feedback_async (self->notify_event, NULL, NULL, NULL);
-}
-
-
-static void
 on_torch_scale_value_changed (PhoshSettings *self, GtkScale *scale_torch)
 {
   double value;
@@ -435,7 +423,7 @@ on_torch_scale_value_changed (PhoshSettings *self, GtkScale *scale_torch)
   /* Only react to scale changes when torch is enabled */
   if (!phosh_torch_manager_get_enabled (self->torch_manager))
       return;
-  
+
   self->setting_torch = TRUE;
   value = gtk_range_get_value (GTK_RANGE (self->scale_torch));
   g_debug ("Setting torch brightness to %.2f", value);
@@ -460,11 +448,11 @@ on_torch_brightness_changed (PhoshSettings *self, GParamSpec *pspec, PhoshTorchM
 
 
 static void
-on_notifcation_items_changed (PhoshSettings *self,
-                              guint          position,
-                              guint          removed,
-                              guint          added,
-                              GListModel    *list)
+on_notifcation_frames_items_changed (PhoshSettings *self,
+                                     guint          position,
+                                     guint          removed,
+                                     guint          added,
+                                     GListModel    *list)
 {
   gboolean is_empty;
 
@@ -475,13 +463,8 @@ on_notifcation_items_changed (PhoshSettings *self,
   g_debug("Notification list empty: %d", is_empty);
 
   gtk_widget_set_visible (GTK_WIDGET (self->sw_notifications), !is_empty);
-  if (is_empty) {
+  if (is_empty)
     g_signal_emit (self, signals[SETTING_DONE], 0);
-    end_notify_feedback (self);
-  } else if (phosh_shell_get_locked (phosh_shell_get_default ())) {
-    if (lfb_event_get_state (self->notify_event) != LFB_EVENT_STATE_RUNNING)
-      lfb_event_trigger_feedback_async (self->notify_event, NULL, NULL, NULL);
-  }
 }
 
 
@@ -568,11 +551,11 @@ phosh_settings_constructed (GObject *object)
                            NULL);
   g_signal_connect_object (phosh_notify_manager_get_list (manager),
                            "items-changed",
-                           G_CALLBACK (on_notifcation_items_changed),
+                           G_CALLBACK (on_notifcation_frames_items_changed),
                            self,
                            G_CONNECT_SWAPPED);
-  on_notifcation_items_changed (self, -1, -1, -1,
-                                G_LIST_MODEL (phosh_notify_manager_get_list (manager)));
+  on_notifcation_frames_items_changed (self, -1, -1, -1,
+                                       G_LIST_MODEL (phosh_notify_manager_get_list (manager)));
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
@@ -586,11 +569,6 @@ phosh_settings_dispose (GObject *object)
   brightness_dispose ();
 
   g_clear_object (&self->output_stream);
-
-  if (self->notify_event) {
-    end_notify_feedback (self);
-    g_clear_object (&self->notify_event);
-  }
 
   g_clear_object (&self->torch_manager);
 
@@ -656,8 +634,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 static void
 phosh_settings_init (PhoshSettings *self)
 {
-  self->notify_event = lfb_event_new ("message-missed-notification");
-
   gtk_widget_init_template (GTK_WIDGET (self));
 }
 

@@ -54,3 +54,9 @@ void
 phosh_shell_set_state (PhoshShell *self, guint state, gboolean set)
 {
 }
+
+gboolean
+phosh_shell_get_locked (PhoshShell *self)
+{
+  return FALSE;
+}
