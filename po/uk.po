@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-07-09 15:31+0000\n"
-"PO-Revision-Date: 2021-07-11 16:28+0300\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2021-08-03 09:16+0000\n"
+"PO-Revision-Date: 2021-08-03 16:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -123,17 +123,17 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: src/lockscreen.c:95 src/ui/lockscreen.ui:233
+#: src/lockscreen.c:152 src/ui/lockscreen.ui:239
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:278
+#: src/lockscreen.c:335
 msgid "Checking…"
 msgstr "Звіряю…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:356
+#: src/lockscreen.c:413
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
@@ -354,30 +354,32 @@ msgstr "Деякі програми зайняті або мають незбе�
 
 #: src/ui/gtk-mount-prompt.ui:95
 msgid "User:"
-msgstr ""
-"Користувач:"
+msgstr "Користувач:"
 
 #: src/ui/gtk-mount-prompt.ui:118
 msgid "Domain:"
-msgstr ""
-"Домен:"
+msgstr "Домен:"
 
 #: src/ui/gtk-mount-prompt.ui:151
-#| msgid "C_onnect"
 msgid "Co_nnect"
 msgstr "З'єд_натися"
 
-#: src/ui/lockscreen.ui:37
+#: src/ui/lockscreen.ui:43
 msgid "Slide up to unlock"
 msgstr "Протягніть угору, щоб розблокувати"
 
-#: src/ui/lockscreen.ui:279
+#: src/ui/lockscreen.ui:285
 msgid "Emergency"
 msgstr "Екстрений виклик"
 
-#: src/ui/lockscreen.ui:295
+#: src/ui/lockscreen.ui:301
 msgid "Unlock"
 msgstr "Розблокувати"
+
+#: src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr ""
+"Назад"
 
 #: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
 msgid "Authentication required"
