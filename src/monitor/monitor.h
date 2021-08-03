@@ -155,5 +155,6 @@ PhoshMonitorPowerSaveMode phosh_monitor_get_power_save_mode (PhoshMonitor *self)
 PhoshMonitorConnectorType phosh_monitor_connector_type_from_name (const char *name);
 gboolean           phosh_monitor_connector_is_builtin (PhoshMonitorConnectorType type);
 struct wl_output * phosh_monitor_get_wl_output (PhoshMonitor *self);
+float              phosh_monitor_get_fractional_scale (PhoshMonitor *self);
 
 G_END_DECLS
