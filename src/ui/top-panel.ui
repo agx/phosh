@@ -40,7 +40,7 @@
     </child>
   </object>
 
-  <template class="PhoshTopPanel" parent="PhoshLayerSurface">
+  <template class="PhoshTopPanel" parent="PhoshDragSurface">
     <property name="can_focus">False</property>
     <child>
       <object class="GtkBox" id="box">
@@ -49,7 +49,7 @@
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox" id="box_clock">
-            <property name="visible" bind-source="settings" bind-property="visible" bind-flags="sync-create"/>
+            <property name="visible">True</property>
             <style>
               <class name="phosh-clock-box"/>
             </style>
@@ -123,6 +123,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="receives_default">False</property>
+                <property name="vexpand">True</property>
+                <property name="valign">end</property>
                 <child>
                   <object class="GtkBox" id="box_top_panel">
                     <property name="visible">True</property>
@@ -278,7 +280,7 @@
         </child>
         <child>
           <object class="PhoshSettings" id="settings">
-            <property name="visible">False</property>
+            <property name="visible">True</property>
           </object>
           <packing>
             <property name="position">1</property>

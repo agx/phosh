@@ -30,6 +30,8 @@
 #define KEYBINDINGS_SCHEMA_ID "org.gnome.shell.keybindings"
 #define KEYBINDING_KEY_TOGGLE_MESSAGE_TRAY "toggle-message-tray"
 
+#define PHOSH_TOP_PANEL_DRAG_THRESHOLD 0.5
+
 /**
  * SECTION:top-panel
  * @short_description: The top panel
@@ -52,7 +54,7 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct _PhoshTopPanel {
-  PhoshLayerSurface parent;
+  PhoshDragSurface parent;
 
   PhoshTopPanelState state;
   gboolean           on_lockscreen;
@@ -88,7 +90,7 @@ typedef struct _PhoshTopPanel {
   GtkGesture     *click_gesture; /* needed so that the gesture isn't destroyed immediately */
 } PhoshTopPanel;
 
-G_DEFINE_TYPE (PhoshTopPanel, phosh_top_panel, PHOSH_TYPE_LAYER_SURFACE)
+G_DEFINE_TYPE (PhoshTopPanel, phosh_top_panel, PHOSH_TYPE_DRAG_SURFACE)
 
 static void
 phosh_top_panel_set_property (GObject *object,
@@ -183,16 +185,6 @@ on_logout_action (GSimpleAction *action,
   phosh_session_manager_logout (sm);
   phosh_top_panel_fold (self);
 }
-
-
-static void
-top_panel_clicked_cb (PhoshTopPanel *self, GtkButton *btn)
-{
-  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
-  g_return_if_fail (GTK_IS_BUTTON (btn));
-  g_signal_emit(self, signals[SETTINGS_ACTIVATED], 0);
-}
-
 
 static void
 wall_clock2_notify_cb (PhoshTopPanel  *self,
@@ -327,7 +319,6 @@ on_key_press_event (PhoshTopPanel *self, GdkEventKey *event, gpointer data)
   return handled;
 }
 
-
 static void
 released_cb (PhoshTopPanel *self)
 {
@@ -339,8 +330,6 @@ released_cb (PhoshTopPanel *self)
    */
   if (gtk_widget_is_visible (self->menu_power))
     gtk_popover_popdown (GTK_POPOVER (self->menu_power));
-  else
-    phosh_top_panel_fold (self);
 
 }
 
@@ -390,6 +379,44 @@ on_keybindings_changed (PhoshTopPanel *self,
 }
 
 
+static void
+phosh_top_panel_dragged (PhoshDragSurface *self, int margin)
+{
+  g_debug ("Margin: %d", margin);
+}
+
+
+static void
+on_drag_state_changed (PhoshTopPanel *self)
+{
+  const char *visible = "top-bar";
+  gboolean kbd_interactivity = FALSE;
+
+  /* Close the popover on any drag */
+  gtk_widget_hide (self->menu_power);
+
+  switch (phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self))) {
+  case PHOSH_DRAG_SURFACE_STATE_DRAGGED:
+    visible = "arrow";
+    break;
+  case PHOSH_DRAG_SURFACE_STATE_UNFOLDED:
+    visible = "arrow";
+    self->state = PHOSH_TOP_PANEL_STATE_UNFOLDED;
+    kbd_interactivity = TRUE;
+    break;
+  case PHOSH_DRAG_SURFACE_STATE_FOLDED:
+    self->state = PHOSH_TOP_PANEL_STATE_FOLDED;
+    break;
+  default:
+    g_return_if_reached ();
+  }
+
+  phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
+  g_debug ("%s: state: %d, visible: %s", __func__, self->state, visible);
+  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), visible);
+}
+
+
 static GActionEntry entries[] = {
   { .name = "poweroff", .activate = on_shutdown_action },
   { .name = "restart", .activate = on_restart_action },
@@ -429,12 +456,6 @@ phosh_top_panel_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
   wall_clock2_notify_cb (self, NULL, self->wall_clock2);
-
-  g_signal_connect_object (self->btn_top_panel,
-                           "clicked",
-                           G_CALLBACK (top_panel_clicked_cb),
-                           self,
-                           G_CONNECT_SWAPPED);
 
   phosh_connect_feedback (self->btn_top_panel);
 
@@ -504,6 +525,8 @@ phosh_top_panel_constructed (GObject *object)
                             G_CALLBACK (on_keybindings_changed),
                             self);
   add_keybindings (self);
+
+  g_signal_connect (self, "notify::drag-state", G_CALLBACK (on_drag_state_changed), NULL);
 }
 
 
@@ -530,16 +553,64 @@ phosh_top_panel_dispose (GObject *object)
 }
 
 
+static int
+get_margin (gint height)
+{
+  return (-1 * height) + PHOSH_TOP_PANEL_HEIGHT;
+}
+
+
+static gboolean
+on_configure_event (PhoshTopPanel *self, GdkEventConfigure *event)
+{
+  guint margin;
+
+  margin = get_margin (event->height);
+
+  /* ignore popovers like the power menu */
+  if (gtk_widget_get_window (GTK_WIDGET (self)) != event->window)
+    return FALSE;
+
+  g_debug ("%s: %dx%d margin: %d", __func__, event->height, event->width, margin);
+
+  /* If the size changes we need to update the folded margin */
+  phosh_drag_surface_set_margin (PHOSH_DRAG_SURFACE (self), margin, 0);
+  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
+
+  return FALSE;
+}
+
+
+static void
+phosh_top_panel_configured (PhoshLayerSurface *layer_surface)
+{
+  guint width, height;
+
+  width = phosh_layer_surface_get_configured_width  (layer_surface);
+  height = phosh_layer_surface_get_configured_height (layer_surface);
+
+  g_debug ("%s: %dx%d", __func__, width, height);
+
+  PHOSH_LAYER_SURFACE_CLASS (phosh_top_panel_parent_class)->configured (layer_surface);
+}
+
+
 static void
 phosh_top_panel_class_init (PhoshTopPanelClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+  PhoshLayerSurfaceClass *layer_surface_class = PHOSH_LAYER_SURFACE_CLASS (klass);
+  PhoshDragSurfaceClass *drag_surface_class = PHOSH_DRAG_SURFACE_CLASS (klass);
 
   object_class->constructed = phosh_top_panel_constructed;
   object_class->dispose = phosh_top_panel_dispose;
   object_class->set_property = phosh_top_panel_set_property;
   object_class->get_property = phosh_top_panel_get_property;
+
+  layer_surface_class->configured = phosh_top_panel_configured;
+
+  drag_surface_class->dragged = phosh_top_panel_dragged;
 
   gtk_widget_class_set_css_name (widget_class, "phosh-top-panel");
 
@@ -564,7 +635,6 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/top-panel.ui");
-  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_power);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, menu_power);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_top_panel);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_power);
@@ -587,15 +657,19 @@ phosh_top_panel_init (PhoshTopPanel *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
 
+  self->state = PHOSH_TOP_PANEL_STATE_FOLDED;
   self->kb_settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
+  g_signal_connect (self, "configure-event", G_CALLBACK (on_configure_event), NULL);
 }
 
 
 GtkWidget *
-phosh_top_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
-                     struct wl_output           *wl_output)
+phosh_top_panel_new (struct zwlr_layer_shell_v1          *layer_shell,
+                     struct zphoc_layer_shell_effects_v1 *layer_shell_effects,
+                     struct wl_output                    *wl_output)
 {
   return g_object_new (PHOSH_TYPE_TOP_PANEL,
+                       /* layer-surface */
                        "layer-shell", layer_shell,
                        "wl-output", wl_output,
                        "height", PHOSH_TOP_PANEL_HEIGHT,
@@ -604,8 +678,11 @@ phosh_top_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
                        "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                        "kbd-interactivity", FALSE,
-                       "exclusive-zone", PHOSH_TOP_PANEL_HEIGHT,
                        "namespace", "phosh top-panel",
+                       /* drag-surface */
+                       "layer-shell-effects", layer_shell_effects,
+                       "exclusive", PHOSH_TOP_PANEL_HEIGHT,
+                       "threshold", PHOSH_TOP_PANEL_DRAG_THRESHOLD,
                        NULL);
 }
 
@@ -613,42 +690,27 @@ phosh_top_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
 void
 phosh_top_panel_fold (PhoshTopPanel *self)
 {
-  int width;
-
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
 
   if (self->state == PHOSH_TOP_PANEL_STATE_FOLDED)
 	return;
 
-  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "top-bar");
-  gtk_widget_hide (self->menu_power);
-  gtk_widget_hide (self->settings);
-  phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), FALSE);
-  gtk_window_get_size (GTK_WINDOW (self), &width, NULL);
-  gtk_window_resize (GTK_WINDOW (self), width, PHOSH_TOP_PANEL_HEIGHT);
-  self->state = PHOSH_TOP_PANEL_STATE_FOLDED;
+  phosh_drag_surface_set_drag_state (PHOSH_DRAG_SURFACE (self),
+                                     PHOSH_DRAG_SURFACE_STATE_FOLDED);
 }
 
 
 void
 phosh_top_panel_unfold (PhoshTopPanel *self)
 {
-  int width, height;
-  PhoshShell *shell;
-
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
 
   if (self->state == PHOSH_TOP_PANEL_STATE_UNFOLDED)
 	return;
 
-  shell = phosh_shell_get_default ();
-  phosh_shell_get_area (shell, &width, &height);
-
-  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "arrow");
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), TRUE);
-  gtk_widget_show (self->settings);
-  gtk_window_resize (GTK_WINDOW (self), width, height);
-  self->state =PHOSH_TOP_PANEL_STATE_UNFOLDED;
+  phosh_drag_surface_set_drag_state (PHOSH_DRAG_SURFACE (self),
+                                     PHOSH_DRAG_SURFACE_STATE_UNFOLDED);
 }
 
 
