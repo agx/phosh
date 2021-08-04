@@ -343,6 +343,10 @@ phosh_panel_constructed (GObject *object)
                     "button-press-event",
                     G_CALLBACK (on_button_press_event),
                     NULL);
+  g_signal_connect_swapped (priv->settings,
+                            "setting-done",
+                            G_CALLBACK (phosh_panel_fold),
+                            self);
 
   priv->actions = g_simple_action_group_new ();
   gtk_widget_insert_action_group (GTK_WIDGET (self), "panel",
@@ -475,10 +479,6 @@ phosh_panel_unfold (PhoshPanel *self)
   gtk_widget_show (priv->settings);
   gtk_stack_set_transition_type (GTK_STACK (priv->stack), GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN);
   gtk_stack_set_visible_child_name(GTK_STACK (priv->stack), "settings");
-  g_signal_connect_swapped (priv->settings,
-                            "setting-done",
-                            G_CALLBACK(phosh_panel_fold),
-                            self);
   priv->state =PHOSH_PANEL_STATE_UNFOLDED;
 }
 
