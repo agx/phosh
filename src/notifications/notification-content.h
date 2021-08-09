@@ -21,7 +21,8 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhoshNotificationContent, phosh_notification_content, PHOSH, NOTIFICATION_CONTENT, GtkListBoxRow)
 
 
-GtkWidget         *phosh_notification_content_new              (PhoshNotification        *notification);
+GtkWidget         *phosh_notification_content_new              (PhoshNotification        *notification,
+                                                                gboolean                  show_body);
 PhoshNotification *phosh_notification_content_get_notification (PhoshNotificationContent *self);
 
 

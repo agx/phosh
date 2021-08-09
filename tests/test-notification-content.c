@@ -32,7 +32,7 @@ test_phosh_notification_content_new (void)
                                  NULL,
                                  now);
 
-  content = phosh_notification_content_new (noti);
+  content = phosh_notification_content_new (noti, TRUE);
 
   noti_test = phosh_notification_content_get_notification (PHOSH_NOTIFICATION_CONTENT (content));
 
@@ -65,7 +65,7 @@ test_phosh_notification_content_no_summary (void)
                                  NULL,
                                  now);
 
-  phosh_notification_content_new (noti);
+  phosh_notification_content_new (noti, TRUE);
 }
 
 
@@ -104,7 +104,7 @@ test_phosh_notification_content_actions (void)
                                  NULL,
                                  now);
 
-  content = phosh_notification_content_new (noti);
+  content = phosh_notification_content_new (noti, TRUE);
 
   g_signal_connect (noti, "actioned", G_CALLBACK (actioned), NULL);
 
@@ -140,7 +140,7 @@ test_phosh_notification_content_bad_action (void)
                                    NULL,
                                    now);
     /* Boom */
-    phosh_notification_content_new (noti);
+    phosh_notification_content_new (noti, TRUE);
   }
   g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_failed ();
@@ -168,7 +168,7 @@ test_phosh_notification_content_set_prop_invalid (void)
                                                                NULL,
                                                                now);
 
-  content = phosh_notification_content_new (noti);
+  content = phosh_notification_content_new (noti, TRUE);
   BAD_PROP_SET (content, phosh_notification_content, PhoshNotificationContent);
 }
 
@@ -192,7 +192,7 @@ test_phosh_notification_content_get_prop_invalid (void)
                                                                NULL,
                                                                now);
 
-  content = phosh_notification_content_new (noti);
+  content = phosh_notification_content_new (noti, TRUE);
   BAD_PROP_GET (content, phosh_notification_content, PhoshNotificationContent);
 }
 

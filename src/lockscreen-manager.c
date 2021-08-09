@@ -461,3 +461,19 @@ phosh_lockscreen_manager_get_active_time (PhoshLockscreenManager *self)
 
   return self->active_time;
 }
+
+
+gboolean
+phosh_lockscreen_manager_set_page  (PhoshLockscreenManager *self,
+                                    PhoshLockscreenPage     page)
+{
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self), FALSE);
+
+  if (!self->lockscreen)
+    return FALSE;
+
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN (self->lockscreen), FALSE);
+
+  phosh_lockscreen_set_page (self->lockscreen, page);
+  return TRUE;
+}

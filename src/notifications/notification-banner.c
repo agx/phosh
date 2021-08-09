@@ -93,7 +93,7 @@ phosh_notification_banner_set_notification (PhoshNotificationBanner *self,
 
   g_set_object (&self->notification, notification);
 
-  content = phosh_notification_frame_new ();
+  content = phosh_notification_frame_new (TRUE);
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (content),
                                               self->notification);
   gtk_container_add (GTK_CONTAINER (self), content);

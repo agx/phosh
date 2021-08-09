@@ -14,6 +14,8 @@
 #include "bt-info.h"
 #include "calls-manager.h"
 #include "lockscreen.h"
+#include "notifications/notify-manager.h"
+#include "notifications/notification-frame.h"
 #include "util.h"
 
 #include <locale.h>
@@ -77,6 +79,9 @@ typedef struct {
   GtkWidget         *box_info;
   GtkWidget         *lbl_clock;
   GtkWidget         *lbl_date;
+  GtkWidget         *list_notifications;
+  GtkWidget         *sw_notifications;
+  GSettings         *settings;
 
   /* unlock page */
   GtkWidget         *box_unlock;
@@ -544,12 +549,59 @@ on_calls_call_removed (PhoshLockscreen *self, const gchar *path)
 }
 
 
+static GtkWidget *
+create_notification_row (gpointer item, gpointer data)
+{
+  GtkWidget *row = NULL;
+  GtkWidget *frame = NULL;
+
+  row = g_object_new (GTK_TYPE_LIST_BOX_ROW,
+                      "activatable", FALSE,
+                      "visible", TRUE,
+                      NULL);
+
+  frame = phosh_notification_frame_new (FALSE);
+  phosh_notification_frame_bind_model (PHOSH_NOTIFICATION_FRAME (frame), item);
+
+  gtk_widget_show (frame);
+  gtk_container_add (GTK_CONTAINER (row), frame);
+
+  return row;
+}
+
+
+static void
+on_notifcation_items_changed (PhoshLockscreen *self,
+                              guint            position,
+                              guint            removed,
+                              guint            added,
+                              GListModel      *list)
+{
+  PhoshLockscreenPrivate *priv;
+  gboolean is_empty;
+
+  g_return_if_fail (G_IS_LIST_MODEL (list));
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  is_empty = !g_list_model_get_n_items (list);
+  g_debug("Notification list empty: %d", is_empty);
+
+  /* Don't unhide when we don't want notification on the lock screen */
+  if (!is_empty && !g_settings_get_boolean (priv->settings, "show-in-lock-screen"))
+    return;
+
+  gtk_widget_set_visible (GTK_WIDGET (priv->sw_notifications), !is_empty);
+}
+
+
 static void
 phosh_lockscreen_constructed (GObject *object)
 {
   PhoshLockscreen *self = PHOSH_LOCKSCREEN (object);
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   const char *active;
+  PhoshNotifyManager *manager;
 
   G_OBJECT_CLASS (phosh_lockscreen_parent_class)->constructed (object);
 
@@ -583,10 +635,30 @@ phosh_lockscreen_constructed (GObject *object)
                            G_CALLBACK (on_calls_call_removed),
                            self,
                            G_CONNECT_SWAPPED);
+
   /* If a call is ongoing show it when locking until we show a notification */
   active = phosh_calls_manager_get_active_call_handle (priv->calls_manager);
   if (active)
     on_calls_call_inbound (self, active);
+
+  manager = phosh_notify_manager_get_default ();
+  /* TODO: deduplicate after !862 */
+  priv->settings = g_settings_new("org.gnome.desktop.notifications");
+  g_settings_bind (priv->settings, "show-in-lock-screen",
+                   priv->list_notifications, "visible",
+                   G_SETTINGS_BIND_GET);
+  gtk_list_box_bind_model (GTK_LIST_BOX (priv->list_notifications),
+                           G_LIST_MODEL (phosh_notify_manager_get_list (manager)),
+                           create_notification_row,
+                           NULL,
+                           NULL);
+  g_signal_connect_object (phosh_notify_manager_get_list (manager),
+                           "items-changed",
+                           G_CALLBACK (on_notifcation_items_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_notifcation_items_changed (self, -1, -1, -1,
+                                G_LIST_MODEL (phosh_notify_manager_get_list (manager)));
 }
 
 static void
@@ -605,6 +677,7 @@ phosh_lockscreen_dispose (GObject *object)
   PhoshLockscreen *self = PHOSH_LOCKSCREEN (object);
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
+  g_clear_object (&priv->settings);
   g_clear_object (&priv->wall_clock);
   g_clear_handle_id (&priv->idle_timer, g_source_remove);
   g_clear_object (&priv->calls_manager);
@@ -675,6 +748,8 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_info);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, list_notifications);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, sw_notifications);
   gtk_widget_class_bind_template_callback (widget_class, show_unlock_page);
 
   /* Call UI */
@@ -721,11 +796,36 @@ phosh_lockscreen_new (gpointer layer_shell,
 PhoshLockscreenPage
 phosh_lockscreen_get_page (PhoshLockscreen *self)
 {
-  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  gdouble position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
+  PhoshLockscreenPrivate *priv;
+  gdouble position;
+
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN (self), PHOSH_LOCKSCREEN_PAGE_DEFAULT);
+  priv = phosh_lockscreen_get_instance_private (self);
+  position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
 
   if (position <= 0)
     return PHOSH_LOCKSCREEN_PAGE_DEFAULT;
   else
     return PHOSH_LOCKSCREEN_PAGE_UNLOCK;
+}
+
+/*
+ * phosh_lockscreen_set_page
+ * @self: The #PhoshLockscreen
+ * PhoshLockscreenPage: the page to scroll to
+ *
+ * Scrolls to a specific page in the carousel. The state of the deck isn't changed.
+ */
+void
+phosh_lockscreen_set_page (PhoshLockscreen *self, PhoshLockscreenPage page)
+{
+  GtkWidget *scroll_to;
+  PhoshLockscreenPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  scroll_to = (page == PHOSH_LOCKSCREEN_PAGE_UNLOCK) ? priv->box_unlock : priv->box_info;
+
+  hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel), scroll_to);
 }

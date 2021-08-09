@@ -259,6 +259,30 @@ phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
   background: none;
 }
 
+phosh-lockscreen .phosh-notification-tray list {
+  background-color: @phosh_bg_color;
+}
+
+phosh-lockscreen .phosh-notification-tray row {
+  background-color: @phosh_bg_color;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+phosh-lockscreen .phosh-notification-tray phosh-notification-frame {
+  background-color: @phosh_notification_bg_color;
+  margin: 3px 0px 0px 0px;
+}
+
+phosh-lockscreen .phosh-notification-tray phosh-notification-content {
+  background-color: @phosh_notification_bg_color;
+}
+
+phosh-lockscreen .phosh-notification-tray phosh-notification-content:last-child {
+  margin-bottom: 3px;
+  border-radius: 0px 0px 6px 6px;
+}
+
 /*
  * System modal dialogs (polkit, gcr, ...)
  */

@@ -22,6 +22,8 @@ PhoshLockscreenManager *phosh_lockscreen_manager_new (PhoshCallsManager *calls_m
 void                    phosh_lockscreen_manager_set_locked  (PhoshLockscreenManager *self,
                                                               gboolean state);
 gboolean                phosh_lockscreen_manager_get_locked  (PhoshLockscreenManager *self);
+gboolean                phosh_lockscreen_manager_set_page  (PhoshLockscreenManager *self,
+                                                            PhoshLockscreenPage     page);
 PhoshLockscreenPage     phosh_lockscreen_manager_get_page  (PhoshLockscreenManager *self);
 void                    phosh_lockscreen_manager_set_timeout (PhoshLockscreenManager *self,
                                                               int timeout);

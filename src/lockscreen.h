@@ -30,6 +30,7 @@ G_DECLARE_FINAL_TYPE (PhoshLockscreen, phosh_lockscreen, PHOSH, LOCKSCREEN,
                       PhoshLayerSurface)
 
 GtkWidget * phosh_lockscreen_new (gpointer layer_shell, gpointer wl_output, PhoshCallsManager *calls_manager);
+void        phosh_lockscreen_set_page (PhoshLockscreen *self, PhoshLockscreenPage page);
 PhoshLockscreenPage phosh_lockscreen_get_page (PhoshLockscreen *self);
 
 G_END_DECLS
