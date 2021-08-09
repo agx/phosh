@@ -1,3 +1,28 @@
+phosh 0.13.0
+------------
+Released: August 2021
+* torch: Use logind for torch brightness. This obsoletes any upower changes.
+  (Arnaud Ferraris)
+* Support hight contrast mode (David Hamner, Guido Günther)
+* ci: Use prebuilt docker images in CI to speedup builds and save resources
+  (Guido Günther)
+* lockscreen: Handle incoming phone calls (Guido Günther)
+* backrounds: Handle fractional scaling (Guido Günther)
+* notifications: Look at category for notification feedback
+* lockscreen: Display notification summary and handle global
+  "show-in-lock-screen" toggle (Guido Günther)
+* panel: Fix power menu close on tap (Mohammed Sadiq)
+* quick settings: Cycle through all feedback settings instead of only
+  full / silent (Pablo Correa Gomez)
+* Migrate to GNOME World (Guido Günther)
+* UI translations:
+	Anders Jonsson (sv)
+	Efstathios Iosifidis (el)
+	Rafael Fontenelle (pt_BR)
+	Vittorio Monti (it)
+	Yuri Chornoivan (uk)
+	Мирослав Николић (sr)
+
 phosh 0.12.1
 ------------
 Released: July 2021
