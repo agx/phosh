@@ -33,8 +33,11 @@
   <gresource prefix="/sm/puri/phosh/icons/scalable/status/">
     <file alias="auth-sim-locked-symbolic.svg">../data/auth-sim-locked-symbolic.svg</file>
     <file alias="auth-sim-missing-symbolic.svg">../data/auth-sim-missing-symbolic.svg</file>
+    <file alias="camera-hardware-disabled-symbolic.svg">../data/camera-hardware-disabled-symbolic.svg</file>
     <file alias="eye-not-looking-symbolic.svg">../data/eye-not-looking-symbolic.svg</file>
     <file alias="eye-open-negative-filled-symbolic.svg">../data/eye-open-negative-filled-symbolic.svg</file>
+    <file alias="feedback-quiet-symbolic.svg">../data/feedback-quiet-symbolic.svg</file>
+    <file alias="microphone-hardware-disabled-symbolic.svg">../data/microphone-hardware-disabled-symbolic.svg</file>
     <file alias="network-cellular-disabled-symbolic.svg">../data/network-cellular-disabled-symbolic.svg</file>
     <file alias="network-wireless-disabled-symbolic.svg">../data/network-wireless-disabled-symbolic.svg</file>
     <file alias="phone-docked-symbolic.svg">../data/phone-docked-symbolic.svg</file>
@@ -44,7 +47,5 @@
     <file alias="swipe-arrow-symbolic.svg">../data/swipe-arrow-symbolic.svg</file>
     <file alias="torch-disabled-symbolic.svg">../data/torch-disabled-symbolic.svg</file>
     <file alias="torch-enabled-symbolic.svg">../data/torch-enabled-symbolic.svg</file>
-    <file alias="camera-hardware-disabled-symbolic.svg">../data/camera-hardware-disabled-symbolic.svg</file>
-    <file alias="microphone-hardware-disabled-symbolic.svg">../data/microphone-hardware-disabled-symbolic.svg</file>
   </gresource>
 </gresources>
