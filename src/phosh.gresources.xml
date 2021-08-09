@@ -36,6 +36,7 @@
     <file alias="camera-hardware-disabled-symbolic.svg">../data/camera-hardware-disabled-symbolic.svg</file>
     <file alias="eye-not-looking-symbolic.svg">../data/eye-not-looking-symbolic.svg</file>
     <file alias="eye-open-negative-filled-symbolic.svg">../data/eye-open-negative-filled-symbolic.svg</file>
+    <file alias="feedback-quiet-symbolic.svg">../data/feedback-quiet-symbolic.svg</file>
     <file alias="microphone-hardware-disabled-symbolic.svg">../data/microphone-hardware-disabled-symbolic.svg</file>
     <file alias="network-cellular-disabled-symbolic.svg">../data/network-cellular-disabled-symbolic.svg</file>
     <file alias="network-wireless-disabled-symbolic.svg">../data/network-wireless-disabled-symbolic.svg</file>

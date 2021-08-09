@@ -21,6 +21,7 @@
  */
 
 #define PHOSH_FEEDBACK_ICON_FULL "preferences-system-notifications-symbolic"
+#define PHOSH_FEEDBACK_ICON_QUIET "feedback-quiet-symbolic"
 #define PHOSH_FEEDBACK_ICON_SILENT "notifications-disabled-symbolic"
 
 enum {
@@ -94,10 +95,12 @@ phosh_feedback_manager_update (PhoshFeedbackManager *self)
   const char *profile = self->profile;
 
   self->profile = lfb_get_feedback_profile ();
-  if (g_strcmp0 (self->profile, "quiet") && g_strcmp0 (self->profile, "silent"))
-    self->icon_name = PHOSH_FEEDBACK_ICON_FULL;
-  else
+  if (g_strcmp0 (self->profile, "quiet") == 0)
+    self->icon_name = PHOSH_FEEDBACK_ICON_QUIET;
+  else if (g_strcmp0 (self->profile, "silent") == 0)
     self->icon_name = PHOSH_FEEDBACK_ICON_SILENT;
+  else
+    self->icon_name = PHOSH_FEEDBACK_ICON_FULL;
 
   g_debug("Feedback profile set to: '%s', icon '%s'", self->profile,  self->icon_name);
 
