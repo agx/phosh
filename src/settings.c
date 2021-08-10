@@ -390,6 +390,17 @@ on_media_player_raised (PhoshSettings *self,
 }
 
 
+static void
+on_notifications_clear_all_clicked (PhoshSettings *self)
+{
+  PhoshNotifyManager *manager;
+
+  manager = phosh_notify_manager_get_default ();
+  phosh_notify_manager_close_all_notifications (manager, PHOSH_NOTIFICATION_REASON_DISMISSED);
+  g_signal_emit (self, signals[SETTING_DONE], 0);
+}
+
+
 static GtkWidget *
 create_notification_row (gpointer item, gpointer data)
 {
@@ -628,6 +639,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, wwan_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, wwan_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_torch_scale_value_changed);
+  gtk_widget_class_bind_template_callback (widget_class, on_notifications_clear_all_clicked);
 }
 
 
