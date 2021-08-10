@@ -52,6 +52,7 @@
             <child>
               <object class="PhoshTimestampLabel" id="updated">
                 <property name="visible">True</property>
+                <property name="halign">end</property>
                 <style>
                   <class name="dim-label"/>
                 </style>
