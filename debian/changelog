@@ -1,3 +1,162 @@
+phosh (0.13.0) experimental; urgency=medium
+
+  [ Arnaud Ferraris ]
+  * torch-manager: use logind instead of upower for toggling the torch.
+    The previous version relies on a downstream upower extension which was
+    rejected by upstream[1].
+    In order to avoid having to carry downstream packages, this patch
+    provides a new implementation, based on udev for device discovery, and
+    logind for enabling/disabling the torch.
+    [1]: https://gitlab.freedesktop.org/upower/upower/-/merge_requests/50
+  * dbus: remove upower torch protocol.
+    This is no longer needed with the new torch manager implementation
+  * d/control: add build dependency on libgudev.
+    This is required by the new torch manager implementation.
+  * gitlab-ci: add missing dependency for alpine-based jobs
+
+  [ Guido Günther ]
+  * doap: Add gnome userids
+  * shell: Select a different style sheet for HighContrast theme.
+    The stylesheet is the same as the default one except that
+    it has foreground and background colors swapped. This
+    allows us to use a high contrast light theme.
+    Closes: https://source.puri.sm/Librem5/phosh/-/issues/523
+  * css: Drop .phosh-settings-row and .phosh-settings-listboxrow.
+    Code using that was removed in
+    5e214df154f733088283d2de6406c2d18dc90548
+  * css: Drop duplicated properties
+  * css: HighContrast: Use a 1px border for panel buttons.
+    This makes the shell chrome easy to identify.
+  * home: Make keyboard handling a bit more standard.
+    Use GDK_EVENT_{PROPAGATE,STOP} and gdk_event_get_keyval and a template
+    callback.
+  * overview: Focus search when user starts typing (Closes: #564)
+  * gitlab-ci: Drop unused vars
+  * gitlab-ci.yml: Drop and adjust tags.
+    Adjust tags to GNOME's CI
+  * gitlab-ci: Publish docs
+  * gitlab-ci: Speed up package build.
+    Drop the docs now that we have gitlab pages
+  * Change URLs to gitlab.gnome.org.
+    We also adjust the URLs of projects that are bound to move soon like phoc.
+  * README: mention API docs
+  * Add dockerfile to create image.
+    The image has all the build-deps to speed up build and tests. Based
+    on what libadwaita does.
+    Use
+     .gitlab-ci/run-docker.sh --base=debian-cross build--version 0.0.<date>
+     .gitlab-ci/run-docker.sh --base=debian-cross push --version 0.0.<date>
+    to update.
+  * gitlab-ci: Use custom docker image for most jobs.
+    This also does away with the global `before_script:`
+  * gitlab-ci: Use prebuilt image for 32bit build too
+  * dbus: Update calls protocol.
+    This adds the needed bit to accept calls on the lock screen.
+  * Add libcall-ui as submodule.
+    This allows us to share the call ui between calls and
+    phosh without coupling them further.
+    To build we also need libcallaudio-dev since that's a
+    dependency of libcall-ui.
+  * main: Initialize libcall-ui
+  * phosh-call: Add DBus based implementation of the call-ui-call interface.
+    This wraps the DBus interface in a PhoshCall's object that implements
+    CuiCall so it can be used with CuiCallDisplay.
+  * lockscreen: Allow to accept incoming calls.
+    Use CuiCallDisplay to handle incoming calls.
+    Relevent mockups: https://gitlab.gnome.org/Teams/Design/os-mockups/-/blob/master/mobile-shell/lockscreen-calls.png
+  * call: Handle can-dtmf.
+    This makes sure we keep the dialpad disabled until the
+    DBus interface handles it. libcall-ui has all the bits
+    already and adding DBus support will be backward compatible.
+  * schema: Calls moved to org.gnome.
+    Adjust the favorite.
+  * Move the calls DBus interface to org.gnome.Calls.
+    This changed with the move to upstream GNOME.
+  * monitor: Allow to get fractional scale.
+    This is derived from the logical size as described in
+    https://wayland.app/protocols/xdg-output-unstable-v1#zxdg_output_v1:event:logical_size
+  * background: Scale by fractional output scale.
+    Scale the background by logical scale instead of what we get
+    from xdg_output->scale. This allows the background to scale
+    with fractional scaling. (Closes: #338)
+  * tests: Stub phosh_shell_get_locked()
+    This will be used by PhoshNotifyFeedback and is hence needed
+    in the standalone notification (test) server.
+  * Move feedback for notifications to a separat class.
+    It was o.k. to have it in settings since that was the only long term
+    notification store and we just used a single feedback event with
+    - notifications also being on the lock screen
+    - sending different event feedback
+    we don't want to add more complexity to that single notification
+    display. This also stops abusing the ListBox's create_row callback to
+    handle feedback events.
+  * notify-feedback: Adjust event name based on notification category.
+    Adjust the emitted feedback based on the notification category¹. We could
+    use the sound-name instead but that has the problem that the application
+    sometimes has a hard time to figure out what the appropriate event is.
+    E.g. `message-missed-instant` and `message-new-instant` are hard to tell
+    apart from an application PoV.
+    1: https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html
+  * panel: Connect to "setting-done" only once.
+    No need to connect on every unfold.
+  * tests: Add stubs for notify-server-standalone.
+    This keeps things compiling
+  * notification-content: Allow to show/hide body and actions
+  * notification-frame: Add show-body property.
+    This allows to show/hide the bodies of contained notifications
+  * lockscreen-manager: Allow to scroll to a lock screen page programatically.
+    This will be used to scroll to the unlock page when the user activates a
+    notification.
+  * lockscreen: Display notification summary
+  * lockscreen: Add missing guard to public function
+  * notify-manager: Trigger scroll to unlock page if shell is locked.
+    If the user activates a notification and the shell is locked scroll
+    to the unlock page.
+  * lockscreen: Handle "show-in-lock-screen" gsetting
+  * gresources: Sort icons alphabetically
+  * feedback-manager: Use separate icon for quiet mode.
+    This makes the current mode easier to identify
+
+  [ Mohammed Sadiq ]
+  * panel: Hide power popover on tapping topbar if open.
+    If the user taps on the notification bar/panel,
+    hide power popover (if open) instead of hiding the panel.
+  * panel: Return GDK_EVENT_PROPAGATE in button-press-event handler.
+    GDK_EVENT_PROPAGATE documents the purpose better than FALSE
+
+  [ Pablo Correa Gómez ]
+  * feedback-manager: Rotate profiles on touch to quick settings.
+    Currently, there exist three different feedback profiles:
+    "full", "quiet", "silent", but quick settings touch only
+     switches in-between "full" and "silent". Instead, rotate
+     from "full" to "quiet" to "silent" and back to "full"
+
+  [ Zander Brown ]
+  * notifications: Dim icon.
+    See https://source.puri.sm/Librem5/phosh/issues/286
+  * notifications: Use a bit less space between icon and title.
+    See https://source.puri.sm/Librem5/phosh/issues/286
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Efstathios Iosifidis ]
+  * Update Greek translation
+
+  [ Rafael Fontenelle ]
+  * Update Brazilian Portuguese translation
+
+  [ Мирослав Николић ]
+  * Update Serbian translation
+
+  [ Vittorio Monti ]
+  * po: Update Italian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 09 Aug 2021 11:06:16 +0200
+
 phosh (0.12.1) byzantium; urgency=medium
 
   [ Guido Günther ]
