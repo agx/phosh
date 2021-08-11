@@ -1,146 +1,417 @@
-# Martin Chang <marty188586@gmail.com>, 2018. #zanata
-# Martin Chang <marty188586@gmail.com>, 2019. #zanata
+# Esperanto translation for phosh.
+# Copyright (C) 2018 Free Software Foundation, Inc.
+# This file is distributed under the same license as the phosh package
+# Martin CHANG <marty188586@gmail.com>, 2018-2019.
+# Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>, 2021.
+# Colin REEDER <colin@vpzom.click>, 2021.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2021-08-09 08:29+0000\n"
+"PO-Revision-Date: 2021-08-11 08:20+0200\n"
+"Last-Translator: Colin REEDER <colin@vpzom.click>\n"
+"Language-Team: Esperanto\n"
+"Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-12-04 04:34+0000\n"
-"Last-Translator: Martin Chang <marty188586@gmail.com>\n"
-"Language-Team: Esperanto\n"
-"Language: eo\n"
-"X-Generator: Zanata 4.6.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-
-#: data/sm.puri.Phosh.desktop.in.in:4
-msgid "Phone Shell"
-msgstr "Fona ŝelo"
-
-#: data/sm.puri.Phosh.desktop.in.in:5
-msgid "Window management and application launching for mobile"
-msgstr "Fenestroj administri kaj lanĉi aplikaĵoj por poŝtelefono"
+"X-Generator: Poedit 3.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/app-grid-button.c:523
+#: data/sm.puri.Phosh.desktop.in.in:4
+msgid "Phone Shell"
+msgstr "Telefona Ŝelo"
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "Administrado de fenestroj kaj lanĉado de aplikaĵoj por poŝtelefono"
+
+#: src/app-grid-button.c:536
 msgid "Application"
 msgstr "Aplikaĵo"
 
-#: src/feedbackinfo.c:38
-msgid "Quiet"
-msgstr ""
-
-#: src/feedbackinfo.c:40
-msgid "Silent"
-msgstr ""
-
-#: src/feedbackinfo.c:42
+#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
-msgstr ""
+msgstr "Ŝaltita"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
+#: src/bt-info.c:94
+msgid "Bluetooth"
+msgstr "Bludento"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Dokita"
+
+#: src/docked-info.c:81 src/docked-info.c:199
+msgid "Undocked"
+msgstr "Ne dokita"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "Elsaluti"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "%s estos elsalutita aŭtomate post %d sekundo."
+msgstr[1] "%s estos elsalutita aŭtomate post %d sekundoj."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+msgid "Power Off"
+msgstr "Malŝalti"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "La sistemo malŝaltos aŭtomate post %d sekundo."
+msgstr[1] "La sistemo malŝaltos aŭtomate post %d sekundoj."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+msgid "Restart"
+msgstr "Restartigi"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "La sistemo restartos aŭtomate post %d sekundo."
+msgstr[1] "La sistemo restartos aŭtomate post %d sekundoj."
+
+#: src/end-session-dialog.c:269
+msgid "Unknown application"
+msgstr "Nekonata aplikaĵo"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:44
+msgid "Quiet"
+msgstr "Mallaŭta"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:49
+msgid "Silent"
+msgstr "Silenta"
+
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "Permesi '%s' atingi vian loko?"
+
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "Geolokigo"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "Jes"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "Ne"
+
+#: src/lockscreen.c:157 src/ui/lockscreen.ui:267
 msgid "Enter Passcode"
 msgstr "Enigu pasvorton"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:340
 msgid "Checking…"
 msgstr "Kontroli…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:334
+#: src/lockscreen.c:418
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
-#: src/monitor-manager.c:53
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:279 src/ui/media-player.ui:107
+msgid "Unknown Title"
+msgstr "Nekonata titolo"
+
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:288 src/ui/media-player.ui:127
+msgid "Unknown Artist"
+msgstr "Nekonata artisto"
+
+#: src/monitor-manager.c:114
 msgid "Built-in display"
 msgstr "Integra vidigo"
 
+#: src/monitor-manager.c:132
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:139
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %s"
+msgstr "%s %s"
+
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:148
 msgid "Unknown"
 msgstr "Nekonate"
 
-#: src/network-auth-prompt.c:184
+#: src/network-auth-prompt.c:187
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Tipo de aŭtentigo de vifio-reto \"%s\" ne estas subtenata"
+
+#: src/network-auth-prompt.c:192
 #, c-format
 msgid "Enter password for the wifi network “%s”"
+msgstr "Enigu pasvorton por la vifio-reto \"%s\""
+
+#: src/notifications/mount-notification.c:122
+msgid "Open"
+msgstr "Malfermi"
+
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
+msgid "Notification"
+msgstr "Sciigo"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "s"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "m"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "h"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "h"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "t"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "t"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "mo"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "mo"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "j"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "j"
+
+#: src/notifications/timestamp-label.c:121
+msgid "now"
+msgstr "nuna"
+
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "Pli ol %dj"
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "Preskaŭ %dj"
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
 msgstr ""
 
-#: src/polkit-auth-agent.c:229
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
-msgstr "La aŭtentiga dialogo estis forigi laŭ la uzanto"
+msgstr "La aŭtentiga dialogo estis forigita de la uzanto"
 
-#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
+#: src/ui/system-prompt.ui:33
 msgid "Password:"
 msgstr "Pasvorto:"
 
-#: src/polkit-auth-prompt.c:322
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "Pardonu, ĉi tio ne efikas. Bonvolu reprovi malfrue."
+msgstr "Pardonu, ĉi tio ne sukcesas. Bonvolu reprovi."
 
-#: src/polkit-auth-prompt.c:488
-msgid "Authenticate"
-msgstr "Permesi"
+#: src/rotateinfo.c:81
+msgid "Portrait"
+msgstr "Vertikala"
+
+#: src/rotateinfo.c:84
+msgid "Landscape"
+msgstr "Horizontala"
+
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
+msgid "Off"
+msgstr "Ne ŝaltita"
+
+#: src/system-prompt.c:364
+msgid "Passwords do not match."
+msgstr "Pasvortoj ne kongruas."
 
 #: src/system-prompt.c:371
-msgid "Passwords do not match."
-msgstr "Pasvortoj ne kongruas"
-
-#: src/system-prompt.c:378
 msgid "Password cannot be blank"
 msgstr "Pasvorto devas ne malpleni"
 
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr ""
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "Poŝlampo"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-auth-prompt.ui:41
+msgid "Remember decision"
+msgstr "Memori decidon"
+
+#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
+msgid "Cancel"
+msgstr "Nuligi"
+
+#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
+msgid "Ok"
+msgstr "Bone"
+
+#: src/ui/app-grid-button.ui:49
 msgid "App"
 msgstr "Aplikaĵo"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Forigi el _Legosignoj"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Aldoni al _Legosignoj"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid.ui:22
 msgid "Search apps…"
-msgstr "Serĉi aplikaĵo…"
+msgstr "Serĉi aplikaĵojn…"
 
-#: src/ui/lockscreen.ui:36
-msgid "Slide up to unlock"
-msgstr "Ŝovi supre por malŝlosi"
+#: src/ui/app-grid.ui:169
+msgid "Show only adaptive apps"
+msgstr "Montri nur adapta aplikaĵojn"
 
-#: src/ui/lockscreen.ui:250
-msgid "Emergency"
-msgstr ""
+#: src/ui/end-session-dialog.ui:32
+msgid "Some applications are busy or have unsaved work"
+msgstr "Kelkaj aplikaĵoj estas okupita aŭ havas nekonservitajn ŝanĝojn"
 
-#: src/ui/lockscreen.ui:266
-msgid "Unlock"
-msgstr ""
-
-#: src/ui/network-auth-prompt.ui:90
-msgid "_Cancel"
-msgstr ""
-
-#: src/ui/network-auth-prompt.ui:106
-msgid "C_onnect"
-msgstr ""
-
-#: src/ui/polkit-auth-prompt.ui:105
+#: src/ui/gtk-mount-prompt.ui:95
 msgid "User:"
 msgstr "Uzanto:"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/gtk-mount-prompt.ui:118
+msgid "Domain:"
+msgstr "Domajno:"
+
+#: src/ui/gtk-mount-prompt.ui:151
+msgid "Co_nnect"
+msgstr "Ko_nekti"
+
+#: src/ui/lockscreen.ui:43
+msgid "Slide up to unlock"
+msgstr "Ŝovi supre por malŝlosi"
+
+#: src/ui/lockscreen.ui:313
+msgid "Emergency"
+msgstr "Krizo"
+
+#: src/ui/lockscreen.ui:329
+msgid "Unlock"
+msgstr "Malŝlosi"
+
+#: src/ui/lockscreen.ui:369
+msgid "Back"
+msgstr "Reen"
+
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+msgid "Authentication required"
+msgstr "Aŭtentigo estas deviga"
+
+#: src/ui/network-auth-prompt.ui:41
+msgid "_Cancel"
+msgstr "_Nuligi"
+
+#: src/ui/network-auth-prompt.ui:59
+msgid "C_onnect"
+msgstr "K_onekti"
+
+#: src/ui/polkit-auth-prompt.ui:123
+msgid "Authenticate"
+msgstr "Aŭtentigi"
+
+#: src/ui/system-prompt.ui:63
 msgid "Confirm:"
 msgstr "Konfirmi:"
+
+#: src/ui/top-panel.ui:16
+msgid "Lock Screen"
+msgstr "Ŝlosita Ekrano"
+
+#: src/ui/top-panel.ui:23
+msgid "Logout"
+msgstr "Elsaluti"
+
+#: src/wifiinfo.c:90
+msgid "Wi-Fi"
+msgstr "Vifio"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:172
+msgid "Cellular"
+msgstr "Ĉela"
