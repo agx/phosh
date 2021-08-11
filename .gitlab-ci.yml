@@ -15,7 +15,7 @@ variables:
   ALPINE_EDGE_DEPS: alpine-sdk callaudiod-dev elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
                     gtk+3.0-dev libgudev-dev libhandy1-dev gcr-dev libsecret-dev gcovr linux-pam-dev
                     meson musl-dev networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
-                    upower-dev wayland-dev wayland-protocols
+                    upower-dev wayland-dev wayland-protocols ttf-dejavu
 
 .bullseye_vars: &bullseye_vars
   variables:
