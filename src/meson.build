@@ -97,6 +97,8 @@ libphosh_tool_sources = files(
   'mode-manager.h',
   'mount-manager.c',
   'mount-manager.h',
+  'mount-operation.c',
+  'mount-operation.h',
   'overview.c',
   'overview.h',
   'osd-window.c',
