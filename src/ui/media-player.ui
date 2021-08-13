@@ -20,7 +20,9 @@
               <object class="GtkImage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">end</property>
                 <property name="icon_name">media-skip-backward-symbolic</property>
+                <property name="margin-right">12</property>
               </object>
             </child>
           </object>
@@ -34,6 +36,7 @@
               <object class="GtkImage" id="img_play">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="pixel_size">32</property>
                 <property name="icon_name">media-playback-start-symbolic</property>
               </object>
             </child>
@@ -48,7 +51,9 @@
               <object class="GtkImage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="icon_name">media-skip-forward-symbolic</property>
+                <property name="margin-left">12</property>
               </object>
             </child>
           </object>
@@ -129,6 +134,9 @@
             </child>
           </object>
         </child>
+        <style>
+          <class name="media-player-details"/>
+        </style>
       </object>
       <packing>
         <property name="left_attach">0</property>

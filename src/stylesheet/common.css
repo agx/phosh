@@ -472,26 +472,36 @@ phosh-notification-banner {
 phosh-media-player {
   background: @phosh_notification_bg_color;
   border-radius: 6px;
-  border: 0;
-  box-shadow: 0 0;
+  box-shadow: none;
 }
 
-phosh-media-player > box > button {
+phosh-media-player button {
+  background: @phosh_notification_bg_color;
   border-radius: 0;
   box-shadow: none;
+  border: 0;
   outline-style: none;
 }
 
-phosh-media-player > box button:first-child {
+phosh-media-player button:hover,
+phosh-media-player button:active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+phosh-media-player > box > button:first-child {
   border-radius: 0 0 0 6px;
 }
 
-phosh-media-player > box button:last-child {
+phosh-media-player > box > button:last-child {
   border-radius: 0 0 6px 0;
 }
 
+phosh-media-player .media-player-details {
+  border-radius: 6px 6px 0 0;
+}
+
 /* The details button should not look inactive even when disabled */
-phosh-media-player box *:disabled {
+phosh-media-player .media-player-details *:disabled {
   color: @theme_fg_color;
   -gtk-icon-effect: none;
 }
