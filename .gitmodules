@@ -3,4 +3,4 @@
 	url = https://gitlab.gnome.org/GNOME/libgnome-volume-control.git
 [submodule "subprojects/libcall-ui"]
 	path = subprojects/libcall-ui
-	url = https://gitlab.gnome.org/guidog/libcall-ui.git
+	url = https://gitlab.gnome.org/World/Phosh/libcall-ui.git
