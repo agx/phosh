@@ -891,3 +891,28 @@ phosh_notify_manager_get_show_notification_banner (PhoshNotifyManager *self,
   g_debug ("Show banners for %s: %d", munged_id, show);
   return show;
 }
+
+/**
+ * phosh_notify_manager_close_all:
+ * @self: the #PhoshNotifyManager
+ * @rease: the #PhoshNotificationReason
+ *
+ * Closes all notifications using #PhoshNotificationReason as reason.
+ */
+void
+phosh_notify_manager_close_all_notifications (PhoshNotifyManager      *self,
+                                              PhoshNotificationReason  reason)
+{
+  GListModel *source_list;
+
+  source_list = G_LIST_MODEL (phosh_notify_manager_get_list (self));
+
+  for (int i = g_list_model_get_n_items(G_LIST_MODEL (source_list)); i > 0; i--) {
+    g_autoptr (GListModel) notif_list = G_LIST_MODEL (g_list_model_get_object (source_list, i-1));
+
+    for (int j = g_list_model_get_n_items(G_LIST_MODEL (notif_list)); j > 0; j--) {
+      g_autoptr (PhoshNotification) notification = PHOSH_NOTIFICATION (g_list_model_get_object (notif_list, j-1));
+      phosh_notification_close (notification, PHOSH_NOTIFICATION_REASON_DISMISSED);
+    }
+  }
+}
