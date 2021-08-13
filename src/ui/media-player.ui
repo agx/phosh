@@ -70,6 +70,7 @@
         <property name="can_focus">False</property>
         <property name="relief">none</property>
         <signal name="clicked" handler="btn_details_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
+        <property name="valign">center</property>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
@@ -80,6 +81,8 @@
                 <property name="can_focus">False</property>
                 <property name="margin">5</property>
                 <property name="icon_name">audio-x-generic-symbolic</property>
+                <property name="pixel_size">48</property>
+                <property name="valign">center</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -91,6 +94,7 @@
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <property name="margin-left">6</property>
+                <property name="valign">center</property>
                 <child>
                   <object class="GtkLabel" id="lbl_artist">
                     <property name="visible">True</property>

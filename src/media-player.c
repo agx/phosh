@@ -295,11 +295,9 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     g_autoptr (GFile) file = g_file_new_for_uri (url);
 
     icon = g_file_icon_new (file);
-    gtk_image_set_from_gicon (GTK_IMAGE (self->img_art), icon, GTK_ICON_SIZE_DIALOG);
+    gtk_image_set_from_gicon (GTK_IMAGE (self->img_art), icon, -1);
   } else {
-    gtk_image_set_from_icon_name (GTK_IMAGE (self->img_art),
-                                  "audio-x-generic-symbolic",
-                                  GTK_ICON_SIZE_DIALOG);
+    gtk_image_set_from_icon_name (GTK_IMAGE (self->img_art), "audio-x-generic-symbolic", -1);
   }
 }
 
