@@ -137,7 +137,7 @@ build:native-alpinelinux-edge:
   allow_failure: true
   before_script:
     - echo "https://alpine.global.ssl.fastly.net/alpine/edge/testing" >> /etc/apk/repositories
-    - apk -q add $ALPINE_EDGE_DEPS
+    - apk add $ALPINE_EDGE_DEPS
   artifacts:
     paths:
       - _build
@@ -157,7 +157,7 @@ unit-test:native-alpinelinux-edge:
     - build:native-alpinelinux-edge
   before_script:
     - echo "https://alpine.global.ssl.fastly.net/alpine/edge/testing" >> /etc/apk/repositories
-    - apk -q add xvfb-run $ALPINE_EDGE_DEPS
+    - apk add xvfb-run $ALPINE_EDGE_DEPS
   script:
     - export LC_ALL=C.UTF-8
     - ${XVFB_RUN} ninja -C _build test
