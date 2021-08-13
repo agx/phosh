@@ -17,7 +17,6 @@
           <object class="GtkButton" id="btn_prev">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
             <signal name="clicked" handler="btn_prev_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
@@ -32,7 +31,6 @@
           <object class="GtkButton" id="btn_play">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
             <signal name="clicked" handler="btn_play_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage" id="img_play">
@@ -47,7 +45,6 @@
           <object class="GtkButton" id="btn_next">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
             <signal name="clicked" handler="btn_next_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
@@ -68,7 +65,6 @@
       <object class="GtkButton" id="btn_details">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="receives_default">False</property>
         <property name="relief">none</property>
         <signal name="clicked" handler="btn_details_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
         <child>
