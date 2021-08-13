@@ -482,16 +482,23 @@ phosh-notification-banner {
  */
 phosh-media-player {
   background: @phosh_notification_bg_color;
-  border-radius: 5%;
-  padding: 9px;
+  border-radius: 6px;
   border: 0;
   box-shadow: 0 0;
 }
 
-phosh-media-player > button {
+phosh-media-player > box > button {
   border-radius: 0;
   box-shadow: none;
   outline-style: none;
+}
+
+phosh-media-player > box button:first-child {
+  border-radius: 0 0 0 6px;
+}
+
+phosh-media-player > box button:last-child {
+  border-radius: 0 0 6px 0;
 }
 
 /* The details button should not look inactive even when disabled */
