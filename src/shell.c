@@ -1171,7 +1171,7 @@ phosh_shell_get_usable_area (PhoshShell *self, int *x, int *y, int *width, int *
   PhoshMonitor *monitor;
   PhoshMonitorMode *mode;
   int w, h;
-  int scale;
+  float scale;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
 
@@ -1180,11 +1180,11 @@ phosh_shell_get_usable_area (PhoshShell *self, int *x, int *y, int *width, int *
   mode = phosh_monitor_get_current_mode (monitor);
   g_return_if_fail (mode != NULL);
 
-  scale = monitor->scale ? monitor->scale : 1;
+  scale = MAX(1.0, phosh_monitor_get_fractional_scale (monitor));
 
-  g_debug ("Primary monitor %p scale is %d, transform is %d",
+  g_debug ("Primary monitor %p scale is %f, transform is %d",
            monitor,
-           monitor->scale,
+           scale,
            monitor->transform);
 
   switch (phosh_monitor_get_transform(monitor)) {
