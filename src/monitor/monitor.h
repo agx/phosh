@@ -117,7 +117,7 @@ struct _PhoshMonitor {
 
   int x, y, width, height;
   int subpixel;
-  gint32 transform, scale;
+  gint32 transform;
 
   struct {
     gint32 x, y, width, height;

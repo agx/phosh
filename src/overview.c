@@ -270,8 +270,8 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   activity = phosh_activity_new (app_id, title);
   scale = phosh_monitor_get_fractional_scale (monitor);
   g_object_set (activity,
-                "win-width", monitor->width / scale,
-                "win-height", monitor->height / scale,
+                "win-width", (int)(monitor->width / scale),
+                "win-height", (int)(monitor->height / scale),
                 "maximized", phosh_toplevel_is_maximized (toplevel),
                 NULL);
   g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);

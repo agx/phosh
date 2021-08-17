@@ -89,8 +89,8 @@ output_handle_scale (void             *data,
 {
   PhoshMonitor *self = PHOSH_MONITOR (data);
 
+  /* nothing to do */
   self->wl_output_done = FALSE;
-  self->scale = scale;
 }
 
 
@@ -404,7 +404,6 @@ phosh_monitor_class_init (PhoshMonitorClass *klass)
 static void
 phosh_monitor_init (PhoshMonitor *self)
 {
-  self->scale = 1.0;
   self->modes = g_array_new (FALSE, FALSE, sizeof(PhoshMonitorMode));
   self->power_mode = PHOSH_MONITOR_POWER_SAVE_MODE_OFF;
 }
