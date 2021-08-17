@@ -568,7 +568,7 @@ phosh_monitor_manager_handle_get_current_state (PhoshDBusDisplayConfig *skeleton
 
     for (int k = 0; k < head->modes->len; k++) {
       PhoshHeadMode *mode = g_ptr_array_index (head->modes, k);
-      g_autofree int *scales = NULL;
+      g_autofree float *scales = NULL;
       if (!mode->name) {
         g_warning ("Skipping unnamend mode %p", mode);
         continue;
@@ -576,7 +576,7 @@ phosh_monitor_manager_handle_get_current_state (PhoshDBusDisplayConfig *skeleton
 
       g_variant_builder_init (&supported_scales_builder,
                               G_VARIANT_TYPE ("ad"));
-      scales = phosh_head_calculate_supported_mode_scales (head, mode, &n);
+      scales = phosh_head_calculate_supported_mode_scales (head, mode, &n, TRUE);
       for (int l = 0; l < n; l++) {
         g_variant_builder_add (&supported_scales_builder, "d",
                                (double)scales[l]);
