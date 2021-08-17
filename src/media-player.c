@@ -68,6 +68,7 @@ typedef struct _PhoshMediaPlayer {
   GtkWidget                        *btn_prev;
   GtkWidget                        *btn_details;
   GtkWidget                        *img_art;
+  GtkWidget                        *img_play;
   GtkWidget                        *lbl_title;
   GtkWidget                        *lbl_artist;
 
@@ -294,11 +295,9 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     g_autoptr (GFile) file = g_file_new_for_uri (url);
 
     icon = g_file_icon_new (file);
-    gtk_image_set_from_gicon (GTK_IMAGE (self->img_art), icon, GTK_ICON_SIZE_DIALOG);
+    gtk_image_set_from_gicon (GTK_IMAGE (self->img_art), icon, -1);
   } else {
-    gtk_image_set_from_icon_name (GTK_IMAGE (self->img_art),
-                                  "audio-x-generic-symbolic",
-                                  GTK_ICON_SIZE_DIALOG);
+    gtk_image_set_from_icon_name (GTK_IMAGE (self->img_art), "audio-x-generic-symbolic", -1);
   }
 }
 
@@ -339,8 +338,8 @@ on_playback_status_changed (PhoshMediaPlayer                 *self,
   }
 
   if (self->status != current) {
-    GtkWidget *image = gtk_image_new_from_icon_name (icon, GTK_ICON_SIZE_SMALL_TOOLBAR);
-    gtk_button_set_image (GTK_BUTTON (self->btn_play), image);
+    gtk_image_set_from_icon_name (GTK_IMAGE (self->img_play), icon, -1);
+    gtk_widget_set_valign (self->img_play, GTK_ALIGN_START);
   }
 }
 
@@ -465,6 +464,7 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_prev);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_details);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, img_art);
+  gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, img_play);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_artist);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_title);
   gtk_widget_class_bind_template_callback (widget_class, btn_play_clicked_cb);

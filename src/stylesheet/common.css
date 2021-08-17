@@ -244,19 +244,8 @@ keypad > grid > button:focus, .text-only-button:focus {
 }
 
 phosh-lockscreen phosh-media-player {
-  background: none;
-  border: solid 1px;
-  border-color: rgb(51,51,51);
-  border-radius: 0;
-}
-
-phosh-lockscreen phosh-media-player button {
-  background: rgba(255, 255, 255, 0.3);
-  border: none;
-}
-
-phosh-lockscreen phosh-media-player button:not(:hover):not(:active) {
-  background: none;
+  margin-left: 12px;
+  margin-right: 12px;
 }
 
 phosh-lockscreen .phosh-notification-tray list {
@@ -482,20 +471,37 @@ phosh-notification-banner {
  */
 phosh-media-player {
   background: @phosh_notification_bg_color;
-  border-radius: 5%;
-  padding: 9px;
-  border: 0;
-  box-shadow: 0 0;
+  border-radius: 6px;
+  box-shadow: none;
 }
 
-phosh-media-player > button {
+phosh-media-player button {
+  background: @phosh_notification_bg_color;
   border-radius: 0;
   box-shadow: none;
+  border: 0;
   outline-style: none;
 }
 
+phosh-media-player button:hover,
+phosh-media-player button:active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+phosh-media-player > box > button:first-child {
+  border-radius: 0 0 0 6px;
+}
+
+phosh-media-player > box > button:last-child {
+  border-radius: 0 0 6px 0;
+}
+
+phosh-media-player .media-player-details {
+  border-radius: 6px 6px 0 0;
+}
+
 /* The details button should not look inactive even when disabled */
-phosh-media-player box *:disabled {
+phosh-media-player .media-player-details *:disabled {
   color: @theme_fg_color;
   -gtk-icon-effect: none;
 }
