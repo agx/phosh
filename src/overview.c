@@ -258,6 +258,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   PhoshOverviewPrivate *priv;
   GtkWidget *activity;
   const char *app_id, *title;
+  float scale;
 
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   priv = phosh_overview_get_instance_private (self);
@@ -267,9 +268,10 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
 
   g_debug ("Building activator for '%s' (%s)", app_id, title);
   activity = phosh_activity_new (app_id, title);
+  scale = phosh_monitor_get_fractional_scale (monitor);
   g_object_set (activity,
-                "win-width", monitor->width / monitor->scale,  /* TODO: Get the real size somehow */
-                "win-height", monitor->height / monitor->scale,
+                "win-width", monitor->width / scale,
+                "win-height", monitor->height / scale,
                 "maximized", phosh_toplevel_is_maximized (toplevel),
                 NULL);
   g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);
