@@ -10,6 +10,12 @@ else
   CONFIGURE_OPTS+=-Dgtk_doc=false
 endif
 
+ifeq ($(filter nocheck,$(DEB_BUILD_OPTIONS)),)
+  CONFIGURE_OPTS+=-Dtests=true
+else
+  CONFIGURE_OPTS+=-Dtests=false
+endif
+
 %:
 	dh $@ --builddirectory=_build
 
