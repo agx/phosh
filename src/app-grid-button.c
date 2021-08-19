@@ -7,11 +7,11 @@
 #define G_LOG_DOMAIN "phosh-app-grid-button"
 
 #include "config.h"
+#include "app-tracker.h"
 #include "app-grid-button.h"
 #include "phosh-enums.h"
 #include "favorite-list-model.h"
 
-#include "toplevel-manager.h"
 #include "shell.h"
 #include "util.h"
 
@@ -164,45 +164,12 @@ phosh_app_grid_button_button_press_event (GtkWidget      *self,
 static void
 activate_cb (PhoshAppGridButton *self)
 {
+  PhoshAppTracker *app_tracker = phosh_shell_get_app_tracker (phosh_shell_get_default ());
   PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
-  g_autoptr (GdkAppLaunchContext) context = NULL;
-  g_autoptr (GError) error = NULL;
-  PhoshToplevelManager *toplevel_manager = phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
-  g_autofree char *app_id = g_strdup (g_app_info_get_id (G_APP_INFO (priv->info)));
 
-  g_debug ("Launching %s", app_id);
+  g_return_if_fail (PHOSH_IS_APP_TRACKER (app_tracker));
 
-  /* strip ".desktop" suffix */
-  if (app_id && g_str_has_suffix (app_id, ".desktop")) {
-    *(app_id + strlen (app_id) - strlen (".desktop")) = '\0';
-  }
-
-  for (guint i=0; i < phosh_toplevel_manager_get_num_toplevels (toplevel_manager); i++) {
-    PhoshToplevel *toplevel = phosh_toplevel_manager_get_toplevel (toplevel_manager, i);
-    const char *window_id = phosh_toplevel_get_app_id (toplevel);
-    g_autofree char *fixed_id = phosh_fix_app_id (window_id);
-
-    if (g_strcmp0 (app_id, window_id) == 0 || g_strcmp0 (app_id, fixed_id) == 0) {
-      /* activate the first matching window for now, since we don't have toplevels sorted by last-focus yet */
-      phosh_toplevel_activate (toplevel, phosh_wayland_get_wl_seat (phosh_wayland_get_default ()));
-      g_signal_emit (self, signals[APP_LAUNCHED], 0, priv->info);
-      return;
-    }
-  }
-
-  context = gdk_display_get_app_launch_context (gtk_widget_get_display (GTK_WIDGET (self)));
-
-  g_app_info_launch (G_APP_INFO (priv->info), NULL,
-                     G_APP_LAUNCH_CONTEXT (context), &error);
-
-  if (error) {
-    g_critical ("Failed to launch app %s: %s",
-                g_app_info_get_id (priv->info),
-                error->message);
-
-    return;
-  }
-
+  phosh_app_tracker_launch_app_info (app_tracker, priv->info);
   g_signal_emit (self, signals[APP_LAUNCHED], 0, priv->info);
 }
 
