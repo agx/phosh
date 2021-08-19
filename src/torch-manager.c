@@ -179,7 +179,7 @@ find_torch_device (PhoshTorchManager *self)
 
   device_list = g_udev_enumerator_execute (udev_enumerator);
   if (!device_list) {
-    g_warning ("Failed to find a torch device");
+    g_debug ("Failed to find a torch device");
     return FALSE;
   }
 
