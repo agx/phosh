@@ -113,6 +113,8 @@ libphosh_tool_sources = files(
   'status-icon.h',
   'splash.c',
   'splash.h',
+  'splash-manager.c',
+  'splash-manager.h',
   'system-modal.c',
   'system-modal.h',
   'system-modal-dialog.c',
