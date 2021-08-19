@@ -30,6 +30,8 @@
 
 #include <gtk/gtk.h>
 
+G_BEGIN_DECLS
+
 /**
  * PhoshShellStateFlags:
  * @PHOSH_STATE_NONE: No other state
@@ -51,7 +53,19 @@ typedef enum {
   PHOSH_STATE_OVERVIEW            = 1 << 4,
 } PhoshShellStateFlags;
 
-G_BEGIN_DECLS
+
+/**
+ * PhoshShellDebugFlags
+ * @PHOSH_SHELL_DEBUG_FLAG_NONE: No debug flags
+ * @PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH: always use splash (even when docked)
+
+ * These flags are to enable/disable debugging features.
+ */
+typedef enum {
+  PHOSH_SHELL_DEBUG_FLAG_NONE          = 0,
+  PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH = 1 << 1,
+} PhoshShellDebugFlags;
+
 
 #define PHOSH_APP_ID "sm.puri.Phosh"
 
@@ -110,5 +124,5 @@ gboolean             phosh_shell_is_session_active (PhoshShell *self);
 GdkAppLaunchContext *phosh_shell_get_app_launch_context (PhoshShell *self);
 PhoshShellStateFlags phosh_shell_get_state (PhoshShell *self);
 void                 phosh_shell_set_state (PhoshShell *self, PhoshShellStateFlags state, gboolean enabled);
-
+PhoshShellDebugFlags phosh_shell_get_debug_flags (PhoshShell *self);
 G_END_DECLS

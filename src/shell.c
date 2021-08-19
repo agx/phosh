@@ -148,6 +148,7 @@ typedef struct
   PhoshProximity *proximity;
   PhoshRotationManager *rotation_manager;
 
+  PhoshShellDebugFlags debug_flags;
   gboolean startup_finished;
 
   /* Mirrors PhoshLockscreenManager's locked property */
@@ -811,11 +812,23 @@ phosh_shell_class_init (PhoshShellClass *klass)
 }
 
 
+static GDebugKey debug_keys[] =
+{
+ { .key = "always-splash",
+   .value = PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH,
+ },
+};
+
+
 static void
 phosh_shell_init (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GtkSettings *gtk_settings;
+
+  priv->debug_flags = g_parse_debug_string(g_getenv ("PHOSH_DEBUG"),
+                                           debug_keys,
+                                           G_N_ELEMENTS (debug_keys));
 
   gtk_settings = gtk_settings_get_default ();
   g_object_set (G_OBJECT (gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
