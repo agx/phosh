@@ -10,14 +10,14 @@
  * Author: Jonny Lamb <jonny.lamb@collabora.co.uk>
  */
 
-#define G_LOG_DOMAIN "phosh-panel"
+#define G_LOG_DOMAIN "phosh-top-panel"
 
 #include "config.h"
 
-#include "panel.h"
 #include "shell.h"
 #include "session-manager.h"
 #include "settings.h"
+#include "top-panel.h"
 #include "util.h"
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
@@ -27,11 +27,12 @@
 #include <glib/gi18n.h>
 
 /**
- * SECTION:panel
+ * SECTION:top-panel
  * @short_description: The top panel
- * @Title: PhoshPanel
+ * @Title: PhoshTopPanel
  *
- * The top panel containing the clock and status indicators.
+ * The top panel containing the clock and status indicators. When activated
+ * int unfolds the #PhoshSettings.
  */
 
 enum {
@@ -41,7 +42,7 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct {
-  PhoshPanelState state;
+  PhoshTopPanelState state;
 
   GtkWidget *btn_power;
   GtkWidget *menu_power;
@@ -60,27 +61,27 @@ typedef struct {
   GdkSeat *seat;
 
   GSimpleActionGroup *actions;
-} PhoshPanelPrivate;
+} PhoshTopPanelPrivate;
 
-typedef struct _PhoshPanel
+typedef struct _PhoshTopPanel
 {
   PhoshLayerSurface parent;
-} PhoshPanel;
+} PhoshTopPanel;
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshPanel, phosh_panel, PHOSH_TYPE_LAYER_SURFACE)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshTopPanel, phosh_top_panel, PHOSH_TYPE_LAYER_SURFACE)
 
 
 static void
 on_shutdown_action (GSimpleAction *action,
                     GVariant      *parameter,
-                    gpointer      data)
+                    gpointer       data)
 {
-  PhoshPanel *self = PHOSH_PANEL(data);
+  PhoshTopPanel *self = PHOSH_TOP_PANEL(data);
   PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
 
-  g_return_if_fail (PHOSH_IS_PANEL (self));
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   phosh_session_manager_shutdown (sm);
-  phosh_panel_fold (self);
+  phosh_top_panel_fold (self);
 }
 
 
@@ -89,14 +90,14 @@ on_restart_action (GSimpleAction *action,
                    GVariant      *parameter,
                    gpointer       data)
 {
-  PhoshPanel *self = PHOSH_PANEL(data);
+  PhoshTopPanel *self = PHOSH_TOP_PANEL(data);
   PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
 
-  g_return_if_fail (PHOSH_IS_PANEL (self));
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   g_return_if_fail (PHOSH_IS_SESSION_MANAGER (sm));
 
   phosh_session_manager_reboot (sm);
-  phosh_panel_fold (self);
+  phosh_top_panel_fold (self);
 }
 
 
@@ -105,11 +106,11 @@ on_lockscreen_action (GSimpleAction *action,
                       GVariant      *parameter,
                       gpointer      data)
 {
-  PhoshPanel *self = PHOSH_PANEL(data);
+  PhoshTopPanel *self = PHOSH_TOP_PANEL(data);
 
-  g_return_if_fail (PHOSH_IS_PANEL (self));
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   phosh_shell_lock (phosh_shell_get_default ());
-  phosh_panel_fold (self);
+  phosh_top_panel_fold (self);
 }
 
 
@@ -118,34 +119,34 @@ on_logout_action (GSimpleAction *action,
                   GVariant      *parameter,
                   gpointer      data)
 {
-  PhoshPanel *self = PHOSH_PANEL(data);
+  PhoshTopPanel *self = PHOSH_TOP_PANEL(data);
   PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
 
-  g_return_if_fail (PHOSH_IS_PANEL (self));
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   g_return_if_fail (PHOSH_IS_SESSION_MANAGER (sm));
   phosh_session_manager_logout (sm);
-  phosh_panel_fold (self);
+  phosh_top_panel_fold (self);
 }
 
 
 static void
-top_panel_clicked_cb (PhoshPanel *self, GtkButton *btn)
+top_panel_clicked_cb (PhoshTopPanel *self, GtkButton *btn)
 {
-  g_return_if_fail (PHOSH_IS_PANEL (self));
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   g_return_if_fail (GTK_IS_BUTTON (btn));
   g_signal_emit(self, signals[SETTINGS_ACTIVATED], 0);
 }
 
 
 static void
-wall_clock_notify_cb (PhoshPanel *self,
-                      GParamSpec *pspec,
+wall_clock_notify_cb (PhoshTopPanel  *self,
+                      GParamSpec     *pspec,
                       GnomeWallClock *wall_clock)
 {
-  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
+  PhoshTopPanelPrivate *priv = phosh_top_panel_get_instance_private (self);
   const char *str;
 
-  g_return_if_fail (PHOSH_IS_PANEL (self));
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   g_return_if_fail (GNOME_IS_WALL_CLOCK (wall_clock));
 
   str = gnome_wall_clock_get_clock(wall_clock);
@@ -154,13 +155,13 @@ wall_clock_notify_cb (PhoshPanel *self,
 
 
 static gboolean
-needs_keyboard_label (PhoshPanel *self)
+needs_keyboard_label (PhoshTopPanel *self)
 {
-  PhoshPanelPrivate *priv;
+  PhoshTopPanelPrivate *priv;
   GList *slaves;
   g_autoptr(GVariant) sources = NULL;
 
-  priv = phosh_panel_get_instance_private (self);
+  priv = phosh_top_panel_get_instance_private (self);
   g_return_val_if_fail (GDK_IS_SEAT (priv->seat), FALSE);
   g_return_val_if_fail (G_IS_SETTINGS (priv->input_settings), FALSE);
 
@@ -178,26 +179,26 @@ needs_keyboard_label (PhoshPanel *self)
 
 
 static void
-on_seat_device_changed (PhoshPanel *self, GdkDevice  *device, GdkSeat *seat)
+on_seat_device_changed (PhoshTopPanel *self, GdkDevice  *device, GdkSeat *seat)
 {
   gboolean visible;
-  PhoshPanelPrivate *priv;
+  PhoshTopPanelPrivate *priv;
 
-  g_return_if_fail (PHOSH_IS_PANEL (self));
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   g_return_if_fail (GDK_IS_SEAT (seat));
 
-  priv = phosh_panel_get_instance_private (self);
+  priv = phosh_top_panel_get_instance_private (self);
   visible = needs_keyboard_label (self);
   gtk_widget_set_visible (priv->lbl_lang, visible);
 }
 
 
 static void
-on_input_setting_changed (PhoshPanel *self,
-                          const char *key,
-                          GSettings  *settings)
+on_input_setting_changed (PhoshTopPanel *self,
+                          const char    *key,
+                          GSettings     *settings)
 {
-  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
+  PhoshTopPanelPrivate *priv = phosh_top_panel_get_instance_private (self);
   g_autoptr(GVariant) sources = NULL;
   GVariantIter iter;
   g_autofree char *id = NULL;
@@ -230,20 +231,20 @@ on_input_setting_changed (PhoshPanel *self,
 
 
 static gboolean
-on_key_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
+on_key_press_event (PhoshTopPanel *self, GdkEventKey *event, gpointer data)
 {
   gboolean handled = FALSE;
-  PhoshPanelPrivate *priv;
+  PhoshTopPanelPrivate *priv;
 
-  g_return_val_if_fail (PHOSH_IS_PANEL (self), FALSE);
-  priv = phosh_panel_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_TOP_PANEL (self), FALSE);
+  priv = phosh_top_panel_get_instance_private (self);
 
   if (!priv->settings)
     return handled;
 
   switch (event->keyval) {
     case GDK_KEY_Escape:
-      phosh_panel_fold (self);
+      phosh_top_panel_fold (self);
       handled = TRUE;
       break;
     default:
@@ -255,9 +256,9 @@ on_key_press_event (PhoshPanel *self, GdkEventKey *event, gpointer data)
 
 
 static gboolean
-on_button_press_event (PhoshPanel *self, GdkEventButton *event, gpointer data)
+on_button_press_event (PhoshTopPanel *self, GdkEventButton *event, gpointer data)
 {
-  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
+  PhoshTopPanelPrivate *priv = phosh_top_panel_get_instance_private (self);
 
   phosh_trigger_feedback ("button-pressed");
 
@@ -268,7 +269,7 @@ on_button_press_event (PhoshPanel *self, GdkEventButton *event, gpointer data)
   if (gtk_widget_is_visible (priv->menu_power))
     gtk_popover_popdown (GTK_POPOVER (priv->menu_power));
   else
-    phosh_panel_fold (self);
+    phosh_top_panel_fold (self);
 
   return GDK_EVENT_PROPAGATE;
 }
@@ -283,15 +284,15 @@ static GActionEntry entries[] = {
 
 
 static void
-phosh_panel_constructed (GObject *object)
+phosh_top_panel_constructed (GObject *object)
 {
-  PhoshPanel *self = PHOSH_PANEL (object);
-  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
+  PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
+  PhoshTopPanelPrivate *priv = phosh_top_panel_get_instance_private (self);
   GdkDisplay *display = gdk_display_get_default ();
 
-  G_OBJECT_CLASS (phosh_panel_parent_class)->constructed (object);
+  G_OBJECT_CLASS (phosh_top_panel_parent_class)->constructed (object);
 
-  priv->state = PHOSH_PANEL_STATE_FOLDED;
+  priv->state = PHOSH_TOP_PANEL_STATE_FOLDED;
   priv->wall_clock = gnome_wall_clock_new ();
 
   g_signal_connect_object (priv->wall_clock,
@@ -345,7 +346,7 @@ phosh_panel_constructed (GObject *object)
                     NULL);
   g_signal_connect_swapped (priv->settings,
                             "setting-done",
-                            G_CALLBACK (phosh_panel_fold),
+                            G_CALLBACK (phosh_top_panel_fold),
                             self);
 
   priv->actions = g_simple_action_group_new ();
@@ -370,10 +371,10 @@ phosh_panel_constructed (GObject *object)
 
 
 static void
-phosh_panel_dispose (GObject *object)
+phosh_top_panel_dispose (GObject *object)
 {
-  PhoshPanel *self = PHOSH_PANEL (object);
-  PhoshPanelPrivate *priv = phosh_panel_get_instance_private (self);
+  PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
+  PhoshTopPanelPrivate *priv = phosh_top_panel_get_instance_private (self);
 
   g_clear_object (&priv->wall_clock);
   g_clear_object (&priv->xkbinfo);
@@ -382,18 +383,18 @@ phosh_panel_dispose (GObject *object)
   g_clear_object (&priv->actions);
   priv->seat = NULL;
 
-  G_OBJECT_CLASS (phosh_panel_parent_class)->dispose (object);
+  G_OBJECT_CLASS (phosh_top_panel_parent_class)->dispose (object);
 }
 
 
 static void
-phosh_panel_class_init (PhoshPanelClass *klass)
+phosh_top_panel_class_init (PhoshTopPanelClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-  object_class->constructed = phosh_panel_constructed;
-  object_class->dispose = phosh_panel_dispose;
+  object_class->constructed = phosh_top_panel_constructed;
+  object_class->dispose = phosh_top_panel_dispose;
 
   gtk_widget_class_set_css_name (widget_class, "phosh-top-panel");
 
@@ -403,54 +404,54 @@ phosh_panel_class_init (PhoshPanelClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/top-panel.ui");
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_power);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, menu_power);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, btn_top_panel);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, batteryinfo);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_clock);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, lbl_lang);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, box);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, stack);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshPanel, settings);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshTopPanel, btn_power);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshTopPanel, menu_power);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshTopPanel, btn_top_panel);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshTopPanel, batteryinfo);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshTopPanel, lbl_clock);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshTopPanel, lbl_lang);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshTopPanel, box);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshTopPanel, stack);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshTopPanel, settings);
 }
 
 
 static void
-phosh_panel_init (PhoshPanel *self)
+phosh_top_panel_init (PhoshTopPanel *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
 }
 
 
 GtkWidget *
-phosh_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
-                 struct wl_output *wl_output)
+phosh_top_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
+                     struct wl_output           *wl_output)
 {
-  return g_object_new (PHOSH_TYPE_PANEL,
+  return g_object_new (PHOSH_TYPE_TOP_PANEL,
                        "layer-shell", layer_shell,
                        "wl-output", wl_output,
-                       "height", PHOSH_PANEL_HEIGHT,
+                       "height", PHOSH_TOP_PANEL_HEIGHT,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
                        "layer", ZWLR_LAYER_SHELL_V1_LAYER_TOP,
                        "kbd-interactivity", FALSE,
-                       "exclusive-zone", PHOSH_PANEL_HEIGHT,
+                       "exclusive-zone", PHOSH_TOP_PANEL_HEIGHT,
                        "namespace", "phosh",
                        NULL);
 }
 
 
 void
-phosh_panel_fold (PhoshPanel *self)
+phosh_top_panel_fold (PhoshTopPanel *self)
 {
-  PhoshPanelPrivate *priv;
+  PhoshTopPanelPrivate *priv;
   int width;
 
-  g_return_if_fail (PHOSH_IS_PANEL (self));
-  priv = phosh_panel_get_instance_private (self);
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
+  priv = phosh_top_panel_get_instance_private (self);
 
-  if (priv->state == PHOSH_PANEL_STATE_FOLDED)
+  if (priv->state == PHOSH_TOP_PANEL_STATE_FOLDED)
 	return;
 
   gtk_widget_hide (priv->menu_power);
@@ -459,51 +460,51 @@ phosh_panel_fold (PhoshPanel *self)
   gtk_widget_hide (priv->settings);
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), FALSE);
   gtk_window_get_size (GTK_WINDOW (self), &width, NULL);
-  gtk_window_resize (GTK_WINDOW (self), width, PHOSH_PANEL_HEIGHT);
-  priv->state = PHOSH_PANEL_STATE_FOLDED;
+  gtk_window_resize (GTK_WINDOW (self), width, PHOSH_TOP_PANEL_HEIGHT);
+  priv->state = PHOSH_TOP_PANEL_STATE_FOLDED;
 }
 
 
 void
-phosh_panel_unfold (PhoshPanel *self)
+phosh_top_panel_unfold (PhoshTopPanel *self)
 {
-  PhoshPanelPrivate *priv;
+  PhoshTopPanelPrivate *priv;
 
-  g_return_if_fail (PHOSH_IS_PANEL (self));
-  priv = phosh_panel_get_instance_private (self);
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
+  priv = phosh_top_panel_get_instance_private (self);
 
-  if (priv->state == PHOSH_PANEL_STATE_UNFOLDED)
+  if (priv->state == PHOSH_TOP_PANEL_STATE_UNFOLDED)
 	return;
 
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), TRUE);
   gtk_widget_show (priv->settings);
   gtk_stack_set_transition_type (GTK_STACK (priv->stack), GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN);
   gtk_stack_set_visible_child_name(GTK_STACK (priv->stack), "settings");
-  priv->state =PHOSH_PANEL_STATE_UNFOLDED;
+  priv->state =PHOSH_TOP_PANEL_STATE_UNFOLDED;
 }
 
 
 void
-phosh_panel_toggle_fold (PhoshPanel *self)
+phosh_top_panel_toggle_fold (PhoshTopPanel *self)
 {
-  PhoshPanelPrivate *priv;
-  g_return_if_fail (PHOSH_IS_PANEL (self));
+  PhoshTopPanelPrivate *priv;
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
 
-  priv = phosh_panel_get_instance_private (self);
-  if (priv->state == PHOSH_PANEL_STATE_UNFOLDED) {
-    phosh_panel_fold (self);
+  priv = phosh_top_panel_get_instance_private (self);
+  if (priv->state == PHOSH_TOP_PANEL_STATE_UNFOLDED) {
+    phosh_top_panel_fold (self);
   } else {
-    phosh_panel_unfold (self);
+    phosh_top_panel_unfold (self);
   }
 }
 
 
-PhoshPanelState
-phosh_panel_get_state (PhoshPanel *self)
+PhoshTopPanelState
+phosh_top_panel_get_state (PhoshTopPanel *self)
 {
-  PhoshPanelPrivate *priv;
-  g_return_val_if_fail (PHOSH_IS_PANEL (self), PHOSH_PANEL_STATE_FOLDED);
+  PhoshTopPanelPrivate *priv;
+  g_return_val_if_fail (PHOSH_IS_TOP_PANEL (self), PHOSH_TOP_PANEL_STATE_FOLDED);
 
-  priv = phosh_panel_get_instance_private (self);
+  priv = phosh_top_panel_get_instance_private (self);
   return priv->state;
 }
