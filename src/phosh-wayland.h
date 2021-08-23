@@ -54,6 +54,7 @@ gboolean                              phosh_wayland_has_wl_output  (PhoshWayland
 struct gamma_control_manager         *phosh_wayland_get_gamma_control_manager (PhoshWayland *self);
 struct org_kde_kwin_idle             *phosh_wayland_get_org_kde_kwin_idle (PhoshWayland *self);
 struct phosh_private                 *phosh_wayland_get_phosh_private (PhoshWayland *self);
+uint32_t                              phosh_wayland_get_phosh_private_version (PhoshWayland *self);
 struct wl_seat                       *phosh_wayland_get_wl_seat (PhoshWayland *self);
 struct wl_shm                        *phosh_wayland_get_wl_shm (PhoshWayland *self);
 struct xdg_wm_base                   *phosh_wayland_get_xdg_wm_base (PhoshWayland *self);
