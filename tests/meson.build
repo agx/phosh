@@ -64,6 +64,7 @@ tests = [
   'app-list-model',
   'connectivity-info',
   'favourite-model',
+  'head',
   'media-player',
   'mount-notification',
   'notification',
