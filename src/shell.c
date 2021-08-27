@@ -55,7 +55,6 @@
 #include "notifications/notify-manager.h"
 #include "notifications/notification-banner.h"
 #include "osk-manager.h"
-#include "panel.h"
 #include "phosh-wayland.h"
 #include "polkit-auth-agent.h"
 #include "proximity.h"
@@ -67,6 +66,7 @@
 #include "screenshot-manager.h"
 #include "session-manager.h"
 #include "system-prompter.h"
+#include "top-panel.h"
 #include "torch-manager.h"
 #include "torch-info.h"
 #include "util.h"
@@ -82,7 +82,7 @@
  * @Title: PhoshShell
  *
  * #PhoshShell is responsible for instantiating the GUI
- * parts of the shell#PhoshPanel, #PhoshHome,… and the managers that
+ * parts of the shell#PhoshTopPanel, #PhoshHome,… and the managers that
  * interface with DBus #PhoshMonitorManager, #PhoshFeedbackManager, …
  * and coordinates between them.
  */
@@ -165,13 +165,13 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshShell, phosh_shell, G_TYPE_OBJECT)
 
 
 static void
-settings_activated_cb (PhoshShell *self,
-                       PhoshPanel *window)
+settings_activated_cb (PhoshShell    *self,
+                       PhoshTopPanel *window)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
-  g_return_if_fail (PHOSH_IS_PANEL (priv->panel));
-  phosh_panel_toggle_fold (PHOSH_PANEL(priv->panel));
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (priv->panel));
+  phosh_top_panel_toggle_fold (PHOSH_TOP_PANEL(priv->panel));
 }
 
 
@@ -188,7 +188,7 @@ on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
 
   g_object_get (priv->home, "state", &state, NULL);
   if (state == PHOSH_HOME_STATE_UNFOLDED) {
-    phosh_panel_fold (PHOSH_PANEL (priv->panel));
+    phosh_top_panel_fold (PHOSH_TOP_PANEL (priv->panel));
     phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
   }
   phosh_shell_set_state (self, PHOSH_STATE_OVERVIEW, state == PHOSH_HOME_STATE_UNFOLDED);
@@ -206,7 +206,7 @@ panels_create (PhoshShell *self)
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail (monitor);
 
-  priv->panel = PHOSH_LAYER_SURFACE(phosh_panel_new (phosh_wayland_get_zwlr_layer_shell_v1(wl),
+  priv->panel = PHOSH_LAYER_SURFACE(phosh_top_panel_new (phosh_wayland_get_zwlr_layer_shell_v1(wl),
                                                      monitor->wl_output));
   gtk_widget_show (GTK_WIDGET (priv->panel));
 
@@ -435,7 +435,7 @@ on_new_notification (PhoshShell         *self,
   }
 
   if (phosh_notify_manager_get_show_notification_banner (manager, notification) &&
-      phosh_panel_get_state (PHOSH_PANEL (priv->panel)) == PHOSH_PANEL_STATE_FOLDED &&
+      phosh_top_panel_get_state (PHOSH_TOP_PANEL (priv->panel)) == PHOSH_TOP_PANEL_STATE_FOLDED &&
       !priv->locked) {
     g_set_weak_pointer (&priv->notification_banner,
                         phosh_notification_banner_new (notification));
@@ -1193,18 +1193,18 @@ phosh_shell_get_usable_area (PhoshShell *self, int *x, int *y, int *width, int *
   case PHOSH_MONITOR_TRANSFORM_FLIPPED:
   case PHOSH_MONITOR_TRANSFORM_FLIPPED_180:
     w = mode->width / scale;
-    h = mode->height / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_BUTTON_HEIGHT;
+    h = mode->height / scale - PHOSH_TOP_PANEL_HEIGHT - PHOSH_HOME_BUTTON_HEIGHT;
     break;
   default:
     w = mode->height / scale;
-    h = mode->width / scale - PHOSH_PANEL_HEIGHT - PHOSH_HOME_BUTTON_HEIGHT;
+    h = mode->width / scale - PHOSH_TOP_PANEL_HEIGHT - PHOSH_HOME_BUTTON_HEIGHT;
     break;
   }
 
   if (x)
     *x = 0;
   if (y)
-    *y = PHOSH_PANEL_HEIGHT;
+    *y = PHOSH_TOP_PANEL_HEIGHT;
   if (width)
     *width = w;
   if (height)

@@ -15,7 +15,7 @@
 
 #include "background.h"
 #include "shell.h"
-#include "panel.h"
+#include "top-panel.h"
 #include "util.h"
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API

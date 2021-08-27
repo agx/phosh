@@ -95,7 +95,6 @@
       <xi:include href="xml/osk-manager.xml"/>
       <xi:include href="xml/overview.xml"/>
       <xi:include href="xml/osd-window.xml"/>
-      <xi:include href="xml/panel.xml"/>
       <xi:include href="xml/phosh-wayland.xml"/>
       <xi:include href="xml/phosh-wwan-backend.xml"/>
       <xi:include href="xml/phosh-wwan-iface.xml"/>
@@ -120,6 +119,7 @@
       <xi:include href="xml/system-prompt.xml"/>
       <xi:include href="xml/system-prompter.xml"/>
       <xi:include href="xml/thumbnail.xml"/>
+      <xi:include href="xml/top-panel.xml"/>
       <xi:include href="xml/toplevel.xml"/>
       <xi:include href="xml/toplevel-manager.xml"/>
       <xi:include href="xml/toplevel-thumbnail.xml"/>

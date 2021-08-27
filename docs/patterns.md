@@ -49,7 +49,7 @@ These are the most prominent ones use by Phosh:
 
 - wlr-layer-shell: Usually Wayland clients have little influence on where
   the compositor places them. This protocol gives Phosh enough room
-  to build the top bar via #PhoshPanel, the home bar #PhoshHome at
+  to build the top bar via #PhoshTopPanel, the home bar #PhoshHome at
   the bottom, system modal dialogs e.g. #PhoshSystemPrompt and
   lock screens via #PhoshLockscreen.
 - wlr-foreign-toplevel-management: This allows the management of
