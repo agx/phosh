@@ -219,6 +219,9 @@ window_key_press_event_cb (PhoshHome *self, GdkEvent *event, gpointer data)
       phosh_home_set_state (self, PHOSH_HOME_STATE_FOLDED);
       ret = GDK_EVENT_STOP;
       break;
+    case GDK_KEY_Return:
+      ret = GDK_EVENT_PROPAGATE;
+      break;
     default:
       /* Focus search when typing */
       ret = phosh_overview_handle_search (PHOSH_OVERVIEW (self->overview), event);
