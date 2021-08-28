@@ -1,10 +1,14 @@
-# Andika Triwidada <andika@gmail.com>, 2020. #zanata
+# Indonesian translation of phosh
+# Copyright 2020 phosh's copyright holder
+# This file is distributed under the same license as the phosh package.
+# Andika Triwidada <andika@gmail.com>, 2020, 2021. #zanata
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-12-12 15:33+0000\n"
-"PO-Revision-Date: 2020-12-14 14:25+0700\n"
+"Project-Id-Version: phosh main\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2021-08-03 09:16+0000\n"
+"PO-Revision-Date: 2021-08-28 09:22+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian\n"
 "Language: id\n"
@@ -31,7 +35,7 @@ msgstr "Manajemen jendela dan peluncuran aplikasi untuk telepon genggam"
 msgid "Application"
 msgstr "Aplikasi"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51
+#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
 msgstr "Nyala"
 
@@ -43,9 +47,46 @@ msgstr "Bluetooth"
 msgid "Docked"
 msgstr "Ditambatkan"
 
-#: src/docked-info.c:195
+#: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
 msgstr "Lepas Tambat"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "Keluar"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "%s akan dikeluarkan secara otomatis dalam %d detik."
+msgstr[1] "%s akan dikeluarkan secara otomatis dalam %d detik."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+msgid "Power Off"
+msgstr "Matikan Daya"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "Sistem akan dimatikan secara otomatis dalam %d detik."
+msgstr[1] "Sistem akan dimatikan secara otomatis dalam %d detik."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+msgid "Restart"
+msgstr "Mulai Ulang"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "Sistem akan dinyalakan ulang secara otomatis dalam %d detik."
+msgstr[1] "Sistem akan dinyalakan ulang secara otomatis dalam %d detik."
+
+#: src/end-session-dialog.c:269
+msgid "Unknown application"
+msgstr "Aplikasi tak dikenal"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -61,36 +102,68 @@ msgstr "Hening"
 msgid "Silent"
 msgstr "Senyap"
 
-#: src/lockscreen.c:86 src/ui/lockscreen.ui:234
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "Izinkan '%s' mengakses informasi lokasi Anda?"
+
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "Geolokasi"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "Ya"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "Tidak"
+
+#: src/lockscreen.c:152 src/ui/lockscreen.ui:239
 msgid "Enter Passcode"
 msgstr "Masukkan Kode Sandi"
 
-#: src/lockscreen.c:265
+#: src/lockscreen.c:335
 msgid "Checking…"
 msgstr "Memeriksa…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:343
+#: src/lockscreen.c:413
 msgid "%A, %B %-e"
 msgstr "%A, %d %B"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:277 src/ui/media-player.ui:107
+#: src/media-player.c:279 src/ui/media-player.ui:107
 msgid "Unknown Title"
 msgstr "Judul Tidak Dikenal"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:286 src/ui/media-player.ui:127
+#: src/media-player.c:288 src/ui/media-player.ui:127
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
 
-#: src/monitor-manager.c:71
+#: src/monitor-manager.c:114
 msgid "Built-in display"
 msgstr "Tampilan bawaan"
 
+#: src/monitor-manager.c:132
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:139
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %s"
+msgstr "%s %s"
+
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:75
+#: src/monitor-manager.c:148
 msgid "Unknown"
 msgstr "Tak dikenal"
 
@@ -104,135 +177,153 @@ msgstr "Jenis otentikasi jaringan wifi \"%s\" tidak didukung"
 msgid "Enter password for the wifi network “%s”"
 msgstr "Masukkan kata sandi untuk jaringan wifi %s"
 
-#: src/notifications/mount-notification.c:137
+#: src/notifications/mount-notification.c:122
 msgid "Open"
 msgstr "Buka"
 
-#: src/notifications/notification.c:381 src/notifications/notification.c:637
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
 msgid "Notification"
 msgstr "Notifikasi"
 
 #. Translators: Timestamp seconds suffix
-#: src/notifications/timestamp-label.c:83
+#: src/notifications/timestamp-label.c:84
 msgctxt "timestamp-suffix-seconds"
 msgid "s"
 msgstr "d"
 
 #. Translators: Timestamp minute suffix
-#: src/notifications/timestamp-label.c:85
+#: src/notifications/timestamp-label.c:86
 msgctxt "timestamp-suffix-minute"
 msgid "m"
 msgstr "m"
 
 #. Translators: Timestamp minutes suffix
-#: src/notifications/timestamp-label.c:87
+#: src/notifications/timestamp-label.c:88
 msgctxt "timestamp-suffix-minutes"
 msgid "m"
 msgstr "m"
 
 #. Translators: Timestamp hour suffix
-#: src/notifications/timestamp-label.c:89
+#: src/notifications/timestamp-label.c:90
 msgctxt "timestamp-suffix-hour"
 msgid "h"
 msgstr "j"
 
 #. Translators: Timestamp hours suffix
-#: src/notifications/timestamp-label.c:91
+#: src/notifications/timestamp-label.c:92
 msgctxt "timestamp-suffix-hours"
 msgid "h"
 msgstr "j"
 
 #. Translators: Timestamp day suffix
-#: src/notifications/timestamp-label.c:93
+#: src/notifications/timestamp-label.c:94
 msgctxt "timestamp-suffix-day"
 msgid "d"
 msgstr "h"
 
 #. Translators: Timestamp days suffix
-#: src/notifications/timestamp-label.c:95
+#: src/notifications/timestamp-label.c:96
 msgctxt "timestamp-suffix-days"
 msgid "d"
 msgstr "h"
 
 #. Translators: Timestamp month suffix
-#: src/notifications/timestamp-label.c:97
+#: src/notifications/timestamp-label.c:98
 msgctxt "timestamp-suffix-month"
 msgid "mo"
 msgstr "b"
 
 #. Translators: Timestamp months suffix
-#: src/notifications/timestamp-label.c:99
+#: src/notifications/timestamp-label.c:100
 msgctxt "timestamp-suffix-months"
 msgid "mos"
 msgstr "b"
 
 #. Translators: Timestamp year suffix
-#: src/notifications/timestamp-label.c:101
+#: src/notifications/timestamp-label.c:102
 msgctxt "timestamp-suffix-year"
 msgid "y"
 msgstr "t"
 
 #. Translators: Timestamp years suffix
-#: src/notifications/timestamp-label.c:103
+#: src/notifications/timestamp-label.c:104
 msgctxt "timestamp-suffix-years"
 msgid "y"
 msgstr "t"
 
-#. Translators: this is the date in (short) number only format
-#: src/notifications/timestamp-label.c:106
-msgid "%d.%m.%y"
-msgstr "%d.%m.%y"
-
-#. Translators: Timestamp prefix (e.g. Over 5h)
-#: src/notifications/timestamp-label.c:197
-msgid "Over"
-msgstr "Lewat"
-
-#. Translators: Timestamp prefix (e.g. Almost 5h)
-#: src/notifications/timestamp-label.c:202
-msgid "Almost"
-msgstr "Hampir"
-
-#: src/notifications/timestamp-label.c:210
+#: src/notifications/timestamp-label.c:121
 msgid "now"
 msgstr "kini"
 
-#: src/polkit-auth-agent.c:231
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "Lebih %dt"
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "Hampir %dt"
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d%s"
+
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Dialog autentikasi ditutup oleh pengguna"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:128
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
+#: src/ui/system-prompt.ui:33
 msgid "Password:"
 msgstr "Kata sandi:"
 
-#: src/polkit-auth-prompt.c:324
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Maaf, itu tidak bekerja. Harap coba lagi."
 
-#: src/polkit-auth-prompt.c:490
-msgid "Authenticate"
-msgstr "Autentikasi"
-
-#: src/rotateinfo.c:65
+#: src/rotateinfo.c:81
 msgid "Portrait"
 msgstr "Potret"
 
-#: src/rotateinfo.c:68
+#: src/rotateinfo.c:84
 msgid "Landscape"
 msgstr "Lanskap"
 
-#: src/system-prompt.c:373
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
+msgid "Off"
+msgstr "Mati"
+
+#: src/system-prompt.c:364
 msgid "Passwords do not match."
 msgstr "Kata sandi tidak cocok."
 
-#: src/system-prompt.c:380
+#: src/system-prompt.c:371
 msgid "Password cannot be blank"
 msgstr "Kata sandi tidak bisa kosong"
 
 #: src/torch-info.c:80
 msgid "Torch"
 msgstr "Obor"
+
+#: src/ui/app-auth-prompt.ui:41
+msgid "Remember decision"
+msgstr "Ingat keputusan"
+
+#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
+msgid "Cancel"
+msgstr "Batal"
+
+#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
+msgid "Ok"
+msgstr "Ok"
 
 #: src/ui/app-grid-button.ui:49
 msgid "App"
@@ -246,59 +337,79 @@ msgstr "Hapus dari _Favorit"
 msgid "Add to _Favorites"
 msgstr "Tambah ke _Favorit"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid.ui:22
 msgid "Search apps…"
 msgstr "Cari app…"
 
-#: src/ui/lockscreen.ui:37
-msgid "Slide up to unlock"
-msgstr "Usap naik untuk membuka kunci"
+#: src/ui/app-grid.ui:169
+msgid "Show only adaptive apps"
+msgstr "Hanya tampilkan app yang adaptif"
 
-#: src/ui/lockscreen.ui:280
-msgid "Emergency"
-msgstr "Darurat"
+#: src/ui/end-session-dialog.ui:32
+msgid "Some applications are busy or have unsaved work"
+msgstr "Beberapa aplikasi sibuk atau belum disimpan hasilnya"
 
-#: src/ui/lockscreen.ui:296
-msgid "Unlock"
-msgstr "Buka kunci"
-
-#: src/ui/network-auth-prompt.ui:90
-msgid "_Cancel"
-msgstr "_Batal"
-
-#: src/ui/network-auth-prompt.ui:106
-msgid "C_onnect"
-msgstr "S_ambung"
-
-#: src/ui/polkit-auth-prompt.ui:105
+#: src/ui/gtk-mount-prompt.ui:95
 msgid "User:"
 msgstr "Pengguna:"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/gtk-mount-prompt.ui:118
+msgid "Domain:"
+msgstr "Domain:"
+
+#: src/ui/gtk-mount-prompt.ui:151
+msgid "Co_nnect"
+msgstr "S_ambung"
+
+#: src/ui/lockscreen.ui:43
+msgid "Slide up to unlock"
+msgstr "Usap naik untuk membuka kunci"
+
+#: src/ui/lockscreen.ui:285
+msgid "Emergency"
+msgstr "Darurat"
+
+#: src/ui/lockscreen.ui:301
+msgid "Unlock"
+msgstr "Buka kunci"
+
+#: src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Mundur"
+
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+msgid "Authentication required"
+msgstr "Perlu autentikasi"
+
+#: src/ui/network-auth-prompt.ui:41
+msgid "_Cancel"
+msgstr "_Batal"
+
+#: src/ui/network-auth-prompt.ui:59
+msgid "C_onnect"
+msgstr "S_ambung"
+
+#: src/ui/polkit-auth-prompt.ui:123
+msgid "Authenticate"
+msgstr "Autentikasi"
+
+#: src/ui/system-prompt.ui:63
 msgid "Confirm:"
 msgstr "Konfirmasi:"
 
-#: src/ui/top-panel.ui:15
+#: src/ui/top-panel.ui:16
 msgid "Lock Screen"
 msgstr "Kunci Layar"
 
-#: src/ui/top-panel.ui:22
+#: src/ui/top-panel.ui:23
 msgid "Logout"
 msgstr "Log Keluar"
-
-#: src/ui/top-panel.ui:29
-msgid "Restart"
-msgstr "Mulai Ulang"
-
-#: src/ui/top-panel.ui:36
-msgid "Power Off"
-msgstr "Matikan Daya"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:170
+#: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Seluler"
