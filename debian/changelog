@@ -1,3 +1,108 @@
+phosh (0.13.1) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * d/gbp.conf: Switch development branch to main
+  * d/control: Bump breaks on gnome-calls.
+    Not strictly necessary but makes missing deps easier to detect
+  * ci: Add font to alpine image.
+    This fixes the overview test crash since pango needs at least
+    on font in some versions. Thanks to InsanePrawn for the backtrace.
+  * notification-frame: Align timestamp to the end.
+    The current center leaves too much space to the right.
+  * notify-manager: Add method to close all notifications
+  * settings-menu: Add heading to notifications list-box
+  * Add callback to clear all notifications (Closes: #570)
+  * build: libcall-ui moved to /World/Phosh too.
+    Adjust the submodule URL
+  * ci: Be verbose when installing alpine deps.
+    This makes identifying breackage due to changed versions easier.
+  * media-player: Fix button order
+  * media-player: Move navigation buttons into a box.
+    This makes {first,last}-child styling way simpler
+  * media-player: Drop receives-default properties
+  * media-player: Remove margin.
+    This makes it the same width as notifications instead of slightly
+    smaller which looked very odd.
+  * media-player: Use the same border radius than notifications.
+    Looks odd otherwise
+  * media-player: Switch artist and title.
+    Left align and dim artist to get closer to designs
+    https://gitlab.gnome.org/World/Phosh/phosh/-/issues/543
+  * media-player: Drop lockscreen styling.
+    Style it the same way we style in settings menu and the notifications.
+    Closer to designs in https://gitlab.gnome.org/World/Phosh/phosh/-/issues/543
+  * media-player: Improve button layour and styling.
+    Use larger play/pause button, move ff and rev a bit closer
+    to the center.
+    Closer to designs in https://gitlab.gnome.org/World/Phosh/phosh/-/issues/543
+  * media-player: Use larger icon.
+    Center text artist / song verticaly to it. This looks odd
+    with Firefox since it tries to be clever and use 16:9 which
+    the gicon aligns renders to the top instead of centered.
+  * lockscreen: Use less margin between elements.
+    Lower the margin between icons and media player and media player and
+    notifications quiet a bit to safe space and look more consistent.
+  * Add initial PhoshMountOperation.
+    This implements GMountOperation's ask-password to handle th UI bits for
+    e.g. encrypted volumes. We can add other methods like `ask_question`
+    later on.
+  * mount-manager: Use PhoshMountOperation.
+    This allows allow for interactive prompts to ask for passwords
+    of encrypted volumes.
+    With this encrypted volumes can be mounted without going through
+    nautilus first. (Closes: #573)
+  * shell: Use fractional scale for phosh_shell_get_usable_area too.
+    Otherwise fractional scaling is off on the primary display.
+    Fixes: 540c85c83e6634a7cf90a4f4276339003f10a352
+  * overview: Use fractional monitor scale.
+    This will allow us to drop the integer scale completely.
+  * monitor: Drop integer scale
+  * tests: Add test for head scale calculations
+  * monitor-manager: Support fractional scale DisplayConfig.
+    This allows to set fractional scale in Settings too. The actual
+    calculation is based on what mutter does. (Closes: #479)
+  * Revert "monitor-manager: Flip transform"
+    This reverts commit 75cad1aaeb76f75b1cd6066392f956e083f6f5ec.
+    There's no need to flip the transform with recent wlroots/phoc, we
+    end up flipping the upside down in landscape mode otherwise when
+    e.g. changing scale.
+  * Rename panel top top-panel.
+    This makes it match the ui file
+  * top-panel: Drop priv.
+    No need for that when we're never going to derive.
+    Related: #378
+  * home: Don't pass on <return> to search bar
+    otherwise we end up activating from the search bar twice thus
+    launching the apps two times (which  most of the times doesn't
+    matter due to the apps single instance pattern but e.g. Firefox
+    shows the issue).
+    Fixes 60f6a2e157e60a38ad8b8913882ff1e6fea548a3
+
+  [ Mohammed Sadiq ]
+  * d/rules: Disable building tests if 'nocheck' set.
+    Not building tests reduces the binaries to build by more than half
+
+  [ Pablo Correa Gómez ]
+  * feedback-manager: Rotate profiles on touch to quick settings.
+    Currently, there exist three different feedback profiles:
+    "full", "quiet", "silent", but quick settings touch only
+     switches in-between "full" and "silent". Instead, rotate
+     from "full" to "quiet" to "silent" and back to "full"
+
+  [ Marc Riera ]
+  * Update Catalan translation
+
+  [ Kristjan SCHMIDT ]
+  * Update Esperanto translation
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Michael Oppliger ]
+  * Update German translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 28 Aug 2021 08:19:53 +0200
+
 phosh (0.13.0) experimental; urgency=medium
 
   [ Arnaud Ferraris ]

@@ -1,3 +1,21 @@
+phosh 0.13.1
+------------
+Released: August 2021
+* Cycle through all feedback profiles in quick setting
+  (Pablo Correa Gómez)
+* Add button to close all notifications (Guido Günther)
+* Improve support for mounting encrypted media (Guido Günther)
+* Don't launch app twice when keyboard activated from search bar
+  (Guido Günther)
+* Improve fractional scaling support (Guido Günther)
+* Better media player styling (Guido Günther)
+* UI translations:
+	Daniel Șerbănescu (ro)
+	Kristjan SCHMIDT (eo)
+	Marc Riera (ca)
+	Michael Oppliger (de)
+	Andika Triwidada (id)
+
 phosh 0.13.0
 ------------
 Released: August 2021
