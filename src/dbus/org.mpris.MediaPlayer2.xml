@@ -9,9 +9,19 @@
     <method name="PlayPause"/>
     <method name="Next"/>
     <method name="Previous"/>
+    <method name="Seek">
+      <arg name="Offset" direction="in" type="x">
+        <doc:doc>
+          <doc:summary>
+            The number of microseconds to seek forward.
+          </doc:summary>
+        </doc:doc>
+      </arg>
+    </method>
     <property name="CanGoNext" type="b" access="read"/>
     <property name="CanGoPrevious" type="b" access="read"/>
     <property name="CanPlay" type="b" access="read"/>
+    <property name="CanSeek" type="b" access="read"/>
     <property name="Metadata" type="a{sv}" access="read"/>
     <property name="PlaybackStatus" type="s" access="read"/>
   </interface>

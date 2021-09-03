@@ -16,8 +16,14 @@
 
 #include <glib/gi18n.h>
 
+#include <handy.h>
+
 #define MPRIS_OBJECT_PATH "/org/mpris/MediaPlayer2"
 #define MPRIS_PREFIX "org.mpris.MediaPlayer2."
+
+#define SEEK_SECOND 1000000
+#define SEEK_BACK (-10 * SEEK_SECOND)
+#define SEEK_FORWARD (30 * SEEK_SECOND)
 
 /**
  * SECTION:media-player
@@ -62,6 +68,8 @@ typedef struct _PhoshMediaPlayer {
   GtkWidget                        *btn_next;
   GtkWidget                        *btn_prev;
   GtkWidget                        *btn_details;
+  GtkWidget                        *btn_seek_backward;
+  GtkWidget                        *btn_seek_forward;
   GtkWidget                        *img_art;
   GtkWidget                        *img_play;
   GtkWidget                        *lbl_title;
@@ -207,6 +215,48 @@ btn_prev_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
                                                        self->cancel,
                                                        (GAsyncReadyCallback)on_previous_done,
                                                        self);
+}
+
+
+static void
+on_seek_done (PhoshMprisDBusMediaPlayer2Player *player, GAsyncResult *res, PhoshMediaPlayer *self)
+{
+  g_autoptr (GError) err = NULL;
+
+  g_return_if_fail (PHOSH_MPRIS_DBUS_IS_MEDIA_PLAYER2_PLAYER (player));
+
+  if (!phosh_mpris_dbus_media_player2_player_call_seek_finish (player, res, &err))
+    g_warning ("Failed to trigger seek: %s", err->message);
+}
+
+
+static void
+btn_seek_backward_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
+{
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
+  g_return_if_fail (PHOSH_MPRIS_DBUS_IS_MEDIA_PLAYER2_PLAYER (self->player));
+
+  g_debug ("seek backward for %ds", SEEK_BACK/SEEK_SECOND);
+  phosh_mpris_dbus_media_player2_player_call_seek (self->player,
+                                                   SEEK_BACK,
+                                                   self->cancel,
+                                                   (GAsyncReadyCallback)on_seek_done,
+                                                   self);
+}
+
+
+static void
+btn_seek_forward_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
+{
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
+  g_return_if_fail (PHOSH_MPRIS_DBUS_IS_MEDIA_PLAYER2_PLAYER (self->player));
+
+  g_debug ("seek forward by %ds", SEEK_FORWARD/SEEK_SECOND);
+  phosh_mpris_dbus_media_player2_player_call_seek (self->player,
+                                                   SEEK_FORWARD,
+                                                   self->cancel,
+                                                   (GAsyncReadyCallback)on_seek_done,
+                                                   self);
 }
 
 
@@ -377,6 +427,21 @@ on_can_play (PhoshMediaPlayer                 *self,
 
 
 static void
+on_can_seek (PhoshMediaPlayer                 *self,
+             GParamSpec                       *psepc,
+             PhoshMprisDBusMediaPlayer2Player *player)
+{
+  gboolean sensitive;
+
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
+  sensitive = phosh_mpris_dbus_media_player2_player_get_can_seek (player);
+  g_debug ("Can seek: %d", sensitive);
+  gtk_widget_set_sensitive (self->btn_seek_backward, sensitive);
+  gtk_widget_set_sensitive (self->btn_seek_forward, sensitive);
+}
+
+
+static void
 phosh_media_player_dispose (GObject *object)
 {
   PhoshMediaPlayer *self = PHOSH_MEDIA_PLAYER (object);
@@ -454,6 +519,8 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_play);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_prev);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_details);
+  gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_seek_backward);
+  gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_seek_forward);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, img_art);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, img_play);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_artist);
@@ -462,6 +529,8 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, btn_next_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, btn_prev_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, btn_details_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, btn_seek_backward_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, btn_seek_forward_clicked_cb);
 }
 
 
@@ -502,6 +571,9 @@ attach_player_cb (GObject          *source_object,
                     "swapped_object_signal::notify::can-play",
                     G_CALLBACK (on_can_play),
                     self,
+                    "swapped_object_signal::notify::can-seek",
+                    G_CALLBACK (on_can_seek),
+                    self,
                     NULL);
 
   g_object_notify (G_OBJECT (self->player), "metadata");
@@ -509,6 +581,7 @@ attach_player_cb (GObject          *source_object,
   g_object_notify (G_OBJECT (self->player), "can-go-next");
   g_object_notify (G_OBJECT (self->player), "can-go-previous");
   g_object_notify (G_OBJECT (self->player), "can-play");
+  g_object_notify (G_OBJECT (self->player), "can-seek");
 
   g_debug ("Connected player");
   set_attached (self, TRUE);

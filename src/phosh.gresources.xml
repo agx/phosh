@@ -45,6 +45,8 @@
     <file alias="phone-undocked-symbolic.svg">../data/phone-undocked-symbolic.svg</file>
     <file alias="screen-rotation-landscape-symbolic.svg">../data/screen-rotation-landscape-symbolic.svg</file>
     <file alias="screen-rotation-portrait-symbolic.svg">../data/screen-rotation-portrait-symbolic.svg</file>
+    <file alias="skip-backwards-10-symbolic.svg">../data/skip-backwards-10-symbolic.svg</file>
+    <file alias="skip-forward-30-symbolic.svg">../data/skip-forward-30-symbolic.svg</file>
     <file alias="swipe-arrow-symbolic.svg">../data/swipe-arrow-symbolic.svg</file>
     <file alias="torch-disabled-symbolic.svg">../data/torch-disabled-symbolic.svg</file>
     <file alias="torch-enabled-symbolic.svg">../data/torch-enabled-symbolic.svg</file>
