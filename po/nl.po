@@ -2,20 +2,20 @@
 # Joachim Moernaut <joachim@mailfence.com>, 2019. #zanata
 # Willem Sonke <willem@wimiso.nl>, 2019. #zanata
 # jjdekroon <jajadekroon@gmail.com>, 2021.
-# Nathan Follens <nthn@unseen.is>, 2021.
+# Nathan Follens <nfollens@gnome.org>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-04-03 15:31+0000\n"
-"PO-Revision-Date: 2021-04-03 19:25+0200\n"
-"Last-Translator: Nathan Follens <nthn@unseen.is>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2021-08-03 09:16+0000\n"
+"PO-Revision-Date: 2021-09-16 10:13+0200\n"
+"Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -47,7 +47,7 @@ msgstr "Bluetooth"
 msgid "Docked"
 msgstr "In dock"
 
-#: src/docked-info.c:81 src/docked-info.c:195
+#: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
 msgstr "Uit dock"
 
@@ -84,7 +84,7 @@ msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "Het systeem zal automatisch herstarten over %d seconde."
 msgstr[1] "Het systeem zal automatisch herstarten over %d seconden."
 
-#: src/end-session-dialog.c:270
+#: src/end-session-dialog.c:269
 msgid "Unknown application"
 msgstr "Onbekende applicatie"
 
@@ -102,68 +102,72 @@ msgstr "Rustig"
 msgid "Silent"
 msgstr "Stil"
 
-#: src/location-manager.c:246
+#: src/location-manager.c:268
 #, c-format
 msgid "Allow '%s' to access your location information?"
 msgstr "‘%s’ toegang geven tot uw locatiegegevens?"
 
-#: src/location-manager.c:251
+#: src/location-manager.c:273
 msgid "Geolocation"
 msgstr "Geolocatie"
 
-#: src/location-manager.c:252
+#: src/location-manager.c:274
 msgid "Yes"
 msgstr "Ja"
 
-#: src/location-manager.c:252
+#: src/location-manager.c:274
 msgid "No"
 msgstr "Nee"
 
-#: src/lockscreen.c:85 src/ui/lockscreen.ui:234
+#: src/lockscreen.c:152 src/ui/lockscreen.ui:239
 msgid "Enter Passcode"
 msgstr "Voer de pincode in"
 
-#: src/lockscreen.c:264
+#: src/lockscreen.c:335
 msgid "Checking…"
 msgstr "Bezig met controleren…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:342
+#: src/lockscreen.c:413
 msgid "%A, %B %-e"
 msgstr "%A %d %B"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:277 src/ui/media-player.ui:107
+#: src/media-player.c:279 src/ui/media-player.ui:107
 msgid "Unknown Title"
 msgstr "Onbekende titel"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:286 src/ui/media-player.ui:127
+#: src/media-player.c:288 src/ui/media-player.ui:127
 msgid "Unknown Artist"
 msgstr "Onbekende artiest"
 
-#: src/monitor-manager.c:112
+#: src/monitor-manager.c:114
 msgid "Built-in display"
 msgstr "Ingebouwd beeldscherm"
 
-#: src/monitor-manager.c:130
+#: src/monitor-manager.c:132
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:137
+#: src/monitor-manager.c:139
 #, c-format
+#| msgctxt ""
+#| "This is a monitor vendor name, followed by a size in inches, like 'Dell "
+#| "15\"'"
+#| msgid "%s %s"
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
 "inches could not be calculated, e.g. Dell U2414H"
-msgid "%s %sn"
-msgstr "%s %sn"
+msgid "%s %s"
+msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:146
+#: src/monitor-manager.c:148
 msgid "Unknown"
 msgstr "Onbekend"
 
@@ -177,11 +181,11 @@ msgstr "Authenticatietype van wifinetwerk ‘%s’ wordt niet ondersteund"
 msgid "Enter password for the wifi network “%s”"
 msgstr "Voer het wachtwoord in voor wifinetwerk ‘%s’"
 
-#: src/notifications/mount-notification.c:137
+#: src/notifications/mount-notification.c:122
 msgid "Open"
 msgstr "Openen"
 
-#: src/notifications/notification.c:381 src/notifications/notification.c:637
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
 msgid "Notification"
 msgstr "Notificatie"
 
@@ -273,12 +277,13 @@ msgstr "Bijna %dj"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:225
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Authenticatievenster is door de gebruiker afgesloten"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:85
-#: src/ui/polkit-auth-prompt.ui:57 src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
+#: src/ui/system-prompt.ui:33
 msgid "Password:"
 msgstr "Wachtwoord:"
 
@@ -296,7 +301,7 @@ msgstr "Liggend"
 
 #. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
 #. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:183
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
 msgid "Off"
 msgstr "Uit"
 
@@ -316,11 +321,11 @@ msgstr "Zaklamp"
 msgid "Remember decision"
 msgstr "Keuze onthouden"
 
-#: src/ui/app-auth-prompt.ui:55 src/ui/end-session-dialog.ui:50
+#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: src/ui/app-auth-prompt.ui:66 src/ui/end-session-dialog.ui:61
+#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
 msgid "Ok"
 msgstr "Oké"
 
@@ -336,39 +341,59 @@ msgstr "Verwijderen uit _favorieten"
 msgid "Add to _Favorites"
 msgstr "Toevoegen aan _favorieten"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid.ui:22
 msgid "Search apps…"
 msgstr "Apps zoeken…"
+
+#: src/ui/app-grid.ui:169
+msgid "Show only adaptive apps"
+msgstr "Enkel adaptieve toepassingen tonen"
 
 #: src/ui/end-session-dialog.ui:32
 msgid "Some applications are busy or have unsaved work"
 msgstr "Sommige applicaties zijn bezig of hebben niet-opgeslagen werk"
 
-#: src/ui/lockscreen.ui:37
+#: src/ui/gtk-mount-prompt.ui:95
+msgid "User:"
+msgstr "Gebruikersnaam:"
+
+#: src/ui/gtk-mount-prompt.ui:118
+msgid "Domain:"
+msgstr "Domein:"
+
+#: src/ui/gtk-mount-prompt.ui:151
+msgid "Co_nnect"
+msgstr "Verbi_nden"
+
+#: src/ui/lockscreen.ui:43
 msgid "Slide up to unlock"
 msgstr "Veeg omhoog om te ontgrendelen"
 
-#: src/ui/lockscreen.ui:280
+#: src/ui/lockscreen.ui:285
 msgid "Emergency"
 msgstr "Noodgeval"
 
-#: src/ui/lockscreen.ui:296
+#: src/ui/lockscreen.ui:301
 msgid "Unlock"
 msgstr "Ontgrendelen"
+
+#: src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Terug"
 
 #: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
 msgid "Authentication required"
 msgstr "Verificatie vereist"
 
-#: src/ui/network-auth-prompt.ui:42
+#: src/ui/network-auth-prompt.ui:41
 msgid "_Cancel"
 msgstr "_Annuleren"
 
-#: src/ui/network-auth-prompt.ui:61
+#: src/ui/network-auth-prompt.ui:59
 msgid "C_onnect"
 msgstr "_Verbinden"
 
-#: src/ui/polkit-auth-prompt.ui:125
+#: src/ui/polkit-auth-prompt.ui:123
 msgid "Authenticate"
 msgstr "Aanmelden"
 
@@ -393,5 +418,8 @@ msgstr "Wifi"
 msgid "Cellular"
 msgstr "Mobiel"
 
-#~ msgid "User:"
-#~ msgstr "Gebruikersnaam:"
+#~ msgctxt ""
+#~ "This is a monitor vendor name followed by product/model name where size "
+#~ "in inches could not be calculated, e.g. Dell U2414H"
+#~ msgid "%s %sn"
+#~ msgstr "%s %sn"
