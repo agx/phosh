@@ -86,6 +86,27 @@ signal_strength_icon_name (guint strength)
 }
 
 
+static gboolean
+get_is_hotspot_master (PhoshWifiManager *self)
+{
+  NMSettingIPConfig *ip4_setting;
+  NMConnection *c;
+
+  if (!self->dev || !self->active ||
+      nm_active_connection_get_state (self->active) != NM_ACTIVE_CONNECTION_STATE_ACTIVATED)
+    return FALSE;
+
+  c = NM_CONNECTION (nm_active_connection_get_connection (self->active));
+  ip4_setting = nm_connection_get_setting_ip4_config (c);
+
+  if (ip4_setting &&
+      g_strcmp0 (nm_setting_ip_config_get_method (ip4_setting),
+                 NM_SETTING_IP4_CONFIG_METHOD_SHARED) == 0)
+    return TRUE;
+
+  return FALSE;
+}
+
 static const char *
 get_icon_name (PhoshWifiManager *self)
 {
@@ -105,7 +126,9 @@ get_icon_name (PhoshWifiManager *self)
   case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
     return "network-wireless-acquiring-symbolic";
   case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
-    if (!self->ap) {
+    if (get_is_hotspot_master (self)) {
+      return "network-wireless-hotspot-symbolic";
+    } else if (!self->ap) {
       return "network-wireless-connected-symbolic";
     } else {
       strength = phosh_wifi_manager_get_strength (self);
