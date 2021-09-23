@@ -24,15 +24,6 @@
 #define NOTIFICATION_DEFAULT_TIMEOUT 5000 /* ms */
 #define NOTIFICATIONS_SPEC_VERSION "1.2"
 
-#define NOTIFICATIONS_SCHEMA_ID "org.gnome.desktop.notifications"
-#define NOTIFICATIONS_KEY_SHOW_BANNERS "show-banners"
-#define NOTIFICATIONS_KEY_APP_CHILDREN "application-children"
-
-#define NOTIFICATIONS_APP_SCHEMA_ID NOTIFICATIONS_SCHEMA_ID ".application"
-#define NOTIFICATIONS_APP_PREFIX "/org/gnome/desktop/notifications/application"
-#define NOTIFICATIONS_APP_KEY_SHOW_BANNERS "show-banners"
-#define NOTIFICATIONS_APP_KEY_APP_ID "application-id"
-
 /**
  * SECTION:notify-manager
  * @short_description: Manages notifications

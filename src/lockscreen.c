@@ -642,8 +642,7 @@ phosh_lockscreen_constructed (GObject *object)
     on_calls_call_inbound (self, active);
 
   manager = phosh_notify_manager_get_default ();
-  /* TODO: deduplicate after !862 */
-  priv->settings = g_settings_new("org.gnome.desktop.notifications");
+  priv->settings = g_settings_new(NOTIFICATIONS_SCHEMA_ID);
   g_settings_bind (priv->settings, "show-in-lock-screen",
                    priv->list_notifications, "visible",
                    G_SETTINGS_BIND_GET);
