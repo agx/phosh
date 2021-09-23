@@ -9,6 +9,7 @@
 #define G_LOG_DOMAIN "phosh-osd-window"
 
 #include "config.h"
+#include "util.h"
 
 #include "osd-window.h"
 
@@ -50,6 +51,17 @@ typedef struct _PhoshOsdWindow {
 
 G_DEFINE_TYPE (PhoshOsdWindow, phosh_osd_window, PHOSH_TYPE_SYSTEM_MODAL)
 
+
+static void
+set_label (PhoshOsdWindow *self, char *label)
+{
+  g_free (self->label);
+  self->label = label;
+  gtk_label_set_label (GTK_LABEL (self->lbl), self->label);
+  gtk_widget_set_visible (GTK_WIDGET (self->lbl), !STR_IS_NULL_OR_EMPTY (label));
+}
+
+
 static void
 phosh_osd_window_set_property (GObject      *obj,
                                guint         prop_id,
@@ -64,9 +76,7 @@ phosh_osd_window_set_property (GObject      *obj,
     self->connector = g_value_dup_string (value);
     break;
   case PROP_LABEL:
-    g_free (self->label);
-    self->label = g_value_dup_string (value);
-    gtk_label_set_label (GTK_LABEL (self->lbl), self->label);
+    set_label (self, g_value_dup_string (value));
     break;
   case PROP_ICON_NAME:
     g_free (self->icon_name);
