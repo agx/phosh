@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-07-22 03:33+0000\n"
-"PO-Revision-Date: 2021-07-10 15:47+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2021-08-17 15:27+0000\n"
+"PO-Revision-Date: 2021-08-13 17:55+0200\n"
 "Last-Translator: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language-Team: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language: it\n"
@@ -120,27 +120,27 @@ msgstr "Sì"
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:95 src/ui/lockscreen.ui:233
+#: src/lockscreen.c:157 src/ui/lockscreen.ui:267
 msgid "Enter Passcode"
 msgstr "Inserire la password"
 
-#: src/lockscreen.c:278
+#: src/lockscreen.c:340
 msgid "Checking…"
 msgstr "Sto controllando…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:356
+#: src/lockscreen.c:418
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:279 src/ui/media-player.ui:107
+#: src/media-player.c:280 src/ui/media-player.ui:120
 msgid "Unknown Title"
 msgstr "Titolo sconosciuto"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:288 src/ui/media-player.ui:127
+#: src/media-player.c:289 src/ui/media-player.ui:103
 msgid "Unknown Artist"
 msgstr "Artista sconosciuto"
 
@@ -362,17 +362,21 @@ msgstr "Dominio:"
 msgid "Co_nnect"
 msgstr "Co_nnetti"
 
-#: src/ui/lockscreen.ui:37
+#: src/ui/lockscreen.ui:43
 msgid "Slide up to unlock"
 msgstr "Scorri verso l'alto per sbloccare"
 
-#: src/ui/lockscreen.ui:279
+#: src/ui/lockscreen.ui:313
 msgid "Emergency"
 msgstr "Emergenza"
 
-#: src/ui/lockscreen.ui:295
+#: src/ui/lockscreen.ui:329
 msgid "Unlock"
 msgstr "Sblocca"
+
+#: src/ui/lockscreen.ui:369
+msgid "Back"
+msgstr "Indietro"
 
 #: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
 msgid "Authentication required"
