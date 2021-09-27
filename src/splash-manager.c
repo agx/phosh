@@ -24,6 +24,14 @@
  * Spawn, keeps track and closes splash screens.
  */
 
+typedef enum {
+  /* Until we can depend on released gsettings-desktop-schemas */
+  /*<private >*/
+  COLOR_SCHEME_DEFAULT,
+  COLOR_SCHEME_PREFER_DARK,
+  COLOR_SCHEME_PREFER_LIGHT,
+} PhoshSystemColorScheme;
+
 enum {
   PROP_0,
   PROP_APP_TRACKER,
@@ -36,6 +44,9 @@ struct _PhoshSplashManager {
 
   PhoshAppTracker *app_tracker;
   GHashTable      *splashes;
+
+  GSettings       *interface_settings;
+  gboolean         prefer_dark;
 };
 G_DEFINE_TYPE (PhoshSplashManager, phosh_splash_manager, G_TYPE_OBJECT)
 
@@ -169,7 +180,7 @@ on_app_spawned (PhoshSplashManager *self,
     return;
 
   g_debug ("Adding splash for %s, startup_id %s", g_app_info_get_id (G_APP_INFO (info)), startup_id);
-  splash = phosh_splash_new (info, FALSE);
+  splash = phosh_splash_new (info, self->prefer_dark);
   key = g_strdup (startup_id);
   g_hash_table_insert (self->splashes, key, splash);
   g_signal_connect_object (splash, "closed", G_CALLBACK (on_splash_closed),
@@ -177,6 +188,14 @@ on_app_spawned (PhoshSplashManager *self,
   /* Keep startup-id for close triggered by splash itself */
   g_object_set_data (G_OBJECT (splash), "startup-id", key);
   gtk_window_present (GTK_WINDOW (splash));
+}
+
+
+static void
+gsettings_color_scheme_changed_cb (PhoshSplashManager *self)
+{
+  self->prefer_dark = (g_settings_get_enum (self->interface_settings, "color-scheme") ==
+                       COLOR_SCHEME_PREFER_DARK);
 }
 
 
@@ -200,6 +219,7 @@ phosh_splash_manager_dispose (GObject *object)
 {
   PhoshSplashManager *self = PHOSH_SPLASH_MANAGER (object);
 
+  g_clear_object (&self->interface_settings);
   g_clear_object (&self->app_tracker);
 
   G_OBJECT_CLASS (phosh_splash_manager_parent_class)->dispose (object);
@@ -242,10 +262,27 @@ phosh_splash_manager_class_init (PhoshSplashManagerClass *klass)
 static void
 phosh_splash_manager_init (PhoshSplashManager *self)
 {
+  GSettingsSchemaSource *source;
+  GSettingsSchema *schema;
+
   self->splashes = g_hash_table_new_full (g_str_hash,
                                           g_str_equal,
                                           g_free,
                                           (GDestroyNotify) gtk_widget_destroy);
+
+  source = g_settings_schema_source_get_default ();
+
+  schema = g_settings_schema_source_lookup (source, "org.gnome.desktop.interface", TRUE);
+  /* Treat value as optional until we can depend on released gsettings-desktop-schmeas */
+  if (schema && g_settings_schema_has_key (schema, "color-scheme")) {
+    self->interface_settings = g_settings_new ("org.gnome.desktop.interface");
+    gsettings_color_scheme_changed_cb (self);
+    g_signal_connect_swapped (self->interface_settings,
+                              "changed::color-scheme",
+                              G_CALLBACK (gsettings_color_scheme_changed_cb),
+                              self);
+  }
+
 }
 
 
