@@ -24,4 +24,4 @@ struct _PhoshSplashClass {
 };
 
 
-GtkWidget *phosh_splash_new (GDesktopAppInfo *info);
+GtkWidget *phosh_splash_new (GDesktopAppInfo *info, gboolean prefer_dark);

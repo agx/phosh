@@ -28,6 +28,7 @@
 enum {
   PROP_0,
   PROP_APP_INFO,
+  PROP_PREFER_DARK,
   PROP_LAST_PROP,
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -47,11 +48,31 @@ typedef struct {
   GtkWidget                  *box;
   GIcon                      *icon;
   GtkWidget                  *img_app;
+  gboolean                    prefer_dark;
 
   guint                       timeout_id;
 } PhoshSplashPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshSplash, phosh_splash, PHOSH_TYPE_LAYER_SURFACE);
+
+
+static void
+set_style (PhoshSplash *self, gboolean prefer_dark)
+{
+  PhoshSplashPrivate *priv = phosh_splash_get_instance_private (self);
+  GtkStyleContext    *context;
+
+  priv->prefer_dark = prefer_dark;
+
+  context = gtk_widget_get_style_context (GTK_WIDGET (self));
+  if (prefer_dark) {
+    gtk_style_context_add_class (context, "dark");
+    gtk_style_context_remove_class (context, "light");
+  } else {
+    gtk_style_context_add_class (context, "light");
+    gtk_style_context_remove_class (context, "dark");
+  }
+}
 
 
 static void
@@ -66,6 +87,9 @@ phosh_splash_set_property (GObject      *obj,
   switch (prop_id) {
   case PROP_APP_INFO:
     g_set_object (&priv->info, g_value_get_object (value));
+    break;
+  case PROP_PREFER_DARK:
+    set_style (self, g_value_get_boolean (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, prop_id, pspec);
@@ -86,6 +110,9 @@ phosh_splash_get_property (GObject    *obj,
   switch (prop_id) {
   case PROP_APP_INFO:
     g_value_set_object (value, priv->info);
+    break;
+  case PROP_PREFER_DARK:
+    g_value_set_boolean (value, priv->prefer_dark);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, prop_id, pspec);
@@ -218,6 +245,18 @@ phosh_splash_class_init (PhoshSplashClass *klass)
                                               G_PARAM_CONSTRUCT_ONLY |
                                               G_PARAM_READWRITE |
                                               G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshSplash:prefer-dark:
+   *
+   * Whether the splash should prefer dark theming
+   */
+  props[PROP_PREFER_DARK] = g_param_spec_boolean ("prefer-dark",
+                                                  "",
+                                                  "",
+                                                  FALSE,
+                                                  G_PARAM_CONSTRUCT_ONLY |
+                                                  G_PARAM_READWRITE |
+                                                  G_PARAM_STATIC_STRINGS);
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   /**
@@ -251,7 +290,10 @@ phosh_splash_init (PhoshSplash *self)
 
 
 GtkWidget *
-phosh_splash_new (GDesktopAppInfo *app)
+phosh_splash_new (GDesktopAppInfo *app, gboolean prefer_dark)
 {
-  return g_object_new (PHOSH_TYPE_SPLASH, "app", app, NULL);
+  return g_object_new (PHOSH_TYPE_SPLASH,
+                       "app", app,
+                       "prefer-dark", prefer_dark,
+                       NULL);
 }

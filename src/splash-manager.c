@@ -169,7 +169,7 @@ on_app_spawned (PhoshSplashManager *self,
     return;
 
   g_debug ("Adding splash for %s, startup_id %s", g_app_info_get_id (G_APP_INFO (info)), startup_id);
-  splash = phosh_splash_new (info);
+  splash = phosh_splash_new (info, FALSE);
   key = g_strdup (startup_id);
   g_hash_table_insert (self->splashes, key, splash);
   g_signal_connect_object (splash, "closed", G_CALLBACK (on_splash_closed),

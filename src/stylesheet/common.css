@@ -538,11 +538,20 @@ phosh-osd-window levelbar trough {
  * Splash
  */
 
-phosh-splash {
+phosh-splash.light {
   color: @phosh_splash_fg_color;
   background-color: @phosh_splash_bg_color;
 }
 
-phosh-splash image {
+phosh-splash.dark {
+  /* phosh prefers dark, nothing to do */
+}
+
+
+phosh-splash.light image {
   -gtk-icon-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 8px rgba(0, 0, 0, 0.2);
+}
+
+phosh-splash.dark image {
+  -gtk-icon-shadow: 0 1px 2px rgba(255, 255, 255, 0.4), 0 1px 8px rgba(255, 255, 255, 0.2);
 }
