@@ -162,10 +162,10 @@ on_app_failed (PhoshSplashManager *self,
 
 
 static void
-on_app_spawned (PhoshSplashManager *self,
-                GDesktopAppInfo    *info,
-                const char         *startup_id,
-                PhoshAppTracker    *tracker)
+on_app_launch_started (PhoshSplashManager *self,
+                       GDesktopAppInfo    *info,
+                       const char         *startup_id,
+                       PhoshAppTracker    *tracker)
 {
   GtkWidget *splash;
   char *key;
@@ -207,7 +207,7 @@ phosh_splash_manager_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_splash_manager_parent_class)->constructed (object);
 
   g_object_connect (self->app_tracker,
-                    "swapped-signal::app-launched", G_CALLBACK (on_app_spawned), self,
+                    "swapped-signal::app-launch-started", G_CALLBACK (on_app_launch_started), self,
                     "swapped-signal::app-failed", G_CALLBACK (on_app_failed), self,
                     "swapped-signal::app-ready", G_CALLBACK (on_app_ready), self,
                     NULL);

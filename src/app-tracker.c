@@ -30,6 +30,7 @@
  */
 
 enum {
+  APP_LAUNCH_STARTED,
   APP_LAUNCHED,
   APP_READY,
   APP_FAILED,
@@ -45,9 +46,11 @@ static guint signals[N_SIGNALS];
  * Application state based on startup id
  *
  * PHOSH_APP_TRACKER_STATE_FLAG_UNKNOWN: App state unknown
- * PHOSH_APP_TRACKER_STATE_FLAG_LAUNCHED: process was spawned by us
+ * PHOSH_APP_TRACKER_STATE_FLAG_LAUNCH_STARTED: The app is about to be
+ *     launched by us.
+ * PHOSH_APP_TRACKER_STATE_FLAG_LAUNCHED: app was launched by us
  *     Gio told us it spawned the process
- * PHOSH_APP_TRACKER_STATE_FLAG_DBUS_LAUNCH: process launch seen on DBus via
+ * PHOSH_APP_TRACKER_STATE_FLAG_DBUS_LAUNCH: app launch seen on DBus via
  *     org.gtk.gio.DesktopAppInfo
  * PHOSH_APP_TRACKER_STATE_FLAG_WL_LAUNCH: startup id seen via gtk_shell1's notify_launch
  *     Sent by launcher to indicate launch. GTK specific.
@@ -56,10 +59,11 @@ static guint signals[N_SIGNALS];
  */
 typedef enum {
   PHOSH_APP_TRACKER_STATE_FLAG_UNKNOWN         = 0,
-  PHOSH_APP_TRACKER_STATE_FLAG_LAUNCHED        = (1 << 0),
-  PHOSH_APP_TRACKER_STATE_FLAG_DBUS_LAUNCH     = (1 << 1),
-  PHOSH_APP_TRACKER_STATE_FLAG_WL_LAUNCH       = (1 << 2),
-  PHOSH_APP_TRACKER_STATE_FLAG_WL_STARTUP_ID   = (1 << 3),
+  PHOSH_APP_TRACKER_STATE_FLAG_LAUNCH_STARTED  = (1 << 0),
+  PHOSH_APP_TRACKER_STATE_FLAG_LAUNCHED        = (1 << 1),
+  PHOSH_APP_TRACKER_STATE_FLAG_DBUS_LAUNCH     = (1 << 2),
+  PHOSH_APP_TRACKER_STATE_FLAG_WL_LAUNCH       = (1 << 3),
+  PHOSH_APP_TRACKER_STATE_FLAG_WL_STARTUP_ID   = (1 << 4),
 } PhoshAppStateFlags;
 
 typedef struct  {
@@ -118,13 +122,19 @@ phosh_app_state_free (PhoshAppState *state)
 static PhoshAppState*
 update_app_state (PhoshAppTracker   *self,
                   const char        *startup_id,
-                  PhoshAppStateFlags flags)
+                  PhoshAppStateFlags flags,
+                  gint64             pid)
+
 {
   PhoshAppState *state;
 
   state = g_hash_table_lookup (self->apps, startup_id);
   g_return_val_if_fail (state, NULL);
 
+  /* Changing pid is not allowed */
+  g_return_val_if_fail (!state->pid || (state->pid && state->pid != pid), state);
+
+  state->pid = pid;
   g_debug ("Pid %" G_GINT64_FORMAT ", startup-id: %s got state %d",
            state->pid,
            state->startup_id,
@@ -151,18 +161,13 @@ startup_tracker_handle_launched (void                                 *data,
   g_return_if_fail (startup_id != NULL);
 
   state = g_hash_table_lookup (self->apps, startup_id);
-  /*
-   * TODO: this can be dropped once
-   * https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2227
-   * is applied or another solution is in place for DBus activated
-   * apps.
-   */
+  /* The compositor notified us about a startup-id we didn't know about yet */
   if (!state) {
-    g_debug ("No info for startup_id '%s' found", startup_id);
+    g_warning ("No info for startup_id '%s' found", startup_id);
     return;
   }
 
-  update_app_state (self, startup_id, PHOSH_APP_TRACKER_STATE_FLAG_WL_LAUNCH);
+  update_app_state (self, startup_id, PHOSH_APP_TRACKER_STATE_FLAG_WL_LAUNCH, 0);
 }
 
 
@@ -188,7 +193,7 @@ startup_tracker_handle_startup_id (void                                 *data,
     return;
   }
 
-  update_app_state (self, startup_id, PHOSH_APP_TRACKER_STATE_FLAG_WL_STARTUP_ID);
+  update_app_state (self, startup_id, PHOSH_APP_TRACKER_STATE_FLAG_WL_STARTUP_ID, 0);
   g_signal_emit (self, signals[APP_READY], 0, state->info, startup_id);
 
   /* Startup sequence done */
@@ -203,14 +208,13 @@ static const struct phosh_private_startup_tracker_listener startup_tracker_liste
 
 
 static void
-on_app_launched (PhoshAppTracker   *self,
-                 GDesktopAppInfo   *info,
-                 GVariant          *platform_data,
-                 GAppLaunchContext *context)
+on_app_launch_started (PhoshAppTracker   *self,
+                       GDesktopAppInfo   *info,
+                       GVariant          *platform_data,
+                       GAppLaunchContext *context)
 {
   g_autofree char *startup_id = NULL;
   PhoshAppState *state;
-  gint32 pid;
 
   g_return_if_fail (G_IS_DESKTOP_APP_INFO (info));
   /*
@@ -218,6 +222,57 @@ on_app_launched (PhoshAppTracker   *self,
    * so make sure the user is aware.
    */
   g_return_if_fail (self->wl_tracker);
+
+  /* Application doesn't handle startup notifications */
+  if (!g_desktop_app_info_get_boolean (info, "StartupNotify"))
+    return;
+
+  /* Launched via spawn */
+  g_variant_lookup (platform_data, "startup-notification-id", "s", &startup_id);
+
+  /* No startup_id for e.g. Qt apps */
+  if (!startup_id) {
+    g_debug ("No startup_id for %s", g_app_info_get_id (G_APP_INFO (info)));
+    return;
+  }
+
+  g_return_if_fail (startup_id);
+  /* If we saw the startup-id already, something is wrong */
+  g_return_if_fail (!g_hash_table_contains (self->apps, startup_id));
+
+  state = phosh_app_state_new (info, startup_id, 0, PHOSH_APP_TRACKER_STATE_FLAG_LAUNCH_STARTED);
+  g_hash_table_insert (self->apps, g_steal_pointer (&startup_id), state);
+
+  g_debug ("Launch started for app '%s' with startup id: '%s'",
+           g_app_info_get_name (G_APP_INFO (info)),
+           state->startup_id);
+
+  g_signal_emit (self, signals[APP_LAUNCH_STARTED],
+                 g_quark_from_static_string ("self"),
+                 info,
+                 state->startup_id);
+}
+
+
+static void
+on_app_launched (PhoshAppTracker   *self,
+                 GDesktopAppInfo   *info,
+                 GVariant          *platform_data,
+                 GAppLaunchContext *context)
+{
+  g_autofree gchar *startup_id = NULL;
+  PhoshAppState *state;
+  const char *msg;
+  gint32 pid;
+
+  g_return_if_fail (G_IS_DESKTOP_APP_INFO (info));
+
+  /* Older glib don't have "launch-started" so fake this until we can require 2.72.0 */
+  msg = glib_check_version (2, 71, 0);
+  if (msg) {
+    g_debug ("Faking `launch-started` signal: %s", msg);
+    on_app_launch_started (self, info, platform_data, context);
+  }
 
   /* Application doesn't handle startup notifications */
   if (!g_desktop_app_info_get_boolean (info, "StartupNotify"))
@@ -233,25 +288,21 @@ on_app_launched (PhoshAppTracker   *self,
     goto out;
   }
 
-  g_return_if_fail (startup_id);
-  /* If we saw the startup-id already, something is wrong */
-  g_return_if_fail (!g_hash_table_contains (self->apps, startup_id));
-
-  state = phosh_app_state_new (info, startup_id, pid, PHOSH_APP_TRACKER_STATE_FLAG_LAUNCHED);
-  g_hash_table_insert (self->apps, g_steal_pointer (&startup_id), state);
-
-  g_debug ("Launched app '%s' with Startup id: '%s'",
+  g_debug ("Launched app '%s' with startup id: '%s'",
            g_app_info_get_name (G_APP_INFO (info)),
-           state->startup_id);
+           startup_id);
+
+  state = update_app_state (self, startup_id, PHOSH_APP_TRACKER_STATE_FLAG_LAUNCHED, pid);
+  if (!state)
+    goto out;
 
   g_signal_emit (self, signals[APP_LAUNCHED],
-                 g_quark_from_static_string ("spawn"),
+                 g_quark_from_static_string ("self"),
                  info,
                  state->startup_id);
  out:
   g_object_unref (context);
 }
-
 
 static void
 on_app_launch_failed (PhoshAppTracker   *self,
@@ -320,7 +371,7 @@ on_dbus_app_launched (GDBusConnection *connection,
   if (g_hash_table_contains (self->apps, startup_id)) {
     /* App already known, likely launched by us */
     g_debug ("'%s' (%s) already known", startup_id, desktop_file);
-    update_app_state (self, startup_id, PHOSH_APP_TRACKER_STATE_FLAG_DBUS_LAUNCH);
+    update_app_state (self, startup_id, PHOSH_APP_TRACKER_STATE_FLAG_DBUS_LAUNCH, 0);
   } else {
     GDesktopAppInfo *info;
     PhoshAppState *state;
@@ -335,6 +386,13 @@ on_dbus_app_launched (GDBusConnection *connection,
     g_debug ("DBus launch %s startup-id %s", desktop_file, startup_id);
     state = phosh_app_state_new (info, startup_id, pid, PHOSH_APP_TRACKER_STATE_FLAG_DBUS_LAUNCH);
     g_hash_table_insert (self->apps, g_steal_pointer (&startup_id), state);
+
+    /* There's no "Launch-started" on DBus. We fake it here so upper layers don't
+       need to worry about the defails */
+    g_signal_emit (self, signals[APP_LAUNCH_STARTED],
+                   g_quark_from_static_string ("gio-dbus"),
+                   info,
+                   state->startup_id);
 
     g_signal_emit (self, signals[APP_LAUNCHED],
                    g_quark_from_static_string ("gio-dbus"),
@@ -414,9 +472,31 @@ phosh_app_tracker_class_init (PhoshAppTrackerClass *klass)
   object_class->finalize = phosh_app_tracker_finalize;
 
   /**
+   * PhoshAppTracker:app-launch-started
+   *
+   * The app is about to be launched by the shell.or external process. This
+   * is guaranteed to be followed by at least one PhoshAppTracker:app-launched or
+   * PhoshAppTracker:app-failed signal.
+   */
+  signals[APP_LAUNCH_STARTED] = g_signal_new ("app-launch-started",
+                                              G_TYPE_FROM_CLASS (klass),
+                                              G_SIGNAL_RUN_LAST | G_SIGNAL_DETAILED,
+                                              0, NULL, NULL,
+                                              _phosh_marshal_VOID__OBJECT_STRING,
+                                              G_TYPE_NONE,
+                                              2,
+                                              G_TYPE_APP_INFO,
+                                              G_TYPE_STRING);
+  g_signal_set_va_marshaller (signals[APP_LAUNCH_STARTED],
+                              G_TYPE_FROM_CLASS (klass),
+                              _phosh_marshal_VOID__OBJECT_STRINGv);
+
+
+  /**
    * PhoshAppTracker:app-launched
    *
-   * The app was launched by the shell.
+   * The app got spawned or DBus activated. This is guaranteed to be followed
+   * by a PhoshAppTracker:app-ready or PhoshAppTracker:app-failed signal.
    */
   signals[APP_LAUNCHED] = g_signal_new ("app-launched",
                                         G_TYPE_FROM_CLASS (klass),
@@ -447,11 +527,10 @@ phosh_app_tracker_class_init (PhoshAppTrackerClass *klass)
   g_signal_set_va_marshaller (signals[APP_READY],
                               G_TYPE_FROM_CLASS (klass),
                               _phosh_marshal_VOID__OBJECT_STRINGv);
-
   /**
    * PhoshAppTracker:app-failed
    *
-   * The app failed to launch
+   * The app failed to launch.
    */
   signals[APP_FAILED] = g_signal_new ("app-failed",
                                       G_TYPE_FROM_CLASS (klass),
@@ -468,7 +547,7 @@ phosh_app_tracker_class_init (PhoshAppTrackerClass *klass)
   /**
    * PhoshAppTracker:app-activated
    *
-   * Already running app was activated
+   * An already running app was activated.
    */
   signals[APP_ACTIVATED] = g_signal_new ("app-activated",
                                          G_TYPE_FROM_CLASS (klass),
@@ -542,6 +621,13 @@ phosh_app_tracker_launch_app_info (PhoshAppTracker *self, GAppInfo *info)
 
   context = gdk_display_get_app_launch_context (gdk_display_get_default ());
   g_object_ref (context);
+
+  if (glib_check_version (2, 71, 0) == NULL) {
+    g_signal_connect_swapped (G_APP_LAUNCH_CONTEXT (context),
+                              "launch-started",
+                              G_CALLBACK (on_app_launch_started),
+                              self);
+  }
   g_signal_connect_swapped (G_APP_LAUNCH_CONTEXT (context),
                             "launched",
                             G_CALLBACK (on_app_launched),
