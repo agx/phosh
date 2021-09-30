@@ -44,7 +44,7 @@ phosh_fix_app_id (const char *app_id)
  * @app_id: the app_id
  *
  * Munges an app_id according to the rules used by
- * gnome-shell, feedbackd and phoc:
+ * gnome-shell, feedbackd and phoc for gsettings:
  *
  * Returns: The munged_app id
  */
@@ -71,6 +71,28 @@ phosh_munge_app_id (const char *app_id)
 
   return id;
 }
+
+
+/**
+ * phosh_strip_suffix_from_app_id:
+ * @app_id: the app_id
+ *
+ * Strip the desktop suffix from app_id.
+ *
+ * Returns: (transfer full): The munged_app id
+ */
+char *
+phosh_strip_suffix_from_app_id (const char *app_id)
+{
+  char *new_id = g_strdup (app_id);
+  
+  if (new_id && g_str_has_suffix (app_id, ".desktop")) {
+    *(new_id + strlen (new_id) - 8 /* strlen (".desktop") */) = '\0';
+  }
+
+  return new_id;
+}
+
 
 gboolean
 phosh_find_systemd_session (char **session_id)

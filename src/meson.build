@@ -37,8 +37,14 @@ phosh_settings_sources = files(
   phosh_settings_widgets_sources,
 ]
 
+phosh_marshalers = gnome.genmarshal('phosh-marshalers',
+  sources : 'phosh-marshalers.list',
+  prefix : '_phosh_marshal',
+  valist_marshallers : true)
+
 libphosh_generated_sources = [
   phosh_enums,
+  phosh_marshalers,
   phosh_resources,
   wl_proto_sources,
   generated_dbus_sources,
@@ -105,6 +111,10 @@ libphosh_tool_sources = files(
   'osd-window.h',
   'status-icon.c',
   'status-icon.h',
+  'splash.c',
+  'splash.h',
+  'splash-manager.c',
+  'splash-manager.h',
   'system-modal.c',
   'system-modal.h',
   'system-modal-dialog.c',
@@ -133,6 +143,8 @@ libphosh_sources = files(
   'app-auth-prompt.h',
   'arrow.c',
   'arrow.h',
+  'app-tracker.h',
+  'app-tracker.c',
   'auth.c',
   'auth.h',
   'background-manager.c',

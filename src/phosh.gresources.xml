@@ -18,6 +18,7 @@
     <file preprocess="xml-stripblanks">ui/osd-window.ui</file>
     <file preprocess="xml-stripblanks">ui/settings-menu.ui</file>
     <file preprocess="xml-stripblanks">ui/system-modal-dialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/splash.ui</file>
     <file preprocess="xml-stripblanks">ui/system-prompt.ui</file>
     <file preprocess="xml-stripblanks">ui/top-panel.ui</file>
     <file preprocess="xml-stripblanks">ui/quick-setting.ui</file>

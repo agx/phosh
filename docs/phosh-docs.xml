@@ -43,6 +43,7 @@
       <xi:include href="xml/app-grid-button.xml"/>
       <xi:include href="xml/app-grid.xml"/>
       <xi:include href="xml/app-list-model.xml"/>
+      <xi:include href="xml/app-tracker.xml"/>
       <xi:include href="xml/arrow.xml"/>
       <xi:include href="xml/auth.xml"/>
       <xi:include href="xml/background-manager.xml"/>
@@ -113,6 +114,8 @@
       <xi:include href="xml/shell-network-agent.xml"/>
       <xi:include href="xml/shell.xml"/>
       <xi:include href="xml/status-icon.xml"/>
+      <xi:include href="xml/splash.xml"/>
+      <xi:include href="xml/splash-manager.xml"/>
       <xi:include href="xml/swipe-away-bin.xml"/>
       <xi:include href="xml/system-modal.xml"/>
       <xi:include href="xml/system-modal-dialog.xml"/>

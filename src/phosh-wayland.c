@@ -38,6 +38,7 @@ struct _PhoshWayland {
   struct gamma_control_manager *gamma_control_manager;
   struct org_kde_kwin_idle *idle_manager;
   struct phosh_private *phosh_private;
+  uint32_t phosh_private_version;
   struct zwp_virtual_keyboard_manager_v1 *zwp_virtual_keyboard_manager_v1;
   struct wl_display *display;
   struct wl_registry *registry;
@@ -73,7 +74,8 @@ registry_handle_global (void *data,
       registry,
       name,
       &phosh_private_interface,
-      MIN(5, version));
+      MIN(6, version));
+    self->phosh_private_version = version;
   } else if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
     self->layer_shell = wl_registry_bind (
       registry,
@@ -405,6 +407,15 @@ phosh_wayland_get_phosh_private (PhoshWayland *self)
   g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
 
   return self->phosh_private;
+}
+
+
+uint32_t
+phosh_wayland_get_phosh_private_version (PhoshWayland *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WAYLAND (self), 0);
+
+  return self->phosh_private_version;
 }
 
 

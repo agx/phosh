@@ -43,6 +43,11 @@ typedef enum {
   PHOSH_WAYLAND_SEAT_CAPABILITY_TOUCH    = (1 << 2),
 } PhoshWaylandSeatCapabilities;
 
+/* Versions of phosh-private protocol that add certain features */
+#define PHOSH_PRIVATE_GET_THUMBNAIL_SINCE  4
+#define PHOSH_PRIVATE_KBD_EVENTS_SINCE     5
+#define PHOSH_PRIVATE_STARTUP_NOTIFY_SINCE 6
+
 #define PHOSH_TYPE_WAYLAND phosh_wayland_get_type()
 
 G_DECLARE_FINAL_TYPE (PhoshWayland, phosh_wayland, PHOSH, WAYLAND, GObject)
@@ -54,6 +59,7 @@ gboolean                              phosh_wayland_has_wl_output  (PhoshWayland
 struct gamma_control_manager         *phosh_wayland_get_gamma_control_manager (PhoshWayland *self);
 struct org_kde_kwin_idle             *phosh_wayland_get_org_kde_kwin_idle (PhoshWayland *self);
 struct phosh_private                 *phosh_wayland_get_phosh_private (PhoshWayland *self);
+uint32_t                              phosh_wayland_get_phosh_private_version (PhoshWayland *self);
 struct wl_seat                       *phosh_wayland_get_wl_seat (PhoshWayland *self);
 struct wl_shm                        *phosh_wayland_get_wl_shm (PhoshWayland *self);
 struct xdg_wm_base                   *phosh_wayland_get_xdg_wm_base (PhoshWayland *self);

@@ -61,6 +61,12 @@ phosh_shell_get_locked (PhoshShell *self)
   return FALSE;
 }
 
+PhoshAppTracker *
+phosh_shell_get_app_tracker (PhoshShell *self)
+{
+  return NULL;
+}
+
 PhoshLockscreenManager *
 phosh_shell_get_lockscreen_manager (PhoshShell *self)
 {

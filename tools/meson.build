@@ -5,6 +5,7 @@ configure_file(
 
 stubs = [
   '../tests/stubs/phosh.c',
+  '../tests/stubs/app-tracker.c',
   '../tests/stubs/lockscreen-manager.c',
   '../tests/stubs/toplevel.c',
   '../tests/stubs/toplevel-manager.c',

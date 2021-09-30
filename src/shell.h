@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "app-tracker.h"
 #include "background-manager.h"
 #include "bt-manager.h"
 #include "calls-manager.h"
@@ -28,6 +29,8 @@
 #include "wwan/phosh-wwan-iface.h"
 
 #include <gtk/gtk.h>
+
+G_BEGIN_DECLS
 
 /**
  * PhoshShellStateFlags:
@@ -50,7 +53,19 @@ typedef enum {
   PHOSH_STATE_OVERVIEW            = 1 << 4,
 } PhoshShellStateFlags;
 
-G_BEGIN_DECLS
+
+/**
+ * PhoshShellDebugFlags
+ * @PHOSH_SHELL_DEBUG_FLAG_NONE: No debug flags
+ * @PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH: always use splash (even when docked)
+
+ * These flags are to enable/disable debugging features.
+ */
+typedef enum {
+  PHOSH_SHELL_DEBUG_FLAG_NONE          = 0,
+  PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH = 1 << 1,
+} PhoshShellDebugFlags;
+
 
 #define PHOSH_APP_ID "sm.puri.Phosh"
 
@@ -74,6 +89,7 @@ PhoshMonitor        *phosh_shell_get_primary_monitor (PhoshShell *self);
 PhoshMonitor        *phosh_shell_get_builtin_monitor (PhoshShell *self);
 
 /* Created by the shell on startup */
+PhoshAppTracker        *phosh_shell_get_app_tracker        (PhoshShell *self);
 PhoshBackgroundManager *phosh_shell_get_background_manager (PhoshShell *self);
 PhoshCallsManager      *phosh_shell_get_calls_manager (PhoshShell *self);
 PhoshFeedbackManager   *phosh_shell_get_feedback_manager   (PhoshShell *self);
@@ -108,5 +124,6 @@ gboolean             phosh_shell_is_session_active (PhoshShell *self);
 GdkAppLaunchContext *phosh_shell_get_app_launch_context (PhoshShell *self);
 PhoshShellStateFlags phosh_shell_get_state (PhoshShell *self);
 void                 phosh_shell_set_state (PhoshShell *self, PhoshShellStateFlags state, gboolean enabled);
-
+PhoshShellDebugFlags phosh_shell_get_debug_flags (PhoshShell *self);
+gboolean             phosh_shell_get_show_splash (PhoshShell *self);
 G_END_DECLS

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <template class="PhoshSplash" parent="PhoshLayerSurface">
+    <child>
+      <object class="GtkBox" id="box">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="homogeneous">True</property>
+        <child>
+          <object class="GtkImage" id="img_app">
+            <property name="visible">True</property>
+            <property name="stock">gtk-missing-image</property>
+            <property name="pixel-size">192</property>
+            <property name="valign">end</property>
+            <property name="vexpand">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSpinner">
+            <property name="visible">True</property>
+            <property name="active">True</property>
+            <property name="margin-top">80</property>
+            <property name="width-request">32</property>
+            <property name="height-request">32</property>
+            <property name="valign">start</property>
+            <property name="halign">center</property>
+            <property name="vexpand">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
