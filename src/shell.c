@@ -411,7 +411,7 @@ on_num_toplevels_changed (PhoshShell *self, GParamSpec *pspec, PhoshToplevelMana
 
 
 static void
-on_toplevel_added (PhoshShell *self, GParamSpec *pspec, PhoshToplevelManager *toplevel_manager)
+on_toplevel_added (PhoshShell *self, PhoshToplevel *unused, PhoshToplevelManager *toplevel_manager)
 {
   PhoshShellPrivate *priv;
 
