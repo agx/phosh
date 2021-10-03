@@ -24,6 +24,7 @@
                   <object class="GtkDrawingArea" id="preview">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="margin-bottom">32</property>
                     <signal name="draw" handler="draw_cb" object="PhoshActivity" swapped="true"/>
                   </object>
                   <packing>
@@ -40,29 +41,16 @@
                       <object class="GtkImage" id="icon">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="halign">start</property>
-                        <property name="pixel_size">32</property>
+                        <property name="halign">center</property>
+                        <property name="pixel_size">64</property>
                         <property name="icon_name">app-icon-unknown</property>
                         <property name="icon_size">6</property>
+                        <property name="tooltip-text" translatable="yes">A Button tooltip</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="app_name">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">start</property>
-                        <property name="ellipsize">end</property>
-                        <property name="single_line_mode">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
                       </packing>
                     </child>
                   </object>

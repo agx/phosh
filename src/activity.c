@@ -51,7 +51,6 @@ typedef struct
 {
   GtkWidget *swipe_bin;
   GtkWidget *icon;
-  GtkWidget *app_name;
   GtkWidget *box;
   GtkWidget *revealer;
 
@@ -555,7 +554,6 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/activity.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, swipe_bin);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, app_name);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, icon);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, box);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, revealer);
@@ -616,7 +614,6 @@ phosh_activity_set_title (PhoshActivity *self, const char *title)
 
   g_free (priv->title);
   priv->title = g_strdup (title);
-  gtk_label_set_label (GTK_LABEL (priv->app_name), priv->title);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TITLE]);
 }
 
