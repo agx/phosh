@@ -77,6 +77,8 @@ unit-test:native-debian-bullseye:
     when: always
     paths:
       - _build
+    reports:
+      junit: _build/meson-logs/testlog.junit.xml
   except:
     variables:
       - $PKG_ONLY == "1"
@@ -165,6 +167,8 @@ unit-test:native-alpinelinux-edge:
     when: always
     paths:
       - _build
+    reports:
+      junit: _build/meson-logs/testlog.junit.xml
   except:
     variables:
       - $PKG_ONLY == "1"
