@@ -39,7 +39,6 @@ static guint signals[N_SIGNALS] = { 0 };
 enum {
   PROP_0,
   PROP_APP_ID,
-  PROP_TITLE,
   PROP_MAXIMIZED,
   PROP_WIN_WIDTH,
   PROP_WIN_HEIGHT,
@@ -59,7 +58,6 @@ typedef struct
   int win_height;
 
   char *app_id;
-  char *title;
   GDesktopAppInfo *info;
 
   cairo_surface_t *surface;
@@ -93,9 +91,6 @@ phosh_activity_set_property (GObject *object,
       g_free (priv->app_id);
       priv->app_id = g_value_dup_string (value);
       g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_ID]);
-      break;
-    case PROP_TITLE:
-      phosh_activity_set_title (self, g_value_get_string (value));
       break;
     case PROP_MAXIMIZED:
       priv->maximized = g_value_get_boolean (value);
@@ -135,9 +130,6 @@ phosh_activity_get_property (GObject *object,
   switch (property_id) {
     case PROP_APP_ID:
       g_value_set_string (value, priv->app_id);
-      break;
-    case PROP_TITLE:
-      g_value_set_string (value, priv->title);
       break;
     case PROP_MAXIMIZED:
       g_value_set_boolean (value, priv->maximized);
@@ -314,7 +306,6 @@ phosh_activity_finalize (GObject *object)
   PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
 
   g_free (priv->app_id);
-  g_free (priv->title);
 
   G_OBJECT_CLASS (phosh_activity_parent_class)->finalize (object);
 }
@@ -502,15 +493,6 @@ phosh_activity_class_init (PhoshActivityClass *klass)
       G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
       G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
-  props[PROP_TITLE] =
-    g_param_spec_string (
-      "title",
-      "title",
-      "The window's title",
-      "",
-      G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
-      G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
-
   props[PROP_MAXIMIZED] =
     g_param_spec_boolean (
       "maximized",
@@ -579,12 +561,10 @@ phosh_activity_init (PhoshActivity *self)
 
 
 GtkWidget *
-phosh_activity_new (const char *app_id,
-                    const char *title)
+phosh_activity_new (const char *app_id)
 {
   return g_object_new (PHOSH_TYPE_ACTIVITY,
                        "app-id", app_id,
-                       "title", title,
                        NULL);
 }
 
@@ -599,36 +579,6 @@ phosh_activity_get_app_id (PhoshActivity *self)
 
   return priv->app_id;
 }
-
-
-void
-phosh_activity_set_title (PhoshActivity *self, const char *title)
-{
-  PhoshActivityPrivate *priv;
-
-  g_return_if_fail (PHOSH_IS_ACTIVITY (self));
-  priv = phosh_activity_get_instance_private (self);
-
-  if (!g_strcmp0 (priv->title, title))
-    return;
-
-  g_free (priv->title);
-  priv->title = g_strdup (title);
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TITLE]);
-}
-
-
-const char *
-phosh_activity_get_title (PhoshActivity *self)
-{
-  PhoshActivityPrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_ACTIVITY (self), NULL);
-  priv = phosh_activity_get_instance_private (self);
-
-  return priv->title;
-}
-
 
 void
 phosh_activity_set_thumbnail (PhoshActivity *self, PhoshThumbnail *thumbnail)
