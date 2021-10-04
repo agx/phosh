@@ -12,6 +12,7 @@
 
 #include "mpris-dbus.h"
 #include "media-player.h"
+#include "util.h"
 
 #include <glib/gi18n.h>
 
@@ -72,6 +73,7 @@ typedef struct _PhoshMediaPlayer {
   GtkWidget                        *lbl_title;
   GtkWidget                        *lbl_artist;
 
+  GCancellable                     *cancel;
   /* Base interface to raise player */
   PhoshMprisDBusMediaPlayer2       *mpris;
   /* Actual player controls */
@@ -125,6 +127,8 @@ set_playable (PhoshMediaPlayer *self, gboolean playable)
 static void
 set_attached (PhoshMediaPlayer *self, gboolean attached)
 {
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
+
   if (self->attached == attached)
     return;
 
@@ -142,12 +146,10 @@ on_play_pause_done (PhoshMprisDBusMediaPlayer2Player *player,
 {
   g_autoptr (GError) err = NULL;
 
-  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
   g_return_if_fail (PHOSH_MPRIS_DBUS_IS_MEDIA_PLAYER2_PLAYER (player));
 
-  if (!phosh_mpris_dbus_media_player2_player_call_play_pause_finish (player, res, &err)) {
-    g_warning ("Failed to trigger play/pause: %s", err->message);
-  }
+  if (!phosh_mpris_dbus_media_player2_player_call_play_pause_finish (player, res, &err))
+    phosh_async_error_warn (err, "Failed to trigger play/pause");
 }
 
 
@@ -159,7 +161,7 @@ btn_play_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
 
   g_debug ("Play/pause");
   phosh_mpris_dbus_media_player2_player_call_play_pause (self->player,
-                                                         NULL,
+                                                         self->cancel,
                                                          (GAsyncReadyCallback)on_play_pause_done,
                                                          self);
 }
@@ -170,11 +172,10 @@ on_next_done (PhoshMprisDBusMediaPlayer2Player *player, GAsyncResult *res, Phosh
 {
   g_autoptr (GError) err = NULL;
 
-  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
   g_return_if_fail (PHOSH_MPRIS_DBUS_IS_MEDIA_PLAYER2_PLAYER (player));
 
   if (!phosh_mpris_dbus_media_player2_player_call_next_finish (player, res, &err))
-    g_warning ("Failed to trigger next: %s", err->message);
+    phosh_async_error_warn (err, "Failed to trigger next");
 }
 
 
@@ -186,7 +187,7 @@ btn_next_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
 
   g_debug ("next");
   phosh_mpris_dbus_media_player2_player_call_next (self->player,
-                                                   NULL,
+                                                   self->cancel,
                                                    (GAsyncReadyCallback)on_next_done,
                                                    self);
 }
@@ -197,11 +198,10 @@ on_previous_done (PhoshMprisDBusMediaPlayer2Player *player, GAsyncResult *res, P
 {
   g_autoptr (GError) err = NULL;
 
-  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
   g_return_if_fail (PHOSH_MPRIS_DBUS_IS_MEDIA_PLAYER2_PLAYER (player));
 
   if (!phosh_mpris_dbus_media_player2_player_call_previous_finish (player, res, &err))
-    g_warning ("Failed to trigger prev: %s", err->message);
+    phosh_async_error_warn (err, "Failed to trigger prev");
 }
 
 
@@ -213,7 +213,7 @@ btn_prev_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
 
   g_debug ("prev");
   phosh_mpris_dbus_media_player2_player_call_previous (self->player,
-                                                       NULL,
+                                                       self->cancel,
                                                        (GAsyncReadyCallback)on_previous_done,
                                                        self);
 }
@@ -224,11 +224,10 @@ on_raise_done (PhoshMprisDBusMediaPlayer2 *mpris, GAsyncResult *res, PhoshMediaP
 {
   g_autoptr (GError) err = NULL;
 
-  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
   g_return_if_fail (PHOSH_MPRIS_DBUS_IS_MEDIA_PLAYER2 (mpris));
 
   if (!phosh_mpris_dbus_media_player2_call_raise_finish (mpris, res, &err)) {
-    g_warning ("Failed to raise player: %s", err->message);
+    phosh_async_error_warn (err, "Failed to raise player");
     return;
   }
 
@@ -248,7 +247,7 @@ btn_details_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
     return;
 
   phosh_mpris_dbus_media_player2_call_raise (self->mpris,
-                                             NULL,
+                                             self->cancel,
                                              (GAsyncReadyCallback)on_raise_done,
                                              self);
 }
@@ -391,6 +390,7 @@ phosh_media_player_dispose (GObject *object)
 {
   PhoshMediaPlayer *self = PHOSH_MEDIA_PLAYER (object);
 
+  g_cancellable_cancel (self->cancel);
   g_clear_handle_id (&self->idle_id, g_source_remove);
 
   if (self->dbus_id) {
@@ -479,18 +479,21 @@ attach_player_cb (GObject          *source_object,
                   GAsyncResult     *res,
                   PhoshMediaPlayer *self)
 {
+  PhoshMprisDBusMediaPlayer2Player *player;
   g_autoptr (GError) err = NULL;
 
   g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
 
-  self->player = phosh_mpris_dbus_media_player2_player_proxy_new_for_bus_finish (
-    res, &err);
+  player = phosh_mpris_dbus_media_player2_player_proxy_new_for_bus_finish (res, &err);
+  if (player == NULL) {
+    if (g_error_matches (err, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+      return;
 
-  if (!self->player) {
-    g_warning ("Failed to get player: %s", err->message);
+    phosh_async_error_warn (err, "Failed to get player");
     set_attached (self, FALSE);
-    goto out;
+    return;
   }
+  self->player = player;
 
   g_object_connect (self->player,
                     "swapped_object_signal::notify::metadata",
@@ -518,8 +521,6 @@ attach_player_cb (GObject          *source_object,
 
   g_debug ("Connected player");
   set_attached (self, TRUE);
-out:
-  g_object_unref (self);
 }
 
 
@@ -528,22 +529,22 @@ attach_mpris_cb (GObject          *source_object,
                  GAsyncResult     *res,
                  PhoshMediaPlayer *self)
 {
+  PhoshMprisDBusMediaPlayer2 *mpris;
   g_autoptr (GError) err = NULL;
   gboolean sensitive;
 
-  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
-
-  self->mpris = phosh_mpris_dbus_media_player2_proxy_new_for_bus_finish (
-    res, &err);
-
+  mpris = phosh_mpris_dbus_media_player2_proxy_new_for_bus_finish (res, &err);
   /* Missing mpris interface is not fatal */
-  if (!self->mpris)
-    g_warning ("no mpris: %s", err->message);
+  if (mpris == NULL) {
+    phosh_async_error_warn (err, "Failed to get player");
+    return;
+  }
+
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
+  self->mpris = mpris;
 
   sensitive = phosh_mpris_dbus_media_player2_get_can_raise (self->mpris);
   gtk_widget_set_sensitive (self->btn_details, sensitive);
-
-  g_object_unref (self);
 }
 
 
@@ -563,9 +564,9 @@ attach_player (PhoshMediaPlayer *self, const char *name)
     G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START,
     name,
     MPRIS_OBJECT_PATH,
-    NULL,
+    self->cancel,
     (GAsyncReadyCallback)attach_player_cb,
-    g_object_ref (self));
+    self);
 
   /* The player base interface to e.g. raise the player */
   phosh_mpris_dbus_media_player2_proxy_new_for_bus (
@@ -573,9 +574,9 @@ attach_player (PhoshMediaPlayer *self, const char *name)
     G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START,
     name,
     MPRIS_OBJECT_PATH,
-    NULL,
+    self->cancel,
     (GAsyncReadyCallback)attach_mpris_cb,
-    g_object_ref (self));
+    self);
 }
 
 
@@ -604,16 +605,17 @@ find_player_cb (GObject          *source_object,
   GVariantIter iter;
   gboolean found = FALSE;
 
+  result = g_dbus_connection_call_finish (G_DBUS_CONNECTION (source_object), res, &err);
+  if (!result) {
+    if (g_error_matches (err, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+      return;
+
+    phosh_async_error_warn (err, "Failed to list bus names to find mpris player");
+    set_attached (self, FALSE);
+    return;
+  }
   g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
   g_return_if_fail (G_IS_DBUS_CONNECTION (self->session_bus));
-
-  result = g_dbus_connection_call_finish (self->session_bus, res, &err);
-  if (!result) {
-    g_warning ("Failed to list bus names to find "
-               "mpris player: %s", err->message);
-    set_attached (self, FALSE);
-    goto out;
-  }
 
   names = g_variant_get_child_value (result, 0);
   g_variant_iter_init (&iter, names);
@@ -632,8 +634,6 @@ find_player_cb (GObject          *source_object,
     g_debug ("No player found");
     set_attached (self, FALSE);
   }
-out:
-  g_object_unref (self);
 }
 
 
@@ -651,9 +651,9 @@ find_player_async (PhoshMediaPlayer *self)
                           G_VARIANT_TYPE ("(as)"),
                           G_DBUS_CALL_FLAGS_NO_AUTO_START,
                           1000,
-                          NULL,
+                          self->cancel,
                           (GAsyncReadyCallback)find_player_cb,
-                          g_object_ref (self));
+                          self);
 }
 
 
@@ -699,11 +699,13 @@ on_bus_get_finished (GObject          *source_object,
 
   self->session_bus = g_bus_get_finish (res, &err);
   if (!self->session_bus) {
-    g_warning ("Failed to attach to session bus: %s", err->message);
-    goto out;
+    phosh_async_error_warn (err, "Failed to attach to session bus");
+    return;
   }
 
   /* Listen for name owner changes to detect new mpris players */
+  /* We don't need to hold a ref since the callback won't be invoked after unsubscribe
+   * from the same thread */
   self->dbus_id = g_dbus_connection_signal_subscribe (self->session_bus,
                                                       "org.freedesktop.DBus",
                                                       "org.freedesktop.DBus",
@@ -715,9 +717,6 @@ on_bus_get_finished (GObject          *source_object,
                                                       self, NULL);
   /* Find player initially */
   find_player_async (self);
-
-out:
-  g_object_unref (self);
 }
 
 
@@ -725,9 +724,9 @@ static gboolean
 on_idle (PhoshMediaPlayer *self)
 {
   g_bus_get (G_BUS_TYPE_SESSION,
-             NULL,
+             self->cancel,
              (GAsyncReadyCallback)on_bus_get_finished,
-             g_object_ref (self));
+             self);
 
   self->idle_id = 0;
   return G_SOURCE_REMOVE;
@@ -739,6 +738,7 @@ phosh_media_player_init (PhoshMediaPlayer *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
 
+  self->cancel = g_cancellable_new ();
   /* Perform DBus setup when idle */
   self->idle_id = g_idle_add ((GSourceFunc)on_idle, self);
 }
