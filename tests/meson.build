@@ -90,16 +90,13 @@ tests_phoc = [
 ]
 
 tests_manager = [
+  'calls-manager',
   'gtk-mount-manager',
   'idle-manager',
   'monitor-manager',
   'notify-manager',
   'screenshot-manager',
 ]
-
-if get_option('g_tests')
-  tests_manager += ['calls-manager']
-endif
 
 # Unit tests
 foreach test : tests

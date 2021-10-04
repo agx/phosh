@@ -20,7 +20,7 @@ variables:
 .bullseye_vars: &bullseye_vars
   variables:
     DIST: bullseye
-    BUILD_OPTS: -Dphoc_tests=enabled -Dg_tests=true ${COMMON_BUILD_OPTS}
+    BUILD_OPTS: -Dphoc_tests=enabled ${COMMON_BUILD_OPTS}
 
 .build_step: &build_step
   script:

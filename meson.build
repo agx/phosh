@@ -94,11 +94,7 @@ configure_file(
 gnome = import('gnome')
 i18n  = import('i18n')
 
-if get_option('g_tests')
-  glib_ver = '>= 2.69'
-else
-  glib_ver = '>= 2.62'
-endif
+glib_ver = '>= 2.62'
 
 gcr_dep = dependency('gcr-3', version: '>= 3.7.5')
 glib_dep = dependency('glib-2.0',
