@@ -109,7 +109,9 @@ foreach test : tests
                  pie: true,
                  link_args: test_link_args,
                  dependencies: testlib_dep)
-  test(test, t, env: test_env)
+  test(test, t,
+       env: test_env,
+       suite: ['unit'])
 endforeach
 
 if run_phoc_tests
@@ -125,7 +127,9 @@ if run_phoc_tests
                    pie: true,
                    link_args: test_link_args,
                    dependencies: testlib_dep)
-    test(test, t, env: test_env_phoc)
+    test(test, t,
+         suite: ['unit', 'phoc'],
+	 env: test_env_phoc)
   endforeach
 
   # Integration tests using the full libphosh
@@ -135,7 +139,10 @@ if run_phoc_tests
                  pie: true,
                  link_args: test_link_args,
                  dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
-  test('shell', t, env: test_env_phoc, is_parallel : false)
+  test('shell', t,
+       env: test_env_phoc,
+       suite: ['integration'],
+       is_parallel : false)
   foreach test : tests_manager
     t = executable('test-@0@'.format(test),
 		   ['test-@0@.c'.format(test), generated_dbus_sources],
@@ -143,7 +150,10 @@ if run_phoc_tests
                    pie: true,
                    link_args: test_link_args,
 		   dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
-    test(test, t, env: test_env_phoc, is_parallel : false)
+    test(test, t,
+	 env: test_env_phoc,
+         suite: ['integration'],
+	 is_parallel : false)
   endforeach
 
 endif
