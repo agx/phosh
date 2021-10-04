@@ -6,6 +6,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
    && eatmydata apt-get -y update \
    && cd /home/user/app \
    && eatmydata apt-get --no-install-recommends -y build-dep . \
-   && eatmydata apt-get --no-install-recommends -y install build-essential git wget gcovr \
+   && eatmydata apt-get --no-install-recommends -y install build-essential git wget gcovr locales \
    && eatmydata apt-get clean \
    && eatmydata dpkg --force-depends --remove lcov

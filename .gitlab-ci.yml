@@ -68,6 +68,14 @@ build:cross-debian-bullseye:i386:
 unit-test:native-debian-bookworm:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
+  before_script:
+     - export DEBIAN_FRONTEND=noninteractive
+     - |
+       echo 'ar_AE.UTF-8 UTF-8
+       de_DE.UTF-8 UTF-8
+       en_US.UTF-8 UTF-8
+       ' > /etc/locale.gen
+     - dpkg-reconfigure locales
   needs:
     - build:native-debian-bookworm
   <<: *bookworm_vars
