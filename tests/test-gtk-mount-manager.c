@@ -178,7 +178,7 @@ test_phosh_gtk_mount_manager_ask_password (Fixture *fixture, gconstpointer unuse
   g_assert_nonnull (g_async_queue_timeout_pop (fixture->queue, POP_TIMEOUT));
 
   proxy = phosh_dbus_mount_operation_handler_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                                     G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
+                                                                     G_DBUS_PROXY_FLAGS_NONE,
                                                                      BUS_NAME,
                                                                      OBJECT_PATH,
                                                                      NULL,
@@ -278,7 +278,7 @@ test_phosh_gtk_mount_manager_ask_question (Fixture *fixture, gconstpointer unuse
   g_assert_nonnull (g_async_queue_timeout_pop (fixture->queue, POP_TIMEOUT));
 
   proxy = phosh_dbus_mount_operation_handler_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                                     G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
+                                                                     G_DBUS_PROXY_FLAGS_NONE,
                                                                      BUS_NAME,
                                                                      OBJECT_PATH,
                                                                      NULL,
@@ -353,7 +353,7 @@ test_phosh_gtk_mount_manager_show_processes (Fixture *fixture, gconstpointer unu
   g_assert_nonnull (g_async_queue_timeout_pop (fixture->queue, POP_TIMEOUT));
 
   proxy = phosh_dbus_mount_operation_handler_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                                     G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
+                                                                     G_DBUS_PROXY_FLAGS_NONE,
                                                                      BUS_NAME,
                                                                      OBJECT_PATH,
                                                                      NULL,
