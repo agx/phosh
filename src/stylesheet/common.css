@@ -89,10 +89,6 @@ phosh-activity box button {
   background-size: cover;
 }
 
-phosh-activity box {
-  padding: 6px;
-}
-
 phosh-home, phosh-top-panel {
   background: @phosh_bg_color;
   color: @phosh_fg_color;
