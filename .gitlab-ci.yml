@@ -8,7 +8,7 @@ stages:
  - deploy
 
 variables:
-  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20210803
+  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20211005
   DEBIAN_CROSS_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian-cross:v0.0.20210803
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
@@ -17,9 +17,9 @@ variables:
                     meson musl-dev networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
                     upower-dev wayland-dev wayland-protocols ttf-dejavu
 
-.bullseye_vars: &bullseye_vars
+.bookworm_vars: &bookworm_vars
   variables:
-    DIST: bullseye
+    DIST: bookworm
     BUILD_OPTS: -Dphoc_tests=enabled ${COMMON_BUILD_OPTS}
 
 .build_step: &build_step
@@ -35,10 +35,10 @@ variables:
     - ${XVFB_RUN} meson test -C _build
     - ninja -C _build coverage
 
-build:native-debian-bullseye:
+build:native-debian-bookworm:
   stage: build
   image: ${DEBIAN_IMAGE}
-  <<: *bullseye_vars
+  <<: *bookworm_vars
   <<: *build_step
   artifacts:
     paths:
@@ -65,12 +65,12 @@ build:cross-debian-bullseye:i386:
     variables:
       - $PKG_ONLY == "1"
 
-unit-test:native-debian-bullseye:
+unit-test:native-debian-bookworm:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
   needs:
-    - build:native-debian-bullseye
-  <<: *bullseye_vars
+    - build:native-debian-bookworm
+  <<: *bookworm_vars
   <<: *test_step
   coverage: '/^lines:\s+([\d.]+\%)\s+/'
   artifacts:
@@ -87,7 +87,7 @@ build-gtkdoc:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
   variables:
-    DIST: bullseye
+    DIST: bookworm
     BUILD_OPTS: -Dgtk_doc=true ${COMMON_BUILD_OPTS}
   script:
     - git clean -dfx
@@ -106,13 +106,13 @@ build-gtkdoc:
 check-po:
   stage: test+docs
   needs:
-    - build:native-debian-bullseye
+    - build:native-debian-bookworm
   image: ${DEBIAN_IMAGE}
   before_script:
     - eatmydata apt-get -y -f install
     - eatmydata apt-get -y update
     - eatmydata apt-get -y install intltool gettext
-  <<: *bullseye_vars
+  <<: *bookworm_vars
   script:
     - tools/check-po
   except:
@@ -122,9 +122,9 @@ check-po:
 check-license-headers:
   stage: test+docs
   needs:
-    - build:native-debian-bullseye
+    - build:native-debian-bookworm
   image: ${DEBIAN_IMAGE}
-  <<: *bullseye_vars
+  <<: *bookworm_vars
   script:
     # Checks .c and .h files begin with a license header as
     # defined in HACKING.md
