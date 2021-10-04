@@ -30,6 +30,7 @@ test_env_unit.prepend('XDG_DATA_DIRS', '@0@/system/share/'.format(meson.current_
 test_cflags = [
   '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
   '-DTEST_OUTPUT_DIR="@0@"'.format(meson.current_build_dir()),
+  '-DTEST_PHOC_INI="@0@/data/phoc.ini"'.format(meson.source_root()),
 ]
 
 test_link_args = [

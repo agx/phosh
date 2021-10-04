@@ -175,6 +175,8 @@ phosh_test_compositor_new (void)
 
   argv = g_ptr_array_new ();
   g_ptr_array_add (argv, (char*)comp);
+  g_ptr_array_add (argv, "-C");
+  g_ptr_array_add (argv, TEST_PHOC_INI);
   g_ptr_array_add (argv, NULL);
 
   g_setenv ("WLR_BACKENDS", "headless", TRUE);
