@@ -5,6 +5,8 @@ if get_option('tests')
 subdir('system')
 subdir('user')
 
+screenshot_langs = ['de_DE.UTF-8', 'ar_AE.UTF-8']
+
 phoc = find_program('phoc', required: get_option('phoc_tests'), disabler: true)
 run_phoc_tests =  phoc.found() and not get_option('phoc_tests').disabled()
 
@@ -31,6 +33,10 @@ test_cflags = [
   '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
   '-DTEST_OUTPUT_DIR="@0@"'.format(meson.current_build_dir()),
   '-DTEST_PHOC_INI="@0@/data/phoc.ini"'.format(meson.source_root()),
+  # Some tests want an installed tree (e.g. for .mo, this is where it should
+  # be located:
+  '-DTEST_INSTALLED="@0@/install"'.format(meson.build_root()),
+  '-DTEST_TOOLS="@0@/tools"'.format(meson.build_root()),
 ]
 
 test_link_args = [
@@ -155,6 +161,23 @@ if run_phoc_tests
 	 env: test_env_phoc,
          suite: ['integration'],
 	 is_parallel : parallel)
+  endforeach
+
+  # Tests for manual validation
+  t = executable('test-take-screenshots',
+		   ['test-take-screenshots.c', generated_dbus_sources],
+                   c_args: test_cflags,
+                   pie: true,
+                   link_args: test_link_args,
+		   dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
+  foreach lang : screenshot_langs
+    lang_env = test_env_phoc
+    lang_env.set('LANGUAGE', lang)
+    lang_env.set('LC_ALL', lang)
+    lang_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
+    test('screenshots-@0@'.format(lang), t,
+       env: lang_env,
+       suite: ['manual'])
   endforeach
 
 endif
