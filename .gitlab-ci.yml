@@ -32,7 +32,7 @@ variables:
 .test_step: &test_step
   script:
     - export LC_ALL=C.UTF-8
-    - ${XVFB_RUN} ninja -C _build test
+    - ${XVFB_RUN} meson test -C _build
     - ninja -C _build coverage
 
 build:native-debian-bullseye:
@@ -162,7 +162,7 @@ unit-test:native-alpinelinux-edge:
     - apk add xvfb-run $ALPINE_EDGE_DEPS
   script:
     - export LC_ALL=C.UTF-8
-    - ${XVFB_RUN} ninja -C _build test
+    - ${XVFB_RUN} meson test -C _build --no-suite manual
   artifacts:
     when: always
     paths:
