@@ -9,6 +9,7 @@ stages:
 
 variables:
   DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20211005
+  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20211005
   DEBIAN_CROSS_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian-cross:v0.0.20210803
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
@@ -87,6 +88,34 @@ unit-test:native-debian-bookworm:
       - _build
     reports:
       junit: _build/meson-logs/testlog.junit.xml
+  except:
+    variables:
+      - $PKG_ONLY == "1"
+
+screenshot:native-debian-bookworm:
+  stage: test+docs
+  image: ${SCREENSHOT_IMAGE}
+  before_script:
+     - export DEBIAN_FRONTEND=noninteractive
+     - |
+       echo 'ar_AE.UTF-8 UTF-8
+       de_DE.UTF-8 UTF-8
+       en_US.UTF-8 UTF-8
+       ' > /etc/locale.gen
+     - dpkg-reconfigure locales
+  needs:
+    - build:native-debian-bookworm
+  <<: *bookworm_vars
+  script:
+    - export LC_ALL=C.UTF-8
+    # Install .po files so tests can find them
+    - "DESTDIR=$PWD/_build/install meson install -C _build"
+    - ${XVFB_RUN} meson test -C _build --print-errorlogs --no-suite integration --no-suite unit
+    - mv _build/tests/screenshots/* screenshots/
+  artifacts:
+    expose_as: 'Screenshots'
+    paths:
+      - screenshots/
   except:
     variables:
       - $PKG_ONLY == "1"
@@ -200,4 +229,3 @@ pages:
       - public
   only:
     - main
-

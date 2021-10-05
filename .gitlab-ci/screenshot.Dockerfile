@@ -1,0 +1,9 @@
+FROM registry.gitlab.gnome.org/world/phosh/phosh/debian:v0.0.20211005
+
+RUN export DEBIAN_FRONTEND=noninteractive \
+   && apt-get -y update \
+   && eatmydata apt-get -y update \
+   && cd /home/user/app \
+   && eatmydata apt-get -y -f install \
+   && eatmydata apt-get -y install fonts-lato gnome-shell-common gsettings-desktop-schemas feedbackd fonts-cantarell librsvg2-common \
+   && eatmydata apt-get clean
