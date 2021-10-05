@@ -13,6 +13,7 @@
 #include "shell.h"
 
 #include <handy.h>
+#include <call-ui.h>
 
 
 static gboolean
@@ -37,6 +38,7 @@ phosh_test_full_shell_thread (gpointer data)
 
   gtk_init (NULL, NULL);
   hdy_init ();
+  cui_init (TRUE);
 
   phosh_log_set_log_domains (fixture->log_domains);
 
@@ -61,6 +63,7 @@ phosh_test_full_shell_thread (gpointer data)
   gtk_main ();
 
   g_assert_finalize_object (shell);
+  cui_uninit ();
   phosh_test_compositor_free (fixture->state);
 
   /* Process events to tear down compositor */
