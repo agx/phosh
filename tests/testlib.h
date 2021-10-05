@@ -30,5 +30,8 @@ PhoshMonitor*             phosh_test_get_monitor(void);
 struct zwp_virtual_keyboard_v1 * phosh_test_keyboard_new (PhoshWayland *wl);
 void                      phosh_test_keyboard_press_keys (struct zwp_virtual_keyboard_v1 *keyboard,
                                                           GTimer *timer, ...) G_GNUC_NULL_TERMINATED;
+void                      phosh_test_keyboard_press_modifiers   (struct zwp_virtual_keyboard_v1 *keyboard,
+                                                                 guint                           modifiers);
+void                      phosh_test_keyboard_release_modifiers (struct zwp_virtual_keyboard_v1 *keyboard);
 
 G_END_DECLS
