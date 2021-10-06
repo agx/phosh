@@ -488,14 +488,6 @@ phosh-media-player button:active {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-phosh-media-player > box > button:first-child {
-  border-radius: 0 0 0 6px;
-}
-
-phosh-media-player > box > button:last-child {
-  border-radius: 0 0 6px 0;
-}
-
 phosh-media-player .media-player-details {
   border-radius: 6px 6px 0 0;
 }
