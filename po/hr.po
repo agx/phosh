@@ -6,17 +6,23 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
-"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-04-18 03:32+0000\n"
-"PO-Revision-Date: 2020-04-18 15:51+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2021-08-25 20:13+0000\n"
+"PO-Revision-Date: 2021-10-06 12:50+0200\n"
+"Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"Last-Translator: gogo <trebelnik2@gmail.com>\n"
-"X-Generator: Poedit 2.0.6\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 2.3\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -26,145 +32,391 @@ msgstr "Telefonska ljuska"
 msgid "Window management and application launching for mobile"
 msgstr "Upravljanje prozorima i aplikacijama na mobilnim telefonima"
 
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
-msgid "Phosh"
-msgstr "Phosh"
-
-#: src/app-grid-button.c:527
+#: src/app-grid-button.c:536
 msgid "Application"
 msgstr "Aplikacije"
 
-#: src/feedbackinfo.c:38
-msgid "Quiet"
-msgstr "Neprimjetno"
-
-#: src/feedbackinfo.c:40
-msgid "Silent"
-msgstr "Utišano"
-
-#: src/feedbackinfo.c:42
+#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
 msgstr "Uključeno"
 
-#: src/lockscreen.c:74 src/ui/lockscreen.ui:204
+#: src/bt-info.c:94
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Pričvršećeno"
+
+#: src/docked-info.c:81 src/docked-info.c:199
+msgid "Undocked"
+msgstr "Nije pričvršećeno"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "Odjava"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "%s će se automatski odjaviti za %d sekundu."
+msgstr[1] "%s će se automatski odjaviti za %d sekunde."
+msgstr[2] "%s će se automatski odjaviti za %d sekundi."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+msgid "Power Off"
+msgstr "Isključi"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "Sustav će se automatski isključiti za %d sekundu."
+msgstr[1] "Sustav će se automatski isključiti za %d sekunde."
+msgstr[2] "Sustav će se automatski isključiti za %d sekundi."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+msgid "Restart"
+msgstr "Ponovno pokreni"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "Sustav će se automatski ponovno pokrenuti za %d sekundu."
+msgstr[1] "Sustav će se automatski ponovno pokrenuti za %d sekunde."
+msgstr[2] "Sustav će se automatski ponovno pokrenuti za %d sekundi."
+
+#: src/end-session-dialog.c:269
+msgid "Unknown application"
+msgstr "Nepoznata aplikacija"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:44
+msgid "Quiet"
+msgstr "Neprimjetno"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:49
+msgid "Silent"
+msgstr "Utišano"
+
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "Dopusti '%s' pristup vašim informacijama lokacije?"
+
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "Geolokacija"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "Da"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "Ne"
+
+#: src/lockscreen.c:157 src/ui/lockscreen.ui:267
 msgid "Enter Passcode"
 msgstr "Upiši lozinku"
 
-#: src/lockscreen.c:253
+#: src/lockscreen.c:340
 msgid "Checking…"
 msgstr "Provjeravanje…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:330
-msgid "%A, %B %d"
+#: src/lockscreen.c:418
+msgid "%A, %B %-e"
 msgstr "%A, %-d. %B"
 
-#: src/monitor-manager.c:53
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:280 src/ui/media-player.ui:120
+msgid "Unknown Title"
+msgstr "Nepoznati naslov"
+
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:289 src/ui/media-player.ui:103
+msgid "Unknown Artist"
+msgstr "Nepoznati izvođač"
+
+#: src/monitor-manager.c:114
 msgid "Built-in display"
 msgstr "Ugrađeni zaslon"
 
+#: src/monitor-manager.c:132
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:139
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %s"
+msgstr "%s %s"
+
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:148
 msgid "Unknown"
 msgstr "Nepoznat"
 
-#: src/network-auth-prompt.c:184
+#: src/network-auth-prompt.c:187
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Vrsta ovjere bežične mreže “%s” nije podržana"
 
-#: src/network-auth-prompt.c:189
+#: src/network-auth-prompt.c:192
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Upišite lozinku za bežičnu mrežu “%s”"
 
-#: src/polkit-auth-agent.c:229
+#: src/notifications/mount-notification.c:122
+msgid "Open"
+msgstr "Otvori"
+
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
+msgid "Notification"
+msgstr "Obavijest"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "sek"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "min"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "min"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "sat"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "sata"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "dan"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "dana"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "mje"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "mje"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "god"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "god"
+
+#: src/notifications/timestamp-label.c:121
+msgid "now"
+msgstr "sada"
+
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "Preko %dgod"
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "Zamalo %dgod"
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d%s"
+
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Dijalog ovjere je prekinut od strane korisnika"
 
-#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
+#: src/ui/system-prompt.ui:33
 msgid "Password:"
 msgstr "Lozinka:"
 
-#: src/polkit-auth-prompt.c:322
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Nažalost, to ne radi. Pokušajte ponovno."
 
-#: src/polkit-auth-prompt.c:488
-msgid "Authenticate"
-msgstr "Ovjera"
+#: src/rotateinfo.c:81
+msgid "Portrait"
+msgstr "Uspravno"
 
-#: src/system-prompt.c:371
+#: src/rotateinfo.c:84
+msgid "Landscape"
+msgstr "Položeno"
+
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
+msgid "Off"
+msgstr "Isključeno"
+
+#: src/system-prompt.c:364
 msgid "Passwords do not match."
 msgstr "Lozinke se ne podudaraju."
 
-#: src/system-prompt.c:378
+#: src/system-prompt.c:371
 msgid "Password cannot be blank"
 msgstr "Lozinka ne može biti prazna"
 
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr "Bežična mreža"
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "Svjetlo"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-auth-prompt.ui:41
+msgid "Remember decision"
+msgstr "Zapamti odabir"
+
+#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
+msgid "Cancel"
+msgstr "Odustani"
+
+#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
+msgid "Ok"
+msgstr "U redu"
+
+#: src/ui/app-grid-button.ui:49
 msgid "App"
 msgstr "Aplikacija"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:76
 msgid "Remove from _Favorites"
 msgstr "Ukloni iz _omiljenih"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:81
 msgid "Add to _Favorites"
 msgstr "Dodaj u _omiljene"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid.ui:22
 msgid "Search apps…"
 msgstr "Pretraži aplikacije…"
 
-#: src/ui/lockscreen.ui:36
-msgid "Slide up to unlock"
-msgstr "Povuci za otključavanje"
+#: src/ui/app-grid.ui:169
+msgid "Show only adaptive apps"
+msgstr "Prikaži samo adaptivne aplikacije"
 
-#: src/ui/lockscreen.ui:250
-msgid "Emergency"
-msgstr "Hitno"
+#: src/ui/end-session-dialog.ui:32
+msgid "Some applications are busy or have unsaved work"
+msgstr "Neke aplikacije su zauzete ili imaju nespremljeni rad"
 
-#: src/ui/lockscreen.ui:266
-msgid "Unlock"
-msgstr "Otključaj"
-
-#: src/ui/network-auth-prompt.ui:90
-msgid "_Cancel"
-msgstr "_Odustani"
-
-#: src/ui/network-auth-prompt.ui:106
-msgid "C_onnect"
-msgstr "P_oveži se"
-
-#: src/ui/polkit-auth-prompt.ui:105
+#: src/ui/gtk-mount-prompt.ui:95
 msgid "User:"
 msgstr "Korisnik:"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/gtk-mount-prompt.ui:118
+msgid "Domain:"
+msgstr "Domena:"
+
+#: src/ui/gtk-mount-prompt.ui:151
+msgid "Co_nnect"
+msgstr "Po_veži se"
+
+#: src/ui/lockscreen.ui:43
+msgid "Slide up to unlock"
+msgstr "Povuci za otključavanje"
+
+#: src/ui/lockscreen.ui:313
+msgid "Emergency"
+msgstr "Hitno"
+
+#: src/ui/lockscreen.ui:329
+msgid "Unlock"
+msgstr "Otključaj"
+
+#: src/ui/lockscreen.ui:369
+msgid "Back"
+msgstr "Natrag"
+
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+msgid "Authentication required"
+msgstr "Potrebna je ovjera"
+
+#: src/ui/network-auth-prompt.ui:41
+msgid "_Cancel"
+msgstr "_Odustani"
+
+#: src/ui/network-auth-prompt.ui:59
+msgid "C_onnect"
+msgstr "P_oveži se"
+
+#: src/ui/polkit-auth-prompt.ui:123
+msgid "Authenticate"
+msgstr "Ovjera"
+
+#: src/ui/system-prompt.ui:63
 msgid "Confirm:"
 msgstr "Potvrdi:"
 
-#: src/ui/top-panel.ui:15
+#: src/ui/top-panel.ui:16
 msgid "Lock Screen"
 msgstr "Zaključavanje zaslona"
 
-#: src/ui/top-panel.ui:22
-msgid "Suspend"
-msgstr "Suspenzija"
-
-#: src/ui/top-panel.ui:29
+#: src/ui/top-panel.ui:23
 msgid "Logout"
 msgstr "Odjava"
 
-#: src/ui/top-panel.ui:36
-msgid "Power Off"
-msgstr "Isključi"
+#: src/wifiinfo.c:90
+msgid "Wi-Fi"
+msgstr "Bežična mreža"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:172
+msgid "Cellular"
+msgstr "Mobitel"
+
+#~ msgid "Suspend"
+#~ msgstr "Suspenzija"
