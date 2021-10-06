@@ -21,6 +21,8 @@
 #include <gio/gio.h>
 #include <gio/gdesktopappinfo.h>
 
+#define STARTUP_TIMEOUT 5
+
 /**
  * SECTION:app-tracker
  * @short_description: Application state tracker
@@ -70,8 +72,10 @@ typedef struct  {
   gint64             pid;
   PhoshAppStateFlags state;
 
-  char              *startup_id;
-  GDesktopAppInfo   *info;
+  char              *startup_id;  /* (owned) */
+  guint              timeout_id;
+  GDesktopAppInfo   *info;        /* (owned) */
+  PhoshAppTracker   *tracker;     /* (unowned) */
 } PhoshAppState;
 
 struct _PhoshAppTracker {
@@ -86,11 +90,46 @@ struct _PhoshAppTracker {
 G_DEFINE_TYPE (PhoshAppTracker, phosh_app_tracker, G_TYPE_OBJECT)
 
 
+static gboolean
+on_startup_timeout (gpointer data)
+{
+  PhoshAppState *state = data;
+
+  g_return_val_if_fail (PHOSH_IS_APP_TRACKER (state->tracker), G_SOURCE_REMOVE);
+
+  if (state->state & PHOSH_APP_TRACKER_STATE_FLAG_WL_STARTUP_ID) {
+    g_warning ("Hit timeout for '%s' with startup id: '%s' although it's up",
+               g_app_info_get_name (G_APP_INFO (state->info)),
+               state->startup_id);
+    goto out;
+  }
+
+  state = g_hash_table_lookup (state->tracker->apps, state->startup_id);
+  if (!state) {
+    g_warning ("No info for startup_id '%s' found", state->startup_id);
+    goto out;
+  }
+
+  /* We got a "launched" signal but the compositor never reported the app as up */
+  g_warning ("Startup of app '%s' with startup id: '%s' timed out",
+             g_app_info_get_name (G_APP_INFO (state->info)),
+             state->startup_id);
+
+  g_signal_emit (state->tracker, signals[APP_FAILED], 0, state->info, state->startup_id);
+  g_hash_table_remove (state->tracker->apps, state->startup_id);
+
+ out:
+  state->timeout_id = 0;
+  return G_SOURCE_REMOVE;
+}
+
+
 static PhoshAppState *
-phosh_app_state_new (GDesktopAppInfo   *info,
-                     const char        *startup_id,
-                     gint64             pid,
-                     PhoshAppStateFlags flags)
+phosh_app_state_new (GDesktopAppInfo    *info,
+                     const char         *startup_id,
+                     gint64              pid,
+                     PhoshAppStateFlags  flags,
+                     PhoshAppTracker    *tracker)
 {
   PhoshAppState *state = g_new0 (PhoshAppState, 1);
 
@@ -98,6 +137,9 @@ phosh_app_state_new (GDesktopAppInfo   *info,
   state->pid = pid;
   state->state = flags;
   state->info = g_object_ref (info);
+  state->tracker = tracker;
+  state->timeout_id = g_timeout_add_seconds (STARTUP_TIMEOUT, on_startup_timeout, state);
+  g_source_set_name_by_id (state->timeout_id, "[phosh] state timeout");
 
   g_debug ("Pid %" G_GINT64_FORMAT ", '%s', startup-id: %s got state %d",
            state->pid,
@@ -112,6 +154,7 @@ phosh_app_state_new (GDesktopAppInfo   *info,
 static void
 phosh_app_state_free (PhoshAppState *state)
 {
+  g_clear_handle_id (&state->timeout_id, g_source_remove);
   g_object_unref (state->info);
   g_free (state->startup_id);
 
@@ -240,7 +283,9 @@ on_app_launch_started (PhoshAppTracker   *self,
   /* If we saw the startup-id already, something is wrong */
   g_return_if_fail (!g_hash_table_contains (self->apps, startup_id));
 
-  state = phosh_app_state_new (info, startup_id, 0, PHOSH_APP_TRACKER_STATE_FLAG_LAUNCH_STARTED);
+  state = phosh_app_state_new (info, startup_id, 0,
+                               PHOSH_APP_TRACKER_STATE_FLAG_LAUNCH_STARTED,
+                               self);
   g_hash_table_insert (self->apps, g_steal_pointer (&startup_id), state);
 
   g_debug ("Launch started for app '%s' with startup id: '%s'",
@@ -384,7 +429,9 @@ on_dbus_app_launched (GDBusConnection *connection,
     }
 
     g_debug ("DBus launch %s startup-id %s", desktop_file, startup_id);
-    state = phosh_app_state_new (info, startup_id, pid, PHOSH_APP_TRACKER_STATE_FLAG_DBUS_LAUNCH);
+    state = phosh_app_state_new (info, startup_id, pid,
+                                 PHOSH_APP_TRACKER_STATE_FLAG_DBUS_LAUNCH,
+                                 self);
     g_hash_table_insert (self->apps, g_steal_pointer (&startup_id), state);
 
     /* There's no "Launch-started" on DBus. We fake it here so upper layers don't
