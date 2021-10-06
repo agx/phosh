@@ -14,7 +14,6 @@
 #include "splash.h"
 
 #define PHOSH_APP_UNKNOWN_ICON "app-icon-unknown"
-#define SPLASH_TIMEOUT 5
 
 /**
  * SECTION:splash
@@ -50,7 +49,6 @@ typedef struct {
   GtkWidget                  *img_app;
   gboolean                    prefer_dark;
 
-  guint                       timeout_id;
 } PhoshSplashPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshSplash, phosh_splash, PHOSH_TYPE_LAYER_SURFACE);
@@ -121,23 +119,6 @@ phosh_splash_get_property (GObject    *obj,
 }
 
 
-static gboolean
-on_splash_timeout (gpointer data)
-{
-  PhoshSplash *self = PHOSH_SPLASH (data);
-  PhoshSplashPrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_SPLASH (self), G_SOURCE_REMOVE);
-  priv = phosh_splash_get_instance_private (self);
-  priv->timeout_id = 0;
-
-  g_debug ("Splash for '%s' timed out", g_app_info_get_id (priv->info));
-  g_signal_emit (self, signals[CLOSED], 0);
-
-  return G_SOURCE_REMOVE;
-}
-
-
 static void
 phosh_splash_dispose (GObject *obj)
 {
@@ -145,7 +126,6 @@ phosh_splash_dispose (GObject *obj)
   PhoshSplashPrivate *priv = phosh_splash_get_instance_private (self);
 
   g_clear_object (&priv->info);
-  g_clear_handle_id (&priv->timeout_id, g_source_remove);
 
   G_OBJECT_CLASS (phosh_splash_parent_class)->dispose (obj);
 }
@@ -280,12 +260,7 @@ phosh_splash_class_init (PhoshSplashClass *klass)
 static void
 phosh_splash_init (PhoshSplash *self)
 {
-  PhoshSplashPrivate *priv = phosh_splash_get_instance_private (self);
-
   gtk_widget_init_template (GTK_WIDGET (self));
-
-  priv->timeout_id = g_timeout_add_seconds (SPLASH_TIMEOUT, on_splash_timeout, self);
-  g_source_set_name_by_id (priv->timeout_id, "[phosh] splash timeout");
 }
 
 
