@@ -82,6 +82,7 @@
                   <object class="PhoshQuickSetting">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="sensitive" bind-source="batteryinfo" bind-property="present" bind-flags="sync-create"/>
                     <signal name="clicked" handler="battery_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
                     <signal name="long-pressed" handler="battery_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
                     <child>

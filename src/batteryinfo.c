@@ -25,6 +25,7 @@
 enum {
   PROP_0,
   PROP_SHOW_DETAIL,
+  PROP_PRESENT,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -34,6 +35,7 @@ typedef struct _PhoshBatteryInfo {
   PhoshStatusIcon  parent;
   UpClient        *upower;
   UpDevice        *device;
+  gboolean         present;
   gboolean         show_detail;
 } PhoshBatteryInfo;
 
@@ -71,6 +73,9 @@ phosh_battery_info_get_property (GObject    *object,
   switch (property_id) {
   case PROP_SHOW_DETAIL:
     g_value_set_boolean (value, self->show_detail);
+    break;
+  case PROP_PRESENT:
+    g_value_set_boolean (value, self->present);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -134,6 +139,8 @@ phosh_battery_info_constructed (GObject *object)
                             phosh_status_icon_get_extra_widget (PHOSH_STATUS_ICON (self)),
                             "label",
                             G_BINDING_SYNC_CREATE);
+    self->present = TRUE;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
   }
 }
 
@@ -170,6 +177,14 @@ phosh_battery_info_class_init (PhoshBatteryInfoClass *klass)
       "",
       FALSE,
       G_PARAM_CONSTRUCT | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  props[PROP_PRESENT] =
+    g_param_spec_boolean (
+      "present",
+      "Present",
+      "Whether WWAN hardware is present",
+      FALSE,
+      G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
