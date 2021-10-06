@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
 "POT-Creation-Date: 2021-08-25 20:13+0000\n"
-"PO-Revision-Date: 2021-10-06 12:50+0200\n"
+"PO-Revision-Date: 2021-10-06 12:53+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -109,7 +109,7 @@ msgstr "Utišano"
 #: src/location-manager.c:268
 #, c-format
 msgid "Allow '%s' to access your location information?"
-msgstr "Dopusti '%s' pristup vašim informacijama lokacije?"
+msgstr "Dopustite da '%s' pristupi vašim informacijama lokacije?"
 
 #: src/location-manager.c:273
 msgid "Geolocation"
