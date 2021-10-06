@@ -9,7 +9,7 @@ stages:
 
 variables:
   DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20211005
-  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20211005
+  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20211007
   DEBIAN_CROSS_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian-cross:v0.0.20210803
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
@@ -75,6 +75,7 @@ unit-test:native-debian-bookworm:
        echo 'ar_AE.UTF-8 UTF-8
        de_DE.UTF-8 UTF-8
        en_US.UTF-8 UTF-8
+       ja_JP.UTF-8 UTF-8
        ' > /etc/locale.gen
      - dpkg-reconfigure locales
   needs:
@@ -101,6 +102,7 @@ screenshot:native-debian-bookworm:
        echo 'ar_AE.UTF-8 UTF-8
        de_DE.UTF-8 UTF-8
        en_US.UTF-8 UTF-8
+       ja_JP.UTF-8 UTF-8
        ' > /etc/locale.gen
      - dpkg-reconfigure locales
   needs:
