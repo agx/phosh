@@ -186,6 +186,9 @@ phosh_battery_info_init (PhoshBatteryInfo *self)
                           percentage,
                           "visible",
                           G_BINDING_SYNC_CREATE);
+
+  phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), "0%");
+  phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), "battery-missing-symbolic");
 }
 
 
