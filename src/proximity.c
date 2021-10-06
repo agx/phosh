@@ -161,6 +161,9 @@ on_proximity_near_changed (PhoshProximity          *self,
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshMonitor *monitor = phosh_shell_get_builtin_monitor (shell);
 
+  if (!self->claimed)
+    return;
+
   near = phosh_dbus_sensor_proxy_get_proximity_near (
     PHOSH_DBUS_SENSOR_PROXY (self->sensor_proxy_manager));
 
