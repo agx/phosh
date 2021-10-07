@@ -103,6 +103,10 @@ has_external_display (PhoshModeManager *self)
   if (phosh_shell_get_builtin_monitor (shell) == primary)
     return FALSE;
 
+  /* Single monitor is virtual (e.g. in automatic tests) */
+  if (primary->conn_type == PHOSH_MONITOR_CONNECTOR_TYPE_VIRTUAL)
+    return FALSE;
+
   /* primary display is not built-in */
   return TRUE;
 }
