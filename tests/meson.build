@@ -91,12 +91,12 @@ tests_phoc = [
 ]
 
 tests_manager = [
-  'calls-manager',
-  'gtk-mount-manager',
-  'idle-manager',
-  'monitor-manager',
-  'notify-manager',
-  'screenshot-manager',
+  [ 'calls-manager', true, ],
+  [ 'gtk-mount-manager', false, ],
+  [ 'idle-manager', false, ],
+  [ 'monitor-manager', true, ],
+  [ 'notify-manager', true, ],
+  [ 'screenshot-manager', true, ],
 ]
 
 # Unit tests
@@ -141,7 +141,10 @@ if run_phoc_tests
        env: test_env_phoc,
        suite: ['integration'],
        is_parallel : false)
-  foreach test : tests_manager
+  foreach item : tests_manager
+    test = item.get(0)
+    parallel = item.get(1)
+
     t = executable('test-@0@'.format(test),
 		   ['test-@0@.c'.format(test), generated_dbus_sources],
                    c_args: test_cflags,
@@ -151,7 +154,7 @@ if run_phoc_tests
     test(test, t,
 	 env: test_env_phoc,
          suite: ['integration'],
-	 is_parallel : false)
+	 is_parallel : parallel)
   endforeach
 
 endif
