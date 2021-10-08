@@ -22,7 +22,7 @@
 
 
 static void
-take_screenshot (const gchar *lang, const gchar *what)
+take_screenshot (const gchar *lang, int num, const gchar *what)
 {
   g_autoptr (GError) err = NULL;
   g_autoptr (PhoshDBusScreenshot) proxy = NULL;
@@ -33,7 +33,7 @@ take_screenshot (const gchar *lang, const gchar *what)
   gboolean success;
 
   dirname = g_build_filename (TEST_OUTPUT_DIR, "screenshots", lang, NULL);
-  filename = g_strdup_printf ("screenshot-%s.png", what);
+  filename = g_strdup_printf ("screenshot-%.2d-%s.png", num, what);
   path = g_build_filename (dirname, filename, NULL);
   g_assert_cmpint (g_mkdir_with_parents (dirname, 0755), ==, 0);
   if (g_file_test (path, G_FILE_TEST_EXISTS))
@@ -133,6 +133,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_autoptr (GError) err = NULL;
   const char *argv[] = { TEST_TOOLS "/app-buttons", NULL };
   GPid pid;
+  int i = 1;
 
   g_assert_nonnull (locale);
   /* Wait until compositor and shell are up */
@@ -142,7 +143,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 
   /* Give overview animation time to finish */
   wait_a_bit (context, 1);
-  take_screenshot (locale, "01-overview-empty");
+  take_screenshot (locale, i++, "overview-empty");
 
   keyboard = phosh_test_keyboard_new (phosh_wayland_get_default ());
 
@@ -152,22 +153,22 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_M, KEY_E, KEY_D, NULL);
   /* Give search time to finish */
   wait_a_bit (context, 1);
-  take_screenshot (locale, "02-search");
+  take_screenshot (locale, i++, "search");
 
   g_spawn_async (NULL, (char**) argv, NULL, G_SPAWN_DEFAULT, NULL, NULL, &pid, &err);
   g_assert_no_error (err);
   g_assert_true (pid);
   /* Give app time to start and close overview */
   wait_a_bit (context, 1);
-  take_screenshot (locale, "03-running-app");
+  take_screenshot (locale, i++, "running-app");
 
   toggle_overview (context, keyboard, timer);
-  take_screenshot (locale, "04-overview-app");
+  take_screenshot (locale, i++, "overview-app");
   kill (pid, SIGTERM);
   g_spawn_close_pid (pid);
 
   toggle_settings (context, keyboard, timer);
-  take_screenshot (locale, "05-settings");
+  take_screenshot (locale, i++, "settings");
 
   ss_proxy = phosh_screen_saver_dbus_screen_saver_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                                           G_DBUS_PROXY_FLAGS_NONE,
@@ -180,12 +181,12 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   phosh_screen_saver_dbus_screen_saver_call_lock_sync (ss_proxy, NULL, &err);
   g_assert_no_error (err);
   wait_a_bit (context, 1);
-  take_screenshot (locale, "06-lockscreen");
+  take_screenshot (locale, i++, "lockscreen-status");
 
   calls_mock = phosh_test_calls_mock_new ();
   phosh_calls_mock_export (calls_mock);
   wait_a_bit (context, 1);
-  take_screenshot (locale, "07-lockscreen-call");
+  take_screenshot (locale, i++, "lockscreen-call");
 }
 
 
