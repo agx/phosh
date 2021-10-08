@@ -183,6 +183,10 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   wait_a_bit (context, 1);
   take_screenshot (locale, i++, "lockscreen-status");
 
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_SPACE, NULL);
+  wait_a_bit (context, 1);
+  take_screenshot (locale, i++, "lockscreen-keypad");
+
   calls_mock = phosh_test_calls_mock_new ();
   phosh_calls_mock_export (calls_mock);
   wait_a_bit (context, 1);
