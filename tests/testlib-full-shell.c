@@ -93,6 +93,34 @@ phosh_test_full_shell_fixture_cfg_dispose (PhoshTestFullShellFixtureCfg *self)
   g_free (self);
 }
 
+static void
+phosh_test_remove_tree (GFile *file)
+{
+  g_autoptr (GError) err = NULL;
+  g_autoptr (GFileEnumerator) enumerator = NULL;
+
+  enumerator = g_file_enumerate_children (file, G_FILE_ATTRIBUTE_STANDARD_NAME,
+                                          G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
+                                          NULL, NULL);
+
+  while (enumerator != NULL) {
+    GFile *child;
+    gboolean ret;
+
+    ret = g_file_enumerator_iterate (enumerator, NULL, &child, NULL, &err);
+    g_assert_no_error (err);
+    g_assert_true (ret);
+
+    if (child == NULL)
+      break;
+
+    phosh_test_remove_tree (child);
+  }
+
+  g_assert_true (g_file_delete (file, NULL, &err));
+  g_assert_no_error (err);
+}
+
 /**
  * phosh_test_full_shell_setup:
  * @fixture: Test fixture
@@ -105,13 +133,18 @@ void
 phosh_test_full_shell_setup (PhoshTestFullShellFixture *fixture, gconstpointer data)
 {
   const PhoshTestFullShellFixtureCfg *cfg = data;
+  g_autoptr (GError) err = NULL;
 
   fixture->bus = g_test_dbus_new (G_TEST_DBUS_NONE);
 
   g_test_dbus_up (fixture->bus);
 
   g_setenv ("NO_AT_BRIDGE", "1", TRUE);
-  g_setenv ("XDG_RUNTIME_DIR", TEST_OUTPUT_DIR, TRUE);
+
+  fixture->tmpdir = g_dir_make_tmp ("phosh-test-comp.XXXXXX", &err);
+  g_assert_no_error (err);
+
+  g_setenv ("XDG_RUNTIME_DIR", fixture->tmpdir, TRUE);
   /* Display for wlroots X11 backend */
   if (cfg->display)
     g_setenv ("DISPLAY", cfg->display, TRUE);
@@ -136,11 +169,16 @@ phosh_test_full_shell_setup (PhoshTestFullShellFixture *fixture, gconstpointer d
 void
 phosh_test_full_shell_teardown (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 {
+  g_autoptr (GFile) file = g_file_new_for_path (fixture->tmpdir);
+
   gdk_threads_add_idle (stop_shell, NULL);
   g_thread_join (fixture->comp_and_shell);
   g_async_queue_unref (fixture->queue);
 
   g_test_dbus_down (fixture->bus);
+
+  phosh_test_remove_tree (file);
+  g_free (fixture->tmpdir);
 
   g_free (fixture->log_domains);
 }
