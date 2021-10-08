@@ -9,7 +9,7 @@ stages:
 
 variables:
   DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20211005
-  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20211007
+  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20211008
   DEBIAN_CROSS_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian-cross:v0.0.20210803
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror
@@ -114,6 +114,7 @@ screenshot:native-debian-bookworm:
     - "DESTDIR=$PWD/_build/install meson install -C _build"
     - ${XVFB_RUN} meson test -C _build --print-errorlogs --no-suite integration --no-suite unit
     - mv _build/tests/screenshots/* screenshots/
+    - for dir in screenshots/*_*.UTF-8; do montage -mode concatenate $dir/*.png ${dir}.png; done
   artifacts:
     expose_as: 'Screenshots'
     paths:
