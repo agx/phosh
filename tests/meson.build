@@ -5,6 +5,8 @@ if get_option('tests')
 subdir('system')
 subdir('user')
 
+screenshot_langs = ['ar_AE.UTF-8', 'de_DE.UTF-8', 'ja_JP.UTF-8']
+
 phoc = find_program('phoc', required: get_option('phoc_tests'), disabler: true)
 run_phoc_tests =  phoc.found() and not get_option('phoc_tests').disabled()
 
@@ -19,17 +21,22 @@ test_env_common.set('MALLOC_CHECK_', '2')
 test_env_common.set('NO_AT_BRIDGE', '1')
 
 # xdg setup for the app-grid:
-test_env = test_env_common
-test_env.set('XDG_CONFIG_HOME', '@0@/user/config/'.format(meson.current_source_dir()))
-test_env.set('XDG_CONFIG_DIRS', '@0@/system/config/'.format(meson.current_source_dir()))
-test_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
+test_env_unit = test_env_common
+test_env_unit.set('XDG_CONFIG_HOME', '@0@/user/config/'.format(meson.current_source_dir()))
+test_env_unit.set('XDG_CONFIG_DIRS', '@0@/system/config/'.format(meson.current_source_dir()))
+test_env_unit.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
 # Ideally we would just set it so that we have a known set of .desktop etc
 # but then we can't find the system gschemas
-test_env.prepend('XDG_DATA_DIRS', '@0@/system/share/'.format(meson.current_source_dir()))
+test_env_unit.prepend('XDG_DATA_DIRS', '@0@/system/share/'.format(meson.current_source_dir()))
 
 test_cflags = [
   '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
   '-DTEST_OUTPUT_DIR="@0@"'.format(meson.current_build_dir()),
+  '-DTEST_PHOC_INI="@0@/data/phoc.ini"'.format(meson.source_root()),
+  # Some tests want an installed tree (e.g. for .mo, this is where it should
+  # be located:
+  '-DTEST_INSTALLED="@0@/install"'.format(meson.build_root()),
+  '-DTEST_TOOLS="@0@/tools"'.format(meson.build_root()),
 ]
 
 test_link_args = [
@@ -90,16 +97,13 @@ tests_phoc = [
 ]
 
 tests_manager = [
-  'gtk-mount-manager',
-  'idle-manager',
-  'monitor-manager',
-  'notify-manager',
-  'screenshot-manager',
+  [ 'calls-manager', true, ],
+  [ 'gtk-mount-manager', false, ],
+  [ 'idle-manager', false, ],
+  [ 'monitor-manager', true, ],
+  [ 'notify-manager', true, ],
+  [ 'screenshot-manager', true, ],
 ]
-
-if get_option('g_tests')
-  tests_manager += ['calls-manager']
-endif
 
 # Unit tests
 foreach test : tests
@@ -109,7 +113,9 @@ foreach test : tests
                  pie: true,
                  link_args: test_link_args,
                  dependencies: testlib_dep)
-  test(test, t, env: test_env)
+  test(test, t,
+       env: test_env_unit,
+       suite: ['unit'])
 endforeach
 
 if run_phoc_tests
@@ -125,7 +131,9 @@ if run_phoc_tests
                    pie: true,
                    link_args: test_link_args,
                    dependencies: testlib_dep)
-    test(test, t, env: test_env_phoc)
+    test(test, t,
+         suite: ['unit', 'phoc'],
+	 env: test_env_phoc)
   endforeach
 
   # Integration tests using the full libphosh
@@ -135,15 +143,41 @@ if run_phoc_tests
                  pie: true,
                  link_args: test_link_args,
                  dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
-  test('shell', t, env: test_env_phoc, is_parallel : false)
-  foreach test : tests_manager
+  test('shell', t,
+       env: test_env_phoc,
+       suite: ['integration'],
+       is_parallel : false)
+  foreach item : tests_manager
+    test = item.get(0)
+    parallel = item.get(1)
+
     t = executable('test-@0@'.format(test),
 		   ['test-@0@.c'.format(test), generated_dbus_sources],
                    c_args: test_cflags,
                    pie: true,
                    link_args: test_link_args,
 		   dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
-    test(test, t, env: test_env_phoc, is_parallel : false)
+    test(test, t,
+	 env: test_env_phoc,
+         suite: ['integration'],
+	 is_parallel : parallel)
+  endforeach
+
+  # Tests for manual validation
+  t = executable('test-take-screenshots',
+		   ['test-take-screenshots.c', generated_dbus_sources],
+                   c_args: test_cflags,
+                   pie: true,
+                   link_args: test_link_args,
+		   dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
+  foreach lang : screenshot_langs
+    lang_env = test_env_phoc
+    lang_env.set('LANGUAGE', lang)
+    lang_env.set('LC_ALL', lang)
+    lang_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
+    test('screenshots-@0@'.format(lang), t,
+       env: lang_env,
+       suite: ['manual'])
   endforeach
 
 endif

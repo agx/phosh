@@ -16,6 +16,7 @@ typedef struct _PhoshTestFullShellFixture {
   PhoshTestCompositorState *state;
   GTestDBus                *bus;
   char                     *log_domains;
+  char                     *tmpdir;
 } PhoshTestFullShellFixture;
 
 

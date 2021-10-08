@@ -1,7 +1,7 @@
 project('phosh', 'c',
           version: '0.13.1',
           license: 'GPLv3+',
-    meson_version: '>= 0.50.0',
+    meson_version: '>= 0.52.0',
   default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
 )
 
@@ -94,11 +94,7 @@ configure_file(
 gnome = import('gnome')
 i18n  = import('i18n')
 
-if get_option('g_tests')
-  glib_ver = '>= 2.69'
-else
-  glib_ver = '>= 2.62'
-endif
+glib_ver = '>= 2.62'
 
 gcr_dep = dependency('gcr-3', version: '>= 3.7.5')
 glib_dep = dependency('glib-2.0',

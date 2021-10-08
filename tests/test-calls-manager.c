@@ -100,6 +100,11 @@ test_phosh_calls_present (PhoshTestFullShellFixture *fixture, gconstpointer unus
   /* Wait until comp/shell are up */
   g_assert_nonnull (g_async_queue_timeout_pop (fixture->queue, POP_TIMEOUT));
 
+  if (glib_check_version (2, 70, 0)) {
+    g_test_skip ("Need glib 2.70 to not deadlock");
+    return;
+  }
+
   loop = g_main_loop_new (NULL, FALSE);
   cm = phosh_shell_get_calls_manager (phosh_shell_get_default ());
   notify_id = g_signal_connect (cm,
@@ -169,6 +174,11 @@ test_phosh_calls_incoming (PhoshTestFullShellFixture *fixture, gconstpointer unu
 
   /* Wait until comp/shell are up */
   g_assert_nonnull (g_async_queue_timeout_pop (fixture->queue, POP_TIMEOUT));
+
+  if (glib_check_version (2, 70, 0)) {
+    g_test_skip ("Need glib 2.70 to not deadlock");
+    return;
+  }
 
   loop = g_main_loop_new (NULL, FALSE);
   mock = calls_mock_new ();

@@ -36,7 +36,7 @@ test_phosh_screenshot_png (PhoshTestFullShellFixture *fixture, gconstpointer unu
   g_assert_nonnull (g_async_queue_timeout_pop (fixture->queue, POP_TIMEOUT));
 
   proxy = phosh_dbus_screenshot_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                        G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
+                                                        G_DBUS_PROXY_FLAGS_NONE,
                                                         BUS_NAME,
                                                         OBJECT_PATH,
                                                         NULL,
@@ -58,7 +58,7 @@ test_phosh_screenshot_png (PhoshTestFullShellFixture *fixture, gconstpointer unu
   g_assert_true (success2);
   g_assert_cmpstr (used_name, ==, path);
   g_test_message ("Screenshot at %s", used_name);
-  g_file_test (used_name, G_FILE_TEST_EXISTS);
+  g_assert_true (g_file_test (used_name, G_FILE_TEST_EXISTS));
 
   success1 = phosh_dbus_screenshot_call_screenshot_sync (proxy,
                                                          FALSE,

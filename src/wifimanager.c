@@ -703,6 +703,7 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
 static void
 phosh_wifi_manager_init (PhoshWifiManager *self)
 {
+  self->icon_name = "network-wireless-disabled-symbolic";
 }
 
 

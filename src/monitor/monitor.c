@@ -568,6 +568,12 @@ phosh_monitor_connector_type_from_name (const char *name)
     return PHOSH_MONITOR_CONNECTOR_TYPE_eDP;
   else if (g_str_has_prefix (name, "DSI-"))
     return PHOSH_MONITOR_CONNECTOR_TYPE_DSI;
+  else if (g_str_has_prefix (name, "HEADLESS-"))
+    return PHOSH_MONITOR_CONNECTOR_TYPE_VIRTUAL;
+  else if (g_str_has_prefix (name, "WL-"))
+    return PHOSH_MONITOR_CONNECTOR_TYPE_VIRTUAL;
+  else if (g_str_has_prefix (name, "X11-"))
+    return PHOSH_MONITOR_CONNECTOR_TYPE_VIRTUAL;
   else
     return PHOSH_MONITOR_CONNECTOR_TYPE_Unknown;
 }

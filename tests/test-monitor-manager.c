@@ -32,7 +32,7 @@ test_phosh_monitor_manager_current_state (PhoshTestFullShellFixture *fixture, gc
   g_assert_nonnull (g_async_queue_timeout_pop (fixture->queue, POP_TIMEOUT));
 
   proxy = phosh_dbus_display_config_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                            G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
+                                                            G_DBUS_PROXY_FLAGS_NONE,
                                                             BUS_NAME,
                                                             OBJECT_PATH,
                                                             NULL,

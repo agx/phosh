@@ -82,13 +82,41 @@ phosh_mode_manager_get_property (GObject    *object,
 }
 
 
+static gboolean
+has_external_display (PhoshModeManager *self)
+{
+  int n_monitors;
+  PhoshMonitor *primary;
+  PhoshShell *shell = phosh_shell_get_default ();
+
+  n_monitors = phosh_monitor_manager_get_num_monitors (self->monitor_manager);
+  g_return_val_if_fail (n_monitors > 0, FALSE);
+
+  /* We assume only one display can be built in */
+  if (n_monitors > 1)
+    return TRUE;
+
+  primary = phosh_shell_get_primary_monitor (shell);
+  g_return_val_if_fail (PHOSH_IS_MONITOR (primary), FALSE);
+
+  /* Single monitor is builtin */
+  if (phosh_shell_get_builtin_monitor (shell) == primary)
+    return FALSE;
+
+  /* Single monitor is virtual (e.g. in automatic tests) */
+  if (primary->conn_type == PHOSH_MONITOR_CONNECTOR_TYPE_VIRTUAL)
+    return FALSE;
+
+  /* primary display is not built-in */
+  return TRUE;
+}
+
+
 static void
 update_props (PhoshModeManager *self)
 {
-  int n_monitors;
   PhoshModeDeviceType device_type, mimicry;
   PhoshModeHwFlags hw;
-  PhoshShell *shell = phosh_shell_get_default ();
 
   /* Self->Chassis type */
   hw = PHOSH_MODE_HW_NONE;
@@ -110,11 +138,8 @@ update_props (PhoshModeManager *self)
   mimicry = device_type;
 
   /* Additional hardware */
-  n_monitors = phosh_monitor_manager_get_num_monitors (self->monitor_manager);
-  if (n_monitors > 1 || (n_monitors == 1 && phosh_shell_get_builtin_monitor (shell) !=
-                         phosh_shell_get_primary_monitor (shell))) {
+  if (has_external_display (self))
     hw |= PHOSH_MODE_HW_EXT_DISPLAY;
-  }
 
   if (self->wl_caps & PHOSH_WAYLAND_SEAT_CAPABILITY_POINTER)
     hw |= PHOSH_MODE_HW_POINTER;

@@ -26,6 +26,9 @@
 
 #include <glib/gi18n.h>
 
+#define KEYBINDINGS_SCHEMA_ID "org.gnome.shell.keybindings"
+#define KEYBINDING_KEY_TOGGLE_MESSAGE_TRAY "toggle-message-tray"
+
 /**
  * SECTION:top-panel
  * @short_description: The top panel
@@ -63,6 +66,10 @@ typedef struct _PhoshTopPanel {
   GdkSeat *seat;
 
   GSimpleActionGroup *actions;
+
+  /* Keybinding */
+  GStrv           action_names;
+  GSettings      *kb_settings;
 } PhoshTopPanel;
 
 G_DEFINE_TYPE (PhoshTopPanel, phosh_top_panel, PHOSH_TYPE_LAYER_SURFACE)
@@ -262,6 +269,58 @@ on_button_press_event (PhoshTopPanel *self, GdkEventButton *event, gpointer data
 }
 
 
+static void
+toggle_message_tray_action (GSimpleAction *action, GVariant *param, gpointer data)
+{
+  PhoshTopPanel *self = PHOSH_TOP_PANEL (data);
+
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
+
+  phosh_top_panel_toggle_fold (self);
+  /* TODO: focus message tray when */
+}
+
+
+static void
+add_keybindings (PhoshTopPanel *self)
+{
+  GStrv keybindings;
+
+  GPtrArray *action_names = g_ptr_array_new ();
+  g_autoptr (GArray) actions = g_array_new (FALSE, TRUE, sizeof (GActionEntry));
+
+  keybindings = g_settings_get_strv (self->kb_settings, KEYBINDING_KEY_TOGGLE_MESSAGE_TRAY);
+  for (int i = 0; i < g_strv_length (keybindings); i++) {
+    GActionEntry entry = { keybindings[i], toggle_message_tray_action, };
+    g_array_append_val (actions, entry);
+    g_ptr_array_add (action_names, keybindings[i]);
+  }
+  /* Free GStrv container but keep individual strings for action_names */
+  g_free (keybindings);
+
+  phosh_shell_add_global_keyboard_action_entries (phosh_shell_get_default (),
+                                                  (GActionEntry*) actions->data,
+                                                  actions->len,
+                                                  self);
+  self->action_names = (GStrv) g_ptr_array_free (action_names, FALSE);
+}
+
+
+static void
+on_keybindings_changed (PhoshTopPanel *self,
+                        gchar         *key,
+                        GSettings     *settings)
+{
+  /* For now just redo all keybindings */
+  g_debug ("Updating keybindings");
+  phosh_shell_remove_global_keyboard_action_entries (phosh_shell_get_default (),
+                                                     self->action_names);
+  g_clear_pointer (&self->action_names, g_strfreev);
+  add_keybindings (self);
+}
+
+
+
 static GActionEntry entries[] = {
   { "poweroff", on_shutdown_action, NULL, NULL, NULL },
   { "restart", on_restart_action, NULL, NULL, NULL },
@@ -275,6 +334,7 @@ phosh_top_panel_constructed (GObject *object)
 {
   PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
   GdkDisplay *display = gdk_display_get_default ();
+  g_autoptr (GSettings) settings = NULL;
 
   G_OBJECT_CLASS (phosh_top_panel_parent_class)->constructed (object);
 
@@ -297,7 +357,7 @@ phosh_top_panel_constructed (GObject *object)
 
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
 
-  /* Button properites */
+  /* Button properties */
   gtk_style_context_remove_class (gtk_widget_get_style_context (self->btn_top_panel),
                                   "button");
   gtk_style_context_remove_class (gtk_widget_get_style_context (self->btn_top_panel),
@@ -353,6 +413,12 @@ phosh_top_panel_constructed (GObject *object)
                    self->batteryinfo,
                    "show-detail",
                    G_SETTINGS_BIND_GET);
+
+  g_signal_connect_swapped (self->kb_settings,
+                            "changed::" KEYBINDING_KEY_TOGGLE_MESSAGE_TRAY,
+                            G_CALLBACK (on_keybindings_changed),
+                            self);
+  add_keybindings (self);
 }
 
 
@@ -361,6 +427,7 @@ phosh_top_panel_dispose (GObject *object)
 {
   PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
 
+  g_clear_object (&self->kb_settings);
   g_clear_object (&self->wall_clock);
   g_clear_object (&self->xkbinfo);
   g_clear_object (&self->input_settings);
@@ -405,6 +472,8 @@ static void
 phosh_top_panel_init (PhoshTopPanel *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  self->kb_settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
 }
 
 

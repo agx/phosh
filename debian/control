@@ -50,10 +50,12 @@ Depends:
  phoc (>= 0.7.1),
 Recommends:
  feedbackd,
+ fonts-cantarell,
  gnome-session-bin,
  gnome-session-common,
  gnome-settings-daemon,
  iio-sensor-proxy,
+ librsvg2-common,
  phosh-mobile-tweaks,
  squeekboard | phosh-osk-stub,
 Provides:

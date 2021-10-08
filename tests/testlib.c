@@ -175,6 +175,8 @@ phosh_test_compositor_new (void)
 
   argv = g_ptr_array_new ();
   g_ptr_array_add (argv, (char*)comp);
+  g_ptr_array_add (argv, "-C");
+  g_ptr_array_add (argv, TEST_PHOC_INI);
   g_ptr_array_add (argv, NULL);
 
   g_setenv ("WLR_BACKENDS", "headless", TRUE);
@@ -289,4 +291,52 @@ phosh_test_keyboard_press_keys (struct zwp_virtual_keyboard_v1 *keyboard, GTimer
     zwp_virtual_keyboard_v1_key (keyboard, time, key, WL_KEYBOARD_KEY_STATE_RELEASED);
   } while (TRUE);
   va_end (args);
+}
+
+/**
+ * phosh_test_press_modifiers
+ * @keyboard: A virtual keyboard
+ * @modifiers: The modifiers
+ *
+ * Latch (press) the given modifiers
+ */
+void
+phosh_test_keyboard_press_modifiers (struct zwp_virtual_keyboard_v1 *keyboard,
+                                     guint                           keys)
+
+{
+  guint modifiers = 0;
+
+  /* Modifiers passed to the virtual_keyboard protocol as used by wl_keyboard */
+  switch (keys) {
+  case KEY_LEFTSHIFT:
+  case KEY_RIGHTSHIFT:
+    modifiers |= (1 << 0);
+    break;
+  case KEY_LEFTCTRL:
+  case KEY_RIGHTCTRL:
+    modifiers |= (1 << 2);
+    break;
+  case KEY_LEFTMETA:
+  case KEY_RIGHTMETA:
+    modifiers |= (1 << 6);
+    break;
+  default:
+    g_assert_not_reached ();
+  }
+
+  zwp_virtual_keyboard_v1_modifiers (keyboard, modifiers, 0, 0, 0);
+}
+
+
+/**
+ * phosh_test_release_modifiers
+ * @keyboard: A virtual keyboard
+ *
+ * Release all modifiers
+ */
+void
+phosh_test_keyboard_release_modifiers (struct zwp_virtual_keyboard_v1 *keyboard)
+{
+  zwp_virtual_keyboard_v1_modifiers (keyboard, 0, 0, 0, 0);
 }
