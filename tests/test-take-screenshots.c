@@ -11,6 +11,7 @@
 #include "shell.h"
 
 #include "testlib-full-shell.h"
+#include "testlib-calls-mock.h"
 
 #include "phosh-screen-saver-dbus.h"
 
@@ -128,6 +129,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_autoptr (GTimer) timer = g_timer_new ();
   g_autoptr (GMainContext) context = g_main_context_new ();
   g_autoptr (PhoshScreenSaverDBusScreenSaver) ss_proxy = NULL;
+  g_autoptr (PhoshTestCallsMock) calls_mock = NULL;
   g_autoptr (GError) err = NULL;
   const char *argv[] = { TEST_TOOLS "/app-buttons", NULL };
   GPid pid;
@@ -179,6 +181,11 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_assert_no_error (err);
   wait_a_bit (context, 1);
   take_screenshot (locale, "06-lockscreen");
+
+  calls_mock = phosh_test_calls_mock_new ();
+  phosh_calls_mock_export (calls_mock);
+  wait_a_bit (context, 1);
+  take_screenshot (locale, "07-lockscreen-call");
 }
 
 
