@@ -12,6 +12,7 @@
 
 #include "testlib-full-shell.h"
 #include "testlib-calls-mock.h"
+#include "testlib-mpris-mock.h"
 
 #include "phosh-screen-saver-dbus.h"
 
@@ -130,6 +131,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_autoptr (GMainContext) context = g_main_context_new ();
   g_autoptr (PhoshScreenSaverDBusScreenSaver) ss_proxy = NULL;
   g_autoptr (PhoshTestCallsMock) calls_mock = NULL;
+  g_autoptr (PhoshTestMprisMock) mpris_mock = NULL;
   g_autoptr (GError) err = NULL;
   const char *argv[] = { TEST_TOOLS "/app-buttons", NULL };
   GPid pid;
@@ -183,6 +185,11 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   wait_a_bit (context, 1);
   take_screenshot (locale, i++, "lockscreen-status");
 
+  mpris_mock = phosh_test_mpris_mock_new ();
+  phosh_mpris_mock_export (mpris_mock);
+  wait_a_bit (context, 1);
+  take_screenshot (locale, i++, "lockscreen-media-player");
+
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_SPACE, NULL);
   wait_a_bit (context, 1);
   take_screenshot (locale, i++, "lockscreen-keypad");
@@ -207,7 +214,7 @@ main (int argc, char *argv[])
   bindtextdomain (GETTEXT_PACKAGE, TEST_INSTALLED LOCALEDIR);
 
   /* Preserve DISPLAY for wlroots x11 backend */
-  cfg = phosh_test_full_shell_fixture_cfg_new (g_getenv ("DISPLAY"), "phosh-keyboard-events");
+  cfg = phosh_test_full_shell_fixture_cfg_new (g_getenv ("DISPLAY"), "phosh-keyboard-events,phosh-media-player");
 
   g_test_add ("/phosh/tests/locale-screenshots", PhoshTestFullShellFixture, cfg,
               phosh_test_full_shell_setup, test_take_screenshots, phosh_test_full_shell_teardown);

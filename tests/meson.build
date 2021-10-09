@@ -57,6 +57,7 @@ testlib_sources = [
   'testlib.c',
   'testlib-full-shell.c',
   'testlib-calls-mock.c',
+  'testlib-mpris-mock.c',
 ]
 
 testlib = static_library('phoshtest', testlib_sources,
