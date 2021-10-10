@@ -137,16 +137,15 @@ on_call_proxy_new_for_bus_finish (GObject      *source_object,
 
   self = PHOSH_CALLS_MANAGER (data);
   path = g_dbus_proxy_get_object_path (G_DBUS_PROXY (proxy));
+  if (g_hash_table_contains (self->calls, path)) {
+    g_warning ("Already got a call with path %s", path);
+    return;
+  }
 
   /* Wrap DBus proxy in PhoshCall */
   call = phosh_call_new (proxy);
   g_object_set_data (G_OBJECT (proxy), "call", call);
-
-  if (g_hash_table_contains (self->calls, path))
-    g_critical ("Already got a call with path %s", path);
-  else
-    g_hash_table_insert (self->calls, g_strdup (path), g_steal_pointer (&call));
-
+  g_hash_table_insert (self->calls, g_strdup (path), g_steal_pointer (&call));
 
   g_signal_connect_swapped (proxy,
                             "notify::state",
