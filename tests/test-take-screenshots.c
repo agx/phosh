@@ -26,7 +26,7 @@ static void
 take_screenshot (const gchar *lang, int num, const gchar *what)
 {
   g_autoptr (GError) err = NULL;
-  g_autoptr (PhoshDBusScreenshot) proxy = NULL;
+  PhoshDBusScreenshot *proxy = NULL;
   g_autofree char *used_name = NULL;
   g_autofree char *dirname = NULL;
   g_autofree char *filename = NULL;
@@ -63,31 +63,30 @@ take_screenshot (const gchar *lang, int num, const gchar *what)
   g_assert_cmpstr (used_name, ==, path);
   g_test_message ("Screenshot at %s", used_name);
   g_assert_true (g_file_test (used_name, G_FILE_TEST_EXISTS));
+  g_assert_finalize_object (proxy);
 }
 
 
 static void
 on_waited (gpointer data)
 {
+  GMainLoop *loop = data;
+
   g_assert_nonnull (data);
-  g_main_loop_quit ((GMainLoop *)data);
+  g_main_loop_quit (loop);
 }
 
 
 static void
-wait_a_bit (GMainContext *context, int secs)
+wait_a_bit (GMainLoop *loop, int secs)
 {
-  g_autoptr (GMainLoop) loop = NULL;
-
-  loop = g_main_loop_new (context, FALSE);
-
   g_timeout_add_seconds (secs, (GSourceFunc) on_waited, loop);
   g_main_loop_run (loop);
 }
 
 
 static void
-toggle_overview (GMainContext                   *context,
+toggle_overview (GMainLoop                      *loop,
                  struct zwp_virtual_keyboard_v1 *keyboard,
                  GTimer                         *timer)
 {
@@ -95,12 +94,12 @@ toggle_overview (GMainContext                   *context,
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_A, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
   /* Give animation time to finish */
-  wait_a_bit (context, 1);
+  wait_a_bit (loop, 1);
 }
 
 
 static void
-toggle_settings (GMainContext                   *context,
+toggle_settings (GMainLoop                      *loop,
                  struct zwp_virtual_keyboard_v1 *keyboard,
                  GTimer                         *timer)
 {
@@ -108,7 +107,7 @@ toggle_settings (GMainContext                   *context,
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_M, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
   /* Give animation time to finish */
-  wait_a_bit (context, 1);
+  wait_a_bit (loop, 1);
 }
 
 
@@ -129,6 +128,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   const char *locale = g_getenv ("LANGUAGE");
   g_autoptr (GTimer) timer = g_timer_new ();
   g_autoptr (GMainContext) context = g_main_context_new ();
+  g_autoptr (GMainLoop) loop = NULL;
   g_autoptr (PhoshScreenSaverDBusScreenSaver) ss_proxy = NULL;
   g_autoptr (PhoshTestCallsMock) calls_mock = NULL;
   g_autoptr (PhoshTestMprisMock) mpris_mock = NULL;
@@ -143,33 +143,35 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 
   do_settings ();
 
+  loop = g_main_loop_new (context, FALSE);
+
   /* Give overview animation time to finish */
-  wait_a_bit (context, 1);
+  wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "overview-empty");
 
   keyboard = phosh_test_keyboard_new (phosh_wayland_get_default ());
 
   /* Give overview animation some time to finish */
-  wait_a_bit (context, 1);
+  wait_a_bit (loop, 1);
   /* Typing will focus search */
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_M, KEY_E, KEY_D, NULL);
   /* Give search time to finish */
-  wait_a_bit (context, 1);
+  wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "search");
 
   g_spawn_async (NULL, (char**) argv, NULL, G_SPAWN_DEFAULT, NULL, NULL, &pid, &err);
   g_assert_no_error (err);
   g_assert_true (pid);
   /* Give app time to start and close overview */
-  wait_a_bit (context, 1);
+  wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "running-app");
 
-  toggle_overview (context, keyboard, timer);
+  toggle_overview (loop, keyboard, timer);
   take_screenshot (locale, i++, "overview-app");
   kill (pid, SIGTERM);
   g_spawn_close_pid (pid);
 
-  toggle_settings (context, keyboard, timer);
+  toggle_settings (loop, keyboard, timer);
   take_screenshot (locale, i++, "settings");
 
   ss_proxy = phosh_screen_saver_dbus_screen_saver_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
@@ -182,21 +184,21 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_clear_error (&err);
   phosh_screen_saver_dbus_screen_saver_call_lock_sync (ss_proxy, NULL, &err);
   g_assert_no_error (err);
-  wait_a_bit (context, 1);
+  wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "lockscreen-status");
 
   mpris_mock = phosh_test_mpris_mock_new ();
   phosh_mpris_mock_export (mpris_mock);
-  wait_a_bit (context, 1);
+  wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "lockscreen-media-player");
 
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_SPACE, NULL);
-  wait_a_bit (context, 1);
+  wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "lockscreen-keypad");
 
   calls_mock = phosh_test_calls_mock_new ();
   phosh_calls_mock_export (calls_mock);
-  wait_a_bit (context, 1);
+  wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "lockscreen-call");
 }
 
