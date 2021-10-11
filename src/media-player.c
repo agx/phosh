@@ -41,12 +41,6 @@
  * ]|
  */
 
-typedef enum {
-  PHOSH_MEDIA_PLAYER_STATUS_STOPPED,
-  PHOSH_MEDIA_PLAYER_STATUS_PAUSED,
-  PHOSH_MEDIA_PLAYER_STATUS_PLAYING,
-} PhoshMediaPlayerStatus;
-
 enum {
   PROP_0,
   PROP_ATTACHED,
