@@ -28,6 +28,9 @@ typedef enum {
 
 G_DECLARE_FINAL_TYPE (PhoshMediaPlayer, phosh_media_player, PHOSH, MEDIA_PLAYER, GtkGrid)
 
-GtkWidget * phosh_media_player_new (void);
+GtkWidget              *phosh_media_player_new                   (void);
+gboolean                phosh_media_player_get_is_playable       (PhoshMediaPlayer *self);
+PhoshMediaPlayerStatus  phosh_media_player_get_status            (PhoshMediaPlayer *self);
+void                    phosh_media_player_toggle_play_pause     (PhoshMediaPlayer *self);
 
 G_END_DECLS
