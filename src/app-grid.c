@@ -43,7 +43,9 @@ struct _PhoshAppGridPrivate {
   GtkWidget *favs;
   GtkWidget *favs_revealer;
   GtkWidget *scrolled_window;
-  GtkWidget *menu_button;
+  GtkWidget *btn_adaptive;
+  GtkWidget *btn_adaptive_img;
+  GtkWidget *btn_adaptive_lbl;
 
   char *search_string;
   gboolean filter_adaptive;
@@ -119,6 +121,25 @@ sort_apps (gconstpointer a,
 }
 
 
+static void
+update_filter_adaptive_button (PhoshAppGrid *self)
+{
+  PhoshAppGridPrivate *priv;
+  const char *label, *icon_name;
+
+  priv = phosh_app_grid_get_instance_private (self);
+  if (priv->filter_adaptive) {
+    label = _("Show All Apps");
+    icon_name = "eye-open-negative-filled-symbolic";
+  } else {
+    label = _("Show Only Mobile Friendly Apps");
+    icon_name = "eye-not-looking-symbolic";
+  }
+
+  gtk_label_set_label (GTK_LABEL (priv->btn_adaptive_lbl), label);
+  gtk_image_set_from_icon_name (GTK_IMAGE (priv->btn_adaptive_img), icon_name, GTK_ICON_SIZE_BUTTON);
+}
+
 
 static void
 on_filter_setting_changed (PhoshAppGrid *self,
@@ -139,7 +160,7 @@ on_filter_setting_changed (PhoshAppGrid *self,
                                             "app-filter-mode");
 
   show = !!(priv->filter_mode & PHOSH_APP_FILTER_MODE_FLAGS_ADAPTIVE);
-  gtk_widget_set_visible (priv->menu_button, show);
+  gtk_widget_set_visible (priv->btn_adaptive, show);
 
   gtk_filter_list_model_refilter (priv->model);
 }
@@ -546,12 +567,14 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/app-grid.ui");
 
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, search);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, apps);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, btn_adaptive);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, btn_adaptive_img);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, btn_adaptive_lbl);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs_revealer);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, scrolled_window);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, menu_button);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, search);
 
   gtk_widget_class_bind_template_callback (widget_class, search_changed);
   gtk_widget_class_bind_template_callback (widget_class, search_preedit_changed);
@@ -635,8 +658,8 @@ phosh_app_grid_set_filter_adaptive (PhoshAppGrid *self, gboolean enable)
     return;
 
   priv->filter_adaptive = enable;
+  update_filter_adaptive_button (self);
 
   gtk_filter_list_model_refilter (priv->model);
-
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_FILTER_ADAPTIVE]);
 }
