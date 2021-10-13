@@ -300,7 +300,6 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
   GVariant *metadata;
   char *title = NULL;
   char *url = NULL;
-
   g_auto (GStrv) artist = NULL;
   g_auto (GVariantDict) dict = G_VARIANT_DICT_INIT (NULL);
 
@@ -308,11 +307,14 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
   g_debug ("Updating metadata");
 
   metadata = phosh_mpris_dbus_media_player2_player_get_metadata (player);
-  if (!metadata)
-    return;
-  g_variant_dict_init (&dict, metadata);
 
-  g_variant_dict_lookup (&dict, "xesam:title", "&s", &title);
+  if (metadata) {
+    g_variant_dict_init (&dict, metadata);
+    g_variant_dict_lookup (&dict, "xesam:title", "&s", &title);
+    g_variant_dict_lookup (&dict, "xesam:artist", "^as", &artist);
+    g_variant_dict_lookup (&dict, "mpris:artUrl", "&s", &url);
+  }
+
   if (title) {
     gtk_label_set_label (GTK_LABEL (self->lbl_title), title);
   } else {
@@ -320,7 +322,6 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     gtk_label_set_label (GTK_LABEL (self->lbl_title), _("Unknown Title"));
   }
 
-  g_variant_dict_lookup (&dict, "xesam:artist", "^as", &artist);
   if (artist && g_strv_length (artist) > 0) {
     g_autofree char *artists = g_strjoinv (", ", artist);
     gtk_label_set_label (GTK_LABEL (self->lbl_artist), artists);
@@ -329,7 +330,6 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     gtk_label_set_label (GTK_LABEL (self->lbl_artist), _("Unknown Artist"));
   }
 
-  g_variant_dict_lookup (&dict, "mpris:artUrl", "&s", &url);
   if (url) {
     g_autoptr (GIcon) icon = NULL;
     g_autoptr (GFile) file = g_file_new_for_uri (url);
