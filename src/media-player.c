@@ -369,8 +369,6 @@ on_playback_status_changed (PhoshMediaPlayer                 *self,
     set_playable (self, TRUE);
   } else if (!g_strcmp0 ("Stopped", status)) {
     self->status = PHOSH_MEDIA_PLAYER_STATUS_STOPPED;
-    gtk_label_set_label (GTK_LABEL (self->lbl_artist), "");
-    gtk_label_set_label (GTK_LABEL (self->lbl_title), "");
     set_playable (self, FALSE);
   } else {
     g_warning ("Unknown status %s", status);
