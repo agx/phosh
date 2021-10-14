@@ -345,12 +345,10 @@ on_nm_active_connection_state_changed (PhoshWifiManager *self,
    update_state (self);
 
    switch (state) {
-   case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
-     cleanup_device (self);
-     break;
    case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
      check_device (self);
      break;
+   case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
    case NM_ACTIVE_CONNECTION_STATE_UNKNOWN:
    case NM_ACTIVE_CONNECTION_STATE_DEACTIVATING:
    case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
