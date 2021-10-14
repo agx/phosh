@@ -406,7 +406,9 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
     if (conn != self->active) {
       g_debug ("New active connection %p", conn);
       cleanup_device (self);
-      self->active = g_object_ref (conn);
+      if (self->active)
+        g_signal_handlers_disconnect_by_data (self->active, self);
+      g_set_object (&self->active, conn);
       g_signal_connect_swapped (self->active, "state-changed",
                                 G_CALLBACK (on_nm_active_connection_state_changed), self);
     }
