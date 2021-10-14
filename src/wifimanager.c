@@ -417,8 +417,12 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
   }
 
   /* Clean up if there's no active wifi connection */
-  if (!found && self->dev)
+  if (!found) {
+    if (self->active)
+      g_signal_handlers_disconnect_by_data (self->active, self);
+    g_clear_object (&self->active);
     cleanup_device (self);
+  }
 }
 
 
