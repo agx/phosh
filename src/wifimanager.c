@@ -306,9 +306,8 @@ check_device (PhoshWifiManager *self)
     if (dev != NM_DEVICE (self->dev)) {
       if (self->dev) {
         g_signal_handlers_disconnect_by_data (self->dev, self);
-        g_object_unref (self->dev);
       }
-      self->dev = g_object_ref(NM_DEVICE_WIFI (dev));
+      g_set_object (&self->dev, NM_DEVICE_WIFI (dev));
       g_signal_connect_swapped (self->dev, "notify::active-access-point",
                                 G_CALLBACK (on_nm_device_wifi_active_access_point_changed), self);
       on_nm_device_wifi_active_access_point_changed (self, NULL, self->dev);
