@@ -498,6 +498,12 @@ phosh-media-player .media-player-details *:disabled {
   -gtk-icon-effect: none;
 }
 
+phosh-media-player > box > button {
+  border-radius: 9999px;
+  -gtk-icon-shadow: none;
+  padding: 12px;
+}
+
 /*
  * OSD
  */
