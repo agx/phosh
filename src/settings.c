@@ -10,6 +10,7 @@
 
 #include <glib/gi18n.h>
 
+#include "media-player.h"
 #include "mode-manager.h"
 #include "shell.h"
 #include "settings.h"
@@ -51,12 +52,14 @@ typedef struct _PhoshSettings
   GtkWidget *quick_settings;
   GtkWidget *scale_brightness;
   GtkWidget *output_vol_bar;
+  GtkWidget *media_player;
 
   /* Output volume control */
   GvcMixerControl *mixer_control;
   GvcMixerStream *output_stream;
   gboolean allow_volume_above_100_percent;
   gboolean setting_volume;
+  gboolean is_headphone;
 
   /* Notifications */
   GtkWidget *list_notifications;
@@ -318,6 +321,46 @@ output_stream_notify_volume_cb (GvcMixerStream *stream, GParamSpec *pspec, gpoin
 
 
 static void
+on_output_stream_port_changed (GvcMixerStream *stream, GParamSpec *pspec, gpointer data)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (data);
+  const char *form_factor;
+  gboolean is_headphone = FALSE;
+  const char *icon = "audio-speakers-symbolic";
+  const GvcMixerStreamPort *port;
+  PhoshMediaPlayer *media_player = PHOSH_MEDIA_PLAYER (self->media_player);
+
+  port = gvc_mixer_stream_get_port (stream);
+  g_return_if_fail (port);
+  g_debug ("Port changed: %s (%s)", port->human_port ?: port->port, port->port);
+
+  form_factor = gvc_mixer_stream_get_form_factor (stream);
+  if (g_strcmp0 (form_factor, "headset") == 0 ||
+      g_strcmp0 (form_factor, "headphone") == 0) {
+    is_headphone = TRUE;
+  }
+
+  if (g_strcmp0 (port->port, "[Out] Headphones") == 0 ||
+      g_strcmp0 (port->port, "analog-output-headphones") == 0) {
+    is_headphone = TRUE;
+  }
+
+  if (is_headphone == self->is_headphone)
+    return;
+
+  self->is_headphone = is_headphone;
+  if (is_headphone)
+    icon = "audio-headphones-symbolic";
+  else if (phosh_media_player_get_is_playable (media_player) &&
+           phosh_media_player_get_status (media_player) == PHOSH_MEDIA_PLAYER_STATUS_PLAYING) {
+    phosh_media_player_toggle_play_pause (media_player);
+  }
+
+  gvc_channel_bar_set_icon_name (GVC_CHANNEL_BAR (self->output_vol_bar), icon);
+}
+
+
+static void
 mixer_control_output_update_cb (GvcMixerControl *mixer, guint id, gpointer *data)
 {
   PhoshSettings *self = PHOSH_SETTINGS (data);
@@ -342,6 +385,12 @@ mixer_control_output_update_cb (GvcMixerControl *mixer, guint id, gpointer *data
                            "notify::is-muted",
                            G_CALLBACK (output_stream_notify_is_muted_cb),
                            self, 0);
+
+  g_signal_connect_object (self->output_stream,
+                           "notify::port",
+                           G_CALLBACK (on_output_stream_port_changed),
+                           self, 0);
+  on_output_stream_port_changed (self->output_stream, NULL, self);
 
   update_output_vol_bar (self);
 }
@@ -618,6 +667,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, media_player);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_torch);

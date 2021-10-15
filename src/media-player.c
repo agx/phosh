@@ -41,12 +41,6 @@
  * ]|
  */
 
-typedef enum {
-  PHOSH_MEDIA_PLAYER_STATUS_STOPPED,
-  PHOSH_MEDIA_PLAYER_STATUS_PAUSED,
-  PHOSH_MEDIA_PLAYER_STATUS_PLAYING,
-} PhoshMediaPlayerStatus;
-
 enum {
   PROP_0,
   PROP_ATTACHED,
@@ -160,10 +154,7 @@ btn_play_clicked_cb (PhoshMediaPlayer *self, GtkButton *button)
   g_return_if_fail (PHOSH_MPRIS_DBUS_IS_MEDIA_PLAYER2_PLAYER (self->player));
 
   g_debug ("Play/pause");
-  phosh_mpris_dbus_media_player2_player_call_play_pause (self->player,
-                                                         self->cancel,
-                                                         (GAsyncReadyCallback)on_play_pause_done,
-                                                         self);
+  phosh_media_player_toggle_play_pause (self);
 }
 
 
@@ -748,4 +739,34 @@ GtkWidget *
 phosh_media_player_new (void)
 {
   return g_object_new (PHOSH_TYPE_MEDIA_PLAYER, NULL);
+}
+
+
+gboolean
+phosh_media_player_get_is_playable (PhoshMediaPlayer *self)
+{
+  g_return_val_if_fail (PHOSH_IS_MEDIA_PLAYER (self), FALSE);
+
+  return self->playable;
+}
+
+
+PhoshMediaPlayerStatus
+phosh_media_player_get_status (PhoshMediaPlayer *self)
+{
+  g_return_val_if_fail (PHOSH_IS_MEDIA_PLAYER (self), PHOSH_MEDIA_PLAYER_STATUS_STOPPED);
+
+  return self->status;
+}
+
+
+void
+phosh_media_player_toggle_play_pause (PhoshMediaPlayer *self)
+{
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
+
+  phosh_mpris_dbus_media_player2_player_call_play_pause (self->player,
+                                                         self->cancel,
+                                                         (GAsyncReadyCallback)on_play_pause_done,
+                                                         self);
 }

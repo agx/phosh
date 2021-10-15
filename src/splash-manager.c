@@ -263,7 +263,7 @@ static void
 phosh_splash_manager_init (PhoshSplashManager *self)
 {
   GSettingsSchemaSource *source;
-  GSettingsSchema *schema;
+  g_autoptr (GSettingsSchema) schema = NULL;
 
   self->splashes = g_hash_table_new_full (g_str_hash,
                                           g_str_equal,
