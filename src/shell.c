@@ -1216,9 +1216,11 @@ phosh_shell_get_usable_area (PhoshShell *self, int *x, int *y, int *width, int *
 
   scale = MAX(1.0, phosh_monitor_get_fractional_scale (monitor));
 
-  g_debug ("Primary monitor %p scale is %f, transform is %d",
+  g_debug ("Primary monitor %p scale is %f, mode: %dx%d, transform is %d",
            monitor,
            scale,
+           mode->width,
+           mode->height,
            monitor->transform);
 
   switch (phosh_monitor_get_transform(monitor)) {

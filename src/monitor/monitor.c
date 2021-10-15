@@ -626,9 +626,13 @@ float
 phosh_monitor_get_fractional_scale (PhoshMonitor *self)
 {
   float width;
+  PhoshMonitorMode *mode;
 
   g_return_val_if_fail (PHOSH_IS_MONITOR (self), 1.0);
   g_return_val_if_fail (phosh_monitor_is_configured (self), 1.0);
+
+  mode = phosh_monitor_get_current_mode (self);
+  g_return_val_if_fail (mode, 1.0);
 
   switch (self->transform) {
   case PHOSH_MONITOR_TRANSFORM_NORMAL:
@@ -640,5 +644,5 @@ phosh_monitor_get_fractional_scale (PhoshMonitor *self)
   default:
     width = self->logical.height;
   }
-  return self->width / width;
+  return mode->width / width;
 }
