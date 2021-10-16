@@ -21,10 +21,17 @@
               <object class="GtkImage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="width-request">32</property>
+                <property name="height-request">32</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
                 <property name="icon_name">media-skip-backward-symbolic</property>
               </object>
             </child>
           </object>
+          <packing>
+            <property name="fill">False</property>
+          </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_seek_backward">
@@ -35,10 +42,17 @@
               <object class="GtkImage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="width-request">32</property>
+                <property name="height-request">32</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
                 <property name="icon_name">skip-backwards-10-symbolic</property>
               </object>
             </child>
           </object>
+          <packing>
+            <property name="fill">False</property>
+          </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_play">
@@ -64,10 +78,17 @@
               <object class="GtkImage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="width-request">32</property>
+                <property name="height-request">32</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
                 <property name="icon_name">skip-forward-30-symbolic</property>
               </object>
             </child>
           </object>
+          <packing>
+            <property name="fill">False</property>
+          </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_next">
@@ -77,11 +98,18 @@
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
+                <property name="width-request">32</property>
+                <property name="height-request">32</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
                 <property name="can_focus">False</property>
                 <property name="icon_name">media-skip-forward-symbolic</property>
               </object>
             </child>
           </object>
+          <packing>
+            <property name="fill">False</property>
+          </packing>
         </child>
       </object>
       <packing>
