@@ -149,7 +149,6 @@
                             <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                             <property name="margin-start">6</property>
                             <property name="margin-end">6</property>
-                            <property name="no_show_all">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
