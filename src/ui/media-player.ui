@@ -65,7 +65,7 @@
                 <property name="can_focus">False</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
-                <property name="pixel_size">32</property>
+                <property name="pixel-size">24</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="icon_name">media-playback-start-symbolic</property>
