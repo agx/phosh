@@ -7,7 +7,6 @@
 
 #include "calls-dbus.h"
 
-#include <cui-call.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
