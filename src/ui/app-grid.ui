@@ -35,30 +35,6 @@
             <property name="position">0</property>
 	  </packing>
 	</child>
-	<child>
-          <object class="GtkMenuButton" id="menu_button">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="focus_on_click">False</property>
-            <property name="receives-default">True</property>
-            <property name="popover">menu_filter</property>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="icon_name">open-menu</property>
-              </object>
-            </child>
-            <style>
-              <class name="phosh-menu-button"/>
-            </style>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
         <style>
           <class name="phosh-search-bar-box"/>
         </style>
@@ -117,8 +93,7 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -140,9 +115,52 @@
                 <property name="row-spacing">6</property>
               </object>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
+                <property name="fill">False</property>
                 <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="orientation">horizontal</property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkToggleButton" id="btn_adaptive">
+                    <property name="visible">True</property>
+                    <property name="expand">True</property>
+                    <property name="valign">start</property>
+                    <property name="halign">center</property>
+                    <property name="action-name">app-grid.filter-adaptive</property>
+                    <property name="name">phosh-filter-adaptive-btn</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkImage" id="btn_adaptive_img">
+                            <property name="visible">True</property>
+                            <property name="icon-name">eye-not-looking-symbolic</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="btn_adaptive_lbl">
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>
@@ -155,21 +173,4 @@
       </packing>
     </child>
   </template>
-  <object class="GtkPopoverMenu" id="menu_filter">
-    <child>
-      <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="margin">10</property>
-        <property name="spacing">6</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkModelButton">
-            <property name="visible">True</property>
-            <property name="action-name">app-grid.filter-adaptive</property>
-            <property name="text" translatable="yes">Show only adaptive apps</property>
-          </object>
-        </child>
-      </object>
-    </child>
-  </object>
 </interface>

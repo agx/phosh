@@ -2,6 +2,7 @@
 
 @define-color phosh_fg_color black;
 @define-color phosh_bg_color white;
+@define-color phosh_button_bg_color #e0e0e0;
 @define-color phosh_notification_bg_color #e0e0e0;
 @define-color phosh_splash_bg_color @theme_bg_color;
 @define-color phosh_splash_fg_color @theme_fg_color;
