@@ -1,3 +1,278 @@
+phosh (0.14.0) experimental; urgency=medium
+
+  [ Mohammed Sadiq ]
+  * wifimanager: Use hotspot icon if wifi hotspot is active
+
+  [ Guido Günther ]
+  * notify-manager: Move schema paths and key defines to header.
+    Fixes the leftover from a4a338b70c12a6d0187d7bf9ae9227abf46b767e
+  * osd: Hide label when empty.
+    This avoids having the OSD out of center when the label is empty.
+  * phosh.service: Reduce boot flicker.
+    Take over tty1. We currently don't take over quitting plymouth
+    but we'll do so once we wire in a display manager.
+  * torch-manager: Don't emit a warning when no torch is found.
+    This makes running with G_DEBUG=fatal-warnings harder than necessary.
+  * system-modal-dialog: Drop `can-focus` proprties that use default value
+  * util: Add helper to strip '.desktop' from app_id.
+    Needed in several places
+  * Add PhoshSplash.
+    Splash screen for launching applications. It times out after
+    5 seconds if not closed.
+  * Add marshalers list.
+    We want special marshalers for more complex signal arguments.
+  * phosh-private: Update phosh-private protocol from phoc.
+    This gives us some more information when apps launch.
+  * phosh-private: Emit signals when we receive startup-ids.
+    This will allow other parts of the shell to track application
+    start.
+  * phosh-wayland: Allow to retrieve phosh_private protocol version
+  * wayland: Use defines instead of hard coding protocol versions.
+    We have multiple places where we check versions of phosh_private,
+    use proper defines for readability
+  * Add app-tracker.
+    This keeps track of spawned apps (via glib's g_app_info) and
+    corresponding startup_id's (mostly via gtk_shell1 protcol).
+    Additionall we track org.gtk.gio.DesktopAppInfo on DBus
+    This allows us to show splash screens for apps that are spawned by other
+    processes than the shell itself. E.g.
+        gtk4-launch gnome-control-center.desktop
+    or when opening a file in nautilus. We only do something if we get a
+    desktop file name and a startup id (the later is e.g. not the case when
+    processes are spawned via 'gio launch' or gnome-contacts).
+  * app-grid-button: Use app-tracker for app launching.
+    A button shouldn't care about the details of app launching. Let
+    the app-tracker handle that.
+  * Add splash-manager.
+    The SplashManager listens to app-tracker events and shows/hides
+    splash screens as needed.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/183
+  * shell: Add and parse debug flags.
+    This makes it simpler to test certain aspects of the shell.
+  * splash-manager: Only show splash when not docked
+  * splash: Allow to prefer dark theme.
+    Allow to set the dark/light theme preference during construction.
+  * splash-manager: Honor global dark theme preference.
+    Although apps can still opt out this way the splash is way more likely
+    going to match the launched apps color scheme.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/618
+  * monitor: Treat wlroots virtual connector as such`
+    The wayland, x11 and headless backends don't correspond to real
+    hardware so treat their connectors as virtual.
+  * mode-manager: Unclutter external monitor check.
+    This makes future additions simpler
+  * mode-manager: Handle virtual monitor.
+    If a system has a single output and that is virtual we treat it as not
+    having external display hardware. This allows to test the undocked
+    case more easily with virtual wayland backends like headless, x11 or
+    wayland.
+    If we want to test docked mode we can add a second output.
+  * docked-manager: Treat unknown hardware as undocked.
+    If modem-manager doesn't have enough information to set a hardware
+    type (no logind, etc) assume undocked rather than docked since
+    we want to default to phone mode.
+  * tools: Fix paths to CSS.
+  * d/control: Add more recommends.
+    Add proper fonts and the SVG renderer. This is useful on minimal
+    installs like in containers.
+  * tests: Use the correct flags when creating DBus proxy.
+    There's nothing object manager related there and we create a
+    GDBusProxy in the end.
+  * build: Add a suite to all tests.
+    Ignore manual tests on the alpine build
+  * gitlab-ci: Collect junit test reports
+    gitlab can handle those for better test failure output.
+  * build: Bump required meson to 0.52.0.
+    This avoids a warning and 0.56.0 is in Debian stable.
+  * media-player: Use cancellable.
+    Don't hold a ref across async calls but rather check if the
+    operation was cancelled. This makes sure we can properly
+    dispose and don't end up in half finished async calls.
+  * tests: Drop g_test option.
+    Rather check if we're using recent enough glib at runtime
+  * screenshot-manager: Assert on g_file_test.
+    Just calling it isn't enough.
+  * gitlab-ci: Use meson to run the tests.
+    Ignore manual tests on alpine
+  * README: Update test instructions.
+    The manual tests need extra setup so skip those, we also don't
+    need extra gtest invocation since some time.
+  * tests: Use minimal device resolution for phoc.
+    This makes screenshots, etc more useful
+  * tests: full-shell tests: Use temporary file for XDG_RUNTIME_DIR.
+    This allows to run tests in parallel. They were previosly racing for the
+    wayland socket.
+  * tests: Run more tests in parallel.
+  * gitlab-ci: Switch Debian builds to bookworm.
+    We keep the cross build at bullseye for the moment to
+    stay out of dependency problems.
+  * gitlab-ci: Generate locales needed for the screenshot tests
+  * gitlab-ci: Fix registry URL.
+    We want the one from the blessed repo not a user's fork.
+  * testlib: Init libcallui as well.
+    We should init all libs used phosh (that for the "normal" shell get
+    inited in phosh's main)
+  * testlib: Allow to send modifiers via virtual keyboard as well.
+    We use keycodes for those too so users only have to worry about
+    KEY_* and not a mixture of wl_keyboard modifiers and keycodes.
+  * top-panel: Handle toggle-message-tray keybinding.
+    This brings up the settings menu (which contains the message tray)
+  * tests: Take screenshots.
+    Take screenshots for different locales during CI. This allows for quicker
+    validation of how things look in different locales.
+  * gitlab-ci: Expose test results and screenshots prominently.
+    Add a separate job that takes the screenshots and use a container that has
+    some more dependencies so we get the fonts right and images rendered
+    correctly.
+  * batteryinfo: Show missing battery icon when we can't connect to upower.
+    This makes the quick settings look less odd in e.g. tests.
+  * batteryinfo: Make widget insensitive without battery.
+    No point in having it look available.
+  * wifimanager: Always return an icon name.
+    We have the `present` property to figure out if wifi is actually
+    there so always return a sensible icon name to make it simpler
+    for consumers to show something useful.
+  * gitlab-ci: Condense all screenshots of a locale into a single image.
+    This makes it simpler to get a quick overview.
+  * calls-manager: Drop out early on duplicate call ids.
+    Should we ever see this we better not reconnect signals etc
+    but rater ignore the dupliate id.
+  * testlib: Add a simple call mock.
+    This can be used whenever we need an incoming call
+  * app-tracker: Adjust to "launch-started" DBus API.
+    GLib 2.72 emits "launch-started" for spawned and DBus activated apps.
+    Track this too and use that instead of "launched" to bring up the splash
+    since the later is emitted only once the app is up which is too late for a
+    splash.
+    There's some backward compatibility code to try get reasonable results
+    with current released glib but for DBus acivated apps you really need
+    2.72.0.
+  * app-trcker: Handle timeouts.
+    So far we'd not properly dispose AppState if the app never
+    showed up nor failed.
+    With this we can drop the timeout handling from the splash.
+  * splash: Remove timeout.
+    This is now handled by the app-tracker.
+  * notifications: Reduce spacing between content and header.
+    Fixes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/286
+  * monitor: Take mode into account for fractional scale.
+    Thanks Pablo Correa Gomez for the analysis
+  * splash-manager: Don't leak schema
+  * settings: Use headphone icons when headphone is plugged
+  * settings: Stop media player playback when headphone gets unplugged.
+    We do this form settings since this is always around.
+  * media-player: Use rounded buttons
+  * Move adaptive apps filter to the bottom.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/628
+  * splash: Use same icon shadow in light and dark mode
+  * wifimanager: Simplify switch.
+  * wifimanager: Use g_set_object to set dev.
+    Just so we use the same throughout this file
+  * wifimanager: Unref connection on update.
+    When there's a new connection make sure we unref the old one and
+    disconnect signals. So far we would leak the ref here.
+  * wifimanager: Unref connection when there's no active one.
+    So far we would leak the ref here. We can also drop the dev->dev check
+    since `cleanup_device ()` checks that too and if we cleanup the device we
+    want to clean up the AP too since that is bound to the device.
+  * media-player: Reset artist/title/url without metadata.
+    If we can't get any metadata reset to the defaults. So far
+    we'd only reset if we got partial data at least.
+  * media-player: Don't clear title and artist when player stops.
+    Some players like Shortware don't send new metadata when resuming
+    playing after stop if it didn't change. This makes sure we have it still
+    around.
+    (We also failed to reset the icon)
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/375
+  * call: Drop unused include
+  * shell: Fix callback signature.
+    We don't use that param but it's better to be correct here.
+  * protocol: Update to latest phosh-private
+  * shell: Notify compositor that shell is ready.
+    We still have some blocking calls and fetching all the apps isn't async
+    either yet. So delay for a second until we signal to the outer world.
+  * d/control: Depend on phoc > 0.9.0.
+    This one supports '-S' to wait for the shell.
+  * session: Enable shell mode.
+    Make phoc wait until phosh attaches before unblanking
+    the screen.
+  * media-player: Make play button circular
+  * media-player: Don't use `-1` as icon size.
+    This triggers warnings. Since we want to avoid passing
+    GTK_ICON_SIZE invalid or encode in two places set the
+    property directly. Upside is that this also works with
+    GTK4.
+  * media-player: Make play/pause icon a bit smaller.
+    Use 24px instead of 32px. The other icons are 16px.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/632
+  * activity: Use the correct background style for drawing the background.
+    The grey border looks odd otherwise which is even more pronounced in
+    high contrast mode.
+    Helps: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/629
+  * activity: Move the close button over the thumnail.
+    Before the mouse hovered close button be outside the thumnail since
+    windows aren't all the same width in e.g. docked mode. This calculates
+    the margin from the allocated width and the thumbnail's size.
+  * activity: Always align thumnails to the top.
+    This doesn't affect maximized windows but makes sure the close
+    button is on top of the window.
+
+  [ Vittorio Monti ]
+  * po: Update Italian translation
+
+  [ Evangelos Ribeiro Tzaras ]
+  * proximity: Only act on changes if we claimed the sensor.
+    Fixes #624
+
+  [ Oliver Smith ]
+  * editorconfig: treat *.ui like xml
+  * media-player: add seek buttons.
+
+  [ Florian Loers ]
+  * activity: Drop activity labels.
+    Remove the label in the activity overlay and move the icon into a centered
+    position. Fixes: #330
+  * activity: Remove title field.
+  * activity: Add icon-dropshadow to activity icon.
+
+  [ Sebastian Krzyszkowiak ]
+  * util: Introduce phosh_get_desktop_app_info_for_app_id.
+    This replaces phosh_fix_app_id and allows for logic in PhoshActivity
+    and PhoshAppTracker to become a bit simpler.
+    We get rid of "org.gnome." prefix handling (with one exception of
+    g-c-c which apparently keeps non-revDNS desktop filename for
+    backwards compatibility) as phoc will now forward application ID
+    obtained via gtk-shell, which is used by GTK 3 applications.
+    However, we now also check the last component alone and a lowercase
+    version in order to increase compatibility with legacy X11 and
+    non-GTK applications. Examples of apps that now get correctly
+    matched thanks to that include Mumble, Audacity, Blender, Jamulus
+    and Darktable.
+  * phosh_get_desktop_app_info_for_app_id: Add gnome-usage to mappings
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Nathan Follens ]
+  * Update Dutch translation
+
+  [ Zander Brown ]
+  * Update British English translation
+
+  [ Goran Vidović ]
+  * Add Croatian translation
+
+  [ Hugo Carvalho ]
+  * Update Portuguese translation
+
+  [ Matej Urbančič ]
+  * Add Slovenian translation
+
+  [ Jiri Groenroos ]
+  * Update Finnish translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 19 Oct 2021 14:31:17 +0200
+
 phosh (0.13.1) experimental; urgency=medium
 
   [ Guido Günther ]
