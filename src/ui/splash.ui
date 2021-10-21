@@ -15,6 +15,9 @@
             <property name="pixel-size">192</property>
             <property name="valign">end</property>
             <property name="vexpand">True</property>
+            <style>
+              <class name="phosh-dropicon-shadow"/>
+            </style>
           </object>
         </child>
         <child>
