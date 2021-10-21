@@ -198,12 +198,14 @@ draw_cb (PhoshActivity *self, cairo_t *cairo, GtkDrawingArea *area)
   int width, height, image_width, image_height, x, y;
   float scale;
   PhoshActivityPrivate *priv;
+  GtkStyleContext *context;
 
   g_return_val_if_fail (PHOSH_IS_ACTIVITY (self), FALSE);
   g_return_val_if_fail (GTK_IS_DRAWING_AREA (area), FALSE);
   width = gtk_widget_get_allocated_width (GTK_WIDGET (area));
   height = gtk_widget_get_allocated_height (GTK_WIDGET (area));
   priv = phosh_activity_get_instance_private (self);
+  context = gtk_widget_get_style_context (GTK_WIDGET (self));
 
   if (!priv->surface)
     return FALSE;
@@ -216,19 +218,7 @@ draw_cb (PhoshActivity *self, cairo_t *cairo, GtkDrawingArea *area)
   if (height / (float)image_height < scale)
     scale = height / (float)image_height;
 
-  /*
-   * If the window is maximized, draw it from the top with a grayish background;
-   * otherwise center it on transparent background - a poor man's way to take
-   * exclusive areas like virtual keyboard into account.
-   */
-
-  if (priv->maximized)
-    cairo_set_source_rgba (cairo, 0.1, 0.1, 0.1, 1.0);
-  else
-    cairo_set_source_rgba (cairo, 0, 0, 0, 0);
-
-  cairo_set_operator (cairo, CAIRO_OPERATOR_SOURCE);
-  cairo_paint (cairo);
+  gtk_render_background(context, cairo, 0, 0, width, height);
 
   cairo_scale (cairo, scale, scale);
 
