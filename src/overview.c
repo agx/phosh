@@ -141,7 +141,7 @@ on_activity_clicked (PhoshOverview *self, PhoshActivity *activity)
 
   g_debug("Will raise %s (%s)",
           phosh_activity_get_app_id (activity),
-          phosh_activity_get_title (activity));
+          phosh_toplevel_get_title (toplevel));
 
   phosh_toplevel_activate (toplevel, phosh_wayland_get_wl_seat (phosh_wayland_get_default ()));
   g_signal_emit (self, signals[ACTIVITY_RAISED], 0);
@@ -161,7 +161,7 @@ on_activity_closed (PhoshOverview *self, PhoshActivity *activity)
 
   g_debug ("Will close %s (%s)",
            phosh_activity_get_app_id (activity),
-           phosh_activity_get_title (activity));
+           phosh_toplevel_get_title (toplevel));
 
   phosh_toplevel_close (toplevel);
   phosh_trigger_feedback ("window-close");
@@ -267,7 +267,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   title = phosh_toplevel_get_title (toplevel);
 
   g_debug ("Building activator for '%s' (%s)", app_id, title);
-  activity = phosh_activity_new (app_id, title);
+  activity = phosh_activity_new (app_id);
   scale = phosh_monitor_get_fractional_scale (monitor);
   g_object_set (activity,
                 "win-width", (int)(monitor->width / scale),
@@ -345,9 +345,6 @@ toplevel_changed_cb (PhoshOverview        *self,
   activity = find_activity_by_toplevel (self, toplevel);
   g_return_if_fail (activity);
 
-  /* TODO: update other properties */
-  phosh_activity_set_title (activity,
-                            phosh_toplevel_get_title (toplevel));
   request_thumbnail (activity, toplevel);
 }
 

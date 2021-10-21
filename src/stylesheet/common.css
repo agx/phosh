@@ -89,17 +89,6 @@ phosh-activity box button {
   background-size: cover;
 }
 
-phosh-activity box {
-  background: rgba(0, 0, 0, 0.7);
-  padding: 6px;
-  color: white;
-  font-weight: bold;
-}
-
-phosh-activity:focus box {
-  background: rgba(38, 35, 83, 0.7);
-}
-
 phosh-home, phosh-top-panel {
   background: @phosh_bg_color;
   color: @phosh_fg_color;
