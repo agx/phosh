@@ -306,9 +306,8 @@ check_device (PhoshWifiManager *self)
     if (dev != NM_DEVICE (self->dev)) {
       if (self->dev) {
         g_signal_handlers_disconnect_by_data (self->dev, self);
-        g_object_unref (self->dev);
       }
-      self->dev = g_object_ref(NM_DEVICE_WIFI (dev));
+      g_set_object (&self->dev, NM_DEVICE_WIFI (dev));
       g_signal_connect_swapped (self->dev, "notify::active-access-point",
                                 G_CALLBACK (on_nm_device_wifi_active_access_point_changed), self);
       on_nm_device_wifi_active_access_point_changed (self, NULL, self->dev);
@@ -345,12 +344,10 @@ on_nm_active_connection_state_changed (PhoshWifiManager *self,
    update_state (self);
 
    switch (state) {
-   case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
-     cleanup_device (self);
-     break;
    case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
      check_device (self);
      break;
+   case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
    case NM_ACTIVE_CONNECTION_STATE_UNKNOWN:
    case NM_ACTIVE_CONNECTION_STATE_DEACTIVATING:
    case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
@@ -409,7 +406,9 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
     if (conn != self->active) {
       g_debug ("New active connection %p", conn);
       cleanup_device (self);
-      self->active = g_object_ref (conn);
+      if (self->active)
+        g_signal_handlers_disconnect_by_data (self->active, self);
+      g_set_object (&self->active, conn);
       g_signal_connect_swapped (self->active, "state-changed",
                                 G_CALLBACK (on_nm_active_connection_state_changed), self);
     }
@@ -418,8 +417,12 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
   }
 
   /* Clean up if there's no active wifi connection */
-  if (!found && self->dev)
+  if (!found) {
+    if (self->active)
+      g_signal_handlers_disconnect_by_data (self->active, self);
+    g_clear_object (&self->active);
     cleanup_device (self);
+  }
 }
 
 
