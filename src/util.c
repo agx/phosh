@@ -18,25 +18,68 @@ phosh_cp_widget_destroy (void *widget)
   gtk_widget_destroy (GTK_WIDGET (widget));
 }
 
-/* For GTK+3 apps the desktop_id and the app_id often don't match
-   because the app_id is incorrectly just $(basename argv[0]). If we
-   detect this case (no dot in app_id and starts with
-   lowercase) work around this by trying org.gnome.<capitalized
-   app_id>.
-   Applications with "gnome-" prefix in their name also need to be
-   handled there ("gnome-software" -> "org.gnome.Software").
-*/
-char *
-phosh_fix_app_id (const char *app_id)
+
+/**
+ * phosh_get_desktop_app_info_for_app_id:
+ * @app_id: the app_id
+ *
+ * Looks up an app info object for specified application ID.
+ * Tries a bunch of transformations in order to maximize compatibility
+ * with X11 and non-GTK applications that may not report the exact same
+ * string as their app-id and in their desktop file.
+ *
+ * Returns: (transfer full): GDesktopAppInfo for requested app_id
+ */
+GDesktopAppInfo *
+phosh_get_desktop_app_info_for_app_id (const char *app_id)
 {
-  if (strchr (app_id, '.') == NULL && !g_ascii_isupper (app_id[0])) {
-    int first_char = 0;
-    if (g_str_has_prefix (app_id, "gnome-")) {
-      first_char = strlen ("gnome-");
+  g_autofree char *desktop_id = NULL;
+  g_autofree char *lowercase = NULL;
+  GDesktopAppInfo *app_info = NULL;
+  char *last_component;
+  static char *mappings[][2] = {
+    { "org.gnome.ControlCenter", "gnome-control-center" },
+  };
+
+  g_assert (app_id);
+
+  /* fix up applications with known broken app-id */
+  for (int i = 0; i < G_N_ELEMENTS (mappings); i++) {
+    if (strcmp (app_id, mappings[i][0]) == 0) {
+      app_id = mappings[i][1];
+      break;
     }
-    return g_strdup_printf ("org.gnome.%c%s", app_id[first_char] - 32, &(app_id[first_char + 1]));
   }
-  return g_strdup (app_id);
+
+  desktop_id = g_strdup_printf ("%s.desktop", app_id);
+  g_return_val_if_fail (desktop_id, NULL);
+  app_info = g_desktop_app_info_new (desktop_id);
+
+  if (app_info)
+    return app_info;
+
+  /* try to handle the case where app-id is rev-DNS, but desktop file is not */
+  last_component = strrchr(app_id, '.');
+  if (last_component) {
+    g_free (desktop_id);
+    desktop_id = g_strdup_printf ("%s.desktop", last_component + 1);
+    g_return_val_if_fail (desktop_id, NULL);
+    app_info = g_desktop_app_info_new (desktop_id);
+    if (app_info)
+      return app_info;
+  }
+
+  /* X11 WM_CLASS is often capitalized, so try in lowercase as well */
+  lowercase = g_utf8_strdown (last_component ?: app_id, -1);
+  g_free (desktop_id);
+  desktop_id = g_strdup_printf ("%s.desktop", lowercase);
+  g_return_val_if_fail (desktop_id, NULL);
+  app_info = g_desktop_app_info_new (desktop_id);
+
+  if (!app_info)
+    g_message ("Could not find application for app-id '%s'", app_id);
+
+  return app_info;
 }
 
 /**

@@ -59,7 +59,6 @@ typedef struct
   int win_height;
 
   char *app_id;
-  GDesktopAppInfo *info;
 
   cairo_surface_t *surface;
   PhoshThumbnail *thumbnail;
@@ -260,25 +259,11 @@ phosh_activity_constructed (GObject *object)
 {
   PhoshActivity *self = PHOSH_ACTIVITY (object);
   PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
-  g_autofree char *desktop_id = NULL;
+  g_autoptr (GDesktopAppInfo) app_info = phosh_get_desktop_app_info_for_app_id (priv->app_id);
 
-  desktop_id = g_strdup_printf ("%s.desktop", priv->app_id);
-  g_return_if_fail (desktop_id);
-  priv->info = g_desktop_app_info_new (desktop_id);
-
-  if (!priv->info) {
-    g_autofree char *name = phosh_fix_app_id (priv->app_id);
-    g_return_if_fail (name);
-    g_free (desktop_id);
-    desktop_id = g_strdup_printf ("%s.desktop", name);
-    g_return_if_fail (desktop_id);
-    g_debug ("%s has broken app_id, should be %s", priv->app_id, desktop_id);
-    priv->info = g_desktop_app_info_new (desktop_id);
-  }
-
-  if (priv->info) {
+  if (app_info) {
     gtk_image_set_from_gicon (GTK_IMAGE (priv->icon),
-                              g_app_info_get_icon (G_APP_INFO (priv->info)),
+                              g_app_info_get_icon (G_APP_INFO (app_info)),
                               ACTIVITY_ICON_SIZE);
   } else {
     gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon),
@@ -300,7 +285,6 @@ phosh_activity_dispose (GObject *object)
 
   g_clear_pointer (&priv->surface, cairo_surface_destroy);
   g_clear_object (&priv->thumbnail);
-  g_clear_object (&priv->info);
 
   if (priv->remove_timeout_id) {
     g_source_remove (priv->remove_timeout_id);
