@@ -40,7 +40,6 @@ struct _PhoshOskManager
   /* Currently the only impl. We can use an interface once we support
    * different OSK types */
   PhoshOsk0SmPuriOSK0 *proxy;
-  PhoshLockscreenManager *lockscreen_manager;
   gboolean visible;
   gboolean available;
 };
@@ -150,12 +149,12 @@ on_visible_changed (PhoshOskManager *self, GParamSpec *pspec, PhoshOsk0SmPuriOSK
 
 
 static void
-on_lockscreen_manager_locked_changed (PhoshOskManager *self, GParamSpec *pspec, gpointer unused)
+on_shell_locked_changed (PhoshOskManager *self, GParamSpec *pspec, gpointer unused)
 {
   g_return_if_fail (PHOSH_IS_OSK_MANAGER (self));
 
   /* Hide OSK on lock screen lock */
-  if (phosh_lockscreen_manager_get_locked (self->lockscreen_manager))
+  if (phosh_shell_get_locked (phosh_shell_get_default ()))
     set_visible_real (self, FALSE);
 }
 
@@ -201,10 +200,9 @@ phosh_osk_manager_constructed (GObject *object)
   on_visible_changed (self, NULL, self->proxy);
 
   shell = phosh_shell_get_default();
-  self->lockscreen_manager = g_object_ref(phosh_shell_get_lockscreen_manager(shell));
-  g_signal_connect_swapped (self->lockscreen_manager,
+  g_signal_connect_swapped (shell,
                             "notify::locked",
-                            G_CALLBACK (on_lockscreen_manager_locked_changed),
+                            G_CALLBACK (on_shell_locked_changed),
                             self);
 }
 
@@ -215,7 +213,6 @@ phosh_osk_manager_dispose (GObject *object)
   PhoshOskManager *self = PHOSH_OSK_MANAGER (object);
 
   g_clear_object (&self->proxy);
-  g_clear_object (&self->lockscreen_manager);
   G_OBJECT_CLASS (phosh_osk_manager_parent_class)->dispose (object);
 }
 
