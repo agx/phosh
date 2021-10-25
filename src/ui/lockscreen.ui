@@ -337,7 +337,7 @@
                         <property name="pack_type">end</property>
                       </packing>
                     </child>
-                    </object>>
+                  </object>
                 </child>
               </object>
             </child>
