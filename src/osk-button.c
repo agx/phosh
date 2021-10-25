@@ -90,17 +90,19 @@ phosh_osk_button_constructed (GObject *object)
   shell = phosh_shell_get_default ();
   self->osk = g_object_ref(phosh_shell_get_osk_manager (shell));
 
-  g_signal_connect_swapped (
+  g_signal_connect_object (
     self->osk,
     "notify::visible",
     G_CALLBACK (on_osk_visibility_changed),
-    self);
+    self,
+    G_CONNECT_SWAPPED);
 
-  g_signal_connect_swapped (
+  g_signal_connect_object (
     self->osk,
     "notify::available",
     G_CALLBACK (on_osk_availability_changed),
-    self);
+    self,
+    G_CONNECT_SWAPPED);
 
   g_signal_connect (self,
                     "toggled",
