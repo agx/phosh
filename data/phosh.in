@@ -48,4 +48,4 @@ fi
 # variables from /etc/profile.d (XDG_*)
 [ -n "$WLR_BACKENDS" ] || WLR_BACKENDS=drm,libinput
 export WLR_BACKENDS
-exec "${COMPOSITOR}" -C "${PHOC_INI}" -E "bash -lc '${GNOME_SESSION} --disable-acceleration-check --session=phosh @session_manager@'"
+exec "${COMPOSITOR}" -S -C "${PHOC_INI}" -E "bash -lc '${GNOME_SESSION} --disable-acceleration-check --session=phosh @session_manager@'"

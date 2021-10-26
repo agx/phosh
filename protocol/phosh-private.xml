@@ -11,13 +11,16 @@
 
     <request name="rotate_display" since="1">
       <description summary="rotate output">
-	This request is unused, ignore
+	This request is unused, ignore. Use wlr-output-management instead.
       </description>
       <arg name="surface" type="object" interface="wl_surface"/>
       <arg name="degree" type="uint"/>
     </request>
 
     <request name="get_xdg_switcher" since="2">
+      <description summary="rotate output">
+	This request is unused, ignore. Use wlr-foreign-toplevel-management instead.
+      </description>
       <arg name="id" type="new_id" interface="phosh_private_xdg_switcher"/>
     </request>
 
@@ -52,6 +55,19 @@
 	Allows to track application startup.
       </description>
       <arg name="id" type="new_id" interface="phosh_private_startup_tracker"/>
+    </request>
+
+    <enum name="shell_state" since="6">
+      <entry name="unknown" value="0" summary="shell state unknown"/>
+      <entry name="up" value="1" summary="shell is up and running"/>
+    </enum>
+
+    <request name="set_shell_state" since="6">
+      <description summary="Report shell state">
+        This allows the shell to report it's current state. This can
+        e.g. be used to notify the compositor that the shell is up.
+      </description>
+      <arg name="state" type="uint" enum="shell_state" summary="Status"/>
     </request>
 
   </interface>
@@ -131,7 +147,7 @@
   <!-- application switch/close handling -->
   <interface name="phosh_private_xdg_switcher" version="3">
     <description summary="Interface to list and raise xdg surfaces">
-      This interface is unused, ignore.
+      This interface is unused, ignore. Use wlr-foreign-toplevel-management instead.
     </description>
     <enum name="error">
       <entry name="invalid_argument" value="0"
@@ -172,7 +188,7 @@
 
   <!-- application startup tracking -->
   <interface name="phosh_private_startup_tracker" version="6">
-    <description summary="Interface to track applicaation startup">
+    <description summary="Interface to track application startup">
       Allows shells to track application startup.
     </description>
 
@@ -198,7 +214,7 @@
     </event>
 
     <event name="launched">
-      <description summary="Report an appplication launch">
+      <description summary="Report an application launch">
 	This event indicates that the launcher spawned the app.
       </description>
       <arg name="startup_id" type="string" summary="The startup_id"/>
