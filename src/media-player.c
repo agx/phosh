@@ -335,9 +335,9 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     g_autoptr (GFile) file = g_file_new_for_uri (url);
 
     icon = g_file_icon_new (file);
-    gtk_image_set_from_gicon (GTK_IMAGE (self->img_art), icon, -1);
+    g_object_set (self->img_art, "gicon", icon, NULL);
   } else {
-    gtk_image_set_from_icon_name (GTK_IMAGE (self->img_art), "audio-x-generic-symbolic", -1);
+    g_object_set (self->img_art, "icon-name", "audio-x-generic-symbolic", NULL);
   }
 }
 
@@ -376,7 +376,7 @@ on_playback_status_changed (PhoshMediaPlayer                 *self,
   }
 
   if (self->status != current) {
-    gtk_image_set_from_icon_name (GTK_IMAGE (self->img_play), icon, -1);
+    g_object_set (self->img_play, "icon-name", icon, NULL);
     gtk_widget_set_valign (self->img_play, GTK_ALIGN_START);
   }
 }

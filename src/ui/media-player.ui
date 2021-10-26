@@ -63,11 +63,18 @@
               <object class="GtkImage" id="img_play">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="pixel_size">32</property>
+                <property name="width-request">32</property>
+                <property name="height-request">32</property>
+                <property name="pixel-size">24</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
                 <property name="icon_name">media-playback-start-symbolic</property>
               </object>
             </child>
           </object>
+          <packing>
+            <property name="fill">False</property>
+          </packing>
         </child>
         <child>
           <object class="GtkButton" id="btn_seek_forward">
