@@ -38,7 +38,7 @@ desktop_files = [
   'sm.puri.OSK0.desktop',
 ]
 foreach desktop_file : desktop_files
-  i18n.merge_file('desktop',
+  i18n.merge_file(
     input: configure_file(
       input: desktop_file + '.in.in',
       output: desktop_file + '.in',
@@ -58,7 +58,6 @@ sessions = [
 foreach session: sessions
   desktop = session + '.desktop'
   i18n.merge_file(
-    session,
     input: configure_file(
       input: desktop + '.in.in',
       output: desktop + '.in',
