@@ -221,7 +221,7 @@ get_scale (PhoshActivity *self)
 static gboolean
 draw_cb (PhoshActivity *self, cairo_t *cairo, GtkDrawingArea *area)
 {
-  int width, height, image_width, image_height, x, y;
+  int width, height, image_width, image_height, x, y = 0;
   float scale;
   PhoshActivityPrivate *priv;
   GtkStyleContext *context;
@@ -246,7 +246,6 @@ draw_cb (PhoshActivity *self, cairo_t *cairo, GtkDrawingArea *area)
   cairo_scale (cairo, scale, scale);
 
   x = (width - image_width * scale) / 2.0 / scale;
-  y = priv->maximized ? 0 : ((height - image_height * scale) / 2.0 / scale);
 
   cairo_rectangle (cairo, x, y, image_width, image_height);
   cairo_set_source_surface (cairo, priv->surface, x, y);
