@@ -52,6 +52,7 @@ void                              phosh_layer_surface_get_margins       (PhoshLa
                                                                          int               *right,
                                                                          int               *bottom,
                                                                          int               *left);
-
+int                               phosh_layer_surface_get_configured_width  (PhoshLayerSurface *self);
+int                               phosh_layer_surface_get_configured_height (PhoshLayerSurface *self);
 
 G_END_DECLS
