@@ -140,10 +140,6 @@ libhandy_dep = dependency('libhandy-1',
   )
 libcall_ui = subproject('libcall-ui',
   default_options: [
-    'package_name=' + meson.project_name(),
-    'package_version=' + meson.project_version(),
-    'pkgdatadir=' + pkgdatadir,
-    'pkglibdir=' + pkglibdir,
     'examples=false',
     'gtk_doc=false',
     'tests=false',
