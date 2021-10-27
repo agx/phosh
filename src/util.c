@@ -39,6 +39,7 @@ phosh_get_desktop_app_info_for_app_id (const char *app_id)
   char *last_component;
   static char *mappings[][2] = {
     { "org.gnome.ControlCenter", "gnome-control-center" },
+    { "gnome-usage", "org.gnome.Usage" },
   };
 
   g_assert (app_id);
