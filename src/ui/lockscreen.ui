@@ -129,8 +129,8 @@
                             <property name="valign">start</property>
                             <property name="halign">end</property>
                             <property name="hexpand">False</property>
-                            <property name="margin_left">6</property>
-                            <property name="margin_right">6</property>
+                            <property name="margin-start">6</property>
+                            <property name="margin-end">6</property>
                             <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                           </object>
                           <packing>
@@ -147,9 +147,8 @@
                             <property name="halign">end</property>
                             <property name="hexpand">False</property>
                             <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
-                            <property name="margin_left">6</property>
-                            <property name="margin_right">6</property>
-                            <property name="no_show_all">True</property>
+                            <property name="margin-start">6</property>
+                            <property name="margin-end">6</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -164,8 +163,8 @@
                             <property name="valign">start</property>
                             <property name="halign">end</property>
                             <property name="hexpand">False</property>
-                            <property name="margin_left">6</property>
-                            <property name="margin_right">6</property>
+                            <property name="margin-start">6</property>
+                            <property name="margin-end">6</property>
                             <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                           </object>
                           <packing>
@@ -182,8 +181,8 @@
                             <property name="halign">end</property>
                             <property name="hexpand">False</property>
                             <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
-                            <property name="margin_left">6</property>
-                            <property name="margin_right">6</property>
+                            <property name="margin-start">6</property>
+                            <property name="margin-end">6</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -357,7 +356,7 @@
                 <property name="visible">True</property>
                 <property name="halign">start</property>
                 <property name="expand">False</property>
-                <property name="margin-left">16</property>
+                <property name="margin-start">16</property>
                 <property name="margin-top">16</property>
                 <signal name="clicked" handler="deck_back_clicked_cb"/>
                 <style>
