@@ -1,3 +1,27 @@
+phosh 0.14.0
+------------
+Released: October 2021
+* Launch splash support (Guido Günther)
+* Move "Show all apps" toggle to the bottom (Guido Günther)
+* Media player widget enhancements (Oliver Smith, Guido Günther)
+* Fade in shell on startup to avoid flicker (Guido Günther)
+* App icons on activities are now centered (Florian Loers)
+* Test suite generates screenshots (Guido Günther)
+* Wifi hotspot mode indicated in the top bar (Mohammed Sadiq)
+* Music player is paused when headphones get unplugged (Guido Günther)
+* Better app_id handling (Sebastian Krzyszkowiak)
+* Some activity rendering improvements (Guido Günther)
+* Some leak fixes
+* UI translations:
+	Danial Behzadi (fa)
+	Goran Vidović (hr)
+	Hugo Carvalho (pt)
+	Jiri Groenroos (fi)
+	Matej Urbančič (sl)
+	Nathan Follens (nl)
+	Vittorio Monti (it)
+	Zander Brown (en_GB)
+
 phosh 0.13.1
 ------------
 Released: August 2021
