@@ -108,6 +108,8 @@
       <xi:include href="xml/quick-setting.xml"/>
       <xi:include href="xml/rotateinfo.xml"/>
       <xi:include href="xml/rotation-manager.xml"/>
+      <xi:include href="xml/run-command-dialog.xml"/>
+      <xi:include href="xml/run-command-manager.xml"/>
       <xi:include href="xml/screen-saver-manager.xml"/>
       <xi:include href="xml/sensor-proxy-manager.xml"/>
       <xi:include href="xml/session-manager.xml"/>
