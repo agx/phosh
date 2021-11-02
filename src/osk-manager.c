@@ -26,12 +26,12 @@
  * The #PhoshOskManager is responsible for handling the on screen keyboard
  */
 enum {
-  PHOSH_OSK_MANAGER_PROP_0,
-  PHOSH_OSK_MANAGER_PROP_AVAILABLE,
-  PHOSH_OSK_MANAGER_PROP_VISIBLE,
-  PHOSH_OSK_MANAGER_PROP_LAST_PROP
+  PROP_0,
+  PROP_AVAILABLE,
+  PROP_VISIBLE,
+  PROP_LAST_PROP
 };
-static GParamSpec *props[PHOSH_OSK_MANAGER_PROP_LAST_PROP];
+static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshOskManager
 {
@@ -40,11 +40,32 @@ struct _PhoshOskManager
   /* Currently the only impl. We can use an interface once we support
    * different OSK types */
   PhoshOsk0SmPuriOSK0 *proxy;
-  PhoshLockscreenManager *lockscreen_manager;
   gboolean visible;
   gboolean available;
 };
 G_DEFINE_TYPE (PhoshOskManager, phosh_osk_manager, G_TYPE_OBJECT)
+
+
+static void
+phosh_osk_manager_get_property (GObject *object,
+                                guint property_id,
+                                GValue *value,
+                                GParamSpec *pspec)
+{
+  PhoshOskManager *self = PHOSH_OSK_MANAGER (object);
+
+  switch (property_id) {
+  case PROP_VISIBLE:
+    g_value_set_boolean (value, self->visible);
+    break;
+  case PROP_AVAILABLE:
+    g_value_set_boolean (value, self->available);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
 
 
 static void
@@ -62,7 +83,7 @@ on_osk0_set_visible_done (PhoshOsk0SmPuriOSK0 *proxy,
   visible = phosh_osk0_sm_puri_osk0_get_visible (proxy);
   if (visible != self->visible) {
     self->visible = visible;
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_OSK_MANAGER_PROP_VISIBLE]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_VISIBLE]);
   }
 
   g_object_unref (self);
@@ -95,7 +116,7 @@ dbus_name_owner_changed_cb (PhoshOskManager *self, gpointer data)
   g_debug ("OSK bus '%s' owned by %s", VIRTBOARD_DBUS_NAME, name_owner ? name_owner : "nobody");
 
   self->available = name_owner ? TRUE : FALSE;
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_OSK_MANAGER_PROP_AVAILABLE]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_AVAILABLE]);
 }
 
 
@@ -122,41 +143,19 @@ on_visible_changed (PhoshOskManager *self, GParamSpec *pspec, PhoshOsk0SmPuriOSK
   /* Just need to sync the property, osk shows/hides itself */
   if (visible != self->visible) {
     self->visible = visible;
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_OSK_MANAGER_PROP_VISIBLE]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_VISIBLE]);
   }
 }
 
 
 static void
-on_lockscreen_manager_locked_changed (PhoshOskManager *self, GParamSpec *pspec, gpointer unused)
+on_shell_locked_changed (PhoshOskManager *self, GParamSpec *pspec, gpointer unused)
 {
   g_return_if_fail (PHOSH_IS_OSK_MANAGER (self));
 
   /* Hide OSK on lock screen lock */
-  if (phosh_lockscreen_manager_get_locked (self->lockscreen_manager))
+  if (phosh_shell_get_locked (phosh_shell_get_default ()))
     set_visible_real (self, FALSE);
-}
-
-
-static void
-phosh_osk_manager_get_property (GObject *object,
-                          guint property_id,
-                          GValue *value,
-                          GParamSpec *pspec)
-{
-  PhoshOskManager *self = PHOSH_OSK_MANAGER (object);
-
-  switch (property_id) {
-  case PHOSH_OSK_MANAGER_PROP_VISIBLE:
-    g_value_set_boolean (value, self->visible);
-    break;
-  case PHOSH_OSK_MANAGER_PROP_AVAILABLE:
-    g_value_set_boolean (value, self->available);
-    break;
-  default:
-    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-    break;
-  }
 }
 
 
@@ -201,10 +200,9 @@ phosh_osk_manager_constructed (GObject *object)
   on_visible_changed (self, NULL, self->proxy);
 
   shell = phosh_shell_get_default();
-  self->lockscreen_manager = g_object_ref(phosh_shell_get_lockscreen_manager(shell));
-  g_signal_connect_swapped (self->lockscreen_manager,
+  g_signal_connect_swapped (shell,
                             "notify::locked",
-                            G_CALLBACK (on_lockscreen_manager_locked_changed),
+                            G_CALLBACK (on_shell_locked_changed),
                             self);
 }
 
@@ -215,7 +213,6 @@ phosh_osk_manager_dispose (GObject *object)
   PhoshOskManager *self = PHOSH_OSK_MANAGER (object);
 
   g_clear_object (&self->proxy);
-  g_clear_object (&self->lockscreen_manager);
   G_OBJECT_CLASS (phosh_osk_manager_parent_class)->dispose (object);
 }
 
@@ -227,22 +224,21 @@ phosh_osk_manager_class_init (PhoshOskManagerClass *klass)
 
   object_class->constructed = phosh_osk_manager_constructed;
   object_class->dispose = phosh_osk_manager_dispose;
-
   object_class->get_property = phosh_osk_manager_get_property;
-
-  props[PHOSH_OSK_MANAGER_PROP_AVAILABLE] =
+  props[PROP_AVAILABLE] =
     g_param_spec_boolean ("available",
                           "available",
                           "Whether an OSK is available",
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
-  props[PHOSH_OSK_MANAGER_PROP_VISIBLE] =
+
+  props[PROP_VISIBLE] =
     g_param_spec_boolean ("visible",
                           "visible",
                           "Whether the OSK is currently visible",
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
-  g_object_class_install_properties (object_class, PHOSH_OSK_MANAGER_PROP_LAST_PROP, props);
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
 
