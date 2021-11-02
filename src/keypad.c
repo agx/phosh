@@ -26,12 +26,13 @@
  * #PhoshKeypad has a single CSS node with name phosh-keypad.
  */
 
-typedef struct {
-  GtkEntry  *entry;
-  GtkWidget *grid;
-} PhoshKeypadPrivate;
+typedef struct _PhoshKeypad {
+  GtkGrid    parent;
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshKeypad, phosh_keypad, GTK_TYPE_BIN)
+  GtkEntry  *entry;
+} PhoshKeypad;
+
+G_DEFINE_TYPE (PhoshKeypad, phosh_keypad, GTK_TYPE_GRID)
 
 enum {
   PROP_0,
@@ -46,18 +47,17 @@ static void
 symbol_clicked (PhoshKeypad *self,
                 gchar        symbol)
 {
-  PhoshKeypadPrivate *priv = phosh_keypad_get_instance_private (self);
   g_autofree gchar *string = g_strdup_printf ("%c", symbol);
 
-  if (!priv->entry)
+  if (!self->entry)
     return;
 
-  g_signal_emit_by_name (priv->entry, "insert-at-cursor", string, NULL);
+  g_signal_emit_by_name (self->entry, "insert-at-cursor", string, NULL);
   /* Set focus to the entry only when it can get focus
    * https://gitlab.gnome.org/GNOME/gtk/issues/2204
    */
-  if (gtk_widget_get_can_focus (GTK_WIDGET (priv->entry)))
-    gtk_entry_grab_focus_without_selecting (priv->entry);
+  if (gtk_widget_get_can_focus (GTK_WIDGET (self->entry)))
+    gtk_entry_grab_focus_without_selecting (self->entry);
 }
 
 
@@ -175,7 +175,6 @@ phosh_keypad_class_init (PhoshKeypadClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/keypad.ui");
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshKeypad, grid);
 
   gtk_widget_class_bind_template_callback (widget_class, on_button_clicked);
 
@@ -216,25 +215,21 @@ void
 phosh_keypad_set_entry (PhoshKeypad *self,
                         GtkEntry    *entry)
 {
-  PhoshKeypadPrivate *priv;
-
   g_return_if_fail (PHOSH_IS_KEYPAD (self));
   g_return_if_fail (entry == NULL || GTK_IS_ENTRY (entry));
 
-  priv = phosh_keypad_get_instance_private (self);
-
-  if (entry == priv->entry)
+  if (entry == self->entry)
     return;
 
-  g_clear_object (&priv->entry);
+  g_clear_object (&self->entry);
 
   if (entry) {
-    priv->entry = g_object_ref (entry);
+    self->entry = g_object_ref (entry);
 
-    gtk_widget_show (GTK_WIDGET (priv->entry));
+    gtk_widget_show (GTK_WIDGET (self->entry));
     /* Workaround: To keep the osk closed
      * https://gitlab.gnome.org/GNOME/gtk/merge_requests/978#note_546576 */
-    g_object_set (priv->entry, "im-module", "gtk-im-context-none", NULL);
+    g_object_set (self->entry, "im-module", "gtk-im-context-none", NULL);
   }
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENTRY]);
@@ -252,13 +247,9 @@ phosh_keypad_set_entry (PhoshKeypad *self,
 GtkEntry *
 phosh_keypad_get_entry (PhoshKeypad *self)
 {
-  PhoshKeypadPrivate *priv;
-
   g_return_val_if_fail (PHOSH_IS_KEYPAD (self), NULL);
 
-  priv = phosh_keypad_get_instance_private (self);
-
-  return priv->entry;
+  return self->entry;
 }
 
 
@@ -274,24 +265,21 @@ void
 phosh_keypad_set_start_action (PhoshKeypad *self,
                                GtkWidget   *start_action)
 {
-  PhoshKeypadPrivate *priv;
   GtkWidget *old_widget;
 
   g_return_if_fail (PHOSH_IS_KEYPAD (self));
   g_return_if_fail (start_action == NULL || GTK_IS_WIDGET (start_action));
 
-  priv = phosh_keypad_get_instance_private (self);
-
-  old_widget = gtk_grid_get_child_at (GTK_GRID (priv->grid), 0, 3);
+  old_widget = gtk_grid_get_child_at (GTK_GRID (self), 0, 3);
 
   if (old_widget == start_action)
     return;
 
   if (old_widget != NULL)
-    gtk_container_remove (GTK_CONTAINER (priv->grid), old_widget);
+    gtk_container_remove (GTK_CONTAINER (self), old_widget);
 
   if (start_action != NULL)
-    gtk_grid_attach (GTK_GRID (priv->grid), start_action, 0, 3, 1, 1);
+    gtk_grid_attach (GTK_GRID (self), start_action, 0, 3, 1, 1);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_START_ACTION]);
 }
@@ -309,13 +297,9 @@ phosh_keypad_set_start_action (PhoshKeypad *self,
 GtkWidget *
 phosh_keypad_get_start_action (PhoshKeypad *self)
 {
-  PhoshKeypadPrivate *priv;
-
   g_return_val_if_fail (PHOSH_IS_KEYPAD (self), NULL);
 
-  priv = phosh_keypad_get_instance_private (self);
-
-  return gtk_grid_get_child_at (GTK_GRID (priv->grid), 0, 3);
+  return gtk_grid_get_child_at (GTK_GRID (self), 0, 3);
 }
 
 
@@ -331,24 +315,21 @@ void
 phosh_keypad_set_end_action (PhoshKeypad *self,
                              GtkWidget   *end_action)
 {
-  PhoshKeypadPrivate *priv;
   GtkWidget *old_widget;
 
   g_return_if_fail (PHOSH_IS_KEYPAD (self));
   g_return_if_fail (end_action == NULL || GTK_IS_WIDGET (end_action));
 
-  priv = phosh_keypad_get_instance_private (self);
-
-  old_widget = gtk_grid_get_child_at (GTK_GRID (priv->grid), 2, 3);
+  old_widget = gtk_grid_get_child_at (GTK_GRID (self), 2, 3);
 
   if (old_widget == end_action)
     return;
 
   if (old_widget != NULL)
-    gtk_container_remove (GTK_CONTAINER (priv->grid), old_widget);
+    gtk_container_remove (GTK_CONTAINER (self), old_widget);
 
   if (end_action != NULL)
-    gtk_grid_attach (GTK_GRID (priv->grid), end_action, 2, 3, 1, 1);
+    gtk_grid_attach (GTK_GRID (self), end_action, 2, 3, 1, 1);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_END_ACTION]);
 }
@@ -366,11 +347,7 @@ phosh_keypad_set_end_action (PhoshKeypad *self,
 GtkWidget *
 phosh_keypad_get_end_action (PhoshKeypad *self)
 {
-  PhoshKeypadPrivate *priv;
-
   g_return_val_if_fail (PHOSH_IS_KEYPAD (self), NULL);
 
-  priv = phosh_keypad_get_instance_private (self);
-
-  return gtk_grid_get_child_at (GTK_GRID (priv->grid), 2, 3);
+  return gtk_grid_get_child_at (GTK_GRID (self), 2, 3);
 }

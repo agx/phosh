@@ -12,18 +12,7 @@ G_BEGIN_DECLS
 
 #define PHOSH_TYPE_KEYPAD (phosh_keypad_get_type ())
 
-G_DECLARE_DERIVABLE_TYPE (PhoshKeypad, phosh_keypad, PHOSH, KEYPAD, GtkBin)
-
-/**
- * PhoshKeypadClass:
- * @parent_class: The parent class
- */
-struct _PhoshKeypadClass {
-  GtkBinClass parent_class;
-
-  /*< private >*/
-  gpointer    padding[4];
-};
+G_DECLARE_FINAL_TYPE (PhoshKeypad, phosh_keypad, PHOSH, KEYPAD, GtkGrid)
 
 GtkWidget *phosh_keypad_new                     (void);
 void       phosh_keypad_set_entry               (PhoshKeypad *self,
