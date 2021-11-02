@@ -22,7 +22,6 @@
 #include "shell.h"
 #include "util.h"
 
-#include <locale.h>
 #include <string.h>
 #include <glib/gi18n.h>
 #include <math.h>
@@ -417,66 +416,6 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
 }
 
 
-/**
- * date_fmt:
- *
- * Get a date format based on LC_TIME.
- * This is done by temporarily swithcing LC_MESSAGES so we can look up
- * the format in our message catalog.  This will fail if LANGUAGE is
- * set to something different since LANGUAGE overrides
- * LC_{ALL,MESSAGE}.
- */
-static const char *
-date_fmt (void)
-{
-  const char *locale;
-  const char *fmt;
-
-  locale = setlocale (LC_TIME, NULL);
-  if (locale) /* Lookup date format via messages catalog */
-    setlocale (LC_MESSAGES, locale);
-  /* Translators: This is a time format for a date in
-     long format */
-  fmt = _("%A, %B %-e");
-  setlocale (LC_MESSAGES, "");
-  return fmt;
-}
-
-
-/**
- * local_date:
- *
- * Get the local date as string
- * We honor LC_MESSAGES so we e.g. don't get a translated date when
- * the user has LC_MESSAGES=en_US.UTF-8 but LC_TIME to their local
- * time zone.
- */
-static char *
-local_date (void)
-{
-  time_t current = time (NULL);
-  struct tm local;
-  g_autofree char *date = NULL;
-  const char *fmt;
-  const char *locale;
-
-  g_return_val_if_fail (current != (time_t) -1, NULL);
-  g_return_val_if_fail (localtime_r (&current, &local), NULL);
-
-  date = g_malloc0 (256);
-  fmt = date_fmt ();
-  locale = setlocale (LC_MESSAGES, NULL);
-  if (locale) /* make sure weekday and month use LC_MESSAGES */
-    setlocale (LC_TIME, locale);
-#pragma GCC diagnostic ignored "-Wformat-nonliteral"
-  /* Can't use a string literal since it needs to be translated */
-  g_return_val_if_fail (strftime (date, 255, fmt, &local), NULL);
-#pragma GCC diagnostic error "-Wformat-nonliteral"
-  setlocale (LC_TIME, "");
-  return g_steal_pointer (&date);
-}
-
-
 static void
 wall_clock_notify_cb (PhoshLockscreen *self,
                       GParamSpec      *pspec,
@@ -489,7 +428,7 @@ wall_clock_notify_cb (PhoshLockscreen *self,
   time = gnome_wall_clock_get_clock (wall_clock);
   gtk_label_set_text (GTK_LABEL (priv->lbl_clock), time);
 
-  date = local_date ();
+  date = phosh_util_local_date ();
   gtk_label_set_label (GTK_LABEL (priv->lbl_date), date);
 }
 

@@ -9,6 +9,9 @@
 #include "util.h"
 #include <gtk/gtk.h>
 
+#include <locale.h>
+#include <glib/gi18n.h>
+
 #include <systemd/sd-login.h>
 
 #include <sys/mman.h>
@@ -311,6 +314,65 @@ phosh_create_shm_file (off_t size)
   return fd;
 }
 
+/**
+ * phoc_util_date_fmt:
+ *
+ * Get a date format based on LC_TIME.
+ * This is done by temporarily swithcing LC_MESSAGES so we can look up
+ * the format in our message catalog.  This will fail if LANGUAGE is
+ * set to something different since LANGUAGE overrides
+ * LC_{ALL,MESSAGE}.
+ */
+static const char *
+phosh_util_date_fmt (void)
+{
+  const char *locale;
+  const char *fmt;
+
+  locale = setlocale (LC_TIME, NULL);
+  if (locale) /* Lookup date format via messages catalog */
+    setlocale (LC_MESSAGES, locale);
+  /* Translators: This is a time format for a date in
+     long format */
+  fmt = _("%A, %B %-e");
+  setlocale (LC_MESSAGES, "");
+  return fmt;
+}
+
+/*
+ * phoc_util_local_date:
+ *
+ * Get the local date as string
+ * We honor LC_MESSAGES so we e.g. don't get a translated date when
+ * the user has LC_MESSAGES=en_US.UTF-8 but LC_TIME to their local
+ * time zone.
+ *
+ * Returns: The local date as string
+ */
+char *
+phosh_util_local_date (void)
+{
+  time_t current = time (NULL);
+  struct tm local;
+  g_autofree char *date = NULL;
+  const char *fmt;
+  const char *locale;
+
+  g_return_val_if_fail (current != (time_t) -1, NULL);
+  g_return_val_if_fail (localtime_r (&current, &local), NULL);
+
+  date = g_malloc0 (256);
+  fmt = phosh_util_date_fmt ();
+  locale = setlocale (LC_MESSAGES, NULL);
+  if (locale) /* make sure weekday and month use LC_MESSAGES */
+    setlocale (LC_TIME, locale);
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+  /* Can't use a string literal since it needs to be translated */
+  g_return_val_if_fail (strftime (date, 255, fmt, &local), NULL);
+#pragma GCC diagnostic error "-Wformat-nonliteral"
+  setlocale (LC_TIME, "");
+  return g_steal_pointer (&date);
+}
 
 /**
  * phosh_util_escape_markup:
