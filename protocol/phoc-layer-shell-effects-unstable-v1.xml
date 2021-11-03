@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocol name="phoc_layer_surface_effects_unstable_v1">
+  <copyright>
+    Copyright © 2022 Guido Günther
+
+    Permission to use, copy, modify, distribute, and sell this
+    software and its documentation for any purpose is hereby granted
+    without fee, provided that the above copyright notice appear in
+    all copies and that both that copyright notice and this permission
+    notice appear in supporting documentation, and that the name of
+    the copyright holders not be used in advertising or publicity
+    pertaining to distribution of the software without specific,
+    written prior permission.  The copyright holders make no
+    representations about the suitability of this software for any
+    purpose.  It is provided "as is" without express or implied
+    warranty.
+
+    THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS
+    SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+    FITNESS, IN NO EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN
+    AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+    ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+    THIS SOFTWARE.
+  </copyright>
+
+  <interface name="zphoc_layer_shell_effects_v1" version="1">
+    <description summary="Adjust properties of layer surfaces">
+      Assigns additional features to layer surfaces
+    </description>
+
+    <enum name="error">
+      <entry name="bad_surface" value="0" summary="layer surface is not committed"/>
+      <entry name="bad_anchors" value="1" summary="layer surface is not anchored to 3 edges"/>
+      <entry name="no_margin" value="2" summary="layer surface has no margin to use"/>
+    </enum>
+
+    <request name="get_draggable_layer_surface">
+      <description summary="Make layer_surface draggable">
+        This marks a layer surface as draggable via one finger drag on touch or click and
+        drag when using a mouse. E.g. a surface that is anchored to the left, right and
+        top can be dragged to the bottom exposing more of it's surface.
+
+        The state with the minimal amount of surface visible is called
+        folded state, the state with the maximum amount of surface visible is
+        called unfolded state. These two states are defined by the layer
+        surfaces margin in those states. During drag the layer surfaces margin
+        is adjusted to move the surface invalidating the margin set on the
+        zwlr_layer_surface_v1 interface. The default folded and unfolded
+        margins are 0.
+
+        The threshold ([0.0, 1.0]) specifies how far the user needs to
+        pull out the surface to not slide back into the folded state but
+        rather slide into the unfolded state. The default is 1.0.
+
+        The client is responsible for adjusting it's margins when it's
+        size changes to e.g. make sure only the wanted parts of the surface
+        are visible in folded state.
+
+        Note that you shouldn't modify exclusive_zone or margins via
+        zwlr_layer_surface_v1 interface directly when using this one.
+
+        Margins, threshold and exclusive zone are double buffered and will
+        be applied on the next surface commit.
+      </description>
+      <arg name="id" type="new_id" interface="zphoc_draggable_layer_surface_v1"/>
+      <arg name="layer_surface" type="object" interface="zwlr_layer_surface_v1"/>
+    </request>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy the layer_shell_effects object">
+        This request indicates that the client will not use the layer_shell
+        effects object any more. Objects that have been created through this instance
+        are not affected.
+      </description>
+    </request>
+  </interface>
+
+  <interface name="zphoc_draggable_layer_surface_v1" version="1">
+    <description summary="Draggable layer surface interface">
+      An interface that may be implemented by a layer_surface, for surfaces that
+      are designed to become draggable when anchored at three edges.
+    </description>
+
+    <request name="set_margins">
+      <description summary="Set the margins">
+        Sets the folded and unfolded margins. For how they are defined
+        refer to margins in the layer-surface protocol.
+
+        Margins are double-buffered, see wl_surface.commit.
+      </description>
+      <arg name="margin_folded" type="int"/>
+      <arg name="margin_unfolded" type="int"/>
+    </request>
+
+    <request name="set_threshold">
+      <description summary="Set the threshold">
+        How far the surface needs to be pulled to go from folded to unfolded state
+        and vice versa. Ranges  0.0 to 1.0 as fraction of the total margin
+        between folded and unfolded state.
+
+        Threshold is double-buffered, see wl_surface.commit.
+      </description>
+      <arg name="threshold" type="fixed"/>
+    </request>
+
+    <request name="set_exclusive">
+      <description summary="Set the exclusive zone">
+        Sets the exclusive zone. This is the amount of pixels from the screen
+        edge that shouldn't be occluded by other surfaces.
+
+        Exclusive zone is double-buffered, see wl_surface.commit.
+      </description>
+      <arg name="exclusive" type="uint"/>
+    </request>
+
+    <request name="set_drag_mode">
+      <description summary="Set the drag mode">
+        Specify how the surface can be dragged. The default is
+        "full".
+
+        Drag-mode is double-buffered, see wl_surface.commit.
+      </description>
+      <arg name="state" type="uint" enum="drag_mode"/>
+    </request>
+
+    <request name="set_drag_handle">
+      <description summary="The drag mode">
+        Specify the size of the drag handle. The default is 0.
+
+        Drag-handle is double-buffered, see wl_surface.commit.
+      </description>
+      <arg name="handle" type="uint"/>
+    </request>
+
+    <request name="set_state">
+      <description summary="Set a certain state">
+        Set state to folded or unfolded. This is applied immediately.
+      </description>
+      <arg name="state" type="uint" enum="drag_end_state"/>
+    </request>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy the draggable_layer_surface">
+        This request destroys the draggable layer surface.
+      </description>
+    </request>
+
+    <event name="dragged">
+      <description summary="A drag is ongoing">
+        The is draging the surface.
+
+        TODO: indicate drag (by user) vs slide (by compositor)
+      </description>
+      <arg name="margin" type="int" summary="The current margin"/>
+    </event>
+
+    <event name="drag_end">
+      <description summary="A drag ended">
+        The user ended dragging the surface and it entered either folded
+        or unfolded state.
+      </description>
+      <arg name="state" type="uint" enum="drag_end_state" summary="The state"/>
+    </event>
+
+    <enum name="drag_end_state">
+      <entry name="folded" value="0" summary="The surface is folded"/>
+      <entry name="unfolded" value="1" summary="The surface is unfolded"/>
+    </enum>
+
+    <enum name="drag_mode">
+      <entry name="full" value="0" summary="The whole surface is draggable"/>
+      <entry name="handle" value="1" summary="Only the handle is draggable"/>
+      <entry name="none" value="2" summary="Surface not draggable"/>
+    </enum>
+
+  </interface>
+
+</protocol>

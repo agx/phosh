@@ -51,6 +51,7 @@ struct _PhoshWayland {
   struct zwlr_output_power_manager_v1 *zwlr_output_power_manager_v1;
   struct zxdg_output_manager_v1 *zxdg_output_manager_v1;
   struct zwlr_screencopy_manager_v1 *zwlr_screencopy_manager_v1;
+  struct zphoc_layer_shell_effects_v1 *zphoc_layer_shell_effects_v1;
   struct wl_shm *wl_shm;
   GHashTable *wl_outputs;
   PhoshWaylandSeatCapabilities seat_capabilities;
@@ -76,6 +77,12 @@ registry_handle_global (void *data,
       &phosh_private_interface,
       MIN(6, version));
     self->phosh_private_version = version;
+  } else if (!strcmp (interface, zphoc_layer_shell_effects_v1_interface.name)) {
+    self->zphoc_layer_shell_effects_v1 = wl_registry_bind (
+      registry,
+      name,
+      &zphoc_layer_shell_effects_v1_interface,
+      1);
   } else if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
     self->layer_shell = wl_registry_bind (
       registry,
@@ -307,6 +314,7 @@ phosh_wayland_dispose (GObject *object)
   g_clear_pointer (&self->zwlr_screencopy_manager_v1, zwlr_screencopy_manager_v1_destroy);
   g_clear_pointer (&self->zwp_virtual_keyboard_manager_v1, zwp_virtual_keyboard_manager_v1_destroy);
   g_clear_pointer (&self->zxdg_output_manager_v1, zxdg_output_manager_v1_destroy);
+  g_clear_pointer (&self->zphoc_layer_shell_effects_v1, zphoc_layer_shell_effects_v1_destroy);
 
   g_clear_pointer (&self->wl_outputs, g_hash_table_destroy);
 
@@ -551,4 +559,13 @@ phosh_wayland_get_seat_capabilities (PhoshWayland *self)
   g_return_val_if_fail (PHOSH_IS_WAYLAND (self), PHOSH_WAYLAND_SEAT_CAPABILITY_NONE);
 
   return self->seat_capabilities;
+}
+
+
+struct zphoc_layer_shell_effects_v1 *
+phosh_wayland_get_zphoc_layer_shell_effects_v1 (PhoshWayland *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
+
+  return self->zphoc_layer_shell_effects_v1;
 }

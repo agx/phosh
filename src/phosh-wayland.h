@@ -19,6 +19,7 @@
 #include "wlr-screencopy-unstable-v1-client-protocol.h"
 #include "xdg-output-unstable-v1-client-protocol.h"
 #include "xdg-shell-client-protocol.h"
+#include "phoc-layer-shell-effects-unstable-v1-client-protocol.h"
 
 /* This goes past the other wl protocols since it might need their structs */
 #include "phosh-private-client-protocol.h"
@@ -74,5 +75,6 @@ struct zwlr_screencopy_manager_v1    *phosh_wayland_get_zwlr_screencopy_manager_
 struct zwp_virtual_keyboard_manager_v1 *phosh_wayland_get_zwp_virtual_keyboard_manager_v1 (PhoshWayland *self);
 void                                  phosh_wayland_roundtrip (PhoshWayland *self);
 PhoshWaylandSeatCapabilities          phosh_wayland_get_seat_capabilities (PhoshWayland *self);
+struct zphoc_layer_shell_effects_v1  *phosh_wayland_get_zphoc_layer_shell_effects_v1 (PhoshWayland *self);
 
 G_END_DECLS

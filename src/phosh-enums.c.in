@@ -15,6 +15,7 @@
 #include "rotation-manager.h"
 #include "shell.h"
 #include "wwan/phosh-wwan-backend.h"
+#include "drag-surface.h"
 
 #include "phosh-enums.h"
 
