@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="PhoshHome" parent="PhoshLayerSurface">
+  <template class="PhoshHome" parent="PhoshDragSurface">
     <property name="can_focus">False</property>
     <signal name="key-press-event" handler="window_key_press_event_cb"/>
     <child>
@@ -13,11 +13,7 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkRevealer" id="rev_home">
-            <property name="visible">True</property>
-            <property name="reveal-child">True</property>
-            <property name="transition-type">slide-up</property>
-            <child>
+
               <object class="GtkBox">
                 <property name="height_request">40</property>
                 <property name="visible">True</property>
@@ -28,7 +24,6 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="hexpand">True</property>
-                    <signal name="clicked" handler="home_clicked_cb" swapped="true"/>
                     <child>
                       <object class="PhoshArrow" id="arrow_home">
                         <property name="visible">True</property>
@@ -65,8 +60,6 @@
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </object>
-            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -74,6 +67,7 @@
             <property name="position">0</property>
           </packing>
         </child>
+
         <child>
           <object class="PhoshOverview" id="overview">
             <property name="visible">True</property>
