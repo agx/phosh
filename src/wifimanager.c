@@ -512,6 +512,7 @@ secret_request_new_cb (PhoshWifiManager              *self,
 
   if (!nm_connection_is_type(connection, NM_SETTING_WIRELESS_SETTING_NAME)) {
     g_warning ("Only Wifi Networks currently supported");
+    shell_network_agent_respond (self->network_agent, request_id, SHELL_NETWORK_AGENT_USER_CANCELED);
     return;
   }
 
