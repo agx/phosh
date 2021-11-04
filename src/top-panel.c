@@ -49,16 +49,21 @@ typedef struct _PhoshTopPanel {
 
   PhoshTopPanelState state;
 
+  /* Top row above settings */
   GtkWidget *btn_power;
   GtkWidget *menu_power;
+  GtkWidget *lbl_clock2;
+  GtkWidget *lbl_date;
+
   GtkWidget *box;            /* main content box */
   GtkWidget *btn_top_panel;
-  GtkWidget *lbl_clock;
+  GtkWidget *lbl_clock;      /* top-bar clock */
   GtkWidget *lbl_lang;
   GtkWidget *settings;       /* settings menu */
   GtkWidget *batteryinfo;
 
   GnomeWallClock *wall_clock;
+  GnomeWallClock *wall_clock2;
   GnomeXkbInfo *xkbinfo;
   GSettings *input_settings;
   GSettings *interface_settings;
@@ -155,6 +160,25 @@ wall_clock_notify_cb (PhoshTopPanel  *self,
 
   str = gnome_wall_clock_get_clock(wall_clock);
   gtk_label_set_text (GTK_LABEL (self->lbl_clock), str);
+}
+
+
+static void
+wall_clock2_notify_cb (PhoshTopPanel  *self,
+                       GParamSpec     *pspec,
+                       GnomeWallClock *wall_clock)
+{
+  const char *str;
+  g_autofree char *date = NULL;
+
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
+  g_return_if_fail (GNOME_IS_WALL_CLOCK (wall_clock));
+
+  str = gnome_wall_clock_get_clock (wall_clock);
+  gtk_label_set_text (GTK_LABEL (self->lbl_clock2), str);
+
+  date = phosh_util_local_date ();
+  gtk_label_set_label (GTK_LABEL (self->lbl_date), date);
 }
 
 
@@ -354,10 +378,18 @@ phosh_top_panel_constructed (GObject *object)
 
   self->state = PHOSH_TOP_PANEL_STATE_FOLDED;
   self->wall_clock = gnome_wall_clock_new ();
+  self->wall_clock2 = gnome_wall_clock_new ();
+  g_object_set (self->wall_clock2, "time-only", TRUE, NULL);
 
   g_signal_connect_object (self->wall_clock,
                            "notify::clock",
                            G_CALLBACK (wall_clock_notify_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  g_signal_connect_object (self->wall_clock2,
+                           "notify::clock",
+                           G_CALLBACK (wall_clock2_notify_cb),
                            self,
                            G_CONNECT_SWAPPED);
 
@@ -386,6 +418,7 @@ phosh_top_panel_constructed (GObject *object)
                                   "image-button");
 
   wall_clock_notify_cb (self, NULL, self->wall_clock);
+  wall_clock2_notify_cb (self, NULL, self->wall_clock2);
 
   /* language indicator */
   if (display) {
@@ -455,6 +488,7 @@ phosh_top_panel_dispose (GObject *object)
 
   g_clear_object (&self->kb_settings);
   g_clear_object (&self->wall_clock);
+  g_clear_object (&self->wall_clock2);
   g_clear_object (&self->xkbinfo);
   g_clear_object (&self->input_settings);
   g_clear_object (&self->interface_settings);
@@ -492,6 +526,8 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_top_panel);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, batteryinfo);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, lbl_clock);
+  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, lbl_clock2);
+  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, lbl_date);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, lbl_lang);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, box);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, settings);

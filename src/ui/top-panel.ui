@@ -51,6 +51,35 @@
 
               <object class="GtkBox" id="box_clock">
                 <property name="visible" bind-source="settings" bind-property="visible" bind-flags="sync-create"/>
+
+                <child type="center">
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <property name="margin-top">16</property>
+                    <child>
+                      <object class="GtkLabel" id="lbl_clock2">
+                        <property name="visible">True</property>
+                        <property name="margin-top">2</property>
+                        <attributes>
+                          <attribute name="font-desc" value="Cantarell 16 Bold"/>
+                        </attributes>
+                        <style>
+                          <class name="phosh-topbar-clock"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="lbl_date">
+                        <property name="visible">True</property>
+                        <style>
+                          <class name="phosh-topbar-date"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
                 <child>
                   <object class="GtkMenuButton" id="btn_power">
                     <property name="visible">True</property>
@@ -75,7 +104,6 @@
                   </packing>
                 </child>
               </object>
-
         </child>
       <child>
 
