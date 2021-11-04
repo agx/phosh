@@ -52,6 +52,27 @@
               <object class="GtkBox" id="box_clock">
                 <property name="visible" bind-source="settings" bind-property="visible" bind-flags="sync-create"/>
 
+                <child>
+                  <object class="GtkButton" id="btn_lock">
+                    <property name="visible">True</property>
+                    <property name="action-name">panel.lockscreen</property>
+                    <property name="margin-top">16</property>
+                    <property name="margin-start">16</property>
+                    <property name="width-request">40</property>
+                    <property name="height-request">40</property>
+                    <style>
+                      <class name="phosh-power-button"/>
+                      <class name="circular"/>
+                    </style>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="icon-name">padlock-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
                 <child type="center">
                   <object class="GtkBox">
                     <property name="visible">True</property>
