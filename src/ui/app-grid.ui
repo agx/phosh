@@ -145,6 +145,7 @@
                         <child>
                           <object class="GtkLabel" id="btn_adaptive_lbl">
                             <property name="visible">True</property>
+                            <property name="ellipsize">middle</property>
                           </object>
                         </child>
                       </object>
