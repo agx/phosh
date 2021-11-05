@@ -89,6 +89,8 @@ libphosh_tool_sources = files(
   'gtk-mount-manager.h',
   'gtk-mount-prompt.c',
   'gtk-mount-prompt.h',
+  'keypad.c',
+  'keypad.h',
   'layersurface.c',
   'layersurface.h',
   'lockshield.c',

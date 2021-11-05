@@ -9,6 +9,7 @@
     <file preprocess="xml-stripblanks">ui/gtk-mount-prompt.ui</file>
     <file preprocess="xml-stripblanks">ui/overview.ui</file>
     <file preprocess="xml-stripblanks">ui/home.ui</file>
+    <file preprocess="xml-stripblanks">ui/keypad.ui</file>
     <file preprocess="xml-stripblanks">ui/lockscreen.ui</file>
     <file preprocess="xml-stripblanks">ui/media-player.ui</file>
     <file preprocess="xml-stripblanks">ui/notification-content.ui</file>

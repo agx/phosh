@@ -13,6 +13,7 @@
 #include "auth.h"
 #include "bt-info.h"
 #include "calls-manager.h"
+#include "keypad.h"
 #include "lockscreen.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
@@ -721,6 +722,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
                                          G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
                                          NULL, G_TYPE_NONE, 0);
 
+  g_type_ensure (PHOSH_TYPE_KEYPAD);
   gtk_widget_class_set_css_name (widget_class, "phosh-lockscreen");
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/lockscreen.ui");

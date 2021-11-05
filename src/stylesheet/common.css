@@ -212,7 +212,12 @@ phosh-lockscreen, .phosh-lockshield {
 }
 
 /* Lockscreen keypad */
-keypad > grid > button {
+phosh-keypad label.digit {
+  font-size: 200%;
+  font-weight: bold;
+}
+
+phosh-keypad button {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   background-origin: padding-box, border-box;
@@ -225,7 +230,7 @@ keypad > grid > button {
   background: 0;
 }
 
-keypad > grid > button:active {
+phosh-keypad button:active {
   background: rgba(255, 255, 255, 0.3);
 }
 
@@ -233,7 +238,7 @@ keypad > grid > button:active {
   background: rgba(255, 255, 255, 0.5);
 }
 
-keypad > grid > button:focus, .text-only-button:focus {
+phosh-keypad button:focus, .text-only-button:focus {
   outline-style: none;
 }
 
