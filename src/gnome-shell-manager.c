@@ -544,7 +544,7 @@ on_bus_acquired (GDBusConnection *connection,
   success = g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self),
                                               connection,
                                               "/org/gnome/Shell",
-                                              NULL);
+                                              &err);
   if (!success) {
     g_warning ("Failed to export shell interface: %s", err->message);
     return;
