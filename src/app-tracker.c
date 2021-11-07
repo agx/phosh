@@ -104,8 +104,7 @@ on_startup_timeout (gpointer data)
     goto out;
   }
 
-  state = g_hash_table_lookup (state->tracker->apps, state->startup_id);
-  if (!state) {
+  if (!g_hash_table_contains (state->tracker->apps, state->startup_id)) {
     g_warning ("No info for startup_id '%s' found", state->startup_id);
     goto out;
   }
