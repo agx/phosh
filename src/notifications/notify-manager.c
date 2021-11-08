@@ -405,7 +405,6 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
   g_autoptr (GIcon) path_gicon = NULL;
   g_autoptr (GIcon) app_gicon = NULL;
   g_autoptr (GIcon) old_data_gicon = NULL;
-  g_autoptr (GIcon) fallback_gicon = NULL;
   gboolean transient = FALSE;
   gboolean resident = FALSE;
   g_autofree char *category = NULL;
@@ -465,9 +464,6 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
     image = path_gicon;
   } else if (old_data_gicon) {
     image = old_data_gicon;
-  } else if (urgency == PHOSH_NOTIFICATION_URGENCY_CRITICAL) {
-    fallback_gicon = g_themed_icon_new ("dialog-error");
-    image = fallback_gicon;
   } else {
     image = NULL;
   }
