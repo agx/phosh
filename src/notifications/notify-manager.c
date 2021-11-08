@@ -429,6 +429,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
       if (g_variant_is_of_type (value, G_VARIANT_TYPE_BYTE) &&
           (g_variant_get_byte(value) == PHOSH_NOTIFICATION_URGENCY_CRITICAL)) {
         expire_timeout = 0;
+        urgency = PHOSH_NOTIFICATION_URGENCY_CRITICAL;
       }
     } else if ((g_strcmp0 (key, "image-data") == 0) ||
                (g_strcmp0 (key, "image_data") == 0)) {
