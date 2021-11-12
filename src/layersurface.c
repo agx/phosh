@@ -292,7 +292,7 @@ on_phosh_layer_surface_mapped (PhoshLayerSurface *self, gpointer unused)
     gdk_wayland_window_set_use_custom_surface (gdk_window);
     priv->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
   }
-  g_debug ("Mapped %p", priv->wl_surface);
+  g_debug ("Mapped %p, namespace: %s", priv->wl_surface, priv->namespace);
 
   priv->layer_surface = zwlr_layer_shell_v1_get_layer_surface (priv->layer_shell,
                                                                priv->wl_surface,
