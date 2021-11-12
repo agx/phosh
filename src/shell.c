@@ -899,6 +899,19 @@ phosh_shell_init (PhoshShell *self)
 }
 
 
+static gboolean
+select_fallback_monitor (gpointer data)
+{
+  PhoshShell *self = PHOSH_SHELL (data);
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_MONITOR_MANAGER (priv->monitor_manager), FALSE);
+  phosh_monitor_manager_enable_fallback (priv->monitor_manager);
+
+  return G_SOURCE_REMOVE;
+}
+
+
 void
 phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
 {
@@ -925,13 +938,18 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
   g_set_object (&priv->primary_monitor, monitor);
   g_debug ("New primary monitor is %s", monitor ? monitor->name : "(none)");
 
-  /* Move panels to the new monitor by recreating the layer shell surfaces */
+  /* Move panels to the new monitor by recreating the layer-shell surfaces */
   panels_dispose (self);
-
   if (monitor)
     panels_create (self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY_MONITOR]);
+
+  /* All monitors gone or disabled. See if monitor-manager finds a
+   * fallback to enable. Do that in an idle callback so GTK can process
+   * pending wayland events for the gone output */
+  if (monitor == NULL)
+    g_idle_add (select_fallback_monitor, self);
 }
 
 

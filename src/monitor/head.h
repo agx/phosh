@@ -68,6 +68,7 @@ struct _PhoshHead {
 PhoshHead                  *phosh_head_new_from_wlr_head (gpointer wlr_head);
 struct zwlr_output_head_v1 *phosh_head_get_wlr_head (PhoshHead *self);
 gboolean                    phosh_head_get_enabled (PhoshHead *self);
+void                        phosh_head_set_pending_enabled (PhoshHead *self, gboolean enabled);
 PhoshHeadMode              *phosh_head_get_preferred_mode (PhoshHead *self);
 gboolean                    phosh_head_is_builtin (PhoshHead *self);
 PhoshHeadMode              *phosh_head_find_mode_by_name (PhoshHead *self, const char *name);

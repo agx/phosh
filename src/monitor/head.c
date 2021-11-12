@@ -705,3 +705,18 @@ phosh_head_clear_pending (PhoshHead *self)
   self->pending.scale = self->scale;
   self->pending.enabled = self->enabled;
 }
+
+
+/**
+ * phosh_head_set_pending_enabled:
+ * @self: A #PhoshHead
+ * @enabled: %TRUE if the head should be enabled, otherwise %FALSE
+ *
+ * Sets a head to pending enabled. This will become active after the next
+ * call to #phosh_monitor_manager_apply_monitor_config().
+ */
+void
+phosh_head_set_pending_enabled (PhoshHead *self, gboolean enabled)
+{
+  self->pending.enabled = enabled;
+}

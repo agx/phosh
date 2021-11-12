@@ -1507,3 +1507,47 @@ phosh_monitor_manager_set_sensor_proxy_manager (PhoshMonitorManager     *self,
 
 
 }
+
+/**
+ * phosh_monitor_manager_enable_fallback:
+ * @self: a #PhoshMonitorManager
+ *
+ * When all heads are disabled look for a fallback to enable. This can be useful
+ * when e.g. only external display is enabled and that gets unplugged.
+ *
+ * Returns: %TRUE if a new head was enabled, %FALSE otherwise
+ */
+gboolean
+phosh_monitor_manager_enable_fallback (PhoshMonitorManager *self)
+{
+  PhoshHead *builtin_head = NULL;
+
+  if (!self->heads->len)
+    return FALSE;
+
+  /* Make sure all display changes got processed otherwise we might try to reenable
+     a just gone head */
+  phosh_wayland_roundtrip (phosh_wayland_get_default ());
+
+  for (int i = 0; i < self->heads->len; i++) {
+    PhoshHead *head = g_ptr_array_index (self->heads, i);
+
+    if (phosh_head_get_enabled (head)) {
+      g_warning ("%s still enabled, no fallback needed", head->name);
+      return FALSE;
+    }
+
+    if (phosh_head_is_builtin (head) && !builtin_head) {
+      builtin_head = head;
+    }
+  }
+
+  if (!builtin_head)
+    return FALSE;
+
+  g_debug ("Enabling fallback head %s", builtin_head->name);
+  phosh_head_set_pending_enabled (builtin_head, TRUE);
+  phosh_monitor_manager_apply_monitor_config (self);
+
+  return TRUE;
+}

@@ -47,4 +47,6 @@ void                  phosh_monitor_manager_set_monitor_transform     (PhoshMoni
 void                  phosh_monitor_manager_apply_monitor_config      (PhoshMonitorManager *self);
 void                  phosh_monitor_manager_set_sensor_proxy_manager  (PhoshMonitorManager     *self,
                                                                        PhoshSensorProxyManager *manager);
+gboolean              phosh_monitor_manager_enable_fallback           (PhoshMonitorManager *self);
+
 G_END_DECLS
