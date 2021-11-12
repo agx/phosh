@@ -646,6 +646,20 @@ on_monitor_added (PhoshShell *self, PhoshMonitor *monitor)
   /* Set built-in monitor */
   if (!priv->builtin_monitor && phosh_monitor_is_builtin (monitor))
     phosh_set_builtin_monitor (self, monitor);
+
+  /*
+   * on_monitor_added() gets connected in phosh_shell_constructed() but
+   * we can't use phosh_shell_set_primary_monitor() yet since the
+   * shell object is not yet up and we can't move panels, etc. so
+   * ignore that case. This is not a problem since phosh_shell_constructed()
+   * sets the primary monitor explicitly.
+   */
+  if (!priv->startup_finished)
+    return;
+
+  /* Set primary monitor if unset */
+  if (priv->primary_monitor == NULL)
+    phosh_shell_set_primary_monitor (self, monitor);
 }
 
 
@@ -690,7 +704,13 @@ on_monitor_removed (PhoshShell *self, PhoshMonitor *monitor)
         break;
       }
     }
-    g_assert (priv->primary_monitor && priv->primary_monitor != monitor);
+
+    /* We did not find another monitor so all monitors are gone */
+    if (priv->primary_monitor == monitor) {
+      g_debug ("All monitors gone");
+      phosh_shell_set_primary_monitor (self, NULL);
+      return;
+    }
   }
 }
 
@@ -756,9 +776,8 @@ phosh_shell_constructed (GObject *object)
     }
 
     /* Setup primary monitor, prefer builtin */
-    /* Can't invoke phosh_shell_set_primary_monitor () since the shell
-       object does not really exist yet but we need the primary monitor
-       early for the panels */
+    /* Can't invoke phosh_shell_set_primary_monitor () since this involves
+       updating the panels as well and we need to init more of the shell first */
     if (priv->builtin_monitor)
       priv->primary_monitor = g_object_ref (priv->builtin_monitor);
     else
@@ -825,7 +844,7 @@ phosh_shell_class_init (PhoshShellClass *klass)
   /**
    * PhoshShell:primary-monitor:
    *
-   * The primary monitor that has the panels, lock screen etc. This can't be %NULL.
+   * The primary monitor that has the panels, lock screen etc.
    */
   props[PROP_PRIMARY_MONITOR] =
     g_param_spec_object ("primary-monitor",
@@ -886,26 +905,31 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
   PhoshShellPrivate *priv;
   PhoshMonitor *m = NULL;
 
-  g_return_if_fail (monitor);
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor) || monitor == NULL);
   g_return_if_fail (PHOSH_IS_SHELL (self));
   priv = phosh_shell_get_instance_private (self);
 
   if (monitor == priv->primary_monitor)
     return;
 
-  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
-    m = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
-    if (monitor == m)
-      break;
+  if (monitor != NULL) {
+    /* Make sure the new monitor exists */
+    for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
+      m = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
+      if (monitor == m)
+        break;
+    }
+    g_return_if_fail (monitor == m);
   }
-  g_return_if_fail (monitor == m);
 
   g_set_object (&priv->primary_monitor, monitor);
-  g_debug ("New primary monitor is %s", monitor->name);
+  g_debug ("New primary monitor is %s", monitor ? monitor->name : "(none)");
 
   /* Move panels to the new monitor by recreating the layer shell surfaces */
   panels_dispose (self);
-  panels_create (self);
+
+  if (monitor)
+    panels_create (self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY_MONITOR]);
 }
@@ -924,6 +948,12 @@ phosh_shell_get_builtin_monitor (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_primary_monitor:
+ * @self: The shell
+ *
+ * Returns: the primary monitor or %NULL if there currently are no outputs
+ */
 PhoshMonitor *
 phosh_shell_get_primary_monitor (PhoshShell *self)
 {
@@ -936,7 +966,10 @@ phosh_shell_get_primary_monitor (PhoshShell *self)
   if (priv->primary_monitor)
     return priv->primary_monitor;
 
-  /* When the shell started up we might not have had all monitors */
+  if (phosh_monitor_manager_get_num_monitors (priv->monitor_manager) == 0)
+    return NULL;
+
+  /* When the shell started up we might not have had all monitors so make a good pick */
   monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
   g_return_val_if_fail (monitor, NULL);
 

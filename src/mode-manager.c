@@ -90,14 +90,14 @@ has_external_display (PhoshModeManager *self)
   PhoshShell *shell = phosh_shell_get_default ();
 
   n_monitors = phosh_monitor_manager_get_num_monitors (self->monitor_manager);
-  g_return_val_if_fail (n_monitors > 0, FALSE);
 
   /* We assume only one display can be built in */
   if (n_monitors > 1)
     return TRUE;
 
   primary = phosh_shell_get_primary_monitor (shell);
-  g_return_val_if_fail (PHOSH_IS_MONITOR (primary), FALSE);
+  if (primary == NULL)
+    return FALSE;
 
   /* Single monitor is builtin */
   if (phosh_shell_get_builtin_monitor (shell) == primary)

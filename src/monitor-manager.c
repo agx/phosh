@@ -175,8 +175,14 @@ phosh_monitor_manager_handle_get_resources (PhoshDBusDisplayConfig *skeleton,
   PhoshMonitor *primary_monitor;
   PhoshHead *primary_head;
 
-  g_return_val_if_fail (self->monitors->len, FALSE);
   g_debug ("DBus %s", __func__);
+
+  if (phosh_monitor_manager_get_num_monitors (self) == 0) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                           "No monitors found");
+    return TRUE;
+  }
 
   primary_monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default());
   if (!primary_monitor) {
