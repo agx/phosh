@@ -900,8 +900,7 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
   }
   g_return_if_fail (monitor == m);
 
-  g_clear_object (&priv->primary_monitor);
-  priv->primary_monitor = g_object_ref (monitor);
+  g_set_object (&priv->primary_monitor, monitor);
   g_debug ("New primary monitor is %s", monitor->name);
 
   /* Move panels to the new monitor by recreating the layer shell surfaces */
