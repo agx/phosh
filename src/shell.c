@@ -958,22 +958,11 @@ PhoshMonitor *
 phosh_shell_get_primary_monitor (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
-  PhoshMonitor *monitor;
 
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
 
-  if (priv->primary_monitor)
-    return priv->primary_monitor;
-
-  if (phosh_monitor_manager_get_num_monitors (priv->monitor_manager) == 0)
-    return NULL;
-
-  /* When the shell started up we might not have had all monitors so make a good pick */
-  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
-  g_return_val_if_fail (monitor, NULL);
-
-  return monitor;
+  return priv->primary_monitor;
 }
 
 /* Manager getters */
