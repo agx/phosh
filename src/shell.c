@@ -608,6 +608,31 @@ on_builtin_monitor_power_mode_changed (PhoshShell *self, GParamSpec *pspec, Phos
 }
 
 static void
+phosh_set_builtin_monitor (PhoshShell *self, PhoshMonitor *monitor)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+  priv = phosh_shell_get_instance_private (self);
+
+  g_assert (priv->builtin_monitor == NULL);
+
+  g_debug ("Updating builtin monitor to %s", monitor->name);
+  priv->builtin_monitor = g_object_ref (monitor);
+  g_signal_connect_swapped (priv->builtin_monitor,
+                            "notify::power-mode",
+                            G_CALLBACK(on_builtin_monitor_power_mode_changed),
+                            self);
+
+  if (priv->rotation_manager)
+    phosh_rotation_manager_set_monitor (priv->rotation_manager, monitor);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_BUILTIN_MONITOR]);
+}
+
+
+static void
 on_monitor_added (PhoshShell *self, PhoshMonitor *monitor)
 {
   PhoshShellPrivate *priv;
@@ -616,25 +641,11 @@ on_monitor_added (PhoshShell *self, PhoshMonitor *monitor)
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
   priv = phosh_shell_get_instance_private (self);
 
-  g_debug ("Monitor %p (%s)", monitor, monitor->name);
+  g_debug ("Monitor %p (%s) added", monitor, monitor->name);
 
-  if (priv->builtin_monitor)
-    return;
-
-  if (!phosh_monitor_is_builtin (monitor))
-    return;
-
-  priv->builtin_monitor = g_object_ref (monitor);
-  g_signal_connect_swapped (priv->builtin_monitor,
-                            "notify::power-mode",
-                            G_CALLBACK(on_builtin_monitor_power_mode_changed),
-                            self);
-
-  g_debug ("Updating builtin monitor to %s", monitor->name);
-  if (priv->rotation_manager)
-    phosh_rotation_manager_set_monitor (priv->rotation_manager, monitor);
-
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_BUILTIN_MONITOR]);
+  /* Set built-in monitor */
+  if (!priv->builtin_monitor && phosh_monitor_is_builtin (monitor))
+    phosh_set_builtin_monitor (self, monitor);
 }
 
 
@@ -736,9 +747,9 @@ phosh_shell_constructed (GObject *object)
   if (phosh_monitor_manager_get_num_monitors (priv->monitor_manager)) {
     PhoshMonitor *monitor = find_builtin_monitor (self);
 
-    /* Setup builtin monitor */
-    if (monitor) {
-      on_monitor_added (self, monitor);
+    /* Setup builtin monitor if not set via 'monitor-added' */
+    if (!priv->builtin_monitor && monitor) {
+      phosh_set_builtin_monitor (self, monitor);
       g_debug ("Builtin monitor %p, configured: %d",
                priv->builtin_monitor,
                phosh_monitor_is_configured (priv->builtin_monitor));
