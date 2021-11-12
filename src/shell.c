@@ -645,8 +645,9 @@ phosh_shell_set_builtin_monitor (PhoshShell *self, PhoshMonitor *monitor)
 }
 
 
+/* Find a new builtin monitor that differs from old, otherwise NULL */
 static PhoshMonitor *
-find_builtin_monitor (PhoshShell *self)
+find_new_builtin_monitor (PhoshShell *self, PhoshMonitor *old)
 {
   PhoshShellPrivate *priv;
   PhoshMonitor *monitor = NULL;
@@ -656,7 +657,7 @@ find_builtin_monitor (PhoshShell *self)
 
   for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
     PhoshMonitor *tmp = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
-    if (phosh_monitor_is_builtin (tmp)) {
+    if (phosh_monitor_is_builtin (tmp) && tmp != old) {
       monitor = tmp;
       break;
     }
@@ -711,7 +712,7 @@ on_monitor_removed (PhoshShell *self, PhoshMonitor *monitor)
 
     g_debug ("Builtin monitor %p (%s) removed", monitor, monitor->name);
 
-    new_builtin = find_builtin_monitor (self);
+    new_builtin = find_new_builtin_monitor (self, monitor);
     phosh_shell_set_builtin_monitor (self, new_builtin);
   }
 
@@ -769,7 +770,7 @@ phosh_shell_constructed (GObject *object)
   phosh_wayland_roundtrip (phosh_wayland_get_default ());
 
   if (phosh_monitor_manager_get_num_monitors (priv->monitor_manager)) {
-    PhoshMonitor *monitor = find_builtin_monitor (self);
+    PhoshMonitor *monitor = find_new_builtin_monitor (self, NULL);
 
     /* Setup builtin monitor if not set via 'monitor-added' */
     if (!priv->builtin_monitor && monitor) {
