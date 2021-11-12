@@ -632,6 +632,30 @@ phosh_set_builtin_monitor (PhoshShell *self, PhoshMonitor *monitor)
 }
 
 
+static PhoshMonitor *
+find_builtin_monitor (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+  PhoshMonitor *monitor = NULL;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (priv->builtin_monitor)
+    return priv->builtin_monitor;
+
+  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
+    PhoshMonitor *tmp = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
+    if (phosh_monitor_is_builtin (tmp)) {
+      monitor = tmp;
+      break;
+    }
+  }
+
+  return monitor;
+}
+
+
 static void
 on_monitor_added (PhoshShell *self, PhoshMonitor *monitor)
 {
@@ -712,30 +736,6 @@ on_monitor_removed (PhoshShell *self, PhoshMonitor *monitor)
       return;
     }
   }
-}
-
-
-static PhoshMonitor *
-find_builtin_monitor (PhoshShell *self)
-{
-  PhoshShellPrivate *priv;
-  PhoshMonitor *monitor = NULL;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
-  priv = phosh_shell_get_instance_private (self);
-
-  if (priv->builtin_monitor)
-    return priv->builtin_monitor;
-
-  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
-    PhoshMonitor *tmp = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
-    if (phosh_monitor_is_builtin (tmp)) {
-      monitor = tmp;
-      break;
-    }
-  }
-
-  return monitor;
 }
 
 
