@@ -608,7 +608,7 @@ on_builtin_monitor_power_mode_changed (PhoshShell *self, GParamSpec *pspec, Phos
 }
 
 static void
-phosh_set_builtin_monitor (PhoshShell *self, PhoshMonitor *monitor)
+phosh_shell_set_builtin_monitor (PhoshShell *self, PhoshMonitor *monitor)
 {
   PhoshShellPrivate *priv;
 
@@ -669,7 +669,7 @@ on_monitor_added (PhoshShell *self, PhoshMonitor *monitor)
 
   /* Set built-in monitor */
   if (!priv->builtin_monitor && phosh_monitor_is_builtin (monitor))
-    phosh_set_builtin_monitor (self, monitor);
+    phosh_shell_set_builtin_monitor (self, monitor);
 
   /*
    * on_monitor_added() gets connected in phosh_shell_constructed() but
@@ -769,7 +769,7 @@ phosh_shell_constructed (GObject *object)
 
     /* Setup builtin monitor if not set via 'monitor-added' */
     if (!priv->builtin_monitor && monitor) {
-      phosh_set_builtin_monitor (self, monitor);
+      phosh_shell_set_builtin_monitor (self, monitor);
       g_debug ("Builtin monitor %p, configured: %d",
                priv->builtin_monitor,
                phosh_monitor_is_configured (priv->builtin_monitor));
