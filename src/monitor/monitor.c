@@ -317,6 +317,18 @@ phosh_monitor_dispose (GObject *object)
 {
   PhoshMonitor *self = PHOSH_MONITOR (object);
 
+  g_clear_pointer (&self->xdg_output, zxdg_output_v1_destroy);
+  g_clear_pointer (&self->wlr_output_power, zwlr_output_power_v1_destroy);
+
+  G_OBJECT_CLASS (phosh_monitor_parent_class)->dispose (object);
+}
+
+
+static void
+phosh_monitor_finalize (GObject *object)
+{
+  PhoshMonitor *self = PHOSH_MONITOR (object);
+
   g_array_free (self->modes, TRUE);
   self->modes = NULL;
 
@@ -324,10 +336,8 @@ phosh_monitor_dispose (GObject *object)
   g_clear_pointer (&self->vendor, g_free);
   g_clear_pointer (&self->product, g_free);
   g_clear_pointer (&self->name, g_free);
-  g_clear_pointer (&self->xdg_output, zxdg_output_v1_destroy);
-  g_clear_pointer (&self->wlr_output_power, zwlr_output_power_v1_destroy);
 
-  G_OBJECT_CLASS (phosh_monitor_parent_class)->dispose (object);
+  G_OBJECT_CLASS (phosh_monitor_parent_class)->finalize (object);
 }
 
 
@@ -365,6 +375,7 @@ phosh_monitor_class_init (PhoshMonitorClass *klass)
 
   object_class->constructed = phosh_monitor_constructed;
   object_class->dispose = phosh_monitor_dispose;
+  object_class->finalize = phosh_monitor_finalize;
 
   object_class->set_property = phosh_monitor_set_property;
   object_class->get_property = phosh_monitor_get_property;
