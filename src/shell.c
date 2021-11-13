@@ -932,6 +932,7 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
 {
   PhoshShellPrivate *priv;
   PhoshMonitor *m = NULL;
+  gboolean needs_notify = FALSE;
 
   g_return_if_fail (PHOSH_IS_MONITOR (monitor) || monitor == NULL);
   g_return_if_fail (PHOSH_IS_SHELL (self));
@@ -950,6 +951,7 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
     g_return_if_fail (monitor == m);
   }
 
+  needs_notify = priv->primary_monitor == NULL;
   g_set_object (&priv->primary_monitor, monitor);
   g_debug ("New primary monitor is %s", monitor ? monitor->name : "(none)");
 
@@ -963,8 +965,14 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
   /* All monitors gone or disabled. See if monitor-manager finds a
    * fallback to enable. Do that in an idle callback so GTK can process
    * pending wayland events for the gone output */
-  if (monitor == NULL)
+  if (monitor == NULL) {
+    /* No monitor we're not useful atm */
+    notify_compositor_up_state (self, PHOSH_PRIVATE_SHELL_STATE_UNKNOWN);
     g_idle_add (select_fallback_monitor, self);
+  } else {
+    if (needs_notify)
+      notify_compositor_up_state (self, PHOSH_PRIVATE_SHELL_STATE_UP);
+  }
 }
 
 
