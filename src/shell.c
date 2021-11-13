@@ -473,18 +473,28 @@ on_fade_out_timeout (PhoshShell *self)
 }
 
 
+static void
+notify_compositor_up_state (PhoshShell *self, enum phosh_private_shell_state state)
+{
+  struct phosh_private *phosh_private;
+
+  g_debug ("Notify compositor state: %d", state);
+
+  phosh_private = phosh_wayland_get_phosh_private (phosh_wayland_get_default ());
+  if (phosh_private && phosh_private_get_version (phosh_private) >= PHOSH_PRIVATE_SHELL_READY_SINCE)
+    phosh_private_set_shell_state (phosh_private, state);
+}
+
+
 static gboolean
 on_startup_finished (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
-  struct phosh_private *phosh_private;
 
   g_return_val_if_fail (PHOSH_IS_SHELL (self), G_SOURCE_REMOVE);
   priv = phosh_shell_get_instance_private (self);
 
-  phosh_private = phosh_wayland_get_phosh_private (phosh_wayland_get_default ());
-  if (phosh_private && phosh_private_get_version (phosh_private) >= PHOSH_PRIVATE_SHELL_READY_SINCE)
-    phosh_private_set_shell_state (phosh_private, PHOSH_PRIVATE_SHELL_STATE_UP);
+  notify_compositor_up_state (self, PHOSH_PRIVATE_SHELL_STATE_UP);
 
   priv->startup_finished_id = 0;
   return G_SOURCE_REMOVE;
