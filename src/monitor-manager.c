@@ -1063,6 +1063,9 @@ on_wl_outputs_changed (PhoshMonitorManager *self, GParamSpec *pspec, PhoshWaylan
     monitor = g_ptr_array_index (self->monitors, i);
     if (!phosh_wayland_has_wl_output (wl, monitor->wl_output)) {
       g_debug ("Monitor %p (%s) gone", monitor, monitor->name);
+      /* Give up on wayland resources early otherwise we might not be able to
+         bind them if the same output shows up again */
+      g_object_run_dispose (G_OBJECT (monitor));
       g_signal_emit (self, signals[SIGNAL_MONITOR_REMOVED], 0, monitor);
       /* The monitor is removed from monitors in the class'es default
        * signal handler */
