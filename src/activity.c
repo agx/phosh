@@ -53,6 +53,7 @@ typedef struct
   GtkWidget *box;
   GtkWidget *revealer;
   GtkWidget *btn_close;
+  GtkWidget *preview;
 
   gboolean maximized;
   int win_width;
@@ -199,9 +200,9 @@ get_scale (PhoshActivity *self)
   int width, height, image_width, image_height;
   PhoshActivityPrivate *priv;
 
-  width = gtk_widget_get_allocated_width (GTK_WIDGET (self));
-  height = gtk_widget_get_allocated_height (GTK_WIDGET (self));
   priv = phosh_activity_get_instance_private (self);
+  width = gtk_widget_get_allocated_width (priv->preview);
+  height = gtk_widget_get_allocated_height (priv->preview);
 
   if (!priv->surface)
     return 1.0;
@@ -532,6 +533,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/activity.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, btn_close);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, preview);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, swipe_bin);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, icon);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, box);
