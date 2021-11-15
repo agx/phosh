@@ -354,6 +354,7 @@ phosh_activity_get_preferred_width_for_height (GtkWidget *widget,
   int box_smallest = 0;
   int size;
   int parent_nat;
+  int margin_start, margin_end, margin_top, margin_bottom;
   double aspect_ratio;
 
   g_return_if_fail (PHOSH_IS_ACTIVITY (widget));
@@ -367,8 +368,13 @@ phosh_activity_get_preferred_width_for_height (GtkWidget *widget,
 
   smallest = MAX (smallest, box_smallest);
 
+  margin_start = gtk_widget_get_margin_start (priv->preview);
+  margin_end = gtk_widget_get_margin_end (priv->preview);
+  margin_top = gtk_widget_get_margin_top (priv->preview);
+  margin_bottom = gtk_widget_get_margin_bottom (priv->preview);
+
   aspect_ratio = (double) priv->win_width / priv->win_height;
-  size = MAX (smallest, height * aspect_ratio);
+  size = MAX (smallest, (height - margin_top - margin_bottom) * aspect_ratio) + margin_start + margin_end;
 
   if (min)
     *min = size;
