@@ -95,6 +95,10 @@ phosh_activity_set_property (GObject *object,
       break;
     case PROP_MAXIMIZED:
       priv->maximized = g_value_get_boolean (value);
+      if (priv->maximized)
+        gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-activity-maximized");
+      else
+        gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-activity-maximized");
       break;
     case PROP_WIN_WIDTH:
       width = g_value_get_int (value);
