@@ -793,6 +793,16 @@ config_head_config_from_logical_monitor_variant (PhoshMonitorManager *self,
 #undef MONITOR_CONFIG_FORMAT
 
 
+static void
+phosh_monitor_manager_clear_pending (PhoshMonitorManager *self)
+{
+  for (int i = 0; i < self->heads->len; i++) {
+    PhoshHead *head = g_ptr_array_index (self->heads, i);
+    phosh_head_clear_pending (head);
+  }
+}
+
+
 static gboolean
 phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skeleton,
                                                     GDBusMethodInvocation  *invocation,
@@ -844,10 +854,7 @@ phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skel
 
 
   /* Make sure we refresh only heads from this config run */
-  for (int i = 0; i < self->heads->len; i++) {
-    PhoshHead *head = g_ptr_array_index (self->heads, i);
-    phosh_head_clear_pending (head);
-  }
+  phosh_monitor_manager_clear_pending (self);
 
   g_variant_iter_init (&logical_monitor_configs_iter,
                        logical_monitor_configs_variant);
@@ -866,6 +873,7 @@ phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skel
                                                            &err);
 
     if (mon == NULL && err) {
+      phosh_monitor_manager_clear_pending (self);
       g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                              G_DBUS_ERROR_ACCESS_DENIED,
                                              "%s", err->message);
@@ -874,6 +882,7 @@ phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skel
 
     if (mon) {
       if (primary_monitor) {
+        phosh_monitor_manager_clear_pending (self);
         g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                                G_DBUS_ERROR_ACCESS_DENIED,
                                                "Only one primary monitor possible");
