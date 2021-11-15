@@ -224,7 +224,7 @@ request_thumbnail (PhoshActivity *activity, PhoshToplevel *toplevel)
   g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
   scale = gtk_widget_get_scale_factor (GTK_WIDGET (activity));
-  gtk_widget_get_allocation (GTK_WIDGET (activity), &allocation);
+  phosh_activity_get_thumbnail_allocation (activity, &allocation);
   thumbnail = phosh_toplevel_thumbnail_new_from_toplevel (toplevel, allocation.width * scale, allocation.height * scale);
   g_signal_connect_object (thumbnail, "notify::ready", G_CALLBACK (on_thumbnail_ready_changed), activity, 0);
 }
