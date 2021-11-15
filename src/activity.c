@@ -616,3 +616,12 @@ phosh_activity_set_thumbnail (PhoshActivity *self, PhoshThumbnail *thumbnail)
 
   gtk_widget_queue_draw (GTK_WIDGET (self));
 }
+
+void
+phosh_activity_get_thumbnail_allocation (PhoshActivity *self, GtkAllocation *allocation)
+{
+  PhoshActivityPrivate *priv;
+  g_return_if_fail (PHOSH_IS_ACTIVITY (self));
+  priv = phosh_activity_get_instance_private (self);
+  gtk_widget_get_allocation (priv->preview, allocation);
+}
