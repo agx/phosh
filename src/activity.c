@@ -231,7 +231,7 @@ draw_cb (PhoshActivity *self, cairo_t *cairo, GtkDrawingArea *area)
   width = gtk_widget_get_allocated_width (GTK_WIDGET (area));
   height = gtk_widget_get_allocated_height (GTK_WIDGET (area));
   priv = phosh_activity_get_instance_private (self);
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
+  context = gtk_widget_get_style_context (GTK_WIDGET (area));
 
   if (!priv->surface)
     return FALSE;
