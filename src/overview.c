@@ -254,11 +254,10 @@ on_activity_has_focus_changed (PhoshOverview *self, GParamSpec *pspec, PhoshActi
 static void
 add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
 {
-  PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
   PhoshOverviewPrivate *priv;
   GtkWidget *activity;
   const char *app_id, *title;
-  float scale;
+  int width, height;
 
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   priv = phosh_overview_get_instance_private (self);
@@ -268,10 +267,10 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
 
   g_debug ("Building activator for '%s' (%s)", app_id, title);
   activity = phosh_activity_new (app_id);
-  scale = phosh_monitor_get_fractional_scale (monitor);
+  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
   g_object_set (activity,
-                "win-width", (int)(monitor->width / scale),
-                "win-height", (int)(monitor->height / scale),
+                "win-width", width,
+                "win-height", height,
                 "maximized", phosh_toplevel_is_maximized (toplevel),
                 NULL);
   g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);
@@ -378,13 +377,15 @@ phosh_overview_size_allocate (GtkWidget     *widget,
   PhoshOverview *self = PHOSH_OVERVIEW (widget);
   PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
   GList *children, *l;
+  int width, height;
+  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
 
   children = gtk_container_get_children (GTK_CONTAINER (priv->carousel_running_activities));
 
   for (l = children; l; l = l->next) {
     g_object_set (l->data,
-                  "win-width", alloc->width,
-                  "win-height", alloc->height,
+                  "win-width", width,
+                  "win-height", height,
                   NULL);
   }
 
