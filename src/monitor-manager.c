@@ -896,7 +896,7 @@ phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skel
   if (primary_monitor == NULL) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_ACCESS_DENIED,
-                                           "No primary monitor found");
+                                           "Invalid primary monitor");
     return TRUE;
   }
 
