@@ -207,7 +207,6 @@ phosh_notification_content_set_property (GObject      *object,
     case PROP_SHOW_BODY:
       self->show_body = g_value_get_boolean (value);
       break;
-      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
