@@ -40,6 +40,13 @@
         </doc:description>
       </doc:doc>
     </property>
+    <property name="ImagePath" type="s" access="read">
+      <doc:doc>
+        <doc:description>
+          <doc:para>The path to an image to display for this call.</doc:para>
+        </doc:description>
+      </doc:doc>
+    </property>
     <property name="Protocol" type="s" access="read">
       <doc:doc>
         <doc:description>
