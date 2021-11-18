@@ -277,11 +277,11 @@ phosh_call_class_init (PhoshCallClass *klass)
                                     "state");
 
   g_object_class_override_property (object_class,
-				    PROP_ENCRYPTED,
+                                    PROP_ENCRYPTED,
                                     "encrypted");
 
   g_object_class_override_property (object_class,
-				    PROP_CAN_DTMF,
+                                    PROP_CAN_DTMF,
                                     "can-dtmf");
 }
 
