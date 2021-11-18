@@ -37,6 +37,7 @@ on_bus_acquired (GDBusConnection *connection,
   phosh_calls_dbus_calls_call_set_inbound (iface, TRUE);
   phosh_calls_dbus_calls_call_set_display_name (iface, "John Doe");
   phosh_calls_dbus_calls_call_set_id (iface, "123456");
+  phosh_calls_dbus_calls_call_set_image_path (iface, TEST_DATA_DIR "/cat.jpg");
   object = phosh_calls_dbus_object_skeleton_new (OBJECT_PATH "/Call/1");
   g_dbus_object_skeleton_add_interface (G_DBUS_OBJECT_SKELETON (object),
                                         G_DBUS_INTERFACE_SKELETON (iface));
