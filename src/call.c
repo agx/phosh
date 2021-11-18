@@ -18,6 +18,7 @@ enum {
   PROP_0,
   PROP_DBUS_PROXY,
   PROP_DISPLAY_NAME,
+  PROP_AVATAR_ICON,
   PROP_ID,
   PROP_STATE,
   PROP_ENCRYPTED,
@@ -33,6 +34,7 @@ typedef struct _PhoshCall {
   PhoshCallsDBusCallsCall *proxy; /* DBus proxy to a single call on for gnome-calls' DBus service */
   GCancellable            *cancel;
 
+  GLoadableIcon           *avatar_icon;
   gboolean                 can_dtmf;
 } PhoshCall;
 
@@ -41,6 +43,15 @@ static void phosh_call_cui_call_interface_init (CuiCallInterface *iface);
 G_DEFINE_TYPE_WITH_CODE (PhoshCall, phosh_call, G_TYPE_OBJECT,
                          G_IMPLEMENT_INTERFACE (CUI_TYPE_CALL,
                                                 phosh_call_cui_call_interface_init))
+
+
+static GLoadableIcon *
+phosh_call_get_avatar_icon (CuiCall *call)
+{
+  g_return_val_if_fail (PHOSH_IS_CALL (call), NULL);
+
+  return PHOSH_CALL (call)->avatar_icon;
+}
 
 
 static const char *
@@ -167,6 +178,9 @@ phosh_call_get_property (GObject    *object,
   case PROP_DBUS_PROXY:
     g_value_set_object (value, self->proxy);
     break;
+  case PROP_AVATAR_ICON:
+    g_value_set_object (value, self->avatar_icon);
+    break;
   case PROP_ID:
     g_value_set_string (value, phosh_call_get_id (iface));
     break;
@@ -190,6 +204,25 @@ phosh_call_get_property (GObject    *object,
 
 
 static void
+phosh_call_constructed (GObject *object)
+{
+  PhoshCall *self = PHOSH_CALL (object);
+  g_autoptr (GFile) file = NULL;
+  const char *path = NULL;
+
+  G_OBJECT_CLASS (phosh_call_parent_class)->constructed (object);
+
+  path = phosh_calls_dbus_calls_call_get_image_path (self->proxy);
+  if (path) {
+    file = g_file_new_for_path (path);
+    if (file) {
+      self->avatar_icon = G_LOADABLE_ICON (g_file_icon_new (file));
+    }
+  }
+}
+
+
+static void
 phosh_call_dispose (GObject *object)
 {
   PhoshCall *self = PHOSH_CALL (object);
@@ -198,6 +231,7 @@ phosh_call_dispose (GObject *object)
   g_clear_object (&self->cancel);
   g_signal_handlers_disconnect_by_data (self->proxy, self);
   g_clear_object (&self->proxy);
+  g_clear_object (&self->avatar_icon);
 
   G_OBJECT_CLASS (phosh_call_parent_class)->dispose (object);
 }
@@ -208,6 +242,7 @@ phosh_call_class_init (PhoshCallClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
+  object_class->constructed = phosh_call_constructed;
   object_class->dispose = phosh_call_dispose;
   object_class->set_property = phosh_call_set_property;
   object_class->get_property = phosh_call_get_property;
@@ -224,6 +259,10 @@ phosh_call_class_init (PhoshCallClass *klass)
                                                 G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS |
                                                 G_PARAM_CONSTRUCT_ONLY);
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
+
+  g_object_class_override_property (object_class,
+                                    PROP_AVATAR_ICON,
+                                    "avatar-icon");
 
   g_object_class_override_property (object_class,
                                     PROP_DISPLAY_NAME,
@@ -316,6 +355,7 @@ phosh_call_send_dtmf (CuiCall *call, const char *dtmf)
 static void
 phosh_call_cui_call_interface_init (CuiCallInterface *iface)
 {
+  iface->get_avatar_icon = phosh_call_get_avatar_icon;
   iface->get_id = phosh_call_get_id;
   iface->get_display_name = phosh_call_get_display_name;
   iface->get_state = phosh_call_get_state;
