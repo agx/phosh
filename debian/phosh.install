@@ -1,7 +1,7 @@
 usr/bin/phosh
 usr/lib/systemd/user/
 usr/libexec/phosh
-usr/share/locale
+usr/share/locale/*/*/phosh.mo
 usr/share/wayland-sessions/phosh.desktop
 usr/share/phosh/phoc.ini
 usr/share/glib-2.0/schemas/sm.puri.phosh*.xml
