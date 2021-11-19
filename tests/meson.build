@@ -5,7 +5,7 @@ if get_option('tests')
 subdir('system')
 subdir('user')
 
-screenshot_langs = ['ar_AE.UTF-8', 'de_DE.UTF-8', 'ja_JP.UTF-8']
+screenshot_langs = ['ar_AE.UTF-8', 'de_DE.UTF-8', 'ja_JP.UTF-8', 'uk_UA.UTF-8']
 
 phoc = find_program('phoc', required: get_option('phoc_tests'), disabler: true)
 run_phoc_tests =  phoc.found() and not get_option('phoc_tests').disabled()
