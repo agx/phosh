@@ -33,6 +33,10 @@ take_screenshot (const gchar *lang, int num, const gchar *what)
   g_autofree char *path = NULL;
   gboolean success;
 
+  /* libcall-ui has no idea we're picking the translations from odd
+   * places so help it along */
+  bindtextdomain ("call-ui", TEST_INSTALLED LOCALEDIR);
+
   dirname = g_build_filename (TEST_OUTPUT_DIR, "screenshots", lang, NULL);
   filename = g_strdup_printf ("screenshot-%.2d-%s.png", num, what);
   path = g_build_filename (dirname, filename, NULL);
