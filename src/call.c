@@ -110,7 +110,7 @@ phosh_call_get_can_dtmf (CuiCall *call)
   g_return_val_if_fail (PHOSH_IS_CALL (call), CUI_CALL_STATE_UNKNOWN);
   self = PHOSH_CALL (call);
 
-  return self->can_dtmf;
+  return phosh_calls_dbus_calls_call_get_can_dtmf (self->proxy);
 }
 
 
@@ -123,7 +123,8 @@ on_prop_changed (PhoshCall *self, GParamSpec *pspec)
   if (g_strcmp0 (name, "state") == 0 ||
       g_strcmp0 (name, "encrypted") == 0 ||
       g_strcmp0 (name, "id") == 0 ||
-      g_strcmp0 (name, "display-name") == 0) {
+      g_strcmp0 (name, "display-name") == 0 ||
+      g_strcmp0 (name, "can-dtmf")) {
     g_object_notify (G_OBJECT (self), name);
   }
 }
@@ -139,6 +140,7 @@ phosh_call_set_dbus_proxy (PhoshCall *self, PhoshCallsDBusCallsCall *proxy)
                     "swapped-signal::notify::encrypted", G_CALLBACK (on_prop_changed), self,
                     "swapped-signal::notify::id", G_CALLBACK (on_prop_changed), self,
                     "swapped-signal::notify::display-name", G_CALLBACK (on_prop_changed), self,
+                    "swapped-signal::notify::can-dtmf", G_CALLBACK (on_prop_changed), self,
                     NULL);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_DBUS_PROXY]);
