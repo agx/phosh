@@ -11,6 +11,11 @@
 
 ## What is the expected behaviour?
 
+# Context
+
+  Please describe your setup, or write additional information relevant to this bug.
+  Here, you can also write why this is actually a bug, if that might not be immediately clear to the reader.
+
 # Which version did you encounter the bug in?
 
  - [ ] I Compiled it myself. If you compiled phosh from source please provide the
