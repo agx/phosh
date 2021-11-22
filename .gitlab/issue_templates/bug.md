@@ -1,13 +1,15 @@
 # What problem did you encounter
 
-## What is the current behaviour?
-
-## What is the expected behaviour?
+  Please describe the problem in general terms.
 
 ## How to reproduce
 
   Please provide steps to reproduce the issue. If it's a graphical issue please
   attach screenshot.
+
+## What is the (wrong) result?
+
+## What is the expected behaviour?
 
 # Which version did you encounter the bug in?
 
