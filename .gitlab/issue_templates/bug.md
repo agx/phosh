@@ -1,13 +1,20 @@
 # What problem did you encounter
 
-## What is the current behaviour?
-
-## What is the expected behaviour?
+  Please describe the problem in general terms.
 
 ## How to reproduce
 
   Please provide steps to reproduce the issue. If it's a graphical issue please
   attach screenshot.
+
+## What is the (wrong) result?
+
+## What is the expected behaviour?
+
+# Context
+
+  Please describe your setup, or write additional information relevant to this bug.
+  Here, you can also write why this is actually a bug, if that might not be immediately clear to the reader.
 
 # Which version did you encounter the bug in?
 
@@ -22,13 +29,14 @@
   Phosh Version:
 ```
 
-# What hardware are you running phosh on?
+# How are you running phosh?
 
- - [ ] amd64 qemu image
+ - [ ] PureOS amd64 qemu image
+ - [ ] Mobile phone (model: ... , operating system version: ... )
  - [ ] Librem5 devkit
  - [ ] nested compositor. If so please give the full command you start phosh
    with.
- - [ ] other (please elaborte)
+ - [ ] other (please elaborate)
 
 # Releveant logfiles
 
