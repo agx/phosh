@@ -29,13 +29,14 @@
   Phosh Version:
 ```
 
-# What hardware are you running phosh on?
+# How are you running phosh?
 
- - [ ] amd64 qemu image
+ - [ ] PureOS amd64 qemu image
+ - [ ] Mobile phone (model: ... , operating system version: ... )
  - [ ] Librem5 devkit
  - [ ] nested compositor. If so please give the full command you start phosh
    with.
- - [ ] other (please elaborte)
+ - [ ] other (please elaborate)
 
 # Releveant logfiles
 
