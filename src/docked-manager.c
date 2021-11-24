@@ -232,6 +232,8 @@ static void
 phosh_docked_manager_init (PhoshDockedManager *self)
 {
   self->icon_name = DOCKED_DISABLED_ICON;
+  self->can_dock = -1;
+  self->enabled = -1;
 }
 
 
