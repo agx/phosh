@@ -97,21 +97,9 @@ i18n  = import('i18n')
 glib_ver = '>= 2.62'
 
 gcr_dep = dependency('gcr-3', version: '>= 3.7.5')
-glib_dep = dependency('glib-2.0',
-                      version: glib_ver,
-                      fallback: ['glib', 'libglib_dep'],
-                      default_options: ['tests=false']
-                     )
-gio_dep = dependency('gio-2.0',
-                      version: glib_ver,
-                      fallback: ['glib', 'libgio_dep'],
-                      default_options: ['tests=false']
-                     )
-gobject_dep = dependency('gobject-2.0',
-                      version: glib_ver,
-                      fallback: ['glib', 'libgobject_dep'],
-                      default_options: ['tests=false']
-                     )
+glib_dep = dependency('glib-2.0', version: glib_ver)
+gio_dep = dependency('gio-2.0', version: glib_ver)
+gobject_dep = dependency('gobject-2.0', version: glib_ver)
 gio_unix_dep =  dependency('gio-unix-2.0', version: '>=2.62')
 gnome_desktop_dep = dependency('gnome-desktop-3.0', version: '>=3.26')
 gsettings_desktop_schemas_dep = dependency('gsettings-desktop-schemas')
