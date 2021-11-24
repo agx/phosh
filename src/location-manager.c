@@ -271,7 +271,7 @@ handle_authorize_app (PhoshGeoClueDBusOrgFreedesktopGeoClue2Agent *object,
   body = g_desktop_app_info_get_string (app_info, "X-Geoclue-Reason");
   self->prompt = phosh_app_auth_prompt_new (g_app_info_get_icon (G_APP_INFO (app_info)),
                                             _("Geolocation"),
-                                            subtitle, body, _("Yes"), _("No"), FALSE);
+                                            subtitle, body, _("Yes"), _("No"), FALSE, NULL);
   g_signal_connect_object (self->prompt,
                            "closed",
                            G_CALLBACK (on_app_auth_prompt_closed),

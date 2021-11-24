@@ -36,6 +36,15 @@
           </object>
         </child>
         <child>
+          <object class="GtkListBox" id="list_box_choices">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <style>
+              <class name="content"/>
+            </style>
+          </object>
+        </child>
+        <child>
           <object class="GtkCheckButton" id="checkbtn_remember">
             <property name="label" translatable="yes">Remember decision</property>
             <property name="visible">True</property>

@@ -16,6 +16,11 @@ generated_dbus_sources += gnome.gdbus_codegen('hostname1-dbus',
 					      'org.freedesktop.hostname1.xml',
 					      interface_prefix: 'org.freedesktop',
 					      namespace: 'PhoshHostname1DBus')
+# org.freedesktop.impl.portal
+generated_dbus_sources += gnome.gdbus_codegen('portal-dbus',
+					      'org.freedesktop.impl.portal.xml',
+					      interface_prefix: 'org.freedesktop',
+					      namespace: 'PhoshDBus')
 # org.freedesktop.login1.Session
 generated_dbus_sources += gnome.gdbus_codegen('login1-session-dbus',
 					      'org.freedesktop.login1.Session.xml',
@@ -37,6 +42,7 @@ generated_dbus_sources += gnome.gdbus_codegen('calls-dbus',
                                               object_manager: true,
                                               interface_prefix: 'org.gnome',
                                               namespace: 'PhoshCallsDBus')
+
 # org.gnome.SessionManager
 generated_dbus_sources += gnome.gdbus_codegen('gnome-session-dbus',
 					      'org.gnome.SessionManager.xml',

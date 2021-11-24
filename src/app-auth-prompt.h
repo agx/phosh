@@ -7,6 +7,7 @@
 #pragma once
 
 #include <gtk/gtk.h>
+#include <glib-object.h>
 #include "system-modal-dialog.h"
 
 G_BEGIN_DECLS
@@ -21,8 +22,12 @@ GtkWidget *phosh_app_auth_prompt_new (GIcon *icon,
                                       const char *body,
                                       const char *grant_label,
                                       const char *deny_label,
-                                      gboolean offer_remember);
+                                      gboolean offer_remember,
+                                      GVariant *choices);
 gboolean phosh_app_auth_prompt_get_grant_access (GtkWidget *self);
+GVariant* phosh_app_auth_prompt_get_selected_choices (GtkWidget *self);
 gboolean phosh_app_auth_prompt_get_remember (GtkWidget *self);
+
+#define CHOICES_FORMAT "a(ssa(ss)s)"
 
 G_END_DECLS

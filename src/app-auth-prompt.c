@@ -11,7 +11,9 @@
 #include "config.h"
 
 #include "app-auth-prompt.h"
+#include "auth-prompt-option.h"
 
+#include <handy.h>
 #include <glib/gi18n.h>
 
 /**
@@ -20,7 +22,7 @@
  * @Title: PhoshAppAuthPrompt
  *
  * The #PhoshAppAuthPrompt is used to authorize applications. It's used
- * by the #PhoshLocationManager and will later on be used for org.freedesktop.impl.Access.
+ * by the #PhoshLocationManager and for org.freedesktop.impl.Access.
  */
 
 enum {
@@ -39,6 +41,7 @@ enum {
   PROP_DENY_LABEL,
   PROP_GRANT_LABEL,
   PROP_OFFER_REMEMBER,
+  PROP_CHOICES,
   PROP_LAST_PROP,
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -53,6 +56,7 @@ typedef struct _PhoshAppAuthPrompt {
   char            *deny_label;
   char            *grant_label;
   gboolean         offer_remember;
+  GVariant        *choices;
 
   GtkWidget       *icon_app;
   GtkWidget       *lbl_subtitle;
@@ -60,6 +64,7 @@ typedef struct _PhoshAppAuthPrompt {
   GtkWidget       *btn_grant;
   GtkWidget       *btn_deny;
   GtkWidget       *checkbtn_remember;
+  GtkWidget       *list_box_choices;
 
   gboolean         grant_access;
   gboolean         remember;
@@ -68,6 +73,8 @@ typedef struct _PhoshAppAuthPrompt {
 
 G_DEFINE_TYPE (PhoshAppAuthPrompt, phosh_app_auth_prompt, PHOSH_TYPE_SYSTEM_MODAL_DIALOG)
 
+#define CHOICE_FORMAT "(ssa(ss)s)"
+#define OPTION_FORMAT "(ss)"
 
 static void
 phosh_app_auth_prompt_set_property (GObject      *obj,
@@ -95,6 +102,9 @@ phosh_app_auth_prompt_set_property (GObject      *obj,
     break;
   case PROP_OFFER_REMEMBER:
     self->offer_remember = g_value_get_boolean (value);
+    break;
+  case PROP_CHOICES:
+    self->choices = g_value_dup_variant (value);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, prop_id, pspec);
@@ -130,6 +140,9 @@ phosh_app_auth_prompt_get_property (GObject    *obj,
   case PROP_OFFER_REMEMBER:
     g_value_set_boolean (value, self->offer_remember);
     break;
+  case PROP_CHOICES:
+    g_value_set_variant (value, self->choices);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, prop_id, pspec);
     break;
@@ -158,6 +171,124 @@ on_dialog_canceled (PhoshAppAuthPrompt *self)
   gtk_widget_destroy (GTK_WIDGET (self));
 }
 
+
+static gboolean
+on_switch_option_toggled (GtkWidget *option_widget, gboolean state, GtkWidget *action_row)
+{
+  g_return_val_if_fail (GTK_IS_SWITCH (option_widget), FALSE);
+  g_return_val_if_fail (HDY_IS_ACTION_ROW (action_row), FALSE);
+  if (state) {
+    g_object_set_data_full (G_OBJECT (action_row), "option-id", g_strdup (state ? "true" : "false"), g_free);
+  }
+  return FALSE;
+}
+
+
+static void
+add_switch_option ( PhoshAppAuthPrompt *self,
+                    gchar *choice_id,
+                    gchar *choice_label,
+                    char *default_option_id)
+{
+  GtkWidget *action_row_choice;
+  GtkWidget *switch_choice;
+
+  action_row_choice = g_object_new (HDY_TYPE_ACTION_ROW,
+                                    "visible", TRUE,
+                                    "title", choice_label,
+                                    "activatable", TRUE,
+                                    "selectable", FALSE,
+                                    NULL);
+  g_object_set_data_full (G_OBJECT (action_row_choice), "choice-id", g_strdup (choice_id), g_free);
+  gtk_widget_set_visible (action_row_choice, TRUE);
+  hdy_preferences_row_set_title (HDY_PREFERENCES_ROW (action_row_choice), choice_label);
+
+  switch_choice = g_object_new (GTK_TYPE_SWITCH,
+                                "visible", TRUE,
+                                "halign", GTK_ALIGN_CENTER,
+                                "valign", GTK_ALIGN_CENTER,
+                                NULL);
+  hdy_action_row_set_activatable_widget (HDY_ACTION_ROW (action_row_choice), switch_choice);
+  g_signal_connect (switch_choice, "state-set", G_CALLBACK (on_switch_option_toggled), action_row_choice);
+  gtk_container_add (GTK_CONTAINER (action_row_choice), switch_choice);
+
+  gtk_container_add (GTK_CONTAINER (self->list_box_choices), action_row_choice);
+}
+
+static char *
+get_choice_option_name (gpointer item, gpointer unused) {
+  PhoshAuthPromptOption *option = PHOSH_AUTH_PROMPT_OPTION (item);
+  return g_strdup (phosh_auth_prompt_option_get_label (option));
+}
+
+static void
+add_combo_option (PhoshAppAuthPrompt *self,
+                  char *choice_id,
+                  char *choice_label,
+                  GVariantIter *iter_options,
+                  char *default_option_id)
+{
+  int index = 0;
+  int selected_index = 0;
+  char *option_id;
+  char *option_label;
+  GListStore *store;
+  GtkWidget *combo_row_options;
+
+  combo_row_options = hdy_combo_row_new ();
+  g_object_set_data_full (G_OBJECT (combo_row_options), "choice-id", g_strdup (choice_id), g_free);
+  gtk_widget_set_visible (combo_row_options, TRUE);
+  hdy_preferences_row_set_title (HDY_PREFERENCES_ROW (combo_row_options), choice_label);
+  gtk_list_box_row_set_activatable (GTK_LIST_BOX_ROW (combo_row_options), TRUE);
+  gtk_list_box_row_set_selectable (GTK_LIST_BOX_ROW (combo_row_options), FALSE);
+
+  store = g_list_store_new (PHOSH_TYPE_AUTH_PROMPT_OPTION);
+  while (g_variant_iter_loop (iter_options, OPTION_FORMAT, &option_id, &option_label)) {
+    GObject *option;
+    option = g_object_new (PHOSH_TYPE_AUTH_PROMPT_OPTION,
+                          "id", option_id,
+                          "label", option_label,
+                          NULL);
+    if (strcmp (option_id, default_option_id) == 0) {
+      selected_index = index;
+    }
+    g_list_store_append(store, option);
+    g_object_unref (option);
+    index += 1;
+  }
+  hdy_combo_row_bind_name_model (HDY_COMBO_ROW (combo_row_options),
+                                 G_LIST_MODEL (store),
+                                 get_choice_option_name,
+                                 NULL,
+                                 NULL);
+  hdy_combo_row_set_selected_index (HDY_COMBO_ROW (combo_row_options), selected_index);
+  gtk_container_add (GTK_CONTAINER (self->list_box_choices), combo_row_options);
+}
+
+
+static void
+add_choice_to_gvariant (GtkWidget *child, gpointer builder)
+{
+  GVariant *choice[2];
+
+  choice[0] = g_variant_new_string (g_object_get_data (G_OBJECT (child), "choice-id"));
+  if (HDY_IS_COMBO_ROW (child)) {
+    HdyComboRow *row = HDY_COMBO_ROW (child);
+    GListModel *model = hdy_combo_row_get_model (row);
+    gint selected_index = hdy_combo_row_get_selected_index (row);
+    PhoshAuthPromptOption *option = (PhoshAuthPromptOption*) g_list_model_get_item (model, selected_index);
+
+    if (option != NULL) {
+      choice[1] = g_variant_new_string (phosh_auth_prompt_option_get_id (option));
+    }
+  } else {
+    HdyActionRow *row = HDY_ACTION_ROW (child);
+    GtkSwitch *gtk_switch = GTK_SWITCH (hdy_action_row_get_activatable_widget (row));
+
+    choice[1] = g_variant_new_string (gtk_switch_get_state(gtk_switch) ? "true" : "false");
+  }
+  g_variant_builder_add_value ((GVariantBuilder*) builder, g_variant_new_tuple (choice, 2));
+}
 
 
 static void
@@ -190,6 +321,32 @@ phosh_app_auth_prompt_constructed (GObject *object)
   g_object_bind_property (self, "offer-remember", self->checkbtn_remember, "visible", G_BINDING_DEFAULT);
 
   gtk_widget_grab_default (self->btn_grant);
+
+  if (self->choices != NULL) {
+    GVariantIter iter_choices;
+    char *choice_id;
+    char *choice_label;
+    g_autoptr (GVariantIter) iter_options = NULL;
+    char *default_option_id;
+
+    g_variant_iter_init (&iter_choices, self->choices);
+
+    if (g_variant_iter_n_children (&iter_choices) == 0) {
+      gtk_widget_set_visible (self->list_box_choices, FALSE);
+    }
+
+    while (g_variant_iter_loop (&iter_choices, CHOICE_FORMAT,
+                                &choice_id,
+                                &choice_label,
+                                &iter_options,
+                                &default_option_id)) {
+      if (g_variant_iter_n_children (iter_options) == 0) {
+        add_switch_option (self, choice_id, choice_label, default_option_id);
+      } else {
+        add_combo_option (self, choice_id, choice_label, iter_options, default_option_id);
+      }
+    }
+  }
 }
 
 
@@ -252,6 +409,15 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
       FALSE,
       G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
 
+  props[PROP_CHOICES] =
+    g_param_spec_variant (
+      "choices",
+      "Choices",
+      "The dialogs shown permissions and their possible values",
+      G_VARIANT_TYPE (CHOICES_FORMAT),
+      NULL,
+      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[CLOSED] = g_signal_new ("closed",
@@ -266,6 +432,7 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, btn_grant);
   gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, btn_deny);
   gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, checkbtn_remember);
+  gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, list_box_choices);
   gtk_widget_class_bind_template_callback (widget_class, on_btn_grant_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_dialog_canceled);
 }
@@ -285,7 +452,8 @@ phosh_app_auth_prompt_new (GIcon      *icon,
                            const char *body,
                            const char *grant_label,
                            const char *deny_label,
-                           gboolean    offer_remember)
+                           gboolean    offer_remember,
+                           GVariant   *choices)
 {
   return g_object_new (PHOSH_TYPE_APP_AUTH_PROMPT,
                        "icon", icon,
@@ -295,6 +463,7 @@ phosh_app_auth_prompt_new (GIcon      *icon,
                        "grant-label", grant_label,
                        "deny-label", deny_label,
                        "offer-remember", offer_remember,
+                       "choices", choices,
                        NULL);
 }
 
@@ -304,4 +473,19 @@ phosh_app_auth_prompt_get_grant_access (GtkWidget *self)
   g_return_val_if_fail (PHOSH_IS_APP_AUTH_PROMPT (self), FALSE);
 
   return PHOSH_APP_AUTH_PROMPT (self)->grant_access;
+}
+
+
+GVariant* phosh_app_auth_prompt_get_selected_choices (GtkWidget *self)
+{
+  GVariantBuilder builder;
+
+  g_return_val_if_fail (PHOSH_IS_APP_AUTH_PROMPT (self), NULL);
+  g_variant_builder_init (&builder, G_VARIANT_TYPE ("a(ss)"));
+  gtk_container_foreach (
+    GTK_CONTAINER ( PHOSH_APP_AUTH_PROMPT (self)->list_box_choices),
+    add_choice_to_gvariant,
+    &builder
+  );
+  return g_variant_builder_end (&builder);
 }
