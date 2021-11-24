@@ -284,6 +284,10 @@ phosh-lockscreen .phosh-notification-tray phosh-notification-content:last-child 
   border-radius: 0px 0px 6px 6px;
 }
 
+phosh-lockscreen cui-call-display actionbar {
+  background-color: @phosh_bg_color;
+}
+
 /*
  * System modal dialogs (polkit, gcr, ...)
  */
