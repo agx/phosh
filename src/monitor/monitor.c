@@ -273,9 +273,9 @@ static const struct zwlr_output_power_v1_listener wlr_output_power_listener_v1 =
 
 static void
 phosh_monitor_set_property (GObject *object,
-                          guint property_id,
-                          const GValue *value,
-                          GParamSpec *pspec)
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
 {
   PhoshMonitor *self = PHOSH_MONITOR (object);
 
