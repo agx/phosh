@@ -136,7 +136,7 @@ build-gtkdoc:
     - 'echo "Build opts: ${BUILD_OPTS}"'
     - meson ${BUILD_OPTS} . _build
     - ninja -C _build
-    - tools/doc-check
+    - tools/doc-check _build
     - mv _build/docs/html/ _reference/
   artifacts:
     paths:
