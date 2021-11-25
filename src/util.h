@@ -29,3 +29,4 @@ gboolean         phosh_error_warnv (const char  *log_domain,
                                     int          code,
                                     const gchar *fmt,
                                     ...) G_GNUC_PRINTF(5, 6);
+int              phosh_create_shm_file (off_t size);
