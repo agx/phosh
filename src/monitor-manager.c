@@ -17,6 +17,7 @@
 #include "wlr-gamma-control-unstable-v1-client-protocol.h"
 #include "phosh-wayland.h"
 #include "shell.h"
+#include "util.h"
 
 #include <gdk/gdkwayland.h>
 
@@ -381,8 +382,7 @@ phosh_monitor_manager_handle_set_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
   guint16 *red, *green, *blue, *data;
   g_autoptr (GBytes) red_bytes = NULL, green_bytes = NULL, blue_bytes = NULL;
   gsize n_bytes, n_entries;
-  gint fd, ret;
-  g_autofree gchar *filename = NULL;
+  gint fd;
   g_autoptr (GError) err = NULL;
 
   g_debug ("DBus call %s for crtc %d, serial %d", __func__, crtc_id, serial);
@@ -431,24 +431,13 @@ phosh_monitor_manager_handle_set_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
     return TRUE;
   }
 
-  fd = g_file_open_tmp("phosh-XXXXXX", &filename, &err);
-  do {
-    errno = 0;
-    ret = ftruncate(fd, n_bytes * 3);
-  } while (errno == EINTR);
-
-  if (ret < 0) {
-    close(fd);
-    fd = -1;
-  }
-
-  if (fd < 0 || err) {
+  fd = phosh_create_shm_file (n_bytes * 3);
+  if (fd < 0) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_IO_ERROR,
                                            "could not create temporary file for gamma ramps data");
     return TRUE;
   }
-  unlink(filename);
 
   data = mmap(NULL, n_bytes * 3, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
   if (data == MAP_FAILED) {
