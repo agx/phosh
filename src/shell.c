@@ -473,18 +473,28 @@ on_fade_out_timeout (PhoshShell *self)
 }
 
 
+static void
+notify_compositor_up_state (PhoshShell *self, enum phosh_private_shell_state state)
+{
+  struct phosh_private *phosh_private;
+
+  g_debug ("Notify compositor state: %d", state);
+
+  phosh_private = phosh_wayland_get_phosh_private (phosh_wayland_get_default ());
+  if (phosh_private && phosh_private_get_version (phosh_private) >= PHOSH_PRIVATE_SHELL_READY_SINCE)
+    phosh_private_set_shell_state (phosh_private, state);
+}
+
+
 static gboolean
 on_startup_finished (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
-  struct phosh_private *phosh_private;
 
   g_return_val_if_fail (PHOSH_IS_SHELL (self), G_SOURCE_REMOVE);
   priv = phosh_shell_get_instance_private (self);
 
-  phosh_private = phosh_wayland_get_phosh_private (phosh_wayland_get_default ());
-  if (phosh_private && phosh_private_get_version (phosh_private) >= PHOSH_PRIVATE_SHELL_READY_SINCE)
-    phosh_private_set_shell_state (phosh_private, PHOSH_PRIVATE_SHELL_STATE_UP);
+  notify_compositor_up_state (self, PHOSH_PRIVATE_SHELL_STATE_UP);
 
   priv->startup_finished_id = 0;
   return G_SOURCE_REMOVE;
@@ -608,6 +618,66 @@ on_builtin_monitor_power_mode_changed (PhoshShell *self, GParamSpec *pspec, Phos
 }
 
 static void
+phosh_shell_set_builtin_monitor (PhoshShell *self, PhoshMonitor *monitor)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor) || monitor == NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (priv->builtin_monitor == monitor)
+    return;
+
+  if (priv->builtin_monitor) {
+    /* Power mode listener */
+    g_signal_handlers_disconnect_by_data (priv->builtin_monitor, self);
+    g_clear_object (&priv->builtin_monitor);
+
+    if (priv->rotation_manager)
+      phosh_rotation_manager_set_monitor (priv->rotation_manager, NULL);
+  }
+
+  g_debug ("New builtin monitor is %s", monitor ? monitor->name : "(none)");
+  g_set_object (&priv->builtin_monitor, monitor);
+
+  if (monitor) {
+    g_signal_connect_swapped (priv->builtin_monitor,
+                              "notify::power-mode",
+                              G_CALLBACK (on_builtin_monitor_power_mode_changed),
+                              self);
+
+    if (priv->rotation_manager)
+      phosh_rotation_manager_set_monitor (priv->rotation_manager, monitor);
+  }
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_BUILTIN_MONITOR]);
+}
+
+
+/* Find a new builtin monitor that differs from old, otherwise NULL */
+static PhoshMonitor *
+find_new_builtin_monitor (PhoshShell *self, PhoshMonitor *old)
+{
+  PhoshShellPrivate *priv;
+  PhoshMonitor *monitor = NULL;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
+    PhoshMonitor *tmp = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
+    if (phosh_monitor_is_builtin (tmp) && tmp != old) {
+      monitor = tmp;
+      break;
+    }
+  }
+
+  return monitor;
+}
+
+
+static void
 on_monitor_added (PhoshShell *self, PhoshMonitor *monitor)
 {
   PhoshShellPrivate *priv;
@@ -616,25 +686,25 @@ on_monitor_added (PhoshShell *self, PhoshMonitor *monitor)
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
   priv = phosh_shell_get_instance_private (self);
 
-  g_debug ("Monitor %p (%s)", monitor, monitor->name);
+  g_debug ("Monitor %p (%s) added", monitor, monitor->name);
 
-  if (priv->builtin_monitor)
+  /* Set built-in monitor if not set already */
+  if (!priv->builtin_monitor && phosh_monitor_is_builtin (monitor))
+    phosh_shell_set_builtin_monitor (self, monitor);
+
+  /*
+   * on_monitor_added() gets connected in phosh_shell_constructed() but
+   * we can't use phosh_shell_set_primary_monitor() yet since the
+   * shell object is not yet up and we can't move panels, etc. so
+   * ignore that case. This is not a problem since phosh_shell_constructed()
+   * sets the primary monitor explicitly.
+   */
+  if (!priv->startup_finished)
     return;
 
-  if (!phosh_monitor_is_builtin (monitor))
-    return;
-
-  priv->builtin_monitor = g_object_ref (monitor);
-  g_signal_connect_swapped (priv->builtin_monitor,
-                            "notify::power-mode",
-                            G_CALLBACK(on_builtin_monitor_power_mode_changed),
-                            self);
-
-  g_debug ("Updating builtin monitor to %s", monitor->name);
-  if (priv->rotation_manager)
-    phosh_rotation_manager_set_monitor (priv->rotation_manager, monitor);
-
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_BUILTIN_MONITOR]);
+  /* Set primary monitor if unset */
+  if (priv->primary_monitor == NULL)
+    phosh_shell_set_primary_monitor (self, monitor);
 }
 
 
@@ -648,18 +718,12 @@ on_monitor_removed (PhoshShell *self, PhoshMonitor *monitor)
   priv = phosh_shell_get_instance_private (self);
 
   if (priv->builtin_monitor == monitor) {
+    PhoshMonitor *new_builtin;
+
     g_debug ("Builtin monitor %p (%s) removed", monitor, monitor->name);
 
-    if (priv->builtin_monitor) {
-      /* Power mode listener */
-      g_signal_handlers_disconnect_by_data (priv->builtin_monitor, self);
-      g_clear_object (&priv->builtin_monitor);
-    }
-
-    if (priv->rotation_manager)
-      phosh_rotation_manager_set_monitor (priv->rotation_manager, NULL);
-
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_BUILTIN_MONITOR]);
+    new_builtin = find_new_builtin_monitor (self, monitor);
+    phosh_shell_set_builtin_monitor (self, new_builtin);
   }
 
   if (priv->primary_monitor == monitor) {
@@ -679,32 +743,14 @@ on_monitor_removed (PhoshShell *self, PhoshMonitor *monitor)
         break;
       }
     }
-    g_assert (priv->primary_monitor && priv->primary_monitor != monitor);
-  }
-}
 
-
-static PhoshMonitor *
-find_builtin_monitor (PhoshShell *self)
-{
-  PhoshShellPrivate *priv;
-  PhoshMonitor *monitor = NULL;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
-  priv = phosh_shell_get_instance_private (self);
-
-  if (priv->builtin_monitor)
-    return priv->builtin_monitor;
-
-  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
-    PhoshMonitor *tmp = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
-    if (phosh_monitor_is_builtin (tmp)) {
-      monitor = tmp;
-      break;
+    /* We did not find another monitor so all monitors are gone */
+    if (priv->primary_monitor == monitor) {
+      g_debug ("All monitors gone");
+      phosh_shell_set_primary_monitor (self, NULL);
+      return;
     }
   }
-
-  return monitor;
 }
 
 
@@ -734,20 +780,19 @@ phosh_shell_constructed (GObject *object)
   phosh_wayland_roundtrip (phosh_wayland_get_default ());
 
   if (phosh_monitor_manager_get_num_monitors (priv->monitor_manager)) {
-    PhoshMonitor *monitor = find_builtin_monitor (self);
+    PhoshMonitor *monitor = find_new_builtin_monitor (self, NULL);
 
-    /* Setup builtin monitor */
-    if (monitor) {
-      on_monitor_added (self, monitor);
+    /* Setup builtin monitor if not set via 'monitor-added' */
+    if (!priv->builtin_monitor && monitor) {
+      phosh_shell_set_builtin_monitor (self, monitor);
       g_debug ("Builtin monitor %p, configured: %d",
                priv->builtin_monitor,
                phosh_monitor_is_configured (priv->builtin_monitor));
     }
 
     /* Setup primary monitor, prefer builtin */
-    /* Can't invoke phosh_shell_set_primary_monitor () since the shell
-       object does not really exist yet but we need the primary monitor
-       early for the panels */
+    /* Can't invoke phosh_shell_set_primary_monitor () since this involves
+       updating the panels as well and we need to init more of the shell first */
     if (priv->builtin_monitor)
       priv->primary_monitor = g_object_ref (priv->builtin_monitor);
     else
@@ -814,7 +859,7 @@ phosh_shell_class_init (PhoshShellClass *klass)
   /**
    * PhoshShell:primary-monitor:
    *
-   * The primary monitor that has the panels, lock screen etc. This can't be %NULL.
+   * The primary monitor that has the panels, lock screen etc.
    */
   props[PROP_PRIMARY_MONITOR] =
     g_param_spec_object ("primary-monitor",
@@ -869,35 +914,65 @@ phosh_shell_init (PhoshShell *self)
 }
 
 
+static gboolean
+select_fallback_monitor (gpointer data)
+{
+  PhoshShell *self = PHOSH_SHELL (data);
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_MONITOR_MANAGER (priv->monitor_manager), FALSE);
+  phosh_monitor_manager_enable_fallback (priv->monitor_manager);
+
+  return G_SOURCE_REMOVE;
+}
+
+
 void
 phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
 {
   PhoshShellPrivate *priv;
   PhoshMonitor *m = NULL;
+  gboolean needs_notify = FALSE;
 
-  g_return_if_fail (monitor);
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor) || monitor == NULL);
   g_return_if_fail (PHOSH_IS_SHELL (self));
   priv = phosh_shell_get_instance_private (self);
 
   if (monitor == priv->primary_monitor)
     return;
 
-  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
-    m = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
-    if (monitor == m)
-      break;
+  if (monitor != NULL) {
+    /* Make sure the new monitor exists */
+    for (int i = 0; i < phosh_monitor_manager_get_num_monitors (priv->monitor_manager); i++) {
+      m = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
+      if (monitor == m)
+        break;
+    }
+    g_return_if_fail (monitor == m);
   }
-  g_return_if_fail (monitor == m);
 
-  g_clear_object (&priv->primary_monitor);
-  priv->primary_monitor = g_object_ref (monitor);
-  g_debug ("New primary monitor is %s", monitor->name);
+  needs_notify = priv->primary_monitor == NULL;
+  g_set_object (&priv->primary_monitor, monitor);
+  g_debug ("New primary monitor is %s", monitor ? monitor->name : "(none)");
 
-  /* Move panels to the new monitor by recreating the layer shell surfaces */
+  /* Move panels to the new monitor by recreating the layer-shell surfaces */
   panels_dispose (self);
-  panels_create (self);
+  if (monitor)
+    panels_create (self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY_MONITOR]);
+
+  /* All monitors gone or disabled. See if monitor-manager finds a
+   * fallback to enable. Do that in an idle callback so GTK can process
+   * pending wayland events for the gone output */
+  if (monitor == NULL) {
+    /* No monitor we're not useful atm */
+    notify_compositor_up_state (self, PHOSH_PRIVATE_SHELL_STATE_UNKNOWN);
+    g_idle_add (select_fallback_monitor, self);
+  } else {
+    if (needs_notify)
+      notify_compositor_up_state (self, PHOSH_PRIVATE_SHELL_STATE_UP);
+  }
 }
 
 
@@ -914,23 +989,21 @@ phosh_shell_get_builtin_monitor (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_primary_monitor:
+ * @self: The shell
+ *
+ * Returns: the primary monitor or %NULL if there currently are no outputs
+ */
 PhoshMonitor *
 phosh_shell_get_primary_monitor (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
-  PhoshMonitor *monitor;
 
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
 
-  if (priv->primary_monitor)
-    return priv->primary_monitor;
-
-  /* When the shell started up we might not have had all monitors */
-  monitor = phosh_monitor_manager_get_monitor (priv->monitor_manager, 0);
-  g_return_val_if_fail (monitor, NULL);
-
-  return monitor;
+  return priv->primary_monitor;
 }
 
 /* Manager getters */

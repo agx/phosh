@@ -175,8 +175,14 @@ phosh_monitor_manager_handle_get_resources (PhoshDBusDisplayConfig *skeleton,
   PhoshMonitor *primary_monitor;
   PhoshHead *primary_head;
 
-  g_return_val_if_fail (self->monitors->len, FALSE);
   g_debug ("DBus %s", __func__);
+
+  if (phosh_monitor_manager_get_num_monitors (self) == 0) {
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                           "No monitors found");
+    return TRUE;
+  }
 
   primary_monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default());
   if (!primary_monitor) {
@@ -1057,6 +1063,9 @@ on_wl_outputs_changed (PhoshMonitorManager *self, GParamSpec *pspec, PhoshWaylan
     monitor = g_ptr_array_index (self->monitors, i);
     if (!phosh_wayland_has_wl_output (wl, monitor->wl_output)) {
       g_debug ("Monitor %p (%s) gone", monitor, monitor->name);
+      /* Give up on wayland resources early otherwise we might not be able to
+         bind them if the same output shows up again */
+      g_object_run_dispose (G_OBJECT (monitor));
       g_signal_emit (self, signals[SIGNAL_MONITOR_REMOVED], 0, monitor);
       /* The monitor is removed from monitors in the class'es default
        * signal handler */
@@ -1500,4 +1509,48 @@ phosh_monitor_manager_set_sensor_proxy_manager (PhoshMonitorManager     *self,
                                                        G_BINDING_SYNC_CREATE);
 
 
+}
+
+/**
+ * phosh_monitor_manager_enable_fallback:
+ * @self: a #PhoshMonitorManager
+ *
+ * When all heads are disabled look for a fallback to enable. This can be useful
+ * when e.g. only external display is enabled and that gets unplugged.
+ *
+ * Returns: %TRUE if a new head was enabled, %FALSE otherwise
+ */
+gboolean
+phosh_monitor_manager_enable_fallback (PhoshMonitorManager *self)
+{
+  PhoshHead *builtin_head = NULL;
+
+  if (!self->heads->len)
+    return FALSE;
+
+  /* Make sure all display changes got processed otherwise we might try to reenable
+     a just gone head */
+  phosh_wayland_roundtrip (phosh_wayland_get_default ());
+
+  for (int i = 0; i < self->heads->len; i++) {
+    PhoshHead *head = g_ptr_array_index (self->heads, i);
+
+    if (phosh_head_get_enabled (head)) {
+      g_warning ("%s still enabled, no fallback needed", head->name);
+      return FALSE;
+    }
+
+    if (phosh_head_is_builtin (head) && !builtin_head) {
+      builtin_head = head;
+    }
+  }
+
+  if (!builtin_head)
+    return FALSE;
+
+  g_debug ("Enabling fallback head %s", builtin_head->name);
+  phosh_head_set_pending_enabled (builtin_head, TRUE);
+  phosh_monitor_manager_apply_monitor_config (self);
+
+  return TRUE;
 }

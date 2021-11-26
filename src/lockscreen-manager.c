@@ -107,9 +107,15 @@ static void
 lock_monitor (PhoshLockscreenManager *self,
               PhoshMonitor           *monitor)
 {
+  PhoshShell *shell = phosh_shell_get_default ();
   PhoshWayland *wl = phosh_wayland_get_default ();
   GtkWidget *shield;
 
+  /* Primary monitor is handled via on_primary_monitor_changed */
+  if (phosh_shell_get_primary_monitor (shell) == monitor)
+    return;
+
+  g_debug ("Adding shield for %s", monitor->name);
   shield = phosh_lockshield_new (
     phosh_wayland_get_zwlr_layer_shell_v1 (wl),
     monitor->wl_output);
@@ -176,6 +182,7 @@ lock_primary_monitor (PhoshLockscreenManager *self)
   PhoshShell *shell = phosh_shell_get_default ();
 
   primary_monitor = phosh_shell_get_primary_monitor (shell);
+  g_assert (primary_monitor);
 
   /* The primary output gets the clock, keypad, ... */
   self->lockscreen = PHOSH_LOCKSCREEN (phosh_lockscreen_new (
@@ -198,13 +205,21 @@ on_primary_monitor_changed (PhoshLockscreenManager *self,
                             GParamSpec *pspec,
                             PhoshShell *shell)
 {
+  PhoshMonitor *monitor;
+
   g_return_if_fail (PHOSH_IS_SHELL (shell));
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
 
-  g_debug ("primary monitor changed, need to move lockscreen");
-  lock_primary_monitor (self);
-  /* We don't remove a shield that might exist to avoid the screen
-     content flickering in. The shield will be removed on unlock */
+  monitor = phosh_shell_get_primary_monitor (shell);
+
+  if (monitor) {
+    g_debug ("primary monitor changed to %s, need to move lockscreen", monitor->name);
+    lock_primary_monitor (self);
+    /* We don't remove a shield that might exist to avoid the screen
+       content flickering in. The shield will be removed on unlock */
+  } else {
+    g_debug ("Primary monitor gone, doing nothing");
+  }
 }
 
 
@@ -218,7 +233,6 @@ lockscreen_lock (PhoshLockscreenManager *self)
   g_return_if_fail (!self->locked);
 
   primary_monitor = phosh_shell_get_primary_monitor (shell);
-  g_return_if_fail (primary_monitor);
 
   /* Listen for monitor changes */
   g_signal_connect_object (monitor_manager, "monitor-added",
@@ -237,10 +251,13 @@ lockscreen_lock (PhoshLockscreenManager *self)
                            self,
                            G_CONNECT_SWAPPED);
 
-  lock_primary_monitor (self);
+  if (primary_monitor)
+    lock_primary_monitor (self);
+  else
+    g_message ("No primary monitor to lock");
+
   /* Lock all other outputs */
   self->shields = g_ptr_array_new_with_free_func ((GDestroyNotify) (gtk_widget_destroy));
-
   for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
     PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
 
