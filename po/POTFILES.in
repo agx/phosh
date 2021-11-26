@@ -32,7 +32,6 @@ src/notifications/notification.c
 src/notifications/timestamp-label.c
 src/osk-manager.c
 src/overview.c
-src/panel.c
 src/phosh-wayland.c
 src/polkit-auth-agent.c
 src/polkit-auth-prompt.c
