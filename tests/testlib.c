@@ -59,7 +59,7 @@ phoc_stdout_watch (GIOChannel      *source,
       if (g_regex_match (socket_re, line, 0, &socket_mi)) {
         watch->socket = g_match_info_fetch (socket_mi, 1);
         g_assert (watch->socket);
-        g_debug ("Found socket %s", watch->socket);
+        g_test_message ("Found wayland socket %s", watch->socket);
         finished = TRUE;
         /* we're done */
         g_main_loop_quit (watch->loop);
@@ -192,7 +192,7 @@ phosh_test_compositor_new (void)
   g_assert_no_error (err);
   g_assert_true (ret);
 
-  g_debug ("Spawned compositor %s with pid %d", comp, state->pid);
+  g_test_message ("Spawned compositor %s with pid %d", comp, state->pid);
 
   mainloop = g_main_loop_new (NULL, FALSE);
   watch.loop = mainloop;
