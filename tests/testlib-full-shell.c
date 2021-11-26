@@ -15,6 +15,8 @@
 #include <handy.h>
 #include <call-ui.h>
 
+GPid comp_pid;
+
 
 static gboolean
 stop_shell (gpointer unused)
@@ -23,6 +25,12 @@ stop_shell (gpointer unused)
   gtk_main_quit ();
 
   return G_SOURCE_REMOVE;
+}
+
+
+static void kill_compositor (int signum)
+{
+  kill(comp_pid, SIGTERM);
 }
 
 
@@ -35,6 +43,10 @@ phosh_test_full_shell_thread (gpointer data)
 
   /* compositor setup in thread since this invokes gdk already */
   fixture->state = phosh_test_compositor_new ();
+  /* We assume only one compositor running at a given time */
+  comp_pid = fixture->state->pid;
+
+  signal(SIGTRAP, kill_compositor);
 
   gtk_init (NULL, NULL);
   hdy_init ();
@@ -179,6 +191,8 @@ phosh_test_full_shell_teardown (PhoshTestFullShellFixture *fixture, gconstpointe
   g_async_queue_unref (fixture->queue);
 
   g_test_dbus_down (fixture->bus);
+
+  signal (SIGTRAP, SIG_DFL);
 
   phosh_test_remove_tree (file);
   g_free (fixture->tmpdir);

@@ -33,7 +33,7 @@ variables:
 .test_step: &test_step
   script:
     - export LC_ALL=C.UTF-8
-    - ${XVFB_RUN} meson test -C _build
+    - ${XVFB_RUN} meson test --print-errorlogs -C _build
     - ninja -C _build coverage
 
 build:native-debian-bookworm:
