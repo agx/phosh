@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-08-03 09:16+0000\n"
-"PO-Revision-Date: 2021-08-03 16:28+0300\n"
+"POT-Creation-Date: 2021-11-26 15:00+0000\n"
+"PO-Revision-Date: 2021-11-26 23:30+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -32,9 +32,19 @@ msgstr "Інтерфейс користувача телефону"
 msgid "Window management and application launching for mobile"
 msgstr "Керування вікнами і запуск програм для мобільних"
 
-#: src/app-grid-button.c:536
+#: src/app-grid-button.c:503
 msgid "Application"
 msgstr "Програма"
+
+#: src/app-grid.c:133
+msgid "Show All Apps"
+msgstr ""
+"Показати усі програми"
+
+#: src/app-grid.c:136
+msgid "Show Only Mobile Friendly Apps"
+msgstr ""
+"Показати лише програми для мобільних"
 
 #: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
@@ -64,7 +74,7 @@ msgstr[0] "Вихід з системи %s буде здійснено авто�
 msgstr[1] "Вихід з системи %s буде здійснено автоматично за %d секунди."
 msgstr[2] "Вихід з системи %s буде здійснено автоматично за %d секунд."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Вимкнути"
 
@@ -76,7 +86,7 @@ msgstr[0] "Система автоматично вимкнеться за %d с
 msgstr[1] "Система автоматично вимкнеться за %d секунди."
 msgstr[2] "Система автоматично вимкнеться за %d секунд."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
 msgstr "Перезапустити"
 
@@ -123,41 +133,41 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: src/lockscreen.c:152 src/ui/lockscreen.ui:239
+#: src/lockscreen.c:158 src/ui/lockscreen.ui:265
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:335
+#: src/lockscreen.c:341
 msgid "Checking…"
 msgstr "Звіряю…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:413
+#: src/lockscreen.c:419
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:279 src/ui/media-player.ui:107
+#: src/media-player.c:322 src/ui/media-player.ui:179
 msgid "Unknown Title"
 msgstr "Невідома назва"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:288 src/ui/media-player.ui:127
+#: src/media-player.c:330 src/ui/media-player.ui:162
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
-#: src/monitor-manager.c:114
+#: src/monitor-manager.c:115
 msgid "Built-in display"
 msgstr "Вбудований дисплей"
 
-#: src/monitor-manager.c:132
+#: src/monitor-manager.c:133
 #, c-format
 msgctxt "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:139
+#: src/monitor-manager.c:140
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -166,7 +176,7 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:148
+#: src/monitor-manager.c:149
 msgid "Unknown"
 msgstr "Нетиповий"
 
@@ -280,9 +290,9 @@ msgstr "%s%d%s"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Користувач перервав діалог автентифікації"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
-#: src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Пароль:"
 
@@ -316,72 +326,67 @@ msgstr "Пароль не може бути порожнім"
 msgid "Torch"
 msgstr "Факел"
 
-#: src/ui/app-auth-prompt.ui:41
+#: src/ui/app-auth-prompt.ui:40
 msgid "Remember decision"
 msgstr "Запам'ятати вибір"
 
-#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "Гаразд"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "Програма"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
 msgstr "Вилучити з _вибраних"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
 msgstr "Додати до _вибраних"
 
-#: src/ui/app-grid.ui:22
+#: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Шукати серед програм…"
 
-#: src/ui/app-grid.ui:169
-msgid "Show only adaptive apps"
-msgstr "Показувати лише адаптивні програми"
-
-#: src/ui/end-session-dialog.ui:32
+#: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
 msgstr "Деякі програми зайняті або мають незбережені дані"
 
-#: src/ui/gtk-mount-prompt.ui:95
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Користувач:"
 
-#: src/ui/gtk-mount-prompt.ui:118
+#: src/ui/gtk-mount-prompt.ui:117
 msgid "Domain:"
 msgstr "Домен:"
 
-#: src/ui/gtk-mount-prompt.ui:151
+#: src/ui/gtk-mount-prompt.ui:150
 msgid "Co_nnect"
 msgstr "З'єд_натися"
 
-#: src/ui/lockscreen.ui:43
+#: src/ui/lockscreen.ui:42
 msgid "Slide up to unlock"
 msgstr "Протягніть угору, щоб розблокувати"
 
-#: src/ui/lockscreen.ui:285
+#: src/ui/lockscreen.ui:309
 msgid "Emergency"
 msgstr "Екстрений виклик"
 
-#: src/ui/lockscreen.ui:301
+#: src/ui/lockscreen.ui:325
 msgid "Unlock"
 msgstr "Розблокувати"
 
-#: src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:365
 msgid "Back"
-msgstr ""
-"Назад"
+msgstr "Назад"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Слід пройти розпізнавання"
 
@@ -393,19 +398,19 @@ msgstr "_Скасувати"
 msgid "C_onnect"
 msgstr "З'_єднатися"
 
-#: src/ui/polkit-auth-prompt.ui:123
+#: src/ui/polkit-auth-prompt.ui:122
 msgid "Authenticate"
 msgstr "Автентифікуватися"
 
-#: src/ui/system-prompt.ui:63
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Підтвердіть:"
 
-#: src/ui/top-panel.ui:16
+#: src/ui/top-panel.ui:15
 msgid "Lock Screen"
 msgstr "Заблокувати екран"
 
-#: src/ui/top-panel.ui:23
+#: src/ui/top-panel.ui:22
 msgid "Logout"
 msgstr "Вийти"
 
@@ -417,3 +422,6 @@ msgstr "Wi-Fi"
 #: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Стільниковий"
+
+#~ msgid "Show only adaptive apps"
+#~ msgstr "Показувати лише адаптивні програми"
