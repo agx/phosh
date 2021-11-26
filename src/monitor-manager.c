@@ -68,6 +68,7 @@ typedef struct _PhoshMonitorManager
   int dbus_name_id;
   int serial;
 
+  PhoshHead *pending_primary;
   uint32_t zwlr_output_serial;
 } PhoshMonitorManager;
 
@@ -683,7 +684,6 @@ phosh_monitor_manager_find_head (PhoshMonitorManager *self, const char *name)
 static PhoshHead *
 find_head_from_variant (PhoshMonitorManager *self,
                         GVariant            *monitor_config_variant,
-                        PhoshMonitor       **monitor,
                         gchar              **mode,
                         GError             **err)
 {
@@ -695,15 +695,13 @@ find_head_from_variant (PhoshMonitorManager *self,
   PhoshHead *head;
   gchar *key;
 
-  g_return_val_if_fail (*mode == NULL || *monitor == NULL, NULL);
+  g_return_val_if_fail (*mode == NULL, NULL);
 
   g_variant_get (monitor_config_variant, "(ss@a{sv})",
                  &connector,
                  &mode_id,
                  &properties_variant);
 
-  /* Look for the monitor associated with this connector */
-  *monitor = phosh_monitor_manager_find_monitor (self, connector);
   head = phosh_monitor_manager_find_head (self, connector);
   if (head == NULL) {
     g_set_error (err, G_IO_ERROR, G_IO_ERROR_FAILED,
@@ -726,7 +724,7 @@ find_head_from_variant (PhoshMonitorManager *self,
 #define LOGICAL_MONITOR_CONFIG_FORMAT "(iidub" MONITOR_CONFIGS_FORMAT ")"
 
 
-static PhoshMonitor *
+static PhoshHead *
 config_head_config_from_logical_monitor_variant (PhoshMonitorManager *self,
                                                  GVariant            *logical_monitor_config_variant,
                                                  GError             **err)
@@ -735,8 +733,8 @@ config_head_config_from_logical_monitor_variant (PhoshMonitorManager *self,
   unsigned int transform;
   double scale;
   gboolean is_primary;
+  PhoshHead *head = NULL;
   g_autoptr (GVariantIter) monitor_configs_iter = NULL;
-  PhoshMonitor *monitor = NULL;
 
   g_variant_get (logical_monitor_config_variant, LOGICAL_MONITOR_CONFIG_FORMAT,
                  &x,
@@ -747,20 +745,16 @@ config_head_config_from_logical_monitor_variant (PhoshMonitorManager *self,
                  &monitor_configs_iter);
 
   while (TRUE) {
-    PhoshHead *head;
     PhoshHeadMode *mode;
     g_autofree char *mode_name = NULL;
-
     g_autoptr (GVariant) monitor_config_variant =
       g_variant_iter_next_value (monitor_configs_iter);
 
     if (!monitor_config_variant)
       break;
 
-    monitor = NULL;
     head = find_head_from_variant (self,
                                    monitor_config_variant,
-                                   &monitor,
                                    &mode_name,
                                    err);
     if (head == NULL)
@@ -784,13 +778,25 @@ config_head_config_from_logical_monitor_variant (PhoshMonitorManager *self,
     head->pending.seen = TRUE;
   }
 
-  return is_primary ? monitor : NULL;
+  return is_primary ? head : NULL;
 }
 
 
 #undef LOGICAL_MONITOR_CONFIG_FORMAT
 #undef MONITOR_CONFIGS_FORMAT
 #undef MONITOR_CONFIG_FORMAT
+
+
+static void
+phosh_monitor_manager_clear_pending (PhoshMonitorManager *self)
+{
+  for (int i = 0; i < self->heads->len; i++) {
+    PhoshHead *head = g_ptr_array_index (self->heads, i);
+    phosh_head_clear_pending (head);
+  }
+
+  self->pending_primary = NULL;
+}
 
 
 static gboolean
@@ -804,10 +810,10 @@ phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skel
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
   GVariantIter logical_monitor_configs_iter;
   GError *err = NULL;
-  PhoshMonitor *primary_monitor = NULL;
-  PhoshShell *shell = phosh_shell_get_default();
+  PhoshHead *primary_head = NULL;
   GVariant *layout_mode_variant = NULL;
   PhoshMonitorManagerLayoutMode layout_mode = PHOSH_MONITOR_MANAGER_LAYOUT_MODE_LOGICAL;
+  int n_monitors = 0;
 
   g_debug ("DBus call %s, method: %d", __func__, method);
 
@@ -844,16 +850,13 @@ phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skel
 
 
   /* Make sure we refresh only heads from this config run */
-  for (int i = 0; i < self->heads->len; i++) {
-    PhoshHead *head = g_ptr_array_index (self->heads, i);
-    phosh_head_clear_pending (head);
-  }
+  phosh_monitor_manager_clear_pending (self);
 
   g_variant_iter_init (&logical_monitor_configs_iter,
                        logical_monitor_configs_variant);
 
   while (TRUE) {
-    PhoshMonitor *mon;
+    PhoshHead *head;
 
     g_autoptr (GVariant) logical_monitor_config_variant =
       g_variant_iter_next_value (&logical_monitor_configs_iter);
@@ -861,44 +864,64 @@ phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skel
     if (!logical_monitor_config_variant)
       break;
 
-    mon = config_head_config_from_logical_monitor_variant (self,
-                                                           logical_monitor_config_variant,
-                                                           &err);
+    head = config_head_config_from_logical_monitor_variant (self,
+                                                            logical_monitor_config_variant,
+                                                            &err);
 
-    if (mon == NULL && err) {
+    if (head == NULL && err) {
+      phosh_monitor_manager_clear_pending (self);
       g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                              G_DBUS_ERROR_ACCESS_DENIED,
                                              "%s", err->message);
       return TRUE;
     }
 
-    if (mon) {
-      if (primary_monitor) {
+    if (head) {
+      if (primary_head) {
+        phosh_monitor_manager_clear_pending (self);
         g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                                G_DBUS_ERROR_ACCESS_DENIED,
                                                "Only one primary monitor possible");
         return TRUE;
       } else {
-        primary_monitor = mon;
+        primary_head = head;
       }
     }
+    n_monitors++;
   }
 
-  if (primary_monitor == NULL) {
+  if (n_monitors == 0) {
+    phosh_monitor_manager_clear_pending (self);
+    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                               G_DBUS_ERROR_ACCESS_DENIED,
+                                               "Monitor config empty");
+    return TRUE;
+  }
+
+  if (primary_head == NULL) {
+    phosh_monitor_manager_clear_pending (self);
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_ACCESS_DENIED,
-                                           "No primary monitor found");
+                                           "Invalid primary monitor");
     return TRUE;
   }
 
   if (method == PHOSH_MONITOR_MANAGER_CONFIG_METHOD_PERSISTENT) {
+    PhoshMonitor *primary_monitor;
 
-    /* TODO: This only works when both monitors are enabled. So
-       we need to first enable the head, wait for monitor to be
-       configured then move the primary output */
-    if (primary_monitor != phosh_shell_get_primary_monitor (shell)) {
-      g_debug ("New primary monitor is %s", primary_monitor->name);
-      phosh_shell_set_primary_monitor (shell, primary_monitor);
+    primary_monitor = phosh_monitor_manager_find_monitor (self, primary_head->name);
+    /* If the primary monitor is in the list of enabled heads we can assign it right away */
+    if (primary_monitor) {
+      PhoshShell *shell = phosh_shell_get_default();
+
+      if (primary_monitor != phosh_shell_get_primary_monitor (shell)) {
+        g_debug ("New primary monitor is %s", primary_monitor->name);
+        phosh_shell_set_primary_monitor (shell, primary_monitor);
+      }
+    } else {
+      /* Delay primary monitor reconfiguration in case the correspdonding head
+         is currently disabled */
+      self->pending_primary = primary_head;
     }
 
     for (int i = 0; i < self->heads->len; i++) {
@@ -1021,6 +1044,19 @@ on_monitor_configured (PhoshMonitorManager *self, PhoshMonitor *monitor)
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_N_MONITORS]);
 
   g_signal_handlers_disconnect_by_data (monitor, self);
+
+  /* A monitor reconfiguration via DBus might have a pending primary monitor change */
+  if (self->pending_primary) {
+    PhoshMonitor *primary_monitor;
+    PhoshShell *shell = phosh_shell_get_default ();
+
+    primary_monitor = phosh_monitor_manager_find_monitor (self, self->pending_primary->name);
+    if (primary_monitor == monitor) {
+      g_warning ("New primary monitor %s", primary_monitor->name);
+      phosh_shell_set_primary_monitor (shell, primary_monitor);
+      self->pending_primary = NULL;
+    }
+  }
 }
 
 
@@ -1132,7 +1168,7 @@ zwlr_output_manager_v1_handle_done (void *data,
   PhoshMonitorManager *self = data;
 
   g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
-  g_debug ("Got zwlr_output_serial %u", serial);
+  g_debug ("Got zwlr_output_manager serial %u", serial);
   self->zwlr_output_serial = serial;
   self->serial++;
 
