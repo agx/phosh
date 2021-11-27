@@ -17,6 +17,9 @@
 #include "lockscreen.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
+#include "osk-button.h"
+#include "osk-manager.h"
+#include "shell.h"
 #include "util.h"
 
 #include <locale.h>
@@ -86,6 +89,7 @@ typedef struct {
 
   /* unlock page */
   GtkWidget         *box_unlock;
+  GtkWidget         *keypad_revealer;
   GtkWidget         *keypad;
   GtkWidget         *entry_pin;
   GtkGesture        *long_press_del_gesture;
@@ -162,15 +166,16 @@ clear_input (PhoshLockscreen *self, gboolean clear_all)
   }
 }
 
-
 static void
 show_info_page (PhoshLockscreen *self)
 {
+  PhoshShell *shell = phosh_shell_get_default ();
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
   if (hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel)) <= 0)
     return;
 
+  phosh_osk_manager_set_visible  (phosh_shell_get_osk_manager (shell), FALSE);
   hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel), priv->box_info);
 }
 
@@ -251,6 +256,8 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
   PhoshLockscreenPrivate *priv;
   GError *error = NULL;
   gboolean authenticated;
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshOskManager *oskManager = phosh_shell_get_osk_manager (shell);
 
   priv = phosh_lockscreen_get_instance_private (self);
   authenticated = phosh_auth_authenticate_async_finish (auth, result, &error);
@@ -261,6 +268,8 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
 
   g_object_ref (self);
   if (authenticated) {
+    /*Hide OSK*/
+    phosh_osk_manager_set_visible (oskManager, FALSE);
     g_signal_emit (self, signals[LOCKSCREEN_UNLOCK], 0);
     g_clear_object (&priv->auth);
   } else {
@@ -603,6 +612,7 @@ phosh_lockscreen_constructed (GObject *object)
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   const char *active;
   PhoshNotifyManager *manager;
+  PhoshShell *shell;
 
   G_OBJECT_CLASS (phosh_lockscreen_parent_class)->constructed (object);
 
@@ -659,6 +669,12 @@ phosh_lockscreen_constructed (GObject *object)
                            G_CONNECT_SWAPPED);
   on_notifcation_items_changed (self, -1, -1, -1,
                                 G_LIST_MODEL (phosh_notify_manager_get_list (manager)));
+
+  shell = phosh_shell_get_default ();
+  g_object_bind_property (phosh_shell_get_osk_manager (shell), "visible",
+                          priv->keypad_revealer, "reveal-child",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
 }
 
 static void
@@ -723,6 +739,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
                                          NULL, G_TYPE_NONE, 0);
 
   g_type_ensure (PHOSH_TYPE_KEYPAD);
+  g_type_ensure (PHOSH_TYPE_OSK_BUTTON);
   gtk_widget_class_set_css_name (widget_class, "phosh-lockscreen");
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/lockscreen.ui");
@@ -734,6 +751,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   /* unlock page */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_unlock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, keypad);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, keypad_revealer);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, entry_pin);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_unlock_status);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, long_press_del_gesture);
