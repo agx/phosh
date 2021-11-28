@@ -25,7 +25,7 @@
                     <property name="margin-bottom">20</property>
                     <signal name="draw" handler="draw_cb" object="PhoshActivity" swapped="true"/>
                     <style>
-                      <class name="phosh-activity-drawing-area"/>
+                      <class name="phosh-drawingarea"/>
                     </style>
                   </object>
                   <packing>

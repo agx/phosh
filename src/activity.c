@@ -96,9 +96,9 @@ phosh_activity_set_property (GObject *object,
     case PROP_MAXIMIZED:
       priv->maximized = g_value_get_boolean (value);
       if (priv->maximized)
-        gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-activity-maximized");
+        gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-maximized");
       else
-        gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-activity-maximized");
+        gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-maximized");
       break;
     case PROP_WIN_WIDTH:
       width = g_value_get_int (value);
@@ -276,7 +276,7 @@ phosh_activity_constructed (GObject *object)
                                   ACTIVITY_ICON_SIZE);
   }
 
-  gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-activity-empty");
+  gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-empty");
 
   G_OBJECT_CLASS (phosh_activity_parent_class)->constructed (object);
 }
@@ -610,7 +610,7 @@ phosh_activity_set_thumbnail (PhoshActivity *self, PhoshThumbnail *thumbnail)
       data, CAIRO_FORMAT_ARGB32, width, height, stride);
   priv->thumbnail = thumbnail;
 
-  gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-activity-empty");
+  gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-empty");
 
   /* Make sure the close button is over the thumbnail */
   w = gtk_widget_get_allocated_width (GTK_WIDGET (self));
