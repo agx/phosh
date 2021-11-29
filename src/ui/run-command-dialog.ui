@@ -4,7 +4,6 @@
   <template class="PhoshRunCommandDialog" parent="PhoshSystemModalDialog">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Run Command</property>
-    <signal name="key-press-event" handler="run_command_dialog_key_press_event_cb"/>
     <signal name="dialog-canceled" handler="run_command_dialog_canceled_event_cb"/>
     <child type="phosh-dialog-content">
       <object class="GtkBox" id="box">
@@ -17,6 +16,7 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="width-request">240</property>
+            <signal name="activate" handler="on_activated" swapped="true"/>
           </object>
         </child>
         <child>

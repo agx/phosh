@@ -32,16 +32,12 @@ typedef struct _PhoshRunCommandDialog {
 
 G_DEFINE_TYPE (PhoshRunCommandDialog, phosh_run_command_dialog, PHOSH_TYPE_SYSTEM_MODAL_DIALOG)
 
-static gboolean
-run_command_dialog_key_press_event_cb (PhoshRunCommandDialog *self, GdkEventKey *event)
+static void
+on_activated (PhoshRunCommandDialog *self, GtkEntry *entry)
 {
-  if (event->keyval == GDK_KEY_Return) {
-    GtkEntry *entry = GTK_ENTRY (self->entry_command);
-    const char *command = gtk_entry_get_text (entry);
-    g_signal_emit (self, signals[DONE], 0, FALSE, command);
-    return TRUE;
-  }
-  return FALSE;
+  const char *command = gtk_entry_get_text (entry);
+
+  g_signal_emit (self, signals[DONE], 0, FALSE, command);
 }
 
 static void
@@ -77,7 +73,7 @@ phosh_run_command_dialog_class_init (PhoshRunCommandDialogClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/run-command-dialog.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshRunCommandDialog, entry_command);
-  gtk_widget_class_bind_template_callback (widget_class, run_command_dialog_key_press_event_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_activated);
   gtk_widget_class_bind_template_callback (widget_class, run_command_dialog_canceled_event_cb);
 }
 
