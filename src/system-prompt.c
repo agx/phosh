@@ -77,6 +77,7 @@ typedef struct
   GtkWidget *entry_confirm;
   GtkWidget *entry_password;
   GtkWidget *grid;
+  GtkWidget *lbl_choice;
   GtkWidget *lbl_confirm;
   GtkWidget *lbl_description;
   GtkWidget *lbl_password;
@@ -582,8 +583,10 @@ phosh_system_prompt_constructed (GObject *object)
   g_object_bind_property (self, "warning", priv->lbl_warning, "label", G_BINDING_DEFAULT);
   g_object_bind_property (self, "warning-visible", priv->lbl_warning, "visible", G_BINDING_DEFAULT);
 
-  g_object_bind_property (self, "choice-label", priv->checkbtn_choice,
+  g_object_bind_property (self, "choice-label", priv->lbl_choice,
                           "label", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "choice-visible", priv->lbl_choice,
+                          "visible", G_BINDING_DEFAULT);
   g_object_bind_property (self, "choice-visible", priv->checkbtn_choice,
                           "visible", G_BINDING_DEFAULT);
   g_object_bind_property (self, "choice-chosen", priv->checkbtn_choice,
@@ -666,6 +669,7 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, pbar_quality);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, lbl_warning);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, checkbtn_choice);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, lbl_choice);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, btn_cancel);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, btn_continue);
   gtk_widget_class_bind_template_callback (widget_class, on_dialog_canceled);
