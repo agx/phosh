@@ -13,7 +13,6 @@
           <object class="GtkButton">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="margin_bottom">6</property>
             <signal name="clicked" handler="clicked_cb" swapped="true"/>
             <child>
               <object class="GtkOverlay">
@@ -25,6 +24,9 @@
                     <property name="can_focus">False</property>
                     <property name="margin-bottom">20</property>
                     <signal name="draw" handler="draw_cb" object="PhoshActivity" swapped="true"/>
+                    <style>
+                      <class name="phosh-drawingarea"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="index">-1</property>

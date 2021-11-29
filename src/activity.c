@@ -53,6 +53,7 @@ typedef struct
   GtkWidget *box;
   GtkWidget *revealer;
   GtkWidget *btn_close;
+  GtkWidget *preview;
 
   gboolean maximized;
   int win_width;
@@ -94,6 +95,10 @@ phosh_activity_set_property (GObject *object,
       break;
     case PROP_MAXIMIZED:
       priv->maximized = g_value_get_boolean (value);
+      if (priv->maximized)
+        gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-maximized");
+      else
+        gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-maximized");
       break;
     case PROP_WIN_WIDTH:
       width = g_value_get_int (value);
@@ -199,9 +204,9 @@ get_scale (PhoshActivity *self)
   int width, height, image_width, image_height;
   PhoshActivityPrivate *priv;
 
-  width = gtk_widget_get_allocated_width (GTK_WIDGET (self));
-  height = gtk_widget_get_allocated_height (GTK_WIDGET (self));
   priv = phosh_activity_get_instance_private (self);
+  width = gtk_widget_get_allocated_width (priv->preview);
+  height = gtk_widget_get_allocated_height (priv->preview);
 
   if (!priv->surface)
     return 1.0;
@@ -230,7 +235,7 @@ draw_cb (PhoshActivity *self, cairo_t *cairo, GtkDrawingArea *area)
   width = gtk_widget_get_allocated_width (GTK_WIDGET (area));
   height = gtk_widget_get_allocated_height (GTK_WIDGET (area));
   priv = phosh_activity_get_instance_private (self);
-  context = gtk_widget_get_style_context (GTK_WIDGET (self));
+  context = gtk_widget_get_style_context (GTK_WIDGET (area));
 
   if (!priv->surface)
     return FALSE;
@@ -271,7 +276,7 @@ phosh_activity_constructed (GObject *object)
                                   ACTIVITY_ICON_SIZE);
   }
 
-  gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-activity-empty");
+  gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-empty");
 
   G_OBJECT_CLASS (phosh_activity_parent_class)->constructed (object);
 }
@@ -353,6 +358,7 @@ phosh_activity_get_preferred_width_for_height (GtkWidget *widget,
   int box_smallest = 0;
   int size;
   int parent_nat;
+  int margin_start, margin_end, margin_top, margin_bottom;
   double aspect_ratio;
 
   g_return_if_fail (PHOSH_IS_ACTIVITY (widget));
@@ -366,8 +372,13 @@ phosh_activity_get_preferred_width_for_height (GtkWidget *widget,
 
   smallest = MAX (smallest, box_smallest);
 
+  margin_start = gtk_widget_get_margin_start (priv->preview);
+  margin_end = gtk_widget_get_margin_end (priv->preview);
+  margin_top = gtk_widget_get_margin_top (priv->preview);
+  margin_bottom = gtk_widget_get_margin_bottom (priv->preview);
+
   aspect_ratio = (double) priv->win_width / priv->win_height;
-  size = MAX (smallest, height * aspect_ratio);
+  size = MAX (smallest, (height - margin_top - margin_bottom) * aspect_ratio) + margin_start + margin_end;
 
   if (min)
     *min = size;
@@ -532,6 +543,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/activity.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, btn_close);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, preview);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, swipe_bin);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, icon);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, box);
@@ -598,7 +610,7 @@ phosh_activity_set_thumbnail (PhoshActivity *self, PhoshThumbnail *thumbnail)
       data, CAIRO_FORMAT_ARGB32, width, height, stride);
   priv->thumbnail = thumbnail;
 
-  gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-activity-empty");
+  gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-empty");
 
   /* Make sure the close button is over the thumbnail */
   w = gtk_widget_get_allocated_width (GTK_WIDGET (self));
@@ -607,4 +619,13 @@ phosh_activity_set_thumbnail (PhoshActivity *self, PhoshThumbnail *thumbnail)
   gtk_widget_set_margin_end (priv->btn_close, margin);
 
   gtk_widget_queue_draw (GTK_WIDGET (self));
+}
+
+void
+phosh_activity_get_thumbnail_allocation (PhoshActivity *self, GtkAllocation *allocation)
+{
+  PhoshActivityPrivate *priv;
+  g_return_if_fail (PHOSH_IS_ACTIVITY (self));
+  priv = phosh_activity_get_instance_private (self);
+  gtk_widget_get_allocation (priv->preview, allocation);
 }

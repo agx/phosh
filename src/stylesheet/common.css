@@ -84,9 +84,13 @@ phosh-activity box button {
   /* box-shadow: 0 2px 2px rgba(0,0,0,0.4), 0 3px 16px rgba(0,0,0,0.3); */
 }
 
-.phosh-activity-empty {
+phosh-activity.phosh-empty {
   background: url('resource:///sm/puri/phosh/fake-app.svg');
   background-size: cover;
+}
+
+phosh-activity.phosh-maximized .phosh-drawingarea {
+  background: @phosh_activity_bg_color;
 }
 
 phosh-home, phosh-top-panel {

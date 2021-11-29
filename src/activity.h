@@ -16,3 +16,5 @@ GtkWidget  *phosh_activity_new        (const char *app_id);
 const char *phosh_activity_get_app_id (PhoshActivity   *self);
 void        phosh_activity_set_thumbnail (PhoshActivity *self,
                                           PhoshThumbnail *thumbnail);
+void        phosh_activity_get_thumbnail_allocation (PhoshActivity *self,
+                                                     GtkAllocation *allocation);
