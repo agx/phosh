@@ -562,25 +562,45 @@ secret_agent_register_cb (GObject      *object,
                            self, G_CONNECT_SWAPPED);
 }
 
+
 static void
-setup_network_agent (PhoshWifiManager *self)
+on_network_agent_ready (GObject      *source_object,
+                        GAsyncResult *res,
+                        gpointer      user_data)
 {
-  g_autoptr(GError) error = NULL;
+  g_autoptr (GError) err = NULL;
+  PhoshWifiManager *self;
+  GObject *nw_agent;
 
-  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
-
-  self->network_agent = g_initable_new (SHELL_TYPE_NETWORK_AGENT, NULL, &error,
-                                        "identifier", "sm.puri.phosh.NetworkAgent",
-                                        "auto-register", FALSE, NULL);
-
-  if (error) {
-    g_warning ("Error: %s", error->message);
+  nw_agent = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, &err);
+  if (!nw_agent) {
+    g_warning ("Failed to init network agent: %s", err->message);
     return;
   }
 
+  self = PHOSH_WIFI_MANAGER (user_data);
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+  self->network_agent = SHELL_NETWORK_AGENT (nw_agent);
   nm_secret_agent_old_register_async (NM_SECRET_AGENT_OLD (self->network_agent), NULL,
                                       secret_agent_register_cb, self);
 }
+
+
+static void
+setup_network_agent (PhoshWifiManager *self)
+{
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+
+  g_async_initable_new_async (SHELL_TYPE_NETWORK_AGENT,
+                              G_PRIORITY_DEFAULT,
+                              self->cancel,
+                              on_network_agent_ready,
+                              self,
+                              "identifier", "sm.puri.phosh.NetworkAgent",
+                              "auto-register", FALSE,
+                              NULL);
+}
+
 
 static void
 on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
