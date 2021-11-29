@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-11-26 15:00+0000\n"
-"PO-Revision-Date: 2021-11-26 23:30+0200\n"
+"POT-Creation-Date: 2021-11-29 09:54+0000\n"
+"PO-Revision-Date: 2021-11-29 23:28+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -38,13 +38,11 @@ msgstr "Програма"
 
 #: src/app-grid.c:133
 msgid "Show All Apps"
-msgstr ""
-"Показати усі програми"
+msgstr "Показати усі програми"
 
 #: src/app-grid.c:136
 msgid "Show Only Mobile Friendly Apps"
-msgstr ""
-"Показати лише програми для мобільних"
+msgstr "Показати лише програми для мобільних"
 
 #: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
@@ -401,6 +399,16 @@ msgstr "З'_єднатися"
 #: src/ui/polkit-auth-prompt.ui:122
 msgid "Authenticate"
 msgstr "Автентифікуватися"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr ""
+"Виконати команду"
+
+#: src/ui/run-command-dialog.ui:26
+msgid "Press ESC to close"
+msgstr ""
+"Натисніть клавішу «Esc», щоб закрити"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
