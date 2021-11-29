@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-11-27 11:42+0000\n"
-"PO-Revision-Date: 2021-11-27 12:57+0100\n"
-"Last-Translator: Luna Jernberg <droidbittin@gmail.com>\n"
+"POT-Creation-Date: 2021-11-29 09:54+0000\n"
+"PO-Revision-Date: 2021-11-29 12:46+0100\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -397,6 +397,14 @@ msgstr "A_nslut"
 #: src/ui/polkit-auth-prompt.ui:122
 msgid "Authenticate"
 msgstr "Godkänn"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Kör kommando"
+
+#: src/ui/run-command-dialog.ui:26
+msgid "Press ESC to close"
+msgstr "Tryck Esc för att stänga"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
