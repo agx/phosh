@@ -61,6 +61,7 @@
 #include "polkit-auth-agent.h"
 #include "proximity.h"
 #include "quick-setting.h"
+#include "run-command-manager.h"
 #include "rotateinfo.h"
 #include "rotation-manager.h"
 #include "sensor-proxy-manager.h"
@@ -143,6 +144,7 @@ typedef struct
   PhoshLocationManager *location_manager;
   PhoshGnomeShellManager *gnome_shell_manager;
   PhoshSplashManager *splash_manager;
+  PhoshRunCommandManager *run_command_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -355,6 +357,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->notification_banner);
 
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->run_command_manager);
   g_clear_object (&priv->splash_manager);
   g_clear_object (&priv->screenshot_manager);
   g_clear_object (&priv->calls_manager);
@@ -562,6 +565,7 @@ setup_idle_cb (PhoshShell *self)
   priv->gnome_shell_manager = phosh_gnome_shell_manager_get_default ();
   priv->screenshot_manager = phosh_screenshot_manager_new ();
   priv->splash_manager = phosh_splash_manager_new (priv->app_tracker);
+  priv->run_command_manager = phosh_run_command_manager_new();
 
   /* Delay signaling the compositor a bit so that idle handlers get a
    * chance to run and the user has can unlock right away. Ideally
