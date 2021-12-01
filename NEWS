@@ -1,3 +1,19 @@
+phosh 0.14.1
+------------
+Released: December 2021
+* Show avatars during phone calls on lockscreen
+* Allow for DTMF during phone calls on lockscreen
+* Improve docked mode when phone screen is off
+* Improve thumbnails in overview
+* Add initial "Run command" prompt (Alt-F2)
+* Plenty of bug fixes and cleanups
+* Contributors: Evangelos Ribeiro Tzaras, Sebastian Krzyszkowiak, Florian Loers,
+  Dorota Czaplejewicz, Hunman, Pablo Barciela, Guido Günther
+* UI translations:
+	Anders Jonsson (sv)
+	Luna Jernberg (sv)
+	Yuri Chornoivan (uk)
+
 phosh 0.14.0
 ------------
 Released: October 2021

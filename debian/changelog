@@ -1,3 +1,197 @@
+phosh (0.14.1) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * Fixup margin-{start,end} vs margin-{left,right}.  The later ones are
+    deprecated and complicate the GTK4 migration.
+  * osk-manager: Drop `PHOSH_OSK_` prefix from property enum.
+    Make it match what we use in HACKING.md
+  * osk-manager: Use shell to listen for lock status.
+  * osk-button: Make sure we disconnect signals when button goes away.
+    When the button gets destroyed we need to disconnect the signals
+    from osk-manager.
+  * ui: Drop all glade markers.
+    These are spread around although files aren't glade edited.
+  * wifimanager: Don't drop unimplemented prompts silently.
+    Instead of just doing nothing cancel the request so NM doesn't
+    end up waiting until we hit a timeout. This mostly affects
+    VPN prompts. This makes sure we don't interfere with e.g.
+       nmcli c up <myvpnconnection>
+    Related https://gitlab.gnome.org/World/Phosh/phosh/-/issues/630
+  * app-grid: Ellipsize app filter button.
+    This prevents horizontal scrolling when users select large fonts.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/645
+  * lockscreen: Remove out of place '>'
+    Fixes: 316a65c7 ("lockscreen: Allow to accept incoming calls")
+  * Bring over HdyKeypad from libhandy 1.2.2.
+    Adjust by dropping unused features. We do this in one commit to keep
+    bisection intact. We use phosh-keypad as CSS class to not conflict with
+    libhandy's keypad css class.
+  * keypad: Derive from GtkGrid.
+    GtkBin does not exist in Gtk4 so derive from GtkGrid directly.
+    It's o.k. to expose the grid/container API here since this isn't
+    a shared lib. This simplifies the GTK4 migration.
+    While at that drop make it a non-derivable type for now.
+  * dbus: Update calls DBus interface.
+    Taken from calls commit 8f9f7311fa7095492c2c900a23610e3b86a874dd
+  * call: Add avatar-icon property
+  * tests: Use avatar in screenshots.
+    We use cat.jpg from gnome-control-center
+    License is GPL-2+ which is compatible with the demo app.
+  * tests: Screenshot uk locale too.
+    It's usually very complete and uses we get a
+    good idea about cyrillic language layout.
+  * subprojects: Forward to latest libcall-ui.
+    This includes the textdomain fixes.
+  * tests: Fix translations for call related screen shots
+  * debian: Don't install libcall-ui translations.
+    They're shipped by calls.
+  * d/copyright: Flip sections.
+    This makes lintian happy.
+  * notify-manager: Set urgency.
+    Don't forget to set the urgency when parsing the hints.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/653
+  * notify-manager: Don't use a fallback icon for critical notifications.
+    See Tobias comment in
+    https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/938
+  * docked-manager: Ensure mode_changed_cb() sets all values on startup.
+    If can_dock is False the mode_changed_cb() triggered from
+    docked_manager_constructed() exits early letting the GSettings at their
+    previous values. Make sure we always set these initially since we mode
+    before e.g.  device shutdown might be different from the mode on boot.
+  * build: Drop glib fallback.
+    Since we don't require more recent glib than 2.62 we can also drop the
+    fallback.
+    Fixes: 8f37b6c9 ("tests: Drop g_test option")
+  * layersurface: Make debug message more useful
+  * shell: Add and use phosh_shell_set_builtin_monitor()
+    More descriptive than `on_monitor_added()` and the later will
+    do more soon.
+  * shell: Simplify by using g_set_object.
+    Move clearing and setting to one step that will also handle NULL
+    correctly.
+  * Allow the primary monitor to be NULL.
+    This can happen when all monitors are gone.
+    We basically need to make sure we don't create surfaces on gone devices
+    but add them once a new monitor shows up.
+  * shell: Remove primary-monitor startup workaround.
+    Since we handle NULL now we can just catch up once a primary monitor is
+    there.
+  * shell: Trigger selection of a fallback monitor when all went away.
+    When all monitors went away we need to select a new one to enable.
+  * shell: Move find_builtin_monitor upwards.
+    We'll use it from phosh_set_builtin_monitor soon.
+  * shell: Rename phosh_set_builtin_monitor
+    use phosh_shell_ prefix as with other methods
+  * shell: Update builtin monitor in on_monitor_removed as well.
+  * shell: Make sure we pick a new builtin monitor.
+    Since monitors get removed at the very end of their live from the list
+    of monitors we need to make sure we don't pick the same one when looking
+    them up.
+  * shell: Move compositor state notification to its own method
+  * shell: Use compositor notifications on primary flips.
+    When there's no primary monitor left let the compositor know we're in a
+    recovering state and notify it when things went back to normal. This
+    allows it to fade us in properly.
+  * monitor: Split finalize and dispose
+  * monitor-manager: Release wayland resources sooner.
+    Start disposal of the monitor early so wayland resources are already
+    released and hence can be readded when e.g. a display of the same name
+    shows up again. This mostly affects wlr-output-power.
+  * monitor-manager: Clear pending head states on errors.
+    Makes sure there are no pending head state changes when aborting
+    a config, this might otherwise leak to other head changes in the
+    future e.g. via phosh_monitor_manager_set_monitor_transform().
+  * monitor-manager: Make it clear that the we were invoked with invalid data.
+    The issue is not that we didn't get a primary monitor but rather that
+    the sender didn't specify one.
+  * monitor-manager: Fix protocol name in debug message
+  * monitor-manager: Allow to select primary that is currently disabled.
+  * ci: Always print error logs on failure.
+    Makes debugging easier
+  * testlib: Print compositor startup message.
+    This helps to figure out when it started
+  * testlib: Terminate comopsitor on SIGTRAP.
+    Currenlty meson tests time out since the test/shell process ends on e.g.
+    a SIGTRAP caused by a g_critical () while the compositor process keeps
+    running making meson wait until it hits the timeout.
+  * po: Remove panel.c from POTFILES.in too.
+    Fixes: 08db8d89 ("Rename panel top top-panel")
+  * po: Fix POTFILES.skip.
+    The syntax didn't make `intltool -m` happy causing the
+    check-po test to fail silently.
+    Fixes: 0343af09 ("po: Use wildcard to ignore subprojects")
+  * run-command: Use 'activate' signal.
+    Avoids GDK event filtering.
+  * system-prompt: Make sure the choice label wraps.
+    Use a separate label where we can set the "wrap" property.
+
+  [ Pablo Barciela ]
+  * gnome-shell-manager: Fix show error, inside 'on_bus_acquired' function
+  * app-tracker: Fix dereference of a null pointer.
+  * notification-content: avoid duplicate break
+
+  [ Hunman ]
+  * app-grid: Sort with collation
+
+  [ Dorota Czaplejewicz ]
+  * gitlab: Improve bug report template
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Luna Jernberg ]
+  * Update Swedish translation
+
+  [ Florian Loers ]
+  * Add run-command dialog with Alt+F2 shortcut.
+    Closes #610
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Sebastian Krzyszkowiak ]
+  * activity: Fix cut out thumbnails.
+    Since 117e397da924093573e8dec57649b8615a7b079e, thumbnails were
+    often cut out at the bottom. This was because get_scale function
+    was checking size of a different widget than before refactoring.
+  * ui: Move Activity's 6px bottom margin from GtkButton to Overview's
+    Carousel.
+    For thumbnail sizing to work correctly, PhoshActivity shouldn't have other
+    margins than the ones defined by GtkDrawingArea.
+  * overview: Use phosh_shell_get_usable_area for activity aspect ratio.
+    Previously we effectively used the aspect ratio of PhoshOverview itself,
+    which wasn't exactly the same as the ratio of most maximized applications.
+  * activity: Take margin into account in get_preferred_width_for_height.
+    The aspect ratio we're interested in is the one of GtkDrawingArea, so to
+    get the aspect ratio of whole PhocActivity need to compensate for drawing
+    area's margins.
+  * activity: Add phosh_activity_get_thumbnail_allocation
+  * overview: Request thumbnails based on GtkDrawingArea's size.
+    Previously we used the size of whole PhoshActivity there, which isn't the
+    same as we now have a bottom margin on GtkDrawingArea.
+  * activity: Use GtkDrawingArea's context to determine its background.
+    Using PhoshActivity doesn't make much sense there since it can
+    already draw its own background.
+  * activity: Use CSS to apply background for maximized windows
+  * activity: Rename CSS classes, use widget name where possible
+
+  [ Evangelos Ribeiro Tzaras ]
+  * subprojects: Forward to latest libcall-ui.
+    This includes the UI tweaks and fixes.
+  * call: Reindent
+  * dbus: Update calls DBus interface.
+    From calls revision a28d6946238e46d37d1a750fb9bde70d3254d74b
+  * call: Hook up CanDtmf property.
+    This controls whether CuiDisplay allows revealing the dialpad.
+  * call: Hook up SendDtmf DBus method.
+    This sends the dtmf tone to Calls.
+  * css: lockscreen: DTMF keypad should respect phoshs background color.
+    The keypad is a child of a GtkActionBar in CuiCallDisplay which has the
+    background style class set. Setting the background color for the GtkActionBar
+    in CSS ensures that phoshs styling is respected.
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 01 Dec 2021 18:22:30 +0100
+
 phosh (0.14.0) experimental; urgency=medium
 
   [ Mohammed Sadiq ]
