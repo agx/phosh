@@ -24,6 +24,13 @@
   <interface name="org.gnome.Calls.Call">
     <method name="Accept"/>
     <method name="Hangup"/>
+    <method name="SendDtmf">
+      <arg name="Tone" type="s" direction="in">
+        <doc:doc>
+          <doc:summary>A one character string. One of: 0-9,A-D,* or #.</doc:summary>
+        </doc:doc>
+      </arg>
+    </method>
     <property name="Inbound" type="b" access="read"/>
     <property name="State" type="u" access="read"/>
     <property name="Id" type="s" access="read">
@@ -59,6 +66,13 @@
         <doc:description>
           <doc:para>Whether the call is encrypted. This does not indicate anything about the
           type of encryption being used.</doc:para>
+        </doc:description>
+      </doc:doc>
+    </property>
+    <property name="CanDtmf" type="b" access="read">
+      <doc:doc>
+        <doc:description>
+          <doc:para>Whether the call can do DTMF</doc:para>
         </doc:description>
       </doc:doc>
     </property>

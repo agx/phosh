@@ -110,7 +110,7 @@ phosh_call_get_can_dtmf (CuiCall *call)
   g_return_val_if_fail (PHOSH_IS_CALL (call), CUI_CALL_STATE_UNKNOWN);
   self = PHOSH_CALL (call);
 
-  return self->can_dtmf;
+  return phosh_calls_dbus_calls_call_get_can_dtmf (self->proxy);
 }
 
 
@@ -123,7 +123,8 @@ on_prop_changed (PhoshCall *self, GParamSpec *pspec)
   if (g_strcmp0 (name, "state") == 0 ||
       g_strcmp0 (name, "encrypted") == 0 ||
       g_strcmp0 (name, "id") == 0 ||
-      g_strcmp0 (name, "display-name") == 0) {
+      g_strcmp0 (name, "display-name") == 0 ||
+      g_strcmp0 (name, "can-dtmf")) {
     g_object_notify (G_OBJECT (self), name);
   }
 }
@@ -139,6 +140,7 @@ phosh_call_set_dbus_proxy (PhoshCall *self, PhoshCallsDBusCallsCall *proxy)
                     "swapped-signal::notify::encrypted", G_CALLBACK (on_prop_changed), self,
                     "swapped-signal::notify::id", G_CALLBACK (on_prop_changed), self,
                     "swapped-signal::notify::display-name", G_CALLBACK (on_prop_changed), self,
+                    "swapped-signal::notify::can-dtmf", G_CALLBACK (on_prop_changed), self,
                     NULL);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_DBUS_PROXY]);
@@ -277,11 +279,11 @@ phosh_call_class_init (PhoshCallClass *klass)
                                     "state");
 
   g_object_class_override_property (object_class,
-				    PROP_ENCRYPTED,
+                                    PROP_ENCRYPTED,
                                     "encrypted");
 
   g_object_class_override_property (object_class,
-				    PROP_CAN_DTMF,
+                                    PROP_CAN_DTMF,
                                     "can-dtmf");
 }
 
@@ -344,11 +346,34 @@ phosh_call_hang_up (CuiCall *call)
 
 
 static void
+on_call_send_dtmf_finish (PhoshCallsDBusCallsCall *proxy,
+                          GAsyncResult            *res,
+                          gpointer                 dtmf_key)
+{
+  g_autoptr (GError) err = NULL;
+  char key = (char) GPOINTER_TO_INT (dtmf_key);
+
+  g_return_if_fail (PHOSH_CALLS_DBUS_IS_CALLS_CALL_PROXY (proxy));
+
+  if (!phosh_calls_dbus_calls_call_call_send_dtmf_finish (proxy, res, &err))
+    phosh_async_error_warn(err, "Failed to send DTMF `%c' %p", key, proxy);
+}
+
+
+static void
 phosh_call_send_dtmf (CuiCall *call, const char *dtmf)
 {
+  PhoshCall *self;
+
   g_return_if_fail (PHOSH_IS_CALL (call));
 
-  /* TBD */
+  self = PHOSH_CALL (call);
+
+  phosh_calls_dbus_calls_call_call_send_dtmf (self->proxy,
+                                              dtmf,
+                                              self->cancel,
+                                              (GAsyncReadyCallback) on_call_send_dtmf_finish,
+                                              GINT_TO_POINTER (dtmf));
 }
 
 
