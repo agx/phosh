@@ -330,10 +330,9 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     gtk_label_set_label (GTK_LABEL (self->lbl_artist), _("Unknown Artist"));
   }
 
-  if (url) {
+  if (url && g_strcmp0 (g_uri_peek_scheme (url), "file") == 0) {
     g_autoptr (GIcon) icon = NULL;
     g_autoptr (GFile) file = g_file_new_for_uri (url);
-
     icon = g_file_icon_new (file);
     g_object_set (self->img_art, "gicon", icon, NULL);
   } else {
