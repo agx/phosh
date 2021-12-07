@@ -35,7 +35,6 @@ static GParamSpec *props[PHOSH_WAYLAND_PROP_LAST_PROP];
 struct _PhoshWayland {
   GObject parent;
 
-  struct gamma_control_manager *gamma_control_manager;
   struct org_kde_kwin_idle *idle_manager;
   struct phosh_private *phosh_private;
   uint32_t phosh_private_version;
@@ -45,6 +44,7 @@ struct _PhoshWayland {
   struct wl_seat *wl_seat;
   struct xdg_wm_base *xdg_wm_base;
   struct zwlr_foreign_toplevel_manager_v1 *zwlr_foreign_toplevel_manager_v1;
+  struct zwlr_gamma_control_manager_v1 *zwlr_gamma_control_manager_v1;
   struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
   struct zwlr_layer_shell_v1 *layer_shell;
   struct zwlr_output_manager_v1 *zwlr_output_manager_v1;
@@ -116,11 +116,11 @@ registry_handle_global (void *data,
       name,
       &xdg_wm_base_interface,
       1);
-  } else if (!strcmp(interface, gamma_control_manager_interface.name)) {
-    self->gamma_control_manager = wl_registry_bind(
+  } else if (!strcmp(interface, zwlr_gamma_control_manager_v1_interface.name)) {
+    self->zwlr_gamma_control_manager_v1 = wl_registry_bind(
       registry,
       name,
-      &gamma_control_manager_interface,
+      &zwlr_gamma_control_manager_v1_interface,
       1);
   } else  if (!strcmp (interface, zxdg_output_manager_v1_interface.name)) {
     self->zxdg_output_manager_v1 = wl_registry_bind(
@@ -356,12 +356,12 @@ phosh_wayland_get_zwlr_layer_shell_v1 (PhoshWayland *self)
 }
 
 
-struct gamma_control_manager*
-phosh_wayland_get_gamma_control_manager (PhoshWayland *self)
+struct zwlr_gamma_control_manager_v1*
+phosh_wayland_get_zwlr_gamma_control_manager_v1 (PhoshWayland *self)
 {
   g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
 
-  return self->gamma_control_manager;
+  return self->zwlr_gamma_control_manager_v1;
 }
 
 

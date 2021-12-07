@@ -11,6 +11,11 @@
 
 #include <systemd/sd-login.h>
 
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+
 /* Just wraps gtk_widget_destroy so we can use it with g_clear_pointer */
 void
 phosh_cp_widget_destroy (void *widget)
@@ -243,4 +248,64 @@ phosh_error_warnv (const char *log_domain,
          "%s: %s", msg, err->message);
 
   return matched;
+}
+
+
+static void
+randname (char *buf)
+{
+  struct timespec ts;
+  long r;
+  clock_gettime (CLOCK_REALTIME, &ts);
+  r = ts.tv_nsec;
+  for (int i = 0; i < 6; ++i) {
+    buf[i] = 'A'+(r&15)+(r&16)*2;
+    r >>= 5;
+  }
+}
+
+
+static int
+anonymous_shm_open (void)
+{
+  char name[] = "/phosh-XXXXXX";
+  int retries = 100;
+  int fd;
+
+  do {
+    randname (name + strlen (name) - 6);
+    --retries;
+    /* shm_open guarantees that O_CLOEXEC is set */
+    fd = shm_open (name, O_RDWR | O_CREAT | O_EXCL, 0600);
+    if (fd >= 0) {
+      shm_unlink (name);
+      return fd;
+    }
+  } while (retries > 0 && errno == EEXIST);
+
+  return -1;
+}
+
+/**
+ * phosh_create_shm_file:
+ * @size: The file size
+ *
+ * Create a file share memory file of the given size.
+ *
+ * Returns: a file descriptor on success or -1 on error.
+ */
+int
+phosh_create_shm_file (off_t size)
+{
+  int fd = anonymous_shm_open ();
+  if (fd < 0) {
+    return fd;
+  }
+
+  if (ftruncate (fd, size) < 0) {
+    close (fd);
+    return -1;
+  }
+
+  return fd;
 }

@@ -169,10 +169,10 @@
 
     <chapter id="wayland_protocols">
       <title>Wayland protocols</title>
-      <xi:include href="xml/gamma-control-client-protocol.xml"/>
       <xi:include href="xml/idle-client-protocol.xml"/>
       <xi:include href="xml/phosh-private-client-protocol.xml"/>
       <xi:include href="xml/wlr-foreign-toplevel-management-unstable-v1-client-protocol.xml"/>
+      <xi:include href="xml/wlr-gamma-control-unstable-v1-client-protocol.xml"/>
       <xi:include href="xml/wlr-input-inhibitor-unstable-v1-client-protocol.xml"/>
       <xi:include href="xml/wlr-layer-shell-unstable-v1-client-protocol.xml"/>
       <xi:include href="xml/wlr-output-management-unstable-v1-client-protocol.xml"/>

@@ -41,56 +41,6 @@ struct _PhoshToplevelThumbnail {
 
 G_DEFINE_TYPE (PhoshToplevelThumbnail, phosh_toplevel_thumbnail, PHOSH_TYPE_THUMBNAIL);
 
-static void
-randname (char *buf)
-{
-  struct timespec ts;
-  long r;
-  clock_gettime (CLOCK_REALTIME, &ts);
-  r = ts.tv_nsec;
-  for (int i = 0; i < 6; ++i) {
-    buf[i] = 'A'+(r&15)+(r&16)*2;
-    r >>= 5;
-  }
-}
-
-static int
-anonymous_shm_open (void)
-{
-  char name[] = "/phosh-XXXXXX";
-  int retries = 100;
-  int fd;
-
-  do {
-    randname (name + strlen (name) - 6);
-    --retries;
-    /* shm_open guarantees that O_CLOEXEC is set */
-    fd = shm_open (name, O_RDWR | O_CREAT | O_EXCL, 0600);
-    if (fd >= 0) {
-      shm_unlink (name);
-      return fd;
-    }
-  } while (retries > 0 && errno == EEXIST);
-
-  return -1;
-}
-
-static int
-create_shm_file (off_t size)
-{
-  int fd = anonymous_shm_open ();
-  if (fd < 0) {
-    return fd;
-  }
-
-  if (ftruncate (fd, size) < 0) {
-    close (fd);
-    return -1;
-  }
-
-  return fd;
-}
-
 
 static void
 phosh_toplevel_thumbnail_set_ready (PhoshThumbnail *self, gboolean ready)
@@ -125,7 +75,7 @@ screencopy_handle_buffer (void *data,
     return;
   }
 
-  fd = create_shm_file (size);
+  fd = phosh_create_shm_file (size);
   if (fd == -1) {
     g_warning ("Could not create shm file for thumbnail buffer! %s", g_strerror (errno));
     return;

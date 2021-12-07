@@ -1,11 +1,13 @@
 #!/bin/bash
 
+BUILD=${1:-_build}
+
 set -eo pipefail
 
-WARNINGS=_build/gtk-doc-warnings.log
-ERRORS=_build/doc-errors.log
+WARNINGS="${BUILD}/gtk-doc-warnings.log"
+ERRORS="${BUILD}/doc-errors.log"
 
-ninja -C _build phosh-doc |& tee | grep warning: > "${WARNINGS}"
+ninja -C "${BUILD}" phosh-doc |& tee | grep warning: > "${WARNINGS}"
 
 if [ ! -s "${WARNINGS}" ]; then
     exit 0
@@ -16,13 +18,13 @@ fi
 if ! grep -v -E '(^html/api-index-full.html)|(^./phosh-decl.txt)'\
 '|(^\./phosh-sections.txt:[0-9]+: warning: Double)'\
 '|client-protocol.h'\
-'|(no link for: "gdbus)|(_build/src/.*dbus.c)'\
+'|(no link for: "gdbus)|(/src/.*dbus.c)'\
 '|(descriptions for (struct )?zwlr_)|(descriptions for (struct )?z?xdg_)'\
 '|gamma_control_error|gamma_control_listener|org_kde_kwin_idle_timeout_listener'\
 '|phosh_private_error|phosh_private_keyboard_event_error'\
 '|phosh_private_keyboard_event_listener|phosh_private_xdg_switcher_error'\
 '|phosh_private_startup_'\
-'|phosh_private_shell_state' \
+'|phosh_private_shell_state'\
 '|phosh_private_xdg_switcher_listener'\
 '|zwp_virtual_keyboard_manager_v1_error|zwp_virtual_keyboard_v1_error'\
 '|no link for: "NM(Connection|Client)"'\

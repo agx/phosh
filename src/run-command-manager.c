@@ -6,7 +6,7 @@
  * Author: Florian Loers <florianloers@mailbox.org>
  */
 
-#define G_LOG_DOMAIN "phosh-run-command-dialog-manager"
+#define G_LOG_DOMAIN "phosh-run-command-manager"
 
 #include "run-command-manager.h"
 #include "run-command-dialog.h"
@@ -17,10 +17,11 @@
 #define KEYBINDING_KEY_RUN_DIALOG "panel-run-dialog"
 
 /**
- * SECTION:run-command-dialog-manager
+ * SECTION:run-command-manager
  * @short_description: Handles the run-command-dialog
  *
- * The interface is responsible to handle the ui parts of a #RunCommandDIalog.
+ * The interface is responsible to handle the non-ui parts of a
+ * #PhoshRunCommandDialog.
  */
 
 typedef struct _PhoshRunCommandManager {
