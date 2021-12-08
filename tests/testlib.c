@@ -164,6 +164,7 @@ phosh_test_compositor_new (void)
   int outfd;
   PhocOutputWatch watch;
   gint id;
+  g_auto(GStrv) env = NULL;
 
   comp = g_getenv ("PHOSH_PHOC_BINARY");
   if (!comp) {
@@ -179,10 +180,16 @@ phosh_test_compositor_new (void)
   g_ptr_array_add (argv, TEST_PHOC_INI);
   g_ptr_array_add (argv, NULL);
 
-  g_setenv ("WLR_BACKENDS", "headless", TRUE);
+  env = g_get_environ ();
+  /* Prevent abort on warning, criticals, etc, we don't test
+   * the compositor */
+  env = g_environ_unsetenv (env, "G_DEBUG");
+  env = g_environ_setenv (env, "WLR_BACKENDS", "headless", TRUE);
+
   ret = g_spawn_async_with_pipes (
     NULL, /* cwd */
-    (char **)argv->pdata, NULL,
+    (char **)argv->pdata,
+    env,
     flags,
     NULL, NULL,
     &state->pid,
