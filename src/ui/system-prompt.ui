@@ -121,7 +121,6 @@
               <object class="GtkCheckButton" id="checkbtn_choice">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="use-underline">True</property>
                 <property name="draw-indicator">True</property>
               </object>
             </child>
@@ -130,6 +129,8 @@
                 <property name="visible">True</property>
                 <property name="justify">left</property>
                 <property name="wrap">True</property>
+                <property name="use-underline">True</property>
+                <property name="mnemonic-widget">checkbtn_choice</property>
               </object>
             </child>
           </object>
