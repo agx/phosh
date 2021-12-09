@@ -204,7 +204,7 @@ grab_single_accelerator (PhoshGnomeShellManager *self,
                          GError                **error)
 {
   const GActionEntry action_entries[] = {
-    { accelerator, accelerator_activated_action, },
+    { accelerator, accelerator_activated_action, NULL, NULL, NULL, { 0 } },
   };
 
   g_assert (PHOSH_IS_GNOME_SHELL_MANAGER (self));

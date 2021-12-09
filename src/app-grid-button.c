@@ -315,9 +315,9 @@ long_pressed (GtkGestureLongPress *gesture,
 
 static GActionEntry entries[] =
 {
-  { "action", action_activated, "s", NULL, NULL },
-  { "favorite-remove", favorite_remove_activated, NULL, NULL, NULL },
-  { "favorite-add", favorite_add_activated, NULL, NULL, NULL },
+  { "action", action_activated, "s", NULL, NULL, { 0 } },
+  { "favorite-remove", favorite_remove_activated, NULL, NULL, NULL, { 0 } },
+  { "favorite-add", favorite_add_activated, NULL, NULL, NULL, { 0 } },
 };
 
 
