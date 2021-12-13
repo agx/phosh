@@ -17,3 +17,7 @@ option('systemd',
 option('compositor',
        type: 'string', value: '/usr/bin/phoc',
        description: 'Path to the Phoc compositor for use in the launcher script')
+
+option('callui-i18n',
+       type: 'boolean', value: false,
+       description: 'Whether to install libcallui\s i18n fles')
