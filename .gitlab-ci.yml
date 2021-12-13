@@ -22,7 +22,7 @@ variables:
 .bookworm_vars: &bookworm_vars
   variables:
     DIST: bookworm
-    BUILD_OPTS: -Dphoc_tests=enabled ${COMMON_BUILD_OPTS}
+    BUILD_OPTS: -Dcallui-i18n=true -Dphoc_tests=enabled ${COMMON_BUILD_OPTS}
 
 .build_step: &build_step
   script:

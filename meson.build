@@ -131,6 +131,7 @@ libcall_ui = subproject('libcall-ui',
     'examples=false',
     'gtk_doc=false',
     'tests=false',
+    'install-i18n=@0@'.format(get_option('callui-i18n')),
   ])
 libcall_ui_dep = libcall_ui.get_variable('libcall_ui_dep')
 libnm_dep = dependency('libnm', version: '>= 1.14')
