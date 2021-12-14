@@ -62,7 +62,7 @@ need to install any files outside the source tree.
 
 The result should look something like this:
 
-![phosh](screenshots/phosh.png)
+![phosh](screenshots/phosh-overview.png)
 
 ### Running from the Debian packages
 If you're running a display manager like GDM or LightDM you can select the
