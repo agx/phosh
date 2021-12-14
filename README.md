@@ -26,10 +26,6 @@ sudo apt-get -y build-dep .
 For an explicit list of dependencies check the `Build-Depends` entry in the
 [debian/control][] file.
 
-If your distro doesn't ship [libhandy](https://gitlab.gnome.org/GNOME/libhandy)
-you need to build that from source. More details are in the [.gitlab-ci.yml][]
-file.
-
 ## Building
 
 We use the meson (and thereby Ninja) build system for phosh.  The quickest
