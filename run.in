@@ -30,4 +30,4 @@ if [ -z "${GSETTINGS_BACKEND}" ]; then
   export GSETTINGS_BACKEND=memory
 fi
 set -x
-exec ${WRAPPER} "${ABS_BUILDDIR}/src/phosh" $@
+exec ${WRAPPER} "${ABS_BUILDDIR}/src/phosh" -U $@

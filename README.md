@@ -52,17 +52,14 @@ For details see the *.gitlab-ci.yml* file.
 When running from the source tree start the compositor *[phoc][]*.
 Then start *phosh* using:
 
-    _build/run -U
+    _build/run
 
-or in one command:
+or (if you built *phoc* from source in *../phoc*) in one command:
 
-    ../phoc/_build/run -E '_build/run -U' -C ./data/phoc.ini
+    ../phoc/_build/run -E _build/run -C ./data/phoc.ini
 
-This will make sure the needed gsettings schema is found. The '-U' option makes
-sure the shell is not locked on startup so you can test with arbitrary
-passwords.
-This works on hardware as well as nested on other desktop environments. The
-result should look something like this:
+This will make sure the needed gsettings schema is found. The result should
+look something like this:
 
 ![phosh](screenshots/phosh.png)
 
