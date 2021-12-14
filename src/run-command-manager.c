@@ -112,10 +112,7 @@ add_keybindings (PhoshRunCommandManager *self)
   g_autoptr (GArray) actions = g_array_new (FALSE, TRUE, sizeof (GActionEntry));
   bindings = g_settings_get_strv (self->settings, KEYBINDING_KEY_RUN_DIALOG);
   for (int i = 0; i < g_strv_length (bindings); i++) {
-    GActionEntry entry = {
-        bindings[i],
-        show_run_command_dialog,
-    };
+    GActionEntry entry = { bindings[i], show_run_command_dialog, NULL, NULL, NULL, { 0 } };
     g_array_append_val (actions, entry);
     g_ptr_array_add (action_names, bindings[i]);
   }
