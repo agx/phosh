@@ -9,8 +9,8 @@ phosh is licensed under the GPLv3+.
 ## Getting the source
 
 ```sh
-    git clone https://gitlab.gnome.org/World/Phosh/phosh
-    cd phosh
+git clone https://gitlab.gnome.org/World/Phosh/phosh
+cd phosh
 ```
 
 The master branch has the current development version.
@@ -19,8 +19,8 @@ The master branch has the current development version.
 On a Debian based system run
 
 ```sh
-    sudo apt-get -y install build-essential
-    sudo apt-get -y build-dep .
+sudo apt-get -y install build-essential
+sudo apt-get -y build-dep .
 ```
 
 For an explicit list of dependencies check the `Build-Depends` entry in the
@@ -35,14 +35,18 @@ file.
 We use the meson (and thereby Ninja) build system for phosh.  The quickest
 way to get going is to do the following:
 
-    meson . _build
-    ninja -C _build
+```sh
+meson . _build
+ninja -C _build
+```
 
 # Testing
 
 To run the tests run
 
-    xvfb-run meson test --no-suite manual -C _build
+```sh
+xvfb-run meson test --no-suite manual -C _build
+```
 
 For details see the *.gitlab-ci.yml* file.
 
@@ -51,11 +55,15 @@ For details see the *.gitlab-ci.yml* file.
 When running from the source tree start the compositor *[phoc][]*.
 Then start *phosh* using:
 
-    _build/run
+```sh
+_build/run
+```
 
 or (if you built *phoc* from source in *../phoc*) in one command:
 
-    ../phoc/_build/run -C ./data/phoc.ini -E _build/run
+```sh
+../phoc/_build/run -C ./data/phoc.ini -E _build/run
+```
 
 This will make sure the needed gsettings schema is found. Note that there's no
 need to install any files outside the source tree.
@@ -70,16 +78,21 @@ If you're running a display manager like GDM or LightDM you can select the
 display manager but nevertheless start phosh at system boot there's a systemd
 unit file in */lib/systemd/system/phosh* which is disabled by default:
 
-    systemctl enable phosh
-    systemctl start phosh
+```sh
+systemctl enable phosh
+systemctl start phosh
+```
 
 This runs *phosh* as the user with user id 1000 (which needs to exist). If you
 don't have that user and don't want to create one you can make systemd
 run *phosh* as any user by using an override file:
 
-    $ cat /etc/systemd/system/phosh.service.d/override.conf
-    [Service]
-    User=<your_user>
+```sh
+cat <<EOF > /etc/systemd/system/phosh.service.d/override.conf
+[Service]
+User=<your_user>
+EOF
+```
 
 All of the above use the `/usr/bin/phosh` script to start compositor and shell
 under the hood so if you just want to start phosh from the system console once
