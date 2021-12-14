@@ -37,7 +37,6 @@ way to get going is to do the following:
 
     meson . _build
     ninja -C _build
-    ninja -C _build install
 
 # Testing
 
@@ -58,8 +57,10 @@ or (if you built *phoc* from source in *../phoc*) in one command:
 
     ../phoc/_build/run -E _build/run -C ./data/phoc.ini
 
-This will make sure the needed gsettings schema is found. The result should
-look something like this:
+This will make sure the needed gsettings schema is found. Note that there's no
+need to install any files outside the source tree.
+
+The result should look something like this:
 
 ![phosh](screenshots/phosh.png)
 
