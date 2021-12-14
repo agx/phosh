@@ -55,7 +55,7 @@ Then start *phosh* using:
 
 or (if you built *phoc* from source in *../phoc*) in one command:
 
-    ../phoc/_build/run -E _build/run -C ./data/phoc.ini
+    ../phoc/_build/run -C ./data/phoc.ini -E _build/run
 
 This will make sure the needed gsettings schema is found. Note that there's no
 need to install any files outside the source tree.
