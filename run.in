@@ -23,8 +23,12 @@ elif [ "${PHOSH_AUTO_GDB}" = 1 ]; then
     WRAPPER="gdb -batch -ex run -ex bt"
 fi
 
+
 export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data:${GSETTINGS_SCHEMA_DIR}"
-export G_MESSAGES_DEBUG=all
+
+[ -n "${G_MESSAGES_DEBUG}" ] || G_MESSAGES_DEBUG=all
+export G_MESSAGES_DEBUG
+
 if [ -z "${GSETTINGS_BACKEND}" ]; then
   # Make sure we don't mess with the systems gsettings:
   export GSETTINGS_BACKEND=memory
