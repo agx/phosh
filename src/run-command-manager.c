@@ -49,7 +49,7 @@ cleanup_child_process (GPid pid, gint status, void *user_data)
   }
 }
 
-static void
+static gboolean
 run_command (char *command)
 {
   GPid child_pid;
@@ -58,9 +58,9 @@ run_command (char *command)
 
   if (!g_shell_parse_argv (command, NULL, &argv, &error)) {
     g_warning ("Could not parse command: %s\n", error->message);
-    return;
+    return FALSE;
   }
-  if (!g_spawn_async (NULL,
+  if (g_spawn_async (NULL,
                       argv,
                       NULL,
                       G_SPAWN_DO_NOT_REAP_CHILD |
@@ -71,10 +71,12 @@ run_command (char *command)
                       NULL,
                       &child_pid,
                       &error)) {
-    g_warning ("Could not run command: %s\n", error->message);
-    return;
+    g_child_watch_add (child_pid, cleanup_child_process, NULL);
+    return TRUE;
   }
-  g_child_watch_add (child_pid, cleanup_child_process, NULL);
+
+  g_warning ("Could not run command: %s\n", error->message);
+  return FALSE;
 }
 
 static void
