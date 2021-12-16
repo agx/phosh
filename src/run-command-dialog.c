@@ -20,7 +20,8 @@
  */
 
 enum {
-  DONE,
+  SUBMITTED,
+  CANCELLED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = {0};
@@ -37,14 +38,14 @@ on_activated (PhoshRunCommandDialog *self, GtkEntry *entry)
 {
   const char *command = gtk_entry_get_text (entry);
 
-  g_signal_emit (self, signals[DONE], 0, FALSE, command);
+  g_signal_emit (self, signals[SUBMITTED], 0, command);
 }
 
 static void
 run_command_dialog_canceled_event_cb (PhoshRunCommandDialog *self)
 {
   g_return_if_fail (PHOSH_IS_RUN_COMMAND_DIALOG (self));
-  g_signal_emit (self, signals[DONE], 0, TRUE, NULL);
+  g_signal_emit (self, signals[CANCELLED], 0);
 }
 
 static void
@@ -65,11 +66,26 @@ phosh_run_command_dialog_class_init (PhoshRunCommandDialogClass *klass)
 
   object_class->finalize = phosh_run_command_dialog_finalize;
 
-  signals[DONE] = g_signal_new ("done",
-                                G_TYPE_FROM_CLASS (klass),
-                                G_SIGNAL_RUN_LAST,
-                                0, NULL, NULL, NULL,
-                                G_TYPE_NONE, 2, G_TYPE_BOOLEAN, G_TYPE_STRING);
+  /**
+   * RunCommandDialog:submitted:
+   *
+   * The user submitted a command to run
+   */
+  signals[SUBMITTED] = g_signal_new ("submitted",
+                                     G_TYPE_FROM_CLASS (klass),
+                                     G_SIGNAL_RUN_LAST,
+                                     0, NULL, NULL, NULL,
+                                     G_TYPE_NONE, 1, G_TYPE_STRING);
+  /**
+   * RunCommandDialog:cancelled:
+   *
+   * The user cancelled the dialog
+   */
+  signals[CANCELLED] = g_signal_new ("cancelled",
+                                     G_TYPE_FROM_CLASS (klass),
+                                     G_SIGNAL_RUN_LAST,
+                                     0, NULL, NULL, NULL,
+                                     G_TYPE_NONE, 0);
 
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/run-command-dialog.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshRunCommandDialog, entry_command);

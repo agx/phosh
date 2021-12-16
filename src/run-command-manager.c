@@ -79,13 +79,23 @@ run_command (char *command)
 }
 
 static void
-on_run_command_dialog_done (PhoshRunCommandManager *self, gboolean cancelled, char *command)
+on_run_command_dialog_submitted (PhoshRunCommandManager *self, char *command)
 {
-  if (!cancelled) {
-    run_command (command);
-  }
-  if (self->dialog)
-    gtk_widget_hide (GTK_WIDGET (self->dialog));
+  g_return_if_fail (PHOSH_IS_RUN_COMMAND_DIALOG (self->dialog));
+  g_return_if_fail (command);
+
+  run_command (command);
+
+  gtk_widget_hide (GTK_WIDGET (self->dialog));
+  g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
+}
+
+static void
+on_run_command_dialog_cancelled (PhoshRunCommandManager *self)
+{
+  g_return_if_fail (PHOSH_IS_RUN_COMMAND_DIALOG (self->dialog));
+
+  gtk_widget_hide (GTK_WIDGET (self->dialog));
   g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
 }
 
@@ -100,7 +110,10 @@ show_run_command_dialog (GSimpleAction *action, GVariant *param, gpointer data)
   dialog = phosh_run_command_dialog_new ();
   self->dialog = PHOSH_RUN_COMMAND_DIALOG (dialog);
   gtk_widget_show (GTK_WIDGET (self->dialog));
-  g_signal_connect_object (self->dialog, "done", G_CALLBACK (on_run_command_dialog_done), self, G_CONNECT_SWAPPED);
+  g_object_connect (self->dialog,
+                    "swapped-object-signal::submitted", G_CALLBACK (on_run_command_dialog_submitted), self,
+                    "swapped-object-signal::cancelled", G_CALLBACK (on_run_command_dialog_cancelled), self,
+                    NULL);
 }
 
 static void
