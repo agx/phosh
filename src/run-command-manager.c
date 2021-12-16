@@ -60,18 +60,17 @@ run_command (char *command)
     g_warning ("Could not parse command: %s\n", error->message);
     return;
   }
-  if (!g_spawn_async (
-          NULL,
-          argv,
-          NULL,
-          G_SPAWN_DO_NOT_REAP_CHILD |
-              G_SPAWN_SEARCH_PATH |
-              G_SPAWN_STDOUT_TO_DEV_NULL |
-              G_SPAWN_STDERR_TO_DEV_NULL,
-          NULL,
-          NULL,
-          &child_pid,
-          &error)) {
+  if (!g_spawn_async (NULL,
+                      argv,
+                      NULL,
+                      G_SPAWN_DO_NOT_REAP_CHILD |
+                      G_SPAWN_SEARCH_PATH |
+                      G_SPAWN_STDOUT_TO_DEV_NULL |
+                      G_SPAWN_STDERR_TO_DEV_NULL,
+                      NULL,
+                      NULL,
+                      &child_pid,
+                      &error)) {
     g_warning ("Could not run command: %s\n", error->message);
     return;
   }
