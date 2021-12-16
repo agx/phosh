@@ -21,7 +21,7 @@
         <child>
           <object class="GtkLabel" id="lbl_description">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Press ESC to close</property>
+            <property name="wrap">True</property>
           </object>
         </child>
       </object>

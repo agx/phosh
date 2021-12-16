@@ -82,13 +82,18 @@ run_command (char *command)
 static void
 on_run_command_dialog_submitted (PhoshRunCommandManager *self, char *command)
 {
+  g_autofree char *msg = NULL;
+
   g_return_if_fail (PHOSH_IS_RUN_COMMAND_DIALOG (self->dialog));
   g_return_if_fail (command);
 
-  run_command (command);
-
-  gtk_widget_hide (GTK_WIDGET (self->dialog));
-  g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
+  if (run_command (command)) {
+    gtk_widget_hide (GTK_WIDGET (self->dialog));
+    g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
+  } else {
+    msg = g_strdup_printf (_("Running '%s' failed"), command);
+    phosh_run_command_dialog_set_message (self->dialog, msg);
+  }
 }
 
 static void

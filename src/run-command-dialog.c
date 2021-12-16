@@ -29,6 +29,7 @@ static guint signals[N_SIGNALS] = {0};
 typedef struct _PhoshRunCommandDialog {
   PhoshSystemModalDialog parent;
   GtkWidget *entry_command;
+  GtkLabel  *lbl_description;
 } PhoshRunCommandDialog;
 
 G_DEFINE_TYPE (PhoshRunCommandDialog, phosh_run_command_dialog, PHOSH_TYPE_SYSTEM_MODAL_DIALOG)
@@ -57,6 +58,17 @@ phosh_run_command_dialog_finalize (GObject *obj)
 
   G_OBJECT_CLASS (phosh_run_command_dialog_parent_class)->finalize (obj);
 }
+
+
+static void
+on_text_changed (PhoshRunCommandDialog *self)
+{
+  g_return_if_fail (PHOSH_IS_RUN_COMMAND_DIALOG (self));
+
+  /* Make sure we reset any error message */
+  phosh_run_command_dialog_set_message (self, NULL);
+}
+
 
 static void
 phosh_run_command_dialog_class_init (PhoshRunCommandDialogClass *klass)
@@ -89,6 +101,7 @@ phosh_run_command_dialog_class_init (PhoshRunCommandDialogClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/run-command-dialog.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshRunCommandDialog, entry_command);
+  gtk_widget_class_bind_template_child (widget_class, PhoshRunCommandDialog, lbl_description);
   gtk_widget_class_bind_template_callback (widget_class, on_activated);
   gtk_widget_class_bind_template_callback (widget_class, run_command_dialog_canceled_event_cb);
 }
@@ -97,10 +110,23 @@ static void
 phosh_run_command_dialog_init (PhoshRunCommandDialog *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  phosh_run_command_dialog_set_message (self, NULL);
+  g_signal_connect_swapped (self->entry_command, "notify::text", G_CALLBACK (on_text_changed), self);
 }
 
 GtkWidget *
 phosh_run_command_dialog_new (void)
 {
   return g_object_new (PHOSH_TYPE_RUN_COMMAND_DIALOG, NULL);
+}
+
+void
+phosh_run_command_dialog_set_message (PhoshRunCommandDialog *self,
+                                      const gchar           *message)
+{
+  if (message == NULL)
+    message = _("Press ESC to close");
+
+  gtk_label_set_label (self->lbl_description, message);
 }
