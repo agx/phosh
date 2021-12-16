@@ -43,7 +43,7 @@ on_activated (PhoshRunCommandDialog *self, GtkEntry *entry)
 }
 
 static void
-run_command_dialog_canceled_event_cb (PhoshRunCommandDialog *self)
+on_run_command_dialog_canceled (PhoshRunCommandDialog *self)
 {
   g_return_if_fail (PHOSH_IS_RUN_COMMAND_DIALOG (self));
   g_signal_emit (self, signals[CANCELLED], 0);
@@ -103,7 +103,7 @@ phosh_run_command_dialog_class_init (PhoshRunCommandDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshRunCommandDialog, entry_command);
   gtk_widget_class_bind_template_child (widget_class, PhoshRunCommandDialog, lbl_description);
   gtk_widget_class_bind_template_callback (widget_class, on_activated);
-  gtk_widget_class_bind_template_callback (widget_class, run_command_dialog_canceled_event_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_run_command_dialog_canceled);
 }
 
 static void

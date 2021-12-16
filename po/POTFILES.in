@@ -38,6 +38,8 @@ src/polkit-auth-prompt.c
 src/proximity.c
 src/quick-setting.c
 src/rotateinfo.c
+src/run-command-dialog.c
+src/run-command-manager.c
 src/screen-saver-manager.c
 src/sensor-proxy-manager.c
 src/session-presence.c
