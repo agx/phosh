@@ -106,7 +106,7 @@ screencopy_handle_flags(void *data,
                         struct zwlr_screencopy_frame_v1 *zwlr_screencopy_frame_v1,
                         uint32_t flags)
 {
-  g_return_if_fail (flags != 0);
+  /* Nothing to do */
 }
 
 static void
