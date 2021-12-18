@@ -59,14 +59,14 @@ struct _ShellNetworkAgentPrivate {
 G_DEFINE_TYPE_WITH_PRIVATE (ShellNetworkAgent, shell_network_agent, NM_TYPE_SECRET_AGENT_OLD)
 
 static const SecretSchema network_agent_schema = {
-    "org.freedesktop.NetworkManager.Connection",
-    SECRET_SCHEMA_DONT_MATCH_NAME,
-    {
-        { SHELL_KEYRING_UUID_TAG, SECRET_SCHEMA_ATTRIBUTE_STRING },
-        { SHELL_KEYRING_SN_TAG, SECRET_SCHEMA_ATTRIBUTE_STRING },
-        { SHELL_KEYRING_SK_TAG, SECRET_SCHEMA_ATTRIBUTE_STRING },
-        { NULL, 0 },
-    }
+    .name = "org.freedesktop.NetworkManager.Connection",
+    .flags = SECRET_SCHEMA_DONT_MATCH_NAME,
+    .attributes = {
+                      { SHELL_KEYRING_UUID_TAG, SECRET_SCHEMA_ATTRIBUTE_STRING },
+                      { SHELL_KEYRING_SN_TAG, SECRET_SCHEMA_ATTRIBUTE_STRING },
+                      { SHELL_KEYRING_SK_TAG, SECRET_SCHEMA_ATTRIBUTE_STRING },
+                      { NULL, 0 },
+                  }
 };
 
 static void
