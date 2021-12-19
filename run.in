@@ -23,14 +23,15 @@ elif [ "${PHOSH_AUTO_GDB}" = 1 ]; then
     WRAPPER="gdb -batch -ex run -ex bt"
 fi
 
-# Start up g-s-d, etc.
-[ -n "${SKIP_GNOME_SESSION}" ] || gnome-session --session=gnome-dummy --disable-acceleration-check &
 
 export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data:${GSETTINGS_SCHEMA_DIR}"
-export G_MESSAGES_DEBUG=all
+
+[ -n "${G_MESSAGES_DEBUG}" ] || G_MESSAGES_DEBUG=all
+export G_MESSAGES_DEBUG
+
 if [ -z "${GSETTINGS_BACKEND}" ]; then
   # Make sure we don't mess with the systems gsettings:
   export GSETTINGS_BACKEND=memory
 fi
 set -x
-exec ${WRAPPER} "${ABS_BUILDDIR}/src/phosh" $@
+exec ${WRAPPER} "${ABS_BUILDDIR}/src/phosh" -U $@
