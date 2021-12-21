@@ -85,7 +85,7 @@ elif [ $base_version != "latest" ]; then
         base_version="v$base_version"
 fi
 
-if [ ! -x "$(command -v docker)" ] || [ docker --help |& grep -q podman ]; then
+if [ ! -x "$(command -v docker)" ] || docker --help |& grep -q podman; then
         # Docker is actually implemented by podman, and its OCI output
         # is incompatible with some of the dockerd instances on GitLab
         # CI runners.
