@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-14 09:33+0200\n"
-"PO-Revision-Date: 2020-09-07 09:29+0200\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2021-12-14 10:49+0000\n"
+"PO-Revision-Date: 2021-12-22 16:09+0100\n"
+"Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian (f.t.public@gmail.com)\n"
+"Language: fur\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
-"Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: fur\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -31,76 +31,165 @@ msgstr "Phone Shell"
 msgid "Window management and application launching for mobile"
 msgstr "Gjestion barcons e inviament aplicazions par celulârs"
 
-#: src/app-grid-button.c:530
+#: src/app-grid-button.c:503
 msgid "Application"
 msgstr "Aplicazion"
 
-#: src/bt-info.c:89 src/feedbackinfo.c:48
+#: src/app-grid.c:133
+msgid "Show All Apps"
+msgstr "Mostre dutis lis app"
+
+#: src/app-grid.c:136
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Mostre dome lis app par celulârs"
+
+#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
 msgstr "Ativât"
 
-#: src/bt-info.c:91
+#: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Leât"
+
+#: src/docked-info.c:81 src/docked-info.c:199
+msgid "Undocked"
+msgstr "Molât"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "Termine session"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "%s al jessarà in automatic chi di %d secont."
+msgstr[1] "%s al jessarà in automatic chi di %d seconts."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Distude"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "Il sisteme si distudarà in automatic chi di %d secont."
+msgstr[1] "Il sisteme si distudarà in automatic chi di %d seconts."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Torne invie"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "Il sisteme si tornarà a inviâ in automatic chi di %d secont."
+msgstr[1] "Il sisteme si tornarà a inviâ in automatic chi di %d seconts."
+
+#: src/end-session-dialog.c:269
+msgid "Unknown application"
+msgstr "Aplicazion no cognossude"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:41
+#: src/feedbackinfo.c:44
 msgid "Quiet"
 msgstr "Cuiet"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:46
+#: src/feedbackinfo.c:49
 msgid "Silent"
 msgstr "Cidin"
 
-#: src/lockscreen.c:84 src/ui/lockscreen.ui:234
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "Permeti a '%s' di cognossi la tô posizion?"
+
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "Posizion"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "Sì"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "No"
+
+#: src/lockscreen.c:158 src/ui/lockscreen.ui:265
 msgid "Enter Passcode"
 msgstr "Inserìs codiç di sbloc"
 
-#: src/lockscreen.c:263
+#: src/lockscreen.c:341
 msgid "Checking…"
 msgstr "Verifiche…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:341
+#: src/lockscreen.c:419
 msgid "%A, %B %-e"
 msgstr "%A, %d di %B"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:263 src/ui/media-player.ui:107
+#: src/media-player.c:322 src/ui/media-player.ui:179
 msgid "Unknown Title"
 msgstr "Titul no cognossût"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:272 src/ui/media-player.ui:127
+#: src/media-player.c:330 src/ui/media-player.ui:162
 msgid "Unknown Artist"
 msgstr "Artist no cognossût"
 
-#: src/monitor-manager.c:58
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "Display integrât"
 
+#: src/monitor-manager.c:137
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:144
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %s"
+msgstr "%s %s"
+
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:62
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "No cognossût"
 
-#: src/network-auth-prompt.c:184
+#: src/network-auth-prompt.c:187
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Gjenar di autenticazion de rêt wifi “%s” no supuartât"
 
-#: src/network-auth-prompt.c:189
+#: src/network-auth-prompt.c:192
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Inserìs la password pe rêt wifi “%s”"
 
-#: src/notifications/notification.c:382 src/notifications/notification.c:601
+#: src/notifications/mount-notification.c:122
+msgid "Open"
+msgstr "Vierç"
+
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
 msgid "Notification"
 msgstr "Notifiche"
 
@@ -170,63 +259,89 @@ msgctxt "timestamp-suffix-years"
 msgid "y"
 msgstr "a"
 
-#. Translators: this is the date in (short) number only format
-#: src/notifications/timestamp-label.c:107
-msgid "%d.%m.%y"
-msgstr "%d.%m.%y"
+#: src/notifications/timestamp-label.c:121
+msgid "now"
+msgstr "cumò"
 
-#. Translators: Timestamp prefix (e.g. Over 5h)
-#: src/notifications/timestamp-label.c:198
-msgid "Over"
-msgstr "Plui di"
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "Plui di %da"
 
-#. Translators: Timestamp prefix (e.g. Almost 5h)
-#: src/notifications/timestamp-label.c:203
-msgid "Almost"
-msgstr "Cuasi"
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "Cuasi %da"
 
-#: src/polkit-auth-agent.c:229
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d%s"
+
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Dialic di autenticazion refudât dal utent"
 
-#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Password:"
 
-#: src/polkit-auth-prompt.c:322
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Mi displâs, no je lade drete. Prove di gnûf."
 
-#: src/polkit-auth-prompt.c:488
-msgid "Authenticate"
-msgstr "Autentiche"
-
-#: src/rotateinfo.c:46
+#: src/rotateinfo.c:81
 msgid "Portrait"
 msgstr "Verticâl"
 
-#: src/rotateinfo.c:49
+#: src/rotateinfo.c:84
 msgid "Landscape"
 msgstr "Orizontâl"
 
-#: src/system-prompt.c:371
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
+msgid "Off"
+msgstr "Disativât"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Lis password no corispuindin."
 
-#: src/system-prompt.c:378
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
 msgstr "La password no pues jessi vueide"
 
-#: src/ui/app-grid-button.ui:49
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "Torce"
+
+#: src/ui/app-auth-prompt.ui:40
+msgid "Remember decision"
+msgstr "Visâsi de decision"
+
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+msgid "Cancel"
+msgstr "Anule"
+
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+msgid "Ok"
+msgstr "Va ben"
+
+#: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "Aplicazion"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
 msgstr "Gjave dai _preferîts"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
 msgstr "Zonte tai _preferîts"
 
@@ -234,31 +349,63 @@ msgstr "Zonte tai _preferîts"
 msgid "Search apps…"
 msgstr "Cîr aplicazions…"
 
-#: src/ui/lockscreen.ui:37
-msgid "Slide up to unlock"
-msgstr "Scor in sù par sblocâ"
+#: src/ui/end-session-dialog.ui:31
+msgid "Some applications are busy or have unsaved work"
+msgstr "Cualchi aplicazion e je impegnade opûr e à lavôrs no salvâts"
 
-#: src/ui/lockscreen.ui:280
-msgid "Emergency"
-msgstr "Emergjence"
-
-#: src/ui/lockscreen.ui:296
-msgid "Unlock"
-msgstr "Sbloche"
-
-#: src/ui/network-auth-prompt.ui:90
-msgid "_Cancel"
-msgstr "_Anule"
-
-#: src/ui/network-auth-prompt.ui:106
-msgid "C_onnect"
-msgstr "C_onet"
-
-#: src/ui/polkit-auth-prompt.ui:105
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Utent:"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/gtk-mount-prompt.ui:117
+msgid "Domain:"
+msgstr "Domini:"
+
+#: src/ui/gtk-mount-prompt.ui:150
+msgid "Co_nnect"
+msgstr "Co_net"
+
+#: src/ui/lockscreen.ui:42
+msgid "Slide up to unlock"
+msgstr "Scor in sù par sblocâ"
+
+#: src/ui/lockscreen.ui:309
+msgid "Emergency"
+msgstr "Emergjence"
+
+#: src/ui/lockscreen.ui:325
+msgid "Unlock"
+msgstr "Sbloche"
+
+#: src/ui/lockscreen.ui:365
+msgid "Back"
+msgstr "Indaûr"
+
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
+msgid "Authentication required"
+msgstr "Autenticazion necessarie"
+
+#: src/ui/network-auth-prompt.ui:41
+msgid "_Cancel"
+msgstr "_Anule"
+
+#: src/ui/network-auth-prompt.ui:59
+msgid "C_onnect"
+msgstr "C_onet"
+
+#: src/ui/polkit-auth-prompt.ui:122
+msgid "Authenticate"
+msgstr "Autentiche"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Eseguìs comant"
+
+#: src/ui/run-command-dialog.ui:26
+msgid "Press ESC to close"
+msgstr "Frache Esc par sierâ"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Conferme:"
 
@@ -270,19 +417,14 @@ msgstr "Bloche schermi"
 msgid "Logout"
 msgstr "Jes"
 
-#: src/ui/top-panel.ui:29
-msgid "Restart"
-msgstr "Torne invie"
-
-#: src/ui/top-panel.ui:36
-msgid "Power Off"
-msgstr "Distude"
-
-#: src/wifiinfo.c:88
+#: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:168
+#: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Cellulâr"
+
+#~ msgid "%d.%m.%y"
+#~ msgstr "%d.%m.%y"
