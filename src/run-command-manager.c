@@ -49,7 +49,7 @@ cleanup_child_process (GPid pid, gint status, void *user_data)
   }
 }
 
-static void
+static gboolean
 run_command (char *command)
 {
   GPid child_pid;
@@ -58,34 +58,50 @@ run_command (char *command)
 
   if (!g_shell_parse_argv (command, NULL, &argv, &error)) {
     g_warning ("Could not parse command: %s\n", error->message);
-    return;
+    return FALSE;
   }
-  if (!g_spawn_async (
-          NULL,
-          argv,
-          NULL,
-          G_SPAWN_DO_NOT_REAP_CHILD |
-              G_SPAWN_SEARCH_PATH |
-              G_SPAWN_STDOUT_TO_DEV_NULL |
-              G_SPAWN_STDERR_TO_DEV_NULL,
-          NULL,
-          NULL,
-          &child_pid,
-          &error)) {
-    g_warning ("Could not run command: %s\n", error->message);
-    return;
+  if (g_spawn_async (NULL,
+                      argv,
+                      NULL,
+                      G_SPAWN_DO_NOT_REAP_CHILD |
+                      G_SPAWN_SEARCH_PATH |
+                      G_SPAWN_STDOUT_TO_DEV_NULL |
+                      G_SPAWN_STDERR_TO_DEV_NULL,
+                      NULL,
+                      NULL,
+                      &child_pid,
+                      &error)) {
+    g_child_watch_add (child_pid, cleanup_child_process, NULL);
+    return TRUE;
   }
-  g_child_watch_add (child_pid, cleanup_child_process, NULL);
+
+  g_warning ("Could not run command: %s\n", error->message);
+  return FALSE;
 }
 
 static void
-on_run_command_dialog_done (PhoshRunCommandManager *self, gboolean cancelled, char *command)
+on_run_command_dialog_submitted (PhoshRunCommandManager *self, char *command)
 {
-  if (!cancelled) {
-    run_command (command);
-  }
-  if (self->dialog)
+  g_autofree char *msg = NULL;
+
+  g_return_if_fail (PHOSH_IS_RUN_COMMAND_DIALOG (self->dialog));
+  g_return_if_fail (command);
+
+  if (run_command (command)) {
     gtk_widget_hide (GTK_WIDGET (self->dialog));
+    g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
+  } else {
+    msg = g_strdup_printf (_("Running '%s' failed"), command);
+    phosh_run_command_dialog_set_message (self->dialog, msg);
+  }
+}
+
+static void
+on_run_command_dialog_cancelled (PhoshRunCommandManager *self)
+{
+  g_return_if_fail (PHOSH_IS_RUN_COMMAND_DIALOG (self->dialog));
+
+  gtk_widget_hide (GTK_WIDGET (self->dialog));
   g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
 }
 
@@ -100,7 +116,10 @@ show_run_command_dialog (GSimpleAction *action, GVariant *param, gpointer data)
   dialog = phosh_run_command_dialog_new ();
   self->dialog = PHOSH_RUN_COMMAND_DIALOG (dialog);
   gtk_widget_show (GTK_WIDGET (self->dialog));
-  g_signal_connect_object (self->dialog, "done", G_CALLBACK (on_run_command_dialog_done), self, G_CONNECT_SWAPPED);
+  g_object_connect (self->dialog,
+                    "swapped-object-signal::submitted", G_CALLBACK (on_run_command_dialog_submitted), self,
+                    "swapped-object-signal::cancelled", G_CALLBACK (on_run_command_dialog_cancelled), self,
+                    NULL);
 }
 
 static void
