@@ -286,15 +286,21 @@
                   </object>
                 </child>
                 <child>
-                  <object class="PhoshKeypad" id="keypad">
+                  <object class="GtkRevealer" id="keypad_revealer">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">center</property>
-                    <property name="valign">center</property>
-                    <property name="margin_top">12</property>
-                    <property name="margin_bottom">12</property>
-                    <property name="entry">entry_pin</property>
-                    <property name="end-action">btn_delete</property>
+                    <child>
+                      <object class="PhoshKeypad" id="keypad">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="margin_top">12</property>
+                        <property name="margin_bottom">12</property>
+                        <property name="entry">entry_pin</property>
+                        <property name="start-action">btn_keyboard</property>
+                        <property name="end-action">btn_delete</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
                 <child>
@@ -396,6 +402,11 @@
         <property name="icon-name">edit-clear-symbolic</property>
       </object>
     </child>
+  </object>
+  <object class="PhoshOskButton" id="btn_keyboard">
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <property name="focus_on_click">False</property>
   </object>
   <object class="GtkGestureLongPress" id="long_press_del_gesture">
     <property name="widget">btn_delete</property>
