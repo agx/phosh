@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-11-29 09:54+0000\n"
-"PO-Revision-Date: 2021-11-29 23:28+0200\n"
+"POT-Creation-Date: 2021-12-23 22:20+0000\n"
+"PO-Revision-Date: 2021-12-24 22:41+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -131,17 +131,17 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: src/lockscreen.c:158 src/ui/lockscreen.ui:265
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:265
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:341
+#: src/lockscreen.c:350
 msgid "Checking…"
 msgstr "Звіряю…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:419
+#: src/lockscreen.c:428
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
@@ -155,17 +155,17 @@ msgstr "Невідома назва"
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
-#: src/monitor-manager.c:115
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "Вбудований дисплей"
 
-#: src/monitor-manager.c:133
+#: src/monitor-manager.c:137
 #, c-format
 msgctxt "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:140
+#: src/monitor-manager.c:144
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -174,7 +174,7 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:149
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Нетиповий"
 
@@ -312,11 +312,21 @@ msgstr "Альбомна"
 msgid "Off"
 msgstr "○"
 
-#: src/system-prompt.c:364
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Натисніть клавішу «Esc», щоб закрити"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr ""
+"Не вдалося запустити «%s»"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Паролі не збігаються."
 
-#: src/system-prompt.c:371
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
 msgstr "Пароль не може бути порожнім"
 
@@ -372,15 +382,15 @@ msgstr "З'єд_натися"
 msgid "Slide up to unlock"
 msgstr "Протягніть угору, щоб розблокувати"
 
-#: src/ui/lockscreen.ui:309
+#: src/ui/lockscreen.ui:315
 msgid "Emergency"
 msgstr "Екстрений виклик"
 
-#: src/ui/lockscreen.ui:325
+#: src/ui/lockscreen.ui:331
 msgid "Unlock"
 msgstr "Розблокувати"
 
-#: src/ui/lockscreen.ui:365
+#: src/ui/lockscreen.ui:371
 msgid "Back"
 msgstr "Назад"
 
@@ -402,13 +412,7 @@ msgstr "Автентифікуватися"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
-msgstr ""
-"Виконати команду"
-
-#: src/ui/run-command-dialog.ui:26
-msgid "Press ESC to close"
-msgstr ""
-"Натисніть клавішу «Esc», щоб закрити"
+msgstr "Виконати команду"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
