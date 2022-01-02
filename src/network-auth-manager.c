@@ -300,16 +300,24 @@ out:
     vpn_request_error (request, error);
   } else {
     if (secrets->len) {
+      gboolean success;
       network_agent_setup_prompt (request->self);
-      phosh_network_auth_prompt_set_request (request->self->network_prompt,
-                                             request->request_id,
-                                             request->connection,
-                                             request->setting_name,
-                                             request->hints,
-                                             request->flags,
-                                             title,
-                                             message,
-                                             secrets);
+      success = phosh_network_auth_prompt_set_request (request->self->network_prompt,
+                                                       request->request_id,
+                                                       request->connection,
+                                                       request->setting_name,
+                                                       request->hints,
+                                                       request->flags,
+                                                       title,
+                                                       message,
+                                                       secrets);
+      if (!success) {
+        /* TODO: queue request and process once prompt is done */
+        g_warning ("Dropping request %s since prompt already busy", request->request_id);
+        shell_network_agent_respond (request->self->network_agent,
+                                     request->request_id,
+                                     SHELL_NETWORK_AGENT_USER_CANCELED);
+      }
     } else {
       g_debug ("Skipping VPN dialog for %s", request->request_id);
       shell_network_agent_respond (request->self->network_agent,
@@ -585,6 +593,8 @@ secret_request_new_cb (PhoshNetworkAuthManager     *self,
                        NMSecretAgentGetSecretsFlags flags,
                        ShellNetworkAgent           *agent)
 {
+  gboolean ret;
+
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_MANAGER (self));
 
   g_debug ("Request %s: wants secrets for %s connection", request_id,
@@ -603,10 +613,14 @@ secret_request_new_cb (PhoshNetworkAuthManager     *self,
   g_return_if_fail (!self->network_prompt);
 
   network_agent_setup_prompt (self);
-  phosh_network_auth_prompt_set_request (self->network_prompt,
-                                         request_id, connection, setting_name,
-                                         hints, flags, NULL, NULL, NULL);
-
+  ret = phosh_network_auth_prompt_set_request (self->network_prompt,
+                                               request_id, connection, setting_name,
+                                               hints, flags, NULL, NULL, NULL);
+  if (!ret) {
+    /* TODO: queue request and process once prompt is done */
+    g_warning ("Dropping request %s since prompt already busy", request_id);
+    shell_network_agent_respond (self->network_agent, request_id, SHELL_NETWORK_AGENT_USER_CANCELED);
+  }
 }
 
 
