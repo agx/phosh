@@ -131,7 +131,7 @@ build-gtkdoc:
   image: ${DEBIAN_IMAGE}
   variables:
     DIST: bookworm
-    BUILD_OPTS: -Dgtk_doc=true ${COMMON_BUILD_OPTS}
+    BUILD_OPTS: -Dtests=false -Dgtk_doc=true ${COMMON_BUILD_OPTS}
   script:
     - git clean -dfx
     - 'echo "Build opts: ${BUILD_OPTS}"'
