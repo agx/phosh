@@ -71,7 +71,7 @@
     </style>
   </template>
 
-  <!-- Grid to be shown for WEP/WPA passwords -->
+  <!-- Grid for for WEP/WPA passwords -->
   <object class="GtkGrid" id="wpa_grid">
     <property name="visible">1</property>
     <property name="column-spacing">12</property>
@@ -109,6 +109,12 @@
         <property name="top-attach">0</property>
       </packing>
     </child>
+  </object>
+
+  <!-- Grid for VPN credentials -->
+  <object class="GtkGrid" id="vpn_grid">
+    <property name="visible">1</property>
+    <property name="column-spacing">12</property>
   </object>
 
   <object class="GcrSecureEntryBuffer" id="username_buffer"/>

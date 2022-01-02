@@ -24,10 +24,8 @@
  * @Title: PhoshNetworkAuthPrompt
  *
  * The #PhoshNetworkAuthPrompt is used to request network credentials
- * The responses are then passed to NetworkManager
+ * The responses are then passed to NetworkManager's #ShellNetworkAgent.
  */
-
-/* TODO: Handle more security methods.  Currently, WEP, WPA/WPA2 personal are supported */
 
 enum {
   DONE,
@@ -48,11 +46,14 @@ struct _PhoshNetworkAuthPrompt
   GtkWidget      *wpa_password_entry;
   GcrSecureEntryBuffer *password_buffer;
 
+  GtkWidget      *vpn_grid;
+
   NMConnection   *connection;
   const char     *key_type;
   char           *request_id;
   char           *setting_name;
   NMUtilsSecurityType security_type;
+  GPtrArray      *secrets;
   NMSecretAgentGetSecretsFlags flags;
 
   ShellNetworkAgent *agent;
@@ -151,6 +152,8 @@ network_connection_get_key_type (NMConnection *connection)
   setting = nm_connection_get_setting_wireless_security (connection);
   key_mgmt = nm_setting_wireless_security_get_key_mgmt (setting);
 
+  g_return_val_if_fail (key_mgmt, "psk");
+
   if (g_str_equal (key_mgmt, "none"))
     return "wep-key0";
 
@@ -160,7 +163,19 @@ network_connection_get_key_type (NMConnection *connection)
 
 
 static void
-network_prompt_setup_dialog (PhoshNetworkAuthPrompt *self)
+network_prompt_set_grid (PhoshNetworkAuthPrompt *self, GtkWidget *grid)
+{
+  g_autoptr (GList) children = gtk_container_get_children (GTK_CONTAINER (self->main_box));
+
+  if (children)
+    gtk_container_remove (GTK_CONTAINER (self->main_box), GTK_WIDGET (children->data));
+
+  gtk_container_add (GTK_CONTAINER (self->main_box), grid);
+}
+
+
+static void
+network_prompt_setup_wifi_dialog (PhoshNetworkAuthPrompt *self)
 {
   NMSettingWireless *setting;
   g_autofree char *str = NULL;
@@ -173,6 +188,7 @@ network_prompt_setup_dialog (PhoshNetworkAuthPrompt *self)
   self->key_type = network_connection_get_key_type (self->connection);
   self->security_type = network_prompt_get_type (self);
 
+  /* TODO: Do this in network-auth-manager and set message */
   bytes = nm_setting_wireless_get_ssid (setting);
   ssid = nm_utils_ssid_to_utf8 (g_bytes_get_data (bytes, NULL),
                                 g_bytes_get_size (bytes));
@@ -191,7 +207,7 @@ network_prompt_setup_dialog (PhoshNetworkAuthPrompt *self)
   str = g_strdup_printf (_("Enter password for the wifi network “%s”"), ssid);
   gtk_label_set_label (GTK_LABEL (self->message_label), str);
 
-  gtk_container_add (GTK_CONTAINER (self->main_box), self->wpa_grid);
+  network_prompt_set_grid (self, self->wpa_grid);
 
   /* Load password */
   if (self->security_type != NMU_SEC_NONE) {
@@ -215,7 +231,141 @@ network_prompt_setup_dialog (PhoshNetworkAuthPrompt *self)
 
     gtk_entry_buffer_set_text (GTK_ENTRY_BUFFER (self->password_buffer), password, -1);
   }
+
   gtk_widget_grab_focus (self->wpa_password_entry);
+}
+
+static void
+network_prompt_icon_press_cb (PhoshNetworkAuthPrompt *self,
+                              GtkEntryIconPosition    icon_pos,
+                              GdkEvent               *event,
+                              GtkEntry               *entry)
+{
+  const char *icon_name = "eye-not-looking-symbolic";
+
+  g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
+  g_return_if_fail (GTK_IS_ENTRY (entry));
+  g_return_if_fail (icon_pos == GTK_ENTRY_ICON_SECONDARY);
+
+  self->visible = !self->visible;
+  gtk_entry_set_visibility (entry, self->visible);
+  if (self->visible)
+    icon_name = "eye-open-negative-filled-symbolic";
+
+  gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY,
+                                     icon_name);
+}
+
+
+static void
+on_network_prompt_password_changed (PhoshNetworkAuthPrompt *self, GtkEntry *entry)
+{
+  const char *password;
+  PhoshNMSecret *secret;
+
+  g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
+  g_return_if_fail (GTK_IS_ENTRY (entry));
+
+  password = gtk_entry_buffer_get_text (GTK_ENTRY_BUFFER (self->password_buffer));
+
+  secret = g_object_get_data (G_OBJECT (entry), "secret");
+  g_return_if_fail (secret);
+  g_free (secret->value);
+  secret->value = g_strdup (gtk_entry_get_text (entry));
+
+  if (!password || !*password)
+    return
+
+  gtk_widget_set_sensitive (self->connect_button, TRUE);
+}
+
+
+static GtkWidget *
+build_credentials_entry (PhoshNetworkAuthPrompt *self, PhoshNMSecret *secret)
+{
+  GtkEntryBuffer *buffer = gcr_secure_entry_buffer_new ();
+  GtkWidget *entry = g_object_new (GTK_TYPE_ENTRY,
+                                   "valign", GTK_ALIGN_CENTER,
+                                   "hexpand", TRUE,
+                                   "visibility", FALSE,
+                                   "invisible-char", 0x25CF, /* ● */
+                                   "activates-default", TRUE,
+                                   "input-purpose", GTK_INPUT_PURPOSE_PASSWORD,
+                                   "buffer", buffer,
+                                   "primary-icon-sensitive", FALSE,
+                                   "secondary-icon-activatable", TRUE,
+                                   "secondary-icon-name", "eye-not-looking",
+                                   "secondary-icon-sensitive", TRUE,
+                                   NULL);
+  g_object_set_data (G_OBJECT (entry), "secret", secret);
+  g_object_connect (entry,
+                    "swapped-signal::changed", on_network_prompt_password_changed, self,
+                    "swapped-signal::icon-press", network_prompt_icon_press_cb, self,
+                    NULL);
+
+  return entry;
+}
+
+
+static void
+network_prompt_setup_vpn_dialog (PhoshNetworkAuthPrompt *self)
+{
+  g_autoptr (GList) children = NULL;
+  gboolean focus = FALSE;
+
+  g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
+
+  network_prompt_set_grid (self, self->vpn_grid);
+
+  children = gtk_container_get_children (GTK_CONTAINER (self->vpn_grid));
+  for (GList *elem = children; elem; elem = elem->next)
+    gtk_container_remove (GTK_CONTAINER (self->vpn_grid), GTK_WIDGET (elem->data));
+
+  for (int i = 0; i < self->secrets->len; i++) {
+    g_autofree char *l = NULL;
+    PhoshNMSecret *secret = g_ptr_array_index (self->secrets, i);
+    GtkWidget *label = NULL;
+    GtkWidget *entry = build_credentials_entry (self, secret);
+
+    if (g_str_has_suffix (secret->name, ":"))
+      l = g_strdup (secret->name);
+    else
+      l = g_strdup_printf ("%s:", secret->name);
+
+    label = g_object_new (GTK_TYPE_LABEL, "label", l, "halign", GTK_ALIGN_END, NULL);
+
+    gtk_widget_show (label);
+    gtk_widget_show (entry);
+
+    gtk_grid_attach (GTK_GRID (self->vpn_grid), label, 1, i, 1, 1);
+    gtk_grid_attach (GTK_GRID (self->vpn_grid), entry, 2, i, 1, 1);
+
+    if (!focus) {
+      gtk_widget_grab_focus (entry);
+      focus = TRUE;
+    }
+  }
+}
+
+
+static void
+network_prompt_setup_dialog (PhoshNetworkAuthPrompt *self, const char *title, const char *message)
+{
+  g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
+
+  if (nm_connection_is_type (self->connection, NM_SETTING_WIRELESS_SETTING_NAME)) {
+    network_prompt_setup_wifi_dialog (self);
+  } else if (nm_connection_is_type (self->connection, NM_SETTING_VPN_SETTING_NAME)) {
+    network_prompt_setup_vpn_dialog (self);
+  } else {
+    g_assert_not_reached ();
+  }
+
+  if (title)
+    phosh_system_modal_dialog_set_title (PHOSH_SYSTEM_MODAL_DIALOG (self), title);
+
+  if (message)
+    gtk_label_set_label (GTK_LABEL (self->message_label), message);
 }
 
 
@@ -236,10 +386,20 @@ network_prompt_connect_clicked_cb (PhoshNetworkAuthPrompt *self)
 
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
 
-  password = gtk_entry_buffer_get_text (GTK_ENTRY_BUFFER (self->password_buffer));
-  shell_network_agent_set_password (self->agent, self->request_id,
-                                    (char *) self->key_type, (char *) password);
-  shell_network_agent_respond (self->agent, self->request_id, SHELL_NETWORK_AGENT_CONFIRMED);
+  if (g_strcmp0 (self->setting_name, NM_SETTING_VPN_SETTING_NAME) == 0) {
+    for (int i = 0; i < self->secrets->len; i++) {
+      PhoshNMSecret *secret = g_ptr_array_index (self->secrets, i);
+
+      shell_network_agent_add_vpn_secret (self->agent, self->request_id, secret->key, secret->value);
+    }
+    g_clear_pointer (&self->secrets, g_ptr_array_unref);
+    shell_network_agent_respond (self->agent, self->request_id, SHELL_NETWORK_AGENT_CONFIRMED);
+  } else {
+    password = gtk_entry_buffer_get_text (GTK_ENTRY_BUFFER (self->password_buffer));
+    shell_network_agent_set_password (self->agent, self->request_id,
+                                      (char *) self->key_type, (char *) password);
+    shell_network_agent_respond (self->agent, self->request_id, SHELL_NETWORK_AGENT_CONFIRMED);
+  }
 
   emit_done (self, FALSE);
 }
@@ -252,6 +412,7 @@ phosh_network_auth_prompt_finalize (GObject *object)
 
   g_free (self->request_id);
   g_free (self->setting_name);
+  g_clear_pointer (&self->secrets, g_ptr_array_unref);
 
   g_clear_object (&self->agent);
   g_clear_object (&self->connection);
@@ -281,28 +442,6 @@ network_prompt_wpa_password_changed_cb (PhoshNetworkAuthPrompt *self)
   }
 
   gtk_widget_set_sensitive (self->connect_button, valid);
-}
-
-
-static void
-network_prompt_icon_press_cb (PhoshNetworkAuthPrompt *self,
-                              GtkEntryIconPosition    icon_pos,
-                              GdkEvent               *event,
-                              GtkEntry               *entry)
-{
-  const char *icon_name = "eye-not-looking-symbolic";
-
-  g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
-  g_return_if_fail (GTK_IS_ENTRY (entry));
-  g_return_if_fail (icon_pos == GTK_ENTRY_ICON_SECONDARY);
-
-  self->visible = !self->visible;
-  gtk_entry_set_visibility (entry, self->visible);
-  if (self->visible)
-    icon_name = "eye-open-negative-filled-symbolic";
-
-  gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY,
-                                     icon_name);
 }
 
 
@@ -338,6 +477,8 @@ phosh_network_auth_prompt_class_init (PhoshNetworkAuthPromptClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshNetworkAuthPrompt, wpa_password_entry);
   gtk_widget_class_bind_template_child (widget_class, PhoshNetworkAuthPrompt, password_buffer);
 
+  gtk_widget_class_bind_template_child (widget_class, PhoshNetworkAuthPrompt, vpn_grid);
+
   gtk_widget_class_bind_template_callback (widget_class, on_dialog_canceled);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_connect_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_wpa_password_changed_cb);
@@ -372,7 +513,10 @@ phosh_network_auth_prompt_set_request (PhoshNetworkAuthPrompt        *self,
                                        NMConnection                  *connection,
                                        char                          *setting_name,
                                        char                         **hints,
-                                       NMSecretAgentGetSecretsFlags   flags)
+                                       NMSecretAgentGetSecretsFlags   flags,
+                                       const char                    *title,
+                                       const char                    *message,
+                                       GPtrArray                     *secrets)
 {
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
   g_return_if_fail (NM_IS_CONNECTION (connection));
@@ -381,7 +525,9 @@ phosh_network_auth_prompt_set_request (PhoshNetworkAuthPrompt        *self,
   g_free (self->setting_name);
   self->request_id = g_strdup (request_id);
   self->setting_name = g_strdup (setting_name);
+  if (secrets)
+    self->secrets = g_ptr_array_ref (secrets);
   g_set_object (&self->connection, connection);
 
-  network_prompt_setup_dialog (self);
+  network_prompt_setup_dialog (self, title, message);
 }
