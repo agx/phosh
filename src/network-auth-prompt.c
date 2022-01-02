@@ -506,7 +506,22 @@ phosh_network_auth_prompt_new (ShellNetworkAgent *agent)
 }
 
 
-void
+/**
+ * phosh_network_auth_prompt_set_request:
+ * @self: The prompt
+ * @request_id: The unique id of this authentication request
+ * @connection: The network manager connection
+ * @setting_name: The connection setting name (e.g. 'vpn')
+ * @hints: auth request hints (currently unused)
+ * @flags: Secret flags
+ * @title: The prompt title
+ * @message: The prompt message
+ * @secrets: (nullable): The secrets to get
+ *
+ * Sets up a network authentication prompt for an auth request.
+ * Returns: %TRUE if success otherwise (e.g. if the prompt is still  in use) %FALSE
+ */
+gboolean
 phosh_network_auth_prompt_set_request (PhoshNetworkAuthPrompt        *self,
                                        char                          *request_id,
                                        NMConnection                  *connection,
@@ -517,16 +532,24 @@ phosh_network_auth_prompt_set_request (PhoshNetworkAuthPrompt        *self,
                                        const char                    *message,
                                        GPtrArray                     *secrets)
 {
-  g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
-  g_return_if_fail (NM_IS_CONNECTION (connection));
+  g_return_val_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self), FALSE);
+  g_return_val_if_fail (NM_IS_CONNECTION (connection), FALSE);
 
-  g_free (self->request_id);
+  /* We only handle one request at a time */
+  if (self->request_id) {
+    g_debug ("Trying to reuse prompt with request %s for new request %s", self->request_id, request_id);
+    return FALSE;
+  }
+
   g_free (self->setting_name);
   self->request_id = g_strdup (request_id);
   self->setting_name = g_strdup (setting_name);
   if (secrets)
     self->secrets = g_ptr_array_ref (secrets);
   g_set_object (&self->connection, connection);
+  self->flags = flags;
 
   network_prompt_setup_dialog (self, title, message);
+
+  return TRUE;
 }

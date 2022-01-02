@@ -32,7 +32,7 @@ typedef struct phosh_nm_secret {
 G_DECLARE_FINAL_TYPE (PhoshNetworkAuthPrompt, phosh_network_auth_prompt, PHOSH, NETWORK_AUTH_PROMPT, PhoshSystemModalDialog);
 
 GtkWidget *phosh_network_auth_prompt_new         (ShellNetworkAgent *agent);
-void       phosh_network_auth_prompt_set_request (PhoshNetworkAuthPrompt        *self,
+gboolean   phosh_network_auth_prompt_set_request (PhoshNetworkAuthPrompt        *self,
                                                   char                          *request_id,
                                                   NMConnection                  *connection,
                                                   char                          *setting_name,
