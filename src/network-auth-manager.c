@@ -31,7 +31,6 @@
 struct _PhoshNetworkAuthManager {
   GObject                 parent;
 
-  NMClient               *nmclient;
   GCancellable           *cancel;
   GCancellable           *register_cancel;
 
@@ -188,34 +187,14 @@ setup_network_agent (PhoshNetworkAuthManager *self)
 
 
 static void
-on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
-{
-  g_autoptr (GError) err = NULL;
-  PhoshNetworkAuthManager *self;
-  NMClient *client;
-
-  client = nm_client_new_finish (res, &err);
-  if (client == NULL) {
-    g_message ("Failed to init NM: %s", err->message);
-    return;
-  }
-
-  self = PHOSH_NETWORK_AUTH_MANAGER (data);
-  self->nmclient = client;
-
-  setup_network_agent (self);
-
-  g_debug ("Network-auth-manager initialized");
-}
-
-
-static void
 phosh_network_auth_manager_constructed (GObject *object)
 {
   PhoshNetworkAuthManager *self = PHOSH_NETWORK_AUTH_MANAGER (object);
 
   self->cancel = g_cancellable_new ();
-  nm_client_new_async (self->cancel, on_nm_client_ready, self);
+
+  setup_network_agent (self);
+  g_debug ("Network-auth-manager initialized");
 
   G_OBJECT_CLASS (phosh_network_auth_manager_parent_class)->constructed (object);
 }
@@ -233,10 +212,6 @@ phosh_network_auth_manager_dispose (GObject *object)
   g_clear_object (&self->cancel);
 
   g_clear_object (&self->network_agent);
-  if (self->nmclient) {
-    g_signal_handlers_disconnect_by_data (self->nmclient, self);
-    g_clear_object (&self->nmclient);
-  }
 
   G_OBJECT_CLASS (phosh_network_auth_manager_parent_class)->dispose (object);
 }
