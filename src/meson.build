@@ -179,6 +179,8 @@ libphosh_sources = files(
   'lockscreen.h',
   'monitor-manager.c',
   'monitor-manager.h',
+  'network-auth-manager.c',
+  'network-auth-manager.h',
   'network-auth-prompt.c',
   'network-auth-prompt.h',
   'osk-button.c',
