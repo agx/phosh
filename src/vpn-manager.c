@@ -51,7 +51,8 @@ update_state (PhoshVpnManager *self)
 {
   NMActiveConnectionState state;
   const char *old_icon_name;
-  gboolean old_enabled;
+  gboolean old_enabled, is_vpn, is_wg;
+  const char *type;
 
   g_return_if_fail (PHOSH_IS_VPN_MANAGER (self));
 
@@ -63,6 +64,12 @@ update_state (PhoshVpnManager *self)
     self->enabled = FALSE;
     goto out;
   }
+
+  type = nm_active_connection_get_connection_type (self->active);
+  is_vpn = nm_active_connection_get_vpn (self->active);
+  is_wg = !g_strcmp0 (type, NM_SETTING_WIREGUARD_SETTING_NAME);
+
+  g_return_if_fail (is_wg || is_vpn);
 
   state = nm_active_connection_get_state (self->active);
 
@@ -131,6 +138,21 @@ on_nm_active_connection_vpn_state_changed (PhoshVpnManager              *self,
 }
 
 
+static void
+on_nm_active_wg_connection_state_changed (PhoshVpnManager              *self,
+                                          NMActiveConnectionState       state,
+                                          NMActiveConnectionStateReason reason,
+                                          NMActiveConnection           *active)
+{
+  g_return_if_fail (PHOSH_IS_VPN_MANAGER (self));
+  g_return_if_fail (NM_IS_ACTIVE_CONNECTION (active));
+
+  g_debug ("Active wireguard connection '%s' state changed: %d", nm_active_connection_get_id (active), state);
+
+  update_state (self);
+}
+
+
 /*
  * Active connections changed
  *
@@ -150,23 +172,36 @@ on_nmclient_active_connections_changed (PhoshVpnManager *self, GParamSpec *pspec
   conns = nm_client_get_active_connections (nmclient);
 
   for (int i = 0; i < conns->len; i++) {
-    gboolean is_vpn;
+    gboolean is_vpn, is_wg;
+    const char *type;
 
     conn = g_ptr_array_index (conns, i);
+
+    type = nm_active_connection_get_connection_type (conn);
     is_vpn = nm_active_connection_get_vpn (conn);
+    is_wg = !g_strcmp0 (type, NM_SETTING_WIREGUARD_SETTING_NAME);
+
+    /* We only care about vpn and wireguard connections */
+    if (!is_wg && !is_vpn)
+        continue;
 
     found = TRUE;
-    if (!is_vpn)
-      continue;
 
     /* Is this still the same connection? */
-    if (conn != self->active) {
-      g_debug ("New active VPN connection %p", conn);
-      if (self->active)
-        g_signal_handlers_disconnect_by_data (self->active, self);
-      g_set_object (&self->active, conn);
+    if (conn == self->active)
+      break;
+
+    g_debug ("New active VPN connection %p type '%s'", conn, type);
+    if (self->active)
+      g_signal_handlers_disconnect_by_data (self->active, self);
+    g_set_object (&self->active, conn);
+
+    if (is_vpn) {
       g_signal_connect_swapped (self->active, "vpn-state-changed",
                                 G_CALLBACK (on_nm_active_connection_vpn_state_changed), self);
+    } else if (is_wg) {
+      g_signal_connect_swapped (self->active, "state-changed",
+                                G_CALLBACK (on_nm_active_wg_connection_state_changed), self);
     }
     /* We pick one connection here and select another one once this one goes away. */
     /* TODO: can we sensibly infer some kind of priorities by looking at routing */
