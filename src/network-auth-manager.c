@@ -155,14 +155,14 @@ on_network_agent_ready (GObject      *source_object,
 
   nw_agent = g_async_initable_new_finish (G_ASYNC_INITABLE (source_object), res, &err);
   if (!nw_agent) {
-    g_warning ("Failed to init network agent: %s", err->message);
+    phosh_async_error_warn (err, "Failed to init network agent");
     return;
   }
 
   self = PHOSH_NETWORK_AUTH_MANAGER (user_data);
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_MANAGER (self));
   self->network_agent = SHELL_NETWORK_AGENT (nw_agent);
-  nm_secret_agent_old_register_async (NM_SECRET_AGENT_OLD (self->network_agent), NULL,
+  nm_secret_agent_old_register_async (NM_SECRET_AGENT_OLD (self->network_agent), self->cancel,
                                       secret_agent_register_cb, self);
 }
 
