@@ -48,6 +48,7 @@ typedef struct {
   gpointer                          callback_data;
 
   GVariantDict                     *entries;
+  GVariantBuilder                   builder_vpn;
 } ShellAgentRequest;
 
 struct _ShellNetworkAgentPrivate {
@@ -80,6 +81,7 @@ shell_agent_request_free (gpointer data)
   g_free (request->setting_name);
   g_strfreev (request->hints);
   g_clear_pointer (&request->entries, g_variant_dict_unref);
+  g_variant_builder_clear (&request->builder_vpn);
 
   g_slice_free (ShellAgentRequest, request);
 }
@@ -373,6 +375,8 @@ shell_network_agent_get_secrets (NMSecretAgentOld                 *agent,
   request->request_id = request_id;
   g_hash_table_replace (self->priv->requests, request->request_id, request);
 
+  g_variant_builder_init (&request->builder_vpn, G_VARIANT_TYPE ("a{ss}"));
+
   if ((flags & NM_SECRET_AGENT_GET_SECRETS_FLAG_REQUEST_NEW) ||
       ((flags & NM_SECRET_AGENT_GET_SECRETS_FLAG_ALLOW_INTERACTION)
        && is_connection_always_ask (request->connection)))
@@ -392,6 +396,24 @@ shell_network_agent_get_secrets (NMSecretAgentOld                 *agent,
                          request->cancellable, get_secrets_keyring_cb, request);
 
   g_hash_table_unref (attributes);
+}
+
+void
+shell_network_agent_add_vpn_secret (ShellNetworkAgent *self,
+                                    gchar             *request_id,
+                                    gchar             *setting_key,
+                                    gchar             *setting_value)
+{
+  ShellNetworkAgentPrivate *priv;
+  ShellAgentRequest *request;
+
+  g_return_if_fail (SHELL_IS_NETWORK_AGENT (self));
+
+  priv = self->priv;
+  request = g_hash_table_lookup (priv->requests, request_id);
+  g_return_if_fail (request != NULL);
+
+  g_variant_builder_add (&request->builder_vpn, "{ss}", setting_key, setting_value);
 }
 
 void
@@ -420,7 +442,7 @@ shell_network_agent_respond (ShellNetworkAgent         *self,
   ShellNetworkAgentPrivate *priv;
   ShellAgentRequest *request;
   GVariantBuilder builder_connection;
-  GVariant *setting;
+  GVariant *vpn_secrets, *setting;
 
   g_return_if_fail (SHELL_IS_NETWORK_AGENT (self));
 
@@ -454,6 +476,13 @@ shell_network_agent_respond (ShellNetworkAgent         *self,
 
   /* response == SHELL_NETWORK_AGENT_CONFIRMED */
 
+  /* VPN secrets are stored as a hash of secrets in a single setting */
+  vpn_secrets = g_variant_builder_end (&request->builder_vpn);
+  if (g_variant_n_children (vpn_secrets))
+    g_variant_dict_insert_value (request->entries, NM_SETTING_VPN_SECRETS, vpn_secrets);
+  else
+    g_variant_unref (vpn_secrets);
+
   setting = g_variant_dict_end (request->entries);
 
   /* Save any updated secrets */
@@ -476,6 +505,63 @@ shell_network_agent_respond (ShellNetworkAgent         *self,
                      request->callback_data);
 
   g_hash_table_remove (priv->requests, request_id);
+}
+
+static void
+search_vpn_plugin (GTask        *task,
+                   gpointer      object,
+                   gpointer      task_data,
+                   GCancellable *cancellable)
+{
+  NMVpnPluginInfo *info = NULL;
+  char *service = task_data;
+
+  info = nm_vpn_plugin_info_new_search_file (NULL, service);
+
+  if (info)
+    {
+      g_task_return_pointer (task, info, g_object_unref);
+    }
+  else
+    {
+      g_task_return_new_error (task,
+                               G_IO_ERROR, G_IO_ERROR_NOT_FOUND,
+                               "No plugin for %s", service);
+    }
+}
+
+void
+shell_network_agent_search_vpn_plugin (ShellNetworkAgent   *self,
+                                       const char          *service,
+                                       GAsyncReadyCallback  callback,
+                                       gpointer             user_data)
+{
+  g_autoptr(GTask) task = NULL;
+
+  g_return_if_fail (SHELL_IS_NETWORK_AGENT (self));
+  g_return_if_fail (service != NULL);
+
+  task = g_task_new (self, NULL, callback, user_data);
+  g_task_set_source_tag (task, shell_network_agent_search_vpn_plugin);
+  g_task_set_task_data (task, g_strdup (service), g_free);
+
+  g_task_run_in_thread (task, search_vpn_plugin);
+}
+
+/**
+ * shell_network_agent_search_vpn_plugin_finish:
+ *
+ * Returns: (nullable) (transfer full): The found plugin or %NULL
+ */
+NMVpnPluginInfo *
+shell_network_agent_search_vpn_plugin_finish (ShellNetworkAgent  *self,
+                                              GAsyncResult       *result,
+                                              GError            **error)
+{
+  g_return_val_if_fail (SHELL_IS_NETWORK_AGENT (self), NULL);
+  g_return_val_if_fail (G_IS_TASK (result), NULL);
+
+  return g_task_propagate_pointer (G_TASK (result), error);
 }
 
 static void
