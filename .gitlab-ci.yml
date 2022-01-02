@@ -115,7 +115,7 @@ screenshot:native-debian-bookworm:
     - export LC_ALL=C.UTF-8
     # Install .po files so tests can find them
     - "DESTDIR=$PWD/_build/install meson install -C _build"
-    - ${XVFB_RUN} meson test -C _build --print-errorlogs --no-suite integration --no-suite unit
+    - ${XVFB_RUN} meson test -C _build --print-errorlogs --suite screenshots
     - mv _build/tests/screenshots/* screenshots/
     - for dir in screenshots/*_*.UTF-8; do montage -mode concatenate $dir/*.png ${dir}.png; done
   artifacts:
