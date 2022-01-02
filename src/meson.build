@@ -123,6 +123,8 @@ libphosh_tool_sources = files(
   'system-modal-dialog.h',
   'thumbnail.c',
   'thumbnail.h',
+  'vpn-manager.c',
+  'vpn-manager.h',
   'quick-setting.c',
   'quick-setting.h',
   'phosh-wayland.c',
