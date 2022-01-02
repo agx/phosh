@@ -48,7 +48,6 @@ struct _PhoshNetworkAuthPrompt
   GtkWidget      *wpa_password_entry;
   GcrSecureEntryBuffer *password_buffer;
 
-  NMClient       *nm_client;
   NMConnection   *connection;
   const char     *key_type;
   char           *request_id;
@@ -256,7 +255,6 @@ phosh_network_auth_prompt_finalize (GObject *object)
 
   g_clear_object (&self->agent);
   g_clear_object (&self->connection);
-  g_clear_object (&self->nm_client);
 
   G_OBJECT_CLASS (phosh_network_auth_prompt_parent_class)->finalize (object);
 }
@@ -370,16 +368,13 @@ phosh_network_auth_prompt_init (PhoshNetworkAuthPrompt *self)
 
 
 GtkWidget *
-phosh_network_auth_prompt_new (ShellNetworkAgent *agent,
-                               NMClient          *nm_client)
+phosh_network_auth_prompt_new (ShellNetworkAgent *agent)
 {
   PhoshNetworkAuthPrompt *self;
 
   g_return_val_if_fail (SHELL_IS_NETWORK_AGENT (agent), NULL);
-  g_return_val_if_fail (NM_CLIENT (nm_client), NULL);
 
   self = g_object_new (PHOSH_TYPE_NETWORK_AUTH_PROMPT, NULL);
-  self->nm_client = g_object_ref (nm_client);
   self->agent = g_object_ref (agent);
 
   return GTK_WIDGET (self);

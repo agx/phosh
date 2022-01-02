@@ -62,8 +62,7 @@ network_agent_setup_prompt (PhoshNetworkAuthManager *self)
   if (self->network_prompt)
     return;
 
-  network_prompt = phosh_network_auth_prompt_new (self->network_agent,
-                                                  self->nmclient);
+  network_prompt = phosh_network_auth_prompt_new (self->network_agent);
   self->network_prompt = PHOSH_NETWORK_AUTH_PROMPT (network_prompt);
 
   g_signal_connect_object (self->network_prompt, "done",
