@@ -75,6 +75,7 @@
 #include "torch-manager.h"
 #include "torch-info.h"
 #include "util.h"
+#include "vpn-info.h"
 #include "wifiinfo.h"
 #include "wwaninfo.h"
 #include "wwan/phosh-wwan-ofono.h"
@@ -604,6 +605,7 @@ type_setup (void)
   g_type_ensure (PHOSH_TYPE_SYSTEM_MODAL);
   g_type_ensure (PHOSH_TYPE_SYSTEM_MODAL_DIALOG);
   g_type_ensure (PHOSH_TYPE_TORCH_INFO);
+  g_type_ensure (PHOSH_TYPE_VPN_INFO);
   g_type_ensure (PHOSH_TYPE_WIFI_INFO);
   g_type_ensure (PHOSH_TYPE_WWAN_INFO);
 }
