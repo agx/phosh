@@ -58,7 +58,6 @@ struct _PhoshNetworkAuthPrompt
 
   ShellNetworkAgent *agent;
 
-  gboolean done_emitted;
   gboolean visible; /* is input visible */
 };
 
@@ -72,10 +71,10 @@ emit_done (PhoshNetworkAuthPrompt *self, gboolean cancelled)
 
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
 
-  if (self->done_emitted)
+  if (!self->request_id)
     return;
 
-  self->done_emitted = TRUE;
+  g_clear_pointer (&self->request_id, g_free);
   g_signal_emit (self, signals[DONE], 0 /* detail */, cancelled);
 }
 
