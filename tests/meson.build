@@ -86,6 +86,7 @@ tests = [
   'overview',
   'quick-setting',
   'status-icon',
+  'util',
 ]
 
 tests_phoc = [
