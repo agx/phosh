@@ -399,6 +399,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
   guint id;
   g_autofree char *desktop_id = NULL;
   g_autofree char *source_id = NULL;
+  g_autofree char *escaped_body = NULL;
   g_autoptr (GAppInfo) info = NULL;
   PhoshNotificationUrgency urgency = PHOSH_NOTIFICATION_URGENCY_NORMAL;
   g_autoptr (GIcon) data_gicon = NULL;
@@ -492,13 +493,15 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
   if (replaces_id)
     notification = phosh_notification_list_get_by_id (self->list, replaces_id);
 
+  escaped_body = phosh_util_escape_markup (body, TRUE);
+
   if (notification) {
     id = replaces_id;
 
     g_object_set (notification,
                   "app_name", app_name,
                   "summary", summary,
-                  "body", body,
+                  "body", escaped_body,
                   "app-icon", icon,
                   "app-info", info,
                   "image", image,
@@ -517,7 +520,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
                                                      app_name,
                                                      info,
                                                      summary,
-                                                     body,
+                                                     escaped_body,
                                                      icon,
                                                      image,
                                                      urgency,
