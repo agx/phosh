@@ -134,7 +134,7 @@ char *
 phosh_strip_suffix_from_app_id (const char *app_id)
 {
   char *new_id = g_strdup (app_id);
-  
+
   if (new_id && g_str_has_suffix (app_id, ".desktop")) {
     *(new_id + strlen (new_id) - 8 /* strlen (".desktop") */) = '\0';
   }
