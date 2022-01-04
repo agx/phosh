@@ -342,6 +342,20 @@ load_image(PhoshBackground *self, const gchar *uri)
 }
 
 
+static char *
+make_file_uri (const char *val)
+{
+  char *uri = NULL;
+
+  if (val && g_path_is_absolute (val))
+    uri = g_strdup_printf ("file://%s", val);
+  else
+    uri = g_strdup (val);
+
+  return uri;
+}
+
+
 static void
 on_slideshow_loaded (GnomeBGSlideShow *slideshow,
                      GAsyncResult     *res,
@@ -371,7 +385,7 @@ on_slideshow_loaded (GnomeBGSlideShow *slideshow,
   g_debug ("Background file: %s, fixed: %d", file1, fixed);
   if (!fixed)
     g_warning ("Only fixed slideshows supported properly atm");
-  image_uri = g_strdup_printf ("file://%s", file1);
+  image_uri = make_file_uri (file1);
   load_image (self, image_uri);
 out:
   g_object_unref (self);
@@ -465,13 +479,17 @@ background_draw_cb (PhoshBackground *self,
   return TRUE;
 }
 
+
 static void
 get_settings (PhoshBackground *self)
 {
   g_autofree char *color = NULL;
+  g_autofree char *val = NULL;
 
+  val = g_settings_get_string (self->settings, BG_KEY_PICTURE_URI);
   g_free (self->uri);
-  self->uri = g_settings_get_string (self->settings, BG_KEY_PICTURE_URI);
+  self->uri = make_file_uri (val);
+
   self->style = g_settings_get_enum (self->settings, BG_KEY_PICTURE_OPTIONS);
   color = g_settings_get_string (self->settings, BG_KEY_PRIMARY_COLOR);
   color_from_string (&self->color, color);
