@@ -134,7 +134,7 @@ char *
 phosh_strip_suffix_from_app_id (const char *app_id)
 {
   char *new_id = g_strdup (app_id);
-  
+
   if (new_id && g_str_has_suffix (app_id, ".desktop")) {
     *(new_id + strlen (new_id) - 8 /* strlen (".desktop") */) = '\0';
   }
@@ -308,4 +308,80 @@ phosh_create_shm_file (off_t size)
   }
 
   return fd;
+}
+
+
+/**
+ * phosh_util_escape_markup:
+ * @markup: The markup to escape
+ * @allow_markup: Whether to allow certain markup
+ *
+ * Escapes the given markup either fully or (when @allow_markup is %TRUE) in a way
+ * that is suitable for a notification body
+ *
+ * Returns: (transfer full): The escaped text
+ */
+char *
+phosh_util_escape_markup (const char *markup, gboolean allow_markup)
+{
+  if (allow_markup) {
+    g_autoptr (GError) err = NULL;
+    g_autoptr (GRegex) amp_re = NULL;
+    g_autoptr (GRegex) elem_re = NULL;
+    g_autofree char *amp_esc = NULL;
+    g_autofree char *escaped = NULL;
+
+    /* Escape &whatever; */
+    /* Support &amp;, &quot;, &apos;, &lt; and &gt;, escape all other occurrences of '&'. */
+    amp_re = g_regex_new ("&(?!amp;|quot;|apos;|lt;|gt;)",
+                          G_REGEX_JAVASCRIPT_COMPAT,
+                          0,
+                          &err);
+    if (!amp_re) {
+      g_warning ("Failed to compile regex: %s", err->message);
+      goto out;
+    }
+
+    amp_esc = g_regex_replace_literal (amp_re,
+                                       markup, -1, 0,
+                                       "&amp;",
+                                       0, /* flags */
+                                       &err);
+    if (err) {
+      g_warning ("Failed to escape string: %s", err->message);
+      goto out;
+    }
+
+    /*
+     * "HTML" element escape
+     * Support <b>, <i>, and <u>, escape anything else
+     * so it displays as raw markup.
+     * https://specifications.freedesktop.org/notification-spec/latest/ar01s04.html
+     */
+    elem_re = g_regex_new ("<(?!/?[biu]>)",
+                           G_REGEX_JAVASCRIPT_COMPAT,
+                           0,
+                           &err);
+    if (!elem_re) {
+      g_warning ("Failed to compile regex: %s", err->message);
+      goto out;
+    }
+
+    escaped = g_regex_replace_literal (elem_re,
+                                       amp_esc, -1, 0,
+                                       "&lt;",
+                                       0, /* flags */
+                                       &err);
+    if (err) {
+      g_warning ("Failed to escape string: %s", err->message);
+      goto out;
+    }
+
+    if (pango_parse_markup(escaped, -1, 0, NULL, NULL, NULL, NULL))
+      return g_steal_pointer (&escaped);
+  }
+
+ out:
+  /*invalid markup or no markup allowed */
+  return g_markup_escape_text (markup, -1);
 }
