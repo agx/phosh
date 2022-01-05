@@ -301,4 +301,8 @@
       </object>
     </child>
   </template>
+  <object class="GtkGestureMultiPress" id="click_gesture">
+    <property name="widget">PhoshTopPanel</property>
+    <signal name="released" handler="released_cb" swapped="true"/>
+  </object>
 </interface>

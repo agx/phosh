@@ -12,8 +12,11 @@
 #include "notification-content.h"
 #include "notification-frame.h"
 #include "notification-source.h"
+#include "swipe-away-bin.h"
 #include "util.h"
 #include "timestamp-label.h"
+
+#include <math.h>
 
 /**
  * SECTION:notification-frame
@@ -31,7 +34,7 @@ static GParamSpec *props[LAST_PROP];
 
 
 struct _PhoshNotificationFrame {
-  GtkBox parent;
+  GtkEventBox parent;
 
   GListModel *model;
   gulong      model_watch;
@@ -40,17 +43,29 @@ struct _PhoshNotificationFrame {
   GBinding *bind_icon;
   GBinding *bind_timestamp;
 
+  GtkWidget *box;
   GtkWidget *lbl_app_name;
   GtkWidget *img_icon;
   GtkWidget *list_notifs;
   GtkWidget *updated;
 
   gboolean   show_body;
+
+  /* needed so that the gestures aren't immediately destroyed */
+  GtkGesture *header_click_gesture;
+  GtkGesture *list_click_gesture;
+
+  int start_x;
+  int start_y;
+  GtkListBoxRow *active_row;
 };
 typedef struct _PhoshNotificationFrame PhoshNotificationFrame;
 
 
-G_DEFINE_TYPE (PhoshNotificationFrame, phosh_notification_frame, GTK_TYPE_BOX)
+G_DEFINE_TYPE (PhoshNotificationFrame, phosh_notification_frame, GTK_TYPE_EVENT_BOX)
+
+
+#define DRAG_THRESHOLD_DISTANCE 16
 
 
 enum {
@@ -113,22 +128,118 @@ phosh_notification_frame_finalize (GObject *object)
 }
 
 
-/* When the title row is clicked we proxy it to the first item */
 static gboolean
-header_activated (PhoshNotificationFrame *self, GdkEventButton *event)
+motion_notify (PhoshNotificationFrame *self,
+               GdkEventMotion         *event)
 {
-  g_autoptr (PhoshNotification) notification = NULL;
+  if (self->start_x >= 0 && self->start_y >= 0) {
+    int current_x, current_y;
+    double dx, dy;
 
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self), FALSE);
+    gtk_widget_translate_coordinates (GTK_WIDGET (self->box),
+                                      gtk_widget_get_toplevel (GTK_WIDGET (self)),
+                                      event->x, event->y,
+                                      &current_x, &current_y);
 
-  notification = g_list_model_get_item (self->model, 0);
+    dx = current_x - self->start_x;
+    dy = current_y - self->start_y;
 
-  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (notification), FALSE);
+    if (sqrt (dx * dx + dy * dy) > DRAG_THRESHOLD_DISTANCE) {
+      gtk_gesture_set_state (self->header_click_gesture, GTK_EVENT_SEQUENCE_DENIED);
+      gtk_gesture_set_state (self->list_click_gesture, GTK_EVENT_SEQUENCE_DENIED);
+    }
+  }
+
+  return GDK_EVENT_PROPAGATE;
+}
+
+
+static void
+pressed (PhoshNotificationFrame *self,
+         int                     n_press,
+         double                  x,
+         double                  y,
+         GtkGesture             *gesture,
+         GtkGesture             *other_gesture)
+{
+  GdkEventSequence *sequence =
+    gtk_gesture_single_get_current_sequence (GTK_GESTURE_SINGLE (gesture));
+
+  if (n_press != 1) {
+    gtk_gesture_set_sequence_state (gesture, sequence, GTK_EVENT_SEQUENCE_DENIED);
+
+    return;
+  }
+
+  gtk_widget_translate_coordinates (self->box,
+                                    gtk_widget_get_toplevel (GTK_WIDGET (self)),
+                                    x, y,
+                                    &self->start_x, &self->start_y);
+
+  /* When the title row is clicked we proxy it to the first item */
+  self->active_row =
+    gtk_list_box_get_row_at_y (GTK_LIST_BOX (self->list_notifs),
+                               gesture == self->header_click_gesture ? 0 : y);
+
+  gtk_gesture_set_sequence_state (other_gesture, sequence, GTK_EVENT_SEQUENCE_DENIED);
+}
+
+static void
+header_pressed (PhoshNotificationFrame *self,
+                int                     n_press,
+                double                  x,
+                double                  y)
+{
+  pressed (self, n_press, x, y,
+           self->header_click_gesture,
+           self->list_click_gesture);
+}
+
+
+static void
+list_pressed (PhoshNotificationFrame *self,
+              int                     n_press,
+              double                  x,
+              double                  y)
+{
+  pressed (self, n_press, x, y,
+           self->list_click_gesture,
+           self->header_click_gesture);
+}
+
+
+static void
+released (PhoshNotificationFrame *self,
+          int                     n_press,
+          double                  x,
+          double                  y,
+          GtkGesture             *gesture)
+{
+  GtkListBoxRow *pressed_row = self->active_row;
+  GtkListBoxRow *active_row;
+  PhoshNotificationContent *content;
+  PhoshNotification *notification;
+
+  /* When the title row is clicked we proxy it to the first item */
+  active_row =
+    gtk_list_box_get_row_at_y (GTK_LIST_BOX (self->list_notifs),
+                               gesture == self->header_click_gesture ? 0 : y);
+
+  self->active_row = NULL;
+  self->start_x = -1;
+  self->start_y = -1;
+
+  if (pressed_row != active_row) {
+    gtk_gesture_set_state (gesture, GTK_EVENT_SEQUENCE_DENIED);
+
+    return;
+  }
+
+  content = PHOSH_NOTIFICATION_CONTENT (active_row);
+  notification = phosh_notification_content_get_notification (content);
 
   phosh_notification_activate (notification,
                                PHOSH_NOTIFICATION_DEFAULT_ACTION);
-
-  return FALSE;
 }
 
 
@@ -147,6 +258,22 @@ notification_activated (PhoshNotificationFrame *self,
 
   phosh_notification_activate (notification,
                                PHOSH_NOTIFICATION_DEFAULT_ACTION);
+}
+
+
+static void
+removed (PhoshNotificationFrame *self)
+{
+  guint i, n;
+
+  n = g_list_model_get_n_items (self->model);
+  for (i = 0; i < n; i++) {
+    g_autoptr (PhoshNotification) notification = NULL;
+
+    notification = g_list_model_get_item (self->model, 0);
+
+    phosh_notification_close (notification, PHOSH_NOTIFICATION_REASON_CLOSED);
+  }
 }
 
 
@@ -188,13 +315,20 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/notification-frame.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, box);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, lbl_app_name);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, img_icon);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, list_notifs);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, updated);
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, header_click_gesture);
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, list_click_gesture);
 
-  gtk_widget_class_bind_template_callback (widget_class, header_activated);
+  gtk_widget_class_bind_template_callback (widget_class, motion_notify);
+  gtk_widget_class_bind_template_callback (widget_class, header_pressed);
+  gtk_widget_class_bind_template_callback (widget_class, list_pressed);
+  gtk_widget_class_bind_template_callback (widget_class, released);
   gtk_widget_class_bind_template_callback (widget_class, notification_activated);
+  gtk_widget_class_bind_template_callback (widget_class, removed);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-notification-frame");
 }
@@ -204,6 +338,11 @@ static void
 phosh_notification_frame_init (PhoshNotificationFrame *self)
 {
   self->show_body = TRUE;
+  self->start_x = -1;
+  self->start_y = -1;
+
+  g_type_ensure (PHOSH_TYPE_SWIPE_AWAY_BIN);
+
   gtk_widget_init_template (GTK_WIDGET (self));
 }
 
