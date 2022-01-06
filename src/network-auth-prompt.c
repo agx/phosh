@@ -260,20 +260,6 @@ phosh_network_auth_prompt_finalize (GObject *object)
 }
 
 
-static gboolean
-network_prompt_key_press_event_cb (PhoshNetworkAuthPrompt *self,
-                                   GdkEventKey            *event)
-{
-  g_return_val_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self), FALSE);
-
-  if (event->keyval != GDK_KEY_Escape)
-    return FALSE;
-
-  emit_done (self, TRUE);
-  return TRUE;
-}
-
-
 static void
 network_prompt_wpa_password_changed_cb (PhoshNetworkAuthPrompt *self)
 {
@@ -354,7 +340,6 @@ phosh_network_auth_prompt_class_init (PhoshNetworkAuthPromptClass *klass)
 
   gtk_widget_class_bind_template_callback (widget_class, on_dialog_canceled);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_connect_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, network_prompt_key_press_event_cb);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_wpa_password_changed_cb);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_icon_press_cb);
 }

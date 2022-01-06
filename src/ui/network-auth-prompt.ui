@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PhoshNetworkAuthPrompt" parent="PhoshSystemModalDialog">
-    <signal name="key-press-event" handler="network_prompt_key_press_event_cb"/>
     <signal name="dialog-canceled" handler="on_dialog_canceled"/>
     <property name="title" translatable="yes">Authentication required</property>
     <child type="phosh-dialog-content">
