@@ -1,14 +1,14 @@
 # Romanian translation for phosh.
 # Copyright (C) 2020 phosh's COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
-# Florentina Mușat <florentina.musat.28@gmail.com>, 2020-2021.
+# Florentina Mușat <florentina.musat.28@gmail.com>, 2020-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-12-07 13:24+0000\n"
-"PO-Revision-Date: 2021-12-10 11:10+0100\n"
+"POT-Creation-Date: 2021-12-23 22:20+0000\n"
+"PO-Revision-Date: 2022-01-10 16:49+0100\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n==0 || (n!=1 && n%100>=1 && n"
 "%100<=19) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Gtranslator 3.30.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -132,17 +132,17 @@ msgstr "Da"
 msgid "No"
 msgstr "Nu"
 
-#: src/lockscreen.c:158 src/ui/lockscreen.ui:265
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:265
 msgid "Enter Passcode"
 msgstr "Introdu codul de acces"
 
-#: src/lockscreen.c:341
+#: src/lockscreen.c:350
 msgid "Checking…"
 msgstr "Se verifică…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:419
+#: src/lockscreen.c:428
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -314,6 +314,15 @@ msgstr "Peisaj"
 msgid "Off"
 msgstr "Oprit"
 
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Apasă ESC pentru a închide"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "Executarea '%s' a eșuat"
+
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Parolele nu se potrivesc."
@@ -374,15 +383,15 @@ msgstr "Co_nectează"
 msgid "Slide up to unlock"
 msgstr "Trage în sus pentru a debloca"
 
-#: src/ui/lockscreen.ui:309
+#: src/ui/lockscreen.ui:315
 msgid "Emergency"
 msgstr "Urgență"
 
-#: src/ui/lockscreen.ui:325
+#: src/ui/lockscreen.ui:331
 msgid "Unlock"
 msgstr "Deblocare"
 
-#: src/ui/lockscreen.ui:365
+#: src/ui/lockscreen.ui:371
 msgid "Back"
 msgstr "Înapoi"
 
@@ -405,10 +414,6 @@ msgstr "Autentificare"
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Execută comanda"
-
-#: src/ui/run-command-dialog.ui:26
-msgid "Press ESC to close"
-msgstr "Apasă ESC pentru a închide"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
