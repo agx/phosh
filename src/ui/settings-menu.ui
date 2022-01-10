@@ -284,6 +284,9 @@
                         <property name="name">phosh-notifications-clear-all-btn</property>
                       </object>
                     </child>
+                    <style>
+                      <class name="phosh-notifications-header"/>
+                    </style>
                   </object>
                 </child>
                 <child>
