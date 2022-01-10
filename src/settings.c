@@ -415,6 +415,8 @@ vol_adjustment_value_changed_cb (GtkAdjustment *adjustment,
   g_return_if_fail (self->output_stream);
   if (gvc_mixer_stream_set_volume (self->output_stream, (pa_volume_t) rounded) != FALSE)
     gvc_mixer_stream_push_volume (self->output_stream);
+
+  gvc_mixer_stream_change_is_muted (self->output_stream, (int) rounded == 0);
 }
 
 
