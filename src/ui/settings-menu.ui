@@ -281,6 +281,7 @@
                         <property name="visible">True</property>
                         <property name="label">Clear all</property>
                         <signal name="clicked" handler="on_notifications_clear_all_clicked" object="PhoshSettings" swapped="yes"/>
+                        <property name="name">phosh-notifications-clear-all-btn</property>
                       </object>
                     </child>
                   </object>
