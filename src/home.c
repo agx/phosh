@@ -271,7 +271,7 @@ add_keybindings (PhoshHome *self)
 
   overview_bindings = g_settings_get_strv (settings, KEYBINDING_KEY_TOGGLE_OVERVIEW);
   for (int i = 0; i < g_strv_length (overview_bindings); i++) {
-    GActionEntry entry = { overview_bindings[i], toggle_overview_action, NULL, NULL, NULL, { 0 } };
+    GActionEntry entry = { .name = overview_bindings[i], .activate = toggle_overview_action };
     g_array_append_val (actions, entry);
     g_ptr_array_add (action_names, overview_bindings[i]);
   }
@@ -280,7 +280,7 @@ add_keybindings (PhoshHome *self)
 
   app_view_bindings = g_settings_get_strv (settings, KEYBINDING_KEY_TOGGLE_APPLICATION_VIEW);
   for (int i = 0; i < g_strv_length (app_view_bindings); i++) {
-    GActionEntry entry = { app_view_bindings[i], toggle_application_view_action, NULL, NULL, NULL, { 0 } };
+    GActionEntry entry = { .name = app_view_bindings[i], .activate = toggle_application_view_action };
     g_array_append_val (actions, entry);
     g_ptr_array_add (action_names, app_view_bindings[i]);
   }

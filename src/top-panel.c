@@ -292,7 +292,7 @@ add_keybindings (PhoshTopPanel *self)
 
   keybindings = g_settings_get_strv (self->kb_settings, KEYBINDING_KEY_TOGGLE_MESSAGE_TRAY);
   for (int i = 0; i < g_strv_length (keybindings); i++) {
-    GActionEntry entry = { keybindings[i], toggle_message_tray_action, NULL, NULL, NULL, { 0 } };
+    GActionEntry entry = { .name = keybindings[i], .activate = toggle_message_tray_action };
     g_array_append_val (actions, entry);
     g_ptr_array_add (action_names, keybindings[i]);
   }
@@ -323,10 +323,10 @@ on_keybindings_changed (PhoshTopPanel *self,
 
 
 static GActionEntry entries[] = {
-  { "poweroff", on_shutdown_action, NULL, NULL, NULL, { 0 } },
-  { "restart", on_restart_action, NULL, NULL, NULL, { 0 } },
-  { "lockscreen", on_lockscreen_action, NULL, NULL, NULL, { 0 } },
-  { "logout", on_logout_action, NULL, NULL, NULL, { 0 } },
+  { .name = "poweroff", .activate = on_shutdown_action },
+  { .name = "restart", .activate = on_restart_action },
+  { .name = "lockscreen", .activate = on_lockscreen_action },
+  { .name = "logout", .activate = on_logout_action },
 };
 
 
