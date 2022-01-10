@@ -188,23 +188,37 @@ phosh-app-grid-button image {
   outline-style: none;
 }
 
+
 /*
  * Lock screen
  */
-phosh-lockscreen, .phosh-lockshield {
+phosh-lockscreen,
+.phosh-lockshield {
   background-color: @phosh_bg_color;
+  color: @phosh_fg_color;
 }
 
 .phosh-lockscreen-clock {
   font-size: 72px;
-  font-weight: 100;
+  font-weight: 300;
   font-feature-settings: "tnum";
+  margin: 12px 0;
+}
+
+.phosh-lockscreen-date {
+  font-size: 18px;
+  margin: 6px 0;
+  font-weight: 400;
 }
 
 .phosh-lockscreen-arrow {
   transition: 400ms linear;
   animation: pulsate 1.8s ease-out;
   animation-iteration-count: 15;
+}
+
+.phosh-lockscreen-status-icons {
+  padding: 6px;
 }
 
 .phosh-lockscreen-pin {
