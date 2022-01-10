@@ -107,6 +107,9 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
+                        <style>
+                          <class name="phosh-lockscreen-date"/>
+                        </style>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -189,6 +192,9 @@
                             <property name="position">3</property>
                           </packing>
                         </child>
+                        <style>
+                          <class name="phosh-lockscreen-status-icons"/>
+                        </style>
                       </object>
                       <packing>
                         <property name="expand">False</property>
