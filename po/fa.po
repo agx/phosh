@@ -1,21 +1,21 @@
 # Persian translation for phosh.
 # Copyright (C) 2020 phosh's COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
-# Danial Behzadi <dani.behzi@ubuntu.com>, 2020.
+# Danial Behzadi <dani.behzi@ubuntu.com>, 2020-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-08-03 09:16+0000\n"
-"PO-Revision-Date: 2021-09-01 18:16+0430\n"
+"POT-Creation-Date: 2021-12-23 22:20+0000\n"
+"PO-Revision-Date: 2022-01-11 18:03+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -25,15 +25,23 @@ msgstr "فوش"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr "پوستهٔ همراه"
+msgstr "پوستهٔ تلفن"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "مدیریت پنجره‌ها و اجرا کنندهٔ برنامه‌ها برای تلفن همراه"
 
-#: src/app-grid-button.c:536
+#: src/app-grid-button.c:503
 msgid "Application"
 msgstr "برنامه"
+
+#: src/app-grid.c:133
+msgid "Show All Apps"
+msgstr "نمایش تمامی کاره‌ها"
+
+#: src/app-grid.c:136
+msgid "Show Only Mobile Friendly Apps"
+msgstr "فقط نمایش کاره‌های سازگار با تلفن همراه"
 
 #: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
@@ -62,7 +70,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 msgstr[1] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "خاموش کردن"
 
@@ -73,7 +81,7 @@ msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "سامانه پس از %Id ثانیه به طور خودکار خاموش می‌شود."
 msgstr[1] "سامانه پس از %Id ثانیه به طور خودکار خاموش می‌شود."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
 msgstr "راه‌اندازی دوباره"
 
@@ -119,42 +127,42 @@ msgstr "بله"
 msgid "No"
 msgstr "نه"
 
-#: src/lockscreen.c:152 src/ui/lockscreen.ui:239
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:265
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:335
+#: src/lockscreen.c:350
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:413
+#: src/lockscreen.c:428
 msgid "%A, %B %-e"
 msgstr "%A، %Od %OB"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:279 src/ui/media-player.ui:107
+#: src/media-player.c:322 src/ui/media-player.ui:179
 msgid "Unknown Title"
 msgstr "عنوان ناشناخته"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:288 src/ui/media-player.ui:127
+#: src/media-player.c:330 src/ui/media-player.ui:162
 msgid "Unknown Artist"
 msgstr "هنرمند ناشناخته"
 
-#: src/monitor-manager.c:114
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "نمایشگر توکار"
 
-#: src/monitor-manager.c:132
+#: src/monitor-manager.c:137
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:139
+#: src/monitor-manager.c:144
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -163,7 +171,7 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:148
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "ناشناخته"
 
@@ -277,9 +285,9 @@ msgstr "%s%Id%s"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "گفت‌وگوی تأیید هویت از سمت کاربر رد شد"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
-#: src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "گذرواژه:"
 
@@ -301,11 +309,20 @@ msgstr "افقی"
 msgid "Off"
 msgstr "خاموش"
 
-#: src/system-prompt.c:364
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "برای بستن، گریز را بزنید"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "اجرای «%s» شکست خورد"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "گذرواژه‌های مطابق نیستند."
 
-#: src/system-prompt.c:371
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
 msgstr "گذرواژه نمی‌تواند خالی باشد"
 
@@ -313,71 +330,67 @@ msgstr "گذرواژه نمی‌تواند خالی باشد"
 msgid "Torch"
 msgstr "مشعل"
 
-#: src/ui/app-auth-prompt.ui:41
+#: src/ui/app-auth-prompt.ui:40
 msgid "Remember decision"
 msgstr "به‌خاطر سپردن تصمیم"
 
-#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "لغو"
 
-#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "قبول"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "کاره"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
 msgstr "برداشتن از _محبوب‌ها"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
 msgstr "افزودن به _محبوب‌ها"
 
-#: src/ui/app-grid.ui:22
+#: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "جست‌وجوی کاره‌ها…"
 
-#: src/ui/app-grid.ui:169
-msgid "Show only adaptive apps"
-msgstr "نماشی فقط کاره‌های واکنش‌پذیر"
-
-#: src/ui/end-session-dialog.ui:32
+#: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
 msgstr "برخی برنامه‌ها مشغول بوده یا کار ذخیره نشده دارند"
 
-#: src/ui/gtk-mount-prompt.ui:95
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "کاربر:"
 
-#: src/ui/gtk-mount-prompt.ui:118
+#: src/ui/gtk-mount-prompt.ui:117
 msgid "Domain:"
 msgstr "دامنه:"
 
-#: src/ui/gtk-mount-prompt.ui:151
+#: src/ui/gtk-mount-prompt.ui:150
 msgid "Co_nnect"
 msgstr "اتّ_صال"
 
-#: src/ui/lockscreen.ui:43
+#: src/ui/lockscreen.ui:42
 msgid "Slide up to unlock"
 msgstr "برای قفل‌گشایی، بالا بکشید"
 
-#: src/ui/lockscreen.ui:285
+#: src/ui/lockscreen.ui:315
 msgid "Emergency"
 msgstr "اضطراری"
 
-#: src/ui/lockscreen.ui:301
+#: src/ui/lockscreen.ui:331
 msgid "Unlock"
 msgstr "قفل‌گشایی"
 
-#: src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:371
 msgid "Back"
 msgstr "بازگشت"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "نیاز به تأیید هویت است"
 
@@ -389,19 +402,23 @@ msgstr "_لغو"
 msgid "C_onnect"
 msgstr "_وصل شدن"
 
-#: src/ui/polkit-auth-prompt.ui:123
+#: src/ui/polkit-auth-prompt.ui:122
 msgid "Authenticate"
 msgstr "تأیید هویت"
 
-#: src/ui/system-prompt.ui:63
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "اجرای فرمان"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "تأیید:"
 
-#: src/ui/top-panel.ui:16
+#: src/ui/top-panel.ui:15
 msgid "Lock Screen"
 msgstr "قفل کردن صفحه"
 
-#: src/ui/top-panel.ui:23
+#: src/ui/top-panel.ui:22
 msgid "Logout"
 msgstr "خروج"
 
@@ -413,6 +430,9 @@ msgstr "وای‌فای"
 #: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "سلولی"
+
+#~ msgid "Show only adaptive apps"
+#~ msgstr "نماشی فقط کاره‌های واکنش‌پذیر"
 
 #~ msgid "Suspend"
 #~ msgstr "تعلیق"
