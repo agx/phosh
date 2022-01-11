@@ -549,7 +549,7 @@ gvc_channel_bar_new (void)
   GObject *self;
   self = g_object_new (GVC_TYPE_CHANNEL_BAR,
                        "orientation", GTK_ORIENTATION_HORIZONTAL,
-                       "icon-name", "audio-volume-high-symbolic",
+                       "icon-name", "audio-speakers-symbolic",
                        NULL);
   return GTK_WIDGET (self);
 }

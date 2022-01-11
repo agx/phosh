@@ -142,6 +142,9 @@
                 <property name="icon_name">audio-x-generic-symbolic</property>
                 <property name="pixel_size">48</property>
                 <property name="valign">center</property>
+                <style>
+                  <class name="phosh-media-player-art"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
