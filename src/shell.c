@@ -53,6 +53,7 @@
 #include "mount-manager.h"
 #include "settings.h"
 #include "system-modal-dialog.h"
+#include "network-auth-manager.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-banner.h"
 #include "osk-manager.h"
@@ -145,6 +146,7 @@ typedef struct
   PhoshGnomeShellManager *gnome_shell_manager;
   PhoshSplashManager *splash_manager;
   PhoshRunCommandManager *run_command_manager;
+  PhoshNetworkAuthManager *network_auth_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -357,6 +359,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->notification_banner);
 
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->network_auth_manager);
   g_clear_object (&priv->run_command_manager);
   g_clear_object (&priv->splash_manager);
   g_clear_object (&priv->screenshot_manager);
@@ -566,6 +569,7 @@ setup_idle_cb (PhoshShell *self)
   priv->screenshot_manager = phosh_screenshot_manager_new ();
   priv->splash_manager = phosh_splash_manager_new (priv->app_tracker);
   priv->run_command_manager = phosh_run_command_manager_new();
+  priv->network_auth_manager = phosh_network_auth_manager_new ();
 
   /* Delay signaling the compositor a bit so that idle handlers get a
    * chance to run and the user has can unlock right away. Ideally

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <template class="PhoshNetworkAuthPrompt" parent="PhoshSystemModalDialog">
-    <signal name="key-press-event" handler="network_prompt_key_press_event_cb"/>
     <signal name="dialog-canceled" handler="on_dialog_canceled"/>
     <property name="title" translatable="yes">Authentication required</property>
     <child type="phosh-dialog-content">
@@ -72,7 +71,7 @@
     </style>
   </template>
 
-  <!-- Grid to be shown for WEP/WPA passwords -->
+  <!-- Grid for for WEP/WPA passwords -->
   <object class="GtkGrid" id="wpa_grid">
     <property name="visible">1</property>
     <property name="column-spacing">12</property>
@@ -110,6 +109,12 @@
         <property name="top-attach">0</property>
       </packing>
     </child>
+  </object>
+
+  <!-- Grid for VPN credentials -->
+  <object class="GtkGrid" id="vpn_grid">
+    <property name="visible">1</property>
+    <property name="column-spacing">12</property>
   </object>
 
   <object class="GcrSecureEntryBuffer" id="username_buffer"/>

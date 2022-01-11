@@ -396,14 +396,17 @@ prompt_complete (PhoshSystemPrompt *self)
 static void
 prompt_cancel (PhoshSystemPrompt *self)
 {
-  PhoshSystemPromptPrivate *priv = phosh_system_prompt_get_instance_private (self);
+  PhoshSystemPromptPrivate *priv;
   GTask *res;
   PromptingMode mode;
 
-  g_debug ("Canceling system password prompt: %s", __func__);
   g_return_if_fail (PHOSH_IS_SYSTEM_PROMPT (self));
+
+  priv = phosh_system_prompt_get_instance_private (self);
+  g_debug ("Canceling system password prompt for task %p", priv->task);
+
   /*
-   * If cancelled while not prompting, we should just close the prompt,
+   * If canceled while not prompting, we should just close the prompt,
    * the user wants it to go away.
    */
   if (priv->mode == PROMPTING_NONE) {

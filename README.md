@@ -41,7 +41,7 @@ ninja -C _build
 To run the tests run
 
 ```sh
-xvfb-run meson test --no-suite manual -C _build
+xvfb-run meson test --no-suite screenshots -C _build
 ```
 
 For details see the *.gitlab-ci.yml* file.

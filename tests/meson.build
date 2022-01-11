@@ -181,7 +181,7 @@ if run_phoc_tests
     lang_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
     test('screenshots-@0@'.format(lang), t,
        env: lang_env,
-       suite: ['manual'])
+       suite: ['screenshots'])
   endforeach
 
 endif

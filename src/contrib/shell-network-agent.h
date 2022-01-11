@@ -47,6 +47,10 @@ struct _ShellNetworkAgentClass
 /* used by SHELL_TYPE_NETWORK_AGENT */
 GType shell_network_agent_get_type (void);
 
+void               shell_network_agent_add_vpn_secret (ShellNetworkAgent *self,
+                                                       gchar             *request_id,
+                                                       gchar             *setting_key,
+                                                       gchar             *setting_value);
 void               shell_network_agent_set_password (ShellNetworkAgent *self,
                                                      char              *request_id,
                                                      char              *setting_key,
@@ -54,6 +58,14 @@ void               shell_network_agent_set_password (ShellNetworkAgent *self,
 void               shell_network_agent_respond      (ShellNetworkAgent *self,
                                                      char              *request_id,
                                                      ShellNetworkAgentResponse response);
+
+void               shell_network_agent_search_vpn_plugin (ShellNetworkAgent   *self,
+                                                          const char          *service,
+                                                          GAsyncReadyCallback  callback,
+                                                          gpointer             user_data);
+NMVpnPluginInfo   *shell_network_agent_search_vpn_plugin_finish (ShellNetworkAgent  *self,
+                                                                 GAsyncResult       *result,
+                                                                 GError            **error);
 
 /* If these are kept in sync with nm-applet, secrets will be shared */
 #define SHELL_KEYRING_UUID_TAG "connection-uuid"
