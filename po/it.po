@@ -2,14 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
 # Ant Pandolfo <ant.pandolfo@gmail.com>, 2018.
-# antpanlinux <ant.pandolfo@gmail.com>, 2019. #zanata-2021.
+# antpanlinux <ant.pandolfo@gmail.com>, 2019. #zanata-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-08-17 15:27+0000\n"
-"PO-Revision-Date: 2021-08-13 17:55+0200\n"
+"POT-Creation-Date: 2021-12-23 22:20+0000\n"
+"PO-Revision-Date: 2022-01-10 16:50+0100\n"
 "Last-Translator: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language-Team: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language: it\n"
@@ -32,9 +32,17 @@ msgstr "Shell del telefono"
 msgid "Window management and application launching for mobile"
 msgstr "Gestore di finestre e avviatore di applicazioni per cellulare"
 
-#: src/app-grid-button.c:536
+#: src/app-grid-button.c:503
 msgid "Application"
 msgstr "Applicazione"
+
+#: src/app-grid.c:133
+msgid "Show All Apps"
+msgstr "Mostra tutte le app"
+
+#: src/app-grid.c:136
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Mostra solo le app per cellulari"
 
 #: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
@@ -63,7 +71,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s verrà disconnesso automaticamente tra %d secondo."
 msgstr[1] "%s verrà disconnesso automaticamente tra %d secondi."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Spegni"
 
@@ -74,7 +82,7 @@ msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Il sistema si spegnerà automaticamente tra %d secondo."
 msgstr[1] "Il sistema si spegnerà automaticamente tra %d secondi."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
 msgstr "Riavvia"
 
@@ -120,42 +128,42 @@ msgstr "Sì"
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:157 src/ui/lockscreen.ui:267
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:265
 msgid "Enter Passcode"
 msgstr "Inserire la password"
 
-#: src/lockscreen.c:340
+#: src/lockscreen.c:350
 msgid "Checking…"
 msgstr "Sto controllando…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:418
+#: src/lockscreen.c:428
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:280 src/ui/media-player.ui:120
+#: src/media-player.c:322 src/ui/media-player.ui:179
 msgid "Unknown Title"
 msgstr "Titolo sconosciuto"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:289 src/ui/media-player.ui:103
+#: src/media-player.c:330 src/ui/media-player.ui:162
 msgid "Unknown Artist"
 msgstr "Artista sconosciuto"
 
-#: src/monitor-manager.c:114
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "Schermo integrato"
 
-#: src/monitor-manager.c:132
+#: src/monitor-manager.c:137
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:139
+#: src/monitor-manager.c:144
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -164,7 +172,7 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:148
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Sconosciuto"
 
@@ -278,9 +286,9 @@ msgstr "%s%d%s"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "La finestra di autenticazione è stata chiusa dall'utente"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
-#: src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Password:"
 
@@ -302,11 +310,20 @@ msgstr "Orizzontale"
 msgid "Off"
 msgstr "Inattivo"
 
-#: src/system-prompt.c:364
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Premere ESC per chiudere"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "Esecuzione di '%s' fallita"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Le password non corrispondono"
 
-#: src/system-prompt.c:371
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
 msgstr "La password non può essere vuota"
 
@@ -314,71 +331,67 @@ msgstr "La password non può essere vuota"
 msgid "Torch"
 msgstr "Torcia"
 
-#: src/ui/app-auth-prompt.ui:41
+#: src/ui/app-auth-prompt.ui:40
 msgid "Remember decision"
 msgstr "Ricorda la decisione"
 
-#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "Annulla"
 
-#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "Ok"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "App"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
 msgstr "Rimuovi dai _Preferiti"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
 msgstr "Aggiungi ai _Preferiti"
 
-#: src/ui/app-grid.ui:22
+#: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Ricerca app…"
 
-#: src/ui/app-grid.ui:169
-msgid "Show only adaptive apps"
-msgstr "Mostra solo le app adattive"
-
-#: src/ui/end-session-dialog.ui:32
+#: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
 msgstr "Alcune applicazioni sono occupate o hanno del lavoro non salvato"
 
-#: src/ui/gtk-mount-prompt.ui:95
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Utente:"
 
-#: src/ui/gtk-mount-prompt.ui:118
+#: src/ui/gtk-mount-prompt.ui:117
 msgid "Domain:"
 msgstr "Dominio:"
 
-#: src/ui/gtk-mount-prompt.ui:151
+#: src/ui/gtk-mount-prompt.ui:150
 msgid "Co_nnect"
 msgstr "Co_nnetti"
 
-#: src/ui/lockscreen.ui:43
+#: src/ui/lockscreen.ui:42
 msgid "Slide up to unlock"
 msgstr "Scorri verso l'alto per sbloccare"
 
-#: src/ui/lockscreen.ui:313
+#: src/ui/lockscreen.ui:315
 msgid "Emergency"
 msgstr "Emergenza"
 
-#: src/ui/lockscreen.ui:329
+#: src/ui/lockscreen.ui:331
 msgid "Unlock"
 msgstr "Sblocca"
 
-#: src/ui/lockscreen.ui:369
+#: src/ui/lockscreen.ui:371
 msgid "Back"
 msgstr "Indietro"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Autenticazione richiesta"
 
@@ -390,19 +403,23 @@ msgstr "_Annulla"
 msgid "C_onnect"
 msgstr "C_onnetti"
 
-#: src/ui/polkit-auth-prompt.ui:123
+#: src/ui/polkit-auth-prompt.ui:122
 msgid "Authenticate"
 msgstr "Autenticazione"
 
-#: src/ui/system-prompt.ui:63
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Esegui comando"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Conferma:"
 
-#: src/ui/top-panel.ui:16
+#: src/ui/top-panel.ui:15
 msgid "Lock Screen"
 msgstr "Blocca schermo"
 
-#: src/ui/top-panel.ui:23
+#: src/ui/top-panel.ui:22
 msgid "Logout"
 msgstr "Esci"
 
