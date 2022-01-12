@@ -25,6 +25,7 @@
 #include "session-manager.h"
 #include "toplevel-manager.h"
 #include "torch-manager.h"
+#include "vpn-manager.h"
 #include "wifimanager.h"
 #include "wwan/phosh-wwan-iface.h"
 
@@ -107,6 +108,7 @@ PhoshLocationManager   *phosh_shell_get_location_manager   (PhoshShell *self);
 PhoshOskManager        *phosh_shell_get_osk_manager        (PhoshShell *self);
 PhoshRotationManager   *phosh_shell_get_rotation_manager   (PhoshShell *self);
 PhoshTorchManager      *phosh_shell_get_torch_manager      (PhoshShell *self);
+PhoshVpnManager        *phosh_shell_get_vpn_manager        (PhoshShell *self);
 PhoshWifiManager       *phosh_shell_get_wifi_manager       (PhoshShell *self);
 PhoshWWan              *phosh_shell_get_wwan               (PhoshShell *self);
 

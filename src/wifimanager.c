@@ -174,16 +174,6 @@ update_state (PhoshWifiManager *self)
 
 
 static void
-phosh_wifi_manager_set_property (GObject *object,
-                                 guint property_id,
-                                 const GValue *value,
-                                 GParamSpec *pspec)
-{
-  G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-
-static void
 phosh_wifi_manager_get_property (GObject *object,
                                  guint property_id,
                                  GValue *value,
@@ -533,7 +523,6 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
   object_class->constructed = phosh_wifi_manager_constructed;
   object_class->dispose = phosh_wifi_manager_dispose;
 
-  object_class->set_property = phosh_wifi_manager_set_property;
   object_class->get_property = phosh_wifi_manager_get_property;
 
   props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME] =

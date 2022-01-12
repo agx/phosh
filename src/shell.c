@@ -75,6 +75,7 @@
 #include "torch-manager.h"
 #include "torch-info.h"
 #include "util.h"
+#include "vpn-info.h"
 #include "wifiinfo.h"
 #include "wwaninfo.h"
 #include "wwan/phosh-wwan-ofono.h"
@@ -147,6 +148,7 @@ typedef struct
   PhoshSplashManager *splash_manager;
   PhoshRunCommandManager *run_command_manager;
   PhoshNetworkAuthManager *network_auth_manager;
+  PhoshVpnManager *vpn_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -359,6 +361,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->notification_banner);
 
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->vpn_manager);
   g_clear_object (&priv->network_auth_manager);
   g_clear_object (&priv->run_command_manager);
   g_clear_object (&priv->splash_manager);
@@ -602,6 +605,7 @@ type_setup (void)
   g_type_ensure (PHOSH_TYPE_SYSTEM_MODAL);
   g_type_ensure (PHOSH_TYPE_SYSTEM_MODAL_DIALOG);
   g_type_ensure (PHOSH_TYPE_TORCH_INFO);
+  g_type_ensure (PHOSH_TYPE_VPN_INFO);
   g_type_ensure (PHOSH_TYPE_WIFI_INFO);
   g_type_ensure (PHOSH_TYPE_WWAN_INFO);
 }
@@ -1259,6 +1263,22 @@ phosh_shell_get_torch_manager (PhoshShell *self)
 
   g_return_val_if_fail (PHOSH_IS_TORCH_MANAGER (priv->torch_manager), NULL);
   return priv->torch_manager;
+}
+
+
+PhoshVpnManager *
+phosh_shell_get_vpn_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->vpn_manager)
+      priv->vpn_manager = phosh_vpn_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_VPN_MANAGER (priv->vpn_manager), NULL);
+  return priv->vpn_manager;
 }
 
 
