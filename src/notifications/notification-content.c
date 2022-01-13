@@ -315,7 +315,7 @@ action_activate (GSimpleAction *action,
 
 
 static GActionEntry entries[] = {
-  { "activate", action_activate, "s", NULL, NULL, { 0 } },
+  { .name = "activate", .activate = action_activate, .parameter_type = "s" },
 };
 
 
