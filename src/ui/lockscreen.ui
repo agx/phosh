@@ -412,6 +412,7 @@
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <property name="focus_on_click">False</property>
+    <signal name="clicked" handler="osk_button_clicked_cb" object="PhoshLockscreen" swapped="true"/>
   </object>
   <object class="GtkGestureLongPress" id="long_press_del_gesture">
     <property name="widget">btn_delete</property>
