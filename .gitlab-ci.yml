@@ -1,5 +1,6 @@
 include:
  - remote: 'https://source.puri.sm/Librem5/librem5-ci/raw/master/librem5-pipeline-definitions.yml'
+ - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/34039cd573a2df832d465bc9e4c5f543571f5241/templates/ci-fairy.yml'
 
 stages:
  - build
@@ -22,6 +23,8 @@ default:
       - 'stuck_or_timeout_failure'
 
 variables:
+  # For ci-fairy
+  FDO_UPSTREAM_REPO: World/Phosh/phosh
   # SCREENSHOT_IMAGE builds on DEBIAN_IMAGE so keep them in sync
   DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20211208
   SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20211208
@@ -50,6 +53,24 @@ variables:
     - export LC_ALL=C.UTF-8
     - ${XVFB_RUN} meson test --print-errorlogs -C _build
     - ninja -C _build coverage
+
+# Sanity checks of MR settings and commit logs
+sanity:
+  extends:
+    - .fdo.ci-fairy
+  stage: build
+  script: |
+    if [ -n "$CI_OPEN_MERGE_REQUESTS" ]; then
+      ci-fairy check-commits --junit-xml=commit-message-junit-report.xml cifairy/main..HEAD ;
+    else
+      echo "Not a merge request" ;
+    fi
+  artifacts:
+    reports:
+      junit: commit-message-junit-report.xml
+  only:
+    variables:
+      - $CI_OPEN_MERGE_REQUESTS && $PKG_ONLY != "1"
 
 build:native-debian-bookworm:
   stage: build
