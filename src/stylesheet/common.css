@@ -126,6 +126,7 @@ phosh-home, phosh-top-panel {
   -gtk-icon-effect: highlight;
 }
 
+/* Search Bar */
 .phosh-search-bar-box {
   margin: 6px 16px;
 }
@@ -133,6 +134,13 @@ phosh-home, phosh-top-panel {
 .phosh-search-bar {
   border-radius: 9999px;
   padding: 3px 18px 3px 14px;
+  border: 1px solid transparent;
+}
+
+.phosh-search-bar:focus {
+  box-shadow: inset 0 0 0 1px @theme_selected_bg_color;
+  outline: none;
+  border: 1px solid @theme_selected_bg_color;
 }
 
 .phosh-menu-button {
