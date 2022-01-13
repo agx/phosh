@@ -259,7 +259,6 @@ action_activated (GSimpleAction *action,
   PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (data);
   PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
   g_autoptr (GdkAppLaunchContext) context = NULL;
-  g_autoptr (GError) error = NULL;
   const char *action_name;
 
   action_name = g_variant_get_string (parameter, NULL);
