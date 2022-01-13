@@ -54,6 +54,7 @@ typedef struct
   GtkWidget *revealer;
   GtkWidget *btn_close;
   GtkWidget *preview;
+  GtkWidget *button;
 
   gboolean maximized;
   int win_width;
@@ -460,6 +461,29 @@ phosh_activity_motion_notify_event (GtkWidget      *widget,
 }
 
 
+static gboolean
+phosh_activity_key_press_event (GtkWidget *self, GdkEventKey *event)
+{
+  gboolean handled = FALSE;
+  PhoshActivityPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_ACTIVITY (self), FALSE);
+  priv = phosh_activity_get_instance_private (PHOSH_ACTIVITY (self));
+
+  switch (event->keyval) {
+  case GDK_KEY_Return:
+    gtk_button_clicked (GTK_BUTTON (priv->button));
+    handled = TRUE;
+    break;
+  default:
+    /* nothing to do */
+    break;
+  }
+
+  return handled;
+}
+
+
 static void
 phosh_activity_unmap (GtkWidget *widget)
 {
@@ -489,6 +513,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   widget_class->enter_notify_event = phosh_activity_enter_notify_event;
   widget_class->leave_notify_event = phosh_activity_leave_notify_event;
   widget_class->motion_notify_event = phosh_activity_motion_notify_event;
+  widget_class->key_press_event = phosh_activity_key_press_event;
   widget_class->unmap = phosh_activity_unmap;
 
   props[PROP_APP_ID] =
@@ -543,6 +568,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/activity.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, btn_close);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, button);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, preview);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, swipe_bin);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, icon);

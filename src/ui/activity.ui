@@ -11,7 +11,7 @@
         <property name="orientation">vertical</property>
         <signal name="removed" handler="removed_cb" swapped="true"/>
         <child>
-          <object class="GtkButton">
+          <object class="GtkButton" id="button">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <signal name="clicked" handler="clicked_cb" swapped="true"/>
