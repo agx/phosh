@@ -587,6 +587,12 @@ phosh-splash.dark {
  * GTK Overrides
  */
 
+/* Scrollbars */
+scrollbar {
+  background-color: transparent;
+  border: none;
+}
+
 /* Sliders  */
 scale trough {
   padding: 1px;
