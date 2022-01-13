@@ -304,19 +304,21 @@ phosh-lockscreen cui-call-display actionbar {
   background-color: @phosh_bg_color;
 }
 
+
 /*
  * System modal dialogs (polkit, gcr, ...)
  */
 .phosh-system-modal {
-  background-color: alpha(@theme_bg_color, 0.7);
+  background-color: alpha(@phosh_bg_color, 0.8);
 }
 
 .phosh-system-modal-dialog {
   background-color: @theme_bg_color;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 0 0 1px alpha(black, .75);
+  border: 1px solid @borders;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
   padding: 0px;
+  margin: 12px;
 }
 
 .phosh-system-modal-dialog-buttons label {
