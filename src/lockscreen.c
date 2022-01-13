@@ -493,6 +493,7 @@ carousel_position_notified_cb (PhoshLockscreen *self,
   position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
 
   if (position <= POS_OVERVIEW) {
+    phosh_osk_manager_set_visible  (phosh_shell_get_osk_manager (phosh_shell_get_default ()), FALSE);
     clear_input (self, TRUE);
     return;
   }
