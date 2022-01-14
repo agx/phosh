@@ -4,10 +4,16 @@
 @define-color phosh_bg_color white;
 
 @define-color phosh_activity_bg_color #e5e5e5;
-@define-color phosh_button_bg_color #e0e0e0;
 @define-color phosh_notification_bg_color #e0e0e0;
 @define-color phosh_splash_bg_color @theme_bg_color;
 @define-color phosh_splash_fg_color @theme_fg_color;
+
+
+/* Button Colors */
+@define-color phosh_button_bg_color #e0e0e0;
+@define-color phosh_button_active_bg_color shade(@phosh_button_bg_color, 0.9);
+@define-color phosh_button_hover_bg_color shade(@phosh_button_bg_color, 1.1);
+
 
 @import url("resource:///sm/puri/phosh/stylesheet/common.css");
 

@@ -48,11 +48,6 @@ phosh-top-panel .indicators {
   border: 2px solid @theme_bg_color;
 }
 
-.phosh-notification-tray, .phosh-notification-tray list {
-  border-radius: 6px;
-  background-color: @phosh_notification_bg_color;
-}
-
 .phosh-quick-setting {
   font-size: 9px;
   padding: 9px;
@@ -233,6 +228,19 @@ phosh-lockscreen,
 
 .phosh-lockscreen-pin {
   font-size: 20px;
+  padding: 6px;
+  border-radius: 12px;
+  color: inherit;
+  border: none;
+  box-shadow:none;
+  outline: none;
+}
+
+.phosh-lockscreen-pin:focus {
+  border: none;
+  box-shadow:none;
+  outline: none;
+  caret-color: transparent;
 }
 
 @keyframes pulsate {
@@ -255,20 +263,28 @@ phosh-keypad button {
   font-size: 16px;
   font-weight: bold;
   padding: 16px;
-  border: 0;
+  border: 1px solid transparent;
+  color: inherit;
   box-shadow: none;
-  background: 0;
+  background: none;
 }
 
-phosh-keypad button:active {
-  background: rgba(255, 255, 255, 0.3);
+phosh-keypad button:disabled {
+  opacity: 0.5;
 }
 
-.text-only-button:active {
-  background: rgba(255, 255, 255, 0.5);
+phosh-keypad button:hover,
+phosh-keypad button:focus:hover {
+  background: alpha(@phosh_fg_color,.2);
 }
 
-phosh-keypad button:focus, .text-only-button:focus {
+phosh-keypad button:active,
+phosh-keypad button:focus:active {
+  background: alpha(@phosh_fg_color,.15);
+}
+
+phosh-keypad button:focus {
+  background: alpha(@phosh_fg_color,.1);
   outline-style: none;
 }
 
@@ -276,44 +292,36 @@ phosh-keypad button:focus, .text-only-button:focus {
   font-size: 16px;
   font-weight: bold;
   padding: 16px 36px;
-  border: 0;
+  border: 1px solid transparent;
   box-shadow: none;
-  background: rgba(255, 255, 255, 0.3);
+  color: inherit;
+  background: alpha(@phosh_fg_color,.3);
+}
+ 
+.text-only-button:hover,
+.text-only-button:hover:focus {
+  background: alpha(@phosh_fg_color,.25);
 }
 
-phosh-lockscreen phosh-media-player {
-  margin-left: 12px;
-  margin-right: 12px;
+.text-only-button:focus {
+  background: alpha(@phosh_fg_color,.3);
+  box-shadow: inset 0 0 0 1px @theme_selected_bg_color;
+  outline-style: none;
+  border: 1px solid @theme_selected_bg_color;
 }
 
-phosh-lockscreen .phosh-notification-tray list {
-  background-color: @phosh_bg_color;
-}
-
-phosh-lockscreen .phosh-notification-tray row {
-  background-color: @phosh_bg_color;
-  margin-left: 12px;
-  margin-right: 12px;
-}
-
-phosh-lockscreen .phosh-notification-tray phosh-notification-frame .notification-container {
-  background-color: @phosh_notification_bg_color;
-  margin: 3px 0px 0px 0px;
-}
-
-phosh-lockscreen .phosh-notification-tray phosh-notification-content {
-  background-color: @phosh_notification_bg_color;
-}
-
-phosh-lockscreen .phosh-notification-tray phosh-notification-content:last-child {
-  margin-bottom: 3px;
-  border-radius: 0px 0px 6px 6px;
+.text-only-button:active,
+.text-only-button:focus:active {
+  background: alpha(@phosh_fg_color,.2);
 }
 
 phosh-lockscreen cui-call-display actionbar {
   background-color: @phosh_bg_color;
 }
 
+phosh-lockscreen .phosh-notification-tray {
+  margin: 0 6px;
+}
 
 /*
  * System modal dialogs (polkit, gcr, ...)
@@ -410,43 +418,63 @@ phosh-gtk-mount-prompt .phosh-system-modal-dialog-content > image {
   -gtk-icon-style: symbolic;
 }
 
+
+
 /*
  * Notifications
  */
+
 phosh-notification-content {
   background: transparent;
+  color: @phosh_fg_color;
+  padding: 0;
+  margin: 0;
 }
 
 phosh-notification-content .message-area {
-  padding: 9px 12px 12px 12px;
+  padding: 12px 12px 9px 12px;
 }
 
 phosh-notification-content .message-area image {
   border-radius: 50%;
 }
 
+/* Action Area (buttons) */
+phosh-notification-content .actions-area {
+  padding: 0;
+}
+
 phosh-notification-content .actions-area button {
+  background-image: none;
+  background-color: transparent;
   border-radius: 0;
   box-shadow: none;
   border-left: none;
   border-right: none;
+  text-shadow: none;
+  padding: 8px 12px;
+  -gtk-icon-shadow: none;
 }
 
-phosh-notification-content:last-child .actions-area button:last-child {
-  border-radius: 0 0 6px 6px;
-  border-bottom: none;
+phosh-notification-content .actions-area button:focus,
+phosh-notification-content .actions-area button:hover {
+  background-color: @phosh_button_hover_bg_color;
+  outline-style: none;
 }
 
-phosh-notification-frame .notification-container {
-  border-radius: 6px;
-  background-color: @phosh_notification_bg_color;
-  margin: 12px;
+phosh-notification-content .actions-area button:active {
+  background-color: @phosh_button_active_bg_color;
 }
 
-phosh-notification-banner .notification-container {
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.33),
-              0px 5px 6px 0px rgba(0, 0, 0, 0.07),
-              0px 0px 0px 1px rgba(0, 0, 0, 0.2);
+phosh-notification-content .actions-area button:last-child {
+  border-bottom-width: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+phosh-notification-frame {
+  margin: 0;
+  padding: 0;
 }
 
 phosh-notification-frame list {
@@ -455,16 +483,82 @@ phosh-notification-frame list {
 
 phosh-notification-frame .header-area {
   padding: 12px 12px 0 12px;
+  color: @phosh_fg_color;
 }
 
 phosh-notification-frame .header-area image {
   -gtk-icon-style: symbolic;
 }
 
-phosh-notification-banner {
+phosh-notification-frame .notification-container {
+  border-radius: 12px;
   border: none;
+  background-color: @phosh_notification_bg_color;
+  margin: 6px;
+  margin-bottom: 0;
+}
+
+
+/* Banner */
+phosh-notification-banner {
+  background: none;
+  border: none;
+  padding: 6px;
+}
+
+phosh-notification-banner > phosh-notification-frame {
+  padding: 0;
+}
+
+phosh-notification-banner .notification-container {
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.33),
+              0px 2px 4px 2px rgba(0, 0, 0, 0.07);
+}
+
+/* Notification Tray */
+.phosh-notification-tray,
+.phosh-notification-tray list {
   background: transparent;
-  padding: 12px;
+}
+
+.phosh-notification-tray list row {
+}
+
+.notification-container *:focus,
+.phosh-notification-tray list row:focus {
+  outline-style: none;
+}
+
+.phosh-notification-tray list row .notification-container {
+  border: 2px solid transparent;
+  margin:0;
+  margin-bottom:6px;
+}
+
+.phosh-notification-tray list row:focus .notification-container {
+  border-color: @theme_selected_bg_color;
+  outline-style: none;
+}
+
+.phosh-notifications-header {
+  padding:0;
+}
+
+/* Clear notifications button */
+#phosh-notifications-clear-all-btn {
+  border-radius: 99px;
+  border: 1px solid transparent;
+  background-color: @phosh_button_bg_color;
+}
+
+#phosh-notifications-clear-all-btn:hover {
+  background-color: @phosh_button_hover_bg_color;
+}
+
+#phosh-notifications-clear-all-btn:focus {
+  box-shadow: inset 0 0 0 1px @theme_selected_bg_color;
+  border: 1px solid @theme_selected_bg_color;
+  outline: none;
 }
 
 /*
