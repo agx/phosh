@@ -19,6 +19,7 @@
 #include "settings/gvc-channel-bar.h"
 #include "torch-info.h"
 #include "torch-manager.h"
+#include "vpn-manager.h"
 #include "wwan/phosh-wwan-mm.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
@@ -297,6 +298,30 @@ update_output_vol_bar (PhoshSettings *self)
   g_debug ("Adjusting volume to %d", gvc_mixer_stream_get_volume (self->output_stream));
   gtk_adjustment_set_value (adj, gvc_mixer_stream_get_volume (self->output_stream));
   self->setting_volume = FALSE;
+}
+
+
+static void
+on_vpn_setting_clicked (PhoshSettings *self)
+{
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshVpnManager *vpn_manager;
+
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+  g_return_if_fail (PHOSH_IS_SHELL (shell));
+
+  g_debug ("Toggling VPN connection");
+
+  vpn_manager = phosh_shell_get_vpn_manager (shell);
+  phosh_vpn_manager_toggle_last_connection (vpn_manager);
+}
+
+
+static void
+on_vpn_setting_long_pressed (PhoshSettings *self)
+{
+  phosh_quick_setting_open_settings_panel ("network");
+  close_settings_menu (self);
 }
 
 
@@ -690,8 +715,11 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, wifi_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, wwan_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, wwan_setting_long_pressed_cb);
-  gtk_widget_class_bind_template_callback (widget_class, on_torch_scale_value_changed);
   gtk_widget_class_bind_template_callback (widget_class, on_notifications_clear_all_clicked);
+  gtk_widget_class_bind_template_callback (widget_class, on_torch_scale_value_changed);
+  gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_long_pressed);
+  gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_clicked);
+
 }
 
 
