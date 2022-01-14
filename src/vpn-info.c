@@ -26,6 +26,7 @@
 
 enum {
   PROP_0,
+  PROP_PRESENT,
   PROP_ENABLED,
   PROP_LAST_PROP
 };
@@ -34,6 +35,7 @@ static GParamSpec *props[PROP_LAST_PROP];
 struct _PhoshVpnInfo {
   PhoshStatusIcon  parent;
 
+  gboolean         present;
   gboolean         enabled;
   PhoshVpnManager *vpn;
 };
@@ -48,6 +50,9 @@ phosh_vpn_info_get_property (GObject    *object,
   PhoshVpnInfo *self = PHOSH_VPN_INFO (object);
 
   switch (property_id) {
+  case PROP_PRESENT:
+    g_value_set_boolean (value, self->present);
+    break;
   case PROP_ENABLED:
     g_value_set_boolean (value, self->enabled);
     break;
@@ -72,6 +77,19 @@ update_icon (PhoshVpnInfo *self, GParamSpec *pspec, PhoshVpnManager *vpn)
 }
 
 static void
+update_info (PhoshVpnInfo *self)
+{
+  const char *info;
+  g_return_if_fail (PHOSH_IS_VPN_INFO (self));
+
+  info = phosh_vpn_manager_get_last_connection (self->vpn);
+  if (info)
+    phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), info);
+  else
+    phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("VPN"));
+}
+
+static void
 on_vpn_enabled (PhoshVpnInfo *self, GParamSpec *pspec, PhoshVpnManager *vpn)
 {
   gboolean enabled;
@@ -90,12 +108,36 @@ on_vpn_enabled (PhoshVpnInfo *self, GParamSpec *pspec, PhoshVpnManager *vpn)
 
 
 static void
+on_vpn_present (PhoshVpnInfo *self, GParamSpec *pspec, PhoshVpnManager *vpn)
+{
+  gboolean present;
+
+  g_return_if_fail (PHOSH_IS_VPN_INFO (self));
+  g_return_if_fail (PHOSH_IS_VPN_MANAGER (vpn));
+
+  present = phosh_vpn_manager_get_present (vpn);
+  g_debug ("Updating vpn status: %d", present);
+  if (self->present == present)
+    return;
+
+  self->present = present;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
+}
+
+static void
+on_vpn_last_con_changed (PhoshVpnInfo *self, GParamSpec *pspec, PhoshVpnManager *vpn)
+{
+  update_info (self);
+}
+
+static void
 phosh_vpn_info_idle_init (PhoshStatusIcon *icon)
 {
   PhoshVpnInfo *self = PHOSH_VPN_INFO (icon);
 
   update_icon (self, NULL, self->vpn);
   on_vpn_enabled (self, NULL, self->vpn);
+  update_info (self);
 }
 
 
@@ -122,11 +164,11 @@ phosh_vpn_info_constructed (GObject *object)
 
   /* We don't use a binding for self->enabled so we can keep
      the property r/o */
-  g_signal_connect_swapped (self->vpn,
-                            "notify::enabled",
-                            G_CALLBACK (on_vpn_enabled),
-                            self);
-  on_vpn_enabled (self, NULL, self->vpn);
+  g_object_connect (self->vpn,
+                    "swapped-signal::notify::enabled", G_CALLBACK (on_vpn_enabled), self,
+                    "swapped-signal::notify::present",G_CALLBACK (on_vpn_present), self,
+                    "swapped-signal::notify::last-connection",G_CALLBACK (on_vpn_last_con_changed), self,
+                    NULL);
 }
 
 
@@ -159,6 +201,12 @@ phosh_vpn_info_class_init (PhoshVpnInfoClass *klass)
 
   gtk_widget_class_set_css_name (widget_class, "phosh-vpn-info");
 
+  props[PROP_PRESENT] =
+    g_param_spec_boolean ("present", "", "",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS |
+                          G_PARAM_EXPLICIT_NOTIFY);
   /**
    * PhoshVpnManager:enabled
    *
