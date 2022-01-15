@@ -8,6 +8,9 @@
 
 #define ACTIVE_SEARCH_CLASS "search-active"
 
+#define SEARCH_DEBOUNCE 350
+#define DEFAULT_GTK_DEBOUNCE 150
+
 #define _GNU_SOURCE
 #include <string.h>
 
@@ -53,6 +56,7 @@ struct _PhoshAppGridPrivate {
   GStrv force_adaptive;
   GSimpleActionGroup *actions;
   PhoshAppFilterModeFlags filter_mode;
+  guint debounce;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGrid, phosh_app_grid, GTK_TYPE_BOX)
@@ -393,6 +397,7 @@ phosh_app_grid_dispose (GObject *object)
   g_clear_object (&priv->actions);
   g_clear_object (&priv->model);
   g_clear_object (&priv->settings);
+  g_clear_handle_id (&priv->debounce, g_source_remove);
 
   G_OBJECT_CLASS (phosh_app_grid_parent_class)->dispose (object);
 }
@@ -423,7 +428,7 @@ phosh_app_grid_key_press_event (GtkWidget   *widget,
 }
 
 
-static void
+static gboolean
 do_search (PhoshAppGrid *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
@@ -442,6 +447,9 @@ do_search (PhoshAppGrid *self)
   }
 
   gtk_filter_list_model_refilter (priv->model);
+
+  priv->debounce = 0;
+  return G_SOURCE_REMOVE;
 }
 
 
@@ -454,10 +462,19 @@ search_changed (GtkSearchEntry *entry,
 
   g_clear_pointer (&priv->search_string, g_free);
 
-  if (search && *search != '\0')
-      priv->search_string = g_utf8_casefold (search, -1);
+  g_clear_handle_id (&priv->debounce, g_source_remove);
 
-  do_search (self);
+  if (search && *search != '\0') {
+    priv->search_string = g_utf8_casefold (search, -1);
+
+    /* GtkSearchEntry already adds 150ms of delay, but it's too little
+     * so add a bit more until searching is faster and/or non-blocking */
+    priv->debounce = g_timeout_add (SEARCH_DEBOUNCE, (GSourceFunc) do_search, self);
+    g_source_set_name_by_id (priv->debounce, "[phosh] debounce app grid search (search-changed)");
+  } else {
+    /* don't add the delay when the entry got cleared */
+    do_search (self);
+  }
 }
 
 
@@ -471,9 +488,12 @@ search_preedit_changed (GtkSearchEntry *entry,
   g_clear_pointer (&priv->search_string, g_free);
 
   if (preedit && *preedit != '\0')
-      priv->search_string = g_utf8_casefold (preedit, -1);
+    priv->search_string = g_utf8_casefold (preedit, -1);
 
-  do_search (self);
+  g_clear_handle_id (&priv->debounce, g_source_remove);
+
+  priv->debounce = g_timeout_add (SEARCH_DEBOUNCE + DEFAULT_GTK_DEBOUNCE, (GSourceFunc) do_search, self);
+  g_source_set_name_by_id (priv->debounce, "[phosh] debounce app grid search (preedit-changed)");
 }
 
 
