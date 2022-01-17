@@ -22,10 +22,10 @@ static GMainLoop *loop;
 static GDBusProxy *_proxy;
 
 /* TODO:
- - handle sm.puri.OSK0
- - launch squeekboard if found and fold/unfold on desktops is fixed
+   - handle sm.puri.OSK0
+   - launch squeekboard if found and fold/unfold on desktops is fixed
    https://source.puri.sm/Librem5/squeekboard/issues/132
-*/
+ */
 
 static void
 print_version (void)
@@ -62,10 +62,10 @@ respond_to_end_session (GDBusProxy *proxy, gboolean shutdown)
 
 static void
 client_proxy_signal_cb (GDBusProxy *proxy,
-                        char *sender_name,
-                        char *signal_name,
-                        GVariant *parameters,
-                        gpointer user_data)
+                        char       *sender_name,
+                        char       *signal_name,
+                        GVariant   *parameters,
+                        gpointer    user_data)
 {
   if (g_strcmp0 (signal_name, "QueryEndSession") == 0) {
     g_debug ("Got QueryEndSession signal");
@@ -142,7 +142,7 @@ stub_session_register (const char *client_id)
       g_clear_error (&err);
       return;
     }
-  };
+  }
 
   startup_id = g_getenv ("DESKTOP_AUTOSTART_ID");
   g_dbus_proxy_call (_proxy,
@@ -157,10 +157,11 @@ stub_session_register (const char *client_id)
 
 
 
-int main(int argc, char *argv[])
+int
+main (int argc, char *argv[])
 {
-  g_autoptr(GSource) sigterm = NULL;
-  g_autoptr(GOptionContext) opt_context = NULL;
+  g_autoptr (GSource) sigterm = NULL;
+  g_autoptr (GOptionContext) opt_context = NULL;
   GError *err = NULL;
   gboolean version = FALSE;
 
