@@ -27,7 +27,9 @@ executable('app-grid-standalone', ['app-grid-standalone.c'] + stubs,
 executable('image-notify', ['image-notify.c'] + stubs,
            dependencies: phosh_tool_dep)
 
-executable('phosh-osk-stub', ['phosh-osk-stub.c'] + wl_proto_sources,
+executable('phosh-osk-stub', ['phosh-osk-stub.c', ] +
+			     phosh_layer_surface_sources +
+			     wl_proto_sources,
            include_directories: [root_inc, phosh_inc],
            install: get_option('osk-stub'),
            dependencies: osk_stub_deps)

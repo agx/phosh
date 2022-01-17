@@ -50,6 +50,11 @@ libphosh_generated_sources = [
   generated_dbus_sources,
 ]
 
+phosh_layer_surface_sources = files(
+  'layersurface.c',
+  'layersurface.h',
+)
+
 libphosh_tool_sources = files(
   'activity.c',
   'activity.h',
@@ -91,8 +96,6 @@ libphosh_tool_sources = files(
   'gtk-mount-prompt.h',
   'keypad.c',
   'keypad.h',
-  'layersurface.c',
-  'layersurface.h',
   'lockshield.c',
   'lockshield.h',
   'log.h',
@@ -140,6 +143,7 @@ libphosh_tool_sources = files(
 ) + [
   libphosh_generated_sources,
   phosh_gtk_list_models_sources,
+  phosh_layer_surface_sources,
   phosh_monitor_sources,
   phosh_notifications_sources,
 ]

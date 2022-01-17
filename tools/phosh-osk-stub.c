@@ -9,6 +9,7 @@
 #define G_LOG_DOMAIN "phosh-osk-stub"
 
 #include "config.h"
+#include "layersurface.h"
 
 #include "input-method-unstable-v2-client-protocol.h"
 
@@ -25,9 +26,13 @@
 
 static GMainLoop *loop;
 static GDBusProxy *_proxy;
+
+static GtkWindow *_input_surface;
+
 static struct wl_display *_display;
 static struct wl_registry *_registry;
 static struct wl_seat *_seat;
+static struct zwlr_layer_shell_v1 *_layer_shell;
 static struct zwp_input_method_manager_v2 *_input_method_manager;
 static struct zwp_input_method_v2 *_input_method;
 
@@ -171,6 +176,7 @@ handle_activate (void                       *data,
                  struct zwp_input_method_v2 *zwp_input_method_v2)
 {
   g_debug ("%s", __func__);
+  gtk_window_present (_input_surface);
 }
 
 
@@ -179,6 +185,7 @@ handle_deactivate (void                       *data,
                    struct zwp_input_method_v2 *zwp_input_method_v2)
 {
   g_debug ("%s", __func__);
+  gtk_widget_hide (GTK_WIDGET (_input_surface));
 }
 
 
@@ -239,6 +246,25 @@ static const struct zwp_input_method_v2_listener input_method_listener = {
 };
 
 
+#define INPUT_SURFACE_HEIGHT 100
+
+static void
+create_input_surface (void)
+{
+  _input_surface = g_object_new (PHOSH_TYPE_LAYER_SURFACE,
+                                 "layer-shell", _layer_shell,
+                                 "height", INPUT_SURFACE_HEIGHT,
+                                 "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
+                                 ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
+                                 ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
+                                 "layer", ZWLR_LAYER_SHELL_V1_LAYER_TOP,
+                                 "kbd-interactivity", FALSE,
+                                 "exclusive-zone", INPUT_SURFACE_HEIGHT,
+                                 "namespace", "osk",
+                                 NULL);
+}
+
+
 static void
 registry_handle_global (void               *data,
                         struct wl_registry *registry,
@@ -251,9 +277,12 @@ registry_handle_global (void               *data,
                                               &zwp_input_method_manager_v2_interface, 1);
   } else if (strcmp (interface, wl_seat_interface.name) == 0) {
     _seat = wl_registry_bind (registry, name, &wl_seat_interface, version);
+  } else if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
+    _layer_shell = wl_registry_bind (_registry, name, &zwlr_layer_shell_v1_interface, 1);
   }
 
-  if (_seat && _input_method_manager) {
+  if (_seat && _input_method_manager && _layer_shell && !_input_surface) {
+    create_input_surface ();
     _input_method = zwp_input_method_manager_v2_get_input_method (_input_method_manager, _seat);
     zwp_input_method_v2_add_listener (_input_method, &input_method_listener, NULL);
   }
@@ -333,6 +362,7 @@ main (int argc, char *argv[])
   g_main_loop_run (loop);
   g_main_loop_unref (loop);
   g_object_unref (_proxy);
+  gtk_widget_destroy (GTK_WIDGET (_input_surface));
 
   return EXIT_SUCCESS;
 }
