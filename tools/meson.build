@@ -13,6 +13,9 @@ stubs = [
 
 osk_stub_deps = [
   gio_dep,
+  gtk_dep,
+  gtk_wayland_dep,
+  wayland_client_dep,
 ]
 
 executable('app-scroll', ['app-scroll.c'] + stubs,

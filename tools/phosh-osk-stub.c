@@ -13,6 +13,9 @@
 #include <gio/gio.h>
 #include <glib-unix.h>
 
+#include <gtk/gtk.h>
+#include <gdk/gdkwayland.h>
+
 #define GNOME_SESSION_DBUS_NAME      "org.gnome.SessionManager"
 #define GNOME_SESSION_DBUS_OBJECT    "/org/gnome/SessionManager"
 #define GNOME_SESSION_DBUS_INTERFACE "org.gnome.SessionManager"
@@ -20,6 +23,8 @@
 
 static GMainLoop *loop;
 static GDBusProxy *_proxy;
+static struct wl_display *_display;
+static struct wl_registry *_registry;
 
 /* TODO:
    - handle sm.puri.OSK0
@@ -156,6 +161,49 @@ stub_session_register (const char *client_id)
 }
 
 
+static void
+registry_handle_global (void *data,
+                        struct wl_registry *registry,
+                        uint32_t            name,
+                        const char         *interface,
+                        uint32_t            version)
+{
+}
+
+
+static void
+registry_handle_global_remove (void               *data,
+                               struct wl_registry *registry,
+                               uint32_t            name)
+{
+  g_warning ("Global %d removed but not handled", name);
+}
+
+
+static const struct wl_registry_listener registry_listener = {
+  registry_handle_global,
+  registry_handle_global_remove
+};
+
+
+static gboolean
+setup_input_method (void)
+{
+  GdkDisplay *gdk_display;
+
+  gdk_set_allowed_backends ("wayland");
+  gdk_display = gdk_display_get_default ();
+  _display = gdk_wayland_display_get_wl_display (gdk_display);
+  if (_display == NULL) {
+    g_critical ("Failed to get display: %m\n");
+    return FALSE;
+  }
+
+  _registry = wl_display_get_registry (_display);
+  wl_registry_add_listener (_registry, &registry_listener, NULL);
+  return TRUE;
+}
+
 
 int
 main (int argc, char *argv[])
@@ -182,7 +230,12 @@ main (int argc, char *argv[])
     print_version ();
   }
 
+  gtk_init (&argc, &argv);
+
   stub_session_register ("sm.puri.OSK0");
+  if (!setup_input_method ())
+    return EXIT_FAILURE;
+
   loop = g_main_loop_new (NULL, FALSE);
 
   g_unix_signal_add (SIGTERM, quit_cb, NULL);
