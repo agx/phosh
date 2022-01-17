@@ -175,7 +175,7 @@ main (int argc, char *argv[])
   if (!g_option_context_parse (opt_context, &argc, &argv, &err)) {
     g_warning ("%s", err->message);
     g_clear_error (&err);
-    return 1;
+    return EXIT_FAILURE;
   }
 
   if (version) {
