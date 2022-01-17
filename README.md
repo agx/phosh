@@ -101,11 +101,7 @@ This is handled via GNOMEs infra, see
 
 # Getting in Touch
 * Issue tracker: https://gitlab.gnome.org/World/Phosh/phosh/issues
-* Mailing list: https://lists.community.puri.sm/listinfo/librem-5-dev
 * Matrix: https://im.puri.sm/#/room/#phosh:talk.puri.sm
-* XMPP: phosh@conference.sigxcpu.org
-
-For details see the [developer documentation](https://developer.puri.sm/Contact.html).
 
 ### Development Documentation
 
