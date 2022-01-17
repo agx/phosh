@@ -277,7 +277,7 @@ create_dbus_proxy_cb (GObject *source_object, GAsyncResult *res, char *panel)
 
 
 void
-phosh_quick_setting_open_settings_panel (char *panel)
+phosh_quick_setting_open_settings_panel (const char *panel)
 {
   g_dbus_proxy_new_for_bus (G_BUS_TYPE_SESSION,
 			    G_DBUS_PROXY_FLAGS_NONE,
