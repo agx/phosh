@@ -27,6 +27,7 @@ if ! grep -v -E '(^html/api-index-full.html)|(^./phosh-decl.txt)'\
 '|phosh_private_shell_state'\
 '|phosh_private_xdg_switcher_listener'\
 '|zwp_virtual_keyboard_manager_v1_error|zwp_virtual_keyboard_v1_error'\
+'|zwp_input_method_v2_listener|zwp_input_popup_surface_v2_listener|zwp_input_method_keyboard_grab_v2_listener'\
 '|no link for: "NM(Connection|Client)"'\
  "${WARNINGS}" > "${ERRORS}"; then
    echo "No critical errors found."

@@ -10,6 +10,8 @@
 
 #include "config.h"
 
+#include "input-method-unstable-v2-client-protocol.h"
+
 #include <gio/gio.h>
 #include <glib-unix.h>
 
@@ -25,6 +27,9 @@ static GMainLoop *loop;
 static GDBusProxy *_proxy;
 static struct wl_display *_display;
 static struct wl_registry *_registry;
+static struct wl_seat *_seat;
+static struct zwp_input_method_manager_v2 *_input_method_manager;
+static struct zwp_input_method_v2 *_input_method;
 
 /* TODO:
    - handle sm.puri.OSK0
@@ -162,12 +167,96 @@ stub_session_register (const char *client_id)
 
 
 static void
-registry_handle_global (void *data,
+handle_activate (void                       *data,
+                 struct zwp_input_method_v2 *zwp_input_method_v2)
+{
+  g_debug ("%s", __func__);
+}
+
+
+static void
+handle_deactivate (void                       *data,
+                   struct zwp_input_method_v2 *zwp_input_method_v2)
+{
+  g_debug ("%s", __func__);
+}
+
+
+static void
+handle_surrounding_text (void                       *data,
+                         struct zwp_input_method_v2 *zwp_input_method_v2,
+                         const char                 *text,
+                         uint32_t                    cursor,
+                         uint32_t                    anchor)
+{
+  g_debug ("%s: text: %s", __func__, text);
+}
+
+
+static void
+handle_text_change_cause (void                       *data,
+                          struct zwp_input_method_v2 *zwp_input_method_v2,
+                          uint32_t                    cause)
+{
+  g_debug ("%s: cause: %u", __func__, cause);
+}
+
+
+static void
+handle_content_type (void                       *data,
+                     struct zwp_input_method_v2 *zwp_input_method_v2,
+                     uint32_t                    hint,
+                     uint32_t                    purpose)
+{
+  g_debug ("%s, hint: %d, purpose: %d", __func__, hint, purpose);
+}
+
+
+static void
+handle_done (void                       *data,
+             struct zwp_input_method_v2 *zwp_input_method_v2)
+{
+  g_debug ("%s", __func__);
+}
+
+
+static void
+handle_unavailable (void                       *data,
+                    struct zwp_input_method_v2 *zwp_input_method_v2)
+{
+  g_debug ("%s", __func__);
+}
+
+
+static const struct zwp_input_method_v2_listener input_method_listener = {
+  .activate = handle_activate,
+  .deactivate = handle_deactivate,
+  .surrounding_text = handle_surrounding_text,
+  .text_change_cause = handle_text_change_cause,
+  .content_type = handle_content_type,
+  .done = handle_done,
+  .unavailable = handle_unavailable,
+};
+
+
+static void
+registry_handle_global (void               *data,
                         struct wl_registry *registry,
                         uint32_t            name,
                         const char         *interface,
                         uint32_t            version)
 {
+  if (strcmp (interface, zwp_input_method_manager_v2_interface.name) == 0) {
+    _input_method_manager = wl_registry_bind (registry, name,
+                                              &zwp_input_method_manager_v2_interface, 1);
+  } else if (strcmp (interface, wl_seat_interface.name) == 0) {
+    _seat = wl_registry_bind (registry, name, &wl_seat_interface, version);
+  }
+
+  if (_seat && _input_method_manager) {
+    _input_method = zwp_input_method_manager_v2_get_input_method (_input_method_manager, _seat);
+    zwp_input_method_v2_add_listener (_input_method, &input_method_listener, NULL);
+  }
 }
 
 
