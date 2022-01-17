@@ -18,6 +18,9 @@
 
 #include <gtk/gtk.h>
 #include <gdk/gdkwayland.h>
+#include <handy.h>
+
+#include <math.h>
 
 #define GNOME_SESSION_DBUS_NAME      "org.gnome.SessionManager"
 #define GNOME_SESSION_DBUS_OBJECT    "/org/gnome/SessionManager"
@@ -27,6 +30,11 @@
 static GMainLoop *loop;
 static GDBusProxy *_proxy;
 
+struct {
+  gboolean show;
+  double progress;
+  gint64 last_frame;
+} _animation;
 static GtkWindow *_input_surface;
 
 static struct wl_display *_display;
@@ -35,6 +43,7 @@ static struct wl_seat *_seat;
 static struct zwlr_layer_shell_v1 *_layer_shell;
 static struct zwp_input_method_manager_v2 *_input_method_manager;
 static struct zwp_input_method_v2 *_input_method;
+gboolean _pending_active, _active;
 
 /* TODO:
    - handle sm.puri.OSK0
@@ -172,11 +181,86 @@ stub_session_register (const char *client_id)
 
 
 static void
+input_surface_move (void)
+{
+  int margin;
+  int height;
+  double progress = hdy_ease_out_cubic (_animation.progress);
+
+  if (_animation.show)
+    progress = 1.0 - progress;
+
+  g_object_get (_input_surface, "configured-height", &height, NULL);
+  margin = -height * progress;
+
+  phosh_layer_surface_set_margins (PHOSH_LAYER_SURFACE (_input_surface), 0, 0, margin, 0);
+
+  if (_animation.progress >= 1.0 &&  _animation.show) {
+    /* On unfold adjust the exclusive zone at the very end to avoid flickering */
+    phosh_layer_surface_set_exclusive_zone (PHOSH_LAYER_SURFACE (_input_surface), height);
+  } else if (_animation.progress < 1.0 && !_animation.show) {
+    /* On fold adjust the exclusive zone at the start to avoid flickering */
+    phosh_layer_surface_set_exclusive_zone (PHOSH_LAYER_SURFACE (_input_surface), 0);
+  }
+
+  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (_input_surface));
+}
+
+
+static gboolean
+animate_cb (GtkWidget     *widget,
+            GdkFrameClock *frame_clock,
+            gpointer      user_data)
+{
+  gint64 time;
+  gboolean finished = FALSE;
+
+  time = gdk_frame_clock_get_frame_time (frame_clock) - _animation.last_frame;
+  if (_animation.last_frame < 0)
+    time = 0;
+
+  _animation.progress += 0.06666 * time / 16666.00;
+  _animation.last_frame = gdk_frame_clock_get_frame_time (frame_clock);
+
+  if (_animation.progress >= 1.0) {
+    finished = TRUE;
+    _animation.progress = 1.0;
+  }
+
+  input_surface_move ();
+
+  if (finished)
+    return G_SOURCE_REMOVE;
+
+  return G_SOURCE_CONTINUE;
+}
+
+
+static double
+reverse_ease_out_cubic (double t)
+{
+  return cbrt(t - 1) + 1;
+}
+
+
+static void
+set_visible (gboolean visible)
+{
+  _animation.show = visible;
+  _animation.last_frame = -1;
+  _animation.progress = reverse_ease_out_cubic (1.0 - hdy_ease_out_cubic (_animation.progress));
+
+  gtk_widget_add_tick_callback (GTK_WIDGET (_input_surface), animate_cb, NULL, NULL);
+}
+
+
+static void
 handle_activate (void                       *data,
                  struct zwp_input_method_v2 *zwp_input_method_v2)
 {
   g_debug ("%s", __func__);
-  gtk_window_present (_input_surface);
+
+  _pending_active = TRUE;
 }
 
 
@@ -185,7 +269,8 @@ handle_deactivate (void                       *data,
                    struct zwp_input_method_v2 *zwp_input_method_v2)
 {
   g_debug ("%s", __func__);
-  gtk_widget_hide (GTK_WIDGET (_input_surface));
+
+  _pending_active = FALSE;
 }
 
 
@@ -224,6 +309,11 @@ handle_done (void                       *data,
              struct zwp_input_method_v2 *zwp_input_method_v2)
 {
   g_debug ("%s", __func__);
+
+  if (_pending_active != _active) {
+    _active = _pending_active;
+    set_visible (_pending_active);
+  }
 }
 
 
@@ -262,6 +352,7 @@ create_input_surface (void)
                                  "exclusive-zone", INPUT_SURFACE_HEIGHT,
                                  "namespace", "osk",
                                  NULL);
+  gtk_window_present (_input_surface);
 }
 
 

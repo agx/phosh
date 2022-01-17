@@ -15,7 +15,9 @@ osk_stub_deps = [
   gio_dep,
   gtk_dep,
   gtk_wayland_dep,
+  libhandy_dep,
   wayland_client_dep,
+  cc.find_library('m', required: false),
 ]
 
 executable('app-scroll', ['app-scroll.c'] + stubs,
