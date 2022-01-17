@@ -27,6 +27,12 @@
 #define GNOME_SESSION_DBUS_INTERFACE "org.gnome.SessionManager"
 #define GNOME_SESSION_CLIENT_PRIVATE_DBUS_INTERFACE "org.gnome.SessionManager.ClientPrivate"
 
+typedef enum _PosDebugFlags {
+    POS_DEBUG_FLAG_NONE = 0,
+    POS_DEBUG_FLAG_FORCE_SHOW    = 1 << 0,
+} PosDebugFlags;
+
+
 static GMainLoop *loop;
 static GDBusProxy *_proxy;
 
@@ -44,6 +50,7 @@ static struct zwlr_layer_shell_v1 *_layer_shell;
 static struct zwp_input_method_manager_v2 *_input_method_manager;
 static struct zwp_input_method_v2 *_input_method;
 gboolean _active;
+PosDebugFlags _debug_flags;
 
 /* TODO:
    - handle sm.puri.OSK0
@@ -316,7 +323,8 @@ handle_done (void                       *data,
 
   if (_active != pending_active) {
     _active = pending_active;
-    set_visible (_active);
+    if (!(_debug_flags & POS_DEBUG_FLAG_FORCE_SHOW))
+      set_visible (_active);
   }
 
   pos_input_surface_done (_input_surface);
@@ -383,6 +391,9 @@ registry_handle_global (void               *data,
     create_input_surface ();
     _input_method = zwp_input_method_manager_v2_get_input_method (_input_method_manager, _seat);
     zwp_input_method_v2_add_listener (_input_method, &input_method_listener, NULL);
+
+    if (_debug_flags & POS_DEBUG_FLAG_FORCE_SHOW)
+      set_visible (TRUE);
   }
 }
 
@@ -421,6 +432,28 @@ setup_input_method (void)
 }
 
 
+static GDebugKey debug_keys[] =
+{
+  { .key = "force-show",
+    .value = POS_DEBUG_FLAG_FORCE_SHOW,
+  },
+};
+
+static PosDebugFlags
+parse_debug_env (void)
+{
+  const char *debugenv;
+  PosDebugFlags flags = POS_DEBUG_FLAG_NONE;
+
+  debugenv = g_getenv("POS_DEBUG");
+  if (!debugenv) {
+    return flags;
+  }
+
+  return g_parse_debug_string(debugenv, debug_keys, G_N_ELEMENTS (debug_keys));
+}
+
+
 int
 main (int argc, char *argv[])
 {
@@ -446,6 +479,7 @@ main (int argc, char *argv[])
     print_version ();
   }
 
+  _debug_flags = parse_debug_env ();
   gtk_init (&argc, &argv);
 
   stub_session_register ("sm.puri.OSK0");
