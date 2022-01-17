@@ -230,11 +230,12 @@ call_dbus_cb (GDBusProxy *proxy,
 {
   g_autoptr (GError) err = NULL;
   g_autoptr (GVariant) output = NULL;
+  g_autofree char* panel = user_data;
 
   output = g_dbus_proxy_call_finish (proxy, res, &err);
-  if (err) {
-    g_warning ("Can't open panel %s", err->message);
-  }
+  if (err)
+    g_warning ("Can't open %s panel: %s", panel, err->message);
+
   g_object_unref (proxy);
 }
 
@@ -271,9 +272,7 @@ create_dbus_proxy_cb (GObject *source_object, GAsyncResult *res, char *panel)
 		     -1,
 		     NULL,
 		     (GAsyncReadyCallback) call_dbus_cb,
-		     NULL);
-
-  g_free (panel);
+		     g_steal_pointer (&panel));
 }
 
 
