@@ -160,7 +160,6 @@ stub_session_register (const char *client_id)
 int
 main (int argc, char *argv[])
 {
-  g_autoptr (GSource) sigterm = NULL;
   g_autoptr (GOptionContext) opt_context = NULL;
   GError *err = NULL;
   gboolean version = FALSE;
