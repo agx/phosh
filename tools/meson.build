@@ -29,7 +29,18 @@ executable('app-grid-standalone', ['app-grid-standalone.c'] + stubs,
 executable('image-notify', ['image-notify.c'] + stubs,
            dependencies: phosh_tool_dep)
 
-executable('phosh-osk-stub', ['phosh-osk-stub.c', ] +
+phosh_osk_stub_resources = gnome.compile_resources(
+  'phosh-osk-stub-resources',
+  'phosh-osk-stub.gresources.xml',
+
+  c_name: 'pos',
+)
+
+executable('phosh-osk-stub', ['phosh-osk-stub.c',
+			      'pos-input-surface.h',
+			      'pos-input-surface.c',
+			     ] +
+			     phosh_osk_stub_resources +
 			     phosh_layer_surface_sources +
 			     wl_proto_sources,
            include_directories: [root_inc, phosh_inc],

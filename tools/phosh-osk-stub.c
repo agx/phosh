@@ -9,7 +9,7 @@
 #define G_LOG_DOMAIN "phosh-osk-stub"
 
 #include "config.h"
-#include "layersurface.h"
+#include "pos-input-surface.h"
 
 #include "input-method-unstable-v2-client-protocol.h"
 
@@ -35,7 +35,7 @@ struct {
   double progress;
   gint64 last_frame;
 } _animation;
-static GtkWindow *_input_surface;
+static PosInputSurface *_input_surface;
 
 static struct wl_display *_display;
 static struct wl_registry *_registry;
@@ -43,7 +43,7 @@ static struct wl_seat *_seat;
 static struct zwlr_layer_shell_v1 *_layer_shell;
 static struct zwp_input_method_manager_v2 *_input_method_manager;
 static struct zwp_input_method_v2 *_input_method;
-gboolean _pending_active, _active;
+gboolean _active;
 
 /* TODO:
    - handle sm.puri.OSK0
@@ -260,7 +260,7 @@ handle_activate (void                       *data,
 {
   g_debug ("%s", __func__);
 
-  _pending_active = TRUE;
+  pos_input_surface_set_active (_input_surface, TRUE);
 }
 
 
@@ -270,7 +270,7 @@ handle_deactivate (void                       *data,
 {
   g_debug ("%s", __func__);
 
-  _pending_active = FALSE;
+  pos_input_surface_set_active (_input_surface, FALSE);
 }
 
 
@@ -301,6 +301,8 @@ handle_content_type (void                       *data,
                      uint32_t                    purpose)
 {
   g_debug ("%s, hint: %d, purpose: %d", __func__, hint, purpose);
+  pos_input_surface_set_purpose (_input_surface, purpose);
+  pos_input_surface_set_hint (_input_surface, hint);
 }
 
 
@@ -308,12 +310,16 @@ static void
 handle_done (void                       *data,
              struct zwp_input_method_v2 *zwp_input_method_v2)
 {
-  g_debug ("%s", __func__);
+  gboolean pending_active = pos_input_surface_get_active (_input_surface);
 
-  if (_pending_active != _active) {
-    _active = _pending_active;
-    set_visible (_pending_active);
+  g_debug ("%s: %d %d", __func__, _active, pending_active);
+
+  if (_active != pending_active) {
+    _active = pending_active;
+    set_visible (_active);
   }
+
+  pos_input_surface_done (_input_surface);
 }
 
 
@@ -336,12 +342,12 @@ static const struct zwp_input_method_v2_listener input_method_listener = {
 };
 
 
-#define INPUT_SURFACE_HEIGHT 100
+#define INPUT_SURFACE_HEIGHT 150
 
 static void
 create_input_surface (void)
 {
-  _input_surface = g_object_new (PHOSH_TYPE_LAYER_SURFACE,
+  _input_surface = g_object_new (POS_TYPE_INPUT_SURFACE,
                                  "layer-shell", _layer_shell,
                                  "height", INPUT_SURFACE_HEIGHT,
                                  "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
@@ -352,7 +358,7 @@ create_input_surface (void)
                                  "exclusive-zone", INPUT_SURFACE_HEIGHT,
                                  "namespace", "osk",
                                  NULL);
-  gtk_window_present (_input_surface);
+  gtk_window_present (GTK_WINDOW (_input_surface));
 }
 
 
@@ -373,6 +379,7 @@ registry_handle_global (void               *data,
   }
 
   if (_seat && _input_method_manager && _layer_shell && !_input_surface) {
+    g_debug ("Found all wayland protocols. Creating listeners and surfaces.");
     create_input_surface ();
     _input_method = zwp_input_method_manager_v2_get_input_method (_input_method_manager, _seat);
     zwp_input_method_v2_add_listener (_input_method, &input_method_listener, NULL);

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/sm/puri/phosh/osk-stub/">
+    <file preprocess="xml-stripblanks">ui/input-surface.ui</file>
+  </gresource>
+</gresources>
