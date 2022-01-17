@@ -20,15 +20,6 @@ osk_stub_deps = [
   cc.find_library('m', required: false),
 ]
 
-executable('app-scroll', ['app-scroll.c'] + stubs,
-           dependencies: phosh_tool_dep)
-
-executable('app-grid-standalone', ['app-grid-standalone.c'] + stubs,
-           dependencies: phosh_tool_dep)
-
-executable('image-notify', ['image-notify.c'] + stubs,
-           dependencies: phosh_tool_dep)
-
 phosh_osk_stub_resources = gnome.compile_resources(
   'phosh-osk-stub-resources',
   'phosh-osk-stub.gresources.xml',
@@ -47,14 +38,27 @@ executable('phosh-osk-stub', ['phosh-osk-stub.c',
            install: get_option('osk-stub'),
            dependencies: osk_stub_deps)
 
-executable('app-buttons', ['app-buttons.c'] + stubs,
-           dependencies: phosh_tool_dep)
+if get_option('tools')
 
-executable('notify-blocks', ['notify-blocks.c'],
-           dependencies: phosh_tool_dep)
+  executable('app-scroll', ['app-scroll.c'] + stubs,
+             dependencies: phosh_tool_dep)
 
-executable('notify-server-standalone', ['notify-server-standalone.c'] + stubs,
-           dependencies: phosh_tool_dep)
+  executable('app-grid-standalone', ['app-grid-standalone.c'] + stubs,
+             dependencies: phosh_tool_dep)
 
-executable('dump-app-list', ['dump-app-list.c'],
-           dependencies: phosh_tool_dep)
+  executable('image-notify', ['image-notify.c'] + stubs,
+             dependencies: phosh_tool_dep)
+
+  executable('app-buttons', ['app-buttons.c'] + stubs,
+             dependencies: phosh_tool_dep)
+
+  executable('notify-blocks', ['notify-blocks.c'],
+             dependencies: phosh_tool_dep)
+
+  executable('notify-server-standalone', ['notify-server-standalone.c'] + stubs,
+             dependencies: phosh_tool_dep)
+
+  executable('dump-app-list', ['dump-app-list.c'],
+             dependencies: phosh_tool_dep)
+
+endif

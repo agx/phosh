@@ -25,3 +25,8 @@ option('callui-i18n',
 option('osk-stub',
        type: 'boolean', value: false,
        description: 'Whether to build and install the osk stub')
+
+# Tools helping with e.g. notification server development
+option('tools',
+       type: 'boolean', value: false,
+       description: 'Whether to build the tools')

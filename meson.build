@@ -186,6 +186,7 @@ summary = [
   '      Systemd: @0@'.format(get_option('systemd')),
   'Documentation: @0@'.format(get_option('gtk_doc')),
   '     osk-stub: @0@'.format(get_option('osk-stub')),
+  '        tools: @0@'.format(get_option('tools')),
   '-----------',
 ]
 
