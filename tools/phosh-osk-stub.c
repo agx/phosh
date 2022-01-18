@@ -27,6 +27,8 @@
 #define GNOME_SESSION_DBUS_INTERFACE "org.gnome.SessionManager"
 #define GNOME_SESSION_CLIENT_PRIVATE_DBUS_INTERFACE "org.gnome.SessionManager.ClientPrivate"
 
+#define A11Y_KEY_OSK "screen-keyboard-enabled"
+
 typedef enum _PosDebugFlags {
     POS_DEBUG_FLAG_NONE = 0,
     POS_DEBUG_FLAG_FORCE_SHOW    = 1 << 0,
@@ -51,6 +53,7 @@ static struct zwp_input_method_manager_v2 *_input_method_manager;
 static struct zwp_input_method_v2 *_input_method;
 gboolean _active;
 PosDebugFlags _debug_flags;
+
 
 /* TODO:
    - handle sm.puri.OSK0
