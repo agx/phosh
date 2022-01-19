@@ -301,7 +301,8 @@ static void
 on_adjustment_value_changed (GtkAdjustment *adjustment,
                              GvcChannelBar *self)
 {
-  g_signal_emit (self, signals[VALUE_CHANGED], 0);
+  if (!self->is_muted || self->click_lock)
+    g_signal_emit (self, signals[VALUE_CHANGED], 0);
 }
 
 
