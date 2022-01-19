@@ -299,6 +299,18 @@ delete_button_clicked_cb (PhoshLockscreen *self,
   clear_input (self, FALSE);
 }
 
+static void
+osk_button_clicked_cb (PhoshLockscreen *self,
+                       GtkWidget       *widget)
+{
+  PhoshLockscreenPrivate *priv;
+
+  g_assert (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  priv->last_input = g_get_monotonic_time ();
+}
+
 
 static void
 long_press_del_cb (PhoshLockscreen *self,
@@ -493,6 +505,7 @@ carousel_position_notified_cb (PhoshLockscreen *self,
   position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
 
   if (position <= POS_OVERVIEW) {
+    phosh_osk_manager_set_visible  (phosh_shell_get_osk_manager (phosh_shell_get_default ()), FALSE);
     clear_input (self, TRUE);
     return;
   }
@@ -760,6 +773,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 
   gtk_widget_class_bind_template_callback (widget_class, long_press_del_cb);
   gtk_widget_class_bind_template_callback (widget_class, delete_button_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, osk_button_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, submit_cb);
   gtk_widget_class_bind_template_callback (widget_class, input_changed_cb);
 
