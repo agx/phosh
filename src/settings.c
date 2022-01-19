@@ -422,8 +422,7 @@ mixer_control_output_update_cb (GvcMixerControl *mixer, guint id, gpointer *data
 
 
 static void
-vol_adjustment_value_changed_cb (GtkAdjustment *adjustment,
-                                 PhoshSettings *self)
+vol_bar_value_changed_cb (GvcChannelBar *bar, PhoshSettings *self)
 {
   double volume, rounded;
   g_autofree char *name = NULL;
@@ -431,7 +430,7 @@ vol_adjustment_value_changed_cb (GtkAdjustment *adjustment,
   if (!self->output_stream)
     self->output_stream = g_object_ref (gvc_mixer_control_get_default_sink (self->mixer_control));
 
-  volume = gtk_adjustment_get_value (adjustment);
+  volume = gvc_channel_bar_get_volume (bar);
   rounded = round (volume);
 
   g_object_get (self->output_vol_bar, "name", &name, NULL);
@@ -590,8 +589,6 @@ setup_torch (PhoshSettings *self)
 static void
 setup_volume_bar (PhoshSettings *self)
 {
-  GtkAdjustment *adj;
-
   self->output_vol_bar = gvc_channel_bar_new ();
   gtk_widget_set_sensitive (self->output_vol_bar, TRUE);
   gtk_widget_show (self->output_vol_bar);
@@ -607,10 +604,9 @@ setup_volume_bar (PhoshSettings *self)
                     "active-output-update",
                     G_CALLBACK (mixer_control_output_update_cb),
                     self);
-  adj = gvc_channel_bar_get_adjustment (GVC_CHANNEL_BAR (self->output_vol_bar));
-  g_signal_connect (adj,
+  g_signal_connect (self->output_vol_bar,
                     "value-changed",
-                    G_CALLBACK (vol_adjustment_value_changed_cb),
+                    G_CALLBACK (vol_bar_value_changed_cb),
                     self);
 }
 
