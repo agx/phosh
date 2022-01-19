@@ -48,7 +48,6 @@ struct _GvcChannelBar
   GtkWidget     *image;
   GtkWidget     *scale;
   GtkAdjustment *adjustment;
-  GtkAdjustment *zero_adjustment;
   gboolean       is_muted;
   char          *icon_name;
   GtkSizeGroup  *size_group;
@@ -190,7 +189,6 @@ on_scale_button_release_event (GtkWidget      *widget,
    * therefore we should unmute and set the volume. */
   gvc_channel_bar_set_is_muted (self, ((int)value == (int)0.0));
 
-  /* TODO: we might want to play a sound here */
   return FALSE;
 }
 
@@ -241,12 +239,6 @@ gvc_channel_bar_scroll (GvcChannelBar *self, GdkEventScroll *event)
   }
 
   adj = gtk_range_get_adjustment (GTK_RANGE (self->scale));
-  if (adj == self->zero_adjustment) {
-    if (dy > 0)
-      gvc_channel_bar_set_is_muted (self, FALSE);
-    return TRUE;
-  }
-
   value = gtk_adjustment_get_value (adj);
 
   if (dy > 0) {
@@ -275,25 +267,6 @@ on_scale_scroll_event (GtkWidget      *widget,
                        GvcChannelBar  *self)
 {
   return gvc_channel_bar_scroll (self, event);
-}
-
-
-static void
-on_zero_adjustment_value_changed (GtkAdjustment *adjustment,
-                                  GvcChannelBar *self)
-{
-  double value;
-
-  if (self->click_lock != FALSE) {
-    return;
-  }
-
-  value = gtk_adjustment_get_value (self->zero_adjustment);
-  gtk_adjustment_set_value (self->adjustment, value);
-
-  /* this means the adjustment moved away from zero and
-   * therefore we should unmute and set the volume. */
-  gvc_channel_bar_set_is_muted (self, value > 0.0);
 }
 
 
@@ -339,7 +312,6 @@ gvc_channel_bar_set_is_amplified (GvcChannelBar *self, gboolean amplified)
 
   self->is_amplified = amplified;
   gtk_adjustment_set_upper (self->adjustment, ADJUSTMENT_MAX);
-  gtk_adjustment_set_upper (self->zero_adjustment, ADJUSTMENT_MAX);
   gtk_scale_clear_marks (GTK_SCALE (self->scale));
 
   if (amplified) {
@@ -509,19 +481,6 @@ gvc_channel_bar_init (GvcChannelBar *self)
                                                          0.0));
   g_object_ref_sink (self->adjustment);
   g_signal_connect (self->adjustment, "value-changed", G_CALLBACK (on_adjustment_value_changed), self);
-
-  self->zero_adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0.0,
-                                                              0.0,
-                                                              ADJUSTMENT_MAX_NORMAL,
-                                                              ADJUSTMENT_MAX_NORMAL/100.0,
-                                                              ADJUSTMENT_MAX_NORMAL/10.0,
-                                                              0.0));
-  g_object_ref_sink (self->zero_adjustment);
-
-  g_signal_connect (self->zero_adjustment,
-                    "value-changed",
-                    G_CALLBACK (on_zero_adjustment_value_changed),
-                    self);
 
   /* frame */
   frame = gtk_frame_new (NULL);
