@@ -514,7 +514,6 @@ phosh_monitor_manager_handle_get_current_state (PhoshDBusDisplayConfig *skeleton
     char *display_name;
     gboolean is_builtin;
     int n;
-    g_autofree char *serial = NULL;
 
     g_variant_builder_init (&modes_builder, G_VARIANT_TYPE (MODES_FORMAT));
 
@@ -566,7 +565,6 @@ phosh_monitor_manager_handle_get_current_state (PhoshDBusDisplayConfig *skeleton
                              "display-name",
                              g_variant_new_take_string (display_name));
 
-    serial = g_strdup_printf ("00%d", i);
     g_variant_builder_add (&monitors_builder, MONITOR_FORMAT,
                            head->name,                       /* monitor_spec->connector */
                            head->vendor ?: "",               /* monitor_spec->vendor, */
@@ -580,13 +578,11 @@ phosh_monitor_manager_handle_get_current_state (PhoshDBusDisplayConfig *skeleton
   for (int i = 0; i < self->heads->len; i++) {
     PhoshHead *head = g_ptr_array_index (self->heads, i);
     GVariantBuilder logical_monitor_monitors_builder;
-    g_autofree char *serial = NULL;
     gboolean is_primary;
 
     if (!head->enabled)
       continue;
 
-    serial = g_strdup_printf ("00%d", i);
     g_variant_builder_init (&logical_monitor_monitors_builder,
                             G_VARIANT_TYPE (LOGICAL_MONITOR_MONITORS_FORMAT));
     g_variant_builder_add (&logical_monitor_monitors_builder,
