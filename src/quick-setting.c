@@ -233,7 +233,7 @@ call_dbus_cb (GDBusProxy *proxy,
   g_autofree char* panel = user_data;
 
   output = g_dbus_proxy_call_finish (proxy, res, &err);
-  if (err)
+  if (output == NULL)
     g_warning ("Can't open %s panel: %s", panel, err->message);
 
   g_object_unref (proxy);
