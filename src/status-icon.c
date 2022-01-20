@@ -78,7 +78,7 @@ phosh_status_icon_get_property (GObject *object,
 
   switch (property_id) {
   case PHOSH_STATUS_ICON_PROP_ICON_NAME:
-    g_value_set_string (value, phosh_status_icon_get_icon_name (self));
+    g_value_take_string (value, phosh_status_icon_get_icon_name (self));
     break;
   case PHOSH_STATUS_ICON_PROP_ICON_SIZE:
     g_value_set_enum (value, phosh_status_icon_get_icon_size (self));

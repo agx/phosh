@@ -68,6 +68,10 @@ test_phosh_status_icon_icon_name (void)
   icon_name = phosh_status_icon_get_icon_name (PHOSH_STATUS_ICON (widget));
   g_assert_cmpstr (icon_name, ==, "test-symbolic");
 
+  g_free (icon_name);
+  g_object_get (widget, "icon-name", &icon_name, NULL);
+  g_assert_cmpstr (icon_name, ==, "test-symbolic");
+
   gtk_widget_destroy (widget);
 }
 
