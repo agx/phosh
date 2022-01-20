@@ -48,7 +48,7 @@ static void
 test_phosh_notification_source_get (void)
 {
   g_autoptr (PhoshNotificationSource) source = NULL;
-  char *name;
+  g_autofree char *name;
 
   source = phosh_notification_source_new ("org.gnome.zbrown.KingsCross");
 
