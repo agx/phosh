@@ -125,21 +125,19 @@ show_run_command_dialog (GSimpleAction *action, GVariant *param, gpointer data)
 static void
 add_keybindings (PhoshRunCommandManager *self)
 {
-  GStrv bindings;
-  GPtrArray *action_names = g_ptr_array_new ();
-
+  g_auto (GStrv) bindings = NULL;
   g_autoptr (GArray) actions = g_array_new (FALSE, TRUE, sizeof (GActionEntry));
+
   bindings = g_settings_get_strv (self->settings, KEYBINDING_KEY_RUN_DIALOG);
   for (int i = 0; i < g_strv_length (bindings); i++) {
     GActionEntry entry = { .name = bindings[i], .activate = show_run_command_dialog };
     g_array_append_val (actions, entry);
-    g_ptr_array_add (action_names, bindings[i]);
   }
   phosh_shell_add_global_keyboard_action_entries (phosh_shell_get_default (),
                                                   (GActionEntry *)actions->data,
                                                   actions->len,
                                                   self);
-  self->action_names = (GStrv)g_ptr_array_free (action_names, FALSE);
+  self->action_names = g_steal_pointer (&bindings);
 }
 
 static void
