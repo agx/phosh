@@ -27,6 +27,8 @@ enum {
   PHOSH_VPN_MANAGER_PROP_0,
   PHOSH_VPN_MANAGER_PROP_ICON_NAME,
   PHOSH_VPN_MANAGER_PROP_ENABLED,
+  PHOSH_VPN_MANAGER_PROP_PRESENT,
+  PHOSH_VPN_MANAGER_PROP_LAST_CONNECTION,
   PHOSH_VPN_MANAGER_PROP_LAST_PROP
 };
 static GParamSpec *props[PHOSH_VPN_MANAGER_PROP_LAST_PROP];
@@ -35,8 +37,10 @@ struct _PhoshVpnManager {
   GObject             parent;
 
   gboolean            enabled;
+  gboolean            present;
 
   const char         *icon_name;
+  char               *last_uuid;
 
   NMClient           *nmclient;
   GCancellable       *cancel;
@@ -116,6 +120,12 @@ phosh_vpn_manager_get_property (GObject    *object,
   case PHOSH_VPN_MANAGER_PROP_ENABLED:
     g_value_set_boolean (value, self->enabled);
     break;
+  case PHOSH_VPN_MANAGER_PROP_PRESENT:
+    g_value_set_boolean (value, self->present);
+    break;
+  case PHOSH_VPN_MANAGER_PROP_LAST_CONNECTION:
+    g_value_set_string (value, self->last_uuid);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -153,6 +163,101 @@ on_nm_active_wg_connection_state_changed (PhoshVpnManager              *self,
 }
 
 
+static void
+update_connections (PhoshVpnManager *self)
+{
+  const GPtrArray *conns;
+  gint last_ts = 0;
+  const char *old_uuid;
+  gboolean old_present;
+
+  g_return_if_fail (PHOSH_IS_VPN_MANAGER (self));
+
+  old_present = self->present;
+  old_uuid = self->last_uuid;
+  /* No need to bother as long as we have an active connection */
+  if (self->active) {
+    self->present = TRUE;
+    goto out;
+  }
+
+  conns = nm_client_get_connections (self->nmclient);
+
+  for (int i = 0; i < conns->len; i++) {
+    NMConnection *conn = NM_CONNECTION (g_ptr_array_index (conns, i));
+    NMSettingConnection *s_con = nm_connection_get_setting_connection (conn);
+    gint64 ts;
+
+    if (!nm_connection_is_type (conn, NM_SETTING_VPN_SETTING_NAME) &&
+        !nm_connection_is_type (conn, NM_SETTING_WIREGUARD_SETTING_NAME))
+      continue;
+
+    ts = nm_setting_connection_get_timestamp (s_con);
+    if (!last_ts || ts > last_ts) {
+      last_ts = ts;
+
+      g_free (self->last_uuid);
+      self->last_uuid = g_strdup (nm_setting_connection_get_uuid (s_con));
+    }
+  }
+
+  self->present = !!self->last_uuid;
+
+ out:
+  g_debug ("VPN present: %d, uuid: %s", self->present, self->last_uuid);
+
+  if (self->present != old_present)
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_VPN_MANAGER_PROP_PRESENT]);
+
+  if (self->last_uuid != old_uuid)
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_VPN_MANAGER_PROP_LAST_CONNECTION]);
+}
+
+
+static void
+on_vpn_connection_activated (GObject      *source_object,
+                             GAsyncResult *res,
+                             gpointer      user_data)
+{
+  NMActiveConnection *active;
+  g_autoptr (GError) err = NULL;
+
+  g_return_if_fail (NM_IS_CLIENT (source_object));
+
+  active = nm_client_activate_connection_finish (NM_CLIENT (source_object), res, &err);
+  if (!active)
+    g_warning ("Failed to activate connection: %s", err->message);
+}
+
+
+static void
+on_vpn_connection_deactivated (GObject      *source_object,
+                             GAsyncResult *res,
+                             gpointer      user_data)
+{
+  gboolean success;
+  g_autoptr (GError) err = NULL;
+
+  g_return_if_fail (NM_IS_CLIENT (source_object));
+
+  success = nm_client_deactivate_connection_finish (NM_CLIENT (source_object), res, &err);
+  if (!success)
+    g_warning ("Failed to deactivate connection: %s", err->message);
+}
+
+
+/*
+ * Connections changed
+ *
+ * Look if we have a configured VPN connection
+ */
+static void
+on_nmclient_connections_changed (PhoshVpnManager *self, GParamSpec *pspec, NMClient *nmclient)
+{
+  update_connections (self);
+}
+
+
 /*
  * Active connections changed
  *
@@ -163,13 +268,14 @@ static void
 on_nmclient_active_connections_changed (PhoshVpnManager *self, GParamSpec *pspec, NMClient *nmclient)
 {
   const GPtrArray *conns;
-  NMActiveConnection *conn;
+  NMActiveConnection *conn, *old_conn;
   gboolean found = FALSE;
 
   g_return_if_fail (PHOSH_IS_VPN_MANAGER (self));
   g_return_if_fail (NM_IS_CLIENT (nmclient));
 
   conns = nm_client_get_active_connections (nmclient);
+  old_conn = self->active;
 
   for (int i = 0; i < conns->len; i++) {
     gboolean is_vpn, is_wg;
@@ -214,7 +320,19 @@ on_nmclient_active_connections_changed (PhoshVpnManager *self, GParamSpec *pspec
       g_signal_handlers_disconnect_by_data (self->active, self);
     g_clear_object (&self->active);
   }
+
+  g_object_freeze_notify (G_OBJECT (self));
+
+  if (old_conn != self->active)
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_VPN_MANAGER_PROP_LAST_CONNECTION]);
+
+  /* Update the active connection state */
   update_state (self);
+  if (!self->active) {
+    update_connections (self);
+  }
+
+  g_object_thaw_notify (G_OBJECT (self));
 }
 
 
@@ -237,6 +355,10 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
   g_signal_connect_swapped (self->nmclient, "notify::active-connections",
                             G_CALLBACK (on_nmclient_active_connections_changed), self);
   on_nmclient_active_connections_changed (self, NULL, self->nmclient);
+
+  g_signal_connect_swapped (self->nmclient, "notify::connections",
+                            G_CALLBACK (on_nmclient_connections_changed), self);
+  on_nmclient_connections_changed (self, NULL, self->nmclient);
 
   g_debug ("Vpn manager initialized");
 }
@@ -271,6 +393,7 @@ phosh_vpn_manager_dispose (GObject *object)
     g_signal_handlers_disconnect_by_data (self->active, self);
     g_clear_object (&self->active);
   }
+  g_clear_pointer (&self->last_uuid, g_free);
 
   G_OBJECT_CLASS (phosh_vpn_manager_parent_class)->dispose (object);
 }
@@ -306,6 +429,26 @@ phosh_vpn_manager_class_init (PhoshVpnManagerClass *klass)
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+  /**
+   * PhoshVpnManager:present:
+   *
+   * Whether there is at least one VPN connection configured
+   */
+  props[PHOSH_VPN_MANAGER_PROP_PRESENT] =
+    g_param_spec_string ("present", "", "",
+                         NULL,
+                         G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
+  /**
+   * PhoshVpnManager:connection:
+   *
+   * The last activated connection
+   */
+  props[PHOSH_VPN_MANAGER_PROP_LAST_CONNECTION] =
+    g_param_spec_string ("last-connection", "", "",
+                         NULL,
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+
   g_object_class_install_properties (object_class, PHOSH_VPN_MANAGER_PROP_LAST_PROP, props);
 }
 
@@ -339,4 +482,62 @@ phosh_vpn_manager_get_enabled (PhoshVpnManager *self)
   g_return_val_if_fail (PHOSH_IS_VPN_MANAGER (self), FALSE);
 
   return self->enabled;
+}
+
+gboolean
+phosh_vpn_manager_get_present (PhoshVpnManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_VPN_MANAGER (self), FALSE);
+
+  return self->present;
+}
+
+const char *
+phosh_vpn_manager_get_last_connection (PhoshVpnManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_VPN_MANAGER (self), NULL);
+
+  if (self->active)
+    return nm_active_connection_get_id (self->active);
+
+  if (self->last_uuid) {
+    NMConnection *conn;
+
+    conn = NM_CONNECTION (nm_client_get_connection_by_uuid (self->nmclient, self->last_uuid));
+    if (conn)
+      return nm_connection_get_id (conn);
+  }
+
+  return NULL;
+}
+
+void
+phosh_vpn_manager_toggle_last_connection (PhoshVpnManager *self)
+{
+  NMConnection *conn;
+  const char *name;
+
+  g_return_if_fail (PHOSH_IS_VPN_MANAGER (self));
+
+  if (self->active) {
+    nm_client_deactivate_connection_async (self->nmclient,
+                                           self->active,
+                                           self->cancel,
+                                           on_vpn_connection_deactivated,
+                                           NULL);
+    return;
+  }
+
+  if (!self->last_uuid)
+    return;
+
+  conn = NM_CONNECTION (nm_client_get_connection_by_uuid (self->nmclient, self->last_uuid));
+  g_return_if_fail (NM_IS_CONNECTION (conn));
+
+  name = nm_connection_get_id (conn);
+  g_debug ("Activating connection %s", name);
+  nm_client_activate_connection_async (self->nmclient, conn, NULL, NULL,
+                                       self->cancel,
+                                       on_vpn_connection_activated,
+                                       NULL);
 }

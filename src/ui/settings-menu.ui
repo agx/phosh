@@ -125,32 +125,60 @@
                   </object>
                 </child>
                 <child>
-                  <object class="PhoshQuickSetting" id="torch_quick_setting">
-                    <property name="visible">True</property>
-                    <property name="sensitive" bind-source="torchinfo" bind-property="present" bind-flags="sync-create"/>
-                    <property name="can_focus">False</property>
-                    <signal name="clicked" handler="torch_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                  <object class="GtkFlowBoxChild">
+                    <property name="visible" bind-source="torchinfo" bind-property="present" bind-flags="sync-create"/>
                     <child>
-                      <object class="PhoshTorchInfo" id="torchinfo">
+                      <object class="PhoshQuickSetting" id="torch_quick_setting">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                        <signal name="clicked" handler="torch_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                        <child>
+                          <object class="PhoshTorchInfo" id="torchinfo">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
                 </child>
                 <child>
-                  <object class="PhoshQuickSetting" id="docked_quick_setting">
-                    <property name="visible">True</property>
-                    <property name="sensitive" bind-source="dockedinfo" bind-property="present" bind-flags="sync-create"/>
-                    <property name="can_focus">False</property>
-                    <signal name="clicked" handler="docked_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
-                    <signal name="long-pressed" handler="docked_setting_long_pressed_cb" object="PhoshSettings" swapped="yes"/>
+                  <object class="GtkFlowBoxChild">
+                    <property name="visible" bind-source="dockedinfo" bind-property="present" bind-flags="sync-create"/>
                     <child>
-                      <object class="PhoshDockedInfo" id="dockedinfo">
+                      <object class="PhoshQuickSetting" id="docked_quick_setting">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                        <signal name="clicked" handler="docked_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                        <signal name="long-pressed" handler="docked_setting_long_pressed_cb" object="PhoshSettings" swapped="yes"/>
+                        <child>
+                          <object class="PhoshDockedInfo" id="dockedinfo">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkFlowBoxChild">
+                    <property name="visible" bind-source="vpninfo" bind-property="present" bind-flags="sync-create"/>
+                    <child>
+                      <object class="PhoshQuickSetting" id="vpn_quick_setting">
+                        <property name="visible">True</property>>
+                        <property name="can_focus">False</property>
+                        <signal name="clicked" handler="on_vpn_setting_clicked" object="PhoshSettings" swapped="yes"/>
+                        <signal name="long-pressed" handler="on_vpn_setting_long_pressed" object="PhoshSettings" swapped="yes"/>
+                        <child>
+                          <object class="PhoshVpnInfo" id="vpninfo">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>

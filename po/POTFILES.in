@@ -71,6 +71,7 @@ src/ui/settings-menu.ui
 src/ui/system-prompt.ui
 src/ui/top-panel.ui
 src/util.c
+src/vpn-info.c
 src/wifiinfo.c
 src/wifimanager.c
 src/wwaninfo.c
