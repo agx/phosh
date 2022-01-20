@@ -130,6 +130,20 @@ unit-test:native-debian-bookworm:
     variables:
       - $PKG_ONLY == "1"
 
+asan-test:native-debian-bookworm:
+  stage: test+docs
+  image: ${DEBIAN_IMAGE}
+  tags: [ asan ]
+  <<: *bookworm_vars
+  script:
+    - meson -Dphoc_tests=disabled -Dtools=false -Dosk-stub=false -Db_sanitize=address -Dbuildtype=debug _build-asan
+    - ninja -C _build-asan data/gschemas.compiled
+    - ${XVFB_RUN} meson test --print-errorlogs -C _build-asan --suite unit --no-suite phoc
+  except:
+    variables:
+      - $PKG_ONLY == "1"
+  allow_failure: true
+
 screenshot:native-debian-bookworm:
   stage: test+docs
   image: ${SCREENSHOT_IMAGE}
