@@ -33,11 +33,11 @@ else
   desktopconf.set('hidden_under_systemd', '')
 endif
 
-desktop_files = [
-  'sm.puri.Phosh.desktop',
-  'sm.puri.OSK0.desktop',
-]
-foreach desktop_file : desktop_files
+desktop_files = {
+  'sm.puri.Phosh.desktop': true,
+  'sm.puri.OSK0.desktop': get_option('osk-stub'),
+}
+foreach desktop_file, install : desktop_files
   i18n.merge_file(
     input: configure_file(
       input: desktop_file + '.in.in',
