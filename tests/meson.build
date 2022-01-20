@@ -29,8 +29,12 @@ test_env_common.set('GSETTINGS_SCHEMA_DIR', '@0@/data'.format(meson.build_root()
 test_env_common.set('PYTHONDONTWRITEBYTECODE', 'yes')
 test_env_common.set('MALLOC_CHECK_', '2')
 test_env_common.set('NO_AT_BRIDGE', '1')
+
+# For -Db_sanitize=address
 test_env_common.set('LSAN_OPTIONS',
 		    'suppressions=@0@/data/leak-suppress.txt'.format(meson.source_root()))
+# as our libraries lack frame pointers since otherwise back traces are incomplete
+test_env_common.set('ASAN_OPTIONS', 'fast_unwind_on_malloc=0')
 
 # xdg setup for the app-grid:
 test_env_unit = test_env_common
