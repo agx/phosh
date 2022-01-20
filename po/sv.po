@@ -1,14 +1,14 @@
 # Ludwig Johnson <public@ludwigjohnson.se>, 2018. #zanata
 # Nami <namii@tutamail.com>, 2019. #zanata
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2020, 2021.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2020, 2021, 2022.
 # Luna Jernberg <droidbittin@gmail.com>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-12-23 22:20+0000\n"
-"PO-Revision-Date: 2021-12-23 23:33+0100\n"
+"POT-Creation-Date: 2022-01-20 19:23+0000\n"
+"PO-Revision-Date: 2022-01-20 22:09+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -31,15 +31,15 @@ msgstr "Phone Shell"
 msgid "Window management and application launching for mobile"
 msgstr "Fönsterhantering och programstartare för mobil"
 
-#: src/app-grid-button.c:503
+#: src/app-grid-button.c:502
 msgid "Application"
 msgstr "Program"
 
-#: src/app-grid.c:133
+#: src/app-grid.c:137
 msgid "Show All Apps"
 msgstr "Visa alla appar"
 
-#: src/app-grid.c:136
+#: src/app-grid.c:140
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Visa endast mobilanpassade appar"
 
@@ -128,27 +128,27 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nej"
 
-#: src/lockscreen.c:162 src/ui/lockscreen.ui:265
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
 msgid "Enter Passcode"
 msgstr "Ange lösenord"
 
-#: src/lockscreen.c:350
+#: src/lockscreen.c:362
 msgid "Checking…"
 msgstr "Kontrollerar…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:428
+#: src/lockscreen.c:440
 msgid "%A, %B %-e"
 msgstr "%A, %-e %B"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:179
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "Okänd titel"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:162
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "Okänd artist"
 
@@ -176,12 +176,12 @@ msgstr "%s %s"
 msgid "Unknown"
 msgstr "Okänd"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Autentiseringstyp för wifi-nätverket ”%s” stöds ej"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Ange lösenord för wifi-nätverket ”%s”"
@@ -287,7 +287,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "Autentiseringsdialogen avvisades av användaren"
 
 #: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Lösenord:"
@@ -379,27 +379,27 @@ msgstr "A_nslut"
 msgid "Slide up to unlock"
 msgstr "Svep uppåt för att låsa upp"
 
-#: src/ui/lockscreen.ui:315
+#: src/ui/lockscreen.ui:320
 msgid "Emergency"
 msgstr "Nödläge"
 
-#: src/ui/lockscreen.ui:331
+#: src/ui/lockscreen.ui:336
 msgid "Unlock"
 msgstr "Lås upp"
 
-#: src/ui/lockscreen.ui:371
+#: src/ui/lockscreen.ui:376
 msgid "Back"
 msgstr "Bakåt"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Autentisering krävs"
 
-#: src/ui/network-auth-prompt.ui:41
+#: src/ui/network-auth-prompt.ui:40
 msgid "_Cancel"
 msgstr "A_vbryt"
 
-#: src/ui/network-auth-prompt.ui:59
+#: src/ui/network-auth-prompt.ui:58
 msgid "C_onnect"
 msgstr "A_nslut"
 
@@ -422,6 +422,10 @@ msgstr "Lås skärm"
 #: src/ui/top-panel.ui:22
 msgid "Logout"
 msgstr "Logga ut"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
