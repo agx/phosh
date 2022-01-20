@@ -8,32 +8,37 @@
 
 #include "util.h"
 
+#define phosh_test_assert_cmp_markup(in, esc, cmp)                        \
+  do {                                                        \
+    g_autofree char *escaped = phosh_util_escape_markup (in, esc);   \
+    g_assert_cmpstr (escaped, ==, cmp);                              \
+  } while (0);
 
 static void
 test_phosh_util_escape_markup (void)
 {
   /* correct markup */
-  g_assert_cmpstr (phosh_util_escape_markup ("&amp;&amp;", TRUE), ==, "&amp;&amp;");
-  g_assert_cmpstr (phosh_util_escape_markup ("&quot;&quot;", TRUE), ==, "&quot;&quot;");
-  g_assert_cmpstr (phosh_util_escape_markup ("&apos;&apos;", TRUE), ==, "&apos;&apos;");
-  g_assert_cmpstr (phosh_util_escape_markup ("&lt;&lt;", TRUE), ==, "&lt;&lt;");
-  g_assert_cmpstr (phosh_util_escape_markup ("&gt;&gt;", TRUE), ==, "&gt;&gt;");
-  g_assert_cmpstr (phosh_util_escape_markup ("<b>bold</b>", TRUE), ==, "<b>bold</b>");
-  g_assert_cmpstr (phosh_util_escape_markup ("<i>italic</i>", TRUE), ==, "<i>italic</i>");
-  g_assert_cmpstr (phosh_util_escape_markup ("<u>underline</u>", TRUE), ==, "<u>underline</u>");
-  g_assert_cmpstr (phosh_util_escape_markup ("<u>&amp;</u>", TRUE), ==, "<u>&amp;</u>");
+  phosh_test_assert_cmp_markup ("&amp;&amp;", TRUE, "&amp;&amp;");
+  phosh_test_assert_cmp_markup ("&quot;&quot;", TRUE, "&quot;&quot;");
+  phosh_test_assert_cmp_markup ("&apos;&apos;", TRUE, "&apos;&apos;");
+  phosh_test_assert_cmp_markup ("&lt;&lt;", TRUE, "&lt;&lt;");
+  phosh_test_assert_cmp_markup ("&gt;&gt;", TRUE, "&gt;&gt;");
+  phosh_test_assert_cmp_markup ("<b>bold</b>", TRUE, "<b>bold</b>");
+  phosh_test_assert_cmp_markup ("<i>italic</i>", TRUE, "<i>italic</i>");
+  phosh_test_assert_cmp_markup ("<u>underline</u>", TRUE, "<u>underline</u>");
+  phosh_test_assert_cmp_markup ("<u>&amp;</u>", TRUE, "<u>&amp;</u>");
 
   /* unknown tags and entities */
-  g_assert_cmpstr (phosh_util_escape_markup ("&foo;&foo;", TRUE), ==, "&amp;foo;&amp;foo;");
-  g_assert_cmpstr (phosh_util_escape_markup ("<p>para</p>", TRUE), ==, "&lt;p>para&lt;/p>");
+  phosh_test_assert_cmp_markup ("&foo;&foo;", TRUE, "&amp;foo;&amp;foo;");
+  phosh_test_assert_cmp_markup ("<p>para</p>", TRUE, "&lt;p>para&lt;/p>");
   /* Make sure we match the full tag */
-  g_assert_cmpstr (phosh_util_escape_markup ("<pp>para</pp>", TRUE), ==, "&lt;pp>para&lt;/pp>");
-  g_assert_cmpstr (phosh_util_escape_markup ("&lt;", FALSE), ==, "&amp;lt;");
+  phosh_test_assert_cmp_markup ("<pp>para</pp>", TRUE, "&lt;pp>para&lt;/pp>");
+  phosh_test_assert_cmp_markup ("&lt;", FALSE, "&amp;lt;");
 
   /* broken markups */
   /* unbalanced markup */
-  g_assert_cmpstr (phosh_util_escape_markup ("<p>para</i>", TRUE), ==, "&lt;p&gt;para&lt;/i&gt;");
-  g_assert_cmpstr (phosh_util_escape_markup ("<p>para</pp>", TRUE), ==, "&lt;p>para&lt;/pp>");
+  phosh_test_assert_cmp_markup ("<p>para</i>", TRUE, "&lt;p&gt;para&lt;/i&gt;");
+  phosh_test_assert_cmp_markup ("<p>para</pp>", TRUE, "&lt;p>para&lt;/pp>");
 }
 
 
