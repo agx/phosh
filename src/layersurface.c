@@ -328,10 +328,7 @@ on_phosh_layer_surface_unmapped (PhoshLayerSurface *self, gpointer unused)
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   priv = phosh_layer_surface_get_instance_private (self);
 
-  if (priv->layer_surface) {
-    zwlr_layer_surface_v1_destroy (priv->layer_surface);
-    priv->layer_surface = NULL;
-  }
+  g_clear_pointer (&priv->layer_surface, zwlr_layer_surface_v1_destroy);
   priv->wl_surface = NULL;
 }
 
@@ -361,10 +358,7 @@ phosh_layer_surface_dispose (GObject *object)
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (object);
   PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
 
-  if (priv->layer_surface) {
-    zwlr_layer_surface_v1_destroy (priv->layer_surface);
-    priv->layer_surface = NULL;
-  }
+  g_clear_pointer (&priv->layer_surface, zwlr_layer_surface_v1_destroy);
   g_clear_pointer (&priv->namespace, g_free);
 
   G_OBJECT_CLASS (phosh_layer_surface_parent_class)->dispose (object);
