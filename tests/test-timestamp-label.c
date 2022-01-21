@@ -88,61 +88,73 @@ test_phosh_time_diff_in_words (void)
 
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2020, 12, 31, 22, 59, 31);
+  g_free (str);
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "<30s");
 
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2020, 12, 31, 22, 59, 29);
+  g_free (str);
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "<1m");
 
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2020, 12, 31, 22, 30, 00);
+  g_free (str);
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "30m");
 
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2020, 12, 31, 21, 00, 00);
+  g_free (str);
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "~2h");
 
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2020, 12, 30, 21, 00, 00);
+  g_free (str);
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "~1d");
 
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2020, 12, 29, 21, 00, 00);
+  g_free (str);
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "2d");
 
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2020, 11, 29, 21, 00, 00);
+  g_free (str);
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "~1mo");
 
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2020, 10, 29, 21, 00, 00);
+  g_free (str);
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "2mos");
 
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2019, 12, 31, 21, 00, 00);
+  g_free (str);
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "~1y");
 
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2019, 3, 30, 21, 00, 00);
+  g_free (str);
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "Almost 2y");
 
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2018, 12, 31, 21, 00, 00);
+  g_free (str);
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "~2y");
 
   g_date_time_unref (dt);
   dt = g_date_time_new_local (2018, 6, 30, 21, 00, 00);
+  g_free (str);
   str = phosh_time_diff_in_words (dt, dt_now);
   g_assert_cmpstr (str, ==, "Over 2y");
 
