@@ -562,7 +562,7 @@ phosh_background_finalize (GObject *object)
   GObjectClass *parent_class = G_OBJECT_CLASS (phosh_background_parent_class);
   PhoshBackground *self = PHOSH_BACKGROUND (object);
 
-  g_object_unref (self->pixbuf);
+  g_clear_object (&self->pixbuf);
   g_clear_pointer (&self->uri, g_free);
   g_clear_object (&self->settings);
 
