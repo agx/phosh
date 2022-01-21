@@ -174,7 +174,6 @@ registry_handle_global_remove (void *data,
   if (wl_output) {
     g_debug ("Output %d removed", name);
     g_hash_table_remove (self->wl_outputs, GINT_TO_POINTER (name));
-    wl_output_destroy (wl_output);
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WAYLAND_PROP_WL_OUTPUTS]);
   } else {
     g_warning ("Global %d removed but not handled", name);
@@ -345,9 +344,18 @@ phosh_wayland_class_init (PhoshWaylandClass *klass)
 
 
 static void
+output_destroy (gpointer data)
+{
+  struct wl_output *output = data;
+
+  wl_output_destroy (output);
+}
+
+
+static void
 phosh_wayland_init (PhoshWayland *self)
 {
-  self->wl_outputs = g_hash_table_new (g_direct_hash, g_direct_equal);
+  self->wl_outputs = g_hash_table_new_full (g_direct_hash,g_direct_equal, NULL, output_destroy);
 }
 
 
