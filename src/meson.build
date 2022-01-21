@@ -88,6 +88,8 @@ libphosh_tool_sources = files(
   'docked-info.h',
   'docked-manager.c',
   'docked-manager.h',
+  'fading-label.c',
+  'fading-label.h',
   'favorite-list-model.c',
   'favorite-list-model.h',
   'feedback-manager.c',
