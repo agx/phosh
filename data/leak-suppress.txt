@@ -3,6 +3,11 @@
 leak:libfontconfig.so.1
 # https://gitlab.gnome.org/GNOME/gtk/merge_requests/823
 leak:gtk_header_bar_set_decoration_layout
+# GLib quarks stay around
+leak:g_quark_init
+#
+# For the tests
+#
 # gtk's gdk_set_allowed_backend uses g_strdup()
 leak:gdk_set_allowed_backends
 # Displays from gtk's gdk_display_manager_open_display are never free'd

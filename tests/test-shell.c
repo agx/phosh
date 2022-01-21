@@ -27,7 +27,7 @@ compositor_setup (Fixture *fixture, gconstpointer unused)
 {
   g_setenv ("WLR_HEADLESS_OUTPUTS", "1", TRUE);
 
-  fixture->state = phosh_test_compositor_new ();
+  fixture->state = phosh_test_compositor_new (TRUE);
   g_assert_nonnull (fixture->state);
 }
 
@@ -37,7 +37,7 @@ compositor_setup_dualhead (Fixture *fixture, gconstpointer unused)
 {
   g_setenv ("WLR_HEADLESS_OUTPUTS", "2", TRUE);
 
-  fixture->state = phosh_test_compositor_new ();
+  fixture->state = phosh_test_compositor_new (TRUE);
   g_assert_nonnull (fixture->state);
 }
 

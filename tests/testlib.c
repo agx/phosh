@@ -7,6 +7,7 @@
  */
 
 #include "testlib.h"
+#include "testlib-head-stub.h"
 
 #include "layersurface.h"
 #include <gdk/gdkwayland.h>
@@ -150,7 +151,7 @@ phosh_test_get_monitor(void)
 
 
 PhoshTestCompositorState *
-phosh_test_compositor_new (void)
+phosh_test_compositor_new (gboolean heads_stub)
 {
   g_autoptr (GError) err = NULL;
   g_autoptr (GPtrArray) argv = NULL;
@@ -234,6 +235,9 @@ phosh_test_compositor_new (void)
 
   state->wl = phosh_wayland_get_default ();
 
+  if (heads_stub)
+    phosh_test_head_stub_init (state->wl);
+
   return state;
 }
 
@@ -242,6 +246,8 @@ phosh_test_compositor_free (PhoshTestCompositorState *state)
 {
   if (!state)
     return;
+
+  phosh_test_head_stub_destroy ();
 
   g_assert_finalize_object (state->wl);
 

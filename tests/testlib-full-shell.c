@@ -42,7 +42,7 @@ phosh_test_full_shell_thread (gpointer data)
   PhoshTestFullShellFixture *fixture = (PhoshTestFullShellFixture *)data;
 
   /* compositor setup in thread since this invokes gdk already */
-  fixture->state = phosh_test_compositor_new ();
+  fixture->state = phosh_test_compositor_new (FALSE);
   /* We assume only one compositor running at a given time */
   comp_pid = fixture->state->pid;
 

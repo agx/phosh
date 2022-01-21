@@ -24,7 +24,7 @@ typedef struct _PhoshTestCompositorState {
   GdkDisplay                 *gdk_display;
 } PhoshTestCompositorState;
 
-PhoshTestCompositorState *phosh_test_compositor_new (void);
+PhoshTestCompositorState *phosh_test_compositor_new (gboolean heads_stub);
 void                      phosh_test_compositor_free (PhoshTestCompositorState *state);
 PhoshMonitor*             phosh_test_get_monitor(void);
 struct zwp_virtual_keyboard_v1 * phosh_test_keyboard_new (PhoshWayland *wl);

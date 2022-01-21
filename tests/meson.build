@@ -61,6 +61,7 @@ test_link_args = [
 
 testlib_sources = [
   'testlib.c',
+  'testlib-head-stub.c',
   'testlib-full-shell.c',
   'testlib-calls-mock.c',
   'testlib-mpris-mock.c',

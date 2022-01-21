@@ -31,7 +31,7 @@ typedef struct _Fixture {
 static void
 compositor_setup (Fixture *fixture, gconstpointer unused)
 {
-  fixture->state = phosh_test_compositor_new ();
+  fixture->state = phosh_test_compositor_new (TRUE);
   g_assert_nonnull (fixture->state);
 
   fixture->settings = g_settings_new (BG_SCHEMA);
