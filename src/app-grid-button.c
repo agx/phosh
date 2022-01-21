@@ -10,6 +10,7 @@
 #include "app-tracker.h"
 #include "app-grid-button.h"
 #include "clamp.h"
+#include "fading-label.h"
 #include "phosh-enums.h"
 #include "favorite-list-model.h"
 
@@ -346,6 +347,7 @@ phosh_app_grid_button_init (PhoshAppGridButton *self)
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
 
   g_type_ensure (PHOSH_TYPE_CLAMP);
+  g_type_ensure (PHOSH_TYPE_FADING_LABEL);
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
@@ -449,7 +451,7 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
     favorites_changed (G_LIST_MODEL (list), 0, 0, 0, self);
 
     name = g_app_info_get_name (G_APP_INFO (priv->info));
-    gtk_label_set_label (GTK_LABEL (priv->label), name);
+    phosh_fading_label_set_label (PHOSH_FADING_LABEL (priv->label), name);
 
     icon = g_app_info_get_icon (priv->info);
     if (G_UNLIKELY (icon == NULL)) {
@@ -502,7 +504,7 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
       }
     }
   } else {
-    gtk_label_set_label (GTK_LABEL (priv->label), _("Application"));
+    phosh_fading_label_set_label (PHOSH_FADING_LABEL (priv->label), _("Application"));
     gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon),
                                   PHOSH_APP_UNKNOWN_ICON,
                                   GTK_ICON_SIZE_DIALOG);

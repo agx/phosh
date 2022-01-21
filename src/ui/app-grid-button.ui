@@ -48,16 +48,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label">
+                  <object class="PhoshFadingLabel" id="label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="no_show_all">True</property>
                     <property name="label" translatable="yes">App</property>
-                    <property name="justify">center</property>
-                    <property name="wrap">True</property>
-                    <property name="wrap-mode">word-char</property>
-                    <property name="ellipsize">end</property>
-                    <property name="lines">2</property>
+                    <property name="halign">center</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
