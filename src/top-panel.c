@@ -423,6 +423,7 @@ phosh_top_panel_dispose (GObject *object)
   g_clear_object (&self->input_settings);
   g_clear_object (&self->interface_settings);
   g_clear_object (&self->actions);
+  g_clear_pointer (&self->action_names, g_strfreev);
   self->seat = NULL;
 
   G_OBJECT_CLASS (phosh_top_panel_parent_class)->dispose (object);
