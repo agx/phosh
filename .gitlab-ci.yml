@@ -136,9 +136,9 @@ asan-test:native-debian-bookworm:
   tags: [ asan ]
   <<: *bookworm_vars
   script:
-    - meson -Dphoc_tests=disabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
+    - meson -Dphoc_tests=enabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
     - ninja -C _build-asan data/gschemas.compiled
-    - ${XVFB_RUN} meson test --print-errorlogs -C _build-asan --suite unit --no-suite phoc
+    - ${XVFB_RUN} meson test --print-errorlogs -C _build-asan --suite unit
   except:
     variables:
       - $PKG_ONLY == "1"
