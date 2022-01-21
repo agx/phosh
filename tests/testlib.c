@@ -244,11 +244,11 @@ phosh_test_compositor_free (PhoshTestCompositorState *state)
   if (!state)
     return;
 
+  g_assert_finalize_object (state->wl);
+
   gdk_display_close (state->gdk_display);
   kill (state->pid, SIGTERM);
   g_spawn_close_pid (state->pid);
-
-  g_assert_finalize_object (state->wl);
 
   g_clear_pointer (&state, g_free);
 }
