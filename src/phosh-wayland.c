@@ -292,6 +292,23 @@ phosh_wayland_dispose (GObject *object)
 {
   PhoshWayland *self = PHOSH_WAYLAND (object);
 
+  g_clear_pointer (&self->idle_manager, org_kde_kwin_idle_destroy);
+  g_clear_pointer (&self->input_inhibit_manager, &zwlr_input_inhibit_manager_v1_destroy);
+  g_clear_pointer (&self->layer_shell, &zwlr_layer_shell_v1_destroy);
+  g_clear_pointer (&self->phosh_private, phosh_private_destroy);
+  g_clear_pointer (&self->registry, wl_registry_destroy);
+  g_clear_pointer (&self->wl_seat, wl_seat_destroy);
+  g_clear_pointer (&self->wl_shm, wl_shm_destroy);
+  g_clear_pointer (&self->xdg_wm_base, xdg_wm_base_destroy);
+  g_clear_pointer (&self->zwlr_foreign_toplevel_manager_v1,
+                   zwlr_foreign_toplevel_manager_v1_destroy);
+  g_clear_pointer (&self->zwlr_gamma_control_manager_v1, zwlr_gamma_control_manager_v1_destroy);
+  g_clear_pointer (&self->zwlr_output_manager_v1, zwlr_output_manager_v1_destroy);
+  g_clear_pointer (&self->zwlr_output_power_manager_v1, zwlr_output_power_manager_v1_destroy);
+  g_clear_pointer (&self->zwlr_screencopy_manager_v1, zwlr_screencopy_manager_v1_destroy);
+  g_clear_pointer (&self->zwp_virtual_keyboard_manager_v1, zwp_virtual_keyboard_manager_v1_destroy);
+  g_clear_pointer (&self->zxdg_output_manager_v1, zxdg_output_manager_v1_destroy);
+
   g_clear_pointer (&self->wl_outputs, g_hash_table_destroy);
 
   G_OBJECT_CLASS (phosh_wayland_parent_class)->dispose (object);
