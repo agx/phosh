@@ -183,6 +183,7 @@ update_connections (PhoshVpnManager *self)
 
   conns = nm_client_get_connections (self->nmclient);
 
+  g_clear_pointer (&self->last_uuid, g_free);
   for (int i = 0; i < conns->len; i++) {
     NMConnection *conn = NM_CONNECTION (g_ptr_array_index (conns, i));
     NMSettingConnection *s_con = nm_connection_get_setting_connection (conn);
