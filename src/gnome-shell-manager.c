@@ -314,6 +314,7 @@ handle_grab_accelerators (PhoshGnomeShellDBusShell *skeleton,
                                              "%s",
                                              error->message);
       conflict = TRUE;
+      g_free (info);
       break;
     }
 
