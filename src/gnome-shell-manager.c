@@ -233,6 +233,7 @@ grab_single_accelerator (PhoshGnomeShellManager *self,
                                                   action_entries,
                                                   G_N_ELEMENTS (action_entries),
                                                   info);
+  g_assert (info->action_id > 0);
   return info->action_id;
 }
 
