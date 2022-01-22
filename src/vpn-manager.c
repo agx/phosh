@@ -168,13 +168,13 @@ update_connections (PhoshVpnManager *self)
 {
   const GPtrArray *conns;
   gint last_ts = 0;
-  const char *old_uuid;
+  g_autofree char *old_uuid = NULL;
   gboolean old_present;
 
   g_return_if_fail (PHOSH_IS_VPN_MANAGER (self));
 
   old_present = self->present;
-  old_uuid = self->last_uuid;
+  old_uuid = g_strdup (self->last_uuid);
   /* No need to bother as long as we have an active connection */
   if (self->active) {
     self->present = TRUE;
@@ -209,7 +209,7 @@ update_connections (PhoshVpnManager *self)
   if (self->present != old_present)
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_VPN_MANAGER_PROP_PRESENT]);
 
-  if (self->last_uuid != old_uuid)
+  if (g_strcmp0 (self->last_uuid, old_uuid))
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_VPN_MANAGER_PROP_LAST_CONNECTION]);
 }
 
