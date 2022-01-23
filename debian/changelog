@@ -1,3 +1,341 @@
+phosh (0.15.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * wifimanager: Create NetworkAgent async.
+    This avoids a `g_main_loop_run` in the sync init.
+  * monitor: Fix indentation
+  * doc-check: Allow to specify dir to check
+  * doc-check: Avoid whitespace that breaks the check
+  * wl-buffer: Move create_shm_file to utils.
+    This can be used in multiple places
+  * monitor-manager: Use phosh_create_shm_file.
+    This fixes a missing error check for the returned fd as well.
+  * toplevel-thumbnail: Use phosh_shm_file ()
+  * run-command-manager: Fix section name and log domain.
+    Drop the additional "dialog-" which is not part or the class name.
+  * media-player: Only load file URIs.
+    Data from the network needs to be fetched async since it
+    can stall. (Closes: #583)
+  * testlib: Ignore warnings and criticals from the compositor.
+    (avoids test failures with older phoc)
+  * gitlab-ci: No need to forcibly remove lcov anymore.
+    Debian's gcovr doesn't depend on lcov anymore
+    (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=987818)
+  * gitlab-ci: Use newer docker image.
+    This doesn't forcibly remove lcov anymore which makes e.g. adding
+    packages easier.
+  * system-prompt: Handle mnemonic in choice label.
+    Some of the prompt use it (e.g. gpg prompts for "save in password
+    manager"). Otherwise we'd just get a leading '_'.
+    Fixes: de1b395e ("system-prompt: Make sure the choice label wraps")
+  * system-prompt: Use consistent spacing.  We use 6px between label and
+    button.
+  * toplevel-thumnail: Drop flag check
+    phoc <= 0.10.0 sent y_invert although we didn't use it. Phoc
+    >= 11.0 doesn't send it triggering the critical so drop it.
+  * run: Drop gnome session setup.
+    Most of the time people want phosh+phoc so the session just causes
+    trouble. We can drop it and people can needing a session can just fire
+    it up. Adjust the README accordingly.
+  * run: Always start unlocked.
+    Running nested is the main use case and one usually wants an
+    unlocked shell there so run unlocked by default.
+    If people want to run locked they can pass '-L'.
+    Adjust docs accordingly
+  * README: Drop install step.  One can run fine out of the source tree and
+    this avoids spreading files all over /usr/local.
+  * README: Make phoc config the first argument.
+    Makes it easier to edit phosh's run options
+  * README: Use a screenshot of the unlocked shell.
+    Since this is what we're launching in the example above.
+  * run: Make it simple to override debugging.
+    While full debugging is often useful sometimes one wants to limit to
+    certain modules so honor a set `G_MESSAGES_DEBUG`.
+  * README: Use ```sh for shell snippets.
+    Be consistent. Also drop leading whitespace to ease copy/paste.
+  * README: Fix path to gitlab-ci file
+  * README: Drop section on libhandy.  It can be used as a subproject
+  * run-command-dialog: Split submitted and cancelled signal.
+    This will simplify processing when we handle errors better.
+  * run-command-manager: Fix indentation
+  * run-command-manager: Return success/failure when running command.
+    Swap success/failure case while at that to avoid a negated expression.
+  * run-command-dialog: Drop unneeded can-focus properties
+  * run-command-{dialog,manager}: Show error message when command failed
+  * run-command-dialog: Use on_ prefix consistently.  We allow for both
+    (prefering `on_`) but don't want to mix in the same class.
+  * background: Allow absolute paths too.
+    When e.g. gnome-photos sets a background it uses an absolute path.
+  * util: Add helper to markup escape text.
+    This either escapes all markup or preserves elements allowed
+    via the notification spec in a notification body. Based on
+    what gnome-shell does as of commit
+    919c4cf3d5657dd93f0c14c21a30071b8e90f6e2. Bugs introduced are
+    my own.
+  * notify-manager: Escape notification bodies.
+    Otherwise bodies with markup would silently be dropped.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/690
+  * system-modal-dialog: Mark swipe-away-bin as vertical
+  * stylesheet: Sort colors alphabetically.
+    Makes things easier when we add more
+  * gitla-ci.yml: Don't build tests when building the docs.
+    This brings down compilation time and resource usage and
+    the tests don't contribute to the docs atm.
+  * system-prompt: Don't access priv before checking the type
+  * tests: Name screenshot suite as such.
+    The tests aren't manual anyway since they're run by default.
+  * Move network-auth related bits out of wifi-manager.
+    Other connections types such as VPN want to do auth too
+  * network-auth-prompt: Remove unused nmclient
+  * network-auth-prompt: Drop custom Esc-key handler.
+    Rather only use the one from system-auth-prompt since that is also
+    wired up to properly cancel the network-auth request via
+    `on_dialog_canceled()`.
+    Otherwise e.g. VPN auth prompts can hang up to timeout
+  * network-auth-manager: Use cancellable for agent registration too.
+    We want to cancel this in case of e.g. early shutdown.
+  * network-auth-manger: Use a separate cancellable for registration.
+    NM doesn't like if we cancel a successful operation later on rather
+    crahes in NMSecrentAgentOld's _register_cancelled_cb since the task data
+    is already freed.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/673
+  * newtork-auth-manager: Drop unused nmclient.
+    Now that network-auth-prompt dropped it we can drop it here too after
+    fixing cancellation.
+  * contrib: Add vpn plugin related bits.
+    Bring over the VPN plugin related bits as from gnome-shell's
+    shell-network-agent as of 919c4cf3d5657dd93f0c14c21a30071b8e90f6e2.
+  * network-auth-{manager,prompt}: Support VPN authentication.
+    Heavily inspired by what NetworkManager's secret handling. Errors
+    introduced are my own.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/630
+  * network-auth-prompt: Use request_id to check if we're done
+  * network-auth-prompt: Don't allow to reuse prompt.
+    This allows the the auth-manager to figure out if we're already
+    busy.
+  * network-auth-manager: Cancel overlapping requests.
+    Don't drop them to floor silently anymore. Later on we
+    should just put them on a queue and process them one
+    after another.
+  * wifimanager: Drop unused set_property
+  * Add vpn-manager to track the vpn status.
+    Minimal implementation, will be expanded once we add a quick setting.
+    It will later be used in the quick setting to toggle VPN on/off, etc.
+  * shell: Spawn vpn-manager
+  * Add vpn-info to display VPN state.
+    Minimal implementation, will be expanded once we add a quick setting.
+  * top-panel: Add VPN indicator.
+    This displays the VPN state in the top-bar.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/631
+  * vpn-manager: Handle wireguard connections as VPN connections
+  * gitlab-ci: Set defaults.  Let's retry jobs on infra changes, make them
+    interruptible and not run "forever".
+  * gitlab-ci: Indicate it's a remote include.
+  * gitlab-ci: Add MR sanity checks.
+    These are taken from mesa and spot things like unsquashed fixups, etc.
+    The commit-rules are based on what gnome-shell does.
+  * README: Update to match reality.
+    The XMPP channel and mailing list are unused so drop these
+    together with the broken reference to developer.puri.sm which
+    lost some redirects when it got moved recently.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/705
+  * session: Swap entries
+    xdg-desktop-portal does a left to right lookup - this makes sense as we
+    go from specific to generic. So swap the entries.
+  * build: Make it easy to build osk-stub conditionally.
+    This avoids people installing it accidentally, messing
+    up their installs.
+  * osk-stub: Uncrustify.
+    Reformat so further changes are simple
+  * osk-stub: Remove unused variable.
+  * osk-stup: Use EXIT_FAILURE.
+  * osk-stub: Init gtk and listen to registry.
+    This will allow us to hook up the input-metnod protocol
+  * osk-stub: Add input-method stub.
+    This allows us to trace input-method requests
+  * osk-stub: Add an input surface.
+  * osk-stub: Animate show/hide of the input surface.
+    Do this when it is actually committed
+  * osk-stub: Add debug output to intput-surface.
+    This makes it easy to see ongoing changes
+  * osk-stub: Add force-show debug flag.
+    Usually we want to hide the surface when not used. Add a flag to
+    always show it so we can trace activate/deactivate better.
+  * build: Allow to disable the tools build.
+    They are rarely needed but add on the build time so don't
+    build them by default but in CI.
+  * osk-stub: Indicate GNOMEs screen-keyboard-enabled setting.
+  * app-grid-button: Drop unused variable.
+  * activity: Allow to activate by keyboard.
+    Activate the selected activity when hitting return
+    (Closes: #701)
+  * settings: Hide docked quick setting when not docked.
+    It's only useful when we're there's enough hardware for docked
+    mode.
+  * settings: Hide torch quick setting when no hardware is found.
+    We need to add the flowbox child for that since just hiding the
+    QuickSetting won't make the FlowBox give up on the FlowBox Child's
+    space.
+  * data: Move icons into subdirectory.
+    This unclutters data/
+  * data: Add icon for disabled vpn.
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/979>
+  * vpn-manager: Track present and last connection.
+    We indicate VPN presence when at least one VPN is configured.
+  * settings: Add VPN quick setting.
+    We only show it if there's at least on VPN configured. Toggling
+    the quick setting either shuts down an active VPN or activates
+    the last active one.
+  * osd-window: Disable keyboard interactivity.
+    We don't want keyboard inut in the OSD anyway but this
+    additionally makes sure the focused client doesn't reenable
+    text-input potentially unfolding a manually hidden keyboard.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/706
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/1001>
+  * settings: Print panel name on error.
+    We free it in the callback now than after invoking the
+    DBus call.
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * quick-setting: Use const char * for panel.
+    This indicates that we don't transfer any ownership
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * quick-setting: Check return value.
+    When the return value is `NULL` an error occured.
+    This also tricks the compiler in not treating the variable
+    as unused.
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * gnome-shell-manager: Drop NULL check
+    g_new0() terminates the application if allocation fails
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * monitor-manager: Drop unused variable.
+    Fixes a6bab85e ("Allow to switch output configurations")
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * status-icon: Don't leak icon-name.
+    When getting the property we phosh_status_icon_get_icon_name()
+    which is transfer-full.
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * run-command-manager: Avoid unnecessary copy.
+    There's no need to build a GPtrArray and turn that into a GStrv
+    when we can use the GStrv directly (which also leaked).
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * top-panel: Avoid unnecessary copy.
+    There's no need to build a GPtrArray and turn that into a GStrv
+    when we can use the GStrv directly.
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * tests/mount-notification: Don't leak name.
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * tests/util: Don't leak.
+    Make sure we free the allocated markup and add macro to make things
+    more concise while at that.
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * tests/status-icon: Don't leak icon name.
+    It's returned as transfer-full.
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * tests/notification: Fix leaks.
+    The values returned from `g_object_get()` are always allocated.
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * tests/notification-source: Fix leak.
+    The values returned from `g_object_get()` are always allocated.
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * meson: Pass ASAN leak suppression automatically.
+    No need handle these manually.
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+  * gitlab-ci: Run unit tests under ASAN too.
+    We currently only run the "pure" unit tests since the other
+    ones need more cleanup.
+    Partially fixes 7d5d1c39 ("ci: Drop valgrind run until we have more RAM")
+    Part-of: <https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/999>
+
+  [ Sebastian Krzyszkowiak ]
+  * Switch to wlr-gamma-control protocol (Closes: #62)
+  * app-grid: Debounce app search.
+  * settings: Set/unset mute when setting output stream volume.
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Rafael Fontenelle ]
+  * Update Brazilian Portuguese translation
+
+  [ Pablo Barciela ]
+  * Fix [-Wmissing-field-initializers] warnings inside GActionEntry.
+  * shell-network-agent: Fix [-Wmissing-field-initializers] warnings.
+  * GActionEntry: use designated initializers.
+
+  [ Hugo Carvalho ]
+  * Update Portuguese translation
+
+  [ Evangelos Ribeiro Tzaras ]
+  * gitlab-ci: docker: Fix conditional.
+
+  [ Fabio Tomat ]
+  * Update Friulian translation
+
+  [ PanzerSajt ]
+  * lockscreen: Allow to show OSK to enter passwords.
+    Add a button to the keypad that unfolds the osk and shows
+    a text Entry. This allows for arbitrary passwords
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Nathan Follens ]
+  * Update Dutch translation
+
+  [ Alexander Mikhaylenko ]
+  * swipe-away-bin: Add hide() and reveal()
+    Support programmatic revealing and not just removing.
+  * swipe-away-bin: Make orientable
+  * swipe-away-bin: Add property to allow swipes in the other direction
+  * swipe-away-bin: Add reserve-size property
+  * panel: Use GtkGestureMultiPress and released signal for closing.
+    Make sure we don't interfere with swipes in future.
+  * notification-frame: Reimplement activation via GtkGestureMultiPress.
+    Unfortunately, in GTK 3 it's not possible to use single click row
+    activation together with swipes; they will interfere. Meanwhile, we still
+    need activation for keynav, so switch to double click activation and
+    implement it manually instead. Use this chance to unify click handling with
+    the header.
+  * notification-frame: Support swipe-to-remove
+
+  [ Sam Hewitt ]
+  * settings: Use speakers icon for volume slider
+  * settings: Move media player above notifcations box
+  * settings: Add name property to clear all button
+  * settings: Add style class to notifications header box
+  * media-player: add style class to art
+  * lockscreen: Add style classes to icons and text
+  * lockscreen: Use full width for noifications and media player
+  * stylesheets: GTK overrides for sliders.
+    Make them look more like in the current mockups.
+  * settings: Adjust quicksettings radii
+  * lockscreen: Give the date and time more weight
+  * stylesheet: Adjust modal dialogs to mockups.
+    Most notably add a margin.
+  * overview: remove background and borders from shell scrollbars
+    hides unneeded gtk stylings from the scrollbar troughs mainly in the
+    overview.
+  * overview: Add focus style to the search box
+    - remove some gtk styling
+    - mirror the focus styling of the search box on desktop shell
+  * overview: Improve grid separator styling
+    - Add margin to the separator for better visuals
+    - Use named colour to draw it so it isn't lost on light theme
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Vittorio Monti ]
+  * Update Italian translation
+
+  [ Matej Urbančič ]
+  * Update Slovenian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 23 Jan 2022 13:37:35 +0100
+
 phosh (0.14.1) experimental; urgency=medium
 
   [ Guido Günther ]
