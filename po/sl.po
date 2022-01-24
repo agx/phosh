@@ -7,8 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-08-25 20:13+0000\n"
-"PO-Revision-Date: 2021-10-06 19:17+0200\n"
+"POT-Creation-Date: 2022-01-24 16:00+0000\n"
+"PO-Revision-Date: 2022-01-24 21:05+0100\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -16,14 +17,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
 "%100<=4 ? 2 : 3);\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "X-Generator: Poedit 3.0\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
 msgid "Phosh"
-msgstr ""
+msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -33,10 +33,17 @@ msgstr "Lupina telefona"
 msgid "Window management and application launching for mobile"
 msgstr "Upravljanje oken in zagon programja za mobilnike"
 
-#: src/app-grid-button.c:536
-#, fuzzy
+#: src/app-grid-button.c:502
 msgid "Application"
 msgstr "Program"
+
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "Pokaži vse programe"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Pokaži le na nabilnih napravah podprte programe"
 
 #: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
@@ -62,12 +69,12 @@ msgstr "Odjavi"
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%s se bo samodejno odjavil čez %d sekundo."
+msgstr[1] "%s se bo samodejno odjavil čez %d sekundi."
+msgstr[2] "%s se bo samodejno odjavil čez %d sekunde."
+msgstr[3] "%s se bo samodejno odjavil čez %d sekund."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Ugasni"
 
@@ -75,12 +82,12 @@ msgstr "Ugasni"
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Sistem se bo samodejno izklopil v %d sekundi."
+msgstr[1] "Sistem se bo samodejno izklopil v %d sekundah."
+msgstr[2] "Sistem se bo samodejno izklopil v %d sekundah."
+msgstr[3] "Sistem se bo samodejno izklopil v %d sekundah."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
 msgstr "Ponovno zaženi"
 
@@ -90,13 +97,12 @@ msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "Sistem se bo samodejno ponovno zagnal čez %d sekundo."
 msgstr[1] "Sistem se bo samodejno ponovno zagnal čez %d sekundi."
-msgstr[2] " Sistem se bo samodejno ponovno zagnal čez %d sekunde."
+msgstr[2] "Sistem se bo samodejno ponovno zagnal čez %d sekunde."
 msgstr[3] "Sistem se bo samodejno ponovno zagnal čez %d sekund."
 
 #: src/end-session-dialog.c:269
-#, fuzzy
 msgid "Unknown application"
-msgstr "Neznan programček"
+msgstr "Neznan program"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -109,14 +115,13 @@ msgstr "Tiho"
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
 #: src/feedbackinfo.c:49
-#, fuzzy
 msgid "Silent"
-msgstr "Nemo"
+msgstr "Tiho"
 
 #: src/location-manager.c:268
 #, c-format
 msgid "Allow '%s' to access your location information?"
-msgstr ""
+msgstr "Želite dovoliti »%s« dostop do podatkov o vaši lokaciji?"
 
 #: src/location-manager.c:273
 msgid "Geolocation"
@@ -130,42 +135,42 @@ msgstr "Da"
 msgid "No"
 msgstr "Ne"
 
-#: src/lockscreen.c:157 src/ui/lockscreen.ui:267
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
 msgid "Enter Passcode"
-msgstr ""
+msgstr "Vnesite geslo"
 
-#: src/lockscreen.c:340
+#: src/lockscreen.c:362
 msgid "Checking…"
-msgstr "Preverjanje ..."
+msgstr "Preverjanje …"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:418
+#: src/lockscreen.c:440
 msgid "%A, %B %-e"
-msgstr ""
+msgstr "%A, %e. %B"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:280 src/ui/media-player.ui:120
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "Neznan naslov"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:289 src/ui/media-player.ui:103
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "Neznan izvajalec"
 
-#: src/monitor-manager.c:114
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "Vgrajen zaslon"
 
-#: src/monitor-manager.c:132
+#: src/monitor-manager.c:137
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:139
+#: src/monitor-manager.c:144
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -174,16 +179,16 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:148
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Neznano"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
-msgstr ""
+msgstr "Vrsta preverjanja pristnosti omrežja wifi »%s« ni podprta"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Vnesite geslo za WiFi-omrežje »%s«"
@@ -286,11 +291,11 @@ msgstr "%s%d%s"
 
 #: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
-msgstr ""
+msgstr "Uporabnik je opustil pogovorno okno za preverjanje pristnosti"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
-#: src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Geslo:"
 
@@ -312,11 +317,20 @@ msgstr "Ležeče"
 msgid "Off"
 msgstr "Izklopljeno"
 
-#: src/system-prompt.c:364
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Pritisnite ESC, da zaprete"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "Zagon »%s« ni uspel"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Gesli se ne ujemata."
 
-#: src/system-prompt.c:371
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
 msgstr "Geslo ne sme biti prazno."
 
@@ -324,102 +338,102 @@ msgstr "Geslo ne sme biti prazno."
 msgid "Torch"
 msgstr "Svetilka"
 
-#: src/ui/app-auth-prompt.ui:41
+#: src/ui/app-auth-prompt.ui:40
 msgid "Remember decision"
 msgstr "Pomni odločitev"
 
-#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "V redu"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-grid-button.ui:48
 msgid "App"
-msgstr ""
+msgstr "Program"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
 msgstr "Odstrani iz pri_ljubljenih"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
 msgstr "Dodaj med pri_ljubljene"
 
-#: src/ui/app-grid.ui:22
-#, fuzzy
+#: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Išči programčke …"
+msgstr "Poišči program …"
 
-#: src/ui/app-grid.ui:169
-msgid "Show only adaptive apps"
-msgstr ""
-
-#: src/ui/end-session-dialog.ui:32
+#: src/ui/end-session-dialog.ui:31
 #, fuzzy
 msgid "Some applications are busy or have unsaved work"
 msgstr "Nekateri programčki so sredi dela ali nimajo shranjenega dela"
 
-#: src/ui/gtk-mount-prompt.ui:95
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Uporabnik:"
 
-#: src/ui/gtk-mount-prompt.ui:118
+#: src/ui/gtk-mount-prompt.ui:117
 msgid "Domain:"
 msgstr "Domena:"
 
-#: src/ui/gtk-mount-prompt.ui:151
+#: src/ui/gtk-mount-prompt.ui:150
 msgid "Co_nnect"
 msgstr "_Poveži"
 
-#: src/ui/lockscreen.ui:43
+#: src/ui/lockscreen.ui:42
 msgid "Slide up to unlock"
-msgstr ""
+msgstr "Oddrsnite navzgor, da odklenete"
 
-#: src/ui/lockscreen.ui:313
+#: src/ui/lockscreen.ui:320
 msgid "Emergency"
 msgstr "Klic v sili"
 
-#: src/ui/lockscreen.ui:329
+#: src/ui/lockscreen.ui:336
 msgid "Unlock"
 msgstr "Odkleni"
 
-#: src/ui/lockscreen.ui:369
+#: src/ui/lockscreen.ui:376
 msgid "Back"
 msgstr "Nazaj"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
-#, fuzzy
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Zahtevana je overitev"
 
-#: src/ui/network-auth-prompt.ui:41
+#: src/ui/network-auth-prompt.ui:40
 msgid "_Cancel"
 msgstr "Pre_kliči"
 
-#: src/ui/network-auth-prompt.ui:59
+#: src/ui/network-auth-prompt.ui:58
 msgid "C_onnect"
 msgstr "_Poveži"
 
-#: src/ui/polkit-auth-prompt.ui:123
-#, fuzzy
+#: src/ui/polkit-auth-prompt.ui:122
 msgid "Authenticate"
 msgstr "Overi"
 
-#: src/ui/system-prompt.ui:63
-#, fuzzy
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Zaženi ukaz"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Potrditev:"
 
-#: src/ui/top-panel.ui:16
+#: src/ui/top-panel.ui:15
 msgid "Lock Screen"
 msgstr "Zakleni zaslon"
 
-#: src/ui/top-panel.ui:23
+#: src/ui/top-panel.ui:22
 msgid "Logout"
 msgstr "Odjava"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
@@ -427,6 +441,5 @@ msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwaninfo.c:172
-#, fuzzy
 msgid "Cellular"
-msgstr "Mobilnik"
+msgstr "Mobilno"
