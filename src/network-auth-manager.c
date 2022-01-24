@@ -299,7 +299,7 @@ out:
   if (error) {
     vpn_request_error (request, error);
   } else {
-    if (secrets->len) {
+    if (secrets && secrets->len) {
       gboolean success;
       network_agent_setup_prompt (request->self);
       success = phosh_network_auth_prompt_set_request (request->self->network_prompt,

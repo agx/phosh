@@ -253,18 +253,18 @@ test_phosh_notification_get (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
   guint id = 0;
-  const char *app_name = NULL;
+  g_autofree char *app_name = NULL;
   GAppInfo *app_info = NULL;
-  const char *summary = NULL;
-  const char *body = NULL;
+  g_autofree char *summary = NULL;
+  g_autofree char *body = NULL;
   GIcon *app_icon = NULL;
   GIcon *image = NULL;
   GStrv actions = NULL;
   gboolean transient = FALSE;
   gboolean resident = FALSE;
-  const char *category = NULL;
+  g_autofree char *category = NULL;
   PhoshNotificationUrgency urgency = PHOSH_NOTIFICATION_URGENCY_NORMAL;
-  GDateTime *timestamp = NULL;
+  g_autoptr (GDateTime) timestamp = NULL;
   g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (123,

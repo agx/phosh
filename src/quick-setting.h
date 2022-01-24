@@ -23,6 +23,6 @@ struct _PhoshQuickSettingClass
 GtkWidget * phosh_quick_setting_new (void);
 void phosh_quick_setting_set_status_icon (PhoshQuickSetting *self, PhoshStatusIcon *widget);
 PhoshStatusIcon * phosh_quick_setting_get_status_icon (PhoshQuickSetting *self);
-void phosh_quick_setting_open_settings_panel (char *panel);
+void phosh_quick_setting_open_settings_panel (const char *panel);
 
 G_END_DECLS

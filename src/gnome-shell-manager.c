@@ -247,10 +247,6 @@ handle_grab_accelerator (PhoshGnomeShellDBusShell *skeleton,
   g_debug ("DBus grab accelerator %s", arg_accelerator);
 
   info = g_new0 (AcceleratorInfo, 1);
-  if (!info) {
-    g_error ("Error allocating memory for AcceleratorInfo");
-    return FALSE;
-  }
   sender = g_dbus_method_invocation_get_sender (invocation);
 
   if (!grab_single_accelerator (self,
@@ -304,11 +300,6 @@ handle_grab_accelerators (PhoshGnomeShellDBusShell *skeleton,
                               &accelerator_mode_flags,
                               &accelerator_grab_flags)) {
     info = g_new0 (AcceleratorInfo, 1);
-    if (!info) {
-      g_error ("Error allocating memory for AcceleratorInfo");
-      conflict = TRUE;
-      break;
-    }
     if (!grab_single_accelerator (self,
                                   accelerator_name,
                                   accelerator_mode_flags,

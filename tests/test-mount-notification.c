@@ -62,9 +62,11 @@ test_phosh_mount_notification_new (void)
   g_autoptr (PhoshMountNotification) mn = NULL;
   g_autoptr (GMount) mount = g_object_new (PHOSH_TYPE_TEST_DUMMY_MOUNT, NULL);
   GIcon *icon = NULL;
+  g_autofree char *name = NULL;
 
   g_assert_true (G_IS_MOUNT (mount));
-  g_debug ("mount: %s", g_mount_get_name (mount));
+  name = g_mount_get_name (mount);
+  g_debug ("mount: %s", name);
 
   mn = phosh_mount_notification_new_from_mount (1, mount);
 

@@ -257,7 +257,7 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
   GError *error = NULL;
   gboolean authenticated;
   PhoshShell *shell = phosh_shell_get_default ();
-  PhoshOskManager *oskManager = phosh_shell_get_osk_manager (shell);
+  PhoshOskManager *osk_manager = phosh_shell_get_osk_manager (shell);
 
   priv = phosh_lockscreen_get_instance_private (self);
   authenticated = phosh_auth_authenticate_async_finish (auth, result, &error);
@@ -269,7 +269,7 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
   g_object_ref (self);
   if (authenticated) {
     /*Hide OSK*/
-    phosh_osk_manager_set_visible (oskManager, FALSE);
+    phosh_osk_manager_set_visible (osk_manager, FALSE);
     g_signal_emit (self, signals[LOCKSCREEN_UNLOCK], 0);
     g_clear_object (&priv->auth);
   } else {
