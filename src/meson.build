@@ -72,6 +72,8 @@ libphosh_tool_sources = files(
   'call.h',
   'calls-manager.c',
   'calls-manager.h',
+  'clamp.c',
+  'clamp.h',
   'connectivity-info.c',
   'connectivity-info.h',
   'end-session-dialog.c',
