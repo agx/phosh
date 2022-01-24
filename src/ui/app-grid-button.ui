@@ -7,6 +7,13 @@
     <property name="sensitive">False</property>
     <signal name="activate" handler="activate_cb" swapped="no"/>
     <child>
+      <object class="PhoshClamp">
+        <property name="visible">True</property>
+        <!-- This ensures all buttons request at least the same minimum size and maximum natural size. -->
+        <!-- (360px screen width - 2*3px flowbox margins - (4-1)*6px column spacing) / 4 columns = 84px -->
+        <property name="natural-size">84</property>
+        <property name="width-request">84</property>
+    <child>
       <object class="GtkButton">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
@@ -50,7 +57,6 @@
                 <property name="wrap">True</property>
                 <property name="wrap-mode">word-char</property>
                 <property name="ellipsize">end</property>
-                <property name="max_width_chars">10</property>
                 <property name="lines">2</property>
               </object>
               <packing>
@@ -61,6 +67,8 @@
             </child>
           </object>
         </child>
+      </object>
+    </child>
       </object>
     </child>
   </template>

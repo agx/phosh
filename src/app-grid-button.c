@@ -9,6 +9,7 @@
 #include "config.h"
 #include "app-tracker.h"
 #include "app-grid-button.h"
+#include "clamp.h"
 #include "phosh-enums.h"
 #include "favorite-list-model.h"
 
@@ -343,6 +344,8 @@ phosh_app_grid_button_init (PhoshAppGridButton *self)
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), TRUE);
   act = g_action_map_lookup_action (priv->action_map, "favorite-remove");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
+
+  g_type_ensure (PHOSH_TYPE_CLAMP);
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
