@@ -235,5 +235,6 @@ phosh_osd_window_new (char  *connector,
                        "icon-name", icon_name,
                        "level", level,
                        "max-level", max_level,
+                       "kbd-interactivity", FALSE,
                        NULL);
 }
