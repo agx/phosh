@@ -3,14 +3,6 @@ configure_file(
   output: 'run_tool',
   configuration: run_data)
 
-stubs = [
-  '../tests/stubs/phosh.c',
-  '../tests/stubs/app-tracker.c',
-  '../tests/stubs/lockscreen-manager.c',
-  '../tests/stubs/toplevel.c',
-  '../tests/stubs/toplevel-manager.c',
-]
-
 osk_stub_deps = [
   gio_dep,
   gtk_dep,
@@ -40,22 +32,22 @@ executable('phosh-osk-stub', ['phosh-osk-stub.c',
 
 if get_option('tools')
 
-  executable('app-scroll', ['app-scroll.c'] + stubs,
+  executable('app-scroll', ['app-scroll.c'] + test_stub_deps,
              dependencies: phosh_tool_dep)
 
-  executable('app-grid-standalone', ['app-grid-standalone.c'] + stubs,
+  executable('app-grid-standalone', ['app-grid-standalone.c'] + test_stub_deps,
              dependencies: phosh_tool_dep)
 
-  executable('image-notify', ['image-notify.c'] + stubs,
+  executable('image-notify', ['image-notify.c'] + test_stub_deps,
              dependencies: phosh_tool_dep)
 
-  executable('app-buttons', ['app-buttons.c'] + stubs,
+  executable('app-buttons', ['app-buttons.c'] + test_stub_deps,
              dependencies: phosh_tool_dep)
 
   executable('notify-blocks', ['notify-blocks.c'],
              dependencies: phosh_tool_dep)
 
-  executable('notify-server-standalone', ['notify-server-standalone.c'] + stubs,
+  executable('notify-server-standalone', ['notify-server-standalone.c'] + test_stub_deps,
              dependencies: phosh_tool_dep)
 
   executable('dump-app-list', ['dump-app-list.c'],

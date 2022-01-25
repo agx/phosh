@@ -46,14 +46,14 @@ test_link_args = [
 ]
 
 # Deps for all tests
-test_stub_deps = [
+test_stub_deps = files(
   'stubs/phosh.c',
   'stubs/app-tracker.c',
   'stubs/lockscreen-manager.c',
   'stubs/toplevel.c',
   'stubs/toplevel-manager.c',
   'stubs/thumbnail.c',
-]
+)
 
 testlib_sources = [
   'testlib.c',
