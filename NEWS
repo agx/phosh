@@ -1,3 +1,35 @@
+phosh 0.15.0
+------------
+Released: January 2022
+* Swipeable notification frames
+* VPN quicksettings, authentication and status icon
+* "Run command" prompt improvement
+* First parts of style refresh
+* Make osk-stub more useful for debugging
+* Hide some quick settings when hardware is not present
+* Bring back gamma control protocol support
+* Allow arbitrary passwords
+* Rather large number of fixes
+* Contributors:
+	Alexander Mikhaylenko
+	Evangelos Ribeiro Tzaras
+	Guido Günther
+	Pablo Barciela
+	PanzerSajt
+	Sam Hewitt
+	Sebastian Krzyszkowiak
+* UI translations:
+	Anders Jonsson (sv)
+	Danial Behzadi (fa)
+	Daniel Șerbănescu (ro)
+	Fabio Tomat (fur)
+	Hugo Carvalho (pt)
+	Nathan Follens (nl)
+	Rafael Fontenelle (pt_BR)
+	Vittorio Monti (it)
+	Yuri Chornoivan (uk)
+	Matej Urbančič (sl)
+
 phosh 0.14.1
 ------------
 Released: December 2021
