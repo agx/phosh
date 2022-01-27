@@ -13,7 +13,7 @@ git clone https://gitlab.gnome.org/World/Phosh/phosh
 cd phosh
 ```
 
-The master branch has the current development version.
+The [main][] branch has the current development version.
 
 ## Dependencies
 On a Debian based system run
@@ -107,6 +107,7 @@ This is handled via GNOMEs infra, see
 
 API documentation is at https://world.pages.gitlab.gnome.org/Phosh/phosh
 
+[main]: https://gitlab.gnome.org/World/Phosh/phosh/-/tree/main
 [gitlab-ci.yml]: https://gitlab.gnome.org/World/Phosh/phosh/-/blob/main/.gitlab-ci.yml
 [debian/control]: https://gitlab.gnome.org/World/Phosh/phosh/-/blob/main/debian/control
 [phoc]: https://gitlab.gnome.org/World/Phosh/phoc
