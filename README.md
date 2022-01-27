@@ -44,7 +44,7 @@ To run the tests run
 xvfb-run meson test --no-suite screenshots -C _build
 ```
 
-For details see the *.gitlab-ci.yml* file.
+For details see the [.gitlab-ci.yml][] file.
 
 ## Running
 ### Running from the source tree
@@ -108,6 +108,6 @@ This is handled via GNOMEs infra, see
 API documentation is at https://world.pages.gitlab.gnome.org/Phosh/phosh
 
 [main]: https://gitlab.gnome.org/World/Phosh/phosh/-/tree/main
-[gitlab-ci.yml]: https://gitlab.gnome.org/World/Phosh/phosh/-/blob/main/.gitlab-ci.yml
+[.gitlab-ci.yml]: https://gitlab.gnome.org/World/Phosh/phosh/-/blob/main/.gitlab-ci.yml
 [debian/control]: https://gitlab.gnome.org/World/Phosh/phosh/-/blob/main/debian/control
 [phoc]: https://gitlab.gnome.org/World/Phosh/phoc
