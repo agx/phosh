@@ -397,8 +397,6 @@ load_slideshow (PhoshBackground *self)
 {
   g_autoptr (GError) err = NULL;
   g_autofree gchar *filename = NULL;
-  g_autoptr (GFile) file = NULL;
-  g_autoptr (GInputStream) stream = NULL;
 
   g_debug ("loading %s", self->uri);
   /* Older gnome-desktop doesn't have a file property so

@@ -329,7 +329,6 @@ phosh_top_panel_constructed (GObject *object)
 {
   PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
   GdkDisplay *display = gdk_display_get_default ();
-  g_autoptr (GSettings) settings = NULL;
 
   G_OBJECT_CLASS (phosh_top_panel_parent_class)->constructed (object);
 

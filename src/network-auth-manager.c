@@ -439,7 +439,6 @@ on_search_vpn_plugin_ready (GObject      *source_object,
   g_autoptr (GPtrArray) auth_helper_argv = NULL;
   g_autoptr (NMVpnPluginInfo) plugin = NULL;
   g_autoptr (GError) err = NULL;
-  g_autofree char *ui_mode = NULL;
   const gchar *service_type;
 
   GString * auth_helper_request;
