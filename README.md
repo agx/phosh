@@ -109,6 +109,6 @@ For details see the [developer documentation](https://developer.puri.sm/Contact.
 
 API documentation is at https://world.pages.gitlab.gnome.org/Phosh/phosh
 
-[gitlab-ci.yml]: https://gitlab.gnome.org/World/Phosh/phosh/blob/master/.gitlab-ci.yml
-[debian/control]: https://gitlab.gnome.org/World/Phosh/phosh/blob/master/debian/control
+[gitlab-ci.yml]: https://gitlab.gnome.org/World/Phosh/phosh/-/blob/main/.gitlab-ci.yml
+[debian/control]: https://gitlab.gnome.org/World/Phosh/phosh/-/blob/main/debian/control
 [phoc]: https://gitlab.gnome.org/World/Phosh/phoc
