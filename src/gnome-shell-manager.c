@@ -209,11 +209,17 @@ grab_single_accelerator (PhoshGnomeShellManager *self,
 
   g_assert (PHOSH_IS_GNOME_SHELL_MANAGER (self));
 
+  if (self->last_action_id == G_MAXUINT) {
+    g_set_error (error, G_IO_ERROR, G_IO_ERROR_ADDRESS_IN_USE, "All action ids taken");
+    return 0;
+  }
+
   /* this should never happen */
   if (g_hash_table_contains (self->info_by_action, GUINT_TO_POINTER (self->last_action_id + 1))) {
     g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "action id %d already taken", self->last_action_id + 1);
     return 0;
   }
+
   info = g_new0 (AcceleratorInfo, 1);
   info->accelerator = g_strdup (accelerator);
   info->action_id = ++(self->last_action_id);
