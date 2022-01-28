@@ -68,6 +68,8 @@ libphosh_tool_sources = files(
   'app-list-model.h',
   'background.c',
   'background.h',
+  'bidi.c',
+  'bidi.h',
   'call.c',
   'call.h',
   'calls-manager.c',
