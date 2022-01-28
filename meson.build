@@ -96,6 +96,7 @@ i18n  = import('i18n')
 
 glib_ver = '>= 2.62'
 
+fribidi_dep = dependency('fribidi')
 gcr_dep = dependency('gcr-3', version: '>= 3.7.5')
 glib_dep = dependency('glib-2.0', version: glib_ver)
 gio_dep = dependency('gio-2.0', version: glib_ver)

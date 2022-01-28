@@ -9,6 +9,7 @@ Build-Depends:
  libsecret-1-dev,
  libsystemd-dev,
  libfeedback-dev,
+ libfribidi-dev,
  libgcr-3-dev,
  libglib2.0-doc <!nodoc>,
  libgnome-desktop-3-dev,

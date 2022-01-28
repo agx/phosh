@@ -251,6 +251,7 @@ libphosh_sources = files(
 ]
 
 phosh_deps = [
+  fribidi_dep,
   gcr_dep,
   gio_dep,
   gio_unix_dep,
