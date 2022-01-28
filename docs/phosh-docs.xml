@@ -53,12 +53,14 @@
       <xi:include href="xml/bt-info.xml"/>
       <xi:include href="xml/call.xml"/>
       <xi:include href="xml/calls-manager.xml"/>
+      <xi:include href="xml/clamp.xml"/>
       <xi:include href="xml/connectivity-info.xml"/>
       <xi:include href="xml/dbus-notification.xml"/>
       <xi:include href="xml/docked-info.xml"/>
       <xi:include href="xml/docked-manager.xml"/>
       <xi:include href="xml/end-session-dialog.xml"/>
       <xi:include href="xml/fader.xml"/>
+      <xi:include href="xml/fading-label.xml"/>
       <xi:include href="xml/favorite-list-model.xml"/>
       <xi:include href="xml/feedback-manager.xml"/>
       <xi:include href="xml/feedbackinfo.xml"/>

@@ -68,10 +68,14 @@ libphosh_tool_sources = files(
   'app-list-model.h',
   'background.c',
   'background.h',
+  'bidi.c',
+  'bidi.h',
   'call.c',
   'call.h',
   'calls-manager.c',
   'calls-manager.h',
+  'clamp.c',
+  'clamp.h',
   'connectivity-info.c',
   'connectivity-info.h',
   'end-session-dialog.c',
@@ -84,6 +88,8 @@ libphosh_tool_sources = files(
   'docked-info.h',
   'docked-manager.c',
   'docked-manager.h',
+  'fading-label.c',
+  'fading-label.h',
   'favorite-list-model.c',
   'favorite-list-model.h',
   'feedback-manager.c',
@@ -249,6 +255,7 @@ libphosh_sources = files(
 ]
 
 phosh_deps = [
+  fribidi_dep,
   gcr_dep,
   gio_dep,
   gio_unix_dep,
