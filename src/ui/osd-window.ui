@@ -5,21 +5,18 @@
     <property name="can-focus">False</property>
     <child>
       <object class="GtkBox">
-        <property name="width-request">250</property>
+        <property name="width-request">200</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="halign">center</property>
         <property name="valign">center</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkLabel" id="lbl">
+          <object class="GtkImage" id="icon">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="wrap">True</property>
-            <property name="wrap-mode">word</property>
-            <attributes>
-              <attribute name="scale" value="3"/>
-            </attributes>
+            <property name="stock">gtk-missing-image</property>
+            <property name="pixel-size">64</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -28,12 +25,15 @@
           </packing>
         </child>
         <child>
-          <object class="GtkImage" id="icon">
+          <object class="GtkLabel" id="lbl">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-top">20</property>
-            <property name="stock">gtk-missing-image</property>
-            <property name="pixel-size">100</property>
+            <property name="margin-top">24</property>
+            <property name="wrap">True</property>
+            <property name="wrap-mode">word</property>
+            <style>
+              <class name="title-4"/>
+            </style>
           </object>
           <packing>
             <property name="expand">False</property>

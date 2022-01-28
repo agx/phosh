@@ -551,11 +551,15 @@ phosh-media-player > box > button {
 /*
  * OSD
  */
+phosh-osd-window {
+  margin: 3em;
+}
+
 phosh-osd-window levelbar block {
-  min-height: 16px;
+  min-height: 8px;
   box-shadow: none;
-  border-color: white;
-  border-radius: 5px;
+  border: none;
+  border-radius: 8px;
 }
 
 phosh-osd-window levelbar block.low {
@@ -571,9 +575,10 @@ phosh-osd-window levelbar block.full {
 }
 
 phosh-osd-window levelbar trough {
+  border: none;
   box-shadow: none;
-  border-width: 0px;
-  padding: 0px;
+  background-color: alpha(white, 0.2);
+  border-radius: 8px;
 }
 
 /*
