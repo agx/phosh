@@ -1,0 +1,22 @@
+#!/bin/sh
+
+ICON=audio-volume-medium-symbolic
+OUTPUT="HDMI / DisplayPort"
+
+while [ -n "$1" ]; do
+    case "$1" in
+    -h|--headphone)
+	ICON=audio-headphones-symbolic
+        ;;
+    -n|--no-label)
+	OUTPUT=""
+        ;;
+  esac
+  shift
+done
+
+
+gdbus call --session --dest org.gnome.Shell \
+                     --object-path /org/gnome/Shell \
+                     --method org.gnome.Shell.ShowOSD \
+                     '{"icon": <"'${ICON}'">, "label": <"'"${OUTPUT}"'">, "level": <0.5> }'
