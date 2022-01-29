@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-12-23 22:20+0000\n"
-"PO-Revision-Date: 2022-01-11 18:03+0330\n"
+"POT-Creation-Date: 2022-01-20 19:23+0000\n"
+"PO-Revision-Date: 2022-01-29 14:00+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -31,15 +31,15 @@ msgstr "پوستهٔ تلفن"
 msgid "Window management and application launching for mobile"
 msgstr "مدیریت پنجره‌ها و اجرا کنندهٔ برنامه‌ها برای تلفن همراه"
 
-#: src/app-grid-button.c:503
+#: src/app-grid-button.c:502
 msgid "Application"
 msgstr "برنامه"
 
-#: src/app-grid.c:133
+#: src/app-grid.c:137
 msgid "Show All Apps"
 msgstr "نمایش تمامی کاره‌ها"
 
-#: src/app-grid.c:136
+#: src/app-grid.c:140
 msgid "Show Only Mobile Friendly Apps"
 msgstr "فقط نمایش کاره‌های سازگار با تلفن همراه"
 
@@ -127,27 +127,27 @@ msgstr "بله"
 msgid "No"
 msgstr "نه"
 
-#: src/lockscreen.c:162 src/ui/lockscreen.ui:265
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:350
+#: src/lockscreen.c:362
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:428
+#: src/lockscreen.c:440
 msgid "%A, %B %-e"
 msgstr "%A، %Od %OB"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:179
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "عنوان ناشناخته"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:162
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "هنرمند ناشناخته"
 
@@ -175,12 +175,12 @@ msgstr "%s %s"
 msgid "Unknown"
 msgstr "ناشناخته"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "گونهٔ تأییدیهٔ شبکهٔ وای‌فای %s پشتیبانی نمی‌شود"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "ورود گذرواژه برای شبکهٔ وای‌فای %s"
@@ -286,7 +286,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "گفت‌وگوی تأیید هویت از سمت کاربر رد شد"
 
 #: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "گذرواژه:"
@@ -328,7 +328,7 @@ msgstr "گذرواژه نمی‌تواند خالی باشد"
 
 #: src/torch-info.c:80
 msgid "Torch"
-msgstr "مشعل"
+msgstr "چراغ"
 
 #: src/ui/app-auth-prompt.ui:40
 msgid "Remember decision"
@@ -378,27 +378,27 @@ msgstr "اتّ_صال"
 msgid "Slide up to unlock"
 msgstr "برای قفل‌گشایی، بالا بکشید"
 
-#: src/ui/lockscreen.ui:315
+#: src/ui/lockscreen.ui:320
 msgid "Emergency"
 msgstr "اضطراری"
 
-#: src/ui/lockscreen.ui:331
+#: src/ui/lockscreen.ui:336
 msgid "Unlock"
 msgstr "قفل‌گشایی"
 
-#: src/ui/lockscreen.ui:371
+#: src/ui/lockscreen.ui:376
 msgid "Back"
 msgstr "بازگشت"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "نیاز به تأیید هویت است"
 
-#: src/ui/network-auth-prompt.ui:41
+#: src/ui/network-auth-prompt.ui:40
 msgid "_Cancel"
 msgstr "_لغو"
 
-#: src/ui/network-auth-prompt.ui:59
+#: src/ui/network-auth-prompt.ui:58
 msgid "C_onnect"
 msgstr "_وصل شدن"
 
@@ -421,6 +421,10 @@ msgstr "قفل کردن صفحه"
 #: src/ui/top-panel.ui:22
 msgid "Logout"
 msgstr "خروج"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "وی‌پی‌ان"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
