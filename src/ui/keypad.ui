@@ -14,7 +14,6 @@
       <object class="GtkButton" id="btn_1">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
         <property name="focus_on_click">False</property>
         <signal name="clicked" handler="on_button_clicked" swapped="true"/>
         <child>
@@ -38,7 +37,6 @@
       <object class="GtkButton" id="btn_2">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
         <property name="focus_on_click">False</property>
         <signal name="clicked" handler="on_button_clicked" swapped="true"/>
         <child>
@@ -60,7 +58,6 @@
       <object class="GtkButton" id="btn_3">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
         <property name="focus_on_click">False</property>
         <signal name="clicked" handler="on_button_clicked" swapped="true"/>
         <child>
@@ -82,7 +79,6 @@
       <object class="GtkButton" id="btn_4">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
         <property name="focus_on_click">False</property>
         <signal name="clicked" handler="on_button_clicked" swapped="true"/>
         <child>
@@ -104,7 +100,6 @@
       <object class="GtkButton" id="btn_5">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
         <property name="focus_on_click">False</property>
         <signal name="clicked" handler="on_button_clicked" swapped="true"/>
         <child>
@@ -126,7 +121,6 @@
       <object class="GtkButton" id="btn_6">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
         <property name="focus_on_click">False</property>
         <signal name="clicked" handler="on_button_clicked" swapped="true"/>
         <child>
@@ -149,7 +143,6 @@
       <object class="GtkButton" id="btn_7">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
         <property name="focus_on_click">False</property>
         <signal name="clicked" handler="on_button_clicked" swapped="true"/>
         <child>
@@ -172,7 +165,6 @@
       <object class="GtkButton" id="btn_8">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
         <property name="focus_on_click">False</property>
         <signal name="clicked" handler="on_button_clicked" swapped="true"/>
         <child>
@@ -195,7 +187,6 @@
       <object class="GtkButton" id="btn_9">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
         <property name="focus_on_click">False</property>
         <signal name="clicked" handler="on_button_clicked" swapped="true"/>
         <child>
@@ -218,7 +209,6 @@
       <object class="GtkButton" id="btn_0">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
         <property name="focus_on_click">False</property>
         <signal name="clicked" handler="on_button_clicked" swapped="true"/>
         <child>
