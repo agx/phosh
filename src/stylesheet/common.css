@@ -669,15 +669,27 @@ phosh-lockscreen phosh-media-player {
 /*
  * OSD
  */
-phosh-osd-window {
-  margin: 3em;
+
+#osd-bubble {
+  border-radius: 32px;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.2), 
+              0 3px 16px rgba(0,0,0,0.1);
+  background-color: shade(@phosh_notification_bg_color, 1.5);
+}
+
+#osd-label {
+  font-size: 9pt;
+}
+
+phosh-osd-window.phosh-system-modal {
+  background: none;
 }
 
 phosh-osd-window levelbar block {
-  min-height: 8px;
+  min-height:4px;
   box-shadow: none;
   border: none;
-  border-radius: 8px;
+  border-radius: 2px;
 }
 
 phosh-osd-window levelbar block.low {
@@ -694,9 +706,10 @@ phosh-osd-window levelbar block.full {
 
 phosh-osd-window levelbar trough {
   border: none;
+  padding: 0;
   box-shadow: none;
   background-color: alpha(white, 0.2);
-  border-radius: 8px;
+  border-radius: 2px;
 }
 
 /*
