@@ -396,6 +396,21 @@ phosh_idle_manager_dispose (GObject *object)
   G_OBJECT_CLASS (phosh_idle_manager_parent_class)->dispose (object);
 }
 
+void
+phosh_idle_manager_reset_timers (PhoshIdleManager *self)
+{
+  GHashTableIter iter;
+  DBusWatch *watch;
+
+  g_return_if_fail (PHOSH_IS_IDLE_MANAGER (self));
+
+  g_debug ("Resetting idle timers");
+
+  g_hash_table_iter_init (&iter, self->watches);
+  while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &watch)) {
+    org_kde_kwin_idle_timeout_simulate_user_activity (watch->idle_timer);
+  }
+}
 
 static void
 phosh_idle_manager_constructed (GObject *object)

@@ -10,6 +10,7 @@
 
 #include "screen-saver-manager.h"
 #include "shell.h"
+#include "idle-manager.h"
 #include "login1-manager-dbus.h"
 #include "login1-session-dbus.h"
 #include "lockscreen-manager.h"
@@ -216,16 +217,12 @@ on_lockscreen_manager_notify_locked (PhoshScreenSaverManager *self,
                                  NULL);
 }
 
-
-
 static void
-on_lockscreen_manager_wakeup_outputs (PhoshScreenSaverManager *self,
-                                      PhoshLockscreenManager *lockscreen_manager)
+phosh_screen_saver_manager_wakeup_screen (PhoshScreenSaverManager *self)
 {
   GDBusInterfaceSkeleton *skeleton;
 
   g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
-  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (lockscreen_manager));
 
   skeleton = G_DBUS_INTERFACE_SKELETON (self);
   g_debug ("Signaling WakeUpScreen");
@@ -236,6 +233,16 @@ on_lockscreen_manager_wakeup_outputs (PhoshScreenSaverManager *self,
                                  "WakeUpScreen",
                                  NULL,
                                  NULL);
+}
+
+static void
+on_lockscreen_manager_wakeup_outputs (PhoshScreenSaverManager *self,
+                                      PhoshLockscreenManager *lockscreen_manager)
+{
+  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (lockscreen_manager));
+
+  phosh_screen_saver_manager_wakeup_screen (self);
 }
 
 
@@ -256,6 +263,23 @@ on_logind_unlock (PhoshScreenSaverManager            *self,
   phosh_lockscreen_manager_set_locked  (self->lockscreen_manager, FALSE);
 }
 
+static void
+on_logind_prepare_for_sleep (PhoshScreenSaverManager            *self,
+                             gboolean                            suspending,
+                             PhoshLogin1ManagerDBusLoginManager *proxy)
+{
+  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
+
+  if (!suspending) {
+    PhoshIdleManager *idle_manager;
+
+    g_debug ("Got PrepareForSleep signal (resume case)");
+    phosh_screen_saver_manager_wakeup_screen (self);
+
+    idle_manager = phosh_idle_manager_get_default ();
+    phosh_idle_manager_reset_timers (idle_manager);
+  }
+}
 
 static void
 on_name_acquired (GDBusConnection *connection,
@@ -341,6 +365,10 @@ on_logind_get_session_proxy_finish  (GObject                 *object,
     "swapped-object-signal::lock", G_CALLBACK (on_logind_lock), self,
     "swapped-object-signal::unlock", G_CALLBACK (on_logind_unlock), self,
     NULL);
+
+  g_signal_connect_swapped (
+    self->logind_manager_proxy,
+    "prepare-for-sleep", G_CALLBACK (on_logind_prepare_for_sleep), self);
 
 out:
   g_object_unref (self);
