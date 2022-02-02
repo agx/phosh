@@ -282,12 +282,13 @@ static void
 on_phosh_layer_surface_mapped (PhoshLayerSurface *self, gpointer unused)
 {
   PhoshLayerSurfacePrivate *priv;
-  GdkWindow *gdk_window;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   priv = phosh_layer_surface_get_instance_private (self);
 
   if (!priv->wl_surface) {
+    GdkWindow *gdk_window;
+
     gdk_window = gtk_widget_get_window (GTK_WIDGET (self));
     gdk_wayland_window_set_use_custom_surface (gdk_window);
     priv->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);

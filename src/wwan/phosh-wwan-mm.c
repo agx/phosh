@@ -495,7 +495,6 @@ phosh_wwan_mm_on_mm_object_manager_created (GObject      *source_object,
   g_autoptr (GError) err = NULL;
   g_autolist (GDBusObject) modems = NULL;
   PhoshMMDBusObjectManagerClient *client;
-  const char *modem_object_path;
 
   client = PHOSH_MM_DBUS_OBJECT_MANAGER_CLIENT (
     phosh_mm_dbus_object_manager_client_new_for_bus_finish (
@@ -523,6 +522,8 @@ phosh_wwan_mm_on_mm_object_manager_created (GObject      *source_object,
 
   modems = g_dbus_object_manager_get_objects (G_DBUS_OBJECT_MANAGER (self->manager));
   if (modems) {
+    const char *modem_object_path;
+
     /* Look at the first modem */
     modem_object_path = g_dbus_object_get_object_path (G_DBUS_OBJECT (modems->data));
     g_debug ("modem path: %s", modem_object_path);

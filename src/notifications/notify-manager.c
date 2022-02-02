@@ -284,9 +284,10 @@ parse_icon_data (GVariant *variant)
   int has_alpha = 0;
   int sample_size = 0;
   int channels = 0;
-  gsize size_should_be = 0;
 
   if (g_variant_is_of_type (variant, G_VARIANT_TYPE ("(iiibiiay)"))) {
+    gsize size_should_be;
+
     g_variant_get (variant,
                    "(iiibii@ay)",
                    &width,
