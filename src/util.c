@@ -270,9 +270,10 @@ anonymous_shm_open (void)
 {
   char name[] = "/phosh-XXXXXX";
   int retries = 100;
-  int fd;
 
   do {
+    int fd;
+
     randname (name + strlen (name) - 6);
     --retries;
     /* shm_open guarantees that O_CLOEXEC is set */
