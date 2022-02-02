@@ -289,8 +289,10 @@ static gboolean
 phosh_timestamp_label_update (PhoshTimestampLabel *self)
 {
   g_autofree char *str = NULL;
-  GTimeSpan time = 0;
+
   if (self->date != NULL) {
+    GTimeSpan time;
+
     str = phosh_time_ago_in_words (self ->date);
     gtk_label_set_label (GTK_LABEL (self), str);
 
