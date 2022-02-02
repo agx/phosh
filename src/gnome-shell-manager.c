@@ -194,26 +194,33 @@ handle_show_osd (PhoshGnomeShellDBusShell *skeleton,
 }
 
 
-static gboolean
+static guint
 grab_single_accelerator (PhoshGnomeShellManager *self,
                          const gchar            *accelerator,
                          guint                   mode_flags,
                          guint                   grab_flags,
-                         AcceleratorInfo        *info,
                          const gchar            *sender,
                          GError                **error)
 {
+  AcceleratorInfo *info;
   const GActionEntry action_entries[] = {
     { .name = accelerator, .activate = accelerator_activated_action },
   };
 
   g_assert (PHOSH_IS_GNOME_SHELL_MANAGER (self));
 
+  if (self->last_action_id == G_MAXUINT) {
+    g_set_error (error, G_IO_ERROR, G_IO_ERROR_ADDRESS_IN_USE, "All action ids taken");
+    return 0;
+  }
+
   /* this should never happen */
   if (g_hash_table_contains (self->info_by_action, GUINT_TO_POINTER (self->last_action_id + 1))) {
     g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "action id %d already taken", self->last_action_id + 1);
-    return FALSE;
+    return 0;
   }
+
+  info = g_new0 (AcceleratorInfo, 1);
   info->accelerator = g_strdup (accelerator);
   info->action_id = ++(self->last_action_id);
   info->sender = g_strdup (sender);
@@ -221,14 +228,13 @@ grab_single_accelerator (PhoshGnomeShellManager *self,
   info->grab_flags = grab_flags;
 
   g_debug ("Using action id %d for accelerator %s", info->action_id, info->accelerator);
-
   g_hash_table_insert (self->info_by_action, GUINT_TO_POINTER (info->action_id), info);
-
   phosh_shell_add_global_keyboard_action_entries (phosh_shell_get_default (),
                                                   action_entries,
                                                   G_N_ELEMENTS (action_entries),
                                                   info);
-  return TRUE;
+  g_assert (info->action_id > 0);
+  return info->action_id;
 }
 
 static gboolean
@@ -239,23 +245,22 @@ handle_grab_accelerator (PhoshGnomeShellDBusShell *skeleton,
                          guint                     arg_grabFlags)
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
-  AcceleratorInfo *info;
   g_autoptr (GError) error = NULL;
   const gchar * sender;
+  guint action_id;
 
   g_return_val_if_fail (PHOSH_IS_GNOME_SHELL_MANAGER (self), FALSE);
   g_debug ("DBus grab accelerator %s", arg_accelerator);
 
-  info = g_new0 (AcceleratorInfo, 1);
   sender = g_dbus_method_invocation_get_sender (invocation);
 
-  if (!grab_single_accelerator (self,
-                                arg_accelerator,
-                                arg_modeFlags,
-                                arg_grabFlags,
-                                info,
-                                sender,
-                                &error)) {
+  action_id = grab_single_accelerator (self,
+                                       arg_accelerator,
+                                       arg_modeFlags,
+                                       arg_grabFlags,
+                                       sender,
+                                       &error);
+  if (action_id == 0) {
     g_warning ("Error trying to grab accelerator %s: %s", arg_accelerator, error->message);
     g_dbus_method_invocation_return_error (invocation,
                                            error->domain,
@@ -266,7 +271,7 @@ handle_grab_accelerator (PhoshGnomeShellDBusShell *skeleton,
   }
 
   phosh_gnome_shell_dbus_shell_complete_grab_accelerator (
-    skeleton, invocation, info->action_id);
+    skeleton, invocation, action_id);
 
   return TRUE;
 }
@@ -282,7 +287,6 @@ handle_grab_accelerators (PhoshGnomeShellDBusShell *skeleton,
   gchar *accelerator_name;
   guint accelerator_mode_flags;
   guint accelerator_grab_flags;
-  AcceleratorInfo *info;
   g_autoptr (GError) error = NULL;
   const gchar *sender;
   gboolean conflict = FALSE;
@@ -299,14 +303,15 @@ handle_grab_accelerators (PhoshGnomeShellDBusShell *skeleton,
                               &accelerator_name,
                               &accelerator_mode_flags,
                               &accelerator_grab_flags)) {
-    info = g_new0 (AcceleratorInfo, 1);
-    if (!grab_single_accelerator (self,
-                                  accelerator_name,
-                                  accelerator_mode_flags,
-                                  accelerator_grab_flags,
-                                  info,
-                                  sender,
-                                  &error)) {
+    guint action_id;
+
+    action_id = grab_single_accelerator (self,
+                                         accelerator_name,
+                                         accelerator_mode_flags,
+                                         accelerator_grab_flags,
+                                         sender,
+                                         &error);
+    if (action_id == 0) {
       g_warning ("Error trying to grab accelerator %s: %s", accelerator_name, error->message);
       g_dbus_method_invocation_return_error (invocation,
                                              error->domain,
@@ -317,7 +322,7 @@ handle_grab_accelerators (PhoshGnomeShellDBusShell *skeleton,
       break;
     }
 
-    g_variant_builder_add (builder, "u", info->action_id);
+    g_variant_builder_add (builder, "u", action_id);
   }
 
   if (conflict) { /* clean up existing bindings */
