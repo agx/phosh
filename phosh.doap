@@ -7,9 +7,9 @@
 
   <name>phosh</name>
   <shortname>phosh</shortname>
-  <shortdesc>A wayland shell PoC for for mobile phones</shortdesc>
-  <description>Phosh aims to be a wayland shell for mobile phones.
-  This is merely a PoC at the moment.</description>
+  <shortdesc>A pure Wayland shell for mobile devices</shortdesc>
+  <description>Phosh aims to be a graphical shell for mobile devices
+  running Linux like the Librem 5.</description>
   <homepage rdf:resource="https://gitlab.gnome.org/World/Phosh/phosh/" />
   <license rdf:resource="http://usefulinc.com/doap/licenses/gpl" />
 

@@ -172,8 +172,8 @@ subdir('data')
 subdir('po')
 subdir('protocol')
 subdir('src')
-subdir('tools')
 subdir('tests')
+subdir('tools')
 subdir('docs')
 
 summary = [
@@ -186,7 +186,6 @@ summary = [
   '   Compositor: @0@'.format(get_option('compositor')),
   '      Systemd: @0@'.format(get_option('systemd')),
   'Documentation: @0@'.format(get_option('gtk_doc')),
-  '     osk-stub: @0@'.format(get_option('osk-stub')),
   '        tools: @0@'.format(get_option('tools')),
   '-----------',
 ]

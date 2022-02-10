@@ -30,7 +30,7 @@ variables:
   SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20211208
   DEBIAN_CROSS_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian-cross:v0.0.20210803
   XVFB_RUN: xvfb-run -a -s -noreset
-  COMMON_BUILD_OPTS: -Db_coverage=true --werror -Dosk-stub=true -Dtools=true
+  COMMON_BUILD_OPTS: -Db_coverage=true --werror -Dtools=true
   ALPINE_EDGE_DEPS: alpine-sdk callaudiod-dev elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
                     gtk+3.0-dev libgudev-dev libhandy1-dev gcr-dev libsecret-dev gcovr linux-pam-dev
                     meson musl-dev networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
@@ -136,7 +136,7 @@ asan-test:native-debian-bookworm:
   tags: [ asan ]
   <<: *bookworm_vars
   script:
-    - meson -Dphoc_tests=disabled -Dtools=false -Dosk-stub=false -Db_sanitize=address -Dbuildtype=debug _build-asan
+    - meson -Dphoc_tests=disabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
     - ninja -C _build-asan data/gschemas.compiled
     - ${XVFB_RUN} meson test --print-errorlogs -C _build-asan --suite unit --no-suite phoc
   except:

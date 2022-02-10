@@ -1,5 +1,15 @@
 run_phoc_tests = false
 
+# Deps for all tests
+test_stub_deps = files(
+  'stubs/phosh.c',
+  'stubs/app-tracker.c',
+  'stubs/lockscreen-manager.c',
+  'stubs/toplevel.c',
+  'stubs/toplevel-manager.c',
+  'stubs/thumbnail.c',
+)
+
 if get_option('tests')
 
 subdir('system')
@@ -43,16 +53,6 @@ test_cflags = [
 
 test_link_args = [
   '-fPIC',
-]
-
-# Deps for all tests
-test_stub_deps = [
-  'stubs/phosh.c',
-  'stubs/app-tracker.c',
-  'stubs/lockscreen-manager.c',
-  'stubs/toplevel.c',
-  'stubs/toplevel-manager.c',
-  'stubs/thumbnail.c',
 ]
 
 testlib_sources = [

@@ -35,7 +35,6 @@ endif
 
 desktop_files = {
   'sm.puri.Phosh.desktop': true,
-  'sm.puri.OSK0.desktop': get_option('osk-stub'),
 }
 foreach desktop_file, install : desktop_files
   i18n.merge_file(

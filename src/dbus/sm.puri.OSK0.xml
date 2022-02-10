@@ -3,7 +3,7 @@
 <node xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
   <interface name="sm.puri.OSK0">
     <method name="SetVisible">
-      <arg type="b" direction="in"/>
+      <arg type="b" direction="in" name="visible"/>
       <doc:doc><doc:description>
         Switch keyboard visibility
       </doc:description></doc:doc>
