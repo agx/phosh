@@ -1,159 +1,444 @@
 # son of dirt <philsawa@gmail.com>, 2019. #zanata
+# Yosef Or Boczko <yoseforb@gmail.com>, 2022.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2022-01-20 19:23+0000\n"
+"PO-Revision-Date: 2022-02-10 23:16+0200\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
+"Language-Team: Hebrew <>\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-06-29 07:23+0000\n"
-"Last-Translator: son of dirt <philsawa@gmail.com>\n"
-"Language-Team: Hebrew\n"
-"Language: he\n"
-"X-Generator: Zanata 4.6.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-
-#: data/sm.puri.Phosh.desktop.in.in:4
-#, fuzzy
-msgid "Phone Shell"
-msgstr "טלפון מעטפת"
-
-#: data/sm.puri.Phosh.desktop.in.in:5
-#, fuzzy
-msgid "Window management and application launching for mobile"
-msgstr "ניהול חלונות ויישום יישומים לנייד"
+"X-Generator: Gtranslator 40.0\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? "
+"2 : 3)\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
-#, fuzzy
 msgid "Phosh"
-msgstr "פוש"
+msgstr "Phosh"
 
-#: src/app-grid-button.c:523
+#: data/sm.puri.Phosh.desktop.in.in:4
+msgid "Phone Shell"
+msgstr "מעטפת לטלפון"
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "מנהל חלונות ומשגר יישומים לטלפון נייד"
+
+#: src/app-grid-button.c:502
 msgid "Application"
-msgstr ""
+msgstr "יישום"
 
-#: src/feedbackinfo.c:38
-msgid "Quiet"
-msgstr ""
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "הצגת כל היישומים"
 
-#: src/feedbackinfo.c:40
-msgid "Silent"
-msgstr ""
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "הצגת יישומים מותאמים לנייד בלבד"
 
-#: src/feedbackinfo.c:42
+#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
-msgstr ""
+msgstr "פעיל"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
-#, fuzzy
+#: src/bt-info.c:94
+msgid "Bluetooth"
+msgstr "בלוטות'"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "מעוגן"
+
+#: src/docked-info.c:81 src/docked-info.c:199
+msgid "Undocked"
+msgstr "לא מעוגן"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "יציאה"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "המשתמש %s יצא אוטומטית בעוד שנייה."
+msgstr[1] "המשתמש %s יצא אוטומטית בעוד שתי שניות."
+msgstr[2] "המשתמש %s יצא אוטומטית בעוד %d שניות."
+msgstr[3] "‫המשתמש %s יצא אוטומטית בעוד %d שניות."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "כיבוי"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "המערכת תכבה אוטומטית בעוד שנייה."
+msgstr[1] "המערכת תכבה אוטומטית בעוד שתי שניות."
+msgstr[2] "המערכת תכבה אוטומטית בעוד %d שניות."
+msgstr[3] "‫המערכת תכבה אוטומטית בעוד %d שניות."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "הפעלה מחדש"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "המערכת תופעל אוטומטית מחדש בעוד שנייה."
+msgstr[1] "‫המערכת תופעל אוטומטית מחדש בעוד שתי שניות."
+msgstr[2] "המערכת תופעל אוטומטית מחדש בעוד %d שניות."
+msgstr[3] "‫המערכת תופעל אוטומטית מחדש בעוד %d שניות."
+
+#: src/end-session-dialog.c:269
+msgid "Unknown application"
+msgstr "יישום לא ידוע"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:44
+msgid "Quiet"
+msgstr "רטט"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:49
+msgid "Silent"
+msgstr "שקט"
+
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "לאפשר ל־„%s” לגשת למידע על המיקום שלך?"
+
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "מיקום גאוגרפי"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "כן"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "לא"
+
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
 msgid "Enter Passcode"
-msgstr "הזן קוד גישה"
+msgstr "הזנת ססמה"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:362
 msgid "Checking…"
-msgstr ""
+msgstr "בודק…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:334
+#: src/lockscreen.c:440
 msgid "%A, %B %-e"
-msgstr ""
+msgstr "%A, %B %e"
 
-#: src/monitor-manager.c:53
-#, fuzzy
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:322 src/ui/media-player.ui:182
+#| msgid "Unknown"
+msgid "Unknown Title"
+msgstr "כותרת לא ידועה"
+
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:330 src/ui/media-player.ui:165
+#| msgid "Unknown"
+msgid "Unknown Artist"
+msgstr "אמן לא ידוע"
+
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "תצוגה מובנית"
 
+#: src/monitor-manager.c:137
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "‏%s ‏%s"
+
+#: src/monitor-manager.c:144
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %s"
+msgstr "‏%s ‏%s"
+
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "לא ידוע"
 
-#: src/network-auth-prompt.c:184
+#: src/network-auth-prompt.c:201
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "אימות רשת אלחוטית מסוג „%s” אינו נתמך"
+
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "נא להזין את הססמה עבור רשת האינטרנט האלחוטית „%s”"
 
-#: src/polkit-auth-agent.c:229
-#, fuzzy
+#: src/notifications/mount-notification.c:122
+msgid "Open"
+msgstr "פתיחה"
+
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
+msgid "Notification"
+msgstr "התרעה"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "שנ"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "דק"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "דק"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "ש"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "ש"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "ימ"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "ימ"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "חדש"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "חדש"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "שנ"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "שנ"
+
+#: src/notifications/timestamp-label.c:121
+#| msgid "Unknown"
+msgid "now"
+msgstr "לא ידוע1"
+
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "מעל %du"
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "כמעט %dy"
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d%s"
+
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
-msgstr "תיבת הדו-שיח לאימות נדחתה על ידי המשתמש"
+msgstr "המשתמש בחר להתעלם מתיבת דו־שיח האימות"
 
-#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
-#, fuzzy
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
-msgstr "סיסמה:"
+msgstr "ססמה:"
 
-#: src/polkit-auth-prompt.c:322
-#, fuzzy
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "סליחה, זה לא עבד. בבקשה נסה שוב."
+msgstr "לצערינו פעולה זו לא צלחה. יש לנסות שוב."
 
-#: src/polkit-auth-prompt.c:488
-#, fuzzy
-msgid "Authenticate"
-msgstr "בצע אימות"
+#: src/rotateinfo.c:81
+msgid "Portrait"
+msgstr "לאורך"
 
-#: src/system-prompt.c:371
-#, fuzzy
+#: src/rotateinfo.c:84
+msgid "Landscape"
+msgstr "לרוחב"
+
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
+msgid "Off"
+msgstr "כיבוי"
+
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "יש להקיש Esc לסגירה"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "הרצת „%s” נכשלה"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
-msgstr "סיסמאות לא תואמות."
+msgstr "הססמאות אינן תואמות."
 
-#: src/system-prompt.c:378
-#, fuzzy
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
-msgstr "סיסמאות אינן יכולות להיות ריקות"
+msgstr "הססמה אינה יכולה להישאר ריקה"
 
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr ""
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "פנס"
+
+#: src/ui/app-auth-prompt.ui:40
+msgid "Remember decision"
+msgstr "לזכור את הבחירה"
+
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+msgid "Cancel"
+msgstr "ביטול"
+
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+msgid "Ok"
+msgstr "אישור"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
-msgstr ""
+msgstr "יישום"
 
 #: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "הסרה מה_מועדפים"
 
 #: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "הוספה למועד_פים"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr ""
+msgstr "חיפוש יישומים…"
 
-#: src/ui/lockscreen.ui:36
-#, fuzzy
-msgid "Slide up to unlock"
-msgstr "החלק כלפי מעלה כדי לפתוח את הנעילה"
+#: src/ui/end-session-dialog.ui:31
+msgid "Some applications are busy or have unsaved work"
+msgstr "כמה יישומים עסוקים או שיש עבודה שלא נשמרה"
 
-#: src/ui/lockscreen.ui:250
-msgid "Emergency"
-msgstr ""
-
-#: src/ui/lockscreen.ui:266
-msgid "Unlock"
-msgstr ""
-
-#: src/ui/network-auth-prompt.ui:90
-msgid "_Cancel"
-msgstr ""
-
-#: src/ui/network-auth-prompt.ui:106
-msgid "C_onnect"
-msgstr ""
-
-#: src/ui/polkit-auth-prompt.ui:105
-#, fuzzy
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "משתמש:"
 
-#: src/ui/system-prompt.ui:69
-#, fuzzy
+#: src/ui/gtk-mount-prompt.ui:117
+msgid "Domain:"
+msgstr "מתחם:"
+
+#: src/ui/gtk-mount-prompt.ui:150
+msgid "Co_nnect"
+msgstr "הת_חברות"
+
+#: src/ui/lockscreen.ui:42
+msgid "Slide up to unlock"
+msgstr "החלקה כלפי מעלה לביטול הנעילה"
+
+#: src/ui/lockscreen.ui:320
+msgid "Emergency"
+msgstr "מצב חירום"
+
+#: src/ui/lockscreen.ui:336
+msgid "Unlock"
+msgstr "שחרור"
+
+#: src/ui/lockscreen.ui:376
+msgid "Back"
+msgstr "חזרה"
+
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+msgid "Authentication required"
+msgstr "נדרש אימות"
+
+#: src/ui/network-auth-prompt.ui:40
+msgid "_Cancel"
+msgstr "_ביטול"
+
+#: src/ui/network-auth-prompt.ui:58
+msgid "C_onnect"
+msgstr "הת_חברות"
+
+#: src/ui/polkit-auth-prompt.ui:122
+msgid "Authenticate"
+msgstr "אימות"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "הרצת פקודה"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
-msgstr "אשר:"
+msgstr "אישור:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "מסך נעילה"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "יציאה"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
+
+#: src/wifiinfo.c:90
+msgid "Wi-Fi"
+msgstr "רשת אלחוטית"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:172
+msgid "Cellular"
+msgstr "רשת סלולרית"
