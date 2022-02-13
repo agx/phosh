@@ -3,10 +3,9 @@
 # Marc Riera <marcriera@softcatala.org>, 2020.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: phosh\n"
+msgstr "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-08-09 09:29+0000\n"
+"POT-Creation-Date: 2022-01-20 19:23+0000\n"
 "PO-Revision-Date: 2021-08-09 12:40+0200\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
@@ -30,9 +29,17 @@ msgstr "Shell del telèfon"
 msgid "Window management and application launching for mobile"
 msgstr "Gestió de finestres i inici d'aplicacions per a mòbils"
 
-#: src/app-grid-button.c:536
+#: src/app-grid-button.c:502
 msgid "Application"
 msgstr "Aplicació"
+
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "Mostra totes les aplicacions"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Mostra només les aplicacions compatibles amb mòbils"
 
 #: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
@@ -61,7 +68,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "Es tancarà la sessió de %s automàticament d'aquí a %d segon."
 msgstr[1] "Es tancarà la sessió de %s automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Apaga"
 
@@ -72,7 +79,7 @@ msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "El sistema s'apagarà automàticament d'aquí a %d segon."
 msgstr[1] "El sistema s'apagarà automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
 msgstr "Reinicia"
 
@@ -118,42 +125,42 @@ msgstr "Sí"
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:157 src/ui/lockscreen.ui:267
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
 msgid "Enter Passcode"
 msgstr "Introduïu la contrasenya"
 
-#: src/lockscreen.c:340
+#: src/lockscreen.c:362
 msgid "Checking…"
 msgstr "S'està comprovant…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:418
+#: src/lockscreen.c:440
 msgid "%A, %B %-e"
 msgstr "%A, %-e %B"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:279 src/ui/media-player.ui:107
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "Títol desconegut"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:288 src/ui/media-player.ui:127
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "Artista desconegut"
 
-#: src/monitor-manager.c:114
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "Pantalla interna"
 
-#: src/monitor-manager.c:132
+#: src/monitor-manager.c:137
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:139
+#: src/monitor-manager.c:144
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -162,16 +169,16 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:148
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Desconegut"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "No s'admet el tipus d'autenticació de la xarxa sense fil «%s»"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Introduïu la contrasenya de la xarxa sense fil «%s»"
@@ -276,9 +283,9 @@ msgstr "%s %d %s"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "L'usuari ha descartat el diàleg d'autenticació"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
-#: src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Contrasenya:"
 
@@ -300,11 +307,20 @@ msgstr "Apaïsat"
 msgid "Off"
 msgstr "Desactivada"
 
-#: src/system-prompt.c:364
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Premeu Esc per a sortir"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "No s'ha pogut executar «%s»"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Les contrasenyes no coincideixen."
 
-#: src/system-prompt.c:371
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
 msgstr "La contrasenya no pot estar en blanc"
 
@@ -312,97 +328,101 @@ msgstr "La contrasenya no pot estar en blanc"
 msgid "Torch"
 msgstr "Llanterna"
 
-#: src/ui/app-auth-prompt.ui:41
+#: src/ui/app-auth-prompt.ui:40
 msgid "Remember decision"
 msgstr "Recorda la decisió"
 
-#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "D'acord"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "Aplicació"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
 msgstr "Suprimeix dels _preferits"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
 msgstr "Afegeix als _preferits"
 
-#: src/ui/app-grid.ui:22
+#: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Cerca aplicacions…"
 
-#: src/ui/app-grid.ui:169
-msgid "Show only adaptive apps"
-msgstr "Mostra només les aplicacions adaptatives"
-
-#: src/ui/end-session-dialog.ui:32
+#: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
 msgstr "Algunes aplicacions estan ocupades o tenen feina sense desar"
 
-#: src/ui/gtk-mount-prompt.ui:95
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Usuari:"
 
-#: src/ui/gtk-mount-prompt.ui:118
+#: src/ui/gtk-mount-prompt.ui:117
 msgid "Domain:"
 msgstr "Domini:"
 
-#: src/ui/gtk-mount-prompt.ui:151
+#: src/ui/gtk-mount-prompt.ui:150
 msgid "Co_nnect"
 msgstr "Co_nnecta"
 
-#: src/ui/lockscreen.ui:43
+#: src/ui/lockscreen.ui:42
 msgid "Slide up to unlock"
 msgstr "Llisqueu cap amunt per desbloquejar"
 
-#: src/ui/lockscreen.ui:313
+#: src/ui/lockscreen.ui:320
 msgid "Emergency"
 msgstr "Emergència"
 
-#: src/ui/lockscreen.ui:329
+#: src/ui/lockscreen.ui:336
 msgid "Unlock"
 msgstr "Desbloqueja"
 
-#: src/ui/lockscreen.ui:369
+#: src/ui/lockscreen.ui:376
 msgid "Back"
 msgstr "Torna"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Cal autenticació"
 
-#: src/ui/network-auth-prompt.ui:41
+#: src/ui/network-auth-prompt.ui:40
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
-#: src/ui/network-auth-prompt.ui:59
+#: src/ui/network-auth-prompt.ui:58
 msgid "C_onnect"
 msgstr "C_onnecta"
 
-#: src/ui/polkit-auth-prompt.ui:123
+#: src/ui/polkit-auth-prompt.ui:122
 msgid "Authenticate"
 msgstr "Autenticació"
 
-#: src/ui/system-prompt.ui:63
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Executa una ordre"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Confirmació:"
 
-#: src/ui/top-panel.ui:16
+#: src/ui/top-panel.ui:15
 msgid "Lock Screen"
 msgstr "Bloqueja la pantalla"
 
-#: src/ui/top-panel.ui:23
+#: src/ui/top-panel.ui:22
 msgid "Logout"
 msgstr "Surt"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
@@ -412,6 +432,9 @@ msgstr "Sense fil"
 #: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Mòbil"
+
+#~ msgid "Show only adaptive apps"
+#~ msgstr "Mostra només les aplicacions adaptatives"
 
 #~ msgid "Unknown artist"
 #~ msgstr "Artista desconegut"
