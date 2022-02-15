@@ -28,7 +28,7 @@
  */
 
 #define NUM_DIGITS 10
-/* Positions of the buttons we shuffle */
+/* Positions of the buttons in the grid we shuffle as x,y coordinates */
 static int btn_pos[NUM_DIGITS][2] = { { 1, 3 },
                                       { 0, 0 }, { 1, 0 }, { 2, 0 },
                                       { 0, 1 }, { 1, 1 }, { 2, 1 },
@@ -135,7 +135,7 @@ phosh_keypad_get_property (GObject    *object,
     g_value_set_object (value, phosh_keypad_get_end_action (self));
     break;
   case PROP_SHUFFLE:
-    g_value_set_boolean (value, self->shuffle);
+    g_value_set_boolean (value, phosh_keypad_get_shuffle(self));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -295,7 +295,7 @@ phosh_keypad_init (PhoshKeypad *self)
 
   for (int i = 0; i < NUM_DIGITS; i++) {
     /* We hold an extra reference since we remove buttons when reordering
-       them and so  we don't need to bother then */
+       them and so we don't need to bother then */
     g_object_ref (self->buttons[i]);
   }
   distribute_buttons (self, self->shuffle);
@@ -502,6 +502,4 @@ phosh_keypad_distribute (PhoshKeypad *self)
   g_return_if_fail (PHOSH_IS_KEYPAD (self));
 
   distribute_buttons (self, self->shuffle);
-
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SHUFFLE]);
 }
