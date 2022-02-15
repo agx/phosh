@@ -282,8 +282,7 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
                                   shake_label,
                                   g_variant_ref_sink (g_variant_new_int64 (now)),
                                   (GDestroyNotify) g_variant_unref);
-
-
+    phosh_keypad_distribute (PHOSH_KEYPAD (priv->keypad));
   }
   priv->last_input = g_get_monotonic_time ();
   g_object_unref (self);
