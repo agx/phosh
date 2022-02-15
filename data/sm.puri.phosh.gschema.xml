@@ -46,4 +46,15 @@
       </description>
     </key>
   </schema>
+  <schema id="sm.puri.phosh.lockscreen"
+          path="/sm/puri/phosh/lockscreen/">
+    <key name="shuffle-keypad" type="b">
+      <default>false</default>
+      <summary>Whether to scramble the keypad</summary>
+      <description>
+        Setting this to true shuffle the digits on the PIN keypad to
+        make eaveysdropping harder.
+      </description>
+    </key>
+  </schema>
 </schemalist>
