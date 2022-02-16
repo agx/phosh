@@ -102,6 +102,7 @@ tests_phoc = [
   'layer-surface',
   'lockshield',
   'notification-banner',
+  'osd-window',
   'system-modal',
   'system-modal-dialog',
   'timestamp-label',
