@@ -204,6 +204,8 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   phosh_calls_mock_export (calls_mock);
   wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "lockscreen-call");
+
+  zwp_virtual_keyboard_v1_destroy (keyboard);
 }
 
 
