@@ -154,7 +154,6 @@ phosh_test_compositor_new (void)
 {
   g_autoptr (GError) err = NULL;
   g_autoptr (GPtrArray) argv = NULL;
-  g_autofree char *run_arg = NULL;
   g_autoptr (GIOChannel) channel = NULL;
   g_autoptr (GMainLoop) mainloop = NULL;
   PhoshTestCompositorState *state;
