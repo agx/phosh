@@ -622,9 +622,7 @@ get_closest_scale_factor_for_resolution (float width, float height, float scale,
         return best_scale;
       }
 
-#pragma GCC diagnostic ignored "-Wfloat-equal"
-      if (floorf (scaled_h) == scaled_h) {
-#pragma GCC diagnostic error "-Wfloat-equal"
+      if (G_APPROX_VALUE (floorf (scaled_h), scaled_h, FLT_EPSILON)) {
         found_one = TRUE;
 
         if (fabsf (current_scale - scale) < fabsf (best_scale - scale))
@@ -649,12 +647,11 @@ phosh_head_calculate_supported_mode_scales (PhoshHead     *head,
   supported_scales = g_array_new (FALSE, FALSE, sizeof (float));
 
   if (fractional) {
-    for (int i = floorf (MINIMUM_SCALE_FACTOR); i <= ceilf (MAXIMUM_SCALE_FACTOR); i++) {
+    for (float i = floorf (MINIMUM_SCALE_FACTOR); i <= ceilf (MAXIMUM_SCALE_FACTOR); i++) {
       float max_bound;
 
-#pragma GCC diagnostic ignored "-Wfloat-equal"
-      if (i == floorf (MINIMUM_SCALE_FACTOR) || i == ceilf (MAXIMUM_SCALE_FACTOR)) {
-#pragma GCC diagnostic error "-Wfloat-equal"
+      if (G_APPROX_VALUE (floorf (MINIMUM_SCALE_FACTOR), i, FLT_EPSILON) ||
+          G_APPROX_VALUE (ceilf (MAXIMUM_SCALE_FACTOR), i, FLT_EPSILON)) {
         max_bound = SCALE_FACTORS_STEPS;
       } else {
         max_bound = SCALE_FACTORS_STEPS / 2.0;
