@@ -1114,7 +1114,7 @@ zwlr_output_manager_v1_handle_head (void *data,
                                     struct zwlr_output_manager_v1 *manager,
                                     struct zwlr_output_head_v1 *wlr_head)
 {
-  PhoshMonitorManager *self = data;
+  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (data);
   PhoshHead *head;
 
   g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
@@ -1133,7 +1133,7 @@ zwlr_output_manager_v1_handle_done (void *data,
                                     struct zwlr_output_manager_v1 *manager,
                                     uint32_t serial)
 {
-  PhoshMonitorManager *self = data;
+  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (data);
 
   g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
   g_debug ("Got zwlr_output_manager serial %u", serial);
