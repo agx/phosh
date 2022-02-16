@@ -62,7 +62,6 @@ test_phosh_monitor_manager_current_state (PhoshTestFullShellFixture *fixture, gc
 int
 main (int argc, char *argv[])
 {
-  g_autofree gchar *display = NULL;
   g_autoptr (PhoshTestFullShellFixtureCfg) cfg = NULL;
 
   g_test_init (&argc, &argv, NULL);
