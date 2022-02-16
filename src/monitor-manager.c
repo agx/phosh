@@ -383,7 +383,6 @@ phosh_monitor_manager_handle_set_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
   g_autoptr (GBytes) red_bytes = NULL, green_bytes = NULL, blue_bytes = NULL;
   gsize n_bytes, n_entries;
   gint fd;
-  g_autoptr (GError) err = NULL;
 
   g_debug ("DBus call %s for crtc %d, serial %d", __func__, crtc_id, serial);
   if (serial != self->serial) {
