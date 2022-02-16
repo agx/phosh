@@ -511,6 +511,8 @@ phosh_wifi_manager_dispose (GObject *object)
     g_clear_object (&self->active);
   }
 
+  g_clear_pointer (&self->ssid, g_free);
+
   G_OBJECT_CLASS (phosh_wifi_manager_parent_class)->dispose (object);
 }
 
