@@ -98,6 +98,7 @@ tests = [
 ]
 
 tests_phoc = [
+  'app-auth-prompt',
   'background',
   'end-session-dialog',
   'layer-surface',
