@@ -46,7 +46,7 @@ static gboolean
 is_rtl (PhoshFadingLabel *self)
 {
   PangoDirection pango_direction = PANGO_DIRECTION_NEUTRAL;
-  const gchar *label = phosh_fading_label_get_label (self);
+  const char *label = phosh_fading_label_get_label (self);
 
   if (label)
     pango_direction = phosh_find_base_dir (label, -1);
@@ -278,7 +278,7 @@ phosh_fading_label_new (const char *label)
   return GTK_WIDGET (g_object_new (PHOSH_TYPE_FADING_LABEL, "label", label, NULL));
 }
 
-const gchar *
+const char *
 phosh_fading_label_get_label (PhoshFadingLabel *self)
 {
   g_return_val_if_fail (PHOSH_IS_FADING_LABEL (self), NULL);
@@ -288,7 +288,7 @@ phosh_fading_label_get_label (PhoshFadingLabel *self)
 
 void
 phosh_fading_label_set_label (PhoshFadingLabel *self,
-                              const gchar      *label)
+                              const char       *label)
 {
   g_return_if_fail (PHOSH_IS_FADING_LABEL (self));
 

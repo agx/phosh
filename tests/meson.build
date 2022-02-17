@@ -80,6 +80,7 @@ tests = [
   'app-grid-button',
   'app-list-model',
   'connectivity-info',
+  'fading-label',
   'favourite-model',
   'head',
   'keypad',
