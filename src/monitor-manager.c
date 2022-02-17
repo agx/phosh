@@ -652,7 +652,7 @@ phosh_monitor_manager_find_head (PhoshMonitorManager *self, const char *name)
 static PhoshHead *
 find_head_from_variant (PhoshMonitorManager *self,
                         GVariant            *monitor_config_variant,
-                        gchar              **mode,
+                        char               **mode,
                         GError             **err)
 {
   g_autofree char *connector = NULL;
@@ -661,7 +661,7 @@ find_head_from_variant (PhoshMonitorManager *self,
   GVariantIter iter;
   GVariant *value;
   PhoshHead *head;
-  gchar *key;
+  char *key;
 
   g_return_val_if_fail (*mode == NULL, NULL);
 
