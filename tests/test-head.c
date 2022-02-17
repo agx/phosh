@@ -27,16 +27,16 @@ test_phosh_head_scale_integer (void)
 
   scales = phosh_head_calculate_supported_mode_scales (NULL, &phone_mode, &num, FALSE);
   g_assert_cmpint (num, ==, 2);
-  g_assert_cmpint (scales[0], ==, 1);
-  g_assert_cmpint (scales[1], ==, 2);
+  g_assert_true (G_APPROX_VALUE (scales[0], 1.0, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[1], 2.0, FLT_EPSILON));
 
   g_clear_pointer (&scales, g_free);
   scales = phosh_head_calculate_supported_mode_scales (NULL, &fourk_mode, &num, FALSE);
   g_assert_cmpint (num, ==, 4);
-  g_assert_cmpint (scales[0], ==, 1);
-  g_assert_cmpint (scales[1], ==, 2);
-  g_assert_cmpint (scales[2], ==, 3);
-  g_assert_cmpint (scales[3], ==, 4);
+  g_assert_true (G_APPROX_VALUE (scales[0], 1.0, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[1], 2.0, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[2], 3.0, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[3], 4.0, FLT_EPSILON));
 }
 
 
@@ -59,23 +59,21 @@ test_phosh_head_scale_fractional (void)
   scales = phosh_head_calculate_supported_mode_scales (NULL, &mode, &num, TRUE);
   g_assert_cmpint (num, ==, 5);
 
-#pragma GCC diagnostic ignored "-Wfloat-equal"
-  g_assert_cmpfloat (scales[0], ==, 1.0);
-  g_assert_cmpfloat (scales[1], ==, 1.25);
-  g_assert_cmpfloat (scales[2], ==, 1.5);
+  g_assert_true (G_APPROX_VALUE (scales[0], 1.0, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[1], 1.25, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[2], 1.5, FLT_EPSILON));
   g_assert_cmpfloat (scales[3], >=, 1.75);
   g_assert_cmpfloat (scales[3], <=, 1.76);
-  g_assert_cmpfloat (scales[4], ==, 2.0);
+  g_assert_true (G_APPROX_VALUE (scales[4], 2.0, FLT_EPSILON));
 
   g_clear_pointer (&scales, g_free);
   scales = phosh_head_calculate_supported_mode_scales (NULL, &fourk_mode, &num, TRUE);
   g_assert_cmpint (num, ==, 13);
-  g_assert_cmpfloat (scales[0], ==, 1.0);
-  g_assert_cmpfloat (scales[1], ==, 1.25);
+  g_assert_true (G_APPROX_VALUE (scales[0], 1.0, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[1], 1.25, FLT_EPSILON));
   /* ... */
-  g_assert_cmpfloat (scales[11], ==, 3.75);
-  g_assert_cmpfloat (scales[12], ==, 4);
-#pragma GCC diagnostic error "-Wfloat-equal"
+  g_assert_true (G_APPROX_VALUE (scales[11], 3.75, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[12], 4.0, FLT_EPSILON));
 }
 
 
