@@ -16,6 +16,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (PhoshFadingLabel, phosh_fading_label, PHOSH, FADING_LABEL, GtkBin)
 
+GtkWidget   *phosh_fading_label_new       (const char       *label);
 const gchar *phosh_fading_label_get_label (PhoshFadingLabel *self);
 void         phosh_fading_label_set_label (PhoshFadingLabel *self,
                                            const gchar      *label);

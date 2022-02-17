@@ -272,6 +272,12 @@ phosh_fading_label_init (PhoshFadingLabel *self)
   gtk_container_add (GTK_CONTAINER (self), self->label);
 }
 
+GtkWidget *
+phosh_fading_label_new (const char *label)
+{
+  return GTK_WIDGET (g_object_new (PHOSH_TYPE_FADING_LABEL, "label", label, NULL));
+}
+
 const gchar *
 phosh_fading_label_get_label (PhoshFadingLabel *self)
 {
