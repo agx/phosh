@@ -116,7 +116,7 @@ on_ask_password_done (GObject      *source_object,
   gboolean success;
   g_autoptr (GVariant) detail = NULL;
   g_autoptr (GVariantDict) dict = NULL;
-  const gchar *password;
+  const char *password;
 
   g_autoptr (GError) err = NULL;
   PhoshDBusMountOperationHandler *proxy = PHOSH_DBUS_MOUNT_OPERATION_HANDLER (source_object);
