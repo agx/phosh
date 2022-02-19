@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-12-23 22:20+0000\n"
-"PO-Revision-Date: 2022-01-10 16:49+0100\n"
+"POT-Creation-Date: 2022-01-20 19:23+0000\n"
+"PO-Revision-Date: 2022-01-30 17:32+0100\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -33,15 +33,15 @@ msgstr "Shell telefon"
 msgid "Window management and application launching for mobile"
 msgstr "Gestionarea ferestrei și pornirea aplicațiilor pentru mobil"
 
-#: src/app-grid-button.c:503
+#: src/app-grid-button.c:502
 msgid "Application"
 msgstr "Aplicație"
 
-#: src/app-grid.c:133
+#: src/app-grid.c:137
 msgid "Show All Apps"
 msgstr "Arată toate aplicațiile"
 
-#: src/app-grid.c:136
+#: src/app-grid.c:140
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Arată numai aplicații pentru mobil"
 
@@ -132,27 +132,27 @@ msgstr "Da"
 msgid "No"
 msgstr "Nu"
 
-#: src/lockscreen.c:162 src/ui/lockscreen.ui:265
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
 msgid "Enter Passcode"
 msgstr "Introdu codul de acces"
 
-#: src/lockscreen.c:350
+#: src/lockscreen.c:362
 msgid "Checking…"
 msgstr "Se verifică…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:428
+#: src/lockscreen.c:440
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:179
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "Titlu necunoscut"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:162
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "Artist necunoscut"
 
@@ -180,12 +180,12 @@ msgstr "%s %s"
 msgid "Unknown"
 msgstr "Necunoscut"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Tipul de autentificare pentru rețeaua Wi-Fi „%s” nu este acceptat"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Introdu parola pentru rețeaua Wi-Fi „%s”"
@@ -291,7 +291,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "Fereastra de autentificare a fost închisă de utilizator"
 
 #: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Parola:"
@@ -383,27 +383,27 @@ msgstr "Co_nectează"
 msgid "Slide up to unlock"
 msgstr "Trage în sus pentru a debloca"
 
-#: src/ui/lockscreen.ui:315
+#: src/ui/lockscreen.ui:320
 msgid "Emergency"
 msgstr "Urgență"
 
-#: src/ui/lockscreen.ui:331
+#: src/ui/lockscreen.ui:336
 msgid "Unlock"
 msgstr "Deblocare"
 
-#: src/ui/lockscreen.ui:371
+#: src/ui/lockscreen.ui:376
 msgid "Back"
 msgstr "Înapoi"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Autentificare necesară"
 
-#: src/ui/network-auth-prompt.ui:41
+#: src/ui/network-auth-prompt.ui:40
 msgid "_Cancel"
 msgstr "_Anulează"
 
-#: src/ui/network-auth-prompt.ui:59
+#: src/ui/network-auth-prompt.ui:58
 msgid "C_onnect"
 msgstr "C_onectează"
 
@@ -426,6 +426,10 @@ msgstr "Blochează ecranul"
 #: src/ui/top-panel.ui:22
 msgid "Logout"
 msgstr "Deconectare"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
