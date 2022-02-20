@@ -46,7 +46,7 @@ comp_and_shell_thread (gpointer data)
   Fixture *fixture = (Fixture *)data;
 
   /* compositor setup in thread since this invokes gdk already */
-  fixture->state = phosh_test_compositor_new ();
+  fixture->state = phosh_test_compositor_new (TRUE);
 
   /* Virtual keyboard */
   fixture->keyboard = phosh_test_keyboard_new (fixture->state->wl);
@@ -116,7 +116,7 @@ on_ask_password_done (GObject      *source_object,
   gboolean success;
   g_autoptr (GVariant) detail = NULL;
   g_autoptr (GVariantDict) dict = NULL;
-  const gchar *password;
+  const char *password;
 
   g_autoptr (GError) err = NULL;
   PhoshDBusMountOperationHandler *proxy = PHOSH_DBUS_MOUNT_OPERATION_HANDLER (source_object);

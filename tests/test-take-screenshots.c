@@ -23,7 +23,7 @@
 
 
 static void
-take_screenshot (const gchar *lang, int num, const gchar *what)
+take_screenshot (const char *lang, int num, const char *what)
 {
   g_autoptr (GError) err = NULL;
   PhoshDBusScreenshot *proxy = NULL;
@@ -204,13 +204,15 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   phosh_calls_mock_export (calls_mock);
   wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "lockscreen-call");
+
+  zwp_virtual_keyboard_v1_destroy (keyboard);
 }
 
 
 int
 main (int argc, char *argv[])
 {
-  g_autofree gchar *display = NULL;
+  g_autofree char *display = NULL;
   g_autoptr (PhoshTestFullShellFixtureCfg) cfg = NULL;
 
   g_test_init (&argc, &argv, NULL);

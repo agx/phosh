@@ -48,7 +48,7 @@ comp_and_shell_thread (gpointer data)
   Fixture *fixture = (Fixture *)data;
 
   /* compositor setup in thread since this invokes gdk already */
-  fixture->state = phosh_test_compositor_new ();
+  fixture->state = phosh_test_compositor_new (TRUE);
 
   gtk_init (NULL, NULL);
   hdy_init ();

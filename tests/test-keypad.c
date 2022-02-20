@@ -100,8 +100,7 @@ test_keypad_end_action (void)
 
 
 gint
-main (gint argc,
-      gchar *argv[])
+main (gint argc, char *argv[])
 {
   gtk_test_init (&argc, &argv, NULL);
 

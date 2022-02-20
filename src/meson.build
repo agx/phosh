@@ -56,6 +56,8 @@ phosh_layer_surface_sources = files(
 )
 
 libphosh_tool_sources = files(
+  'app-auth-prompt.c',
+  'app-auth-prompt.h',
   'activity.c',
   'activity.h',
   'animation.c',
@@ -155,8 +157,6 @@ libphosh_tool_sources = files(
 ]
 
 libphosh_sources = files(
-  'app-auth-prompt.c',
-  'app-auth-prompt.h',
   'arrow.c',
   'arrow.h',
   'app-tracker.h',

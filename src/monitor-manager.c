@@ -383,7 +383,6 @@ phosh_monitor_manager_handle_set_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
   g_autoptr (GBytes) red_bytes = NULL, green_bytes = NULL, blue_bytes = NULL;
   gsize n_bytes, n_entries;
   gint fd;
-  g_autoptr (GError) err = NULL;
 
   g_debug ("DBus call %s for crtc %d, serial %d", __func__, crtc_id, serial);
   if (serial != self->serial) {
@@ -653,7 +652,7 @@ phosh_monitor_manager_find_head (PhoshMonitorManager *self, const char *name)
 static PhoshHead *
 find_head_from_variant (PhoshMonitorManager *self,
                         GVariant            *monitor_config_variant,
-                        gchar              **mode,
+                        char               **mode,
                         GError             **err)
 {
   g_autofree char *connector = NULL;
@@ -662,7 +661,7 @@ find_head_from_variant (PhoshMonitorManager *self,
   GVariantIter iter;
   GVariant *value;
   PhoshHead *head;
-  gchar *key;
+  char *key;
 
   g_return_val_if_fail (*mode == NULL, NULL);
 
@@ -1115,7 +1114,7 @@ zwlr_output_manager_v1_handle_head (void *data,
                                     struct zwlr_output_manager_v1 *manager,
                                     struct zwlr_output_head_v1 *wlr_head)
 {
-  PhoshMonitorManager *self = data;
+  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (data);
   PhoshHead *head;
 
   g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
@@ -1134,7 +1133,7 @@ zwlr_output_manager_v1_handle_done (void *data,
                                     struct zwlr_output_manager_v1 *manager,
                                     uint32_t serial)
 {
-  PhoshMonitorManager *self = data;
+  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (data);
 
   g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
   g_debug ("Got zwlr_output_manager serial %u", serial);

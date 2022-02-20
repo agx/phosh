@@ -107,7 +107,7 @@ on_volume_added (PhoshMountManager *self, GVolume *vol, GVolumeMonitor *monitor)
   g_autoptr (PhoshMountOperation) op = NULL;
 
   g_autoptr (GMount) mount = NULL;
-  g_autofree gchar *name = NULL;
+  g_autofree char *name = NULL;
 
   g_return_if_fail (PHOSH_IS_MOUNT_MANAGER (self));
   g_return_if_fail (G_IS_VOLUME (vol));
@@ -153,7 +153,7 @@ on_volume_added (PhoshMountManager *self, GVolume *vol, GVolumeMonitor *monitor)
 static void
 on_volume_removed (PhoshMountManager *self, GVolume *vol, GVolumeMonitor *monitor)
 {
-  g_autofree gchar *name = NULL;
+  g_autofree char *name = NULL;
 
   g_return_if_fail (PHOSH_IS_MOUNT_MANAGER (self));
   g_return_if_fail (G_IS_VOLUME (vol));
@@ -196,7 +196,7 @@ on_mount_added (PhoshMountManager *self, GMount *mount, GVolumeMonitor *monitor)
 static void
 on_mount_removed (PhoshMountManager *self, GMount *mount, GVolumeMonitor *monitor)
 {
-  g_autofree gchar *name = NULL;
+  g_autofree char *name = NULL;
   PhoshNotifyManager *nm;
   gpointer data;
   int id;

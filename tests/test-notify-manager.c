@@ -48,10 +48,10 @@ test_phosh_notify_manager_caps (PhoshTestFullShellFixture *fixture, gconstpointe
   g_assert_true (success);
 
   g_assert_cmpint (g_strv_length (caps), ==, 4);
-  g_assert_true (g_strv_contains ((const gchar * const *)caps, "body"));
-  g_assert_true (g_strv_contains ((const gchar * const *)caps, "body-markup"));
-  g_assert_true (g_strv_contains ((const gchar * const *)caps, "actions"));
-  g_assert_true (g_strv_contains ((const gchar * const *)caps, "icon-static"));
+  g_assert_true (g_strv_contains ((const char * const *)caps, "body"));
+  g_assert_true (g_strv_contains ((const char * const *)caps, "body-markup"));
+  g_assert_true (g_strv_contains ((const char * const *)caps, "actions"));
+  g_assert_true (g_strv_contains ((const char * const *)caps, "icon-static"));
 }
 
 
@@ -116,7 +116,7 @@ test_phosh_notify_manager_server_notify (PhoshTestFullShellFixture *fixture, gco
   PhoshNotifyManager *nm = NULL;
   gboolean success, notified = FALSE;
   guint id;
-  const gchar *const * actions = (const char*[]){ NULL };
+  const char *const * actions = (const char*[]){ NULL };
   GVariant *hints = g_variant_new ("a{sv}",  NULL);
 
   /* Wait until comp/shell are up */
@@ -157,7 +157,7 @@ test_phosh_notify_manager_server_notify (PhoshTestFullShellFixture *fixture, gco
 int
 main (int argc, char *argv[])
 {
-  g_autofree gchar *display = NULL;
+  g_autofree char *display = NULL;
   g_autoptr (PhoshTestFullShellFixtureCfg) cfg = NULL;
 
   g_test_init (&argc, &argv, NULL);
