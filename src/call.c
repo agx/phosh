@@ -17,15 +17,17 @@
 enum {
   PROP_0,
   PROP_DBUS_PROXY,
-  PROP_DISPLAY_NAME,
+  PROP_NUM_OBJ_PROPS,
+  /* From the cui-call interface */
+  PROP_DISPLAY_NAME = PROP_NUM_OBJ_PROPS,
   PROP_AVATAR_ICON,
   PROP_ID,
   PROP_STATE,
   PROP_ENCRYPTED,
   PROP_CAN_DTMF,
-  PROP_LAST_PROP = PROP_DISPLAY_NAME,
+  PROP_NUM_PROPS,
 };
-static GParamSpec *props[PROP_LAST_PROP];
+static GParamSpec *props[PROP_NUM_PROPS];
 
 
 typedef struct _PhoshCall {
@@ -260,31 +262,37 @@ phosh_call_class_init (PhoshCallClass *klass)
                                                 PHOSH_CALLS_DBUS_TYPE_CALLS_CALL,
                                                 G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS |
                                                 G_PARAM_CONSTRUCT_ONLY);
-  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
+  g_object_class_install_properties (object_class, PROP_NUM_OBJ_PROPS, props);
 
   g_object_class_override_property (object_class,
                                     PROP_AVATAR_ICON,
                                     "avatar-icon");
+  props[PROP_AVATAR_ICON] = g_object_class_find_property (object_class, "avatar-icon");
 
   g_object_class_override_property (object_class,
                                     PROP_ID,
                                     "id");
+  props[PROP_ID] = g_object_class_find_property (object_class, "id");
 
   g_object_class_override_property (object_class,
                                     PROP_DISPLAY_NAME,
                                     "display-name");
+  props[PROP_DISPLAY_NAME] = g_object_class_find_property (object_class, "display-name");
 
   g_object_class_override_property (object_class,
                                     PROP_STATE,
                                     "state");
+  props[PROP_STATE] = g_object_class_find_property (object_class, "state");
 
   g_object_class_override_property (object_class,
                                     PROP_ENCRYPTED,
                                     "encrypted");
+  props[PROP_ENCRYPTED] = g_object_class_find_property (object_class, "encrypted");
 
   g_object_class_override_property (object_class,
                                     PROP_CAN_DTMF,
                                     "can-dtmf");
+  props[PROP_CAN_DTMF] = g_object_class_find_property (object_class, "can-dtmf");
 }
 
 
