@@ -267,11 +267,11 @@ phosh_call_class_init (PhoshCallClass *klass)
                                     "avatar-icon");
 
   g_object_class_override_property (object_class,
-                                    PROP_DISPLAY_NAME,
+                                    PROP_ID,
                                     "id");
 
   g_object_class_override_property (object_class,
-                                    PROP_ID,
+                                    PROP_DISPLAY_NAME,
                                     "display-name");
 
   g_object_class_override_property (object_class,
