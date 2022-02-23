@@ -171,22 +171,6 @@
       <xi:include href="xml/iio-sensor-proxy-dbus.xml"/>
       <xi:include href="xml/mpris-dbus.xml"/>
     </chapter>
-
-    <chapter id="wayland_protocols">
-      <title>Wayland protocols</title>
-      <xi:include href="xml/idle-client-protocol.xml"/>
-      <xi:include href="xml/phosh-private-client-protocol.xml"/>
-      <xi:include href="xml/wlr-foreign-toplevel-management-unstable-v1-client-protocol.xml"/>
-      <xi:include href="xml/wlr-gamma-control-unstable-v1-client-protocol.xml"/>
-      <xi:include href="xml/wlr-input-inhibitor-unstable-v1-client-protocol.xml"/>
-      <xi:include href="xml/wlr-layer-shell-unstable-v1-client-protocol.xml"/>
-      <xi:include href="xml/wlr-output-management-unstable-v1-client-protocol.xml"/>
-      <xi:include href="xml/wlr-output-power-management-unstable-v1-client-protocol.xml"/>
-      <xi:include href="xml/wlr-screencopy-unstable-v1-client-protocol.xml"/>
-      <xi:include href="xml/xdg-output-unstable-v1-client-protocol.xml"/>
-      <xi:include href="xml/xdg-shell-client-protocol.xml"/>
-    </chapter>
-
   </part>
 
   <part id="annexes">
