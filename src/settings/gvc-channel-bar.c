@@ -32,6 +32,14 @@
 #define ADJUSTMENT_MAX (self->is_amplified ? ADJUSTMENT_MAX_AMPLIFIED : ADJUSTMENT_MAX_NORMAL)
 #define SCROLLSTEP (ADJUSTMENT_MAX / 100.0 * 5.0)
 
+
+enum {
+  VALUE_CHANGED,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
+
+
 struct _GvcChannelBar
 {
   GtkBox         parent_instance;
@@ -40,7 +48,6 @@ struct _GvcChannelBar
   GtkWidget     *image;
   GtkWidget     *scale;
   GtkAdjustment *adjustment;
-  GtkAdjustment *zero_adjustment;
   gboolean       is_muted;
   char          *icon_name;
   GtkSizeGroup  *size_group;
@@ -53,7 +60,6 @@ enum
 {
   PROP_0,
   PROP_IS_MUTED,
-  PROP_ADJUSTMENT,
   PROP_ICON_NAME,
   PROP_IS_AMPLIFIED,
 };
@@ -145,26 +151,6 @@ gvc_channel_bar_set_icon_name (GvcChannelBar  *self,
 }
 
 
-static void
-gvc_channel_bar_set_adjustment (GvcChannelBar *self,
-                                GtkAdjustment *adjustment)
-{
-  g_return_if_fail (GVC_CHANNEL_BAR (self));
-  g_return_if_fail (GTK_IS_ADJUSTMENT (adjustment));
-
-  if (self->adjustment != NULL) {
-    g_object_unref (self->adjustment);
-  }
-  self->adjustment = g_object_ref_sink (adjustment);
-
-  if (self->scale != NULL) {
-    gtk_range_set_adjustment (GTK_RANGE (self->scale), adjustment);
-  }
-
-  g_object_notify (G_OBJECT (self), "adjustment");
-}
-
-
 GtkAdjustment *
 gvc_channel_bar_get_adjustment (GvcChannelBar *self)
 {
@@ -203,7 +189,6 @@ on_scale_button_release_event (GtkWidget      *widget,
    * therefore we should unmute and set the volume. */
   gvc_channel_bar_set_is_muted (self, ((int)value == (int)0.0));
 
-  /* TODO: we might want to play a sound here */
   return FALSE;
 }
 
@@ -254,12 +239,6 @@ gvc_channel_bar_scroll (GvcChannelBar *self, GdkEventScroll *event)
   }
 
   adj = gtk_range_get_adjustment (GTK_RANGE (self->scale));
-  if (adj == self->zero_adjustment) {
-    if (dy > 0)
-      gvc_channel_bar_set_is_muted (self, FALSE);
-    return TRUE;
-  }
-
   value = gtk_adjustment_get_value (adj);
 
   if (dy > 0) {
@@ -292,21 +271,11 @@ on_scale_scroll_event (GtkWidget      *widget,
 
 
 static void
-on_zero_adjustment_value_changed (GtkAdjustment *adjustment,
-                                  GvcChannelBar *self)
+on_adjustment_value_changed (GtkAdjustment *adjustment,
+                             GvcChannelBar *self)
 {
-  double value;
-
-  if (self->click_lock != FALSE) {
-    return;
-  }
-
-  value = gtk_adjustment_get_value (self->zero_adjustment);
-  gtk_adjustment_set_value (self->adjustment, value);
-
-  /* this means the adjustment moved away from zero and
-   * therefore we should unmute and set the volume. */
-  gvc_channel_bar_set_is_muted (self, value > 0.0);
+  if (!self->is_muted || self->click_lock)
+    g_signal_emit (self, signals[VALUE_CHANGED], 0);
 }
 
 
@@ -321,6 +290,9 @@ gvc_channel_bar_set_is_muted (GvcChannelBar *self,
      * front-end about our changes */
     self->is_muted = is_muted;
     g_object_notify (G_OBJECT (self), "is-muted");
+
+    if (is_muted)
+      gtk_adjustment_set_value (self->adjustment, 0.0);
   }
 }
 
@@ -340,7 +312,6 @@ gvc_channel_bar_set_is_amplified (GvcChannelBar *self, gboolean amplified)
 
   self->is_amplified = amplified;
   gtk_adjustment_set_upper (self->adjustment, ADJUSTMENT_MAX);
-  gtk_adjustment_set_upper (self->zero_adjustment, ADJUSTMENT_MAX);
   gtk_scale_clear_marks (GTK_SCALE (self->scale));
 
   if (amplified) {
@@ -400,9 +371,6 @@ gvc_channel_bar_set_property (GObject       *object,
   case PROP_ICON_NAME:
     gvc_channel_bar_set_icon_name (self, g_value_get_string (value));
     break;
-  case PROP_ADJUSTMENT:
-    gvc_channel_bar_set_adjustment (self, g_value_get_object (value));
-    break;
   case PROP_IS_AMPLIFIED:
     gvc_channel_bar_set_is_amplified (self, g_value_get_boolean (value));
     break;
@@ -427,9 +395,6 @@ gvc_channel_bar_get_property (GObject     *object,
     break;
   case PROP_ICON_NAME:
     g_value_set_string (value, self->icon_name);
-    break;
-  case PROP_ADJUSTMENT:
-    g_value_set_object (value, gvc_channel_bar_get_adjustment (self));
     break;
   case PROP_IS_AMPLIFIED:
     g_value_set_boolean (value, self->is_amplified);
@@ -476,13 +441,6 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
                                                          FALSE,
                                                          G_PARAM_READWRITE|G_PARAM_CONSTRUCT));
   g_object_class_install_property (object_class,
-                                   PROP_ADJUSTMENT,
-                                   g_param_spec_object ("adjustment",
-                                                        "Adjustment",
-                                                        "The GtkAdjustment that contains the current value of this scale button object",
-                                                        GTK_TYPE_ADJUSTMENT,
-                                                        G_PARAM_READWRITE));
-  g_object_class_install_property (object_class,
                                    PROP_ICON_NAME,
                                    g_param_spec_string ("icon-name",
                                                         "Icon Name",
@@ -496,6 +454,13 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
                                                          "Whether the stream is digitally amplified",
                                                          FALSE,
                                                          G_PARAM_READWRITE|G_PARAM_CONSTRUCT));
+
+  signals[VALUE_CHANGED] = g_signal_new ("value-changed",
+                                         G_TYPE_FROM_CLASS (klass),
+                                         G_SIGNAL_RUN_LAST,
+                                         0, NULL, NULL, NULL,
+                                         G_TYPE_NONE,
+                                         0);
 }
 
 
@@ -515,19 +480,7 @@ gvc_channel_bar_init (GvcChannelBar *self)
                                                          ADJUSTMENT_MAX_NORMAL/10.0,
                                                          0.0));
   g_object_ref_sink (self->adjustment);
-
-  self->zero_adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0.0,
-                                                              0.0,
-                                                              ADJUSTMENT_MAX_NORMAL,
-                                                              ADJUSTMENT_MAX_NORMAL/100.0,
-                                                              ADJUSTMENT_MAX_NORMAL/10.0,
-                                                              0.0));
-  g_object_ref_sink (self->zero_adjustment);
-
-  g_signal_connect (self->zero_adjustment,
-                    "value-changed",
-                    G_CALLBACK (on_zero_adjustment_value_changed),
-                    self);
+  g_signal_connect (self->adjustment, "value-changed", G_CALLBACK (on_adjustment_value_changed), self);
 
   /* frame */
   frame = gtk_frame_new (NULL);
@@ -552,4 +505,13 @@ gvc_channel_bar_new (void)
                        "icon-name", "audio-speakers-symbolic",
                        NULL);
   return GTK_WIDGET (self);
+}
+
+
+double
+gvc_channel_bar_get_volume (GvcChannelBar *self)
+{
+  g_return_val_if_fail (GVC_IS_CHANNEL_BAR (self), 0.0);
+
+  return gtk_adjustment_get_value (self->adjustment);
 }
