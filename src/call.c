@@ -17,15 +17,18 @@
 enum {
   PROP_0,
   PROP_DBUS_PROXY,
-  PROP_DISPLAY_NAME,
+  PROP_NUM_OBJ_PROPS,
+  /* From the cui-call interface */
+  PROP_DISPLAY_NAME = PROP_NUM_OBJ_PROPS,
   PROP_AVATAR_ICON,
   PROP_ID,
   PROP_STATE,
   PROP_ENCRYPTED,
   PROP_CAN_DTMF,
-  PROP_LAST_PROP = PROP_DISPLAY_NAME,
+  PROP_ACTIVE_TIME,
+  PROP_NUM_PROPS,
 };
-static GParamSpec *props[PROP_LAST_PROP];
+static GParamSpec *props[PROP_NUM_PROPS];
 
 
 typedef struct _PhoshCall {
@@ -36,6 +39,10 @@ typedef struct _PhoshCall {
 
   GLoadableIcon           *avatar_icon;
   gboolean                 can_dtmf;
+
+  GTimer                  *timer;
+  gdouble                  active_time;
+  guint                    timer_id;
 } PhoshCall;
 
 
@@ -114,19 +121,58 @@ phosh_call_get_can_dtmf (CuiCall *call)
 }
 
 
+static gdouble
+phosh_call_get_active_time (CuiCall *call)
+{
+  PhoshCall *self;
+
+  g_return_val_if_fail (PHOSH_IS_CALL (call), 0.0);
+  self = PHOSH_CALL (call);
+
+  return self->active_time;
+}
+
+
 static void
 on_prop_changed (PhoshCall *self, GParamSpec *pspec)
 {
   const char *name = g_param_spec_get_name (pspec);
 
   /* Just forward any property changes, we fetch them from the DBus proxy anyway */
-  if (g_strcmp0 (name, "state") == 0 ||
-      g_strcmp0 (name, "encrypted") == 0 ||
+  if (g_strcmp0 (name, "encrypted") == 0 ||
       g_strcmp0 (name, "id") == 0 ||
       g_strcmp0 (name, "display-name") == 0 ||
       g_strcmp0 (name, "can-dtmf")) {
     g_object_notify (G_OBJECT (self), name);
   }
+}
+
+
+static gboolean
+on_active_time_ticked (gpointer data)
+{
+  PhoshCall *self = PHOSH_CALL (data);
+
+  self->active_time = g_timer_elapsed (self->timer, NULL);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACTIVE_TIME]);
+
+  return G_SOURCE_CONTINUE;
+}
+
+
+static void
+on_state_changed (PhoshCall *self)
+{
+  if (cui_call_get_state (CUI_CALL (self)) == CUI_CALL_STATE_ACTIVE) {
+    self->timer = g_timer_new ();
+    self->timer_id = g_timeout_add (500, on_active_time_ticked, self);
+    g_source_set_name_by_id (self->timer_id, "[phosh] call timeout");
+  } else {
+    g_clear_handle_id (&self->timer_id, g_source_remove);
+    g_clear_pointer (&self->timer, g_timer_destroy);
+  }
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_STATE]);
 }
 
 
@@ -136,7 +182,7 @@ phosh_call_set_dbus_proxy (PhoshCall *self, PhoshCallsDBusCallsCall *proxy)
   self->proxy = g_object_ref (proxy);
 
   g_object_connect (self->proxy,
-                    "swapped-signal::notify::state", G_CALLBACK (on_prop_changed), self,
+                    "swapped-signal::notify::state", G_CALLBACK (on_state_changed), self,
                     "swapped-signal::notify::encrypted", G_CALLBACK (on_prop_changed), self,
                     "swapped-signal::notify::id", G_CALLBACK (on_prop_changed), self,
                     "swapped-signal::notify::display-name", G_CALLBACK (on_prop_changed), self,
@@ -198,6 +244,9 @@ phosh_call_get_property (GObject    *object,
   case PROP_CAN_DTMF:
     g_value_set_boolean (value, phosh_call_get_can_dtmf (iface));
     break;
+  case PROP_ACTIVE_TIME:
+    g_value_set_double (value, phosh_call_get_active_time (iface));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -221,6 +270,9 @@ phosh_call_constructed (GObject *object)
       self->avatar_icon = G_LOADABLE_ICON (g_file_icon_new (file));
     }
   }
+
+  /* Sync active property */
+  on_state_changed (self);
 }
 
 
@@ -234,6 +286,8 @@ phosh_call_dispose (GObject *object)
   g_signal_handlers_disconnect_by_data (self->proxy, self);
   g_clear_object (&self->proxy);
   g_clear_object (&self->avatar_icon);
+  g_clear_handle_id (&self->timer_id, g_source_remove);
+  g_clear_pointer (&self->timer, g_timer_destroy);
 
   G_OBJECT_CLASS (phosh_call_parent_class)->dispose (object);
 }
@@ -260,31 +314,42 @@ phosh_call_class_init (PhoshCallClass *klass)
                                                 PHOSH_CALLS_DBUS_TYPE_CALLS_CALL,
                                                 G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS |
                                                 G_PARAM_CONSTRUCT_ONLY);
-  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
+  g_object_class_install_properties (object_class, PROP_NUM_OBJ_PROPS, props);
 
   g_object_class_override_property (object_class,
                                     PROP_AVATAR_ICON,
                                     "avatar-icon");
-
-  g_object_class_override_property (object_class,
-                                    PROP_DISPLAY_NAME,
-                                    "id");
+  props[PROP_AVATAR_ICON] = g_object_class_find_property (object_class, "avatar-icon");
 
   g_object_class_override_property (object_class,
                                     PROP_ID,
+                                    "id");
+  props[PROP_ID] = g_object_class_find_property (object_class, "id");
+
+  g_object_class_override_property (object_class,
+                                    PROP_DISPLAY_NAME,
                                     "display-name");
+  props[PROP_DISPLAY_NAME] = g_object_class_find_property (object_class, "display-name");
 
   g_object_class_override_property (object_class,
                                     PROP_STATE,
                                     "state");
+  props[PROP_STATE] = g_object_class_find_property (object_class, "state");
 
   g_object_class_override_property (object_class,
                                     PROP_ENCRYPTED,
                                     "encrypted");
+  props[PROP_ENCRYPTED] = g_object_class_find_property (object_class, "encrypted");
 
   g_object_class_override_property (object_class,
                                     PROP_CAN_DTMF,
                                     "can-dtmf");
+  props[PROP_CAN_DTMF] = g_object_class_find_property (object_class, "can-dtmf");
+
+  g_object_class_override_property (object_class,
+                                    PROP_ACTIVE_TIME,
+                                    "active-time");
+  props[PROP_ACTIVE_TIME] = g_object_class_find_property (object_class, "active-time");
 }
 
 
@@ -386,6 +451,7 @@ phosh_call_cui_call_interface_init (CuiCallInterface *iface)
   iface->get_state = phosh_call_get_state;
   iface->get_encrypted = phosh_call_get_encrypted;
   iface->get_can_dtmf = phosh_call_get_can_dtmf;
+  iface->get_active_time = phosh_call_get_active_time;
 
   iface->accept = phosh_call_accept;
   iface->hang_up = phosh_call_hang_up;

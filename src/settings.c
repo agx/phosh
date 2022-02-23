@@ -84,7 +84,7 @@ close_settings_menu (PhoshSettings *self)
 }
 
 static void
-brightness_value_changed_cb (GtkScale *scale_brightness, gpointer *unused)
+brightness_value_changed_cb (GtkScale *scale_brightness, gpointer unused)
 {
   int brightness;
 
@@ -392,7 +392,7 @@ on_output_stream_port_changed (GvcMixerStream *stream, GParamSpec *pspec, gpoint
 
 
 static void
-mixer_control_output_update_cb (GvcMixerControl *mixer, guint id, gpointer *data)
+mixer_control_output_update_cb (GvcMixerControl *mixer, guint id, gpointer data)
 {
   PhoshSettings *self = PHOSH_SETTINGS (data);
 

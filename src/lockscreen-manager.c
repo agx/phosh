@@ -273,7 +273,7 @@ lockscreen_lock (PhoshLockscreenManager *self)
 
 
 static void
-presence_status_changed_cb (PhoshLockscreenManager *self, guint32 status, gpointer *data)
+presence_status_changed_cb (PhoshLockscreenManager *self, guint32 status, gpointer data)
 {
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
 
