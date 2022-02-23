@@ -443,6 +443,7 @@ phosh_monitor_manager_handle_set_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_IO_ERROR,
                                            "could not memory map temporary file for gamma ramps data");
+    close (fd);
     return TRUE;
   }
   n_entries = n_bytes / sizeof(guint16);
@@ -453,6 +454,7 @@ phosh_monitor_manager_handle_set_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
   }
   munmap(data, n_bytes * 3);
   zwlr_gamma_control_v1_set_gamma (monitor->gamma_control, fd);
+  close (fd);
 
   phosh_dbus_display_config_complete_set_crtc_gamma (
       skeleton,
