@@ -24,5 +24,8 @@ GtkWidget *phosh_keypad_get_start_action        (PhoshKeypad *self);
 void       phosh_keypad_set_end_action          (PhoshKeypad *self,
                                                  GtkWidget   *end_action);
 GtkWidget *phosh_keypad_get_end_action          (PhoshKeypad *self);
-
+void       phosh_keypad_set_shuffle             (PhoshKeypad *self,
+                                                 gboolean     shuffle);
+gboolean   phosh_keypad_get_shuffle             (PhoshKeypad *self);
+void       phosh_keypad_distribute              (PhoshKeypad *self);
 G_END_DECLS

@@ -19,17 +19,29 @@
  * @Title: PhoshKeypad
  *
  * The #PhoshKeypad widget is a keypad for entering
- * or PIN codes on e.g. a #PhoshLockscreen.
+ * or PIN codes on e.g. a #PhoshLockscreen. It can randomly
+ * distribute (shuffle) the digits.
  *
  * # CSS nodes
  *
  * #PhoshKeypad has a single CSS node with name phosh-keypad.
  */
 
+#define NUM_DIGITS 10
+/* Positions of the buttons in the grid we shuffle as x,y coordinates */
+static int btn_pos[NUM_DIGITS][2] = { { 1, 3 },
+                                      { 0, 0 }, { 1, 0 }, { 2, 0 },
+                                      { 0, 1 }, { 1, 1 }, { 2, 1 },
+                                      { 0, 2 }, { 1, 2 }, { 2, 2 }};
+
 typedef struct _PhoshKeypad {
   GtkGrid    parent;
 
   GtkEntry  *entry;
+  /* The digit buttinos 1..9 and 0 */
+  GtkWidget *buttons[10];
+
+  gboolean   shuffle;
 } PhoshKeypad;
 
 G_DEFINE_TYPE (PhoshKeypad, phosh_keypad, GTK_TYPE_GRID)
@@ -39,6 +51,7 @@ enum {
   PROP_ENTRY,
   PROP_END_ACTION,
   PROP_START_ACTION,
+  PROP_SHUFFLE,
   PROP_LAST_PROP,
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -93,6 +106,9 @@ phosh_keypad_set_property (GObject      *object,
   case PROP_START_ACTION:
     phosh_keypad_set_start_action (self, g_value_get_object (value));
     break;
+  case PROP_SHUFFLE:
+    phosh_keypad_set_shuffle (self, g_value_get_boolean (value));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -118,10 +134,79 @@ phosh_keypad_get_property (GObject    *object,
   case PROP_END_ACTION:
     g_value_set_object (value, phosh_keypad_get_end_action (self));
     break;
+  case PROP_SHUFFLE:
+    g_value_set_boolean (value, phosh_keypad_get_shuffle(self));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
   }
+}
+
+
+static void
+swap_buttons (PhoshKeypad *self, int pos_a, int pos_b)
+{
+  GtkWidget *a, *b;
+
+  int c_a = btn_pos[pos_a][0];
+  int r_a = btn_pos[pos_a][1];
+  int c_b = btn_pos[pos_b][0];
+  int r_b = btn_pos[pos_b][1];
+
+  if (pos_a == pos_b)
+    return;
+
+  a = gtk_grid_get_child_at (GTK_GRID (self), c_a, r_a);
+  gtk_container_remove (GTK_CONTAINER (self), a);
+
+  b = gtk_grid_get_child_at (GTK_GRID (self), c_b, r_b);
+  gtk_container_remove (GTK_CONTAINER (self), b);
+
+  gtk_grid_attach (GTK_GRID (self), a, c_b, r_b, 1, 1);
+  gtk_grid_attach (GTK_GRID (self), b, c_a, r_a, 1, 1);
+}
+
+
+static void
+distribute_buttons (PhoshKeypad *self, gboolean shuffle)
+{
+  if (shuffle) {
+    /* Fisher-Yates shuffle */
+    for (int i = 0; i < NUM_DIGITS-1; i++) {
+        int j = g_random_int_range (i, NUM_DIGITS);
+        swap_buttons (self, i, j);
+    }
+  } else {
+    /* Use sorted positions */
+    for (int i = 0; i < NUM_DIGITS; i++) {
+      GtkWidget *old;
+      int c = btn_pos[i][0];
+      int r = btn_pos[i][1];
+      
+      old = gtk_grid_get_child_at (GTK_GRID (self), c, r);
+      gtk_container_remove (GTK_CONTAINER (self), old);
+    }
+
+    for (int i = 0; i < NUM_DIGITS; i++) {
+      int c = btn_pos[i][0];
+      int r = btn_pos[i][1];
+
+      gtk_grid_attach (GTK_GRID (self), self->buttons[i], c, r, 1, 1);
+    }
+  }
+}
+
+
+static void
+phosh_keypad_dispose (GObject *object)
+{
+  PhoshKeypad *self = PHOSH_KEYPAD (object);
+
+  for (int i = 0; i < NUM_DIGITS; i++)
+    g_clear_object (&self->buttons[i]);
+
+  G_OBJECT_CLASS (phosh_keypad_parent_class)->dispose (object);
 }
 
 
@@ -131,6 +216,7 @@ phosh_keypad_class_init (PhoshKeypadClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
+  object_class->dispose = phosh_keypad_dispose;
   object_class->set_property = phosh_keypad_set_property;
   object_class->get_property = phosh_keypad_get_property;
 
@@ -171,10 +257,29 @@ phosh_keypad_class_init (PhoshKeypadClass *klass)
                          GTK_TYPE_WIDGET,
                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
+  /**
+   * PhoshKeypad:shuffle:
+   *
+   * Whether to shuffle digits. Setting this to %TRUE will make
+   * the digits appear at random locations on the keypad.
+   */
+  props[PROP_SHUFFLE] =
+    g_param_spec_boolean ("shuffle", "", "",
+                          FALSE,
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/keypad.ui");
+
+  for (int i = 0; i < NUM_DIGITS; i++) {
+    g_autofree char *name = g_strdup_printf ("btn_%d", i);
+    gtk_widget_class_bind_template_child_full (widget_class,
+                                               name,
+                                               FALSE,
+                                               G_STRUCT_OFFSET(PhoshKeypad, buttons[i]));
+  }
 
   gtk_widget_class_bind_template_callback (widget_class, on_button_clicked);
 
@@ -187,6 +292,13 @@ static void
 phosh_keypad_init (PhoshKeypad *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  for (int i = 0; i < NUM_DIGITS; i++) {
+    /* We hold an extra reference since we remove buttons when reordering
+       them and so we don't need to bother then */
+    g_object_ref (self->buttons[i]);
+  }
+  distribute_buttons (self, self->shuffle);
 }
 
 
@@ -350,4 +462,44 @@ phosh_keypad_get_end_action (PhoshKeypad *self)
   g_return_val_if_fail (PHOSH_IS_KEYPAD (self), NULL);
 
   return gtk_grid_get_child_at (GTK_GRID (self), 2, 3);
+}
+
+
+void
+phosh_keypad_set_shuffle (PhoshKeypad *self, gboolean shuffle)
+{
+  g_return_if_fail (PHOSH_IS_KEYPAD (self));
+
+  if (self->shuffle == shuffle)
+    return;
+
+  self->shuffle = shuffle;
+  distribute_buttons (self, shuffle);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SHUFFLE]);
+}
+
+
+gboolean
+phosh_keypad_get_shuffle (PhoshKeypad *self)
+{
+  g_return_val_if_fail (PHOSH_IS_KEYPAD (self), FALSE);
+
+  return self->shuffle;
+}
+
+
+/**
+ * phosh_keypad_distribute:
+ * @self: a #PhoshKeypad
+ *
+ * Redistribute buttons on keypad. If %PhoshKeypad:shuffle is %TRUE buttons
+ * will be reshuffled otherwise they will be ordered.
+ **/
+void
+phosh_keypad_distribute (PhoshKeypad *self)
+{
+  g_return_if_fail (PHOSH_IS_KEYPAD (self));
+
+  distribute_buttons (self, self->shuffle);
 }

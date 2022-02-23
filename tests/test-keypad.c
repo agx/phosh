@@ -7,7 +7,7 @@
  * Copyright (C) 2019 Purism SPC
  */
 
-#include <keypad.h>
+#include "keypad.h"
 
 gint notified;
 
@@ -98,6 +98,17 @@ test_keypad_end_action (void)
 }
 
 
+static void
+test_keypad_shuffle (void)
+{
+  g_autoptr (PhoshKeypad) keypad = NULL;
+
+  keypad = g_object_ref_sink (g_object_new (PHOSH_TYPE_KEYPAD,
+                                            "shuffle", TRUE,
+                                            NULL));
+  g_assert_true (phosh_keypad_get_shuffle (keypad));
+}
+
 
 gint
 main (gint argc, char *argv[])
@@ -107,6 +118,7 @@ main (gint argc, char *argv[])
   g_test_add_func ("/phosh/Keypad/entry", test_keypad_entry);
   g_test_add_func ("/phosh/Keypad/start_action", test_keypad_start_action);
   g_test_add_func ("/phosh/Keypad/end_action", test_keypad_end_action);
+  g_test_add_func ("/phosh/Keypad/shuffle", test_keypad_shuffle);
 
   return g_test_run ();
 }
