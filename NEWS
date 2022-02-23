@@ -1,3 +1,26 @@
+phosh 0.16.0
+------------
+Released: February 2022
+* Fading labels in the overview
+* Keypad can shuffle buttons
+* More style refresh
+* Better ASAN coverage in tests
+* Update to libcall-ui 0.0.2
+* Plenty of fixes and cleanups
+* Contributors:
+	Adrien Plazas
+	Evangelos Ribeiro Tzaras
+	Guido Günther
+	Pablo Barciela
+	Sam Hewitt
+* UI translations:
+	Danial Behzadi (fa)
+	Daniel Șerbănescu (ro)
+	Fran Dieguez (gl)
+	Marc Riera (ca)
+	Matheus Barbosa (pt_BR)
+	Yosef Or Boczko (he)
+
 phosh 0.15.0
 ------------
 Released: January 2022
