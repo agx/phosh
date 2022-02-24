@@ -80,6 +80,7 @@ layer_surface_configure (void                         *data,
 {
   PhoshLayerSurface *self = data;
   PhoshLayerSurfacePrivate *priv;
+  gboolean changed = FALSE;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   priv = phosh_layer_surface_get_instance_private (self);
@@ -88,16 +89,19 @@ layer_surface_configure (void                         *data,
 
   if (priv->configured_height != height) {
     priv->configured_height = height;
+    changed = TRUE;
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_CONFIGURED_HEIGHT]);
   }
 
   if (priv->configured_width != width) {
     priv->configured_width = width;
+    changed = TRUE;
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_CONFIGURED_WIDTH]);
   }
 
   g_debug ("Configured %s (%p) (%dx%d)", priv->namespace, self, width, height);
-  g_signal_emit (self, signals[CONFIGURED], 0);
+  if (changed)
+    g_signal_emit (self, signals[CONFIGURED], 0);
 }
 
 
