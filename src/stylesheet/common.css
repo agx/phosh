@@ -609,25 +609,32 @@ phosh-notification-banner .notification-container {
  */
 phosh-media-player {
   background: @phosh_notification_bg_color;
-  border-radius: 6px;
+  color: @phosh_fg_color;
+  border-radius: 12px;
+  border:none;
   box-shadow: none;
+  padding: 6px;
+  padding-bottom: 0;
 }
 
 phosh-media-player button {
   background: @phosh_notification_bg_color;
+  color: inherit;
   border-radius: 0;
-  box-shadow: none;
-  border: 0;
   outline-style: none;
 }
 
-phosh-media-player button:hover,
+phosh-media-player button:hover {
+  background-color: rgba(255,255,255,.1);
+}
+
 phosh-media-player button:active {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255,255,255,.2);
 }
 
 phosh-media-player .media-player-details {
-  border-radius: 6px 6px 0 0;
+  border-radius: 8px;
+  padding-left: 4px;
 }
 
 /* The details button should not look inactive even when disabled */
@@ -636,11 +643,24 @@ phosh-media-player .media-player-details *:disabled {
   -gtk-icon-effect: none;
 }
 
+phosh-media-player .phosh-media-player-art {
+  margin: 0;
+  padding: 0;
+  border-radius: 3px;
+}
+
 phosh-media-player > box > button {
   border-radius: 9999px;
   -gtk-icon-shadow: none;
-  padding: 12px;
+  margin: 2px;
+  padding: 8px;
 }
+
+/* The Lockscreen */
+phosh-lockscreen phosh-media-player {
+  margin: 0 8px;
+}
+
 
 /*
  * OSD
@@ -732,3 +752,14 @@ scale trough slider:active {
   background: shade(@phosh_fg_color, 0.9);
 }
 
+
+/* Buttons */
+button {
+  border: none;
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+}
+
+button:disabled {
+  opacity: 0.5;
+}
