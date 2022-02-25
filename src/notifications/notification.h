@@ -103,7 +103,7 @@ void                      phosh_notification_set_urgency   (PhoshNotification   
 PhoshNotificationUrgency  phosh_notification_get_urgency   (PhoshNotification        *self);
 void                      phosh_notification_set_actions   (PhoshNotification        *self,
                                                             GStrv                     actions);
-const GStrv               phosh_notification_get_actions   (PhoshNotification        *self);
+GStrv                     phosh_notification_get_actions   (PhoshNotification        *self);
 void                      phosh_notification_set_transient (PhoshNotification        *self,
                                                             gboolean                  transient);
 gboolean                  phosh_notification_get_transient (PhoshNotification        *self);

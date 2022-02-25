@@ -24,5 +24,5 @@ const gchar      *phosh_gtk_mount_prompt_get_password (PhoshGtkMountPrompt *self
 GAskPasswordFlags phosh_gtk_mount_prompt_get_ask_flags (PhoshGtkMountPrompt *self);
 gboolean          phosh_gtk_mount_prompt_get_cancelled (PhoshGtkMountPrompt *self);
 int               phosh_gtk_mount_prompt_get_choice (PhoshGtkMountPrompt *self);
-const GStrv       phosh_gtk_mount_prompt_get_choices (PhoshGtkMountPrompt *self);
+GStrv             phosh_gtk_mount_prompt_get_choices (PhoshGtkMountPrompt *self);
 void              phosh_gtk_mount_prompt_set_pids (PhoshGtkMountPrompt *self, GVariant *pids);
