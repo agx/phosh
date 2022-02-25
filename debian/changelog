@@ -1,3 +1,184 @@
+phosh (0.16.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * Doc updates
+  * tools: Add helper to check OSD
+  * osd: Drop superfluous packaging. Eases the GTK4 port.
+  * osd: Rely on GTK focus defaults. Smaller UI file and eases GTK4 port.
+  * gnome-shell-manager: Simplify AcceleratorInfo handling.
+    It was allocated outside of grab_single_accelerator() but
+    the details weren't ever needed by the callers so keep things
+    local so we don't end up leaking again.
+  * keypad: Drop superfluous receives-default properties
+  * keypad: Drop superfluous can-focus properties
+  * doap: Update description
+  * sm.puri.OSK0: Name method argument.
+    This generates slightly nicer bindings and documents the
+    argument in one go.
+  * Drop osk-stub.
+    Since this grew more and more features and people accidentally installed
+    it (#720) move it to a separate repo:
+    https://gitlab.gnome.org/guidog/phosh-osk-stub/
+  * tools: Build app-buttons when tests are enabled.
+    The screenshot tests use it and abort with a timeout if not
+    present.
+  * editorconfig: Bump line length to 100.
+    This is what we've been using for some time
+  * background: Don't unref NULL pixbuf.
+    If no background was ever set we'd generate a critical otherwise.
+  * phosh-wayland: Make sure to destroy all globals.
+    Doesn't matter much in practice as they only get created once
+  * phosh-wayland: Destroy output globals.
+    Otherwise we leak on output hotplug too.
+    Since we destroy the output when removing from the hash table
+    we no longer need to do so explicitly.
+  * layer-surface: Use g_clear_pointer.  Less code and easier to read.
+  * tests/timestamp-label: Don't leak str
+  * testlib: Finalize PhocWayland before killing the compositor.
+    Otherwise we try to cleanup on a dead connection.
+  * top-panel: Don't leak action_names.
+    We free when the bindings change but not on dispose.
+  * monitor-manager: Drop unused variable
+  * monitor-manager: Use casts.
+    This will warn us if we get the types wrong
+  * tests: Generate better backraces with ASAN.
+    It makes the ASAN runs way slower but backtraces are more useful with
+    `fast_unwind_on_malloc=0`
+    Partially fixes 7d5d1c39 ("ci: Drop valgrind run until we have more RAM")
+  * leak-suppress: Add GDK leaks.
+    Some things aren't cleaned up by GDK in GTK3. Add these.
+  * testlib: Drop unused variable
+  * tests: Add a stub for head handling.
+    Otherwise we'll produce head related leaks in the tests.
+  * gitlab-ci: Run phoc based unit tests as well.
+    This greatly improves the ASAN coverage
+  * tests-monitor-manager: Remove unused variable
+  * wifimanager: Don't leak ssid on shutdown
+  * test-take-screenshot: Free virtual keyboard
+  * tests: Add osd-window unit test
+  * fading-label: Add constructor
+  * Avoid gchar in multiple places
+    We want to use standard C types where possible
+  * tests: Add fading label unit test
+  * build: Move app-auth-prompt to libphosh_tool. This makes it available in
+    the tests
+  * tests: Add test for app-auth-prompt
+  * keypad: Allow to shuffle buttons. Allow them 0-9 to take random positions
+    while any extra keys remain at fixed positions)
+    (Closes: #431)
+  * lockscreen: Allow to toggle shuffle via gsetting.
+    Enable via
+       gsettings set sm.puri.phosh.lockscreen shuffle-keypad true
+  * channel-bar: Don't expose adjustment.
+    Rather emit the change signal directly. This allows us to e.g.
+    set the slider to zero on mute while still retaining the old
+    adjustment value.
+  * channel-bar: Don't emit volume-changed when muted.
+    We want to keep the original volume on the stream for unumute
+  * settings: Set is-muted when channel is muted.
+    This moves the volume slider to zero but unmute still restores the old
+    volume.
+  * channel-bar: Drop zero adjustment.
+    This should have tracked the volume when muted but never did
+  * monitor-manager: Fix fd leak.
+    See https://gitlab.gnome.org/World/Phosh/phoc/-/issues/257
+  * docs: Drop wayand protocols.
+    Since they're not using gtk-doc parsing always gave heaps of errors and
+    the generated don't have much to say either.
+    It would be great to have them documented (e.g. by linking to the
+    upstream docs) but we can do that with the switch to gi-docgen.
+  * build: Bump meson version to 0.54.0. We'll use the fs module
+  * protocols: Use custom_target.
+    This reduces the number of targets from ~3700 to ~2500.
+  * lockscreen-manager: Fix argument type
+  * settings: Fix argument type
+  * call: Use PROP_ID to override id, not PROP_DISPLAY_NAME.
+    And the other way around.
+    Fixes: 70dd1f2825d18a23337fb56dad9c469f2858bc29
+  * call: Store all param specs.
+    We'll store one in the follow up commit but let's not have
+    an array with holes in it.
+  * call: Handle active-time property.
+    This makes sure the call time doesn't get reset when locking/unlocking
+    the shell and call times are in sync with the calls application (except
+    when the shell restarts). For that we update to libcall-ui 0.0.2
+    Closes: https://gitlab.gnome.org/GNOME/calls/-/issues/322
+  * Update libcall-ui to latest main.
+    This picks up some fixes on top of 0.0.2 that eases the build
+    for downstreams.
+  * d/gbp.conf: Ignore Marge-Bot's Part-of:
+    We don't want to clutter the changelog with that
+
+  [ Adrien Plazas ]
+  * Add PhoshClamp. This will be used to clamp the natural size request of
+    buttons.
+  * app-grid-button: Limit the natural width request.
+    This uses a PhoshClamp to limit the natural width request of the button
+    in pixels rather than limiting the label's maximum width in characters.
+    This dissociates the width from the font size, giving us more control
+    over the button's size, and this allows the button's labels to take more
+    width if available.
+    This purposefully leaves the indentation broken to ease review. It will
+    be fixed in the next commit.
+  * app-grid-button: Fix the indentation.
+    It was purposefully left broken in the previous commit.
+  * Add fribidi dependency.
+    This will be used to create a fading label.
+  * Add direction helpers using fribidi.
+    This will be used to create a fading label. This is copied from
+    libhandy, which itself copied it from GTK.
+  * Add PhoshFadingLabel.
+    This is copied from Libhandy.
+  * app-grid-button: Use a fading label.
+    This gives the title a single line as desired by the designers to match
+    GNOME Shell and iOS, while making more of the title visible and being
+    less aggressive than an ellipsis.
+
+  [ Sam Hewitt ]
+  * osd-window: Update the layout and refresh the style.
+    Reorders the layout of things in the UI and simplify CSS.
+  * shell: Update lockscreen and notification styles
+    - puts all the styling for the notifications together
+    - improved :focus, :active and :hover styles for all buttons
+    - update notification bubble style
+
+  [ Pablo Barciela ]
+  * notifications: Reduce the scope of some variables
+  * phosh-wwan-mm: Reduce the scope of variable 'modem_object_path'
+  * layersurface: Reduce the scope of variable 'gdk_window'
+  * util: Reduce the scope of variable 'fd'
+  * gnome-shell-manager: Fix memory leak.
+  * gnome-shell-manager: Assert on action id.
+    Makes things more obvious and the static analyzer happy.
+  * head: Fix [-Wbad-function-cast] warnings.
+  * head: Compare float variables with G_APPROX_VALUE
+  * test-head: Compare float variables with G_APPROX_VALUE
+
+  [ Evangelos Ribeiro Tzaras ]
+  * gnome-shell-manager: Protect against overflow.
+    If we overflow we must not allow for any new grabs since
+    we'd otherwise risk to overwrite old ones.
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Matheus Barbosa ]
+  * Update Brazilian Portuguese translation
+
+  [ Fran Dieguez ]
+  * Add Galician translation
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
+
+  [ Marc Riera ]
+  * Update Catalan translation
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 23 Feb 2022 16:57:35 +0100
+
 phosh (0.15.0) experimental; urgency=medium
 
   [ Guido Günther ]
