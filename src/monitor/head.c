@@ -590,7 +590,7 @@ get_closest_scale_factor_for_resolution (float width, float height, float scale,
   float scaled_h;
   float scaled_w;
   float best_scale;
-  int base_scaled_w;
+  float base_scaled_w;
   gboolean found_one;
 
   best_scale = 0;
