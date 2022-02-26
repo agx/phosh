@@ -2,15 +2,15 @@
 # Copyright (C) 2021 THE phosh'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
 # Cristovão Osório de Aragão Gomes Ferreira <eu@cristovao-gomes-ferreira.pt>, 2019. #zanata
-# Hugo Carvalho <hugokarvalho@hotmail.com>, 2021.
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2021-2022.
 # Juliano de Souza Camargo <julianosc@protonmail.com>, 2020-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-12-07 13:24+0000\n"
-"PO-Revision-Date: 2021-12-14 15:43+0000\n"
+"POT-Creation-Date: 2022-01-20 19:23+0000\n"
+"PO-Revision-Date: 2022-02-26 18:24+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese < https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -38,15 +38,15 @@ msgstr "Interface do telemóvel"
 msgid "Window management and application launching for mobile"
 msgstr "Gestão de janelas e lançamento de aplicações para telemóveis"
 
-#: src/app-grid-button.c:503
+#: src/app-grid-button.c:502
 msgid "Application"
 msgstr "Aplicação"
 
-#: src/app-grid.c:133
+#: src/app-grid.c:137
 msgid "Show All Apps"
 msgstr "Mostrar todas as aplicações"
 
-#: src/app-grid.c:136
+#: src/app-grid.c:140
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Mostrar apenas as aplicações conhecidas"
 
@@ -134,27 +134,27 @@ msgstr "Sim"
 msgid "No"
 msgstr "Não"
 
-#: src/lockscreen.c:158 src/ui/lockscreen.ui:265
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
 msgid "Enter Passcode"
 msgstr "Introduza o código"
 
-#: src/lockscreen.c:341
+#: src/lockscreen.c:362
 msgid "Checking…"
 msgstr "A verificar…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:419
+#: src/lockscreen.c:440
 msgid "%A, %B %-e"
 msgstr "%A, %d de %B"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:179
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "Título desconhecido"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:162
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "Artista desconhecido"
 
@@ -182,12 +182,12 @@ msgstr "%s %s"
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Tipo de autenticação da rede wifi \"%s\" não suportada"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Insira a palavra-passe para a rede wi-fi “%s”"
@@ -293,7 +293,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "A janela de autenticação foi fechada pelo utilizador"
 
 #: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Palavra-passe:"
@@ -315,6 +315,15 @@ msgstr "Horizontal"
 #: src/rotateinfo.c:103 src/rotateinfo.c:186
 msgid "Off"
 msgstr "Desligada"
+
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Premir Esc para fechar"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "Falha ao executar '%s'"
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
@@ -376,27 +385,27 @@ msgstr "_Ligar"
 msgid "Slide up to unlock"
 msgstr "Deslize para desbloquear"
 
-#: src/ui/lockscreen.ui:309
+#: src/ui/lockscreen.ui:320
 msgid "Emergency"
 msgstr "Urgente"
 
-#: src/ui/lockscreen.ui:325
+#: src/ui/lockscreen.ui:336
 msgid "Unlock"
 msgstr "Desbloquear"
 
-#: src/ui/lockscreen.ui:365
+#: src/ui/lockscreen.ui:376
 msgid "Back"
 msgstr "Voltar"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Autenticação necessária"
 
-#: src/ui/network-auth-prompt.ui:41
+#: src/ui/network-auth-prompt.ui:40
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: src/ui/network-auth-prompt.ui:59
+#: src/ui/network-auth-prompt.ui:58
 msgid "C_onnect"
 msgstr "_Ligar"
 
@@ -407,10 +416,6 @@ msgstr "Autenticar"
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Executar um comando"
-
-#: src/ui/run-command-dialog.ui:26
-msgid "Press ESC to close"
-msgstr "Premir Esc para fechar"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
@@ -423,6 +428,10 @@ msgstr "Bloquear ecrã"
 #: src/ui/top-panel.ui:22
 msgid "Logout"
 msgstr "Sair"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
