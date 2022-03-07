@@ -79,10 +79,12 @@ G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_LAYER_SURFACE);
 static void
 phosh_home_update_osk_button (PhoshHome *self)
 {
+  gboolean visible = FALSE;
+
   if (self->osk_enabled && self->state == PHOSH_HOME_STATE_FOLDED)
-    gtk_widget_show (self->btn_osk);
-  else
-    gtk_widget_hide (self->btn_osk);
+    visible = TRUE;
+
+  gtk_widget_set_visible (self->btn_osk, visible);
 }
 
 

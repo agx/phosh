@@ -750,3 +750,49 @@ phosh_layer_surface_wl_surface_commit (PhoshLayerSurface *self)
   if (priv->wl_surface)
     wl_surface_commit (priv->wl_surface);
 }
+
+
+void
+phosh_layer_surface_get_margins (PhoshLayerSurface *self, int *top, int *right, int *bottom, int *left)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  if (top)
+    *top = priv->margin_top;
+
+  if (right)
+    *right = priv->margin_right;
+
+  if (bottom)
+    *bottom = priv->margin_bottom;
+
+  if (left)
+    *left = priv->margin_left;
+}
+
+
+int
+phosh_layer_surface_get_configured_width (PhoshLayerSurface *self)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_LAYER_SURFACE (self), 0);
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  return priv->configured_width;
+}
+
+
+int
+phosh_layer_surface_get_configured_height (PhoshLayerSurface *self)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_LAYER_SURFACE (self), 0);
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  return priv->configured_height;
+}

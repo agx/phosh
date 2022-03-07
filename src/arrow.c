@@ -16,6 +16,9 @@
  * SECTION:arrow
  * @short_description: An animated arrow
  * @Title: PhoshArrow
+ *
+ * An animated arrow that initially points upward and
+ * rotates downwards as `progress` increases.
  */
 
 struct _PhoshArrow
