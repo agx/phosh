@@ -6,19 +6,19 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#define G_LOG_DOMAIN "phosh-wwaninfo"
+#define G_LOG_DOMAIN "phosh-wwan-info"
 
 #define WWAN_INFO_DEFAULT_ICON_SIZE 24
 
 #include <glib/gi18n.h>
 
 #include "config.h"
-#include "wwaninfo.h"
+#include "wwan-info.h"
 
 #include "shell.h"
 
 /**
- * SECTION:wwaninfo
+ * SECTION:wwan-info
  * @short_description: A widget to display the wwan status
  * @Title: PhoshWWanInfo
  *

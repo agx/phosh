@@ -77,7 +77,7 @@
 #include "util.h"
 #include "vpn-info.h"
 #include "wifiinfo.h"
-#include "wwaninfo.h"
+#include "wwan-info.h"
 #include "wwan/phosh-wwan-ofono.h"
 #include "wwan/phosh-wwan-mm.h"
 #include "wwan/phosh-wwan-backend.h"
