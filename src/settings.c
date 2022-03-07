@@ -20,7 +20,7 @@
 #include "torch-info.h"
 #include "torch-manager.h"
 #include "vpn-manager.h"
-#include "wwan/phosh-wwan-mm.h"
+#include "wwan/wwan-manager.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
 #include "rotateinfo.h"
