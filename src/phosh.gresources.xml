@@ -42,6 +42,11 @@
     <file alias="feedback-quiet-symbolic.svg">../data/icons/feedback-quiet-symbolic.svg</file>
     <file alias="microphone-hardware-disabled-symbolic.svg">../data/icons/microphone-hardware-disabled-symbolic.svg</file>
     <file alias="network-cellular-disabled-symbolic.svg">../data/icons/network-cellular-disabled-symbolic.svg</file>
+    <file alias="network-cellular-no-data-signal-excellent-symbolic.svg">../data/icons/network-cellular-no-data-signal-excellent-symbolic.svg</file>
+    <file alias="network-cellular-no-data-signal-good-symbolic.svg">../data/icons/network-cellular-no-data-signal-good-symbolic.svg</file>
+    <file alias="network-cellular-no-data-signal-none-symbolic.svg">../data/icons/network-cellular-no-data-signal-none-symbolic.svg</file>
+    <file alias="network-cellular-no-data-signal-ok-symbolic.svg">../data/icons/network-cellular-no-data-signal-ok-symbolic.svg</file>
+    <file alias="network-cellular-no-data-signal-weak-symbolic.svg">../data/icons/network-cellular-no-data-signal-weak-symbolic.svg</file>
     <file alias="network-wireless-disabled-symbolic.svg">../data/icons/network-wireless-disabled-symbolic.svg</file>
     <file alias="phone-docked-symbolic.svg">../data/icons/phone-docked-symbolic.svg</file>
     <file alias="phone-undocked-symbolic.svg">../data/icons/phone-undocked-symbolic.svg</file>
