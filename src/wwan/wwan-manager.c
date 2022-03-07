@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#define G_LOG_DOMAIN "phosh-wwanmanager"
+#define G_LOG_DOMAIN "phosh-wwan-manager"
 
-#include "wwanmanager.h"
+#include "wwan-manager.h"
 #include "util.h"
 
 #include <NetworkManager.h>

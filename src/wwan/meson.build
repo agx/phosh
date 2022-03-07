@@ -5,6 +5,6 @@ phosh_wwan_sources = files(
   'phosh-wwan-mm.h',
   'phosh-wwan-iface.c',
   'phosh-wwan-iface.h',
-  'wwanmanager.c',
-  'wwanmanager.h',
+  'wwan-manager.c',
+  'wwan-manager.h',
 )
