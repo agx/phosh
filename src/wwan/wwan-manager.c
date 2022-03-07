@@ -6,10 +6,18 @@
 
 #define G_LOG_DOMAIN "phosh-wwan-manager"
 
+#include "phosh-wwan-iface.h"
 #include "wwan-manager.h"
 #include "util.h"
 
 #include <NetworkManager.h>
+
+enum {
+  PROP_0,
+  PROP_DATA_ENABLED,
+  PROP_LAST_PROP
+};
+static GParamSpec *props[PROP_LAST_PROP];
 
 /**
  * SECTION:wwan-manager
@@ -23,10 +31,86 @@
 typedef struct _PhoshWWanManagerPrivate PhoshWWanManagerPrivate;
 struct _PhoshWWanManagerPrivate
 {
-  NMClient     *nmclient;
-  GCancellable *cancel;
+  NMClient           *nmclient;
+  NMActiveConnection *active;
+  GCancellable       *cancel;
 };
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshWWanManager, phosh_wwan_manager, G_TYPE_OBJECT);
+
+
+static void
+phosh_wwan_manager_get_property (GObject    *object,
+                                 guint       property_id,
+                                 GValue     *value,
+                                 GParamSpec *pspec)
+{
+  PhoshWWanManager *self = PHOSH_WWAN_MANAGER (object);
+  PhoshWWanManagerPrivate *priv = phosh_wwan_manager_get_instance_private (self);
+
+  switch (property_id) {
+  case PROP_DATA_ENABLED:
+    g_value_set_boolean (value, !!priv->active);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+static gboolean
+is_wwan_connection (NMActiveConnection *conn)
+{
+  const char *type;
+
+  type = nm_active_connection_get_connection_type (conn);
+
+  if (g_strcmp0 (type, NM_SETTING_GSM_SETTING_NAME) == 0)
+    return TRUE;
+
+  if (g_strcmp0 (type, NM_SETTING_CDMA_SETTING_NAME) == 0)
+    return TRUE;
+
+  return FALSE;
+}
+
+/*
+ * Active connections changed
+ *
+ * Look if we have a connection using a wwan device and listen
+ * for changes on that connection.
+ */
+static void
+on_nmclient_active_connections_changed (PhoshWWanManager *self, GParamSpec *pspec, NMClient *nmclient)
+{
+  const GPtrArray *conns;
+  NMActiveConnection *old_conn;
+  PhoshWWanManagerPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_WWAN_MANAGER (self));
+  g_return_if_fail (NM_IS_CLIENT (nmclient));
+  priv = phosh_wwan_manager_get_instance_private (self);
+
+  old_conn = priv->active;
+  conns = nm_client_get_active_connections (nmclient);
+
+  g_clear_object (&priv->active);
+  for (int i = 0; i < conns->len; i++) {
+    NMActiveConnection *conn = g_ptr_array_index (conns, i);
+
+    /* We only care about wwan connections */
+    if (!is_wwan_connection (conn))
+        continue;
+
+    g_set_object (&priv->active, conn);
+    /* We pick one connection here and select another one once this one goes away. */
+    break;
+  }
+
+  g_debug ("Mobile data connection: %d", !!priv->active);
+  if (!!old_conn != !!priv->active)
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_DATA_ENABLED]);
+}
+
 
 static void
 on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
@@ -47,9 +131,13 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
   priv = phosh_wwan_manager_get_instance_private (self);
   priv->nmclient = nmclient;
 
-  g_return_if_fail (NM_IS_CLIENT (priv->nmclient));
+  g_signal_connect_swapped (priv->nmclient, "notify::active-connections",
+                            G_CALLBACK (on_nmclient_active_connections_changed), self);
+  on_nmclient_active_connections_changed (self, NULL, priv->nmclient);
+
   g_debug("WWan manager initialized");
 }
+
 
 static void
 phosh_wwan_manager_constructed (GObject *object)
@@ -72,6 +160,8 @@ phosh_wwan_manager_dispose (GObject *object)
   g_cancellable_cancel (priv->cancel);
   g_clear_object (&priv->cancel);
 
+  g_clear_object (&priv->active);
+
   if (priv->nmclient) {
     g_signal_handlers_disconnect_by_data (priv->nmclient, self);
     g_clear_object (&priv->nmclient);
@@ -86,6 +176,21 @@ phosh_wwan_manager_class_init (PhoshWWanManagerClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS(klass);
   object_class->constructed = phosh_wwan_manager_constructed;
   object_class->dispose = phosh_wwan_manager_dispose;
+  object_class->get_property = phosh_wwan_manager_get_property;
+
+  /**
+   * PhoshWwanManager:data-enabled:
+   *
+   * Whether data is enabled over WWAN.
+   */
+  props[PROP_DATA_ENABLED] =
+    g_param_spec_boolean ("data-enabled",
+                          "",
+                          "",
+                          FALSE,
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
 static void
@@ -114,4 +219,16 @@ phosh_wwan_manager_set_enabled (PhoshWWanManager *self, gboolean enabled)
     "WwanEnabled", g_variant_new_boolean (enabled),
     DEFAULT_TIMEOUT_MSEC, NULL, NULL, NULL
   );
+}
+
+
+gboolean
+phosh_wwan_manager_get_data_enabled (PhoshWWanManager *self)
+{
+  PhoshWWanManagerPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_WWAN_MANAGER (self), FALSE);
+  priv = phosh_wwan_manager_get_instance_private (self);
+
+  return !!priv->active;
 }
