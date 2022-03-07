@@ -11,6 +11,15 @@
 
 #include <NetworkManager.h>
 
+/**
+ * SECTION:wwan-manager
+ * @short_description: Base class for #PhoshWWan interface implementations
+ * @Title: PhoshWWanManager
+ *
+ * Common code for implementors of the #PhoshWWan interface covering
+ * NetworkManager related bits.
+ */
+
 typedef struct _PhoshWWanManagerPrivate PhoshWWanManagerPrivate;
 struct _PhoshWWanManagerPrivate
 {
