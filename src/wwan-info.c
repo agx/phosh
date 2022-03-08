@@ -8,8 +8,6 @@
 
 #define G_LOG_DOMAIN "phosh-wwan-info"
 
-#define WWAN_INFO_DEFAULT_ICON_SIZE 24
-
 #include <glib/gi18n.h>
 
 #include "config.h"
