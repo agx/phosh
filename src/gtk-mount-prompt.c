@@ -533,7 +533,13 @@ phosh_gtk_mount_prompt_get_cancelled (PhoshGtkMountPrompt *self)
 }
 
 
-const GStrv
+/**
+ * phosh_gtk_mount_prompt_get_choices:
+ * @self: The #PhoshGtkMountPrompt
+ *
+ * Returns: (transfer none): The prompt's choices
+ */
+GStrv
 phosh_gtk_mount_prompt_get_choices (PhoshGtkMountPrompt *self)
 {
   g_return_val_if_fail (PHOSH_IS_GTK_MOUNT_PROMPT (self), NULL);

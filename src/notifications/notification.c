@@ -719,7 +719,13 @@ phosh_notification_set_actions (PhoshNotification *self,
 }
 
 
-const GStrv
+/**
+ * phosh_notification_get_actions:
+ * @self: The #PhoshNotification
+ *
+ * Returns: (transfer none): The notification's actions
+ */
+GStrv
 phosh_notification_get_actions (PhoshNotification *self)
 {
   PhoshNotificationPrivate *priv;
