@@ -3,26 +3,26 @@
 # This file is distributed under the same license as the phosh package.
 # nikp123 <pavlica.nikola@gmail.com>, 2020.
 # Марко М. Костић <marko.m.kostic@gmail.com>, 2020.
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2021.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2021-2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-08-03 09:16+0000\n"
-"PO-Revision-Date: 2021-08-08 07:02+0200\n"
+"POT-Creation-Date: 2022-01-20 19:23+0000\n"
+"PO-Revision-Date: 2022-03-12 13:06+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <(nothing)>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
 msgid "Phosh"
-msgstr "Теш"
+msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -32,9 +32,17 @@ msgstr "Телефонска шкољка"
 msgid "Window management and application launching for mobile"
 msgstr "Управљање прозорима и покретање програма на мобилним уређајима"
 
-#: src/app-grid-button.c:536
+#: src/app-grid-button.c:502
 msgid "Application"
 msgstr "Апликација"
+
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "Прикажи све програме"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Прикажи само мобилно пригодне програме"
 
 #: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
@@ -65,7 +73,7 @@ msgstr[1] "„%s“ ће бити одјављен за %d секунде."
 msgstr[2] "„%s“ ће бити одјављен за %d секунди."
 msgstr[3] "„%s“ ће бити одјављен за једну секунду."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Искључивање"
 
@@ -78,7 +86,7 @@ msgstr[1] "Рачунар ће се искључити за %d секунде."
 msgstr[2] "Рачунар ће се искључити за %d секунди."
 msgstr[3] "Рачунар ће се искључити за једну секунду."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
 msgstr "Поново покрени"
 
@@ -92,7 +100,6 @@ msgstr[2] "Систем ће се поново покренути за %d сек
 msgstr[3] "Систем ће се поново покренути за једну секунду."
 
 #: src/end-session-dialog.c:269
-#| msgid "Application"
 msgid "Unknown application"
 msgstr "Непознат програм"
 
@@ -116,7 +123,6 @@ msgid "Allow '%s' to access your location information?"
 msgstr "Да дозволим да „%s“ приступи вашим подацима о месту?"
 
 #: src/location-manager.c:273
-#| msgid "Application"
 msgid "Geolocation"
 msgstr "Геолокација"
 
@@ -128,42 +134,42 @@ msgstr "Да"
 msgid "No"
 msgstr "Не"
 
-#: src/lockscreen.c:152 src/ui/lockscreen.ui:239
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
 msgid "Enter Passcode"
 msgstr "Унеси код"
 
-#: src/lockscreen.c:335
+#: src/lockscreen.c:362
 msgid "Checking…"
 msgstr "Проверавам…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:413
+#: src/lockscreen.c:440
 msgid "%A, %B %-e"
 msgstr "%A, %d. %B"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:279 src/ui/media-player.ui:107
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "Непознат наслов"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:288 src/ui/media-player.ui:127
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "Непознат извођач"
 
-#: src/monitor-manager.c:114
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "Уграђени екран"
 
-#: src/monitor-manager.c:132
+#: src/monitor-manager.c:137
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:139
+#: src/monitor-manager.c:144
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -172,16 +178,16 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:148
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Непознато"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Тип пријављивања на бежичној мрежи „%s“ није подржан"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Унесите лозинку бежичне мреже „%s“"
@@ -261,21 +267,18 @@ msgid "y"
 msgstr "г"
 
 #: src/notifications/timestamp-label.c:121
-#| msgid "Unknown"
 msgid "now"
 msgstr "сада"
 
 #. Translators: time difference "Over 5 years"
 #: src/notifications/timestamp-label.c:189
 #, c-format
-#| msgid "Over"
 msgid "Over %dy"
 msgstr "Преко %dг"
 
 #. Translators: time difference "almost 5 years"
 #: src/notifications/timestamp-label.c:193
 #, c-format
-#| msgid "Almost"
 msgid "Almost %dy"
 msgstr "Скоро %dг"
 
@@ -289,9 +292,9 @@ msgstr "%s%d%s"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Корисник је одбацио прозорче за потврђивање идентитета"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
-#: src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Лозинка:"
 
@@ -313,11 +316,20 @@ msgstr "Положено"
 msgid "Off"
 msgstr "Искљ."
 
-#: src/system-prompt.c:364
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Притисните „ESC“ да затворите"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "Покретање „%s“ није успело"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Лозинке се не подударају."
 
-#: src/system-prompt.c:371
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
 msgstr "Лозинка не може бити празна"
 
@@ -325,100 +337,101 @@ msgstr "Лозинка не може бити празна"
 msgid "Torch"
 msgstr "Бакља"
 
-#: src/ui/app-auth-prompt.ui:41
+#: src/ui/app-auth-prompt.ui:40
 msgid "Remember decision"
 msgstr "Упамти одлуку"
 
-#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
-#| msgid "_Cancel"
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "Откажи"
 
-#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "У реду"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "Програм"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
 msgstr "Уклони из о_миљених"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
 msgstr "Додај у о_миљено"
 
-#: src/ui/app-grid.ui:22
+#: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Претражи апликације…"
 
-#: src/ui/app-grid.ui:169
-msgid "Show only adaptive apps"
-msgstr "Прикажи само прилагодљиве програме"
-
-#: src/ui/end-session-dialog.ui:32
+#: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
 msgstr "Неки програми су заузети или имају несачувани рад"
 
-#: src/ui/gtk-mount-prompt.ui:95
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Корисник:"
 
-#: src/ui/gtk-mount-prompt.ui:118
+#: src/ui/gtk-mount-prompt.ui:117
 msgid "Domain:"
 msgstr "Домен:"
 
-#: src/ui/gtk-mount-prompt.ui:151
-#| msgid "C_onnect"
+#: src/ui/gtk-mount-prompt.ui:150
 msgid "Co_nnect"
 msgstr "П_овежи се"
 
-#: src/ui/lockscreen.ui:43
+#: src/ui/lockscreen.ui:42
 msgid "Slide up to unlock"
 msgstr "Превуци нагоре за откључавање"
 
-#: src/ui/lockscreen.ui:285
+#: src/ui/lockscreen.ui:320
 msgid "Emergency"
 msgstr "Хитни позив"
 
-#: src/ui/lockscreen.ui:301
+#: src/ui/lockscreen.ui:336
 msgid "Unlock"
 msgstr "Откључај"
 
-#: src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:376
 msgid "Back"
 msgstr "Назад"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
-#| msgid "Authenticate"
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Потребно је потврђивање идентитета"
 
-#: src/ui/network-auth-prompt.ui:41
+#: src/ui/network-auth-prompt.ui:40
 msgid "_Cancel"
 msgstr "_Откажи"
 
-#: src/ui/network-auth-prompt.ui:59
+#: src/ui/network-auth-prompt.ui:58
 msgid "C_onnect"
 msgstr "П_овежи се"
 
-#: src/ui/polkit-auth-prompt.ui:123
+#: src/ui/polkit-auth-prompt.ui:122
 msgid "Authenticate"
 msgstr "Потврди идентитет"
 
-#: src/ui/system-prompt.ui:63
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Покрени наредбу"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Потврди:"
 
-#: src/ui/top-panel.ui:16
+#: src/ui/top-panel.ui:15
 msgid "Lock Screen"
 msgstr "Закључавање екрана"
 
-#: src/ui/top-panel.ui:23
+#: src/ui/top-panel.ui:22
 msgid "Logout"
 msgstr "Одјава"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "ВПН"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
@@ -428,6 +441,9 @@ msgstr "Бежична"
 #: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Мобилна"
+
+#~ msgid "Show only adaptive apps"
+#~ msgstr "Прикажи само прилагодљиве програме"
 
 #~ msgid "%d.%m.%y"
 #~ msgstr "%d.%m.%y"
