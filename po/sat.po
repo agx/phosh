@@ -1,0 +1,439 @@
+# Santali translation for phosh.
+# Copyright (C) 2022 phosh's COPYRIGHT HOLDER
+# This file is distributed under the same license as the phosh package.
+# Prasanta Hembram <prasantahembram720@gmail.com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: phosh main\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2022-03-12 12:08+0000\n"
+"PO-Revision-Date: 2022-03-13 19:47+0530\n"
+"Last-Translator: Prasanta Hembram <prasantahembram720@gmail.com>\n"
+"Language-Team: Santali <sat@li.org>\n"
+"Language: sat\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
+
+#: data/sm.puri.Phosh.desktop.in.in:4
+msgid "Phone Shell"
+msgstr "ᱯᱷᱚᱱ ᱪᱚᱠᱟᱜ"
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "ᱢᱳᱵᱟᱭᱤᱞ ᱞᱟᱹᱜᱤᱫ ᱣᱤᱱᱰᱚ ᱢᱮᱱᱮᱡᱽᱢᱮᱸᱱᱴ ᱟᱨ ᱮᱯᱞᱤᱠᱮᱥᱚᱱ"
+
+#: src/app-grid-button.c:507
+msgid "Application"
+msgstr "ᱮᱯᱞᱤᱠᱮᱥᱚᱱ"
+
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "ᱡᱷᱚᱛᱚ ᱮᱯ ᱫᱮᱠᱷᱟᱣ ᱢᱮ"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "ᱠᱷᱟᱹᱞᱤ ᱢᱳᱵᱟᱭᱤᱞ ᱡᱚᱲᱟᱣ ᱮᱯ ᱠᱚ ᱫᱮᱠᱷᱟᱣ ᱢᱮ"
+
+#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
+msgid "On"
+msgstr "ᱮᱢ ᱪᱷᱚ"
+
+#: src/bt-info.c:94
+msgid "Bluetooth"
+msgstr "ᱵᱞᱩᱴᱩᱛᱷ"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "ᱰᱚᱠ ᱮᱱᱟ"
+
+#: src/docked-info.c:81 src/docked-info.c:199
+msgid "Undocked"
+msgstr "ᱰᱚᱠ ᱚᱪᱚᱜᱽ ᱮᱱᱟ"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "ᱵᱟᱦᱨᱮ ᱛᱮ ᱚᱰᱚᱠ"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "%s ᱫᱚ %d ᱨᱤᱡ ᱨᱮ ᱵᱟᱦᱨᱮ ᱚᱰᱚᱠᱚᱜᱼᱟᱢ ᱾"
+msgstr[1] "%s ᱫᱚ %d ᱨᱤᱡ ᱨᱮ ᱵᱟᱦᱨᱮ ᱚᱰᱚᱠᱚᱜᱼᱟᱢ ᱾"
+msgstr[2] "%s ᱫᱚ %d ᱨᱤᱡ ᱨᱮ ᱵᱟᱦᱨᱮ ᱚᱰᱚᱠᱚᱜᱼᱟᱢ ᱾"
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "ᱯᱟᱣᱟᱨ ᱵᱚᱸᱫᱽ"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "ᱥᱭᱥᱴᱚᱢ ᱫᱚ %d ᱴᱤᱡ ᱨᱮ ᱟᱡ ᱛᱮ ᱵᱚᱸᱫᱚᱜᱼᱟ ᱾"
+msgstr[1] "ᱥᱭᱥᱴᱚᱢ ᱫᱚ %d ᱴᱤᱡ ᱨᱮ ᱟᱡ ᱛᱮ ᱵᱚᱸᱫᱚᱜᱼᱟ ᱾"
+msgstr[2] "ᱥᱭᱥᱴᱚᱢ ᱫᱚ %d ᱴᱤᱡ ᱨᱮ ᱟᱡ ᱛᱮ ᱵᱚᱸᱫᱚᱜᱼᱟ ᱾"
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "ᱫᱚᱦᱲᱟ ᱮᱦᱚᱵ"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "ᱥᱭᱥᱴᱚᱢ ᱫᱚ %d ᱴᱤᱡ ᱨᱮ ᱟᱡ ᱛᱮ ᱫᱩᱦᱲᱟᱹ ᱮᱛᱦᱚᱵᱚᱜᱼᱟ ᱾"
+msgstr[1] "ᱥᱭᱥᱴᱚᱢ ᱫᱚ %d ᱴᱤᱡ ᱨᱮ ᱟᱡ ᱛᱮ ᱫᱩᱦᱲᱟᱹ ᱮᱛᱦᱚᱵᱚᱜᱼᱟ ᱾"
+msgstr[2] "ᱥᱭᱥᱴᱚᱢ ᱫᱚ %d ᱴᱤᱡ ᱨᱮ ᱟᱡ ᱛᱮ ᱫᱩᱦᱲᱟᱹ ᱮᱛᱦᱚᱵᱚᱜᱼᱟ ᱾"
+
+#: src/end-session-dialog.c:269
+msgid "Unknown application"
+msgstr "ᱵᱟᱝ ᱵᱟᱰᱟᱭ ᱮᱯᱞᱤᱠᱮᱥᱚᱱ"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:44
+msgid "Quiet"
+msgstr "ᱥᱟᱸᱛ"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:49
+msgid "Silent"
+msgstr "ᱪᱩᱯ"
+
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "ᱟᱢᱟᱜ ᱡᱟᱭᱜᱟ ᱟᱫᱮᱨ ᱪᱷᱚ ᱞᱟᱹᱜᱤᱫ '%s' ᱟᱫᱮᱨ ᱪᱷᱚᱭᱮᱢ?"
+
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "ᱡᱤᱭᱚ ᱡᱟᱭᱜᱟ"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "ᱦᱚᱭ"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "ᱵᱟᱝ"
+
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
+msgid "Enter Passcode"
+msgstr "ᱯᱟᱥᱠᱳᱰ ᱟᱫᱮᱨ ᱢᱮ"
+
+#: src/lockscreen.c:361
+msgid "Checking…"
+msgstr "ᱧᱮᱞ ᱵᱤᱰᱟᱹᱣᱜ ᱠᱟᱱᱟ ..."
+
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:322 src/ui/media-player.ui:182
+msgid "Unknown Title"
+msgstr "ᱵᱟᱝ ᱵᱟᱰᱟᱭᱟᱜ ᱧᱩᱛᱩᱢ"
+
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:330 src/ui/media-player.ui:165
+msgid "Unknown Artist"
+msgstr "ᱵᱟᱝ ᱵᱟᱰᱟᱭᱟᱜ ᱟᱴᱤᱥᱴ"
+
+#: src/monitor-manager.c:119
+msgid "Built-in display"
+msgstr "ᱢᱟᱲᱟᱝ ᱛᱮᱭᱟᱜ ᱫᱮᱠᱷᱟᱣ"
+
+#: src/monitor-manager.c:137
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:144
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %s"
+msgstr "%s %s"
+
+#. Translators: An unknown monitor type
+#: src/monitor-manager.c:153
+msgid "Unknown"
+msgstr "ᱵᱟᱝ ᱵᱟᱰᱟᱭᱟᱜ"
+
+#: src/network-auth-prompt.c:201
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "ᱟᱫᱮᱨ ᱞᱮᱠᱷᱟ ᱣᱟᱭᱯᱷᱟᱭ ᱱᱮᱴᱣᱟᱨᱠ “%s” ᱫᱚ ᱵᱟᱝ ᱥᱟᱹᱯᱚᱴ ᱠᱟᱱᱟ"
+
+#: src/network-auth-prompt.c:206
+#, c-format
+msgid "Enter password for the wifi network “%s”"
+msgstr "ᱣᱟᱭᱯᱷᱟᱭ ᱱᱮᱴᱣᱟᱨᱠ “%s” ᱞᱟᱹᱜᱤᱫ ᱫᱟᱱᱟᱝ ᱥᱟᱵᱟᱫ ᱟᱫᱮᱨ ᱢᱮ"
+
+#: src/notifications/mount-notification.c:122
+msgid "Open"
+msgstr "ᱠᱷᱩᱞᱟᱹ"
+
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
+msgid "Notification"
+msgstr "ᱠᱷᱚᱵᱚᱨ"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "ᱴᱤᱡ"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "ᱴᱤᱯᱤᱡ"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "ᱴᱤᱯᱤᱡ"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "ᱴᱟᱲᱟᱝ"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "ᱴᱟᱲᱟᱝ"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "ᱫᱤᱱ"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "ᱫᱤᱱ"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "ᱢᱟᱦᱟᱸ"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "ᱢᱟᱦᱟᱸ"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "ᱥᱮᱨᱢᱟ"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "ᱥᱮᱨᱢᱟ"
+
+#: src/notifications/timestamp-label.c:121
+msgid "now"
+msgstr "ᱱᱤᱛᱚᱜ"
+
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "%dᱥᱮᱨᱢᱟ ᱫᱷᱟᱹᱵᱤᱡ"
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "%dᱥᱮᱨᱢᱟ ᱜᱟᱱ"
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d%s"
+
+#: src/polkit-auth-agent.c:228
+msgid "Authentication dialog was dismissed by the user"
+msgstr "ᱵᱮᱵᱷᱟᱨᱤᱭᱟᱹ ᱫᱚ ᱟᱫᱮᱨ ᱠᱷᱚᱵᱚᱨ ᱵᱚᱸᱫ ᱠᱮᱜᱼᱟᱭ"
+
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
+msgid "Password:"
+msgstr "ᱫᱟᱱᱟᱲ ᱥᱟᱵᱟᱫ :"
+
+#: src/polkit-auth-prompt.c:325
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "ᱤᱠᱟᱹ , ᱚᱱᱟ ᱫᱚ ᱵᱟᱭ ᱠᱟᱹᱢᱤ ᱞᱮᱫᱟᱭ ᱾ ᱫᱟᱭᱟᱠᱟᱛᱮ ᱫᱩᱦᱲᱟᱹ ᱠᱩᱨᱩᱢᱩᱴᱩᱭ ᱢᱮ ᱾"
+
+#: src/rotateinfo.c:81
+msgid "Portrait"
+msgstr "ᱥᱤᱫᱷ"
+
+#: src/rotateinfo.c:84
+msgid "Landscape"
+msgstr "ᱩᱞᱴᱟᱹ ᱞᱮᱱᱰᱥᱠᱮᱯ"
+
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
+msgid "Off"
+msgstr "ᱵᱚᱸᱫᱽ"
+
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "ᱵᱚᱸᱫ ᱞᱟᱹᱜᱤᱫ ESC ᱚᱛᱟᱭ ᱢᱮ"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "'%s' ᱫᱟᱹᱲ ᱪᱷᱚ ᱨᱮ ᱰᱤᱜᱟᱹᱣ ᱮᱱᱟ"
+
+#: src/system-prompt.c:365
+msgid "Passwords do not match."
+msgstr "ᱫᱟᱱᱟᱝ ᱥᱟᱵᱟᱫ ᱫᱚ ᱵᱟᱭ ᱢᱮᱲᱟᱣ ᱞᱮᱱᱟ ᱾"
+
+#: src/system-prompt.c:372
+msgid "Password cannot be blank"
+msgstr "ᱫᱟᱱᱟᱝ ᱥᱟᱵᱟᱫ ᱫᱚ ᱠᱷᱟᱹᱞᱤ ᱵᱟᱭ ᱛᱟᱦᱮᱸᱱᱟ"
+
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "ᱴᱚᱨᱪ"
+
+#: src/ui/app-auth-prompt.ui:40
+msgid "Remember decision"
+msgstr "ᱱᱚᱶᱟ ᱴᱷᱟᱹᱣᱠᱟᱹ ᱢᱚᱱᱮ ᱫᱚᱦᱚ ᱠᱟᱜ ᱢᱮ"
+
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+msgid "Cancel"
+msgstr "ᱵᱟᱹᱰᱨᱟᱹ"
+
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+msgid "Ok"
+msgstr "ᱴᱷᱤᱠ"
+
+#: src/ui/app-grid-button.ui:55
+msgid "App"
+msgstr "ᱮᱯ"
+
+#: src/ui/app-grid-button.ui:79
+msgid "Remove from _Favorites"
+msgstr "ᱠᱩᱥᱤᱭᱟᱜ ᱠᱷᱚᱱ ᱚᱪᱮᱜᱽ ᱢᱮ"
+
+#: src/ui/app-grid-button.ui:84
+msgid "Add to _Favorites"
+msgstr "ᱠᱩᱥᱤᱭᱟᱜ ᱠᱚᱨᱮ ᱥᱮᱞᱮᱫᱽ ᱢᱮ"
+
+#: src/ui/app-grid.ui:21
+msgid "Search apps…"
+msgstr "ᱮᱯ ᱠᱚᱨᱮ ᱥᱮᱸᱫᱽᱨᱟᱭ ᱢᱮ ..."
+
+#: src/ui/end-session-dialog.ui:31
+msgid "Some applications are busy or have unsaved work"
+msgstr "ᱛᱤᱱᱟᱹᱜ ᱜᱟᱱ ᱮᱯᱞᱤᱠᱮᱥᱚᱱ ᱠᱚᱫᱚ ᱵᱡᱤ ᱜᱮᱭᱟ ᱵᱟᱝᱠᱷᱟᱱ ᱠᱟᱹᱢᱤ ᱵᱟᱝ ᱥᱟᱺᱧᱟᱣ ᱠᱟᱱᱟ"
+
+#: src/ui/gtk-mount-prompt.ui:94
+msgid "User:"
+msgstr "ᱵᱮᱵᱷᱟᱨᱤᱭᱟᱹ :"
+
+#: src/ui/gtk-mount-prompt.ui:117
+msgid "Domain:"
+msgstr "ᱰᱳᱢᱮᱱ :"
+
+#: src/ui/gtk-mount-prompt.ui:150
+msgid "Co_nnect"
+msgstr "ᱡᱩᱲᱟᱹᱣ"
+
+#: src/ui/lockscreen.ui:42
+msgid "Slide up to unlock"
+msgstr "ᱠᱷᱩᱞᱟᱹ ᱞᱟᱹᱜᱤᱫ ᱪᱮᱛᱟᱱ ᱥᱮᱫ ᱴᱷᱮᱞᱟᱣ ᱢᱮ"
+
+#: src/ui/lockscreen.ui:320
+msgid "Emergency"
+msgstr "ᱟᱹᱯᱟᱹᱛᱠᱟᱹᱞ"
+
+#: src/ui/lockscreen.ui:336
+msgid "Unlock"
+msgstr "ᱠᱷᱩᱞᱟᱹ"
+
+#: src/ui/lockscreen.ui:376
+msgid "Back"
+msgstr "ᱛᱟᱭᱟᱢ"
+
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+msgid "Authentication required"
+msgstr "ᱟᱫᱮᱨ ᱫᱚᱨᱠᱟᱨ ᱠᱟᱱᱟ"
+
+#: src/ui/network-auth-prompt.ui:40
+msgid "_Cancel"
+msgstr "ᱵᱟᱹᱰᱨᱟᱹ"
+
+#: src/ui/network-auth-prompt.ui:58
+msgid "C_onnect"
+msgstr "ᱡᱩᱲᱟᱹᱣ"
+
+#: src/ui/polkit-auth-prompt.ui:122
+msgid "Authenticate"
+msgstr "ᱟᱫᱮᱨ"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "ᱟᱫᱮᱥ ᱫᱟᱹᱲ ᱪᱷᱚ"
+
+#: src/ui/system-prompt.ui:62
+msgid "Confirm:"
+msgstr "ᱴᱷᱟᱹᱣᱠᱟᱹ :"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "ᱠᱩᱞᱩᱯ ᱥᱠᱨᱤᱱ"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "ᱵᱟᱦᱨᱮ ᱛᱮ ᱚᱰᱚᱠ"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:337
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
+
+#: src/wifiinfo.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwaninfo.c:172
+msgid "Cellular"
+msgstr "ᱯᱷᱚᱱ ᱠᱚᱛᱮ"
