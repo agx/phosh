@@ -138,7 +138,8 @@
       <xi:include href="xml/vpn-manager.xml"/>
       <xi:include href="xml/wifiinfo.xml"/>
       <xi:include href="xml/wifimanager.xml"/>
-      <xi:include href="xml/wwaninfo.xml"/>
+      <xi:include href="xml/wwan-info.xml"/>
+      <xi:include href="xml/wwan-manager.xml"/>
     </chapter>
 
     <chapter id="utils">

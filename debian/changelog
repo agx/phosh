@@ -275,7 +275,7 @@ phosh (0.15.0) experimental; urgency=medium
     Otherwise e.g. VPN auth prompts can hang up to timeout
   * network-auth-manager: Use cancellable for agent registration too.
     We want to cancel this in case of e.g. early shutdown.
-  * network-auth-manger: Use a separate cancellable for registration.
+  * network-auth-manager: Use a separate cancellable for registration.
     NM doesn't like if we cancel a successful operation later on rather
     crahes in NMSecrentAgentOld's _register_cancelled_cb since the task data
     is already freed.
@@ -1454,7 +1454,7 @@ phosh (0.12.0) byzantium; urgency=medium
     on kernels that don't expose this field.
   * debian: Build-depend on recent kernel headers.
     These provide rfkill_event_ext
-  * hks-manger: Don't leak list.
+  * hks-manager: Don't leak list.
     Allthough we had a `_and_free()` funciton we didnt' clean it up.
     Instead of cleaning up within that rather use automatic cleanup.
   * home: Reveal whole home-bar instead of only arrow.

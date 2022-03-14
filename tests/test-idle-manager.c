@@ -227,7 +227,7 @@ main (int   argc, char *argv[])
 
   g_test_add ("/phosh/dbus/idle-manager/fired", Fixture, NULL,
               comp_and_shell_setup, test_phosh_idle_watch_fired, comp_and_shell_teardown);
-  g_test_add ("/phosh/dbus/idle-manger/unfired", Fixture, NULL,
+  g_test_add ("/phosh/dbus/idle-manager/unfired", Fixture, NULL,
               comp_and_shell_setup, test_phosh_idle_watch_unfired, comp_and_shell_teardown);
 
   return g_test_run ();

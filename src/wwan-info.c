@@ -6,19 +6,18 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#define G_LOG_DOMAIN "phosh-wwaninfo"
-
-#define WWAN_INFO_DEFAULT_ICON_SIZE 24
+#define G_LOG_DOMAIN "phosh-wwan-info"
 
 #include <glib/gi18n.h>
 
 #include "config.h"
-#include "wwaninfo.h"
+#include "wwan-info.h"
+#include "wwan/wwan-manager.h"
 
 #include "shell.h"
 
 /**
- * SECTION:wwaninfo
+ * SECTION:wwan-info
  * @short_description: A widget to display the wwan status
  * @Title: PhoshWWanInfo
  *
@@ -87,19 +86,47 @@ phosh_wwan_info_get_property (GObject *object,
 }
 
 
+enum quality {
+  QUALITY_EXCELLENT = 0,
+  QUALITY_GOOD,
+  QUALITY_OK,
+  QUALITY_WEAK,
+  QUALITY_NONE,
+};
+
+static const char *quality_data[] = {
+  "network-cellular-signal-excellent-symbolic",
+  "network-cellular-signal-good-symbolic",
+  "network-cellular-signal-ok-symbolic",
+  "network-cellular-signal-weak-symbolic",
+  "network-cellular-signal-none-symbolic",
+  NULL,
+};
+
+static const char *quality_no_data[] = {
+  "network-cellular-no-data-signal-excellent-symbolic",
+  "network-cellular-no-data-signal-good-symbolic",
+  "network-cellular-no-data-signal-ok-symbolic",
+  "network-cellular-no-data-signal-weak-symbolic",
+  "network-cellular-no-data-signal-none-symbolic",
+  NULL,
+};
+
 static const char *
-signal_quality_icon_name (guint quality)
+signal_quality_icon_name (guint quality, gboolean data_enabled)
 {
+  const char **q = data_enabled ? quality_data : quality_no_data;
+
   if (quality > 80)
-    return "network-cellular-signal-excellent-symbolic";
+    return q[QUALITY_EXCELLENT];
   else if (quality > 55)
-    return "network-cellular-signal-good-symbolic";
+    return q[QUALITY_GOOD];
   else if (quality > 30)
-    return "network-cellular-signal-ok-symbolic";
+    return q[QUALITY_OK];
   else if (quality > 5)
-    return "network-cellular-signal-weak-symbolic";
+    return q[QUALITY_WEAK];
   else
-    return "network-cellular-signal-none-symbolic";
+    return q[QUALITY_NONE];
 }
 
 
@@ -110,7 +137,7 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWan *wwan)
   guint quality;
   const char *icon_name = NULL;
   const char *access_tec;
-  gboolean present, enabled;
+  gboolean present, enabled, data_enabled;
 
   g_return_if_fail (PHOSH_IS_WWAN_INFO (self));
   present = phosh_wwan_is_present (self->wwan);
@@ -141,7 +168,8 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWan *wwan)
 
   /* Signal quality */
   quality = phosh_wwan_get_signal_quality (self->wwan);
-  icon_name = signal_quality_icon_name (quality);
+  data_enabled = phosh_wwan_manager_get_data_enabled (PHOSH_WWAN_MANAGER (self->wwan));
+  icon_name = signal_quality_icon_name (quality, data_enabled);
   phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
 
   if (!self->show_detail) {
@@ -196,6 +224,7 @@ phosh_wwan_info_constructed (GObject *object)
                               "notify::sim",
                               "notify::present",
                               "notify::enabled",
+                              "notify::data-enabled",
                               NULL,
   };
 

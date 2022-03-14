@@ -74,4 +74,4 @@ src/util.c
 src/vpn-info.c
 src/wifiinfo.c
 src/wifimanager.c
-src/wwaninfo.c
+src/wwan-info.c

@@ -9,7 +9,7 @@
 #define G_LOG_DOMAIN "phosh-wwan-iface"
 
 #include "phosh-wwan-iface.h"
-#include "wwanmanager.h"
+#include "wwan-manager.h"
 
 /**
  * SECTION:phosh-wwan-iface

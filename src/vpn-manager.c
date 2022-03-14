@@ -24,14 +24,14 @@
  */
 
 enum {
-  PHOSH_VPN_MANAGER_PROP_0,
-  PHOSH_VPN_MANAGER_PROP_ICON_NAME,
-  PHOSH_VPN_MANAGER_PROP_ENABLED,
-  PHOSH_VPN_MANAGER_PROP_PRESENT,
-  PHOSH_VPN_MANAGER_PROP_LAST_CONNECTION,
-  PHOSH_VPN_MANAGER_PROP_LAST_PROP
+  PROP_0,
+  PROP_ICON_NAME,
+  PROP_ENABLED,
+  PROP_PRESENT,
+  PROP_LAST_CONNECTION,
+  PROP_LAST_PROP
 };
-static GParamSpec *props[PHOSH_VPN_MANAGER_PROP_LAST_PROP];
+static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshVpnManager {
   GObject             parent;
@@ -98,10 +98,10 @@ out:
   g_debug ("Enabled: %d, icon: %s", self->enabled, self->icon_name);
 
   if (g_strcmp0 (self->icon_name, old_icon_name) != 0)
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_VPN_MANAGER_PROP_ICON_NAME]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ICON_NAME]);
 
   if (self->enabled != old_enabled)
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_VPN_MANAGER_PROP_ENABLED]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
 }
 
 
@@ -114,16 +114,16 @@ phosh_vpn_manager_get_property (GObject    *object,
   PhoshVpnManager *self = PHOSH_VPN_MANAGER (object);
 
   switch (property_id) {
-  case PHOSH_VPN_MANAGER_PROP_ICON_NAME:
+  case PROP_ICON_NAME:
     g_value_set_string (value, self->icon_name);
     break;
-  case PHOSH_VPN_MANAGER_PROP_ENABLED:
+  case PROP_ENABLED:
     g_value_set_boolean (value, self->enabled);
     break;
-  case PHOSH_VPN_MANAGER_PROP_PRESENT:
+  case PROP_PRESENT:
     g_value_set_boolean (value, self->present);
     break;
-  case PHOSH_VPN_MANAGER_PROP_LAST_CONNECTION:
+  case PROP_LAST_CONNECTION:
     g_value_set_string (value, self->last_uuid);
     break;
   default:
@@ -208,10 +208,10 @@ update_connections (PhoshVpnManager *self)
   g_debug ("VPN present: %d, uuid: %s", self->present, self->last_uuid);
 
   if (self->present != old_present)
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_VPN_MANAGER_PROP_PRESENT]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
 
   if (g_strcmp0 (self->last_uuid, old_uuid))
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_VPN_MANAGER_PROP_LAST_CONNECTION]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_LAST_CONNECTION]);
 }
 
 
@@ -325,7 +325,7 @@ on_nmclient_active_connections_changed (PhoshVpnManager *self, GParamSpec *pspec
   g_object_freeze_notify (G_OBJECT (self));
 
   if (old_conn != self->active)
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_VPN_MANAGER_PROP_LAST_CONNECTION]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_LAST_CONNECTION]);
 
   /* Update the active connection state */
   update_state (self);
@@ -415,7 +415,7 @@ phosh_vpn_manager_class_init (PhoshVpnManagerClass *klass)
    *
    * The icon name to represent the current VPN status
    */
-  props[PHOSH_VPN_MANAGER_PROP_ICON_NAME] =
+  props[PROP_ICON_NAME] =
     g_param_spec_string ("icon-name", "", "",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
@@ -425,7 +425,7 @@ phosh_vpn_manager_class_init (PhoshVpnManagerClass *klass)
    *
    * Whether a VPN connection is enabled
    */
-  props[PHOSH_VPN_MANAGER_PROP_ENABLED] =
+  props[PROP_ENABLED] =
     g_param_spec_boolean ("enabled", "", "",
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
@@ -435,7 +435,7 @@ phosh_vpn_manager_class_init (PhoshVpnManagerClass *klass)
    *
    * Whether there is at least one VPN connection configured
    */
-  props[PHOSH_VPN_MANAGER_PROP_PRESENT] =
+  props[PROP_PRESENT] =
     g_param_spec_string ("present", "", "",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
@@ -445,12 +445,12 @@ phosh_vpn_manager_class_init (PhoshVpnManagerClass *klass)
    *
    * The last activated connection
    */
-  props[PHOSH_VPN_MANAGER_PROP_LAST_CONNECTION] =
+  props[PROP_LAST_CONNECTION] =
     g_param_spec_string ("last-connection", "", "",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
-  g_object_class_install_properties (object_class, PHOSH_VPN_MANAGER_PROP_LAST_PROP, props);
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
 

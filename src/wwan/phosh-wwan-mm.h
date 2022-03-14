@@ -7,7 +7,7 @@
 
 #include <glib-object.h>
 #include "phosh-wwan-iface.h"
-#include "wwanmanager.h"
+#include "wwan-manager.h"
 
 G_BEGIN_DECLS
 
