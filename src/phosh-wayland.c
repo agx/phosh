@@ -272,18 +272,21 @@ phosh_wayland_constructed (GObject *object)
   num_outputs = g_hash_table_size(self->wl_outputs);
   if (!num_outputs || !self->layer_shell || !self->idle_manager ||
       !self->input_inhibit_manager || !self->xdg_wm_base ||
-      !self->zxdg_output_manager_v1) {
+      !self->zxdg_output_manager_v1 ||
+      !self->zphoc_layer_shell_effects_v1) {
     g_error ("Could not find needed globals\n"
              "outputs: %d, layer_shell: %p, idle_manager: %p, "
              "inhibit: %p, xdg_wm: %p, "
              "xdg_output: %p, wlr_output_manager: %p, "
-             "wlr_foreign_toplevel_manager: %p"
+             "wlr_foreign_toplevel_manager: %p, "
+             "zphoc_layer_shell_effects_v1: %p"
              "\n",
              num_outputs, self->layer_shell, self->idle_manager,
              self->input_inhibit_manager, self->xdg_wm_base,
              self->zxdg_output_manager_v1,
              self->zwlr_output_manager_v1,
-             self->zwlr_foreign_toplevel_manager_v1);
+             self->zwlr_foreign_toplevel_manager_v1,
+             self->zphoc_layer_shell_effects_v1);
   }
   if (!self->phosh_private) {
     g_info ("Could not find phosh private interface, disabling some features");
