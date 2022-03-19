@@ -1,19 +1,19 @@
 # Turkish translation of phosh.
-# Emin Tufan Çetin <etcetin@gmail.com>, 2019, 2020, 2021.
+# Emin Tufan Çetin <etcetin@gmail.com>, 2019, 2020, 2021, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-04-01 03:31+0000\n"
-"PO-Revision-Date: 2021-04-05 12:35+0300\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2022-01-20 19:23+0000\n"
+"PO-Revision-Date: 2022-03-19 12:30+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.3\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -29,9 +29,17 @@ msgstr "Telefon Kabuğu"
 msgid "Window management and application launching for mobile"
 msgstr "Mobil için pencere yönetimi ve uygulama başlatımı"
 
-#: src/app-grid-button.c:536
+#: src/app-grid-button.c:502
 msgid "Application"
 msgstr "Uygulama"
+
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "Tüm Uygulamaları Göster"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Yalnızca Mobil Uyumluları Göster"
 
 #: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
@@ -45,7 +53,7 @@ msgstr "Bluetooth"
 msgid "Docked"
 msgstr "Yuvada"
 
-#: src/docked-info.c:81 src/docked-info.c:195
+#: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
 msgstr "Yuvada Değil"
 
@@ -59,7 +67,7 @@ msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s oturumu %d saniye içinde kendiliğinden kapatılacak."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Gücü Kapat"
 
@@ -69,7 +77,7 @@ msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Sistem %d saniye içinde kendiliğinden kapanacak."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
 msgstr "Yeniden Başlat"
 
@@ -79,7 +87,7 @@ msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "Sistem %d saniye içinde kendiliğinden yeniden başlayacak."
 
-#: src/end-session-dialog.c:270
+#: src/end-session-dialog.c:269
 msgid "Unknown application"
 msgstr "Bilinmeyen uygulama"
 
@@ -97,86 +105,86 @@ msgstr "Titreşim"
 msgid "Silent"
 msgstr "Sessiz"
 
-#: src/location-manager.c:246
+#: src/location-manager.c:268
 #, c-format
 msgid "Allow '%s' to access your location information?"
 msgstr "'%s' konum bilginize erişebilsin mi?"
 
-#: src/location-manager.c:251
+#: src/location-manager.c:273
 msgid "Geolocation"
 msgstr "Coğrafi Konum"
 
-#: src/location-manager.c:252
+#: src/location-manager.c:274
 msgid "Yes"
 msgstr "Evet"
 
-#: src/location-manager.c:252
+#: src/location-manager.c:274
 msgid "No"
 msgstr "Hayır"
 
-#: src/lockscreen.c:85 src/ui/lockscreen.ui:234
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
 msgid "Enter Passcode"
 msgstr "Parolayı Gir"
 
-#: src/lockscreen.c:264
+#: src/lockscreen.c:362
 msgid "Checking…"
 msgstr "Denetleniyor…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:342
+#: src/lockscreen.c:440
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:277 src/ui/media-player.ui:107
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "Bilinmeyen Başlık"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:286 src/ui/media-player.ui:127
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "Bilinmeyen Sanatçı"
 
-#: src/monitor-manager.c:112
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "İç ekran"
 
-#: src/monitor-manager.c:130
+#: src/monitor-manager.c:137
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:137
+#: src/monitor-manager.c:144
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
 "inches could not be calculated, e.g. Dell U2414H"
-msgid "%s %sn"
-msgstr "%s %sn"
+msgid "%s %s"
+msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:146
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Bilinmeyen"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "“%s” wifi ağının yetkilendirme türü desteklenmiyor"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "“%s” wifi ağı için parola gir"
 
-#: src/notifications/mount-notification.c:137
+#: src/notifications/mount-notification.c:122
 msgid "Open"
 msgstr "Aç"
 
-#: src/notifications/notification.c:381 src/notifications/notification.c:637
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
 msgid "Notification"
 msgstr "Bildirim"
 
@@ -268,12 +276,13 @@ msgstr "Neredeyse %d yıl"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:225
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Kullanıcı, yetkilendirme kutusunu görmezden geldi"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:85
-#: src/ui/polkit-auth-prompt.ui:57 src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Parola:"
 
@@ -291,15 +300,24 @@ msgstr "Yatay"
 
 #. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
 #. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:183
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
 msgid "Off"
 msgstr "Kapalı"
 
-#: src/system-prompt.c:364
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "ESC’ye basarak kapat"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "'%s' çalıştırılamadı"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Parolalar eşleşmedi."
 
-#: src/system-prompt.c:371
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
 msgstr "Parola boş olamaz"
 
@@ -307,27 +325,27 @@ msgstr "Parola boş olamaz"
 msgid "Torch"
 msgstr "Fener"
 
-#: src/ui/app-auth-prompt.ui:41
+#: src/ui/app-auth-prompt.ui:40
 msgid "Remember decision"
 msgstr "Kararı anımsa"
 
-#: src/ui/app-auth-prompt.ui:55 src/ui/end-session-dialog.ui:50
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "İptal"
 
-#: src/ui/app-auth-prompt.ui:66 src/ui/end-session-dialog.ui:61
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "Tamam"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "Uygulama"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
 msgstr "_Gözdelerden kaldır"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
 msgstr "_Gözdelere ekle"
 
@@ -335,49 +353,73 @@ msgstr "_Gözdelere ekle"
 msgid "Search apps…"
 msgstr "Uygulama ara…"
 
-#: src/ui/end-session-dialog.ui:32
+#: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
 msgstr "Bazı uygulamalar meşgul ya da kaydedilmemiş verisi var"
 
-#: src/ui/lockscreen.ui:37
+#: src/ui/gtk-mount-prompt.ui:94
+msgid "User:"
+msgstr "Kullanıcı:"
+
+#: src/ui/gtk-mount-prompt.ui:117
+msgid "Domain:"
+msgstr "Etki Alanı:"
+
+#: src/ui/gtk-mount-prompt.ui:150
+msgid "Co_nnect"
+msgstr "_Bağlan"
+
+#: src/ui/lockscreen.ui:42
 msgid "Slide up to unlock"
 msgstr "Açmak için kaldır"
 
-#: src/ui/lockscreen.ui:280
+#: src/ui/lockscreen.ui:320
 msgid "Emergency"
 msgstr "Acil"
 
-#: src/ui/lockscreen.ui:296
+#: src/ui/lockscreen.ui:336
 msgid "Unlock"
 msgstr "Kilidi Aç"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+#: src/ui/lockscreen.ui:376
+msgid "Back"
+msgstr "Geri"
+
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Yetkilendirme gerekli"
 
-#: src/ui/network-auth-prompt.ui:42
+#: src/ui/network-auth-prompt.ui:40
 msgid "_Cancel"
 msgstr "_İptal"
 
-#: src/ui/network-auth-prompt.ui:61
+#: src/ui/network-auth-prompt.ui:58
 msgid "C_onnect"
 msgstr "_Bağlan"
 
-#: src/ui/polkit-auth-prompt.ui:125
+#: src/ui/polkit-auth-prompt.ui:122
 msgid "Authenticate"
 msgstr "Yetkilendir"
 
-#: src/ui/system-prompt.ui:63
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Komut Çalıştır"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Doğrula:"
 
-#: src/ui/top-panel.ui:16
+#: src/ui/top-panel.ui:15
 msgid "Lock Screen"
 msgstr "Ekranı Kilitle"
 
-#: src/ui/top-panel.ui:23
+#: src/ui/top-panel.ui:22
 msgid "Logout"
 msgstr "Oturumu Kapat"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
@@ -387,3 +429,9 @@ msgstr "Wi-Fi"
 #: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Hücresel"
+
+#~ msgctxt ""
+#~ "This is a monitor vendor name followed by product/model name where size "
+#~ "in inches could not be calculated, e.g. Dell U2414H"
+#~ msgid "%s %sn"
+#~ msgstr "%s %sn"
