@@ -211,6 +211,8 @@ phosh_test_head_stub_init (PhoshWayland *wl)
 void
 phosh_test_head_stub_destroy (void)
 {
-  g_ptr_array_free (_heads, TRUE);
-  g_ptr_array_free (_modes, TRUE);
+  if (_heads)
+    g_ptr_array_free (_heads, TRUE);
+  if (_modes)
+    g_ptr_array_free (_modes, TRUE);
 }
