@@ -1,43 +1,52 @@
-# Dawid Potocki <dpot@tuta.io>, 2018. #zanata
-# Kacper Paczos <kacper-paczos@linux.pl>, 2019. #zanata
-# Rafal Betkowski <rafalbetkowski@googlemail.com>, 2019. #zanata
-# Tomasz Sanecki <tomasz@sanecki.net>, 2020.
+# Polish translation for phosh.
+# Copyright © 2022 the phosh authors.
+# This file is distributed under the same license as the phosh package.
+# Piotr Drąg <piotrdrag@gmail.com>, 2022.
+# Aviary.pl <community-poland@mozilla.org>, 2022.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2020-12-28 03:33+0000\n"
-"PO-Revision-Date: 2020-12-28 15:02+0100\n"
-"Last-Translator: Tomasz Sanecki <tomasz@sanecki.net>\n"
-"Language-Team: Polish\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2022-03-19 09:31+0000\n"
+"PO-Revision-Date: 2022-03-20 14:50+0100\n"
+"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+"Language-Team: Polish <community-poland@mozilla.org>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
-"Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2)\n"
-
-#: data/sm.puri.Phosh.desktop.in.in:4
-msgid "Phone Shell"
-msgstr "Powłoka systemowa telefonu"
-
-#: data/sm.puri.Phosh.desktop.in.in:5
-msgid "Window management and application launching for mobile"
-msgstr "Zarządzanie oknami i uruchamianie aplikacji na urządzeniu mobilnym"
+"|| n%100>=20) ? 1 : 2);\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/app-grid-button.c:536
-msgid "Application"
-msgstr "Aplikacja"
+#: data/sm.puri.Phosh.desktop.in.in:4
+msgid "Phone Shell"
+msgstr "Powłoka telefonu"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "Zarządzanie oknami i uruchamianiem programów na telefonie"
+
+#: src/app-grid-button.c:507
+msgid "Application"
+msgstr "Program"
+
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "Wyświetl wszystkie programy"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Wyświetl tylko programy przystosowane do telefonów"
+
+#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
-msgstr "Włączony"
+msgstr "Włączone"
 
 #: src/bt-info.c:94
 msgid "Bluetooth"
@@ -45,11 +54,51 @@ msgstr "Bluetooth"
 
 #: src/docked-info.c:81
 msgid "Docked"
-msgstr "Zadokowany"
+msgstr "Podłączony"
 
-#: src/docked-info.c:195
+#: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
-msgstr "Niezadokowany"
+msgstr "Niepodłączony"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "Wyloguj się"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "Użytkownik %s zostanie wylogowany za %d sekundę."
+msgstr[1] "Użytkownik %s zostanie wylogowany za %d sekundy."
+msgstr[2] "Użytkownik %s zostanie wylogowany za %d sekund."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Wyłącz telefon"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "Wyłączenie telefonu nastąpi za %d sekundę."
+msgstr[1] "Wyłączenie telefonu nastąpi za %d sekundy."
+msgstr[2] "Wyłączenie telefonu nastąpi za %d sekund."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Uruchom ponownie"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "Ponowne uruchomienie telefonu nastąpi za %d sekundę."
+msgstr[1] "Ponowne uruchomienie telefonu nastąpi za %d sekundy."
+msgstr[2] "Ponowne uruchomienie telefonu nastąpi za %d sekund."
+
+#: src/end-session-dialog.c:269
+msgid "Unknown application"
+msgstr "Nieznany program"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -65,228 +114,303 @@ msgstr "Cichy"
 msgid "Silent"
 msgstr "Wyciszony"
 
-#: src/lockscreen.c:86 src/ui/lockscreen.ui:234
-msgid "Enter Passcode"
-msgstr "Wpisz kod dostępu"
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "Zezwolić programowi „%s” na dostęp do położenia użytkownika?"
 
-#: src/lockscreen.c:265
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "Ustalanie położenia"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "Tak"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "Nie"
+
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
+msgid "Enter Passcode"
+msgstr "Proszę podać kod"
+
+#: src/lockscreen.c:361
 msgid "Checking…"
 msgstr "Sprawdzanie…"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:343
-msgid "%A, %B %-e"
-msgstr "%a, %e %B"
-
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:277 src/ui/media-player.ui:107
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "Nieznany tytuł"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:286 src/ui/media-player.ui:127
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
-msgstr "Nieznany artysta"
+msgstr "Nieznany wykonawca"
 
-#: src/monitor-manager.c:71
+#: src/monitor-manager.c:119
 msgid "Built-in display"
-msgstr "Wbudowany wyświetlacz"
+msgstr "Wbudowany ekran"
+
+#: src/monitor-manager.c:137
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:144
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %s"
+msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:75
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Nieznany"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
-msgstr "Typ \"%s\" uwierzytelniania sieci nieobsługiwany"
+msgstr "Typ uwierzytelniania sieci Wi-Fi „%s” nie jest obsługiwany"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr "Wprowadź hasło dla sieci wifi \"%s\""
+msgstr "Proszę podać hasło sieci Wi-Fi „%s”"
 
-#: src/notifications/mount-notification.c:137
-#, fuzzy
+#: src/notifications/mount-notification.c:122
 msgid "Open"
 msgstr "Otwórz"
 
-#: src/notifications/notification.c:381 src/notifications/notification.c:637
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
 msgid "Notification"
 msgstr "Powiadomienie"
 
 #. Translators: Timestamp seconds suffix
-#: src/notifications/timestamp-label.c:83
+#: src/notifications/timestamp-label.c:84
 msgctxt "timestamp-suffix-seconds"
 msgid "s"
 msgstr "s"
 
 #. Translators: Timestamp minute suffix
-#: src/notifications/timestamp-label.c:85
+#: src/notifications/timestamp-label.c:86
 msgctxt "timestamp-suffix-minute"
 msgid "m"
-msgstr "m"
+msgstr "min"
 
 #. Translators: Timestamp minutes suffix
-#: src/notifications/timestamp-label.c:87
+#: src/notifications/timestamp-label.c:88
 msgctxt "timestamp-suffix-minutes"
 msgid "m"
-msgstr "m"
+msgstr "min"
 
 #. Translators: Timestamp hour suffix
-#: src/notifications/timestamp-label.c:89
+#: src/notifications/timestamp-label.c:90
 msgctxt "timestamp-suffix-hour"
 msgid "h"
-msgstr "h"
+msgstr "godz."
 
 #. Translators: Timestamp hours suffix
-#: src/notifications/timestamp-label.c:91
+#: src/notifications/timestamp-label.c:92
 msgctxt "timestamp-suffix-hours"
 msgid "h"
-msgstr "h"
+msgstr "godz."
 
 #. Translators: Timestamp day suffix
-#: src/notifications/timestamp-label.c:93
+#: src/notifications/timestamp-label.c:94
 msgctxt "timestamp-suffix-day"
 msgid "d"
 msgstr "d"
 
 #. Translators: Timestamp days suffix
-#: src/notifications/timestamp-label.c:95
+#: src/notifications/timestamp-label.c:96
 msgctxt "timestamp-suffix-days"
 msgid "d"
 msgstr "d"
 
 #. Translators: Timestamp month suffix
-#: src/notifications/timestamp-label.c:97
+#: src/notifications/timestamp-label.c:98
 msgctxt "timestamp-suffix-month"
 msgid "mo"
-msgstr "mies"
+msgstr "mies."
 
 #. Translators: Timestamp months suffix
-#: src/notifications/timestamp-label.c:99
+#: src/notifications/timestamp-label.c:100
 msgctxt "timestamp-suffix-months"
 msgid "mos"
-msgstr "mies"
+msgstr "mies."
 
 #. Translators: Timestamp year suffix
-#: src/notifications/timestamp-label.c:101
+#: src/notifications/timestamp-label.c:102
 msgctxt "timestamp-suffix-year"
 msgid "y"
-msgstr "l"
+msgstr "rok"
 
 #. Translators: Timestamp years suffix
-#: src/notifications/timestamp-label.c:103
+#: src/notifications/timestamp-label.c:104
 msgctxt "timestamp-suffix-years"
 msgid "y"
-msgstr "l"
+msgstr "lat."
 
-#. Translators: this is the date in (short) number only format
-#: src/notifications/timestamp-label.c:106
-msgid "%d.%m.%y"
-msgstr "%d.%m.%y"
-
-#. Translators: Timestamp prefix (e.g. Over 5h)
-#: src/notifications/timestamp-label.c:197
-msgid "Over"
-msgstr "Ponad"
-
-#. Translators: Timestamp prefix (e.g. Almost 5h)
-#: src/notifications/timestamp-label.c:202
-msgid "Almost"
-msgstr "Prawie"
-
-#: src/notifications/timestamp-label.c:210
+#: src/notifications/timestamp-label.c:121
 msgid "now"
 msgstr "teraz"
 
-#: src/polkit-auth-agent.c:231
-msgid "Authentication dialog was dismissed by the user"
-msgstr "Dialog uwierzytelniania został odrzucony przez użytkownika"
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "Ponad %d lat."
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:130
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "Prawie %d lat."
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d %s"
+
+#: src/polkit-auth-agent.c:228
+msgid "Authentication dialog was dismissed by the user"
+msgstr "Okno uwierzytelniania zostało odrzucone przez użytkownika"
+
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Hasło:"
 
-#: src/polkit-auth-prompt.c:324
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "Niestety to nie zadziałało. Spróbuj ponownie."
+msgstr "To nie zadziałało. Proszę spróbować ponownie."
 
-#: src/polkit-auth-prompt.c:468
-msgid "Authenticate"
-msgstr "Uwierzytelnij"
-
-#: src/rotateinfo.c:65
+#: src/rotateinfo.c:81
 msgid "Portrait"
 msgstr "Pionowo"
 
-#: src/rotateinfo.c:68
+#: src/rotateinfo.c:84
 msgid "Landscape"
 msgstr "Poziomo"
 
-#: src/system-prompt.c:373
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
+msgid "Off"
+msgstr "Wyłączone"
+
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Klawisz Esc zamknie"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "Wykonanie polecenia „%s” się nie powiodło"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Hasła się nie zgadzają."
 
-#: src/system-prompt.c:380
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
 msgstr "Hasło nie może być puste"
 
 #: src/torch-info.c:80
-#, fuzzy
 msgid "Torch"
 msgstr "Latarka"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-auth-prompt.ui:40
+msgid "Remember decision"
+msgstr "Zapamiętanie decyzji"
+
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+msgid "Ok"
+msgstr "OK"
+
+#: src/ui/app-grid-button.ui:55
 msgid "App"
-msgstr "Aplikacja"
+msgstr "Program"
 
-#: src/ui/app-grid-button.ui:76
-#, fuzzy
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
-msgstr "Usuń z ulubionych"
+msgstr "_Usuń z ulubionych"
 
-#: src/ui/app-grid-button.ui:81
-#, fuzzy
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
-msgstr "Dodaj do ulubionych"
+msgstr "Dodaj do _ulubionych"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Szukaj aplikacji…"
+msgstr "Wyszukiwanie programów…"
 
-#: src/ui/lockscreen.ui:37
-msgid "Slide up to unlock"
-msgstr "Przesuń aby odblokować"
+#: src/ui/end-session-dialog.ui:31
+msgid "Some applications are busy or have unsaved work"
+msgstr "Niektóre programy są używane lub mają niezapisane dane"
 
-#: src/ui/lockscreen.ui:280
-msgid "Emergency"
-msgstr "Awaryjny"
-
-#: src/ui/lockscreen.ui:296
-msgid "Unlock"
-msgstr "Odblokuj"
-
-#: src/ui/network-auth-prompt.ui:89
-#, fuzzy
-msgid "_Cancel"
-msgstr "Anuluj"
-
-#: src/ui/network-auth-prompt.ui:105
-#, fuzzy
-msgid "C_onnect"
-msgstr "Połącz"
-
-#: src/ui/polkit-auth-prompt.ui:105
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Użytkownik:"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/gtk-mount-prompt.ui:117
+msgid "Domain:"
+msgstr "Domena:"
+
+#: src/ui/gtk-mount-prompt.ui:150
+msgid "Co_nnect"
+msgstr "_Połącz"
+
+#: src/ui/lockscreen.ui:42
+msgid "Slide up to unlock"
+msgstr "Przesunięcie w górę odblokuje"
+
+#: src/ui/lockscreen.ui:320
+msgid "Emergency"
+msgstr "Połączenie alarmowe"
+
+#: src/ui/lockscreen.ui:336
+msgid "Unlock"
+msgstr "Odblokuj"
+
+#: src/ui/lockscreen.ui:376
+msgid "Back"
+msgstr "Wstecz"
+
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+msgid "Authentication required"
+msgstr "Wymagane jest uwierzytelnienie"
+
+#: src/ui/network-auth-prompt.ui:40
+msgid "_Cancel"
+msgstr "_Anuluj"
+
+#: src/ui/network-auth-prompt.ui:58
+msgid "C_onnect"
+msgstr "_Połącz"
+
+#: src/ui/polkit-auth-prompt.ui:122
+msgid "Authenticate"
+msgstr "Uwierzytelnij"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Wykonanie polecenia"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
-msgstr "Potwierdź:"
+msgstr "Potwierdzenie:"
 
 #: src/ui/top-panel.ui:15
 msgid "Lock Screen"
@@ -294,21 +418,23 @@ msgstr "Zablokuj ekran"
 
 #: src/ui/top-panel.ui:22
 msgid "Logout"
-msgstr "Wyloguj"
+msgstr "Wyloguj się"
 
-#: src/ui/top-panel.ui:29
-msgid "Restart"
-msgstr "Restart"
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:337
+msgid "%A, %B %-e"
+msgstr "%A, %-d %B"
 
-#: src/ui/top-panel.ui:36
-msgid "Power Off"
-msgstr "Wyłącz"
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:170
+#: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Komórkowa"
