@@ -55,6 +55,7 @@ phosh_layer_surface_sources = files(
   'layersurface.h',
 )
 
+# Symbols from these availabl in tools and unit tests
 libphosh_tool_sources = files(
   'app-auth-prompt.c',
   'app-auth-prompt.h',
