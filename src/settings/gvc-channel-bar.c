@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <math.h>
 
 #include <pulse/pulseaudio.h>
 
@@ -317,7 +318,7 @@ gvc_channel_bar_set_is_amplified (GvcChannelBar *self, gboolean amplified)
   if (amplified) {
     g_autofree char *str = NULL;
 
-    if ((int)self->base_volume == (int)ADJUSTMENT_MAX_NORMAL) {
+    if (G_APPROX_VALUE (self->base_volume, floor (ADJUSTMENT_MAX_NORMAL), DBL_EPSILON)) {
       str = g_strdup_printf ("<small>%s</small>", C_("volume", "100%"));
       gtk_scale_add_mark (GTK_SCALE (self->scale), ADJUSTMENT_MAX_NORMAL,
                           GTK_POS_BOTTOM, str);
