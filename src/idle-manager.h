@@ -14,3 +14,4 @@
 G_DECLARE_FINAL_TYPE (PhoshIdleManager, phosh_idle_manager, PHOSH, IDLE_MANAGER, GObject)
 
 PhoshIdleManager * phosh_idle_manager_get_default    (void);
+void phosh_idle_manager_reset_timers (PhoshIdleManager *self);
