@@ -14,7 +14,7 @@ expand_content_md_files = [
   'patterns.md',
 ]
 
-glib_prefix = glib_dep.get_pkgconfig_variable('prefix')
+glib_prefix = glib_dep.get_variable(pkgconfig: 'prefix')
 glib_docpath = join_paths(glib_prefix, 'share', 'gtk-doc', 'html')
 docpath = join_paths(get_option('datadir'), 'gtk-doc', 'html')
 
