@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-01-24 16:00+0000\n"
-"PO-Revision-Date: 2022-01-24 21:05+0100\n"
+"POT-Creation-Date: 2022-01-24 20:17+0000\n"
+"PO-Revision-Date: 2022-03-22 15:26+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
 "%100<=4 ? 2 : 3);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.0.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -367,7 +367,6 @@ msgid "Search apps…"
 msgstr "Poišči program …"
 
 #: src/ui/end-session-dialog.ui:31
-#, fuzzy
 msgid "Some applications are busy or have unsaved work"
 msgstr "Nekateri programčki so sredi dela ali nimajo shranjenega dela"
 
