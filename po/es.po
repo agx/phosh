@@ -30,19 +30,28 @@ msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr "Interfaz de teléfono"
+msgstr "Interfaz para móviles"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr "Un Gestor de ventanas y lanzador de aplicaciones para móviles"
+msgstr "Gestor de ventanas y lanzador de aplicaciones para móviles"
 
 #: src/app-grid-button.c:502
 msgid "Application"
-msgstr "Aplicaciones"
+msgstr "Aplicación"
+
+#: src/app-grid.c:133
+msgid "Show All Apps"
+msgstr "Mostrar todas las Aplicaciones"
+
+#: src/app-grid.c:136
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Mostrar sólo Aplicaciones adaptadas"
+
 
 #: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
-msgstr "Encendido"
+msgstr "Habilitado"
 
 #: src/bt-info.c:94
 msgid "Bluetooth"
@@ -58,14 +67,14 @@ msgstr "Desacoplado"
 
 #: src/end-session-dialog.c:162
 msgid "Log Out"
-msgstr "Cerrar sesión"
+msgstr "Cerrar la sesión"
 
 #: src/end-session-dialog.c:165
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
-msgstr[0] "%s se autocerrará en %d segundo."
-msgstr[1] "%s se autocerrará en %d segundos."
+msgstr[0] "%s se deslogueará en %d segundo."
+msgstr[1] "%s se deslogueará en %d segundos."
 
 #: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
@@ -75,8 +84,8 @@ msgstr "Apagar"
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
-msgstr[0] "El sistema se autoapagará en %d segundo."
-msgstr[1] "El sistema se autoapagará en %d segundos."
+msgstr[0] "El sistema se apagará automáticamente en %d segundo."
+msgstr[1] "El sistema se apagará automáticamente en %d segundos."
 
 #: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
@@ -86,8 +95,8 @@ msgstr "Reiniciar"
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
-msgstr[0] "El sistema se autoreiniciará en %d segundo."
-msgstr[1] "El sistema se autoreiniciará en %d segundos."
+msgstr[0] "El sistema se reiniciará automáticamente en %d segundo."
+msgstr[1] "El sistema se reiniciará automáticamente en %d segundos."
 
 #: src/end-session-dialog.c:269
 msgid "Unknown application"
@@ -98,7 +107,7 @@ msgstr "Aplicación desconocida"
 #. for details
 #: src/feedbackinfo.c:44
 msgid "Quiet"
-msgstr "Callado"
+msgstr "Tranquilo"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -118,7 +127,7 @@ msgstr "Geolocalización"
 
 #: src/location-manager.c:274
 msgid "Yes"
-msgstr "Si"
+msgstr "Sí"
 
 #: src/location-manager.c:274
 msgid "No"
@@ -126,17 +135,17 @@ msgstr "No"
 
 #: src/lockscreen.c:157 src/ui/lockscreen.ui:270
 msgid "Enter Passcode"
-msgstr "Introducir código de acceso"
+msgstr "Introduce el código de desbloqueo"
 
 #: src/lockscreen.c:362
 msgid "Checking…"
-msgstr "Comprobando…"
+msgstr "Verificando…"
 
 #. Translators: This is a time format for a date in
 #. long format
 #: src/lockscreen.c:440
 msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
+msgstr "%A, %d de %B"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
@@ -175,12 +184,12 @@ msgstr "Desconocido"
 #: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
-msgstr "No se admite el tipo de autenticación WLAN “%s”"
+msgstr "No se admite el tipo de autenticación wifi de “%s”"
 
 #: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr "Introducir contraseña WLAN “%s”"
+msgstr "Introducir contraseña wifi de “%s”"
 
 #: src/notifications/mount-notification.c:122
 msgid "Open"
@@ -294,17 +303,17 @@ msgstr "Lo siento, eso no funcionó. Intentar de nuevo."
 
 #: src/rotateinfo.c:81
 msgid "Portrait"
-msgstr "Retrato"
+msgstr "Vertical"
 
 #: src/rotateinfo.c:84
 msgid "Landscape"
-msgstr "Paisaje"
+msgstr "Horizontal"
 
 #. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
 #. Translators: Automatic screen orientation is off (locked/disabled)
 #: src/rotateinfo.c:103 src/rotateinfo.c:186
 msgid "Off"
-msgstr "apagado"
+msgstr "Desactivado"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
@@ -313,7 +322,7 @@ msgstr "Presionar ESC para cerrar"
 #: src/run-command-manager.c:94
 #, c-format
 msgid "Running '%s' failed"
-msgstr "Falló al correr '%s'"
+msgstr "El comando '%s' falló"
 
 
 #: src/system-prompt.c:365
@@ -322,11 +331,11 @@ msgstr "Las contraseñas no coinciden."
 
 #: src/system-prompt.c:372
 msgid "Password cannot be blank"
-msgstr "La contraseña no puede estar en blanco"
+msgstr "La contraseña no puede estar vacía"
 
 #: src/torch-info.c:80
 msgid "Torch"
-msgstr "Antorcha"
+msgstr "Linterna"
 
 #: src/ui/app-auth-prompt.ui:40
 msgid "Remember decision"
@@ -342,7 +351,7 @@ msgstr "Aceptar"
 
 #: src/ui/app-grid-button.ui:48
 msgid "App"
-msgstr "Apl"
+msgstr "App"
 
 #: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
@@ -350,11 +359,11 @@ msgstr "Quitar de _Favoritos"
 
 #: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
-msgstr "Agregar a  _Favoritos"
+msgstr "Agregar a _Favoritos"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Buscar apls…"
+msgstr "Buscar apps…"
 
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
@@ -374,7 +383,7 @@ msgstr "Co_nectar"
 
 #: src/ui/lockscreen.ui:42
 msgid "Slide up to unlock"
-msgstr "Deslizar hacia arriba para desbloquear"
+msgstr "Deslice hacia arriba para desbloquear"
 
 #: src/ui/lockscreen.ui:320
 msgid "Emergency"
@@ -406,15 +415,15 @@ msgstr "Autenticar"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
-msgstr "Correr comando"
+msgstr "Ejecutar comando"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
-msgstr "Confirmar"
+msgstr "Confirmar:"
 
 #: src/ui/top-panel.ui:15
 msgid "Lock Screen"
-msgstr "Bloquear"
+msgstr "Bloquear la pantalla"
 
 #: src/ui/top-panel.ui:22
 msgid "Logout"
@@ -426,13 +435,11 @@ msgstr "VPN"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
-msgstr "WLAN"
+msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwaninfo.c:172
 msgid "Cellular"
-msgstr "Móvil"
+msgstr "Módem"
 
-#~ msgid "Show only adaptive apps"
-#~ msgstr "Mostrar solo apls adaptadas"
 
