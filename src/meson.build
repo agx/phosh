@@ -55,6 +55,7 @@ phosh_layer_surface_sources = files(
   'layersurface.h',
 )
 
+# Symbols from these availabl in tools and unit tests
 libphosh_tool_sources = files(
   'app-auth-prompt.c',
   'app-auth-prompt.h',
@@ -68,6 +69,8 @@ libphosh_tool_sources = files(
   'app-grid-button.h',
   'app-list-model.c',
   'app-list-model.h',
+  'auth-prompt-option.c',
+  'auth-prompt-option.h',
   'background.c',
   'background.h',
   'bidi.c',
@@ -156,6 +159,7 @@ libphosh_tool_sources = files(
   phosh_notifications_sources,
 ]
 
+# Symbols from these are not availabl in tools and unit tests
 libphosh_sources = files(
   'arrow.c',
   'arrow.h',
@@ -207,6 +211,10 @@ libphosh_sources = files(
   'polkit-auth-agent.h',
   'polkit-auth-prompt.c',
   'polkit-auth-prompt.h',
+  'portal-access-manager.c',
+  'portal-access-manager.h',
+  'portal-request.c',
+  'portal-request.h',
   'proximity.h',
   'proximity.c',
   'rotation-manager.h',

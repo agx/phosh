@@ -7,3 +7,4 @@ usr/share/phosh/phoc.ini
 usr/share/glib-2.0/schemas/sm.puri.phosh*.xml
 usr/share/gnome-session/sessions/phosh.session
 usr/share/applications/sm.puri.Phosh.desktop
+usr/share/xdg-desktop-portal/portals/phosh.portal
