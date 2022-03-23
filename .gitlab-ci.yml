@@ -85,7 +85,7 @@ build:native-debian-bookworm:
       - $PKG_ONLY == "1"
 
 # Build for 32bit architecture to catch common errors
-build:cross-debian-bullseye:i386:
+build:cross-debian-bookworm:i386:
   stage: build
   image: "${DEBIAN_CROSS_IMAGE}"
   allow_failure: true
