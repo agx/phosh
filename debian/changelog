@@ -1,3 +1,103 @@
+phosh (0.17.0) experimental; urgency=medium
+
+  [ Pablo Barciela ]
+  * head: Variable 'float' instead 'int' for 'base_scaled_w'
+    'floorf' returns 'float'
+  * Fix [-Wignored-qualifiers] warnings.
+  * meson: Avoid deprecated 'Dependency.get_pkgconfig_variable'
+  * Update Spanish translation
+  * wwan-info: Drop unused macro
+
+  [ Guido Günther ]
+  * layer-surface: Allow to fetch margins.
+    This is a bit simpler than using g_object_get() directly.
+  * layer-surface: Allow to fetch configured width and height.
+    Avoid g_object_get() roundtrip
+  * util: Move local_date() from lockscreen.
+    It's useful in the top-panel too
+  * arrow: Add doc string
+  * home: Simplify osk button visibility setting
+  * tests: Fix typo
+  * wwan: Make source file name match PhoshWwanManager.
+    We separate words by '-'.
+  * vpn-manager: Drop property name prefix.
+    Use the style from HACKING.md
+  * settings: Include the abstract WWAN header.
+    We don't use any backend specific code here.
+  * docs: Add PhoshWwanManager
+  * wwan-manager: Add data-enabled property.
+    This allows to indicate whether mobile data is enabled
+  * wwan-info: Make source file name match PhoshWWanInfo.
+    We separate words by '-'.
+  * wwan-info: Indicate status of mobile data.
+    We use two arrays with icon names so we can still avoid allocations.
+    (Closes: #721)
+  * quick-settings: Follow g-c-c to Settings rename.
+    We have another mention of org.gnome.ControlCenter in
+    phosh_get_desktop_app_info_for_app_id() but let's keep that for one more
+    iteration to ease upgrades. Settings now reports a sane app-id
+    `org.gnome.Settings`.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/742
+  * po: Drop es_ES.po. We have es.po
+  * build: Document libphosh_{,tool_} sources
+  * testlib: Clear heads and modes only when used.
+  * debian: Install portal
+  * ci: Simplify docker file for i386 builds.
+    We don't need any packages from experimental anymore
+  * ci: Use bookworm for i386 build too
+
+  [ Sam Hewitt ]
+  * data: Add no-data variant of cellular icons
+
+  [ Kai Lüke ]
+  * Emit WakeUpScreen signal and reset idle timers on resume.
+    When the device resumes from suspend and there is no user input,
+    gsd-power remains in the "sleep" state because there is no WakeUpScreen
+    signal such that even when the new idle timer that gsd-power registered
+    after resume triggers, the transition from "sleep" to "sleep" is
+    ignored and the system does not suspend. A second difference to the
+    behavior of Mutter/GNOME Shell is that on resume there is no reset of
+    the registered idle timers which should also be fixed to ensure that
+    Phosh behaves the same.
+    Act on the logind PrepareForSleep signal (the resume case) to emit the
+    WakeUpScreen signal and reset the idle timers.
+    Fixes https://gitlab.gnome.org/World/Phosh/phosh/-/issues/686
+
+  [ Florian Loers ]
+  * portal: Add access api.
+    Implements org.freedesktop.impl.portal
+    Closes #49
+  * data: Install phosh.portal.
+    This makes xdg-desktop-portal use our access implementation.
+
+  [ free software ]
+  * po: Update Spanish translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+  [ Мирослав Николић ]
+  * Update Serbian translation
+
+  [ Prasanta Hembram ]
+  * Add Santali translation
+
+  [ Hugo Carvalho ]
+  * Update Portuguese translation
+
+  [ Emin Tufan Çetin ]
+  * Update Turkish translation
+
+  [ Piotr Drąg ]
+  * Update Polish translation
+  * po: Remove .pot file.
+    Damned Lies automatically generates one for us.
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 22 Mar 2022 15:53:19 +0100
+
 phosh (0.16.0) experimental; urgency=medium
 
   [ Guido Günther ]

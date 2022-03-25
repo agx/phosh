@@ -1,3 +1,27 @@
+phosh 0.17.0
+------------
+Released: March 2022
+* Access Portal support
+* Mobile data indicator
+* Suspend after resume fixes
+* Contributors:
+	Florian Loers
+	Guido Günther
+	Kai Lüke
+	Pablo Barciela
+	Sam Hewitt
+	ZenWalker
+* UI translations:
+	Emin Tufan Çetin (tr)
+	free software (es)
+	Hugo Carvalho (pt)
+	Jiri Grönroos (fi)
+	Martin (sl)
+	Pablo Barciela (es)
+	Piotr Drąg (pl)
+	Prasanta Hembram (sat)
+	Мирослав Николић (sr)
+
 phosh 0.16.0
 ------------
 Released: February 2022
