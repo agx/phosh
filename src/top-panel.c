@@ -481,7 +481,7 @@ phosh_top_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
-                       "layer", ZWLR_LAYER_SHELL_V1_LAYER_TOP,
+                       "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                        "kbd-interactivity", FALSE,
                        "exclusive-zone", PHOSH_TOP_PANEL_HEIGHT,
                        "namespace", "phosh",
