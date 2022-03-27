@@ -203,14 +203,14 @@ phosh-lockscreen,
   color: @phosh_fg_color;
 }
 
-.phosh-lockscreen-clock {
+#phosh-lockscreen-clock {
   font-size: 72px;
   font-weight: 300;
   font-feature-settings: "tnum";
   margin: 12px 0;
 }
 
-.phosh-lockscreen-date {
+#phosh-lockscreen-date {
   font-size: 18px;
   margin: 6px 0;
   font-weight: 400;

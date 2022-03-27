@@ -85,6 +85,7 @@
                     <child>
                       <object class="GtkLabel" id="lbl_clock">
                         <property name="visible">True</property>
+                        <property name="name">phosh-lockscreen-clock</property>
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
                         <property name="hexpand">True</property>
@@ -100,6 +101,7 @@
                     <child>
                       <object class="GtkLabel" id="lbl_date">
                         <property name="visible">True</property>
+                        <property name="name">phosh-lockscreen-date</property>
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
                         <style>
