@@ -352,6 +352,11 @@ phosh_top_panel_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
 
+  /* Show widget when not locked and keep that in sync */
+  g_object_bind_property (phosh_shell_get_default (), "locked",
+                          self->lbl_clock, "visible",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
   phosh_connect_feedback (self->btn_top_panel);
 
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
