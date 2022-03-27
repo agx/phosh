@@ -140,6 +140,11 @@ top_panel_clicked_cb (PhoshTopPanel *self, GtkButton *btn)
 {
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   g_return_if_fail (GTK_IS_BUTTON (btn));
+
+  if (phosh_shell_get_locked (phosh_shell_get_default ())) {
+    return;
+  }
+
   g_signal_emit(self, signals[SETTINGS_ACTIVATED], 0);
 }
 
