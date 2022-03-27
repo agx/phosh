@@ -533,11 +533,11 @@ create_notification_row (gpointer item, gpointer data)
 
 
 static void
-on_notifcation_items_changed (PhoshLockscreen *self,
-                              guint            position,
-                              guint            removed,
-                              guint            added,
-                              GListModel      *list)
+on_notification_items_changed (PhoshLockscreen *self,
+                               guint            position,
+                               guint            removed,
+                               guint            added,
+                               GListModel      *list)
 {
   PhoshLockscreenPrivate *priv;
   gboolean is_empty;
@@ -616,11 +616,11 @@ phosh_lockscreen_constructed (GObject *object)
                            NULL);
   g_signal_connect_object (phosh_notify_manager_get_list (manager),
                            "items-changed",
-                           G_CALLBACK (on_notifcation_items_changed),
+                           G_CALLBACK (on_notification_items_changed),
                            self,
                            G_CONNECT_SWAPPED);
-  on_notifcation_items_changed (self, -1, -1, -1,
-                                G_LIST_MODEL (phosh_notify_manager_get_list (manager)));
+  on_notification_items_changed (self, -1, -1, -1,
+                                 G_LIST_MODEL (phosh_notify_manager_get_list (manager)));
 
   shell = phosh_shell_get_default ();
   g_object_bind_property (phosh_shell_get_osk_manager (shell), "visible",
