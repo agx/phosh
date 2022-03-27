@@ -82,6 +82,7 @@
                     <property name="vexpand">True</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
+                    <property name="margin-bottom">16</property>
                     <child>
                       <object class="GtkLabel" id="lbl_clock">
                         <property name="visible">True</property>
