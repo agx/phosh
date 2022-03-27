@@ -35,6 +35,8 @@
 #include <libgnome-desktop/gnome-wall-clock.h>
 
 #define LOCKSCREEN_IDLE_SECONDS 5
+#define LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS "p-large"
+#define LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS "p-small"
 
 /**
  * SECTION:lockscreen
@@ -548,6 +550,18 @@ on_notification_items_changed (PhoshLockscreen *self,
 
   is_empty = !g_list_model_get_n_items (list);
   g_debug("Notification list empty: %d", is_empty);
+
+  if (is_empty) {
+    gtk_style_context_add_class (gtk_widget_get_style_context (priv->lbl_clock),
+                                 LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS);
+    gtk_style_context_remove_class (gtk_widget_get_style_context (priv->lbl_clock),
+                                    LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS);
+  } else {
+    gtk_style_context_add_class (gtk_widget_get_style_context (priv->lbl_clock),
+                                 LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS);
+    gtk_style_context_remove_class (gtk_widget_get_style_context (priv->lbl_clock),
+                                    LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS);
+  }
 
   /* Don't unhide when we don't want notification on the lock screen */
   if (!is_empty && !g_settings_get_boolean (priv->settings, "show-in-lock-screen"))

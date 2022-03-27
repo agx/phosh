@@ -204,10 +204,19 @@ phosh-lockscreen,
 }
 
 #phosh-lockscreen-clock {
-  font-size: 72px;
   font-weight: 300;
   font-feature-settings: "tnum";
   margin: 12px 0;
+}
+
+#phosh-lockscreen-clock.p-large {
+  font-size: 84px;
+  transition: 200ms linear;
+}
+
+#phosh-lockscreen-clock.p-small {
+  font-size: 72px;
+  transition: 200ms linear;
 }
 
 #phosh-lockscreen-date {
@@ -297,7 +306,7 @@ phosh-keypad button:focus {
   color: inherit;
   background: alpha(@phosh_fg_color,.3);
 }
- 
+
 .text-only-button:hover,
 .text-only-button:hover:focus {
   background: alpha(@phosh_fg_color,.25);
@@ -768,4 +777,3 @@ scale trough slider:active {
   border-color: shade(@phosh_fg_color, 0.9);
   background: shade(@phosh_fg_color, 0.9);
 }
-
