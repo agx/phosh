@@ -12,6 +12,7 @@
 #include "dbus/portal-dbus.h"
 #include "portal-access-manager.h"
 #include "portal-request.h"
+#include "shell.h"
 #include "util.h"
 
 #define PORTAL_DBUS_NAME "sm.puri.Phosh.Portal"
@@ -132,7 +133,12 @@ handle_access_dialog (PhoshDBusImplPortalAccess *object,
                            G_CALLBACK (on_access_dialog_closed),
                            self,
                            G_CONNECT_SWAPPED);
-  gtk_widget_show (GTK_WIDGET (self->app_auth_prompt));
+
+  /* Show widget when not locked and keep that in sync */
+  g_object_bind_property (phosh_shell_get_default (), "locked",
+                          self->app_auth_prompt, "visible",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
   phosh_portal_request_export (self->request, g_dbus_method_invocation_get_connection (invocation));
   return TRUE;
 }
