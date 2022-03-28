@@ -366,10 +366,11 @@ phosh_util_local_date (void)
   locale = setlocale (LC_MESSAGES, NULL);
   if (locale) /* make sure weekday and month use LC_MESSAGES */
     setlocale (LC_TIME, locale);
+#pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-nonliteral"
   /* Can't use a string literal since it needs to be translated */
   g_return_val_if_fail (strftime (date, 255, fmt, &local), NULL);
-#pragma GCC diagnostic error "-Wformat-nonliteral"
+#pragma GCC diagnostic pop
   setlocale (LC_TIME, "");
   return g_steal_pointer (&date);
 }
