@@ -18,21 +18,46 @@
  * @short_description: A widget to toggle feedback modes
  * @Title: PhoshFeedbackInfo
  */
+enum {
+  PROP_0,
+  PROP_MUTED,
+  PROP_LAST_PROP
+};
+static GParamSpec *props[PROP_LAST_PROP];
 
 typedef struct _PhoshFeedbackInfo {
   PhoshStatusIcon parent;
 
   PhoshFeedbackManager *manager;
+  gboolean              muted;
 } PhoshFeedbackInfo;
 
 
 G_DEFINE_TYPE (PhoshFeedbackInfo, phosh_feedback_info, PHOSH_TYPE_STATUS_ICON)
 
+static void
+phosh_feedback_info_get_property (GObject    *object,
+                                  guint       property_id,
+                                  GValue     *value,
+                                  GParamSpec *pspec)
+{
+  PhoshFeedbackInfo *self = PHOSH_FEEDBACK_INFO (object);
+
+  switch (property_id) {
+  case PROP_MUTED:
+    g_value_set_boolean (value, self->muted);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
 
 static void
 on_profile_changed (PhoshFeedbackInfo *self, GParamSpec *psepc, gpointer unused)
 {
   const char *profile, *name;
+  gboolean muted = FALSE;
 
   g_return_if_fail (PHOSH_IS_FEEDBACK_INFO (self));
 
@@ -42,16 +67,23 @@ on_profile_changed (PhoshFeedbackInfo *self, GParamSpec *psepc, gpointer unused)
        see https://source.puri.sm/Librem5/feedbackd#profiles
        for details */
     name = _("Quiet");
+    muted = TRUE;
   } else if (!g_strcmp0 (profile, "silent")) {
     /* Translators: quiet and silent are fbd profiles names:
        see https://source.puri.sm/Librem5/feedbackd#profiles
        for details */
     name = _("Silent");
+    muted = TRUE;
   } else {
     name = _("On");
   }
 
   phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), name);
+
+  if (muted == self->muted)
+    return;
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MUTED]);
 }
 
 
@@ -97,6 +129,23 @@ phosh_feedback_info_class_init (PhoshFeedbackInfoClass *klass)
 
   object_class->constructed = phosh_feedback_info_constructed;
   object_class->dispose = phosh_feedback_info_dispose;
+  object_class->get_property = phosh_feedback_info_get_property;
+
+  /**
+   * PhoshFeedbackInfo:muted:
+   *
+   * Whether audio is muted (this is true for the `quiet` and `silent`
+   * profiles) but not for the `full` profile.
+   */
+  props[PROP_MUTED] =
+    g_param_spec_boolean (
+      "muted",
+      "",
+      "",
+      FALSE,
+      G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-feedback-info");
 }
