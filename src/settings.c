@@ -688,7 +688,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   object_class->constructed = phosh_settings_constructed;
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/settings-menu.ui");
+                                               "/sm/puri/phosh/ui/settings.ui");
 
   signals[SETTING_DONE] = g_signal_new ("setting-done",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
