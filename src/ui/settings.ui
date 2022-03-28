@@ -294,7 +294,14 @@
                     <child>
                       <object class="GtkImage">
                         <property name="visible">True</property>
+                        <property name="pixel-size">48</property>
+                        <property name="margin-top">96</property>
+                        <property name="margin-bottom">12</property>
                         <property name="icon-name">no-notifications-symbolic</property>
+                        <property name="sensitive">False</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
                       </object>
                     </child>
                     <child>
@@ -302,10 +309,14 @@
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">No notifications</property>
                         <property name="sensitive">False</property>
+                        <style>
+                          <class name="title-2"/>
+                        </style>
                       </object>
                     </child>
                     <style>
                       <class name="phosh-notifications-empty"/>
+                      <class name="dim-label"/>
                     </style>
                   </object>
                   <packing>
