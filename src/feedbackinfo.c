@@ -83,6 +83,7 @@ on_profile_changed (PhoshFeedbackInfo *self, GParamSpec *psepc, gpointer unused)
   if (muted == self->muted)
     return;
 
+  self->muted = muted;
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MUTED]);
 }
 

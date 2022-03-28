@@ -201,6 +201,13 @@
                           </object>
                         </child>
                         <child>
+                          <object class="PhoshFeedbackInfo" id="feedback_info">
+                            <property name="visible" bind-source="feedback_info" bind-property="muted" bind-flags="sync-create"/>
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="margin-end">8</property>
+                          </object>
+                        </child>
+                        <child>
                           <object class="PhoshLocationInfo" id="location_info">
                             <property name="visible" bind-source="location_info" bind-property="active" bind-flags="sync-create"/>
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
