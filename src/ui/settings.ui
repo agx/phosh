@@ -283,9 +283,39 @@
                 <signal name="player-raised" handler="on_media_player_raised" object="PhoshSettings" swapped="yes"/>
               </object>
             </child>
+
             <child>
+              <object class="GtkStack" id="stack_notifications">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="icon-name">no-notifications-symbolic</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">No notifications</property>
+                        <property name="sensitive">False</property>
+                      </object>
+                    </child>
+                    <style>
+                      <class name="phosh-notifications-empty"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="name">no-notifications</property>
+                  </packing>
+                </child>
+                <child>
+
               <object class="GtkBox" id="box_notifications">
-                <property name="visible">False</property>
+                <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <property name="margin-top">12</property>
                 <child>
@@ -334,6 +364,11 @@
                       <class name="phosh-notification-tray"/>
                     </style>
                   </object>
+                </child>
+                  </object>
+                  <packing>
+                    <property name="name">notifications</property>
+                  </packing>
                 </child>
               </object>
             </child>

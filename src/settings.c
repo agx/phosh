@@ -65,6 +65,7 @@ typedef struct _PhoshSettings
   /* Notifications */
   GtkWidget *list_notifications;
   GtkWidget *box_notifications;
+  GtkWidget *stack_notifications;
 
   /* Torch */
   PhoshTorchManager *torch_manager;
@@ -547,6 +548,7 @@ on_notifcation_frames_items_changed (PhoshSettings *self,
                                      GListModel    *list)
 {
   gboolean is_empty;
+  const char *child_name;
 
   g_return_if_fail (PHOSH_IS_SETTINGS (self));
   g_return_if_fail (G_IS_LIST_MODEL (list));
@@ -554,7 +556,8 @@ on_notifcation_frames_items_changed (PhoshSettings *self,
   is_empty = !g_list_model_get_n_items (list);
   g_debug("Notification list empty: %d", is_empty);
 
-  gtk_widget_set_visible (GTK_WIDGET (self->box_notifications), !is_empty);
+  child_name = is_empty ? "no-notifications" : "notifications";
+  gtk_stack_set_visible_child_name(GTK_STACK (self->stack_notifications), child_name);
   if (is_empty)
     g_signal_emit (self, signals[SETTING_DONE], 0);
 }
@@ -694,13 +697,14 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, media_player);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_torch);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_notifications);
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack_notifications);
 
   gtk_widget_class_bind_template_callback (widget_class, battery_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, bt_setting_clicked_cb);
