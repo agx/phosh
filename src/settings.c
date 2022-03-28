@@ -172,6 +172,15 @@ rotation_setting_clicked_cb (PhoshSettings *self)
   }
 }
 
+
+static void
+open_settings_panel (PhoshSettings *self, const char *panel)
+{
+  phosh_quick_setting_open_settings_panel (panel);
+  close_settings_menu (self);
+}
+
+
 static void
 rotation_setting_long_pressed_cb (PhoshSettings *self)
 {
@@ -229,8 +238,7 @@ wifi_setting_clicked_cb (PhoshSettings *self)
 static void
 wifi_setting_long_pressed_cb (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("wifi");
-  close_settings_menu (self);
+  open_settings_panel (self, "wifi");
 }
 
 static void
@@ -252,8 +260,7 @@ wwan_setting_clicked_cb (PhoshSettings *self)
 static void
 wwan_setting_long_pressed_cb (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("wwan");
-  close_settings_menu (self);
+  open_settings_panel (self, "wwan");
 }
 
 static void
@@ -272,25 +279,25 @@ bt_setting_clicked_cb (PhoshSettings *self)
   phosh_bt_manager_set_enabled (manager, !enabled);
 }
 
+
 static void
 bt_setting_long_pressed_cb (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("bluetooth");
-  close_settings_menu (self);
+  open_settings_panel (self, "bluetooth");
 }
+
 
 static void
 feedback_setting_long_pressed_cb (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("notifications");
-  close_settings_menu (self);
+  open_settings_panel (self, "notifications");
 }
+
 
 static void
 battery_setting_clicked_cb (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("power");
-  close_settings_menu (self);
+  open_settings_panel (self, "power");
 }
 
 
@@ -327,8 +334,7 @@ docked_setting_clicked_cb (PhoshSettings *self)
 static void
 docked_setting_long_pressed_cb (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("display");
-  close_settings_menu (self);
+  open_settings_panel (self, "display");
 }
 
 
@@ -369,8 +375,7 @@ on_vpn_setting_clicked (PhoshSettings *self)
 static void
 on_vpn_setting_long_pressed (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("network");
-  close_settings_menu (self);
+  open_settings_panel (self, "network");
 }
 
 
