@@ -339,9 +339,11 @@ phosh_shell_set_property (GObject *object,
                           GParamSpec *pspec)
 {
   PhoshShell *self = PHOSH_SHELL (object);
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   switch (property_id) {
   case PROP_LOCKED:
+    /* Only written by lockscreen manager on property sync */
     set_locked (self, g_value_get_boolean (value));
     break;
   case PROP_DOCKED:
@@ -896,10 +898,16 @@ phosh_shell_class_init (PhoshShellClass *klass)
 
   type_setup ();
 
+  /**
+   * PhoshShell:locked:
+   *
+   * Whether the screen is currently locked. This mirrors the property
+   * from #PhoshLockscreenManager for easier access.
+   */
   props[PROP_LOCKED] =
-    g_param_spec_boolean ("locked",
-                          "Locked",
-                          "Whether the screen is locked",
+    g_param_spec_boolean ("locked", "", "",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshShell:docked:
    *
