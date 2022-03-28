@@ -377,6 +377,9 @@ phosh_top_panel_constructed (GObject *object)
   g_object_bind_property (phosh_shell_get_default (), "locked",
                           self->lbl_clock, "visible",
                           G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+  g_object_bind_property (phosh_shell_get_default (), "locked",
+                          self->btn_power, "visible",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 
   phosh_connect_feedback (self->btn_top_panel);
 
