@@ -371,7 +371,7 @@ phosh_shell_get_property (GObject *object,
 
   switch (property_id) {
   case PROP_LOCKED:
-    g_value_set_boolean (value, priv->locked);
+    g_value_set_boolean (value, phosh_shell_get_locked (self));
     break;
   case PROP_DOCKED:
     g_value_set_boolean (value, phosh_shell_get_docked (self));
