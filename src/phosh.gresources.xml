@@ -48,6 +48,7 @@
     <file alias="network-cellular-no-data-signal-ok-symbolic.svg">../data/icons/network-cellular-no-data-signal-ok-symbolic.svg</file>
     <file alias="network-cellular-no-data-signal-weak-symbolic.svg">../data/icons/network-cellular-no-data-signal-weak-symbolic.svg</file>
     <file alias="network-wireless-disabled-symbolic.svg">../data/icons/network-wireless-disabled-symbolic.svg</file>
+    <file alias="no-notifications-symbolic.svg">../data/icons/no-notifications-symbolic.svg</file>
     <file alias="phone-docked-symbolic.svg">../data/icons/phone-docked-symbolic.svg</file>
     <file alias="phone-undocked-symbolic.svg">../data/icons/phone-undocked-symbolic.svg</file>
     <file alias="screen-rotation-landscape-symbolic.svg">../data/icons/screen-rotation-landscape-symbolic.svg</file>
