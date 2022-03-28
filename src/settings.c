@@ -176,6 +176,9 @@ rotation_setting_clicked_cb (PhoshSettings *self)
 static void
 open_settings_panel (PhoshSettings *self, const char *panel)
 {
+  if (self->on_lockscreen)
+    return;
+
   phosh_quick_setting_open_settings_panel (panel);
   close_settings_menu (self);
 }
