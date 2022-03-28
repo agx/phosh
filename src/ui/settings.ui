@@ -281,114 +281,114 @@
                 <property name="visible" bind-source="PhoshSettings" bind-property="on-lockscreen" bind-flags="sync-create|invert-boolean"/>
                 <property name="orientation">vertical</property>
 
-            <child>
-              <object class="PhoshMediaPlayer" id="media_player">
-                <property name="visible" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
-                <property name="valign">center</property>
-                <property name="can_focus">False</property>
-                <signal name="player-raised" handler="on_media_player_raised" object="PhoshSettings" swapped="yes"/>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkStack" id="stack_notifications">
-                <property name="visible">True</property>
                 <child>
-                  <object class="GtkBox">
-                    <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkImage">
-                        <property name="visible">True</property>
-                        <property name="pixel-size">48</property>
-                        <property name="margin-top">96</property>
-                        <property name="margin-bottom">12</property>
-                        <property name="icon-name">no-notifications-symbolic</property>
-                        <property name="sensitive">False</property>
-                        <style>
-                          <class name="dim-label"/>
-                        </style>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">No notifications</property>
-                        <property name="sensitive">False</property>
-                        <style>
-                          <class name="title-2"/>
-                        </style>
-                      </object>
-                    </child>
-                    <style>
-                      <class name="phosh-notifications-empty"/>
-                      <class name="dim-label"/>
-                    </style>
+                  <object class="PhoshMediaPlayer" id="media_player">
+                    <property name="visible" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
+                    <property name="valign">center</property>
+                    <property name="can_focus">False</property>
+                    <signal name="player-raised" handler="on_media_player_raised" object="PhoshSettings" swapped="yes"/>
                   </object>
-                  <packing>
-                    <property name="name">no-notifications</property>
-                  </packing>
                 </child>
 
                 <child>
-                  <object class="GtkBox" id="box_notifications">
+                  <object class="GtkStack" id="stack_notifications">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
-                    <property name="margin-top">12</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
-                        <property name="orientation">horizontal</property>
-                        <property name="margin-bottom">6</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkImage">
+                            <property name="visible">True</property>
+                            <property name="pixel-size">48</property>
+                            <property name="margin-top">96</property>
+                            <property name="margin-bottom">12</property>
+                            <property name="icon-name">no-notifications-symbolic</property>
+                            <property name="sensitive">False</property>
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                          </object>
+                        </child>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
-                            <property name="halign">start</property>
-                            <property name="hexpand">True</property>
-                            <property name="label">Notifications</property>
-                            <attributes>
-                              <attribute name="weight" value="bold"/>
-                            </attributes>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkButton">
-                            <property name="visible">True</property>
-                            <property name="label" translatable="yes">Clear all</property>
-                            <signal name="clicked" handler="on_notifications_clear_all_clicked" object="PhoshSettings" swapped="yes"/>
-                            <property name="name">phosh-notifications-clear-all-btn</property>
+                            <property name="label" translatable="yes">No notifications</property>
+                            <property name="sensitive">False</property>
+                            <style>
+                              <class name="title-2"/>
+                            </style>
                           </object>
                         </child>
                         <style>
-                          <class name="phosh-notifications-header"/>
+                          <class name="phosh-notifications-empty"/>
+                          <class name="dim-label"/>
                         </style>
                       </object>
+                      <packing>
+                        <property name="name">no-notifications</property>
+                      </packing>
                     </child>
+
                     <child>
-                      <object class="GtkScrolledWindow">
+                      <object class="GtkBox" id="box_notifications">
                         <property name="visible">True</property>
-                        <property name="vscrollbar-policy">automatic</property>
-                        <property name="hscrollbar-policy">never</property>
-                        <property name="propagate-natural-height">True</property>
-                        <property name="min-content-height">250</property>
+                        <property name="orientation">vertical</property>
+                        <property name="margin-top">12</property>
                         <child>
-                          <object class="GtkListBox" id="list_notifications">
+                          <object class="GtkBox">
                             <property name="visible">True</property>
-                            <property name="selection-mode">none</property>
+                            <property name="orientation">horizontal</property>
+                            <property name="margin-bottom">6</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="halign">start</property>
+                                <property name="hexpand">True</property>
+                                <property name="label">Notifications</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">Clear all</property>
+                                <signal name="clicked" handler="on_notifications_clear_all_clicked" object="PhoshSettings" swapped="yes"/>
+                                <property name="name">phosh-notifications-clear-all-btn</property>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="phosh-notifications-header"/>
+                            </style>
                           </object>
                         </child>
-                        <style>
-                          <class name="phosh-notification-tray"/>
-                        </style>
+                        <child>
+                          <object class="GtkScrolledWindow">
+                            <property name="visible">True</property>
+                            <property name="vscrollbar-policy">automatic</property>
+                            <property name="hscrollbar-policy">never</property>
+                            <property name="propagate-natural-height">True</property>
+                            <property name="min-content-height">250</property>
+                            <child>
+                              <object class="GtkListBox" id="list_notifications">
+                                <property name="visible">True</property>
+                                <property name="selection-mode">none</property>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="phosh-notification-tray"/>
+                            </style>
+                          </object>
+                        </child>
                       </object>
+                      <packing>
+                        <property name="name">notifications</property>
+                      </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="name">notifications</property>
-                  </packing>
                 </child>
-              </object>
-            </child>
 
               </object>
             </child>
