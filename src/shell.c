@@ -97,6 +97,7 @@
 enum {
   PROP_0,
   PROP_LOCKED,
+  PROP_DOCKED,
   PROP_BUILTIN_MONITOR,
   PROP_PRIMARY_MONITOR,
   PROP_SHELL_STATE,
@@ -164,6 +165,9 @@ typedef struct
 
   /* Mirrors PhoshLockscreenManager's locked property */
   gboolean locked;
+
+  /* Mirrors PhoshDockedManager's docked property */
+  gboolean docked;
 
   PhoshShellStateFlags shell_state;
 
@@ -340,6 +344,10 @@ phosh_shell_set_property (GObject *object,
   case PROP_LOCKED:
     set_locked (self, g_value_get_boolean (value));
     break;
+  case PROP_DOCKED:
+    /* Only written by docked manager on property sync */
+    priv->docked = g_value_get_boolean (value);
+    break;
   case PROP_PRIMARY_MONITOR:
     phosh_shell_set_primary_monitor (self, g_value_get_object (value));
     break;
@@ -362,6 +370,9 @@ phosh_shell_get_property (GObject *object,
   switch (property_id) {
   case PROP_LOCKED:
     g_value_set_boolean (value, priv->locked);
+    break;
+  case PROP_DOCKED:
+    g_value_set_boolean (value, phosh_shell_get_docked (self));
     break;
   case PROP_BUILTIN_MONITOR:
     g_value_set_object (value, phosh_shell_get_builtin_monitor (self));
@@ -889,6 +900,14 @@ phosh_shell_class_init (PhoshShellClass *klass)
     g_param_spec_boolean ("locked",
                           "Locked",
                           "Whether the screen is locked",
+  /**
+   * PhoshShell:docked:
+   *
+   * Whether the device is currently docked. This mirrors the property
+   * from #PhoshDockedManager for easier access.
+   */
+  props[PROP_DOCKED] =
+    g_param_spec_boolean ("docked", "", "",
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
@@ -1211,8 +1230,14 @@ phosh_shell_get_docked_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
 
-  if (!priv->docked_manager)
+  if (!priv->docked_manager) {
     priv->docked_manager = phosh_docked_manager_new (priv->mode_manager);
+    g_object_bind_property (priv->docked_manager,
+                            "enabled",
+                            self,
+                            "docked",
+                            G_BINDING_SYNC_CREATE);
+  }
 
   g_return_val_if_fail (PHOSH_IS_DOCKED_MANAGER (priv->docked_manager), NULL);
   return priv->docked_manager;
@@ -1720,4 +1745,22 @@ phosh_shell_get_show_splash (PhoshShell *self)
     return FALSE;
 
   return TRUE;
+}
+
+
+/**
+ * phosh_shell_get_docked:
+ * @self: The #PhoshShell singleton
+ *
+ * Returns: %TRUE if the device is currently docked, otherwise %FALSE.
+ */
+gboolean
+phosh_shell_get_docked (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), FALSE);
+  priv = phosh_shell_get_instance_private (self);
+
+  return priv->docked;
 }
