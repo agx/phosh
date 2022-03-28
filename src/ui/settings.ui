@@ -323,59 +323,59 @@
                     <property name="name">no-notifications</property>
                   </packing>
                 </child>
-                <child>
 
-              <object class="GtkBox" id="box_notifications">
-                <property name="visible">True</property>
-                <property name="orientation">vertical</property>
-                <property name="margin-top">12</property>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box_notifications">
                     <property name="visible">True</property>
-                    <property name="orientation">horizontal</property>
-                    <property name="margin-bottom">6</property>
+                    <property name="orientation">vertical</property>
+                    <property name="margin-top">12</property>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="GtkBox">
                         <property name="visible">True</property>
-                        <property name="halign">start</property>
-                        <property name="hexpand">True</property>
-                        <property name="label">Notifications</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"/>
-                        </attributes>
+                        <property name="orientation">horizontal</property>
+                        <property name="margin-bottom">6</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="halign">start</property>
+                            <property name="hexpand">True</property>
+                            <property name="label">Notifications</property>
+                            <attributes>
+                              <attribute name="weight" value="bold"/>
+                            </attributes>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">Clear all</property>
+                            <signal name="clicked" handler="on_notifications_clear_all_clicked" object="PhoshSettings" swapped="yes"/>
+                            <property name="name">phosh-notifications-clear-all-btn</property>
+                          </object>
+                        </child>
+                        <style>
+                          <class name="phosh-notifications-header"/>
+                        </style>
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton">
+                      <object class="GtkScrolledWindow">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Clear all</property>
-                        <signal name="clicked" handler="on_notifications_clear_all_clicked" object="PhoshSettings" swapped="yes"/>
-                        <property name="name">phosh-notifications-clear-all-btn</property>
+                        <property name="vscrollbar-policy">automatic</property>
+                        <property name="hscrollbar-policy">never</property>
+                        <property name="propagate-natural-height">True</property>
+                        <property name="min-content-height">250</property>
+                        <child>
+                          <object class="GtkListBox" id="list_notifications">
+                            <property name="visible">True</property>
+                            <property name="selection-mode">none</property>
+                          </object>
+                        </child>
+                        <style>
+                          <class name="phosh-notification-tray"/>
+                        </style>
                       </object>
                     </child>
-                    <style>
-                      <class name="phosh-notifications-header"/>
-                    </style>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkScrolledWindow">
-                    <property name="visible">True</property>
-                    <property name="vscrollbar-policy">automatic</property>
-                    <property name="hscrollbar-policy">never</property>
-                    <property name="propagate-natural-height">True</property>
-                    <property name="min-content-height">250</property>
-                    <child>
-                      <object class="GtkListBox" id="list_notifications">
-                        <property name="visible">True</property>
-                        <property name="selection-mode">none</property>
-                      </object>
-                    </child>
-                    <style>
-                      <class name="phosh-notification-tray"/>
-                    </style>
-                  </object>
-                </child>
                   </object>
                   <packing>
                     <property name="name">notifications</property>
