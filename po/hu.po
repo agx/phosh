@@ -1,17 +1,22 @@
-# Csaba Fazekas <csab.faz.2@gmail.com>, 2019. #zanata
+# Hungarian translation for Phosh.
+# Copyright (C) 2019, 2022 Free Software Foundation, Inc.
+# This file is distributed under the same license as the phosh package.
+
+# Csaba Fazekas <csab.faz.2 at gmail dot com>, 2019.
+# Balázs Úr <ur.balazs at fsf dot hu>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-01-16 03:33+0000\n"
-"PO-Revision-Date: 2020-07-08 12:55+0200\n"
-"Last-Translator: Meskó Balázs <mesko.balazs@fsf.hu>\n"
-"Language-Team: Hungarian\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2022-01-20 19:23+0000\n"
+"PO-Revision-Date: 2022-03-29 02:22+0200\n"
+"Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
+"Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Lokalize 19.12.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -21,31 +26,77 @@ msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr "Telefon Shell"
+msgstr "Telefonos parancsértelmező"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Ablakkezelés és alkalmazásindítás mobilra"
 
-#: src/app-grid-button.c:536
+#: src/app-grid-button.c:502
 msgid "Application"
 msgstr "Alkalmazás"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "Összes alkalmazás megjelenítése"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Csak mobilbarát alkalmazások megjelenítése"
+
+#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
 msgstr "Be"
 
 #: src/bt-info.c:94
 msgid "Bluetooth"
-msgstr ""
+msgstr "Bluetooth"
 
 #: src/docked-info.c:81
 msgid "Docked"
-msgstr ""
+msgstr "Dokkolva"
 
-#: src/docked-info.c:195
+#: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
-msgstr ""
+msgstr "Dokkolás megszüntetve"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "Kijelentkezés"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "A(z) %s automatikusan kijelentkezik %d másodperc múlva."
+msgstr[1] "A(z) %s automatikusan kijelentkezik %d másodperc múlva."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Kikapcsolás"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "A rendszer automatikusan kikapcsol %d másodperc múlva."
+msgstr[1] "A rendszer automatikusan kikapcsol %d másodperc múlva."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Újraindítás"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "A rendszer automatikusan újraindul %d másodperc múlva."
+msgstr[1] "A rendszer automatikusan újraindul %d másodperc múlva."
+
+#: src/end-session-dialog.c:269
+#| msgid "Application"
+msgid "Unknown application"
+msgstr "Ismeretlen alkalmazás"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -61,71 +112,88 @@ msgstr "Csendes"
 msgid "Silent"
 msgstr "Néma"
 
-#: src/lockscreen.c:86 src/ui/lockscreen.ui:234
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "Engedélyezi a(z) „%s” számára, hogy hozzáférjen a helyinformációjához?"
+
+#: src/location-manager.c:273
+#| msgid "Application"
+msgid "Geolocation"
+msgstr "Földrajzi helymeghatározás"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "Igen"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "Nem"
+
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
 msgid "Enter Passcode"
 msgstr "Adja meg a jelkódot"
 
-#: src/lockscreen.c:265
+#: src/lockscreen.c:362
 msgid "Checking…"
 msgstr "Ellenőrzés…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:343
+#: src/lockscreen.c:440
 msgid "%A, %B %-e"
 msgstr "%B %-d. %A"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:277 src/ui/media-player.ui:107
-#, fuzzy
+#: src/media-player.c:322 src/ui/media-player.ui:182
 #| msgid "Unknown title"
 msgid "Unknown Title"
 msgstr "Ismeretlen cím"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:286 src/ui/media-player.ui:127
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "Ismeretlen előadó"
 
-#: src/monitor-manager.c:108
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "Beépített kijelző"
 
-#: src/monitor-manager.c:126
+#: src/monitor-manager.c:137
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
-msgstr ""
+msgstr "%s %s"
 
-#: src/monitor-manager.c:133
+#: src/monitor-manager.c:144
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
 "inches could not be calculated, e.g. Dell U2414H"
-msgid "%s %sn"
-msgstr ""
+msgid "%s %s"
+msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:142
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "A(z) „%s” Wi-Fi-hálózat hitelesítési típusa nem támogatott"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Adja meg a(z) „%s” Wi-Fi-hálózat jelszavát"
 
-#: src/notifications/mount-notification.c:137
+#: src/notifications/mount-notification.c:122
 msgid "Open"
-msgstr ""
+msgstr "Nyitott"
 
-#: src/notifications/notification.c:381 src/notifications/notification.c:637
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
 msgid "Notification"
 msgstr "Értesítés"
 
@@ -133,98 +201,98 @@ msgstr "Értesítés"
 #: src/notifications/timestamp-label.c:84
 msgctxt "timestamp-suffix-seconds"
 msgid "s"
-msgstr ""
+msgstr "mp"
 
 #. Translators: Timestamp minute suffix
 #: src/notifications/timestamp-label.c:86
 msgctxt "timestamp-suffix-minute"
 msgid "m"
-msgstr ""
+msgstr "p"
 
 #. Translators: Timestamp minutes suffix
 #: src/notifications/timestamp-label.c:88
 msgctxt "timestamp-suffix-minutes"
 msgid "m"
-msgstr ""
+msgstr "p"
 
 #. Translators: Timestamp hour suffix
 #: src/notifications/timestamp-label.c:90
 msgctxt "timestamp-suffix-hour"
 msgid "h"
-msgstr ""
+msgstr "ó"
 
 #. Translators: Timestamp hours suffix
 #: src/notifications/timestamp-label.c:92
 msgctxt "timestamp-suffix-hours"
 msgid "h"
-msgstr ""
+msgstr "ó"
 
 #. Translators: Timestamp day suffix
 #: src/notifications/timestamp-label.c:94
 msgctxt "timestamp-suffix-day"
 msgid "d"
-msgstr ""
+msgstr "n"
 
 #. Translators: Timestamp days suffix
 #: src/notifications/timestamp-label.c:96
 msgctxt "timestamp-suffix-days"
 msgid "d"
-msgstr ""
+msgstr "n"
 
 #. Translators: Timestamp month suffix
 #: src/notifications/timestamp-label.c:98
 msgctxt "timestamp-suffix-month"
 msgid "mo"
-msgstr ""
+msgstr "h"
 
 #. Translators: Timestamp months suffix
 #: src/notifications/timestamp-label.c:100
 msgctxt "timestamp-suffix-months"
 msgid "mos"
-msgstr ""
+msgstr "h"
 
 #. Translators: Timestamp year suffix
 #: src/notifications/timestamp-label.c:102
 msgctxt "timestamp-suffix-year"
 msgid "y"
-msgstr ""
+msgstr "é"
 
 #. Translators: Timestamp years suffix
 #: src/notifications/timestamp-label.c:104
 msgctxt "timestamp-suffix-years"
 msgid "y"
-msgstr ""
+msgstr "é"
 
 #: src/notifications/timestamp-label.c:121
-#, fuzzy
 #| msgid "Unknown"
 msgid "now"
-msgstr "Ismeretlen"
+msgstr "most"
 
 #. Translators: time difference "Over 5 years"
 #: src/notifications/timestamp-label.c:189
 #, c-format
 msgid "Over %dy"
-msgstr ""
+msgstr "Több mint %d éve"
 
 #. Translators: time difference "almost 5 years"
 #: src/notifications/timestamp-label.c:193
 #, c-format
 msgid "Almost %dy"
-msgstr ""
+msgstr "Majdnem %d éve"
 
 #. Translators: a time difference like '<5m', if in doubt leave untranslated
 #: src/notifications/timestamp-label.c:200
 #, c-format
 msgid "%s%d%s"
-msgstr ""
+msgstr "%s %d %s"
 
-#: src/polkit-auth-agent.c:232
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
-msgstr "A felhasználó bezárta a hitelesítési párbeszédet"
+msgstr "A felhasználó bezárta a hitelesítési párbeszédablakot"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:130
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Jelszó:"
 
@@ -232,71 +300,125 @@ msgstr "Jelszó:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Sajnáljuk, ez nem működött. Próbálja meg újra."
 
-#: src/polkit-auth-prompt.c:470
-msgid "Authenticate"
-msgstr "Hitelesítés"
-
-#: src/rotateinfo.c:65
+#: src/rotateinfo.c:81
 msgid "Portrait"
 msgstr "Álló"
 
-#: src/rotateinfo.c:68
+#: src/rotateinfo.c:84
 msgid "Landscape"
 msgstr "Fekvő"
 
-#: src/system-prompt.c:375
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
+msgid "Off"
+msgstr "Ki"
+
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Nyomja meg az ESC billentyűt a bezáráshoz"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "A(z) „%s” futtatása sikertelen"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "A jelszavak nem egyeznek."
 
-#: src/system-prompt.c:382
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
-msgstr "A jelszavak nem lehetnek üresek"
+msgstr "A jelszó nem lehet üres"
 
 #: src/torch-info.c:80
 msgid "Torch"
-msgstr ""
+msgstr "Fáklya"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-auth-prompt.ui:40
+msgid "Remember decision"
+msgstr "Emlékezzen a döntésre"
+
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+#| msgid "_Cancel"
+msgid "Cancel"
+msgstr "Mégse"
+
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+msgid "Ok"
+msgstr "OK"
+
+#: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "Alkalmazás"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
-msgstr "Eltávolítás a _Kedvencek közül"
+msgstr "Eltávolítás a _kedvencek közül"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
-msgstr "Hozzáadás a _Kedvencekhez"
+msgstr "Hozzáadás a _kedvencekhez"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Alkalmazások keresése…"
 
-#: src/ui/lockscreen.ui:37
-msgid "Slide up to unlock"
-msgstr "Csúsztassa fel a feloldáshoz"
+#: src/ui/end-session-dialog.ui:31
+msgid "Some applications are busy or have unsaved work"
+msgstr "Néhány alkalmazás foglalt vagy mentetlen munkát tartalmaz"
 
-#: src/ui/lockscreen.ui:280
-msgid "Emergency"
-msgstr "Vészhelyzet"
-
-#: src/ui/lockscreen.ui:296
-msgid "Unlock"
-msgstr "Feloldás"
-
-#: src/ui/network-auth-prompt.ui:89
-msgid "_Cancel"
-msgstr "_Mégse"
-
-#: src/ui/network-auth-prompt.ui:105
-msgid "C_onnect"
-msgstr "Kapcs_olódás"
-
-#: src/ui/polkit-auth-prompt.ui:105
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Felhasználó:"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/gtk-mount-prompt.ui:117
+msgid "Domain:"
+msgstr "Tartomány:"
+
+#: src/ui/gtk-mount-prompt.ui:150
+#| msgid "C_onnect"
+msgid "Co_nnect"
+msgstr "_Kapcsolódás"
+
+#: src/ui/lockscreen.ui:42
+msgid "Slide up to unlock"
+msgstr "Csúsztassa fel a feloldáshoz"
+
+#: src/ui/lockscreen.ui:320
+msgid "Emergency"
+msgstr "Vészhelyzet"
+
+#: src/ui/lockscreen.ui:336
+msgid "Unlock"
+msgstr "Feloldás"
+
+#: src/ui/lockscreen.ui:376
+msgid "Back"
+msgstr "Vissza"
+
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+#| msgid "Authenticate"
+msgid "Authentication required"
+msgstr "Hitelesítés szükséges"
+
+#: src/ui/network-auth-prompt.ui:40
+msgid "_Cancel"
+msgstr "_Mégse"
+
+#: src/ui/network-auth-prompt.ui:58
+msgid "C_onnect"
+msgstr "Kapcs_olódás"
+
+#: src/ui/polkit-auth-prompt.ui:122
+msgid "Authenticate"
+msgstr "Hitelesítés"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Parancs futtatása"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Megerősítés:"
 
@@ -306,27 +428,17 @@ msgstr "Képernyő zárolása"
 
 #: src/ui/top-panel.ui:22
 msgid "Logout"
-msgstr "Kilépés"
+msgstr "Kijelentkezés"
 
-#: src/ui/top-panel.ui:29
-msgid "Restart"
-msgstr ""
-
-#: src/ui/top-panel.ui:36
-msgid "Power Off"
-msgstr "Kikapcsolás"
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:170
+#: src/wwaninfo.c:172
 msgid "Cellular"
-msgstr ""
-
-#~ msgid "Unknown artist"
-#~ msgstr "Ismeretlen előadó"
-
-#~ msgid "Unknown Song"
-#~ msgstr "Ismeretlen szám"
+msgstr "Mobilhálózat"
