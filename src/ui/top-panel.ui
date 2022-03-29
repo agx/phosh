@@ -146,11 +146,6 @@
                               <class name="phosh-wwan-indicator"/>
                             </style>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="PhoshWifiInfo" id="wifiinfo">
@@ -159,11 +154,6 @@
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="PhoshBtInfo" id="btinfo">
@@ -172,11 +162,6 @@
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">2</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="PhoshVpnInfo" id="vpn_info">
@@ -185,11 +170,6 @@
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">3</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="PhoshConnectivityInfo" id="connectivity_info">
@@ -198,11 +178,6 @@
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">3</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="PhoshDockedInfo" id="docked_info">
@@ -211,18 +186,8 @@
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">4</property>
-                          </packing>
                         </child>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                     <child type="center">
                       <object class="GtkLabel" id="lbl_clock">
@@ -235,11 +200,6 @@
                           <class name="phosh-topbar-clock"/>
                         </style>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkBox" id="box_indicators">
@@ -296,10 +256,7 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
                         <property name="pack_type">end</property>
-                        <property name="position">4</property>
                       </packing>
                     </child>
                   </object>
@@ -326,8 +283,6 @@
             </child>
           </object>  <!-- stack -->
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
             <property name="position">2</property>
           </packing>
         </child>
