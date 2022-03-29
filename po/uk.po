@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-01-20 19:23+0000\n"
-"PO-Revision-Date: 2022-01-20 21:41+0200\n"
+"POT-Creation-Date: 2022-03-29 09:55+0000\n"
+"PO-Revision-Date: 2022-03-29 16:05+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -17,7 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 20.12.0\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -32,7 +33,7 @@ msgstr "Інтерфейс користувача телефону"
 msgid "Window management and application launching for mobile"
 msgstr "Керування вікнами і запуск програм для мобільних"
 
-#: src/app-grid-button.c:502
+#: src/app-grid-button.c:507
 msgid "Application"
 msgstr "Програма"
 
@@ -135,15 +136,9 @@ msgstr "Ні"
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:362
+#: src/lockscreen.c:361
 msgid "Checking…"
 msgstr "Звіряю…"
-
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:440
-msgid "%A, %B %-e"
-msgstr "%A, %-d %B"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
@@ -161,7 +156,8 @@ msgstr "Вбудований дисплей"
 
 #: src/monitor-manager.c:137
 #, c-format
-msgctxt "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
@@ -333,27 +329,27 @@ msgstr "Пароль не може бути порожнім"
 msgid "Torch"
 msgstr "Факел"
 
-#: src/ui/app-auth-prompt.ui:40
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
 msgstr "Запам'ятати вибір"
 
-#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "Гаразд"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "Програма"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
 msgstr "Вилучити з _вибраних"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
 msgstr "Додати до _вибраних"
 
@@ -413,6 +409,15 @@ msgstr "Автентифікуватися"
 msgid "Run Command"
 msgstr "Виконати команду"
 
+#: src/ui/settings.ui:310
+#| msgid "Notification"
+msgid "No notifications"
+msgstr "Немає сповіщень"
+
+#: src/ui/settings.ui:351
+msgid "Clear all"
+msgstr "Очистити все"
+
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Підтвердіть:"
@@ -425,17 +430,22 @@ msgstr "Заблокувати екран"
 msgid "Logout"
 msgstr "Вийти"
 
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:337
+msgid "%A, %B %-e"
+msgstr "%A, %-d %B"
+
 #: src/vpn-info.c:89
 msgid "VPN"
-msgstr ""
-"VPN"
+msgstr "VPN"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:172
+#: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Стільниковий"
 
