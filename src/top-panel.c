@@ -18,6 +18,7 @@
 #include "session-manager.h"
 #include "settings.h"
 #include "top-panel.h"
+#include "arrow.h"
 #include "util.h"
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
@@ -55,6 +56,7 @@ typedef struct _PhoshTopPanel {
   GtkWidget *lbl_clock2;
   GtkWidget *lbl_date;
 
+  GtkWidget *stack;
   GtkWidget *box;            /* main content box */
   GtkWidget *btn_top_panel;
   GtkWidget *lbl_clock;      /* top-bar clock */
@@ -344,7 +346,6 @@ on_keybindings_changed (PhoshTopPanel *self,
 }
 
 
-
 static GActionEntry entries[] = {
   { .name = "poweroff", .activate = on_shutdown_action },
   { .name = "restart", .activate = on_restart_action },
@@ -499,6 +500,8 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
+  g_type_ensure (PHOSH_TYPE_ARROW);
+
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/top-panel.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_power);
@@ -510,6 +513,7 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, lbl_date);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, lbl_lang);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, box);
+  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, stack);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, click_gesture);
   gtk_widget_class_bind_template_callback (widget_class, released_cb);
@@ -554,6 +558,7 @@ phosh_top_panel_fold (PhoshTopPanel *self)
   if (self->state == PHOSH_TOP_PANEL_STATE_FOLDED)
 	return;
 
+  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "top-bar");
   gtk_widget_hide (self->menu_power);
   gtk_widget_hide (self->settings);
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), FALSE);
@@ -571,6 +576,7 @@ phosh_top_panel_unfold (PhoshTopPanel *self)
   if (self->state == PHOSH_TOP_PANEL_STATE_UNFOLDED)
 	return;
 
+  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "arrow");
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), TRUE);
   gtk_widget_show (self->settings);
   self->state =PHOSH_TOP_PANEL_STATE_UNFOLDED;
