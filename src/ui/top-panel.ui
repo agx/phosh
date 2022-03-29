@@ -55,6 +55,7 @@
                 <child>
                   <object class="GtkButton" id="btn_lock">
                     <property name="visible">True</property>
+                    <property name="sensitive" bind-source="PhoshTopPanel" bind-property="on-lockscreen" bind-flags="sync-create"/>
                     <property name="action-name">panel.lockscreen</property>
                     <property name="margin-top">16</property>
                     <property name="margin-start">16</property>
@@ -104,6 +105,7 @@
                 <child>
                   <object class="GtkMenuButton" id="btn_power">
                     <property name="visible">True</property>
+                    <property name="sensitive" bind-source="PhoshTopPanel" bind-property="on-lockscreen" bind-flags="sync-create"/>
                     <property name="popover">menu_power</property>
                     <property name="margin-top">16</property>
                     <property name="margin-end">16</property>
