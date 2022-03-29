@@ -666,13 +666,14 @@ phosh_top_panel_init (PhoshTopPanel *self)
 GtkWidget *
 phosh_top_panel_new (struct zwlr_layer_shell_v1          *layer_shell,
                      struct zphoc_layer_shell_effects_v1 *layer_shell_effects,
-                     struct wl_output                    *wl_output)
+                     struct wl_output                    *wl_output,
+                     int                                  height)
 {
   return g_object_new (PHOSH_TYPE_TOP_PANEL,
                        /* layer-surface */
                        "layer-shell", layer_shell,
                        "wl-output", wl_output,
-                       "height", PHOSH_TOP_PANEL_HEIGHT,
+                       "height", height,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,

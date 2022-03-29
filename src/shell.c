@@ -245,13 +245,16 @@ panels_create (PhoshShell *self)
   PhoshMonitor *monitor;
   PhoshWayland *wl = phosh_wayland_get_default ();
   PhoshAppGrid *app_grid;
+  int height;
 
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail (monitor);
 
+  phosh_shell_get_area (self, NULL, &height);
   priv->panel = PHOSH_DRAG_SURFACE (phosh_top_panel_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                                          phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
-                                                         monitor->wl_output));
+                                                         monitor->wl_output,
+                                                         height));
   gtk_widget_show (GTK_WIDGET (priv->panel));
 
   priv->home = PHOSH_LAYER_SURFACE(phosh_home_new (phosh_wayland_get_zwlr_layer_shell_v1(wl),
