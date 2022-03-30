@@ -306,6 +306,7 @@ set_locked (PhoshShell *self, gboolean locked)
 
   priv->locked = locked;
   phosh_shell_set_state (self, PHOSH_STATE_LOCKED, priv->locked);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_LOCKED]);
 }
 
 
@@ -869,7 +870,7 @@ phosh_shell_class_init (PhoshShellClass *klass)
                           "Locked",
                           "Whether the screen is locked",
                           FALSE,
-                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   /**
    * PhoshShell:builtin-monitor:
