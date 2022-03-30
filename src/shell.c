@@ -297,18 +297,29 @@ on_gtk_theme_name_changed (PhoshShell *self, GParamSpec *pspec, GtkSettings *set
 
 
 static void
+set_locked (PhoshShell *self, gboolean locked)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
+
+  if (priv->locked == locked)
+    return;
+
+  priv->locked = locked;
+  phosh_shell_set_state (self, PHOSH_STATE_LOCKED, priv->locked);
+}
+
+
+static void
 phosh_shell_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
                           GParamSpec *pspec)
 {
   PhoshShell *self = PHOSH_SHELL (object);
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   switch (property_id) {
   case PROP_LOCKED:
-    priv->locked = g_value_get_boolean (value);
-    phosh_shell_set_state (self, PHOSH_STATE_LOCKED, priv->locked);
+    set_locked (self, g_value_get_boolean (value));
     break;
   case PROP_PRIMARY_MONITOR:
     phosh_shell_set_primary_monitor (self, g_value_get_object (value));
