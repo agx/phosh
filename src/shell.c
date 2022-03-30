@@ -192,6 +192,24 @@ settings_activated_cb (PhoshShell    *self,
 
 
 static void
+on_proximity_fader_changed (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+  gboolean on;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  priv = phosh_shell_get_instance_private (self);
+
+  /* When the proximity fader is on we want to hide the top-panel on
+     the lock screen since it uses an exclusive zone and hence the fader is
+     drawn below that top-panel. */
+  on = phosh_proximity_has_fader (priv->proximity);
+
+  gtk_widget_set_visible (GTK_WIDGET (priv->panel), !on);
+}
+
+
+static void
 on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
 {
   PhoshShellPrivate *priv;
@@ -573,6 +591,8 @@ setup_idle_cb (PhoshShell *self)
                                            priv->calls_manager);
     phosh_monitor_manager_set_sensor_proxy_manager (priv->monitor_manager,
                                                     priv->sensor_proxy_manager);
+    g_signal_connect_swapped (priv->proximity, "notify::fader",
+                              G_CALLBACK (on_proximity_fader_changed), self);
   }
 
   priv->mount_manager = phosh_mount_manager_new ();
