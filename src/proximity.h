@@ -17,5 +17,6 @@ G_DECLARE_FINAL_TYPE (PhoshProximity, phosh_proximity, PHOSH, PROXIMITY, GObject
 
 PhoshProximity *phosh_proximity_new (PhoshSensorProxyManager *sensor_proxy_manager,
                                      PhoshCallsManager       *calls_manager);
+gboolean        phosh_proximity_has_fader (PhoshProximity *sensor_proxy_manager);
 
 G_END_DECLS
