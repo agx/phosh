@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-01-20 19:23+0000\n"
-"PO-Revision-Date: 2022-03-19 12:30+0300\n"
+"POT-Creation-Date: 2022-03-29 09:55+0000\n"
+"PO-Revision-Date: 2022-03-30 20:15+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -29,7 +29,7 @@ msgstr "Telefon Kabuğu"
 msgid "Window management and application launching for mobile"
 msgstr "Mobil için pencere yönetimi ve uygulama başlatımı"
 
-#: src/app-grid-button.c:502
+#: src/app-grid-button.c:507
 msgid "Application"
 msgstr "Uygulama"
 
@@ -126,15 +126,9 @@ msgstr "Hayır"
 msgid "Enter Passcode"
 msgstr "Parolayı Gir"
 
-#: src/lockscreen.c:362
+#: src/lockscreen.c:361
 msgid "Checking…"
 msgstr "Denetleniyor…"
-
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:440
-msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
@@ -325,27 +319,27 @@ msgstr "Parola boş olamaz"
 msgid "Torch"
 msgstr "Fener"
 
-#: src/ui/app-auth-prompt.ui:40
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
 msgstr "Kararı anımsa"
 
-#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "İptal"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "Tamam"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "Uygulama"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
 msgstr "_Gözdelerden kaldır"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
 msgstr "_Gözdelere ekle"
 
@@ -405,6 +399,14 @@ msgstr "Yetkilendir"
 msgid "Run Command"
 msgstr "Komut Çalıştır"
 
+#: src/ui/settings.ui:310
+msgid "No notifications"
+msgstr "Bildirim yok"
+
+#: src/ui/settings.ui:351
+msgid "Clear all"
+msgstr "Tümünü temizle"
+
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Doğrula:"
@@ -417,6 +419,12 @@ msgstr "Ekranı Kilitle"
 msgid "Logout"
 msgstr "Oturumu Kapat"
 
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:337
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
+
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
@@ -426,7 +434,7 @@ msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:172
+#: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Hücresel"
 
