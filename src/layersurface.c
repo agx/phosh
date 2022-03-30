@@ -143,7 +143,7 @@ phosh_layer_surface_set_property (GObject      *object,
     priv->anchor = g_value_get_uint (value);
     break;
   case PHOSH_LAYER_SURFACE_PROP_LAYER:
-    priv->layer = g_value_get_uint (value);
+    phosh_layer_surface_set_layer (self, g_value_get_uint (value));
     break;
   case PHOSH_LAYER_SURFACE_PROP_KBD_INTERACTIVITY:
     phosh_layer_surface_set_kbd_interactivity (self, g_value_get_boolean (value));
@@ -408,7 +408,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
       0,
       G_MAXUINT,
       0,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_LAYER_SURFACE_PROP_KBD_INTERACTIVITY] =
     g_param_spec_boolean (
@@ -730,6 +730,33 @@ phosh_layer_surface_set_kbd_interactivity (PhoshLayerSurface *self, gboolean int
     zwlr_layer_surface_v1_set_keyboard_interactivity (priv->layer_surface, interactivity);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_KBD_INTERACTIVITY]);
+}
+
+
+/**
+ * phosh_layer_surface_set_layer:
+ * @self: The #PhoshLayerSurface
+ * @layer: The layer.
+ *
+ * Sets the layer a layer-surface belongs to `layer`.
+ */
+void
+phosh_layer_surface_set_layer (PhoshLayerSurface *self, guint32 layer)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  if (priv->layer == layer)
+    return;
+
+  priv->layer = layer;
+
+  if (priv->layer_surface)
+    zwlr_layer_surface_v1_set_layer (priv->layer_surface, layer);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_LAYER]);
 }
 
 
