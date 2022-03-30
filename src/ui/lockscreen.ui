@@ -75,7 +75,7 @@
                   </packing>
                 </child>
                 <child type="center">
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box_datetime">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="valign">center</property>
@@ -83,6 +83,9 @@
                     <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
                     <property name="margin-bottom">16</property>
+                    <style>
+                      <class name="p-large"/>
+                    </style>
                     <child>
                       <object class="GtkLabel" id="lbl_clock">
                         <property name="visible">True</property>
@@ -94,9 +97,6 @@
                         <property name="label">00:00</property>
                         <property name="single_line_mode">True</property>
                         <property name="track_visited_links">False</property>
-                        <style>
-                          <class name="p-large"/>
-                        </style>
                       </object>
                     </child>
                     <child>
@@ -105,9 +105,6 @@
                         <property name="name">phosh-lockscreen-date</property>
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
-                        <style>
-                          <class name="phosh-lockscreen-date"/>
-                        </style>
                       </object>
                     </child>
                     <child>

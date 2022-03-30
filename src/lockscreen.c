@@ -82,6 +82,7 @@ typedef struct {
 
   /* info page */
   GtkWidget         *box_info;
+  GtkWidget         *box_datetime;
   GtkWidget         *lbl_clock;
   GtkWidget         *lbl_date;
   GtkWidget         *list_notifications;
@@ -552,14 +553,14 @@ on_notification_items_changed (PhoshLockscreen *self,
   g_debug("Notification list empty: %d", is_empty);
 
   if (is_empty) {
-    gtk_style_context_add_class (gtk_widget_get_style_context (priv->lbl_clock),
+    gtk_style_context_add_class (gtk_widget_get_style_context (priv->box_datetime),
                                  LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS);
-    gtk_style_context_remove_class (gtk_widget_get_style_context (priv->lbl_clock),
+    gtk_style_context_remove_class (gtk_widget_get_style_context (priv->box_datetime),
                                     LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS);
   } else {
-    gtk_style_context_add_class (gtk_widget_get_style_context (priv->lbl_clock),
+    gtk_style_context_add_class (gtk_widget_get_style_context (priv->box_datetime),
                                  LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS);
-    gtk_style_context_remove_class (gtk_widget_get_style_context (priv->lbl_clock),
+    gtk_style_context_remove_class (gtk_widget_get_style_context (priv->box_datetime),
                                     LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS);
   }
 
@@ -737,6 +738,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 
   /* info page */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_info);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_datetime);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, list_notifications);
