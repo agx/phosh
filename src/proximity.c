@@ -29,9 +29,11 @@ enum {
   PROP_0,
   PROP_SENSOR_PROXY_MANAGER,
   PROP_CALLS_MANAGER,
+  PROP_FADER,
   LAST_PROP,
 };
 static GParamSpec *props[LAST_PROP];
+
 
 typedef struct _PhoshProximity {
   GObject parent;
@@ -160,10 +162,12 @@ on_proximity_near_changed (PhoshProximity          *self,
   gboolean near;
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshMonitor *monitor = phosh_shell_get_builtin_monitor (shell);
+  gboolean fader;
 
   if (!self->claimed)
     return;
 
+  fader = !!self->fader;
   near = phosh_dbus_sensor_proxy_get_proximity_near (
     PHOSH_DBUS_SENSOR_PROXY (self->sensor_proxy_manager));
 
@@ -179,6 +183,9 @@ on_proximity_near_changed (PhoshProximity          *self,
   } else {
       g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
   }
+
+  if (fader != !!self->fader)
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_FADER]);
 }
 
 static void
@@ -219,6 +226,9 @@ phosh_proximity_get_property (GObject *object,
     break;
   case PROP_CALLS_MANAGER:
     g_value_set_object (value, self->calls_manager);
+    break;
+  case PROP_FADER:
+    g_value_set_boolean (value, !!self->fader);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -303,6 +313,16 @@ phosh_proximity_class_init (PhoshProximityClass *klass)
       PHOSH_TYPE_CALLS_MANAGER,
       G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
+  /* PhoshProximity:fader:
+   *
+   * %TRUE if the fader to prevent accidental user input is currently active
+   */
+  props[PROP_FADER] =
+    g_param_spec_boolean (
+      "fader", "", "",
+      FALSE,
+      G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
 }
@@ -322,4 +342,12 @@ phosh_proximity_new (PhoshSensorProxyManager *sensor_proxy_manager,
                        "sensor-proxy-manager", sensor_proxy_manager,
                        "calls-manager", calls_manager,
                        NULL);
+}
+
+gboolean
+phosh_proximity_has_fader (PhoshProximity *self)
+{
+  g_return_val_if_fail (PHOSH_IS_PROXIMITY (self), FALSE);
+
+  return !!self->fader;
 }

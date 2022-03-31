@@ -75,16 +75,21 @@
                   </packing>
                 </child>
                 <child type="center">
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box_datetime">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="valign">center</property>
                     <property name="vexpand">True</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">5</property>
+                    <property name="margin-bottom">16</property>
+                    <style>
+                      <class name="p-large"/>
+                    </style>
                     <child>
                       <object class="GtkLabel" id="lbl_clock">
                         <property name="visible">True</property>
+                        <property name="name">phosh-lockscreen-clock</property>
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
                         <property name="hexpand">True</property>
@@ -92,115 +97,15 @@
                         <property name="label">00:00</property>
                         <property name="single_line_mode">True</property>
                         <property name="track_visited_links">False</property>
-                        <style>
-                          <class name="phosh-lockscreen-clock"/>
-                        </style>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkLabel" id="lbl_date">
                         <property name="visible">True</property>
+                        <property name="name">phosh-lockscreen-date</property>
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
-                        <style>
-                          <class name="phosh-lockscreen-date"/>
-                        </style>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkBox">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">center</property>
-                        <property name="valign">center</property>
-                        <property name="margin_top">24</property>
-                        <child>
-                          <object class="PhoshWWanInfo" id="wwaninfo">
-                            <property name="visible" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
-                            <property name="can_focus">False</property>
-                            <property name="valign">start</property>
-                            <property name="halign">end</property>
-                            <property name="hexpand">False</property>
-                            <property name="margin-start">6</property>
-                            <property name="margin-end">6</property>
-                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="PhoshWifiInfo" id="wifiinfo">
-                            <property name="visible" bind-source="wifiinfo" bind-property="enabled" bind-flags="sync-create"/>
-                            <property name="can_focus">False</property>
-                            <property name="valign">start</property>
-                            <property name="halign">end</property>
-                            <property name="hexpand">False</property>
-                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
-                            <property name="margin-start">6</property>
-                            <property name="margin-end">6</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="PhoshBtInfo" id="btinfo">
-                            <property name="visible" bind-source="btinfo" bind-property="enabled" bind-flags="sync-create"/>
-                            <property name="can_focus">False</property>
-                            <property name="valign">start</property>
-                            <property name="halign">end</property>
-                            <property name="hexpand">False</property>
-                            <property name="margin-start">6</property>
-                            <property name="margin-end">6</property>
-                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="PhoshBatteryInfo" id="batteryinfo">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="valign">start</property>
-                            <property name="halign">end</property>
-                            <property name="hexpand">False</property>
-                            <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
-                            <property name="margin-start">6</property>
-                            <property name="margin-end">6</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">3</property>
-                          </packing>
-                        </child>
-                        <style>
-                          <class name="phosh-lockscreen-status-icons"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="HdyClamp">
@@ -224,28 +129,34 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="HdyClamp">
-                        <property name="visible" bind-source="list_notifications" bind-property="visible" bind-flags="sync-create"/>
-                        <property name="can_focus">False</property>
-                        <property name="maximum_size">360</property>
-                        <property name="margin_top">6</property>
-                        <property name="vexpand">True</property>
-                        <property name="valign">center</property>
+                      <object class="GtkRevealer">
+                        <property name="visible">True</property>
+                        <property name="reveal-child" bind-source="list_notifications" bind-property="visible" bind-flags="sync-create"/>
                         <child>
-                          <object class="GtkScrolledWindow" id="sw_notifications">
-                            <property name="vscrollbar-policy">automatic</property>
-                            <property name="hscrollbar-policy">never</property>
-                            <property name="propagate-natural-height">True</property>
-                            <property name="max-content-height">320</property>
+                          <object class="HdyClamp">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="maximum_size">360</property>
+                            <property name="margin_top">6</property>
+                            <property name="vexpand">True</property>
+                            <property name="valign">center</property>
                             <child>
-                              <object class="GtkListBox" id="list_notifications">
-                                <property name="visible">True</property>
-                                <property name="selection-mode">none</property>
+                              <object class="GtkScrolledWindow" id="sw_notifications">
+                                <property name="vscrollbar-policy">automatic</property>
+                                <property name="hscrollbar-policy">never</property>
+                                <property name="propagate-natural-height">True</property>
+                                <property name="max-content-height">320</property>
+                                <child>
+                                  <object class="GtkListBox" id="list_notifications">
+                                    <property name="visible">True</property>
+                                    <property name="selection-mode">none</property>
+                                  </object>
+                                </child>
+                                <style>
+                                  <class name="phosh-notification-tray"/>
+                                </style>
                               </object>
                             </child>
-                            <style>
-                              <class name="phosh-notification-tray"/>
-                            </style>
                           </object>
                         </child>
                       </object>
@@ -358,6 +269,8 @@
             <property name="orientation">vertical</property>
             <property name="can_focus">False</property>
             <property name="expand">False</property>
+            <!-- PHOSH_TOP_PANEL_HEIGHT -->
+            <property name="margin-top">32</property>
             <property name="spacing">12</property>
             <child>
               <object class="GtkButton">

@@ -140,6 +140,11 @@ top_panel_clicked_cb (PhoshTopPanel *self, GtkButton *btn)
 {
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   g_return_if_fail (GTK_IS_BUTTON (btn));
+
+  if (phosh_shell_get_locked (phosh_shell_get_default ())) {
+    return;
+  }
+
   g_signal_emit(self, signals[SETTINGS_ACTIVATED], 0);
 }
 
@@ -347,6 +352,11 @@ phosh_top_panel_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
 
+  /* Show widget when not locked and keep that in sync */
+  g_object_bind_property (phosh_shell_get_default (), "locked",
+                          self->lbl_clock, "visible",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
   phosh_connect_feedback (self->btn_top_panel);
 
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
@@ -481,7 +491,7 @@ phosh_top_panel_new (struct zwlr_layer_shell_v1 *layer_shell,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
-                       "layer", ZWLR_LAYER_SHELL_V1_LAYER_TOP,
+                       "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                        "kbd-interactivity", FALSE,
                        "exclusive-zone", PHOSH_TOP_PANEL_HEIGHT,
                        "namespace", "phosh",

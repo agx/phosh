@@ -203,19 +203,38 @@ phosh-lockscreen,
   color: @phosh_fg_color;
 }
 
-.phosh-lockscreen-clock {
-  font-size: 72px;
+/* Clock */
+#phosh-lockscreen-clock {
   font-weight: 300;
   font-feature-settings: "tnum";
   margin: 12px 0;
 }
 
-.phosh-lockscreen-date {
-  font-size: 18px;
+#phosh-lockscreen-date {
   margin: 6px 0;
   font-weight: 400;
 }
 
+.p-large #phosh-lockscreen-clock {
+  font-size: 84px;
+  transition: 200ms ease;
+}
+.p-large #phosh-lockscreen-date {
+  font-size: 18px;
+  transition: 200ms ease;
+}
+
+.p-small #phosh-lockscreen-clock {
+  font-size: 72px;
+  transition: 200ms ease;
+}
+.p-small #phosh-lockscreen-date {
+  font-size: 16px;
+  margin-top: 0;
+  transition: 200ms ease;
+}
+
+/* Lockscreen Arrow */
 .phosh-lockscreen-arrow {
   transition: 400ms linear;
   animation: pulsate 1.8s ease-out;
@@ -297,7 +316,7 @@ phosh-keypad button:focus {
   color: inherit;
   background: alpha(@phosh_fg_color,.3);
 }
- 
+
 .text-only-button:hover,
 .text-only-button:hover:focus {
   background: alpha(@phosh_fg_color,.25);
@@ -321,6 +340,7 @@ phosh-lockscreen cui-call-display actionbar {
 
 phosh-lockscreen .phosh-notification-tray {
   margin: 0 6px;
+  transition: 200ms ease;
 }
 
 /*
@@ -768,4 +788,3 @@ scale trough slider:active {
   border-color: shade(@phosh_fg_color, 0.9);
   background: shade(@phosh_fg_color, 0.9);
 }
-

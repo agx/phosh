@@ -35,6 +35,8 @@
 #include <libgnome-desktop/gnome-wall-clock.h>
 
 #define LOCKSCREEN_IDLE_SECONDS 5
+#define LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS "p-large"
+#define LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS "p-small"
 
 /**
  * SECTION:lockscreen
@@ -80,6 +82,7 @@ typedef struct {
 
   /* info page */
   GtkWidget         *box_info;
+  GtkWidget         *box_datetime;
   GtkWidget         *lbl_clock;
   GtkWidget         *lbl_date;
   GtkWidget         *list_notifications;
@@ -533,11 +536,11 @@ create_notification_row (gpointer item, gpointer data)
 
 
 static void
-on_notifcation_items_changed (PhoshLockscreen *self,
-                              guint            position,
-                              guint            removed,
-                              guint            added,
-                              GListModel      *list)
+on_notification_items_changed (PhoshLockscreen *self,
+                               guint            position,
+                               guint            removed,
+                               guint            added,
+                               GListModel      *list)
 {
   PhoshLockscreenPrivate *priv;
   gboolean is_empty;
@@ -548,6 +551,18 @@ on_notifcation_items_changed (PhoshLockscreen *self,
 
   is_empty = !g_list_model_get_n_items (list);
   g_debug("Notification list empty: %d", is_empty);
+
+  if (is_empty) {
+    gtk_style_context_add_class (gtk_widget_get_style_context (priv->box_datetime),
+                                 LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS);
+    gtk_style_context_remove_class (gtk_widget_get_style_context (priv->box_datetime),
+                                    LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS);
+  } else {
+    gtk_style_context_add_class (gtk_widget_get_style_context (priv->box_datetime),
+                                 LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS);
+    gtk_style_context_remove_class (gtk_widget_get_style_context (priv->box_datetime),
+                                    LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS);
+  }
 
   /* Don't unhide when we don't want notification on the lock screen */
   if (!is_empty && !g_settings_get_boolean (priv->settings, "show-in-lock-screen"))
@@ -616,11 +631,11 @@ phosh_lockscreen_constructed (GObject *object)
                            NULL);
   g_signal_connect_object (phosh_notify_manager_get_list (manager),
                            "items-changed",
-                           G_CALLBACK (on_notifcation_items_changed),
+                           G_CALLBACK (on_notification_items_changed),
                            self,
                            G_CONNECT_SWAPPED);
-  on_notifcation_items_changed (self, -1, -1, -1,
-                                G_LIST_MODEL (phosh_notify_manager_get_list (manager)));
+  on_notification_items_changed (self, -1, -1, -1,
+                                 G_LIST_MODEL (phosh_notify_manager_get_list (manager)));
 
   shell = phosh_shell_get_default ();
   g_object_bind_property (phosh_shell_get_osk_manager (shell), "visible",
@@ -723,6 +738,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 
   /* info page */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_info);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_datetime);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, list_notifications);

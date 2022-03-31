@@ -192,6 +192,24 @@ settings_activated_cb (PhoshShell    *self,
 
 
 static void
+on_proximity_fader_changed (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+  gboolean on;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  priv = phosh_shell_get_instance_private (self);
+
+  /* When the proximity fader is on we want to hide the top-panel on
+     the lock screen since it uses an exclusive zone and hence the fader is
+     drawn below that top-panel. */
+  on = phosh_proximity_has_fader (priv->proximity);
+
+  gtk_widget_set_visible (GTK_WIDGET (priv->panel), !on);
+}
+
+
+static void
 on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
 {
   PhoshShellPrivate *priv;
@@ -297,18 +315,30 @@ on_gtk_theme_name_changed (PhoshShell *self, GParamSpec *pspec, GtkSettings *set
 
 
 static void
+set_locked (PhoshShell *self, gboolean locked)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
+
+  if (priv->locked == locked)
+    return;
+
+  priv->locked = locked;
+  phosh_shell_set_state (self, PHOSH_STATE_LOCKED, priv->locked);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_LOCKED]);
+}
+
+
+static void
 phosh_shell_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
                           GParamSpec *pspec)
 {
   PhoshShell *self = PHOSH_SHELL (object);
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
 
   switch (property_id) {
   case PROP_LOCKED:
-    priv->locked = g_value_get_boolean (value);
-    phosh_shell_set_state (self, PHOSH_STATE_LOCKED, priv->locked);
+    set_locked (self, g_value_get_boolean (value));
     break;
   case PROP_PRIMARY_MONITOR:
     phosh_shell_set_primary_monitor (self, g_value_get_object (value));
@@ -561,6 +591,8 @@ setup_idle_cb (PhoshShell *self)
                                            priv->calls_manager);
     phosh_monitor_manager_set_sensor_proxy_manager (priv->monitor_manager,
                                                     priv->sensor_proxy_manager);
+    g_signal_connect_swapped (priv->proximity, "notify::fader",
+                              G_CALLBACK (on_proximity_fader_changed), self);
   }
 
   priv->mount_manager = phosh_mount_manager_new ();
@@ -858,7 +890,7 @@ phosh_shell_class_init (PhoshShellClass *klass)
                           "Locked",
                           "Whether the screen is locked",
                           FALSE,
-                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   /**
    * PhoshShell:builtin-monitor:
