@@ -72,6 +72,9 @@
                             <property name="margin-end">8</property>
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="show_detail">True</property>
+                            <style>
+                              <class name="phosh-wwan-indicator"/>
+                            </style>
                           </object>
                           <packing>
                             <property name="expand">False</property>
