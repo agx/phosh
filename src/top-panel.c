@@ -173,6 +173,10 @@ needs_keyboard_label (PhoshTopPanel *self)
   g_return_val_if_fail (GDK_IS_SEAT (self->seat), FALSE);
   g_return_val_if_fail (G_IS_SETTINGS (self->input_settings), FALSE);
 
+  if (!phosh_shell_get_docked (phosh_shell_get_default ())) {
+      return FALSE;
+  }
+
   sources = g_settings_get_value(self->input_settings, "sources");
   if (g_variant_n_children (sources) < 2)
     return FALSE;
@@ -182,6 +186,24 @@ needs_keyboard_label (PhoshTopPanel *self)
     return FALSE;
 
   g_list_free (slaves);
+  return TRUE;
+}
+
+
+static gboolean
+transform_docked_mode_to_lang_label_visible (GBinding     *binding,
+                                             const GValue *from_value,
+                                             GValue       *to_value,
+                                             gpointer      data)
+{
+  gboolean visible = FALSE;
+  gboolean docked = g_value_get_boolean (from_value);
+  PhoshTopPanel *self = PHOSH_TOP_PANEL (data);
+
+  if (docked && needs_keyboard_label (self))
+    visible = TRUE;
+
+  g_value_set_boolean (to_value, visible);
   return TRUE;
 }
 
@@ -205,15 +227,13 @@ on_input_setting_changed (PhoshTopPanel *self,
                           GSettings     *settings)
 {
   g_autoptr(GVariant) sources = NULL;
+  gboolean visible;
   GVariantIter iter;
   g_autofree char *id = NULL;
   g_autofree char *type = NULL;
   const char *name;
 
-  if (!needs_keyboard_label (self)) {
-    gtk_widget_hide (self->lbl_lang);
-    return;
-  }
+  visible = needs_keyboard_label (self);
 
   sources = g_settings_get_value(settings, "sources");
   g_variant_iter_init (&iter, sources);
@@ -221,7 +241,7 @@ on_input_setting_changed (PhoshTopPanel *self,
 
   if (g_strcmp0 (type, "xkb")) {
     g_debug ("Not a xkb layout: '%s' - ignoring", id);
-    return;
+    goto out;
   }
 
   if (!gnome_xkb_info_get_layout_info (self->xkbinfo, id,
@@ -231,7 +251,8 @@ on_input_setting_changed (PhoshTopPanel *self,
   }
   g_debug ("Layout is %s", name);
   gtk_label_set_text (GTK_LABEL (self->lbl_lang), name);
-  gtk_widget_show (self->lbl_lang);
+ out:
+  gtk_widget_set_visible (self->lbl_lang, visible);
 }
 
 
@@ -382,6 +403,14 @@ phosh_top_panel_constructed (GObject *object)
                               "changed::sources", G_CALLBACK (on_input_setting_changed),
                               self);
     on_input_setting_changed (self, NULL, self->input_settings);
+
+    g_object_bind_property_full (phosh_shell_get_default (),
+                                 "docked",
+                                 self->lbl_lang,
+                                 "visible",
+                                 G_BINDING_SYNC_CREATE,
+                                 transform_docked_mode_to_lang_label_visible,
+                                 NULL, self, NULL);
   }
 
   /* Settings menu and it's top-bar / menu */
@@ -434,7 +463,11 @@ phosh_top_panel_dispose (GObject *object)
   g_clear_object (&self->interface_settings);
   g_clear_object (&self->actions);
   g_clear_pointer (&self->action_names, g_strfreev);
-  self->seat = NULL;
+  if (self->seat) {
+    /* language indicator */
+    g_signal_handlers_disconnect_by_data (self->seat, self);
+    self->seat = NULL;
+  }
 
   G_OBJECT_CLASS (phosh_top_panel_parent_class)->dispose (object);
 }

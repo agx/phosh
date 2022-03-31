@@ -44,10 +44,10 @@ G_DEFINE_TYPE (PhoshBatteryInfo, phosh_battery_info, PHOSH_TYPE_STATUS_ICON)
 
 
 static void
-phosh_battery_info_set_property (GObject *object,
-                              guint property_id,
-                              const GValue *value,
-                              GParamSpec *pspec)
+phosh_battery_info_set_property (GObject      *object,
+                                 guint         property_id,
+                                 const GValue *value,
+                                 GParamSpec   *pspec)
 {
   PhoshBatteryInfo *self = PHOSH_BATTERY_INFO (object);
 
