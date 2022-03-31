@@ -1,11 +1,13 @@
 # DBus client interfaces
 generated_dbus_sources = []
 
+dbus_prefix = 'PhoshDBus'
+
 # iio-sensor-proxy
 generated_dbus_sources += gnome.gdbus_codegen('iio-sensor-proxy-dbus',
 					      'net.hadess.SensorProxy.xml',
 					      interface_prefix: 'net.hadess',
-					      namespace: 'PhoshDBus')
+					      namespace: dbus_prefix)
 # Geoclue
 generated_dbus_sources += gnome.gdbus_codegen('geoclue-manager-dbus',
                                               'org.freedesktop.GeoClue2.Manager.xml',
@@ -20,7 +22,7 @@ generated_dbus_sources += gnome.gdbus_codegen('hostname1-dbus',
 generated_dbus_sources += gnome.gdbus_codegen('portal-dbus',
 					      'org.freedesktop.impl.portal.xml',
 					      interface_prefix: 'org.freedesktop',
-					      namespace: 'PhoshDBus')
+					      namespace: dbus_prefix)
 # org.freedesktop.login1.Session
 generated_dbus_sources += gnome.gdbus_codegen('login1-session-dbus',
 					      'org.freedesktop.login1.Session.xml',
@@ -97,7 +99,7 @@ generated_dbus_sources += gnome.gdbus_codegen('phosh-gnome-shell-dbus',
 generated_dbus_sources += gnome.gdbus_codegen('phosh-display-dbus',
                                               'org.gnome.Mutter.DisplayConfig.xml',
                                               interface_prefix: 'org.gnome.Mutter',
-                                              namespace: 'PhoshDBus')
+                                              namespace: dbus_prefix)
 
 generated_dbus_sources += gnome.gdbus_codegen('phosh-idle-dbus',
 					      'org.gnome.Mutter.IdleMonitor.xml',
@@ -113,14 +115,14 @@ generated_dbus_sources += gnome.gdbus_codegen('phosh-screen-saver-dbus',
 generated_dbus_sources += gnome.gdbus_codegen('phosh-screenshot-dbus',
                                               'org.gnome.Shell.Screenshot.xml',
 					      interface_prefix: 'org.gnome.Shell',
-					      namespace: 'PhoshDBus')
+					      namespace: dbus_prefix)
 
 generated_dbus_sources += gnome.gdbus_codegen('phosh-end-session-dialog-dbus',
                                               'org.gnome.SessionManager.EndSessionDialog.xml',
 					      interface_prefix: 'org.gnome.SessionManager',
-					      namespace: 'PhoshDBus')
+					      namespace: dbus_prefix)
 
 generated_dbus_sources += gnome.gdbus_codegen('phosh-gtk-mountoperation-dbus',
                                               'org.Gtk.MountOperationHandler.xml',
 					      interface_prefix: 'org.Gtk',
-					      namespace: 'PhoshDBus')
+					      namespace: dbus_prefix)
