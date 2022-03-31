@@ -38,6 +38,12 @@
  * @short_description: The settings menu
  * @Title: PhoshSettings
  */
+enum {
+  PROP_0,
+  PROP_ON_LOCKSCREEN,
+  PROP_LAST_PROP,
+};
+static GParamSpec *props[PROP_LAST_PROP];
 
 enum {
   SETTING_DONE,
@@ -48,6 +54,8 @@ static guint signals[N_SIGNALS] = { 0 };
 typedef struct _PhoshSettings
 {
   GtkBin parent;
+
+  gboolean   on_lockscreen;
 
   GtkWidget *box_settings;
   GtkWidget *quick_settings;
@@ -62,6 +70,8 @@ typedef struct _PhoshSettings
   gboolean setting_volume;
   gboolean is_headphone;
 
+  /* The area with media widget, notifiations */
+  GtkWidget *box_bottom_half;
   /* Notifications */
   GtkWidget *list_notifications;
   GtkWidget *box_notifications;
@@ -75,6 +85,44 @@ typedef struct _PhoshSettings
 
 
 G_DEFINE_TYPE (PhoshSettings, phosh_settings, GTK_TYPE_BIN)
+
+
+static void
+phosh_settings_set_property (GObject *object,
+                             guint property_id,
+                             const GValue *value,
+                             GParamSpec *pspec)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (object);
+
+  switch (property_id) {
+  case PROP_ON_LOCKSCREEN:
+    self->on_lockscreen = g_value_get_boolean (value);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
+phosh_settings_get_property (GObject *object,
+                             guint property_id,
+                             GValue *value,
+                             GParamSpec *pspec)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (object);
+
+  switch (property_id) {
+  case PROP_ON_LOCKSCREEN:
+    g_value_set_boolean (value, self->on_lockscreen);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
 
 
 static void
@@ -123,6 +171,18 @@ rotation_setting_clicked_cb (PhoshSettings *self)
     g_assert_not_reached ();
   }
 }
+
+
+static void
+open_settings_panel (PhoshSettings *self, const char *panel)
+{
+  if (self->on_lockscreen)
+    return;
+
+  phosh_quick_setting_open_settings_panel (panel);
+  close_settings_menu (self);
+}
+
 
 static void
 rotation_setting_long_pressed_cb (PhoshSettings *self)
@@ -181,8 +241,7 @@ wifi_setting_clicked_cb (PhoshSettings *self)
 static void
 wifi_setting_long_pressed_cb (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("wifi");
-  close_settings_menu (self);
+  open_settings_panel (self, "wifi");
 }
 
 static void
@@ -204,8 +263,7 @@ wwan_setting_clicked_cb (PhoshSettings *self)
 static void
 wwan_setting_long_pressed_cb (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("wwan");
-  close_settings_menu (self);
+  open_settings_panel (self, "wwan");
 }
 
 static void
@@ -224,25 +282,25 @@ bt_setting_clicked_cb (PhoshSettings *self)
   phosh_bt_manager_set_enabled (manager, !enabled);
 }
 
+
 static void
 bt_setting_long_pressed_cb (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("bluetooth");
-  close_settings_menu (self);
+  open_settings_panel (self, "bluetooth");
 }
+
 
 static void
 feedback_setting_long_pressed_cb (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("notifications");
-  close_settings_menu (self);
+  open_settings_panel (self, "notifications");
 }
+
 
 static void
 battery_setting_clicked_cb (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("power");
-  close_settings_menu (self);
+  open_settings_panel (self, "power");
 }
 
 
@@ -279,8 +337,7 @@ docked_setting_clicked_cb (PhoshSettings *self)
 static void
 docked_setting_long_pressed_cb (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("display");
-  close_settings_menu (self);
+  open_settings_panel (self, "display");
 }
 
 
@@ -321,8 +378,7 @@ on_vpn_setting_clicked (PhoshSettings *self)
 static void
 on_vpn_setting_long_pressed (PhoshSettings *self)
 {
-  phosh_quick_setting_open_settings_panel ("network");
-  close_settings_menu (self);
+  open_settings_panel (self, "network");
 }
 
 
@@ -649,6 +705,12 @@ phosh_settings_constructed (GObject *object)
   on_notifcation_frames_items_changed (self, -1, -1, -1,
                                        G_LIST_MODEL (phosh_notify_manager_get_list (manager)));
 
+  g_object_bind_property (phosh_shell_get_default (),
+                          "locked",
+                          self,
+                          "on-lockscreen",
+                          G_BINDING_SYNC_CREATE);
+
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
 
@@ -689,14 +751,30 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   object_class->dispose = phosh_settings_dispose;
   object_class->finalize = phosh_settings_finalize;
   object_class->constructed = phosh_settings_constructed;
+  object_class->set_property = phosh_settings_set_property;
+  object_class->get_property = phosh_settings_get_property;
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/settings.ui");
+
+  /* PhoshSettings:on-lockscreen:
+   *
+   * Whether settings are shown on lockscreen (%TRUE) or in the unlocked shell
+   * (%FALSE).
+   */
+  props[PROP_ON_LOCKSCREEN] =
+    g_param_spec_boolean (
+      "on-lockscreen", "", "",
+      FALSE,
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[SETTING_DONE] = g_signal_new ("setting-done",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_bottom_half);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);

@@ -140,11 +140,6 @@ top_panel_clicked_cb (PhoshTopPanel *self, GtkButton *btn)
 {
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   g_return_if_fail (GTK_IS_BUTTON (btn));
-
-  if (phosh_shell_get_locked (phosh_shell_get_default ())) {
-    return;
-  }
-
   g_signal_emit(self, signals[SETTINGS_ACTIVATED], 0);
 }
 
@@ -376,6 +371,9 @@ phosh_top_panel_constructed (GObject *object)
   /* Show widget when not locked and keep that in sync */
   g_object_bind_property (phosh_shell_get_default (), "locked",
                           self->lbl_clock, "visible",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+  g_object_bind_property (phosh_shell_get_default (), "locked",
+                          self->btn_power, "visible",
                           G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 
   phosh_connect_feedback (self->btn_top_panel);
