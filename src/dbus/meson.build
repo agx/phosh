@@ -17,7 +17,7 @@ generated_dbus_sources += gnome.gdbus_codegen('geoclue-manager-dbus',
 generated_dbus_sources += gnome.gdbus_codegen('hostname1-dbus',
 					      'org.freedesktop.hostname1.xml',
 					      interface_prefix: 'org.freedesktop',
-					      namespace: 'PhoshHostname1DBus')
+					      namespace: dbus_prefix)
 # org.freedesktop.impl.portal
 generated_dbus_sources += gnome.gdbus_codegen('portal-dbus',
 					      'org.freedesktop.impl.portal.xml',
