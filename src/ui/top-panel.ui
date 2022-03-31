@@ -51,19 +51,16 @@
 
               <object class="GtkBox" id="box_clock">
                 <property name="visible" bind-source="settings" bind-property="visible" bind-flags="sync-create"/>
-
+                <style>
+                  <class name="phosh-clock-box"/>
+                </style>
                 <child>
                   <object class="GtkButton" id="btn_lock">
                     <property name="visible">True</property>
                     <property name="sensitive" bind-source="PhoshTopPanel" bind-property="on-lockscreen" bind-flags="sync-create"/>
                     <property name="action-name">panel.lockscreen</property>
-                    <property name="margin-top">16</property>
-                    <property name="margin-start">16</property>
-                    <property name="width-request">40</property>
-                    <property name="height-request">40</property>
                     <style>
-                      <class name="phosh-power-button"/>
-                      <class name="circular"/>
+                      <class name="phosh-topbar-button"/>
                     </style>
                     <child>
                       <object class="GtkImage">
@@ -78,14 +75,10 @@
                   <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="orientation">vertical</property>
-                    <property name="margin-top">16</property>
                     <child>
                       <object class="GtkLabel" id="lbl_clock2">
                         <property name="visible">True</property>
                         <property name="margin-top">2</property>
-                        <attributes>
-                          <attribute name="font-desc" value="Cantarell 16 Bold"/>
-                        </attributes>
                         <style>
                           <class name="phosh-topbar-clock"/>
                         </style>
@@ -107,13 +100,8 @@
                     <property name="visible">True</property>
                     <property name="sensitive" bind-source="PhoshTopPanel" bind-property="on-lockscreen" bind-flags="sync-create"/>
                     <property name="popover">menu_power</property>
-                    <property name="margin-top">16</property>
-                    <property name="margin-end">16</property>
-                    <property name="width-request">40</property>
-                    <property name="height-request">40</property>
                     <style>
-                      <class name="phosh-power-button"/>
-                      <class name="circular"/>
+                      <class name="phosh-topbar-button"/>
                     </style>
                     <child>
                       <object class="GtkImage">
