@@ -27,7 +27,7 @@ generated_dbus_sources += gnome.gdbus_codegen('portal-dbus',
 generated_dbus_sources += gnome.gdbus_codegen('login1-session-dbus',
 					      'org.freedesktop.login1.Session.xml',
 					      interface_prefix: 'org.freedesktop.login1',
-					      namespace: 'PhoshLogin1SessionDBus')
+					      namespace: dbus_prefix)
 # org.freedesktop.login1.Manager
 generated_dbus_sources += gnome.gdbus_codegen('login1-manager-dbus',
 					      'org.freedesktop.login1.Manager.xml',

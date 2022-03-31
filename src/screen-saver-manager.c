@@ -50,7 +50,7 @@ typedef struct _PhoshScreenSaverManager
   int dbus_name_id;
   PhoshLockscreenManager *lockscreen_manager;
 
-  PhoshLogin1SessionDBusLoginSession *logind_session_proxy;
+  PhoshDBusLoginSession *logind_session_proxy;
   PhoshLogin1ManagerDBusLoginManager *logind_manager_proxy;
 } PhoshScreenSaverManager;
 
@@ -247,8 +247,7 @@ on_lockscreen_manager_wakeup_outputs (PhoshScreenSaverManager *self,
 
 
 static void
-on_logind_lock (PhoshScreenSaverManager            *self,
-                PhoshLogin1SessionDBusLoginSession *proxy)
+on_logind_lock (PhoshScreenSaverManager *self, PhoshDBusLoginSession *proxy)
 {
   g_debug ("Locking request via logind1");
   phosh_lockscreen_manager_set_locked  (self->lockscreen_manager, TRUE);
@@ -256,8 +255,7 @@ on_logind_lock (PhoshScreenSaverManager            *self,
 
 
 static void
-on_logind_unlock (PhoshScreenSaverManager            *self,
-                  PhoshLogin1SessionDBusLoginSession *proxy)
+on_logind_unlock (PhoshScreenSaverManager *self, PhoshDBusLoginSession *proxy)
 {
   g_debug ("Unlocking request via logind1");
   phosh_lockscreen_manager_set_locked  (self->lockscreen_manager, FALSE);
@@ -352,7 +350,7 @@ on_logind_get_session_proxy_finish  (GObject                 *object,
 {
   g_autoptr (GError) err = NULL;
 
-  self->logind_session_proxy = phosh_login1_session_dbus_login_session_proxy_new_for_bus_finish (
+  self->logind_session_proxy = phosh_dbus_login_session_proxy_new_for_bus_finish (
     res, &err);
   if (!self->logind_session_proxy) {
     phosh_dbus_service_error_warn (err, "Failed to get login1 session proxy");
@@ -391,7 +389,7 @@ on_logind_manager_get_session_finished (PhoshLogin1ManagerDBusLoginManager *obje
   }
 
   /* Register a proxy for this session */
-  phosh_login1_session_dbus_login_session_proxy_new_for_bus (
+  phosh_dbus_login_session_proxy_new_for_bus (
     G_BUS_TYPE_SYSTEM,
     G_DBUS_PROXY_FLAGS_NONE,
     LOGIN_BUS_NAME,
