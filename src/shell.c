@@ -1453,6 +1453,28 @@ phosh_shell_get_usable_area (PhoshShell *self, int *x, int *y, int *width, int *
     *height = h;
 }
 
+/**
+ * phosh_shell_get_area:
+ * @self: The shell singleton
+ * @width: (nullable): The available width
+ * @height: (nullable): The available height
+ *
+ * Gives the currently available screen area on the primary display.
+ */
+void
+phosh_shell_get_area (PhoshShell *self, int *width, int *height)
+{
+  int w, h;
+
+  phosh_shell_get_usable_area (self, NULL, NULL, &w, &h);
+
+  if (width)
+    *width = w;
+
+  if (height)
+    *height = h + PHOSH_TOP_PANEL_HEIGHT + PHOSH_HOME_BUTTON_HEIGHT;
+}
+
 
 PhoshShell *
 phosh_shell_get_default (void)
