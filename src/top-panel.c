@@ -149,21 +149,6 @@ top_panel_clicked_cb (PhoshTopPanel *self, GtkButton *btn)
 
 
 static void
-wall_clock_notify_cb (PhoshTopPanel  *self,
-                      GParamSpec     *pspec,
-                      GnomeWallClock *wall_clock)
-{
-  const char *str;
-
-  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
-  g_return_if_fail (GNOME_IS_WALL_CLOCK (wall_clock));
-
-  str = gnome_wall_clock_get_clock(wall_clock);
-  gtk_label_set_text (GTK_LABEL (self->lbl_clock), str);
-}
-
-
-static void
 wall_clock2_notify_cb (PhoshTopPanel  *self,
                        GParamSpec     *pspec,
                        GnomeWallClock *wall_clock)
@@ -378,20 +363,18 @@ phosh_top_panel_constructed (GObject *object)
 
   self->state = PHOSH_TOP_PANEL_STATE_FOLDED;
   self->wall_clock = gnome_wall_clock_new ();
+  g_object_bind_property (self->wall_clock, "clock",
+                          self->lbl_clock, "label",
+                          G_BINDING_SYNC_CREATE);
+
   self->wall_clock2 = gnome_wall_clock_new ();
   g_object_set (self->wall_clock2, "time-only", TRUE, NULL);
-
-  g_signal_connect_object (self->wall_clock,
-                           "notify::clock",
-                           G_CALLBACK (wall_clock_notify_cb),
-                           self,
-                           G_CONNECT_SWAPPED);
-
   g_signal_connect_object (self->wall_clock2,
                            "notify::clock",
                            G_CALLBACK (wall_clock2_notify_cb),
                            self,
                            G_CONNECT_SWAPPED);
+  wall_clock2_notify_cb (self, NULL, self->wall_clock2);
 
   g_signal_connect_object (self->btn_top_panel,
                            "clicked",
@@ -416,9 +399,6 @@ phosh_top_panel_constructed (GObject *object)
                                   "button");
   gtk_style_context_remove_class (gtk_widget_get_style_context (self->btn_top_panel),
                                   "image-button");
-
-  wall_clock_notify_cb (self, NULL, self->wall_clock);
-  wall_clock2_notify_cb (self, NULL, self->wall_clock2);
 
   /* language indicator */
   if (display) {
