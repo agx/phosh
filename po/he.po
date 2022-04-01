@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-01-20 19:23+0000\n"
-"PO-Revision-Date: 2022-02-10 23:16+0200\n"
+"POT-Creation-Date: 2022-03-29 09:55+0000\n"
+"PO-Revision-Date: 2022-04-01 18:06+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <>\n"
 "Language: he\n"
@@ -30,7 +30,7 @@ msgstr "מעטפת לטלפון"
 msgid "Window management and application launching for mobile"
 msgstr "מנהל חלונות ומשגר יישומים לטלפון נייד"
 
-#: src/app-grid-button.c:502
+#: src/app-grid-button.c:507
 msgid "Application"
 msgstr "יישום"
 
@@ -136,25 +136,17 @@ msgstr "לא"
 msgid "Enter Passcode"
 msgstr "הזנת ססמה"
 
-#: src/lockscreen.c:362
+#: src/lockscreen.c:361
 msgid "Checking…"
 msgstr "בודק…"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:440
-msgid "%A, %B %-e"
-msgstr "%A, %B %e"
-
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
-#| msgid "Unknown"
 msgid "Unknown Title"
 msgstr "כותרת לא ידועה"
 
 #. Translators: Used when the artist of a song is unknown
 #: src/media-player.c:330 src/ui/media-player.ui:165
-#| msgid "Unknown"
 msgid "Unknown Artist"
 msgstr "אמן לא ידוע"
 
@@ -267,7 +259,6 @@ msgid "y"
 msgstr "שנ"
 
 #: src/notifications/timestamp-label.c:121
-#| msgid "Unknown"
 msgid "now"
 msgstr "לא ידוע1"
 
@@ -338,27 +329,27 @@ msgstr "הססמה אינה יכולה להישאר ריקה"
 msgid "Torch"
 msgstr "פנס"
 
-#: src/ui/app-auth-prompt.ui:40
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
 msgstr "לזכור את הבחירה"
 
-#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "ביטול"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "אישור"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "יישום"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
 msgstr "הסרה מה_מועדפים"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
 msgstr "הוספה למועד_פים"
 
@@ -418,6 +409,15 @@ msgstr "אימות"
 msgid "Run Command"
 msgstr "הרצת פקודה"
 
+#: src/ui/settings.ui:310
+#| msgid "Notification"
+msgid "No notifications"
+msgstr "אין התרעות"
+
+#: src/ui/settings.ui:351
+msgid "Clear all"
+msgstr "ניקוי הכול"
+
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "אישור:"
@@ -430,6 +430,12 @@ msgstr "מסך נעילה"
 msgid "Logout"
 msgstr "יציאה"
 
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:337
+msgid "%A, %B %-e"
+msgstr "%A, %B %e"
+
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
@@ -439,6 +445,6 @@ msgid "Wi-Fi"
 msgstr "רשת אלחוטית"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:172
+#: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "רשת סלולרית"
