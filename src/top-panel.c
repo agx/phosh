@@ -629,14 +629,21 @@ phosh_top_panel_fold (PhoshTopPanel *self)
 void
 phosh_top_panel_unfold (PhoshTopPanel *self)
 {
+  int width, height;
+  PhoshShell *shell;
+
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
 
   if (self->state == PHOSH_TOP_PANEL_STATE_UNFOLDED)
 	return;
 
+  shell = phosh_shell_get_default ();
+  phosh_shell_get_area (shell, &width, &height);
+
   gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "arrow");
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), TRUE);
   gtk_widget_show (self->settings);
+  gtk_window_resize (GTK_WINDOW (self), width, height);
   self->state =PHOSH_TOP_PANEL_STATE_UNFOLDED;
 }
 
