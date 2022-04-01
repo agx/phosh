@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-03-19 09:31+0000\n"
-"PO-Revision-Date: 2022-03-20 14:50+0100\n"
+"POT-Creation-Date: 2022-03-29 09:55+0000\n"
+"PO-Revision-Date: 2022-04-01 15:02+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -328,15 +328,15 @@ msgstr "Hasło nie może być puste"
 msgid "Torch"
 msgstr "Latarka"
 
-#: src/ui/app-auth-prompt.ui:40
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
 msgstr "Zapamiętanie decyzji"
 
-#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "OK"
 
@@ -407,6 +407,14 @@ msgstr "Uwierzytelnij"
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Wykonanie polecenia"
+
+#: src/ui/settings.ui:310
+msgid "No notifications"
+msgstr "Brak powiadomień"
+
+#: src/ui/settings.ui:351
+msgid "Clear all"
+msgstr "Wyczyść wszystkie"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
