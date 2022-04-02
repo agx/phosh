@@ -374,6 +374,7 @@
                             <child>
                               <object class="GtkListBox" id="list_notifications">
                                 <property name="visible">True</property>
+                                <property name="vexpand">True</property>
                                 <property name="selection-mode">none</property>
                               </object>
                             </child>
