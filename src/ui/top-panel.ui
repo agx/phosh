@@ -114,7 +114,7 @@
                     <property name="pack-type">end</property>
                   </packing>
                 </child>
-              </object>
+              </object> <!-- box_clock -->
         </child>
       <child>
 
@@ -187,7 +187,7 @@
                             <property name="margin-end">8</property>
                           </object>
                         </child>
-                      </object>
+                      </object> <!-- box_network -->
                     </child>
                     <child type="center">
                       <object class="GtkLabel" id="lbl_clock">
@@ -254,7 +254,7 @@
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                           </object>
                         </child>
-                      </object>
+                      </object> <!-- box_indicators -->
                       <packing>
                         <property name="pack_type">end</property>
                       </packing>
@@ -264,7 +264,7 @@
                 <style>
                   <class name="phosh-panel-btn"/>
                 </style>
-              </object>
+              </object> <!-- btn_top_panel -->
               <packing>
                 <property name="name">top-bar</property>
               </packing>
