@@ -18,6 +18,7 @@
 #include "session-manager.h"
 #include "settings.h"
 #include "top-panel.h"
+#include "arrow.h"
 #include "util.h"
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
@@ -37,6 +38,12 @@
  * The top panel containing the clock and status indicators. When activated
  * int unfolds the #PhoshSettings.
  */
+enum {
+  PROP_0,
+  PROP_ON_LOCKSCREEN,
+  PROP_LAST_PROP,
+};
+static GParamSpec *props[PROP_LAST_PROP];
 
 enum {
   SETTINGS_ACTIVATED,
@@ -48,18 +55,25 @@ typedef struct _PhoshTopPanel {
   PhoshLayerSurface parent;
 
   PhoshTopPanelState state;
+  gboolean           on_lockscreen;
 
+  /* Top row above settings */
   GtkWidget *btn_power;
   GtkWidget *menu_power;
+  GtkWidget *btn_lock;
+  GtkWidget *lbl_clock2;
+  GtkWidget *lbl_date;
+
   GtkWidget *stack;
   GtkWidget *box;            /* main content box */
   GtkWidget *btn_top_panel;
-  GtkWidget *lbl_clock;
+  GtkWidget *lbl_clock;      /* top-bar clock */
   GtkWidget *lbl_lang;
   GtkWidget *settings;       /* settings menu */
   GtkWidget *batteryinfo;
 
   GnomeWallClock *wall_clock;
+  GnomeWallClock *wall_clock2;
   GnomeXkbInfo *xkbinfo;
   GSettings *input_settings;
   GSettings *interface_settings;
@@ -76,6 +90,42 @@ typedef struct _PhoshTopPanel {
 
 G_DEFINE_TYPE (PhoshTopPanel, phosh_top_panel, PHOSH_TYPE_LAYER_SURFACE)
 
+static void
+phosh_top_panel_set_property (GObject *object,
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
+{
+  PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
+
+  switch (property_id) {
+  case PROP_ON_LOCKSCREEN:
+    self->on_lockscreen = g_value_get_boolean (value);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
+
+
+static void
+phosh_top_panel_get_property (GObject *object,
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
+{
+  PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
+
+  switch (property_id) {
+  case PROP_ON_LOCKSCREEN:
+    g_value_set_boolean (value, self->on_lockscreen);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
+  }
+}
 
 static void
 on_shutdown_action (GSimpleAction *action,
@@ -145,17 +195,21 @@ top_panel_clicked_cb (PhoshTopPanel *self, GtkButton *btn)
 
 
 static void
-wall_clock_notify_cb (PhoshTopPanel  *self,
-                      GParamSpec     *pspec,
-                      GnomeWallClock *wall_clock)
+wall_clock2_notify_cb (PhoshTopPanel  *self,
+                       GParamSpec     *pspec,
+                       GnomeWallClock *wall_clock)
 {
   const char *str;
+  g_autofree char *date = NULL;
 
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   g_return_if_fail (GNOME_IS_WALL_CLOCK (wall_clock));
 
-  str = gnome_wall_clock_get_clock(wall_clock);
-  gtk_label_set_text (GTK_LABEL (self->lbl_clock), str);
+  str = gnome_wall_clock_get_clock (wall_clock);
+  gtk_label_set_text (GTK_LABEL (self->lbl_clock2), str);
+
+  date = phosh_util_local_date ();
+  gtk_label_set_label (GTK_LABEL (self->lbl_date), date);
 }
 
 
@@ -336,7 +390,6 @@ on_keybindings_changed (PhoshTopPanel *self,
 }
 
 
-
 static GActionEntry entries[] = {
   { .name = "poweroff", .activate = on_shutdown_action },
   { .name = "restart", .activate = on_restart_action },
@@ -354,27 +407,30 @@ phosh_top_panel_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_top_panel_parent_class)->constructed (object);
 
   self->state = PHOSH_TOP_PANEL_STATE_FOLDED;
-  self->wall_clock = gnome_wall_clock_new ();
 
-  g_signal_connect_object (self->wall_clock,
+  g_object_bind_property (phosh_shell_get_default (), "locked",
+                          self, "on-lockscreen",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
+  self->wall_clock = gnome_wall_clock_new ();
+  g_object_bind_property (self->wall_clock, "clock",
+                          self->lbl_clock, "label",
+                          G_BINDING_SYNC_CREATE);
+
+  self->wall_clock2 = gnome_wall_clock_new ();
+  g_object_set (self->wall_clock2, "time-only", TRUE, NULL);
+  g_signal_connect_object (self->wall_clock2,
                            "notify::clock",
-                           G_CALLBACK (wall_clock_notify_cb),
+                           G_CALLBACK (wall_clock2_notify_cb),
                            self,
                            G_CONNECT_SWAPPED);
+  wall_clock2_notify_cb (self, NULL, self->wall_clock2);
 
   g_signal_connect_object (self->btn_top_panel,
                            "clicked",
                            G_CALLBACK (top_panel_clicked_cb),
                            self,
                            G_CONNECT_SWAPPED);
-
-  /* Show widget when not locked and keep that in sync */
-  g_object_bind_property (phosh_shell_get_default (), "locked",
-                          self->lbl_clock, "visible",
-                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
-  g_object_bind_property (phosh_shell_get_default (), "locked",
-                          self->btn_power, "visible",
-                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 
   phosh_connect_feedback (self->btn_top_panel);
 
@@ -385,8 +441,6 @@ phosh_top_panel_constructed (GObject *object)
                                   "button");
   gtk_style_context_remove_class (gtk_widget_get_style_context (self->btn_top_panel),
                                   "image-button");
-
-  wall_clock_notify_cb (self, NULL, self->wall_clock);
 
   /* language indicator */
   if (display) {
@@ -411,7 +465,7 @@ phosh_top_panel_constructed (GObject *object)
                                  NULL, self, NULL);
   }
 
-  /* Settings menu and it's top-bar / menu */
+  /* Settings menu and it's top-panel / menu */
   gtk_widget_add_events (GTK_WIDGET (self), GDK_ALL_EVENTS_MASK);
   g_signal_connect (G_OBJECT (self),
                     "key-press-event",
@@ -456,6 +510,7 @@ phosh_top_panel_dispose (GObject *object)
 
   g_clear_object (&self->kb_settings);
   g_clear_object (&self->wall_clock);
+  g_clear_object (&self->wall_clock2);
   g_clear_object (&self->xkbinfo);
   g_clear_object (&self->input_settings);
   g_clear_object (&self->interface_settings);
@@ -479,20 +534,41 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
 
   object_class->constructed = phosh_top_panel_constructed;
   object_class->dispose = phosh_top_panel_dispose;
+  object_class->set_property = phosh_top_panel_set_property;
+  object_class->get_property = phosh_top_panel_get_property;
 
   gtk_widget_class_set_css_name (widget_class, "phosh-top-panel");
+
+  /* PhoshTopPanel:on-lockscreen:
+   *
+   * Whether top-panel is shown on lockscreen (%TRUE) or in the unlocked shell
+   * (%FALSE).
+   */
+  props[PROP_ON_LOCKSCREEN] =
+    g_param_spec_boolean (
+      "on-lockscreen", "", "",
+      FALSE,
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[SETTINGS_ACTIVATED] = g_signal_new ("settings-activated",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
+
+  g_type_ensure (PHOSH_TYPE_ARROW);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/top-panel.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_power);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, menu_power);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_top_panel);
+  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_power);
+  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_lock);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, batteryinfo);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, lbl_clock);
+  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, lbl_clock2);
+  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, lbl_date);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, lbl_lang);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, box);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, stack);
@@ -540,9 +616,8 @@ phosh_top_panel_fold (PhoshTopPanel *self)
   if (self->state == PHOSH_TOP_PANEL_STATE_FOLDED)
 	return;
 
+  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "top-bar");
   gtk_widget_hide (self->menu_power);
-  gtk_stack_set_transition_type (GTK_STACK (self->stack), GTK_STACK_TRANSITION_TYPE_SLIDE_UP);
-  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "topbar");
   gtk_widget_hide (self->settings);
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), FALSE);
   gtk_window_get_size (GTK_WINDOW (self), &width, NULL);
@@ -559,10 +634,9 @@ phosh_top_panel_unfold (PhoshTopPanel *self)
   if (self->state == PHOSH_TOP_PANEL_STATE_UNFOLDED)
 	return;
 
+  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "arrow");
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), TRUE);
   gtk_widget_show (self->settings);
-  gtk_stack_set_transition_type (GTK_STACK (self->stack), GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN);
-  gtk_stack_set_visible_child_name(GTK_STACK (self->stack), "settings");
   self->state =PHOSH_TOP_PANEL_STATE_UNFOLDED;
 }
 

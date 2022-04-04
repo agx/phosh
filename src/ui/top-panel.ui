@@ -39,6 +39,7 @@
       </object>
     </child>
   </object>
+
   <template class="PhoshTopPanel" parent="PhoshLayerSurface">
     <property name="can_focus">False</property>
     <child>
@@ -47,11 +48,80 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkStack" id="stack">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="transition_type">slide-down</property>
-            <child>
+
+              <object class="GtkBox" id="box_clock">
+                <property name="visible" bind-source="settings" bind-property="visible" bind-flags="sync-create"/>
+                <style>
+                  <class name="phosh-clock-box"/>
+                </style>
+                <child>
+                  <object class="GtkButton" id="btn_lock">
+                    <property name="visible">True</property>
+                    <property name="sensitive" bind-source="PhoshTopPanel" bind-property="on-lockscreen" bind-flags="sync-create"/>
+                    <property name="action-name">panel.lockscreen</property>
+                    <style>
+                      <class name="phosh-topbar-button"/>
+                    </style>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="icon-name">padlock-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child type="center">
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="lbl_clock2">
+                        <property name="visible">True</property>
+                        <property name="margin-top">2</property>
+                        <style>
+                          <class name="phosh-topbar-clock"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="lbl_date">
+                        <property name="visible">True</property>
+                        <style>
+                          <class name="phosh-topbar-date"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkMenuButton" id="btn_power">
+                    <property name="visible">True</property>
+                    <property name="sensitive" bind-source="PhoshTopPanel" bind-property="on-lockscreen" bind-flags="sync-create"/>
+                    <property name="popover">menu_power</property>
+                    <style>
+                      <class name="phosh-topbar-button"/>
+                    </style>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="icon-name">system-shutdown-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="pack-type">end</property>
+                  </packing>
+                </child>
+              </object>
+        </child>
+      <child>
+
+        <object class="GtkStack" id="stack">
+          <property name="visible">True</property>
+          <child>
+
               <object class="GtkButton" id="btn_top_panel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -76,11 +146,6 @@
                               <class name="phosh-wwan-indicator"/>
                             </style>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="PhoshWifiInfo" id="wifiinfo">
@@ -89,11 +154,6 @@
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="PhoshBtInfo" id="btinfo">
@@ -102,11 +162,6 @@
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">2</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="PhoshVpnInfo" id="vpn_info">
@@ -115,11 +170,6 @@
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">3</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="PhoshConnectivityInfo" id="connectivity_info">
@@ -128,11 +178,6 @@
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">3</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="PhoshDockedInfo" id="docked_info">
@@ -141,18 +186,8 @@
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">4</property>
-                          </packing>
                         </child>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
                     </child>
                     <child type="center">
                       <object class="GtkLabel" id="lbl_clock">
@@ -165,11 +200,6 @@
                           <class name="phosh-topbar-clock"/>
                         </style>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkBox" id="box_indicators">
@@ -226,10 +256,7 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
                         <property name="pack_type">end</property>
-                        <property name="position">4</property>
                       </packing>
                     </child>
                   </object>
@@ -239,57 +266,33 @@
                 </style>
               </object>
               <packing>
-                <property name="name">topbar</property>
+                <property name="name">top-bar</property>
               </packing>
             </child>
+
             <child>
-              <object class="GtkBox">
+              <object class="PhoshArrow">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkMenuButton" id="btn_power">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="popover">menu_power</property>
-                    <property name="width-request">32</property>
-                    <property name="height-request">32</property>
-                    <style>
-                      <class name="phosh-power-button"/>
-                      <class name="circular"/>
-                    </style>
-                    <child>
-                      <object class="GtkImage">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="icon_name">system-shutdown-symbolic</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="pack_type">end</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
+                <property name="vexpand">True</property>
+                <property name="valign">end</property>
+                <property name="margin-bottom">6</property>
               </object>
               <packing>
-                <property name="name">settings</property>
-                <property name="position">1</property>
+                <property name="name">arrow</property>
               </packing>
             </child>
-          </object>
+          </object>  <!-- stack -->
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
           <object class="PhoshSettings" id="settings">
             <property name="visible">False</property>
           </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
     </child>
