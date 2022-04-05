@@ -23,6 +23,7 @@ Build-Depends:
  libpulse-dev,
  libupower-glib-dev,
  libwayland-dev,
+ libxml2-utils,
  linux-libc-dev (>= 5.12) [arm64],
  meson,
  pandoc <!nodoc>,
