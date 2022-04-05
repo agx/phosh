@@ -106,6 +106,7 @@ if [ $build == 1 ]; then
         echo -e "\e[1;32mBUILDING\e[0m: ${base} as ${TAG}"
         ${CMD} build \
                 ${format} \
+		--no-cache \
                 --volume "$(pwd)/..:/home/user/app" \
                 --build-arg HOST_USER_ID="$UID" \
                 --tag "${TAG}" \
