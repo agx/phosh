@@ -237,7 +237,7 @@ build:native-alpinelinux-edge:
       - _build
   script:
     - git submodule update --recursive
-    - meson --werror . _build
+    - meson --werror -Dphoc_tests=disabled . _build
     - ninja -C _build
   except:
     variables:
@@ -254,7 +254,7 @@ unit-test:native-alpinelinux-edge:
     - apk add xvfb-run $ALPINE_EDGE_DEPS
   script:
     - export LC_ALL=C.UTF-8
-    - ${XVFB_RUN} meson test -C _build --no-suite manual
+    - ${XVFB_RUN} meson test -C _build --suite unit
   artifacts:
     when: always
     paths:
