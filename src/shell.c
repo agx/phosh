@@ -1395,8 +1395,15 @@ phosh_shell_get_wwan (PhoshShell *self)
 }
 
 /**
- * Returns the usable area in pixels usable by a client on the phone
- * display
+ * phosh_shell_get_usable_area:
+ * @self: The shell
+ * @x:(out)(nullable): The x coordinate where client usable area starts
+ * @y:(out)(nullable): The y coordinate where client usable area starts
+ * @width:(out)(nullable): The width of the client usable area
+ * @height:(out)(nullable): The height of the client usable area
+ *
+ * Gives the usable area in pixels usable by a client on the primary
+ * display.
  */
 void
 phosh_shell_get_usable_area (PhoshShell *self, int *x, int *y, int *width, int *height)
@@ -1444,6 +1451,28 @@ phosh_shell_get_usable_area (PhoshShell *self, int *x, int *y, int *width, int *
     *width = w;
   if (height)
     *height = h;
+}
+
+/**
+ * phosh_shell_get_area:
+ * @self: The shell singleton
+ * @width: (nullable): The available width
+ * @height: (nullable): The available height
+ *
+ * Gives the currently available screen area on the primary display.
+ */
+void
+phosh_shell_get_area (PhoshShell *self, int *width, int *height)
+{
+  int w, h;
+
+  phosh_shell_get_usable_area (self, NULL, NULL, &w, &h);
+
+  if (width)
+    *width = w;
+
+  if (height)
+    *height = h + PHOSH_TOP_PANEL_HEIGHT + PHOSH_HOME_BUTTON_HEIGHT;
 }
 
 

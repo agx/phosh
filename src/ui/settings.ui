@@ -301,7 +301,7 @@
                           <object class="GtkImage">
                             <property name="visible">True</property>
                             <property name="pixel-size">48</property>
-                            <property name="margin-top">96</property>
+                            <property name="margin-top">48</property>
                             <property name="margin-bottom">12</property>
                             <property name="icon-name">no-notifications-symbolic</property>
                             <property name="sensitive">False</property>
@@ -370,10 +370,11 @@
                             <property name="vscrollbar-policy">automatic</property>
                             <property name="hscrollbar-policy">never</property>
                             <property name="propagate-natural-height">True</property>
-                            <property name="min-content-height">250</property>
+                            <property name="min-content-height">150</property>
                             <child>
                               <object class="GtkListBox" id="list_notifications">
                                 <property name="visible">True</property>
+                                <property name="vexpand">True</property>
                                 <property name="selection-mode">none</property>
                               </object>
                             </child>

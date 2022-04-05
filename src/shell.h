@@ -81,6 +81,7 @@ void                 phosh_shell_get_usable_area (PhoshShell *self,
                                                   int        *y,
                                                   int        *width,
                                                   int        *height);
+void                 phosh_shell_get_area        (PhoshShell *self, int *width, int *height);
 void                 phosh_shell_set_locked      (PhoshShell *self, gboolean locked);
 gboolean             phosh_shell_get_locked      (PhoshShell *self);
 void                 phosh_shell_lock            (PhoshShell *self);
