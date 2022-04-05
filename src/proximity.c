@@ -48,6 +48,33 @@ G_DEFINE_TYPE (PhoshProximity, phosh_proximity, G_TYPE_OBJECT);
 
 
 static void
+show_fader (PhoshProximity *self, PhoshMonitor *monitor)
+{
+  if (self->fader)
+    return;
+
+  self->fader = g_object_new (PHOSH_TYPE_FADER,
+                              "monitor", monitor,
+                              "style-class", "phosh-fader-proximity-fade",
+                              NULL);
+  gtk_widget_show (GTK_WIDGET (self->fader));
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_FADER]);
+}
+
+
+static void
+hide_fader (PhoshProximity *self)
+{
+  if (self->fader == NULL)
+    return;
+
+  g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_FADER]);
+}
+
+
+static void
 on_proximity_claimed (PhoshSensorProxyManager *sensor_proxy_manager,
                       GAsyncResult            *res,
                       PhoshProximity          *self)
@@ -92,7 +119,7 @@ on_proximity_released (PhoshSensorProxyManager *sensor_proxy_manager,
   } else {
     g_warning ("Failed to release proximity sensor: %s", err->message);
   }
-  g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
+  hide_fader (self);
 }
 
 
@@ -162,30 +189,18 @@ on_proximity_near_changed (PhoshProximity          *self,
   gboolean near;
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshMonitor *monitor = phosh_shell_get_builtin_monitor (shell);
-  gboolean fader;
 
   if (!self->claimed)
     return;
 
-  fader = !!self->fader;
   near = phosh_dbus_sensor_proxy_get_proximity_near (
     PHOSH_DBUS_SENSOR_PROXY (self->sensor_proxy_manager));
 
   g_debug ("Proximity near changed: %d", near);
-  if (near && monitor) {
-    if (!self->fader) {
-      self->fader = g_object_new (PHOSH_TYPE_FADER,
-                                  "monitor", monitor,
-                                  "style-class", "phosh-fader-proximity-fade",
-                                  NULL);
-      gtk_widget_show (GTK_WIDGET (self->fader));
-    }
-  } else {
-      g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
-  }
-
-  if (fader != !!self->fader)
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_FADER]);
+  if (near && monitor)
+    show_fader (self, monitor);
+  else
+    hide_fader (self);
 }
 
 static void
