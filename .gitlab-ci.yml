@@ -26,8 +26,8 @@ variables:
   # For ci-fairy
   FDO_UPSTREAM_REPO: World/Phosh/phosh
   # SCREENSHOT_IMAGE builds on DEBIAN_IMAGE so keep them in sync
-  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20211208
-  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20211208
+  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20220405.3
+  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20220405.3
   DEBIAN_CROSS_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian-cross:v0.0.20220322.1
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror -Dtools=true
@@ -237,7 +237,7 @@ build:native-alpinelinux-edge:
       - _build
   script:
     - git submodule update --recursive
-    - meson --werror . _build
+    - meson --werror -Dphoc_tests=disabled . _build
     - ninja -C _build
   except:
     variables:
@@ -254,7 +254,7 @@ unit-test:native-alpinelinux-edge:
     - apk add xvfb-run $ALPINE_EDGE_DEPS
   script:
     - export LC_ALL=C.UTF-8
-    - ${XVFB_RUN} meson test -C _build --no-suite manual
+    - ${XVFB_RUN} meson test -C _build --suite unit
   artifacts:
     when: always
     paths:
