@@ -35,8 +35,9 @@ Build-Depends:
  gnome-themes-extra-data <!nocheck>,
  gsettings-desktop-schemas <!nocheck>,
  phoc <!nocheck>,
- xvfb <!nocheck>,
  xauth <!nocheck>,
+ xvfb <!nocheck>,
+ xwayland <!nocheck>,
 Standards-Version: 4.1.3
 Homepage: https://gitlab.gnome.org/World/Phosh/phosh/
 Rules-Requires-Root: no
