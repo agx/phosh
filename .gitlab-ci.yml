@@ -26,8 +26,8 @@ variables:
   # For ci-fairy
   FDO_UPSTREAM_REPO: World/Phosh/phosh
   # SCREENSHOT_IMAGE builds on DEBIAN_IMAGE so keep them in sync
-  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20220405.3
-  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20220405.3
+  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20220406
+  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20220406
   DEBIAN_CROSS_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian-cross:v0.0.20220322.1
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror -Dtools=true
