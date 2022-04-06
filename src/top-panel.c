@@ -35,8 +35,8 @@
  * @short_description: The top panel
  * @Title: PhoshTopPanel
  *
- * The top panel containing the clock and status indicators. When activated
- * int unfolds the #PhoshSettings.
+ * The top panel containing the top-bar (clock and status indicators) and, when activated
+ * unfolds the #PhoshSettings.
  */
 enum {
   PROP_0,
