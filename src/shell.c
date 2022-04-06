@@ -468,7 +468,6 @@ on_num_toplevels_changed (PhoshShell *self, GParamSpec *pspec, PhoshToplevelMana
 
   priv = phosh_shell_get_instance_private (self);
   /* all toplevels gone, show the overview */
-  /* TODO: once we have unfoldable app-drawer unfold that too */
   if (!phosh_toplevel_manager_get_num_toplevels (toplevel_manager))
     phosh_home_set_state (PHOSH_HOME (priv->home), PHOSH_HOME_STATE_UNFOLDED);
 }
