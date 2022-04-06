@@ -274,7 +274,7 @@ phosh_wayland_constructed (GObject *object)
       !self->input_inhibit_manager || !self->xdg_wm_base ||
       !self->zxdg_output_manager_v1 ||
       !self->zphoc_layer_shell_effects_v1) {
-    g_error ("Could not find needed globals\n"
+    g_error ("Wayland compositor lacks needed globals\n"
              "outputs: %d, layer_shell: %p, idle_manager: %p, "
              "inhibit: %p, xdg_wm: %p, "
              "xdg_output: %p, wlr_output_manager: %p, "
