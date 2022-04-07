@@ -49,7 +49,7 @@ struct _PhoshModeManager {
 
   PhoshMonitorManager         *monitor_manager;
 
-  PhoshHostname1DBusHostname1 *proxy;
+  PhoshDBusHostname1          *proxy;
   GCancellable                *cancel;
   gchar                       *chassis;
   PhoshWaylandSeatCapabilities wl_caps;
@@ -193,16 +193,16 @@ on_n_monitors_changed (PhoshModeManager *self, GParamSpec *pspec, PhoshMonitorMa
 
 
 static void
-on_chassis_changed (PhoshModeManager            *self,
-                    GParamSpec                  *pspec,
-                    PhoshHostname1DBusHostname1 *proxy)
+on_chassis_changed (PhoshModeManager   *self,
+                    GParamSpec         *pspec,
+                    PhoshDBusHostname1 *proxy)
 {
   const gchar *chassis;
 
   g_return_if_fail (PHOSH_IS_MODE_MANAGER (self));
-  g_return_if_fail (PHOSH_HOSTNAME1_DBUS_IS_HOSTNAME1 (proxy));
+  g_return_if_fail (PHOSH_DBUS_IS_HOSTNAME1 (proxy));
 
-  chassis = phosh_hostname1_dbus_hostname1_get_chassis (self->proxy);
+  chassis = phosh_dbus_hostname1_get_chassis (self->proxy);
 
   if (!chassis)
     return;
@@ -234,9 +234,9 @@ on_proxy_new_for_bus_finish (GObject          *source_object,
 {
   g_autoptr (GError) err = NULL;
   PhoshWayland *wl;
-  PhoshHostname1DBusHostname1 *proxy;
+  PhoshDBusHostname1 *proxy;
 
-  proxy = phosh_hostname1_dbus_hostname1_proxy_new_for_bus_finish (res, &err);
+  proxy = phosh_dbus_hostname1_proxy_new_for_bus_finish (res, &err);
   if (proxy == NULL) {
     phosh_async_error_warn (err, "Failed to get hostname1 proxy");
     return;
@@ -274,13 +274,13 @@ phosh_mode_manager_idle_init (PhoshManager *manager)
 {
   PhoshModeManager *self = PHOSH_MODE_MANAGER (manager);
 
-  phosh_hostname1_dbus_hostname1_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
-                                                    G_DBUS_PROXY_FLAGS_NONE,
-                                                    BUS_NAME,
-                                                    OBJECT_PATH,
-                                                    self->cancel,
-                                                    (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
-                                                    self);
+  phosh_dbus_hostname1_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
+                                          G_DBUS_PROXY_FLAGS_NONE,
+                                          BUS_NAME,
+                                          OBJECT_PATH,
+                                          self->cancel,
+                                          (GAsyncReadyCallback) on_proxy_new_for_bus_finish,
+                                          self);
 }
 
 static void
