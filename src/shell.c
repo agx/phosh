@@ -197,24 +197,56 @@ on_top_panel_activated (PhoshShell    *self,
 
 
 static void
-on_proximity_fader_changed (PhoshShell *self)
+update_top_level_layer (PhoshShell *self)
 {
+  PhoshShellStateFlags state;
   PhoshShellPrivate *priv;
-  guint32 layer;
-  gboolean on;
+  guint32 layer, current;
+  gboolean use_top_layer;
+
+  priv = phosh_shell_get_instance_private (self);
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
   priv = phosh_shell_get_instance_private (self);
+
+  if (priv->top_panel == NULL)
+    return;
+
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (priv->top_panel));
+  state = phosh_shell_get_state (self);
 
   /* When the proximity fader is on we want to remove the top-panel from the
      overlay layer since it uses an exclusive zone and hence the fader is
      drawn below that top-panel. This can be dropped once layer-shell allows
      to specify the z-level */
-  on = phosh_proximity_has_fader (priv->proximity);
-  layer = on ? ZWLR_LAYER_SHELL_V1_LAYER_TOP : ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY;
+  use_top_layer = priv->proximity && phosh_proximity_has_fader (priv->proximity);
+  if (use_top_layer)
+    goto set_layer;
 
+  /* We want the top-bar on the lock screen */
+  use_top_layer = !phosh_shell_get_locked (self);
+  if (use_top_layer)
+    goto set_layer;
+
+  /* If there's a modal dialog make sure it can extend over the top-panel */
+  use_top_layer = !!(state & PHOSH_STATE_MODAL_SYSTEM_PROMPT);
+
+ set_layer:
+  layer = use_top_layer ? ZWLR_LAYER_SHELL_V1_LAYER_TOP : ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY;
+  g_object_get (priv->top_panel, "layer", &current, NULL);
+  if (current == layer)
+    return;
+
+  g_debug ("Moving top-panel to %s layer", use_top_layer ? "top" : "overlay");
   phosh_layer_surface_set_layer (PHOSH_LAYER_SURFACE (priv->top_panel), layer);
   phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (priv->top_panel));
+}
+
+
+static void
+on_proximity_fader_changed (PhoshShell *self)
+{
+  update_top_level_layer (self);
 }
 
 
@@ -344,6 +376,8 @@ set_locked (PhoshShell *self, gboolean locked)
   /* Hide settings on screen lock, otherwise the user just sees the settigns when
      unblanking the screen which can be confusing */
   phosh_top_panel_fold (PHOSH_TOP_PANEL (priv->top_panel));
+
+  update_top_level_layer (self);
 }
 
 
@@ -1731,6 +1765,9 @@ phosh_shell_set_state (PhoshShell          *self,
            str_state, str_new_flags);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SHELL_STATE]);
+
+  if (state & PHOSH_STATE_MODAL_SYSTEM_PROMPT)
+    update_top_level_layer (self);
 }
 
 void
