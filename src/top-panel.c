@@ -67,6 +67,7 @@ typedef struct _PhoshTopPanel {
   GtkWidget *lbl_date;
 
   GtkWidget *stack;
+  GtkWidget *arrow;
   GtkWidget *box;            /* main content box */
   GtkWidget *btn_top_panel;
   GtkWidget *lbl_clock;      /* top-bar clock */
@@ -387,31 +388,44 @@ phosh_top_panel_dragged (PhoshDragSurface *self, int margin)
 static void
 on_drag_state_changed (PhoshTopPanel *self)
 {
-  const char *visible = "top-bar";
+  PhoshTopPanelState state = self->state;
+  const char *visible;
   gboolean kbd_interactivity = FALSE;
+  double arrow = -1.0;
 
   /* Close the popover on any drag */
   gtk_widget_hide (self->menu_power);
 
   switch (phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self))) {
-  case PHOSH_DRAG_SURFACE_STATE_DRAGGED:
-    visible = "arrow";
-    break;
   case PHOSH_DRAG_SURFACE_STATE_UNFOLDED:
-    visible = "arrow";
-    self->state = PHOSH_TOP_PANEL_STATE_UNFOLDED;
+    state = PHOSH_TOP_PANEL_STATE_UNFOLDED;
     kbd_interactivity = TRUE;
+    visible = "arrow";
+    arrow = 0.0;
     break;
   case PHOSH_DRAG_SURFACE_STATE_FOLDED:
-    self->state = PHOSH_TOP_PANEL_STATE_FOLDED;
+    state = PHOSH_TOP_PANEL_STATE_FOLDED;
+    visible = "top-bar";
+    arrow = 1.0;
+    break;
+  case PHOSH_DRAG_SURFACE_STATE_DRAGGED:
+    visible = "arrow";
+    arrow = phosh_arrow_get_progress (PHOSH_ARROW (self->arrow));
     break;
   default:
     g_return_if_reached ();
   }
 
-  phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
   g_debug ("%s: state: %d, visible: %s", __func__, self->state, visible);
   gtk_stack_set_visible_child_name (GTK_STACK (self->stack), visible);
+  phosh_arrow_set_progress (PHOSH_ARROW (self->arrow), arrow);
+
+  if (state == self->state)
+    return;
+
+  self->state = state;
+  phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
+  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
 }
 
 
@@ -631,6 +645,7 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/top-panel.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, arrow);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, menu_power);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_top_panel);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_power);

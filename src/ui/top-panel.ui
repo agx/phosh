@@ -263,7 +263,7 @@
             </child>
 
             <child>
-              <object class="PhoshArrow">
+              <object class="PhoshArrow" id="arrow">
                 <property name="visible">True</property>
                 <property name="vexpand">True</property>
                 <property name="valign">end</property>
