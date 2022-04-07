@@ -429,8 +429,6 @@ phosh_home_constructed (GObject *object)
                     NULL);
   add_keybindings (self);
 
-  phosh_connect_feedback (self->btn_home);
-
   settings = g_settings_new ("org.gnome.desktop.a11y.applications");
   g_settings_bind (settings, "screen-keyboard-enabled",
                    self, "osk-enabled", G_SETTINGS_BIND_GET);
