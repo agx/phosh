@@ -322,8 +322,6 @@ on_key_press_event (PhoshTopPanel *self, GdkEventKey *event, gpointer data)
 static void
 released_cb (PhoshTopPanel *self)
 {
-  phosh_trigger_feedback ("button-released");
-
   /*
    * The popover has to be popdown manually as it doesn't happen
    * automatically when the power button is tapped with touch
@@ -456,8 +454,6 @@ phosh_top_panel_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
   wall_clock2_notify_cb (self, NULL, self->wall_clock2);
-
-  phosh_connect_feedback (self->btn_top_panel);
 
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
 
