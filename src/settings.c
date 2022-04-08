@@ -601,7 +601,6 @@ on_notifications_clear_all_clicked (PhoshSettings *self)
 
   manager = phosh_notify_manager_get_default ();
   phosh_notify_manager_close_all_notifications (manager, PHOSH_NOTIFICATION_REASON_DISMISSED);
-  g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 
 
@@ -680,8 +679,6 @@ on_notifcation_frames_items_changed (PhoshSettings *self,
 
   child_name = is_empty ? STACK_CHILD_NO_NOTIFICATIONS : STACK_CHILD_NOTIFICATIONS;
   gtk_stack_set_visible_child_name (GTK_STACK (self->stack_notifications), child_name);
-  if (is_empty)
-    g_signal_emit (self, signals[SETTING_DONE], 0);
   update_drag_handle_offset (self);
 }
 
