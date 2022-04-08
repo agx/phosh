@@ -410,7 +410,7 @@ phosh_top_panel_constructed (GObject *object)
 
   g_object_bind_property (phosh_shell_get_default (), "locked",
                           self, "on-lockscreen",
-                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+                          G_BINDING_SYNC_CREATE);
 
   self->wall_clock = gnome_wall_clock_new ();
   g_object_bind_property (self->wall_clock, "clock",
