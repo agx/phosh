@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <template class="PhoshHome" parent="PhoshDragSurface">
-    <property name="can_focus">False</property>
+    <property name="can-focus">False</property>
     <signal name="key-press-event" handler="window_key_press_event_cb"/>
     <child>
       <placeholder/>
@@ -10,19 +10,15 @@
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
 
               <object class="GtkBox">
                 <property name="height_request">40</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <child type="center">
                   <object class="GtkButton" id="btn_home">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
                     <property name="hexpand">True</property>
                     <child>
                       <object class="PhoshArrow" id="arrow_home">
@@ -34,44 +30,28 @@
                       <class name="phosh-panel-btn"/>
                     </style>
                   </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="PhoshOskButton" id="btn_osk">
                     <property name="visible">False</property>
-                    <property name="can_focus">True</property>
                     <property name="halign">end</property>
                     <property name="valign">center</property>
                     <property name="margin-end">6</property>
-                    <property name="receives_default">True</property>
                     <signal name="clicked" handler="osk_clicked_cb" swapped="true"/>
                     <style>
                       <class name="phosh-osk-button"/>
                     </style>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack_type">end</property>
-                    <property name="position">1</property>
+                    <property name="pack-type">end</property>
                   </packing>
                 </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
         </child>
 
         <child>
           <object class="PhoshOverview" id="overview">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
             <signal name="activity-launched" handler="fold_cb" swapped="true"/>
             <signal name="activity-raised" handler="fold_cb" swapped="true"/>
             <signal name="notify::has-activities" handler="on_has_activities_changed" swapped="true"/>
@@ -80,7 +60,6 @@
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
           </packing>
         </child>
       </object>
