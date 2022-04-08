@@ -416,6 +416,10 @@ phosh_top_panel_constructed (GObject *object)
   g_object_bind_property (self->wall_clock, "clock",
                           self->lbl_clock, "label",
                           G_BINDING_SYNC_CREATE);
+  g_object_bind_property (self, "on-lockscreen",
+                          self->lbl_clock,
+                          "visible",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 
   self->wall_clock2 = gnome_wall_clock_new ();
   g_object_set (self->wall_clock2, "time-only", TRUE, NULL);
