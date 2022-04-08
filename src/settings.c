@@ -70,7 +70,7 @@ typedef struct _PhoshSettings
   gboolean setting_volume;
   gboolean is_headphone;
 
-  /* The area with media widget, notifiations */
+  /* The area with media widget, notifications */
   GtkWidget *box_bottom_half;
   /* Notifications */
   GtkWidget *list_notifications;
