@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-01-20 19:23+0000\n"
-"PO-Revision-Date: 2022-01-29 14:00+0330\n"
+"POT-Creation-Date: 2022-03-29 09:55+0000\n"
+"PO-Revision-Date: 2022-04-11 18:01+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -31,7 +31,7 @@ msgstr "پوستهٔ تلفن"
 msgid "Window management and application launching for mobile"
 msgstr "مدیریت پنجره‌ها و اجرا کنندهٔ برنامه‌ها برای تلفن همراه"
 
-#: src/app-grid-button.c:502
+#: src/app-grid-button.c:507
 msgid "Application"
 msgstr "برنامه"
 
@@ -131,15 +131,9 @@ msgstr "نه"
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:362
+#: src/lockscreen.c:361
 msgid "Checking…"
 msgstr "در حال بررسی…"
-
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:440
-msgid "%A, %B %-e"
-msgstr "%A، %Od %OB"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
@@ -330,27 +324,27 @@ msgstr "گذرواژه نمی‌تواند خالی باشد"
 msgid "Torch"
 msgstr "چراغ"
 
-#: src/ui/app-auth-prompt.ui:40
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
 msgstr "به‌خاطر سپردن تصمیم"
 
-#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "لغو"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "قبول"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "کاره"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
 msgstr "برداشتن از _محبوب‌ها"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
 msgstr "افزودن به _محبوب‌ها"
 
@@ -410,6 +404,14 @@ msgstr "تأیید هویت"
 msgid "Run Command"
 msgstr "اجرای فرمان"
 
+#: src/ui/settings.ui:310
+msgid "No notifications"
+msgstr "بدون آگاهی"
+
+#: src/ui/settings.ui:351
+msgid "Clear all"
+msgstr "پاک‌سازی همه"
+
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "تأیید:"
@@ -422,6 +424,12 @@ msgstr "قفل کردن صفحه"
 msgid "Logout"
 msgstr "خروج"
 
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:337
+msgid "%A, %B %-e"
+msgstr "%A، %Od %OB"
+
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "وی‌پی‌ان"
@@ -431,7 +439,7 @@ msgid "Wi-Fi"
 msgstr "وای‌فای"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:172
+#: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "سلولی"
 
