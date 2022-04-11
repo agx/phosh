@@ -199,17 +199,21 @@ static void
 on_proximity_fader_changed (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
+  guint32 layer;
   gboolean on;
 
   g_return_if_fail (PHOSH_IS_SHELL (self));
   priv = phosh_shell_get_instance_private (self);
 
-  /* When the proximity fader is on we want to hide the top-panel on
-     the lock screen since it uses an exclusive zone and hence the fader is
-     drawn below that top-panel. */
+  /* When the proximity fader is on we want to remove the top-panel from the
+     overlay layer since it uses an exclusive zone and hence the fader is
+     drawn below that top-panel. This can be dropped once layer-shell allows
+     to specify the z-level */
   on = phosh_proximity_has_fader (priv->proximity);
+  layer = on ? ZWLR_LAYER_SHELL_V1_LAYER_TOP : ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY;
 
-  gtk_widget_set_visible (GTK_WIDGET (priv->panel), !on);
+  phosh_layer_surface_set_layer (PHOSH_LAYER_SURFACE (priv->panel), layer);
+  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (priv->panel));
 }
 
 

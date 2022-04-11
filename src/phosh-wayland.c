@@ -81,7 +81,7 @@ registry_handle_global (void *data,
       registry,
       name,
       &zwlr_layer_shell_v1_interface,
-      1);
+      2);
   } else if (!strcmp (interface, "wl_output")) {
     output = wl_registry_bind (
       registry,

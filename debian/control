@@ -51,7 +51,7 @@ Depends:
  fonts-lato,
  gnome-shell-common,
  gsettings-desktop-schemas,
- phoc (>= 0.9.0),
+ phoc (>= 0.13.1),
 Recommends:
  feedbackd,
  fonts-cantarell,
