@@ -16,7 +16,7 @@
 
 /**
  * PhoshHomeState:
- * @PHOSH_HOME_STATE_FOLDED: Only home button is visiable
+ * @PHOSH_HOME_STATE_FOLDED: Only home button is visible
  * @PHOSH_HOME_STATE_UNFOLDED: Home screen takes the whole screen except the top panel
  *
  * The state of #PhoshHome.
