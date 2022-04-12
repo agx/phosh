@@ -59,6 +59,8 @@ variables:
        uk_UA.UTF-8 UTF-8
        ' > /etc/locale.gen
      - dpkg-reconfigure locales
+     - wget https://gitlab.gnome.org/guidog/phoc/-/jobs/1947010/artifacts/raw/debian/output/phoc_0.13.1+next20220411.1907.1+librem5ci387603.6220c85_amd64.deb
+     - dpkg -i phoc_0.13.1+next20220411.1907.1+librem5ci387603.6220c85_amd64.deb
 
 .test_step: &test_step
   script:
@@ -138,6 +140,9 @@ asan-test:native-debian-bookworm:
   image: ${DEBIAN_IMAGE}
   tags: [ asan ]
   <<: *bookworm_vars
+  before_script:
+     - wget https://gitlab.gnome.org/guidog/phoc/-/jobs/1947010/artifacts/raw/debian/output/phoc_0.13.1+next20220411.1907.1+librem5ci387603.6220c85_amd64.deb
+     - dpkg -i phoc_0.13.1+next20220411.1907.1+librem5ci387603.6220c85_amd64.deb
   script:
     - meson -Dphoc_tests=enabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
     - ninja -C _build-asan data/gschemas.compiled
