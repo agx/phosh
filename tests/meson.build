@@ -32,7 +32,7 @@ test_env_common.set('NO_AT_BRIDGE', '1')
 
 # For -Db_sanitize=address
 test_env_common.set('LSAN_OPTIONS',
-		    'suppressions=@0@/data/leak-suppress.txt'.format(meson.source_root()))
+                    'suppressions=@0@/data/leak-suppress.txt'.format(meson.source_root()))
 # as our libraries lack frame pointers since otherwise back traces are incomplete
 test_env_common.set('ASAN_OPTIONS', 'fast_unwind_on_malloc=0')
 
@@ -147,12 +147,12 @@ if run_phoc_tests
                    dependencies: testlib_dep)
     test(test, t,
          suite: ['unit', 'phoc'],
-	 env: test_env_phoc)
+         env: test_env_phoc)
   endforeach
 
   # Integration tests using the full libphosh
   t = executable('test-shell',
-	         'test-shell.c',
+                 'test-shell.c',
                  c_args: test_cflags,
                  pie: true,
                  link_args: test_link_args,
@@ -166,24 +166,24 @@ if run_phoc_tests
     parallel = item.get(1)
 
     t = executable('test-@0@'.format(test),
-		   ['test-@0@.c'.format(test), generated_dbus_sources],
+                   ['test-@0@.c'.format(test), generated_dbus_sources],
                    c_args: test_cflags,
                    pie: true,
                    link_args: test_link_args,
-		   dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
+                   dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
     test(test, t,
-	 env: test_env_phoc,
+         env: test_env_phoc,
          suite: ['integration'],
-	 is_parallel : parallel)
+         is_parallel : parallel)
   endforeach
 
   # Tests for manual validation
   t = executable('test-take-screenshots',
-		   ['test-take-screenshots.c', generated_dbus_sources],
+                   ['test-take-screenshots.c', generated_dbus_sources],
                    c_args: test_cflags,
                    pie: true,
                    link_args: test_link_args,
-		   dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
+                   dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
   foreach lang : screenshot_langs
     lang_env = test_env_phoc
     lang_env.set('LANGUAGE', lang)
