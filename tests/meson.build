@@ -147,7 +147,8 @@ if run_phoc_tests
                    dependencies: testlib_dep)
     test(test, t,
          suite: ['unit', 'phoc'],
-         env: test_env_phoc)
+         env: test_env_phoc,
+         is_parallel: false)
   endforeach
 
   # Integration tests using the full libphosh
