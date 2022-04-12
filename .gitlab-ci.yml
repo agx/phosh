@@ -48,6 +48,18 @@ variables:
     - meson ${BUILD_OPTS} . _build
     - ninja -C _build
 
+.test_before_script: &test_before_script
+  before_script:
+     - export DEBIAN_FRONTEND=noninteractive
+     - |
+       echo 'ar_AE.UTF-8 UTF-8
+       de_DE.UTF-8 UTF-8
+       en_US.UTF-8 UTF-8
+       ja_JP.UTF-8 UTF-8
+       uk_UA.UTF-8 UTF-8
+       ' > /etc/locale.gen
+     - dpkg-reconfigure locales
+
 .test_step: &test_step
   script:
     - export LC_ALL=C.UTF-8
@@ -105,19 +117,10 @@ build:cross-debian-bookworm:i386:
 unit-test:native-debian-bookworm:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
-  before_script:
-     - export DEBIAN_FRONTEND=noninteractive
-     - |
-       echo 'ar_AE.UTF-8 UTF-8
-       de_DE.UTF-8 UTF-8
-       en_US.UTF-8 UTF-8
-       ja_JP.UTF-8 UTF-8
-       uk_UA.UTF-8 UTF-8
-       ' > /etc/locale.gen
-     - dpkg-reconfigure locales
   needs:
     - build:native-debian-bookworm
   <<: *bookworm_vars
+  <<: *test_before_script
   <<: *test_step
   coverage: '/^lines:\s+([\d.]+\%)\s+/'
   artifacts:
@@ -147,18 +150,9 @@ asan-test:native-debian-bookworm:
 screenshot:native-debian-bookworm:
   stage: test+docs
   image: ${SCREENSHOT_IMAGE}
-  before_script:
-     - export DEBIAN_FRONTEND=noninteractive
-     - |
-       echo 'ar_AE.UTF-8 UTF-8
-       de_DE.UTF-8 UTF-8
-       en_US.UTF-8 UTF-8
-       ja_JP.UTF-8 UTF-8
-       uk_UA.UTF-8 UTF-8
-       ' > /etc/locale.gen
-     - dpkg-reconfigure locales
   needs:
     - build:native-debian-bookworm
+  <<: *test_before_script
   <<: *bookworm_vars
   script:
     - export LC_ALL=C.UTF-8
