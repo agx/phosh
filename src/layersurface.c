@@ -334,25 +334,6 @@ on_phosh_layer_surface_unmapped (PhoshLayerSurface *self, gpointer unused)
 
 
 static void
-phosh_layer_surface_constructed (GObject *object)
-{
-  PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (object);
-
-  g_signal_connect (self, "realize",
-                    G_CALLBACK (on_phosh_layer_surface_realized),
-                    NULL);
-  g_signal_connect (self, "map",
-                    G_CALLBACK (on_phosh_layer_surface_mapped),
-                    NULL);
-  g_signal_connect (self, "unmap",
-                    G_CALLBACK (on_phosh_layer_surface_unmapped),
-                    NULL);
-
-  G_OBJECT_CLASS (phosh_layer_surface_parent_class)->constructed (object);
-}
-
-
-static void
 phosh_layer_surface_dispose (GObject *object)
 {
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (object);
@@ -370,7 +351,6 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
 
-  object_class->constructed = phosh_layer_surface_constructed;
   object_class->dispose = phosh_layer_surface_dispose;
 
   object_class->set_property = phosh_layer_surface_set_property;
@@ -539,6 +519,15 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
 static void
 phosh_layer_surface_init (PhoshLayerSurface *self)
 {
+  g_signal_connect (self, "realize",
+                    G_CALLBACK (on_phosh_layer_surface_realized),
+                    NULL);
+  g_signal_connect (self, "map",
+                    G_CALLBACK (on_phosh_layer_surface_mapped),
+                    NULL);
+  g_signal_connect (self, "unmap",
+                    G_CALLBACK (on_phosh_layer_surface_unmapped),
+                    NULL);
 }
 
 
