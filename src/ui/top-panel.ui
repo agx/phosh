@@ -130,11 +130,9 @@
                     <child>
                       <object class="GtkBox" id="box_network">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
                         <child>
                           <object class="PhoshWWanInfo" id="wwaninfo">
                             <property name="visible" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
-                            <property name="can_focus">False</property>
                             <property name="margin-start">0</property>
                             <property name="margin-end">8</property>
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
@@ -147,7 +145,6 @@
                         <child>
                           <object class="PhoshWifiInfo" id="wifiinfo">
                             <property name="visible" bind-source="wifiinfo" bind-property="present" bind-flags="sync-create"/>
-                            <property name="can_focus">False</property>
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
@@ -155,7 +152,6 @@
                         <child>
                           <object class="PhoshBtInfo" id="btinfo">
                             <property name="visible" bind-source="btinfo" bind-property="present" bind-flags="sync-create"/>
-                            <property name="can_focus">False</property>
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
@@ -163,7 +159,6 @@
                         <child>
                           <object class="PhoshVpnInfo" id="vpn_info">
                             <property name="visible" bind-source="vpn_info" bind-property="enabled" bind-flags="sync-create"/>
-                            <property name="can_focus">False</property>
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
@@ -171,7 +166,6 @@
                         <child>
                           <object class="PhoshConnectivityInfo" id="connectivity_info">
                             <property name="visible" bind-source="connectivity_info" bind-property="connectivity" bind-flags="invert-boolean|sync-create"/>
-                            <property name="can_focus">False</property>
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
@@ -179,7 +173,6 @@
                         <child>
                           <object class="PhoshDockedInfo" id="docked_info">
                             <property name="visible" bind-source="docked_info" bind-property="enabled" bind-flags="sync-create"/>
-                            <property name="can_focus">False</property>
                             <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
                             <property name="margin-end">8</property>
                           </object>
