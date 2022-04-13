@@ -118,17 +118,12 @@
         <object class="GtkStack" id="stack">
           <property name="visible">True</property>
           <child>
-
-              <object class="GtkButton" id="btn_top_panel">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="receives_default">False</property>
-                <property name="vexpand">True</property>
-                <property name="valign">end</property>
-                <child>
-                  <object class="GtkBox" id="box_top_panel">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+            <object class="GtkBox" id="box_top_bar">
+              <property name="visible">True</property>
+              <property name="expand">True</property>
+              <property name="valign">end</property>
+              <!-- PHOSH_TOP_PANEL_HEIGHT -->
+              <property name="height-request">32</property>
                     <child>
                       <object class="GtkBox" id="box_network">
                         <property name="visible">True</property>
@@ -251,12 +246,10 @@
                         <property name="pack_type">end</property>
                       </packing>
                     </child>
-                  </object>
-                </child>
                 <style>
-                  <class name="phosh-panel-btn"/>
+                  <class name="phosh-top-bar"/>
                 </style>
-              </object> <!-- btn_top_panel -->
+              </object> <!-- box_top_bar -->
               <packing>
                 <property name="name">top-bar</property>
               </packing>

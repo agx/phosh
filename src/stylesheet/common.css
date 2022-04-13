@@ -6,8 +6,12 @@ phosh-top-panel {
 }
 
 .phosh-panel-btn {
-  background-image: none;
-  border-width: 0;
+   background-image: none;
+   border-width: 0;
+ }
+
+.phosh-top-bar {
+  padding: 4px 9px 4px 9px;
 }
 
 .phosh-wwan-indicator,

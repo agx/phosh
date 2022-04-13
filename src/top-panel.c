@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Purism SPC
+ * Copyright (C) 2018-2022 Purism SPC
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -69,7 +69,6 @@ typedef struct _PhoshTopPanel {
   GtkWidget *stack;
   GtkWidget *arrow;
   GtkWidget *box;            /* main content box */
-  GtkWidget *btn_top_panel;
   GtkWidget *lbl_clock;      /* top-bar clock */
   GtkWidget *lbl_lang;
   GtkWidget *settings;       /* settings menu */
@@ -186,6 +185,7 @@ on_logout_action (GSimpleAction *action,
   phosh_session_manager_logout (sm);
   phosh_top_panel_fold (self);
 }
+
 
 static void
 wall_clock2_notify_cb (PhoshTopPanel  *self,
@@ -320,16 +320,21 @@ on_key_press_event (PhoshTopPanel *self, GdkEventKey *event, gpointer data)
   return handled;
 }
 
+
 static void
-released_cb (PhoshTopPanel *self)
+released_cb (PhoshTopPanel *self, int n_press, double x, double y, GtkGestureMultiPress *gesture)
 {
   /*
    * The popover has to be popdown manually as it doesn't happen
    * automatically when the power button is tapped with touch
    */
-  if (gtk_widget_is_visible (self->menu_power))
+  if (gtk_widget_is_visible (self->menu_power)) {
     gtk_popover_popdown (GTK_POPOVER (self->menu_power));
+    return;
+  }
 
+  if (phosh_util_gesture_is_touch (GTK_GESTURE_SINGLE (gesture)) == FALSE)
+    phosh_top_panel_toggle_fold (self);
 }
 
 
@@ -470,12 +475,6 @@ phosh_top_panel_constructed (GObject *object)
   wall_clock2_notify_cb (self, NULL, self->wall_clock2);
 
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
-
-  /* Button properties */
-  gtk_style_context_remove_class (gtk_widget_get_style_context (self->btn_top_panel),
-                                  "button");
-  gtk_style_context_remove_class (gtk_widget_get_style_context (self->btn_top_panel),
-                                  "image-button");
 
   /* language indicator */
   if (display) {
@@ -647,7 +646,6 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
                                                "/sm/puri/phosh/ui/top-panel.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, arrow);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, menu_power);
-  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_top_panel);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_power);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_lock);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, batteryinfo);

@@ -17,7 +17,7 @@
 
 @import url("resource:///sm/puri/phosh/stylesheet/common.css");
 
-.phosh-panel-btn {
+.phosh-top-bar {
   border-width: 1px;
   border-radius: 0;
 }
