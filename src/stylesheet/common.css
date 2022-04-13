@@ -5,11 +5,6 @@ phosh-top-panel {
   font: 15px Cantarell;
 }
 
-.phosh-panel-btn {
-   background-image: none;
-   border-width: 0;
- }
-
 .phosh-top-bar {
   padding: 4px 9px 4px 9px;
 }

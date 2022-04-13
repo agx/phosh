@@ -14,22 +14,26 @@
         <child>
 
               <object class="GtkBox">
-                <property name="height_request">40</property>
+                <!-- PHOSH_HOME_HEIGHT -->
+                <property name="height-request">40</property>
                 <property name="visible">True</property>
                 <child type="center">
-                  <object class="GtkButton" id="btn_home">
+                  <object class="GtkEventBox" id="evbox_home">
                     <property name="visible">True</property>
                     <property name="hexpand">True</property>
+                    <!-- Otherwise search gets input focus and triggers OSK -->
+                    <property name="can-focus">True</property>
                     <child>
                       <object class="PhoshArrow" id="arrow_home">
                         <property name="visible">True</property>
                         <property name="valign">center</property>
+                        <property name="halign">center</property>
                       </object>
                     </child>
-                    <style>
-                      <class name="phosh-panel-btn"/>
-                    </style>
                   </object>
+                  <packing>
+                    <property name="expand">True</property>
+                  </packing>
                 </child>
                 <child>
                   <object class="PhoshOskButton" id="btn_osk">
@@ -65,4 +69,8 @@
       </object>
     </child>
   </template>
+  <object class="GtkGestureMultiPress" id="click_gesture">
+    <property name="widget">evbox_home</property>
+    <signal name="released" handler="on_home_released" swapped="true"/>
+  </object>
 </interface>

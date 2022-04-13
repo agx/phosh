@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Purism SPC
+ * Copyright (C) 2018-2022 Purism SPC
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -15,6 +15,7 @@
 #include "shell.h"
 #include "phosh-enums.h"
 #include "osk-button.h"
+#include "util.h"
 
 #include <handy.h>
 
@@ -55,7 +56,6 @@ struct _PhoshHome
 {
   PhoshDragSurface parent;
 
-  GtkWidget *btn_home;
   GtkWidget *arrow_home;
   GtkWidget *btn_osk;
   GtkWidget *overview;
@@ -69,6 +69,8 @@ struct _PhoshHome
 
   /* osk button */
   gboolean        osk_enabled;
+
+  GtkGesture     *click_gesture; /* needed so that the gesture isn't destroyed immediately */
 };
 G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_DRAG_SURFACE);
 
@@ -198,12 +200,14 @@ on_configure_event (PhoshHome *self, GdkEventConfigure *event)
 
 
 static void
-home_clicked_cb (PhoshHome *self, GtkButton *btn)
+on_home_released (GtkButton *button, int n_press, double x, double y, GtkGestureMultiPress *gesture)
 {
-  g_return_if_fail (PHOSH_IS_HOME (self));
-  g_return_if_fail (GTK_IS_BUTTON (btn));
+  PhoshHome *self = g_object_get_data (G_OBJECT (gesture), "phosh-home");
 
-  phosh_home_set_state (self, !self->state);
+  g_return_if_fail (PHOSH_IS_HOME (self));
+
+  if (phosh_util_gesture_is_touch (GTK_GESTURE_SINGLE (gesture)) == FALSE)
+    phosh_home_set_state (self, !self->state);
 }
 
 
@@ -434,6 +438,8 @@ phosh_home_constructed (GObject *object)
                    self, "osk-enabled", G_SETTINGS_BIND_GET);
 
   g_signal_connect (self, "notify::drag-state", G_CALLBACK (on_drag_state_changed), NULL);
+
+  g_object_set_data (G_OBJECT (self->click_gesture), "phosh-home", self);
 }
 
 
@@ -498,11 +504,11 @@ phosh_home_class_init (PhoshHomeClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/home.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, arrow_home);
-  gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_home);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_osk);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, click_gesture);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, overview);
   gtk_widget_class_bind_template_callback (widget_class, fold_cb);
-  gtk_widget_class_bind_template_callback (widget_class, home_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_home_released);
   gtk_widget_class_bind_template_callback (widget_class, on_has_activities_changed);
   gtk_widget_class_bind_template_callback (widget_class, osk_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, window_key_press_event_cb);
