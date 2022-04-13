@@ -32,3 +32,4 @@ gboolean         phosh_error_warnv (const char  *log_domain,
 int              phosh_create_shm_file (off_t size);
 char            *phosh_util_escape_markup (const char *markup, gboolean allow_markup);
 char            *phosh_util_local_date (void);
+gboolean         phosh_util_gesture_is_touch (GtkGestureSingle *gesture);
