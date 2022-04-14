@@ -13,3 +13,4 @@
 G_DECLARE_FINAL_TYPE (PhoshSettings, phosh_settings, PHOSH, SETTINGS, GtkBin)
 
 GtkWidget * phosh_settings_new (void);
+gint        phosh_settings_get_drag_handle_offset (PhoshSettings *self);
