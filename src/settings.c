@@ -904,7 +904,7 @@ phosh_settings_new (void)
 
 /**
  * phosh_settings_get_drag_handle_offset:
- * @PhoshSettings: The settings
+ * @self: The settings
  *
  * Get the y coordinate from the top of the widget where dragging
  * can start. E.g. we don't want drag to work on notifications as

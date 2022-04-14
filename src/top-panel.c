@@ -129,6 +129,37 @@ phosh_top_panel_get_property (GObject *object,
   }
 }
 
+
+static void
+update_drag_handle (PhoshTopPanel *self, gboolean commit)
+{
+  gboolean success;
+  gint handle;
+
+  success = gtk_widget_translate_coordinates (GTK_WIDGET (self->settings),
+                                              GTK_WIDGET (self),
+                                              0, 0, NULL, &handle);
+  if (!success)
+    return;
+
+  handle += phosh_settings_get_drag_handle_offset (PHOSH_SETTINGS (self->settings));
+
+  g_debug ("Drag Handle: %d", handle);
+  phosh_drag_surface_set_drag_mode (PHOSH_DRAG_SURFACE (self),
+                                    PHOSH_DRAG_SURFACE_DRAG_MODE_HANDLE);
+  phosh_drag_surface_set_drag_handle (PHOSH_DRAG_SURFACE (self), handle);
+  if (commit)
+    phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
+}
+
+
+static void
+on_settings_drag_handle_offset_changed (PhoshTopPanel *self, GParamSpec   *pspec)
+{
+  update_drag_handle (self, TRUE);
+}
+
+
 static void
 on_shutdown_action (GSimpleAction *action,
                     GVariant      *parameter,
@@ -404,6 +435,7 @@ on_drag_state_changed (PhoshTopPanel *self)
   switch (phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self))) {
   case PHOSH_DRAG_SURFACE_STATE_UNFOLDED:
     state = PHOSH_TOP_PANEL_STATE_UNFOLDED;
+    update_drag_handle (self, TRUE);
     kbd_interactivity = TRUE;
     visible = "arrow";
     arrow = 0.0;
@@ -584,6 +616,8 @@ on_configure_event (PhoshTopPanel *self, GdkEventConfigure *event)
 
   /* If the size changes we need to update the folded margin */
   phosh_drag_surface_set_margin (PHOSH_DRAG_SURFACE (self), margin, 0);
+  /* Update drag handle since top-panel size might have changed */
+  update_drag_handle (self, FALSE);
   phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
 
   return FALSE;
@@ -657,6 +691,7 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, stack);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, click_gesture);
+  gtk_widget_class_bind_template_callback (widget_class, on_settings_drag_handle_offset_changed);
   gtk_widget_class_bind_template_callback (widget_class, released_cb);
 }
 

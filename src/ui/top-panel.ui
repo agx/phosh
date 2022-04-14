@@ -274,6 +274,7 @@
         <child>
           <object class="PhoshSettings" id="settings">
             <property name="visible">True</property>
+            <signal name="notify::drag-handle-offset" handler="on_settings_drag_handle_offset_changed" swapped="true"/>
           </object>
           <packing>
             <property name="position">1</property>
