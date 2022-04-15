@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
 "POT-Creation-Date: 2022-04-12 10:55+0000\n"
-"PO-Revision-Date: 2022-04-15 08:40+0200\n"
+"PO-Revision-Date: 2022-04-15 10:27+0200\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: Occitan <totenoc@gmail.com>\n"
 "Language: oc\n"
@@ -21,7 +21,7 @@ msgstr ""
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
 msgid "Phosh"
-msgstr ""
+msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -29,27 +29,27 @@ msgstr ""
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr ""
+msgstr "Gestion de fenèstra e aviada d’aplicacions per mobil"
 
 #: src/app-grid-button.c:507
 msgid "Application"
-msgstr ""
+msgstr "Aplicacion"
 
 #: src/app-grid.c:137
 msgid "Show All Apps"
-msgstr ""
+msgstr "Afichar totas las aplicacions"
 
 #: src/app-grid.c:140
 msgid "Show Only Mobile Friendly Apps"
-msgstr ""
+msgstr "Afichar sonque las aplicacions per mobil"
 
 #: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
 msgid "On"
-msgstr ""
+msgstr "Alucat"
 
 #: src/bt-info.c:94
 msgid "Bluetooth"
-msgstr ""
+msgstr "Bluetooth"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -61,25 +61,25 @@ msgstr ""
 
 #: src/end-session-dialog.c:162
 msgid "Log Out"
-msgstr ""
+msgstr "Se desconnectar"
 
 #: src/end-session-dialog.c:165
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s serà desconnectat automaticament d’aquí %d segonda."
+msgstr[1] "%s serà desconnectat automaticament d’aquí %d segondas."
 
 #: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
-msgstr ""
+msgstr "Atudar"
 
 #: src/end-session-dialog.c:172
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Lo sistèma s'atudarà automaticament d’aquí %d segonda."
+msgstr[1] "Lo sistèma s'atudarà automaticament d’aquí %d segondas."
 
 #: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
@@ -89,12 +89,12 @@ msgstr "Reaviar"
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Lo sistèma se reaviarà automaticament d’aquí %d segonda."
+msgstr[1] "Lo sistèma se reaviarà automaticament d’aquí %d segondas."
 
 #: src/end-session-dialog.c:269
 msgid "Unknown application"
-msgstr ""
+msgstr "Aplicacion desconeguda"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -154,7 +154,7 @@ msgstr ""
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
-msgstr ""
+msgstr "%s %s"
 
 #: src/monitor-manager.c:144
 #, c-format
@@ -162,7 +162,7 @@ msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
 "inches could not be calculated, e.g. Dell U2414H"
 msgid "%s %s"
-msgstr ""
+msgstr "%s %s"
 
 #. Translators: An unknown monitor type
 #: src/monitor-manager.c:153
@@ -191,67 +191,67 @@ msgstr "Notificacion"
 #: src/notifications/timestamp-label.c:84
 msgctxt "timestamp-suffix-seconds"
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #. Translators: Timestamp minute suffix
 #: src/notifications/timestamp-label.c:86
 msgctxt "timestamp-suffix-minute"
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #. Translators: Timestamp minutes suffix
 #: src/notifications/timestamp-label.c:88
 msgctxt "timestamp-suffix-minutes"
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #. Translators: Timestamp hour suffix
 #: src/notifications/timestamp-label.c:90
 msgctxt "timestamp-suffix-hour"
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #. Translators: Timestamp hours suffix
 #: src/notifications/timestamp-label.c:92
 msgctxt "timestamp-suffix-hours"
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #. Translators: Timestamp day suffix
 #: src/notifications/timestamp-label.c:94
 msgctxt "timestamp-suffix-day"
 msgid "d"
-msgstr ""
+msgstr "d"
 
 #. Translators: Timestamp days suffix
 #: src/notifications/timestamp-label.c:96
 msgctxt "timestamp-suffix-days"
 msgid "d"
-msgstr ""
+msgstr "d"
 
 #. Translators: Timestamp month suffix
 #: src/notifications/timestamp-label.c:98
 msgctxt "timestamp-suffix-month"
 msgid "mo"
-msgstr ""
+msgstr "mes"
 
 #. Translators: Timestamp months suffix
 #: src/notifications/timestamp-label.c:100
 msgctxt "timestamp-suffix-months"
 msgid "mos"
-msgstr ""
+msgstr "meses"
 
 #. Translators: Timestamp year suffix
 #: src/notifications/timestamp-label.c:102
 msgctxt "timestamp-suffix-year"
 msgid "y"
-msgstr ""
+msgstr "a"
 
 #. Translators: Timestamp years suffix
 #: src/notifications/timestamp-label.c:104
 msgctxt "timestamp-suffix-years"
 msgid "y"
-msgstr ""
+msgstr "a"
 
 #: src/notifications/timestamp-label.c:121
 msgid "now"
@@ -283,7 +283,7 @@ msgstr ""
 #: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
-msgstr ""
+msgstr "Senhal :"
 
 #: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
@@ -301,7 +301,7 @@ msgstr "Païsatge"
 #. Translators: Automatic screen orientation is off (locked/disabled)
 #: src/rotateinfo.c:103 src/rotateinfo.c:186
 msgid "Off"
-msgstr ""
+msgstr "Atudat"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
@@ -322,7 +322,7 @@ msgstr ""
 
 #: src/torch-info.c:80
 msgid "Torch"
-msgstr ""
+msgstr "Lampa de pòcha"
 
 #: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
@@ -346,7 +346,7 @@ msgstr ""
 
 #: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Apondre als _favorits"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
@@ -358,15 +358,15 @@ msgstr ""
 
 #: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
-msgstr ""
+msgstr "Utilizaire :"
 
 #: src/ui/gtk-mount-prompt.ui:117
 msgid "Domain:"
-msgstr ""
+msgstr "Domeni :"
 
 #: src/ui/gtk-mount-prompt.ui:150
 msgid "Co_nnect"
-msgstr ""
+msgstr "Se co_nnectar"
 
 #: src/ui/lockscreen.ui:42
 msgid "Slide up to unlock"
@@ -398,7 +398,7 @@ msgstr "Se _connectar"
 
 #: src/ui/polkit-auth-prompt.ui:122
 msgid "Authenticate"
-msgstr ""
+msgstr "S'autentificar"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
@@ -418,7 +418,7 @@ msgstr ""
 
 #: src/ui/top-panel.ui:15
 msgid "Lock Screen"
-msgstr ""
+msgstr "Verrolhar l'ecran"
 
 #: src/ui/top-panel.ui:22
 msgid "Logout"
