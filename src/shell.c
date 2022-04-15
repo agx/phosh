@@ -24,6 +24,7 @@
 #include <gdk/gdkwayland.h>
 
 #include "config.h"
+#include "drag-surface.h"
 #include "shell.h"
 #include "app-tracker.h"
 #include "batteryinfo.h"
@@ -113,8 +114,8 @@ static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct
 {
-  PhoshLayerSurface *panel;
-  PhoshLayerSurface *home;
+  PhoshDragSurface *panel;
+  PhoshDragSurface *home;
   GPtrArray *faders;              /* for final fade out */
 
   GtkWidget *notification_banner;
@@ -244,16 +245,21 @@ panels_create (PhoshShell *self)
   PhoshMonitor *monitor;
   PhoshWayland *wl = phosh_wayland_get_default ();
   PhoshAppGrid *app_grid;
+  int height;
 
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail (monitor);
 
-  priv->panel = PHOSH_LAYER_SURFACE(phosh_top_panel_new (phosh_wayland_get_zwlr_layer_shell_v1(wl),
-                                                     monitor->wl_output));
+  phosh_shell_get_area (self, NULL, &height);
+  priv->panel = PHOSH_DRAG_SURFACE (phosh_top_panel_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
+                                                         phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
+                                                         monitor->wl_output,
+                                                         height));
   gtk_widget_show (GTK_WIDGET (priv->panel));
 
-  priv->home = PHOSH_LAYER_SURFACE(phosh_home_new (phosh_wayland_get_zwlr_layer_shell_v1(wl),
-                                                    monitor->wl_output));
+  priv->home = PHOSH_DRAG_SURFACE (phosh_home_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
+                                                   phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
+                                                   monitor->wl_output));
   gtk_widget_show (GTK_WIDGET (priv->home));
 
   g_signal_connect_swapped (

@@ -5,6 +5,7 @@
   <template class="PhoshSettings" parent="GtkBin">
     <property name="width_request">250</property>
     <property name="can_focus">False</property>
+    <signal name="notify::on-lockscreen" handler="update_drag_handle_offset"/>
     <child>
       <object class="HdyClamp">
         <property name="visible">True</property>

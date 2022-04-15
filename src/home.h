@@ -5,7 +5,7 @@
  */
 #pragma once
 
-#include "layersurface.h"
+#include "drag-surface.h"
 #include "overview.h"
 
 #include <gtk/gtk.h>
@@ -26,9 +26,10 @@ typedef enum {
   PHOSH_HOME_STATE_UNFOLDED,
 } PhoshHomeState;
 
-G_DECLARE_FINAL_TYPE (PhoshHome, phosh_home, PHOSH, HOME, PhoshLayerSurface)
+G_DECLARE_FINAL_TYPE (PhoshHome, phosh_home, PHOSH, HOME, PhoshDragSurface)
 
 GtkWidget * phosh_home_new (struct zwlr_layer_shell_v1 *layer_shell,
+                            struct zphoc_layer_shell_effects_v1 *layer_shell_effects,
                             struct wl_output *wl_output);
 void phosh_home_set_state (PhoshHome *self, PhoshHomeState state);
 PhoshOverview *phosh_home_get_overview (PhoshHome *self);

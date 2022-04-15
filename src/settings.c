@@ -33,6 +33,9 @@
 
 #include <math.h>
 
+#define STACK_CHILD_NOTIFICATIONS    "notifications"
+#define STACK_CHILD_NO_NOTIFICATIONS "no-notifications"
+
 /**
  * SECTION:settings
  * @short_description: The settings menu
@@ -41,6 +44,7 @@
 enum {
   PROP_0,
   PROP_ON_LOCKSCREEN,
+  PROP_DRAG_HANDLE_OFFSET,
   PROP_LAST_PROP,
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -56,6 +60,8 @@ typedef struct _PhoshSettings
   GtkBin parent;
 
   gboolean   on_lockscreen;
+  gint       drag_handle_offset;
+  guint      debounce_handle;
 
   GtkWidget *box_settings;
   GtkWidget *quick_settings;
@@ -118,10 +124,70 @@ phosh_settings_get_property (GObject *object,
   case PROP_ON_LOCKSCREEN:
     g_value_set_boolean (value, self->on_lockscreen);
     break;
+  case PROP_DRAG_HANDLE_OFFSET:
+    g_value_set_int (value, self->drag_handle_offset);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
   }
+}
+
+
+static void
+calc_drag_handle_offset (PhoshSettings *self)
+{
+  gint h;
+  gboolean done = FALSE;
+  const gchar *stack_child;
+  GtkWidget *widget = NULL;
+
+  stack_child = gtk_stack_get_visible_child_name (GTK_STACK (self->stack_notifications));
+
+  if (self->on_lockscreen) {
+    /* On the lock screen the space below the sliders is fine */
+    widget = self->box_bottom_half;
+  } else if (g_strcmp0 (stack_child, STACK_CHILD_NO_NOTIFICATIONS) == 0) {
+    /* Without notifications the notification box is fine */
+    widget = self->stack_notifications;
+  }
+
+  /* Otherwise assume the whole area shouldn't be draggable */
+  if (!widget)
+    goto out;
+
+  done = gtk_widget_translate_coordinates (widget,
+                                           GTK_WIDGET (self),
+                                           0, 0, NULL, &h);
+ out:
+  if (!done)
+    h = gtk_widget_get_allocated_height (GTK_WIDGET (self));
+
+  if (self->drag_handle_offset == h)
+    return;
+
+  self->drag_handle_offset = h;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_DRAG_HANDLE_OFFSET]);
+}
+
+
+static gboolean
+delayed_update_drag_handle_offset (gpointer data)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (data);
+
+  self->debounce_handle = 0;
+  calc_drag_handle_offset (self);
+  return G_SOURCE_REMOVE;
+}
+
+
+static void
+update_drag_handle_offset (PhoshSettings *self)
+{
+  g_clear_handle_id (&self->debounce_handle, g_source_remove);
+  self->debounce_handle = g_timeout_add (200, delayed_update_drag_handle_offset, self);
+  g_source_set_name_by_id (self->debounce_handle, "[phosh] delayed_update_drag_handle_offset");
 }
 
 
@@ -535,7 +601,6 @@ on_notifications_clear_all_clicked (PhoshSettings *self)
 
   manager = phosh_notify_manager_get_default ();
   phosh_notify_manager_close_all_notifications (manager, PHOSH_NOTIFICATION_REASON_DISMISSED);
-  g_signal_emit (self, signals[SETTING_DONE], 0);
 }
 
 
@@ -612,10 +677,9 @@ on_notifcation_frames_items_changed (PhoshSettings *self,
   is_empty = !g_list_model_get_n_items (list);
   g_debug("Notification list empty: %d", is_empty);
 
-  child_name = is_empty ? "no-notifications" : "notifications";
-  gtk_stack_set_visible_child_name(GTK_STACK (self->stack_notifications), child_name);
-  if (is_empty)
-    g_signal_emit (self, signals[SETTING_DONE], 0);
+  child_name = is_empty ? STACK_CHILD_NO_NOTIFICATIONS : STACK_CHILD_NOTIFICATIONS;
+  gtk_stack_set_visible_child_name (GTK_STACK (self->stack_notifications), child_name);
+  update_drag_handle_offset (self);
 }
 
 
@@ -736,6 +800,7 @@ phosh_settings_finalize (GObject *object)
   PhoshSettings *self = PHOSH_SETTINGS (object);
 
   g_clear_object (&self->mixer_control);
+  g_clear_handle_id (&self->debounce_handle, g_source_remove);
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->finalize (object);
 }
@@ -767,6 +832,19 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
       "on-lockscreen", "", "",
       FALSE,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  /* PhoshSettings:handle-offset:
+   *
+   * The offset from the top of the widget where it's safe to start
+   * dragging. Seep hosh_settings_get_drag_drag_handle_offset().
+   */
+  props[PROP_DRAG_HANDLE_OFFSET] =
+    g_param_spec_int (
+      "drag-handle-offset", "", "",
+      0,
+      G_MAXINT,
+      0,
+      G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
@@ -804,6 +882,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_clicked);
 
+  gtk_widget_class_bind_template_callback (widget_class, update_drag_handle_offset);
 }
 
 
@@ -818,4 +897,22 @@ GtkWidget *
 phosh_settings_new (void)
 {
   return g_object_new (PHOSH_TYPE_SETTINGS, NULL);
+}
+
+/**
+ * phosh_settings_get_drag_handle_offset:
+ * @self: The settings
+ *
+ * Get the y coordinate from the top of the widget where dragging
+ * can start. E.g. we don't want drag to work on notifications as
+ * notifications need to scroll in vertical direction.
+ *
+ * Returns: The y coordinate at which dragging the surface can start.
+ */
+gint
+phosh_settings_get_drag_handle_offset (PhoshSettings *self)
+{
+  g_return_val_if_fail (PHOSH_IS_SETTINGS (self), 0);
+
+  return self->drag_handle_offset;
 }

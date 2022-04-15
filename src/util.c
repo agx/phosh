@@ -449,3 +449,33 @@ phosh_util_escape_markup (const char *markup, gboolean allow_markup)
   /*invalid markup or no markup allowed */
   return g_markup_escape_text (markup, -1);
 }
+
+
+gboolean
+phosh_util_gesture_is_touch (GtkGestureSingle *gesture)
+{
+  GdkEventSequence *seq;
+  const GdkEvent *event;
+  GdkDevice *device;
+
+  g_return_val_if_fail (GTK_IS_GESTURE_SINGLE (gesture), FALSE);
+
+  seq = gtk_gesture_single_get_current_sequence (GTK_GESTURE_SINGLE (gesture));
+  event = gtk_gesture_get_last_event (GTK_GESTURE (gesture), seq);
+
+  if (event == NULL)
+    return FALSE;
+
+  if (event->type != GDK_BUTTON_PRESS && event->type != GDK_BUTTON_RELEASE)
+    return FALSE;
+
+  device = gdk_event_get_source_device (event);
+
+  if (device == NULL)
+    return FALSE;
+
+  if (gdk_device_get_source (device) != GDK_SOURCE_TOUCHSCREEN)
+    return FALSE;
+
+  return TRUE;
+}
