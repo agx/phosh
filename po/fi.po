@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-01-20 19:23+0000\n"
-"PO-Revision-Date: 2022-03-09 22:05+0200\n"
+"POT-Creation-Date: 2022-03-29 09:55+0000\n"
+"PO-Revision-Date: 2022-04-25 12:09+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -30,7 +30,7 @@ msgid "Window management and application launching for mobile"
 msgstr ""
 "Ikkunointijärjestelmän hallinta ja ohjelmien käynnistys mobiililaitteille"
 
-#: src/app-grid-button.c:502
+#: src/app-grid-button.c:507
 msgid "Application"
 msgstr "Sovellus"
 
@@ -132,15 +132,9 @@ msgstr "Ei"
 msgid "Enter Passcode"
 msgstr "Syötä salasana"
 
-#: src/lockscreen.c:362
+#: src/lockscreen.c:361
 msgid "Checking…"
 msgstr "Tarkistetaan…"
-
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:440
-msgid "%A, %B %-e"
-msgstr "%A, %-e. %Bta"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
@@ -331,27 +325,27 @@ msgstr "Salasana ei voi olla tyhjä"
 msgid "Torch"
 msgstr "Taskulamppu"
 
-#: src/ui/app-auth-prompt.ui:40
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
 msgstr "Muista valinta"
 
-#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "Peru"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "OK"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "Sovellus"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
 msgstr "Poista _suosikeista"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
 msgstr "Lisää _suosikkeihin"
 
@@ -411,6 +405,14 @@ msgstr "Tunnistaudu"
 msgid "Run Command"
 msgstr "Suorita komento"
 
+#: src/ui/settings.ui:310
+msgid "No notifications"
+msgstr "Ei ilmoituksia"
+
+#: src/ui/settings.ui:351
+msgid "Clear all"
+msgstr "Tyhjennä kaikki"
+
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Vahvista:"
@@ -423,6 +425,12 @@ msgstr "Lukitse näyttö"
 msgid "Logout"
 msgstr "Kirjaudu ulos"
 
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:337
+msgid "%A, %B %-e"
+msgstr "%A, %-e. %Bta"
+
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
@@ -432,7 +440,7 @@ msgid "Wi-Fi"
 msgstr "Wifi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:172
+#: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Puhelinverkko"
 
