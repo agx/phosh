@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <template class="PhoshEventList" parent="GtkBox">
+    <property name="orientation">vertical</property>
+    <property name="spacing">6</property>
+    <child>
+      <object class="GtkLabel" id="label">
+        <property name="visible">True</property>
+        <property name="halign">start</property>
+        <property name="justify">left</property>
+        <property name="ellipsize">end</property>
+        <property name="single-line-mode">True</property>
+        <property name="margin-top">6</property>
+        <style><class name="heading"/></style>
+        <style><class name="dim-label"/></style>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkStack" id="stack_events">
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">No events</property>
+            <property name="halign">start</property>
+            <property name="sensitive">False</property>
+            <style><class name="dim-label"/></style>
+          </object>
+          <packing>
+            <property name="name">no-events</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkListBox" id="lb_events">
+            <property name="visible">True</property>
+            <property name="selection-mode">none</property>
+          </object>
+          <packing>
+            <property name="name">events</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

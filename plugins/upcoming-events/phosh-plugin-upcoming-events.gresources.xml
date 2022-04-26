@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/sm/puri/phosh/plugins/upcoming-events/">
+    <file preprocess="xml-stripblanks">event-list.ui</file>
+    <file preprocess="xml-stripblanks">upcoming-event.ui</file>
+    <file preprocess="xml-stripblanks">upcoming-events.ui</file>
+    <file compressed="true">stylesheet/common.css</file>
+  </gresource>
+</gresources>
