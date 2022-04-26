@@ -56,7 +56,7 @@ phosh_layer_surface_sources = files(
   'layersurface.h',
 )
 
-# Symbols from these availabl in tools and unit tests
+# Symbols from these availabel in tools and unit tests
 libphosh_tool_sources = files(
   'app-auth-prompt.c',
   'app-auth-prompt.h',
@@ -128,6 +128,8 @@ libphosh_tool_sources = files(
   'overview.h',
   'osd-window.c',
   'osd-window.h',
+  'plugin-loader.c',
+  'plugin-loader.h',
   'status-icon.c',
   'status-icon.h',
   'splash.c',
@@ -152,6 +154,8 @@ libphosh_tool_sources = files(
   'swipe-away-bin.h',
   'util.c',
   'util.h',
+  'widget-box.c',
+  'widget-box.h',
   'wl-buffer.c',
   'wl-buffer.h',
 ) + [
@@ -162,7 +166,7 @@ libphosh_tool_sources = files(
   phosh_notifications_sources,
 ]
 
-# Symbols from these are not availabl in tools and unit tests
+# Symbols from these are not availabel in tools and unit tests
 libphosh_sources = files(
   'arrow.c',
   'arrow.h',
@@ -271,6 +275,7 @@ phosh_deps = [
   gio_dep,
   gio_unix_dep,
   glib_dep,
+  gmodule_dep,
   gnome_desktop_dep,
   gobject_dep,
   gsettings_desktop_schemas_dep,

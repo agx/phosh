@@ -11,6 +11,8 @@
 
 #mesondefine LOCALEDIR
 
+#mesondefine PHOSH_PLUGINS_DIR
+
 #mesondefine HAVE_RFKILL_EVENT_EXT
 
 /* Whether ASAN was enabled via meson */

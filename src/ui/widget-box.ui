@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <template class="PhoshWidgetBox" parent="GtkBox">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="HdyCarousel" id="carousel">
+        <property name="visible">True</property>
+        <property name="animation-duration">400</property>
+        <property name="allow-mouse-drag">True</property>a
+      </object>
+    </child>
+    <child>
+      <object class="HdyCarouselIndicatorDots">
+        <property name="visible">True</property>
+        <property name="carousel">carousel</property>
+      </object>
+    </child>
+  </template>
+</interface>
