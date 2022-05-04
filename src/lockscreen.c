@@ -471,7 +471,7 @@ carousel_position_notified_cb (PhoshLockscreen *self,
 
 
 static void
-on_calls_call_inbound (PhoshLockscreen *self, const gchar *path)
+on_calls_call_added (PhoshLockscreen *self, const gchar *path)
 {
   PhoshLockscreenPrivate *priv;
   PhoshCall *call;
@@ -480,7 +480,7 @@ on_calls_call_inbound (PhoshLockscreen *self, const gchar *path)
   priv = phosh_lockscreen_get_instance_private (self);
   g_return_if_fail (PHOSH_IS_CALLS_MANAGER (priv->calls_manager));
 
-  g_debug ("New inbound call %s", path);
+  g_debug ("New call %s", path);
   g_signal_emit (self, signals[WAKEUP_OUTPUT], 0);
 
   g_free (priv->active);
@@ -604,8 +604,8 @@ phosh_lockscreen_constructed (GObject *object)
   wall_clock_notify_cb (self, NULL, priv->wall_clock);
 
   g_signal_connect_object (priv->calls_manager,
-                           "call-inbound",
-                           G_CALLBACK (on_calls_call_inbound),
+                           "call-added",
+                           G_CALLBACK (on_calls_call_added),
                            self,
                            G_CONNECT_SWAPPED);
   g_signal_connect_object (priv->calls_manager,
@@ -617,7 +617,7 @@ phosh_lockscreen_constructed (GObject *object)
   /* If a call is ongoing show it when locking until we show a notification */
   active = phosh_calls_manager_get_active_call_handle (priv->calls_manager);
   if (active)
-    on_calls_call_inbound (self, active);
+    on_calls_call_added (self, active);
 
   manager = phosh_notify_manager_get_default ();
   priv->settings = g_settings_new(NOTIFICATIONS_SCHEMA_ID);

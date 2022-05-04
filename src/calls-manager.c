@@ -41,7 +41,7 @@ static GParamSpec *props[PROP_LAST_PROP];
 
 
 enum {
-  CALL_INBOUND,
+  CALL_ADDED,
   CALL_REMOVED,
   N_SIGNALS
 };
@@ -156,8 +156,7 @@ on_call_proxy_new_for_bus_finish (GObject      *source_object,
   inbound = phosh_calls_dbus_calls_call_get_inbound (proxy);
   g_debug ("Added call %s, inbound: %d", path, inbound);
 
-  if (inbound)
-    g_signal_emit (self, signals[CALL_INBOUND], 0, path);
+  g_signal_emit (self, signals[CALL_ADDED], 0, path);
 }
 
 
@@ -381,7 +380,7 @@ phosh_calls_manager_class_init (PhoshCallsManagerClass *klass)
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
-  signals[CALL_INBOUND] = g_signal_new ("call-inbound",
+  signals[CALL_ADDED] = g_signal_new ("call-added",
                                         G_TYPE_FROM_CLASS (klass),
                                         G_SIGNAL_RUN_LAST,
                                         0, NULL, NULL,

@@ -328,7 +328,7 @@ phosh_lockscreen_manager_get_property (GObject    *object,
 
 
 static void
-on_calls_call_inbound (PhoshLockscreen *self)
+on_calls_call_added (PhoshLockscreen *self)
 {
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
 
@@ -366,8 +366,8 @@ phosh_lockscreen_manager_constructed (GObject *object)
   }
 
   g_signal_connect_object (self->calls_manager,
-                           "call-inbound",
-                           G_CALLBACK (on_calls_call_inbound),
+                           "call-added",
+                           G_CALLBACK (on_calls_call_added),
                            self,
                            G_CONNECT_SWAPPED);
 }
