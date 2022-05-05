@@ -1,14 +1,14 @@
 # Joachim Moernaut <joachim@mailfence.com>, 2018. #zanata
 # Joachim Moernaut <joachim@mailfence.com>, 2019. #zanata
 # Willem Sonke <willem@wimiso.nl>, 2019. #zanata
-# Jan Jasper de Kroon <jajadekroon@gmail.com>, 2021.
+# Jan Jasper de Kroon <jajadekroon@gmail.com>, 2021-2022.
 # Nathan Follens <nfollens@gnome.org>, 2021-2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-01-20 19:23+0000\n"
-"PO-Revision-Date: 2022-03-25 19:19+0100\n"
+"POT-Creation-Date: 2022-04-25 09:10+0000\n"
+"PO-Revision-Date: 2022-04-28 10:33+0200\n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
@@ -31,7 +31,7 @@ msgstr "Telefoonshell"
 msgid "Window management and application launching for mobile"
 msgstr "Vensterbeheer en opstarten van mobiele toepassingen"
 
-#: src/app-grid-button.c:502
+#: src/app-grid-button.c:507
 msgid "Application"
 msgstr "Toepassing"
 
@@ -43,7 +43,7 @@ msgstr "Alle apps weergeven"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Alleen mobielvriendelijke apps weergeven"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
+#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
 msgid "On"
 msgstr "Aan"
 
@@ -99,14 +99,14 @@ msgstr "Onbekende applicatie"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:44
+#: src/feedbackinfo.c:69
 msgid "Quiet"
 msgstr "Rustig"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:49
+#: src/feedbackinfo.c:75
 msgid "Silent"
 msgstr "Stil"
 
@@ -127,19 +127,13 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nee"
 
-#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
+#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
 msgid "Enter Passcode"
 msgstr "Voer de pincode in"
 
-#: src/lockscreen.c:362
+#: src/lockscreen.c:364
 msgid "Checking…"
 msgstr "Bezig met controleren…"
-
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:440
-msgid "%A, %B %-e"
-msgstr "%A %d %B"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
@@ -330,27 +324,27 @@ msgstr "Wachtwoord mag niet leeg zijn"
 msgid "Torch"
 msgstr "Zaklamp"
 
-#: src/ui/app-auth-prompt.ui:40
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
 msgstr "Keuze onthouden"
 
-#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "Oké"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "App"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
 msgstr "Verwijderen uit _favorieten"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
 msgstr "Toevoegen aan _favorieten"
 
@@ -378,15 +372,15 @@ msgstr "Verbi_nden"
 msgid "Slide up to unlock"
 msgstr "Veeg omhoog om te ontgrendelen"
 
-#: src/ui/lockscreen.ui:320
+#: src/ui/lockscreen.ui:231
 msgid "Emergency"
 msgstr "Noodgeval"
 
-#: src/ui/lockscreen.ui:336
+#: src/ui/lockscreen.ui:247
 msgid "Unlock"
 msgstr "Ontgrendelen"
 
-#: src/ui/lockscreen.ui:376
+#: src/ui/lockscreen.ui:289
 msgid "Back"
 msgstr "Terug"
 
@@ -410,6 +404,14 @@ msgstr "Aanmelden"
 msgid "Run Command"
 msgstr "Opdracht uitvoeren"
 
+#: src/ui/settings.ui:317
+msgid "No notifications"
+msgstr "Geen meldingen"
+
+#: src/ui/settings.ui:358
+msgid "Clear all"
+msgstr "Alles wissen"
+
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Bevestigen:"
@@ -422,6 +424,12 @@ msgstr "Vergrendelscherm"
 msgid "Logout"
 msgstr "Afmelden"
 
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:337
+msgid "%A, %B %-e"
+msgstr "%A %d %B"
+
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
@@ -431,7 +439,7 @@ msgid "Wi-Fi"
 msgstr "Wifi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:172
+#: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Mobiel"
 
