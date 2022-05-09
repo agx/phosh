@@ -4,9 +4,7 @@ import os
 import subprocess
 import sys
 
-destdir = os.environ.get('DESTDIR', '')
-
-if not destdir and len(sys.argv) > 1:
+if 'DESTDIR' not in os.environ:
     datadir = sys.argv[1]
 
     print('Compiling gsettings schemas...')
