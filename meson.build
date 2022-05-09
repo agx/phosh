@@ -166,7 +166,7 @@ configure_file(
 
 meson.add_install_script(
   join_paths('build-aux', 'post_install.py'),
-  datadir
+  [datadir, plugins_dir],
 )
 
 subdir('data')
