@@ -29,6 +29,15 @@ ifeq ($(filter nodoc,$(DEB_BUILD_PROFILES)),)
 	ninja -C _build/ phosh-doc
 endif
 
+override_dh_auto_install:
+	set -e; for script in postinst postrm triggers; do \
+                sed -e"s/#MULTIARCH#/$(DEB_HOST_MULTIARCH)/g" \
+                    -e"s/#ARCH#/$(DEB_HOST_ARCH)/g" \
+                    debian/phosh.$$script.in \
+                    > debian/phosh.$$script ; \
+        done
+	dh_auto_install
+
 override_dh_installsystemd:
 	rm -f debian/phosh.service
 	cp data/phosh.service debian/phosh.service
