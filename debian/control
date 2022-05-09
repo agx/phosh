@@ -99,3 +99,17 @@ Description: Pure Wayland shell for mobile devices - GSettings tweaks
  based inputs and small screens.
  .
  This package contains settings to improve behaviour on mobile devices.
+
+Package: phosh-plugins
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ gsettings-desktop-schemas,
+ phoc (>= 0.13.1),
+Description: Pure Wayland shell for mobile devices - Plugins
+ Phosh is a graphical shell for Wayland compositors speaking the layer-surface
+ protocol and aimed at mobile devices like smart phones and tablets using touch
+ based inputs and small screens.
+ .
+ This package contains additional plugins.
