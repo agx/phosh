@@ -13,43 +13,43 @@
         <property name="orientation">vertical</property>
         <child>
 
-              <object class="GtkBox">
-                <!-- PHOSH_HOME_HEIGHT -->
-                <property name="height-request">40</property>
+          <object class="GtkBox">
+            <!-- PHOSH_HOME_HEIGHT -->
+            <property name="height-request">40</property>
+            <property name="visible">True</property>
+            <child type="center">
+              <object class="GtkEventBox" id="evbox_home">
                 <property name="visible">True</property>
-                <child type="center">
-                  <object class="GtkEventBox" id="evbox_home">
-                    <property name="visible">True</property>
-                    <property name="hexpand">True</property>
-                    <!-- Otherwise search gets input focus and triggers OSK -->
-                    <property name="can-focus">True</property>
-                    <child>
-                      <object class="PhoshArrow" id="arrow_home">
-                        <property name="visible">True</property>
-                        <property name="valign">center</property>
-                        <property name="halign">center</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                  </packing>
-                </child>
+                <property name="hexpand">True</property>
+                <!-- Otherwise search gets input focus and triggers OSK -->
+                <property name="can-focus">True</property>
                 <child>
-                  <object class="PhoshOskButton" id="btn_osk">
-                    <property name="visible">False</property>
-                    <property name="halign">end</property>
+                  <object class="PhoshArrow" id="arrow_home">
+                    <property name="visible">True</property>
                     <property name="valign">center</property>
-                    <property name="margin-end">6</property>
-                    <signal name="clicked" handler="osk_clicked_cb" swapped="true"/>
-                    <style>
-                      <class name="phosh-osk-button"/>
-                    </style>
+                    <property name="halign">center</property>
                   </object>
-                  <packing>
-                    <property name="pack-type">end</property>
-                  </packing>
                 </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="PhoshOskButton" id="btn_osk">
+                <property name="visible">False</property>
+                <property name="halign">end</property>
+                <property name="valign">center</property>
+                <property name="margin-end">6</property>
+                <signal name="clicked" handler="osk_clicked_cb" swapped="true"/>
+                <style>
+                  <class name="phosh-osk-button"/>
+                </style>
+              </object>
+              <packing>
+                <property name="pack-type">end</property>
+              </packing>
+            </child>
           </object>
         </child>
 
