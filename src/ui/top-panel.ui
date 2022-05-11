@@ -247,9 +247,6 @@
                     <property name="pack_type">end</property>
                   </packing>
                 </child>
-                <style>
-                  <class name="phosh-top-bar"/>
-                </style>
               </object> <!-- box_top_bar -->
               <packing>
                 <property name="name">top-bar</property>
