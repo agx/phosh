@@ -340,6 +340,10 @@ set_locked (PhoshShell *self, gboolean locked)
   priv->locked = locked;
   phosh_shell_set_state (self, PHOSH_STATE_LOCKED, priv->locked);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_LOCKED]);
+
+  /* Hide settings on screen lock, otherwise the user just sees the settigns when
+     unblanking the screen which can be confusing */
+  phosh_top_panel_fold (PHOSH_TOP_PANEL (priv->top_panel));
 }
 
 
