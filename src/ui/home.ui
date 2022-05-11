@@ -14,9 +14,10 @@
         <child>
 
           <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="name">home-bar</property>
             <!-- PHOSH_HOME_HEIGHT -->
             <property name="height-request">40</property>
-            <property name="visible">True</property>
             <child type="center">
               <object class="GtkEventBox" id="evbox_home">
                 <property name="visible">True</property>
