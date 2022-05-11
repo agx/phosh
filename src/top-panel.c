@@ -377,7 +377,7 @@ toggle_message_tray_action (GSimpleAction *action, GVariant *param, gpointer dat
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
 
   phosh_top_panel_toggle_fold (self);
-  /* TODO: focus message tray when */
+  /* TODO: focus message tray */
 }
 
 
