@@ -526,6 +526,19 @@ on_new_notification (PhoshShell         *self,
 }
 
 
+static void
+on_notification_activated (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+
+  priv = phosh_shell_get_instance_private (self);
+
+  phosh_top_panel_fold (PHOSH_TOP_PANEL (priv->top_panel));
+}
+
+
 static gboolean
 on_fade_out_timeout (PhoshShell *self)
 {
@@ -609,6 +622,11 @@ setup_idle_cb (PhoshShell *self)
   g_signal_connect_object (priv->notify_manager,
                            "new-notification",
                            G_CALLBACK (on_new_notification),
+                           self,
+                           G_CONNECT_SWAPPED);
+  g_signal_connect_object (priv->notify_manager,
+                           "notification-activated",
+                           G_CALLBACK (on_notification_activated),
                            self,
                            G_CONNECT_SWAPPED);
 
