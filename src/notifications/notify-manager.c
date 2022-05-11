@@ -39,7 +39,7 @@
 #define NOTIFY_DBUS_NAME "org.freedesktop.Notifications"
 
 enum {
-  SIGNAL_NEW_NOTIFICATION,
+  NEW_NOTIFICATION,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
@@ -689,16 +689,16 @@ phosh_notify_manager_class_init (PhoshNotifyManagerClass *klass)
    * Emitted when a new notification is received and a banner should (possibly)
    * be shown
    */
-  signals[SIGNAL_NEW_NOTIFICATION] = g_signal_new ("new-notification",
-                                                   G_TYPE_FROM_CLASS (klass),
-                                                   G_SIGNAL_RUN_LAST,
-                                                   0,
-                                                   NULL,
-                                                   NULL,
-                                                   g_cclosure_marshal_VOID__OBJECT,
-                                                   G_TYPE_NONE,
-                                                   1,
-                                                   PHOSH_TYPE_NOTIFICATION);
+  signals[NEW_NOTIFICATION] = g_signal_new ("new-notification",
+                                            G_TYPE_FROM_CLASS (klass),
+                                            G_SIGNAL_RUN_LAST,
+                                            0,
+                                            NULL,
+                                            NULL,
+                                            g_cclosure_marshal_VOID__OBJECT,
+                                            G_TYPE_NONE,
+                                            1,
+                                            PHOSH_TYPE_NOTIFICATION);
 }
 
 
@@ -819,7 +819,7 @@ phosh_notify_manager_add_notification (PhoshNotifyManager *self,
     phosh_notification_expires (notification, expire_timeout);
   }
 
-  g_signal_emit (self, signals[SIGNAL_NEW_NOTIFICATION], 0, notification);
+  g_signal_emit (self, signals[NEW_NOTIFICATION], 0, notification);
 }
 
 gboolean
