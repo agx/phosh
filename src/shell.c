@@ -114,7 +114,7 @@ static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct
 {
-  PhoshDragSurface *panel;
+  PhoshDragSurface *top_panel;
   PhoshDragSurface *home;
   GPtrArray *faders;              /* for final fade out */
 
@@ -191,8 +191,8 @@ on_top_panel_activated (PhoshShell    *self,
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
-  g_return_if_fail (PHOSH_IS_TOP_PANEL (priv->panel));
-  phosh_top_panel_toggle_fold (PHOSH_TOP_PANEL(priv->panel));
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (priv->top_panel));
+  phosh_top_panel_toggle_fold (PHOSH_TOP_PANEL(priv->top_panel));
 }
 
 
@@ -213,8 +213,8 @@ on_proximity_fader_changed (PhoshShell *self)
   on = phosh_proximity_has_fader (priv->proximity);
   layer = on ? ZWLR_LAYER_SHELL_V1_LAYER_TOP : ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY;
 
-  phosh_layer_surface_set_layer (PHOSH_LAYER_SURFACE (priv->panel), layer);
-  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (priv->panel));
+  phosh_layer_surface_set_layer (PHOSH_LAYER_SURFACE (priv->top_panel), layer);
+  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (priv->top_panel));
 }
 
 
@@ -231,7 +231,7 @@ on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
 
   g_object_get (priv->home, "state", &state, NULL);
   if (state == PHOSH_HOME_STATE_UNFOLDED) {
-    phosh_top_panel_fold (PHOSH_TOP_PANEL (priv->panel));
+    phosh_top_panel_fold (PHOSH_TOP_PANEL (priv->top_panel));
     phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
   }
   phosh_shell_set_state (self, PHOSH_STATE_OVERVIEW, state == PHOSH_HOME_STATE_UNFOLDED);
@@ -251,11 +251,12 @@ panels_create (PhoshShell *self)
   g_return_if_fail (monitor);
 
   phosh_shell_get_area (self, NULL, &height);
-  priv->panel = PHOSH_DRAG_SURFACE (phosh_top_panel_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
-                                                         phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
-                                                         monitor->wl_output,
-                                                         height));
-  gtk_widget_show (GTK_WIDGET (priv->panel));
+  priv->top_panel = PHOSH_DRAG_SURFACE (phosh_top_panel_new (
+                                          phosh_wayland_get_zwlr_layer_shell_v1 (wl),
+                                          phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
+                                          monitor->wl_output,
+                                          height));
+  gtk_widget_show (GTK_WIDGET (priv->top_panel));
 
   priv->home = PHOSH_DRAG_SURFACE (phosh_home_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                                    phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
@@ -263,7 +264,7 @@ panels_create (PhoshShell *self)
   gtk_widget_show (GTK_WIDGET (priv->home));
 
   g_signal_connect_swapped (
-    priv->panel,
+    priv->top_panel,
     "activated",
     G_CALLBACK (on_top_panel_activated),
     self);
@@ -288,7 +289,7 @@ panels_dispose (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
-  g_clear_pointer (&priv->panel, phosh_cp_widget_destroy);
+  g_clear_pointer (&priv->top_panel, phosh_cp_widget_destroy);
   g_clear_pointer (&priv->home, phosh_cp_widget_destroy);
 }
 
@@ -511,7 +512,7 @@ on_new_notification (PhoshShell         *self,
   }
 
   if (phosh_notify_manager_get_show_notification_banner (manager, notification) &&
-      phosh_top_panel_get_state (PHOSH_TOP_PANEL (priv->panel)) == PHOSH_TOP_PANEL_STATE_FOLDED &&
+      phosh_top_panel_get_state (PHOSH_TOP_PANEL (priv->top_panel)) == PHOSH_TOP_PANEL_STATE_FOLDED &&
       !priv->locked) {
     g_set_weak_pointer (&priv->notification_banner,
                         phosh_notification_banner_new (notification));
@@ -1647,7 +1648,7 @@ phosh_shell_get_app_launch_context (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
 
-  return gdk_display_get_app_launch_context (gtk_widget_get_display (GTK_WIDGET (priv->panel)));
+  return gdk_display_get_app_launch_context (gtk_widget_get_display (GTK_WIDGET (priv->top_panel)));
 }
 
 /**
