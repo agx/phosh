@@ -40,6 +40,7 @@
 
 enum {
   NEW_NOTIFICATION,
+  NOTIFICATION_ACTIVATED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
@@ -181,7 +182,7 @@ forget_unlock_notify (PhoshNotifyManager *self)
 
 
 static void
-invoke_action (PhoshNotification *notification, const gchar *action)
+invoke_action (PhoshNotifyManager *self, PhoshNotification *notification, const gchar *action)
 {
   guint id;
 
@@ -197,6 +198,7 @@ invoke_action (PhoshNotification *notification, const gchar *action)
     phosh_notification_close (notification,
                               PHOSH_NOTIFICATION_REASON_DISMISSED);
   }
+  g_signal_emit (self, signals[NOTIFICATION_ACTIVATED], 0, notification);
 }
 
 
@@ -210,7 +212,7 @@ on_shell_lock_changed (PhoshNotifyManager* self, GParamSpec *pspec, PhoshShell *
 
   locked = phosh_shell_get_locked (shell);
   if (!locked && self->unlock_notify.notification) {
-    invoke_action (self->unlock_notify.notification, self->unlock_notify.action);
+    invoke_action (self, self->unlock_notify.notification, self->unlock_notify.action);
     forget_unlock_notify (self);
   }
 }
@@ -244,7 +246,7 @@ on_notification_actioned (PhoshNotifyManager *self,
     lm = phosh_shell_get_lockscreen_manager (shell);
     phosh_lockscreen_manager_set_page (lm, PHOSH_LOCKSCREEN_PAGE_UNLOCK);
   } else {
-    invoke_action (notification, action);
+    invoke_action (self, notification, action);
   }
 }
 
@@ -699,6 +701,24 @@ phosh_notify_manager_class_init (PhoshNotifyManagerClass *klass)
                                             G_TYPE_NONE,
                                             1,
                                             PHOSH_TYPE_NOTIFICATION);
+
+  /**
+   * PhoshNotifyManager::notification-activated:
+   * @self: the #PhoshNotifyManager
+   * @notification: the #PhoshNotification
+   *
+   * Emitted when the action on a notification gets activated.
+   */
+  signals[NOTIFICATION_ACTIVATED] = g_signal_new ("notification-activated",
+                                                  G_TYPE_FROM_CLASS (klass),
+                                                  G_SIGNAL_RUN_LAST,
+                                                  0,
+                                                  NULL,
+                                                  NULL,
+                                                  g_cclosure_marshal_VOID__OBJECT,
+                                                  G_TYPE_NONE,
+                                                  1,
+                                                  PHOSH_TYPE_NOTIFICATION);
 }
 
 
