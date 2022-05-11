@@ -186,8 +186,8 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshShell, phosh_shell, G_TYPE_OBJECT)
 
 
 static void
-settings_activated_cb (PhoshShell    *self,
-                       PhoshTopPanel *window)
+on_top_panel_activated (PhoshShell    *self,
+                        PhoshTopPanel *window)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
@@ -264,8 +264,8 @@ panels_create (PhoshShell *self)
 
   g_signal_connect_swapped (
     priv->panel,
-    "settings-activated",
-    G_CALLBACK(settings_activated_cb),
+    "activated",
+    G_CALLBACK (on_top_panel_activated),
     self);
 
   g_signal_connect_swapped (
