@@ -38,8 +38,11 @@
 
 #define NOTIFY_DBUS_NAME "org.freedesktop.Notifications"
 
-static void phosh_notify_manager_notify_iface_init (
-  PhoshNotifyDBusNotificationsIface *iface);
+enum {
+  SIGNAL_NEW_NOTIFICATION,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct _PhoshNotifyManager
 {
@@ -63,20 +66,13 @@ typedef struct _PhoshNotifyManager
   PhoshNotifyFeedback *feedback;
 } PhoshNotifyManager;
 
+static void phosh_notify_manager_notify_iface_init (PhoshNotifyDBusNotificationsIface *iface);
 G_DEFINE_TYPE_WITH_CODE (PhoshNotifyManager,
                          phosh_notify_manager,
                          PHOSH_NOTIFY_DBUS_TYPE_NOTIFICATIONS_SKELETON,
                          G_IMPLEMENT_INTERFACE (
                            PHOSH_NOTIFY_DBUS_TYPE_NOTIFICATIONS,
                            phosh_notify_manager_notify_iface_init));
-
-
-enum {
-  SIGNAL_NEW_NOTIFICATION,
-  N_SIGNALS
-};
-static guint signals[N_SIGNALS] = { 0 };
-
 
 static gboolean
 handle_close_notification (PhoshNotifyDBusNotifications *skeleton,
