@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-04-12 10:55+0000\n"
-"PO-Revision-Date: 2022-04-15 10:27+0200\n"
+"POT-Creation-Date: 2022-05-05 17:33+0000\n"
+"PO-Revision-Date: 2022-05-13 23:17+0200\n"
 "Last-Translator: Quentin PAGÈS\n"
 "Language-Team: Occitan <totenoc@gmail.com>\n"
 "Language: oc\n"
@@ -108,7 +108,7 @@ msgstr "Silenciós"
 #. for details
 #: src/feedbackinfo.c:75
 msgid "Silent"
-msgstr ""
+msgstr "Mòde silenciós"
 
 #: src/location-manager.c:268
 #, c-format
@@ -121,7 +121,7 @@ msgstr "Geolocalizacion"
 
 #: src/location-manager.c:274
 msgid "Yes"
-msgstr "Òc "
+msgstr "Òc"
 
 #: src/location-manager.c:274
 msgid "No"
@@ -147,7 +147,7 @@ msgstr "Artista desconegut"
 
 #: src/monitor-manager.c:119
 msgid "Built-in display"
-msgstr ""
+msgstr "Afichatge integrat"
 
 #: src/monitor-manager.c:137
 #, c-format
@@ -261,19 +261,19 @@ msgstr "ara"
 #: src/notifications/timestamp-label.c:189
 #, c-format
 msgid "Over %dy"
-msgstr ""
+msgstr "Mai de %d ans"
 
 #. Translators: time difference "almost 5 years"
 #: src/notifications/timestamp-label.c:193
 #, c-format
 msgid "Almost %dy"
-msgstr ""
+msgstr "Gairebne %d ans"
 
 #. Translators: a time difference like '<5m', if in doubt leave untranslated
 #: src/notifications/timestamp-label.c:200
 #, c-format
 msgid "%s%d%s"
-msgstr ""
+msgstr "%s%d%s"
 
 #: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
@@ -305,7 +305,7 @@ msgstr "Atudat"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
-msgstr ""
+msgstr "Quichatz Escap. per quitar"
 
 #: src/run-command-manager.c:94
 #, c-format
@@ -314,11 +314,11 @@ msgstr ""
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
-msgstr ""
+msgstr "Los senhals correspondon pas."
 
 #: src/system-prompt.c:372
 msgid "Password cannot be blank"
-msgstr ""
+msgstr "Lo senhal pòt pas èsser void"
 
 #: src/torch-info.c:80
 msgid "Torch"
@@ -326,7 +326,7 @@ msgstr "Lampa de pòcha"
 
 #: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
-msgstr ""
+msgstr "Se remembrar de la causida"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
@@ -334,15 +334,15 @@ msgstr "Anullar"
 
 #: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
 msgid "Ok"
-msgstr ""
+msgstr "D’acòrdi"
 
 #: src/ui/app-grid-button.ui:55
 msgid "App"
-msgstr ""
+msgstr "Aplicacion"
 
 #: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Tirar dels _favorits"
 
 #: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
@@ -350,11 +350,11 @@ msgstr "Apondre als _favorits"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr ""
+msgstr "Cercar aplicacions…"
 
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
-msgstr ""
+msgstr "D'unas aplicacions son ocupadas o an de prèt pas salvats"
 
 #: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
@@ -386,7 +386,7 @@ msgstr "Tornar"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
-msgstr ""
+msgstr "Autentificacion requesida"
 
 #: src/ui/network-auth-prompt.ui:40
 msgid "_Cancel"
@@ -404,17 +404,17 @@ msgstr "S'autentificar"
 msgid "Run Command"
 msgstr "Executar la comanda"
 
-#: src/ui/settings.ui:316
+#: src/ui/settings.ui:317
 msgid "No notifications"
 msgstr "Cap de notificacions"
 
-#: src/ui/settings.ui:357
+#: src/ui/settings.ui:358
 msgid "Clear all"
 msgstr "Tot escafar"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
-msgstr ""
+msgstr "Confirmar :"
 
 #: src/ui/top-panel.ui:15
 msgid "Lock Screen"
@@ -441,4 +441,4 @@ msgstr "Wi-Fi"
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:200
 msgid "Cellular"
-msgstr ""
+msgstr "Mobil"
