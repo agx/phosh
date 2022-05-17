@@ -33,7 +33,7 @@ variables:
   COMMON_BUILD_OPTS: -Db_coverage=true --werror -Dtools=true
   ALPINE_EDGE_DEPS: alpine-sdk callaudiod-dev elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
                     gtk+3.0-dev libgudev-dev libhandy1-dev gcr-dev libsecret-dev gcovr linux-pam-dev
-                    meson musl-dev networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
+                    meson musl-dev networkmanager networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
                     upower-dev wayland-dev wayland-protocols ttf-dejavu
 
 .bookworm_vars: &bookworm_vars
