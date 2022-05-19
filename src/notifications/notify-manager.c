@@ -38,8 +38,12 @@
 
 #define NOTIFY_DBUS_NAME "org.freedesktop.Notifications"
 
-static void phosh_notify_manager_notify_iface_init (
-  PhoshNotifyDBusNotificationsIface *iface);
+enum {
+  NEW_NOTIFICATION,
+  NOTIFICATION_ACTIVATED,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct _PhoshNotifyManager
 {
@@ -63,20 +67,13 @@ typedef struct _PhoshNotifyManager
   PhoshNotifyFeedback *feedback;
 } PhoshNotifyManager;
 
+static void phosh_notify_manager_notify_iface_init (PhoshNotifyDBusNotificationsIface *iface);
 G_DEFINE_TYPE_WITH_CODE (PhoshNotifyManager,
                          phosh_notify_manager,
                          PHOSH_NOTIFY_DBUS_TYPE_NOTIFICATIONS_SKELETON,
                          G_IMPLEMENT_INTERFACE (
                            PHOSH_NOTIFY_DBUS_TYPE_NOTIFICATIONS,
                            phosh_notify_manager_notify_iface_init));
-
-
-enum {
-  SIGNAL_NEW_NOTIFICATION,
-  N_SIGNALS
-};
-static guint signals[N_SIGNALS] = { 0 };
-
 
 static gboolean
 handle_close_notification (PhoshNotifyDBusNotifications *skeleton,
@@ -185,7 +182,7 @@ forget_unlock_notify (PhoshNotifyManager *self)
 
 
 static void
-invoke_action (PhoshNotification *notification, const gchar *action)
+invoke_action (PhoshNotifyManager *self, PhoshNotification *notification, const gchar *action)
 {
   guint id;
 
@@ -201,6 +198,7 @@ invoke_action (PhoshNotification *notification, const gchar *action)
     phosh_notification_close (notification,
                               PHOSH_NOTIFICATION_REASON_DISMISSED);
   }
+  g_signal_emit (self, signals[NOTIFICATION_ACTIVATED], 0, notification);
 }
 
 
@@ -214,7 +212,7 @@ on_shell_lock_changed (PhoshNotifyManager* self, GParamSpec *pspec, PhoshShell *
 
   locked = phosh_shell_get_locked (shell);
   if (!locked && self->unlock_notify.notification) {
-    invoke_action (self->unlock_notify.notification, self->unlock_notify.action);
+    invoke_action (self, self->unlock_notify.notification, self->unlock_notify.action);
     forget_unlock_notify (self);
   }
 }
@@ -248,7 +246,7 @@ on_notification_actioned (PhoshNotifyManager *self,
     lm = phosh_shell_get_lockscreen_manager (shell);
     phosh_lockscreen_manager_set_page (lm, PHOSH_LOCKSCREEN_PAGE_UNLOCK);
   } else {
-    invoke_action (notification, action);
+    invoke_action (self, notification, action);
   }
 }
 
@@ -693,16 +691,34 @@ phosh_notify_manager_class_init (PhoshNotifyManagerClass *klass)
    * Emitted when a new notification is received and a banner should (possibly)
    * be shown
    */
-  signals[SIGNAL_NEW_NOTIFICATION] = g_signal_new ("new-notification",
-                                                   G_TYPE_FROM_CLASS (klass),
-                                                   G_SIGNAL_RUN_LAST,
-                                                   0,
-                                                   NULL,
-                                                   NULL,
-                                                   g_cclosure_marshal_VOID__OBJECT,
-                                                   G_TYPE_NONE,
-                                                   1,
-                                                   PHOSH_TYPE_NOTIFICATION);
+  signals[NEW_NOTIFICATION] = g_signal_new ("new-notification",
+                                            G_TYPE_FROM_CLASS (klass),
+                                            G_SIGNAL_RUN_LAST,
+                                            0,
+                                            NULL,
+                                            NULL,
+                                            g_cclosure_marshal_VOID__OBJECT,
+                                            G_TYPE_NONE,
+                                            1,
+                                            PHOSH_TYPE_NOTIFICATION);
+
+  /**
+   * PhoshNotifyManager::notification-activated:
+   * @self: the #PhoshNotifyManager
+   * @notification: the #PhoshNotification
+   *
+   * Emitted when the action on a notification gets activated.
+   */
+  signals[NOTIFICATION_ACTIVATED] = g_signal_new ("notification-activated",
+                                                  G_TYPE_FROM_CLASS (klass),
+                                                  G_SIGNAL_RUN_LAST,
+                                                  0,
+                                                  NULL,
+                                                  NULL,
+                                                  g_cclosure_marshal_VOID__OBJECT,
+                                                  G_TYPE_NONE,
+                                                  1,
+                                                  PHOSH_TYPE_NOTIFICATION);
 }
 
 
@@ -823,7 +839,7 @@ phosh_notify_manager_add_notification (PhoshNotifyManager *self,
     phosh_notification_expires (notification, expire_timeout);
   }
 
-  g_signal_emit (self, signals[SIGNAL_NEW_NOTIFICATION], 0, notification);
+  g_signal_emit (self, signals[NEW_NOTIFICATION], 0, notification);
 }
 
 gboolean

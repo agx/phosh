@@ -48,7 +48,7 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 enum {
-  SETTINGS_ACTIVATED,
+  ACTIVATED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
@@ -365,7 +365,7 @@ released_cb (PhoshTopPanel *self, int n_press, double x, double y, GtkGestureMul
   }
 
   if (phosh_util_gesture_is_touch (GTK_GESTURE_SINGLE (gesture)) == FALSE)
-    phosh_top_panel_toggle_fold (self);
+    g_signal_emit (self, signals[ACTIVATED], 0);
 }
 
 
@@ -377,7 +377,7 @@ toggle_message_tray_action (GSimpleAction *action, GVariant *param, gpointer dat
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
 
   phosh_top_panel_toggle_fold (self);
-  /* TODO: focus message tray when */
+  /* TODO: focus message tray */
 }
 
 
@@ -670,7 +670,7 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
-  signals[SETTINGS_ACTIVATED] = g_signal_new ("settings-activated",
+  signals[ACTIVATED] = g_signal_new ("activated",
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 

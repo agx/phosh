@@ -1,11 +1,11 @@
 /*
- * Top panel bar
+ * Top panel and bar
  */
 phosh-top-panel {
   font: 15px Cantarell;
 }
 
-.phosh-top-bar {
+#top-bar {
   padding: 4px 9px 4px 9px;
 }
 
