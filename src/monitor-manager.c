@@ -317,7 +317,7 @@ phosh_monitor_manager_handle_get_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
   PhoshMonitor *monitor;
-  guint32 n_bytes;
+  guint32 n_bytes = 0;
   g_autoptr (GBytes) red_bytes = NULL, green_bytes = NULL, blue_bytes = NULL;
   GVariant *red_v, *green_v, *blue_v;
 
@@ -339,20 +339,15 @@ phosh_monitor_manager_handle_get_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
 
   monitor = g_ptr_array_index (self->monitors, crtc_id);
 
-  if (!monitor->gamma_control) {
-    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
-                                           G_DBUS_ERROR_NOT_SUPPORTED,
-                                           "gamma control not supported");
-    return TRUE;
-  }
-
   /* All known clients using libgnome-desktop's
      gnome_rr_crtc_get_gamma only do so to get the size of the gamma
      table. So don't bother getting the real table since this is not
      supported by wlroots: https://github.com/swaywm/wlroots/pull/1059.
      Return an empty table instead.
   */
-  n_bytes = monitor->n_gamma_entries * 2;
+  if (phosh_monitor_has_gamma (monitor))
+    n_bytes = monitor->n_gamma_entries * 2;
+
   g_debug ("Gamma table entries: %d", monitor->n_gamma_entries);
   red_bytes = g_bytes_new_take (g_malloc0 (n_bytes), n_bytes);
   green_bytes = g_bytes_new_take (g_malloc0 (n_bytes), n_bytes);
@@ -401,10 +396,18 @@ phosh_monitor_manager_handle_set_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
 
   monitor = g_ptr_array_index (self->monitors, crtc_id);
 
-  if (!monitor->gamma_control) {
-    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
-                                           G_DBUS_ERROR_NOT_SUPPORTED,
-                                           "gamma control not supported");
+  if (!phosh_monitor_has_gamma (monitor)) {
+    /* NightLightSupported is true whenever some monitor supports it */
+    if (phosh_dbus_display_config_get_night_light_supported (skeleton)) {
+      g_debug ("Monitor does not support gamma control");
+      phosh_dbus_display_config_complete_set_crtc_gamma (
+        skeleton,
+        invocation);
+    } else {
+      g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                             G_DBUS_ERROR_NOT_SUPPORTED,
+                                             "gamma control not supported");
+    }
     return TRUE;
   }
 
@@ -1022,6 +1025,34 @@ find_monitor_by_wl_output (PhoshMonitorManager *self, struct wl_output *output)
 
 
 static void
+phosh_monitor_manager_set_night_light_supported (PhoshMonitorManager *self)
+{
+  gboolean night_light_supported = FALSE;
+
+  for (guint i = 0; i < self->monitors->len; i++) {
+    PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
+
+    if (phosh_monitor_has_gamma (monitor)) {
+      night_light_supported = TRUE;
+      break;
+    }
+  }
+
+  phosh_dbus_display_config_set_night_light_supported (
+    PHOSH_DBUS_DISPLAY_CONFIG (self), night_light_supported);
+}
+
+
+static void
+on_monitor_n_gamma_entries_changed (PhoshMonitorManager *self)
+{
+  g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
+
+  phosh_monitor_manager_set_night_light_supported (self);
+}
+
+
+static void
 on_monitor_configured (PhoshMonitorManager *self, PhoshMonitor *monitor)
 {
   g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
@@ -1044,6 +1075,12 @@ on_monitor_configured (PhoshMonitorManager *self, PhoshMonitor *monitor)
       self->pending_primary = NULL;
     }
   }
+
+  g_signal_connect_swapped (monitor, "notify::n-gamma-entries",
+                            G_CALLBACK (on_monitor_n_gamma_entries_changed),
+                            self);
+
+  phosh_monitor_manager_set_night_light_supported (self);
 }
 
 
@@ -1057,6 +1094,7 @@ on_monitor_removed (PhoshMonitorManager *self,
 
   g_debug("Monitor %p (%s) removed", monitor, monitor->name);
   g_ptr_array_remove (self->monitors, monitor);
+  phosh_monitor_manager_set_night_light_supported (self);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_N_MONITORS]);
 }
 

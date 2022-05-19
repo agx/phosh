@@ -540,6 +540,19 @@ phosh_monitor_is_flipped (PhoshMonitor *self)
 
 
 /**
+ * phosh_monitor_has_gamma:
+ * @self: A #PhoshMonitor
+ *
+ * Returns: %TRUE if the monitor can modify gamma
+ */
+gboolean
+phosh_monitor_has_gamma (PhoshMonitor *self)
+{
+  return self->gamma_control && (self->n_gamma_entries > 0);
+}
+
+
+/**
  * phosh_monitor_get_transform:
  * @self: A #PhoshMonitor
  *
