@@ -369,6 +369,10 @@ on_keybindings_changed (PhoshHome *self,
 static void
 phosh_home_dragged (PhoshDragSurface *self, int margin)
 {
+  PhoshHome *home = PHOSH_HOME (self);
+  int width, height;
+  gtk_window_get_size (GTK_WINDOW (self), &width, &height);
+  phosh_arrow_set_progress (PHOSH_ARROW (home->arrow_home), 1.0 - (-margin / (double)(height - PHOSH_HOME_BUTTON_HEIGHT)));
   g_debug ("Margin: %d", margin);
 }
 
