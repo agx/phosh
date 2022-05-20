@@ -23,6 +23,7 @@ enum {
   PHOSH_MONITOR_PROP_0,
   PHOSH_MONITOR_PROP_WL_OUTPUT,
   PHOSH_MONITOR_PROP_POWER_MODE,
+  PHOSH_MONITOR_PROP_N_GAMMA_ENTRIES,
   PHOSH_MONITOR_PROP_LAST_PROP,
 };
 static GParamSpec *props[PHOSH_MONITOR_PROP_LAST_PROP];
@@ -277,6 +278,7 @@ handle_wl_gamma_size (void *data, struct zwlr_gamma_control_v1 *gamma_control, u
   PhoshMonitor *self = PHOSH_MONITOR (data);
 
   self->n_gamma_entries = size;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_MONITOR_PROP_N_GAMMA_ENTRIES]);
 }
 
 
@@ -331,6 +333,9 @@ phosh_monitor_get_property (GObject *object,
     break;
   case PHOSH_MONITOR_PROP_POWER_MODE:
     g_value_set_enum (value, self->power_mode);
+    break;
+  case PHOSH_MONITOR_PROP_N_GAMMA_ENTRIES:
+    g_value_set_uint (value, self->n_gamma_entries);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -427,6 +432,13 @@ phosh_monitor_class_init (PhoshMonitorClass *klass)
                        "The  power save mode for this monitor",
                        PHOSH_TYPE_MONITOR_POWER_SAVE_MODE,
                        PHOSH_MONITOR_POWER_SAVE_MODE_OFF,
+                       G_PARAM_READABLE |
+                       G_PARAM_STATIC_STRINGS);
+  props[PHOSH_MONITOR_PROP_N_GAMMA_ENTRIES] =
+    g_param_spec_uint ("n-gamma-entries",
+                       "n-gamma-entries",
+                       "The number of gamma entries for this monitor",
+                       0, G_MAXUINT32, 0,
                        G_PARAM_READABLE |
                        G_PARAM_STATIC_STRINGS);
   g_object_class_install_properties (object_class, PHOSH_MONITOR_PROP_LAST_PROP, props);
