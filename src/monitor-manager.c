@@ -1323,6 +1323,9 @@ phosh_monitor_manager_constructed (GObject *object)
                                        &zwlr_output_manager_v1_listener,
                                        self);
 
+  phosh_dbus_display_config_set_apply_monitors_config_allowed (
+    PHOSH_DBUS_DISPLAY_CONFIG (self), TRUE);
+
   g_idle_add ((GSourceFunc) on_idle, self);
 }
 
