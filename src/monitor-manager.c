@@ -916,6 +916,22 @@ phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skel
 }
 
 
+static gboolean
+phosh_monitor_manager_handle_set_output_ctm (PhoshDBusDisplayConfig *skeleton,
+                                             GDBusMethodInvocation  *invocation,
+                                             guint                   serial,
+                                             guint                   output,
+                                             GVariant               *ctm)
+{
+  g_debug ("Unimplemented DBus call %s", __func__);
+  g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                         G_DBUS_ERROR_NOT_SUPPORTED,
+                                         "Changing the color transformation"
+                                         "matrix not supported");
+  return TRUE;
+}
+
+
 static void
 phosh_monitor_manager_display_config_init (PhoshDBusDisplayConfigIface *iface)
 {
@@ -925,6 +941,7 @@ phosh_monitor_manager_display_config_init (PhoshDBusDisplayConfigIface *iface)
   iface->handle_set_crtc_gamma = phosh_monitor_manager_handle_set_crtc_gamma;
   iface->handle_get_current_state = phosh_monitor_manager_handle_get_current_state;
   iface->handle_apply_monitors_config = phosh_monitor_manager_handle_apply_monitors_config;
+  iface->handle_set_output_ctm = phosh_monitor_manager_handle_set_output_ctm;
 }
 
 
