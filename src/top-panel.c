@@ -30,7 +30,7 @@
 #define KEYBINDINGS_SCHEMA_ID "org.gnome.shell.keybindings"
 #define KEYBINDING_KEY_TOGGLE_MESSAGE_TRAY "toggle-message-tray"
 
-#define PHOSH_TOP_PANEL_DRAG_THRESHOLD 0.5
+#define PHOSH_TOP_PANEL_DRAG_THRESHOLD 0.3
 
 /**
  * SECTION:top-panel
