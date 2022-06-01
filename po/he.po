@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-03-29 09:55+0000\n"
-"PO-Revision-Date: 2022-04-01 18:06+0300\n"
+"POT-Creation-Date: 2022-06-01 08:28+0000\n"
+"PO-Revision-Date: 2022-06-01 12:46+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <>\n"
 "Language: he\n"
@@ -30,7 +30,7 @@ msgstr "מעטפת לטלפון"
 msgid "Window management and application launching for mobile"
 msgstr "מנהל חלונות ומשגר יישומים לטלפון נייד"
 
-#: src/app-grid-button.c:507
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "יישום"
 
@@ -42,7 +42,7 @@ msgstr "הצגת כל היישומים"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "הצגת יישומים מותאמים לנייד בלבד"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
+#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
 msgid "On"
 msgstr "פעיל"
 
@@ -104,14 +104,14 @@ msgstr "יישום לא ידוע"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:44
+#: src/feedbackinfo.c:69
 msgid "Quiet"
 msgstr "רטט"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:49
+#: src/feedbackinfo.c:75
 msgid "Silent"
 msgstr "שקט"
 
@@ -132,11 +132,11 @@ msgstr "כן"
 msgid "No"
 msgstr "לא"
 
-#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
+#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
 msgid "Enter Passcode"
 msgstr "הזנת ססמה"
 
-#: src/lockscreen.c:361
+#: src/lockscreen.c:364
 msgid "Checking…"
 msgstr "בודק…"
 
@@ -353,6 +353,10 @@ msgstr "הסרה מה_מועדפים"
 msgid "Add to _Favorites"
 msgstr "הוספה למועד_פים"
 
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "הצגת _פרטים"
+
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "חיפוש יישומים…"
@@ -377,15 +381,15 @@ msgstr "הת_חברות"
 msgid "Slide up to unlock"
 msgstr "החלקה כלפי מעלה לביטול הנעילה"
 
-#: src/ui/lockscreen.ui:320
+#: src/ui/lockscreen.ui:231
 msgid "Emergency"
 msgstr "מצב חירום"
 
-#: src/ui/lockscreen.ui:336
+#: src/ui/lockscreen.ui:247
 msgid "Unlock"
 msgstr "שחרור"
 
-#: src/ui/lockscreen.ui:376
+#: src/ui/lockscreen.ui:289
 msgid "Back"
 msgstr "חזרה"
 
@@ -409,12 +413,11 @@ msgstr "אימות"
 msgid "Run Command"
 msgstr "הרצת פקודה"
 
-#: src/ui/settings.ui:310
-#| msgid "Notification"
+#: src/ui/settings.ui:317
 msgid "No notifications"
 msgstr "אין התרעות"
 
-#: src/ui/settings.ui:351
+#: src/ui/settings.ui:358
 msgid "Clear all"
 msgstr "ניקוי הכול"
 
@@ -432,7 +435,7 @@ msgstr "יציאה"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:337
+#: src/util.c:340
 msgid "%A, %B %-e"
 msgstr "%A, %B %e"
 
