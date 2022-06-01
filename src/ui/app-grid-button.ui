@@ -85,6 +85,11 @@
         <attribute name="action">favorite-add</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
+      <item>
+        <attribute name="label" translatable="yes">View _Details</attribute>
+        <attribute name="action">view-details</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
     </section>
   </menu>
 </interface>

@@ -19,6 +19,9 @@
 #include <fcntl.h>
 
 
+static gboolean have_gnome_software = -1;
+
+
 /* Just wraps gtk_widget_destroy so we can use it with g_clear_pointer */
 void
 phosh_cp_widget_destroy (void *widget)
@@ -478,4 +481,24 @@ phosh_util_gesture_is_touch (GtkGestureSingle *gesture)
     return FALSE;
 
   return TRUE;
+}
+
+
+/**
+ * phosh_util_have_gnome_software:
+ * @scan: Whether to scan $PATH again
+ *
+ * Returns: the (cached) answer if gnome-software can be found in the path.
+ */
+gboolean
+phosh_util_have_gnome_software (gboolean scan)
+{
+  g_autofree gchar *path = NULL;
+
+  if (have_gnome_software >= 0 && !scan)
+    return have_gnome_software;
+
+  path = g_find_program_in_path ("gnome-software");
+  have_gnome_software =  !!path;
+  return have_gnome_software;
 }

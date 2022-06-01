@@ -13,6 +13,7 @@
 #include "fading-label.h"
 #include "phosh-enums.h"
 #include "favorite-list-model.h"
+#include "util.h"
 
 #include "shell.h"
 #include "util.h"
@@ -305,6 +306,24 @@ favorite_add_activated (GSimpleAction *action,
 
 
 static void
+view_details_activated (GSimpleAction *action,
+                        GVariant      *parameter,
+                        gpointer       data)
+{
+  PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (data);
+  PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
+  const gchar *argv[] = { "gnome-software", "--details", "appid", NULL };
+  const char *app_id;
+
+  app_id = g_app_info_get_id (priv->info);
+  g_return_if_fail (app_id);
+  argv[2] = app_id;
+
+  g_spawn_async (NULL, (char **)argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL);
+}
+
+
+static void
 long_pressed (GtkGestureLongPress *gesture,
               double               x,
               double               y,
@@ -319,6 +338,7 @@ static GActionEntry entries[] =
   { .name = "action", .activate = action_activated, .parameter_type = "s" },
   { .name = "favorite-remove", .activate = favorite_remove_activated },
   { .name = "favorite-add", .activate = favorite_add_activated },
+  { .name = "view-details", .activate = view_details_activated },
 };
 
 
@@ -345,6 +365,8 @@ phosh_app_grid_button_init (PhoshAppGridButton *self)
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), TRUE);
   act = g_action_map_lookup_action (priv->action_map, "favorite-remove");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
+  act = g_action_map_lookup_action (priv->action_map, "view-details");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (act), phosh_util_have_gnome_software (FALSE));
 
   g_type_ensure (PHOSH_TYPE_CLAMP);
   g_type_ensure (PHOSH_TYPE_FADING_LABEL);
