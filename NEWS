@@ -1,3 +1,42 @@
+phosh 0.20.0~beta1
+-------------------
+Released May 2022
+* This is a beta release
+* Home- and top-bar swipe gesture support
+* Make settings and top-bar available on lock screen
+* Move settings menu closer to designs
+* Feedback indicator in top-bar
+* Allow to view app details
+* New DisplayConfig properties like
+  ApplyMonitorsConfigAllowed and NightLightSupported.
+* Another large round of cleanups and fixes
+  including a fix for the HKS indicator
+* Contributors:
+	Arnaud Ferraris
+	Guido Günther
+	InsanePrawn
+	Nathan Sherwood
+	Pablo Correa Gómez
+	Sam Hewitt
+	Sebastian Krzyszkowiak
+	Thomas
+* UI translations:
+	Balázs Úr (hu)
+	Danial Behzadi (fa)
+	Daniel Șerbănescu (ro)
+	Emin Tufan Çetin (tr)
+	Hugo Carvalho (pt)
+	Jiri Grönroos (fi)
+	Luna Jernberg (sv)
+	Nathan Follens (nl)
+	Pablo Barciela (es)
+	Piotr Drąg (pl)
+	Quentin PAGÈS (oc)
+	Vittorio Monti (it)
+	Yosef Or Boczko (he)
+	Yuri Chornoivan (uk)
+	Zurab Kargareteli (ka)
+
 phosh 0.17.0
 ------------
 Released: March 2022
