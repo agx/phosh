@@ -291,6 +291,20 @@
     <property name="PanelOrientationManaged" type="b" access="read" />
 
     <!--
+        ApplyMonitorsConfigAllowed:
+
+        Whether calling the ApplyMonitorsConfig method is allowed.
+    -->
+    <property name="ApplyMonitorsConfigAllowed" type="b" access="read" />
+
+    <!--
+        NightLightSupported:
+
+        Whether night light is supported by this system.
+    -->
+    <property name="NightLightSupported" type="b" access="read" />
+
+    <!--
         MonitorsChanged:
 
 	The signal is emitted every time the screen configuration
@@ -336,6 +350,12 @@
 				laptop panel (absence of this means it is
 				not built in)
 	    - "display-name" (s): a human readable display name of the monitor
+	    - "privacy-screen-state" (bb): the state of the privacy screen
+				     (absence of this means it is not being
+				     supported) first value indicates whether
+				     it's enabled and second value whether it's
+				     hardware locked (and so can't be changed
+				     via gsettings)
 
         Possible mode flags:
 	  1 : preferred mode
@@ -454,6 +474,20 @@
       <arg name="method" direction="in" type="u" />
       <arg name="logical_monitors" direction="in" type="a(iiduba(ssa{sv}))" />
       <arg name="properties" direction="in" type="a{sv}" />
+    </method>
+
+    <!--
+        SetOutputCTM:
+        @serial: configuration serial
+        @output: API id of the output
+        @ctm: 3x3 matrix in fixed-point sign-magnitude S31.32
+
+        Changes the color transform matrix of @output
+    -->
+    <method name="SetOutputCTM">
+      <arg name="serial" direction="in" type="u" />
+      <arg name="output" direction="in" type="u" />
+      <arg name="ctm" direction="in" type="(ttttttttt)" />
     </method>
   </interface>
 </node>

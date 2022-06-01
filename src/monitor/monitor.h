@@ -151,6 +151,7 @@ PhoshMonitorMode * phosh_monitor_get_current_mode (PhoshMonitor *self);
 gboolean           phosh_monitor_is_configured (PhoshMonitor *self);
 gboolean           phosh_monitor_is_builtin (PhoshMonitor *self);
 gboolean           phosh_monitor_is_flipped (PhoshMonitor *self);
+gboolean           phosh_monitor_has_gamma (PhoshMonitor *self);
 guint              phosh_monitor_get_transform (PhoshMonitor *self);
 void               phosh_monitor_set_power_save_mode (PhoshMonitor *self,
                                                       PhoshMonitorPowerSaveMode mode);
