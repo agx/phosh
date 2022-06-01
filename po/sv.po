@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-03-29 09:55+0000\n"
-"PO-Revision-Date: 2022-03-29 13:54+0200\n"
-"Last-Translator: Luna Jernberg <droidbittin@gmail.com>\n"
+"POT-Creation-Date: 2022-06-01 08:28+0000\n"
+"PO-Revision-Date: 2022-06-01 17:17+0200\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "Phone Shell"
 msgid "Window management and application launching for mobile"
 msgstr "Fönsterhantering och programstartare för mobil"
 
-#: src/app-grid-button.c:507
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "Program"
 
@@ -43,7 +43,7 @@ msgstr "Visa alla appar"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Visa endast mobilanpassade appar"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
+#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
 msgid "On"
 msgstr "På"
 
@@ -100,14 +100,14 @@ msgstr "Okänt program"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:44
+#: src/feedbackinfo.c:69
 msgid "Quiet"
 msgstr "Ljudlös"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:49
+#: src/feedbackinfo.c:75
 msgid "Silent"
 msgstr "Tyst"
 
@@ -128,11 +128,11 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nej"
 
-#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
+#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
 msgid "Enter Passcode"
 msgstr "Ange lösenord"
 
-#: src/lockscreen.c:361
+#: src/lockscreen.c:364
 msgid "Checking…"
 msgstr "Kontrollerar…"
 
@@ -349,6 +349,10 @@ msgstr "Ta bort från _favoriter"
 msgid "Add to _Favorites"
 msgstr "Lägg till i _favoriter"
 
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "Visa _detaljer"
+
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Sök appar…"
@@ -373,15 +377,15 @@ msgstr "A_nslut"
 msgid "Slide up to unlock"
 msgstr "Svep uppåt för att låsa upp"
 
-#: src/ui/lockscreen.ui:320
+#: src/ui/lockscreen.ui:231
 msgid "Emergency"
 msgstr "Nödläge"
 
-#: src/ui/lockscreen.ui:336
+#: src/ui/lockscreen.ui:247
 msgid "Unlock"
 msgstr "Lås upp"
 
-#: src/ui/lockscreen.ui:376
+#: src/ui/lockscreen.ui:289
 msgid "Back"
 msgstr "Bakåt"
 
@@ -405,11 +409,11 @@ msgstr "Godkänn"
 msgid "Run Command"
 msgstr "Kör kommando"
 
-#: src/ui/settings.ui:310
+#: src/ui/settings.ui:317
 msgid "No notifications"
 msgstr "Inga aviseringar"
 
-#: src/ui/settings.ui:351
+#: src/ui/settings.ui:358
 msgid "Clear all"
 msgstr "Rensa alla"
 
@@ -427,7 +431,7 @@ msgstr "Logga ut"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:337
+#: src/util.c:340
 msgid "%A, %B %-e"
 msgstr "%A, %-e %B"
 
