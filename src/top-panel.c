@@ -30,7 +30,7 @@
 #define KEYBINDINGS_SCHEMA_ID "org.gnome.shell.keybindings"
 #define KEYBINDING_KEY_TOGGLE_MESSAGE_TRAY "toggle-message-tray"
 
-#define PHOSH_TOP_PANEL_DRAG_THRESHOLD 0.5
+#define PHOSH_TOP_PANEL_DRAG_THRESHOLD 0.3
 
 /**
  * SECTION:top-panel
@@ -417,6 +417,10 @@ on_keybindings_changed (PhoshTopPanel *self,
 static void
 phosh_top_panel_dragged (PhoshDragSurface *self, int margin)
 {
+  PhoshTopPanel *panel = PHOSH_TOP_PANEL (self);
+  int width, height;
+  gtk_window_get_size (GTK_WINDOW (self), &width, &height);
+  phosh_arrow_set_progress (PHOSH_ARROW (panel->arrow), -margin / (double)(height - PHOSH_TOP_PANEL_HEIGHT));
   g_debug ("Margin: %d", margin);
 }
 
