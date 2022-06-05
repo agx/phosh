@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-03-29 09:55+0000\n"
-"PO-Revision-Date: 2022-04-01 15:02+0200\n"
+"POT-Creation-Date: 2022-06-01 08:28+0000\n"
+"PO-Revision-Date: 2022-06-05 13:45+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -32,7 +32,7 @@ msgstr "Powłoka telefonu"
 msgid "Window management and application launching for mobile"
 msgstr "Zarządzanie oknami i uruchamianiem programów na telefonie"
 
-#: src/app-grid-button.c:507
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "Program"
 
@@ -44,7 +44,7 @@ msgstr "Wyświetl wszystkie programy"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Wyświetl tylko programy przystosowane do telefonów"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
+#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
 msgid "On"
 msgstr "Włączone"
 
@@ -103,14 +103,14 @@ msgstr "Nieznany program"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:44
+#: src/feedbackinfo.c:69
 msgid "Quiet"
 msgstr "Cichy"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:49
+#: src/feedbackinfo.c:75
 msgid "Silent"
 msgstr "Wyciszony"
 
@@ -131,11 +131,11 @@ msgstr "Tak"
 msgid "No"
 msgstr "Nie"
 
-#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
+#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
 msgid "Enter Passcode"
 msgstr "Proszę podać kod"
 
-#: src/lockscreen.c:361
+#: src/lockscreen.c:364
 msgid "Checking…"
 msgstr "Sprawdzanie…"
 
@@ -352,6 +352,10 @@ msgstr "_Usuń z ulubionych"
 msgid "Add to _Favorites"
 msgstr "Dodaj do _ulubionych"
 
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "Wyświetl _szczegóły"
+
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Wyszukiwanie programów…"
@@ -376,15 +380,15 @@ msgstr "_Połącz"
 msgid "Slide up to unlock"
 msgstr "Przesunięcie w górę odblokuje"
 
-#: src/ui/lockscreen.ui:320
+#: src/ui/lockscreen.ui:231
 msgid "Emergency"
 msgstr "Połączenie alarmowe"
 
-#: src/ui/lockscreen.ui:336
+#: src/ui/lockscreen.ui:247
 msgid "Unlock"
 msgstr "Odblokuj"
 
-#: src/ui/lockscreen.ui:376
+#: src/ui/lockscreen.ui:289
 msgid "Back"
 msgstr "Wstecz"
 
@@ -408,11 +412,11 @@ msgstr "Uwierzytelnij"
 msgid "Run Command"
 msgstr "Wykonanie polecenia"
 
-#: src/ui/settings.ui:310
+#: src/ui/settings.ui:317
 msgid "No notifications"
 msgstr "Brak powiadomień"
 
-#: src/ui/settings.ui:351
+#: src/ui/settings.ui:358
 msgid "Clear all"
 msgstr "Wyczyść wszystkie"
 
@@ -430,7 +434,7 @@ msgstr "Wyloguj się"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:337
+#: src/util.c:340
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
