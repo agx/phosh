@@ -268,7 +268,9 @@ on_logind_prepare_for_sleep (PhoshScreenSaverManager            *self,
 {
   g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
 
-  if (!suspending) {
+  if (suspending) {
+    phosh_lockscreen_manager_set_locked (self->lockscreen_manager, TRUE);
+  } else {
     PhoshIdleManager *idle_manager;
 
     g_debug ("Got PrepareForSleep signal (resume case)");
