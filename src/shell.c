@@ -375,7 +375,8 @@ set_locked (PhoshShell *self, gboolean locked)
 
   /* Hide settings on screen lock, otherwise the user just sees the settigns when
      unblanking the screen which can be confusing */
-  phosh_top_panel_fold (PHOSH_TOP_PANEL (priv->top_panel));
+  if (priv->top_panel)
+    phosh_top_panel_fold (PHOSH_TOP_PANEL (priv->top_panel));
 
   update_top_level_layer (self);
 }
