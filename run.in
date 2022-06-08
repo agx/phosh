@@ -17,10 +17,10 @@ if [ "${PHOSH_VALGRIND}" = 1 ]; then
    "
 elif [ "${PHOSH_GDB}" = 1 ]; then
     echo "Running phosh under gdb"
-    WRAPPER="gdb"
+    WRAPPER="gdb --args"
 elif [ "${PHOSH_AUTO_GDB}" = 1 ]; then
     echo "Running phosh under gdb"
-    WRAPPER="gdb -batch -ex run -ex bt"
+    WRAPPER="gdb -batch -ex run -ex bt --args"
 fi
 
 
