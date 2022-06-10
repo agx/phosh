@@ -172,13 +172,11 @@ clear_input (PhoshLockscreen *self, gboolean clear_all)
 static void
 show_info_page (PhoshLockscreen *self)
 {
-  PhoshShell *shell = phosh_shell_get_default ();
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
   if (hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel)) <= 0)
     return;
 
-  phosh_osk_manager_set_visible  (phosh_shell_get_osk_manager (shell), FALSE);
   hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel), priv->box_info);
 }
 
@@ -259,8 +257,6 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
   PhoshLockscreenPrivate *priv;
   GError *error = NULL;
   gboolean authenticated;
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshOskManager *osk_manager = phosh_shell_get_osk_manager (shell);
 
   priv = phosh_lockscreen_get_instance_private (self);
   authenticated = phosh_auth_authenticate_async_finish (auth, result, &error);
@@ -271,8 +267,6 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
 
   g_object_ref (self);
   if (authenticated) {
-    /*Hide OSK*/
-    phosh_osk_manager_set_visible (osk_manager, FALSE);
     g_signal_emit (self, signals[LOCKSCREEN_UNLOCK], 0);
     g_clear_object (&priv->auth);
   } else {
@@ -311,6 +305,27 @@ osk_button_clicked_cb (PhoshLockscreen *self,
   priv = phosh_lockscreen_get_instance_private (self);
 
   priv->last_input = g_get_monotonic_time ();
+
+  /* restore default OSK behavior */
+  g_object_set (priv->entry_pin, "im-module", NULL, NULL);
+
+  gtk_entry_grab_focus_without_selecting (GTK_ENTRY (priv->entry_pin));
+}
+
+
+static void
+on_osk_visibility_changed (PhoshLockscreen *self,
+                           GParamSpec      *pspec,
+                           PhoshOskManager *osk)
+{
+  PhoshLockscreenPrivate *priv;
+
+  g_assert (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  if (!phosh_osk_manager_get_visible (osk)) {
+    g_object_set (priv->entry_pin, "im-module", "gtk-im-context-none", NULL);
+  }
 }
 
 
@@ -447,12 +462,14 @@ carousel_position_notified_cb (PhoshLockscreen *self,
   position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
 
   if (position <= POS_OVERVIEW) {
-    phosh_osk_manager_set_visible  (phosh_shell_get_osk_manager (phosh_shell_get_default ()), FALSE);
     clear_input (self, TRUE);
+    gtk_widget_set_sensitive (priv->entry_pin, FALSE);
     return;
   }
 
   if (position >= POS_UNLOCK) {
+    gtk_widget_set_sensitive (priv->entry_pin, TRUE);
+
     if (!priv->idle_timer) {
       priv->last_input = g_get_monotonic_time ();
       priv->idle_timer = g_timeout_add_seconds (LOCKSCREEN_IDLE_SECONDS,
@@ -641,6 +658,9 @@ phosh_lockscreen_constructed (GObject *object)
   g_object_bind_property (phosh_shell_get_osk_manager (shell), "visible",
                           priv->keypad_revealer, "reveal-child",
                           G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+  g_signal_connect_object (phosh_shell_get_osk_manager (shell), "notify::visible",
+                           G_CALLBACK (on_osk_visibility_changed), self,
+                           G_CONNECT_SWAPPED);
 
   priv->keypad_settings = g_settings_new("sm.puri.phosh.lockscreen");
   g_settings_bind (priv->keypad_settings, "shuffle-keypad",

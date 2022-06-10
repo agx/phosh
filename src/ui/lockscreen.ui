@@ -193,7 +193,7 @@
                     <property name="margin_bottom">12</property>
                     <property name="visibility">False</property>
                     <property name="xalign">0.5</property>
-                    <property name="input-purpose">GTK_INPUT_PURPOSE_PIN</property>
+                    <property name="input-purpose">GTK_INPUT_PURPOSE_PASSWORD</property>
                     <property name="buffer">pin_buffer</property>
                     <style>
                       <class name="phosh-lockscreen-pin"/>
@@ -321,11 +321,17 @@
       </object>
     </child>
   </object>
-  <object class="PhoshOskButton" id="btn_keyboard">
+  <object class="GtkButton" id="btn_keyboard">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
-    <property name="focus_on_click">False</property>
+    <property name="focus_on_click">True</property>
     <signal name="clicked" handler="osk_button_clicked_cb" object="PhoshLockscreen" swapped="true"/>
+    <child>
+      <object class="GtkImage">
+        <property name="visible">True</property>
+        <property name="icon-name">input-keyboard-symbolic</property>
+      </object>
+    </child>
   </object>
   <object class="GtkGestureLongPress" id="long_press_del_gesture">
     <property name="widget">btn_delete</property>
