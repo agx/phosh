@@ -30,7 +30,6 @@
 typedef struct {
   PhoshIdleDBusIdleMonitor *dbus_monitor;
   struct org_kde_kwin_idle_timeout *idle_timer;
-  PhoshMonitor *monitor;
   char *dbus_name;
   guint watch_id;
   guint name_watcher_id;
@@ -66,7 +65,6 @@ watch_dispose (DBusWatch *watch)
 {
   org_kde_kwin_idle_timeout_release (watch->idle_timer);
   g_bus_unwatch_name (watch->name_watcher_id);
-  g_object_unref (watch->monitor);
   g_object_unref (watch->dbus_monitor);
   g_free (watch->dbus_name);
   g_free (watch);
@@ -163,7 +161,6 @@ name_vanished_callback (GDBusConnection *connection,
 static DBusWatch *
 watch_new (PhoshIdleDBusIdleMonitor *skeleton,
            GDBusMethodInvocation    *invocation,
-           PhoshMonitor             *monitor,
            guint32                  interval)
 {
   DBusWatch *watch;
@@ -183,7 +180,6 @@ watch_new (PhoshIdleDBusIdleMonitor *skeleton,
   watch->watch_id = watch_id;
   watch->idle_timer = idle_timer;
   watch->dbus_monitor = g_object_ref (skeleton);
-  watch->monitor = g_object_ref (monitor);
   watch->dbus_name = g_strdup (g_dbus_method_invocation_get_sender (invocation));
   watch->name_watcher_id = g_bus_watch_name_on_connection (
     g_dbus_method_invocation_get_connection (invocation),
@@ -200,12 +196,11 @@ watch_new (PhoshIdleDBusIdleMonitor *skeleton,
 static DBusWatch *
 idle_watch_new (PhoshIdleDBusIdleMonitor *skeleton,
                 GDBusMethodInvocation    *invocation,
-                PhoshMonitor             *monitor,
                 guint32                  interval)
 {
   DBusWatch *watch;
 
-  watch = watch_new (skeleton, invocation, monitor, interval);
+  watch = watch_new (skeleton, invocation, interval);
   g_return_val_if_fail (watch, NULL);
   org_kde_kwin_idle_timeout_add_listener(watch->idle_timer,
                                          &idle_timer_listener,
@@ -216,13 +211,12 @@ idle_watch_new (PhoshIdleDBusIdleMonitor *skeleton,
 
 static DBusWatch *
 active_watch_new (PhoshIdleDBusIdleMonitor *skeleton,
-                  GDBusMethodInvocation    *invocation,
-                  PhoshMonitor             *monitor)
+                  GDBusMethodInvocation    *invocation)
 {
   DBusWatch *watch;
 
   /* Use a idle timer of 0 since we're only interested in the active timer */
-  watch = watch_new (skeleton, invocation, monitor, 0);
+  watch = watch_new (skeleton, invocation, 0);
   g_return_val_if_fail (watch, NULL);
   org_kde_kwin_idle_timeout_add_listener(watch->idle_timer,
                                          &active_timer_listener,
@@ -234,13 +228,11 @@ active_watch_new (PhoshIdleDBusIdleMonitor *skeleton,
 static gboolean
 handle_add_idle_watch (PhoshIdleDBusIdleMonitor *skeleton,
                        GDBusMethodInvocation    *invocation,
-                       guint64                   arg_interval,
-                       PhoshMonitor             *monitor)
+                       guint64                   arg_interval)
 {
   DBusWatch *watch;
   PhoshIdleManager *self = phosh_idle_manager_get_default ();
 
-  g_return_val_if_fail (PHOSH_IS_MONITOR (monitor), FALSE);
   /* The wayland protocol uses an unsigned int */
   if (arg_interval > G_MAXUINT32) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
@@ -249,7 +241,7 @@ handle_add_idle_watch (PhoshIdleDBusIdleMonitor *skeleton,
                                            arg_interval, G_MAXUINT32);
     return TRUE;
   }
-  watch = idle_watch_new (skeleton, invocation, monitor, arg_interval);
+  watch = idle_watch_new (skeleton, invocation, arg_interval);
   if (!watch) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_LIMITS_EXCEEDED,
@@ -266,14 +258,12 @@ handle_add_idle_watch (PhoshIdleDBusIdleMonitor *skeleton,
 
 
 static gboolean handle_add_user_active_watch (PhoshIdleDBusIdleMonitor *skeleton,
-                                              GDBusMethodInvocation    *invocation,
-                                              PhoshMonitor             *monitor)
+                                              GDBusMethodInvocation    *invocation)
 {
   DBusWatch *watch;
   PhoshIdleManager *self = phosh_idle_manager_get_default ();
 
-  g_return_val_if_fail (PHOSH_IS_MONITOR (monitor), FALSE);
-  watch = active_watch_new (skeleton, invocation, monitor);
+  watch = active_watch_new (skeleton, invocation);
   if (!watch) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_LIMITS_EXCEEDED,
@@ -290,8 +280,7 @@ static gboolean handle_add_user_active_watch (PhoshIdleDBusIdleMonitor *skeleton
 
 static gboolean
 handle_get_idle_time (PhoshIdleDBusIdleMonitor *skeleton,
-                      GDBusMethodInvocation    *invocation,
-                      PhoshMonitor             *monitor)
+                      GDBusMethodInvocation    *invocation)
 {
   g_debug ("Unimplemented DBus call %s", __func__);
   g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
@@ -304,8 +293,7 @@ handle_get_idle_time (PhoshIdleDBusIdleMonitor *skeleton,
 static gboolean
 handle_remove_watch (PhoshIdleDBusIdleMonitor *skeleton,
                      GDBusMethodInvocation    *invocation,
-                     guint                     arg_id,
-                     PhoshMonitor             *monitor)
+                     guint                     arg_id)
 {
   PhoshIdleManager *self = phosh_idle_manager_get_default ();
 
@@ -320,7 +308,6 @@ handle_remove_watch (PhoshIdleDBusIdleMonitor *skeleton,
 
 static void
 create_monitor_skeleton (GDBusObjectManagerServer *manager,
-                         PhoshMonitor             *monitor,
                          const char               *path)
 {
   g_autoptr(GDBusObjectSkeleton) object = NULL;
@@ -330,14 +317,14 @@ create_monitor_skeleton (GDBusObjectManagerServer *manager,
   interface = G_DBUS_INTERFACE_SKELETON (
     phosh_idle_dbus_idle_monitor_skeleton_new ());
 
-  g_signal_connect_object (interface, "handle-add-idle-watch",
-                           G_CALLBACK (handle_add_idle_watch), monitor, 0);
-  g_signal_connect_object (interface, "handle-add-user-active-watch",
-                           G_CALLBACK (handle_add_user_active_watch), monitor, 0);
-  g_signal_connect_object (interface, "handle-remove-watch",
-                           G_CALLBACK (handle_remove_watch), monitor, 0);
-  g_signal_connect_object (interface, "handle-get-idletime",
-                           G_CALLBACK (handle_get_idle_time), monitor, 0);
+  g_signal_connect (interface, "handle-add-idle-watch",
+                    G_CALLBACK (handle_add_idle_watch), NULL);
+  g_signal_connect (interface, "handle-add-user-active-watch",
+                    G_CALLBACK (handle_add_user_active_watch), NULL);
+  g_signal_connect (interface, "handle-remove-watch",
+                    G_CALLBACK (handle_remove_watch), NULL);
+  g_signal_connect (interface, "handle-get-idletime",
+                    G_CALLBACK (handle_get_idle_time), NULL);
 
   g_dbus_object_skeleton_add_interface (object, interface);
   g_dbus_object_manager_server_export (manager, object);
@@ -368,7 +355,6 @@ on_bus_acquired (GDBusConnection *connection,
                  gpointer         user_data)
 {
   PhoshIdleManager *self = PHOSH_IDLE_MANAGER (user_data);
-  PhoshMonitor *monitor;
   g_autofree char *path = NULL;
 
   /* We need to use Mutter's object path here to make gnome-session happy */
@@ -376,9 +362,8 @@ on_bus_acquired (GDBusConnection *connection,
 
   /* We never clear the core monitor, as that's supposed to cumulate
      idle times from all devices */
-  monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default());
   path = g_strdup ("/org/gnome/Mutter/IdleMonitor/Core");
-  create_monitor_skeleton (self->manager, monitor, path);
+  create_monitor_skeleton (self->manager, path);
 
   g_dbus_object_manager_server_set_connection (self->manager, connection);
 }
