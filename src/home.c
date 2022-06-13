@@ -386,14 +386,17 @@ on_drag_state_changed (PhoshHome *self)
   gboolean kbd_interactivity = FALSE;
 
   drag_state = phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self));
-  if (drag_state == PHOSH_DRAG_SURFACE_STATE_DRAGGED)
+  if (drag_state == PHOSH_DRAG_SURFACE_STATE_DRAGGED) {
+    if (self->state == PHOSH_HOME_STATE_FOLDED) {
+      phosh_overview_reset (PHOSH_OVERVIEW (self->overview));
+    }
     return;
+  }
 
   switch (drag_state) {
   case PHOSH_DRAG_SURFACE_STATE_UNFOLDED:
     state = PHOSH_HOME_STATE_UNFOLDED;
     kbd_interactivity = TRUE;
-    phosh_overview_reset (PHOSH_OVERVIEW (self->overview));
     arrow = 1.0;
     break;
   case PHOSH_DRAG_SURFACE_STATE_FOLDED:
