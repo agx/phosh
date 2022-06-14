@@ -1378,10 +1378,16 @@ phosh_shell_get_rotation_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
 
-  if (!priv->rotation_manager)
+  if (!priv->rotation_manager) {
     priv->rotation_manager = phosh_rotation_manager_new (priv->sensor_proxy_manager,
                                                          priv->lockscreen_manager,
                                                          priv->builtin_monitor);
+    /*
+     * Make sure rotation works even if the primary monitor has already appeared
+     * when we create the rotation manager.
+     */
+    phosh_rotation_manager_set_monitor(priv->rotation_manager, priv->primary_monitor);
+  }
 
   g_return_val_if_fail (PHOSH_IS_ROTATION_MANAGER (priv->rotation_manager), NULL);
 
