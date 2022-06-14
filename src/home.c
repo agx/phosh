@@ -57,7 +57,7 @@ struct _PhoshHome
   PhoshDragSurface parent;
 
   GtkWidget *arrow_home;
-  GtkWidget *btn_osk;
+  GtkWidget *revealer_osk;
   GtkWidget *overview;
   guint      debounce_handle;
 
@@ -83,7 +83,7 @@ phosh_home_update_osk_button (PhoshHome *self)
   if (self->osk_enabled && self->state == PHOSH_HOME_STATE_FOLDED)
     visible = TRUE;
 
-  gtk_widget_set_visible (self->btn_osk, visible);
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer_osk), visible);
 }
 
 
@@ -505,7 +505,7 @@ phosh_home_class_init (PhoshHomeClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/home.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, arrow_home);
-  gtk_widget_class_bind_template_child (widget_class, PhoshHome, btn_osk);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, revealer_osk);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, click_gesture);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, overview);
   gtk_widget_class_bind_template_callback (widget_class, fold_cb);
