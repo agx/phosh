@@ -55,6 +55,9 @@
                     <property name="ellipsize">end</property>
                     <property name="lines">3</property>
                     <property name="xalign">0</property>
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
                   </object>
                 </child>
               </object>
@@ -67,8 +70,8 @@
         <child>
           <object class="GtkBox" id="box_actions">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
-            <property name="valign">end</property>
+            <property name="expand">True</property>
+            <property name="orientation">horizontal</property>
             <style>
               <class name="linked"/>
               <class name="actions-area"/>
