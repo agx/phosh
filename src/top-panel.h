@@ -27,6 +27,7 @@ typedef enum {
 GtkWidget         *phosh_top_panel_new (struct zwlr_layer_shell_v1          *layer_shell,
                                         struct zphoc_layer_shell_effects_v1 *layer_shell_effects,
                                         struct wl_output                    *wl_output,
+                                        guint32                              layer,
                                         int                                  height);
 void               phosh_top_panel_toggle_fold (PhoshTopPanel *self);
 void               phosh_top_panel_fold (PhoshTopPanel *self);
