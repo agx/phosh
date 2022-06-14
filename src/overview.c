@@ -343,6 +343,9 @@ toplevel_changed_cb (PhoshOverview        *self,
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (manager));
 
+  if (phosh_shell_get_state (phosh_shell_get_default ()) & PHOSH_STATE_OVERVIEW)
+    return;
+
   activity = find_activity_by_toplevel (self, toplevel);
   g_return_if_fail (activity);
 
