@@ -41,6 +41,7 @@ enum {
   PROP_0,
   PROP_APP_ID,
   PROP_MAXIMIZED,
+  PROP_FULLSCREEN,
   PROP_WIN_WIDTH,
   PROP_WIN_HEIGHT,
   LAST_PROP,
@@ -58,6 +59,7 @@ typedef struct
   GtkWidget *button;
 
   gboolean maximized;
+  gboolean fullscreen;
   int win_width;
   int win_height;
 
@@ -98,10 +100,11 @@ phosh_activity_set_property (GObject *object,
       break;
     case PROP_MAXIMIZED:
       priv->maximized = g_value_get_boolean (value);
-      if (priv->maximized)
-        gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-maximized");
-      else
-        gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-maximized");
+      phosh_util_toggle_style_class (GTK_WIDGET (self), "phosh-maximized", priv->maximized);
+      break;
+    case PROP_FULLSCREEN:
+      priv->fullscreen = g_value_get_boolean (value);
+      phosh_util_toggle_style_class (GTK_WIDGET (self), "phosh-fullscreen", priv->fullscreen);
       break;
     case PROP_WIN_WIDTH:
       width = g_value_get_int (value);
@@ -141,6 +144,9 @@ phosh_activity_get_property (GObject *object,
       break;
     case PROP_MAXIMIZED:
       g_value_set_boolean (value, priv->maximized);
+      break;
+    case PROP_FULLSCREEN:
+      g_value_set_boolean (value, priv->fullscreen);
       break;
     case PROP_WIN_WIDTH:
       g_value_set_int (value, priv->win_width);
@@ -546,6 +552,14 @@ phosh_activity_class_init (PhoshActivityClass *klass)
       "maximized",
       "maximized",
       "Whether the window is maximized",
+      FALSE,
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+  props[PROP_FULLSCREEN] =
+    g_param_spec_boolean (
+      "fullscreen",
+      "fullscreen",
+      "Whether the window is presented fullscreen",
       FALSE,
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
