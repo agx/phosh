@@ -380,47 +380,41 @@ phosh_home_dragged (PhoshDragSurface *self, int margin)
 static void
 on_drag_state_changed (PhoshHome *self)
 {
-  PhoshHomeState state = PHOSH_HOME_STATE_FOLDED;
+  PhoshHomeState state = self->state;
   PhoshDragSurfaceState drag_state;
-  double arrow;
   gboolean kbd_interactivity = FALSE;
 
   drag_state = phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self));
-  if (drag_state == PHOSH_DRAG_SURFACE_STATE_DRAGGED) {
-    if (self->state == PHOSH_HOME_STATE_FOLDED) {
-      phosh_overview_reset (PHOSH_OVERVIEW (self->overview));
-    }
-    return;
-  }
 
   switch (drag_state) {
   case PHOSH_DRAG_SURFACE_STATE_UNFOLDED:
     state = PHOSH_HOME_STATE_UNFOLDED;
     kbd_interactivity = TRUE;
-    arrow = 1.0;
+    phosh_arrow_set_progress (PHOSH_ARROW (self->arrow_home), 1.0);
     break;
   case PHOSH_DRAG_SURFACE_STATE_FOLDED:
     state = PHOSH_HOME_STATE_FOLDED;
-    arrow = 0.0;
+    phosh_arrow_set_progress (PHOSH_ARROW (self->arrow_home), 0.0);
     break;
   case PHOSH_DRAG_SURFACE_STATE_DRAGGED:
+    if (self->state == PHOSH_HOME_STATE_FOLDED)
+      phosh_overview_reset (PHOSH_OVERVIEW (self->overview));
+    break;
   default:
     g_return_if_reached ();
     return;
   }
 
-  if (state == self->state)
-    return;
+  if (self->state != state) {
+    self->state = state;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
+  }
 
-  self->state = state;
   phosh_home_update_osk_button (self);
 
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
   update_drag_handle (self, FALSE);
   phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
-
-  phosh_arrow_set_progress (PHOSH_ARROW (self->arrow_home), arrow);
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
 }
 
 
