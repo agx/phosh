@@ -117,6 +117,7 @@
 
           <object class="GtkStack" id="stack">
             <property name="visible">True</property>
+            <property name="transition-type">crossfade</property>
             <child>
               <object class="GtkBox" id="box_top_bar">
                 <property name="visible">True</property>
