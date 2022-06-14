@@ -144,10 +144,11 @@ update_drag_handle (PhoshHome *self, gboolean commit)
   PhoshAppGrid *app_grid;
   gboolean arrow_visible = TRUE;
   PhoshDragSurfaceDragMode drag_mode = PHOSH_DRAG_SURFACE_DRAG_MODE_HANDLE;
+  PhoshDragSurfaceState drag_state = phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self));
 
   /* Update the handle's arrow and dragability */
   if (phosh_overview_has_running_activities (PHOSH_OVERVIEW (self->overview)) == FALSE &&
-    self->state == PHOSH_HOME_STATE_UNFOLDED) {
+    self->state == PHOSH_HOME_STATE_UNFOLDED && drag_state != PHOSH_DRAG_SURFACE_STATE_DRAGGED) {
     arrow_visible = FALSE;
     drag_mode = PHOSH_DRAG_SURFACE_DRAG_MODE_NONE;
   }
