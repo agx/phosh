@@ -231,7 +231,7 @@ request_thumbnail (PhoshActivity *activity, PhoshToplevel *toplevel)
 
 
 static void
-on_activity_size_allocated (PhoshActivity *activity, GtkAllocation *alloc, PhoshToplevel *toplevel)
+on_activity_resized (PhoshActivity *activity, GtkAllocation *alloc, PhoshToplevel *toplevel)
 {
   request_thumbnail (activity, toplevel);
 }
@@ -286,7 +286,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   g_signal_connect_object (toplevel, "notify::activated", G_CALLBACK (on_toplevel_activated_changed), self, 0);
   g_object_bind_property (toplevel, "maximized", activity, "maximized", G_BINDING_DEFAULT);
 
-  g_signal_connect (activity, "size-allocate", G_CALLBACK (on_activity_size_allocated), toplevel);
+  g_signal_connect (activity, "resized", G_CALLBACK (on_activity_resized), toplevel);
   g_signal_connect_swapped (activity, "notify::has-focus", G_CALLBACK (on_activity_has_focus_changed), self);
 
   phosh_connect_feedback (activity);
