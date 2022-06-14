@@ -461,9 +461,6 @@ on_drag_state_changed (PhoshTopPanel *self)
   gtk_stack_set_visible_child_name (GTK_STACK (self->stack), visible);
   phosh_arrow_set_progress (PHOSH_ARROW (self->arrow), arrow);
 
-  if (state == self->state)
-    return;
-
   self->state = state;
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
   phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
@@ -758,7 +755,6 @@ phosh_top_panel_unfold (PhoshTopPanel *self)
   if (self->state == PHOSH_TOP_PANEL_STATE_UNFOLDED)
 	return;
 
-  phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), TRUE);
   phosh_drag_surface_set_drag_state (PHOSH_DRAG_SURFACE (self),
                                      PHOSH_DRAG_SURFACE_STATE_UNFOLDED);
 }
