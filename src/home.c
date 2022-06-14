@@ -79,8 +79,10 @@ static void
 phosh_home_update_osk_button (PhoshHome *self)
 {
   gboolean visible = FALSE;
+  PhoshDragSurfaceState drag_state = phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self));
 
-  if (self->osk_enabled && self->state == PHOSH_HOME_STATE_FOLDED)
+  if (self->osk_enabled && self->state == PHOSH_HOME_STATE_FOLDED &&
+      drag_state != PHOSH_DRAG_SURFACE_STATE_DRAGGED)
     visible = TRUE;
 
   gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer_osk), visible);
