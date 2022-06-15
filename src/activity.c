@@ -32,6 +32,7 @@
 enum {
   CLICKED,
   CLOSED,
+  RESIZED,
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
@@ -67,6 +68,7 @@ typedef struct
 
   gboolean hovering;
   guint remove_timeout_id;
+  GtkAllocation allocation;
 } PhoshActivityPrivate;
 
 
@@ -257,6 +259,20 @@ draw_cb (PhoshActivity *self, cairo_t *cairo, GtkDrawingArea *area)
   cairo_fill (cairo);
 
   return FALSE;
+}
+
+
+static void
+size_allocate_cb (PhoshActivity *self, GtkAllocation *alloc, GtkDrawingArea *area)
+{
+  PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
+  gboolean changed = alloc->width != priv->allocation.width ||
+                     alloc->height != priv->allocation.height;
+
+  priv->allocation = *alloc;
+
+  if (changed)
+    g_signal_emit (self, signals[RESIZED], 0, alloc);
 }
 
 
@@ -563,6 +579,10 @@ phosh_activity_class_init (PhoshActivityClass *klass)
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
+  signals[RESIZED] = g_signal_new ("resized",
+      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+      NULL, G_TYPE_NONE, 1, GDK_TYPE_RECTANGLE | G_SIGNAL_TYPE_STATIC_SCOPE);
+
   g_type_ensure (PHOSH_TYPE_SWIPE_AWAY_BIN);
 
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/activity.ui");
@@ -576,6 +596,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, revealer);
   gtk_widget_class_bind_template_callback (widget_class, clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, draw_cb);
+  gtk_widget_class_bind_template_callback (widget_class, size_allocate_cb);
   gtk_widget_class_bind_template_callback (widget_class, closed_cb);
   gtk_widget_class_bind_template_callback (widget_class, removed_cb);
 
@@ -652,6 +673,7 @@ phosh_activity_get_thumbnail_allocation (PhoshActivity *self, GtkAllocation *all
 {
   PhoshActivityPrivate *priv;
   g_return_if_fail (PHOSH_IS_ACTIVITY (self));
+  g_return_if_fail (allocation);
   priv = phosh_activity_get_instance_private (self);
-  gtk_widget_get_allocation (priv->preview, allocation);
+  *allocation = priv->allocation;
 }
