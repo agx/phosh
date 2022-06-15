@@ -172,18 +172,6 @@ on_dialog_canceled (PhoshAppAuthPrompt *self)
 }
 
 
-static gboolean
-on_switch_option_toggled (GtkWidget *option_widget, gboolean state, GtkWidget *action_row)
-{
-  g_return_val_if_fail (GTK_IS_SWITCH (option_widget), FALSE);
-  g_return_val_if_fail (HDY_IS_ACTION_ROW (action_row), FALSE);
-  if (state) {
-    g_object_set_data_full (G_OBJECT (action_row), "option-id", g_strdup (state ? "true" : "false"), g_free);
-  }
-  return FALSE;
-}
-
-
 static void
 add_switch_option ( PhoshAppAuthPrompt *self,
                     gchar *choice_id,
@@ -209,7 +197,6 @@ add_switch_option ( PhoshAppAuthPrompt *self,
                                 "valign", GTK_ALIGN_CENTER,
                                 NULL);
   hdy_action_row_set_activatable_widget (HDY_ACTION_ROW (action_row_choice), switch_choice);
-  g_signal_connect (switch_choice, "state-set", G_CALLBACK (on_switch_option_toggled), action_row_choice);
   gtk_container_add (GTK_CONTAINER (action_row_choice), switch_choice);
 
   gtk_container_add (GTK_CONTAINER (self->list_box_choices), action_row_choice);
