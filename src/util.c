@@ -342,7 +342,7 @@ phosh_util_date_fmt (void)
   return fmt;
 }
 
-/*
+/**
  * phoc_util_local_date:
  *
  * Get the local date as string
@@ -501,4 +501,23 @@ phosh_util_have_gnome_software (gboolean scan)
   path = g_find_program_in_path ("gnome-software");
   have_gnome_software =  !!path;
   return have_gnome_software;
+}
+
+/**
+ * phosh_util_toggle_style_class:
+ * @widget: Widget to change styling of
+ * @style_class: The name of CSS class
+ * @toggle: Whether the class should be set or unset
+ *
+ * Adds or removes the specified style class on the widget.
+ */
+void
+phosh_util_toggle_style_class (GtkWidget *widget, const char *style_class, gboolean toggle)
+{
+  GtkStyleContext *context = gtk_widget_get_style_context (widget);
+
+  if (toggle)
+    gtk_style_context_add_class (context, style_class);
+  else
+    gtk_style_context_remove_class (context, style_class);
 }
