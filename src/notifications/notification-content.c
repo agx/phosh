@@ -137,12 +137,15 @@ set_actions (PhoshNotification        *notification,
     lbl = g_object_new (GTK_TYPE_LABEL,
                         "label", actions[i + 1],
                         "xalign", 0.0,
+                        "halign", GTK_ALIGN_CENTER,
+                        "ellipsize", PANGO_ELLIPSIZE_MIDDLE,
                         "visible", TRUE,
                         NULL);
 
     btn = g_object_new (GTK_TYPE_BUTTON,
                         "action-name", "noti.activate",
                         "action-target", g_variant_new_string (actions[i]),
+                        "expand", TRUE,
                         "visible", TRUE,
                         NULL);
     gtk_container_add (GTK_CONTAINER (btn), lbl);

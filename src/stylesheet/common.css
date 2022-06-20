@@ -489,10 +489,14 @@ phosh-notification-content .actions-area button {
   background-image: none;
   background-color: transparent;
   border-radius: 0;
+  font-weight: bold;
   box-shadow: none;
-  border-left: none;
-  border-right: none;
   text-shadow: none;
+  border-style: solid;
+  border-color: @borders;
+  border-width: 0;
+  border-top-width: 1px;
+  border-right-width: 1px;
   padding: 8px 12px;
   -gtk-icon-shadow: none;
 }
@@ -507,10 +511,18 @@ phosh-notification-content .actions-area button:active {
   background-color: @phosh_button_active_bg_color;
 }
 
-phosh-notification-content .actions-area button:last-child {
-  border-bottom-width: 0;
+phosh-notification-content .actions-area button:only-child {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  border-right-width: 0px;
+}
+
+phosh-notification-content .actions-area button:first-child {
+  border-bottom-left-radius: 10px;
+}
+phosh-notification-content .actions-area button:last-child {
+  border-bottom-right-radius: 10px;
+  border-right-width: 0px;
 }
 
 phosh-notification-frame {
