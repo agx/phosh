@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+gdbus call --session --dest org.freedesktop.Notifications \
+                     --object-path=/org/freedesktop/Notifications \
+                     --method=org.freedesktop.Notifications.Notify \
+                     "Application" 1 "" Subject Body \
+                     '["org.sigxcpu.test1", "Left", "org.sigxcpu.test2", "Right"]' \
+                     '{"desktop-entry": <"org.gnome.KrbAuthDialog">, "urgency": <1>, "image-path": <"krb-valid-ticket">}' \
+                     4000
