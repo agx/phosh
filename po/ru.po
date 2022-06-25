@@ -4,18 +4,23 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2022-06-19 10:40+0000\n"
+"PO-Revision-Date: 2022-06-19 15:26+0300\n"
+"Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
+"Language-Team: Russian\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-11-06 08:18+0000\n"
-"Last-Translator: Lighting <glighting@gmail.com>\n"
-"Language-Team: Russian\n"
-"Language: ru\n"
-"X-Generator: Zanata 4.6.2\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4
+msgid "Phosh"
+msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
@@ -25,124 +30,421 @@ msgstr "Оболочка телефона"
 msgid "Window management and application launching for mobile"
 msgstr "Управление окнами и запуск приложений для мобильных устройств"
 
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
-msgid "Phosh"
-msgstr "Phosh"
-
-#: src/app-grid-button.c:523
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "Приложение"
 
-#: src/feedbackinfo.c:38
-msgid "Quiet"
-msgstr ""
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "Показать все приложения"
 
-#: src/feedbackinfo.c:40
-msgid "Silent"
-msgstr ""
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Показать приложения только для мобильных устройств"
 
-#: src/feedbackinfo.c:42
+#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
 msgid "On"
-msgstr ""
+msgstr "Вкл"
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
+#: src/bt-info.c:94
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Прикреплен"
+
+#: src/docked-info.c:81 src/docked-info.c:199
+msgid "Undocked"
+msgstr "Откреплен"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "Выйти"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "%s автоматически выйдет из системы через %d секунду."
+msgstr[1] "%s автоматически выйдет из системы через %d секунды."
+msgstr[2] "%s автоматически выйдет из системы через %d секунд."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Выключить"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "Система автоматически выключится через %d секунду."
+msgstr[1] "Система автоматически выключится через %d секунды."
+msgstr[2] "Система автоматически выключится через %d секунд."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Перезапустить"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "Система автоматически перезагрузится через %d секунду."
+msgstr[1] "Система автоматически перезагрузится через %d секунды."
+msgstr[2] "Система автоматически перезагрузится через %d секунд."
+
+#: src/end-session-dialog.c:269
+msgid "Unknown application"
+msgstr "Неизвестное приложение"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:69
+msgid "Quiet"
+msgstr "Тихий"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:75
+msgid "Silent"
+msgstr "Беззвучный"
+
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "Разрешить '%s' доступ к информации о вашем местоположении?"
+
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "Геолокация"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "Да"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "Нет"
+
+#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
 msgid "Enter Passcode"
 msgstr "Введите код доступа"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:379
 msgid "Checking…"
-msgstr "Проверка..."
+msgstr "Проверка…"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:334
-msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:322 src/ui/media-player.ui:182
+msgid "Unknown Title"
+msgstr "Неизвестное название"
 
-#: src/monitor-manager.c:53
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:330 src/ui/media-player.ui:165
+msgid "Unknown Artist"
+msgstr "Неизвестный исполнитель"
+
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "Встроенный дисплей"
 
+#: src/monitor-manager.c:137
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:144
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %s"
+msgstr "%s %s"
+
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Неизвестный"
 
-#: src/network-auth-prompt.c:184
+#: src/network-auth-prompt.c:201
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Тип аутентификации сети Wi-Fi “%s” не поддерживается"
+
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgstr "Введите пароль для сети Wi-Fi “%s”"
 
-#: src/polkit-auth-agent.c:229
+#: src/notifications/mount-notification.c:122
+msgid "Open"
+msgstr "Открыть"
+
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
+msgid "Notification"
+msgstr "Уведомление"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "с"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "м"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "м"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "ч"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "ч"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "д"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "д"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "мес"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "мес"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "г"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "г(л)"
+
+#: src/notifications/timestamp-label.c:121
+msgid "now"
+msgstr "сейчас"
+
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "Более %dy"
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "Почти %dy"
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d%s"
+
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
-msgstr "Диалог аутентификации был отклонён пользователем"
+msgstr "Диалог аутентификации был отклонен пользователем"
 
-#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Пароль:"
 
-#: src/polkit-auth-prompt.c:322
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Извините, это не сработало. Попробуйте снова."
 
-#: src/polkit-auth-prompt.c:488
-msgid "Authenticate"
-msgstr "Аутентификация"
+#: src/rotateinfo.c:81
+msgid "Portrait"
+msgstr "Портретная"
 
-#: src/system-prompt.c:371
+#: src/rotateinfo.c:84
+msgid "Landscape"
+msgstr "Ландшафтная"
+
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
+msgid "Off"
+msgstr "Выкл"
+
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Нажмите Esc чтобы закрыть"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "Выполнение '%s' не удалось"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Пароли не совпадают."
 
-#: src/system-prompt.c:378
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
 msgstr "Пароль не может быть пустым"
 
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr ""
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "Фонарь"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-auth-prompt.ui:49
+msgid "Remember decision"
+msgstr "Запомнить решение"
+
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+msgid "Cancel"
+msgstr "Отменить"
+
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
+msgid "Ok"
+msgstr "Хорошо"
+
+#: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "Приложение"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Удалить из _Избранного"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Добавить в _Избранное"
+
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "_Подробности"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Поиск приложений..."
+msgstr "Поиск приложений…"
 
-#: src/ui/lockscreen.ui:36
-msgid "Slide up to unlock"
-msgstr "Проведите вверх для разблокировки"
+#: src/ui/end-session-dialog.ui:31
+msgid "Some applications are busy or have unsaved work"
+msgstr "Некоторые приложения заняты или имеют несохраненную работу"
 
-#: src/ui/lockscreen.ui:250
-msgid "Emergency"
-msgstr ""
-
-#: src/ui/lockscreen.ui:266
-msgid "Unlock"
-msgstr ""
-
-#: src/ui/network-auth-prompt.ui:90
-msgid "_Cancel"
-msgstr ""
-
-#: src/ui/network-auth-prompt.ui:106
-msgid "C_onnect"
-msgstr ""
-
-#: src/ui/polkit-auth-prompt.ui:105
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Пользователь:"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/gtk-mount-prompt.ui:117
+msgid "Domain:"
+msgstr "Домен:"
+
+#: src/ui/gtk-mount-prompt.ui:150
+msgid "Co_nnect"
+msgstr "По_дключиться"
+
+#: src/ui/lockscreen.ui:42
+msgid "Slide up to unlock"
+msgstr "Проведите вверх для разблокировки"
+
+#: src/ui/lockscreen.ui:231
+msgid "Emergency"
+msgstr "Чрезвычайная ситуация"
+
+#: src/ui/lockscreen.ui:247
+msgid "Unlock"
+msgstr "Разблокировать"
+
+#: src/ui/lockscreen.ui:289
+msgid "Back"
+msgstr "Назад"
+
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+msgid "Authentication required"
+msgstr "Требуется аутентификация"
+
+#: src/ui/network-auth-prompt.ui:40
+msgid "_Cancel"
+msgstr "_Отменить"
+
+#: src/ui/network-auth-prompt.ui:58
+msgid "C_onnect"
+msgstr "П_одключить"
+
+#: src/ui/polkit-auth-prompt.ui:122
+msgid "Authenticate"
+msgstr "Подтвердить"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Выполнить команду"
+
+#: src/ui/settings.ui:317
+msgid "No notifications"
+msgstr "Уведомлений нет"
+
+#: src/ui/settings.ui:358
+msgid "Clear all"
+msgstr "Очистить все"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Подтверждение:"
+
+#: src/ui/top-panel.ui:15
+msgid "Lock Screen"
+msgstr "Заблокировать экран"
+
+#: src/ui/top-panel.ui:22
+msgid "Logout"
+msgstr "Выйти"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:340
+msgid "%A, %B %-e"
+msgstr "%A, %-e %B"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
+
+#: src/wifiinfo.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwan-info.c:200
+msgid "Cellular"
+msgstr "Сотовая связь"
