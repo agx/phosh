@@ -442,8 +442,22 @@ wall_clock_notify_cb (PhoshLockscreen *self,
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   const char *time;
   g_autofree char *date = NULL;
+  g_auto (GStrv) parts = NULL;
 
   time = gnome_wall_clock_get_clock (wall_clock);
+
+  /* Strip " {A,P}M" from 12h time format to look less cramped */
+  if (g_str_has_suffix (time, "AM") || g_str_has_suffix (time, "PM")) {
+    parts = g_strsplit (time, " ", -1);
+
+    /* Single number time starts with a leading space */
+    if (g_strv_length (parts) == 2)
+      time = parts[0];
+    else if (g_strv_length (parts) == 3)
+      time = parts[1];
+    else
+      g_warning ("Can't parse time format: %s", time);
+  }
   gtk_label_set_text (GTK_LABEL (priv->lbl_clock), time);
 
   date = phosh_util_local_date ();
