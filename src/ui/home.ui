@@ -37,15 +37,24 @@
               </packing>
             </child>
             <child>
-              <object class="PhoshOskButton" id="btn_osk">
-                <property name="visible">False</property>
+              <object class="GtkRevealer" id="revealer_osk">
+                <property name="visible">True</property>
+                <property name="transition-type">crossfade</property>
+                <property name="reveal-child">False</property>
                 <property name="halign">end</property>
                 <property name="valign">center</property>
                 <property name="margin-end">6</property>
-                <signal name="clicked" handler="osk_clicked_cb" swapped="true"/>
-                <style>
-                  <class name="phosh-osk-button"/>
-                </style>
+                <child>
+                  <object class="PhoshOskButton" id="btn_osk">
+                    <property name="visible">True</property>
+                    <property name="halign">end</property>
+                    <property name="valign">center</property>
+                    <signal name="clicked" handler="osk_clicked_cb" swapped="true"/>
+                    <style>
+                      <class name="phosh-osk-button"/>
+                    </style>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="pack-type">end</property>

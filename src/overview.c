@@ -343,6 +343,9 @@ toplevel_changed_cb (PhoshOverview        *self,
   g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (manager));
 
+  if (phosh_shell_get_state (phosh_shell_get_default ()) & PHOSH_STATE_OVERVIEW)
+    return;
+
   activity = find_activity_by_toplevel (self, toplevel);
   g_return_if_fail (activity);
 
@@ -505,8 +508,10 @@ phosh_overview_reset (PhoshOverview *self)
   priv = phosh_overview_get_instance_private (self);
   phosh_app_grid_reset (PHOSH_APP_GRID (priv->app_grid));
 
-  if (priv->activity)
+  if (priv->activity) {
     gtk_widget_grab_focus (GTK_WIDGET (priv->activity));
+    request_thumbnail (priv->activity, get_toplevel_from_activity (priv->activity));
+  }
 }
 
 void
