@@ -1,3 +1,138 @@
+phosh (0.20.0~beta2) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * screen-saver-manager: Lock screen when suspending.
+    This avoids seeing the unlocked screen for a moment on resume.
+  * run: Add --args when using gdb.
+    This makes sure `-U` isn't parsed by gdb.
+    Thanks to Adrien Plazas for pointing this out.
+  * shell: Honor modal dialogs and full screen when raising top-bar.
+    Just handling the fader isn't enough as we want full screen windows and
+    modal dialogs to stretch over the top bar as well.
+    We have some more cases like screenshost screen flash but that needs
+    proper z-level which we can introduce once the layer-shell-effects is
+    in. Same if we want system modal dialogs on the lock screen.
+    Fixes: 55bbe5758ba947a1d77c4b75d4424ea8cf4ebac6
+    Closes: https://gitlab.gnome.org/World/Phosh/phoc/-/merge_requests/370
+  * shell: Don't try to close top-panel when not yet created.
+    On start up there's no top-panel so don't try to close it
+  * shell: Select top-panel layer based on lock state.
+    When the panel gets created we want the overlay layer in case the screen
+    is locked, otherwise top layer.
+  * idle-manager: Drop primary monitor.
+    We don't need it there and just hold a ref that we (so far) never gave
+    up again.
+  * tools: Add helper to submit a notification.
+    Makes it simpler to test notifications style from the command line.
+  * data: Indicate that we provide user feedback via audio, led and haptic.
+    This will help setting apps to configure this.
+
+  [ Evangelos Ribeiro Tzaras ]
+  * Update libcall-ui to v0.0.3.
+    Brings some UI tweaks, encryption indicator that is bound to calls
+    `encrypted` property, fixes a small issue with libcallaudio usage and
+    lots of updated or added translations.
+
+  [ Linus Walleij ]
+  * shell: Set monitor when creating rotation manager.
+    I had an annoying bug on Samsung phones such as GT-I9070,
+    GT-I8160 and GT-I8530 all using DPI displays that did not
+    properly instantiate the rotation manager, while
+    phones on the same platform using DSI would work fine.
+    If the primary monitor has already arrived when the rotation
+    manager is instantiated, the monitor does not get assigned to
+    the rotation manager.
+    This happens of phones such as Samsung GT-I9070 which use
+    DPI displays on MCDE that arrive apparently very quickly.
+    The same U8500 platforms with DSI displays does not have this
+    problem, presumably because the primary monitor arrives
+    later.
+    This fix was developed working entirely on the target,
+    compiling Phoc and Phosh natively on the GT-I9070 dual Cortex-A9
+    and iteratively editing, recompiling and testing modifications
+    to Phosh on the target itself.
+
+  [ Sebastian Krzyszkowiak ]
+  * activity: Emit "resized" signal
+    size-allocate can fire despite of allocation not changing at all,
+    so add our own signal that checks forchanges to get rid of
+    extraneous thumbnail refreshes.
+  * util: Add phosh_util_toggle_style_class
+  * activity: Add "fullscreen" property
+  * toplevel: Add "fullscreen" property
+  * overview: Don't draw grey background around fullscreen window's thumbnail
+  * top-panel: Crossfade between fold states
+  * lockscreen: Use entry focus to request OSK.
+    This allows the compositor to make informed decisions about
+    when to elevate the keyboard surface above shell.
+  * home: Reset overview at the beginning of unfolding.
+    This prevents flicker at the end of unfolding animation.
+  * overview: Request a thumbnail for foreground activity on reset.
+    This reduces the amount of flickering when the thumbnail gets
+    updated, especially when OSK hiding is involved.
+  * overview: Don't update thumbnails when overview is unfolded.
+    We don't do live updates of thumbnails yet, so having them update out of
+    sudden but only in some situations makes it look unpolished. We still want
+    to update when overview is folded in order to keep cache of thumbnails
+    in state that was seen by the user the last time when windows change focus.
+  * home: Update keyboard interactivity right away when user starts folding.
+    This gets rid of keyboard flicker when folding animation finishes and
+    an application that requested input method gets focus back.
+  * home: Use a revealer to fade in/out the keyboard button
+  * home: Hide the keyboard button right away when starting dragging
+  * home: Don't hide the arrow when the surface is being dragged.
+    Without this check, the arrow stays hidden during folding with
+    no activities until the end of that animation.
+  * top-panel: Disable keyboard interactivity while dragged.
+    This allows OSK to pop back up earlier when folding, and makes it stay
+    visible during unfolding animation or drag.
+
+  [ Pablo Barciela ]
+  * app-auth-prompt: Drop unused code
+    add_choice_to_gvariant looks at the switch state not at data
+    we store on the GObject so this code can go.
+
+  [ Gerben Jan Dijkman ]
+  * polkit-auth-agent: Scope cleanup function for PolkitAgentListener.
+    Newer polkit defines a cleanup function so avoid it for polkit >= 0.121
+
+  [ Sam Hewitt ]
+  * notifications: Layout adjustments
+    * put buttons in a horizontal alignment
+    * update some label style classes
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Piotr Drąg ]
+  * Update Polish translation
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+  [ Jürgen Benvenuti ]
+  * Update German translation
+
+  [ Nathan Follens ]
+  * Update Dutch translation
+
+  [ Aleksandr Melman ]
+  * Update Russian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 15 Jun 2022 14:10:41 +0200
+
 phosh (0.20.0~beta1) experimental; urgency=medium
 
   [ Guido Günther ]

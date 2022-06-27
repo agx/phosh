@@ -1,3 +1,34 @@
+phosh 0.20.0~beta2
+-------------------
+Released June 2022
+* This is a beta release
+* Fix top-bar's layer depending on state (locked, etc.)
+* Fix multiple visual glitches related to overview and settings
+* Improve OSK handling
+* Switch to libcall-ui 0.0.3
+* Fix rotation manager not getting an output for some
+  display types
+* Style improvements for notifications
+* Contributors:
+	Evangelos Ribeiro Tzaras
+	Gerben Jan Dijkman
+	Guido Günther
+	Linus Walleij
+	Pablo Barciela
+	Sam Hewitt
+	Sebastian Krzyszkowiak
+* UI translations:
+	Aleksandr Melman (ru)
+	Anders Jonsson (sv)
+	Danial Behzadi (fa)
+	Daniel Șerbănescu (ro)
+	Jiri Grönroos (fi)
+	Jürgen Benvenuti (de)
+	Nathan Follens (nl)
+	Piotr Drąg (pl)
+	Yosef Or Boczko (he)
+	Yuri Chornoivan (uk)
+
 phosh 0.20.0~beta1
 -------------------
 Released May 2022
