@@ -67,6 +67,12 @@ phosh_shell_get_locked (PhoshShell *self)
   return FALSE;
 }
 
+gboolean
+phosh_shell_get_docked (PhoshShell *self)
+{
+  return FALSE;
+}
+
 PhoshAppTracker *
 phosh_shell_get_app_tracker (PhoshShell *self)
 {
