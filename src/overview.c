@@ -412,6 +412,28 @@ app_launched_cb (PhoshOverview *self,
 
 
 static void
+page_changed_cb (PhoshOverview *self,
+                 guint          index,
+                 HdyCarousel   *carousel)
+{
+  PhoshActivity *activity;
+  PhoshToplevel *toplevel;
+  GList *list;
+  g_return_if_fail (PHOSH_IS_OVERVIEW (self));
+  g_return_if_fail (HDY_IS_CAROUSEL (carousel));
+
+  /* don't raise on scroll in docked mode */
+  if (phosh_shell_get_docked (phosh_shell_get_default ()))
+    return;
+
+  list = gtk_container_get_children (GTK_CONTAINER (carousel));
+  activity = PHOSH_ACTIVITY (g_list_nth_data (list, index));
+  toplevel = get_toplevel_from_activity (activity);
+  phosh_toplevel_activate (toplevel, phosh_wayland_get_wl_seat (phosh_wayland_get_default ()));
+}
+
+
+static void
 phosh_overview_constructed (GObject *object)
 {
   PhoshOverview *self = PHOSH_OVERVIEW (object);
@@ -440,6 +462,9 @@ phosh_overview_constructed (GObject *object)
 
   g_signal_connect_swapped (priv->app_grid, "app-launched",
                             G_CALLBACK (app_launched_cb), self);
+
+  g_signal_connect_swapped (priv->carousel_running_activities, "page-changed",
+                            G_CALLBACK (page_changed_cb), self);
 }
 
 
