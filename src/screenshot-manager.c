@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Purism SPC
+ * Copyright (C) 2021-2022 Purism SPC
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -18,6 +18,8 @@
 
 #include "dbus/phosh-screenshot-dbus.h"
 
+#include <gio/gunixinputstream.h>
+
 #define BUS_NAME "org.gnome.Shell.Screenshot"
 #define OBJECT_PATH "/org/gnome/Shell/Screenshot"
 
@@ -35,29 +37,44 @@
 static void phosh_screenshot_manager_screenshot_iface_init (
   PhoshDBusScreenshotIface *iface);
 
+typedef enum {
+  FRAME_STATE_FAILURE = -1,
+  FRAME_STATE_UNKNOWN = 0,
+  FRAME_STATE_SUCCESS = 1,
+} ScreencopyFrameState;
 
 typedef struct _ScreencopyFrame {
   struct zwlr_screencopy_frame_v1 *frame;
   uint32_t                         flags;
-  char                            *filename;
-  GDBusMethodInvocation           *invocation;
   PhoshWlBuffer                   *buffer;
-  gboolean                         flash;
   GdkPixbuf                       *pixbuf;
+  PhoshMonitor                    *monitor;
+  ScreencopyFrameState             state;
+  PhoshScreenshotManager          *manager;
 } ScreencopyFrame;
 
+typedef struct {
+  GList                    *frames;
+  GDBusMethodInvocation    *invocation;
+  gboolean                  flash;
+  char                     *filename;
+  guint                     num_outputs;
+  GdkRectangle             *area;
+} ScreencopyFrames;
 
 typedef struct _PhoshScreenshotManager {
   PhoshDBusScreenshotSkeleton        parent;
 
   int                                dbus_name_id;
   struct zwlr_screencopy_manager_v1 *wl_scm;
-  ScreencopyFrame                   *frame;
+  ScreencopyFrames                  *frames;
 
   PhoshFader                        *fader;
   guint                              fader_id;
   PhoshFader                        *opaque;
   guint                              opaque_id;
+
+  GdkPixbuf                         *for_clipboard;
 } PhoshScreenshotManager;
 
 
@@ -72,11 +89,26 @@ G_DEFINE_TYPE_WITH_CODE (PhoshScreenshotManager,
 static void
 screencopy_frame_dispose (ScreencopyFrame *frame)
 {
-  phosh_wl_buffer_destroy (frame->buffer);
+  g_clear_pointer (&frame->buffer, phosh_wl_buffer_destroy);
   g_clear_pointer (&frame->frame, zwlr_screencopy_frame_v1_destroy);
   g_clear_object (&frame->pixbuf);
-  g_free (frame->filename);
+
+  if (frame->monitor) {
+    g_object_remove_weak_pointer (G_OBJECT (frame->monitor), (gpointer)&frame->monitor);
+    frame->monitor = NULL;
+  }
+
   g_free (frame);
+}
+
+
+static void
+screencopy_frames_dispose (ScreencopyFrames *frames)
+{
+  g_clear_pointer (&frames->area, g_free);
+  g_clear_list (&frames->frames, (GDestroyNotify) screencopy_frame_dispose);
+  g_free (frames->filename);
+  g_free (frames);
 }
 
 
@@ -88,16 +120,13 @@ screencopy_frame_handle_buffer (void                            *data,
                                 uint32_t                         height,
                                 uint32_t                         stride)
 {
-  PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (data);
+  ScreencopyFrame *screencopy_frame = data;
 
-  g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
+  g_debug ("Handling buffer %dx%d for %s", width, height, screencopy_frame->monitor->name);
+  screencopy_frame->buffer = phosh_wl_buffer_new (format, width, height, stride);
+  g_return_if_fail (screencopy_frame->buffer);
 
-  g_debug ("Handling buffer %dx%d for %s", width, height,
-           self->frame->filename ?: "<clipboard>");
-  self->frame->buffer = phosh_wl_buffer_new (format, width, height, stride);
-  g_return_if_fail (self->frame->buffer);
-
-  zwlr_screencopy_frame_v1_copy (frame, self->frame->buffer->wl_buffer);
+  zwlr_screencopy_frame_v1_copy (frame, screencopy_frame->buffer->wl_buffer);
 }
 
 
@@ -106,12 +135,11 @@ screencopy_frame_handle_flags (void                            *data,
                                struct zwlr_screencopy_frame_v1 *frame,
                                uint32_t                         flags)
 {
-  PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (data);
+  ScreencopyFrame *screencopy_frame = data;
 
-  g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
-  g_return_if_fail (self->frame);
+  g_return_if_fail (screencopy_frame);
 
-  self->frame->flags = flags;
+  screencopy_frame->flags = flags;
 }
 
 static gboolean
@@ -142,17 +170,14 @@ show_fader (PhoshScreenshotManager *self)
 
 
 static void
-screencopy_done (PhoshScreenshotManager *self, gboolean success)
+screenshot_done (PhoshScreenshotManager *self, gboolean success)
 {
   phosh_dbus_screenshot_complete_screenshot (PHOSH_DBUS_SCREENSHOT (self),
-                                             self->frame->invocation,
+                                             self->frames->invocation,
                                              success,
-                                             self->frame->filename ?: "");
-  /* TODO: GNOME >= 40 wants us to emit the click sound from here */
-  if (self->frame->flash && success)
-    show_fader (self);
+                                             self->frames->filename ?: "");
 
-  g_clear_pointer (&self->frame, screencopy_frame_dispose);
+  g_clear_pointer (&self->frames, screencopy_frames_dispose);
 }
 
 
@@ -169,9 +194,9 @@ on_save_pixbuf_ready (GObject      *source_object,
 
   success = gdk_pixbuf_save_to_stream_finish (res, &err);
   if (!success)
-    g_warning ("Failed to save screenshot to %s: %s", self->frame->filename, err->message);
+    g_warning ("Failed to save screenshot: %s", err->message);
 
-  screencopy_done (self, success);
+  screenshot_done (self, success);
   g_object_unref (self);
 }
 
@@ -188,89 +213,152 @@ on_opaque_timeout (PhoshScreenshotManager *self)
   }
 
   clipboard = gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD);
-  gtk_clipboard_set_image (clipboard, self->frame->pixbuf);
-  g_debug ("Updated clipboard with %p", self->frame);
-  screencopy_done (self, TRUE);
+  gtk_clipboard_set_image (clipboard, self->for_clipboard);
+  g_debug ("Updated clipboard");
+  screenshot_done (self, TRUE);
 
  out:
+  g_clear_object (&self->for_clipboard);
   g_clear_pointer (&self->opaque, phosh_cp_widget_destroy);
   self->opaque_id = 0;
   return G_SOURCE_REMOVE;
 }
 
 
-static void
-screencopy_frame_handle_ready (void                            *data,
-                               struct zwlr_screencopy_frame_v1 *frame,
-                               uint32_t                         tv_sec_hi,
-                               uint32_t                         tv_sec_lo,
-                               uint32_t                         tv_nsec)
+/* Taken from grim */
+static GdkRectangle
+get_output_layout (PhoshScreenshotManager *self)
 {
-  PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (data);
+  GdkRectangle box;
+  guint x1 = G_MAXUINT, y1 = G_MAXUINT, x2 = 0, y2 = 0;
 
-  g_autoptr (GdkPixbuf) pixbuf = NULL;
+  for (GList *l = self->frames->frames; l; l = l->next) {
+    ScreencopyFrame *frame = l->data;
+    PhoshMonitor *monitor = PHOSH_MONITOR (frame->monitor);
+
+    if (monitor->logical.x < x1)
+      x1 = monitor->logical.x;
+
+    if (monitor->logical.y < y1)
+      y1 = monitor->logical.y;
+
+    if (monitor->logical.x + monitor->logical.width > x2)
+      x2 = monitor->logical.x + monitor->logical.width;
+
+    if (monitor->logical.y + monitor->logical.height > y2)
+      y2 = monitor->logical.y + monitor->logical.height;
+  }
+
+  box.x = x1;
+  box.y = y1;
+  box.width = x2 - x1;
+  box.height = y2 - y1;
+
+  return box;
+}
+
+
+static guint
+get_angle (PhoshMonitorTransform transform)
+{
+  switch (transform) {
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED:
+  case PHOSH_MONITOR_TRANSFORM_NORMAL:
+    return 0;
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_90:
+  case PHOSH_MONITOR_TRANSFORM_90:
+    return 270;
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_180:
+  case PHOSH_MONITOR_TRANSFORM_180:
+    return 180;
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_270:
+  case PHOSH_MONITOR_TRANSFORM_270:
+    return 90;
+  default:
+    g_return_val_if_reached (0);
+  }
+}
+
+
+/* Got all pixbufs, prepare result */
+static void
+submit_screenshot (PhoshScreenshotManager *self)
+{
   g_autoptr (GError) err = NULL;
   g_autoptr (GFileOutputStream) stream = NULL;
   g_autoptr (GFile) file = NULL;
-  g_autoptr (GBytes) bytes = NULL;
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
+  GdkRectangle box;
 
-  g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
-  g_debug ("Frame %p %dx%d, stride %d, format 0x%x ready, saving to %s",
-           frame,
-           self->frame->buffer->width,
-           self->frame->buffer->height,
-           self->frame->buffer->stride,
-           self->frame->buffer->format,
-           self->frame->filename ?: "<clipboard>");
+  box = get_output_layout (self);
+  g_debug ("Screenshot of %d,%d %dx%d", box.x, box.y, box.width, box.height);
 
-  switch ((uint32_t) self->frame->buffer->format) {
-  case WL_SHM_FORMAT_ABGR8888:
-  case WL_SHM_FORMAT_XBGR8888:
-    break;
-  case WL_SHM_FORMAT_ARGB8888:
-  case WL_SHM_FORMAT_XRGB8888: { /* ARGB -> ABGR */
-    PhoshWlBuffer *buffer = self->frame->buffer;
-    uint8_t *d = buffer->data;
-    for (int i = 0; i < buffer->height; ++i) {
-      for (int j = 0; j < buffer->width; ++j) {
-        uint32_t *px = (uint32_t *)(d + i * buffer->stride + j * 4);
-        uint8_t a = (*px >> 24) & 0xFF;
-        uint8_t b = (*px >> 16) & 0xFF;
-        uint8_t g = (*px >> 8) & 0xFF;
-        uint8_t r = *px & 0xFF;
-        *px = (a << 24) | (r << 16) | (g << 8) | b;
-      }
-    }
-    if (buffer->format == WL_SHM_FORMAT_ARGB8888)
-      buffer->format = WL_SHM_FORMAT_ABGR8888;
-    else
-      buffer->format = WL_SHM_FORMAT_XBGR8888;
-  }
-  break;
-  default:
-    goto error;
-  }
+  pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
+                           TRUE,
+                           8,
+                           box.width,
+                           box.height);
 
-  bytes = phosh_wl_buffer_get_bytes (self->frame->buffer);
-  pixbuf = gdk_pixbuf_new_from_bytes (bytes,
-                                      GDK_COLORSPACE_RGB,
-                                      TRUE,
-                                      8,
-                                      self->frame->buffer->width,
-                                      self->frame->buffer->height,
-                                      self->frame->buffer->stride);
-  if (self->frame->flags & ZWLR_SCREENCOPY_FRAME_V1_FLAGS_Y_INVERT) {
-    GdkPixbuf *tmp = gdk_pixbuf_flip (pixbuf, FALSE);
-    g_object_unref (pixbuf);
-    pixbuf = tmp;
+  /* TODO: Using cairo would avoid lots of copies */
+  for (GList *l = self->frames->frames; l; l = l->next) {
+    ScreencopyFrame *frame = l->data;
+    PhoshMonitor *monitor = frame->monitor;
+    float scale;
+    g_autoptr (GdkPixbuf) transformed = NULL;
+
+    if (monitor == NULL)
+      continue;
+
+    scale = phosh_monitor_get_fractional_scale (frame->monitor);
+    g_debug ("Screenshot of '%s' of %d,%d %dx%d, scale: %f",
+             frame->monitor->name,
+             frame->monitor->logical.x - box.x,
+             frame->monitor->logical.y - box.y,
+             frame->monitor->logical.width,
+             frame->monitor->logical.height,
+             scale);
+
+    /* TODO: handle flips */
+    transformed = gdk_pixbuf_rotate_simple (frame->pixbuf,
+                                            get_angle (monitor->transform));
+    gdk_pixbuf_composite (transformed,
+                          pixbuf,
+                          frame->monitor->logical.x - box.x,
+                          frame->monitor->logical.y - box.y,
+                          frame->monitor->logical.width,
+                          frame->monitor->logical.height,
+                          frame->monitor->logical.x - box.x,
+                          frame->monitor->logical.y - box.y,
+                          1.0 / scale, 1.0 / scale,
+                          GDK_INTERP_BILINEAR,
+                          255);
   }
 
-  if (self->frame->filename) {
-    file = g_file_new_for_path (self->frame->filename);
+  if (self->frames->area) {
+    g_autoptr (GdkPixbuf) tmp = pixbuf;
+
+    pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
+                             TRUE,
+                             8,
+                             self->frames->area->width,
+                             self->frames->area->height);
+    gdk_pixbuf_copy_area (tmp,
+                          self->frames->area->x,
+                          self->frames->area->y,
+                          self->frames->area->width,
+                          self->frames->area->height,
+                          pixbuf,
+                          0,
+                          0);
+  }
+
+  if (self->frames->filename) {
+    file = g_file_new_for_path (self->frames->filename);
     stream = g_file_create (file, G_FILE_CREATE_NONE, NULL, &err);
     if (!stream) {
-      g_warning ("Failed to save screenshot %s: %s", self->frame->filename, err->message);
-      goto error;
+      g_warning ("Failed to save screenshot %s: %s", self->frames->filename, err->message);
+      screenshot_done (self, FALSE);
+      return;
     }
 
     gdk_pixbuf_save_to_stream_async (pixbuf,
@@ -289,7 +377,7 @@ screencopy_frame_handle_ready (void                            *data,
                                  "style-class", "phosh-fader-screenshot-opaque",
                                  "kbd-interactivity", TRUE,
                                  NULL);
-    self->frame->pixbuf = g_steal_pointer (&pixbuf);
+    self->for_clipboard = g_steal_pointer (&pixbuf);
     /* FIXME: Would be better to trigger when the opaque window is up and got
        input focus but all such attempts failed */
     self->opaque_id = g_timeout_add_seconds (1, (GSourceFunc) on_opaque_timeout, self);
@@ -297,10 +385,129 @@ screencopy_frame_handle_ready (void                            *data,
 
     gtk_widget_show (GTK_WIDGET (self->opaque));
   }
-  return;
 
-error:
-  screencopy_done (self, FALSE);
+  /* TODO: GNOME >= 40 wants us to emit the click sound from here */
+  if (self->frames->flash)
+    show_fader (self);
+}
+
+
+static void
+maybe_screencopy_done (PhoshScreenshotManager *self)
+{
+  guint failed = 0, done = 0;
+
+  for (GList *l = self->frames->frames; l; l = l->next) {
+    ScreencopyFrame *frame = l->data;
+
+    switch (frame->state) {
+    case FRAME_STATE_UNKNOWN:
+      return;
+    case FRAME_STATE_FAILURE:
+      failed++;
+      break;
+    case FRAME_STATE_SUCCESS:
+      done++;
+      break;
+    default:
+      g_warn_if_reached ();
+      break;
+    }
+  }
+
+  /* Wait for all screencopies until we start merging all outputs */
+  if (done + failed != self->frames->num_outputs)
+    return;
+
+  /* With a failure no need to merge pixbufs */
+  if (failed) {
+    phosh_dbus_screenshot_complete_screenshot (PHOSH_DBUS_SCREENSHOT (self),
+                                               self->frames->invocation,
+                                               FALSE,
+                                               self->frames->filename ?: "");
+    return;
+  }
+
+  submit_screenshot (self);
+}
+
+
+static void
+screencopy_frame_handle_ready (void                            *data,
+                               struct zwlr_screencopy_frame_v1 *frame,
+                               uint32_t                         tv_sec_hi,
+                               uint32_t                         tv_sec_lo,
+                               uint32_t                         tv_nsec)
+{
+  ScreencopyFrame *screencopy_frame = data;
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
+  g_autoptr (GBytes) bytes = NULL;
+
+  if (screencopy_frame->monitor == NULL) {
+    g_warning ("Output went away during screenshot");
+    screencopy_frame->state = FRAME_STATE_FAILURE;
+    goto out;
+  }
+
+  g_debug ("Frame %p %dx%d, stride %d, format 0x%x for  %s ready",
+           frame,
+           screencopy_frame->buffer->width,
+           screencopy_frame->buffer->height,
+           screencopy_frame->buffer->stride,
+           screencopy_frame->buffer->format,
+           screencopy_frame->monitor->name);
+
+  switch ((uint32_t) screencopy_frame->buffer->format) {
+  case WL_SHM_FORMAT_ABGR8888:
+  case WL_SHM_FORMAT_XBGR8888:
+    break;
+  case WL_SHM_FORMAT_ARGB8888:
+  case WL_SHM_FORMAT_XRGB8888: { /* ARGB -> ABGR */
+    PhoshWlBuffer *buffer = screencopy_frame->buffer;
+    uint8_t *d = buffer->data;
+    for (int i = 0; i < buffer->height; ++i) {
+      for (int j = 0; j < buffer->width; ++j) {
+        uint32_t *px = (uint32_t *)(d + i * buffer->stride + j * 4);
+        uint8_t a = (*px >> 24) & 0xFF;
+        uint8_t b = (*px >> 16) & 0xFF;
+        uint8_t g = (*px >> 8) & 0xFF;
+        uint8_t r = *px & 0xFF;
+        *px = (a << 24) | (r << 16) | (g << 8) | b;
+      }
+    }
+    if (buffer->format == WL_SHM_FORMAT_ARGB8888)
+      buffer->format = WL_SHM_FORMAT_ABGR8888;
+    else
+      buffer->format = WL_SHM_FORMAT_XBGR8888;
+  }
+  break;
+  default:
+    g_warning ("Unknown buffer formeat 0x%x on %s",
+               screencopy_frame->buffer->format,
+               screencopy_frame->monitor->name);
+    screencopy_frame->state = FRAME_STATE_FAILURE;
+    goto out;
+  }
+
+  bytes = phosh_wl_buffer_get_bytes (screencopy_frame->buffer);
+  pixbuf = gdk_pixbuf_new_from_bytes (bytes,
+                                      GDK_COLORSPACE_RGB,
+                                      TRUE,
+                                      8,
+                                      screencopy_frame->buffer->width,
+                                      screencopy_frame->buffer->height,
+                                      screencopy_frame->buffer->stride);
+  if (screencopy_frame->flags & ZWLR_SCREENCOPY_FRAME_V1_FLAGS_Y_INVERT) {
+    GdkPixbuf *tmp = gdk_pixbuf_flip (pixbuf, FALSE);
+    g_object_unref (pixbuf);
+    pixbuf = tmp;
+  }
+
+  screencopy_frame->pixbuf = g_steal_pointer (&pixbuf);
+  screencopy_frame->state = FRAME_STATE_SUCCESS;
+
+ out:
+  maybe_screencopy_done (screencopy_frame->manager);
 }
 
 
@@ -308,12 +515,12 @@ static void
 screencopy_frame_handle_failed (void                            *data,
                                 struct zwlr_screencopy_frame_v1 *frame)
 {
-  PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (data);
+  ScreencopyFrame *screencopy_frame = data;
+  const char *name = screencopy_frame->monitor ? screencopy_frame->monitor->name : "<unknonwn>";
 
-  g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
-
-  g_warning ("Failed to copy output\n");
-  screencopy_done (self, FALSE);
+  screencopy_frame->state = FRAME_STATE_FAILURE;
+  g_warning ("Failed to copy output '%s'\n", name);
+  maybe_screencopy_done (screencopy_frame->manager);
 }
 
 
@@ -359,10 +566,8 @@ build_screenshot_filename (const char *pattern)
 
     filename = g_build_filename (dir, pattern, NULL);
   }
-  if (!g_str_has_suffix (filename, ".png")) {
-    g_autofree gchar *tmp = filename;
+  if (!g_str_has_suffix (filename, ".png"))
     filename = g_strdup_printf ("%s.png", filename);
-  }
 
   return g_steal_pointer (&filename);
 }
@@ -377,48 +582,59 @@ handle_screenshot (PhoshDBusScreenshot   *object,
 {
   PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (object);
   PhoshWayland *wl = phosh_wayland_get_default ();
-  struct zwlr_screencopy_manager_v1 *wl_scm;
-  PhoshMonitor *monitor;
-  ScreencopyFrame *frame;
+  ScreencopyFrames *frames;
+  PhoshMonitorManager  *monitor_manager = phosh_shell_get_monitor_manager (phosh_shell_get_default ());
 
   g_debug ("DBus call %s, cursor: %d, flash %d, to %s",
            __func__, arg_include_cursor, arg_flash, arg_filename);
 
   g_return_val_if_fail (PHOSH_IS_WAYLAND (wl), FALSE);
 
-  wl_scm = phosh_wayland_get_zwlr_screencopy_manager_v1 (wl);
-  if (!wl_scm) {
+  if (!self->wl_scm) {
     phosh_dbus_screenshot_complete_screenshot (object, invocation, FALSE, "");
     return TRUE;
   }
 
-  if (self->frame) {
+  if (self->frames) {
     g_debug ("Screenshot already in progress");
     phosh_dbus_screenshot_complete_screenshot (object, invocation, FALSE, "");
     return TRUE;
   }
 
-  monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
-  frame = g_new0 (ScreencopyFrame, 1);
+  frames = g_new0 (ScreencopyFrames, 1);
+  frames->invocation = invocation;
+  frames->flash = arg_flash;
+  frames->num_outputs = phosh_monitor_manager_get_num_monitors (monitor_manager);
 
-  frame->frame = zwlr_screencopy_manager_v1_capture_output (
-    self->wl_scm, arg_include_cursor, monitor->wl_output);
-  frame->invocation = invocation;
-  frame->flash = arg_flash;
-  self->frame = frame;
+  for (int i = 0; i < frames->num_outputs; i++) {
+    PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
+    ScreencopyFrame *screencopy_frame = g_new0 (ScreencopyFrame, 1);
+
+    screencopy_frame->manager = self;
+    screencopy_frame->monitor = monitor;
+    g_object_add_weak_pointer (G_OBJECT (monitor), (gpointer)&screencopy_frame->monitor);
+    screencopy_frame->frame = zwlr_screencopy_manager_v1_capture_output (
+      self->wl_scm, arg_include_cursor, monitor->wl_output);
+    zwlr_screencopy_frame_v1_add_listener (screencopy_frame->frame, &screencopy_frame_listener,
+                                           screencopy_frame);
+    frames->frames = g_list_prepend (frames->frames, screencopy_frame);
+  }
+  self->frames = frames;
 
   if (STR_IS_NULL_OR_EMPTY (arg_filename)) {
     /* Copy to clipboard */
-    frame->filename = NULL;
+    frames->filename = NULL;
   } else {
-    frame->filename = build_screenshot_filename (arg_filename);
-    if (!frame->filename) {
-      screencopy_done (self, FALSE);
+    frames->filename = build_screenshot_filename (arg_filename);
+    if (!frames->filename) {
+      phosh_dbus_screenshot_complete_screenshot (PHOSH_DBUS_SCREENSHOT (self),
+                                                 invocation,
+                                                 FALSE,
+                                                 "");
       return TRUE;
     }
   }
 
-  zwlr_screencopy_frame_v1_add_listener (frame->frame, &screencopy_frame_listener, self);
   return TRUE;
 }
 
@@ -501,6 +717,9 @@ phosh_screenshot_manager_dispose (GObject *object)
 
   if (g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (self)))
     g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
+
+  g_clear_pointer (&self->frames, screencopy_frames_dispose);
+  g_clear_object (&self->for_clipboard);
 
   g_clear_handle_id (&self->fader_id, g_source_remove);
   g_clear_handle_id (&self->opaque_id, g_source_remove);
