@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+x=${1:-10}
+y=${2:-10}
+w=${3:-100}
+h=${3:-100}
+
+gdbus call --session \
+            --dest "org.gnome.Shell.Screenshot" \
+            --object-path "/org/gnome/Shell/Screenshot" \
+            --method "org.gnome.Shell.Screenshot.ScreenshotArea" \
+	    $x $y $w $h false "$PWD/screenshot.png"
