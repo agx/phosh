@@ -62,12 +62,24 @@ typedef struct {
   GdkRectangle             *area;
 } ScreencopyFrames;
 
+typedef struct {
+  guint                   child_watch_id;
+  GPid                    pid;
+  GDBusMethodInvocation  *invocation;
+  GInputStream           *stdout;
+  GCancellable           *cancel;
+  char                    read_buf[64];
+  GString                *response;
+} SlurpArea;
+
+
 typedef struct _PhoshScreenshotManager {
   PhoshDBusScreenshotSkeleton        parent;
 
   int                                dbus_name_id;
   struct zwlr_screencopy_manager_v1 *wl_scm;
   ScreencopyFrames                  *frames;
+  SlurpArea                         *slurp;
 
   PhoshFader                        *fader;
   guint                              fader_id;
@@ -84,6 +96,19 @@ G_DEFINE_TYPE_WITH_CODE (PhoshScreenshotManager,
                          G_IMPLEMENT_INTERFACE (
                            PHOSH_DBUS_TYPE_SCREENSHOT,
                            phosh_screenshot_manager_screenshot_iface_init));
+
+
+static void
+slurp_area_dispose (SlurpArea *slurp)
+{
+  if (slurp->response) {
+    g_string_free (slurp->response, TRUE);
+    slurp->response = NULL;
+  }
+  g_cancellable_cancel (slurp->cancel);
+  g_clear_object (&slurp->cancel);
+  g_clear_object (&slurp->stdout);
+}
 
 
 static void
@@ -343,8 +368,8 @@ submit_screenshot (PhoshScreenshotManager *self)
                              self->frames->area->width,
                              self->frames->area->height);
     gdk_pixbuf_copy_area (tmp,
-                          self->frames->area->x,
-                          self->frames->area->y,
+                          self->frames->area->x - box.x,
+                          self->frames->area->y - box.y,
                           self->frames->area->width,
                           self->frames->area->height,
                           pixbuf,
@@ -574,6 +599,100 @@ build_screenshot_filename (const char *pattern)
 
 
 static gboolean
+handle_screenshot_area (PhoshDBusScreenshot   *object,
+                        GDBusMethodInvocation *invocation,
+                        gint                   arg_x,
+                        gint                   arg_y,
+                        gint                   arg_width,
+                        gint                   arg_height,
+                        gboolean               arg_flash,
+                        const char            *arg_filename)
+{
+  PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (object);
+  PhoshWayland *wl = phosh_wayland_get_default ();
+  ScreencopyFrames *frames;
+  PhoshMonitorManager  *monitor_manager = phosh_shell_get_monitor_manager (phosh_shell_get_default ());
+  int num_outputs = 0;
+  GdkRectangle area;
+
+  g_debug ("DBus call %s: @%d,%d %dx%d, flash %d, to %s",
+           __func__, arg_x, arg_y, arg_width, arg_height, arg_flash, arg_filename);
+
+  g_return_val_if_fail (PHOSH_IS_WAYLAND (wl), FALSE);
+
+  if (!self->wl_scm) {
+    phosh_dbus_screenshot_complete_screenshot (object, invocation, FALSE, "");
+    return TRUE;
+  }
+
+  if (self->frames) {
+    g_debug ("Screenshot already in progress");
+    phosh_dbus_screenshot_complete_screenshot (object, invocation, FALSE, "");
+    return TRUE;
+  }
+
+  frames = g_new0 (ScreencopyFrames, 1);
+  frames->invocation = invocation;
+  frames->flash = arg_flash;
+
+  area = (GdkRectangle) {
+    .x = arg_x,
+    .y = arg_y,
+    .width = arg_width,
+    .height = arg_height,
+  };
+
+  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
+    PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
+    ScreencopyFrame *screencopy_frame;
+    GdkRectangle monitor_area;
+
+    if (monitor == NULL)
+      continue;
+
+    monitor_area = (GdkRectangle) {
+      .x = monitor->logical.x,
+      .y = monitor->logical.y,
+      .width = monitor->logical.width,
+      .height = monitor->logical.height,
+    };
+    if (gdk_rectangle_intersect (&area, &monitor_area, NULL) == FALSE)
+      continue;
+
+    screencopy_frame = g_new0 (ScreencopyFrame, 1);
+    screencopy_frame->manager = self;
+    screencopy_frame->monitor = monitor;
+    g_object_add_weak_pointer (G_OBJECT (monitor), (gpointer)&screencopy_frame->monitor);
+    screencopy_frame->frame = zwlr_screencopy_manager_v1_capture_output (
+      self->wl_scm, FALSE, monitor->wl_output);
+    zwlr_screencopy_frame_v1_add_listener (screencopy_frame->frame, &screencopy_frame_listener,
+                                           screencopy_frame);
+    frames->frames = g_list_prepend (frames->frames, screencopy_frame);
+    num_outputs++;
+  }
+  frames->num_outputs = num_outputs;
+  frames->area = g_memdup2 (&area, sizeof (GdkRectangle));
+  self->frames = frames;
+
+  if (STR_IS_NULL_OR_EMPTY (arg_filename)) {
+    /* Copy to clipboard */
+    frames->filename = NULL;
+  } else {
+    frames->filename = build_screenshot_filename (arg_filename);
+    if (!frames->filename) {
+      phosh_dbus_screenshot_complete_screenshot (PHOSH_DBUS_SCREENSHOT (self),
+                                                 invocation,
+                                                 FALSE,
+                                                 "");
+      return TRUE;
+    }
+  }
+
+  return TRUE;
+}
+
+
+static gboolean
 handle_screenshot (PhoshDBusScreenshot   *object,
                    GDBusMethodInvocation *invocation,
                    gboolean               arg_include_cursor,
@@ -639,10 +758,159 @@ handle_screenshot (PhoshDBusScreenshot   *object,
 }
 
 
+/* Taken from grim */
+static gboolean
+parse_slurp (const char *str, GdkRectangle *box)
+{
+  char *end = NULL;
+  char *next;
+
+  box->x = strtol (str, &end, 10);
+  if (end[0] != ',')
+    return FALSE;
+
+  next = end + 1;
+  box->y = strtol (next, &end, 10);
+  if (end[0] != ' ')
+    return FALSE;
+
+  next = end + 1;
+  box->width = strtol (next, &end, 10);
+  if (end[0] != 'x')
+    return FALSE;
+
+  next = end + 1;
+  box->height = strtol (next, &end, 10);
+  if (end[0] != '\0' && end[0] != '\n')
+    return FALSE;
+
+  return TRUE;
+}
+
+
+static void
+on_slurp_exited (GPid pid, int wait_status, gpointer user_data)
+{
+  PhoshScreenshotManager *self;
+  GdkRectangle box;
+
+  g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (user_data));
+  self = PHOSH_SCREENSHOT_MANAGER (user_data);
+
+  g_return_if_fail (pid == self->slurp->pid);
+
+  g_debug ("Selected area: %s", self->slurp->response->str);
+
+  if (parse_slurp (self->slurp->response->str, &box)) {
+    phosh_dbus_screenshot_complete_select_area (PHOSH_DBUS_SCREENSHOT (self),
+                                                self->slurp->invocation,
+                                                box.x, box.y, box.width, box.height);
+  } else {
+    g_dbus_method_invocation_return_error (self->slurp->invocation, G_DBUS_ERROR,
+                                           G_DBUS_ERROR_FAILED,
+                                           "Area selection failed");
+  }
+
+  g_clear_pointer (&self->slurp, slurp_area_dispose);
+}
+
+
+static void
+on_slurp_read_done (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  GInputStream *slurp_out = G_INPUT_STREAM (source_object);
+  PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (user_data);
+  gssize read_size;
+  g_autoptr (GError) error = NULL;
+
+  read_size = g_input_stream_read_finish (slurp_out, res, &error);
+  switch (read_size) {
+  case -1:
+    if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+      g_warning ("Slurp cancelled");
+      g_dbus_method_invocation_return_error (self->slurp->invocation, G_DBUS_ERROR,
+                                             G_DBUS_ERROR_FAILED,
+                                             "Area selection cancelled");
+      g_clear_pointer (&self->slurp, slurp_area_dispose);
+      return;
+    }
+    break;
+  case 0:
+    /* Done reading. */
+    self->slurp->child_watch_id = g_child_watch_add (self->slurp->pid, on_slurp_exited, self);
+    break;
+  default:
+    g_string_append_len (self->slurp->response, self->slurp->read_buf, read_size);
+    g_input_stream_read_async (slurp_out,
+                               self->slurp->read_buf,
+                               sizeof(self->slurp->read_buf),
+                               G_PRIORITY_DEFAULT,
+                               NULL,
+                               on_slurp_read_done,
+                               self);
+    return;
+  }
+
+  g_input_stream_close (slurp_out, NULL, NULL);
+}
+
+
+static gboolean
+handle_select_area (PhoshDBusScreenshot   *object,
+                    GDBusMethodInvocation *invocation)
+{
+  PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (object);
+  const char *cmd[] = { "slurp", NULL };
+  gboolean success;
+  int slurp_stdout_fd;
+  g_autofree SlurpArea *slurp = NULL;
+  g_autoptr (GError) err = NULL;
+  GPid slurp_pid;
+
+  g_debug ("DBus call %s", __func__);
+
+  g_return_val_if_fail (slurp == NULL, FALSE);
+
+  success = g_spawn_async_with_pipes (NULL,
+                                      (char **) cmd,
+                                      NULL, /* envp */
+                                      G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD,
+                                      NULL, /* setup-func */
+                                      NULL, /* user_data */
+                                      &slurp_pid,
+                                      NULL,
+                                      &slurp_stdout_fd,
+                                      NULL,
+                                      &err);
+  if (!success) {
+    g_warning ("Failed to spawn slurp: %s", err->message);
+    return FALSE;
+  }
+
+  slurp = g_new0 (SlurpArea, 1);
+  slurp->stdout = g_unix_input_stream_new (slurp_stdout_fd, TRUE);
+  slurp->invocation = invocation;
+  slurp->pid = slurp_pid;
+  slurp->response = g_string_new (NULL);
+  g_input_stream_read_async (slurp->stdout,
+                             slurp->read_buf,
+                             sizeof(slurp->read_buf),
+                             G_PRIORITY_DEFAULT,
+                             slurp->cancel,
+                             on_slurp_read_done,
+                             self);
+
+  self->slurp = g_steal_pointer (&slurp);
+  return TRUE;
+}
+
+
 static void
 phosh_screenshot_manager_screenshot_iface_init (PhoshDBusScreenshotIface *iface)
 {
   iface->handle_screenshot = handle_screenshot;
+  iface->handle_select_area = handle_select_area;
+  iface->handle_screenshot_area = handle_screenshot_area;
 }
 
 
@@ -720,6 +988,7 @@ phosh_screenshot_manager_dispose (GObject *object)
 
   g_clear_pointer (&self->frames, screencopy_frames_dispose);
   g_clear_object (&self->for_clipboard);
+  g_clear_pointer (&self->slurp, slurp_area_dispose);
 
   g_clear_handle_id (&self->fader_id, g_source_remove);
   g_clear_handle_id (&self->opaque_id, g_source_remove);
