@@ -6,6 +6,7 @@ Exec=@libexecdir@/phosh
 Categories=System;GNOME;GTK;Core;
 OnlyShowIn=GNOME;
 NoDisplay=true
+Icon=sm.puri.Phosh
 X-GNOME-Autostart-Phase=DisplayServer
 X-GNOME-Provides=panel;windowmanager;
 X-GNOME-Autostart-Notify=true
