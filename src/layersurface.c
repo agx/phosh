@@ -109,8 +109,11 @@ static void
 layer_surface_closed (void                         *data,
                       struct zwlr_layer_surface_v1 *surface)
 {
-  PhoshLayerSurface *self = data;
-  PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
+  PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (data);
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
+  priv = phosh_layer_surface_get_instance_private (self);
 
   g_return_if_fail (priv->layer_surface == surface);
   g_debug ("Destroying layer surface '%s'", priv->namespace);
