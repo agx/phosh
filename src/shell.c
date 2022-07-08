@@ -262,10 +262,6 @@ on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
   priv = phosh_shell_get_instance_private (self);
 
   g_object_get (priv->home, "state", &state, NULL);
-  if (state == PHOSH_HOME_STATE_UNFOLDED) {
-    phosh_top_panel_fold (PHOSH_TOP_PANEL (priv->top_panel));
-    phosh_osk_manager_set_visible (priv->osk_manager, FALSE);
-  }
   phosh_shell_set_state (self, PHOSH_STATE_OVERVIEW, state == PHOSH_HOME_STATE_UNFOLDED);
 }
 
