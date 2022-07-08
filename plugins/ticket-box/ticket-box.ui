@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <template class="PhoshTicketBox" parent="GtkBox">
+    <property name="orientation">vertical</property>
+    <property name="margin">12</property>
+    <child>
+      <object class="GtkStack" id="stack_tickets">
+        <property name="visible">True</property>
+        <child>
+          <object class="HdyStatusPage">
+            <property name="visible">True</property>
+            <property name="icon-name">x-office-document-symbolic</property>
+            <property name="title" translatable="yes">Ticket Box</property>
+            <property name="description" translatable="yes">No documents to display</property>
+          </object>
+          <packing>
+            <property name="name">no-tickets</property>
+          </packing>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkOverlay">
+                <property name="visible">True</property>
+                <child type="overlay">
+                  <object class="GtkButton">
+                    <property name="visible">True</property>
+                    <property name="halign">end</property>
+                    <property name="valign">start</property>
+                    <property name="margin-end">16</property>
+                    <property name="margin-top">16</property>
+                    <signal name="clicked" handler="on_view_close_clicked" swapped="yes"/>
+                    <style>
+                      <class name="image-button"/>
+                      <class name="circular"/>
+                    </style>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="icon_name">window-close-symbolic</property>
+                        <property name="icon_size">1</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="visible">True</property>
+                    <property name="vscrollbar-policy">automatic</property>
+                    <property name="hscrollbar-policy">automatic</property>
+                    <property name="propagate-natural-height">True</property>
+                    <property name="max-content-height">480</property>
+                    <property name="max-content-width">300</property>
+                    <child>
+                      <object class="EvView" id="view">
+                        <property name="visible">True</property>
+                        <property name="expand">True</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="name">ticket-view</property>
+          </packing>
+        </child>
+
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="visible">True</property>
+            <property name="vscrollbar-policy">automatic</property>
+            <property name="hscrollbar-policy">never</property>
+            <property name="propagate-natural-height">True</property>
+            <property name="max-content-height">480</property>
+            <child>
+              <object class="HdyPreferencesGroup">
+                <property name="visible">True</property>
+                <property name="title" translatable="yes">Tickets</property>
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkListBox" id="lb_tickets">
+                    <property name="visible">True</property>
+                    <property name="selection-mode">single</property>
+                    <style>
+                      <class name="content"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="name">tickets</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

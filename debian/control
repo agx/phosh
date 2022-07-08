@@ -6,6 +6,7 @@ Build-Depends:
  debhelper-compat (= 13),
  gtk-doc-tools <!nodoc>,
  libcallaudio-dev,
+ libevince-dev,
  libsecret-1-dev,
  libsystemd-dev,
  libfeedback-dev,

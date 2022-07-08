@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <template class="PhoshUpcomingEvent" parent="HdyActionRow">
+    <property name="visible">True</property>
+    <property name="spacing">6</property>
+    <child>
+      <object class="GtkLabel" id="lbl_dot">
+        <property name="visible">True</property>
+        <property name="label">●</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl_summary">
+        <property name="visible">True</property>
+        <property name="hexpand">True</property>
+        <property name="justify">left</property>
+        <property name="halign">start</property>
+        <property name="ellipsize">end</property>
+        <property name="single-line-mode">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkLabel" id="lbl_begin">
+        <property name="visible">True</property>
+        <property name="justify">right</property>
+        <property name="halign">end</property>
+        <property name="single-line-mode">True</property>
+        <style><class name="dim-label"/></style>
+        <style><class name="caption"/></style>
+      </object>
+    </child>
+  </template>
+</interface>

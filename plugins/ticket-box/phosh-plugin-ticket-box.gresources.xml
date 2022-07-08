@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/sm/puri/phosh/plugins/ticket-box/">
+    <file preprocess="xml-stripblanks">ticket-box.ui</file>
+    <file compressed="true">stylesheet/common.css</file>
+  </gresource>
+</gresources>
