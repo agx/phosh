@@ -24,6 +24,14 @@
 
 #define STARTUP_TIMEOUT 10
 
+static PhoshTestCompositorState *_state;
+/**
+ * SIBABRT: raised on failed g_assert*
+ * SIGTRAP: raised with G_DEBUG=fatal-{warnings,criticals}
+ * SIGSEGV: the usual suspect
+ */
+static int handled_signals[] = { SIGABRT, SIGSEGV, SIGTRAP };
+
 typedef struct _PhocOutputWatch {
   char      *socket;
   GMainLoop *loop;
@@ -150,6 +158,19 @@ phosh_test_get_monitor(void)
 }
 
 
+static void
+abrt_handler (int signal)
+{
+  const struct sigaction act = { .sa_handler = SIG_DFL };
+
+  if (_state->pid)
+    kill (_state->pid, SIGTERM);
+
+  /* Make sure the default handler runs */
+  sigaction (signal, &act, NULL);
+}
+
+
 PhoshTestCompositorState *
 phosh_test_compositor_new (gboolean heads_stub)
 {
@@ -238,14 +259,32 @@ phosh_test_compositor_new (gboolean heads_stub)
   if (heads_stub)
     phosh_test_head_stub_init (state->wl);
 
+  g_assert_null (_state);
+  _state = state;
+
+  /* Install a ABRT handler that terminates the compositor quickly as we otherwise have
+     to wait for a timeout */
+  for (int i = 0; i < G_N_ELEMENTS (handled_signals); i++) {
+    int signal = handled_signals[i];
+    const struct sigaction act = { .sa_handler = abrt_handler };
+    struct sigaction old_act;
+
+    sigaction (signal, NULL, &old_act);
+    g_assert (old_act.sa_handler == SIG_DFL);
+
+    sigaction (signal, &act, NULL);
+  }
+
   return state;
 }
 
 void
 phosh_test_compositor_free (PhoshTestCompositorState *state)
 {
-  if (!state)
+  if (state == NULL)
     return;
+
+  g_assert_true (state == _state);
 
   phosh_test_head_stub_destroy ();
 
@@ -255,7 +294,14 @@ phosh_test_compositor_free (PhoshTestCompositorState *state)
   kill (state->pid, SIGTERM);
   g_spawn_close_pid (state->pid);
 
-  g_clear_pointer (&state, g_free);
+  for (int i = 0; i < G_N_ELEMENTS (handled_signals); i++) {
+    struct sigaction act = { .sa_handler = SIG_DFL };
+    int signal = handled_signals[i];
+
+    sigaction (signal, &act, NULL);
+  }
+
+  g_clear_pointer (&_state, g_free);
 }
 
 /**
