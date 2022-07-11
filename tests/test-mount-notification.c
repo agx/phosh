@@ -74,9 +74,10 @@ test_phosh_mount_notification_new (void)
 
   icon = phosh_notification_get_app_icon (PHOSH_NOTIFICATION (mn));
   g_assert_true (G_IS_THEMED_ICON (icon));
-  g_assert_cmpstr (g_themed_icon_get_names (G_THEMED_ICON (icon))[0],
-                   ==,
-                   "applications-system-symbolic");
+  g_assert_true (g_strcmp0 (g_themed_icon_get_names (G_THEMED_ICON (icon))[0],
+                            "applications-system-symbolic") == 0 ||
+                 g_strcmp0 (g_themed_icon_get_names (G_THEMED_ICON (icon))[0],
+                            "sm.puri.Phosh") == 0);
 
   icon = phosh_notification_get_image (PHOSH_NOTIFICATION (mn));
   g_assert_true (G_IS_THEMED_ICON (icon));
