@@ -55,7 +55,6 @@ struct _PhoshDragSurfaceClass {
   void                   (*dragged) (PhoshDragSurface *self, int margin);
 };
 
-PhoshDragSurface     *phosh_drag_surface_new (void);
 void                  phosh_drag_surface_set_margin      (PhoshDragSurface        *self,
                                                           int                      margin_folded,
                                                           int                      margin_unfolded);

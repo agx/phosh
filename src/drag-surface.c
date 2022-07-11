@@ -380,12 +380,6 @@ phosh_drag_surface_init (PhoshDragSurface *self)
 }
 
 
-PhoshDragSurface *
-phosh_drag_surface_new (void)
-{
-  return PHOSH_DRAG_SURFACE (g_object_new (PHOSH_TYPE_DRAG_SURFACE, NULL));
-}
-
 void
 phosh_drag_surface_set_margin (PhoshDragSurface *self, int margin_folded, int margin_unfolded)
 {
