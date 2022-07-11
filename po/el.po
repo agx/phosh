@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-08-03 09:16+0000\n"
-"PO-Revision-Date: 2021-08-04 02:02+0300\n"
+"POT-Creation-Date: 2022-07-11 13:32+0000\n"
+"PO-Revision-Date: 2022-07-11 23:17+0300\n"
 "Last-Translator: Efstathios Iosifidis <eiosifidis@gnome.org>\n"
 "Language-Team: Greek, Modern (1453-) <gnome-el-list@gnome.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -30,11 +30,19 @@ msgstr "Κέλυφος τηλεφώνου"
 msgid "Window management and application launching for mobile"
 msgstr "Διαχείριση παραθύρων και εκκίνησης εφαρμογών κινητού"
 
-#: src/app-grid-button.c:536
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "Εφαρμογή"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "Εμφάνιση όλων των εφαρμογών"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Εμφάνιση μόνο εφαρμογών φιλικών προς κινητά"
+
+#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
 msgid "On"
 msgstr "Ενεργό"
 
@@ -44,11 +52,11 @@ msgstr "Bluetooth"
 
 #: src/docked-info.c:81
 msgid "Docked"
-msgstr ""
+msgstr "Προσδέθηκε"
 
 #: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
-msgstr ""
+msgstr "Αποσυνδέθηκε"
 
 #: src/end-session-dialog.c:162
 msgid "Log Out"
@@ -61,7 +69,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "Ο %s θα αποσυνδεθεί αυτόματα σε %d δευτερόλεπτο."
 msgstr[1] "Ο %s θα αποσυνδεθεί αυτόματα σε %d δευτερόλεπτα."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Διακοπή λειτουργίας"
 
@@ -72,7 +80,7 @@ msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Το σύστημα θα απενεργοποιηθεί αυτόματα σε %d δευτερόλεπτο."
 msgstr[1] "Το σύστημα θα απενεργοποιηθεί αυτόματα σε %d δευτερόλεπτα."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
 msgstr "Επανεκκίνηση"
 
@@ -90,14 +98,14 @@ msgstr "Άγνωστη εφαρμογή"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:44
+#: src/feedbackinfo.c:69
 msgid "Quiet"
 msgstr "Σιωπηλό"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:49
+#: src/feedbackinfo.c:75
 msgid "Silent"
 msgstr "Αθόρυβο"
 
@@ -119,42 +127,36 @@ msgstr "Ναι"
 msgid "No"
 msgstr "Όχι"
 
-#: src/lockscreen.c:152 src/ui/lockscreen.ui:239
+#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
 msgid "Enter Passcode"
 msgstr "Εισάγετε συνθηματικό"
 
-#: src/lockscreen.c:335
+#: src/lockscreen.c:379
 msgid "Checking…"
 msgstr "Γίνεται έλεγχος…"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:413
-msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
-
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:279 src/ui/media-player.ui:107
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "Άγνωστος τίτλος"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:288 src/ui/media-player.ui:127
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "Άγνωστος καλλιτέχνης"
 
-#: src/monitor-manager.c:114
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "Ενσωματομένη οθόνη"
 
-#: src/monitor-manager.c:132
+#: src/monitor-manager.c:137
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:139
+#: src/monitor-manager.c:144
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -163,16 +165,16 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:148
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Άγνωστος τύπος οθόνης"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Ο τύπος πιστοποίησης του ασύρματου δικτύου «%s» δεν υποστηρίζεται"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Εισάγετε συνθηματικό για το ασύρματο δίκτυο «%s»"
@@ -277,9 +279,9 @@ msgstr "%s%d%s"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Ο διάλογος πιστοποίησης απορρίφθηκε από τον χρήστη"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
-#: src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Συνθηματικό:"
 
@@ -301,11 +303,20 @@ msgstr "Οριζόντια"
 msgid "Off"
 msgstr "Ανενεργό"
 
-#: src/system-prompt.c:364
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Πατήστε Esc για κλείσιμο"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "Η εκτέλεση του '%s' απέτυχε"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Τα συνθηματικά δεν ταιριάζουν."
 
-#: src/system-prompt.c:371
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
 msgstr "Το συνθηματικό δεν μπορεί να είναι κενό"
 
@@ -313,104 +324,129 @@ msgstr "Το συνθηματικό δεν μπορεί να είναι κενό
 msgid "Torch"
 msgstr "Φακός"
 
-#: src/ui/app-auth-prompt.ui:41
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
 msgstr "Απομνημόνευση απόφασης"
 
-#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "ΟΚ"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "Εφαρμογή"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
 msgstr "Αφαίρεση από τα _αγαπημένα"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
 msgstr "Προσθήκη στα _αγαπημένα"
 
-#: src/ui/app-grid.ui:22
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "Προβολή _λεπτομερειών"
+
+#: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Αναζήτηση εφαρμογών…"
 
-#: src/ui/app-grid.ui:169
-msgid "Show only adaptive apps"
-msgstr "Εμφάνιση μόνο προσαρμοσμένων εφαρμογών"
-
-#: src/ui/end-session-dialog.ui:32
+#: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
 msgstr ""
 "Ορισμένες εφαρμογές είναι απασχολημένες ή έχουν μη αποθηκευμένη εργασία"
 
-#: src/ui/gtk-mount-prompt.ui:95
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Χρήστης:"
 
-#: src/ui/gtk-mount-prompt.ui:118
+#: src/ui/gtk-mount-prompt.ui:117
 msgid "Domain:"
 msgstr "Τομέας:"
 
-#: src/ui/gtk-mount-prompt.ui:151
+#: src/ui/gtk-mount-prompt.ui:150
 msgid "Co_nnect"
 msgstr "_Σύνδεση"
 
-#: src/ui/lockscreen.ui:43
+#: src/ui/lockscreen.ui:42
 msgid "Slide up to unlock"
 msgstr "Σύρετε προς τα πάνω για ξεκλείδωμα"
 
-#: src/ui/lockscreen.ui:285
+#: src/ui/lockscreen.ui:231
 msgid "Emergency"
 msgstr "Επείγον"
 
-#: src/ui/lockscreen.ui:301
+#: src/ui/lockscreen.ui:247
 msgid "Unlock"
 msgstr "Ξεκλείδωμα"
 
-#: src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:289
 msgid "Back"
 msgstr "Πίσω"
 
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Απαιτείται πιστοποίηση"
 
-#: src/ui/network-auth-prompt.ui:41
+#: src/ui/network-auth-prompt.ui:40
 msgid "_Cancel"
 msgstr "_Ακύρωση"
 
-#: src/ui/network-auth-prompt.ui:59
+#: src/ui/network-auth-prompt.ui:58
 msgid "C_onnect"
 msgstr "_Σύνδεση"
 
-#: src/ui/polkit-auth-prompt.ui:123
+#: src/ui/polkit-auth-prompt.ui:122
 msgid "Authenticate"
 msgstr "Πιστοποίηση"
 
-#: src/ui/system-prompt.ui:63
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Εκτέλεση εντολής"
+
+#: src/ui/settings.ui:317
+msgid "No notifications"
+msgstr "Καμία ειδοποίηση"
+
+#: src/ui/settings.ui:358
+msgid "Clear all"
+msgstr "Εκκαθάριση όλων"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Επιβεβαίωση:"
 
-#: src/ui/top-panel.ui:16
+#: src/ui/top-panel.ui:15
 msgid "Lock Screen"
 msgstr "Κλείδωμα οθόνης"
 
-#: src/ui/top-panel.ui:23
+#: src/ui/top-panel.ui:22
 msgid "Logout"
 msgstr "Έξοδος"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:340
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:172
+#: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Κινητή τηλεφωνία"
+
+#~ msgid "Show only adaptive apps"
+#~ msgstr "Εμφάνιση μόνο προσαρμοσμένων εφαρμογών"
