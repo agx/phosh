@@ -77,10 +77,10 @@ phosh_drag_surface_set_property (GObject      *object,
     priv->layer_shell_effects = g_value_get_pointer (value);
     break;
   case PROP_MARGIN_FOLDED:
-    phosh_drag_surface_set_margin (self, g_value_get_double (value), priv->margin_unfolded);
+    phosh_drag_surface_set_margin (self, g_value_get_int (value), priv->margin_unfolded);
     break;
   case PROP_MARGIN_UNFOLDED:
-    phosh_drag_surface_set_margin (self, priv->margin_folded, g_value_get_double (value));
+    phosh_drag_surface_set_margin (self, priv->margin_folded, g_value_get_int (value));
     break;
   case PROP_THRESHOLD:
     phosh_drag_surface_set_threshold (self, g_value_get_double (value));
