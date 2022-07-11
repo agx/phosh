@@ -419,6 +419,18 @@ phosh_drag_surface_set_margin (PhoshDragSurface *self, int margin_folded, int ma
 }
 
 
+float
+phosh_drag_surface_get_threshold (PhoshDragSurface *self)
+{
+  PhoshDragSurfacePrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_DRAG_SURFACE (self), 0);
+  priv = phosh_drag_surface_get_instance_private (self);
+
+  return priv->threshold;
+}
+
+
 void
 phosh_drag_surface_set_threshold (PhoshDragSurface *self, double threshold)
 {
