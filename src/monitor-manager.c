@@ -1483,6 +1483,9 @@ phosh_monitor_manager_get_num_monitors (PhoshMonitorManager *self)
  *
  * Sets monitor's transform. This will become active after the next
  * call to #phosh_monitor_manager_apply_monitor_config().
+ *
+ * If necessary other heads will be moved to avoid gaps and
+ * overlapping heads in the layout.
  */
 void
 phosh_monitor_manager_set_monitor_transform (PhoshMonitorManager *self,
@@ -1497,7 +1500,7 @@ phosh_monitor_manager_set_monitor_transform (PhoshMonitorManager *self,
   head = phosh_monitor_manager_get_head_from_monitor (self, monitor);
   g_return_if_fail (PHOSH_IS_HEAD (head));
 
-  phosh_head_set_pending_transform (head, transform);
+  phosh_head_set_pending_transform (head, transform, self->heads);
 }
 
 /**

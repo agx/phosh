@@ -492,14 +492,53 @@ phosh_head_new_from_wlr_head (gpointer wlr_head)
  * phosh_head_set_transform:
  * @self: The head to transform
  * @transform: The transform to apply to the head
+ * @heads: All currently known heads
  *
- * Set the heads pending transform.
+ * Set the heads pending transform. Move pending positions of heads to
+ * the right and below @self around to avoid gaps and overlaps in the
+ * layout.
  */
 void
 phosh_head_set_pending_transform (PhoshHead             *self,
-                                  PhoshMonitorTransform  transform)
+                                  PhoshMonitorTransform  transform,
+                                  GPtrArray             *heads)
+
 {
+  int dx, dy;
+  gboolean was_tilted, tilted;
+
+  g_return_if_fail (self);
+  was_tilted = phosh_monitor_transform_is_tilted ((PhoshMonitorTransform) self->pending.transform);
+  tilted = phosh_monitor_transform_is_tilted (transform);
+
   self->pending.transform = (enum wl_output_transform) transform;
+
+  /* We need to adjust the positions of monitors to the right and below the transformed
+     ones to avoid gaps if tilting changed */
+  if (was_tilted == tilted)
+    return;
+
+  g_return_if_fail (self->pending.mode);
+  g_return_if_fail (self->pending.scale >= 0.0);
+  dx = (self->pending.mode->height - self->pending.mode->width) / self->pending.scale;
+  dy = (self->pending.mode->width - self->pending.mode->height) / self->pending.scale;
+  if (was_tilted) {
+    dx *= -1;
+    dy *= -1;
+  }
+
+  g_debug ("Output orientation of %s changed, "
+           "adjusting layout: dx: %d, dy: %d", self->name, dx, dy);
+
+  for (int i = 0; i < heads->len; i++) {
+    PhoshHead *move_head = g_ptr_array_index (heads, i);
+
+    if (move_head->pending.x > self->pending.x)
+      move_head->pending.x += dx;
+
+    if (move_head->pending.y > self->pending.y)
+      move_head->pending.y += dy;
+  }
 }
 
 
