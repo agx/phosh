@@ -1488,12 +1488,12 @@ phosh_monitor_manager_set_monitor_transform (PhoshMonitorManager *self,
                                              PhoshMonitor *monitor,
                                              PhoshMonitorTransform transform)
 {
-  g_autoptr(PhoshHead) head = NULL;
+  PhoshHead *head;
 
   g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
   g_return_if_fail (phosh_monitor_is_configured (monitor));
-  head = g_object_ref (phosh_monitor_manager_get_head_from_monitor (self, monitor));
+  head = phosh_monitor_manager_get_head_from_monitor (self, monitor);
   g_return_if_fail (PHOSH_IS_HEAD (head));
 
   head->pending.transform = transform;
