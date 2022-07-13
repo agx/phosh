@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-media-player"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "mpris-dbus.h"
 #include "media-player.h"

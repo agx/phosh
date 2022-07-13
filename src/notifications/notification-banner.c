@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-notification-banner"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "notification-banner.h"
 #include "notification-frame.h"
 #include "shell.h"

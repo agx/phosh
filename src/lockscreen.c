@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-lockscreen"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "auth.h"
 #include "bt-info.h"

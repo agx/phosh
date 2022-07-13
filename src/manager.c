@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-manager"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "manager.h"
 

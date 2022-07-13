@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-layer-surface"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "layersurface.h"
 
 #include <gdk/gdkwayland.h>

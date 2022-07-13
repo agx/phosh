@@ -10,7 +10,7 @@
 
 #include <glib/gi18n.h>
 
-#include "config.h"
+#include "phosh-config.h"
 #include "wwan-info.h"
 #include "wwan/wwan-manager.h"
 

@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-network-auth-prompt"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "contrib/shell-network-agent.h"
 #include "network-auth-prompt.h"

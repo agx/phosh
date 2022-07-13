@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-status-icon"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "status-icon.h"
 

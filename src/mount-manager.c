@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-mount-manager"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "feedback-manager.h"
 #include "mount-manager.h"
 #include "mount-operation.h"

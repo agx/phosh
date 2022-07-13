@@ -10,7 +10,7 @@
 
 #define G_LOG_DOMAIN "phosh-batteryinfo"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "batteryinfo.h"
 #include "upower.h"

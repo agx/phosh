@@ -8,7 +8,7 @@
 
 #include "timestamp-label.h"
 #include "timestamp-label-priv.h"
-#include "config.h"
+#include "phosh-config.h"
 #include <glib/gi18n.h>
 
 /**

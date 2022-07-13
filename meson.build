@@ -158,8 +158,8 @@ config_h.set_quoted('PHOSH_VERSION', meson.project_version())
 config_h.set('HAVE_RFKILL_EVENT_EXT', have_rfkill_event_ext)
 
 configure_file(
-  input: 'config.h.in',
-  output: 'config.h',
+  input: 'phosh-config.h.in',
+  output: 'phosh-config.h',
   configuration: config_h,
 )
 

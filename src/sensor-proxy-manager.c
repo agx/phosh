@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-sensor-proxy-manager"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "sensor-proxy-manager.h"
 
 #define IIO_SENSOR_PROXY_DBUS_NAME       "net.hadess.SensorProxy"

@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-fader"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "fader.h"
 #include "shell.h"
 

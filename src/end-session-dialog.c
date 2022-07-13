@@ -13,7 +13,7 @@
 
 #define G_LOG_DOMAIN "phosh-end-session-dialog"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "end-session-dialog.h"
 
 #include <glib/gi18n.h>

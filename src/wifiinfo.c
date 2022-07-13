@@ -10,7 +10,7 @@
 
 #define G_LOG_DOMAIN "phosh-wifiinfo"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "shell.h"
 #include "wifiinfo.h"

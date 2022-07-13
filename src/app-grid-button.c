@@ -6,7 +6,7 @@
 
 #define G_LOG_DOMAIN "phosh-app-grid-button"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "app-tracker.h"
 #include "app-grid-button.h"
 #include "clamp.h"

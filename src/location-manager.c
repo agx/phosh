@@ -7,7 +7,7 @@
 
 #define G_LOG_DOMAIN "phosh-location-manager"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "app-auth-prompt.h"
 #include "geoclue-manager-dbus.h"

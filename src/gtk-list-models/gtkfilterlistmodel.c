@@ -17,7 +17,7 @@
  * Authors: Benjamin Otte <otte@gnome.org>
  */
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "gtkfilterlistmodel.h"
 

@@ -7,7 +7,7 @@
  */
 #define G_LOG_DOMAIN "phosh-wifimanager"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "wifimanager.h"
 #include "shell.h"

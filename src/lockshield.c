@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-lockshield"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "lockshield.h"
 

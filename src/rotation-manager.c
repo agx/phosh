@@ -7,7 +7,7 @@
 
 #define G_LOG_DOMAIN "phosh-rotation-manager"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "rotation-manager.h"
 #include "shell.h"
 #include "sensor-proxy-manager.h"

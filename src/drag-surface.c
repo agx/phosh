@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-drag-surface"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "phosh-enums.h"
 #include "drag-surface.h"

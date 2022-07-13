@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-splash"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "shell.h"
 #include "splash.h"

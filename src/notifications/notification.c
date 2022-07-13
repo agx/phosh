@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-notification"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "notification.h"
 #include "phosh-enums.h"
 #include "app-grid-button.h"

@@ -11,7 +11,7 @@
 
 #define G_LOG_DOMAIN "phosh-system-prompt"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "system-prompt.h"
 

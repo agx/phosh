@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-session-manager"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "end-session-dialog.h"
 #include "session-manager.h"
 #include "shell.h"
