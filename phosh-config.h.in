@@ -12,3 +12,6 @@
 #mesondefine LOCALEDIR
 
 #mesondefine HAVE_RFKILL_EVENT_EXT
+
+/* Whether ASAN was enabled via meson */
+#mesondefine PHOSH_USES_ASAN

@@ -156,6 +156,7 @@ config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
 config_h.set_quoted('LOCALEDIR', localedir)
 config_h.set_quoted('PHOSH_VERSION', meson.project_version())
 config_h.set('HAVE_RFKILL_EVENT_EXT', have_rfkill_event_ext)
+config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address')
 
 configure_file(
   input: 'phosh-config.h.in',
