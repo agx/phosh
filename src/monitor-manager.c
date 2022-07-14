@@ -167,6 +167,7 @@ phosh_monitor_manager_get_head_from_monitor (PhoshMonitorManager *self, PhoshMon
   return NULL;
 }
 
+
 /*
  * DBus Interface
  */
@@ -1496,7 +1497,7 @@ phosh_monitor_manager_set_monitor_transform (PhoshMonitorManager *self,
   head = phosh_monitor_manager_get_head_from_monitor (self, monitor);
   g_return_if_fail (PHOSH_IS_HEAD (head));
 
-  head->pending.transform = (enum wl_output_transform) transform;
+  phosh_head_set_pending_transform (head, transform);
 }
 
 /**

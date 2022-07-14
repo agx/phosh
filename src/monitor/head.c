@@ -489,6 +489,21 @@ phosh_head_new_from_wlr_head (gpointer wlr_head)
 
 
 /**
+ * phosh_head_set_transform:
+ * @self: The head to transform
+ * @transform: The transform to apply to the head
+ *
+ * Set the heads pending transform.
+ */
+void
+phosh_head_set_pending_transform (PhoshHead             *self,
+                                  PhoshMonitorTransform  transform)
+{
+  self->pending.transform = (enum wl_output_transform) transform;
+}
+
+
+/**
  * phosh_head_get_wlr_head:
  * @self: The #PhoshHead
  *

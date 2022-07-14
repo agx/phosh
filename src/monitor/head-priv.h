@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Purism SPC
+ * Copyright (C) 2019-2022 Purism SPC
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -77,5 +77,7 @@ float *                     phosh_head_calculate_supported_mode_scales (PhoshHea
                                                                         int           *n,
                                                                         gboolean       fractional);
 void                        phosh_head_clear_pending (PhoshHead *self);
+void                        phosh_head_set_pending_transform (PhoshHead             *self,
+                                                              PhoshMonitorTransform  transform);
 
 G_END_DECLS
