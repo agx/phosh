@@ -716,3 +716,32 @@ phosh_monitor_get_fractional_scale (PhoshMonitor *self)
   }
   return mode->width / width;
 }
+
+
+/**
+ * phosh_monitor_transform_is_tilted:
+ * @transform: a #PhoshMonitorTransform
+ *
+ * We consider a transform to tilt the display if it changes the
+ * display orientation from portrait to landscape or vice versa.
+ *
+ * Returns: %TRUE for tilted transforms, otherwise %FALSE
+ */
+gboolean
+phosh_monitor_transform_is_tilted (PhoshMonitorTransform transform)
+{
+  switch (transform) {
+  case PHOSH_MONITOR_TRANSFORM_NORMAL:
+  case PHOSH_MONITOR_TRANSFORM_180:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_180:
+    return FALSE;
+  case PHOSH_MONITOR_TRANSFORM_90:
+  case PHOSH_MONITOR_TRANSFORM_270:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_90:
+  case PHOSH_MONITOR_TRANSFORM_FLIPPED_270:
+    return TRUE;
+  default:
+    g_return_val_if_reached (FALSE);
+  }
+}
