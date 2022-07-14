@@ -8,12 +8,12 @@
 
 #define G_LOG_DOMAIN "phosh-head"
 
-#include "head.h"
+#include "head-priv.h"
 
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:head
+ * SECTION:head-priv
  * @short_description: An output head
  * @Title: PhoshHead
  *

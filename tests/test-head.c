@@ -6,7 +6,7 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "monitor/head.h"
+#include "monitor/head-priv.h"
 
 
 static void

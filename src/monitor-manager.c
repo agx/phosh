@@ -11,7 +11,7 @@
 #define G_LOG_DOMAIN "phosh-monitor-manager"
 
 #include "monitor-manager.h"
-#include "monitor/head.h"
+#include "monitor/head-priv.h"
 #include "monitor/monitor.h"
 
 #include "wlr-gamma-control-unstable-v1-client-protocol.h"
