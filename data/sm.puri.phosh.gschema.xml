@@ -45,6 +45,21 @@
         shell restart is required after changing it.
       </description>
     </key>
+    <key name="automatic-high-contrast" type="b">
+      <default>false</default>
+      <summary>Whether to switch to HighContrast theme in high brightness conditions</summary>
+      <description>
+        Setting this to true enables automatic switching to HighContrast on high ambient
+        night levels.
+      </description>
+    </key>
+    <key name="automatic-high-contrast-threshold" type="u">
+      <default>500</default>
+      <summary>The light level (in Lux) to switch to HighContrast theme</summary>
+      <description>
+        When automatic high contrast is enabled this defines the light level at which to switch.
+      </description>
+    </key>
   </schema>
   <schema id="sm.puri.phosh.lockscreen"
           path="/sm/puri/phosh/lockscreen/">

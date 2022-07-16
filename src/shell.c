@@ -24,6 +24,7 @@
 #include <gdk/gdkwayland.h>
 
 #include "phosh-config.h"
+#include "ambient.h"
 #include "drag-surface.h"
 #include "shell.h"
 #include "app-tracker.h"
@@ -157,6 +158,7 @@ typedef struct
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
   PhoshProximity *proximity;
+  PhoshAmbient *ambient;
   PhoshRotationManager *rotation_manager;
 
   PhoshShellDebugFlags debug_flags;
@@ -673,6 +675,7 @@ setup_idle_cb (PhoshShell *self)
                                                     priv->sensor_proxy_manager);
     g_signal_connect_swapped (priv->proximity, "notify::fader",
                               G_CALLBACK (on_proximity_fader_changed), self);
+    priv->ambient = phosh_ambient_new (priv->sensor_proxy_manager);
   }
 
   priv->mount_manager = phosh_mount_manager_new ();
