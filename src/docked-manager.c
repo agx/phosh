@@ -55,6 +55,7 @@ struct _PhoshDockedManager {
   GSettings        *wm_settings;
   GSettings        *a11y_settings;
   GSettings        *gtk_settings;
+  GSettings        *gtk4_settings;
 };
 G_DEFINE_TYPE (PhoshDockedManager, phosh_docked_manager, G_TYPE_OBJECT);
 
@@ -144,6 +145,7 @@ phosh_docked_manager_constructed (GObject *object)
   PhoshDockedManager *self = PHOSH_DOCKED_MANAGER (object);
   GSettingsSchemaSource *schema_source = g_settings_schema_source_get_default();
   g_autoptr (GSettingsSchema) schema = NULL;
+  g_autoptr (GSettingsSchema) gtk4_schema = NULL;
 
 
   G_OBJECT_CLASS (phosh_docked_manager_parent_class)->constructed (object);
@@ -157,6 +159,10 @@ phosh_docked_manager_constructed (GObject *object)
   schema = g_settings_schema_source_lookup (schema_source, "org.gtk.Settings.Purism", TRUE);
   if (schema && g_settings_schema_has_key (schema, GTK_KEY_IS_PHONE))
     self->gtk_settings = g_settings_new ("org.gtk.Settings.Purism");
+
+  gtk4_schema = g_settings_schema_source_lookup (schema_source, "org.gtk.gtk4.Settings.Purism", TRUE);
+  if (gtk4_schema && g_settings_schema_has_key (gtk4_schema, GTK_KEY_IS_PHONE))
+    self->gtk4_settings = g_settings_new ("org.gtk.gtk4.Settings.Purism");
 
   g_object_connect (
     self->mode_manager,
@@ -176,6 +182,7 @@ phosh_docked_manager_dispose (GObject *object)
   g_clear_object (&self->a11y_settings);
   g_clear_object (&self->wm_settings);
   g_clear_object (&self->gtk_settings);
+  g_clear_object (&self->gtk4_settings);
   g_clear_object (&self->mode_manager);
 
   G_OBJECT_CLASS (phosh_docked_manager_parent_class)->dispose (object);
@@ -300,6 +307,8 @@ phosh_docked_manager_set_enabled (PhoshDockedManager *self, gboolean enable)
   g_settings_set_boolean (self->a11y_settings, A11Y_KEY_OSK, !enable);
   if (self->gtk_settings)
     g_settings_set_boolean (self->gtk_settings, GTK_KEY_IS_PHONE, !enable);
+  if (self->gtk4_settings)
+    g_settings_set_boolean (self->gtk4_settings, GTK_KEY_IS_PHONE, !enable);
 
   /* TODO: Other icons for non phones? */
   icon_name = enable ? DOCKED_ENABLED_ICON : DOCKED_DISABLED_ICON;
