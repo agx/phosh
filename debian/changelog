@@ -1,3 +1,123 @@
+phosh (0.20.0~beta3) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * lockscreen: Drop am/pm from time formats (Closes: #103)
+  * data: Install and add icon to desktop file.
+    This will allow us to use it in e.g. phosh-mobile-settings panels.
+  * tests: Allow for phosh's icon.
+  * build: Adjust to polkit version changes.
+  * build: Rename config.h to phosh-config.h.
+    Otherwise we end up including config.h from elsewhere e.g. gvc.
+  * testlib: Kill compositor on SIG{ABRT,SEGV,TRAP}
+  * drag-surface: Add threshold getter. For symmetrie with the setter.
+  * drag-surface: Remove drag_surface_new (). The created object is not very
+    useful as we need to setup layer-surface too.
+  * drag-surface: Fix argument type. Fold margins are integers.
+  * tests: Add drag surface test.
+    This way we at test the setters and getters.
+    Fixes: 578a666f7fb69553bdf82ff8ab390467ab25165f
+  * tests: Don't change signal handlers when ASAN is in use.
+    ASAN wants to tweak these so don't touch them in these cases.
+  * build: Abort post-install on missing arguments.
+  * gitignore: Ignore i18n related generated files
+  * lockscreen: Avoid some keyboard filtering when not on unlock page.
+    This allows for keyboard navigation with the upcoming lockscreen plugins
+    and emergency call support.
+  * Add widget box to lock screen.
+    The widget box loads plugins that implement the phosh-lockscreen-widget
+    extension point and puts them on the lock screen.
+    Swiping to the left switches to the plugins if at least one is enabled.
+  * build: Generate module cache on install
+  * tools: Add standalone widget-box.
+    This allows to test the lock screen plugins without
+    running phosh itself.
+  * plugins: Add minimalistic calendar plugin.
+    It implements the phosh-lockscreen-widget extension point. It's
+    main purpose is to have a minimalistic example.
+  * debian: Install plugins.
+    We use an extra binary package so people can easily get rid of
+    plugins and their dependencies. It will also help splitting things
+    into a separate repo later.
+  * debian: Add trigger for plugin directory.
+    Run gio-querymodules to build the cache. Most of this copied
+    from Debian's glib package.
+  * monitor-manager: Drop useless ref.
+    We unref right away anyway (by automatic cleanup) at the end of the
+    function
+  * monitor-manager: Make different enum types explicit.
+    PhoshMonitorTransform and wl_output_transform have the same values
+    but don't convert implicitly.
+  * monitor: Add helper to detect "tilted" transforms.
+    We consider a transform to tilt the display if it changes the
+    display orientation from portrait to landscape or vice versa.
+  * head: Make header private.
+    PhoshHead should only be used by PhoshMonitorManager (and tests).  We
+    had it in the comments, reflect it in the file name too.
+  * monitor-manager: Move transform setting to PhoshHead.
+    It only affects the heads which will ease testing.
+  * monitor-manager: Adjust layout when rotating an output.
+    When rotating an output we need to adjust outputs left and below the
+    rotated output to avoids gaps or overlaps in the layout.
+    We shift all these heads whether they're currently enabled or not.
+
+  [ Sam Hewitt ]
+  * icons: Add symbolic icon for Phosh
+
+  [ Sebastian Krzyszkowiak ]
+  * tests/stubs: Add phosh_shell_get_docked
+  * overview: Raise toplevels on activity scrolling.
+  * shell: Don't fold the top panel and keyboard on unfolding home screen.
+    This isn't necessary anymore.
+  * ui/lockscreen: Set the PIN entry to be initially insensitive.
+    We change sensitivity based on carousel page in C code, but
+    the initial state stayed out of sync, which could cause
+    the keyboard to pop up right after locking the screen.
+    Fixes: 5300ba2ce ("lockscreen: Use entry focus to request OSK")
+  * stylesheet: Remove background from keypad's focused buttons.
+    Focus doesn't do much there as the lockscreen intercepts keyboard
+    input by itself, so don't display any visible focus indication
+    to not confuse users.
+  * lockscreen: Focus PIN entry on carousel page change when OSK is on.
+  * lockscreen: Focus PIN entry regardless of OSK status.
+    Won't hurt, but seems like a good idea that may help accessibility tools.
+  * stylesheet: Apply lockscreen PIN entry styles also to disabled state.
+    Otherwise caret-color may end up being animated when toggling sensitivity.
+  * home: Remove duplicated "unfold on no activities" handling.
+    It's already taken care of by PhoshShell.
+  * shell: Only fold the home screen when the first toplevel is added.
+    Folding when any window appears can get annoying if the user unfolds
+    the home screen while waiting for an app to launch (for example to launch
+    another app simultaneously).
+  * home: Don't (un)fold while being dragged.
+    Don't forcefully pull the surface out from under the user's finger.
+  * overview: Focus the activity on carousel page change.
+    Without this, we may end up scrolling back to some previously
+    focused activity on carousel focus if the active activity has
+    changed while the carousel wasn't focused.
+  * overview: Focus the activity right away when scrolling to it.
+    This fixes the same issue as the previous commit, but in cases
+    where scrolling has been invoked programmatically by phosh and
+    the animation hasn't finished before PhoshHome gained focus.
+
+  [ Alexander Mikhaylenko ]
+  * docked-manager: Update gtk4 is-phone setting too.
+    Since gtk4 needs to be parallel-installable with gtk3, it ships its own
+    schema. Change it as well.
+
+  [ Efstathios Iosifidis ]
+  * Update Greek translation
+
+  [ Vittorio Monti ]
+  * Update Italian translation
+
+  [ Мирослав Николић ]
+  * Update Serbian translation
+
+  [ Zurab Kargareteli ]
+  * Update Georgian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 19 Jul 2022 09:52:36 +0200
+
 phosh (0.20.0~beta2) experimental; urgency=medium
 
   [ Guido Günther ]
