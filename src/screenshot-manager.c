@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-screenshot-manager"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "fader.h"
 #include "phosh-wayland.h"
 #include "screenshot-manager.h"

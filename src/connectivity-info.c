@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-connectivity-info"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "connectivity-info.h"
 #include "util.h"

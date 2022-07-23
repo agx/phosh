@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-log"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "log.h"
 
 #include <stdio.h>

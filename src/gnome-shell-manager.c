@@ -9,7 +9,7 @@
 
 #define G_LOG_DOMAIN "phosh-gnome-shell-manager"
 
-#include "../config.h"
+#include "../phosh-config.h"
 
 #include "gnome-shell-manager.h"
 #include "osd-window.h"

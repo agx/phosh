@@ -7,7 +7,7 @@
  */
 #define G_LOG_DOMAIN "phosh-vpn-manager"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "vpn-manager.h"
 #include "shell.h"

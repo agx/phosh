@@ -7,7 +7,7 @@
  * Copyright (C) 2019 Purism SPC
  */
 
-#include "config.h"
+#include "phosh-config.h"
 #include <glib/gi18n-lib.h>
 
 #include "keypad.h"

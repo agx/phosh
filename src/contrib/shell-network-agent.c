@@ -20,7 +20,7 @@
  *
  */
 
-#include "config.h"
+#include "phosh-config.h"
 #include <string.h>
 
 #include <libsecret/secret.h>

@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-app-tracker"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "app-tracker.h"
 #include "phosh-wayland.h"

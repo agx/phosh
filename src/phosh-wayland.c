@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-wayland"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "phosh-enums.h"
 #include "phosh-wayland.h"
 

@@ -6,7 +6,7 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "config.h"
+#include "phosh-config.h"
 #include "phosh-screenshot-dbus.h"
 #include "portal-dbus.h"
 #include "shell.h"

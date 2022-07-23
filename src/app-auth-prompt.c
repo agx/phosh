@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-app-auth-prompt"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "app-auth-prompt.h"
 #include "auth-prompt-option.h"

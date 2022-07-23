@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-drag-surface"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "phosh-enums.h"
 #include "drag-surface.h"
@@ -77,10 +77,10 @@ phosh_drag_surface_set_property (GObject      *object,
     priv->layer_shell_effects = g_value_get_pointer (value);
     break;
   case PROP_MARGIN_FOLDED:
-    phosh_drag_surface_set_margin (self, g_value_get_double (value), priv->margin_unfolded);
+    phosh_drag_surface_set_margin (self, g_value_get_int (value), priv->margin_unfolded);
     break;
   case PROP_MARGIN_UNFOLDED:
-    phosh_drag_surface_set_margin (self, priv->margin_folded, g_value_get_double (value));
+    phosh_drag_surface_set_margin (self, priv->margin_folded, g_value_get_int (value));
     break;
   case PROP_THRESHOLD:
     phosh_drag_surface_set_threshold (self, g_value_get_double (value));
@@ -380,12 +380,6 @@ phosh_drag_surface_init (PhoshDragSurface *self)
 }
 
 
-PhoshDragSurface *
-phosh_drag_surface_new (void)
-{
-  return PHOSH_DRAG_SURFACE (g_object_new (PHOSH_TYPE_DRAG_SURFACE, NULL));
-}
-
 void
 phosh_drag_surface_set_margin (PhoshDragSurface *self, int margin_folded, int margin_unfolded)
 {
@@ -416,6 +410,18 @@ phosh_drag_surface_set_margin (PhoshDragSurface *self, int margin_folded, int ma
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MARGIN_FOLDED]);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MARGIN_UNFOLDED]);
+}
+
+
+float
+phosh_drag_surface_get_threshold (PhoshDragSurface *self)
+{
+  PhoshDragSurfacePrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_DRAG_SURFACE (self), 0);
+  priv = phosh_drag_surface_get_instance_private (self);
+
+  return priv->threshold;
 }
 
 

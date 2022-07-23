@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-mount-notification"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "mount-notification.h"
 #include "shell.h"
 

@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-rotateinfo"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "rotateinfo.h"
 #include "shell.h"

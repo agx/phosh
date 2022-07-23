@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-docked-manager"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "docked-manager.h"
 #include "mode-manager.h"

@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-gtk-mount-prompt"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "gtk-mount-prompt.h"
 

@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-session-presence"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "session-presence.h"
 
 #define GNOME_SESSION_DBUS_NAME      "org.gnome.SessionManager"

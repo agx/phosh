@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-osd-window"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "util.h"
 
 #include "osd-window.h"

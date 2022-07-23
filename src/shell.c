@@ -23,7 +23,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkwayland.h>
 
-#include "config.h"
+#include "phosh-config.h"
 #include "drag-surface.h"
 #include "shell.h"
 #include "app-tracker.h"

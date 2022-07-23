@@ -8,7 +8,7 @@
  * Based on <hdy-fading-label.c> from <libhandy 1.5.0> which is LGPL-2.1+.
  */
 
-#include "config.h"
+#include "phosh-config.h"
 #include "fading-label.h"
 
 #include <glib/gi18n-lib.h>

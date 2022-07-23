@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-calls-manager"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "call.h"
 #include "calls-manager.h"

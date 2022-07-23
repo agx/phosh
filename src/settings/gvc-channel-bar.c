@@ -11,7 +11,7 @@
 
 #define G_LOG_DOMAIN "phosh-settings-volctrl"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include <stdlib.h>
 #include <stdio.h>

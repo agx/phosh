@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-auth"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "auth.h"
 
 #include <security/pam_appl.h>

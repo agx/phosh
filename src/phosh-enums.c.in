@@ -1,6 +1,6 @@
 /*** BEGIN file-header ***/
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "app-grid.h"
 #include "app-grid-button.h"

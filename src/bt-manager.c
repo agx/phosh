@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-bt-manager"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "bt-manager.h"
 #include "shell.h"

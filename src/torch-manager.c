@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-torch-manager"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include <gudev/gudev.h>
 

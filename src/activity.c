@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-activity"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "activity.h"
 #include "shell.h"
 #include "swipe-away-bin.h"

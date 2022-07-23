@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-mount-operation"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "gtk-mount-prompt.h"
 #include "mount-operation.h"

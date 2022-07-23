@@ -11,7 +11,7 @@
 
 #define G_LOG_DOMAIN "phosh-polkit-auth-prompt"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "polkit-auth-prompt.h"
 

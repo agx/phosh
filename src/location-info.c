@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-location-info"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "location-info.h"
 #include "location-manager.h"

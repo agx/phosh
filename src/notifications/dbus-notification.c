@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-dbus-notification"
 
-#include "config.h"
+#include "phosh-config.h"
 #include "dbus-notification.h"
 #include "notify-manager.h"
 #include "shell.h"

@@ -9,7 +9,7 @@
 #define G_LOG_DOMAIN "phosh-run-command-dialog"
 
 #include "run-command-dialog.h"
-#include "config.h"
+#include "phosh-config.h"
 
 /**
  * SECTION:run-command-dialog

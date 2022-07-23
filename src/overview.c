@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-overview"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "activity.h"
 #include "app-grid-button.h"

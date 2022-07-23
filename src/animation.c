@@ -6,7 +6,7 @@
  * Author: Alexander Mikhaylenko <alexm@gnome.org>
  */
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "animation.h"
 #include <handy.h>

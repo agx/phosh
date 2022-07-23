@@ -12,7 +12,7 @@
 
 #define G_LOG_DOMAIN "phosh-top-panel"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "shell.h"
 #include "session-manager.h"

@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-vpn-info"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "shell.h"
 #include "vpn-info.h"
