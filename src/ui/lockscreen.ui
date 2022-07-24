@@ -191,6 +191,7 @@
                     <property name="has-frame">False</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
+                    <property name="sensitive">False</property>
                     <property name="visibility">False</property>
                     <property name="xalign">0.5</property>
                     <property name="input-purpose">GTK_INPUT_PURPOSE_PASSWORD</property>
