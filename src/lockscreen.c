@@ -206,7 +206,7 @@ show_unlock_page (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  if (hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel)) > 0)
+  if (hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel)) >= POS_UNLOCK)
     return;
 
   hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel), priv->box_unlock);
