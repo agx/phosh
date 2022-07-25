@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-02-07 18:25+0000\n"
-"PO-Revision-Date: 2022-02-08 06:13+0100\n"
+"POT-Creation-Date: 2022-07-23 17:57+0000\n"
+"PO-Revision-Date: 2022-07-25 18:55+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: \n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -31,7 +31,7 @@ msgstr "ტელეფონის შელი"
 msgid "Window management and application launching for mobile"
 msgstr "მობილურზე ფანჯრების მართვა და აპლიკაციის გაშვება"
 
-#: src/app-grid-button.c:507
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "აპლიკაცია"
 
@@ -43,7 +43,7 @@ msgstr "ყველა აპლიკაციის ჩვენება"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "მხოლოდ მობილურზე მორგებული აპლიკაციების ჩვენება"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
+#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
 msgid "On"
 msgstr "ჩართ"
 
@@ -68,7 +68,6 @@ msgstr "გამოსვლა"
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s გამოვა ავტომატურად, %d წამში."
-msgstr[1] "%s გამოვა ავტომატურად, %d წამში."
 
 #: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
@@ -79,7 +78,6 @@ msgstr "გამორთვა"
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "სისტემა გამოირთვება ავტომატურად %d წამში."
-msgstr[1] "სისტემა გამოირთვება ავტომატურად %d წამში."
 
 #: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
@@ -90,7 +88,6 @@ msgstr "გადატვრთვა"
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "სისტემა გადაიტვირთება ავტომატურად %d წამში."
-msgstr[1] "სისტემა გადაიტვირთება ავტომატურად %d წამში."
 
 #: src/end-session-dialog.c:269
 msgid "Unknown application"
@@ -99,14 +96,14 @@ msgstr "უცნობი აპლიკაცია"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:44
+#: src/feedbackinfo.c:69
 msgid "Quiet"
 msgstr "მშვიდი"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:49
+#: src/feedbackinfo.c:75
 msgid "Silent"
 msgstr "ჩუმი"
 
@@ -127,19 +124,13 @@ msgstr "დიახ"
 msgid "No"
 msgstr "არა"
 
-#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
+#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
 msgid "Enter Passcode"
 msgstr "შეიყვანეთ კოდი"
 
-#: src/lockscreen.c:362
+#: src/lockscreen.c:379
 msgid "Checking…"
 msgstr "შემოწმება…"
-
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:440
-msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
@@ -330,15 +321,15 @@ msgstr "პაროლები ცარიელი ვერ იქნებ
 msgid "Torch"
 msgstr "შეხება"
 
-#: src/ui/app-auth-prompt.ui:40
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
 msgstr "გადაწყვეტილების დამახსოვრება"
 
-#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "გაუქმება"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "დიახ"
 
@@ -353,6 +344,10 @@ msgstr "რჩეუ_ლებიდან წაშლა"
 #: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
 msgstr "_რჩეულებში დამატება"
+
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "დეტალების _ნახვა"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
@@ -378,15 +373,15 @@ msgstr "და_კავშირება"
 msgid "Slide up to unlock"
 msgstr "აქაჩეთ გასახსნელად"
 
-#: src/ui/lockscreen.ui:320
+#: src/ui/lockscreen.ui:231
 msgid "Emergency"
 msgstr "სასწრაფო"
 
-#: src/ui/lockscreen.ui:336
+#: src/ui/lockscreen.ui:247
 msgid "Unlock"
 msgstr "გახსნა"
 
-#: src/ui/lockscreen.ui:376
+#: src/ui/lockscreen.ui:289
 msgid "Back"
 msgstr "უკან"
 
@@ -410,6 +405,16 @@ msgstr "ავთენტიკაცია"
 msgid "Run Command"
 msgstr "ბრძანების გაშვება"
 
+#: src/ui/settings.ui:317
+#, fuzzy
+#| msgid "Notification"
+msgid "No notifications"
+msgstr "გაფრთხილება"
+
+#: src/ui/settings.ui:358
+msgid "Clear all"
+msgstr "ყველას გასუფთავება"
+
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "დასტური:"
@@ -422,6 +427,12 @@ msgstr "ეკრანის ჩაკეტვა"
 msgid "Logout"
 msgstr "გასვლა"
 
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:340
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
+
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
@@ -431,6 +442,6 @@ msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:172
+#: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "მობილური"
