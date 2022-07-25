@@ -427,6 +427,7 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
       handled = TRUE;
       break;
     case GDK_KEY_Escape:
+      clear_input (self, TRUE);
       show_info_page (self);
       handled = TRUE;
       break;
