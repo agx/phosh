@@ -266,17 +266,13 @@ phosh-lockscreen,
   padding: 6px;
 }
 
-.phosh-lockscreen-pin {
+.phosh-lockscreen-pin,
+.phosh-lockscreen-pin:disabled,
+.phosh-lockscreen-pin:focus {
   font-size: 20px;
   padding: 6px;
   border-radius: 12px;
   color: inherit;
-  border: none;
-  box-shadow:none;
-  outline: none;
-}
-
-.phosh-lockscreen-pin:focus {
   border: none;
   box-shadow:none;
   outline: none;
