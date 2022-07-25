@@ -494,20 +494,35 @@ carousel_position_notified_cb (PhoshLockscreen *self,
                                HdyCarousel     *carousel)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshOskManager *osk_manager = phosh_shell_get_osk_manager (shell);
-  gboolean osk_visible = phosh_osk_manager_get_visible (osk_manager);
   double position;
 
   position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
 
-  if (position <= POS_OVERVIEW) {
+  if (position <= POS_OVERVIEW || position >= POS_UNLOCK)
+    return;
+
+  if (priv->idle_timer) {
+    g_source_remove (priv->idle_timer);
+    priv->idle_timer = 0;
+  }
+}
+
+static void
+carousel_page_changed_cb (PhoshLockscreen *self,
+                          guint            index,
+                          HdyCarousel     *carousel)
+{
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshOskManager *osk_manager = phosh_shell_get_osk_manager (shell);
+  gboolean osk_visible = phosh_osk_manager_get_visible (osk_manager);
+
+  if (index == POS_OVERVIEW) {
     clear_input (self, TRUE);
     gtk_widget_set_sensitive (priv->entry_pin, FALSE);
-    return;
   }
 
-  if (position >= POS_UNLOCK) {
+  if (index == POS_UNLOCK) {
     gtk_widget_set_sensitive (priv->entry_pin, TRUE);
 
     focus_pin_entry (self, osk_visible);
@@ -518,13 +533,6 @@ carousel_position_notified_cb (PhoshLockscreen *self,
                                                 (GSourceFunc) keypad_check_idle,
                                                 self);
     }
-
-    return;
-  }
-
-  if (priv->idle_timer) {
-    g_source_remove (priv->idle_timer);
-    priv->idle_timer = 0;
   }
 }
 
@@ -832,6 +840,9 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_callback_full (widget_class,
                                                 "carousel_position_notified_cb",
                                                 G_CALLBACK (carousel_position_notified_cb));
+  gtk_widget_class_bind_template_callback_full (widget_class,
+                                                "carousel_page_changed_cb",
+                                                G_CALLBACK (carousel_page_changed_cb));
 
   /* main deck */
   gtk_widget_class_bind_template_callback (widget_class, deck_forward_clicked_cb);
