@@ -130,6 +130,14 @@ find_activity_by_toplevel (PhoshOverview        *self,
 
 
 static void
+scroll_to_activity (PhoshOverview *self, PhoshActivity *activity)
+{
+  PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
+  hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel_running_activities), GTK_WIDGET (activity));
+  gtk_widget_grab_focus (GTK_WIDGET (activity));
+}
+
+static void
 on_activity_clicked (PhoshOverview *self, PhoshActivity *activity)
 {
   PhoshToplevel *toplevel;
@@ -200,7 +208,7 @@ on_toplevel_activated_changed (PhoshToplevel *toplevel, GParamSpec *pspec, Phosh
   if (phosh_toplevel_is_activated (toplevel)) {
     activity = find_activity_by_toplevel (overview, toplevel);
     priv->activity = activity;
-    hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel_running_activities), GTK_WIDGET (activity));
+    scroll_to_activity (overview, activity);
   }
 }
 
@@ -294,7 +302,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   phosh_connect_feedback (activity);
 
   if (phosh_toplevel_is_activated (toplevel)) {
-    hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel_running_activities), activity);
+    scroll_to_activity (self, PHOSH_ACTIVITY (activity));
     priv->activity = PHOSH_ACTIVITY (activity);
   }
 }
