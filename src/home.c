@@ -568,11 +568,15 @@ void
 phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
 {
   g_autofree char *state_name = NULL;
+  PhoshDragSurfaceState drag_state = phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self));
   PhoshDragSurfaceState target_state = PHOSH_DRAG_SURFACE_STATE_FOLDED;
 
   g_return_if_fail (PHOSH_IS_HOME (self));
 
   if (self->state == state)
+    return;
+
+  if (drag_state == PHOSH_DRAG_SURFACE_STATE_DRAGGED)
     return;
 
   state_name = g_enum_to_string (PHOSH_TYPE_HOME_STATE, state);
