@@ -52,7 +52,7 @@ main (int argc, char *argv[])
 {
   GtkWidget *win;
   GtkWidget *box;
-  char *plugins[] = { "calendar", NULL };
+  char *plugins[] = { "calendar", "upcoming-events", NULL };
   GStrv plugin_dirs = NULL;
 
   gtk_init (&argc, &argv);
