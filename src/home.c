@@ -60,6 +60,7 @@ struct _PhoshHome
   GtkWidget *revealer_osk;
   GtkWidget *overview;
   guint      debounce_handle;
+  gboolean   focus_app_search;
 
   PhoshHomeState state;
 
@@ -312,7 +313,10 @@ toggle_application_view_action (GSimpleAction *action, GVariant *param, gpointer
   state = self->state == PHOSH_HOME_STATE_UNFOLDED ?
     PHOSH_HOME_STATE_FOLDED : PHOSH_HOME_STATE_UNFOLDED;
   phosh_home_set_state (self, state);
-  phosh_overview_focus_app_search (PHOSH_OVERVIEW (self->overview));
+
+  /* Focus app search once unfolded */
+  if (state == PHOSH_HOME_STATE_UNFOLDED)
+    self->focus_app_search = TRUE;
 }
 
 
@@ -391,6 +395,10 @@ on_drag_state_changed (PhoshHome *self)
     state = PHOSH_HOME_STATE_UNFOLDED;
     kbd_interactivity = TRUE;
     phosh_arrow_set_progress (PHOSH_ARROW (self->arrow_home), 1.0);
+    if (self->focus_app_search) {
+      phosh_overview_focus_app_search (PHOSH_OVERVIEW (self->overview));
+      self->focus_app_search = FALSE;
+    }
     break;
   case PHOSH_DRAG_SURFACE_STATE_FOLDED:
     state = PHOSH_HOME_STATE_FOLDED;
