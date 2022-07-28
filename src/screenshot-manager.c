@@ -66,7 +66,7 @@ typedef struct {
   guint                   child_watch_id;
   GPid                    pid;
   GDBusMethodInvocation  *invocation;
-  GInputStream           *stdout;
+  GInputStream           *stdout_;
   GCancellable           *cancel;
   char                    read_buf[64];
   GString                *response;
@@ -107,7 +107,7 @@ slurp_area_dispose (SlurpArea *slurp)
   }
   g_cancellable_cancel (slurp->cancel);
   g_clear_object (&slurp->cancel);
-  g_clear_object (&slurp->stdout);
+  g_clear_object (&slurp->stdout_);
 }
 
 
@@ -888,11 +888,11 @@ handle_select_area (PhoshDBusScreenshot   *object,
   }
 
   slurp = g_new0 (SlurpArea, 1);
-  slurp->stdout = g_unix_input_stream_new (slurp_stdout_fd, TRUE);
+  slurp->stdout_ = g_unix_input_stream_new (slurp_stdout_fd, TRUE);
   slurp->invocation = invocation;
   slurp->pid = slurp_pid;
   slurp->response = g_string_new (NULL);
-  g_input_stream_read_async (slurp->stdout,
+  g_input_stream_read_async (slurp->stdout_,
                              slurp->read_buf,
                              sizeof(slurp->read_buf),
                              G_PRIORITY_DEFAULT,
