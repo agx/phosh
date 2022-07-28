@@ -671,7 +671,11 @@ handle_screenshot_area (PhoshDBusScreenshot   *object,
     num_outputs++;
   }
   frames->num_outputs = num_outputs;
+#if GLIB_CHECK_VERSION(2, 67, 3)
   frames->area = g_memdup2 (&area, sizeof (GdkRectangle));
+#else
+  frames->area = g_memdup (&area, sizeof (GdkRectangle));
+#endif
   self->frames = frames;
 
   if (STR_IS_NULL_OR_EMPTY (arg_filename)) {
