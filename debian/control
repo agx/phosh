@@ -61,6 +61,7 @@ Recommends:
  iio-sensor-proxy,
  librsvg2-common,
  phosh-mobile-tweaks,
+ slurp,
  squeekboard | phosh-osk-stub,
 Provides:
  notification-daemon,
