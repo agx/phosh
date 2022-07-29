@@ -1,0 +1,13 @@
+#/bin/sh
+
+set -e
+
+if [ "$1" = triggered ]; then
+    "/usr/lib/#MULTIARCH#/glib-2.0/gio-querymodules" "/usr/lib/#MULTIARCH#/phosh/plugins" || true
+    exit 0
+fi
+
+#DEBHELPER#
+
+"/usr/lib/#MULTIARCH#/glib-2.0/gio-querymodules" "/usr/lib/#MULTIARCH#/phosh/plugins" || true
+

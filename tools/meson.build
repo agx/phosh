@@ -29,4 +29,8 @@ if get_option('tools')
   executable('dump-app-list', ['dump-app-list.c'],
              dependencies: phosh_tool_dep)
 
+  executable('widget-box', ['widget-box-standalone.c'] + test_stub_deps,
+	     c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root())],
+             dependencies: phosh_tool_dep)
+
 endif

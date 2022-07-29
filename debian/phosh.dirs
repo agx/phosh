@@ -1,1 +1,2 @@
 /usr/share/phosh
+/usr/lib/${DEB_HOST_MULTIARCH}/phosh/plugins

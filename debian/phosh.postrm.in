@@ -1,0 +1,12 @@
+#! /bin/sh
+set -e
+
+#DEBHELPER#
+
+case "$1" in
+    (remove|purge)
+        if [ -d /usr/lib/#MULTIARCH#/phosh/plugins ]; then
+            rm -f /usr/lib/#MULTIARCH#/phosh/plugins/giomodule.cache
+        fi
+        ;;
+esac

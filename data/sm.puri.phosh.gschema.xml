@@ -57,4 +57,15 @@
       </description>
     </key>
   </schema>
+
+  <schema id="sm.puri.phosh.plugins"
+          path="/sm/puri/phosh/plugins/">
+    <key name="lock-screen" type="as">
+      <default>[]</default>
+      <summary>List of enabled lockscreen plugins</summary>
+      <description>
+        The list of currently enabled plugins on the lock screen.
+      </description>
+    </key>
+  </schema>
 </schemalist>
