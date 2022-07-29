@@ -527,7 +527,8 @@ on_toplevel_added (PhoshShell *self, PhoshToplevel *unused, PhoshToplevelManager
   g_return_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (toplevel_manager));
 
   priv = phosh_shell_get_instance_private (self);
-  phosh_home_set_state (PHOSH_HOME (priv->home), PHOSH_HOME_STATE_FOLDED);
+  if (phosh_toplevel_manager_get_num_toplevels (toplevel_manager) == 1)
+    phosh_home_set_state (PHOSH_HOME (priv->home), PHOSH_HOME_STATE_FOLDED);
 }
 
 
