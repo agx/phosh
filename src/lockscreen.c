@@ -249,6 +249,18 @@ shake_label (GtkWidget     *widget,
   return TRUE;
 }
 
+static void
+focus_pin_entry (PhoshLockscreen *self, gboolean enable_osk)
+{
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+
+  if (enable_osk) {
+    /* restore default OSK behavior */
+    g_object_set (priv->entry_pin, "im-module", NULL, NULL);
+  }
+
+  gtk_entry_grab_focus_without_selecting (GTK_ENTRY (priv->entry_pin));
+}
 
 /* callback of async auth task */
 static void
@@ -306,10 +318,7 @@ osk_button_clicked_cb (PhoshLockscreen *self,
 
   priv->last_input = g_get_monotonic_time ();
 
-  /* restore default OSK behavior */
-  g_object_set (priv->entry_pin, "im-module", NULL, NULL);
-
-  gtk_entry_grab_focus_without_selecting (GTK_ENTRY (priv->entry_pin));
+  focus_pin_entry (self, TRUE);
 }
 
 
@@ -471,6 +480,9 @@ carousel_position_notified_cb (PhoshLockscreen *self,
                                HdyCarousel     *carousel)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshOskManager *osk_manager = phosh_shell_get_osk_manager (shell);
+  gboolean osk_visible = phosh_osk_manager_get_visible (osk_manager);
   double position;
 
   position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
@@ -483,6 +495,8 @@ carousel_position_notified_cb (PhoshLockscreen *self,
 
   if (position >= POS_UNLOCK) {
     gtk_widget_set_sensitive (priv->entry_pin, TRUE);
+
+    focus_pin_entry (self, osk_visible);
 
     if (!priv->idle_timer) {
       priv->last_input = g_get_monotonic_time ();
