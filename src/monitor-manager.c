@@ -11,7 +11,7 @@
 #define G_LOG_DOMAIN "phosh-monitor-manager"
 
 #include "monitor-manager.h"
-#include "monitor/head.h"
+#include "monitor/head-priv.h"
 #include "monitor/monitor.h"
 
 #include "wlr-gamma-control-unstable-v1-client-protocol.h"
@@ -166,6 +166,7 @@ phosh_monitor_manager_get_head_from_monitor (PhoshMonitorManager *self, PhoshMon
 
   return NULL;
 }
+
 
 /*
  * DBus Interface
@@ -1482,21 +1483,24 @@ phosh_monitor_manager_get_num_monitors (PhoshMonitorManager *self)
  *
  * Sets monitor's transform. This will become active after the next
  * call to #phosh_monitor_manager_apply_monitor_config().
+ *
+ * If necessary other heads will be moved to avoid gaps and
+ * overlapping heads in the layout.
  */
 void
 phosh_monitor_manager_set_monitor_transform (PhoshMonitorManager *self,
                                              PhoshMonitor *monitor,
                                              PhoshMonitorTransform transform)
 {
-  g_autoptr(PhoshHead) head = NULL;
+  PhoshHead *head;
 
   g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
   g_return_if_fail (phosh_monitor_is_configured (monitor));
-  head = g_object_ref (phosh_monitor_manager_get_head_from_monitor (self, monitor));
+  head = phosh_monitor_manager_get_head_from_monitor (self, monitor);
   g_return_if_fail (PHOSH_IS_HEAD (head));
 
-  head->pending.transform = transform;
+  phosh_head_set_pending_transform (head, transform, self->heads);
 }
 
 /**
