@@ -324,7 +324,6 @@ phosh-keypad button:focus:active {
 }
 
 phosh-keypad button:focus {
-  background: alpha(@phosh_fg_color,.1);
   outline-style: none;
 }
 
