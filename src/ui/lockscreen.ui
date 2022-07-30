@@ -71,6 +71,7 @@
             <property name="animation-duration">400</property>
             <property name="allow-mouse-drag">True</property>
             <signal name="notify::position" handler="carousel_position_notified_cb" swapped="yes"/>
+            <signal name="page-changed" handler="carousel_page_changed_cb" swapped="yes"/>
             <child>
               <object class="GtkBox" id="box_info">
                 <property name="visible">True</property>
