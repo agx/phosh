@@ -1,3 +1,22 @@
+phosh 0.20.0~beta3
+------------------
+Released July 2022
+* This is a beta release
+* Many bug fixes related to the overview, lockscreen, osk handling,
+  screen rotation, tests and drag_surfaces.
+* Support plugins on the lock screen
+* Add a symbolic icon for phosh
+* Contributors:
+	Alexander Mikhaylenko
+	Guido Günther
+	Sam Hewitt
+	Sebastian Krzyszkowiak
+* UI translations:
+	Efstathios Iosifidis (el)
+	Vittorio Monti (it)
+	Zurab Kargareteli (ka)
+	Мирослав Николић (sr)
+
 phosh 0.20.0~beta2
 -------------------
 Released June 2022
