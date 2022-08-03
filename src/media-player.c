@@ -444,6 +444,7 @@ phosh_media_player_dispose (GObject *object)
   PhoshMediaPlayer *self = PHOSH_MEDIA_PLAYER (object);
 
   g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
   g_clear_handle_id (&self->idle_id, g_source_remove);
 
   if (self->dbus_id) {
