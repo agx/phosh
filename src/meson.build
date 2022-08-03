@@ -62,6 +62,8 @@ libphosh_tool_sources = files(
   'app-auth-prompt.h',
   'activity.c',
   'activity.h',
+  'ambient.c',
+  'ambient.h',
   'animation.c',
   'animation.h',
   'app-grid.c',
