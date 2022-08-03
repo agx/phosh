@@ -1,3 +1,15 @@
+phosh 0.20.0
+------------
+Released August 2022
+* more bug fixes related to lockscreen,
+  drag surfaces and high contrast.
+* Allow to switch to high contrast theme based on
+  ambient sensor
+* Contributors:
+	Guido Günther
+	Sam Hewitt
+	Sebastian Krzyszkowiak
+
 phosh 0.20.0~beta3
 ------------------
 Released July 2022

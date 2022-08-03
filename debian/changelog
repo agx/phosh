@@ -1,3 +1,49 @@
+phosh (0.20.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * media-player: Don't forget to clear cancellable.
+    We did cancel it but didn't dispose it yet.
+  * Switch to HighContrast based on ambient sensor readings.
+    Add an automatic high contrast toggle that allows to switch
+    to HC automatically based on the current light level.
+  * settings: Drop superfluous can-focus properties
+  * shell: Move style sheet getter to seprate function.
+  * tests: Add simple test to load stylesheet.
+    Stylesheet changes trigger warnings ever so often, add a test
+    to catch these early.
+  * d/control: Bump phoc dependency.
+    Needed for
+    https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/1115
+    (Handle draggable-layer sizing on monitor mode changes)
+  * home: Focus app search on application-view action.
+    The application-view action (triggered by
+    KEYBINDING_KEY_TOGGLE_APPLICATION_VIEW (super-a)) is supposed to focus
+    the app search. This got broken when moving to dragable layer surfaces.
+    Fixes: 22b03f7f2 ("home: Make it a draggable layer surface")
+
+  [ Sebastian Krzyszkowiak ]
+  * lockscreen: Use page-changed signal when appropriate
+    notify::position sometimes ends up sending starting event with position
+    of the page that's being switched away from, which made us execute handlers
+    that should only be called when switching into a new page. Fix that by
+    using page-changed signal when appropriate - timer handling still uses
+    notify::position since it needs to react to scrolling just being started.
+    Fixes #664
+  * lockscreen: Allow show_unlock_page to execute mid-transition.
+    Otherwise it feels like the key event is missed when the user starts typing
+    while page switch is still being animated.
+  * lockscreen: Clear input right away when pressing ESC.
+    It gets cleared by page-changed handler, but that happens only at the end
+    of the scroll animation. If the user presses ESC and then quickly starts
+    to type again, we would counter-intuitively end up appending to already
+    filled up entry.
+
+  [ Sam Hewitt ]
+  * style: Fix osd using hardcoded colors
+  * style: Fix notifications in high contrast
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 03 Aug 2022 12:32:34 +0200
+
 phosh (0.20.0~beta3) experimental; urgency=medium
 
   [ Guido Günther ]
