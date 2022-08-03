@@ -349,11 +349,7 @@ on_gtk_theme_name_changed (PhoshShell *self, GParamSpec *pspec, GtkSettings *set
                                                  GTK_STYLE_PROVIDER (priv->css_provider));
   }
 
-  if (g_strcmp0 (priv->theme_name, "HighContrast") == 0)
-    style = "/sm/puri/phosh/stylesheet/adwaita-hc-light.css";
-  else
-    style = "/sm/puri/phosh/stylesheet/adwaita-dark.css";
-
+  style = phosh_util_get_stylesheet (priv->theme_name);
   gtk_css_provider_load_from_resource (provider, style);
   gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
                                              GTK_STYLE_PROVIDER (provider),
