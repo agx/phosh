@@ -140,7 +140,7 @@ on_ambient_light_level_sample (gpointer data)
   g_debug ("Avg: %f Switching theme to hc: %d", avg, use_hc);
   switch_theme (self, use_hc);
 
-  g_array_remove_range (self->values, 0, self->values->len);
+  g_array_set_size (self->values, 0);
   self->sample_id = 0;
   return G_SOURCE_REMOVE;
 }
