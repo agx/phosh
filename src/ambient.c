@@ -180,8 +180,9 @@ on_ambient_light_level_changed (PhoshAmbient            *self,
   if (wants_hc == self->use_hc)
     return;
 
-  /* new value would change hc mode , sample to see if it should stick */
+  /* new value would change hc mode, sample to see if it should stick */
   g_return_if_fail (self->sample_id == 0);
+  g_return_if_fail (self->values->len == 0);
   g_array_append_val (self->values, level);
   self->sample_id = g_timeout_add_seconds (1, on_ambient_light_level_sample, self);
   g_source_set_name_by_id (self->sample_id, "[phosh] ambient_sample");
@@ -251,6 +252,7 @@ phosh_ambient_claim_light (PhoshAmbient *self, gboolean claim)
       self);
   } else {
     g_clear_handle_id (&self->sample_id, g_source_remove);
+    g_array_set_size (self->values, 0);
     phosh_dbus_sensor_proxy_call_release_light (
       PHOSH_DBUS_SENSOR_PROXY (self->sensor_proxy_manager),
       self->cancel,
