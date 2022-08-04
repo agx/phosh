@@ -540,8 +540,6 @@ attach_player_cb (GObject          *source_object,
   PhoshMprisDBusMediaPlayer2Player *player;
   g_autoptr (GError) err = NULL;
 
-  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
-
   player = phosh_mpris_dbus_media_player2_player_proxy_new_for_bus_finish (res, &err);
   if (player == NULL) {
     if (g_error_matches (err, G_IO_ERROR, G_IO_ERROR_CANCELLED))
@@ -551,6 +549,8 @@ attach_player_cb (GObject          *source_object,
     set_attached (self, FALSE);
     return;
   }
+
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
   self->player = player;
 
   g_object_connect (self->player,
@@ -754,15 +754,16 @@ on_bus_get_finished (GObject          *source_object,
                      PhoshMediaPlayer *self)
 {
   g_autoptr (GError) err = NULL;
+  GDBusConnection *session_bus;
 
-  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
-
-  self->session_bus = g_bus_get_finish (res, &err);
-  if (!self->session_bus) {
+  session_bus = g_bus_get_finish (res, &err);
+  if (session_bus == NULL) {
     phosh_async_error_warn (err, "Failed to attach to session bus");
     return;
   }
 
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
+  self->session_bus = session_bus;
   /* Listen for name owner changes to detect new mpris players */
   /* We don't need to hold a ref since the callback won't be invoked after unsubscribe
    * from the same thread */
