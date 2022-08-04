@@ -35,3 +35,4 @@ char            *phosh_util_local_date (void);
 gboolean         phosh_util_gesture_is_touch (GtkGestureSingle *gesture);
 gboolean         phosh_util_have_gnome_software (gboolean scan);
 void             phosh_util_toggle_style_class (GtkWidget *widget, const char *style_class, gboolean toggle);
+const char      *phosh_util_get_stylesheet (const char *theme_name);

@@ -521,3 +521,22 @@ phosh_util_toggle_style_class (GtkWidget *widget, const char *style_class, gbool
   else
     gtk_style_context_remove_class (context, style_class);
 }
+
+/**
+ * phosh_util_get_stylesheet:
+ * @theme_name: A theme name
+ *
+ * Returns: The stylesheet to be used for the given theme
+ */
+const char *
+phosh_util_get_stylesheet (const char *theme_name)
+{
+  const char *style;
+
+  if (g_strcmp0 (theme_name, "HighContrast") == 0)
+    style = "/sm/puri/phosh/stylesheet/adwaita-hc-light.css";
+  else
+    style = "/sm/puri/phosh/stylesheet/adwaita-dark.css";
+
+  return style;
+}

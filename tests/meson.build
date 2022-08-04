@@ -80,6 +80,7 @@ tests = [
   'app-grid-button',
   'app-list-model',
   'connectivity-info',
+  'css',
   'fading-label',
   'favourite-model',
   'head',
