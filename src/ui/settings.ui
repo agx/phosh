@@ -9,12 +9,10 @@
     <child>
       <object class="HdyClamp">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
         <property name="maximum_size">350</property>
         <child>
           <object class="GtkBox" id="box_settings">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
             <property name="margin-start">10</property>
             <property name="margin-end">10</property>
             <property name="margin_top">20</property>
@@ -23,7 +21,6 @@
             <child>
               <object class="GtkFlowBox" id="quick_settings">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="column_spacing">6</property>
                 <property name="min_children_per_line">4</property>
                 <property name="max_children_per_line">4</property>
@@ -40,7 +37,6 @@
                     <child>
                       <object class="PhoshWWanInfo" id="wwaninfo">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
                         <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                       </object>
                     </child>
@@ -56,7 +52,6 @@
                     <child>
                       <object class="PhoshWifiInfo" id="wifiinfo">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
                         <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                       </object>
                     </child>
@@ -72,7 +67,6 @@
                     <child>
                       <object class="PhoshBtInfo" id="btinfo">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
                         <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                       </object>
                     </child>
@@ -88,7 +82,6 @@
                     <child>
                       <object class="PhoshBatteryInfo" id="batteryinfo">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
                         <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                       </object>
                     </child>
@@ -104,7 +97,6 @@
                     <child>
                       <object class="PhoshRotateInfo" id="rotateinfo">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
                         <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                       </object>
                     </child>
@@ -119,7 +111,6 @@
                     <child>
                       <object class="PhoshFeedbackInfo" id="feedbackinfo">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
                         <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                       </object>
                     </child>
@@ -136,7 +127,6 @@
                         <child>
                           <object class="PhoshTorchInfo" id="torchinfo">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
                             <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                           </object>
                         </child>
@@ -156,7 +146,6 @@
                         <child>
                           <object class="PhoshDockedInfo" id="dockedinfo">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
                             <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                           </object>
                         </child>
@@ -176,7 +165,6 @@
                         <child>
                           <object class="PhoshVpnInfo" id="vpninfo">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
                             <property name="icon-size">GTK_ICON_SIZE_LARGE_TOOLBAR</property>
                           </object>
                         </child>
@@ -194,13 +182,11 @@
             <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="margin_top">5</property>
                 <property name="margin_bottom">5</property>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
                     <property name="margin-end">6</property>
                     <property name="icon_name">display-brightness-symbolic</property>
                   </object>
@@ -237,12 +223,10 @@
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
                     <property name="margin_bottom">5</property>
                     <child>
                       <object class="GtkImage">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
                         <property name="margin-end">6</property>
                         <property name="icon_name">torch-enabled-symbolic</property>
                       </object>
