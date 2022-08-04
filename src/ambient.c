@@ -299,6 +299,27 @@ on_has_ambient_light_changed (PhoshAmbient            *self,
 
 
 static void
+on_shell_state_changed (PhoshAmbient  *self,
+                        GParamSpec    *pspec,
+                        PhoshShell    *shell)
+{
+  PhoshShellStateFlags state;
+
+  g_return_if_fail (PHOSH_IS_AMBIENT (self));
+  g_return_if_fail (PHOSH_IS_SHELL (shell));
+
+  state = phosh_shell_get_state (shell);
+  g_debug ("Shell state changed: %d", state);
+  /* Claim/unclaim the sensor on screen unblank / blank */
+  if (state & PHOSH_STATE_BLANKED) {
+    phosh_ambient_claim_light (self, FALSE);
+  } else {
+    on_has_ambient_light_changed (self, NULL, self->sensor_proxy_manager);
+  }
+}
+
+
+static void
 phosh_ambient_constructed (GObject *object)
 {
   PhoshAmbient *self = PHOSH_AMBIENT (object);
@@ -322,6 +343,12 @@ phosh_ambient_constructed (GObject *object)
                     G_CALLBACK (on_automatic_high_contrast_changed),
                     self,
                     NULL);
+
+  g_signal_connect_object (phosh_shell_get_default (),
+                           "notify::shell-state",
+                           G_CALLBACK (on_shell_state_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   on_has_ambient_light_changed (self, NULL, self->sensor_proxy_manager);
 }
