@@ -335,6 +335,9 @@ phosh_ambient_dispose (GObject *object)
   g_cancellable_cancel (self->cancel);
   g_clear_object (&self->cancel);
 
+  g_clear_handle_id (&self->sample_id, g_source_remove);
+  g_clear_pointer (&self->values, g_array_unref);
+
   if (self->sensor_proxy_manager) {
     g_signal_handlers_disconnect_by_data (self->sensor_proxy_manager, self);
     phosh_dbus_sensor_proxy_call_release_light_sync (
