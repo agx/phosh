@@ -613,8 +613,6 @@ attach_mpris_cb (GObject          *source_object,
 static void
 attach_player (PhoshMediaPlayer *self, const char *name)
 {
-  g_autoptr (GError) err = NULL;
-
   g_clear_object (&self->player);
   g_clear_object (&self->mpris);
 
