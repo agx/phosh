@@ -494,12 +494,18 @@ phosh-notification-content .actions-area button {
   border-right-width: 1px;
   padding: 8px 12px;
   -gtk-icon-shadow: none;
+  color: inherit;
 }
 
 phosh-notification-content .actions-area button:focus,
 phosh-notification-content .actions-area button:hover {
   background-color: @phosh_button_hover_bg_color;
   outline-style: none;
+}
+
+phosh-notification-content .actions-area button:focus{
+  border-color: @theme_selected_bg_color;
+  box-shadow: inset 0 0 0 1px @theme_selected_bg_color;
 }
 
 phosh-notification-content .actions-area button:active {
@@ -523,6 +529,7 @@ phosh-notification-content .actions-area button:last-child {
 phosh-notification-frame {
   margin: 0;
   padding: 0;
+  color: @phosh_fg_color;
 }
 
 phosh-notification-frame list {
@@ -531,7 +538,6 @@ phosh-notification-frame list {
 
 phosh-notification-frame .header-area {
   padding: 12px 12px 0 12px;
-  color: @phosh_fg_color;
 }
 
 phosh-notification-frame .header-area image {
@@ -543,7 +549,6 @@ phosh-notification-frame .notification-container {
   border: none;
   background-color: @phosh_notification_bg_color;
   margin: 6px;
-  margin-bottom: 0;
 }
 
 
@@ -552,6 +557,7 @@ phosh-notification-banner {
   background: none;
   border: none;
   padding: 6px;
+  color: inherit;
 }
 
 phosh-notification-banner > phosh-notification-frame {
@@ -569,18 +575,13 @@ phosh-notification-banner .notification-container {
   background: transparent;
 }
 
-.phosh-notification-tray list row {
-}
-
 .notification-container *:focus,
 .phosh-notification-tray list row:focus {
   outline-style: none;
 }
 
 .phosh-notification-tray list row .notification-container {
-  border: 2px solid transparent;
-  margin:0;
-  margin-bottom:6px;
+  border: 2px solid @phosh_bg_color;
 }
 
 .phosh-notification-tray list row:focus .notification-container {
