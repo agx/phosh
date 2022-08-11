@@ -50,5 +50,6 @@
       <arg name="action" type="u"/>
       <arg name="parameters" type="a{sv}"/>
     </signal>
+    <property name="ShellVersion" type="s" access="read"/>
   </interface>
 </node>

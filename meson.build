@@ -145,6 +145,8 @@ upower_glib_dep = dependency('upower-glib', version: '>=0.99.1')
 wayland_client_dep = dependency('wayland-client', version: '>=1.14')
 wayland_protos_dep = dependency('wayland-protocols', version: '>=1.12')
 
+# gnome-desktop > 43 has GNOME_PLATFORM_VERSION
+have_gnome_platform_version = dependency('gnome-desktop-3.0', version: '>=43', required: false).found()
 
 code ='''
 #include <linux/rfkill.h>
@@ -160,6 +162,8 @@ config_h.set_quoted('PHOSH_PLUGINS_DIR', plugins_dir)
 config_h.set_quoted('PHOSH_VERSION', meson.project_version())
 config_h.set('HAVE_RFKILL_EVENT_EXT', have_rfkill_event_ext)
 config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address')
+config_h.set('PHOSH_HAVE_GNOME_PLATFORM_VERSION', have_gnome_platform_version)
+config_h.set_quoted('PHOSH_DATA_DIR', datadir)
 
 configure_file(
   input: 'phosh-config.h.in',
