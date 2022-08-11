@@ -5,16 +5,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-03-29 09:55+0000\n"
-"PO-Revision-Date: 2022-03-30 20:15+0300\n"
+"POT-Creation-Date: 2022-07-11 13:32+0000\n"
+"PO-Revision-Date: 2022-08-11 22:55+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -29,7 +29,7 @@ msgstr "Telefon Kabuğu"
 msgid "Window management and application launching for mobile"
 msgstr "Mobil için pencere yönetimi ve uygulama başlatımı"
 
-#: src/app-grid-button.c:507
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "Uygulama"
 
@@ -41,7 +41,7 @@ msgstr "Tüm Uygulamaları Göster"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Yalnızca Mobil Uyumluları Göster"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
+#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
 msgid "On"
 msgstr "Açık"
 
@@ -94,14 +94,14 @@ msgstr "Bilinmeyen uygulama"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:44
+#: src/feedbackinfo.c:69
 msgid "Quiet"
 msgstr "Titreşim"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:49
+#: src/feedbackinfo.c:75
 msgid "Silent"
 msgstr "Sessiz"
 
@@ -122,11 +122,11 @@ msgstr "Evet"
 msgid "No"
 msgstr "Hayır"
 
-#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
+#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
 msgid "Enter Passcode"
 msgstr "Parolayı Gir"
 
-#: src/lockscreen.c:361
+#: src/lockscreen.c:379
 msgid "Checking…"
 msgstr "Denetleniyor…"
 
@@ -343,6 +343,10 @@ msgstr "_Gözdelerden kaldır"
 msgid "Add to _Favorites"
 msgstr "_Gözdelere ekle"
 
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "_Ayrıntıları Göster"
+
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Uygulama ara…"
@@ -367,15 +371,15 @@ msgstr "_Bağlan"
 msgid "Slide up to unlock"
 msgstr "Açmak için kaldır"
 
-#: src/ui/lockscreen.ui:320
+#: src/ui/lockscreen.ui:231
 msgid "Emergency"
 msgstr "Acil"
 
-#: src/ui/lockscreen.ui:336
+#: src/ui/lockscreen.ui:247
 msgid "Unlock"
 msgstr "Kilidi Aç"
 
-#: src/ui/lockscreen.ui:376
+#: src/ui/lockscreen.ui:289
 msgid "Back"
 msgstr "Geri"
 
@@ -399,11 +403,11 @@ msgstr "Yetkilendir"
 msgid "Run Command"
 msgstr "Komut Çalıştır"
 
-#: src/ui/settings.ui:310
+#: src/ui/settings.ui:317
 msgid "No notifications"
 msgstr "Bildirim yok"
 
-#: src/ui/settings.ui:351
+#: src/ui/settings.ui:358
 msgid "Clear all"
 msgstr "Tümünü temizle"
 
@@ -421,7 +425,7 @@ msgstr "Oturumu Kapat"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:337
+#: src/util.c:340
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
