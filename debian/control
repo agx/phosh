@@ -81,6 +81,7 @@ Description: Pure Wayland shell for mobile devices
 
 Package: phosh-doc
 Architecture: all
+Multi-Arch: foreign
 Section: doc
 Build-Profiles: <!nodoc>
 Depends:
