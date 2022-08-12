@@ -26,8 +26,8 @@ variables:
   # For ci-fairy
   FDO_UPSTREAM_REPO: World/Phosh/phosh
   # SCREENSHOT_IMAGE builds on DEBIAN_IMAGE so keep them in sync
-  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20220406
-  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20220406
+  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20220812
+  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20220812.1
   DEBIAN_CROSS_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian-cross:v0.0.20220322.1
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror -Dtools=true
@@ -59,9 +59,6 @@ variables:
        uk_UA.UTF-8 UTF-8
        ' > /etc/locale.gen
      - dpkg-reconfigure locales
-     - echo "deb http://deb.debian.org/debian/ sid main" > /etc/apt/sources.list.d/sid.list
-     - apt -y update
-     - apt -y install phoc/sid
 
 .test_step: &test_step
   script:
