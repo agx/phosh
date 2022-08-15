@@ -21,7 +21,7 @@
  *     Christian Kellner  <gicmo@xatom.net>
  */
 
-#include <config.h>
+#include <phosh-config.h>
 
 #include "calendar-sources.h"
 

@@ -5,9 +5,9 @@ calendar_sources = [
   'calendar-sources.h'
 ]
 
-calendar_server = executable('gnome-shell-calendar-server', calendar_sources,
+calendar_server = executable('phosh-calendar-server', calendar_sources,
   dependencies: [ecal_dep, eds_dep, gio_dep],
-  include_directories: include_directories('..', '../..'),
+  include_directories: include_directories('..'),
   c_args: [
     '-DPREFIX="@0@"'.format(prefix),
     '-DLIBDIR="@0@"'.format(libdir),

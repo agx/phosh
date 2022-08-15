@@ -18,6 +18,7 @@ pkglibdir = join_paths(libdir, meson.project_name())
 systemddir = join_paths(prefix, 'lib/systemd')
 systemduserdir = join_paths(systemddir, 'user')
 plugins_dir = join_paths(prefix, libdir, 'phosh', 'plugins')
+servicedir = join_paths(datadir, 'dbus-1', 'services')
 
 glib_ver = 'GLIB_VERSION_2_62'
 
@@ -96,6 +97,8 @@ i18n  = import('i18n')
 
 glib_ver = '>= 2.62'
 
+ecal_dep = dependency('libecal-2.0', version: '>= 3.33.1')
+eds_dep = dependency('libedataserver-1.2', version: '>= 3.33.1')
 fribidi_dep = dependency('fribidi')
 gcr_dep = dependency('gcr-3', version: '>= 3.7.5')
 glib_dep = dependency('glib-2.0', version: glib_ver)
@@ -171,6 +174,9 @@ configure_file(
   configuration: config_h,
 )
 
+service_data = configuration_data()
+service_data.set('libexecdir', libexecdir)
+
 meson.add_install_script(
   join_paths('build-aux', 'post_install.py'),
   [datadir, plugins_dir],
@@ -184,6 +190,7 @@ subdir('plugins')
 subdir('tests')
 subdir('tools')
 subdir('docs')
+subdir('calendar-server')
 
 summary = [
   '',
