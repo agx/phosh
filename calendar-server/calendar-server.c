@@ -99,6 +99,7 @@ typedef struct
   gchar  *summary;
   time_t  start_time;
   time_t  end_time;
+  char   *color;
 } CalendarAppointment;
 
 static gboolean
@@ -220,6 +221,7 @@ calendar_appointment_new (ECalClient    *cal,
   ICalTimezone *default_zone;
   ICalComponent *ical;
   ECalComponentId *id;
+  ESource *source;
 
   default_zone = e_cal_client_get_default_timezone (cal);
   ical = e_cal_component_get_icalcomponent (comp);
@@ -233,6 +235,16 @@ calendar_appointment_new (ECalClient    *cal,
   appt->summary     = g_strdup (i_cal_component_get_summary (ical));
   appt->start_time  = get_ical_start_time (cal, ical, default_zone);
   appt->end_time    = get_ical_end_time (cal, ical, default_zone);
+
+  source = e_client_get_source (E_CLIENT (cal));
+  if (e_source_has_extension (source, E_SOURCE_EXTENSION_CALENDAR))
+    {
+      ESourceSelectable *ext = e_source_get_extension (source, E_SOURCE_EXTENSION_CALENDAR);
+      const char *color;
+
+      color = e_source_selectable_get_color (ext);
+      appt->color = g_strdup (color);
+    }
 
   e_cal_component_id_free (id);
 
@@ -248,6 +260,7 @@ calendar_appointment_free (gpointer ptr)
     {
       g_free (appt->id);
       g_free (appt->summary);
+      g_free (appt->color);
       g_free (appt);
     }
 }
@@ -335,7 +348,7 @@ app_update_timezone (App *app)
 static void
 app_notify_events_added (App *app)
 {
-  GVariantBuilder builder, extras_builder;
+  GVariantBuilder builder;
   GSList *events, *link;
 
   events = g_slist_reverse (app->notify_appointments);
@@ -355,6 +368,7 @@ app_notify_events_added (App *app)
       CalendarAppointment *appt = link->data;
       time_t start_time = appt->start_time;
       time_t end_time   = appt->end_time;
+      GVariantBuilder extras_builder;
 
       if ((start_time >= app->since &&
            start_time < app->until) ||
@@ -362,6 +376,13 @@ app_notify_events_added (App *app)
           (end_time - 1) > app->since))
         {
           g_variant_builder_init (&extras_builder, G_VARIANT_TYPE ("a{sv}"));
+          if (appt->color)
+            {
+              g_variant_builder_add (&extras_builder,
+                                     "{sv}",
+                                     "color",
+                                     g_variant_new_string (appt->color));
+            }
           g_variant_builder_add (&builder,
                                  "(ssxxa{sv})",
                                  appt->id,
@@ -603,7 +624,6 @@ app_start_view (App *app,
                         app);
       e_cal_client_view_start (view, NULL);
     }
-
   return view;
 }
 
