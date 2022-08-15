@@ -8,6 +8,8 @@
 
 #define G_LOG_DOMAIN "phosh-feedback-manager"
 
+#include "phosh-config.h"
+
 #include "feedback-manager.h"
 #include "shell.h"
 

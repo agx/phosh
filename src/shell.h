@@ -68,8 +68,6 @@ typedef enum {
 } PhoshShellDebugFlags;
 
 
-#define PHOSH_APP_ID "sm.puri.Phosh"
-
 #define PHOSH_TYPE_SHELL phosh_shell_get_type()
 
 

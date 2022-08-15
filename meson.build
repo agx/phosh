@@ -163,6 +163,7 @@ config_h.set('HAVE_RFKILL_EVENT_EXT', have_rfkill_event_ext)
 config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address')
 config_h.set('PHOSH_HAVE_GNOME_PLATFORM_VERSION', have_gnome_platform_version)
 config_h.set_quoted('PHOSH_DATA_DIR', datadir)
+config_h.set_quoted('PHOSH_APP_ID', 'sm.puri.Phosh')
 
 configure_file(
   input: 'phosh-config.h.in',
