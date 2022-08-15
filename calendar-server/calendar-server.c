@@ -41,11 +41,11 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
 #include "calendar-sources.h"
 
-#define BUS_NAME "org.gnome.Shell.CalendarServer"
+#define BUS_NAME PHOSH_APP_ID ".CalendarServer"
 
 static const gchar introspection_xml[] =
   "<node>"
-  "  <interface name='org.gnome.Shell.CalendarServer'>"
+  "  <interface name='" PHOSH_APP_ID ".CalendarServer'>"
   "    <method name='SetTimeRange'>"
   "      <arg type='x' name='since' direction='in'/>"
   "      <arg type='x' name='until' direction='in'/>"
@@ -385,8 +385,8 @@ app_notify_events_added (App *app)
 
   g_dbus_connection_emit_signal (app->connection,
                                  NULL, /* destination_bus_name */
-                                 "/org/gnome/Shell/CalendarServer",
-                                 "org.gnome.Shell.CalendarServer",
+                                 PHOSH_DBUS_PATH_PREFIX "/CalendarServer",
+                                 PHOSH_APP_ID ".CalendarServer",
                                  "EventsAddedOrUpdated",
                                  g_variant_new ("(a(ssxxa{sv}))", &builder),
                                  NULL);
@@ -420,8 +420,8 @@ app_notify_events_removed (App *app)
 
   g_dbus_connection_emit_signal (app->connection,
                                  NULL, /* destination_bus_name */
-                                 "/org/gnome/Shell/CalendarServer",
-                                 "org.gnome.Shell.CalendarServer",
+                                 PHOSH_DBUS_PATH_PREFIX "/CalendarServer",
+                                 PHOSH_APP_ID ".CalendarServer",
                                  "EventsRemoved",
                                  g_variant_new ("(as)", &builder),
                                  NULL);
@@ -639,11 +639,11 @@ app_notify_has_calendars (App *app)
 
   g_dbus_connection_emit_signal (app->connection,
                                  NULL,
-                                 "/org/gnome/Shell/CalendarServer",
+                                 PHOSH_DBUS_PATH_PREFIX "/CalendarServer",
                                  "org.freedesktop.DBus.Properties",
                                  "PropertiesChanged",
                                  g_variant_new ("(sa{sv}as)",
-                                                "org.gnome.Shell.CalendarServer",
+                                                PHOSH_APP_ID ".CalendarServer",
                                                 &dict_builder,
                                                 NULL),
                                  NULL);
@@ -763,8 +763,8 @@ on_client_disappeared_cb (CalendarSources *sources,
 
           g_dbus_connection_emit_signal (app->connection,
                                          NULL, /* destination_bus_name */
-                                         "/org/gnome/Shell/CalendarServer",
-                                         "org.gnome.Shell.CalendarServer",
+                                         PHOSH_DBUS_PATH_PREFIX "/CalendarServer",
+                                         PHOSH_APP_ID ".CalendarServer",
                                          "ClientDisappeared",
                                          g_variant_new ("(s)", source_uid),
                                          NULL);
@@ -861,7 +861,7 @@ handle_method_call (GDBusConnection       *connection,
       if (until < since)
         {
           g_dbus_method_invocation_return_dbus_error (invocation,
-                                                      "org.gnome.Shell.CalendarServer.Error.Failed",
+                                                      PHOSH_APP_ID ".CalendarServer.Error.Failed",
                                                       "until cannot be before since");
           goto out;
         }
@@ -888,11 +888,11 @@ handle_method_call (GDBusConnection       *connection,
                                  "Since", g_variant_new_int64 (app->since));
           g_dbus_connection_emit_signal (app->connection,
                                          NULL, /* destination_bus_name */
-                                         "/org/gnome/Shell/CalendarServer",
+                                         PHOSH_DBUS_PATH_PREFIX "/CalendarServer",
                                          "org.freedesktop.DBus.Properties",
                                          "PropertiesChanged",
                                          g_variant_new ("(sa{sv}as)",
-                                                        "org.gnome.Shell.CalendarServer",
+                                                        PHOSH_APP_ID ".CalendarServer",
                                                         builder,
                                                         invalidated_builder),
                                          NULL); /* GError** */
@@ -966,7 +966,7 @@ on_bus_acquired (GDBusConnection *connection,
   _global_app = app_new (connection);
 
   registration_id = g_dbus_connection_register_object (connection,
-                                                       "/org/gnome/Shell/CalendarServer",
+                                                       PHOSH_DBUS_PATH_PREFIX "/CalendarServer",
                                                        introspection_data->interfaces[0],
                                                        &interface_vtable,
                                                        _global_app,
@@ -992,7 +992,7 @@ on_name_lost (GDBusConnection *connection,
 {
   GMainLoop *main_loop = user_data;
 
-  g_print ("gnome-shell-calendar-server[%d]: Lost (or failed to acquire) the name " BUS_NAME " - exiting\n",
+  g_print (CALENDAR_SERVER_NAME "[%d]: Lost (or failed to acquire) the name " BUS_NAME " - exiting\n",
            (gint) getpid ());
   g_main_loop_quit (main_loop);
 }
@@ -1014,7 +1014,7 @@ stdin_channel_io_func (GIOChannel *source,
 
   if (condition & G_IO_HUP)
     {
-      g_debug ("gnome-shell-calendar-server[%d]: Got HUP on stdin - exiting\n",
+      g_debug (CALENDAR_SERVER_NAME "[%d]: Got HUP on stdin - exiting\n",
                (gint) getpid ());
       g_main_loop_quit (main_loop);
     }
@@ -1044,7 +1044,7 @@ main (int    argc,
   introspection_data = g_dbus_node_info_new_for_xml (introspection_xml, NULL);
   g_assert (introspection_data != NULL);
 
-  opt_context = g_option_context_new ("gnome-shell calendar server");
+  opt_context = g_option_context_new (GETTEXT_PACKAGE "calendar server");
   g_option_context_add_main_entries (opt_context, opt_entries, NULL);
   if (!g_option_context_parse (opt_context, &argc, &argv, &error))
     {

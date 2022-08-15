@@ -25,3 +25,5 @@
 #mesondefine PHOSH_DATA_DIR
 
 #mesondefine PHOSH_APP_ID
+
+#mesondefine PHOSH_DBUS_PATH_PREFIX

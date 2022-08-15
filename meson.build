@@ -5,6 +5,7 @@ project('phosh', 'c',
   default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
 )
 
+app_id = 'sm.puri.Phosh'
 prefix = get_option('prefix')
 bindir = join_paths(prefix, get_option('bindir'))
 datadir = join_paths(prefix, get_option('datadir'))
@@ -166,16 +167,20 @@ config_h.set('HAVE_RFKILL_EVENT_EXT', have_rfkill_event_ext)
 config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address')
 config_h.set('PHOSH_HAVE_GNOME_PLATFORM_VERSION', have_gnome_platform_version)
 config_h.set_quoted('PHOSH_DATA_DIR', datadir)
-config_h.set_quoted('PHOSH_APP_ID', 'sm.puri.Phosh')
+config_h.set_quoted('PHOSH_APP_ID', app_id)
+# Work around lack of replace in meson 0.56
+m_ver = meson.version().split('.')
+if m_ver[0].to_int() > 0 or m_ver[1].to_int() >= 58
+  config_h.set_quoted('PHOSH_DBUS_PATH_PREFIX', '/' + app_id.replace('.', '/'))
+else
+  config_h.set_quoted('PHOSH_DBUS_PATH_PREFIX', '/sm/puri/Phosh')
+endif
 
 configure_file(
   input: 'phosh-config.h.in',
   output: 'phosh-config.h',
   configuration: config_h,
 )
-
-service_data = configuration_data()
-service_data.set('libexecdir', libexecdir)
 
 meson.add_install_script(
   join_paths('build-aux', 'post_install.py'),

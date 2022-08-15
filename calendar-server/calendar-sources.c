@@ -163,7 +163,7 @@ calendar_sources_constructed (GObject *object)
   registry = e_source_registry_new_sync (NULL, &error);
   if (error != NULL)
     {
-      /* Any error is fatal, but we don't want to crash gnome-shell-calendar-server
+      /* Any error is fatal, but we don't want to crash the calendar-server
          because of e-d-s problems. So just exit here.
       */
       g_warning ("Failed to start evolution-source-registry: %s", error->message);
@@ -499,7 +499,7 @@ print_debug (const gchar *format,
   s = g_strdup_vprintf (format, ap);
   va_end (ap);
 
-  g_print ("gnome-shell-calendar-server[%d]: %s.%03d: %s\n",
+  g_print (CALENDAR_SERVER_NAME "[%d]: %s.%03d: %s\n",
            pid, timestamp, g_date_time_get_microsecond (now), s);
  out:
   ;
