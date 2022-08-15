@@ -705,11 +705,11 @@ on_client_appeared_cb (CalendarSources *sources,
 
   for (link = app->live_views; link; link = g_slist_next (link))
     {
-      ECalClientView *view = link->data;
+      ECalClientView *v = link->data;
       ECalClient *cal_client;
       ESource *source;
 
-      cal_client = e_cal_client_view_ref_client (view);
+      cal_client = e_cal_client_view_ref_client (v);
       source = e_client_get_source (E_CLIENT (cal_client));
 
       if (g_strcmp0 (source_uid, e_source_get_uid (source)) == 0)
