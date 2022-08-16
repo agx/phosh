@@ -590,7 +590,8 @@ app_start_view (App *app,
                            until_iso8601,
                            tz_location);
 
-  e_cal_client_set_default_timezone (cal_client, app->zone);
+  if (app->zone)
+    e_cal_client_set_default_timezone (cal_client, app->zone);
 
   if (!e_cal_client_get_view_sync (cal_client, query, &view, NULL /* cancellable */, &error))
     {
