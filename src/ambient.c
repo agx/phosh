@@ -140,7 +140,7 @@ on_ambient_light_level_sample (gpointer data)
   g_debug ("Avg: %f Switching theme to hc: %d", avg, use_hc);
   switch_theme (self, use_hc);
 
-  g_array_remove_range (self->values, 0, self->values->len);
+  g_array_set_size (self->values, 0);
   self->sample_id = 0;
   return G_SOURCE_REMOVE;
 }
@@ -180,8 +180,9 @@ on_ambient_light_level_changed (PhoshAmbient            *self,
   if (wants_hc == self->use_hc)
     return;
 
-  /* new value would change hc mode , sample to see if it should stick */
+  /* new value would change hc mode, sample to see if it should stick */
   g_return_if_fail (self->sample_id == 0);
+  g_return_if_fail (self->values->len == 0);
   g_array_append_val (self->values, level);
   self->sample_id = g_timeout_add_seconds (1, on_ambient_light_level_sample, self);
   g_source_set_name_by_id (self->sample_id, "[phosh] ambient_sample");
@@ -251,6 +252,7 @@ phosh_ambient_claim_light (PhoshAmbient *self, gboolean claim)
       self);
   } else {
     g_clear_handle_id (&self->sample_id, g_source_remove);
+    g_array_set_size (self->values, 0);
     phosh_dbus_sensor_proxy_call_release_light (
       PHOSH_DBUS_SENSOR_PROXY (self->sensor_proxy_manager),
       self->cancel,
@@ -297,6 +299,27 @@ on_has_ambient_light_changed (PhoshAmbient            *self,
 
 
 static void
+on_shell_state_changed (PhoshAmbient  *self,
+                        GParamSpec    *pspec,
+                        PhoshShell    *shell)
+{
+  PhoshShellStateFlags state;
+
+  g_return_if_fail (PHOSH_IS_AMBIENT (self));
+  g_return_if_fail (PHOSH_IS_SHELL (shell));
+
+  state = phosh_shell_get_state (shell);
+  g_debug ("Shell state changed: %d", state);
+  /* Claim/unclaim the sensor on screen unblank / blank */
+  if (state & PHOSH_STATE_BLANKED) {
+    phosh_ambient_claim_light (self, FALSE);
+  } else {
+    on_has_ambient_light_changed (self, NULL, self->sensor_proxy_manager);
+  }
+}
+
+
+static void
 phosh_ambient_constructed (GObject *object)
 {
   PhoshAmbient *self = PHOSH_AMBIENT (object);
@@ -321,6 +344,12 @@ phosh_ambient_constructed (GObject *object)
                     self,
                     NULL);
 
+  g_signal_connect_object (phosh_shell_get_default (),
+                           "notify::shell-state",
+                           G_CALLBACK (on_shell_state_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
   on_has_ambient_light_changed (self, NULL, self->sensor_proxy_manager);
 }
 
@@ -332,6 +361,9 @@ phosh_ambient_dispose (GObject *object)
 
   g_cancellable_cancel (self->cancel);
   g_clear_object (&self->cancel);
+
+  g_clear_handle_id (&self->sample_id, g_source_remove);
+  g_clear_pointer (&self->values, g_array_unref);
 
   if (self->sensor_proxy_manager) {
     g_signal_handlers_disconnect_by_data (self->sensor_proxy_manager, self);
