@@ -27,6 +27,9 @@ Build-Depends:
  linux-libc-dev (>= 5.12) [arm64],
  meson,
  pandoc <!nodoc>,
+# for the plugins
+ libecal2.0-dev,
+ evolution-data-server-dev,
 # to run the tests
  at-spi2-core <!nocheck>,
  dbus-x11 <!nocheck>,
