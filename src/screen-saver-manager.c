@@ -52,6 +52,8 @@ typedef struct _PhoshScreenSaverManager
 
   PhoshDBusLoginSession *logind_session_proxy;
   PhoshDBusLoginManager *logind_manager_proxy;
+
+  GCancellable          *cancel;
 } PhoshScreenSaverManager;
 
 G_DEFINE_TYPE_WITH_CODE (PhoshScreenSaverManager,
@@ -331,6 +333,9 @@ phosh_screen_saver_manager_dispose (GObject *object)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (object);
 
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
+
   g_clear_handle_id (&self->idle_id, g_source_remove);
   g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
 
@@ -356,8 +361,10 @@ on_logind_get_session_proxy_finish  (GObject                 *object,
     res, &err);
   if (!self->logind_session_proxy) {
     phosh_dbus_service_error_warn (err, "Failed to get login1 session proxy");
-    goto out;
+    return;
   }
+
+  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
 
   /* finally register signals */
   g_object_connect (
@@ -369,9 +376,6 @@ on_logind_get_session_proxy_finish  (GObject                 *object,
   g_signal_connect_swapped (
     self->logind_manager_proxy,
     "prepare-for-sleep", G_CALLBACK (on_logind_prepare_for_sleep), self);
-
-out:
-  g_object_unref (self);
 }
 
 
@@ -381,25 +385,25 @@ on_logind_manager_get_session_finished (PhoshDBusLoginManager   *object,
                                         PhoshScreenSaverManager *self)
 {
   g_autofree char *object_path = NULL;
-
   g_autoptr (GError) err = NULL;
 
   if (!phosh_dbus_login_manager_call_get_session_finish (
         object, &object_path, res, &err)) {
     g_warning ("Failed to get session: %s", err->message);
-    goto out;
+    return;
   }
+
+  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
 
   /* Register a proxy for this session */
   phosh_dbus_login_session_proxy_new_for_bus (
     G_BUS_TYPE_SYSTEM,
     G_DBUS_PROXY_FLAGS_NONE,
     LOGIN_BUS_NAME,
-    object_path, NULL,
+    object_path,
+    self->cancel,
     (GAsyncReadyCallback)on_logind_get_session_proxy_finish,
-    g_object_ref (self));
-out:
-  g_object_unref (self);
+    self);
 }
 
 
@@ -411,15 +415,15 @@ on_logind_manager_proxy_new_for_bus_finish (GObject                 *source_obje
   g_autoptr (GError) err = NULL;
   g_autofree char *session_id = NULL;
 
-  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
-
   self->logind_manager_proxy =
     phosh_dbus_login_manager_proxy_new_for_bus_finish (res, &err);
 
   if (!self->logind_manager_proxy) {
     phosh_dbus_service_error_warn (err, "Failed to get login1 manager proxy");
-    goto out;
+    return;
   }
+
+  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
 
   /* If we find a session get it object path */
   if (phosh_find_systemd_session (&session_id)) {
@@ -428,14 +432,12 @@ on_logind_manager_proxy_new_for_bus_finish (GObject                 *source_obje
     phosh_dbus_login_manager_call_get_session (
       self->logind_manager_proxy,
       session_id,
-      NULL,
+      self->cancel,
       (GAsyncReadyCallback)on_logind_manager_get_session_finished,
-      g_object_ref (self));
+      self);
   }
 
   g_debug ("Connected to logind's session interface");
-out:
-  g_object_unref (self);
 }
 
 
@@ -448,9 +450,9 @@ on_idle (PhoshScreenSaverManager *self)
     G_DBUS_PROXY_FLAGS_NONE,
     LOGIN_BUS_NAME,
     LOGIN_OBJECT_PATH,
-    NULL,
+    self->cancel,
     (GAsyncReadyCallback) on_logind_manager_proxy_new_for_bus_finish,
-    g_object_ref (self));
+    self);
 
   self->idle_id = 0;
   return G_SOURCE_REMOVE;
@@ -504,6 +506,7 @@ phosh_screen_saver_manager_class_init (PhoshScreenSaverManagerClass *klass)
 static void
 phosh_screen_saver_manager_init (PhoshScreenSaverManager *self)
 {
+  self->cancel = g_cancellable_new ();
 }
 
 
