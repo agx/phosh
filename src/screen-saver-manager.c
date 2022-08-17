@@ -51,7 +51,7 @@ typedef struct _PhoshScreenSaverManager
   PhoshLockscreenManager *lockscreen_manager;
 
   PhoshDBusLoginSession *logind_session_proxy;
-  PhoshLogin1ManagerDBusLoginManager *logind_manager_proxy;
+  PhoshDBusLoginManager *logind_manager_proxy;
 } PhoshScreenSaverManager;
 
 G_DEFINE_TYPE_WITH_CODE (PhoshScreenSaverManager,
@@ -262,9 +262,9 @@ on_logind_unlock (PhoshScreenSaverManager *self, PhoshDBusLoginSession *proxy)
 }
 
 static void
-on_logind_prepare_for_sleep (PhoshScreenSaverManager            *self,
-                             gboolean                            suspending,
-                             PhoshLogin1ManagerDBusLoginManager *proxy)
+on_logind_prepare_for_sleep (PhoshScreenSaverManager *self,
+                             gboolean                 suspending,
+                             PhoshDBusLoginManager   *proxy)
 {
   g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
 
@@ -376,15 +376,15 @@ out:
 
 
 static void
-on_logind_manager_get_session_finished (PhoshLogin1ManagerDBusLoginManager *object,
-                                        GAsyncResult                       *res,
-                                        PhoshScreenSaverManager            *self)
+on_logind_manager_get_session_finished (PhoshDBusLoginManager   *object,
+                                        GAsyncResult            *res,
+                                        PhoshScreenSaverManager *self)
 {
   g_autofree char *object_path = NULL;
 
   g_autoptr (GError) err = NULL;
 
-  if (!phosh_login1_manager_dbus_login_manager_call_get_session_finish (
+  if (!phosh_dbus_login_manager_call_get_session_finish (
         object, &object_path, res, &err)) {
     g_warning ("Failed to get session: %s", err->message);
     goto out;
@@ -414,7 +414,7 @@ on_logind_manager_proxy_new_for_bus_finish (GObject                 *source_obje
   g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
 
   self->logind_manager_proxy =
-    phosh_login1_manager_dbus_login_manager_proxy_new_for_bus_finish (res, &err);
+    phosh_dbus_login_manager_proxy_new_for_bus_finish (res, &err);
 
   if (!self->logind_manager_proxy) {
     phosh_dbus_service_error_warn (err, "Failed to get login1 manager proxy");
@@ -425,7 +425,7 @@ on_logind_manager_proxy_new_for_bus_finish (GObject                 *source_obje
   if (phosh_find_systemd_session (&session_id)) {
     g_debug ("Logind session %s", session_id);
 
-    phosh_login1_manager_dbus_login_manager_call_get_session (
+    phosh_dbus_login_manager_call_get_session (
       self->logind_manager_proxy,
       session_id,
       NULL,
@@ -443,7 +443,7 @@ static gboolean
 on_idle (PhoshScreenSaverManager *self)
 {
   /* Connect to logind's session manager */
-  phosh_login1_manager_dbus_login_manager_proxy_new_for_bus (
+  phosh_dbus_login_manager_proxy_new_for_bus (
     G_BUS_TYPE_SYSTEM,
     G_DBUS_PROXY_FLAGS_NONE,
     LOGIN_BUS_NAME,
