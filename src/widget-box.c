@@ -86,7 +86,6 @@ phosh_widget_box_set_property (GObject      *object,
     break;
   case PROP_PLUGINS:
     phosh_widget_box_set_plugins (self, g_value_get_boxed (value));
-    phosh_widget_box_load_widgets (self);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
