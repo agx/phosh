@@ -438,7 +438,9 @@ page_changed_cb (PhoshOverview *self,
   activity = PHOSH_ACTIVITY (g_list_nth_data (list, index));
   toplevel = get_toplevel_from_activity (activity);
   phosh_toplevel_activate (toplevel, phosh_wayland_get_wl_seat (phosh_wayland_get_default ()));
-  gtk_widget_grab_focus (GTK_WIDGET (activity));
+
+  if (!gtk_widget_has_focus (GTK_WIDGET (activity)))
+    gtk_widget_grab_focus (GTK_WIDGET (activity));
 }
 
 
