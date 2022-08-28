@@ -1,5 +1,6 @@
 data/phosh.session.desktop.in.in
 data/sm.puri.Phosh.desktop.in.in
+plugins/calendar/calendar.desktop.in.in
 src/activity.c
 src/app-grid-button.c
 src/app-grid.c

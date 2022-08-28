@@ -1,0 +1,5 @@
+[Plugin]
+Id=@name@
+Name=Calendar
+Comment=A simple calendar widget
+Plugin=@plugins_dir@/libphosh-plugin-@name@.so
