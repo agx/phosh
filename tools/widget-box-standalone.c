@@ -28,7 +28,8 @@ css_setup (void)
     return;
   }
   gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
-                                             GTK_STYLE_PROVIDER (provider), 600);
+                                             GTK_STYLE_PROVIDER (provider),
+                                             GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 }
 
 
@@ -52,7 +53,7 @@ main (int argc, char *argv[])
 {
   GtkWidget *win;
   GtkWidget *box;
-  char *plugins[] = { "calendar", NULL };
+  char *plugins[] = { "calendar", "upcoming-events", NULL };
   GStrv plugin_dirs = NULL;
 
   gtk_init (&argc, &argv);

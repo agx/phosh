@@ -61,7 +61,8 @@ main (int argc, char **argv)
     return 1;
   }
   gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
-                                             GTK_STYLE_PROVIDER (provider), 600);
+                                             GTK_STYLE_PROVIDER (provider),
+                                             GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
   g_object_set (gtk_settings_get_default (),
                 "gtk-application-prefer-dark-theme", TRUE,

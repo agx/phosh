@@ -34,7 +34,7 @@ variables:
   ALPINE_EDGE_DEPS: alpine-sdk callaudiod-dev elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
                     gtk+3.0-dev libgudev-dev libhandy1-dev gcr-dev libsecret-dev gcovr linux-pam-dev
                     meson musl-dev networkmanager networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
-                    upower-dev wayland-dev wayland-protocols ttf-dejavu
+                    upower-dev wayland-dev wayland-protocols ttf-dejavu evolution-data-server-dev
 
 .bookworm_vars: &bookworm_vars
   variables:
@@ -59,6 +59,14 @@ variables:
        uk_UA.UTF-8 UTF-8
        ' > /etc/locale.gen
      - dpkg-reconfigure locales
+     - apt -y update
+     - apt -y build-dep .
+
+.build_before_script: &build_before_script
+  before_script:
+     - export DEBIAN_FRONTEND=noninteractive
+     - apt -y update
+     - apt -y build-dep .
 
 .test_step: &test_step
   script:
@@ -87,6 +95,7 @@ sanity:
 build:native-debian-bookworm:
   stage: build
   image: ${DEBIAN_IMAGE}
+  <<: *build_before_script
   <<: *bookworm_vars
   <<: *build_step
   artifacts:
@@ -101,6 +110,11 @@ build:cross-debian-bookworm:i386:
   stage: build
   image: "${DEBIAN_CROSS_IMAGE}"
   allow_failure: true
+  before_script:
+     - export DEBIAN_FRONTEND=noninteractive
+     - export DEB_BUILD_PROFILES="nocheck nodoc"
+     - apt -y update
+     - apt -y build-dep -a i386 .
   script:
     - git submodule update --recursive
     - 'echo "Build opts: ${COMMON_BUILD_OPTS}"'
@@ -138,10 +152,7 @@ asan-test:native-debian-bookworm:
   image: ${DEBIAN_IMAGE}
   tags: [ asan ]
   <<: *bookworm_vars
-  before_script:
-     - echo "deb http://deb.debian.org/debian/ sid main" > /etc/apt/sources.list.d/sid.list
-     - apt -y update
-     - apt -y install phoc/sid
+  <<: *test_before_script
   script:
     - meson -Dphoc_tests=enabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
     - ninja -C _build-asan data/gschemas.compiled
@@ -179,6 +190,7 @@ build-gtkdoc:
   variables:
     DIST: bookworm
     BUILD_OPTS: -Dtests=false -Dgtk_doc=true ${COMMON_BUILD_OPTS}
+  <<: *build_before_script
   script:
     - git clean -dfx
     - 'echo "Build opts: ${BUILD_OPTS}"'
@@ -195,8 +207,6 @@ build-gtkdoc:
 
 check-po:
   stage: test+docs
-  needs:
-    - build:native-debian-bookworm
   image: ${DEBIAN_IMAGE}
   before_script:
     - eatmydata apt-get -y -f install
@@ -211,8 +221,6 @@ check-po:
 
 check-license-headers:
   stage: test+docs
-  needs:
-    - build:native-debian-bookworm
   image: ${DEBIAN_IMAGE}
   <<: *bookworm_vars
   script:

@@ -21,5 +21,7 @@ G_DECLARE_FINAL_TYPE (PhoshPluginLoader, phosh_plugin_loader, PHOSH, PLUGIN_LOAD
 
 PhoshPluginLoader *phosh_plugin_loader_new (GStrv plugin_dirs, const char *extension_point);
 GtkWidget         *phosh_plugin_loader_load_plugin (PhoshPluginLoader *self, const char *name);
+const char        *phosh_plugin_loader_get_extension_point (PhoshPluginLoader *self);
+const char *const *phosh_plugin_loader_get_plugin_dirs (PhoshPluginLoader *self);
 
 G_END_DECLS

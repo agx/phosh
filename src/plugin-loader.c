@@ -66,10 +66,10 @@ phosh_plugin_loader_get_property (GObject    *object,
 
   switch (property_id) {
   case PROP_PLUGIN_DIRS:
-    g_value_set_boxed (value, self->plugin_dirs);
+    g_value_set_boxed (value, phosh_plugin_loader_get_plugin_dirs (self));
     break;
   case PROP_EXTENSION_POINT:
-    g_value_set_string (value, self->extension_point);
+    g_value_set_string (value, phosh_plugin_loader_get_extension_point (self));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -189,4 +189,22 @@ phosh_plugin_loader_load_plugin (PhoshPluginLoader *self, const char *name)
   }
 
   return NULL;
+}
+
+
+const char *
+phosh_plugin_loader_get_extension_point (PhoshPluginLoader *self)
+{
+  g_return_val_if_fail (PHOSH_IS_PLUGIN_LOADER (self), NULL);
+
+  return self->extension_point;
+}
+
+
+const char * const *
+phosh_plugin_loader_get_plugin_dirs (PhoshPluginLoader *self)
+{
+  g_return_val_if_fail (PHOSH_IS_PLUGIN_LOADER (self), NULL);
+
+  return (const char *const *)self->plugin_dirs;
 }
