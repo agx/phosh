@@ -17,6 +17,8 @@ debian/files
 debian/*.substvars
 debian/*debhelper*
 debian/phosh/
+debian/phosh-doc/
+debian/phosh-mobile-tweaks/
 debian/phosh-plugins/
 debian/phosh.postinst
 debian/phosh.postrm
