@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-06-01 08:28+0000\n"
-"PO-Revision-Date: 2022-06-01 16:02+0300\n"
+"POT-Creation-Date: 2022-08-30 11:50+0000\n"
+"PO-Revision-Date: 2022-08-30 22:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 20.12.0\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -132,11 +132,11 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:364
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Звіряю…"
 
@@ -377,21 +377,21 @@ msgstr "Домен:"
 msgid "Co_nnect"
 msgstr "З'єд_натися"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Назад"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Протягніть угору, щоб розблокувати"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "Екстрений виклик"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "Розблокувати"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "Назад"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -413,11 +413,11 @@ msgstr "Автентифікуватися"
 msgid "Run Command"
 msgstr "Виконати команду"
 
-#: src/ui/settings.ui:317
+#: src/ui/settings.ui:301
 msgid "No notifications"
 msgstr "Немає сповіщень"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "Очистити все"
 
@@ -451,6 +451,54 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Стільниковий"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Сьогодні"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Завтра"
+
+#. Translators: An event/appointment is happening on that day of the week (e.g. Tuesday)
+#: plugins/upcoming-events/event-list.c:147
+#, c-format
+msgid "On %A"
+msgstr "%A"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d days"
+msgstr "За %d днів"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Немає подій"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%H:%M"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Увесь день"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Завершується"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Подія без назви"
 
 #~ msgid "Show only adaptive apps"
 #~ msgstr "Показувати лише адаптивні програми"
