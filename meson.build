@@ -140,6 +140,13 @@ libcall_ui = subproject('libcall-ui',
     'install-i18n=@0@'.format(get_option('callui-i18n')),
   ])
 libcall_ui_dep = libcall_ui.get_variable('libcall_ui_dep')
+libgmobile = subproject('gmobile',
+  default_options: [
+    'examples=false',
+    'gtk_doc=false',
+    'tests=false',
+  ])
+libgmobile_dep = libgmobile.get_variable('libgmobile_dep')
 libnm_dep = dependency('libnm', version: '>= 1.14')
 libpolkit_agent_dep = dependency('polkit-agent-1', version: '>= 0.105')
 libsystemd_dep = dependency('libsystemd', version: '>= 241')
