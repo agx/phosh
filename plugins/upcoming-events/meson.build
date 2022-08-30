@@ -28,7 +28,7 @@ upcoming_events_plugin_sources = files(
 )
 
 phosh_upcoming_events_plugin = shared_module(
-  'phosh-plugin-upcoming_events',
+  'phosh-plugin-upcoming-events',
   upcoming_events_plugin_sources,
   upcoming_events_resources,
   upcoming_events_generated_dbus_sources,
