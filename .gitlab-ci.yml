@@ -191,6 +191,7 @@ build-gtkdoc:
     DIST: bookworm
     BUILD_OPTS: -Dtests=false -Dgtk_doc=true ${COMMON_BUILD_OPTS}
   <<: *build_before_script
+  needs: []
   script:
     - git clean -dfx
     - 'echo "Build opts: ${BUILD_OPTS}"'
@@ -213,6 +214,7 @@ check-po:
     - eatmydata apt-get -y update
     - eatmydata apt-get -y install intltool gettext
   <<: *bookworm_vars
+  needs: []
   script:
     - tools/check-po
   except:
@@ -223,6 +225,7 @@ check-license-headers:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
   <<: *bookworm_vars
+  needs: []
   script:
     # Checks .c and .h files begin with a license header as
     # defined in HACKING.md
