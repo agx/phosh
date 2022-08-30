@@ -207,8 +207,6 @@ build-gtkdoc:
 
 check-po:
   stage: test+docs
-  needs:
-    - build:native-debian-bookworm
   image: ${DEBIAN_IMAGE}
   before_script:
     - eatmydata apt-get -y -f install
@@ -223,8 +221,6 @@ check-po:
 
 check-license-headers:
   stage: test+docs
-  needs:
-    - build:native-debian-bookworm
   image: ${DEBIAN_IMAGE}
   <<: *bookworm_vars
   script:
