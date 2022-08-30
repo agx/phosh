@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-06-01 08:28+0000\n"
-"PO-Revision-Date: 2022-06-16 18:33+0300\n"
+"POT-Creation-Date: 2022-08-30 11:50+0000\n"
+"PO-Revision-Date: 2022-08-30 19:50+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -128,11 +128,11 @@ msgstr "Kyllä"
 msgid "No"
 msgstr "Ei"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Syötä salasana"
 
-#: src/lockscreen.c:364
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Tarkistetaan…"
 
@@ -373,21 +373,21 @@ msgstr "Toimialue:"
 msgid "Co_nnect"
 msgstr "_Yhdistä"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Takaisin"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Liu'uta ylös avataksesi"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "Hätä"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "Avaa lukitus"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "Takaisin"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -409,11 +409,11 @@ msgstr "Tunnistaudu"
 msgid "Run Command"
 msgstr "Suorita komento"
 
-#: src/ui/settings.ui:317
+#: src/ui/settings.ui:301
 msgid "No notifications"
 msgstr "Ei ilmoituksia"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
@@ -447,6 +447,54 @@ msgstr "Wifi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Puhelinverkko"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Tänään"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Huomenna"
+
+#. Translators: An event/appointment is happening on that day of the week (e.g. Tuesday)
+#: plugins/upcoming-events/event-list.c:147
+#, c-format
+msgid "On %A"
+msgstr "%Ana"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d days"
+msgstr "%d päivän päästä"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Ei tapahtumia"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%H.%M"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Koko päivä"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Päättyy"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Nimetön tapahtuma"
 
 #~ msgid "Show only adaptive apps"
 #~ msgstr "Näytä vain adaptiiviset sovellukset"
