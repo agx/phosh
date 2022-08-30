@@ -46,6 +46,7 @@ test_env_unit.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source
 test_env_unit.prepend('XDG_DATA_DIRS', '@0@/system/share/'.format(meson.current_source_dir()))
 
 test_cflags = [
+  '-DTEST_BUILD_DIR="@0@"'.format(meson.build_root()),
   '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
   '-DTEST_OUTPUT_DIR="@0@"'.format(meson.current_build_dir()),
   '-DTEST_PHOC_INI="@0@/data/phoc.ini"'.format(meson.source_root()),
@@ -93,6 +94,7 @@ tests = [
   'notification-list',
   'notification-source',
   'overview',
+  'plugin-loader',
   'quick-setting',
   'status-icon',
   'util',
