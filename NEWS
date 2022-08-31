@@ -1,3 +1,24 @@
+phosh 0.21.0
+------------
+Released September 2022
+* Add (experimental) upcoming-events lock screen
+  widget
+* Allow to disable GTK animations again
+* Improve screenshot support
+* Report a version via DBus
+* Update libcall-ui to 0.0.4
+* More bug fixes
+* Contributors:
+	Evangelos Ribeiro Tzaras
+	Guido Günther
+	Sebastian Krzyszkowiak
+* UI translations:
+	Balázs Úr (hu)
+	Emin Tufan Çetin (tr)
+	Goran Vidović (hr)
+	Jiri Grönroos (fi)
+	Yuri Chornoivan (uk)
+
 phosh 0.20.0
 ------------
 Released August 2022
