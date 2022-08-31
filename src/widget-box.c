@@ -14,6 +14,7 @@
 #include "widget-box.h"
 
 #include <handy.h>
+#include <glib/gi18n-lib.h>
 
 /**
  * SECTION:widget-box
@@ -44,6 +45,22 @@ struct _PhoshWidgetBox {
 G_DEFINE_TYPE (PhoshWidgetBox, phosh_widget_box, GTK_TYPE_BOX)
 
 
+static GtkWidget *
+missing_plugin_widget_new (const char *plugin)
+{
+  GtkWidget *widget = hdy_status_page_new ();
+  g_autofree char *msg = NULL;
+
+  hdy_status_page_set_title (HDY_STATUS_PAGE (widget), _("Plugin not found"));
+
+  hdy_status_page_set_icon_name (HDY_STATUS_PAGE (widget), "dialog-error-symbolic");
+  msg = g_strdup_printf (_("The plugin '%s' could not be loaded."), plugin);
+  hdy_status_page_set_description (HDY_STATUS_PAGE (widget), msg);
+
+  return widget;
+}
+
+
 static void
 phosh_widget_box_load_widgets (PhoshWidgetBox *self)
 {
@@ -61,7 +78,7 @@ phosh_widget_box_load_widgets (PhoshWidgetBox *self)
 
     if (widget == NULL) {
       g_warning ("Plugin '%s not found", self->plugins[i]);
-      continue;
+      widget = missing_plugin_widget_new (self->plugins[i]);
     }
 
     gtk_widget_show (widget);
@@ -86,7 +103,6 @@ phosh_widget_box_set_property (GObject      *object,
     break;
   case PROP_PLUGINS:
     phosh_widget_box_set_plugins (self, g_value_get_boxed (value));
-    phosh_widget_box_load_widgets (self);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
