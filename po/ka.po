@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-07-23 17:57+0000\n"
-"PO-Revision-Date: 2022-07-25 18:56+0200\n"
+"POT-Creation-Date: 2022-09-01 11:29+0000\n"
+"PO-Revision-Date: 2022-09-02 13:37+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: \n"
 "Language: ka\n"
@@ -30,6 +30,22 @@ msgstr "ტელეფონის შელი"
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "მობილურზე ფანჯრების მართვა და აპლიკაციის გაშვება"
+
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "კალენდერი"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "მარტივი კალენდრის ვიჯეტი"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "უახლოესი მოვლენები"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "კალენდრის მომავალი მოვლენების ჩვენება"
 
 #: src/app-grid-button.c:529
 msgid "Application"
@@ -124,11 +140,11 @@ msgstr "დიახ"
 msgid "No"
 msgstr "არა"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "შეიყვანეთ კოდი"
 
-#: src/lockscreen.c:379
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "შემოწმება…"
 
@@ -369,21 +385,21 @@ msgstr "დომენი:"
 msgid "Co_nnect"
 msgstr "და_კავშირება"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "უკან"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "აქაჩეთ გასახსნელად"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "სასწრაფო"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "გახსნა"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "უკან"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -405,11 +421,11 @@ msgstr "ავთენტიკაცია"
 msgid "Run Command"
 msgstr "ბრძანების გაშვება"
 
-#: src/ui/settings.ui:317
+#: src/ui/settings.ui:301
 msgid "No notifications"
 msgstr "გაფრთხილების გარეშე"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "ყველას გასუფთავება"
 
@@ -435,6 +451,15 @@ msgstr "%A, %B %-e"
 msgid "VPN"
 msgstr "VPN"
 
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "დამატება ვერ ვიპოვე"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "დამატება არ ჩაიტვირთულა: \"%s\"."
+
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
@@ -443,3 +468,51 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "მობილური"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "დღეს"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "ხვალ"
+
+#. Translators: An event/appointment is happening on that day of the week (e.g. Tuesday)
+#: plugins/upcoming-events/event-list.c:147
+#, c-format
+msgid "On %A"
+msgstr "%A-ზე"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d days"
+msgstr "%d დღეში"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "მოვლენების გარეშე"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "მთელი დღე"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "მთავრდება"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "უსახელო მოვლენა"
