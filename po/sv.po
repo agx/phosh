@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-06-01 08:28+0000\n"
-"PO-Revision-Date: 2022-06-01 17:17+0200\n"
+"POT-Creation-Date: 2022-08-31 08:37+0000\n"
+"PO-Revision-Date: 2022-08-31 10:56+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -30,6 +30,22 @@ msgstr "Phone Shell"
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Fönsterhantering och programstartare för mobil"
+
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "Kalender"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "En enkel kalenderkomponent"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Kommande händelser"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Visa kommande kalenderhändelser"
 
 #: src/app-grid-button.c:529
 msgid "Application"
@@ -128,11 +144,11 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nej"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Ange lösenord"
 
-#: src/lockscreen.c:364
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Kontrollerar…"
 
@@ -373,21 +389,21 @@ msgstr "Domän:"
 msgid "Co_nnect"
 msgstr "A_nslut"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Bakåt"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Svep uppåt för att låsa upp"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "Nödläge"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "Lås upp"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "Bakåt"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -409,11 +425,11 @@ msgstr "Godkänn"
 msgid "Run Command"
 msgstr "Kör kommando"
 
-#: src/ui/settings.ui:317
+#: src/ui/settings.ui:301
 msgid "No notifications"
 msgstr "Inga aviseringar"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "Rensa alla"
 
@@ -439,6 +455,15 @@ msgstr "%A, %-e %B"
 msgid "VPN"
 msgstr "VPN"
 
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Insticksmodul hittades inte"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Insticksmodulen ”%s” kunde inte läsas in."
+
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
@@ -447,3 +472,51 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Mobilt nätverk"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "I dag"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "I morgon"
+
+#. Translators: An event/appointment is happening on that day of the week (e.g. Tuesday)
+#: plugins/upcoming-events/event-list.c:147
+#, c-format
+msgid "On %A"
+msgstr "På %A"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d days"
+msgstr "Om %d dagar"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Inga händelser"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Hela dagen"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Slutar"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Namnlös händelse"
