@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-06-01 08:28+0000\n"
-"PO-Revision-Date: 2022-06-13 10:55+0430\n"
+"POT-Creation-Date: 2022-08-31 08:37+0000\n"
+"PO-Revision-Date: 2022-09-03 16:56+0430\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -30,6 +30,22 @@ msgstr "پوستهٔ تلفن"
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "مدیریت پنجره‌ها و اجرا کنندهٔ برنامه‌ها برای تلفن همراه"
+
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "تقویم"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "ابزارک تقویمی ساده"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "رویدادهای پیش رو"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "نمایش رویدادهای تقویم پیش رو"
 
 #: src/app-grid-button.c:529
 msgid "Application"
@@ -127,11 +143,11 @@ msgstr "بله"
 msgid "No"
 msgstr "نه"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:364
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
@@ -372,21 +388,21 @@ msgstr "دامنه:"
 msgid "Co_nnect"
 msgstr "اتّ_صال"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "بازگشت"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "برای قفل‌گشایی، بالا بکشید"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "اضطراری"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "قفل‌گشایی"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "بازگشت"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -408,11 +424,11 @@ msgstr "تأیید هویت"
 msgid "Run Command"
 msgstr "اجرای فرمان"
 
-#: src/ui/settings.ui:317
+#: src/ui/settings.ui:301
 msgid "No notifications"
 msgstr "بدون آگاهی"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "پاک‌سازی همه"
 
@@ -438,6 +454,15 @@ msgstr "%A، %Od %OB"
 msgid "VPN"
 msgstr "وی‌پی‌ان"
 
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "افزایه پیدا نشد"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "افزایهٔ «%s» نتوانست بار شود."
+
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "وای‌فای"
@@ -446,6 +471,54 @@ msgstr "وای‌فای"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "سلولی"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "امروز"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "فردا"
+
+#. Translators: An event/appointment is happening on that day of the week (e.g. Tuesday)
+#: plugins/upcoming-events/event-list.c:147
+#, c-format
+msgid "On %A"
+msgstr "در %A"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d days"
+msgstr "در %Id روز"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "بدون رویداد"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%OR"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%Ol:%OM %Op"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "تمام روز"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "پایان"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "رویداد بی‌عنوان"
 
 #~ msgid "Show only adaptive apps"
 #~ msgstr "نماشی فقط کاره‌های واکنش‌پذیر"
