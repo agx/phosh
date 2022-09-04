@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-06-19 10:40+0000\n"
-"PO-Revision-Date: 2022-06-19 15:26+0300\n"
+"POT-Creation-Date: 2022-09-04 13:11+0000\n"
+"PO-Revision-Date: 2022-09-04 19:07+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -29,6 +29,22 @@ msgstr "Оболочка телефона"
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Управление окнами и запуск приложений для мобильных устройств"
+
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "Календарь"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "Простой виджет календаря"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Предстоящие события"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Показать предстоящие события календаря"
 
 #: src/app-grid-button.c:529
 msgid "Application"
@@ -52,11 +68,11 @@ msgstr "Bluetooth"
 
 #: src/docked-info.c:81
 msgid "Docked"
-msgstr "Прикреплен"
+msgstr "Прикреплено"
 
 #: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
-msgstr "Откреплен"
+msgstr "Откреплено"
 
 #: src/end-session-dialog.c:162
 msgid "Log Out"
@@ -129,11 +145,11 @@ msgstr "Да"
 msgid "No"
 msgstr "Нет"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Введите код доступа"
 
-#: src/lockscreen.c:379
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Проверка…"
 
@@ -324,7 +340,7 @@ msgstr "Пароль не может быть пустым"
 
 #: src/torch-info.c:80
 msgid "Torch"
-msgstr "Фонарь"
+msgstr "Фонарик"
 
 #: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
@@ -374,21 +390,21 @@ msgstr "Домен:"
 msgid "Co_nnect"
 msgstr "По_дключиться"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Назад"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Проведите вверх для разблокировки"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "Чрезвычайная ситуация"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "Разблокировать"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "Назад"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -410,11 +426,11 @@ msgstr "Подтвердить"
 msgid "Run Command"
 msgstr "Выполнить команду"
 
-#: src/ui/settings.ui:317
+#: src/ui/settings.ui:301
 msgid "No notifications"
-msgstr "Уведомлений нет"
+msgstr "Нет уведомлений"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "Очистить все"
 
@@ -440,6 +456,15 @@ msgstr "%A, %-e %B"
 msgid "VPN"
 msgstr "VPN"
 
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Модуль не найден"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Модуль '%s' не может быть загружен."
+
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
@@ -448,3 +473,52 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Сотовая связь"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Сегодня"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Завтра"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "Через %d день"
+msgstr[1] "Через %d дня"
+msgstr[2] "Через %d дней"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Нет событий"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l∶%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Весь день"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Конец"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Безымянное событие"
+
+#, c-format
+#~ msgid "On %A"
+#~ msgstr "В(о) %A"
