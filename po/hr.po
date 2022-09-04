@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-08-31 08:37+0000\n"
-"PO-Revision-Date: 2022-08-31 12:00+0200\n"
+"POT-Creation-Date: 2022-09-04 13:11+0000\n"
+"PO-Revision-Date: 2022-09-04 22:37+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -484,16 +484,13 @@ msgstr "Danas"
 msgid "Tomorrow"
 msgstr "Sutra"
 
-#. Translators: An event/appointment is happening on that day of the week (e.g. Tuesday)
-#: plugins/upcoming-events/event-list.c:147
-#, c-format
-msgid "On %A"
-msgstr "U %A"
-
 #: plugins/upcoming-events/event-list.c:150
 #, c-format
-msgid "In %d days"
-msgstr "Za %d dana"
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "Za %d dan"
+msgstr[1] "Za %d dana"
+msgstr[2] "Za %d dana"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -523,6 +520,10 @@ msgstr "Završava u"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Bezimeni događaj"
+
+#, c-format
+#~ msgid "On %A"
+#~ msgstr "U %A"
 
 #~ msgid "Show only adaptive apps"
 #~ msgstr "Prikaži samo adaptivne aplikacije"
