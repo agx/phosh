@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-08-31 08:37+0000\n"
-"PO-Revision-Date: 2022-09-04 13:24+0300\n"
+"POT-Creation-Date: 2022-09-04 13:11+0000\n"
+"PO-Revision-Date: 2022-09-04 23:11+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -475,16 +475,11 @@ msgstr "Bugün"
 msgid "Tomorrow"
 msgstr "Yarın"
 
-#. Translators: An event/appointment is happening on that day of the week (e.g. Tuesday)
-#: plugins/upcoming-events/event-list.c:147
-#, c-format
-msgid "On %A"
-msgstr "%A"
-
 #: plugins/upcoming-events/event-list.c:150
 #, c-format
-msgid "In %d days"
-msgstr "%d gün içinde"
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "%d gün içinde"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -514,3 +509,7 @@ msgstr "Bitiş"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Adsız olay"
+
+#, c-format
+#~ msgid "On %A"
+#~ msgstr "%A"
