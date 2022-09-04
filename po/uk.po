@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-08-31 08:37+0000\n"
-"PO-Revision-Date: 2022-08-31 18:48+0300\n"
+"POT-Creation-Date: 2022-09-04 13:11+0000\n"
+"PO-Revision-Date: 2022-09-04 20:56+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -485,16 +485,14 @@ msgstr "Сьогодні"
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#. Translators: An event/appointment is happening on that day of the week (e.g. Tuesday)
-#: plugins/upcoming-events/event-list.c:147
-#, c-format
-msgid "On %A"
-msgstr "%A"
-
 #: plugins/upcoming-events/event-list.c:150
 #, c-format
-msgid "In %d days"
-msgstr "За %d днів"
+#| msgid "In %d days"
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "За %d день"
+msgstr[1] "За %d дні"
+msgstr[2] "За %d днів"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -524,6 +522,10 @@ msgstr "Завершується"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Подія без назви"
+
+#, c-format
+#~ msgid "On %A"
+#~ msgstr "%A"
 
 #~ msgid "Show only adaptive apps"
 #~ msgstr "Показувати лише адаптивні програми"
