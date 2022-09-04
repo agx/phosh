@@ -144,10 +144,11 @@ get_label (PhoshEventList *self)
     return g_strdup (_("Tomorrow"));
   case 2 ... 7: {
     /* Translators: An event/appointment is happening on that day of the week (e.g. Tuesday) */
-    return g_date_time_format (self->for_day, _("On %A"));
+    return g_date_time_format (self->for_day, "%A");
   }
   default:
-    return g_strdup_printf (_("In %d days"), self->day_offset);
+    return g_strdup_printf (ngettext ("In %d day", "In %d days", self->day_offset),
+                            self->day_offset);
   }
 }
 
