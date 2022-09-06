@@ -84,3 +84,9 @@ phosh_shell_get_lockscreen_manager (PhoshShell *self)
 {
   return NULL;
 }
+
+gboolean
+phosh_shell_get_blanked (PhoshShell *self)
+{
+  return FALSE;
+}

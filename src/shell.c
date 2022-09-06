@@ -1928,3 +1928,18 @@ phosh_shell_get_docked (PhoshShell *self)
 
   return priv->docked;
 }
+
+
+/**
+ * phosh_shell_get_blanked:
+ * @self: The #PhoshShell singleton
+ *
+ * Returns: %TRUE if the primary output is currently blanked
+ */
+gboolean
+phosh_shell_get_blanked (PhoshShell *self)
+{
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), FALSE);
+
+  return phosh_shell_get_state (self) & PHOSH_STATE_BLANKED;
+}
