@@ -164,7 +164,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_autoptr (GTimer) timer = g_timer_new ();
   g_autoptr (GMainContext) context = g_main_context_new ();
   g_autoptr (GMainLoop) loop = NULL;
-  g_autoptr (PhoshScreenSaverDBusScreenSaver) ss_proxy = NULL;
+  g_autoptr (PhoshDBusScreenSaver) ss_proxy = NULL;
   g_autoptr (PhoshTestCallsMock) calls_mock = NULL;
   g_autoptr (PhoshTestMprisMock) mpris_mock = NULL;
   g_autoptr (PhoshDBusImplPortalAccess) portal_access_proxy = NULL;
@@ -245,15 +245,15 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   wait_a_bit (loop, 1);
   g_assert_true (success);
 
-  ss_proxy = phosh_screen_saver_dbus_screen_saver_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                                          G_DBUS_PROXY_FLAGS_NONE,
-                                                                          "org.gnome.ScreenSaver",
-                                                                          "/org/gnome/ScreenSaver",
-                                                                          NULL,
-                                                                          &err);
+  ss_proxy = phosh_dbus_screen_saver_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                                             G_DBUS_PROXY_FLAGS_NONE,
+                                                             "org.gnome.ScreenSaver",
+                                                             "/org/gnome/ScreenSaver",
+                                                             NULL,
+                                                             &err);
   g_assert_no_error (err);
   g_clear_error (&err);
-  phosh_screen_saver_dbus_screen_saver_call_lock_sync (ss_proxy, NULL, &err);
+  phosh_dbus_screen_saver_call_lock_sync (ss_proxy, NULL, &err);
   g_assert_no_error (err);
   wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "lockscreen-status");

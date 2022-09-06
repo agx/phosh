@@ -39,12 +39,11 @@ enum {
 };
 static GParamSpec *props[PROP_LAST_PROP];
 
-static void phosh_screen_saver_manager_screen_saver_iface_init (
-  PhoshScreenSaverDBusScreenSaverIface *iface);
+static void phosh_screen_saver_manager_screen_saver_iface_init (PhoshDBusScreenSaverIface *iface);
 
 typedef struct _PhoshScreenSaverManager
 {
-  PhoshScreenSaverDBusScreenSaverSkeleton parent;
+  PhoshDBusScreenSaverSkeleton parent;
 
   int idle_id;
   int dbus_name_id;
@@ -58,9 +57,9 @@ typedef struct _PhoshScreenSaverManager
 
 G_DEFINE_TYPE_WITH_CODE (PhoshScreenSaverManager,
                          phosh_screen_saver_manager,
-                         PHOSH_SCREEN_SAVER_DBUS_TYPE_SCREEN_SAVER_SKELETON,
+                         PHOSH_DBUS_TYPE_SCREEN_SAVER_SKELETON,
                          G_IMPLEMENT_INTERFACE (
-                           PHOSH_SCREEN_SAVER_DBUS_TYPE_SCREEN_SAVER,
+                           PHOSH_DBUS_TYPE_SCREEN_SAVER,
                            phosh_screen_saver_manager_screen_saver_iface_init));
 
 static void
@@ -83,9 +82,9 @@ phosh_screen_saver_manager_set_property (GObject *object,
 
 
 static void
-phosh_screen_saver_manager_get_property (GObject *object,
-                                         guint property_id,
-                                         GValue *value,
+phosh_screen_saver_manager_get_property (GObject    *object,
+                                         guint       property_id,
+                                         GValue     *value,
                                          GParamSpec *pspec)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (object);
@@ -101,8 +100,8 @@ phosh_screen_saver_manager_get_property (GObject *object,
 }
 
 static gboolean
-handle_get_active (PhoshScreenSaverDBusScreenSaver *skeleton,
-                   GDBusMethodInvocation           *invocation)
+handle_get_active (PhoshDBusScreenSaver  *skeleton,
+                   GDBusMethodInvocation *invocation)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (skeleton);
   gboolean locked;
@@ -113,16 +112,15 @@ handle_get_active (PhoshScreenSaverDBusScreenSaver *skeleton,
   locked = phosh_lockscreen_manager_get_locked (self->lockscreen_manager);
   g_debug ("DBus call GetActive: %d", locked);
 
-  phosh_screen_saver_dbus_screen_saver_complete_get_active (
-    skeleton, invocation, locked);
+  phosh_dbus_screen_saver_complete_get_active (skeleton, invocation, locked);
 
   return TRUE;
 }
 
 
 static gboolean
-handle_get_active_time (PhoshScreenSaverDBusScreenSaver *skeleton,
-                        GDBusMethodInvocation           *invocation)
+handle_get_active_time (PhoshDBusScreenSaver  *skeleton,
+                        GDBusMethodInvocation *invocation)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (skeleton);
   guint delta = 0; /* in seconds */
@@ -136,15 +134,14 @@ handle_get_active_time (PhoshScreenSaverDBusScreenSaver *skeleton,
     delta = (g_get_monotonic_time () - active) / 1000000;
 
   g_debug ("DBus GetActiveTime: %u", delta);
-  phosh_screen_saver_dbus_screen_saver_complete_get_active_time (
-    skeleton, invocation, delta);
+  phosh_dbus_screen_saver_complete_get_active_time (skeleton, invocation, delta);
 
   return TRUE;
 }
 
 static gboolean
-handle_lock (PhoshScreenSaverDBusScreenSaver *skeleton,
-             GDBusMethodInvocation           *invocation)
+handle_lock (PhoshDBusScreenSaver  *skeleton,
+             GDBusMethodInvocation *invocation)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (skeleton);
 
@@ -154,16 +151,15 @@ handle_lock (PhoshScreenSaverDBusScreenSaver *skeleton,
   g_debug ("DBus call lock");
   phosh_lockscreen_manager_set_locked (self->lockscreen_manager, TRUE);
 
-  phosh_screen_saver_dbus_screen_saver_complete_lock (
-    skeleton, invocation);
+  phosh_dbus_screen_saver_complete_lock (skeleton, invocation);
 
   return TRUE;
 }
 
 static gboolean
-handle_set_active (PhoshScreenSaverDBusScreenSaver *skeleton,
-                   GDBusMethodInvocation           *invocation,
-                   gboolean                         lock)
+handle_set_active (PhoshDBusScreenSaver  *skeleton,
+                   GDBusMethodInvocation *invocation,
+                   gboolean               lock)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (skeleton);
 
@@ -179,15 +175,14 @@ handle_set_active (PhoshScreenSaverDBusScreenSaver *skeleton,
     g_debug ("Ignoring request to deactivate screen saver");
   }
 
-  phosh_screen_saver_dbus_screen_saver_complete_set_active (
-    skeleton, invocation);
+  phosh_dbus_screen_saver_complete_set_active (skeleton, invocation);
 
   return TRUE;
 }
 
 
 static void
-phosh_screen_saver_manager_screen_saver_iface_init (PhoshScreenSaverDBusScreenSaverIface *iface)
+phosh_screen_saver_manager_screen_saver_iface_init (PhoshDBusScreenSaverIface *iface)
 {
   iface->handle_get_active = handle_get_active;
   iface->handle_get_active_time = handle_get_active_time;
