@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-06-01 08:28+0000\n"
-"PO-Revision-Date: 2022-06-27 14:01+0200\n"
+"POT-Creation-Date: 2022-09-04 13:11+0000\n"
+"PO-Revision-Date: 2022-09-05 18:06+0200\n"
 "Last-Translator: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language-Team: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language: it\n"
@@ -31,6 +31,22 @@ msgstr "Shell del telefono"
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Gestore di finestre e avviatore di applicazioni per cellulare"
+
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "Calendar"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "Un calendario in miniatura"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Prossimi eventi"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Mostra i prossimi eventi del calendario"
 
 #: src/app-grid-button.c:529
 msgid "Application"
@@ -68,8 +84,8 @@ msgstr "Termina sessione"
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
-msgstr[0] "%s verrà disconnesso automaticamente tra %d secondo."
-msgstr[1] "%s verrà disconnesso automaticamente tra %d secondi."
+msgstr[0] "%s verrà disconnesso automaticamente fra %d secondo."
+msgstr[1] "%s verrà disconnesso automaticamente fra %d secondi."
 
 #: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
@@ -79,8 +95,8 @@ msgstr "Spegni"
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
-msgstr[0] "Il sistema si spegnerà automaticamente tra %d secondo."
-msgstr[1] "Il sistema si spegnerà automaticamente tra %d secondi."
+msgstr[0] "Il sistema si spegnerà automaticamente fra %d secondo."
+msgstr[1] "Il sistema si spegnerà automaticamente fra %d secondi."
 
 #: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
@@ -90,8 +106,8 @@ msgstr "Riavvia"
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
-msgstr[0] "Il sistema verrà riavviato automaticamente tra %d secondo."
-msgstr[1] "Il sistema verrà riavviato automaticamente tra %d secondi."
+msgstr[0] "Il sistema verrà riavviato automaticamente fra %d secondo."
+msgstr[1] "Il sistema verrà riavviato automaticamente fra %d secondi."
 
 #: src/end-session-dialog.c:269
 msgid "Unknown application"
@@ -128,11 +144,11 @@ msgstr "Sì"
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Inserire la password"
 
-#: src/lockscreen.c:364
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Sto controllando…"
 
@@ -373,21 +389,21 @@ msgstr "Dominio:"
 msgid "Co_nnect"
 msgstr "Co_nnetti"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Indietro"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Scorri verso l'alto per sbloccare"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "Emergenza"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "Sblocca"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "Indietro"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -409,11 +425,11 @@ msgstr "Autenticazione"
 msgid "Run Command"
 msgstr "Esegui comando"
 
-#: src/ui/settings.ui:317
+#: src/ui/settings.ui:301
 msgid "No notifications"
 msgstr "Nessuna notifica"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "Cancella tutto"
 
@@ -439,6 +455,15 @@ msgstr "%A, %B %-e"
 msgid "VPN"
 msgstr "VPN"
 
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Plugin non trovato"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Impossibile caricare il plug-in '%s'."
+
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
@@ -447,3 +472,48 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Cellulare"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Oggi"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Domani"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+#| msgid "In %d days"
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "Fra %d giorno"
+msgstr[1] "Fra %d giorni"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Nessun evento"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Tutto il giorno"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Termina"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Evento senza titolo"
