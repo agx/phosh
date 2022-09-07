@@ -23,10 +23,23 @@
  *
  * Provides the org.gnome.ScreenSaver DBus interface and handles logind's Session
  *
- * See https://people.gnome.org/~mccann/gnome-screensaver/docs/gnome-screensaver.html
- * for a (a bit outdated) interface description. It also handles the login1 session
- * parts since those are closely related and this keeps #PhoshLockscreenManager free
- * of the DBus handling.
+ * This handles the `org.gnome.ScreenSaver` DBus API for screen locking and unlocking.
+ * It also handles the login1 session  parts since those are closely related and this
+ * keeps #PhoshLockscreenManager free of any session related DBus handling.
+ *
+ * These settings influence screen blanking and locking:
+ *
+ * `org.gnome.desktop.session idle-delay`: The session is considered idle after that many
+ * seconds of inactivity. This isn't monitored by phosh directly but is done by gnome-session that
+ * in turn uses `GnomeIdleMonitor` which then uses `/org/gnome/Mutter/IdleMonitor/Core` on DBus.
+ * `/org/gnome/Mutter/IdleMonitor/Core` is implemented by #PhoshIdleManager which in turn gets
+ * it from phoc which implements the `org_kde_kwin_idle` wayland protocol.
+ *
+ * `org.gnome.desktop.screensaver` `lock-enabled`: Whether the screen should be locked after
+ * the screen-saver is activated.
+ *
+ * `org.gnome.desktop.screensaver` `lock-delay`: How long after screen-saver activation should
+ * the screen be locked.
  */
 
 #define SCREEN_SAVER_DBUS_NAME "org.gnome.ScreenSaver"
@@ -100,8 +113,6 @@ screen_saver_set_active (PhoshScreenSaverManager *self, gboolean active, gboolea
 
   phosh_shell_enable_power_save (phosh_shell_get_default (), active);
 
-  /* TODO: move the lock screen timer to the lockscreen-manager as the time is independent
-     from blank (e.g. we could lock, then blank too */
   if (!active || !lock) {
     g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
     return;
@@ -126,8 +137,7 @@ screen_saver_set_active (PhoshScreenSaverManager *self, gboolean active, gboolea
   self->lock_delay_timer_id = g_timeout_add_seconds (self->lock_delay,
                                                      on_lock_delay_timer_expired,
                                                      self);
-  g_source_set_name_by_id (self->lock_delay_timer_id,
-                           "[phosh] lock_delay_timer");
+  g_source_set_name_by_id (self->lock_delay_timer_id, "[phosh] lock_delay_timer");
 }
 
 
