@@ -9,16 +9,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-06-01 08:28+0000\n"
-"PO-Revision-Date: 2022-07-03 03:04+0200\n"
-"Last-Translator: Мирослав Николић <miroslavnikolić@rocketmail.com>\n"
+"POT-Creation-Date: 2022-09-06 19:01+0000\n"
+"PO-Revision-Date: 2022-09-07 09:06+0200\n"
+"Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "Language-Team: Serbian <српски <gnome-sr@googlegroups.org>>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -32,6 +33,22 @@ msgstr "Телефонска шкољка"
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Управљање прозорима и покретање програма на мобилним уређајима"
+
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "Календар"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "Једноставан прозорчић календара"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Будући догађаји"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Прикажи будуће догађаје у календару"
 
 #: src/app-grid-button.c:529
 msgid "Application"
@@ -135,11 +152,11 @@ msgstr "Да"
 msgid "No"
 msgstr "Не"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Унеси код"
 
-#: src/lockscreen.c:364
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Проверавам…"
 
@@ -380,21 +397,21 @@ msgstr "Домен:"
 msgid "Co_nnect"
 msgstr "П_овежи се"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Назад"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Превуци нагоре за откључавање"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "Хитни позив"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "Откључај"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "Назад"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -416,12 +433,11 @@ msgstr "Потврди идентитет"
 msgid "Run Command"
 msgstr "Покрени наредбу"
 
-#: src/ui/settings.ui:317
-#| msgid "Notification"
+#: src/ui/settings.ui:301
 msgid "No notifications"
 msgstr "Нема обавештења"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "Очисти све"
 
@@ -447,6 +463,15 @@ msgstr "%A, %d. %B"
 msgid "VPN"
 msgstr "ВПН"
 
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Нисам нашао прикључак"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Не могу да учитам прикључак „%s“."
+
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Бежична"
@@ -455,6 +480,52 @@ msgstr "Бежична"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Мобилна"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Данас"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Сутра"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "За %d дан"
+msgstr[1] "За %d дана"
+msgstr[2] "За %d дана"
+msgstr[3] "За %d дан"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Нема догађаја"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Читав дан"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Крај"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Неименовани догађај"
 
 #~ msgid "Show only adaptive apps"
 #~ msgstr "Прикажи само прилагодљиве програме"
