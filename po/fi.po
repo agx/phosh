@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-08-30 11:50+0000\n"
-"PO-Revision-Date: 2022-08-30 19:50+0300\n"
+"POT-Creation-Date: 2022-09-04 13:11+0000\n"
+"PO-Revision-Date: 2022-09-09 19:29+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -29,6 +29,22 @@ msgstr "Puhelimen käyttöliittymä"
 msgid "Window management and application launching for mobile"
 msgstr ""
 "Ikkunointijärjestelmän hallinta ja ohjelmien käynnistys mobiililaitteille"
+
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "Kalenteri"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "Yksinkertainen kalenterisovelma"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Tulevat tapahtumat"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Näytä tulevat kalenteritapahtumat"
 
 #: src/app-grid-button.c:529
 msgid "Application"
@@ -439,6 +455,15 @@ msgstr "%A, %-e. %Bta"
 msgid "VPN"
 msgstr "VPN"
 
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Liitännäistä ei löytynyt"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Liitännäistä '%s' ei voitu ladata."
+
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wifi"
@@ -456,16 +481,12 @@ msgstr "Tänään"
 msgid "Tomorrow"
 msgstr "Huomenna"
 
-#. Translators: An event/appointment is happening on that day of the week (e.g. Tuesday)
-#: plugins/upcoming-events/event-list.c:147
-#, c-format
-msgid "On %A"
-msgstr "%Ana"
-
 #: plugins/upcoming-events/event-list.c:150
 #, c-format
-msgid "In %d days"
-msgstr "%d päivän päästä"
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "%d päivän päästä"
+msgstr[1] "%d päivän päästä"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -495,6 +516,10 @@ msgstr "Päättyy"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Nimetön tapahtuma"
+
+#, c-format
+#~ msgid "On %A"
+#~ msgstr "%Ana"
 
 #~ msgid "Show only adaptive apps"
 #~ msgstr "Näytä vain adaptiiviset sovellukset"
