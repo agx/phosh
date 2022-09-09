@@ -899,16 +899,12 @@ on_monitor_removed (PhoshShell *self, PhoshMonitor *monitor)
       PhoshMonitor *new_primary = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
       if (new_primary != monitor) {
         phosh_shell_set_primary_monitor (self, new_primary);
-        break;
+        return;
       }
     }
 
     /* We did not find another monitor so all monitors are gone */
-    if (priv->primary_monitor == monitor) {
-      g_debug ("All monitors gone");
-      phosh_shell_set_primary_monitor (self, NULL);
-      return;
-    }
+    phosh_shell_set_primary_monitor (self, NULL);
   }
 }
 
