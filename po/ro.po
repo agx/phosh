@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-06-01 08:28+0000\n"
-"PO-Revision-Date: 2022-06-05 17:38+0200\n"
+"POT-Creation-Date: 2022-09-04 13:11+0000\n"
+"PO-Revision-Date: 2022-09-05 18:24+0200\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -32,6 +32,22 @@ msgstr "Shell telefon"
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Gestionarea ferestrei și pornirea aplicațiilor pentru mobil"
+
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "Calendar"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "Un calendar în miniatură"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Evenimente viitoare"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Arată evenimentele viitoare din calendar"
 
 #: src/app-grid-button.c:529
 msgid "Application"
@@ -132,11 +148,11 @@ msgstr "Da"
 msgid "No"
 msgstr "Nu"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Introdu codul de acces"
 
-#: src/lockscreen.c:364
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Se verifică…"
 
@@ -377,21 +393,21 @@ msgstr "Domeniu:"
 msgid "Co_nnect"
 msgstr "Co_nectează"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Înapoi"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Trage în sus pentru a debloca"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "Urgență"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "Deblocare"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "Înapoi"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -413,11 +429,11 @@ msgstr "Autentificare"
 msgid "Run Command"
 msgstr "Execută comanda"
 
-#: src/ui/settings.ui:317
+#: src/ui/settings.ui:301
 msgid "No notifications"
 msgstr "Nicio notificare"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "Șterge tot"
 
@@ -443,6 +459,15 @@ msgstr "%A, %B %-e"
 msgid "VPN"
 msgstr "VPN"
 
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Modulul n-a fost găsit"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Modulul „%s” nu a putut fi încărcat."
+
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
@@ -451,3 +476,49 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Celular"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Azi"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Mâine"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+#| msgid "In %d days"
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "Peste %d zi"
+msgstr[1] "Peste %d zile"
+msgstr[2] "Peste %d de zile"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Niciun eveniment"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Toată ziua"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Se termină"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Eveniment fără titlu"
