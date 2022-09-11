@@ -228,8 +228,15 @@ on_notification_actioned (PhoshNotifyManager *self,
   g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
   g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
 
-  /* Postpone action when shell is locked */
-  if (phosh_shell_get_locked (shell)) {
+  /*
+   * Postpone action when shell is locked.
+   * Only do this for the default action atm as other actions on the lock screen
+   * must be a result of action filters and hence don't need unlock
+   * TODO: Ensure this is really a result of a filtered action
+   * Eventually we want to allow other actions that need unlock:
+   * https://gitlab.freedesktop.org/xdg/xdg-specs/-/issues/103
+   */
+  if (phosh_shell_get_locked (shell) && g_strcmp0 (action, "default") == 0) {
     PhoshLockscreenManager *lm;
 
     /* Forget any pending actions */

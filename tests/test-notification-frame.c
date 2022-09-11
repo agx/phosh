@@ -44,9 +44,40 @@ test_phosh_notification_frame_new (void)
                                  NULL,
                                  now);
 
-  frame = phosh_notification_frame_new (TRUE);
+  frame = phosh_notification_frame_new (TRUE, NULL);
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
                                               noti);
+}
+
+
+static void
+test_phosh_notification_frame_new_filter (void)
+{
+  g_autoptr (PhoshNotification) noti = NULL;
+  PhoshNotificationFrame *frame = NULL;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
+  const char *filters[] = { "X-Phosh-Foo", "X-Phosh-Bar", NULL };
+
+  noti = phosh_notification_new (0,
+                                 NULL,
+                                 NULL,
+                                 "Hey",
+                                 "Testing",
+                                 NULL,
+                                 NULL,
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 NULL,
+                                 FALSE,
+                                 FALSE,
+                                 NULL,
+                                 now);
+
+  frame = PHOSH_NOTIFICATION_FRAME (phosh_notification_frame_new (TRUE, filters));
+  phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
+                                              noti);
+  g_assert_cmpstr (phosh_notification_frame_get_action_filter_keys (frame)[0], ==, "X-Phosh-Foo");
+  g_assert_cmpstr (phosh_notification_frame_get_action_filter_keys (frame)[1], ==, "X-Phosh-Bar");
+  g_assert_cmpstr (phosh_notification_frame_get_action_filter_keys (frame)[2], ==, NULL);
 }
 
 
@@ -73,7 +104,7 @@ test_phosh_notification_frame_notification_activated (void)
                                  NULL,
                                  now);
 
-  frame = phosh_notification_frame_new (TRUE);
+  frame = phosh_notification_frame_new (TRUE, NULL);
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
                                               noti);
   g_signal_connect (noti, "actioned", G_CALLBACK (actioned), NULL);
@@ -96,6 +127,7 @@ main (int argc, char **argv)
   gtk_test_init (&argc, &argv, NULL);
 
   g_test_add_func ("/phosh/notification-frame/new", test_phosh_notification_frame_new);
+  g_test_add_func ("/phosh/notification-frame/new-filter", test_phosh_notification_frame_new_filter);
   g_test_add_func ("/phosh/notification-frame/notification-activated", test_phosh_notification_frame_notification_activated);
 
   return g_test_run ();

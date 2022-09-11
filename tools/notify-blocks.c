@@ -95,7 +95,7 @@ main (int argc, char **argv)
                                          FALSE,
                                          NULL,
                                          now);
-  frame = phosh_notification_frame_new (TRUE);
+  frame = phosh_notification_frame_new (TRUE, NULL);
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
                                               notification);
   g_signal_connect (frame, "empty", G_CALLBACK (empty), box);
@@ -115,7 +115,7 @@ main (int argc, char **argv)
                                          FALSE,
                                          NULL,
                                          now);
-  frame = phosh_notification_frame_new (TRUE);
+  frame = phosh_notification_frame_new (TRUE, NULL);
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
                                               notification);
   g_signal_connect (frame, "empty", G_CALLBACK (empty), box);

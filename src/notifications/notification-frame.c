@@ -28,6 +28,7 @@
 enum {
   PROP_0,
   PROP_SHOW_BODY,
+  PROP_ACTION_FILTER_KEYS,
   LAST_PROP
 };
 static GParamSpec *props[LAST_PROP];
@@ -50,6 +51,7 @@ struct _PhoshNotificationFrame {
   GtkWidget *updated;
 
   gboolean   show_body;
+  GStrv      action_filter_keys;
 
   /* needed so that the gestures aren't immediately destroyed */
   GtkGesture *header_click_gesture;
@@ -87,6 +89,9 @@ phosh_notification_frame_set_property (GObject      *object,
   case PROP_SHOW_BODY:
     self->show_body = g_value_get_boolean (value);
     break;
+  case PROP_ACTION_FILTER_KEYS:
+    self->action_filter_keys = g_value_dup_boxed (value);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -106,6 +111,9 @@ phosh_notification_frame_get_property (GObject    *object,
     case PROP_SHOW_BODY:
       g_value_set_boolean (value, self->show_body);
       break;
+    case PROP_ACTION_FILTER_KEYS:
+      g_value_set_boxed (value, self->action_filter_keys);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
@@ -123,6 +131,7 @@ phosh_notification_frame_finalize (GObject *object)
   g_clear_signal_handler (&self->model_watch, self->model);
 
   g_clear_object (&self->model);
+  g_clear_pointer (&self->action_filter_keys, g_strfreev);
 
   G_OBJECT_CLASS (phosh_notification_frame_parent_class)->finalize (object);
 }
@@ -300,6 +309,20 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
                           G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
                           G_PARAM_STATIC_STRINGS);
 
+
+  /**
+   * PhoshNotificationFrame:action-filter-keys:
+   *
+   * The keys will be used to look up filter values in the
+   * applications desktop file. Actions starting with those values
+   * will be used on the lock screen.
+   */
+  props[PROP_ACTION_FILTER_KEYS] =
+    g_param_spec_boxed ("action-filter-keys", "", "",
+                        G_TYPE_STRV,
+                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
+                        G_PARAM_STATIC_STRINGS);
+
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
   signals[SIGNAL_EMPTY] = g_signal_new ("empty",
@@ -348,9 +371,12 @@ phosh_notification_frame_init (PhoshNotificationFrame *self)
 
 
 GtkWidget *
-phosh_notification_frame_new (gboolean show_body)
+phosh_notification_frame_new (gboolean show_body, const char * const *action_filter_keys)
 {
-  return g_object_new (PHOSH_TYPE_NOTIFICATION_FRAME, "show-body", show_body, NULL);
+  return g_object_new (PHOSH_TYPE_NOTIFICATION_FRAME,
+                       "show-body", show_body,
+                       "action-filter-keys", action_filter_keys,
+                       NULL);
 }
 
 
@@ -362,7 +388,12 @@ create_row (gpointer item, gpointer data)
 
   g_return_val_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self), NULL);
 
-  return phosh_notification_content_new (notification, self->show_body);
+  if (self->action_filter_keys) {
+    for (int i = 0; i < g_strv_length (self->action_filter_keys); i++)
+      g_debug ("%s: %s", __func__, self->action_filter_keys[i]);
+  }
+  return phosh_notification_content_new (notification, self->show_body,
+                                         (const char * const *)self->action_filter_keys);
 }
 
 
@@ -457,4 +488,13 @@ phosh_notification_frame_bind_notification (PhoshNotificationFrame *self,
   phosh_notification_source_add (store, notification);
 
   phosh_notification_frame_bind_model (self, G_LIST_MODEL (store));
+}
+
+
+const char * const *
+phosh_notification_frame_get_action_filter_keys (PhoshNotificationFrame *self)
+{
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self), NULL);
+
+  return (const char *const *)self->action_filter_keys;
 }
