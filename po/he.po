@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-06-01 08:28+0000\n"
-"PO-Revision-Date: 2022-06-01 12:46+0300\n"
+"POT-Creation-Date: 2022-09-04 13:11+0000\n"
+"PO-Revision-Date: 2022-09-11 07:24+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <>\n"
 "Language: he\n"
@@ -29,6 +29,22 @@ msgstr "מעטפת לטלפון"
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "מנהל חלונות ומשגר יישומים לטלפון נייד"
+
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "לוח שנה"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "יישומון לוח שנה פשוט"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "אירועים קרובים"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "הצגת אירועים קרובים בלוח השנה"
 
 #: src/app-grid-button.c:529
 msgid "Application"
@@ -132,11 +148,11 @@ msgstr "כן"
 msgid "No"
 msgstr "לא"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "הזנת ססמה"
 
-#: src/lockscreen.c:364
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "בודק…"
 
@@ -377,21 +393,21 @@ msgstr "מתחם:"
 msgid "Co_nnect"
 msgstr "הת_חברות"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "חזרה"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "החלקה כלפי מעלה לביטול הנעילה"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "מצב חירום"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "שחרור"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "חזרה"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -413,11 +429,11 @@ msgstr "אימות"
 msgid "Run Command"
 msgstr "הרצת פקודה"
 
-#: src/ui/settings.ui:317
+#: src/ui/settings.ui:301
 msgid "No notifications"
 msgstr "אין התרעות"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "ניקוי הכול"
 
@@ -443,6 +459,15 @@ msgstr "%A, %B %e"
 msgid "VPN"
 msgstr "VPN"
 
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "לא נמצאו תוספים"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "לא ניתן לטעון את התוסף '%s'."
+
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "רשת אלחוטית"
@@ -451,3 +476,49 @@ msgstr "רשת אלחוטית"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "רשת סלולרית"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "היום"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "מחר"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "מחר"
+msgstr[1] "מחרתיים"
+msgstr[2] "בעוד %d ימים"
+msgstr[3] "בעוד %d ימים"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "אין אירועים"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "‏‎%l:%M ‏‏%p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "כל היום"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "סיום"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "אירוע ללא כותרת"
