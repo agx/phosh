@@ -23,16 +23,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-06-01 08:28+0000\n"
-"PO-Revision-Date: 2022-06-02 18:51+0200\n"
-"Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
+"POT-Creation-Date: 2022-09-11 04:27+0000\n"
+"PO-Revision-Date: 2022-09-17 10:47+0200\n"
+"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
 "Language-Team: German <gnome-de@SPAMFREEgnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -41,11 +41,27 @@ msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr "Phone Shell"
+msgstr "Telefon-Shell"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr "Fensterverwaltung und Starten von Apps für mobile Geräte"
+msgstr "Fensterverwaltung und Starten von Anwendungen für Mobilgeräte"
+
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "Kalender"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "Ein einfaches Kalender-Widget"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Anstehende Termine"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Anstehende Kalendertermine anzeigen"
 
 #: src/app-grid-button.c:529
 msgid "Application"
@@ -143,11 +159,11 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nein"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Zugangscode eingeben"
 
-#: src/lockscreen.c:364
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Überprüfung läuft …"
 
@@ -159,7 +175,7 @@ msgstr "Unbekannter Titel"
 #. Translators: Used when the artist of a song is unknown
 #: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
-msgstr "Unbekannter Künstler"
+msgstr "Unbekannter Interpret"
 
 #: src/monitor-manager.c:119
 msgid "Built-in display"
@@ -356,7 +372,7 @@ msgstr "OK"
 
 #: src/ui/app-grid-button.ui:55
 msgid "App"
-msgstr "App"
+msgstr "Anwendung"
 
 #: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
@@ -372,7 +388,7 @@ msgstr "_Details betrachten"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Apps suchen …"
+msgstr "Anwendungen suchen …"
 
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
@@ -390,21 +406,21 @@ msgstr "Domäne:"
 msgid "Co_nnect"
 msgstr "_Verbinden"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Zurück"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Nach oben wischen zum Entsperren"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "Notruf"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "Entsperren"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "Zurück"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -426,11 +442,11 @@ msgstr "Legitimieren"
 msgid "Run Command"
 msgstr "Befehl ausführen"
 
-#: src/ui/settings.ui:317
+#: src/ui/settings.ui:301
 msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "Alles leeren"
 
@@ -456,6 +472,15 @@ msgstr "%A %d. %B"
 msgid "VPN"
 msgstr "VPN"
 
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Erweiterung nicht gefunden"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Die Erweiterung »%s« konnte nicht geladen werden."
+
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "WLAN"
@@ -464,6 +489,50 @@ msgstr "WLAN"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Mobilfunk"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Heute"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Morgen"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "In %d Tag"
+msgstr[1] "In %d Tagen"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Keine Termine"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Ganztägig"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Endet"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Unbenannter Termin"
 
 #~ msgid "Show only adaptive apps"
 #~ msgstr "Nur adaptive Apps anzeigen"
