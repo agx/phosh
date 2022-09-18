@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-01-24 20:17+0000\n"
-"PO-Revision-Date: 2022-03-22 15:26+0100\n"
+"POT-Creation-Date: 2022-09-04 13:11+0000\n"
+"PO-Revision-Date: 2022-09-18 12:03+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
 "%100<=4 ? 2 : 3);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -33,7 +33,23 @@ msgstr "Lupina telefona"
 msgid "Window management and application launching for mobile"
 msgstr "Upravljanje oken in zagon programja za mobilnike"
 
-#: src/app-grid-button.c:502
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "Koledar"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "Preprost programček za koledar"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Prihodnji dogodki"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Pokaži prihodnje dogodke koledarja"
+
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "Program"
 
@@ -45,7 +61,7 @@ msgstr "Pokaži vse programe"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Pokaži le na nabilnih napravah podprte programe"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
+#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
 msgid "On"
 msgstr "Vključeno"
 
@@ -107,14 +123,14 @@ msgstr "Neznan program"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:44
+#: src/feedbackinfo.c:69
 msgid "Quiet"
 msgstr "Tiho"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:49
+#: src/feedbackinfo.c:75
 msgid "Silent"
 msgstr "Tiho"
 
@@ -135,19 +151,13 @@ msgstr "Da"
 msgid "No"
 msgstr "Ne"
 
-#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Vnesite geslo"
 
-#: src/lockscreen.c:362
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Preverjanje …"
-
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:440
-msgid "%A, %B %-e"
-msgstr "%A, %e. %B"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
@@ -338,29 +348,33 @@ msgstr "Geslo ne sme biti prazno."
 msgid "Torch"
 msgstr "Svetilka"
 
-#: src/ui/app-auth-prompt.ui:40
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
 msgstr "Pomni odločitev"
 
-#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
 msgid "Ok"
 msgstr "V redu"
 
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "Program"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
 msgstr "Odstrani iz pri_ljubljenih"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
 msgstr "Dodaj med pri_ljubljene"
+
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "Pokaži po_drobnosti"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
@@ -382,21 +396,21 @@ msgstr "Domena:"
 msgid "Co_nnect"
 msgstr "_Poveži"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Nazaj"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Oddrsnite navzgor, da odklenete"
 
-#: src/ui/lockscreen.ui:320
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "Klic v sili"
 
-#: src/ui/lockscreen.ui:336
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "Odkleni"
-
-#: src/ui/lockscreen.ui:376
-msgid "Back"
-msgstr "Nazaj"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -418,6 +432,14 @@ msgstr "Overi"
 msgid "Run Command"
 msgstr "Zaženi ukaz"
 
+#: src/ui/settings.ui:301
+msgid "No notifications"
+msgstr "Ni obvestil"
+
+#: src/ui/settings.ui:342
+msgid "Clear all"
+msgstr "Počisti vse"
+
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Potrditev:"
@@ -430,15 +452,76 @@ msgstr "Zakleni zaslon"
 msgid "Logout"
 msgstr "Odjava"
 
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:340
+msgid "%A, %B %-e"
+msgstr "%A, %e. %B"
+
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Vtičnik ni najden"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Vtičnika »%s« ni mogoče naložiti."
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:172
+#: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Mobilno"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Danes"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Jutri"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "Čez %d dan"
+msgstr[1] "Čez %d dni"
+msgstr[2] "Čez %d dni"
+msgstr[3] "Čez %d dni"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Ni dogodkov"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Ves dan"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Konča se"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Neimenovan dogodek"
