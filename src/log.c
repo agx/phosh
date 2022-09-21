@@ -18,7 +18,7 @@
 /* these are filtered by G_MESSAGES_DEBUG by the default log handler */
 #define INFO_LEVELS (G_LOG_LEVEL_INFO | G_LOG_LEVEL_DEBUG)
 
-
+static gboolean       _log_writer_func_set;
 static char          *_log_domains;
 G_LOCK_DEFINE_STATIC (_log_domains);
 
@@ -132,6 +132,10 @@ phosh_log_set_log_domains (const char *domains)
   _log_domains = g_strdup (domains);
   G_UNLOCK (_log_domains);
 
+  if (_log_writer_func_set)
+    return;
+
   g_log_set_writer_func ((GLogWriterFunc)phosh_log_writer_default,
                          NULL, NULL);
+  _log_writer_func_set = TRUE;
 }
