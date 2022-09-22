@@ -142,5 +142,6 @@ int main(int argc, char *argv[])
 
   cui_uninit ();
 
+  phosh_log_set_log_domains (NULL);
   return EXIT_SUCCESS;
 }
