@@ -1805,9 +1805,10 @@ phosh_shell_set_state (PhoshShell          *self,
   str_new_flags = g_flags_to_string (PHOSH_TYPE_SHELL_STATE_FLAGS,
                                      priv->shell_state);
 
-  g_debug ("%s %s shells state. New state: %s",
-           enabled ? "Adding to" : "Removing from",
-           str_state, str_new_flags);
+  g_debug ("%s %s %s shells state. New state: %s",
+           enabled ? "Adding" : "Removing",
+           str_state,
+           enabled ? "to" : "from", str_new_flags);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SHELL_STATE]);
 
