@@ -82,6 +82,7 @@ phosh_test_full_shell_thread (gpointer data)
   while (g_main_context_pending (NULL))
     g_main_context_iteration (NULL, FALSE);
 
+  phosh_log_set_log_domains (NULL);
   return NULL;
 }
 
