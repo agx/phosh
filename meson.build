@@ -21,7 +21,7 @@ systemduserdir = join_paths(systemddir, 'user')
 plugins_dir = join_paths(prefix, libdir, 'phosh', 'plugins')
 servicedir = join_paths(datadir, 'dbus-1', 'services')
 
-glib_ver = 'GLIB_VERSION_2_62'
+glib_ver = 'GLIB_VERSION_2_66'
 
 add_project_arguments([
   '-DGLIB_VERSION_MIN_REQUIRED=@0@'.format(glib_ver),
@@ -96,7 +96,7 @@ configure_file(
 gnome = import('gnome')
 i18n  = import('i18n')
 
-glib_ver = '>= 2.62'
+glib_ver = '>= 2.66'
 
 ecal_dep = dependency('libecal-2.0', version: '>= 3.33.1')
 eds_dep = dependency('libedataserver-1.2', version: '>= 3.33.1')
