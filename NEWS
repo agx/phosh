@@ -1,3 +1,32 @@
+phosh 0.21.1
+------------
+Released September 2022
+* Bug fixes and cleanups (also to catch up with glib 2.74)
+* Update to libcall-ui 0.0.5
+* Lots of translation updates
+* Contributors:
+	Evangelos Ribeiro Tzaras
+	Fiona Klute
+	Guido Günther
+	Sam Hewitt
+* UI translations:
+	Aleksandr Melman (ru)
+	Anders Jonsson (sv)
+	Danial Behzadi (fa)
+	Daniel Șerbănescu (ro)
+	Emin Tufan Çetin (tr)
+	Goran Vidović (hr)
+	Jiri Grönroos (fi)
+	Jürgen Benvenuti (de)
+	Martin (sl)
+	Piotr Drąg (pl)
+	Rūdolfs Mazurs (lv)
+	Vittorio Monti (it)
+	Yosef Or Boczko (he)
+	Yuri Chornoivan (uk)
+	Zurab Kargareteli (ka)
+	Марко Костић (sr)
+
 phosh 0.21.0
 ------------
 Released September 2022
