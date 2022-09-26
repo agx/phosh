@@ -954,7 +954,8 @@ power_save_mode_changed_cb (PhoshMonitorManager *self,
                             GParamSpec          *pspec,
                             gpointer             user_data)
 {
-  int mode, ps_mode;
+  int mode;
+  PhoshMonitorPowerSaveMode ps_mode;
 
   mode = phosh_dbus_display_config_get_power_save_mode (
     PHOSH_DBUS_DISPLAY_CONFIG (self));
@@ -969,11 +970,7 @@ power_save_mode_changed_cb (PhoshMonitorManager *self,
     break;
   }
 
-  for (int i = 0; i < self->monitors->len; i++) {
-    PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
-
-    phosh_monitor_set_power_save_mode (monitor, ps_mode);
-  }
+  phosh_monitor_manager_set_power_save_mode (self, ps_mode);
 }
 
 
@@ -1575,8 +1572,26 @@ phosh_monitor_manager_set_sensor_proxy_manager (PhoshMonitorManager     *self,
   self->sensor_proxy_binding = g_object_bind_property (manager, "has-accelerometer",
                                                        self, "panel-orientation-managed",
                                                        G_BINDING_SYNC_CREATE);
+}
 
+/**
+ * phosh_monitor_manager_set_power_save_mode
+ * @self: a #PhoshMonitorManager
+ * @mode: The power save mode to set
+ *
+ * Applies a power save mode to all monitors
+ */
+void
+phosh_monitor_manager_set_power_save_mode (PhoshMonitorManager       *self,
+                                           PhoshMonitorPowerSaveMode  mode)
+{
+  g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
 
+  for (int i = 0; i < self->monitors->len; i++) {
+    PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
+
+    phosh_monitor_set_power_save_mode (monitor, mode);
+  }
 }
 
 /**

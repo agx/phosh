@@ -110,7 +110,7 @@ generated_dbus_sources += gnome.gdbus_codegen('phosh-idle-dbus',
 generated_dbus_sources += gnome.gdbus_codegen('phosh-screen-saver-dbus',
                                               'org.gnome.ScreenSaver.xml',
 					      interface_prefix: 'org.gnome',
-					      namespace: 'PhoshScreenSaverDBus')
+					      namespace: dbus_prefix)
 
 generated_dbus_sources += gnome.gdbus_codegen('phosh-screenshot-dbus',
                                               'org.gnome.Shell.Screenshot.xml',

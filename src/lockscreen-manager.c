@@ -16,7 +16,6 @@
 #include "phosh-wayland.h"
 #include "shell.h"
 #include "util.h"
-#include "session-presence.h"
 #include <gdk/gdkwayland.h>
 
 /**
@@ -28,12 +27,6 @@
  * on the primary output and a #PhoshLockshield on other outputs when the session
  * becomes idle or when invoked explicitly via phosh_lockscreen_manager_set_locked().
  */
-
-/* See https://people.gnome.org/~mccann/gnome-session/docs/gnome-session.html#org.gnome.SessionManager.Presence:status */
-#define GNOME_SESSION_STATUS_AVAILABLE 0
-#define GNOME_SESSION_STATUS_INVISIBLE 1
-#define GNOME_SESSION_STATUS_BUSY      2
-#define GNOME_SESSION_STATUS_IDLE      3
 
 enum {
   WAKEUP_OUTPUTS,
@@ -54,7 +47,6 @@ struct _PhoshLockscreenManager {
   GObject parent;
 
   PhoshLockscreen      *lockscreen;     /* phone display lock screen */
-  PhoshSessionPresence *presence;       /* gnome-session's presence interface */
   GPtrArray             *shields;       /* other outputs */
 
   gboolean locked;
@@ -273,17 +265,6 @@ lockscreen_lock (PhoshLockscreenManager *self)
 
 
 static void
-presence_status_changed_cb (PhoshLockscreenManager *self, guint32 status, gpointer data)
-{
-  g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self));
-
-  g_debug ("Presence status changed: %d", status);
-  if (status == GNOME_SESSION_STATUS_IDLE)
-    phosh_lockscreen_manager_set_locked (self, TRUE);
-}
-
-
-static void
 phosh_lockscreen_manager_set_property (GObject      *object,
                                        guint         property_id,
                                        const GValue *value,
@@ -344,7 +325,6 @@ phosh_lockscreen_manager_dispose (GObject *object)
   g_clear_pointer (&self->shields, g_ptr_array_unref);
   g_clear_pointer (&self->lockscreen, phosh_cp_widget_destroy);
   g_clear_object (&self->calls_manager);
-  g_clear_object (&self->presence);
 
   G_OBJECT_CLASS (phosh_lockscreen_manager_parent_class)->dispose (object);
 }
@@ -356,14 +336,6 @@ phosh_lockscreen_manager_constructed (GObject *object)
   PhoshLockscreenManager *self = PHOSH_LOCKSCREEN_MANAGER (object);
 
   G_OBJECT_CLASS (phosh_lockscreen_manager_parent_class)->constructed (object);
-
-  self->presence = phosh_session_presence_get_default_failable ();
-  if (self->presence) {
-    g_signal_connect_swapped (self->presence,
-                              "status-changed",
-                              (GCallback) presence_status_changed_cb,
-                              self);
-  }
 
   g_signal_connect_object (self->calls_manager,
                            "call-added",
