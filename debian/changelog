@@ -1,3 +1,99 @@
+phosh (0.21.1) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * screen-saver-manager: Shorten DBus names.
+    Make it match the PhoshDBusLoginSession proxy.
+  * screensaver-manager: Use cancellable.
+    This makes sure we cancel pending calls on shutdown and allows
+    us to drop some refs/unrefs.
+  * packaging: Ship NEWS.
+    It's a short summary of upstream changes.
+  * packaging: Update copyright.
+    This got improved quite a bit so lets fetch this upstream too
+    to minimize the delta.
+  * packaging: Fix postinst interpreter
+  * event-list: Use plain week day.
+    This matches the designs and helps languages that would otherwise
+    need a more complex pattern.
+  * upcoming-events: Use ngettext for different plural forms
+  * Update libcall-ui to 0.0.5.
+    There aren't any breaking changes but the style refresh
+    makes longer strings fit way better.
+  * log: Track log domains instead of passing it to the handler as user data.
+  * ci: Update cross image. This allows the i386 build to pass again
+  * screen-saver-manager: Shorten DBus names.
+  * shell: Avoid screen-saver singleton.
+  * monitor-manager: Add method to set power-save mode of all monitors
+  * Move blank on presence status change to screen-saver.
+    This was on the LockscreenManager before but for blanking
+    only we want it on the screensaver.
+
+  [ Evangelos Ribeiro Tzaras ]
+  * packaging: Mark phosh-doc as Multi-Arch:foreign (was all)
+  * log: Guard against setting g_log_set_writer_func() multiple times.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/841
+  * shell: Tweak phosh_shell_set_state() debug message
+
+  [ Fiona Klute ]
+  * util: Don't use G_REGEX_JAVASCRIPT_COMPAT.
+    G_REGEX_JAVASCRIPT_COMPAT is unsupported as of glib 2.74 and
+    not needed for the regex at hand.
+    This works around a crash triggered by glib's switch to pcre2.
+    See https://gitlab.gnome.org/GNOME/glib/-/merge_requests/2920
+
+  [ Sam Hewitt ]
+  * style: Overview & appgrid fixes for high contrast
+
+  [ Zurab Kargareteli ]
+  * Update Georgian translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Emin Tufan Çetin ]
+  * Update Turkish translation
+
+  [ Piotr Drąg ]
+  * Update Polish translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Goran Vidović ]
+  * Update Croatian translation
+
+  [ Aleksandr Melman ]
+  * Update Russian translation
+
+  [ Vittorio Monti ]
+  * Update Italian translation
+
+  [ Марко Костић ]
+  * Update Serbian translation
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
+
+  [ Jürgen Benvenuti ]
+  * Update German translation
+
+  [ Rūdolfs Mazurs ]
+  * Add Latvian translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 26 Sep 2022 11:19:53 +0200
+
 phosh (0.21.0) experimental; urgency=medium
 
   [ Evangelos Ribeiro Tzaras ]
