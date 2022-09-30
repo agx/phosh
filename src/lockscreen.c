@@ -282,7 +282,6 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
     return;
   }
 
-  g_object_ref (self);
   if (authenticated) {
     g_signal_emit (self, signals[LOCKSCREEN_UNLOCK], 0);
     g_clear_object (&priv->auth);
@@ -399,7 +398,7 @@ submit_cb (PhoshLockscreen *self)
                                        input,
                                        NULL,
                                        (GAsyncReadyCallback)auth_async_cb,
-                                       self);
+                                       g_object_ref (self));
 }
 
 
