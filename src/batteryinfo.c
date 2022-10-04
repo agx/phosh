@@ -16,6 +16,8 @@
 #include "upower.h"
 #include "util.h"
 
+#include <math.h>
+
 /**
  * SECTION:batteryinfo
  * @short_description: A widget to display the battery status
@@ -104,14 +106,37 @@ setup_display_device (PhoshBatteryInfo *self)
 }
 
 
-static gboolean
-format_label_cb (GBinding *binding,
-                 const GValue *from_value,
-                 GValue *to_value,
-                 gpointer user_data) {
-  g_value_take_string (to_value,
-                       g_strdup_printf ("%d%%", (int) (g_value_get_double (from_value) + 0.5)));
-  return TRUE;
+static void
+on_property_changed (PhoshBatteryInfo     *self,
+                     GParamSpec           *pspec,
+                     UpDevice             *device)
+{
+  UpDeviceState    state;
+  gdouble          percentage;
+  gint             smallest_ten;
+  gboolean         is_charging;
+  gboolean         is_charged;
+  g_autofree char *icon_name = NULL;
+  g_autofree char *info = NULL;
+
+  g_object_get (device, "state", &state, "percentage", &percentage, NULL);
+
+  is_charging = state == UP_DEVICE_STATE_CHARGING;
+  smallest_ten = floor (percentage / 10.0) * 10;
+  is_charged = state == UP_DEVICE_STATE_FULLY_CHARGED || (is_charging && smallest_ten == 100);
+  info = g_strdup_printf ("%d%%", (int) (percentage + 0.5));
+
+  if (is_charged) {
+    icon_name = g_strdup ("battery-level-100-charged-symbolic");
+  } else {
+    if (is_charging) {
+      icon_name = g_strdup_printf ("battery-level-%d-charging-symbolic", smallest_ten);
+    } else {
+      icon_name = g_strdup_printf ("battery-level-%d-symbolic", smallest_ten);
+    }
+  }
+  phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
+  phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), info);
 }
 
 
@@ -124,22 +149,22 @@ phosh_battery_info_constructed (GObject *object)
 
   setup_display_device (self);
   if (self->device) {
-    g_object_bind_property (self->device, "icon-name", self, "icon-name", G_BINDING_SYNC_CREATE);
-    g_object_bind_property_full (self->device,
-                            "percentage",
-                            self,
-                            "info",
-                            G_BINDING_SYNC_CREATE,
-                            format_label_cb,
-                            NULL,
-                            NULL,
-                            NULL);
+    g_object_connect (self->device,
+                      "swapped_object_signal::notify::percentage",
+                      G_CALLBACK (on_property_changed),
+                      self,
+                      "swapped_object_signal::notify::state",
+                      G_CALLBACK (on_property_changed),
+                      self,
+                      NULL);
+
     g_object_bind_property (self,
                             "info",
                             phosh_status_icon_get_extra_widget (PHOSH_STATUS_ICON (self)),
                             "label",
                             G_BINDING_SYNC_CREATE);
     self->present = TRUE;
+    on_property_changed (self, NULL, self->device);
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
   }
 }
@@ -170,21 +195,28 @@ phosh_battery_info_class_init (PhoshBatteryInfoClass *klass)
 
   gtk_widget_class_set_css_name (widget_class, "phosh-battery-info");
 
+  /**
+   * PhoshBatteryInfo:show-detail
+   *
+   * Whether to show battery percentage detail
+   */
   props[PROP_SHOW_DETAIL] =
-    g_param_spec_boolean (
-      "show-detail",
-      "",
-      "",
-      FALSE,
-      G_PARAM_CONSTRUCT | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_param_spec_boolean ("show-detail", "", "",
+                          FALSE,
+                          G_PARAM_CONSTRUCT |
+                          G_PARAM_READWRITE |
+                          G_PARAM_STATIC_STRINGS);
 
+  /**
+   * PhoshBatteryInfo:present
+   *
+   * Whether battery information is present
+   */
   props[PROP_PRESENT] =
-    g_param_spec_boolean (
-      "present",
-      "Present",
-      "Whether WWAN hardware is present",
-      FALSE,
-      G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+    g_param_spec_boolean ("present", "", "",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
