@@ -13,7 +13,8 @@
 #include <evince-document.h>
 #include <evince-view.h>
 
-#define TICKET_BOX_PATH "phosh-ticket-box"
+#define TICKET_BOX_SCHEMA_ID "sm.puri.phosh.plugins.ticket-box"
+#define TICKET_BOX_FOLDER_KEY "folder"
 
 /**
  * PhoshTicketBox
@@ -185,7 +186,15 @@ on_file_child_enumerated (GObject *source_object, GAsyncResult *res, gpointer us
 static void
 load_tickets (PhoshTicketBox *self)
 {
-  self->ticket_box_path = g_build_filename (g_get_home_dir (), TICKET_BOX_PATH, NULL);
+  g_autoptr (GSettings) settings = g_settings_new (TICKET_BOX_SCHEMA_ID);
+  g_autofree char *folder = NULL;
+
+  folder = g_settings_get_string (settings, TICKET_BOX_FOLDER_KEY);
+  if (folder[0] != '/')
+    self->ticket_box_path = g_build_filename (g_get_home_dir (), folder, NULL);
+  else
+    self->ticket_box_path = g_steal_pointer (&folder);
+
   self->dir = g_file_new_for_path (self->ticket_box_path);
 
   /*

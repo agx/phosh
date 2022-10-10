@@ -51,3 +51,23 @@ i18n.merge_file(
   install_dir: plugins_dir,
   type: 'desktop'
 )
+
+ticket_box_schema = 'sm.puri.phosh.plugins.ticket-box.gschema.xml'
+copy_schema = custom_target('copy-ticket-box-gschema-to-builddir',
+  input: ticket_box_schema,
+  output: ticket_box_schema,
+  command: ['cp', '@INPUT@', '@OUTPUT@']
+)
+compile_schemas = custom_target('glib-compile-schemas',
+  build_by_default: true,
+  output: 'gschemas.compiled',
+  install: false,
+  command: [find_program('glib-compile-schemas'),
+    meson.current_build_dir()
+  ],
+  depends: copy_schema
+)
+install_data(
+  ticket_box_schema,
+  install_dir: 'share/glib-2.0/schemas'
+)
