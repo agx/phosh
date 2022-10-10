@@ -92,8 +92,6 @@ configure_file(
   install: true
 )
 
-schemasdir = 'share/glib-2.0/schemas'
-
 #generate XML enum definitions for GSettings schema
 schema_enum_headers = files(
   '../src/app-grid.h',
