@@ -1,2 +1,2 @@
-/usr/lib/*/phosh/plugins/libphosh-plugin-*.so
-/usr/lib/*/phosh/plugins/*.plugin
+usr/lib/*/phosh/plugins/libphosh-plugin-*.so
+usr/lib/*/phosh/plugins/*.plugin
