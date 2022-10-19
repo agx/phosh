@@ -11,6 +11,7 @@
 #include "phosh-config.h"
 #include "notification-content.h"
 
+#include <gio/gdesktopappinfo.h>
 
 /**
  * SECTION:notification-content
@@ -22,6 +23,7 @@ enum {
   PROP_0,
   PROP_NOTIFICATION,
   PROP_SHOW_BODY,
+  PROP_ACTION_FILTER_KEYS,
   LAST_PROP
 };
 static GParamSpec *props[LAST_PROP];
@@ -37,7 +39,8 @@ struct _PhoshNotificationContent {
   GtkWidget *img_image;
   GtkWidget *box_actions;
 
-  gboolean show_body;
+  gboolean   show_body;
+  GStrv      action_filter_keys;
 };
 typedef struct _PhoshNotificationContent PhoshNotificationContent;
 
@@ -102,22 +105,77 @@ set_body (GBinding     *binding,
 }
 
 
-static void
-set_actions (PhoshNotification        *notification,
-             GParamSpec               *pspec,
-             PhoshNotificationContent *self)
+static GStrv
+get_action_filter_keys (PhoshNotification *notification, const char * const *action_filter_keys)
 {
-  GStrv actions = phosh_notification_get_actions (notification);
+  GAppInfo *info = phosh_notification_get_app_info (notification);
+  GStrv filters;
 
-  g_return_if_fail (PHOSH_IS_NOTIFICATION_CONTENT (self));
+  if (action_filter_keys == 0 || action_filter_keys[0] == NULL)
+    return NULL;
+
+  if (info == NULL)
+    return NULL;
+
+#if GLIB_CHECK_VERSION(2, 68, 0)
+  {
+    g_autoptr (GStrvBuilder) filter_builder = g_strv_builder_new ();
+
+    for (int i = 0; i < g_strv_length ((GStrv)action_filter_keys); i++) {
+      g_auto (GStrv) f = g_desktop_app_info_get_string_list (G_DESKTOP_APP_INFO (info),
+                                                             action_filter_keys[i],
+                                                             NULL);
+      g_strv_builder_addv (filter_builder, (const char **)f);
+    }
+
+    filters = g_strv_builder_end (filter_builder);
+  }
+#else
+  /* No need to bother with older glib as we only have a single key atm */
+  filters = g_desktop_app_info_get_string_list (G_DESKTOP_APP_INFO (info),
+                                                action_filter_keys[0],
+                                                NULL);
+#endif
+  return filters;
+}
+
+
+static gboolean
+action_matches_filter (const char *action, const char *const *filters)
+{
+  /* Empty filter cannot match */
+  if (filters == NULL || filters[0] == NULL)
+    return TRUE;
+
+  for (int i = 0; i < g_strv_length ((GStrv)filters); i++) {
+    if (g_str_has_prefix (action, filters[i]))
+      return TRUE;
+  }
+  return FALSE;
+}
+
+
+
+static void
+set_actions (PhoshNotificationContent *self,  PhoshNotification *notification)
+
+{
+  GStrv actions;
+  g_auto (GStrv) filters = NULL;
 
   gtk_container_foreach (GTK_CONTAINER (self->box_actions),
                          (GtkCallback) gtk_widget_destroy,
                          NULL);
 
+  if (notification == NULL)
+    return;
+
+  actions = phosh_notification_get_actions (notification);
   if (actions == NULL) {
     return;
   }
+
+  filters = get_action_filter_keys (notification, (const char *const *)self->action_filter_keys);
 
   for (int i = 0; actions[i] != NULL; i += 2) {
     GtkWidget *btn;
@@ -130,8 +188,15 @@ set_actions (PhoshNotification        *notification,
 
     if (actions[i + 1] == NULL) {
       g_warning ("Expected action label at %i, got NULL", i);
-
       break;
+    }
+
+    /* Only Filter actions if a filter is set, otherwise it's "use all actions" */
+    if (filters != NULL && filters[0] != NULL) {
+      if (action_matches_filter (actions[i], (const char * const *)filters))
+        g_object_set (self, "show-body", TRUE, NULL);
+      else
+        continue;
     }
 
     lbl = g_object_new (GTK_TYPE_LABEL,
@@ -153,6 +218,18 @@ set_actions (PhoshNotification        *notification,
     gtk_container_add (GTK_CONTAINER (self->box_actions), btn);
   }
 }
+
+
+static void
+on_actions_changed (PhoshNotification        *notification,
+                    GParamSpec               *pspec,
+                    PhoshNotificationContent *self)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_CONTENT (self));
+
+  set_actions (self, notification);
+}
+
 
 
 static void
@@ -187,8 +264,8 @@ phosh_notification_content_set_notification (PhoshNotificationContent *self,
                                NULL);
 
   g_signal_connect_object (self->notification, "notify::actions",
-                           G_CALLBACK (set_actions), self, 0);
-  set_actions (self->notification, NULL, self);
+                           G_CALLBACK (on_actions_changed), self, 0);
+  set_actions (self, self->notification);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_NOTIFICATION]);
 }
@@ -205,10 +282,14 @@ phosh_notification_content_set_property (GObject      *object,
   switch (property_id) {
     case PROP_NOTIFICATION:
       phosh_notification_content_set_notification (self,
-                                                  g_value_get_object (value));
+                                                   g_value_get_object (value));
       break;
     case PROP_SHOW_BODY:
       self->show_body = g_value_get_boolean (value);
+      break;
+    case PROP_ACTION_FILTER_KEYS:
+      self->action_filter_keys = g_value_dup_boxed (value);
+      set_actions (self, self->notification);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -232,6 +313,9 @@ phosh_notification_content_get_property (GObject    *object,
     case PROP_SHOW_BODY:
       g_value_set_boolean (value, self->show_body);
       break;
+    case PROP_ACTION_FILTER_KEYS:
+      g_value_set_boxed (value, self->action_filter_keys);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
@@ -245,6 +329,7 @@ phosh_notification_content_finalize (GObject *object)
   PhoshNotificationContent *self = PHOSH_NOTIFICATION_CONTENT (object);
 
   g_clear_object (&self->notification);
+  g_clear_pointer (&self->action_filter_keys, g_strfreev);
 
   G_OBJECT_CLASS (phosh_notification_content_parent_class)->finalize (object);
 }
@@ -284,8 +369,21 @@ phosh_notification_content_class_init (PhoshNotificationContentClass *klass)
                           "",
                           "",
                           TRUE,
-                          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
+                          G_PARAM_CONSTRUCT | G_PARAM_READWRITE |
                           G_PARAM_STATIC_STRINGS);
+
+  /*
+   * PhoshNotificationContent::action-filter-keys
+   *
+   * The keys will be used to look up filter values in the
+   * applications desktop file. Actions starting with those values
+   * will be used on the lock screen.
+   */
+  props[PROP_ACTION_FILTER_KEYS] =
+    g_param_spec_boxed ("action-filter-keys", "", "",
+                        G_TYPE_STRV,
+                        G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
+                        G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
@@ -356,9 +454,12 @@ phosh_notification_content_init (PhoshNotificationContent *self)
 
 
 GtkWidget *
-phosh_notification_content_new (PhoshNotification *notification, gboolean show_body)
+phosh_notification_content_new (PhoshNotification  *notification,
+                                gboolean            show_body,
+                                const char * const *action_filter_keys)
 {
   return g_object_new (PHOSH_TYPE_NOTIFICATION_CONTENT,
+                       "action-filter-keys", action_filter_keys,
                        "notification", notification,
                        "show-body", show_body,
                        NULL);

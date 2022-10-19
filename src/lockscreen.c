@@ -617,13 +617,14 @@ create_notification_row (gpointer item, gpointer data)
 {
   GtkWidget *row = NULL;
   GtkWidget *frame = NULL;
+  const char *action_filters[] = { "X-Phosh-Lockscreen-Actions", NULL };
 
   row = g_object_new (GTK_TYPE_LIST_BOX_ROW,
                       "activatable", FALSE,
                       "visible", TRUE,
                       NULL);
 
-  frame = phosh_notification_frame_new (FALSE);
+  frame = phosh_notification_frame_new (FALSE, action_filters);
   phosh_notification_frame_bind_model (PHOSH_NOTIFICATION_FRAME (frame), item);
 
   gtk_widget_show (frame);
