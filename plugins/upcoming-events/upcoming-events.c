@@ -15,6 +15,9 @@
 
 #include "phosh-plugin-upcoming-events-phosh-calendar-dbus.h"
 
+#define GMOBILE_USE_UNSTABLE_API
+#include <gmobile.h>
+
 #define NUM_DAYS 7
 
 /**
@@ -292,11 +295,10 @@ setup_date_change_timeout (PhoshUpcomingEvents *self)
 
   seconds = 1 + (span / G_TIME_SPAN_SECOND);
 
-  /* TODO: gm_timeout_add_seconds_once to correctlly handle suspend/resume */
   g_debug ("Arming day change timer for %d seconds", seconds);
-  self->today_changed_timeout_id = g_timeout_add_seconds (seconds,
-                                                          (GSourceFunc) on_today_changed,
-                                                          self);
+  self->today_changed_timeout_id = gm_timeout_add_seconds_once (seconds,
+                                                                (GSourceFunc) on_today_changed,
+                                                                self);
 }
 
 

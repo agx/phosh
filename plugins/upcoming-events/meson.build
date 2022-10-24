@@ -1,6 +1,7 @@
 name='upcoming-events'
 
 upcoming_events_plugin_deps = [
+  libgmobile_dep,
   dependency('gobject-2.0'),
   dependency('gtk+-3.0'),
 ]
