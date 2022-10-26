@@ -1,3 +1,76 @@
+phosh (0.22.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * build: Use glib_ver consistently
+  * build: Bump required glib version to 2.66.
+    This is the version in Debian stable so we can safely
+    use this as baseline.
+  * Allow for notifications to have actions on the lockscreen.
+    Related: https://gitlab.freedesktop.org/xdg/xdg-specs/-/issues/103
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/620
+  * Add libgmobile subproject.
+    We'll use it for timers in follow up commits
+  * upcoming-events: Use a suspend robust timer.
+    We need a timer source that takes system suspend into account.
+    Use gmobile's gm_timeout_add_seconds_once() that is there for
+    that purpose. (Closes: #826)
+  * lockscreen: Use G_SOURCE_{REMOVE,CONTINUE}
+    Easier to read than TRUE/FALSE.
+  * lockscreen: Use g_clear_handle_id()
+    Less code, less chance to break things on refactor.
+  * lockscreen: Don't use two independent if clauses.
+    It's all based on index so use `if/else` instead.
+  * lockscreen: Set entry sensitive when focused.
+    Focusing will fail otherwise so let's keep these together
+  * lockscreen: Mark entry as initially sensitive.
+    This avoids the letter one on the keypad being focused initally
+    fixing a visual glitch that was triggered by unifying button styles:
+    https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/1154 Tested
+    with both phosh-osk-stub and squeekboard.
+
+  [ codewood ]
+  * batteryinfo: Use percentage instead of icon-name to determine icon.
+    Icon themes like adwaita provide icons for 10% steps, use these based on
+    the current battery level rather than just the 3 levels provided by
+    upower via the icon-name property.
+
+  [ Sam Hewitt ]
+  * overview: Close button improvements
+    - new more proportional close icon
+    - remove redundant css from close button and activity widget
+  * style: Unified the button styles
+    - cleans up a lot of duplication of button css
+    - makes a single style for all buttons
+
+  [ Zurab Kargareteli ]
+  * Update Georgian translation
+
+  [ Nathan Follens ]
+  * Update Dutch translation
+
+  [ Vojtěch Vengrin ]
+  * Update Czech translation
+
+  [ Hugo Carvalho ]
+  * Update Portuguese translation
+
+  [ Vittorio Monti ]
+  * Update Italian translation
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Balázs Úr ]
+  * Update Hungarian translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 26 Oct 2022 16:26:10 +0200
+
 phosh (0.21.1) experimental; urgency=medium
 
   [ Guido Günther ]
