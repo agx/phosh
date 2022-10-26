@@ -1,20 +1,21 @@
 # Daniel Rusek <mail@asciiwolf.com>, 2019. #zanata
 # Jaroslav Svoboda <multi.flexi@seznam.cz>, 2019-2021.
+# Vojtěch Vengrin <vojtechvengrin@email.cz>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-15 14:23+0100\n"
-"PO-Revision-Date: 2021-03-03 21:13+0100\n"
-"Last-Translator: Jaroslav Svoboda <multi.flexi@seznam.cz>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2022-10-11 12:41+0000\n"
+"PO-Revision-Date: 2022-10-18 20:38+0200\n"
+"Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 3.38.0\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -29,11 +30,35 @@ msgstr "Shell telefonu"
 msgid "Window management and application launching for mobile"
 msgstr "Správa oken a spouštění aplikací pro mobilní zařízení"
 
-#: src/app-grid-button.c:536
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "Kalendář"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "Jednoduchý widget kalendáře"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Nadcházející události"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Zobrazit nadcházející události kalendáře"
+
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "Aplikace"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "Zobrazit všechny aplikace"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Zobrazit pouze optimalizované aplikace"
+
+#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
 msgid "On"
 msgstr "Zapnout"
 
@@ -45,72 +70,138 @@ msgstr "Bluetooth"
 msgid "Docked"
 msgstr "V doku"
 
-#: src/docked-info.c:195
+#: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
 msgstr "Mobilní"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "Odhlásit se"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "Uživatel %s bude automaticky odhlášen za %d sekundu."
+msgstr[1] "Uživatel %s bude automaticky odhlášen za %d sekundy."
+msgstr[2] "Uživatel %s bude automaticky odhlášen za %d sekund."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Vypnout"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "Systém bude automaticky vypnut za %d sekundu."
+msgstr[1] "Systém bude automaticky vypnut za %d sekundy."
+msgstr[2] "Systém bude automaticky vypnut za %d sekund."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Restartovat"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "Systém bude automaticky restartován za %d sekundu."
+msgstr[1] "Systém bude automaticky restartován za %d sekundy."
+msgstr[2] "Systém bude automaticky restartován za %d sekund."
+
+#: src/end-session-dialog.c:269
+msgid "Unknown application"
+msgstr "Neznámá aplikace"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:44
+#: src/feedbackinfo.c:69
 msgid "Quiet"
 msgstr "Ztlumeno"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:49
+#: src/feedbackinfo.c:75
 msgid "Silent"
 msgstr "Potichu"
 
-#: src/lockscreen.c:86 src/ui/lockscreen.ui:234
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "Povolit aplikaci „%s“ přístup k vaší poloze?"
+
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "Geolokace"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "Ano"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "Ne"
+
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Zadejte heslo"
 
-#: src/lockscreen.c:265
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Kontroluje se…"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:343
-msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
-
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:277 src/ui/media-player.ui:107
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "Neznámý název"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:286 src/ui/media-player.ui:127
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "Neznámý umělec"
 
-#: src/monitor-manager.c:71
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "Vestavěný displej"
 
+#: src/monitor-manager.c:137
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:144
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %s"
+msgstr "%s %s"
+
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:75
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Neznámé"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
-msgstr "Typ autentizace wifi sítě “%s” není podporován"
+msgstr "Typ autentizace wifi sítě „%s“ není podporován"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr "Vložte heslo wifi sítě \"%s”"
+msgstr "Vložte heslo wifi sítě „%s“"
 
-#: src/notifications/mount-notification.c:137
+#: src/notifications/mount-notification.c:122
 msgid "Open"
 msgstr "Otevřít"
 
-#: src/notifications/notification.c:381 src/notifications/notification.c:637
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
 msgid "Notification"
 msgstr "Upozornění"
 
@@ -202,36 +293,48 @@ msgstr "Téměř %dy"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:232
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
-msgstr "Autentizační dialog byl zavřen uživatelem"
+msgstr "Dialog ověření byl uživatelem zrušen"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:130
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Heslo:"
 
-#: src/polkit-auth-prompt.c:324
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Promiňte, toto nefungovalo. Zkuste to prosím znovu."
 
-#: src/polkit-auth-prompt.c:469
-msgid "Authenticate"
-msgstr "Autentizovat"
-
-#: src/rotateinfo.c:65
+#: src/rotateinfo.c:81
 msgid "Portrait"
 msgstr "Portrét"
 
-#: src/rotateinfo.c:68
+#: src/rotateinfo.c:84
 msgid "Landscape"
 msgstr "Na šířku"
 
-#: src/system-prompt.c:373
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
+msgid "Off"
+msgstr "Vypnuto"
+
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Stisknutím Escape zavřete"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "Spuštění „%s“ selhalo"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Hesla nesouhlasí."
 
-#: src/system-prompt.c:380
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
 msgstr "Heslo nemůže být prázdné"
 
@@ -239,47 +342,99 @@ msgstr "Heslo nemůže být prázdné"
 msgid "Torch"
 msgstr "Svítilna"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-auth-prompt.ui:49
+msgid "Remember decision"
+msgstr "Zapamatovat si rozhodnutí"
+
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
+msgid "Ok"
+msgstr "OK"
+
+#: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "Aplikace"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
-msgstr "Odstranit z _Oblíbených"
+msgstr "Odebrat z _oblíbených"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
-msgstr "Přidat do _Oblíbených"
+msgstr "Přidat mezi _oblíbené"
+
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "Zobrazit po_drobnosti"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Hledat aplikace…"
 
-#: src/ui/lockscreen.ui:37
-msgid "Slide up to unlock"
-msgstr "Táhnutím nahoru odemknete"
+#: src/ui/end-session-dialog.ui:31
+msgid "Some applications are busy or have unsaved work"
+msgstr "Některé aplikace jsou zaneprázdněné nebo obsahují neuloženou práci"
 
-#: src/ui/lockscreen.ui:280
-msgid "Emergency"
-msgstr "Tísňové volání"
-
-#: src/ui/lockscreen.ui:296
-msgid "Unlock"
-msgstr "Odemknout"
-
-#: src/ui/network-auth-prompt.ui:89
-msgid "_Cancel"
-msgstr "_Zrušit"
-
-#: src/ui/network-auth-prompt.ui:105
-msgid "C_onnect"
-msgstr "_Připojit"
-
-#: src/ui/polkit-auth-prompt.ui:105
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Uživatel:"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/gtk-mount-prompt.ui:117
+msgid "Domain:"
+msgstr "Doména:"
+
+#: src/ui/gtk-mount-prompt.ui:150
+msgid "Co_nnect"
+msgstr "_Připojit"
+
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Zpět"
+
+#: src/ui/lockscreen.ui:93
+msgid "Slide up to unlock"
+msgstr "Táhnutím nahoru odemknete"
+
+#: src/ui/lockscreen.ui:283
+msgid "Emergency"
+msgstr "Tísňové volání"
+
+#: src/ui/lockscreen.ui:299
+msgid "Unlock"
+msgstr "Odemknout"
+
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+msgid "Authentication required"
+msgstr "Požadováno ověření"
+
+#: src/ui/network-auth-prompt.ui:40
+msgid "_Cancel"
+msgstr "_Zrušit"
+
+#: src/ui/network-auth-prompt.ui:58
+msgid "C_onnect"
+msgstr "_Připojit"
+
+#: src/ui/polkit-auth-prompt.ui:122
+msgid "Authenticate"
+msgstr "Ověřit"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Spustit příkaz"
+
+#: src/ui/settings.ui:301
+msgid "No notifications"
+msgstr "Žádná upozornění"
+
+#: src/ui/settings.ui:342
+msgid "Clear all"
+msgstr "Vymazat vše"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Potvrdit:"
 
@@ -291,22 +446,78 @@ msgstr "Zamknout obrazovku"
 msgid "Logout"
 msgstr "Odhlásit"
 
-#: src/ui/top-panel.ui:29
-msgid "Restart"
-msgstr "Restartovat"
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:345
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
 
-#: src/ui/top-panel.ui:36
-msgid "Power Off"
-msgstr "Vypnout"
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
+
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Plugin nebyl nalezen"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Plugin „%s“ nemůže být načten."
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:170
+#: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Mobilní síť"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Dnes"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Zítra"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "Za %d den"
+msgstr[1] "Za %d dny"
+msgstr[2] "Za %d dní"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Žádné události"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l∶%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Celý den"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Končí"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Bezejmenná událost"
 
 #~ msgid "%d.%m.%y"
 #~ msgstr "%d.%měs.%r"
