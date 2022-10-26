@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-05-05 17:33+0000\n"
-"PO-Revision-Date: 2022-05-06 10:00+0100\n"
+"POT-Creation-Date: 2022-09-04 13:11+0000\n"
+"PO-Revision-Date: 2022-10-26 14:20+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese < https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.2\n"
 "X-DL-Team: pt\n"
 "X-DL-Module: phosh\n"
 "X-DL-Branch: main\n"
@@ -38,7 +38,23 @@ msgstr "Interface do telemóvel"
 msgid "Window management and application launching for mobile"
 msgstr "Gestão de janelas e lançamento de aplicações para telemóveis"
 
-#: src/app-grid-button.c:507
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "Calendário"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "Um simples widget de calendário"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Próximos Eventos"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Mostrar os próximos eventos do calendário"
+
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "Aplicação"
 
@@ -134,11 +150,11 @@ msgstr "Sim"
 msgid "No"
 msgstr "Não"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Introduza o código"
 
-#: src/lockscreen.c:364
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "A verificar…"
 
@@ -355,6 +371,10 @@ msgstr "Remover dos _Favoritos"
 msgid "Add to _Favorites"
 msgstr "Adicionar aos Favoritos"
 
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "_Ver detalhes"
+
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Procurar aplicações…"
@@ -375,21 +395,21 @@ msgstr "Domínio:"
 msgid "Co_nnect"
 msgstr "_Ligar"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Voltar"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Deslize para desbloquear"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "Urgente"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "Desbloquear"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "Voltar"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -411,11 +431,11 @@ msgstr "Autenticar"
 msgid "Run Command"
 msgstr "Executar um comando"
 
-#: src/ui/settings.ui:317
+#: src/ui/settings.ui:301
 msgid "No notifications"
 msgstr "Sem notificações"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "Limpar tudo"
 
@@ -433,13 +453,22 @@ msgstr "Sair"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:337
+#: src/util.c:340
 msgid "%A, %B %-e"
 msgstr "%A, %d de %B"
 
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Extensão não encontrada"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Não foi possível carregar a extensão '%s'."
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
@@ -449,6 +478,50 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Celular"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Hoje"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Amanhã"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "Em %d dia"
+msgstr[1] "Em %d dias"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Sem eventos"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "O dia todo"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Termina"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Evento sem título"
 
 #~ msgid "Show only adaptive apps"
 #~ msgstr "Mostrar apenas aplicações adaptativas"
