@@ -1221,6 +1221,9 @@ static GDebugKey debug_keys[] =
  { .key = "always-splash",
    .value = PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH,
  },
+ { .key = "fake-builtin",
+   .value = PHOSH_SHELL_DEBUG_FLAG_FAKE_BUILTIN,
+ },
 };
 
 

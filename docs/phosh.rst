@@ -59,6 +59,8 @@ ENVIRONMENT VARIABLES
 
     - ``always-splash``: Always use splash screen when starting apps
       (even when in docked mode)
+    - ``fake-builtin``: Fake a builtin screen when using a virtual output like
+      in a nested Wayland session.
 - ``G_MESSAGES_DEBUG``, ``G_DEBUG`` and other environment variables supported
   by glib. https://docs.gtk.org/glib/running.html
 - ``GTK_DEBUG`` and other environment variables supported by GTK, see

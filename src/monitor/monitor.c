@@ -8,6 +8,8 @@
 #define G_LOG_DOMAIN "phosh-monitor"
 
 #include "monitor.h"
+#include "shell.h"
+
 #include <gdk/gdkwayland.h>
 
 /**
@@ -507,7 +509,17 @@ phosh_monitor_is_configured (PhoshMonitor *self)
 gboolean
 phosh_monitor_is_builtin (PhoshMonitor *self)
 {
+  PhoshShellDebugFlags debug_flags = phosh_shell_get_debug_flags ();
   g_return_val_if_fail (PHOSH_IS_MONITOR (self), FALSE);
+
+  if (G_UNLIKELY (debug_flags & PHOSH_SHELL_DEBUG_FLAG_FAKE_BUILTIN)) {
+    if (g_strcmp0 (self->name, "WL-1") == 0)
+      return TRUE;
+    else if (g_strcmp0 (self->name, "X11-1") == 0)
+      return TRUE;
+    else if (g_strcmp0 (self->name, "HEADLESS-1") == 0)
+      return TRUE;
+  }
 
   return phosh_monitor_connector_is_builtin (self->conn_type);
 }
