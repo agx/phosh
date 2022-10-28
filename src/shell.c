@@ -184,6 +184,8 @@ typedef struct
 
   char           *theme_name;
   GtkCssProvider *css_provider;
+
+  GSettings      *settings;
 } PhoshShellPrivate;
 
 
@@ -564,6 +566,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->css_provider);
 
   g_clear_object (&priv->action_map);
+  g_clear_object (&priv->settings);
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->dispose (object);
 }
@@ -945,6 +948,8 @@ phosh_shell_constructed (GObject *object)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->constructed (object);
+
+  priv->settings = g_settings_new ("sm.puri.phosh");
 
   /* We bind this early since a wl_display_roundtrip () would make us miss
      existing toplevels */
@@ -1694,8 +1699,7 @@ phosh_shell_get_wwan (PhoshShell *self)
   priv = phosh_shell_get_instance_private (self);
 
   if (!priv->wwan) {
-    g_autoptr (GSettings) settings = g_settings_new ("sm.puri.phosh");
-    PhoshWWanBackend backend = g_settings_get_enum (settings, WWAN_BACKEND_KEY);
+    PhoshWWanBackend backend = g_settings_get_enum (priv->settings, WWAN_BACKEND_KEY);
 
     switch (backend) {
       default:
