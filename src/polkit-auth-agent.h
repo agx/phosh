@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "phosh-config.h"
+
 #define POLKIT_AGENT_I_KNOW_API_IS_SUBJECT_TO_CHANGE
 #include <polkitagent/polkitagent.h>
 
@@ -15,13 +17,11 @@
 
 G_BEGIN_DECLS
 
-/* libpolkit lacks these */
-#if POLKIT_AGENT_MAJOR_VERSION == 0 && POLKIT_AGENT_MINOR_VERSION < 114
+#ifndef PHOSH_HAVE_POLKIT_SUBJECT_CLEANUP
 G_DEFINE_AUTOPTR_CLEANUP_FUNC(PolkitSubject, g_object_unref)
 #endif
 
-/* libpolkit lacks these */
-#if POLKIT_AGENT_MAJOR_VERSION == 0 && POLKIT_AGENT_MINOR_VERSION < 121
+#ifndef PHOSH_HAVE_POLKIT_AGENT_LISTENER_CLEANUP
 G_DEFINE_AUTOPTR_CLEANUP_FUNC(PolkitAgentListener, g_object_unref)
 #endif
 

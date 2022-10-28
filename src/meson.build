@@ -299,19 +299,6 @@ phosh_deps = [
   cc.find_library('rt', required: false),
 ]
 
-polkit_version = libpolkit_agent_dep.version().split('.')
-if polkit_version.length() == 1
-  polkit_major = polkit_version[0]
-  polkit_minor = '0'
-else
-  polkit_major = polkit_version[0]
-  polkit_minor = polkit_version[1]
-endif
-add_project_arguments([
-  '-DPOLKIT_AGENT_MAJOR_VERSION=' + polkit_major,
-  '-DPOLKIT_AGENT_MINOR_VERSION=' + polkit_minor,
-], language: 'c')
-
 phosh_inc = include_directories('.')
 # A static library used by tests and tools
 phosh_tool_lib = static_library('phosh-tool',
