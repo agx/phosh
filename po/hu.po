@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-07-11 13:32+0000\n"
-"PO-Revision-Date: 2022-08-30 01:54+0200\n"
+"POT-Creation-Date: 2022-09-04 13:11+0000\n"
+"PO-Revision-Date: 2022-10-30 19:10+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -31,6 +31,22 @@ msgstr "Telefonos parancsértelmező"
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Ablakkezelés és alkalmazásindítás mobilra"
+
+#: plugins/calendar/calendar.desktop.in.in:4
+msgid "Calendar"
+msgstr "Naptár"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "A simple calendar widget"
+msgstr "Egyszerű naptár felületi elem"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Közelgő események"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Közelgő naptáresemények megjelenítése"
 
 #: src/app-grid-button.c:529
 msgid "Application"
@@ -128,11 +144,11 @@ msgstr "Igen"
 msgid "No"
 msgstr "Nem"
 
-#: src/lockscreen.c:165 src/ui/lockscreen.ui:181
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Adja meg a jelkódot"
 
-#: src/lockscreen.c:379
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Ellenőrzés…"
 
@@ -373,21 +389,21 @@ msgstr "Tartomány:"
 msgid "Co_nnect"
 msgstr "_Kapcsolódás"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+msgid "Back"
+msgstr "Vissza"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Csúsztassa fel a feloldáshoz"
 
-#: src/ui/lockscreen.ui:231
+#: src/ui/lockscreen.ui:283
 msgid "Emergency"
 msgstr "Vészhelyzet"
 
-#: src/ui/lockscreen.ui:247
+#: src/ui/lockscreen.ui:299
 msgid "Unlock"
 msgstr "Feloldás"
-
-#: src/ui/lockscreen.ui:289
-msgid "Back"
-msgstr "Vissza"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
@@ -409,12 +425,11 @@ msgstr "Hitelesítés"
 msgid "Run Command"
 msgstr "Parancs futtatása"
 
-#: src/ui/settings.ui:317
-#| msgid "Notification"
+#: src/ui/settings.ui:301
 msgid "No notifications"
 msgstr "Nincsenek értesítések"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:342
 msgid "Clear all"
 msgstr "Összes törlése"
 
@@ -440,6 +455,15 @@ msgstr "%B %-d. %A"
 msgid "VPN"
 msgstr "VPN"
 
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "A bővítmény nem található"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "A(z) „%s” bővítményt nem sikerült betölteni."
+
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
@@ -448,3 +472,47 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Mobilhálózat"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Ma"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Holnap"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "%d napon belül"
+msgstr[1] "%d napon belül"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Nincsenek események"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%H:%M"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Egész nap"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Befejeződik"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Névtelen esemény"
