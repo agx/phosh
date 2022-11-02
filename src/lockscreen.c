@@ -518,9 +518,7 @@ carousel_page_changed_cb (PhoshLockscreen *self,
   if (index == POS_OVERVIEW) {
     clear_input (self, TRUE);
     gtk_widget_set_sensitive (priv->entry_pin, FALSE);
-  }
-
-  if (index == POS_UNLOCK) {
+  } else if (index == POS_UNLOCK) {
     gtk_widget_set_sensitive (priv->entry_pin, TRUE);
 
     focus_pin_entry (self, osk_visible);
@@ -531,6 +529,8 @@ carousel_page_changed_cb (PhoshLockscreen *self,
                                                 (GSourceFunc) keypad_check_idle,
                                                 self);
     }
+  } else {
+    g_assert_not_reached ();
   }
 }
 
