@@ -195,9 +195,9 @@ keypad_check_idle (PhoshLockscreen *self)
   if (now - priv->last_input > LOCKSCREEN_IDLE_SECONDS * 1000 * 1000) {
     show_info_page (self);
     priv->idle_timer = 0;
-    return FALSE;
+    return G_SOURCE_REMOVE;
   }
-  return TRUE;
+  return G_SOURCE_CONTINUE;
 }
 
 
