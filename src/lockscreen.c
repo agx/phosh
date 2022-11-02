@@ -263,6 +263,7 @@ focus_pin_entry (PhoshLockscreen *self, gboolean enable_osk)
     g_object_set (priv->entry_pin, "im-module", NULL, NULL);
   }
 
+  gtk_widget_set_sensitive (priv->entry_pin, TRUE);
   gtk_entry_grab_focus_without_selecting (GTK_ENTRY (priv->entry_pin));
 }
 
@@ -516,11 +517,9 @@ carousel_page_changed_cb (PhoshLockscreen *self,
   gboolean osk_visible = phosh_osk_manager_get_visible (osk_manager);
 
   if (index == POS_OVERVIEW) {
-    clear_input (self, TRUE);
     gtk_widget_set_sensitive (priv->entry_pin, FALSE);
+    clear_input (self, TRUE);
   } else if (index == POS_UNLOCK) {
-    gtk_widget_set_sensitive (priv->entry_pin, TRUE);
-
     focus_pin_entry (self, osk_visible);
 
     if (!priv->idle_timer) {
