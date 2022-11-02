@@ -502,10 +502,7 @@ carousel_position_notified_cb (PhoshLockscreen *self,
   if (position <= POS_OVERVIEW || position >= POS_UNLOCK)
     return;
 
-  if (priv->idle_timer) {
-    g_source_remove (priv->idle_timer);
-    priv->idle_timer = 0;
-  }
+  g_clear_handle_id (&priv->idle_timer, g_source_remove);
 }
 
 static void
