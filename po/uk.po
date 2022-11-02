@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-09-04 13:11+0000\n"
-"PO-Revision-Date: 2022-09-04 20:56+0300\n"
+"POT-Creation-Date: 2022-11-02 17:07+0000\n"
+"PO-Revision-Date: 2022-11-02 20:35+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -40,6 +40,19 @@ msgstr "Календар"
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "A simple calendar widget"
 msgstr "Простий віджет календаря"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Скринька з квитками"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid ""
+"Show PDFs on the lock screen. This plugin is experimental. <b>This plugin is "
+"experimental.</b>"
+msgstr ""
+"Показувати PDF на екрані блокування. Цей додаток є експериментальним. <b>Цей"
+" додаток є експериментальним.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -451,7 +464,7 @@ msgstr "Вийти"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:340
+#: src/util.c:345
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
@@ -477,6 +490,14 @@ msgstr "Wi-Fi"
 msgid "Cellular"
 msgstr "Стільниковий"
 
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Немає документів для показу"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Квитки"
+
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
 msgstr "Сьогодні"
@@ -487,7 +508,6 @@ msgstr "Завтра"
 
 #: plugins/upcoming-events/event-list.c:150
 #, c-format
-#| msgid "In %d days"
 msgid "In %d day"
 msgid_plural "In %d days"
 msgstr[0] "За %d день"
