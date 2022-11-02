@@ -23,8 +23,8 @@ elif [ "${PHOSH_AUTO_GDB}" = 1 ]; then
     WRAPPER="gdb -batch -ex run -ex bt --args"
 fi
 
-
-export GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data:${GSETTINGS_SCHEMA_DIR}"
+GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data:${ABS_BUILDDIR}/plugins/ticket-box:${GSETTINGS_SCHEMA_DIR}"
+export GSETTINGS_SCHEMA_DIR
 
 [ -n "${G_MESSAGES_DEBUG}" ] || G_MESSAGES_DEBUG=all
 export G_MESSAGES_DEBUG

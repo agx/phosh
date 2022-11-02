@@ -1,6 +1,7 @@
 data/phosh.session.desktop.in.in
 data/sm.puri.Phosh.desktop.in.in
 plugins/calendar/calendar.desktop.in.in
+plugins/ticket-box/ticket-box.desktop.in.in
 plugins/upcoming-events/upcoming-events.desktop.in.in
 src/activity.c
 src/app-grid-button.c
@@ -78,6 +79,7 @@ src/widget-box.c
 src/wifiinfo.c
 src/wifimanager.c
 src/wwan-info.c
+plugins/ticket-box/ticket-box.ui
 plugins/upcoming-events/event-list.c
 plugins/upcoming-events/event-list.ui
 plugins/upcoming-events/upcoming-event.c

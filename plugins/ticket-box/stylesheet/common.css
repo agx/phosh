@@ -1,0 +1,9 @@
+phosh-ticket-box {
+  background-color: @phosh_notification_bg_color;
+  border-radius: 12px;
+  padding: 8px;
+}
+
+phosh-ticket-row {
+  margin-top: 6px;
+}

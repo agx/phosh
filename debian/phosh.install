@@ -6,7 +6,8 @@ usr/share/icons/hicolor/symbolic/apps/sm.puri.Phosh-symbolic.svg
 usr/share/locale
 usr/share/wayland-sessions/phosh.desktop
 usr/share/phosh/phoc.ini
-usr/share/glib-2.0/schemas/sm.puri.phosh*.xml
+usr/share/glib-2.0/schemas/sm.puri.phosh.enums.xml
+usr/share/glib-2.0/schemas/sm.puri.phosh.gschema.xml
 usr/share/gnome-session/sessions/phosh.session
 usr/share/applications/sm.puri.Phosh.desktop
 usr/share/dbus-1/services/sm.puri.Phosh.CalendarServer.service

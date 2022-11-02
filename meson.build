@@ -20,6 +20,7 @@ systemddir = join_paths(prefix, 'lib/systemd')
 systemduserdir = join_paths(systemddir, 'user')
 plugins_dir = join_paths(prefix, libdir, 'phosh', 'plugins')
 servicedir = join_paths(datadir, 'dbus-1', 'services')
+schemasdir = datadir / 'glib-2.0/schemas'
 
 glib_ver = 'GLIB_VERSION_2_66'
 
