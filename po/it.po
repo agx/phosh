@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-09-04 13:11+0000\n"
-"PO-Revision-Date: 2022-09-05 18:06+0200\n"
+"POT-Creation-Date: 2022-11-02 17:07+0000\n"
+"PO-Revision-Date: 2022-11-03 15:51+0100\n"
 "Last-Translator: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language-Team: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language: it\n"
@@ -26,7 +26,7 @@ msgstr "Phosh"
 
 #: data/sm.puri.Phosh.desktop.in.in:4
 msgid "Phone Shell"
-msgstr "Shell del telefono"
+msgstr "Interfaccia per telefono"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
@@ -39,6 +39,19 @@ msgstr "Calendar"
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "A simple calendar widget"
 msgstr "Un calendario in miniatura"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Biglietteria"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid ""
+"Show PDFs on the lock screen. This plugin is experimental. <b>This plugin is "
+"experimental.</b>"
+msgstr ""
+"Mostra i PDF sulla schermata di blocco. Questo plugin è sperimentale. "
+"<b>Questo plugin è sperimentale.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -447,7 +460,7 @@ msgstr "Esci"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:340
+#: src/util.c:345
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -462,7 +475,7 @@ msgstr "Plugin non trovato"
 #: src/widget-box.c:57
 #, c-format
 msgid "The plugin '%s' could not be loaded."
-msgstr "Impossibile caricare il plug-in '%s'."
+msgstr "Impossibile caricare il plugin '%s'."
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
@@ -472,6 +485,14 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Cellulare"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Nessun documento da mostrare"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Biglietti"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
@@ -483,7 +504,6 @@ msgstr "Domani"
 
 #: plugins/upcoming-events/event-list.c:150
 #, c-format
-#| msgid "In %d days"
 msgid "In %d day"
 msgid_plural "In %d days"
 msgstr[0] "Fra %d giorno"
