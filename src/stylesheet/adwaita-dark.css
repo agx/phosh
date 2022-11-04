@@ -12,8 +12,7 @@
 
 /* Button colors */
 @define-color phosh_button_bg_color #282828;
-@define-color phosh_button_active_bg_color shade(@phosh_button_bg_color, 0.9);
-@define-color phosh_button_hover_bg_color shade(@phosh_button_bg_color, 1.2);
-
+@define-color phosh_button_hover_bg_color shade(@phosh_button_bg_color, 1.14);
+@define-color phosh_button_active_bg_color shade(@phosh_button_bg_color, 1.5);
 
 @import url("resource:///sm/puri/phosh/stylesheet/common.css");
