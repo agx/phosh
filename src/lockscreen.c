@@ -195,9 +195,9 @@ keypad_check_idle (PhoshLockscreen *self)
   if (now - priv->last_input > LOCKSCREEN_IDLE_SECONDS * 1000 * 1000) {
     show_info_page (self);
     priv->idle_timer = 0;
-    return FALSE;
+    return G_SOURCE_REMOVE;
   }
-  return TRUE;
+  return G_SOURCE_CONTINUE;
 }
 
 
@@ -263,6 +263,7 @@ focus_pin_entry (PhoshLockscreen *self, gboolean enable_osk)
     g_object_set (priv->entry_pin, "im-module", NULL, NULL);
   }
 
+  gtk_widget_set_sensitive (priv->entry_pin, TRUE);
   gtk_entry_grab_focus_without_selecting (GTK_ENTRY (priv->entry_pin));
 }
 
@@ -502,10 +503,7 @@ carousel_position_notified_cb (PhoshLockscreen *self,
   if (position <= POS_OVERVIEW || position >= POS_UNLOCK)
     return;
 
-  if (priv->idle_timer) {
-    g_source_remove (priv->idle_timer);
-    priv->idle_timer = 0;
-  }
+  g_clear_handle_id (&priv->idle_timer, g_source_remove);
 }
 
 static void
@@ -519,13 +517,9 @@ carousel_page_changed_cb (PhoshLockscreen *self,
   gboolean osk_visible = phosh_osk_manager_get_visible (osk_manager);
 
   if (index == POS_OVERVIEW) {
-    clear_input (self, TRUE);
     gtk_widget_set_sensitive (priv->entry_pin, FALSE);
-  }
-
-  if (index == POS_UNLOCK) {
-    gtk_widget_set_sensitive (priv->entry_pin, TRUE);
-
+    clear_input (self, TRUE);
+  } else if (index == POS_UNLOCK) {
     focus_pin_entry (self, osk_visible);
 
     if (!priv->idle_timer) {
@@ -534,6 +528,8 @@ carousel_page_changed_cb (PhoshLockscreen *self,
                                                 (GSourceFunc) keypad_check_idle,
                                                 self);
     }
+  } else {
+    g_assert_not_reached ();
   }
 }
 
