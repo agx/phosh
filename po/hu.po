@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-09-04 13:11+0000\n"
-"PO-Revision-Date: 2022-10-30 19:10+0100\n"
+"POT-Creation-Date: 2022-11-02 17:07+0000\n"
+"PO-Revision-Date: 2022-11-05 23:30+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.12.3\n"
+"X-Generator: Lokalize 22.08.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -39,6 +39,19 @@ msgstr "Naptár"
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "A simple calendar widget"
 msgstr "Egyszerű naptár felületi elem"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Jegypénztár"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid ""
+"Show PDFs on the lock screen. This plugin is experimental. <b>This plugin is "
+"experimental.</b>"
+msgstr ""
+"PDF-ek megjelenítése a zárolási képernyőn. Ez a bővítmény kísérleti. <b>Ez a"
+" bővítmény kísérleti.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -447,7 +460,7 @@ msgstr "Kijelentkezés"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:340
+#: src/util.c:345
 msgid "%A, %B %-e"
 msgstr "%B %-d. %A"
 
@@ -472,6 +485,14 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Mobilhálózat"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Nincsenek megjelenítendő dokumentumok"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Jegyek"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
