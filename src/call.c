@@ -163,11 +163,18 @@ on_active_time_ticked (gpointer data)
 static void
 on_state_changed (PhoshCall *self)
 {
-  if (cui_call_get_state (CUI_CALL (self)) == CUI_CALL_STATE_ACTIVE) {
+
+  /* Check for started timer, because state could have changed like this:
+   * ACTIVE -> HELD -> ACTIVE
+   * and we don't want to start the timer multiple times.
+   * We only stop tracking the active time when the call disconnects.
+   */
+  if (cui_call_get_state (CUI_CALL (self)) == CUI_CALL_STATE_ACTIVE &&
+      !self->timer) {
     self->timer = g_timer_new ();
     self->timer_id = g_timeout_add (500, on_active_time_ticked, self);
     g_source_set_name_by_id (self->timer_id, "[phosh] call timeout");
-  } else {
+  } else if (cui_call_get_state (CUI_CALL (self)) == CUI_CALL_STATE_DISCONNECTED) {
     g_clear_handle_id (&self->timer_id, g_source_remove);
     g_clear_pointer (&self->timer, g_timer_destroy);
   }
