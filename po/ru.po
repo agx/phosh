@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-09-04 13:11+0000\n"
-"PO-Revision-Date: 2022-09-04 19:07+0300\n"
+"POT-Creation-Date: 2022-11-02 17:07+0000\n"
+"PO-Revision-Date: 2022-11-04 20:15+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -37,6 +37,19 @@ msgstr "Календарь"
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "A simple calendar widget"
 msgstr "Простой виджет календаря"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Билетный бокс"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid ""
+"Show PDFs on the lock screen. This plugin is experimental. <b>This plugin is "
+"experimental.</b>"
+msgstr ""
+"Показывать PDF-файлы на экране блокировки. Этот плагин является "
+"экспериментальным. <b>Этот плагин является экспериментальным.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -448,7 +461,7 @@ msgstr "Выйти"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:340
+#: src/util.c:345
 msgid "%A, %B %-e"
 msgstr "%A, %-e %B"
 
@@ -473,6 +486,14 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Сотовая связь"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Нет документов для отображения"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Билеты"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
