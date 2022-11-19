@@ -102,10 +102,10 @@ phosh_quick_setting_add (GtkContainer *container, GtkWidget *child)
   priv->status_icon = PHOSH_STATUS_ICON (child);
   gtk_widget_set_halign (GTK_WIDGET (child), GTK_ALIGN_CENTER);
   priv->label_binding = g_object_bind_property (child,
-                                               "info",
-                                               priv->label,
-                                               "label",
-                                               G_BINDING_SYNC_CREATE);
+                                                "info",
+                                                priv->label,
+                                                "label",
+                                                G_BINDING_SYNC_CREATE);
   g_signal_connect_swapped (child, "destroy", G_CALLBACK (status_icon_destroy_cb), self);
 
   gtk_box_pack_start (GTK_BOX (priv->box), child, 0, 0, 0);
