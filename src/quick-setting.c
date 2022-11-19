@@ -167,12 +167,15 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
   container_class->add = phosh_quick_setting_add;
   container_class->remove = phosh_quick_setting_remove;
 
+  /**
+   * PhoshQuickSetting:status-icon:
+   *
+   * The status status icon to use for the quick setting
+   */
   props[PROP_STATUS_ICON] =
-   g_param_spec_object ("status_icon",
-                        "status icon",
-                        "The status icon representing the quick setting",
-                        PHOSH_TYPE_STATUS_ICON,
-                        G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+    g_param_spec_object ("status_icon", "", "",
+                         PHOSH_TYPE_STATUS_ICON,
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
