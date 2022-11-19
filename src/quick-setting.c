@@ -12,6 +12,7 @@
 
 #include "status-icon.h"
 #include "quick-setting.h"
+#include "util.h"
 
 /**
  * PhoshQuickSetting:
@@ -130,6 +131,15 @@ phosh_quick_setting_add (GtkContainer *container, GtkWidget *child)
                                                 priv->label,
                                                 "label",
                                                 G_BINDING_SYNC_CREATE);
+
+  /* child's aren't required to have an `enabled` property */
+  if (g_object_class_find_property (G_OBJECT_GET_CLASS (child), "enabled")) {
+      priv->label_binding = g_object_bind_property (child,
+                                                    "enabled",
+                                                    self,
+                                                    "active",
+                                                    G_BINDING_SYNC_CREATE);
+  }
   g_signal_connect_swapped (child, "destroy", G_CALLBACK (status_icon_destroy_cb), self);
 
   gtk_box_pack_start (GTK_BOX (priv->box), child, 0, 0, 0);
@@ -342,6 +352,8 @@ phosh_quick_setting_set_active (PhoshQuickSetting *self, gboolean active)
     return;
 
   priv->active = active;
+
+  phosh_util_toggle_style_class (GTK_WIDGET (self), "phosh-qs-active", priv->active);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACTIVE]);
 }

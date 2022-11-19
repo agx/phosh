@@ -69,15 +69,19 @@ phosh-top-panel .phosh-topbar-date{
   font-weight: bold;
   font-size: 10pt;
   /* use selection color to make quick settings items blue  */
-  background-color: @theme_selected_bg_color;
+  background-color: @phosh_button_bg_color;
 }
 
 #phosh_quick_settings flowboxchild > button:hover {
+  background-color: shade(@phosh_button_bg_color, 1.14);
+}
+
+#phosh_quick_settings flowboxchild > button.phosh-qs-active:hover {
   background-color: shade(@theme_selected_bg_color, 1.14);
 }
 
-#phosh_quick_settings flowboxchild > button:active {
-  background-color: shade(@theme_selected_bg_color, 1.5);
+#phosh_quick_settings flowboxchild > button.phosh-qs-active {
+  background-color: @theme_selected_bg_color;
 }
 
 #phosh_quick_settings flowboxchild > button:disabled {
