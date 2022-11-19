@@ -173,7 +173,7 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
    * The status status icon to use for the quick setting
    */
   props[PROP_STATUS_ICON] =
-    g_param_spec_object ("status_icon", "", "",
+    g_param_spec_object ("status-icon", "", "",
                          PHOSH_TYPE_STATUS_ICON,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
