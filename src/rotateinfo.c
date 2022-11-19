@@ -164,10 +164,13 @@ phosh_rotate_info_class_init (PhoshRotateInfoClass *klass)
 
   gtk_widget_class_set_css_name (widget_class, "phosh-rotate-info");
 
+  /**
+   * PhoshRotateInfo:present:
+   *
+   * Whether a builtin display to rotate is present
+   */
   props[PROP_PRESENT] =
-    g_param_spec_boolean ("present",
-                          "Present",
-                          "Whether a builtin display to rotate is present",
+    g_param_spec_boolean ("present", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_STATIC_STRINGS |
