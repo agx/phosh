@@ -35,6 +35,7 @@ static guint signals[N_SIGNALS];
 enum {
   PROP_0,
   PROP_STATUS_ICON,
+  PROP_ACTIVE,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -46,9 +47,29 @@ typedef struct
   GtkWidget *label;
   GBinding *label_binding;
   GtkGesture *long_press;
+  gboolean    active;
 } PhoshQuickSettingPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshQuickSetting, phosh_quick_setting, GTK_TYPE_BUTTON);
+
+
+static void
+phosh_quick_setting_set_property (GObject      *object,
+                                  guint         property_id,
+                                  const GValue *value,
+                                  GParamSpec   *pspec)
+{
+  PhoshQuickSetting *self = PHOSH_QUICK_SETTING (object);
+
+  switch (property_id) {
+    case PROP_ACTIVE:
+      phosh_quick_setting_set_active (self, g_value_get_boolean (value));
+      break;
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+      break;
+  }
+}
 
 
 static void
@@ -62,6 +83,9 @@ phosh_quick_setting_get_property (GObject *object,
   switch (property_id) {
   case PROP_STATUS_ICON:
     g_value_set_object (value, phosh_quick_setting_get_status_icon (self));
+    break;
+  case PROP_ACTIVE:
+    g_value_set_boolean (value, phosh_quick_setting_get_active (self));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -161,6 +185,7 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
   GtkContainerClass *container_class = GTK_CONTAINER_CLASS (klass);
 
   object_class->get_property = phosh_quick_setting_get_property;
+  object_class->set_property = phosh_quick_setting_set_property;
 
   /* Override the `add` method, this way we can add the StatusIcon as a child
      in the ui file */
@@ -176,6 +201,16 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
     g_param_spec_object ("status-icon", "", "",
                          PHOSH_TYPE_STATUS_ICON,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+
+  /**
+   * PhoshQuickSetting:active:
+   *
+   * Whether the quick setting should show it's active state
+   */
+  props[PROP_ACTIVE] =
+    g_param_spec_boolean ("active", "", "",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
@@ -292,4 +327,33 @@ phosh_quick_setting_open_settings_panel (const char *panel)
 			    (GAsyncReadyCallback) create_dbus_proxy_cb,
 			    g_strdup (panel));
 
+}
+
+
+void
+phosh_quick_setting_set_active (PhoshQuickSetting *self, gboolean active)
+{
+  PhoshQuickSettingPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_QUICK_SETTING (self));
+  priv = phosh_quick_setting_get_instance_private (self);
+
+  if (priv->active == active)
+    return;
+
+  priv->active = active;
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACTIVE]);
+}
+
+
+gboolean
+phosh_quick_setting_get_active (PhoshQuickSetting *self)
+{
+  PhoshQuickSettingPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_QUICK_SETTING (self), FALSE);
+  priv = phosh_quick_setting_get_instance_private (self);
+
+  return priv->active;
 }

@@ -20,9 +20,13 @@ struct _PhoshQuickSettingClass
   GtkButtonClass parent_class;
 };
 
-GtkWidget * phosh_quick_setting_new (void);
-void phosh_quick_setting_set_status_icon (PhoshQuickSetting *self, PhoshStatusIcon *widget);
-PhoshStatusIcon * phosh_quick_setting_get_status_icon (PhoshQuickSetting *self);
-void phosh_quick_setting_open_settings_panel (const char *panel);
+GtkWidget       *phosh_quick_setting_new (void);
+void             phosh_quick_setting_set_status_icon (PhoshQuickSetting *self,
+                                                      PhoshStatusIcon   *widget);
+PhoshStatusIcon *phosh_quick_setting_get_status_icon (PhoshQuickSetting *self);
+void             phosh_quick_setting_set_active (PhoshQuickSetting *self, gboolean active);
+gboolean         phosh_quick_setting_get_active (PhoshQuickSetting *self);
+
+void              phosh_quick_setting_open_settings_panel (const char *panel);
 
 G_END_DECLS
