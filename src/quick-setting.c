@@ -33,11 +33,11 @@ enum {
 static guint signals[N_SIGNALS];
 
 enum {
-  PHOSH_QUICK_SETTING_PROP_0,
-  PHOSH_QUICK_SETTING_PROP_STATUS_ICON,
-  PHOSH_QUICK_SETTING_PROP_LAST_PROP
+  PROP_0,
+  PROP_STATUS_ICON,
+  PROP_LAST_PROP
 };
-static GParamSpec *props[PHOSH_QUICK_SETTING_PROP_LAST_PROP];
+static GParamSpec *props[PROP_LAST_PROP];
 
 typedef struct
 {
@@ -60,7 +60,7 @@ phosh_quick_setting_get_property (GObject *object,
   PhoshQuickSetting *self = PHOSH_QUICK_SETTING (object);
 
   switch (property_id) {
-  case PHOSH_QUICK_SETTING_PROP_STATUS_ICON:
+  case PROP_STATUS_ICON:
     g_value_set_object (value, phosh_quick_setting_get_status_icon (self));
     break;
   default:
@@ -75,7 +75,7 @@ status_icon_destroy_cb (PhoshQuickSetting *self, GtkWidget *widget)
   PhoshQuickSettingPrivate *priv = phosh_quick_setting_get_instance_private (self);
 
   priv->status_icon = NULL;
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_QUICK_SETTING_PROP_STATUS_ICON]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_STATUS_ICON]);
 }
 
 
@@ -109,7 +109,7 @@ phosh_quick_setting_add (GtkContainer *container, GtkWidget *child)
   g_signal_connect_swapped (child, "destroy", G_CALLBACK (status_icon_destroy_cb), self);
 
   gtk_box_pack_start (GTK_BOX (priv->box), child, 0, 0, 0);
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_QUICK_SETTING_PROP_STATUS_ICON]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_STATUS_ICON]);
 }
 
 static void
@@ -125,7 +125,7 @@ phosh_quick_setting_remove (GtkContainer *container, GtkWidget *child)
     if (priv->status_icon != NULL)
       g_signal_handlers_disconnect_by_data (priv->status_icon, self);
     priv->status_icon = NULL;
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_QUICK_SETTING_PROP_STATUS_ICON]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_STATUS_ICON]);
 
     if (priv->box)
       gtk_container_remove (GTK_CONTAINER (priv->box), child);
@@ -167,14 +167,14 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
   container_class->add = phosh_quick_setting_add;
   container_class->remove = phosh_quick_setting_remove;
 
-  props[PHOSH_QUICK_SETTING_PROP_STATUS_ICON] =
+  props[PROP_STATUS_ICON] =
    g_param_spec_object ("status_icon",
                         "status icon",
                         "The status icon representing the quick setting",
                         PHOSH_TYPE_STATUS_ICON,
                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
-  g_object_class_install_properties (object_class, PHOSH_QUICK_SETTING_PROP_LAST_PROP, props);
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[LONG_PRESSED] = g_signal_new ("long-pressed",
                                         G_OBJECT_CLASS_TYPE (object_class),
