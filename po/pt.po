@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-09-04 13:11+0000\n"
-"PO-Revision-Date: 2022-10-26 14:20+0100\n"
+"POT-Creation-Date: 2022-11-02 17:07+0000\n"
+"PO-Revision-Date: 2022-11-24 14:08+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese < https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -46,9 +46,22 @@ msgstr "Calendário"
 msgid "A simple calendar widget"
 msgstr "Um simples widget de calendário"
 
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Bilheteira"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid ""
+"Show PDFs on the lock screen. This plugin is experimental. <b>This plugin is "
+"experimental.</b>"
+msgstr ""
+"Mostrar PDFs no ecrã bloqueado. Este plugin é experimental. <b>Este plugin é "
+"experimental.</b>"
+
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
-msgstr "Próximos Eventos"
+msgstr "Próximos eventos"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:5
 msgid "Show upcoming calendar events"
@@ -453,7 +466,7 @@ msgstr "Sair"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:340
+#: src/util.c:345
 msgid "%A, %B %-e"
 msgstr "%A, %d de %B"
 
@@ -478,6 +491,14 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Celular"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Sem documentos para mostrar"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Bilhetes"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
