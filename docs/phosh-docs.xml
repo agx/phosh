@@ -175,6 +175,11 @@
     </chapter>
   </part>
 
+  <chapter id="dbus_interfaces">
+    <title>DBus Interfaces</title>
+    <xi:include href="../src/dbus/phosh-dbus-sm.puri.OSK0.xml"/>
+  </chapter>
+
   <part id="annexes">
     <title>Annexes</title>
     <chapter id="object-tree">
