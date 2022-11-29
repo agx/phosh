@@ -13,6 +13,17 @@
 
 #include <cui-call.h>
 
+/**
+ * SECTION:call
+ * @short_description: A phone call
+ * @Title: PhoshCall
+ *
+ * Interfaces with a single call object on DBus. GNOME Calls exports
+ * information of phone calls on DBus. This class interfaces with one
+ * of them to provide the necessary information to e.g. handle calls
+ * on the lock screen.
+ */
+
 
 enum {
   PROP_0,
@@ -34,7 +45,7 @@ static GParamSpec *props[PROP_NUM_PROPS];
 typedef struct _PhoshCall {
   GObject                  parent;
 
-  PhoshCallsDBusCallsCall *proxy; /* DBus proxy to a single call on for gnome-calls' DBus service */
+  PhoshCallsDBusCallsCall *proxy; /* DBus proxy to a single call on gnome-calls' DBus service */
   GCancellable            *cancel;
 
   GLoadableIcon           *avatar_icon;
