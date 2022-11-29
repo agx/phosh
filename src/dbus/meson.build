@@ -78,6 +78,7 @@ generated_dbus_sources += gnome.gdbus_codegen('phosh-wwan-ofono-dbus',
 
 generated_dbus_sources += gnome.gdbus_codegen('phosh-osk0-dbus',
                                               'sm.puri.OSK0.xml',
+					      docbook: 'phosh-dbus',
                                               namespace: 'PhoshOsk0')
 
 # DBus server protocols

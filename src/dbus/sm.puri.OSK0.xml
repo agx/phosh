@@ -1,14 +1,31 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
 "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
+
+  <!--
+      sm.puri.OSK0:
+
+      This interface is exported by on screen keyboards (OSK) to
+      indicate and set state like visibility.
+  -->
+
   <interface name="sm.puri.OSK0">
+    <!--
+        SetVisible:
+        @visible: %TRUE if the OSK should be shown to the user, %FALSE otherwise
+
+        Toggle keyboard visibility.
+    -->
     <method name="SetVisible">
       <arg type="b" direction="in" name="visible"/>
-      <doc:doc><doc:description>
-        Switch keyboard visibility
-      </doc:description></doc:doc>
     </method>
-    <property name="Visible" type="b" access="read">
-    </property>
+    <!--
+        Visible:
+
+        Indicates whether the on screen keyboard is currently
+        unfolded. %TRUE if the OSK is currently visible to the user,
+        %FALSE otherwise.
+    -->
+    <property name="Visible" type="b" access="read"/>
   </interface>
 </node>
