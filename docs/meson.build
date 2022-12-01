@@ -36,7 +36,7 @@ gnome.gtkdoc('phosh',
                        join_paths(meson.source_root(), 'src'),
                        join_paths(meson.build_root(), 'src'),
                      ],
-       dependencies: phosh_doc_dep,
+       dependencies: [phosh_doc_dep, dbus_doc_dep],
   gobject_typesfile: 'phosh.types',
           scan_args: [
                        '--rebuild-types',
