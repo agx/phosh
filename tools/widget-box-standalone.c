@@ -10,6 +10,8 @@
 
 #include "config.h"
 
+#include <handy.h>
+
 #include <widget-box.h>
 #include <plugin-loader.h>
 
@@ -57,6 +59,7 @@ main (int argc, char *argv[])
   GStrv plugin_dirs = NULL;
 
   gtk_init (&argc, &argv);
+  hdy_init ();
 
   css_setup ();
 
