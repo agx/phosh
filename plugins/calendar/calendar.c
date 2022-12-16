@@ -14,10 +14,10 @@
  * Display the calenadar.
  */
 struct _PhoshCalendar {
-  GtkCalendar        parent;
+  GtkBox        parent;
 };
 
-G_DEFINE_TYPE (PhoshCalendar, phosh_calendar, GTK_TYPE_CALENDAR);
+G_DEFINE_TYPE (PhoshCalendar, phosh_calendar, GTK_TYPE_BOX);
 
 static void
 phosh_calendar_class_init (PhoshCalendarClass *klass)

@@ -14,6 +14,6 @@
 G_BEGIN_DECLS
 
 #define PHOSH_TYPE_CALENDAR (phosh_calendar_get_type ())
-G_DECLARE_FINAL_TYPE (PhoshCalendar, phosh_calendar, PHOSH, CALENDAR, GtkCalendar)
+G_DECLARE_FINAL_TYPE (PhoshCalendar, phosh_calendar, PHOSH, CALENDAR, GtkBox)
 
 G_END_DECLS
