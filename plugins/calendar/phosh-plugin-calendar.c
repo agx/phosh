@@ -8,6 +8,8 @@
 
 #define G_LOG_DOMAIN "phosh-plugin-calendar"
 
+#include "calendar.h"
+
 #include <gio/gio.h>
 #include <gtk/gtk.h>
 
@@ -20,10 +22,8 @@ g_io_module_load (GIOModule *module)
 {
   g_type_module_use (G_TYPE_MODULE (module));
 
-  g_type_ensure (GTK_TYPE_CALENDAR);
-
   g_io_extension_point_implement ("phosh-lockscreen-widget",
-                                  GTK_TYPE_CALENDAR,
+                                  PHOSH_TYPE_CALENDAR,
                                   "calendar",
                                   10);
 }

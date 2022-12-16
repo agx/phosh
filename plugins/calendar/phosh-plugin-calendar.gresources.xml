@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/sm/puri/phosh/plugins/calendar/">
+    <file preprocess="xml-stripblanks">calendar.ui</file>
+  </gresource>
+</gresources>
