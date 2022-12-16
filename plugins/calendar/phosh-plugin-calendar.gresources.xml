@@ -2,5 +2,6 @@
 <gresources>
   <gresource prefix="/sm/puri/phosh/plugins/calendar/">
     <file preprocess="xml-stripblanks">calendar.ui</file>
+    <file compressed="true">stylesheet/common.css</file>
   </gresource>
 </gresources>
