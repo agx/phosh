@@ -9,11 +9,10 @@
 #define G_LOG_DOMAIN "phosh-plugin-calendar"
 
 #include "calendar.h"
+#include "phosh-plugin.h"
 
 #include <gio/gio.h>
 #include <gtk/gtk.h>
-
-#define PHOSH_EXTENSION_POINT_LOCKSCREEN_WIDGET "phosh-lockscreen-widget"
 
 char **g_io_phosh_plugin_calendar_query (void);
 
@@ -22,7 +21,7 @@ g_io_module_load (GIOModule *module)
 {
   g_type_module_use (G_TYPE_MODULE (module));
 
-  g_io_extension_point_implement ("phosh-lockscreen-widget",
+  g_io_extension_point_implement (PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET,
                                   PHOSH_TYPE_CALENDAR,
                                   "calendar",
                                   10);
@@ -36,7 +35,7 @@ g_io_module_unload (GIOModule *module)
 char **
 g_io_phosh_plugin_calendar_query (void)
 {
-  char *extension_points[] = {PHOSH_EXTENSION_POINT_LOCKSCREEN_WIDGET, NULL};
+  char *extension_points[] = {PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET, NULL};
 
   return g_strdupv (extension_points);
 }
