@@ -38,7 +38,9 @@ phosh_upcoming_events_plugin = shared_module(
   phosh_gtk_list_models_sources,
   c_args : ['-DG_LOG_DOMAIN="phosh-plugin-upcoming-events"'],
   dependencies: upcoming_events_plugin_deps,
-  include_directories: [root_inc, phosh_gtk_list_models_inc],
+  include_directories: [root_inc,
+                        phosh_gtk_list_models_inc,
+                        plugin_inc],
   install: true,
   install_dir: plugins_dir,
 )
