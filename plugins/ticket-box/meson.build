@@ -30,7 +30,9 @@ phosh_ticket_box_plugin = shared_module(
   ticket_box_resources,
   c_args : ['-DG_LOG_DOMAIN="phosh-plugin-ticket-box"'],
   dependencies: ticket_box_plugin_deps,
-  include_directories: [root_inc, phosh_gtk_list_models_inc],
+  include_directories: [root_inc,
+                        phosh_gtk_list_models_inc,
+                        plugin_inc],
   install: true,
   install_dir: plugins_dir,
 )
