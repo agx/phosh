@@ -8,7 +8,7 @@
  * PhoshWidgetBox in a simple wrapper
  */
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include <handy.h>
 
