@@ -14,6 +14,7 @@ install_headers([phosh_plugin_h], subdir: phosh_plugin_header_subdir)
 
 pkgconfig.generate(
   variables : ['lockscreen_plugins_dir=@0@'.format(plugins_dir),
+               'lockscreen_prefs_dir=@0@'.format(plugin_prefs_dir),
               ],
   subdirs : phosh_plugin_header_subdir,
   version : meson.project_version(),
