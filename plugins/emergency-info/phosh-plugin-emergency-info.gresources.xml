@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/sm/puri/phosh/plugins/emergency-info/">
+    <file preprocess="xml-stripblanks">emergency-info.ui</file>
+    <file preprocess="xml-stripblanks">emergency-info-row.ui</file>
+    <file compressed="true">stylesheet/common.css</file>
+  </gresource>
+</gresources>
