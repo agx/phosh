@@ -1,7 +1,10 @@
 phosh_plugin_header_subdir = 'phosh'
 
 phosh_plugin_config = configuration_data()
-phosh_plugin_config.set_quoted('PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET', 'phosh-lockscreen-widget')
+phosh_plugin_config.set_quoted('PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET',
+                               'phosh-lockscreen-widget')
+phosh_plugin_config.set_quoted('PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET_PREFS',
+                               'phosh-lockscreen-widget-prefs')
 phosh_plugin_h = configure_file(
   input: 'phosh-plugin.h.in',
   output: 'phosh-plugin.h',
