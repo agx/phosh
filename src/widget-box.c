@@ -77,7 +77,7 @@ phosh_widget_box_load_widgets (PhoshWidgetBox *self)
     GtkWidget *widget = phosh_plugin_loader_load_plugin (self->plugin_loader, self->plugins[i]);
 
     if (widget == NULL) {
-      g_warning ("Plugin '%s not found", self->plugins[i]);
+      g_warning ("Plugin '%s' not found", self->plugins[i]);
       widget = missing_plugin_widget_new (self->plugins[i]);
     }
 
