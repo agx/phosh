@@ -35,6 +35,14 @@ if get_option('tools')
                c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root())],
                dependencies: phosh_tool_dep)
 
+    executable('plugin-prefs', ['plugin-prefs-standalone.c',
+                                '../src/plugin-loader.c',
+                               ],
+               c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root())],
+               include_directories: [root_inc, phosh_inc],
+               dependencies: [plugin_prefs_dep, gmodule_dep],
+              )
+
   endif
 
 endif
