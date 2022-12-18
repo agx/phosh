@@ -19,7 +19,7 @@ g_io_module_load (GIOModule *module)
 
   g_io_extension_point_implement (PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET,
                                   PHOSH_TYPE_UPCOMING_EVENTS,
-                                  "upcoming-events",
+                                  PLUGIN_NAME,
                                   10);
 }
 
