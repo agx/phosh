@@ -13,6 +13,8 @@ emergency_info_plugin_sources = files(
   'emergency-info-common.h',
 )
 
+emergency_info_inc = include_directories('.')
+
 emergency_info_resources = gnome.compile_resources(
   'phosh-plugin-emergency-info-resources',
   'phosh-plugin-emergency-info.gresources.xml',
@@ -35,6 +37,7 @@ phosh_emergency_info_plugin = shared_module(
 pluginconf = configuration_data()
 pluginconf.set('name', name)
 pluginconf.set('plugins_dir', plugins_dir)
+pluginconf.set('plugin_prefs_dir', plugin_prefs_dir)
 
 i18n.merge_file(
   input: configure_file(
@@ -48,3 +51,5 @@ i18n.merge_file(
   install_dir: plugins_dir,
   type: 'desktop'
 )
+
+subdir('prefs')
