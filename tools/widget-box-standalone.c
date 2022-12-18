@@ -3,12 +3,12 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
- * BUILDDIR $ ./tools/run_tool ./tools/widget-box-standalone
+ * BUILDDIR $ ./tools/run_tool ./tools/widget-box
  *
- * PhoshWidgetBox in a simple wrapper
+ * widget-box is a simple wrapper to run phosh's lockscreen widgets
  */
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include <handy.h>
 

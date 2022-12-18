@@ -119,3 +119,15 @@ Description: Pure Wayland shell for mobile devices - Plugins
  based inputs and small screens.
  .
  This package contains additional plugins.
+
+Package: phosh-dev
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: Pure Wayland shell for mobile devices - development files
+ Phosh is a graphical shell for Wayland compositors speaking the layer-surface
+ protocol and aimed at mobile devices like smart phones and tablets using touch
+ based inputs and small screens.
+ .
+ This package contains the development files.

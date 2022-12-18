@@ -96,6 +96,7 @@ configure_file(
 
 gnome = import('gnome')
 i18n  = import('i18n')
+pkgconfig = import ('pkgconfig')
 
 glib_ver = '>= 2.66'
 
@@ -207,16 +208,17 @@ subdir('calendar-server')
 
 summary = [
   '',
-  '-----------',
+  '---------------------------',
   'Phosh @0@'.format(meson.project_version()),
   '',
-  '        Tests: @0@'.format(get_option('tests')),
-  '   Phoc Tests: @0@'.format(run_phoc_tests),
-  '   Compositor: @0@'.format(get_option('compositor')),
-  '      Systemd: @0@'.format(get_option('systemd')),
-  'Documentation: @0@'.format(get_option('gtk_doc')),
-  '        tools: @0@'.format(get_option('tools')),
-  '-----------',
+  '               Tests: @0@'.format(get_option('tests')),
+  '          Phoc Tests: @0@'.format(run_phoc_tests),
+  '          Compositor: @0@'.format(get_option('compositor')),
+  '             Systemd: @0@'.format(get_option('systemd')),
+  '       Documentation: @0@'.format(get_option('gtk_doc')),
+  '               Tools: @0@'.format(get_option('tools')),
+  '  Lockscreen Plugins: @0@'.format(get_option('lockscreen-plugins')),
+  '----------------------------',
 ]
 
 message('\n'.join(summary))

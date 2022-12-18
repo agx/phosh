@@ -20,8 +20,11 @@ phosh_calendar_plugin = shared_module(
   'phosh-plugin-calendar',
   calendar_plugin_sources,
   calendar_resources,
+  c_args : ['-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
+            '-DPLUGIN_NAME="@0@"'.format(name),
+           ],
   dependencies: calendar_plugin_deps,
-  include_directories: phosh_inc,
+  include_directories: [phosh_inc, plugin_inc],
   install: true,
   install_dir: plugins_dir,
 )
