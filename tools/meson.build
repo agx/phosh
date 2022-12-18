@@ -30,7 +30,7 @@ if get_option('tools')
              dependencies: phosh_tool_dep)
 
   executable('widget-box', ['widget-box-standalone.c'] + test_stub_deps,
-	     c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root())],
+             c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root())],
              dependencies: phosh_tool_dep)
 
 endif
