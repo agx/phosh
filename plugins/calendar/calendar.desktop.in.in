@@ -1,4 +1,5 @@
 [Plugin]
+# Translators: This is an internal id, no need to translate it
 Id=@name@
 Name=Calendar
 Comment=A simple calendar widget
