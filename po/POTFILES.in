@@ -82,6 +82,8 @@ src/wwan-info.c
 plugins/emergency-info/emergency-info.c
 plugins/emergency-info/emergency-info.ui
 plugins/ticket-box/ticket-box.ui
+plugins/ticket-box/prefs/ticket-box-prefs.c
+plugins/ticket-box/prefs/ticket-box-prefs.ui
 plugins/upcoming-events/event-list.c
 plugins/upcoming-events/event-list.ui
 plugins/upcoming-events/upcoming-event.c

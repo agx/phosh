@@ -40,6 +40,7 @@ phosh_ticket_box_plugin = shared_module(
 pluginconf = configuration_data()
 pluginconf.set('name', name)
 pluginconf.set('plugins_dir', plugins_dir)
+pluginconf.set('plugin_prefs_dir', plugin_prefs_dir)
 
 i18n.merge_file(
   input: configure_file(
@@ -73,3 +74,5 @@ install_data(
   ticket_box_schema,
   install_dir: 'share/glib-2.0/schemas'
 )
+
+subdir('prefs')
