@@ -16,6 +16,7 @@ plugin_inc = include_directories('.')
 subdir('calendar')
 subdir('upcoming-events')
 subdir('ticket-box')
+subdir('emergency-info')
 
 endif
 

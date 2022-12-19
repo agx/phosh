@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <requires lib="libhandy" version="0.0"/>
+  <template class="PhoshEmergencyInfo" parent="GtkBox">
+    <property name="orientation">vertical</property>
+    <property name="margin">12</property>
+    <child>
+      <object class="GtkScrolledWindow">
+        <property name="visible">True</property>
+        <property name="vscrollbar-policy">automatic</property>
+        <property name="hscrollbar-policy">never</property>
+        <property name="vexpand">true</property>
+        <property name="propagate-natural-height">True</property>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="vexpand">true</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="HdyActionRow" id="row_owner_name">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="use-underline">True</property>
+                <child>
+                  <object class="GtkLabel" id="label_owner_name">
+                    <property name="visible">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="justify">center</property>
+                    <property name="ellipsize">end</property>
+                    <style><class name="title-2"/></style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="HdyPreferencesGroup" id="pers_info">
+                <property name="visible">True</property>
+                <property name="title" translatable="yes">Personal Information</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">12</property>
+                <child>
+                  <object class="HdyActionRow"  id="row_dob">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="use-underline">True</property>
+                    <property name="title" translatable="yes">Date of Birth</property>
+                    <child>
+                      <object class="GtkLabel" id="label_dob">
+                        <property name="visible">True</property>
+                        <property name="justify">right</property>
+                        <property name="halign">end</property>
+                        <property name="wrap">true</property>
+                        <style><class name="dim-label"/></style>
+                        <style><class name="caption"/></style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="HdyActionRow"  id="row_language">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="use-underline">True</property>
+                    <property name="title" translatable="yes">Preferred Language</property>
+                    <child>
+                      <object class="GtkLabel" id="label_language">
+                        <property name="visible">True</property>
+                        <property name="justify">right</property>
+                        <property name="halign">end</property>
+                        <property name="wrap">true</property>
+                        <style><class name="dim-label"/></style>
+                        <style><class name="caption"/></style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="HdyActionRow" id="row_home_address">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="use-underline">True</property>
+                    <property name="title" translatable="yes">Home Address</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="HdyPreferencesGroup" id="emer_info">
+                <property name="visible">True</property>
+                <property name="title" translatable="yes">Medical Information</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">12</property>
+                <child>
+                  <object class="HdyActionRow"  id="row_age">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="use-underline">True</property>
+                    <property name="title" translatable="yes">Age</property>
+                    <child>
+                      <object class="GtkLabel" id="label_age">
+                        <property name="visible">True</property>
+                        <property name="justify">right</property>
+                        <property name="halign">end</property>
+                        <property name="wrap">true</property>
+                        <style><class name="dim-label"/></style>
+                        <style><class name="caption"/></style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="HdyActionRow"  id="row_blood_type">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="use-underline">True</property>
+                    <property name="title" translatable="yes">Blood Type</property>
+                    <child>
+                      <object class="GtkLabel" id="label_blood_type">
+                        <property name="visible">True</property>
+                        <property name="justify">right</property>
+                        <property name="halign">end</property>
+                        <property name="wrap">true</property>
+                        <style><class name="dim-label"/></style>
+                        <style><class name="caption"/></style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="HdyActionRow"  id="row_height">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="use-underline">True</property>
+                    <property name="title" translatable="yes">Height</property>
+                    <child>
+                      <object class="GtkLabel" id="label_height">
+                        <property name="visible">True</property>
+                        <property name="justify">right</property>
+                        <property name="halign">end</property>
+                        <property name="wrap">true</property>
+                        <style><class name="dim-label"/></style>
+                        <style><class name="caption"/></style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="HdyActionRow"  id="row_weight">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="use-underline">True</property>
+                    <property name="title" translatable="yes">Weight</property>
+                    <child>
+                      <object class="GtkLabel" id="label_weight">
+                        <property name="visible">True</property>
+                        <property name="justify">right</property>
+                        <property name="halign">end</property>
+                        <property name="wrap">true</property>
+                        <style><class name="dim-label"/></style>
+                        <style><class name="caption"/></style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="HdyActionRow"  id="row_allergies">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="use-underline">True</property>
+                    <property name="title" translatable="yes">Allergies</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="HdyActionRow" id="row_medications">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="use-underline">True</property>
+                    <property name="title" translatable="yes">Medications &amp; Conditions</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="HdyActionRow" id="row_other_info">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="use-underline">True</property>
+                    <property name="title" translatable="yes">Other Information</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="HdyPreferencesGroup" id="emer_contacts">
+                <property name="visible">True</property>
+                <property name="title" translatable="yes">Emergency Contacts</property>
+                <property name="margin-top">12</property>
+                <property name="margin-bottom">12</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
