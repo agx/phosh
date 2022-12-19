@@ -168,27 +168,21 @@ GtkWidget *
 phosh_plugin_loader_load_plugin (PhoshPluginLoader *self, const char *name)
 {
   GIOExtensionPoint *ep;
-  GList *extensions;
+  GIOExtension *extension;
+  GType type;
 
   g_return_val_if_fail (PHOSH_IS_PLUGIN_LOADER (self), NULL);
   g_return_val_if_fail (name, NULL);
 
   ep = g_io_extension_point_lookup (self->extension_point);
-  extensions = g_io_extension_point_get_extensions (ep);
 
-  for (GList *l = extensions; l; l = l->next) {
-    GIOExtension *extension = l->data;
-    GType type;
+  extension = g_io_extension_point_get_extension_by_name (ep, name);
+  if (extension == NULL)
+    return NULL;
 
-    if (g_strcmp0 (g_io_extension_get_name (extension), name))
-      continue;
-
-    g_debug ("Loading plugin %s", name);
-    type = g_io_extension_get_type (extension);
-    return g_object_new (type, NULL);
-  }
-
-  return NULL;
+  g_debug ("Loading plugin %s", name);
+  type = g_io_extension_get_type (extension);
+  return g_object_new (type, NULL);
 }
 
 
