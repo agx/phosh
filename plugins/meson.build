@@ -9,17 +9,6 @@ phosh_plugin_h = configure_file(
 )
 install_headers([phosh_plugin_h], subdir: phosh_plugin_header_subdir)
 
-if get_option('lockscreen-plugins')
-
-plugin_inc = include_directories('.')
-
-subdir('calendar')
-subdir('upcoming-events')
-subdir('ticket-box')
-subdir('emergency-info')
-
-endif
-
 pkgconfig.generate(
   variables : ['lockscreen_plugins_dir=@0@'.format(plugins_dir),
               ],
@@ -30,3 +19,14 @@ pkgconfig.generate(
   name : 'phosh-plugins',
   description : 'Phosh plugin configuration data',
 )
+
+if get_option('lockscreen-plugins')
+
+  plugin_inc = include_directories('.')
+
+  subdir('calendar')
+  subdir('emergency-info')
+  subdir('ticket-box')
+  subdir('upcoming-events')
+
+endif
