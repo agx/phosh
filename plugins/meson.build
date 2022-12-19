@@ -38,6 +38,15 @@ if get_option('lockscreen-plugins')
     ],
   )
 
+  plugin_prefs_dep = declare_dependency(
+    sources: phosh_plugin_h,
+    include_directories: plugin_inc,
+    dependencies: [
+      dependency('gtk4'),
+      dependency('libadwaita-1'),
+    ],
+  )
+
   subdir('calendar')
   subdir('emergency-info')
   subdir('ticket-box')
