@@ -24,6 +24,16 @@ if get_option('lockscreen-plugins')
 
   plugin_inc = include_directories('.')
 
+  plugin_dep = declare_dependency(
+    sources: phosh_plugin_h,
+    include_directories: plugin_inc,
+    dependencies: [
+      dependency('gobject-2.0'),
+      dependency('gtk+-3.0'),
+      dependency('libhandy-1'),
+    ],
+  )
+
   subdir('calendar')
   subdir('emergency-info')
   subdir('ticket-box')
