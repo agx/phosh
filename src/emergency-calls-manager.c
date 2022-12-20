@@ -13,6 +13,7 @@
 #include "calls-emergency-dbus.h"
 #include "emergency-calls-manager.h"
 #include "emergency-contact.h"
+#include "emergency-menu.h"
 #include "util.h"
 #include "shell.h"
 
@@ -61,6 +62,7 @@ struct _PhoshEmergencyCallsManager {
 
   GListStore          *emergency_contacts;
 
+  PhoshEmergencyMenu  *dialog;
   GSettings           *settings;
   gboolean             enabled;
 };
@@ -90,9 +92,38 @@ phosh_emergency_calls_manager_set_if_enabled (PhoshEmergencyCallsManager *self, 
 
 
 static void
+close_menu (PhoshEmergencyCallsManager *self)
+{
+  g_debug ("Closing emergency call menu");
+
+  g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
+}
+
+
+static void
+on_emergency_menu_done (PhoshEmergencyCallsManager *self)
+{
+  g_return_if_fail (PHOSH_IS_EMERGENCY_CALLS_MANAGER (self));
+
+  close_menu (self);
+}
+
+
+static void
 on_emergency_menu_activated (GSimpleAction *action, GVariant *param, gpointer data)
 {
-  /* TBD */
+  PhoshEmergencyCallsManager *self = PHOSH_EMERGENCY_CALLS_MANAGER (data);
+
+  if (self->dialog) {
+    close_menu (self);
+    return;
+  }
+
+  self->dialog = phosh_emergency_menu_new ();
+  g_signal_connect_swapped (self->dialog, "done",
+                            G_CALLBACK (on_emergency_menu_done), self);
+
+  gtk_widget_show (GTK_WIDGET (self->dialog));
 }
 
 
@@ -180,6 +211,7 @@ on_call_emergency_contact_finish (GObject      *object,
     return;
   } else {
     phosh_shell_set_locked (phosh_shell_get_default (), TRUE);
+    close_menu (self);
   }
 }
 

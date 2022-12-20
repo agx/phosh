@@ -330,6 +330,14 @@ phosh-lockscreen .phosh-notification-tray {
   transition: 200ms ease;
 }
 
+
+/* Emergency Info */
+.emergency-button {
+  font-size: 12px;
+  padding: 4px 12px;
+  background-color: transparent;
+}
+
 /*
  * System modal dialogs (polkit, gcr, ...)
  */

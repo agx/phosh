@@ -60,7 +60,9 @@
       <xi:include href="xml/docked-manager.xml"/>
       <xi:include href="xml/drag-surface.xml"/>
       <xi:include href="xml/emergency-contact-manager.xml"/>
+      <xi:include href="xml/emergency-contact-row.xml"/>
       <xi:include href="xml/emergency-contact.xml"/>
+      <xi:include href="xml/emergency-menu.xml"/>
       <xi:include href="xml/end-session-dialog.xml"/>
       <xi:include href="xml/fader.xml"/>
       <xi:include href="xml/fading-label.xml"/>
