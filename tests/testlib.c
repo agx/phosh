@@ -423,7 +423,7 @@ phosh_test_keyboard_press_modifiers (struct zwp_virtual_keyboard_v1 *keyboard,
     modifiers |= (1 << 6);
     break;
   default:
-    g_assert_not_reached ();
+    g_error ("Unknown modifier key '%d'", keys);
   }
 
   zwp_virtual_keyboard_v1_modifiers (keyboard, modifiers, 0, 0, 0);

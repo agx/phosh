@@ -15,6 +15,7 @@
 #include "testlib-full-shell.h"
 #include "testlib-calls-mock.h"
 #include "testlib-mpris-mock.h"
+#include "testlib-emergency-calls.h"
 
 #include "phosh-screen-saver-dbus.h"
 
@@ -438,6 +439,40 @@ screenshot_mount_prompt (GMainLoop                       *loop,
   return num;
 }
 
+static int
+screenshot_emergency_calls (GMainLoop                      *loop,
+                            const char                     *locale,
+                            int                             num,
+                            struct zwp_virtual_keyboard_v1 *keyboard,
+                            GTimer                         *timer)
+{
+  g_autoptr (PhoshTestEmergencyCallsMock) emergency_calls_mock = NULL;
+
+  emergency_calls_mock = phosh_test_emergency_calls_mock_new ();
+  phosh_test_emergency_calls_mock_export (emergency_calls_mock);
+
+  phosh_test_keyboard_press_timeout (keyboard, timer, KEY_POWER, 3000);
+  wait_a_bit (loop, 1);
+  take_screenshot (locale, num++, "power-menu");
+
+  phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTALT);
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_E, NULL);
+  phosh_test_keyboard_release_modifiers (keyboard);
+  wait_a_bit (loop, 1);
+  take_screenshot (locale, num++, "emergency-dialpad");
+
+  phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTALT);
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_C, NULL);
+  phosh_test_keyboard_release_modifiers (keyboard);
+  wait_a_bit (loop, 1);
+  take_screenshot (locale, num++, "emergency-contacts");
+
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
+  wait_a_bit (loop, 1);
+
+  return num;
+}
+
 
 static void
 test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
@@ -524,6 +559,8 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_SPACE, NULL);
   wait_a_bit (loop, 1);
   take_screenshot (what, i++, "lockscreen-keypad");
+
+  i = screenshot_emergency_calls (loop, what, i, keyboard, timer);
 
   calls_mock = phosh_test_calls_mock_new ();
   phosh_calls_mock_export (calls_mock);
