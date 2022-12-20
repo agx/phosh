@@ -1,3 +1,104 @@
+phosh (0.23.0) experimental; urgency=medium
+
+  [ Evangelos Ribeiro Tzaras ]
+  * call: Only stop time when call is ended.
+    We want the timer to continue ticking when on hold to be consistent with
+    calls. Now we also need to guard against starting the GTimer multiple times.
+    Originally filed as
+    https://gitlab.gnome.org/GNOME/calls/-/issues/502
+  * plugins/ticket-box: Remove duplicated text.
+    One warning is good enough
+
+  [ Guido Günther ]
+  * call: Document class.
+    This makes it show up properly in the documentation
+  * sm.puri.OSK0: Document DBus interface.
+    As other projects sync from here document the interface implemented
+    by squeekboard, virtboard and phosh-osk-stub better.
+  * docs: Include the sm.puri.OSK0 DBus interface in the documentation.
+    This allows us to link to the rendered docs.
+  * widget-box-standalone: Initialize libhandy.
+    This makes sure the styles get loaded.
+  * dir-locals: Prevent tabs in meson mode
+  * Drop remaining users of config.h.
+    It was renamed to phosh-config.h a while back
+    Fixes: b5b03b0c0123e8533896cddbfff19f1648f77d61
+  * widget-box-standalone: Improve comment
+  * widget-box: Add missing quote
+  * build: Add a pkgconfig file with plugin information.
+    This allows other tools and external pugins to figure out
+    the file system locations.
+  * build: Allow to disable the plugin build.
+    This allows to disable all plugins (e.g. to reduce compilation time
+    or dependencies).
+  * build: Add and install plugin header file.
+    This simplifies external plugins.
+  * plugins/calendar: Use plugin header
+  * plugins/calendar: Pass plugin name to compilation units.
+    This makes sure they don't get out of sync
+  * plugins/ticket-box: Use plugin header
+  * plugins/ticket-box: Pass plugin name to compilation units.
+    This makes sure they don't get out of sync
+  * plugins/upcoming-events: Use plugin header
+  * plugins/upcoming-events: Pass plugin name to compilation units.
+    This makes sure they don't get out of sync
+  * Add a phosh-dev package.
+    This includes pkg config files and headers. Currently this affects
+    plugins and is useful for locating the plugins (e.g. to load them or
+    parse related information) or to build plugins outside of phosh's source
+    tree.
+  * shell: Allow to query blanked state easily
+  * notifications: Use silent feedback when blanked, not locked.
+    Now that these two states will become different.
+  * shell: Disconnect the right monitor in phosh_shell_set_primary_monitor.
+    Fixes 817ac486 ("shell: Update top panel height on primary monitor resize")
+  * shell: Simpliy on_monitor_removed logic
+  * build: Add include directory for dbus sources too
+  * Switch to gi-docgen (Closes: #589)
+  * src: Fix doc headers.
+    Drop short_description and title so gi-docgen can pick them up.
+  * debian: Adjust packaging for gi-docgen switch
+  * ci: Adjust to new doc location.
+    We also skip the doc check until we fixed more warnings.
+  * tools: Update doc check.
+    Drop warnings/errors from wayland protocols and contrib source code.  We
+    always exit with success for the moment until we cleaned up more bits.
+  * wwan/ofono: Fix comment.
+    Don't start with `**` if not meant for gtk-doc/gi-docgen
+  * wwan/mm: Fix comment.
+    Don't start with `**` if not meant for gtk-doc/gi-docgen
+  * vpn-info: Fix property name
+  * docs: Mention sm.puri.OSK0.
+    The docs are generated via our patch to gdbus-codegen. Should these land
+    we can create it during build time with the next glib release.
+  * docs: Remove now unused files
+  * network-auth-prompt: Document signal arguments
+  * polkit-auth-promopt: Document signal arguments
+  * ci: Skip pages job with PKG_ONLY
+
+  [ Chris Talbot ]
+  * lockscreen-plugins-calendar: Encapsulate calendar to include ui file
+  * lockscreen-plugins-calendar: Encapsulate in GtkBox
+  * lockscreen-plugins-calendar: Add CSS
+  * lockscreen-plugins: Create Emergency Info and Contact Plugin
+
+  [ Aleksandr Melman ]
+  * Update Russian translation
+
+  [ Zurab Kargareteli ]
+  * Update Georgian translation
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
+
+  [ Hugo Carvalho ]
+  * Update Portuguese translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 20 Dec 2022 16:23:55 +0100
+
 phosh (0.22.0) experimental; urgency=medium
 
   [ Guido Günther ]
