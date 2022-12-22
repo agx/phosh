@@ -1,9 +1,7 @@
 name='ticket-box'
 
 ticket_box_plugin_deps = [
-  dependency('gobject-2.0'),
-  dependency('gtk+-3.0'),
-  dependency('libhandy-1'),
+  plugin_dep,
   dependency('evince-document-3.0'),
   dependency('evince-view-3.0'),
 ]
@@ -33,8 +31,8 @@ phosh_ticket_box_plugin = shared_module(
 	   ],
   dependencies: ticket_box_plugin_deps,
   include_directories: [root_inc,
-                        phosh_gtk_list_models_inc,
-                        plugin_inc],
+                        phosh_gtk_list_models_inc
+                       ],
   install: true,
   install_dir: plugins_dir,
 )
@@ -42,6 +40,7 @@ phosh_ticket_box_plugin = shared_module(
 pluginconf = configuration_data()
 pluginconf.set('name', name)
 pluginconf.set('plugins_dir', plugins_dir)
+pluginconf.set('plugin_prefs_dir', plugin_prefs_dir)
 
 i18n.merge_file(
   input: configure_file(
@@ -75,3 +74,5 @@ install_data(
   ticket_box_schema,
   install_dir: 'share/glib-2.0/schemas'
 )
+
+subdir('prefs')

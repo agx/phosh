@@ -29,8 +29,20 @@ if get_option('tools')
   executable('dump-app-list', ['dump-app-list.c'],
              dependencies: phosh_tool_dep)
 
-  executable('widget-box', ['widget-box-standalone.c'] + test_stub_deps,
-	     c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root())],
-             dependencies: phosh_tool_dep)
+  if get_option('lockscreen-plugins')
+
+    executable('widget-box', ['widget-box-standalone.c'] + test_stub_deps,
+               c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root())],
+               dependencies: phosh_tool_dep)
+
+    executable('plugin-prefs', ['plugin-prefs-standalone.c',
+                                '../src/plugin-loader.c',
+                               ],
+               c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root())],
+               include_directories: [root_inc, phosh_inc],
+               dependencies: [plugin_prefs_dep, gmodule_dep],
+              )
+
+  endif
 
 endif

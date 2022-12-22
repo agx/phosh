@@ -2,8 +2,7 @@ name='upcoming-events'
 
 upcoming_events_plugin_deps = [
   libgmobile_dep,
-  dependency('gobject-2.0'),
-  dependency('gtk+-3.0'),
+  plugin_dep,
 ]
 
 upcoming_events_resources = gnome.compile_resources(
@@ -42,7 +41,7 @@ phosh_upcoming_events_plugin = shared_module(
   dependencies: upcoming_events_plugin_deps,
   include_directories: [root_inc,
                         phosh_gtk_list_models_inc,
-                        plugin_inc],
+                       ],
   install: true,
   install_dir: plugins_dir,
 )

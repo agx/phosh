@@ -1,10 +1,5 @@
 name='calendar'
 
-calendar_plugin_deps = [
-  dependency('gobject-2.0'),
-  dependency('gtk+-3.0'),
-]
-
 calendar_resources = gnome.compile_resources(
   'phosh-plugin-calendar-resources',
   'phosh-plugin-calendar.gresources.xml',
@@ -23,8 +18,8 @@ phosh_calendar_plugin = shared_module(
   c_args : ['-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
             '-DPLUGIN_NAME="@0@"'.format(name),
            ],
-  dependencies: calendar_plugin_deps,
-  include_directories: [phosh_inc, plugin_inc],
+  dependencies: plugin_dep,
+  include_directories: phosh_inc,
   install: true,
   install_dir: plugins_dir,
 )
