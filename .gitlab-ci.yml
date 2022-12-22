@@ -293,3 +293,6 @@ pages:
       - public
   only:
     - main
+  except:
+    variables:
+      - $PKG_ONLY == "1"
