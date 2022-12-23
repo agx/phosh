@@ -731,6 +731,31 @@ phosh_monitor_get_fractional_scale (PhoshMonitor *self)
 
 
 /**
+ * phosh_monitor_is_preferred_mode:
+ * @self: The monitor
+ *
+ * Checks whether the current monitor's mode is the monitor's
+ * preferred mode.
+ *
+ * Returns: %TRUE if the current mode is the display's preferred mode.
+ *     Otherwise %FALSE.
+*/
+gboolean
+phosh_monitor_is_preferred_mode (PhoshMonitor *self)
+{
+  PhoshMonitorMode *mode;
+
+  g_return_val_if_fail (PHOSH_IS_MONITOR (self), 1.0);
+  g_return_val_if_fail (phosh_monitor_is_configured (self), TRUE);
+
+  mode = phosh_monitor_get_current_mode (self);
+  g_return_val_if_fail (mode, TRUE);
+
+  return self->current_mode == self->preferred_mode;
+}
+
+
+/**
  * phosh_monitor_transform_is_tilted:
  * @transform: a #PhoshMonitorTransform
  *

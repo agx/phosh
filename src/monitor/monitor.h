@@ -160,6 +160,7 @@ PhoshMonitorConnectorType phosh_monitor_connector_type_from_name (const char *na
 gboolean           phosh_monitor_connector_is_builtin (PhoshMonitorConnectorType type);
 struct wl_output * phosh_monitor_get_wl_output (PhoshMonitor *self);
 float              phosh_monitor_get_fractional_scale (PhoshMonitor *self);
+gboolean           phosh_monitor_is_preferred_mode (PhoshMonitor *self);
 
 gboolean           phosh_monitor_transform_is_tilted (PhoshMonitorTransform transform);
 
