@@ -17,7 +17,7 @@
  *
  * An output head
  *
- * A output head (usually a monitor). Only enabled heads corresponds to a
+ * A output head (usually a monitor). Only enabled heads correspond to a
  * wl_output and #PhoshMonitor. #PhoshHead should be considered an
  * implementation detail of #PhoshMonitorManager and not be used outside of it.
  */
