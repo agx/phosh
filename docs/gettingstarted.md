@@ -1,3 +1,6 @@
+Title: Getting started with Phosh development
+Slug: gettingstarted
+
 # Getting started with Phosh development
 
 ## Overview
