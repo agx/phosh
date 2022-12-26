@@ -208,7 +208,7 @@ phosh_vpn_info_class_init (PhoshVpnInfoClass *klass)
                           G_PARAM_STATIC_STRINGS |
                           G_PARAM_EXPLICIT_NOTIFY);
   /**
-   * PhoshVpnManager:enabled
+   * PhoshVpnInfo:enabled
    *
    * Whether a VPN connection is enabled
    */
