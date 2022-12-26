@@ -16,9 +16,9 @@
 #define IIO_SENSOR_PROXY_DBUS_OBJECT     "/net/hadess/SensorProxy"
 
 /**
- * SECTION:sensor-proxy-manager
- * @short_description: Interface with iio-sensor-proxy
- * @Title: PhoshSensorProxyManager
+ * PhoshSensorProxyManager:
+ *
+ * Interface with iio-sensor-proxy
  *
  * The #PhoshSensorProxyManager is responsible for
  * getting events from iio-sensor-proxy.

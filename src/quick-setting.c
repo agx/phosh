@@ -14,9 +14,9 @@
 #include "quick-setting.h"
 
 /**
- * SECTION:quick-setting
- * @short_description: A quick setting for the notification drawer
- * @Title: PhoshQuickSetting
+ * PhoshQuickSetting:
+ *
+ * A quick setting for the notification drawer
  *
  * The #PhoshQuickSetting is a widget which is meant to be placed inside the top drawer.
  * It contains a #GtkLabel and accepts one #PhoshStatusIcon as a child. The info property

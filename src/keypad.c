@@ -14,9 +14,9 @@
 #include "util.h"
 
 /**
- * SECTION:keypad
- * @short_description: A keypad for pin input
- * @Title: PhoshKeypad
+ * PhoshKeypad:
+ *
+ * A keypad for pin input
  *
  * The #PhoshKeypad widget is a keypad for entering
  * or PIN codes on e.g. a #PhoshLockscreen. It can randomly

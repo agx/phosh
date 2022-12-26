@@ -12,9 +12,9 @@
 #include "phosh-config.h"
 
 /**
- * SECTION:run-command-dialog
- * @short_description: A modal dialog to run commands from
- * @Title: PhoshRunCommandDialog
+ * PhoshRunCommandDialog:
+ *
+ * A modal dialog to run commands from
  *
  * The #PhoshRunCommandDialog is used to run commands (e.g. via Alt+F2).
  */

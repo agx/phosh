@@ -16,9 +16,9 @@
 #include "phosh-wayland.h"
 
 /**
- * SECTION:system-prompter
- * @short_description: Manages system prompter registration
- * @Title: PhoshSystemPrompter
+ * PhoshSystemPrompter:
+ *
+ * Manages system prompter registration
  *
  * The PhoshSystemPrompter is responsible for displaying system
  * wide modal #PhoshSystemPrompt dialogs

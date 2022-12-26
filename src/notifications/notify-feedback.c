@@ -18,9 +18,9 @@
 #include <libfeedback.h>
 
 /**
- * SECTION:notify-feedback
- * @short_description: Provider feedback on notifications
- * @Title: PhoshNotifyFeedback
+ * PhoshNotifyFeedback:
+ *
+ * Provider feedback on notifications
  *
  * #PhoshNotifyFeedback is responsible to provider proper feedback
  * on new notifications or when notifcations are being closed.

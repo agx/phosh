@@ -15,9 +15,9 @@
 #include "util.h"
 
 /**
- * SECTION:mount-operation
- * @short_description: #GMountOperation using UI
- * @Title: PhoshMountOperation
+ * PhoshMountOperation:
+ *
+ * #GMountOperation using UI
  *
  * A #GMountOperation that uses system modal dialogs for input.
  */

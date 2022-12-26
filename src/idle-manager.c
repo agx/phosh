@@ -16,9 +16,9 @@
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:idle-manager
- * @short_description: The idle manager singleton
- * @Title: PhoshIdleManager
+ * PhoshIdleManager:
+ *
+ * The idle manager singleton
  *
  * This uses org_kde_kwin_idle_timeout_listener to
  * implement mutter's org.gnome.Mutter.IdleMonitor DBus

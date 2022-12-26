@@ -19,15 +19,6 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-/**
- * SECTION:wl-buffer
- * @short_description: A wayland buffer
- * @Title: PhoshWlBuffer
- *
- * A buffer received from the Wayland compositor containing image
- * data.
- */
-
 
 PhoshWlBuffer *
 phosh_wl_buffer_new (enum wl_shm_format format, uint32_t width, uint32_t height, uint32_t stride)

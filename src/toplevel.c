@@ -16,9 +16,9 @@
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:toplevel
- * @short_description: Represents a single toplevel surface.
- * @Title: PhoshToplevel
+ * PhoshToplevel:
+ *
+ * Represents a single toplevel surface.
  */
 
 enum {

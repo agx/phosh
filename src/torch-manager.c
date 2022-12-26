@@ -26,9 +26,9 @@
 #define TORCH_ENABLED_ICON  "torch-enabled-symbolic"
 
 /**
- * SECTION:torch-manager
- * @short_description: Interacts with torch via UPower
- * @Title: PhoshTorchManager
+ * PhoshTorchManager:
+ *
+ * Interacts with torch via UPower
  *
  * #PhoshTorchManager tracks the torch status and
  * allows to set the brightness.

@@ -19,9 +19,9 @@
 #include <gio/gdesktopappinfo.h>
 
 /**
- * SECTION:location-manager
- * @short_description: Provides the org.freedesktop.GeoClue2.Agent DBus interface
- * @Title: PhoshLocationManager
+ * PhoshLocationManager:
+ *
+ * Provides the org.freedesktop.GeoClue2.Agent DBus interface
  *
  * The #PhoshLocationManager provides the agent interface and authorizes
  * clients based on the org.gnome.system.location 'enabled' gsetting. Note

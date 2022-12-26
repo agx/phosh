@@ -14,9 +14,9 @@
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:layersurface
- * @short_description: A #GtkWindow rendered as a LayerSurface by the compositor
- * @Title: PhoshLayerSurface
+ * PhoshLayerSurface:
+ *
+ * A #GtkWindow rendered as a LayerSurface by the compositor
  *
  * #PhoshLayerSurface allows to use a Wayland surface backed by the
  * layer-shell protocol as #GtkWindow. This allows to render e.g. panels and

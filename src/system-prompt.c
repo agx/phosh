@@ -21,9 +21,9 @@
 #include <glib/gi18n.h>
 
 /**
- * SECTION:system-prompt
- * @short_description: A modal system prompt
- * @Title: PhoshSystemPrompt
+ * PhoshSystemPrompt:
+ *
+ * A modal system prompt
  *
  * The #PhoshSystemPrompt is used to ask for PINs and passwords
  */

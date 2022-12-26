@@ -14,9 +14,9 @@
 #include "osd-window.h"
 
 /**
- * SECTION:osd-window
- * @short_description: A OSD Window
- * @Title: PhoshOsdWindow
+ * PhoshOsdWindow:
+ *
+ * A OSD Window
  *
  * The #PhoshOsdWindow displays contents fed via the
  * OSD (on screen display) DBus interface.

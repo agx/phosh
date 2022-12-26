@@ -23,9 +23,9 @@
 #define GTK_KEY_IS_PHONE "is-phone"
 
 /**
- * SECTION:docked-manager
- * @short_description: Handles 'docking" the phone to additional hardware
- * @Title: PhoshDockedManager
+ * PhoshDockedManager:
+ *
+ * Handles 'docking" the phone to additional hardware
  *
  * #PhoshDockedManager allows to dock the phone to additional hardware
  * and performs the necessary configuration changes

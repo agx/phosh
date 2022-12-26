@@ -20,9 +20,9 @@
 
 
 /**
- * SECTION:bt-manager
- * @short_description: Tracks the Bluetooth status
- * @Title: PhoshBtManager
+ * PhoshBtManager:
+ *
+ * Tracks the Bluetooth status
  *
  * #PhoshBtManager tracks the Bluetooth status that
  * is whether the adapter is present and enabled.

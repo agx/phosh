@@ -16,9 +16,9 @@
 #include <gtk/gtk.h>
 
 /**
- * SECTION:osk-button
- * @short_description: A button that toggles the OSK
- * @Title: PhoshOsk
+ * PhoshOskButton:
+ *
+ * A button that toggles the OSK
  *
  * The #PhoshOskButton is responsible for toggling the on screen keyboard
  */

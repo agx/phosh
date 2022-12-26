@@ -17,8 +17,9 @@
 #define KEYBINDING_KEY_RUN_DIALOG "panel-run-dialog"
 
 /**
- * SECTION:run-command-manager
- * @short_description: Handles the run-command-dialog
+ * PhoshRunCommandManager:
+ *
+ * Handles the run-command-dialog
  *
  * The interface is responsible to handle the non-ui parts of a
  * #PhoshRunCommandDialog.

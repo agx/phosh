@@ -21,9 +21,9 @@
 #include <gio/gunixinputstream.h>
 
 /**
- * SECTION:network-auth-manager
- * @short_description: Handles the interaction between networkmanager and the auth prompts
- * @Title: PhoshNetworkAuthManager
+ * PhoshNetworkAuthManager:
+ *
+ * Handles the interaction between networkmanager and the auth prompts
  *
  * Wi-Fi and other credentials are handled with #ShellNetworkAgent which implements
  * #NMSecretAgentOld to interface with NetworkManager. When a credential for a connection are requested,

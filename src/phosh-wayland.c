@@ -15,9 +15,9 @@
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:phosh-wayland
- * @short_description: A wayland registry listener
- * @Title: PhoshWayland
+ * PhoshWayland:
+ *
+ * A wayland registry listener
  *
  * The #PhoshWayland singleton is responsible for listening to wayland
  * registry events registering the objects that show up there to make

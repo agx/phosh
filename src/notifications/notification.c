@@ -16,9 +16,9 @@
 #include <glib/gi18n-lib.h>
 
 /**
- * SECTION:notification
- * @short_description: A notification
- * @Title: PhoshNotification
+ * PhoshNotification:
+ *
+ * A notification
  *
  * A #PhoshNotification with summary, body, icon, actions, etc.
  */

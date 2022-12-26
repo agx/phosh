@@ -17,9 +17,9 @@
 #include <glib/gi18n.h>
 
 /**
- * SECTION:app-auth-prompt
- * @short_description: A system modal prompt to authorize applications
- * @Title: PhoshAppAuthPrompt
+ * PhoshAppAuthPrompt:
+ *
+ * A system modal prompt to authorize applications
  *
  * The #PhoshAppAuthPrompt is used to authorize applications. It's used
  * by the #PhoshLocationManager and for org.freedesktop.impl.Access.

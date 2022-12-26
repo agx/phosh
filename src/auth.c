@@ -14,9 +14,9 @@
 #include <security/pam_appl.h>
 
 /**
- * SECTION:auth
- * @short_description: PAM authentication handling
- * @Title: PhoshAuth
+ * PhoshAuth:
+ *
+ * PAM authentication handling
  */
 
 typedef struct

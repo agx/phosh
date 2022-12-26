@@ -16,9 +16,9 @@
 #include <NetworkManager.h>
 
 /**
- * SECTION:connectivity-info
- * @short_description: A widget to display the connectivity status
- * @Title: PhoshConnectivityInfo
+ * PhoshConnectivityInfo:
+ *
+ * A widget to display the connectivity status
  *
  * #PhoshConnectivityInfo monitors the connectivity to the internet
  * via NetworkManager and alerts the user about connectivity problems.

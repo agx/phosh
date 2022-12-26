@@ -18,9 +18,9 @@
 #define OBJECT_PATH "/org/freedesktop/ModemManager1"
 
 /**
- * SECTION:phosh-wwan-mm
- * @short_description: Implementation of the #PhoshWWanInterface
- * @Title: PhoshWWanMM
+ * PhoshWWanMM:
+ *
+ * Implementation of the #PhoshWWanInterface
  *
  * This implements #PhoshWWanInterface for ModemManager.
  */

@@ -22,9 +22,9 @@ static void auth_debug(const char *str, ...) {}
 #endif
 
 /**
- * SECTION:polkit-auth-agent
- * @short_description: PolicyKit Authentication Agent
- * @Title: PhoshPolkitAuthAgent
+ * PhoshPolkitAuthAgent:
+ *
+ * PolicyKit Authentication Agent
  *
  * The #PhoshPolkitAuthAgent is responsible for handling policy kit
  * interaction so the shell can work as a authentication agent.

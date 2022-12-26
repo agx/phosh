@@ -21,9 +21,9 @@
 
 
 /**
- * SECTION:end-session-dialog
- * @short_description: A system modal prompt to authorize applications
- * @Title: PhoshEndSessionDialog
+ * PhoshEndSessionDialog:
+ *
+ * A system modal prompt to authorize applications
  *
  * The #PhoshEndSessionDialog is used to confirm/decline the end of the session
  * and is spawned by the #PhoshSessionManager.

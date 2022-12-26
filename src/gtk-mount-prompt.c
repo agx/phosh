@@ -15,9 +15,9 @@
 #include <glib/gi18n.h>
 
 /**
- * SECTION:gtk-mount-prompt
- * @short_description: A modal prompt for #PhoshGtkMountManager
- * @Title: PhoshGtkMountPrompt
+ * PhoshGtkMountPrompt:
+ *
+ * A modal prompt for #PhoshGtkMountManager
  *
  * The #PhoshGtkMountPrompt is used to query the needed information
  * for the #PhoshGtkMountManager.

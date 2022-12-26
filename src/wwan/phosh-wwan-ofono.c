@@ -18,9 +18,9 @@
 #define OBJECT_PATH "/"
 
 /**
- * SECTION:phosh-wwan-ofono
- * @short_description: Implementation of the #PhoshWWanInterface for Ofono
- * @Title: PhoshWWanOfono
+ * PhoshWWanOfono:
+ *
+ * Implementation of the #PhoshWWanInterface for Ofono
  */
 
 enum {

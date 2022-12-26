@@ -15,9 +15,9 @@
 #include "bidi.h"
 
 /**
- * SECTION:fading-label
- * @short_description: A label whose end can fade away
- * @title: PhoshFadingLabel
+ * PhoshFadingLabel:
+ *
+ * A label that visually fades out when too wide for the given space.
  */
 
 #define FADE_WIDTH 18

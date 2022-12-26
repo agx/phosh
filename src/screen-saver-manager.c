@@ -18,9 +18,9 @@
 #include "util.h"
 
 /**
- * SECTION:screen-saver-manager
- * @short_description: Provides the org.gnome.ScreenSaver DBus interface and handles logind's Session
- * @Title: PhoshScreenSaverManager
+ * PhoshScreenSaverManager:
+ *
+ * Provides the org.gnome.ScreenSaver DBus interface and handles logind's Session
  *
  * See https://people.gnome.org/~mccann/gnome-screensaver/docs/gnome-screensaver.html
  * for a (a bit outdated) interface description. It also handles the login1 session

@@ -20,9 +20,9 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 /**
- * SECTION:wwan-manager
- * @short_description: Base class for #PhoshWWan interface implementations
- * @Title: PhoshWWanManager
+ * PhoshWWanManager:
+ *
+ * Base class for #PhoshWWan interface implementations
  *
  * Common code for implementors of the #PhoshWWan interface covering
  * NetworkManager related bits.

@@ -16,9 +16,9 @@
 #define PHOSH_APP_UNKNOWN_ICON "app-icon-unknown"
 
 /**
- * SECTION:splash
- * @short_description: A splash screen
- * @Title: PhoshSplash
+ * PhoshSplash:
+ *
+ * A splash screen
  *
  * The #PhoshSplash is a splash screen used to indicate application
  * startup.

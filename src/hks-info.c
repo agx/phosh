@@ -15,9 +15,9 @@
 #include "hks-manager.h"
 
 /**
- * SECTION:hks-info
- * @short_description: A widget to display the HKS status of a device
- * @Title: PhoshHksInfo
+ * PhoshHksInfo:
+ *
+ * A widget to display the HKS status of a device
  *
  * #PhoshHksInfo displays whether a device is disabled via a hardware
  * kill switch (HKS).

@@ -21,9 +21,9 @@
 #define OBJECT_PATHS_CALLS_PREFIX OBJECT_PATH "/Call/"
 
 /**
- * SECTION:calls-manager
- * @short_description: Track ongoing phone calls
- * @Title: PhoshCallsManager
+ * PhoshCallsManager:
+ *
+ * Track ongoing phone calls
  *
  * #PhoshCallsManager tracks on going calls on the org.gnome.Calls DBus
  * interface and allows interaction with them by wrapping the

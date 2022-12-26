@@ -24,9 +24,9 @@
 #include <glib/gi18n.h>
 
 /**
- * SECTION:polkit-auth-prompt
- * @short_description: A modal prompt for policy kit authentication
- * @Title: PhoshPolkitAuthPrompt
+ * PhoshPolkitAuthPrompt:
+ *
+ * A modal prompt for policy kit authentication
  *
  * The #PhoshPolkitAuthPrompt is used to ask policy kit authentication.
  * This handles the interaction with PolkitAgentSession.

@@ -14,9 +14,9 @@
 #include "shell.h"
 
 /**
- * SECTION:rotateinfo
- * @short_description: A widget to display the rotate lock status
- * @Title: PhoshRotateInfo
+ * PhoshRotateInfo:
+ *
+ * A widget to display the rotate lock status
  *
  * A #PhoshStatusIcon to display the rotation lock status.
  * It can either display whether a rotation lock is currently active or

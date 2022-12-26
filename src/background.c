@@ -40,9 +40,9 @@
                                    (((int)(color->alpha * 255))))
 
 /**
- * SECTION:background
- * @short_description: The monitor's background
- * @Title: PhoshBackground
+ * PhoshBackground:
+ *
+ * The monitor's background
  */
 
 enum {

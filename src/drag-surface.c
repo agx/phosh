@@ -14,9 +14,9 @@
 #include "drag-surface.h"
 
 /**
- * SECTION:drag-surface
- * @short_description: A drgable layer surface
- * @Title: PhoshDragSurface
+ * PhoshDragSurface:
+ *
+ * A drgable layer surface
  *
  * A layer surface that can be dragged in ne direction via gestures.
  *

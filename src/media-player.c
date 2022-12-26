@@ -26,9 +26,9 @@
 #define SEEK_FORWARD (30 * SEEK_SECOND)
 
 /**
- * SECTION:media-player
- * @short_description: A simple MPRIS media player widget
- * @Title: PhoshMediaPlayer
+ * PhoshMediaPlayer:
+ *
+ * A simple MPRIS media player widget
  *
  * The #PhoshMediaPlayer widget interfaces with
  * [org.mpris.MediaPlayer2](https://specifications.freedesktop.org/mpris-spec/latest/)

@@ -15,9 +15,9 @@
 #include "swipe-away-bin.h"
 
 /**
- * SECTION:system-modal-dialog
- * @short_description: A modal system dialog
- * @Title: PhoshSystemModalDialog
+ * PhoshSystemModalDialog:
+ *
+ * A modal system dialog
  *
  * The #PhoshSystemModalDialog is used as a base class for system modal dialogs
  * such as #PhoshSystemPrompt or #PhoshNetworkAuthPrompt. It consists of a title

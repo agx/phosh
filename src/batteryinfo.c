@@ -19,9 +19,9 @@
 #include <math.h>
 
 /**
- * SECTION:batteryinfo
- * @short_description: A widget to display the battery status
- * @Title: PhoshBatteryInfo
+ * PhoshBatteryInfo:
+ *
+ * A widget to display the battery status
  */
 
 enum {

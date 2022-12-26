@@ -17,9 +17,9 @@
 #define ORIENTATION_LOCK_KEY       "orientation-lock"
 
 /**
- * SECTION:rotation-manager
- * @short_description: The Rotation Manager
- * @Title: PhoshRotationManager
+ * PhoshRotationManager:
+ *
+ * The Rotation Manager
  *
  * #PhoshRotationManager is responsible for managing the rotation of
  * a given #PhoshMonitor. Depending on the #PhoshRotationManagerMode

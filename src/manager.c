@@ -13,9 +13,9 @@
 #include "manager.h"
 
 /**
- * SECTION:manager
- * @short_description: Base class for manager objects
- * @Title: PhoshManager
+ * PhoshManager:
+ *
+ * Base class for manager objects
  *
  * Common functionality for manager objects.
  */

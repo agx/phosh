@@ -17,9 +17,9 @@
 #include <gtk/gtk.h>
 
 /**
- * SECTION:splash-manager
- * @short_description: Handles splash screens
- * @Title: PhoshSplashManager
+ * PhoshSplashManager:
+ *
+ * Handles splash screens
  *
  * Spawn, keeps track and closes splash screens.
  */

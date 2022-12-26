@@ -17,9 +17,9 @@
 #include <glib/gi18n.h>
 
 /**
- * SECTION:mount-notification
- * @short_description: A notifiction shown when a device got mounted
- * @Title: PhoshMountNotification
+ * PhoshMountNotification:
+ *
+ * A notifiction shown when a device got mounted
  *
  * The #PhoshMountNotification is responsible for showing the necessary
  * information when a device got mounted and providing the open action.

@@ -18,9 +18,9 @@
 #include <sys/mman.h>
 
 /**
- * SECTION:toplevel-thumbnail
- * @short_description: Represents an image snapshot of PhoshToplevel obtained via phosh-private and wlr-screencopy Wayland protocols.
- * @Title: PhoshToplevelThumbnail
+ * PhoshToplevelThumbnail:
+ *
+ * Represents an image snapshot of PhoshToplevel obtained via phosh-private and wlr-screencopy Wayland protocols.
  */
 
 enum {

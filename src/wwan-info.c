@@ -17,9 +17,9 @@
 #include "shell.h"
 
 /**
- * SECTION:wwan-info
- * @short_description: A widget to display the wwan status
- * @Title: PhoshWWanInfo
+ * PhoshWWanInfo:
+ *
+ * A widget to display the wwan status
  *
  * A good indicator whether to show the icon is the
  * #PhoshWWanInfo:present property that indicates if
