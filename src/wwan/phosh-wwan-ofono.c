@@ -42,7 +42,7 @@ typedef struct _PhoshWWanOfono {
   PhoshOfonoDBusSimManager          *proxy_sim;
   PhoshOfonoDBusManager             *proxy_manager;
 
-  /** Signals we connect to */
+  /* Signals we connect to */
   gulong                             manager_object_added_signal_id;
   gulong                             manager_object_removed_signal_id;
   gulong                             proxy_netreg_props_signal_id;
