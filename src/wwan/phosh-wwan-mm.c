@@ -86,7 +86,7 @@ typedef struct _PhoshWWanMM {
   PhoshMMDBusObjectManagerClient *manager;
   GCancellable                   *cancel;
 
-  /** Signals we connect to */
+  /* Signals we connect to */
   gulong                          manager_object_added_signal_id;
   gulong                          manager_object_removed_signal_id;
   gulong                          proxy_props_signal_id;
