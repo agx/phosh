@@ -130,4 +130,6 @@ void                 phosh_shell_set_state (PhoshShell *self, PhoshShellStateFla
 PhoshShellDebugFlags phosh_shell_get_debug_flags (PhoshShell *self);
 gboolean             phosh_shell_get_show_splash (PhoshShell *self);
 gboolean             phosh_shell_get_docked      (PhoshShell *self);
+gboolean             phosh_shell_get_blanked     (PhoshShell *self);
+
 G_END_DECLS

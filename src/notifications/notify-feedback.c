@@ -55,12 +55,12 @@ end_notify_feedback (PhoshNotifyFeedback *self)
 static const char *
 find_event (const char *category)
 {
-  gboolean locked = phosh_shell_get_locked (phosh_shell_get_default ());
+  gboolean blanked = phosh_shell_get_blanked (phosh_shell_get_default ());
   /* If shell is unlocked and we don't have a specific category don't
      trigger any event to not distract the user*/
   const char *ret = NULL;
 
-  if (locked) {
+  if (blanked) {
     if (g_strcmp0 (category, "email.arrived") == 0)
       ret = "message-missed-email";
     else if (g_strcmp0 (category, "im.received") == 0)

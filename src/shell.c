@@ -899,16 +899,12 @@ on_monitor_removed (PhoshShell *self, PhoshMonitor *monitor)
       PhoshMonitor *new_primary = phosh_monitor_manager_get_monitor (priv->monitor_manager, i);
       if (new_primary != monitor) {
         phosh_shell_set_primary_monitor (self, new_primary);
-        break;
+        return;
       }
     }
 
     /* We did not find another monitor so all monitors are gone */
-    if (priv->primary_monitor == monitor) {
-      g_debug ("All monitors gone");
-      phosh_shell_set_primary_monitor (self, NULL);
-      return;
-    }
+    phosh_shell_set_primary_monitor (self, NULL);
   }
 }
 
@@ -1115,7 +1111,7 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
     return;
 
   if (priv->primary_monitor)
-    g_signal_handlers_disconnect_by_func (priv->builtin_monitor,
+    g_signal_handlers_disconnect_by_func (priv->primary_monitor,
                                           G_CALLBACK (on_primary_monitor_configured),
                                           self);
 
@@ -1927,4 +1923,19 @@ phosh_shell_get_docked (PhoshShell *self)
   priv = phosh_shell_get_instance_private (self);
 
   return priv->docked;
+}
+
+
+/**
+ * phosh_shell_get_blanked:
+ * @self: The #PhoshShell singleton
+ *
+ * Returns: %TRUE if the primary output is currently blanked
+ */
+gboolean
+phosh_shell_get_blanked (PhoshShell *self)
+{
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), FALSE);
+
+  return phosh_shell_get_state (self) & PHOSH_STATE_BLANKED;
 }
