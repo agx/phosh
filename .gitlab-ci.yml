@@ -197,9 +197,8 @@ build-gtkdoc:
     - git clean -dfx
     - 'echo "Build opts: ${BUILD_OPTS}"'
     - meson ${BUILD_OPTS} . _build
-    - ninja -C _build
-    - tools/doc-check _build
-    - mv _build/docs/html/ _reference/
+    - meson compile -C _build
+    - mv _build/docs/phosh-0/ _reference/
   artifacts:
     paths:
       - _reference
