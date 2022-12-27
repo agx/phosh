@@ -37,4 +37,5 @@ file_format = "{filename}#L{line}"
 [extra]
 content_files = [
   "gettingstarted.md",
+  "phosh-dbus-sm.puri.OSK0.md",
 ]
