@@ -480,6 +480,7 @@ phosh_polkit_auth_prompt_class_init (PhoshPolkitAuthPromptClass *klass)
  /**
    * PhoshPolkitAuthPrompt::done:
    * @self: The #PhoshPolkitAuthPrompt instance.
+   * @cancelled: Whether the dialog was cancelled
    *
    * This signal is emitted when the prompt can be closed. The cancelled
    * argument indicates whether the prompt was cancelled.
