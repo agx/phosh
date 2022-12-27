@@ -10,6 +10,7 @@ emergency_info_plugin_sources = files(
   'phosh-plugin-emergency-info.c',
   'emergency-info.c',
   'emergency-info-row.c',
+  'emergency-info-common.h',
 )
 
 emergency_info_resources = gnome.compile_resources(

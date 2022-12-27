@@ -8,11 +8,7 @@
 
 #include "emergency-info.h"
 #include "emergency-info-row.h"
-
-#define EMERGENCY_INFO_GKEYFILE_LOCATION "phosh"
-#define EMERGENCY_INFO_GKEYFILE_NAME     "EmergencyInfo.keyfile"
-#define INFO_GROUP                       "Info"
-#define CONTACTS_GROUP                   "Contacts"
+#include "emergency-info-common.h"
 
 /**
  * PhoshEmergencyInfo:
