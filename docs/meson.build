@@ -1,7 +1,5 @@
 if get_option('gtk_doc')
 
-subdir('xml')
-
 expand_content_md_files = [
   'gettingstarted.md',
   'phosh-dbus-sm.puri.OSK0.md',
