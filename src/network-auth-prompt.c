@@ -454,6 +454,8 @@ phosh_network_auth_prompt_class_init (PhoshNetworkAuthPromptClass *klass)
 
  /**
    * PhoshNetworkAuthPrompt::done:
+   * @self: The network auth prompt
+   * @cancelled: whether the prompt was cancelled
    *
    * This signal is emitted when the prompt can be closed. The cancelled
    * argument indicates whether the prompt was cancelled.
