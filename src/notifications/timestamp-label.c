@@ -12,9 +12,9 @@
 #include <glib/gi18n.h>
 
 /**
- * SECTION:timestamp-label
- * @short_description: A simple way of displaying a time difference
- * @Title: PhoshTimestampLabel
+ * PhoshTimestampLabel:
+ *
+ * A simple way of displaying a time difference
  *
  * The #PhoshTimestampLabel is used to display the time difference between
  * the timestamp stored in the #PhoshTimestampLabel and the current time.

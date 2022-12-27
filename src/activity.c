@@ -19,9 +19,9 @@
 #include <gio/gdesktopappinfo.h>
 
 /**
- * SECTION:activity
- * @short_description: An app in the favorites overview
- * @Title: PhoshActivity
+ * PhoshActivity:
+ *
+ * An app in the favorites overview
  *
  * The #PhoshActivity is used to select a running application in the overview.
  */

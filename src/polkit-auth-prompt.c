@@ -24,9 +24,9 @@
 #include <glib/gi18n.h>
 
 /**
- * SECTION:polkit-auth-prompt
- * @short_description: A modal prompt for policy kit authentication
- * @Title: PhoshPolkitAuthPrompt
+ * PhoshPolkitAuthPrompt:
+ *
+ * A modal prompt for policy kit authentication
  *
  * The #PhoshPolkitAuthPrompt is used to ask policy kit authentication.
  * This handles the interaction with PolkitAgentSession.
@@ -480,6 +480,7 @@ phosh_polkit_auth_prompt_class_init (PhoshPolkitAuthPromptClass *klass)
  /**
    * PhoshPolkitAuthPrompt::done:
    * @self: The #PhoshPolkitAuthPrompt instance.
+   * @cancelled: Whether the dialog was cancelled
    *
    * This signal is emitted when the prompt can be closed. The cancelled
    * argument indicates whether the prompt was cancelled.

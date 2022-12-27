@@ -11,9 +11,9 @@
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:monitor
- * @short_description: A monitor
- * @Title: PhoshMonitor
+ * PhoshMonitor:
+ *
+ * A monitor
  *
  * A rectangualar area in the compositor space, usally corresponds to
  * physical monitor using wl_output and xdg_output Wayland protocols.

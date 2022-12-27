@@ -14,9 +14,9 @@
 #include <gio/gdesktopappinfo.h>
 
 /**
- * SECTION:notification-content
- * @short_description: Content of a notification
- * @Title: PhoshNotificationContent
+ * PhoshNotificationContent:
+ *
+ * Content of a notification
  */
 
 enum {

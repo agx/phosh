@@ -14,9 +14,9 @@
 #include "system-modal.h"
 
 /**
- * SECTION:system-modal
- * @short_description: A modal system component
- * @Title: PhoshSystemModal
+ * PhoshSystemModal:
+ *
+ * A modal system component
  *
  * The #PhoshSystemModal is used as a base class for other
  * system components such as dialogs like #PhoshSystemPrompt or

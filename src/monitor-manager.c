@@ -25,9 +25,9 @@
 #include <errno.h>
 
 /**
- * SECTION:monitor-manager
- * @short_description: The singleton that manages available monitors
- * @Title: PhoshMonitorManager
+ * PhoshMonitorManager:
+ *
+ * The singleton that manages available monitors
  *
  * This keeps track of all monitors and handles the
  * org.gnome.Mutter.DisplayConfig DBus interface via

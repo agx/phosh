@@ -25,9 +25,9 @@
 #define SESSION_SHUTDOWN_TIMEOUT 15
 
 /**
- * SECTION:session-manager
- * @short_description: Session interaction
- * @Title: PhoshSessionManager
+ * PhoshSessionManager:
+ *
+ * Session interaction
  *
  * The #PhoshSessionManager is responsible for
  * managing attributes of the session.

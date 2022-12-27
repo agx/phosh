@@ -13,9 +13,9 @@
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:head-priv
- * @short_description: An output head
- * @Title: PhoshHead
+ * PhoshHead:
+ *
+ * An output head
  *
  * A output head (usually a monitor). Only enabled heads corresponds to a
  * wl_output and #PhoshMonitor. #PhoshHead should be considered an

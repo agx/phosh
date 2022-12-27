@@ -18,9 +18,9 @@
 #include <glib/gi18n.h>
 
 /**
- * SECTION:dbus-notification
- * @short_description: A notifiction submitted via the DBus notification interface
- * @Title: PhoshDBusNotification
+ * PhoshDBusNotification:
+ *
+ * A notifiction submitted via the DBus notification interface
  *
  * The #PhoshDBusNotification is a notification submitted via the
  * org.freedesktop.Notification interface.

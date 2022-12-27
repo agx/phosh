@@ -25,9 +25,9 @@
 #define PHOSH_VERSION_SUFFIX " (phosh " PHOSH_VERSION ")"
 
 /**
- * SECTION:gnome-shell-manager
- * @short_description: Provides the org.gnome.Shell DBus interface
- * @Title: PhoshGnomeShellManager
+ * PhoshGnomeShellManager:
+ *
+ * Provides the org.gnome.Shell DBus interface
  *
  */
 

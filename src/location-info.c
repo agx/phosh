@@ -16,9 +16,9 @@
 #include "shell.h"
 
 /**
- * SECTION:location-info
- * @short_description: A widget to display the location service status
- * @Title: PhoshLocationInfo
+ * PhoshLocationInfo:
+ *
+ * A widget to display the location service status
  *
  * #PhoshLocationInfo indicates if the location service is active.
  * The widgets container should hide the widget if

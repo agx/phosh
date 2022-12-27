@@ -15,9 +15,9 @@
 #include "torch-manager.h"
 
 /**
- * SECTION:torch-info
- * @short_description: A widget to display the torch status
- * @Title: PhoshTorchInfo
+ * PhoshTorchInfo:
+ *
+ * A widget to display the torch status
  *
  * #PhoshTorchInfo displays the current torch status based on information
  * from #PhoshTorchManager. To figure out if the widget should be shown

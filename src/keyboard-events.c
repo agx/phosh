@@ -14,9 +14,9 @@
 #include "phosh-wayland.h"
 
 /**
- * SECTION:keyboard-events
- * @short_description: Grabs and manages special keyboard events
- * @Title: PhoshKeyboardEvents
+ * PhoshKeyboardEvents:
+ *
+ * Grabs and manages special keyboard events
  */
 
 struct _PhoshKeyboardEvents {

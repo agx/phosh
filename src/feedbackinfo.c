@@ -14,9 +14,9 @@
 #include "shell.h"
 
 /**
- * SECTION:feedbackinfo
- * @short_description: A widget to toggle feedback modes
- * @Title: PhoshFeedbackInfo
+ * PhoshFeedbackInfo:
+ *
+ * A widget to toggle feedback modes
  */
 enum {
   PROP_0,

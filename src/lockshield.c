@@ -13,9 +13,9 @@
 #include "lockshield.h"
 
 /**
- * SECTION:lockshield
- * @short_description: Lock shield for non primary screens
- * @Title: PhoshLockshield
+ * PhoshLockshield:
+ *
+ * Lock shield for non primary screens
  *
  * The #PhoshLockshield is displayed on lock screens
  * which are not the primary one.

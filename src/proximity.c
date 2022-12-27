@@ -16,9 +16,9 @@
 #include "util.h"
 
 /**
- * SECTION:proximity
- * @short_description: Proximity sensor handling
- * @Title: PhoshProximity
+ * PhoshProximity:
+ *
+ * Proximity sensor handling
  *
  * #PhoshProximity handles enabling and disabling the proximity detection
  * based on e.g. active calls.

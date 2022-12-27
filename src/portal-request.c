@@ -10,9 +10,9 @@
 #include "dbus/portal-dbus.h"
 
 /**
- * SECTION:portal-request
- * @short_description: Shared request api for all portal backend interfaces.
- * @Title: PhoshPortalRequest
+ * PhoshPortalRequest:
+ *
+ * Shared request api for all portal backend interfaces.
  *
  * The PhoshPortalRequest implements the Request backend interface.
  * See the portal documentation: https://flatpak.github.io/xdg-desktop-portal/#gdbus-org.freedesktop.impl.portal.Request.

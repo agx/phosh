@@ -16,9 +16,9 @@
 #include <gio/gio.h>
 
 /**
- * SECTION:gtk-mount-manager
- * @short_description: Provides the org.Gtk.GtkMountOperationHandler DBus interface
- * @Title: PhoshGtkMountManager
+ * PhoshGtkMountManager:
+ *
+ * Provides the org.Gtk.GtkMountOperationHandler DBus interface
  *
  * The interface is responsible to handle the ui parts of a #GtkMountOperation.
  */

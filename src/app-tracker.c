@@ -24,9 +24,9 @@
 #define STARTUP_TIMEOUT 5
 
 /**
- * SECTION:app-tracker
- * @short_description: Application state tracker
- * @Title: PhoshAppTracker
+ * PhoshAppTracker:
+ *
+ * Application state tracker
  *
  * Tracks the startup state of applications
  */

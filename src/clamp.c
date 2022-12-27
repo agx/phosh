@@ -7,9 +7,9 @@
 #include "clamp.h"
 
 /**
- * SECTION:clamp
- * @short_description: A container limiting its natural size request
- * @Title: PhoshClamp
+ * PhoshClamp:
+ *
+ * A container limiting its natural size request
  *
  * This should not be confused with `HdyClamp`, which limits the size allocated
  * to its child and adds a dynamic margin around it. `PhoshClamp` instead

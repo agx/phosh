@@ -15,9 +15,9 @@
 #include "docked-manager.h"
 
 /**
- * SECTION:docked-info
- * @short_description: A widget to display the docked status
- * @Title: PhoshDockedInfo
+ * PhoshDockedInfo:
+ *
+ * A widget to display the docked status
  *
  * #PhoshDockedInfo displays whether the device is docked
  */

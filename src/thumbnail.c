@@ -11,9 +11,9 @@
 #include "thumbnail.h"
 
 /**
- * SECTION:thumbnail
- * @short_description: An abstract class representing thumbnail image.
- * @Title: PhoshThumbnail
+ * PhoshThumbnail:
+ *
+ * An abstract class representing thumbnail image.
  */
 
 enum {

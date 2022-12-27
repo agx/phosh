@@ -23,9 +23,9 @@
 
 
 /**
- * SECTION:portal-access-manager
- * @short_description: Implements org.freedesktop.impl.portal
- * @Title: PhoshPortalAccessManager
+ * PhoshPortalAccessManager:
+ *
+ * Implements org.freedesktop.impl.portal
  */
 
 typedef struct _PhoshPortalAccessManager {

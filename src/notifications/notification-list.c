@@ -13,9 +13,9 @@
 #include "notification-list.h"
 
 /**
- * SECTION:notification-list
- * @short_description: A list containing one or more #PhoshNotificationSource
- * @Title: PhoshNotificationList
+ * PhoshNotificationList:
+ *
+ * A list containing one or more #PhoshNotificationSource
  *
  * #PhoshNotificationList maps between #PhoshNotificationSource objects and their
  * notifications creating and removing sources on the fly.

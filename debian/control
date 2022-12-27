@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Guido Günther <agx@sigxcpu.org>
 Build-Depends:
  debhelper-compat (= 13),
- gtk-doc-tools <!nodoc>,
+ gi-docgen <!nodoc>,
  libadwaita-1-dev,
  libcallaudio-dev,
  libevince-dev,

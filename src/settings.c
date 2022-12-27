@@ -37,9 +37,9 @@
 #define STACK_CHILD_NO_NOTIFICATIONS "no-notifications"
 
 /**
- * SECTION:settings
- * @short_description: The settings menu
- * @Title: PhoshSettings
+ * PhoshSettings:
+ *
+ * The settings menu
  */
 enum {
   PROP_0,

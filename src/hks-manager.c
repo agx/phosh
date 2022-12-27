@@ -32,9 +32,9 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC (RfKillEvent, g_free);
 #define RFKILL_TYPE_MIC_ 10
 
 /**
- * SECTION:hks-manager
- * @short_description: Tracks hardware kill switch state
- * @Title: PhoshHksManager
+ * PhoshHksManager:
+ *
+ * Tracks hardware kill switch state
  *
  * Monitor hardware kill switch state. This will be submitted to gnome-settings-daemon
  * once we figured out the kernel interfaces.

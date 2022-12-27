@@ -86,9 +86,9 @@
 #include "wwan/phosh-wwan-backend.h"
 
 /**
- * SECTION:shell
- * @short_description: The shell singleton
- * @Title: PhoshShell
+ * PhoshShell:
+ *
+ * The shell singleton
  *
  * #PhoshShell is responsible for instantiating the GUI
  * parts of the shell#PhoshTopPanel, #PhoshHome,… and the managers that

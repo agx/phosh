@@ -26,9 +26,9 @@
 #define FLASH_FADER_TIMEOUT 500
 
 /**
- * SECTION:screenshot-manager
- * @short_description: Screenshot interaction
- * @Title: PhoshScreenshotManager
+ * PhoshScreenshotManager:
+ *
+ * Screenshot interaction
  *
  * The #PhoshScreenshotManager is responsible for
  * taking screenshots.

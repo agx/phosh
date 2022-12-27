@@ -26,15 +26,14 @@
 #define PHOSH_HOME_DRAG_THRESHOLD 0.3
 
 /**
- * SECTION:home
- * @short_description: The home surface contains the overview and
- * the button to fold and unfold the overview.
- * @Title: PhoshHome
+ * PhoshHome:
+ *
+ * The home surface contains the overview and the button to fold and unfold the overview.
  *
  * #PhoshHome contains the #PhoshOverview that manages running
- * applications and the app grid. It also manages a button
- * at the bottom of the screen to fold and unfold the #PhoshOverview
- * and a button to toggle the OSK.
+ * applications and the app grid. It also manages a button at the
+ * bottom of the screen to fold and unfold the #PhoshOverview and a
+ * button to toggle the OSK.
  */
 enum {
   OSK_ACTIVATED,

@@ -17,9 +17,9 @@
 #include <handy.h>
 
 /**
- * SECTION:notification-banner
- * @short_description: A floating notification
- * @Title: PhoshNotificationBanner
+ * PhoshNotificationBanner:
+ *
+ * A floating notification
  */
 
 enum {

@@ -15,9 +15,9 @@
 #include "bt-manager.h"
 
 /**
- * SECTION:bt-info
- * @short_description: A widget to display the bluetooth status
- * @Title: PhoshBtInfo
+ * PhoshBtInfo:
+ *
+ * A widget to display the bluetooth status
  *
  * #PhoshBtInfo displays the current bluetooth status based on information
  * from #PhoshBtManager. To figure out if the widget should be shown

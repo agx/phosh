@@ -16,9 +16,9 @@
 #include <NetworkManager.h>
 
 /**
- * SECTION:vpn-manager
- * @short_description: Tracks the Vpn status and handle vpn credentials entry
- * @Title: PhoshVpnManager
+ * PhoshVpnManager:
+ *
+ * Tracks the Vpn status and handle vpn credentials entry
  *
  * Manages vpn information and state
  */

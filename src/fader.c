@@ -15,9 +15,9 @@
 #include <handy.h>
 
 /**
- * SECTION:fader
- * @short_description: A fader
- * @Title: PhoshFader
+ * PhoshFader:
+ *
+ * A fader
  *
  * A fullsreen surface that fades in or out.
  */

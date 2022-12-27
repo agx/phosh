@@ -16,9 +16,9 @@
 #include <NetworkManager.h>
 
 /**
- * SECTION:wifimanager
- * @short_description: Tracks the Wifi status and handle wifi credentials entry
- * @Title: PhoshWifiManager
+ * PhoshWifiManager:
+ *
+ * Tracks the Wifi status and handle wifi credentials entry
  *
  * Manages wifi information and state
  */

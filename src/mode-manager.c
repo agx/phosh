@@ -23,9 +23,9 @@
 #define WM_KEY_LAYOUT "button-layout"
 
 /**
- * SECTION:mode-manager
- * @short_description: Determines the device mode
- * @Title: PhoshModeManager
+ * PhoshModeManager:
+ *
+ * Determines the device mode
  *
  * #PhoshModeManager tracks the device mode and attached hardware.
  */

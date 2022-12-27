@@ -24,10 +24,6 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	dh_auto_build
-ifeq ($(filter nodoc,$(DEB_BUILD_PROFILES)),)
-	# https://github.com/mesonbuild/meson/pull/2862
-	ninja -C _build/ phosh-doc
-endif
 
 override_dh_auto_install:
 	set -e; for script in postinst postrm triggers; do \

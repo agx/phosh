@@ -17,9 +17,9 @@
 #include <libfeedback.h>
 
 /**
- * SECTION:feedback-manager
- * @short_description: Sends and configures user feedback
- * @Title: PhoshFeedbackManager
+ * PhoshFeedbackManager:
+ *
+ * Sends and configures user feedback
  */
 
 #define PHOSH_FEEDBACK_ICON_FULL "preferences-system-notifications-symbolic"

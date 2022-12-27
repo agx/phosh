@@ -13,9 +13,9 @@
 #define LENGTH 11
 
 /**
- * SECTION:arrow
- * @short_description: An animated arrow
- * @Title: PhoshArrow
+ * PhoshArrow:
+ *
+ * An animated arrow
  *
  * An animated arrow that initially points upward and
  * rotates downwards as `progress` increases.

@@ -14,9 +14,9 @@
 #include <cui-call.h>
 
 /**
- * SECTION:call
- * @short_description: A phone call
- * @Title: PhoshCall
+ * PhoshCall:
+ *
+ * A phone call
  *
  * Interfaces with a single call object on DBus. GNOME Calls exports
  * information of phone calls on DBus. This class interfaces with one

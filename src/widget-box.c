@@ -17,9 +17,9 @@
 #include <glib/gi18n-lib.h>
 
 /**
- * SECTION:widget-box
- * @short_description: A box of widgets for the lock screen
- * @Title: PhoshWidgetBox
+ * PhoshWidgetBox:
+ *
+ * A box of widgets for the lock screen
  *
  * The widget box is displayed on the lock screen
  * and displays a list of loadable widgets.

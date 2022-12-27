@@ -23,8 +23,9 @@ G_DECLARE_INTERFACE (PhoshWWan, phosh_wwan, PHOSH, WWAN, GObject)
  * @is_enabled: whether a modem is enabled
  * @get_operator: Get the current network operator name
  *
- * Provides an interface for interacting with a modem
-*/
+ * A #PhoshWWanInterface handles modem interaction such as getting
+ * network information and signal strength.
+ */
 
 struct _PhoshWWanInterface
 {

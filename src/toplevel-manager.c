@@ -18,10 +18,10 @@
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:toplevel-manager
- * @short_description: Tracks and interacts with toplevel surfaces
- * for window management purposes.
- * @Title: PhoshToplevelManager
+ * PhoshToplevelManager:
+ *
+ * Tracks and interacts with toplevel surfaces for window management
+ * purposes.
  */
 
 enum {

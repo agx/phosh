@@ -19,9 +19,9 @@
 #include <gdk/gdkwayland.h>
 
 /**
- * SECTION:lockscreen-manager
- * @short_description: The singleton that manages screen locking
- * @Title: PhoshLockscreenManager
+ * PhoshLockscreenManager:
+ *
+ * The singleton that manages screen locking
  *
  * The #PhoshLockscreenManager is responsible for putting the #PhoshLockscreen
  * on the primary output and a #PhoshLockshield on other outputs when the session

@@ -15,9 +15,9 @@
 #define GNOME_SESSION_DBUS_OBJECT    "/org/gnome/SessionManager/Presence"
 
 /**
- * SECTION:session-presence
- * @short_description: Interface with gnome-session's Presence interface
- * @Title: PhoshSessionPresence
+ * PhoshSessionPresence:
+ *
+ * Interface with gnome-session's Presence interface
  *
  * The #PhoshSessionPresence is responsible for getting status updated
  * from gnome-session's org.gnome.SessionManager.Presence interface.

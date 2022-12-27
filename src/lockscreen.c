@@ -40,9 +40,9 @@
 #define LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS "p-small"
 
 /**
- * SECTION:lockscreen
- * @short_description: The main lock screen
- * @Title: PhoshLockscreen
+ * PhoshLockscreen:
+ *
+ * The main lock screen
  *
  * The lock screen featuring the clock
  * and unlock keypad.

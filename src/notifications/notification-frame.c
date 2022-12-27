@@ -19,9 +19,9 @@
 #include <math.h>
 
 /**
- * SECTION:notification-frame
- * @short_description: A frame containing one or more notifications
- * @Title: PhoshNotificationFrame
+ * PhoshNotificationFrame:
+ *
+ * A frame containing one or more notifications
  */
 
 

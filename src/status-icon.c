@@ -13,9 +13,9 @@
 #include "status-icon.h"
 
 /**
- * SECTION:status-icon
- * @short_description: Base clase for different status icons e.g in the top bar
- * @Title: PhoshStatusIcon
+ * PhoshStatusIcon:
+ *
+ * Base clase for different status icons e.g in the top bar
  */
 
 enum {

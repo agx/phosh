@@ -15,9 +15,9 @@
 #include "vpn-manager.h"
 
 /**
- * SECTION:vpn-info
- * @short_description: A widget to display the vpn status
- * @Title: PhoshVpnInfo
+ * PhoshVpnInfo:
+ *
+ * A widget to display the vpn status
  *
  * #PhoshVpnInfo displays the current vpn status based on information
  * from #PhoshVpnManager. To figure out if the widget should be shown
@@ -208,7 +208,7 @@ phosh_vpn_info_class_init (PhoshVpnInfoClass *klass)
                           G_PARAM_STATIC_STRINGS |
                           G_PARAM_EXPLICIT_NOTIFY);
   /**
-   * PhoshVpnManager:enabled
+   * PhoshVpnInfo:enabled
    *
    * Whether a VPN connection is enabled
    */

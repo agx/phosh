@@ -25,9 +25,9 @@
 #define NOTIFICATIONS_SPEC_VERSION "1.2"
 
 /**
- * SECTION:notify-manager
- * @short_description: Manages notifications
- * @Title: PhoshNotifyManager
+ * PhoshNotifyManager:
+ *
+ * Manages notifications
  *
  * #PhoshNotifyManager manages notifications sent from the shell
  * iself and via the org.freedesktop.Notification DBus interface.

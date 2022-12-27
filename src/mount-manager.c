@@ -21,9 +21,9 @@
 #define AUTOMOUNT_KEY "automount"
 
 /**
- * SECTION:mount-manager
- * @short_description: Mount devices
- * @Title: PhoshMountManager
+ * PhoshMountManager:
+ *
+ * Mount devices
  *
  * The #PhoshMountManager is responsible for auto mounting volumes and
  * notifying about new devices.

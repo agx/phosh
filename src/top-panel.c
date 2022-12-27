@@ -33,9 +33,9 @@
 #define PHOSH_TOP_PANEL_DRAG_THRESHOLD 0.3
 
 /**
- * SECTION:top-panel
- * @short_description: The top panel
- * @Title: PhoshTopPanel
+ * PhoshTopPanel:
+ *
+ * The top panel
  *
  * The top panel containing the top-bar (clock and status indicators) and, when activated
  * unfolds the #PhoshSettings.

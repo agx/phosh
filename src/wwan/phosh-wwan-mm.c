@@ -18,9 +18,9 @@
 #define OBJECT_PATH "/org/freedesktop/ModemManager1"
 
 /**
- * SECTION:phosh-wwan-mm
- * @short_description: Implementation of the #PhoshWWanInterface
- * @Title: PhoshWWanMM
+ * PhoshWWanMM:
+ *
+ * Implementation of the #PhoshWWanInterface
  *
  * This implements #PhoshWWanInterface for ModemManager.
  */
@@ -86,7 +86,7 @@ typedef struct _PhoshWWanMM {
   PhoshMMDBusObjectManagerClient *manager;
   GCancellable                   *cancel;
 
-  /** Signals we connect to */
+  /* Signals we connect to */
   gulong                          manager_object_added_signal_id;
   gulong                          manager_object_removed_signal_id;
   gulong                          proxy_props_signal_id;
