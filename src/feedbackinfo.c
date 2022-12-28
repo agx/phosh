@@ -21,6 +21,7 @@
 enum {
   PROP_0,
   PROP_MUTED,
+  PROP_PRESENT,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -30,10 +31,28 @@ typedef struct _PhoshFeedbackInfo {
 
   PhoshFeedbackManager *manager;
   gboolean              muted;
+  gboolean              present;
 } PhoshFeedbackInfo;
 
 
 G_DEFINE_TYPE (PhoshFeedbackInfo, phosh_feedback_info, PHOSH_TYPE_STATUS_ICON)
+
+static void
+phosh_feedback_info_set_property (GObject      *object,
+                                  guint         prop_id,
+                                  const GValue *value,
+                                  GParamSpec   *pspec)
+{
+  PhoshFeedbackInfo *self = PHOSH_FEEDBACK_INFO (object);
+
+  switch (prop_id) {
+  case PROP_PRESENT:
+    self->present = g_value_get_boolean (value);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+  }
+}
 
 static void
 phosh_feedback_info_get_property (GObject    *object,
@@ -46,6 +65,9 @@ phosh_feedback_info_get_property (GObject    *object,
   switch (property_id) {
   case PROP_MUTED:
     g_value_set_boolean (value, self->muted);
+    break;
+  case PROP_PRESENT:
+    g_value_set_boolean (value, self->present);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -106,6 +128,8 @@ phosh_feedback_info_constructed (GObject *object)
   on_profile_changed (self, NULL, NULL);
   g_object_bind_property (self->manager, "icon-name", self, "icon-name",
                           G_BINDING_SYNC_CREATE);
+  g_object_bind_property (self->manager, "present", self, "present",
+                          G_BINDING_SYNC_CREATE);
 }
 
 
@@ -131,6 +155,7 @@ phosh_feedback_info_class_init (PhoshFeedbackInfoClass *klass)
 
   object_class->constructed = phosh_feedback_info_constructed;
   object_class->dispose = phosh_feedback_info_dispose;
+  object_class->set_property = phosh_feedback_info_set_property;
   object_class->get_property = phosh_feedback_info_get_property;
 
   /**
@@ -143,6 +168,16 @@ phosh_feedback_info_class_init (PhoshFeedbackInfoClass *klass)
     g_param_spec_boolean ("muted", "", "",
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+
+  /**
+   * PhoshFeedbackinfo:present:
+   *
+   * Whether feedback manager is present
+   */
+  props[PROP_PRESENT] =
+    g_param_spec_boolean ("present", "", "",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
