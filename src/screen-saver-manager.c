@@ -611,14 +611,13 @@ on_idle (PhoshScreenSaverManager *self)
     (GAsyncReadyCallback) on_logind_manager_proxy_new_for_bus_finish,
     self);
 
-  self->idle_id = 0;
-
   g_signal_connect_swapped (phosh_shell_get_default (),
                             "notify::primary-monitor",
                             G_CALLBACK (on_primary_monitor_changed),
                             self);
   on_primary_monitor_changed (self, NULL, phosh_shell_get_default ());
 
+  self->idle_id = 0;
   return G_SOURCE_REMOVE;
 }
 
