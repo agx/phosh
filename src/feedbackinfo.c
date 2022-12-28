@@ -95,6 +95,8 @@ phosh_feedback_info_constructed (GObject *object)
   PhoshFeedbackInfo *self = PHOSH_FEEDBACK_INFO(object);
   PhoshShell *shell = phosh_shell_get_default ();
 
+  G_OBJECT_CLASS (phosh_feedback_info_parent_class)->constructed (object);
+
   self->manager = g_object_ref(phosh_shell_get_feedback_manager (shell));
 
   g_signal_connect_swapped (self->manager,
@@ -104,8 +106,6 @@ phosh_feedback_info_constructed (GObject *object)
   on_profile_changed (self, NULL, NULL);
   g_object_bind_property (self->manager, "icon-name", self, "icon-name",
                           G_BINDING_SYNC_CREATE);
-
-  G_OBJECT_CLASS (phosh_feedback_info_parent_class)->constructed (object);
 }
 
 
