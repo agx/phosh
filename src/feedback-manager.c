@@ -196,6 +196,7 @@ phosh_feedback_manager_class_init (PhoshFeedbackManagerClass *klass)
 static void
 phosh_feedback_manager_init (PhoshFeedbackManager *self)
 {
+  self->icon_name = PHOSH_FEEDBACK_ICON_FULL;
 }
 
 
