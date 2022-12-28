@@ -19,7 +19,7 @@ extend) when running on a laptop.
 Since it acts as a Wayland client it needs a compositor to function
 that provides the necessary protocols (most notably
 wlr-layer-shell). It's usually used with
-[phoc](hhttps://gitlab.gnome.org/World/Phosh/phoc) (the PHOne Compositor).
+[phoc](https://gitlab.gnome.org/World/Phosh/phoc) (the PHOne Compositor).
 
 On the GNOME side it interfaces with the usual components
 (e.g. [gnome-settings-daemon](https://gitlab.gnome.org/GNOME/gnome-settings-daemon),
@@ -34,7 +34,7 @@ widgets.
 
 Although targeted at touch devices Phosh does not implement a
 on screen keyboard (OSK) but leaves this to
-[squeekboard](hhttps://gitlab.gnome.org/World/Phosh/squeekboard).
+[squeekboard](https://gitlab.gnome.org/World/Phosh/squeekboard).
 
 The above combination of software is also often (a bit imprecisely)
 named Phosh.
