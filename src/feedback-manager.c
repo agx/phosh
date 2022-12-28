@@ -135,6 +135,7 @@ phosh_feedback_manager_constructed (GObject *object)
     self->inited = TRUE;
   } else {
     g_warning ("Failed to init libfeedback: %s", error->message);
+    return;
   }
 
   g_signal_connect_swapped (lfb_get_proxy (),
