@@ -1,3 +1,22 @@
+phosh 0.23.0
+------------
+Released December 2022
+* New lockscreen plugin for personal/emergency information
+* Allow plugins to have UI to set preferences
+* Ease creating plugin by better examples, improved helpers
+  and less duplication.
+* Switch docs to gi-docgen
+* Contributors:
+	Chris Talbot
+	Evangelos Ribeiro Tzaras
+	Guido Günther
+* UI translations:
+	Aleksandr Melman (ru)
+	Hugo Carvalho (pt)
+	Martin (sl)
+	Yosef Or Boczko (he)
+	Zurab Kargareteli (ka)
+
 phosh 0.22.0
 ------------
 Released October 2022
