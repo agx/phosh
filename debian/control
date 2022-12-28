@@ -29,7 +29,6 @@ Build-Depends:
  libxml2-utils,
  linux-libc-dev (>= 5.12) [arm64],
  meson,
- pandoc <!nodoc>,
 # for the plugins
  libecal2.0-dev,
  evolution-data-server-dev,
