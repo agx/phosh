@@ -27,19 +27,19 @@
 #define PHOSH_FEEDBACK_ICON_SILENT "notifications-disabled-symbolic"
 
 enum {
-  PHOSH_FEEDBACK_MANAGER_PROP_0,
-  PHOSH_FEEDBACK_MANAGER_PROP_ICON_NAME,
-  PHOSH_FEEDBACK_MANAGER_PROP_PROFILE,
-  PHOSH_FEEDBACK_MANAGER_PROP_LAST_PROP
+  PROP_0,
+  PROP_ICON_NAME,
+  PROP_PROFILE,
+  PROP_LAST_PROP
 };
-static GParamSpec *props[PHOSH_FEEDBACK_MANAGER_PROP_LAST_PROP];
+static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshFeedbackManager {
   GObject parent;
 
   const char *profile;
   const char *icon_name;
-  gboolean inited;
+  gboolean    inited;
 };
 
 G_DEFINE_TYPE (PhoshFeedbackManager, phosh_feedback_manager, G_TYPE_OBJECT);
@@ -77,10 +77,10 @@ phosh_feedback_manager_get_property (GObject *object,
   PhoshFeedbackManager *self = PHOSH_FEEDBACK_MANAGER (object);
 
   switch (property_id) {
-  case PHOSH_FEEDBACK_MANAGER_PROP_ICON_NAME:
+  case PROP_ICON_NAME:
     g_value_set_string (value, self->icon_name);
     break;
-  case PHOSH_FEEDBACK_MANAGER_PROP_PROFILE:
+  case PROP_PROFILE:
     g_value_set_string (value, self->profile);
     break;
   default:
@@ -107,9 +107,9 @@ phosh_feedback_manager_update (PhoshFeedbackManager *self)
   g_debug("Feedback profile set to: '%s', icon '%s'", self->profile,  self->icon_name);
 
   if (profile != self->profile)
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_FEEDBACK_MANAGER_PROP_PROFILE]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PROFILE]);
   if (icon_name != self->icon_name)
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_FEEDBACK_MANAGER_PROP_ICON_NAME]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ICON_NAME]);
 }
 
 
@@ -170,20 +170,20 @@ phosh_feedback_manager_class_init (PhoshFeedbackManagerClass *klass)
 
   object_class->get_property = phosh_feedback_manager_get_property;
 
-  props[PHOSH_FEEDBACK_MANAGER_PROP_ICON_NAME] =
+  props[PROP_ICON_NAME] =
     g_param_spec_string ("icon-name",
                          "icon name",
                          "The feedback icon name",
                          PHOSH_FEEDBACK_ICON_FULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
-  props[PHOSH_FEEDBACK_MANAGER_PROP_PROFILE] =
+  props[PROP_PROFILE] =
     g_param_spec_string ("profile",
                          "Profile",
                          "The feedback profile name",
                          "",
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
-  g_object_class_install_properties (object_class, PHOSH_FEEDBACK_MANAGER_PROP_LAST_PROP, props);
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
 
