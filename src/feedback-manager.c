@@ -30,6 +30,7 @@ enum {
   PROP_0,
   PROP_ICON_NAME,
   PROP_PROFILE,
+  PROP_PRESENT,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -83,6 +84,9 @@ phosh_feedback_manager_get_property (GObject *object,
   case PROP_PROFILE:
     g_value_set_string (value, self->profile);
     break;
+  case PROP_PRESENT:
+    g_value_set_boolean (value, self->inited);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -133,6 +137,7 @@ phosh_feedback_manager_constructed (GObject *object)
   if (lfb_init (PHOSH_APP_ID, &error)) {
     g_debug ("Libfeedback inited");
     self->inited = TRUE;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PROFILE]);
   } else {
     g_warning ("Failed to init libfeedback: %s", error->message);
     return;
@@ -188,6 +193,15 @@ phosh_feedback_manager_class_init (PhoshFeedbackManagerClass *klass)
     g_param_spec_string ("profile", "", "",
                          "",
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+  /**
+   * PhoshFeedbackManager:present:
+   *
+   * Whether feedback manager is present
+   */
+  props[PROP_PRESENT] =
+    g_param_spec_boolean ("present", "", "",
+                          FALSE,
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
