@@ -170,16 +170,22 @@ phosh_feedback_manager_class_init (PhoshFeedbackManagerClass *klass)
 
   object_class->get_property = phosh_feedback_manager_get_property;
 
+  /**
+   * PhoshFeedbackManager:icon-name:
+   *
+   * The feedback icon name
+   */
   props[PROP_ICON_NAME] =
-    g_param_spec_string ("icon-name",
-                         "icon name",
-                         "The feedback icon name",
+    g_param_spec_string ("icon-name", "", "",
                          PHOSH_FEEDBACK_ICON_FULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+  /**
+   * PhoshFeedbackManager:profile:
+   *
+   * The feedback profile name
+   */
   props[PROP_PROFILE] =
-    g_param_spec_string ("profile",
-                         "Profile",
-                         "The feedback profile name",
+    g_param_spec_string ("profile", "", "",
                          "",
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
 
