@@ -5,10 +5,12 @@ authors = "Purism SPC"
 license = "GPL-3-or-later"
 browse_url = "https://gitlab.gnome.org/World/Phosh/phosh"
 repository_url = "https://gitlab.gnome.org/World/Phosh/phosh.git"
-website_url = "https://gitlab.gnome.org/World/Phosh/phosh/-/wikis/home"
+website_url = "https://phosh.mobi"
 dependencies = [
   "Gio-2.0",
   "GLib-2.0",
+  "Gtk-3.0",
+  "Libhandy-1.0",
 ]
 devhelp = true
 search_index = true
@@ -19,9 +21,19 @@ description = "GObject Interfaces and Objects, Networking, IPC, and I/O"
 docs_url = "https://docs.gtk.org/gio/"
 
 [dependencies."GLib-2.0"]
-name = "GLib	"
+name = "GLib"
 description = "The base type system library"
 docs_url = "https://docs.gtk.org/glib/"
+
+[dependencies."Gtk-3.0"]
+name = "GTK"
+description = "The GTK toolkit"
+docs_url = "https://docs.gtk.org/gtk3/"
+
+[dependencies."Libhandy-1.0"]
+name = "Handy"
+description = "Building blocks for modern adaptive GNOME applications."
+docs_url = "https://gnome.pages.gitlab.gnome.org/libhandy/"
 
 [theme]
 name = "basic"

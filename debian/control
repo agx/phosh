@@ -13,10 +13,8 @@ Build-Depends:
  libfeedback-dev,
  libfribidi-dev,
  libgcr-3-dev,
- libglib2.0-doc <!nodoc>,
  libgnome-desktop-3-dev,
  libgtk-3-dev,
- libgtk-3-doc <!nodoc>,
  libgtk-4-dev,
  libgudev-1.0-dev,
  libhandy-1-dev (>= 1.1.90),
@@ -29,7 +27,6 @@ Build-Depends:
  libxml2-utils,
  linux-libc-dev (>= 5.12) [arm64],
  meson,
- pandoc <!nodoc>,
 # for the plugins
  libecal2.0-dev,
  evolution-data-server-dev,
