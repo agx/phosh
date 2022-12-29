@@ -5,7 +5,7 @@ authors = "Purism SPC"
 license = "GPL-3-or-later"
 browse_url = "https://gitlab.gnome.org/World/Phosh/phosh"
 repository_url = "https://gitlab.gnome.org/World/Phosh/phosh.git"
-website_url = "https://gitlab.gnome.org/World/Phosh/phosh/-/wikis/home"
+website_url = "https://phosh.mobi"
 dependencies = [
   "Gio-2.0",
   "GLib-2.0",
