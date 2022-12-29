@@ -125,7 +125,8 @@ get_action_filter_keys (PhoshNotification *notification, const char * const *act
       g_auto (GStrv) f = g_desktop_app_info_get_string_list (G_DESKTOP_APP_INFO (info),
                                                              action_filter_keys[i],
                                                              NULL);
-      g_strv_builder_addv (filter_builder, (const char **)f);
+      if (f)
+        g_strv_builder_addv (filter_builder, (const char **)f);
     }
 
     filters = g_strv_builder_end (filter_builder);
