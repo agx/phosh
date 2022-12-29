@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-09-04 13:11+0000\n"
-"PO-Revision-Date: 2022-09-04 23:11+0300\n"
+"POT-Creation-Date: 2022-11-02 17:07+0000\n"
+"PO-Revision-Date: 2022-12-29 18:14+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -36,6 +36,19 @@ msgstr "Takvim"
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "A simple calendar widget"
 msgstr "Basit takvim parçacığı"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Bilet Kutusu"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid ""
+"Show PDFs on the lock screen. This plugin is experimental. <b>This plugin is "
+"experimental.</b>"
+msgstr ""
+"Kilit ekranında PDF göster. Bu uzantı deneyseldir. <b>Bu uzantı "
+"deneyseldir.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -441,7 +454,7 @@ msgstr "Oturumu Kapat"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:340
+#: src/util.c:345
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -466,6 +479,14 @@ msgstr "Kablosuz"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Hücresel"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Gösterilecek belge yok"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Biletler"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
