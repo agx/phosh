@@ -111,7 +111,7 @@ get_action_filter_keys (PhoshNotification *notification, const char * const *act
   GAppInfo *info = phosh_notification_get_app_info (notification);
   GStrv filters;
 
-  if (action_filter_keys == 0 || action_filter_keys[0] == NULL)
+  if (action_filter_keys == NULL || action_filter_keys[0] == NULL)
     return NULL;
 
   if (info == NULL)
