@@ -342,6 +342,22 @@ on_lockscreen_manager_wakeup_outputs (PhoshScreenSaverManager *self,
 
 
 static void
+on_lockscreen_manager_locked_changed (PhoshScreenSaverManager *self)
+{
+  gboolean locked;
+
+  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
+
+  locked = phosh_lockscreen_manager_get_locked (self->lockscreen_manager);
+  if (locked == TRUE)
+    return;
+
+  g_debug ("Disabling lock delay timer on unlock");
+  g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
+}
+
+
+static void
 on_logind_lock (PhoshScreenSaverManager *self, PhoshDBusLoginSession *proxy)
 {
   g_debug ("Locking request via logind1");
@@ -405,6 +421,7 @@ on_name_acquired (GDBusConnection *connection,
   g_object_connect (
     self->lockscreen_manager,
     "swapped-object-signal::wakeup-outputs", G_CALLBACK (on_lockscreen_manager_wakeup_outputs), self,
+    "swapped-object-signal::notify::locked", G_CALLBACK (on_lockscreen_manager_locked_changed), self,
     NULL);
 }
 
