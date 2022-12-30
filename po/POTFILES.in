@@ -1,5 +1,6 @@
 data/phosh.session.desktop.in.in
 data/sm.puri.Phosh.desktop.in.in
+data/wayland-sessions/phosh.desktop
 plugins/calendar/calendar.desktop.in.in
 plugins/ticket-box/ticket-box.desktop.in.in
 plugins/upcoming-events/upcoming-events.desktop.in.in
