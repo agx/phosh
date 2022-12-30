@@ -20,7 +20,7 @@
     </method>
 
     <signal name="PrepareForSleep">
-      <arg name="start" type="b" direction="out" />
+      <arg name="suspending" type="b" direction="out" />
     </signal>
 
   </interface>
