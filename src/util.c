@@ -6,6 +6,8 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
+#define G_LOG_DOMAIN "phosh-util"
+
 #include "util.h"
 #include <gtk/gtk.h>
 
