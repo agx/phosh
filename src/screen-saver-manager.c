@@ -446,6 +446,8 @@ on_logind_manager_proxy_new_for_bus_finish (GObject                 *source_obje
       self->cancel,
       (GAsyncReadyCallback)on_logind_manager_get_session_finished,
       self);
+  } else {
+    g_debug ("No Login session, screen blank/lock will be unreliable");
   }
 
   g_debug ("Connected to logind's session interface");
