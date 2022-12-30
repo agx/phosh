@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Phosh
-Comment=Phone Shell
+Comment=This session logs you into Phosh
 Exec=phosh
 Type=Application
 DesktopNames=Phosh:GNOME
