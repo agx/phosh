@@ -639,6 +639,11 @@ on_primary_monitor_power_mode_changed (PhoshScreenSaverManager *self,
     g_object_notify_by_pspec(G_OBJECT (self), props[PROP_ACTIVE]);
     notify_active_changed (self);
   }
+
+  if (self->active == FALSE) {
+    g_debug ("Disabling lock delay timer on power mode change");
+    g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
+  }
 }
 
 
