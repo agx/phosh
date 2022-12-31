@@ -630,7 +630,7 @@ add_keybindings (PhoshScreenSaverManager *self)
     { "XF86PowerOff", toggle_blank },
   };
 
-  /* TODO: don't bind power button when g-s-d's power-button-action != 'nothing' */
+  /* g-s-manager's grab_single_accelerator makes sure g-s-d doesn't bind it */
   phosh_shell_add_global_keyboard_action_entries (phosh_shell_get_default (),
                                                   (GActionEntry*)entries,
                                                   G_N_ELEMENTS (entries),
