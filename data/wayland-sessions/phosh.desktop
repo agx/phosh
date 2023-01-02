@@ -3,4 +3,4 @@ Name=Phosh
 Comment=This session logs you into Phosh
 Exec=phosh
 Type=Application
-DesktopNames=Phosh:GNOME
+DesktopNames=Phosh;GNOME;
