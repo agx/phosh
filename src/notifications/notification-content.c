@@ -111,7 +111,7 @@ get_action_filter_keys (PhoshNotification *notification, const char * const *act
   GAppInfo *info = phosh_notification_get_app_info (notification);
   GStrv filters;
 
-  if (action_filter_keys == 0 || action_filter_keys[0] == NULL)
+  if (action_filter_keys == NULL || action_filter_keys[0] == NULL)
     return NULL;
 
   if (info == NULL)
@@ -125,7 +125,8 @@ get_action_filter_keys (PhoshNotification *notification, const char * const *act
       g_auto (GStrv) f = g_desktop_app_info_get_string_list (G_DESKTOP_APP_INFO (info),
                                                              action_filter_keys[i],
                                                              NULL);
-      g_strv_builder_addv (filter_builder, (const char **)f);
+      if (f)
+        g_strv_builder_addv (filter_builder, (const char **)f);
     }
 
     filters = g_strv_builder_end (filter_builder);
