@@ -600,19 +600,22 @@ build_screenshot_filename (const char *pattern)
 /**
  * phosh_screenshot_manager_do_screenshot:
  * @self: The screenshot maanger
+ * @area: The area to capture or %NULL to capture all outputs
  *
- * Initiate a screenshot of the all outputs
+ * Initiate a screenshot of the all outputs or the given area.
  *
  * Returns: -errno on failure, otherwise 0
  */
 static gboolean
 phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
+                                        GdkRectangle           *area,
                                         const char             *filename,
                                         gboolean                include_cursor)
 {
   ScreencopyFrames *frames;
   PhoshMonitorManager *monitor_manager;
   PhoshWayland *wl = phosh_wayland_get_default ();
+  int num_outputs = 0;
 
   monitor_manager = phosh_shell_get_monitor_manager (phosh_shell_get_default ());
   g_return_val_if_fail (PHOSH_IS_MONITOR_MANAGER (monitor_manager), -EPERM);
@@ -630,12 +633,27 @@ phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
 
   frames = g_new0 (ScreencopyFrames, 1);
   frames->flash = TRUE;
-  frames->num_outputs = phosh_monitor_manager_get_num_monitors (monitor_manager);
 
-  for (int i = 0; i < frames->num_outputs; i++) {
+  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
     PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
-    ScreencopyFrame *screencopy_frame = g_new0 (ScreencopyFrame, 1);
+    ScreencopyFrame *screencopy_frame;
+    GdkRectangle monitor_area;
 
+    if (monitor == NULL)
+      continue;
+
+    if (area) {
+      monitor_area = (GdkRectangle) {
+        .x = monitor->logical.x,
+        .y = monitor->logical.y,
+        .width = monitor->logical.width,
+        .height = monitor->logical.height,
+      };
+      if (gdk_rectangle_intersect (area, &monitor_area, NULL) == FALSE)
+        continue;
+    }
+
+    screencopy_frame = g_new0 (ScreencopyFrame, 1);
     screencopy_frame->manager = self;
     screencopy_frame->monitor = monitor;
     g_object_add_weak_pointer (G_OBJECT (monitor), (gpointer)&screencopy_frame->monitor);
@@ -644,6 +662,15 @@ phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
     zwlr_screencopy_frame_v1_add_listener (screencopy_frame->frame, &screencopy_frame_listener,
                                            screencopy_frame);
     frames->frames = g_list_prepend (frames->frames, screencopy_frame);
+    num_outputs++;
+  }
+  frames->num_outputs = num_outputs;
+  if (area) {
+#if GLIB_CHECK_VERSION(2, 67, 3)
+    frames->area = g_memdup2 (area, sizeof (GdkRectangle));
+#else
+    frames->area = g_memdup (area, sizeof (GdkRectangle));
+#endif
   }
   self->frames = frames;
 
@@ -673,31 +700,11 @@ handle_screenshot_area (PhoshDBusScreenshot   *object,
                         const char            *arg_filename)
 {
   PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (object);
-  PhoshWayland *wl = phosh_wayland_get_default ();
-  ScreencopyFrames *frames;
-  PhoshMonitorManager  *monitor_manager = phosh_shell_get_monitor_manager (phosh_shell_get_default ());
-  int num_outputs = 0;
   GdkRectangle area;
+  gboolean success;
 
   g_debug ("DBus call %s: @%d,%d %dx%d, flash %d, to %s",
            __func__, arg_x, arg_y, arg_width, arg_height, arg_flash, arg_filename);
-
-  g_return_val_if_fail (PHOSH_IS_WAYLAND (wl), FALSE);
-
-  if (!self->wl_scm) {
-    phosh_dbus_screenshot_complete_screenshot_area (object, invocation, FALSE, "");
-    return TRUE;
-  }
-
-  if (self->frames) {
-    g_debug ("Screenshot already in progress");
-    phosh_dbus_screenshot_complete_screenshot_area (object, invocation, FALSE, "");
-    return TRUE;
-  }
-
-  frames = g_new0 (ScreencopyFrames, 1);
-  frames->invocation = invocation;
-  frames->flash = arg_flash;
 
   area = (GdkRectangle) {
     .x = arg_x,
@@ -706,55 +713,14 @@ handle_screenshot_area (PhoshDBusScreenshot   *object,
     .height = arg_height,
   };
 
-  for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
-    PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
-    ScreencopyFrame *screencopy_frame;
-    GdkRectangle monitor_area;
-
-    if (monitor == NULL)
-      continue;
-
-    monitor_area = (GdkRectangle) {
-      .x = monitor->logical.x,
-      .y = monitor->logical.y,
-      .width = monitor->logical.width,
-      .height = monitor->logical.height,
-    };
-    if (gdk_rectangle_intersect (&area, &monitor_area, NULL) == FALSE)
-      continue;
-
-    screencopy_frame = g_new0 (ScreencopyFrame, 1);
-    screencopy_frame->manager = self;
-    screencopy_frame->monitor = monitor;
-    g_object_add_weak_pointer (G_OBJECT (monitor), (gpointer)&screencopy_frame->monitor);
-    screencopy_frame->frame = zwlr_screencopy_manager_v1_capture_output (
-      self->wl_scm, FALSE, monitor->wl_output);
-    zwlr_screencopy_frame_v1_add_listener (screencopy_frame->frame, &screencopy_frame_listener,
-                                           screencopy_frame);
-    frames->frames = g_list_prepend (frames->frames, screencopy_frame);
-    num_outputs++;
+  success = phosh_screenshot_manager_do_screenshot (self, &area, arg_filename, FALSE);
+  if (!success) {
+    phosh_dbus_screenshot_complete_screenshot_area (object, invocation, FALSE, "");
+    return TRUE;
   }
-  frames->num_outputs = num_outputs;
-#if GLIB_CHECK_VERSION(2, 67, 3)
-  frames->area = g_memdup2 (&area, sizeof (GdkRectangle));
-#else
-  frames->area = g_memdup (&area, sizeof (GdkRectangle));
-#endif
-  self->frames = frames;
 
-  if (STR_IS_NULL_OR_EMPTY (arg_filename)) {
-    /* Copy to clipboard */
-    frames->filename = NULL;
-  } else {
-    frames->filename = build_screenshot_filename (arg_filename);
-    if (!frames->filename) {
-      phosh_dbus_screenshot_complete_screenshot_area (PHOSH_DBUS_SCREENSHOT (self),
-                                                      invocation,
-                                                      FALSE,
-                                                      "");
-      return TRUE;
-    }
-  }
+  self->frames->flash = arg_flash;
+  self->frames->invocation = invocation;
 
   return TRUE;
 }
@@ -773,7 +739,7 @@ handle_screenshot (PhoshDBusScreenshot   *object,
   g_debug ("DBus call %s, cursor: %d, flash %d, to %s",
            __func__, arg_include_cursor, arg_flash, arg_filename);
 
-  success = phosh_screenshot_manager_do_screenshot (self, arg_filename, arg_include_cursor);
+  success = phosh_screenshot_manager_do_screenshot (self, NULL, arg_filename, arg_include_cursor);
   if (!success) {
     phosh_dbus_screenshot_complete_screenshot (object, invocation, FALSE, "");
     return TRUE;
