@@ -413,9 +413,10 @@ submit_screenshot (PhoshScreenshotManager *self)
     gtk_widget_show (GTK_WIDGET (self->opaque));
   }
 
-  /* TODO: GNOME >= 40 wants us to emit the click sound from here */
-  if (self->frames->flash)
+  if (self->frames->flash) {
+    phosh_trigger_feedback ("screen-capture");
     show_fader (self);
+  }
 }
 
 
