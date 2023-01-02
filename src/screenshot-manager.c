@@ -621,13 +621,13 @@ handle_screenshot_area (PhoshDBusScreenshot   *object,
   g_return_val_if_fail (PHOSH_IS_WAYLAND (wl), FALSE);
 
   if (!self->wl_scm) {
-    phosh_dbus_screenshot_complete_screenshot (object, invocation, FALSE, "");
+    phosh_dbus_screenshot_complete_screenshot_area (object, invocation, FALSE, "");
     return TRUE;
   }
 
   if (self->frames) {
     g_debug ("Screenshot already in progress");
-    phosh_dbus_screenshot_complete_screenshot (object, invocation, FALSE, "");
+    phosh_dbus_screenshot_complete_screenshot_area (object, invocation, FALSE, "");
     return TRUE;
   }
 
@@ -684,10 +684,10 @@ handle_screenshot_area (PhoshDBusScreenshot   *object,
   } else {
     frames->filename = build_screenshot_filename (arg_filename);
     if (!frames->filename) {
-      phosh_dbus_screenshot_complete_screenshot (PHOSH_DBUS_SCREENSHOT (self),
-                                                 invocation,
-                                                 FALSE,
-                                                 "");
+      phosh_dbus_screenshot_complete_screenshot_area (PHOSH_DBUS_SCREENSHOT (self),
+                                                      invocation,
+                                                      FALSE,
+                                                      "");
       return TRUE;
     }
   }
