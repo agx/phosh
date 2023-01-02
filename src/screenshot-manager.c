@@ -136,6 +136,8 @@ screencopy_frames_dispose (ScreencopyFrames *frames)
   g_free (frames);
 }
 
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (ScreencopyFrames, screencopy_frames_dispose);
+
 
 static void
 screencopy_frame_handle_buffer (void                            *data,
@@ -612,7 +614,7 @@ phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
                                         const char             *filename,
                                         gboolean                include_cursor)
 {
-  ScreencopyFrames *frames;
+  g_autoptr (ScreencopyFrames) frames = NULL;
   PhoshMonitorManager *monitor_manager;
   PhoshWayland *wl = phosh_wayland_get_default ();
   int num_outputs = 0;
@@ -672,7 +674,6 @@ phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
     frames->area = g_memdup (area, sizeof (GdkRectangle));
 #endif
   }
-  self->frames = frames;
 
   if (STR_IS_NULL_OR_EMPTY (filename)) {
     /* Copy to clipboard */
@@ -685,6 +686,7 @@ phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
     }
   }
 
+  self->frames = g_steal_pointer (&frames);
   return TRUE;
 }
 
