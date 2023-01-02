@@ -11,4 +11,4 @@ gdbus call --session \
             --dest "org.gnome.Shell.Screenshot" \
             --object-path "/org/gnome/Shell/Screenshot" \
             --method "org.gnome.Shell.Screenshot.ScreenshotArea" \
-	    $x $y $w $h false "$PWD/screenshot.png"
+	    $x $y $w $h true "$PWD/screenshot.png"
