@@ -44,7 +44,10 @@ phosh_wl_buffer_new (enum wl_shm_format format, uint32_t width, uint32_t height,
   g_return_val_if_fail (size, NULL);
 
   fd = phosh_create_shm_file (size);
-  g_return_val_if_fail (fd >= 0, NULL);
+  if (fd < 0) {
+    g_warning ("Failed to create shm file: %s", g_strerror (errno));
+    return NULL;
+  }
 
   data = mmap (NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
   if (data == MAP_FAILED) {
