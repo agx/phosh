@@ -12,6 +12,7 @@
 #include "shell.h"
 #include "toplevel-thumbnail.h"
 #include "util.h"
+#include "wl-buffer.h"
 
 #include <errno.h>
 #include <fcntl.h>
@@ -31,12 +32,11 @@ enum {
 static GParamSpec *props[PHOSH_TOPLEVEL_THUMBNAIL_PROP_LAST_PROP];
 
 struct _PhoshToplevelThumbnail {
-  GObject parent;
+  GObject                          parent;
+
   struct zwlr_screencopy_frame_v1 *handle;
-  struct wl_buffer *buffer;
-  void *data;
-  int width, height, stride;
-  gboolean ready;
+  PhoshWlBuffer                   *buffer;
+  gboolean                         ready;
 };
 
 G_DEFINE_TYPE (PhoshToplevelThumbnail, phosh_toplevel_thumbnail, PHOSH_TYPE_THUMBNAIL);
@@ -61,44 +61,15 @@ screencopy_handle_buffer (void *data,
 {
   PhoshToplevelThumbnail *self = PHOSH_TOPLEVEL_THUMBNAIL (data);
 
-  PhoshWayland *way = phosh_wayland_get_default ();
+  g_debug ("%s: width %d height %d stride %d", __func__, width, height, stride);
 
-  void *d;
-  struct wl_shm_pool *pool;
-  size_t size = stride * height;
-  int fd;
-
-  g_debug ("screencopy_handle_buffer: width %d height %d stride %d", width, height, stride);
-
-  if (!size) {
-    g_warning ("Got screencopy_handle_buffer with no size!");
+  if (stride * height == 0) {
+    g_warning ("Got %s with no size!", __func__);
     return;
   }
 
-  fd = phosh_create_shm_file (size);
-  if (fd == -1) {
-    g_warning ("Could not create shm file for thumbnail buffer! %s", g_strerror (errno));
-    return;
-  }
-
-  d = mmap (NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-  if (d == MAP_FAILED) {
-    g_warning ("Could not mmap thumbnail buffer file! [fd: %d] %s", fd, g_strerror (errno));
-    close (fd);
-    return;
-  }
-
-  pool = wl_shm_create_pool (phosh_wayland_get_wl_shm (way), fd, size);
-  self->buffer = wl_shm_pool_create_buffer (pool, 0, width, height, stride, format);
-  wl_shm_pool_destroy (pool);
-  close(fd);
-
-  self->data = d;
-  zwlr_screencopy_frame_v1_copy (zwlr_screencopy_frame_v1, self->buffer);
-
-  self->width = width;
-  self->height = height;
-  self->stride = stride;
+  self->buffer = phosh_wl_buffer_new (format, width, height, stride);
+  zwlr_screencopy_frame_v1_copy (zwlr_screencopy_frame_v1, self->buffer->wl_buffer);
 }
 
 static void
@@ -146,10 +117,12 @@ static const struct zwlr_screencopy_frame_v1_listener zwlr_screencopy_frame_list
 
 
 static void *
-phosh_toplevel_thumbnail_get_image (PhoshThumbnail *self)
+phosh_toplevel_thumbnail_get_image (PhoshThumbnail *thumbnail)
 {
+  PhoshToplevelThumbnail *self = PHOSH_TOPLEVEL_THUMBNAIL (thumbnail);
+
   g_return_val_if_fail (PHOSH_IS_TOPLEVEL_THUMBNAIL (self), NULL);
-  return PHOSH_TOPLEVEL_THUMBNAIL (self)->data;
+  return self->buffer->data;
 }
 
 static void
@@ -157,13 +130,13 @@ phosh_toplevel_thumbnail_get_size (PhoshThumbnail *self, guint *width, guint *he
 {
   PhoshToplevelThumbnail *thumbnail = PHOSH_TOPLEVEL_THUMBNAIL (self);
   if (width) {
-    *width = thumbnail->width;
+    *width = thumbnail->buffer->width;
   }
   if (height) {
-    *height = thumbnail->height;
+    *height = thumbnail->buffer->height;
   }
   if (stride) {
-    *stride = thumbnail->stride;
+    *stride = thumbnail->buffer->stride;
   }
 }
 
@@ -229,7 +202,6 @@ phosh_toplevel_thumbnail_dispose (GObject *object)
   PhoshToplevelThumbnail *self = PHOSH_TOPLEVEL_THUMBNAIL (object);
 
   g_clear_pointer (&self->handle, zwlr_screencopy_frame_v1_destroy);
-  g_clear_pointer (&self->buffer, wl_buffer_destroy);
 
   G_OBJECT_CLASS (phosh_toplevel_thumbnail_parent_class)->dispose (object);
 }
@@ -240,11 +212,7 @@ phosh_toplevel_thumbnail_finalize (GObject *object)
 {
   PhoshToplevelThumbnail *self = PHOSH_TOPLEVEL_THUMBNAIL (object);
 
-  if (self->data) {
-    if (munmap (self->data, self->stride * self->height) != 0) {
-      g_warning ("Could not munmap toplevel thumbnail data! [%p] %s", self, g_strerror (errno));
-    }
-  }
+  g_clear_pointer (&self->buffer, phosh_wl_buffer_destroy);
 
   G_OBJECT_CLASS (phosh_toplevel_thumbnail_parent_class)->finalize (object);
 }
