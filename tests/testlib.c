@@ -384,6 +384,10 @@ phosh_test_keyboard_press_modifiers (struct zwp_virtual_keyboard_v1 *keyboard,
   case KEY_RIGHTCTRL:
     modifiers |= (1 << 2);
     break;
+  case KEY_LEFTALT:
+  case KEY_RIGHTALT:
+    modifiers |= (1 << 3);
+    break;
   case KEY_LEFTMETA:
   case KEY_RIGHTMETA:
     modifiers |= (1 << 6);
