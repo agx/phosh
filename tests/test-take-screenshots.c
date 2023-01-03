@@ -119,6 +119,24 @@ toggle_settings (GMainLoop                      *loop,
 
 
 static void
+show_run_command_dialog (GMainLoop                      *loop,
+                         struct zwp_virtual_keyboard_v1 *keyboard,
+                         GTimer                         *timer,
+                         gboolean                        show)
+{
+  if (show) {
+    phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTALT);
+    phosh_test_keyboard_press_keys (keyboard, timer, KEY_F2, NULL);
+    phosh_test_keyboard_release_modifiers (keyboard);
+  } else {
+    phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
+  }
+  /* Give animation time to finish */
+  wait_a_bit (loop, 1);
+}
+
+
+static void
 do_settings (void)
 {
   g_autoptr (GSettings) settings = g_settings_new ("org.gnome.desktop.interface");
@@ -212,6 +230,10 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   kill (pid, SIGTERM);
   g_spawn_close_pid (pid);
 #endif
+
+  show_run_command_dialog (loop, keyboard, timer, TRUE);
+  take_screenshot (locale, i++, "run-command");
+  show_run_command_dialog (loop, keyboard, timer, FALSE);
 
   toggle_settings (loop, keyboard, timer);
   take_screenshot (locale, i++, "settings");
