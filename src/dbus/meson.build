@@ -79,12 +79,9 @@ generated_dbus_sources += gnome.gdbus_codegen('phosh-wwan-ofono-dbus',
                                               namespace: 'PhoshOfonoDBus',
                                               interface_prefix: 'org.ofono')
 
-sm_puri_OSK0_deps = gnome.gdbus_codegen('phosh-osk0-dbus',
-                                        'sm.puri.OSK0.xml',
-					docbook: 'phosh-dbus',
-                                        namespace: 'PhoshOsk0')
-generated_dbus_sources += sm_puri_OSK0_deps
-dbus_doc_targets += sm_puri_OSK0_deps[2]
+generated_dbus_sources += gnome.gdbus_codegen('phosh-osk0-dbus',
+                                              'sm.puri.OSK0.xml',
+                                              namespace: 'PhoshOsk0')
 
 # DBus server protocols
 generated_dbus_sources += gnome.gdbus_codegen('geoclue-agent-dbus',
