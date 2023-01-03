@@ -177,11 +177,8 @@ static void
 phosh_system_modal_dialog_constructed (GObject *object)
 {
   PhoshSystemModalDialog *self = PHOSH_SYSTEM_MODAL_DIALOG (object);
-  PhoshSystemModalDialogPrivate *priv = phosh_system_modal_dialog_get_instance_private (self);
 
   G_OBJECT_CLASS (phosh_system_modal_dialog_parent_class)->constructed (object);
-
-  g_object_bind_property (self, "title", priv->lbl_title, "label", G_BINDING_DEFAULT);
 
   gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
   g_signal_connect (G_OBJECT (self),
@@ -270,7 +267,11 @@ phosh_system_modal_dialog_buildable_init (GtkBuildableIface *iface)
 static void
 phosh_system_modal_dialog_init (PhoshSystemModalDialog *self)
 {
+  PhoshSystemModalDialogPrivate *priv = phosh_system_modal_dialog_get_instance_private (self);
+
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  g_object_bind_property (self, "title", priv->lbl_title, "label", G_BINDING_DEFAULT);
 }
 
 /**
