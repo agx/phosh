@@ -99,8 +99,8 @@ generated_dbus_sources += gnome.gdbus_codegen('notify-dbus',
 
 generated_dbus_sources += gnome.gdbus_codegen('phosh-gnome-shell-dbus',
 					      'org.gnome.Shell.xml',
-					      interface_prefix: 'org.gnome',
-					      namespace: 'PhoshGnomeShellDBus')
+					      interface_prefix: 'org',
+					      namespace: dbus_prefix)
 
 generated_dbus_sources += gnome.gdbus_codegen('phosh-display-dbus',
                                               'org.gnome.Mutter.DisplayConfig.xml',

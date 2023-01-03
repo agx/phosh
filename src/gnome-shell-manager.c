@@ -34,7 +34,7 @@
 #define GNOME_SHELL_DBUS_NAME "org.gnome.Shell"
 #define OSD_HIDE_TIMEOUT 1 /* seconds */
 
-static void phosh_gnome_shell_manager_shell_iface_init (PhoshGnomeShellDBusShellIface *iface);
+static void phosh_gnome_shell_manager_gnome_shell_iface_init (PhoshDBusGnomeShellIface *iface);
 
 enum {
   PROP_0,
@@ -46,24 +46,24 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 typedef struct _PhoshGnomeShellManager {
-  PhoshGnomeShellDBusShellSkeleton parent;
+  PhoshDBusGnomeShellSkeleton parent;
 
-  GHashTable                      *info_by_action;
-  guint                            last_action_id;
-  int                              dbus_name_id;
-  ShellActionMode                  action_mode;
+  GHashTable                 *info_by_action;
+  guint                       last_action_id;
+  int                         dbus_name_id;
+  ShellActionMode             action_mode;
 
-  PhoshOsdWindow                  *osd;
-  gint                             osd_timeoutid;
-  gboolean                         osd_continue;
+  PhoshOsdWindow             *osd;
+  gint                        osd_timeoutid;
+  gboolean                    osd_continue;
 } PhoshGnomeShellManager;
 
 G_DEFINE_TYPE_WITH_CODE (PhoshGnomeShellManager,
                          phosh_gnome_shell_manager,
-                         PHOSH_GNOME_SHELL_DBUS_TYPE_SHELL_SKELETON,
+                         PHOSH_DBUS_TYPE_GNOME_SHELL_SKELETON,
                          G_IMPLEMENT_INTERFACE (
-                           PHOSH_GNOME_SHELL_DBUS_TYPE_SHELL,
-                           phosh_gnome_shell_manager_shell_iface_init));
+                           PHOSH_DBUS_TYPE_GNOME_SHELL,
+                           phosh_gnome_shell_manager_gnome_shell_iface_init));
 
 static void accelerator_activated_action (GSimpleAction *action, GVariant *param, gpointer data);
 
@@ -98,31 +98,31 @@ free_accelerator_info_from_hash_table (gpointer data)
 
 /* DBus handlers */
 static gboolean
-handle_show_monitor_labels (PhoshGnomeShellDBusShell *skeleton,
-                            GDBusMethodInvocation    *invocation,
-                            GVariant                 *arg_params)
+handle_show_monitor_labels (PhoshDBusGnomeShell   *skeleton,
+                            GDBusMethodInvocation *invocation,
+                            GVariant              *arg_params)
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
 
   g_return_val_if_fail (PHOSH_IS_GNOME_SHELL_MANAGER (self), FALSE);
   g_debug ("DBus show monitor labels");
 
-  phosh_gnome_shell_dbus_shell_complete_show_monitor_labels (
+  phosh_dbus_gnome_shell_complete_show_monitor_labels (
     skeleton, invocation);
 
   return TRUE;
 }
 
 static gboolean
-handle_hide_monitor_labels (PhoshGnomeShellDBusShell *skeleton,
-                            GDBusMethodInvocation    *invocation)
+handle_hide_monitor_labels (PhoshDBusGnomeShell   *skeleton,
+                            GDBusMethodInvocation *invocation)
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
 
   g_return_val_if_fail (PHOSH_IS_GNOME_SHELL_MANAGER (self), FALSE);
   g_debug ("DBus hide monitor labels");
 
-  phosh_gnome_shell_dbus_shell_complete_hide_monitor_labels (
+  phosh_dbus_gnome_shell_complete_hide_monitor_labels (
     skeleton, invocation);
 
   return TRUE;
@@ -153,9 +153,9 @@ on_osd_destroyed (PhoshGnomeShellManager *self)
 
 
 static gboolean
-handle_show_osd (PhoshGnomeShellDBusShell *skeleton,
-                 GDBusMethodInvocation    *invocation,
-                 GVariant                 *arg_params)
+handle_show_osd (PhoshDBusGnomeShell   *skeleton,
+                 GDBusMethodInvocation *invocation,
+                 GVariant              *arg_params)
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
   GVariantDict dict;
@@ -196,7 +196,7 @@ handle_show_osd (PhoshGnomeShellDBusShell *skeleton,
     g_source_set_name_by_id (self->osd_timeoutid, "[phosh] osd-timeout");
   }
 
-  phosh_gnome_shell_dbus_shell_complete_show_osd (
+  phosh_dbus_gnome_shell_complete_show_osd (
     skeleton, invocation);
 
   return TRUE;
@@ -247,11 +247,11 @@ grab_single_accelerator (PhoshGnomeShellManager *self,
 }
 
 static gboolean
-handle_grab_accelerator (PhoshGnomeShellDBusShell *skeleton,
-                         GDBusMethodInvocation    *invocation,
-                         const gchar              *arg_accelerator,
-                         guint                     arg_modeFlags,
-                         guint                     arg_grabFlags)
+handle_grab_accelerator (PhoshDBusGnomeShell   *skeleton,
+                         GDBusMethodInvocation *invocation,
+                         const gchar           *arg_accelerator,
+                         guint                  arg_modeFlags,
+                         guint                  arg_grabFlags)
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
   g_autoptr (GError) error = NULL;
@@ -279,16 +279,16 @@ handle_grab_accelerator (PhoshGnomeShellDBusShell *skeleton,
     return TRUE;
   }
 
-  phosh_gnome_shell_dbus_shell_complete_grab_accelerator (
+  phosh_dbus_gnome_shell_complete_grab_accelerator (
     skeleton, invocation, action_id);
 
   return TRUE;
 }
 
 static gboolean
-handle_grab_accelerators (PhoshGnomeShellDBusShell *skeleton,
-                          GDBusMethodInvocation    *invocation,
-                          GVariant                 *arg_accelerators)
+handle_grab_accelerators (PhoshDBusGnomeShell   *skeleton,
+                          GDBusMethodInvocation *invocation,
+                          GVariant              *arg_accelerators)
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
   g_autoptr (GVariantBuilder) builder = NULL;
@@ -345,7 +345,7 @@ handle_grab_accelerators (PhoshGnomeShellDBusShell *skeleton,
       g_hash_table_remove (self->info_by_action, GUINT_TO_POINTER (action_id));
     }
   } else { /* success */
-    phosh_gnome_shell_dbus_shell_complete_grab_accelerators (
+    phosh_dbus_gnome_shell_complete_grab_accelerators (
       skeleton, invocation, g_variant_builder_end (builder));
   }
 
@@ -353,9 +353,9 @@ handle_grab_accelerators (PhoshGnomeShellDBusShell *skeleton,
 }
 
 static gboolean
-handle_ungrab_accelerator (PhoshGnomeShellDBusShell *skeleton,
-                           GDBusMethodInvocation    *invocation,
-                           guint                     arg_action)
+handle_ungrab_accelerator (PhoshDBusGnomeShell   *skeleton,
+                           GDBusMethodInvocation *invocation,
+                           guint                  arg_action)
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
   AcceleratorInfo *info;
@@ -378,14 +378,14 @@ handle_ungrab_accelerator (PhoshGnomeShellDBusShell *skeleton,
     }
   }
 
-  phosh_gnome_shell_dbus_shell_complete_ungrab_accelerator (
+  phosh_dbus_gnome_shell_complete_ungrab_accelerator (
     skeleton, invocation, success);
 
   return TRUE;
 }
 
 static gboolean
-handle_ungrab_accelerators (PhoshGnomeShellDBusShell *skeleton,
+handle_ungrab_accelerators (PhoshDBusGnomeShell *skeleton,
                             GDBusMethodInvocation    *invocation,
                             GVariant                 *arg_actions)
 {
@@ -418,29 +418,29 @@ handle_ungrab_accelerators (PhoshGnomeShellDBusShell *skeleton,
     }
     g_hash_table_remove (self->info_by_action, GUINT_TO_POINTER (info->action_id));
   }
-  phosh_gnome_shell_dbus_shell_complete_ungrab_accelerators (
+  phosh_dbus_gnome_shell_complete_ungrab_accelerators (
     skeleton, invocation, success);
 
   return TRUE;
 }
 
 static void
-accelerator_activated (PhoshGnomeShellDBusShell *skeleton,
-                       guint                     arg_action,
-                       GVariant                 *arg_parameters)
+accelerator_activated (PhoshDBusGnomeShell *skeleton,
+                       guint                arg_action,
+                       GVariant            *arg_parameters)
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
 
   g_return_if_fail (PHOSH_IS_GNOME_SHELL_MANAGER (self));
   g_debug ("DBus emitting accelerator activated for action %u", arg_action);
 
-  phosh_gnome_shell_dbus_shell_emit_accelerator_activated (
+  phosh_dbus_gnome_shell_emit_accelerator_activated (
     skeleton, arg_action, arg_parameters);
 
 }
 
 static void
-phosh_gnome_shell_manager_shell_iface_init (PhoshGnomeShellDBusShellIface *iface)
+phosh_gnome_shell_manager_gnome_shell_iface_init (PhoshDBusGnomeShellIface *iface)
 {
   iface->handle_show_monitor_labels = handle_show_monitor_labels;
   iface->handle_hide_monitor_labels = handle_hide_monitor_labels;
@@ -462,12 +462,12 @@ typedef struct
 
 
 static void
-version_start_element_handler (GMarkupParseContext      *ctx,
-                               const char               *element_name,
-                               const char              **attr_names,
-                               const char              **attr_values,
-                               gpointer                  user_data,
-                               GError                  **error)
+version_start_element_handler (GMarkupParseContext  *ctx,
+                               const char           *element_name,
+                               const char          **attr_names,
+                               const char          **attr_values,
+                               gpointer              user_data,
+                               GError              **error)
 {
   VersionData *data = user_data;
   if (g_str_equal (element_name, "platform"))
@@ -491,10 +491,10 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC (VersionData, version_data_free);
 
 
 static void
-version_end_element_handler (GMarkupParseContext      *ctx,
-                             const char               *element_name,
-                             gpointer                  user_data,
-                             GError                  **error)
+version_end_element_handler (GMarkupParseContext *ctx,
+                             const char          *element_name,
+                             gpointer             user_data,
+                             GError             **error)
 {
   VersionData *data = user_data;
   data->current = NULL;
@@ -620,7 +620,7 @@ accelerator_activated_action (GSimpleAction *action,
   g_variant_builder_add (builder, "{sv}", "device-id", g_variant_new_string ("/dev/input/event0"));
   parameters = g_variant_builder_end (builder);
 
-  accelerator_activated (PHOSH_GNOME_SHELL_DBUS_SHELL (self),
+  accelerator_activated (PHOSH_DBUS_GNOME_SHELL (self),
                          action_id,
                          parameters);
 

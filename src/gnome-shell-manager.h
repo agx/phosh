@@ -54,7 +54,7 @@ G_BEGIN_DECLS
 
 #define PHOSH_TYPE_GNOME_SHELL_MANAGER             (phosh_gnome_shell_manager_get_type ())
 G_DECLARE_FINAL_TYPE (PhoshGnomeShellManager, phosh_gnome_shell_manager, PHOSH, GNOME_SHELL_MANAGER,
-                      PhoshGnomeShellDBusShellSkeleton)
+                      PhoshDBusGnomeShellSkeleton)
 
 PhoshGnomeShellManager *phosh_gnome_shell_manager_get_default      (void);
 
