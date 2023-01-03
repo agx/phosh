@@ -85,8 +85,8 @@ else
 endif
 
 configure_file(
-  input: 'phosh.in',
-  output: 'phosh',
+  input: 'phosh-session.in',
+  output: 'phosh-session',
   install_dir: bindir,
   configuration: runconf,
   install: true

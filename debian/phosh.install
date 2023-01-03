@@ -1,4 +1,4 @@
-usr/bin/phosh
+usr/bin/phosh-session
 usr/lib/systemd/user/
 usr/libexec/phosh
 usr/libexec/phosh-calendar-server
