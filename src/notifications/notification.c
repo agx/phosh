@@ -905,7 +905,7 @@ phosh_notification_set_category (PhoshNotification *self,
  *
  * Get the category hint the notification was sent with
  *
- * See https://people.gnome.org/~mccann/docs/notification-spec/notification-spec-latest.html#categories
+ * See https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html
  *
  * Returns: the category or %NULL
  */
