@@ -120,7 +120,7 @@ maybe_trigger_feedback (PhoshNotifyFeedback *self, PhoshNotificationSource *sour
   for (int i = 0; i < num; i++) {
     g_autoptr (PhoshNotification) noti = g_list_model_get_item (G_LIST_MODEL (source), position + i);
     g_autoptr (LfbEvent) event = NULL;
-    const char *category, *event_name;
+    const char *category, *event_name, *profile;
     g_autofree char *app_id = NULL;
     GAppInfo *info = NULL;
 
@@ -135,8 +135,14 @@ maybe_trigger_feedback (PhoshNotifyFeedback *self, PhoshNotificationSource *sour
     if (info)
       app_id = phosh_strip_suffix_from_app_id (g_app_info_get_id (info));
 
-    g_debug ("Emitting event %s for %s", event_name, app_id ?: "unknown");
+    profile = phosh_notification_get_profile (noti);
+    if (g_strcmp0 (profile, "none") == 0)
+      continue;
+
+    g_debug ("Emitting event %s for %s, profile: %s",
+             event_name, app_id ?: "unknown", profile);
     event = lfb_event_new (event_name);
+    lfb_event_set_feedback_profile (event, profile);
     g_set_object (&self->event, event);
 
     if (app_id)
