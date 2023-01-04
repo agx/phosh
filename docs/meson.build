@@ -1,6 +1,7 @@
 if get_option('gtk_doc')
 
 expand_content_md_files = [
+  'app-dev.md',
   'gettingstarted.md',
   'phosh-dbus-sm.puri.OSK0.md',
 ]
