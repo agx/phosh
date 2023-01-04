@@ -7,5 +7,9 @@ gdbus call --session --dest org.freedesktop.Notifications \
                      --method=org.freedesktop.Notifications.Notify \
                      "Application" 1 "" Subject Body \
                      '["org.sigxcpu.test1", "Left", "org.sigxcpu.test2", "Right"]' \
-                     '{"desktop-entry": <"org.gnome.KrbAuthDialog">, "urgency": <1>, "image-path": <"krb-valid-ticket">}' \
+                     '{"desktop-entry": <"org.gnome.KrbAuthDialog">,
+                       "urgency": <1>, "image-path": <"krb-valid-ticket">,
+                       "category": <"im.received">,
+                       "x-phosh-fb-profile": <"quiet">
+                      }' \
                      4000
