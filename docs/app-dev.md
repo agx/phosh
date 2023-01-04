@@ -22,5 +22,18 @@ mobile needs phosh honors the following additional entries:
   to trigger audio, haptic or led feedback. This is useful for setting applications
   so they can show entries for individual apps. Example: `X-Phosh-UsesFeedback=true`
 
+## Desktop Notification Specification
+
+Phosh's notification server aims to adhere to the [Desktop Notification
+Specification][]. On mobile we need some extensions to handle haptic and led feedback
+for those notifications. So phosh honors the following additional hint:
+
+* `x-phosh-fb-profile`: The feedback profile to use for events associated with this notification.
+  See the [Feedback Theme Specification][] for details. The additional value `none` is used to
+  indicate that the event that would be triggered should be suppressed and hence no feedback emitted
+  to the user.
+
 [Desktop Entry Specification]: https://specifications.freedesktop.org/desktop-entry-spec/latest/
+[Desktop Notification Specification]: https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html#hints
+[Feedback Theme Specification]: https://honk.sigxcpu.org/projects/feedbackd/doc/Feedback-theme-spec-0.0.0.html
 [via appstream metadata]: https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/950
