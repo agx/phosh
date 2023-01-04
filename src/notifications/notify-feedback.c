@@ -64,8 +64,6 @@ find_event (const char *category)
 {
   PhoshShell *shell = phosh_shell_get_default ();
   gboolean inactive = phosh_shell_get_blanked (shell) || phosh_shell_get_locked (shell);
-  /* If shell is unlocked and we don't have a specific category don't
-     trigger any event to not distract the user*/
   const char *ret = NULL;
 
   if (inactive) {
@@ -84,7 +82,7 @@ find_event (const char *category)
       ret = "message-new-instant";
     else if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0)
       ret = "phone-missed-call";
-    /* no additional feedback when not locked */
+    /* no feedback when not locked as to not distract the user */
   }
 
   return ret;
