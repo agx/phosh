@@ -73,6 +73,7 @@ phosh_dbus_notification_new (guint                     id,
                              gboolean                  transient,
                              gboolean                  resident,
                              const char               *category,
+                             const char               *profile,
                              GDateTime                *timestamp)
 {
   return g_object_new (PHOSH_TYPE_DBUS_NOTIFICATION,
@@ -89,6 +90,7 @@ phosh_dbus_notification_new (guint                     id,
                        "transient", transient,
                        "resident", resident,
                        "category", category,
+                       "profile", profile,
                        "timestamp", timestamp,
                        NULL);
 }

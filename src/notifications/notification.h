@@ -73,6 +73,7 @@ PhoshNotification        *phosh_notification_new           (guint               
                                                             gboolean                  transient,
                                                             gboolean                  resident,
                                                             const char               *category,
+                                                            const char               *profile,
                                                             GDateTime                *timestamp);
 void                      phosh_notification_set_id        (PhoshNotification        *self,
                                                             guint                     id);
@@ -112,6 +113,9 @@ void                      phosh_notification_set_resident  (PhoshNotification   
 gboolean                  phosh_notification_get_resident  (PhoshNotification        *self);
 void                      phosh_notification_set_category  (PhoshNotification        *self,
                                                             const char               *category);
+const char               *phosh_notification_get_profile   (PhoshNotification        *self);
+void                      phosh_notification_set_profile   (PhoshNotification        *self,
+                                                            const char               *profile);
 const char               *phosh_notification_get_category  (PhoshNotification        *self);
 void                      phosh_notification_activate      (PhoshNotification        *self,
                                                             const char               *action);

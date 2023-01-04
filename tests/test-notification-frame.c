@@ -42,6 +42,7 @@ test_phosh_notification_frame_new (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   frame = phosh_notification_frame_new (TRUE, NULL);
@@ -69,6 +70,7 @@ test_phosh_notification_frame_new_filter (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
+                                 NULL,
                                  NULL,
                                  now);
 
@@ -101,6 +103,7 @@ test_phosh_notification_frame_notification_activated (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
+                                 NULL,
                                  NULL,
                                  now);
 

@@ -94,6 +94,7 @@ main (int argc, char **argv)
                                          FALSE,
                                          FALSE,
                                          NULL,
+                                         NULL,
                                          now);
   frame = phosh_notification_frame_new (TRUE, NULL);
   phosh_notification_frame_bind_notification (PHOSH_NOTIFICATION_FRAME (frame),
@@ -113,6 +114,7 @@ main (int argc, char **argv)
                                          NULL,
                                          FALSE,
                                          FALSE,
+                                         NULL,
                                          NULL,
                                          now);
   frame = phosh_notification_frame_new (TRUE, NULL);

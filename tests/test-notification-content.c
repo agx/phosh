@@ -30,6 +30,7 @@ test_phosh_notification_content_new (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   content = phosh_notification_content_new (noti, TRUE, NULL);
@@ -63,6 +64,7 @@ test_phosh_notification_content_no_summary (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   phosh_notification_content_new (noti, TRUE, NULL);
@@ -89,6 +91,7 @@ test_phosh_notification_content_new_filter (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
+                                 NULL,
                                  NULL,
                                  now);
 
@@ -138,6 +141,7 @@ test_phosh_notification_content_actions (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   content = phosh_notification_content_new (noti, TRUE, NULL);
@@ -174,6 +178,7 @@ test_phosh_notification_content_bad_action (void)
                                    FALSE,
                                    FALSE,
                                    NULL,
+                                   NULL,
                                    now);
     /* Boom */
     phosh_notification_content_new (noti, TRUE, NULL);
@@ -202,6 +207,7 @@ test_phosh_notification_content_set_prop_invalid (void)
                                                                FALSE,
                                                                FALSE,
                                                                NULL,
+                                                               NULL,
                                                                now);
 
   content = phosh_notification_content_new (noti, TRUE, NULL);
@@ -225,6 +231,7 @@ test_phosh_notification_content_get_prop_invalid (void)
                                                                NULL,
                                                                FALSE,
                                                                FALSE,
+                                                               NULL,
                                                                NULL,
                                                                now);
 

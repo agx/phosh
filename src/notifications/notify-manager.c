@@ -533,6 +533,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
                                                      transient,
                                                      resident,
                                                      category,
+                                                     NULL,
                                                      NULL);
 
     phosh_notify_manager_add_notification (self,
