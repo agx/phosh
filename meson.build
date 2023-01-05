@@ -198,9 +198,12 @@ config_h.set_quoted('LOCALEDIR', localedir)
 config_h.set_quoted('PHOSH_PLUGINS_DIR', plugins_dir)
 config_h.set_quoted('PHOSH_VERSION', meson.project_version())
 config_h.set('HAVE_RFKILL_EVENT_EXT', have_rfkill_event_ext)
-config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address')
-config_h.set('PHOSH_HAVE_GNOME_PLATFORM_VERSION', have_gnome_platform_version)
-config_h.set_quoted('PHOSH_DATA_DIR', datadir)
+config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address',
+             description: 'Whether ASAN was enabled via meson')
+config_h.set('PHOSH_HAVE_GNOME_PLATFORM_VERSION', have_gnome_platform_version,
+             description: 'Whether we have gnome platform version header (>= 43)')
+config_h.set_quoted('PHOSH_DATA_DIR', datadir,
+             description: 'Systemwide data dir')
 config_h.set_quoted('PHOSH_APP_ID', app_id)
 # Work around lack of replace in meson 0.56
 m_ver = meson.version().split('.')
@@ -213,7 +216,6 @@ config_h.set('PHOSH_HAVE_POLKIT_SUBJECT_CLEANUP', have_polkit_subject_cleanup)
 config_h.set('PHOSH_HAVE_POLKIT_AGENT_LISTENER_CLEANUP', have_polkit_agent_listener_cleanup)
 
 configure_file(
-  input: 'phosh-config.h.in',
   output: 'phosh-config.h',
   configuration: config_h,
 )
