@@ -89,7 +89,7 @@ update_info (PhoshBtInfo *self)
   /* TODO: show number of paired devices */
   enabled = phosh_bt_manager_get_enabled (self->bt);
   if (enabled)
-    phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("On"));
+    phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), C_("bluetooth:enabled", "On"));
   else
     phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("Bluetooth"));
 }
