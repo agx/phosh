@@ -204,7 +204,7 @@ config_h.set_quoted('PHOSH_DATA_DIR', datadir)
 config_h.set_quoted('PHOSH_APP_ID', app_id)
 # Work around lack of replace in meson 0.56
 m_ver = meson.version().split('.')
-if m_ver[0].to_int() > 0 or m_ver[1].to_int() >= 58
+if meson.version().version_compare('>=0.58.0')
   config_h.set_quoted('PHOSH_DBUS_PATH_PREFIX', '/' + app_id.replace('.', '/'))
 else
   config_h.set_quoted('PHOSH_DBUS_PATH_PREFIX', '/sm/puri/Phosh')
