@@ -152,6 +152,7 @@ asan-test:native-debian-bookworm:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
   tags: [ asan ]
+  needs: []
   <<: *bookworm_vars
   <<: *test_before_script
   script:
