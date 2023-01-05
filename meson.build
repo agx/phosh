@@ -167,6 +167,8 @@ code ='''
 struct rfkill_event_ext e;
 '''
 have_rfkill_event_ext = cc.compiles(code, name : 'Have rfkill_event_ext')
+have_memfd_create = cc.has_function('memfd_create', prefix: '''#define _GNU_SOURCE
+                                                               #include <sys/mman.h>''')
 
 have_polkit_subject_cleanup = cc.compiles('''
 #define POLKIT_AGENT_I_KNOW_API_IS_SUBJECT_TO_CHANGE
@@ -198,6 +200,8 @@ config_h.set_quoted('LOCALEDIR', localedir)
 config_h.set_quoted('PHOSH_PLUGINS_DIR', plugins_dir)
 config_h.set_quoted('PHOSH_VERSION', meson.project_version())
 config_h.set('HAVE_RFKILL_EVENT_EXT', have_rfkill_event_ext)
+config_h.set('PHOSH_HAVE_MEMFD_CREATE', have_memfd_create,
+             description: 'Whether we have memdfd_create on Linux')
 config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address',
              description: 'Whether ASAN was enabled via meson')
 config_h.set('PHOSH_HAVE_GNOME_PLATFORM_VERSION', have_gnome_platform_version,
