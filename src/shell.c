@@ -1635,7 +1635,7 @@ phosh_shell_fade_out (PhoshShell *self, guint timeout)
 /**
  * phosh_shell_set_power_save:
  * @self: The shell
- * @enable: Wether power save mode should be enabled
+ * @enable: Whether power save mode should be enabled
  *
  * Enter power saving mode. This currently blanks all monitors.
  */
