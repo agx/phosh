@@ -91,7 +91,6 @@ wait_a_bit (GMainLoop *loop, int secs)
 }
 
 
-#ifdef HAVE_THUMBNAILS
 static void
 toggle_overview (GMainLoop                      *loop,
                  struct zwp_virtual_keyboard_v1 *keyboard,
@@ -103,7 +102,6 @@ toggle_overview (GMainLoop                      *loop,
   /* Give animation time to finish */
   wait_a_bit (loop, 1);
 }
-#endif
 
 
 static void
@@ -206,10 +204,8 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_autoptr (GVariant) options = NULL;
   g_autoptr (GError) err = NULL;
   GVariantBuilder builder;
-#ifdef HAVE_THUMBNAILS
   const char *argv[] = { TEST_TOOLS "/app-buttons", NULL };
   GPid pid;
-#endif
   gboolean success = FALSE;
   int i = 1;
 
@@ -235,7 +231,6 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "search");
 
-#ifdef HAVE_THUMBNAILS
   g_spawn_async (NULL, (char**) argv, NULL, G_SPAWN_DEFAULT, NULL, NULL, &pid, &err);
   g_assert_no_error (err);
   g_assert_true (pid);
@@ -247,7 +242,6 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   take_screenshot (locale, i++, "overview-app");
   kill (pid, SIGTERM);
   g_spawn_close_pid (pid);
-#endif
 
   show_run_command_dialog (loop, keyboard, timer, TRUE);
   take_screenshot (locale, i++, "run-command");
