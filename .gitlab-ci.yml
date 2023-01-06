@@ -26,8 +26,8 @@ variables:
   # For ci-fairy
   FDO_UPSTREAM_REPO: World/Phosh/phosh
   # SCREENSHOT_IMAGE builds on DEBIAN_IMAGE so keep them in sync
-  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20220812
-  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20220812.1
+  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20230105
+  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20230105
   DEBIAN_CROSS_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian-cross:v0.0.20220924
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror -Dtools=true
@@ -152,6 +152,7 @@ asan-test:native-debian-bookworm:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
   tags: [ asan ]
+  needs: []
   <<: *bookworm_vars
   <<: *test_before_script
   script:
