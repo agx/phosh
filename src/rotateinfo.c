@@ -100,8 +100,9 @@ on_orientation_lock_changed (PhoshRotateInfo *self)
   icon_name = locked ? "rotation-locked-symbolic" : "rotation-allowed-symbolic";
   phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), icon_name);
   /* Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled) */
-  phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), locked ? _("Off") : _("On"));
-
+  phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), locked ?
+                              C_("automatic-screen-rotation-disabled", "Off") :
+                              C_("automatic-screen-rotation-enabled", "On"));
   return;
 }
 
@@ -183,7 +184,8 @@ phosh_rotate_info_init (PhoshRotateInfo *self)
 
   phosh_status_icon_set_icon_name (PHOSH_STATUS_ICON (self), "rotation-locked-symbolic");
   /* Translators: Automatic screen orientation is off (locked/disabled) */
-  phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("Off"));
+  phosh_status_icon_set_info (PHOSH_STATUS_ICON (self),
+                              C_("automatic-screen-rotation-disabled", "Off"));
 
   /* We don't use property bindings since we flip info/icon based on rotation and lock */
   g_signal_connect_object (self->manager,

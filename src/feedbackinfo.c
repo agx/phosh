@@ -75,7 +75,8 @@ on_profile_changed (PhoshFeedbackInfo *self, GParamSpec *psepc, gpointer unused)
     name = _("Silent");
     muted = TRUE;
   } else {
-    name = _("On");
+    /* Translators: Enable LED, haptic and audio feedback */
+    name = C_("feedback:enabled", "On");
   }
 
   phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), name);
