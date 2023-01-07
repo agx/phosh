@@ -188,6 +188,21 @@ on_osd_finish (GObject      *source_object,
 }
 
 
+static GPid
+run_plugin_prefs (void)
+{
+  g_autoptr (GError) err = NULL;
+  const char *argv[] = { TEST_TOOLS "/plugin-prefs", NULL };
+  GPid pid;
+
+  g_spawn_async (NULL, (char**) argv, NULL, G_SPAWN_DEFAULT, NULL, NULL, &pid, &err);
+  g_assert_no_error (err);
+  g_assert_true (pid);
+
+  return pid;
+}
+
+
 static void
 test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 {
@@ -241,6 +256,13 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   toggle_overview (loop, keyboard, timer);
   take_screenshot (locale, i++, "overview-app");
   kill (pid, SIGTERM);
+  g_spawn_close_pid (pid);
+
+  pid = run_plugin_prefs();
+  /* Give app time to start and close overview */
+  wait_a_bit (loop, 1);
+  take_screenshot (locale, i++, "plugin-prefs");
+  g_assert_no_errno (kill (pid, SIGTERM));
   g_spawn_close_pid (pid);
 
   show_run_command_dialog (loop, keyboard, timer, TRUE);
