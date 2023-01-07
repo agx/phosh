@@ -261,6 +261,13 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   pid = run_plugin_prefs();
   /* Give app time to start and close overview */
   wait_a_bit (loop, 1);
+  phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_T, NULL);
+  phosh_test_keyboard_release_modifiers (keyboard);
+  wait_a_bit (loop, 1);
+  take_screenshot (locale, i++, "plugin-prefs-ticket-box");
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
+  wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "plugin-prefs");
   g_assert_no_errno (kill (pid, SIGTERM));
   g_spawn_close_pid (pid);
