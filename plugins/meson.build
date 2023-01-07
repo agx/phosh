@@ -24,6 +24,13 @@ pkgconfig.generate(
   description : 'Phosh plugin configuration data',
 )
 
+lockscreen_plugins = [
+  'calendar',
+  'emergency-info',
+  'ticket-box',
+  'upcoming-events',
+]
+
 if get_option('lockscreen-plugins')
 
   plugin_inc = include_directories('.')
@@ -47,9 +54,8 @@ if get_option('lockscreen-plugins')
     ],
   )
 
-  subdir('calendar')
-  subdir('emergency-info')
-  subdir('ticket-box')
-  subdir('upcoming-events')
+  foreach plugin : lockscreen_plugins
+    subdir(plugin)
+  endforeach
 
 endif
