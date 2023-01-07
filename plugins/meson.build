@@ -31,8 +31,13 @@ lockscreen_plugins = [
   'upcoming-events',
 ]
 
-if get_option('lockscreen-plugins')
+lockscreen_plugin_schema_dirs = []
+foreach plugin : lockscreen_plugins
+  lockscreen_plugin_schema_dirs += meson.build_root() / 'plugins' / plugin
+endforeach
+lockscreen_plugin_schema_path = ':'.join(lockscreen_plugin_schema_dirs)
 
+if get_option('lockscreen-plugins')
   plugin_inc = include_directories('.')
 
   plugin_dep = declare_dependency(
