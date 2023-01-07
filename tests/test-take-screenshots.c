@@ -337,7 +337,6 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 int
 main (int argc, char *argv[])
 {
-  g_autofree char *display = NULL;
   g_autoptr (PhoshTestFullShellFixtureCfg) cfg = NULL;
 
   g_test_init (&argc, &argv, NULL);
