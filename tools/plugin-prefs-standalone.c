@@ -8,11 +8,14 @@
  * plugin-prefs-standalone: A simple wrapper to look at plugin preferenes
  */
 
+#include "phosh-config.h"
 #include "phosh-plugin.h"
 
 #include <adwaita.h>
 
 #include <plugin-loader.h>
+
+#include <glib/gi18n.h>
 
 
 static const char *all_plugins[] = {
@@ -104,6 +107,10 @@ int
 main (int argc, char *argv[])
 {
   g_autoptr (AdwApplication) app = NULL;
+
+  textdomain (GETTEXT_PACKAGE);
+  bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+  bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 
   app = g_object_new (ADW_TYPE_APPLICATION,
                       "application-id", "sm.puri.phosh.PluginPrefsStandalone",
