@@ -18,14 +18,6 @@
 #include <glib/gi18n.h>
 
 
-static const char *all_plugins[] = {
-  "calendar",
-  "upcoming-events",
-  "ticket-box",
-  NULL,
-};
-
-
 static GStrv
 get_plugin_prefs_dirs (const char *const *plugins)
 {
@@ -75,11 +67,12 @@ on_app_activated (GtkApplication *app)
   AdwApplicationWindow *window;
   GtkWidget *flowbox;
   GtkWidget *prefs;
+  g_auto (GStrv) all_plugins = g_strsplit (PLUGINS, " ", -1);
 
   flowbox = g_object_new (GTK_TYPE_FLOW_BOX,
                           "valign", GTK_ALIGN_CENTER,
                           NULL);
-  prefs_dirs = get_plugin_prefs_dirs (all_plugins);
+  prefs_dirs = get_plugin_prefs_dirs ((const char * const*)all_plugins);
   loader = phosh_plugin_loader_new (prefs_dirs,
                                     PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET_PREFS);
   g_object_set_data_full (G_OBJECT (app), "loader", loader, g_object_unref);
