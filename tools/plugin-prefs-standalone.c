@@ -42,12 +42,22 @@ get_plugin_prefs_dirs (const char *const *plugins)
 
 
 static void
-on_button_clicked (GtkWidget *button, gpointer data)
+on_activated (GSimpleAction *action,
+              GVariant      *parameter,
+              gpointer       data)
 {
-  GtkWindow *plugin_prefs = GTK_WINDOW (data);
-  GtkWidget *parent;
+  GtkApplication *app = GTK_APPLICATION (data);
+  PhoshPluginLoader *loader;
+  const char *name;
+  GtkWindow *plugin_prefs, *parent;
 
-  parent = gtk_widget_get_ancestor (button, GTK_TYPE_WINDOW);
+  name = g_variant_get_string (parameter, NULL);
+  g_debug ("Loading plugin '%s'", name);
+
+  loader = g_object_get_data (G_OBJECT (app), "loader");
+  plugin_prefs = GTK_WINDOW (phosh_plugin_loader_load_plugin (loader, name));
+
+  parent = gtk_application_get_active_window (app);
 
   gtk_window_set_modal (plugin_prefs, TRUE);
   gtk_window_set_transient_for (plugin_prefs, GTK_WINDOW (parent));
@@ -60,11 +70,11 @@ on_button_clicked (GtkWidget *button, gpointer data)
 static void
 on_app_activated (GtkApplication *app)
 {
-  g_autoptr (PhoshPluginLoader) loader = NULL;
   g_auto (GStrv) prefs_dirs = NULL;
-  GtkWidget *prefs;
+  PhoshPluginLoader *loader;
   AdwApplicationWindow *window;
   GtkWidget *flowbox;
+  GtkWidget *prefs;
 
   flowbox = g_object_new (GTK_TYPE_FLOW_BOX,
                           "valign", GTK_ALIGN_CENTER,
@@ -72,11 +82,15 @@ on_app_activated (GtkApplication *app)
   prefs_dirs = get_plugin_prefs_dirs (all_plugins);
   loader = phosh_plugin_loader_new (prefs_dirs,
                                     PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET_PREFS);
+  g_object_set_data_full (G_OBJECT (app), "loader", loader, g_object_unref);
 
   for (int i = 0; all_plugins[i] != NULL; i++) {
     const char *plugin = all_plugins[i];
     g_autofree char *name = g_strdup_printf ("%s-prefs", plugin);
+    g_autofree char *action_name = NULL;
+    g_autofree char *shortcut = NULL;
     GtkWidget *button;
+    char *accels[] = { NULL, NULL };
 
     prefs = phosh_plugin_loader_load_plugin (loader, name);
     if (prefs == NULL)
@@ -89,8 +103,14 @@ on_app_activated (GtkApplication *app)
                            "margin-top", 6,
                            "margin-bottom", 6,
                            NULL);
-    g_signal_connect (button, "clicked", G_CALLBACK (on_button_clicked), prefs);
+    action_name = g_strdup_printf ("app.show-prefs::%s", name);
+    gtk_actionable_set_detailed_action_name (GTK_ACTIONABLE (button), action_name);
     gtk_flow_box_append (GTK_FLOW_BOX (flowbox), button);
+
+    /* Set up shortcut, beware of collisions */
+    shortcut = g_strdup_printf ("<ctrl>%c", name[0]);
+    accels[0] = shortcut;
+    gtk_application_set_accels_for_action (app, action_name, (const char *const *)accels);
   }
 
   window = g_object_new (GTK_TYPE_APPLICATION_WINDOW,
@@ -102,6 +122,11 @@ on_app_activated (GtkApplication *app)
   gtk_window_present (GTK_WINDOW (window));
 }
 
+
+static GActionEntry entries[] =
+{
+  { .name = "show-prefs", .parameter_type = "s", .activate = on_activated },
+};
 
 int
 main (int argc, char *argv[])
@@ -116,7 +141,10 @@ main (int argc, char *argv[])
                       "application-id", "sm.puri.phosh.PluginPrefsStandalone",
                       NULL);
   g_signal_connect (app, "activate", G_CALLBACK (on_app_activated), NULL);
-
+  g_action_map_add_action_entries (G_ACTION_MAP (app),
+                                   entries,
+                                   G_N_ELEMENTS (entries),
+                                   app);
   g_application_run (G_APPLICATION (app), argc, argv);
 
   return EXIT_SUCCESS;
