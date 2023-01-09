@@ -6,6 +6,8 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
+#define G_LOG_DOMAIN "phosh-util"
+
 #include "util.h"
 #include <gtk/gtk.h>
 
@@ -157,53 +159,25 @@ phosh_strip_suffix_from_app_id (const char *app_id)
 gboolean
 phosh_find_systemd_session (char **session_id)
 {
-  int n_sessions;
+  g_autofree char *session = NULL;
+  int r;
 
-  g_auto (GStrv) sessions = NULL;
-  char *session;
-  int i;
+  g_return_val_if_fail (session_id != NULL && *session_id == NULL, FALSE);
 
-  n_sessions = sd_uid_get_sessions (getuid (), 0, &sessions);
-
-  if (n_sessions < 0) {
-    g_debug ("Failed to get sessions for user %d", getuid ());
-    return FALSE;
+  r = sd_pid_get_session (getpid(), &session);
+  if (r == 0) {
+    *session_id = g_steal_pointer (&session);
+    return TRUE;
   }
 
-  session = NULL;
-  for (i = 0; i < n_sessions; i++) {
-    int r;
-    g_autofree char *type = NULL;
-    g_autofree char *desktop = NULL;
-
-    r = sd_session_get_desktop (sessions[i], &desktop);
-    if (r < 0) {
-      g_debug ("Couldn't get desktop for session '%s': %s",
-               sessions[i], strerror (-r));
-      continue;
-    }
-
-    if (g_strcmp0 (desktop, "phosh") != 0)
-      continue;
-
-    r = sd_session_get_type (sessions[i], &type);
-    if (r < 0) {
-      g_debug ("Couldn't get type for session '%s': %s",
-               sessions[i], strerror (-r));
-      continue;
-    }
-
-    if (g_strcmp0 (type, "wayland") != 0)
-      continue;
-
-    session = sessions[i];
-    break;
+  /* Not in a system session, so let logind make a pick */
+  r = sd_uid_get_display(getuid(), &session);
+  if (r == 0) {
+    *session_id = g_steal_pointer (&session);
+    return TRUE;
   }
 
-  if (session != NULL)
-    *session_id = g_strdup (session);
-
-  return session != NULL;
+  return FALSE;
 }
 
 /**

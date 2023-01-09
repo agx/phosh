@@ -260,6 +260,7 @@ on_logind_unlock (PhoshScreenSaverManager *self, PhoshDBusLoginSession *proxy)
   phosh_lockscreen_manager_set_locked  (self->lockscreen_manager, FALSE);
 }
 
+
 static void
 on_logind_prepare_for_sleep (PhoshScreenSaverManager *self,
                              gboolean                 suspending,
@@ -267,12 +268,12 @@ on_logind_prepare_for_sleep (PhoshScreenSaverManager *self,
 {
   g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
 
+  g_debug ("Got PrepareForSleep signal: %s", suspending ? "suspend" : "resume");
   if (suspending) {
     phosh_lockscreen_manager_set_locked (self->lockscreen_manager, TRUE);
   } else {
     PhoshIdleManager *idle_manager;
 
-    g_debug ("Got PrepareForSleep signal (resume case)");
     phosh_screen_saver_manager_wakeup_screen (self);
 
     idle_manager = phosh_idle_manager_get_default ();
@@ -446,6 +447,8 @@ on_logind_manager_proxy_new_for_bus_finish (GObject                 *source_obje
       self->cancel,
       (GAsyncReadyCallback)on_logind_manager_get_session_finished,
       self);
+  } else {
+    g_debug ("No Login session, screen blank/lock will be unreliable");
   }
 
   g_debug ("Connected to logind's session interface");
