@@ -7,6 +7,7 @@
  */
 
 #include "phosh-config.h"
+#include "phosh-gnome-shell-dbus.h"
 #include "phosh-screenshot-dbus.h"
 #include "portal-dbus.h"
 #include "shell.h"
@@ -90,7 +91,6 @@ wait_a_bit (GMainLoop *loop, int secs)
 }
 
 
-#ifdef HAVE_THUMBNAILS
 static void
 toggle_overview (GMainLoop                      *loop,
                  struct zwp_virtual_keyboard_v1 *keyboard,
@@ -102,7 +102,6 @@ toggle_overview (GMainLoop                      *loop,
   /* Give animation time to finish */
   wait_a_bit (loop, 1);
 }
-#endif
 
 
 static void
@@ -113,6 +112,24 @@ toggle_settings (GMainLoop                      *loop,
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTMETA);
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_M, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
+  /* Give animation time to finish */
+  wait_a_bit (loop, 1);
+}
+
+
+static void
+show_run_command_dialog (GMainLoop                      *loop,
+                         struct zwp_virtual_keyboard_v1 *keyboard,
+                         GTimer                         *timer,
+                         gboolean                        show)
+{
+  if (show) {
+    phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTALT);
+    phosh_test_keyboard_press_keys (keyboard, timer, KEY_F2, NULL);
+    phosh_test_keyboard_release_modifiers (keyboard);
+  } else {
+    phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
+  }
   /* Give animation time to finish */
   wait_a_bit (loop, 1);
 }
@@ -157,6 +174,21 @@ on_portal_access_dialog (GObject      *source_object,
 
 
 static void
+on_osd_finish (GObject      *source_object,
+               GAsyncResult *res,
+               gpointer      user_data)
+{
+  gboolean success;
+  g_autoptr (GError) err = NULL;
+
+  PhoshDBusGnomeShell *proxy = PHOSH_DBUS_GNOME_SHELL (source_object);
+  success = phosh_dbus_gnome_shell_call_show_osd_finish (proxy, res, &err);
+  g_assert_true (success);
+  g_assert_no_error (err);
+}
+
+
+static void
 test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 {
   struct zwp_virtual_keyboard_v1 *keyboard;
@@ -168,12 +200,12 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_autoptr (PhoshTestCallsMock) calls_mock = NULL;
   g_autoptr (PhoshTestMprisMock) mpris_mock = NULL;
   g_autoptr (PhoshDBusImplPortalAccess) portal_access_proxy = NULL;
+  g_autoptr (PhoshDBusGnomeShell) osd_proxy = NULL;
   g_autoptr (GVariant) options = NULL;
   g_autoptr (GError) err = NULL;
-#ifdef HAVE_THUMBNAILS
+  GVariantBuilder builder;
   const char *argv[] = { TEST_TOOLS "/app-buttons", NULL };
   GPid pid;
-#endif
   gboolean success = FALSE;
   int i = 1;
 
@@ -199,7 +231,6 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   wait_a_bit (loop, 1);
   take_screenshot (locale, i++, "search");
 
-#ifdef HAVE_THUMBNAILS
   g_spawn_async (NULL, (char**) argv, NULL, G_SPAWN_DEFAULT, NULL, NULL, &pid, &err);
   g_assert_no_error (err);
   g_assert_true (pid);
@@ -211,11 +242,38 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   take_screenshot (locale, i++, "overview-app");
   kill (pid, SIGTERM);
   g_spawn_close_pid (pid);
-#endif
+
+  show_run_command_dialog (loop, keyboard, timer, TRUE);
+  take_screenshot (locale, i++, "run-command");
+  show_run_command_dialog (loop, keyboard, timer, FALSE);
 
   toggle_settings (loop, keyboard, timer);
   take_screenshot (locale, i++, "settings");
   toggle_settings (loop, keyboard, timer);
+
+  osd_proxy = phosh_dbus_gnome_shell_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                                             G_DBUS_PROXY_FLAGS_NONE,
+                                                             "org.gnome.Shell",
+                                                             "/org/gnome/Shell",
+                                                             NULL,
+                                                             &err);
+  g_assert_no_error (err);
+  g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
+  g_variant_builder_add (&builder, "{sv}", "connector",
+                         g_variant_new_string ("DSI-1"));
+  g_variant_builder_add (&builder, "{sv}", "label",
+                         g_variant_new_string ("HDMI / DisplayPort"));
+  g_variant_builder_add (&builder, "{sv}", "icon",
+                         g_variant_new_string ("audio-volume-medium-symbolic"));
+  g_variant_builder_add (&builder, "{sv}", "level",
+                         g_variant_new_double (0.5));
+  phosh_dbus_gnome_shell_call_show_osd (osd_proxy,
+                                        g_variant_builder_end (&builder),
+                                        NULL,
+                                        on_osd_finish,
+                                        NULL);
+  g_assert_no_error (err);
+  take_screenshot (locale, i++, "osd");
 
   portal_access_proxy = phosh_dbus_impl_portal_access_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                                               G_DBUS_PROXY_FLAGS_NONE,

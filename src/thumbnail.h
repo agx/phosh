@@ -21,8 +21,8 @@ G_DECLARE_DERIVABLE_TYPE (PhoshThumbnail,
  * @parent_class: the parent class
  * @get_image: Get the current image data
  * @get_size: get current image size and stride
- * @is_ready: wether the image is ready to be fetched
- * @set_ready: set image as ready
+ * @is_ready: whether the image is ready to be fetched
+ * @set_ready: Set image as ready. Must chain up.
  */
 struct _PhoshThumbnailClass
 {

@@ -62,6 +62,12 @@ variables:
      - dpkg-reconfigure locales
      - apt -y update
      - apt -y build-dep .
+     # Just until newer phoc is in the archive:
+     - apt install -y unzip wget
+     - wget -Pdl https://gitlab.gnome.org/guidog/phoc/-/jobs/2486388/artifacts/download
+     - unzip -d dl dl/download
+     - dpkg -i dl/debian/output/phoc_*.deb
+     - rm -rf dl/
 
 .build_before_script: &build_before_script
   before_script:
@@ -128,6 +134,7 @@ build:cross-debian-bookworm:i386:
   except:
     variables:
       - $PKG_ONLY == "1"
+      - $SCREENSHOTS_ONLY == "1"
 
 unit-test:native-debian-bookworm:
   stage: test+docs
@@ -147,6 +154,7 @@ unit-test:native-debian-bookworm:
   except:
     variables:
       - $PKG_ONLY == "1"
+      - $SCREENSHOTS_ONLY == "1"
 
 asan-test:native-debian-bookworm:
   stage: test+docs
@@ -162,6 +170,7 @@ asan-test:native-debian-bookworm:
   except:
     variables:
       - $PKG_ONLY == "1"
+      - $SCREENSHOTS_ONLY == "1"
   allow_failure: true
 
 screenshot:native-debian-bookworm:
@@ -206,6 +215,7 @@ build-gtkdoc:
   except:
     variables:
       - $PKG_ONLY == "1"
+      - $SCREENSHOTS_ONLY == "1"
 
 check-po:
   stage: test+docs
@@ -221,6 +231,7 @@ check-po:
   except:
     variables:
       - $PKG_ONLY == "1"
+      - $SCREENSHOTS_ONLY == "1"
 
 check-license-headers:
   stage: test+docs
@@ -234,6 +245,7 @@ check-license-headers:
   except:
     variables:
       - $PKG_ONLY == "1"
+      - $SCREENSHOTS_ONLY == "1"
 
 build:native-alpinelinux-edge:
   stage: build
@@ -252,6 +264,7 @@ build:native-alpinelinux-edge:
   except:
     variables:
       - $PKG_ONLY == "1"
+      - $SCREENSHOTS_ONLY == "1"
 
 unit-test:native-alpinelinux-edge:
   stage: test+docs
@@ -274,6 +287,7 @@ unit-test:native-alpinelinux-edge:
   except:
     variables:
       - $PKG_ONLY == "1"
+      - $SCREENSHOTS_ONLY == "1"
 
 package:deb-pureos-byzantium:arm64:
   variables:
@@ -282,6 +296,9 @@ package:deb-pureos-byzantium:arm64:
   extends: .l5-build-debian-package
   tags:
     - aarch64
+  except:
+    variables:
+      - $SCREENSHOTS_ONLY == "1"
 
 pages:
   stage: deploy
@@ -297,3 +314,4 @@ pages:
   except:
     variables:
       - $PKG_ONLY == "1"
+      - $SCREENSHOTS_ONLY == "1"
