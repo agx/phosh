@@ -92,10 +92,10 @@ configure_file(
   install: true
 )
 
-#generate XML enum definitions for GSettings schema
+# Generate XML enum definitions for GSettings schema
 schema_enum_headers = files(
-  '../src/app-grid.h',
-  '../src/wwan/phosh-wwan-backend.h',
+  meson.source_root() / 'src' / 'app-grid.h',
+  meson.source_root() / 'src' / 'wwan' / 'phosh-wwan-backend.h',
 )
 generate_enums_schema = gnome.mkenums('sm.puri.phosh.enums.xml',
   sources: schema_enum_headers,
