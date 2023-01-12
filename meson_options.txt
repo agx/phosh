@@ -10,6 +10,10 @@ option('gtk_doc',
        type: 'boolean', value: false,
        description: 'Whether to generate the API reference for Phosh')
 
+option('man',
+       type: 'boolean', value : false,
+       description : 'generate man pages (requires rst2man)')
+
 option('systemd',
        type: 'boolean', value: false,
        description: 'Whether to generate systemd user units')

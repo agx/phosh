@@ -7,7 +7,7 @@ GNOME_SESSION=${GNOME_SESSION:-gnome-session}
 help()
 {
   cat <<EOF
-phosh - Session start script for Phosh
+phosh-session - Session start script for Phosh
 
 This is usually invoked by a display manager but you can
 also run it from a tty.

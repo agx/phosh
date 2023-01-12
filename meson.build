@@ -217,6 +217,7 @@ summary = [
   '          Compositor: @0@'.format(get_option('compositor')),
   '             Systemd: @0@'.format(get_option('systemd')),
   '       Documentation: @0@'.format(get_option('gtk_doc')),
+  '        Manual pages: @0@'.format(get_option('man')),
   '               Tools: @0@'.format(get_option('tools')),
   '  Lockscreen Plugins: @0@'.format(get_option('lockscreen-plugins')),
   '----------------------------',
