@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-09-04 13:11+0000\n"
-"PO-Revision-Date: 2022-09-04 22:37+0200\n"
+"POT-Creation-Date: 2023-01-11 20:25+0000\n"
+"PO-Revision-Date: 2023-01-13 12:26+0100\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -32,13 +32,24 @@ msgstr "Telefonska ljuska"
 msgid "Window management and application launching for mobile"
 msgstr "Upravljanje prozorima i aplikacijama na mobilnim telefonima"
 
-#: plugins/calendar/calendar.desktop.in.in:4
+#: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Kalendar"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "Jednostavna aplikacija kalendara"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Kutija za karte"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Prikaži PDF-ove na zaključanom zaslonu. <b>Ovaj priključak je "
+"eksperimentalan.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -60,7 +71,8 @@ msgstr "Prikaži sve aplikacije"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Prikaži samo mobilne aplikacije"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
+#: src/bt-info.c:92
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Uključeno"
 
@@ -119,16 +131,22 @@ msgstr "Nepoznata aplikacija"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:69
+#: src/feedbackinfo.c:91
 msgid "Quiet"
 msgstr "Neprimjetno"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:75
+#: src/feedbackinfo.c:97
 msgid "Silent"
 msgstr "Utišano"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:101
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "Uključeno"
 
 #: src/location-manager.c:268
 #, c-format
@@ -151,7 +169,7 @@ msgstr "Ne"
 msgid "Enter Passcode"
 msgstr "Upiši lozinku"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "Provjeravanje…"
 
@@ -317,17 +335,21 @@ msgstr "Uspravno"
 msgid "Landscape"
 msgstr "Položeno"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:104 src/rotateinfo.c:188
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Isključeno"
+
+#: src/rotateinfo.c:105
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "Uključeno"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
 msgstr "Pritisni ESC za zatvaranje"
 
-#: src/run-command-manager.c:94
+#: src/run-command-manager.c:95
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Pokretanje naredbe '%s' neuspjelo"
@@ -392,7 +414,7 @@ msgstr "Domena:"
 msgid "Co_nnect"
 msgstr "Po_veži se"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
 msgid "Back"
 msgstr "Natrag"
 
@@ -400,11 +422,11 @@ msgstr "Natrag"
 msgid "Slide up to unlock"
 msgstr "Povuci za otključavanje"
 
-#: src/ui/lockscreen.ui:283
+#: src/ui/lockscreen.ui:282
 msgid "Emergency"
 msgstr "Hitno"
 
-#: src/ui/lockscreen.ui:299
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "Otključaj"
 
@@ -413,6 +435,7 @@ msgid "Authentication required"
 msgstr "Potrebna je ovjera"
 
 #: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:84
 msgid "_Cancel"
 msgstr "_Odustani"
 
@@ -428,11 +451,11 @@ msgstr "Ovjera"
 msgid "Run Command"
 msgstr "Pokreni naredbu"
 
-#: src/ui/settings.ui:301
+#: src/ui/settings.ui:302
 msgid "No notifications"
 msgstr "Nema obavijesti"
 
-#: src/ui/settings.ui:342
+#: src/ui/settings.ui:343
 msgid "Clear all"
 msgstr "Ukloni sve"
 
@@ -450,7 +473,7 @@ msgstr "Odjava"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:340
+#: src/util.c:319
 msgid "%A, %B %-e"
 msgstr "%A, %-d. %B"
 
@@ -475,6 +498,94 @@ msgstr "Bežična mreža"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Mobitel"
+
+#: plugins/emergency-info/emergency-info.ui:39
+msgid "Personal Information"
+msgstr "Osobne informacije"
+
+#: plugins/emergency-info/emergency-info.ui:47
+msgid "Date of Birth"
+msgstr "Datum rođenja"
+
+#: plugins/emergency-info/emergency-info.ui:65
+msgid "Preferred Language"
+msgstr "Željeni jezik"
+
+#: plugins/emergency-info/emergency-info.ui:83
+msgid "Home Address"
+msgstr "Kućna adresa"
+
+#: plugins/emergency-info/emergency-info.ui:91
+msgid "Medical Information"
+msgstr "Medicinske informacje"
+
+#: plugins/emergency-info/emergency-info.ui:99
+msgid "Age"
+msgstr "Dob"
+
+#: plugins/emergency-info/emergency-info.ui:117
+msgid "Blood Type"
+msgstr "Krvna grupa"
+
+#: plugins/emergency-info/emergency-info.ui:135
+msgid "Height"
+msgstr "Visina"
+
+#: plugins/emergency-info/emergency-info.ui:153
+msgid "Weight"
+msgstr "Težina"
+
+#: plugins/emergency-info/emergency-info.ui:171
+msgid "Allergies"
+msgstr "Alergije"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "Lijekovi i bolesti"
+
+#: plugins/emergency-info/emergency-info.ui:187
+msgid "Other Information"
+msgstr "Ostale informacije"
+
+#: plugins/emergency-info/emergency-info.ui:195
+msgid "Emergency Contacts"
+msgstr "Hitni kontakt"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Nema dokumenata za prikaz"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Kartice"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:81
+msgid "Choose Folder"
+msgstr "Odaberi mapu"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:85
+msgid "_Open"
+msgstr "_Otvori"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "Osobitosti kutija za karte"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "Putanje"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "Postavke mape"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "Gdje Phosh traži vaše karte"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr "Mapa karta"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
