@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the phosh package.
 #
 # Roman Riabenko <roman@riabenko.com>, 2020. #zanata.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-11-02 17:07+0000\n"
-"PO-Revision-Date: 2022-11-02 20:35+0200\n"
+"POT-Creation-Date: 2023-01-11 20:25+0000\n"
+"PO-Revision-Date: 2023-01-13 16:45+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -33,11 +33,11 @@ msgstr "Інтерфейс користувача телефону"
 msgid "Window management and application launching for mobile"
 msgstr "Керування вікнами і запуск програм для мобільних"
 
-#: plugins/calendar/calendar.desktop.in.in:4
+#: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Календар"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "Простий віджет календаря"
 
@@ -47,12 +47,11 @@ msgid "Ticket Box"
 msgstr "Скринька з квитками"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:5
-msgid ""
-"Show PDFs on the lock screen. This plugin is experimental. <b>This plugin is "
-"experimental.</b>"
-msgstr ""
-"Показувати PDF на екрані блокування. Цей додаток є експериментальним. <b>Цей"
-" додаток є експериментальним.</b>"
+#| msgid ""
+#| "Show PDFs on the lock screen. This plugin is experimental. <b>This plugin "
+#| "is experimental.</b>"
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr "Показ PDF на екрані блокування. <b>Цей додаток є тестовим.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -74,7 +73,9 @@ msgstr "Показати усі програми"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Показати лише програми для мобільних"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
+#: src/bt-info.c:92
+#| msgid "On"
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "❙"
 
@@ -133,16 +134,23 @@ msgstr "Невідома програма"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:69
+#: src/feedbackinfo.c:91
 msgid "Quiet"
 msgstr "Тихо"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:75
+#: src/feedbackinfo.c:97
 msgid "Silent"
 msgstr "Беззвучно"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:101
+#| msgid "On"
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "❙"
 
 #: src/location-manager.c:268
 #, c-format
@@ -165,7 +173,7 @@ msgstr "Ні"
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "Звіряю…"
 
@@ -331,17 +339,23 @@ msgstr "Книжкова"
 msgid "Landscape"
 msgstr "Альбомна"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:104 src/rotateinfo.c:188
+#| msgid "Off"
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "○"
+
+#: src/rotateinfo.c:105
+#| msgid "On"
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "❙"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
 msgstr "Натисніть клавішу «Esc», щоб закрити"
 
-#: src/run-command-manager.c:94
+#: src/run-command-manager.c:95
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Не вдалося запустити «%s»"
@@ -406,7 +420,7 @@ msgstr "Домен:"
 msgid "Co_nnect"
 msgstr "З'єд_натися"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
 msgid "Back"
 msgstr "Назад"
 
@@ -414,11 +428,11 @@ msgstr "Назад"
 msgid "Slide up to unlock"
 msgstr "Протягніть угору, щоб розблокувати"
 
-#: src/ui/lockscreen.ui:283
+#: src/ui/lockscreen.ui:282
 msgid "Emergency"
 msgstr "Екстрений виклик"
 
-#: src/ui/lockscreen.ui:299
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "Розблокувати"
 
@@ -427,6 +441,7 @@ msgid "Authentication required"
 msgstr "Слід пройти розпізнавання"
 
 #: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:84
 msgid "_Cancel"
 msgstr "_Скасувати"
 
@@ -442,11 +457,11 @@ msgstr "Автентифікуватися"
 msgid "Run Command"
 msgstr "Виконати команду"
 
-#: src/ui/settings.ui:301
+#: src/ui/settings.ui:302
 msgid "No notifications"
 msgstr "Немає сповіщень"
 
-#: src/ui/settings.ui:342
+#: src/ui/settings.ui:343
 msgid "Clear all"
 msgstr "Очистити все"
 
@@ -464,7 +479,7 @@ msgstr "Вийти"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:345
+#: src/util.c:319
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
@@ -490,6 +505,59 @@ msgstr "Wi-Fi"
 msgid "Cellular"
 msgstr "Стільниковий"
 
+#: plugins/emergency-info/emergency-info.ui:39
+msgid "Personal Information"
+msgstr "Особисті відомості"
+
+#: plugins/emergency-info/emergency-info.ui:47
+msgid "Date of Birth"
+msgstr "Дата народження"
+
+#: plugins/emergency-info/emergency-info.ui:65
+msgid "Preferred Language"
+msgstr "Бажана мова"
+
+#: plugins/emergency-info/emergency-info.ui:83
+msgid "Home Address"
+msgstr "Домашня адреса"
+
+#: plugins/emergency-info/emergency-info.ui:91
+msgid "Medical Information"
+msgstr "Медичні відомості"
+
+#: plugins/emergency-info/emergency-info.ui:99
+msgid "Age"
+msgstr "Вік"
+
+#: plugins/emergency-info/emergency-info.ui:117
+msgid "Blood Type"
+msgstr "Група крові"
+
+#: plugins/emergency-info/emergency-info.ui:135
+msgid "Height"
+msgstr "Зріст"
+
+#: plugins/emergency-info/emergency-info.ui:153
+msgid "Weight"
+msgstr "Вага"
+
+#: plugins/emergency-info/emergency-info.ui:171
+msgid "Allergies"
+msgstr "Алергії"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "Препарати і стан здоров'я"
+
+#: plugins/emergency-info/emergency-info.ui:187
+msgid "Other Information"
+msgstr "Інші відомості"
+
+#: plugins/emergency-info/emergency-info.ui:195
+#| msgid "Emergency"
+msgid "Emergency Contacts"
+msgstr "Екстрені контакти"
+
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
 msgstr "Немає документів для показу"
@@ -497,6 +565,37 @@ msgstr "Немає документів для показу"
 #: plugins/ticket-box/ticket-box.ui:83
 msgid "Tickets"
 msgstr "Квитки"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:81
+msgid "Choose Folder"
+msgstr "Виберіть теку"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:85
+#| msgid "Open"
+msgid "_Open"
+msgstr "_Відкрити"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+#| msgid "Ticket Box"
+msgid "Ticket Box Preferences"
+msgstr "Налаштування скриньки з квитками"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "Шляхи"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "Параметри тек"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "Де Phosh має шукати ваші квитки"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+#| msgid "Ticket Box"
+msgid "Ticket Folder"
+msgstr "Тека квитків"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
