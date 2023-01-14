@@ -325,8 +325,9 @@ on_phosh_layer_surface_mapped (PhoshLayerSurface *self, gpointer unused)
 
 
 static void
-on_phosh_layer_surface_unmapped (PhoshLayerSurface *self, gpointer unused)
+phosh_layer_surface_unmap (GtkWidget *widget)
 {
+  PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (widget);
   PhoshLayerSurfacePrivate *priv;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
@@ -334,6 +335,8 @@ on_phosh_layer_surface_unmapped (PhoshLayerSurface *self, gpointer unused)
 
   g_clear_pointer (&priv->layer_surface, zwlr_layer_surface_v1_destroy);
   priv->wl_surface = NULL;
+
+  GTK_WIDGET_CLASS (phosh_layer_surface_parent_class)->unmap (widget);
 }
 
 
@@ -354,11 +357,14 @@ static void
 phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
+  GtkWidgetClass *widget_class = (GtkWidgetClass *)klass;
 
   object_class->dispose = phosh_layer_surface_dispose;
 
   object_class->set_property = phosh_layer_surface_set_property;
   object_class->get_property = phosh_layer_surface_get_property;
+
+  widget_class->unmap = phosh_layer_surface_unmap;
 
   props[PHOSH_LAYER_SURFACE_PROP_LAYER_SHELL] =
     g_param_spec_pointer (
@@ -528,9 +534,6 @@ phosh_layer_surface_init (PhoshLayerSurface *self)
                     NULL);
   g_signal_connect (self, "map",
                     G_CALLBACK (on_phosh_layer_surface_mapped),
-                    NULL);
-  g_signal_connect (self, "unmap",
-                    G_CALLBACK (on_phosh_layer_surface_unmapped),
                     NULL);
 }
 
