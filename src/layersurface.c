@@ -265,14 +265,16 @@ phosh_layer_surface_get_property (GObject    *object,
 
 
 static void
-on_phosh_layer_surface_realized (PhoshLayerSurface *self, gpointer unused)
+phosh_layer_surface_realize (GtkWidget *widget)
 {
+  PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (widget);
   PhoshLayerSurfacePrivate *priv;
   GdkWindow *gdk_window;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
-
   priv = phosh_layer_surface_get_instance_private (self);
+
+  GTK_WIDGET_CLASS (phosh_layer_surface_parent_class)->realize (widget);
 
   gdk_window = gtk_widget_get_window (GTK_WIDGET (self));
   gdk_wayland_window_set_use_custom_surface (gdk_window);
@@ -283,12 +285,15 @@ on_phosh_layer_surface_realized (PhoshLayerSurface *self, gpointer unused)
 
 
 static void
-on_phosh_layer_surface_mapped (PhoshLayerSurface *self, gpointer unused)
+phosh_layer_surface_map (GtkWidget *widget)
 {
+  PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (widget);
   PhoshLayerSurfacePrivate *priv;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   priv = phosh_layer_surface_get_instance_private (self);
+
+  GTK_WIDGET_CLASS (phosh_layer_surface_parent_class)->map (widget);
 
   if (!priv->wl_surface) {
     GdkWindow *gdk_window;
@@ -360,10 +365,11 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
   GtkWidgetClass *widget_class = (GtkWidgetClass *)klass;
 
   object_class->dispose = phosh_layer_surface_dispose;
-
   object_class->set_property = phosh_layer_surface_set_property;
   object_class->get_property = phosh_layer_surface_get_property;
 
+  widget_class->realize = phosh_layer_surface_realize;
+  widget_class->map = phosh_layer_surface_map;
   widget_class->unmap = phosh_layer_surface_unmap;
 
   props[PHOSH_LAYER_SURFACE_PROP_LAYER_SHELL] =
@@ -529,12 +535,6 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
 static void
 phosh_layer_surface_init (PhoshLayerSurface *self)
 {
-  g_signal_connect (self, "realize",
-                    G_CALLBACK (on_phosh_layer_surface_realized),
-                    NULL);
-  g_signal_connect (self, "map",
-                    G_CALLBACK (on_phosh_layer_surface_mapped),
-                    NULL);
 }
 
 
