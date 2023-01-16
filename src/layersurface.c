@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Purism SPC
+ * Copyright (C) 2018-2023 Purism SPC
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
