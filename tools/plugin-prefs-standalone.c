@@ -63,11 +63,13 @@ on_app_activated (GtkApplication *app)
   AdwApplicationWindow *window;
   GtkWidget *flowbox;
 
-  flowbox = gtk_flow_box_new ();
+  flowbox = g_object_new (GTK_TYPE_FLOW_BOX,
+                          "valign", GTK_ALIGN_CENTER,
+                          NULL);
   prefs_dirs = get_plugin_prefs_dirs (all_plugins);
-
   loader = phosh_plugin_loader_new (prefs_dirs,
                                     PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET_PREFS);
+
   for (int i = 0; all_plugins[i] != NULL; i++) {
     const char *plugin = all_plugins[i];
     g_autofree char *name = g_strdup_printf ("%s-prefs", plugin);
