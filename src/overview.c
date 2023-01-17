@@ -426,7 +426,7 @@ page_changed_cb (PhoshOverview *self,
 {
   PhoshActivity *activity;
   PhoshToplevel *toplevel;
-  GList *list;
+  g_autoptr (GList) list = NULL;
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   g_return_if_fail (HDY_IS_CAROUSEL (carousel));
 
