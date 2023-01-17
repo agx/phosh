@@ -389,20 +389,18 @@ phosh_overview_size_allocate (GtkWidget     *widget,
 {
   PhoshOverview *self = PHOSH_OVERVIEW (widget);
   PhoshOverviewPrivate *priv = phosh_overview_get_instance_private (self);
-  GList *children, *l;
+  g_autoptr (GList) children = NULL;
   int width, height;
-  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
 
+  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
   children = gtk_container_get_children (GTK_CONTAINER (priv->carousel_running_activities));
 
-  for (l = children; l; l = l->next) {
+  for (GList *l = children; l; l = l->next) {
     g_object_set (l->data,
                   "win-width", width,
                   "win-height", height,
                   NULL);
   }
-
-  g_list_free (children);
 
   GTK_WIDGET_CLASS (phosh_overview_parent_class)->size_allocate (widget, alloc);
 }
