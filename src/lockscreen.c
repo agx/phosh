@@ -475,13 +475,19 @@ wall_clock_notify_cb (PhoshLockscreen *self,
   if (g_str_has_suffix (time, "AM") || g_str_has_suffix (time, "PM")) {
     parts = g_strsplit (time, " ", -1);
 
-    /* Single number time starts with a leading space */
-    if (g_strv_length (parts) == 2)
-      time = parts[0];
-    else if (g_strv_length (parts) == 3)
+    if (g_strv_length (parts) == 2) {
+      /* Glib >= 2.74: padding with figure-space */
+      if (g_str_has_prefix (parts[0], "\u2007")) {
+        time = parts[0] + strlen("\u2007");
+      } else {
+        time = parts[0];
+      }
+    /* Glib < 2.74: padding with ascii space */
+    } else if (g_strv_length (parts) == 3) {
       time = parts[1];
-    else
+    } else {
       g_warning ("Can't parse time format: %s", time);
+    }
   }
   gtk_label_set_text (GTK_LABEL (priv->lbl_clock), time);
 
