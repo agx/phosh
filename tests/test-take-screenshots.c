@@ -261,6 +261,41 @@ screenshot_end_session_dialog (GMainLoop                       *loop,
 }
 
 
+static int
+screenshot_osd (GMainLoop *loop, const char *locale, int num)
+{
+  g_autoptr (PhoshDBusGnomeShell) proxy = NULL;
+  g_autoptr (GError) err = NULL;
+  GVariantBuilder builder;
+
+  proxy = phosh_dbus_gnome_shell_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                                         G_DBUS_PROXY_FLAGS_NONE,
+                                                         "org.gnome.Shell",
+                                                         "/org/gnome/Shell",
+                                                         NULL,
+                                                         &err);
+  g_assert_no_error (err);
+  g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
+  g_variant_builder_add (&builder, "{sv}", "connector",
+                         g_variant_new_string ("DSI-1"));
+  g_variant_builder_add (&builder, "{sv}", "label",
+                         g_variant_new_string ("HDMI / DisplayPort"));
+  g_variant_builder_add (&builder, "{sv}", "icon",
+                         g_variant_new_string ("audio-volume-medium-symbolic"));
+  g_variant_builder_add (&builder, "{sv}", "level",
+                         g_variant_new_double (0.5));
+  phosh_dbus_gnome_shell_call_show_osd (proxy,
+                                        g_variant_builder_end (&builder),
+                                        NULL,
+                                        on_osd_finish,
+                                        NULL);
+  g_assert_no_error (err);
+  take_screenshot (locale, num++, "osd");
+
+  return num;
+}
+
+
 static void
 test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 {
@@ -273,10 +308,8 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_autoptr (PhoshTestCallsMock) calls_mock = NULL;
   g_autoptr (PhoshTestMprisMock) mpris_mock = NULL;
   g_autoptr (PhoshDBusImplPortalAccess) portal_access_proxy = NULL;
-  g_autoptr (PhoshDBusGnomeShell) osd_proxy = NULL;
   g_autoptr (GVariant) options = NULL;
   g_autoptr (GError) err = NULL;
-  GVariantBuilder builder;
   const char *argv[] = { TEST_TOOLS "/app-buttons", NULL };
   GPid pid;
   gboolean success = FALSE;
@@ -338,29 +371,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   take_screenshot (locale, i++, "settings");
   toggle_settings (loop, keyboard, timer);
 
-  osd_proxy = phosh_dbus_gnome_shell_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                             G_DBUS_PROXY_FLAGS_NONE,
-                                                             "org.gnome.Shell",
-                                                             "/org/gnome/Shell",
-                                                             NULL,
-                                                             &err);
-  g_assert_no_error (err);
-  g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
-  g_variant_builder_add (&builder, "{sv}", "connector",
-                         g_variant_new_string ("DSI-1"));
-  g_variant_builder_add (&builder, "{sv}", "label",
-                         g_variant_new_string ("HDMI / DisplayPort"));
-  g_variant_builder_add (&builder, "{sv}", "icon",
-                         g_variant_new_string ("audio-volume-medium-symbolic"));
-  g_variant_builder_add (&builder, "{sv}", "level",
-                         g_variant_new_double (0.5));
-  phosh_dbus_gnome_shell_call_show_osd (osd_proxy,
-                                        g_variant_builder_end (&builder),
-                                        NULL,
-                                        on_osd_finish,
-                                        NULL);
-  g_assert_no_error (err);
-  take_screenshot (locale, i++, "osd");
+  i = screenshot_osd (loop, locale, i);
 
   portal_access_proxy = phosh_dbus_impl_portal_access_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                                               G_DBUS_PROXY_FLAGS_NONE,
