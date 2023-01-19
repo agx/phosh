@@ -311,7 +311,6 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
                                                                               NULL,
                                                                               &err);
   g_assert_no_error (err);
-  g_clear_error (&err);
   options = get_portal_access_options ("audio-input-microphone-symbolic");
   phosh_dbus_impl_portal_access_call_access_dialog (
     portal_access_proxy,
@@ -339,7 +338,6 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
                                                              NULL,
                                                              &err);
   g_assert_no_error (err);
-  g_clear_error (&err);
   phosh_dbus_screen_saver_call_lock_sync (ss_proxy, NULL, &err);
   g_assert_no_error (err);
   wait_a_bit (loop, 1);
