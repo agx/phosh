@@ -40,7 +40,7 @@ Build-Depends:
  gnome-themes-extra-data <!nocheck>,
  gsettings-desktop-schemas <!nocheck>,
  librsvg2-common <!nocheck>,
- phoc <!nocheck>,
+ phoc (>= 0.23.0) <!nocheck>,
  xauth <!nocheck>,
  xvfb <!nocheck>,
  xwayland <!nocheck>,
