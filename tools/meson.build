@@ -3,10 +3,25 @@ configure_file(
   output: 'run_tool',
   configuration: run_data)
 
-if get_option('tools') or get_option('tests')
+tools_or_tests = get_option('tools') or get_option('tests')
+
+if tools_or_tests
   # app-buttons is used in the screnshot tests
   executable('app-buttons', ['app-buttons.c'] + test_stub_deps,
              dependencies: phosh_tool_dep)
+endif
+
+if get_option('lockscreen-plugins') or tools_or_tests
+  # plugin-prefs is used in the tests
+  executable('plugin-prefs', ['plugin-prefs-standalone.c',
+                              '../src/plugin-loader.c',
+                             ],
+             c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root()),
+                      '-DPLUGINS="@0@"'.format(' '.join(lockscreen_plugins)),
+                     ],
+             include_directories: [root_inc, phosh_inc],
+             dependencies: [plugin_prefs_dep, gmodule_dep],
+            )
 endif
 
 if get_option('tools')
@@ -30,19 +45,10 @@ if get_option('tools')
              dependencies: phosh_tool_dep)
 
   if get_option('lockscreen-plugins')
-
     executable('widget-box', ['widget-box-standalone.c'] + test_stub_deps,
-               c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root())],
+               c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root()),
+                        '-DPLUGINS="@0@"'.format(' '.join(lockscreen_plugins)),
+                       ],
                dependencies: phosh_tool_dep)
-
-    executable('plugin-prefs', ['plugin-prefs-standalone.c',
-                                '../src/plugin-loader.c',
-                               ],
-               c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root())],
-               include_directories: [root_inc, phosh_inc],
-               dependencies: [plugin_prefs_dep, gmodule_dep],
-              )
-
   endif
-
 endif

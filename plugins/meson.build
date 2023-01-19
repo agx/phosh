@@ -24,8 +24,20 @@ pkgconfig.generate(
   description : 'Phosh plugin configuration data',
 )
 
-if get_option('lockscreen-plugins')
+lockscreen_plugins = [
+  'calendar',
+  'emergency-info',
+  'ticket-box',
+  'upcoming-events',
+]
 
+lockscreen_plugin_schema_dirs = []
+foreach plugin : lockscreen_plugins
+  lockscreen_plugin_schema_dirs += meson.build_root() / 'plugins' / plugin
+endforeach
+lockscreen_plugin_schema_path = ':'.join(lockscreen_plugin_schema_dirs)
+
+if get_option('lockscreen-plugins')
   plugin_inc = include_directories('.')
 
   plugin_dep = declare_dependency(
@@ -47,9 +59,8 @@ if get_option('lockscreen-plugins')
     ],
   )
 
-  subdir('calendar')
-  subdir('emergency-info')
-  subdir('ticket-box')
-  subdir('upcoming-events')
+  foreach plugin : lockscreen_plugins
+    subdir(plugin)
+  endforeach
 
 endif
