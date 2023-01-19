@@ -296,6 +296,49 @@ screenshot_osd (GMainLoop *loop, const char *locale, int num)
 }
 
 
+static int
+screenshot_portal_access (GMainLoop                      *loop,
+                          const char                     *locale,
+                          int                             num,
+                          struct zwp_virtual_keyboard_v1 *keyboard,
+                          GTimer                         *timer)
+{
+  g_autoptr (PhoshDBusImplPortalAccess) proxy = NULL;
+  g_autoptr (GVariant) options = NULL;
+  g_autoptr (GError) err = NULL;
+  gboolean success = FALSE;
+
+  proxy = phosh_dbus_impl_portal_access_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                                                G_DBUS_PROXY_FLAGS_NONE,
+                                                                "sm.puri.Phosh.Portal",
+                                                                "/org/freedesktop/portal/desktop",
+                                                                NULL,
+                                                                &err);
+  g_assert_no_error (err);
+  options = get_portal_access_options ("audio-input-microphone-symbolic");
+  phosh_dbus_impl_portal_access_call_access_dialog (
+    proxy,
+    "/sm/puri/Phosh/Access",
+    "sm.puri.Phosh",
+    "",
+    "Give FooBar Microphone and Storage Access?",
+    "FooBar wants to use your microphone and storage.",
+    "Access can be changed at any time from the privacy settings.",
+    g_variant_ref_sink (options),
+    NULL,
+    on_portal_access_dialog,
+    (gpointer)&success);
+  wait_a_bit (loop, 1);
+  take_screenshot (locale, num++, "portal-access");
+  /* Close dialog */
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_ENTER, NULL);
+  wait_a_bit (loop, 1);
+  g_assert_true (success);
+
+  return num;
+}
+
+
 static void
 test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 {
@@ -307,12 +350,9 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_autoptr (PhoshDBusScreenSaver) ss_proxy = NULL;
   g_autoptr (PhoshTestCallsMock) calls_mock = NULL;
   g_autoptr (PhoshTestMprisMock) mpris_mock = NULL;
-  g_autoptr (PhoshDBusImplPortalAccess) portal_access_proxy = NULL;
-  g_autoptr (GVariant) options = NULL;
   g_autoptr (GError) err = NULL;
   const char *argv[] = { TEST_TOOLS "/app-buttons", NULL };
   GPid pid;
-  gboolean success = FALSE;
   int i = 1;
 
   g_assert_nonnull (locale);
@@ -372,34 +412,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   toggle_settings (loop, keyboard, timer);
 
   i = screenshot_osd (loop, locale, i);
-
-  portal_access_proxy = phosh_dbus_impl_portal_access_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                                              G_DBUS_PROXY_FLAGS_NONE,
-                                                                              "sm.puri.Phosh.Portal",
-                                                                              "/org/freedesktop/portal/desktop",
-                                                                              NULL,
-                                                                              &err);
-  g_assert_no_error (err);
-  options = get_portal_access_options ("audio-input-microphone-symbolic");
-  phosh_dbus_impl_portal_access_call_access_dialog (
-    portal_access_proxy,
-    "/sm/puri/Phosh/Access",
-    "sm.puri.Phosh",
-    "",
-    "Give FooBar Microphone and Storage Access?",
-    "FooBar wants to use your microphone and storage.",
-    "Access can be changed at any time from the privacy settings.",
-    g_variant_ref_sink (options),
-    NULL,
-    on_portal_access_dialog,
-    (gpointer)&success);
-  wait_a_bit (loop, 1);
-  take_screenshot (locale, i++, "portal-access");
-  /* Close dialog */
-  phosh_test_keyboard_press_keys (keyboard, timer, KEY_ENTER, NULL);
-  wait_a_bit (loop, 1);
-  g_assert_true (success);
-
+  i = screenshot_portal_access (loop, locale, i, keyboard, timer);
   i = screenshot_end_session_dialog (loop, locale, i, keyboard, timer);
 
   ss_proxy = phosh_dbus_screen_saver_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
