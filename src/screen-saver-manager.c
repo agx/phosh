@@ -77,6 +77,7 @@ typedef struct _PhoshScreenSaverManager
   gboolean lock_delay;
   guint    lock_delay_timer_id;
   int      inhibit_pwr_btn_fd;
+  int      inhibit_suspend_fd;
   PhoshMonitor *primary_monitor;
 
   PhoshDBusLoginSession *logind_session_proxy;
@@ -310,6 +311,63 @@ notify_active_changed (PhoshScreenSaverManager *self)
                                  "ActiveChanged",
                                  g_variant_new ("(b)", self->active),
                                  NULL);
+  if (self->active) {
+    g_debug ("Uninhibited logind suspend handling");
+    phosh_clear_fd (&self->inhibit_suspend_fd, NULL);
+  }
+}
+
+static void
+on_inhibit_suspend_finished (GObject      *source_object,
+                             GAsyncResult *res,
+                             gpointer     user_data)
+{
+  gboolean success;
+  PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (user_data);
+  PhoshDBusLoginManager *proxy;
+  g_autoptr (GError) err = NULL;
+  g_autoptr (GUnixFDList) fd_list = NULL;
+  g_autoptr (GVariant) out_pipe_fd = NULL;
+  int idx;
+
+  proxy = PHOSH_DBUS_LOGIN_MANAGER (source_object);
+  success = phosh_dbus_login_manager_call_inhibit_finish (proxy,
+                                                          &out_pipe_fd,
+                                                          &fd_list,
+                                                          res,
+                                                          &err);
+  if (!success) {
+    g_warning ("Failed to inhibit suspend: %s", err->message);
+    return;
+  }
+
+  g_return_if_fail (fd_list && g_unix_fd_list_get_length (fd_list) == 1);
+  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
+
+  g_variant_get (out_pipe_fd, "h", &idx);
+  self->inhibit_suspend_fd = g_unix_fd_list_get (fd_list, idx, &err);
+  if (self->inhibit_suspend_fd < 0) {
+    g_warning ("Failed to get suspend inhibit fd: %s", err->message);
+    return;
+  }
+
+  g_debug ("Inhibited logind suspend handling");
+}
+
+static void
+phosh_screen_saver_manager_inhibit_suspend (PhoshScreenSaverManager *self)
+{
+  g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
+
+  phosh_dbus_login_manager_call_inhibit (self->logind_manager_proxy,
+                                         "sleep",
+                                         g_get_user_name (),
+                                         "Phosh handling suspend",
+                                         "delay",
+                                         NULL,
+                                         self->cancel,
+                                         on_inhibit_suspend_finished,
+                                         self);
 }
 
 static void
@@ -390,6 +448,7 @@ on_logind_prepare_for_sleep (PhoshScreenSaverManager *self,
 
     idle_manager = phosh_idle_manager_get_default ();
     phosh_idle_manager_reset_timers (idle_manager);
+    phosh_screen_saver_manager_inhibit_suspend (self);
   }
 }
 
@@ -462,6 +521,7 @@ phosh_screen_saver_manager_dispose (GObject *object)
   g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
 
   phosh_clear_fd (&self->inhibit_pwr_btn_fd, NULL);
+  phosh_clear_fd (&self->inhibit_suspend_fd, NULL);
 
   if (g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (self)))
     g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
@@ -616,6 +676,8 @@ on_logind_manager_proxy_new_for_bus_finish (GObject                 *source_obje
                                          self->cancel,
                                          on_inhibit_pwr_button_finished,
                                          self);
+
+  phosh_screen_saver_manager_inhibit_suspend (self);
 }
 
 
@@ -807,6 +869,7 @@ static void
 phosh_screen_saver_manager_init (PhoshScreenSaverManager *self)
 {
   self->cancel = g_cancellable_new ();
+  self->inhibit_suspend_fd = -1;
 }
 
 
