@@ -52,7 +52,7 @@ generated_dbus_sources += gnome.gdbus_codegen('calls-dbus',
 generated_dbus_sources += gnome.gdbus_codegen('gnome-session-dbus',
 					      'org.gnome.SessionManager.xml',
 					      interface_prefix: 'org.gnome',
-					      namespace: 'PhoshSessionDBus')
+					      namespace: dbus_prefix)
 # org.gnome.SessionManager.ClientPrivate
 generated_dbus_sources += gnome.gdbus_codegen('gnome-session-client-private-dbus',
 					      'org.gnome.SessionManager.ClientPrivate.xml',
