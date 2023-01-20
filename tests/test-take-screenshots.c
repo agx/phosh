@@ -260,7 +260,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 
   pid = run_plugin_prefs();
   /* Give app time to start and close overview */
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 2);
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_T, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
