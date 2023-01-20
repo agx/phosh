@@ -340,6 +340,73 @@ screenshot_portal_access (GMainLoop                      *loop,
 
 
 static void
+on_ask_question_finish (GObject      *source_object,
+                        GAsyncResult *res,
+                        gpointer      user_data)
+{
+  gboolean success;
+  g_autoptr (GError) err = NULL;
+  g_autoptr (GVariant) details = NULL;
+  guint response;
+
+  g_assert (PHOSH_DBUS_IS_MOUNT_OPERATION_HANDLER (source_object));
+
+  success = phosh_dbus_mount_operation_handler_call_ask_question_finish (
+    PHOSH_DBUS_MOUNT_OPERATION_HANDLER (source_object),
+    &response,
+    &details,
+    res,
+    &err);
+
+  g_assert_no_error (err);
+  g_assert_true (success);
+  g_assert_cmpint (response, ==, 0);
+}
+
+
+
+static int
+screenshot_mount_prompt (GMainLoop                       *loop,
+                         const char                      *locale,
+                         int                              num,
+                         struct zwp_virtual_keyboard_v1  *keyboard,
+                         GTimer                          *timer)
+{
+  g_autoptr (PhoshDBusMountOperationHandler) proxy = NULL;
+  g_autoptr (GError) err = NULL;
+  const char *choices[] = { "Yes", "Maybe", NULL };
+  g_autoptr (GVariant) detail = NULL;
+
+  proxy = phosh_dbus_mount_operation_handler_proxy_new_for_bus_sync (
+    G_BUS_TYPE_SESSION,
+    G_DBUS_PROXY_FLAGS_NONE,
+    "org.gtk.MountOperationHandler",
+    "/org/gtk/MountOperationHandler",
+    NULL,
+    &err);
+  g_assert_no_error (err);
+
+  phosh_dbus_mount_operation_handler_call_ask_question (
+    proxy,
+    "OpId0q",
+    "What do you want to do?\nThere's so many questions.",
+    "drive-harddisk",
+    choices,
+    NULL,
+    on_ask_question_finish,
+    NULL);
+
+  wait_a_bit (loop, 1);
+  take_screenshot (locale, num++, "mount-prompt");
+
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_ENTER, NULL);
+  wait_a_bit (loop, 1);
+
+  return num;
+}
+
+
+static void
 test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 {
   struct zwp_virtual_keyboard_v1 *keyboard;
@@ -414,6 +481,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   i = screenshot_osd (loop, locale, i);
   i = screenshot_portal_access (loop, locale, i, keyboard, timer);
   i = screenshot_end_session_dialog (loop, locale, i, keyboard, timer);
+  i = screenshot_mount_prompt (loop, locale, i, keyboard, timer);
 
   ss_proxy = phosh_dbus_screen_saver_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                              G_DBUS_PROXY_FLAGS_NONE,
