@@ -19,7 +19,17 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-
+/**
+ * phosh_wl_buffer_new:
+ * @format: The buffer format
+ * @width: The buffer's width in pixels
+ * @height: The buffer's height in lines
+ * @stride: The buffer's stride in bytes
+ *
+ * Creates a new memory buffer to be shared with the Wayland compositor.
+ *
+ * Returns: The new buffer
+ */
 PhoshWlBuffer *
 phosh_wl_buffer_new (enum wl_shm_format format, uint32_t width, uint32_t height, uint32_t stride)
 {
@@ -59,7 +69,13 @@ phosh_wl_buffer_new (enum wl_shm_format format, uint32_t width, uint32_t height,
   return buf;
 }
 
-
+/**
+ * phosh_wl_buffer_destroy:
+ * @self: The #PhoshWlBuffer
+ *
+ * Invokes `munmap` on the data and frees associated memory and data
+ * structures.
+ */
 void
 phosh_wl_buffer_destroy (PhoshWlBuffer *self)
 {
@@ -73,6 +89,12 @@ phosh_wl_buffer_destroy (PhoshWlBuffer *self)
   g_free (self);
 }
 
+/**
+ * phosh_wl_buffer_get_size:
+ * @self: The #PhoshWlBuffer
+ *
+ * Get the size of the buffer in bytes.
+ */
 gsize
 phosh_wl_buffer_get_size (PhoshWlBuffer *self)
 {
@@ -82,6 +104,8 @@ phosh_wl_buffer_get_size (PhoshWlBuffer *self)
 /**
  * phosh_wl_buffer_get_bytes:
  * @self: The #PhoshWlBuffer
+ *
+ * Get a copy of the buffer data.
  *
  * Returns: (transfer full): A copy of data as #GBytes
  */
