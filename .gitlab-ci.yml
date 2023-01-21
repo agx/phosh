@@ -221,7 +221,6 @@ check-po:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
   before_script:
-    - eatmydata apt-get -y -f install
     - eatmydata apt-get -y update
     - eatmydata apt-get -y install intltool gettext
   <<: *bookworm_vars
