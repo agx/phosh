@@ -527,33 +527,42 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
 
   object_class->get_property = phosh_wifi_manager_get_property;
 
+  /**
+   * PhoshWifiManager:icon-name:
+   *
+   * The wifi icon name
+   */
   props[PROP_ICON_NAME] =
-    g_param_spec_string ("icon-name",
-                         "icon name",
-                         "The wifi icon name",
+    g_param_spec_string ("icon-name", "", "",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
-
+  /**
+   * PhoshWifiManager:ssid:
+   *
+   * The wifis ssid, if connected
+   */
   props[PROP_SSID] =
-    g_param_spec_string ("ssid",
-                         "ssid",
-                         "The wifis ssid, if connected",
+    g_param_spec_string ("ssid", "", "",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
-
+  /**
+   * PhoshWifiManager:enabled
+   *
+   * Whether wifi is enabled and a wifi device is available
+   */
   props[PROP_ENABLED] =
-    g_param_spec_boolean ("enabled",
-                          "enabled",
-                          "Whether wifi is enabled and a wifi device is available",
+    g_param_spec_boolean ("enabled", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_STATIC_STRINGS);
-
+  /**
+   * PhoshWifiManager:present:
+   *
+   * Whether wifi hardware is present
+   */
   props[PROP_PRESENT] =
-    g_param_spec_boolean ("present",
-                          "Present",
-                          "Whether wifi hardware is present",
+    g_param_spec_boolean ("present", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_EXPLICIT_NOTIFY |
