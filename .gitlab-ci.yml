@@ -35,7 +35,7 @@ variables:
                     gtk+3.0-dev libgudev-dev libhandy1-dev gcr-dev libsecret-dev gcovr linux-pam-dev
                     meson musl-dev networkmanager networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
                     upower-dev wayland-dev wayland-protocols ttf-dejavu evolution-data-server-dev evince-dev
-                    libadwaita-dev
+                    libadwaita-dev json-glib-dev
 
 .bookworm_vars: &bookworm_vars
   variables:

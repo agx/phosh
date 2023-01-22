@@ -1,7 +1,7 @@
 name='upcoming-events'
 
 upcoming_events_plugin_deps = [
-  libgmobile_dep,
+  gmobile_dep,
   plugin_dep,
 ]
 
