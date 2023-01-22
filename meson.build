@@ -233,20 +233,22 @@ subdir('tools')
 subdir('docs')
 subdir('calendar-server')
 
-summary = [
-  '',
-  '---------------------------',
-  'Phosh @0@'.format(meson.project_version()),
-  '',
-  '               Tests: @0@'.format(get_option('tests')),
-  '          Phoc Tests: @0@'.format(run_phoc_tests),
-  '          Compositor: @0@'.format(get_option('compositor')),
-  '             Systemd: @0@'.format(get_option('systemd')),
-  '       Documentation: @0@'.format(get_option('gtk_doc')),
-  '        Manual pages: @0@'.format(get_option('man')),
-  '               Tools: @0@'.format(get_option('tools')),
-  '  Lockscreen Plugins: @0@'.format(get_option('lockscreen-plugins')),
-  '----------------------------',
-]
+summary({
+    'Tests': get_option('tests'),
+    'Phoc tests': run_phoc_tests,
+    'Documentation': get_option('gtk_doc'),
+    'Manual pages': get_option('man'),
+    'Tools': get_option('tools'),
+    'Lockscreen Plugins': get_option('lockscreen-plugins'),
+  },
+  bool_yn: true,
+  section: 'Build',
+)
 
-message('\n'.join(summary))
+summary({
+    'Compositor:': get_option('compositor'),
+    'Systemd for session': get_option('systemd'),
+  },
+  bool_yn: true,
+  section: 'Runtime',
+)
