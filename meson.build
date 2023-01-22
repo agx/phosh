@@ -143,13 +143,13 @@ libcall_ui = subproject('libcall-ui',
     'install-i18n=@0@'.format(get_option('callui-i18n')),
   ])
 libcall_ui_dep = libcall_ui.get_variable('libcall_ui_dep')
-libgmobile = subproject('gmobile',
+gmobile = subproject('gmobile',
   default_options: [
     'examples=false',
     'gtk_doc=false',
     'tests=false',
   ])
-libgmobile_dep = libgmobile.get_variable('libgmobile_dep')
+gmobile_dep = gmobile.get_variable('gmobile_dep')
 libnm_dep = dependency('libnm', version: '>= 1.14')
 libpolkit_agent_dep = dependency('polkit-agent-1', version: '>= 0.105')
 libsystemd_dep = dependency('libsystemd', version: '>= 241')
@@ -168,6 +168,30 @@ struct rfkill_event_ext e;
 '''
 have_rfkill_event_ext = cc.compiles(code, name : 'Have rfkill_event_ext')
 
+have_polkit_subject_cleanup = cc.compiles('''
+#define POLKIT_AGENT_I_KNOW_API_IS_SUBJECT_TO_CHANGE
+#include <polkitagent/polkitagent.h>
+
+int main()
+{
+   g_autoptr (PolkitSubject) *subj = NULL;
+}''',
+  name : 'Have PolkitSubject cleanup',
+  dependencies: libpolkit_agent_dep)
+
+
+have_polkit_agent_listener_cleanup = cc.compiles('''
+#define POLKIT_AGENT_I_KNOW_API_IS_SUBJECT_TO_CHANGE
+#include <polkitagent/polkitagent.h>
+
+int main()
+{
+   g_autoptr (PolkitAgentListener) *listener = NULL;
+}''',
+  name : 'Have PolkitAgentListener cleanup',
+  dependencies: libpolkit_agent_dep)
+
+
 config_h = configuration_data()
 config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
 config_h.set_quoted('LOCALEDIR', localedir)
@@ -185,6 +209,8 @@ if m_ver[0].to_int() > 0 or m_ver[1].to_int() >= 58
 else
   config_h.set_quoted('PHOSH_DBUS_PATH_PREFIX', '/sm/puri/Phosh')
 endif
+config_h.set('PHOSH_HAVE_POLKIT_SUBJECT_CLEANUP', have_polkit_subject_cleanup)
+config_h.set('PHOSH_HAVE_POLKIT_AGENT_LISTENER_CLEANUP', have_polkit_agent_listener_cleanup)
 
 configure_file(
   input: 'phosh-config.h.in',

@@ -51,7 +51,6 @@ struct _PhoshLockscreenManager {
 
   gboolean locked;
   gint64 active_time;                   /* when lock was activated (in us) */
-  int transform;                        /* the shell transform before locking */
 
   PhoshCallsManager    *calls_manager;  /* Calls DBus Interface */
 };
