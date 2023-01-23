@@ -1,0 +1,14 @@
+{
+  "name": "phosh tiny",
+  "x-res": 360,
+  "y-res": 720,
+  "border-radius": 30,
+  "width": 68,
+  "height": 145,
+  "cutouts" : [
+    {
+      "name": "notch",
+      "path": "M 160 0 V 20 H 200 V 0 Z"
+    }
+  ]
+}
