@@ -117,6 +117,8 @@ enum {
 };
 static guint signals[N_SIGNALS] = { 0 };
 
+static PhoshShellDebugFlags debug_flags;
+
 typedef struct
 {
   PhoshDragSurface *top_panel;
@@ -168,7 +170,6 @@ typedef struct
   PhoshAmbient *ambient;
   PhoshRotationManager *rotation_manager;
 
-  PhoshShellDebugFlags debug_flags;
   gboolean             startup_finished;
   guint                startup_finished_id;
 
@@ -1229,9 +1230,9 @@ phosh_shell_init (PhoshShell *self)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GtkSettings *gtk_settings;
 
-  priv->debug_flags = g_parse_debug_string(g_getenv ("PHOSH_DEBUG"),
-                                           debug_keys,
-                                           G_N_ELEMENTS (debug_keys));
+  debug_flags = g_parse_debug_string(g_getenv ("PHOSH_DEBUG"),
+                                     debug_keys,
+                                     G_N_ELEMENTS (debug_keys));
 
   gtk_settings = gtk_settings_get_default ();
   g_object_set (G_OBJECT (gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
@@ -2101,7 +2102,7 @@ phosh_shell_get_show_splash (PhoshShell *self)
   priv = phosh_shell_get_instance_private (self);
   g_return_val_if_fail (PHOSH_IS_DOCKED_MANAGER (priv->docked_manager), TRUE);
 
-  if (priv->debug_flags & PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH)
+  if (debug_flags & PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH)
     return TRUE;
 
   if (phosh_docked_manager_get_enabled (priv->docked_manager))
@@ -2170,4 +2171,18 @@ phosh_shell_activate_action (PhoshShell *self, const char *action, GVariant *par
   return TRUE;
 }
 
+/*
+ * phosh_shell_get_debug_flags:
+ *
+ * Get the debug flags
+ *
+ * Returns: The global debug flags
+ */
+PhoshShellDebugFlags
+phosh_shell_get_debug_flags (void)
+{
+  return debug_flags;
+}
+
 /* }}} */
+

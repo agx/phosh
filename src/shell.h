@@ -76,6 +76,7 @@ typedef enum {
 
 G_DECLARE_FINAL_TYPE (PhoshShell, phosh_shell, PHOSH, SHELL, GObject)
 
+PhoshShellDebugFlags phosh_shell_get_debug_flags (void);
 PhoshShell          *phosh_shell_get_default     (void);
 void                 phosh_shell_get_usable_area (PhoshShell *self,
                                                   int        *x,
@@ -131,7 +132,6 @@ gboolean             phosh_shell_is_session_active (PhoshShell *self);
 GdkAppLaunchContext *phosh_shell_get_app_launch_context (PhoshShell *self);
 PhoshShellStateFlags phosh_shell_get_state (PhoshShell *self);
 void                 phosh_shell_set_state (PhoshShell *self, PhoshShellStateFlags state, gboolean enabled);
-PhoshShellDebugFlags phosh_shell_get_debug_flags (PhoshShell *self);
 gboolean             phosh_shell_get_show_splash (PhoshShell *self);
 gboolean             phosh_shell_get_docked      (PhoshShell *self);
 gboolean             phosh_shell_get_blanked     (PhoshShell *self);
