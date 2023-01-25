@@ -276,7 +276,7 @@ anonymous_shm_open (void)
  * phosh_create_shm_file:
  * @size: The file size
  *
- * Create a file share memory file of the given size.
+ * Create a shared memory file of the given size.
  *
  * Returns: a file descriptor on success or -1 on error.
  */
