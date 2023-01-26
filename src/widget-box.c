@@ -64,7 +64,7 @@ missing_plugin_widget_new (const char *plugin)
 static void
 phosh_widget_box_load_widgets (PhoshWidgetBox *self)
 {
-  GList *children;
+  g_autoptr (GList) children = NULL;
 
   if (self->plugin_loader == NULL)
     return;
