@@ -39,6 +39,7 @@ Build-Depends:
  gnome-shell-common <!nocheck>,
  gnome-themes-extra-data <!nocheck>,
  gsettings-desktop-schemas <!nocheck>,
+ gtk-4-examples <!nocheck>,
  librsvg2-common <!nocheck>,
  phoc (>= 0.23.0) <!nocheck>,
  xauth <!nocheck>,

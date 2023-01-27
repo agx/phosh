@@ -125,10 +125,19 @@ int
 main (int argc, char *argv[])
 {
   g_autoptr (AdwApplication) app = NULL;
+  const char *localedir;
+
+  /* If we're run as port of the test-suite we want some special care */
+  if (g_getenv ("G_TEST_SRCDIR")) {
+    g_debug ("Running as part of phosh's tests");
+    localedir = TEST_INSTALLED LOCALEDIR;
+  } else {
+    localedir = LOCALEDIR;
+  }
 
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-  bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+  bindtextdomain (GETTEXT_PACKAGE, localedir);
 
   app = g_object_new (ADW_TYPE_APPLICATION,
                       "application-id", "sm.puri.phosh.PluginPrefsStandalone",

@@ -35,7 +35,6 @@ main (int argc, char **argv)
                                              GTK_STYLE_PROVIDER (provider),
                                              GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-
   window = g_object_new (GTK_TYPE_WINDOW,
                          "visible", TRUE,
                          "default-height", 100,
@@ -45,6 +44,7 @@ main (int argc, char **argv)
                          "title", "PhoshAppGridButton Demo",
                          NULL);
   g_signal_connect (window, "delete-event", G_CALLBACK (gtk_main_quit), NULL);
+  gtk_window_set_deletable (GTK_WINDOW (window), FALSE);
 
   wrap = g_object_new (GTK_TYPE_BOX,
                       "spacing", 20,
@@ -71,7 +71,7 @@ main (int argc, char **argv)
                       NULL);
   gtk_container_add (GTK_CONTAINER (wrap), box);
 
-  info = g_desktop_app_info_new ("org.gnome.Contacts.desktop");
+  info = g_desktop_app_info_new ("org.gtk.Demo4.desktop");
   btn = g_object_new (PHOSH_TYPE_APP_GRID_BUTTON,
                       "app-info", info,
                       "mode", PHOSH_APP_GRID_BUTTON_FAVORITES,
@@ -79,7 +79,7 @@ main (int argc, char **argv)
                       NULL);
   gtk_container_add (GTK_CONTAINER (box), btn);
 
-  info = g_desktop_app_info_new ("org.gnome.Nautilus.desktop");
+  info = g_desktop_app_info_new ("org.gtk.IconBrowser4.desktop");
   btn = g_object_new (PHOSH_TYPE_APP_GRID_BUTTON,
                       "app-info", info,
                       "mode", PHOSH_APP_GRID_BUTTON_FAVORITES,
@@ -99,14 +99,14 @@ main (int argc, char **argv)
                       NULL);
   gtk_container_add (GTK_CONTAINER (wrap), box);
 
-  info = g_desktop_app_info_new ("org.gnome.Contacts.desktop");
+  info = g_desktop_app_info_new ("org.gtk.Demo4.desktop");
   btn = g_object_new (PHOSH_TYPE_APP_GRID_BUTTON,
                       "app-info", info,
                       "visible", TRUE,
                       NULL);
   gtk_container_add (GTK_CONTAINER (box), btn);
 
-  info = g_desktop_app_info_new ("org.gnome.Nautilus.desktop");
+  info = g_desktop_app_info_new ("org.gtk.IconBrowser4.desktop");
   btn = g_object_new (PHOSH_TYPE_APP_GRID_BUTTON,
                       "app-info", info,
                       "visible", TRUE,
