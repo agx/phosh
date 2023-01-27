@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-01-11 20:25+0000\n"
-"PO-Revision-Date: 2023-01-13 16:45+0200\n"
+"POT-Creation-Date: 2023-01-23 20:09+0000\n"
+"PO-Revision-Date: 2023-01-27 15:32+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -21,17 +21,21 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Інтерфейс користувача телефону"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Керування вікнами і запуск програм для мобільних"
+
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Це — сеанс входу до Phosh"
 
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
@@ -47,9 +51,6 @@ msgid "Ticket Box"
 msgstr "Скринька з квитками"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:5
-#| msgid ""
-#| "Show PDFs on the lock screen. This plugin is experimental. <b>This plugin "
-#| "is experimental.</b>"
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr "Показ PDF на екрані блокування. <b>Цей додаток є тестовим.</b>"
 
@@ -74,7 +75,6 @@ msgid "Show Only Mobile Friendly Apps"
 msgstr "Показати лише програми для мобільних"
 
 #: src/bt-info.c:92
-#| msgid "On"
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "❙"
@@ -147,7 +147,6 @@ msgstr "Беззвучно"
 
 #. Translators: Enable LED, haptic and audio feedback
 #: src/feedbackinfo.c:101
-#| msgid "On"
 msgctxt "feedback:enabled"
 msgid "On"
 msgstr "❙"
@@ -340,13 +339,11 @@ msgid "Landscape"
 msgstr "Альбомна"
 
 #: src/rotateinfo.c:104 src/rotateinfo.c:188
-#| msgid "Off"
 msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "○"
 
 #: src/rotateinfo.c:105
-#| msgid "On"
 msgctxt "automatic-screen-rotation-enabled"
 msgid "On"
 msgstr "❙"
@@ -554,7 +551,6 @@ msgid "Other Information"
 msgstr "Інші відомості"
 
 #: plugins/emergency-info/emergency-info.ui:195
-#| msgid "Emergency"
 msgid "Emergency Contacts"
 msgstr "Екстрені контакти"
 
@@ -571,12 +567,10 @@ msgid "Choose Folder"
 msgstr "Виберіть теку"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.c:85
-#| msgid "Open"
 msgid "_Open"
 msgstr "_Відкрити"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
-#| msgid "Ticket Box"
 msgid "Ticket Box Preferences"
 msgstr "Налаштування скриньки з квитками"
 
@@ -593,7 +587,6 @@ msgid "Where Phosh looks for your tickets"
 msgstr "Де Phosh має шукати ваші квитки"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
-#| msgid "Ticket Box"
 msgid "Ticket Folder"
 msgstr "Тека квитків"
 
