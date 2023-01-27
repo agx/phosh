@@ -47,7 +47,7 @@ typedef struct _PhoshSessionManager {
   PhoshDBusEndSessionDialogSkeleton           parent;
   gboolean                                    active;
 
-  PhoshSessionDBusSessionManager             *proxy;
+  PhoshDBusSessionManager                    *proxy;
   GCancellable                               *cancel;
   PhoshSessionClientPrivateDBusClientPrivate *priv_proxy;
 
@@ -109,11 +109,11 @@ on_end_session_dialog_closed (PhoshSessionManager *self, PhoshEndSessionDialog *
 
 static gboolean
 handle_end_session_open (PhoshDBusEndSessionDialog *object,
-                         GDBusMethodInvocation *invocation,
-                         guint arg_type,
-                         guint arg_timestamp,
-                         guint arg_seconds_to_stay_open,
-                         const gchar *const *arg_inhibitor_object_paths)
+                         GDBusMethodInvocation     *invocation,
+                         guint                      arg_type,
+                         guint                      arg_timestamp,
+                         guint                      arg_seconds_to_stay_open,
+                         const gchar *const        *arg_inhibitor_object_paths)
 {
   PhoshSessionManager *self = PHOSH_SESSION_MANAGER (object);
 
@@ -170,16 +170,16 @@ phosh_session_manager_get_property (GObject    *object,
 
 
 static void
-on_session_active_changed (PhoshSessionManager            *self,
-                           GParamSpec                     *pspec,
-                           PhoshSessionDBusSessionManager *proxy)
+on_session_active_changed (PhoshSessionManager     *self,
+                           GParamSpec              *pspec,
+                           PhoshDBusSessionManager *proxy)
 {
   gboolean active;
 
   g_return_if_fail (PHOSH_IS_SESSION_MANAGER (self));
-  g_return_if_fail (PHOSH_SESSION_DBUS_IS_SESSION_MANAGER_PROXY (proxy));
+  g_return_if_fail (PHOSH_DBUS_IS_SESSION_MANAGER_PROXY (proxy));
 
-  active = phosh_session_dbus_session_manager_get_session_is_active (proxy);
+  active = phosh_dbus_session_manager_get_session_is_active (proxy);
 
   if (self->active == active)
     return;
@@ -280,14 +280,14 @@ out:
 
 
 static void
-on_client_registered (PhoshSessionDBusSessionManager *proxy,
-                      GAsyncResult                   *res,
-                      PhoshSessionManager            *self)
+on_client_registered (PhoshDBusSessionManager *proxy,
+                      GAsyncResult            *res,
+                      PhoshSessionManager     *self)
 {
   g_autofree gchar *client_id = NULL;
   g_autoptr (GError) err = NULL;
 
-  if (!phosh_session_dbus_session_manager_call_register_client_finish (proxy, &client_id, res, &err)) {
+  if (!phosh_dbus_session_manager_call_register_client_finish (proxy, &client_id, res, &err)) {
     phosh_async_error_warn (err, "Failed to register client");
     return;
   }
@@ -305,39 +305,39 @@ on_client_registered (PhoshSessionDBusSessionManager *proxy,
 
 
 static void
-on_logout_finished (PhoshSessionDBusSessionManager *proxy,
-                    GAsyncResult                   *res,
-                    PhoshSessionManager            *self)
+on_logout_finished (PhoshDBusSessionManager *proxy,
+                    GAsyncResult            *res,
+                    PhoshSessionManager     *self)
 {
   g_autoptr (GError) err = NULL;
 
-  if (!phosh_session_dbus_session_manager_call_logout_finish (proxy, res, &err))
+  if (!phosh_dbus_session_manager_call_logout_finish (proxy, res, &err))
     g_warning ("Failed to logout: %s", err->message);
   g_object_unref (self);
 }
 
 
 static void
-on_shutdown_finished (PhoshSessionDBusSessionManager *proxy,
-                      GAsyncResult                   *res,
-                      PhoshSessionManager            *self)
+on_shutdown_finished (PhoshDBusSessionManager *proxy,
+                      GAsyncResult            *res,
+                      PhoshSessionManager     *self)
 {
   g_autoptr (GError) err = NULL;
 
-  if (!phosh_session_dbus_session_manager_call_shutdown_finish (proxy, res, &err))
+  if (!phosh_dbus_session_manager_call_shutdown_finish (proxy, res, &err))
     g_warning ("Failed to shutdown: %s", err->message);
   g_object_unref (self);
 }
 
 
 static void
-on_reboot_finished (PhoshSessionDBusSessionManager *proxy,
-                    GAsyncResult                   *res,
-                    PhoshSessionManager            *self)
+on_reboot_finished (PhoshDBusSessionManager *proxy,
+                    GAsyncResult            *res,
+                    PhoshSessionManager     *self)
 {
   g_autoptr (GError) err = NULL;
 
-  if (!phosh_session_dbus_session_manager_call_reboot_finish (proxy, res, &err))
+  if (!phosh_dbus_session_manager_call_reboot_finish (proxy, res, &err))
     g_warning ("Failed to reboot: %s", err->message);
   g_object_unref (self);
 }
@@ -351,7 +351,7 @@ phosh_session_manager_constructed (GObject *object)
   g_autoptr (GError) err = NULL;
 
   /* Sync call since this happens early in startup and we need it right away */
-  self->proxy = phosh_session_dbus_session_manager_proxy_new_for_bus_sync (
+  self->proxy = phosh_dbus_session_manager_proxy_new_for_bus_sync (
     G_BUS_TYPE_SESSION,
     G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START_AT_CONSTRUCTION,
     BUS_NAME,
@@ -446,28 +446,28 @@ phosh_session_manager_register (PhoshSessionManager *self,
                                 const gchar         *startup_id)
 {
   g_return_if_fail (PHOSH_IS_SESSION_MANAGER (self));
-  g_return_if_fail (PHOSH_SESSION_DBUS_IS_SESSION_MANAGER_PROXY (self->proxy));
+  g_return_if_fail (PHOSH_DBUS_IS_SESSION_MANAGER_PROXY (self->proxy));
   g_return_if_fail (app_id != NULL);
 
-  phosh_session_dbus_session_manager_call_register_client (self->proxy,
-                                                           app_id,
-                                                           startup_id ? startup_id : "",
-                                                           self->cancel,
-                                                           (GAsyncReadyCallback) on_client_registered,
-                                                           self);
+  phosh_dbus_session_manager_call_register_client (self->proxy,
+                                                   app_id,
+                                                   startup_id ? startup_id : "",
+                                                   self->cancel,
+                                                   (GAsyncReadyCallback) on_client_registered,
+                                                   self);
 }
 
 void
 phosh_session_manager_logout (PhoshSessionManager *self)
 {
   g_return_if_fail (PHOSH_IS_SESSION_MANAGER (self));
-  g_return_if_fail (PHOSH_SESSION_DBUS_IS_SESSION_MANAGER_PROXY (self->proxy));
+  g_return_if_fail (PHOSH_DBUS_IS_SESSION_MANAGER_PROXY (self->proxy));
 
-  phosh_session_dbus_session_manager_call_logout (self->proxy,
-                                                  1 /* no dialog */,
-                                                  NULL,
-                                                  (GAsyncReadyCallback)on_logout_finished,
-                                                  g_object_ref (self));
+  phosh_dbus_session_manager_call_logout (self->proxy,
+                                          1 /* no dialog */,
+                                          NULL,
+                                          (GAsyncReadyCallback)on_logout_finished,
+                                          g_object_ref (self));
 }
 
 
@@ -475,12 +475,12 @@ void
 phosh_session_manager_shutdown (PhoshSessionManager *self)
 {
   g_return_if_fail (PHOSH_IS_SESSION_MANAGER (self));
-  g_return_if_fail (PHOSH_SESSION_DBUS_IS_SESSION_MANAGER_PROXY (self->proxy));
+  g_return_if_fail (PHOSH_DBUS_IS_SESSION_MANAGER_PROXY (self->proxy));
 
-  phosh_session_dbus_session_manager_call_shutdown (self->proxy,
-                                                    NULL,
-                                                    (GAsyncReadyCallback)on_shutdown_finished,
-                                                    g_object_ref (self));
+  phosh_dbus_session_manager_call_shutdown (self->proxy,
+                                            NULL,
+                                            (GAsyncReadyCallback)on_shutdown_finished,
+                                            g_object_ref (self));
 }
 
 
@@ -488,17 +488,17 @@ void
 phosh_session_manager_reboot (PhoshSessionManager *self)
 {
   g_return_if_fail (PHOSH_IS_SESSION_MANAGER (self));
-  g_return_if_fail (PHOSH_SESSION_DBUS_IS_SESSION_MANAGER_PROXY (self->proxy));
+  g_return_if_fail (PHOSH_DBUS_IS_SESSION_MANAGER_PROXY (self->proxy));
 
-  phosh_session_dbus_session_manager_call_reboot (self->proxy,
-                                                  NULL,
-                                                  (GAsyncReadyCallback)on_reboot_finished,
-                                                  g_object_ref (self));
+  phosh_dbus_session_manager_call_reboot (self->proxy,
+                                          NULL,
+                                          (GAsyncReadyCallback)on_reboot_finished,
+                                          g_object_ref (self));
 }
 
 void
 phosh_session_manager_export_end_session (PhoshSessionManager *self,
-                                          GDBusConnection *connection)
+                                          GDBusConnection     *connection)
 {
   g_return_if_fail (PHOSH_IS_SESSION_MANAGER (self));
 

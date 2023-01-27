@@ -204,6 +204,209 @@ run_plugin_prefs (void)
 
 
 static void
+on_end_session_dialog_open_finish (GObject      *source_object,
+                                   GAsyncResult *res,
+                                   gpointer      user_data)
+{
+  gboolean success;
+  g_autoptr (GError) err = NULL;
+
+  g_assert (PHOSH_DBUS_IS_END_SESSION_DIALOG (source_object));
+
+  success = phosh_dbus_end_session_dialog_call_open_finish (
+    PHOSH_DBUS_END_SESSION_DIALOG (source_object),
+    res,
+    &err);
+
+  g_assert_no_error (err);
+  g_assert_true (success);
+}
+
+
+static int
+screenshot_end_session_dialog (GMainLoop                       *loop,
+                               const char                      *locale,
+                               int                              num,
+                               struct zwp_virtual_keyboard_v1  *keyboard,
+                               GTimer                          *timer)
+{
+  g_autoptr (PhoshDBusEndSessionDialog) proxy = NULL;
+  g_autoptr (GError) err = NULL;
+  const char *inhibitors[] = { "/org/exampl/foo1", "/org/example/foo2", NULL };
+
+  proxy = phosh_dbus_end_session_dialog_proxy_new_for_bus_sync (
+    G_BUS_TYPE_SESSION,
+    G_DBUS_PROXY_FLAGS_NONE,
+    "org.gnome.Shell",
+    "/org/gnome/SessionManager/EndSessionDialog",
+    NULL,
+    &err);
+  g_assert_no_error (err);
+
+  phosh_dbus_end_session_dialog_call_open (proxy,
+                                           0,
+                                           0,
+                                           30,
+                                           inhibitors,
+                                           NULL,
+                                           on_end_session_dialog_open_finish,
+                                           NULL);
+  wait_a_bit (loop, 1);
+  take_screenshot (locale, num++, "end-session-dialog");
+
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
+  wait_a_bit (loop, 1);
+
+  return num;
+}
+
+
+static int
+screenshot_osd (GMainLoop *loop, const char *locale, int num)
+{
+  g_autoptr (PhoshDBusGnomeShell) proxy = NULL;
+  g_autoptr (GError) err = NULL;
+  GVariantBuilder builder;
+
+  proxy = phosh_dbus_gnome_shell_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                                         G_DBUS_PROXY_FLAGS_NONE,
+                                                         "org.gnome.Shell",
+                                                         "/org/gnome/Shell",
+                                                         NULL,
+                                                         &err);
+  g_assert_no_error (err);
+  g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
+  g_variant_builder_add (&builder, "{sv}", "connector",
+                         g_variant_new_string ("DSI-1"));
+  g_variant_builder_add (&builder, "{sv}", "label",
+                         g_variant_new_string ("HDMI / DisplayPort"));
+  g_variant_builder_add (&builder, "{sv}", "icon",
+                         g_variant_new_string ("audio-volume-medium-symbolic"));
+  g_variant_builder_add (&builder, "{sv}", "level",
+                         g_variant_new_double (0.5));
+  phosh_dbus_gnome_shell_call_show_osd (proxy,
+                                        g_variant_builder_end (&builder),
+                                        NULL,
+                                        on_osd_finish,
+                                        NULL);
+  g_assert_no_error (err);
+  take_screenshot (locale, num++, "osd");
+
+  return num;
+}
+
+
+static int
+screenshot_portal_access (GMainLoop                      *loop,
+                          const char                     *locale,
+                          int                             num,
+                          struct zwp_virtual_keyboard_v1 *keyboard,
+                          GTimer                         *timer)
+{
+  g_autoptr (PhoshDBusImplPortalAccess) proxy = NULL;
+  g_autoptr (GVariant) options = NULL;
+  g_autoptr (GError) err = NULL;
+  gboolean success = FALSE;
+
+  proxy = phosh_dbus_impl_portal_access_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                                                G_DBUS_PROXY_FLAGS_NONE,
+                                                                "sm.puri.Phosh.Portal",
+                                                                "/org/freedesktop/portal/desktop",
+                                                                NULL,
+                                                                &err);
+  g_assert_no_error (err);
+  options = get_portal_access_options ("audio-input-microphone-symbolic");
+  phosh_dbus_impl_portal_access_call_access_dialog (
+    proxy,
+    "/sm/puri/Phosh/Access",
+    "sm.puri.Phosh",
+    "",
+    "Give FooBar Microphone and Storage Access?",
+    "FooBar wants to use your microphone and storage.",
+    "Access can be changed at any time from the privacy settings.",
+    g_variant_ref_sink (options),
+    NULL,
+    on_portal_access_dialog,
+    (gpointer)&success);
+  wait_a_bit (loop, 1);
+  take_screenshot (locale, num++, "portal-access");
+  /* Close dialog */
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_ENTER, NULL);
+  wait_a_bit (loop, 1);
+  g_assert_true (success);
+
+  return num;
+}
+
+
+static void
+on_ask_question_finish (GObject      *source_object,
+                        GAsyncResult *res,
+                        gpointer      user_data)
+{
+  gboolean success;
+  g_autoptr (GError) err = NULL;
+  g_autoptr (GVariant) details = NULL;
+  guint response;
+
+  g_assert (PHOSH_DBUS_IS_MOUNT_OPERATION_HANDLER (source_object));
+
+  success = phosh_dbus_mount_operation_handler_call_ask_question_finish (
+    PHOSH_DBUS_MOUNT_OPERATION_HANDLER (source_object),
+    &response,
+    &details,
+    res,
+    &err);
+
+  g_assert_no_error (err);
+  g_assert_true (success);
+  g_assert_cmpint (response, ==, 0);
+}
+
+
+
+static int
+screenshot_mount_prompt (GMainLoop                       *loop,
+                         const char                      *locale,
+                         int                              num,
+                         struct zwp_virtual_keyboard_v1  *keyboard,
+                         GTimer                          *timer)
+{
+  g_autoptr (PhoshDBusMountOperationHandler) proxy = NULL;
+  g_autoptr (GError) err = NULL;
+  const char *choices[] = { "Yes", "Maybe", NULL };
+  g_autoptr (GVariant) detail = NULL;
+
+  proxy = phosh_dbus_mount_operation_handler_proxy_new_for_bus_sync (
+    G_BUS_TYPE_SESSION,
+    G_DBUS_PROXY_FLAGS_NONE,
+    "org.gtk.MountOperationHandler",
+    "/org/gtk/MountOperationHandler",
+    NULL,
+    &err);
+  g_assert_no_error (err);
+
+  phosh_dbus_mount_operation_handler_call_ask_question (
+    proxy,
+    "OpId0q",
+    "What do you want to do?\nThere's so many questions.",
+    "drive-harddisk",
+    choices,
+    NULL,
+    on_ask_question_finish,
+    NULL);
+
+  wait_a_bit (loop, 1);
+  take_screenshot (locale, num++, "mount-prompt");
+
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_ENTER, NULL);
+  wait_a_bit (loop, 1);
+
+  return num;
+}
+
+
+static void
 test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 {
   struct zwp_virtual_keyboard_v1 *keyboard;
@@ -214,14 +417,9 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_autoptr (PhoshDBusScreenSaver) ss_proxy = NULL;
   g_autoptr (PhoshTestCallsMock) calls_mock = NULL;
   g_autoptr (PhoshTestMprisMock) mpris_mock = NULL;
-  g_autoptr (PhoshDBusImplPortalAccess) portal_access_proxy = NULL;
-  g_autoptr (PhoshDBusGnomeShell) osd_proxy = NULL;
-  g_autoptr (GVariant) options = NULL;
   g_autoptr (GError) err = NULL;
-  GVariantBuilder builder;
   const char *argv[] = { TEST_TOOLS "/app-buttons", NULL };
   GPid pid;
-  gboolean success = FALSE;
   int i = 1;
 
   g_assert_nonnull (locale);
@@ -260,7 +458,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 
   pid = run_plugin_prefs();
   /* Give app time to start and close overview */
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 2);
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_T, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
@@ -280,57 +478,10 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   take_screenshot (locale, i++, "settings");
   toggle_settings (loop, keyboard, timer);
 
-  osd_proxy = phosh_dbus_gnome_shell_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                             G_DBUS_PROXY_FLAGS_NONE,
-                                                             "org.gnome.Shell",
-                                                             "/org/gnome/Shell",
-                                                             NULL,
-                                                             &err);
-  g_assert_no_error (err);
-  g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
-  g_variant_builder_add (&builder, "{sv}", "connector",
-                         g_variant_new_string ("DSI-1"));
-  g_variant_builder_add (&builder, "{sv}", "label",
-                         g_variant_new_string ("HDMI / DisplayPort"));
-  g_variant_builder_add (&builder, "{sv}", "icon",
-                         g_variant_new_string ("audio-volume-medium-symbolic"));
-  g_variant_builder_add (&builder, "{sv}", "level",
-                         g_variant_new_double (0.5));
-  phosh_dbus_gnome_shell_call_show_osd (osd_proxy,
-                                        g_variant_builder_end (&builder),
-                                        NULL,
-                                        on_osd_finish,
-                                        NULL);
-  g_assert_no_error (err);
-  take_screenshot (locale, i++, "osd");
-
-  portal_access_proxy = phosh_dbus_impl_portal_access_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
-                                                                              G_DBUS_PROXY_FLAGS_NONE,
-                                                                              "sm.puri.Phosh.Portal",
-                                                                              "/org/freedesktop/portal/desktop",
-                                                                              NULL,
-                                                                              &err);
-  g_assert_no_error (err);
-  g_clear_error (&err);
-  options = get_portal_access_options ("audio-input-microphone-symbolic");
-  phosh_dbus_impl_portal_access_call_access_dialog (
-    portal_access_proxy,
-    "/sm/puri/Phosh/Access",
-    "sm.puri.Phosh",
-    "",
-    "Give FooBar Microphone and Storage Access?",
-    "FooBar wants to use your microphone and storage.",
-    "Access can be changed at any time from the privacy settings.",
-    g_variant_ref_sink (options),
-    NULL,
-    on_portal_access_dialog,
-    (gpointer)&success);
-  wait_a_bit (loop, 1);
-  take_screenshot (locale, i++, "portal-access");
-  /* Close dialog */
-  phosh_test_keyboard_press_keys (keyboard, timer, KEY_ENTER, NULL);
-  wait_a_bit (loop, 1);
-  g_assert_true (success);
+  i = screenshot_osd (loop, locale, i);
+  i = screenshot_portal_access (loop, locale, i, keyboard, timer);
+  i = screenshot_end_session_dialog (loop, locale, i, keyboard, timer);
+  i = screenshot_mount_prompt (loop, locale, i, keyboard, timer);
 
   ss_proxy = phosh_dbus_screen_saver_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                              G_DBUS_PROXY_FLAGS_NONE,
@@ -339,7 +490,6 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
                                                              NULL,
                                                              &err);
   g_assert_no_error (err);
-  g_clear_error (&err);
   phosh_dbus_screen_saver_call_lock_sync (ss_proxy, NULL, &err);
   g_assert_no_error (err);
   wait_a_bit (loop, 1);

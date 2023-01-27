@@ -62,12 +62,6 @@ variables:
      - dpkg-reconfigure locales
      - apt -y update
      - apt -y build-dep .
-     # Just until newer phoc is in the archive:
-     - apt install -y unzip wget
-     - wget -Pdl https://gitlab.gnome.org/guidog/phoc/-/jobs/2486388/artifacts/download
-     - unzip -d dl dl/download
-     - dpkg -i dl/debian/output/phoc_*.deb
-     - rm -rf dl/
 
 .build_before_script: &build_before_script
   before_script:
@@ -288,9 +282,9 @@ unit-test:native-alpinelinux-edge:
       - $PKG_ONLY == "1"
       - $SCREENSHOTS_ONLY == "1"
 
-package:deb-pureos-byzantium:arm64:
+package:deb-debian-bookworm:arm64:
   variables:
-    L5_DOCKER_IMAGE: pureos/byzantium
+    L5_DOCKER_IMAGE: debian:bookworm
     DEB_BUILD_PROFILES: nodoc
   extends: .l5-build-debian-package
   tags:

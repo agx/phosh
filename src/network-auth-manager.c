@@ -640,17 +640,21 @@ secret_agent_register_cb (GObject      *object,
                           GAsyncResult *result,
                           gpointer      user_data)
 {
-  PhoshNetworkAuthManager *self = PHOSH_NETWORK_AUTH_MANAGER (user_data);
+  PhoshNetworkAuthManager *self;
   NMSecretAgentOld *agent = NM_SECRET_AGENT_OLD (object);
 
   g_autoptr (GError) error = NULL;
 
   if (!nm_secret_agent_old_register_finish (agent, result, &error)) {
     g_message ("Error registering network agent: %s", error->message);
-    g_clear_object (&self->register_cancel);
+    if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+      self = PHOSH_NETWORK_AUTH_MANAGER (user_data);
+      g_clear_object (&self->register_cancel);
+    }
     return;
   }
 
+  self = PHOSH_NETWORK_AUTH_MANAGER (user_data);
   g_clear_object (&self->register_cancel);
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_MANAGER (self));
 
