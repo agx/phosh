@@ -2,15 +2,15 @@
 # Copyright (C) 2021 THE phosh'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
 # Cristovão Osório de Aragão Gomes Ferreira <eu@cristovao-gomes-ferreira.pt>, 2019. #zanata
-# Hugo Carvalho <hugokarvalho@hotmail.com>, 2021-2022.
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2021-2023.
 # Juliano de Souza Camargo <julianosc@protonmail.com>, 2020-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-11-02 17:07+0000\n"
-"PO-Revision-Date: 2022-11-24 14:08+0000\n"
+"POT-Creation-Date: 2023-01-23 20:09+0000\n"
+"PO-Revision-Date: 2023-01-27 23:28+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese < https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-DL-Team: pt\n"
 "X-DL-Module: phosh\n"
 "X-DL-Branch: main\n"
@@ -26,11 +26,11 @@ msgstr ""
 "X-DL-State: None\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Interface do telemóvel"
 
@@ -38,11 +38,15 @@ msgstr "Interface do telemóvel"
 msgid "Window management and application launching for mobile"
 msgstr "Gestão de janelas e lançamento de aplicações para telemóveis"
 
-#: plugins/calendar/calendar.desktop.in.in:4
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Esta sessão inicia-o no Phosh"
+
+#: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Calendário"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "Um simples widget de calendário"
 
@@ -52,12 +56,8 @@ msgid "Ticket Box"
 msgstr "Bilheteira"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:5
-msgid ""
-"Show PDFs on the lock screen. This plugin is experimental. <b>This plugin is "
-"experimental.</b>"
-msgstr ""
-"Mostrar PDFs no ecrã bloqueado. Este plugin é experimental. <b>Este plugin é "
-"experimental.</b>"
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr "Mostrar PDFs no ecrã bloqueado. Este plugin é experimental.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -79,7 +79,8 @@ msgstr "Mostrar todas as aplicações"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Mostrar apenas as aplicações conhecidas"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
+#: src/bt-info.c:92
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Ligado"
 
@@ -135,16 +136,22 @@ msgstr "Aplicação desconhecida"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:69
+#: src/feedbackinfo.c:91
 msgid "Quiet"
 msgstr "Silencioso"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:75
+#: src/feedbackinfo.c:97
 msgid "Silent"
 msgstr "Silenciar"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:101
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "Ligado"
 
 #: src/location-manager.c:268
 #, c-format
@@ -167,7 +174,7 @@ msgstr "Não"
 msgid "Enter Passcode"
 msgstr "Introduza o código"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "A verificar…"
 
@@ -333,17 +340,21 @@ msgstr "Vertical"
 msgid "Landscape"
 msgstr "Horizontal"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:104 src/rotateinfo.c:188
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Desligada"
+
+#: src/rotateinfo.c:105
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "Ligada"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
 msgstr "Premir Esc para fechar"
 
-#: src/run-command-manager.c:94
+#: src/run-command-manager.c:95
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Falha ao executar '%s'"
@@ -408,7 +419,7 @@ msgstr "Domínio:"
 msgid "Co_nnect"
 msgstr "_Ligar"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
 msgid "Back"
 msgstr "Voltar"
 
@@ -416,11 +427,11 @@ msgstr "Voltar"
 msgid "Slide up to unlock"
 msgstr "Deslize para desbloquear"
 
-#: src/ui/lockscreen.ui:283
+#: src/ui/lockscreen.ui:282
 msgid "Emergency"
 msgstr "Urgente"
 
-#: src/ui/lockscreen.ui:299
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "Desbloquear"
 
@@ -429,6 +440,7 @@ msgid "Authentication required"
 msgstr "Autenticação necessária"
 
 #: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:84
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -444,11 +456,11 @@ msgstr "Autenticar"
 msgid "Run Command"
 msgstr "Executar um comando"
 
-#: src/ui/settings.ui:301
+#: src/ui/settings.ui:302
 msgid "No notifications"
 msgstr "Sem notificações"
 
-#: src/ui/settings.ui:342
+#: src/ui/settings.ui:343
 msgid "Clear all"
 msgstr "Limpar tudo"
 
@@ -466,7 +478,7 @@ msgstr "Sair"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:345
+#: src/util.c:319
 msgid "%A, %B %-e"
 msgstr "%A, %d de %B"
 
@@ -492,6 +504,58 @@ msgstr "Wi-Fi"
 msgid "Cellular"
 msgstr "Celular"
 
+#: plugins/emergency-info/emergency-info.ui:39
+msgid "Personal Information"
+msgstr "Informação pessoal"
+
+#: plugins/emergency-info/emergency-info.ui:47
+msgid "Date of Birth"
+msgstr "Data de nascimento"
+
+#: plugins/emergency-info/emergency-info.ui:65
+msgid "Preferred Language"
+msgstr "Idioma preferido"
+
+#: plugins/emergency-info/emergency-info.ui:83
+msgid "Home Address"
+msgstr "Endereço de casa"
+
+#: plugins/emergency-info/emergency-info.ui:91
+msgid "Medical Information"
+msgstr "Informação médica"
+
+#: plugins/emergency-info/emergency-info.ui:99
+msgid "Age"
+msgstr "Idade"
+
+#: plugins/emergency-info/emergency-info.ui:117
+msgid "Blood Type"
+msgstr "Tipo sanguíneo"
+
+#: plugins/emergency-info/emergency-info.ui:135
+msgid "Height"
+msgstr "Altura"
+
+#: plugins/emergency-info/emergency-info.ui:153
+msgid "Weight"
+msgstr "Peso"
+
+#: plugins/emergency-info/emergency-info.ui:171
+msgid "Allergies"
+msgstr "Alergias"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "Medicamentos e Condições"
+
+#: plugins/emergency-info/emergency-info.ui:187
+msgid "Other Information"
+msgstr "Outra informação"
+
+#: plugins/emergency-info/emergency-info.ui:195
+msgid "Emergency Contacts"
+msgstr "Contatos de emergência"
+
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
 msgstr "Sem documentos para mostrar"
@@ -499,6 +563,34 @@ msgstr "Sem documentos para mostrar"
 #: plugins/ticket-box/ticket-box.ui:83
 msgid "Tickets"
 msgstr "Bilhetes"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:81
+msgid "Choose Folder"
+msgstr "Escolher pasta"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:85
+msgid "_Open"
+msgstr "_Abrir"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "Preferências da bilheteira"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "Caminhos"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "Definições da pasta"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "Onde o Phosh procura os seus bilhetes"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr "Bilheteira"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
