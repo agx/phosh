@@ -16,17 +16,17 @@
 # Tim Sabsch <tim@sabsch.com>, 2020.
 # Michael Oppliger <mj.oppliger@gmail.com>, 2021.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2021.
-# Jürgen Benvenuti <gastornis@posteo.org>, 2022
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2023.
 #
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-09-11 04:27+0000\n"
-"PO-Revision-Date: 2022-09-17 10:47+0200\n"
-"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
-"Language-Team: German <gnome-de@SPAMFREEgnome.org>\n"
+"POT-Creation-Date: 2023-01-23 20:09+0000\n"
+"PO-Revision-Date: 2023-01-24 15:10+0100\n"
+"Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
+"Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,11 +35,11 @@ msgstr ""
 "X-Generator: Poedit 3.1.1\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Telefon-Shell"
 
@@ -47,13 +47,28 @@ msgstr "Telefon-Shell"
 msgid "Window management and application launching for mobile"
 msgstr "Fensterverwaltung und Starten von Anwendungen für Mobilgeräte"
 
-#: plugins/calendar/calendar.desktop.in.in:4
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Diese Sitzung meldet Sie in Phosh an"
+
+#: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Kalender"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "Ein einfaches Kalender-Widget"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Ticket Box"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"PDFs auf dem Sperrbildschirm anzeigen. <b>Diese Erweiterung ist "
+"experimentell.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -75,7 +90,8 @@ msgstr "Alle Anwendungen anzeigen"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Nur mobil-optimierte Anwendungen anzeigen"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
+#: src/bt-info.c:92
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "An"
 
@@ -131,16 +147,22 @@ msgstr "Unbekannte Anwendung"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:69
+#: src/feedbackinfo.c:91
 msgid "Quiet"
 msgstr "Leise"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:75
+#: src/feedbackinfo.c:97
 msgid "Silent"
 msgstr "Lautlos"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:101
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "An"
 
 #: src/location-manager.c:268
 #, c-format
@@ -163,7 +185,7 @@ msgstr "Nein"
 msgid "Enter Passcode"
 msgstr "Zugangscode eingeben"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "Überprüfung läuft …"
 
@@ -331,17 +353,21 @@ msgstr "Hochformat"
 msgid "Landscape"
 msgstr "Querformat"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:104 src/rotateinfo.c:188
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Aus"
+
+#: src/rotateinfo.c:105
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "An"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
 msgstr "Drücken Sie Esc zum Schließen"
 
-#: src/run-command-manager.c:94
+#: src/run-command-manager.c:95
 #, c-format
 msgid "Running '%s' failed"
 msgstr "»%s« konnte nicht ausgeführt werden"
@@ -396,7 +422,7 @@ msgstr "Einige Anwendungen sind beschäftigt oder haben ungesicherte Änderungen
 
 #: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
-msgstr "Benutzername:"
+msgstr "Benutzer:"
 
 #: src/ui/gtk-mount-prompt.ui:117
 msgid "Domain:"
@@ -406,7 +432,7 @@ msgstr "Domäne:"
 msgid "Co_nnect"
 msgstr "_Verbinden"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
 msgid "Back"
 msgstr "Zurück"
 
@@ -414,11 +440,11 @@ msgstr "Zurück"
 msgid "Slide up to unlock"
 msgstr "Nach oben wischen zum Entsperren"
 
-#: src/ui/lockscreen.ui:283
+#: src/ui/lockscreen.ui:282
 msgid "Emergency"
-msgstr "Notruf"
+msgstr "Notfall"
 
-#: src/ui/lockscreen.ui:299
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "Entsperren"
 
@@ -427,6 +453,7 @@ msgid "Authentication required"
 msgstr "Legitimierung erforderlich"
 
 #: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:84
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
@@ -442,11 +469,11 @@ msgstr "Legitimieren"
 msgid "Run Command"
 msgstr "Befehl ausführen"
 
-#: src/ui/settings.ui:301
+#: src/ui/settings.ui:302
 msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
 
-#: src/ui/settings.ui:342
+#: src/ui/settings.ui:343
 msgid "Clear all"
 msgstr "Alles leeren"
 
@@ -464,7 +491,7 @@ msgstr "Abmelden"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:340
+#: src/util.c:319
 msgid "%A, %B %-e"
 msgstr "%A %d. %B"
 
@@ -489,6 +516,94 @@ msgstr "WLAN"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Mobilfunk"
+
+#: plugins/emergency-info/emergency-info.ui:39
+msgid "Personal Information"
+msgstr "Persönliche Informationen"
+
+#: plugins/emergency-info/emergency-info.ui:47
+msgid "Date of Birth"
+msgstr "Geburtsdatum"
+
+#: plugins/emergency-info/emergency-info.ui:65
+msgid "Preferred Language"
+msgstr "Bevorzugte Sprache"
+
+#: plugins/emergency-info/emergency-info.ui:83
+msgid "Home Address"
+msgstr "Privatadresse"
+
+#: plugins/emergency-info/emergency-info.ui:91
+msgid "Medical Information"
+msgstr "Medizinische Informationen"
+
+#: plugins/emergency-info/emergency-info.ui:99
+msgid "Age"
+msgstr "Alter"
+
+#: plugins/emergency-info/emergency-info.ui:117
+msgid "Blood Type"
+msgstr "Blutgruppe"
+
+#: plugins/emergency-info/emergency-info.ui:135
+msgid "Height"
+msgstr "Größe"
+
+#: plugins/emergency-info/emergency-info.ui:153
+msgid "Weight"
+msgstr "Gewicht"
+
+#: plugins/emergency-info/emergency-info.ui:171
+msgid "Allergies"
+msgstr "Allergien"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "Medikamente und Erkrankungen"
+
+#: plugins/emergency-info/emergency-info.ui:187
+msgid "Other Information"
+msgstr "Weitere Informationen"
+
+#: plugins/emergency-info/emergency-info.ui:195
+msgid "Emergency Contacts"
+msgstr "Notfallkontakte"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Keine anzuzeigenden Dokumente"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Tickets"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:81
+msgid "Choose Folder"
+msgstr "Ordner auswählen"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:85
+msgid "_Open"
+msgstr "_Öffnen"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "Ticket-Box-Einstellungen"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "Pfade"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "Ordnereinstellungen"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "Wo Phosh nach Ihren Tickets sucht"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr "Ticket-Ordner"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
