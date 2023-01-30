@@ -468,7 +468,12 @@ phosh_notification_set_app_icon (PhoshNotification *self,
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_ICON]);
 }
 
-
+/**
+ * phosh_notification_get_app_icon:
+ * @self: The notification:
+ *
+ * Returns:(transfer none): The notification's icon
+ */
 GIcon *
 phosh_notification_get_app_icon (PhoshNotification *self)
 {
@@ -512,7 +517,12 @@ phosh_notification_set_app_info (PhoshNotification *self,
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_INFO]);
 }
 
-
+/**
+ * phosh_notification_get_app_info:
+ * @self: The notification:
+ *
+ * Returns:(transfer none): The notification's app info
+ */
 GAppInfo *
 phosh_notification_get_app_info (PhoshNotification *self)
 {
@@ -539,7 +549,12 @@ phosh_notification_set_image (PhoshNotification *self,
   }
 }
 
-
+/**
+ * phosh_notification_get_image:
+ * @self: The notification:
+ *
+ * Returns:(transfer none): The notification's image
+ */
 GIcon *
 phosh_notification_get_image (PhoshNotification *self)
 {

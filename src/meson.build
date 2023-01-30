@@ -43,12 +43,19 @@ phosh_marshalers = gnome.genmarshal('phosh-marshalers',
   prefix : '_phosh_marshal',
   valist_marshallers : true)
 
-libphosh_generated_sources = [
+
+# sources generated with glib tooling
+# hence parsable by gi-docgen
+libphosh_glib_generated_sources = [
   phosh_enums,
   phosh_marshalers,
   phosh_resources,
-  wl_proto_sources,
   generated_dbus_sources,
+]
+
+libphosh_generated_sources = [
+  libphosh_glib_generated_sources,
+  wl_proto_sources,
 ]
 
 phosh_layer_surface_sources = files(
@@ -161,14 +168,13 @@ libphosh_tool_sources = files(
   'wl-buffer.c',
   'wl-buffer.h',
 ) + [
-  libphosh_generated_sources,
-  phosh_gtk_list_models_sources,
   phosh_layer_surface_sources,
   phosh_monitor_sources,
   phosh_notifications_sources,
 ]
 
 # Symbols from these are not availabel in tools and unit tests
+# Prefer adding to libphosh_tool_sources
 libphosh_sources = files(
   'arrow.c',
   'arrow.h',
@@ -302,7 +308,9 @@ phosh_deps = [
 phosh_inc = include_directories('.')
 # A static library used by tests and tools
 phosh_tool_lib = static_library('phosh-tool',
-  libphosh_tool_sources,
+  [libphosh_tool_sources,
+   libphosh_generated_sources,
+   phosh_gtk_list_models_sources],
   include_directories: [root_inc, phosh_inc],
   dependencies: phosh_deps)
 phosh_tool_dep = declare_dependency(sources: libphosh_generated_sources,
@@ -316,6 +324,10 @@ phosh_lib = both_libraries('phosh',
   dependencies: [phosh_tool_dep, phosh_deps])
 
 if get_option('gtk_doc')
+  phosh_gir_sources = [ libphosh_sources,
+                        libphosh_tool_sources,
+                        libphosh_glib_generated_sources,
+                      ]
 
   # Shared lib used by docs
   phosh_doc_dep = declare_dependency(sources: libphosh_generated_sources,
@@ -328,7 +340,7 @@ if get_option('gtk_doc')
     ]
 
   phosh_gir = gnome.generate_gir(phosh_lib,
-                sources : [libphosh_sources, libphosh_tool_sources],
+                sources : phosh_gir_sources,
               nsversion : '0',
               namespace : 'Phosh',
         export_packages : 'phosh-0',
