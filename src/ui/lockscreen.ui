@@ -52,7 +52,7 @@
               <object class="HdyClamp">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="maximum_size">360</property>
+                <property name="maximum_size">720</property>
                 <child>
                   <object class="PhoshWidgetBox" id="widget_box">
                     <property name="visible">True</property>
