@@ -55,11 +55,10 @@ ENVIRONMENT VARIABLES
 
 ``phosh`` honors the following environment variables for debugging purposes:
 
-- ``PHOS_DEBUG``: A comma separated list of flags:
+- ``PHOSH_DEBUG``: A comma separated list of flags:
 
-  - ``force-show``: Ignore the `screen-keyboard-enabled` GSetting and always enable the OSK. This
-    GSetting is usually managed by the user and Phosh.
-  - ``force-completion``: Force text completion to ignoring the `completion-mode` GSetting.
+    - ``always-splash``: Always use splash screen when starting apps
+      (even when in docked mode)
 - ``G_MESSAGES_DEBUG``, ``G_DEBUG`` and other environment variables supported
   by glib. https://docs.gtk.org/glib/running.html
 - ``GTK_DEBUG`` and other environment variables supported by GTK, see
