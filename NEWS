@@ -1,3 +1,28 @@
+phosh 0.24.0
+------------
+Released January 2023
+* Add manpages
+* Various stability fixes
+* Better detect logind session (to unbreak `loginctl (un)lock-session`)
+* Testsuite improvements
+* Update to gmobile 0.0.1
+* Honor stricter protocol implementation in wlroots 0.16.0
+* Contributors:
+    * Andrey Skvortsov
+    * Guido Günther
+* UI translations:
+    * Aleksandr Melman (ru)
+    * Anders Jonsson (sv)
+    * Daniel Șerbănescu (ro)
+    * Ekaterine Papava (ka)
+    * Emin Tufan Çetin (tr)
+    * Goran Vidović (hr)
+    * Hemish (hi)
+    * Hugo Carvalho (pt)
+    * Jürgen Benvenuti (de)
+    * Martin (sl)
+    * Yuri Chornoivan (uk)
+
 phosh 0.23.0
 ------------
 Released December 2022

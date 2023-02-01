@@ -1,3 +1,248 @@
+phosh (0.24.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * Drop pandoc.
+    We don't need to convert from markdown anymore
+    Fixes e29a16ff3e6fb3fcc46ceec4fe44f94b38006063
+  * Drop deps on doc packages.
+    Not needed for gi-docgen
+    Fixes 89f58c9596950047ce83c5d6ced95d93a484e715
+  * docs: Add GTK and Libhandy deps
+  * notifcation-content: Check for `NULL`
+  * notification-content: Check for NULL lookup
+    g_desktop_app_info_get_string_list can return NULL, check for that.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/874
+  * bt-info: Add translation context for "On"
+    Add a context so "On" can have a context specific translations.
+  * rotateinfo: Add translation context for "On" and "Off"
+    Add contexts so "On" and "Off" can have context specific translations.
+  * feedbackinfo: Add translation context for "On"
+    Add a context so "On" can have context specific translation.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/880
+  * ci: Avoid artifact download for ASAN job.
+    It's not needed and just wastes bandwitch
+  * ci: Update images to 2023-01-05.
+    Update the amd64 images to not waste resources by
+    package updates.
+  * feedback-manager: Don't try to register signal if we can't get a DBus proxy.
+    Otherwise we might crash on startup when feedbackd gave up due to a
+    broken theme.
+  * feedback-manager: Shorten property enums.
+    Consistent with HACKING.md
+  * feedback-manager: Update prop descriptions.
+    Use doc strings before adding a new property
+  * feedback-manager: Init icon_name.
+    This make sure we always display an icon.
+  * feedback-manager: Allow to track inited state via present property.
+    If we fail to init libfeedback there's no point to allow the user to
+    change feedback settings, etc. Hence export this state via a `present`
+    property similar to other managers that map to quick settings.
+  * feedback-info: Init parent class first
+  * feedback-info: Update indentation.
+    This is the common style nowadays
+  * feedback-info: Track feedback-manager's parent property
+  * settings: Set feedback quick setting sensitive conditionally.
+    It only makes sense to display the icon when feedback manager is
+    available.
+  * dbus/login1: Improve argument name
+  * util: Add a log domain
+  * util: Make phosh_find_systemd_session more robust.
+    Don't rely on the display manager to set the desktop environment as this
+    currently isn't set by e.g. GDM on Bookworm. Rather use our current pid
+    or let logind make the pick.
+    Without this we fail to lock the screen when e.g. suspending on a
+    laptop's lid close.
+  * screen-saver-manager: Log if we can't get a session from logind
+  * screen-saver-manager: Improve debug message.
+    Let's debug both cases
+  * ci: Make it simple to just run visual tests.
+    The screen shot tests take screen shots of the running
+    shell. Make it easy to just run those.
+  * shell: Fix typo in comment
+  * thumbnail: Improve class doc
+    set_thumbnail must chain up to get the property changed
+    signal emitted.
+  * system-modal-dialog: Bind title property in init.
+    Binding in constructed is too late if we want to set the title
+    via ui file (as happened for the run command dialog)
+  * testlib: Add ALT keys to modifiers
+  * gnome-shell-manager: Use default dbus prefix.
+    This makes names significantly shorter
+  * dbus: Drop docbook generation.
+    We'll switch to markdown once that is in a released glib
+    version and meson supports it too.
+  * tests: Screenshot run-command dialog too
+  * tests: Screenshot the OSD too
+  * ci: Fetch phoc with working pixman renderer from CI
+  * tests: Reenable overview screenshots.
+    With the pixman renderer fixed we can reenable these
+  * po: Mark wayland session file as translatable.
+    The "Comment" field can be translated
+  * wayland-session: Improve comment
+  * wayland-session: Split list by semicolon.
+    It's a desktop entry files so separate entries should be semicolon not
+    colon separated. This shouldn't have any practical consequences.
+  * packaging: Drop superfluous override
+  * data: Rename phosh startup script to phosh-session.
+    This hopefully helps to avoid confusion.
+  * docs: Add a manpage
+  * docs: Add a manpage for phosh-session
+  * Build and install manpages.
+    This can be toggled via -Dman=false
+  * tools: Enable flash in screenshot check
+  * screenshot-manager: Invoke complete area functions.
+    In case of failure complete the correct functions
+  * screenshot-manager: Move code to capture all outputs into a separate function.
+    This will make allow to merge it with the
+    area capture code.
+  * screenshot-manager: Use do_screenshot for area capture too
+    handle_screenshot_area and handle_screenshot were doing
+    mostly the same thing so let them use the same function.
+  * screenshot-manager: Use automatic cleanup for frames.
+    Otherwise we'd leak the frames when we fail to create the
+    file name.
+  * screenshot-manager: Emit screen-capture event.
+    This allows us to trigger proper feedback.
+  * lockscreen: Strip "figure-space" from am/pm time.
+    Newer glib uses that instead of ' ' to pad the time.
+    We can drop the whole `g_strv_length (parts) == 3` part once we require
+    glib 2.74 at runtime.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/883
+    Thanks to Nicholas High for the detailed report and testing
+  * tests/take-screenshots: Remove unused variable
+  * tools/plugin-prefs: Don't take all available space.
+    Let the flowbox expand with it's members
+  * tools/plugin-prefs: Init gettext
+  * tools/plugin-prefs: Use actions to activate plugins.
+    This allows us to add keybindings easily which in turn
+    allows us to add keyboard shortcuts that can then be used
+    in the screenshot tests.
+  * tools: Build plugin-prefs too when building tests.
+    The screenshot tests will use it
+  * plugins: Keep plugins in a list.
+    While phosh itself should never bother about the actual plugins
+    but infer it automatically at run time it can be useful for
+    tests and tools to have a static list.
+  * tools: Don't hardcode plugin list
+  * tests: Add prefs plugins schema paths.
+    This is needed if we want to either load the lock screen plugins
+    or their prefs
+  * tests/take-screenshots: Run ticket box prefs.
+    We'll toggle individual pref dialogs in follow up commits
+  * tests/take-screenshots: Take screenshot of ticket box plugin prefs
+  * ci: Drop needless fixup.
+    Fixes 3312583e ("gitlab-ci: No need to forcibly remove lcov anymore")
+  * lockscreen-manager: Remove unused variable
+  * polkit: Detect cleanup functions.
+    Rather than using versions to see if we have cleanup for the polkit
+    related objects rather check for them.
+  * rotateinfo: Fix typo in debug message
+  * head: Fix typo
+  * build: Avoid relative paths for enums
+  * Update to gmobile 0.0.1.
+    This is 0.0.1 plus a few patches to build with older glib and to build
+    json-glib as a fallback when not present.
+    We adjust to the new API in the same commit as it's a minor change
+    and keeps things bisectable.
+  * layersurface: Update copyright years
+  * layersurface: Make sure we destroy the layer surface before the wl_surface.
+    Newer wlroots otherwise treats this as a protocol violation.
+    Thanks to David Leppla-Weber for proposing a fix and testing.
+  * layersurface: Use class methods instead of signals for map and realize.
+    This makes it consistent with how we handle "unmap" now so we don't have
+    parts using the signal and parts using the class method.
+  * wl-buffer: Move crucial check out of g_return_val_if_fail()
+    This can be compiled out and although it's unlikely phosh is built that
+    way, let's be cautious.
+  * toplevel-thumbnail: Switch to PhoshWlBuffer.
+    Avoids some redundancies
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/545
+  * overview: Don't leak list
+    gtk_container_get_children is `transfer container` so we need to free
+    the list.
+  * widget-box: Don't leak list
+    gtk_container_get_children is `transfer container` so we need to free
+    the list. Prompted by checking all call sites due the previous commit.
+  * overview: Simplify list handling.
+    Use automatic cleanup and a local variable. This makes it match other
+    sites that use gtk_container_get_children.
+  * network-auth-agent: Be move careful on cancel.
+    When the request got canceled in dispose we must not access the object
+    anymore so avoid access to self in that case.
+  * d/control: Bump dependency on phoc.
+    This is needed for the screenshot tests
+  * Revert "ci: Fetch phoc with working pixman renderer from CI"
+    We can rely on a packaged phoc now
+    This reverts commit 9830a0c76658733d40e6c9d8c55d72e1f57d77e5.
+  * ci: Switch package build to Debian bookworm.
+    PureOS is lagging behind.
+  * session-manager: Use default DBus prefix.
+    This makes names significantly shorter
+  * tests/screenshot: Wait a bit longer for prefs app.
+    This helps on busy systems. Ideally we'd wait for the toplevel to show
+    up.
+  * tests/screenshots: Screenshot more dialogs
+    See
+  * build: Use summary()
+  * tests/screenshots: Clarify comment
+  * tools/plugin-prefs: Adjust setup when run in the test-suite.
+    The test-suite installs the locale files in a local directory,
+    make sure we pick those up.
+  * tools/app-buttons: Hide close button. Looks odd in screenshots of the running
+    shell as it has shell styling.
+  * tests: Don't emit warning when org.a11y.Bus can't be bound.
+    Otherwise tools like plugin-prefs might emit it, abort and
+    make tests using them fail.
+  * app-buttons: Use desktop files with fewer dependencies.
+    We have these almost installed anyway for the build so use these so we
+    don't have to pull in additional dependencies just for the icons.
+    This improves the running-app and overview screenshots in the testsuite.
+  * build: Avoid wayland protocols and gtk listmodels in docs.
+    The wayland protocol headers trip up the gir-scanner as the format isn't
+    compatible. The gtk list models have the wrong prefix. This reduces the
+    amount of warnings when building docs a whole lot.
+  * notification: Add some missing transfer annotations
+
+  [ Andrey Skvortsov ]
+  * lockscreen: Make plugins to use more screen width if available.
+    It's especially very usefull for plugins that display a lot of
+    information on lockscreen like 'upcoming events' and 'emergency information'.
+
+  [ Emin Tufan Çetin ]
+  * Update Turkish translation
+
+  [ Goran Vidović ]
+  * Update Croatian translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Hugo Carvalho ]
+  * Update Portuguese translation
+
+  [ Jürgen Benvenuti ]
+  * Update German translation
+
+  [ Aleksandr Melman ]
+  * Update Russian translation
+
+  [ Hemish ]
+  * Add Hindi translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 31 Jan 2023 13:06:29 +0100
+
 phosh (0.23.0) experimental; urgency=medium
 
   [ Evangelos Ribeiro Tzaras ]
@@ -4807,7 +5052,7 @@ phosh (0.2.0) amber-phone; urgency=medium
   * build: Allow to build libfeedback as subproject.
   * phosh: Use drm backend by default to help wlroots 0.10.0 and hence phoc
     0.1.6.
-  * Update translations including 7 completely new ones. Thanks everyone! 
+  * Update translations including 7 completely new ones. Thanks everyone!
 
   [ Sebastian Krzyszkowiak ]
   * ui: Adjust the icon margin of backlight slider in settings menu.
