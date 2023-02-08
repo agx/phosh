@@ -139,6 +139,8 @@ libphosh_tool_sources = files(
   'osd-window.h',
   'plugin-loader.c',
   'plugin-loader.h',
+  'revealer.c',
+  'revealer.h',
   'status-icon.c',
   'status-icon.h',
   'splash.c',
