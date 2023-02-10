@@ -1,12 +1,12 @@
 # son of dirt <philsawa@gmail.com>, 2019. #zanata
-# Yosef Or Boczko <yoseforb@gmail.com>, 2022.
+# Yosef Or Boczko <yoseforb@gmail.com>, 2022-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-11-02 17:07+0000\n"
-"PO-Revision-Date: 2022-11-24 11:08+0200\n"
+"POT-Creation-Date: 2023-01-23 20:09+0000\n"
+"PO-Revision-Date: 2023-02-10 13:51+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <>\n"
 "Language: he\n"
@@ -18,11 +18,11 @@ msgstr ""
 "2 : 3)\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "מעטפת לטלפון"
 
@@ -30,11 +30,15 @@ msgstr "מעטפת לטלפון"
 msgid "Window management and application launching for mobile"
 msgstr "מנהל חלונות ומשגר יישומים לטלפון נייד"
 
-#: plugins/calendar/calendar.desktop.in.in:4
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "הפעלה זאת מחברת אותך ל־Phosh"
+
+#: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "לוח שנה"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "יישומון לוח שנה פשוט"
 
@@ -44,11 +48,8 @@ msgid "Ticket Box"
 msgstr "תיבת כרטיסים"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:5
-msgid ""
-"Show PDFs on the lock screen. This plugin is experimental. <b>This plugin is "
-"experimental.</b>"
-msgstr ""
-"הצגת קובצי PDF במסך הנעילה. תוסף זה הנו ניסיוני. <b>זהו תוסף ניסיוני.</b>"
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr "הצגת קובצי PDF במסך הנעילה. <b>זהו תוסף ניסיוני</b>."
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -70,7 +71,8 @@ msgstr "הצגת כל היישומים"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "הצגת יישומים מותאמים לנייד בלבד"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
+#: src/bt-info.c:92
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "פעיל"
 
@@ -132,16 +134,22 @@ msgstr "יישום לא ידוע"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:69
+#: src/feedbackinfo.c:91
 msgid "Quiet"
 msgstr "רטט"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:75
+#: src/feedbackinfo.c:97
 msgid "Silent"
 msgstr "שקט"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:101
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "פעיל"
 
 #: src/location-manager.c:268
 #, c-format
@@ -164,7 +172,7 @@ msgstr "לא"
 msgid "Enter Passcode"
 msgstr "הזנת ססמה"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "בודק…"
 
@@ -330,17 +338,21 @@ msgstr "לאורך"
 msgid "Landscape"
 msgstr "לרוחב"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:104 src/rotateinfo.c:188
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
-msgstr "כיבוי"
+msgstr "כבוי"
+
+#: src/rotateinfo.c:105
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "פעיל"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
 msgstr "יש להקיש Esc לסגירה"
 
-#: src/run-command-manager.c:94
+#: src/run-command-manager.c:95
 #, c-format
 msgid "Running '%s' failed"
 msgstr "הרצת „%s” נכשלה"
@@ -405,7 +417,7 @@ msgstr "מתחם:"
 msgid "Co_nnect"
 msgstr "הת_חברות"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
 msgid "Back"
 msgstr "חזרה"
 
@@ -413,11 +425,11 @@ msgstr "חזרה"
 msgid "Slide up to unlock"
 msgstr "החלקה כלפי מעלה לביטול הנעילה"
 
-#: src/ui/lockscreen.ui:283
+#: src/ui/lockscreen.ui:282
 msgid "Emergency"
 msgstr "מצב חירום"
 
-#: src/ui/lockscreen.ui:299
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "שחרור"
 
@@ -426,6 +438,7 @@ msgid "Authentication required"
 msgstr "נדרש אימות"
 
 #: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:84
 msgid "_Cancel"
 msgstr "_ביטול"
 
@@ -441,11 +454,11 @@ msgstr "אימות"
 msgid "Run Command"
 msgstr "הרצת פקודה"
 
-#: src/ui/settings.ui:301
+#: src/ui/settings.ui:302
 msgid "No notifications"
 msgstr "אין התרעות"
 
-#: src/ui/settings.ui:342
+#: src/ui/settings.ui:343
 msgid "Clear all"
 msgstr "ניקוי הכול"
 
@@ -463,7 +476,7 @@ msgstr "יציאה"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:345
+#: src/util.c:319
 msgid "%A, %B %-e"
 msgstr "%A, %B %e"
 
@@ -489,6 +502,58 @@ msgstr "רשת אלחוטית"
 msgid "Cellular"
 msgstr "רשת סלולרית"
 
+#: plugins/emergency-info/emergency-info.ui:39
+msgid "Personal Information"
+msgstr "מידע אישי"
+
+#: plugins/emergency-info/emergency-info.ui:47
+msgid "Date of Birth"
+msgstr "תאריך לידה"
+
+#: plugins/emergency-info/emergency-info.ui:65
+msgid "Preferred Language"
+msgstr "שפה מועדפת"
+
+#: plugins/emergency-info/emergency-info.ui:83
+msgid "Home Address"
+msgstr "כתובת בית"
+
+#: plugins/emergency-info/emergency-info.ui:91
+msgid "Medical Information"
+msgstr "מידע רפואי"
+
+#: plugins/emergency-info/emergency-info.ui:99
+msgid "Age"
+msgstr "גיל"
+
+#: plugins/emergency-info/emergency-info.ui:117
+msgid "Blood Type"
+msgstr "סוג דם"
+
+#: plugins/emergency-info/emergency-info.ui:135
+msgid "Height"
+msgstr "גובה"
+
+#: plugins/emergency-info/emergency-info.ui:153
+msgid "Weight"
+msgstr "משקל"
+
+#: plugins/emergency-info/emergency-info.ui:171
+msgid "Allergies"
+msgstr "אלרגיות"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "תרופות והגבלות"
+
+#: plugins/emergency-info/emergency-info.ui:187
+msgid "Other Information"
+msgstr "מידע נוסף"
+
+#: plugins/emergency-info/emergency-info.ui:195
+msgid "Emergency Contacts"
+msgstr "אנשי קשר למקרה חירום"
+
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
 msgstr "אין מסמכים להצגה"
@@ -496,6 +561,34 @@ msgstr "אין מסמכים להצגה"
 #: plugins/ticket-box/ticket-box.ui:83
 msgid "Tickets"
 msgstr "תעודות"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:81
+msgid "Choose Folder"
+msgstr "בחירת תיקייה"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:85
+msgid "_Open"
+msgstr "_פתיחה"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "העדפות תיבת כרטיסים"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "נתיבים"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "הגדרות תיקיות"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "היכן Phosh יחפש את הכרטיסים שלך"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr "תיקיית כרטיסים"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
