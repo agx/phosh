@@ -6,12 +6,14 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
+#include "phosh-plugin-prefs-config.h"
+
 #include "ticket-box-prefs.h"
 
 #define TICKET_BOX_SCHEMA_ID "sm.puri.phosh.plugins.ticket-box"
 #define TICKET_BOX_FOLDER_KEY "folder"
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 /**
  * PhoshTicketBoxPrefs:
