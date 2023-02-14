@@ -8,6 +8,10 @@
 
 #define G_LOG_DOMAIN "phosh-util"
 
+#define _GNU_SOURCE
+
+#include "phosh-config.h"
+
 #include "util.h"
 #include <gtk/gtk.h>
 
@@ -16,10 +20,12 @@
 
 #include <systemd/sd-login.h>
 
+#ifdef PHOSH_HAVE_MEMFD_CREATE
 #include <sys/mman.h>
-#include <sys/stat.h>
+#include <linux/memfd.h>
+#include <linux/mman.h>
 #include <fcntl.h>
-
+#endif
 
 #if !GLIB_CHECK_VERSION(2, 73, 2)
 #define G_REGEX_DEFAULT 0
@@ -254,11 +260,23 @@ static int
 anonymous_shm_open (void)
 {
   char name[] = "/phosh-XXXXXX";
+  int fd = -1;
+
+#ifdef PHOSH_HAVE_MEMFD_CREATE
+  /* name is only for debugging, collisions don't matter */
+  randname (name + strlen (name) - 6);
+  fd = memfd_create (name, MFD_CLOEXEC | MFD_ALLOW_SEALING);
+  if (fd >= 0) {
+    fcntl (fd, F_ADD_SEALS, F_SEAL_SHRINK);
+    return fd;
+  }
+#else
   int retries = 100;
 
+#ifdef __linux__
+  g_warning_once ("Falling back to shm_open for shared memory buffers.");
+#endif
   do {
-    int fd;
-
     randname (name + strlen (name) - 6);
     --retries;
     /* shm_open guarantees that O_CLOEXEC is set */
@@ -268,6 +286,7 @@ anonymous_shm_open (void)
       return fd;
     }
   } while (retries > 0 && errno == EEXIST);
+#endif
 
   return -1;
 }

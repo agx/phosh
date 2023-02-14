@@ -167,6 +167,8 @@ code ='''
 struct rfkill_event_ext e;
 '''
 have_rfkill_event_ext = cc.compiles(code, name : 'Have rfkill_event_ext')
+have_memfd_create = cc.has_function('memfd_create', prefix: '''#define _GNU_SOURCE
+                                                               #include <sys/mman.h>''')
 
 have_polkit_subject_cleanup = cc.compiles('''
 #define POLKIT_AGENT_I_KNOW_API_IS_SUBJECT_TO_CHANGE
@@ -198,13 +200,18 @@ config_h.set_quoted('LOCALEDIR', localedir)
 config_h.set_quoted('PHOSH_PLUGINS_DIR', plugins_dir)
 config_h.set_quoted('PHOSH_VERSION', meson.project_version())
 config_h.set('HAVE_RFKILL_EVENT_EXT', have_rfkill_event_ext)
-config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address')
-config_h.set('PHOSH_HAVE_GNOME_PLATFORM_VERSION', have_gnome_platform_version)
-config_h.set_quoted('PHOSH_DATA_DIR', datadir)
+config_h.set('PHOSH_HAVE_MEMFD_CREATE', have_memfd_create,
+             description: 'Whether we have memdfd_create on Linux')
+config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address',
+             description: 'Whether ASAN was enabled via meson')
+config_h.set('PHOSH_HAVE_GNOME_PLATFORM_VERSION', have_gnome_platform_version,
+             description: 'Whether we have gnome platform version header (>= 43)')
+config_h.set_quoted('PHOSH_DATA_DIR', datadir,
+             description: 'Systemwide data dir')
 config_h.set_quoted('PHOSH_APP_ID', app_id)
 # Work around lack of replace in meson 0.56
 m_ver = meson.version().split('.')
-if m_ver[0].to_int() > 0 or m_ver[1].to_int() >= 58
+if meson.version().version_compare('>=0.58.0')
   config_h.set_quoted('PHOSH_DBUS_PATH_PREFIX', '/' + app_id.replace('.', '/'))
 else
   config_h.set_quoted('PHOSH_DBUS_PATH_PREFIX', '/sm/puri/Phosh')
@@ -213,14 +220,8 @@ config_h.set('PHOSH_HAVE_POLKIT_SUBJECT_CLEANUP', have_polkit_subject_cleanup)
 config_h.set('PHOSH_HAVE_POLKIT_AGENT_LISTENER_CLEANUP', have_polkit_agent_listener_cleanup)
 
 configure_file(
-  input: 'phosh-config.h.in',
   output: 'phosh-config.h',
   configuration: config_h,
-)
-
-meson.add_install_script(
-  join_paths('build-aux', 'post_install.py'),
-  [datadir, plugins_dir],
 )
 
 subdir('data')
@@ -252,3 +253,13 @@ summary({
   bool_yn: true,
   section: 'Runtime',
 )
+
+# gnome.post_install() is available since meson 0.59.0
+# Distributions use their own tooling (e.g. postinst, triggers, etc)
+# so it is okay if the post_install() is not run on distro builds
+if meson.version().version_compare('>=0.59.0')
+  gnome.post_install(
+    glib_compile_schemas: true,
+    gtk_update_icon_cache: true,
+  )
+endif
