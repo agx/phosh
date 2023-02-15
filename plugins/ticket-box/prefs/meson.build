@@ -14,7 +14,7 @@ phosh_ticket_box_plugin_prefs = shared_module(
   'phosh-plugin-prefs-ticket-box',
   ticket_box_plugin_prefs_sources,
   ticket_box_prefs_resources,
-  c_args : ['-DG_LOG_DOMAIN="phosh-plugin-prefs-ticket-box-prefs"',
+  c_args : ['-DG_LOG_DOMAIN="phosh-plugin-prefs-ticket-box"',
             '-DPLUGIN_PREFS_NAME="@0@-prefs"'.format(name),
            ],
   dependencies: plugin_prefs_dep,

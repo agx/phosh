@@ -18,6 +18,9 @@
 #include <glib/gi18n.h>
 
 
+static const char *localedir;
+
+
 static GStrv
 get_plugin_prefs_dirs (const char *const *plugins)
 {
@@ -89,6 +92,9 @@ on_app_activated (GtkApplication *app)
     if (prefs == NULL)
       continue;
 
+    /* The plugins don't know that we're using a prefix for the installed data */
+    bindtextdomain (GETTEXT_PACKAGE, localedir);
+
     button = g_object_new (GTK_TYPE_BUTTON,
                            "label", name,
                            "margin-start", 6,
@@ -125,7 +131,6 @@ int
 main (int argc, char *argv[])
 {
   g_autoptr (AdwApplication) app = NULL;
-  const char *localedir;
 
   /* If we're run as port of the test-suite we want some special care */
   if (g_getenv ("G_TEST_SRCDIR")) {

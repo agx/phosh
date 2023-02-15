@@ -1,5 +1,6 @@
 phosh_plugin_header_subdir = 'phosh'
 
+# Pubilc header that can also be used by out of tree plugins
 phosh_plugin_config = configuration_data()
 phosh_plugin_config.set_quoted('PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET',
                                'phosh-lockscreen-widget')
@@ -39,6 +40,16 @@ lockscreen_plugin_schema_path = ':'.join(lockscreen_plugin_schema_dirs)
 
 if get_option('lockscreen-plugins')
   plugin_inc = include_directories('.')
+  plugin_prefs_inc = include_directories('.')
+
+  # Like phosh-config.h but for preference plugins
+  plugin_prefs_config = configuration_data()
+  plugin_prefs_config.set_quoted('GETTEXT_PACKAGE', 'phosh')
+  plugin_prefs_config.set_quoted('LOCALEDIR', localedir)
+  plugin_prefs_config_h = configure_file(
+    output: 'phosh-plugin-prefs-config.h',
+    configuration: plugin_prefs_config,
+  )
 
   plugin_dep = declare_dependency(
     sources: phosh_plugin_h,
@@ -51,7 +62,7 @@ if get_option('lockscreen-plugins')
   )
 
   plugin_prefs_dep = declare_dependency(
-    sources: phosh_plugin_h,
+    sources: [phosh_plugin_h, plugin_prefs_config_h],
     include_directories: plugin_inc,
     dependencies: [
       dependency('gtk4'),
