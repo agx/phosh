@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-01-11 20:25+0000\n"
-"PO-Revision-Date: 2023-01-14 17:04+0100\n"
+"POT-Creation-Date: 2023-01-23 20:09+0000\n"
+"PO-Revision-Date: 2023-02-15 23:11+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -21,17 +21,21 @@ msgstr ""
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Lupina telefona"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Upravljanje oken in zagon programja za mobilnike"
+
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Ta seja vas prijavi v Phosh"
 
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
@@ -511,7 +515,6 @@ msgid "Date of Birth"
 msgstr "Datum rojstva"
 
 #: plugins/emergency-info/emergency-info.ui:65
-#, fuzzy
 msgid "Preferred Language"
 msgstr "Prednostni jezik"
 
@@ -520,7 +523,6 @@ msgid "Home Address"
 msgstr "Domači naslov"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#, fuzzy
 msgid "Medical Information"
 msgstr "Zdravstveni podatki"
 
@@ -545,7 +547,6 @@ msgid "Allergies"
 msgstr "Alergije"
 
 #: plugins/emergency-info/emergency-info.ui:179
-#, fuzzy
 msgid "Medications & Conditions"
 msgstr "Zdravila in bolezni"
 
@@ -590,7 +591,7 @@ msgstr "Nastavitve mape"
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
 #, fuzzy
 msgid "Where Phosh looks for your tickets"
-msgstr "Kje Phosh išče vaše vstopnice"
+msgstr "Kje Phosh išče vaše zahtevke"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
 #, fuzzy
