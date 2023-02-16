@@ -15,8 +15,8 @@
           <object class="GtkHeaderBar">
             <property name="show-title-buttons">0</property>
             <property name="title-widget">
-            <object class="GtkLabel">
-              <property name="label" translatable="yes">Emergency Info Preferences</property>
+            <object class="AdwWindowTitle">
+              <property name="title" translatable="yes">Emergency Info Preferences</property>
             </object>
           </property>
           <child>
@@ -280,8 +280,8 @@
     <object class="GtkHeaderBar">
     <property name="show-title-buttons">0</property>
     <property name="title-widget">
-      <object class="GtkLabel">
-        <property name="label" translatable="yes">Add New Contact</property>
+      <object class="AdwWindowTitle">
+        <property name="title" translatable="yes">Add New Contact</property>
       </object>
     </property>
       <child>
