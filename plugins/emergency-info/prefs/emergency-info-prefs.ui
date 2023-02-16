@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <template class="PhoshEmergencyInfoPrefs" parent="AdwWindow">
+    <property name="title" translatable="yes">Emergency Info Preferences</property>
+    <property name="default-width">300</property>
+    <property name="default-height">300</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="vexpand">true</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkHeaderBar">
+            <property name="show-title-buttons">0</property>
+            <property name="title-widget">
+            <object class="GtkLabel">
+              <property name="label" translatable="yes">Emergency Info Preferences</property>
+            </object>
+          </property>
+          <child>
+            <object class="GtkButton">
+              <property name="visible">True</property>
+              <property name="valign">center</property>
+              <signal name="clicked" handler="on_update_information_cancelled" swapped="yes"/>
+              <child>
+                <object class="GtkLabel">
+                  <property name="label" translatable="yes">Cancel</property>
+                </object>
+              </child>
+            </object>
+          </child>
+         <child type="end">
+           <object class="GtkButton">
+             <property name="valign">center</property>
+                <signal name="clicked" handler="on_update_information_clicked" swapped="yes"/>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Done</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="vexpand">true</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="visible">True</property>
+                <property name="vscrollbar-policy">automatic</property>
+                <property name="hscrollbar-policy">never</property>
+                <property name="vexpand">true</property>
+                <property name="propagate-natural-height">True</property>
+                <child>
+                  <object class="AdwPreferencesPage">
+                    <property name="icon_name">preferences-window-layout-symbolic</property>
+                    <property name="title">Paths</property>
+                    <property name="use-underline">True</property>
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="visible">True</property>
+                        <property name="title" translatable="yes">Personal Information</property>
+                        <property name="margin-top">12</property>
+                        <property name="margin-bottom">12</property>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Owner Name</property>
+                            <child>
+                              <object class="GtkEntry">
+                                <property name="valign">center</property>
+                                <property name="buffer">owner_name_entry_buffer</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                                <property name="visible">True</property>
+                            <property name="title" translatable="yes">Date of Birth</property>
+                                <child>
+                              <object class="GtkEntry">
+                                <property name="valign">center</property>
+                                <property name="buffer">dob_entry_buffer</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Preferred Language</property>
+                            <child>
+                              <object class="GtkEntry">
+                                <property name="valign">center</property>
+                                <property name="buffer">language_entry_buffer</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Home Address</property>
+                            <child>
+                              <object class="GtkTextView">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="hexpand">True</property>
+                                <property name="buffer">home_addr_text_buffer</property>
+                                <property name="wrap-mode">word</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="AdwPreferencesGroup">
+                        <property name="visible">True</property>
+                        <property name="title" translatable="yes">Medical Information</property>
+                        <property name="margin-top">12</property>
+                        <property name="margin-bottom">12</property>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Age</property>
+                            <child>
+                              <object class="GtkEntry">
+                                <property name="valign">center</property>
+                                <property name="buffer">age_entry_buffer</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Blood Type</property>
+                            <child>
+                              <object class="GtkEntry">
+                                <property name="valign">center</property>
+                                <property name="buffer">blood_type_entry_buffer</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Height</property>
+                            <child>
+                              <object class="GtkEntry">
+                                <property name="valign">center</property>
+                                <property name="buffer">height_entry_buffer</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Weight</property>
+                            <child>
+                              <object class="GtkEntry">
+                                <property name="valign">center</property>
+                                <property name="buffer">weight_entry_buffer</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Allergies</property>
+                            <child>
+                              <object class="GtkTextView">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="hexpand">True</property>
+                                <property name="buffer">allergies_text_buffer</property>
+                                <property name="wrap-mode">word</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Medications and Conditions</property>
+                            <child>
+                              <object class="GtkTextView">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="hexpand">True</property>
+                                <property name="buffer">med_cond_text_buffer</property>
+                                <property name="wrap-mode">word</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="AdwActionRow">
+                            <property name="visible">True</property>
+                            <property name="title" translatable="yes">Other Information</property>
+                            <child>
+                              <object class="GtkTextView">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="hexpand">True</property>
+                                <property name="buffer">other_info_text_buffer</property>
+                                <property name="wrap-mode">word</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                   <child>
+                      <object class="AdwPreferencesGroup"  id="emer_contacts">
+                        <property name="visible">True</property>
+                        <property name="title" translatable="yes">Emergency Contacts</property>
+                        <property name="margin-top">12</property>
+                        <property name="margin-bottom">12</property>
+                        <property name="header-suffix">
+                          <object class="GtkButton">
+                            <signal name="clicked" handler="on_update_emer_contact" swapped="yes"/>
+                            <property name="child">
+                              <object class="AdwButtonContent">
+                                <property name="icon-name">list-add-symbolic</property>
+                                <property name="label" translatable="yes">Add Contact</property>
+                              </object>
+                            </property>
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+
+<object class="GtkEntryBuffer" id="dob_entry_buffer"/>
+<object class="GtkEntryBuffer" id="owner_name_entry_buffer"/>
+<object class="GtkEntryBuffer" id="language_entry_buffer"/>
+<object class="GtkTextBuffer" id="home_addr_text_buffer"/>
+
+<object class="GtkEntryBuffer" id="age_entry_buffer"/>
+<object class="GtkEntryBuffer" id="blood_type_entry_buffer"/>
+<object class="GtkEntryBuffer" id="height_entry_buffer"/>
+<object class="GtkEntryBuffer" id="weight_entry_buffer"/>
+<object class="GtkTextBuffer" id="allergies_text_buffer"/>
+<object class="GtkTextBuffer" id="med_cond_text_buffer"/>
+<object class="GtkTextBuffer" id="other_info_text_buffer"/>
+
+<object class="GtkEntryBuffer" id="new_emer_contact_entry_buffer"/>
+<object class="GtkEntryBuffer" id="new_emer_contact_relationship_entry_buffer"/>
+<object class="GtkEntryBuffer" id="new_emer_contact_number_entry_buffer"/>
+
+<object class="GtkDialog" id="add_emer_contact_dialog">
+  <signal name="response" handler="on_dialog_update_emer_contact" swapped="no"/>
+  <property name="use-header-bar">1</property>
+  <property name="titlebar">
+    <object class="GtkHeaderBar">
+    <property name="show-title-buttons">0</property>
+    <property name="title-widget">
+      <object class="GtkLabel">
+        <property name="label" translatable="yes">Add New Contact</property>
+      </object>
+    </property>
+      <child>
+        <object class="GtkButton" id="add_emer_contact_dialog_button_cancel">
+        <property name="label">Cancel</property>
+        </object>
+      </child>
+      <child type="end">
+        <object class="GtkButton" id="add_emer_contact_dialog_button_ok">
+        <property name="label">Add</property>
+        </object>
+      </child>
+    </object>
+  </property>
+  <child>
+    <object class="AdwPreferencesPage">
+      <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="AdwPreferencesRow">
+            <property name="visible">True</property>
+            <child type="prefix">
+              <object class="GtkEntry">
+                <property name="valign">center</property>
+                <property name="hexpand">true</property>
+                <property name="vexpand">true</property>
+                <property name="buffer">new_emer_contact_entry_buffer</property>
+                <property name="placeholder-text" translatable="yes">New Contact Name</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesRow">
+            <property name="visible">True</property>
+            <child type="prefix">
+              <object class="GtkEntry">
+                <property name="valign">center</property>
+                <property name="hexpand">true</property>
+                <property name="vexpand">true</property>
+                <property name="buffer">new_emer_contact_relationship_entry_buffer</property>
+                <property name="placeholder-text" translatable="yes">Relationship</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesRow">
+            <property name="visible">True</property>
+            <child type="prefix">
+              <object class="GtkEntry">
+                <property name="valign">center</property>
+                <property name="hexpand">true</property>
+                <property name="buffer">new_emer_contact_number_entry_buffer</property>
+                <property name="placeholder-text" translatable="yes">Number</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="can_focus">False</property>
+            <property name="orientation">horizontal</property>
+            <property name="spacing">20</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    </object>
+  </child>
+  <action-widgets>
+    <action-widget response="cancel">add_emer_contact_dialog_button_cancel</action-widget>
+    <action-widget response="ok" default="true">add_emer_contact_dialog_button_ok</action-widget>
+  </action-widgets>
+</object>
+</interface>

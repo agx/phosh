@@ -4,3 +4,7 @@ Id=@name@
 Name=Emergency Info
 Comment=Show emergency information and contacts
 Plugin=@plugins_dir@/libphosh-plugin-@name@.so
+
+[Prefs]
+Id=@name@-prefs
+Plugin=@plugin_prefs_dir@/libphosh-plugin-prefs-@name@.so
