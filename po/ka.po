@@ -1,14 +1,14 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Georgian translation for phosh.
+# Copyright (C) 2023, phosh authors
+# This file is distributed under the same license as the phosh package.
 # Ekaterine Papava <papava.e@gtu.ge>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-01-23 20:09+0000\n"
-"PO-Revision-Date: 2023-01-26 15:07+0100\n"
+"POT-Creation-Date: 2023-02-16 09:58+0000\n"
+"PO-Revision-Date: 2023-02-17 05:58+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: \n"
 "Language: ka\n"
@@ -218,7 +218,7 @@ msgstr "შეიყვანეთ %s-ის პაროლი"
 msgid "Open"
 msgstr "გახსნა"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
 msgid "Notification"
 msgstr "გაფრთხილება"
 
@@ -368,6 +368,7 @@ msgid "Remember decision"
 msgstr "გადაწყვეტილების დამახსოვრება"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 msgid "Cancel"
 msgstr "გაუქმება"
 
@@ -432,7 +433,7 @@ msgid "Authentication required"
 msgstr "საჭროა ავთენტიკაცია"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:84
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "_Cancel"
 msgstr "_გაუქმება"
 
@@ -470,7 +471,7 @@ msgstr "გასვლა"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:319
+#: src/util.c:338
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -497,42 +498,52 @@ msgid "Cellular"
 msgstr "მობილური"
 
 #: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
 msgid "Personal Information"
 msgstr "პირადი ინფორმაცია"
 
 #: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
 msgid "Date of Birth"
 msgstr "დაბადების თარიღი"
 
 #: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Preferred Language"
 msgstr "სასურველი ენა"
 
 #: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
 msgid "Home Address"
 msgstr "სახლის მისამართი"
 
 #: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Medical Information"
 msgstr "სამედიცინო ინფორმაცია"
 
 #: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
 msgid "Age"
 msgstr "ასაკი"
 
 #: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
 msgid "Blood Type"
 msgstr "სისხლის ტიპი"
 
 #: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
 msgid "Height"
 msgstr "სიმაღლე"
 
 #: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
 msgid "Weight"
 msgstr "სიმძიმე"
 
 #: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
 msgid "Allergies"
 msgstr "ალერგიები"
 
@@ -541,12 +552,51 @@ msgid "Medications & Conditions"
 msgstr "წამლები & პირობები"
 
 #: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
 msgid "Other Information"
 msgstr "Სხვა ინფორმაცია"
 
 #: plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
 msgid "Emergency Contacts"
 msgstr "გადაუდებელი კონტაქტები"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "გადაუდებელი ინფორმაციის მორგება"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "დასრულებულია"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "მფლობელის სახელი"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "წამლები & პირობები"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "კონტაქტის დამატება"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "ახალი კონტაქტის დამატება"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+msgid "New Contact Name"
+msgstr "ახალი კონტაქტის სახელი"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+msgid "Relationship"
+msgstr "ურთიერთობები"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+msgid "Number"
+msgstr "რიცხვი"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -556,11 +606,11 @@ msgstr "საჩვენებელი დოკუმენტების �
 msgid "Tickets"
 msgstr "ბილეთები"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:81
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:83
 msgid "Choose Folder"
 msgstr "აირჩიეთ საქაღალდე"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:85
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
 msgid "_Open"
 msgstr "გახსნა"
 
