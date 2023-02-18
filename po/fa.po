@@ -1,14 +1,14 @@
 # Persian translation for phosh.
 # Copyright (C) 2020 phosh's COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
-# Danial Behzadi <dani.behzi@ubuntu.com>, 2020-2022.
+# Danial Behzadi <dani.behzi@ubuntu.com>, 2020-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-11-02 17:07+0000\n"
-"PO-Revision-Date: 2022-11-07 03:31+0330\n"
+"POT-Creation-Date: 2023-02-16 09:58+0000\n"
+"PO-Revision-Date: 2023-02-18 19:53+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -16,14 +16,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "فوش"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "پوستهٔ تلفن"
 
@@ -31,11 +31,15 @@ msgstr "پوستهٔ تلفن"
 msgid "Window management and application launching for mobile"
 msgstr "مدیریت پنجره‌ها و اجرا کنندهٔ برنامه‌ها برای تلفن همراه"
 
-#: plugins/calendar/calendar.desktop.in.in:4
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "این نشست وارد فوشتان می‌کند"
+
+#: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "تقویم"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "ابزارک تقویمی ساده"
 
@@ -45,12 +49,8 @@ msgid "Ticket Box"
 msgstr "جعبهٔ بلیت"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:5
-msgid ""
-"Show PDFs on the lock screen. This plugin is experimental. <b>This plugin is "
-"experimental.</b>"
-msgstr ""
-"نمایش PDFها روی صفحهٔ قفل. این افزایه آزمایشی است. <b>این افزایه آزمایشی است."
-"</b>"
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr "نمایش PDFها روی صفحهٔ قفل. <b>این افزایه آزمایشی است.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -72,7 +72,8 @@ msgstr "نمایش تمامی کاره‌ها"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "فقط نمایش کاره‌های سازگار با تلفن همراه"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
+#: src/bt-info.c:92
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "روشن"
 
@@ -128,16 +129,22 @@ msgstr "برنامهٔ ناشناخته"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:69
+#: src/feedbackinfo.c:91
 msgid "Quiet"
 msgstr "کم‌صدا"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:75
+#: src/feedbackinfo.c:97
 msgid "Silent"
 msgstr "بی‌صدا"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:101
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "روشن"
 
 #: src/location-manager.c:268
 #, c-format
@@ -160,7 +167,7 @@ msgstr "نه"
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
@@ -212,7 +219,7 @@ msgstr "ورود گذرواژه برای شبکهٔ وای‌فای %s"
 msgid "Open"
 msgstr "گشودن"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
 msgid "Notification"
 msgstr "آگاهی"
 
@@ -326,17 +333,21 @@ msgstr "عمودی"
 msgid "Landscape"
 msgstr "افقی"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:104 src/rotateinfo.c:188
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "خاموش"
+
+#: src/rotateinfo.c:105
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "روشن"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
 msgstr "برای بستن، گریز را بزنید"
 
-#: src/run-command-manager.c:94
+#: src/run-command-manager.c:95
 #, c-format
 msgid "Running '%s' failed"
 msgstr "اجرای «%s» شکست خورد"
@@ -358,6 +369,7 @@ msgid "Remember decision"
 msgstr "به‌خاطر سپردن تصمیم"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 msgid "Cancel"
 msgstr "لغو"
 
@@ -401,7 +413,7 @@ msgstr "دامنه:"
 msgid "Co_nnect"
 msgstr "اتّ_صال"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
 msgid "Back"
 msgstr "بازگشت"
 
@@ -409,11 +421,11 @@ msgstr "بازگشت"
 msgid "Slide up to unlock"
 msgstr "برای قفل‌گشایی، بالا بکشید"
 
-#: src/ui/lockscreen.ui:283
+#: src/ui/lockscreen.ui:282
 msgid "Emergency"
 msgstr "اضطراری"
 
-#: src/ui/lockscreen.ui:299
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "قفل‌گشایی"
 
@@ -422,6 +434,7 @@ msgid "Authentication required"
 msgstr "نیاز به تأیید هویت است"
 
 #: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "_Cancel"
 msgstr "_لغو"
 
@@ -437,11 +450,11 @@ msgstr "تأیید هویت"
 msgid "Run Command"
 msgstr "اجرای فرمان"
 
-#: src/ui/settings.ui:301
+#: src/ui/settings.ui:302
 msgid "No notifications"
 msgstr "بدون آگاهی"
 
-#: src/ui/settings.ui:342
+#: src/ui/settings.ui:343
 msgid "Clear all"
 msgstr "پاک‌سازی همه"
 
@@ -459,7 +472,7 @@ msgstr "خروج"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:345
+#: src/util.c:338
 msgid "%A, %B %-e"
 msgstr "%A، %Od %OB"
 
@@ -485,6 +498,107 @@ msgstr "وای‌فای"
 msgid "Cellular"
 msgstr "سلولی"
 
+#: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+msgid "Personal Information"
+msgstr "اطّلاعات شخصی"
+
+#: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+msgid "Date of Birth"
+msgstr "تاریخ تولّد"
+
+#: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+msgid "Preferred Language"
+msgstr "زبان ترجیحی"
+
+#: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+msgid "Home Address"
+msgstr "نشانی خانه"
+
+#: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+msgid "Medical Information"
+msgstr "اطّلاعات پزشکی"
+
+#: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+msgid "Age"
+msgstr "سن"
+
+#: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+msgid "Blood Type"
+msgstr "گروه خونی"
+
+#: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+msgid "Height"
+msgstr "قد"
+
+#: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+msgid "Weight"
+msgstr "وزن"
+
+#: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+msgid "Allergies"
+msgstr "حسّاسیت‌ها"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "داروها و شرایط"
+
+#: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+msgid "Other Information"
+msgstr "دیگر اطّلاعات"
+
+#: plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "تماس‌های اضطراری"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "ترجیحات اطّلاعات اضطراری"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "انجام شد"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "نام مالک"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "داروها و شرایط"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "افزودن آشنا"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "افزودن آشنای جدید"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+msgid "New Contact Name"
+msgstr "نام آشنای جدید"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+msgid "Relationship"
+msgstr "رابطه"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+msgid "Number"
+msgstr "شماره"
+
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
 msgstr "هیچ سندی برای نمایش نیست"
@@ -492,6 +606,34 @@ msgstr "هیچ سندی برای نمایش نیست"
 #: plugins/ticket-box/ticket-box.ui:83
 msgid "Tickets"
 msgstr "بلیت‌ها"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:83
+msgid "Choose Folder"
+msgstr "گزینش شاخه"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
+msgid "_Open"
+msgstr "_گشودن"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "ترجیحات جعبهٔ بلیت"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "مسیرها"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "تنظیمات شاخه"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "جایی که فوش به دنبال بلیت‌ّایتان می‌گردد"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr "شاخهٔ بلیت"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
