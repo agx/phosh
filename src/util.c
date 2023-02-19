@@ -17,6 +17,7 @@
 
 #include <locale.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 
 #include <systemd/sd-login.h>
 
@@ -537,4 +538,26 @@ phosh_util_get_stylesheet (const char *theme_name)
     style = "/sm/puri/phosh/stylesheet/adwaita-dark.css";
 
   return style;
+}
+
+
+gboolean
+phosh_clear_fd (int *fd, GError **err)
+{
+  gboolean success;
+
+  g_return_val_if_fail (fd, FALSE);
+
+#if GLIB_CHECK_VERSION(2, 75, 1)
+  success = g_clear_fd (fd, err);
+#else
+  if (*fd >= 0) {
+    success = g_close (*fd, err);
+    *fd = -1;
+  } else {
+    success = TRUE;
+  }
+#endif
+
+  return success;
 }

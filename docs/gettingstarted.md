@@ -74,7 +74,6 @@ as part GNOME session so the start sequence looks like
 phoc (compositor) -> gnome-session -> phosh (and other session components)
 ```
 
-
 ## Hints
 This is a unsorted list of hints when developing for Phosh
 
@@ -98,6 +97,10 @@ Sometimes it is no longer useful to show the widget (since
 e.g. the corresponding DBus service went away). In that case the
 widget should flip a boolean property so the parent container can
 hide the object via #g_object_bind_property().
+
+### Screen locking and blanking
+
+For details see [class@ScreenSaverManager].
 
 ### Debugging
 

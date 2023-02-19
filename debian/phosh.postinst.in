@@ -2,6 +2,17 @@
 
 set -e
 
+case "$1" in
+    configure)
+        # (used by unattended-upgrades etc.)
+        touch /var/run/reboot-required || true
+
+        if ! grep -Fqsx dbus /run/reboot-required.pkgs; then
+            echo phosh >> /run/reboot-required.pkgs || true
+        fi
+        ;;
+esac
+
 if [ "$1" = triggered ]; then
     "/usr/lib/#MULTIARCH#/glib-2.0/gio-querymodules" "/usr/lib/#MULTIARCH#/phosh/plugins" || true
     "/usr/lib/#MULTIARCH#/glib-2.0/gio-querymodules" "/usr/lib/#MULTIARCH#/phosh/plugins/prefs" || true

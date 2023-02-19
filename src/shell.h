@@ -38,7 +38,7 @@ G_BEGIN_DECLS
  * PhoshShellStateFlags:
  * @PHOSH_STATE_NONE: No other state
  * @PHOSH_STATE_MODAL_SYSTEM_PROMPT: any modal prompt shown
- * @PHOSH_STATE_BLANKED: built-in display off
+ * @PHOSH_STATE_BLANKED: primary display off
  * @PHOSH_STATE_LOCKED: displays locked
  * @PHOSH_STATE_SETTINGS: settings menu unfolded from top bar
  * @PHOSH_STATE_OVERVIEW: overview unfolded from bottom bar

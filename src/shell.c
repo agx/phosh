@@ -269,6 +269,20 @@ on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
 
 
 static void
+on_primary_monitor_power_mode_changed (PhoshShell *self, GParamSpec *pspec, PhoshMonitor *monitor)
+{
+  PhoshMonitorPowerSaveMode mode;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+
+  g_object_get (monitor, "power-mode", &mode, NULL);
+
+  phosh_shell_set_state (self, PHOSH_STATE_BLANKED, mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF);
+}
+
+
+static void
 on_primary_monitor_configured (PhoshShell *self, PhoshMonitor *monitor)
 {
   PhoshShellPrivate *priv;
@@ -284,9 +298,15 @@ on_primary_monitor_configured (PhoshShell *self, PhoshMonitor *monitor)
 
 
 static void
-setup_primary_monitor_configured_handler (PhoshShell *self)
+setup_primary_monitor_signal_handlers (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  g_signal_connect_swapped (priv->primary_monitor,
+                            "notify::power-mode",
+                            G_CALLBACK (on_primary_monitor_power_mode_changed),
+                            self);
+
   g_signal_connect_object (priv->primary_monitor, "configured",
                            G_CALLBACK (on_primary_monitor_configured),
                            self,
@@ -717,7 +737,7 @@ setup_idle_cb (PhoshShell *self)
   priv->network_auth_manager = phosh_network_auth_manager_new ();
   priv->portal_access_manager = phosh_portal_access_manager_new ();
 
-  setup_primary_monitor_configured_handler (self);
+  setup_primary_monitor_signal_handlers (self);
 
   /* Delay signaling the compositor a bit so that idle handlers get a
    * chance to run and the user has can unlock right away. Ideally
@@ -757,24 +777,6 @@ type_setup (void)
 
 
 static void
-on_builtin_monitor_power_mode_changed (PhoshShell *self, GParamSpec *pspec, PhoshMonitor *monitor)
-{
-  PhoshMonitorPowerSaveMode mode;
-  PhoshShellPrivate *priv;
-
-  g_return_if_fail (PHOSH_IS_SHELL (self));
-  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
-  priv = phosh_shell_get_instance_private (self);
-
-  g_object_get (monitor, "power-mode", &mode, NULL);
-  /* Might be emitted on startup before lockscreen_manager is up */
-  if (mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF && priv->lockscreen_manager)
-    phosh_shell_lock (self);
-
-  phosh_shell_set_state (self, PHOSH_STATE_BLANKED, mode == PHOSH_MONITOR_POWER_SAVE_MODE_OFF);
-}
-
-static void
 phosh_shell_set_builtin_monitor (PhoshShell *self, PhoshMonitor *monitor)
 {
   PhoshShellPrivate *priv;
@@ -787,10 +789,6 @@ phosh_shell_set_builtin_monitor (PhoshShell *self, PhoshMonitor *monitor)
     return;
 
   if (priv->builtin_monitor) {
-    /* Power mode listener */
-    g_signal_handlers_disconnect_by_func (priv->builtin_monitor,
-                                          G_CALLBACK (on_builtin_monitor_power_mode_changed),
-                                          self);
     g_clear_object (&priv->builtin_monitor);
 
     if (priv->rotation_manager)
@@ -801,11 +799,6 @@ phosh_shell_set_builtin_monitor (PhoshShell *self, PhoshMonitor *monitor)
   g_set_object (&priv->builtin_monitor, monitor);
 
   if (monitor) {
-    g_signal_connect_swapped (priv->builtin_monitor,
-                              "notify::power-mode",
-                              G_CALLBACK (on_builtin_monitor_power_mode_changed),
-                              self);
-
     if (priv->rotation_manager)
       phosh_rotation_manager_set_monitor (priv->rotation_manager, monitor);
   }
@@ -1110,10 +1103,14 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
   if (monitor == priv->primary_monitor)
     return;
 
-  if (priv->primary_monitor)
+  if (priv->primary_monitor) {
     g_signal_handlers_disconnect_by_func (priv->primary_monitor,
                                           G_CALLBACK (on_primary_monitor_configured),
                                           self);
+    g_signal_handlers_disconnect_by_func (priv->builtin_monitor,
+                                          G_CALLBACK (on_primary_monitor_power_mode_changed),
+                                          self);
+  }
 
   if (monitor != NULL) {
     /* Make sure the new monitor exists */
@@ -1136,13 +1133,13 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY_MONITOR]);
 
-  setup_primary_monitor_configured_handler (self);
+  setup_primary_monitor_signal_handlers (self);
 
   /* All monitors gone or disabled. See if monitor-manager finds a
    * fallback to enable. Do that in an idle callback so GTK can process
    * pending wayland events for the gone output */
   if (monitor == NULL) {
-    /* No monitor we're not useful atm */
+    /* No monitor - we're not useful atm */
     notify_compositor_up_state (self, PHOSH_PRIVATE_SHELL_STATE_UNKNOWN);
     g_idle_add (select_fallback_monitor, self);
   } else {
@@ -1642,16 +1639,16 @@ phosh_shell_fade_out (PhoshShell *self, guint timeout)
 void
 phosh_shell_enable_power_save (PhoshShell *self, gboolean enable)
 {
-  g_debug ("Entering power save mode");
+  PhoshShellPrivate *priv;
+  PhoshMonitorPowerSaveMode ps_mode;
+
+  g_debug ("Entering power save mode: %d", enable);
+
   g_return_if_fail (PHOSH_IS_SHELL (self));
+  priv = phosh_shell_get_instance_private (self);
 
-  /*
-   * Locking the outputs instructs g-s-d to tell us to put
-   * outputs into power save mode via org.gnome.Mutter.DisplayConfig
-   */
-  phosh_shell_set_locked(self, enable);
-
-  /* TODO: other means of power saving */
+  ps_mode = enable ? PHOSH_MONITOR_POWER_SAVE_MODE_OFF : PHOSH_MONITOR_POWER_SAVE_MODE_ON;
+  phosh_monitor_manager_set_power_save_mode (priv->monitor_manager, ps_mode);
 }
 
 /**

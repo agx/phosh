@@ -238,10 +238,21 @@ grab_single_accelerator (PhoshGnomeShellManager *self,
 
   g_debug ("Using action id %d for accelerator %s", info->action_id, info->accelerator);
   g_hash_table_insert (self->info_by_action, GUINT_TO_POINTER (info->action_id), info);
-  phosh_shell_add_global_keyboard_action_entries (phosh_shell_get_default (),
-                                                  action_entries,
-                                                  G_N_ELEMENTS (action_entries),
-                                                  info);
+
+  if (g_strcmp0 (accelerator, "XF86PowerOff")) {
+    phosh_shell_add_global_keyboard_action_entries (phosh_shell_get_default (),
+                                                    action_entries,
+                                                    G_N_ELEMENTS (action_entries),
+                                                    info);
+  } else {
+    /*
+     * FIXME: Don't allow binding of power keys so we can blank the screen
+     * See https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/issues/703
+     * We don't return an error as we want g-s-d to handle all the other keys
+     */
+    g_debug ("Skipping power key grab");
+  }
+
   g_assert (info->action_id > 0);
   return info->action_id;
 }
