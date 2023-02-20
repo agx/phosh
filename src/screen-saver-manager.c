@@ -105,6 +105,15 @@ on_lock_delay_timer_expired (gpointer data)
   return G_SOURCE_REMOVE;
 }
 
+
+static void
+unarm_lock_delay_timer (PhoshScreenSaverManager *self, const char *reason)
+{
+  g_debug ("Unarming lock delay timer on %s", reason);
+  g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
+}
+
+
 /* Activate or deactivate screen blank based on `active`. If `lock` is %TRUE locking
    is also enabled (honoring the configure delay */
 static void
@@ -119,7 +128,7 @@ screen_saver_set_active (PhoshScreenSaverManager *self, gboolean active, gboolea
   phosh_shell_enable_power_save (phosh_shell_get_default (), active);
 
   if (!active || !lock) {
-    g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
+    unarm_lock_delay_timer (self, "arm");
     return;
   }
 
@@ -129,7 +138,7 @@ screen_saver_set_active (PhoshScreenSaverManager *self, gboolean active, gboolea
 
   /* no delay, lock right away */
   if (self->lock_delay == 0) {
-    g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
+    unarm_lock_delay_timer (self, "arm");
     phosh_lockscreen_manager_set_locked (self->lockscreen_manager, TRUE);
     return;
   }
@@ -410,8 +419,7 @@ on_lockscreen_manager_locked_changed (PhoshScreenSaverManager *self)
   if (locked == TRUE)
     return;
 
-  g_debug ("Disabling lock delay timer on unlock");
-  g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
+  unarm_lock_delay_timer (self, "unlock");
 }
 
 
@@ -516,7 +524,7 @@ phosh_screen_saver_manager_dispose (GObject *object)
   g_cancellable_cancel (self->cancel);
   g_clear_object (&self->cancel);
 
-  g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
+  unarm_lock_delay_timer (self, "dispose");
   g_clear_handle_id (&self->idle_id, g_source_remove);
   g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
 
@@ -703,8 +711,7 @@ on_primary_monitor_power_mode_changed (PhoshScreenSaverManager *self,
   }
 
   if (self->active == FALSE) {
-    g_debug ("Disabling lock delay timer on power mode change");
-    g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
+    unarm_lock_delay_timer (self, "power mode change");
   }
 }
 
@@ -723,7 +730,7 @@ on_primary_monitor_changed (PhoshScreenSaverManager *self,
   g_set_object (&self->primary_monitor, phosh_shell_get_primary_monitor (shell));
 
   if (self->primary_monitor == NULL) {
-    g_clear_handle_id (&self->lock_delay_timer_id, g_source_remove);
+    unarm_lock_delay_timer (self, "primary monitor change");
     return;
   }
 
