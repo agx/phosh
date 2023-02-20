@@ -105,13 +105,15 @@ phosh_thumbnail_class_init (PhoshThumbnailClass *klass)
 
   klass->set_ready = phosh_thumbnail_set_ready;
 
+  /**
+   * PhoshThumbnail:ready:
+   *
+   * Whether the image data is ready to be used
+   */
   props[PROP_READY] =
-      g_param_spec_boolean ("ready",
-                            "ready",
-                            "Whether the image data is ready to be used",
-                            FALSE,
-                            G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY |
-                            G_PARAM_STATIC_STRINGS);
+    g_param_spec_boolean ("ready", "", "",
+                          FALSE,
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
