@@ -114,19 +114,9 @@ unarm_lock_delay_timer (PhoshScreenSaverManager *self, const char *reason)
 }
 
 
-/* Activate or deactivate screen blank based on `active`. If `lock` is %TRUE locking
-   is also enabled (honoring the configure delay */
 static void
-screen_saver_set_active (PhoshScreenSaverManager *self, gboolean active, gboolean lock)
+arm_lock_delay_timer (PhoshScreenSaverManager *self, gboolean active, gboolean lock)
 {
-  if (self->active == active)
-    return;
-
-  g_debug ("Activiting screen saver: %d, lock: %d, lock_delay: %d", active, lock,
-    self->lock_delay);
-
-  phosh_shell_enable_power_save (phosh_shell_get_default (), active);
-
   if (!active || !lock) {
     unarm_lock_delay_timer (self, "arm");
     return;
@@ -152,6 +142,26 @@ screen_saver_set_active (PhoshScreenSaverManager *self, gboolean active, gboolea
                                                      on_lock_delay_timer_expired,
                                                      self);
   g_source_set_name_by_id (self->lock_delay_timer_id, "[phosh] lock_delay_timer");
+}
+
+
+/* Activate or deactivate screen blank based on `active`. If `lock` is %TRUE locking
+   is also enabled (honoring the configured delay) */
+static void
+screen_saver_set_active (PhoshScreenSaverManager *self, gboolean active, gboolean lock)
+{
+  if (self->active == active)
+    return;
+
+  g_debug ("Activiting screen saver: %d, lock: %d, lock_delay: %d", active, lock,
+    self->lock_delay);
+
+  /* on_primary_monitor_power_mode_changed will update self->active once the power mode is set  */
+  phosh_shell_enable_power_save (phosh_shell_get_default (), active);
+
+  /* Don't wait for on_primary_monitor_power_mode_changed to activate the lock delay timer in
+     case that fails on the compositor side - we don't want to miss the screen lock */
+  arm_lock_delay_timer (self, active, lock);
 }
 
 
