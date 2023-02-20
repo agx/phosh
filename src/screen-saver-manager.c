@@ -720,7 +720,9 @@ on_primary_monitor_power_mode_changed (PhoshScreenSaverManager *self,
     notify_active_changed (self);
   }
 
-  if (self->active == FALSE) {
+  if (active) {
+    arm_lock_delay_timer (self, active, TRUE);
+  } else {
     unarm_lock_delay_timer (self, "power mode change");
   }
 }
