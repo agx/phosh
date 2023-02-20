@@ -28,7 +28,8 @@ typedef struct _PhoshBackgroundData {
 
 GtkWidget          *phosh_background_new              (gpointer                 layer_shell,
                                                        PhoshMonitor            *monitor,
-                                                       gboolean                 primary);
+                                                       gboolean                 primary,
+                                                       guint                    layer);
 void                phosh_background_set_primary      (PhoshBackground         *self,
                                                        gboolean                 primary);
 float               phosh_background_get_scale        (PhoshBackground         *self);
