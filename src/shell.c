@@ -53,6 +53,7 @@
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
 #include "mount-manager.h"
+#include "revealer.h"
 #include "settings.h"
 #include "system-modal-dialog.h"
 #include "network-auth-manager.h"
@@ -765,6 +766,7 @@ type_setup (void)
   g_type_ensure (PHOSH_TYPE_LOCATION_INFO);
   g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
   g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
+  g_type_ensure (PHOSH_TYPE_REVEALER);
   g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
   g_type_ensure (PHOSH_TYPE_SETTINGS);
   g_type_ensure (PHOSH_TYPE_SYSTEM_MODAL);

@@ -130,50 +130,92 @@
                   <object class="GtkBox" id="box_network">
                     <property name="visible">True</property>
                     <child>
-                      <object class="PhoshWWanInfo" id="wwaninfo">
-                        <property name="visible" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
-                        <property name="margin-start">0</property>
-                        <property name="margin-end">8</property>
-                        <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
-                        <property name="show_detail">True</property>
-                        <style>
-                          <class name="phosh-wwan-indicator"/>
-                        </style>
+                      <object class="PhoshRevealer">
+                        <property name="visible">True</property>
+                        <property name="show-child" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
+                        <property name="transition-duration">400</property>
+                        <property name="transition-type">crossfade</property>
+                        <child>
+                          <object class="PhoshWWanInfo" id="wwaninfo">
+                            <property name="margin-start">0</property>
+                            <property name="margin-end">8</property>
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="show_detail">True</property>
+                            <style>
+                              <class name="phosh-wwan-indicator"/>
+                            </style>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
-                      <object class="PhoshWifiInfo" id="wifiinfo">
-                        <property name="visible" bind-source="wifiinfo" bind-property="present" bind-flags="sync-create"/>
-                        <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
-                        <property name="margin-end">8</property>
+                      <object class="PhoshRevealer">
+                        <property name="visible">True</property>
+                        <property name="show-child" bind-source="wifiinfo" bind-property="present" bind-flags="sync-create"/>
+                        <property name="transition-duration">400</property>
+                        <property name="transition-type">crossfade</property>
+                        <child>
+                          <object class="PhoshWifiInfo" id="wifiinfo">
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="margin-end">8</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
-                      <object class="PhoshBtInfo" id="btinfo">
-                        <property name="visible" bind-source="btinfo" bind-property="present" bind-flags="sync-create"/>
-                        <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
-                        <property name="margin-end">8</property>
+                      <object class="PhoshRevealer">
+                        <property name="visible">True</property>
+                        <property name="show-child" bind-source="btinfo" bind-property="present" bind-flags="sync-create"/>
+                        <property name="transition-duration">400</property>
+                        <property name="transition-type">crossfade</property>
+                        <child>
+                          <object class="PhoshBtInfo" id="btinfo">
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="margin-end">8</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
-                      <object class="PhoshVpnInfo" id="vpn_info">
-                        <property name="visible" bind-source="vpn_info" bind-property="enabled" bind-flags="sync-create"/>
-                        <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
-                        <property name="margin-end">8</property>
+                      <object class="PhoshRevealer">
+                        <property name="visible">True</property>
+                        <property name="show-child" bind-source="vpn_info" bind-property="enabled" bind-flags="sync-create"/>
+                        <property name="transition-duration">400</property>
+                        <property name="transition-type">crossfade</property>
+                        <child>
+                          <object class="PhoshVpnInfo" id="vpn_info">
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="margin-end">8</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
-                      <object class="PhoshConnectivityInfo" id="connectivity_info">
-                        <property name="visible" bind-source="connectivity_info" bind-property="connectivity" bind-flags="invert-boolean|sync-create"/>
-                        <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
-                        <property name="margin-end">8</property>
+                      <object class="PhoshRevealer">
+                        <property name="visible">True</property>
+                        <property name="show-child" bind-source="connectivity_info" bind-property="connectivity" bind-flags="invert-boolean|sync-create"/>
+                        <property name="transition-duration">400</property>
+                        <property name="transition-type">crossfade</property>
+                        <child>
+                          <object class="PhoshConnectivityInfo" id="connectivity_info">
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="margin-end">8</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
-                      <object class="PhoshDockedInfo" id="docked_info">
-                        <property name="visible" bind-source="docked_info" bind-property="enabled" bind-flags="sync-create"/>
-                        <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
-                        <property name="margin-end">8</property>
+                      <object class="PhoshRevealer">
+                        <property name="visible">True</property>
+                        <property name="show-child" bind-source="docked_info" bind-property="enabled" bind-flags="sync-create"/>
+                        <property name="transition-duration">400</property>
+                        <property name="transition-type">crossfade</property>
+                        <child>
+                          <object class="PhoshDockedInfo" id="docked_info">
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="margin-end">8</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object> <!-- box_network -->
@@ -207,33 +249,61 @@
                       </object>
                     </child>
                     <child>
-                      <object class="PhoshHksInfo" id="hks_info_mic">
-                        <property name="device-type">mic</property>
-                        <property name="visible" bind-source="hks_info_mic" bind-property="blocked" bind-flags="sync-create"/>
-                        <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
-                        <property name="margin-end">8</property>
+                      <object class="PhoshRevealer">
+                        <property name="visible">True</property>
+                        <property name="show-child" bind-source="hks_info_mic" bind-property="blocked" bind-flags="sync-create"/>
+                        <property name="transition-duration">400</property>
+                        <property name="transition-type">crossfade</property>
+                        <child>
+                          <object class="PhoshHksInfo" id="hks_info_mic">
+                            <property name="device-type">mic</property>
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="margin-end">8</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
-                      <object class="PhoshHksInfo" id="hks_info_camera">
-                        <property name="device-type">camera</property>
-                        <property name="visible" bind-source="hks_info_camera" bind-property="blocked" bind-flags="sync-create"/>
-                        <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
-                        <property name="margin-end">8</property>
+                      <object class="PhoshRevealer">
+                        <property name="visible">True</property>
+                        <property name="show-child" bind-source="hks_info_camera" bind-property="blocked" bind-flags="sync-create"/>
+                        <property name="transition-duration">400</property>
+                        <property name="transition-type">crossfade</property>
+                        <child>
+                          <object class="PhoshHksInfo" id="hks_info_camera">
+                            <property name="device-type">camera</property>
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="margin-end">8</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
-                      <object class="PhoshFeedbackInfo" id="feedback_info">
-                        <property name="visible" bind-source="feedback_info" bind-property="muted" bind-flags="sync-create"/>
-                        <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
-                        <property name="margin-end">8</property>
+                      <object class="PhoshRevealer">
+                        <property name="visible">True</property>
+                        <property name="show-child" bind-source="feedback_info" bind-property="muted" bind-flags="sync-create"/>
+                        <property name="transition-duration">400</property>
+                        <property name="transition-type">crossfade</property>
+                        <child>
+                          <object class="PhoshFeedbackInfo" id="feedback_info">
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="margin-end">8</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
-                      <object class="PhoshLocationInfo" id="location_info">
-                        <property name="visible" bind-source="location_info" bind-property="active" bind-flags="sync-create"/>
-                        <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
-                        <property name="margin-end">8</property>
+                      <object class="PhoshRevealer">
+                        <property name="visible">True</property>
+                        <property name="show-child" bind-source="location_info" bind-property="active" bind-flags="sync-create"/>
+                        <property name="transition-duration">400</property>
+                        <property name="transition-type">crossfade</property>
+                        <child>
+                          <object class="PhoshLocationInfo" id="location_info">
+                            <property name="icon-size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+                            <property name="margin-end">8</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
