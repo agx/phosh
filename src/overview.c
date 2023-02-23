@@ -428,6 +428,10 @@ page_changed_cb (PhoshOverview *self,
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   g_return_if_fail (HDY_IS_CAROUSEL (carousel));
 
+  /* Carousel is empty */
+  if (((int)index < 0))
+    return;
+
   /* don't raise on scroll in docked mode */
   if (phosh_shell_get_docked (phosh_shell_get_default ()))
     return;
