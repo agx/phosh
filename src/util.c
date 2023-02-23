@@ -53,7 +53,7 @@ phosh_cp_widget_destroy (void *widget)
  * with X11 and non-GTK applications that may not report the exact same
  * string as their app-id and in their desktop file.
  *
- * Returns: (transfer full): GDesktopAppInfo for requested app_id
+ * Returns: (transfer full)(nullable): GDesktopAppInfo for requested app_id
  */
 GDesktopAppInfo *
 phosh_get_desktop_app_info_for_app_id (const char *app_id)
