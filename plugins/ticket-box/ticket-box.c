@@ -152,6 +152,7 @@ on_file_child_enumerated (GObject *source_object, GAsyncResult *res, gpointer us
   enumerator = g_file_enumerate_children_finish (dir, res, &err);
   if (enumerator == NULL) {
     g_warning ("Failed to list %s", g_file_get_basename (dir));
+    return;
   }
 
   self = PHOSH_TICKET_BOX (user_data);

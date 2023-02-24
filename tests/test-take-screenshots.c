@@ -203,6 +203,37 @@ run_plugin_prefs (void)
 }
 
 
+static int
+screenshot_plugin_prefs (GMainLoop                      *loop,
+                         const char                     *locale,
+                         int                             num,
+                         struct zwp_virtual_keyboard_v1 *keyboard,
+                         GTimer                         *timer)
+{
+  GPid pid;
+
+  pid = run_plugin_prefs();
+  /* Give app time to start and close overview */
+  wait_a_bit (loop, 2);
+  phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_T, NULL);
+  phosh_test_keyboard_release_modifiers (keyboard);
+  wait_a_bit (loop, 1);
+  take_screenshot (locale, num++, "plugin-prefs-ticket-box");
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
+  wait_a_bit (loop, 1);
+  phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_E, NULL);
+  phosh_test_keyboard_release_modifiers (keyboard);
+  wait_a_bit (loop, 1);
+  take_screenshot (locale, num++, "plugin-prefs-emergncy-info");
+  g_assert_no_errno (kill (pid, SIGTERM));
+  g_spawn_close_pid (pid);
+
+  return num;
+}
+
+
 static void
 on_end_session_dialog_open_finish (GObject      *source_object,
                                    GAsyncResult *res,
@@ -456,19 +487,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   kill (pid, SIGTERM);
   g_spawn_close_pid (pid);
 
-  pid = run_plugin_prefs();
-  /* Give app time to start and close overview */
-  wait_a_bit (loop, 2);
-  phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
-  phosh_test_keyboard_press_keys (keyboard, timer, KEY_T, NULL);
-  phosh_test_keyboard_release_modifiers (keyboard);
-  wait_a_bit (loop, 1);
-  take_screenshot (locale, i++, "plugin-prefs-ticket-box");
-  phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
-  wait_a_bit (loop, 1);
-  take_screenshot (locale, i++, "plugin-prefs");
-  g_assert_no_errno (kill (pid, SIGTERM));
-  g_spawn_close_pid (pid);
+  i = screenshot_plugin_prefs (loop, locale, i, keyboard, timer);
 
   show_run_command_dialog (loop, keyboard, timer, TRUE);
   take_screenshot (locale, i++, "run-command");
