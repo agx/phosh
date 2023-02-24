@@ -13,15 +13,15 @@
 /**
  * PhoshThumbnail:
  *
- * An abstract class representing thumbnail image.
+ * An abstract class representing a thumbnail image.
  */
 
 enum {
-  PHOSH_THUMBNAIL_PROP_0,
-  PHOSH_THUMBNAIL_PROP_READY,
-  PHOSH_THUMBNAIL_PROP_LAST_PROP,
+  PROP_0,
+  PROP_READY,
+  PROP_LAST_PROP,
 };
-static GParamSpec *props[PHOSH_THUMBNAIL_PROP_LAST_PROP];
+static GParamSpec *props[PROP_LAST_PROP];
 
 G_DEFINE_TYPE (PhoshThumbnail, phosh_thumbnail, G_TYPE_OBJECT);
 
@@ -29,7 +29,7 @@ G_DEFINE_TYPE (PhoshThumbnail, phosh_thumbnail, G_TYPE_OBJECT);
 static void
 phosh_thumbnail_set_ready (PhoshThumbnail *self, gboolean ready)
 {
-  g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_THUMBNAIL_PROP_READY]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_READY]);
 }
 
 static void
@@ -42,7 +42,7 @@ phosh_thumbnail_set_property (GObject *object,
   PhoshThumbnailClass *klass = PHOSH_THUMBNAIL_GET_CLASS (self);
 
   switch (property_id) {
-    case PHOSH_THUMBNAIL_PROP_READY:
+    case PROP_READY:
       klass->set_ready (self, g_value_get_boolean (value));
       break;
     default:
@@ -61,7 +61,7 @@ phosh_thumbnail_get_property (GObject *object,
   PhoshThumbnail *self = PHOSH_THUMBNAIL (object);
 
   switch (property_id) {
-    case PHOSH_THUMBNAIL_PROP_READY:
+    case PROP_READY:
       g_value_set_boolean (value, phosh_thumbnail_is_ready (self));
       break;
     default:
@@ -105,15 +105,17 @@ phosh_thumbnail_class_init (PhoshThumbnailClass *klass)
 
   klass->set_ready = phosh_thumbnail_set_ready;
 
-  props[PHOSH_THUMBNAIL_PROP_READY] =
-      g_param_spec_boolean ("ready",
-                            "ready",
-                            "Whether the image data is ready to be used",
-                            FALSE,
-                            G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY |
-                            G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshThumbnail:ready:
+   *
+   * Whether the image data is ready to be used
+   */
+  props[PROP_READY] =
+    g_param_spec_boolean ("ready", "", "",
+                          FALSE,
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
-  g_object_class_install_properties (object_class, PHOSH_THUMBNAIL_PROP_LAST_PROP, props);
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
 

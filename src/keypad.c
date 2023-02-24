@@ -84,7 +84,6 @@ on_button_clicked (PhoshKeypad *self,
   g_return_if_fail (!STR_IS_NULL_OR_EMPTY (text));
 
   symbol_clicked (self, text[0]);
-  g_debug ("Button with number %c was pressed", text[0]);
 }
 
 
