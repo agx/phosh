@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-01-25 21:44+0000\n"
-"PO-Revision-Date: 2023-01-28 13:14+0530\n"
+"POT-Creation-Date: 2023-02-16 09:58+0000\n"
+"PO-Revision-Date: 2023-02-16 23:05+0530\n"
 "Last-Translator: Hemish <hemish04082005@gmail.com>\n"
 "Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net https://indlinux."
 "org/hindi>\n"
@@ -221,7 +221,7 @@ msgstr "वाईफाई नेटवर्क “%s” के लिए प�
 msgid "Open"
 msgstr "खोलें"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
 msgid "Notification"
 msgstr "अधिसूचना"
 
@@ -371,6 +371,7 @@ msgid "Remember decision"
 msgstr "निर्णय याद रखें"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 msgid "Cancel"
 msgstr "रद्द"
 
@@ -435,7 +436,7 @@ msgid "Authentication required"
 msgstr "सत्यापन आवश्यक"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:84
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "_Cancel"
 msgstr "रद्द (_C)"
 
@@ -473,7 +474,7 @@ msgstr "लॉग आउट"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:319
+#: src/util.c:338
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -500,42 +501,52 @@ msgid "Cellular"
 msgstr "सेलुलर"
 
 #: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
 msgid "Personal Information"
 msgstr "व्यक्तिगत जानकारी"
 
 #: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
 msgid "Date of Birth"
 msgstr "जन्म तिथि"
 
 #: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Preferred Language"
 msgstr "मुख्य भाषा"
 
 #: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
 msgid "Home Address"
 msgstr "घर का पता"
 
 #: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Medical Information"
 msgstr "चिकित्सा जानकारी"
 
 #: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
 msgid "Age"
 msgstr "उम्र"
 
 #: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
 msgid "Blood Type"
 msgstr "रक्त प्रकार"
 
 #: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
 msgid "Height"
 msgstr "कद"
 
 #: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
 msgid "Weight"
 msgstr "वज़न"
 
 #: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
 msgid "Allergies"
 msgstr "एलर्जी"
 
@@ -544,12 +555,51 @@ msgid "Medications & Conditions"
 msgstr "दवाइयाँ व स्थि‍तियाँ"
 
 #: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
 msgid "Other Information"
 msgstr "अन्य जानकारी"
 
 #: plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
 msgid "Emergency Contacts"
 msgstr "आपातकालीन संपर्क"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "आपातकालीन जानकारी सेटिंग्स"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "सम्पन्न"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "मालिक का नाम"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "दवाइयाँ व स्थि‍तियाँ"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "संपर्क जोड़ें"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "नए संपर्क को जोड़े"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+msgid "New Contact Name"
+msgstr "नए संपर्क का नाम"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+msgid "Relationship"
+msgstr "भूस्थितिसंबंध"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+msgid "Number"
+msgstr "नंबर"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -559,11 +609,11 @@ msgstr "दिखाने के लिए कोई दस्तावेज�
 msgid "Tickets"
 msgstr "टिकटें"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:81
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:83
 msgid "Choose Folder"
 msgstr "फोल्डर चुनें"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:85
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
 msgid "_Open"
 msgstr "खोलें (_O)"
 
