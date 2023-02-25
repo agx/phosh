@@ -452,13 +452,27 @@ phosh_util_escape_markup (const char *markup, gboolean allow_markup)
   return g_markup_escape_text (markup, -1);
 }
 
-
+/**
+ * phosh_util_gesture_is_touch:
+ * @gesture: The gesture
+ *
+ * Allow to check whether a gesture's last event was a touch press or
+ * release.  This can be used to distinguish mouse and touchpad clicks
+ * from touch press/release.
+ *
+ * Returns: %TRUE if this is a touch press or release event, otherwise %FALSE
+ */
 gboolean
 phosh_util_gesture_is_touch (GtkGestureSingle *gesture)
 {
   GdkEventSequence *seq;
   const GdkEvent *event;
   GdkDevice *device;
+
+#define PHOSH_BUTTON_MASK (GDK_BUTTON_PRESS  |   \
+                           GDK_2BUTTON_PRESS |   \
+                           GDK_3BUTTON_PRESS |   \
+                           GDK_BUTTON_RELEASE)
 
   g_return_val_if_fail (GTK_IS_GESTURE_SINGLE (gesture), FALSE);
 
@@ -468,7 +482,7 @@ phosh_util_gesture_is_touch (GtkGestureSingle *gesture)
   if (event == NULL)
     return FALSE;
 
-  if (event->type != GDK_BUTTON_PRESS && event->type != GDK_BUTTON_RELEASE)
+  if ((event->type & PHOSH_BUTTON_MASK) == 0)
     return FALSE;
 
   device = gdk_event_get_source_device (event);
@@ -480,8 +494,9 @@ phosh_util_gesture_is_touch (GtkGestureSingle *gesture)
     return FALSE;
 
   return TRUE;
-}
 
+#undef PHOSH_BUTTON_MASK
+}
 
 /**
  * phosh_util_have_gnome_software:
