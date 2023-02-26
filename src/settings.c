@@ -160,6 +160,15 @@ calc_drag_handle_offset (PhoshSettings *self)
 }
 
 
+static void
+on_size_allocate (PhoshSettings *self)
+{
+  calc_drag_handle_offset (self);
+
+  return;
+}
+
+
 static gboolean
 delayed_update_drag_handle_offset (gpointer data)
 {
@@ -880,6 +889,8 @@ static void
 phosh_settings_init (PhoshSettings *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  g_signal_connect (self, "size-allocate", G_CALLBACK (on_size_allocate), NULL);
 }
 
 
