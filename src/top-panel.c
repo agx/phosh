@@ -133,18 +133,20 @@ phosh_top_panel_get_property (GObject *object,
 static void
 update_drag_handle (PhoshTopPanel *self, gboolean commit)
 {
-  gboolean success;
-  gint handle;
+  int handle, offset;
 
-  success = gtk_widget_translate_coordinates (GTK_WIDGET (self->settings),
-                                              GTK_WIDGET (self),
-                                              0, 0, NULL, &handle);
-  if (!success)
-    return;
+  /* By default only the bottom bar handle is draggable */
+  handle = phosh_layer_surface_get_configured_height (PHOSH_LAYER_SURFACE (self));
+  handle -= PHOSH_TOP_PANEL_HEIGHT;
 
-  handle += phosh_settings_get_drag_handle_offset (PHOSH_SETTINGS (self->settings));
+  /* Settings might enlarge the draggable area */
+  offset = phosh_settings_get_drag_handle_offset (PHOSH_SETTINGS (self->settings));
+  handle -= offset;
 
   g_debug ("Drag Handle: %d", handle);
+  if (handle < 0)
+    return;
+
   phosh_drag_surface_set_drag_mode (PHOSH_DRAG_SURFACE (self),
                                     PHOSH_DRAG_SURFACE_DRAG_MODE_HANDLE);
   phosh_drag_surface_set_drag_handle (PHOSH_DRAG_SURFACE (self), handle);

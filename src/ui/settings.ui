@@ -11,7 +11,7 @@
         <property name="visible">True</property>
         <property name="maximum_size">720</property>
         <child>
-          <object class="GtkScrolledWindow">
+          <object class="GtkScrolledWindow" id="scrolled_window">
             <property name="visible">True</property>
             <property name="vscrollbar-policy">automatic</property>
             <property name="hscrollbar-policy">never</property>
