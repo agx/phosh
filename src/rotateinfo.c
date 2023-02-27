@@ -25,6 +25,7 @@
 
 enum {
   PROP_0,
+  PROP_ENABLED,
   PROP_PRESENT,
   PROP_LAST_PROP
 };
@@ -35,10 +36,30 @@ typedef struct _PhoshRotateInfo {
 
   PhoshRotationManager *manager;
   gboolean              present;
+  gboolean              enabled;
 } PhoshRotateInfo;
 
 
 G_DEFINE_TYPE (PhoshRotateInfo, phosh_rotate_info, PHOSH_TYPE_STATUS_ICON)
+
+
+static void
+phosh_rotation_info_check_enabled (PhoshRotateInfo *self)
+{
+  gboolean enabled = FALSE;
+
+  if ((phosh_rotation_manager_get_mode (self->manager) == PHOSH_ROTATION_MANAGER_MODE_SENSOR) &&
+      phosh_rotation_manager_get_orientation_locked (self->manager) == FALSE) {
+    enabled = TRUE;
+  }
+
+  if (self->enabled == enabled)
+    return;
+
+  self->enabled = enabled;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
+}
+
 
 static void
 on_transform_changed (PhoshRotateInfo *self)
@@ -103,6 +124,8 @@ on_orientation_lock_changed (PhoshRotateInfo *self)
   phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), locked ?
                               C_("automatic-screen-rotation-disabled", "Off") :
                               C_("automatic-screen-rotation-enabled", "On"));
+  phosh_rotation_info_check_enabled (self);
+
   return;
 }
 
@@ -125,6 +148,7 @@ on_mode_or_monitor_changed (PhoshRotateInfo *self)
     g_assert_not_reached ();
   }
 
+  phosh_rotation_info_check_enabled (self);
   if (self->present == present)
     return;
 
@@ -147,6 +171,9 @@ phosh_rotate_info_get_property (GObject    *object,
   case PROP_PRESENT:
     g_value_set_boolean (value, self->present);
     break;
+  case PROP_ENABLED:
+    g_value_set_boolean (value, self->enabled);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -164,10 +191,25 @@ phosh_rotate_info_class_init (PhoshRotateInfoClass *klass)
 
   gtk_widget_class_set_css_name (widget_class, "phosh-rotate-info");
 
+  /**
+   * PhoshRotateInfo:present:
+   *
+   * Whether a builtin display to rotate is present
+   */
   props[PROP_PRESENT] =
-    g_param_spec_boolean ("present",
-                          "Present",
-                          "Whether a builtin display to rotate is present",
+    g_param_spec_boolean ("present", "", "",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS |
+                          G_PARAM_EXPLICIT_NOTIFY);
+
+  /**
+   * PhoshRotateInfo:enabled:
+   *
+   * Whether automatic rotation is enabled
+   */
+  props[PROP_ENABLED] =
+    g_param_spec_boolean ("enabled", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_STATIC_STRINGS |

@@ -29,6 +29,7 @@ enum {
   PROP_0,
   PROP_SHOW_DETAIL,
   PROP_PRESENT,
+  PROP_ENABLED,
   PROP_LAST_PROP,
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -40,6 +41,7 @@ struct _PhoshWWanInfo
 
   PhoshWWan *wwan;
   gboolean present;
+  gboolean enabled;
   gboolean show_detail;
 };
 
@@ -78,6 +80,9 @@ phosh_wwan_info_get_property (GObject *object,
     break;
   case PROP_PRESENT:
     g_value_set_boolean (value, self->present);
+    break;
+  case PROP_ENABLED:
+    g_value_set_boolean (value, self->enabled);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -158,6 +163,11 @@ update_icon_data(PhoshWWanInfo *self, GParamSpec *psepc, PhoshWWan *wwan)
       icon_name = "auth-sim-locked-symbolic";
   } else if (!enabled) {
     icon_name = "network-cellular-disabled-symbolic";
+  }
+
+  if (self->enabled != enabled) {
+    self->enabled = enabled;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
   }
 
   if (icon_name) {
@@ -276,21 +286,34 @@ phosh_wwan_info_class_init (PhoshWWanInfoClass *klass)
 
   status_icon_class->idle_init = phosh_wwan_info_idle_init;
 
+  /**
+   * PhoshWWanInfo:show-details:
+   *
+   * Whether to show detailed information
+   */
   props[PROP_SHOW_DETAIL] =
-    g_param_spec_boolean (
-      "show-detail",
-      "Show detail",
-      "Show wwan details",
-      FALSE,
-      G_PARAM_CONSTRUCT | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
-
+    g_param_spec_boolean ("show-detail", "", "",
+                          FALSE,
+                          G_PARAM_CONSTRUCT | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshWWanInfo:present:
+   *
+   * Whether WWAN hardware is present
+   */
   props[PROP_PRESENT] =
-    g_param_spec_boolean (
-      "present",
-      "Present",
-      "Whether WWAN hardware is present",
-      FALSE,
-      G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+    g_param_spec_boolean ("present", "", "",
+                          FALSE,
+                          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+  /**
+   * PhoshWWanInfo:enabled:
+   *
+   * Whether WWAN hardware is enabled
+   */
+  props[PROP_ENABLED] =
+    g_param_spec_boolean ("enabled", "", "",
+                          FALSE,
+                          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
