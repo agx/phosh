@@ -7,16 +7,16 @@
     <property name="can_focus">False</property>
     <signal name="notify::on-lockscreen" handler="update_drag_handle_offset"/>
     <child>
-      <object class="HdyClamp">
+      <object class="GtkScrolledWindow" id="scrolled_window">
         <property name="visible">True</property>
-        <property name="maximum_size">720</property>
+        <property name="vscrollbar-policy">automatic</property>
+        <property name="hscrollbar-policy">never</property>
+        <property name="propagate-natural-height">True</property>
+        <property name="min-content-height">150</property>
         <child>
-          <object class="GtkScrolledWindow" id="scrolled_window">
+          <object class="HdyClamp">
             <property name="visible">True</property>
-            <property name="vscrollbar-policy">automatic</property>
-            <property name="hscrollbar-policy">never</property>
-            <property name="propagate-natural-height">True</property>
-            <property name="min-content-height">150</property>
+            <property name="maximum_size">720</property>
             <child>
               <object class="GtkBox" id="box_settings">
                 <property name="visible">True</property>
