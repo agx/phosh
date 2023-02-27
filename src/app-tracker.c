@@ -656,7 +656,7 @@ phosh_app_tracker_launch_app_info (PhoshAppTracker *self, GAppInfo *info)
     PhoshToplevel *toplevel = phosh_toplevel_manager_get_toplevel (toplevel_manager, i);
     const char *window_id = phosh_toplevel_get_app_id (toplevel);
     g_autoptr (GDesktopAppInfo) toplevel_app_info = phosh_get_desktop_app_info_for_app_id (window_id);
-    if (g_app_info_equal (G_APP_INFO (toplevel_app_info), G_APP_INFO (info))) {
+    if (toplevel_app_info && g_app_info_equal (G_APP_INFO (toplevel_app_info), G_APP_INFO (info))) {
       /* activate the first matching window for now, since we don't have toplevels sorted by last-focus yet */
       phosh_toplevel_activate (toplevel, phosh_wayland_get_wl_seat (phosh_wayland_get_default ()));
       g_signal_emit (self, signals[APP_ACTIVATED], 0, info);
