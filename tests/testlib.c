@@ -192,7 +192,7 @@ phosh_test_compositor_new (gboolean heads_stub)
   gint id;
   g_auto(GStrv) env = NULL;
 
-  comp = g_getenv ("PHOSH_PHOC_BINARY");
+  comp = g_getenv ("PHOSH_TEST_PHOC_BINARY");
   if (!comp) {
     flags |= G_SPAWN_SEARCH_PATH;
     comp = "phoc";
