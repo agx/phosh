@@ -207,7 +207,7 @@ if run_phoc_tests
   hc_env = test_env_phoc
   hc_env.set('LANGUAGE', 'C')
   hc_env.set('PHOSH_TEST_TYPE', 'high-contrast')
-  hc_env.set('XDG_CONFIG_HOME', '@0@/user/config-@1@/'.format(meson.current_source_dir(), what))
+  hc_env.set('XDG_CONFIG_HOME', '@0@/user/config-@1@/'.format(meson.current_build_dir(), what))
   hc_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
   hc_env.set('GSETTINGS_BACKEND', 'keyfile')
   test('screenshots-@0@'.format(what), t,
