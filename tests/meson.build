@@ -196,6 +196,7 @@ if run_phoc_tests
     lang_env = test_env_phoc
     lang_env.set('LANGUAGE', lang)
     lang_env.set('LC_ALL', lang)
+    lang_env.set('PHOSH_TEST_TYPE', lang)
     lang_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
     test('screenshots-@0@'.format(lang), t,
        env: lang_env,

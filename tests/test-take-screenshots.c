@@ -25,7 +25,7 @@
 
 
 static void
-take_screenshot (const char *lang, int num, const char *what)
+take_screenshot (const char *what, int num, const char *where)
 {
   g_autoptr (GError) err = NULL;
   PhoshDBusScreenshot *proxy = NULL;
@@ -39,8 +39,8 @@ take_screenshot (const char *lang, int num, const char *what)
    * so help it along */
   bindtextdomain ("call-ui", TEST_INSTALLED LOCALEDIR);
 
-  dirname = g_build_filename (TEST_OUTPUT_DIR, "screenshots", lang, NULL);
-  filename = g_strdup_printf ("screenshot-%.2d-%s.png", num, what);
+  dirname = g_build_filename (TEST_OUTPUT_DIR, "screenshots", what, NULL);
+  filename = g_strdup_printf ("screenshot-%.2d-%s.png", num, where);
   path = g_build_filename (dirname, filename, NULL);
   g_assert_cmpint (g_mkdir_with_parents (dirname, 0755), ==, 0);
   if (g_file_test (path, G_FILE_TEST_EXISTS))
@@ -205,7 +205,7 @@ run_plugin_prefs (void)
 
 static int
 screenshot_plugin_prefs (GMainLoop                      *loop,
-                         const char                     *locale,
+                         const char                     *what,
                          int                             num,
                          struct zwp_virtual_keyboard_v1 *keyboard,
                          GTimer                         *timer)
@@ -219,14 +219,14 @@ screenshot_plugin_prefs (GMainLoop                      *loop,
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_T, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
   wait_a_bit (loop, 1);
-  take_screenshot (locale, num++, "plugin-prefs-ticket-box");
+  take_screenshot (what, num++, "plugin-prefs-ticket-box");
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
   wait_a_bit (loop, 1);
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_E, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
   wait_a_bit (loop, 1);
-  take_screenshot (locale, num++, "plugin-prefs-emergncy-info");
+  take_screenshot (what, num++, "plugin-prefs-emergncy-info");
   g_assert_no_errno (kill (pid, SIGTERM));
   g_spawn_close_pid (pid);
 
@@ -256,7 +256,7 @@ on_end_session_dialog_open_finish (GObject      *source_object,
 
 static int
 screenshot_end_session_dialog (GMainLoop                       *loop,
-                               const char                      *locale,
+                               const char                      *what,
                                int                              num,
                                struct zwp_virtual_keyboard_v1  *keyboard,
                                GTimer                          *timer)
@@ -283,7 +283,7 @@ screenshot_end_session_dialog (GMainLoop                       *loop,
                                            on_end_session_dialog_open_finish,
                                            NULL);
   wait_a_bit (loop, 1);
-  take_screenshot (locale, num++, "end-session-dialog");
+  take_screenshot (what, num++, "end-session-dialog");
 
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
   wait_a_bit (loop, 1);
@@ -293,7 +293,7 @@ screenshot_end_session_dialog (GMainLoop                       *loop,
 
 
 static int
-screenshot_osd (GMainLoop *loop, const char *locale, int num)
+screenshot_osd (GMainLoop *loop, const char *what, int num)
 {
   g_autoptr (PhoshDBusGnomeShell) proxy = NULL;
   g_autoptr (GError) err = NULL;
@@ -321,7 +321,7 @@ screenshot_osd (GMainLoop *loop, const char *locale, int num)
                                         on_osd_finish,
                                         NULL);
   g_assert_no_error (err);
-  take_screenshot (locale, num++, "osd");
+  take_screenshot (what, num++, "osd");
 
   return num;
 }
@@ -329,7 +329,7 @@ screenshot_osd (GMainLoop *loop, const char *locale, int num)
 
 static int
 screenshot_portal_access (GMainLoop                      *loop,
-                          const char                     *locale,
+                          const char                     *what,
                           int                             num,
                           struct zwp_virtual_keyboard_v1 *keyboard,
                           GTimer                         *timer)
@@ -360,7 +360,7 @@ screenshot_portal_access (GMainLoop                      *loop,
     on_portal_access_dialog,
     (gpointer)&success);
   wait_a_bit (loop, 1);
-  take_screenshot (locale, num++, "portal-access");
+  take_screenshot (what, num++, "portal-access");
   /* Close dialog */
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ENTER, NULL);
   wait_a_bit (loop, 1);
@@ -398,7 +398,7 @@ on_ask_question_finish (GObject      *source_object,
 
 static int
 screenshot_mount_prompt (GMainLoop                       *loop,
-                         const char                      *locale,
+                         const char                      *what,
                          int                              num,
                          struct zwp_virtual_keyboard_v1  *keyboard,
                          GTimer                          *timer)
@@ -428,7 +428,7 @@ screenshot_mount_prompt (GMainLoop                       *loop,
     NULL);
 
   wait_a_bit (loop, 1);
-  take_screenshot (locale, num++, "mount-prompt");
+  take_screenshot (what, num++, "mount-prompt");
 
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ENTER, NULL);
   wait_a_bit (loop, 1);
@@ -441,7 +441,7 @@ static void
 test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 {
   struct zwp_virtual_keyboard_v1 *keyboard;
-  const char *locale = g_getenv ("LANGUAGE");
+  const char *what = g_getenv ("PHOSH_TEST_TYPE");
   g_autoptr (GTimer) timer = g_timer_new ();
   g_autoptr (GMainContext) context = g_main_context_new ();
   g_autoptr (GMainLoop) loop = NULL;
@@ -453,7 +453,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   GPid pid;
   int i = 1;
 
-  g_assert_nonnull (locale);
+  g_assert_nonnull (what);
   /* Wait until compositor and shell are up */
   g_assert_nonnull (g_async_queue_timeout_pop (fixture->queue, POP_TIMEOUT));
 
@@ -463,7 +463,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
 
   /* Give overview animation time to finish */
   wait_a_bit (loop, 1);
-  take_screenshot (locale, i++, "overview-empty");
+  take_screenshot (what, i++, "overview-empty");
 
   keyboard = phosh_test_keyboard_new (phosh_wayland_get_default ());
 
@@ -473,34 +473,34 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_M, KEY_E, KEY_D, NULL);
   /* Give search time to finish */
   wait_a_bit (loop, 1);
-  take_screenshot (locale, i++, "search");
+  take_screenshot (what, i++, "search");
 
   g_spawn_async (NULL, (char**) argv, NULL, G_SPAWN_DEFAULT, NULL, NULL, &pid, &err);
   g_assert_no_error (err);
   g_assert_true (pid);
   /* Give app time to start and close overview */
   wait_a_bit (loop, 1);
-  take_screenshot (locale, i++, "running-app");
+  take_screenshot (what, i++, "running-app");
 
   toggle_overview (loop, keyboard, timer);
-  take_screenshot (locale, i++, "overview-app");
+  take_screenshot (what, i++, "overview-app");
   kill (pid, SIGTERM);
   g_spawn_close_pid (pid);
 
-  i = screenshot_plugin_prefs (loop, locale, i, keyboard, timer);
+  i = screenshot_plugin_prefs (loop, what, i, keyboard, timer);
 
   show_run_command_dialog (loop, keyboard, timer, TRUE);
-  take_screenshot (locale, i++, "run-command");
+  take_screenshot (what, i++, "run-command");
   show_run_command_dialog (loop, keyboard, timer, FALSE);
 
   toggle_settings (loop, keyboard, timer);
-  take_screenshot (locale, i++, "settings");
+  take_screenshot (what, i++, "settings");
   toggle_settings (loop, keyboard, timer);
 
-  i = screenshot_osd (loop, locale, i);
-  i = screenshot_portal_access (loop, locale, i, keyboard, timer);
-  i = screenshot_end_session_dialog (loop, locale, i, keyboard, timer);
-  i = screenshot_mount_prompt (loop, locale, i, keyboard, timer);
+  i = screenshot_osd (loop, what, i);
+  i = screenshot_portal_access (loop, what, i, keyboard, timer);
+  i = screenshot_end_session_dialog (loop, what, i, keyboard, timer);
+  i = screenshot_mount_prompt (loop, what, i, keyboard, timer);
 
   ss_proxy = phosh_dbus_screen_saver_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                              G_DBUS_PROXY_FLAGS_NONE,
@@ -512,21 +512,21 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   phosh_dbus_screen_saver_call_lock_sync (ss_proxy, NULL, &err);
   g_assert_no_error (err);
   wait_a_bit (loop, 1);
-  take_screenshot (locale, i++, "lockscreen-status");
+  take_screenshot (what, i++, "lockscreen-status");
 
   mpris_mock = phosh_test_mpris_mock_new ();
   phosh_mpris_mock_export (mpris_mock);
   wait_a_bit (loop, 1);
-  take_screenshot (locale, i++, "lockscreen-media-player");
+  take_screenshot (what, i++, "lockscreen-media-player");
 
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_SPACE, NULL);
   wait_a_bit (loop, 1);
-  take_screenshot (locale, i++, "lockscreen-keypad");
+  take_screenshot (what, i++, "lockscreen-keypad");
 
   calls_mock = phosh_test_calls_mock_new ();
   phosh_calls_mock_export (calls_mock);
   wait_a_bit (loop, 1);
-  take_screenshot (locale, i++, "lockscreen-call");
+  take_screenshot (what, i++, "lockscreen-call");
 
   zwp_virtual_keyboard_v1_destroy (keyboard);
 }
@@ -546,7 +546,7 @@ main (int argc, char *argv[])
   /* Preserve DISPLAY for wlroots x11 backend */
   cfg = phosh_test_full_shell_fixture_cfg_new (g_getenv ("DISPLAY"), "phosh-keyboard-events,phosh-media-player");
 
-  g_test_add ("/phosh/tests/locale-screenshots", PhoshTestFullShellFixture, cfg,
+  g_test_add ("/phosh/tests/take-screenshots", PhoshTestFullShellFixture, cfg,
               phosh_test_full_shell_setup, test_take_screenshots, phosh_test_full_shell_teardown);
 
   return g_test_run ();
