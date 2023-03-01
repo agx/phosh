@@ -173,7 +173,7 @@ lock_primary_monitor (PhoshLockscreenManager *self)
   PhoshShell *shell = phosh_shell_get_default ();
 
   primary_monitor = phosh_shell_get_primary_monitor (shell);
-  g_assert (primary_monitor);
+  g_assert (PHOSH_IS_MONITOR (primary_monitor));
 
   /* The primary output gets the clock, keypad, ... */
   self->lockscreen = PHOSH_LOCKSCREEN (phosh_lockscreen_new (
