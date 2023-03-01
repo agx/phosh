@@ -1,3 +1,188 @@
+phosh (0.25.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * build: Use gnome post-install when available.
+    As this is only for dev builds we can assume recent meson so drop
+    the hand crafted build-aux.
+  * meson: Use version_compare.
+    Easier to read
+  * build: Drop phosh-config.h.in.
+    This avoids this file getting out of sync with the variables set by
+    meson.
+  * util: Use memfd for shared memory on Linux.
+    This avoids makes shm handling simpler as the compositor doesn't have to
+    worry about the SIGBUS handler.
+    I got reminded of this by https://lwn.net/Articles/918106/
+  * ticket-box: Drop superfluous '-prefs' in log domain
+  * build: Add a shared header for prefs plugins.
+    This is used to pass data for i18n so that we don't have to do it for
+    every plugin.
+  * ticket-box: Setup text domain.
+    We use phosh text domain but treat things as a library so
+    it can work in e.g. phosh-mobile-settings.
+  * tools/plugin-prefs-standalone: Fix locale dir in test mode.
+    The plugins don't know that we're using a prefix for the installed data
+    in case we're running the tests so fix that up again after the plugin is
+    loaded (which invokes bindtextdomain() with the unprefixed path).
+  * postinst: Trigger update notification
+  * util: Wrap g_clear_fd.
+    This allows us to use it on older glib too.
+  * screen-saver-manager: Separate locking from blanking.
+    Honor org.gnome.desktop.screen-saver lock-enabled so we don't lock the
+    screen if that is disabled and handle lock-delay to not lock
+    immediately.
+    For that we mark screensaver as active/inactive based on the power mode
+    of the primary monitor. We don't use the built-in monitor since that can
+    be disabled in multi-screen setups but the primary is the last one to go
+    off.
+  * screen-saver-manager: Document what affects blanking and locking
+  * screen-saver-manager: Handle power button.
+    This moves it out of the compositor allowing us to distinguish lock
+    from blank
+  * gnome-shell-manager: Don't allow to bind power key.
+    This allows us to do the "blank screen" handling until we fixed gsd#703.
+  * shell: Track blanked state via primary monitor.
+    If that is blanked all other outputs should be blanked too
+  * screen-saver-manager: Unset idle source close to return.
+    The return value indicates we want to remove the source so reset
+    the idle_id close to that.
+  * screen-saver-manager: Inhibit logind actions on power button press.
+    We want to handle this ourselves. This will hopefully move to g-s-d (see
+    gsd#703) once there's consensus.
+  * screen-saver-manager: Disable lock delay timer on unlock
+  * screen-saver-manager: Disable lock delay timer when screen becomes active
+    again
+  * Add a revealer.
+    Similar to Gtk's revealer but toggles the transition based on the
+    `present` property which also triggers it's own visibilty so we don't
+    use up any size when the child is hidden.
+  * top-panel: Use PhoshRevealer for the top bar status icons
+  * plugins/ticket-box: Exit early if we fail to list the tickets
+  * plugins/emergency-info-prefs: Setup text domain.
+    We use phosh text domain but treat things as a library so
+    it can work in e.g. phosh-mobile-settings.
+  * plugins/emergency-info-prefs: Use AdwWindowTitle.
+    Uses the correct style and ellipsizes automatically.
+  * plugins/emergency-info-prefs: Use a larger default size.
+    A larger window avoids scrolling and makes things less fiddly to type.
+  * tests: Screenshot emergency plugin prefs too
+  * keypad: Drop overly eager debug message.
+    Just to be on the safe side in case someone has too much
+    logging enabled.
+  * thumbnail: Shorten property enum names.
+    See HACKING.md
+  * thumbnail: Move property doc to doc string.
+    We have it documented, make it show up in the docs
+  * notify-feedback: Handle locked as blanked.
+    When the screen is locked and something lights it up (or the user is
+    using a plugin) we want to make sure there's some feedback that a new
+    event arrived so handle lock as blanked for now.
+    We'll revisit this when continuing the notification feedback cleanup.
+  * screen-saver-manager: Split out unarming the lock delay timer.
+    Move it to a separate function makes things more descriptive
+    and logging consistent. We'll also get a function for arming
+    the timer in the next commits.
+  * screen-saver-manager: Split arming the lock delay timer into separate
+    function.  There are cases where we only want to activate the timer since
+    the screen is already blanked (e.g. when the compositor initiated the screen
+    blank).
+  * screen-saver-manager: Make sure lock timer is enabled on power mode changes.
+    The compositor can initiate power save. Make sure screen locking is
+    enabled in this case too.
+    This can happen via 3rd party tools but also when g-s-d sets the
+    PowerSaveMode DBus property on phosh's DisplayConfig dbus interface - we
+    could handle this by letting the PhoshScreenSaverManager listen to
+    power-save-mode changes on PhoshDisplayManager but since we need to
+    react to external changes anyway let's use the same code path.
+    (Closes: #894)
+  * util: Indicate that get_desktop_app_info_for_app_id can return NULL
+  * app-tracker: Check for NULL app info.
+    Related: #865
+  * overview: Handle empty carousel.
+    We use an explicit cast as the signal definition uses an uint.
+    https://gitlab.gnome.org/GNOME/libhandy/-/merge_requests/841
+    (Closes: #865)
+  * rotate-info: Adjust to current coding style
+  * rotate-info: Add enabled property.
+    Only on when rotation sensor is present and not rotation is not locked.
+  * feedback-info: Add enabled property.
+    Only off when profile is `silent`.
+  * wwan-info: Add enabled property
+    `TRUE` when the hw is enabled.
+  * quick-setting: Fix indentation
+  * quick-setting: Shorten enum names.
+    Match current coding style
+  * quick-setting: Use current coding style for property
+  * quick-setting: Don't use underscore in property name
+  * quick-setting: Add active property.
+    Set when the quick setting should appear active
+  * quick-setting: Toggle style class based on status icons enabled state
+  * top-panel: Simplify drag handle calculation.
+    Make the bottom bar draggable by default and let PhoshSettings enlarge
+    it by a given amount (it's drag-handle offset).
+  * settings: Update drag-handle on size allocation changes.
+    The allocation changes e.g. between portrait and landscape,
+    thus we need to update the handle size.
+    This, together with the previous commit
+    Fixes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/802
+  * settings: Reindent ui file.
+    This was skipped in 66642424a370890430702d65ea8d23be0f258e3b to ease
+    rebasing.
+  * settings: Swap clamp and scrolled window.
+    This makes sure the whole width is scrollable which eases scrolling in
+    landscape mode as there's no dead area to the left and right.
+  * util: Detect multi finger touches too.
+    When checking for a gesture type we need to handle multi finger presses
+    as otherwise a 2 finger touch will open the panel. (Closes: #853)
+
+  [ Chris Talbot ]
+  * emerg-info: Factor out common enumerations
+  * lockscreen-plugins: Add emergency info Preferences
+
+  [ Cédric Bellegarde ]
+  * screen-saver-manager: Add a suspend delay inhibitor.
+    We need to be sure ActiveChanged D-Bus signal is emitted before going to
+    suspend as we'd otherwise blank right after resume.
+
+  [ Sam Hewitt ]
+  * quick settings: Rework layout and stylesheets for new design
+    - rework flowbox buttons to appear as toggles
+    - shuffle around things to wrap entire pulldown with GtkScrolledWindow
+    - update stylesheet
+    - change how QS focus
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
+
+  [ Emin Tufan Çetin ]
+  * Update Turkish translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Jürgen Benvenuti ]
+  * Update German translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Hemish ]
+  * Update Hindi translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 28 Feb 2023 13:03:17 +0100
+
 phosh (0.24.0) experimental; urgency=medium
 
   [ Guido Günther ]

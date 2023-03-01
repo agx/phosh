@@ -1,3 +1,29 @@
+phosh 0.25.0
+------------
+Released March 2023
+* New plugin to configure emergency contact preferences
+* Quick Settings menu style refresh
+* Separate locking from blanking
+* Animate status icon transitions
+* Improve settings menu usability in landscape
+* Lots of internal cleanups
+* Contributors:
+    * Cédric Bellegarde
+    * Chris Talbot
+    * Guido Günther
+    * Sam Hewitt
+* UI translations:
+    * Anders Jonsson (sv)
+    * Danial Behzadi (fa)
+    * Daniel Șerbănescu (ro)
+    * Ekaterine Papava (ka)
+    * Emin Tufan Çetin (tr)
+    * Hemish (hi)
+    * Jürgen Benvenuti (de)
+    * Martin (sl)
+    * Yosef Or Boczko (he)
+    * Yuri Chornoivan (uk)
+
 phosh 0.24.0
 ------------
 Released January 2023
