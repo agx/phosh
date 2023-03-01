@@ -99,7 +99,7 @@ layer_surface_configure (void                         *data,
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_CONFIGURED_WIDTH]);
   }
 
-  g_debug ("Configured %s (%p) (%dx%d)", priv->namespace, self, width, height);
+  g_debug ("Configured '%s' (%p) (%dx%d)", priv->namespace, self, width, height);
   if (changed)
     g_signal_emit (self, signals[CONFIGURED], 0);
 }
@@ -116,7 +116,7 @@ layer_surface_closed (void                         *data,
   priv = phosh_layer_surface_get_instance_private (self);
 
   g_return_if_fail (priv->layer_surface == surface);
-  g_debug ("Destroying layer surface '%s'", priv->namespace);
+  g_debug ("Destroying layer surface '%s' (%p)", priv->namespace, self);
   zwlr_layer_surface_v1_destroy (priv->layer_surface);
   priv->layer_surface = NULL;
   gtk_widget_destroy (GTK_WIDGET (self));
@@ -305,7 +305,7 @@ phosh_layer_surface_map (GtkWidget *widget)
     gdk_wayland_window_set_use_custom_surface (gdk_window);
     priv->wl_surface = gdk_wayland_window_get_wl_surface (gdk_window);
   }
-  g_debug ("Mapped %p, namespace: %s", priv->wl_surface, priv->namespace);
+  g_debug ("Mapped '%s' (%p)", priv->namespace, self);
 
   priv->layer_surface = zwlr_layer_shell_v1_get_layer_surface (priv->layer_shell,
                                                                priv->wl_surface,
