@@ -214,6 +214,16 @@ if run_phoc_tests
        env: hc_env,
        suite: ['screenshots'])
 
+  what='landscape'
+  landscape_env = test_env_phoc
+  landscape_env.set('LANGUAGE', 'C')
+  landscape_env.set('PHOSH_TEST_TYPE', 'landscape')
+  landscape_env.set('PHOSH_TEST_PHOC_INI', '@0@/data/phoc-landscape.ini'.format(meson.current_source_dir()))
+  landscape_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
+  test('screenshots-@0@'.format(what), t,
+       env: landscape_env,
+       suite: ['screenshots'])
+  
 endif
 
 endif # tests
