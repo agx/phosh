@@ -1,3 +1,30 @@
+phosh (0.25.1) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * lockscreen-manager: Avoid multiple lockscreens.
+    When bringing up the lockscreen and shields we might get more events
+    from the compositor that can trigger locking, which might result in
+    multiple lock screens. In order to avoid this, guard the locking sequence
+    and only add more lock screens when done.
+    This happens during suspend but can also happen when pressing the power
+    button quickly without any lock delay. (Closes: #838)
+  * lockscreen: Ref lockscreen during auth.
+    This makes sure it can't go away while the auth thread is running.
+  * layer-shell: Use cast.
+    This gives us proper warnings if something goes wrong
+  * lockscreen-manager: Improve check.
+    We can check for the type too
+  * layersurface: Use consistent logging.
+    Always use the address of self, using the surface's address just makes
+    matching harder. Also always put the namespace first.
+    Doing this in gdb is easier but this makes debugging simple in case one
+    doesn't have the sources around.
+
+  [ Sam Hewitt ]
+  * settings: Clamp sliders in quick settings
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 02 Mar 2023 11:01:11 +0100
+
 phosh (0.25.0) experimental; urgency=medium
 
   [ Guido Günther ]
