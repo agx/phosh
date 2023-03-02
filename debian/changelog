@@ -3,8 +3,8 @@ phosh (0.25.1) experimental; urgency=medium
   [ Guido Günther ]
   * lockscreen-manager: Avoid multiple lockscreens.
     When bringing up the lockscreen and shields we might get more events
-    from the compositor that can trigger locking. which might end up in
-    multiple lock screens. In order to avoid this guard the locking sequence
+    from the compositor that can trigger locking, which might result in
+    multiple lock screens. In order to avoid this, guard the locking sequence
     and only add more lock screens when done.
     This happens during suspend but can also happen when pressing the power
     button quickly without any lock delay. (Closes: #838)
