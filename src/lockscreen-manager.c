@@ -50,6 +50,7 @@ struct _PhoshLockscreenManager {
   GPtrArray             *shields;       /* other outputs */
 
   gboolean locked;
+  gboolean locking;
   gint64 active_time;                   /* when lock was activated (in us) */
 
   PhoshCallsManager    *calls_manager;  /* Calls DBus Interface */
@@ -173,7 +174,7 @@ lock_primary_monitor (PhoshLockscreenManager *self)
   PhoshShell *shell = phosh_shell_get_default ();
 
   primary_monitor = phosh_shell_get_primary_monitor (shell);
-  g_assert (primary_monitor);
+  g_assert (PHOSH_IS_MONITOR (primary_monitor));
 
   /* The primary output gets the clock, keypad, ... */
   self->lockscreen = PHOSH_LOCKSCREEN (phosh_lockscreen_new (
@@ -223,6 +224,11 @@ lockscreen_lock (PhoshLockscreenManager *self)
 
   g_return_if_fail (!self->locked);
 
+  /* Locking already in progress */
+  if (self->locking)
+    return;
+
+  self->locking = TRUE;
   primary_monitor = phosh_shell_get_primary_monitor (shell);
 
   /* Listen for monitor changes */
@@ -258,6 +264,7 @@ lockscreen_lock (PhoshLockscreenManager *self)
   }
 
   self->locked = TRUE;
+  self->locking = FALSE;
   self->active_time = g_get_monotonic_time ();
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_LOCKED]);
 }
