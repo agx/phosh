@@ -384,7 +384,7 @@ on_dialog_update_emer_contact (GtkDialog* dialog, gint response_id, gpointer use
                              "",
                              -1);
 
-  gtk_widget_hide (GTK_WIDGET (dialog));
+  gtk_widget_set_visible (GTK_WIDGET (dialog), FALSE);
 }
 
 static void
