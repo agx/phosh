@@ -193,10 +193,12 @@ run_plugin_prefs (void)
 {
   g_autoptr (GError) err = NULL;
   const char *argv[] = { TEST_TOOLS "/plugin-prefs", NULL };
+  gboolean ret;
   GPid pid;
 
-  g_spawn_async (NULL, (char**) argv, NULL, G_SPAWN_DEFAULT, NULL, NULL, &pid, &err);
+  ret = g_spawn_async (NULL, (char**) argv, NULL, G_SPAWN_DEFAULT, NULL, NULL, &pid, &err);
   g_assert_no_error (err);
+  g_assert_true (ret);
   g_assert_true (pid);
 
   return pid;
