@@ -212,6 +212,7 @@ if run_phoc_tests
   hc_env.set('GSETTINGS_BACKEND', 'keyfile')
   test('screenshots-@0@'.format(what), t,
        env: hc_env,
+       depends: copy_keyfile_hc,
        suite: ['screenshots'])
 
   what='landscape'
