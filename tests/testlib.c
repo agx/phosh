@@ -185,25 +185,32 @@ phosh_test_compositor_new (gboolean heads_stub)
   g_autoptr (GMainLoop) mainloop = NULL;
   PhoshTestCompositorState *state;
   GSpawnFlags flags = G_SPAWN_DO_NOT_REAP_CHILD;
-  const char *comp;
+  const char *comp, *phoc_ini;
   gboolean ret;
   int outfd;
   PhocOutputWatch watch;
   gint id;
   g_auto(GStrv) env = NULL;
 
-  comp = g_getenv ("PHOSH_PHOC_BINARY");
+  comp = g_getenv ("PHOSH_TEST_PHOC_BINARY");
   if (!comp) {
     flags |= G_SPAWN_SEARCH_PATH;
     comp = "phoc";
   }
+
+  phoc_ini = g_getenv ("PHOSH_TEST_PHOC_INI");
+  if (phoc_ini == NULL) {
+    phoc_ini = TEST_PHOC_INI;
+  }
+  g_test_message ("Using phoc.ini %s", phoc_ini);
+  g_assert_true (g_file_test (phoc_ini, G_FILE_TEST_EXISTS));
 
   state = g_new0 (PhoshTestCompositorState, 1);
 
   argv = g_ptr_array_new ();
   g_ptr_array_add (argv, (char*)comp);
   g_ptr_array_add (argv, "-C");
-  g_ptr_array_add (argv, TEST_PHOC_INI);
+  g_ptr_array_add (argv, (char*)phoc_ini);
   g_ptr_array_add (argv, NULL);
 
   env = g_get_environ ();
