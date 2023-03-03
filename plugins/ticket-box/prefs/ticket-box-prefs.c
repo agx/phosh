@@ -58,10 +58,12 @@ on_file_chooser_response (GtkDialog* dialog, gint response_id, gpointer user_dat
     GtkFileChooser *filechooser = GTK_FILE_CHOOSER (dialog);
     g_autofree gchar *filename = NULL;
 
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     if (response_id == GTK_RESPONSE_ACCEPT) {
         g_autoptr (GFile) file = gtk_file_chooser_get_file (filechooser);
         filename = g_file_get_path (file);
     }
+G_GNUC_END_IGNORE_DEPRECATIONS
 
     gtk_window_destroy (GTK_WINDOW (dialog));
 
@@ -79,6 +81,7 @@ on_folder_button_clicked (PhoshTicketBoxPrefs *self)
   const char *current;
   g_autoptr (GFile) current_file = NULL;
 
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   g_assert (PHOSH_IS_TICKET_BOX_PREFS (self));
   filechooser = gtk_file_chooser_dialog_new(_("Choose Folder"),
                                             GTK_WINDOW (self),
@@ -86,11 +89,14 @@ on_folder_button_clicked (PhoshTicketBoxPrefs *self)
                                             _("_Cancel"), GTK_RESPONSE_CANCEL,
                                             _("_Open"), GTK_RESPONSE_ACCEPT,
                                             NULL);
+G_GNUC_END_IGNORE_DEPRECATIONS
 
   current = gtk_editable_get_text (GTK_EDITABLE (self->folder_entry));
   current_file = g_file_new_for_path (current);
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   if (current_file)
     gtk_file_chooser_set_file (GTK_FILE_CHOOSER (filechooser), current_file, NULL);
+G_GNUC_END_IGNORE_DEPRECATIONS
 
   g_signal_connect (filechooser, "response",
                     G_CALLBACK (on_file_chooser_response), self);
