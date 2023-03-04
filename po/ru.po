@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-01-23 20:09+0000\n"
-"PO-Revision-Date: 2023-01-24 01:02+0300\n"
+"POT-Creation-Date: 2023-02-16 09:58+0000\n"
+"PO-Revision-Date: 2023-02-16 13:20+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -223,7 +223,7 @@ msgstr "Введите пароль для сети Wi-Fi “%s”"
 msgid "Open"
 msgstr "Открыть"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
 msgid "Notification"
 msgstr "Уведомление"
 
@@ -373,6 +373,7 @@ msgid "Remember decision"
 msgstr "Запомнить решение"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -437,7 +438,7 @@ msgid "Authentication required"
 msgstr "Требуется аутентификация"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:84
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "_Cancel"
 msgstr "_Отменить"
 
@@ -475,7 +476,7 @@ msgstr "Выйти"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:319
+#: src/util.c:338
 msgid "%A, %B %-e"
 msgstr "%A, %-e %B"
 
@@ -502,42 +503,52 @@ msgid "Cellular"
 msgstr "Сотовая связь"
 
 #: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
 msgid "Personal Information"
 msgstr "Личная информация"
 
 #: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
 msgid "Date of Birth"
 msgstr "Дата рождения"
 
 #: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Preferred Language"
 msgstr "Предпочтительный язык"
 
 #: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
 msgid "Home Address"
 msgstr "Домашний адрес"
 
 #: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Medical Information"
 msgstr "Медицинская информация"
 
 #: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
 msgid "Age"
 msgstr "Возраст"
 
 #: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
 msgid "Blood Type"
 msgstr "Группа крови"
 
 #: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
 msgid "Height"
 msgstr "Рост"
 
 #: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
 msgid "Weight"
 msgstr "Вес"
 
 #: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
 msgid "Allergies"
 msgstr "Аллергии"
 
@@ -546,12 +557,51 @@ msgid "Medications & Conditions"
 msgstr "Лекарства и условия"
 
 #: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
 msgid "Other Information"
 msgstr "Прочая информация"
 
 #: plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
 msgid "Emergency Contacts"
 msgstr "Контакты для экстренной помощи"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "Параметры инфо экстренной помощи"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "Готово"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "Имя владельца"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "Лекарства и условия"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "Добавить контакт"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "Добавить новый контакт"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+msgid "New Contact Name"
+msgstr "Новое имя контакта"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+msgid "Relationship"
+msgstr "Родство"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+msgid "Number"
+msgstr "Номер"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -561,11 +611,11 @@ msgstr "Нет документов для отображения"
 msgid "Tickets"
 msgstr "Билеты"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:81
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:83
 msgid "Choose Folder"
 msgstr "Выбрать папку"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:85
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
 msgid "_Open"
 msgstr "О_ткрыть"
 
