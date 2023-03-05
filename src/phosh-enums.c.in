@@ -2,8 +2,9 @@
 
 #include "phosh-config.h"
 
-#include "app-grid.h"
 #include "app-grid-button.h"
+#include "app-grid.h"
+#include "drag-surface.h"
 #include "gnome-shell-manager.h"
 #include "home.h"
 #include "lockscreen.h"
@@ -15,7 +16,6 @@
 #include "rotation-manager.h"
 #include "shell.h"
 #include "wwan/phosh-wwan-backend.h"
-#include "drag-surface.h"
 
 #include "phosh-enums.h"
 
