@@ -1,15 +1,15 @@
 # Polish translation for phosh.
-# Copyright © 2022 the phosh authors.
+# Copyright © 2022-2023 the phosh authors.
 # This file is distributed under the same license as the phosh package.
-# Piotr Drąg <piotrdrag@gmail.com>, 2022.
-# Aviary.pl <community-poland@mozilla.org>, 2022.
+# Piotr Drąg <piotrdrag@gmail.com>, 2022-2023.
+# Aviary.pl <community-poland@mozilla.org>, 2022-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-09-04 13:11+0000\n"
-"PO-Revision-Date: 2022-09-04 15:52+0200\n"
+"POT-Creation-Date: 2023-02-16 09:58+0000\n"
+"PO-Revision-Date: 2023-03-05 14:27+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -20,11 +20,11 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Powłoka telefonu"
 
@@ -32,13 +32,28 @@ msgstr "Powłoka telefonu"
 msgid "Window management and application launching for mobile"
 msgstr "Zarządzanie oknami i uruchamianiem programów na telefonie"
 
-#: plugins/calendar/calendar.desktop.in.in:4
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Ta sesja loguje do powłoki Phosh"
+
+#: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Kalendarz"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "Prosty widżet kalendarza"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Skrzynka na bilety"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Wyświetla dokumenty PDF na ekranie blokowania. <b>Ta wtyczka jest "
+"eksperymentalna.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -60,7 +75,8 @@ msgstr "Wyświetl wszystkie programy"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Wyświetl tylko programy przystosowane do telefonów"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
+#: src/bt-info.c:92
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Włączone"
 
@@ -119,16 +135,22 @@ msgstr "Nieznany program"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:69
+#: src/feedbackinfo.c:91
 msgid "Quiet"
 msgstr "Cichy"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:75
+#: src/feedbackinfo.c:97
 msgid "Silent"
 msgstr "Wyciszony"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:101
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "Włączone"
 
 #: src/location-manager.c:268
 #, c-format
@@ -151,7 +173,7 @@ msgstr "Nie"
 msgid "Enter Passcode"
 msgstr "Proszę podać kod"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "Sprawdzanie…"
 
@@ -203,7 +225,7 @@ msgstr "Proszę podać hasło sieci Wi-Fi „%s”"
 msgid "Open"
 msgstr "Otwórz"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
 msgid "Notification"
 msgstr "Powiadomienie"
 
@@ -317,17 +339,21 @@ msgstr "Pionowo"
 msgid "Landscape"
 msgstr "Poziomo"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:104 src/rotateinfo.c:188
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Wyłączone"
+
+#: src/rotateinfo.c:105
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "Włączone"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
 msgstr "Klawisz Esc zamknie"
 
-#: src/run-command-manager.c:94
+#: src/run-command-manager.c:95
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Wykonanie polecenia „%s” się nie powiodło"
@@ -349,6 +375,7 @@ msgid "Remember decision"
 msgstr "Zapamiętanie decyzji"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -392,7 +419,7 @@ msgstr "Domena:"
 msgid "Co_nnect"
 msgstr "_Połącz"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
 msgid "Back"
 msgstr "Wstecz"
 
@@ -400,11 +427,11 @@ msgstr "Wstecz"
 msgid "Slide up to unlock"
 msgstr "Przesunięcie w górę odblokuje"
 
-#: src/ui/lockscreen.ui:283
+#: src/ui/lockscreen.ui:282
 msgid "Emergency"
 msgstr "Połączenie alarmowe"
 
-#: src/ui/lockscreen.ui:299
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "Odblokuj"
 
@@ -413,6 +440,7 @@ msgid "Authentication required"
 msgstr "Wymagane jest uwierzytelnienie"
 
 #: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "_Cancel"
 msgstr "_Anuluj"
 
@@ -428,11 +456,11 @@ msgstr "Uwierzytelnij"
 msgid "Run Command"
 msgstr "Wykonanie polecenia"
 
-#: src/ui/settings.ui:301
+#: src/ui/settings.ui:302
 msgid "No notifications"
 msgstr "Brak powiadomień"
 
-#: src/ui/settings.ui:342
+#: src/ui/settings.ui:343
 msgid "Clear all"
 msgstr "Wyczyść wszystkie"
 
@@ -450,7 +478,7 @@ msgstr "Wyloguj się"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:340
+#: src/util.c:338
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
@@ -475,6 +503,143 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:200
 msgid "Cellular"
 msgstr "Komórkowa"
+
+#: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+msgid "Personal Information"
+msgstr "Informacje osobiste"
+
+#: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+msgid "Date of Birth"
+msgstr "Data urodzin"
+
+#: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+msgid "Preferred Language"
+msgstr "Preferowany język"
+
+#: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+msgid "Home Address"
+msgstr "Adres domowy"
+
+#: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+msgid "Medical Information"
+msgstr "Informacje medyczne"
+
+#: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+msgid "Age"
+msgstr "Wiek"
+
+#: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+msgid "Blood Type"
+msgstr "Grupa krwi"
+
+#: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+msgid "Height"
+msgstr "Wzrost"
+
+#: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+msgid "Weight"
+msgstr "Waga"
+
+#: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+msgid "Allergies"
+msgstr "Alergie"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "Leki i choroby"
+
+#: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+msgid "Other Information"
+msgstr "Inne informacje"
+
+#: plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Kontakty alarmowe"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "Preferencje informacji alarmowych"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "Gotowe"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "Imię i nazwisko właściciela"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "Leki i choroby"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "Dodaj kontakt"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "Dodanie nowego kontaktu"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+msgid "New Contact Name"
+msgstr "Imię i nazwisko nowego kontaktu"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+msgid "Relationship"
+msgstr "Pokrewieństwo"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+msgid "Number"
+msgstr "Numer"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Brak dokumentów do wyświetlenia"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Bilety"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:83
+msgid "Choose Folder"
+msgstr "Wybór katalogu"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
+msgid "_Open"
+msgstr "_Otwórz"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "Preferencje skrzynki na bilety"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "Ścieżki"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "Ustawienia katalogu"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "Gdzie Phosh szuka biletów"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr "Katalog z biletami"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
