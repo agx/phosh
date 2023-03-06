@@ -17,6 +17,7 @@
           <object class="HdyClamp">
             <property name="visible">True</property>
             <property name="maximum_size">720</property>
+            <property name="vexpand">True</property>
             <child>
               <object class="GtkBox" id="box_settings">
                 <property name="visible">True</property>
