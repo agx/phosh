@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-02-16 09:58+0000\n"
-"PO-Revision-Date: 2023-02-16 20:34+0100\n"
+"POT-Creation-Date: 2023-03-07 10:28+0000\n"
+"PO-Revision-Date: 2023-03-07 12:10+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -147,19 +147,19 @@ msgstr "Unbekannte Anwendung"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:91
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "Leise"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:97
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "Lautlos"
 
 #. Translators: Enable LED, haptic and audio feedback
-#: src/feedbackinfo.c:101
+#: src/feedbackinfo.c:108
 msgctxt "feedback:enabled"
 msgid "On"
 msgstr "An"
@@ -185,7 +185,7 @@ msgstr "Nein"
 msgid "Enter Passcode"
 msgstr "Zugangscode eingeben"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Überprüfung läuft …"
 
@@ -345,20 +345,20 @@ msgid "Sorry, that didn’t work. Please try again."
 msgstr ""
 "Entschuldigung, das hat nicht funktioniert. Bitte versuchen Sie es erneut."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "Hochformat"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "Querformat"
 
-#: src/rotateinfo.c:104 src/rotateinfo.c:188
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
 msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Aus"
 
-#: src/rotateinfo.c:105
+#: src/rotateinfo.c:126
 msgctxt "automatic-screen-rotation-enabled"
 msgid "On"
 msgstr "An"
@@ -390,6 +390,7 @@ msgstr "Entscheidung merken"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -454,7 +455,7 @@ msgid "Authentication required"
 msgstr "Legitimierung erforderlich"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
@@ -470,11 +471,11 @@ msgstr "Legitimieren"
 msgid "Run Command"
 msgstr "Befehl ausführen"
 
-#: src/ui/settings.ui:302
+#: src/ui/settings.ui:319
 msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
 
-#: src/ui/settings.ui:343
+#: src/ui/settings.ui:359
 msgid "Clear all"
 msgstr "Alles leeren"
 
@@ -492,7 +493,7 @@ msgstr "Abmelden"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:338
+#: src/util.c:339
 msgid "%A, %B %-e"
 msgstr "%A %d. %B"
 
@@ -514,7 +515,7 @@ msgid "Wi-Fi"
 msgstr "WLAN"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwan-info.c:200
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Mobilfunk"
 
@@ -607,6 +608,10 @@ msgstr "Kontakt hinzufügen"
 msgid "Add New Contact"
 msgstr "Neuen Kontakt hinzufügen"
 
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "Hinzufügen"
+
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
 msgid "New Contact Name"
 msgstr "Neuer Kontaktname"
@@ -627,11 +632,11 @@ msgstr "Keine anzuzeigenden Dokumente"
 msgid "Tickets"
 msgstr "Tickets"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:83
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "Choose Folder"
 msgstr "Ordner auswählen"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Open"
 msgstr "_Öffnen"
 
