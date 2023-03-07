@@ -286,12 +286,12 @@
     </property>
       <child>
         <object class="GtkButton" id="add_emer_contact_dialog_button_cancel">
-        <property name="label">Cancel</property>
+        <property name="label" translatable="yes">Cancel</property>
         </object>
       </child>
       <child type="end">
         <object class="GtkButton" id="add_emer_contact_dialog_button_ok">
-        <property name="label">Add</property>
+        <property name="label" translatable="yes">Add</property>
         </object>
       </child>
     </object>

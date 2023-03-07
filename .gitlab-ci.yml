@@ -46,7 +46,7 @@ variables:
   script:
     - git submodule update --recursive
     - 'echo "Build opts: ${BUILD_OPTS}"'
-    - meson ${BUILD_OPTS} . _build
+    - meson setup ${BUILD_OPTS} _build
     - ninja -C _build
 
 .test_before_script: &test_before_script
@@ -120,7 +120,7 @@ build:cross-debian-bookworm:i386:
     - git submodule update --recursive
     - 'echo "Build opts: ${COMMON_BUILD_OPTS}"'
     - /usr/share/meson/debcrossgen --arch i386 -o cross-i386.txt
-    - meson ${COMMON_BUILD_OPTS} . _build --cross-file cross-i386.txt
+    - meson setup ${COMMON_BUILD_OPTS} _build --cross-file cross-i386.txt
     - ninja -C _build
   artifacts:
     paths:
@@ -158,7 +158,7 @@ asan-test:native-debian-bookworm:
   <<: *bookworm_vars
   <<: *test_before_script
   script:
-    - meson -Dphoc_tests=enabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
+    - meson setup -Dphoc_tests=enabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
     - ninja -C _build-asan data/gschemas.compiled
     - ${XVFB_RUN} meson test --print-errorlogs -C _build-asan --suite unit
   except:
@@ -200,7 +200,7 @@ build-gtkdoc:
   script:
     - git clean -dfx
     - 'echo "Build opts: ${BUILD_OPTS}"'
-    - meson ${BUILD_OPTS} . _build
+    - meson setup ${BUILD_OPTS} _build
     - meson compile -C _build
     - mv _build/docs/phosh-0/ _reference/
   artifacts:
@@ -252,7 +252,7 @@ build:native-alpinelinux-edge:
       - _build
   script:
     - git submodule update --recursive
-    - meson --werror -Dphoc_tests=disabled . _build
+    - meson setup --werror -Dphoc_tests=disabled  _build
     - ninja -C _build
   except:
     variables:
