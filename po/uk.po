@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-02-16 09:58+0000\n"
-"PO-Revision-Date: 2023-02-16 15:18+0200\n"
+"POT-Creation-Date: 2023-03-07 10:28+0000\n"
+"PO-Revision-Date: 2023-03-07 21:00+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -134,19 +134,19 @@ msgstr "Невідома програма"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:91
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "Тихо"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:97
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "Беззвучно"
 
 #. Translators: Enable LED, haptic and audio feedback
-#: src/feedbackinfo.c:101
+#: src/feedbackinfo.c:108
 msgctxt "feedback:enabled"
 msgid "On"
 msgstr "❙"
@@ -172,7 +172,7 @@ msgstr "Ні"
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Звіряю…"
 
@@ -330,20 +330,20 @@ msgstr "Пароль:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "На жаль, це не спрацювало. Будь ласка, спробуйте ще."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "Книжкова"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "Альбомна"
 
-#: src/rotateinfo.c:104 src/rotateinfo.c:188
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
 msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "○"
 
-#: src/rotateinfo.c:105
+#: src/rotateinfo.c:126
 msgctxt "automatic-screen-rotation-enabled"
 msgid "On"
 msgstr "❙"
@@ -375,6 +375,7 @@ msgstr "Запам'ятати вибір"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -439,7 +440,7 @@ msgid "Authentication required"
 msgstr "Слід пройти розпізнавання"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Cancel"
 msgstr "_Скасувати"
 
@@ -455,11 +456,11 @@ msgstr "Автентифікуватися"
 msgid "Run Command"
 msgstr "Виконати команду"
 
-#: src/ui/settings.ui:302
+#: src/ui/settings.ui:319
 msgid "No notifications"
 msgstr "Немає сповіщень"
 
-#: src/ui/settings.ui:343
+#: src/ui/settings.ui:359
 msgid "Clear all"
 msgstr "Очистити все"
 
@@ -477,7 +478,7 @@ msgstr "Вийти"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:338
+#: src/util.c:339
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
@@ -499,7 +500,7 @@ msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwan-info.c:200
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Стільниковий"
 
@@ -569,7 +570,6 @@ msgstr "Екстрені контакти"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
-#| msgid "Emergency Contacts"
 msgid "Emergency Info Preferences"
 msgstr "Налаштовування критичних відомостей"
 
@@ -582,7 +582,6 @@ msgid "Owner Name"
 msgstr "Ім'я власника"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
-#| msgid "Medications & Conditions"
 msgid "Medications and Conditions"
 msgstr "Препарати і стан здоров'я"
 
@@ -594,12 +593,15 @@ msgstr "Додати контакт"
 msgid "Add New Contact"
 msgstr "Додати новий контакт"
 
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "Додати"
+
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
 msgid "New Contact Name"
 msgstr "Назва нового контакту"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
-#| msgid "Geolocation"
 msgid "Relationship"
 msgstr "Зв'язок"
 
@@ -615,11 +617,11 @@ msgstr "Немає документів для показу"
 msgid "Tickets"
 msgstr "Квитки"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:83
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "Choose Folder"
 msgstr "Виберіть теку"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Open"
 msgstr "_Відкрити"
 
