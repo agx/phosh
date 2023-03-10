@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-09-04 13:11+0000\n"
-"PO-Revision-Date: 2022-09-09 19:29+0300\n"
+"POT-Creation-Date: 2023-03-07 10:28+0000\n"
+"PO-Revision-Date: 2023-03-10 18:29+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -14,14 +14,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Puhelimen käyttöliittymä"
 
@@ -30,13 +30,28 @@ msgid "Window management and application launching for mobile"
 msgstr ""
 "Ikkunointijärjestelmän hallinta ja ohjelmien käynnistys mobiililaitteille"
 
-#: plugins/calendar/calendar.desktop.in.in:4
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Tämä istunto kirjaa sinut Phoshiin"
+
+#: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Kalenteri"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "Yksinkertainen kalenterisovelma"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Tikettilaatikko"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Näytä PDF-tiedostoja lukitusnäytöllä. <b>Tämä liitännäinen on kokeellinen.</"
+"b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -58,7 +73,8 @@ msgstr "Näytä kaikki sovellukset"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Näytä vain mobiilille suunnatut sovellukset"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
+#: src/bt-info.c:92
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Päällä"
 
@@ -116,16 +132,22 @@ msgstr "Tuntematon sovellus"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:69
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "Äänetön"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:75
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "Hiljainen"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:108
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "Päällä"
 
 #: src/location-manager.c:268
 #, c-format
@@ -200,7 +222,7 @@ msgstr "Anna salasana wifi-verkolle “%s”"
 msgid "Open"
 msgstr "Avaa"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
 msgid "Notification"
 msgstr "Ilmoitus"
 
@@ -306,25 +328,29 @@ msgstr "Salasana:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Valitettavasti se ei toiminut. Ole hyvä ja yritä uudelleen."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "Pystysuunta"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "Vaakasuunta"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Pois"
+
+#: src/rotateinfo.c:126
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "Päällä"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
 msgstr "Paina ESC sulkeaksesi"
 
-#: src/run-command-manager.c:94
+#: src/run-command-manager.c:95
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Kohteen '%s' suorittaminen epäonnistui"
@@ -346,6 +372,8 @@ msgid "Remember decision"
 msgstr "Muista valinta"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Peru"
 
@@ -389,7 +417,7 @@ msgstr "Toimialue:"
 msgid "Co_nnect"
 msgstr "_Yhdistä"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
 msgid "Back"
 msgstr "Takaisin"
 
@@ -397,11 +425,11 @@ msgstr "Takaisin"
 msgid "Slide up to unlock"
 msgstr "Liu'uta ylös avataksesi"
 
-#: src/ui/lockscreen.ui:283
+#: src/ui/lockscreen.ui:282
 msgid "Emergency"
 msgstr "Hätä"
 
-#: src/ui/lockscreen.ui:299
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "Avaa lukitus"
 
@@ -410,6 +438,7 @@ msgid "Authentication required"
 msgstr "Tunnistautuminen vaaditaan"
 
 #: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Cancel"
 msgstr "_Peru"
 
@@ -425,11 +454,11 @@ msgstr "Tunnistaudu"
 msgid "Run Command"
 msgstr "Suorita komento"
 
-#: src/ui/settings.ui:301
+#: src/ui/settings.ui:319
 msgid "No notifications"
 msgstr "Ei ilmoituksia"
 
-#: src/ui/settings.ui:342
+#: src/ui/settings.ui:359
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
@@ -447,7 +476,7 @@ msgstr "Kirjaudu ulos"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:340
+#: src/util.c:339
 msgid "%A, %B %-e"
 msgstr "%A, %-e. %Bta"
 
@@ -469,9 +498,150 @@ msgid "Wi-Fi"
 msgstr "Wifi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwan-info.c:200
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Puhelinverkko"
+
+#: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+msgid "Personal Information"
+msgstr "Henkilökohtaiset tiedot"
+
+#: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+msgid "Date of Birth"
+msgstr "Syntymäpäivä"
+
+#: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+msgid "Preferred Language"
+msgstr "Ensisijainen kieli"
+
+#: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+msgid "Home Address"
+msgstr "Kotiosoite"
+
+#: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+msgid "Medical Information"
+msgstr "Lääkitystiedot"
+
+#: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+msgid "Age"
+msgstr "Ikä"
+
+#: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+msgid "Blood Type"
+msgstr "Verityyppi"
+
+#: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+msgid "Height"
+msgstr "Pituus"
+
+#: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+msgid "Weight"
+msgstr "Paino"
+
+#: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+msgid "Allergies"
+msgstr "Allergiat"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "Lääkitykset ja terveydentila"
+
+#: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+msgid "Other Information"
+msgstr "Muut tiedot"
+
+#: plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Hätäyhteystiedot"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "Hätätilatietojen asetukset"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "Valmis"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "Omistajan nimi"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "Lääkitykset ja terveydentila"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "Lisää yhteystieto"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "Lisää uusi yhteystieto"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "Lisää"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+msgid "New Contact Name"
+msgstr "Uuden yhteystiedon nimi"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+msgid "Relationship"
+msgstr "Suhde"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+msgid "Number"
+msgstr "Numero"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Ei näytettäviä asiakirjoja"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Tiketit"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+msgid "Choose Folder"
+msgstr "Valitse kansio"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+msgid "_Open"
+msgstr "_Avaa"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "Tikettilaatikon asetukset"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "Polut"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "Kansion asetukset"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "Mistä Phosh etsii tikettejä"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr "Tikettikansio"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
