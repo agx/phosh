@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-02-16 09:58+0000\n"
-"PO-Revision-Date: 2023-03-07 01:22+0100\n"
+"POT-Creation-Date: 2023-03-07 10:28+0000\n"
+"PO-Revision-Date: 2023-03-11 00:48+0100\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -50,9 +50,6 @@ msgid "Ticket Box"
 msgstr "Jegypénztár"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:5
-#| msgid ""
-#| "Show PDFs on the lock screen. This plugin is experimental. <b>This plugin "
-#| "is experimental.</b>"
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "PDF-ek megjelenítése a zárolási képernyőn. <b>Ez a bővítmény kísérleti.</b>"
@@ -78,7 +75,6 @@ msgid "Show Only Mobile Friendly Apps"
 msgstr "Csak mobilbarát alkalmazások megjelenítése"
 
 #: src/bt-info.c:92
-#| msgid "On"
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Be"
@@ -135,20 +131,19 @@ msgstr "Ismeretlen alkalmazás"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:91
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "Csendes"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:97
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "Néma"
 
 #. Translators: Enable LED, haptic and audio feedback
-#: src/feedbackinfo.c:101
-#| msgid "On"
+#: src/feedbackinfo.c:108
 msgctxt "feedback:enabled"
 msgid "On"
 msgstr "Be"
@@ -174,7 +169,7 @@ msgstr "Nem"
 msgid "Enter Passcode"
 msgstr "Adja meg a jelkódot"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Ellenőrzés…"
 
@@ -332,22 +327,20 @@ msgstr "Jelszó:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Sajnáljuk, ez nem működött. Próbálja meg újra."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "Álló"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "Fekvő"
 
-#: src/rotateinfo.c:104 src/rotateinfo.c:188
-#| msgid "Off"
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
 msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Ki"
 
-#: src/rotateinfo.c:105
-#| msgid "On"
+#: src/rotateinfo.c:126
 msgctxt "automatic-screen-rotation-enabled"
 msgid "On"
 msgstr "Be"
@@ -379,6 +372,7 @@ msgstr "Emlékezzen a döntésre"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Mégse"
 
@@ -443,7 +437,7 @@ msgid "Authentication required"
 msgstr "Hitelesítés szükséges"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Cancel"
 msgstr "_Mégse"
 
@@ -459,11 +453,11 @@ msgstr "Hitelesítés"
 msgid "Run Command"
 msgstr "Parancs futtatása"
 
-#: src/ui/settings.ui:302
+#: src/ui/settings.ui:319
 msgid "No notifications"
 msgstr "Nincsenek értesítések"
 
-#: src/ui/settings.ui:343
+#: src/ui/settings.ui:359
 msgid "Clear all"
 msgstr "Összes törlése"
 
@@ -481,7 +475,7 @@ msgstr "Kijelentkezés"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:338
+#: src/util.c:339
 msgid "%A, %B %-e"
 msgstr "%B %-d. %A"
 
@@ -503,7 +497,7 @@ msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwan-info.c:200
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Mobilhálózat"
 
@@ -568,7 +562,6 @@ msgstr "Egyéb információk"
 
 #: plugins/emergency-info/emergency-info.ui:195
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
-#| msgid "Emergency"
 msgid "Emergency Contacts"
 msgstr "Vészhelyzeti partnerek"
 
@@ -597,12 +590,15 @@ msgstr "Partner hozzáadása"
 msgid "Add New Contact"
 msgstr "Új partner hozzáadása"
 
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "Hozzáadás"
+
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
 msgid "New Contact Name"
 msgstr "Új partner neve"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
-#| msgid "Geolocation"
 msgid "Relationship"
 msgstr "Kapcsolat"
 
@@ -618,17 +614,15 @@ msgstr "Nincsenek megjelenítendő dokumentumok"
 msgid "Tickets"
 msgstr "Jegyek"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:83
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "Choose Folder"
 msgstr "Mappa kiválasztása"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
-#| msgid "Open"
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Open"
 msgstr "_Megnyitás"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
-#| msgid "Ticket Box"
 msgid "Ticket Box Preferences"
 msgstr "Jegypénztár beállításai"
 
@@ -645,7 +639,6 @@ msgid "Where Phosh looks for your tickets"
 msgstr "Hol keresse a Phosh a jegyeit"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
-#| msgid "Ticket Box"
 msgid "Ticket Folder"
 msgstr "Jegymappa"
 
