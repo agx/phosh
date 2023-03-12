@@ -1,3 +1,20 @@
+phosh (0.25.2) experimental; urgency=medium
+
+  * plugins/emergency-plugins-prefs: Fix deprecation
+    gtk_widget_hide is deprecated in GTK 4.9
+  * plugins/ticket-box-prefs: Ignore file chooser deprecation.
+    As it's deprecated since 4.10 and the new GtkFileChooser is only
+    available in 4.10 let's wait a bit until we move over.
+  * settings: Drop child properies that don't apply to HdyClamp.
+    Fixes 394974f0e2fdb729f9772895c183b38dde7e5e79
+  * settings: Make quick settings take enough vertical space.
+    This avoids a scroll bar e.g. when opening settings on the lock screen
+    when there's enough vertical space.
+  * plugins/emergency-info-prefs: Mark labels as translatable.
+    Thanks Piotr Drąg
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 10 Mar 2023 09:54:54 +0100
+
 phosh (0.25.1) experimental; urgency=medium
 
   [ Guido Günther ]

@@ -1,3 +1,15 @@
+phosh 0.25.2
+------------
+Released March 2023
+* settings: Make sure quick settings take enough vertical
+  space on the lock screeen to avoid a needless scrollbar
+* settings: Fix GTK warnings due to last minute HdyClamp
+  changes in 0.25.1
+* Fix GTK deprecations with GTK 4.10
+* Mark more labels as translatable in plugin prefs
+* Contributors:
+    * Guido Günther
+
 phosh 0.25.1
 ------------
 Released March 2023
