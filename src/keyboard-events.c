@@ -37,8 +37,9 @@ handle_accelerator_activated_event (void *data,
                                     uint32_t action_id,
                                     uint32_t timestamp)
 {
-  const gchar *action;
   PhoshKeyboardEvents *self = PHOSH_KEYBOARD_EVENTS (data);
+  const gchar *action;
+  GVariant *pressed = NULL;
 
   action = g_hash_table_lookup (self->accelerators, GUINT_TO_POINTER (action_id));
   g_return_if_fail (action);
@@ -47,7 +48,45 @@ handle_accelerator_activated_event (void *data,
 
   g_return_if_fail (g_action_group_has_action (G_ACTION_GROUP (self), action));
 
-  g_action_group_activate_action (G_ACTION_GROUP (self), action, NULL);
+  if (g_action_group_get_action_parameter_type (G_ACTION_GROUP (self), action))
+    pressed = g_variant_new_boolean (TRUE);
+
+  g_action_group_activate_action (G_ACTION_GROUP (self), action, pressed);
+
+  /*
+   * Emulate key released when running against older phoc, can be
+   * removed once we require phoc 0.26.0
+   */
+  if ((phosh_private_keyboard_event_get_version (kbevent) <
+       PHOSH_PRIVATE_KEYBOARD_EVENT_ACCELERATOR_RELEASED_EVENT_SINCE_VERSION) &&
+      g_action_group_get_action_parameter_type (G_ACTION_GROUP (self), action)) {
+    g_warning_once ("Emulating accelerator up. Please upgrade phoc");
+    g_action_group_activate_action (G_ACTION_GROUP (self), action, g_variant_new_boolean (FALSE));
+  }
+}
+
+
+static void
+handle_accelerator_released_event (void *data,
+                                   struct phosh_private_keyboard_event *kbevent,
+                                   uint32_t action_id,
+                                   uint32_t timestamp)
+{
+  PhoshKeyboardEvents *self = PHOSH_KEYBOARD_EVENTS (data);
+  const gchar *action;
+
+  action = g_hash_table_lookup (self->accelerators, GUINT_TO_POINTER (action_id));
+  g_return_if_fail (action);
+
+  g_debug ("Accelerator %d released: %s", action_id, action);
+
+  g_return_if_fail (g_action_group_has_action (G_ACTION_GROUP (self), action));
+
+  /* Action doesn't have a parameter so we only notify press */
+  if (g_action_group_get_action_parameter_type (G_ACTION_GROUP (self), action) == NULL)
+    return;
+
+  g_action_group_activate_action (G_ACTION_GROUP (self), action, g_variant_new_boolean (FALSE));
 }
 
 
@@ -109,6 +148,7 @@ handle_ungrab_failed_event (void *data,
 
 static const struct phosh_private_keyboard_event_listener keyboard_event_listener = {
   .accelerator_activated_event = handle_accelerator_activated_event,
+  .accelerator_released_event = handle_accelerator_released_event,
   .grab_failed_event = handle_grab_failed_event,
   .grab_success_event = handle_grab_success_event,
   .ungrab_failed_event = handle_ungrab_failed_event,

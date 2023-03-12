@@ -75,7 +75,7 @@ registry_handle_global (void *data,
       registry,
       name,
       &phosh_private_interface,
-      MIN(6, version));
+      MIN(7, version));
     self->phosh_private_version = version;
   } else if (!strcmp (interface, zphoc_layer_shell_effects_v1_interface.name)) {
     self->zphoc_layer_shell_effects_v1 = wl_registry_bind (
