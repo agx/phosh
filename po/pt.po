@@ -2,15 +2,15 @@
 # Copyright (C) 2021 THE phosh'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
 # Cristovão Osório de Aragão Gomes Ferreira <eu@cristovao-gomes-ferreira.pt>, 2019. #zanata
-# Hugo Carvalho <hugokarvalho@hotmail.com>, 2021-2023.
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2020-2023.
 # Juliano de Souza Camargo <julianosc@protonmail.com>, 2020-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-01-23 20:09+0000\n"
-"PO-Revision-Date: 2023-01-27 23:28+0000\n"
+"POT-Creation-Date: 2023-03-07 10:28+0000\n"
+"PO-Revision-Date: 2023-03-16 14:24+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese < https://l10n.gnome.org/teams/pt/>\n"
 "Language: pt\n"
@@ -136,19 +136,19 @@ msgstr "Aplicação desconhecida"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:91
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "Silencioso"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:97
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "Silenciar"
 
 #. Translators: Enable LED, haptic and audio feedback
-#: src/feedbackinfo.c:101
+#: src/feedbackinfo.c:108
 msgctxt "feedback:enabled"
 msgid "On"
 msgstr "Ligado"
@@ -174,7 +174,7 @@ msgstr "Não"
 msgid "Enter Passcode"
 msgstr "Introduza o código"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "A verificar…"
 
@@ -226,7 +226,7 @@ msgstr "Insira a palavra-passe para a rede wi-fi “%s”"
 msgid "Open"
 msgstr "Abrir"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
 msgid "Notification"
 msgstr "Notificações"
 
@@ -332,20 +332,20 @@ msgstr "Palavra-passe:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Desculpe, mas não funcionou. Tente novamente."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "Vertical"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "Horizontal"
 
-#: src/rotateinfo.c:104 src/rotateinfo.c:188
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
 msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Desligada"
 
-#: src/rotateinfo.c:105
+#: src/rotateinfo.c:126
 msgctxt "automatic-screen-rotation-enabled"
 msgid "On"
 msgstr "Ligada"
@@ -376,6 +376,8 @@ msgid "Remember decision"
 msgstr "Memorizar decisão"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -440,7 +442,7 @@ msgid "Authentication required"
 msgstr "Autenticação necessária"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:84
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -456,11 +458,11 @@ msgstr "Autenticar"
 msgid "Run Command"
 msgstr "Executar um comando"
 
-#: src/ui/settings.ui:302
+#: src/ui/settings.ui:319
 msgid "No notifications"
 msgstr "Sem notificações"
 
-#: src/ui/settings.ui:343
+#: src/ui/settings.ui:359
 msgid "Clear all"
 msgstr "Limpar tudo"
 
@@ -478,7 +480,7 @@ msgstr "Sair"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:319
+#: src/util.c:339
 msgid "%A, %B %-e"
 msgstr "%A, %d de %B"
 
@@ -500,47 +502,57 @@ msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwan-info.c:200
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Celular"
 
 #: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
 msgid "Personal Information"
 msgstr "Informação pessoal"
 
 #: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
 msgid "Date of Birth"
 msgstr "Data de nascimento"
 
 #: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Preferred Language"
 msgstr "Idioma preferido"
 
 #: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
 msgid "Home Address"
 msgstr "Endereço de casa"
 
 #: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Medical Information"
 msgstr "Informação médica"
 
 #: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
 msgid "Age"
 msgstr "Idade"
 
 #: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
 msgid "Blood Type"
 msgstr "Tipo sanguíneo"
 
 #: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
 msgid "Height"
 msgstr "Altura"
 
 #: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
 msgid "Weight"
 msgstr "Peso"
 
 #: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
 msgid "Allergies"
 msgstr "Alergias"
 
@@ -549,12 +561,55 @@ msgid "Medications & Conditions"
 msgstr "Medicamentos e Condições"
 
 #: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
 msgid "Other Information"
 msgstr "Outra informação"
 
 #: plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
 msgid "Emergency Contacts"
 msgstr "Contatos de emergência"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "Preferências de informação de emergência"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "Concluído"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "Nome do proprietário"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "Medicamentos e Condições"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "Adicionar contacto"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "Adicionar novo contacto"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "Adicionar"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+msgid "New Contact Name"
+msgstr "Novo nome de contacto"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+msgid "Relationship"
+msgstr "Relação"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+msgid "Number"
+msgstr "Número"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -564,11 +619,11 @@ msgstr "Sem documentos para mostrar"
 msgid "Tickets"
 msgstr "Bilhetes"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:81
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "Choose Folder"
 msgstr "Escolher pasta"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:85
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Open"
 msgstr "_Abrir"
 
