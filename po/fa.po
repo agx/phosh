@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-02-16 09:58+0000\n"
-"PO-Revision-Date: 2023-02-18 19:53+0330\n"
+"POT-Creation-Date: 2023-03-07 10:28+0000\n"
+"PO-Revision-Date: 2023-03-18 04:49+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -129,19 +129,19 @@ msgstr "برنامهٔ ناشناخته"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:91
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "کم‌صدا"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:97
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "بی‌صدا"
 
 #. Translators: Enable LED, haptic and audio feedback
-#: src/feedbackinfo.c:101
+#: src/feedbackinfo.c:108
 msgctxt "feedback:enabled"
 msgid "On"
 msgstr "روشن"
@@ -167,7 +167,7 @@ msgstr "نه"
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
@@ -325,20 +325,20 @@ msgstr "گذرواژه:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "متاسفانه اثری نداشت! لطفاً دوباره تلاش کنید."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "عمودی"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "افقی"
 
-#: src/rotateinfo.c:104 src/rotateinfo.c:188
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
 msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "خاموش"
 
-#: src/rotateinfo.c:105
+#: src/rotateinfo.c:126
 msgctxt "automatic-screen-rotation-enabled"
 msgid "On"
 msgstr "روشن"
@@ -370,6 +370,7 @@ msgstr "به‌خاطر سپردن تصمیم"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "لغو"
 
@@ -434,7 +435,7 @@ msgid "Authentication required"
 msgstr "نیاز به تأیید هویت است"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Cancel"
 msgstr "_لغو"
 
@@ -450,11 +451,11 @@ msgstr "تأیید هویت"
 msgid "Run Command"
 msgstr "اجرای فرمان"
 
-#: src/ui/settings.ui:302
+#: src/ui/settings.ui:319
 msgid "No notifications"
 msgstr "بدون آگاهی"
 
-#: src/ui/settings.ui:343
+#: src/ui/settings.ui:359
 msgid "Clear all"
 msgstr "پاک‌سازی همه"
 
@@ -472,7 +473,7 @@ msgstr "خروج"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:338
+#: src/util.c:339
 msgid "%A, %B %-e"
 msgstr "%A، %Od %OB"
 
@@ -494,7 +495,7 @@ msgid "Wi-Fi"
 msgstr "وای‌فای"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwan-info.c:200
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "سلولی"
 
@@ -587,6 +588,10 @@ msgstr "افزودن آشنا"
 msgid "Add New Contact"
 msgstr "افزودن آشنای جدید"
 
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "افزودن"
+
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
 msgid "New Contact Name"
 msgstr "نام آشنای جدید"
@@ -607,11 +612,11 @@ msgstr "هیچ سندی برای نمایش نیست"
 msgid "Tickets"
 msgstr "بلیت‌ها"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:83
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "Choose Folder"
 msgstr "گزینش شاخه"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Open"
 msgstr "_گشودن"
 
