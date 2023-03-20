@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-01-23 20:09+0000\n"
-"PO-Revision-Date: 2023-02-10 13:51+0200\n"
+"POT-Creation-Date: 2023-03-07 10:28+0000\n"
+"PO-Revision-Date: 2023-03-20 19:50+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <>\n"
 "Language: he\n"
@@ -134,19 +134,19 @@ msgstr "יישום לא ידוע"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:91
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "רטט"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:97
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "שקט"
 
 #. Translators: Enable LED, haptic and audio feedback
-#: src/feedbackinfo.c:101
+#: src/feedbackinfo.c:108
 msgctxt "feedback:enabled"
 msgid "On"
 msgstr "פעיל"
@@ -172,7 +172,7 @@ msgstr "לא"
 msgid "Enter Passcode"
 msgstr "הזנת ססמה"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "בודק…"
 
@@ -224,7 +224,7 @@ msgstr "נא להזין את הססמה עבור רשת האינטרנט האל�
 msgid "Open"
 msgstr "פתיחה"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
 msgid "Notification"
 msgstr "התרעה"
 
@@ -330,20 +330,20 @@ msgstr "ססמה:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "לצערינו פעולה זו לא צלחה. יש לנסות שוב."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "לאורך"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "לרוחב"
 
-#: src/rotateinfo.c:104 src/rotateinfo.c:188
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
 msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "כבוי"
 
-#: src/rotateinfo.c:105
+#: src/rotateinfo.c:126
 msgctxt "automatic-screen-rotation-enabled"
 msgid "On"
 msgstr "פעיל"
@@ -374,6 +374,8 @@ msgid "Remember decision"
 msgstr "לזכור את הבחירה"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -438,7 +440,7 @@ msgid "Authentication required"
 msgstr "נדרש אימות"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:84
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Cancel"
 msgstr "_ביטול"
 
@@ -454,11 +456,11 @@ msgstr "אימות"
 msgid "Run Command"
 msgstr "הרצת פקודה"
 
-#: src/ui/settings.ui:302
+#: src/ui/settings.ui:319
 msgid "No notifications"
 msgstr "אין התרעות"
 
-#: src/ui/settings.ui:343
+#: src/ui/settings.ui:359
 msgid "Clear all"
 msgstr "ניקוי הכול"
 
@@ -476,7 +478,7 @@ msgstr "יציאה"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:319
+#: src/util.c:339
 msgid "%A, %B %-e"
 msgstr "%A, %B %e"
 
@@ -498,47 +500,57 @@ msgid "Wi-Fi"
 msgstr "רשת אלחוטית"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwan-info.c:200
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "רשת סלולרית"
 
 #: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
 msgid "Personal Information"
 msgstr "מידע אישי"
 
 #: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
 msgid "Date of Birth"
 msgstr "תאריך לידה"
 
 #: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Preferred Language"
 msgstr "שפה מועדפת"
 
 #: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
 msgid "Home Address"
 msgstr "כתובת בית"
 
 #: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Medical Information"
 msgstr "מידע רפואי"
 
 #: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
 msgid "Age"
 msgstr "גיל"
 
 #: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
 msgid "Blood Type"
 msgstr "סוג דם"
 
 #: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
 msgid "Height"
 msgstr "גובה"
 
 #: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
 msgid "Weight"
 msgstr "משקל"
 
 #: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
 msgid "Allergies"
 msgstr "אלרגיות"
 
@@ -547,12 +559,55 @@ msgid "Medications & Conditions"
 msgstr "תרופות והגבלות"
 
 #: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
 msgid "Other Information"
 msgstr "מידע נוסף"
 
 #: plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
 msgid "Emergency Contacts"
 msgstr "אנשי קשר למקרה חירום"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "העדפות מידע למקרה חירום"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "בוצע"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "שם בעלים"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "תרופות והגבלות"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "הוספת איש קשר"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "הוספת איש קשר חדש"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "הוספה"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+msgid "New Contact Name"
+msgstr "הוספת שם איש קשר"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+msgid "Relationship"
+msgstr "קרבה"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+msgid "Number"
+msgstr "מספר"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -562,11 +617,11 @@ msgstr "אין מסמכים להצגה"
 msgid "Tickets"
 msgstr "תעודות"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:81
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "Choose Folder"
 msgstr "בחירת תיקייה"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:85
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Open"
 msgstr "_פתיחה"
 
