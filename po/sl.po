@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-02-16 09:58+0000\n"
-"PO-Revision-Date: 2023-02-17 21:45+0100\n"
+"POT-Creation-Date: 2023-03-07 10:28+0000\n"
+"PO-Revision-Date: 2023-03-22 23:08+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -138,19 +138,19 @@ msgstr "Neznan program"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:91
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "Tiho"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:97
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "Tiho"
 
 #. Translators: Enable LED, haptic and audio feedback
-#: src/feedbackinfo.c:101
+#: src/feedbackinfo.c:108
 msgctxt "feedback:enabled"
 msgid "On"
 msgstr "Vključeno"
@@ -176,7 +176,7 @@ msgstr "Ne"
 msgid "Enter Passcode"
 msgstr "Vnesite geslo"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Preverjanje …"
 
@@ -334,20 +334,20 @@ msgstr "Geslo:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Žal to ne deluje. Poskusite znova."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "Pokončno"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "Ležeče"
 
-#: src/rotateinfo.c:104 src/rotateinfo.c:188
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
 msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Izključeno"
 
-#: src/rotateinfo.c:105
+#: src/rotateinfo.c:126
 msgctxt "automatic-screen-rotation-enabled"
 msgid "On"
 msgstr "Vključeno"
@@ -379,6 +379,7 @@ msgstr "Pomni odločitev"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -443,7 +444,7 @@ msgid "Authentication required"
 msgstr "Zahtevana je overitev"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Cancel"
 msgstr "Pre_kliči"
 
@@ -459,11 +460,11 @@ msgstr "Overi"
 msgid "Run Command"
 msgstr "Zaženi ukaz"
 
-#: src/ui/settings.ui:302
+#: src/ui/settings.ui:319
 msgid "No notifications"
 msgstr "Ni obvestil"
 
-#: src/ui/settings.ui:343
+#: src/ui/settings.ui:359
 msgid "Clear all"
 msgstr "Počisti vse"
 
@@ -481,7 +482,7 @@ msgstr "Odjava"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:338
+#: src/util.c:339
 msgid "%A, %B %-e"
 msgstr "%A, %e. %B"
 
@@ -503,7 +504,7 @@ msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwan-info.c:200
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Mobilno"
 
@@ -573,7 +574,6 @@ msgstr "Stiki v sili"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
-#, fuzzy
 msgid "Emergency Info Preferences"
 msgstr "Nastavitve podatkov za primere v sili"
 
@@ -586,8 +586,6 @@ msgid "Owner Name"
 msgstr "Ime lastnika"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
-#, fuzzy
-#| msgid "Medications & Conditions"
 msgid "Medications and Conditions"
 msgstr "Zdravila in bolezni"
 
@@ -599,15 +597,18 @@ msgstr "Dodaj stik"
 msgid "Add New Contact"
 msgstr "Dodaj nov stik"
 
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "Dodaj"
+
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
 msgid "New Contact Name"
 msgstr "Ime novega stika"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
 #, fuzzy
-#| msgid "Geolocation"
 msgid "Relationship"
-msgstr "Geolokacija"
+msgstr "Relacija/Razmerje"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
 msgid "Number"
@@ -622,11 +623,11 @@ msgstr "Ni dokumentov za prikaz"
 msgid "Tickets"
 msgstr "Zahtevki"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:83
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "Choose Folder"
 msgstr "Izberite mapo"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Open"
 msgstr "_Odpri"
 
