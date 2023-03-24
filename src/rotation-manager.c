@@ -266,25 +266,6 @@ fixup_lockscreen_orientation (PhoshRotationManager *self, gboolean force)
 
 
 static void
-on_power_mode_changed (PhoshRotationManager *self,
-                       GParamSpec *pspec,
-                       PhoshMonitor *monitor)
-{
-  PhoshMonitorPowerSaveMode mode;
-
-  g_return_if_fail (PHOSH_IS_ROTATION_MANAGER (self));
-  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
-
-  mode = phosh_monitor_get_power_save_mode (monitor);
-  g_debug ("Powersave mode: %d", mode);
-  if (mode != PHOSH_MONITOR_POWER_SAVE_MODE_ON)
-    return;
-
-  fixup_lockscreen_orientation (self, TRUE);
-}
-
-
-static void
 claim_or_release_accelerometer (PhoshRotationManager *self)
 {
   gboolean claim = TRUE;
@@ -312,11 +293,15 @@ static void
 on_lockscreen_manager_locked (PhoshRotationManager *self, GParamSpec *pspec,
                               PhoshLockscreenManager *lockscreen_manager)
 {
+  gboolean locked;
+
   g_return_if_fail (PHOSH_IS_ROTATION_MANAGER (self));
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (lockscreen_manager));
 
   claim_or_release_accelerometer (self);
-  fixup_lockscreen_orientation (self, FALSE);
+
+  locked = phosh_lockscreen_manager_get_locked (self->lockscreen_manager);
+  fixup_lockscreen_orientation (self, locked);
 }
 
 
@@ -695,12 +680,6 @@ phosh_rotation_manager_set_monitor (PhoshRotationManager *self, PhoshMonitor *mo
   }
 
   self->monitor = g_object_ref (monitor);
-  g_signal_connect_swapped (self->monitor,
-                            "notify::power-mode",
-                            G_CALLBACK (on_power_mode_changed),
-                            self);
-  on_power_mode_changed (self, NULL, self->monitor);
-
   g_signal_connect_swapped (self->monitor,
                             "configured",
                             G_CALLBACK (on_monitor_configured),
