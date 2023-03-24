@@ -78,10 +78,12 @@ phosh-top-panel .phosh-topbar-date{
 
 #phosh_quick_settings flowboxchild > button.phosh-qs-active:hover {
   background-color: shade(@theme_selected_bg_color, 1.14);
+  color:  @theme_selected_fg_color;
 }
 
 #phosh_quick_settings flowboxchild > button.phosh-qs-active {
   background-color: @theme_selected_bg_color;
+  color:  @theme_selected_fg_color;
 }
 
 #phosh_quick_settings flowboxchild > button:disabled {
