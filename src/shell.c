@@ -1317,6 +1317,19 @@ phosh_shell_get_screen_saver_manager (PhoshShell *self)
 }
 
 
+PhoshScreenshotManager *
+phosh_shell_get_screenshot_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (priv->screenshot_manager), NULL);
+  return priv->screenshot_manager;
+}
+
+
 PhoshSessionManager *
 phosh_shell_get_session_manager (PhoshShell *self)
 {
