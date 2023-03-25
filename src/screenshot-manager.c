@@ -607,7 +607,7 @@ build_screenshot_filename (const char *pattern)
  * @self: The screenshot maanger
  * @area: The area to capture or %NULL to capture all outputs
  *
- * Initiate a screenshot of the all outputs or the given area.
+ * Initiate a screenshot of all outputs or the given area.
  *
  * Returns: -errno on failure, otherwise 0
  */
