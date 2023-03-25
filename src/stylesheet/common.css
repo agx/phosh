@@ -735,6 +735,17 @@ phosh-splash.dark {
 }
 
 /*
+ * Power button menu
+ */
+
+phosh-power-menu button {
+  min-height: 64px;
+  min-width: 64px;
+  border-radius: 24px;
+  font-weight: 800;
+}
+
+/*
  * Emergency call related styling
  */
 

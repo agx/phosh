@@ -53,6 +53,7 @@
 #include "monitor-manager.h"
 #include "monitor/monitor.h"
 #include "mount-manager.h"
+#include "power-menu-manager.h"
 #include "revealer.h"
 #include "settings.h"
 #include "system-modal-dialog.h"
@@ -157,6 +158,7 @@ typedef struct
   PhoshVpnManager *vpn_manager;
   PhoshPortalAccessManager *portal_access_manager;
   PhoshSuspendManager *suspend_manager;
+  PhoshPowerMenuManager *power_menu_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -512,6 +514,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->notification_banner);
 
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->power_menu_manager);
   g_clear_object (&priv->portal_access_manager);
   g_clear_object (&priv->vpn_manager);
   g_clear_object (&priv->network_auth_manager);
@@ -751,6 +754,7 @@ setup_idle_cb (PhoshShell *self)
   priv->network_auth_manager = phosh_network_auth_manager_new ();
   priv->portal_access_manager = phosh_portal_access_manager_new ();
   priv->suspend_manager = phosh_suspend_manager_new ();
+  priv->power_menu_manager = phosh_power_menu_manager_new ();
 
   setup_primary_monitor_signal_handlers (self);
 
