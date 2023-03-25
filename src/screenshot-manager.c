@@ -199,10 +199,12 @@ show_fader (PhoshScreenshotManager *self)
 static void
 screenshot_done (PhoshScreenshotManager *self, gboolean success)
 {
-  phosh_dbus_screenshot_complete_screenshot (PHOSH_DBUS_SCREENSHOT (self),
-                                             self->frames->invocation,
-                                             success,
-                                             self->frames->filename ?: "");
+  if (self->frames->invocation) {
+    phosh_dbus_screenshot_complete_screenshot (PHOSH_DBUS_SCREENSHOT (self),
+                                               self->frames->invocation,
+                                               success,
+                                               self->frames->filename ?: "");
+  }
 
   g_clear_pointer (&self->frames, screencopy_frames_dispose);
 }
