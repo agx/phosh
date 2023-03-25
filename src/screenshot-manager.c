@@ -611,7 +611,7 @@ build_screenshot_filename (const char *pattern)
  *
  * Returns: -errno on failure, otherwise 0
  */
-static gboolean
+gboolean
 phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
                                         GdkRectangle           *area,
                                         const char             *filename,
