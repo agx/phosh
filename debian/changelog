@@ -1,3 +1,125 @@
+phosh (0.26.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * ci: Montage all screenshot dirs
+  * testlib: Prefix test env var with PHOSH_TEST_
+  * testlib: Allow to override phoc.ini.
+    This can be useful for testing different resolutions
+  * tests: Set test type rather than locale.
+    This allows us to reuse the tests for other things than
+    testing different locales
+  * tests: Screenshot high contrast shell too.
+    This makes validation simpler.
+  * tests: Copy keyfile to builddir.
+    The tests modify the keyfile so in order to avoid an unclean source tree
+    copy them to the builddir and use it from there.
+  * tests: Run tests in landscape.
+    Not all of them make sense as the device rotates to natural orientation
+    for some of them but let's keep them for now as it would be nice to have
+    those fixed for use cases like landscape plus keyboard.
+  * tests/screenshots: Check return value too
+  * tests: Make sure the keyfile is in place when the tests are run.
+    Fixes: ce119310013d742762a6e6d1b56322d66a0d49e0
+  * plugins/emergency-plugins-prefs: Fix deprecation
+    gtk_widget_hide is deprecated in GTK 4.9
+  * plugins/ticket-box-prefs: Ignore file chooser deprecation.
+    As it's deprecated since 4.10 and the new GtkFileChooser is only
+    available in 4.10 let's wait a bit until we move over.
+  * ci: Use "meson setup"
+    No functional change, just to avoid the deprecation warning
+  * phosh-enums: Sort alphabetically
+  * settings: Drop child properies that don't apply to HdyClamp.
+    Fixes 394974f0e2fdb729f9772895c183b38dde7e5e79
+  * settings: Make quick settings take enough vertical space.
+    This avoids a scroll bar e.g. when opening settings on the lock screen
+    when there's enough vertical space.
+  * plugins/emergency-info-prefs: Mark labels as translatable.
+    Thanks Piotr Drąg
+  * main: Don't try to open default display when parsing gtk options.
+    This makes `phosh --version` work without any compositor or with
+    unconfigured XDG_RUNTIME_DIR.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/907
+    Thanks to Ellie
+  * rotation-manager: Don't react on power-mode changes.
+    Since we split locking from blanking acting on lock is enough.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/903
+  * wifimanager: Shorten property names.
+    Matches HACKING.md
+  * wifimanager: Add property docs.
+    This makes sure they show up in the generated documentation
+  * wifimanager: Track whether we're an active wifi hotspot
+  * Add suspend manager.
+    This gives us a place where we can put inhibitors. The first inhibitor
+    prevents suspend when the wifi hotspot is active.
+  * protocol: Update phosh-private to latest version.
+    No functional changes
+  * keyboard-events: Notify key release when using newer protocol version.
+    Listeners can chose if they care by passing a boolean parameter to the
+    action. If they don't pass any parameter they only get key pressed.
+  * screen-saver-manager: Only blank on key release.
+    This avoids unblanking the screen if the user presses the button for a
+    longer period of time. It will also allow us to handle long press.
+    Unblanking already happens on power button press as the activity fed by
+    the compositor is enough (similar to e.g. the volume buttons).
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/911
+  * d/control: Bump phoc dependency.
+    Phosh will mostly work with earlier versions but 0.26.0 is required
+    for the keyboard event protocol changes.
+
+  [ Sam Hewitt ]
+  * css: Fix quick-setting label in high contrast
+
+  [ Newbyte ]
+  * meson: Use proper SPDX licence identifier.
+  * README: Use proper SPDX licence identifier.
+
+  [ Aleksandr Melman ]
+  * Update Russian translation
+
+  [ Piotr Drąg ]
+  * Update Polish translation
+
+  [ Asier Sarasua Garmendia ]
+  * Update Basque translation
+
+  [ Balázs Úr ]
+  * Update Hungarian translation
+
+  [ Jürgen Benvenuti ]
+  * Update German translation
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+  [ Sabri Ünal ]
+  * Update Turkish translation
+
+  [ Hugo Carvalho ]
+  * Update Portuguese translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Nathan Follens ]
+  * Update Dutch translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 27 Mar 2023 11:48:28 +0200
+
 phosh (0.25.1) experimental; urgency=medium
 
   [ Guido Günther ]

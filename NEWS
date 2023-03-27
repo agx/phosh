@@ -1,3 +1,38 @@
+phosh 0.26.0
+------------
+Released April 2023
+* Inhibit suspend when WiFi hotspot is active
+* Test suite improvements
+* Power button handling improvements
+* Avoid deprecations with GTK 4.10 in preferences plugins
+* Make sure quick settings take enough vertical
+  space on the lock screen to avoid a needless scrollbar
+* Issues Fixed:
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/903
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/907
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/909
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/911
+* Contributors:
+    * Guido Günther
+    * Sam Hewitt
+    * Newbyte
+* UI translations:
+    * Aleksandr Melman (ru)
+    * Anders Jonsson (sv)
+    * Asier Sarasua Garmendia (eu)
+    * Balázs Úr (hu)
+    * Danial Behzadi (fa)
+    * Daniel Șerbănescu (ro)
+    * Hugo Carvalho (pt)
+    * Jiri Grönroos (fi)
+    * Jürgen Benvenuti (de)
+    * Martin (sl)
+    * Piotr Drąg (pl)
+    * Sabri Ünal (tr)
+    * Yosef Or Boczko (he)
+    * Yuri Chornoivan (uk)
+    * Nathan Follens (nl)
+
 phosh 0.25.1
 ------------
 Released March 2023
