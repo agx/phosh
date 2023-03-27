@@ -1,5 +1,5 @@
 <protocol name="phosh">
-  <interface name="phosh_private" version="6">
+  <interface name="phosh_private" version="7">
     <description summary="Phone shell extensions">
       Private protocol between phosh and the compositor.
     </description>
@@ -11,7 +11,7 @@
 
     <request name="rotate_display" since="1">
       <description summary="rotate output">
-	This request is unused, ignore. Use wlr-output-management instead.
+        This request is unused, ignore. Use wlr-output-management instead.
       </description>
       <arg name="surface" type="object" interface="wl_surface"/>
       <arg name="degree" type="uint"/>
@@ -19,7 +19,7 @@
 
     <request name="get_xdg_switcher" since="2">
       <description summary="rotate output">
-	This request is unused, ignore. Use wlr-foreign-toplevel-management instead.
+        This request is unused, ignore. Use wlr-foreign-toplevel-management instead.
       </description>
       <arg name="id" type="new_id" interface="phosh_private_xdg_switcher"/>
     </request>
@@ -51,8 +51,8 @@
     </request>
 
     <request name="get_startup_tracker" since="6">
-      <description summary="request a keyboard event handler">
-	Allows to track application startup.
+      <description summary="Request an application startup tracker">
+        Allows to track application startup.
       </description>
       <arg name="id" type="new_id" interface="phosh_private_startup_tracker"/>
     </request>
@@ -72,7 +72,7 @@
 
   </interface>
 
-  <interface name="phosh_private_keyboard_event" version="5">
+  <interface name="phosh_private_keyboard_event" version="7">
     <description summary="Interface for additional keyboard events">
       The interface is meant to allow subscription and forwarding of keyboard events.
     </description>
@@ -88,7 +88,7 @@
     </enum>
     <event name="accelerator_activated_event" since="5">
       <description summary="Report an accelerator press">
-        Forward an action to the client.
+        The subscribed accelerator has been pressed.
       </description>
       <arg name="action_id" type="uint" summary="The previously assigned action_id"/>
       <arg name="timestamp" type="uint" summary="The timestamp when the key has been pressed"/>
@@ -142,10 +142,19 @@
     <request name="destroy" type="destructor" since="5">
       <description summary="destroy the keyboard_event interface instance"/>
     </request>
+
+    <!-- Version 7 additions -->
+    <event name="accelerator_released_event" since="7">
+      <description summary="Report an accelerator release">
+        The subscribed accelerator has been released.
+      </description>
+      <arg name="action_id" type="uint" summary="The previously assigned action_id"/>
+      <arg name="timestamp" type="uint" summary="The timestamp when the key has been released"/>
+    </event>
   </interface>
 
   <!-- application switch/close handling -->
-  <interface name="phosh_private_xdg_switcher" version="3">
+  <interface name="phosh_private_xdg_switcher" version="7">
     <description summary="Interface to list and raise xdg surfaces">
       This interface is unused, ignore. Use wlr-foreign-toplevel-management instead.
     </description>
@@ -187,7 +196,7 @@
   </interface>
 
   <!-- application startup tracking -->
-  <interface name="phosh_private_startup_tracker" version="6">
+  <interface name="phosh_private_startup_tracker" version="7">
     <description summary="Interface to track application startup">
       Allows shells to track application startup.
     </description>
@@ -215,7 +224,7 @@
 
     <event name="launched">
       <description summary="Report an application launch">
-	This event indicates that the launcher spawned the app.
+        This event indicates that the launcher spawned the app.
       </description>
       <arg name="startup_id" type="string" summary="The startup_id"/>
       <arg name="protocol" type="uint" enum="protocol" summary="The protocol"/>
@@ -224,7 +233,7 @@
 
     <request name="destroy" type="destructor">
       <description summary="destroy the startup_tracker interface instance">
-	The Client should invoke this when done using the interface.
+        The Client should invoke this when done using the interface.
       </description>
     </request>
   </interface>
