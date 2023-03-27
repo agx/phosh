@@ -147,6 +147,8 @@ libphosh_tool_sources = files(
   'splash.h',
   'splash-manager.c',
   'splash-manager.h',
+  'suspend-manager.c',
+  'suspend-manager.h',
   'system-modal.c',
   'system-modal.h',
   'system-modal-dialog.c',

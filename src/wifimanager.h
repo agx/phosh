@@ -21,5 +21,6 @@ const char        *phosh_wifi_manager_get_ssid (PhoshWifiManager *self);
 gboolean           phosh_wifi_manager_get_enabled (PhoshWifiManager *self);
 void               phosh_wifi_manager_set_enabled (PhoshWifiManager *self, gboolean enabled);
 gboolean           phosh_wifi_manager_get_present (PhoshWifiManager *self);
+gboolean           phosh_wifi_manager_is_hotspot_master (PhoshWifiManager *self);
 
 G_END_DECLS

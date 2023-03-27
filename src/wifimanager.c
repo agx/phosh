@@ -24,14 +24,15 @@
  */
 
 enum {
-  PHOSH_WIFI_MANAGER_PROP_0,
-  PHOSH_WIFI_MANAGER_PROP_ICON_NAME,
-  PHOSH_WIFI_MANAGER_PROP_SSID,
-  PHOSH_WIFI_MANAGER_PROP_ENABLED,
-  PHOSH_WIFI_MANAGER_PROP_PRESENT,
-  PHOSH_WIFI_MANAGER_PROP_LAST_PROP
+  PROP_0,
+  PROP_ICON_NAME,
+  PROP_SSID,
+  PROP_ENABLED,
+  PROP_PRESENT,
+  PROP_IS_HOTSPOT_MASTER,
+  PROP_LAST_PROP
 };
-static GParamSpec *props[PHOSH_WIFI_MANAGER_PROP_LAST_PROP];
+static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshWifiManager
 {
@@ -42,6 +43,7 @@ struct _PhoshWifiManager
   /* Whether we have a wifi device at all (independent from the
    * connection state */
   gboolean           present;
+  gboolean           is_hotspot_master;
 
   const char         *icon_name;
   char               *ssid;
@@ -76,24 +78,34 @@ signal_strength_icon_name (guint strength)
 
 
 static gboolean
-get_is_hotspot_master (PhoshWifiManager *self)
+check_is_hotspot_master (PhoshWifiManager *self)
 {
   NMSettingIPConfig *ip4_setting;
   NMConnection *c;
+  gboolean is_hotspot_master = FALSE;
 
   if (!self->dev || !self->active ||
-      nm_active_connection_get_state (self->active) != NM_ACTIVE_CONNECTION_STATE_ACTIVATED)
-    return FALSE;
+      nm_active_connection_get_state (self->active) != NM_ACTIVE_CONNECTION_STATE_ACTIVATED) {
+    is_hotspot_master = FALSE;
+    goto out;
+  }
 
   c = NM_CONNECTION (nm_active_connection_get_connection (self->active));
   ip4_setting = nm_connection_get_setting_ip4_config (c);
 
   if (ip4_setting &&
       g_strcmp0 (nm_setting_ip_config_get_method (ip4_setting),
-                 NM_SETTING_IP4_CONFIG_METHOD_SHARED) == 0)
-    return TRUE;
+                 NM_SETTING_IP4_CONFIG_METHOD_SHARED) == 0) {
+    is_hotspot_master = TRUE;
+  }
 
-  return FALSE;
+ out:
+  if (is_hotspot_master != self->is_hotspot_master) {
+    self->is_hotspot_master = is_hotspot_master;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_HOTSPOT_MASTER]);
+  }
+
+  return self->is_hotspot_master;
 }
 
 static const char *
@@ -115,7 +127,7 @@ get_icon_name (PhoshWifiManager *self)
   case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
     return "network-wireless-acquiring-symbolic";
   case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
-    if (get_is_hotspot_master (self)) {
+    if (check_is_hotspot_master (self)) {
       return "network-wireless-hotspot-symbolic";
     } else if (!self->ap) {
       return "network-wireless-connected-symbolic";
@@ -143,7 +155,7 @@ update_icon_name (PhoshWifiManager *self)
   self->icon_name = get_icon_name (self);
 
   if (g_strcmp0 (self->icon_name, old_icon_name) != 0) {
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ICON_NAME]);
   }
 }
 
@@ -160,7 +172,7 @@ update_enabled_state (PhoshWifiManager *self)
 
    if (enabled != self->enabled) {
      self->enabled = enabled;
-     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_ENABLED]);
+     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
    }
 }
 
@@ -182,17 +194,20 @@ phosh_wifi_manager_get_property (GObject *object,
   PhoshWifiManager *self = PHOSH_WIFI_MANAGER (object);
 
   switch (property_id) {
-  case PHOSH_WIFI_MANAGER_PROP_ICON_NAME:
+  case PROP_ICON_NAME:
     g_value_set_string (value, self->icon_name);
     break;
-  case PHOSH_WIFI_MANAGER_PROP_SSID:
+  case PROP_SSID:
     g_value_set_string (value, self->ssid);
     break;
-  case PHOSH_WIFI_MANAGER_PROP_ENABLED:
+  case PROP_ENABLED:
     g_value_set_boolean (value, self->enabled);
     break;
-  case PHOSH_WIFI_MANAGER_PROP_PRESENT:
+  case PROP_PRESENT:
     g_value_set_boolean (value, self->present);
+    break;
+  case PROP_IS_HOTSPOT_MASTER:
+    g_value_set_boolean (value, self->is_hotspot_master);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -257,7 +272,7 @@ on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self, GParamSpe
   }
 
   if (g_strcmp0 (self->ssid, old_ssid) != 0) {
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_SSID]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SSID]);
   }
 }
 
@@ -347,7 +362,7 @@ on_nmclient_wireless_enabled_changed (PhoshWifiManager *self, GParamSpec *pspec,
 
   if (self->ssid != NULL) {
     g_clear_pointer (&self->ssid, g_free);
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_SSID]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SSID]);
   }
 }
 
@@ -422,7 +437,7 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
     update_state (self);
     self->present = FALSE;
     if (self->present != present)
-      g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_PRESENT]);
+      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
     return;
   }
 
@@ -437,7 +452,7 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
 
   self->present = have_wifi_dev;
   if (self->present != present)
-    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WIFI_MANAGER_PROP_PRESENT]);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
   update_state (self);
 }
 
@@ -527,39 +542,59 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
 
   object_class->get_property = phosh_wifi_manager_get_property;
 
-  props[PHOSH_WIFI_MANAGER_PROP_ICON_NAME] =
-    g_param_spec_string ("icon-name",
-                         "icon name",
-                         "The wifi icon name",
+  /**
+   * PhoshWifiManager:icon-name:
+   *
+   * The wifi icon name
+   */
+  props[PROP_ICON_NAME] =
+    g_param_spec_string ("icon-name", "", "",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
-
-  props[PHOSH_WIFI_MANAGER_PROP_SSID] =
-    g_param_spec_string ("ssid",
-                         "ssid",
-                         "The wifis ssid, if connected",
+  /**
+   * PhoshWifiManager:ssid:
+   *
+   * The wifis ssid, if connected
+   */
+  props[PROP_SSID] =
+    g_param_spec_string ("ssid", "", "",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
-
-  props[PHOSH_WIFI_MANAGER_PROP_ENABLED] =
-    g_param_spec_boolean ("enabled",
-                          "enabled",
-                          "Whether wifi is enabled and a wifi device is available",
+  /**
+   * PhoshWifiManager:enabled
+   *
+   * Whether wifi is enabled and a wifi device is available
+   */
+  props[PROP_ENABLED] =
+    g_param_spec_boolean ("enabled", "", "",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_EXPLICIT_NOTIFY |
+                          G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshWifiManager:present:
+   *
+   * Whether wifi hardware is present
+   */
+  props[PROP_PRESENT] =
+    g_param_spec_boolean ("present", "", "",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_EXPLICIT_NOTIFY |
+                          G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshWifiManager:hotspot-master:
+   *
+   * Whether we're a hotspot master at the moment
+   */
+  props[PROP_IS_HOTSPOT_MASTER] =
+    g_param_spec_boolean ("is-hotspot-master", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_STATIC_STRINGS);
 
-  props[PHOSH_WIFI_MANAGER_PROP_PRESENT] =
-    g_param_spec_boolean ("present",
-                          "Present",
-                          "Whether wifi hardware is present",
-                          FALSE,
-                          G_PARAM_READABLE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
-
-  g_object_class_install_properties (object_class, PHOSH_WIFI_MANAGER_PROP_LAST_PROP, props);
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
 
@@ -639,4 +674,19 @@ phosh_wifi_manager_get_present (PhoshWifiManager *self)
   g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (self), FALSE);
 
   return self->present;
+}
+
+/**
+ * phosh_wifi_manager_is_hotspot_master:
+ *
+ * Whether we're currently a hotspot master
+ *
+ * Returns: %TRUE if hotspot master, %FALSE otherwise
+ */
+gboolean
+phosh_wifi_manager_is_hotspot_master (PhoshWifiManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (self), FALSE);
+
+  return self->is_hotspot_master;
 }

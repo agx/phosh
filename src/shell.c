@@ -74,6 +74,7 @@
 #include "screenshot-manager.h"
 #include "session-manager.h"
 #include "splash-manager.h"
+#include "suspend-manager.h"
 #include "system-prompter.h"
 #include "top-panel.h"
 #include "torch-manager.h"
@@ -155,6 +156,7 @@ typedef struct
   PhoshNetworkAuthManager *network_auth_manager;
   PhoshVpnManager *vpn_manager;
   PhoshPortalAccessManager *portal_access_manager;
+  PhoshSuspendManager *suspend_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -534,6 +536,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->background_manager);
   g_clear_object (&priv->keyboard_events);
   g_clear_object (&priv->app_tracker);
+  g_clear_object (&priv->suspend_manager);
 
   /* sensors */
   g_clear_object (&priv->proximity);
@@ -737,6 +740,7 @@ setup_idle_cb (PhoshShell *self)
   priv->run_command_manager = phosh_run_command_manager_new();
   priv->network_auth_manager = phosh_network_auth_manager_new ();
   priv->portal_access_manager = phosh_portal_access_manager_new ();
+  priv->suspend_manager = phosh_suspend_manager_new ();
 
   setup_primary_monitor_signal_handlers (self);
 
