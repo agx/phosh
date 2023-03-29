@@ -735,6 +735,29 @@ phosh-splash.dark {
 }
 
 /*
+ * Emergency call related styling
+ */
+
+.emergency-button {
+  background: @phosh_emergency_button_bg_color;
+  color: @phosh_emergency_button_fg_color;
+}
+
+.emergency-button:focus,
+.emergency-button:focus:hover,
+.emergency-button:hover {
+  background: shade(@phosh_emergency_button_bg_color, 1.2);
+}
+
+.emergency-button:focus {
+  box-shadow: inset 0 0 2px 0 shade(@phosh_emergency_button_bg_color, 2);
+}
+
+.emergency-button:active {
+  background: shade(@phosh_emergency_button_bg_color, 1.5);
+}
+
+/*
  * GTK Overrides
  */
 
