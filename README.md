@@ -4,7 +4,7 @@ a pure wayland shell for mobile devices like Purism's Librem 5.
 
 ## License
 
-phosh is licensed under the GPLv3+.
+phosh is licensed under the GPL-3.0-or-later licence.
 
 ## Getting the source
 
