@@ -51,6 +51,7 @@ typedef struct _PhoshRotationManager {
   PhoshMonitor            *monitor;
   PhoshMonitorTransform    transform;
   PhoshMonitorTransform    prelock_transform;
+  gboolean                 blanked;
 
   GSettings               *settings;
   gboolean                 orientation_locked;
@@ -72,12 +73,11 @@ apply_transform (PhoshRotationManager *self, PhoshMonitorTransform transform)
   if (!self->monitor)
     return;
 
-  g_debug ("Rotating %s: %d", self->monitor->name, transform);
-
   current = phosh_monitor_get_transform (self->monitor);
   if (current == transform)
     return;
 
+  g_debug ("Rotating %s to %d", self->monitor->name, transform);
   phosh_monitor_manager_set_monitor_transform (monitor_manager,
                                                self->monitor,
                                                transform);
@@ -185,6 +185,7 @@ phosh_rotation_manager_claim_accelerometer (PhoshRotationManager *self, gboolean
   if (!self->sensor_proxy_manager)
     return;
 
+  g_debug ("Claiming accelerometer: %d", claim);
   if (claim) {
     phosh_dbus_sensor_proxy_call_claim_accelerometer (
       PHOSH_DBUS_SENSOR_PROXY (self->sensor_proxy_manager),
@@ -270,8 +271,8 @@ claim_or_release_accelerometer (PhoshRotationManager *self)
 {
   gboolean claim = TRUE;
 
-  /* No need for accel on screen lock, saves power */
-  if (phosh_lockscreen_manager_get_locked (self->lockscreen_manager))
+  /* No need for accel on screen blank, saves power */
+  if (phosh_shell_get_state (phosh_shell_get_default ()) & PHOSH_STATE_BLANKED)
     claim = FALSE;
 
   /* No need for accel on orientation lock, saves power */
@@ -290,6 +291,32 @@ claim_or_release_accelerometer (PhoshRotationManager *self)
 
 
 static void
+on_shell_state_changed (PhoshRotationManager  *self,
+                        GParamSpec            *pspec,
+                        PhoshShell            *shell)
+{
+  PhoshShellStateFlags state;
+  gboolean blanked;
+
+  g_return_if_fail (PHOSH_IS_ROTATION_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_SHELL (shell));
+
+  state = phosh_shell_get_state (shell);
+  g_debug ("Shell state changed: %d", state);
+
+  blanked = !!(phosh_shell_get_state (phosh_shell_get_default ()) & PHOSH_STATE_BLANKED);
+
+  /* We're only interested in blank state changed */
+  if (blanked == self->blanked)
+    return;
+  self->blanked = blanked;
+
+  /* Claim/unclaim sensor if blank state changed */
+  claim_or_release_accelerometer (self);
+}
+
+
+static void
 on_lockscreen_manager_locked (PhoshRotationManager *self, GParamSpec *pspec,
                               PhoshLockscreenManager *lockscreen_manager)
 {
@@ -297,8 +324,6 @@ on_lockscreen_manager_locked (PhoshRotationManager *self, GParamSpec *pspec,
 
   g_return_if_fail (PHOSH_IS_ROTATION_MANAGER (self));
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (lockscreen_manager));
-
-  claim_or_release_accelerometer (self);
 
   locked = phosh_lockscreen_manager_get_locked (self->lockscreen_manager);
   fixup_lockscreen_orientation (self, locked);
@@ -420,6 +445,13 @@ phosh_rotation_manager_constructed (GObject *object)
                             (GCallback) on_lockscreen_manager_locked,
                             self);
   on_lockscreen_manager_locked (self, NULL, self->lockscreen_manager);
+
+  self->blanked = !!(phosh_shell_get_state (phosh_shell_get_default ()) & PHOSH_STATE_BLANKED);
+  g_signal_connect_object (phosh_shell_get_default (),
+                           "notify::shell-state",
+                           G_CALLBACK (on_shell_state_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   if (!self->sensor_proxy_manager) {
     g_message ("Got no sensor-proxy, no automatic rotation");
