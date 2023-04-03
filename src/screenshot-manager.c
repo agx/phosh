@@ -544,7 +544,7 @@ screencopy_frame_handle_failed (void                            *data,
                                 struct zwlr_screencopy_frame_v1 *frame)
 {
   ScreencopyFrame *screencopy_frame = data;
-  const char *name = screencopy_frame->monitor ? screencopy_frame->monitor->name : "<unknonwn>";
+  const char *name = screencopy_frame->monitor ? screencopy_frame->monitor->name : "<unknown>";
 
   screencopy_frame->state = FRAME_STATE_FAILURE;
   g_warning ("Failed to copy output '%s'\n", name);

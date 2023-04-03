@@ -136,7 +136,7 @@ on_volume_added (PhoshMountManager *self, GVolume *vol, GVolumeMonitor *monitor)
     return;
   }
 
-  /* If this is not the intial 'mount-all' run allow UI interaction */
+  /* If this is not the initial 'mount-all' run allow UI interaction */
   if (!mount_all)
     op = phosh_mount_operation_new ();
 
@@ -290,7 +290,7 @@ phosh_mount_manager_dispose (GObject *object)
   g_clear_object (&self->settings);
   g_clear_object (&self->monitor);
 
-  /* Cancel all ongoing mount opertions */
+  /* Cancel all ongoing mount operations */
   for (int i = 0; i < self->cancellables->len; i++) {
     GCancellable *cancellable = g_ptr_array_index (self->cancellables, i);
     g_cancellable_cancel (cancellable);

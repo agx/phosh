@@ -182,7 +182,7 @@ set_actions (PhoshNotificationContent *self,  PhoshNotification *notification)
     GtkWidget *btn;
     GtkWidget *lbl;
 
-    /* The default action is already trigged by the notification body */
+    /* The default action is already triggered by the notification body */
     if (g_strcmp0 (actions[i], "default") == 0) {
       continue;
     }

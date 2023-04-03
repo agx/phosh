@@ -98,7 +98,7 @@ on_brightness_set (PhoshDBusLoginSession *proxy,
   g_return_if_fail (PHOSH_DBUS_IS_LOGIN_SESSION (proxy));
 
   if (!phosh_dbus_login_session_call_set_brightness_finish (proxy, res, &err)) {
-    g_warning ("Failed to set torch brigthness: %s", err->message);
+    g_warning ("Failed to set torch brightness: %s", err->message);
     return;
   }
 

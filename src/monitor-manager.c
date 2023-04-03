@@ -1611,7 +1611,7 @@ phosh_monitor_manager_enable_fallback (PhoshMonitorManager *self)
   if (!self->heads->len)
     return FALSE;
 
-  /* Make sure all display changes got processed otherwise we might try to reenable
+  /* Make sure all display changes got processed otherwise we might try to re-enable
      a just gone head */
   phosh_wayland_roundtrip (phosh_wayland_get_default ());
 

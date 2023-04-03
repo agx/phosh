@@ -14,7 +14,7 @@ G_BEGIN_DECLS
 /**
  * PhoshRotateInfoMode:
  * @PHOSH_ROTATE_INFO_MODE_LOCK: Button toggles rotation lock
- * @PHOSH_ROTATE_INFO_MODE_TOGGLE: Button toggles potrait/landscape
+ * @PHOSH_ROTATE_INFO_MODE_TOGGLE: Button toggles portrait/landscape
  *
  * The power save mode of a monitor
  */

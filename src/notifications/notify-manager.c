@@ -30,7 +30,7 @@
  * Manages notifications
  *
  * #PhoshNotifyManager manages notifications sent from the shell
- * iself and via the org.freedesktop.Notification DBus interface.
+ * itself and via the org.freedesktop.Notification DBus interface.
  * See https://developer.gnome.org/notification-spec/
  *
  * It maintains a list of notifications via a #PhoshNotificationList.
@@ -89,7 +89,7 @@ handle_close_notification (PhoshNotifyDBusNotifications *skeleton,
   notification = phosh_notification_list_get_by_id (self->list, arg_id);
 
   /*
-   * ignore errors when closing non-existent notifcation, at least qt 5.11 is not
+   * ignore errors when closing non-existent notification, at least qt 5.11 is not
    * happy about it.
    */
   if (notification && PHOSH_IS_NOTIFICATION (notification)) {

@@ -320,7 +320,7 @@ phosh_create_shm_file (off_t size)
  * phoc_util_date_fmt:
  *
  * Get a date format based on LC_TIME.
- * This is done by temporarily swithcing LC_MESSAGES so we can look up
+ * This is done by temporarily switching LC_MESSAGES so we can look up
  * the format in our message catalog.  This will fail if LANGUAGE is
  * set to something different since LANGUAGE overrides
  * LC_{ALL,MESSAGE}.

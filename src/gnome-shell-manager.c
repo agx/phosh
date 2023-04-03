@@ -39,7 +39,7 @@ static void phosh_gnome_shell_manager_gnome_shell_iface_init (PhoshDBusGnomeShel
 enum {
   PROP_0,
   PROP_ACTION_MODE,
-  /* overriden properties */
+  /* overridden properties */
   PROP_SHELL_VERSION,
   PROP_LAST_PROP,
 };
