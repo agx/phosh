@@ -36,6 +36,7 @@
   </gresource>
   <gresource prefix="/sm/puri/phosh/icons/scalable/status/">
     <file alias="app-close-symbolic.svg">../data/icons/app-close-symbolic.svg</file>
+    <file alias="asterisk-symbolic.svg">../data/icons/asterisk-symbolic.svg</file>
     <file alias="auth-sim-locked-symbolic.svg">../data/icons/auth-sim-locked-symbolic.svg</file>
     <file alias="auth-sim-missing-symbolic.svg">../data/icons/auth-sim-missing-symbolic.svg</file>
     <file alias="camera-hardware-disabled-symbolic.svg">../data/icons/camera-hardware-disabled-symbolic.svg</file>
@@ -57,6 +58,7 @@
     <file alias="phone-undocked-symbolic.svg">../data/icons/phone-undocked-symbolic.svg</file>
     <file alias="screen-rotation-landscape-symbolic.svg">../data/icons/screen-rotation-landscape-symbolic.svg</file>
     <file alias="screen-rotation-portrait-symbolic.svg">../data/icons/screen-rotation-portrait-symbolic.svg</file>
+    <file alias="screenshot-portrait-symbolic.svg">../data/icons/screenshot-portrait-symbolic.svg</file>
     <file alias="skip-backwards-10-symbolic.svg">../data/icons/skip-backwards-10-symbolic.svg</file>
     <file alias="skip-forward-30-symbolic.svg">../data/icons/skip-forward-30-symbolic.svg</file>
     <file alias="swipe-arrow-symbolic.svg">../data/icons/swipe-arrow-symbolic.svg</file>
