@@ -738,11 +738,22 @@ phosh-splash.dark {
  * Power button menu
  */
 
+/* Special style for the dialog */
+phosh-power-menu .phosh-system-modal-dialog {
+  border-radius:32px;
+  padding-bottom: 8px;
+  margin: 24px;
+}
+
 phosh-power-menu button {
-  min-height: 64px;
+  min-height: 80px;
   min-width: 64px;
   border-radius: 24px;
-  font-weight: 800;
+  font-weight: bold;
+}
+
+phosh-power-menu button image {
+  opacity: 0.8;
 }
 
 /*
