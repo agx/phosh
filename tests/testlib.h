@@ -33,5 +33,6 @@ void                      phosh_test_keyboard_press_keys (struct zwp_virtual_key
 void                      phosh_test_keyboard_press_modifiers   (struct zwp_virtual_keyboard_v1 *keyboard,
                                                                  guint                           modifiers);
 void                      phosh_test_keyboard_release_modifiers (struct zwp_virtual_keyboard_v1 *keyboard);
+void                      phosh_test_remove_tree (GFile *file);
 
 G_END_DECLS

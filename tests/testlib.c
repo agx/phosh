@@ -408,7 +408,7 @@ phosh_test_keyboard_press_modifiers (struct zwp_virtual_keyboard_v1 *keyboard,
 
 
 /**
- * phosh_test_release_modifiers
+ * phosh_test_release_modifiers:
  * @keyboard: A virtual keyboard
  *
  * Release all modifiers
@@ -417,4 +417,38 @@ void
 phosh_test_keyboard_release_modifiers (struct zwp_virtual_keyboard_v1 *keyboard)
 {
   zwp_virtual_keyboard_v1_modifiers (keyboard, 0, 0, 0, 0);
+}
+
+/**
+ * phosh_test_remove_tree:
+ * file: The tree to remove
+ *
+ * Removes the filesystem tree at `file`
+ */
+void
+phosh_test_remove_tree (GFile *file)
+{
+  g_autoptr (GError) err = NULL;
+  g_autoptr (GFileEnumerator) enumerator = NULL;
+
+  enumerator = g_file_enumerate_children (file, G_FILE_ATTRIBUTE_STANDARD_NAME,
+                                          G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
+                                          NULL, NULL);
+
+  while (enumerator != NULL) {
+    GFile *child;
+    gboolean ret;
+
+    ret = g_file_enumerator_iterate (enumerator, NULL, &child, NULL, &err);
+    g_assert_no_error (err);
+    g_assert_true (ret);
+
+    if (child == NULL)
+      break;
+
+    phosh_test_remove_tree (child);
+  }
+
+  g_assert_true (g_file_delete (file, NULL, &err));
+  g_assert_no_error (err);
 }

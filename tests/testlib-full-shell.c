@@ -109,34 +109,6 @@ phosh_test_full_shell_fixture_cfg_dispose (PhoshTestFullShellFixtureCfg *self)
   g_free (self);
 }
 
-static void
-phosh_test_remove_tree (GFile *file)
-{
-  g_autoptr (GError) err = NULL;
-  g_autoptr (GFileEnumerator) enumerator = NULL;
-
-  enumerator = g_file_enumerate_children (file, G_FILE_ATTRIBUTE_STANDARD_NAME,
-                                          G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
-                                          NULL, NULL);
-
-  while (enumerator != NULL) {
-    GFile *child;
-    gboolean ret;
-
-    ret = g_file_enumerator_iterate (enumerator, NULL, &child, NULL, &err);
-    g_assert_no_error (err);
-    g_assert_true (ret);
-
-    if (child == NULL)
-      break;
-
-    phosh_test_remove_tree (child);
-  }
-
-  g_assert_true (g_file_delete (file, NULL, &err));
-  g_assert_no_error (err);
-}
-
 /**
  * phosh_test_full_shell_setup:
  * @fixture: Test fixture
