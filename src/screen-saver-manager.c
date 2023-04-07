@@ -909,6 +909,7 @@ phosh_screen_saver_manager_init (PhoshScreenSaverManager *self)
 {
   self->cancel = g_cancellable_new ();
   self->inhibit_suspend_fd = -1;
+  self->inhibit_pwr_btn_fd = -1;
 }
 
 
