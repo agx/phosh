@@ -49,12 +49,13 @@
             </child>
             <child>
               <object class="GtkButton">
-                <property name="label" translatable="yes">Emergency Contacts</property>
+                <property name="label" translatable="yes">Emergency _Contacts</property>
                 <property name="visible">True</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="margin-top">10</property>
                 <property name="margin-bottom">10</property>
+                <property name="use-underline">True</property>
                 <property name="tooltip-text" translatable="yes">Go to the emergency contacts page</property>
                 <signal name="clicked" handler="on_emergency_contacts_button_clicked" swapped="yes"/>
                 <style>

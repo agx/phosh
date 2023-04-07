@@ -98,8 +98,8 @@ on_emergency_call_activated (GSimpleAction *action, GVariant *param, gpointer da
   g_return_if_fail (PHOSH_IS_POWER_MENU_MANAGER (self));
 
   close_menu (self);
-  /* TODO: https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/904 */
-  g_warning ("Activating emergency call menu");
+  g_action_group_activate_action (G_ACTION_GROUP (phosh_shell_get_default ()),
+                                  "emergency.toggle-menu", NULL);
 }
 
 
@@ -185,7 +185,7 @@ static GActionEntry entries[] = {
 static void
 phosh_power_menu_manager_init (PhoshPowerMenuManager *self)
 {
-  GAction *action;
+  GAction *src_action, *dst_action;
 
   g_action_map_add_action_entries (G_ACTION_MAP (phosh_shell_get_default ()),
                                    entries,
@@ -196,9 +196,12 @@ phosh_power_menu_manager_init (PhoshPowerMenuManager *self)
   g_action_map_add_action_entries (G_ACTION_MAP (self->menu_actions),
                                    menu_entries, G_N_ELEMENTS (menu_entries),
                                    self);
-  /* TODO: Until emergency call support landed */
-  action = g_action_map_lookup_action (G_ACTION_MAP (self->menu_actions), "emergency-call");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
+
+  /* Only enable emergency call button when the emergency-calls manager says it's o.k. */
+  src_action = g_action_map_lookup_action (G_ACTION_MAP (phosh_shell_get_default ()),
+                                           "emergency.toggle-menu");
+  dst_action = g_action_map_lookup_action (G_ACTION_MAP (self->menu_actions), "emergency-call");
+  g_object_bind_property (src_action, "enabled", dst_action, "enabled", G_BINDING_SYNC_CREATE);
 
   g_signal_connect_object (phosh_shell_get_default (),
                            "notify::shell-state",
