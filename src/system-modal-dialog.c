@@ -212,7 +212,7 @@ phosh_system_modal_dialog_class_init (PhoshSystemModalDialogClass *klass)
   /**
    * PhoshSystemModalDialog::dialog-canceled:
    *
-   * The ::dialog-done signal is emitted when the dialog was canceled and should be
+   * The ::dialog-canceled signal is emitted when the dialog was canceled and should be
    * hidden or destroyed.
    */
   signals[DIALOG_CANCELED] = g_signal_new ("dialog-canceled",
