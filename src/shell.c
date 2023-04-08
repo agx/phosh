@@ -625,6 +625,15 @@ on_new_notification (PhoshShell         *self,
 
 
 static void
+on_pb_long_press (PhoshShell *self)
+{
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+
+  g_action_group_activate_action (G_ACTION_GROUP (self), "power.toggle-menu", NULL);
+}
+
+
+static void
 on_notification_activated (PhoshShell *self)
 {
   PhoshShellPrivate *priv;
@@ -713,8 +722,11 @@ setup_idle_cb (PhoshShell *self)
                            G_CONNECT_SWAPPED);
 
   /* Screen saver manager needs lock screen manager */
-  priv->screen_saver_manager = phosh_screen_saver_manager_new (
-    priv->lockscreen_manager);
+  priv->screen_saver_manager = phosh_screen_saver_manager_new (priv->lockscreen_manager);
+  g_signal_connect_swapped (priv->screen_saver_manager,
+                            "pb-long-press",
+                            G_CALLBACK (on_pb_long_press),
+                            self);
 
   priv->notify_manager = phosh_notify_manager_get_default ();
   g_signal_connect_object (priv->notify_manager,
