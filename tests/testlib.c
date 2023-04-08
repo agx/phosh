@@ -368,6 +368,29 @@ phosh_test_keyboard_press_keys (struct zwp_virtual_keyboard_v1 *keyboard, GTimer
 }
 
 /**
+ * phosh_test_press_key_timeout:
+ * @keyboard: A virtual keyboard
+ * @timer: A #GTimer to get timestamps from.
+ *
+ * Emits keyboard events based on input event codes.
+ */
+void
+phosh_test_keyboard_press_timeout (struct zwp_virtual_keyboard_v1 *keyboard,
+                                   GTimer                         *timer,
+                                   guint                           key,
+                                   guint                           sleep)
+{
+  guint time;
+
+  time = (guint)g_timer_elapsed (timer, NULL) * 1000;
+  zwp_virtual_keyboard_v1_key (keyboard, time, key, WL_KEYBOARD_KEY_STATE_PRESSED);
+  usleep (sleep * 1000);
+  time = (guint)g_timer_elapsed (timer, NULL) * 1000;
+  zwp_virtual_keyboard_v1_key (keyboard, time, key, WL_KEYBOARD_KEY_STATE_RELEASED);
+}
+
+
+/**
  * phosh_test_press_modifiers
  * @keyboard: A virtual keyboard
  * @modifiers: The modifiers
