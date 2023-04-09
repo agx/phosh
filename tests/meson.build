@@ -120,8 +120,8 @@ tests_phoc = [
 
 tests_manager = [
   [ 'calls-manager', true, ],
-  [ 'gtk-mount-manager', false, ],
-  [ 'idle-manager', false, ],
+  [ 'gtk-mount-manager', true, ],
+  [ 'idle-manager', true, ],
   [ 'monitor-manager', true, ],
   [ 'notify-manager', true, ],
   [ 'screenshot-manager', true, ],
@@ -156,7 +156,7 @@ if run_phoc_tests
     test(test, t,
          suite: ['unit', 'phoc'],
          env: test_env_phoc,
-         is_parallel: false)
+         is_parallel: true)
   endforeach
 
   # Integration tests using the full libphosh
@@ -169,7 +169,7 @@ if run_phoc_tests
   test('shell', t,
        env: test_env_phoc,
        suite: ['integration'],
-       is_parallel : false)
+       is_parallel : true)
   foreach item : tests_manager
     test = item.get(0)
     parallel = item.get(1)
