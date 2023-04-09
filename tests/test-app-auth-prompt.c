@@ -6,30 +6,12 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "testlib.h"
+#include "testlib-compositor.h"
 
 #include "app-auth-prompt.h"
 
-typedef struct _Fixture {
-  PhoshTestCompositorState *state;
-} Fixture;
-
-
 static void
-compositor_setup (Fixture *fixture, gconstpointer unused)
-{
-  fixture->state = phosh_test_compositor_new (TRUE);
-  g_assert_nonnull (fixture->state);
-}
-
-static void
-compositor_teardown (Fixture *fixture, gconstpointer unused)
-{
-  phosh_test_compositor_free (fixture->state);
-}
-
-static void
-test_app_auth_prompt_new (Fixture *fixture, gconstpointer unused)
+test_app_auth_prompt_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   GtkWidget *prompt = g_object_new (PHOSH_TYPE_APP_AUTH_PROMPT,
                                     "monitor", phosh_test_get_monitor (),
@@ -52,8 +34,7 @@ main (int   argc,
 {
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add ("/phosh/app_auth_prompt_new/new", Fixture, NULL,
-              compositor_setup, test_app_auth_prompt_new, compositor_teardown);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/app_auth_prompt_new/new", test_app_auth_prompt_new);
 
   return g_test_run ();
 }

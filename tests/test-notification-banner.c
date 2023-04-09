@@ -8,27 +8,9 @@
 
 #include "notifications/notification-banner.c"
 
-#include "testlib.h"
+#include "testlib-compositor.h"
 
 static gboolean was_notified = FALSE;
-
-typedef struct _Fixture {
-  PhoshTestCompositorState *state;
-} Fixture;
-
-
-static void
-compositor_setup (Fixture *fixture, gconstpointer unused)
-{
-  fixture->state = phosh_test_compositor_new (TRUE);
-  g_assert_nonnull (fixture->state);
-}
-
-static void
-compositor_teardown (Fixture *fixture, gconstpointer unused)
-{
-  phosh_test_compositor_free (fixture->state);
-}
 
 static void
 notified (GObject *source, GParamSpec *param, gpointer data)
@@ -38,7 +20,7 @@ notified (GObject *source, GParamSpec *param, gpointer data)
 
 
 static void
-test_phosh_notification_banner_new (Fixture *fixture, gconstpointer unused)
+test_phosh_notification_banner_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   g_autoptr (PhoshNotification) noti = NULL;
   PhoshNotification *noti_test = NULL;
@@ -72,7 +54,7 @@ test_phosh_notification_banner_new (Fixture *fixture, gconstpointer unused)
 
 
 static void
-test_phosh_notification_banner_closed (Fixture *fixture, gconstpointer unused)
+test_phosh_notification_banner_closed (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   g_autoptr (PhoshNotification) noti = NULL;
   GtkWidget *banner = NULL;
@@ -116,7 +98,7 @@ timeout (gpointer data)
 
 
 static void
-test_phosh_notification_banner_expired (Fixture *fixture, gconstpointer unused)
+test_phosh_notification_banner_expired (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   g_autoptr (PhoshNotification) noti = NULL;
   g_autoptr (GMainLoop) loop = NULL;
@@ -160,18 +142,12 @@ main (int argc, char **argv)
 {
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add ("/phosh/notification-banner/new", Fixture, NULL,
-              compositor_setup,
-              test_phosh_notification_banner_new,
-              compositor_teardown);
-  g_test_add ("/phosh/notification-banner/closed", Fixture, NULL,
-              compositor_setup,
-              test_phosh_notification_banner_closed,
-              compositor_teardown);
-  g_test_add ("/phosh/notification-banner/expired", Fixture, NULL,
-              compositor_setup,
-              test_phosh_notification_banner_expired,
-              compositor_teardown);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/notification-banner/new",
+                             test_phosh_notification_banner_new);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/notification-banner/closed",
+                             test_phosh_notification_banner_closed);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/notification-banner/expired",
+                             test_phosh_notification_banner_expired);
 
   return g_test_run ();
 }
