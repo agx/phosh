@@ -165,12 +165,15 @@ main (int argc, char *argv[])
   /* Preserve DISPLAY for wlroots x11 backend */
   cfg = phosh_test_full_shell_fixture_cfg_new (g_getenv ("DISPLAY"), "phosh-notify-manager");
 
-  g_test_add ("/phosh/dbus/notify-manager/caps", PhoshTestFullShellFixture, cfg,
-              phosh_test_full_shell_setup, test_phosh_notify_manager_caps, phosh_test_full_shell_teardown);
-  g_test_add ("/phosh/dbus/notify-manager/server_info", PhoshTestFullShellFixture, cfg,
-              phosh_test_full_shell_setup, test_phosh_notify_manager_server_info, phosh_test_full_shell_teardown);
-  g_test_add ("/phosh/dbus/notify-manager/notify", PhoshTestFullShellFixture, cfg,
-              phosh_test_full_shell_setup, test_phosh_notify_manager_server_notify, phosh_test_full_shell_teardown);
+  PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/notify-manager/caps",
+                             cfg,
+                             test_phosh_notify_manager_caps);
+  PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/notify-manager/server_info",
+                             cfg,
+                             test_phosh_notify_manager_server_info);
+  PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/notify-manager/notify",
+                             cfg,
+                             test_phosh_notify_manager_server_notify);
 
   return g_test_run ();
 }

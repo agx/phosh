@@ -89,8 +89,7 @@ main (int argc, char *argv[])
   /* Preserve DISPLAY for wlroots x11 backend */
   cfg = phosh_test_full_shell_fixture_cfg_new (g_getenv ("DISPLAY"), "phosh-screenshot-manager");
 
-  g_test_add ("/phosh/dbus/screenshot-manager/png", PhoshTestFullShellFixture, cfg,
-              phosh_test_full_shell_setup, test_phosh_screenshot_png, phosh_test_full_shell_teardown);
+  PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/screenshot-manager/png", cfg, test_phosh_screenshot_png);
 
   return g_test_run ();
 }
