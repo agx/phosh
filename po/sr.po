@@ -3,30 +3,30 @@
 # This file is distributed under the same license as the phosh package.
 # nikp123 <pavlica.nikola@gmail.com>, 2020.
 # Марко М. Костић <marko.m.kostic@gmail.com>, 2020.
-# Мирослав Николић <miroslavnikolić@rocketmail.com>, 2021–2022.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2021-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-09-06 19:01+0000\n"
-"PO-Revision-Date: 2022-09-07 09:06+0200\n"
-"Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
-"Language-Team: Serbian <српски <gnome-sr@googlegroups.org>>\n"
+"POT-Creation-Date: 2023-03-07 10:28+0000\n"
+"PO-Revision-Date: 2023-04-09 11:54+0200\n"
+"Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
+"Language-Team: Serbian <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Poedit 3.1.1\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2\n"
+"X-Generator: Gtranslator 41.0\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Телефонска шкољка"
 
@@ -34,13 +34,27 @@ msgstr "Телефонска шкољка"
 msgid "Window management and application launching for mobile"
 msgstr "Управљање прозорима и покретање програма на мобилним уређајима"
 
-#: plugins/calendar/calendar.desktop.in.in:4
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Ова сесија вас пријављује у Phosh"
+
+#: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Календар"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "Једноставан прозорчић календара"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Кутуија картица"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Приказује ПДФ на закључаном екрану. <b>Овај прикључак је експериментални.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -62,7 +76,9 @@ msgstr "Прикажи све програме"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Прикажи само мобилно пригодне програме"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
+#: src/bt-info.c:92
+#| msgid "On"
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Укљ."
 
@@ -124,16 +140,23 @@ msgstr "Непознат програм"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:69
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "Тихо"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:75
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "Утишано"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:108
+#| msgid "On"
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "Укљ."
 
 #: src/location-manager.c:268
 #, c-format
@@ -208,7 +231,7 @@ msgstr "Унесите лозинку бежичне мреже „%s“"
 msgid "Open"
 msgstr "Отвори"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
 msgid "Notification"
 msgstr "Обавештење"
 
@@ -314,25 +337,31 @@ msgstr "Лозинка:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Нетачно. Покушајте поново."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "Усправно"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "Положено"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
+#| msgid "Off"
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Искљ."
+
+#: src/rotateinfo.c:126
+#| msgid "On"
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "Укљ."
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
 msgstr "Притисните „ESC“ да затворите"
 
-#: src/run-command-manager.c:94
+#: src/run-command-manager.c:95
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Покретање „%s“ није успело"
@@ -354,6 +383,8 @@ msgid "Remember decision"
 msgstr "Упамти одлуку"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Откажи"
 
@@ -397,7 +428,7 @@ msgstr "Домен:"
 msgid "Co_nnect"
 msgstr "П_овежи се"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
 msgid "Back"
 msgstr "Назад"
 
@@ -405,11 +436,11 @@ msgstr "Назад"
 msgid "Slide up to unlock"
 msgstr "Превуци нагоре за откључавање"
 
-#: src/ui/lockscreen.ui:283
+#: src/ui/lockscreen.ui:282
 msgid "Emergency"
 msgstr "Хитни позив"
 
-#: src/ui/lockscreen.ui:299
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "Откључај"
 
@@ -418,6 +449,7 @@ msgid "Authentication required"
 msgstr "Потребно је потврђивање идентитета"
 
 #: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Cancel"
 msgstr "_Откажи"
 
@@ -433,11 +465,11 @@ msgstr "Потврди идентитет"
 msgid "Run Command"
 msgstr "Покрени наредбу"
 
-#: src/ui/settings.ui:301
+#: src/ui/settings.ui:319
 msgid "No notifications"
 msgstr "Нема обавештења"
 
-#: src/ui/settings.ui:342
+#: src/ui/settings.ui:359
 msgid "Clear all"
 msgstr "Очисти све"
 
@@ -455,7 +487,7 @@ msgstr "Одјава"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:340
+#: src/util.c:339
 msgid "%A, %B %-e"
 msgstr "%A, %d. %B"
 
@@ -477,9 +509,153 @@ msgid "Wi-Fi"
 msgstr "Бежична"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwan-info.c:200
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Мобилна"
+
+#: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+msgid "Personal Information"
+msgstr "Лични подаци"
+
+#: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+msgid "Date of Birth"
+msgstr "Датум рођења"
+
+#: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+msgid "Preferred Language"
+msgstr "Жељени језик"
+
+#: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+msgid "Home Address"
+msgstr "Кућна адреса"
+
+#: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+msgid "Medical Information"
+msgstr "Здравствени подаци"
+
+#: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+msgid "Age"
+msgstr "Године"
+
+#: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+msgid "Blood Type"
+msgstr "Крвна група"
+
+#: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+msgid "Height"
+msgstr "Висина"
+
+#: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+msgid "Weight"
+msgstr "Тежина"
+
+#: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+msgid "Allergies"
+msgstr "Алергије"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "Лекови & здравствено стање"
+
+#: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+msgid "Other Information"
+msgstr "Остали подаци"
+
+#: plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+#| msgid "Emergency"
+msgid "Emergency Contacts"
+msgstr "Хитни позиви"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "Инфо поставке хитних"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "Готово"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "Име власника"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "Лекови и стање здравља"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "Додај контакт"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "Додај нови контакт"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "Додај"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+msgid "New Contact Name"
+msgstr "Име новог контакта"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#| msgid "Geolocation"
+msgid "Relationship"
+msgstr "Сродство"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+msgid "Number"
+msgstr "Број"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Нема докумената за приказивање"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Картице"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+msgid "Choose Folder"
+msgstr "Изабери фасциклу"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#| msgid "Open"
+msgid "_Open"
+msgstr "_Отвори"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "Поставке кутије картица"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "Путање"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "Поставке фасцикле"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "Где ће Phosh тражити ваше картице"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr "Фасцикла картица"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
