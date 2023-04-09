@@ -40,9 +40,9 @@ phosh_test_compositor_teardown (PhoshTestCompositorFixture *fixture, gconstpoint
   while (g_main_context_pending (NULL))
     g_main_context_iteration (NULL, FALSE);
 
+  g_clear_pointer (&fixture->state, phosh_test_compositor_free);
   g_test_dbus_down (fixture->bus);
   g_clear_object (&fixture->bus);
-  g_clear_pointer (&fixture->state, phosh_test_compositor_free);
 
   phosh_test_remove_tree (file);
   g_clear_pointer (&fixture->tmpdir, g_free);
