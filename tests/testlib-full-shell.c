@@ -15,6 +15,13 @@
 #include <handy.h>
 #include <call-ui.h>
 
+/**
+ * PhoshTestFullShellFixture:
+ *
+ * Test fixture for tests that want to run the full shell and
+ * compositor. If you only need a compositor see `PhocTestCompositorFixture`.
+ */
+
 GPid comp_pid;
 
 
