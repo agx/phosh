@@ -100,6 +100,7 @@ tests = [
   'plugin-loader',
   'quick-setting',
   'status-icon',
+  'timestamp-label',
   'util',
 ]
 
@@ -114,7 +115,6 @@ tests_phoc = [
   'osd-window',
   'system-modal',
   'system-modal-dialog',
-  'timestamp-label',
 ]
 
 tests_manager = [
