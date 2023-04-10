@@ -52,7 +52,6 @@ phoc_stdout_watch (GIOChannel      *source,
     g_autoptr (GError) err = NULL;
     g_autofree char *line = NULL;
 
-    line = NULL;
     status = g_io_channel_read_line (source, &line, NULL, NULL, &err);
 
     switch (status) {
