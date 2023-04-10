@@ -263,9 +263,10 @@ phosh_test_compositor_new (gboolean heads_stub)
    * from the freshly spawned compositor
    */
   state->gdk_display = gdk_display_open (watch.socket);
-  g_free (watch.socket);
 
   state->wl = phosh_wayland_get_default ();
+  g_test_message ("Connected to wayland socket %s", watch.socket);
+  g_free (watch.socket);
 
   if (heads_stub)
     phosh_test_head_stub_init (state->wl);
