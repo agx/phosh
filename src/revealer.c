@@ -153,7 +153,7 @@ phosh_revealer_get_show_child (PhoshRevealer *self)
  * @show_child: Whether the child should be shown
  *
  * If `show_child` is %TRUE, the child will be set visible and shown
- * using a [class@GtkRevealer] Otherwise it will be hidden.
+ * using a %GtkRevealer Otherwise it will be hidden.
  */
 void
 phosh_revealer_set_show_child (PhoshRevealer *self, gboolean show_child)
