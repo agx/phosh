@@ -6,34 +6,15 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "testlib.h"
+#include "testlib-compositor.h"
 
 #include "end-session-dialog.h"
 
 #include <glib.h>
 
 
-typedef struct _Fixture {
-  PhoshTestCompositorState *state;
-} Fixture;
-
-
 static void
-compositor_setup (Fixture *fixture, gconstpointer unused)
-{
-  fixture->state = phosh_test_compositor_new (TRUE);
-  g_assert_nonnull (fixture->state);
-}
-
-static void
-compositor_teardown (Fixture *fixture, gconstpointer unused)
-{
-  phosh_test_compositor_free (fixture->state);
-}
-
-
-static void
-test_end_session_dialog_new (Fixture *fixture, gconstpointer unused)
+test_end_session_dialog_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   GtkWidget *dialog;
 
@@ -73,7 +54,7 @@ on_closed (GMainLoop *mainloop)
 
 
 static void
-test_end_session_dialog_timeout (Fixture *fixture, gconstpointer unused)
+test_end_session_dialog_timeout (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   g_autoptr (PhoshEndSessionDialog) dialog = NULL;
   g_autoptr (GMainLoop) mainloop = NULL;
@@ -104,11 +85,8 @@ main (int argc, char *argv[])
 {
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add ("/phosh/end-session-dialog/new", Fixture, NULL,
-              compositor_setup, test_end_session_dialog_new, compositor_teardown);
-
-  g_test_add ("/phosh/end-session-dialog/timeout", Fixture, NULL,
-              compositor_setup, test_end_session_dialog_timeout, compositor_teardown);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/end-session-dialog/new", test_end_session_dialog_new);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/end-session-dialog/timeout", test_end_session_dialog_timeout);
 
   return g_test_run ();
 }

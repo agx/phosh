@@ -155,7 +155,7 @@ update_drag_handle (PhoshHome *self, gboolean commit)
   gtk_widget_set_visible (GTK_WIDGET (self->arrow_home), arrow_visible);
   phosh_drag_surface_set_drag_mode (PHOSH_DRAG_SURFACE (self), drag_mode);
 
-  /* Update hande size */
+  /* Update handle size */
   app_grid = phosh_overview_get_app_grid (PHOSH_OVERVIEW (self->overview));
   success = gtk_widget_translate_coordinates (GTK_WIDGET (app_grid),
                                               GTK_WIDGET (self),

@@ -23,7 +23,7 @@
  * Provider feedback on notifications
  *
  * #PhoshNotifyFeedback is responsible to provider proper feedback
- * on new notifications or when notifcations are being closed.
+ * on new notifications or when notifications are being closed.
  */
 
 enum {

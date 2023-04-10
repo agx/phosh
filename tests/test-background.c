@@ -6,7 +6,7 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "testlib.h"
+#include "testlib-compositor.h"
 
 #include "background.h"
 
@@ -15,8 +15,8 @@
 #define BG_SCHEMA "org.gnome.desktop.background"
 
 typedef struct _Fixture {
-  PhoshTestCompositorState *state;
-  GSettings                *settings;
+  PhoshTestCompositorFixture  base;
+  GSettings                  *settings;
 } Fixture;
 
 
@@ -31,8 +31,7 @@ typedef struct _Fixture {
 static void
 compositor_setup (Fixture *fixture, gconstpointer unused)
 {
-  fixture->state = phosh_test_compositor_new (TRUE);
-  g_assert_nonnull (fixture->state);
+  phosh_test_compositor_setup (&fixture->base, NULL);
 
   fixture->settings = g_settings_new (BG_SCHEMA);
   g_settings_set_enum (fixture->settings, BG_KEY_PICTURE_OPTIONS,
@@ -43,7 +42,7 @@ static void
 compositor_teardown (Fixture *fixture, gconstpointer unused)
 {
   g_clear_object (&fixture->settings);
-  phosh_test_compositor_free (fixture->state);
+  phosh_test_compositor_teardown (&fixture->base, NULL);
 }
 
 static void
@@ -52,8 +51,9 @@ test_background_new (Fixture *fixture, gconstpointer unused)
   gboolean primary;
   GtkWidget *background;
 
-  background = phosh_background_new (phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
-                                     fixture->state->output,
+  background = phosh_background_new (phosh_wayland_get_zwlr_layer_shell_v1(
+                                       fixture->base.state->wl),
+                                     fixture->base.state->output,
                                      1,
                                      TRUE);
   g_assert_true (PHOSH_IS_BACKGROUND (background));

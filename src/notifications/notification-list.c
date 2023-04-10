@@ -229,7 +229,7 @@ closed (PhoshNotification       *notification,
  *             (may not currently exist)
  * @notification: the new #PhoshNotification
  *
- * Registers a new notification with @self adding to (or creating) the relevent
+ * Registers a new notification with @self adding to (or creating) the relevant
  * #PhoshNotificationSource
  */
 void

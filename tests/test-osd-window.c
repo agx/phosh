@@ -6,30 +6,12 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "testlib.h"
+#include "testlib-compositor.h"
 
 #include "osd-window.h"
 
-typedef struct _Fixture {
-  PhoshTestCompositorState *state;
-} Fixture;
-
-
 static void
-compositor_setup (Fixture *fixture, gconstpointer unused)
-{
-  fixture->state = phosh_test_compositor_new (TRUE);
-  g_assert_nonnull (fixture->state);
-}
-
-static void
-compositor_teardown (Fixture *fixture, gconstpointer unused)
-{
-  phosh_test_compositor_free (fixture->state);
-}
-
-static void
-test_osd_window_new (Fixture *fixture, gconstpointer unused)
+test_osd_window_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   GtkWidget *osd = g_object_new (PHOSH_TYPE_OSD_WINDOW,
                                  "monitor", phosh_test_get_monitor (),
@@ -58,8 +40,7 @@ main (int   argc,
 {
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add ("/phosh/osd-window/new", Fixture, NULL,
-              compositor_setup, test_osd_window_new, compositor_teardown);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/osd-window/new", test_osd_window_new);
 
   return g_test_run ();
 }

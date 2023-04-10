@@ -38,7 +38,7 @@ PhoshRotationManagerMode phosh_rotation_manager_get_mode (PhoshRotationManager *
 gboolean                 phosh_rotation_manager_set_mode (PhoshRotationManager *self,
                                                           PhoshRotationManagerMode mode);
 void                     phosh_rotation_manager_set_transform (PhoshRotationManager  *self,
-                                                               PhoshMonitorTransform  tranform);
+                                                               PhoshMonitorTransform  transform);
 PhoshMonitorTransform    phosh_rotation_manager_get_transform  (PhoshRotationManager *self);
 PhoshMonitor            *phosh_rotation_manager_get_monitor    (PhoshRotationManager *self);
 void                     phosh_rotation_manager_set_monitor    (PhoshRotationManager *self,

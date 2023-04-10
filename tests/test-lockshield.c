@@ -6,30 +6,12 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "testlib.h"
+#include "testlib-compositor.h"
 
 #include "lockshield.h"
 
-typedef struct _Fixture {
-  PhoshTestCompositorState *state;
-} Fixture;
-
-
 static void
-compositor_setup (Fixture *fixture, gconstpointer unused)
-{
-  fixture->state = phosh_test_compositor_new (TRUE);
-  g_assert_nonnull (fixture->state);
-}
-
-static void
-compositor_teardown (Fixture *fixture, gconstpointer unused)
-{
-  phosh_test_compositor_free (fixture->state);
-}
-
-static void
-test_lockshield_new (Fixture *fixture, gconstpointer unused)
+test_lockshield_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   GtkWidget *panel = phosh_lockshield_new (phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
                                            fixture->state->output);
@@ -45,8 +27,7 @@ main (int   argc,
 {
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add ("/phosh/lockshield/new", Fixture, NULL,
-              compositor_setup, test_lockshield_new, compositor_teardown);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/lockshield/new", test_lockshield_new);
 
   return g_test_run ();
 }

@@ -63,7 +63,7 @@ phosh_layer_surface_sources = files(
   'layersurface.h',
 )
 
-# Symbols from these availabel in tools and unit tests
+# Symbols from these available in tools and unit tests
 libphosh_tool_sources = files(
   'app-auth-prompt.c',
   'app-auth-prompt.h',
@@ -177,7 +177,7 @@ libphosh_tool_sources = files(
   phosh_notifications_sources,
 ]
 
-# Symbols from these are not availabel in tools and unit tests
+# Symbols from these are not available in tools and unit tests
 # Prefer adding to libphosh_tool_sources
 libphosh_sources = files(
   'arrow.c',

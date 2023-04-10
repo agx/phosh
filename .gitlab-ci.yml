@@ -26,9 +26,8 @@ variables:
   # For ci-fairy
   FDO_UPSTREAM_REPO: World/Phosh/phosh
   # SCREENSHOT_IMAGE builds on DEBIAN_IMAGE so keep them in sync
-  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20230105
-  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20230105
-  DEBIAN_CROSS_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian-cross:v0.0.20220924
+  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20230408
+  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20230408
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror -Dtools=true
   ALPINE_EDGE_DEPS: alpine-sdk callaudiod-dev elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
@@ -72,7 +71,7 @@ variables:
 .test_step: &test_step
   script:
     - export LC_ALL=C.UTF-8
-    - ${XVFB_RUN} meson test --print-errorlogs -C _build
+    - ${XVFB_RUN} meson test -t 2 --print-errorlogs -C _build
     - ninja -C _build coverage
 
 # Sanity checks of MR settings and commit logs
@@ -105,30 +104,6 @@ build:native-debian-bookworm:
   except:
     variables:
       - $PKG_ONLY == "1"
-
-# Build for 32bit architecture to catch common errors
-build:cross-debian-bookworm:i386:
-  stage: build
-  image: "${DEBIAN_CROSS_IMAGE}"
-  allow_failure: true
-  before_script:
-     - export DEBIAN_FRONTEND=noninteractive
-     - export DEB_BUILD_PROFILES="nocheck nodoc"
-     - apt -y update
-     - apt -y build-dep -a i386 .
-  script:
-    - git submodule update --recursive
-    - 'echo "Build opts: ${COMMON_BUILD_OPTS}"'
-    - /usr/share/meson/debcrossgen --arch i386 -o cross-i386.txt
-    - meson setup ${COMMON_BUILD_OPTS} _build --cross-file cross-i386.txt
-    - ninja -C _build
-  artifacts:
-    paths:
-      - _build
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-      - $SCREENSHOTS_ONLY == "1"
 
 unit-test:native-debian-bookworm:
   stage: test+docs
@@ -178,7 +153,7 @@ screenshot:native-debian-bookworm:
     - export LC_ALL=C.UTF-8
     # Install .po files so tests can find them
     - "DESTDIR=$PWD/_build/install meson install -C _build"
-    - ${XVFB_RUN} meson test -C _build --print-errorlogs --suite screenshots
+    - ${XVFB_RUN} meson test -C _build --print-errorlogs -t 2 --suite screenshots
     - mv _build/tests/screenshots/* screenshots/
     - for dir in $(find screenshots/ -type d -mindepth 1 -maxdepth 1); do montage -mode concatenate $dir/*.png ${dir}.png; done
   artifacts:

@@ -6,31 +6,13 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "testlib.h"
+#include "testlib-compositor.h"
 
 #include "layersurface.h"
 #include <gdk/gdkwayland.h>
 
 #include <glib.h>
 
-
-typedef struct _Fixture {
-  PhoshTestCompositorState *state;
-} Fixture;
-
-
-static void
-compositor_setup (Fixture *fixture, gconstpointer unused)
-{
-  fixture->state = phosh_test_compositor_new (TRUE);
-  g_assert_nonnull (fixture->state);
-}
-
-static void
-compositor_teardown (Fixture *fixture, gconstpointer unused)
-{
-  phosh_test_compositor_free (fixture->state);
-}
 
 static void
 on_layer_surface_notify (PhoshLayerSurface *surface,
@@ -41,9 +23,10 @@ on_layer_surface_notify (PhoshLayerSurface *surface,
 }
 
 static void
-test_layer_surface_new (Fixture *fixture, gconstpointer unused)
+test_layer_surface_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
-  GtkWidget *surface = phosh_layer_surface_new (phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
+  GtkWidget *surface = phosh_layer_surface_new (phosh_wayland_get_zwlr_layer_shell_v1(
+                                                  fixture->state->wl),
                                                 fixture->state->output);
 
   g_assert_true (PHOSH_IS_LAYER_SURFACE (surface));
@@ -52,11 +35,12 @@ test_layer_surface_new (Fixture *fixture, gconstpointer unused)
 
 
 static void
-test_layer_surface_g_object_new (Fixture *fixture, gconstpointer unused)
+test_layer_surface_g_object_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   g_autofree char *namespace = g_strdup_printf ("phosh test %s", __func__);
   GtkWidget *surface = g_object_new (PHOSH_TYPE_LAYER_SURFACE,
-                                     "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
+                                     "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(
+                                       fixture->state->wl),
                                      "wl-output", fixture->state->output,
                                      "width", 10,
                                      "height", 10,
@@ -88,7 +72,7 @@ on_layer_surface_notify_width (PhoshLayerSurface *surface,
 
 
 static void
-test_layer_surface_set_size (Fixture *fixture, gconstpointer unused)
+test_layer_surface_set_size (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   guint width_count = 0, height_count = 0;
   g_autofree char *namespace = g_strdup_printf ("phosh test %s", __func__);
@@ -136,7 +120,7 @@ test_layer_surface_set_size (Fixture *fixture, gconstpointer unused)
 
 
 static void
-test_layer_surface_set_kbd_interactivity (Fixture *fixture, gconstpointer unused)
+test_layer_surface_set_kbd_interactivity (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   guint count = 0;
   gboolean kbd_interacivity;
@@ -181,14 +165,11 @@ main (int   argc,
 {
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add ("/phosh/layer-surface/new", Fixture, NULL,
-              compositor_setup, test_layer_surface_new, compositor_teardown);
-  g_test_add ("/phosh/layer-surface/g_object_new", Fixture, NULL,
-              compositor_setup, test_layer_surface_g_object_new, compositor_teardown);
-  g_test_add ("/phosh/layer-surface/set_size", Fixture, NULL,
-              compositor_setup, test_layer_surface_set_size, compositor_teardown);
-  g_test_add ("/phosh/layer-surface/set_kbd_interactivity", Fixture, NULL,
-              compositor_setup, test_layer_surface_set_kbd_interactivity, compositor_teardown);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/layer-surface/new", test_layer_surface_new);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/layer-surface/g_object_new", test_layer_surface_g_object_new);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/layer-surface/set_size", test_layer_surface_set_size);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/layer-surface/set_kbd_interactivity",
+                             test_layer_surface_set_kbd_interactivity);
 
   return g_test_run ();
 }

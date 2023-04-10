@@ -22,7 +22,7 @@
  * The #PhoshQuickSetting is a widget which is meant to be placed inside the top drawer.
  * It contains a #GtkLabel and accepts one #PhoshStatusIcon as a child. The info property
  * of the #PhoshStatusIcon is bind to the #GtkLabel.
- * A #PhoshQuickSetting has two signals long_press and clicked, where the first is emited
+ * A #PhoshQuickSetting has two signals long_press and clicked, where the first is emitted
  * when the user performs a long press, the second signal is a normal single click.
  */
 

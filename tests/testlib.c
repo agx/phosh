@@ -52,7 +52,6 @@ phoc_stdout_watch (GIOChannel      *source,
     g_autoptr (GError) err = NULL;
     g_autofree char *line = NULL;
 
-    line = NULL;
     status = g_io_channel_read_line (source, &line, NULL, NULL, &err);
 
     switch (status) {
@@ -264,9 +263,10 @@ phosh_test_compositor_new (gboolean heads_stub)
    * from the freshly spawned compositor
    */
   state->gdk_display = gdk_display_open (watch.socket);
-  g_free (watch.socket);
 
   state->wl = phosh_wayland_get_default ();
+  g_test_message ("Connected to wayland socket %s", watch.socket);
+  g_free (watch.socket);
 
   if (heads_stub)
     phosh_test_head_stub_init (state->wl);
@@ -408,7 +408,7 @@ phosh_test_keyboard_press_modifiers (struct zwp_virtual_keyboard_v1 *keyboard,
 
 
 /**
- * phosh_test_release_modifiers
+ * phosh_test_release_modifiers:
  * @keyboard: A virtual keyboard
  *
  * Release all modifiers
@@ -417,4 +417,38 @@ void
 phosh_test_keyboard_release_modifiers (struct zwp_virtual_keyboard_v1 *keyboard)
 {
   zwp_virtual_keyboard_v1_modifiers (keyboard, 0, 0, 0, 0);
+}
+
+/**
+ * phosh_test_remove_tree:
+ * file: The tree to remove
+ *
+ * Removes the filesystem tree at `file`
+ */
+void
+phosh_test_remove_tree (GFile *file)
+{
+  g_autoptr (GError) err = NULL;
+  g_autoptr (GFileEnumerator) enumerator = NULL;
+
+  enumerator = g_file_enumerate_children (file, G_FILE_ATTRIBUTE_STANDARD_NAME,
+                                          G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
+                                          NULL, NULL);
+
+  while (enumerator != NULL) {
+    GFile *child;
+    gboolean ret;
+
+    ret = g_file_enumerator_iterate (enumerator, NULL, &child, NULL, &err);
+    g_assert_no_error (err);
+    g_assert_true (ret);
+
+    if (child == NULL)
+      break;
+
+    phosh_test_remove_tree (child);
+  }
+
+  g_assert_true (g_file_delete (file, NULL, &err));
+  g_assert_no_error (err);
 }

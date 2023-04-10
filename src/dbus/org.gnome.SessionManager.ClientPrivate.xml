@@ -5,7 +5,7 @@
     <method name="EndSessionResponse">
       <arg name="is_ok" type="b" direction="in">
         <doc:doc>
-          <doc:summary>Whether or not it is OK to preceed</doc:summary>
+          <doc:summary>Whether or not it is OK to proceed</doc:summary>
         </doc:doc>
       </arg>
       <arg name="reason" type="s" direction="in">
@@ -100,7 +100,7 @@
           <doc:para>
             The client must not attempt to interact with the user in
             response to this signal.  The application will be given a
-            maxium of ten seconds to perform any actions required for
+            maximum of ten seconds to perform any actions required for
             a clean shutdown.
           </doc:para>
         </doc:description>

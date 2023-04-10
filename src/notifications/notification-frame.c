@@ -417,7 +417,7 @@ items_changed (GListModel             *list,
   notification = g_list_model_get_item (self->model, 0);
 
   if (notification == NULL) {
-    /* No first notification means no notfications aka we're empty
+    /* No first notification means no notifications aka we're empty
      * and should be removed from $thing we're in (banner or list)
      */
     g_signal_emit (self, signals[SIGNAL_EMPTY], 0);

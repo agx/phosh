@@ -6,7 +6,7 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "testlib.h"
+#include "testlib-compositor.h"
 
 #include "log.h"
 #include "shell.h"
@@ -17,35 +17,28 @@
 #include <handy.h>
 
 
-typedef struct _Fixture {
-  PhoshTestCompositorState *state;
-} Fixture;
-
-
 static void
-compositor_setup (Fixture *fixture, gconstpointer unused)
+compositor_setup (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   g_setenv ("WLR_HEADLESS_OUTPUTS", "1", TRUE);
 
-  fixture->state = phosh_test_compositor_new (TRUE);
-  g_assert_nonnull (fixture->state);
+  phosh_test_compositor_setup (fixture, NULL);
 }
 
 
 static void
-compositor_setup_dualhead (Fixture *fixture, gconstpointer unused)
+compositor_setup_dualhead (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   g_setenv ("WLR_HEADLESS_OUTPUTS", "2", TRUE);
 
-  fixture->state = phosh_test_compositor_new (TRUE);
-  g_assert_nonnull (fixture->state);
+  phosh_test_compositor_setup (fixture, NULL);
 }
 
 
 static void
-compositor_teardown (Fixture *fixture, gconstpointer unused)
+compositor_teardown (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
-  phosh_test_compositor_free (fixture->state);
+  phosh_test_compositor_teardown (fixture, NULL);
   g_unsetenv("WLR_HEADLESS_OUTPUTS");
 }
 
@@ -124,7 +117,7 @@ on_shell_ready (PhoshShell *shell, gboolean *ready)
 
 
 static void
-test_shell_new (Fixture *fixture, gconstpointer unused)
+test_shell_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   PhoshShell *shell;
   PhoshMonitorManager *mm;
@@ -155,7 +148,7 @@ test_shell_new (Fixture *fixture, gconstpointer unused)
 
 
 static void
-test_shell_new_two_outputs (Fixture *fixture, gconstpointer unused)
+test_shell_new_two_outputs (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   PhoshShell *shell;
   PhoshMonitorManager *mm;
@@ -191,9 +184,9 @@ main (int   argc,
 {
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add ("/phosh/shell/new", Fixture, NULL,
+  g_test_add ("/phosh/shell/new", PhoshTestCompositorFixture, NULL,
               compositor_setup, test_shell_new, compositor_teardown);
-  g_test_add ("/phosh/shell/dualhead", Fixture, NULL,
+  g_test_add ("/phosh/shell/dualhead", PhoshTestCompositorFixture, NULL,
               compositor_setup_dualhead, test_shell_new_two_outputs, compositor_teardown);
 
   return g_test_run ();

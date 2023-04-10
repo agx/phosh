@@ -106,6 +106,6 @@ For details see [class@ScreenSaverManager].
 
 Since phosh is a GTK application you can use
 [GtkInspector](https://wiki.gnome.org/Projects/GTK/Inspector).
-You can use the `GTK_INSPECTOR_DISPLAY` enviroment variable to use a different
+You can use the `GTK_INSPECTOR_DISPLAY` environment variable to use a different
 Wayland display for the inspector window. This can be useful to have the
 inspector windows outside of a nested Wayland session.

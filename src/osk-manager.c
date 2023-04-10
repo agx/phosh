@@ -24,7 +24,7 @@
  * A manager that handles the OSK
  *
  * The #PhoshOskManager is responsible for handling the on screen keyboard.
- * It tracks the OSKs visible property and can toogle the state. Note that
+ * It tracks the OSKs visible property and can toggle the state. Note that
  * there's no way to ensure keyboard state via this interface as it just
  * uses DBus to express preference. Any text input can make the keyboard
  * show again.

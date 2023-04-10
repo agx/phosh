@@ -6,34 +6,15 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "testlib.h"
+#include "testlib-compositor.h"
 
 #include "system-modal-dialog.h"
 
 #include <glib.h>
 
 
-typedef struct _Fixture {
-  PhoshTestCompositorState *state;
-} Fixture;
-
-
 static void
-compositor_setup (Fixture *fixture, gconstpointer unused)
-{
-  fixture->state = phosh_test_compositor_new (TRUE);
-  g_assert_nonnull (fixture->state);
-}
-
-static void
-compositor_teardown (Fixture *fixture, gconstpointer unused)
-{
-  phosh_test_compositor_free (fixture->state);
-}
-
-
-static void
-test_system_modal_dialog_new (Fixture *fixture, gconstpointer unused)
+test_system_modal_dialog_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   GtkWidget *dialog;
 
@@ -70,8 +51,7 @@ main (int   argc,
 {
   g_test_init (&argc, &argv, NULL);
 
-  g_test_add ("/phosh/system-modal-dialog/new", Fixture, NULL,
-              compositor_setup, test_system_modal_dialog_new, compositor_teardown);
+  PHOSH_COMPOSITOR_TEST_ADD ("/phosh/system-modal-dialog/new", test_system_modal_dialog_new);
 
   return g_test_run ();
 }

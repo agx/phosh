@@ -69,8 +69,8 @@ main (int argc, char *argv[])
   /* Preserve DISPLAY for wlroots x11 backend */
   cfg = phosh_test_full_shell_fixture_cfg_new (g_getenv ("DISPLAY"), "phosh-monitor-manager");
 
-  g_test_add ("/phosh/dbus/monitor-manager/current_state", PhoshTestFullShellFixture, cfg,
-              phosh_test_full_shell_setup, test_phosh_monitor_manager_current_state, phosh_test_full_shell_teardown);
+  PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/monitor-manager/current_state", cfg,
+                             test_phosh_monitor_manager_current_state);
 
   return g_test_run ();
 }

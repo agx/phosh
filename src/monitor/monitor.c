@@ -15,7 +15,7 @@
  *
  * A monitor
  *
- * A rectangualar area in the compositor space, usally corresponds to
+ * A rectangualar area in the compositor space, usually corresponds to
  * physical monitor using wl_output and xdg_output Wayland protocols.
  */
 
@@ -391,7 +391,7 @@ phosh_monitor_constructed (GObject *object)
   zwlr_output_power_manager_v1 = phosh_wayland_get_zwlr_output_power_manager_v1 (
     phosh_wayland_get_default ());
 
-  /* Output power protocol is optional until compositors catched up */
+  /* Output power protocol is optional until compositors caught up */
   if (zwlr_output_power_manager_v1) {
     self->wlr_output_power = zwlr_output_power_manager_v1_get_output_power (
       zwlr_output_power_manager_v1, self->wl_output);

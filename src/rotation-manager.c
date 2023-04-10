@@ -220,7 +220,7 @@ on_has_accelerometer_changed (PhoshRotationManager    *self,
 /**
  * fixup_lockscreen_orientation:
  * @self: The PhoshRotationManager
- * @force: Whether to force the monitor to portait orientation
+ * @force: Whether to force the monitor to portrait orientation
  *
  * On phones the lock screen doesn't work in landscape so fix that up
  * until https://source.puri.sm/Librem5/phosh/-/issues/388

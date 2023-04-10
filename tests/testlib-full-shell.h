@@ -31,6 +31,12 @@ void phosh_test_full_shell_fixture_cfg_dispose (PhoshTestFullShellFixtureCfg *se
 void phosh_test_full_shell_setup (PhoshTestFullShellFixture *fixture, gconstpointer data);
 void phosh_test_full_shell_teardown (PhoshTestFullShellFixture *fixture, gconstpointer unused);
 
+#define PHOSH_FULL_SHELL_TEST_ADD(name, cfg, func) g_test_add ((name), \
+                                                               PhoshTestFullShellFixture, (cfg), \
+                                                          (gpointer)phosh_test_full_shell_setup, \
+                                                          (gpointer)(func), \
+                                                          (gpointer)phosh_test_full_shell_teardown)
+
 G_DEFINE_AUTOPTR_CLEANUP_FUNC (PhoshTestFullShellFixtureCfg, phosh_test_full_shell_fixture_cfg_dispose)
 
 G_END_DECLS
