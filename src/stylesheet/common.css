@@ -372,6 +372,11 @@ phosh-lockscreen .phosh-notification-tray {
   border-right: none;
 }
 
+.phosh-system-modal-dialog-buttons button:only-child {
+  border-bottom-left-radius: 11px;
+  border-bottom-right-radius: 11px;
+}
+
 .phosh-system-modal-dialog-content {
   padding-left:  18px;
   padding-right: 18px;
