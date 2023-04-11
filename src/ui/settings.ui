@@ -296,6 +296,7 @@
                         <child>
                           <object class="GtkStack" id="stack_notifications">
                             <property name="visible">True</property>
+                            <property name="transition-type">crossfade</property>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
