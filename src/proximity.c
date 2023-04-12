@@ -83,18 +83,21 @@ on_proximity_claimed (PhoshSensorProxyManager *sensor_proxy_manager,
   gboolean success;
 
   g_return_if_fail (PHOSH_IS_SENSOR_PROXY_MANAGER (sensor_proxy_manager));
+
+  success = phosh_dbus_sensor_proxy_call_claim_proximity_finish (
+    PHOSH_DBUS_SENSOR_PROXY (sensor_proxy_manager),
+    res, &err);
+
+  if (success == FALSE) {
+    phosh_async_error_warn (err, "Failed to claim proximity sensor");
+    return;
+  }
+
   g_return_if_fail (PHOSH_IS_PROXIMITY (self));
   g_return_if_fail (sensor_proxy_manager == self->sensor_proxy_manager);
 
-  success = phosh_dbus_sensor_proxy_call_claim_proximity_finish (
-    PHOSH_DBUS_SENSOR_PROXY(sensor_proxy_manager),
-    res, &err);
-  if (success) {
-    g_debug ("Claimed proximity sensor");
-    self->claimed = TRUE;
-  } else {
-    g_warning ("Failed to claim proximity sensor: %s", err->message);
-  }
+  g_debug ("Claimed proximity sensor");
+  self->claimed = TRUE;
 }
 
 
@@ -107,18 +110,22 @@ on_proximity_released (PhoshSensorProxyManager *sensor_proxy_manager,
   gboolean success;
 
   g_return_if_fail (PHOSH_IS_SENSOR_PROXY_MANAGER (sensor_proxy_manager));
-  g_return_if_fail (PHOSH_IS_PROXIMITY (self));
-  g_return_if_fail (sensor_proxy_manager == self->sensor_proxy_manager);
 
   success = phosh_dbus_sensor_proxy_call_release_proximity_finish (
     PHOSH_DBUS_SENSOR_PROXY(sensor_proxy_manager),
     res, &err);
-  if (success) {
-    g_debug ("Released proximity sensor");
-    self->claimed = FALSE;
-  } else {
-    g_warning ("Failed to release proximity sensor: %s", err->message);
+
+  if (success == FALSE) {
+    if (!phosh_async_error_warn (err, "Failed to release proximity sensor")) {
+      /* If not canceled hide fader */
+      hide_fader (self);
+    }
+    return;
   }
+
+  g_debug ("Released proximity sensor");
+  self->claimed = FALSE;
+
   hide_fader (self);
 }
 

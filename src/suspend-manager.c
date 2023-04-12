@@ -136,16 +136,17 @@ on_logind_manager_proxy_new_for_bus_finish (GObject             *source_object,
   g_autoptr (GError) err = NULL;
   g_autofree char *session_id = NULL;
   PhoshWifiManager *wifi_manager;
+  PhoshDBusLoginManager *proxy;
 
-  self->logind_manager_proxy = phosh_dbus_login_manager_proxy_new_for_bus_finish (res, &err);
-
-  if (!self->logind_manager_proxy) {
+  proxy = phosh_dbus_login_manager_proxy_new_for_bus_finish (res, &err);
+  if (proxy == NULL) {
     phosh_dbus_service_error_warn (err, "Failed to get login1 manager proxy: %s", err->message);
     return;
   }
 
   g_return_if_fail (PHOSH_IS_SUSPEND_MANAGER (self));
   g_debug ("Connected to " LOGIN_OBJECT_PATH);
+  self->logind_manager_proxy = proxy;
 
   wifi_manager = phosh_shell_get_wifi_manager (phosh_shell_get_default());
   g_signal_connect_swapped (wifi_manager,
@@ -200,6 +201,7 @@ phosh_suspend_manager_class_init (PhoshSuspendManagerClass *klass)
 static void
 phosh_suspend_manager_init (PhoshSuspendManager *self)
 {
+  self->cancel = g_cancellable_new ();
   self->inhibitors = g_hash_table_new_full (g_str_hash,
                                             g_str_equal,
                                             g_free,

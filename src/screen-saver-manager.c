@@ -358,7 +358,7 @@ on_inhibit_suspend_finished (GObject      *source_object,
                              gpointer     user_data)
 {
   gboolean success;
-  PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (user_data);
+  PhoshScreenSaverManager *self;
   PhoshDBusLoginManager *proxy;
   g_autoptr (GError) err = NULL;
   g_autoptr (GUnixFDList) fd_list = NULL;
@@ -372,11 +372,13 @@ on_inhibit_suspend_finished (GObject      *source_object,
                                                           res,
                                                           &err);
   if (!success) {
-    g_warning ("Failed to inhibit suspend: %s", err->message);
+    phosh_async_error_warn (err, "Failed to inhibit suspend");
     return;
   }
 
   g_return_if_fail (fd_list && g_unix_fd_list_get_length (fd_list) == 1);
+
+  self = PHOSH_SCREEN_SAVER_MANAGER (user_data);
   g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
 
   g_variant_get (out_pipe_fd, "h", &idx);
@@ -634,8 +636,8 @@ on_inhibit_pwr_button_finished (GObject      *source_object,
                                 GAsyncResult *res,
                                 gpointer     user_data)
 {
+  PhoshScreenSaverManager *self;
   gboolean success;
-  PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (user_data);
   PhoshDBusLoginManager *proxy;
   g_autoptr (GError) err = NULL;
   g_autoptr (GUnixFDList) fd_list = NULL;
@@ -649,11 +651,13 @@ on_inhibit_pwr_button_finished (GObject      *source_object,
                                                           res,
                                                           &err);
   if (!success) {
-    g_warning ("Failed to inhibit power button: %s", err->message);
+    phosh_async_error_warn (err, "Failed to inhibit power button");
     return;
   }
 
   g_return_if_fail (fd_list && g_unix_fd_list_get_length (fd_list) == 1);
+
+  self = PHOSH_SCREEN_SAVER_MANAGER (user_data);
   g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
 
   g_variant_get (out_pipe_fd, "h", &idx);
@@ -905,6 +909,7 @@ phosh_screen_saver_manager_init (PhoshScreenSaverManager *self)
 {
   self->cancel = g_cancellable_new ();
   self->inhibit_suspend_fd = -1;
+  self->inhibit_pwr_btn_fd = -1;
 }
 
 
