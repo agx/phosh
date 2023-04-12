@@ -114,7 +114,6 @@ phosh_mount_notification_new_from_mount (guint id, GMount *mount)
   g_autofree gchar *uri = NULL;
   g_autoptr (GIcon) icon = NULL;
   g_autoptr (GIcon) app_icon = NULL;
-  g_autoptr (PhoshMountNotification) notification = NULL;
   g_autoptr (GFile) root = NULL;
   g_autoptr (GAppInfo) info = NULL;
   g_autoptr (GAppInfo) handler_info = NULL;
