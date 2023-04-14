@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-02-16 09:58+0000\n"
-"PO-Revision-Date: 2023-02-17 05:58+0100\n"
+"POT-Creation-Date: 2023-04-14 16:09+0000\n"
+"PO-Revision-Date: 2023-04-14 19:41+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: \n"
 "Language: ka\n"
@@ -101,7 +101,7 @@ msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s გამოვა ავტომატურად, %d წამში."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+#: src/end-session-dialog.c:171
 msgid "Power Off"
 msgstr "გამორთვა"
 
@@ -111,7 +111,7 @@ msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "სისტემა გამოირთვება ავტომატურად %d წამში."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+#: src/end-session-dialog.c:178
 msgid "Restart"
 msgstr "გადატვრთვა"
 
@@ -128,19 +128,19 @@ msgstr "უცნობი აპლიკაცია"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:91
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "მშვიდი"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:97
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "ჩუმი"
 
 #. Translators: Enable LED, haptic and audio feedback
-#: src/feedbackinfo.c:101
+#: src/feedbackinfo.c:108
 msgctxt "feedback:enabled"
 msgid "On"
 msgstr "ჩართ"
@@ -166,7 +166,7 @@ msgstr "არა"
 msgid "Enter Passcode"
 msgstr "შეიყვანეთ კოდი"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "შემოწმება…"
 
@@ -324,20 +324,20 @@ msgstr "პაროლი:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "უკაცრავად, არ იმუშავა. კიდევ სცადეთ."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "პორტრეტი"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "ლანდშაფტი"
 
-#: src/rotateinfo.c:104 src/rotateinfo.c:188
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
 msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "გამორთ"
 
-#: src/rotateinfo.c:105
+#: src/rotateinfo.c:126
 msgctxt "automatic-screen-rotation-enabled"
 msgid "On"
 msgstr "ჩართ"
@@ -369,6 +369,7 @@ msgstr "გადაწყვეტილების დამახსოვ�
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "გაუქმება"
 
@@ -433,7 +434,7 @@ msgid "Authentication required"
 msgstr "საჭროა ავთენტიკაცია"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Cancel"
 msgstr "_გაუქმება"
 
@@ -445,15 +446,31 @@ msgstr "_კავშირი"
 msgid "Authenticate"
 msgstr "ავთენტიკაცია"
 
+#: src/ui/power-menu.ui:37
+msgid "_Power Off"
+msgstr "_გამორთვა"
+
+#: src/ui/power-menu.ui:78
+msgid "_Lock"
+msgstr "_ჩაკეტვა"
+
+#: src/ui/power-menu.ui:119
+msgid "_Screenshot"
+msgstr "_ეკრანის ანაბეჭდი"
+
+#: src/ui/power-menu.ui:160
+msgid "_Emergency"
+msgstr "_სასწრაფო"
+
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "ბრძანების გაშვება"
 
-#: src/ui/settings.ui:302
+#: src/ui/settings.ui:319
 msgid "No notifications"
 msgstr "გაფრთხილების გარეშე"
 
-#: src/ui/settings.ui:343
+#: src/ui/settings.ui:359
 msgid "Clear all"
 msgstr "ყველას გასუფთავება"
 
@@ -461,17 +478,9 @@ msgstr "ყველას გასუფთავება"
 msgid "Confirm:"
 msgstr "დასტური:"
 
-#: src/ui/top-panel.ui:15
-msgid "Lock Screen"
-msgstr "ეკრანის ჩაკეტვა"
-
-#: src/ui/top-panel.ui:22
-msgid "Logout"
-msgstr "გასვლა"
-
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:338
+#: src/util.c:339
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -493,7 +502,7 @@ msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwan-info.c:200
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "მობილური"
 
@@ -586,6 +595,10 @@ msgstr "კონტაქტის დამატება"
 msgid "Add New Contact"
 msgstr "ახალი კონტაქტის დამატება"
 
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "დამატება"
+
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
 msgid "New Contact Name"
 msgstr "ახალი კონტაქტის სახელი"
@@ -606,11 +619,11 @@ msgstr "საჩვენებელი დოკუმენტების �
 msgid "Tickets"
 msgstr "ბილეთები"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:83
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "Choose Folder"
 msgstr "აირჩიეთ საქაღალდე"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Open"
 msgstr "გახსნა"
 
@@ -676,6 +689,12 @@ msgstr "მთავრდება"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "უსახელო მოვლენა"
+
+#~ msgid "Lock Screen"
+#~ msgstr "ეკრანის ჩაკეტვა"
+
+#~ msgid "Logout"
+#~ msgstr "გასვლა"
 
 #, c-format
 #~ msgid "On %A"
