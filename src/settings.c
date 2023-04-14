@@ -82,7 +82,6 @@ typedef struct _PhoshSettings
   GtkWidget *box_bottom_half;
   /* Notifications */
   GtkWidget *list_notifications;
-  GtkWidget *box_notifications;
   GtkWidget *stack_notifications;
 
   /* Torch */
@@ -852,7 +851,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
       NULL, G_TYPE_NONE, 0);
 
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_bottom_half);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_sliders);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);
