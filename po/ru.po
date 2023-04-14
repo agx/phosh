@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-03-07 10:28+0000\n"
-"PO-Revision-Date: 2023-03-07 13:56+0300\n"
+"POT-Creation-Date: 2023-04-14 16:09+0000\n"
+"PO-Revision-Date: 2023-04-14 19:32+0300\n"
 "Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -102,7 +102,7 @@ msgstr[0] "%s автоматически выйдет из системы чер
 msgstr[1] "%s автоматически выйдет из системы через %d секунды."
 msgstr[2] "%s автоматически выйдет из системы через %d секунд."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+#: src/end-session-dialog.c:171
 msgid "Power Off"
 msgstr "Выключить"
 
@@ -114,7 +114,7 @@ msgstr[0] "Система автоматически выключится чер
 msgstr[1] "Система автоматически выключится через %d секунды."
 msgstr[2] "Система автоматически выключится через %d секунд."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+#: src/end-session-dialog.c:178
 msgid "Restart"
 msgstr "Перезапустить"
 
@@ -451,6 +451,22 @@ msgstr "П_одключить"
 msgid "Authenticate"
 msgstr "Подтвердить"
 
+#: src/ui/power-menu.ui:37
+msgid "_Power Off"
+msgstr "_Выключить"
+
+#: src/ui/power-menu.ui:78
+msgid "_Lock"
+msgstr "_Заблокировать"
+
+#: src/ui/power-menu.ui:119
+msgid "_Screenshot"
+msgstr "_Снимок экрана"
+
+#: src/ui/power-menu.ui:160
+msgid "_Emergency"
+msgstr "_Экстренная помощь"
+
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Выполнить команду"
@@ -466,14 +482,6 @@ msgstr "Очистить все"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Подтверждение:"
-
-#: src/ui/top-panel.ui:15
-msgid "Lock Screen"
-msgstr "Заблокировать экран"
-
-#: src/ui/top-panel.ui:22
-msgid "Logout"
-msgstr "Выйти"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -688,6 +696,12 @@ msgstr "Конец"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Безымянное событие"
+
+#~ msgid "Lock Screen"
+#~ msgstr "Заблокировать экран"
+
+#~ msgid "Logout"
+#~ msgstr "Выйти"
 
 #, c-format
 #~ msgid "On %A"
