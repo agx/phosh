@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-03-07 10:28+0000\n"
-"PO-Revision-Date: 2023-03-07 21:00+0200\n"
+"POT-Creation-Date: 2023-04-14 16:09+0000\n"
+"PO-Revision-Date: 2023-04-14 22:47+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -103,7 +103,7 @@ msgstr[0] "Вихід з системи %s буде здійснено авто�
 msgstr[1] "Вихід з системи %s буде здійснено автоматично за %d секунди."
 msgstr[2] "Вихід з системи %s буде здійснено автоматично за %d секунд."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+#: src/end-session-dialog.c:171
 msgid "Power Off"
 msgstr "Вимкнути"
 
@@ -115,7 +115,7 @@ msgstr[0] "Система автоматично вимкнеться за %d с
 msgstr[1] "Система автоматично вимкнеться за %d секунди."
 msgstr[2] "Система автоматично вимкнеться за %d секунд."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+#: src/end-session-dialog.c:178
 msgid "Restart"
 msgstr "Перезапустити"
 
@@ -452,6 +452,24 @@ msgstr "З'_єднатися"
 msgid "Authenticate"
 msgstr "Автентифікуватися"
 
+#: src/ui/power-menu.ui:37
+#| msgid "Power Off"
+msgid "_Power Off"
+msgstr "Ви_мкнути"
+
+#: src/ui/power-menu.ui:78
+msgid "_Lock"
+msgstr "За_мкнути"
+
+#: src/ui/power-menu.ui:119
+msgid "_Screenshot"
+msgstr "З_німок вікна"
+
+#: src/ui/power-menu.ui:160
+#| msgid "Emergency"
+msgid "_Emergency"
+msgstr "_Екстрений виклик"
+
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Виконати команду"
@@ -467,14 +485,6 @@ msgstr "Очистити все"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Підтвердіть:"
-
-#: src/ui/top-panel.ui:15
-msgid "Lock Screen"
-msgstr "Заблокувати екран"
-
-#: src/ui/top-panel.ui:22
-msgid "Logout"
-msgstr "Вийти"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -689,6 +699,12 @@ msgstr "Завершується"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Подія без назви"
+
+#~ msgid "Lock Screen"
+#~ msgstr "Заблокувати екран"
+
+#~ msgid "Logout"
+#~ msgstr "Вийти"
 
 #, c-format
 #~ msgid "On %A"
