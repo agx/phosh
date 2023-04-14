@@ -21,6 +21,8 @@
 #include <glib/gstdio.h>
 #include <gio/gunixfdlist.h>
 
+#define LONG_PRESS_TIMEOUT 2 /* seconds */
+
 /**
  * PhoshScreenSaverManager:
  *
@@ -60,6 +62,12 @@ enum {
 };
 static GParamSpec *props[PROP_LAST_PROP];
 
+enum {
+  PB_LONG_PRESS,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
+
 static void phosh_screen_saver_manager_screen_saver_iface_init (PhoshDBusScreenSaverIface *iface);
 
 typedef struct _PhoshScreenSaverManager
@@ -71,6 +79,9 @@ typedef struct _PhoshScreenSaverManager
   PhoshLockscreenManager *lockscreen_manager;
   PhoshSessionPresence *presence;  /* gnome-session's presence interface */
   gboolean active;
+
+  /* Powerb button */
+  guint    long_press_id;
 
   GSettings *settings;
   gboolean lock_enabled;
@@ -165,12 +176,35 @@ screen_saver_set_active (PhoshScreenSaverManager *self, gboolean active, gboolea
 }
 
 
+static gboolean
+on_long_press (gpointer data)
+{
+  PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (data);
+
+  g_debug ("Power button long press detected");
+
+  g_signal_emit (self, signals[PB_LONG_PRESS], 0);
+
+  self->long_press_id = 0;
+  return FALSE;
+}
+
+
 static void
 on_power_button_pressed (GSimpleAction *action, GVariant *param, gpointer data)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (data);
   static gboolean state_on_press;
   gboolean press = g_variant_get_boolean (param);
+
+  /* We only detect long press when screen is active */
+  if (press && self->active == FALSE) {
+    if (self->long_press_id)
+      g_warning ("Long press timer already active");
+    self->long_press_id = g_timeout_add_seconds (LONG_PRESS_TIMEOUT,
+                                                 on_long_press,
+                                                 self);
+  }
 
   /* Press already unblanks since presence status changes due to key press so nothing to do here */
   if (press) {
@@ -186,8 +220,15 @@ on_power_button_pressed (GSimpleAction *action, GVariant *param, gpointer data)
   if (self->active)
     return;
 
+  /* The long press triggered so don't change screen saver state */
+  if (self->long_press_id == 0)
+    return;
+
   g_debug ("Power button released, activating screensaver");
   screen_saver_set_active (self, TRUE, TRUE);
+
+  /* Disable long press timer */
+  g_clear_handle_id (&self->long_press_id, g_source_remove);
 }
 
 
@@ -569,6 +610,7 @@ phosh_screen_saver_manager_dispose (GObject *object)
   g_clear_object (&self->primary_monitor);
 
   g_clear_object (&self->presence);
+  g_clear_handle_id (&self->long_press_id, g_source_remove);
 
   G_OBJECT_CLASS (phosh_screen_saver_manager_parent_class)->dispose (object);
 }
@@ -901,6 +943,17 @@ phosh_screen_saver_manager_class_init (PhoshScreenSaverManagerClass *klass)
                           G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
+
+  /**
+   * PhoshScreenSaverManager:pb-long-press
+   *
+   * Power button long press detected
+   */
+  signals[PB_LONG_PRESS] =
+    g_signal_new ("pb-long-press",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+                  NULL, G_TYPE_NONE, 0);
 }
 
 

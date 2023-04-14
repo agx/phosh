@@ -13,6 +13,7 @@
 #include "shell.h"
 #include "system-modal-dialog.h"
 #include "swipe-away-bin.h"
+#include "util.h"
 
 /**
  * PhoshSystemModalDialog:
@@ -267,11 +268,9 @@ phosh_system_modal_dialog_buildable_init (GtkBuildableIface *iface)
 static void
 phosh_system_modal_dialog_init (PhoshSystemModalDialog *self)
 {
-  PhoshSystemModalDialogPrivate *priv = phosh_system_modal_dialog_get_instance_private (self);
-
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  g_object_bind_property (self, "title", priv->lbl_title, "label", G_BINDING_DEFAULT);
+  phosh_system_modal_dialog_set_title (self, NULL);
 }
 
 /**
@@ -373,5 +372,9 @@ phosh_system_modal_dialog_set_title (PhoshSystemModalDialog *self, const gchar *
   priv = phosh_system_modal_dialog_get_instance_private (PHOSH_SYSTEM_MODAL_DIALOG (self));
   g_free (priv->title);
   priv->title = g_strdup (title);
+
+  gtk_label_set_label (GTK_LABEL (priv->lbl_title), priv->title);
+  gtk_widget_set_visible (priv->lbl_title, !STR_IS_NULL_OR_EMPTY (priv->title));
+
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TITLE]);
 }

@@ -116,6 +116,7 @@ tests_phoc = [
   'osd-window',
   'system-modal',
   'system-modal-dialog',
+  'power-menu',
 ]
 
 tests_manager = [

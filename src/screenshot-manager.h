@@ -18,5 +18,9 @@ G_DECLARE_FINAL_TYPE (PhoshScreenshotManager, phosh_screenshot_manager,
                       PHOSH, SCREENSHOT_MANAGER, PhoshDBusScreenshotSkeleton)
 
 PhoshScreenshotManager *phosh_screenshot_manager_new (void);
+gboolean                phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
+                                                                GdkRectangle           *area,
+                                                                const char             *filename,
+                                                                gboolean            include_cursor);
 
 G_END_DECLS

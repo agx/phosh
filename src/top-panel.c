@@ -61,7 +61,6 @@ typedef struct _PhoshTopPanel {
 
   /* Top row above settings */
   GtkWidget *btn_power;
-  GtkWidget *menu_power;
   GtkWidget *btn_lock;
   GtkWidget *lbl_clock2;
   GtkWidget *lbl_date;
@@ -221,6 +220,17 @@ on_logout_action (GSimpleAction *action,
 
 
 static void
+on_power_menu_activated (GSimpleAction *action,
+                         GVariant      *parameter,
+                         gpointer       data)
+{
+  g_action_group_activate_action (G_ACTION_GROUP (phosh_shell_get_default ()),
+                                  "power.toggle-menu",
+                                  NULL);
+}
+
+
+static void
 wall_clock2_notify_cb (PhoshTopPanel  *self,
                        GParamSpec     *pspec,
                        GnomeWallClock *wall_clock)
@@ -357,15 +367,6 @@ on_key_press_event (PhoshTopPanel *self, GdkEventKey *event, gpointer data)
 static void
 released_cb (PhoshTopPanel *self, int n_press, double x, double y, GtkGestureMultiPress *gesture)
 {
-  /*
-   * The popover has to be popdown manually as it doesn't happen
-   * automatically when the power button is tapped with touch
-   */
-  if (gtk_widget_is_visible (self->menu_power)) {
-    gtk_popover_popdown (GTK_POPOVER (self->menu_power));
-    return;
-  }
-
   if (phosh_util_gesture_is_touch (GTK_GESTURE_SINGLE (gesture)) == FALSE)
     g_signal_emit (self, signals[ACTIVATED], 0);
 }
@@ -435,9 +436,6 @@ on_drag_state_changed (PhoshTopPanel *self)
   gboolean kbd_interactivity = FALSE;
   double arrow = -1.0;
 
-  /* Close the popover on any drag */
-  gtk_widget_hide (self->menu_power);
-
   switch (phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self))) {
   case PHOSH_DRAG_SURFACE_STATE_UNFOLDED:
     state = PHOSH_TOP_PANEL_STATE_UNFOLDED;
@@ -474,6 +472,7 @@ static GActionEntry entries[] = {
   { .name = "restart", .activate = on_restart_action },
   { .name = "lockscreen", .activate = on_lockscreen_action },
   { .name = "logout", .activate = on_logout_action },
+  { .name = "power-menu", .activate = on_power_menu_activated },
 };
 
 
@@ -682,7 +681,6 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/top-panel.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, arrow);
-  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, menu_power);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_power);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, btn_lock);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, batteryinfo);

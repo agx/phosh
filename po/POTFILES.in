@@ -69,6 +69,7 @@ src/ui/notification-content.ui
 src/ui/notification-frame.ui
 src/ui/overview.ui
 src/ui/polkit-auth-prompt.ui
+src/ui/power-menu.ui
 src/ui/quick-setting.ui
 src/ui/run-command-dialog.ui
 src/ui/settings.ui
