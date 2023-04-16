@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-03-07 10:28+0000\n"
-"PO-Revision-Date: 2023-03-18 04:49+0330\n"
+"POT-Creation-Date: 2023-04-14 16:09+0000\n"
+"PO-Revision-Date: 2023-04-16 16:31+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -100,7 +100,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 msgstr[1] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+#: src/end-session-dialog.c:171
 msgid "Power Off"
 msgstr "خاموش کردن"
 
@@ -111,7 +111,7 @@ msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "سامانه پس از %Id ثانیه به طور خودکار خاموش می‌شود."
 msgstr[1] "سامانه پس از %Id ثانیه به طور خودکار خاموش می‌شود."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+#: src/end-session-dialog.c:178
 msgid "Restart"
 msgstr "راه‌اندازی دوباره"
 
@@ -447,6 +447,22 @@ msgstr "_وصل شدن"
 msgid "Authenticate"
 msgstr "تأیید هویت"
 
+#: src/ui/power-menu.ui:37
+msgid "_Power Off"
+msgstr "_خاموش"
+
+#: src/ui/power-menu.ui:78
+msgid "_Lock"
+msgstr "_قفل"
+
+#: src/ui/power-menu.ui:119
+msgid "_Screenshot"
+msgstr "_نماگرفت"
+
+#: src/ui/power-menu.ui:160
+msgid "_Emergency"
+msgstr "_اضطراری"
+
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "اجرای فرمان"
@@ -462,14 +478,6 @@ msgstr "پاک‌سازی همه"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "تأیید:"
-
-#: src/ui/top-panel.ui:15
-msgid "Lock Screen"
-msgstr "قفل کردن صفحه"
-
-#: src/ui/top-panel.ui:22
-msgid "Logout"
-msgstr "خروج"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -683,6 +691,12 @@ msgstr "پایان"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "رویداد بی‌عنوان"
+
+#~ msgid "Lock Screen"
+#~ msgstr "قفل کردن صفحه"
+
+#~ msgid "Logout"
+#~ msgstr "خروج"
 
 #, c-format
 #~ msgid "On %A"
