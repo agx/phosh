@@ -87,7 +87,7 @@
   <schema id="sm.puri.phosh.emergency-calls"
           path="/sm/puri/phosh/emergency-calls/">
     <key name="enabled" type="b">
-      <default>true</default>
+      <default>false</default>
       <summary>Whether emergency calls are enabled</summary>
       <description>
         When this is disabled the shell will not offer emergency call

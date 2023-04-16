@@ -575,12 +575,17 @@ int
 main (int argc, char *argv[])
 {
   g_autoptr (PhoshTestFullShellFixtureCfg) cfg = NULL;
+  g_autoptr (GSettings) settings = NULL;
 
   g_test_init (&argc, &argv, NULL);
 
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
   bindtextdomain (GETTEXT_PACKAGE, TEST_INSTALLED LOCALEDIR);
+
+  /* Enable emergency-calls until it's on by default */
+  settings = g_settings_new ("sm.puri.phosh.emergency-calls");
+  g_settings_set_boolean (settings, "enabled", TRUE);
 
   /* Preserve DISPLAY for wlroots x11 backend */
   cfg = phosh_test_full_shell_fixture_cfg_new (g_getenv ("DISPLAY"), "phosh-keyboard-events,phosh-media-player");
