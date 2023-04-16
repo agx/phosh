@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-03-07 10:28+0000\n"
-"PO-Revision-Date: 2023-03-11 15:19+0100\n"
+"POT-Creation-Date: 2023-04-14 16:09+0000\n"
+"PO-Revision-Date: 2023-04-16 12:58+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -104,7 +104,7 @@ msgstr[0] "Użytkownik %s zostanie wylogowany za %d sekundę."
 msgstr[1] "Użytkownik %s zostanie wylogowany za %d sekundy."
 msgstr[2] "Użytkownik %s zostanie wylogowany za %d sekund."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+#: src/end-session-dialog.c:171
 msgid "Power Off"
 msgstr "Wyłącz telefon"
 
@@ -116,7 +116,7 @@ msgstr[0] "Wyłączenie telefonu nastąpi za %d sekundę."
 msgstr[1] "Wyłączenie telefonu nastąpi za %d sekundy."
 msgstr[2] "Wyłączenie telefonu nastąpi za %d sekund."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+#: src/end-session-dialog.c:178
 msgid "Restart"
 msgstr "Uruchom ponownie"
 
@@ -453,6 +453,22 @@ msgstr "_Połącz"
 msgid "Authenticate"
 msgstr "Uwierzytelnij"
 
+#: src/ui/power-menu.ui:37
+msgid "_Power Off"
+msgstr "_Wyłącz telefon"
+
+#: src/ui/power-menu.ui:78
+msgid "_Lock"
+msgstr "Za_blokuj"
+
+#: src/ui/power-menu.ui:119
+msgid "_Screenshot"
+msgstr "Wykonaj zrzut _ekranu"
+
+#: src/ui/power-menu.ui:160
+msgid "_Emergency"
+msgstr "Połączenie _alarmowe"
+
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Wykonanie polecenia"
@@ -468,14 +484,6 @@ msgstr "Wyczyść wszystkie"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Potwierdzenie:"
-
-#: src/ui/top-panel.ui:15
-msgid "Lock Screen"
-msgstr "Zablokuj ekran"
-
-#: src/ui/top-panel.ui:22
-msgid "Logout"
-msgstr "Wyloguj się"
 
 #. Translators: This is a time format for a date in
 #. long format
