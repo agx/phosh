@@ -266,7 +266,7 @@ screenshot_end_session_dialog (GMainLoop                       *loop,
 {
   g_autoptr (PhoshDBusEndSessionDialog) proxy = NULL;
   g_autoptr (GError) err = NULL;
-  const char *inhibitors[] = { "/org/exampl/foo1", "/org/example/foo2", NULL };
+  g_autoptr (GPtrArray) inhibitors = g_ptr_array_new_with_free_func (g_free);
 
   proxy = phosh_dbus_end_session_dialog_proxy_new_for_bus_sync (
     G_BUS_TYPE_SESSION,
@@ -277,11 +277,17 @@ screenshot_end_session_dialog (GMainLoop                       *loop,
     &err);
   g_assert_no_error (err);
 
+  for (int i = 0; i < 10; i++) {
+    char *sym = g_strdup_printf ("/org/example/foo%d", i);
+    g_ptr_array_add (inhibitors, sym);
+  }
+  g_ptr_array_add (inhibitors, NULL);
+
   phosh_dbus_end_session_dialog_call_open (proxy,
                                            0,
                                            0,
                                            30,
-                                           inhibitors,
+                                           (const gchar * const*)inhibitors->pdata,
                                            NULL,
                                            on_end_session_dialog_open_finish,
                                            NULL);
