@@ -206,6 +206,9 @@ config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address',
              description: 'Whether ASAN was enabled via meson')
 config_h.set('PHOSH_HAVE_GNOME_PLATFORM_VERSION', have_gnome_platform_version,
              description: 'Whether we have gnome platform version header (>= 43)')
+have_lfb_0_2_0 = libfeedback_dep.version().version_compare('>= 0.2.0')
+config_h.set('PHOSH_HAVE_LFB_EVENT_SET_APP_ID', have_lfb_0_2_0,
+             description: 'Whether we have lfb_event_set_app_id')
 config_h.set_quoted('PHOSH_DATA_DIR', datadir,
              description: 'Systemwide data dir')
 config_h.set_quoted('PHOSH_APP_ID', app_id)
@@ -247,6 +250,7 @@ summary({
 )
 
 summary({
+    'Recent libfeedback (>= 0.2.0)': have_lfb_0_2_0,
     'Recent GNOME (>= 43)': have_gnome_platform_version,
     'Recent glib (>= 2.74)': glib_dep.version().version_compare('>= 2.74')
   },
