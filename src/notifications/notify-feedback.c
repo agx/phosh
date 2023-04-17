@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Purism SPC
+ * Copyright (C) 2021-2023 Purism SPC
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -13,6 +13,7 @@
 #include "shell.h"
 #include "notify-feedback.h"
 #include "notification-source.h"
+#include "util.h"
 
 #define LIBFEEDBACK_USE_UNSTABLE_API
 #include <libfeedback.h>
@@ -102,6 +103,8 @@ on_notifcation_source_items_changed (PhoshNotifyFeedback *self,
     g_autoptr (PhoshNotification) new = g_list_model_get_item (list, position);
     g_autoptr (LfbEvent) event = NULL;
     const char *category, *event_name;
+    g_autofree char *app_id = NULL;
+    GAppInfo *info = NULL;
 
     g_return_if_fail (PHOSH_IS_NOTIFICATION (new));
 
@@ -110,9 +113,20 @@ on_notifcation_source_items_changed (PhoshNotifyFeedback *self,
     if (event_name == NULL)
       continue;
 
-    g_debug ("Emitting event %s", event_name);
+    info = phosh_notification_get_app_info (new);
+    app_id = phosh_strip_suffix_from_app_id (g_app_info_get_id (info));
+
+    g_debug ("Emitting event %s for %s", event_name, app_id ?: "unknown");
     event = lfb_event_new (event_name);
     g_set_object (&self->event, event);
+
+#ifdef PHOSH_HAVE_LFB_EVENT_SET_APP_ID
+    if (app_id)
+      lfb_event_set_app_id (event, app_id);
+#else
+    g_warning_once ("No support for phosh_notification_get_app_info, upgrade libfeedback");
+#endif
+
     lfb_event_trigger_feedback_async (self->event, NULL, NULL, NULL);
     /* TODO: add additional events to queue instead of just skipping them */
     break;
