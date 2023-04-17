@@ -247,6 +247,14 @@ summary({
 )
 
 summary({
+    'Recent GNOME (>= 43)': have_gnome_platform_version,
+    'Recent glib (>= 2.74)': glib_dep.version().version_compare('>= 2.74')
+  },
+  bool_yn: true,
+  section: 'Versions',
+)
+
+summary({
     'Compositor:': get_option('compositor'),
     'Systemd for session': get_option('systemd'),
   },
