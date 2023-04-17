@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-03-07 10:28+0000\n"
-"PO-Revision-Date: 2023-03-07 16:19+0100\n"
+"POT-Creation-Date: 2023-04-14 16:09+0000\n"
+"PO-Revision-Date: 2023-04-14 18:24+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -101,7 +101,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s kommer att loggas ut automatiskt om %d sekund."
 msgstr[1] "%s kommer att loggas ut automatiskt om %d sekunder."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+#: src/end-session-dialog.c:171
 msgid "Power Off"
 msgstr "Stäng av"
 
@@ -112,7 +112,7 @@ msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Systemet kommer att stängas av automatiskt om %d sekund."
 msgstr[1] "Systemet kommer att stängas av automatiskt om %d sekunder."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+#: src/end-session-dialog.c:178
 msgid "Restart"
 msgstr "Starta om"
 
@@ -449,6 +449,22 @@ msgstr "A_nslut"
 msgid "Authenticate"
 msgstr "Godkänn"
 
+#: src/ui/power-menu.ui:37
+msgid "_Power Off"
+msgstr "S_täng av"
+
+#: src/ui/power-menu.ui:78
+msgid "_Lock"
+msgstr "_Lås"
+
+#: src/ui/power-menu.ui:119
+msgid "_Screenshot"
+msgstr "_Skärmbild"
+
+#: src/ui/power-menu.ui:160
+msgid "_Emergency"
+msgstr "_Nödläge"
+
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Kör kommando"
@@ -464,14 +480,6 @@ msgstr "Rensa alla"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Bekräfta:"
-
-#: src/ui/top-panel.ui:15
-msgid "Lock Screen"
-msgstr "Lås skärm"
-
-#: src/ui/top-panel.ui:22
-msgid "Logout"
-msgstr "Logga ut"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -685,3 +693,9 @@ msgstr "Slutar"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Namnlös händelse"
+
+#~ msgid "Lock Screen"
+#~ msgstr "Lås skärm"
+
+#~ msgid "Logout"
+#~ msgstr "Logga ut"
