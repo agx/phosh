@@ -318,10 +318,13 @@ toggle_application_view_action (GSimpleAction *action, GVariant *param, gpointer
     self->focus_app_search = TRUE;
 }
 
-
 static void
 add_keybindings (PhoshHome *self)
 {
+  const GActionEntry entries[] = {
+    { "Super_R", .activate = toggle_application_view_action },
+    { "Super_L", .activate = toggle_application_view_action },
+  };
   GStrv overview_bindings;
   GStrv app_view_bindings;
   GPtrArray *action_names = g_ptr_array_new ();
@@ -351,6 +354,12 @@ add_keybindings (PhoshHome *self)
                                                   (GActionEntry*) actions->data,
                                                   actions->len,
                                                   self);
+
+  phosh_shell_add_global_keyboard_action_entries (phosh_shell_get_default (),
+                                                  (GActionEntry*)entries,
+                                                  G_N_ELEMENTS (entries),
+                                                  self);
+
   self->action_names = (GStrv) g_ptr_array_free (action_names, FALSE);
 }
 
