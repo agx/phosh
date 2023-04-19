@@ -314,6 +314,13 @@ on_shell_state_changed (PhoshRotationManager  *self,
 
   /* Claim/unclaim sensor if blank state changed */
   claim_or_release_accelerometer (self);
+
+  if (blanked)
+    return;
+
+  /* Fixup lockscreen orientation on unblank */
+  if (!blanked && phosh_lockscreen_manager_get_locked (self->lockscreen_manager))
+      fixup_lockscreen_orientation (self, TRUE);
 }
 
 
