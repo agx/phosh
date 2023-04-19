@@ -99,6 +99,7 @@ match_orientation (PhoshRotationManager *self)
   PhoshMonitorTransform transform;
 
   if (self->orientation_locked || !self->claimed ||
+      phosh_lockscreen_manager_get_locked (self->lockscreen_manager) ||
       self->mode == PHOSH_ROTATION_MANAGER_MODE_OFF)
     return;
 
