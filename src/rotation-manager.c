@@ -222,17 +222,22 @@ on_has_accelerometer_changed (PhoshRotationManager    *self,
 /**
  * fixup_lockscreen_orientation:
  * @self: The PhoshRotationManager
- * @force: Whether to force the monitor to portrait orientation
+ * @lock: %True if the screen is being locked, %FALSE for unlock
  *
  * On phones the lock screen doesn't work in landscape so fix that up
- * until https://source.puri.sm/Librem5/phosh/-/issues/388
- * is fixed. Keep all of this local to this function.
+ * by rotating to portrait on lock and back to the old orientation on
+ * unlock.
+ *
+ * See https://source.puri.sm/Librem5/phosh/-/issues/388
+ *
+ * Keep all of this local to this function.
  */
 static void
-fixup_lockscreen_orientation (PhoshRotationManager *self, gboolean force)
+fixup_lockscreen_orientation (PhoshRotationManager *self, gboolean lock)
 {
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshModeManager *mode_manager = phosh_shell_get_mode_manager(shell);
+  PhoshMonitorTransform transform;
 
   g_return_if_fail (PHOSH_IS_MODE_MANAGER (mode_manager));
 
@@ -248,22 +253,27 @@ fixup_lockscreen_orientation (PhoshRotationManager *self, gboolean force)
   if (!phosh_monitor_is_builtin (self->monitor))
     return;
 
-  if (phosh_lockscreen_manager_get_locked (self->lockscreen_manager)) {
-    if (force) {
-      PhoshMonitorTransform transform;
-      /* Use prelock transform if portrait, else use normal */
-      transform = (self->prelock_transform % 2) == 0 ? self->prelock_transform :
-        PHOSH_MONITOR_TRANSFORM_NORMAL;
-      g_debug ("Forcing portrait transform: %d", transform);
-      apply_transform (self, transform);
-    } else {
+  if (lock) {
+    if (self->prelock_transform == -1) {
       self->prelock_transform = phosh_monitor_get_transform (self->monitor);
-      g_debug ("Saving transform %d", self->prelock_transform);
+      g_debug ("Saving prelock transform %d", self->prelock_transform);
     }
+
+    /* Use prelock transform if portrait, else use normal */
+    transform = (self->prelock_transform % 2) == 0 ? self->prelock_transform :
+      PHOSH_MONITOR_TRANSFORM_NORMAL;
+    g_debug ("Forcing portrait transform: %d", transform);
   } else {
+    if (self->prelock_transform == -1) {
+      g_warning ("Prelock transform invalid");
+      self->prelock_transform = PHOSH_MONITOR_TRANSFORM_NORMAL;
+    }
     g_debug ("Restoring transform %d", self->prelock_transform);
-    apply_transform (self, self->prelock_transform);
+    transform = self->prelock_transform;
+    self->prelock_transform = -1;
   }
+
+  apply_transform (self, transform);
 }
 
 
