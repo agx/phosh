@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-14 16:09+0000\n"
-"PO-Revision-Date: 2023-04-14 22:47+0300\n"
+"POT-Creation-Date: 2023-04-20 11:53+0000\n"
+"PO-Revision-Date: 2023-04-20 15:41+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -176,6 +176,15 @@ msgstr "Уведіть пароль"
 msgid "Checking…"
 msgstr "Звіряю…"
 
+#: src/screenshot-manager.c:212
+#| msgid "_Screenshot"
+msgid "Screenshot"
+msgstr "Знімок вікна"
+
+#: src/screenshot-manager.c:213
+msgid "Screenshot copied to clipboard"
+msgstr "Знімок вікна скопійовано до буфера"
+
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
@@ -220,7 +229,7 @@ msgstr "Підтримки типу розпізнавання у мережі w
 msgid "Enter password for the wifi network “%s”"
 msgstr "Введіть пароль до мережі wifi «%s»"
 
-#: src/notifications/mount-notification.c:122
+#: src/notifications/mount-notification.c:121
 msgid "Open"
 msgstr "Відкрити"
 
@@ -453,7 +462,6 @@ msgid "Authenticate"
 msgstr "Автентифікуватися"
 
 #: src/ui/power-menu.ui:37
-#| msgid "Power Off"
 msgid "_Power Off"
 msgstr "Ви_мкнути"
 
@@ -466,7 +474,6 @@ msgid "_Screenshot"
 msgstr "З_німок вікна"
 
 #: src/ui/power-menu.ui:160
-#| msgid "Emergency"
 msgid "_Emergency"
 msgstr "_Екстрений виклик"
 
@@ -474,11 +481,11 @@ msgstr "_Екстрений виклик"
 msgid "Run Command"
 msgstr "Виконати команду"
 
-#: src/ui/settings.ui:319
+#: src/ui/settings.ui:320
 msgid "No notifications"
 msgstr "Немає сповіщень"
 
-#: src/ui/settings.ui:359
+#: src/ui/settings.ui:360
 msgid "Clear all"
 msgstr "Очистити все"
 
