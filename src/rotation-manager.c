@@ -172,7 +172,7 @@ on_accelerometer_released (PhoshSensorProxyManager *sensor_proxy_manager,
     return;
   }
 
-  g_debug ("Released rotation sensor");
+  g_debug ("Released accelerometer");
   self->claimed = FALSE;
 }
 
