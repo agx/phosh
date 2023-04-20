@@ -11,6 +11,7 @@
 #include "phosh-config.h"
 #include "fader.h"
 #include "phosh-wayland.h"
+#include "notifications/notify-manager.h"
 #include "screenshot-manager.h"
 #include "shell.h"
 #include "util.h"
@@ -204,6 +205,13 @@ screenshot_done (PhoshScreenshotManager *self, gboolean success)
                                                self->frames->invocation,
                                                success,
                                                self->frames->filename ?: "");
+  } else {
+    PhoshNotifyManager *nm = phosh_notify_manager_get_default ();
+
+    phosh_notify_manager_add_shell_notification (nm,
+                                                 _("Screenshot"),
+                                                 _("Screenshot copied to clipboard"),
+                                                 "screenshot-portrait-symbolic");
   }
 
   g_clear_pointer (&self->frames, screencopy_frames_dispose);

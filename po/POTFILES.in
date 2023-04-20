@@ -26,6 +26,7 @@ src/layersurface.c
 src/location-manager.c
 src/lockscreen.c
 src/lockscreen-manager.c
+src/screenshot-manager.c
 src/lockshield.c
 src/main.c
 src/media-player.c
