@@ -136,16 +136,13 @@
                           <class name="content"/>
                         </style>
                         <child type="placeholder">
-                          <object class="GtkLabel" id="emergency_contacts_none_label">
+                          <object class="HdyStatusPage" id="placeholder">
                             <property name="visible">True</property>
-                            <property name="justify">center</property>
-                            <property name="wrap">True</property>
-                            <property name="wrap-mode">PANGO_WRAP_WORD_CHAR</property>
-                            <property name="margin-start">16</property>
-                            <property name="margin-top">16</property>
-                            <property name="margin-end">16</property>
-                            <property name="margin-bottom">16</property>
-                            <property name="label" translatable="yes">No emergency contacts available.</property>
+                            <property name="icon-name">asterisk-symbolic</property>
+                            <property name="title" translatable="yes">No emergency contacts available.</property>
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
                           </object>
                         </child>
                       </object>

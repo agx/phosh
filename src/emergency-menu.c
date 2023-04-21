@@ -58,8 +58,8 @@ struct _PhoshEmergencyMenu {
   GtkBox                       *emergency_dialpad_box;
   GtkBox                       *emergency_info_box;
   GtkListBox                   *emergency_contacts_list_box;
-  GtkLabel                     *emergency_contacts_none_label;
   GtkLabel                     *emergency_owner_name;
+  GtkWidget                    *placeholder;
 
   GSimpleActionGroup           *actions;
 };
@@ -213,8 +213,8 @@ phosh_emergency_menu_class_init (PhoshEmergencyMenuClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, emergency_dialpad_box);
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, emergency_info_box);
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, emergency_contacts_list_box);
-  gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, emergency_contacts_none_label);
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, emergency_owner_name);
+  gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, placeholder);
   gtk_widget_class_bind_template_callback (widget_class, on_emergency_contacts_button_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_emergency_contacts_list_box_activated);
   gtk_widget_class_bind_template_callback (widget_class, on_dialpad_dialed);
