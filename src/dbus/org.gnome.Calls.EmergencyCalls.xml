@@ -1,0 +1,41 @@
+<node>
+  <!--
+    org.gnome.Calls.EmergencyCalls:
+
+    An interface to query emergency numbers and to initiate emergency
+    calls.
+  -->
+  <interface name="org.gnome.Calls.EmergencyCalls">
+    <!--
+      GetEmergencyContacts:
+      @contacts: Available contacts
+
+      * "id" (s): The identifier to dial (usually the phone number)
+      * "name' (s): The contacts name
+      * "source" (i): The contacts source (e.g. addresbook, sim, ...)
+      * "properties" (a{sv}): Additional properties
+
+      Retrieves the currently known emergency contacts. The key is the item to call
+      (e.g. for the cellular network the phone number).
+    -->
+    <method name="GetEmergencyContacts">
+      <arg name="contacts" direction="out" type="a(ssia{sv})"/>
+    </method>
+     <!--
+        CallEmergencyContact:
+        @id: The id retrieved via @GetEmergencyContacts (for cellular networks this is the phone number)
+        Calls an emergency contact by its id.
+      -->
+    <method name="CallEmergencyContact">
+       <arg name="id" direction="in" type="s"/>
+    </method>
+
+     <!--
+        EmergencyNumbersChanged:
+
+        The list of emergency numbers changed. This can e.g. happen when an origin goes away. The
+        signal is meant as a hint (it might be emitted although the list of numbers is unchanged).
+      -->
+    <signal name="EmergencyNumbersChanged"/>
+  </interface>
+</node>

@@ -36,6 +36,7 @@
 #include "calls-manager.h"
 #include "docked-info.h"
 #include "docked-manager.h"
+#include "emergency-calls-manager.h"
 #include "fader.h"
 #include "feedbackinfo.h"
 #include "feedback-manager.h"
@@ -158,6 +159,7 @@ typedef struct
   PhoshVpnManager *vpn_manager;
   PhoshPortalAccessManager *portal_access_manager;
   PhoshSuspendManager *suspend_manager;
+  PhoshEmergencyCallsManager *emergency_calls_manager;
   PhoshPowerMenuManager *power_menu_manager;
 
   /* sensors */
@@ -515,6 +517,7 @@ phosh_shell_dispose (GObject *object)
 
   /* dispose managers in opposite order of declaration */
   g_clear_object (&priv->power_menu_manager);
+  g_clear_object (&priv->emergency_calls_manager);
   g_clear_object (&priv->portal_access_manager);
   g_clear_object (&priv->vpn_manager);
   g_clear_object (&priv->network_auth_manager);
@@ -766,8 +769,9 @@ setup_idle_cb (PhoshShell *self)
   priv->network_auth_manager = phosh_network_auth_manager_new ();
   priv->portal_access_manager = phosh_portal_access_manager_new ();
   priv->suspend_manager = phosh_suspend_manager_new ();
+  priv->emergency_calls_manager = phosh_emergency_calls_manager_new ();
   priv->power_menu_manager = phosh_power_menu_manager_new ();
-
+  
   setup_primary_monitor_signal_handlers (self);
 
   /* Delay signaling the compositor a bit so that idle handlers get a
@@ -1231,7 +1235,6 @@ phosh_shell_init (PhoshShell *self)
   on_gtk_theme_name_changed (self, NULL, gtk_settings);
 
   priv->shell_state = PHOSH_STATE_NONE;
-
   priv->action_map = g_simple_action_group_new ();
 }
 
@@ -1379,6 +1382,27 @@ phosh_shell_get_calls_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_CALLS_MANAGER (priv->calls_manager), NULL);
 
   return priv->calls_manager;
+}
+
+
+/**
+ * phosh_shell_get_emergency_contact_manager:
+ * @self: The shell singleton
+ *
+ * Get the emergency contact manager.
+ *
+ * Returns: (transfer none): The emergency contact manager
+ */
+PhoshEmergencyCallsManager*
+phosh_shell_get_emergency_calls_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+  g_return_val_if_fail (PHOSH_IS_EMERGENCY_CALLS_MANAGER (priv->emergency_calls_manager), NULL);
+
+  return priv->emergency_calls_manager;
 }
 
 

@@ -47,7 +47,10 @@ generated_dbus_sources += gnome.gdbus_codegen('calls-dbus',
                                               object_manager: true,
                                               interface_prefix: 'org.gnome',
                                               namespace: 'PhoshCallsDBus')
-
+generated_dbus_sources += gnome.gdbus_codegen('calls-emergency-dbus',
+                                              'org.gnome.Calls.EmergencyCalls.xml',
+                                              interface_prefix: 'org.gnome.Calls',
+                                              namespace: 'Phosh')
 # org.gnome.SessionManager
 generated_dbus_sources += gnome.gdbus_codegen('gnome-session-dbus',
 					      'org.gnome.SessionManager.xml',

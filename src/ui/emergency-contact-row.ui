@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <template class="PhoshEmergencyContactRow" parent="HdyActionRow">
+    <property name="visible">True</property>
+    <property name="activatable">True</property>
+    <property name="selectable">True</property>
+    <child>
+      <object class="GtkImage">
+        <property name="visible">True</property>
+        <property name="icon-name">call-start-symbolic</property>
+      </object>
+    </child>
+  </template>
+</interface>

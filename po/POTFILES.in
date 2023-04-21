@@ -15,6 +15,7 @@ src/background-manager.c
 src/batteryinfo.c
 src/bt-info.c
 src/docked-info.c
+src/emergency-menu.c
 src/end-session-dialog.c
 src/fader.c
 src/favorite-list-model.c
@@ -60,6 +61,8 @@ src/ui/activity.ui
 src/ui/app-auth-prompt.ui
 src/ui/app-grid-button.ui
 src/ui/app-grid.ui
+src/ui/emergency-menu.ui
+src/ui/emergency-contact-row.ui
 src/ui/end-session-dialog.ui
 src/ui/gtk-mount-prompt.ui
 src/ui/home.ui
