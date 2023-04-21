@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-14 16:09+0000\n"
-"PO-Revision-Date: 2023-04-14 19:41+0200\n"
+"POT-Creation-Date: 2023-04-20 11:53+0000\n"
+"PO-Revision-Date: 2023-04-21 06:04+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: \n"
 "Language: ka\n"
@@ -170,6 +170,14 @@ msgstr "შეიყვანეთ კოდი"
 msgid "Checking…"
 msgstr "შემოწმება…"
 
+#: src/screenshot-manager.c:212
+msgid "Screenshot"
+msgstr "ეკრანის ანაბეჭდი"
+
+#: src/screenshot-manager.c:213
+msgid "Screenshot copied to clipboard"
+msgstr "ეკრანის ანაბეჭდის ბუფერში დაკოპირდა"
+
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
@@ -214,7 +222,7 @@ msgstr "Wi-Fi ქსელ %s-ის ავტენტიკაციის ტ
 msgid "Enter password for the wifi network “%s”"
 msgstr "შეიყვანეთ %s-ის პაროლი"
 
-#: src/notifications/mount-notification.c:122
+#: src/notifications/mount-notification.c:121
 msgid "Open"
 msgstr "გახსნა"
 
@@ -466,11 +474,11 @@ msgstr "_სასწრაფო"
 msgid "Run Command"
 msgstr "ბრძანების გაშვება"
 
-#: src/ui/settings.ui:319
+#: src/ui/settings.ui:320
 msgid "No notifications"
 msgstr "გაფრთხილების გარეშე"
 
-#: src/ui/settings.ui:359
+#: src/ui/settings.ui:360
 msgid "Clear all"
 msgstr "ყველას გასუფთავება"
 
