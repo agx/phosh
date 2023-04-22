@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-20 11:53+0000\n"
-"PO-Revision-Date: 2023-04-20 15:41+0300\n"
+"POT-Creation-Date: 2023-04-21 10:33+0000\n"
+"PO-Revision-Date: 2023-04-22 21:27+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -90,6 +90,19 @@ msgstr "Зафіксовано"
 #: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
 msgstr "Від'єднано"
+
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:62
+msgid "Ok"
+msgstr "Гаразд"
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr "Не вдалося розмістити екстрений виклик"
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr "Внутрішня помилка"
 
 #: src/end-session-dialog.c:162
 msgid "Log Out"
@@ -177,7 +190,6 @@ msgid "Checking…"
 msgstr "Звіряю…"
 
 #: src/screenshot-manager.c:212
-#| msgid "_Screenshot"
 msgid "Screenshot"
 msgstr "Знімок вікна"
 
@@ -388,10 +400,6 @@ msgstr "Запам'ятати вибір"
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
-msgid "Ok"
-msgstr "Гаразд"
-
 #: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "Програма"
@@ -411,6 +419,39 @@ msgstr "Пере_глянути подробиці"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Шукати серед програм…"
+
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "Закрити вікно екстреного виклику"
+
+#: src/ui/emergency-menu.ui:52
+#| msgid "Emergency Contacts"
+msgid "Emergency _Contacts"
+msgstr "Екстрені _контакти"
+
+#: src/ui/emergency-menu.ui:59
+#| msgid "Emergency Contacts"
+msgid "Go to the emergency contacts page"
+msgstr "Перейти до сторінки екстрених контактів"
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr "Повернутися до сторінки набору екстреного виклику"
+
+#: src/ui/emergency-menu.ui:106
+#| msgid "Unknown"
+msgid "Owner unknown"
+msgstr "Невідомий власник"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Екстрені контакти"
+
+#: src/ui/emergency-menu.ui:148
+#| msgid "Emergency Contacts"
+msgid "No emergency contacts available."
+msgstr "Немає доступних екстрених контактів."
 
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
@@ -579,11 +620,6 @@ msgstr "Препарати і стан здоров'я"
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
 msgid "Other Information"
 msgstr "Інші відомості"
-
-#: plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
-msgid "Emergency Contacts"
-msgstr "Екстрені контакти"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
