@@ -179,6 +179,9 @@ on_power_menu_activated (GSimpleAction *action,
                          GVariant      *parameter,
                          gpointer       data)
 {
+  PhoshTopPanel *self = PHOSH_TOP_PANEL (data);
+
+  phosh_top_panel_fold (self);
   g_action_group_activate_action (G_ACTION_GROUP (phosh_shell_get_default ()),
                                   "power.toggle-menu",
                                   NULL);
