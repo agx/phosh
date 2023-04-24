@@ -211,7 +211,8 @@ screenshot_done (PhoshScreenshotManager *self, gboolean success)
     phosh_notify_manager_add_shell_notification (nm,
                                                  _("Screenshot"),
                                                  _("Screenshot copied to clipboard"),
-                                                 "screenshot-portrait-symbolic");
+                                                 "screenshot-portrait-symbolic",
+                                                 5000);
   }
 
   g_clear_pointer (&self->frames, screencopy_frames_dispose);

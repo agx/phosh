@@ -950,7 +950,8 @@ guint
 phosh_notify_manager_add_shell_notification (PhoshNotifyManager *self,
                                              const char         *summary,
                                              const char         *body,
-                                             const char         *icon_name)
+                                             const char         *icon_name,
+                                             int                 expire_timeout)
 {
   g_autoptr (GIcon) app_icon = NULL;
   g_autoptr (GIcon) icon = NULL;
@@ -978,11 +979,12 @@ phosh_notify_manager_add_shell_notification (PhoshNotifyManager *self,
                                 "image", icon,
                                 "urgency", PHOSH_NOTIFICATION_URGENCY_NORMAL,
                                 "actions", NULL,
-                                "transient", FALSE,
+                                "transient", !!expire_timeout,
                                 "resident", FALSE,
                                 NULL);
 
-  phosh_notify_manager_add_notification (self, PHOSH_APP_ID ".desktop", -1,
+  phosh_notify_manager_add_notification (self, PHOSH_APP_ID ".desktop",
+                                         expire_timeout,
                                          PHOSH_NOTIFICATION (notification));
   return id;
 }
