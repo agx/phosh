@@ -52,7 +52,7 @@ folder_get_mapping (GValue *value, GVariant *variant, gpointer user_data)
 
 
 static void
-on_file_chooser_response (GtkDialog* dialog, gint response_id, gpointer user_data)
+on_file_chooser_response (GtkNativeDialog* dialog, gint response_id, gpointer user_data)
 {
     PhoshTicketBoxPrefs *self = PHOSH_TICKET_BOX_PREFS (user_data);
     GtkFileChooser *filechooser = GTK_FILE_CHOOSER (dialog);
@@ -65,7 +65,7 @@ G_GNUC_BEGIN_IGNORE_DEPRECATIONS
     }
 G_GNUC_END_IGNORE_DEPRECATIONS
 
-    gtk_window_destroy (GTK_WINDOW (dialog));
+    g_object_unref (dialog);
 
     if (filename == NULL)
       return;
@@ -77,18 +77,17 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 static void
 on_folder_button_clicked (PhoshTicketBoxPrefs *self)
 {
-  GtkWidget *filechooser;
+  GtkFileChooserNative *filechooser;
   const char *current;
   g_autoptr (GFile) current_file = NULL;
 
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   g_assert (PHOSH_IS_TICKET_BOX_PREFS (self));
-  filechooser = gtk_file_chooser_dialog_new(_("Choose Folder"),
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+  filechooser = gtk_file_chooser_native_new(_("Choose Folder"),
                                             GTK_WINDOW (self),
                                             GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                                            _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                            _("_Open"), GTK_RESPONSE_ACCEPT,
-                                            NULL);
+                                            _("_Open"),
+                                            _("_Cancel"));
 G_GNUC_END_IGNORE_DEPRECATIONS
 
   current = gtk_editable_get_text (GTK_EDITABLE (self->folder_entry));
@@ -100,8 +99,7 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
   g_signal_connect (filechooser, "response",
                     G_CALLBACK (on_file_chooser_response), self);
-  gtk_window_set_modal (GTK_WINDOW (filechooser), TRUE);
-  gtk_window_present (GTK_WINDOW(filechooser));
+  gtk_native_dialog_show (GTK_NATIVE_DIALOG (filechooser));
 }
 
 static void
