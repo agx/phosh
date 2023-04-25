@@ -106,8 +106,7 @@ match_orientation (PhoshRotationManager *self)
   orient = phosh_dbus_sensor_proxy_get_accelerometer_orientation (
     PHOSH_DBUS_SENSOR_PROXY (self->sensor_proxy_manager));
 
-  g_debug ("Orientation changed: %s, locked: %d, claimed: %d",
-           orient, self->orientation_locked, self->claimed);
+  g_debug ("Orientation changed: %s", orient);
 
   if (!g_strcmp0 ("normal", orient)) {
     transform = PHOSH_MONITOR_TRANSFORM_NORMAL;
