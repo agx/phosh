@@ -253,7 +253,7 @@ phosh_test_compositor_new (gboolean heads_stub)
 
   /* I/O watch in main should have gotten the socket name */
   g_assert (watch.socket);
-  g_debug ("Found wayland display: '%s'", watch.socket);
+  g_debug ("Found wayland display: '%s/%s'", g_getenv ("XDG_RUNTIME_DIR"), watch.socket);
   g_setenv ("WAYLAND_DISPLAY", watch.socket, TRUE);
 
   /* Set up wayland protocol */
