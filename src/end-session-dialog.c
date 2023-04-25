@@ -61,6 +61,7 @@ typedef struct _PhoshEndSessionDialog {
   GtkWidget             *lbl_subtitle;
   GtkWidget             *lbl_warn;
   GtkWidget             *listbox;
+  GtkWidget             *sw_inhibitors;
   GtkWidget             *btn_confirm;
   GtkWidget             *btn_cancel;
 
@@ -374,7 +375,7 @@ end_session_dialog_update_inhibitors (PhoshEndSessionDialog *self, GStrv paths)
   clear_inhibitors (self);
 
   if (!is_inhibited (self)) {
-    gtk_widget_hide (self->listbox);
+    gtk_widget_hide (self->sw_inhibitors);
     return;
   }
 
@@ -385,7 +386,7 @@ end_session_dialog_update_inhibitors (PhoshEndSessionDialog *self, GStrv paths)
                               "org.gnome.SessionManager.Inhibitor",
                               NULL, on_inhibitor_created, g_object_ref (self));
   }
-  gtk_widget_show (GTK_WIDGET (self->listbox));
+  gtk_widget_show (GTK_WIDGET (self->sw_inhibitors));
 }
 
 
@@ -512,6 +513,7 @@ phosh_end_session_dialog_class_init (PhoshEndSessionDialogClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshEndSessionDialog, lbl_subtitle);
   gtk_widget_class_bind_template_child (widget_class, PhoshEndSessionDialog, lbl_warn);
   gtk_widget_class_bind_template_child (widget_class, PhoshEndSessionDialog, listbox);
+  gtk_widget_class_bind_template_child (widget_class, PhoshEndSessionDialog, sw_inhibitors);
   gtk_widget_class_bind_template_child (widget_class, PhoshEndSessionDialog, btn_confirm);
   gtk_widget_class_bind_template_child (widget_class, PhoshEndSessionDialog, btn_cancel);
   gtk_widget_class_bind_template_callback (widget_class, on_btn_confirm_clicked);
