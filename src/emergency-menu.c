@@ -58,8 +58,8 @@ struct _PhoshEmergencyMenu {
   GtkBox                       *emergency_dialpad_box;
   GtkBox                       *emergency_info_box;
   GtkListBox                   *emergency_contacts_list_box;
-  GtkLabel                     *emergency_contacts_none_label;
   GtkLabel                     *emergency_owner_name;
+  GtkWidget                    *placeholder;
 
   GSimpleActionGroup           *actions;
 };
@@ -126,6 +126,21 @@ create_emergency_contact_row (gpointer item, gpointer unused)
 
 
 static void
+on_n_items_changed (PhoshEmergencyMenu *self, GParamSpec *pspec, GListStore *store)
+{
+  gboolean visible;
+
+  g_return_if_fail (PHOSH_IS_EMERGENCY_MENU (self));
+  g_return_if_fail (G_IS_LIST_STORE (store));
+
+  /* Work around https://gitlab.gnome.org/GNOME/libhandy/-/issues/468 */
+  visible = !g_list_model_get_n_items (G_LIST_MODEL (store));
+  gtk_widget_set_visible (self->placeholder, visible);
+}
+
+
+
+static void
 emergency_menu_constructed (GObject *object)
 {
   PhoshEmergencyMenu *self = PHOSH_EMERGENCY_MENU (object);
@@ -141,6 +156,10 @@ emergency_menu_constructed (GObject *object)
                            create_emergency_contact_row,
                            NULL,
                            NULL);
+  g_signal_connect_swapped (emergency_contacts_list, "notify::n-items",
+                            G_CALLBACK (on_n_items_changed),
+                            self);
+  on_n_items_changed (self, NULL, emergency_contacts_list);
 
   gtk_label_set_label (self->emergency_owner_name, g_get_real_name ());
   g_signal_connect_swapped (self->manager,
@@ -213,8 +232,8 @@ phosh_emergency_menu_class_init (PhoshEmergencyMenuClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, emergency_dialpad_box);
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, emergency_info_box);
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, emergency_contacts_list_box);
-  gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, emergency_contacts_none_label);
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, emergency_owner_name);
+  gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, placeholder);
   gtk_widget_class_bind_template_callback (widget_class, on_emergency_contacts_button_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_emergency_contacts_list_box_activated);
   gtk_widget_class_bind_template_callback (widget_class, on_dialpad_dialed);
