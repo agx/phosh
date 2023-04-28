@@ -120,12 +120,8 @@ on_notifcation_source_items_changed (PhoshNotifyFeedback *self,
     event = lfb_event_new (event_name);
     g_set_object (&self->event, event);
 
-#ifdef PHOSH_HAVE_LFB_EVENT_SET_APP_ID
     if (app_id)
       lfb_event_set_app_id (event, app_id);
-#else
-    g_warning_once ("No support for phosh_notification_get_app_info, upgrade libfeedback");
-#endif
 
     lfb_event_trigger_feedback_async (self->event, NULL, NULL, NULL);
     /* TODO: add additional events to queue instead of just skipping them */
