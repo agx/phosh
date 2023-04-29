@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-20 11:53+0000\n"
-"PO-Revision-Date: 2023-04-21 12:05+0300\n"
+"POT-Creation-Date: 2023-04-21 10:33+0000\n"
+"PO-Revision-Date: 2023-04-29 21:20+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <yoseforb@gmail.com>\n"
 "Language: he\n"
@@ -87,6 +87,19 @@ msgstr "מעוגן"
 #: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
 msgstr "לא מעוגן"
+
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:62
+msgid "Ok"
+msgstr "אישור"
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr "לא ניתן לבצע שיחת חירום"
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr "שגיאה פנימית"
 
 #: src/end-session-dialog.c:162
 msgid "Log Out"
@@ -387,10 +400,6 @@ msgstr "לזכור את הבחירה"
 msgid "Cancel"
 msgstr "ביטול"
 
-#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
-msgid "Ok"
-msgstr "אישור"
-
 #: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "יישום"
@@ -410,6 +419,35 @@ msgstr "הצגת _פרטים"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "חיפוש יישומים…"
+
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "סגירת דו־שיח לחיוג במקרה חירום"
+
+#: src/ui/emergency-menu.ui:52
+msgid "Emergency _Contacts"
+msgstr "_אנשי קשר למקרה חירום"
+
+#: src/ui/emergency-menu.ui:59
+msgid "Go to the emergency contacts page"
+msgstr "מעבר לעמוד אנשי קשר למקרה חירום"
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr "חזרה לדף החיוג במקרה חירום"
+
+#: src/ui/emergency-menu.ui:106
+msgid "Owner unknown"
+msgstr "בעלים לא ידוע"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "אנשי קשר למקרה חירום"
+
+#: src/ui/emergency-menu.ui:148
+msgid "No emergency contacts available."
+msgstr "אין בנמצא אנשי קשר למקרה חירום."
 
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
@@ -578,11 +616,6 @@ msgstr "תרופות והגבלות"
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
 msgid "Other Information"
 msgstr "מידע נוסף"
-
-#: plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
-msgid "Emergency Contacts"
-msgstr "אנשי קשר למקרה חירום"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
