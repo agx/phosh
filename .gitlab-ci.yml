@@ -26,11 +26,13 @@ variables:
   # For ci-fairy
   FDO_UPSTREAM_REPO: World/Phosh/phosh
   # SCREENSHOT_IMAGE builds on DEBIAN_IMAGE so keep them in sync
-  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20230408
-  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20230408
+  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20230427
+  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20230427
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror -Dtools=true
-  ALPINE_EDGE_DEPS: alpine-sdk callaudiod-dev elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
+  EXP_DEPS: libfeedback-dev gir1.2-glib-2.0 gobject-introspection gir1.2-freedesktop dbus-bin libgirepository1.0-dev
+            libpython3.11 libsystemd-dev dbus-x11 libdbus-1-dev libdeflate-dev libdw1 libudev-dev
+  alpine_EDGE_DEPS: alpine-sdk callaudiod-dev elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
                     gtk+3.0-dev libgudev-dev libhandy1-dev gcr-dev libsecret-dev gcovr linux-pam-dev
                     meson musl-dev networkmanager networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
                     upower-dev wayland-dev wayland-protocols ttf-dejavu evolution-data-server-dev evince-dev
@@ -46,7 +48,7 @@ variables:
     - git submodule update --recursive
     - 'echo "Build opts: ${BUILD_OPTS}"'
     - meson setup ${BUILD_OPTS} _build
-    - ninja -C _build
+    - meson compile -C _build
 
 .test_before_script: &test_before_script
   before_script:
@@ -134,7 +136,7 @@ asan-test:native-debian-bookworm:
   <<: *test_before_script
   script:
     - meson setup -Dphoc_tests=enabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
-    - ninja -C _build-asan data/gschemas.compiled
+    - meson compile -C _build-asan ./data/glib-compile-schemas:custom
     - ${XVFB_RUN} meson test --print-errorlogs -C _build-asan --suite unit
   except:
     variables:
@@ -228,7 +230,7 @@ build:native-alpinelinux-edge:
   script:
     - git submodule update --recursive
     - meson setup --werror -Dphoc_tests=disabled  _build
-    - ninja -C _build
+    - meson compile -C _build
   except:
     variables:
       - $PKG_ONLY == "1"
@@ -264,6 +266,15 @@ package:deb-debian-bookworm:arm64:
   extends: .l5-build-debian-package
   tags:
     - aarch64
+  before_script:
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt-get -y update
+    - apt-get -y install eatmydata
+    - echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list.d/experimental.list
+    - echo "deb http://deb.debian.org/debian/ experimental main" >> /etc/apt/sources.list.d/experimental.list
+    - eatmydata apt-get -y update
+    - eatmydata apt-get -y upgrade
+    - eatmydata apt-get -y install -t experimental $EXP_DEPS
   except:
     variables:
       - $SCREENSHOTS_ONLY == "1"

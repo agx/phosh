@@ -9,7 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
    && cd /home/user/app \
    && eatmydata apt-get --no-install-recommends -y build-dep . \
    && eatmydata apt-get --no-install-recommends -y install build-essential git wget gcovr locales \
-   && eatmydata apt-get --no-install-recommends -y install -t experimental phoc \
+   && eatmydata apt-get --no-install-recommends -y install -t experimental phoc libfeedback-dev libgtk-4-dev \
    && eatmydata apt-get clean
 
 
