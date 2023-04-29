@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-03-07 10:28+0000\n"
-"PO-Revision-Date: 2023-03-10 18:29+0200\n"
+"POT-Creation-Date: 2023-04-21 10:33+0000\n"
+"PO-Revision-Date: 2023-04-29 14:53+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -90,6 +90,19 @@ msgstr "Telakassa"
 msgid "Undocked"
 msgstr "Ei telakassa"
 
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:62
+msgid "Ok"
+msgstr "OK"
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr "Hätäpuhelu ei onnistunut"
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr "Sisäinen virhe"
+
 #: src/end-session-dialog.c:162
 msgid "Log Out"
 msgstr "Kirjaudu ulos"
@@ -101,7 +114,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s kirjataan ulos automaattisesti %d sekunnin kuluttua."
 msgstr[1] "%s kirjataan ulos automaattisesti %d sekunnin kuluttua."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+#: src/end-session-dialog.c:171
 msgid "Power Off"
 msgstr "Sammuta"
 
@@ -112,7 +125,7 @@ msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Järjestelmä sammuu automaattisesti %d sekunnin kuluttua."
 msgstr[1] "Järjestelmä sammuu automaattisesti %d sekunnin kuluttua."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+#: src/end-session-dialog.c:178
 msgid "Restart"
 msgstr "Käynnistä uudelleen"
 
@@ -174,6 +187,14 @@ msgstr "Syötä salasana"
 msgid "Checking…"
 msgstr "Tarkistetaan…"
 
+#: src/screenshot-manager.c:212
+msgid "Screenshot"
+msgstr "Kuvakaappaus"
+
+#: src/screenshot-manager.c:213
+msgid "Screenshot copied to clipboard"
+msgstr "Kuvakaappaus kopioitu leikepöydälle"
+
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
@@ -218,7 +239,7 @@ msgstr "Wifi-verkon “%s” tunnistautumistyyppi ei ole tuettu"
 msgid "Enter password for the wifi network “%s”"
 msgstr "Anna salasana wifi-verkolle “%s”"
 
-#: src/notifications/mount-notification.c:122
+#: src/notifications/mount-notification.c:121
 msgid "Open"
 msgstr "Avaa"
 
@@ -377,10 +398,6 @@ msgstr "Muista valinta"
 msgid "Cancel"
 msgstr "Peru"
 
-#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
-msgid "Ok"
-msgstr "OK"
-
 #: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "Sovellus"
@@ -400,6 +417,35 @@ msgstr "Näytä yk_sityiskohdat"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Etsi sovelluksia…"
+
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "Sulje hätäpuheluikkuna"
+
+#: src/ui/emergency-menu.ui:52
+msgid "Emergency _Contacts"
+msgstr "H_ätäyhteystiedot"
+
+#: src/ui/emergency-menu.ui:59
+msgid "Go to the emergency contacts page"
+msgstr "Siirry hätäyhteystietojen sivulle"
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr "Siirry takaisin hätäpuhelun yhdistyssivulle"
+
+#: src/ui/emergency-menu.ui:106
+msgid "Owner unknown"
+msgstr "Tuntematon omistaja"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Hätäyhteystiedot"
+
+#: src/ui/emergency-menu.ui:148
+msgid "No emergency contacts available."
+msgstr "Hätäyhteystietoja ei ole saatavilla."
 
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
@@ -450,29 +496,37 @@ msgstr "_Yhdistä"
 msgid "Authenticate"
 msgstr "Tunnistaudu"
 
+#: src/ui/power-menu.ui:37
+msgid "_Power Off"
+msgstr "_Sammuta"
+
+#: src/ui/power-menu.ui:78
+msgid "_Lock"
+msgstr "_Lukitse"
+
+#: src/ui/power-menu.ui:119
+msgid "_Screenshot"
+msgstr "K_uvakaappaus"
+
+#: src/ui/power-menu.ui:160
+msgid "_Emergency"
+msgstr "_Hätä"
+
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Suorita komento"
 
-#: src/ui/settings.ui:319
+#: src/ui/settings.ui:320
 msgid "No notifications"
 msgstr "Ei ilmoituksia"
 
-#: src/ui/settings.ui:359
+#: src/ui/settings.ui:360
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Vahvista:"
-
-#: src/ui/top-panel.ui:15
-msgid "Lock Screen"
-msgstr "Lukitse näyttö"
-
-#: src/ui/top-panel.ui:22
-msgid "Logout"
-msgstr "Kirjaudu ulos"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -560,11 +614,6 @@ msgstr "Lääkitykset ja terveydentila"
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
 msgid "Other Information"
 msgstr "Muut tiedot"
-
-#: plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
-msgid "Emergency Contacts"
-msgstr "Hätäyhteystiedot"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
@@ -686,6 +735,12 @@ msgstr "Päättyy"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Nimetön tapahtuma"
+
+#~ msgid "Lock Screen"
+#~ msgstr "Lukitse näyttö"
+
+#~ msgid "Logout"
+#~ msgstr "Kirjaudu ulos"
 
 #, c-format
 #~ msgid "On %A"
