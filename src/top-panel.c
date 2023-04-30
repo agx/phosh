@@ -162,36 +162,6 @@ on_settings_drag_handle_offset_changed (PhoshTopPanel *self, GParamSpec   *pspec
 
 
 static void
-on_shutdown_action (GSimpleAction *action,
-                    GVariant      *parameter,
-                    gpointer       data)
-{
-  PhoshTopPanel *self = PHOSH_TOP_PANEL(data);
-  PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
-
-  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
-  phosh_session_manager_shutdown (sm);
-  phosh_top_panel_fold (self);
-}
-
-
-static void
-on_restart_action (GSimpleAction *action,
-                   GVariant      *parameter,
-                   gpointer       data)
-{
-  PhoshTopPanel *self = PHOSH_TOP_PANEL(data);
-  PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
-
-  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
-  g_return_if_fail (PHOSH_IS_SESSION_MANAGER (sm));
-
-  phosh_session_manager_reboot (sm);
-  phosh_top_panel_fold (self);
-}
-
-
-static void
 on_lockscreen_action (GSimpleAction *action,
                       GVariant      *parameter,
                       gpointer      data)
@@ -205,25 +175,13 @@ on_lockscreen_action (GSimpleAction *action,
 
 
 static void
-on_logout_action (GSimpleAction *action,
-                  GVariant      *parameter,
-                  gpointer      data)
-{
-  PhoshTopPanel *self = PHOSH_TOP_PANEL(data);
-  PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
-
-  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
-  g_return_if_fail (PHOSH_IS_SESSION_MANAGER (sm));
-  phosh_session_manager_logout (sm);
-  phosh_top_panel_fold (self);
-}
-
-
-static void
 on_power_menu_activated (GSimpleAction *action,
                          GVariant      *parameter,
                          gpointer       data)
 {
+  PhoshTopPanel *self = PHOSH_TOP_PANEL (data);
+
+  phosh_top_panel_fold (self);
   g_action_group_activate_action (G_ACTION_GROUP (phosh_shell_get_default ()),
                                   "power.toggle-menu",
                                   NULL);
@@ -468,10 +426,7 @@ on_drag_state_changed (PhoshTopPanel *self)
 
 
 static GActionEntry entries[] = {
-  { .name = "poweroff", .activate = on_shutdown_action },
-  { .name = "restart", .activate = on_restart_action },
   { .name = "lockscreen", .activate = on_lockscreen_action },
-  { .name = "logout", .activate = on_logout_action },
   { .name = "power-menu", .activate = on_power_menu_activated },
 };
 
@@ -550,11 +505,6 @@ phosh_top_panel_constructed (GObject *object)
   g_action_map_add_action_entries (G_ACTION_MAP (self->actions),
                                    entries, G_N_ELEMENTS (entries),
                                    self);
-  if (!phosh_shell_started_by_display_manager (phosh_shell_get_default ())) {
-    GAction *action = g_action_map_lookup_action (G_ACTION_MAP (self->actions),
-                                                  "logout");
-    g_simple_action_set_enabled (G_SIMPLE_ACTION(action), FALSE);
-  }
 
   self->interface_settings = g_settings_new ("org.gnome.desktop.interface");
   g_settings_bind (self->interface_settings,

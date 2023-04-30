@@ -262,7 +262,8 @@ unit-test:native-alpinelinux-edge:
 package:deb-debian-bookworm:arm64:
   variables:
     L5_DOCKER_IMAGE: debian:bookworm
-    DEB_BUILD_PROFILES: nodoc
+    DEB_BUILD_PROFILES: "nodoc nocheck"
+    DEB_BUILD_OPTIONS: nocheck
   extends: .l5-build-debian-package
   tags:
     - aarch64

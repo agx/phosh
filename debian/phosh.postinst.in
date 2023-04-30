@@ -7,7 +7,7 @@ case "$1" in
         # (used by unattended-upgrades etc.)
         touch /var/run/reboot-required || true
 
-        if ! grep -Fqsx dbus /run/reboot-required.pkgs; then
+        if ! grep -Fqsx phosh /run/reboot-required.pkgs; then
             echo phosh >> /run/reboot-required.pkgs || true
         fi
         ;;

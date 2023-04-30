@@ -91,8 +91,10 @@ apply_transform (PhoshRotationManager *self, PhoshMonitorTransform transform)
  * Match the screen orientation to the sensor output.
  * Do nothing if orientation lock is on or there's no
  * sensor claimed.
+ *
+ * Returns: %TRUE if the orientation was matched, otherwise %FALSE.
  */
-static void
+static gboolean
 match_orientation (PhoshRotationManager *self)
 {
   const gchar *orient;
@@ -101,13 +103,12 @@ match_orientation (PhoshRotationManager *self)
   if (self->orientation_locked || !self->claimed ||
       phosh_lockscreen_manager_get_locked (self->lockscreen_manager) ||
       self->mode == PHOSH_ROTATION_MANAGER_MODE_OFF)
-    return;
+    return FALSE;
 
   orient = phosh_dbus_sensor_proxy_get_accelerometer_orientation (
     PHOSH_DBUS_SENSOR_PROXY (self->sensor_proxy_manager));
 
-  g_debug ("Orientation changed: %s, locked: %d, claimed: %d",
-           orient, self->orientation_locked, self->claimed);
+  g_debug ("Orientation changed: %s", orient);
 
   if (!g_strcmp0 ("normal", orient)) {
     transform = PHOSH_MONITOR_TRANSFORM_NORMAL;
@@ -118,13 +119,14 @@ match_orientation (PhoshRotationManager *self)
   } else if (!g_strcmp0 ("left-up", orient)) {
     transform = PHOSH_MONITOR_TRANSFORM_90;
   } else if (!g_strcmp0 ("undefined", orient)) {
-    return; /* just leave as is */
+    return FALSE; /* just leave as is */
   } else {
     g_warning ("Unknown orientation '%s'", orient);
-    return;
+    return FALSE;
   }
 
   apply_transform (self, transform);
+  return TRUE;
 }
 
 static void
@@ -329,8 +331,9 @@ on_shell_state_changed (PhoshRotationManager  *self,
     return;
 
   /* Fixup lockscreen orientation on unblank */
-  if (!blanked && phosh_lockscreen_manager_get_locked (self->lockscreen_manager))
+  if (!blanked && phosh_lockscreen_manager_get_locked (self->lockscreen_manager)) {
       fixup_lockscreen_orientation (self, TRUE);
+  }
 }
 
 
@@ -344,7 +347,17 @@ on_lockscreen_manager_locked (PhoshRotationManager *self, GParamSpec *pspec,
   g_return_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (lockscreen_manager));
 
   locked = phosh_lockscreen_manager_get_locked (self->lockscreen_manager);
-  fixup_lockscreen_orientation (self, locked);
+
+  if (locked) {
+    fixup_lockscreen_orientation (self, TRUE);
+  } else {
+    gboolean matched = match_orientation (self);
+
+    /* If we couldn't match the orientation (either because it was inhibited or it failed)
+       use the last known transform */
+    if (!matched)
+      fixup_lockscreen_orientation (self, FALSE);
+  }
 }
 
 

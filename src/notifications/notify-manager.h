@@ -46,6 +46,7 @@ gboolean               phosh_notify_manager_get_show_notification_banner (PhoshN
 guint                  phosh_notify_manager_add_shell_notification (PhoshNotifyManager *self,
                                                                     const char         *summary,
                                                                     const char         *body,
-                                                                    const char         *icon);
+                                                                    const char         *icon,
+                                                                    int                 expire_timeout);
 
 G_END_DECLS
