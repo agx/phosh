@@ -1,3 +1,226 @@
+phosh (0.27.0) experimental; urgency=medium
+
+  [ CoderThomasB ]
+  * Add emergency calls manager.
+    The emergency calls manager is repsonsible for fetching emergency
+    contacts from gnome-calls as well as initiating emergency calls.
+  * Add emergency menu system modal dialog.
+    A new modal dialog triggered by the power-button long press menu that is
+    used to dial emergency call numbers and to select emergency contacts.
+  * tests/screenshot: Test emergency menu.
+    Closes: https://gitlab.gnome.org/GNOME/calls/-/issues/30
+
+  [ Guido Günther ]
+  * tests: Make phosh_test_remove_tree() public.
+    Useful in non-shell tests too
+  * tests: Run timestamp label test without compositor.
+    Not needed, plain widget.
+  * tests: Add helpers to run tests against a compositor.
+    This was so far open coded in the different tests. The helpers
+    ensure we also get a separate DBus session.
+  * testlib/compositor: Shut down compositor before DBus.
+    This makes sure we can process all events
+  * testlib: Drop double assignment.
+    We do the same two lines above.
+  * testlib: Log when we connected to the running compositor
+  * tests: Use compositor helper for phoc based tests.
+    Simplifies the code but also fixes tests against newer phoc (0.26.0)
+    which needs to be able to spawn a DBus session.
+  * tests: Use compositor helper for integration tests
+  * tests: Add and use PHOSH_FULL_SHELL_TEST_ADD.
+    Just to simplify the code. Similar in spirit to
+    PHOSH_COMPOSITOR_TEST_ADD
+  * tests: Use full-shell fixture for idle-manager.
+    Less code and proper DBus isolation
+  * tests: Use full-shell fixture for gtk-mount-manager.
+    Less code and proper DBus isolation
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/671
+  * ci: Slightly bump test timeout.
+    The screenshot tests are sometimes taking a bit longer. Bump the test
+    timeout a bit until we made them faster by reducing timeouts.
+  * ci: Drop the i386 crossbuild.
+    We could disable doc, tests, plugins and calendar-server to get away
+    without any gobject-introspection libs but that wouldn't leave much.
+  * ci: Update image before installing dependencies
+  * ci: Install phoc from Debian experimental.
+    We need it for the keyboard shortcut long press support
+  * ci: Use updated images
+  * tests: Run all tests in parallel.
+    Now with proper test isolation we can run all the tests in parallel
+    speeding up the pipeline.
+  * suspend-manager: Actually cancel the async call on shutdown.
+    The cancellable was NULL hence nothing happened.
+  * screen-saver-manager: Check async result first.
+    Check the result of the async call before accessing the screen-saver
+    manager. It might have already been disposed (due to shutdown).
+    Fixes another spurious test failure.
+  * screen-saver-manager: Init power button fd.
+    Make sure it's set < 0 as otherwise we might close it accidentally
+    on shutdown when getting the inhibitor got cancelled early (e.g.
+    in tests).
+  * proximity: Don't access proximity before checking async call result.
+    This can happen in tests when we cancel before actually connecting.
+  * screen-saver-manager: Emit signal on power button long press
+  * shell: Allow to fetch screenshot-manager.
+    We could avoid this if we pass it in when constructing the
+    power-menu-manager.
+  * screenshot-manager: Don't notify completion on DBus for internal calls
+  * screenshot-manager: Make do_screenshot() public.
+    This allows other parts of the shell to take a screen shot.
+  * shell: Implement ActionGroup and ActionMap interfaces.
+    This allows us to add global actions easily thus avoiding the need
+    to add proxy functions.
+    Inspired by what GtkApplication does.
+  * system-modal-dialog: Move the padding from title to the dialog.
+    This ensures that dialogues without title get the same padding. This
+    will be useful for the power-menu.
+  * system-modal-dialog: Hide title if empty.
+    Some dialogs don't have a title and this avoids a large empty
+    bar at the top.
+  * resources: Sort icons alphabetically
+  * Add power-dialog and manager.
+    To be shown on power button press or by activating the power button in
+    settings. This is currently used for screenshots, power-off, screen lock
+    and the upcoming emergency call support.
+  * top-panel: Trigger power-menu.
+    Instead of the somewhat fiddly power-off/reboot/... menu use
+    the more phone friendly power-button menu.
+  * shell: Toggle power-menu on power button long press
+  * settings: Remove unused template binding
+  * settings: Crossfade empty notification state.
+    Addresses parts point 2 of
+    https://gitlab.gnome.org/World/Phosh/phosh/-/issues/788
+  * mount-notification: Drop unused variable
+  * notify-manager: Make it simpler to add shell notifications.
+    Make it a single call to add a notification without actions.
+  * screenshot-manager: Add notification when taking a screenshot.
+    When the screenshot isin't triggered via DBus show a notification
+    that the result was copied to the clipboard.
+  * testlib: Allow to press key with timeout
+  * revealer: Fix gtk doc string
+  * system-modal-dialog: Fix signal name
+  * power-menu: Wire up emergency calls
+  * emergency-calls: Disable by default.
+    We want to make sure the code is working reliably. For that we
+    need a stable gnome-calls release and testing among more providers.
+    Hence toggle it off by default atm until that happened. It can
+    be enabled anytime using:
+      gsettings set sm.puri.phosh.emergency-calls enabled true
+    Distributions that want to enable it by default can use an override.
+    We do this in separate commit so that we can easily revert it
+    once we want to enable by default.
+  * tests: Add more items to end-session dialog.
+    This allows to check overflow
+  * end-session-dialog: Wrap listbox in scrolled window.
+    Avoids overflow with many items
+  * rotation-manager: Use consistent naming.
+    We call it acclerometer in other places
+  * rotation-manager: Look at blanked state for claim/unclaim.
+    No need to keep the accelerometer claimed when the screen is blanked.
+  * rotation-manager: Don't match orientation when screen is locked.
+    Fixes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/914
+  * rotation-manager: Fix orientation on unblank when locked.
+    Changing the configuration when the screen is blanked doesn't do
+    anything so fix it up on unblank.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/914
+  * rotation-manager: Restore transformation on unlock.
+    Now that we can hit the code path via blank and lock we need
+    to make sure we don't overwrite the pre-lock transform.
+    Simplify the code while at that.
+  * emergency-menu: Improve placeholder page.
+    Use a dimmed status page when the list is empty.
+  * emergncy-menu: Set placeholder page to not visible.
+    When the list is non-empty set the place-holder page as non-visible to
+    work around https://gitlab.gnome.org/GNOME/libhandy/-/issues/468
+  * testlib: Print full socket path.
+    This makes is simple to spot races due to incomplete test fixtures.
+  * ticket-box: Switch preferences to native dialog.
+    This allows the file chooser to use the portal on slighlty patched GTK.
+  * gitignore: Add missing packaging dir
+  * build: Use 'meson' instead of 'ninja' where suitable
+  * build: Warn on outdated version.
+    Warn when we detect versions that trigger less tested code paths because
+    dependencies are outdated.
+  * build: Add libfeedback version check.
+    We want to use newer API
+  * notifications: Respect per app feedback setting for notifications.
+    When one changes the feedback profile for an application one expects
+    notifications sent by that application to adhere to that too. Do that by
+    using the applications app-id from the notification's app-info when
+    available.
+  * ci: Use image with feedbackd 0.2.0 and gtk 4.10
+  * ci: Use feedbackd 0.2.0 for packaging build.
+    We need to pull packages from experimental for that.
+  * notifications: Drop fallback for older feedbackd.
+    Distributions wanting to use older feedbackd can revert this commit.
+  * ci: Reduce package build time.
+    We're not interesed in tests there.
+  * packaging: Fix package name we look for
+  * packaging: Don't set build-directory.
+    This avoids a local package build messing with the default build dir.
+  * tests: Enhance landscape config.
+    Add x11 and wayland displays as well so it's ease to reuse to verify
+    test failures
+  * notify-manager: Allow to set a timeout on shell notifications
+  * top-panel: Remove currently unused actions.
+    What comes back will move ot the power-menu.
+  * top-panel: Close settings before taking screenshot.
+    Otherwise it won't be very useful. Screenshots of the settings
+    itself can be made via power-button long press.
+  * rotation-manager: Simplify debug print.
+    The values of orientation-lock and claim are known at this point.
+  * rotation-manager: Match up orientation after unlock.
+    We claim the accelerometer on unblank and make the orientation match the
+    sensor readings. However when the device is locked we ignore these
+    values. For these cases we want to match the orientation again after
+    unlock. Thanks to Adam Plumb for the suggestion
+
+  [ Sam Hewitt ]
+  * system-modal-dialog: Add missing style for only-child dialog button.
+    This avoids having only one corner rounded in dialogues with a single
+    button.
+  * data: Add icons for emergency call and screenshot
+  * styles: Add style for emergency call related buttons
+  * power-menu: Improve styling
+
+  [ Мирослав Николић ]
+  * Update Serbian translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Aleksandr Melman ]
+  * Update Russian translation
+
+  [ Emin Tufan Çetin ]
+  * Update Turkish translation
+
+  [ Piotr Drąg ]
+  * Update Polish translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+  [ Fran Dieguez ]
+  * Update Galician translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 01 May 2023 13:23:40 +0200
+
 phosh (0.26.0) experimental; urgency=medium
 
   [ Guido Günther ]
