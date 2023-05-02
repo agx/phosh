@@ -214,8 +214,7 @@ main (int argc, char *argv[])
 
   g_test_init (&argc, &argv, NULL);
 
-  /* Preserve DISPLAY for wlroots x11 backend */
-  cfg = phosh_test_full_shell_fixture_cfg_new (g_getenv ("DISPLAY"), "phosh-calls-manager");
+  cfg = phosh_test_full_shell_fixture_cfg_new (NULL, "phosh-calls-manager");
 
   PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/calls-manager/present",cfg, test_phosh_calls_present);
   PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/calls-manager/incoming", cfg, test_phosh_calls_incoming);

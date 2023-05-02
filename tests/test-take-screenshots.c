@@ -593,8 +593,7 @@ main (int argc, char *argv[])
   settings = g_settings_new ("sm.puri.phosh.emergency-calls");
   g_settings_set_boolean (settings, "enabled", TRUE);
 
-  /* Preserve DISPLAY for wlroots x11 backend */
-  cfg = phosh_test_full_shell_fixture_cfg_new (g_getenv ("DISPLAY"), "phosh-keyboard-events,phosh-media-player");
+  cfg = phosh_test_full_shell_fixture_cfg_new (NULL, "phosh-keyboard-events,phosh-media-player");
 
   g_test_add ("/phosh/tests/take-screenshots", PhoshTestFullShellFixture, cfg,
               phosh_test_full_shell_setup, test_take_screenshots, phosh_test_full_shell_teardown);
