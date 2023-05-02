@@ -242,10 +242,10 @@ phosh_emergency_calls_manager_update (PhoshEmergencyCallsManager *self)
 
 
 static void
-emergency_contact_manager_get_property (GObject    *object,
-                                        guint       property_id,
-                                        GValue     *value,
-                                        GParamSpec *pspec)
+emergency_calls_manager_get_property (GObject    *object,
+                                      guint       property_id,
+                                      GValue     *value,
+                                      GParamSpec *pspec)
 {
   PhoshEmergencyCallsManager *self = PHOSH_EMERGENCY_CALLS_MANAGER (object);
 
@@ -329,7 +329,7 @@ phosh_emergency_calls_manager_idle_init (PhoshManager *manager)
 
 
 static void
-emergency_contact_manager_dispose (GObject *object)
+emergency_calls_manager_dispose (GObject *object)
 {
   PhoshEmergencyCallsManager *self = PHOSH_EMERGENCY_CALLS_MANAGER (object);
 
@@ -352,8 +352,8 @@ phosh_emergency_calls_manager_class_init (PhoshEmergencyCallsManagerClass *klass
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   PhoshManagerClass *manager_class = PHOSH_MANAGER_CLASS (klass);
 
-  object_class->get_property = emergency_contact_manager_get_property;
-  object_class->dispose = emergency_contact_manager_dispose;
+  object_class->get_property = emergency_calls_manager_get_property;
+  object_class->dispose = emergency_calls_manager_dispose;
 
   manager_class->idle_init = phosh_emergency_calls_manager_idle_init;
 
