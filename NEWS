@@ -1,3 +1,33 @@
+phosh 0.27.0
+------------
+Released May 2023
+* Initial emergency call support (needs to be enabled via GSetting)
+* New menu on power button long press
+* Allow to take fullscreen screenshots without external tools
+* Honor applications feedback level for notifications
+* Styling and layout improvements for system modal dialog
+* Issues Fixed:
+  https://gitlab.gnome.org/GNOME/calls/-/issues/30
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/671
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/914
+* Contributors:
+    * CoderThomasB
+    * Guido Günther
+    * Sam Hewitt
+* UI translations:
+    * Aleksandr Melman (ru)
+    * Anders Jonsson (sv)
+    * Danial Behzadi (fa)
+    * Ekaterine Papava (ka)
+    * Emin Tufan Çetin (tr)
+    * Fran Dieguez (gl)
+    * Jiri Grönroos (fi)
+    * Martin (sl)
+    * Piotr Drąg (pl)
+    * Yosef Or Boczko (he)
+    * Yuri Chornoivan (uk)
+    * Мирослав Николић (sr)
+
 phosh 0.26.0
 ------------
 Released April 2023

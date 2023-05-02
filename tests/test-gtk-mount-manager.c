@@ -329,7 +329,7 @@ main (int argc, char *argv[])
 
   g_test_init (&argc, &argv, NULL);
 
-  cfg = phosh_test_full_shell_fixture_cfg_new (g_getenv ("DISPLAY"), "all");
+  cfg = phosh_test_full_shell_fixture_cfg_new (NULL, "all");
 
   g_test_add ("/phosh/dbus/gtk-mount-manager/ask-password",
               Fixture,

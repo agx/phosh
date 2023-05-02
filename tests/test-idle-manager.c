@@ -146,7 +146,7 @@ main (int   argc, char *argv[])
 
   g_test_init (&argc, &argv, NULL);
 
-  cfg = phosh_test_full_shell_fixture_cfg_new (g_getenv ("DISPLAY"), "all");
+  cfg = phosh_test_full_shell_fixture_cfg_new (NULL, "all");
 
   PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/idle-manager/fired", cfg, test_phosh_idle_watch_fired);
   PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/idle-manager/unfired", cfg, test_phosh_idle_watch_unfired);

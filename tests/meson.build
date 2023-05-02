@@ -202,8 +202,10 @@ if run_phoc_tests
     lang_env.set('PHOSH_TEST_TYPE', lang)
     lang_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
     test('screenshots-@0@'.format(lang), t,
-       env: lang_env,
-       suite: ['screenshots'])
+         env: lang_env,
+         suite: ['screenshots'],
+         timeout: 60,
+        )
   endforeach
 
   what='high-contrast'
@@ -216,7 +218,9 @@ if run_phoc_tests
   test('screenshots-@0@'.format(what), t,
        env: hc_env,
        depends: copy_keyfile_hc,
-       suite: ['screenshots'])
+       suite: ['screenshots'],
+       timeout: 120,
+      )
 
   what='landscape'
   landscape_env = test_env_phoc
@@ -226,8 +230,9 @@ if run_phoc_tests
   landscape_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
   test('screenshots-@0@'.format(what), t,
        env: landscape_env,
-       suite: ['screenshots'])
-  
+       suite: ['screenshots'],
+       timeout: 60,
+      )
 endif
 
 endif # tests
