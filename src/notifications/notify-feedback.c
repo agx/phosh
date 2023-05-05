@@ -100,7 +100,7 @@ on_notifcation_source_items_changed (PhoshNotifyFeedback *self,
     return;
 
   for (int i = 0; i < added; i++) {
-    g_autoptr (PhoshNotification) new = g_list_model_get_item (list, position);
+    g_autoptr (PhoshNotification) new = g_list_model_get_item (list, position + i);
     g_autoptr (LfbEvent) event = NULL;
     const char *category, *event_name;
     g_autofree char *app_id = NULL;
