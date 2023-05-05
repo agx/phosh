@@ -21,9 +21,9 @@
 /**
  * PhoshNotifyFeedback:
  *
- * Provider feedback on notifications
+ * Provide feedback on notifications
  *
- * #PhoshNotifyFeedback is responsible to provider proper feedback
+ * #PhoshNotifyFeedback is responsible to provide proper feedback
  * on new notifications or when notifications are being closed.
  */
 
