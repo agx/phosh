@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-14 16:09+0000\n"
-"PO-Revision-Date: 2023-04-15 08:44+0300\n"
+"POT-Creation-Date: 2023-04-21 10:33+0000\n"
+"PO-Revision-Date: 2023-05-05 15:20+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -87,6 +87,19 @@ msgstr "Yuvada"
 msgid "Undocked"
 msgstr "Yuvada Değil"
 
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:62
+msgid "Ok"
+msgstr "Tamam"
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr "Acil durum araması yapılamadı"
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr "İç hata"
+
 #: src/end-session-dialog.c:162
 msgid "Log Out"
 msgstr "Oturumu Kapat"
@@ -166,6 +179,14 @@ msgstr "Parolayı Gir"
 msgid "Checking…"
 msgstr "Denetleniyor…"
 
+#: src/screenshot-manager.c:212
+msgid "Screenshot"
+msgstr "Ekran Görüntüsü"
+
+#: src/screenshot-manager.c:213
+msgid "Screenshot copied to clipboard"
+msgstr "Ekran görüntüsü panoya kopyalandı"
+
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
@@ -210,7 +231,7 @@ msgstr "“%s” wifi ağının kimlik doğrulama türü desteklenmiyor"
 msgid "Enter password for the wifi network “%s”"
 msgstr "“%s” wifi ağı için parola gir"
 
-#: src/notifications/mount-notification.c:122
+#: src/notifications/mount-notification.c:121
 msgid "Open"
 msgstr "Aç"
 
@@ -369,10 +390,6 @@ msgstr "Kararı anımsa"
 msgid "Cancel"
 msgstr "İptal"
 
-#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
-msgid "Ok"
-msgstr "Tamam"
-
 #: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "Uygulama"
@@ -392,6 +409,35 @@ msgstr "_Ayrıntıları Göster"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Uygulama ara…"
+
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "Acil durum arama penceresini kapat"
+
+#: src/ui/emergency-menu.ui:52
+msgid "Emergency _Contacts"
+msgstr "Acil Durumda _Ulaşılacaklar"
+
+#: src/ui/emergency-menu.ui:59
+msgid "Go to the emergency contacts page"
+msgstr "Acil durumda ulaşılacaklar sayfasına git"
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr "Acil durum tuşlama sayfasına geri git"
+
+#: src/ui/emergency-menu.ui:106
+msgid "Owner unknown"
+msgstr "Sahip bilinmiyor"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Acil Durumda Ulaşılacaklar"
+
+#: src/ui/emergency-menu.ui:148
+msgid "No emergency contacts available."
+msgstr "Acil durumda ulaşılacak kişi yok."
 
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
@@ -419,7 +465,7 @@ msgstr "Açmak için kaldır"
 
 #: src/ui/lockscreen.ui:282
 msgid "Emergency"
-msgstr "Acil"
+msgstr "Acil Durum"
 
 #: src/ui/lockscreen.ui:298
 msgid "Unlock"
@@ -462,11 +508,11 @@ msgstr "_Acil"
 msgid "Run Command"
 msgstr "Komut Çalıştır"
 
-#: src/ui/settings.ui:319
+#: src/ui/settings.ui:320
 msgid "No notifications"
 msgstr "Bildirim yok"
 
-#: src/ui/settings.ui:359
+#: src/ui/settings.ui:360
 msgid "Clear all"
 msgstr "Tümünü temizle"
 
@@ -560,11 +606,6 @@ msgstr "İlaçlar ve Koşullar"
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
 msgid "Other Information"
 msgstr "Diğer Bilgiler"
-
-#: plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
-msgid "Emergency Contacts"
-msgstr "Acil Durumda Ulaşılacaklar"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
