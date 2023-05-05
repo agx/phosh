@@ -11,6 +11,7 @@
 #include "mode-manager.h"
 #include "monitor/monitor.h"
 #include "notifications/notification.h"
+#include "notifications/notify-feedback.h"
 #include "notifications/notify-manager.h"
 #include "phosh-wayland.h"
 #include "rotation-manager.h"
