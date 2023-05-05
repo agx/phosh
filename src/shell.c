@@ -1048,9 +1048,9 @@ phosh_shell_query_action (GActionGroup        *group,
 
 
 static void
-phosh_shell_activate_action (GActionGroup *group,
-                             const gchar  *action_name,
-                             GVariant     *parameter)
+_phosh_shell_activate_action (GActionGroup *group,
+                              const gchar  *action_name,
+                              GVariant     *parameter)
 {
   PhoshShell *self = PHOSH_SHELL (group);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
@@ -1082,7 +1082,7 @@ phosh_shell_action_group_iface_init (GActionGroupInterface *iface)
 {
   iface->list_actions = phosh_shell_list_actions;
   iface->query_action = phosh_shell_query_action;
-  iface->activate_action = phosh_shell_activate_action;
+  iface->activate_action = _phosh_shell_activate_action;
   iface->change_action_state = phosh_shell_change_action_state;
 }
 
@@ -2134,6 +2134,33 @@ phosh_shell_get_blanked (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_SHELL (self), FALSE);
 
   return phosh_shell_get_state (self) & PHOSH_STATE_BLANKED;
+}
+
+
+/**
+ * phosh_shell_activate_action:
+ * @self: The #PhoshShell singleton
+ * @action: The action name
+ * @parameter: The action's parameters
+ *
+ * Activates the given action. If the action is not found %FALSE is returned and a
+ * warning is logged.
+ *
+ * Returns: %TRUE if the action was found
+ */
+gboolean
+phosh_shell_activate_action (PhoshShell *self, const char *action, GVariant *parameter)
+{
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), FALSE);
+  g_return_val_if_fail (action, FALSE);
+
+  if (g_action_group_has_action (G_ACTION_GROUP (self), action) == FALSE) {
+    g_warning ("No such action '%s' on shell object", action);
+    return FALSE;
+  }
+
+  g_action_group_activate_action (G_ACTION_GROUP (self), action, parameter);
+  return TRUE;
 }
 
 /* }}} */
