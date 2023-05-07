@@ -38,6 +38,6 @@ override_dh_installsystemd:
 
 override_dh_auto_test:
 ifeq ($(filter nocheck,$(DEB_BUILD_OPTIONS)),)
-	LC_ALL=C.UTF-8 xvfb-run -a meson test -C _build --no-suite manual
+	LC_ALL=C.UTF-8 xvfb-run -a dh_auto_test -- --no-suite manual
 endif
 
