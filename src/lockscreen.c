@@ -104,7 +104,7 @@ typedef struct {
   PhoshAuth         *auth;
   GSettings         *keypad_settings;
 
-  /* wiget box */
+  /* widget box */
   GtkWidget         *widget_box;
 
   /* Call page */
