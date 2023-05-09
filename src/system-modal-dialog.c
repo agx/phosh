@@ -200,9 +200,12 @@ phosh_system_modal_dialog_class_init (PhoshSystemModalDialogClass *klass)
   object_class->constructed = phosh_system_modal_dialog_constructed;
   object_class->finalize = phosh_system_modal_dialog_finalize;
 
-  props[PROP_TITLE] = g_param_spec_string ("title",
-                                           "Title",
-                                           "The dialogs title",
+  /**
+   * PhoshSystemModalDialog:title
+   *
+   * The dialog's title
+   */
+  props[PROP_TITLE] = g_param_spec_string ("title", "", "",
                                            NULL,
                                            G_PARAM_READWRITE |
                                            G_PARAM_STATIC_STRINGS |
