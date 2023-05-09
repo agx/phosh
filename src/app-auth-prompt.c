@@ -300,13 +300,6 @@ phosh_app_auth_prompt_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_app_auth_prompt_parent_class)->constructed (object);
 
-  g_object_bind_property (self, "subtitle", self->lbl_subtitle, "label", G_BINDING_DEFAULT);
-  g_object_bind_property (self, "body", self->lbl_body, "label", G_BINDING_DEFAULT);
-  g_object_bind_property (self, "grant-label", self->btn_grant, "label", G_BINDING_DEFAULT);
-  g_object_bind_property (self, "deny-label", self->btn_deny, "label", G_BINDING_DEFAULT);
-  g_object_bind_property (self, "icon", self->icon_app, "gicon", G_BINDING_DEFAULT);
-  g_object_bind_property (self, "offer-remember", self->checkbtn_remember, "visible", G_BINDING_DEFAULT);
-
   gtk_widget_grab_default (self->btn_grant);
 
   if (self->choices != NULL) {
@@ -429,6 +422,13 @@ static void
 phosh_app_auth_prompt_init (PhoshAppAuthPrompt *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  g_object_bind_property (self, "subtitle", self->lbl_subtitle, "label", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "body", self->lbl_body, "label", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "grant-label", self->btn_grant, "label", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "deny-label", self->btn_deny, "label", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "icon", self->icon_app, "gicon", G_BINDING_DEFAULT);
+  g_object_bind_property (self, "offer-remember", self->checkbtn_remember, "visible", G_BINDING_DEFAULT);
 }
 
 
