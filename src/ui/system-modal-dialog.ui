@@ -17,6 +17,8 @@
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="orientation">vertical</property>
+                <property name="margin-bottom">24</property>
+                <property name="margin-top">24</property>
                 <child>
                   <object class="GtkLabel" id="lbl_title">
                     <property name="visible">True</property>
