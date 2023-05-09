@@ -87,9 +87,7 @@ handle_access_dialog (PhoshDBusImplPortalAccess *object,
 {
   const char *sender;
   GIcon *icon = NULL;
-  GVariant *grant_label_variant = NULL;
   char *grant_label = NULL;
-  GVariant *deny_label_variant = NULL;
   char *deny_label = NULL;
   GVariant *choices = NULL;
   g_autoptr (GError) error = NULL;
@@ -107,12 +105,8 @@ handle_access_dialog (PhoshDBusImplPortalAccess *object,
     const char *icon_name_str = g_variant_get_string (icon_variant, NULL);
     icon = g_themed_icon_new (icon_name_str);
   }
-  grant_label_variant = g_variant_lookup_value (arg_options, "grant_label", G_VARIANT_TYPE_STRING);
-  if (grant_label_variant != NULL)
-    grant_label = g_variant_dup_string (grant_label_variant, NULL);
-  deny_label_variant = g_variant_lookup_value (arg_options, "deny_label", G_VARIANT_TYPE_STRING);
-  if (deny_label_variant != NULL)
-    deny_label = g_variant_dup_string (deny_label_variant, NULL);
+  g_variant_lookup (arg_options, "grant_label", "&s", grant_label);
+  g_variant_lookup (arg_options, "deny_label",  "&s", deny_label);
   choices = g_variant_lookup_value (arg_options, "choices", G_VARIANT_TYPE (CHOICES_FORMAT));
 
   self->invocation = invocation;
