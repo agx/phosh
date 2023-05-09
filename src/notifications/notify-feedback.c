@@ -100,7 +100,7 @@ on_notifcation_source_items_changed (PhoshNotifyFeedback *self,
     return;
 
   for (int i = 0; i < added; i++) {
-    g_autoptr (PhoshNotification) new = g_list_model_get_item (list, position);
+    g_autoptr (PhoshNotification) new = g_list_model_get_item (list, position + i);
     g_autoptr (LfbEvent) event = NULL;
     const char *category, *event_name;
     g_autofree char *app_id = NULL;
@@ -114,6 +114,8 @@ on_notifcation_source_items_changed (PhoshNotifyFeedback *self,
       continue;
 
     info = phosh_notification_get_app_info (new);
+    if (info == NULL)
+        continue;
     app_id = phosh_strip_suffix_from_app_id (g_app_info_get_id (info));
 
     g_debug ("Emitting event %s for %s", event_name, app_id ?: "unknown");

@@ -54,10 +54,14 @@ static guint signals[N_SIGNALS];
  *     Gio told us it spawned the process
  * PHOSH_APP_TRACKER_STATE_FLAG_DBUS_LAUNCH: app launch seen on DBus via
  *     org.gtk.gio.DesktopAppInfo
- * PHOSH_APP_TRACKER_STATE_FLAG_WL_LAUNCH: startup id seen via gtk_shell1's notify_launch
- *     Sent by launcher to indicate launch. GTK specific.
- * PHOSH_APP_TRACKER_STATE_FLAG_WL_STARTUP_ID: startup id seen via gtk_shell1's set_startup_id
- *     Sent by launchee. This indicates startup is complete. GTK specific.
+ * PHOSH_APP_TRACKER_STATE_FLAG_WL_LAUNCH: Startup id sent by launcher seen.
+ *     The compositor got notified by the launcher about the launchee's startup id.
+ *     This happens via the xdg-activation or the GTK specific gtk_shell1 protocol.
+ *     The compositor then notifies phosh via the phosh-private wayland protocol.
+ * PHOSH_APP_TRACKER_STATE_FLAG_WL_STARTUP_ID: Startup id sent by launchee seen.
+ *     The launchee is up and notified the compositor via it's startup id.
+ *     This happens via the xdg-activation or the GTK specific gtk_shell1 protocol.
+ *     The compositor then notifies phosh via the phosh-private wayland protocol.
  */
 typedef enum {
   PHOSH_APP_TRACKER_STATE_FLAG_UNKNOWN         = 0,

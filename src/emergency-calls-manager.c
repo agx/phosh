@@ -27,7 +27,7 @@
  * @dbus_proxy: The DBus proxy object used for interacting with the emergency calls API.
  *
  * Manages emergency calls and contacts. Contacts are kept in
- * a GListStore contaning the emergency contacts form the calls API.
+ * a GListStore containing the emergency contacts form the calls API.
  *
  * #PhoshEmergencyCallsManager provides a GListStore containing the
  * emergency contacts fetched from the calls API at `org.gnome.Calls`.
@@ -76,7 +76,7 @@ phosh_emergency_calls_manager_set_if_enabled (PhoshEmergencyCallsManager *self, 
 
   /* If disabled via settings we never enable */
   if (g_settings_get_boolean (self->settings, "enabled") == FALSE) {
-    g_debug ("Emergency calls disabled in seettings");
+    g_debug ("Emergency calls disabled in settings");
     enabled = FALSE;
   }
 
@@ -184,7 +184,7 @@ on_update_finish (GObject                    *source_object,
 /**
  * on_call_emergency_contact_finish:
  *
- * Called when the DBus API has prosesd the request to call an
+ * Called when the DBus API has processed the request to call an
  * emergency contact or emergency service.  From the
  * #phosh_emergency_calls_manager_call function.
  */
@@ -242,10 +242,10 @@ phosh_emergency_calls_manager_update (PhoshEmergencyCallsManager *self)
 
 
 static void
-emergency_contact_manager_get_property (GObject    *object,
-                                        guint       property_id,
-                                        GValue     *value,
-                                        GParamSpec *pspec)
+emergency_calls_manager_get_property (GObject    *object,
+                                      guint       property_id,
+                                      GValue     *value,
+                                      GParamSpec *pspec)
 {
   PhoshEmergencyCallsManager *self = PHOSH_EMERGENCY_CALLS_MANAGER (object);
 
@@ -329,7 +329,7 @@ phosh_emergency_calls_manager_idle_init (PhoshManager *manager)
 
 
 static void
-emergency_contact_manager_dispose (GObject *object)
+emergency_calls_manager_dispose (GObject *object)
 {
   PhoshEmergencyCallsManager *self = PHOSH_EMERGENCY_CALLS_MANAGER (object);
 
@@ -352,8 +352,8 @@ phosh_emergency_calls_manager_class_init (PhoshEmergencyCallsManagerClass *klass
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   PhoshManagerClass *manager_class = PHOSH_MANAGER_CLASS (klass);
 
-  object_class->get_property = emergency_contact_manager_get_property;
-  object_class->dispose = emergency_contact_manager_dispose;
+  object_class->get_property = emergency_calls_manager_get_property;
+  object_class->dispose = emergency_calls_manager_dispose;
 
   manager_class->idle_init = phosh_emergency_calls_manager_idle_init;
 

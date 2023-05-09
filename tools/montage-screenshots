@@ -1,0 +1,9 @@
+#!/bin/bash
+
+SCREENSHOT_ROOT=${1:-_build}/tests/screenshots/
+
+for dir in $(find "${SCREENSHOT_ROOT}" -mindepth 1 -maxdepth 1 -type d); do
+    out="${dir}.png"
+    echo "Assembling ${out}"
+    montage -mode concatenate "$dir/*.png" "${out}"
+done

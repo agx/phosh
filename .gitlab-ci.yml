@@ -156,8 +156,8 @@ screenshot:native-debian-bookworm:
     # Install .po files so tests can find them
     - "DESTDIR=$PWD/_build/install meson install -C _build"
     - ${XVFB_RUN} meson test -C _build --print-errorlogs --suite screenshots
+    - tools/montage-screenshots _build/
     - mv _build/tests/screenshots/* screenshots/
-    - for dir in $(find screenshots/ -type d -mindepth 1 -maxdepth 1); do montage -mode concatenate $dir/*.png ${dir}.png; done
   artifacts:
     expose_as: 'Screenshots'
     paths:
