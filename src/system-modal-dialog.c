@@ -333,7 +333,7 @@ phosh_system_modal_dialog_add_button (PhoshSystemModalDialog *self, GtkWidget *b
 
   gtk_box_pack_start (GTK_BOX (priv->box_buttons), GTK_WIDGET (button), TRUE, TRUE, 0);
   if (position >= 0)
-    gtk_box_reorder_child (GTK_BOX (priv->box_dialog), GTK_WIDGET (button), position);
+    gtk_box_reorder_child (GTK_BOX (priv->box_buttons), GTK_WIDGET (button), position);
 }
 
 
