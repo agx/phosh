@@ -272,8 +272,6 @@ static void
 phosh_system_modal_dialog_init (PhoshSystemModalDialog *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
-
-  phosh_system_modal_dialog_set_title (self, NULL);
 }
 
 /**
@@ -371,8 +369,11 @@ phosh_system_modal_dialog_set_title (PhoshSystemModalDialog *self, const gchar *
   PhoshSystemModalDialogPrivate *priv;
 
   g_return_if_fail (PHOSH_IS_SYSTEM_MODAL_DIALOG (self));
-
   priv = phosh_system_modal_dialog_get_instance_private (PHOSH_SYSTEM_MODAL_DIALOG (self));
+
+  if (g_strcmp0 (priv->title, title) == 0)
+    return;
+
   g_free (priv->title);
   priv->title = g_strdup (title);
 
