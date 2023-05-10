@@ -48,7 +48,6 @@ typedef struct {
   GIcon                      *icon;
   GtkWidget                  *img_app;
   gboolean                    prefer_dark;
-
 } PhoshSplashPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshSplash, phosh_splash, PHOSH_TYPE_LAYER_SURFACE);
