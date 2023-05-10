@@ -262,27 +262,17 @@ phosh_splash_manager_class_init (PhoshSplashManagerClass *klass)
 static void
 phosh_splash_manager_init (PhoshSplashManager *self)
 {
-  GSettingsSchemaSource *source;
-  g_autoptr (GSettingsSchema) schema = NULL;
-
   self->splashes = g_hash_table_new_full (g_str_hash,
                                           g_str_equal,
                                           g_free,
                                           (GDestroyNotify) gtk_widget_destroy);
 
-  source = g_settings_schema_source_get_default ();
-
-  schema = g_settings_schema_source_lookup (source, "org.gnome.desktop.interface", TRUE);
-  /* Treat value as optional until we can depend on released gsettings-desktop-schmeas */
-  if (schema && g_settings_schema_has_key (schema, "color-scheme")) {
-    self->interface_settings = g_settings_new ("org.gnome.desktop.interface");
-    gsettings_color_scheme_changed_cb (self);
-    g_signal_connect_swapped (self->interface_settings,
-                              "changed::color-scheme",
-                              G_CALLBACK (gsettings_color_scheme_changed_cb),
-                              self);
-  }
-
+  self->interface_settings = g_settings_new ("org.gnome.desktop.interface");
+  g_signal_connect_swapped (self->interface_settings,
+                            "changed::color-scheme",
+                            G_CALLBACK (gsettings_color_scheme_changed_cb),
+                            self);
+  gsettings_color_scheme_changed_cb (self);
 }
 
 
