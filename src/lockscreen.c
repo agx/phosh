@@ -109,7 +109,7 @@ typedef struct {
   guint              idle_timer;
   gint64             last_input;
   PhoshAuth         *auth;
-  GSettings         *keypad_settings;
+  GSettings         *lockscreen_settings;
 
   /* widget box */
   GtkWidget         *widget_box;
@@ -859,8 +859,8 @@ phosh_lockscreen_constructed (GObject *object)
                           priv->btn_keyboard, "sensitive",
                           G_BINDING_SYNC_CREATE);
 
-  priv->keypad_settings = g_settings_new("sm.puri.phosh.lockscreen");
-  g_settings_bind (priv->keypad_settings, "shuffle-keypad",
+  priv->lockscreen_settings = g_settings_new("sm.puri.phosh.lockscreen");
+  g_settings_bind (priv->lockscreen_settings, "shuffle-keypad",
                    priv->keypad, "shuffle",
                    G_SETTINGS_BIND_GET);
 
@@ -904,7 +904,7 @@ phosh_lockscreen_dispose (GObject *object)
   g_clear_handle_id (&priv->idle_timer, g_source_remove);
   g_clear_object (&priv->calls_manager);
   g_clear_pointer (&priv->active, g_free);
-  g_clear_object (&priv->keypad_settings);
+  g_clear_object (&priv->lockscreen_settings);
 
   G_OBJECT_CLASS (phosh_lockscreen_parent_class)->dispose (object);
 }
