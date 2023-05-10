@@ -175,21 +175,6 @@ phosh_system_modal_dialog_finalize (GObject *obj)
 
 
 static void
-phosh_system_modal_dialog_constructed (GObject *object)
-{
-  PhoshSystemModalDialog *self = PHOSH_SYSTEM_MODAL_DIALOG (object);
-
-  G_OBJECT_CLASS (phosh_system_modal_dialog_parent_class)->constructed (object);
-
-  gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
-  g_signal_connect (G_OBJECT (self),
-                    "key_press_event",
-                    G_CALLBACK (on_key_press_event),
-                    NULL);
-}
-
-
-static void
 phosh_system_modal_dialog_class_init (PhoshSystemModalDialogClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -197,12 +182,14 @@ phosh_system_modal_dialog_class_init (PhoshSystemModalDialogClass *klass)
 
   object_class->get_property = phosh_system_modal_dialog_get_property;
   object_class->set_property = phosh_system_modal_dialog_set_property;
-  object_class->constructed = phosh_system_modal_dialog_constructed;
   object_class->finalize = phosh_system_modal_dialog_finalize;
 
-  props[PROP_TITLE] = g_param_spec_string ("title",
-                                           "Title",
-                                           "The dialogs title",
+  /**
+   * PhoshSystemModalDialog:title
+   *
+   * The dialog's title
+   */
+  props[PROP_TITLE] = g_param_spec_string ("title", "", "",
                                            NULL,
                                            G_PARAM_READWRITE |
                                            G_PARAM_STATIC_STRINGS |
@@ -270,7 +257,11 @@ phosh_system_modal_dialog_init (PhoshSystemModalDialog *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  phosh_system_modal_dialog_set_title (self, NULL);
+  gtk_widget_add_events (GTK_WIDGET (self), GDK_KEY_PRESS_MASK);
+  g_signal_connect (G_OBJECT (self),
+                    "key_press_event",
+                    G_CALLBACK (on_key_press_event),
+                    NULL);
 }
 
 /**
@@ -333,7 +324,7 @@ phosh_system_modal_dialog_add_button (PhoshSystemModalDialog *self, GtkWidget *b
 
   gtk_box_pack_start (GTK_BOX (priv->box_buttons), GTK_WIDGET (button), TRUE, TRUE, 0);
   if (position >= 0)
-    gtk_box_reorder_child (GTK_BOX (priv->box_dialog), GTK_WIDGET (button), position);
+    gtk_box_reorder_child (GTK_BOX (priv->box_buttons), GTK_WIDGET (button), position);
 }
 
 
@@ -368,8 +359,11 @@ phosh_system_modal_dialog_set_title (PhoshSystemModalDialog *self, const gchar *
   PhoshSystemModalDialogPrivate *priv;
 
   g_return_if_fail (PHOSH_IS_SYSTEM_MODAL_DIALOG (self));
-
   priv = phosh_system_modal_dialog_get_instance_private (PHOSH_SYSTEM_MODAL_DIALOG (self));
+
+  if (g_strcmp0 (priv->title, title) == 0)
+    return;
+
   g_free (priv->title);
   priv->title = g_strdup (title);
 

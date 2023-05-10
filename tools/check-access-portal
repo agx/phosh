@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -7,25 +7,27 @@ SUBTITLE="Firefox wants to use your microphone and storage."
 BODY="Access persmissions can be changed at any time from the privacy settings."
 OPTIONS="{'icon':<'audio-input-microphone-symbolic'>,'choices':<@a(ssa(ss)s) [('camera','Camera',[],'false'),('storage','Storage',[('no','No Access'),('read','Read Access'),('write','Write Access')],'no')]>}"
 
-if [ "$1" = "-h" ]; then
-    echo Test helper to show Access dialogs of the org.freedesktop.portal api
-    echo
-    echo Arguments
-    echo
-    echo "  -h Shows help"
-    echo "  -t <String>: The title of the dialog"
-    echo "      Example: $TITLE"
-    echo "  -s <String>: The subtitle of the dialog"
-    echo "      Example: $SUBTITLE"
-    echo "  -b <String>: The body of the dialog"
-    echo "      Example: $BODY"
-    echo "  -o <String>: The options of the dialog (https://flatpak.github.io/xdg-desktop-portal/#gdbus-org.freedesktop.impl.portal.Access)"
-    echo "      Example: $OPTIONS"
-    echo
-    return
-fi
+function help()
+{
+    cat <<EOF
+Test helper to show Access dialogs of the org.freedesktop.portal api
+Arguments
 
-while getopts ":t:s:b:o:" opt; do
+  -h Shows help
+  -t <String>: The title of the dialog
+      Example: "$TITLE"
+  -s <String>: The subtitle of the dialog
+      Example: "$SUBTITLE"
+  -b <String>: The body of the dialog
+      Example: "$BODY"
+  -o <String>: The options of the dialog (https://flatpak.github.io/xdg-desktop-portal/#gdbus-org.freedesktop.impl.portal.Access)
+      Example: "$OPTIONS"
+
+EOF
+    exit 0
+}
+
+while getopts "ht:s:b:o:" opt; do
   case $opt in
     t) TITLE="$OPTARG"
     ;;
@@ -34,6 +36,8 @@ while getopts ":t:s:b:o:" opt; do
     b) BODY="$OPTARG"
     ;;
     o) OPTIONS="$OPTARG"
+    ;;
+    h) help
     ;;
     \?) echo "Invalid option -$OPTARG" >&2
     exit 1
