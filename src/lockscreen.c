@@ -94,7 +94,7 @@ typedef struct {
   GtkRevealer       *rev_call_notifications;
   GtkRevealer       *rev_media_player;
   GtkRevealer       *rev_notifications;
-  GSettings         *settings;
+  GSettings         *notification_settings;
   guint              reveals;
 
   /* unlock page */
@@ -764,7 +764,7 @@ on_notification_items_changed (PhoshLockscreen *self,
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
   priv = phosh_lockscreen_get_instance_private (self);
 
-  show_in_lockscreen = g_settings_get_boolean (priv->settings, "show-in-lock-screen");
+  show_in_lockscreen = g_settings_get_boolean (priv->notification_settings, "show-in-lock-screen");
   is_empty = !g_list_model_get_n_items (list);
 
   reveal = show_in_lockscreen && !is_empty;
@@ -833,7 +833,7 @@ phosh_lockscreen_constructed (GObject *object)
     update_active_call (self, active);
 
   manager = phosh_notify_manager_get_default ();
-  priv->settings = g_settings_new(NOTIFICATIONS_SCHEMA_ID);
+  priv->notification_settings = g_settings_new (NOTIFICATIONS_SCHEMA_ID);
   gtk_list_box_bind_model (GTK_LIST_BOX (priv->list_notifications),
                            G_LIST_MODEL (phosh_notify_manager_get_list (manager)),
                            create_notification_row,
@@ -859,7 +859,7 @@ phosh_lockscreen_constructed (GObject *object)
                           priv->btn_keyboard, "sensitive",
                           G_BINDING_SYNC_CREATE);
 
-  priv->lockscreen_settings = g_settings_new("sm.puri.phosh.lockscreen");
+  priv->lockscreen_settings = g_settings_new ("sm.puri.phosh.lockscreen");
   g_settings_bind (priv->lockscreen_settings, "shuffle-keypad",
                    priv->keypad, "shuffle",
                    G_SETTINGS_BIND_GET);
@@ -899,7 +899,7 @@ phosh_lockscreen_dispose (GObject *object)
   PhoshLockscreen *self = PHOSH_LOCKSCREEN (object);
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  g_clear_object (&priv->settings);
+  g_clear_object (&priv->notification_settings);
   g_clear_object (&priv->wall_clock);
   g_clear_handle_id (&priv->idle_timer, g_source_remove);
   g_clear_object (&priv->calls_manager);
