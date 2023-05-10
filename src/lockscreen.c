@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2018 Purism SPC
- *               2024 The Phosh Developers
+ *               2023-2025 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -14,6 +14,7 @@
 #include "calls-manager.h"
 #include "keypad.h"
 #include "layersurface-priv.h"
+#include "lockscreen-bg.h"
 #include "lockscreen-priv.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
@@ -22,6 +23,8 @@
 #include "util.h"
 #include "widget-box.h"
 #include "wall-clock.h"
+
+#include "gmobile.h"
 
 #include <string.h>
 #include <glib/gi18n.h>
@@ -114,9 +117,24 @@ typedef struct {
 
   PhoshCallsManager *calls_manager;
   char              *active; /* opaque handle to the active call */
+
+  PhoshLockscreenBg *background;
 } PhoshLockscreenPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshLockscreen, phosh_lockscreen, PHOSH_TYPE_LAYER_SURFACE)
+
+
+static void
+phosh_lockscreen_map (GtkWidget *widget)
+{
+  PhoshLockscreen *self = PHOSH_LOCKSCREEN (widget);
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+
+  GTK_WIDGET_CLASS (phosh_lockscreen_parent_class)->map (widget);
+
+  phosh_layer_surface_set_stacked_below (PHOSH_LAYER_SURFACE (priv->background),
+                                         PHOSH_LAYER_SURFACE (self));
+}
 
 
 static void
@@ -761,6 +779,20 @@ on_show (PhoshLockscreen *self, gpointer userdata)
 
 
 static void
+phosh_lockscreen_add_background (PhoshLockscreen *self)
+{
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  PhoshWayland *wl = phosh_wayland_get_default ();
+  struct wl_output *wl_output;
+
+  wl_output = phosh_layer_surface_get_wl_output (PHOSH_LAYER_SURFACE (self));
+  priv->background = phosh_lockscreen_bg_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
+                                              wl_output);
+  g_object_bind_property (self, "visible", priv->background, "visible", G_BINDING_SYNC_CREATE);
+}
+
+
+static void
 phosh_lockscreen_constructed (GObject *object)
 {
   PhoshLockscreen *self = PHOSH_LOCKSCREEN (object);
@@ -863,11 +895,12 @@ phosh_lockscreen_constructed (GObject *object)
 
   plugin_settings = g_settings_new ("sm.puri.phosh.plugins");
   plugins = g_settings_get_strv (plugin_settings, "lock-screen");
-
   if (plugins)
     phosh_widget_box_set_plugins (PHOSH_WIDGET_BOX (priv->widget_box), plugins);
 
   on_deck_visible_child_changed (self, NULL, priv->deck);
+
+  phosh_lockscreen_add_background (self);
 }
 
 static void
@@ -901,6 +934,8 @@ phosh_lockscreen_dispose (GObject *object)
   g_clear_object (&priv->calls_manager);
   g_clear_pointer (&priv->active, g_free);
   g_clear_object (&priv->lockscreen_settings);
+
+  g_clear_pointer (&priv->background, phosh_cp_widget_destroy);
 
   G_OBJECT_CLASS (phosh_lockscreen_parent_class)->dispose (object);
 }
@@ -971,6 +1006,8 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 
   object_class->set_property = phosh_lockscreen_set_property;
   object_class->get_property = phosh_lockscreen_get_property;
+
+  widget_class->map = phosh_lockscreen_map;
 
   layer_surface_class->configured = phosh_lockscreen_configured;
 
@@ -1304,4 +1341,20 @@ phosh_lockscreen_set_unlock_status (PhoshLockscreen *self, const char *status)
   priv = phosh_lockscreen_get_instance_private (self);
 
   gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), status);
+}
+
+/**
+ * phosh_lockscreen_set_bg_image:
+ * @self: The lockscrenn
+ * @image: The background image to set
+ */
+void
+phosh_lockscreen_set_bg_image (PhoshLockscreen *self, PhoshBackgroundImage *image)
+{
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  g_return_if_fail (image == NULL || PHOSH_IS_BACKGROUND_IMAGE (image));
+
+  phosh_lockscreen_bg_set_image (priv->background, image);
 }
