@@ -125,8 +125,7 @@ on_app_ready (PhoshSplashManager *self,
     return;
   }
 
-
-  gtk_widget_hide (splash);
+  splash_hide (splash);
   g_hash_table_remove (self->splashes, startup_id);
 }
 
