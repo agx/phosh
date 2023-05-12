@@ -265,21 +265,7 @@
                     <property name="margin_start">16</property>
                     <property name="margin_end">16</property>
                     <property name="halign">center</property>
-                    <child>
-                      <object class="GtkButton" id="btn_emergency">
-                        <property name="visible">False</property>
-                        <property name="label" translatable="yes">Emergency</property>
-                        <style>
-                          <class name="text-only-button"/>
-                          <class name="circular"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="pack_type">start</property>
-                      </packing>
-                    </child>
+
                     <child>
                       <object class="GtkButton" id="btn_submit">
                         <property name="visible">True</property>

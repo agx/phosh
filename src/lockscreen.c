@@ -98,7 +98,6 @@ typedef struct {
   GtkGesture        *long_press_del_gesture;
   GtkWidget         *lbl_unlock_status;
   GtkWidget         *btn_submit;
-  GtkWidget         *btn_emergency;
   guint              idle_timer;
   gint64             last_input;
   PhoshAuth         *auth;
@@ -861,7 +860,6 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_unlock_status);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, long_press_del_gesture);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, btn_submit);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, btn_emergency);
 
   gtk_widget_class_bind_template_callback (widget_class, long_press_del_cb);
   gtk_widget_class_bind_template_callback (widget_class, delete_button_clicked_cb);
