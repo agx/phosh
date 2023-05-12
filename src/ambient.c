@@ -168,8 +168,11 @@ on_ambient_light_level_changed (PhoshAmbient            *self,
 
   g_debug ("Ambient light changed: %f %s", level, unit);
 
-  if (g_ascii_strcasecmp (unit , "lux") != 0)
+  if (g_ascii_strcasecmp (unit , "lux") != 0) {
+    /* For vendor values we don't know if small or large values mean bright or dark so be conservative */
+    g_warning_once ("Unknown unit light level unit %s", unit);
     return;
+  }
 
   /* Use a bit of hysteresis to not switch too often around the threshold */
   hyst = (self->use_hc) ? 0.9 : 1.1;
