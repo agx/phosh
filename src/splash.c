@@ -326,7 +326,7 @@ phosh_splash_hide (PhoshSplash *self)
   priv->fadeout = phosh_animation_new (GTK_WIDGET (self),
                                        0.0,
                                        1.0,
-                                       200,
+                                       200 * PHOSH_ANIMATION_SLOWDOWN,
                                        PHOSH_ANIMATION_TYPE_EASE_IN_QUINTIC,
                                        (PhoshAnimationValueCallback) fadeout_value_cb,
                                        (PhoshAnimationDoneCallback) fadeout_done_cb,
