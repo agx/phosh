@@ -109,7 +109,7 @@ on_app_ready (PhoshSplashManager *self,
               const char         *startup_id,
               PhoshAppTracker    *tracker)
 {
-  GtkWidget *splash;
+  PhoshSplash *splash;
 
   g_return_if_fail (PHOSH_IS_SPLASH_MANAGER (self));
 
@@ -125,7 +125,6 @@ on_app_ready (PhoshSplashManager *self,
     return;
   }
 
-  splash_hide (splash);
   g_hash_table_remove (self->splashes, startup_id);
 }
 
@@ -264,7 +263,7 @@ phosh_splash_manager_init (PhoshSplashManager *self)
   self->splashes = g_hash_table_new_full (g_str_hash,
                                           g_str_equal,
                                           g_free,
-                                          (GDestroyNotify) gtk_widget_destroy);
+                                          (GDestroyNotify) phosh_splash_hide);
 
   self->interface_settings = g_settings_new ("org.gnome.desktop.interface");
   g_signal_connect_swapped (self->interface_settings,

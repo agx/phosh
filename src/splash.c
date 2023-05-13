@@ -271,3 +271,10 @@ phosh_splash_new (GDesktopAppInfo *app, gboolean prefer_dark)
                        "prefer-dark", prefer_dark,
                        NULL);
 }
+
+
+void
+phosh_splash_hide (PhoshSplash *self)
+{
+   gtk_widget_destroy (self);
+}
