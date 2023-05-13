@@ -154,7 +154,6 @@ on_app_failed (PhoshSplashManager *self,
   }
 
   /* TODO: show failed splash once we have designs */
-  gtk_widget_hide (splash);
   g_hash_table_remove (self->splashes, startup_id);
 }
 
