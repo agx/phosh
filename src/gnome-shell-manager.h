@@ -50,6 +50,29 @@ typedef enum {
   SHELL_ACTION_MODE_ALL = ~0,
 } ShellActionMode;
 
+/**
+ * ShellKeyBindingFlags:
+ * @SHELL_KEY_BINDING_NONE: none
+ * @SHELL_KEY_BINDING_PER_WINDOW: per-window
+ * @SHELL_KEY_BINDING_BUILTIN: built-in
+ * @SHELL_KEY_BINDING_IS_REVERSED: is reversed
+ * @SHELL_KEY_BINDING_NON_MASKABLE: always active
+ * @SHELL_KEY_BINDING_IGNORE_AUTOREPEAT: ignore autorepeat
+ * @SHELL_KEY_BINDING_NO_AUTO_GRAB: not grabbed automatically
+ */
+typedef enum
+{
+  /* not implemented */
+  SHELL_KEY_BINDING_NONE,
+  SHELL_KEY_BINDING_PER_WINDOW   = 1 << 0,
+  SHELL_KEY_BINDING_BUILTIN      = 1 << 1,
+  SHELL_KEY_BINDING_IS_REVERSED  = 1 << 2,
+  SHELL_KEY_BINDING_NON_MASKABLE = 1 << 3,
+  SHELL_KEY_BINDING_NO_AUTO_GRAB = 1 << 5,
+  /* implemented */
+  SHELL_KEY_BINDING_IGNORE_AUTOREPEAT = 1 << 4,
+} ShellKeyBindingFlags;
+
 G_BEGIN_DECLS
 
 #define PHOSH_TYPE_GNOME_SHELL_MANAGER             (phosh_gnome_shell_manager_get_type ())

@@ -53,6 +53,11 @@ typedef struct _PhoshGnomeShellManager {
   int                         dbus_name_id;
   ShellActionMode             action_mode;
 
+  GSettings                  *keyboard_settings;
+  gboolean                    do_repeat;
+  guint                       repeat_delay_ms;
+  guint                       repeat_interval_ms;
+
   PhoshOsdWindow             *osd;
   gint                        osd_timeoutid;
   gboolean                    osd_continue;
@@ -73,6 +78,7 @@ typedef struct _AcceleratorInfo {
   gchar                           *sender;
   guint                            mode_flags;
   guint                            grab_flags;
+  guint                            repeat_id;
 } AcceleratorInfo;
 
 static void
@@ -92,6 +98,7 @@ free_accelerator_info_from_hash_table (gpointer data)
   g_return_if_fail (info != NULL);
 
   remove_action_entries (info->accelerator);
+  g_clear_handle_id (&info->repeat_id, g_source_remove);
   g_free (info->accelerator);
   g_free (info->sender);
   g_free (info);
@@ -216,7 +223,7 @@ grab_single_accelerator (PhoshGnomeShellManager *self,
 {
   AcceleratorInfo *info;
   const GActionEntry action_entries[] = {
-    { .name = accelerator, .activate = accelerator_activated_action },
+    { .name = accelerator, .activate = accelerator_activated_action, "b" },
   };
 
   g_assert (PHOSH_IS_GNOME_SHELL_MANAGER (self));
@@ -460,6 +467,22 @@ accelerator_activated (PhoshDBusGnomeShell *skeleton,
 
 
 static void
+on_keyboard_setting_changed (PhoshGnomeShellManager *self,
+                             const char             *key,
+                             GSettings              *settings)
+{
+  g_assert (PHOSH_IS_GNOME_SHELL_MANAGER (self));
+
+  self->do_repeat = g_settings_get_boolean (self->keyboard_settings, "repeat");
+  self->repeat_delay_ms = g_settings_get_uint (self->keyboard_settings, "delay");
+  self->repeat_interval_ms = g_settings_get_uint (self->keyboard_settings, "repeat-interval");
+
+  g_debug ("Key repeat %sabled (delay: %u, interval: %u)",
+           self->do_repeat ? "en" : "dis", self->repeat_delay_ms, self->repeat_interval_ms);
+}
+
+
+static void
 phosh_gnome_shell_manager_gnome_shell_iface_init (PhoshDBusGnomeShellIface *iface)
 {
   iface->handle_show_monitor_labels = handle_show_monitor_labels;
@@ -608,18 +631,13 @@ get_action_mode (PhoshShellStateFlags state)
 
 
 static void
-accelerator_activated_action (GSimpleAction *action,
-                              GVariant      *param,
-                              gpointer       data)
+do_activate_accelerator (AcceleratorInfo *info)
 {
-  AcceleratorInfo *info = (AcceleratorInfo *) data;
   PhoshGnomeShellManager *self = phosh_gnome_shell_manager_get_default ();
   g_autoptr (GVariantBuilder) builder = NULL;
   GVariant *parameters;
-  uint32_t action_id;
 
-  action_id = info->action_id;
-  g_debug ("accelerator action activated for id %u", action_id);
+  g_assert (info);
 
   if ((info->mode_flags & self->action_mode) == 0) {
     g_autofree gchar *str_shell_mode = g_flags_to_string (SHELL_TYPE_ACTION_MODE, self->action_mode);
@@ -641,9 +659,70 @@ accelerator_activated_action (GSimpleAction *action,
   parameters = g_variant_builder_end (builder);
 
   accelerator_activated (PHOSH_DBUS_GNOME_SHELL (self),
-                         action_id,
+                         info->action_id,
                          parameters);
+}
 
+
+static gboolean
+on_accelerator_repeat (gpointer data)
+{
+  AcceleratorInfo *info = data;
+
+  g_assert (info);
+  g_assert (info->action_id);
+
+  do_activate_accelerator (info);
+
+  return G_SOURCE_CONTINUE;
+}
+
+
+static gboolean
+on_accelerator_repeat_delay (gpointer data)
+{
+  PhoshGnomeShellManager *self = phosh_gnome_shell_manager_get_default ();
+  AcceleratorInfo *info = data;
+  g_autofree char *source_name = g_strdup_printf ("[phosh] key repeat for id %u", info->action_id);
+
+  g_assert (info);
+  g_assert (info->action_id);
+
+  do_activate_accelerator (info);
+
+  info->repeat_id = g_timeout_add (self->repeat_interval_ms, on_accelerator_repeat, info);
+  g_source_set_name_by_id (info->repeat_id, source_name);
+
+  return G_SOURCE_REMOVE;
+}
+
+
+static void
+accelerator_activated_action (GSimpleAction *action,
+                              GVariant      *param,
+                              gpointer       data)
+{
+  AcceleratorInfo *info = (AcceleratorInfo *) data;
+  PhoshGnomeShellManager *self = phosh_gnome_shell_manager_get_default ();
+  gboolean press = g_variant_get_boolean (param);
+  uint32_t action_id;
+
+  action_id = info->action_id;
+  if (!press) {
+    g_debug ("accelerator released for id %u", action_id);
+    g_clear_handle_id (&info->repeat_id, g_source_remove);
+    return;
+  }
+  g_debug ("accelerator action activated for id %u", action_id);
+
+  if ((info->grab_flags & SHELL_KEY_BINDING_IGNORE_AUTOREPEAT) == 0 && self->do_repeat) {
+    g_autofree char *source_name = g_strdup_printf ("[phosh] key-repeat-delay for %u", action_id);
+    g_debug ("setting up accelerator autorepeat for id %u", action_id);
+    info->repeat_id = g_timeout_add (self->repeat_delay_ms, on_accelerator_repeat_delay, info);
+    g_source_set_name_by_id (info->repeat_id, source_name);
+  }
+
+  do_activate_accelerator (info);
 }
 
 
@@ -760,6 +839,7 @@ phosh_gnome_shell_manager_dispose (GObject *object)
     g_dbus_interface_skeleton_unexport (G_DBUS_INTERFACE_SKELETON (self));
 
   g_clear_pointer (&self->info_by_action, g_hash_table_unref);
+  g_clear_object (&self->keyboard_settings);
 
   G_OBJECT_CLASS (phosh_gnome_shell_manager_parent_class)->dispose (object);
 }
@@ -823,6 +903,15 @@ phosh_gnome_shell_manager_init (PhoshGnomeShellManager *self)
                                                 NULL,
                                                 free_accelerator_info_from_hash_table);
   self->last_action_id = 0;
+
+  self->keyboard_settings = g_settings_new ("org.gnome.desktop.peripherals.keyboard");
+
+  g_object_connect (self->keyboard_settings,
+    "swapped-signal::changed::repeat", G_CALLBACK (on_keyboard_setting_changed), self,
+    "swapped-signal::changed::repeat-interval", G_CALLBACK (on_keyboard_setting_changed), self,
+    "swapped-signal::changed::delay", G_CALLBACK (on_keyboard_setting_changed), self,
+    NULL);
+  on_keyboard_setting_changed (self, NULL, self->keyboard_settings);
 }
 
 
