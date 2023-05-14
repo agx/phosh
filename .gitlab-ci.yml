@@ -32,7 +32,7 @@ variables:
   COMMON_BUILD_OPTS: -Db_coverage=true --werror -Dtools=true
   EXP_DEPS: libfeedback-dev gir1.2-glib-2.0 gobject-introspection gir1.2-freedesktop dbus-bin libgirepository1.0-dev
             libpython3.11 libsystemd-dev dbus-x11 libdbus-1-dev libdeflate-dev libdw1 libudev-dev
-  alpine_EDGE_DEPS: alpine-sdk callaudiod-dev elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
+  ALPINE_EDGE_DEPS: alpine-sdk callaudiod-dev elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
                     gtk+3.0-dev libgudev-dev libhandy1-dev gcr-dev libsecret-dev gcovr linux-pam-dev
                     meson musl-dev networkmanager networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
                     upower-dev wayland-dev wayland-protocols ttf-dejavu evolution-data-server-dev evince-dev
