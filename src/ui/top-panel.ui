@@ -5,28 +5,91 @@
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
+        <property name="name">system-menu</property>
         <property name="margin">10</property>
         <property name="spacing">6</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkModelButton">
-            <property name="visible">True</property>
-            <property name="action-name">panel.logout</property>
-            <property name="text" translatable="yes">Logout</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkModelButton">
-            <property name="visible">True</property>
-            <property name="action-name">panel.restart</property>
-            <property name="text" translatable="yes">Restart</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkModelButton">
+          <object class="GtkButton">
             <property name="visible">True</property>
             <property name="action-name">panel.poweroff</property>
-            <property name="text" translatable="yes">Power Off</property>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="icon-name">system-shutdown-symbolic</property>
+                    <property name="pixel-size">24</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">_Power Off…</property>
+                    <property name="ellipsize">middle</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkButton">
+            <property name="visible">True</property>
+            <property name="action-name">panel.restart</property>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="icon-name">system-reboot-symbolic</property>
+                    <property name="pixel-size">24</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">_Reboot…</property>
+                    <property name="ellipsize">middle</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkButton">
+            <property name="visible">True</property>
+            <property name="action-name">panel.logout</property>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="icon-name">system-log-out-symbolic</property>
+                    <property name="pixel-size">24</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">_Logout</property>
+                    <property name="ellipsize">middle</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </child>
       </object>

@@ -111,6 +111,18 @@ phosh-top-panel .phosh-topbar-date{
 }
 
 /*
+ * System menu
+ */
+#system-menu {
+  font-size: 125%;
+}
+
+#system-menu label,
+#system-menu image {
+  padding: 4px;
+}
+
+/*
  * Overview (app grid with favories and, activities)
  */
 
