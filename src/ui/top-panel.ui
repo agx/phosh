@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkPopoverMenu" id="menu_power">
+  <object class="GtkPopoverMenu" id="menu_system">
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
@@ -96,7 +96,7 @@
               <object class="GtkMenuButton" id="btn_power">
                 <property name="visible">True</property>
                 <property name="sensitive" bind-source="PhoshTopPanel" bind-property="on-lockscreen" bind-flags="sync-create|invert-boolean"/>
-                <property name="popover">menu_power</property>
+                <property name="popover">menu_system</property>
                 <style>
                   <class name="phosh-topbar-button"/>
                 </style>
