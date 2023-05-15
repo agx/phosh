@@ -221,17 +221,6 @@ on_logout_action (GSimpleAction *action,
 
 
 static void
-on_power_menu_activated (GSimpleAction *action,
-                         GVariant      *parameter,
-                         gpointer       data)
-{
-  g_action_group_activate_action (G_ACTION_GROUP (phosh_shell_get_default ()),
-                                  "power.toggle-menu",
-                                  NULL);
-}
-
-
-static void
 wall_clock2_notify_cb (PhoshTopPanel  *self,
                        GParamSpec     *pspec,
                        GnomeWallClock *wall_clock)
@@ -485,7 +474,6 @@ static GActionEntry entries[] = {
   { .name = "restart", .activate = on_restart_action },
   { .name = "lockscreen", .activate = on_lockscreen_action },
   { .name = "logout", .activate = on_logout_action },
-  { .name = "power-menu", .activate = on_power_menu_activated },
 };
 
 
