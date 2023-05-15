@@ -11,13 +11,6 @@
         <child>
           <object class="GtkModelButton">
             <property name="visible">True</property>
-            <property name="action-name">panel.lockscreen</property>
-            <property name="text" translatable="yes">Lock Screen</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkModelButton">
-            <property name="visible">True</property>
             <property name="action-name">panel.logout</property>
             <property name="text" translatable="yes">Logout</property>
           </object>
