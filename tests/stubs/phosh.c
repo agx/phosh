@@ -51,11 +51,11 @@ phosh_shell_get_app_launch_context (PhoshShell *self)
 }
 
 void
-phosh_shell_set_state (PhoshShell *self, guint state, gboolean set)
+phosh_shell_set_state (PhoshShell *self, PhoshShellStateFlags state, gboolean set)
 {
 }
 
-guint
+PhoshShellStateFlags
 phosh_shell_get_state (PhoshShell *self)
 {
   return 0;
