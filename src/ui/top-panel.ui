@@ -5,10 +5,12 @@
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
+        <property name="width-request">120</property>
         <property name="name">system-menu</property>
-        <property name="margin">10</property>
+        <property name="margin">6</property>
         <property name="spacing">6</property>
         <property name="orientation">vertical</property>
+
         <child>
           <object class="GtkButton">
             <property name="visible">True</property>
@@ -21,7 +23,7 @@
                   <object class="GtkImage">
                     <property name="visible">True</property>
                     <property name="icon-name">system-shutdown-symbolic</property>
-                    <property name="pixel-size">24</property>
+                    <property name="pixel-size">16</property>
                   </object>
                 </child>
                 <child>
@@ -49,13 +51,13 @@
                   <object class="GtkImage">
                     <property name="visible">True</property>
                     <property name="icon-name">system-reboot-symbolic</property>
-                    <property name="pixel-size">24</property>
+                    <property name="pixel-size">16</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLabel">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">_Reboot…</property>
+                    <property name="label" translatable="yes">_Restart…</property>
                     <property name="ellipsize">middle</property>
                     <property name="use-underline">True</property>
                   </object>
@@ -77,13 +79,13 @@
                   <object class="GtkImage">
                     <property name="visible">True</property>
                     <property name="icon-name">system-log-out-symbolic</property>
-                    <property name="pixel-size">24</property>
+                    <property name="pixel-size">16</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLabel">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">_Logout</property>
+                    <property name="label" translatable="yes">_Log Out…</property>
                     <property name="ellipsize">middle</property>
                     <property name="use-underline">True</property>
                   </object>

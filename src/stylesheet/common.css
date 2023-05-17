@@ -113,13 +113,11 @@ phosh-top-panel .phosh-topbar-date{
 /*
  * System menu
  */
-#system-menu {
-  font-size: 125%;
-}
-
-#system-menu label,
-#system-menu image {
-  padding: 4px;
+#system-menu button {
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-weight: bold;
+  font-size: 90%;
 }
 
 /*
