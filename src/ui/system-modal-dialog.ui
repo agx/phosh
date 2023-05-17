@@ -17,11 +17,15 @@
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="orientation">vertical</property>
+                <property name="margin-bottom">24</property>
+                <property name="margin-top">24</property>
                 <child>
                   <object class="GtkLabel" id="lbl_title">
                     <property name="visible">True</property>
                     <property name="halign">center</property>
                     <property name="margin-bottom">12</property>
+                    <property name="margin-left">6</property>
+                    <property name="margin-right">6</property>
                     <property name="hexpand">True</property>
                     <property name="justify">center</property>
                     <property name="wrap">True</property>
