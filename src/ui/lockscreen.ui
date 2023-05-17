@@ -76,17 +76,14 @@
               <object class="GtkBox" id="box_info">
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
-                <property name="can_focus">False</property>
                 <property name="expand">True</property>
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkLabel">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
                         <property name="valign">end</property>
                         <property name="margin_top">6</property>
                         <property name="margin_bottom">32</property>
@@ -105,7 +102,6 @@
                     <child>
                       <object class="GtkImage" id="lock-arrow">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
                         <property name="pixel_size">32</property>
                         <property name="icon_name">swipe-arrow-symbolic</property>
                         <style>
@@ -128,7 +124,6 @@
                 <child type="center">
                   <object class="GtkBox" id="box_datetime">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
                     <property name="valign">center</property>
                     <property name="vexpand">True</property>
                     <property name="orientation">vertical</property>
@@ -141,7 +136,6 @@
                       <object class="GtkLabel" id="lbl_clock">
                         <property name="visible">True</property>
                         <property name="name">phosh-lockscreen-clock</property>
-                        <property name="can_focus">False</property>
                         <property name="valign">center</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">False</property>
@@ -154,14 +148,12 @@
                       <object class="GtkLabel" id="lbl_date">
                         <property name="visible">True</property>
                         <property name="name">phosh-lockscreen-date</property>
-                        <property name="can_focus">False</property>
                         <property name="valign">center</property>
                       </object>
                     </child>
                     <child>
                       <object class="HdyClamp">
                         <property name="visible" bind-source="media_player" bind-property="visible" bind-flags="sync-create"/>
-                        <property name="can_focus">False</property>
                         <property name="maximum_size">360</property>
                         <property name="margin_top">6</property>
                         <property name="vexpand">True</property>
@@ -186,7 +178,6 @@
                         <child>
                           <object class="HdyClamp">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
                             <property name="maximum_size">360</property>
                             <property name="margin_top">6</property>
                             <property name="vexpand">True</property>
@@ -219,7 +210,6 @@
             <child>
               <object class="GtkBox" id="box_unlock">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
@@ -228,7 +218,6 @@
                 <child>
                   <object class="GtkLabel" id="lbl_unlock_status">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Enter Passcode</property>
                     <attributes>
                       <attribute name="font-desc" value="Cantarell 16"/>
@@ -276,21 +265,7 @@
                     <property name="margin_start">16</property>
                     <property name="margin_end">16</property>
                     <property name="halign">center</property>
-                    <child>
-                      <object class="GtkButton" id="btn_emergency">
-                        <property name="visible">False</property>
-                        <property name="label" translatable="yes">Emergency</property>
-                        <style>
-                          <class name="text-only-button"/>
-                          <class name="circular"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="pack_type">start</property>
-                      </packing>
-                    </child>
+
                     <child>
                       <object class="GtkButton" id="btn_submit">
                         <property name="visible">True</property>
@@ -302,11 +277,6 @@
                           <class name="circular"/>
                         </style>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="pack_type">end</property>
-                      </packing>
                     </child>
                   </object>
                 </child>

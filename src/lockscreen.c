@@ -39,6 +39,8 @@
 #define LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS "p-large"
 #define LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS "p-small"
 
+#define LOCKSCREEN_SMALL_DISPLAY 700
+
 /**
  * PhoshLockscreen:
  *
@@ -98,7 +100,6 @@ typedef struct {
   GtkGesture        *long_press_del_gesture;
   GtkWidget         *lbl_unlock_status;
   GtkWidget         *btn_submit;
-  GtkWidget         *btn_emergency;
   guint              idle_timer;
   gint64             last_input;
   PhoshAuth         *auth;
@@ -799,16 +800,41 @@ phosh_lockscreen_dispose (GObject *object)
 
 
 static void
+phosh_lockscreen_configured (PhoshLayerSurface *layer_surface)
+{
+  PhoshLockscreen *self = PHOSH_LOCKSCREEN (layer_surface);
+  PhoshLockscreenPrivate *priv;
+  guint height, margin = 100;
+
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+
+  priv = phosh_lockscreen_get_instance_private (self);
+  height = phosh_layer_surface_get_configured_height (layer_surface);
+
+  /* Avoid margin on smaller displays */
+  if (height < LOCKSCREEN_SMALL_DISPLAY)
+    margin = 0;
+
+  gtk_widget_set_margin_top (GTK_WIDGET (priv->box_unlock), margin);
+
+  PHOSH_LAYER_SURFACE_CLASS (phosh_lockscreen_parent_class)->configured (layer_surface);
+}
+
+
+static void
 phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+  PhoshLayerSurfaceClass *layer_surface_class = PHOSH_LAYER_SURFACE_CLASS (klass);
 
   object_class->constructed = phosh_lockscreen_constructed;
   object_class->dispose = phosh_lockscreen_dispose;
 
   object_class->set_property = phosh_lockscreen_set_property;
   object_class->get_property = phosh_lockscreen_get_property;
+
+  layer_surface_class->configured = phosh_lockscreen_configured;
 
   props[PROP_CALLS_MANAGER] =
     g_param_spec_object ("calls-manager",
@@ -861,7 +887,6 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_unlock_status);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, long_press_del_gesture);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, btn_submit);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, btn_emergency);
 
   gtk_widget_class_bind_template_callback (widget_class, long_press_del_cb);
   gtk_widget_class_bind_template_callback (widget_class, delete_button_clicked_cb);

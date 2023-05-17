@@ -349,6 +349,13 @@ phosh_layer_surface_unmap (GtkWidget *widget)
 
 
 static void
+phosh_layer_surface_configured_impl (PhoshLayerSurface *layer_surface)
+{
+  /* Nothing todo here */
+}
+
+
+static void
 phosh_layer_surface_dispose (GObject *object)
 {
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (object);
@@ -366,6 +373,7 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
   GtkWidgetClass *widget_class = (GtkWidgetClass *)klass;
+  PhoshLayerSurfaceClass *layer_surface_class = PHOSH_LAYER_SURFACE_CLASS (klass);
 
   object_class->dispose = phosh_layer_surface_dispose;
   object_class->set_property = phosh_layer_surface_set_property;
@@ -374,6 +382,8 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
   widget_class->realize = phosh_layer_surface_realize;
   widget_class->map = phosh_layer_surface_map;
   widget_class->unmap = phosh_layer_surface_unmap;
+
+  layer_surface_class->configured = phosh_layer_surface_configured_impl;
 
   props[PHOSH_LAYER_SURFACE_PROP_LAYER_SHELL] =
     g_param_spec_pointer (
