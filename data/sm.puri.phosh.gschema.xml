@@ -61,6 +61,19 @@
       </description>
     </key>
   </schema>
+
+  <schema id="sm.puri.phosh.emergency-calls"
+          path="/sm/puri/phosh/emergency-calls/">
+    <key name="enabled" type="b">
+      <default>false</default>
+      <summary>Whether emergency calls are enabled</summary>
+      <description>
+        When this is disabled the shell will not offer emergency call
+        functionality.
+      </description>
+    </key>
+  </schema>
+
   <schema id="sm.puri.phosh.lockscreen"
           path="/sm/puri/phosh/lockscreen/">
     <key name="shuffle-keypad" type="b">
@@ -69,6 +82,40 @@
       <description>
         Setting this to true shuffle the digits on the PIN keypad to
         make eaveysdropping harder.
+      </description>
+    </key>
+  </schema>
+
+  <enum id='sm.puri.phosh.NotificationUrgency'>
+    <value nick='low' value='0'/>
+    <value nick='normal' value='1'/>
+    <value nick='critical' value='2'/>
+  </enum>
+
+  <schema id="sm.puri.phosh.notifications"
+          path="/sm/puri/phosh/notifications/">
+    <key name="wakeup-screen-triggers" flags="sm.puri.phosh.PhoshNotifyScreenWakeupFlags">
+      <default>['urgency']</default>
+      <summary>What notification properties wake up the screen</summary>
+      <description>
+        This setting defines what properties of a notification wake up the screen. (e.g. the
+        notification's category or urgency).
+      </description>
+    </key>
+    <key name="wakeup-screen-categories" type="as">
+      <default>[]</default>
+      <summary>Notification categories that wake up the screen</summary>
+      <description>
+        If matching by category is enabled defines which categories
+        will wake up the screen.
+      </description>
+    </key>
+    <key name="wakeup-screen-urgency" enum="sm.puri.phosh.NotificationUrgency">
+      <default>'critical'</default>
+      <summary>Notification urgency that wakes up the screen</summary>
+      <description>
+        If matching by urgency is enabled sets the lowest notification
+        urgency that wakes up the screen.
       </description>
     </key>
   </schema>
@@ -84,15 +131,4 @@
     </key>
   </schema>
 
-  <schema id="sm.puri.phosh.emergency-calls"
-          path="/sm/puri/phosh/emergency-calls/">
-    <key name="enabled" type="b">
-      <default>false</default>
-      <summary>Whether emergency calls are enabled</summary>
-      <description>
-        When this is disabled the shell will not offer emergency call
-        functionality.
-      </description>
-    </key>
-  </schema>
 </schemalist>

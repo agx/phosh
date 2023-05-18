@@ -90,3 +90,9 @@ phosh_shell_get_blanked (PhoshShell *self)
 {
   return FALSE;
 }
+
+gboolean
+phosh_shell_activate_action (PhoshShell *self, const char *action, GVariant *parameter)
+{
+  return TRUE;
+}

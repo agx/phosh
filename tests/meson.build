@@ -98,6 +98,7 @@ tests = [
   'notification-frame',
   'notification-list',
   'notification-source',
+  'notify-feedback',
   'overview',
   'plugin-loader',
   'quick-setting',

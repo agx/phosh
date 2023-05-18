@@ -21,10 +21,11 @@
 /**
  * PhoshNotifyFeedback:
  *
- * Provider feedback on notifications
+ * Provide feedback on notifications
  *
- * #PhoshNotifyFeedback is responsible to provider proper feedback
- * on new notifications or when notifications are being closed.
+ * #PhoshNotifyFeedback is the manager object responsible to provide
+ * proper feedback on new notifications or when notifications are
+ * being closed.
  */
 
 enum {
@@ -35,10 +36,15 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshNotifyFeedback {
-  GObject                parent;
+  GObject                      parent;
 
-  LfbEvent              *event;
-  PhoshNotificationList *list;
+  LfbEvent                     *event;
+  PhoshNotificationList        *list;
+
+  GSettings                    *settings;
+  PhoshNotifyScreenWakeupFlags  wakeup_flags;
+  GStrv                         wakeup_categories;
+  PhoshNotificationUrgency      wakeup_min_urgency;
 };
 G_DEFINE_TYPE (PhoshNotifyFeedback, phosh_notify_feedback, G_TYPE_OBJECT)
 
@@ -86,6 +92,39 @@ find_event (const char *category)
 
 
 static void
+maybe_wakeup_screen (PhoshNotifyFeedback *self, GListModel *list, guint position, guint added)
+{
+  g_return_if_fail (added > 0);
+
+  if (self->wakeup_flags & PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_ANY) {
+    phosh_shell_activate_action (phosh_shell_get_default (), "screensaver.wakeup-screen", NULL);
+    return;
+  }
+
+  for (int i = 0; i < added; i++) {
+    g_autoptr (PhoshNotification) new = g_list_model_get_item (list, position + i);
+    gboolean wakeup;
+
+    g_return_if_fail (PHOSH_IS_NOTIFICATION (new));
+
+    wakeup = phosh_notify_feedback_check_screen_wakeup (self, new);
+    if (wakeup)
+      phosh_shell_activate_action (phosh_shell_get_default (), "screensaver.wakeup-screen", NULL);
+  }
+}
+
+
+static void
+on_settings_changed (PhoshNotifyFeedback *self, char *key, GSettings *settings)
+{
+  self->wakeup_flags = g_settings_get_flags (settings, "wakeup-screen-triggers");
+  self->wakeup_min_urgency = g_settings_get_enum (settings, "wakeup-screen-urgency");
+  g_strfreev (self->wakeup_categories);
+  self->wakeup_categories = g_settings_get_strv (settings, "wakeup-screen-categories");
+}
+
+
+static void
 on_notifcation_source_items_changed (PhoshNotifyFeedback *self,
                                      guint                position,
                                      guint                removed,
@@ -94,6 +133,8 @@ on_notifcation_source_items_changed (PhoshNotifyFeedback *self,
 {
   if (!added)
     return;
+
+  maybe_wakeup_screen (self, list, position, added);
 
   /* TODO: add pending events to queue instead of just skipping them. */
   if (self->event && lfb_event_get_state (self->event) == LFB_EVENT_STATE_RUNNING)
@@ -220,6 +261,8 @@ phosh_notify_feedback_dispose (GObject *object)
 {
   PhoshNotifyFeedback *self = PHOSH_NOTIFY_FEEDBACK (object);
 
+  g_clear_object (&self->settings);
+
   if (self->event) {
     end_notify_feedback (self);
     g_clear_object (&self->event);
@@ -227,6 +270,8 @@ phosh_notify_feedback_dispose (GObject *object)
 
   g_signal_handlers_disconnect_by_data (self->list, self);
   g_clear_object (&self->list);
+
+  g_clear_pointer (&self->wakeup_categories, g_strfreev);
 
   G_OBJECT_CLASS (phosh_notify_feedback_parent_class)->dispose (object);
 }
@@ -261,6 +306,10 @@ phosh_notify_feedback_class_init (PhoshNotifyFeedbackClass *klass)
 static void
 phosh_notify_feedback_init (PhoshNotifyFeedback *self)
 {
+  self->settings = g_settings_new ("sm.puri.phosh.notifications");
+
+  g_signal_connect_swapped (self->settings, "changed", G_CALLBACK (on_settings_changed), self);
+  on_settings_changed (self, NULL, self->settings);
 }
 
 
@@ -270,4 +319,50 @@ phosh_notify_feedback_new (PhoshNotificationList *list)
   return PHOSH_NOTIFY_FEEDBACK (g_object_new (PHOSH_TYPE_NOTIFY_FEEDBACK,
                                               "notification-list", list,
                                               NULL));
+}
+
+
+/**
+ * phosh_notify_feedback_check_screen_wakeup:
+ * @self: The notification feedback manager
+ * @notification: The notification to check
+ *
+ * Checks if the given notification should trigger screeen wakeup
+ *
+ * Returns: %TRUE if the notification should trigger the screen wakeup.
+ */
+gboolean
+phosh_notify_feedback_check_screen_wakeup (PhoshNotifyFeedback *self,
+                                           PhoshNotification   *notification)
+{
+  const char *category;
+  PhoshNotificationUrgency urgency;
+
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (notification), FALSE);
+
+  urgency = phosh_notification_get_urgency (notification);
+  if (self->wakeup_flags & PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_URGENCY &&
+        urgency >= self->wakeup_min_urgency) {
+    return TRUE;
+  }
+
+  category = phosh_notification_get_category (notification);
+  if (!STR_IS_NULL_OR_EMPTY (category) &&
+      self->wakeup_flags & PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_CATEGORY) {
+    /* exact match of setting to notification's category (e.g. `im` == `im` or `im.foo == `im.foo` */
+    if (g_strv_contains ((const char * const *)self->wakeup_categories, category))
+      return TRUE;
+
+    /* setting (`im`) matches the class of the notification (`im.received`) */
+    for (int j = 0; j < g_strv_length (self->wakeup_categories); j++) {
+      if (strchr (self->wakeup_categories[j], '.'))
+        continue;
+
+      if (g_str_has_prefix (category, self->wakeup_categories[j]) &&
+          category [strlen (self->wakeup_categories[j])] == '.') {
+        return TRUE;
+      }
+    }
+  }
+  return FALSE;
 }
