@@ -157,7 +157,7 @@ on_btn_grant_clicked (PhoshAppAuthPrompt *self, GtkButton *btn)
   self->remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->checkbtn_remember));
 
   g_signal_emit (self, signals[CLOSED], 0);
-  gtk_widget_destroy (GTK_WIDGET (self));
+  phosh_system_modal_dialog_close (PHOSH_SYSTEM_MODAL_DIALOG (self));
 }
 
 
@@ -168,7 +168,7 @@ on_dialog_canceled (PhoshAppAuthPrompt *self)
   self->remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (self->checkbtn_remember));
 
   g_signal_emit (self, signals[CLOSED], 0);
-  gtk_widget_destroy (GTK_WIDGET (self));
+  phosh_system_modal_dialog_close (PHOSH_SYSTEM_MODAL_DIALOG (self));
 }
 
 
