@@ -3,10 +3,11 @@
 # Marc Riera <marcriera@softcatala.org>, 2020.
 #
 msgid ""
-msgstr "Project-Id-Version: phosh\n"
+msgstr ""
+"Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-01-20 19:23+0000\n"
-"PO-Revision-Date: 2021-08-09 12:40+0200\n"
+"POT-Creation-Date: 2023-05-17 09:30+0000\n"
+"PO-Revision-Date: 2023-05-17 22:55+0200\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -14,14 +15,14 @@ msgstr "Project-Id-Version: phosh\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Shell del telèfon"
 
@@ -29,7 +30,38 @@ msgstr "Shell del telèfon"
 msgid "Window management and application launching for mobile"
 msgstr "Gestió de finestres i inici d'aplicacions per a mòbils"
 
-#: src/app-grid-button.c:502
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Aquesta sessió us fa entrar al Phosh"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "Calendar"
+msgstr "Calendari"
+
+#: plugins/calendar/calendar.desktop.in.in:6
+msgid "A simple calendar widget"
+msgstr "Un giny senzill de calendari"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr ""
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Mostra fitxers PDF amb la pantalla bloquejada. <b>Aquest connector és "
+"experimental.</b>"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Propers esdeveniments"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Mostra els propers esdeveniments del calendari"
+
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "Aplicació"
 
@@ -41,7 +73,10 @@ msgstr "Mostra totes les aplicacions"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Mostra només les aplicacions compatibles amb mòbils"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
+#: src/bt-info.c:92
+#, fuzzy
+#| msgid "On"
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Activat"
 
@@ -57,56 +92,77 @@ msgstr "Acoblat"
 msgid "Undocked"
 msgstr "Desacoblat"
 
-#: src/end-session-dialog.c:162
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:71
+msgid "Ok"
+msgstr "D'acord"
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr "No es pot establir una trucada d'emergència"
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr "Error intern"
+
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "Surt"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "Es tancarà la sessió de %s automàticament d'aquí a %d segon."
 msgstr[1] "Es tancarà la sessió de %s automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "Apaga"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "El sistema s'apagarà automàticament d'aquí a %d segon."
 msgstr[1] "El sistema s'apagarà automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "Reinicia"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "El sistema es reiniciarà automàticament d'aquí a %d segon."
 msgstr[1] "El sistema es reiniciarà automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "Aplicació desconeguda"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:44
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "Silenciós"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:49
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "Desactivat"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:108
+#, fuzzy
+#| msgid "On"
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "Activat"
 
 #: src/location-manager.c:268
 #, c-format
@@ -125,19 +181,21 @@ msgstr "Sí"
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
+#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
 msgid "Enter Passcode"
 msgstr "Introduïu la contrasenya"
 
-#: src/lockscreen.c:362
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "S'està comprovant…"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:440
-msgid "%A, %B %-e"
-msgstr "%A, %-e %B"
+#: src/screenshot-manager.c:212
+msgid "Screenshot"
+msgstr "Captura de pantalla"
+
+#: src/screenshot-manager.c:213
+msgid "Screenshot copied to clipboard"
+msgstr "S'ha copiat la captura de pantalla al porta-retalls"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
@@ -183,11 +241,11 @@ msgstr "No s'admet el tipus d'autenticació de la xarxa sense fil «%s»"
 msgid "Enter password for the wifi network “%s”"
 msgstr "Introduïu la contrasenya de la xarxa sense fil «%s»"
 
-#: src/notifications/mount-notification.c:122
+#: src/notifications/mount-notification.c:121
 msgid "Open"
 msgstr "Obre"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
 msgid "Notification"
 msgstr "Notificació"
 
@@ -293,25 +351,33 @@ msgstr "Contrasenya:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "S'ha produït un error. Torneu-ho a provar."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "Vertical"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "Apaïsat"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
+#, fuzzy
+#| msgid "Off"
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Desactivada"
+
+#: src/rotateinfo.c:126
+#, fuzzy
+#| msgid "On"
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "Activat"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
 msgstr "Premeu Esc per a sortir"
 
-#: src/run-command-manager.c:94
+#: src/run-command-manager.c:95
 #, c-format
 msgid "Running '%s' failed"
 msgstr "No s'ha pogut executar «%s»"
@@ -328,33 +394,64 @@ msgstr "La contrasenya no pot estar en blanc"
 msgid "Torch"
 msgstr "Llanterna"
 
-#: src/ui/app-auth-prompt.ui:40
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
 msgstr "Recorda la decisió"
 
-#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
-msgid "Ok"
-msgstr "D'acord"
-
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "Aplicació"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
 msgstr "Suprimeix dels _preferits"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
 msgstr "Afegeix als _preferits"
+
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "Veieu els _detalls"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Cerca aplicacions…"
+
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "Tanca la pantalla de trucada d'emergència"
+
+#: src/ui/emergency-menu.ui:52
+msgid "Emergency _Contacts"
+msgstr "_Contactes d'emergència"
+
+#: src/ui/emergency-menu.ui:59
+msgid "Go to the emergency contacts page"
+msgstr "Torna a la pàgina de contactes d'emergència"
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr ""
+
+#: src/ui/emergency-menu.ui:106
+msgid "Owner unknown"
+msgstr "Propietari desconegut"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Contactes d'emergència"
+
+#: src/ui/emergency-menu.ui:142
+msgid "No emergency contacts available."
+msgstr "No hi ha disponible cap contacte d'emergència."
 
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
@@ -372,27 +469,24 @@ msgstr "Domini:"
 msgid "Co_nnect"
 msgstr "Co_nnecta"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
+msgid "Back"
+msgstr "Torna"
+
+#: src/ui/lockscreen.ui:90
 msgid "Slide up to unlock"
 msgstr "Llisqueu cap amunt per desbloquejar"
 
-#: src/ui/lockscreen.ui:320
-msgid "Emergency"
-msgstr "Emergència"
-
-#: src/ui/lockscreen.ui:336
+#: src/ui/lockscreen.ui:273
 msgid "Unlock"
 msgstr "Desbloqueja"
-
-#: src/ui/lockscreen.ui:376
-msgid "Back"
-msgstr "Torna"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Cal autenticació"
 
 #: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
@@ -404,34 +498,254 @@ msgstr "C_onnecta"
 msgid "Authenticate"
 msgstr "Autenticació"
 
+#: src/ui/power-menu.ui:37
+msgid "_Power Off"
+msgstr "A_paga"
+
+#: src/ui/power-menu.ui:78
+msgid "_Lock"
+msgstr "B_loca"
+
+#: src/ui/power-menu.ui:119
+msgid "_Screenshot"
+msgstr "_Captura de pantalla"
+
+#: src/ui/power-menu.ui:160
+msgid "_Emergency"
+msgstr "_Emergència"
+
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Executa una ordre"
+
+#: src/ui/settings.ui:320
+msgid "No notifications"
+msgstr "Cap notificació"
+
+#: src/ui/settings.ui:360
+msgid "Clear all"
+msgstr "Neteja-ho tot"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Confirmació:"
 
-#: src/ui/top-panel.ui:15
-msgid "Lock Screen"
-msgstr "Bloqueja la pantalla"
-
-#: src/ui/top-panel.ui:22
-msgid "Logout"
-msgstr "Surt"
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:339
+msgid "%A, %B %-e"
+msgstr "%A, %-e %B"
 
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "No s'ha trobat el connector"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "No s'ha pogut carregar el connector «%s» ."
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Sense fil"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:172
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Mòbil"
+
+#: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+msgid "Personal Information"
+msgstr "Informació personal"
+
+#: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+msgid "Date of Birth"
+msgstr "Data de naixement"
+
+#: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+msgid "Preferred Language"
+msgstr "Idioma preferit"
+
+#: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+msgid "Home Address"
+msgstr "Adreça particular"
+
+#: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+msgid "Medical Information"
+msgstr "Informació mèdica"
+
+#: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+msgid "Age"
+msgstr "Edat"
+
+#: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+msgid "Blood Type"
+msgstr "Grup sanguini"
+
+#: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+msgid "Height"
+msgstr "Alçada"
+
+#: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+msgid "Weight"
+msgstr "Pes"
+
+#: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+msgid "Allergies"
+msgstr "Al·lèrgies"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr ""
+
+#: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+msgid "Other Information"
+msgstr "Altra informació"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "Preferències de la informació d'emergència"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "Fet"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "Nom del propietari"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr ""
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "Afegeix el contacte"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "Afegeix un nou contacte"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "Afegeix"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+msgid "New Contact Name"
+msgstr "Nom del nou contacte"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+msgid "Relationship"
+msgstr "Relació"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+msgid "Number"
+msgstr "Número"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "No hi ha cap document per mostrar"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr ""
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+msgid "Choose Folder"
+msgstr "Tria una carpeta"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+msgid "_Open"
+msgstr "_Obre"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr ""
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr ""
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "Configuració de la carpeta"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "Allà on Phosh cerca els vostres tiquets"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr ""
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Avui"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Demà"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "En %d dia"
+msgstr[1] "En %d dies"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Cap esdeveniment"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Tot el dia"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Acaba"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Esdeveniment sense nom"
+
+#~ msgid "Emergency"
+#~ msgstr "Emergència"
+
+#~ msgid "Lock Screen"
+#~ msgstr "Bloqueja la pantalla"
+
+#~ msgid "Logout"
+#~ msgstr "Surt"
 
 #~ msgid "Show only adaptive apps"
 #~ msgstr "Mostra només les aplicacions adaptatives"
