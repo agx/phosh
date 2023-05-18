@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-21 10:33+0000\n"
-"PO-Revision-Date: 2023-04-22 21:27+0300\n"
+"POT-Creation-Date: 2023-05-18 11:35+0000\n"
+"PO-Revision-Date: 2023-05-18 22:08+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -92,7 +92,7 @@ msgid "Undocked"
 msgstr "Від'єднано"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:62
+#: src/ui/end-session-dialog.ui:71
 msgid "Ok"
 msgstr "Гаразд"
 
@@ -104,11 +104,11 @@ msgstr "Не вдалося розмістити екстрений виклик
 msgid "Internal error"
 msgstr "Внутрішня помилка"
 
-#: src/end-session-dialog.c:162
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "Вийти"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -116,11 +116,11 @@ msgstr[0] "Вихід з системи %s буде здійснено авто�
 msgstr[1] "Вихід з системи %s буде здійснено автоматично за %d секунди."
 msgstr[2] "Вихід з системи %s буде здійснено автоматично за %d секунд."
 
-#: src/end-session-dialog.c:171
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "Вимкнути"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -128,11 +128,11 @@ msgstr[0] "Система автоматично вимкнеться за %d с
 msgstr[1] "Система автоматично вимкнеться за %d секунди."
 msgstr[2] "Система автоматично вимкнеться за %d секунд."
 
-#: src/end-session-dialog.c:178
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "Перезапустити"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -140,7 +140,7 @@ msgstr[0] "Система автоматично перезапуститься 
 msgstr[1] "Система автоматично перезапуститься за %d секунди."
 msgstr[2] "Система автоматично перезапуститься за %d секунд."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "Невідома програма"
 
@@ -181,11 +181,11 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "Звіряю…"
 
@@ -394,7 +394,7 @@ msgstr "Факел"
 msgid "Remember decision"
 msgstr "Запам'ятати вибір"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
@@ -425,12 +425,10 @@ msgid "Close the emergency call dialog"
 msgstr "Закрити вікно екстреного виклику"
 
 #: src/ui/emergency-menu.ui:52
-#| msgid "Emergency Contacts"
 msgid "Emergency _Contacts"
 msgstr "Екстрені _контакти"
 
 #: src/ui/emergency-menu.ui:59
-#| msgid "Emergency Contacts"
 msgid "Go to the emergency contacts page"
 msgstr "Перейти до сторінки екстрених контактів"
 
@@ -439,7 +437,6 @@ msgid "Go back to the emergency dialpad page"
 msgstr "Повернутися до сторінки набору екстреного виклику"
 
 #: src/ui/emergency-menu.ui:106
-#| msgid "Unknown"
 msgid "Owner unknown"
 msgstr "Невідомий власник"
 
@@ -448,8 +445,7 @@ msgstr "Невідомий власник"
 msgid "Emergency Contacts"
 msgstr "Екстрені контакти"
 
-#: src/ui/emergency-menu.ui:148
-#| msgid "Emergency Contacts"
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "Немає доступних екстрених контактів."
 
@@ -469,19 +465,15 @@ msgstr "Домен:"
 msgid "Co_nnect"
 msgstr "З'єд_натися"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
 msgid "Back"
 msgstr "Назад"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:90
 msgid "Slide up to unlock"
 msgstr "Протягніть угору, щоб розблокувати"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "Екстрений виклик"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:273
 msgid "Unlock"
 msgstr "Розблокувати"
 
@@ -490,7 +482,7 @@ msgid "Authentication required"
 msgstr "Слід пройти розпізнавання"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_Скасувати"
 
@@ -502,19 +494,19 @@ msgstr "З'_єднатися"
 msgid "Authenticate"
 msgstr "Автентифікуватися"
 
-#: src/ui/power-menu.ui:37
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
 msgstr "Ви_мкнути"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr "За_мкнути"
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr "З_німок вікна"
 
-#: src/ui/power-menu.ui:160
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
 msgstr "_Екстрений виклик"
 
@@ -533,6 +525,21 @@ msgstr "Очистити все"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Підтвердіть:"
+
+#: src/ui/top-panel.ui:32
+#| msgid "_Power Off"
+msgid "_Power Off…"
+msgstr "Ви_мкнути…"
+
+#: src/ui/top-panel.ui:60
+#| msgid "Restart"
+msgid "_Restart…"
+msgstr "П_ерезапустити…"
+
+#: src/ui/top-panel.ui:88
+#| msgid "Log Out"
+msgid "_Log Out…"
+msgstr "Ви_йти…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -674,7 +681,7 @@ msgstr "Квитки"
 msgid "Choose Folder"
 msgstr "Виберіть теку"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "_Відкрити"
 
@@ -742,6 +749,9 @@ msgstr "Завершується"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Подія без назви"
+
+#~ msgid "Emergency"
+#~ msgstr "Екстрений виклик"
 
 #~ msgid "Lock Screen"
 #~ msgstr "Заблокувати екран"
