@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Purism SPC
+ * Copyright (C) 2021-2023 Purism SPC
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -29,3 +29,4 @@ void       phosh_system_modal_dialog_add_button (PhoshSystemModalDialog *self, G
 void       phosh_system_modal_dialog_set_title (PhoshSystemModalDialog *self, const gchar *title);
 void       phosh_system_modal_dialog_remove_button (PhoshSystemModalDialog *self, GtkWidget *button);
 GList     *phosh_system_modal_dialog_get_buttons (PhoshSystemModalDialog *self);
+void       phosh_system_modal_dialog_close (PhoshSystemModalDialog *self);
