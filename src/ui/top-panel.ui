@@ -1,6 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkPopoverMenu" id="menu_system">
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="width-request">120</property>
+        <property name="name">system-menu</property>
+        <property name="margin">6</property>
+        <property name="spacing">6</property>
+        <property name="orientation">vertical</property>
+
+        <child>
+          <object class="GtkButton">
+            <property name="visible">True</property>
+            <property name="action-name">panel.poweroff</property>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="icon-name">system-shutdown-symbolic</property>
+                    <property name="pixel-size">16</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">_Power Off…</property>
+                    <property name="ellipsize">middle</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkButton">
+            <property name="visible">True</property>
+            <property name="action-name">panel.restart</property>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="icon-name">system-reboot-symbolic</property>
+                    <property name="pixel-size">16</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">_Restart…</property>
+                    <property name="ellipsize">middle</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkButton">
+            <property name="visible">True</property>
+            <property name="action-name">panel.logout</property>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="icon-name">system-log-out-symbolic</property>
+                    <property name="pixel-size">16</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">_Log Out…</property>
+                    <property name="ellipsize">middle</property>
+                    <property name="use-underline">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+
   <template class="PhoshTopPanel" parent="PhoshDragSurface">
     <property name="can_focus">False</property>
     <child>
@@ -54,9 +151,10 @@
               </object>
             </child>
             <child>
-              <object class="GtkButton" id="btn_power">
+              <object class="GtkMenuButton" id="btn_power">
                 <property name="visible">True</property>
-                <property name="action-name">panel.power-menu</property>
+                <property name="sensitive" bind-source="PhoshTopPanel" bind-property="on-lockscreen" bind-flags="sync-create|invert-boolean"/>
+                <property name="popover">menu_system</property>
                 <style>
                   <class name="phosh-topbar-button"/>
                 </style>
