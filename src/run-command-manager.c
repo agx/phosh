@@ -84,8 +84,7 @@ on_run_command_dialog_submitted (PhoshRunCommandManager *self, char *command)
   g_return_if_fail (command);
 
   if (run_command (command)) {
-    gtk_widget_hide (GTK_WIDGET (self->dialog));
-    g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
+    g_clear_pointer ((PhoshSystemModalDialog**)&self->dialog, phosh_system_modal_dialog_close);
   } else {
     msg = g_strdup_printf (_("Running '%s' failed"), command);
     phosh_run_command_dialog_set_message (self->dialog, msg);
@@ -97,8 +96,7 @@ on_run_command_dialog_cancelled (PhoshRunCommandManager *self)
 {
   g_return_if_fail (PHOSH_IS_RUN_COMMAND_DIALOG (self->dialog));
 
-  gtk_widget_hide (GTK_WIDGET (self->dialog));
-  g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
+  g_clear_pointer ((PhoshSystemModalDialog**)&self->dialog, phosh_system_modal_dialog_close);
 }
 
 static void
