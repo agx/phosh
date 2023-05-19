@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-21 10:33+0000\n"
-"PO-Revision-Date: 2023-04-29 21:20+0300\n"
+"POT-Creation-Date: 2023-05-18 11:35+0000\n"
+"PO-Revision-Date: 2023-05-19 17:56+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <yoseforb@gmail.com>\n"
 "Language: he\n"
@@ -89,7 +89,7 @@ msgid "Undocked"
 msgstr "לא מעוגן"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:62
+#: src/ui/end-session-dialog.ui:71
 msgid "Ok"
 msgstr "אישור"
 
@@ -101,11 +101,11 @@ msgstr "לא ניתן לבצע שיחת חירום"
 msgid "Internal error"
 msgstr "שגיאה פנימית"
 
-#: src/end-session-dialog.c:162
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "יציאה"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -114,11 +114,11 @@ msgstr[1] "המשתמש %s יצא אוטומטית בעוד שתי שניות."
 msgstr[2] "המשתמש %s יצא אוטומטית בעוד %d שניות."
 msgstr[3] "‫המשתמש %s יצא אוטומטית בעוד %d שניות."
 
-#: src/end-session-dialog.c:171
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "כיבוי"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -127,11 +127,11 @@ msgstr[1] "המערכת תכבה אוטומטית בעוד שתי שניות."
 msgstr[2] "המערכת תכבה אוטומטית בעוד %d שניות."
 msgstr[3] "‫המערכת תכבה אוטומטית בעוד %d שניות."
 
-#: src/end-session-dialog.c:178
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "הפעלה מחדש"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -140,7 +140,7 @@ msgstr[1] "‫המערכת תופעל אוטומטית מחדש בעוד שתי 
 msgstr[2] "המערכת תופעל אוטומטית מחדש בעוד %d שניות."
 msgstr[3] "‫המערכת תופעל אוטומטית מחדש בעוד %d שניות."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "יישום לא ידוע"
 
@@ -181,11 +181,11 @@ msgstr "כן"
 msgid "No"
 msgstr "לא"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
 msgid "Enter Passcode"
 msgstr "הזנת ססמה"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "בודק…"
 
@@ -394,7 +394,7 @@ msgstr "פנס"
 msgid "Remember decision"
 msgstr "לזכור את הבחירה"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
@@ -445,7 +445,7 @@ msgstr "בעלים לא ידוע"
 msgid "Emergency Contacts"
 msgstr "אנשי קשר למקרה חירום"
 
-#: src/ui/emergency-menu.ui:148
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "אין בנמצא אנשי קשר למקרה חירום."
 
@@ -465,19 +465,15 @@ msgstr "מתחם:"
 msgid "Co_nnect"
 msgstr "הת_חברות"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
 msgid "Back"
 msgstr "חזרה"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:90
 msgid "Slide up to unlock"
 msgstr "החלקה כלפי מעלה לביטול הנעילה"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "מצב חירום"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:273
 msgid "Unlock"
 msgstr "שחרור"
 
@@ -486,7 +482,7 @@ msgid "Authentication required"
 msgstr "נדרש אימות"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_ביטול"
 
@@ -498,19 +494,19 @@ msgstr "הת_חברות"
 msgid "Authenticate"
 msgstr "אימות"
 
-#: src/ui/power-menu.ui:37
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
 msgstr "_כיבוי"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr "_נעילה"
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr "צי_לום מסך"
 
-#: src/ui/power-menu.ui:160
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
 msgstr "מצב _חירום"
 
@@ -529,6 +525,18 @@ msgstr "ניקוי הכול"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "אישור:"
+
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "_כיבוי…"
+
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "ה_פעלה מחדש…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Log Out…"
+msgstr "_יציאה…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -670,7 +678,7 @@ msgstr "תעודות"
 msgid "Choose Folder"
 msgstr "בחירת תיקייה"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "_פתיחה"
 
@@ -739,6 +747,9 @@ msgstr "סיום"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "אירוע ללא כותרת"
+
+#~ msgid "Emergency"
+#~ msgstr "מצב חירום"
 
 #~ msgid "Lock Screen"
 #~ msgstr "מסך נעילה"
