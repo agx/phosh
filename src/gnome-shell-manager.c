@@ -84,6 +84,7 @@ remove_action_entries (gchar *accelerator)
                                                      action_names);
 }
 
+
 static void
 free_accelerator_info_from_hash_table (gpointer data)
 {
@@ -113,6 +114,7 @@ handle_show_monitor_labels (PhoshDBusGnomeShell   *skeleton,
   return TRUE;
 }
 
+
 static gboolean
 handle_hide_monitor_labels (PhoshDBusGnomeShell   *skeleton,
                             GDBusMethodInvocation *invocation)
@@ -135,14 +137,15 @@ on_osd_timeout (PhoshGnomeShellManager *self)
   gboolean ret;
   ret = self->osd_continue ? G_SOURCE_CONTINUE : G_SOURCE_REMOVE;
   if (!self->osd_continue) {
-      g_debug ("Closing osd");
-      self->osd_timeoutid = 0;
-      if (self->osd)
-        gtk_widget_destroy (GTK_WIDGET (self->osd));
+    g_debug ("Closing osd");
+    self->osd_timeoutid = 0;
+    if (self->osd)
+      gtk_widget_destroy (GTK_WIDGET (self->osd));
   }
   self->osd_continue = FALSE;
   return ret;
 }
+
 
 static void
 on_osd_destroyed (PhoshGnomeShellManager *self)
@@ -191,7 +194,7 @@ handle_show_osd (PhoshDBusGnomeShell   *skeleton,
 
   if (!self->osd_timeoutid) {
     self->osd_timeoutid = g_timeout_add_seconds (OSD_HIDE_TIMEOUT,
-                                                 (GSourceFunc)on_osd_timeout,
+                                                 (GSourceFunc) on_osd_timeout,
                                                  self);
     g_source_set_name_by_id (self->osd_timeoutid, "[phosh] osd-timeout");
   }
@@ -257,6 +260,7 @@ grab_single_accelerator (PhoshGnomeShellManager *self,
   return info->action_id;
 }
 
+
 static gboolean
 handle_grab_accelerator (PhoshDBusGnomeShell   *skeleton,
                          GDBusMethodInvocation *invocation,
@@ -295,6 +299,7 @@ handle_grab_accelerator (PhoshDBusGnomeShell   *skeleton,
 
   return TRUE;
 }
+
 
 static gboolean
 handle_grab_accelerators (PhoshDBusGnomeShell   *skeleton,
@@ -363,6 +368,7 @@ handle_grab_accelerators (PhoshDBusGnomeShell   *skeleton,
   return TRUE;
 }
 
+
 static gboolean
 handle_ungrab_accelerator (PhoshDBusGnomeShell   *skeleton,
                            GDBusMethodInvocation *invocation,
@@ -385,7 +391,7 @@ handle_ungrab_accelerator (PhoshDBusGnomeShell   *skeleton,
       success = TRUE;
     } else {
       g_debug ("Ungrab not allowed: Sender %s not allowed to ungrab (grabbed by %s)",
-                 sender, info->sender);
+               sender, info->sender);
     }
   }
 
@@ -395,10 +401,11 @@ handle_ungrab_accelerator (PhoshDBusGnomeShell   *skeleton,
   return TRUE;
 }
 
+
 static gboolean
-handle_ungrab_accelerators (PhoshDBusGnomeShell *skeleton,
-                            GDBusMethodInvocation    *invocation,
-                            GVariant                 *arg_actions)
+handle_ungrab_accelerators (PhoshDBusGnomeShell   *skeleton,
+                            GDBusMethodInvocation *invocation,
+                            GVariant              *arg_actions)
 {
   gsize n;
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
@@ -435,6 +442,7 @@ handle_ungrab_accelerators (PhoshDBusGnomeShell *skeleton,
   return TRUE;
 }
 
+
 static void
 accelerator_activated (PhoshDBusGnomeShell *skeleton,
                        guint                arg_action,
@@ -450,6 +458,7 @@ accelerator_activated (PhoshDBusGnomeShell *skeleton,
 
 }
 
+
 static void
 phosh_gnome_shell_manager_gnome_shell_iface_init (PhoshDBusGnomeShellIface *iface)
 {
@@ -464,10 +473,9 @@ phosh_gnome_shell_manager_gnome_shell_iface_init (PhoshDBusGnomeShellIface *ifac
 
 
 #ifndef GNOME_DESKTOP_PLATFORM_VERSION
-typedef struct
-{
-  char *major;
-  char *minor;
+typedef struct {
+  char  *major;
+  char  *minor;
   char **current;
 } VersionData;
 
@@ -511,6 +519,7 @@ version_end_element_handler (GMarkupParseContext *ctx,
   data->current = NULL;
 }
 
+
 static void
 version_text_handler (GMarkupParseContext *ctx,
                       const char          *text,
@@ -519,8 +528,7 @@ version_text_handler (GMarkupParseContext *ctx,
                       GError             **error)
 {
   VersionData *data = user_data;
-  if (data->current != NULL)
-  {
+  if (data->current != NULL) {
     g_autofree char *stripped = NULL;
 
     stripped = g_strstrip (g_strdup (text));
@@ -558,10 +566,10 @@ get_version (void)
                            &contents,
                            &length,
                            &error)) {
-     ctx = g_markup_parse_context_new (&version_parser, 0, data, NULL);
+    ctx = g_markup_parse_context_new (&version_parser, 0, data, NULL);
 
-     if (!g_markup_parse_context_parse (ctx, contents, length, &error))
-       g_warning ("Failed to parse version from XML");
+    if (!g_markup_parse_context_parse (ctx, contents, length, &error))
+      g_warning ("Failed to parse version from XML");
   } else {
     g_warning ("Failed to read version XML");
   }
@@ -597,6 +605,7 @@ get_action_mode (PhoshShellStateFlags state)
 
   return SHELL_ACTION_MODE_NORMAL;
 }
+
 
 static void
 accelerator_activated_action (GSimpleAction *action,
@@ -696,6 +705,7 @@ transform_state_to_action_mode (GBinding     *binding,
   return TRUE;
 }
 
+
 static void
 phosh_gnome_shell_manager_set_property (GObject      *object,
                                         guint         property_id,
@@ -737,6 +747,7 @@ phosh_gnome_shell_manager_get_property (GObject    *object,
     break;
   }
 }
+
 
 static void
 phosh_gnome_shell_manager_dispose (GObject *object)
