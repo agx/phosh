@@ -41,13 +41,8 @@ cleanup_child_process (GPid pid, gint status, void *user_data)
 
   g_spawn_close_pid (pid);
 
-#if GLIB_CHECK_VERSION(2, 70, 0)
-  if (!g_spawn_check_wait_status (status, &error)) {
-#else
-  if (!g_spawn_check_exit_status (status, &error)) {
-#endif
+  if (!g_spawn_check_wait_status (status, &error))
     g_warning ("Could not end child process: %s\n", error->message);
-  }
 }
 
 static gboolean

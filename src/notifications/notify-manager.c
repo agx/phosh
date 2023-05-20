@@ -314,8 +314,7 @@ parse_icon_data (GVariant *variant)
     }
 
     /* Extract a copy of the raw data */
-    data = (guchar *) g_memdup (g_variant_get_data (wrapped_data),
-                                size_should_be);
+    data = (guchar *) g_memdup2 (g_variant_get_data (wrapped_data), size_should_be);
 
     icon = G_ICON (gdk_pixbuf_new_from_data (data,
                                              GDK_COLORSPACE_RGB,

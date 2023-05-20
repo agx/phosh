@@ -23,7 +23,7 @@ plugin_prefs_dir = join_paths(prefix, libdir, 'phosh', 'plugins', 'prefs')
 servicedir = join_paths(datadir, 'dbus-1', 'services')
 schemasdir = datadir / 'glib-2.0/schemas'
 
-glib_ver = 'GLIB_VERSION_2_66'
+glib_ver = 'GLIB_VERSION_2_72'
 
 add_project_arguments([
   '-DGLIB_VERSION_MIN_REQUIRED=@0@'.format(glib_ver),
@@ -99,7 +99,7 @@ gnome = import('gnome')
 i18n  = import('i18n')
 pkgconfig = import ('pkgconfig')
 
-glib_ver = '>= 2.66'
+glib_ver = '>= 2.72'
 
 ecal_dep = dependency('libecal-2.0', version: '>= 3.33.1')
 eds_dep = dependency('libedataserver-1.2', version: '>= 3.33.1')

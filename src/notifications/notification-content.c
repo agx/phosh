@@ -109,7 +109,7 @@ static GStrv
 get_action_filter_keys (PhoshNotification *notification, const char * const *action_filter_keys)
 {
   GAppInfo *info = phosh_notification_get_app_info (notification);
-  GStrv filters;
+  g_autoptr (GStrvBuilder) filter_builder = NULL;
 
   if (action_filter_keys == NULL || action_filter_keys[0] == NULL)
     return NULL;
@@ -117,27 +117,16 @@ get_action_filter_keys (PhoshNotification *notification, const char * const *act
   if (info == NULL)
     return NULL;
 
-#if GLIB_CHECK_VERSION(2, 68, 0)
-  {
-    g_autoptr (GStrvBuilder) filter_builder = g_strv_builder_new ();
-
-    for (int i = 0; i < g_strv_length ((GStrv)action_filter_keys); i++) {
-      g_auto (GStrv) f = g_desktop_app_info_get_string_list (G_DESKTOP_APP_INFO (info),
-                                                             action_filter_keys[i],
-                                                             NULL);
-      if (f)
-        g_strv_builder_addv (filter_builder, (const char **)f);
-    }
-
-    filters = g_strv_builder_end (filter_builder);
+  filter_builder = g_strv_builder_new ();
+  for (int i = 0; i < g_strv_length ((GStrv)action_filter_keys); i++) {
+    g_auto (GStrv) f = g_desktop_app_info_get_string_list (G_DESKTOP_APP_INFO (info),
+                                                           action_filter_keys[i],
+                                                           NULL);
+    if (f)
+      g_strv_builder_addv (filter_builder, (const char **)f);
   }
-#else
-  /* No need to bother with older glib as we only have a single key atm */
-  filters = g_desktop_app_info_get_string_list (G_DESKTOP_APP_INFO (info),
-                                                action_filter_keys[0],
-                                                NULL);
-#endif
-  return filters;
+
+  return g_strv_builder_end (filter_builder);
 }
 
 
