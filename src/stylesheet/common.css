@@ -65,7 +65,7 @@ phosh-top-panel .phosh-topbar-date{
 #phosh_quick_settings flowboxchild > button {
   border-radius: 99px;
   border: 0;
-  padding: 6px 12px;
+  padding: 8px 12px;
   font-weight: bold;
   font-size: 10pt;
   /* use selection color to make quick settings items blue  */
