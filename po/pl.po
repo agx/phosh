@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-21 10:33+0000\n"
-"PO-Revision-Date: 2023-04-23 15:30+0200\n"
+"POT-Creation-Date: 2023-05-18 11:35+0000\n"
+"PO-Revision-Date: 2023-05-21 14:55+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -93,7 +93,7 @@ msgid "Undocked"
 msgstr "Niepodłączony"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:62
+#: src/ui/end-session-dialog.ui:71
 msgid "Ok"
 msgstr "OK"
 
@@ -105,11 +105,11 @@ msgstr "Nie można wykonać połączenia alarmowego"
 msgid "Internal error"
 msgstr "Błąd wewnętrzny"
 
-#: src/end-session-dialog.c:162
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "Wyloguj się"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -117,11 +117,11 @@ msgstr[0] "Użytkownik %s zostanie wylogowany za %d sekundę."
 msgstr[1] "Użytkownik %s zostanie wylogowany za %d sekundy."
 msgstr[2] "Użytkownik %s zostanie wylogowany za %d sekund."
 
-#: src/end-session-dialog.c:171
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "Wyłącz telefon"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -129,11 +129,11 @@ msgstr[0] "Wyłączenie telefonu nastąpi za %d sekundę."
 msgstr[1] "Wyłączenie telefonu nastąpi za %d sekundy."
 msgstr[2] "Wyłączenie telefonu nastąpi za %d sekund."
 
-#: src/end-session-dialog.c:178
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "Uruchom ponownie"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -141,7 +141,7 @@ msgstr[0] "Ponowne uruchomienie telefonu nastąpi za %d sekundę."
 msgstr[1] "Ponowne uruchomienie telefonu nastąpi za %d sekundy."
 msgstr[2] "Ponowne uruchomienie telefonu nastąpi za %d sekund."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "Nieznany program"
 
@@ -182,11 +182,11 @@ msgstr "Tak"
 msgid "No"
 msgstr "Nie"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
 msgid "Enter Passcode"
 msgstr "Proszę podać kod"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "Sprawdzanie…"
 
@@ -395,7 +395,7 @@ msgstr "Latarka"
 msgid "Remember decision"
 msgstr "Zapamiętanie decyzji"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
@@ -446,7 +446,7 @@ msgstr "Nieznany właściciel"
 msgid "Emergency Contacts"
 msgstr "Kontakty alarmowe"
 
-#: src/ui/emergency-menu.ui:148
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "Brak dostępnych kontaktów alarmowych."
 
@@ -466,19 +466,15 @@ msgstr "Domena:"
 msgid "Co_nnect"
 msgstr "_Połącz"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
 msgid "Back"
 msgstr "Wstecz"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:90
 msgid "Slide up to unlock"
 msgstr "Przesunięcie w górę odblokuje"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "Połączenie alarmowe"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:273
 msgid "Unlock"
 msgstr "Odblokuj"
 
@@ -487,7 +483,7 @@ msgid "Authentication required"
 msgstr "Wymagane jest uwierzytelnienie"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_Anuluj"
 
@@ -499,19 +495,19 @@ msgstr "_Połącz"
 msgid "Authenticate"
 msgstr "Uwierzytelnij"
 
-#: src/ui/power-menu.ui:37
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
 msgstr "_Wyłącz telefon"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr "Za_blokuj"
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr "Wykonaj zrzut _ekranu"
 
-#: src/ui/power-menu.ui:160
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
 msgstr "Połączenie _alarmowe"
 
@@ -530,6 +526,18 @@ msgstr "Wyczyść wszystkie"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Potwierdzenie:"
+
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "Wyłą_cz telefon…"
+
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "_Uruchom ponownie…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Log Out…"
+msgstr "_Wyloguj się…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -671,7 +679,7 @@ msgstr "Bilety"
 msgid "Choose Folder"
 msgstr "Wybór katalogu"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "_Otwórz"
 
