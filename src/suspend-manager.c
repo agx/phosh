@@ -199,6 +199,40 @@ phosh_suspend_manager_class_init (PhoshSuspendManagerClass *klass)
 
 
 static void
+on_suspend_finished (PhoshDBusLoginManager *proxy,
+                      GAsyncResult         *res,
+                      PhoshSessionManager  *self)
+{
+  g_autoptr (GError) err = NULL;
+
+  if (!phosh_dbus_login_manager_call_suspend_finish (proxy, res, &err))
+    g_warning ("Failed to suspend: %s", err->message);
+}
+
+
+static void
+on_suspend_activated (GSimpleAction *action, GVariant *param, gpointer data)
+{
+  PhoshSuspendManager *self = PHOSH_SUSPEND_MANAGER (data);
+
+  g_return_if_fail (PHOSH_IS_SUSPEND_MANAGER (self));
+  g_return_if_fail (PHOSH_DBUS_IS_LOGIN_MANAGER_PROXY (self->logind_manager_proxy));
+
+  phosh_dbus_login_manager_call_suspend (self->logind_manager_proxy,
+                                         TRUE,
+                                         self->cancel,
+                                         (GAsyncReadyCallback)on_suspend_finished,
+                                         self);
+}
+
+
+
+static GActionEntry entries[] = {
+  { .name = "suspend.trigger-suspend", .activate = on_suspend_activated },
+};
+
+
+static void
 phosh_suspend_manager_init (PhoshSuspendManager *self)
 {
   self->cancel = g_cancellable_new ();
@@ -206,6 +240,10 @@ phosh_suspend_manager_init (PhoshSuspendManager *self)
                                             g_str_equal,
                                             g_free,
                                             uninhibit);
+  g_action_map_add_action_entries (G_ACTION_MAP (phosh_shell_get_default ()),
+                                   entries,
+                                   G_N_ELEMENTS (entries),
+                                   self);
 }
 
 
