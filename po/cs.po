@@ -1,13 +1,13 @@
 # Daniel Rusek <mail@asciiwolf.com>, 2019. #zanata
 # Jaroslav Svoboda <multi.flexi@seznam.cz>, 2019-2021.
-# Vojtěch Vengrin <vojtechvengrin@email.cz>
+# Vojtěch Vengrin <vojtechvengrin@email.cz>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-10-11 12:41+0000\n"
-"PO-Revision-Date: 2022-10-18 20:38+0200\n"
+"POT-Creation-Date: 2023-04-26 10:20+0000\n"
+"PO-Revision-Date: 2023-04-27 13:02+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -15,14 +15,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Shell telefonu"
 
@@ -30,13 +30,28 @@ msgstr "Shell telefonu"
 msgid "Window management and application launching for mobile"
 msgstr "Správa oken a spouštění aplikací pro mobilní zařízení"
 
-#: plugins/calendar/calendar.desktop.in.in:4
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Toto sezení vás přihlásí do prostředí Phosh"
+
+#: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Kalendář"
 
-#: plugins/calendar/calendar.desktop.in.in:5
+#: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
 msgstr "Jednoduchý widget kalendáře"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Rámeček lístků"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Zobrazit soubory PDF na zamykací obrazovce. <b>Tento zásuvný modul je "
+"experimentální.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -58,7 +73,8 @@ msgstr "Zobrazit všechny aplikace"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Zobrazit pouze optimalizované aplikace"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:78 src/rotateinfo.c:103
+#: src/bt-info.c:92
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Zapnout"
 
@@ -74,11 +90,24 @@ msgstr "V doku"
 msgid "Undocked"
 msgstr "Mobilní"
 
-#: src/end-session-dialog.c:162
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:71
+msgid "Ok"
+msgstr "OK"
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr "Nelze uskutečnit tísňové volání"
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr "Vnitřní chyba"
+
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "Odhlásit se"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -86,11 +115,11 @@ msgstr[0] "Uživatel %s bude automaticky odhlášen za %d sekundu."
 msgstr[1] "Uživatel %s bude automaticky odhlášen za %d sekundy."
 msgstr[2] "Uživatel %s bude automaticky odhlášen za %d sekund."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "Vypnout"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -98,11 +127,11 @@ msgstr[0] "Systém bude automaticky vypnut za %d sekundu."
 msgstr[1] "Systém bude automaticky vypnut za %d sekundy."
 msgstr[2] "Systém bude automaticky vypnut za %d sekund."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "Restartovat"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -110,23 +139,29 @@ msgstr[0] "Systém bude automaticky restartován za %d sekundu."
 msgstr[1] "Systém bude automaticky restartován za %d sekundy."
 msgstr[2] "Systém bude automaticky restartován za %d sekund."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "Neznámá aplikace"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:69
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "Ztlumeno"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:75
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "Potichu"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:108
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "Zapnout"
 
 #: src/location-manager.c:268
 #, c-format
@@ -152,6 +187,14 @@ msgstr "Zadejte heslo"
 #: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Kontroluje se…"
+
+#: src/screenshot-manager.c:212
+msgid "Screenshot"
+msgstr "Snímek obrazovky"
+
+#: src/screenshot-manager.c:213
+msgid "Screenshot copied to clipboard"
+msgstr "Snímek obrazovky byl zkopírován do schránky"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
@@ -197,11 +240,11 @@ msgstr "Typ autentizace wifi sítě „%s“ není podporován"
 msgid "Enter password for the wifi network “%s”"
 msgstr "Vložte heslo wifi sítě „%s“"
 
-#: src/notifications/mount-notification.c:122
+#: src/notifications/mount-notification.c:121
 msgid "Open"
 msgstr "Otevřít"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
 msgid "Notification"
 msgstr "Upozornění"
 
@@ -307,25 +350,29 @@ msgstr "Heslo:"
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Promiňte, toto nefungovalo. Zkuste to prosím znovu."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "Portrét"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "Na šířku"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
-msgstr "Vypnuto"
+msgstr "Vypnout"
+
+#: src/rotateinfo.c:126
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "Zapnout"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
 msgstr "Stisknutím Escape zavřete"
 
-#: src/run-command-manager.c:94
+#: src/run-command-manager.c:95
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Spuštění „%s“ selhalo"
@@ -346,13 +393,11 @@ msgstr "Svítilna"
 msgid "Remember decision"
 msgstr "Zapamatovat si rozhodnutí"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Zrušit"
-
-#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
-msgid "Ok"
-msgstr "OK"
 
 #: src/ui/app-grid-button.ui:55
 msgid "App"
@@ -374,6 +419,35 @@ msgstr "Zobrazit po_drobnosti"
 msgid "Search apps…"
 msgstr "Hledat aplikace…"
 
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "Zavřít dialog tísňového volání"
+
+#: src/ui/emergency-menu.ui:52
+msgid "Emergency _Contacts"
+msgstr "Tísňové _kontakty"
+
+#: src/ui/emergency-menu.ui:59
+msgid "Go to the emergency contacts page"
+msgstr "Přejít na stránku tísňových kontaktů"
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr "Vrátit se na stránku tísňového vytáčení"
+
+#: src/ui/emergency-menu.ui:106
+msgid "Owner unknown"
+msgstr "Neznámý vlastník"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Tísňové kontakty"
+
+#: src/ui/emergency-menu.ui:142
+msgid "No emergency contacts available."
+msgstr "Nejsou k dispozici žádné tísňové kontakty."
+
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
 msgstr "Některé aplikace jsou zaneprázdněné nebo obsahují neuloženou práci"
@@ -390,7 +464,7 @@ msgstr "Doména:"
 msgid "Co_nnect"
 msgstr "_Připojit"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:341
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
 msgid "Back"
 msgstr "Zpět"
 
@@ -398,11 +472,11 @@ msgstr "Zpět"
 msgid "Slide up to unlock"
 msgstr "Táhnutím nahoru odemknete"
 
-#: src/ui/lockscreen.ui:283
+#: src/ui/lockscreen.ui:282
 msgid "Emergency"
 msgstr "Tísňové volání"
 
-#: src/ui/lockscreen.ui:299
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "Odemknout"
 
@@ -411,6 +485,7 @@ msgid "Authentication required"
 msgstr "Požadováno ověření"
 
 #: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Cancel"
 msgstr "_Zrušit"
 
@@ -422,15 +497,31 @@ msgstr "_Připojit"
 msgid "Authenticate"
 msgstr "Ověřit"
 
+#: src/ui/power-menu.ui:37
+msgid "_Power Off"
+msgstr "Vy_pnout"
+
+#: src/ui/power-menu.ui:78
+msgid "_Lock"
+msgstr "_Uzamknout"
+
+#: src/ui/power-menu.ui:119
+msgid "_Screenshot"
+msgstr "_Snímek obrazovky"
+
+#: src/ui/power-menu.ui:160
+msgid "_Emergency"
+msgstr "Stav _nouze"
+
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Spustit příkaz"
 
-#: src/ui/settings.ui:301
+#: src/ui/settings.ui:320
 msgid "No notifications"
 msgstr "Žádná upozornění"
 
-#: src/ui/settings.ui:342
+#: src/ui/settings.ui:360
 msgid "Clear all"
 msgstr "Vymazat vše"
 
@@ -438,17 +529,9 @@ msgstr "Vymazat vše"
 msgid "Confirm:"
 msgstr "Potvrdit:"
 
-#: src/ui/top-panel.ui:15
-msgid "Lock Screen"
-msgstr "Zamknout obrazovku"
-
-#: src/ui/top-panel.ui:22
-msgid "Logout"
-msgstr "Odhlásit"
-
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:345
+#: src/util.c:339
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -458,21 +541,157 @@ msgstr "VPN"
 
 #: src/widget-box.c:54
 msgid "Plugin not found"
-msgstr "Plugin nebyl nalezen"
+msgstr "Zásuvný modul nebyl nalezen"
 
 #: src/widget-box.c:57
 #, c-format
 msgid "The plugin '%s' could not be loaded."
-msgstr "Plugin „%s“ nemůže být načten."
+msgstr "Zásuvný modul „%s“ nelze načíst."
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwan-info.c:200
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Mobilní síť"
+
+#: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+msgid "Personal Information"
+msgstr "Osobní informace"
+
+#: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+msgid "Date of Birth"
+msgstr "Datum narození"
+
+#: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+msgid "Preferred Language"
+msgstr "Preferovaný jazyk"
+
+#: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+msgid "Home Address"
+msgstr "Adresa bydliště"
+
+#: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+msgid "Medical Information"
+msgstr "Zdravotní informace"
+
+#: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+msgid "Age"
+msgstr "Věk"
+
+#: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+msgid "Blood Type"
+msgstr "Krevní skupina"
+
+#: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+msgid "Height"
+msgstr "Výška"
+
+#: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+msgid "Weight"
+msgstr "Váha"
+
+#: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+msgid "Allergies"
+msgstr "Alergie"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "Léky a zdravotní stav"
+
+#: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+msgid "Other Information"
+msgstr "Další informace"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "Předvolby nouzových informací"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "Hotovo"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "Jméno vlastníka"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "Léky a zdravotní stav"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "Přidat kontakt"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "Přidat nový kontakt"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "Přidat"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+msgid "New Contact Name"
+msgstr "Jméno nového kontaktu"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+msgid "Relationship"
+msgstr "Vztah"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+msgid "Number"
+msgstr "Číslo"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Žádné dokumenty k zobrazení"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Lístky"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+msgid "Choose Folder"
+msgstr "Vyberte složku"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+msgid "_Open"
+msgstr "_Otevřít"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "Předvolby rámečku lístků"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "Cesty"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "Nastavení složky"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "Kde Phosh hledá vaše lístky"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr "Složka lístků"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
@@ -518,6 +737,12 @@ msgstr "Končí"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Bezejmenná událost"
+
+#~ msgid "Lock Screen"
+#~ msgstr "Zamknout obrazovku"
+
+#~ msgid "Logout"
+#~ msgstr "Odhlásit"
 
 #~ msgid "%d.%m.%y"
 #~ msgstr "%d.%měs.%r"
