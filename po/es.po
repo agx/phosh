@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-17 09:30+0000\n"
-"PO-Revision-Date: 2023-05-15 17:28+0200\n"
+"POT-Creation-Date: 2023-05-19 16:23+0200\n"
+"PO-Revision-Date: 2023-05-19 16:33+0200\n"
 "Last-Translator: Pablo Correa Gómez <ablocorrea@hotmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -48,7 +48,7 @@ msgstr "Calendario"
 
 #: plugins/calendar/calendar.desktop.in.in:6
 msgid "A simple calendar widget"
-msgstr ""
+msgstr "Un sencillo widget de calendario"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
@@ -57,9 +57,7 @@ msgstr ""
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:5
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
-msgstr ""
-"Muestra PDF en la pantalla de bloqueo. <b>Este complemento es experimental</"
-"b>"
+msgstr "Muestra PDF en la pantalla de bloqueo. <b>Este complemento es experimental</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -164,7 +162,6 @@ msgstr "Silenciado"
 
 #. Translators: Enable LED, haptic and audio feedback
 #: src/feedbackinfo.c:108
-#, fuzzy
 msgctxt "feedback:enabled"
 msgid "On"
 msgstr "Activado"
@@ -365,16 +362,14 @@ msgid "Landscape"
 msgstr "Horizontal"
 
 #: src/rotateinfo.c:125 src/rotateinfo.c:230
-#, fuzzy
 msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
-msgstr "Desactivado"
+msgstr "Desactivada"
 
 #: src/rotateinfo.c:126
-#, fuzzy
 msgctxt "automatic-screen-rotation-enabled"
 msgid "On"
-msgstr "Activado"
+msgstr "Activada"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
@@ -429,35 +424,32 @@ msgstr "Buscar apps…"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
-msgstr ""
+msgstr "Cerrar el diálogo de las llamadas de emergencia"
 
 #: src/ui/emergency-menu.ui:52
-#, fuzzy
 msgid "Emergency _Contacts"
-msgstr "Emergencia"
+msgstr "Contactos de emergencia"
 
 #: src/ui/emergency-menu.ui:59
 msgid "Go to the emergency contacts page"
-msgstr ""
+msgstr "Ir a la página de contactos de emergencia"
 
 #: src/ui/emergency-menu.ui:83
 msgid "Go back to the emergency dialpad page"
-msgstr ""
+msgstr "Volver a página de tecleo de número de emergencia"
 
 #: src/ui/emergency-menu.ui:106
-#, fuzzy
 msgid "Owner unknown"
-msgstr "Desconocido"
+msgstr "Propietario desconocido"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
-#, fuzzy
 msgid "Emergency Contacts"
-msgstr "Emergencia"
+msgstr "Contactos de emergencia"
 
 #: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
-msgstr ""
+msgstr "Ningún contacto de emergencia disponible"
 
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
@@ -504,32 +496,29 @@ msgstr "C_onectar"
 msgid "Authenticate"
 msgstr "Autenticar"
 
-#: src/ui/power-menu.ui:37
-#, fuzzy
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
-msgstr "Apagar"
+msgstr "_Apagar"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr ""
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr ""
 
-#: src/ui/power-menu.ui:160
-#, fuzzy
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
-msgstr "Emergencia"
+msgstr "_Emergencia"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Ejecutar comando"
 
 #: src/ui/settings.ui:320
-#, fuzzy
 msgid "No notifications"
-msgstr "Notificación"
+msgstr "Ninguna notificación"
 
 #: src/ui/settings.ui:360
 msgid "Clear all"
@@ -538,6 +527,18 @@ msgstr ""
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Confirmar:"
+
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "_Apagar"
+
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "_Reiniciar"
+
+#: src/ui/top-panel.ui:88
+msgid "_Log Out…"
+msgstr "_Cerrar la sesión"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -660,9 +661,8 @@ msgid "New Contact Name"
 msgstr ""
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
-#, fuzzy
 msgid "Relationship"
-msgstr "Geolocalización"
+msgstr "Relación"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
 msgid "Number"
@@ -681,9 +681,8 @@ msgid "Choose Folder"
 msgstr ""
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.c:89
-#, fuzzy
 msgid "_Open"
-msgstr "Abrir"
+msgstr "_Abrir"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
 msgid "Ticket Box Preferences"
