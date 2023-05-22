@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-21 10:33+0000\n"
-"PO-Revision-Date: 2023-04-24 01:47+0330\n"
+"POT-Creation-Date: 2023-05-18 11:35+0000\n"
+"PO-Revision-Date: 2023-05-23 01:17+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -90,7 +90,7 @@ msgid "Undocked"
 msgstr "داک نشده"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:62
+#: src/ui/end-session-dialog.ui:71
 msgid "Ok"
 msgstr "قبول"
 
@@ -102,40 +102,40 @@ msgstr "ناتوان در برقراری تماس اضطراری"
 msgid "Internal error"
 msgstr "خطای داخلی"
 
-#: src/end-session-dialog.c:162
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "خروج"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 msgstr[1] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 
-#: src/end-session-dialog.c:171
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "خاموش کردن"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "سامانه پس از %Id ثانیه به طور خودکار خاموش می‌شود."
 msgstr[1] "سامانه پس از %Id ثانیه به طور خودکار خاموش می‌شود."
 
-#: src/end-session-dialog.c:178
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "راه‌اندازی دوباره"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "سامانه پس از %Id ثانیه به طور خودکار دوباره راه‌اندازی می‌شود."
 msgstr[1] "سامانه پس از %Id ثانیه به طور خودکار دوباره راه‌اندازی می‌شود."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "برنامهٔ ناشناخته"
 
@@ -176,11 +176,11 @@ msgstr "بله"
 msgid "No"
 msgstr "نه"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
@@ -389,7 +389,7 @@ msgstr "چراغ"
 msgid "Remember decision"
 msgstr "به‌خاطر سپردن تصمیم"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
@@ -440,7 +440,7 @@ msgstr "مالک ناشناخته"
 msgid "Emergency Contacts"
 msgstr "تماس‌های اضطراری"
 
-#: src/ui/emergency-menu.ui:148
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "هیچ تماس اضطراری‌ای موجود نیست."
 
@@ -460,19 +460,15 @@ msgstr "دامنه:"
 msgid "Co_nnect"
 msgstr "اتّ_صال"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
 msgid "Back"
 msgstr "بازگشت"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:90
 msgid "Slide up to unlock"
 msgstr "برای قفل‌گشایی، بالا بکشید"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "اضطراری"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:273
 msgid "Unlock"
 msgstr "قفل‌گشایی"
 
@@ -481,7 +477,7 @@ msgid "Authentication required"
 msgstr "نیاز به تأیید هویت است"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_لغو"
 
@@ -493,19 +489,19 @@ msgstr "_وصل شدن"
 msgid "Authenticate"
 msgstr "تأیید هویت"
 
-#: src/ui/power-menu.ui:37
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
 msgstr "_خاموش"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr "_قفل"
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr "_نماگرفت"
 
-#: src/ui/power-menu.ui:160
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
 msgstr "_اضطراری"
 
@@ -524,6 +520,18 @@ msgstr "پاک‌سازی همه"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "تأیید:"
+
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "_خاموش…"
+
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "_راه‌اندازی دوباره…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Log Out…"
+msgstr "_خروج…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -665,7 +673,7 @@ msgstr "بلیت‌ها"
 msgid "Choose Folder"
 msgstr "گزینش شاخه"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "_گشودن"
 
@@ -732,6 +740,9 @@ msgstr "پایان"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "رویداد بی‌عنوان"
+
+#~ msgid "Emergency"
+#~ msgstr "اضطراری"
 
 #~ msgid "Lock Screen"
 #~ msgstr "قفل کردن صفحه"
