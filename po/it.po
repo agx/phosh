@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-21 10:33+0000\n"
-"PO-Revision-Date: 2023-04-23 16:37+0200\n"
+"POT-Creation-Date: 2023-05-18 11:35+0000\n"
+"PO-Revision-Date: 2023-05-21 13:20+0200\n"
 "Last-Translator: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language-Team: antpanlinux <ant.pandolfo@gmail.com>\n"
 "Language: it\n"
@@ -92,7 +92,7 @@ msgid "Undocked"
 msgstr "Sganciato"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:62
+#: src/ui/end-session-dialog.ui:71
 msgid "Ok"
 msgstr "Ok"
 
@@ -104,40 +104,40 @@ msgstr "Impossibile effettuare chiamata di emergenza"
 msgid "Internal error"
 msgstr "Errore interno"
 
-#: src/end-session-dialog.c:162
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "Termina sessione"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s verrà disconnesso automaticamente fra %d secondo."
 msgstr[1] "%s verrà disconnesso automaticamente fra %d secondi."
 
-#: src/end-session-dialog.c:171
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "Spegni"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Il sistema si spegnerà automaticamente fra %d secondo."
 msgstr[1] "Il sistema si spegnerà automaticamente fra %d secondi."
 
-#: src/end-session-dialog.c:178
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "Riavvia"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "Il sistema verrà riavviato automaticamente fra %d secondo."
 msgstr[1] "Il sistema verrà riavviato automaticamente fra %d secondi."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "Applicazione sconosciuta"
 
@@ -178,16 +178,15 @@ msgstr "Sì"
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
 msgid "Enter Passcode"
 msgstr "Inserire la password"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "Sto controllando…"
 
 #: src/screenshot-manager.c:212
-#| msgid "_Screenshot"
 msgid "Screenshot"
 msgstr "Schermata"
 
@@ -392,7 +391,7 @@ msgstr "Torcia"
 msgid "Remember decision"
 msgstr "Ricorda la decisione"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
@@ -423,12 +422,10 @@ msgid "Close the emergency call dialog"
 msgstr "Chiudi la finestra di dialogo per la chiamata di emergenza"
 
 #: src/ui/emergency-menu.ui:52
-#| msgid "Emergency Contacts"
 msgid "Emergency _Contacts"
 msgstr "_Contatti di emergenza"
 
 #: src/ui/emergency-menu.ui:59
-#| msgid "Emergency Contacts"
 msgid "Go to the emergency contacts page"
 msgstr "Vai alla pagina dei contatti di emergenza"
 
@@ -437,7 +434,6 @@ msgid "Go back to the emergency dialpad page"
 msgstr "Torna alla pagina delle chiamate di emergenza"
 
 #: src/ui/emergency-menu.ui:106
-#| msgid "Unknown"
 msgid "Owner unknown"
 msgstr "Proprietario sconosciuto"
 
@@ -446,8 +442,7 @@ msgstr "Proprietario sconosciuto"
 msgid "Emergency Contacts"
 msgstr "Contatti di emergenza"
 
-#: src/ui/emergency-menu.ui:148
-#| msgid "Emergency Contacts"
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "Non ci sono contatti di emergenza."
 
@@ -467,19 +462,15 @@ msgstr "Dominio:"
 msgid "Co_nnect"
 msgstr "Co_nnetti"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
 msgid "Back"
 msgstr "Indietro"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:90
 msgid "Slide up to unlock"
 msgstr "Scorri verso l'alto per sbloccare"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "Emergenza"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:273
 msgid "Unlock"
 msgstr "Sblocca"
 
@@ -488,7 +479,7 @@ msgid "Authentication required"
 msgstr "Autenticazione richiesta"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_Annulla"
 
@@ -500,19 +491,19 @@ msgstr "C_onnetti"
 msgid "Authenticate"
 msgstr "Autenticazione"
 
-#: src/ui/power-menu.ui:37
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
 msgstr "S_pegni"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr "B_locca"
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr "_Schermata"
 
-#: src/ui/power-menu.ui:160
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
 msgstr "_Emergenza"
 
@@ -531,6 +522,21 @@ msgstr "Cancella tutto"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Conferma:"
+
+#: src/ui/top-panel.ui:32
+#| msgid "_Power Off"
+msgid "_Power Off…"
+msgstr "S_pegni…"
+
+#: src/ui/top-panel.ui:60
+#| msgid "Restart"
+msgid "_Restart…"
+msgstr "_Riavvia…"
+
+#: src/ui/top-panel.ui:88
+#| msgid "Log Out"
+msgid "_Log Out…"
+msgstr "_Termina sessione…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -672,7 +678,7 @@ msgstr "Biglietti"
 msgid "Choose Folder"
 msgstr "Scegliere la cartella"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "_Apri"
 
