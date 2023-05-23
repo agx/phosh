@@ -111,7 +111,7 @@ gobject_dep = dependency('gobject-2.0', version: glib_ver)
 gio_unix_dep =  dependency('gio-unix-2.0', version: glib_ver)
 gmodule_dep = dependency('gmodule-2.0', version: glib_ver)
 gnome_desktop_dep = dependency('gnome-desktop-3.0', version: '>=3.26')
-gsettings_desktop_schemas_dep = dependency('gsettings-desktop-schemas')
+gsettings_desktop_schemas_dep = dependency('gsettings-desktop-schemas', version: '>=42')
 gtk_dep = dependency('gtk+-3.0', version: '>=3.22')
 gtk_wayland_dep = dependency('gtk+-wayland-3.0', version: '>=3.22')
 gudev_dep = dependency('gudev-1.0')
@@ -200,6 +200,7 @@ config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
 config_h.set_quoted('LOCALEDIR', localedir)
 config_h.set_quoted('PHOSH_PLUGINS_DIR', plugins_dir)
 config_h.set_quoted('PHOSH_VERSION', meson.project_version())
+config_h.set('PHOSH_ANIMATION_SLOWDOWN', get_option('animation-slowdown'))
 config_h.set('HAVE_RFKILL_EVENT_EXT', have_rfkill_event_ext)
 config_h.set('PHOSH_HAVE_MEMFD_CREATE', have_memfd_create,
              description: 'Whether we have memdfd_create on Linux')
@@ -242,6 +243,7 @@ summary({
     'Manual pages': get_option('man'),
     'Tools': get_option('tools'),
     'Lockscreen Plugins': get_option('lockscreen-plugins'),
+    'Animation slowdown': get_option('animation-slowdown'),
   },
   bool_yn: true,
   section: 'Build',

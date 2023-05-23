@@ -82,7 +82,7 @@ registry_handle_global (void *data,
       registry,
       name,
       &zphoc_layer_shell_effects_v1_interface,
-      1);
+      MIN (2, version));
   } else if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
     self->layer_shell = wl_registry_bind (
       registry,

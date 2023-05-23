@@ -10,6 +10,7 @@
 
 #include "phosh-config.h"
 
+#include "animation.h"
 #include "shell.h"
 #include "splash.h"
 
@@ -49,6 +50,8 @@ typedef struct {
   GtkWidget                  *img_app;
   gboolean                    prefer_dark;
 
+  PhoshAnimation             *fadeout;
+  gboolean                    has_alpha;
 } PhoshSplashPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshSplash, phosh_splash, PHOSH_TYPE_LAYER_SURFACE);
@@ -125,6 +128,7 @@ phosh_splash_dispose (GObject *obj)
   PhoshSplash *self = PHOSH_SPLASH (obj);
   PhoshSplashPrivate *priv = phosh_splash_get_instance_private (self);
 
+  g_clear_pointer (&priv->fadeout, phosh_animation_unref);
   g_clear_object (&priv->info);
 
   G_OBJECT_CLASS (phosh_splash_parent_class)->dispose (obj);
@@ -186,6 +190,9 @@ phosh_splash_show (GtkWidget *widget)
   PhoshSplash *self = PHOSH_SPLASH (widget);
   PhoshSplashPrivate *priv = phosh_splash_get_instance_private (self);
   GIcon *icon;
+  PhoshWayland *wl = phosh_wayland_get_default ();
+  struct zphoc_layer_shell_effects_v1 *layer_shell_effects;
+  phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl);
 
   icon = g_app_info_get_icon (priv->info);
   if (G_UNLIKELY (icon == NULL)) {
@@ -197,6 +204,16 @@ phosh_splash_show (GtkWidget *widget)
   }
 
   GTK_WIDGET_CLASS (phosh_splash_parent_class)->show (widget);
+
+  layer_shell_effects = phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl);
+  if (zphoc_layer_shell_effects_v1_get_version (layer_shell_effects) >=
+      ZPHOC_LAYER_SHELL_EFFECTS_V1_GET_ALPHA_LAYER_SURFACE_SINCE_VERSION) {
+    phosh_layer_surface_handle_alpha (PHOSH_LAYER_SURFACE (self),
+                                      layer_shell_effects);
+    priv->has_alpha = TRUE;
+  } else {
+    g_warning_once ("No alpha layer surface support, upgrade phoc");
+  }
 }
 
 
@@ -271,4 +288,48 @@ phosh_splash_new (GDesktopAppInfo *app, gboolean prefer_dark)
                        "app", app,
                        "prefer-dark", prefer_dark,
                        NULL);
+}
+
+
+static void
+fadeout_value_cb (double value, PhoshSplash *self)
+{
+  phosh_layer_surface_set_alpha (PHOSH_LAYER_SURFACE (self), 1.0 - value);
+}
+
+
+static void
+fadeout_done_cb (PhoshSplash *self)
+{
+  PhoshSplashPrivate *priv = phosh_splash_get_instance_private (self);
+
+  g_clear_pointer (&priv->fadeout, phosh_animation_unref);
+
+  gtk_widget_destroy (GTK_WIDGET (self));
+}
+
+
+void
+phosh_splash_hide (PhoshSplash *self)
+{
+  PhoshSplashPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_SPLASH (self));
+  priv = phosh_splash_get_instance_private (self);
+
+  /* Until we can assume phoc with alpha layer-surface support */
+  if (!priv->has_alpha) {
+    gtk_widget_destroy (GTK_WIDGET (self));
+    return;
+  }
+
+  priv->fadeout = phosh_animation_new (GTK_WIDGET (self),
+                                       0.0,
+                                       1.0,
+                                       200 * PHOSH_ANIMATION_SLOWDOWN,
+                                       PHOSH_ANIMATION_TYPE_EASE_IN_QUINTIC,
+                                       (PhoshAnimationValueCallback) fadeout_value_cb,
+                                       (PhoshAnimationDoneCallback) fadeout_done_cb,
+                                       self);
+  phosh_animation_start (priv->fadeout);
 }

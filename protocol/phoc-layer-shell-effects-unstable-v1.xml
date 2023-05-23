@@ -25,7 +25,7 @@
     THIS SOFTWARE.
   </copyright>
 
-  <interface name="zphoc_layer_shell_effects_v1" version="1">
+  <interface name="zphoc_layer_shell_effects_v1" version="2">
     <description summary="Adjust properties of layer surfaces">
       Assigns additional features to layer surfaces
     </description>
@@ -33,7 +33,7 @@
     <enum name="error">
       <entry name="bad_surface" value="0" summary="layer surface is not committed"/>
       <entry name="bad_anchors" value="1" summary="layer surface is not anchored to 3 edges"/>
-      <entry name="no_margin" value="2" summary="layer surface has no margin to use"/>
+      <entry name="bad_margin" value="2" summary="layer surface has no margin to use"/>
     </enum>
 
     <request name="get_draggable_layer_surface">
@@ -75,9 +75,16 @@
         are not affected.
       </description>
     </request>
+
+    <request name="get_alpha_layer_surface" since="2">
+      <description summary="Allow layer_surface to become transparent"/>
+      <arg name="id" type="new_id" interface="zphoc_alpha_layer_surface_v1"/>
+      <arg name="layer_surface" type="object" interface="zwlr_layer_surface_v1"/>
+    </request>
+
   </interface>
 
-  <interface name="zphoc_draggable_layer_surface_v1" version="1">
+  <interface name="zphoc_draggable_layer_surface_v1" version="2">
     <description summary="Draggable layer surface interface">
       An interface that may be implemented by a layer_surface, for surfaces that
       are designed to become draggable when anchored at three edges.
@@ -122,7 +129,7 @@
 
         Drag-mode is double-buffered, see wl_surface.commit.
       </description>
-      <arg name="state" type="uint" enum="drag_mode"/>
+      <arg name="mode" type="uint" enum="drag_mode"/>
     </request>
 
     <request name="set_drag_handle">
@@ -174,6 +181,27 @@
       <entry name="handle" value="1" summary="Only the handle is draggable"/>
       <entry name="none" value="2" summary="Surface not draggable"/>
     </enum>
+
+  </interface>
+
+  <interface name="zphoc_alpha_layer_surface_v1" version="2">
+
+    <request name="set_alpha">
+      <description summary="Set the surface's alpha value">
+        Sets the surfaces transparency. Valid values are between 0
+        (fully transparent) and 1.0 (fully opaque. The set value
+        also effects subsurfaces and popups.
+
+        Alpha is double-buffered, see wl_surface.commit.
+      </description>
+      <arg name="alpha" type="fixed"/>
+    </request>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy the alpha_layer_surface">
+        This request destroys the alpha layer surface.
+      </description>
+    </request>
 
   </interface>
 

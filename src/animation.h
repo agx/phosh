@@ -15,13 +15,17 @@ G_BEGIN_DECLS
 
 /**
  * PhoshAnimationType:
- * @PHOSH_ANIMATION_TYPE_EASE_OUT_CUBIC: Use easeOutCubic interpolation.
+ * @PHOSH_ANIMATION_TYPE_EASE_OUT_CUBIC: Use ease out cubic interpolation.
+ * @PHOSH_ANIMATION_TYPE_EASE_IN_QUINTIC: Use ease in quintic interpolation.
+ * @PHOSH_ANIMATION_TYPE_EASE_OUT_QUINTIC: Use ease out quintic interpolation.
  * @PHOSH_ANIMATION_TYPE_EASE_OUT_BOUNCE: Use easeOutBounce interpolation.
  *
  * The animation type of #PhoshAnimationType.
  */
 typedef enum {
   PHOSH_ANIMATION_TYPE_EASE_OUT_CUBIC,
+  PHOSH_ANIMATION_TYPE_EASE_IN_QUINTIC,
+  PHOSH_ANIMATION_TYPE_EASE_OUT_QUINTIC,
   PHOSH_ANIMATION_TYPE_EASE_OUT_BOUNCE,
 } PhoshAnimationType;
 
