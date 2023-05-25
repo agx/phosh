@@ -92,22 +92,22 @@ find_event (const char *category)
 
 
 static void
-maybe_wakeup_screen (PhoshNotifyFeedback *self, GListModel *list, guint position, guint added)
+maybe_wakeup_screen (PhoshNotifyFeedback *self, PhoshNotificationSource *source, guint position, guint num)
 {
-  g_return_if_fail (added > 0);
+  g_return_if_fail (num > 0);
 
   if (self->wakeup_flags & PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_ANY) {
     phosh_shell_activate_action (phosh_shell_get_default (), "screensaver.wakeup-screen", NULL);
     return;
   }
 
-  for (int i = 0; i < added; i++) {
-    g_autoptr (PhoshNotification) new = g_list_model_get_item (list, position + i);
+  for (int i = 0; i < num; i++) {
+    g_autoptr (PhoshNotification) noti = g_list_model_get_item (G_LIST_MODEL (source), position + i);
     gboolean wakeup;
 
-    g_return_if_fail (PHOSH_IS_NOTIFICATION (new));
+    g_return_if_fail (PHOSH_IS_NOTIFICATION (noti));
 
-    wakeup = phosh_notify_feedback_check_screen_wakeup (self, new);
+    wakeup = phosh_notify_feedback_check_screen_wakeup (self, noti);
     if (wakeup) {
       phosh_shell_activate_action (phosh_shell_get_default (), "screensaver.wakeup-screen", NULL);
       break;
@@ -136,7 +136,7 @@ on_notification_source_items_changed (PhoshNotifyFeedback *self,
   if (!added)
     return;
 
-  maybe_wakeup_screen (self, list, position, added);
+  maybe_wakeup_screen (self, PHOSH_NOTIFICATION_SOURCE (list), position, added);
 
   /* TODO: add pending events to queue instead of just skipping them. */
   if (self->event && lfb_event_get_state (self->event) == LFB_EVENT_STATE_RUNNING)
