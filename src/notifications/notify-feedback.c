@@ -125,11 +125,11 @@ on_settings_changed (PhoshNotifyFeedback *self, char *key, GSettings *settings)
 
 
 static void
-on_notifcation_source_items_changed (PhoshNotifyFeedback *self,
-                                     guint                position,
-                                     guint                removed,
-                                     guint                added,
-                                     GListModel          *list)
+on_notification_source_items_changed (PhoshNotifyFeedback *self,
+                                      guint                position,
+                                      guint                removed,
+                                      guint                added,
+                                      GListModel          *list)
 {
   if (!added)
     return;
@@ -174,11 +174,11 @@ on_notifcation_source_items_changed (PhoshNotifyFeedback *self,
 
 
 static void
-on_notifcation_list_items_changed (PhoshNotifyFeedback *self,
-                                   guint                position,
-                                   guint                removed,
-                                   guint                added,
-                                   GListModel          *list)
+on_notification_list_items_changed (PhoshNotifyFeedback *self,
+                                    guint                position,
+                                    guint                removed,
+                                    guint                added,
+                                    GListModel          *list)
 {
   g_autoptr (PhoshNotificationSource) first = g_list_model_get_item (list, 0);
 
@@ -194,10 +194,10 @@ on_notifcation_list_items_changed (PhoshNotifyFeedback *self,
     /* Listen to new notification on the store for feedback triggering */
     g_signal_connect_object (source,
                              "items-changed",
-                             G_CALLBACK (on_notifcation_source_items_changed),
+                             G_CALLBACK (on_notification_source_items_changed),
                              self,
                              G_CONNECT_SWAPPED);
-    on_notifcation_source_items_changed (self, 0, 0,
+    on_notification_source_items_changed (self, 0, 0,
                                          g_list_model_get_n_items (G_LIST_MODEL (source)),
                                          G_LIST_MODEL (source));
   }
@@ -251,7 +251,7 @@ phosh_notify_feedback_constructed (GObject *object)
 
   g_signal_connect_swapped (self->list,
                             "items-changed",
-                            G_CALLBACK (on_notifcation_list_items_changed),
+                            G_CALLBACK (on_notification_list_items_changed),
                             self);
 }
 
