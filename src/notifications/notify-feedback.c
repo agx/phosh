@@ -116,13 +116,40 @@ maybe_wakeup_screen (PhoshNotifyFeedback *self, PhoshNotificationSource *source,
 }
 
 
-static void
-on_settings_changed (PhoshNotifyFeedback *self, char *key, GSettings *settings)
+static gboolean
+maybe_trigger_feedback (PhoshNotifyFeedback *self, PhoshNotificationSource *source, guint position, guint num)
 {
-  self->wakeup_flags = g_settings_get_flags (settings, "wakeup-screen-triggers");
-  self->wakeup_min_urgency = g_settings_get_enum (settings, "wakeup-screen-urgency");
-  g_strfreev (self->wakeup_categories);
-  self->wakeup_categories = g_settings_get_strv (settings, "wakeup-screen-categories");
+  for (int i = 0; i < num; i++) {
+    g_autoptr (PhoshNotification) noti = g_list_model_get_item (G_LIST_MODEL (source), position + i);
+    g_autoptr (LfbEvent) event = NULL;
+    const char *category, *event_name;
+    g_autofree char *app_id = NULL;
+    GAppInfo *info = NULL;
+
+    g_return_val_if_fail (PHOSH_IS_NOTIFICATION (noti), FALSE);
+
+    category = phosh_notification_get_category (noti);
+    event_name = find_event (category);
+    if (event_name == NULL)
+      continue;
+
+    info = phosh_notification_get_app_info (noti);
+    if (info == NULL)
+        continue;
+    app_id = phosh_strip_suffix_from_app_id (g_app_info_get_id (info));
+
+    g_debug ("Emitting event %s for %s", event_name, app_id ?: "unknown");
+    event = lfb_event_new (event_name);
+    g_set_object (&self->event, event);
+
+    if (app_id)
+      lfb_event_set_app_id (event, app_id);
+
+    lfb_event_trigger_feedback_async (self->event, NULL, NULL, NULL);
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 
@@ -142,36 +169,17 @@ on_notification_source_items_changed (PhoshNotifyFeedback *self,
   if (self->event && lfb_event_get_state (self->event) == LFB_EVENT_STATE_RUNNING)
     return;
 
-  for (int i = 0; i < added; i++) {
-    g_autoptr (PhoshNotification) new = g_list_model_get_item (list, position + i);
-    g_autoptr (LfbEvent) event = NULL;
-    const char *category, *event_name;
-    g_autofree char *app_id = NULL;
-    GAppInfo *info = NULL;
+  maybe_trigger_feedback (self, PHOSH_NOTIFICATION_SOURCE (list), position, added);
+}
 
-    g_return_if_fail (PHOSH_IS_NOTIFICATION (new));
 
-    category = phosh_notification_get_category (new);
-    event_name = find_event (category);
-    if (event_name == NULL)
-      continue;
-
-    info = phosh_notification_get_app_info (new);
-    if (info == NULL)
-        continue;
-    app_id = phosh_strip_suffix_from_app_id (g_app_info_get_id (info));
-
-    g_debug ("Emitting event %s for %s", event_name, app_id ?: "unknown");
-    event = lfb_event_new (event_name);
-    g_set_object (&self->event, event);
-
-    if (app_id)
-      lfb_event_set_app_id (event, app_id);
-
-    lfb_event_trigger_feedback_async (self->event, NULL, NULL, NULL);
-    /* TODO: add additional events to queue instead of just skipping them */
-    break;
-  }
+static void
+on_settings_changed (PhoshNotifyFeedback *self, char *key, GSettings *settings)
+{
+  self->wakeup_flags = g_settings_get_flags (settings, "wakeup-screen-triggers");
+  self->wakeup_min_urgency = g_settings_get_enum (settings, "wakeup-screen-urgency");
+  g_strfreev (self->wakeup_categories);
+  self->wakeup_categories = g_settings_get_strv (settings, "wakeup-screen-categories");
 }
 
 
