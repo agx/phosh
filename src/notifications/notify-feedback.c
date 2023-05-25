@@ -214,6 +214,27 @@ on_notification_list_items_changed (PhoshNotifyFeedback *self,
 
 
 static void
+on_shell_state_changed (PhoshNotifyFeedback *self, GParamSpec *pspec, PhoshShell *shell)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFY_FEEDBACK (self));
+
+  /* Feedback ongoing, nothing to do */
+  if (self->event && lfb_event_get_state (self->event) == LFB_EVENT_STATE_RUNNING)
+    return;
+
+  if (!phosh_shell_get_blanked (shell))
+    return;
+
+  for (guint i = 0; i < g_list_model_get_n_items (G_LIST_MODEL (self->list)); i++) {
+    g_autoptr (PhoshNotificationSource) source = g_list_model_get_item (G_LIST_MODEL (self->list), i);
+
+    if (maybe_trigger_feedback (self, source, 0, g_list_model_get_n_items (G_LIST_MODEL (source))))
+      break;
+  }
+}
+
+
+static void
 phosh_notify_feedback_set_property (GObject      *object,
                                     guint         property_id,
                                     const GValue *value,
@@ -262,6 +283,12 @@ phosh_notify_feedback_constructed (GObject *object)
                             "items-changed",
                             G_CALLBACK (on_notification_list_items_changed),
                             self);
+
+  g_signal_connect_object (phosh_shell_get_default (),
+                           "notify::shell-state",
+                           G_CALLBACK (on_shell_state_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 
