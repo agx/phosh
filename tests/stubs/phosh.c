@@ -11,11 +11,14 @@
 #include "shell.h"
 
 PhoshToplevelManager *toplevel_manager = NULL;
+GObject *shell = NULL;
 
-PhoshShell*
+PhoshShell *
 phosh_shell_get_default (void)
 {
-  return NULL;
+  if (shell == NULL)
+    shell = g_object_new (G_TYPE_OBJECT, NULL);
+  return (PhoshShell*)(shell);
 }
 
 void
