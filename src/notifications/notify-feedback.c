@@ -108,8 +108,10 @@ maybe_wakeup_screen (PhoshNotifyFeedback *self, GListModel *list, guint position
     g_return_if_fail (PHOSH_IS_NOTIFICATION (new));
 
     wakeup = phosh_notify_feedback_check_screen_wakeup (self, new);
-    if (wakeup)
+    if (wakeup) {
       phosh_shell_activate_action (phosh_shell_get_default (), "screensaver.wakeup-screen", NULL);
+      break;
+    }
   }
 }
 
