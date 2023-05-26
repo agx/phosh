@@ -5,10 +5,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-21 10:33+0000\n"
-"PO-Revision-Date: 2023-05-05 15:20+0300\n"
+"POT-Creation-Date: 2023-05-18 11:35+0000\n"
+"PO-Revision-Date: 2023-05-26 20:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
-"Language-Team: Turkish <gnome-turk@gnome.org>\n"
+"Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,7 +88,7 @@ msgid "Undocked"
 msgstr "Yuvada Değil"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:62
+#: src/ui/end-session-dialog.ui:71
 msgid "Ok"
 msgstr "Tamam"
 
@@ -100,37 +100,37 @@ msgstr "Acil durum araması yapılamadı"
 msgid "Internal error"
 msgstr "İç hata"
 
-#: src/end-session-dialog.c:162
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "Oturumu Kapat"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s oturumu %d saniyede kendiliğinden kapanacak."
 
-#: src/end-session-dialog.c:171
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "Gücü Kapat"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Sistem %d saniyede kendiliğinden kapanacak."
 
-#: src/end-session-dialog.c:178
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "Yeniden Başlat"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "Sistem %d saniyede kendiliğinden yeniden başlayacak."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "Bilinmeyen uygulama"
 
@@ -171,11 +171,11 @@ msgstr "Evet"
 msgid "No"
 msgstr "Hayır"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
 msgid "Enter Passcode"
 msgstr "Parolayı Gir"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "Denetleniyor…"
 
@@ -384,7 +384,7 @@ msgstr "Fener"
 msgid "Remember decision"
 msgstr "Kararı anımsa"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
@@ -435,7 +435,7 @@ msgstr "Sahip bilinmiyor"
 msgid "Emergency Contacts"
 msgstr "Acil Durumda Ulaşılacaklar"
 
-#: src/ui/emergency-menu.ui:148
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "Acil durumda ulaşılacak kişi yok."
 
@@ -455,19 +455,15 @@ msgstr "Etki Alanı:"
 msgid "Co_nnect"
 msgstr "_Bağlan"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
 msgid "Back"
 msgstr "Geri"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:90
 msgid "Slide up to unlock"
 msgstr "Açmak için kaldır"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "Acil Durum"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:273
 msgid "Unlock"
 msgstr "Kilidi Aç"
 
@@ -476,7 +472,7 @@ msgid "Authentication required"
 msgstr "Kimlik doğrulama gerekli"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_İptal"
 
@@ -488,19 +484,19 @@ msgstr "_Bağlan"
 msgid "Authenticate"
 msgstr "Kimlik Doğrula"
 
-#: src/ui/power-menu.ui:37
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
 msgstr "_Gücü Kapat"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr "_Kilitle"
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr "_Ekran Görüntüsü"
 
-#: src/ui/power-menu.ui:160
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
 msgstr "_Acil"
 
@@ -519,6 +515,18 @@ msgstr "Tümünü temizle"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Doğrula:"
+
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "_Gücü Kapat…"
+
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "_Yeniden Başlat…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Log Out…"
+msgstr "_Oturumu Kapat…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -660,7 +668,7 @@ msgstr "Biletler"
 msgid "Choose Folder"
 msgstr "Klasör Seç"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "_Aç"
 
@@ -726,6 +734,9 @@ msgstr "Bitiş"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Adsız olay"
+
+#~ msgid "Emergency"
+#~ msgstr "Acil Durum"
 
 #~ msgid "Lock Screen"
 #~ msgstr "Ekranı Kilitle"
