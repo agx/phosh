@@ -322,8 +322,8 @@ static void
 add_keybindings (PhoshHome *self)
 {
   const GActionEntry entries[] = {
-    { "Super_R", .activate = toggle_application_view_action },
-    { "Super_L", .activate = toggle_application_view_action },
+    { "Super_R", .activate = toggle_overview_action },
+    { "Super_L", .activate = toggle_overview_action },
   };
   GStrv overview_bindings;
   GStrv app_view_bindings;
