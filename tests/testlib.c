@@ -110,7 +110,7 @@ on_phoc_exit (GPid     pid,
   g_autoptr (GError) err = NULL;
   if (status == 0 || status == SIGTERM)
     return;
-  g_spawn_check_exit_status (status, &err);
+  g_spawn_check_wait_status (status, &err);
   g_assert_no_error (err);
 }
 

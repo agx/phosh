@@ -679,13 +679,8 @@ phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
     num_outputs++;
   }
   frames->num_outputs = num_outputs;
-  if (area) {
-#if GLIB_CHECK_VERSION(2, 67, 3)
+  if (area)
     frames->area = g_memdup2 (area, sizeof (GdkRectangle));
-#else
-    frames->area = g_memdup (area, sizeof (GdkRectangle));
-#endif
-  }
 
   if (STR_IS_NULL_OR_EMPTY (filename)) {
     /* Copy to clipboard */

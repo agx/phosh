@@ -299,7 +299,7 @@ rfkill_event_cb (GIOChannel      *source,
 
     while (status == G_IO_STATUS_NORMAL && read >= RFKILL_EVENT_SIZE_V1) {
       print_event (&event);
-      event_ptr = g_memdup (&event, sizeof(event));
+      event_ptr = g_memdup2 (&event, sizeof(event));
       events = g_list_prepend (events, event_ptr);
 
       status = g_io_channel_read_chars (source,
@@ -361,7 +361,7 @@ setup_rfkill (PhoshHksManager *self)
              type_to_string (event.type),
              event.idx, event.soft, event.hard);
 
-    event_ptr = g_memdup (&event, sizeof(event));
+    event_ptr = g_memdup2 (&event, sizeof(event));
     events = g_list_prepend (events, event_ptr);
   }
 
