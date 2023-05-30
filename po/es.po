@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-19 16:23+0200\n"
-"PO-Revision-Date: 2023-05-19 16:33+0200\n"
+"POT-Creation-Date: 2023-05-26 19:59+0200\n"
+"PO-Revision-Date: 2023-05-26 20:00+0200\n"
 "Last-Translator: Pablo Correa Gómez <ablocorrea@hotmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -502,11 +502,11 @@ msgstr "_Apagar"
 
 #: src/ui/power-menu.ui:110
 msgid "_Lock"
-msgstr ""
+msgstr "B_loquear"
 
 #: src/ui/power-menu.ui:151
 msgid "_Screenshot"
-msgstr ""
+msgstr "_Captura de pantalla"
 
 #: src/ui/power-menu.ui:192
 msgid "_Emergency"
@@ -522,7 +522,7 @@ msgstr "Ninguna notificación"
 
 #: src/ui/settings.ui:360
 msgid "Clear all"
-msgstr ""
+msgstr "Eliminar todos"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
@@ -552,12 +552,12 @@ msgstr "VPN"
 
 #: src/widget-box.c:54
 msgid "Plugin not found"
-msgstr ""
+msgstr "Complemento no encontrado"
 
 #: src/widget-box.c:57
 #, c-format
 msgid "The plugin '%s' could not be loaded."
-msgstr ""
+msgstr "No se pudo cargar el complemento '%s'"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
@@ -571,61 +571,61 @@ msgstr "Módem"
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
 msgid "Personal Information"
-msgstr ""
+msgstr "Información personal"
 
 #: plugins/emergency-info/emergency-info.ui:47
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
 msgid "Date of Birth"
-msgstr ""
+msgstr "Fecha de nacimiento"
 
 #: plugins/emergency-info/emergency-info.ui:65
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
 msgid "Preferred Language"
-msgstr ""
+msgstr "Idioma de preferencia"
 
 #: plugins/emergency-info/emergency-info.ui:83
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
 msgid "Home Address"
-msgstr ""
+msgstr "Dirección"
 
 #: plugins/emergency-info/emergency-info.ui:91
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
 msgid "Medical Information"
-msgstr ""
+msgstr "Información médica"
 
 #: plugins/emergency-info/emergency-info.ui:99
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
 msgid "Age"
-msgstr ""
+msgstr "Edad"
 
 #: plugins/emergency-info/emergency-info.ui:117
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
 msgid "Blood Type"
-msgstr ""
+msgstr "Tipo sanguíneo"
 
 #: plugins/emergency-info/emergency-info.ui:135
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
 msgid "Height"
-msgstr ""
+msgstr "Altura"
 
 #: plugins/emergency-info/emergency-info.ui:153
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
 msgid "Weight"
-msgstr ""
+msgstr "Peso"
 
 #: plugins/emergency-info/emergency-info.ui:171
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
 msgid "Allergies"
-msgstr ""
+msgstr "Alergias"
 
 #: plugins/emergency-info/emergency-info.ui:179
 msgid "Medications & Conditions"
-msgstr ""
+msgstr "Condición médica y tratamientos"
 
 #: plugins/emergency-info/emergency-info.ui:187
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
 msgid "Other Information"
-msgstr ""
+msgstr "Otra información"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
