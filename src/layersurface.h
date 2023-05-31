@@ -57,7 +57,7 @@ void                              phosh_layer_surface_get_margins       (PhoshLa
 int                               phosh_layer_surface_get_configured_width  (PhoshLayerSurface *self);
 int                               phosh_layer_surface_get_configured_height (PhoshLayerSurface *self);
 void                              phosh_layer_surface_set_alpha (PhoshLayerSurface *self,
-                                                                 double alpha);
-void                              phosh_layer_surface_handle_alpha (PhoshLayerSurface *self,
-                                                                    gpointer           layer_shell_effects);
+                                                                 double             alpha);
+gboolean                          phosh_layer_surface_has_alpha (PhoshLayerSurface *self);
+
 G_END_DECLS

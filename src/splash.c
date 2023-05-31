@@ -51,7 +51,6 @@ typedef struct {
   gboolean                    prefer_dark;
 
   PhoshAnimation             *fadeout;
-  gboolean                    has_alpha;
 } PhoshSplashPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshSplash, phosh_splash, PHOSH_TYPE_LAYER_SURFACE);
@@ -190,9 +189,6 @@ phosh_splash_show (GtkWidget *widget)
   PhoshSplash *self = PHOSH_SPLASH (widget);
   PhoshSplashPrivate *priv = phosh_splash_get_instance_private (self);
   GIcon *icon;
-  PhoshWayland *wl = phosh_wayland_get_default ();
-  struct zphoc_layer_shell_effects_v1 *layer_shell_effects;
-  phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl);
 
   icon = g_app_info_get_icon (priv->info);
   if (G_UNLIKELY (icon == NULL)) {
@@ -204,16 +200,6 @@ phosh_splash_show (GtkWidget *widget)
   }
 
   GTK_WIDGET_CLASS (phosh_splash_parent_class)->show (widget);
-
-  layer_shell_effects = phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl);
-  if (zphoc_layer_shell_effects_v1_get_version (layer_shell_effects) >=
-      ZPHOC_LAYER_SHELL_EFFECTS_V1_GET_ALPHA_LAYER_SURFACE_SINCE_VERSION) {
-    phosh_layer_surface_handle_alpha (PHOSH_LAYER_SURFACE (self),
-                                      layer_shell_effects);
-    priv->has_alpha = TRUE;
-  } else {
-    g_warning_once ("No alpha layer surface support, upgrade phoc");
-  }
 }
 
 
@@ -317,8 +303,7 @@ phosh_splash_hide (PhoshSplash *self)
   g_return_if_fail (PHOSH_IS_SPLASH (self));
   priv = phosh_splash_get_instance_private (self);
 
-  /* Until we can assume phoc with alpha layer-surface support */
-  if (!priv->has_alpha) {
+  if (!phosh_layer_surface_has_alpha (PHOSH_LAYER_SURFACE (self))) {
     gtk_widget_destroy (GTK_WIDGET (self));
     return;
   }
