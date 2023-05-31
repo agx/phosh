@@ -15,6 +15,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (PhoshFader, phosh_fader, PHOSH, FADER, PhoshLayerSurface)
 
-PhoshFader *phosh_fader_new (PhoshMonitor *monitor);
+PhoshFader      *phosh_fader_new                                (PhoshMonitor *monitor);
+void             phosh_fader_hide                               (PhoshFader   *self);
 
 G_END_DECLS
