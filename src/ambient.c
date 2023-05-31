@@ -406,14 +406,19 @@ phosh_ambient_class_init (PhoshAmbientClass *klass)
 static void
 phosh_ambient_init (PhoshAmbient *self)
 {
+  g_autofree char *theme_name = NULL;
+
   self->cancel = g_cancellable_new ();
 
   self->values = g_array_new (FALSE, FALSE, sizeof(double));
 
   self->interface_settings = g_settings_new (INTERFACE_SETTINGS);
   self->phosh_settings = g_settings_new (PHOSH_SETTINGS);
-  /* Force initial sync */
-  self->use_hc = -1;
+
+  /* Check whether we're already using the hc theme */
+  theme_name = g_settings_get_string (self->interface_settings, KEY_GTK_THEME);
+  if (g_strcmp0 (theme_name, HIGH_CONTRAST_THEME) == 0)
+    self->use_hc = TRUE;
 }
 
 
