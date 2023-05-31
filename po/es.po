@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-26 19:59+0200\n"
-"PO-Revision-Date: 2023-05-26 20:00+0200\n"
+"POT-Creation-Date: 2023-05-30 10:34+0000\n"
+"PO-Revision-Date: 2023-05-30 22:23+0200\n"
 "Last-Translator: Pablo Correa Gómez <ablocorrea@hotmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -53,11 +53,13 @@ msgstr "Un sencillo widget de calendario"
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
-msgstr ""
+msgstr "Caja de tickets"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:5
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
-msgstr "Muestra PDF en la pantalla de bloqueo. <b>Este complemento es experimental</b>"
+msgstr ""
+"Muestra PDF en la pantalla de bloqueo. <b>Este complemento es experimental</"
+"b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
@@ -375,7 +377,7 @@ msgstr "Activada"
 msgid "Press ESC to close"
 msgstr "Pulse ESC para cerrar"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:90
 #, c-format
 msgid "Running '%s' failed"
 msgstr "El comando '%s' falló"
@@ -630,35 +632,35 @@ msgstr "Otra información"
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
 msgid "Emergency Info Preferences"
-msgstr ""
+msgstr "Ajustes de información de emergencia"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
 msgid "Done"
-msgstr ""
+msgstr "Hecho"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
 msgid "Owner Name"
-msgstr ""
+msgstr "Nombre del propietario"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
 msgid "Medications and Conditions"
-msgstr ""
+msgstr "Condición médica y tratamientos"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
 msgid "Add Contact"
-msgstr ""
+msgstr "Añadir contacto"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
 msgid "Add New Contact"
-msgstr ""
+msgstr "Añadir nuevo contacto"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
 msgid "Add"
-msgstr ""
+msgstr "Añadir"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
 msgid "New Contact Name"
-msgstr ""
+msgstr "Nombre del nuevo contacto"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
 msgid "Relationship"
@@ -666,19 +668,19 @@ msgstr "Relación"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
 msgid "Number"
-msgstr ""
+msgstr "Número"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
-msgstr ""
+msgstr "No hay documentos que mostrar"
 
 #: plugins/ticket-box/ticket-box.ui:83
 msgid "Tickets"
-msgstr ""
+msgstr "Tickets"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "Choose Folder"
-msgstr ""
+msgstr "Seleccione carpeta"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
@@ -686,23 +688,23 @@ msgstr "_Abrir"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
 msgid "Ticket Box Preferences"
-msgstr ""
+msgstr "Preferencias de la caja de tickets"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
 msgid "Paths"
-msgstr ""
+msgstr "Rutas"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
 msgid "Folder Settings"
-msgstr ""
+msgstr "Ajustes de carpeta"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
 msgid "Where Phosh looks for your tickets"
-msgstr ""
+msgstr "Dónde debe Phosh buscar sus tickets"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
 msgid "Ticket Folder"
-msgstr ""
+msgstr "Carpeta de tickets"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
