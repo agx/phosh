@@ -1,3 +1,42 @@
+phosh 0.28.0
+------------
+Released May 2023
+* Allow notifications to wake up the screen. Can be configured by
+  category and urgency.
+* Allow lockscreen to work on smaller displays
+* Allow to reboot / log out from the settings power menu
+* Styling improvements in several places
+* Smoothen transition from splash to application
+* Handle super key to open overview
+* Handle auto repeat on grabbed keys (e.g. volume keys)
+* Update to libcall-ui 0.1.0
+* Bump minimal supported GNOME versions to 42 and glib to 2.72
+* Issues fixed:
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/525
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/934  
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/563
+* Contributors:
+    * Alistair Francis
+    * Eugenio Paolantonio (g7)
+    * Evangelos Ribeiro Tzaras
+    * Guido Günther
+    * Sam Hewitt
+    * Suraj Kumar Mahto
+    * Thomas Booker
+* UI translations:
+    * Danial Behzadi (fa)
+    * Daniel Rusek (cs)
+    * Daniel Șerbănescu (ro)
+    * Ekaterine Papava (ka)
+    * Emin Tufan Çetin (tr)
+    * Jordi Mas i Hernandez (ca)
+    * Michael Oppliger (de)
+    * Pablo Correa Gómez (es)
+    * Piotr Drąg (pl)
+    * Vittorio Monti (it)
+    * Yosef Or Boczko (he)
+    * Yuri Chornoivan (uk)
+
 phosh 0.27.0
 ------------
 Released May 2023

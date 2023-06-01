@@ -1,3 +1,201 @@
+phosh (0.28.0) experimental; urgency=medium
+
+  [ Eugenio Paolantonio (g7) ]
+  * packaging: Remove hardcoded build directory when running tests.
+    Rely on debhelper to determine the build directory, which may not be
+    `_build` anymore (see also 6483f73ea9018b95cf82f69242ce9bec4690e3de).
+
+  [ Guido Günther ]
+  * libcall-ui: Switch to 0.1.0
+  * app-tracker: Update flag descriptions.
+    We handle xdg-activation on the compositor side since some time
+  * emergency-calls-manager: Name functions consistently.
+    It's the emergency-calls manager, not the emergency-contact manager
+  * screen-saver-manager: Use G_SOURCE_REMOVE.
+    It's easier to parse than `FALSE`.
+  * end-session-dialog: Hide warning label when there are no inhibitors.
+    Fixes: 381efd906f411f4f738daeea43bde4f35bf3e2a0
+  * notify-feedback: Look at correct notification.
+    So far we only ever looked at the first one. This is fine as
+    we break the loop on the first iteration atm but will lead
+    to surprises when we change this.
+  * notify-feedback: Avoid critical when app-info lookup fails
+  * ci: Montage screenshots via script.
+    This makes it easy to reproduce things locally
+  * system-modal-dialog: Improve title padding.
+    Add some margin to the left and right to make the title not touch the
+    border of the dialog.
+  * system-modal-dialog: Add top and bottom margins.
+    Otherwise the dialog can stretch to the screen edge
+  * system-modal-dialogs: Reorder the right box.
+    We want to reorder the button box when forcing a position. This
+    is so far unused.
+  * tools/check-access-portal: Simplify.
+    Let getopt handle '-h' and use a here document for easier formatting
+  * portal-access-manager: Don't leak grant and deny label.
+    They were g_strdup'ed but never freed. Instead use a pointer
+    to the gvariant's value.
+  * system-modal-dialog: Add property docstring.
+    Makes it show up in the docs
+  * app-auth-prompt: Add bindings for construct-only properties earlier.
+    Doing this in `constructed` worked by accident. When
+    `system-modal-dialog` removed it's binding in `init` it started to fail.
+    Fixes: 5f7d38bdf86c5f01e8cc0f1560181a875f68b34a (which didn't have a
+    chance to notice)
+  * system-modal-dialog: Simplify.
+    If we hide the title initially we only need to make it visible when we
+    set a title and can hence exit early if the title didn't change.
+  * system-modal-dialog: Drop constructed.
+    We can do that in init just fine
+  * ambient: Don't ignore unknown units silently.
+    Print at warning so support can be added when we hit that case.
+  * ci: Use upercase variable name for alpine deps.
+    Fixes: 47209e49923a256432ca7e536ed7fa3eb20c7683
+  * stubs: Use correct enum type for state flags
+    Labels, clamps and boxes are unfocusable by default
+  * lockscreen: Remove superfluous packaging.
+    Just use the defaults
+  * layersurface: Add noop implementation for configure.
+    This frees deriving classes from checking for NULL
+  * lockscreen: Drop the top margin on smaller displays.
+    This allows us to keep the keypad's box center aligned.
+  * test-notification: Use g_strv_equal.
+    We require glib 2.66
+  * data: Sort by schema path
+  * screen-saver-manager: Add action to wakeup the screen
+  * shell: Make activating actions a bit more failsafe.
+    Make sure we log an error on inexistent actions. We remove the
+    action_group iface implementation for that.
+  * notify-feedback: Unblank screen on new notifications.
+    We allow to filter by urgency and category. This allows to e.g. enable
+    screen wakup for all 'critical' messages and those send by alarm-clocks
+    but not instant-messages via
+    wakeup-screen-triggers == [ 'urgency', 'category' ]
+    wakeup-screen-urgency == 'critical'
+    wakeup-screen-categories == [ 'x-gnome.clock.alarm' ]
+    (assuming the alarm clock sets the above category)
+    To match on all instant messages too we'd do:
+    wakeup-screen-categories == [ 'x-gnome.clock.alarm', 'im' ]
+    This will match on all notifications with category class `im`
+    independent from the specific. So we'd match on `im`, `im.received` and
+    `im.error`.
+    Available categories (of the form `class.specific`) can be found in the
+    xdg spec:
+    https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/934
+  * Revert "top-panel: Close settings before taking screenshot"
+    This reverts commit 30167a934b5b6820b583d262a386bed3d1dab141.
+    Not needed as we switch away from the power-menu.
+  * Revert "top-panel: Remove currently unused actions"
+    This reverts commit a4d2e6d846a2ffd4f3028242ed1803563ee68d17.
+    Add them back as we switch away from the power-menu.
+  * Revert "top-panel: Trigger power-menu"
+    This reverts commit 63fae83fa5ef42ade7fb898164fc7cb2d27c40a7.
+    Bring back the old power off / logout / restart menu
+    This closes https://gitlab.gnome.org/World/Phosh/phosh/-/issues/932
+    although we don't add it to the power-button menu but rather bring
+    back the system menu.
+  * top-panel: Rename to menu to system-menu.
+    This better fits designer language (see
+    https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/1254)
+  * system-menu: Drop lock screen.
+    We have that on an extra button and it's not "power cycle" related.
+  * top-panel: Drop unused power-menu action
+  * system-menu: Use icons in the menu
+  * layersurface: Allow to set alpha
+  * splash-manager: Assume color-scheme is a known key
+  * build: Require settings-schema 42.
+    This allows us to drop the check for color-scheme
+  * splash: Remove excessive white space
+  * splash-manager: Hide splash.
+    Don't just destroy the widget. Give the splash a chance to fade out.
+  * animation: Add quintic ease in and out
+  * splash: Add phosh_splash_hide.
+    This hides and destroys the splash
+  * splash: Use a fade out animation to hide the splash
+  * splash: Allow to run against old phoc
+  * build: Add animation slowdown option.
+    For debugging it can be useful to slow down animations. Add config
+    option for that
+  * quicksettings: Add a bit more top and bottom padding.
+    This makes the buttons a bit easier to touch
+  * home: Ease application switching with super key.
+    Currently the super key activates the application view (focusing the the
+    search bar). Focusing the running application instead allows for direct
+    window switching via cursor keys and application search as the user can
+    just start typing.
+  * build: Bump supported glib version to 2.72.
+    We mostly do this to so we can assume `launch-started` in some
+    upcoming app-tracker changes.
+    This is still pretty conservative as glib 2.76 is current.
+
+  [ Thomas Booker ]
+  * emergency-calls-manager: Fix spelling
+
+  [ Alistair Francis ]
+  * home: Handle the super key.
+    Since Phoc allows passing the super key (see MR) we can subscribe to it
+    and use the super key to unfold the home. This is similar to how the key
+    works on GNOME.
+    Note that on versions of Phoc that don't expose the super key, this will
+    just generate a warning as Phoc rejects the binding.
+    Works-with: https://gitlab.gnome.org/World/Phosh/phoc/-/merge_requests/447
+    Fixes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/563
+
+  [ Suraj Kumar Mahto ]
+  * lockscreen: Remove currently unused (and hidden) emergency call button.
+    Emergency calls are reachable via long press. We'll look into adding a
+    button right on the lock screen once the feature is deemded stable and
+    hence enabled by default.
+
+  [ Sam Hewitt ]
+  * New close button for power menu
+  * top-panel: System menu styling
+
+  [ Evangelos Ribeiro Tzaras ]
+  * gnome-shell-manager: Handle repeat for accelerators.
+    Repeat action until accelerator was released unless accelerator
+    was grabbed with "ignore autorepeat" set.
+    Fixes: #525
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Vittorio Monti ]
+  * Update Italian translation
+
+  [ Emin Tufan Çetin ]
+  * Update Turkish translation
+
+  [ Pablo Correa Gómez ]
+  * Update Spanish translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
+
+  [ Piotr Drąg ]
+  * Update Polish translation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Michael Oppliger ]
+  * Update German translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 29 May 2023 12:31:28 +0200
+
 phosh (0.27.0) experimental; urgency=medium
 
   [ CoderThomasB ]
