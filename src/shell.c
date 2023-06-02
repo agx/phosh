@@ -45,6 +45,7 @@
 #include "idle-manager.h"
 #include "keyboard-events.h"
 #include "location-info.h"
+#include "layout-manager.h"
 #include "location-manager.h"
 #include "lockscreen-manager.h"
 #include "media-player.h"
@@ -163,6 +164,7 @@ typedef struct
   PhoshSuspendManager *suspend_manager;
   PhoshEmergencyCallsManager *emergency_calls_manager;
   PhoshPowerMenuManager *power_menu_manager;
+  PhoshLayoutManager *layout_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -338,10 +340,9 @@ static void
 panels_create (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  PhoshMonitor *monitor;
   PhoshWayland *wl = phosh_wayland_get_default ();
+  PhoshMonitor *monitor;
   PhoshAppGrid *app_grid;
-
   guint32 top_layer;
 
   monitor = phosh_shell_get_primary_monitor (self);
@@ -552,6 +553,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->keyboard_events);
   g_clear_object (&priv->app_tracker);
   g_clear_object (&priv->suspend_manager);
+  g_clear_object (&priv->layout_manager);
 
   /* sensors */
   g_clear_object (&priv->proximity);
@@ -709,6 +711,7 @@ setup_idle_cb (PhoshShell *self)
   if (!priv->sensor_proxy_manager)
     g_message ("Failed to connect to sensor-proxy: %s", err->message);
 
+  priv->layout_manager = phosh_layout_manager_new ();
   panels_create (self);
   /* Create background after panel since it needs the panel's size */
   priv->background_manager = phosh_background_manager_new ();
@@ -1439,6 +1442,19 @@ phosh_shell_get_gtk_mount_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_GTK_MOUNT_MANAGER (priv->gtk_mount_manager), NULL);
 
   return priv->gtk_mount_manager;
+}
+
+
+PhoshLayoutManager *
+phosh_shell_get_layout_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_LAYOUT_MANAGER (priv->layout_manager), NULL);
+  return priv->layout_manager;
 }
 
 
