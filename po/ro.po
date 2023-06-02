@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-21 10:33+0000\n"
-"PO-Revision-Date: 2023-04-23 16:01+0200\n"
+"POT-Creation-Date: 2023-05-18 11:35+0000\n"
+"PO-Revision-Date: 2023-05-18 13:52+0200\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -93,7 +93,7 @@ msgid "Undocked"
 msgstr "Decuplat"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:62
+#: src/ui/end-session-dialog.ui:71
 msgid "Ok"
 msgstr "De acord"
 
@@ -105,11 +105,11 @@ msgstr "Nu se poate efectua apelul de urgență"
 msgid "Internal error"
 msgstr "Eroare internă"
 
-#: src/end-session-dialog.c:162
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "Deconectare"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -117,11 +117,11 @@ msgstr[0] "%s se va deconecta automat în %d secundă."
 msgstr[1] "%s se va deconecta automat în %d secunde."
 msgstr[2] "%s se va deconecta automat în %d de secunde."
 
-#: src/end-session-dialog.c:171
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "Oprește"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -129,11 +129,11 @@ msgstr[0] "Sistemul se va opri automat în %d secundă."
 msgstr[1] "Sistemul se va opri automat în %d secunde."
 msgstr[2] "Sistemul se va opri automat în %d de secunde."
 
-#: src/end-session-dialog.c:178
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "Repornește"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -141,7 +141,7 @@ msgstr[0] "Sistemul va reporni automat în %d secundă."
 msgstr[1] "Sistemul va reporni automat în %d secunde."
 msgstr[2] "Sistemul va reporni automat în %d de secunde."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "Aplicație necunoscută"
 
@@ -182,16 +182,15 @@ msgstr "Da"
 msgid "No"
 msgstr "Nu"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
 msgid "Enter Passcode"
 msgstr "Introdu codul de acces"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "Se verifică…"
 
 #: src/screenshot-manager.c:212
-#| msgid "_Screenshot"
 msgid "Screenshot"
 msgstr "Captură de ecran"
 
@@ -396,7 +395,7 @@ msgstr "Lanternă"
 msgid "Remember decision"
 msgstr "Memorează decizia"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
@@ -427,12 +426,10 @@ msgid "Close the emergency call dialog"
 msgstr "Închide dialogul despre apelul de urgență"
 
 #: src/ui/emergency-menu.ui:52
-#| msgid "Emergency Contacts"
 msgid "Emergency _Contacts"
 msgstr "_Contacte de urgență"
 
 #: src/ui/emergency-menu.ui:59
-#| msgid "Emergency Contacts"
 msgid "Go to the emergency contacts page"
 msgstr "Du-te la pagina contactelor de urgență"
 
@@ -441,7 +438,6 @@ msgid "Go back to the emergency dialpad page"
 msgstr "Înapoi la pagina de apelare de urgență"
 
 #: src/ui/emergency-menu.ui:106
-#| msgid "Unknown"
 msgid "Owner unknown"
 msgstr "Proprietar necunoscut"
 
@@ -450,8 +446,7 @@ msgstr "Proprietar necunoscut"
 msgid "Emergency Contacts"
 msgstr "Contacte de urgență"
 
-#: src/ui/emergency-menu.ui:148
-#| msgid "Emergency Contacts"
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "Nu există contacte de urgență."
 
@@ -471,19 +466,15 @@ msgstr "Domeniu:"
 msgid "Co_nnect"
 msgstr "Co_nectează"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
 msgid "Back"
 msgstr "Înapoi"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:90
 msgid "Slide up to unlock"
 msgstr "Trage în sus pentru a debloca"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "Urgență"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:273
 msgid "Unlock"
 msgstr "Deblochează"
 
@@ -492,7 +483,7 @@ msgid "Authentication required"
 msgstr "Autentificare necesară"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_Anulează"
 
@@ -504,19 +495,19 @@ msgstr "C_onectează"
 msgid "Authenticate"
 msgstr "Autentificare"
 
-#: src/ui/power-menu.ui:37
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
 msgstr "O_prește"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr "B_lochează"
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr "_Captură de ecran"
 
-#: src/ui/power-menu.ui:160
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
 msgstr "_Urgență"
 
@@ -535,6 +526,21 @@ msgstr "Șterge tot"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Confirmă:"
+
+#: src/ui/top-panel.ui:32
+#| msgid "_Power Off"
+msgid "_Power Off…"
+msgstr "O_prește…"
+
+#: src/ui/top-panel.ui:60
+#| msgid "Restart"
+msgid "_Restart…"
+msgstr "_Repornește…"
+
+#: src/ui/top-panel.ui:88
+#| msgid "Log Out"
+msgid "_Log Out…"
+msgstr "_Deconectare…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -676,7 +682,7 @@ msgstr "Bilete"
 msgid "Choose Folder"
 msgstr "Alege dosarul"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "_Deschide"
 
