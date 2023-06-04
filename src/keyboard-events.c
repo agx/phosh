@@ -205,12 +205,12 @@ initable_init (GInitable    *initable,
     return FALSE;
   }
 
-  if (phosh_private_get_version (phosh_private) < PHOSH_PRIVATE_KBD_EVENTS_SINCE) {
+  if (phosh_private_get_version (phosh_private) < PHOSH_PRIVATE_GET_KEYBOARD_EVENT_SINCE_VERSION) {
     g_warning ("Skipping grab manager due to mismatch of phosh_private protocol version");
     g_set_error (error,
                  G_IO_ERROR, G_IO_ERROR_FAILED,
                  "Protocol version mismatch. Need %d, got %d",
-                 PHOSH_PRIVATE_KBD_EVENTS_SINCE,
+                 PHOSH_PRIVATE_GET_KEYBOARD_EVENT_SINCE_VERSION,
                  phosh_private_get_version (phosh_private));
     return FALSE;
   }

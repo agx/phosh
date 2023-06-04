@@ -44,12 +44,6 @@ typedef enum {
   PHOSH_WAYLAND_SEAT_CAPABILITY_TOUCH    = (1 << 2),
 } PhoshWaylandSeatCapabilities;
 
-/* Versions of phosh-private protocol that add certain features */
-#define PHOSH_PRIVATE_GET_THUMBNAIL_SINCE  4
-#define PHOSH_PRIVATE_KBD_EVENTS_SINCE     5
-#define PHOSH_PRIVATE_STARTUP_NOTIFY_SINCE 6
-#define PHOSH_PRIVATE_SHELL_READY_SINCE    6
-
 #define PHOSH_TYPE_WAYLAND phosh_wayland_get_type()
 
 G_DECLARE_FINAL_TYPE (PhoshWayland, phosh_wayland, PHOSH, WAYLAND, GObject)

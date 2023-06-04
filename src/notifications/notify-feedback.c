@@ -92,25 +92,83 @@ find_event (const char *category)
 
 
 static void
-maybe_wakeup_screen (PhoshNotifyFeedback *self, GListModel *list, guint position, guint added)
+maybe_wakeup_screen (PhoshNotifyFeedback *self, PhoshNotificationSource *source, guint position, guint num)
 {
-  g_return_if_fail (added > 0);
+  g_return_if_fail (num > 0);
 
   if (self->wakeup_flags & PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_ANY) {
     phosh_shell_activate_action (phosh_shell_get_default (), "screensaver.wakeup-screen", NULL);
     return;
   }
 
-  for (int i = 0; i < added; i++) {
-    g_autoptr (PhoshNotification) new = g_list_model_get_item (list, position + i);
+  for (int i = 0; i < num; i++) {
+    g_autoptr (PhoshNotification) noti = g_list_model_get_item (G_LIST_MODEL (source), position + i);
     gboolean wakeup;
 
-    g_return_if_fail (PHOSH_IS_NOTIFICATION (new));
+    g_return_if_fail (PHOSH_IS_NOTIFICATION (noti));
 
-    wakeup = phosh_notify_feedback_check_screen_wakeup (self, new);
-    if (wakeup)
+    wakeup = phosh_notify_feedback_check_screen_wakeup (self, noti);
+    if (wakeup) {
       phosh_shell_activate_action (phosh_shell_get_default (), "screensaver.wakeup-screen", NULL);
+      break;
+    }
   }
+}
+
+
+static gboolean
+maybe_trigger_feedback (PhoshNotifyFeedback *self, PhoshNotificationSource *source, guint position, guint num)
+{
+  for (int i = 0; i < num; i++) {
+    g_autoptr (PhoshNotification) noti = g_list_model_get_item (G_LIST_MODEL (source), position + i);
+    g_autoptr (LfbEvent) event = NULL;
+    const char *category, *event_name;
+    g_autofree char *app_id = NULL;
+    GAppInfo *info = NULL;
+
+    g_return_val_if_fail (PHOSH_IS_NOTIFICATION (noti), FALSE);
+
+    category = phosh_notification_get_category (noti);
+    event_name = find_event (category);
+    if (event_name == NULL)
+      continue;
+
+    info = phosh_notification_get_app_info (noti);
+    if (info)
+      app_id = phosh_strip_suffix_from_app_id (g_app_info_get_id (info));
+
+    g_debug ("Emitting event %s for %s", event_name, app_id ?: "unknown");
+    event = lfb_event_new (event_name);
+    g_set_object (&self->event, event);
+
+    if (app_id)
+      lfb_event_set_app_id (event, app_id);
+
+    lfb_event_trigger_feedback_async (self->event, NULL, NULL, NULL);
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+
+static void
+on_notification_source_items_changed (PhoshNotifyFeedback *self,
+                                      guint                position,
+                                      guint                removed,
+                                      guint                added,
+                                      GListModel          *list)
+{
+  if (!added)
+    return;
+
+  maybe_wakeup_screen (self, PHOSH_NOTIFICATION_SOURCE (list), position, added);
+
+  /* TODO: add pending events to queue instead of just skipping them. */
+  if (self->event && lfb_event_get_state (self->event) == LFB_EVENT_STATE_RUNNING)
+    return;
+
+  maybe_trigger_feedback (self, PHOSH_NOTIFICATION_SOURCE (list), position, added);
 }
 
 
@@ -125,60 +183,11 @@ on_settings_changed (PhoshNotifyFeedback *self, char *key, GSettings *settings)
 
 
 static void
-on_notifcation_source_items_changed (PhoshNotifyFeedback *self,
-                                     guint                position,
-                                     guint                removed,
-                                     guint                added,
-                                     GListModel          *list)
-{
-  if (!added)
-    return;
-
-  maybe_wakeup_screen (self, list, position, added);
-
-  /* TODO: add pending events to queue instead of just skipping them. */
-  if (self->event && lfb_event_get_state (self->event) == LFB_EVENT_STATE_RUNNING)
-    return;
-
-  for (int i = 0; i < added; i++) {
-    g_autoptr (PhoshNotification) new = g_list_model_get_item (list, position + i);
-    g_autoptr (LfbEvent) event = NULL;
-    const char *category, *event_name;
-    g_autofree char *app_id = NULL;
-    GAppInfo *info = NULL;
-
-    g_return_if_fail (PHOSH_IS_NOTIFICATION (new));
-
-    category = phosh_notification_get_category (new);
-    event_name = find_event (category);
-    if (event_name == NULL)
-      continue;
-
-    info = phosh_notification_get_app_info (new);
-    if (info == NULL)
-        continue;
-    app_id = phosh_strip_suffix_from_app_id (g_app_info_get_id (info));
-
-    g_debug ("Emitting event %s for %s", event_name, app_id ?: "unknown");
-    event = lfb_event_new (event_name);
-    g_set_object (&self->event, event);
-
-    if (app_id)
-      lfb_event_set_app_id (event, app_id);
-
-    lfb_event_trigger_feedback_async (self->event, NULL, NULL, NULL);
-    /* TODO: add additional events to queue instead of just skipping them */
-    break;
-  }
-}
-
-
-static void
-on_notifcation_list_items_changed (PhoshNotifyFeedback *self,
-                                   guint                position,
-                                   guint                removed,
-                                   guint                added,
-                                   GListModel          *list)
+on_notification_list_items_changed (PhoshNotifyFeedback *self,
+                                    guint                position,
+                                    guint                removed,
+                                    guint                added,
+                                    GListModel          *list)
 {
   g_autoptr (PhoshNotificationSource) first = g_list_model_get_item (list, 0);
 
@@ -194,12 +203,33 @@ on_notifcation_list_items_changed (PhoshNotifyFeedback *self,
     /* Listen to new notification on the store for feedback triggering */
     g_signal_connect_object (source,
                              "items-changed",
-                             G_CALLBACK (on_notifcation_source_items_changed),
+                             G_CALLBACK (on_notification_source_items_changed),
                              self,
                              G_CONNECT_SWAPPED);
-    on_notifcation_source_items_changed (self, 0, 0,
+    on_notification_source_items_changed (self, 0, 0,
                                          g_list_model_get_n_items (G_LIST_MODEL (source)),
                                          G_LIST_MODEL (source));
+  }
+}
+
+
+static void
+on_shell_state_changed (PhoshNotifyFeedback *self, GParamSpec *pspec, PhoshShell *shell)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFY_FEEDBACK (self));
+
+  /* Feedback ongoing, nothing to do */
+  if (self->event && lfb_event_get_state (self->event) == LFB_EVENT_STATE_RUNNING)
+    return;
+
+  if (!phosh_shell_get_blanked (shell))
+    return;
+
+  for (guint i = 0; i < g_list_model_get_n_items (G_LIST_MODEL (self->list)); i++) {
+    g_autoptr (PhoshNotificationSource) source = g_list_model_get_item (G_LIST_MODEL (self->list), i);
+
+    if (maybe_trigger_feedback (self, source, 0, g_list_model_get_n_items (G_LIST_MODEL (source))))
+      break;
   }
 }
 
@@ -251,8 +281,14 @@ phosh_notify_feedback_constructed (GObject *object)
 
   g_signal_connect_swapped (self->list,
                             "items-changed",
-                            G_CALLBACK (on_notifcation_list_items_changed),
+                            G_CALLBACK (on_notification_list_items_changed),
                             self);
+
+  g_signal_connect_object (phosh_shell_get_default (),
+                           "notify::shell-state",
+                           G_CALLBACK (on_shell_state_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 

@@ -615,7 +615,7 @@ phosh_app_tracker_init (PhoshAppTracker *self)
   self->idle_id = g_idle_add ((GSourceFunc)on_idle, self);
 
   version = phosh_wayland_get_phosh_private_version (wl);
-  if (!phosh_private || version < PHOSH_PRIVATE_STARTUP_NOTIFY_SINCE) {
+  if (!phosh_private || version < PHOSH_PRIVATE_GET_STARTUP_TRACKER_SINCE_VERSION) {
     g_warning ("Compositor lacks app startup tracker support");
     return;
   }
