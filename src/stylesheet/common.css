@@ -21,10 +21,21 @@ phosh-top-panel .indicators {
   font-feature-settings: "tnum";
 }
 
-phosh-top-panel .phosh-topbar-clock{
+phosh-top-panel .phosh-topbar-clock {
   font-size: 16px;
 }
-phosh-top-panel .phosh-topbar-date{
+
+/* When moved to the left because of a cutout */
+phosh-top-panel .phosh-topbar-clock.left {
+  padding-right: 6px;
+}
+
+/* When moved to the right because of a cutout */
+phosh-top-panel .phosh-topbar-clock.right {
+  padding-left: 6px;
+}
+
+phosh-top-panel .phosh-topbar-date {
   font-size: 14px;
 }
 
