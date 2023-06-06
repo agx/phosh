@@ -1231,7 +1231,10 @@ phosh_shell_init (PhoshShell *self)
   gtk_settings = gtk_settings_get_default ();
   g_object_set (G_OBJECT (gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
 
-  g_signal_connect_swapped (gtk_settings, "notify::gtk-theme-name", G_CALLBACK (on_gtk_theme_name_changed), self);
+  g_signal_connect_swapped (gtk_settings,
+                            "notify::gtk-theme-name",
+                            G_CALLBACK (on_gtk_theme_name_changed),
+                            self);
   on_gtk_theme_name_changed (self, NULL, gtk_settings);
 
   priv->shell_state = PHOSH_STATE_NONE;
