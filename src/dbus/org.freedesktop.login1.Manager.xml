@@ -19,6 +19,10 @@
       <arg name="pipe_fd" type="h" direction="out" />
     </method>
 
+    <method name="Suspend">
+        <arg type="b" direction="in"/>
+    </method>
+
     <signal name="PrepareForSleep">
       <arg name="suspending" type="b" direction="out" />
     </signal>

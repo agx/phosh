@@ -193,6 +193,19 @@ on_restart_action (GSimpleAction *action,
 
 
 static void
+on_suspend_action (GSimpleAction *action,
+                    GVariant      *parameter,
+                    gpointer       data)
+{
+  PhoshTopPanel *self = PHOSH_TOP_PANEL(data);
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
+  g_action_group_activate_action (G_ACTION_GROUP (phosh_shell_get_default ()),
+                                  "suspend.trigger-suspend", NULL);
+  phosh_top_panel_fold (self);
+}
+
+
+static void
 on_lockscreen_action (GSimpleAction *action,
                       GVariant      *parameter,
                       gpointer      data)
@@ -472,6 +485,7 @@ on_drag_state_changed (PhoshTopPanel *self)
 static GActionEntry entries[] = {
   { .name = "poweroff", .activate = on_shutdown_action },
   { .name = "restart", .activate = on_restart_action },
+  { .name = "suspend", .activate = on_suspend_action },
   { .name = "lockscreen", .activate = on_lockscreen_action },
   { .name = "logout", .activate = on_logout_action },
 };
@@ -482,6 +496,7 @@ phosh_top_panel_constructed (GObject *object)
 {
   PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
   GdkDisplay *display = gdk_display_get_default ();
+  g_autoptr (GSettings) phosh_settings = g_settings_new ("sm.puri.phosh");
 
   G_OBJECT_CLASS (phosh_top_panel_parent_class)->constructed (object);
 
@@ -556,6 +571,13 @@ phosh_top_panel_constructed (GObject *object)
                                                   "logout");
     g_simple_action_set_enabled (G_SIMPLE_ACTION(action), FALSE);
   }
+
+  g_settings_bind (phosh_settings,
+                   "enable-suspend",
+                   g_action_map_lookup_action(G_ACTION_MAP (self->actions), "suspend"),
+                   "enabled",
+                   G_SETTINGS_BIND_GET);
+                   
 
   self->interface_settings = g_settings_new ("org.gnome.desktop.interface");
   g_settings_bind (self->interface_settings,

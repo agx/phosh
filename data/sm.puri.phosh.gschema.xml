@@ -60,6 +60,14 @@
         When automatic high contrast is enabled this defines the light level at which to switch.
       </description>
     </key>
+    <key name="enable-suspend" type="b">
+      <default>false</default>
+      <summary>Whether to enable suspend from the power menu</summary>
+      <description>
+          Setting this to true allows manually suspending the device from the power menu.
+          Suspend is an experimental feature on some devices and may result in crashes or instability.
+      </description>
+    </key>
   </schema>
 
   <schema id="sm.puri.phosh.emergency-calls"
