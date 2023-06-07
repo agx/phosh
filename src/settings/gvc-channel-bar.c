@@ -93,12 +93,11 @@ _scale_box_new (GvcChannelBar *self)
 
   gtk_widget_add_events (self->scale, GDK_SCROLL_MASK);
 
-  g_signal_connect (G_OBJECT (self->scale), "button-press-event",
-                    G_CALLBACK (on_scale_button_press_event), self);
-  g_signal_connect (G_OBJECT (self->scale), "button-release-event",
-                    G_CALLBACK (on_scale_button_release_event), self);
-  g_signal_connect (G_OBJECT (self->scale), "scroll-event",
-                    G_CALLBACK (on_scale_scroll_event), self);
+  g_object_connect (self->scale,
+                    "signal::button-press-event", on_scale_button_press_event, self,
+                    "signal::button-release-event", on_scale_button_release_event, self,
+                    "signal::scroll-event", on_scale_scroll_event, self,
+                    NULL);
 
   if (self->size_group != NULL)
     gtk_size_group_add_widget (self->size_group, box);
