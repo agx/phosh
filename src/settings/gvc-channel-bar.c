@@ -487,12 +487,10 @@ gvc_channel_bar_init (GvcChannelBar *self)
 GtkWidget *
 gvc_channel_bar_new (void)
 {
-  GObject *self;
-  self = g_object_new (GVC_TYPE_CHANNEL_BAR,
+  return g_object_new (GVC_TYPE_CHANNEL_BAR,
                        "orientation", GTK_ORIENTATION_HORIZONTAL,
                        "icon-name", "audio-speakers-symbolic",
                        NULL);
-  return GTK_WIDGET (self);
 }
 
 
