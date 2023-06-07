@@ -116,10 +116,7 @@ update_image (GvcChannelBar *self)
                                 self->icon_name,
                                 GTK_ICON_SIZE_BUTTON);
 
-  if (self->icon_name != NULL)
-    gtk_widget_show (self->image);
-  else
-    gtk_widget_hide (self->image);
+  gtk_widget_set_visible (self->image, self->icon_name != NULL);
 }
 
 
