@@ -127,10 +127,9 @@ gvc_channel_bar_set_size_group (GvcChannelBar *self,
 
   self->size_group = group;
 
-  if (self->size_group != NULL) {
-    gtk_size_group_add_widget (self->size_group,
-                               self->scale_box);
-  }
+  if (self->size_group != NULL)
+    gtk_size_group_add_widget (self->size_group, self->scale_box);
+
   gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
