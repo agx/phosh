@@ -1,3 +1,43 @@
+phosh (0.29.0~alpha) experimental; urgency=medium
+
+  * UNRELEASED
+
+  [ Guido Günther ]
+  * tests: Create a dummy object for PhoshShell.
+  * phosh-wayland: Drop feature flags.
+    Wayland defines these just fine for us from the protocol definitions.
+    This makes it consistent with other places where we used the
+    wayland definitions directly e.g.
+    PHOSH_PRIVATE_KEYBOARD_EVENT_ACCELERATOR_RELEASED_EVENT_SINCE_VERSION
+    ZPHOC_LAYER_SHELL_EFFECTS_V1_GET_ALPHA_LAYER_SURFACE_SINCE_VERSION
+  * notify-feedback: Exit early when we woke up the screen.  Doing it once is
+    enough.
+  * notify-feedback: Use PhoshNotificationSource.
+    No functional change, just make the function take a notification source
+    and not assume it's part of an on_items_changed callback.
+  * notify-feedback: Move event based feedback emission into a separate function.
+    Iterating a notification source to look for feedback to emit will be
+    used in more places.
+  * notify-feedback: Don't skip feedback if we fail to get the app-id.
+    Use phosh's current feedback level in that case.
+  * notify-feedback: Blink leds when screen goes blank and there are notifications.
+    If there are notifications present and the screen goes blank we should
+    explicitly trigger event feedback for these.
+
+  [ Sam Hewitt ]
+  * data: Add icon for suspend
+
+  [ undef ]
+  * top-panel: Allow device suspend from power menu.
+    Add suspend from the top-panel power menu alongside shutdown and
+    logout. This allows far quicker access than waiting for the automatic
+    timeout or typing the command.
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 07 Jun 2023 20:25:17 +0200
+
 phosh (0.28.0) experimental; urgency=medium
 
   [ Eugenio Paolantonio (g7) ]
