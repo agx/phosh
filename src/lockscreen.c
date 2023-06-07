@@ -223,7 +223,7 @@ finish_shake_label (PhoshLockscreen *self)
 {
   clear_input (self, TRUE);
   gtk_widget_set_sensitive (GTK_WIDGET (self), TRUE);
-  return FALSE;
+  return G_SOURCE_REMOVE;
 }
 
 
