@@ -63,7 +63,9 @@ enum
   PROP_IS_MUTED,
   PROP_ICON_NAME,
   PROP_IS_AMPLIFIED,
+  LAST_PROP,
 };
+static GParamSpec *props[LAST_PROP];
 
 static gboolean on_scale_button_press_event   (GtkWidget      *widget,
                                                GdkEventButton *event,
@@ -429,27 +431,33 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
   object_class->set_property = gvc_channel_bar_set_property;
   object_class->get_property = gvc_channel_bar_get_property;
 
-  g_object_class_install_property (object_class,
-                                   PROP_IS_MUTED,
-                                   g_param_spec_boolean ("is-muted",
-                                                         "is muted",
-                                                         "Whether stream is muted",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE|G_PARAM_CONSTRUCT));
-  g_object_class_install_property (object_class,
-                                   PROP_ICON_NAME,
-                                   g_param_spec_string ("icon-name",
-                                                        "Icon Name",
-                                                        "Name of icon to display for this stream",
-                                                        NULL,
-                                                        G_PARAM_READWRITE|G_PARAM_CONSTRUCT));
-  g_object_class_install_property (object_class,
-                                   PROP_IS_AMPLIFIED,
-                                   g_param_spec_boolean ("is-amplified",
-                                                         "Is amplified",
-                                                         "Whether the stream is digitally amplified",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE|G_PARAM_CONSTRUCT));
+  /**
+   * GvcChannelBar:is-muted:
+   *
+   * Whether the stream is muted
+   */
+  props[PROP_IS_MUTED] = g_param_spec_boolean ("is-muted", "", "",
+                                               FALSE,
+                                               G_PARAM_READWRITE|G_PARAM_CONSTRUCT);
+  /**
+   * GvcChannelBar:icon-name:
+   *
+   * The name of icon to display for this stream
+   */
+  props[PROP_ICON_NAME] = g_param_spec_string ("icon-name", "", "",
+                                               NULL,
+                                               G_PARAM_READWRITE|G_PARAM_CONSTRUCT);
+  /**
+   * GvcChannelBar:is-amplified:
+   *
+   * Whether the stream is digitally amplified
+   */
+  props[PROP_IS_AMPLIFIED] =
+    g_param_spec_boolean ("is-amplified", "", "",
+                          FALSE,
+                          G_PARAM_READWRITE|G_PARAM_CONSTRUCT);
+
+  g_object_class_install_properties (object_class, LAST_PROP, props);
 
   signals[VALUE_CHANGED] = g_signal_new ("value-changed",
                                          G_TYPE_FROM_CLASS (klass),
