@@ -465,8 +465,6 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
 static void
 gvc_channel_bar_init (GvcChannelBar *self)
 {
-  GtkWidget *frame;
-
   self->image = gtk_image_new ();
 
   self->base_volume = ADJUSTMENT_MAX_NORMAL;
@@ -480,17 +478,10 @@ gvc_channel_bar_init (GvcChannelBar *self)
   g_object_ref_sink (self->adjustment);
   g_signal_connect (self->adjustment, "value-changed", G_CALLBACK (on_adjustment_value_changed), self);
 
-  /* frame */
-  frame = gtk_frame_new (NULL);
-  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-  gtk_box_pack_start (GTK_BOX (self), frame, TRUE, TRUE, 0);
-  gtk_widget_show_all (frame);
-
   /* box with scale */
   self->scale_box = _scale_box_new (self);
-
-  gtk_container_add (GTK_CONTAINER (frame), self->scale_box);
-  gtk_widget_show_all (frame);
+  gtk_widget_show_all (self->scale_box);
+  gtk_box_pack_start (GTK_BOX (self), self->scale_box, TRUE, TRUE, 0);
 }
 
 
