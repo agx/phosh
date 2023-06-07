@@ -34,6 +34,17 @@
 #define SCROLLSTEP (ADJUSTMENT_MAX / 100.0 * 5.0)
 
 
+enum
+{
+  PROP_0,
+  PROP_IS_MUTED,
+  PROP_ICON_NAME,
+  PROP_IS_AMPLIFIED,
+  LAST_PROP,
+};
+static GParamSpec *props[LAST_PROP];
+
+
 enum {
   VALUE_CHANGED,
   N_SIGNALS
@@ -57,15 +68,7 @@ struct _GvcChannelBar
   guint32        base_volume;
 };
 
-enum
-{
-  PROP_0,
-  PROP_IS_MUTED,
-  PROP_ICON_NAME,
-  PROP_IS_AMPLIFIED,
-  LAST_PROP,
-};
-static GParamSpec *props[LAST_PROP];
+G_DEFINE_TYPE (GvcChannelBar, gvc_channel_bar, GTK_TYPE_BOX)
 
 static gboolean on_scale_button_press_event   (GtkWidget      *widget,
                                                GdkEventButton *event,
@@ -76,9 +79,6 @@ static gboolean on_scale_button_release_event (GtkWidget      *widget,
 static gboolean on_scale_scroll_event         (GtkWidget      *widget,
                                                GdkEventScroll *event,
                                                GvcChannelBar  *self);
-
-G_DEFINE_TYPE (GvcChannelBar, gvc_channel_bar, GTK_TYPE_BOX)
-
 
 static GtkWidget *
 _scale_box_new (GvcChannelBar *self)
