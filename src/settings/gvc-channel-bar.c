@@ -407,14 +407,7 @@ gvc_channel_bar_get_property (GObject     *object,
 static void
 gvc_channel_bar_finalize (GObject *object)
 {
-  GvcChannelBar *self;
-
-  g_return_if_fail (object != NULL);
-  g_return_if_fail (GVC_IS_CHANNEL_BAR (object));
-
-  self = GVC_CHANNEL_BAR (object);
-
-  g_return_if_fail (self != NULL);
+  GvcChannelBar *self = GVC_CHANNEL_BAR (object);
 
   g_free (self->icon_name);
 
