@@ -28,8 +28,8 @@
 #include "gvc-mixer-control.h"
 
 #define SCALE_SIZE 128
-#define ADJUSTMENT_MAX_NORMAL gvc_mixer_control_get_vol_max_norm(NULL)
-#define ADJUSTMENT_MAX_AMPLIFIED gvc_mixer_control_get_vol_max_amplified(NULL)
+#define ADJUSTMENT_MAX_NORMAL PA_VOLUME_NORM
+#define ADJUSTMENT_MAX_AMPLIFIED PA_VOLUME_UI_MAX
 #define ADJUSTMENT_MAX (self->is_amplified ? ADJUSTMENT_MAX_AMPLIFIED : ADJUSTMENT_MAX_NORMAL)
 #define SCROLLSTEP (ADJUSTMENT_MAX / 100.0 * 5.0)
 
