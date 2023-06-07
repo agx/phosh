@@ -611,6 +611,10 @@ on_deck_visible_child_changed (PhoshLockscreen *self, GParamSpec *pspec, HdyDeck
 
   hdy_deck_set_can_swipe_forward(deck, swipe_forward);
   hdy_deck_set_can_swipe_back (deck, swipe_back);
+
+  /* See https://gitlab.gnome.org/World/Phosh/phosh/-/issues/922 */
+  if (visible_child == priv->carousel)
+    gtk_widget_queue_draw (priv->lbl_clock);
 }
 
 
