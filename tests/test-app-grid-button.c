@@ -62,14 +62,14 @@ test_phosh_app_grid_button_new_favorite (void)
 static void
 test_phosh_app_grid_button_set_app_info (void)
 {
-  GAppInfo *info1 = g_app_info_create_from_commandline ("foo",
-                                                        "com.example.foo",
-                                                        G_APP_INFO_CREATE_NONE,
-                                                        NULL);
-  GAppInfo *info2 = g_app_info_create_from_commandline ("bar",
-                                                        "com.example.bar",
-                                                        G_APP_INFO_CREATE_NONE,
-                                                        NULL);
+  g_autoptr (GAppInfo) info1 = g_app_info_create_from_commandline ("foo",
+                                                                   "com.example.foo",
+                                                                   G_APP_INFO_CREATE_NONE,
+                                                                   NULL);
+  g_autoptr (GAppInfo) info2 = g_app_info_create_from_commandline ("bar",
+                                                                   "com.example.bar",
+                                                                   G_APP_INFO_CREATE_NONE,
+                                                                   NULL);
   GtkWidget *btn;
 
   btn = phosh_app_grid_button_new (info1);
