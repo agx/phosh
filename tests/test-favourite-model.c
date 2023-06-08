@@ -72,6 +72,7 @@ test_phosh_favorite_list_model_get_item (void)
   PhoshFavoriteListModel *model = phosh_favorite_list_model_get_default ();
   g_autoptr (GSettings) settings = NULL;
   const char *items[2] = {"demo.app.First.desktop", NULL};
+  g_autoptr (GAppInfo) item = NULL;
 
   g_assert_true (PHOSH_IS_FAVORITE_LIST_MODEL (model));
   g_assert_true (G_IS_LIST_MODEL (model));
@@ -85,7 +86,8 @@ test_phosh_favorite_list_model_get_item (void)
 
   g_settings_set_strv (settings, "favorites", items);
 
-  g_assert_nonnull (g_list_model_get_item (G_LIST_MODEL (model), 0));
+  item = g_list_model_get_item (G_LIST_MODEL (model), 0);
+  g_assert_nonnull (item);
 }
 
 
