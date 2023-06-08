@@ -227,9 +227,7 @@ phosh_timestamp_label_calc_timeout (PhoshTimestampLabel *self)
 {
 
   g_autoptr (GDateTime) time_now = g_date_time_new_now_local ();
-  GDateTime *timeout_time = NULL;
-
-
+  g_autoptr (GDateTime) timeout_time = NULL;
   int seconds, minutes, hours, days, months;
   double dist_in_seconds;
   GTimeSpan timeout_diff;
