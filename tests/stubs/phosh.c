@@ -11,7 +11,7 @@
 #include "shell.h"
 
 static PhoshToplevelManager *toplevel_manager = NULL;
-GObject *shell = NULL;
+static GObject *shell = NULL;
 
 PhoshShell *
 phosh_shell_get_default (void)
