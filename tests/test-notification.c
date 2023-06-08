@@ -141,9 +141,10 @@ test_phosh_notification_new (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
   g_autoptr (GAppInfo) info = NULL;
-  GIcon *icon;
-  GIcon *image;
+  g_autoptr (GIcon) icon = NULL;
+  g_autoptr (GIcon) image = NULL;
   g_autoptr (GDateTime) now = g_date_time_new_now_local ();
+  GIcon *icon2;
 
   info = G_APP_INFO (g_desktop_app_info_new ("demo.app.Second.desktop"));
   icon = g_themed_icon_new ("should-not-be-seen");
@@ -169,9 +170,9 @@ test_phosh_notification_new (void)
   g_assert_cmpstr (phosh_notification_get_summary (noti), ==, "Hey");
   g_assert_cmpstr (phosh_notification_get_body (noti), ==, "Testing");
 
-  icon = phosh_notification_get_app_icon (noti);
-  g_assert_true (G_IS_THEMED_ICON (icon));
-  g_assert_cmpstr (g_themed_icon_get_names (G_THEMED_ICON (icon))[0],
+  icon2 = phosh_notification_get_app_icon (noti);
+  g_assert_true (G_IS_THEMED_ICON (icon2));
+  g_assert_cmpstr (g_themed_icon_get_names (G_THEMED_ICON (icon2))[0],
                    ==,
                    "org.gnome.zbrown.Med");
 
@@ -236,9 +237,9 @@ test_phosh_notification_get (void)
   GAppInfo *app_info = NULL;
   g_autofree char *summary = NULL;
   g_autofree char *body = NULL;
-  GIcon *app_icon = NULL;
-  GIcon *image = NULL;
-  GStrv actions = NULL;
+  g_autoptr (GIcon) app_icon = NULL;
+  g_autoptr (GIcon) image = NULL;
+  g_auto (GStrv) actions = NULL;
   gboolean transient = FALSE;
   gboolean resident = FALSE;
   g_autofree char *category = NULL;
