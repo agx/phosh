@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-17 09:30+0000\n"
-"PO-Revision-Date: 2023-05-17 22:55+0200\n"
+"POT-Creation-Date: 2023-05-18 11:35+0000\n"
+"PO-Revision-Date: 2023-06-07 22:25+0200\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -45,7 +45,7 @@ msgstr "Un giny senzill de calendari"
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
-msgstr ""
+msgstr "Caixa de tiquets"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:5
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
@@ -74,8 +74,6 @@ msgid "Show Only Mobile Friendly Apps"
 msgstr "Mostra només les aplicacions compatibles amb mòbils"
 
 #: src/bt-info.c:92
-#, fuzzy
-#| msgid "On"
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Activat"
@@ -158,8 +156,6 @@ msgstr "Desactivat"
 
 #. Translators: Enable LED, haptic and audio feedback
 #: src/feedbackinfo.c:108
-#, fuzzy
-#| msgid "On"
 msgctxt "feedback:enabled"
 msgid "On"
 msgstr "Activat"
@@ -360,18 +356,14 @@ msgid "Landscape"
 msgstr "Apaïsat"
 
 #: src/rotateinfo.c:125 src/rotateinfo.c:230
-#, fuzzy
-#| msgid "Off"
 msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Desactivada"
 
 #: src/rotateinfo.c:126
-#, fuzzy
-#| msgid "On"
 msgctxt "automatic-screen-rotation-enabled"
 msgid "On"
-msgstr "Activat"
+msgstr "Activada"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
@@ -438,7 +430,7 @@ msgstr "Torna a la pàgina de contactes d'emergència"
 
 #: src/ui/emergency-menu.ui:83
 msgid "Go back to the emergency dialpad page"
-msgstr ""
+msgstr "Torna a la pàgina del teclat d'emergència"
 
 #: src/ui/emergency-menu.ui:106
 msgid "Owner unknown"
@@ -498,19 +490,19 @@ msgstr "C_onnecta"
 msgid "Authenticate"
 msgstr "Autenticació"
 
-#: src/ui/power-menu.ui:37
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
 msgstr "A_paga"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr "B_loca"
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr "_Captura de pantalla"
 
-#: src/ui/power-menu.ui:160
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
 msgstr "_Emergència"
 
@@ -529,6 +521,18 @@ msgstr "Neteja-ho tot"
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Confirmació:"
+
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "A_paga…"
+
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "Reinicia…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Log Out…"
+msgstr "Surt…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -610,7 +614,7 @@ msgstr "Al·lèrgies"
 
 #: plugins/emergency-info/emergency-info.ui:179
 msgid "Medications & Conditions"
-msgstr ""
+msgstr "Medicacions i condicions"
 
 #: plugins/emergency-info/emergency-info.ui:187
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
@@ -632,7 +636,7 @@ msgstr "Nom del propietari"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
 msgid "Medications and Conditions"
-msgstr ""
+msgstr "Medicacions i condicions"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
 msgid "Add Contact"
@@ -664,7 +668,7 @@ msgstr "No hi ha cap document per mostrar"
 
 #: plugins/ticket-box/ticket-box.ui:83
 msgid "Tickets"
-msgstr ""
+msgstr "Tiquets"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "Choose Folder"
@@ -676,11 +680,11 @@ msgstr "_Obre"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
 msgid "Ticket Box Preferences"
-msgstr ""
+msgstr "Preferències de la caixa de tiquets"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
 msgid "Paths"
-msgstr ""
+msgstr "Camins"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
 msgid "Folder Settings"
@@ -692,7 +696,7 @@ msgstr "Allà on Phosh cerca els vostres tiquets"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
 msgid "Ticket Folder"
-msgstr ""
+msgstr "Carpeta de tiquets"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
