@@ -19,7 +19,7 @@ test_system_modal_dialog_new (PhoshTestCompositorFixture *fixture, gconstpointer
   GtkWidget *dialog;
 
   dialog = g_object_new (PHOSH_TYPE_SYSTEM_MODAL_DIALOG,
-                         "monitor", phosh_test_get_monitor (),
+                         "monitor", phosh_test_get_monitor (fixture->state),
                          "title", "Testtitle",
                          NULL);
 

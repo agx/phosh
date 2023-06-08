@@ -14,7 +14,7 @@ static void
 test_app_auth_prompt_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   GtkWidget *prompt = g_object_new (PHOSH_TYPE_APP_AUTH_PROMPT,
-                                    "monitor", phosh_test_get_monitor (),
+                                    "monitor", phosh_test_get_monitor (fixture->state),
                                     "title", "title",
                                     "subtitle", "subtitle",
                                     "body", "body",

@@ -16,7 +16,7 @@
 static void
 test_system_modal_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
-  GtkWidget *modal = phosh_system_modal_new (phosh_test_get_monitor ());
+  GtkWidget *modal = phosh_system_modal_new (phosh_test_get_monitor (fixture->state));
 
   g_assert_true (PHOSH_IS_SYSTEM_MODAL (modal));
   g_assert_true (gtk_style_context_has_class (
@@ -31,7 +31,7 @@ static void
 test_system_modal_g_object_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   GtkWidget *modal = g_object_new (PHOSH_TYPE_SYSTEM_MODAL,
-                                   "monitor", phosh_test_get_monitor (),
+                                   "monitor", phosh_test_get_monitor (fixture->state),
                                    NULL);
 
   g_assert_true (PHOSH_IS_SYSTEM_MODAL (modal));

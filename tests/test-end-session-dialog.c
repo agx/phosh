@@ -19,7 +19,7 @@ test_end_session_dialog_new (PhoshTestCompositorFixture *fixture, gconstpointer 
   GtkWidget *dialog;
 
   dialog = g_object_new (PHOSH_TYPE_END_SESSION_DIALOG,
-                         "monitor", phosh_test_get_monitor (),
+                         "monitor", phosh_test_get_monitor (fixture->state),
                          "action", PHOSH_END_SESSION_ACTION_LOGOUT,
                          "timeout", 0,
                          "inhibitor-paths", NULL,
@@ -60,7 +60,7 @@ test_end_session_dialog_timeout (PhoshTestCompositorFixture *fixture, gconstpoin
   g_autoptr (GMainLoop) mainloop = NULL;
 
   dialog = g_object_ref_sink (g_object_new (PHOSH_TYPE_END_SESSION_DIALOG,
-                                            "monitor", phosh_test_get_monitor (),
+                                            "monitor", phosh_test_get_monitor (fixture->state),
                                             "action", PHOSH_END_SESSION_ACTION_LOGOUT,
                                             "timeout", 1,
                                             "inhibitor-paths", NULL,

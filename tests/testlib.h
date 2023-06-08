@@ -22,11 +22,12 @@ typedef struct _PhoshTestCompositorState {
   PhoshWayland               *wl;
   struct wl_output           *output;
   GdkDisplay                 *gdk_display;
+  PhoshMonitor               *monitor;
 } PhoshTestCompositorState;
 
 PhoshTestCompositorState *phosh_test_compositor_new (gboolean heads_stub);
 void                      phosh_test_compositor_free (PhoshTestCompositorState *state);
-PhoshMonitor*             phosh_test_get_monitor(void);
+PhoshMonitor*             phosh_test_get_monitor (PhoshTestCompositorState *state);
 struct zwp_virtual_keyboard_v1 * phosh_test_keyboard_new (PhoshWayland *wl);
 void                      phosh_test_keyboard_press_keys (struct zwp_virtual_keyboard_v1 *keyboard,
                                                           GTimer *timer, ...) G_GNUC_NULL_TERMINATED;
