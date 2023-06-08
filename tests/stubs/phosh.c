@@ -10,7 +10,7 @@
 #include "phosh-wayland.h"
 #include "shell.h"
 
-PhoshToplevelManager *toplevel_manager = NULL;
+static PhoshToplevelManager *toplevel_manager = NULL;
 GObject *shell = NULL;
 
 PhoshShell *
@@ -44,7 +44,10 @@ phosh_shell_get_primary_monitor (PhoshShell *self)
 PhoshToplevelManager*
 phosh_shell_get_toplevel_manager (PhoshShell *self)
 {
-  return g_object_new (PHOSH_TYPE_TOPLEVEL_MANAGER, NULL);
+  if (toplevel_manager == NULL)
+    toplevel_manager = g_object_new (PHOSH_TYPE_TOPLEVEL_MANAGER, NULL);
+
+  return toplevel_manager;
 }
 
 GdkAppLaunchContext*
