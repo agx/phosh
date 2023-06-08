@@ -13,6 +13,7 @@ phosh_resources = gnome.compile_resources(
 )
 
 phosh_enum_headers = files(
+  'animation.h',
   'app-grid-button.h',
   'drag-surface.h',
   'gnome-shell-manager.h',

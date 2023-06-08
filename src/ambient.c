@@ -9,6 +9,7 @@
 #define G_LOG_DOMAIN "phosh-ambient"
 
 #include "phosh-config.h"
+#include "animation.h"
 #include "fader.h"
 #include "ambient.h"
 #include "shell.h"
@@ -56,6 +57,9 @@ typedef struct _PhoshAmbient {
 
   guint                    sample_id;
   GArray                  *values;
+
+  PhoshFader              *fader;
+  guint                    fader_id;
 } PhoshAmbient;
 
 G_DEFINE_TYPE (PhoshAmbient, phosh_ambient, G_TYPE_OBJECT);
@@ -100,19 +104,43 @@ phosh_ambient_get_property (GObject    *object,
 }
 
 
-static void
-switch_theme (PhoshAmbient *self, gboolean use_hc)
+static gboolean
+on_fade_in_done (PhoshAmbient *self)
 {
-  if (use_hc == self->use_hc)
-    return;
-
-  self->use_hc = use_hc;
   if (self->use_hc) {
     g_settings_set_string (self->interface_settings, KEY_GTK_THEME, HIGH_CONTRAST_THEME);
   } else {
     g_settings_reset (self->interface_settings, KEY_GTK_THEME);
     g_settings_reset (self->interface_settings, KEY_ICON_THEME);
   }
+
+  phosh_fader_hide (self->fader);
+  return G_SOURCE_REMOVE;
+}
+
+
+static void
+switch_theme (PhoshAmbient *self, gboolean use_hc)
+{
+  const char *style_class;
+
+  if (use_hc == self->use_hc)
+    return;
+
+  style_class = use_hc ? "phosh-fader-theme-to-hc" : "phosh-fader-theme-from-hc";
+  self->fader = g_object_new (PHOSH_TYPE_FADER,
+                              "style-class", style_class,
+                              "fade-out-time", 1500,
+                              "fade-out-type", PHOSH_ANIMATION_TYPE_EASE_IN_QUINTIC,
+                              NULL);
+  gtk_widget_show (GTK_WIDGET (self->fader));
+
+  self->fader_id = g_timeout_add (100 * PHOSH_ANIMATION_SLOWDOWN,
+                                  G_SOURCE_FUNC (on_fade_in_done),
+                                  self);
+  g_source_set_name_by_id (self->fader_id, "[phosh] ambient fader");
+
+  self->use_hc = use_hc;
 }
 
 
@@ -378,6 +406,9 @@ phosh_ambient_dispose (GObject *object)
   g_clear_object (&self->phosh_settings);
   g_clear_object (&self->interface_settings);
 
+  g_clear_handle_id (&self->fader_id, g_source_remove);
+  g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
+
   G_OBJECT_CLASS (phosh_ambient_parent_class)->dispose (object);
 }
 
@@ -406,14 +437,19 @@ phosh_ambient_class_init (PhoshAmbientClass *klass)
 static void
 phosh_ambient_init (PhoshAmbient *self)
 {
+  g_autofree char *theme_name = NULL;
+
   self->cancel = g_cancellable_new ();
 
   self->values = g_array_new (FALSE, FALSE, sizeof(double));
 
   self->interface_settings = g_settings_new (INTERFACE_SETTINGS);
   self->phosh_settings = g_settings_new (PHOSH_SETTINGS);
-  /* Force initial sync */
-  self->use_hc = -1;
+
+  /* Check whether we're already using the hc theme */
+  theme_name = g_settings_get_string (self->interface_settings, KEY_GTK_THEME);
+  if (g_strcmp0 (theme_name, HIGH_CONTRAST_THEME) == 0)
+    self->use_hc = TRUE;
 }
 
 

@@ -10,6 +10,7 @@
 
 #include "phosh-config.h"
 #include "layersurface.h"
+#include "phosh-wayland.h"
 #include "phoc-layer-shell-effects-unstable-v1-client-protocol.h"
 
 #include <gdk/gdkwayland.h>
@@ -68,6 +69,7 @@ typedef struct {
   char                         *namespace;
   struct zwlr_layer_shell_v1   *layer_shell;
   struct wl_output             *wl_output;
+  gboolean                      has_alpha;
 } PhoshLayerSurfacePrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshLayerSurface, phosh_layer_surface, GTK_TYPE_WINDOW)
@@ -294,6 +296,8 @@ phosh_layer_surface_map (GtkWidget *widget)
 {
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (widget);
   PhoshLayerSurfacePrivate *priv;
+  PhoshWayland *wl = phosh_wayland_get_default ();
+  struct zphoc_layer_shell_effects_v1 *layer_shell_effects;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   priv = phosh_layer_surface_get_instance_private (self);
@@ -331,6 +335,15 @@ phosh_layer_surface_map (GtkWidget *widget)
   /* Process all pending events, otherwise we end up sending ack configure
    * to a not yet configured surface */
   wl_display_roundtrip (gdk_wayland_display_get_wl_display (gdk_display_get_default ()));
+
+  layer_shell_effects = phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl);
+  if (zphoc_layer_shell_effects_v1_get_version (layer_shell_effects) >=
+      ZPHOC_LAYER_SHELL_EFFECTS_V1_GET_ALPHA_LAYER_SURFACE_SINCE_VERSION) {
+    priv->alpha_surface = zphoc_layer_shell_effects_v1_get_alpha_layer_surface (
+      layer_shell_effects, priv->layer_surface);
+  } else {
+    g_warning_once ("No alpha layer surface support, upgrade phoc");
+  }
 }
 
 
@@ -835,23 +848,6 @@ phosh_layer_surface_get_configured_height (PhoshLayerSurface *self)
   return priv->configured_height;
 }
 
-void
-phosh_layer_surface_handle_alpha (PhoshLayerSurface *self,
-                                  gpointer           layer_shell_effects)
-{
-  PhoshLayerSurfacePrivate *priv;
-
-  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
-  g_return_if_fail (layer_shell_effects);
-  priv = phosh_layer_surface_get_instance_private (self);
-
-  if (priv->alpha_surface)
-    return;
-
-  priv->alpha_surface = zphoc_layer_shell_effects_v1_get_alpha_layer_surface (
-    layer_shell_effects, priv->layer_surface);
-}
-
 
 void
 phosh_layer_surface_set_alpha (PhoshLayerSurface *self,
@@ -870,4 +866,16 @@ phosh_layer_surface_set_alpha (PhoshLayerSurface *self,
 
   zphoc_alpha_layer_surface_v1_set_alpha (priv->alpha_surface, wl_fixed_from_double (alpha));
   wl_surface_commit (priv->wl_surface);
+}
+
+
+gboolean
+phosh_layer_surface_has_alpha (PhoshLayerSurface *self)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_LAYER_SURFACE (self), FALSE);
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  return !!priv->alpha_surface;
 }

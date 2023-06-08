@@ -628,6 +628,33 @@ phosh-notification-banner .notification-container {
   background: rgba(255, 255, 255, 0);
 }
 
+/* Theme change fader */
+@keyframes phosh-fader-theme-to-hc-keyframe {
+  from {background:rgba(0, 0, 0, 0);}
+  to {background:rgba(255, 255, 255, 1.0);}
+}
+
+.phosh-fader-theme-to-hc {
+  animation-name: phosh-fader-theme-to-hc-keyframe;
+  animation-duration: 100ms;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes phosh-fader-theme-from-hc-keyframe {
+  from {background:rgba(255, 255, 255, 0);}
+  to {background:rgba(0, 0, 0, 1.0);}
+}
+
+.phosh-fader-theme-from-hc {
+  animation-name: phosh-fader-theme-from-hc-keyframe;
+  animation-duration: 100ms;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
 /*
  * Media player
  */

@@ -2,6 +2,7 @@
 
 #include "phosh-config.h"
 
+#include "animation.h"
 #include "app-grid-button.h"
 #include "app-grid.h"
 #include "drag-surface.h"
