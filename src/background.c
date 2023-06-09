@@ -559,14 +559,13 @@ phosh_background_dispose (GObject *object)
 static void
 phosh_background_finalize (GObject *object)
 {
-  GObjectClass *parent_class = G_OBJECT_CLASS (phosh_background_parent_class);
   PhoshBackground *self = PHOSH_BACKGROUND (object);
 
   g_clear_object (&self->pixbuf);
   g_clear_pointer (&self->uri, g_free);
   g_clear_object (&self->settings);
 
-  parent_class->finalize (object);
+  G_OBJECT_CLASS (phosh_background_parent_class)->finalize (object);
 }
 
 
