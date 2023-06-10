@@ -113,9 +113,10 @@ _scale_box_new (GvcChannelBar *self)
 static void
 update_image (GvcChannelBar *self)
 {
-  gtk_image_set_from_icon_name (GTK_IMAGE (self->image),
-                                self->icon_name,
-                                GTK_ICON_SIZE_BUTTON);
+  g_autoptr (GIcon) gicon = NULL;
+
+  gicon = g_themed_icon_new_with_default_fallbacks (self->icon_name);
+  gtk_image_set_from_gicon (GTK_IMAGE (self->image), gicon, -1);
 
   gtk_widget_set_visible (self->image, self->icon_name != NULL);
 }
@@ -468,6 +469,7 @@ static void
 gvc_channel_bar_init (GvcChannelBar *self)
 {
   self->image = gtk_image_new ();
+  gtk_image_set_pixel_size (GTK_IMAGE (self->image), 16);
 
   self->base_volume = ADJUSTMENT_MAX_NORMAL;
 
