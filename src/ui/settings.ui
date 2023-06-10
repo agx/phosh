@@ -16,7 +16,7 @@
         <child>
           <object class="HdyClamp">
             <property name="visible">True</property>
-            <property name="maximum_size">720</property>
+            <property name="maximum-size">720</property>
             <property name="vexpand">True</property>
             <child>
               <object class="GtkBox" id="box_settings">
@@ -25,13 +25,13 @@
                 <child>
                   <object class="HdyClamp">
                     <property name="visible">True</property>
-                    <property name="maximum_size">360</property>
+                    <property name="maximum-size">360</property>
                     <child>
                       <object class="GtkBox" id="box_sliders">
                         <property name="visible">True</property>
                         <property name="orientation">vertical</property>
-                        <property name="margin_top">6</property>
-                        <property name="margin_bottom">6</property>
+                        <property name="margin-top">6</property>
+                        <property name="margin-bottom">6</property>
                         <child>
                           <object class="GtkBox">
                             <property name="visible">True</property>
@@ -39,26 +39,16 @@
                               <object class="GtkImage">
                                 <property name="visible">True</property>
                                 <property name="margin-end">6</property>
-                                <property name="icon_name">display-brightness-symbolic</property>
+                                <property name="icon-name">display-brightness-symbolic</property>
                               </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
                             </child>
                             <child>
                               <object class="GtkScale" id="scale_brightness">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="round_digits">1</property>
-                                <property name="draw_value">False</property>
+                                <property name="hexpand">True</property>
+                                <property name="round-digits">1</property>
+                                <property name="draw-value">False</property>
                               </object>
-                              <packing>
-                                <property name="expand">True</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
                             </child>
                           </object>
                         </child>
