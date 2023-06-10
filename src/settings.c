@@ -521,10 +521,17 @@ on_output_stream_port_changed (GvcMixerStream *stream, GParamSpec *pspec, gpoint
   is_headphone = stream_uses_headphones (stream);
   if (is_headphone) {
     icon = "audio-headphones";
+  } else {
+    GvcMixerUIDevice *output;
+
+    output = gvc_mixer_control_lookup_device_from_stream (self->mixer_control, stream);
+    if (output)
+      icon = gvc_mixer_ui_device_get_icon_name (output);
   }
 
-  if (STR_IS_NULL_OR_EMPTY (icon))
+  if (STR_IS_NULL_OR_EMPTY (icon) || g_str_has_prefix (icon, "audio-card"))
     icon = "audio-speakers";
+
   gvc_channel_bar_set_icon_name (GVC_CHANNEL_BAR (self->output_vol_bar), icon);
 
   if (is_headphone == self->is_headphone)
@@ -547,8 +554,7 @@ mixer_control_output_update_cb (GvcMixerControl *mixer, guint id, gpointer data)
   if (self->output_stream)
     g_signal_handlers_disconnect_by_data (self->output_stream, self);
 
-  g_set_object (&self->output_stream,
-                gvc_mixer_control_get_default_sink (self->mixer_control));
+  g_set_object (&self->output_stream, gvc_mixer_control_get_default_sink (self->mixer_control));
   g_return_if_fail (self->output_stream);
 
   g_signal_connect_object (self->output_stream,
