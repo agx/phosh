@@ -419,6 +419,7 @@ static void
 gvc_channel_bar_class_init (GvcChannelBarClass *klass)
 {
   GObjectClass   *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->finalize = gvc_channel_bar_finalize;
   object_class->set_property = gvc_channel_bar_set_property;
@@ -458,6 +459,8 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
                                          0, NULL, NULL, NULL,
                                          G_TYPE_NONE,
                                          0);
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-gvc-channel-bar");
 }
 
 
