@@ -233,28 +233,18 @@
                           <object class="GtkImage">
                             <property name="visible">True</property>
                             <property name="margin-end">6</property>
-                            <property name="icon_name">torch-enabled-symbolic</property>
+                            <property name="icon-name">torch-enabled-symbolic</property>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="GtkScale" id="scale_torch">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="hexpand">True</property>
                             <property name="adjustment">adj_torch</property>
-                            <property name="round_digits">0</property>
-                            <property name="draw_value">False</property>
+                            <property name="round-digits">0</property>
+                            <property name="draw-value">False</property>
                             <signal name="value-changed" handler="on_torch_scale_value_changed" object="PhoshSettings" swapped="yes"/>
                           </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
                         </child>
                       </object>
                     </child>
