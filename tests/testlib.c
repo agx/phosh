@@ -135,28 +135,29 @@ install_keymap (struct zwp_virtual_keyboard_v1 *keyboard)
   close (fd);
 }
 
-
 /*
  * Get a #PhoshMonitor for layer-surface tests
  */
-PhoshMonitor*
-phosh_test_get_monitor(void)
+PhoshMonitor *
+phosh_test_get_monitor (PhoshTestCompositorState *state)
 {
   PhoshWayland *wl = phosh_wayland_get_default ();
   GHashTable *outputs;
   GHashTableIter iter;
   gpointer wl_output;
-  PhoshMonitor *monitor;
 
-  g_assert (PHOSH_IS_WAYLAND (wl));
-  outputs = phosh_wayland_get_wl_outputs (wl);
+  if (state->monitor == NULL) {
+    g_assert (PHOSH_IS_WAYLAND (wl));
+    outputs = phosh_wayland_get_wl_outputs (wl);
 
-  g_hash_table_iter_init (&iter, outputs);
-  g_hash_table_iter_next (&iter, NULL, &wl_output);
+    g_hash_table_iter_init (&iter, outputs);
+    g_hash_table_iter_next (&iter, NULL, &wl_output);
 
-  monitor = phosh_monitor_new_from_wl_output (wl_output);
-  g_assert (PHOSH_IS_MONITOR (monitor));
-  return monitor;
+    state->monitor = phosh_monitor_new_from_wl_output (wl_output);
+    g_assert (PHOSH_IS_MONITOR (state->monitor));
+  }
+
+  return state->monitor;
 }
 
 
@@ -299,6 +300,9 @@ phosh_test_compositor_free (PhoshTestCompositorState *state)
     return;
 
   g_assert_true (state == _state);
+
+  if (state->monitor)
+    g_assert_finalize_object (state->monitor);
 
   phosh_test_head_stub_destroy ();
 

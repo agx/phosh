@@ -25,9 +25,11 @@ default:
 variables:
   # For ci-fairy
   FDO_UPSTREAM_REPO: World/Phosh/phosh
-  # SCREENSHOT_IMAGE builds on DEBIAN_IMAGE so keep them in sync
-  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:v0.0.20230427
-  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:v0.0.20230427
+  # screenshot and asan builds on DEBIAN_IMAGE so keep them in sync
+  IMAGE_VERSION: v0.0.20230607
+  DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:$IMAGE_VERSION
+  SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:$IMAGE_VERSION
+  ASAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/asan:v0.0.20230608
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror -Dtools=true
   EXP_DEPS: libfeedback-dev gir1.2-glib-2.0 gobject-introspection gir1.2-freedesktop dbus-bin libgirepository1.0-dev
@@ -129,7 +131,7 @@ unit-test:native-debian-bookworm:
 
 asan-test:native-debian-bookworm:
   stage: test+docs
-  image: ${DEBIAN_IMAGE}
+  image: ${ASAN_IMAGE}
   tags: [ asan ]
   needs: []
   <<: *bookworm_vars

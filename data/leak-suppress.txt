@@ -1,14 +1,30 @@
 # Use via environment variable LSAN_OPTIONS=suppressions=data/leak-suppress.txt
+
 # Ignore fontconfig reported leaks. It's caches cause false positives.
 leak:libfontconfig.so.1
-# https://gitlab.gnome.org/GNOME/gtk/merge_requests/823
-leak:gtk_header_bar_set_decoration_layout
-# GLib quarks stay around
-leak:g_quark_init
+
 #
-# For the tests
+# Glib
+#
+# Quarks stay around
+leak:g_quark_init
+
+#
+# Gvfs:
+#
+# https://gitlab.gnome.org/GNOME/gvfs/-/issues/577
+leak:g_daemon_vfs_init
+
+#
+# GTK3/GDK
 #
 # gtk's gdk_set_allowed_backend uses g_strdup()
 leak:gdk_set_allowed_backends
 # Displays from gtk's gdk_display_manager_open_display are never free'd
 leak:gdk_display_manager_open_display
+# See gtk-style-context suppressions in gtk's gtk.supp:
+leak:gtk_css_node_declaration_make_writable
+leak:gtk_css_widget_node_new
+# GDK leaks here. Needs investigation.
+leak:gdk_window_init
+leak:_gdk_wayland_display_create_window_impl

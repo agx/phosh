@@ -14,7 +14,7 @@ static void
 test_osd_window_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   GtkWidget *osd = g_object_new (PHOSH_TYPE_OSD_WINDOW,
-                                 "monitor", phosh_test_get_monitor (),
+                                 "monitor", phosh_test_get_monitor (fixture->state),
                                  "connector", "a-connector",
                                  "label", "a-label",
                                  "icon-name", "a-icon",
