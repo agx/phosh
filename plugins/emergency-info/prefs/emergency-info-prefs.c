@@ -340,11 +340,11 @@ on_dialog_update_emer_contact (GtkDialog* dialog, int response_id, gpointer user
   const char *relationship = gtk_entry_buffer_get_text (self->new_emer_contact_relationship_entry_buffer);
   const char *number = gtk_entry_buffer_get_text (self->new_emer_contact_number_entry_buffer);
 
-  if (response_id == GTK_RESPONSE_OK && *contact && *number) {
+  if (response_id == GTK_RESPONSE_OK && *contact) {
     g_autofree char *number_joined = NULL;
     g_autoptr (GKeyFile) key_file = g_key_file_new ();
 
-    number_joined = g_strdup_printf ("%s;%s", number, relationship);
+    number_joined = g_strdup_printf ("%s;%s", number ?: "", relationship ?: "");
 
     add_contact_row (self, contact, number_joined);
 
