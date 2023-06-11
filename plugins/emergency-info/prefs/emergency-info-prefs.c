@@ -339,10 +339,8 @@ on_dialog_update_emer_contact (GtkDialog* dialog, int response_id, gpointer user
 
     add_contact_row (self, contact, number_joined);
 
-    if (!g_key_file_load_from_file (key_file, self->keyfile_path, G_KEY_FILE_KEEP_COMMENTS, NULL)) {
+    if (!g_key_file_load_from_file (key_file, self->keyfile_path, G_KEY_FILE_KEEP_COMMENTS, NULL))
       g_warning ("No Keyfile found at %s", self->keyfile_path);
-      return;
-    }
 
     g_key_file_set_string (key_file,
                            CONTACTS_GROUP,
