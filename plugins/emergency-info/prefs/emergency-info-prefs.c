@@ -197,7 +197,7 @@ load_settings (PhoshEmergencyInfoPrefs *self)
                                             NULL);
 
   gtk_entry_buffer_set_text (self->owner_name_entry_buffer,
-                             self->owner_name,
+                             self->owner_name ?: "",
                              -1);
 
   self->dob = g_key_file_get_string (key_file,
@@ -274,7 +274,7 @@ load_settings (PhoshEmergencyInfoPrefs *self)
     self->allergies = g_strjoinv ("\n", temp_allergies);
 
   gtk_text_buffer_set_text (self->allergies_text_buffer,
-                            self->allergies,
+                            self->allergies ?: "",
                             -1);
 
 
@@ -288,7 +288,7 @@ load_settings (PhoshEmergencyInfoPrefs *self)
     self->medications_conditions = g_strjoinv ("\n", temp_med_cond);
 
   gtk_text_buffer_set_text (self->med_cond_text_buffer,
-                            self->medications_conditions,
+                            self->medications_conditions ?: "",
                             -1);
 
   self->other_info = g_key_file_get_string (key_file,
@@ -297,7 +297,7 @@ load_settings (PhoshEmergencyInfoPrefs *self)
                                             NULL);
 
   gtk_text_buffer_set_text (self->other_info_text_buffer,
-                            self->other_info,
+                            self->other_info ?: "",
                             -1);
 
   self->contacts = g_key_file_get_keys (key_file,
