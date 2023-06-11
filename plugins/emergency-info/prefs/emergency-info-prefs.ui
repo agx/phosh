@@ -291,7 +291,10 @@
       </child>
       <child type="end">
         <object class="GtkButton" id="add_emer_contact_dialog_button_ok">
-        <property name="label" translatable="yes">Add</property>
+          <property name="label" translatable="yes">Add</property>
+          <binding name="sensitive">
+            <lookup name="length">new_emer_contact_entry_buffer</lookup>
+          </binding>
         </object>
       </child>
     </object>
