@@ -10,6 +10,8 @@
 #include "emergency-info-prefs.h"
 #include "emergency-info-prefs-row.h"
 
+#define STR_IS_NULL_OR_EMPTY(x) ((x) == NULL || (x)[0] == '\0')
+
 /**
  * PhoshEmergencyInfoPrefs
  *
@@ -121,7 +123,7 @@ save_settings (PhoshEmergencyInfoPrefs *self)
                             "Weight",
                             self->weight);
 
-  if (self->allergies) {
+  if (self->allergies && !STR_IS_NULL_OR_EMPTY (self->allergies)) {
     g_auto (GStrv) temp_allergies = NULL;
     temp_allergies = g_strsplit (self->allergies, "\n", -1);
     g_key_file_set_string_list (key_file,
@@ -129,12 +131,13 @@ save_settings (PhoshEmergencyInfoPrefs *self)
                                 "Allergies",
                                 (const char * const*) temp_allergies,
                                 g_strv_length (temp_allergies));
-  } else
+  } else {
     g_key_file_remove_key (key_file,
                            INFO_GROUP,
                            "Allergies", NULL);
+  }
 
-  if (self->medications_conditions) {
+  if (self->medications_conditions && !STR_IS_NULL_OR_EMPTY (self->medications_conditions)) {
     g_auto (GStrv) temp_med_cond = NULL;
     temp_med_cond = g_strsplit (self->medications_conditions, "\n", -1);
     g_key_file_set_string_list (key_file,
@@ -142,10 +145,11 @@ save_settings (PhoshEmergencyInfoPrefs *self)
                                 "MedicationsAndConditions",
                                 (const char * const*)temp_med_cond,
                                 g_strv_length (temp_med_cond));
-  } else
+  } else {
     g_key_file_remove_key (key_file,
                            INFO_GROUP,
                            "MedicationsAndConditions", NULL);
+  }
 
   set_or_remove_info_group (key_file,
                             "OtherInfo",
