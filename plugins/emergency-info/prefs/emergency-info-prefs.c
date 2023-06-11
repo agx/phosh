@@ -63,9 +63,11 @@ G_DEFINE_TYPE (PhoshEmergencyInfoPrefs, phosh_emergency_info_prefs, ADW_TYPE_WIN
 static void
 save_keyfile (PhoshEmergencyInfoPrefs *self, GKeyFile *key_file)
 {
-  if (!g_key_file_save_to_file (key_file, self->keyfile_path, NULL)) {
+  g_autofree char *dirname = g_path_get_dirname (self->keyfile_path);
+
+  g_mkdir_with_parents (dirname, 0700);
+  if (!g_key_file_save_to_file (key_file, self->keyfile_path, NULL))
     g_warning ("Error Saving Keyfile at %s", self->keyfile_path);
-  }
 }
 
 
