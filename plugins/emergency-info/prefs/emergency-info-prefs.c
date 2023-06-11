@@ -59,6 +59,16 @@ struct _PhoshEmergencyInfoPrefs {
 
 G_DEFINE_TYPE (PhoshEmergencyInfoPrefs, phosh_emergency_info_prefs, ADW_TYPE_WINDOW);
 
+
+static void
+save_keyfile (PhoshEmergencyInfoPrefs *self, GKeyFile *key_file)
+{
+  if (!g_key_file_save_to_file (key_file, self->keyfile_path, NULL)) {
+    g_warning ("Error Saving Keyfile at %s", self->keyfile_path);
+  }
+}
+
+
 static void
 set_or_remove_info_group (GKeyFile   *key_file,
                           const char *key,
@@ -149,10 +159,7 @@ save_settings (PhoshEmergencyInfoPrefs *self)
                             "OtherInfo",
                             self->other_info);
 
-  if (!g_key_file_save_to_file (key_file, path, NULL)) {
-    g_warning ("Error Saving Keyfile at %s", path);
-  }
-
+  save_keyfile (self, key_file);
 }
 
 static void
@@ -347,9 +354,7 @@ on_dialog_update_emer_contact (GtkDialog* dialog, int response_id, gpointer user
                            contact,
                            number_joined);
 
-    if (!g_key_file_save_to_file (key_file, self->keyfile_path, NULL)) {
-      g_warning ("Error Saving Keyfile at %s", self->keyfile_path);
-    }
+    save_keyfile (self, key_file);
   }
 
   gtk_entry_buffer_set_text (self->new_emer_contact_entry_buffer,
