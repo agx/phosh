@@ -127,7 +127,7 @@ save_settings (PhoshEmergencyInfoPrefs *self)
     g_key_file_set_string_list (key_file,
                                 INFO_GROUP,
                                 "Allergies",
-                                (const gchar * const*) temp_allergies,
+                                (const char * const*) temp_allergies,
                                 g_strv_length (temp_allergies));
   } else
     g_key_file_remove_key (key_file,
@@ -140,7 +140,7 @@ save_settings (PhoshEmergencyInfoPrefs *self)
     g_key_file_set_string_list (key_file,
                                 INFO_GROUP,
                                 "MedicationsAndConditions",
-                                (const char **)temp_med_cond,
+                                (const char * const*)temp_med_cond,
                                 g_strv_length (temp_med_cond));
   } else
     g_key_file_remove_key (key_file,
