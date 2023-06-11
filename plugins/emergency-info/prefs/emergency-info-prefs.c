@@ -53,6 +53,8 @@ struct _PhoshEmergencyInfoPrefs {
   GtkDialog           *add_emer_contact_dialog;
 
   AdwPreferencesGroup *emer_contacts;
+
+  char                *keyfile_path;
 };
 
 G_DEFINE_TYPE (PhoshEmergencyInfoPrefs, phosh_emergency_info_prefs, ADW_TYPE_WINDOW);
@@ -78,17 +80,9 @@ set_or_remove_info_group (GKeyFile   *key_file,
 static void
 save_settings (PhoshEmergencyInfoPrefs *self)
 {
-  g_autofree char *path = NULL;
-  g_autoptr (GKeyFile) key_file = NULL;
+  g_autoptr (GKeyFile) key_file = g_key_file_new ();
 
-  path = g_build_filename (g_get_user_config_dir (),
-                           EMERGENCY_INFO_GKEYFILE_LOCATION,
-                           EMERGENCY_INFO_GKEYFILE_NAME,
-                           NULL);
-
-  key_file = g_key_file_new ();
-
-  g_key_file_load_from_file (key_file, path, G_KEY_FILE_KEEP_COMMENTS, NULL);
+  g_key_file_load_from_file (key_file, self->keyfile_path, G_KEY_FILE_KEEP_COMMENTS, NULL);
 
   set_or_remove_info_group (key_file,
                             "OwnerName",
@@ -180,20 +174,12 @@ add_contact_row (PhoshEmergencyInfoPrefs *self,
 static void
 load_settings (PhoshEmergencyInfoPrefs *self)
 {
-  g_autofree char *path = NULL;
   g_auto (GStrv) temp_med_cond = NULL;
   g_auto (GStrv) temp_allergies = NULL;
-  g_autoptr (GKeyFile) key_file = NULL;
+  g_autoptr (GKeyFile) key_file = g_key_file_new ();
   gsize i;
 
-  path = g_build_filename (g_get_user_config_dir (),
-                           EMERGENCY_INFO_GKEYFILE_LOCATION,
-                           EMERGENCY_INFO_GKEYFILE_NAME,
-                           NULL);
-
-  key_file = g_key_file_new ();
-
-  if (!g_key_file_load_from_file (key_file, path, 0, NULL))
+  if (!g_key_file_load_from_file (key_file, self->keyfile_path, 0, NULL))
     return;
 
   self->owner_name = g_key_file_get_string (key_file,
@@ -346,23 +332,15 @@ on_dialog_update_emer_contact (GtkDialog* dialog, int response_id, gpointer user
   const char *number = gtk_entry_buffer_get_text (self->new_emer_contact_number_entry_buffer);
 
   if (response_id == GTK_RESPONSE_OK && *contact && *number) {
-    g_autofree char *path = NULL;
     g_autofree char *number_joined = NULL;
-    g_autoptr (GKeyFile) key_file = NULL;
+    g_autoptr (GKeyFile) key_file = g_key_file_new ();
 
     number_joined = g_strdup_printf ("%s;%s", number, relationship);
 
     add_contact_row (self, contact, number_joined);
 
-    path = g_build_filename (g_get_user_config_dir (),
-                             EMERGENCY_INFO_GKEYFILE_LOCATION,
-                             EMERGENCY_INFO_GKEYFILE_NAME,
-                             NULL);
-
-    key_file = g_key_file_new ();
-
-    if (!g_key_file_load_from_file (key_file, path, G_KEY_FILE_KEEP_COMMENTS, NULL)) {
-      g_warning ("No Keyfile found at %s", path);
+    if (!g_key_file_load_from_file (key_file, self->keyfile_path, G_KEY_FILE_KEEP_COMMENTS, NULL)) {
+      g_warning ("No Keyfile found at %s", self->keyfile_path);
       return;
     }
 
@@ -371,8 +349,8 @@ on_dialog_update_emer_contact (GtkDialog* dialog, int response_id, gpointer user
                            contact,
                            number_joined);
 
-    if (!g_key_file_save_to_file (key_file, path, NULL)) {
-      g_warning ("Error Saving Keyfile at %s", path);
+    if (!g_key_file_save_to_file (key_file, self->keyfile_path, NULL)) {
+      g_warning ("Error Saving Keyfile at %s", self->keyfile_path);
     }
   }
 
@@ -453,6 +431,7 @@ phosh_emergency_info_prefs_finalize (GObject *object)
 
   phosh_emergency_info_prefs_free_data (self);
   g_clear_pointer (&self->contacts, g_strfreev);
+  g_clear_pointer (&self->keyfile_path, g_free);
 
   G_OBJECT_CLASS (phosh_emergency_info_prefs_parent_class)->finalize (object);
 }
@@ -501,5 +480,9 @@ phosh_emergency_info_prefs_init (PhoshEmergencyInfoPrefs *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
 
+  self->keyfile_path = g_build_filename (g_get_user_config_dir (),
+                                         EMERGENCY_INFO_GKEYFILE_LOCATION,
+                                         EMERGENCY_INFO_GKEYFILE_NAME,
+                                         NULL);
   load_settings (self);
 }
