@@ -334,7 +334,7 @@ phosh_emergency_info_prefs_free_data (PhoshEmergencyInfoPrefs *self)
 }
 
 static void
-on_dialog_update_emer_contact (GtkDialog* dialog, gint response_id, gpointer user_data)
+on_dialog_update_emer_contact (GtkDialog* dialog, int response_id, gpointer user_data)
 {
   PhoshEmergencyInfoPrefs *self = PHOSH_EMERGENCY_INFO_PREFS (user_data);
   const char *contact = gtk_entry_buffer_get_text (self->new_emer_contact_entry_buffer);
