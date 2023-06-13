@@ -70,17 +70,6 @@ struct _GvcChannelBar
 
 G_DEFINE_TYPE (GvcChannelBar, gvc_channel_bar, GTK_TYPE_BOX)
 
-static void
-_scale_box_new (GvcChannelBar *self)
-{
-  GtkWidget            *box = self->scale_box;
-
-  gtk_widget_add_events (self->scale, GDK_SCROLL_MASK);
-
-  if (self->size_group != NULL)
-    gtk_size_group_add_widget (self->size_group, box);
-}
-
 
 static void
 update_image (GvcChannelBar *self)
@@ -449,9 +438,7 @@ gvc_channel_bar_init (GvcChannelBar *self)
   gtk_adjustment_set_step_increment (self->adjustment, ADJUSTMENT_MAX_NORMAL / 100.0);
   gtk_adjustment_set_page_increment (self->adjustment, ADJUSTMENT_MAX_NORMAL / 10.0);
 
-  /* box with scale */
-  _scale_box_new (self);
-  gtk_widget_show_all (self->scale_box);
+  gtk_widget_add_events (self->scale, GDK_SCROLL_MASK);
 }
 
 
