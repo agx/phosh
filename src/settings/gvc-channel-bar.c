@@ -85,8 +85,6 @@ _scale_box_new (GvcChannelBar *self)
 {
   GtkWidget            *box = self->scale_box;
 
-  gtk_box_pack_start (GTK_BOX (box), self->image, FALSE, FALSE, 0);
-
   self->scale = gtk_scale_new (GTK_ORIENTATION_HORIZONTAL, self->adjustment);
 
   gtk_widget_set_size_request (self->scale, SCALE_SIZE, -1);
@@ -460,6 +458,7 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/gvc-channel-bar.ui");
   gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, scale_box);
+  gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, image);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-gvc-channel-bar");
 }
@@ -469,9 +468,6 @@ static void
 gvc_channel_bar_init (GvcChannelBar *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
-
-  self->image = gtk_image_new ();
-  gtk_image_set_pixel_size (GTK_IMAGE (self->image), 16);
 
   self->base_volume = ADJUSTMENT_MAX_NORMAL;
 

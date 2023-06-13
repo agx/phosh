@@ -8,6 +8,12 @@
         <property name="visible">True</property>
         <property name="hexpand">True</property>
         <property name="spacing">6</property>
+        <child>
+          <object class="GtkImage" id="image">
+            <property name="visible">True</property>
+            <property name="pixel-size">16</property>
+          </object>
+        </child>
       </object>
     </child>
   </template>
