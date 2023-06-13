@@ -457,8 +457,7 @@ output_stream_notify_is_muted_cb (GvcMixerStream *stream, GParamSpec *pspec, gpo
     gvc_channel_bar_set_is_muted (GVC_CHANNEL_BAR (self->output_vol_bar), muted);
     if (!muted)
       update_output_vol_bar (self);
-  };
-
+  }
 }
 
 
