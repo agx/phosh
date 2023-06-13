@@ -461,6 +461,8 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
                                          G_TYPE_NONE,
                                          0);
 
+  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/gvc-channel-bar.ui");
+  
   gtk_widget_class_set_css_name (widget_class, "phosh-gvc-channel-bar");
 }
 
