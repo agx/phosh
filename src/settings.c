@@ -252,7 +252,7 @@ static void
 rotation_setting_long_pressed_cb (PhoshSettings *self)
 {
   PhoshShell *shell = phosh_shell_get_default ();
-  PhoshRotateInfoMode mode;
+  PhoshRotationManagerMode mode;
   PhoshRotationManager *rotation_manager;
 
   rotation_manager = phosh_shell_get_rotation_manager (shell);
