@@ -145,7 +145,7 @@ gvc_channel_bar_set_icon_name (GvcChannelBar  *self,
   g_free (self->icon_name);
   self->icon_name = g_strdup (name);
   update_image (self);
-  g_object_notify (G_OBJECT (self), "icon-name");
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ICON_NAME]);
 }
 
 
@@ -287,7 +287,7 @@ gvc_channel_bar_set_is_muted (GvcChannelBar *self,
     /* Update our internal state before telling the
      * front-end about our changes */
     self->is_muted = is_muted;
-    g_object_notify (G_OBJECT (self), "is-muted");
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_MUTED]);
 
     if (is_muted)
       gtk_adjustment_set_value (self->adjustment, 0.0);
