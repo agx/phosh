@@ -19,6 +19,7 @@
             <property name="visible">True</property>
             <property name="hexpand">True</property>
             <property name="draw-value">False</property>
+            <property name="adjustment">adjustment</property>
             <signal name="button-press-event" handler="on_scale_button_press_event" swapped="false"/>
             <signal name="button-release-event" handler="on_scale_button_release_event" swapped="false"/>
             <signal name="scroll-event" handler="on_scale_scroll_event" swapped="false"/>
@@ -27,4 +28,11 @@
       </object>
     </child>
   </template>
+
+  <object class="GtkAdjustment" id="adjustment">
+    <property name="value">0.0</property>
+    <property name="lower">0.0</property>
+    <property name="page-size">0.0</property>
+    <signal name="value-changed" handler="on_adjustment_value_changed" swapped="false"/>
+  </object>
 </interface>

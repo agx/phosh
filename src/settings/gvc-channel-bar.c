@@ -75,8 +75,6 @@ _scale_box_new (GvcChannelBar *self)
 {
   GtkWidget            *box = self->scale_box;
 
-  gtk_range_set_adjustment (GTK_RANGE (self->scale), self->adjustment);
-
   gtk_widget_add_events (self->scale, GDK_SCROLL_MASK);
 
   if (self->size_group != NULL)
@@ -149,14 +147,10 @@ on_scale_button_release_event (GtkWidget      *widget,
                                GdkEventButton *event,
                                GvcChannelBar  *self)
 {
-  GtkAdjustment *adj;
   double value;
 
   self->click_lock = FALSE;
-
-  adj = gtk_range_get_adjustment (GTK_RANGE (widget));
-
-  value = gtk_adjustment_get_value (adj);
+  value = gtk_adjustment_get_value (self->adjustment);
 
   /* this means the adjustment moved away from zero and
    * therefore we should unmute and set the volume. */
@@ -169,7 +163,6 @@ on_scale_button_release_event (GtkWidget      *widget,
 gboolean
 gvc_channel_bar_scroll (GvcChannelBar *self, GdkEventScroll *event)
 {
-  GtkAdjustment *adj;
   double value;
   GdkScrollDirection direction;
   double dx, dy;
@@ -211,8 +204,7 @@ gvc_channel_bar_scroll (GvcChannelBar *self, GdkEventScroll *event)
     }
   }
 
-  adj = gtk_range_get_adjustment (GTK_RANGE (self->scale));
-  value = gtk_adjustment_get_value (adj);
+  value = gtk_adjustment_get_value (self->adjustment);
 
   if (dy > 0) {
     if (value + dy * SCROLLSTEP > ADJUSTMENT_MAX)
@@ -227,8 +219,7 @@ gvc_channel_bar_scroll (GvcChannelBar *self, GdkEventScroll *event)
   }
 
   gvc_channel_bar_set_is_muted (self, ((int) value == 0));
-  adj = gtk_range_get_adjustment (GTK_RANGE (self->scale));
-  gtk_adjustment_set_value (adj, value);
+  gtk_adjustment_set_value (self->adjustment, value);
 
   return TRUE;
 }
@@ -244,8 +235,7 @@ on_scale_scroll_event (GtkWidget      *widget,
 
 
 static void
-on_adjustment_value_changed (GtkAdjustment *adjustment,
-                             GvcChannelBar *self)
+on_adjustment_value_changed (GtkAdjustment *adjustment, GvcChannelBar *self)
 {
   if (!self->is_muted || self->click_lock)
     g_signal_emit (self, signals[VALUE_CHANGED], 0);
@@ -436,9 +426,11 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
                                          0);
 
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/gvc-channel-bar.ui");
+  gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, adjustment);
   gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, scale_box);
   gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, image);
   gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, scale);
+  gtk_widget_class_bind_template_callback (widget_class, on_adjustment_value_changed);
   gtk_widget_class_bind_template_callback (widget_class, on_scale_button_press_event);
   gtk_widget_class_bind_template_callback (widget_class, on_scale_button_release_event);
   gtk_widget_class_bind_template_callback (widget_class, on_scale_scroll_event);
@@ -453,15 +445,9 @@ gvc_channel_bar_init (GvcChannelBar *self)
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->base_volume = ADJUSTMENT_MAX_NORMAL;
-
-  self->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0.0,
-                                                         0.0,
-                                                         ADJUSTMENT_MAX_NORMAL,
-                                                         ADJUSTMENT_MAX_NORMAL/100.0,
-                                                         ADJUSTMENT_MAX_NORMAL/10.0,
-                                                         0.0));
-  g_object_ref_sink (self->adjustment);
-  g_signal_connect (self->adjustment, "value-changed", G_CALLBACK (on_adjustment_value_changed), self);
+  gtk_adjustment_set_upper (self->adjustment, ADJUSTMENT_MAX_NORMAL);
+  gtk_adjustment_set_step_increment (self->adjustment, ADJUSTMENT_MAX_NORMAL / 100.0);
+  gtk_adjustment_set_page_increment (self->adjustment, ADJUSTMENT_MAX_NORMAL / 10.0);
 
   /* box with scale */
   _scale_box_new (self);
