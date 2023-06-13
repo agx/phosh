@@ -14,6 +14,16 @@
             <property name="pixel-size">16</property>
           </object>
         </child>
+        <child>
+          <object class="GtkScale" id="scale">
+            <property name="visible">True</property>
+            <property name="hexpand">True</property>
+            <property name="draw-value">False</property>
+            <signal name="button-press-event" handler="on_scale_button_press_event" swapped="false"/>
+            <signal name="button-release-event" handler="on_scale_button_release_event" swapped="false"/>
+            <signal name="scroll-event" handler="on_scale_scroll_event" swapped="false"/>
+          </object>
+        </child>
       </object>
     </child>
   </template>

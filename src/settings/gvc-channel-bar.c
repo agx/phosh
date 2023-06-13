@@ -70,38 +70,17 @@ struct _GvcChannelBar
 
 G_DEFINE_TYPE (GvcChannelBar, gvc_channel_bar, GTK_TYPE_BOX)
 
-static gboolean on_scale_button_press_event   (GtkWidget      *widget,
-                                               GdkEventButton *event,
-                                               GvcChannelBar  *self);
-static gboolean on_scale_button_release_event (GtkWidget      *widget,
-                                               GdkEventButton *event,
-                                               GvcChannelBar  *self);
-static gboolean on_scale_scroll_event         (GtkWidget      *widget,
-                                               GdkEventScroll *event,
-                                               GvcChannelBar  *self);
-
 static void
 _scale_box_new (GvcChannelBar *self)
 {
   GtkWidget            *box = self->scale_box;
 
-  self->scale = gtk_scale_new (GTK_ORIENTATION_HORIZONTAL, self->adjustment);
-
-  gtk_widget_set_size_request (self->scale, SCALE_SIZE, -1);
-  gtk_box_pack_start (GTK_BOX (box), self->scale, TRUE, TRUE, 0);
+  gtk_range_set_adjustment (GTK_RANGE (self->scale), self->adjustment);
 
   gtk_widget_add_events (self->scale, GDK_SCROLL_MASK);
 
-  g_object_connect (self->scale,
-                    "signal::button-press-event", on_scale_button_press_event, self,
-                    "signal::button-release-event", on_scale_button_release_event, self,
-                    "signal::scroll-event", on_scale_scroll_event, self,
-                    NULL);
-
   if (self->size_group != NULL)
     gtk_size_group_add_widget (self->size_group, box);
-
-  gtk_scale_set_draw_value (GTK_SCALE (self->scale), FALSE);
 }
 
 
@@ -459,6 +438,10 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/gvc-channel-bar.ui");
   gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, scale_box);
   gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, image);
+  gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, scale);
+  gtk_widget_class_bind_template_callback (widget_class, on_scale_button_press_event);
+  gtk_widget_class_bind_template_callback (widget_class, on_scale_button_release_event);
+  gtk_widget_class_bind_template_callback (widget_class, on_scale_scroll_event);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-gvc-channel-bar");
 }
