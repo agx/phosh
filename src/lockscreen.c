@@ -223,7 +223,7 @@ finish_shake_label (PhoshLockscreen *self)
 {
   clear_input (self, TRUE);
   gtk_widget_set_sensitive (GTK_WIDGET (self), TRUE);
-  return FALSE;
+  return G_SOURCE_REMOVE;
 }
 
 
@@ -611,6 +611,10 @@ on_deck_visible_child_changed (PhoshLockscreen *self, GParamSpec *pspec, HdyDeck
 
   hdy_deck_set_can_swipe_forward(deck, swipe_forward);
   hdy_deck_set_can_swipe_back (deck, swipe_back);
+
+  /* See https://gitlab.gnome.org/World/Phosh/phosh/-/issues/922 */
+  if (visible_child == priv->carousel)
+    gtk_widget_queue_draw (priv->lbl_clock);
 }
 
 
