@@ -110,13 +110,12 @@ auth_request_free (AuthRequest *request)
   g_free (request);
 }
 
+
 static void
 close_prompt (PhoshPolkitAuthAgent *self)
 {
-  if (self->current_prompt) {
-    gtk_widget_destroy (GTK_WIDGET (self->current_prompt));
-    self->current_prompt = NULL;
-  }
+  g_clear_pointer ((PhoshSystemModalDialog**)&self->current_prompt,
+                   phosh_system_modal_dialog_close);
 }
 
 

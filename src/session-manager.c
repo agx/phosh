@@ -78,7 +78,7 @@ on_end_session_dialog_closed (PhoshSessionManager *self, PhoshEndSessionDialog *
 
   confirmed = phosh_end_session_dialog_get_action_confirmed (dialog);
   action = phosh_end_session_dialog_get_action (dialog);
-  g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
+  g_clear_pointer ((PhoshSystemModalDialog**)&self->dialog, phosh_system_modal_dialog_close);
 
   g_debug ("Action %d confirmed: %d", action, confirmed);
 

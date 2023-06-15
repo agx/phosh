@@ -285,7 +285,7 @@ phosh_system_prompt_close (GcrPrompt *prompt)
     return;
 
   priv->shown = FALSE;
-  gtk_widget_destroy (GTK_WIDGET (self));
+  phosh_system_modal_dialog_close (PHOSH_SYSTEM_MODAL_DIALOG (self));
 }
 
 

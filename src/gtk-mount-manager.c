@@ -136,7 +136,7 @@ new_prompt (PhoshGtkMountManager *self,
 {
   g_debug ("New prompt for '%s'", message);
 
-  g_clear_pointer (&self->prompt, phosh_cp_widget_destroy);
+  g_clear_pointer ((PhoshSystemModalDialog**)&self->prompt, phosh_system_modal_dialog_close);
 
   self->prompt = PHOSH_GTK_MOUNT_PROMPT (phosh_gtk_mount_prompt_new (
                                            message,
@@ -274,7 +274,7 @@ handle_close (PhoshDBusMountOperationHandler *object,
 
   end_ask_invocation (self);
 
-  g_clear_pointer (&self->prompt, phosh_cp_widget_destroy);
+  g_clear_pointer ((PhoshSystemModalDialog**)&self->prompt, phosh_system_modal_dialog_close);
   g_clear_pointer (&self->object_id, g_free);
 
   phosh_dbus_mount_operation_handler_complete_close (

@@ -96,7 +96,7 @@ close_menu (PhoshEmergencyCallsManager *self)
 {
   g_debug ("Closing emergency call menu");
 
-  g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
+  g_clear_pointer ((PhoshSystemModalDialog**)&self->dialog, phosh_system_modal_dialog_close);
 }
 
 

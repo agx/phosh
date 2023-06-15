@@ -54,11 +54,10 @@ network_prompt_done_cb (PhoshNetworkAuthManager *self)
 {
   g_return_if_fail (PHOSH_IS_NETWORK_AUTH_MANAGER (self));
 
-  if (self->network_prompt)
-    gtk_widget_hide (GTK_WIDGET (self->network_prompt));
-
-  g_clear_pointer ((GtkWidget **)&self->network_prompt, gtk_widget_destroy);
+  g_clear_pointer ((PhoshSystemModalDialog**)&self->network_prompt,
+                   phosh_system_modal_dialog_close);
 }
+
 
 static void
 network_agent_setup_prompt (PhoshNetworkAuthManager *self)
