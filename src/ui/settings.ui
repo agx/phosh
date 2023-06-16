@@ -52,6 +52,12 @@
                             </child>
                           </object>
                         </child>
+                        <child>
+                          <object class="GvcChannelBar" id="output_vol_bar">
+                            <property name="visible">True</property>
+                            <property name="icon-name">audio-speakers</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
