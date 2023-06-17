@@ -29,6 +29,11 @@ typedef struct _Fixture {
 static void
 fixture_setup (Fixture *fixture, gconstpointer cfg)
 {
+  g_autoptr (GSettings) settings = NULL;
+
+  settings = g_settings_new ("org.gnome.desktop.interface");
+  g_settings_set_boolean (settings, "enable-animations", FALSE);
+
   fixture->timer = g_timer_new ();
   phosh_test_full_shell_setup (&fixture->base, cfg);
 }
