@@ -199,14 +199,13 @@ test_phosh_calls_incoming (PhoshTestFullShellFixture *fixture, gconstpointer unu
 int
 main (int argc, char *argv[])
 {
-  g_autofree char *display = NULL;
   g_autoptr (PhoshTestFullShellFixtureCfg) cfg = NULL;
 
   g_test_init (&argc, &argv, NULL);
 
   cfg = phosh_test_full_shell_fixture_cfg_new (NULL, "phosh-calls-manager");
 
-  PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/calls-manager/present",cfg, test_phosh_calls_present);
+  PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/calls-manager/present", cfg, test_phosh_calls_present);
   PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/calls-manager/incoming", cfg, test_phosh_calls_incoming);
 
   return g_test_run ();

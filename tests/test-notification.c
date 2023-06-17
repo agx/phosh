@@ -369,7 +369,6 @@ static void
 test_phosh_notification_close (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
-  g_autoptr (GMainLoop) loop = NULL;
   g_autoptr (GDateTime) now = g_date_time_new_now_local ();
 
   noti = phosh_notification_new (0,
