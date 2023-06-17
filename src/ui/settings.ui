@@ -53,9 +53,9 @@
                           </object>
                         </child>
                         <child>
-                          <object class="GvcChannelBar" id="output_vol_bar">
+                          <object class="PhoshAudioSettings" id="audio_settings">
                             <property name="visible">True</property>
-                            <property name="icon-name">audio-speakers</property>
+                            <signal name="notify::is-headphone" handler="on_is_headphone_changed" object="PhoshSettings" swapped="yes"/>
                           </object>
                         </child>
                       </object>
@@ -379,7 +379,9 @@
       <class name="phosh-settings-menu"/>
     </style>
   </template>
+
   <object class="GtkAdjustment" id="adj_torch">
     <property name="step-increment">1</property>
   </object>
+
 </interface>

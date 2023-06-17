@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <template class="PhoshAudioDeviceRow" parent="GtkListBoxRow">
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="margin">12</property>
+        <property name="spacing">12</property>
+        <child>
+          <object class="GtkImage" id="icon">
+            <property name="visible">True</property>
+            <property name="pixel-size">16</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="description">
+            <property name="visible">True</property>
+            <property name="ellipsize">middle</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkRevealer" id="revealer">
+            <property name="visible">True</property>
+            <property name="transition-type">crossfade</property>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="pixel-size">16</property>
+                <property name="icon-name">object-select</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
