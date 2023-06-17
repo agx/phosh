@@ -16,7 +16,7 @@ G_BEGIN_DECLS
  * @PHOSH_ROTATE_INFO_MODE_LOCK: Button toggles rotation lock
  * @PHOSH_ROTATE_INFO_MODE_TOGGLE: Button toggles portrait/landscape
  *
- * The power save mode of a monitor
+ * What is toggled when short pressing the rotation info quick setting
  */
 typedef enum {
   PHOSH_ROTATE_INFO_MODE_LOCK,

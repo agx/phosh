@@ -24,6 +24,7 @@
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
 #include "rotateinfo.h"
+#include "util.h"
 
 #include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
@@ -252,7 +253,7 @@ static void
 rotation_setting_long_pressed_cb (PhoshSettings *self)
 {
   PhoshShell *shell = phosh_shell_get_default ();
-  PhoshRotateInfoMode mode;
+  PhoshRotationManagerMode mode;
   PhoshRotationManager *rotation_manager;
 
   rotation_manager = phosh_shell_get_rotation_manager (shell);
@@ -457,8 +458,7 @@ output_stream_notify_is_muted_cb (GvcMixerStream *stream, GParamSpec *pspec, gpo
     gvc_channel_bar_set_is_muted (GVC_CHANNEL_BAR (self->output_vol_bar), muted);
     if (!muted)
       update_output_vol_bar (self);
-  };
-
+  }
 }
 
 
@@ -473,42 +473,72 @@ output_stream_notify_volume_cb (GvcMixerStream *stream, GParamSpec *pspec, gpoin
 
 
 static void
-on_output_stream_port_changed (GvcMixerStream *stream, GParamSpec *pspec, gpointer data)
+maybe_pause_stream (PhoshSettings *self)
 {
-  PhoshSettings *self = PHOSH_SETTINGS (data);
-  const char *form_factor;
-  gboolean is_headphone = FALSE;
-  const char *icon = "audio-speakers-symbolic";
-  const GvcMixerStreamPort *port;
   PhoshMediaPlayer *media_player = PHOSH_MEDIA_PLAYER (self->media_player);
 
-  port = gvc_mixer_stream_get_port (stream);
-  g_return_if_fail (port);
-  g_debug ("Port changed: %s (%s)", port->human_port ?: port->port, port->port);
+  if (self->is_headphone ||
+      !phosh_media_player_get_is_playable (media_player) ||
+      phosh_media_player_get_status (media_player) != PHOSH_MEDIA_PLAYER_STATUS_PLAYING) {
+    return;
+  }
+}
+
+
+static gboolean
+stream_uses_headphones (GvcMixerStream *stream)
+{
+  const char *form_factor;
+  const GvcMixerStreamPort *port;
 
   form_factor = gvc_mixer_stream_get_form_factor (stream);
   if (g_strcmp0 (form_factor, "headset") == 0 ||
       g_strcmp0 (form_factor, "headphone") == 0) {
-    is_headphone = TRUE;
+    return TRUE;
   }
 
+  port = gvc_mixer_stream_get_port (stream);
   if (g_strcmp0 (port->port, "[Out] Headphones") == 0 ||
       g_strcmp0 (port->port, "analog-output-headphones") == 0) {
-    is_headphone = TRUE;
+    return TRUE;
   }
+
+  return FALSE;
+}
+
+
+static void
+on_output_stream_port_changed (GvcMixerStream *stream, GParamSpec *pspec, gpointer data)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (data);
+  const char *icon = NULL;
+  gboolean is_headphone = FALSE;
+  const GvcMixerStreamPort *port;
+
+  port = gvc_mixer_stream_get_port (stream);
+  g_debug ("Port changed: %s (%s)", port->human_port ?: port->port, port->port);
+
+  is_headphone = stream_uses_headphones (stream);
+  if (is_headphone) {
+    icon = "audio-headphones";
+  } else {
+    GvcMixerUIDevice *output;
+
+    output = gvc_mixer_control_lookup_device_from_stream (self->mixer_control, stream);
+    if (output)
+      icon = gvc_mixer_ui_device_get_icon_name (output);
+  }
+
+  if (STR_IS_NULL_OR_EMPTY (icon) || g_str_has_prefix (icon, "audio-card"))
+    icon = "audio-speakers";
+
+  gvc_channel_bar_set_icon_name (GVC_CHANNEL_BAR (self->output_vol_bar), icon);
 
   if (is_headphone == self->is_headphone)
     return;
-
   self->is_headphone = is_headphone;
-  if (is_headphone)
-    icon = "audio-headphones-symbolic";
-  else if (phosh_media_player_get_is_playable (media_player) &&
-           phosh_media_player_get_status (media_player) == PHOSH_MEDIA_PLAYER_STATUS_PLAYING) {
-    phosh_media_player_toggle_play_pause (media_player);
-  }
 
-  gvc_channel_bar_set_icon_name (GVC_CHANNEL_BAR (self->output_vol_bar), icon);
+  maybe_pause_stream (self);
 }
 
 
@@ -524,8 +554,7 @@ mixer_control_output_update_cb (GvcMixerControl *mixer, guint id, gpointer data)
   if (self->output_stream)
     g_signal_handlers_disconnect_by_data (self->output_stream, self);
 
-  g_set_object (&self->output_stream,
-                gvc_mixer_control_get_default_sink (self->mixer_control));
+  g_set_object (&self->output_stream, gvc_mixer_control_get_default_sink (self->mixer_control));
   g_return_if_fail (self->output_stream);
 
   g_signal_connect_object (self->output_stream,

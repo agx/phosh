@@ -28,10 +28,21 @@
 #include "gvc-mixer-control.h"
 
 #define SCALE_SIZE 128
-#define ADJUSTMENT_MAX_NORMAL gvc_mixer_control_get_vol_max_norm(NULL)
-#define ADJUSTMENT_MAX_AMPLIFIED gvc_mixer_control_get_vol_max_amplified(NULL)
+#define ADJUSTMENT_MAX_NORMAL PA_VOLUME_NORM
+#define ADJUSTMENT_MAX_AMPLIFIED PA_VOLUME_UI_MAX
 #define ADJUSTMENT_MAX (self->is_amplified ? ADJUSTMENT_MAX_AMPLIFIED : ADJUSTMENT_MAX_NORMAL)
 #define SCROLLSTEP (ADJUSTMENT_MAX / 100.0 * 5.0)
+
+
+enum
+{
+  PROP_0,
+  PROP_IS_MUTED,
+  PROP_ICON_NAME,
+  PROP_IS_AMPLIFIED,
+  LAST_PROP,
+};
+static GParamSpec *props[LAST_PROP];
 
 
 enum {
@@ -57,69 +68,18 @@ struct _GvcChannelBar
   guint32        base_volume;
 };
 
-enum
-{
-  PROP_0,
-  PROP_IS_MUTED,
-  PROP_ICON_NAME,
-  PROP_IS_AMPLIFIED,
-};
-
-static gboolean on_scale_button_press_event   (GtkWidget      *widget,
-                                               GdkEventButton *event,
-                                               GvcChannelBar  *self);
-static gboolean on_scale_button_release_event (GtkWidget      *widget,
-                                               GdkEventButton *event,
-                                               GvcChannelBar  *self);
-static gboolean on_scale_scroll_event         (GtkWidget      *widget,
-                                               GdkEventScroll *event,
-                                               GvcChannelBar  *self);
-
 G_DEFINE_TYPE (GvcChannelBar, gvc_channel_bar, GTK_TYPE_BOX)
-
-
-static GtkWidget *
-_scale_box_new (GvcChannelBar *self)
-{
-  GtkWidget            *box;
-
-  self->scale_box = box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-  gtk_box_pack_start (GTK_BOX (box), self->image, FALSE, FALSE, 0);
-
-  self->scale = gtk_scale_new (GTK_ORIENTATION_HORIZONTAL, self->adjustment);
-
-  gtk_widget_set_size_request (self->scale, SCALE_SIZE, -1);
-  gtk_box_pack_start (GTK_BOX (box), self->scale, TRUE, TRUE, 0);
-
-  gtk_widget_add_events (self->scale, GDK_SCROLL_MASK);
-
-  g_signal_connect (G_OBJECT (self->scale), "button-press-event",
-                    G_CALLBACK (on_scale_button_press_event), self);
-  g_signal_connect (G_OBJECT (self->scale), "button-release-event",
-                    G_CALLBACK (on_scale_button_release_event), self);
-  g_signal_connect (G_OBJECT (self->scale), "scroll-event",
-                    G_CALLBACK (on_scale_scroll_event), self);
-
-  if (self->size_group != NULL)
-    gtk_size_group_add_widget (self->size_group, box);
-
-  gtk_scale_set_draw_value (GTK_SCALE (self->scale), FALSE);
-
-  return box;
-}
 
 
 static void
 update_image (GvcChannelBar *self)
 {
-  gtk_image_set_from_icon_name (GTK_IMAGE (self->image),
-                                self->icon_name,
-                                GTK_ICON_SIZE_BUTTON);
+  g_autoptr (GIcon) gicon = NULL;
 
-  if (self->icon_name != NULL)
-    gtk_widget_show (self->image);
-  else
-    gtk_widget_hide (self->image);
+  gicon = g_themed_icon_new_with_default_fallbacks (self->icon_name);
+  gtk_image_set_from_gicon (GTK_IMAGE (self->image), gicon, -1);
+
+  gtk_widget_set_visible (self->image, self->icon_name != NULL);
 }
 
 
@@ -131,10 +91,9 @@ gvc_channel_bar_set_size_group (GvcChannelBar *self,
 
   self->size_group = group;
 
-  if (self->size_group != NULL) {
-    gtk_size_group_add_widget (self->size_group,
-                               self->scale_box);
-  }
+  if (self->size_group != NULL)
+    gtk_size_group_add_widget (self->size_group, self->scale_box);
+
   gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
@@ -148,7 +107,7 @@ gvc_channel_bar_set_icon_name (GvcChannelBar  *self,
   g_free (self->icon_name);
   self->icon_name = g_strdup (name);
   update_image (self);
-  g_object_notify (G_OBJECT (self), "icon-name");
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ICON_NAME]);
 }
 
 
@@ -177,14 +136,10 @@ on_scale_button_release_event (GtkWidget      *widget,
                                GdkEventButton *event,
                                GvcChannelBar  *self)
 {
-  GtkAdjustment *adj;
   double value;
 
   self->click_lock = FALSE;
-
-  adj = gtk_range_get_adjustment (GTK_RANGE (widget));
-
-  value = gtk_adjustment_get_value (adj);
+  value = gtk_adjustment_get_value (self->adjustment);
 
   /* this means the adjustment moved away from zero and
    * therefore we should unmute and set the volume. */
@@ -197,7 +152,6 @@ on_scale_button_release_event (GtkWidget      *widget,
 gboolean
 gvc_channel_bar_scroll (GvcChannelBar *self, GdkEventScroll *event)
 {
-  GtkAdjustment *adj;
   double value;
   GdkScrollDirection direction;
   double dx, dy;
@@ -239,8 +193,7 @@ gvc_channel_bar_scroll (GvcChannelBar *self, GdkEventScroll *event)
     }
   }
 
-  adj = gtk_range_get_adjustment (GTK_RANGE (self->scale));
-  value = gtk_adjustment_get_value (adj);
+  value = gtk_adjustment_get_value (self->adjustment);
 
   if (dy > 0) {
     if (value + dy * SCROLLSTEP > ADJUSTMENT_MAX)
@@ -255,8 +208,7 @@ gvc_channel_bar_scroll (GvcChannelBar *self, GdkEventScroll *event)
   }
 
   gvc_channel_bar_set_is_muted (self, ((int) value == 0));
-  adj = gtk_range_get_adjustment (GTK_RANGE (self->scale));
-  gtk_adjustment_set_value (adj, value);
+  gtk_adjustment_set_value (self->adjustment, value);
 
   return TRUE;
 }
@@ -272,8 +224,7 @@ on_scale_scroll_event (GtkWidget      *widget,
 
 
 static void
-on_adjustment_value_changed (GtkAdjustment *adjustment,
-                             GvcChannelBar *self)
+on_adjustment_value_changed (GtkAdjustment *adjustment, GvcChannelBar *self)
 {
   if (!self->is_muted || self->click_lock)
     g_signal_emit (self, signals[VALUE_CHANGED], 0);
@@ -290,7 +241,7 @@ gvc_channel_bar_set_is_muted (GvcChannelBar *self,
     /* Update our internal state before telling the
      * front-end about our changes */
     self->is_muted = is_muted;
-    g_object_notify (G_OBJECT (self), "is-muted");
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_MUTED]);
 
     if (is_muted)
       gtk_adjustment_set_value (self->adjustment, 0.0);
@@ -410,14 +361,7 @@ gvc_channel_bar_get_property (GObject     *object,
 static void
 gvc_channel_bar_finalize (GObject *object)
 {
-  GvcChannelBar *self;
-
-  g_return_if_fail (object != NULL);
-  g_return_if_fail (GVC_IS_CHANNEL_BAR (object));
-
-  self = GVC_CHANNEL_BAR (object);
-
-  g_return_if_fail (self != NULL);
+  GvcChannelBar *self = GVC_CHANNEL_BAR (object);
 
   g_free (self->icon_name);
 
@@ -429,32 +373,39 @@ static void
 gvc_channel_bar_class_init (GvcChannelBarClass *klass)
 {
   GObjectClass   *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->finalize = gvc_channel_bar_finalize;
   object_class->set_property = gvc_channel_bar_set_property;
   object_class->get_property = gvc_channel_bar_get_property;
 
-  g_object_class_install_property (object_class,
-                                   PROP_IS_MUTED,
-                                   g_param_spec_boolean ("is-muted",
-                                                         "is muted",
-                                                         "Whether stream is muted",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE|G_PARAM_CONSTRUCT));
-  g_object_class_install_property (object_class,
-                                   PROP_ICON_NAME,
-                                   g_param_spec_string ("icon-name",
-                                                        "Icon Name",
-                                                        "Name of icon to display for this stream",
-                                                        NULL,
-                                                        G_PARAM_READWRITE|G_PARAM_CONSTRUCT));
-  g_object_class_install_property (object_class,
-                                   PROP_IS_AMPLIFIED,
-                                   g_param_spec_boolean ("is-amplified",
-                                                         "Is amplified",
-                                                         "Whether the stream is digitally amplified",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE|G_PARAM_CONSTRUCT));
+  /**
+   * GvcChannelBar:is-muted:
+   *
+   * Whether the stream is muted
+   */
+  props[PROP_IS_MUTED] = g_param_spec_boolean ("is-muted", "", "",
+                                               FALSE,
+                                               G_PARAM_READWRITE|G_PARAM_CONSTRUCT);
+  /**
+   * GvcChannelBar:icon-name:
+   *
+   * The name of icon to display for this stream
+   */
+  props[PROP_ICON_NAME] = g_param_spec_string ("icon-name", "", "",
+                                               NULL,
+                                               G_PARAM_READWRITE|G_PARAM_CONSTRUCT);
+  /**
+   * GvcChannelBar:is-amplified:
+   *
+   * Whether the stream is digitally amplified
+   */
+  props[PROP_IS_AMPLIFIED] =
+    g_param_spec_boolean ("is-amplified", "", "",
+                          FALSE,
+                          G_PARAM_READWRITE|G_PARAM_CONSTRUCT);
+
+  g_object_class_install_properties (object_class, LAST_PROP, props);
 
   signals[VALUE_CHANGED] = g_signal_new ("value-changed",
                                          G_TYPE_FROM_CLASS (klass),
@@ -462,50 +413,42 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
                                          0, NULL, NULL, NULL,
                                          G_TYPE_NONE,
                                          0);
+
+  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/gvc-channel-bar.ui");
+  gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, adjustment);
+  gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, scale_box);
+  gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, image);
+  gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, scale);
+  gtk_widget_class_bind_template_callback (widget_class, on_adjustment_value_changed);
+  gtk_widget_class_bind_template_callback (widget_class, on_scale_button_press_event);
+  gtk_widget_class_bind_template_callback (widget_class, on_scale_button_release_event);
+  gtk_widget_class_bind_template_callback (widget_class, on_scale_scroll_event);
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-gvc-channel-bar");
 }
 
 
 static void
 gvc_channel_bar_init (GvcChannelBar *self)
 {
-  GtkWidget *frame;
-
-  self->image = gtk_image_new ();
+  gtk_widget_init_template (GTK_WIDGET (self));
 
   self->base_volume = ADJUSTMENT_MAX_NORMAL;
+  gtk_adjustment_set_upper (self->adjustment, ADJUSTMENT_MAX_NORMAL);
+  gtk_adjustment_set_step_increment (self->adjustment, ADJUSTMENT_MAX_NORMAL / 100.0);
+  gtk_adjustment_set_page_increment (self->adjustment, ADJUSTMENT_MAX_NORMAL / 10.0);
 
-  self->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0.0,
-                                                         0.0,
-                                                         ADJUSTMENT_MAX_NORMAL,
-                                                         ADJUSTMENT_MAX_NORMAL/100.0,
-                                                         ADJUSTMENT_MAX_NORMAL/10.0,
-                                                         0.0));
-  g_object_ref_sink (self->adjustment);
-  g_signal_connect (self->adjustment, "value-changed", G_CALLBACK (on_adjustment_value_changed), self);
-
-  /* frame */
-  frame = gtk_frame_new (NULL);
-  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-  gtk_box_pack_start (GTK_BOX (self), frame, TRUE, TRUE, 0);
-  gtk_widget_show_all (frame);
-
-  /* box with scale */
-  self->scale_box = _scale_box_new (self);
-
-  gtk_container_add (GTK_CONTAINER (frame), self->scale_box);
-  gtk_widget_show_all (frame);
+  gtk_widget_add_events (self->scale, GDK_SCROLL_MASK);
 }
 
 
 GtkWidget *
 gvc_channel_bar_new (void)
 {
-  GObject *self;
-  self = g_object_new (GVC_TYPE_CHANNEL_BAR,
+  return g_object_new (GVC_TYPE_CHANNEL_BAR,
                        "orientation", GTK_ORIENTATION_HORIZONTAL,
                        "icon-name", "audio-speakers-symbolic",
                        NULL);
-  return GTK_WIDGET (self);
 }
 
 
