@@ -51,7 +51,6 @@ int
 main (int argc, char *argv[])
 {
   int ret = -1;
-
   g_autoptr(GTestDBus) bus = NULL;
   const char *display;
 

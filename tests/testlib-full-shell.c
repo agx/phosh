@@ -35,9 +35,10 @@ stop_shell (gpointer unused)
 }
 
 
-static void kill_compositor (int signum)
+static void
+kill_compositor (int signum)
 {
-  kill(comp_pid, SIGTERM);
+  kill (comp_pid, SIGTERM);
 }
 
 
@@ -53,7 +54,7 @@ phosh_test_full_shell_thread (gpointer data)
   /* We assume only one compositor running at a given time */
   comp_pid = fixture->state->pid;
 
-  signal(SIGTRAP, kill_compositor);
+  signal (SIGTRAP, kill_compositor);
 
   gtk_init (NULL, NULL);
   hdy_init ();
