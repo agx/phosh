@@ -106,6 +106,9 @@ gvc_channel_bar_set_icon_name (GvcChannelBar  *self,
 {
   g_return_if_fail (GVC_IS_CHANNEL_BAR (self));
 
+  if (g_strcmp0 (self->icon_name, name) == 0)
+    return;
+
   g_free (self->icon_name);
   self->icon_name = g_strdup (name);
   update_image (self);
@@ -239,15 +242,16 @@ gvc_channel_bar_set_is_muted (GvcChannelBar *self,
 {
   g_return_if_fail (GVC_IS_CHANNEL_BAR (self));
 
-  if (is_muted != self->is_muted) {
-    /* Update our internal state before telling the
-     * front-end about our changes */
-    self->is_muted = is_muted;
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_MUTED]);
+  if (is_muted == self->is_muted)
+    return;
 
-    if (is_muted)
-      gtk_adjustment_set_value (self->adjustment, 0.0);
-  }
+  /* Update our internal state before telling the
+   * front-end about our changes */
+  self->is_muted = is_muted;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_MUTED]);
+
+  if (is_muted)
+    gtk_adjustment_set_value (self->adjustment, 0.0);
 }
 
 
@@ -263,6 +267,9 @@ void
 gvc_channel_bar_set_is_amplified (GvcChannelBar *self, gboolean amplified)
 {
   g_return_if_fail (GVC_IS_CHANNEL_BAR (self));
+
+  if (self->is_amplified == amplified)
+    return;
 
   self->is_amplified = amplified;
   gtk_adjustment_set_upper (self->adjustment, ADJUSTMENT_MAX);
@@ -291,6 +298,8 @@ gvc_channel_bar_set_is_amplified (GvcChannelBar *self, gboolean amplified)
      * these widgets plus the scale but neither GtkScale
      * nor GtkSwitch support baseline alignment yet. */
   }
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_AMPLIFIED]);
 }
 
 
@@ -389,6 +398,7 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
   props[PROP_IS_MUTED] =
     g_param_spec_boolean ("is-muted", "", "",
                           FALSE,
+                          G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT);
   /**
    * GvcChannelBar:icon-name:
@@ -398,6 +408,7 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
   props[PROP_ICON_NAME] =
     g_param_spec_string ("icon-name", "", "",
                          NULL,
+                         G_PARAM_EXPLICIT_NOTIFY |
                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT);
   /**
    * GvcChannelBar:is-amplified:
@@ -407,6 +418,7 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
   props[PROP_IS_AMPLIFIED] =
     g_param_spec_boolean ("is-amplified", "", "",
                           FALSE,
+                          G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
