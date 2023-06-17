@@ -32,8 +32,6 @@ variables:
   ASAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/asan:v0.0.20230608
   XVFB_RUN: xvfb-run -a -s -noreset
   COMMON_BUILD_OPTS: -Db_coverage=true --werror -Dtools=true
-  EXP_DEPS: libfeedback-dev gir1.2-glib-2.0 gobject-introspection gir1.2-freedesktop dbus-bin libgirepository1.0-dev
-            libpython3.11 libsystemd-dev dbus-x11 libdbus-1-dev libdeflate-dev libdw1 libudev-dev
   ALPINE_EDGE_DEPS: alpine-sdk callaudiod-dev elogind-dev feedbackd-dev gcr-dev git glib-dev gnome-desktop-dev
                     gtk+3.0-dev libgudev-dev libhandy1-dev gcr-dev libsecret-dev gcovr linux-pam-dev
                     meson musl-dev networkmanager networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
@@ -261,9 +259,9 @@ unit-test:native-alpinelinux-edge:
       - $PKG_ONLY == "1"
       - $SCREENSHOTS_ONLY == "1"
 
-package:deb-debian-bookworm:arm64:
+package:deb-debian-trixie:arm64:
   variables:
-    L5_DOCKER_IMAGE: debian:bookworm
+    L5_DOCKER_IMAGE: debian:trixie
     DEB_BUILD_PROFILES: "nodoc nocheck"
     DEB_BUILD_OPTIONS: nocheck
   extends: .l5-build-debian-package
@@ -273,11 +271,8 @@ package:deb-debian-bookworm:arm64:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get -y update
     - apt-get -y install eatmydata
-    - echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list.d/experimental.list
-    - echo "deb http://deb.debian.org/debian/ experimental main" >> /etc/apt/sources.list.d/experimental.list
+    - echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list.d/sid.list
     - eatmydata apt-get -y update
-    - eatmydata apt-get -y upgrade
-    - eatmydata apt-get -y install -t experimental $EXP_DEPS
   except:
     variables:
       - $SCREENSHOTS_ONLY == "1"
