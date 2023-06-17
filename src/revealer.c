@@ -16,7 +16,8 @@
  * Reveals e.g. a [class@StatusIcon] in the [class@TopPanel].  Similar
  * to [class@Gtk.Revealer] but toggles the transition based on the
  * `show-child` property which also triggers the child's visibility so it
- * doesn't use up any size when revealed.
+ * doesn't use up any size when not revealed (e.g. when using the `crossfade`
+ * animation).
  */
 
 enum {
@@ -104,7 +105,7 @@ phosh_revealer_class_init (PhoshRevealerClass *klass)
   /**
    * PhoshRevealer:show-child:
    *
-   * Whether the child should be show. This make is visible and fades
+   * Whether the child should be shown. This make it visible and fades
    * it in via the given transition. When %FALSE triggers the fade out
    * animation and hides the child at the end.
    */
