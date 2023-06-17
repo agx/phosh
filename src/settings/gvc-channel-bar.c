@@ -386,17 +386,19 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
    *
    * Whether the stream is muted
    */
-  props[PROP_IS_MUTED] = g_param_spec_boolean ("is-muted", "", "",
-                                               FALSE,
-                                               G_PARAM_READWRITE|G_PARAM_CONSTRUCT);
+  props[PROP_IS_MUTED] =
+    g_param_spec_boolean ("is-muted", "", "",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT);
   /**
    * GvcChannelBar:icon-name:
    *
    * The name of icon to display for this stream
    */
-  props[PROP_ICON_NAME] = g_param_spec_string ("icon-name", "", "",
-                                               NULL,
-                                               G_PARAM_READWRITE|G_PARAM_CONSTRUCT);
+  props[PROP_ICON_NAME] =
+    g_param_spec_string ("icon-name", "", "",
+                         NULL,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT);
   /**
    * GvcChannelBar:is-amplified:
    *
@@ -405,7 +407,7 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
   props[PROP_IS_AMPLIFIED] =
     g_param_spec_boolean ("is-amplified", "", "",
                           FALSE,
-                          G_PARAM_READWRITE|G_PARAM_CONSTRUCT);
+                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
