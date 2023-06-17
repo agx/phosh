@@ -772,6 +772,8 @@ phosh_settings_constructed (GObject *object)
   PhoshSettings *self = PHOSH_SETTINGS (object);
   PhoshNotifyManager *manager;
 
+  G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
+
   setup_brightness_range (self);
   setup_volume_bar (self);
   setup_torch (self);
@@ -800,8 +802,6 @@ phosh_settings_constructed (GObject *object)
                           self,
                           "on-lockscreen",
                           G_BINDING_SYNC_CREATE);
-
-  G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
 
 
