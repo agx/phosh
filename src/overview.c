@@ -274,22 +274,21 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   title = phosh_toplevel_get_title (toplevel);
 
   g_debug ("Building activator for '%s' (%s)", app_id, title);
-  activity = phosh_activity_new (app_id);
   phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
-  g_object_set (activity,
-                "win-width", width,
-                "win-height", height,
-                "maximized", phosh_toplevel_is_maximized (toplevel),
-                "fullscreen", phosh_toplevel_is_fullscreen (toplevel),
-                NULL);
+  activity = g_object_new (PHOSH_TYPE_ACTIVITY,
+                           "app-id", app_id,
+                           "win-width", width,
+                           "win-height", height,
+                           "maximized", phosh_toplevel_is_maximized (toplevel),
+                           "fullscreen", phosh_toplevel_is_fullscreen (toplevel),
+                           NULL);
   g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);
 
   gtk_container_add (GTK_CONTAINER (priv->carousel_running_activities), activity);
   gtk_widget_show (activity);
 
   g_signal_connect_swapped (activity, "clicked", G_CALLBACK (on_activity_clicked), self);
-  g_signal_connect_swapped (activity, "closed",
-                            G_CALLBACK (on_activity_closed), self);
+  g_signal_connect_swapped (activity, "closed", G_CALLBACK (on_activity_closed), self);
 
   g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), self, 0);
   g_signal_connect_object (toplevel, "notify::activated", G_CALLBACK (on_toplevel_activated_changed), self, 0);
