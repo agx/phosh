@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2019 Purism SPC
+ *               2024 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -21,7 +22,8 @@
  * PhoshToplevelManager:
  *
  * Tracks and interacts with toplevel surfaces for window management
- * purposes.
+ * purposes using the wlr-foreign-toplevel-unstable-v1 wayland
+ * protocol.
  */
 
 enum {
@@ -40,8 +42,8 @@ static guint signals[N_SIGNALS] = { 0 };
 
 struct _PhoshToplevelManager {
   GObject parent;
-  GPtrArray *toplevels;
-  GPtrArray *toplevels_pending;
+  GPtrArray *toplevels;         /* (element-type: PhoshToplevel) */
+  GPtrArray *toplevels_pending; /* (element-type: PhoshToplevel) */
 };
 
 G_DEFINE_TYPE (PhoshToplevelManager, phosh_toplevel_manager, G_TYPE_OBJECT);
@@ -264,4 +266,35 @@ phosh_toplevel_manager_get_num_toplevels (PhoshToplevelManager *self)
   g_return_val_if_fail (self->toplevels, 0);
 
   return self->toplevels->len;
+}
+
+/**
+ * phosh_toplevel_manager_get_parent:
+ * @self: The toplevel manager
+ * @toplevel: The toplevel to get the parent for
+ *
+ * Gets the parent toplevel of a given toplevel
+ *
+ * Returns:(transfer none)(nullable): The toplevel
+ */
+PhoshToplevel *
+phosh_toplevel_manager_get_parent (PhoshToplevelManager *self, PhoshToplevel *toplevel)
+{
+  struct zwlr_foreign_toplevel_handle_v1 *parent_handle;
+
+  g_return_val_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (self), NULL);
+  g_return_val_if_fail (self->toplevels, NULL);
+
+  parent_handle = phosh_toplevel_get_parent_handle (toplevel);
+  if (parent_handle == NULL)
+    return NULL;
+
+  for (int i = 0; i < self->toplevels->len; i++) {
+    PhoshToplevel *t;
+
+    t = g_ptr_array_index (self->toplevels, i);
+    if (parent_handle == phosh_toplevel_get_handle (t))
+      return t;
+  }
+  return NULL;
 }

@@ -63,3 +63,9 @@ phosh_toplevel_manager_new (void)
 {
   return g_object_new (PHOSH_TYPE_TOPLEVEL_MANAGER, NULL);
 }
+
+PhoshToplevel *
+phosh_toplevel_manager_get_parent (PhoshToplevelManager *self, PhoshToplevel *toplevel)
+{
+  return NULL;
+}

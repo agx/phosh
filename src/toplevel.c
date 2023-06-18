@@ -43,6 +43,7 @@ static guint signals[N_SIGNALS] = { 0 };
 struct _PhoshToplevel {
   GObject parent;
   struct zwlr_foreign_toplevel_handle_v1 *handle;
+  struct zwlr_foreign_toplevel_handle_v1 *parent_handle;
   gboolean configured, activated, maximized, fullscreen;
   char *title;
   char *app_id;
@@ -164,6 +165,20 @@ handle_zwlr_foreign_toplevel_handle_closed(
 }
 
 
+static void
+handle_zwlr_foreign_toplevel_handle_parent (
+  void *data,
+  struct zwlr_foreign_toplevel_handle_v1 *zwlr_foreign_toplevel_handle_v1,
+  struct zwlr_foreign_toplevel_handle_v1 *parent)
+{
+  PhoshToplevel *self = PHOSH_TOPLEVEL (data);
+
+  g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
+  g_debug ("Got parent handle %p", parent);
+  self->parent_handle = parent;
+}
+
+
 static const struct zwlr_foreign_toplevel_handle_v1_listener zwlr_foreign_toplevel_handle_listener = {
   handle_zwlr_foreign_toplevel_handle_title,
   handle_zwlr_foreign_toplevel_handle_app_id,
@@ -171,7 +186,8 @@ static const struct zwlr_foreign_toplevel_handle_v1_listener zwlr_foreign_toplev
   handle_zwlr_foreign_toplevel_handle_output_leave,
   handle_zwlr_foreign_toplevel_handle_state,
   handle_zwlr_foreign_toplevel_handle_done,
-  handle_zwlr_foreign_toplevel_handle_closed
+  handle_zwlr_foreign_toplevel_handle_closed,
+  handle_zwlr_foreign_toplevel_handle_parent,
 };
 
 
@@ -382,6 +398,14 @@ phosh_toplevel_get_handle (PhoshToplevel *self)
 {
   g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), NULL);
   return self->handle;
+}
+
+
+struct zwlr_foreign_toplevel_handle_v1 *
+phosh_toplevel_get_parent_handle (PhoshToplevel *self)
+{
+  g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), NULL);
+  return self->parent_handle;
 }
 
 

@@ -18,6 +18,9 @@ G_DECLARE_FINAL_TYPE (PhoshToplevelManager,
                       TOPLEVEL_MANAGER,
                       GObject)
 
-PhoshToplevel        *phosh_toplevel_manager_get_toplevel (PhoshToplevelManager *self, guint num);
-guint                 phosh_toplevel_manager_get_num_toplevels (PhoshToplevelManager *self);
-PhoshToplevelManager *phosh_toplevel_manager_new (void);
+PhoshToplevelManager *phosh_toplevel_manager_new                 (void);
+PhoshToplevel        *phosh_toplevel_manager_get_toplevel        (PhoshToplevelManager *self,
+                                                                  guint                 num);
+guint                 phosh_toplevel_manager_get_num_toplevels   (PhoshToplevelManager *self);
+PhoshToplevel        *phosh_toplevel_manager_get_parent          (PhoshToplevelManager *self,
+                                                                  PhoshToplevel        *toplevel);
