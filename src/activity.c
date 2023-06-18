@@ -40,6 +40,7 @@ static guint signals[N_SIGNALS] = { 0 };
 enum {
   PROP_0,
   PROP_APP_ID,
+  PROP_PARENT_APP_ID,
   PROP_MAXIMIZED,
   PROP_FULLSCREEN,
   PROP_WIN_WIDTH,
@@ -64,6 +65,7 @@ typedef struct
   int win_height;
 
   char *app_id;
+  char *parent_app_id;
 
   cairo_surface_t *surface;
   PhoshThumbnail *thumbnail;
@@ -97,6 +99,11 @@ phosh_activity_set_property (GObject *object,
       g_free (priv->app_id);
       priv->app_id = g_value_dup_string (value);
       g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_ID]);
+      break;
+    case PROP_PARENT_APP_ID:
+      g_free (priv->parent_app_id);
+      priv->parent_app_id = g_value_dup_string (value);
+      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PARENT_APP_ID]);
       break;
     case PROP_MAXIMIZED:
       priv->maximized = g_value_get_boolean (value);
@@ -141,6 +148,9 @@ phosh_activity_get_property (GObject *object,
   switch (property_id) {
     case PROP_APP_ID:
       g_value_set_string (value, priv->app_id);
+      break;
+    case PROP_PARENT_APP_ID:
+      g_value_set_string (value, priv->parent_app_id);
       break;
     case PROP_MAXIMIZED:
       g_value_set_boolean (value, priv->maximized);
@@ -287,19 +297,25 @@ phosh_activity_constructed (GObject *object)
 {
   PhoshActivity *self = PHOSH_ACTIVITY (object);
   PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
-  g_autoptr (GDesktopAppInfo) app_info = phosh_get_desktop_app_info_for_app_id (priv->app_id);
+  g_autoptr (GDesktopAppInfo) app_info = NULL;
+  GIcon *icon = NULL;
 
-  if (app_info) {
-    gtk_image_set_from_gicon (GTK_IMAGE (priv->icon),
-                              g_app_info_get_icon (G_APP_INFO (app_info)),
-                              ACTIVITY_ICON_SIZE);
-  } else {
-    gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon),
-                                  PHOSH_APP_UNKNOWN_ICON,
-                                  ACTIVITY_ICON_SIZE);
+  app_info = phosh_get_desktop_app_info_for_app_id (priv->app_id);
+  if (app_info)
+    icon = g_app_info_get_icon (G_APP_INFO (app_info));
+
+  if (!icon && priv->parent_app_id) {
+    app_info = phosh_get_desktop_app_info_for_app_id (priv->parent_app_id);
+    if (app_info)
+      icon = g_app_info_get_icon (G_APP_INFO (app_info));
   }
 
-  gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-empty");
+  if (icon) {
+    gtk_image_set_from_gicon (GTK_IMAGE (priv->icon), icon, ACTIVITY_ICON_SIZE);
+  } else {
+    gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon), PHOSH_APP_UNKNOWN_ICON, ACTIVITY_ICON_SIZE);
+    gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-empty");
+  }
 
   G_OBJECT_CLASS (phosh_activity_parent_class)->constructed (object);
 }
@@ -329,6 +345,7 @@ phosh_activity_finalize (GObject *object)
   PhoshActivity *self = PHOSH_ACTIVITY (object);
   PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
 
+  g_free (priv->parent_app_id);
   g_free (priv->app_id);
 
   G_OBJECT_CLASS (phosh_activity_parent_class)->finalize (object);
@@ -547,6 +564,17 @@ phosh_activity_class_init (PhoshActivityClass *klass)
       G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
       G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+  /**
+   * PhoshActivity:parent-app-id:
+   *
+   * The app-id of the parent activity (if any)
+   */
+  props[PROP_PARENT_APP_ID] =
+    g_param_spec_string ("parent-app-id", "", "",
+                         NULL,
+                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
+                         G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+
   props[PROP_MAXIMIZED] =
     g_param_spec_boolean (
       "maximized",
@@ -686,8 +714,10 @@ void
 phosh_activity_get_thumbnail_allocation (PhoshActivity *self, GtkAllocation *allocation)
 {
   PhoshActivityPrivate *priv;
-  g_return_if_fail (PHOSH_IS_ACTIVITY (self));
+
   g_return_if_fail (allocation);
+  g_return_if_fail (PHOSH_IS_ACTIVITY (self));
   priv = phosh_activity_get_instance_private (self);
+
   *allocation = priv->allocation;
 }

@@ -265,7 +265,10 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   PhoshOverviewPrivate *priv;
   GtkWidget *activity;
   const char *app_id, *title;
+  const char *parent_app_id = NULL;
   int width, height;
+  PhoshToplevelManager *m = phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
+  PhoshToplevel *parent = NULL;
 
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   priv = phosh_overview_get_instance_private (self);
@@ -273,10 +276,16 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   app_id = phosh_toplevel_get_app_id (toplevel);
   title = phosh_toplevel_get_title (toplevel);
 
+  if (phosh_toplevel_get_parent_handle (toplevel))
+    parent = phosh_toplevel_manager_get_parent (m, toplevel);
+  if (parent)
+    parent_app_id = phosh_toplevel_get_app_id (parent);
+
   g_debug ("Building activator for '%s' (%s)", app_id, title);
   phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
   activity = g_object_new (PHOSH_TYPE_ACTIVITY,
                            "app-id", app_id,
+                           "parent-app-id", parent_app_id,
                            "win-width", width,
                            "win-height", height,
                            "maximized", phosh_toplevel_is_maximized (toplevel),
