@@ -10,13 +10,15 @@
 #include "emergency-info-prefs.h"
 #include "emergency-info-prefs-row.h"
 
+#define STR_IS_NULL_OR_EMPTY(x) ((x) == NULL || (x)[0] == '\0')
+
 /**
  * PhoshEmergencyInfoPrefs
  *
  * Preferences for emergency-info plugin
  */
 struct _PhoshEmergencyInfoPrefs {
-  AdwWindow  parent;
+  AdwWindow            parent;
 
   char                *owner_name;
   char                *dob;
@@ -48,15 +50,30 @@ struct _PhoshEmergencyInfoPrefs {
   GtkEntryBuffer      *new_emer_contact_relationship_entry_buffer;
   GtkEntryBuffer      *new_emer_contact_number_entry_buffer;
 
-  GtkDialog  *add_emer_contact_dialog;
+  GtkDialog           *add_emer_contact_dialog;
 
   AdwPreferencesGroup *emer_contacts;
+
+  char                *keyfile_path;
 };
 
 G_DEFINE_TYPE (PhoshEmergencyInfoPrefs, phosh_emergency_info_prefs, ADW_TYPE_WINDOW);
 
+
 static void
-set_or_remove_info_group (GKeyFile *key_file,
+save_keyfile (PhoshEmergencyInfoPrefs *self, GKeyFile *key_file)
+{
+  g_autoptr (GError) err = NULL;
+  g_autofree char *dirname = g_path_get_dirname (self->keyfile_path);
+
+  g_mkdir_with_parents (dirname, 0700);
+  if (!g_key_file_save_to_file (key_file, self->keyfile_path, &err))
+    g_warning ("Error Saving Keyfile at %s: %s", self->keyfile_path, err->message);
+}
+
+
+static void
+set_or_remove_info_group (GKeyFile   *key_file,
                           const char *key,
                           const char *value)
 {
@@ -76,22 +93,14 @@ set_or_remove_info_group (GKeyFile *key_file,
 static void
 save_settings (PhoshEmergencyInfoPrefs *self)
 {
-  g_autofree char *path = NULL;
-  g_autoptr (GKeyFile) key_file = NULL;
+  g_autoptr (GKeyFile) key_file = g_key_file_new ();
 
-  path = g_build_filename (g_get_user_config_dir (),
-                           EMERGENCY_INFO_GKEYFILE_LOCATION,
-                           EMERGENCY_INFO_GKEYFILE_NAME,
-                           NULL);
-
-  key_file = g_key_file_new ();
-
-  g_key_file_load_from_file (key_file, path, G_KEY_FILE_KEEP_COMMENTS, NULL);
+  g_key_file_load_from_file (key_file, self->keyfile_path, G_KEY_FILE_KEEP_COMMENTS, NULL);
 
   set_or_remove_info_group (key_file,
                             "OwnerName",
                             self->owner_name);
-
+  
   set_or_remove_info_group (key_file,
                             "DateOfBirth",
                             self->dob);
@@ -121,46 +130,45 @@ save_settings (PhoshEmergencyInfoPrefs *self)
                             "Weight",
                             self->weight);
 
-  if (self->allergies) {
+  if (self->allergies && !STR_IS_NULL_OR_EMPTY (self->allergies)) {
     g_auto (GStrv) temp_allergies = NULL;
     temp_allergies = g_strsplit (self->allergies, "\n", -1);
     g_key_file_set_string_list (key_file,
                                 INFO_GROUP,
                                 "Allergies",
-                                (const gchar * const*) temp_allergies,
+                                (const char * const*) temp_allergies,
                                 g_strv_length (temp_allergies));
-  } else
+  } else {
     g_key_file_remove_key (key_file,
                            INFO_GROUP,
                            "Allergies", NULL);
+  }
 
-  if (self->medications_conditions) {
+  if (self->medications_conditions && !STR_IS_NULL_OR_EMPTY (self->medications_conditions)) {
     g_auto (GStrv) temp_med_cond = NULL;
-    temp_med_cond = g_strsplit (self-> medications_conditions, "\n", -1);
+    temp_med_cond = g_strsplit (self->medications_conditions, "\n", -1);
     g_key_file_set_string_list (key_file,
                                 INFO_GROUP,
                                 "MedicationsAndConditions",
-                                (const char **)temp_med_cond,
+                                (const char * const*)temp_med_cond,
                                 g_strv_length (temp_med_cond));
-  } else
+  } else {
     g_key_file_remove_key (key_file,
                            INFO_GROUP,
                            "MedicationsAndConditions", NULL);
+  }
 
   set_or_remove_info_group (key_file,
                             "OtherInfo",
                             self->other_info);
 
-  if (!g_key_file_save_to_file (key_file, path, NULL)) {
-    g_warning ("Error Saving Keyfile at %s", path);
-  }
-
+  save_keyfile (self, key_file);
 }
 
 static void
 add_contact_row (PhoshEmergencyInfoPrefs *self,
-                 const char *contact,
-                 const char *number)
+                 const char              *contact,
+                 const char              *number)
 {
   GtkWidget *new_row;
   g_auto (GStrv) number_split = NULL;
@@ -176,20 +184,12 @@ add_contact_row (PhoshEmergencyInfoPrefs *self,
 static void
 load_settings (PhoshEmergencyInfoPrefs *self)
 {
-  g_autofree char *path = NULL;
   g_auto (GStrv) temp_med_cond = NULL;
   g_auto (GStrv) temp_allergies = NULL;
-  g_autoptr (GKeyFile) key_file = NULL;
+  g_autoptr (GKeyFile) key_file = g_key_file_new ();
   gsize i;
 
-  path = g_build_filename (g_get_user_config_dir (),
-                           EMERGENCY_INFO_GKEYFILE_LOCATION,
-                           EMERGENCY_INFO_GKEYFILE_NAME,
-                           NULL);
-
-  key_file = g_key_file_new ();
-
-  if (!g_key_file_load_from_file (key_file, path, 0, NULL))
+  if (!g_key_file_load_from_file (key_file, self->keyfile_path, 0, NULL))
     return;
 
   self->owner_name = g_key_file_get_string (key_file,
@@ -198,7 +198,7 @@ load_settings (PhoshEmergencyInfoPrefs *self)
                                             NULL);
 
   gtk_entry_buffer_set_text (self->owner_name_entry_buffer,
-                             self->owner_name,
+                             self->owner_name ?: "",
                              -1);
 
   self->dob = g_key_file_get_string (key_file,
@@ -275,7 +275,7 @@ load_settings (PhoshEmergencyInfoPrefs *self)
     self->allergies = g_strjoinv ("\n", temp_allergies);
 
   gtk_text_buffer_set_text (self->allergies_text_buffer,
-                            self->allergies,
+                            self->allergies ?: "",
                             -1);
 
 
@@ -286,10 +286,10 @@ load_settings (PhoshEmergencyInfoPrefs *self)
                                               NULL);
 
   if (temp_med_cond)
-    self-> medications_conditions = g_strjoinv ("\n", temp_med_cond);
+    self->medications_conditions = g_strjoinv ("\n", temp_med_cond);
 
   gtk_text_buffer_set_text (self->med_cond_text_buffer,
-                            self->medications_conditions,
+                            self->medications_conditions ?: "",
                             -1);
 
   self->other_info = g_key_file_get_string (key_file,
@@ -298,7 +298,7 @@ load_settings (PhoshEmergencyInfoPrefs *self)
                                             NULL);
 
   gtk_text_buffer_set_text (self->other_info_text_buffer,
-                            self->other_info,
+                            self->other_info ?: "",
                             -1);
 
   self->contacts = g_key_file_get_keys (key_file,
@@ -334,43 +334,31 @@ phosh_emergency_info_prefs_free_data (PhoshEmergencyInfoPrefs *self)
 }
 
 static void
-on_dialog_update_emer_contact (GtkDialog* dialog, gint response_id, gpointer user_data)
+on_dialog_update_emer_contact (GtkDialog* dialog, int response_id, gpointer user_data)
 {
-    PhoshEmergencyInfoPrefs *self = PHOSH_EMERGENCY_INFO_PREFS (user_data);
-    const char *contact = gtk_entry_buffer_get_text (self->new_emer_contact_entry_buffer);
-    const char *relationship = gtk_entry_buffer_get_text (self->new_emer_contact_relationship_entry_buffer);
-    const char *number = gtk_entry_buffer_get_text (self->new_emer_contact_number_entry_buffer);
+  PhoshEmergencyInfoPrefs *self = PHOSH_EMERGENCY_INFO_PREFS (user_data);
+  const char *contact = gtk_entry_buffer_get_text (self->new_emer_contact_entry_buffer);
+  const char *relationship = gtk_entry_buffer_get_text (self->new_emer_contact_relationship_entry_buffer);
+  const char *number = gtk_entry_buffer_get_text (self->new_emer_contact_number_entry_buffer);
 
-    if (response_id == GTK_RESPONSE_OK && *contact && *number) {
-      g_autofree char *path = NULL;
-      g_autofree char *number_joined = NULL;
-      g_autoptr (GKeyFile) key_file = NULL;
+  if (response_id == GTK_RESPONSE_OK && *contact) {
+    g_autofree char *number_joined = NULL;
+    g_autoptr (GKeyFile) key_file = g_key_file_new ();
 
-      number_joined = g_strdup_printf ("%s;%s", number, relationship);
+    number_joined = g_strdup_printf ("%s;%s", number ?: "", relationship ?: "");
 
-      add_contact_row (self, contact, number_joined);
+    add_contact_row (self, contact, number_joined);
 
-      path = g_build_filename (g_get_user_config_dir (),
-                               EMERGENCY_INFO_GKEYFILE_LOCATION,
-                               EMERGENCY_INFO_GKEYFILE_NAME,
-                               NULL);
+    if (!g_key_file_load_from_file (key_file, self->keyfile_path, G_KEY_FILE_KEEP_COMMENTS, NULL))
+      g_warning ("No Keyfile found at %s", self->keyfile_path);
 
-      key_file = g_key_file_new ();
+    g_key_file_set_string (key_file,
+                           CONTACTS_GROUP,
+                           contact,
+                           number_joined);
 
-      if (!g_key_file_load_from_file (key_file, path, G_KEY_FILE_KEEP_COMMENTS, NULL)) {
-        g_warning ("No Keyfile found at %s", path);
-        return;
-      }
-
-      g_key_file_set_string (key_file,
-                             CONTACTS_GROUP,
-                             contact,
-                             number_joined);
-
-      if (!g_key_file_save_to_file (key_file, path, NULL)) {
-        g_warning ("Error Saving Keyfile at %s", path);
-      }
-    }
+    save_keyfile (self, key_file);
+  }
 
   gtk_entry_buffer_set_text (self->new_emer_contact_entry_buffer,
                              "",
@@ -392,7 +380,7 @@ on_update_emer_contact (PhoshEmergencyInfoPrefs *self)
 {
   gtk_window_set_transient_for (GTK_WINDOW (self->add_emer_contact_dialog), GTK_WINDOW (self));
   gtk_window_set_modal (GTK_WINDOW (self->add_emer_contact_dialog), TRUE);
-  gtk_window_present (GTK_WINDOW(self->add_emer_contact_dialog));
+  gtk_window_present (GTK_WINDOW (self->add_emer_contact_dialog));
 }
 
 static void
@@ -412,38 +400,29 @@ on_update_information_clicked (PhoshEmergencyInfoPrefs *self)
   self->dob = g_strdup (gtk_entry_buffer_get_text (self->dob_entry_buffer));
   self->language = g_strdup (gtk_entry_buffer_get_text (self->language_entry_buffer));
 
-  gtk_text_buffer_get_start_iter (self->home_addr_text_buffer,
-                                  &start);
-  gtk_text_buffer_get_end_iter (self->home_addr_text_buffer,
-                                &end);
-  self->home_address = gtk_text_buffer_get_text(self->home_addr_text_buffer,
-                                                &start, &end, true);
+  gtk_text_buffer_get_start_iter (self->home_addr_text_buffer, &start);
+  gtk_text_buffer_get_end_iter (self->home_addr_text_buffer, &end);
+  self->home_address = gtk_text_buffer_get_text (self->home_addr_text_buffer,
+                                                 &start, &end, true);
 
   self->age = g_strdup (gtk_entry_buffer_get_text (self->age_entry_buffer));
   self->blood_type = g_strdup (gtk_entry_buffer_get_text (self->blood_type_entry_buffer));
   self->height = g_strdup (gtk_entry_buffer_get_text (self->height_entry_buffer));
   self->weight = g_strdup (gtk_entry_buffer_get_text (self->weight_entry_buffer));
 
-  gtk_text_buffer_get_start_iter (self->allergies_text_buffer,
-                                  &start);
-  gtk_text_buffer_get_end_iter (self->allergies_text_buffer,
-                                &end);
-  self->allergies = gtk_text_buffer_get_text(self->allergies_text_buffer,
-                                                &start, &end, true);
+  gtk_text_buffer_get_start_iter (self->allergies_text_buffer, &start);
+  gtk_text_buffer_get_end_iter (self->allergies_text_buffer, &end);
+  self->allergies = gtk_text_buffer_get_text (self->allergies_text_buffer, &start, &end, true);
 
-  gtk_text_buffer_get_start_iter (self->med_cond_text_buffer,
-                                  &start);
-  gtk_text_buffer_get_end_iter (self->med_cond_text_buffer,
-                                &end);
-  self->medications_conditions = gtk_text_buffer_get_text(self->med_cond_text_buffer,
-                                                &start, &end, true);
+  gtk_text_buffer_get_start_iter (self->med_cond_text_buffer, &start);
+  gtk_text_buffer_get_end_iter (self->med_cond_text_buffer, &end);
+  self->medications_conditions = gtk_text_buffer_get_text (self->med_cond_text_buffer,
+                                                           &start, &end, true);
 
-  gtk_text_buffer_get_start_iter (self->other_info_text_buffer,
-                                  &start);
-  gtk_text_buffer_get_end_iter (self->other_info_text_buffer,
-                                &end);
-  self->other_info = gtk_text_buffer_get_text(self->other_info_text_buffer,
-                                                &start, &end, true);
+  gtk_text_buffer_get_start_iter (self->other_info_text_buffer, &start);
+  gtk_text_buffer_get_end_iter (self->other_info_text_buffer, &end);
+  self->other_info = gtk_text_buffer_get_text (self->other_info_text_buffer,
+                                               &start, &end, true);
 
   save_settings (self);
 
@@ -458,6 +437,7 @@ phosh_emergency_info_prefs_finalize (GObject *object)
 
   phosh_emergency_info_prefs_free_data (self);
   g_clear_pointer (&self->contacts, g_strfreev);
+  g_clear_pointer (&self->keyfile_path, g_free);
 
   G_OBJECT_CLASS (phosh_emergency_info_prefs_parent_class)->finalize (object);
 }
@@ -506,5 +486,9 @@ phosh_emergency_info_prefs_init (PhoshEmergencyInfoPrefs *self)
 {
   gtk_widget_init_template (GTK_WIDGET (self));
 
+  self->keyfile_path = g_build_filename (g_get_user_config_dir (),
+                                         EMERGENCY_INFO_GKEYFILE_LOCATION,
+                                         EMERGENCY_INFO_GKEYFILE_NAME,
+                                         NULL);
   load_settings (self);
 }
