@@ -602,6 +602,15 @@ phosh-notification-banner .notification-container {
   border-radius: 99px;
 }
 
+/* Call notifications */
+phosh-call-notification {
+  padding: 12px;
+  color: @phosh_fg_color;
+  border-radius: 12px;
+  border: none;
+  background-color: @phosh_notification_bg_color;
+}
+
 /*
  * Output fader
  */

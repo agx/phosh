@@ -14,6 +14,7 @@ src/background.c
 src/background-manager.c
 src/batteryinfo.c
 src/bt-info.c
+src/call-notification.c
 src/docked-info.c
 src/emergency-menu.c
 src/end-session-dialog.c
