@@ -68,7 +68,7 @@ is_active (PhoshCallState state)
   gboolean ret = FALSE;
 
   if (state == PHOSH_CALL_STATE_ACTIVE ||
-      state == PHOSH_CALL_STATE_ALERTING ||
+      state == PHOSH_CALL_STATE_INCOMING ||
       state == PHOSH_CALL_STATE_DIALING)
     ret = TRUE;
 
