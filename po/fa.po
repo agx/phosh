@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-18 11:35+0000\n"
-"PO-Revision-Date: 2023-05-23 01:17+0330\n"
+"POT-Creation-Date: 2023-06-20 08:29+0000\n"
+"PO-Revision-Date: 2023-06-23 02:03+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -332,7 +332,7 @@ msgstr "تقریباً %Id سال"
 msgid "%s%d%s"
 msgstr "%s%Id%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "گفت‌وگوی تأیید هویت از سمت کاربر رد شد"
 
@@ -368,7 +368,7 @@ msgstr "روشن"
 msgid "Press ESC to close"
 msgstr "برای بستن، گریز را بزنید"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "اجرای «%s» شکست خورد"
@@ -509,11 +509,11 @@ msgstr "_اضطراری"
 msgid "Run Command"
 msgstr "اجرای فرمان"
 
-#: src/ui/settings.ui:320
+#: src/ui/settings.ui:290
 msgid "No notifications"
 msgstr "بدون آگاهی"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:330
 msgid "Clear all"
 msgstr "پاک‌سازی همه"
 
@@ -530,6 +530,10 @@ msgid "_Restart…"
 msgstr "_راه‌اندازی دوباره…"
 
 #: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_تعلیق…"
+
+#: src/ui/top-panel.ui:116
 msgid "_Log Out…"
 msgstr "_خروج…"
 
@@ -649,15 +653,15 @@ msgstr "افزودن آشنای جدید"
 msgid "Add"
 msgstr "افزودن"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "نام آشنای جدید"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "رابطه"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "شماره"
 
@@ -756,6 +760,3 @@ msgstr "رویداد بی‌عنوان"
 
 #~ msgid "Show only adaptive apps"
 #~ msgstr "نماشی فقط کاره‌های واکنش‌پذیر"
-
-#~ msgid "Suspend"
-#~ msgstr "تعلیق"
