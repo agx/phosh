@@ -135,6 +135,20 @@
                         <property name="valign">center</property>
                       </object>
                     </child>
+
+                    <child>
+                      <object class="GtkScrolledWindow" id="sw_notifications">
+                        <property name="visible">True</property>
+                        <property name="vscrollbar-policy">automatic</property>
+                        <property name="hscrollbar-policy">never</property>
+                        <property name="propagate-natural-height">True</property>
+                        <property name="max-content-height">320</property>
+
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="orientation">vertical</property>
+
                     <child>
                       <object class="GtkRevealer" id="rev_media_player">
                         <property name="visible">True</property>
@@ -172,27 +186,24 @@
                             <property name="vexpand">True</property>
                             <property name="valign">center</property>
                             <child>
-                              <object class="GtkScrolledWindow" id="sw_notifications">
+                              <object class="GtkListBox" id="list_notifications">
                                 <property name="visible">True</property>
-                                <property name="vscrollbar-policy">automatic</property>
-                                <property name="hscrollbar-policy">never</property>
-                                <property name="propagate-natural-height">True</property>
-                                <property name="max-content-height">320</property>
-                                <child>
-                                  <object class="GtkListBox" id="list_notifications">
-                                    <property name="visible">True</property>
-                                    <property name="selection-mode">none</property>
-                                  </object>
-                                </child>
-                                <style>
-                                  <class name="phosh-notification-tray"/>
-                                </style>
+                                <property name="selection-mode">none</property>
+                              <style>
+                                <class name="phosh-notification-tray"/>
+                              </style>
                               </object>
                             </child>
                           </object>
                         </child>
                       </object>
                     </child>
+
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
                   </object>
                 </child>
               </object>
