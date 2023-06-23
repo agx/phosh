@@ -139,6 +139,7 @@
                       <object class="GtkRevealer" id="rev_media_player">
                         <property name="visible">True</property>
                         <property name="reveal-child" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
+                        <signal name="notify::reveal-child" handler="on_info_reveal_child_changed" object="PhoshLockscreen" swapped="yes"/>
                         <child>
                           <object class="HdyClamp">
                             <property name="visible">True</property>
@@ -162,6 +163,7 @@
                       <object class="GtkRevealer" id="rev_notifications">
                         <property name="visible">True</property>
                         <property name="reveal-child">False</property>
+                        <signal name="notify::reveal-child" handler="on_info_reveal_child_changed" object="PhoshLockscreen" swapped="yes"/>
                         <child>
                           <object class="HdyClamp">
                             <property name="visible">True</property>

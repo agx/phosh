@@ -89,8 +89,10 @@ typedef struct {
   GtkWidget         *lbl_clock;
   GtkWidget         *lbl_date;
   GtkWidget         *list_notifications;
+  GtkRevealer       *rev_media_player;
   GtkRevealer       *rev_notifications;
   GSettings         *settings;
+  guint              reveals;
 
   /* unlock page */
   GtkWidget         *box_unlock;
@@ -650,16 +652,34 @@ create_notification_row (gpointer item, gpointer data)
 
 
 static void
-animate_clock (PhoshLockscreen *self, gboolean is_empty)
+animate_clock (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv;
 
   priv = phosh_lockscreen_get_instance_private (self);
 
+  /* Use small clock if any additional info elements are revealed */
   phosh_util_toggle_style_class (priv->box_datetime, LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS,
-                                 is_empty);
+                                 !priv->reveals);
   phosh_util_toggle_style_class (priv->box_datetime, LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS,
-                                 !is_empty);
+                                 !!priv->reveals);
+}
+
+
+static void
+on_info_reveal_child_changed (PhoshLockscreen *self, GParamSpec *pspec, GtkRevealer *revealer)
+{
+  PhoshLockscreenPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  if (gtk_revealer_get_reveal_child (revealer))
+    priv->reveals++;
+  else
+    priv->reveals--;
+
+  animate_clock (self);
 }
 
 
@@ -685,7 +705,6 @@ on_notification_items_changed (PhoshLockscreen *self,
   reveal = show_in_lockscreen && !is_empty;
 
   gtk_revealer_set_reveal_child (priv->rev_notifications, reveal);
-  animate_clock (self, !reveal);
 }
 
 
@@ -912,7 +931,9 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, list_notifications);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, rev_media_player);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, rev_notifications);
+  gtk_widget_class_bind_template_callback (widget_class, on_info_reveal_child_changed);
   gtk_widget_class_bind_template_callback (widget_class, show_unlock_page);
 
   /* plugin page */
