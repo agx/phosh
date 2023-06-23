@@ -89,7 +89,7 @@ typedef struct {
   GtkWidget         *lbl_clock;
   GtkWidget         *lbl_date;
   GtkWidget         *list_notifications;
-  GtkWidget         *sw_notifications;
+  GtkRevealer       *rev_notifications;
   GSettings         *settings;
 
   /* unlock page */
@@ -672,20 +672,20 @@ on_notification_items_changed (PhoshLockscreen *self,
 {
   PhoshLockscreenPrivate *priv;
   gboolean is_empty;
+  gboolean show_in_lockscreen;
+  gboolean reveal;
 
   g_return_if_fail (G_IS_LIST_MODEL (list));
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
   priv = phosh_lockscreen_get_instance_private (self);
 
+  show_in_lockscreen = g_settings_get_boolean (priv->settings, "show-in-lock-screen");
   is_empty = !g_list_model_get_n_items (list);
-  g_debug ("Notification list empty: %d", is_empty);
 
-  /* Don't unhide when we don't want notification on the lock screen */
-  if (!is_empty && !g_settings_get_boolean (priv->settings, "show-in-lock-screen"))
-    return;
+  reveal = show_in_lockscreen && !is_empty;
 
-  gtk_widget_set_visible (GTK_WIDGET (priv->sw_notifications), !is_empty);
-  animate_clock (self, is_empty);
+  gtk_revealer_set_reveal_child (priv->rev_notifications, reveal);
+  animate_clock (self, !reveal);
 }
 
 
@@ -739,9 +739,6 @@ phosh_lockscreen_constructed (GObject *object)
 
   manager = phosh_notify_manager_get_default ();
   priv->settings = g_settings_new(NOTIFICATIONS_SCHEMA_ID);
-  g_settings_bind (priv->settings, "show-in-lock-screen",
-                   priv->list_notifications, "visible",
-                   G_SETTINGS_BIND_GET);
   gtk_list_box_bind_model (GTK_LIST_BOX (priv->list_notifications),
                            G_LIST_MODEL (phosh_notify_manager_get_list (manager)),
                            create_notification_row,
@@ -915,7 +912,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, list_notifications);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, sw_notifications);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, rev_notifications);
   gtk_widget_class_bind_template_callback (widget_class, show_unlock_page);
 
   /* plugin page */

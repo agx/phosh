@@ -153,9 +153,9 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkRevealer">
+                      <object class="GtkRevealer" id="rev_notifications">
                         <property name="visible">True</property>
-                        <property name="reveal-child" bind-source="list_notifications" bind-property="visible" bind-flags="sync-create"/>
+                        <property name="reveal-child">False</property>
                         <child>
                           <object class="HdyClamp">
                             <property name="visible">True</property>
@@ -165,6 +165,7 @@
                             <property name="valign">center</property>
                             <child>
                               <object class="GtkScrolledWindow" id="sw_notifications">
+                                <property name="visible">True</property>
                                 <property name="vscrollbar-policy">automatic</property>
                                 <property name="hscrollbar-policy">never</property>
                                 <property name="propagate-natural-height">True</property>
