@@ -148,55 +148,55 @@
                             <property name="visible">True</property>
                             <property name="orientation">vertical</property>
 
-                    <child>
-                      <object class="GtkRevealer" id="rev_media_player">
-                        <property name="visible">True</property>
-                        <property name="reveal-child" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
-                        <signal name="notify::reveal-child" handler="on_info_reveal_child_changed" object="PhoshLockscreen" swapped="yes"/>
-                        <child>
-                          <object class="HdyClamp">
-                            <property name="visible">True</property>
-                            <property name="maximum_size">360</property>
-                            <property name="margin_top">6</property>
-                            <property name="vexpand">True</property>
-                            <property name="valign">center</property>
                             <child>
-                              <object class="PhoshMediaPlayer" id="media_player">
+                              <object class="GtkRevealer" id="rev_media_player">
                                 <property name="visible">True</property>
-                                <property name="valign">center</property>
-                                <property name="can_focus">False</property>
-                                <signal name="player-raised" handler="show_unlock_page" object="PhoshLockscreen" swapped="yes"/>
+                                <property name="reveal-child" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
+                                <signal name="notify::reveal-child" handler="on_info_reveal_child_changed" object="PhoshLockscreen" swapped="yes"/>
+                                <child>
+                                  <object class="HdyClamp">
+                                    <property name="visible">True</property>
+                                    <property name="maximum_size">360</property>
+                                    <property name="margin_top">6</property>
+                                    <property name="vexpand">True</property>
+                                    <property name="valign">center</property>
+                                    <child>
+                                      <object class="PhoshMediaPlayer" id="media_player">
+                                        <property name="visible">True</property>
+                                        <property name="valign">center</property>
+                                        <property name="can_focus">False</property>
+                                        <signal name="player-raised" handler="show_unlock_page" object="PhoshLockscreen" swapped="yes"/>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
                               </object>
                             </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkRevealer" id="rev_notifications">
-                        <property name="visible">True</property>
-                        <property name="reveal-child">False</property>
-                        <signal name="notify::reveal-child" handler="on_info_reveal_child_changed" object="PhoshLockscreen" swapped="yes"/>
-                        <child>
-                          <object class="HdyClamp">
-                            <property name="visible">True</property>
-                            <property name="maximum_size">360</property>
-                            <property name="margin_top">6</property>
-                            <property name="vexpand">True</property>
-                            <property name="valign">center</property>
                             <child>
-                              <object class="GtkListBox" id="list_notifications">
+                              <object class="GtkRevealer" id="rev_notifications">
                                 <property name="visible">True</property>
-                                <property name="selection-mode">none</property>
-                              <style>
-                                <class name="phosh-notification-tray"/>
-                              </style>
+                                <property name="reveal-child">False</property>
+                                <signal name="notify::reveal-child" handler="on_info_reveal_child_changed" object="PhoshLockscreen" swapped="yes"/>
+                                <child>
+                                  <object class="HdyClamp">
+                                    <property name="visible">True</property>
+                                    <property name="maximum_size">360</property>
+                                    <property name="margin_top">6</property>
+                                    <property name="vexpand">True</property>
+                                    <property name="valign">center</property>
+                                    <child>
+                                      <object class="GtkListBox" id="list_notifications">
+                                        <property name="visible">True</property>
+                                        <property name="selection-mode">none</property>
+                                        <style>
+                                          <class name="phosh-notification-tray"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
                               </object>
                             </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
 
                           </object>
                         </child>
