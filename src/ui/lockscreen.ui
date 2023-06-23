@@ -82,6 +82,16 @@
                     <property name="visible">True</property>
                     <property name="orientation">vertical</property>
                     <child>
+                      <object class="GtkImage" id="lock-arrow">
+                        <property name="visible">True</property>
+                        <property name="pixel_size">32</property>
+                        <property name="icon_name">swipe-arrow-symbolic</property>
+                        <style>
+                          <class name="phosh-lockscreen-arrow"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="valign">end</property>
@@ -92,28 +102,6 @@
                           <class name="dim-label"/>
                         </style>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="pack_type">end</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkImage" id="lock-arrow">
-                        <property name="visible">True</property>
-                        <property name="pixel_size">32</property>
-                        <property name="icon_name">swipe-arrow-symbolic</property>
-                        <style>
-                          <class name="phosh-lockscreen-arrow"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="pack_type">end</property>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </object>
                   <packing>
