@@ -541,14 +541,10 @@ carousel_page_changed_cb (PhoshLockscreen *self,
 
 
 static void
-on_calls_call_added (PhoshLockscreen *self, const gchar *path)
+update_active_call (PhoshLockscreen *self, const gchar *path)
 {
-  PhoshLockscreenPrivate *priv;
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   PhoshCall *call;
-
-  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
-  priv = phosh_lockscreen_get_instance_private (self);
-  g_return_if_fail (PHOSH_IS_CALLS_MANAGER (priv->calls_manager));
 
   g_debug ("New call %s", path);
   g_signal_emit (self, signals[WAKEUP_OUTPUT], 0);
@@ -559,9 +555,22 @@ on_calls_call_added (PhoshLockscreen *self, const gchar *path)
   call = phosh_calls_manager_get_call (priv->calls_manager, path);
   g_return_if_fail (PHOSH_IS_CALL (call));
 
-  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->box_call_display));
-
   cui_call_display_set_call (priv->call_display, CUI_CALL (call));
+}
+
+
+static void
+on_calls_call_added (PhoshLockscreen *self, const gchar *path)
+{
+  PhoshLockscreenPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+  g_return_if_fail (PHOSH_IS_CALLS_MANAGER (priv->calls_manager));
+
+  update_active_call (self, path);
+
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->box_call_display));
 }
 
 
