@@ -3,10 +3,7 @@
   <requires lib="gtk+" version="3.20"/>
   <requires lib="libhandy" version="0.0"/>
   <template class="PhoshLockscreen" parent="PhoshLayerSurface">
-    <property name="can_focus">False</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
+    <property name="can-focus">False</property>
     <child>
       <object class="HdyDeck" id="deck">
         <property name="visible">True</property>
