@@ -591,7 +591,8 @@ on_calls_call_removed (PhoshLockscreen *self, const gchar *path)
     return;
 
   g_clear_pointer (&priv->active, g_free);
-  hdy_deck_navigate (priv->deck, HDY_NAVIGATION_DIRECTION_BACK);
+
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->carousel));
 }
 
 
@@ -799,7 +800,7 @@ deck_back_clicked_cb (GtkWidget       *sender,
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  hdy_deck_navigate (priv->deck, HDY_NAVIGATION_DIRECTION_BACK);
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->carousel));
 }
 
 
@@ -809,7 +810,7 @@ deck_forward_clicked_cb (GtkWidget       *sender,
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  hdy_deck_navigate (priv->deck, HDY_NAVIGATION_DIRECTION_FORWARD);
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->carousel));
 }
 
 
