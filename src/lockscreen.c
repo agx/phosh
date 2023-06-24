@@ -36,7 +36,6 @@
 #include <libgnome-desktop/gnome-wall-clock.h>
 
 #define LOCKSCREEN_IDLE_SECONDS 5
-#define LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS "p-large"
 #define LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS "p-small"
 
 #define LOCKSCREEN_SMALL_DISPLAY 700
@@ -660,8 +659,6 @@ animate_clock (PhoshLockscreen *self)
   priv = phosh_lockscreen_get_instance_private (self);
 
   /* Use small clock if any additional info elements are revealed */
-  phosh_util_toggle_style_class (priv->box_datetime, LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS,
-                                 !priv->reveals);
   phosh_util_toggle_style_class (priv->box_datetime, LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS,
                                  !!priv->reveals);
 }

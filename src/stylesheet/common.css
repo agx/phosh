@@ -280,11 +280,11 @@ phosh-lockscreen,
   font-weight: 400;
 }
 
-.p-large #phosh-lockscreen-clock {
+#phosh-lockscreen-clock {
   font-size: 84px;
   transition: 200ms ease;
 }
-.p-large #phosh-lockscreen-date {
+#phosh-lockscreen-date {
   font-size: 18px;
   transition: 200ms ease;
 }
