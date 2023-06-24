@@ -81,6 +81,7 @@ typedef struct _PhoshLockscreen
 
 
 typedef struct {
+  HdyDeck           *deck;
   GtkWidget         *carousel;
 
   /* info page */
@@ -111,7 +112,6 @@ typedef struct {
   GtkWidget         *widget_box;
 
   /* Call page */
-  HdyDeck           *deck;
   GtkBox            *box_call_display;
   CuiCallDisplay    *call_display;
 
