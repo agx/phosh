@@ -569,7 +569,7 @@ phosh-notification-banner .notification-container {
 
 /* Notification Tray */
 .phosh-notification-tray {
-  padding-bottom: 48px;
+  padding-bottom: 12px;
 }
 
 .phosh-notification-tray,
