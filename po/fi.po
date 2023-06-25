@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-21 10:33+0000\n"
-"PO-Revision-Date: 2023-04-29 14:53+0300\n"
+"POT-Creation-Date: 2023-06-20 08:29+0000\n"
+"PO-Revision-Date: 2023-06-25 13:59+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -91,7 +91,7 @@ msgid "Undocked"
 msgstr "Ei telakassa"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:62
+#: src/ui/end-session-dialog.ui:71
 msgid "Ok"
 msgstr "OK"
 
@@ -103,33 +103,33 @@ msgstr "Hätäpuhelu ei onnistunut"
 msgid "Internal error"
 msgstr "Sisäinen virhe"
 
-#: src/end-session-dialog.c:162
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "Kirjaudu ulos"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s kirjataan ulos automaattisesti %d sekunnin kuluttua."
 msgstr[1] "%s kirjataan ulos automaattisesti %d sekunnin kuluttua."
 
-#: src/end-session-dialog.c:171
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "Sammuta"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Järjestelmä sammuu automaattisesti %d sekunnin kuluttua."
 msgstr[1] "Järjestelmä sammuu automaattisesti %d sekunnin kuluttua."
 
-#: src/end-session-dialog.c:178
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "Käynnistä uudelleen"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -138,7 +138,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Järjestelmä käynnistyy uudelleen automaattisesti %d sekunnin kuluttua."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "Tuntematon sovellus"
 
@@ -179,11 +179,11 @@ msgstr "Kyllä"
 msgid "No"
 msgstr "Ei"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
 msgid "Enter Passcode"
 msgstr "Syötä salasana"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "Tarkistetaan…"
 
@@ -335,7 +335,7 @@ msgstr "Melkein %d v"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Tunnistautumisikkuna peruttu käyttäjän toimesta"
 
@@ -371,7 +371,7 @@ msgstr "Päällä"
 msgid "Press ESC to close"
 msgstr "Paina ESC sulkeaksesi"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Kohteen '%s' suorittaminen epäonnistui"
@@ -392,7 +392,7 @@ msgstr "Taskulamppu"
 msgid "Remember decision"
 msgstr "Muista valinta"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
@@ -443,7 +443,7 @@ msgstr "Tuntematon omistaja"
 msgid "Emergency Contacts"
 msgstr "Hätäyhteystiedot"
 
-#: src/ui/emergency-menu.ui:148
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "Hätäyhteystietoja ei ole saatavilla."
 
@@ -463,19 +463,15 @@ msgstr "Toimialue:"
 msgid "Co_nnect"
 msgstr "_Yhdistä"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
 msgid "Back"
 msgstr "Takaisin"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:90
 msgid "Slide up to unlock"
 msgstr "Liu'uta ylös avataksesi"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "Hätä"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:273
 msgid "Unlock"
 msgstr "Avaa lukitus"
 
@@ -484,7 +480,7 @@ msgid "Authentication required"
 msgstr "Tunnistautuminen vaaditaan"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_Peru"
 
@@ -496,19 +492,19 @@ msgstr "_Yhdistä"
 msgid "Authenticate"
 msgstr "Tunnistaudu"
 
-#: src/ui/power-menu.ui:37
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
 msgstr "_Sammuta"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr "_Lukitse"
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr "K_uvakaappaus"
 
-#: src/ui/power-menu.ui:160
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
 msgstr "_Hätä"
 
@@ -516,17 +512,33 @@ msgstr "_Hätä"
 msgid "Run Command"
 msgstr "Suorita komento"
 
-#: src/ui/settings.ui:320
+#: src/ui/settings.ui:290
 msgid "No notifications"
 msgstr "Ei ilmoituksia"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:330
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Vahvista:"
+
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "_Sammuta…"
+
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "_Käynnistä uudelleen…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_Valmiustila…"
+
+#: src/ui/top-panel.ui:116
+msgid "_Log Out…"
+msgstr "Kirjaudu _ulos…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -644,15 +656,15 @@ msgstr "Lisää uusi yhteystieto"
 msgid "Add"
 msgstr "Lisää"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "Uuden yhteystiedon nimi"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "Suhde"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Numero"
 
@@ -668,7 +680,7 @@ msgstr "Tiketit"
 msgid "Choose Folder"
 msgstr "Valitse kansio"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "_Avaa"
 
@@ -735,6 +747,9 @@ msgstr "Päättyy"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Nimetön tapahtuma"
+
+#~ msgid "Emergency"
+#~ msgstr "Hätä"
 
 #~ msgid "Lock Screen"
 #~ msgstr "Lukitse näyttö"
