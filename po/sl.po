@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-14 16:09+0000\n"
-"PO-Revision-Date: 2023-04-20 13:04+0200\n"
+"POT-Creation-Date: 2023-06-20 08:29+0000\n"
+"PO-Revision-Date: 2023-06-25 08:25+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && "
-"n%100<=4 ? 2 : 3);\n"
-"X-Generator: Poedit 3.2.2\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -92,11 +92,24 @@ msgstr "Sidrano"
 msgid "Undocked"
 msgstr "Odsidrano"
 
-#: src/end-session-dialog.c:162
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:71
+msgid "Ok"
+msgstr "V redu"
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr "Klica v sili ni možno izvesti"
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr "Notranja napaka"
+
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "Odjavi"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -105,11 +118,11 @@ msgstr[1] "%s se bo samodejno odjavil čez %d sekundi."
 msgstr[2] "%s se bo samodejno odjavil čez %d sekunde."
 msgstr[3] "%s se bo samodejno odjavil čez %d sekund."
 
-#: src/end-session-dialog.c:171
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "Ugasni"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -118,11 +131,11 @@ msgstr[1] "Sistem se bo samodejno izklopil v %d sekundah."
 msgstr[2] "Sistem se bo samodejno izklopil v %d sekundah."
 msgstr[3] "Sistem se bo samodejno izklopil v %d sekundah."
 
-#: src/end-session-dialog.c:178
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "Ponovno zaženi"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -131,7 +144,7 @@ msgstr[1] "Sistem se bo samodejno ponovno zagnal čez %d sekundi."
 msgstr[2] "Sistem se bo samodejno ponovno zagnal čez %d sekunde."
 msgstr[3] "Sistem se bo samodejno ponovno zagnal čez %d sekund."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "Neznan program"
 
@@ -172,13 +185,21 @@ msgstr "Da"
 msgid "No"
 msgstr "Ne"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
 msgid "Enter Passcode"
 msgstr "Vnesite geslo"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:393
 msgid "Checking…"
 msgstr "Preverjanje …"
+
+#: src/screenshot-manager.c:212
+msgid "Screenshot"
+msgstr "Posnetek zaslona"
+
+#: src/screenshot-manager.c:213
+msgid "Screenshot copied to clipboard"
+msgstr "Zaslonska slika kopirana na odložišče"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:322 src/ui/media-player.ui:182
@@ -224,7 +245,7 @@ msgstr "Vrsta preverjanja pristnosti omrežja wifi »%s« ni podprta"
 msgid "Enter password for the wifi network “%s”"
 msgstr "Vnesite geslo za WiFi-omrežje »%s«"
 
-#: src/notifications/mount-notification.c:122
+#: src/notifications/mount-notification.c:121
 msgid "Open"
 msgstr "Odpri"
 
@@ -320,7 +341,7 @@ msgstr "Skoraj %dl"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Uporabnik je opustil pogovorno okno za preverjanje pristnosti"
 
@@ -356,7 +377,7 @@ msgstr "Vključeno"
 msgid "Press ESC to close"
 msgstr "Pritisnite ESC, da zaprete"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Zagon »%s« ni uspel"
@@ -377,15 +398,11 @@ msgstr "Svetilka"
 msgid "Remember decision"
 msgstr "Pomni odločitev"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Prekliči"
-
-#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
-msgid "Ok"
-msgstr "V redu"
 
 #: src/ui/app-grid-button.ui:55
 msgid "App"
@@ -407,6 +424,35 @@ msgstr "Pokaži po_drobnosti"
 msgid "Search apps…"
 msgstr "Poišči program …"
 
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "Zapri pogovorno okno klica v sili"
+
+#: src/ui/emergency-menu.ui:52
+msgid "Emergency _Contacts"
+msgstr "_Stiki v sili"
+
+#: src/ui/emergency-menu.ui:59
+msgid "Go to the emergency contacts page"
+msgstr "Pojdi na stran stikov v sili"
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr "Pojdi nazaj na stran številčnice v sili"
+
+#: src/ui/emergency-menu.ui:106
+msgid "Owner unknown"
+msgstr "Lastnik neznan"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Stiki v sili"
+
+#: src/ui/emergency-menu.ui:142
+msgid "No emergency contacts available."
+msgstr "Stiki v sili niso na voljo."
+
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
 msgstr "Nekateri programčki so sredi dela ali nimajo shranjenega dela"
@@ -423,19 +469,15 @@ msgstr "Domena:"
 msgid "Co_nnect"
 msgstr "_Poveži"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
 msgid "Back"
 msgstr "Nazaj"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:90
 msgid "Slide up to unlock"
 msgstr "Oddrsnite navzgor, da odklenete"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "Klic v sili"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:273
 msgid "Unlock"
 msgstr "Odkleni"
 
@@ -444,7 +486,7 @@ msgid "Authentication required"
 msgstr "Zahtevana je overitev"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "Pre_kliči"
 
@@ -456,19 +498,19 @@ msgstr "_Poveži"
 msgid "Authenticate"
 msgstr "Overi"
 
-#: src/ui/power-menu.ui:37
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
 msgstr "Iz_klopi"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr "_Zakleni"
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr "_Posnetek zaslona"
 
-#: src/ui/power-menu.ui:160
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
 msgstr "_Klic v sili"
 
@@ -476,17 +518,33 @@ msgstr "_Klic v sili"
 msgid "Run Command"
 msgstr "Zaženi ukaz"
 
-#: src/ui/settings.ui:319
+#: src/ui/settings.ui:290
 msgid "No notifications"
 msgstr "Ni obvestil"
 
-#: src/ui/settings.ui:359
+#: src/ui/settings.ui:330
 msgid "Clear all"
 msgstr "Počisti vse"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Potrditev:"
+
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "Iz_klopi …"
+
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "Ponovno _zaženi …"
+
+#: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_V stanje pripravljenosti …"
+
+#: src/ui/top-panel.ui:116
+msgid "_Log Out…"
+msgstr "_Odjavi …"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -575,11 +633,6 @@ msgstr "Zdravila in bolezni"
 msgid "Other Information"
 msgstr "Druge informacije"
 
-#: plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
-msgid "Emergency Contacts"
-msgstr "Stiki v sili"
-
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
 msgid "Emergency Info Preferences"
@@ -609,16 +662,16 @@ msgstr "Dodaj nov stik"
 msgid "Add"
 msgstr "Dodaj"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "Ime novega stika"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 #, fuzzy
 msgid "Relationship"
 msgstr "Relacija/Razmerje"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Številka"
 
@@ -635,7 +688,7 @@ msgstr "Zahtevki"
 msgid "Choose Folder"
 msgstr "Izberite mapo"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "_Odpri"
 
