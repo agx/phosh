@@ -498,6 +498,9 @@ stream_uses_headphones (GvcMixerStream *stream)
   }
 
   port = gvc_mixer_stream_get_port (stream);
+  if (!port)
+    return FALSE;
+
   if (g_strcmp0 (port->port, "[Out] Headphones") == 0 ||
       g_strcmp0 (port->port, "analog-output-headphones") == 0) {
     return TRUE;
@@ -516,7 +519,8 @@ on_output_stream_port_changed (GvcMixerStream *stream, GParamSpec *pspec, gpoint
   const GvcMixerStreamPort *port;
 
   port = gvc_mixer_stream_get_port (stream);
-  g_debug ("Port changed: %s (%s)", port->human_port ?: port->port, port->port);
+  if (port)
+    g_debug ("Port changed: %s (%s)", port->human_port ?: port->port, port->port);
 
   is_headphone = stream_uses_headphones (stream);
   if (is_headphone) {
