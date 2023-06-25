@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-18 11:35+0000\n"
-"PO-Revision-Date: 2023-05-18 22:08+0300\n"
+"POT-Creation-Date: 2023-06-20 08:29+0000\n"
+"PO-Revision-Date: 2023-06-25 09:58+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -337,7 +337,7 @@ msgstr "Майже %dр."
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Користувач перервав діалог автентифікації"
 
@@ -373,7 +373,7 @@ msgstr "❙"
 msgid "Press ESC to close"
 msgstr "Натисніть клавішу «Esc», щоб закрити"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Не вдалося запустити «%s»"
@@ -514,11 +514,11 @@ msgstr "_Екстрений виклик"
 msgid "Run Command"
 msgstr "Виконати команду"
 
-#: src/ui/settings.ui:320
+#: src/ui/settings.ui:290
 msgid "No notifications"
 msgstr "Немає сповіщень"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:330
 msgid "Clear all"
 msgstr "Очистити все"
 
@@ -527,17 +527,18 @@ msgid "Confirm:"
 msgstr "Підтвердіть:"
 
 #: src/ui/top-panel.ui:32
-#| msgid "_Power Off"
 msgid "_Power Off…"
 msgstr "Ви_мкнути…"
 
 #: src/ui/top-panel.ui:60
-#| msgid "Restart"
 msgid "_Restart…"
 msgstr "П_ерезапустити…"
 
 #: src/ui/top-panel.ui:88
-#| msgid "Log Out"
+msgid "_Suspend…"
+msgstr "_Призупинити…"
+
+#: src/ui/top-panel.ui:116
 msgid "_Log Out…"
 msgstr "Ви_йти…"
 
@@ -657,15 +658,15 @@ msgstr "Додати новий контакт"
 msgid "Add"
 msgstr "Додати"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "Назва нового контакту"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "Зв'язок"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Номер"
 
