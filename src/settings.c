@@ -482,6 +482,8 @@ maybe_pause_stream (PhoshSettings *self)
       phosh_media_player_get_status (media_player) != PHOSH_MEDIA_PLAYER_STATUS_PLAYING) {
     return;
   }
+
+  phosh_media_player_toggle_play_pause (media_player);
 }
 
 
