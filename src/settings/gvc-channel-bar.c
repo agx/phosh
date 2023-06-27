@@ -76,8 +76,10 @@ update_image (GvcChannelBar *self)
 {
   g_autoptr (GIcon) gicon = NULL;
 
-  gicon = g_themed_icon_new_with_default_fallbacks (self->icon_name);
-  gtk_image_set_from_gicon (GTK_IMAGE (self->image), gicon, -1);
+  if (self->icon_name) {
+      gicon = g_themed_icon_new_with_default_fallbacks (self->icon_name);
+      gtk_image_set_from_gicon (GTK_IMAGE (self->image), gicon, -1);
+  }
 
   gtk_widget_set_visible (self->image, self->icon_name != NULL);
 }
