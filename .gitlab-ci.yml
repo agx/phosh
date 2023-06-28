@@ -271,8 +271,6 @@ package:deb-debian-trixie:arm64:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get -y update
     - apt-get -y install eatmydata
-    - echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list.d/sid.list
-    - eatmydata apt-get -y update
   except:
     variables:
       - $SCREENSHOTS_ONLY == "1"
