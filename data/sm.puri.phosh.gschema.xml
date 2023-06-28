@@ -68,6 +68,15 @@
           Suspend is an experimental feature on some devices and may result in crashes or instability.
       </description>
     </key>
+
+    <key name="shell-layout" enum="sm.puri.phosh.PhoshShellLayout">
+      <default>'device'</default>
+      <summary>What information to use to layout UI elements.</summary>
+      <description>
+        This determines if Phosh will use device information to layout
+        UI elements in order to not overlap with notches and cutouts.
+      </description>
+    </key>
   </schema>
 
   <schema id="sm.puri.phosh.emergency-calls"

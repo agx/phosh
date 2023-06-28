@@ -102,3 +102,9 @@ phosh_shell_activate_action (PhoshShell *self, const char *action, GVariant *par
 {
   return TRUE;
 }
+
+PhoshShellDebugFlags
+phosh_shell_get_debug_flags (void)
+{
+  return 0;
+}

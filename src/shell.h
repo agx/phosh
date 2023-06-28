@@ -17,6 +17,7 @@
 #include "feedback-manager.h"
 #include "gtk-mount-manager.h"
 #include "hks-manager.h"
+#include "layout-manager.h"
 #include "location-manager.h"
 #include "lockscreen-manager.h"
 #include "monitor-manager.h"
@@ -62,12 +63,15 @@ typedef enum {
  * PhoshShellDebugFlags
  * @PHOSH_SHELL_DEBUG_FLAG_NONE: No debug flags
  * @PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH: always use splash (even when docked)
-
+ * @PHOSH_SHELL_DEBUG_FLAG_FAKE_BUILTIN: When calculatiog layout treat the first
+ *     virtual output like a built-in output.
+ *
  * These flags are to enable/disable debugging features.
  */
 typedef enum {
   PHOSH_SHELL_DEBUG_FLAG_NONE          = 0,
-  PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH = 1 << 1,
+  PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH = 1 << 0,
+  PHOSH_SHELL_DEBUG_FLAG_FAKE_BUILTIN  = 1 << 1,
 } PhoshShellDebugFlags;
 
 
@@ -76,6 +80,7 @@ typedef enum {
 
 G_DECLARE_FINAL_TYPE (PhoshShell, phosh_shell, PHOSH, SHELL, GObject)
 
+PhoshShellDebugFlags phosh_shell_get_debug_flags (void);
 PhoshShell          *phosh_shell_get_default     (void);
 void                 phosh_shell_get_usable_area (PhoshShell *self,
                                                   int        *x,
@@ -97,6 +102,7 @@ PhoshBackgroundManager *phosh_shell_get_background_manager (PhoshShell *self);
 PhoshCallsManager      *phosh_shell_get_calls_manager (PhoshShell *self);
 PhoshFeedbackManager   *phosh_shell_get_feedback_manager   (PhoshShell *self);
 PhoshGtkMountManager   *phosh_shell_get_gtk_mount_manager  (PhoshShell *self);
+PhoshLayoutManager     *phosh_shell_get_layout_manager     (PhoshShell *self);
 PhoshLockscreenManager *phosh_shell_get_lockscreen_manager (PhoshShell *self);
 PhoshModeManager       *phosh_shell_get_mode_manager       (PhoshShell *self);
 PhoshMonitorManager    *phosh_shell_get_monitor_manager    (PhoshShell *self);
@@ -131,7 +137,6 @@ gboolean             phosh_shell_is_session_active (PhoshShell *self);
 GdkAppLaunchContext *phosh_shell_get_app_launch_context (PhoshShell *self);
 PhoshShellStateFlags phosh_shell_get_state (PhoshShell *self);
 void                 phosh_shell_set_state (PhoshShell *self, PhoshShellStateFlags state, gboolean enabled);
-PhoshShellDebugFlags phosh_shell_get_debug_flags (PhoshShell *self);
 gboolean             phosh_shell_get_show_splash (PhoshShell *self);
 gboolean             phosh_shell_get_docked      (PhoshShell *self);
 gboolean             phosh_shell_get_blanked     (PhoshShell *self);

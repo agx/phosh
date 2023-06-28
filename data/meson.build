@@ -95,6 +95,7 @@ configure_file(
 # Generate XML enum definitions for GSettings schema
 schema_enum_headers = files(
   meson.source_root() / 'src' / 'app-grid.h',
+  meson.source_root() / 'src' / 'layout-manager.h',
   meson.source_root() / 'src' / 'wwan' / 'phosh-wwan-backend.h',
   meson.source_root() / 'src' / 'notifications' / 'notify-feedback.h',
 )

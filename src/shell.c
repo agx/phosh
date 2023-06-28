@@ -12,8 +12,6 @@
 
 #define G_LOG_DOMAIN "phosh-shell"
 
-#define WWAN_BACKEND_KEY "wwan-backend"
-
 #include <stdlib.h>
 #include <string.h>
 
@@ -47,6 +45,7 @@
 #include "idle-manager.h"
 #include "keyboard-events.h"
 #include "location-info.h"
+#include "layout-manager.h"
 #include "location-manager.h"
 #include "lockscreen-manager.h"
 #include "media-player.h"
@@ -89,6 +88,8 @@
 #include "wwan/phosh-wwan-mm.h"
 #include "wwan/phosh-wwan-backend.h"
 
+#define WWAN_BACKEND_KEY "wwan-backend"
+
 /**
  * PhoshShell:
  *
@@ -116,6 +117,8 @@ enum {
   N_SIGNALS
 };
 static guint signals[N_SIGNALS] = { 0 };
+
+static PhoshShellDebugFlags debug_flags;
 
 typedef struct
 {
@@ -161,6 +164,7 @@ typedef struct
   PhoshSuspendManager *suspend_manager;
   PhoshEmergencyCallsManager *emergency_calls_manager;
   PhoshPowerMenuManager *power_menu_manager;
+  PhoshLayoutManager *layout_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -168,7 +172,6 @@ typedef struct
   PhoshAmbient *ambient;
   PhoshRotationManager *rotation_manager;
 
-  PhoshShellDebugFlags debug_flags;
   gboolean             startup_finished;
   guint                startup_finished_id;
 
@@ -184,6 +187,8 @@ typedef struct
 
   char           *theme_name;
   GtkCssProvider *css_provider;
+
+  GSettings      *settings;
 } PhoshShellPrivate;
 
 
@@ -335,23 +340,20 @@ static void
 panels_create (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  PhoshMonitor *monitor;
   PhoshWayland *wl = phosh_wayland_get_default ();
+  PhoshMonitor *monitor;
   PhoshAppGrid *app_grid;
-  int height;
   guint32 top_layer;
 
   monitor = phosh_shell_get_primary_monitor (self);
   g_return_if_fail (monitor);
 
   top_layer = priv->locked ? ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY : ZWLR_LAYER_SHELL_V1_LAYER_TOP;
-  phosh_shell_get_area (self, NULL, &height);
   priv->top_panel = PHOSH_DRAG_SURFACE (phosh_top_panel_new (
                                           phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                           phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
                                           monitor->wl_output,
-                                          top_layer,
-                                          height));
+                                          top_layer));
   gtk_widget_show (GTK_WIDGET (priv->top_panel));
 
   priv->home = PHOSH_DRAG_SURFACE (phosh_home_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
@@ -551,6 +553,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->keyboard_events);
   g_clear_object (&priv->app_tracker);
   g_clear_object (&priv->suspend_manager);
+  g_clear_object (&priv->layout_manager);
 
   /* sensors */
   g_clear_object (&priv->proximity);
@@ -564,6 +567,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->css_provider);
 
   g_clear_object (&priv->action_map);
+  g_clear_object (&priv->settings);
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->dispose (object);
 }
@@ -707,6 +711,7 @@ setup_idle_cb (PhoshShell *self)
   if (!priv->sensor_proxy_manager)
     g_message ("Failed to connect to sensor-proxy: %s", err->message);
 
+  priv->layout_manager = phosh_layout_manager_new ();
   panels_create (self);
   /* Create background after panel since it needs the panel's size */
   priv->background_manager = phosh_background_manager_new ();
@@ -945,6 +950,8 @@ phosh_shell_constructed (GObject *object)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->constructed (object);
+
+  priv->settings = g_settings_new ("sm.puri.phosh");
 
   /* We bind this early since a wl_display_roundtrip () would make us miss
      existing toplevels */
@@ -1215,6 +1222,9 @@ static GDebugKey debug_keys[] =
  { .key = "always-splash",
    .value = PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH,
  },
+ { .key = "fake-builtin",
+   .value = PHOSH_SHELL_DEBUG_FLAG_FAKE_BUILTIN,
+ },
 };
 
 
@@ -1224,14 +1234,17 @@ phosh_shell_init (PhoshShell *self)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GtkSettings *gtk_settings;
 
-  priv->debug_flags = g_parse_debug_string(g_getenv ("PHOSH_DEBUG"),
-                                           debug_keys,
-                                           G_N_ELEMENTS (debug_keys));
+  debug_flags = g_parse_debug_string(g_getenv ("PHOSH_DEBUG"),
+                                     debug_keys,
+                                     G_N_ELEMENTS (debug_keys));
 
   gtk_settings = gtk_settings_get_default ();
   g_object_set (G_OBJECT (gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
 
-  g_signal_connect_swapped (gtk_settings, "notify::gtk-theme-name", G_CALLBACK (on_gtk_theme_name_changed), self);
+  g_signal_connect_swapped (gtk_settings,
+                            "notify::gtk-theme-name",
+                            G_CALLBACK (on_gtk_theme_name_changed),
+                            self);
   on_gtk_theme_name_changed (self, NULL, gtk_settings);
 
   priv->shell_state = PHOSH_STATE_NONE;
@@ -1429,6 +1442,19 @@ phosh_shell_get_gtk_mount_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_GTK_MOUNT_MANAGER (priv->gtk_mount_manager), NULL);
 
   return priv->gtk_mount_manager;
+}
+
+
+PhoshLayoutManager *
+phosh_shell_get_layout_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_LAYOUT_MANAGER (priv->layout_manager), NULL);
+  return priv->layout_manager;
 }
 
 
@@ -1691,8 +1717,7 @@ phosh_shell_get_wwan (PhoshShell *self)
   priv = phosh_shell_get_instance_private (self);
 
   if (!priv->wwan) {
-    g_autoptr (GSettings) settings = g_settings_new ("sm.puri.phosh");
-    PhoshWWanBackend backend = g_settings_get_enum (settings, WWAN_BACKEND_KEY);
+    PhoshWWanBackend backend = g_settings_get_enum (priv->settings, WWAN_BACKEND_KEY);
 
     switch (backend) {
       default:
@@ -2094,7 +2119,7 @@ phosh_shell_get_show_splash (PhoshShell *self)
   priv = phosh_shell_get_instance_private (self);
   g_return_val_if_fail (PHOSH_IS_DOCKED_MANAGER (priv->docked_manager), TRUE);
 
-  if (priv->debug_flags & PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH)
+  if (debug_flags & PHOSH_SHELL_DEBUG_FLAG_ALWAYS_SPLASH)
     return TRUE;
 
   if (phosh_docked_manager_get_enabled (priv->docked_manager))
@@ -2163,4 +2188,18 @@ phosh_shell_activate_action (PhoshShell *self, const char *action, GVariant *par
   return TRUE;
 }
 
+/*
+ * phosh_shell_get_debug_flags:
+ *
+ * Get the debug flags
+ *
+ * Returns: The global debug flags
+ */
+PhoshShellDebugFlags
+phosh_shell_get_debug_flags (void)
+{
+  return debug_flags;
+}
+
 /* }}} */
+

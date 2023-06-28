@@ -8,6 +8,7 @@
 #include "drag-surface.h"
 #include "gnome-shell-manager.h"
 #include "home.h"
+#include "layout-manager.h"
 #include "lockscreen.h"
 #include "mode-manager.h"
 #include "monitor/monitor.h"

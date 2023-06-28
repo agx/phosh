@@ -8,6 +8,8 @@
 #define G_LOG_DOMAIN "phosh-monitor"
 
 #include "monitor.h"
+#include "shell.h"
+
 #include <gdk/gdkwayland.h>
 
 /**
@@ -507,7 +509,17 @@ phosh_monitor_is_configured (PhoshMonitor *self)
 gboolean
 phosh_monitor_is_builtin (PhoshMonitor *self)
 {
+  PhoshShellDebugFlags debug_flags = phosh_shell_get_debug_flags ();
   g_return_val_if_fail (PHOSH_IS_MONITOR (self), FALSE);
+
+  if (G_UNLIKELY (debug_flags & PHOSH_SHELL_DEBUG_FLAG_FAKE_BUILTIN)) {
+    if (g_strcmp0 (self->name, "WL-1") == 0)
+      return TRUE;
+    else if (g_strcmp0 (self->name, "X11-1") == 0)
+      return TRUE;
+    else if (g_strcmp0 (self->name, "HEADLESS-1") == 0)
+      return TRUE;
+  }
 
   return phosh_monitor_connector_is_builtin (self->conn_type);
 }
@@ -715,6 +727,31 @@ phosh_monitor_get_fractional_scale (PhoshMonitor *self)
     width = self->logical.height;
   }
   return mode->width / width;
+}
+
+
+/**
+ * phosh_monitor_is_preferred_mode:
+ * @self: The monitor
+ *
+ * Checks whether the current monitor's mode is the monitor's
+ * preferred mode.
+ *
+ * Returns: %TRUE if the current mode is the display's preferred mode.
+ *     Otherwise %FALSE.
+*/
+gboolean
+phosh_monitor_is_preferred_mode (PhoshMonitor *self)
+{
+  PhoshMonitorMode *mode;
+
+  g_return_val_if_fail (PHOSH_IS_MONITOR (self), 1.0);
+  g_return_val_if_fail (phosh_monitor_is_configured (self), TRUE);
+
+  mode = phosh_monitor_get_current_mode (self);
+  g_return_val_if_fail (mode, TRUE);
+
+  return self->current_mode == self->preferred_mode;
 }
 
 

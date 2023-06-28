@@ -234,6 +234,21 @@ if run_phoc_tests
        suite: ['screenshots'],
        timeout: 60,
       )
+
+  what='notch'
+  notch_env = test_env_phoc
+  notch_env.set('LANGUAGE', 'C')
+  notch_env.set('PHOC_DEBUG', 'cutouts')
+  notch_env.set('PHOSH_DEBUG', 'fake-builtin')
+  notch_env.set('PHOSH_TEST_TYPE', 'notch')
+  notch_env.set('PHOSH_TEST_PHOC_INI', '@0@/data/phoc-notch.ini'.format(meson.current_source_dir()))
+  notch_env.set('GMOBILE_DT_COMPATIBLES', 'oneplus,fajita')
+  notch_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
+  test('screenshots-@0@'.format(what), t,
+       env: notch_env,
+       suite: ['screenshots'],
+       timeout: 60,
+      )
 endif
 
 endif # tests
