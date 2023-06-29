@@ -4,7 +4,7 @@
   <template class="PhoshMediaPlayer" parent="GtkGrid">
     <property name="margin-top">5</property>
     <property name="margin-bottom">5</property>
-    <property name="column_homogeneous">True</property>
+    <property name="column-homogeneous">True</property>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
@@ -108,8 +108,8 @@
         </child>
       </object>
       <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">1</property>
+        <property name="left-attach">0</property>
+        <property name="top-attach">1</property>
       </packing>
     </child>
     <child>
@@ -127,7 +127,7 @@
                 <property name="visible">True</property>
                 <property name="margin">5</property>
                 <property name="icon-name">audio-x-generic-symbolic</property>
-                <property name="pixel_size">48</property>
+                <property name="pixel-size">48</property>
                 <property name="valign">center</property>
                 <style>
                   <class name="phosh-media-player-art"/>
@@ -147,7 +147,7 @@
                     <property name="margin-top">3</property>
                     <property name="label" translatable="yes">Unknown Artist</property>
                     <property name="ellipsize">middle</property>
-                    <property name="single_line_mode">True</property>
+                    <property name="single-line-mode">True</property>
                     <style>
                       <class name="dim-label"/>
                     </style>
@@ -160,7 +160,7 @@
                     <property name="margin-bottom">3</property>
                     <property name="label" translatable="yes">Unknown Title</property>
                     <property name="ellipsize">middle</property>
-                    <property name="single_line_mode">True</property>
+                    <property name="single-line-mode">True</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -180,8 +180,8 @@
         </style>
       </object>
       <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">0</property>
+        <property name="left-attach">0</property>
+        <property name="top-attach">0</property>
       </packing>
     </child>
   </template>
