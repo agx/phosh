@@ -2,7 +2,6 @@
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <template class="PhoshMediaPlayer" parent="GtkGrid">
-    <property name="can_focus">False</property>
     <property name="margin-top">5</property>
     <property name="margin-bottom">5</property>
     <property name="column_homogeneous">True</property>
@@ -14,12 +13,10 @@
         <child>
           <object class="GtkButton" id="btn_prev">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
             <signal name="clicked" handler="btn_prev_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
@@ -35,12 +32,10 @@
         <child>
           <object class="GtkButton" id="btn_seek_backward">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
             <signal name="clicked" handler="btn_seek_backward_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
@@ -56,12 +51,10 @@
         <child>
           <object class="GtkButton" id="btn_play">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
             <signal name="clicked" handler="btn_play_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage" id="img_play">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="pixel-size">24</property>
@@ -78,12 +71,10 @@
         <child>
           <object class="GtkButton" id="btn_seek_forward">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
             <signal name="clicked" handler="btn_seek_forward_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
@@ -99,7 +90,6 @@
         <child>
           <object class="GtkButton" id="btn_next">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
             <signal name="clicked" handler="btn_next_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
@@ -108,7 +98,6 @@
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="can_focus">False</property>
                 <property name="icon_name">media-skip-forward-symbolic</property>
               </object>
             </child>
@@ -126,18 +115,16 @@
     <child>
       <object class="GtkButton" id="btn_details">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="relief">none</property>
         <signal name="clicked" handler="btn_details_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
         <property name="valign">center</property>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
             <child>
               <object class="GtkImage" id="img_art">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="margin">5</property>
                 <property name="icon_name">audio-x-generic-symbolic</property>
                 <property name="pixel_size">48</property>
