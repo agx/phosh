@@ -21,7 +21,7 @@
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="icon_name">media-skip-backward-symbolic</property>
+                <property name="icon-name">media-skip-backward-symbolic</property>
               </object>
             </child>
           </object>
@@ -40,7 +40,7 @@
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="icon_name">skip-backwards-10-symbolic</property>
+                <property name="icon-name">skip-backwards-10-symbolic</property>
               </object>
             </child>
           </object>
@@ -60,7 +60,7 @@
                 <property name="pixel-size">24</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="icon_name">media-playback-start-symbolic</property>
+                <property name="icon-name">media-playback-start-symbolic</property>
               </object>
             </child>
           </object>
@@ -79,7 +79,7 @@
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="icon_name">skip-forward-30-symbolic</property>
+                <property name="icon-name">skip-forward-30-symbolic</property>
               </object>
             </child>
           </object>
@@ -98,7 +98,7 @@
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="icon_name">media-skip-forward-symbolic</property>
+                <property name="icon-name">media-skip-forward-symbolic</property>
               </object>
             </child>
           </object>
@@ -126,7 +126,7 @@
               <object class="GtkImage" id="img_art">
                 <property name="visible">True</property>
                 <property name="margin">5</property>
-                <property name="icon_name">audio-x-generic-symbolic</property>
+                <property name="icon-name">audio-x-generic-symbolic</property>
                 <property name="pixel_size">48</property>
                 <property name="valign">center</property>
                 <style>
