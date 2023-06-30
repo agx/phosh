@@ -604,12 +604,12 @@ on_deck_visible_child_changed (PhoshLockscreen *self, GParamSpec *pspec, HdyDeck
     swipe_forward = FALSE;
   }
 
-  /* Avoid backward  swipe to widget-box if there's no plugin */
+  /* Avoid backward swipe to widget-box if there's no plugin */
   if (visible_child == priv->carousel && !phosh_widget_box_has_plugins (PHOSH_WIDGET_BOX (priv->widget_box))) {
     swipe_back = FALSE;
   }
 
-  hdy_deck_set_can_swipe_forward(deck, swipe_forward);
+  hdy_deck_set_can_swipe_forward (deck, swipe_forward);
   hdy_deck_set_can_swipe_back (deck, swipe_back);
 
   /* See https://gitlab.gnome.org/World/Phosh/phosh/-/issues/922 */
