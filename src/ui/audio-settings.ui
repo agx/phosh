@@ -5,7 +5,7 @@
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
-	<property name="orientation">vertical</property>
+	      <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox" id="box_ouput_vol_slider">
             <property name="visible">True</property>
@@ -63,53 +63,34 @@
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="width-request">120</property>
-                <property name="margin">6</property>
-                <property name="spacing">6</property>
+                <property name="margin-top">6</property>
+                <property name="margin-bottom">6</property>
+                <property name="spacing">12</property>
                 <property name="orientation">vertical</property>
+                <style>
+                  <class name="phosh-settings-list-box"/>
+                </style>
                 <child>
                   <object class="GtkBox" id="box_audio_output_devices">
                     <property name="visible">True</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">6</property>
+                    <property name="margin-top">6</property>
                     <child>
-                      <object class="GtkBox">
+                      <object class="PhoshFadingLabel">
                         <property name="visible">True</property>
-                        <child>
-                          <object class="PhoshFadingLabel">
-                            <property name="visible">True</property>
-                            <property name="margin-left">6</property>
-                            <property name="valign">end</property>
-                            <property name="label" translatable="yes">Audio outputs</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkButton">
-                            <property name="visible">True</property>
-                            <property name="halign">end</property>
-                            <property name="hexpand">True</property>
-                            <property name="action-name">settings.launch-panel</property>
-                            <property name="action-target">"sound"</property>
-                            <property name="tooltip-text" translatable="yes">Open sound settings</property>
-                            <child>
-                              <object class="GtkImage">
-                                <property name="visible">True</property>
-                                <property name="icon-name">emblem-system-symbolic</property>
-                              </object>
-                            </child>
-                            <style>
-                              <class name="phosh-gear-button"/>
-                            </style>
-                          </object>
-                        </child>
+                        <property name="margin-left">6</property>
+                        <property name="valign">end</property>
+                        <property name="label" translatable="yes">Output Devices</property>
+                        <style>
+                          <class name="heading"/>
+                        </style>
                       </object>
                     </child>
                     <child>
                       <object class="GtkListBox" id="listbox_audio_output_devices">
                         <property name="visible">True</property>
                         <signal name="row-activated" handler="on_audio_output_device_row_activated" swapped="yes"/>
-                        <style>
-                          <class name="phosh-settings-list"/>
-                        </style>
                       </object>
                     </child>
                   </object>
@@ -123,16 +104,34 @@
                       <object class="PhoshFadingLabel">
                         <property name="visible">True</property>
                         <property name="margin-left">6</property>
-                        <property name="label" translatable="yes">Audio inputs</property>
+                        <property name="label" translatable="yes">Input Devices</property>
+                        <style>
+                          <class name="heading"/>
+                        </style>
                       </object>
                     </child>
                     <child>
                       <object class="GtkListBox" id="listbox_audio_input_devices">
                         <property name="visible">True</property>
                         <signal name="row-activated" handler="on_audio_input_device_row_activated" swapped="yes"/>
-                        <style>
-                          <class name="phosh-settings-list"/>
-                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSeparator">
+                    <property name="visible">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="visible">True</property>
+                    <property name="action-name">settings.launch-panel</property>
+                    <property name="action-target">"sound"</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Sound Settings</property>
                       </object>
                     </child>
                   </object>
