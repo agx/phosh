@@ -466,10 +466,14 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
   object_class->dispose = phosh_media_player_dispose;
   object_class->get_property = phosh_media_player_get_property;
 
+  /**
+   * PhoshMediaPlayer:attached
+   *
+   * Whether a player is attacked. This is %TRUE when we
+   * found a suitable player on the session bus.
+   */
   props[PROP_ATTACHED] =
-    g_param_spec_boolean ("attached",
-                          "Player attached",
-                          "Whether a player is attached",
+    g_param_spec_boolean ("attached", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_STATIC_STRINGS |
@@ -484,9 +488,7 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
    * shown.
    */
   props[PROP_PLAYABLE] =
-    g_param_spec_boolean ("playable",
-                          "Playable",
-                          "Whether the player has a playable track",
+    g_param_spec_boolean ("playable", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_STATIC_STRINGS |
