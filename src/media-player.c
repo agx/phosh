@@ -86,7 +86,6 @@ typedef struct _PhoshMediaPlayer {
   gboolean                          attached;
   gboolean                          playable;
 
-  guint                             idle_id;
 } PhoshMediaPlayer;
 
 G_DEFINE_TYPE (PhoshMediaPlayer, phosh_media_player, GTK_TYPE_GRID);
@@ -445,7 +444,6 @@ phosh_media_player_dispose (GObject *object)
 
   g_cancellable_cancel (self->cancel);
   g_clear_object (&self->cancel);
-  g_clear_handle_id (&self->idle_id, g_source_remove);
 
   if (self->dbus_id) {
     g_dbus_connection_signal_unsubscribe (self->session_bus, self->dbus_id);
@@ -468,10 +466,14 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
   object_class->dispose = phosh_media_player_dispose;
   object_class->get_property = phosh_media_player_get_property;
 
+  /**
+   * PhoshMediaPlayer:attached
+   *
+   * Whether a player is attacked. This is %TRUE when we
+   * found a suitable player on the session bus.
+   */
   props[PROP_ATTACHED] =
-    g_param_spec_boolean ("attached",
-                          "Player attached",
-                          "Whether a player is attached",
+    g_param_spec_boolean ("attached", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_STATIC_STRINGS |
@@ -486,9 +488,7 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
    * shown.
    */
   props[PROP_PLAYABLE] =
-    g_param_spec_boolean ("playable",
-                          "Playable",
-                          "Whether the player has a playable track",
+    g_param_spec_boolean ("playable", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_STATIC_STRINGS |
@@ -654,9 +654,9 @@ is_valid_player (const char *bus_name)
 
 
 static void
-find_player_cb (GObject          *source_object,
-                GAsyncResult     *res,
-                PhoshMediaPlayer *self)
+find_player_done (GObject          *source_object,
+                  GAsyncResult     *res,
+                  PhoshMediaPlayer *self)
 {
   g_autoptr (GVariant) result = NULL;
   g_autoptr (GVariant) names = NULL;
@@ -698,7 +698,7 @@ find_player_cb (GObject          *source_object,
 
 
 static void
-find_player_async (PhoshMediaPlayer *self)
+find_player (PhoshMediaPlayer *self)
 {
   g_return_if_fail (G_IS_DBUS_CONNECTION (self->session_bus));
 
@@ -712,7 +712,7 @@ find_player_async (PhoshMediaPlayer *self)
                           G_DBUS_CALL_FLAGS_NO_AUTO_START,
                           1000,
                           self->cancel,
-                          (GAsyncReadyCallback)find_player_cb,
+                          (GAsyncReadyCallback)find_player_done,
                           self);
 }
 
@@ -737,9 +737,9 @@ on_dbus_name_owner_changed (GDBusConnection  *connection,
     return;
 
   /* Current player vanished, look for another one, already running */
-  if (!g_strcmp0 (to, "")) {
+  if (STR_IS_NULL_OR_EMPTY (to)) {
     set_attached (self, FALSE);
-    find_player_async (self);
+    find_player (self);
     return;
   }
 
@@ -777,20 +777,7 @@ on_bus_get_finished (GObject          *source_object,
                                                       (GDBusSignalCallback)on_dbus_name_owner_changed,
                                                       self, NULL);
   /* Find player initially */
-  find_player_async (self);
-}
-
-
-static gboolean
-on_idle (PhoshMediaPlayer *self)
-{
-  g_bus_get (G_BUS_TYPE_SESSION,
-             self->cancel,
-             (GAsyncReadyCallback)on_bus_get_finished,
-             self);
-
-  self->idle_id = 0;
-  return G_SOURCE_REMOVE;
+  find_player (self);
 }
 
 
@@ -800,8 +787,10 @@ phosh_media_player_init (PhoshMediaPlayer *self)
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->cancel = g_cancellable_new ();
-  /* Perform DBus setup when idle */
-  self->idle_id = g_idle_add ((GSourceFunc)on_idle, self);
+  g_bus_get (G_BUS_TYPE_SESSION,
+             self->cancel,
+             (GAsyncReadyCallback)on_bus_get_finished,
+             self);
 }
 
 

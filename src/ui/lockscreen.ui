@@ -3,10 +3,7 @@
   <requires lib="gtk+" version="3.20"/>
   <requires lib="libhandy" version="0.0"/>
   <template class="PhoshLockscreen" parent="PhoshLayerSurface">
-    <property name="can_focus">False</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
+    <property name="can-focus">False</property>
     <child>
       <object class="HdyDeck" id="deck">
         <property name="visible">True</property>
@@ -82,6 +79,16 @@
                     <property name="visible">True</property>
                     <property name="orientation">vertical</property>
                     <child>
+                      <object class="GtkImage" id="lock-arrow">
+                        <property name="visible">True</property>
+                        <property name="pixel_size">32</property>
+                        <property name="icon_name">swipe-arrow-symbolic</property>
+                        <style>
+                          <class name="phosh-lockscreen-arrow"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="valign">end</property>
@@ -92,33 +99,10 @@
                           <class name="dim-label"/>
                         </style>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="pack_type">end</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkImage" id="lock-arrow">
-                        <property name="visible">True</property>
-                        <property name="pixel_size">32</property>
-                        <property name="icon_name">swipe-arrow-symbolic</property>
-                        <style>
-                          <class name="phosh-lockscreen-arrow"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="pack_type">end</property>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="pack_type">end</property>
-                    <property name="position">0</property>
+                    <property name="pack-type">end</property>
                   </packing>
                 </child>
                 <child type="center">
@@ -151,58 +135,74 @@
                         <property name="valign">center</property>
                       </object>
                     </child>
+
                     <child>
-                      <object class="HdyClamp">
-                        <property name="visible" bind-source="media_player" bind-property="visible" bind-flags="sync-create"/>
-                        <property name="maximum_size">360</property>
-                        <property name="margin_top">6</property>
-                        <property name="vexpand">True</property>
-                        <property name="valign">center</property>
-                        <child>
-                          <object class="PhoshMediaPlayer" id="media_player">
-                            <property name="visible" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
-                            <property name="valign">center</property>
-                            <property name="can_focus">False</property>
-                            <signal name="player-raised" handler="show_unlock_page" object="PhoshLockscreen" swapped="yes"/>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRevealer">
+                      <object class="GtkScrolledWindow" id="sw_notifications">
                         <property name="visible">True</property>
-                        <property name="reveal-child" bind-source="list_notifications" bind-property="visible" bind-flags="sync-create"/>
+                        <property name="vscrollbar-policy">automatic</property>
+                        <property name="hscrollbar-policy">never</property>
+                        <property name="propagate-natural-height">True</property>
+
                         <child>
-                          <object class="HdyClamp">
+                          <object class="GtkBox">
                             <property name="visible">True</property>
-                            <property name="maximum_size">360</property>
-                            <property name="margin_top">6</property>
-                            <property name="vexpand">True</property>
-                            <property name="valign">center</property>
+                            <property name="orientation">vertical</property>
+
                             <child>
-                              <object class="GtkScrolledWindow" id="sw_notifications">
-                                <property name="vscrollbar-policy">automatic</property>
-                                <property name="hscrollbar-policy">never</property>
-                                <property name="propagate-natural-height">True</property>
-                                <property name="max-content-height">320</property>
+                              <object class="GtkRevealer" id="rev_media_player">
+                                <property name="visible">True</property>
+                                <property name="reveal-child" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
+                                <signal name="notify::reveal-child" handler="on_info_reveal_child_changed" object="PhoshLockscreen" swapped="yes"/>
                                 <child>
-                                  <object class="GtkListBox" id="list_notifications">
+                                  <object class="HdyClamp">
                                     <property name="visible">True</property>
-                                    <property name="selection-mode">none</property>
+                                    <property name="maximum_size">360</property>
+                                    <property name="margin_top">6</property>
+                                    <property name="vexpand">True</property>
+                                    <property name="valign">center</property>
+                                    <child>
+                                      <object class="PhoshMediaPlayer" id="media_player">
+                                        <property name="visible">True</property>
+                                        <property name="valign">center</property>
+                                        <property name="can_focus">False</property>
+                                        <signal name="player-raised" handler="show_unlock_page" object="PhoshLockscreen" swapped="yes"/>
+                                      </object>
+                                    </child>
                                   </object>
                                 </child>
-                                <style>
-                                  <class name="phosh-notification-tray"/>
-                                </style>
                               </object>
                             </child>
+                            <child>
+                              <object class="GtkRevealer" id="rev_notifications">
+                                <property name="visible">True</property>
+                                <property name="reveal-child">False</property>
+                                <signal name="notify::reveal-child" handler="on_info_reveal_child_changed" object="PhoshLockscreen" swapped="yes"/>
+                                <child>
+                                  <object class="HdyClamp">
+                                    <property name="visible">True</property>
+                                    <property name="maximum_size">360</property>
+                                    <property name="margin_top">6</property>
+                                    <property name="vexpand">True</property>
+                                    <property name="valign">center</property>
+                                    <child>
+                                      <object class="GtkListBox" id="list_notifications">
+                                        <property name="visible">True</property>
+                                        <property name="selection-mode">none</property>
+                                        <style>
+                                          <class name="phosh-notification-tray"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+
                           </object>
                         </child>
                       </object>
                     </child>
+
                   </object>
                 </child>
               </object>
