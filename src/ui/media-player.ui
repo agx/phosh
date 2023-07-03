@@ -2,10 +2,9 @@
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <template class="PhoshMediaPlayer" parent="GtkGrid">
-    <property name="can_focus">False</property>
     <property name="margin-top">5</property>
     <property name="margin-bottom">5</property>
-    <property name="column_homogeneous">True</property>
+    <property name="column-homogeneous">True</property>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
@@ -14,17 +13,15 @@
         <child>
           <object class="GtkButton" id="btn_prev">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
             <signal name="clicked" handler="btn_prev_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="icon_name">media-skip-backward-symbolic</property>
+                <property name="icon-name">media-skip-backward-symbolic</property>
               </object>
             </child>
           </object>
@@ -35,17 +32,15 @@
         <child>
           <object class="GtkButton" id="btn_seek_backward">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
             <signal name="clicked" handler="btn_seek_backward_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="icon_name">skip-backwards-10-symbolic</property>
+                <property name="icon-name">skip-backwards-10-symbolic</property>
               </object>
             </child>
           </object>
@@ -56,18 +51,16 @@
         <child>
           <object class="GtkButton" id="btn_play">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
             <signal name="clicked" handler="btn_play_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage" id="img_play">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="pixel-size">24</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="icon_name">media-playback-start-symbolic</property>
+                <property name="icon-name">media-playback-start-symbolic</property>
               </object>
             </child>
           </object>
@@ -78,17 +71,15 @@
         <child>
           <object class="GtkButton" id="btn_seek_forward">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
             <signal name="clicked" handler="btn_seek_forward_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="width-request">32</property>
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="icon_name">skip-forward-30-symbolic</property>
+                <property name="icon-name">skip-forward-30-symbolic</property>
               </object>
             </child>
           </object>
@@ -99,7 +90,6 @@
         <child>
           <object class="GtkButton" id="btn_next">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
             <signal name="clicked" handler="btn_next_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
             <child>
               <object class="GtkImage">
@@ -108,8 +98,7 @@
                 <property name="height-request">32</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="can_focus">False</property>
-                <property name="icon_name">media-skip-forward-symbolic</property>
+                <property name="icon-name">media-skip-forward-symbolic</property>
               </object>
             </child>
           </object>
@@ -119,37 +108,31 @@
         </child>
       </object>
       <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">1</property>
+        <property name="left-attach">0</property>
+        <property name="top-attach">1</property>
       </packing>
     </child>
     <child>
       <object class="GtkButton" id="btn_details">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="relief">none</property>
         <signal name="clicked" handler="btn_details_clicked_cb" object="PhoshMediaPlayer" swapped="yes"/>
         <property name="valign">center</property>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
             <child>
               <object class="GtkImage" id="img_art">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="margin">5</property>
-                <property name="icon_name">audio-x-generic-symbolic</property>
-                <property name="pixel_size">48</property>
+                <property name="icon-name">audio-x-generic-symbolic</property>
+                <property name="pixel-size">48</property>
                 <property name="valign">center</property>
                 <style>
                   <class name="phosh-media-player-art"/>
                 </style>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-              </packing>
             </child>
             <child>
               <object class="GtkBox">
@@ -164,15 +147,11 @@
                     <property name="margin-top">3</property>
                     <property name="label" translatable="yes">Unknown Artist</property>
                     <property name="ellipsize">middle</property>
-                    <property name="single_line_mode">True</property>
+                    <property name="single-line-mode">True</property>
                     <style>
                       <class name="dim-label"/>
                     </style>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                  </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="lbl_title">
@@ -181,15 +160,11 @@
                     <property name="margin-bottom">3</property>
                     <property name="label" translatable="yes">Unknown Title</property>
                     <property name="ellipsize">middle</property>
-                    <property name="single_line_mode">True</property>
+                    <property name="single-line-mode">True</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                  </packing>
                 </child>
               </object>
               <packing>
@@ -205,8 +180,8 @@
         </style>
       </object>
       <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">0</property>
+        <property name="left-attach">0</property>
+        <property name="top-attach">0</property>
       </packing>
     </child>
   </template>
