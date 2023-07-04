@@ -428,3 +428,17 @@ phosh_audio_settings_get_output_is_headphone (PhoshAudioSettings *self)
 
   return self->is_headphone;
 }
+
+/**
+ * phosh_audio_settings_hide_details:
+ * @self: The audio settings widget
+ *
+ * Hides the audio settings details
+ */
+void
+phosh_audio_settings_hide_details (PhoshAudioSettings *self)
+{
+  g_return_if_fail (PHOSH_IS_AUDIO_SETTINGS (self));
+
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->toggle_audio_details), FALSE);
+}

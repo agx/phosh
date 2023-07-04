@@ -16,5 +16,6 @@ G_DECLARE_FINAL_TYPE (PhoshAudioSettings, phosh_audio_settings, PHOSH, AUDIO_SET
 
 PhoshAudioSettings *phosh_audio_settings_new                     (void);
 gboolean            phosh_audio_settings_get_output_is_headphone (PhoshAudioSettings *self);
+void                phosh_audio_settings_hide_details            (PhoshAudioSettings *self);
 
 G_END_DECLS

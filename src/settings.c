@@ -246,7 +246,9 @@ on_launch_panel_activated (GSimpleAction *action, GVariant *param, gpointer data
   const char *panel;
 
   panel = g_variant_get_string (param, NULL);
+
   open_settings_panel (self, panel);
+  phosh_audio_settings_hide_details (self->audio_settings);
 }
 
 
