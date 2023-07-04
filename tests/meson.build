@@ -247,7 +247,7 @@ if run_phoc_tests
   test('screenshots-@0@'.format(what), t,
        env: notch_env,
        suite: ['screenshots'],
-       timeout: 60,
+       timeout: 120,
       )
 endif
 

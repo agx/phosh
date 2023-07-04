@@ -58,9 +58,13 @@ struct _PhoshCallsManager {
   PhoshCallsDBusObjectManagerClient *om_client;
   GCancellable                      *cancel;
   GHashTable                        *calls;
+  GListStore                        *calls_store;
 };
-G_DEFINE_TYPE (PhoshCallsManager, phosh_calls_manager, PHOSH_TYPE_MANAGER);
 
+static void phosh_calls_manager_list_model_iface_init (GListModelInterface *iface);
+G_DEFINE_TYPE_WITH_CODE (PhoshCallsManager, phosh_calls_manager, PHOSH_TYPE_MANAGER,
+                         G_IMPLEMENT_INTERFACE (G_TYPE_LIST_MODEL,
+                                                phosh_calls_manager_list_model_iface_init))
 
 static gboolean
 is_active (PhoshCallState state)
@@ -145,7 +149,8 @@ on_call_proxy_new_for_bus_finish (GObject      *source_object,
   /* Wrap DBus proxy in PhoshCall */
   call = phosh_call_new (proxy);
   g_object_set_data (G_OBJECT (proxy), "call", call);
-  g_hash_table_insert (self->calls, g_strdup (path), g_steal_pointer (&call));
+  g_hash_table_insert (self->calls, g_strdup (path), call);
+  g_list_store_append (self->calls_store, call);
 
   g_signal_connect_swapped (proxy,
                             "notify::state",
@@ -184,6 +189,24 @@ on_call_obj_added (PhoshCallsManager *self,
 
 
 static void
+remove_call_by_path (PhoshCallsManager *self, const char *path)
+{
+  PhoshCall *call;
+  guint pos;
+
+  /* Disposes the call object by removing it from the list store and
+     hash table thus disposing the proxy as well */
+  call = g_hash_table_lookup (self->calls, path);
+  g_return_if_fail (call);
+
+  g_hash_table_remove (self->calls, path);
+
+  g_return_if_fail (g_list_store_find (self->calls_store, call, &pos));
+  g_list_store_remove (self->calls_store, pos);
+}
+
+
+static void
 on_call_obj_removed (PhoshCallsManager *self,
                      GDBusObject       *object)
 {
@@ -204,8 +227,8 @@ on_call_obj_removed (PhoshCallsManager *self,
 
   g_debug ("Removed call %s", path);
   g_signal_emit (self, signals[CALL_REMOVED], 0, path);
-  /* This disposes the call object and hence the proxy */
-  g_return_if_fail (g_hash_table_remove (self->calls, path));
+
+  remove_call_by_path (self, path);
 }
 
 
@@ -310,6 +333,51 @@ on_om_new_for_bus_finish (GObject      *source_object,
 
 
 static void
+on_items_changed (PhoshCallsManager *self,
+                  guint              position,
+                  guint              removed,
+                  guint              added,
+                  GListStore        *calls_store)
+{
+  g_list_model_items_changed (G_LIST_MODEL (self), position, removed, added);
+}
+
+
+static GType
+phosh_calls_manager_list_model_get_item_type (GListModel *list)
+{
+  return PHOSH_TYPE_CALL;
+}
+
+
+static gpointer
+phosh_calls_manager_list_model_get_item (GListModel *list, guint position)
+{
+  PhoshCallsManager *self = PHOSH_CALLS_MANAGER (list);
+
+  return g_list_model_get_item (G_LIST_MODEL (self->calls_store), position);
+}
+
+
+static unsigned int
+phosh_calls_manager_list_model_get_n_items (GListModel *list)
+{
+  PhoshCallsManager *self = PHOSH_CALLS_MANAGER (list);
+
+  return g_list_model_get_n_items (G_LIST_MODEL (self->calls_store));
+}
+
+
+static void
+phosh_calls_manager_list_model_iface_init (GListModelInterface *iface)
+{
+  iface->get_item_type = phosh_calls_manager_list_model_get_item_type;
+  iface->get_item = phosh_calls_manager_list_model_get_item;
+  iface->get_n_items = phosh_calls_manager_list_model_get_n_items;
+}
+
+
+static void
 phosh_calls_manager_idle_init (PhoshManager *manager)
 {
   PhoshCallsManager *self = PHOSH_CALLS_MANAGER (manager);
@@ -332,6 +400,7 @@ phosh_calls_manager_dispose (GObject *object)
   g_cancellable_cancel (self->cancel);
   g_clear_object (&self->cancel);
   g_clear_object (&self->om_client);
+  g_clear_object (&self->calls_store);
   g_clear_pointer (&self->calls, g_hash_table_unref);
   g_clear_pointer (&self->active_call, g_free);
 
@@ -403,7 +472,12 @@ phosh_calls_manager_class_init (PhoshCallsManagerClass *klass)
 static void
 phosh_calls_manager_init (PhoshCallsManager *self)
 {
-  self->calls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+  self->calls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+  self->calls_store = g_list_store_new (PHOSH_TYPE_CALL);
+  g_signal_connect_object (self->calls_store, "items-changed",
+                           G_CALLBACK (on_items_changed), self,
+                           G_CONNECT_SWAPPED);
+
   self->cancel = g_cancellable_new ();
 }
 

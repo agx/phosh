@@ -280,11 +280,11 @@ phosh-lockscreen,
   font-weight: 400;
 }
 
-.p-large #phosh-lockscreen-clock {
+#phosh-lockscreen-clock {
   font-size: 84px;
   transition: 200ms ease;
 }
-.p-large #phosh-lockscreen-date {
+#phosh-lockscreen-date {
   font-size: 18px;
   transition: 200ms ease;
 }
@@ -569,7 +569,7 @@ phosh-notification-banner .notification-container {
 
 /* Notification Tray */
 .phosh-notification-tray {
-  padding-bottom: 48px;
+  padding-bottom: 12px;
 }
 
 .phosh-notification-tray,
@@ -600,6 +600,15 @@ phosh-notification-banner .notification-container {
 /* Clear notifications button */
 #phosh-notifications-clear-all-btn {
   border-radius: 99px;
+}
+
+/* Call notifications */
+phosh-call-notification {
+  padding: 12px;
+  color: @phosh_fg_color;
+  border-radius: 12px;
+  border: none;
+  background-color: @phosh_notification_bg_color;
 }
 
 /*

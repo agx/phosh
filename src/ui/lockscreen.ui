@@ -147,7 +147,31 @@
                           <object class="GtkBox">
                             <property name="visible">True</property>
                             <property name="orientation">vertical</property>
-
+                            <child>
+                              <object class="GtkRevealer" id="rev_call_notifications">
+                                <property name="visible">True</property>
+                                <signal name="notify::reveal-child" handler="on_info_reveal_child_changed" object="PhoshLockscreen" swapped="yes"/>
+                                <child>
+                                  <object class="HdyClamp">
+                                    <property name="visible">True</property>
+                                    <property name="maximum-size">360</property>
+                                    <property name="margin-top">6</property>
+                                    <property name="vexpand">True</property>
+                                    <property name="valign">center</property>
+                                    <child>
+                                      <object class="GtkListBox" id="list_calls">
+                                        <property name="visible">True</property>
+                                        <property name="selection-mode">none</property>
+                                        <signal name="row-activated" handler="on_call_notification_activated" swapped="yes"/>
+                                        <style>
+                                          <class name="phosh-notification-tray"/>
+                                        </style>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
                             <child>
                               <object class="GtkRevealer" id="rev_media_player">
                                 <property name="visible">True</property>

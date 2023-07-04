@@ -12,6 +12,7 @@
 
 #include "auth.h"
 #include "bt-info.h"
+#include "call-notification.h"
 #include "calls-manager.h"
 #include "keypad.h"
 #include "lockscreen.h"
@@ -36,7 +37,6 @@
 #include <libgnome-desktop/gnome-wall-clock.h>
 
 #define LOCKSCREEN_IDLE_SECONDS 5
-#define LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS "p-large"
 #define LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS "p-small"
 
 #define LOCKSCREEN_SMALL_DISPLAY 700
@@ -81,14 +81,17 @@ typedef struct _PhoshLockscreen
 
 
 typedef struct {
+  HdyDeck           *deck;
   GtkWidget         *carousel;
 
   /* info page */
   GtkWidget         *box_info;
   GtkWidget         *box_datetime;
+  GtkListBox        *list_calls;
   GtkWidget         *lbl_clock;
   GtkWidget         *lbl_date;
   GtkWidget         *list_notifications;
+  GtkRevealer       *rev_call_notifications;
   GtkRevealer       *rev_media_player;
   GtkRevealer       *rev_notifications;
   GSettings         *settings;
@@ -111,7 +114,6 @@ typedef struct {
   GtkWidget         *widget_box;
 
   /* Call page */
-  HdyDeck           *deck;
   GtkBox            *box_call_display;
   CuiCallDisplay    *call_display;
 
@@ -591,7 +593,19 @@ on_calls_call_removed (PhoshLockscreen *self, const gchar *path)
     return;
 
   g_clear_pointer (&priv->active, g_free);
-  hdy_deck_navigate (priv->deck, HDY_NAVIGATION_DIRECTION_BACK);
+
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->carousel));
+}
+
+
+static GtkWidget *
+create_call_notification_row (gpointer item, gpointer data)
+{
+  PhoshCallNotification *noti = NULL;
+  PhoshCall *call = PHOSH_CALL (item);
+
+  noti = phosh_call_notification_new (call);
+  return GTK_WIDGET (noti);
 }
 
 
@@ -659,8 +673,6 @@ animate_clock (PhoshLockscreen *self)
   priv = phosh_lockscreen_get_instance_private (self);
 
   /* Use small clock if any additional info elements are revealed */
-  phosh_util_toggle_style_class (priv->box_datetime, LOCKSCREEN_LARGE_DATE_AND_TIME_CLASS,
-                                 !priv->reveals);
   phosh_util_toggle_style_class (priv->box_datetime, LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS,
                                  !!priv->reveals);
 }
@@ -680,6 +692,42 @@ on_info_reveal_child_changed (PhoshLockscreen *self, GParamSpec *pspec, GtkRevea
     priv->reveals--;
 
   animate_clock (self);
+}
+
+
+
+static void
+on_call_notification_activated (PhoshLockscreen *self,
+                                GtkListBoxRow   *row,
+                                GtkListBox      *list)
+{
+  PhoshLockscreenPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->box_call_display));
+}
+
+
+
+static void
+on_call_notifications_items_changed (PhoshLockscreen *self,
+                                     guint            position,
+                                     guint            removed,
+                                     guint            added,
+                                     GListModel      *list)
+{
+  PhoshLockscreenPrivate *priv;
+  gboolean is_empty;
+
+  g_return_if_fail (G_IS_LIST_MODEL (list));
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  is_empty = !g_list_model_get_n_items (list);
+
+  gtk_revealer_set_reveal_child (priv->rev_call_notifications, !is_empty);
 }
 
 
@@ -751,10 +799,20 @@ phosh_lockscreen_constructed (GObject *object)
                            self,
                            G_CONNECT_SWAPPED);
 
-  /* If a call is ongoing show it when locking until we show a notification */
+  gtk_list_box_bind_model (GTK_LIST_BOX (priv->list_calls),
+                           G_LIST_MODEL (priv->calls_manager),
+                           create_call_notification_row,
+                           NULL,
+                           NULL);
+  g_signal_connect_object (G_LIST_MODEL (priv->calls_manager),
+                           "items-changed",
+                           G_CALLBACK (on_call_notifications_items_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_call_notifications_items_changed (self, -1, -1, -1, G_LIST_MODEL (priv->calls_manager));
   active = phosh_calls_manager_get_active_call_handle (priv->calls_manager);
   if (active)
-    on_calls_call_added (self, active);
+    update_active_call (self, active);
 
   manager = phosh_notify_manager_get_default ();
   priv->settings = g_settings_new(NOTIFICATIONS_SCHEMA_ID);
@@ -799,7 +857,7 @@ deck_back_clicked_cb (GtkWidget       *sender,
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  hdy_deck_navigate (priv->deck, HDY_NAVIGATION_DIRECTION_BACK);
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->carousel));
 }
 
 
@@ -809,7 +867,7 @@ deck_forward_clicked_cb (GtkWidget       *sender,
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  hdy_deck_navigate (priv->deck, HDY_NAVIGATION_DIRECTION_FORWARD);
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->carousel));
 }
 
 
@@ -930,9 +988,12 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_datetime);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_clock);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_date);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, list_calls);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, list_notifications);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, rev_call_notifications);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, rev_media_player);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, rev_notifications);
+  gtk_widget_class_bind_template_callback (widget_class, on_call_notification_activated);
   gtk_widget_class_bind_template_callback (widget_class, on_info_reveal_child_changed);
   gtk_widget_class_bind_template_callback (widget_class, show_unlock_page);
 
