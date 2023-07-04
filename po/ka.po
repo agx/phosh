@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-18 11:35+0000\n"
-"PO-Revision-Date: 2023-05-19 05:27+0200\n"
+"POT-Creation-Date: 2023-07-04 14:00+0000\n"
+"PO-Revision-Date: 2023-07-04 18:26+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -82,6 +82,10 @@ msgstr "ჩართ"
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
+
+#: src/call-notification.c:60
+msgid "Unknown caller"
+msgstr "უცნობი აბონენტი"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -175,11 +179,11 @@ msgstr "დიახ"
 msgid "No"
 msgstr "არა"
 
-#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "შეიყვანეთ კოდი"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "შემოწმება…"
 
@@ -192,12 +196,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "ეკრანის ანაბეჭდის ბუფერში დაკოპირდა"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "უცნობი სათაური"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "უცნობი შემსრულებელი"
 
@@ -331,7 +335,7 @@ msgstr "თითქმის %d წ"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "ავთენტიკაციის ფანჯარა დახურულია მომხმარებლის მიერ"
 
@@ -367,7 +371,7 @@ msgstr "ჩართ"
 msgid "Press ESC to close"
 msgstr "დასახურად დააწექით ESC-ს"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "%s-ის გაშვების შეცდომა"
@@ -459,15 +463,15 @@ msgstr "დომენი:"
 msgid "Co_nnect"
 msgstr "და_კავშირება"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "უკან"
 
-#: src/ui/lockscreen.ui:90
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "აქაჩეთ გასახსნელად"
 
-#: src/ui/lockscreen.ui:273
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "გახსნა"
 
@@ -508,11 +512,11 @@ msgstr "_სასწრაფო"
 msgid "Run Command"
 msgstr "ბრძანების გაშვება"
 
-#: src/ui/settings.ui:320
+#: src/ui/settings.ui:290
 msgid "No notifications"
 msgstr "გაფრთხილების გარეშე"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:330
 msgid "Clear all"
 msgstr "ყველას გასუფთავება"
 
@@ -529,6 +533,10 @@ msgid "_Restart…"
 msgstr "_გადატვირთვა…"
 
 #: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_ძილი…"
+
+#: src/ui/top-panel.ui:116
 msgid "_Log Out…"
 msgstr "გა_სვლა…"
 
@@ -648,15 +656,15 @@ msgstr "ახალი კონტაქტის დამატება"
 msgid "Add"
 msgstr "დამატება"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "ახალი კონტაქტის სახელი"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "ურთიერთობები"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "რიცხვი"
 
