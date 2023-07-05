@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-06-20 08:29+0000\n"
-"PO-Revision-Date: 2023-06-25 13:59+0300\n"
+"POT-Creation-Date: 2023-07-05 08:48+0000\n"
+"PO-Revision-Date: 2023-07-05 18:54+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -81,6 +81,10 @@ msgstr "Päällä"
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
+
+#: src/call-notification.c:60
+msgid "Unknown caller"
+msgstr "Tuntematon soittaja"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -179,11 +183,11 @@ msgstr "Kyllä"
 msgid "No"
 msgstr "Ei"
 
-#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Syötä salasana"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "Tarkistetaan…"
 
@@ -196,12 +200,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Kuvakaappaus kopioitu leikepöydälle"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Tuntematon kappale"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Tuntematon esittäjä"
 
@@ -376,6 +380,10 @@ msgstr "Paina ESC sulkeaksesi"
 msgid "Running '%s' failed"
 msgstr "Kohteen '%s' suorittaminen epäonnistui"
 
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Puhelimen käyttöliittymän äänihallinta"
+
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Salasanat eivät täsmää."
@@ -417,6 +425,18 @@ msgstr "Näytä yk_sityiskohdat"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Etsi sovelluksia…"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Ulostulolaitteet"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Sisääntulolaitteet"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "Ääniasetukset"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -463,15 +483,15 @@ msgstr "Toimialue:"
 msgid "Co_nnect"
 msgstr "_Yhdistä"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "Takaisin"
 
-#: src/ui/lockscreen.ui:90
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "Liu'uta ylös avataksesi"
 
-#: src/ui/lockscreen.ui:273
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "Avaa lukitus"
 
@@ -512,11 +532,11 @@ msgstr "_Hätä"
 msgid "Run Command"
 msgstr "Suorita komento"
 
-#: src/ui/settings.ui:290
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "Ei ilmoituksia"
 
-#: src/ui/settings.ui:330
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
