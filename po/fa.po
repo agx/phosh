@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-06-20 08:29+0000\n"
-"PO-Revision-Date: 2023-06-23 02:03+0330\n"
+"POT-Creation-Date: 2023-07-05 08:48+0000\n"
+"PO-Revision-Date: 2023-07-05 15:21+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -80,6 +80,10 @@ msgstr "روشن"
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "بلوتوث"
+
+#: src/call-notification.c:60
+msgid "Unknown caller"
+msgstr "تماس‌گیرندهٔ ناشناس"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -176,11 +180,11 @@ msgstr "بله"
 msgid "No"
 msgstr "نه"
 
-#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
@@ -193,12 +197,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "نماگرفت در تخته‌گیره رونوشت شد"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "عنوان ناشناخته"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "هنرمند ناشناخته"
 
@@ -373,6 +377,10 @@ msgstr "برای بستن، گریز را بزنید"
 msgid "Running '%s' failed"
 msgstr "اجرای «%s» شکست خورد"
 
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "واپایش حجم صدای پوستهٔ تلفن"
+
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "گذرواژه‌های مطابق نیستند."
@@ -414,6 +422,18 @@ msgstr "دیدن _جزییات"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "جست‌وجوی کاره‌ها…"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "افزاره‌های خروجی"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "افزاره‌های ورودی"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "تنظیمات صدا"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -460,15 +480,15 @@ msgstr "دامنه:"
 msgid "Co_nnect"
 msgstr "اتّ_صال"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "بازگشت"
 
-#: src/ui/lockscreen.ui:90
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "برای قفل‌گشایی، بالا بکشید"
 
-#: src/ui/lockscreen.ui:273
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "قفل‌گشایی"
 
@@ -509,11 +529,11 @@ msgstr "_اضطراری"
 msgid "Run Command"
 msgstr "اجرای فرمان"
 
-#: src/ui/settings.ui:290
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "بدون آگاهی"
 
-#: src/ui/settings.ui:330
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "پاک‌سازی همه"
 
