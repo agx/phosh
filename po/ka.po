@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-04 14:00+0000\n"
-"PO-Revision-Date: 2023-07-04 18:26+0200\n"
+"POT-Creation-Date: 2023-07-05 08:48+0000\n"
+"PO-Revision-Date: 2023-07-05 16:37+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -376,6 +376,10 @@ msgstr "დასახურად დააწექით ESC-ს"
 msgid "Running '%s' failed"
 msgstr "%s-ის გაშვების შეცდომა"
 
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "ტელეფონის გარსის ხმის კონტროლი"
+
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "პაროლები არ ემთხვევა."
@@ -417,6 +421,18 @@ msgstr "დეტალების _ნახვა"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "აპპების ძებნა…"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "გამოტანის მოწყობილობები"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "შეტანის მოწყობილობები"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "ხმის მორგება"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -512,11 +528,11 @@ msgstr "_სასწრაფო"
 msgid "Run Command"
 msgstr "ბრძანების გაშვება"
 
-#: src/ui/settings.ui:290
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "გაფრთხილების გარეშე"
 
-#: src/ui/settings.ui:330
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "ყველას გასუფთავება"
 
