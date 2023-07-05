@@ -3,8 +3,8 @@
   <requires lib="gtk+" version="3.20"/>
   <requires lib="libhandy" version="0.0"/>
   <template class="PhoshSettings" parent="GtkBin">
-    <property name="width_request">250</property>
-    <property name="can_focus">False</property>
+    <property name="width-request">250</property>
+    <property name="can-focus">False</property>
     <signal name="notify::on-lockscreen" handler="update_drag_handle_offset"/>
     <child>
       <object class="GtkScrolledWindow" id="scrolled_window">
@@ -52,6 +52,12 @@
                             </child>
                           </object>
                         </child>
+                        <child>
+                          <object class="PhoshAudioSettings" id="audio_settings">
+                            <property name="visible">True</property>
+                            <signal name="notify::is-headphone" handler="on_is_headphone_changed" object="PhoshSettings" swapped="yes"/>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -60,15 +66,15 @@
                   <object class="GtkFlowBox" id="quick_settings">
                     <property name="name">phosh_quick_settings</property>
                     <property name="visible">True</property>
-                    <property name="column_spacing">12</property>
-                    <property name="row_spacing">12</property>
-                    <property name="min_children_per_line">2</property>
-                    <property name="max_children_per_line">3</property>
-                    <property name="selection_mode">none</property>
+                    <property name="column-spacing">12</property>
+                    <property name="row-spacing">12</property>
+                    <property name="min-children-per-line">2</property>
+                    <property name="max-children-per-line">3</property>
+                    <property name="selection-mode">none</property>
                     <property name="homogeneous">True</property>
                     <property name="expand">False</property>
-                    <property name="margin_top">12</property>
-                    <property name="margin_bottom">12</property>
+                    <property name="margin-top">12</property>
+                    <property name="margin-bottom">12</property>
                     <child>
                       <object class="PhoshQuickSetting" id="wwan_quick_setting">
                         <property name="visible">True</property>
@@ -78,7 +84,7 @@
                         <child>
                           <object class="PhoshWWanInfo" id="wwaninfo">
                             <property name="visible">True</property>
-                            <property name="icon_size">1</property>
+                            <property name="icon-size">1</property>
                             <property name="halign">start</property>
                           </object>
                         </child>
@@ -93,7 +99,7 @@
                         <child>
                           <object class="PhoshWifiInfo" id="wifiinfo">
                             <property name="visible">True</property>
-                            <property name="icon_size">1</property>
+                            <property name="icon-size">1</property>
                             <property name="halign">start</property>
                           </object>
                         </child>
@@ -108,7 +114,7 @@
                         <child>
                           <object class="PhoshBtInfo" id="btinfo">
                             <property name="visible">True</property>
-                            <property name="icon_size">1</property>
+                            <property name="icon-size">1</property>
                             <property name="halign">start</property>
                           </object>
                         </child>
@@ -123,7 +129,7 @@
                         <child>
                           <object class="PhoshBatteryInfo" id="batteryinfo">
                             <property name="visible">True</property>
-                            <property name="icon_size">1</property>
+                            <property name="icon-size">1</property>
                             <property name="halign">start</property>
                           </object>
                         </child>
@@ -138,7 +144,7 @@
                         <child>
                           <object class="PhoshRotateInfo" id="rotateinfo">
                             <property name="visible">True</property>
-                            <property name="icon_size">1</property>
+                            <property name="icon-size">1</property>
                             <property name="halign">start</property>
                           </object>
                         </child>
@@ -152,7 +158,7 @@
                         <child>
                           <object class="PhoshFeedbackInfo" id="feedbackinfo">
                             <property name="visible">True</property>
-                            <property name="icon_size">1</property>
+                            <property name="icon-size">1</property>
                             <property name="halign">start</property>
                           </object>
                         </child>
@@ -168,7 +174,7 @@
                             <child>
                               <object class="PhoshTorchInfo" id="torchinfo">
                                 <property name="visible">True</property>
-                                <property name="icon_size">1</property>
+                                <property name="icon-size">1</property>
                                 <property name="halign">start</property>
                               </object>
                             </child>
@@ -187,7 +193,7 @@
                             <child>
                               <object class="PhoshDockedInfo" id="dockedinfo">
                                 <property name="visible">True</property>
-                                <property name="icon_size">1</property>
+                                <property name="icon-size">1</property>
                                 <property name="halign">start</property>
                               </object>
                             </child>
@@ -206,7 +212,7 @@
                             <child>
                               <object class="PhoshVpnInfo" id="vpninfo">
                                 <property name="visible">True</property>
-                                <property name="icon_size">1</property>
+                                <property name="icon-size">1</property>
                                 <property name="halign">start</property>
                               </object>
                             </child>
@@ -248,7 +254,7 @@
                 <child>
                   <object class="HdyClamp">
                     <property name="visible">True</property>
-                    <property name="maximum_size">360</property>
+                    <property name="maximum-size">360</property>
                     <child>
                       <object class="GtkBox" id="box_bottom_half">
                         <property name="visible" bind-source="PhoshSettings" bind-property="on-lockscreen" bind-flags="sync-create|invert-boolean"/>
@@ -258,7 +264,7 @@
                           <object class="PhoshMediaPlayer" id="media_player">
                             <property name="visible" bind-source="media_player" bind-property="playable" bind-flags="sync-create"/>
                             <property name="valign">center</property>
-                            <property name="can_focus">False</property>
+                            <property name="can-focus">False</property>
                             <signal name="player-raised" handler="on_media_player_raised" object="PhoshSettings" swapped="yes"/>
                           </object>
                         </child>
@@ -373,7 +379,9 @@
       <class name="phosh-settings-menu"/>
     </style>
   </template>
+
   <object class="GtkAdjustment" id="adj_torch">
     <property name="step-increment">1</property>
   </object>
+
 </interface>

@@ -15,8 +15,8 @@
 #include "shell.h"
 #include "settings.h"
 #include "quick-setting.h"
+#include "settings/audio-settings.h"
 #include "settings/brightness.h"
-#include "settings/gvc-channel-bar.h"
 #include "torch-info.h"
 #include "torch-manager.h"
 #include "vpn-manager.h"
@@ -26,9 +26,6 @@
 #include "rotateinfo.h"
 #include "util.h"
 
-#include <pulse/pulseaudio.h>
-#include "gvc-mixer-control.h"
-#include "gvc-mixer-stream.h"
 #include <gio/gdesktopappinfo.h>
 #include <xkbcommon/xkbcommon.h>
 
@@ -69,15 +66,8 @@ typedef struct _PhoshSettings
   GtkWidget *box_settings;
   GtkWidget *quick_settings;
   GtkWidget *scale_brightness;
-  GtkWidget *output_vol_bar;
   GtkWidget *media_player;
-
-  /* Output volume control */
-  GvcMixerControl *mixer_control;
-  GvcMixerStream *output_stream;
-  gboolean allow_volume_above_100_percent;
-  gboolean setting_volume;
-  gboolean is_headphone;
+  PhoshAudioSettings *audio_settings;
 
   /* The area with media widget, notifications */
   GtkWidget *box_bottom_half;
@@ -250,6 +240,19 @@ open_settings_panel (PhoshSettings *self, const char *panel)
 
 
 static void
+on_launch_panel_activated (GSimpleAction *action, GVariant *param, gpointer data)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (data);
+  const char *panel;
+
+  panel = g_variant_get_string (param, NULL);
+
+  open_settings_panel (self, panel);
+  phosh_audio_settings_hide_details (self->audio_settings);
+}
+
+
+static void
 rotation_setting_long_pressed_cb (PhoshSettings *self)
 {
   PhoshShell *shell = phosh_shell_get_default ();
@@ -407,24 +410,6 @@ docked_setting_long_pressed_cb (PhoshSettings *self)
 
 
 static void
-update_output_vol_bar (PhoshSettings *self)
-{
-  GtkAdjustment *adj;
-
-  self->setting_volume = TRUE;
-  gvc_channel_bar_set_base_volume (GVC_CHANNEL_BAR (self->output_vol_bar),
-                                   gvc_mixer_stream_get_base_volume (self->output_stream));
-  gvc_channel_bar_set_is_amplified (GVC_CHANNEL_BAR (self->output_vol_bar),
-                                    self->allow_volume_above_100_percent &&
-                                    gvc_mixer_stream_get_can_decibel (self->output_stream));
-  adj = GTK_ADJUSTMENT (gvc_channel_bar_get_adjustment (GVC_CHANNEL_BAR (self->output_vol_bar)));
-  g_debug ("Adjusting volume to %d", gvc_mixer_stream_get_volume (self->output_stream));
-  gtk_adjustment_set_value (adj, gvc_mixer_stream_get_volume (self->output_stream));
-  self->setting_volume = FALSE;
-}
-
-
-static void
 on_vpn_setting_clicked (PhoshSettings *self)
 {
   PhoshShell *shell = phosh_shell_get_default ();
@@ -448,155 +433,23 @@ on_vpn_setting_long_pressed (PhoshSettings *self)
 
 
 static void
-output_stream_notify_is_muted_cb (GvcMixerStream *stream, GParamSpec *pspec, gpointer data)
+on_is_headphone_changed (PhoshSettings      *self,
+                         GParamSpec         *pspec,
+                         PhoshAudioSettings *audio_settings)
 {
-  PhoshSettings *self = PHOSH_SETTINGS (data);
-  gboolean muted;
+  PhoshMediaPlayer *media_player;
 
-  muted = gvc_mixer_stream_get_is_muted (stream);
-  if (!self->setting_volume) {
-    gvc_channel_bar_set_is_muted (GVC_CHANNEL_BAR (self->output_vol_bar), muted);
-    if (!muted)
-      update_output_vol_bar (self);
-  }
-}
+  g_return_if_fail (PHOSH_IS_SETTINGS (self));
+  g_return_if_fail (PHOSH_IS_AUDIO_SETTINGS (audio_settings));
+  media_player = PHOSH_MEDIA_PLAYER (self->media_player);
 
-
-static void
-output_stream_notify_volume_cb (GvcMixerStream *stream, GParamSpec *pspec, gpointer data)
-{
-  PhoshSettings *self = PHOSH_SETTINGS (data);
-
-  if (!self->setting_volume)
-    update_output_vol_bar (self);
-}
-
-
-static void
-maybe_pause_stream (PhoshSettings *self)
-{
-  PhoshMediaPlayer *media_player = PHOSH_MEDIA_PLAYER (self->media_player);
-
-  if (self->is_headphone ||
+  if (phosh_audio_settings_get_output_is_headphone (self->audio_settings) ||
       !phosh_media_player_get_is_playable (media_player) ||
       phosh_media_player_get_status (media_player) != PHOSH_MEDIA_PLAYER_STATUS_PLAYING) {
     return;
   }
-}
 
-
-static gboolean
-stream_uses_headphones (GvcMixerStream *stream)
-{
-  const char *form_factor;
-  const GvcMixerStreamPort *port;
-
-  form_factor = gvc_mixer_stream_get_form_factor (stream);
-  if (g_strcmp0 (form_factor, "headset") == 0 ||
-      g_strcmp0 (form_factor, "headphone") == 0) {
-    return TRUE;
-  }
-
-  port = gvc_mixer_stream_get_port (stream);
-  if (g_strcmp0 (port->port, "[Out] Headphones") == 0 ||
-      g_strcmp0 (port->port, "analog-output-headphones") == 0) {
-    return TRUE;
-  }
-
-  return FALSE;
-}
-
-
-static void
-on_output_stream_port_changed (GvcMixerStream *stream, GParamSpec *pspec, gpointer data)
-{
-  PhoshSettings *self = PHOSH_SETTINGS (data);
-  const char *icon = NULL;
-  gboolean is_headphone = FALSE;
-  const GvcMixerStreamPort *port;
-
-  port = gvc_mixer_stream_get_port (stream);
-  g_debug ("Port changed: %s (%s)", port->human_port ?: port->port, port->port);
-
-  is_headphone = stream_uses_headphones (stream);
-  if (is_headphone) {
-    icon = "audio-headphones";
-  } else {
-    GvcMixerUIDevice *output;
-
-    output = gvc_mixer_control_lookup_device_from_stream (self->mixer_control, stream);
-    if (output)
-      icon = gvc_mixer_ui_device_get_icon_name (output);
-  }
-
-  if (STR_IS_NULL_OR_EMPTY (icon) || g_str_has_prefix (icon, "audio-card"))
-    icon = "audio-speakers";
-
-  gvc_channel_bar_set_icon_name (GVC_CHANNEL_BAR (self->output_vol_bar), icon);
-
-  if (is_headphone == self->is_headphone)
-    return;
-  self->is_headphone = is_headphone;
-
-  maybe_pause_stream (self);
-}
-
-
-static void
-mixer_control_output_update_cb (GvcMixerControl *mixer, guint id, gpointer data)
-{
-  PhoshSettings *self = PHOSH_SETTINGS (data);
-
-  g_debug ("Audio output updated: %d", id);
-
-  g_return_if_fail (PHOSH_IS_SETTINGS (self));
-
-  if (self->output_stream)
-    g_signal_handlers_disconnect_by_data (self->output_stream, self);
-
-  g_set_object (&self->output_stream, gvc_mixer_control_get_default_sink (self->mixer_control));
-  g_return_if_fail (self->output_stream);
-
-  g_signal_connect_object (self->output_stream,
-                           "notify::volume",
-                           G_CALLBACK (output_stream_notify_volume_cb),
-                           self, 0);
-
-  g_signal_connect_object (self->output_stream,
-                           "notify::is-muted",
-                           G_CALLBACK (output_stream_notify_is_muted_cb),
-                           self, 0);
-
-  g_signal_connect_object (self->output_stream,
-                           "notify::port",
-                           G_CALLBACK (on_output_stream_port_changed),
-                           self, 0);
-  on_output_stream_port_changed (self->output_stream, NULL, self);
-
-  update_output_vol_bar (self);
-}
-
-
-static void
-vol_bar_value_changed_cb (GvcChannelBar *bar, PhoshSettings *self)
-{
-  double volume, rounded;
-  g_autofree char *name = NULL;
-
-  if (!self->output_stream)
-    self->output_stream = g_object_ref (gvc_mixer_control_get_default_sink (self->mixer_control));
-
-  volume = gvc_channel_bar_get_volume (bar);
-  rounded = round (volume);
-
-  g_object_get (self->output_vol_bar, "name", &name, NULL);
-  g_debug ("Setting stream volume %lf (rounded: %lf) for bar '%s'", volume, rounded, name);
-
-  g_return_if_fail (self->output_stream);
-  if (gvc_mixer_stream_set_volume (self->output_stream, (pa_volume_t) rounded) != FALSE)
-    gvc_mixer_stream_push_volume (self->output_stream);
-
-  gvc_mixer_stream_change_is_muted (self->output_stream, (int) rounded == 0);
+  phosh_media_player_toggle_play_pause (media_player);
 }
 
 
@@ -743,38 +596,14 @@ setup_torch (PhoshSettings *self)
 
 
 static void
-setup_volume_bar (PhoshSettings *self)
-{
-  self->output_vol_bar = gvc_channel_bar_new ();
-  gtk_widget_set_sensitive (self->output_vol_bar, TRUE);
-  gtk_widget_show (self->output_vol_bar);
-
-  gtk_box_pack_start (GTK_BOX (self->box_sliders), self->output_vol_bar, FALSE, FALSE, 0);
-  gtk_box_reorder_child (GTK_BOX (self->box_sliders), self->output_vol_bar, 2);
-
-  self->mixer_control = gvc_mixer_control_new ("Phone Shell Volume Control");
-  g_return_if_fail (self->mixer_control);
-
-  gvc_mixer_control_open (self->mixer_control);
-  g_signal_connect (self->mixer_control,
-                    "active-output-update",
-                    G_CALLBACK (mixer_control_output_update_cb),
-                    self);
-  g_signal_connect (self->output_vol_bar,
-                    "value-changed",
-                    G_CALLBACK (vol_bar_value_changed_cb),
-                    self);
-}
-
-
-static void
 phosh_settings_constructed (GObject *object)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
   PhoshNotifyManager *manager;
 
+  G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
+
   setup_brightness_range (self);
-  setup_volume_bar (self);
   setup_torch (self);
 
   g_signal_connect (self->quick_settings,
@@ -801,8 +630,6 @@ phosh_settings_constructed (GObject *object)
                           self,
                           "on-lockscreen",
                           G_BINDING_SYNC_CREATE);
-
-  G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 }
 
 
@@ -812,8 +639,6 @@ phosh_settings_dispose (GObject *object)
   PhoshSettings *self = PHOSH_SETTINGS (object);
 
   brightness_dispose ();
-
-  g_clear_object (&self->output_stream);
 
   g_clear_object (&self->torch_manager);
 
@@ -826,12 +651,10 @@ phosh_settings_finalize (GObject *object)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
 
-  g_clear_object (&self->mixer_control);
   g_clear_handle_id (&self->debounce_handle, g_source_remove);
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->finalize (object);
 }
-
 
 
 static void
@@ -879,6 +702,9 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
       G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
       NULL, G_TYPE_NONE, 0);
 
+  g_type_ensure (PHOSH_TYPE_AUDIO_SETTINGS);
+
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, audio_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_bottom_half);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_sliders);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_settings);
@@ -905,19 +731,41 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, wifi_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, wwan_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, wwan_setting_long_pressed_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_is_headphone_changed);
   gtk_widget_class_bind_template_callback (widget_class, on_notifications_clear_all_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_torch_scale_value_changed);
   gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_clicked);
-
   gtk_widget_class_bind_template_callback (widget_class, update_drag_handle_offset);
 }
+
+
+static const GActionEntry entries[] = {
+  { .name = "launch-panel", .activate = on_launch_panel_activated, .parameter_type = "s" },
+};
 
 
 static void
 phosh_settings_init (PhoshSettings *self)
 {
+  g_autoptr (GActionMap) map = NULL;
+  GAction *action;
+
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  map = G_ACTION_MAP (g_simple_action_group_new ());
+  g_action_map_add_action_entries (map,
+                                   entries,
+                                   G_N_ELEMENTS (entries),
+                                   self);
+  gtk_widget_insert_action_group (GTK_WIDGET (self),
+                                  "settings",
+                                  G_ACTION_GROUP (map));
+
+  action = g_action_map_lookup_action (map, "launch-panel");
+  g_object_bind_property (self, "on-lockscreen",
+                          action, "enabled",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 
   g_signal_connect (self, "size-allocate", G_CALLBACK (on_size_allocate), NULL);
 }

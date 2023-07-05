@@ -128,6 +128,43 @@ phosh-gvc-channel-bar image {
   -gtk-icon-style: symbolic;
 }
 
+phosh-gvc-channel-bar scale {
+  padding-right: 4px;
+}
+
+/* Toggle buttions to open details in settings */
+button.phosh-settings-details,
+button.phosh-settings-details:focus {
+  background: none;
+}
+
+/* Listboxes in settings */
+.phosh-settings-list-box {
+  border-radius: 18px;
+  padding: 12px;
+  border: none;
+  background-color: @phosh_notification_bg_color;
+}
+
+.phosh-settings-list-box list {
+  background-color: transparent;
+}
+
+.phosh-settings-list-box separator {
+  background: @phosh_borders_color;
+}
+
+/*
+ * Audio devices listbox
+ */
+.phosh-gear-button {
+  border-radius: 99px;
+}
+
+phosh-audio-device-row image {
+  -gtk-icon-style: symbolic;
+}
+
 /*
  * System menu
  */

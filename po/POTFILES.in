@@ -51,6 +51,7 @@ src/screen-saver-manager.c
 src/sensor-proxy-manager.c
 src/session-presence.c
 src/settings.c
+src/settings/audio-settings.c
 src/shell.c
 src/status-icon.c
 src/system-prompt.c
@@ -62,6 +63,7 @@ src/ui/activity.ui
 src/ui/app-auth-prompt.ui
 src/ui/app-grid-button.ui
 src/ui/app-grid.ui
+src/ui/audio-settings.ui
 src/ui/emergency-menu.ui
 src/ui/emergency-contact-row.ui
 src/ui/end-session-dialog.ui

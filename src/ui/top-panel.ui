@@ -430,6 +430,7 @@
           <object class="PhoshSettings" id="settings">
             <property name="visible">True</property>
             <signal name="notify::drag-handle-offset" handler="on_settings_drag_handle_offset_changed" swapped="true"/>
+            <signal name="setting-done" handler="phosh_top_panel_fold" swapped="true"/>
           </object>
           <packing>
             <property name="position">1</property>
@@ -440,6 +441,7 @@
   </template>
   <object class="GtkGestureMultiPress" id="click_gesture">
     <property name="widget">PhoshTopPanel</property>
+    <property name="propagation-phase">target</property>
     <signal name="released" handler="released_cb" swapped="true"/>
   </object>
 </interface>

@@ -561,10 +561,6 @@ phosh_top_panel_constructed (GObject *object)
                     "key-press-event",
                     G_CALLBACK (on_key_press_event),
                     NULL);
-  g_signal_connect_swapped (self->settings,
-                            "setting-done",
-                            G_CALLBACK (phosh_top_panel_fold),
-                            self);
 
   self->actions = g_simple_action_group_new ();
   gtk_widget_insert_action_group (GTK_WIDGET (self), "panel",
@@ -725,6 +721,7 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, stack);
   gtk_widget_class_bind_template_callback (widget_class, on_settings_drag_handle_offset_changed);
+  gtk_widget_class_bind_template_callback (widget_class, phosh_top_panel_fold);
   gtk_widget_class_bind_template_callback (widget_class, released_cb);
 }
 
