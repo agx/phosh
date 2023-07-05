@@ -1,3 +1,43 @@
+phosh 0.29.0
+------------
+Released July 2023
+* Add audio device details and selection to settings
+* Use animation with automatic HighContrast to indicate what is
+  happening
+* Automatically avoid notches when device information is available
+* Add lockscreen notification about ongoing calls
+* Allow lockscreen notifications to take more vertical space
+* Allow to suspend from system menu
+  ([when enabled](https://gitlab.gnome.org/World/Phosh/phosh/-/wikis/Configuration))
+* Fade out system modal dialogs
+* Emergency info preferences plugin robustness
+* Robustness fixes around notifications and feedback
+* Make ASAN tests more useful again
+* Issues fixed:
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/591
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/593
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/890
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/922
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/951
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/955
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/957
+* Contributors:
+    * Guido Günther
+    * Sam Hewitt
+    * undef
+* UI translations:
+    * Anders Jonsson (sv)
+    * Danial Behzadi (fa)
+    * Daniel Șerbănescu (ro)
+    * Ekaterine Papava (ka)
+    * Jiri Grönroos (fi)
+    * Jordi Mas i Hernandez (ca)
+    * Martin (sl)
+    * Piotr Drąg (pl)
+    * Prasanta Hembram (sat)
+    * Yosef Or Boczko (he)
+    * Yuri Chornoivan (uk)
+
 phosh 0.28.0
 ------------
 Released May 2023
@@ -13,7 +53,7 @@ Released May 2023
 * Bump minimal supported GNOME versions to 42 and glib to 2.72
 * Issues fixed:
   https://gitlab.gnome.org/World/Phosh/phosh/-/issues/525
-  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/934  
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/934
   https://gitlab.gnome.org/World/Phosh/phosh/-/issues/563
 * Contributors:
     * Alistair Francis
