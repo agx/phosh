@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-06-20 08:29+0000\n"
-"PO-Revision-Date: 2023-06-25 09:58+0300\n"
+"POT-Creation-Date: 2023-07-05 08:48+0000\n"
+"PO-Revision-Date: 2023-07-05 21:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -82,6 +82,11 @@ msgstr "❙"
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
+
+#: src/call-notification.c:60
+#| msgid "Unknown Title"
+msgid "Unknown caller"
+msgstr "Невідомий абонент"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -181,11 +186,11 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "Звіряю…"
 
@@ -198,12 +203,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Знімок вікна скопійовано до буфера"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Невідома назва"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
@@ -378,6 +383,10 @@ msgstr "Натисніть клавішу «Esc», щоб закрити"
 msgid "Running '%s' failed"
 msgstr "Не вдалося запустити «%s»"
 
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Керування гучністю оболонки телефону"
+
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Паролі не збігаються."
@@ -419,6 +428,19 @@ msgstr "Пере_глянути подробиці"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Шукати серед програм…"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Пристрої відтворення"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Пристрої отримання"
+
+#: src/ui/audio-settings.ui:134
+#| msgid "Folder Settings"
+msgid "Sound Settings"
+msgstr "Параметри звуку"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -465,15 +487,15 @@ msgstr "Домен:"
 msgid "Co_nnect"
 msgstr "З'єд_натися"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "Назад"
 
-#: src/ui/lockscreen.ui:90
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "Протягніть угору, щоб розблокувати"
 
-#: src/ui/lockscreen.ui:273
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "Розблокувати"
 
@@ -514,11 +536,11 @@ msgstr "_Екстрений виклик"
 msgid "Run Command"
 msgstr "Виконати команду"
 
-#: src/ui/settings.ui:290
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "Немає сповіщень"
 
-#: src/ui/settings.ui:330
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "Очистити все"
 
