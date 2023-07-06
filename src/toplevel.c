@@ -359,6 +359,13 @@ phosh_toplevel_init (PhoshToplevel *self)
 }
 
 
+PhoshToplevel *
+phosh_toplevel_new_from_handle (struct zwlr_foreign_toplevel_handle_v1 *handle)
+{
+  return g_object_new (PHOSH_TYPE_TOPLEVEL, "handle", handle, NULL);
+}
+
+
 const char *
 phosh_toplevel_get_title (PhoshToplevel *self)
 {
@@ -428,11 +435,4 @@ phosh_toplevel_close (PhoshToplevel *self)
 {
   g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
   zwlr_foreign_toplevel_handle_v1_close (self->handle);
-}
-
-
-PhoshToplevel *
-phosh_toplevel_new_from_handle (struct zwlr_foreign_toplevel_handle_v1 *handle)
-{
-  return g_object_new (PHOSH_TYPE_TOPLEVEL, "handle", handle, NULL);
 }
