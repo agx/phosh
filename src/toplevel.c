@@ -189,10 +189,11 @@ phosh_toplevel_dispose (GObject *object)
 static void
 phosh_toplevel_finalize (GObject *object)
 {
-  PhoshToplevel *self = PHOSH_TOPLEVEL(object);
+  PhoshToplevel *self = PHOSH_TOPLEVEL (object);
 
   g_clear_pointer (&self->app_id, g_free);
   g_clear_pointer (&self->title, g_free);
+
   G_OBJECT_CLASS (phosh_toplevel_parent_class)->finalize (object);
 }
 
@@ -201,6 +202,7 @@ static void
 phosh_toplevel_constructed (GObject *object)
 {
   PhoshToplevel *self = PHOSH_TOPLEVEL (object);
+
   zwlr_foreign_toplevel_handle_v1_add_listener (self->handle, &zwlr_foreign_toplevel_handle_listener, self);
   zwlr_foreign_toplevel_handle_v1_set_user_data (self->handle, self);
 
@@ -209,10 +211,10 @@ phosh_toplevel_constructed (GObject *object)
 
 
 static void
-phosh_toplevel_set_property (GObject *object,
-                          guint property_id,
-                          const GValue *value,
-                          GParamSpec *pspec)
+phosh_toplevel_set_property (GObject      *object,
+                             guint         property_id,
+                             const GValue *value,
+                             GParamSpec   *pspec)
 {
   PhoshToplevel *self = PHOSH_TOPLEVEL (object);
 
@@ -228,10 +230,10 @@ phosh_toplevel_set_property (GObject *object,
 
 
 static void
-phosh_toplevel_get_property (GObject *object,
-                          guint property_id,
-                          GValue *value,
-                          GParamSpec *pspec)
+phosh_toplevel_get_property (GObject    *object,
+                             guint       property_id,
+                             GValue     *value,
+                             GParamSpec *pspec)
 {
   PhoshToplevel *self = PHOSH_TOPLEVEL (object);
 
@@ -358,14 +360,16 @@ phosh_toplevel_init (PhoshToplevel *self)
 
 
 const char *
-phosh_toplevel_get_title (PhoshToplevel *self) {
+phosh_toplevel_get_title (PhoshToplevel *self)
+{
   g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), NULL);
   return self->title;
 }
 
 
 const char *
-phosh_toplevel_get_app_id (PhoshToplevel *self) {
+phosh_toplevel_get_app_id (PhoshToplevel *self)
+{
   g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), NULL);
   return self->app_id;
 }
@@ -380,14 +384,16 @@ phosh_toplevel_get_handle (PhoshToplevel *self)
 
 
 gboolean
-phosh_toplevel_is_configured (PhoshToplevel *self) {
+phosh_toplevel_is_configured (PhoshToplevel *self)
+{
   g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), FALSE);
   return self->configured;
 }
 
 
 gboolean
-phosh_toplevel_is_activated (PhoshToplevel *self) {
+phosh_toplevel_is_activated (PhoshToplevel *self)
+{
   g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), FALSE);
   return self->activated;
 }
@@ -410,14 +416,16 @@ phosh_toplevel_is_fullscreen (PhoshToplevel *self)
 
 
 void
-phosh_toplevel_activate (PhoshToplevel *self, struct wl_seat *seat) {
+phosh_toplevel_activate (PhoshToplevel *self, struct wl_seat *seat)
+{
   g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
   zwlr_foreign_toplevel_handle_v1_activate (self->handle, seat);
 }
 
 
 void
-phosh_toplevel_close (PhoshToplevel *self) {
+phosh_toplevel_close (PhoshToplevel *self)
+{
   g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
   zwlr_foreign_toplevel_handle_v1_close (self->handle);
 }
