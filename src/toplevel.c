@@ -351,11 +351,6 @@ phosh_toplevel_class_init (PhoshToplevelClass *klass)
 static void
 phosh_toplevel_init (PhoshToplevel *self)
 {
-  self->title = NULL;
-  self->app_id = NULL;
-  self->handle = NULL;
-  self->configured = FALSE;
-  self->activated = FALSE;
 }
 
 
