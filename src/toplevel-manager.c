@@ -47,11 +47,10 @@ struct _PhoshToplevelManager {
 G_DEFINE_TYPE (PhoshToplevelManager, phosh_toplevel_manager, G_TYPE_OBJECT);
 
 static void
-static void
-phosh_toplevel_get_property (GObject *object,
-                          guint property_id,
-                          GValue *value,
-                          GParamSpec *pspec)
+phosh_toplevel_get_property (GObject    *object,
+                             guint       property_id,
+                             GValue     *value,
+                             GParamSpec *pspec)
 {
   PhoshToplevelManager *self = PHOSH_TOPLEVEL_MANAGER (object);
 
