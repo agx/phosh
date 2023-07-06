@@ -47,15 +47,6 @@ struct _PhoshToplevelManager {
 G_DEFINE_TYPE (PhoshToplevelManager, phosh_toplevel_manager, G_TYPE_OBJECT);
 
 static void
-phosh_toplevel_set_property (GObject *object,
-                          guint property_id,
-                          const GValue *value,
-                          GParamSpec *pspec)
-{
-  G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-
 static void
 phosh_toplevel_get_property (GObject *object,
                           guint property_id,
@@ -179,7 +170,6 @@ phosh_toplevel_manager_class_init (PhoshToplevelManagerClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
   object_class->dispose = phosh_toplevel_manager_dispose;
-  object_class->set_property = phosh_toplevel_set_property;
   object_class->get_property = phosh_toplevel_get_property;
 
   props[PROP_NUM_TOPLEVELS] =
