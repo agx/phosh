@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-18 11:35+0000\n"
-"PO-Revision-Date: 2023-05-19 17:56+0300\n"
+"POT-Creation-Date: 2023-07-05 08:48+0000\n"
+"PO-Revision-Date: 2023-07-06 07:55+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <yoseforb@gmail.com>\n"
 "Language: he\n"
@@ -79,6 +79,10 @@ msgstr "פעיל"
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "בלוטות'"
+
+#: src/call-notification.c:60
+msgid "Unknown caller"
+msgstr "שיחה לא מזוהה"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -181,11 +185,11 @@ msgstr "כן"
 msgid "No"
 msgstr "לא"
 
-#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "הזנת ססמה"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "בודק…"
 
@@ -198,12 +202,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "המסך צולם והועתק ללוח הגזירים"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "כותרת לא ידועה"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "אמן לא ידוע"
 
@@ -337,7 +341,7 @@ msgstr "כמעט %dy"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "המשתמש בחר להתעלם מתיבת דו־שיח האימות"
 
@@ -373,10 +377,14 @@ msgstr "פעיל"
 msgid "Press ESC to close"
 msgstr "יש להקיש Esc לסגירה"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "הרצת „%s” נכשלה"
+
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr ""
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
@@ -419,6 +427,18 @@ msgstr "הצגת _פרטים"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "חיפוש יישומים…"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "התקני פלט"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "התקני קלט"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "הגדרות שמע"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -465,15 +485,15 @@ msgstr "מתחם:"
 msgid "Co_nnect"
 msgstr "הת_חברות"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "חזרה"
 
-#: src/ui/lockscreen.ui:90
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "החלקה כלפי מעלה לביטול הנעילה"
 
-#: src/ui/lockscreen.ui:273
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "שחרור"
 
@@ -514,11 +534,11 @@ msgstr "מצב _חירום"
 msgid "Run Command"
 msgstr "הרצת פקודה"
 
-#: src/ui/settings.ui:320
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "אין התרעות"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "ניקוי הכול"
 
@@ -535,6 +555,10 @@ msgid "_Restart…"
 msgstr "ה_פעלה מחדש…"
 
 #: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_השהיה…"
+
+#: src/ui/top-panel.ui:116
 msgid "_Log Out…"
 msgstr "_יציאה…"
 
@@ -654,15 +678,15 @@ msgstr "הוספת איש קשר חדש"
 msgid "Add"
 msgstr "הוספה"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "הוספת שם איש קשר"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "קרבה"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "מספר"
 
