@@ -1,6 +1,4 @@
-phosh (0.29.0~alpha) experimental; urgency=medium
-
-  * UNRELEASED
+phosh (0.29.0) experimental; urgency=medium
 
   [ Guido Günther ]
   * tests: Create a dummy object for PhoshShell.
@@ -23,9 +21,213 @@ phosh (0.29.0~alpha) experimental; urgency=medium
   * notify-feedback: Blink leds when screen goes blank and there are notifications.
     If there are notifications present and the screen goes blank we should
     explicitly trigger event feedback for these.
-
-  [ Sam Hewitt ]
-  * data: Add icon for suspend
+  * ambient: Avoid initial theme switch
+  * animation: Add enum type for the animation types.
+    This allows us to use them as properties.
+  * layer-surface: Move alpha handling here.
+    To avoid having to pass around even more properties we use
+    phosh_shell_get_default () which makes this a bit harder to use in other
+    programs like phosh-osk-stub or squeekboard.
+    This will allow us to use alpha blending in other parts without much
+    code.
+  * fader: Make fade-out configurable.
+    Add properties to configure fade-out length and type
+    Helps: #940
+  * ambient: Use a fader to smooth the theme change.
+  * timestamp-label: Don't leak datetime
+  * phosh-background: Simplify. Just chain up without a parent_class variable
+  * tests: Don't leak monitor.
+    The tests that run against phoc leaked the created monitor object.
+  * tests/stubs: Only create toplevel-manager once.
+    This helps test-overview
+  * leak-suppress: Drop old leak suppression.
+    I fixed that in GTK via b1b9de6836a19cb6336b6a20ad652afc14f1e2b2 in
+    2019.
+  * leak-suppress: Add new GTK, GDK and gvfs leaks.
+  * tests/end-session-dialog: Make both tests more alike.
+    Drop superfluous g_object_ref_sink and use gtk_widget_destroy
+    to fix resource leaks.
+  * tests/notification: Fix leak
+  * tests/favourite-model: Fix leak
+    g_list_model_get_item returns a ref
+  * tests/app-grid-button: Fix leaks
+  * tests/stubs: Make shell variable static. Tests use phosh_shell_get_default()
+  * ci: Use specific asan image.
+    This allows us to have debugging symbols in there so the leak
+    suppressions match but without making the base image larger.
+  * settings: Simplify brightness slider ui bits.
+  * settings: Simplify torch slider ui bits
+  * settings: Drop packing from settings box.
+  * lockscreen: Use G_SOURCE_REMOVE
+  * lockscreen: Queue redraw for clock when deck moves back to carousel.
+    Otherwise the clock might show an outdated time after phone calls or
+    when swiping back from the plugins page.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/922
+  * system-modal-dialog: Allow to fade out.
+    This is similar to what we do with splash screens but we use
+    an ease out animation to give a rapid response to the user
+    interaction.
+  * system-prompt: Use phosh_system_modal_dialog_close()
+    This will use a fadeout animation if available
+  * phosh-end-session-dialog: Use phosh_system_modal_dialog_close()
+    This will use a fadeout animation if available
+  * polkit-auth-agent: Use phosh_system_modal_dialog_close()
+    This will use a fadeout animation if available
+  * network-auth-manager: Use phosh_system_modal_dialog_close()
+    This will use a fadeout animation if available
+  * run-command-manager: Use phosh_system_modal_dialog_close()
+    This will use a fadeout animation if available
+  * emergency-calls-manager: Use phosh_system_modal_dialog_close()
+    This will use a fadeout animation if available
+  * gtk-mount-manager: Use phosh_system_modal_dialog_close()
+    This will use a fadeout animation if available
+  * app-auth-prompt: Use phosh_system_modal_dialog_close()
+    This will use a fadeout animation if available
+  * tests: Drop unused variables
+  * ci: Switch to package test to trixie.
+    Bookworm is released and we want to build against latest libraries.
+  * tests/gtk-mount-manager: Disable animations.
+    Otherwise it might still be running when we end the main loop.
+  * Update gvc submodule first time since 2018.
+    Avoid passing NULL to gvc_mixer_control_get_vol_* as this raises a
+    critical in newer versions. Use PAs definitions directly instead.
+  * channel-bar: Simplify and modernize
+  * channel-bar: Use symbolic icons via CSS.
+    This will allow us to use non symbolic icon names from gvc directly.
+  * channel-bar: Load icons with default fallbacks.
+    This makes sure we get a valid icon for things like
+    `audio-headset-analog-usb`
+  * channel-bar: Use a ui file
+  * settings: Fix enum type. We're setting the RotationManagerMode here.
+  * settings: Separate concerns. Move headphone detection and stream pausing
+    into separate functions
+  * settings: Get audio output icon from stream.
+    This makes us use different icons for e.g. HDMI and USB headsets making
+    it easier to figure out which output is being changed.
+  * emergency-info-prefs: Fix indent.
+    Use 2 space indent consistently, avoid space after `->`
+  * emergency-info-prefs: Avoid gint. See CodingStyle
+  * emergency-info-prefs: Use (const char * const *) consistently
+  * emergency-info-prefs: Avoid saving empty values for string arrays.
+    If allergies or medical conditions are empty there's no need to
+    save the values.
+  * emergency-info-prefs: Build keyfile path only once.
+    We use a single keyfile so build it's path only once at object creation
+    time.
+  * emergency-info-prefs: Don't return early if there's no keyfile.
+    We can just create it instead of exiting early which made things appear
+    as if "add" wouldn't do anything.
+    Thanks to Jonathan for the report (Closes: #955)
+  * emergency-info-prefs: Move keyfile saving to a single function
+  * emergency-info-prefs: Create directories when missing
+  * emergency-info-prefs: Set empty string when value is missing.
+    When the value is missing in the keyfile set the empty string to
+    avoid warnings when loading the keyfile.
+  * emergency-info-prefs: Only make "Add" sensitive with contact.
+    We only make the "Add" sensitive when there is a contact
+  * emergency-info-prefs: Allow for contacts without a number.
+    The user can add them later so instead of silently ignoring this contact
+    add it without a number.
+  * emergency-info-prefs: Be more verbose when saving fails
+  * Update gbmobile submodule.
+    Adds cutuout information for the xiami,beryllium
+  * shell: Remember the settings object. We'll use it in more places in the
+    future
+  * shell: Move define past includes according to coding style
+  * shell: Don't make debug flags dependent on shell objects.
+    This allows us to use it from other parts without
+    phosh_shell_get_default().
+  * monitor: Allow to fake builtin display.
+    Allow the virtual displays to be treated as built-in displays via to
+    `PHOSH_DEBUG=fake-builtin`. This can be useful e.g. to debug top-panel
+    layouts.
+  * monitor: Make preferred mode check simple.  Make it simple to check if the
+    current mode of a monitor is the preferred mode.
+  * tests/data: Add an overlay matching the nested wayland mode.
+  * top-panel: Use height internally.  No need to have it passed in at
+    construction time as we don't handle different sizes anyway.
+  * Add layout manager.  The layout manager is responsible for providing
+    layout information to e.g. avoid notches and rounded corners.
+    We currently imply a notch in the upper screen area that mostly affects
+    normal orientation hence ignoring it in landscape.
+  * top-panel: Use layout manager to place clocks.
+    We place the center clock to the left or right when needed and shift
+    down the clock in the settings menu.
+  * tests: Screenshot with notch
+  * calls-manager: Avoid deprecated calls state.
+    Those were dropped from calls a while ago. This made it impossible for
+    the user to get back to an incoming (but not yet accepted) call on the
+    lock screen.
+  * packaging: Bump calls dependency.
+    We want to use a calls version that matches our enum values.
+  * media-player: Connect player right away.
+    No need to wait for the idle callback. While at that use
+    current naming.
+  * media-player: Modernize property definitions
+  * lockscreen: Drop gtk_widget_realize() in constructed.  This just confuses
+    sizes calculations
+  * lockscreen: Modernize UI file a bit
+  * lockscreen: Split call settings and page changes.  Follow up commits want
+    to set the call but not switch to the call ui page.
+  * lockscreen: Remove superfluous titlebar element
+  * lockscreen: Move style class toggling to separate function
+  * lockscreen: Always toggle notification revealer.
+    Instead of toggling visibility on the list and the scrolled window just
+    use the revealer. This is less code and makes sure things are consistent
+    between no notifications and disabled lockscreen notifications.
+  * lockscreen: Use a revealer for the media-player.
+    This makes it consistent with the notifications
+  * lockscreen: Use small clock when media-player widget is visible too.
+    So far we only used the small clock when notifications where visible
+    but from the UI point of view there's no difference between those
+    so use the same layout.
+    This also makes it simpler to add more info elements.
+  * lockscreen: Move media player and notifications into one scrolled window.
+    This avoids half cut notifiations at the top, etc.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/593
+  * lockscreen: Drop max content height.
+    Let's have the scrolled window use as much space as possible to fit the
+    notifations.
+  * media-player: Modernize UI file a bit
+  * call: Don't lookup icon for empty string.
+  * notifications: Reduce bottom padding of notification tray.  48px wastes
+    lots of space.
+  * lockscreen: Move deck variable.  It's not part of the call page
+  * lockscreen: Use set_visible_child.  This way we don't have to check if
+    we're on the right page and can't overshoot.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/890
+  * lockscreen: Drop p-large style class for clock.
+    We toggle p-small on and off so we don't need another one for
+    the default.
+  * calls-manager: Expose calls as list model.  This makes it simple to have
+    them in list boxes. For now we just proxy everything from an embedded
+    GListStore.
+  * lockscreen: Add call notifications.
+    This makes it simple to go back to an ongoing call and will allow
+    us to handle multiple calls easily.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/591
+  * gvc-channel-bar: Guard against NULL icon.
+    Fallback to speaker if we don't have more information.
+  * settings: Don't crash on NULL port.
+    Can happen with new gvc when switching VTs
+    Fixes: bf9d98a519fc0c4a9e3d0dffc6a4066508577b39
+  * settings: Don't forget to mute stream.
+    Fixes e826ea4abca36042fbd77abe4e97dcab57b7a789
+  * settings: Set channel-bar via UI file
+  * settings: Init parent class early in constructed
+  * settings: Use '-' for property names.  Just for consistency
+  * settings: Bind settings-done via ui file.
+    Be consistent with notify::drag-handle-offset
+  * channel-bar: Use G_PARAM_STATIC_STRINGS
+  * channel-bar: Switch all props to G_PARAM_EXPLICIT_NOTIFY
+  * top-panel: Move click gesture to target phase.
+    This makes sure the panel is only closed when we click
+    outside the widget area, not when e.g. switching sound
+    devices.
+  * settings: Allow to select audio devices.  This can be useful to switch
+    between headsets and speaker without having to open g-c-c.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/951
+  * audio-settings: Close details when we launch the g-c-c panel
 
   [ undef ]
   * top-panel: Allow device suspend from power menu.
@@ -33,8 +235,42 @@ phosh (0.29.0~alpha) experimental; urgency=medium
     logout. This allows far quicker access than waiting for the automatic
     timeout or typing the command.
 
+  [ Sam Hewitt ]
+  * settings: Style audio device selection
+  * data: Add icon for suspend
+
   [ Daniel Șerbănescu ]
   * Update Romanian translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+  [ Prasanta Hembram ]
+  * Update Santali translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+  [ Piotr Drąg ]
+  * Update Polish translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
 
  -- Guido Günther <agx@sigxcpu.org>  Wed, 07 Jun 2023 20:25:17 +0200
 
