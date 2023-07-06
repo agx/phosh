@@ -642,7 +642,6 @@ phosh_app_tracker_launch_app_info (PhoshAppTracker *self, GAppInfo *info)
   g_autoptr (GError) error = NULL;
   PhoshToplevelManager *toplevel_manager = phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
   g_autofree char *app_id = NULL;
-  g_autofree char *startup_id = NULL;
   gboolean success;
 
   app_id = phosh_strip_suffix_from_app_id (g_app_info_get_id (G_APP_INFO (info)));
