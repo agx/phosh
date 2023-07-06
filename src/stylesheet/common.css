@@ -308,21 +308,16 @@ phosh-lockscreen,
 /* Clock */
 #phosh-lockscreen-clock {
   font-weight: 300;
+  font-size: 84px;
   font-feature-settings: "tnum";
   margin: 12px 0;
-}
-
-#phosh-lockscreen-date {
-  margin: 6px 0;
-  font-weight: 400;
-}
-
-#phosh-lockscreen-clock {
-  font-size: 84px;
   transition: 200ms ease;
 }
+
 #phosh-lockscreen-date {
+  font-weight: 400;
   font-size: 18px;
+  margin: 6px 0;
   transition: 200ms ease;
 }
 
