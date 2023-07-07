@@ -17,6 +17,9 @@
 #include "phosh-marshalers.h"
 #include "util.h"
 
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnome-desktop/gnome-systemd.h>
+
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 #include <gio/gdesktopappinfo.h>
@@ -304,12 +307,30 @@ on_app_launch_started (PhoshAppTracker   *self,
 
 
 static void
+on_start_systemd_scope_done (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  gboolean success;
+  g_autoptr (GError) err = NULL;
+  g_autofree char * app_id = user_data;
+
+  success = gnome_start_systemd_scope_finish (res, &err);
+  if (!success) {
+    g_warning ("Failed move '%s' to transient systemd unit: %s", app_id, err->message);
+    return;
+  }
+
+  g_warning ("Moved '%s' to transient systemd unit", app_id);
+}
+
+
+static void
 on_app_launched (PhoshAppTracker   *self,
                  GDesktopAppInfo   *info,
                  GVariant          *platform_data,
                  GAppLaunchContext *context)
 {
   g_autofree gchar *startup_id = NULL;
+  const char *app_id;
   PhoshAppState *state;
   gint32 pid;
 
@@ -318,6 +339,7 @@ on_app_launched (PhoshAppTracker   *self,
   /* Launched via spawn */
   g_variant_lookup (platform_data, "startup-notification-id", "s", &startup_id);
   g_variant_lookup (platform_data, "pid", "i", &pid);
+  app_id = g_app_info_get_id (G_APP_INFO (info));
 
   /* Application doesn't handle startup notifications */
   if (!g_desktop_app_info_get_boolean (info, "StartupNotify"))
@@ -325,7 +347,7 @@ on_app_launched (PhoshAppTracker   *self,
 
   /* No startup_id for e.g. Qt apps */
   if (!startup_id) {
-    g_debug ("No startup_id for %s", g_app_info_get_id (G_APP_INFO (info)));
+    g_debug ("No startup_id for %s", app_id);
     goto out;
   }
 
@@ -342,6 +364,16 @@ on_app_launched (PhoshAppTracker   *self,
                  info,
                  state->startup_id);
  out:
+  if (pid && app_id) {
+    gnome_start_systemd_scope (app_id,
+                               pid,
+                               "Application launched by phosh",
+                               self->session_bus,
+                               self->cancel,
+                               on_start_systemd_scope_done,
+                               g_strdup (app_id));
+  }
+
   g_object_unref (context);
 }
 
