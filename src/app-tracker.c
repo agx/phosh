@@ -90,6 +90,7 @@ struct _PhoshAppTracker {
   guint            idle_id;
   struct phosh_private_startup_tracker *wl_tracker; /* PhoshPrivate wayland interface */
   GHashTable      *apps;
+  GCancellable    *cancel;
 };
 G_DEFINE_TYPE (PhoshAppTracker, phosh_app_tracker, G_TYPE_OBJECT)
 
@@ -477,7 +478,7 @@ static gboolean
 on_idle (PhoshAppTracker *self)
 {
   g_bus_get (G_BUS_TYPE_SESSION,
-             NULL,
+             self->cancel,
              (GAsyncReadyCallback)on_bus_get_finished,
              self);
 
@@ -490,6 +491,9 @@ static void
 phosh_app_tracker_finalize (GObject *object)
 {
   PhoshAppTracker *self = PHOSH_APP_TRACKER (object);
+
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
 
   g_clear_pointer (&self->apps, g_hash_table_destroy);
   g_clear_pointer (&self->wl_tracker, phosh_private_startup_tracker_destroy);
@@ -621,6 +625,7 @@ phosh_app_tracker_init (PhoshAppTracker *self)
   struct phosh_private *phosh_private = phosh_wayland_get_phosh_private (wl);
   uint32_t version;
 
+  self->cancel = g_cancellable_new ();
   self->apps = g_hash_table_new_full (g_str_hash,
                                       g_str_equal,
                                       g_free,
