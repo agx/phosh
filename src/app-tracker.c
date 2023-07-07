@@ -314,13 +314,13 @@ on_app_launched (PhoshAppTracker   *self,
 
   g_return_if_fail (G_IS_DESKTOP_APP_INFO (info));
 
-  /* Application doesn't handle startup notifications */
-  if (!g_desktop_app_info_get_boolean (info, "StartupNotify"))
-    goto out;
-
   /* Launched via spawn */
   g_variant_lookup (platform_data, "startup-notification-id", "s", &startup_id);
   g_variant_lookup (platform_data, "pid", "i", &pid);
+
+  /* Application doesn't handle startup notifications */
+  if (!g_desktop_app_info_get_boolean (info, "StartupNotify"))
+    goto out;
 
   /* No startup_id for e.g. Qt apps */
   if (!startup_id) {
