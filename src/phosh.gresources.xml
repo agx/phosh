@@ -44,6 +44,7 @@
   <gresource prefix="/sm/puri/phosh/icons/scalable/status/">
     <file alias="app-close-symbolic.svg">../data/icons/app-close-symbolic.svg</file>
     <file alias="asterisk-symbolic.svg">../data/icons/asterisk-symbolic.svg</file>
+    <file alias="audio-handsfree-symbolic.svg">../data/icons/audio-handsfree-symbolic.svg</file>
     <file alias="auth-sim-locked-symbolic.svg">../data/icons/auth-sim-locked-symbolic.svg</file>
     <file alias="auth-sim-missing-symbolic.svg">../data/icons/auth-sim-missing-symbolic.svg</file>
     <file alias="camera-hardware-disabled-symbolic.svg">../data/icons/camera-hardware-disabled-symbolic.svg</file>
