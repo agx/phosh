@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-06-20 08:29+0000\n"
-"PO-Revision-Date: 2023-06-20 15:23+0200\n"
+"POT-Creation-Date: 2023-07-06 20:48+0000\n"
+"PO-Revision-Date: 2023-07-08 19:26+0200\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -83,6 +83,11 @@ msgstr "Pornit"
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
+
+#: src/call-notification.c:60
+#| msgid "Unknown Title"
+msgid "Unknown caller"
+msgstr "Apelant necunoscut"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -182,11 +187,11 @@ msgstr "Da"
 msgid "No"
 msgstr "Nu"
 
-#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Introdu codul de acces"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "Se verifică…"
 
@@ -199,12 +204,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Captură de ecran copiată în memorie"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Titlu necunoscut"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Artist necunoscut"
 
@@ -379,6 +384,10 @@ msgstr "Apasă ESC pentru a închide"
 msgid "Running '%s' failed"
 msgstr "Executarea „%s” a eșuat"
 
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Controlul volumului"
+
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Parolele nu se potrivesc."
@@ -420,6 +429,19 @@ msgstr "Arată _detalii"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Caută aplicații…"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Dispozitive de ieșire"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Dispozitive de intrare"
+
+#: src/ui/audio-settings.ui:134
+#| msgid "Folder Settings"
+msgid "Sound Settings"
+msgstr "Opțiuni pentru sunet"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -466,15 +488,15 @@ msgstr "Domeniu:"
 msgid "Co_nnect"
 msgstr "Co_nectează"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "Înapoi"
 
-#: src/ui/lockscreen.ui:90
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "Trage în sus pentru a debloca"
 
-#: src/ui/lockscreen.ui:273
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "Deblochează"
 
@@ -505,7 +527,7 @@ msgstr "B_lochează"
 
 #: src/ui/power-menu.ui:151
 msgid "_Screenshot"
-msgstr "_Captură de ecran"
+msgstr "_Captură"
 
 #: src/ui/power-menu.ui:192
 msgid "_Emergency"
@@ -515,11 +537,11 @@ msgstr "_Urgență"
 msgid "Run Command"
 msgstr "Execută comanda"
 
-#: src/ui/settings.ui:290
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "Nicio notificare"
 
-#: src/ui/settings.ui:330
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "Șterge tot"
 
