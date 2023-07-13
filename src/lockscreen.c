@@ -197,7 +197,7 @@ keypad_check_idle (PhoshLockscreen *self)
   gint64 now = g_get_monotonic_time ();
 
   g_assert (PHOSH_IS_LOCKSCREEN (self));
-  if (now - priv->last_input > LOCKSCREEN_IDLE_SECONDS * 1000 * 1000) {
+  if (priv->auth == NULL && now - priv->last_input > LOCKSCREEN_IDLE_SECONDS * 1000 * 1000) {
     show_info_page (self);
     priv->idle_timer = 0;
     return G_SOURCE_REMOVE;
