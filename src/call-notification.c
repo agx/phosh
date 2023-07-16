@@ -48,34 +48,38 @@ struct _PhoshCallNotification {
 G_DEFINE_TYPE (PhoshCallNotification, phosh_call_notification, GTK_TYPE_LIST_BOX_ROW)
 
 
-static gboolean
-transform_display_name (GBinding     *binding,
-                        const GValue *from_value,
-                        GValue       *to_value,
-                        gpointer      user_data)
+static void
+on_caller_info_changed (PhoshCallNotification *self, GParamSpec *pspec, PhoshCall *call)
 {
-  const char *display_name = g_value_get_string (from_value);
+  const char *caller, *caller_detail;
+  const char *display_name = cui_call_get_display_name (CUI_CALL (call));
+  const char *id = cui_call_get_id (CUI_CALL (call));
 
-  if (STR_IS_NULL_OR_EMPTY (display_name))
-    g_value_set_static_string (to_value, _("Unknown caller"));
-  else
-    g_value_set_string (to_value, display_name);
+  g_warning ("%s %s", display_name, id);
+  if (STR_IS_NULL_OR_EMPTY (display_name)) {
+    caller_detail = NULL;
+    caller = STR_IS_NULL_OR_EMPTY (id) ? _("Unknown caller") : id;
+  } else {
+    caller = display_name;
+    caller_detail = id;
+  }
 
-  return TRUE;
+  gtk_label_set_label (self->caller, caller);
+  gtk_label_set_label (self->caller_detail, caller_detail);
 }
 
 
 static gboolean
-transform_display_name_detail (GBinding     *binding,
-                               const GValue *from_value,
-                               GValue       *to_value,
-                               gpointer      user_data)
+transform_label_to_visible (GBinding     *binding,
+                            const GValue *from_value,
+                            GValue       *to_value,
+                            gpointer      user_data)
 {
-  const char *display_name = g_value_get_string (from_value);
+  const char *label = g_value_get_string (from_value);
   gboolean visible = TRUE;
 
   /* Hide details for unknown callers so the display name is centered */
-  if (STR_IS_NULL_OR_EMPTY (display_name))
+  if (STR_IS_NULL_OR_EMPTY (label))
     visible = FALSE;
 
   g_value_set_boolean (to_value, visible);
@@ -154,20 +158,12 @@ phosh_call_notification_set_call (PhoshCallNotification *self, PhoshCall *call)
   g_return_if_fail (self->call == NULL);
 
   g_set_object (&self->call, call);
-  g_object_bind_property_full (call, "display-name",
-                               self->caller, "label",
-                               G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE,
-                               transform_display_name,
-                               NULL,
-                               NULL,
-                               NULL);
-  g_object_bind_property_full (call, "display-name",
-                               self->caller_detail, "visible",
-                               G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE,
-                               transform_display_name_detail,
-                               NULL,
-                               NULL,
-                               NULL);
+  g_object_connect (call,
+                    "swapped-object-signal::notify::display-name", on_caller_info_changed, self,
+                    "swapped-object-signal::notify::id", on_caller_info_changed, self,
+                    NULL);
+  on_caller_info_changed (self, NULL, call);
+
   g_object_bind_property (call, "display-name",
                           self->avatar, "text",
                           G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
@@ -178,9 +174,6 @@ phosh_call_notification_set_call (PhoshCallNotification *self, PhoshCall *call)
                                NULL,
                                NULL,
                                NULL);
-  g_object_bind_property (call, "id",
-                          self->caller_detail, "label",
-                          G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
   g_object_bind_property (call, "avatar-icon",
                           self->avatar, "loadable-icon",
                           G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
@@ -195,6 +188,15 @@ phosh_call_notification_set_call (PhoshCallNotification *self, PhoshCall *call)
                                self->call_state, "label",
                                G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE,
                                transform_call_state,
+                               NULL,
+                               NULL,
+                               NULL);
+
+  /* Only show detail label when non-empty */
+  g_object_bind_property_full (self->caller_detail, "label",
+                               self->caller_detail, "visible",
+                               G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE,
+                               transform_label_to_visible,
                                NULL,
                                NULL,
                                NULL);
