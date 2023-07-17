@@ -289,7 +289,6 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
 
   if (authenticated) {
     g_signal_emit (self, signals[LOCKSCREEN_UNLOCK], 0);
-    g_clear_object (&priv->auth);
   } else {
     GdkFrameClock *clock;
     gint64 now;
@@ -302,6 +301,7 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
                                   (GDestroyNotify) g_variant_unref);
     phosh_keypad_distribute (PHOSH_KEYPAD (priv->keypad));
   }
+  g_clear_object (&priv->auth);
   priv->last_input = g_get_monotonic_time ();
   g_object_unref (self);
 }
