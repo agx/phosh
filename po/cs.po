@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-26 10:20+0000\n"
-"PO-Revision-Date: 2023-04-27 13:02+0200\n"
+"POT-Creation-Date: 2023-07-04 14:00+0000\n"
+"PO-Revision-Date: 2023-07-04 16:06+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -81,6 +81,10 @@ msgstr "Zapnout"
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
+
+#: src/call-notification.c:60
+msgid "Unknown caller"
+msgstr "Neznámý volající"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -180,11 +184,11 @@ msgstr "Ano"
 msgid "No"
 msgstr "Ne"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Zadejte heslo"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "Kontroluje se…"
 
@@ -197,12 +201,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Snímek obrazovky byl zkopírován do schránky"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Neznámý název"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Neznámý umělec"
 
@@ -336,7 +340,7 @@ msgstr "Téměř %dy"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Dialog ověření byl uživatelem zrušen"
 
@@ -372,7 +376,7 @@ msgstr "Zapnout"
 msgid "Press ESC to close"
 msgstr "Stisknutím Escape zavřete"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Spuštění „%s“ selhalo"
@@ -464,19 +468,15 @@ msgstr "Doména:"
 msgid "Co_nnect"
 msgstr "_Připojit"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "Zpět"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "Táhnutím nahoru odemknete"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "Tísňové volání"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "Odemknout"
 
@@ -485,7 +485,7 @@ msgid "Authentication required"
 msgstr "Požadováno ověření"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_Zrušit"
 
@@ -497,19 +497,19 @@ msgstr "_Připojit"
 msgid "Authenticate"
 msgstr "Ověřit"
 
-#: src/ui/power-menu.ui:37
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
 msgstr "Vy_pnout"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr "_Uzamknout"
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr "_Snímek obrazovky"
 
-#: src/ui/power-menu.ui:160
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
 msgstr "Stav _nouze"
 
@@ -517,17 +517,33 @@ msgstr "Stav _nouze"
 msgid "Run Command"
 msgstr "Spustit příkaz"
 
-#: src/ui/settings.ui:320
+#: src/ui/settings.ui:290
 msgid "No notifications"
 msgstr "Žádná upozornění"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:330
 msgid "Clear all"
 msgstr "Vymazat vše"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Potvrdit:"
+
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "Vy_pnout…"
+
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "_Restartovat…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "U_spat…"
+
+#: src/ui/top-panel.ui:116
+msgid "_Log Out…"
+msgstr "Odh_lásit se…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -645,15 +661,15 @@ msgstr "Přidat nový kontakt"
 msgid "Add"
 msgstr "Přidat"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "Jméno nového kontaktu"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "Vztah"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Číslo"
 
@@ -669,7 +685,7 @@ msgstr "Lístky"
 msgid "Choose Folder"
 msgstr "Vyberte složku"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "_Otevřít"
 
@@ -737,6 +753,9 @@ msgstr "Končí"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Bezejmenná událost"
+
+#~ msgid "Emergency"
+#~ msgstr "Tísňové volání"
 
 #~ msgid "Lock Screen"
 #~ msgstr "Zamknout obrazovku"
