@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-04 14:00+0000\n"
-"PO-Revision-Date: 2023-07-04 16:06+0200\n"
+"POT-Creation-Date: 2023-07-21 14:45+0000\n"
+"PO-Revision-Date: 2023-07-22 01:08+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -82,7 +82,7 @@ msgstr "Zapnout"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/call-notification.c:60
+#: src/call-notification.c:61
 msgid "Unknown caller"
 msgstr "Neznámý volající"
 
@@ -381,6 +381,10 @@ msgstr "Stisknutím Escape zavřete"
 msgid "Running '%s' failed"
 msgstr "Spuštění „%s“ selhalo"
 
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Ovládání hlasitosti shellu telefonu"
+
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Hesla nesouhlasí."
@@ -422,6 +426,18 @@ msgstr "Zobrazit po_drobnosti"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Hledat aplikace…"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Výstupní zařízení"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Vstupní zařízení"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "Nastavení zvuku"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -517,11 +533,11 @@ msgstr "Stav _nouze"
 msgid "Run Command"
 msgstr "Spustit příkaz"
 
-#: src/ui/settings.ui:290
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "Žádná upozornění"
 
-#: src/ui/settings.ui:330
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "Vymazat vše"
 
