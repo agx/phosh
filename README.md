@@ -33,8 +33,8 @@ We use the meson (and thereby Ninja) build system for phosh.  The quickest
 way to get going is to do the following:
 
 ```sh
-meson . _build
-ninja -C _build
+meson setup _build
+meson compile -C _build
 ```
 
 # Testing
