@@ -11,6 +11,7 @@ phosh is licensed under the GPL-3.0-or-later licence.
 ```sh
 git clone https://gitlab.gnome.org/World/Phosh/phosh
 cd phosh
+git submodule update --init --recursive
 ```
 
 The [main][] branch has the current development version.
@@ -32,8 +33,8 @@ We use the meson (and thereby Ninja) build system for phosh.  The quickest
 way to get going is to do the following:
 
 ```sh
-meson . _build
-ninja -C _build
+meson setup _build
+meson compile -C _build
 ```
 
 # Testing
