@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-04 14:00+0000\n"
-"PO-Revision-Date: 2023-07-05 07:03+0200\n"
+"POT-Creation-Date: 2023-07-05 08:48+0000\n"
+"PO-Revision-Date: 2023-07-28 17:59+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -386,6 +386,10 @@ msgstr "Pritisnite ESC, da zaprete"
 msgid "Running '%s' failed"
 msgstr "Zagon »%s« ni uspel"
 
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Gum za glasnost lupine telefona"
+
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Gesli se ne ujemata."
@@ -427,6 +431,18 @@ msgstr "Pokaži po_drobnosti"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Poišči program …"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Izhodne naprave"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Vhodne naprave"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "Nastavitve zvoka"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -522,11 +538,11 @@ msgstr "_Klic v sili"
 msgid "Run Command"
 msgstr "Zaženi ukaz"
 
-#: src/ui/settings.ui:290
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "Ni obvestil"
 
-#: src/ui/settings.ui:330
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "Počisti vse"
 
@@ -671,9 +687,8 @@ msgid "New Contact Name"
 msgstr "Ime novega stika"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
-#, fuzzy
 msgid "Relationship"
-msgstr "Relacija/Razmerje"
+msgstr "Relacija"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
