@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-18 11:35+0000\n"
-"PO-Revision-Date: 2023-05-21 16:53+0200\n"
+"POT-Creation-Date: 2023-07-16 08:53+0000\n"
+"PO-Revision-Date: 2023-07-23 11:06+0200\n"
 "Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -99,6 +99,10 @@ msgstr "An"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
+#: src/call-notification.c:61
+msgid "Unknown caller"
+msgstr "Unbekannter Anrufer"
+
 #: src/docked-info.c:81
 msgid "Docked"
 msgstr "Angedockt"
@@ -114,11 +118,11 @@ msgstr "OK"
 
 #: src/emergency-menu.c:100
 msgid "Unable to place emergency call"
-msgstr ""
+msgstr "Absetzen eines Notrufs nicht möglich"
 
 #: src/emergency-menu.c:105
 msgid "Internal error"
-msgstr ""
+msgstr "Interner Fehler"
 
 #: src/end-session-dialog.c:163
 msgid "Log Out"
@@ -194,29 +198,29 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nein"
 
-#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Zugangscode eingeben"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "Überprüfung läuft …"
 
 #: src/screenshot-manager.c:212
 msgid "Screenshot"
-msgstr ""
+msgstr "Bildschirmfoto"
 
 #: src/screenshot-manager.c:213
 msgid "Screenshot copied to clipboard"
-msgstr ""
+msgstr "Bildschirmfoto wurde in die Zwischenablage kopiert"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Unbekannter Titel"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Unbekannter Interpret"
 
@@ -351,7 +355,7 @@ msgstr "Fast %d J"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Der Dialog zur Anmeldung wurde vom Benutzer geschlossen"
 
@@ -388,10 +392,14 @@ msgstr "An"
 msgid "Press ESC to close"
 msgstr "Drücken Sie Esc zum Schließen"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "»%s« konnte nicht ausgeführt werden"
+
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr ""
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
@@ -435,15 +443,27 @@ msgstr "_Details betrachten"
 msgid "Search apps…"
 msgstr "Anwendungen suchen …"
 
-#: src/ui/emergency-menu.ui:26
-msgid "Close the emergency call dialog"
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
 msgstr ""
 
-#: src/ui/emergency-menu.ui:52
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr ""
+
+#: src/ui/audio-settings.ui:134
 #, fuzzy
-#| msgid "Emergency Contacts"
+#| msgid "Folder Settings"
+msgid "Sound Settings"
+msgstr "Ordnereinstellungen"
+
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "Den Notrufdialog schließen"
+
+#: src/ui/emergency-menu.ui:52
 msgid "Emergency _Contacts"
-msgstr "Notfallkontakte"
+msgstr "Notfall_kontakte"
 
 #: src/ui/emergency-menu.ui:59
 msgid "Go to the emergency contacts page"
@@ -451,7 +471,7 @@ msgstr "Zur Notfallkontakte-Seite wechseln"
 
 #: src/ui/emergency-menu.ui:83
 msgid "Go back to the emergency dialpad page"
-msgstr ""
+msgstr "Zur Notfallziffernblock-Seite zurückgehen"
 
 #: src/ui/emergency-menu.ui:106
 msgid "Owner unknown"
@@ -482,15 +502,15 @@ msgstr "Domäne:"
 msgid "Co_nnect"
 msgstr "_Verbinden"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "Zurück"
 
-#: src/ui/lockscreen.ui:90
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "Nach oben wischen zum Entsperren"
 
-#: src/ui/lockscreen.ui:273
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "Entsperren"
 
@@ -512,34 +532,30 @@ msgid "Authenticate"
 msgstr "Legitimieren"
 
 #: src/ui/power-menu.ui:69
-#, fuzzy
-#| msgid "Power Off"
 msgid "_Power Off"
-msgstr "Ausschalten"
+msgstr "_Ausschalten"
 
 #: src/ui/power-menu.ui:110
 msgid "_Lock"
-msgstr ""
+msgstr "Sp_erren"
 
 #: src/ui/power-menu.ui:151
 msgid "_Screenshot"
-msgstr ""
+msgstr "Bildschirm_foto"
 
 #: src/ui/power-menu.ui:192
-#, fuzzy
-#| msgid "Emergency"
 msgid "_Emergency"
-msgstr "Notfall"
+msgstr "_Notfall"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Befehl ausführen"
 
-#: src/ui/settings.ui:320
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "Alles leeren"
 
@@ -548,22 +564,20 @@ msgid "Confirm:"
 msgstr "Bestätigen:"
 
 #: src/ui/top-panel.ui:32
-#, fuzzy
-#| msgid "Power Off"
 msgid "_Power Off…"
-msgstr "Ausschalten"
+msgstr "_Ausschalten …"
 
 #: src/ui/top-panel.ui:60
-#, fuzzy
-#| msgid "Restart"
 msgid "_Restart…"
-msgstr "Neustart"
+msgstr "_Neu starten …"
 
 #: src/ui/top-panel.ui:88
-#, fuzzy
-#| msgid "Log Out"
+msgid "_Suspend…"
+msgstr "_Bereitschaft …"
+
+#: src/ui/top-panel.ui:116
 msgid "_Log Out…"
-msgstr "Abmelden"
+msgstr "_Abmelden …"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -681,15 +695,15 @@ msgstr "Neuen Kontakt hinzufügen"
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "Neuer Kontaktname"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "Beziehung"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Nummer"
 
@@ -790,6 +804,3 @@ msgstr "Unbenannter Termin"
 
 #~ msgid "Unknown Song"
 #~ msgstr "Unbekannter Titel"
-
-#~ msgid "Suspend"
-#~ msgstr "Bereitschaft"
