@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-03-07 10:28+0000\n"
-"PO-Revision-Date: 2023-03-11 00:48+0100\n"
+"POT-Creation-Date: 2023-07-05 08:48+0000\n"
+"PO-Revision-Date: 2023-07-29 09:02+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
-"Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
+"Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 23.04.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -83,6 +83,11 @@ msgstr "Be"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
+#: src/call-notification.c:60
+#| msgid "Unknown Title"
+msgid "Unknown caller"
+msgstr "Ismeretlen hívó"
+
 #: src/docked-info.c:81
 msgid "Docked"
 msgstr "Dokkolva"
@@ -91,40 +96,53 @@ msgstr "Dokkolva"
 msgid "Undocked"
 msgstr "Dokkolás megszüntetve"
 
-#: src/end-session-dialog.c:162
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:71
+msgid "Ok"
+msgstr "OK"
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr "Nem lehet segélyhívást indítani"
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr "Belső hiba"
+
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "Kijelentkezés"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "A(z) %s automatikusan kijelentkezik %d másodperc múlva."
 msgstr[1] "A(z) %s automatikusan kijelentkezik %d másodperc múlva."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "Kikapcsolás"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "A rendszer automatikusan kikapcsol %d másodperc múlva."
 msgstr[1] "A rendszer automatikusan kikapcsol %d másodperc múlva."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "Újraindítás"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "A rendszer automatikusan újraindul %d másodperc múlva."
 msgstr[1] "A rendszer automatikusan újraindul %d másodperc múlva."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "Ismeretlen alkalmazás"
 
@@ -165,21 +183,29 @@ msgstr "Igen"
 msgid "No"
 msgstr "Nem"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Adja meg a jelkódot"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "Ellenőrzés…"
 
+#: src/screenshot-manager.c:212
+msgid "Screenshot"
+msgstr "Képernyőkép"
+
+#: src/screenshot-manager.c:213
+msgid "Screenshot copied to clipboard"
+msgstr "Képernyőkép vágólapra másolva"
+
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Ismeretlen cím"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Ismeretlen előadó"
 
@@ -217,7 +243,7 @@ msgstr "A(z) „%s” Wi-Fi-hálózat hitelesítési típusa nem támogatott"
 msgid "Enter password for the wifi network “%s”"
 msgstr "Adja meg a(z) „%s” Wi-Fi-hálózat jelszavát"
 
-#: src/notifications/mount-notification.c:122
+#: src/notifications/mount-notification.c:121
 msgid "Open"
 msgstr "Nyitott"
 
@@ -313,7 +339,7 @@ msgstr "Majdnem %d éve"
 msgid "%s%d%s"
 msgstr "%s %d %s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "A felhasználó bezárta a hitelesítési párbeszédablakot"
 
@@ -349,10 +375,14 @@ msgstr "Be"
 msgid "Press ESC to close"
 msgstr "Nyomja meg az ESC billentyűt a bezáráshoz"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "A(z) „%s” futtatása sikertelen"
+
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Telefonkagyló hangerőszabályzó"
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
@@ -370,15 +400,11 @@ msgstr "Fáklya"
 msgid "Remember decision"
 msgstr "Emlékezzen a döntésre"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Mégse"
-
-#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
-msgid "Ok"
-msgstr "OK"
 
 #: src/ui/app-grid-button.ui:55
 msgid "App"
@@ -400,6 +426,52 @@ msgstr "_Részletek megtekintése"
 msgid "Search apps…"
 msgstr "Alkalmazások keresése…"
 
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Kimeneti eszközök"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Bemeneti eszközök"
+
+#: src/ui/audio-settings.ui:134
+#| msgid "Folder Settings"
+msgid "Sound Settings"
+msgstr "Hangbeállítások"
+
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "A segélyhívás párbeszédablakának bezárása"
+
+#: src/ui/emergency-menu.ui:52
+#| msgid "Emergency Contacts"
+msgid "Emergency _Contacts"
+msgstr "Vészhelyzeti _partnerek"
+
+#: src/ui/emergency-menu.ui:59
+#| msgid "Emergency Contacts"
+msgid "Go to the emergency contacts page"
+msgstr "Ugrás a vészhelyzeti partnerek oldalra"
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr "Ugrás vissza a vészhelyzeti tárcsázó oldalra"
+
+#: src/ui/emergency-menu.ui:106
+#| msgid "Unknown"
+msgid "Owner unknown"
+msgstr "Tulajdonos ismeretlen"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Vészhelyzeti partnerek"
+
+#: src/ui/emergency-menu.ui:142
+#| msgid "Emergency Contacts"
+msgid "No emergency contacts available."
+msgstr "Nincsenek elérhető vészhelyzeti partnerek."
+
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
 msgstr "Néhány alkalmazás foglalt vagy mentetlen munkát tartalmaz"
@@ -416,19 +488,15 @@ msgstr "Tartomány:"
 msgid "Co_nnect"
 msgstr "_Kapcsolódás"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "Vissza"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "Csúsztassa fel a feloldáshoz"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "Vészhelyzet"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "Feloldás"
 
@@ -437,7 +505,7 @@ msgid "Authentication required"
 msgstr "Hitelesítés szükséges"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_Mégse"
 
@@ -449,15 +517,33 @@ msgstr "Kapcs_olódás"
 msgid "Authenticate"
 msgstr "Hitelesítés"
 
+#: src/ui/power-menu.ui:69
+#| msgid "Power Off"
+msgid "_Power Off"
+msgstr "_Kikapcsolás"
+
+#: src/ui/power-menu.ui:110
+msgid "_Lock"
+msgstr "_Zárolás"
+
+#: src/ui/power-menu.ui:151
+msgid "_Screenshot"
+msgstr "_Képernyőkép"
+
+#: src/ui/power-menu.ui:192
+#| msgid "Emergency"
+msgid "_Emergency"
+msgstr "_Vészhelyzet"
+
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Parancs futtatása"
 
-#: src/ui/settings.ui:319
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "Nincsenek értesítések"
 
-#: src/ui/settings.ui:359
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "Összes törlése"
 
@@ -465,13 +551,24 @@ msgstr "Összes törlése"
 msgid "Confirm:"
 msgstr "Megerősítés:"
 
-#: src/ui/top-panel.ui:15
-msgid "Lock Screen"
-msgstr "Képernyő zárolása"
+#: src/ui/top-panel.ui:32
+#| msgid "Power Off"
+msgid "_Power Off…"
+msgstr "_Kikapcsolás…"
 
-#: src/ui/top-panel.ui:22
-msgid "Logout"
-msgstr "Kijelentkezés"
+#: src/ui/top-panel.ui:60
+#| msgid "Restart"
+msgid "_Restart…"
+msgstr "Új_raindítás…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_Felfüggesztés…"
+
+#: src/ui/top-panel.ui:116
+#| msgid "Log Out"
+msgid "_Log Out…"
+msgstr "_Kijelentkezés…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -560,11 +657,6 @@ msgstr "Gyógyszerek és körülmények"
 msgid "Other Information"
 msgstr "Egyéb információk"
 
-#: plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
-msgid "Emergency Contacts"
-msgstr "Vészhelyzeti partnerek"
-
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
 msgid "Emergency Info Preferences"
@@ -594,15 +686,15 @@ msgstr "Új partner hozzáadása"
 msgid "Add"
 msgstr "Hozzáadás"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "Új partner neve"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "Kapcsolat"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Szám"
 
@@ -618,7 +710,7 @@ msgstr "Jegyek"
 msgid "Choose Folder"
 msgstr "Mappa kiválasztása"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "_Megnyitás"
 
