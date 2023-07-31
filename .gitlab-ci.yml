@@ -5,6 +5,7 @@ include:
 stages:
  - build
  - test+docs
+ - analyze
  - package
  - deploy
 
@@ -73,8 +74,9 @@ variables:
 .test_step: &test_step
   script:
     - export LC_ALL=C.UTF-8
-    - ${XVFB_RUN} meson test --print-errorlogs -C _build
-    - ninja -C _build coverage
+    - ${XVFB_RUN} meson test --print-errorlogs -C _build --no-suite screenshots
+  after_script:
+    - gcovr --json --output=coverage-${CI_JOB_NAME}.json
 
 # Sanity checks of MR settings and commit logs
 sanity:
@@ -115,13 +117,11 @@ unit-test:native-debian-bookworm:
   <<: *bookworm_vars
   <<: *test_before_script
   <<: *test_step
-  coverage: '/^lines:\s+([\d.]+\%)\s+/'
   artifacts:
     when: always
     paths:
       - _build
-    reports:
-      junit: _build/meson-logs/testlog.junit.xml
+      - coverage-*.json
   except:
     variables:
       - $PKG_ONLY == "1"
@@ -158,6 +158,8 @@ screenshot:native-debian-bookworm:
     - ${XVFB_RUN} meson test -C _build --print-errorlogs --suite screenshots
     - tools/montage-screenshots _build/
     - mv _build/tests/screenshots/* screenshots/
+  after_script:
+    - gcovr --json --output=screenshots/coverage-${CI_JOB_NAME}.json
   artifacts:
     expose_as: 'Screenshots'
     paths:
@@ -252,12 +254,36 @@ unit-test:native-alpinelinux-edge:
     when: always
     paths:
       - _build
-    reports:
-      junit: _build/meson-logs/testlog.junit.xml
+  when: manual
   except:
     variables:
       - $PKG_ONLY == "1"
       - $SCREENSHOTS_ONLY == "1"
+
+coverage:
+  image: ${DEBIAN_IMAGE}
+  stage: analyze
+  script:
+    - mkdir coverage-report
+    - gcovr --add-tracefile 'coverage-*.json'
+        --add-tracefile 'screenshots/coverage-*.json'
+        --html-details --print-summary --output coverage-report/index.html
+    - gcovr --add-tracefile 'coverage-*.json'
+        --add-tracefile 'screenshots/coverage-*.json'
+        --xml --output coverage-report/coverage.xml
+  artifacts:
+    expose_as: 'Coverage Report'
+    paths:
+      - coverage-report
+      - coverage-report/index.html
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage-report/coverage.xml
+  coverage: '/^lines: (\d+\.\d+\%)/'
+  needs:
+    - unit-test:native-debian-bookworm
+    - screenshot:native-debian-bookworm
 
 package:deb-debian-trixie:arm64:
   variables:
@@ -271,6 +297,8 @@ package:deb-debian-trixie:arm64:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get -y update
     - apt-get -y install eatmydata
+  needs:
+    - coverage
   except:
     variables:
       - $SCREENSHOTS_ONLY == "1"
