@@ -137,7 +137,7 @@ asan-test:native-debian-bookworm:
   script:
     - meson setup -Dphoc_tests=enabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
     - meson compile -C _build-asan ./data/glib-compile-schemas:custom
-    - ${XVFB_RUN} meson test --print-errorlogs -C _build-asan --suite unit
+    - ${XVFB_RUN} meson test --print-errorlogs -C _build-asan --suite unit --timeout-multiplier 5
   except:
     variables:
       - $PKG_ONLY == "1"
