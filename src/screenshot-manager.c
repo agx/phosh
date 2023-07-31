@@ -60,6 +60,7 @@ typedef struct {
   gboolean                  flash;
   char                     *filename;
   guint                     num_outputs;
+  float                     max_scale;
   GdkRectangle             *area;
 } ScreencopyFrames;
 
@@ -327,6 +328,7 @@ submit_screenshot (PhoshScreenshotManager *self)
   g_autoptr (GFile) file = NULL;
   g_autoptr (GdkPixbuf) pixbuf = NULL;
   GdkRectangle box;
+  float screenshot_scale = self->frames->max_scale;
 
   box = get_output_layout (self);
   g_debug ("Screenshot of %d,%d %dx%d", box.x, box.y, box.width, box.height);
@@ -334,20 +336,22 @@ submit_screenshot (PhoshScreenshotManager *self)
   pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
                            TRUE,
                            8,
-                           box.width,
-                           box.height);
+                           box.width * screenshot_scale,
+                           box.height * screenshot_scale);
 
   /* TODO: Using cairo would avoid lots of copies */
   for (GList *l = self->frames->frames; l; l = l->next) {
     ScreencopyFrame *frame = l->data;
-    PhoshMonitor *monitor = frame->monitor;
     float scale;
+    /* how much this monitor gets enlarged based on its scale, >= 1.0 */
+    double zoom;
     g_autoptr (GdkPixbuf) transformed = NULL;
 
-    if (monitor == NULL)
+    if (frame->monitor == NULL)
       continue;
 
     scale = phosh_monitor_get_fractional_scale (frame->monitor);
+    zoom = screenshot_scale / scale;
     g_debug ("Screenshot of '%s' of %d,%d %dx%d, scale: %f",
              frame->monitor->name,
              frame->monitor->logical.x - box.x,
@@ -358,16 +362,16 @@ submit_screenshot (PhoshScreenshotManager *self)
 
     /* TODO: handle flips */
     transformed = gdk_pixbuf_rotate_simple (frame->pixbuf,
-                                            get_angle (monitor->transform));
+                                            get_angle (frame->monitor->transform));
     gdk_pixbuf_composite (transformed,
                           pixbuf,
-                          frame->monitor->logical.x - box.x,
-                          frame->monitor->logical.y - box.y,
-                          frame->monitor->logical.width,
-                          frame->monitor->logical.height,
-                          frame->monitor->logical.x - box.x,
-                          frame->monitor->logical.y - box.y,
-                          1.0 / scale, 1.0 / scale,
+                          (frame->monitor->logical.x - box.x) * screenshot_scale,
+                          (frame->monitor->logical.y - box.y) * screenshot_scale,
+                          frame->monitor->logical.width * screenshot_scale,
+                          frame->monitor->logical.height * screenshot_scale,
+                          (frame->monitor->logical.x - box.x) * screenshot_scale,
+                          (frame->monitor->logical.y - box.y) * screenshot_scale,
+                          zoom, zoom,
                           GDK_INTERP_BILINEAR,
                           255);
   }
@@ -378,13 +382,13 @@ submit_screenshot (PhoshScreenshotManager *self)
     pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
                              TRUE,
                              8,
-                             self->frames->area->width,
-                             self->frames->area->height);
+                             self->frames->area->width * screenshot_scale,
+                             self->frames->area->height * screenshot_scale);
     gdk_pixbuf_copy_area (tmp,
-                          self->frames->area->x - box.x,
-                          self->frames->area->y - box.y,
-                          self->frames->area->width,
-                          self->frames->area->height,
+                          (self->frames->area->x - box.x) * screenshot_scale,
+                          (self->frames->area->y - box.y) * screenshot_scale,
+                          self->frames->area->width * screenshot_scale,
+                          self->frames->area->height * screenshot_scale,
                           pixbuf,
                           0,
                           0);
@@ -629,6 +633,7 @@ phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
   g_autoptr (ScreencopyFrames) frames = NULL;
   PhoshMonitorManager *monitor_manager;
   PhoshWayland *wl = phosh_wayland_get_default ();
+  float max_scale = 0.0;
   int num_outputs = 0;
 
   monitor_manager = phosh_shell_get_monitor_manager (phosh_shell_get_default ());
@@ -648,10 +653,12 @@ phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
   frames = g_new0 (ScreencopyFrames, 1);
   frames->flash = TRUE;
 
+  /* Determine which monitors are involved in the area we want to screenshot. */
   for (int i = 0; i < phosh_monitor_manager_get_num_monitors (monitor_manager); i++) {
     PhoshMonitor *monitor = phosh_monitor_manager_get_monitor (monitor_manager, i);
     ScreencopyFrame *screencopy_frame;
     GdkRectangle monitor_area;
+    float monitor_scale;
 
     if (monitor == NULL)
       continue;
@@ -677,8 +684,16 @@ phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
                                            screencopy_frame);
     frames->frames = g_list_prepend (frames->frames, screencopy_frame);
     num_outputs++;
+
+    /* Use the maximum scale of an involved monitor as the screenshot scale. */
+    monitor_scale = phosh_monitor_get_fractional_scale (monitor);
+    max_scale = fmaxf (max_scale, monitor_scale);
   }
   frames->num_outputs = num_outputs;
+
+  g_return_val_if_fail (max_scale > 0.0, FALSE);
+  frames->max_scale = max_scale;
+
   if (area)
     frames->area = g_memdup2 (area, sizeof (GdkRectangle));
 
