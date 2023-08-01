@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-05 08:48+0000\n"
-"PO-Revision-Date: 2023-07-06 07:55+0300\n"
+"POT-Creation-Date: 2023-07-06 04:58+0000\n"
+"PO-Revision-Date: 2023-08-01 15:57+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew <yoseforb@gmail.com>\n"
 "Language: he\n"
@@ -384,7 +384,7 @@ msgstr "הרצת „%s” נכשלה"
 
 #: src/settings/audio-settings.c:373
 msgid "Phone Shell Volume Control"
-msgstr ""
+msgstr "בקרת עצמת שמע של מעטפת הטלפון"
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
