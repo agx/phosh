@@ -15,7 +15,6 @@ gsd_required_components = [
   'org.gnome.SettingsDaemon.UsbProtection',
   'org.gnome.SettingsDaemon.Wacom',
   'org.gnome.SettingsDaemon.Wwan',
-  'org.gnome.SettingsDaemon.XSettings',
 ]
 
 desktop_required_components = gsd_required_components + [
