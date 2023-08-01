@@ -1,3 +1,87 @@
+phosh (0.30.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * toplevel-manager: Drop set_property. It's unused
+  * toplevel-manager: Fix indent
+  * toplevel: Fix some indent
+  * toplevel: Move _init upwards.
+    We have it past _class_init. See HACKING.md.
+  * toplevel: Drop initialization.
+    They're inited to 0 per default.
+  * app-tracker: Drop unused variable
+  * data: Add icon for audio-handsfree.
+    This happens when e.g. connecting to a car's audio unit. For now we just
+    use the plain headset icon. See PA commit
+    https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/commit/28069ef0f74089ae18cefbe7e97d2b920d7ba0cc
+    Once we have one in the adwaita-icon theme we can drop the icon here.
+  * call-notification: Make sure we always show a phone number when available.
+    For calls that don't have an entry in the address book we want to make
+    sure we *only* show the phone number and nothing else (not e.g. "Unknown
+    Caller") while the reset of the logic (whether to show initials, etc)
+    should stay the same.
+  * Update gvc submodule.
+    This fixes a crash when pa or pipewire-pulse restarts.
+  * README: Mention git submodules
+  * README: Use meson instead of ninja
+  * ci: Give asan suite some more time.
+    It passes but needs a bit longer.
+  * ci: Speedup unit tests by skipping screenshots.
+    We run the screenshot tests anyway so instead of running them twice
+    rather merge the test data. This uses less CPU and avoids the testsuite
+    sometimes failing because unit tests and screenshot tests step on each
+    others toes.
+  * lockscreen: Simplify clock css.
+    No need to have the class twice
+  * lockscreen: Move large clock down a bit.
+    WIth the rework we lost a bit of vertical padding. Add this back but
+    only when we use the large clock.
+    Fixes 515ccf982b9acbd6bae5f97d79fb1115190303f4
+  * data: Drop gsd-xsettings from required components.
+    The session is very functional without.
+    As newer wlroots looks for a surface and there is non it gets
+    disconnected when we don't force XWayland to stick around which we don't
+    want to.
+  * lockscreen: Don't scroll back to clock page while auth is running.
+    Going back to the clock page while the auth thread is running is
+    confusing for the user. This can happen when pam wants to slow down
+    entering a new password for more than 5 seconds.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/968
+    Tested-by: Teemu Ikonen
+  * gmobile: Update to 0.0.3 This brings support for the FF4's and Poco F1
+    notches
+
+  [ anteater ]
+  * screenshot-manager: Save screenshots at full resolution.
+    This has to normalize scale to join monitors, but can at least
+    normalize to the largest scale present rather than 1.0.
+    Screenshots of any single monitor will be saved at native scale,
+    and screenshots spanning multiple monitors will scale them each up
+    to the maximum scale of a monitor present in the screenshot.
+    https://gitlab.gnome.org/World/Phosh/phosh/-/issues/946
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Piotr Drąg ]
+  * Update Polish translation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Jürgen Benvenuti ]
+  * Update German translation
+
+  [ Balázs Úr ]
+  * Update Hungarian translation
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 01 Aug 2023 12:13:54 +0200
+
 phosh (0.29.0) experimental; urgency=medium
 
   [ Guido Günther ]

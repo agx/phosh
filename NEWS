@@ -1,3 +1,27 @@
+phosh 0.30.0
+------------
+Released August 2023
+* Save screenshots at full resolution
+* Fix missing icon when e.g. connecting to a car's audio unit via BT
+* Improve ongoing call notification.
+* Update gvc submodule fixing a crash when restart pw-pulse
+* Don't require gsd-xsettings in the session. No need to spawn
+  XWayland for that.
+* Update gmobile to support more notches (Poco F1 and FF4)
+* Issues fixed:
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/968
+* Contributors:
+    * anteater
+    * Guido Günther
+* UI translations:
+    * Balázs Úr (hu)
+    * Daniel Rusek (cs)
+    * Daniel Șerbănescu (ro)
+    * Jürgen Benvenuti (de)
+    * Martin (sl)
+    * Piotr Drąg (pl)
+    * Yosef Or Boczko (he)
+
 phosh 0.29.0
 ------------
 Released July 2023
