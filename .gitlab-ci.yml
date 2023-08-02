@@ -284,6 +284,10 @@ coverage:
   needs:
     - unit-test:native-debian-bookworm
     - screenshot:native-debian-bookworm
+  except:
+    variables:
+      - $PKG_ONLY == "1"
+      - $SCREENSHOTS_ONLY == "1"
 
 package:deb-debian-trixie:arm64:
   variables:
