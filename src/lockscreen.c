@@ -197,7 +197,7 @@ keypad_check_idle (PhoshLockscreen *self)
   gint64 now = g_get_monotonic_time ();
 
   g_assert (PHOSH_IS_LOCKSCREEN (self));
-  if (now - priv->last_input > LOCKSCREEN_IDLE_SECONDS * 1000 * 1000) {
+  if (priv->auth == NULL && now - priv->last_input > LOCKSCREEN_IDLE_SECONDS * 1000 * 1000) {
     show_info_page (self);
     priv->idle_timer = 0;
     return G_SOURCE_REMOVE;
@@ -289,7 +289,6 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
 
   if (authenticated) {
     g_signal_emit (self, signals[LOCKSCREEN_UNLOCK], 0);
-    g_clear_object (&priv->auth);
   } else {
     GdkFrameClock *clock;
     gint64 now;
@@ -302,6 +301,7 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
                                   (GDestroyNotify) g_variant_unref);
     phosh_keypad_distribute (PHOSH_KEYPAD (priv->keypad));
   }
+  g_clear_object (&priv->auth);
   priv->last_input = g_get_monotonic_time ();
   g_object_unref (self);
 }
