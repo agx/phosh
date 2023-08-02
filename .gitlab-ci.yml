@@ -301,8 +301,6 @@ package:deb-debian-trixie:arm64:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get -y update
     - apt-get -y install eatmydata
-  needs:
-    - coverage
   except:
     variables:
       - $SCREENSHOTS_ONLY == "1"
