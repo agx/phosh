@@ -39,9 +39,8 @@ variables:
                     upower-dev wayland-dev wayland-protocols ttf-dejavu evolution-data-server-dev evince-dev
                     libadwaita-dev json-glib-dev
 
-.bookworm_vars: &bookworm_vars
+.trixie_vars: &trixie_vars
   variables:
-    DIST: bookworm
     BUILD_OPTS: -Dcallui-i18n=true -Dphoc_tests=enabled ${COMMON_BUILD_OPTS}
 
 .build_step: &build_step
@@ -96,11 +95,11 @@ sanity:
     variables:
       - $CI_OPEN_MERGE_REQUESTS && $PKG_ONLY != "1"
 
-build:native-debian-bookworm:
+build:native-debian-trixie:
   stage: build
   image: ${DEBIAN_IMAGE}
   <<: *build_before_script
-  <<: *bookworm_vars
+  <<: *trixie_vars
   <<: *build_step
   artifacts:
     paths:
@@ -109,12 +108,12 @@ build:native-debian-bookworm:
     variables:
       - $PKG_ONLY == "1"
 
-unit-test:native-debian-bookworm:
+unit-test:native-debian-trixie:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
   needs:
-    - build:native-debian-bookworm
-  <<: *bookworm_vars
+    - build:native-debian-trixie
+  <<: *trixie_vars
   <<: *test_before_script
   <<: *test_step
   artifacts:
@@ -127,12 +126,12 @@ unit-test:native-debian-bookworm:
       - $PKG_ONLY == "1"
       - $SCREENSHOTS_ONLY == "1"
 
-asan-test:native-debian-bookworm:
+asan-test:native-debian-trixie:
   stage: test+docs
   image: ${ASAN_IMAGE}
   tags: [ asan ]
   needs: []
-  <<: *bookworm_vars
+  <<: *trixie_vars
   <<: *test_before_script
   script:
     - meson setup -Dphoc_tests=enabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
@@ -144,13 +143,13 @@ asan-test:native-debian-bookworm:
       - $SCREENSHOTS_ONLY == "1"
   allow_failure: true
 
-screenshot:native-debian-bookworm:
+screenshot:native-debian-trixie:
   stage: test+docs
   image: ${SCREENSHOT_IMAGE}
   needs:
-    - build:native-debian-bookworm
+    - build:native-debian-trixie
   <<: *test_before_script
-  <<: *bookworm_vars
+  <<: *trixie_vars
   script:
     - export LC_ALL=C.UTF-8
     # Install .po files so tests can find them
@@ -172,7 +171,6 @@ build-gtkdoc:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
   variables:
-    DIST: bookworm
     BUILD_OPTS: -Dtests=false -Dgtk_doc=true ${COMMON_BUILD_OPTS}
   <<: *build_before_script
   needs: []
@@ -196,7 +194,7 @@ check-po:
   before_script:
     - eatmydata apt-get -y update
     - eatmydata apt-get -y install intltool gettext
-  <<: *bookworm_vars
+  <<: *trixie_vars
   needs: []
   script:
     - tools/check-po
@@ -208,7 +206,7 @@ check-po:
 check-license-headers:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
-  <<: *bookworm_vars
+  <<: *trixie_vars
   needs: []
   script:
     # Checks .c and .h files begin with a license header as
@@ -282,8 +280,8 @@ coverage:
         path: coverage-report/coverage.xml
   coverage: '/^lines: (\d+\.\d+\%)/'
   needs:
-    - unit-test:native-debian-bookworm
-    - screenshot:native-debian-bookworm
+    - unit-test:native-debian-trixie
+    - screenshot:native-debian-trixie
   except:
     variables:
       - $PKG_ONLY == "1"
