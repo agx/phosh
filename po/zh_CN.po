@@ -1,0 +1,797 @@
+# Chinese (China) translation for phosh.
+# Copyright (C) 2020 phosh's COPYRIGHT HOLDER
+# This file is distributed under the same license as the phosh package.
+# Damned <damnedlies@163.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: phosh master\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2023-07-31 20:22+0000\n"
+"PO-Revision-Date: 2023-08-09 15:24-0400\n"
+"Last-Translator: \n"
+"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.3\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
+msgid "Phosh"
+msgstr "Phosh"
+
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
+msgid "Phone Shell"
+msgstr "手机 Shell"
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "用于移动设备的窗口管理和应用程序启动"
+
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr ""
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "Calendar"
+msgstr "日历"
+
+#: plugins/calendar/calendar.desktop.in.in:6
+msgid "A simple calendar widget"
+msgstr ""
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr ""
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr ""
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr ""
+
+#: src/app-grid-button.c:529
+msgid "Application"
+msgstr "应用程序"
+
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "显示全部应用"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr ""
+
+#: src/bt-info.c:92
+msgctxt "bluetooth:enabled"
+msgid "On"
+msgstr "开启"
+
+#: src/bt-info.c:94
+msgid "Bluetooth"
+msgstr "蓝牙"
+
+#: src/call-notification.c:61
+msgid "Unknown caller"
+msgstr "未知来电者"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr ""
+
+#: src/docked-info.c:81 src/docked-info.c:199
+msgid "Undocked"
+msgstr ""
+
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:71
+msgid "Ok"
+msgstr ""
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr ""
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr ""
+
+#: src/end-session-dialog.c:163
+msgid "Log Out"
+msgstr ""
+
+#: src/end-session-dialog.c:166
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] ""
+
+#: src/end-session-dialog.c:172
+msgid "Power Off"
+msgstr "关机"
+
+#: src/end-session-dialog.c:173
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] ""
+
+#: src/end-session-dialog.c:179
+msgid "Restart"
+msgstr "重启"
+
+#: src/end-session-dialog.c:180
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] ""
+
+#: src/end-session-dialog.c:270
+msgid "Unknown application"
+msgstr "未知应用程序"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:97
+msgid "Quiet"
+msgstr "振动"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:104
+msgid "Silent"
+msgstr "静音"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:108
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "开启"
+
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr ""
+
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "地理位置"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "是"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "否"
+
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
+msgid "Enter Passcode"
+msgstr "输入密码"
+
+#: src/lockscreen.c:397
+msgid "Checking…"
+msgstr "正在检查…"
+
+#: src/screenshot-manager.c:213
+msgid "Screenshot"
+msgstr ""
+
+#: src/screenshot-manager.c:214
+msgid "Screenshot copied to clipboard"
+msgstr ""
+
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:321 src/ui/media-player.ui:161
+msgid "Unknown Title"
+msgstr "未知标题"
+
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:329 src/ui/media-player.ui:148
+msgid "Unknown Artist"
+msgstr "未知艺术家"
+
+#: src/monitor-manager.c:119
+msgid "Built-in display"
+msgstr "内置显示器"
+
+#: src/monitor-manager.c:137
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr ""
+
+#: src/monitor-manager.c:144
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %s"
+msgstr ""
+
+#. Translators: An unknown monitor type
+#: src/monitor-manager.c:153
+msgid "Unknown"
+msgstr "未知"
+
+#: src/network-auth-prompt.c:201
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Wifi 网络“%s” 的认证类型不受支持"
+
+#: src/network-auth-prompt.c:206
+#, c-format
+msgid "Enter password for the wifi network “%s”"
+msgstr "输入 wifi 网络“%s”的密码"
+
+#: src/notifications/mount-notification.c:121
+msgid "Open"
+msgstr ""
+
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
+msgid "Notification"
+msgstr "通知"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "秒"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "分"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "分"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "时"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "时"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "日"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "日"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "月"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "月"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "年"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "年"
+
+#: src/notifications/timestamp-label.c:121
+#, fuzzy
+#| msgid "Unknown"
+msgid "now"
+msgstr "未知"
+
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, fuzzy, c-format
+#| msgid "Over"
+msgid "Over %dy"
+msgstr "超过"
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, fuzzy, c-format
+#| msgid "Almost"
+msgid "Almost %dy"
+msgstr "将近"
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr ""
+
+#: src/polkit-auth-agent.c:227
+msgid "Authentication dialog was dismissed by the user"
+msgstr "认证对话框已被用户关闭"
+
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
+msgid "Password:"
+msgstr "密码："
+
+#: src/polkit-auth-prompt.c:325
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "抱歉，密码无效。请重试。"
+
+#: src/rotateinfo.c:102
+msgid "Portrait"
+msgstr "纵向"
+
+#: src/rotateinfo.c:105
+msgid "Landscape"
+msgstr "横向"
+
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
+msgctxt "automatic-screen-rotation-disabled"
+msgid "Off"
+msgstr ""
+
+#: src/rotateinfo.c:126
+#, fuzzy
+#| msgid "On"
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "开启"
+
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr ""
+
+#: src/run-command-manager.c:89
+#, c-format
+msgid "Running '%s' failed"
+msgstr ""
+
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr ""
+
+#: src/system-prompt.c:365
+msgid "Passwords do not match."
+msgstr "密码不匹配。"
+
+#: src/system-prompt.c:372
+msgid "Password cannot be blank"
+msgstr "密码不能为空"
+
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr ""
+
+#: src/ui/app-auth-prompt.ui:49
+msgid "Remember decision"
+msgstr ""
+
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
+#, fuzzy
+#| msgid "_Cancel"
+msgid "Cancel"
+msgstr "取消(_C)"
+
+#: src/ui/app-grid-button.ui:55
+msgid "App"
+msgstr "应用程序"
+
+#: src/ui/app-grid-button.ui:79
+msgid "Remove from _Favorites"
+msgstr "从收藏夹中移除(_F)"
+
+#: src/ui/app-grid-button.ui:84
+msgid "Add to _Favorites"
+msgstr "添加到收藏夹(_F)"
+
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr ""
+
+#: src/ui/app-grid.ui:21
+msgid "Search apps…"
+msgstr "搜索应用程序…"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr ""
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr ""
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr ""
+
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr ""
+
+#: src/ui/emergency-menu.ui:52
+msgid "Emergency _Contacts"
+msgstr "紧急联系人(_C)"
+
+#: src/ui/emergency-menu.ui:59
+msgid "Go to the emergency contacts page"
+msgstr ""
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr ""
+
+#: src/ui/emergency-menu.ui:106
+#, fuzzy
+#| msgid "Unknown"
+msgid "Owner unknown"
+msgstr "未知"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+#, fuzzy
+#| msgid "Emergency"
+msgid "Emergency Contacts"
+msgstr "紧急呼叫"
+
+#: src/ui/emergency-menu.ui:142
+msgid "No emergency contacts available."
+msgstr ""
+
+#: src/ui/end-session-dialog.ui:31
+msgid "Some applications are busy or have unsaved work"
+msgstr ""
+
+#: src/ui/gtk-mount-prompt.ui:94
+msgid "User:"
+msgstr "用户："
+
+#: src/ui/gtk-mount-prompt.ui:117
+msgid "Domain:"
+msgstr ""
+
+#: src/ui/gtk-mount-prompt.ui:150
+msgid "Co_nnect"
+msgstr "连接(_N)"
+
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
+msgid "Back"
+msgstr ""
+
+#: src/ui/lockscreen.ui:97
+msgid "Slide up to unlock"
+msgstr "向上滑动以解锁"
+
+#: src/ui/lockscreen.ui:297
+msgid "Unlock"
+msgstr "解锁"
+
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+#, fuzzy
+#| msgid "Authenticate"
+msgid "Authentication required"
+msgstr "认证"
+
+#: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+msgid "_Cancel"
+msgstr "取消(_C)"
+
+#: src/ui/network-auth-prompt.ui:58
+msgid "C_onnect"
+msgstr "连接(_O)"
+
+#: src/ui/polkit-auth-prompt.ui:122
+msgid "Authenticate"
+msgstr "认证"
+
+#: src/ui/power-menu.ui:69
+#, fuzzy
+#| msgid "Power Off"
+msgid "_Power Off"
+msgstr "关机"
+
+#: src/ui/power-menu.ui:110
+msgid "_Lock"
+msgstr ""
+
+#: src/ui/power-menu.ui:151
+msgid "_Screenshot"
+msgstr ""
+
+#: src/ui/power-menu.ui:192
+#, fuzzy
+#| msgid "Emergency"
+msgid "_Emergency"
+msgstr "紧急呼叫"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr ""
+
+#: src/ui/settings.ui:296
+#, fuzzy
+#| msgid "Notification"
+msgid "No notifications"
+msgstr "通知"
+
+#: src/ui/settings.ui:336
+msgid "Clear all"
+msgstr ""
+
+#: src/ui/system-prompt.ui:62
+msgid "Confirm:"
+msgstr "确认："
+
+#: src/ui/top-panel.ui:32
+#, fuzzy
+#| msgid "Power Off"
+msgid "_Power Off…"
+msgstr "关机"
+
+#: src/ui/top-panel.ui:60
+#, fuzzy
+#| msgid "Restart"
+msgid "_Restart…"
+msgstr "重启"
+
+#: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr ""
+
+#: src/ui/top-panel.ui:116
+msgid "_Log Out…"
+msgstr ""
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:339
+#, fuzzy
+#| msgid "%A, %B %d"
+msgid "%A, %B %-e"
+msgstr "%m 月 %d 日，%A"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr ""
+
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr ""
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr ""
+
+#: src/wifiinfo.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwan-info.c:210
+msgid "Cellular"
+msgstr "蜂窝网络"
+
+#: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+msgid "Personal Information"
+msgstr ""
+
+#: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+msgid "Date of Birth"
+msgstr ""
+
+#: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+msgid "Preferred Language"
+msgstr ""
+
+#: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+msgid "Home Address"
+msgstr ""
+
+#: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+msgid "Medical Information"
+msgstr ""
+
+#: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+msgid "Age"
+msgstr ""
+
+#: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+msgid "Blood Type"
+msgstr ""
+
+#: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+msgid "Height"
+msgstr ""
+
+#: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+msgid "Weight"
+msgstr ""
+
+#: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+msgid "Allergies"
+msgstr ""
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr ""
+
+#: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+msgid "Other Information"
+msgstr ""
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr ""
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr ""
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr ""
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr ""
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr ""
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr ""
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr ""
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
+msgid "New Contact Name"
+msgstr ""
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
+msgid "Relationship"
+msgstr ""
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
+msgid "Number"
+msgstr ""
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr ""
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr ""
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+msgid "Choose Folder"
+msgstr ""
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+msgid "_Open"
+msgstr ""
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr ""
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr ""
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr ""
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr ""
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr ""
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr ""
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr ""
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] ""
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr ""
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr ""
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr ""
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr ""
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr ""
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr ""
+
+#~ msgid "%d.%m.%y"
+#~ msgstr "%y.%m.%d"
+
+#~ msgid "Lock Screen"
+#~ msgstr "锁定屏幕"
+
+#~ msgid "Logout"
+#~ msgstr "注销"
