@@ -1,12 +1,13 @@
 # Turkish translation of phosh.
+# Sabri Ünal <libreajans@gmail.com>, 2023.
 # Emin Tufan Çetin <etcetin@gmail.com>, 2019, 2020, 2021, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-18 11:35+0000\n"
-"PO-Revision-Date: 2023-05-26 20:00+0300\n"
+"POT-Creation-Date: 2023-07-31 20:22+0000\n"
+"PO-Revision-Date: 2023-08-12 11:50+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -14,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -78,6 +79,10 @@ msgstr "Açık"
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
+
+#: src/call-notification.c:61
+msgid "Unknown caller"
+msgstr "Bilinmeyen arayan"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -171,29 +176,29 @@ msgstr "Evet"
 msgid "No"
 msgstr "Hayır"
 
-#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Parolayı Gir"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "Denetleniyor…"
 
-#: src/screenshot-manager.c:212
+#: src/screenshot-manager.c:213
 msgid "Screenshot"
 msgstr "Ekran Görüntüsü"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:214
 msgid "Screenshot copied to clipboard"
 msgstr "Ekran görüntüsü panoya kopyalandı"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Bilinmeyen Başlık"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Bilinmeyen Sanatçı"
 
@@ -327,7 +332,7 @@ msgstr "Neredeyse %d yıl"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Kullanıcı, kimlik doğrulama kutusunu görmezden geldi"
 
@@ -363,10 +368,14 @@ msgstr "Açık"
 msgid "Press ESC to close"
 msgstr "ESC’ye basarak kapat"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "'%s' çalıştırılamadı"
+
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Telefon Kabuğu Ses Denetimi"
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
@@ -409,6 +418,18 @@ msgstr "_Ayrıntıları Göster"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Uygulama ara…"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Çıktı Aygıtları"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Girdi Aygıtları"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "Ses Ayarları"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -455,15 +476,15 @@ msgstr "Etki Alanı:"
 msgid "Co_nnect"
 msgstr "_Bağlan"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "Geri"
 
-#: src/ui/lockscreen.ui:90
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "Açmak için kaldır"
 
-#: src/ui/lockscreen.ui:273
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "Kilidi Aç"
 
@@ -504,11 +525,11 @@ msgstr "_Acil"
 msgid "Run Command"
 msgstr "Komut Çalıştır"
 
-#: src/ui/settings.ui:320
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "Bildirim yok"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "Tümünü temizle"
 
@@ -525,6 +546,10 @@ msgid "_Restart…"
 msgstr "_Yeniden Başlat…"
 
 #: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_Askıya Al…"
+
+#: src/ui/top-panel.ui:116
 msgid "_Log Out…"
 msgstr "_Oturumu Kapat…"
 
@@ -644,15 +669,15 @@ msgstr "Yeni Kişi Ekle"
 msgid "Add"
 msgstr "Ekle"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "Yeni Kişi Adı"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "İlişki"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Numara"
 
