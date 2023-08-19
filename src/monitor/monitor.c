@@ -390,16 +390,11 @@ phosh_monitor_constructed (GObject *object)
   g_return_if_fail (self->xdg_output);
   zxdg_output_v1_add_listener (self->xdg_output, &xdg_output_v1_listener, self);
 
-  zwlr_output_power_manager_v1 = phosh_wayland_get_zwlr_output_power_manager_v1 (
-    phosh_wayland_get_default ());
-
-  /* Output power protocol is optional until compositors caught up */
-  if (zwlr_output_power_manager_v1) {
-    self->wlr_output_power = zwlr_output_power_manager_v1_get_output_power (
-      zwlr_output_power_manager_v1, self->wl_output);
-    g_return_if_fail (self->wlr_output_power);
-    zwlr_output_power_v1_add_listener(self->wlr_output_power, &wlr_output_power_listener_v1, self);
-  }
+  zwlr_output_power_manager_v1 = phosh_wayland_get_zwlr_output_power_manager_v1 (phosh_wayland_get_default ());
+  self->wlr_output_power = zwlr_output_power_manager_v1_get_output_power (zwlr_output_power_manager_v1,
+                                                                          self->wl_output);
+  g_return_if_fail (self->wlr_output_power);
+  zwlr_output_power_v1_add_listener(self->wlr_output_power, &wlr_output_power_listener_v1, self);
 
   self->gamma_control =
     zwlr_gamma_control_manager_v1_get_gamma_control (phosh_wayland_get_zwlr_gamma_control_manager_v1 (phosh_wayland_get_default ()),

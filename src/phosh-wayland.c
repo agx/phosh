@@ -268,12 +268,14 @@ phosh_wayland_constructed (GObject *object)
   if (!num_outputs || !self->layer_shell || !self->idle_manager ||
       !self->input_inhibit_manager || !self->xdg_wm_base ||
       !self->zxdg_output_manager_v1 ||
+      !self->zwlr_output_power_manager_v1 ||
       !self->zphoc_layer_shell_effects_v1) {
     g_error ("Wayland compositor lacks needed globals\n"
              "outputs: %d, layer_shell: %p, idle_manager: %p, "
              "inhibit: %p, xdg_wm: %p, "
              "xdg_output: %p, wlr_output_manager: %p, "
              "wlr_foreign_toplevel_manager: %p, "
+             "zwlr_output_power_manager_v1: %p, "
              "zphoc_layer_shell_effects_v1: %p"
              "\n",
              num_outputs, self->layer_shell, self->idle_manager,
@@ -281,6 +283,7 @@ phosh_wayland_constructed (GObject *object)
              self->zxdg_output_manager_v1,
              self->zwlr_output_manager_v1,
              self->zwlr_foreign_toplevel_manager_v1,
+             self->zwlr_output_power_manager_v1,
              self->zphoc_layer_shell_effects_v1);
   }
   if (!self->phosh_private) {
