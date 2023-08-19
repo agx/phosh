@@ -9,6 +9,8 @@
 
 #include "idle-client-protocol.h"
 #include "virtual-keyboard-unstable-v1-client-protocol.h"
+#include "phoc-device-state-unstable-v1-client-protocol.h"
+#include "phoc-layer-shell-effects-unstable-v1-client-protocol.h"
 #include "wlr-foreign-toplevel-management-unstable-v1-client-protocol.h"
 #include "wlr-input-inhibitor-unstable-v1-client-protocol.h"
 #include "wlr-layer-shell-unstable-v1-client-protocol.h"
@@ -19,7 +21,7 @@
 #include "wlr-screencopy-unstable-v1-client-protocol.h"
 #include "xdg-output-unstable-v1-client-protocol.h"
 #include "xdg-shell-client-protocol.h"
-#include "phoc-layer-shell-effects-unstable-v1-client-protocol.h"
+
 
 /* This goes past the other wl protocols since it might need their structs */
 #include "phosh-private-client-protocol.h"
@@ -34,14 +36,20 @@ G_BEGIN_DECLS
  * @PHOSH_WAYLAND_SEAT_CAPABILITY_POINTER: the seat has pointer devices
  * @PHOSH_WAYLAND_SEAT_CAPABILITY_KEYBOARD: the seat has one or more keyboards
  * @PHOSH_WAYLAND_SEAT_CAPABILITY_TOUCH: the seat has touch devices
+ * @PHOSH_WAYLAND_SEAT_CAPABILITY_TABLET_MODE_SWITCH: the seat has a tablet mode switch
+ * @PHOSH_WAYLAND_SEAT_CAPABILITY_LID_SWITCH: the seat has a lid switch
  *
  * These match wl_seat_capabilities
  */
 typedef enum {
+  /* From wl_seat */
   PHOSH_WAYLAND_SEAT_CAPABILITY_NONE     = 0,
   PHOSH_WAYLAND_SEAT_CAPABILITY_POINTER  = (1 << 0),
   PHOSH_WAYLAND_SEAT_CAPABILITY_KEYBOARD = (1 << 1),
   PHOSH_WAYLAND_SEAT_CAPABILITY_TOUCH    = (1 << 2),
+  /* From device_state */
+  PHOSH_WAYLAND_SEAT_CAPABILITY_TABLET_MODE_SWITCH = (1 << 8),
+  PHOSH_WAYLAND_SEAT_CAPABILITY_LID_SWITCH = (1 << 9),
 } PhoshWaylandSeatCapabilities;
 
 #define PHOSH_TYPE_WAYLAND phosh_wayland_get_type()
@@ -70,5 +78,5 @@ struct zwp_virtual_keyboard_manager_v1 *phosh_wayland_get_zwp_virtual_keyboard_m
 void                                  phosh_wayland_roundtrip (PhoshWayland *self);
 PhoshWaylandSeatCapabilities          phosh_wayland_get_seat_capabilities (PhoshWayland *self);
 struct zphoc_layer_shell_effects_v1  *phosh_wayland_get_zphoc_layer_shell_effects_v1 (PhoshWayland *self);
-
+struct zphoc_device_state_v1         *phosh_wayland_get_zphoc_device_state_v1 (PhoshWayland *self);
 G_END_DECLS

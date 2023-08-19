@@ -32,6 +32,11 @@ enum {
 };
 static GParamSpec *props[PHOSH_WAYLAND_PROP_LAST_PROP];
 
+
+#define WL_SEAT_CAPS(caps)      ((caps) & 0x00FF)
+#define DEVICE_STATE_CAPS(caps) ((caps) & 0xFF00)
+#define DEVICE_STATE_SHIFT      8
+
 struct _PhoshWayland {
   GObject parent;
 
@@ -52,6 +57,7 @@ struct _PhoshWayland {
   struct zxdg_output_manager_v1 *zxdg_output_manager_v1;
   struct zwlr_screencopy_manager_v1 *zwlr_screencopy_manager_v1;
   struct zphoc_layer_shell_effects_v1 *zphoc_layer_shell_effects_v1;
+  struct zphoc_device_state_v1 *zphoc_device_state_v1;
   struct wl_shm *wl_shm;
   GHashTable *wl_outputs;
   PhoshWaylandSeatCapabilities seat_capabilities;
@@ -83,6 +89,12 @@ registry_handle_global (void *data,
       name,
       &zphoc_layer_shell_effects_v1_interface,
       MIN (2, version));
+  } else if (!strcmp (interface, zphoc_device_state_v1_interface.name)) {
+    self->zphoc_device_state_v1 = wl_registry_bind (
+      registry,
+      name,
+      &zphoc_device_state_v1_interface,
+      1);
   } else if (!strcmp (interface, zwlr_layer_shell_v1_interface.name)) {
     self->layer_shell = wl_registry_bind (
       registry,
@@ -221,9 +233,9 @@ seat_handle_capabilities (void *data, struct wl_seat *wl_seat, uint32_t capabili
 {
   PhoshWayland *self = PHOSH_WAYLAND (data);
 
-  if (self->seat_capabilities != capabilities) {
-    g_debug ("Seat capabilities: %d", capabilities);
-    self->seat_capabilities = capabilities;
+  if (WL_SEAT_CAPS (self->seat_capabilities) != capabilities) {
+    g_debug ("Seat capabilities: 0x%x", capabilities);
+    self->seat_capabilities = DEVICE_STATE_CAPS (self->seat_capabilities) | capabilities;
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WAYLAND_PROP_SEAT_CAPABILITIES]);
   }
 }
@@ -239,6 +251,29 @@ seat_handle_name (void *data, struct wl_seat *wl_seat, const char *name)
 static const struct wl_seat_listener seat_listener = {
   seat_handle_capabilities,
   seat_handle_name,
+};
+
+
+static void
+device_state_handle_capabilities (void                         *data,
+                                  struct zphoc_device_state_v1 *zphoc_device_state_v1,
+                                  uint32_t                      capabilities)
+{
+  PhoshWayland *self = PHOSH_WAYLAND (data);
+
+  g_debug ("Device state capabilities: 0x%x", capabilities);
+
+  g_return_if_fail (PHOSH_IS_WAYLAND (self));
+
+  if ((DEVICE_STATE_CAPS (self->seat_capabilities) >> DEVICE_STATE_SHIFT) != capabilities) {
+    self->seat_capabilities = WL_SEAT_CAPS (self->seat_capabilities) | (capabilities << DEVICE_STATE_SHIFT);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WAYLAND_PROP_SEAT_CAPABILITIES]);
+  }
+}
+
+
+static const struct zphoc_device_state_v1_listener device_state_listener = {
+  .capabilities = device_state_handle_capabilities,
 };
 
 
@@ -291,6 +326,11 @@ phosh_wayland_constructed (GObject *object)
   }
 
   wl_seat_add_listener (self->wl_seat, &seat_listener, self);
+
+  if (self->zphoc_device_state_v1)
+    zphoc_device_state_v1_add_listener (self->zphoc_device_state_v1, &device_state_listener, self);
+  else
+    g_info ("Phoc doesn't support zphoc_device_state_v1 - please upgrade");
 }
 
 
@@ -316,6 +356,7 @@ phosh_wayland_dispose (GObject *object)
   g_clear_pointer (&self->zwp_virtual_keyboard_manager_v1, zwp_virtual_keyboard_manager_v1_destroy);
   g_clear_pointer (&self->zxdg_output_manager_v1, zxdg_output_manager_v1_destroy);
   g_clear_pointer (&self->zphoc_layer_shell_effects_v1, zphoc_layer_shell_effects_v1_destroy);
+  g_clear_pointer (&self->zphoc_device_state_v1, zphoc_device_state_v1_destroy);
 
   g_clear_pointer (&self->wl_outputs, g_hash_table_destroy);
 
@@ -569,4 +610,13 @@ phosh_wayland_get_zphoc_layer_shell_effects_v1 (PhoshWayland *self)
   g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
 
   return self->zphoc_layer_shell_effects_v1;
+}
+
+
+struct zphoc_device_state_v1 *
+phosh_wayland_get_zphoc_device_state_v1 (PhoshWayland *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
+
+  return self->zphoc_device_state_v1;
 }
