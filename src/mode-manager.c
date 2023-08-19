@@ -53,6 +53,7 @@ struct _PhoshModeManager {
   GCancellable                *cancel;
   gchar                       *chassis;
   PhoshWaylandSeatCapabilities wl_caps;
+  gboolean                     is_tablet_mode;
 };
 G_DEFINE_TYPE (PhoshModeManager, phosh_mode_manager, PHOSH_TYPE_MANAGER);
 
@@ -151,6 +152,8 @@ update_props (PhoshModeManager *self)
   } else if (device_type == PHOSH_MODE_DEVICE_TYPE_TABLET &&
       (hw & PHOSH_MODE_DOCKED_TABLET_MASK) == PHOSH_MODE_DOCKED_TABLET_MASK) {
     mimicry = PHOSH_MODE_DEVICE_TYPE_DESKTOP;
+  } else if (device_type == PHOSH_MODE_DEVICE_TYPE_CONVERTIBLE) {
+    mimicry = self->is_tablet_mode > 0 ? PHOSH_MODE_DEVICE_TYPE_TABLET : PHOSH_MODE_DEVICE_TYPE_LAPTOP;
   }
 
   g_object_freeze_notify (G_OBJECT (self));
@@ -381,6 +384,7 @@ phosh_mode_manager_init (PhoshModeManager *self)
   self->device_type = PHOSH_MODE_DEVICE_TYPE_UNKNOWN;
   self->mimicry = PHOSH_MODE_DEVICE_TYPE_UNKNOWN;
   self->cancel = g_cancellable_new ();
+  self->is_tablet_mode = -1;
 }
 
 
