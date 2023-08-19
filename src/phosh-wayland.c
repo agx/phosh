@@ -217,9 +217,7 @@ phosh_wayland_get_property (GObject *object,
 
 
 static void
-seat_handle_capabilities (void *data,
-                         struct wl_seat *wl_seat,
-                         uint32_t capabilities)
+seat_handle_capabilities (void *data, struct wl_seat *wl_seat, uint32_t capabilities)
 {
   PhoshWayland *self = PHOSH_WAYLAND (data);
 
@@ -232,16 +230,13 @@ seat_handle_capabilities (void *data,
 
 
 static void
-seat_handle_name (void *data,
-                  struct wl_seat *wl_seat,
-                  const char *name)
+seat_handle_name (void *data, struct wl_seat *wl_seat, const char *name)
 {
   /* nothing to do */
 }
 
 
-static const struct wl_seat_listener seat_listener =
-{
+static const struct wl_seat_listener seat_listener = {
   seat_handle_capabilities,
   seat_handle_name,
 };
