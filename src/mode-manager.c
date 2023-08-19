@@ -53,7 +53,10 @@ struct _PhoshModeManager {
   GCancellable                *cancel;
   gchar                       *chassis;
   PhoshWaylandSeatCapabilities wl_caps;
-  gboolean                     is_tablet_mode;
+
+  /* Tablet mode */
+  gboolean                            is_tablet_mode;
+  struct zphoc_tablet_mode_switch_v1 *tablet_mode_switch;
 };
 G_DEFINE_TYPE (PhoshModeManager, phosh_mode_manager, PHOSH_TYPE_MANAGER);
 
@@ -153,7 +156,10 @@ update_props (PhoshModeManager *self)
       (hw & PHOSH_MODE_DOCKED_TABLET_MASK) == PHOSH_MODE_DOCKED_TABLET_MASK) {
     mimicry = PHOSH_MODE_DEVICE_TYPE_DESKTOP;
   } else if (device_type == PHOSH_MODE_DEVICE_TYPE_CONVERTIBLE) {
-    mimicry = self->is_tablet_mode > 0 ? PHOSH_MODE_DEVICE_TYPE_TABLET : PHOSH_MODE_DEVICE_TYPE_LAPTOP;
+    if (self->is_tablet_mode < 0 || self->is_tablet_mode == FALSE)
+      mimicry = PHOSH_MODE_DEVICE_TYPE_LAPTOP;
+    else
+      mimicry = PHOSH_MODE_DEVICE_TYPE_TABLET;
   }
 
   g_object_freeze_notify (G_OBJECT (self));
@@ -218,6 +224,51 @@ on_chassis_changed (PhoshModeManager   *self,
 
 
 static void
+tablet_mode_switch_disabled (void *data, struct zphoc_tablet_mode_switch_v1 *zphoc_tablet_mode_switch_v1)
+{
+  PhoshModeManager *self = PHOSH_MODE_MANAGER (data);
+
+  g_return_if_fail (PHOSH_IS_MODE_MANAGER (self));
+
+  g_debug ("Tablet mode disabled");
+
+  self->is_tablet_mode = FALSE;
+  update_props (self);
+}
+
+static void
+tablet_mode_switch_enabled (void *data, struct zphoc_tablet_mode_switch_v1 *zphoc_tablet_mode_switch_v1)
+{
+  PhoshModeManager *self = PHOSH_MODE_MANAGER (data);
+
+  g_return_if_fail (PHOSH_IS_MODE_MANAGER (self));
+
+  g_debug ("Tablet mode enabled");
+
+  self->is_tablet_mode = TRUE;
+  update_props (self);
+}
+
+
+const struct zphoc_tablet_mode_switch_v1_listener tablet_mode_switch_listener = {
+  .disabled = tablet_mode_switch_disabled,
+  .enabled = tablet_mode_switch_enabled,
+};
+
+
+static void
+register_tablet_mode_switch (PhoshModeManager *self)
+{
+  if (self->tablet_mode_switch)
+    return;
+
+  self->tablet_mode_switch = zphoc_device_state_v1_get_tablet_mode_switch (
+    phosh_wayland_get_zphoc_device_state_v1 (phosh_wayland_get_default ()));
+  zphoc_tablet_mode_switch_v1_add_listener (self->tablet_mode_switch, &tablet_mode_switch_listener, self);
+}
+
+
+static void
 on_seat_capabilities_changed (PhoshModeManager *self,
                               GParamSpec       *pspec,
                               PhoshWayland     *wl)
@@ -226,6 +277,10 @@ on_seat_capabilities_changed (PhoshModeManager *self,
   g_return_if_fail (PHOSH_IS_WAYLAND (wl));
 
   self->wl_caps = phosh_wayland_get_seat_capabilities (wl);
+
+  if (self->wl_caps & PHOSH_WAYLAND_SEAT_CAPABILITY_TABLET_MODE_SWITCH)
+    register_tablet_mode_switch (self);
+
   update_props (self);
 }
 
@@ -301,6 +356,8 @@ static void
 phosh_mode_manager_dispose (GObject *object)
 {
   PhoshModeManager *self = PHOSH_MODE_MANAGER (object);
+
+  g_clear_pointer (&self->tablet_mode_switch, zphoc_tablet_mode_switch_v1_destroy);
 
   g_cancellable_cancel (self->cancel);
   g_clear_object (&self->cancel);

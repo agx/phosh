@@ -501,7 +501,6 @@ phosh_app_tracker_finalize (GObject *object)
   }
   g_clear_object (&self->session_bus);
 
-
   G_OBJECT_CLASS (phosh_app_tracker_parent_class)->finalize (object);
 }
 
