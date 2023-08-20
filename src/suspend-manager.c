@@ -134,7 +134,6 @@ on_logind_manager_proxy_new_for_bus_finish (GObject             *source_object,
                                             PhoshSuspendManager *self)
 {
   g_autoptr (GError) err = NULL;
-  g_autofree char *session_id = NULL;
   PhoshWifiManager *wifi_manager;
   PhoshDBusLoginManager *proxy;
 
