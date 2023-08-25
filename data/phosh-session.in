@@ -45,6 +45,11 @@ elif  [ -f "${ROOTSTON_INI}" ]; then
   PHOC_INI="${ROOTSTON_INI}"
 fi
 
+if [ -f "$HOME/.phoshdebug" ]; then
+  echo "WARN: .phoshdebug found."
+  . "$HOME/.phoshdebug"
+fi
+
 # Run gnome-session through a login shell so it picks
 # variables from /etc/profile.d (XDG_*)
 [ -n "$WLR_BACKENDS" ] || WLR_BACKENDS=drm,libinput
