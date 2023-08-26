@@ -5,9 +5,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-04-21 10:33+0000\n"
-"PO-Revision-Date: 2023-04-21 17:29+0300\n"
-"Last-Translator: Aleksandr Melman <Alexmelman88@gmail.com>\n"
+"POT-Creation-Date: 2023-07-05 08:48+0000\n"
+"PO-Revision-Date: 2023-08-16 20:26+0300\n"
+"Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -82,6 +82,10 @@ msgstr "Вкл"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
+#: src/call-notification.c:60
+msgid "Unknown caller"
+msgstr "Неизвестный абонент"
+
 #: src/docked-info.c:81
 msgid "Docked"
 msgstr "Прикреплено"
@@ -91,7 +95,7 @@ msgid "Undocked"
 msgstr "Откреплено"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:62
+#: src/ui/end-session-dialog.ui:71
 msgid "Ok"
 msgstr "Хорошо"
 
@@ -103,11 +107,11 @@ msgstr "Невозможно сделать экстренный вызов"
 msgid "Internal error"
 msgstr "Внутренняя ошибка"
 
-#: src/end-session-dialog.c:162
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "Выйти"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -115,11 +119,11 @@ msgstr[0] "%s автоматически выйдет из системы чер
 msgstr[1] "%s автоматически выйдет из системы через %d секунды."
 msgstr[2] "%s автоматически выйдет из системы через %d секунд."
 
-#: src/end-session-dialog.c:171
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "Выключить"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -127,11 +131,11 @@ msgstr[0] "Система автоматически выключится чер
 msgstr[1] "Система автоматически выключится через %d секунды."
 msgstr[2] "Система автоматически выключится через %d секунд."
 
-#: src/end-session-dialog.c:178
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "Перезапустить"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -139,7 +143,7 @@ msgstr[0] "Система автоматически перезагрузитс�
 msgstr[1] "Система автоматически перезагрузится через %d секунды."
 msgstr[2] "Система автоматически перезагрузится через %d секунд."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "Неизвестное приложение"
 
@@ -180,11 +184,11 @@ msgstr "Да"
 msgid "No"
 msgstr "Нет"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Введите код доступа"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "Проверка…"
 
@@ -197,12 +201,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Снимок экрана скопирован в буфер обмена"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Неизвестное название"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Неизвестный исполнитель"
 
@@ -336,7 +340,7 @@ msgstr "Почти %dy"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Диалог аутентификации был отклонен пользователем"
 
@@ -372,10 +376,14 @@ msgstr "Вкл"
 msgid "Press ESC to close"
 msgstr "Нажмите Esc чтобы закрыть"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Выполнение '%s' не удалось"
+
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Регулятор громкости оболочки телефона"
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
@@ -393,7 +401,7 @@ msgstr "Фонарик"
 msgid "Remember decision"
 msgstr "Запомнить решение"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
@@ -418,6 +426,18 @@ msgstr "_Подробности"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Поиск приложений…"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Устройства вывода"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Устройства ввода"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "Настройки звука"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -444,7 +464,7 @@ msgstr "Владелец неизвестен"
 msgid "Emergency Contacts"
 msgstr "Контакты для экстренной помощи"
 
-#: src/ui/emergency-menu.ui:148
+#: src/ui/emergency-menu.ui:142
 msgid "No emergency contacts available."
 msgstr "Контакты для экстренной помощи отсутствуют."
 
@@ -464,19 +484,15 @@ msgstr "Домен:"
 msgid "Co_nnect"
 msgstr "По_дключиться"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "Назад"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "Проведите вверх для разблокировки"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "Экстренная помощь"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "Разблокировать"
 
@@ -485,7 +501,7 @@ msgid "Authentication required"
 msgstr "Требуется аутентификация"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_Отменить"
 
@@ -497,19 +513,19 @@ msgstr "П_одключить"
 msgid "Authenticate"
 msgstr "Подтвердить"
 
-#: src/ui/power-menu.ui:37
+#: src/ui/power-menu.ui:69
 msgid "_Power Off"
 msgstr "_Выключить"
 
-#: src/ui/power-menu.ui:78
+#: src/ui/power-menu.ui:110
 msgid "_Lock"
 msgstr "_Заблокировать"
 
-#: src/ui/power-menu.ui:119
+#: src/ui/power-menu.ui:151
 msgid "_Screenshot"
 msgstr "_Снимок экрана"
 
-#: src/ui/power-menu.ui:160
+#: src/ui/power-menu.ui:192
 msgid "_Emergency"
 msgstr "_Экстренная помощь"
 
@@ -517,17 +533,33 @@ msgstr "_Экстренная помощь"
 msgid "Run Command"
 msgstr "Выполнить команду"
 
-#: src/ui/settings.ui:320
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "Нет уведомлений"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "Очистить все"
 
 #: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Подтверждение:"
+
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "_Выключить…"
+
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "_Перезапустить…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_Ожидание…"
+
+#: src/ui/top-panel.ui:116
+msgid "_Log Out…"
+msgstr "_Выйти…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -645,15 +677,15 @@ msgstr "Добавить новый контакт"
 msgid "Add"
 msgstr "Добавить"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "Новое имя контакта"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "Родство"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Номер"
 
@@ -669,7 +701,7 @@ msgstr "Билеты"
 msgid "Choose Folder"
 msgstr "Выбрать папку"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "О_ткрыть"
 
@@ -737,6 +769,9 @@ msgstr "Конец"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Безымянное событие"
+
+#~ msgid "Emergency"
+#~ msgstr "Экстренная помощь"
 
 #~ msgid "Lock Screen"
 #~ msgstr "Заблокировать экран"
