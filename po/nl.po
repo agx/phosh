@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-03-07 10:28+0000\n"
-"PO-Revision-Date: 2023-04-02 15:11+0200\n"
+"POT-Creation-Date: 2023-07-05 08:48+0000\n"
+"PO-Revision-Date: 2023-08-27 14:22+0200\n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
-"Language-Team: Dutch https://matrix.to/#/#nl:gnome.org\n"
+"Language-Team: GNOME-NL https://matrix.to/#/#nl:gnome.org\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -82,6 +82,10 @@ msgstr "Aan"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
+#: src/call-notification.c:60
+msgid "Unknown caller"
+msgstr "Onbekende beller"
+
 #: src/docked-info.c:81
 msgid "Docked"
 msgstr "In dock"
@@ -90,40 +94,53 @@ msgstr "In dock"
 msgid "Undocked"
 msgstr "Uit dock"
 
-#: src/end-session-dialog.c:162
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:71
+msgid "Ok"
+msgstr "Oké"
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr "Noodoproep mislukt"
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr "Interne fout"
+
+#: src/end-session-dialog.c:163
 msgid "Log Out"
 msgstr "Uitloggen"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:166
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s wordt automatisch uitgelogd over %d seconde."
 msgstr[1] "%s wordt automatisch uitgelogd over %d seconden."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+#: src/end-session-dialog.c:172
 msgid "Power Off"
 msgstr "Uitschakelen"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:173
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Het systeem wordt automatisch uitgeschakeld over %d seconde."
 msgstr[1] "Het systeem wordt automatisch uitgeschakeld over %d seconden."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+#: src/end-session-dialog.c:179
 msgid "Restart"
 msgstr "Herstarten"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:180
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "Het systeem zal automatisch herstarten over %d seconde."
 msgstr[1] "Het systeem zal automatisch herstarten over %d seconden."
 
-#: src/end-session-dialog.c:269
+#: src/end-session-dialog.c:270
 msgid "Unknown application"
 msgstr "Onbekende applicatie"
 
@@ -164,21 +181,29 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nee"
 
-#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Voer de pincode in"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "Bezig met controleren…"
 
+#: src/screenshot-manager.c:212
+msgid "Screenshot"
+msgstr "Schermafdruk"
+
+#: src/screenshot-manager.c:213
+msgid "Screenshot copied to clipboard"
+msgstr "Schermafdruk gekopieerd naar klembord"
+
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Onbekende titel"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Onbekende artiest"
 
@@ -216,7 +241,7 @@ msgstr "Authenticatietype van wifinetwerk ‘%s’ wordt niet ondersteund"
 msgid "Enter password for the wifi network “%s”"
 msgstr "Voer het wachtwoord in voor wifinetwerk ‘%s’"
 
-#: src/notifications/mount-notification.c:122
+#: src/notifications/mount-notification.c:121
 msgid "Open"
 msgstr "Openen"
 
@@ -312,7 +337,7 @@ msgstr "Bijna %dj"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Authenticatievenster is door de gebruiker afgesloten"
 
@@ -348,10 +373,14 @@ msgstr "Aan"
 msgid "Press ESC to close"
 msgstr "Druk op ESC om te sluiten"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Uitvoeren van ‘%s’ mislukt"
+
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Volumeregeling van Telefoonshell"
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
@@ -369,15 +398,11 @@ msgstr "Zaklamp"
 msgid "Remember decision"
 msgstr "Keuze onthouden"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Annuleren"
-
-#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
-msgid "Ok"
-msgstr "Oké"
 
 #: src/ui/app-grid-button.ui:55
 msgid "App"
@@ -399,6 +424,47 @@ msgstr "_Details bekijken"
 msgid "Search apps…"
 msgstr "Apps zoeken…"
 
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Uitvoerapparaten"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Invoerapparaten"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "Geluidsinstellingen"
+
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "Sluit de noodoproepdialoog"
+
+#: src/ui/emergency-menu.ui:52
+msgid "Emergency _Contacts"
+msgstr "Nood_contacten"
+
+#: src/ui/emergency-menu.ui:59
+msgid "Go to the emergency contacts page"
+msgstr "Ga naar de noodcontactenpagina"
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr "Ga terug naar het noodtoetsenblok"
+
+#: src/ui/emergency-menu.ui:106
+msgid "Owner unknown"
+msgstr "Onbekende eigenaar"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Noodcontacten"
+
+#: src/ui/emergency-menu.ui:142
+msgid "No emergency contacts available."
+msgstr "Geen noodcontacten beschikbaar."
+
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
 msgstr "Sommige applicaties zijn bezig of hebben niet-opgeslagen werk"
@@ -415,19 +481,15 @@ msgstr "Domein:"
 msgid "Co_nnect"
 msgstr "Verbi_nden"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "Terug"
 
-#: src/ui/lockscreen.ui:93
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "Veeg omhoog om te ontgrendelen"
 
-#: src/ui/lockscreen.ui:282
-msgid "Emergency"
-msgstr "Noodgeval"
-
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "Ontgrendelen"
 
@@ -436,7 +498,7 @@ msgid "Authentication required"
 msgstr "Verificatie vereist"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_Annuleren"
 
@@ -448,15 +510,31 @@ msgstr "_Verbinden"
 msgid "Authenticate"
 msgstr "Aanmelden"
 
+#: src/ui/power-menu.ui:69
+msgid "_Power Off"
+msgstr "_Uitschakelen"
+
+#: src/ui/power-menu.ui:110
+msgid "_Lock"
+msgstr "Vergrende_len"
+
+#: src/ui/power-menu.ui:151
+msgid "_Screenshot"
+msgstr "_Schermafdruk"
+
+#: src/ui/power-menu.ui:192
+msgid "_Emergency"
+msgstr "Noodg_eval"
+
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Opdracht uitvoeren"
 
-#: src/ui/settings.ui:319
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "Geen meldingen"
 
-#: src/ui/settings.ui:359
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "Alles wissen"
 
@@ -464,13 +542,21 @@ msgstr "Alles wissen"
 msgid "Confirm:"
 msgstr "Bevestigen:"
 
-#: src/ui/top-panel.ui:15
-msgid "Lock Screen"
-msgstr "Vergrendelscherm"
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "_Uitschakelen…"
 
-#: src/ui/top-panel.ui:22
-msgid "Logout"
-msgstr "Afmelden"
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "He_rstarten…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_Slaapstand…"
+
+#: src/ui/top-panel.ui:116
+msgid "_Log Out…"
+msgstr "Afme_lden…"
 
 #. Translators: This is a time format for a date in
 #. long format
@@ -559,11 +645,6 @@ msgstr "Medicatie & aandoeningen"
 msgid "Other Information"
 msgstr "Overige informatie"
 
-#: plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
-msgid "Emergency Contacts"
-msgstr "Noodcontacten"
-
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
 msgid "Emergency Info Preferences"
@@ -593,15 +674,15 @@ msgstr "Nieuw contact toevoegen"
 msgid "Add"
 msgstr "Toevoegen"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "Naam voor nieuw contact"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "Relatie"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Nummer"
 
@@ -617,7 +698,7 @@ msgstr "Tickets"
 msgid "Choose Folder"
 msgstr "Selecteer map"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Open"
 msgstr "_Openen"
 
@@ -684,6 +765,12 @@ msgstr "Loopt af"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Naamloze gebeurtenis"
+
+#~ msgid "Lock Screen"
+#~ msgstr "Vergrendelscherm"
+
+#~ msgid "Logout"
+#~ msgstr "Afmelden"
 
 #~ msgid "Show only adaptive apps"
 #~ msgstr "Enkel adaptieve toepassingen tonen"
