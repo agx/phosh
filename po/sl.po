@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-05 08:48+0000\n"
-"PO-Revision-Date: 2023-07-28 17:59+0200\n"
+"POT-Creation-Date: 2023-07-28 16:00+0000\n"
+"PO-Revision-Date: 2023-08-29 09:00+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -49,7 +49,7 @@ msgstr "Preprost programček za koledar"
 #: plugins/ticket-box/ticket-box.ui:14
 #, fuzzy
 msgid "Ticket Box"
-msgstr "Škatla z zahtevki"
+msgstr "Škatla z vstopnicami"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:5
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
@@ -84,7 +84,7 @@ msgstr "Vključeno"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/call-notification.c:60
+#: src/call-notification.c:61
 msgid "Unknown caller"
 msgstr "Neznan klicatelj"
 
@@ -699,9 +699,8 @@ msgid "No documents to display"
 msgstr "Ni dokumentov za prikaz"
 
 #: plugins/ticket-box/ticket-box.ui:83
-#, fuzzy
 msgid "Tickets"
-msgstr "Zahtevki"
+msgstr "Vstopnice"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.c:86
 msgid "Choose Folder"
@@ -714,7 +713,7 @@ msgstr "_Odpri"
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
 #, fuzzy
 msgid "Ticket Box Preferences"
-msgstr "Nastavitve škatle z zahtevki"
+msgstr "Nastavitve škatle z vstopnicami"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
 msgid "Paths"
@@ -725,14 +724,12 @@ msgid "Folder Settings"
 msgstr "Nastavitve mape"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
-#, fuzzy
 msgid "Where Phosh looks for your tickets"
-msgstr "Kje Phosh išče vaše zahtevke"
+msgstr "Kje Phosh išče vaše vstopnice"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
-#, fuzzy
 msgid "Ticket Folder"
-msgstr "Mapa z zahtevki"
+msgstr "Mapa z vstopnicami"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
