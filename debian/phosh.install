@@ -1,3 +1,4 @@
+etc/xdg-desktop-portal/phosh-portals.conf
 usr/bin/phosh-session
 usr/lib/systemd/user/
 usr/libexec/phosh
