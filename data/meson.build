@@ -142,4 +142,4 @@ install_data('wayland-sessions/phosh.desktop',
 	     install_dir : 'share/wayland-sessions')
 
 install_data('phosh.portal', install_dir : join_paths(datadir, 'xdg-desktop-portal', 'portals'))
-install_data('phosh-portals.conf', install_dir : join_paths(sysconfdir, 'xdg-desktop-portal'))
+install_data('phosh-portals.conf', install_dir : join_paths(datadir, 'xdg-desktop-portal'))

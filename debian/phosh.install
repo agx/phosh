@@ -1,4 +1,3 @@
-etc/xdg-desktop-portal/phosh-portals.conf
 usr/bin/phosh-session
 usr/lib/systemd/user/
 usr/libexec/phosh
@@ -12,4 +11,5 @@ usr/share/glib-2.0/schemas/sm.puri.phosh.gschema.xml
 usr/share/gnome-session/sessions/phosh.session
 usr/share/applications/sm.puri.Phosh.desktop
 usr/share/dbus-1/services/sm.puri.Phosh.CalendarServer.service
+usr/share/xdg-desktop-portal/phosh-portals.conf
 usr/share/xdg-desktop-portal/portals/phosh.portal
