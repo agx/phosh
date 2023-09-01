@@ -23,16 +23,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-16 08:53+0000\n"
-"PO-Revision-Date: 2023-07-23 11:06+0200\n"
-"Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
+"POT-Creation-Date: 2023-07-29 14:21+0000\n"
+"PO-Revision-Date: 2023-09-01 19:25+0200\n"
+"Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -399,7 +399,7 @@ msgstr "»%s« konnte nicht ausgeführt werden"
 
 #: src/settings/audio-settings.c:373
 msgid "Phone Shell Volume Control"
-msgstr ""
+msgstr "Telefon-Shell-Lautstärkeregelung"
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
@@ -445,17 +445,15 @@ msgstr "Anwendungen suchen …"
 
 #: src/ui/audio-settings.ui:84
 msgid "Output Devices"
-msgstr ""
+msgstr "Ausgabegeräte"
 
 #: src/ui/audio-settings.ui:107
 msgid "Input Devices"
-msgstr ""
+msgstr "Eingabegeräte"
 
 #: src/ui/audio-settings.ui:134
-#, fuzzy
-#| msgid "Folder Settings"
 msgid "Sound Settings"
-msgstr "Ordnereinstellungen"
+msgstr "Klangeinstellungen"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
