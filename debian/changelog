@@ -1,3 +1,9 @@
+phosh (0.31.1) experimental; urgency=medium
+
+  * build: Fix version in meson file
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 04 Sep 2023 16:49:20 +0200
+
 phosh (0.31.0) experimental; urgency=medium
 
   [ Guido Günther ]
