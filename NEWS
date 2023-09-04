@@ -1,3 +1,22 @@
+phosh 0.31.0
+------------
+Released September 2023
+* Ship portal configuration for xdg-desktop-portal
+* Handle tablet-mode-switch of convertibles
+* Contributors:
+    * Guido Günther
+    * Simon McVittie
+* UI translations:
+    * Artur S0 (ru)
+    * Asier Sarasua Garmendia (eu)
+    * Boyuan Yang (zh_CN)
+    * Efstathios Iosifidis (el)
+    * Fran Dieguez (gl)
+    * Jürgen Benvenuti (de)
+    * Martin (sl)
+    * Nathan Follens (nl)
+    * Sabri Ünal (tr)
+
 phosh 0.30.0
 ------------
 Released August 2023
