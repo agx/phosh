@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocol name="phoc_device_state_unstable_v1">
+  <copyright>
+    Copyright © 2023 Guido Günther
+
+    Permission to use, copy, modify, distribute, and sell this
+    software and its documentation for any purpose is hereby granted
+    without fee, provided that the above copyright notice appear in
+    all copies and that both that copyright notice and this permission
+    notice appear in supporting documentation, and that the name of
+    the copyright holders not be used in advertising or publicity
+    pertaining to distribution of the software without specific,
+    written prior permission.  The copyright holders make no
+    representations about the suitability of this software for any
+    purpose.  It is provided "as is" without express or implied
+    warranty.
+
+    THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS
+    SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+    FITNESS, IN NO EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN
+    AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+    ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+    THIS SOFTWARE.
+  </copyright>
+
+  <interface name="zphoc_device_state_v1" version="1">
+    <description summary="Device state information">
+      Phones, tablets, convertibles, laptops can have additional hardware attached or switch
+      their operation mode from e.g. tablet to laptop. This protocol is meant to provide information
+      about these changes to interested clients.
+
+      Warning! The protocol described in this file is experimental and
+      backward incompatible changes may be made. Backward compatible changes
+      may be added together with the corresponding interface version bump.
+      Backward incompatible changes are done by bumping the version number in
+      the protocol and interface names and resetting the interface version.
+      Once the protocol is to be declared stable, the 'z' prefix and the
+      version number in the protocol and interface names are removed and the
+      interface version number is reset.
+
+      This protocol is meant to collect necessary bits before we propose an
+      upstream solution.
+    </description>
+
+    <enum name="capability" bitfield="true">
+      <description summary="Device capability bitmask">
+	This is a bitmask of capabilities this devices has; if a member is
+	set, then the hardware is present.
+      </description>
+      <entry name="tablet_mode_switch" value="1" summary="The device has a tablet mode switch"/>
+      <entry name="lid_switch" value="2" summary="The device has a lid switch"/>
+    </enum>
+
+    <enum name="error">
+      <description summary="zphoc_device_state_v1 error values">
+	These errors can be emitted in response to zphoc_device_state_v1 requests.
+      </description>
+      <entry name="missing_capability" value="0"
+	     summary="get_tablet_mode_switch called on device without the matching capability"/>
+    </enum>
+
+    <event name="capabilities">
+      <description summary="The device capabilitiers changed">
+        This is emitted whenever a device gains or loses a capbility.
+        The argument is a capability enum containing the complete set
+        of hw capabilities this device has.
+      </description>
+      <arg name="capabilities" type="uint" enum="capability" summary="Hardware capabilities of the device"/>
+    </event>
+
+    <request name="get_tablet_mode_switch">
+      <description summary="return tablet-mode-switch object">
+	The ID provided will be initialized to the phoc_tablet_mode_switch interface
+	for this device
+
+	This request only takes effect if the seat has the tablet-mode-switch
+	capability, or has had the tablet-mode-switch capability in the past.
+	It is a protocol violation to issue this request on a seat that has
+	never had the tablet-mode-switch capability. The
+        missing_capability error will be sent in this case.
+      </description>
+      <arg name="id" type="new_id" interface="zphoc_tablet_mode_switch_v1" summary="tablet mode switch"/>
+    </request>
+
+    <request name="get_lid_switch">
+      <description summary="return tablet-mode-switch object">
+	The ID provided will be initialized to the phoc_lid_switch interface
+	for this device
+
+	This request only takes effect if the seat has the lid-switch
+	capability, or has had the lid-switch capability in the past.
+	It is a protocol violation to issue this request on a seat that has
+	never had the tablet-mode-switch capability. The
+        missing_capability error will be sent in this case.
+      </description>
+      <arg name="id" type="new_id" interface="zphoc_lid_switch_v1" summary="lid switch"/>
+    </request>
+
+  </interface>
+
+  <interface name="zphoc_tablet_mode_switch_v1" version="1">
+    <description summary="A tablet mode switch">
+      The tablet_mode_switch interface represents a tablet mode switch.
+      It can have two possible values:
+
+      The wl_pointer interface generates enabled and disabled events to indicate
+      switch state changes
+    </description>
+
+    <request name="destroy" type="destructor">
+      <description summary="release the switch object">
+	Using this request a client can tell the server that it is not going to
+	use the switch object anymore.
+      </description>
+    </request>
+
+    <event name="disabled">
+      <description summary="Tablet mode got disabled"/>
+    </event>
+
+    <event name="enabled">
+      <description summary="Tablet mode got enabled"/>
+    </event>
+  </interface>
+
+  <interface name="zphoc_lid_switch_v1" version="1">
+    <description summary="A tablet mode switch">
+      The lid_switch interface represents a tablet mode switch.
+      It can have two possible values:
+
+      The wl_pointer interface generates enabled and disabled events to indicate
+      switch state changes
+    </description>
+
+    <request name="destroy" type="destructor">
+      <description summary="release the switch object">
+	Using this request a client can tell the server that it is not going to
+	use the switch object anymore.
+      </description>
+    </request>
+
+    <event name="opened">
+      <description summary="Lid got opened"/>
+    </event>
+
+    <event name="closed">
+      <description summary="Lid got closed"/>
+    </event>
+  </interface>
+
+</protocol>
