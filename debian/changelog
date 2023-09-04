@@ -1,3 +1,66 @@
+phosh (0.31.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * data: Add portals default config.
+    We keep the `UseIn` in phosh.portal for the moment to support
+    older xdg-desktop-portal.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/979
+    Thanks to Pablo Correa Gomez for bringing this up
+  * portals: End lines with a semicolon.
+    It's a desktop file like syntax
+  * portals: Use wlr as fallback for screenshot portal.
+    E.g. Debian has it disabled for the gtk portal.
+  * portal: Disable screencast portal. No implementation yet.
+  * portal: Add secrets portal.
+    Provided by gnome-keyring
+  * wayland: Make zwlr_output_power_manager_v1 mandatory.
+    It's there since phoc 0.1.6.
+  * suspend-manager: Drop unused variable
+  * protocol: Add phoc-device-state-unstable-v1.
+    Track the device state capabilities and merge them into the seat's caps.
+    This way we only need to worry about one set of capabilities.
+  * mode-manager: Set tablet or laptop mode for convertibles.
+    Based on a patch by Jonathan Hall.
+    Closes: https://gitlab.gnome.org/World/Phosh/phoc/-/issues/320
+  * mode-manager: Switch between tablet and laptop mode.
+    When the seat as the needed caps we register a listener for the
+    switch and switch between tablet and laptop mode based on its state.
+  * ci: Update variables. We moved to trixie
+
+  [ Simon McVittie ]
+  * data: Install phosh-portals-conf in /usr/share.
+    This is supported in xdg-desktop-portal >= 0.17.1
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/982
+
+  [ Boyuan Yang ]
+  * Add Chinese (China) translation
+
+  [ Sabri Ünal ]
+  * Update Turkish translation
+
+  [ Fran Dieguez ]
+  * Update Galician translation
+
+  [ Efstathios Iosifidis ]
+  * Update Greek translation
+
+  [ Asier Sarasua Garmendia ]
+  * Update Basque translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Nathan Follens ]
+  * Update Dutch translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Jürgen Benvenuti ]
+  * Update German translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 04 Sep 2023 13:33:50 +0200
+
 phosh (0.30.0) experimental; urgency=medium
 
   [ Guido Günther ]
