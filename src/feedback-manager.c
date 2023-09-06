@@ -242,8 +242,11 @@ phosh_feedback_manager_get_profile (PhoshFeedbackManager *self)
 void
 phosh_feedback_manager_toggle (PhoshFeedbackManager *self)
 {
-  const char *profile = "silent", *old = lfb_get_feedback_profile ();
+  const char *profile = "silent", *old;
 
+  g_return_if_fail (self->inited);
+
+  old = lfb_get_feedback_profile ();
   if (!g_strcmp0 (old, "silent"))
     profile = "full";
   else if (!g_strcmp0 (old, "full"))
@@ -264,6 +267,8 @@ void
 phosh_trigger_feedback (const char *name)
 {
   g_autoptr(LfbEvent) event = NULL;
+
+  g_return_if_fail (lfb_is_initted ());
 
   event = lfb_event_new(name);
   lfb_event_trigger_feedback_async (event,
