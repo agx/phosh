@@ -51,6 +51,8 @@ G_DEFINE_TYPE (PhoshNotifyFeedback, phosh_notify_feedback, G_TYPE_OBJECT)
 static void
 end_notify_feedback (PhoshNotifyFeedback *self)
 {
+  g_return_if_fail (lfb_is_initted ());
+
   if (self->event == NULL)
     return;
 
@@ -125,6 +127,7 @@ maybe_trigger_feedback (PhoshNotifyFeedback *self, PhoshNotificationSource *sour
     GAppInfo *info = NULL;
 
     g_return_val_if_fail (PHOSH_IS_NOTIFICATION (noti), FALSE);
+    g_return_val_if_fail (lfb_is_initted (), FALSE);
 
     category = phosh_notification_get_category (noti);
     event_name = find_event (category);
