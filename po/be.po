@@ -1,0 +1,773 @@
+# Belarusian translation for phosh.
+# Copyright (C) 2023 phosh's COPYRIGHT HOLDER
+# This file is distributed under the same license as the phosh package.
+# Yuras Shumovich <shumovichy@gmail.com>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: phosh main\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2023-09-08 10:55+0000\n"
+"PO-Revision-Date: 2023-09-14 20:35+0300\n"
+"Last-Translator: Yuras Shumovich <shumovichy@gmail.com>\n"
+"Language-Team: Belarusian <i18n-bel-gnome@googlegroups.com>\n"
+"Language: be\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
+msgid "Phosh"
+msgstr "Phosh"
+
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
+msgid "Phone Shell"
+msgstr "Абалонка тэлефона"
+
+#: data/sm.puri.Phosh.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "Кіраванне вокнамі і запуск праграм для мабільных прылад"
+
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Гэты сеанс рэгіструе вас у Phosh"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "Calendar"
+msgstr "Каляндар"
+
+#: plugins/calendar/calendar.desktop.in.in:6
+msgid "A simple calendar widget"
+msgstr "Просты віджэт календара"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Скрыня для білетаў"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Паказваць дакументы PDF на экране блакіравання. <b>Гэта эксперыментальны "
+"плагін.</b>"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Надыходзячыя падзеі"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Паказваць надыходзячыя падзеі календара"
+
+#: src/app-grid-button.c:529
+msgid "Application"
+msgstr "Праграма"
+
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "Паказваць усе праграмы"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Паказваць толькі праграмы для мабільных прылад"
+
+#: src/bt-info.c:92
+msgctxt "bluetooth:enabled"
+msgid "On"
+msgstr "Укл"
+
+#: src/bt-info.c:94
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/call-notification.c:61
+msgid "Unknown caller"
+msgstr "Невядомы абанент"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Прымацавана"
+
+#: src/docked-info.c:81 src/docked-info.c:199
+msgid "Undocked"
+msgstr "Адмацавана"
+
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:71
+msgid "Ok"
+msgstr "Добра"
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr "Немагчыма выканаць экстранны выклік"
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr "Унутраная памылка"
+
+#: src/end-session-dialog.c:163
+msgid "Log Out"
+msgstr "Выйсці"
+
+#: src/end-session-dialog.c:166
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "%s аўтаматычна выйдзе праз %d секунду."
+msgstr[1] "%s аўтаматычна выйдзе праз %d секунды."
+msgstr[2] "%s аўтаматычна выйдзе праз %d секунд."
+
+#: src/end-session-dialog.c:172
+msgid "Power Off"
+msgstr "Выключыць"
+
+#: src/end-session-dialog.c:173
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "Сістэма аўтаматычна выключыцца праз %d секунду."
+msgstr[1] "Сістэма аўтаматычна выключыцца праз %d секунды."
+msgstr[2] "Сістэма аўтаматычна выключыцца праз %d секунд."
+
+#: src/end-session-dialog.c:179
+msgid "Restart"
+msgstr "Перазапусціць"
+
+#: src/end-session-dialog.c:180
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "Сістэма аўтаматычна перазапусціцца праз %d секунду."
+msgstr[1] "Сістэма аўтаматычна перазапусціцца праз %d секунды."
+msgstr[2] "Сістэма аўтаматычна перазапусціцца праз %d секунд."
+
+#: src/end-session-dialog.c:270
+msgid "Unknown application"
+msgstr "Невядомая праграма"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:97
+msgid "Quiet"
+msgstr "Ціхі"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:104
+msgid "Silent"
+msgstr "Бязгучны"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:108
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "Укл"
+
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "Даць праграме %s доступ да вашага месцазнаходжання?"
+
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "Геалакацыя"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "Так"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "Не"
+
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
+msgid "Enter Passcode"
+msgstr "Увядзіце код доступу"
+
+#: src/lockscreen.c:397
+msgid "Checking…"
+msgstr "Праверка…"
+
+#: src/screenshot-manager.c:213
+msgid "Screenshot"
+msgstr "Здымак экрана"
+
+#: src/screenshot-manager.c:214
+msgid "Screenshot copied to clipboard"
+msgstr "Здымак экрана скапіяваны ў буфер абмену"
+
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:321 src/ui/media-player.ui:161
+msgid "Unknown Title"
+msgstr "Невядомая назва"
+
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:329 src/ui/media-player.ui:148
+msgid "Unknown Artist"
+msgstr "Невядомы выканаўца"
+
+#: src/monitor-manager.c:119
+msgid "Built-in display"
+msgstr "Убудаваны дысплэй"
+
+#: src/monitor-manager.c:137
+#, c-format
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
+
+#: src/monitor-manager.c:144
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %s"
+msgstr "%s %s"
+
+#. Translators: An unknown monitor type
+#: src/monitor-manager.c:153
+msgid "Unknown"
+msgstr "Невядомы"
+
+#: src/network-auth-prompt.c:201
+#, c-format
+msgid "Authentication type of wifi network “%s” not supported"
+msgstr "Тып аўтэнтыфікацыі сеткі Wi-Fi «%s» не падтрымліваецца"
+
+#: src/network-auth-prompt.c:206
+#, c-format
+msgid "Enter password for the wifi network “%s”"
+msgstr "Увядзіце пароль да сеткі Wi-Fi «%s»"
+
+#: src/notifications/mount-notification.c:121
+msgid "Open"
+msgstr "Адкрыць"
+
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
+msgid "Notification"
+msgstr "Апавяшчэнне"
+
+#. Translators: Timestamp seconds suffix
+#: src/notifications/timestamp-label.c:84
+msgctxt "timestamp-suffix-seconds"
+msgid "s"
+msgstr "с"
+
+#. Translators: Timestamp minute suffix
+#: src/notifications/timestamp-label.c:86
+msgctxt "timestamp-suffix-minute"
+msgid "m"
+msgstr "хв"
+
+#. Translators: Timestamp minutes suffix
+#: src/notifications/timestamp-label.c:88
+msgctxt "timestamp-suffix-minutes"
+msgid "m"
+msgstr "хв"
+
+#. Translators: Timestamp hour suffix
+#: src/notifications/timestamp-label.c:90
+msgctxt "timestamp-suffix-hour"
+msgid "h"
+msgstr "гадз"
+
+#. Translators: Timestamp hours suffix
+#: src/notifications/timestamp-label.c:92
+msgctxt "timestamp-suffix-hours"
+msgid "h"
+msgstr "гадз"
+
+#. Translators: Timestamp day suffix
+#: src/notifications/timestamp-label.c:94
+msgctxt "timestamp-suffix-day"
+msgid "d"
+msgstr "д"
+
+#. Translators: Timestamp days suffix
+#: src/notifications/timestamp-label.c:96
+msgctxt "timestamp-suffix-days"
+msgid "d"
+msgstr "д"
+
+#. Translators: Timestamp month suffix
+#: src/notifications/timestamp-label.c:98
+msgctxt "timestamp-suffix-month"
+msgid "mo"
+msgstr "мес"
+
+#. Translators: Timestamp months suffix
+#: src/notifications/timestamp-label.c:100
+msgctxt "timestamp-suffix-months"
+msgid "mos"
+msgstr "мес"
+
+#. Translators: Timestamp year suffix
+#: src/notifications/timestamp-label.c:102
+msgctxt "timestamp-suffix-year"
+msgid "y"
+msgstr "г"
+
+#. Translators: Timestamp years suffix
+#: src/notifications/timestamp-label.c:104
+msgctxt "timestamp-suffix-years"
+msgid "y"
+msgstr "г"
+
+#: src/notifications/timestamp-label.c:121
+msgid "now"
+msgstr "зараз"
+
+#. Translators: time difference "Over 5 years"
+#: src/notifications/timestamp-label.c:189
+#, c-format
+msgid "Over %dy"
+msgstr "Больш за %dy"
+
+#. Translators: time difference "almost 5 years"
+#: src/notifications/timestamp-label.c:193
+#, c-format
+msgid "Almost %dy"
+msgstr "Амаль %dy"
+
+#. Translators: a time difference like '<5m', if in doubt leave untranslated
+#: src/notifications/timestamp-label.c:200
+#, c-format
+msgid "%s%d%s"
+msgstr "%s%d%s"
+
+#: src/polkit-auth-agent.c:227
+msgid "Authentication dialog was dismissed by the user"
+msgstr "Аўтэнтыфікацыя адхілена карыстальнікам"
+
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
+msgid "Password:"
+msgstr "Пароль:"
+
+#: src/polkit-auth-prompt.c:325
+msgid "Sorry, that didn’t work. Please try again."
+msgstr "Не пацверджана. Паўтарыце спробу."
+
+#: src/rotateinfo.c:102
+msgid "Portrait"
+msgstr "Кніжная"
+
+#: src/rotateinfo.c:105
+msgid "Landscape"
+msgstr "Альбомная"
+
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
+msgctxt "automatic-screen-rotation-disabled"
+msgid "Off"
+msgstr "Выкл"
+
+#: src/rotateinfo.c:126
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "Укл"
+
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Націсніце ESC, каб закрыць"
+
+#: src/run-command-manager.c:89
+#, c-format
+msgid "Running '%s' failed"
+msgstr "Не ўдалося выканаць «%s»"
+
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Кіраванне гучнасцю абалонкі тэлефона"
+
+#: src/system-prompt.c:365
+msgid "Passwords do not match."
+msgstr "Паролі не супадаюць."
+
+#: src/system-prompt.c:372
+msgid "Password cannot be blank"
+msgstr "Пароль не можа быць пустым"
+
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "Ліхтарык"
+
+#: src/ui/app-auth-prompt.ui:49
+msgid "Remember decision"
+msgstr "Запомніць выбар"
+
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
+msgid "Cancel"
+msgstr "Скасаваць"
+
+#: src/ui/app-grid-button.ui:55
+msgid "App"
+msgstr "Праграма"
+
+#: src/ui/app-grid-button.ui:79
+msgid "Remove from _Favorites"
+msgstr "Выдаліць з абраныга"
+
+#: src/ui/app-grid-button.ui:84
+msgid "Add to _Favorites"
+msgstr "Дадаць у абранае"
+
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "_Падрабязнасці"
+
+#: src/ui/app-grid.ui:21
+msgid "Search apps…"
+msgstr "Пошук праграм…"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Прылады вываду"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Прылады ўводу"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "Налады гуку"
+
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "Закрыць акно выкліку экстранных службаў"
+
+#: src/ui/emergency-menu.ui:52
+msgid "Emergency _Contacts"
+msgstr "_Кантакты экстранных службаў"
+
+#: src/ui/emergency-menu.ui:59
+msgid "Go to the emergency contacts page"
+msgstr "Перайсці на старонку кантактаў экстранных службаў"
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr "Вярнуцца на старонку набору экстранных службаў"
+
+#: src/ui/emergency-menu.ui:106
+msgid "Owner unknown"
+msgstr "Уладальнік невядомы"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Кантакты экстранных службаў"
+
+#: src/ui/emergency-menu.ui:142
+msgid "No emergency contacts available."
+msgstr "Няма кантактаў экстранных службаў."
+
+#: src/ui/end-session-dialog.ui:31
+msgid "Some applications are busy or have unsaved work"
+msgstr "Некаторыя праграмы заняты або маюць незахаваныя вынікі працы"
+
+#: src/ui/gtk-mount-prompt.ui:94
+msgid "User:"
+msgstr "Карыстальнік:"
+
+#: src/ui/gtk-mount-prompt.ui:117
+msgid "Domain:"
+msgstr "Дамен:"
+
+#: src/ui/gtk-mount-prompt.ui:150
+msgid "Co_nnect"
+msgstr "_Злучыцца"
+
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
+msgid "Back"
+msgstr "Назад"
+
+#: src/ui/lockscreen.ui:97
+msgid "Slide up to unlock"
+msgstr "Правядзіце пальцам, каб разблакіраваць"
+
+#: src/ui/lockscreen.ui:297
+msgid "Unlock"
+msgstr "Разблакіраваць"
+
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+msgid "Authentication required"
+msgstr "Патрабуецца аўтэнтыфікацыя"
+
+#: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+msgid "_Cancel"
+msgstr "_Скасаваць"
+
+#: src/ui/network-auth-prompt.ui:58
+msgid "C_onnect"
+msgstr "_Злучыцца"
+
+#: src/ui/polkit-auth-prompt.ui:122
+msgid "Authenticate"
+msgstr "Пацвердзіць"
+
+#: src/ui/power-menu.ui:69
+msgid "_Power Off"
+msgstr "_Выключыць"
+
+#: src/ui/power-menu.ui:110
+msgid "_Lock"
+msgstr "_Заблакіраваць"
+
+#: src/ui/power-menu.ui:151
+msgid "_Screenshot"
+msgstr "Здымак _экрана"
+
+#: src/ui/power-menu.ui:192
+msgid "_Emergency"
+msgstr "_Экстранныя службы"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Выканаць каманду"
+
+#: src/ui/settings.ui:296
+msgid "No notifications"
+msgstr "Няма апавяшчэнняў"
+
+#: src/ui/settings.ui:336
+msgid "Clear all"
+msgstr "Ачысціць усе"
+
+#: src/ui/system-prompt.ui:62
+msgid "Confirm:"
+msgstr "Пацвярджэнне:"
+
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "_Выключыць…"
+
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "_Перазапусціць…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_Прыпыніць…"
+
+#: src/ui/top-panel.ui:116
+msgid "_Log Out…"
+msgstr "_Выйсці…"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:339
+msgid "%A, %B %-e"
+msgstr "%A, %-e %B"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
+
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Плагін не знойдзены"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Не ўдалося загрузіць плагін «%s»."
+
+#: src/wifiinfo.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwan-info.c:210
+msgid "Cellular"
+msgstr "Сотавая сетка"
+
+#: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+msgid "Personal Information"
+msgstr "Асабовая інфармацыя"
+
+#: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+msgid "Date of Birth"
+msgstr "Дата нараджэння"
+
+#: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+msgid "Preferred Language"
+msgstr "Пажаданая мова"
+
+#: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+msgid "Home Address"
+msgstr "Дамашні адрас"
+
+#: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+msgid "Medical Information"
+msgstr "Медыцынскія звесткі"
+
+#: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+msgid "Age"
+msgstr "Узрост"
+
+#: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+msgid "Blood Type"
+msgstr "Група крыві"
+
+#: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+msgid "Height"
+msgstr "Рост"
+
+#: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+msgid "Weight"
+msgstr "Вага"
+
+#: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+msgid "Allergies"
+msgstr "Алергія"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "Лекавыя сродкі і захворванні"
+
+#: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+msgid "Other Information"
+msgstr "Іншая інфармацыя"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "Звесткі для экстраннай дапамогі"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "Гатова"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "Імя ўладальніка"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "Лекавыя сродкі і захворванні"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "Дадаць кантакт"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "Дадаць новы кантакт"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "Дадаць"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
+msgid "New Contact Name"
+msgstr "Назва новага кантакту"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
+msgid "Relationship"
+msgstr "Сваяцтва"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
+msgid "Number"
+msgstr "Нумар"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Няма дакументаў для паказу"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Білеты"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+msgid "Choose Folder"
+msgstr "Выберыце папку"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+msgid "_Open"
+msgstr "Адкрыць"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "Параметры скрыні для білетаў"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "Шляхі"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "Налады папкі"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "Дзе Phosh павінен шукаць білеты"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr "Папка з білетамі"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Сёння"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Заўтра"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "Праз %d день"
+msgstr[1] "Праз %d дні"
+msgstr[2] "Праз %d дзён"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Няма падзей"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Увесь дзень"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Канец"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Неназваная падзея"
