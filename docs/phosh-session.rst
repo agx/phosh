@@ -29,6 +29,17 @@ OPTIONS
 ``-h``, ``--help``
    Print help and exit
 
+``--version``
+   Print version and exit
+
+CONFIGURATION FILES
+-------------------
+The session script looks at the following configuration files:
+
+- ``/usr/share/phosh/phoc.ini``: Configuration passed to the compositor
+- ``/etc/phosh/phoc.ini``: Used instead of the above if present
+
+
 ENVIRONMENT VARIABLES
 ---------------------
 
