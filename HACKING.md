@@ -24,8 +24,25 @@ style history rather than being a work log. See
 an explanation of the difference. The advantage is that the code stays
 bisectably and individual bits can be cherry-picked or reverted.
 
+Checklist
+---------
+When submitting a merge request consider checking these first. If
+
+- [ ] Does the code use the below coding patterns?
+- [ ] Is the commit history in recipe style (see above)?
+- [ ] Does the code crash or introduce new CRITICAL or WARNING
+      messages in the log or when run form the console. If so, fix
+      these first.
+
+If any of the above criteria aren't met yet it's still fine to open a
+merge request marked as draft. Please indicate why you consider it
+draft in this case.
+
+Coding Patterns
+===============
+
 Coding Style
-============
+------------
 We're mostly using [libhandy's Coding Style][1].
 
 These are the differences:
@@ -125,7 +142,7 @@ individual C files should be structured as (top to bottom of file):
   file.
 
 CSS Theming
-===========
+-----------
 For custom widget always set the css name using `gtk_widget_class_set_css_name ()`.
 There's no need set an (additional) style class in the ui file.
 
