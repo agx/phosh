@@ -153,4 +153,74 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   </template>
 ```
 
+Properties
+----------
+
+### Signal emission on changed properties
+Except for `G_CONSTRUCT_ONLY` properties use `G_PARAM_EXPLICIT_NOTIFY` and notify
+about property changes only when the underlying variable changes value:
+
+
+```
+static void
+on_present_changed (PhoshDockedInfo *self)
+{
+  …
+
+  if (self->enabled == enabled
+    return;
+
+  self->enabled = enabled;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
+}
+
+static void
+phosh_docked_info_class_init (PhoshDockedInfoClass *klass)
+{
+  …
+
+  /**
+   * PhoshDockedInfo:enabled:
+   *
+   * Whether docked mode is enabled
+   */
+  props[PROP_PRESENT] =
+    g_param_spec_boolean ("present", "", "",
+                          G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS |
+                          G_PARAM_EXPLICIT_NOTIFY);
+
+  …
+}
+```
+
+This makes sure we minimize notificatons on changed property values.
+
+### Property documentation
+Prefer a docstring of filling in the properties `nick` and `blurb`. See
+example above.
+
+API contracts
+-------------
+Public (non static) functions must check the input arguments at the
+top of the function. This makes it easy to reuse them in other parts
+and makes API misuse easy to debug via `G_DEBUG=fatal-criticals`. You
+usually want to check argument types and if the arguments fulfill the
+requirements (e.g. if they need to be non-NULL).
+
+*Good*:
+
+```c
+void
+phosh_foo_set_name (PhoshFoo *self, const char *name)
+{
+  GtkWidget *somewidget;
+
+  g_return_if_fail (PHOSH_IS_FOO (self));
+  g_return_if_fail (!name);
+
+  …
+}
+```
+
 [1]: https://gitlab.gnome.org/GNOME/libhandy/blob/master/HACKING.md#coding-style
