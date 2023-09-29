@@ -2,8 +2,8 @@ Building
 ========
 For build instructions see the README.md
 
-Pull requests
-=============
+Merge requests
+==============
 Before filing a pull request run the tests:
 
 ```sh
@@ -18,7 +18,11 @@ and check
 
    https://wiki.openstack.org/wiki/GitCommitMessages
 
-for good examples.
+for good examples. The commits in a merge request should have "recipe"
+style history rather than being a work log. See
+[here](https://www.bitsnbites.eu/git-history-work-log-vs-recipe/) for
+an explanation of the difference. The advantage is that the code stays
+bisectably and individual bits can be cherry-picked or reverted.
 
 Coding Style
 ============
