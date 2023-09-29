@@ -37,7 +37,7 @@ on screen keyboard (OSK) but leaves this to
 [squeekboard](https://gitlab.gnome.org/World/Phosh/squeekboard).
 
 The above combination of software is also often (a bit imprecisely)
-named Phosh.
+named Phosh. For a high level overview see [Phosh Overview](https://honk.sigxcpu.org/con/phosh_overview.html).
 
 ### Wayland protocols
 Since Phoc (in contrast to some other solutions) aims to be a minimal
@@ -76,6 +76,11 @@ phoc (compositor) -> gnome-session -> phosh (and other session components)
 
 ## Hints
 This is a unsorted list of hints when developing for Phosh
+
+### Running phosh
+For development purposes you can run phosh nested on your desktop. See
+[this blog post](https://phosh.mobi/posts/phosh-dev-part-0/) for
+details.
 
 ### Manager Objects
 
