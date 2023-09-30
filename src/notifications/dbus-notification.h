@@ -27,6 +27,7 @@ PhoshDBusNotification    *phosh_dbus_notification_new      (guint               
                                                             gboolean                  transient,
                                                             gboolean                  resident,
                                                             const char               *category,
+                                                            const char               *profile,
                                                             GDateTime                *timestamp);
 
 G_END_DECLS

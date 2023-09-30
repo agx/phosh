@@ -37,6 +37,7 @@ enum {
   PROP_TRANSIENT,
   PROP_RESIDENT,
   PROP_CATEGORY,
+  PROP_PROFILE,
   PROP_TIMESTAMP,
   LAST_PROP
 };
@@ -66,6 +67,7 @@ typedef struct _PhoshNotificationPrivate {
   gboolean                  transient;
   gboolean                  resident;
   char                     *category;
+  char                     *profile;
 
   gulong                    timeout;
 } PhoshNotificationPrivate;
@@ -120,6 +122,9 @@ phosh_notification_set_property (GObject      *object,
       break;
     case PROP_CATEGORY:
       phosh_notification_set_category (self, g_value_get_string (value));
+      break;
+    case PROP_PROFILE:
+      phosh_notification_set_profile (self, g_value_get_string (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -176,6 +181,9 @@ phosh_notification_get_property (GObject    *object,
     case PROP_CATEGORY:
       g_value_set_string (value, phosh_notification_get_category (self));
       break;
+    case PROP_PROFILE:
+      g_value_set_string (value, phosh_notification_get_profile (self));
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
       break;
@@ -203,6 +211,7 @@ phosh_notification_finalize (GObject *object)
   g_clear_object (&priv->info);
   g_clear_pointer (&priv->actions, g_strfreev);
   g_clear_pointer (&priv->category, g_free);
+  g_clear_pointer (&priv->profile, g_free);
 
   G_OBJECT_CLASS (phosh_notification_parent_class)->finalize (object);
 }
@@ -330,6 +339,19 @@ phosh_notification_class_init (PhoshNotificationClass *klass)
       "",
       G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
+  /**
+   * PhoshNotification:profile:
+   *
+   * The feedback profile to use for the event triggered by this
+   * notification. Valid values from Feedbackd's Feedback Theme
+   * Specification as well as the value `none` meaning: don't trigger
+   * any feedback for this event. If `NULL` (the default) the decision
+   * is left to feedbackd.
+   */
+  props[PROP_PROFILE] =
+    g_param_spec_string ("profile", "", "",
+                         NULL,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
@@ -397,6 +419,7 @@ phosh_notification_new (guint                     id,
                         gboolean                  transient,
                         gboolean                  resident,
                         const char               *category,
+                        const char               *profile,
                         GDateTime                *timestamp)
 {
 
@@ -414,6 +437,7 @@ phosh_notification_new (guint                     id,
                        "transient", transient,
                        "resident", resident,
                        "category", category,
+                       "profile", profile,
                        "timestamp", timestamp,
                        NULL);
 }
@@ -905,7 +929,7 @@ phosh_notification_set_category (PhoshNotification *self,
  *
  * Get the category hint the notification was sent with
  *
- * See https://people.gnome.org/~mccann/docs/notification-spec/notification-spec-latest.html#categories
+ * See https://specifications.freedesktop.org/notification-spec/notification-spec-latest.html
  *
  * Returns: the category or %NULL
  */
@@ -918,6 +942,54 @@ phosh_notification_get_category (PhoshNotification *self)
   priv = phosh_notification_get_instance_private (self);
 
   return priv->category;
+}
+
+/**
+ * phosh_notification_set_profile:
+ * @self: the #PhoshNotification
+ * @profile: the feedback profile to use
+ *
+ * Set the feedback profile (constrained by feedbackd's
+ * global policy) for the event related to this notification.
+ */
+void
+phosh_notification_set_profile (PhoshNotification *self,
+                                 const char        *profile)
+{
+  PhoshNotificationPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+  priv = phosh_notification_get_instance_private (self);
+
+  if (g_strcmp0 (priv->profile, profile) == 0)
+    return;
+
+  g_clear_pointer (&priv->profile, g_free);
+  priv->profile = g_strdup (profile);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PROFILE]);
+}
+
+/**
+ * phosh_notification_get_profile:
+ * @self: the #PhoshNotification
+ *
+ * Get the intended feedback profile for the event related to this
+ * notification
+ *
+ * See the Feedback Theme Specification for details.
+ *
+ * Returns: the profile or %NULL
+ */
+const char *
+phosh_notification_get_profile (PhoshNotification *self)
+{
+  PhoshNotificationPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION (self), NULL);
+  priv = phosh_notification_get_instance_private (self);
+
+  return priv->profile;
 }
 
 

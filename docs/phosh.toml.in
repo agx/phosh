@@ -47,7 +47,9 @@ base_url = "https://gitlab.gnome.org/World/Phosh/phosh-/blob/main/"
 file_format = "{filename}#L{line}"
 
 [extra]
+# Order here is the order they're listed in the docs
 content_files = [
   "gettingstarted.md",
   "phosh-dbus-sm.puri.OSK0.md",
+  "app-dev.md",
 ]

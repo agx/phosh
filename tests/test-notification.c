@@ -42,6 +42,7 @@ test_phosh_notification_new_basic (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   g_assert_cmpstr (phosh_notification_get_app_name (noti), ==, "Notification");
@@ -163,6 +164,7 @@ test_phosh_notification_new (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   g_assert_cmpstr (phosh_notification_get_app_name (noti), ==, "Med");
@@ -214,6 +216,7 @@ test_phosh_notification_actions (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   actions = phosh_notification_get_actions (noti);
@@ -243,6 +246,7 @@ test_phosh_notification_get (void)
   gboolean transient = FALSE;
   gboolean resident = FALSE;
   g_autofree char *category = NULL;
+  g_autofree char *profile = NULL;
   PhoshNotificationUrgency urgency = PHOSH_NOTIFICATION_URGENCY_NORMAL;
   g_autoptr (GDateTime) timestamp = NULL;
   g_autoptr (GDateTime) now = g_date_time_new_now_local ();
@@ -259,6 +263,7 @@ test_phosh_notification_get (void)
                                  TRUE,
                                  TRUE,
                                  "email.arrived",
+                                 "none",
                                  now);
 
   g_object_get (noti,
@@ -273,6 +278,7 @@ test_phosh_notification_get (void)
                 "transient", &transient,
                 "resident", &resident,
                 "category", &category,
+                "profile", &profile,
                 "urgency", &urgency,
                 "timestamp", &timestamp,
                 NULL);
@@ -288,6 +294,7 @@ test_phosh_notification_get (void)
   g_assert_true (transient);
   g_assert_true (resident);
   g_assert_cmpstr (category, ==, "email.arrived");
+  g_assert_cmpstr (profile, ==, "none");
   g_assert_cmpint (urgency, ==, PHOSH_NOTIFICATION_URGENCY_CRITICAL);
   g_assert_nonnull (timestamp);
   g_assert_true (timestamp == now);
@@ -341,6 +348,7 @@ test_phosh_notification_expires (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   loop = g_main_loop_new (NULL, FALSE);
@@ -383,6 +391,7 @@ test_phosh_notification_close (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   /* Set it to expire in the future */
@@ -408,6 +417,7 @@ test_phosh_notification_set_prop_invalid (void)
                                                                FALSE,
                                                                FALSE,
                                                                NULL,
+                                                               NULL,
                                                                now);
   BAD_PROP_SET (noti, phosh_notification, PhoshNotification);
 }
@@ -428,6 +438,7 @@ test_phosh_notification_get_prop_invalid (void)
                                                                NULL,
                                                                FALSE,
                                                                FALSE,
+                                                               NULL,
                                                                NULL,
                                                                now);
   BAD_PROP_GET (noti, phosh_notification, PhoshNotification);

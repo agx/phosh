@@ -414,6 +414,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
   gboolean transient = FALSE;
   gboolean resident = FALSE;
   g_autofree char *category = NULL;
+  g_autofree char *profile = NULL;
   GIcon *icon = NULL;
   GIcon *image = NULL;
 
@@ -459,6 +460,9 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
     } else if ((g_strcmp0 (key, "category") == 0)) {
       if (g_variant_is_of_type (value, G_VARIANT_TYPE_STRING))
         category = g_variant_dup_string (value, NULL);
+    } else if ((g_strcmp0 (key, "x-phosh-fb-profile") == 0)) {
+      if (g_variant_is_of_type (value, G_VARIANT_TYPE_STRING))
+        profile = g_variant_dup_string (value, NULL);
     }
 
     g_variant_unref (item);
@@ -533,6 +537,7 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
                                                      transient,
                                                      resident,
                                                      category,
+                                                     profile,
                                                      NULL);
 
     phosh_notify_manager_add_notification (self,

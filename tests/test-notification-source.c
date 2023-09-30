@@ -32,6 +32,7 @@ test_phosh_notification_source_new (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   phosh_notification_source_add (source, noti);
@@ -81,6 +82,7 @@ test_phosh_notification_source_close_invalid (void)
                                    FALSE,
                                    FALSE,
                                    NULL,
+                                   NULL,
                                    now);
     phosh_notification_source_add (source, noti);
     noti = phosh_notification_new (1,
@@ -94,6 +96,7 @@ test_phosh_notification_source_close_invalid (void)
                                    NULL,
                                    FALSE,
                                    FALSE,
+                                   NULL,
                                    NULL,
                                    now);
     /* Boom */

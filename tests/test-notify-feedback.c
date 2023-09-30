@@ -35,6 +35,7 @@ test_phosh_notify_feedback_screen_wakeup (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   g_assert_false (phosh_notify_feedback_check_screen_wakeup (notify_feedback, noti));

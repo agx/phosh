@@ -39,6 +39,7 @@ test_phosh_notification_banner_new (PhoshTestCompositorFixture *fixture, gconstp
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   banner = phosh_notification_banner_new (noti);
@@ -71,6 +72,7 @@ test_phosh_notification_banner_closed (PhoshTestCompositorFixture *fixture, gcon
                                  NULL,
                                  FALSE,
                                  FALSE,
+                                 NULL,
                                  NULL,
                                  now);
 
@@ -116,6 +118,7 @@ test_phosh_notification_banner_expired (PhoshTestCompositorFixture *fixture, gco
                                  NULL,
                                  FALSE,
                                  FALSE,
+                                 NULL,
                                  NULL,
                                  now);
 

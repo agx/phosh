@@ -32,6 +32,7 @@ test_phosh_notification_list_new (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
@@ -73,6 +74,7 @@ test_phosh_notification_list_get_by (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
@@ -106,6 +108,7 @@ test_phosh_notification_list_latest_on_top (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
@@ -120,6 +123,7 @@ test_phosh_notification_list_latest_on_top (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
+                                 NULL,
                                  NULL,
                                  now);
   phosh_notification_list_add (list, "org.gnome.design.Palette", noti);
@@ -136,6 +140,7 @@ test_phosh_notification_list_latest_on_top (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
@@ -150,6 +155,7 @@ test_phosh_notification_list_latest_on_top (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
+                                 NULL,
                                  NULL,
                                  now);
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
@@ -204,6 +210,7 @@ test_phosh_notification_list_source_empty (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
 
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
@@ -244,6 +251,7 @@ test_phosh_notification_list_seek (void)
                                  FALSE,
                                  FALSE,
                                  NULL,
+                                 NULL,
                                  now);
   phosh_notification_list_add (list, "org.gnome.zbrown.KingsCross", noti);
 
@@ -258,6 +266,7 @@ test_phosh_notification_list_seek (void)
                                  NULL,
                                  FALSE,
                                  FALSE,
+                                 NULL,
                                  NULL,
                                  now);
   phosh_notification_list_add (list, "org.gnome.design.Palette", noti);
