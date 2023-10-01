@@ -2,8 +2,8 @@ Building
 ========
 For build instructions see the README.md
 
-Pull requests
-=============
+Merge requests
+==============
 Before filing a pull request run the tests:
 
 ```sh
@@ -18,10 +18,31 @@ and check
 
    https://wiki.openstack.org/wiki/GitCommitMessages
 
-for good examples.
+for good examples. The commits in a merge request should have "recipe"
+style history rather than being a work log. See
+[here](https://www.bitsnbites.eu/git-history-work-log-vs-recipe/) for
+an explanation of the difference. The advantage is that the code stays
+bisectably and individual bits can be cherry-picked or reverted.
+
+Checklist
+---------
+When submitting a merge request consider checking these first. If
+
+- [ ] Does the code use the below coding patterns?
+- [ ] Is the commit history in recipe style (see above)?
+- [ ] Does the code crash or introduce new CRITICAL or WARNING
+      messages in the log or when run form the console. If so, fix
+      these first.
+
+If any of the above criteria aren't met yet it's still fine to open a
+merge request marked as draft. Please indicate why you consider it
+draft in this case.
+
+Coding Patterns
+===============
 
 Coding Style
-============
+------------
 We're mostly using [libhandy's Coding Style][1].
 
 These are the differences:
@@ -121,7 +142,7 @@ individual C files should be structured as (top to bottom of file):
   file.
 
 CSS Theming
-===========
+-----------
 For custom widget always set the css name using `gtk_widget_class_set_css_name ()`.
 There's no need set an (additional) style class in the ui file.
 
@@ -147,6 +168,76 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
       </style>
   …
   </template>
+```
+
+Properties
+----------
+
+### Signal emission on changed properties
+Except for `G_CONSTRUCT_ONLY` properties use `G_PARAM_EXPLICIT_NOTIFY` and notify
+about property changes only when the underlying variable changes value:
+
+
+```
+static void
+on_present_changed (PhoshDockedInfo *self)
+{
+  …
+
+  if (self->enabled == enabled
+    return;
+
+  self->enabled = enabled;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
+}
+
+static void
+phosh_docked_info_class_init (PhoshDockedInfoClass *klass)
+{
+  …
+
+  /**
+   * PhoshDockedInfo:enabled:
+   *
+   * Whether docked mode is enabled
+   */
+  props[PROP_PRESENT] =
+    g_param_spec_boolean ("present", "", "",
+                          G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS |
+                          G_PARAM_EXPLICIT_NOTIFY);
+
+  …
+}
+```
+
+This makes sure we minimize notificatons on changed property values.
+
+### Property documentation
+Prefer a docstring of filling in the properties `nick` and `blurb`. See
+example above.
+
+API contracts
+-------------
+Public (non static) functions must check the input arguments at the
+top of the function. This makes it easy to reuse them in other parts
+and makes API misuse easy to debug via `G_DEBUG=fatal-criticals`. You
+usually want to check argument types and if the arguments fulfill the
+requirements (e.g. if they need to be non-NULL).
+
+*Good*:
+
+```c
+void
+phosh_foo_set_name (PhoshFoo *self, const char *name)
+{
+  GtkWidget *somewidget;
+
+  g_return_if_fail (PHOSH_IS_FOO (self));
+  g_return_if_fail (!name);
+
+  …
+}
 ```
 
 [1]: https://gitlab.gnome.org/GNOME/libhandy/blob/master/HACKING.md#coding-style
