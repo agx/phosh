@@ -242,8 +242,12 @@ phosh_feedback_manager_get_profile (PhoshFeedbackManager *self)
 void
 phosh_feedback_manager_toggle (PhoshFeedbackManager *self)
 {
-  const char *profile = "silent", *old = lfb_get_feedback_profile ();
+  const char *profile = "silent", *old;
 
+  g_return_if_fail (PHOSH_IS_FEEDBACK_MANAGER (self));
+  g_return_if_fail (self->inited);
+
+  old = lfb_get_feedback_profile ();
   if (!g_strcmp0 (old, "silent"))
     profile = "full";
   else if (!g_strcmp0 (old, "full"))
@@ -263,9 +267,12 @@ phosh_feedback_manager_toggle (PhoshFeedbackManager *self)
 void
 phosh_trigger_feedback (const char *name)
 {
-  g_autoptr(LfbEvent) event = NULL;
+  g_autoptr (LfbEvent) event = NULL;
 
-  event = lfb_event_new(name);
+  g_return_if_fail (lfb_is_initted ());
+  g_return_if_fail (name);
+
+  event = lfb_event_new (name);
   lfb_event_trigger_feedback_async (event,
                                     NULL,
                                     (GAsyncReadyCallback)on_event_triggered,
@@ -283,6 +290,8 @@ phosh_trigger_feedback (const char *name)
 void
 phosh_connect_feedback (GtkWidget *widget)
 {
+  g_return_if_fail (GTK_IS_WIDGET (widget));
+
   g_signal_connect_swapped (widget,
                             "button-press-event",
                             G_CALLBACK (on_button_event_triggered),
