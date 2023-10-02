@@ -1,3 +1,20 @@
+phosh 0.32.0
+------------
+Released October 2023
+* Allow apps to suppress notification feedback
+* Hide separator when there are no favorites
+* Feedback robustness
+* Doc updates
+* Officially deprecate reading `rootston.ini`
+* Issues fixed:
+  https://gitlab.gnome.org/World/Phosh/phosh/-/issues/730
+* Contributors:
+    * Guido Günther
+    * Keegan Sabo
+* UI translations:
+    * Tjipke van der Heide (fy)
+    * Vasil Pupkin (be)
+
 phosh 0.31.1
 ------------
 Released September 2023
