@@ -20,6 +20,7 @@
 #include "app-list-model.h"
 #include "favorite-list-model.h"
 #include "shell.h"
+#include "util.h"
 
 #include "gtk-list-models/gtksortlistmodel.h"
 #include "gtk-list-models/gtkfilterlistmodel.h"
@@ -307,6 +308,19 @@ create_favorite_launcher (gpointer item,
   return btn;
 }
 
+static void
+toggle_favorties_revealer (PhoshAppGrid *self)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+  PhoshFavoriteListModel *favorites = phosh_favorite_list_model_get_default ();
+
+  /* Hide favorites when there are none or a search is in progress */
+  gboolean criteria = (g_list_model_get_n_items (G_LIST_MODEL (favorites)) == 0) ||
+    !STR_IS_NULL_OR_EMPTY (priv->search_string);
+
+  gtk_revealer_set_reveal_child (GTK_REVEALER (priv->favs_revealer), !criteria);
+}
+
 
 static void
 favorites_changed (GListModel   *list,
@@ -316,6 +330,8 @@ favorites_changed (GListModel   *list,
                    PhoshAppGrid *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+
+  toggle_favorties_revealer (self);
 
   /* We don't show favorites in the main list, filter them out */
   gtk_filter_list_model_refilter (priv->model);
@@ -435,17 +451,16 @@ do_search (PhoshAppGrid *self)
   GtkAdjustment *adjustment;
 
   if (priv->search_string && *priv->search_string != '\0') {
-    gtk_revealer_set_reveal_child (GTK_REVEALER (priv->favs_revealer), FALSE);
     gtk_style_context_add_class (gtk_widget_get_style_context (priv->apps),
                                  ACTIVE_SEARCH_CLASS);
   } else {
-    gtk_revealer_set_reveal_child (GTK_REVEALER (priv->favs_revealer), TRUE);
     adjustment = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (priv->scrolled_window));
     gtk_adjustment_set_value (adjustment, 0);
     gtk_style_context_remove_class (gtk_widget_get_style_context (priv->apps),
                                     ACTIVE_SEARCH_CLASS);
   }
 
+  toggle_favorties_revealer (self);
   gtk_filter_list_model_refilter (priv->model);
 
   priv->debounce = 0;
