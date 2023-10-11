@@ -20,7 +20,7 @@
  *
  * The idle manager singleton
  *
- * This uses org_kde_kwin_idle_timeout_listener to
+ * This uses ext_idle_notification_v1 Wayland protocol to
  * implement mutter's org.gnome.Mutter.IdleMonitor DBus
  * interface. Since we don't have per monitor information we only care
  * about core.
@@ -29,7 +29,7 @@
 /* A DBus watch corresponding to either an idle or active timer */
 typedef struct {
   PhoshIdleDBusIdleMonitor *dbus_monitor;
-  struct org_kde_kwin_idle_timeout *idle_timer;
+  struct ext_idle_notification_v1 *idle_noti;
   char *dbus_name;
   guint watch_id;
   guint name_watcher_id;
@@ -63,7 +63,7 @@ get_next_dbus_watch_serial (void)
 static void
 watch_dispose (DBusWatch *watch)
 {
-  org_kde_kwin_idle_timeout_release (watch->idle_timer);
+  ext_idle_notification_v1_destroy (watch->idle_noti);
   g_bus_unwatch_name (watch->name_watcher_id);
   g_object_unref (watch->dbus_monitor);
   g_free (watch->dbus_name);
@@ -83,7 +83,7 @@ watch_remove (DBusWatch *watch)
 
 
 static void
-idle_timer_idle_cb (void *data, struct org_kde_kwin_idle_timeout *timer)
+idle_notification_idled_cb (void *data, struct ext_idle_notification_v1 *timer)
 {
   DBusWatch *watch = data;
   GDBusInterfaceSkeleton *skeleton = G_DBUS_INTERFACE_SKELETON (watch->dbus_monitor);
@@ -100,7 +100,7 @@ idle_timer_idle_cb (void *data, struct org_kde_kwin_idle_timeout *timer)
 
 
 static void
-idle_timer_resume_cb (void* data, struct org_kde_kwin_idle_timeout *timer)
+idle_notification_resumed_cb (void* data, struct ext_idle_notification_v1 *timer)
 {
   DBusWatch *watch = data;
 
@@ -110,21 +110,21 @@ idle_timer_resume_cb (void* data, struct org_kde_kwin_idle_timeout *timer)
 
 
 /* An DBus idle watch uses an idle_timeout but doesn't care about resume */
-static const struct org_kde_kwin_idle_timeout_listener idle_timer_listener = {
-  .idle = idle_timer_idle_cb,
-  .resumed = idle_timer_resume_cb,
+static const struct ext_idle_notification_v1_listener idle_notification_listener = {
+  .idled = idle_notification_idled_cb,
+  .resumed = idle_notification_resumed_cb,
 };
 
 
 static void
-active_timer_idle_cb (void *data, struct org_kde_kwin_idle_timeout *timer)
+active_notification_idled_cb (void *data, struct ext_idle_notification_v1 *timer)
 {
   /* Nothing todo */
 }
 
 
 static void
-active_timer_resume_cb(void* data, struct org_kde_kwin_idle_timeout *timer)
+active_notification_resumed_cb (void* data, struct ext_idle_notification_v1 *timer)
 {
   DBusWatch *watch = data;
   GDBusInterfaceSkeleton *skeleton = G_DBUS_INTERFACE_SKELETON (watch->dbus_monitor);
@@ -143,9 +143,9 @@ active_timer_resume_cb(void* data, struct org_kde_kwin_idle_timeout *timer)
 
 
 /* An DBus active watch cares about resume only */
-static const struct org_kde_kwin_idle_timeout_listener active_timer_listener = {
-  .idle = active_timer_idle_cb,
-  .resumed = active_timer_resume_cb,
+static const struct ext_idle_notification_v1_listener active_notification_listener = {
+  .idled = active_notification_idled_cb,
+  .resumed = active_notification_resumed_cb,
 };
 
 
@@ -161,24 +161,24 @@ name_vanished_callback (GDBusConnection *connection,
 static DBusWatch *
 watch_new (PhoshIdleDBusIdleMonitor *skeleton,
            GDBusMethodInvocation    *invocation,
-           guint32                  interval)
+           guint32                   interval)
 {
   DBusWatch *watch;
   guint32 watch_id;
   PhoshWayland *wl = phosh_wayland_get_default ();
-  struct org_kde_kwin_idle_timeout *idle_timer;
-  struct org_kde_kwin_idle *idle_manager = phosh_wayland_get_org_kde_kwin_idle (wl);
+  struct ext_idle_notification_v1 *idle_noti;
+  struct ext_idle_notifier_v1 *idle_manager = phosh_wayland_get_ext_idle_notifier_v1 (wl);
 
   watch_id = get_next_dbus_watch_serial ();
   g_return_val_if_fail (watch_id != 0, NULL); /* protect against wrap around */
-  idle_timer = org_kde_kwin_idle_get_idle_timeout(idle_manager,
-                                                  phosh_wayland_get_wl_seat (wl),
-                                                  interval);
-  g_return_val_if_fail (idle_timer, NULL);
+  idle_noti = ext_idle_notifier_v1_get_idle_notification (idle_manager,
+                                                          interval,
+                                                          phosh_wayland_get_wl_seat (wl));
+  g_assert (idle_noti);
 
   watch = g_new0 (DBusWatch, 1);
   watch->watch_id = watch_id;
-  watch->idle_timer = idle_timer;
+  watch->idle_noti = idle_noti;
   watch->dbus_monitor = g_object_ref (skeleton);
   watch->dbus_name = g_strdup (g_dbus_method_invocation_get_sender (invocation));
   watch->name_watcher_id = g_bus_watch_name_on_connection (
@@ -196,17 +196,17 @@ watch_new (PhoshIdleDBusIdleMonitor *skeleton,
 static DBusWatch *
 idle_watch_new (PhoshIdleDBusIdleMonitor *skeleton,
                 GDBusMethodInvocation    *invocation,
-                guint32                  interval)
+                guint32                   interval)
 {
   DBusWatch *watch;
 
   watch = watch_new (skeleton, invocation, interval);
   g_return_val_if_fail (watch, NULL);
-  org_kde_kwin_idle_timeout_add_listener(watch->idle_timer,
-                                         &idle_timer_listener,
-                                         watch);
+  ext_idle_notification_v1_add_listener (watch->idle_noti, &idle_notification_listener, watch);
+
   return watch;
 }
+
 
 
 static DBusWatch *
@@ -218,9 +218,8 @@ active_watch_new (PhoshIdleDBusIdleMonitor *skeleton,
   /* Use a idle timer of 0 since we're only interested in the active timer */
   watch = watch_new (skeleton, invocation, 0);
   g_return_val_if_fail (watch, NULL);
-  org_kde_kwin_idle_timeout_add_listener(watch->idle_timer,
-                                         &active_timer_listener,
-                                         watch);
+  ext_idle_notification_v1_add_listener (watch->idle_noti, &active_notification_listener, watch);
+
   return watch;
 }
 
@@ -251,14 +250,14 @@ handle_add_idle_watch (PhoshIdleDBusIdleMonitor *skeleton,
 
   g_debug ("Created idle-timer %d for %" G_GUINT64_FORMAT " msec", watch->watch_id, arg_interval);
   g_hash_table_insert (self->watches, &watch->watch_id, watch);
-  phosh_idle_dbus_idle_monitor_complete_add_idle_watch (
-    skeleton, invocation, watch->watch_id);
+  phosh_idle_dbus_idle_monitor_complete_add_idle_watch (skeleton, invocation, watch->watch_id);
   return TRUE;
 }
 
 
-static gboolean handle_add_user_active_watch (PhoshIdleDBusIdleMonitor *skeleton,
-                                              GDBusMethodInvocation    *invocation)
+static gboolean
+handle_add_user_active_watch (PhoshIdleDBusIdleMonitor *skeleton,
+                              GDBusMethodInvocation    *invocation)
 {
   DBusWatch *watch;
   PhoshIdleManager *self = phosh_idle_manager_get_default ();
@@ -270,6 +269,7 @@ static gboolean handle_add_user_active_watch (PhoshIdleDBusIdleMonitor *skeleton
                                            "Failed to create watch");
     return TRUE;
   }
+
   g_debug ("Creating active timer %d", watch->watch_id);
   g_hash_table_insert (self->watches, &watch->watch_id, watch);
   phosh_idle_dbus_idle_monitor_complete_add_user_active_watch (
@@ -300,8 +300,7 @@ handle_remove_watch (PhoshIdleDBusIdleMonitor *skeleton,
   g_debug ("Removing watch %d", arg_id);
   g_hash_table_remove (self->watches, &arg_id);
 
-  phosh_idle_dbus_idle_monitor_complete_remove_watch (
-    skeleton, invocation);
+  phosh_idle_dbus_idle_monitor_complete_remove_watch (skeleton, invocation);
   return TRUE;
 }
 
@@ -393,7 +392,8 @@ phosh_idle_manager_reset_timers (PhoshIdleManager *self)
 
   g_hash_table_iter_init (&iter, self->watches);
   while (g_hash_table_iter_next (&iter, NULL, (gpointer *) &watch)) {
-    org_kde_kwin_idle_timeout_simulate_user_activity (watch->idle_timer);
+    /* FIXME: recreate timers instead */
+    //org_kde_kwin_idle_timeout_simulate_user_activity (watch->idle_timer);
   }
 }
 
