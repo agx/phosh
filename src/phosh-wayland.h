@@ -7,6 +7,7 @@
  */
 #pragma once
 
+#include "ext-idle-notify-v1-client-protocol.h"
 #include "idle-client-protocol.h"
 #include "virtual-keyboard-unstable-v1-client-protocol.h"
 #include "phoc-device-state-unstable-v1-client-protocol.h"
@@ -60,6 +61,7 @@ PhoshWayland                         *phosh_wayland_get_default (void);
 GHashTable                           *phosh_wayland_get_wl_outputs (PhoshWayland *self);
 gboolean                              phosh_wayland_has_wl_output  (PhoshWayland *self,
                                                                     struct wl_output *wl_output);
+struct ext_idle_notifier_v1          *phosh_wayland_get_ext_idle_notifier_v1 (PhoshWayland *self);
 struct org_kde_kwin_idle             *phosh_wayland_get_org_kde_kwin_idle (PhoshWayland *self);
 struct phosh_private                 *phosh_wayland_get_phosh_private (PhoshWayland *self);
 uint32_t                              phosh_wayland_get_phosh_private_version (PhoshWayland *self);
