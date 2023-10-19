@@ -248,6 +248,7 @@ subdir('po')
 subdir('protocol')
 subdir('src')
 subdir('plugins')
+subdir('searchd')
 subdir('tests')
 subdir('tools')
 subdir('docs')
@@ -265,6 +266,7 @@ summary({
     'Animation slowdown': get_option('animation-slowdown'),
     'Bindings Library': bindings_lib,
     'ABI Compliance Check': abi_check,
+    'Searchd': get_option('searchd'),
   },
   bool_yn: true,
   section: 'Build',

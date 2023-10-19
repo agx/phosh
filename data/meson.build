@@ -137,3 +137,18 @@ install_data('wayland-sessions/phosh.desktop',
 
 install_data('phosh-shell.portal', install_dir : join_paths(datadir, 'xdg-desktop-portal', 'portals'))
 install_data('phosh-portals.conf', install_dir : join_paths(datadir, 'xdg-desktop-portal'))
+
+shell_search_libexecdir = join_paths(prefix, get_option('libexecdir'))
+
+serviceconf = configuration_data()
+serviceconf.set('libexecdir', shell_search_libexecdir)
+
+if get_option('searchd')
+  configure_file(
+    input: 'mobi.phosh.Shell.Search.service.in',
+    output: 'mobi.phosh.Shell.Search.service',
+    install_dir: servicedir,
+    configuration: serviceconf,
+    install: true
+  )
+endif

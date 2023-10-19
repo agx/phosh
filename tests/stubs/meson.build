@@ -1,5 +1,6 @@
 test_stubs = files(
   'phosh.c',
+  'evil-icon.c',
   'app-tracker.c',
   'lockscreen-manager.c',
   'background-manager.c',

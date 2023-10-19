@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.gnome.Phosh.MockSearchProvider
+Exec=@ABS_BUILDDIR@/tests/services/mock-search-provider

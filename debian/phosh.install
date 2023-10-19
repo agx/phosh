@@ -2,7 +2,10 @@ usr/bin/phosh-session
 usr/lib/systemd/user/gnome-session@phosh.target.d/session.conf
 usr/lib/systemd/user/mobi.phosh.Shell.service
 usr/lib/systemd/user/mobi.phosh.Shell.target
+usr/lib/systemd/user/
+usr/lib/*/phosh/libphoshsearch.so
 usr/libexec/phosh
+usr/libexec/phosh-searchd
 usr/libexec/phosh-calendar-server
 usr/share/icons/hicolor/symbolic/apps/mobi.phosh.Shell-symbolic.svg
 usr/share/locale
@@ -11,5 +14,6 @@ usr/share/phosh/phoc.ini
 usr/share/gnome-session/sessions/phosh.session
 usr/share/applications/mobi.phosh.Shell.desktop
 usr/share/dbus-1/services/mobi.phosh.Shell.CalendarServer.service
+usr/share/dbus-1/services/mobi.phosh.Shell.Search.service
 usr/share/xdg-desktop-portal/phosh-portals.conf
 usr/share/xdg-desktop-portal/portals/phosh-shell.portal

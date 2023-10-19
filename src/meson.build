@@ -2,6 +2,7 @@ subdir('dbus')
 subdir('monitor')
 subdir('notifications')
 subdir('wwan')
+subdir('search')
 subdir('settings')
 subdir('gtk-list-models')
 

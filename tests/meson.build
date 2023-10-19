@@ -4,6 +4,7 @@ subdir('stubs')
 
 if get_option('tests')
 
+subdir('services')
 subdir('system')
 subdir('user')
 
@@ -113,6 +114,12 @@ tests_unit = [
   'wall-clock',
 ]
 
+tests_searchd = [
+  'search-result-meta',
+  'search-source',
+  'search-provider',
+]
+
 tests_phoc = [
   'app-auth-prompt',
   'background',
@@ -148,6 +155,19 @@ foreach test : tests_unit
   test(test, t,
        env: test_env_unit,
        depends: compiled_schemas,
+       suite: ['unit'])
+endforeach
+
+foreach test : tests_searchd
+  t = executable('test-@0@'.format(test),
+                 ['test-@0@.c'.format(test)],
+                 c_args: test_cflags,
+                 pie: true,
+                 link_args: test_link_args,
+                 dependencies: [testlib_dep, test_stubs_dep, phosh_search_dep])
+  test(test, t,
+       env: test_env_unit,
+       depends: mock_search_provider_exec,
        suite: ['unit'])
 endforeach
 

@@ -22,6 +22,7 @@ dbus_client_protos = [
   ['gsd-color-dbus', 'org.gnome.SettingsDaemon.Color.xml', 'org.gnome.SettingsDaemon', false],
   ['gnome-session-dbus', 'org.gnome.SessionManager.xml', 'org.gnome', false],
   ['phosh-wwan-ofono-dbus', 'org.ofono.xml', 'org', false],
+  ['gnome-shell-search-provider', 'org.gnome.Shell.SearchProvider2.xml', 'org.gnome.Shell', false],
 ]
 
 #
@@ -35,6 +36,7 @@ dbus_server_protos = [
   ['phosh-screenshot-dbus', 'org.gnome.Shell.Screenshot.xml', 'org.gnome.Shell', true],
   ['phosh-end-session-dialog-dbus', 'org.gnome.SessionManager.EndSessionDialog.xml','org.gnome.SessionManager', false],
   ['phosh-gtk-mountoperation-dbus', 'org.Gtk.MountOperationHandler.xml', 'org.Gtk', false],
+  ['phosh-searchd', 'mobi.phosh.Shell.Search.xml', 'mobi.phosh.Shell', false],
 ]
 
 foreach p : dbus_client_protos + dbus_server_protos

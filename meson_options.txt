@@ -55,3 +55,7 @@ option('bindings-lib',
 option('abi-check',
        type: 'boolean', value: false,
        description: 'Runs abi-compliance-checker on libphosh.so')
+
+option('searchd',
+       type: 'boolean', value: false,
+       description: 'Enable build and installation of phosh\'s search service')
