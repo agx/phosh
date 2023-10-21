@@ -1,0 +1,13 @@
+<schemalist>
+  <schema id="sm.puri.phosh.plugins.launcher-box"
+          path="/sm/puri/phosh/plugins/launcher-box/">
+    <key name="folder" type="s">
+      <default>''</default>
+      <summary>Folder containing the launchers</summary>
+      <description>
+        The folder that contains the launchers that should be available
+        on the lock screen. If unset defaults to $XDG_CONFIG_HOME/phosh/plugins/launcher-box/
+      </description>
+    </key>
+  </schema>
+</schemalist>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/mobi/phosh/plugins/launcher-box/">
+    <file preprocess="xml-stripblanks">launcher-box.ui</file>
+    <file compressed="true">stylesheet/common.css</file>
+  </gresource>
+</gresources>
