@@ -338,6 +338,7 @@ phosh_deps = [
 ]
 
 phosh_inc = include_directories('.')
+
 # A static library used by tests and tools
 phosh_tool_lib = static_library('phosh-tool',
   [libphosh_tool_sources,
@@ -350,22 +351,25 @@ phosh_tool_dep = declare_dependency(sources: libphosh_generated_sources,
   link_with: phosh_tool_lib,
   dependencies: phosh_deps)
 
+phosh_lib_inc = [root_inc, phosh_inc, proto_inc, dbus_inc]
+
+# A static library containing everything
 phosh_lib = both_libraries('phosh',
   libphosh_sources,
-  include_directories: [root_inc, phosh_inc],
+  include_directories: phosh_lib_inc,
   dependencies: [phosh_tool_dep, phosh_deps])
+
+phosh_static_lib_dep = declare_dependency(
+  include_directories: phosh_lib_inc,
+  link_with: phosh_lib.get_static_lib(),
+  dependencies: phosh_deps
+)
 
 if get_option('gtk_doc')
   phosh_gir_sources = [ libphosh_sources,
                         libphosh_tool_sources,
                         libphosh_glib_generated_sources,
                       ]
-
-  # Shared lib used by docs
-  phosh_doc_dep = declare_dependency(sources: libphosh_generated_sources,
-    include_directories: [root_inc, phosh_inc, proto_inc, dbus_inc],
-    link_with: phosh_lib,
-    dependencies: phosh_deps)
 
   phosh_gir_extra_args = [
     '--quiet',
@@ -381,17 +385,13 @@ if get_option('gtk_doc')
               link_with : phosh_lib,
                includes : ['Gio-2.0', 'Gtk-3.0', 'Handy-1'],
              extra_args : phosh_gir_extra_args,
-           dependencies : phosh_doc_dep,
+           dependencies : phosh_static_lib_dep,
    )
 endif
 
-# Static library used by shell and integration tests
-phosh_dep = declare_dependency(
-  include_directories: [root_inc, phosh_inc],
-  link_with: phosh_lib.get_static_lib(),
-  dependencies: [phosh_deps, phosh_tool_dep])
-
-phosh = executable('phosh', 'main.c',
-  dependencies: phosh_dep,
+phosh = executable(
+  'phosh', 'main.c',
+  dependencies: phosh_static_lib_dep,
   install: true,
-  install_dir: libexecdir)
+  install_dir: libexecdir
+)
