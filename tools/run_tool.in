@@ -6,7 +6,7 @@ ABS_BUILDDIR='@ABS_BUILDDIR@'
 GSETTINGS_SCHEMA_DIR="${ABS_BUILDDIR}/data:${ABS_BUILDDIR}/plugins/launcher-box:${ABS_BUILDDIR}/plugins/ticket-box:${GSETTINGS_SCHEMA_DIR}"
 export GSETTINGS_SCHEMA_DIR
 
-export G_MESSAGES_DEBUG=all
+[ -n "$G_MESSAGES_DEBUG" ] || export G_MESSAGES_DEBUG=all
 export GNOTIFICATION_BACKEND=freedesktop
 set -x
 exec $@
