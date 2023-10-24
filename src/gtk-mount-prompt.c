@@ -355,28 +355,6 @@ on_dialog_canceled (PhoshGtkMountPrompt *self)
 
 
 static void
-on_pw_vis_icon_press (PhoshGtkMountPrompt *self,
-                      GtkEntryIconPosition icon_pos,
-                      GdkEvent            *event,
-                      GtkEntry            *entry)
-{
-  const char *icon_name = "eye-not-looking-symbolic";
-
-  g_return_if_fail (PHOSH_IS_GTK_MOUNT_PROMPT (self));
-  g_return_if_fail (GTK_IS_ENTRY (entry));
-  g_return_if_fail (icon_pos == GTK_ENTRY_ICON_SECONDARY);
-
-  self->pw_visible = !self->pw_visible;
-  gtk_entry_set_visibility (entry, self->pw_visible);
-  if (self->pw_visible)
-    icon_name = "eye-open-negative-filled-symbolic";
-
-  gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY,
-                                     icon_name);
-}
-
-
-static void
 phosh_gtk_mount_prompt_finalize (GObject *obj)
 {
   PhoshGtkMountPrompt *self = PHOSH_GTK_MOUNT_PROMPT (obj);
@@ -465,7 +443,6 @@ phosh_gtk_mount_prompt_class_init (PhoshGtkMountPromptClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshGtkMountPrompt, password_buffer);
   gtk_widget_class_bind_template_callback (widget_class, on_connect_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_dialog_canceled);
-  gtk_widget_class_bind_template_callback (widget_class, on_pw_vis_icon_press);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-gtk-mount-prompt");
 }
