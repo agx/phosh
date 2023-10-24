@@ -12,6 +12,7 @@
 
 #include "contrib/shell-network-agent.h"
 #include "network-auth-prompt.h"
+#include "password-entry.h"
 
 #define GCR_API_SUBJECT_TO_CHANGE
 #include <gcr/gcr.h>
@@ -234,27 +235,6 @@ network_prompt_setup_wifi_dialog (PhoshNetworkAuthPrompt *self)
   gtk_widget_grab_focus (self->wpa_password_entry);
 }
 
-static void
-network_prompt_icon_press_cb (PhoshNetworkAuthPrompt *self,
-                              GtkEntryIconPosition    icon_pos,
-                              GdkEvent               *event,
-                              GtkEntry               *entry)
-{
-  const char *icon_name = "eye-not-looking-symbolic";
-
-  g_return_if_fail (PHOSH_IS_NETWORK_AUTH_PROMPT (self));
-  g_return_if_fail (GTK_IS_ENTRY (entry));
-  g_return_if_fail (icon_pos == GTK_ENTRY_ICON_SECONDARY);
-
-  self->visible = !self->visible;
-  gtk_entry_set_visibility (entry, self->visible);
-  if (self->visible)
-    icon_name = "eye-open-negative-filled-symbolic";
-
-  gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY,
-                                     icon_name);
-}
-
 
 static void
 on_network_prompt_password_changed (PhoshNetworkAuthPrompt *self, GtkEntry *entry)
@@ -283,24 +263,17 @@ static GtkWidget *
 build_credentials_entry (PhoshNetworkAuthPrompt *self, PhoshNMSecret *secret)
 {
   GtkEntryBuffer *buffer = gcr_secure_entry_buffer_new ();
-  GtkWidget *entry = g_object_new (GTK_TYPE_ENTRY,
+  GtkWidget *entry = g_object_new (PHOSH_TYPE_PASSWORD_ENTRY,
                                    "valign", GTK_ALIGN_CENTER,
                                    "hexpand", TRUE,
-                                   "visibility", FALSE,
-                                   "invisible-char", 0x25CF, /* ● */
                                    "activates-default", TRUE,
-                                   "input-purpose", GTK_INPUT_PURPOSE_PASSWORD,
                                    "buffer", buffer,
-                                   "primary-icon-sensitive", FALSE,
-                                   "secondary-icon-activatable", TRUE,
-                                   "secondary-icon-name", "eye-not-looking",
-                                   "secondary-icon-sensitive", TRUE,
                                    NULL);
   g_object_set_data (G_OBJECT (entry), "secret", secret);
-  g_object_connect (entry,
-                    "swapped-signal::changed", on_network_prompt_password_changed, self,
-                    "swapped-signal::icon-press", network_prompt_icon_press_cb, self,
-                    NULL);
+  g_signal_connect_swapped (entry,
+                            "changed",
+                            G_CALLBACK (on_network_prompt_password_changed),
+                            self);
 
   return entry;
 }
@@ -483,7 +456,6 @@ phosh_network_auth_prompt_class_init (PhoshNetworkAuthPromptClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_dialog_canceled);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_connect_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, network_prompt_wpa_password_changed_cb);
-  gtk_widget_class_bind_template_callback (widget_class, network_prompt_icon_press_cb);
 }
 
 
