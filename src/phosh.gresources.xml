@@ -14,6 +14,7 @@
     <file preprocess="xml-stripblanks">ui/gtk-mount-prompt.ui</file>
     <file preprocess="xml-stripblanks">ui/gvc-channel-bar.ui</file>
     <file preprocess="xml-stripblanks">ui/overview.ui</file>
+    <file preprocess="xml-stripblanks">ui/password-entry.ui</file>
     <file preprocess="xml-stripblanks">ui/home.ui</file>
     <file preprocess="xml-stripblanks">ui/keypad.ui</file>
     <file preprocess="xml-stripblanks">ui/lockscreen.ui</file>

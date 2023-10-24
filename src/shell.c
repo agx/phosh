@@ -61,6 +61,7 @@
 #include "notifications/notify-manager.h"
 #include "notifications/notification-banner.h"
 #include "osk-manager.h"
+#include "password-entry.h"
 #include "phosh-private-client-protocol.h"
 #include "phosh-wayland.h"
 #include "polkit-auth-agent.h"
@@ -804,6 +805,7 @@ type_setup (void)
   g_type_ensure (PHOSH_TYPE_HKS_INFO);
   g_type_ensure (PHOSH_TYPE_LOCATION_INFO);
   g_type_ensure (PHOSH_TYPE_MEDIA_PLAYER);
+  g_type_ensure (PHOSH_TYPE_PASSWORD_ENTRY);
   g_type_ensure (PHOSH_TYPE_QUICK_SETTING);
   g_type_ensure (PHOSH_TYPE_REVEALER);
   g_type_ensure (PHOSH_TYPE_ROTATE_INFO);
