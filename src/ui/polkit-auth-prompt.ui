@@ -57,18 +57,13 @@
               </object>
             </child>
             <child>
-              <object class="GtkEntry" id="entry_password">
+              <object class="PhoshPasswordEntry" id="entry_password">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="has-focus">True</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>
-                <property name="visibility">False</property>
-                <property name="invisible-char">●</property>
                 <property name="activates-default">True</property>
-                <property name="primary-icon-sensitive">False</property>
-                <property name="secondary-icon-sensitive">False</property>
-                <property name="input-purpose">password</property>
               </object>
             </child>
           </object>
