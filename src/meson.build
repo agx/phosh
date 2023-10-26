@@ -362,7 +362,7 @@ phosh_lib = both_libraries('phosh',
 phosh_static_lib_dep = declare_dependency(
   include_directories: phosh_lib_inc,
   link_with: phosh_lib.get_static_lib(),
-  dependencies: phosh_deps
+  dependencies: [phosh_deps, phosh_tool_dep],
 )
 
 if get_option('gtk_doc')
@@ -389,9 +389,12 @@ if get_option('gtk_doc')
    )
 endif
 
+phosh_export_sym_link_arg = '-Wl,--dynamic-list=@0@/phosh-exported-symbols.txt'.format(meson.current_source_dir())
 phosh = executable(
   'phosh', 'main.c',
   dependencies: phosh_static_lib_dep,
+  link_depends: ['phosh-exported-symbols.txt'],
+  link_args: phosh_export_sym_link_arg,
   install: true,
   install_dir: libexecdir
 )
