@@ -34,6 +34,7 @@
     <file preprocess="xml-stripblanks">ui/top-panel.ui</file>
     <file preprocess="xml-stripblanks">ui/widget-box.ui</file>
     <file preprocess="xml-stripblanks">ui/wifi-network-row.ui</file>
+    <file preprocess="xml-stripblanks">ui/wifi-status-page.ui</file>
     <file preprocess="xml-stripblanks">ui/quick-setting.ui</file>
     <file compressed="true">stylesheet/adwaita-dark.css</file>
     <file compressed="true">stylesheet/adwaita-hc-light.css</file>

@@ -82,6 +82,7 @@ src/ui/run-command-dialog.ui
 src/ui/settings.ui
 src/ui/system-prompt.ui
 src/ui/top-panel.ui
+src/ui/wifi-status-page.ui
 src/util.c
 src/vpn-info.c
 src/widget-box.c

@@ -291,6 +291,8 @@ libphosh_sources = files(
   'torch-manager.h',
   'toplevel.c',
   'toplevel.h',
+  'wifi-status-page.c',
+  'wifi-status-page.h',
   'wifi-network-row.c',
   'wifi-network-row.h',
   'wifi-network.c',

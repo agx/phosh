@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <template class="PhoshWifiStatusPage" parent="PhoshStatusPage">
+    <property name="visible">True</property>
+    <property name="header">header_box</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkStack" id="stack">
+            <property name="visible">True</property>
+            <property name="transition-type">crossfade</property>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="valign">center</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="icon-name">network-wireless-hardware-disabled-symbolic</property>
+                    <property name="icon_size">6</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">No Wi-Fi Device Found</property>
+                    <style>
+                      <class name="heading"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">wifi_absent</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="valign">center</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="icon-name">network-wireless-offline-symbolic</property>
+                    <property name="icon_size">6</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Wi-Fi Disabled</property>
+                    <style>
+                      <class name="heading"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="visible">True</property>
+                    <property name="hexpand">False</property>
+                    <property name="halign">center</property>
+                    <property name="label">Enable Wi-Fi</property>
+                    <signal name="clicked" handler="enable_wifi" object="PhoshWifiStatusPage" swapped="yes"/>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">wifi_disabled</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="valign">center</property>
+                <property name="spacing">6</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="icon-name">network-wireless-hotspot-symbolic</property>
+                    <property name="icon_size">6</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Wi-Fi Hotspot Active</property>
+                    <style>
+                      <class name="heading"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">hotspot_enabled</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkListBox" id="networks">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <signal name="row-activated" handler="on_network_activated_cb" object="PhoshWifiStatusPage" swapped="yes"/>
+                    <child type="placeholder">
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="orientation">vertical</property>
+                        <property name="valign">center</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkImage">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="icon-name">network-wireless-no-route-symbolic</property>
+                            <property name="icon_size">6</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">No Wi-Fi Hotspots Found</property>
+                            <style>
+                              <class name="heading"/>
+                            </style>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton">
+                            <property name="visible">True</property>
+                            <property name="hexpand">False</property>
+                            <property name="halign">center</property>
+                            <property name="label" translatable="yes">Scan</property>
+                            <signal name="clicked" handler="scan_for_networks" object="PhoshWifiStatusPage" swapped="yes"/>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">list_box</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkSeparator">
+            <property name="visible">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkButton" id="footer">
+            <property name="visible">True</property>
+            <property name="hexpand">True</property>
+            <property name="halign">fill</property>
+            <property name="action-name">settings.launch-panel</property>
+            <property name="action-target">"wifi"</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="ellipsize">end</property>
+                <property name="label" translatable="yes">Wi-Fi Settings</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="pack-type">end</property>
+      </packing>
+    </child>
+  </template>
+  <object class="GtkBox" id="header_box">
+    <property name="visible">True</property>
+    <property name="hexpand">True</property>
+    <property name="orientation">horizontal</property>
+    <property name="spacing">6</property>
+    <child>
+      <object class="GtkButton">
+        <property name="visible">True</property>
+        <property name="valign">start</property>
+        <property name="action-name">settings.close-status-page</property>
+        <style>
+          <class name="phosh-gear-button"/>
+        </style>
+        <child>
+          <object class="GtkImage">
+            <property name="visible">True</property>
+            <property name="icon-name">go-previous-symbolic</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child type="center">
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="hexpand">True</property>
+        <property name="ellipsize">end</property>
+        <property name="justify">center</property>
+        <property name="label">Wi-Fi</property>
+        <style>
+          <class name="heading"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSwitch" id="wifi_switch">
+        <property name="visible">True</property>
+        <property name="hexpand">False</property>
+        <property name="vexpand">False</property>
+        <property name="valign">center</property>
+        <style>
+          <class name="flat"/>
+        </style>
+      </object>
+      <packing>
+        <property name="pack-type">end</property>
+      </packing>
+    </child>
+  </object>
+</interface>
