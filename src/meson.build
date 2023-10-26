@@ -275,6 +275,8 @@ libphosh_sources = files(
   'session-manager.h',
   'shell.c',
   'shell.h',
+  'status-page.c',
+  'status-page.h',
   'system-prompt.c',
   'system-prompt.h',
   'system-prompter.c',
