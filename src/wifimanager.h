@@ -7,6 +7,9 @@
 #pragma once
 
 #include <glib-object.h>
+#include <gio/gio.h>
+#include <NetworkManager.h>
+#include <wifi-network.h>
 
 G_BEGIN_DECLS
 
@@ -21,6 +24,10 @@ const char        *phosh_wifi_manager_get_ssid (PhoshWifiManager *self);
 gboolean           phosh_wifi_manager_get_enabled (PhoshWifiManager *self);
 void               phosh_wifi_manager_set_enabled (PhoshWifiManager *self, gboolean enabled);
 gboolean           phosh_wifi_manager_get_present (PhoshWifiManager *self);
+GListStore        *phosh_wifi_manager_get_networks (PhoshWifiManager *self);
 gboolean           phosh_wifi_manager_is_hotspot_master (PhoshWifiManager *self);
+void               phosh_wifi_manager_connect_network (PhoshWifiManager *self,
+                                                       PhoshWifiNetwork *network);
+void               phosh_wifi_manager_request_scan (PhoshWifiManager *self);
 
 G_END_DECLS
