@@ -3,6 +3,11 @@ configure_file(
   output: 'run_tool',
   configuration: run_data)
 
+test('check-exported-symbols',
+     find_program('check-exported-symbols'),
+     args: phosh,
+)
+
 tools_or_tests = get_option('tools') or get_option('tests')
 
 if tools_or_tests

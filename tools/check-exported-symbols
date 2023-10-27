@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# Make sure our binary only exportes the wanted symbols:
+
+BIN=${1:-"_build/src/phosh"}
+
+if objdump -T  $BIN | grep 'g    DF .text' \
+	| grep -v -E ' (main$|phosh_(shell|add_more_symbols_here)_|gtk_(filter|sort)_list_model_)'; then
+    echo "Found symbols that shouldn't be exported"
+    exit 1
+fi
+
+exit 0
