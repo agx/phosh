@@ -338,20 +338,19 @@ phosh_deps = [
 ]
 
 phosh_inc = include_directories('.')
+phosh_lib_inc = [root_inc, phosh_inc, proto_inc, dbus_inc, phosh_gtk_list_models_inc]
 
 # A static library used by tests and tools
 phosh_tool_lib = static_library('phosh-tool',
   [libphosh_tool_sources,
    libphosh_generated_sources,
    phosh_gtk_list_models_sources],
-  include_directories: [root_inc, phosh_inc],
+  include_directories: phosh_lib_inc,
   dependencies: phosh_deps)
 phosh_tool_dep = declare_dependency(sources: libphosh_generated_sources,
-  include_directories: [root_inc, phosh_inc],
+  include_directories: phosh_lib_inc,
   link_with: phosh_tool_lib,
   dependencies: phosh_deps)
-
-phosh_lib_inc = [root_inc, phosh_inc, proto_inc, dbus_inc]
 
 # A static library containing everything
 phosh_lib = both_libraries('phosh',

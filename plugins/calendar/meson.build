@@ -19,7 +19,6 @@ phosh_calendar_plugin = shared_module(
             '-DPLUGIN_NAME="@0@"'.format(name),
            ],
   dependencies: plugin_dep,
-  include_directories: phosh_inc,
   install: true,
   install_dir: plugins_dir,
 )

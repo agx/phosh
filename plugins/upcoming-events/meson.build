@@ -38,7 +38,6 @@ phosh_upcoming_events_plugin = shared_module(
             '-DPLUGIN_NAME="@0@"'.format(name),
            ],
   dependencies: upcoming_events_plugin_deps,
-  include_directories: [root_inc, phosh_gtk_list_models_inc],
   install: true,
   install_dir: plugins_dir,
 )

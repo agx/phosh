@@ -31,7 +31,6 @@ phosh_ticket_box_plugin = shared_module(
             '-DPLUGIN_NAME="@0@"'.format(name),
 	   ],
   dependencies: ticket_box_plugin_deps,
-  include_directories: root_inc,
   install: true,
   install_dir: plugins_dir,
 )

@@ -54,7 +54,8 @@ if get_option('lockscreen-plugins')
 
   plugin_dep = declare_dependency(
     sources: phosh_plugin_h,
-    include_directories: plugin_inc,
+    # Plugins can use phosh's headers
+    include_directories: [plugin_inc, phosh_lib_inc],
     dependencies: [
       dependency('gobject-2.0'),
       dependency('gtk+-3.0'),

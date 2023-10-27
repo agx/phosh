@@ -1,9 +1,7 @@
 name='emergency-info'
 
 emergency_info_plugin_deps = [
-  dependency('gobject-2.0'),
-  dependency('gtk+-3.0'),
-  dependency('libhandy-1'),
+  plugin_dep,
 ]
 
 emergency_info_plugin_sources = files(
@@ -29,7 +27,6 @@ phosh_emergency_info_plugin = shared_module(
             '-DPLUGIN_NAME="@0@"'.format(name),
            ],
   dependencies: emergency_info_plugin_deps,
-  include_directories: [phosh_inc, plugin_inc],
   install: true,
   install_dir: plugins_dir,
 )
