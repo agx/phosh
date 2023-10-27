@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-05 08:48+0000\n"
-"PO-Revision-Date: 2023-07-05 21:33+0300\n"
+"POT-Creation-Date: 2023-10-27 13:22+0000\n"
+"PO-Revision-Date: 2023-10-27 21:17+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -66,11 +66,11 @@ msgstr "Показати майбутні події календаря"
 msgid "Application"
 msgstr "Програма"
 
-#: src/app-grid.c:137
+#: src/app-grid.c:138
 msgid "Show All Apps"
 msgstr "Показати усі програми"
 
-#: src/app-grid.c:140
+#: src/app-grid.c:141
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Показати лише програми для мобільних"
 
@@ -83,8 +83,7 @@ msgstr "❙"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/call-notification.c:60
-#| msgid "Unknown Title"
+#: src/call-notification.c:61
 msgid "Unknown caller"
 msgstr "Невідомий абонент"
 
@@ -194,11 +193,11 @@ msgstr "Уведіть пароль"
 msgid "Checking…"
 msgstr "Звіряю…"
 
-#: src/screenshot-manager.c:212
+#: src/screenshot-manager.c:213
 msgid "Screenshot"
 msgstr "Знімок вікна"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:214
 msgid "Screenshot copied to clipboard"
 msgstr "Знімок вікна скопійовано до буфера"
 
@@ -250,7 +249,7 @@ msgstr "Введіть пароль до мережі wifi «%s»"
 msgid "Open"
 msgstr "Відкрити"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:654
+#: src/notifications/notification.c:405 src/notifications/notification.c:678
 msgid "Notification"
 msgstr "Сповіщення"
 
@@ -438,7 +437,6 @@ msgid "Input Devices"
 msgstr "Пристрої отримання"
 
 #: src/ui/audio-settings.ui:134
-#| msgid "Folder Settings"
 msgid "Sound Settings"
 msgstr "Параметри звуку"
 
@@ -691,6 +689,18 @@ msgstr "Зв'язок"
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Номер"
+
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Панель засобів запуску"
+
+#: plugins/launcher-box/launcher-box.ui:15
+msgid "No launchers configured"
+msgstr "Не налаштовано жодного засобу запуску"
+
+#: plugins/launcher-box/launcher-box.ui:32
+msgid "Launchers"
+msgstr "Засоби запуску"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
