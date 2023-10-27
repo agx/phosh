@@ -10,10 +10,13 @@
 
 #include "phosh-config.h"
 
+#include "gtkfilterlistmodel.h"
+
 #include <handy.h>
 
 #include <widget-box.h>
 #include <plugin-loader.h>
+
 
 static void
 css_setup (void)
@@ -62,6 +65,9 @@ main (int argc, char *argv[])
   hdy_init ();
 
   css_setup ();
+
+  /* Needed by the widget box */
+  g_type_ensure (GTK_TYPE_FILTER_LIST_MODEL);
 
   g_object_set (gtk_settings_get_default (),
                 "gtk-application-prefer-dark-theme", TRUE,
