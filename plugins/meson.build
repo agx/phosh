@@ -28,6 +28,7 @@ pkgconfig.generate(
 lockscreen_plugins = [
   'calendar',
   'emergency-info',
+  'launcher-box',
   'ticket-box',
   'upcoming-events',
 ]

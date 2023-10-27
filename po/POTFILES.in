@@ -94,6 +94,7 @@ plugins/emergency-info/prefs/emergency-info-prefs.c
 plugins/emergency-info/prefs/emergency-info-prefs.ui
 plugins/emergency-info/prefs/emergency-info-prefs-row.c
 plugins/emergency-info/prefs/emergency-info-prefs-row.ui
+plugins/launcher-box/launcher-box.ui
 plugins/ticket-box/ticket-box.ui
 plugins/ticket-box/prefs/ticket-box-prefs.c
 plugins/ticket-box/prefs/ticket-box-prefs.ui

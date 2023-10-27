@@ -513,9 +513,12 @@ phosh_app_tracker_class_init (PhoshAppTrackerClass *klass)
   object_class->finalize = phosh_app_tracker_finalize;
 
   /**
-   * PhoshAppTracker:app-launch-started
+   * PhoshAppTracker::app-launch-started:
+   * @self: The app-tracker instance
+   * @app_info: The `GAppInfo` of the launched application
+   * @app_id: The startup-id of the launched application
    *
-   * The app is about to be launched by the shell.or external process. This
+   * The app is about to be launched by the shell or external process. This
    * is guaranteed to be followed by at least one PhoshAppTracker:app-launched or
    * PhoshAppTracker:app-failed signal.
    */
@@ -534,7 +537,10 @@ phosh_app_tracker_class_init (PhoshAppTrackerClass *klass)
 
 
   /**
-   * PhoshAppTracker:app-launched
+   * PhoshAppTracker::app-launched:
+   * @self: The app-tracker instance
+   * @app_info: The `GAppInfo` of the launched application
+   * @app_id: The startup-id of the launched application
    *
    * The app got spawned or DBus activated. This is guaranteed to be followed
    * by a PhoshAppTracker:app-ready or PhoshAppTracker:app-failed signal.
@@ -552,7 +558,10 @@ phosh_app_tracker_class_init (PhoshAppTrackerClass *klass)
                               G_TYPE_FROM_CLASS (klass),
                               _phosh_marshal_VOID__OBJECT_STRINGv);
   /**
-   * PhoshAppTracker:app-ready
+   * PhoshAppTracker::app-ready:
+   * @self: The app-tracker instance
+   * @app_info: The `GAppInfo` of the ready application
+   * @app_id: The startup-id of the ready application
    *
    * The app is ready to be used by the user
    */
@@ -569,7 +578,10 @@ phosh_app_tracker_class_init (PhoshAppTrackerClass *klass)
                               G_TYPE_FROM_CLASS (klass),
                               _phosh_marshal_VOID__OBJECT_STRINGv);
   /**
-   * PhoshAppTracker:app-failed
+   * PhoshAppTracker::app-failed:
+   * @self: The app-tracker instance
+   * @app_info: The `GAppInfo` of the application that failed to launch
+   * @app_id: The startup-id of the application that failed to launch
    *
    * The app failed to launch.
    */
@@ -586,7 +598,9 @@ phosh_app_tracker_class_init (PhoshAppTrackerClass *klass)
                               G_TYPE_FROM_CLASS (klass),
                               _phosh_marshal_VOID__OBJECT_STRINGv);
   /**
-   * PhoshAppTracker:app-activated
+   * PhoshAppTracker::app-activated:
+   * @self: The app-tracker instance
+   * @app_info: The `GAppInfo` of the activated application
    *
    * An already running app was activated.
    */
