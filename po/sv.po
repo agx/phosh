@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-05 08:48+0000\n"
-"PO-Revision-Date: 2023-07-05 11:10+0200\n"
+"POT-Creation-Date: 2023-10-27 13:22+0000\n"
+"PO-Revision-Date: 2023-10-27 21:07+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -65,11 +65,11 @@ msgstr "Visa kommande kalenderhändelser"
 msgid "Application"
 msgstr "Program"
 
-#: src/app-grid.c:137
+#: src/app-grid.c:138
 msgid "Show All Apps"
 msgstr "Visa alla appar"
 
-#: src/app-grid.c:140
+#: src/app-grid.c:141
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Visa endast mobilanpassade appar"
 
@@ -82,7 +82,7 @@ msgstr "På"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/call-notification.c:60
+#: src/call-notification.c:61
 msgid "Unknown caller"
 msgstr "Okänd uppringare"
 
@@ -190,11 +190,11 @@ msgstr "Ange lösenord"
 msgid "Checking…"
 msgstr "Kontrollerar…"
 
-#: src/screenshot-manager.c:212
+#: src/screenshot-manager.c:213
 msgid "Screenshot"
 msgstr "Skärmbild"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:214
 msgid "Screenshot copied to clipboard"
 msgstr "Skärmbild kopierad till urklipp"
 
@@ -246,7 +246,7 @@ msgstr "Ange lösenord för wifi-nätverket ”%s”"
 msgid "Open"
 msgstr "Öppna"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:654
+#: src/notifications/notification.c:405 src/notifications/notification.c:678
 msgid "Notification"
 msgstr "Avisering"
 
@@ -686,6 +686,18 @@ msgstr "Relation"
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Nummer"
+
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Programstartarbox"
+
+#: plugins/launcher-box/launcher-box.ui:15
+msgid "No launchers configured"
+msgstr "Inga programstartare konfigurerade"
+
+#: plugins/launcher-box/launcher-box.ui:32
+msgid "Launchers"
+msgstr "Programstartare"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
