@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-08-12 08:54+0000\n"
-"PO-Revision-Date: 2023-10-14 13:12+0300\n"
-"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
+"POT-Creation-Date: 2023-10-27 13:22+0000\n"
+"PO-Revision-Date: 2023-10-29 08:00+0300\n"
+"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -63,11 +63,11 @@ msgstr "Yaklaşan olayları göster"
 msgid "Application"
 msgstr "Uygulama"
 
-#: src/app-grid.c:137
+#: src/app-grid.c:138
 msgid "Show All Apps"
 msgstr "Tüm Uygulamaları Göster"
 
-#: src/app-grid.c:140
+#: src/app-grid.c:141
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Yalnızca Mobil Uyumluları Göster"
 
@@ -240,7 +240,7 @@ msgstr "“%s” wifi ağı için parola gir"
 msgid "Open"
 msgstr "Aç"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:654
+#: src/notifications/notification.c:405 src/notifications/notification.c:678
 msgid "Notification"
 msgstr "Bildirim"
 
@@ -680,6 +680,18 @@ msgstr "İlişki"
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Numara"
+
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Başlatıcı Kutusu"
+
+#: plugins/launcher-box/launcher-box.ui:15
+msgid "No launchers configured"
+msgstr "Başlatıcı yapılandırılmadı"
+
+#: plugins/launcher-box/launcher-box.ui:32
+msgid "Launchers"
+msgstr "Başlatıcılar"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
