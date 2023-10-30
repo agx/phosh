@@ -144,6 +144,8 @@ libphosh_tool_sources = files(
   'mount-operation.h',
   'overview.c',
   'overview.h',
+  'password-entry.c',
+  'password-entry.h',
   'osd-window.c',
   'osd-window.h',
   'plugin-loader.c',

@@ -26,20 +26,14 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="entry_password">
+          <object class="PhoshPasswordEntry" id="entry_password">
             <property name="visible">True</property>
             <property name="buffer">password_buffer</property>
             <property name="can-focus">True</property>
             <property name="has-focus">True</property>
             <property name="valign">center</property>
             <property name="hexpand">True</property>
-            <property name="visibility">False</property>
-            <property name="invisible_char">●</property>
             <property name="activates_default">True</property>
-            <property name="secondary_icon_name">eye-not-looking-symbolic</property>
-            <property name="primary_icon_sensitive">False</property>
-            <property name="input_purpose">password</property>
-            <signal name="icon-press" handler="on_pw_vis_icon_press" swapped="yes"/>
           </object>
           <packing>
             <property name="left_attach">1</property>

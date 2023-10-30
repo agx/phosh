@@ -87,22 +87,14 @@
       </packing>
     </child>
     <child>
-      <object class="GtkEntry" id="wpa_password_entry">
+      <object class="PhoshPasswordEntry" id="wpa_password_entry">
         <property name="visible">1</property>
         <property name="has-focus">1</property>
         <property name="valign">center</property>
         <property name="hexpand">1</property>
-        <property name="visibility">0</property>
-        <property name="invisible-char">●</property>
         <property name="activates-default">1</property>
-        <property name="input-purpose">password</property>
         <property name="buffer">password_buffer</property>
-        <property name="primary_icon_sensitive">False</property>
-        <property name="secondary_icon_activatable">True</property>
-        <property name="secondary_icon_name">eye-not-looking-symbolic</property>
-        <property name="secondary_icon_sensitive">True</property>
         <signal name="changed" handler="network_prompt_wpa_password_changed_cb" swapped="yes"/>
-        <signal name="icon-press" handler="network_prompt_icon_press_cb" swapped="yes"/>
       </object>
       <packing>
         <property name="left-attach">1</property>
