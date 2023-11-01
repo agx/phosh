@@ -105,6 +105,7 @@ typedef struct {
   GtkGesture        *long_press_del_gesture;
   GtkWidget         *lbl_unlock_status;
   GtkWidget         *btn_submit;
+  GtkWidget         *btn_keyboard;
   guint              idle_timer;
   gint64             last_input;
   PhoshAuth         *auth;
@@ -763,6 +764,7 @@ phosh_lockscreen_constructed (GObject *object)
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   const char *active;
   PhoshNotifyManager *manager;
+  PhoshOskManager *osk_manager;
   PhoshShell *shell;
   g_autoptr (GSettings) plugin_settings = NULL;
   g_auto (GStrv) plugins = NULL;
@@ -830,12 +832,16 @@ phosh_lockscreen_constructed (GObject *object)
                                  G_LIST_MODEL (phosh_notify_manager_get_list (manager)));
 
   shell = phosh_shell_get_default ();
-  g_object_bind_property (phosh_shell_get_osk_manager (shell), "visible",
+  osk_manager = phosh_shell_get_osk_manager (shell);
+  g_object_bind_property (osk_manager, "visible",
                           priv->keypad_revealer, "reveal-child",
                           G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
-  g_signal_connect_object (phosh_shell_get_osk_manager (shell), "notify::visible",
+  g_signal_connect_object (osk_manager, "notify::visible",
                            G_CALLBACK (on_osk_visibility_changed), self,
                            G_CONNECT_SWAPPED);
+  g_object_bind_property (osk_manager, "available",
+                          priv->btn_keyboard, "sensitive",
+                          G_BINDING_SYNC_CREATE);
 
   priv->keypad_settings = g_settings_new("sm.puri.phosh.lockscreen");
   g_settings_bind (priv->keypad_settings, "shuffle-keypad",
@@ -976,6 +982,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, lbl_unlock_status);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, long_press_del_gesture);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, btn_submit);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, btn_keyboard);
 
   gtk_widget_class_bind_template_callback (widget_class, long_press_del_cb);
   gtk_widget_class_bind_template_callback (widget_class, delete_button_clicked_cb);
