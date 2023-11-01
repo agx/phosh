@@ -80,7 +80,6 @@ on_osk0_set_visible_done (PhoshOsk0SmPuriOSK0 *proxy,
                           GAsyncResult        *res,
                           PhoshOskManager     *self)
 {
-  g_autoptr (GVariant) variant = NULL;
   g_autoptr (GError) err = NULL;
   gboolean visible;
 
