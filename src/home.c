@@ -438,7 +438,7 @@ static void
 phosh_home_constructed (GObject *object)
 {
   PhoshHome *self = PHOSH_HOME (object);
-  g_autoptr (GSettings) settings = NULL;
+  PhoshOskManager *osk_manager;
 
   G_OBJECT_CLASS (phosh_home_parent_class)->constructed (object);
 
@@ -450,9 +450,10 @@ phosh_home_constructed (GObject *object)
                     NULL);
   add_keybindings (self);
 
-  settings = g_settings_new ("org.gnome.desktop.a11y.applications");
-  g_settings_bind (settings, "screen-keyboard-enabled",
-                   self, "osk-enabled", G_SETTINGS_BIND_GET);
+  osk_manager = phosh_shell_get_osk_manager (phosh_shell_get_default ());
+  g_object_bind_property (osk_manager, "available",
+                          self, "osk-enabled",
+                          G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 
   g_signal_connect (self, "notify::drag-state", G_CALLBACK (on_drag_state_changed), NULL);
 
