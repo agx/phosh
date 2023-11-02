@@ -37,18 +37,19 @@ enum {
   PROP_0,
   PROP_STATUS_ICON,
   PROP_ACTIVE,
+  PROP_HAS_STATUS,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
 
-typedef struct
-{
-  GtkWidget *box;
+typedef struct {
+  GtkWidget       *box;
   PhoshStatusIcon *status_icon;
-  GtkWidget *label;
-  GBinding *label_binding;
-  GtkGesture *long_press;
-  gboolean    active;
+  GtkWidget       *label;
+  GtkWidget       *has_status_image;
+  GBinding        *label_binding;
+  GtkGesture      *long_press;
+  gboolean         active;
 } PhoshQuickSettingPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshQuickSetting, phosh_quick_setting, GTK_TYPE_BUTTON);
@@ -63,20 +64,23 @@ phosh_quick_setting_set_property (GObject      *object,
   PhoshQuickSetting *self = PHOSH_QUICK_SETTING (object);
 
   switch (property_id) {
-    case PROP_ACTIVE:
-      phosh_quick_setting_set_active (self, g_value_get_boolean (value));
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
+  case PROP_ACTIVE:
+    phosh_quick_setting_set_active (self, g_value_get_boolean (value));
+    break;
+  case PROP_HAS_STATUS:
+    phosh_quick_setting_set_has_status (self, g_value_get_boolean (value));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
   }
 }
 
 
 static void
-phosh_quick_setting_get_property (GObject *object,
-                                  guint property_id,
-                                  GValue *value,
+phosh_quick_setting_get_property (GObject    *object,
+                                  guint       property_id,
+                                  GValue     *value,
                                   GParamSpec *pspec)
 {
   PhoshQuickSetting *self = PHOSH_QUICK_SETTING (object);
@@ -87,6 +91,9 @@ phosh_quick_setting_get_property (GObject *object,
     break;
   case PROP_ACTIVE:
     g_value_set_boolean (value, phosh_quick_setting_get_active (self));
+    break;
+  case PROP_HAS_STATUS:
+    g_value_set_boolean (value, phosh_quick_setting_get_has_status (self));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -222,6 +229,16 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
+  /**
+   * PhoshQuickSetting:has-status:
+   *
+   * Whether the quick setting has a status page
+   */
+  props[PROP_HAS_STATUS] =
+    g_param_spec_boolean ("has-status", "", "",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[LONG_PRESSED] = g_signal_new ("long-pressed",
@@ -237,6 +254,7 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
                                                "/sm/puri/phosh/ui/quick-setting.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshQuickSetting, box);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshQuickSetting, has_status_image);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshQuickSetting, label);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshQuickSetting, long_press);
   gtk_widget_class_bind_template_callback (widget_class, long_pressed_cb);
@@ -368,4 +386,33 @@ phosh_quick_setting_get_active (PhoshQuickSetting *self)
   priv = phosh_quick_setting_get_instance_private (self);
 
   return priv->active;
+}
+
+
+void
+phosh_quick_setting_set_has_status (PhoshQuickSetting *self, gboolean has_status)
+{
+  PhoshQuickSettingPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_QUICK_SETTING (self));
+  priv = phosh_quick_setting_get_instance_private (self);
+
+  if (gtk_widget_get_visible (priv->has_status_image) == has_status)
+    return;
+
+  gtk_widget_set_visible (priv->has_status_image, has_status);
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HAS_STATUS]);
+}
+
+
+gboolean
+phosh_quick_setting_get_has_status (PhoshQuickSetting *self)
+{
+  PhoshQuickSettingPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_QUICK_SETTING (self), FALSE);
+  priv = phosh_quick_setting_get_instance_private (self);
+
+  return gtk_widget_get_visible (priv->has_status_image);
 }

@@ -26,7 +26,8 @@ void             phosh_quick_setting_set_status_icon (PhoshQuickSetting *self,
 PhoshStatusIcon *phosh_quick_setting_get_status_icon (PhoshQuickSetting *self);
 void             phosh_quick_setting_set_active (PhoshQuickSetting *self, gboolean active);
 gboolean         phosh_quick_setting_get_active (PhoshQuickSetting *self);
-
-void              phosh_quick_setting_open_settings_panel (const char *panel);
+void             phosh_quick_setting_set_has_status (PhoshQuickSetting *self, gboolean has_status);
+gboolean         phosh_quick_setting_get_has_status (PhoshQuickSetting *self);
+void             phosh_quick_setting_open_settings_panel (const char *panel);
 
 G_END_DECLS

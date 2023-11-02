@@ -24,12 +24,17 @@ test_phosh_quick_setting_new (void)
 
 static void
 check_each_child_cb (GtkWidget *widget,
-                     gpointer *data)
+                     gpointer  *data)
 {
-  if (GTK_IS_LABEL (widget))
+  if (GTK_IS_LABEL (widget)) {
     g_assert_true (g_strcmp0 (TEST_STRING, gtk_label_get_text (GTK_LABEL (widget))) == 0);
-  else
+  } else if (GTK_IS_IMAGE (widget)) {
+    const gchar *icon_name;
+    gtk_image_get_icon_name (GTK_IMAGE (widget), &icon_name, NULL);
+    g_assert_true (g_strcmp0 ("go-next-symbolic", icon_name) == 0);
+  } else {
     g_assert_true (PHOSH_IS_STATUS_ICON (widget));
+  }
 }
 
 static void
