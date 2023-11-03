@@ -1,3 +1,49 @@
+phosh (0.33.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * docs: Drop phosh-docs.xml.
+    It's unused since some time
+  * tools: Drop layer-shell-ui-edit.
+    Unused since ages
+  * plugins: Add launcher plugin.
+    This allows to use arbitrary desktop files as launchers on the lock
+    screen. See 8ec58e3555226c3616deb854eee4dd5833a67496 for details.
+
+  [ pseudorandom-x ]
+  * password-entry: Add new widget.
+    A password entry that allows users
+    to toggle the visibility of typed password.
+    This is based on code from PhoshNetworkAuthPrompt.
+  * gtk-mount-prompt: Use password-entry.
+    Replaces GtkEntry with PhoshPasswordEntry,
+    as well as removes the callback and its
+    connection to toggle password visibility.
+  * network-auth-prompt: Use password-entry.
+    Replaces GtkEntry with PhoshPasswordEntry,
+    for both WiFi dialog box & VPN network
+    prompt. The callback toggling the visibility
+    of typed password is also removed.
+  * polkit-auth-prompt: Use password-entry.
+    Replaces GtkEntry with PhoshPasswordEntry.
+  * system-prompt: Use password-entry.
+    Replaces GtkEntry with PhoshPasswordEntry,
+    in both password entry and confirmation fields.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/848
+
+  [ Florentina Mușat ]
+  * Update Romanian translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Emin Tufan Çetin ]
+  * Update Turkish translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 30 Oct 2023 19:08:23 +0100
+
 phosh (0.32.0) experimental; urgency=medium
 
   [ Guido Günther ]
