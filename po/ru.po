@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-05 08:48+0000\n"
-"PO-Revision-Date: 2023-08-16 20:26+0300\n"
+"POT-Creation-Date: 2023-10-27 13:22+0000\n"
+"PO-Revision-Date: 2023-10-28 13:15+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -65,11 +65,11 @@ msgstr "Показать предстоящие события календар�
 msgid "Application"
 msgstr "Приложение"
 
-#: src/app-grid.c:137
+#: src/app-grid.c:138
 msgid "Show All Apps"
 msgstr "Показать все приложения"
 
-#: src/app-grid.c:140
+#: src/app-grid.c:141
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Показать приложения только для мобильных устройств"
 
@@ -82,7 +82,7 @@ msgstr "Вкл"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/call-notification.c:60
+#: src/call-notification.c:61
 msgid "Unknown caller"
 msgstr "Неизвестный абонент"
 
@@ -192,11 +192,11 @@ msgstr "Введите код доступа"
 msgid "Checking…"
 msgstr "Проверка…"
 
-#: src/screenshot-manager.c:212
+#: src/screenshot-manager.c:213
 msgid "Screenshot"
 msgstr "Снимок экрана"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:214
 msgid "Screenshot copied to clipboard"
 msgstr "Снимок экрана скопирован в буфер обмена"
 
@@ -248,7 +248,7 @@ msgstr "Введите пароль для сети Wi-Fi “%s”"
 msgid "Open"
 msgstr "Открыть"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:654
+#: src/notifications/notification.c:405 src/notifications/notification.c:678
 msgid "Notification"
 msgstr "Уведомление"
 
@@ -688,6 +688,18 @@ msgstr "Родство"
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Номер"
+
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Бокс с ярлыками"
+
+#: plugins/launcher-box/launcher-box.ui:15
+msgid "No launchers configured"
+msgstr "Ярлыки не настроены"
+
+#: plugins/launcher-box/launcher-box.ui:32
+msgid "Launchers"
+msgstr "Ярлыки"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
