@@ -19,6 +19,7 @@
 #include <glib/gi18n.h>
 #include <gio/gdesktopappinfo.h>
 
+#include "util.h"
 
 /**
  * PhoshEndSessionDialog:
@@ -233,13 +234,10 @@ inhibitor_get_reason (GDBusProxy *proxy)
 
 
 static void
-add_inhibitor (PhoshEndSessionDialog *self,
-               GDBusProxy            *inhibitor)
+add_inhibitor (PhoshEndSessionDialog *self, GDBusProxy *inhibitor)
 {
   g_autofree char *app_id = NULL;
   g_autofree char *reason = NULL;
-  g_autofree char *desktop_file = NULL;
-
   g_autoptr (GDesktopAppInfo) app_info = NULL;
   const char *icon_name = NULL;
   const char *name = NULL;
@@ -253,14 +251,8 @@ add_inhibitor (PhoshEndSessionDialog *self,
   app_id = inhibitor_get_app_id (inhibitor);
   reason = inhibitor_get_reason (inhibitor);
 
-  if (app_id) {
-    if (g_str_has_suffix (app_id, ".desktop")) {
-      app_info = g_desktop_app_info_new (app_id);
-    } else {
-      desktop_file = g_strdup_printf ("%s.desktop", app_id);
-      app_info = g_desktop_app_info_new (desktop_file);
-    }
-  }
+  if (!STR_IS_NULL_OR_EMPTY (app_id))
+    app_info = phosh_get_desktop_app_info_for_app_id (app_id);
 
   if (app_info) {
     icon = g_app_info_get_icon (G_APP_INFO (app_info));
