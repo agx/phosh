@@ -65,6 +65,7 @@ typedef struct _PhoshEndSessionDialog {
   GtkWidget             *btn_confirm;
   GtkWidget             *btn_cancel;
 
+  GCancellable          *cancel;
 } PhoshEndSessionDialog;
 
 
@@ -336,8 +337,7 @@ on_inhibitor_created (GObject      *source,
                       GAsyncResult *res,
                       gpointer      user_data)
 {
-  PhoshEndSessionDialog *self = PHOSH_END_SESSION_DIALOG (user_data);
-
+  PhoshEndSessionDialog *self;
   g_autoptr (GError) error = NULL;
   g_autoptr (GDBusProxy) proxy = NULL;
 
@@ -348,8 +348,8 @@ on_inhibitor_created (GObject      *source,
     return;
   }
 
+  self = PHOSH_END_SESSION_DIALOG (user_data);
   add_inhibitor (self, proxy);
-  g_object_unref (self);
 }
 
 
@@ -384,7 +384,7 @@ end_session_dialog_update_inhibitors (PhoshEndSessionDialog *self, GStrv paths)
                               "org.gnome.SessionManager",
                               self->inhibitor_paths[i],
                               "org.gnome.SessionManager.Inhibitor",
-                              NULL, on_inhibitor_created, g_object_ref (self));
+                              self->cancel, on_inhibitor_created, self);
   }
   gtk_widget_show (GTK_WIDGET (self->sw_inhibitors));
 }
@@ -446,6 +446,9 @@ static void
 phosh_end_session_dialog_dispose (GObject *obj)
 {
   PhoshEndSessionDialog *self = PHOSH_END_SESSION_DIALOG (obj);
+
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
 
   if (self->listbox)
     clear_inhibitors (self);
