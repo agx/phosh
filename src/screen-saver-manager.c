@@ -38,7 +38,7 @@
  * seconds of inactivity. This isn't monitored by phosh directly but is done by gnome-session that
  * in turn uses `GnomeIdleMonitor` which then uses `/org/gnome/Mutter/IdleMonitor/Core` on DBus.
  * `/org/gnome/Mutter/IdleMonitor/Core` is implemented by #PhoshIdleManager which in turn gets
- * it from phoc which implements the `org_kde_kwin_idle` wayland protocol.
+ * it from phoc via a Wayland protocol.
  *
  * `org.gnome.desktop.screensaver` `lock-enabled`: Whether the screen should be locked after
  * the screen-saver is activated.

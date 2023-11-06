@@ -40,7 +40,7 @@ static GParamSpec *props[PHOSH_WAYLAND_PROP_LAST_PROP];
 struct _PhoshWayland {
   GObject parent;
 
-  struct org_kde_kwin_idle *idle_manager;
+  struct ext_idle_notifier_v1 *ext_idle_notifier_v1;
   struct phosh_private *phosh_private;
   uint32_t phosh_private_version;
   struct zwp_virtual_keyboard_manager_v1 *zwp_virtual_keyboard_manager_v1;
@@ -109,12 +109,6 @@ registry_handle_global (void *data,
     g_debug ("Got new output %p", output);
     g_hash_table_insert (self->wl_outputs, GINT_TO_POINTER (name), output);
     g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_WAYLAND_PROP_WL_OUTPUTS]);
-  } else if (!strcmp (interface, "org_kde_kwin_idle")) {
-    self->idle_manager = wl_registry_bind (
-      registry,
-      name,
-      &org_kde_kwin_idle_interface,
-      1);
   } else if (!strcmp(interface, "wl_seat")) {
     self->wl_seat = wl_registry_bind(
       registry, name, &wl_seat_interface,
@@ -176,6 +170,12 @@ registry_handle_global (void *data,
       registry,
       name,
       &zwp_virtual_keyboard_manager_v1_interface,
+      1);
+  } else if (!strcmp (interface, ext_idle_notifier_v1_interface.name)) {
+    self->ext_idle_notifier_v1 = wl_registry_bind (
+      registry,
+      name,
+      &ext_idle_notifier_v1_interface,
       1);
   }
 }
@@ -300,7 +300,7 @@ phosh_wayland_constructed (GObject *object)
   /* Wait until we have been notified about the wayland globals we require */
   phosh_wayland_roundtrip (self);
   num_outputs = g_hash_table_size(self->wl_outputs);
-  if (!num_outputs || !self->layer_shell || !self->idle_manager ||
+  if (!num_outputs || !self->layer_shell || !self->ext_idle_notifier_v1 ||
       !self->input_inhibit_manager || !self->xdg_wm_base ||
       !self->zxdg_output_manager_v1 ||
       !self->zwlr_output_power_manager_v1 ||
@@ -313,7 +313,7 @@ phosh_wayland_constructed (GObject *object)
              "zwlr_output_power_manager_v1: %p, "
              "zphoc_layer_shell_effects_v1: %p"
              "\n",
-             num_outputs, self->layer_shell, self->idle_manager,
+             num_outputs, self->layer_shell, self->ext_idle_notifier_v1,
              self->input_inhibit_manager, self->xdg_wm_base,
              self->zxdg_output_manager_v1,
              self->zwlr_output_manager_v1,
@@ -339,7 +339,7 @@ phosh_wayland_dispose (GObject *object)
 {
   PhoshWayland *self = PHOSH_WAYLAND (object);
 
-  g_clear_pointer (&self->idle_manager, org_kde_kwin_idle_destroy);
+  g_clear_pointer (&self->ext_idle_notifier_v1, ext_idle_notifier_v1_destroy);
   g_clear_pointer (&self->input_inhibit_manager, &zwlr_input_inhibit_manager_v1_destroy);
   g_clear_pointer (&self->layer_shell, &zwlr_layer_shell_v1_destroy);
   g_clear_pointer (&self->phosh_private, phosh_private_destroy);
@@ -467,12 +467,12 @@ phosh_wayland_get_zwlr_input_inhibit_manager_v1 (PhoshWayland *self)
 }
 
 
-struct org_kde_kwin_idle*
-phosh_wayland_get_org_kde_kwin_idle (PhoshWayland *self)
+struct ext_idle_notifier_v1 *
+phosh_wayland_get_ext_idle_notifier_v1 (PhoshWayland *self)
 {
   g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
 
-  return self->idle_manager;
+  return self->ext_idle_notifier_v1;
 }
 
 
