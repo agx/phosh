@@ -152,6 +152,8 @@ gboolean           phosh_monitor_is_configured (PhoshMonitor *self);
 gboolean           phosh_monitor_is_builtin (PhoshMonitor *self);
 gboolean           phosh_monitor_is_flipped (PhoshMonitor *self);
 gboolean           phosh_monitor_has_gamma (PhoshMonitor *self);
+gboolean           phosh_monitor_set_color_temp (PhoshMonitor *self, guint32 temp);
+
 guint              phosh_monitor_get_transform (PhoshMonitor *self);
 void               phosh_monitor_set_power_save_mode (PhoshMonitor *self,
                                                       PhoshMonitorPowerSaveMode mode);
@@ -163,5 +165,6 @@ float              phosh_monitor_get_fractional_scale (PhoshMonitor *self);
 gboolean           phosh_monitor_is_preferred_mode (PhoshMonitor *self);
 
 gboolean           phosh_monitor_transform_is_tilted (PhoshMonitorTransform transform);
+
 
 G_END_DECLS

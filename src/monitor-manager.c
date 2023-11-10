@@ -17,12 +17,15 @@
 #include "wlr-gamma-control-unstable-v1-client-protocol.h"
 #include "phosh-wayland.h"
 #include "shell.h"
+
 #include "util.h"
+
+#include "dbus/gsd-color-dbus.h"
 
 #include <gdk/gdkwayland.h>
 
-#include <sys/mman.h>
-#include <errno.h>
+#define GSD_COLOR_BUS_NAME "org.gnome.SettingsDaemon.Color"
+#define GSD_COLOR_OBJECT_PATH "/org/gnome/SettingsDaemon/Color"
 
 /**
  * PhoshMonitorManager:
@@ -66,6 +69,9 @@ typedef struct _PhoshMonitorManager
   PhoshSensorProxyManager *sensor_proxy_manager;
   GBinding                *sensor_proxy_binding;
 
+  PhoshDBusColor          *gsd_color_proxy;
+  guint32                  night_light_temp;
+
   GPtrArray *monitors;   /* Currently known monitors */
   GPtrArray *heads;      /* Currently known heads */
 
@@ -74,6 +80,8 @@ typedef struct _PhoshMonitorManager
 
   PhoshHead *pending_primary;
   uint32_t zwlr_output_serial;
+
+  GCancellable            *cancel;
 } PhoshMonitorManager;
 
 G_DEFINE_TYPE_WITH_CODE (PhoshMonitorManager,
@@ -1160,6 +1168,10 @@ phosh_monitor_manager_dispose (GObject *object)
   g_clear_object (&self->sensor_proxy_manager);
   g_clear_pointer (&self->sensor_proxy_binding, g_binding_unbind);
 
+  g_clear_object (&self->gsd_color_proxy);
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
+
   G_OBJECT_CLASS (phosh_monitor_manager_parent_class)->dispose (object);
 }
 
@@ -1220,6 +1232,60 @@ phosh_monitor_manager_get_property (GObject    *object,
 }
 
 
+static void
+on_gsd_color_temperature_changed (PhoshMonitorManager*self,
+                                  GParamSpec         *pspec,
+                                  PhoshDBusColor     *proxy)
+{
+  guint32 temp;
+
+  temp = phosh_dbus_color_get_temperature (self->gsd_color_proxy);
+
+  if (temp == self->night_light_temp)
+    return;
+
+  self->night_light_temp = temp;
+
+  g_return_if_fail (self->night_light_temp > 0);
+  g_debug ("Setting night light: %dK", self->night_light_temp);
+  for (int i = 0; i < self->monitors->len; i++) {
+    gboolean success;
+    PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
+
+    success = phosh_monitor_set_color_temp (monitor, self->night_light_temp);
+    if (!success)
+      g_warning ("Failed to set gamma for %s", monitor->name);
+  }
+}
+
+
+static void
+on_gsd_color_proxy_new_for_bus_finish (GObject             *source_object,
+                                       GAsyncResult        *res,
+                                       PhoshMonitorManager *self)
+{
+  g_autoptr (GError) err = NULL;
+  PhoshDBusColor *proxy;
+
+  proxy = phosh_dbus_color_proxy_new_for_bus_finish (res, &err);
+
+  if (!proxy) {
+    phosh_dbus_service_error_warn (err, "Failed to get gsd color proxy");
+    return;
+  }
+
+  self->gsd_color_proxy = PHOSH_DBUS_COLOR (proxy);
+  g_signal_connect_object (self->gsd_color_proxy,
+                           "notify::temperature",
+                           G_CALLBACK (on_gsd_color_temperature_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_gsd_color_temperature_changed (self, NULL, self->gsd_color_proxy);
+
+  g_debug ("GSD Color initialized");
+}
+
+
 static gboolean
 on_idle (PhoshMonitorManager *self)
 {
@@ -1232,6 +1298,15 @@ on_idle (PhoshMonitorManager *self)
                                        on_name_lost,
                                        self,
                                        NULL);
+
+  phosh_dbus_color_proxy_new_for_bus (G_BUS_TYPE_SESSION,
+                                      G_DBUS_PROXY_FLAGS_NONE,
+                                      GSD_COLOR_BUS_NAME,
+                                      GSD_COLOR_OBJECT_PATH,
+                                      self->cancel,
+                                      (GAsyncReadyCallback) on_gsd_color_proxy_new_for_bus_finish,
+                                      self);
+
   return FALSE;
 }
 
@@ -1332,13 +1407,14 @@ phosh_monitor_manager_class_init (PhoshMonitorManagerClass *klass)
     NULL, NULL,  NULL, G_TYPE_NONE, 1, PHOSH_TYPE_MONITOR);
 }
 
-
 static void
 phosh_monitor_manager_init (PhoshMonitorManager *self)
 {
   self->monitors = g_ptr_array_new_with_free_func ((GDestroyNotify) (g_object_unref));
   self->heads = g_ptr_array_new_with_free_func ((GDestroyNotify) (g_object_unref));
   self->serial = 1;
+
+  self->cancel = g_cancellable_new ();
 }
 
 

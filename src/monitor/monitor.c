@@ -7,8 +7,16 @@
  */
 #define G_LOG_DOMAIN "phosh-monitor"
 
+#include "gamma-table.h"
 #include "monitor.h"
 #include "shell.h"
+
+#include "util.h"
+
+#include <glib/gstdio.h>
+
+#include <sys/mman.h>
+#include <errno.h>
 
 #include <gdk/gdkwayland.h>
 
@@ -396,9 +404,9 @@ phosh_monitor_constructed (GObject *object)
   g_return_if_fail (self->wlr_output_power);
   zwlr_output_power_v1_add_listener(self->wlr_output_power, &wlr_output_power_listener_v1, self);
 
-  self->gamma_control =
-    zwlr_gamma_control_manager_v1_get_gamma_control (phosh_wayland_get_zwlr_gamma_control_manager_v1 (phosh_wayland_get_default ()),
-                                                     self->wl_output);
+  self->gamma_control = zwlr_gamma_control_manager_v1_get_gamma_control (
+    phosh_wayland_get_zwlr_gamma_control_manager_v1 (phosh_wayland_get_default ()),
+    self->wl_output);
   g_return_if_fail (self->gamma_control);
   zwlr_gamma_control_v1_add_listener (self->gamma_control, &gamma_control_listener, self);
 }
@@ -776,4 +784,36 @@ phosh_monitor_transform_is_tilted (PhoshMonitorTransform transform)
   default:
     g_return_val_if_reached (FALSE);
   }
+}
+
+#include <glib.h>
+
+gboolean
+phosh_monitor_set_color_temp (PhoshMonitor *self, guint32 temp)
+{
+  g_autofd int fd = -1;
+  guint16 *table;
+  off_t size;
+
+  if (!phosh_monitor_has_gamma (self))
+    return FALSE;
+
+  size = self->n_gamma_entries * sizeof (guint16) * 3;
+  fd = phosh_create_shm_file (size);
+  if (fd < 0) {
+    g_warning ("Failed to create shm file");
+    return FALSE;
+  }
+
+  table = mmap (NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+  if (table == MAP_FAILED) {
+    g_warning ("Failed to map gamma table");
+    return FALSE;
+  }
+
+  phosh_gamma_table_fill (table, self->n_gamma_entries, temp);
+  munmap (table, size);
+  zwlr_gamma_control_v1_set_gamma (self->gamma_control, fd);
+
+  return TRUE;
 }
