@@ -304,12 +304,6 @@ phosh_monitor_manager_handle_change_backlight (PhoshDBusDisplayConfig *skeleton,
 }
 
 
-struct get_wl_gamma_callback_data {
-  PhoshDBusDisplayConfig *skeleton;
-  GDBusMethodInvocation *invocation;
-};
-
-
 static gboolean
 phosh_monitor_manager_handle_get_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
                                              GDBusMethodInvocation  *invocation,
@@ -373,97 +367,10 @@ phosh_monitor_manager_handle_set_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
                                              GVariant               *green_v,
                                              GVariant               *blue_v)
 {
-  PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (skeleton);
-  PhoshMonitor *monitor;
-  guint16 *red, *green, *blue, *data;
-  g_autoptr (GBytes) red_bytes = NULL, green_bytes = NULL, blue_bytes = NULL;
-  gsize n_bytes, n_entries;
-  gint fd;
-
   g_debug ("DBus call %s for crtc %d, serial %d", __func__, crtc_id, serial);
-  if (serial != self->serial) {
-    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
-                                           G_DBUS_ERROR_ACCESS_DENIED,
-                                           "The requested configuration is based on stale information");
-      return TRUE;
-  }
-
-  if (crtc_id >= self->monitors->len) {
-    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
-                                           G_DBUS_ERROR_INVALID_ARGS,
-                                           "Invalid crtc id");
-    return TRUE;
-  }
-
-  monitor = g_ptr_array_index (self->monitors, crtc_id);
-
-  if (!phosh_monitor_has_gamma (monitor)) {
-    /* NightLightSupported is true whenever some monitor supports it */
-    if (phosh_dbus_display_config_get_night_light_supported (skeleton)) {
-      g_debug ("Monitor does not support gamma control");
-      phosh_dbus_display_config_complete_set_crtc_gamma (
-        skeleton,
-        invocation);
-    } else {
-      g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
-                                             G_DBUS_ERROR_NOT_SUPPORTED,
-                                             "gamma control not supported");
-    }
-    return TRUE;
-  }
-
-  red_bytes = g_variant_get_data_as_bytes (red_v);
-  green_bytes = g_variant_get_data_as_bytes (green_v);
-  blue_bytes = g_variant_get_data_as_bytes (blue_v);
-
-  n_bytes = g_bytes_get_size (red_bytes);
-  if (n_bytes != g_bytes_get_size (blue_bytes) || n_bytes != g_bytes_get_size (green_bytes)) {
-    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
-                                           G_DBUS_ERROR_NOT_SUPPORTED,
-                                           "gamma for each channel must have same size");
-    return TRUE;
-  }
-
-  red = (guint16*) g_bytes_get_data (red_bytes, NULL);
-  green = (guint16*) g_bytes_get_data (green_bytes, NULL);
-  blue = (guint16*) g_bytes_get_data (blue_bytes, NULL);
-  if (!red || !green || !blue) {
-    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
-                                           G_DBUS_ERROR_NOT_SUPPORTED,
-                                           "could not extract gamma values");
-    return TRUE;
-  }
-
-  fd = phosh_create_shm_file (n_bytes * 3);
-  if (fd < 0) {
-    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
-                                           G_DBUS_ERROR_IO_ERROR,
-                                           "could not create temporary file for gamma ramps data");
-    return TRUE;
-  }
-
-  data = mmap(NULL, n_bytes * 3, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-  if (data == MAP_FAILED) {
-    g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
-                                           G_DBUS_ERROR_IO_ERROR,
-                                           "could not memory map temporary file for gamma ramps data");
-    close (fd);
-    return TRUE;
-  }
-  n_entries = n_bytes / sizeof(guint16);
-  for (gsize i = 0; i < n_entries; i++) {
-    data[(0 * n_entries) + i] = red[i];
-    data[(1 * n_entries) + i] = green[i];
-    data[(2 * n_entries) + i] = blue[i];
-  }
-  munmap(data, n_bytes * 3);
-  zwlr_gamma_control_v1_set_gamma (monitor->gamma_control, fd);
-  close (fd);
-
-  phosh_dbus_display_config_complete_set_crtc_gamma (
-      skeleton,
-      invocation);
-
+  g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
+                                         G_DBUS_ERROR_ACCESS_DENIED,
+                                         "The requested is not supported anymore");
   return TRUE;
 }
 
