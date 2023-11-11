@@ -55,7 +55,7 @@ on_caller_info_changed (PhoshCallNotification *self, GParamSpec *pspec, PhoshCal
   const char *display_name = cui_call_get_display_name (CUI_CALL (call));
   const char *id = cui_call_get_id (CUI_CALL (call));
 
-  g_warning ("%s %s", display_name, id);
+  g_debug ("%s %s", display_name, id);
   if (STR_IS_NULL_OR_EMPTY (display_name)) {
     caller_detail = NULL;
     caller = STR_IS_NULL_OR_EMPTY (id) ? _("Unknown caller") : id;
