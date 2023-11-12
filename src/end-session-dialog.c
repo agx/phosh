@@ -235,7 +235,7 @@ inhibitor_get_flags (GDBusProxy *proxy)
     g_warning ("Failed to get Inhibitor flags: %s", error->message);
     return 0;
   }
-  g_variant_ (res, "(f)", &flags);
+  g_variant_get (res, "(u)", &flags);
 
   return flags;
 }
@@ -283,9 +283,10 @@ add_inhibitor (PhoshEndSessionDialog *self, GDBusProxy *inhibitor)
   if (!(flags & PHOSH_GSM_INHIBITOR_FLAG_LOGOUT))
     return;
 
-  if (!STR_IS_NULL_OR_EMPTY (app_id))
-    app_info = phosh_get_desktop_app_info_for_app_id (app_id);
+  if (STR_IS_NULL_OR_EMPTY (app_id))
+    return;
 
+  app_info = phosh_get_desktop_app_info_for_app_id (app_id);
   if (app_info) {
     icon = g_app_info_get_icon (G_APP_INFO (app_info));
     name = g_app_info_get_display_name (G_APP_INFO (app_info));
