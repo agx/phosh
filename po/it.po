@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the phosh package.
 # Ant Pandolfo <ant.pandolfo@gmail.com>, 2018.
 # antpanlinux <ant.pandolfo@gmail.com>, 2019. #zanata-2023.
+# Vittorio Monti <gitlapur.a8tut@aleeas.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-18 11:35+0000\n"
-"PO-Revision-Date: 2023-05-21 13:20+0200\n"
-"Last-Translator: antpanlinux <ant.pandolfo@gmail.com>\n"
-"Language-Team: antpanlinux <ant.pandolfo@gmail.com>\n"
+"POT-Creation-Date: 2023-10-30 17:58+0000\n"
+"PO-Revision-Date: 2023-11-12 14:17+0100\n"
+"Last-Translator: Vittorio Monti <gitlapur.a8tut@aleeas.com>\n"
+"Language-Team: Italian <>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 3.38.0\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 45.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -66,11 +67,11 @@ msgstr "Mostra i prossimi eventi del calendario"
 msgid "Application"
 msgstr "Applicazione"
 
-#: src/app-grid.c:137
+#: src/app-grid.c:138
 msgid "Show All Apps"
 msgstr "Mostra tutte le app"
 
-#: src/app-grid.c:140
+#: src/app-grid.c:141
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Mostra solo le app per cellulari"
 
@@ -82,6 +83,10 @@ msgstr "Attivo"
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
+
+#: src/call-notification.c:61
+msgid "Unknown caller"
+msgstr "Chiamante sconosciuto"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -178,29 +183,29 @@ msgstr "Sì"
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Inserire la password"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "Sto controllando…"
 
-#: src/screenshot-manager.c:212
+#: src/screenshot-manager.c:213
 msgid "Screenshot"
 msgstr "Schermata"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:214
 msgid "Screenshot copied to clipboard"
 msgstr "Schermata copiata negli appunti"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Titolo sconosciuto"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Artista sconosciuto"
 
@@ -228,12 +233,12 @@ msgstr "%s %s"
 msgid "Unknown"
 msgstr "Sconosciuto"
 
-#: src/network-auth-prompt.c:201
+#: src/network-auth-prompt.c:202
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Tipo di autenticazione della rete Wi-Fi “%s” non supportato"
 
-#: src/network-auth-prompt.c:206
+#: src/network-auth-prompt.c:207
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Inserire la password per la rete Wi-Fi “%s”"
@@ -242,7 +247,7 @@ msgstr "Inserire la password per la rete Wi-Fi “%s”"
 msgid "Open"
 msgstr "Apri"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:654
+#: src/notifications/notification.c:405 src/notifications/notification.c:678
 msgid "Notification"
 msgstr "Notifica"
 
@@ -334,7 +339,7 @@ msgstr "Quasi %da"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "La finestra di autenticazione è stata chiusa dall'utente"
 
@@ -370,10 +375,14 @@ msgstr "Attiva"
 msgid "Press ESC to close"
 msgstr "Premere ESC per chiudere"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Esecuzione di '%s' fallita"
+
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Controllo del volume"
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
@@ -417,6 +426,18 @@ msgstr "Visualizza _Dettagli"
 msgid "Search apps…"
 msgstr "Ricerca app…"
 
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Dispositivi di uscita"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Dispositivi di ingresso"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "Opzioni suono"
+
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
 msgstr "Chiudi la finestra di dialogo per la chiamata di emergenza"
@@ -450,27 +471,27 @@ msgstr "Non ci sono contatti di emergenza."
 msgid "Some applications are busy or have unsaved work"
 msgstr "Alcune applicazioni sono occupate o hanno del lavoro non salvato"
 
-#: src/ui/gtk-mount-prompt.ui:94
+#: src/ui/gtk-mount-prompt.ui:88
 msgid "User:"
 msgstr "Utente:"
 
-#: src/ui/gtk-mount-prompt.ui:117
+#: src/ui/gtk-mount-prompt.ui:111
 msgid "Domain:"
 msgstr "Dominio:"
 
-#: src/ui/gtk-mount-prompt.ui:150
+#: src/ui/gtk-mount-prompt.ui:144
 msgid "Co_nnect"
 msgstr "Co_nnetti"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "Indietro"
 
-#: src/ui/lockscreen.ui:90
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "Scorri verso l'alto per sbloccare"
 
-#: src/ui/lockscreen.ui:273
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "Sblocca"
 
@@ -487,7 +508,7 @@ msgstr "_Annulla"
 msgid "C_onnect"
 msgstr "C_onnetti"
 
-#: src/ui/polkit-auth-prompt.ui:122
+#: src/ui/polkit-auth-prompt.ui:117
 msgid "Authenticate"
 msgstr "Autenticazione"
 
@@ -511,30 +532,31 @@ msgstr "_Emergenza"
 msgid "Run Command"
 msgstr "Esegui comando"
 
-#: src/ui/settings.ui:320
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "Nessuna notifica"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "Cancella tutto"
 
-#: src/ui/system-prompt.ui:62
+#: src/ui/system-prompt.ui:57
 msgid "Confirm:"
 msgstr "Conferma:"
 
 #: src/ui/top-panel.ui:32
-#| msgid "_Power Off"
 msgid "_Power Off…"
 msgstr "S_pegni…"
 
 #: src/ui/top-panel.ui:60
-#| msgid "Restart"
 msgid "_Restart…"
 msgstr "_Riavvia…"
 
 #: src/ui/top-panel.ui:88
-#| msgid "Log Out"
+msgid "_Suspend…"
+msgstr "_Sospendi…"
+
+#: src/ui/top-panel.ui:116
 msgid "_Log Out…"
 msgstr "_Termina sessione…"
 
@@ -654,17 +676,29 @@ msgstr "Aggiungi nuovo contatto"
 msgid "Add"
 msgstr "Aggiungi"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "Nome del nuovo contatto"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "Relazione"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Numero"
+
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Scatola di avvio"
+
+#: plugins/launcher-box/launcher-box.ui:15
+msgid "No launchers configured"
+msgstr "Nessun avviatore configurato"
+
+#: plugins/launcher-box/launcher-box.ui:32
+msgid "Launchers"
+msgstr "Avviatori"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -692,7 +726,7 @@ msgstr "Percorsi"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
 msgid "Folder Settings"
-msgstr "Opzioni Cartella"
+msgstr "Opzioni cartella"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
 msgid "Where Phosh looks for your tickets"
@@ -745,3 +779,4 @@ msgstr "Termina"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Evento senza titolo"
+
