@@ -321,6 +321,7 @@ add_inhibitor (PhoshEndSessionDialog *self, GDBusProxy *inhibitor)
   gtk_box_pack_end (GTK_BOX (box), box_text, FALSE, FALSE, 0);
 
   gtk_list_box_insert (GTK_LIST_BOX (self->listbox), GTK_WIDGET (box), -1);
+  gtk_widget_set_visible (GTK_WIDGET (self->sw_inhibitors), TRUE);
 }
 
 
@@ -355,6 +356,8 @@ clear_inhibitors (PhoshEndSessionDialog *self)
   children = gtk_container_get_children (GTK_CONTAINER (self->listbox));
   for (GList *child = children; child; child = child->next)
     gtk_container_remove (GTK_CONTAINER (self->listbox), child->data);
+
+  gtk_widget_set_visible (self->sw_inhibitors, FALSE);
 }
 
 
@@ -366,10 +369,8 @@ end_session_dialog_update_inhibitors (PhoshEndSessionDialog *self, GStrv paths)
 
   clear_inhibitors (self);
 
-  if (!is_inhibited (self)) {
-    gtk_widget_hide (self->sw_inhibitors);
+  if (!self->inhibitor_paths)
     return;
-  }
 
   for (int i = 0; self->inhibitor_paths[i]; i++) {
     g_dbus_proxy_new_for_bus (G_BUS_TYPE_SESSION, 0, NULL,
@@ -378,7 +379,6 @@ end_session_dialog_update_inhibitors (PhoshEndSessionDialog *self, GStrv paths)
                               "org.gnome.SessionManager.Inhibitor",
                               self->cancel, on_inhibitor_created, self);
   }
-  gtk_widget_show (GTK_WIDGET (self->sw_inhibitors));
 }
 
 
