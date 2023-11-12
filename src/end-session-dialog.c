@@ -293,7 +293,7 @@ add_inhibitor (PhoshEndSessionDialog *self, GDBusProxy *inhibitor)
   }
 
   if (!name)
-    name = _("Unknown application");
+    name = app_id;
 
   if (!icon)
     icon_name = "app-icon-unknown";
@@ -326,7 +326,6 @@ add_inhibitor (PhoshEndSessionDialog *self, GDBusProxy *inhibitor)
                         "valign", GTK_ALIGN_END,
                         NULL);
   gtk_box_pack_start (GTK_BOX (box_text), label, TRUE, TRUE, 0);
-
 
   if (reason) {
     lbl_reason = g_object_new (GTK_TYPE_LABEL,
