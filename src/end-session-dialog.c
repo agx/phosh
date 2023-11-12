@@ -21,6 +21,8 @@
 
 #include "util.h"
 
+#define SYNC_DBUS_TIMEOUT 500
+
 /**
  * PhoshEndSessionDialog:
  *
@@ -30,7 +32,14 @@
  * and is spawned by the #PhoshSessionManager.
  */
 
-#define SYNC_DBUS_TIMEOUT 500
+/* Taken from gnome-session/gsm-inhibitor-flag.h */
+typedef enum {
+  PHOSH_GSM_INHIBITOR_FLAG_LOGOUT      = 1 << 0,
+  PHOSH_GSM_INHIBITOR_FLAG_SWITCH_USER = 1 << 1,
+  PHOSH_GSM_INHIBITOR_FLAG_SUSPEND     = 1 << 2,
+  PHOSH_GSM_INHIBITOR_FLAG_IDLE        = 1 << 3,
+  PHOSH_GSM_INHIBITOR_FLAG_AUTOMOUNT   = 1 << 4
+} PhoshGsmInhibitorFlags;
 
 enum {
   CLOSED,
@@ -157,8 +166,7 @@ end_session_dialog_update (PhoshEndSessionDialog *self)
   seconds = self->timeout;
   inhibited = is_inhibited (self);
 
-  g_debug ("Action: %d, seconds: %d, inhibit: %d",
-           self->action, seconds, inhibited);
+  g_debug ("Action: %d, seconds: %d, inhibit: %d", self->action, seconds, inhibited);
 
   switch (self->action) {
   case PHOSH_END_SESSION_ACTION_LOGOUT:
@@ -214,6 +222,25 @@ inhibitor_get_app_id (GDBusProxy *proxy)
 }
 
 
+static PhoshGsmInhibitorFlags
+inhibitor_get_flags (GDBusProxy *proxy)
+{
+  g_autoptr (GError) error = NULL;
+  g_autoptr (GVariant) res = NULL;
+  guint flags;
+
+  res = g_dbus_proxy_call_sync (proxy, "GetFlags", NULL,
+                                0, SYNC_DBUS_TIMEOUT, NULL, &error);
+  if (!res) {
+    g_warning ("Failed to get Inhibitor flags: %s", error->message);
+    return 0;
+  }
+  g_variant_ (res, "(f)", &flags);
+
+  return flags;
+}
+
+
 static char *
 inhibitor_get_reason (GDBusProxy *proxy)
 {
@@ -239,6 +266,7 @@ add_inhibitor (PhoshEndSessionDialog *self, GDBusProxy *inhibitor)
   g_autofree char *app_id = NULL;
   g_autofree char *reason = NULL;
   g_autoptr (GDesktopAppInfo) app_info = NULL;
+  PhoshGsmInhibitorFlags flags;
   const char *icon_name = NULL;
   const char *name = NULL;
   GIcon *icon = NULL;
@@ -250,6 +278,10 @@ add_inhibitor (PhoshEndSessionDialog *self, GDBusProxy *inhibitor)
 
   app_id = inhibitor_get_app_id (inhibitor);
   reason = inhibitor_get_reason (inhibitor);
+  flags = inhibitor_get_flags (inhibitor);
+
+  if (!(flags & PHOSH_GSM_INHIBITOR_FLAG_LOGOUT))
+    return;
 
   if (!STR_IS_NULL_OR_EMPTY (app_id))
     app_info = phosh_get_desktop_app_info_for_app_id (app_id);
