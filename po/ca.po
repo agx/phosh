@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-18 11:35+0000\n"
-"PO-Revision-Date: 2023-06-07 22:25+0200\n"
+"POT-Creation-Date: 2023-10-27 13:22+0000\n"
+"PO-Revision-Date: 2023-11-12 23:14+0100\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -65,11 +65,11 @@ msgstr "Mostra els propers esdeveniments del calendari"
 msgid "Application"
 msgstr "Aplicació"
 
-#: src/app-grid.c:137
+#: src/app-grid.c:138
 msgid "Show All Apps"
 msgstr "Mostra totes les aplicacions"
 
-#: src/app-grid.c:140
+#: src/app-grid.c:141
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Mostra només les aplicacions compatibles amb mòbils"
 
@@ -81,6 +81,10 @@ msgstr "Activat"
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
+
+#: src/call-notification.c:61
+msgid "Unknown caller"
+msgstr "Trucada desconeguda"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -177,29 +181,29 @@ msgstr "Sí"
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:170 src/ui/lockscreen.ui:221
+#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Introduïu la contrasenya"
 
-#: src/lockscreen.c:393
+#: src/lockscreen.c:397
 msgid "Checking…"
 msgstr "S'està comprovant…"
 
-#: src/screenshot-manager.c:212
+#: src/screenshot-manager.c:213
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:214
 msgid "Screenshot copied to clipboard"
 msgstr "S'ha copiat la captura de pantalla al porta-retalls"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Títol desconegut"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Artista desconegut"
 
@@ -241,7 +245,7 @@ msgstr "Introduïu la contrasenya de la xarxa sense fil «%s»"
 msgid "Open"
 msgstr "Obre"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:654
+#: src/notifications/notification.c:405 src/notifications/notification.c:678
 msgid "Notification"
 msgstr "Notificació"
 
@@ -333,7 +337,7 @@ msgstr "Gairebé %d anys"
 msgid "%s%d%s"
 msgstr "%s %d %s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "L'usuari ha descartat el diàleg d'autenticació"
 
@@ -369,10 +373,14 @@ msgstr "Activada"
 msgid "Press ESC to close"
 msgstr "Premeu Esc per a sortir"
 
-#: src/run-command-manager.c:95
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "No s'ha pogut executar «%s»"
+
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Control de volum del Phone Shell"
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
@@ -415,6 +423,18 @@ msgstr "Veieu els _detalls"
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Cerca aplicacions…"
+
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Dispositius de sortida"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Dispositius d'entrada"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "Paràmetres de so"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -461,15 +481,15 @@ msgstr "Domini:"
 msgid "Co_nnect"
 msgstr "Co_nnecta"
 
-#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:310
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
 msgid "Back"
 msgstr "Torna"
 
-#: src/ui/lockscreen.ui:90
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "Llisqueu cap amunt per desbloquejar"
 
-#: src/ui/lockscreen.ui:273
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "Desbloqueja"
 
@@ -510,11 +530,11 @@ msgstr "_Emergència"
 msgid "Run Command"
 msgstr "Executa una ordre"
 
-#: src/ui/settings.ui:320
+#: src/ui/settings.ui:296
 msgid "No notifications"
 msgstr "Cap notificació"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:336
 msgid "Clear all"
 msgstr "Neteja-ho tot"
 
@@ -531,6 +551,10 @@ msgid "_Restart…"
 msgstr "Reinicia…"
 
 #: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_Suspèn…"
+
+#: src/ui/top-panel.ui:116
 msgid "_Log Out…"
 msgstr "Surt…"
 
@@ -650,17 +674,29 @@ msgstr "Afegeix un nou contacte"
 msgid "Add"
 msgstr "Afegeix"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "Nom del nou contacte"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "Relació"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Número"
+
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Capsa de llançadors"
+
+#: plugins/launcher-box/launcher-box.ui:15
+msgid "No launchers configured"
+msgstr "No hi ha cap llançador configurat"
+
+#: plugins/launcher-box/launcher-box.ui:32
+msgid "Launchers"
+msgstr "Llançadors"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
