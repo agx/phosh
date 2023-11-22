@@ -157,7 +157,6 @@ test_phosh_notify_manager_server_notify (PhoshTestFullShellFixture *fixture, gco
 int
 main (int argc, char *argv[])
 {
-  g_autofree char *display = NULL;
   g_autoptr (PhoshTestFullShellFixtureCfg) cfg = NULL;
 
   g_test_init (&argc, &argv, NULL);
