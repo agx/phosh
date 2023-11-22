@@ -95,12 +95,9 @@ phosh_test_full_shell_thread (gpointer data)
 }
 
 PhoshTestFullShellFixtureCfg *
-phosh_test_full_shell_fixture_cfg_new (const char *display, const char *log_domains)
+phosh_test_full_shell_fixture_cfg_new (const char *log_domains)
 {
   PhoshTestFullShellFixtureCfg *self = g_new0 (PhoshTestFullShellFixtureCfg, 1);
-
-  if (display)
-    self->display = g_strdup (display);
 
   if (log_domains)
     self->log_domains = g_strdup (log_domains);
@@ -111,7 +108,6 @@ phosh_test_full_shell_fixture_cfg_new (const char *display, const char *log_doma
 void
 phosh_test_full_shell_fixture_cfg_dispose (PhoshTestFullShellFixtureCfg *self)
 {
-  g_clear_pointer (&self->display, g_free);
   g_clear_pointer (&self->log_domains, g_free);
 
   g_free (self);
@@ -141,9 +137,6 @@ phosh_test_full_shell_setup (PhoshTestFullShellFixture *fixture, gconstpointer d
   g_assert_no_error (err);
 
   g_setenv ("XDG_RUNTIME_DIR", fixture->tmpdir, TRUE);
-  /* Display for wlroots X11 backend */
-  if (cfg->display)
-    g_setenv ("DISPLAY", cfg->display, TRUE);
 
   if (cfg->log_domains)
     fixture->log_domains = g_strdup (cfg->log_domains);

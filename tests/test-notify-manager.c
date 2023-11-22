@@ -157,12 +157,11 @@ test_phosh_notify_manager_server_notify (PhoshTestFullShellFixture *fixture, gco
 int
 main (int argc, char *argv[])
 {
-  g_autofree char *display = NULL;
   g_autoptr (PhoshTestFullShellFixtureCfg) cfg = NULL;
 
   g_test_init (&argc, &argv, NULL);
 
-  cfg = phosh_test_full_shell_fixture_cfg_new (NULL, "phosh-notify-manager");
+  cfg = phosh_test_full_shell_fixture_cfg_new ("phosh-notify-manager");
 
   PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/notify-manager/caps",
                              cfg,
