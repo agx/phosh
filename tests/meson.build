@@ -89,6 +89,7 @@ tests = [
   'css',
   'fading-label',
   'favourite-model',
+  'gamma-table',
   'head',
   'keypad',
   'media-player',

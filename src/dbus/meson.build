@@ -66,6 +66,11 @@ generated_dbus_sources += gnome.gdbus_codegen('gnome-session-presence-dbus',
 					      'org.gnome.SessionManager.Presence.xml',
 					      interface_prefix: 'org.gnome.SessionManager',
 					      namespace: 'PhoshSessionPresenceDBus')
+# org.gnome.SettingsDaemon.Color
+generated_dbus_sources += gnome.gdbus_codegen('gsd-color-dbus',
+					      'org.gnome.SettingsDaemon.Color.xml',
+					      interface_prefix: 'org.gnome.SettingsDaemon',
+					      namespace: dbus_prefix)
 # org.gnome.SettingsDaemon.Rfkill
 generated_dbus_sources += gnome.gdbus_codegen('gsd-rfkill-dbus',
 					      'org.gnome.SettingsDaemon.Rfkill.xml',
