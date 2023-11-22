@@ -21,12 +21,11 @@ typedef struct _PhoshTestFullShellFixture {
 
 
 typedef struct _PhoshTestFullShellFixtureCfg {
-  char *display;
   char *log_domains;
 } PhoshTestFullShellFixtureCfg;
 
 
-PhoshTestFullShellFixtureCfg *phosh_test_full_shell_fixture_cfg_new (const char *display, const char *log_domains);
+PhoshTestFullShellFixtureCfg *phosh_test_full_shell_fixture_cfg_new (const char *log_domains);
 void phosh_test_full_shell_fixture_cfg_dispose (PhoshTestFullShellFixtureCfg *self);
 void phosh_test_full_shell_setup (PhoshTestFullShellFixture *fixture, gconstpointer data);
 void phosh_test_full_shell_teardown (PhoshTestFullShellFixture *fixture, gconstpointer unused);

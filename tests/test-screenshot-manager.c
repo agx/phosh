@@ -86,7 +86,7 @@ main (int argc, char *argv[])
 
   g_test_init (&argc, &argv, NULL);
 
-  cfg = phosh_test_full_shell_fixture_cfg_new (NULL, "phosh-screenshot-manager");
+  cfg = phosh_test_full_shell_fixture_cfg_new ("phosh-screenshot-manager");
 
   PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/screenshot-manager/png", cfg, test_phosh_screenshot_png);
 

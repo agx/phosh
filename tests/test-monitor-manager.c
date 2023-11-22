@@ -66,7 +66,7 @@ main (int argc, char *argv[])
 
   g_test_init (&argc, &argv, NULL);
 
-  cfg = phosh_test_full_shell_fixture_cfg_new (NULL, "phosh-monitor-manager");
+  cfg = phosh_test_full_shell_fixture_cfg_new ("phosh-monitor-manager");
 
   PHOSH_FULL_SHELL_TEST_ADD ("/phosh/dbus/monitor-manager/current_state", cfg,
                              test_phosh_monitor_manager_current_state);
