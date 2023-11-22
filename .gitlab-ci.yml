@@ -73,7 +73,8 @@ variables:
 .test_step: &test_step
   script:
     - export LC_ALL=C.UTF-8
-    - ${XVFB_RUN} meson test --print-errorlogs -C _build --no-suite screenshots
+    - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite unit
+    - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite integration
   after_script:
     - gcovr --json --output=coverage-${CI_JOB_NAME}.json
 
