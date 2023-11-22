@@ -60,7 +60,7 @@ phoc_stdout_watch (GIOChannel      *source,
       g_autoptr (GRegex) socket_re = NULL;
       g_autoptr (GMatchInfo) socket_mi = NULL;
 
-      g_debug ("Phoc startup msg: %s", line);
+      g_test_message ("Phoc startup msg: %s", line);
 
       socket_re = g_regex_new ("on wayland display '(wayland-[0-9]+)'",
                                0, 0, &err);
@@ -183,14 +183,15 @@ phosh_test_compositor_new (gboolean heads_stub)
   g_autoptr (GPtrArray) argv = NULL;
   g_autoptr (GIOChannel) channel = NULL;
   g_autoptr (GMainLoop) mainloop = NULL;
+  g_autofree char *wl_display_path = NULL;
+  g_auto (GStrv) env = NULL;
   PhoshTestCompositorState *state;
   GSpawnFlags flags = G_SPAWN_DO_NOT_REAP_CHILD;
   const char *comp, *phoc_ini;
   gboolean ret;
-  int outfd;
+  int outfd, id;
   PhocOutputWatch watch;
-  gint id;
-  g_auto(GStrv) env = NULL;
+  struct wl_display *wl_display;
 
   comp = g_getenv ("PHOSH_TEST_PHOC_BINARY");
   if (!comp) {
@@ -254,8 +255,14 @@ phosh_test_compositor_new (gboolean heads_stub)
 
   /* I/O watch in main should have gotten the socket name */
   g_assert (watch.socket);
-  g_debug ("Found wayland display: '%s/%s'", g_getenv ("XDG_RUNTIME_DIR"), watch.socket);
-  g_setenv ("WAYLAND_DISPLAY", watch.socket, TRUE);
+  wl_display_path = g_strdup_printf ("%s/%s", g_getenv ("XDG_RUNTIME_DIR"), watch.socket);
+  g_test_message ("Using Wayland socket at: '%s'", wl_display_path);
+  g_setenv ("WAYLAND_DISPLAY", wl_display_path, TRUE);
+
+  /* Check if we can connect to the display */
+  wl_display = wl_display_connect (wl_display_path);
+  g_assert (wl_display);
+  wl_display_disconnect (wl_display);
 
   /* Set up wayland protocol */
   gdk_set_allowed_backends ("wayland");
@@ -263,10 +270,12 @@ phosh_test_compositor_new (gboolean heads_stub)
    * Don't let GDK decide whether to open a display, we want the one
    * from the freshly spawned compositor
    */
-  state->gdk_display = gdk_display_open (watch.socket);
+  g_test_message ("Opening GDK wayland display at %s", wl_display_path);
+  state->gdk_display = gdk_display_open (wl_display_path);
+  g_assert (state->gdk_display);
 
   state->wl = phosh_wayland_get_default ();
-  g_test_message ("Connected to wayland socket %s", watch.socket);
+  g_test_message ("Connected phosh-wayland to Wayland socket %s", wl_display_path);
   g_free (watch.socket);
 
   if (heads_stub)
