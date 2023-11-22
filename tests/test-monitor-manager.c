@@ -56,6 +56,12 @@ test_phosh_monitor_manager_current_state (PhoshTestFullShellFixture *fixture, gc
 
   g_variant_iter_init (&iter, logical);
   g_assert_cmpint (g_variant_iter_n_children (&iter), ==, 1);
+
+  /* Check more API calls */
+  g_assert_false (phosh_dbus_display_config_get_night_light_supported (proxy));
+  g_assert_false (phosh_dbus_display_config_get_panel_orientation_managed (proxy));
+  g_assert_true (phosh_dbus_display_config_get_apply_monitors_config_allowed (proxy));
+  g_assert_cmpint (phosh_dbus_display_config_get_power_save_mode (proxy), ==, 0);
 }
 
 
