@@ -44,8 +44,11 @@ struct _PhoshOskManager
   /* Currently the only impl. We can use an interface once we support
    * different OSK types */
   PhoshOsk0SmPuriOSK0 *proxy;
+  GSettings           *a11y_settings;
+
   gboolean visible;
-  gboolean available;
+  gboolean has_name_owner;
+  gboolean enabled;
 };
 G_DEFINE_TYPE (PhoshOskManager, phosh_osk_manager, G_TYPE_OBJECT)
 
@@ -63,7 +66,7 @@ phosh_osk_manager_get_property (GObject *object,
     g_value_set_boolean (value, self->visible);
     break;
   case PROP_AVAILABLE:
-    g_value_set_boolean (value, self->available);
+    g_value_set_boolean (value, phosh_osk_manager_get_available (self));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -77,7 +80,6 @@ on_osk0_set_visible_done (PhoshOsk0SmPuriOSK0 *proxy,
                           GAsyncResult        *res,
                           PhoshOskManager     *self)
 {
-  g_autoptr (GVariant) variant = NULL;
   g_autoptr (GError) err = NULL;
   gboolean visible;
 
@@ -119,7 +121,23 @@ dbus_name_owner_changed_cb (PhoshOskManager *self, gpointer data)
   name_owner = g_dbus_proxy_get_name_owner (G_DBUS_PROXY (self->proxy));
   g_debug ("OSK bus '%s' owned by %s", VIRTBOARD_DBUS_NAME, name_owner ? name_owner : "nobody");
 
-  self->available = name_owner ? TRUE : FALSE;
+  self->has_name_owner = name_owner ? TRUE : FALSE;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_AVAILABLE]);
+}
+
+
+static void
+on_screen_keyboard_enabled_changed (PhoshOskManager *self, GParamSpec *pspec, gpointer unused)
+{
+  gboolean enabled;
+
+  g_return_if_fail (PHOSH_IS_OSK_MANAGER (self));
+
+  enabled = g_settings_get_boolean(self->a11y_settings, "screen-keyboard-enabled");
+  if (enabled == self->enabled)
+    return;
+
+  self->enabled = enabled;
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_AVAILABLE]);
 }
 
@@ -130,7 +148,7 @@ on_availability_changed (PhoshOskManager *self, GParamSpec *pspec, gpointer unus
   g_return_if_fail (PHOSH_IS_OSK_MANAGER (self));
 
   /* Sync on visibility when osk is unavailable so buttons, etc look correct */
-  if (!self->available)
+  if (!phosh_osk_manager_get_available (self))
     phosh_osk_manager_set_visible (self, FALSE);
 }
 
@@ -216,7 +234,9 @@ phosh_osk_manager_dispose (GObject *object)
 {
   PhoshOskManager *self = PHOSH_OSK_MANAGER (object);
 
+  g_clear_object (&self->a11y_settings);
   g_clear_object (&self->proxy);
+
   G_OBJECT_CLASS (phosh_osk_manager_parent_class)->dispose (object);
 }
 
@@ -229,17 +249,24 @@ phosh_osk_manager_class_init (PhoshOskManagerClass *klass)
   object_class->constructed = phosh_osk_manager_constructed;
   object_class->dispose = phosh_osk_manager_dispose;
   object_class->get_property = phosh_osk_manager_get_property;
+
+  /**
+   * PhoshOskManager::available:
+   *
+   * Whether an OSK is available. That means it is registered on DBus and enabled via
+   * a11y setting
+   */
   props[PROP_AVAILABLE] =
-    g_param_spec_boolean ("available",
-                          "available",
-                          "Whether an OSK is available",
+    g_param_spec_boolean ("available", "", "",
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
-
+  /**
+   * PhoshOskManager::visisble:
+   *
+   * Whether an OSK is currently visible to the user.
+   */
   props[PROP_VISIBLE] =
-    g_param_spec_boolean ("visible",
-                          "visible",
-                          "Whether the OSK is currently visible",
+    g_param_spec_boolean ("visible", "", "",
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
@@ -249,6 +276,11 @@ phosh_osk_manager_class_init (PhoshOskManagerClass *klass)
 static void
 phosh_osk_manager_init (PhoshOskManager *self)
 {
+  self->a11y_settings = g_settings_new ("org.gnome.desktop.a11y.applications");
+  g_signal_connect_swapped (self->a11y_settings,
+                            "changed::screen-keyboard-enabled",
+                            G_CALLBACK (on_screen_keyboard_enabled_changed),
+                            self);
 }
 
 
@@ -264,7 +296,7 @@ phosh_osk_manager_get_available (PhoshOskManager *self)
 {
   g_return_val_if_fail (PHOSH_IS_OSK_MANAGER (self), FALSE);
 
-  return self->available;
+  return self->has_name_owner && self->enabled;
 }
 
 
