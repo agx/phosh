@@ -93,6 +93,7 @@ commit-log-check:
   extends:
     - .fdo.ci-fairy
   stage: style-checks
+  needs: []
   script: |
     ci-fairy check-commits --junit-xml=commit-message-junit-report.xml
   artifacts:
