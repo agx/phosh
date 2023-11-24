@@ -93,6 +93,8 @@ commit-log-check:
   extends:
     - .fdo.ci-fairy
   stage: style-checks
+  variables:
+    GIT_DEPTH: "100"
   needs: []
   script: |
     ci-fairy check-commits --junit-xml=commit-message-junit-report.xml
