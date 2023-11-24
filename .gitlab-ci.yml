@@ -94,11 +94,7 @@ sanity:
     - .fdo.ci-fairy
   stage: style-checks
   script: |
-    if [ -n "$CI_OPEN_MERGE_REQUESTS" ]; then
-      ci-fairy check-commits --junit-xml=commit-message-junit-report.xml cifairy/main..HEAD ;
-    else
-      echo "Not a merge request" ;
-    fi
+    ci-fairy check-commits --junit-xml=commit-message-junit-report.xml
   artifacts:
     reports:
       junit: commit-message-junit-report.xml
