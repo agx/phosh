@@ -1,6 +1,6 @@
 include:
  - remote: 'https://source.puri.sm/Librem5/librem5-ci/raw/master/librem5-pipeline-definitions.yml'
- - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/34039cd573a2df832d465bc9e4c5f543571f5241/templates/ci-fairy.yml'
+ - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/d03cddbcff35f26861429fc816c00323f48e99af/templates/ci-fairy.yml'
 
 stages:
  - build
