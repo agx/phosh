@@ -89,7 +89,7 @@ variables:
     - gcovr --json --output=coverage-${CI_JOB_NAME}.json
 
 # Sanity checks of MR settings and commit logs
-sanity:
+commit-log-check:
   extends:
     - .fdo.ci-fairy
   stage: style-checks
