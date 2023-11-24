@@ -92,7 +92,7 @@ variables:
 sanity:
   extends:
     - .fdo.ci-fairy
-  stage: build
+  stage: style-checks
   script: |
     if [ -n "$CI_OPEN_MERGE_REQUESTS" ]; then
       ci-fairy check-commits --junit-xml=commit-message-junit-report.xml cifairy/main..HEAD ;
@@ -102,9 +102,8 @@ sanity:
   artifacts:
     reports:
       junit: commit-message-junit-report.xml
-  only:
-    variables:
-      - $CI_OPEN_MERGE_REQUESTS && $PKG_ONLY != "1"
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME'
 
 build:native-debian-trixie:
   stage: build
