@@ -55,7 +55,7 @@ on_caller_info_changed (PhoshCallNotification *self, GParamSpec *pspec, PhoshCal
   const char *display_name = cui_call_get_display_name (CUI_CALL (call));
   const char *id = cui_call_get_id (CUI_CALL (call));
 
-  g_warning ("%s %s", display_name, id);
+  g_debug ("%s %s", display_name, id);
   if (STR_IS_NULL_OR_EMPTY (display_name)) {
     caller_detail = NULL;
     caller = STR_IS_NULL_OR_EMPTY (id) ? _("Unknown caller") : id;
@@ -111,29 +111,10 @@ transform_active_time (GBinding     *binding,
                        GValue       *to_value,
                        gpointer      user_data)
 {
-#define MINUTE 60
-#define HOUR   (60 * MINUTE)
-
-  /* TODO: use https://gitlab.gnome.org/World/Phosh/libcall-ui/-/merge_requests/73 */
   double elapsed = g_value_get_double (from_value);
-  guint seconds, minutes;
-  GString *str = g_string_new ("");
 
-  if (elapsed > HOUR) {
-    int hours = (int) (elapsed / HOUR);
-    g_string_append_printf (str, "%u:", hours);
-    elapsed -= (hours * HOUR);
-  }
-
-  minutes = (int) (elapsed / MINUTE);
-  seconds = elapsed - (minutes * MINUTE);
-  g_string_append_printf (str, "%02u:%02u", minutes, seconds);
-
-  g_value_take_string (to_value, g_string_free (str, FALSE));
+  g_value_take_string (to_value, cui_call_format_duration (elapsed));
   return TRUE;
-
-#undef HOUR
-#undef MINUTE
 }
 
 
