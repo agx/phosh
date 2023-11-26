@@ -1270,7 +1270,7 @@ on_gsd_color_proxy_new_for_bus_finish (GObject             *source_object,
   proxy = phosh_dbus_color_proxy_new_for_bus_finish (res, &err);
 
   if (!proxy) {
-    phosh_dbus_service_error_warn (err, "Failed to get gsd color proxy");
+    phosh_async_error_warn (err, "Failed to get gsd color proxy");
     return;
   }
 

@@ -3,11 +3,18 @@ patterns:
     - regex: '^$CI_MERGE_REQUEST_PROJECT_URL/(-/)?merge_requests/$CI_MERGE_REQUEST_IID$'
       message: Commit message must not contain a link to its own merge request
     - regex: '^[^:]+: [a-z]'
-      message: "Commit message subject should be properly Capitalized. E.g. 'window: Marginalize extradicity'"
+      message: "Commit description in commit message subject should be properly Capitalized. E.g. 'monitor: Avoid crash on unplug'"
       where: subject
-    - regex: '^\S*\.(c|h):'
+    - regex: '^\S*\.(c|h|ui):'
       message: Commit message subject prefix should not include .c, .h etc.
       where: subject
     - regex: '([^.]\.|[:,;])\s*$'
       message: Commit message subject should not end with punctuation
+      where: subject
+    - regex: '^[A-Z]\S*:'
+      message: "Identifier in commit message subject should start lowercase 'monitor: Avoid crash on unplug'"
+      where: subject
+  require:
+    - regex: '^[a-z0-9,\.\+\-/#=_]+:'
+      message: "Commit message should start with a lowercase identifier 'monitor: Avoid crash on unplug'"
       where: subject

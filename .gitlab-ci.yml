@@ -1,6 +1,6 @@
 include:
  - remote: 'https://source.puri.sm/Librem5/librem5-ci/raw/master/librem5-pipeline-definitions.yml'
- - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/34039cd573a2df832d465bc9e4c5f543571f5241/templates/ci-fairy.yml'
+ - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/d03cddbcff35f26861429fc816c00323f48e99af/templates/ci-fairy.yml'
 
 stages:
  - build
@@ -89,16 +89,15 @@ variables:
     - gcovr --json --output=coverage-${CI_JOB_NAME}.json
 
 # Sanity checks of MR settings and commit logs
-sanity:
+commit-log-check:
   extends:
     - .fdo.ci-fairy
   stage: style-checks
+  variables:
+    GIT_DEPTH: "100"
+  needs: []
   script: |
-    if [ -n "$CI_OPEN_MERGE_REQUESTS" ]; then
-      ci-fairy check-commits --junit-xml=commit-message-junit-report.xml cifairy/main..HEAD ;
-    else
-      echo "Not a merge request" ;
-    fi
+    ci-fairy check-commits --junit-xml=commit-message-junit-report.xml
   artifacts:
     reports:
       junit: commit-message-junit-report.xml
