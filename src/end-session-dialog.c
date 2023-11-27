@@ -19,6 +19,9 @@
 #include <glib/gi18n.h>
 #include <gio/gdesktopappinfo.h>
 
+#include "util.h"
+
+#define SYNC_DBUS_TIMEOUT 500
 
 /**
  * PhoshEndSessionDialog:
@@ -29,7 +32,14 @@
  * and is spawned by the #PhoshSessionManager.
  */
 
-#define SYNC_DBUS_TIMEOUT 500
+/* Taken from gnome-session/gsm-inhibitor-flag.h */
+typedef enum {
+  PHOSH_GSM_INHIBITOR_FLAG_LOGOUT      = 1 << 0,
+  PHOSH_GSM_INHIBITOR_FLAG_SWITCH_USER = 1 << 1,
+  PHOSH_GSM_INHIBITOR_FLAG_SUSPEND     = 1 << 2,
+  PHOSH_GSM_INHIBITOR_FLAG_IDLE        = 1 << 3,
+  PHOSH_GSM_INHIBITOR_FLAG_AUTOMOUNT   = 1 << 4
+} PhoshGsmInhibitorFlags;
 
 enum {
   CLOSED,
@@ -65,6 +75,7 @@ typedef struct _PhoshEndSessionDialog {
   GtkWidget             *btn_confirm;
   GtkWidget             *btn_cancel;
 
+  GCancellable          *cancel;
 } PhoshEndSessionDialog;
 
 
@@ -155,8 +166,7 @@ end_session_dialog_update (PhoshEndSessionDialog *self)
   seconds = self->timeout;
   inhibited = is_inhibited (self);
 
-  g_debug ("Action: %d, seconds: %d, inhibit: %d",
-           self->action, seconds, inhibited);
+  g_debug ("Action: %d, seconds: %d, inhibit: %d", self->action, seconds, inhibited);
 
   switch (self->action) {
   case PHOSH_END_SESSION_ACTION_LOGOUT:
@@ -212,6 +222,25 @@ inhibitor_get_app_id (GDBusProxy *proxy)
 }
 
 
+static PhoshGsmInhibitorFlags
+inhibitor_get_flags (GDBusProxy *proxy)
+{
+  g_autoptr (GError) error = NULL;
+  g_autoptr (GVariant) res = NULL;
+  guint flags;
+
+  res = g_dbus_proxy_call_sync (proxy, "GetFlags", NULL,
+                                0, SYNC_DBUS_TIMEOUT, NULL, &error);
+  if (!res) {
+    g_warning ("Failed to get Inhibitor flags: %s", error->message);
+    return 0;
+  }
+  g_variant_get (res, "(u)", &flags);
+
+  return flags;
+}
+
+
 static char *
 inhibitor_get_reason (GDBusProxy *proxy)
 {
@@ -232,14 +261,12 @@ inhibitor_get_reason (GDBusProxy *proxy)
 
 
 static void
-add_inhibitor (PhoshEndSessionDialog *self,
-               GDBusProxy            *inhibitor)
+add_inhibitor (PhoshEndSessionDialog *self, GDBusProxy *inhibitor)
 {
   g_autofree char *app_id = NULL;
   g_autofree char *reason = NULL;
-  g_autofree char *desktop_file = NULL;
-
   g_autoptr (GDesktopAppInfo) app_info = NULL;
+  PhoshGsmInhibitorFlags flags;
   const char *icon_name = NULL;
   const char *name = NULL;
   GIcon *icon = NULL;
@@ -251,23 +278,22 @@ add_inhibitor (PhoshEndSessionDialog *self,
 
   app_id = inhibitor_get_app_id (inhibitor);
   reason = inhibitor_get_reason (inhibitor);
+  flags = inhibitor_get_flags (inhibitor);
 
-  if (app_id) {
-    if (g_str_has_suffix (app_id, ".desktop")) {
-      app_info = g_desktop_app_info_new (app_id);
-    } else {
-      desktop_file = g_strdup_printf ("%s.desktop", app_id);
-      app_info = g_desktop_app_info_new (desktop_file);
-    }
-  }
+  if (!(flags & PHOSH_GSM_INHIBITOR_FLAG_LOGOUT))
+    return;
 
+  if (STR_IS_NULL_OR_EMPTY (app_id))
+    return;
+
+  app_info = phosh_get_desktop_app_info_for_app_id (app_id);
   if (app_info) {
     icon = g_app_info_get_icon (G_APP_INFO (app_info));
     name = g_app_info_get_display_name (G_APP_INFO (app_info));
   }
 
   if (!name)
-    name = _("Unknown application");
+    name = app_id;
 
   if (!icon)
     icon_name = "app-icon-unknown";
@@ -301,7 +327,6 @@ add_inhibitor (PhoshEndSessionDialog *self,
                         NULL);
   gtk_box_pack_start (GTK_BOX (box_text), label, TRUE, TRUE, 0);
 
-
   if (reason) {
     lbl_reason = g_object_new (GTK_TYPE_LABEL,
                                "visible", TRUE,
@@ -328,6 +353,7 @@ add_inhibitor (PhoshEndSessionDialog *self,
   gtk_box_pack_end (GTK_BOX (box), box_text, FALSE, FALSE, 0);
 
   gtk_list_box_insert (GTK_LIST_BOX (self->listbox), GTK_WIDGET (box), -1);
+  gtk_widget_set_visible (GTK_WIDGET (self->sw_inhibitors), TRUE);
 }
 
 
@@ -336,8 +362,7 @@ on_inhibitor_created (GObject      *source,
                       GAsyncResult *res,
                       gpointer      user_data)
 {
-  PhoshEndSessionDialog *self = PHOSH_END_SESSION_DIALOG (user_data);
-
+  PhoshEndSessionDialog *self;
   g_autoptr (GError) error = NULL;
   g_autoptr (GDBusProxy) proxy = NULL;
 
@@ -348,8 +373,8 @@ on_inhibitor_created (GObject      *source,
     return;
   }
 
+  self = PHOSH_END_SESSION_DIALOG (user_data);
   add_inhibitor (self, proxy);
-  g_object_unref (self);
 }
 
 
@@ -363,6 +388,8 @@ clear_inhibitors (PhoshEndSessionDialog *self)
   children = gtk_container_get_children (GTK_CONTAINER (self->listbox));
   for (GList *child = children; child; child = child->next)
     gtk_container_remove (GTK_CONTAINER (self->listbox), child->data);
+
+  gtk_widget_set_visible (self->sw_inhibitors, FALSE);
 }
 
 
@@ -374,19 +401,16 @@ end_session_dialog_update_inhibitors (PhoshEndSessionDialog *self, GStrv paths)
 
   clear_inhibitors (self);
 
-  if (!is_inhibited (self)) {
-    gtk_widget_hide (self->sw_inhibitors);
+  if (!self->inhibitor_paths)
     return;
-  }
 
   for (int i = 0; self->inhibitor_paths[i]; i++) {
     g_dbus_proxy_new_for_bus (G_BUS_TYPE_SESSION, 0, NULL,
                               "org.gnome.SessionManager",
                               self->inhibitor_paths[i],
                               "org.gnome.SessionManager.Inhibitor",
-                              NULL, on_inhibitor_created, g_object_ref (self));
+                              self->cancel, on_inhibitor_created, self);
   }
-  gtk_widget_show (GTK_WIDGET (self->sw_inhibitors));
 }
 
 
@@ -446,6 +470,9 @@ static void
 phosh_end_session_dialog_dispose (GObject *obj)
 {
   PhoshEndSessionDialog *self = PHOSH_END_SESSION_DIALOG (obj);
+
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
 
   if (self->listbox)
     clear_inhibitors (self);
