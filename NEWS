@@ -1,3 +1,25 @@
+phosh 0.34.0
+------------
+Released December 2023
+* End session dialog improvements
+* Bring back night light
+* Use ext-idle-notify-v1 Wayland protocol (requires phoc >= 0.33.0)
+* Bump dependencies: Switch to gmobile 0.0.4 and libcall-ui 0.1.1
+* Small UI improvements
+* CI improvements: Check coding style, improve ci-fairy checks
+* Issues fixed:
+  - https://gitlab.gnome.org/World/Phosh/phosh/-/issues/994
+  - https://gitlab.gnome.org/World/Phosh/phosh/-/issues/875
+  - https://source.puri.sm/Librem5/OS-issues/-/issues/343
+* Contributors:
+    * Arun Mani J
+    * Guido Günther
+* UI translations:
+    * Artur S0 (ru)
+    * Jordi Mas i Hernandez (ca)
+    * Juliano de Souza Camargo (pt_BR)
+    * Vittorio Monti (it)
+
 phosh 0.33.0
 ------------
 Released November 2023
