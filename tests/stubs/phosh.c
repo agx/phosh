@@ -103,6 +103,13 @@ phosh_shell_get_background_manager (PhoshShell *self)
 }
 
 
+PhoshLauncherEntryManager *
+phosh_shell_get_launcher_entry_manager (PhoshShell *self)
+{
+  return NULL;
+}
+
+
 gboolean
 phosh_shell_get_blanked (PhoshShell *self)
 {
