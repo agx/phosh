@@ -12,57 +12,63 @@
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <child>
-
-          <object class="GtkBox">
+          <object class="GtkEventBox" id="evbox_home">
             <property name="visible">True</property>
-            <property name="name">home-bar</property>
+            <property name="hexpand">True</property>
+            <!-- Otherwise search gets input focus and triggers OSK -->
+            <property name="can-focus">True</property>
             <!-- PHOSH_HOME_HEIGHT -->
-            <property name="height-request">40</property>
-            <child type="center">
-              <object class="GtkEventBox" id="evbox_home">
-                <property name="visible">True</property>
-                <property name="hexpand">True</property>
-                <!-- Otherwise search gets input focus and triggers OSK -->
-                <property name="can-focus">True</property>
-                <child>
-                  <object class="PhoshArrow" id="arrow_home">
-                    <property name="visible">True</property>
-                    <property name="valign">center</property>
-                    <property name="halign">center</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-              </packing>
-            </child>
+            <property name="height-request">15</property> 
             <child>
-              <object class="GtkRevealer" id="revealer_osk">
+              <object class="GtkStack" id="stack">
                 <property name="visible">True</property>
                 <property name="transition-type">crossfade</property>
-                <property name="reveal-child">False</property>
-                <property name="halign">end</property>
-                <property name="valign">center</property>
-                <property name="margin-end">6</property>
                 <child>
-                  <object class="PhoshOskButton" id="btn_osk">
+                  <object class="GtkBox" id="home_bar_folded">
                     <property name="visible">True</property>
-                    <property name="halign">end</property>
-                    <property name="valign">center</property>
-                    <signal name="clicked" handler="osk_clicked_cb" swapped="true"/>
-                    <style>
-                      <class name="phosh-osk-button"/>
-                    </style>
-                  </object>
+                    <property name="name">home-bar</property>
+                    <property name="halign">center</property>
+                    <property name="hexpand">True</property>
+                    <child>
+                      <object class="GtkEventBox" id="powerbar">
+                       <property name="can-focus">True</property>
+                       <property name="visible">True</property>
+                       <!-- PHOSH_HOME_HEIGHT -->
+                       <property name="height-request">15</property>
+                       <property name="width-request">200</property>
+                       <property name="name">powerbar</property>
+                       <property name="halign">center</property>
+                       <property name="valign">center</property>
+                      </object>
+                    </child>
+                  </object> <!-- home_bar (holding powerbar) when folded -->
+                  <packing>
+                   <property name="name">home-bar-folded</property>
+                  </packing>
                 </child>
-              </object>
-              <packing>
-                <property name="pack-type">end</property>
-              </packing>
+                <child>
+                  <object class="GtkBox" id="home_bar_unfolded">
+                    <property name="visible">True</property>
+                    <property name="name">home-bar-unfolded</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="hexpand">True</property>
+                    <child>
+                      <object class="PhoshArrow" id="arrow_home">
+                        <property name="visible">True</property>
+                        <property name="valign">center</property>
+                        <property name="halign">center</property>
+                      </object>
+                    </child>
+                  </object> <!-- home bar (holding arrow) when unfolded -->
+                  <packing>
+                   <property name="name">home-bar-unfolded</property>
+                  </packing>
+                </child>
+              </object><!--  stacked bar holding the parents of powerbar and arrow -->
             </child>
-          </object>
+          </object> <!-- event box for stacked  bar -->
         </child>
-
         <child>
           <object class="PhoshOverview" id="overview">
             <property name="visible">True</property>
@@ -82,5 +88,10 @@
   <object class="GtkGestureMultiPress" id="click_gesture">
     <property name="widget">evbox_home</property>
     <signal name="released" handler="on_home_released" swapped="true"/>
+  </object>
+  
+  <object class="GtkGestureLongPress" id="osk_toggle_long_press">
+    <property name="widget">powerbar</property>
+    <signal name="pressed" handler="on_powerbar_pressed" swapped="true"/>
   </object>
 </interface>

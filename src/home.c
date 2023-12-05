@@ -14,7 +14,7 @@
 #include "home.h"
 #include "shell.h"
 #include "phosh-enums.h"
-#include "osk-button.h"
+#include "osk-manager.h"
 #include "util.h"
 
 #include <handy.h>
@@ -56,8 +56,11 @@ struct _PhoshHome
   PhoshDragSurface parent;
 
   GtkWidget *arrow_home;
-  GtkWidget *revealer_osk;
   GtkWidget *overview;
+  GtkWidget *powerbar;
+  PhoshOskManager *osk;
+  GtkWidget *stack;
+
   guint      debounce_handle;
   gboolean   focus_app_search;
 
@@ -71,21 +74,22 @@ struct _PhoshHome
   gboolean        osk_enabled;
 
   GtkGesture     *click_gesture; /* needed so that the gesture isn't destroyed immediately */
+  GtkGesture     *osk_toggle_long_press; /* to toggle osk from the home bar itself */
+
 };
 G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_DRAG_SURFACE);
 
 
 static void
-phosh_home_update_osk_button (PhoshHome *self)
+phosh_home_update_home_bar (PhoshHome *self)
 {
-  gboolean visible = FALSE;
+  const char *visible_child = "home-bar-unfolded";
   PhoshDragSurfaceState drag_state = phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self));
 
-  if (self->osk_enabled && self->state == PHOSH_HOME_STATE_FOLDED &&
-      drag_state != PHOSH_DRAG_SURFACE_STATE_DRAGGED)
-    visible = TRUE;
+  if (self->state == PHOSH_HOME_STATE_FOLDED && drag_state != PHOSH_DRAG_SURFACE_STATE_DRAGGED)
+    visible_child = "home-bar-folded";
 
-  gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer_osk), visible);
+  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), visible_child);
 }
 
 
@@ -104,7 +108,6 @@ phosh_home_set_property (GObject *object,
       break;
     case PROP_OSK_ENABLED:
       self->osk_enabled = g_value_get_boolean (value);
-      phosh_home_update_osk_button (self);
       g_object_notify_by_pspec (G_OBJECT (self), props[PROP_OSK_ENABLED]);
       break;
     default:
@@ -145,6 +148,9 @@ update_drag_handle (PhoshHome *self, gboolean commit)
   gboolean arrow_visible = TRUE;
   PhoshDragSurfaceDragMode drag_mode = PHOSH_DRAG_SURFACE_DRAG_MODE_HANDLE;
   PhoshDragSurfaceState drag_state = phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self));
+
+  /* reset osk_toggle_long_press to prevent OSK from unfolding accidently */
+  gtk_event_controller_reset (GTK_EVENT_CONTROLLER (self->osk_toggle_long_press));
 
   /* Update the handle's arrow and dragability */
   if (phosh_overview_has_running_activities (PHOSH_OVERVIEW (self->overview)) == FALSE &&
@@ -215,11 +221,31 @@ on_home_released (GtkButton *button, int n_press, double x, double y, GtkGesture
 
 
 static void
-osk_clicked_cb (PhoshHome *self, GtkButton *btn)
+on_powerbar_pressed (PhoshHome *self, PhoshOskManager *osk, PhoshShell *shell)
 {
+  gboolean osk_is_available, osk_current_state, osk_new_state;
+
   g_return_if_fail (PHOSH_IS_HOME (self));
-  g_return_if_fail (GTK_IS_BUTTON (btn));
-  g_signal_emit(self, signals[OSK_ACTIVATED], 0);
+  shell = phosh_shell_get_default ();
+  self->osk = phosh_shell_get_osk_manager (shell);
+
+  osk_is_available = phosh_osk_manager_get_available (self->osk);
+  osk_current_state = phosh_osk_manager_get_visible (self->osk);
+  osk_new_state = osk_current_state;
+
+  gtk_gesture_set_state ((self->click_gesture), GTK_EVENT_SEQUENCE_DENIED);
+
+  if (osk_is_available) {
+    osk_new_state = !osk_current_state;
+  } else {
+    return;
+  }
+
+  if (osk_new_state)
+    g_signal_emit (self, signals[OSK_ACTIVATED], 0);
+
+  g_debug ("OSK toggled with pressed signal");
+  phosh_osk_manager_set_visible (self->osk, osk_new_state);
 }
 
 
@@ -426,7 +452,7 @@ on_drag_state_changed (PhoshHome *self)
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
   }
 
-  phosh_home_update_osk_button (self);
+  phosh_home_update_home_bar (self);
 
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
   update_drag_handle (self, FALSE);
@@ -458,6 +484,7 @@ phosh_home_constructed (GObject *object)
   g_signal_connect (self, "notify::drag-state", G_CALLBACK (on_drag_state_changed), NULL);
 
   g_object_set_data (G_OBJECT (self->click_gesture), "phosh-home", self);
+  g_object_set_data (G_OBJECT (self->osk_toggle_long_press), "phosh-home", self);
 }
 
 
@@ -516,19 +543,20 @@ phosh_home_class_init (PhoshHomeClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   g_type_ensure (PHOSH_TYPE_ARROW);
-  g_type_ensure (PHOSH_TYPE_OSK_BUTTON);
   g_type_ensure (PHOSH_TYPE_OVERVIEW);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/home.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, arrow_home);
-  gtk_widget_class_bind_template_child (widget_class, PhoshHome, revealer_osk);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, powerbar);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, stack);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, click_gesture);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, osk_toggle_long_press);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, overview);
   gtk_widget_class_bind_template_callback (widget_class, fold_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_home_released);
   gtk_widget_class_bind_template_callback (widget_class, on_has_activities_changed);
-  gtk_widget_class_bind_template_callback (widget_class, osk_clicked_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_powerbar_pressed);
   gtk_widget_class_bind_template_callback (widget_class, window_key_press_event_cb);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-home");
@@ -543,7 +571,7 @@ phosh_home_init (PhoshHome *self)
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  phosh_home_update_osk_button (self);
+  phosh_home_update_home_bar (self);
 
   /* Adjust margins and folded state on size changes */
   g_signal_connect (self, "configure-event", G_CALLBACK (on_configure_event), NULL);

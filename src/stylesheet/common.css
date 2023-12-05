@@ -175,6 +175,16 @@ phosh-audio-device-row image {
   font-size: 90%;
 }
 
+/* phosh-home */
+
+#powerbar {
+  background: -gtk-recolor(url('resource:///sm/puri/phosh/icons/scalable/status/input-powerbar-symbolic.svg'));
+  background-position: center;
+  background-size: 150px 15px;
+  background-repeat: no-repeat;
+  transition: 400ms ease;
+}
+
 /*
  * Overview (app grid with favories and, activities)
  */
