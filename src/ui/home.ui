@@ -18,7 +18,7 @@
             <!-- Otherwise search gets input focus and triggers OSK -->
             <property name="can-focus">True</property>
             <!-- PHOSH_HOME_HEIGHT -->
-            <property name="height-request">15</property> 
+            <property name="height-request">15</property>
             <child>
               <object class="GtkStack" id="stack">
                 <property name="visible">True</property>
@@ -92,6 +92,9 @@
   
   <object class="GtkGestureLongPress" id="osk_toggle_long_press">
     <property name="widget">powerbar</property>
+    <signal name="begin" handler="on_powerbar_action_started" swapped="true"/>
     <signal name="pressed" handler="on_powerbar_pressed" swapped="true"/>
+    <signal name="end" handler="on_powerbar_action_ended" swapped="true"/>
+    <signal name="cancelled" handler="on_powerbar_action_ended" swapped="true"/>
   </object>
 </interface>

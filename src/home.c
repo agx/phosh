@@ -15,6 +15,7 @@
 #include "shell.h"
 #include "phosh-enums.h"
 #include "osk-manager.h"
+#include "feedback-manager.h"
 #include "util.h"
 
 #include <handy.h>
@@ -24,6 +25,9 @@
 #define KEYBINDING_KEY_TOGGLE_APPLICATION_VIEW "toggle-application-view"
 
 #define PHOSH_HOME_DRAG_THRESHOLD 0.3
+
+#define POWERBAR_ACTIVE_CLASS "p-active"
+#define POWERBAR_FAILED_CLASS "p-failed"
 
 /**
  * PhoshHome:
@@ -221,6 +225,33 @@ on_home_released (GtkButton *button, int n_press, double x, double y, GtkGesture
 
 
 static void
+on_powerbar_action_started (PhoshHome *self)
+{
+  g_debug ("powerbar action started");
+  phosh_util_toggle_style_class (self->stack, POWERBAR_FAILED_CLASS, FALSE);
+  phosh_util_toggle_style_class (self->stack, POWERBAR_ACTIVE_CLASS, TRUE);
+}
+
+
+static void
+on_powerbar_action_ended (PhoshHome *self)
+{
+  g_debug ("powerbar action ended");
+  phosh_util_toggle_style_class (self->stack, POWERBAR_ACTIVE_CLASS, FALSE);
+  phosh_util_toggle_style_class (self->stack, POWERBAR_FAILED_CLASS, FALSE);
+}
+
+
+static void
+on_powerbar_action_failed (PhoshHome *self)
+{
+  g_debug ("powerbar action failed");
+  phosh_util_toggle_style_class (self->stack, POWERBAR_ACTIVE_CLASS, FALSE);
+  phosh_util_toggle_style_class (self->stack, POWERBAR_FAILED_CLASS, TRUE);
+}
+
+
+static void
 on_powerbar_pressed (PhoshHome *self, PhoshOskManager *osk, PhoshShell *shell)
 {
   gboolean osk_is_available, osk_current_state, osk_new_state;
@@ -237,7 +268,9 @@ on_powerbar_pressed (PhoshHome *self, PhoshOskManager *osk, PhoshShell *shell)
 
   if (osk_is_available) {
     osk_new_state = !osk_current_state;
+    on_powerbar_action_ended (self);
   } else {
+    on_powerbar_action_failed (self);
     return;
   }
 
@@ -246,6 +279,8 @@ on_powerbar_pressed (PhoshHome *self, PhoshOskManager *osk, PhoshShell *shell)
 
   g_debug ("OSK toggled with pressed signal");
   phosh_osk_manager_set_visible (self->osk, osk_new_state);
+
+  phosh_trigger_feedback ("button-pressed");
 }
 
 
@@ -557,6 +592,9 @@ phosh_home_class_init (PhoshHomeClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_home_released);
   gtk_widget_class_bind_template_callback (widget_class, on_has_activities_changed);
   gtk_widget_class_bind_template_callback (widget_class, on_powerbar_pressed);
+  gtk_widget_class_bind_template_callback (widget_class, on_powerbar_action_started);
+  gtk_widget_class_bind_template_callback (widget_class, on_powerbar_action_ended);
+  gtk_widget_class_bind_template_callback (widget_class, on_powerbar_action_failed);
   gtk_widget_class_bind_template_callback (widget_class, window_key_press_event_cb);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-home");
