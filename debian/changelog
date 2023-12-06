@@ -1,3 +1,93 @@
+phosh (0.34.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * ci: Switch to trixie and cleanup a bit
+  * d/control: Bump phoc dependency.
+    Needed for ext-idle-notify-v1 support.
+  * wayland: Add ext-idle-notify-v1.
+    This will replace org_kde_kwin_idle
+  * idle-manager: Use ext-notifier-v1 protocol
+  * wayland: Drop kde idle protocol.
+    Not supported by newer wlroots.
+  * idle-manager: Recreate timers when they need to be reset.
+    In contrast to KDE's idle protocol ext-notifier-v1 doesn't have a way to
+    reset individual idle notifiers so recreate them instead.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/994
+  * HACKING: Add some more details.
+    Co-authored-by: Arun Mani J <j.arunmani@proton.me>
+  * build: Bump glib to 2.76. We wan't g_autofd().
+  * tools: Use G_APPLICATION_DEFAULT_FLAGS. Avoids deprecation warning.
+  * monitor-manager: Drop crtc gamma
+  * dbus: Add gsd color
+  * monitor-manager: Connect to gsd-color for night light information.
+    We set the gamma tables based on the color temperature read from gsd.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/875
+  * testlib: Check for Wayland socket.
+    Check if the wayland socket is available. Gives a clearer error than
+    initializing GDK and hoping for the best.
+  * tests: Drop unused display argument of the shell fixture.
+    We run headless since some time
+  * Drop some unused variables
+  * tests/monitor-manager: Test more API
+  * osk-manager: Make availability depend on screen-keyboard-enabled.
+    The OSK is only really available when the gsetting is set (it might
+    still be toggle-able via explicit DBus calls but clients shouldn't rely
+    on that).
+  * lockscreen: Map keyboard button sensitiviy to OSK availability.
+    Only make the keyboard button on the keypad sensitive when the OSK would
+    actually unfold.
+  * home: Use osk-manager instead of tracking the gsetting directly.
+    This makes sure we don't show the button although there is no OSK
+    on the session DBus. It also ensures all parts of the shell get
+    their state from the osk-manager.
+  * subprojcts: Update gmobile to 0.0.4.
+    Use `git submodule sync` to update URLs in your working copy.
+  * subprojcts: Update libcall-ui to 0.1.1
+  * call-notification: Use cui_call_format_duration
+  * call-notification: Use tnum font feature.
+    Keeps call duration constant width.
+  * monitor-manager: Use phosh_async_error_warn.
+    We don't want to print a warning when the DBus proxy creation failed.
+  * util: Be more gracefull on the app_id. Don't care if it ends in .desktop
+    or not.
+  * end-session-dialog: Use cancellable.
+    As in other places properly cancel async calls during shutdown so we
+    don't need to hold a ref on self (which can then again trigger invalid
+    access as widgets are already disposes).
+    This also avoids a leak of self in the error path.
+  * end-session-dialog: Use phosh_get_desktop_app_info_for_app_id.
+    This makes for better information in the end session dialog
+  * end-session-dialog: Only show list box when we created inhibitors.
+    This allows us to skip inhibitors that make no sense
+  * end-session-dialog: Check flags before creating an entry.
+    Only create a row in the listbox when the inhibitor affects logout.
+  * end-session-dialog: Skip empty app-ids.
+    They're either from system services or stale entries
+  * end-session-dialog: Print app_id if we can't resolve the app info.
+    This gives at least some idea what is holding the inhibitor. We could
+    also do "Unknown application: %s" but that gets shortened too much
+    on mobile.
+
+  [ Arun Mani J ]
+  * ci: Add Uncrustify to Debian image
+  * ci: Add Uncrustify config and checker
+  * ci: Run style checks on merge requests.
+  * ci: Move `sanity` job to `style-checks` stage.
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Vittorio Monti ]
+  * Update Italian translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+  [ Juliano de Souza Camargo ]
+  * Update Brazilian Portuguese translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 27 Nov 2023 11:18:11 +0100
+
 phosh (0.33.0) experimental; urgency=medium
 
   [ Guido Günther ]
