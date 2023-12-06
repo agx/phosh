@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Purism SPC
+ * Copyright (C) 2022-2023 Purism SPC
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -37,54 +37,28 @@ struct _PhoshSuspendManager {
 G_DEFINE_TYPE (PhoshSuspendManager, phosh_suspend_manager, PHOSH_TYPE_MANAGER)
 
 
-static int
-inhibit_suspend_finish (GObject      *source_object,
-                        GAsyncResult *res,
-                        gpointer      user_data)
+static void
+inhibit_suspend (PhoshSuspendManager *self, const char *what, const char *reason)
 {
-  gboolean success;
-  PhoshDBusLoginManager *proxy;
-  g_autoptr (GError) err = NULL;
-  g_autoptr (GUnixFDList) fd_list = NULL;
-  g_autoptr (GVariant) out_pipe_fd = NULL;
-  int idx, fd;
+  PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
+  guint cookie;
 
-  proxy = PHOSH_DBUS_LOGIN_MANAGER (source_object);
-  success = phosh_dbus_login_manager_call_inhibit_finish (proxy,
-                                                          &out_pipe_fd,
-                                                          &fd_list,
-                                                          res,
-                                                          &err);
-  if (!success) {
-    g_warning ("Failed to inhibit suspend: %s", err->message);
-    return -1;
-  }
-
-  g_return_val_if_fail (fd_list && g_unix_fd_list_get_length (fd_list) == 1, -1);
-
-  g_variant_get (out_pipe_fd, "h", &idx);
-  fd = g_unix_fd_list_get (fd_list, idx, &err);
-  if (fd < 0) {
-    g_warning ("Failed to get suspend inhibit fd: %s", err->message);
-    return -1;
-  }
-  return fd;
+  cookie = phosh_session_manager_inhibit_suspend (sm, "WiFi hotspot active");
+  g_hash_table_insert (self->inhibitors, g_strdup ("wifi-hotspot"), GUINT_TO_POINTER (cookie));
 }
 
 
 static void
-on_inhibit_wifi_suspend_finish (GObject      *source_object,
-                                GAsyncResult *res,
-                                gpointer      user_data)
+uninhibit_suspend (PhoshSuspendManager *self, const char *what)
 {
-  PhoshSuspendManager *self = PHOSH_SUSPEND_MANAGER (user_data);
+  PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
+  gpointer value;
 
-  int fd = inhibit_suspend_finish (source_object, res, user_data);
-  if (fd < 0)
-    return;
+  value = g_hash_table_lookup (self->inhibitors, "wifi-hotspot");
+  if (value)
+    phosh_session_manager_uninhibit_suspend (sm, GPOINTER_TO_UINT (value));
 
-  g_debug ("Inhibited logind suspend for wifi hotspot");
-  g_hash_table_insert (self->inhibitors, g_strdup ("wifi-hotspot"), GINT_TO_POINTER (fd));
+  g_hash_table_remove (self->inhibitors, "wifi-hotspot");
 }
 
 
@@ -101,18 +75,10 @@ on_is_hotspot_master_changed (PhoshSuspendManager *self,
   is_hotspot_master = phosh_wifi_manager_is_hotspot_master (wifi_manager);
 
   if (is_hotspot_master) {
-    phosh_dbus_login_manager_call_inhibit (self->logind_manager_proxy,
-                                           "sleep",
-                                           g_get_user_name (),
-                                           "WiFi hotspot active",
-                                           "block",
-                                           NULL,
-                                           self->cancel,
-                                           on_inhibit_wifi_suspend_finish,
-                                           self);
+    inhibit_suspend (self, "wifi-hotspot", "WiFi hotspot active");
   } else {
     g_debug ("Clearing wifi hotspot suspend inhibit");
-    g_hash_table_remove (self->inhibitors, "wifi-hotspot");
+    uninhibit_suspend (self, "wifi-hotspot");
   }
 }
 
