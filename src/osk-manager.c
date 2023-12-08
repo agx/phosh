@@ -127,7 +127,7 @@ dbus_name_owner_changed_cb (PhoshOskManager *self, gpointer data)
 
 
 static void
-on_screen_keyboard_enabled_changed (PhoshOskManager *self, GParamSpec *pspec, gpointer unused)
+on_screen_keyboard_enabled_changed (PhoshOskManager *self)
 {
   gboolean enabled;
 
@@ -281,6 +281,7 @@ phosh_osk_manager_init (PhoshOskManager *self)
                             "changed::screen-keyboard-enabled",
                             G_CALLBACK (on_screen_keyboard_enabled_changed),
                             self);
+  on_screen_keyboard_enabled_changed (self);
 }
 
 
