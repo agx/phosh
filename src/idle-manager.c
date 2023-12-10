@@ -40,7 +40,6 @@ typedef struct {
 
   /* Wayland */
   struct ext_idle_notification_v1 *idle_noti;
-  gboolean                         idle;
   guint32                          interval;
 } DBusWatch;
 
