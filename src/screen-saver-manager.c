@@ -199,8 +199,10 @@ on_power_button_pressed (GSimpleAction *action, GVariant *param, gpointer data)
 
   /* We only detect long press when screen is active */
   if (press && self->active == FALSE) {
-    if (self->long_press_id)
+    if (self->long_press_id) {
       g_warning ("Long press timer already active");
+      g_clear_handle_id (&self->long_press_id, g_source_remove);
+    }
     self->long_press_id = g_timeout_add_seconds (LONG_PRESS_TIMEOUT,
                                                  on_long_press,
                                                  self);
