@@ -77,12 +77,8 @@ phosh_get_desktop_app_info_for_app_id (const char *app_id)
     }
   }
 
-  if (!g_str_has_suffix (app_id, ".desktop"))
-    desktop_id = g_strdup_printf ("%s.desktop", app_id);
-  else
-    desktop_id = g_strdup (app_id);
-
-  g_assert (desktop_id);
+  desktop_id = g_strdup_printf ("%s.desktop", app_id);
+  g_return_val_if_fail (desktop_id, NULL);
   app_info = g_desktop_app_info_new (desktop_id);
 
   if (app_info)
