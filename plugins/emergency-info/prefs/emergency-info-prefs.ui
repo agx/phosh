@@ -117,6 +117,7 @@
                                 <property name="hexpand">True</property>
                                 <property name="buffer">home_addr_text_buffer</property>
                                 <property name="wrap-mode">word</property>
+                                <property name="input-hints">word-completion</property>
                               </object>
                             </child>
                           </object>
@@ -188,6 +189,7 @@
                                 <property name="hexpand">True</property>
                                 <property name="buffer">allergies_text_buffer</property>
                                 <property name="wrap-mode">word</property>
+                                <property name="input-hints">word-completion</property>
                               </object>
                             </child>
                           </object>
@@ -203,6 +205,7 @@
                                 <property name="hexpand">True</property>
                                 <property name="buffer">med_cond_text_buffer</property>
                                 <property name="wrap-mode">word</property>
+                                <property name="input-hints">word-completion</property>
                               </object>
                             </child>
                           </object>
@@ -218,6 +221,7 @@
                                 <property name="hexpand">True</property>
                                 <property name="buffer">other_info_text_buffer</property>
                                 <property name="wrap-mode">word</property>
+                                <property name="input-hints">word-completion</property>
                               </object>
                             </child>
                           </object>
