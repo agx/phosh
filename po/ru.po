@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-10-27 13:22+0000\n"
-"PO-Revision-Date: 2023-10-28 13:15+0300\n"
+"POT-Creation-Date: 2023-11-04 01:38+0000\n"
+"PO-Revision-Date: 2023-11-18 22:24+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -50,7 +50,7 @@ msgstr "Билетный бокс"
 #: plugins/ticket-box/ticket-box.desktop.in.in:5
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
-"Показывать PDF-файлы на экране блокировки. <b>Этот плагин является "
+"Показывать PDF-файлы на экране блокировки. <b>Этот модуль является "
 "экспериментальным.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
@@ -234,12 +234,12 @@ msgstr "%s %s"
 msgid "Unknown"
 msgstr "Неизвестный"
 
-#: src/network-auth-prompt.c:201
+#: src/network-auth-prompt.c:202
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Тип аутентификации сети Wi-Fi “%s” не поддерживается"
 
-#: src/network-auth-prompt.c:206
+#: src/network-auth-prompt.c:207
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Введите пароль для сети Wi-Fi “%s”"
@@ -472,15 +472,15 @@ msgstr "Контакты для экстренной помощи отсутст
 msgid "Some applications are busy or have unsaved work"
 msgstr "Некоторые приложения заняты или имеют несохраненную работу"
 
-#: src/ui/gtk-mount-prompt.ui:94
+#: src/ui/gtk-mount-prompt.ui:88
 msgid "User:"
 msgstr "Пользователь:"
 
-#: src/ui/gtk-mount-prompt.ui:117
+#: src/ui/gtk-mount-prompt.ui:111
 msgid "Domain:"
 msgstr "Домен:"
 
-#: src/ui/gtk-mount-prompt.ui:150
+#: src/ui/gtk-mount-prompt.ui:144
 msgid "Co_nnect"
 msgstr "По_дключиться"
 
@@ -509,7 +509,7 @@ msgstr "_Отменить"
 msgid "C_onnect"
 msgstr "П_одключить"
 
-#: src/ui/polkit-auth-prompt.ui:122
+#: src/ui/polkit-auth-prompt.ui:117
 msgid "Authenticate"
 msgstr "Подтвердить"
 
@@ -541,9 +541,9 @@ msgstr "Нет уведомлений"
 msgid "Clear all"
 msgstr "Очистить все"
 
-#: src/ui/system-prompt.ui:62
+#: src/ui/system-prompt.ui:57
 msgid "Confirm:"
-msgstr "Подтверждение:"
+msgstr "Подтвердить:"
 
 #: src/ui/top-panel.ui:32
 msgid "_Power Off…"
