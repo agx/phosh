@@ -1,3 +1,14 @@
+phosh 0.34.1
+------------
+Released December 2023
+* Fix OSK unfold button not showing initially
+* Fix app icon of telegram desktop
+* Contributors:
+    * Guido Günther
+* UI translations:
+    * Artur S0 (ru)
+    * Daniel Rusek (cs)
+
 phosh 0.34.0
 ------------
 Released December 2023
