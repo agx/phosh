@@ -90,6 +90,8 @@ phosh_wwan_ofono_user_friendly_access_tec (const char *access_tec)
     return "3.5G";
   if (g_strcmp0 (access_tec, "lte") == 0)
     return "4G";
+  if (g_strcmp0 (access_tec, "nr") == 0)
+    return "5G";
 
   return NULL;
 }
