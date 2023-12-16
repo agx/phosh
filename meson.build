@@ -29,11 +29,13 @@ else
   sysconfdir = get_option('sysconfdir')
 endif
 
-glib_ver = 'GLIB_VERSION_2_76'
+glib_ver = '2.76'
+glib_ver_str = 'GLIB_VERSION_@0@'.format(glib_ver.replace('.','_'))
+glib_ver_cmp = '>=@0@'.format(glib_ver)
 
 add_project_arguments([
-  '-DGLIB_VERSION_MIN_REQUIRED=@0@'.format(glib_ver),
-  '-DGLIB_VERSION_MAX_REQUIRED=@0@'.format(glib_ver),
+  '-DGLIB_VERSION_MIN_REQUIRED=@0@'.format(glib_ver_str),
+  '-DGLIB_VERSION_MAX_REQUIRED=@0@'.format(glib_ver_str),
   '-DG_LOG_USE_STRUCTURED',
 ], language: 'c')
 
@@ -105,17 +107,15 @@ gnome = import('gnome')
 i18n  = import('i18n')
 pkgconfig = import ('pkgconfig')
 
-glib_ver = '>= 2.72'
-
 ecal_dep = dependency('libecal-2.0', version: '>= 3.33.1')
 eds_dep = dependency('libedataserver-1.2', version: '>= 3.33.1')
 fribidi_dep = dependency('fribidi')
 gcr_dep = dependency('gcr-3', version: '>= 3.7.5')
-glib_dep = dependency('glib-2.0', version: glib_ver)
-gio_dep = dependency('gio-2.0', version: glib_ver)
-gobject_dep = dependency('gobject-2.0', version: glib_ver)
-gio_unix_dep =  dependency('gio-unix-2.0', version: glib_ver)
-gmodule_dep = dependency('gmodule-2.0', version: glib_ver)
+glib_dep = dependency('glib-2.0', version: glib_ver_cmp)
+gio_dep = dependency('gio-2.0', version: glib_ver_cmp)
+gobject_dep = dependency('gobject-2.0', version: glib_ver_cmp)
+gio_unix_dep =  dependency('gio-unix-2.0', version: glib_ver_cmp)
+gmodule_dep = dependency('gmodule-2.0', version: glib_ver_cmp)
 gnome_desktop_dep = dependency('gnome-desktop-3.0', version: '>=3.26')
 gsettings_desktop_schemas_dep = dependency('gsettings-desktop-schemas', version: '>=42')
 gtk_dep = dependency('gtk+-3.0', version: '>=3.22')
@@ -165,9 +165,6 @@ upower_glib_dep = dependency('upower-glib', version: '>=0.99.1')
 wayland_client_dep = dependency('wayland-client', version: '>=1.14')
 wayland_protos_dep = dependency('wayland-protocols', version: '>=1.12')
 
-# gnome-desktop > 43 has GNOME_PLATFORM_VERSION
-have_gnome_platform_version = dependency('gnome-desktop-3.0', version: '>=43', required: false).found()
-
 code ='''
 #include <linux/rfkill.h>
 
@@ -212,8 +209,6 @@ config_h.set('PHOSH_HAVE_MEMFD_CREATE', have_memfd_create,
              description: 'Whether we have memdfd_create on Linux')
 config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address',
              description: 'Whether ASAN was enabled via meson')
-config_h.set('PHOSH_HAVE_GNOME_PLATFORM_VERSION', have_gnome_platform_version,
-             description: 'Whether we have gnome platform version header (>= 43)')
 config_h.set_quoted('PHOSH_DATA_DIR', datadir,
              description: 'Systemwide data dir')
 config_h.set_quoted('PHOSH_APP_ID', app_id)
@@ -256,7 +251,7 @@ summary({
 )
 
 summary({
-    'Recent GNOME (>= 43)': have_gnome_platform_version,
+    'Recent GNOME (>= 45)': gnome_desktop_dep.version().version_compare('>= 45'),
     'Recent glib (>= 2.74)': glib_dep.version().version_compare('>= 2.74')
   },
   bool_yn: true,

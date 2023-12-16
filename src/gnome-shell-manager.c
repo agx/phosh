@@ -17,10 +17,8 @@
 #include "util.h"
 #include "lockscreen-manager.h"
 
-#ifdef PHOSH_HAVE_GNOME_PLATFORM_VERSION
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-desktop-version.h>
-#endif
 
 #define PHOSH_VERSION_SUFFIX " (phosh " PHOSH_VERSION ")"
 
@@ -495,113 +493,12 @@ phosh_gnome_shell_manager_gnome_shell_iface_init (PhoshDBusGnomeShellIface *ifac
 }
 
 
-#ifndef GNOME_DESKTOP_PLATFORM_VERSION
-typedef struct {
-  char  *major;
-  char  *minor;
-  char **current;
-} VersionData;
-
-
-static void
-version_start_element_handler (GMarkupParseContext  *ctx,
-                               const char           *element_name,
-                               const char          **attr_names,
-                               const char          **attr_values,
-                               gpointer              user_data,
-                               GError              **error)
-{
-  VersionData *data = user_data;
-  if (g_str_equal (element_name, "platform"))
-    data->current = &data->major;
-  else if (g_str_equal (element_name, "minor"))
-    data->current = &data->minor;
-  else
-    data->current = NULL;
-}
-
-
-static void
-version_data_free (VersionData *data)
-{
-  g_free (data->major);
-  g_free (data->minor);
-  g_free (data);
-}
-
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (VersionData, version_data_free);
-
-
-static void
-version_end_element_handler (GMarkupParseContext *ctx,
-                             const char          *element_name,
-                             gpointer             user_data,
-                             GError             **error)
-{
-  VersionData *data = user_data;
-  data->current = NULL;
-}
-
-
-static void
-version_text_handler (GMarkupParseContext *ctx,
-                      const char          *text,
-                      gsize                text_len,
-                      gpointer             user_data,
-                      GError             **error)
-{
-  VersionData *data = user_data;
-  if (data->current != NULL) {
-    g_autofree char *stripped = NULL;
-
-    stripped = g_strstrip (g_strdup (text));
-    g_free (*data->current);
-    *data->current = g_strdup (stripped);
-  }
-}
-#endif
-
-
 static char *
 get_version (void)
 {
-#ifdef GNOME_DESKTOP_PLATFORM_VERSION
   /* We don't want to infringe on the GNOME version and not upset
      anyone so make it very visible this is not GNOMEs version */
   return g_strdup_printf ("%d%s", GNOME_DESKTOP_PLATFORM_VERSION, PHOSH_VERSION_SUFFIX);
-#else
-  /* Fallback for GNOME < 43*/
-  g_autoptr (GError) error = NULL;
-  g_autoptr (GMarkupParseContext) ctx = NULL;
-  g_autoptr (VersionData) data = NULL;
-  g_autofree char *contents = NULL;
-  GMarkupParser version_parser = {
-    version_start_element_handler,
-    version_end_element_handler,
-    version_text_handler,
-    NULL,
-    NULL,
-  };
-  gsize length;
-
-  data = g_new0 (VersionData, 1);
-  if (g_file_get_contents (PHOSH_DATA_DIR "/gnome/gnome-version.xml",
-                           &contents,
-                           &length,
-                           &error)) {
-    ctx = g_markup_parse_context_new (&version_parser, 0, data, NULL);
-
-    if (!g_markup_parse_context_parse (ctx, contents, length, &error))
-      g_warning ("Failed to parse version from XML");
-  } else {
-    g_warning ("Failed to read version XML");
-  }
-
-  if (data->major && data->minor)
-    return g_strdup_printf ("%s.%s%s", data->major, data->minor, PHOSH_VERSION_SUFFIX);
-  else
-    return g_strdup_printf ("unknown" PHOSH_VERSION_SUFFIX);
-#endif
 }
 
 
