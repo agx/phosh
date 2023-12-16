@@ -16,9 +16,9 @@ if get_option('lockscreen-plugins') or tools_or_tests
   executable('plugin-prefs', ['plugin-prefs-standalone.c',
                               '../src/plugin-loader.c',
                              ],
-             c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root()),
+             c_args: ['-DBUILD_DIR="@0@"'.format(meson.project_build_root()),
                       '-DPLUGINS="@0@"'.format(' '.join(lockscreen_plugins)),
-                      '-DTEST_INSTALLED="@0@/install"'.format(meson.build_root()),
+                      '-DTEST_INSTALLED="@0@/install"'.format(meson.project_build_root()),
                      ],
              include_directories: [root_inc, phosh_inc],
              dependencies: [plugin_prefs_dep, gmodule_dep],
@@ -47,7 +47,7 @@ if get_option('tools')
 
   if get_option('lockscreen-plugins')
     executable('widget-box', ['widget-box-standalone.c'] + test_stub_deps,
-               c_args: ['-DBUILD_DIR="@0@"'.format(meson.build_root()),
+               c_args: ['-DBUILD_DIR="@0@"'.format(meson.project_build_root()),
                         '-DPLUGINS="@0@"'.format(' '.join(lockscreen_plugins)),
                        ],
                dependencies: phosh_tool_dep)
