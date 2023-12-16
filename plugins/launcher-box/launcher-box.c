@@ -125,9 +125,8 @@ static void
 on_file_child_enumerated (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   g_autoptr (GError) err = NULL;
-  g_autoptr (GDesktopAppInfo) app_info = NULL;
+  g_autoptr (GFileEnumerator) enumerator = NULL;
   GFile *dir = G_FILE (source_object);
-  GFileEnumerator *enumerator;
   PhoshLauncherBox *self;
   const char *stack_child = "launchers";
 
@@ -140,6 +139,8 @@ on_file_child_enumerated (GObject *source_object, GAsyncResult *res, gpointer us
   self = PHOSH_LAUNCHER_BOX (user_data);
 
   while (TRUE) {
+    g_autoptr (GDesktopAppInfo) app_info = NULL;
+    g_autofree char *path = NULL;
     GFile *file;
     GFileInfo *info;
 
@@ -157,7 +158,8 @@ on_file_child_enumerated (GObject *source_object, GAsyncResult *res, gpointer us
     if (g_strcmp0 (g_file_info_get_content_type (info), "application/x-desktop") != 0)
       continue;
 
-    app_info = g_desktop_app_info_new_from_filename (g_file_get_path (file));
+    path = g_file_get_path (file);
+    app_info = g_desktop_app_info_new_from_filename (path);
     if (!app_info)
       continue;
 
