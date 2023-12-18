@@ -5,6 +5,16 @@
     </method>
     <method name="Shutdown"/>
     <method name="Reboot"/>
+    <method name="Inhibit">
+      <arg type="s" name="app_id" direction="in"/>
+      <arg type="u" name="toplevel_xid" direction="in"/>
+      <arg type="s" name="reason" direction="in"/>
+      <arg type="u" name="flags" direction="in"/>
+      <arg type="u" name="inhibit_cookie" direction="out"/>
+    </method>
+    <method name="Uninhibit">
+      <arg type="u" name="inhibit_cookie" direction="in"/>
+    </method>
     <method name="CanShutdown">
       <arg type="b" direction="out"/>
     </method>

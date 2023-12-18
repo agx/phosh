@@ -33,6 +33,14 @@
  * managing attributes of the session.
  */
 
+typedef enum _PhoshSessionInhibitFlags {
+  PHOSH_SESSION_INHIBIT_LOGOUT      = (1 << 0),
+  PHOSH_SESSION_INHIBIT_USER_SWITCH = (1 << 1),
+  PHOSH_SESSION_INHIBIT_SUSPEND     = (1 << 2),
+  PHOSH_SESSION_INHIBIT_IDLE        = (1 << 3),
+  PHOSH_SESSION_INHIBIT_AUTOMOUNT   = (1 << 4),
+} PhoshSessionManagerFlags;
+
 enum {
   PHOSH_SESSION_MANAGER_PROP_0,
   PHOSH_SESSION_MANAGER_PROP_ACTIVE,
@@ -52,7 +60,6 @@ typedef struct _PhoshSessionManager {
   PhoshSessionClientPrivateDBusClientPrivate *priv_proxy;
 
   PhoshEndSessionDialog *dialog;
-
 } PhoshSessionManager;
 
 
@@ -506,4 +513,42 @@ phosh_session_manager_export_end_session (PhoshSessionManager *self,
                                     connection,
                                     END_SESSION_DIALOG_OBJECT_PATH,
                                     NULL);
+}
+
+guint
+phosh_session_manager_inhibit_suspend (PhoshSessionManager *self, const char *reason)
+{
+  g_autoptr (GError) err = NULL;
+  gboolean success;
+  guint cookie;
+
+  success = phosh_dbus_session_manager_call_inhibit_sync (self->proxy,
+                                                          PHOSH_APP_ID,
+                                                          0,
+                                                          reason,
+                                                          PHOSH_SESSION_INHIBIT_SUSPEND,
+                                                          &cookie,
+                                                          self->cancel,
+                                                          &err);
+  if (!success) {
+    g_warning ("Failed to inhibit suspend: %s", err->message);
+    return 0;
+  }
+
+  return cookie;
+}
+
+
+void
+phosh_session_manager_uninhibit_suspend (PhoshSessionManager *self, guint cookie)
+{
+  g_autoptr (GError) err = NULL;
+  gboolean success;
+
+  success = phosh_dbus_session_manager_call_uninhibit_sync (self->proxy,
+                                                            cookie,
+                                                            self->cancel,
+                                                            &err);
+  if (!success)
+    g_warning ("Failed to uninhibit suspend: %s", err->message);
 }
