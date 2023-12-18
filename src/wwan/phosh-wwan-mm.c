@@ -42,6 +42,7 @@ typedef enum { /* From ModemManager-enums.h */
   MM_MODEM_ACCESS_TECHNOLOGY_EVDOA       = 1 << 12,
   MM_MODEM_ACCESS_TECHNOLOGY_EVDOB       = 1 << 13,
   MM_MODEM_ACCESS_TECHNOLOGY_LTE         = 1 << 14,
+  MM_MODEM_ACCESS_TECHNOLOGY_5GNR        = 1 << 15,
 } PhoshWWanMMAccessTechnology;
 
 typedef enum { /* From ModemManager-enums.h */
@@ -145,6 +146,8 @@ phosh_wwan_mm_user_friendly_access_tec (guint access_tec)
     return "3.75G";
   case MM_MODEM_ACCESS_TECHNOLOGY_LTE:
     return "4G";
+  case MM_MODEM_ACCESS_TECHNOLOGY_5GNR:
+    return "5G";
   case MM_MODEM_ACCESS_TECHNOLOGY_1XRTT:
   case MM_MODEM_ACCESS_TECHNOLOGY_EVDO0:
   case MM_MODEM_ACCESS_TECHNOLOGY_EVDOA:
