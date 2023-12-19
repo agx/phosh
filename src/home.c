@@ -597,7 +597,6 @@ phosh_home_class_init (PhoshHomeClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_powerbar_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_powerbar_action_started);
   gtk_widget_class_bind_template_callback (widget_class, on_powerbar_action_ended);
-  gtk_widget_class_bind_template_callback (widget_class, on_powerbar_action_failed);
   gtk_widget_class_bind_template_callback (widget_class, window_key_press_event_cb);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-home");
