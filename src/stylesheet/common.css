@@ -175,6 +175,38 @@ phosh-audio-device-row image {
   font-size: 90%;
 }
 
+/* phosh-home */
+
+#powerbar {
+  background: -gtk-recolor(url('resource:///sm/puri/phosh/icons/scalable/status/input-powerbar-symbolic.svg'));
+  background-position: center;
+  background-size: 150px 15px;
+  background-repeat: no-repeat;
+  transition: 400ms ease;
+}
+
+.p-active #powerbar {
+   opacity: 0.5;
+}
+
+.p-failed #powerbar {
+  background-size: 150px 15px;
+  transition: 300ms ease;
+  animation: error-shake 1.5s ease;
+  animation-iteration-count: 1;
+}
+
+@keyframes error-shake {
+   0% {background-position: center; opacity: .5;}
+  10% {background-position: center; opacity: .7;}
+  15% {background-position: left; opacity: 1;}
+  30% {background-position: right;}
+  45% {background-position: left;}
+  60% {background-position: right;}
+  80% {background-position: center;}
+ 100% {background-position: center;}
+}
+
 /*
  * Overview (app grid with favories and, activities)
  */
