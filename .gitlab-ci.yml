@@ -102,7 +102,7 @@ commit-log-check:
     reports:
       junit: commit-message-junit-report.xml
   rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
 
 build:native-debian-trixie:
   stage: build
