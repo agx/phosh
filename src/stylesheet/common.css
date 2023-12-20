@@ -432,6 +432,12 @@ phosh-lockscreen .phosh-notification-tray {
   background-color: transparent;
 }
 
+/* Widget box */
+phosh-lockscreen phosh-widget-box {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
 /*
  * System modal dialogs (polkit, gcr, ...)
  */
