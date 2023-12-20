@@ -1,3 +1,28 @@
+phosh (0.34.1) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * osk-manager: Sync initial state.
+    Fixes 43d801d9da2dfe2b90f6b38068c3517d3e658d39
+    Tested-by: Jarrah Gosbell <debian@undef.tools>
+  * util: Revert "Be more gracefull on the app_id"
+    This breaks telegram desktop with app-id org.telegram.desktop and a
+    desktop file of org.telegram.desktop.desktop.
+    This reverts commit 2a3763303b4305058ee0ff5f2b76b31016e80114.
+    Reported-by: Newbyte <newbie13xd@gmail.com>
+    Tested-by: Newbyte <newbie13xd@gmail.com>
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1010
+  * ci: Only run ci-fairy on merge-request pipelines targeting 'main'
+    Backports to older version can e.g. contain translations that don't need
+    to adhere to the commit formatting.
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 13 Dec 2023 10:55:26 +0100
+
 phosh (0.34.0) experimental; urgency=medium
 
   [ Guido Günther ]
