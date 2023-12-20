@@ -212,13 +212,7 @@ config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address',
 config_h.set_quoted('PHOSH_DATA_DIR', datadir,
              description: 'Systemwide data dir')
 config_h.set_quoted('PHOSH_APP_ID', app_id)
-# Work around lack of replace in meson 0.56
-m_ver = meson.version().split('.')
-if meson.version().version_compare('>=0.58.0')
-  config_h.set_quoted('PHOSH_DBUS_PATH_PREFIX', '/' + app_id.replace('.', '/'))
-else
-  config_h.set_quoted('PHOSH_DBUS_PATH_PREFIX', '/sm/puri/Phosh')
-endif
+config_h.set_quoted('PHOSH_DBUS_PATH_PREFIX', '/' + app_id.replace('.', '/'))
 config_h.set('PHOSH_HAVE_POLKIT_SUBJECT_CLEANUP', have_polkit_subject_cleanup)
 config_h.set('PHOSH_HAVE_POLKIT_AGENT_LISTENER_CLEANUP', have_polkit_agent_listener_cleanup)
 
@@ -266,12 +260,7 @@ summary({
   section: 'Runtime',
 )
 
-# gnome.post_install() is available since meson 0.59.0
-# Distributions use their own tooling (e.g. postinst, triggers, etc)
-# so it is okay if the post_install() is not run on distro builds
-if meson.version().version_compare('>=0.59.0')
-  gnome.post_install(
-    glib_compile_schemas: true,
-    gtk_update_icon_cache: true,
-  )
-endif
+gnome.post_install(
+  glib_compile_schemas: true,
+  gtk_update_icon_cache: true,
+)
