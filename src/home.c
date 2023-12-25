@@ -41,12 +41,6 @@
  * bottom of the screen to fold and unfold the #PhoshOverview and a
  * pill in the center (powerbar) that toggles the OSK.
  */
-enum {
-  OSK_ACTIVATED,
-  N_SIGNALS
-};
-static guint signals[N_SIGNALS] = { 0 };
-
 
 enum {
   PROP_0,
@@ -276,9 +270,6 @@ on_powerbar_pressed (PhoshHome *self)
     on_powerbar_action_failed (self);
     return;
   }
-
-  if (osk_new_state)
-    g_signal_emit (self, signals[OSK_ACTIVATED], 0);
 
   g_debug ("OSK toggled with pressed signal");
   phosh_osk_manager_set_visible (osk, osk_new_state);
@@ -558,10 +549,6 @@ phosh_home_class_init (PhoshHomeClass *klass)
   object_class->get_property = phosh_home_get_property;
 
   drag_surface_class->dragged = phosh_home_dragged;
-
-  signals[OSK_ACTIVATED] = g_signal_new ("osk-activated",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
 
   props[PROP_HOME_STATE] =
     g_param_spec_enum ("state",
