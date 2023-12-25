@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-05 08:48+0000\n"
-"PO-Revision-Date: 2023-07-05 15:21+0330\n"
+"POT-Creation-Date: 2023-11-27 10:12+0000\n"
+"PO-Revision-Date: 2023-12-25 13:38+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -64,11 +64,11 @@ msgstr "نمایش رویدادهای تقویم پیش رو"
 msgid "Application"
 msgstr "برنامه"
 
-#: src/app-grid.c:137
+#: src/app-grid.c:138
 msgid "Show All Apps"
 msgstr "نمایش تمامی کاره‌ها"
 
-#: src/app-grid.c:140
+#: src/app-grid.c:141
 msgid "Show Only Mobile Friendly Apps"
 msgstr "فقط نمایش کاره‌های سازگار با تلفن همراه"
 
@@ -81,7 +81,7 @@ msgstr "روشن"
 msgid "Bluetooth"
 msgstr "بلوتوث"
 
-#: src/call-notification.c:60
+#: src/call-notification.c:61
 msgid "Unknown caller"
 msgstr "تماس‌گیرندهٔ ناشناس"
 
@@ -106,42 +106,38 @@ msgstr "ناتوان در برقراری تماس اضطراری"
 msgid "Internal error"
 msgstr "خطای داخلی"
 
-#: src/end-session-dialog.c:163
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "خروج"
 
-#: src/end-session-dialog.c:166
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 msgstr[1] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:182
 msgid "Power Off"
 msgstr "خاموش کردن"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "سامانه پس از %Id ثانیه به طور خودکار خاموش می‌شود."
 msgstr[1] "سامانه پس از %Id ثانیه به طور خودکار خاموش می‌شود."
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "راه‌اندازی دوباره"
 
-#: src/end-session-dialog.c:180
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "سامانه پس از %Id ثانیه به طور خودکار دوباره راه‌اندازی می‌شود."
 msgstr[1] "سامانه پس از %Id ثانیه به طور خودکار دوباره راه‌اندازی می‌شود."
-
-#: src/end-session-dialog.c:270
-msgid "Unknown application"
-msgstr "برنامهٔ ناشناخته"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -180,19 +176,19 @@ msgstr "بله"
 msgid "No"
 msgstr "نه"
 
-#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:397
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
-#: src/screenshot-manager.c:212
+#: src/screenshot-manager.c:213
 msgid "Screenshot"
 msgstr "نماگرفت"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:214
 msgid "Screenshot copied to clipboard"
 msgstr "نماگرفت در تخته‌گیره رونوشت شد"
 
@@ -206,18 +202,18 @@ msgstr "عنوان ناشناخته"
 msgid "Unknown Artist"
 msgstr "هنرمند ناشناخته"
 
-#: src/monitor-manager.c:119
+#: src/monitor-manager.c:127
 msgid "Built-in display"
 msgstr "نمایشگر توکار"
 
-#: src/monitor-manager.c:137
+#: src/monitor-manager.c:145
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:144
+#: src/monitor-manager.c:152
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -226,16 +222,16 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:153
+#: src/monitor-manager.c:161
 msgid "Unknown"
 msgstr "ناشناخته"
 
-#: src/network-auth-prompt.c:201
+#: src/network-auth-prompt.c:202
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "گونهٔ تأییدیهٔ شبکهٔ وای‌فای %s پشتیبانی نمی‌شود"
 
-#: src/network-auth-prompt.c:206
+#: src/network-auth-prompt.c:207
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "ورود گذرواژه برای شبکهٔ وای‌فای %s"
@@ -244,7 +240,7 @@ msgstr "ورود گذرواژه برای شبکهٔ وای‌فای %s"
 msgid "Open"
 msgstr "گشودن"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:654
+#: src/notifications/notification.c:405 src/notifications/notification.c:678
 msgid "Notification"
 msgstr "آگاهی"
 
@@ -468,15 +464,15 @@ msgstr "هیچ تماس اضطراری‌ای موجود نیست."
 msgid "Some applications are busy or have unsaved work"
 msgstr "برخی برنامه‌ها مشغول بوده یا کار ذخیره نشده دارند"
 
-#: src/ui/gtk-mount-prompt.ui:94
+#: src/ui/gtk-mount-prompt.ui:88
 msgid "User:"
 msgstr "کاربر:"
 
-#: src/ui/gtk-mount-prompt.ui:117
+#: src/ui/gtk-mount-prompt.ui:111
 msgid "Domain:"
 msgstr "دامنه:"
 
-#: src/ui/gtk-mount-prompt.ui:150
+#: src/ui/gtk-mount-prompt.ui:144
 msgid "Co_nnect"
 msgstr "اتّ_صال"
 
@@ -505,7 +501,7 @@ msgstr "_لغو"
 msgid "C_onnect"
 msgstr "_وصل شدن"
 
-#: src/ui/polkit-auth-prompt.ui:122
+#: src/ui/polkit-auth-prompt.ui:117
 msgid "Authenticate"
 msgstr "تأیید هویت"
 
@@ -537,7 +533,7 @@ msgstr "بدون آگاهی"
 msgid "Clear all"
 msgstr "پاک‌سازی همه"
 
-#: src/ui/system-prompt.ui:62
+#: src/ui/system-prompt.ui:57
 msgid "Confirm:"
 msgstr "تأیید:"
 
@@ -559,7 +555,7 @@ msgstr "_خروج…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:339
+#: src/util.c:343
 msgid "%A, %B %-e"
 msgstr "%A، %Od %OB"
 
@@ -685,6 +681,18 @@ msgstr "رابطه"
 msgid "Number"
 msgstr "شماره"
 
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "جعبهٔ اجراگر"
+
+#: plugins/launcher-box/launcher-box.ui:15
+msgid "No launchers configured"
+msgstr "هیچ احراگری پیکربندی نشده"
+
+#: plugins/launcher-box/launcher-box.ui:32
+msgid "Launchers"
+msgstr "اجراگرها"
+
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
 msgstr "هیچ سندی برای نمایش نیست"
@@ -764,6 +772,9 @@ msgstr "پایان"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "رویداد بی‌عنوان"
+
+#~ msgid "Unknown application"
+#~ msgstr "برنامهٔ ناشناخته"
 
 #~ msgid "Emergency"
 #~ msgstr "اضطراری"
