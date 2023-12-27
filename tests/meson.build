@@ -25,7 +25,7 @@ test_env_common.set('G_TEST_SRCDIR', meson.current_source_dir())
 test_env_common.set('G_TEST_BUILDDIR', meson.current_build_dir())
 test_env_common.set('G_DEBUG', 'gc-friendly,fatal-warnings')
 test_env_common.set('GSETTINGS_BACKEND', 'memory')
-test_env_common.set('GSETTINGS_SCHEMA_DIR', '@0@/data:@1@'.format(meson.build_root(),
+test_env_common.set('GSETTINGS_SCHEMA_DIR', '@0@/data:@1@'.format(meson.project_build_root(),
                                                                   lockscreen_plugin_schema_path))
 test_env_common.set('PYTHONDONTWRITEBYTECODE', 'yes')
 test_env_common.set('MALLOC_CHECK_', '2')
@@ -35,7 +35,7 @@ test_env_common.set('GTK_A11Y', 'none')
 
 # For -Db_sanitize=address
 test_env_common.set('LSAN_OPTIONS',
-                    'suppressions=@0@/data/leak-suppress.txt'.format(meson.source_root()))
+                    'suppressions=@0@/data/leak-suppress.txt'.format(meson.project_source_root()))
 # as our libraries lack frame pointers since otherwise back traces are incomplete
 test_env_common.set('ASAN_OPTIONS', 'fast_unwind_on_malloc=0')
 
@@ -49,14 +49,14 @@ test_env_unit.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source
 test_env_unit.prepend('XDG_DATA_DIRS', '@0@/system/share/'.format(meson.current_source_dir()))
 
 test_cflags = [
-  '-DTEST_BUILD_DIR="@0@"'.format(meson.build_root()),
+  '-DTEST_BUILD_DIR="@0@"'.format(meson.project_build_root()),
   '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
   '-DTEST_OUTPUT_DIR="@0@"'.format(meson.current_build_dir()),
-  '-DTEST_PHOC_INI="@0@/data/phoc.ini"'.format(meson.source_root()),
+  '-DTEST_PHOC_INI="@0@/data/phoc.ini"'.format(meson.project_source_root()),
   # Some tests want an installed tree (e.g. for .mo, this is where it should
   # be located:
-  '-DTEST_INSTALLED="@0@/install"'.format(meson.build_root()),
-  '-DTEST_TOOLS="@0@/tools"'.format(meson.build_root()),
+  '-DTEST_INSTALLED="@0@/install"'.format(meson.project_build_root()),
+  '-DTEST_TOOLS="@0@/tools"'.format(meson.project_build_root()),
 ]
 
 test_link_args = [

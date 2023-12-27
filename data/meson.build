@@ -93,10 +93,10 @@ configure_file(
 
 # Generate XML enum definitions for GSettings schema
 schema_enum_headers = files(
-  meson.source_root() / 'src' / 'app-grid.h',
-  meson.source_root() / 'src' / 'layout-manager.h',
-  meson.source_root() / 'src' / 'wwan' / 'phosh-wwan-backend.h',
-  meson.source_root() / 'src' / 'notifications' / 'notify-feedback.h',
+  meson.project_source_root() / 'src' / 'app-grid.h',
+  meson.project_source_root() / 'src' / 'layout-manager.h',
+  meson.project_source_root() / 'src' / 'wwan' / 'phosh-wwan-backend.h',
+  meson.project_source_root() / 'src' / 'notifications' / 'notify-feedback.h',
 )
 generate_enums_schema = gnome.mkenums('sm.puri.phosh.enums.xml',
   sources: schema_enum_headers,

@@ -35,7 +35,7 @@ lockscreen_plugins = [
 
 lockscreen_plugin_schema_dirs = []
 foreach plugin : lockscreen_plugins
-  lockscreen_plugin_schema_dirs += meson.build_root() / 'plugins' / plugin
+  lockscreen_plugin_schema_dirs += meson.project_build_root() / 'plugins' / plugin
 endforeach
 lockscreen_plugin_schema_path = ':'.join(lockscreen_plugin_schema_dirs)
 
