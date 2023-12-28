@@ -24,6 +24,8 @@ void     phosh_session_manager_register (PhoshSessionManager *self, const gchar 
 void     phosh_session_manager_logout (PhoshSessionManager *self);
 void     phosh_session_manager_shutdown (PhoshSessionManager *self);
 void     phosh_session_manager_reboot (PhoshSessionManager *self);
+guint    phosh_session_manager_inhibit_suspend (PhoshSessionManager *self, const char *reason);
+void     phosh_session_manager_uninhibit_suspend (PhoshSessionManager *self, guint cookie);
 
 void     phosh_session_manager_export_end_session (PhoshSessionManager *self,
                                                    GDBusConnection *connection);
