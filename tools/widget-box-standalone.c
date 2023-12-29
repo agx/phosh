@@ -56,7 +56,7 @@ main (int argc, char *argv[])
   GtkWidget *win;
   GtkWidget *box;
   g_auto (GStrv) plugins = g_strsplit (PLUGINS, " ", -1);
-  GStrv plugin_dirs = NULL;
+  g_auto (GStrv) plugin_dirs = NULL;
 
   gtk_init (&argc, &argv);
   hdy_init ();

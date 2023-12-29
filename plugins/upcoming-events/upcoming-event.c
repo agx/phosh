@@ -168,6 +168,7 @@ phosh_upcoming_event_set_color (PhoshUpcomingEvent *self, const char *color)
 {
   g_autofree char* css = NULL;
   g_autoptr (GError) err = NULL;
+  g_autofree char *colorstr = NULL;
   GdkRGBA rgba;
 
   if (g_strcmp0 (self->color, color) == 0)
@@ -179,7 +180,8 @@ phosh_upcoming_event_set_color (PhoshUpcomingEvent *self, const char *color)
   if (gdk_rgba_parse (&rgba, color) == FALSE)
     rgba.red = rgba.green = rgba.blue = 1.0;
 
-  css = g_strdup_printf (COLOR_BAR_CSS, gdk_rgba_to_string (&rgba));
+  colorstr = gdk_rgba_to_string (&rgba);
+  css = g_strdup_printf (COLOR_BAR_CSS, colorstr);
   if (gtk_css_provider_load_from_data (self->color_css, css, -1, &err) == FALSE) {
     g_warning ("Failed to load css: %s", err->message);
     return;

@@ -6,11 +6,11 @@ phosh (0.34.0) experimental; urgency=medium
     Needed for ext-idle-notify-v1 support.
   * wayland: Add ext-idle-notify-v1.
     This will replace org_kde_kwin_idle
-  * idle-manager: Use ext-notifier-v1 protocol
+  * idle-manager: Use ext-idle-notify-v1 protocol
   * wayland: Drop kde idle protocol.
     Not supported by newer wlroots.
   * idle-manager: Recreate timers when they need to be reset.
-    In contrast to KDE's idle protocol ext-notifier-v1 doesn't have a way to
+    In contrast to KDE's idle protocol ext-idle-notify-v1 doesn't have a way to
     reset individual idle notifiers so recreate them instead.
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/994
   * HACKING: Add some more details.

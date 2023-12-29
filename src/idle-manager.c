@@ -40,7 +40,6 @@ typedef struct {
 
   /* Wayland */
   struct ext_idle_notification_v1 *idle_noti;
-  gboolean                         idle;
   guint32                          interval;
 } DBusWatch;
 
@@ -132,7 +131,6 @@ idle_notification_resumed_cb (void* data, struct ext_idle_notification_v1 *timer
 }
 
 
-/* An DBus idle watch uses an idle_timeout but doesn't care about resume */
 static const struct ext_idle_notification_v1_listener idle_notification_listener = {
   .idled = idle_notification_idled_cb,
   .resumed = idle_notification_resumed_cb,
