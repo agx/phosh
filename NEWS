@@ -1,3 +1,24 @@
+phosh 0.35.0
+------------
+Released January 2024
+* Make home bar smaller. OSK opens via long press on pill.
+* Indicate 5G when detected
+* Fix suspend-inhibitor when hotspot is on
+* Fix swipe back when lockscreen widget box is open
+* Issues fixed:
+  - https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1010
+  - https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1001
+  - https:// gitlab.gnome.org/World/Phosh/phosh/-/issues/380
+* Contributors:
+    * Bardia Moshiri
+    * Guido Günther
+    * mathew-dennis
+* UI translations:
+    * Artur S0 (ru)
+    * Danial Behzadi (fa)
+    * Daniel Rusek (cs)
+    * Yosef Or Boczko (he)
+
 phosh 0.34.0
 ------------
 Released December 2023

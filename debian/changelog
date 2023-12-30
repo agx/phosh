@@ -1,3 +1,104 @@
+phosh (0.35.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * osk-manager: Sync initial state.
+    Fixes 43d801d9da2dfe2b90f6b38068c3517d3e658d39
+    Tested-by: Jarrah Gosbell <debian@undef.tools>
+  * util: Revert "Be more gracefull on the app_id"
+    This breaks telegram desktop with app-id org.telegram.desktop and a
+    desktop file of org.telegram.desktop.desktop.
+    We *only* made that change to not change the behaviour of the
+    end-session-dialog. All inhibitors there do have a proper app-id though
+    so let's just live without not appending '.desktop' there either.
+    This reverts commit 2a3763303b4305058ee0ff5f2b76b31016e80114.
+    Reported-by: Newbyte <newbie13xd@gmail.com>
+    Tested-by: Newbyte <newbie13xd@gmail.com>
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1010
+  * shell-manager: Drop support for XML version parsing.
+    Just assume we have GNOME_DESKTOP_PLATFORM_VERSION (introduced in GNOME
+    43)
+  * build: Drop support for older gnome-desktop without the platform version.
+    This was introduced in 43. We keep the check for recent GNOME in the
+    summary() so it's obvious when things are outdated.
+  * build: Encode glib version in one place only.
+    We keep the check for recent glib in summary() so backports indicate
+    clearly when they don't have it.
+    This uses the same logic we use in phoc
+  * ci: Only run ci-fairy on merge-request pipelines targeting 'main'
+    Backports to older version can e.g. contain translations that don't need
+    to adhere to the commit formatting.
+  * build: Avoid quotes around boolean values
+  * build: Use project_build_root() as plain build_root() is deprecated
+  * build: Use project_source_root() as plain source_root() is deprecated
+  * build: Bump meson version to 1.0.0.
+    Debian stable has 1.0.1 even
+  * uncrustify: Fix while() brace alignment too.
+    We had it for `for` and `if` but `while` was missing
+  * build: Drop meson version check.
+    We require 1.0 now
+  * session-manager: Allow to inhibit suspend
+  * suspend-manager: Inhibit via gnome-session rather than systemd.
+    The systemd inhibitor would ensure we don't suspend when e.g. another
+    session is active. What we're interested about here is the user's
+    session though so use gnome-session to prevent suspend instead.
+    We use a sync DBus call here which should be fine and not block and we
+    can't do much without gnome-session running anyway.
+    For the systemd bits see https://github.com/systemd/systemd/issues/29818
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1001
+  * idle-manager: Drop unused variable from struct
+  * idle-manager: Drop superfluous comment.
+    We explain this in the class documentation and have a comment in
+    the DBusWatch.
+  * screen-saver-manager: Clear long press timer in error path.
+    This shouldn't happen but if we hit it then we shouldn't create another
+    timer but rather clear the old one.
+  * emergency-info: Suggest word-completion in text views.
+    This allows the OSK to decide whether it should offer word completion
+    (or not).
+  * launcher-box: Fix leaks.
+    Don't leak enumerator, app-info and path
+  * upcoming-events: Don't leak color string from rgba conversion
+  * widget-box-standalone: Don't leak plugin dirs
+  * lockscreen: Add small margin to the widget box.
+    If there are long filenames in the ticket box it expands the widget box
+    right to the screen edge breaking the swipe back.
+    By adding a small margin we always allow a fling at the screen edge to
+    go back to the actual lockscreen.
+
+  [ Bardia Moshiri ]
+  * wwan-ofono: Mark access technology nr as 5G
+  * wwan-mm: Mark access technology MM_MODEM_ACCESS_TECHNOLOGY_5GNR as 5G
+
+  [ mathew-dennis ]
+  * home: Shrink home-bar height and move osk activation to center.
+    Reduce the home-bar size from 40px to 15px
+    Replace osk button with powerbar widget and move it to the center
+    Modify the on pressed function to work with long press gesture
+    Use osk-manager directly
+    Add an svg image to represent the new powerbar widget
+    Add both powerbar and arrow into a gtk stack since both are occupying the center region
+    Reuse phosh_home_update_osk_button to switch home-bar stack when dragging
+    Closes: https:// gitlab.gnome.org/World/Phosh/phosh/-/issues/380
+  * home: Make powerbar more interactive.
+    Reduce powerbar opacity to indicate longpress recognition has started
+    And revert back to original state one recognition is successful
+    Add animation to indicate osk non-availability
+    Add haptic feedback to indicate a successful osk interaction
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 30 Dec 2023 19:28:08 +0100
+
 phosh (0.34.0) experimental; urgency=medium
 
   [ Guido Günther ]
