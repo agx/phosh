@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-29 14:21+0000\n"
-"PO-Revision-Date: 2023-09-01 19:25+0200\n"
+"POT-Creation-Date: 2023-11-27 10:12+0000\n"
+"PO-Revision-Date: 2023-12-30 20:15+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.4\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -62,7 +62,7 @@ msgstr "Ein einfaches Kalender-Widget"
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
-msgstr "Ticket Box"
+msgstr "Ticketbox"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:5
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
@@ -82,13 +82,13 @@ msgstr "Anstehende Kalendertermine anzeigen"
 msgid "Application"
 msgstr "Anwendung"
 
-#: src/app-grid.c:137
+#: src/app-grid.c:138
 msgid "Show All Apps"
 msgstr "Alle Anwendungen anzeigen"
 
-#: src/app-grid.c:140
+#: src/app-grid.c:141
 msgid "Show Only Mobile Friendly Apps"
-msgstr "Nur mobil-optimierte Anwendungen anzeigen"
+msgstr "Nur mobiloptimierte Anwendungen anzeigen"
 
 #: src/bt-info.c:92
 msgctxt "bluetooth:enabled"
@@ -124,42 +124,38 @@ msgstr "Absetzen eines Notrufs nicht möglich"
 msgid "Internal error"
 msgstr "Interner Fehler"
 
-#: src/end-session-dialog.c:163
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "Abmelden"
 
-#: src/end-session-dialog.c:166
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s wird automatisch in %d Sekunde abgemeldet."
 msgstr[1] "%s wird automatisch in %d Sekunden abgemeldet."
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:182
 msgid "Power Off"
 msgstr "Ausschalten"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Das System wird in %d Sekunde ausgeschaltet."
 msgstr[1] "Das System wird in %d Sekunden ausgeschaltet."
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "Neustart"
 
-#: src/end-session-dialog.c:180
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "Das System wird in %d Sekunde neu gestartet."
 msgstr[1] "Das System wird in %d Sekunden neu gestartet."
-
-#: src/end-session-dialog.c:270
-msgid "Unknown application"
-msgstr "Unbekannte Anwendung"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -198,19 +194,19 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nein"
 
-#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Zugangscode eingeben"
 
-#: src/lockscreen.c:397
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "Überprüfung läuft …"
 
-#: src/screenshot-manager.c:212
+#: src/screenshot-manager.c:213
 msgid "Screenshot"
 msgstr "Bildschirmfoto"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:214
 msgid "Screenshot copied to clipboard"
 msgstr "Bildschirmfoto wurde in die Zwischenablage kopiert"
 
@@ -224,18 +220,18 @@ msgstr "Unbekannter Titel"
 msgid "Unknown Artist"
 msgstr "Unbekannter Interpret"
 
-#: src/monitor-manager.c:119
+#: src/monitor-manager.c:127
 msgid "Built-in display"
 msgstr "Eingebaute Anzeige"
 
-#: src/monitor-manager.c:137
+#: src/monitor-manager.c:145
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:144
+#: src/monitor-manager.c:152
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -244,17 +240,17 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:153
+#: src/monitor-manager.c:161
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: src/network-auth-prompt.c:201
+#: src/network-auth-prompt.c:202
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr ""
 "Die Art der Legitimierung des WLAN-Netzwerks »%s« wird nicht unterstützt"
 
-#: src/network-auth-prompt.c:206
+#: src/network-auth-prompt.c:207
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Geben Sie das Passwort für das WLAN-Netzwerk »%s« ein"
@@ -263,7 +259,7 @@ msgstr "Geben Sie das Passwort für das WLAN-Netzwerk »%s« ein"
 msgid "Open"
 msgstr "Öffnen"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:654
+#: src/notifications/notification.c:405 src/notifications/notification.c:678
 msgid "Notification"
 msgstr "Benachrichtigung"
 
@@ -488,15 +484,15 @@ msgstr "Keine Notfallkontakte verfügbar."
 msgid "Some applications are busy or have unsaved work"
 msgstr "Einige Anwendungen sind beschäftigt oder haben ungesicherte Änderungen"
 
-#: src/ui/gtk-mount-prompt.ui:94
+#: src/ui/gtk-mount-prompt.ui:88
 msgid "User:"
 msgstr "Benutzer:"
 
-#: src/ui/gtk-mount-prompt.ui:117
+#: src/ui/gtk-mount-prompt.ui:111
 msgid "Domain:"
 msgstr "Domäne:"
 
-#: src/ui/gtk-mount-prompt.ui:150
+#: src/ui/gtk-mount-prompt.ui:144
 msgid "Co_nnect"
 msgstr "_Verbinden"
 
@@ -525,7 +521,7 @@ msgstr "_Abbrechen"
 msgid "C_onnect"
 msgstr "_Verbinden"
 
-#: src/ui/polkit-auth-prompt.ui:122
+#: src/ui/polkit-auth-prompt.ui:117
 msgid "Authenticate"
 msgstr "Legitimieren"
 
@@ -557,7 +553,7 @@ msgstr "Keine Benachrichtigungen"
 msgid "Clear all"
 msgstr "Alles leeren"
 
-#: src/ui/system-prompt.ui:62
+#: src/ui/system-prompt.ui:57
 msgid "Confirm:"
 msgstr "Bestätigen:"
 
@@ -579,7 +575,7 @@ msgstr "_Abmelden …"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:339
+#: src/util.c:343
 msgid "%A, %B %-e"
 msgstr "%A %d. %B"
 
@@ -705,6 +701,18 @@ msgstr "Beziehung"
 msgid "Number"
 msgstr "Nummer"
 
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Starterbox"
+
+#: plugins/launcher-box/launcher-box.ui:15
+msgid "No launchers configured"
+msgstr "Keine Starter eingerichtet"
+
+#: plugins/launcher-box/launcher-box.ui:32
+msgid "Launchers"
+msgstr "Starter"
+
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
 msgstr "Keine anzuzeigenden Dokumente"
@@ -723,7 +731,7 @@ msgstr "_Öffnen"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
 msgid "Ticket Box Preferences"
-msgstr "Ticket-Box-Einstellungen"
+msgstr "Ticketbox-Einstellungen"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
 msgid "Paths"
@@ -784,6 +792,9 @@ msgstr "Endet"
 #: plugins/upcoming-events/upcoming-event.c:398
 msgid "Untitled event"
 msgstr "Unbenannter Termin"
+
+#~ msgid "Unknown application"
+#~ msgstr "Unbekannte Anwendung"
 
 #~ msgid "Emergency"
 #~ msgstr "Notfall"
