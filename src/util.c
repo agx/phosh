@@ -88,8 +88,10 @@ phosh_get_desktop_app_info_for_app_id (const char *app_id)
   /* try to handle the case where app-id is rev-DNS, but desktop file is not */
   last_component = strrchr(app_id, '.');
   if (last_component) {
+    /* Skip past '.' */
+    last_component++;
     g_free (desktop_id);
-    desktop_id = g_strdup_printf ("%s.desktop", last_component + 1);
+    desktop_id = g_strdup_printf ("%s.desktop", last_component);
     g_return_val_if_fail (desktop_id, NULL);
     app_info = g_desktop_app_info_new (desktop_id);
     if (app_info)
