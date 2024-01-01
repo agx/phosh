@@ -63,8 +63,9 @@ phosh_get_desktop_app_info_for_app_id (const char *app_id)
   GDesktopAppInfo *app_info = NULL;
   char *last_component;
   static char *mappings[][2] = {
-    { "org.gnome.ControlCenter", "gnome-control-center" },
-    { "gnome-usage", "org.gnome.Usage" },
+    { "Audacity", "org.audacityteam.Audacity" }, /* flatpak,X11 */
+    { "Gimp-2.10", "gimp" }, /* X11 */
+    { "krita", "org.kde.krita" }, /* X11 */
   };
 
   g_assert (app_id);
