@@ -159,7 +159,7 @@ gmobile = subproject('gmobile',
 gmobile_dep = gmobile.get_variable('gmobile_dep')
 libnm_dep = dependency('libnm', version: '>= 1.14')
 libpolkit_agent_dep = dependency('polkit-agent-1', version: '>= 0.105')
-libsystemd_dep = dependency('libsystemd', version: '>= 241')
+libsystemd_dep = dependency('libsystemd', 'libelogind', version: '>= 241')
 network_agent_dep = dependency('libsecret-1')
 upower_glib_dep = dependency('upower-glib', version: '>=0.99.1')
 wayland_client_dep = dependency('wayland-client', version: '>=1.14')
