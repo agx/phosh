@@ -8,6 +8,7 @@ Build-Depends:
  libadwaita-1-dev,
  libcallaudio-dev,
  libevince-dev,
+ libgirepository1.0-dev,
  libjson-glib-dev,
  libsecret-1-dev,
  libsystemd-dev,
