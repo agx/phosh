@@ -98,7 +98,7 @@
       <summary>Whether to scramble the keypad</summary>
       <description>
         Setting this to true shuffle the digits on the PIN keypad to
-        make eaveysdropping harder.
+        make eavesdropping harder.
       </description>
     </key>
   </schema>
