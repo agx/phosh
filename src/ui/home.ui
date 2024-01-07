@@ -89,7 +89,7 @@
     <property name="widget">evbox_home</property>
     <signal name="released" handler="on_home_released" swapped="true"/>
   </object>
-  
+
   <object class="GtkGestureLongPress" id="osk_toggle_long_press">
     <property name="widget">powerbar</property>
     <signal name="begin" handler="on_powerbar_action_started" swapped="true"/>

@@ -24,6 +24,8 @@
 #define KEYBINDING_KEY_TOGGLE_OVERVIEW "toggle-overview"
 #define KEYBINDING_KEY_TOGGLE_APPLICATION_VIEW "toggle-application-view"
 
+#define PHOSH_SETTINGS "sm.puri.phosh"
+
 #define PHOSH_HOME_DRAG_THRESHOLD 0.3
 
 #define POWERBAR_ACTIVE_CLASS "p-active"
@@ -78,6 +80,7 @@ struct _PhoshHome
 
   GtkGesture     *click_gesture; /* needed so that the gesture isn't destroyed immediately */
   GtkGesture     *osk_toggle_long_press; /* to toggle osk from the home bar itself */
+  GSettings      *phosh_settings;
 
 };
 G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_DRAG_SURFACE);
@@ -604,15 +607,22 @@ phosh_home_class_init (PhoshHomeClass *klass)
 static void
 phosh_home_init (PhoshHome *self)
 {
-  self->state = PHOSH_HOME_STATE_FOLDED;
-  self->settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
+  g_autoptr (GSettings) settings = NULL;
 
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  self->state = PHOSH_HOME_STATE_FOLDED;
+  self->settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
 
   phosh_home_update_home_bar (self);
 
   /* Adjust margins and folded state on size changes */
   g_signal_connect (self, "configure-event", G_CALLBACK (on_configure_event), NULL);
+
+  settings = g_settings_new (PHOSH_SETTINGS);
+  g_settings_bind (settings, "osk-unfold-delay",
+                   self->osk_toggle_long_press, "delay-factor",
+                   G_SETTINGS_BIND_GET);
 }
 
 
