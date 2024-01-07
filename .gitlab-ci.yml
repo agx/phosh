@@ -201,14 +201,7 @@ build-gtkdoc:
 
 check-po:
   stage: test+docs
-  image: ${DEBIAN_IMAGE}
-  before_script:
-    - eatmydata apt-get -y update
-    - eatmydata apt-get -y install intltool gettext
-  <<: *trixie_vars
-  needs: []
-  script:
-    - tools/check-po
+  extends: .phosh-check-po
   except:
     variables:
       - $PKG_ONLY == "1"
