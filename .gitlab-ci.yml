@@ -1,5 +1,7 @@
 include:
- - remote: 'https://source.puri.sm/Librem5/librem5-ci/raw/master/librem5-pipeline-definitions.yml'
+ - project: 'guidog/meta-phosh'
+   ref: '04a85df2f3311f3012b6c49bf353b376ae0f32b2'
+   file: '/ci/phosh-common-jobs.yml'
  - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/d03cddbcff35f26861429fc816c00323f48e99af/templates/ci-fairy.yml'
 
 stages:
@@ -199,14 +201,7 @@ build-gtkdoc:
 
 check-po:
   stage: test+docs
-  image: ${DEBIAN_IMAGE}
-  before_script:
-    - eatmydata apt-get -y update
-    - eatmydata apt-get -y install intltool gettext
-  <<: *trixie_vars
-  needs: []
-  script:
-    - tools/check-po
+  extends: .phosh-check-po
   except:
     variables:
       - $PKG_ONLY == "1"
@@ -322,17 +317,14 @@ coverage:
       - $SCREENSHOTS_ONLY == "1"
 
 package:deb-debian-trixie:arm64:
+  stage: package
   variables:
-    L5_DOCKER_IMAGE: debian:trixie
+    PHOSH_DOCKER_IMAGE: debian:trixie
     DEB_BUILD_PROFILES: "nodoc nocheck"
     DEB_BUILD_OPTIONS: nocheck
-  extends: .l5-build-debian-package
+  extends: .phosh-build-debian-package
   tags:
     - aarch64
-  before_script:
-    - export DEBIAN_FRONTEND=noninteractive
-    - apt-get -y update
-    - apt-get -y install eatmydata
   except:
     variables:
       - $SCREENSHOTS_ONLY == "1"
