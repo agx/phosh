@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-28 16:00+0000\n"
-"PO-Revision-Date: 2023-08-29 09:00+0200\n"
+"POT-Creation-Date: 2023-11-27 10:12+0000\n"
+"PO-Revision-Date: 2024-01-09 22:18+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -67,11 +67,11 @@ msgstr "Pokaži prihodnje dogodke koledarja"
 msgid "Application"
 msgstr "Program"
 
-#: src/app-grid.c:137
+#: src/app-grid.c:138
 msgid "Show All Apps"
 msgstr "Pokaži vse programe"
 
-#: src/app-grid.c:140
+#: src/app-grid.c:141
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Pokaži le na nabilnih napravah podprte programe"
 
@@ -109,11 +109,11 @@ msgstr "Klica v sili ni možno izvesti"
 msgid "Internal error"
 msgstr "Notranja napaka"
 
-#: src/end-session-dialog.c:163
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "Odjavi"
 
-#: src/end-session-dialog.c:166
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -122,11 +122,11 @@ msgstr[1] "%s se bo samodejno odjavil čez %d sekundi."
 msgstr[2] "%s se bo samodejno odjavil čez %d sekunde."
 msgstr[3] "%s se bo samodejno odjavil čez %d sekund."
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:182
 msgid "Power Off"
 msgstr "Ugasni"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -135,11 +135,11 @@ msgstr[1] "Sistem se bo samodejno izklopil v %d sekundah."
 msgstr[2] "Sistem se bo samodejno izklopil v %d sekundah."
 msgstr[3] "Sistem se bo samodejno izklopil v %d sekundah."
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "Ponovno zaženi"
 
-#: src/end-session-dialog.c:180
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -147,10 +147,6 @@ msgstr[0] "Sistem se bo samodejno ponovno zagnal čez %d sekundo."
 msgstr[1] "Sistem se bo samodejno ponovno zagnal čez %d sekundi."
 msgstr[2] "Sistem se bo samodejno ponovno zagnal čez %d sekunde."
 msgstr[3] "Sistem se bo samodejno ponovno zagnal čez %d sekund."
-
-#: src/end-session-dialog.c:270
-msgid "Unknown application"
-msgstr "Neznan program"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -189,19 +185,19 @@ msgstr "Da"
 msgid "No"
 msgstr "Ne"
 
-#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Vnesite geslo"
 
-#: src/lockscreen.c:397
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "Preverjanje …"
 
-#: src/screenshot-manager.c:212
+#: src/screenshot-manager.c:213
 msgid "Screenshot"
 msgstr "Posnetek zaslona"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:214
 msgid "Screenshot copied to clipboard"
 msgstr "Zaslonska slika kopirana na odložišče"
 
@@ -215,18 +211,18 @@ msgstr "Neznan naslov"
 msgid "Unknown Artist"
 msgstr "Neznan izvajalec"
 
-#: src/monitor-manager.c:119
+#: src/monitor-manager.c:127
 msgid "Built-in display"
 msgstr "Vgrajen zaslon"
 
-#: src/monitor-manager.c:137
+#: src/monitor-manager.c:145
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:144
+#: src/monitor-manager.c:152
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -235,16 +231,16 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:153
+#: src/monitor-manager.c:161
 msgid "Unknown"
 msgstr "Neznano"
 
-#: src/network-auth-prompt.c:201
+#: src/network-auth-prompt.c:202
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Vrsta preverjanja pristnosti omrežja wifi »%s« ni podprta"
 
-#: src/network-auth-prompt.c:206
+#: src/network-auth-prompt.c:207
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Vnesite geslo za WiFi-omrežje »%s«"
@@ -253,7 +249,7 @@ msgstr "Vnesite geslo za WiFi-omrežje »%s«"
 msgid "Open"
 msgstr "Odpri"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:654
+#: src/notifications/notification.c:405 src/notifications/notification.c:678
 msgid "Notification"
 msgstr "Obvestilo"
 
@@ -477,15 +473,15 @@ msgstr "Stiki v sili niso na voljo."
 msgid "Some applications are busy or have unsaved work"
 msgstr "Nekateri programčki so sredi dela ali nimajo shranjenega dela"
 
-#: src/ui/gtk-mount-prompt.ui:94
+#: src/ui/gtk-mount-prompt.ui:88
 msgid "User:"
 msgstr "Uporabnik:"
 
-#: src/ui/gtk-mount-prompt.ui:117
+#: src/ui/gtk-mount-prompt.ui:111
 msgid "Domain:"
 msgstr "Domena:"
 
-#: src/ui/gtk-mount-prompt.ui:150
+#: src/ui/gtk-mount-prompt.ui:144
 msgid "Co_nnect"
 msgstr "_Poveži"
 
@@ -514,7 +510,7 @@ msgstr "Pre_kliči"
 msgid "C_onnect"
 msgstr "_Poveži"
 
-#: src/ui/polkit-auth-prompt.ui:122
+#: src/ui/polkit-auth-prompt.ui:117
 msgid "Authenticate"
 msgstr "Overi"
 
@@ -546,7 +542,7 @@ msgstr "Ni obvestil"
 msgid "Clear all"
 msgstr "Počisti vse"
 
-#: src/ui/system-prompt.ui:62
+#: src/ui/system-prompt.ui:57
 msgid "Confirm:"
 msgstr "Potrditev:"
 
@@ -568,7 +564,7 @@ msgstr "_Odjavi …"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:339
+#: src/util.c:343
 msgid "%A, %B %-e"
 msgstr "%A, %e. %B"
 
@@ -693,6 +689,19 @@ msgstr "Relacija"
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Številka"
+
+#: plugins/launcher-box/launcher-box.ui:14
+#, fuzzy
+msgid "Launcher Box"
+msgstr "Škatla zaganjalnikov"
+
+#: plugins/launcher-box/launcher-box.ui:15
+msgid "No launchers configured"
+msgstr "Noben zaganjalnik ni nastavljen"
+
+#: plugins/launcher-box/launcher-box.ui:32
+msgid "Launchers"
+msgstr "Zaganjalniki"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
