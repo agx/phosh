@@ -244,7 +244,7 @@
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">Enter Passcode</property>
                     <attributes>
-                      <attribute name="font-desc" value="Cantarell 16"/>
+                      <attribute name="font-desc" value="16"/>
                     </attributes>
                   </object>
                 </child>
