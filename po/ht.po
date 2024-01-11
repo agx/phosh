@@ -1,29 +1,29 @@
-# Phosh Creole Haitian translation
-# Copyright (C) 2021 Purism
+# Phosh Haitian Creole Translation
+# Copyright (C) 2024 Purism
 # This file is distributed under the same license as the Phosh package.
-# Pierre Michel Augustin <augustinpierremichel@hotmail.com>, 2021.
+# Pierre Michel Augustin <pierremichelaugustin@gnuhealth.org>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2022-01-20 19:23+0000\n"
-"PO-Revision-Date: 2022-03-01 19:03-0500\n"
+"POT-Creation-Date: 2023-11-27 10:12+0000\n"
+"PO-Revision-Date: 2024-01-11 01:04-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ht_HT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Shell Telefòn"
 
@@ -31,25 +31,59 @@ msgstr "Shell Telefòn"
 msgid "Window management and application launching for mobile"
 msgstr "Jesyon fenèt ak lansman aplikasyon pou mobil"
 
-#: src/app-grid-button.c:502
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Sesyon sa a konekte ou nan Phosh"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "Calendar"
+msgstr "Kalandriye"
+
+#: plugins/calendar/calendar.desktop.in.in:6
+msgid "A simple calendar widget"
+msgstr "Yon senp widget kalandriye"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Bwat Tikè"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr "Montre PDF yo sou ekran fèmen a. <b>Plugin sa a se eksperimantal.</b>"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Evènman k ap vini yo"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Montre evènman kalandriye k ap vini yo"
+
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "Aplikasyon"
 
-#: src/app-grid.c:137
+#: src/app-grid.c:138
 msgid "Show All Apps"
-msgstr "Montre tout Aplikasyon yo"
+msgstr "Montre tout aplikasyon yo"
 
-#: src/app-grid.c:140
+#: src/app-grid.c:141
 msgid "Show Only Mobile Friendly Apps"
-msgstr "Montre selman Aplikasyon ki pou Mobil"
+msgstr "Montre sèlman aplikasyon pou mobil zanmitay"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
+#: src/bt-info.c:92
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Sou"
 
 #: src/bt-info.c:94
 msgid "Bluetooth"
 msgstr "Bluetooth"
+
+#: src/call-notification.c:61
+msgid "Unknown caller"
+msgstr "Moun ki rele enkoni"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -59,61 +93,76 @@ msgstr "Docked"
 msgid "Undocked"
 msgstr "Undocked"
 
-#: src/end-session-dialog.c:162
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:71
+msgid "Ok"
+msgstr "Ok"
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr "Pa kapab fè apèl ijans"
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr "Erè entèn"
+
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "Dekonekte"
 
-#: src/end-session-dialog.c:165
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
-msgstr[0] "%s ap soti otomatikman nan %d sekond."
-msgstr[1] "%s ap soti otomatikman nan %d sekond yo."
+msgstr[0] "%s pral dekonekte otomatikman nan %d segonn."
+msgstr[1] "%s pral dekonekte otomatikman nan %d segonn."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+#: src/end-session-dialog.c:182
 msgid "Power Off"
 msgstr "Fèmen"
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
-msgstr[0] "Sistèm nan pral femen otomatikman nan %d sekond."
-msgstr[1] "Sistèm nan pral femen otomatikman nan %d sekond yo."
+msgstr[0] "Sistèm nan ap koupe otomatikman nan %d segonn."
+msgstr[1] "Sistèm nan ap koupe otomatikman nan %d segonn."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "Redemare"
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
-msgstr[0] "Sistèm nan ap rekòmanse otomatikman nan %d sekond."
-msgstr[1] "Sistèm nan ap rekòmanse otomatikman nan %d sekond yo."
-
-#: src/end-session-dialog.c:269
-msgid "Unknown application"
-msgstr "Aplikasyon enkoni"
+msgstr[0] "Sistèm nan ap rekòmanse otomatikman nan %d segonn."
+msgstr[1] "Sistèm nan ap rekòmanse otomatikman nan %d segonn."
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:44
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "Trankil"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:49
+#: src/feedbackinfo.c:104
 msgid "Silent"
 msgstr "Silans"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:108
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "Sou"
 
 #: src/location-manager.c:268
 #, c-format
 msgid "Allow '%s' to access your location information?"
-msgstr "Pèmèt '%s' jwenn aksè nan enfòmasyon kote ou ye?"
+msgstr "Pèmèt '%s' jwenn aksè nan enfòmasyon kote ou a?"
 
 #: src/location-manager.c:273
 msgid "Geolocation"
@@ -127,42 +176,44 @@ msgstr "Wi"
 msgid "No"
 msgstr "Non"
 
-#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
+#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
-msgstr "Mete pas kod"
+msgstr "Antre pas kod"
 
-#: src/lockscreen.c:362
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "Ap verifye…"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:440
-msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
+#: src/screenshot-manager.c:213
+msgid "Screenshot"
+msgstr "Foto ekran"
+
+#: src/screenshot-manager.c:214
+msgid "Screenshot copied to clipboard"
+msgstr "Foto ekran kopye nan clipboard"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:182
+#: src/media-player.c:321 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Tit enkoni"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:165
+#: src/media-player.c:329 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Atis enkoni"
 
-#: src/monitor-manager.c:119
+#: src/monitor-manager.c:127
 msgid "Built-in display"
 msgstr "Montre \"Built-in\""
 
-#: src/monitor-manager.c:137
+#: src/monitor-manager.c:145
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:144
+#: src/monitor-manager.c:152
 #, fuzzy, c-format
 #| msgctxt ""
 #| "This is a monitor vendor name, followed by a size in inches, like 'Dell "
@@ -175,25 +226,25 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:153
+#: src/monitor-manager.c:161
 msgid "Unknown"
 msgstr "Enkoni"
 
-#: src/network-auth-prompt.c:201
+#: src/network-auth-prompt.c:202
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Otantifikasyon kalite rezo wifi “%s” pa sipòte"
 
-#: src/network-auth-prompt.c:206
+#: src/network-auth-prompt.c:207
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr "Mete mo sekre pou rezo wifi “%s” a"
+msgstr "Mete modpas pou rezo wifi “%s” la"
 
-#: src/notifications/mount-notification.c:122
+#: src/notifications/mount-notification.c:121
 msgid "Open"
 msgstr "Ouvri"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:405 src/notifications/notification.c:678
 msgid "Notification"
 msgstr "Notifikasyon"
 
@@ -231,37 +282,37 @@ msgstr "h"
 #: src/notifications/timestamp-label.c:94
 msgctxt "timestamp-suffix-day"
 msgid "d"
-msgstr "j"
+msgstr "d"
 
 #. Translators: Timestamp days suffix
 #: src/notifications/timestamp-label.c:96
 msgctxt "timestamp-suffix-days"
 msgid "d"
-msgstr "j"
+msgstr "d"
 
 #. Translators: Timestamp month suffix
 #: src/notifications/timestamp-label.c:98
 msgctxt "timestamp-suffix-month"
 msgid "mo"
-msgstr "mwa"
+msgstr "mo"
 
 #. Translators: Timestamp months suffix
 #: src/notifications/timestamp-label.c:100
 msgctxt "timestamp-suffix-months"
 msgid "mos"
-msgstr "mwa yo"
+msgstr "mos"
 
 #. Translators: Timestamp year suffix
 #: src/notifications/timestamp-label.c:102
 msgctxt "timestamp-suffix-year"
 msgid "y"
-msgstr "a"
+msgstr "y"
 
 #. Translators: Timestamp years suffix
 #: src/notifications/timestamp-label.c:104
 msgctxt "timestamp-suffix-years"
 msgid "y"
-msgstr "a"
+msgstr "y"
 
 #: src/notifications/timestamp-label.c:121
 msgid "now"
@@ -285,7 +336,7 @@ msgstr "Prèske %dy"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Dyalòg Otantifikasyon te ranvwaye pa itilizatè a"
 
@@ -293,112 +344,160 @@ msgstr "Dyalòg Otantifikasyon te ranvwaye pa itilizatè a"
 #: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
-msgstr "Mo sekrè:"
+msgstr "Mo de pas:"
 
 #: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Eskize, sa pa te mache. Souple eseye ankò."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "Pòtrè"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "Peyizaj"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
-msgstr "Etèn"
+msgstr "Femen"
+
+#: src/rotateinfo.c:126
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "Sou"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
 msgstr "Peze ESC pou fèmen"
 
-#: src/run-command-manager.c:94
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "Kouri '%s' echwe"
 
+#: src/settings/audio-settings.c:373
+msgid "Phone Shell Volume Control"
+msgstr "Kontwòl volim koki telefòn"
+
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
-msgstr "Mo sekrè pa mache ak."
+msgstr "Mo de pas pa matche ak."
 
 #: src/system-prompt.c:372
 msgid "Password cannot be blank"
-msgstr "Mo sekrè pa ka vid"
+msgstr "Mo de pas pa ka vid"
 
 #: src/torch-info.c:80
 msgid "Torch"
 msgstr "Flach"
 
-#: src/ui/app-auth-prompt.ui:40
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
 msgstr "Sonje desizyon"
 
-#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Anile"
 
-#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
-msgid "Ok"
-msgstr "Ok"
-
-#: src/ui/app-grid-button.ui:48
+#: src/ui/app-grid-button.ui:55
 msgid "App"
 msgstr "Aplikasyon"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
-msgstr "Retire nan _Favori yo"
+msgstr "Retire nan _sa_ou_renmen"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
-msgstr "Ajoute nan _Favori yo"
+msgstr "Ajoute nan _sa_ou_renmen"
+
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "Gade _Detay yo"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Chèche aplikasyon  yo…"
 
+#: src/ui/audio-settings.ui:84
+msgid "Output Devices"
+msgstr "Sòti Aparèy"
+
+#: src/ui/audio-settings.ui:107
+msgid "Input Devices"
+msgstr "Antre Aparèy"
+
+#: src/ui/audio-settings.ui:134
+msgid "Sound Settings"
+msgstr "Paramèt Son"
+
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "Fèmen dyalòg apèl ijans lan"
+
+#: src/ui/emergency-menu.ui:52
+msgid "Emergency _Contacts"
+msgstr "Ijans _Kontak"
+
+#: src/ui/emergency-menu.ui:59
+msgid "Go to the emergency contacts page"
+msgstr "Ale nan paj kontak ijans yo"
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr "Retounen nan paj dialpad ijans lan"
+
+#: src/ui/emergency-menu.ui:106
+msgid "Owner unknown"
+msgstr "Pwopriyetè enkoni"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Kontak Ijans"
+
+#: src/ui/emergency-menu.ui:142
+msgid "No emergency contacts available."
+msgstr "Pa gen kontak ijans ki disponib."
+
 #: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
-msgstr "Kèk aplikasyon yo okipe oswa gen travay ki pa anrejistre"
+msgstr "Gen kèk aplikasyon ki okipe oswa ki gen travay ki pa sove"
 
-#: src/ui/gtk-mount-prompt.ui:94
+#: src/ui/gtk-mount-prompt.ui:88
 msgid "User:"
 msgstr "Itilizatè:"
 
-#: src/ui/gtk-mount-prompt.ui:117
+#: src/ui/gtk-mount-prompt.ui:111
 msgid "Domain:"
 msgstr "Domèn:"
 
-#: src/ui/gtk-mount-prompt.ui:150
+#: src/ui/gtk-mount-prompt.ui:144
 msgid "Co_nnect"
 msgstr "Ko_nekte"
 
-#: src/ui/lockscreen.ui:42
+#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
+msgid "Back"
+msgstr "Retounen"
+
+#: src/ui/lockscreen.ui:97
 msgid "Slide up to unlock"
 msgstr "Monte pou debloke"
 
-#: src/ui/lockscreen.ui:320
-msgid "Emergency"
-msgstr "Ijans"
-
-#: src/ui/lockscreen.ui:336
+#: src/ui/lockscreen.ui:297
 msgid "Unlock"
 msgstr "Debloke"
-
-#: src/ui/lockscreen.ui:376
-msgid "Back"
-msgstr "Retounen"
 
 #: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Otantifikasyon obligatwa"
 
 #: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_Anile"
 
@@ -406,41 +505,287 @@ msgstr "_Anile"
 msgid "C_onnect"
 msgstr "K_onekte"
 
-#: src/ui/polkit-auth-prompt.ui:122
+#: src/ui/polkit-auth-prompt.ui:117
 msgid "Authenticate"
 msgstr "Otantifye"
 
+#: src/ui/power-menu.ui:69
+msgid "_Power Off"
+msgstr "_Fèmen"
+
+#: src/ui/power-menu.ui:110
+msgid "_Lock"
+msgstr "_Bloke"
+
+#: src/ui/power-menu.ui:151
+msgid "_Screenshot"
+msgstr "_Foto ekrn"
+
+#: src/ui/power-menu.ui:192
+msgid "_Emergency"
+msgstr "_Ijans"
+
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
-msgstr "Kouri komand"
+msgstr "Kouri Kòmand"
 
-#: src/ui/system-prompt.ui:62
+#: src/ui/settings.ui:296
+msgid "No notifications"
+msgstr "Pa gen notifikasyon"
+
+#: src/ui/settings.ui:336
+msgid "Clear all"
+msgstr "Efase tout"
+
+#: src/ui/system-prompt.ui:57
 msgid "Confirm:"
 msgstr "Konfime:"
 
-#: src/ui/top-panel.ui:15
-msgid "Lock Screen"
-msgstr "Bloke ekran"
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "_Fèmen…"
 
-#: src/ui/top-panel.ui:22
-msgid "Logout"
-msgstr "Dekonekte"
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "_Redemare…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_Sispan…"
+
+#: src/ui/top-panel.ui:116
+msgid "_Log Out…"
+msgstr "_Dekonekte…"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:343
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
 
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Pa jwenn Plugin"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Plugin '%s' pa te kapab chaje."
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:172
+#: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Selilè"
 
+#: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+msgid "Personal Information"
+msgstr "Enfomasyon pèsonèl"
+
+#: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+msgid "Date of Birth"
+msgstr "Dat nesans"
+
+#: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+msgid "Preferred Language"
+msgstr "Lang Prefere"
+
+#: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+msgid "Home Address"
+msgstr "Adrès lakay"
+
+#: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+msgid "Medical Information"
+msgstr "Enfòmasyon Medikal"
+
+#: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+msgid "Age"
+msgstr "Laj"
+
+#: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+msgid "Blood Type"
+msgstr "Tip San"
+
+#: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+msgid "Height"
+msgstr "Wotè"
+
+#: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+msgid "Weight"
+msgstr "Pwa"
+
+#: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+msgid "Allergies"
+msgstr "Alèji"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "Medikaman ak Kondisyon"
+
+#: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+msgid "Other Information"
+msgstr "Lòt enfòmasyon"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "Preferans Enfòmasyon pou Ijans"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "Fè"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "Non Pwopriyetè"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "Medikaman ak Kondisyon yo"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "Ajoute Kontak"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "Ajoute nouvo kontak"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "Ajoute"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
+msgid "New Contact Name"
+msgstr "Nouvo non kontak"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
+msgid "Relationship"
+msgstr "Relasyon"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
+msgid "Number"
+msgstr "Nimewo"
+
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Bwat lansw"
+
+#: plugins/launcher-box/launcher-box.ui:15
+msgid "No launchers configured"
+msgstr "Pa gen lanse te konfigire"
+
+#: plugins/launcher-box/launcher-box.ui:32
+msgid "Launchers"
+msgstr "Lansè"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Pa gen dokiman pou montre"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Tikè"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+msgid "Choose Folder"
+msgstr "Chwazi Dosye"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+msgid "_Open"
+msgstr "_Ouvri"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "Preferans Bwat Tikè"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "Chemen yo"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "Paramèt Dosye"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "Ki kote Phosh ap chèche tikè ou yo"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr "Tikè Dosye"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Jodia"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Demen"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "Nan %d jou"
+msgstr[1] "Nan %d jou yo"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Pa gen evènman"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "Pa gen evènman"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Tout jou"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Fini"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Evènman san tit"
+
+#, c-format
 #~ msgctxt ""
 #~ "This is a monitor vendor name followed by product/model name where size "
 #~ "ininches could not be calculated, e.g. Dell U2414H"
 #~ msgid "%s %sn"
 #~ msgstr "%s %sn"
+
+#~ msgid "Lock Screen"
+#~ msgstr "Bloke ekran"
+
+#~ msgid "Logout"
+#~ msgstr "Dekonekte"
