@@ -6,17 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: https://source.puri.sm/Librem5/phosh/issues\n"
-"POT-Creation-Date: 2021-02-07 15:30+0000\n"
-"PO-Revision-Date: 2021-02-21 17:28-0500\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2022-01-20 19:23+0000\n"
+"PO-Revision-Date: 2022-03-01 19:03-0500\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: ht_HT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
-"Last-Translator: \n"
+"X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: ht_HT\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4
@@ -31,11 +31,19 @@ msgstr "Shell Telefòn"
 msgid "Window management and application launching for mobile"
 msgstr "Jesyon fenèt ak lansman aplikasyon pou mobil"
 
-#: src/app-grid-button.c:536
+#: src/app-grid-button.c:502
 msgid "Application"
 msgstr "Aplikasyon"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "Montre tout Aplikasyon yo"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Montre selman Aplikasyon ki pou Mobil"
+
+#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
 msgid "On"
 msgstr "Sou"
 
@@ -47,9 +55,46 @@ msgstr "Bluetooth"
 msgid "Docked"
 msgstr "Docked"
 
-#: src/docked-info.c:81 src/docked-info.c:195
+#: src/docked-info.c:81 src/docked-info.c:199
 msgid "Undocked"
 msgstr "Undocked"
+
+#: src/end-session-dialog.c:162
+msgid "Log Out"
+msgstr "Dekonekte"
+
+#: src/end-session-dialog.c:165
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] "%s ap soti otomatikman nan %d sekond."
+msgstr[1] "%s ap soti otomatikman nan %d sekond yo."
+
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
+msgid "Power Off"
+msgstr "Fèmen"
+
+#: src/end-session-dialog.c:172
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "Sistèm nan pral femen otomatikman nan %d sekond."
+msgstr[1] "Sistèm nan pral femen otomatikman nan %d sekond yo."
+
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
+msgid "Restart"
+msgstr "Redemare"
+
+#: src/end-session-dialog.c:179
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "Sistèm nan ap rekòmanse otomatikman nan %d sekond."
+msgstr[1] "Sistèm nan ap rekòmanse otomatikman nan %d sekond yo."
+
+#: src/end-session-dialog.c:269
+msgid "Unknown application"
+msgstr "Aplikasyon enkoni"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -65,69 +110,90 @@ msgstr "Trankil"
 msgid "Silent"
 msgstr "Silans"
 
-#: src/lockscreen.c:85 src/ui/lockscreen.ui:234
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "Pèmèt '%s' jwenn aksè nan enfòmasyon kote ou ye?"
+
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "Jeolokalizasyon"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "Wi"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "Non"
+
+#: src/lockscreen.c:162 src/ui/lockscreen.ui:270
 msgid "Enter Passcode"
 msgstr "Mete pas kod"
 
-#: src/lockscreen.c:264
+#: src/lockscreen.c:362
 msgid "Checking…"
 msgstr "Ap verifye…"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/lockscreen.c:342
+#: src/lockscreen.c:440
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:277 src/ui/media-player.ui:107
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "Tit enkoni"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:286 src/ui/media-player.ui:127
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "Atis enkoni"
 
-#: src/monitor-manager.c:108
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "Montre \"Built-in\""
 
-#: src/monitor-manager.c:126
+#: src/monitor-manager.c:137
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:133
-#, c-format
+#: src/monitor-manager.c:144
+#, fuzzy, c-format
+#| msgctxt ""
+#| "This is a monitor vendor name, followed by a size in inches, like 'Dell "
+#| "15\"'"
+#| msgid "%s %s"
 msgctxt ""
-"This is a monitor vendor name followed by product/model name where size in"
+"This is a monitor vendor name followed by product/model name where size in "
 "inches could not be calculated, e.g. Dell U2414H"
-msgid "%s %sn"
-msgstr "%s %sn"
+msgid "%s %s"
+msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:142
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Enkoni"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Otantifikasyon kalite rezo wifi “%s” pa sipòte"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
-msgstr "Mete modpas pou rezo wifi “%s” la"
+msgstr "Mete mo sekre pou rezo wifi “%s” a"
 
-#: src/notifications/mount-notification.c:137
+#: src/notifications/mount-notification.c:122
 msgid "Open"
 msgstr "Ouvri"
 
-#: src/notifications/notification.c:381 src/notifications/notification.c:637
+#: src/notifications/notification.c:383 src/notifications/notification.c:639
 msgid "Notification"
 msgstr "Notifikasyon"
 
@@ -165,37 +231,37 @@ msgstr "h"
 #: src/notifications/timestamp-label.c:94
 msgctxt "timestamp-suffix-day"
 msgid "d"
-msgstr "d"
+msgstr "j"
 
 #. Translators: Timestamp days suffix
 #: src/notifications/timestamp-label.c:96
 msgctxt "timestamp-suffix-days"
 msgid "d"
-msgstr "d"
+msgstr "j"
 
 #. Translators: Timestamp month suffix
 #: src/notifications/timestamp-label.c:98
 msgctxt "timestamp-suffix-month"
 msgid "mo"
-msgstr "mo"
+msgstr "mwa"
 
 #. Translators: Timestamp months suffix
 #: src/notifications/timestamp-label.c:100
 msgctxt "timestamp-suffix-months"
 msgid "mos"
-msgstr "mos"
+msgstr "mwa yo"
 
 #. Translators: Timestamp year suffix
 #: src/notifications/timestamp-label.c:102
 msgctxt "timestamp-suffix-year"
 msgid "y"
-msgstr "y"
+msgstr "a"
 
 #. Translators: Timestamp years suffix
 #: src/notifications/timestamp-label.c:104
 msgctxt "timestamp-suffix-years"
 msgid "y"
-msgstr "y"
+msgstr "a"
 
 #: src/notifications/timestamp-label.c:121
 msgid "now"
@@ -219,84 +285,136 @@ msgstr "Prèske %dy"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:225
+#: src/polkit-auth-agent.c:228
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Dyalòg Otantifikasyon te ranvwaye pa itilizatè a"
 
-#: src/polkit-auth-prompt.c:278 src/ui/network-auth-prompt.ui:127
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
-msgstr "Mo de pas:"
+msgstr "Mo sekrè:"
 
 #: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Eskize, sa pa te mache. Souple eseye ankò."
 
-#: src/polkit-auth-prompt.c:470
-msgid "Authenticate"
-msgstr "Otantifye"
-
-#: src/rotateinfo.c:65
+#: src/rotateinfo.c:81
 msgid "Portrait"
 msgstr "Pòtrè"
 
-#: src/rotateinfo.c:68
+#: src/rotateinfo.c:84
 msgid "Landscape"
 msgstr "Peyizaj"
 
-#: src/system-prompt.c:375
-msgid "Passwords do not match."
-msgstr "Mo de pas pa matche ak."
+#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
+#. Translators: Automatic screen orientation is off (locked/disabled)
+#: src/rotateinfo.c:103 src/rotateinfo.c:186
+msgid "Off"
+msgstr "Etèn"
 
-#: src/system-prompt.c:382
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Peze ESC pou fèmen"
+
+#: src/run-command-manager.c:94
+#, c-format
+msgid "Running '%s' failed"
+msgstr "Kouri '%s' echwe"
+
+#: src/system-prompt.c:365
+msgid "Passwords do not match."
+msgstr "Mo sekrè pa mache ak."
+
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
-msgstr "Mo de pas pa ka vid"
+msgstr "Mo sekrè pa ka vid"
 
 #: src/torch-info.c:80
 msgid "Torch"
 msgstr "Flach"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-auth-prompt.ui:40
+msgid "Remember decision"
+msgstr "Sonje desizyon"
+
+#: src/ui/app-auth-prompt.ui:53 src/ui/end-session-dialog.ui:53
+msgid "Cancel"
+msgstr "Anile"
+
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+msgid "Ok"
+msgstr "Ok"
+
+#: src/ui/app-grid-button.ui:48
 msgid "App"
 msgstr "Aplikasyon"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:75
 msgid "Remove from _Favorites"
-msgstr "Retire nan _sa_ou_renmen"
+msgstr "Retire nan _Favori yo"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:80
 msgid "Add to _Favorites"
-msgstr "Ajoute nan _sa_ou_renmen"
+msgstr "Ajoute nan _Favori yo"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
 msgstr "Chèche aplikasyon  yo…"
 
-#: src/ui/lockscreen.ui:37
-msgid "Slide up to unlock"
-msgstr "Monte pou debloke"
+#: src/ui/end-session-dialog.ui:31
+msgid "Some applications are busy or have unsaved work"
+msgstr "Kèk aplikasyon yo okipe oswa gen travay ki pa anrejistre"
 
-#: src/ui/lockscreen.ui:280
-msgid "Emergency"
-msgstr "Ijans"
-
-#: src/ui/lockscreen.ui:296
-msgid "Unlock"
-msgstr "Debloke"
-
-#: src/ui/network-auth-prompt.ui:89
-msgid "_Cancel"
-msgstr "_Anile"
-
-#: src/ui/network-auth-prompt.ui:105
-msgid "C_onnect"
-msgstr "K_onekte"
-
-#: src/ui/polkit-auth-prompt.ui:105
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Itilizatè:"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/gtk-mount-prompt.ui:117
+msgid "Domain:"
+msgstr "Domèn:"
+
+#: src/ui/gtk-mount-prompt.ui:150
+msgid "Co_nnect"
+msgstr "Ko_nekte"
+
+#: src/ui/lockscreen.ui:42
+msgid "Slide up to unlock"
+msgstr "Monte pou debloke"
+
+#: src/ui/lockscreen.ui:320
+msgid "Emergency"
+msgstr "Ijans"
+
+#: src/ui/lockscreen.ui:336
+msgid "Unlock"
+msgstr "Debloke"
+
+#: src/ui/lockscreen.ui:376
+msgid "Back"
+msgstr "Retounen"
+
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+msgid "Authentication required"
+msgstr "Otantifikasyon obligatwa"
+
+#: src/ui/network-auth-prompt.ui:40
+msgid "_Cancel"
+msgstr "_Anile"
+
+#: src/ui/network-auth-prompt.ui:58
+msgid "C_onnect"
+msgstr "K_onekte"
+
+#: src/ui/polkit-auth-prompt.ui:122
+msgid "Authenticate"
+msgstr "Otantifye"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Kouri komand"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Konfime:"
 
@@ -308,19 +426,21 @@ msgstr "Bloke ekran"
 msgid "Logout"
 msgstr "Dekonekte"
 
-#: src/ui/top-panel.ui:29
-msgid "Restart"
-msgstr "Redemare"
-
-#: src/ui/top-panel.ui:36
-msgid "Power Off"
-msgstr "Fèmen"
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:170
+#: src/wwaninfo.c:172
 msgid "Cellular"
 msgstr "Selilè"
+
+#~ msgctxt ""
+#~ "This is a monitor vendor name followed by product/model name where size "
+#~ "ininches could not be calculated, e.g. Dell U2414H"
+#~ msgid "%s %sn"
+#~ msgstr "%s %sn"
