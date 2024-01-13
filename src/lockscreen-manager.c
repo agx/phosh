@@ -123,6 +123,11 @@ static void
 remove_shield_by_monitor (PhoshLockscreenManager *self,
                           PhoshMonitor           *monitor)
 {
+  if (!self->shields) {
+    g_debug ("Shields already gone");
+    return;
+  }
+
   for (int i = 0; i < self->shields->len; i++) {
     PhoshMonitor *shield_monitor;
     PhoshLockshield *shield = g_ptr_array_index (self->shields, i);
