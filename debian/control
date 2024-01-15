@@ -58,6 +58,7 @@ Depends:
  fonts-lato,
  gnome-shell-common,
  gsettings-desktop-schemas,
+ libcap2-bin,
  phoc (>= 0.33.0),
 Recommends:
  feedbackd,
