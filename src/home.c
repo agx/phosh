@@ -24,6 +24,8 @@
 #define KEYBINDING_KEY_TOGGLE_OVERVIEW "toggle-overview"
 #define KEYBINDING_KEY_TOGGLE_APPLICATION_VIEW "toggle-application-view"
 
+#define PHOSH_SETTINGS "sm.puri.phosh"
+
 #define PHOSH_HOME_DRAG_THRESHOLD 0.3
 
 #define POWERBAR_ACTIVE_CLASS "p-active"
@@ -62,7 +64,6 @@ struct _PhoshHome
   GtkWidget *arrow_home;
   GtkWidget *overview;
   GtkWidget *powerbar;
-  PhoshOskManager *osk;
   GtkWidget *stack;
 
   guint      debounce_handle;
@@ -79,6 +80,7 @@ struct _PhoshHome
 
   GtkGesture     *click_gesture; /* needed so that the gesture isn't destroyed immediately */
   GtkGesture     *osk_toggle_long_press; /* to toggle osk from the home bar itself */
+  GSettings      *phosh_settings;
 
 };
 G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_DRAG_SURFACE);
@@ -252,16 +254,17 @@ on_powerbar_action_failed (PhoshHome *self)
 
 
 static void
-on_powerbar_pressed (PhoshHome *self, PhoshOskManager *osk, PhoshShell *shell)
+on_powerbar_pressed (PhoshHome *self)
 {
+  PhoshOskManager *osk;
   gboolean osk_is_available, osk_current_state, osk_new_state;
 
   g_return_if_fail (PHOSH_IS_HOME (self));
-  shell = phosh_shell_get_default ();
-  self->osk = phosh_shell_get_osk_manager (shell);
 
-  osk_is_available = phosh_osk_manager_get_available (self->osk);
-  osk_current_state = phosh_osk_manager_get_visible (self->osk);
+  osk = phosh_shell_get_osk_manager (phosh_shell_get_default ());
+
+  osk_is_available = phosh_osk_manager_get_available (osk);
+  osk_current_state = phosh_osk_manager_get_visible (osk);
   osk_new_state = osk_current_state;
 
   gtk_gesture_set_state ((self->click_gesture), GTK_EVENT_SEQUENCE_DENIED);
@@ -278,7 +281,7 @@ on_powerbar_pressed (PhoshHome *self, PhoshOskManager *osk, PhoshShell *shell)
     g_signal_emit (self, signals[OSK_ACTIVATED], 0);
 
   g_debug ("OSK toggled with pressed signal");
-  phosh_osk_manager_set_visible (self->osk, osk_new_state);
+  phosh_osk_manager_set_visible (osk, osk_new_state);
 
   phosh_trigger_feedback ("button-pressed");
 }
@@ -604,15 +607,22 @@ phosh_home_class_init (PhoshHomeClass *klass)
 static void
 phosh_home_init (PhoshHome *self)
 {
-  self->state = PHOSH_HOME_STATE_FOLDED;
-  self->settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
+  g_autoptr (GSettings) settings = NULL;
 
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  self->state = PHOSH_HOME_STATE_FOLDED;
+  self->settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
 
   phosh_home_update_home_bar (self);
 
   /* Adjust margins and folded state on size changes */
   g_signal_connect (self, "configure-event", G_CALLBACK (on_configure_event), NULL);
+
+  settings = g_settings_new (PHOSH_SETTINGS);
+  g_settings_bind (settings, "osk-unfold-delay",
+                   self->osk_toggle_long_press, "delay-factor",
+                   G_SETTINGS_BIND_GET);
 }
 
 

@@ -13,6 +13,7 @@
         displayed in the favorites panel along with running applications.
       </description>
     </key>
+
     <key name="app-filter-mode" flags="sm.puri.phosh.PhoshAppFilterModeFlags">
       <default>['adaptive']</default>
       <summary>
@@ -24,6 +25,7 @@
         Whether to filter out apps that aren't marked as adaptive in mobile mode.
       </description>
     </key>
+
     <key name="force-adaptive" type="as">
       <default>[]</default>
       <summary>
@@ -36,6 +38,7 @@
 	lists touch capable apps that adapt to small screen sizes.
       </description>
     </key>
+
     <key name="wwan-backend" enum="sm.puri.phosh.PhoshWWanBackend">
       <default>'modemmanager'</default>
       <summary>Which backend to use for interfacing with the cellular modem</summary>
@@ -45,6 +48,7 @@
         shell restart is required after changing it.
       </description>
     </key>
+
     <key name="automatic-high-contrast" type="b">
       <default>false</default>
       <summary>Whether to switch to HighContrast theme in high brightness conditions</summary>
@@ -53,6 +57,7 @@
         night levels.
       </description>
     </key>
+
     <key name="automatic-high-contrast-threshold" type="u">
       <default>500</default>
       <summary>The light level (in Lux) to switch to HighContrast theme</summary>
@@ -61,6 +66,7 @@
       </description>
     </key>
     <key name="enable-suspend" type="b">
+
       <default>false</default>
       <summary>Whether to enable suspend from the power menu</summary>
       <description>
@@ -77,6 +83,17 @@
         UI elements in order to not overlap with notches and cutouts.
       </description>
     </key>
+
+    <key name="osk-unfold-delay" type="d">
+      <default>1.0</default>
+      <summary>OSK unfold long press delay factor</summary>
+      <description>
+        Delay factor for long press on the home bar to unfold the keyboard.
+        Valid values are [0.5,2.0]. Values less than 1.0 make the unfold trigger
+        sooner, greater than 1.0 make the unfold trigger later.
+      </description>
+    </key>
+
   </schema>
 
   <schema id="sm.puri.phosh.emergency-calls"
@@ -98,7 +115,7 @@
       <summary>Whether to scramble the keypad</summary>
       <description>
         Setting this to true shuffle the digits on the PIN keypad to
-        make eaveysdropping harder.
+        make eavesdropping harder.
       </description>
     </key>
   </schema>
