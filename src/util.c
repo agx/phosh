@@ -579,3 +579,32 @@ phosh_clear_fd (int *fd, GError **err)
 
   return success;
 }
+
+/**
+ * phosh_util_get_icon_by_wifi_strength:
+ * @strength: An integer representing the strength of Wi-Fi
+ * @is_connecting: If we are trying to connect to Wi-Fi
+ *
+ * Returns: The name of the icon based on the signal strength. If @is_connecting is @TRUE, then it
+ * returns a loading icon.
+ */
+const char *
+phosh_util_get_icon_by_wifi_strength (guint strength, gboolean is_connecting)
+{
+  const char *icon_name;
+
+  if (is_connecting)
+    icon_name = "network-wireless-acquiring-symbolic";
+  else if (strength > 80)
+    icon_name = "network-wireless-signal-excellent-symbolic";
+  else if (strength > 55)
+    icon_name = "network-wireless-signal-good-symbolic";
+  else if (strength > 30)
+    icon_name = "network-wireless-signal-ok-symbolic";
+  else if (strength > 5)
+    icon_name = "network-wireless-signal-weak-symbolic";
+  else
+    icon_name = "network-wireless-signal-none-symbolic";
+
+  return icon_name;
+}
