@@ -17,7 +17,6 @@ wl_protos = [
   ['virtual-keyboard-unstable-v1.xml'],
   ['wlr-foreign-toplevel-management-unstable-v1.xml'],
   ['wlr-gamma-control-unstable-v1.xml'],
-  ['wlr-input-inhibitor-unstable-v1.xml'],
   ['wlr-layer-shell-unstable-v1.xml'],
   ['wlr-output-management-unstable-v1.xml'],
   ['wlr-output-power-management-unstable-v1.xml'],

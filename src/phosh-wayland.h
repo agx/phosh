@@ -12,7 +12,6 @@
 #include "phoc-device-state-unstable-v1-client-protocol.h"
 #include "phoc-layer-shell-effects-unstable-v1-client-protocol.h"
 #include "wlr-foreign-toplevel-management-unstable-v1-client-protocol.h"
-#include "wlr-input-inhibitor-unstable-v1-client-protocol.h"
 #include "wlr-layer-shell-unstable-v1-client-protocol.h"
 #include "wlr-gamma-control-unstable-v1-client-protocol.h"
 #include "wlr-output-management-unstable-v1-client-protocol.h"
@@ -67,7 +66,6 @@ struct wl_seat                       *phosh_wayland_get_wl_seat (PhoshWayland *s
 struct wl_shm                        *phosh_wayland_get_wl_shm (PhoshWayland *self);
 struct xdg_wm_base                   *phosh_wayland_get_xdg_wm_base (PhoshWayland *self);
 struct zwlr_foreign_toplevel_manager_v1 *phosh_wayland_get_zwlr_foreign_toplevel_manager_v1 (PhoshWayland *self);
-struct zwlr_input_inhibit_manager_v1 *phosh_wayland_get_zwlr_input_inhibit_manager_v1 (PhoshWayland *self);
 struct zwlr_layer_shell_v1           *phosh_wayland_get_zwlr_layer_shell_v1 (PhoshWayland *self);
 struct zwlr_gamma_control_manager_v1 *phosh_wayland_get_zwlr_gamma_control_manager_v1 (PhoshWayland *self);
 struct zwlr_output_manager_v1        *phosh_wayland_get_zwlr_output_manager_v1 (PhoshWayland *self);
