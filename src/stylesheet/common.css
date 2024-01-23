@@ -2,7 +2,7 @@
  * Top panel and bar
  */
 phosh-top-panel {
-  font: 15px Cantarell;
+  font-size: 15px;
 }
 
 #top-bar {
