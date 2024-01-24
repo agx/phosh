@@ -162,6 +162,10 @@ test_shell_new_two_outputs (PhoshTestCompositorFixture *fixture, gconstpointer u
   mm = phosh_shell_get_monitor_manager (shell);
   g_assert_cmpint (phosh_monitor_manager_get_num_monitors (mm), ==, 2);
 
+  /* Process events to startup shell */
+  while (g_main_context_pending (NULL))
+    g_main_context_iteration (NULL, FALSE);
+
   g_idle_add (on_idle, &success);
   gtk_main ();
 
