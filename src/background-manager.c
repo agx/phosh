@@ -38,17 +38,15 @@ static PhoshBackground *
 create_background_for_monitor (PhoshBackgroundManager *self, PhoshMonitor *monitor)
 {
   PhoshWayland *wl = phosh_wayland_get_default();
-  PhoshBackground *background;
+  GtkWidget *background;
 
-  background = g_object_ref_sink(PHOSH_BACKGROUND (phosh_background_new (
-                                                     phosh_wayland_get_zwlr_layer_shell_v1(wl),
-                                                     monitor->wl_output,
-                                                     MAX(1.0, phosh_monitor_get_fractional_scale (monitor)),
-                                                     monitor == self->primary_monitor)));
-  g_hash_table_insert (self->backgrounds,
-                       g_object_ref (monitor),
-                       background);
-  return background;
+  background = phosh_background_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
+                                     monitor->wl_output,
+                                     MAX(1.0, phosh_monitor_get_fractional_scale (monitor)),
+                                     monitor == self->primary_monitor);
+  g_hash_table_insert (self->backgrounds, g_object_ref (monitor), background);
+
+  return PHOSH_BACKGROUND (background);
 }
 
 

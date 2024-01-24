@@ -333,6 +333,7 @@ load_image(PhoshBackground *self, const gchar *uri)
 
   self->cancel = g_cancellable_new ();
   g_debug ("loading %s", uri);
+  /* FIXME: do this in a thread */
   gdk_pixbuf_new_from_stream_async (stream,
                                     self->cancel,
                                     (GAsyncReadyCallback)on_pixbuf_loaded,
