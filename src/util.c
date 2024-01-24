@@ -608,3 +608,24 @@ phosh_util_get_icon_by_wifi_strength (guint strength, gboolean is_connecting)
 
   return icon_name;
 }
+
+/*
+ * phosh_util_file_equal:
+ * @file1: the first `GFile`
+ * @file2: the second `GFile`
+ *
+ * Like `g_file_equal` but handles `NULL` gracefully.
+ *
+ * Returns: `TRUE` if both files are equal, otherwise `FALSE`
+ */
+gboolean
+phosh_util_file_equal (GFile *file1, GFile *file2)
+{
+  if (file1 == NULL && file2 == NULL)
+    return TRUE;
+
+  if (file1 != NULL && file2 != NULL && g_file_equal (file1, file2))
+    return TRUE;
+
+  return FALSE;
+}

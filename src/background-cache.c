@@ -144,10 +144,13 @@ phosh_background_cache_fetch_background (PhoshBackgroundCache *self,
   g_return_if_fail (cancel == NULL || G_IS_CANCELLABLE (cancel));
 
   image = g_hash_table_lookup (self->background_images, file);
-  if (image)
+  if (image) {
+    g_debug ("Background cache hit for %s", g_file_peek_path (file));
     g_signal_emit (self, signals[IMAGE_PRESENT], 0, image);
-  else
+  } else {
+    g_debug ("Background cache miss for %s", g_file_peek_path (file));
     phosh_background_image_new (file, cancel, on_background_image_loaded, self);
+  }
 }
 
 /**
@@ -171,5 +174,8 @@ phosh_background_cache_lookup_background (PhoshBackgroundCache *self, GFile *fil
 void
 phosh_background_cache_clear_all (PhoshBackgroundCache *self)
 {
+  g_return_if_fail (PHOSH_IS_BACKGROUND_CACHE (self));
+
+  g_debug ("Clearing background image cache");
   g_hash_table_remove_all (self->background_images);
 }
