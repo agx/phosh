@@ -994,6 +994,10 @@ on_monitor_configured (PhoshMonitorManager *self, PhoshMonitor *monitor)
                             self);
 
   phosh_monitor_manager_set_night_light_supported (self);
+
+  /* Update night light */
+  if (self->night_light_temp > 0 && phosh_monitor_has_gamma (monitor))
+    phosh_monitor_set_color_temp (monitor, self->night_light_temp);
 }
 
 
