@@ -133,7 +133,7 @@ registry_handle_global (void *data,
       registry,
       name,
       &zxdg_output_manager_v1_interface,
-      2);
+      3);
   } else if (!strcmp (interface, zwlr_output_manager_v1_interface.name)) {
     self->zwlr_output_manager_v1 = wl_registry_bind(
       registry,
