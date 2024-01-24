@@ -82,6 +82,8 @@ libphosh_tool_sources = files(
   'app-list-model.h',
   'auth-prompt-option.c',
   'auth-prompt-option.h',
+  'background-image.c',
+  'background-image.h',
   'background.c',
   'background.h',
   'bidi.c',
