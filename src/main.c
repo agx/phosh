@@ -79,7 +79,7 @@ static void
 on_shell_ready (PhoshShell *shell, GTimer *timer)
 {
   g_timer_stop (timer);
-  g_debug ("Phosh ready after %.2fs", g_timer_elapsed (timer, NULL));
+  g_message ("Phosh ready after %.2fs", g_timer_elapsed (timer, NULL));
 
   /* Inform systemd we're up */
   sd_notify (0, "READY=1");
