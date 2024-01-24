@@ -11,6 +11,7 @@
 #include "shell.h"
 
 static PhoshToplevelManager *toplevel_manager = NULL;
+static PhoshBackgroundManager *background_manager = NULL;
 static GObject *shell = NULL;
 
 PhoshShell *
@@ -90,6 +91,17 @@ phosh_shell_get_lockscreen_manager (PhoshShell *self)
 {
   return NULL;
 }
+
+
+PhoshBackgroundManager *
+phosh_shell_get_background_manager (PhoshShell *self)
+{
+  if (background_manager == NULL)
+    background_manager = g_object_new (PHOSH_TYPE_BACKGROUND_MANAGER, NULL);
+
+  return background_manager;
+}
+
 
 gboolean
 phosh_shell_get_blanked (PhoshShell *self)
