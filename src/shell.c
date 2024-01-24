@@ -780,9 +780,8 @@ setup_idle_cb (PhoshShell *self)
 
   setup_primary_monitor_signal_handlers (self);
 
-  /* Delay signaling the compositor a bit so that idle handlers get a
-   * chance to run and the user has can unlock right away. Ideally
-   * we'd not need this */
+  /* Delay signaling to the compositor a bit so that idle handlers get a chance to run and
+     the user can unlock right away. Ideally we'd not need this */
   priv->startup_finished_id = g_timeout_add_seconds (1, (GSourceFunc)on_startup_finished, self);
   g_source_set_name_by_id (priv->startup_finished_id, "[PhoshShell] startup finished");
 
