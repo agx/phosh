@@ -82,12 +82,15 @@ animation_done_idle_cb (PhoshSwipeAwayBin *self)
 static void
 animation_done_cb (PhoshSwipeAwayBin *self)
 {
+  guint id;
+
   g_clear_pointer (&self->animation, phosh_animation_unref);
 
   if (ABS (self->progress) < 1)
     return;
 
-  g_idle_add ((GSourceFunc) animation_done_idle_cb, self);
+  id = g_idle_add ((GSourceFunc) animation_done_idle_cb, self);
+  g_source_set_name_by_id (id, "[SwipeAwayBin] idle");
 }
 
 
