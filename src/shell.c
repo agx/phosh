@@ -1349,7 +1349,7 @@ phosh_shell_get_builtin_monitor (PhoshShell *self)
  * phosh_shell_get_primary_monitor:
  * @self: The shell
  *
- * Returns: the primary monitor or %NULL if there currently are no outputs
+ * Returns:(transfer none)(nullable): the primary monitor or %NULL if there currently are no outputs
  */
 PhoshMonitor *
 phosh_shell_get_primary_monitor (PhoshShell *self)
