@@ -63,8 +63,10 @@ phosh_manager_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_manager_parent_class)->constructed (object);
 
-  if (klass->idle_init)
+  if (klass->idle_init) {
     priv->idle_id = g_idle_add ((GSourceFunc) on_idle, self);
+    g_source_set_name_by_id (priv->idle_id, "[PhoshManager] idle");
+  }
 }
 
 
