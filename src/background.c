@@ -47,7 +47,6 @@
 enum {
   PROP_0,
   PROP_PRIMARY,
-  PROP_SCALE,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -69,7 +68,6 @@ struct _PhoshBackground
 
   /* The monitor backed by PhoshBackground */
   gboolean                 primary;
-  float                    scale;
   gboolean                 configured;
 };
 
@@ -97,9 +95,6 @@ phosh_background_set_property (GObject      *object,
   case PROP_PRIMARY:
     phosh_background_set_primary (self, g_value_get_boolean (value));
     break;
-  case PROP_SCALE:
-    phosh_background_set_scale (self, g_value_get_float (value));
-    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -118,9 +113,6 @@ phosh_background_get_property (GObject    *object,
   switch (property_id) {
   case PROP_PRIMARY:
     g_value_set_boolean (value, self->primary);
-    break;
-  case PROP_SCALE:
-    g_value_set_float (value, self->scale);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -269,8 +261,7 @@ phosh_background_draw (GtkWidget *widget, cairo_t *cr)
     phosh_shell_get_usable_area (phosh_shell_get_default (), &x, &y, NULL, NULL);
 
   cairo_save (cr);
-  cairo_scale (cr, 1.0 / self->scale, 1.0 / self->scale);
-  gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x * self->scale, y * self->scale);
+  gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x, y);
   cairo_paint (cr);
   cairo_restore (cr);
 
@@ -288,10 +279,10 @@ update_image (PhoshBackground *self)
   else
     g_object_get (self, "configured-width", &width, "configured-height", &height, NULL);
 
-  g_debug ("Scaling %p to %dx%d, scale %f", self, width, height, self->scale);
+  g_debug ("Scaling %p to %dx%d", self, width, height);
 
   g_clear_object (&self->pixbuf);
-  self->pixbuf = image_background (self->cached_bg_image, width * self->scale, height * self->scale,
+  self->pixbuf = image_background (self->cached_bg_image, width, height,
                                    self->style, &self->color);
 
   self->needs_update = FALSE;
@@ -395,17 +386,6 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
                           G_PARAM_STATIC_STRINGS |
                           G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_CONSTRUCT);
-  props[PROP_SCALE] =
-    g_param_spec_float ("scale",
-                        "Scale",
-                        "The output scale",
-                        1.0,
-                        G_MAXFLOAT,
-                        1.0,
-                        G_PARAM_READWRITE |
-                        G_PARAM_STATIC_STRINGS |
-                        G_PARAM_EXPLICIT_NOTIFY |
-                        G_PARAM_CONSTRUCT);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
@@ -414,8 +394,6 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
 static void
 phosh_background_init (PhoshBackground *self)
 {
-  self->scale = 1;
-
   g_signal_connect_object (phosh_background_cache_get_default (),
                            "image-present",
                            G_CALLBACK (on_background_image_present),
@@ -427,7 +405,6 @@ phosh_background_init (PhoshBackground *self)
 GtkWidget *
 phosh_background_new (gpointer     layer_shell,
                       PhoshMonitor *monitor,
-                      float        scale,
                       gboolean     primary)
 {
   return g_object_new (PHOSH_TYPE_BACKGROUND,
@@ -441,7 +418,6 @@ phosh_background_new (gpointer     layer_shell,
                        "kbd-interactivity", FALSE,
                        "exclusive-zone", -1,
                        "namespace", "phosh background",
-                       "scale", scale,
                        "primary", primary,
                        NULL);
 }
@@ -459,29 +435,6 @@ phosh_background_set_primary (PhoshBackground *self, gboolean primary)
 
   trigger_update (self);
 }
-
-
-float
-phosh_background_get_scale (PhoshBackground *self)
-{
-  g_return_val_if_fail (PHOSH_IS_BACKGROUND (self), 1.0);
-
-  return self->scale;
-}
-
-
-void
-phosh_background_set_scale (PhoshBackground *self, float scale)
-{
-  if ((int)(self->scale * 1000) == (int)(scale * 1000))
-    return;
-
-  self->scale = scale;
-
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SCALE]);
-  trigger_update (self);
-}
-
 
 /**
  * phosh_background_needs_update:

@@ -182,7 +182,6 @@ create_background_for_monitor (PhoshBackgroundManager *self, PhoshMonitor *monit
 
   background = phosh_background_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                      monitor,
-                                     MAX (1.0, phosh_monitor_get_fractional_scale (monitor)),
                                      monitor == self->primary_monitor);
   return PHOSH_BACKGROUND (background);
 }
@@ -398,16 +397,14 @@ phosh_background_manager_get_data (PhoshBackgroundManager *self, PhoshBackground
     gint width, height;
     gboolean fixed;
     const gchar *file1;
-    float scale;
 
-    scale = phosh_background_get_scale (background);
     width = phosh_layer_surface_get_configured_width (PHOSH_LAYER_SURFACE (background));
     height = phosh_layer_surface_get_configured_height (PHOSH_LAYER_SURFACE (background));
 
     g_assert (GNOME_BG_IS_SLIDE_SHOW (self->slideshow));
 
     /* TODO: handle actual slideshows (fixed == false) */
-    gnome_bg_slide_show_get_slide (self->slideshow, 0, width * scale, height * scale,
+    gnome_bg_slide_show_get_slide (self->slideshow, 0, width, height,
                                    NULL, NULL, &fixed, &file1, NULL);
     g_debug ("Background file: %s, fixed: %d", file1, fixed);
     if (!fixed)
