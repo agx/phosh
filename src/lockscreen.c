@@ -249,8 +249,11 @@ shake_label (GtkWidget     *widget,
   if (now > end_time) {
     /* Stop the animation only when we would step over the idle position (0.5) */
     if ((gtk_entry_get_alignment (GTK_ENTRY (priv->entry_pin)) > 0.5 && pos < 0.5) || pos > 0.5) {
+      guint id;
+
       gtk_entry_set_alignment (GTK_ENTRY (priv->entry_pin), 0.5);
-      g_timeout_add (400, (GSourceFunc) finish_shake_label, self);
+      id = g_timeout_add (400, (GSourceFunc) finish_shake_label, self);
+      g_source_set_name_by_id (id, "[PhoshLockscreen] shake label");
       return FALSE;
     }
   }
@@ -538,6 +541,7 @@ carousel_page_changed_cb (PhoshLockscreen *self,
       priv->idle_timer = g_timeout_add_seconds (LOCKSCREEN_IDLE_SECONDS,
                                                 (GSourceFunc) keypad_check_idle,
                                                 self);
+      g_source_set_name_by_id (priv->idle_timer, "[PhoshLockscreen] keypad check");
     }
   } else {
     g_assert_not_reached ();
