@@ -903,6 +903,7 @@ phosh_screen_saver_manager_constructed (GObject *object)
 
   /* Perform login1 setup when idle */
   self->idle_id = g_idle_add ((GSourceFunc)on_idle, self);
+  g_source_set_name_by_id (self->idle_id, "[PhoshScreenSaverManager] idle");
 }
 
 
