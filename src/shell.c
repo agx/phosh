@@ -1854,8 +1854,12 @@ phosh_shell_fade_out (PhoshShell *self, guint timeout)
     fader = phosh_fader_new (monitor);
     g_ptr_array_add (priv->faders, fader);
     gtk_widget_show (GTK_WIDGET (fader));
-    if (timeout > 0)
-      g_timeout_add_seconds (timeout, (GSourceFunc) on_fade_out_timeout, self);
+    if (timeout > 0) {
+      guint id;
+
+      id = g_timeout_add_seconds (timeout, (GSourceFunc) on_fade_out_timeout, self);
+      g_source_set_name_by_id (id, "[PhoshShell] fade out");
+    }
   }
 }
 
