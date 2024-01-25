@@ -784,7 +784,7 @@ setup_idle_cb (PhoshShell *self)
    * chance to run and the user has can unlock right away. Ideally
    * we'd not need this */
   priv->startup_finished_id = g_timeout_add_seconds (1, (GSourceFunc)on_startup_finished, self);
-  g_source_set_name_by_id (priv->startup_finished_id, "[phosh] startup finished");
+  g_source_set_name_by_id (priv->startup_finished_id, "[PhoshShell] startup finished");
 
   priv->startup_finished = TRUE;
   g_signal_emit (self, signals[READY], 0);
@@ -950,6 +950,7 @@ phosh_shell_constructed (GObject *object)
 {
   PhoshShell *self = PHOSH_SHELL (object);
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+  guint id;
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->constructed (object);
 
@@ -1013,7 +1014,8 @@ phosh_shell_constructed (GObject *object)
   priv->feedback_manager = phosh_feedback_manager_new ();
   priv->keyboard_events = phosh_keyboard_events_new ();
 
-  g_idle_add ((GSourceFunc) setup_idle_cb, self);
+  id = g_idle_add ((GSourceFunc) setup_idle_cb, self);
+  g_source_set_name_by_id (id, "[PhoshShell] idle");
 }
 
 /* {{{ Action Map/Group */
@@ -1319,9 +1321,11 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
    * fallback to enable. Do that in an idle callback so GTK can process
    * pending wayland events for the gone output */
   if (monitor == NULL) {
+    guint id;
     /* No monitor - we're not useful atm */
     notify_compositor_up_state (self, PHOSH_PRIVATE_SHELL_STATE_UNKNOWN);
-    g_idle_add (select_fallback_monitor, self);
+    id = g_idle_add (select_fallback_monitor, self);
+    g_source_set_name_by_id (id, "[PhoshShell] select fallback monitor");
   } else {
     if (needs_notify)
       notify_compositor_up_state (self, PHOSH_PRIVATE_SHELL_STATE_UP);
