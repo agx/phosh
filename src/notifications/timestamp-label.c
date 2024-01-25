@@ -299,6 +299,7 @@ phosh_timestamp_label_update (PhoshTimestampLabel *self)
     self->refresh_time = g_timeout_add (time/ G_TIME_SPAN_MILLISECOND,
                                         (GSourceFunc) phosh_timestamp_label_update,
                                         self);
+    g_source_set_name_by_id (self->refresh_time, "[PhoshTimestampLable] refresh");
   } else {
     gtk_label_set_label (GTK_LABEL (self), "");
 
