@@ -206,6 +206,7 @@ on_power_button_pressed (GSimpleAction *action, GVariant *param, gpointer data)
     self->long_press_id = g_timeout_add_seconds (LONG_PRESS_TIMEOUT,
                                                  on_long_press,
                                                  self);
+    g_source_set_name_by_id (self->long_press_id, "[PhoshScreensaverManager] long press");
   }
 
   /* Press already unblanks since presence status changes due to key press so nothing to do here */
