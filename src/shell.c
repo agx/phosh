@@ -1331,7 +1331,12 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
   }
 }
 
-
+/**
+ * phosh_shell_get_builtin_monitor:
+ * @self: The shell
+ *
+ * Returns:(transfer none)(nullable): the built in monitor or %NULL if there is no built in monitor
+ */
 PhoshMonitor *
 phosh_shell_get_builtin_monitor (PhoshShell *self)
 {
