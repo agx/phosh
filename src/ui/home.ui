@@ -12,12 +12,12 @@
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkEventBox" id="evbox_home">
+          <object class="GtkEventBox" id="evbox_home_bar">
             <property name="visible">True</property>
             <property name="hexpand">True</property>
             <!-- Otherwise search gets input focus and triggers OSK -->
             <property name="can-focus">True</property>
-            <!-- PHOSH_HOME_HEIGHT -->
+            <!-- PHOSH_HOME_BAR_HEIGHT -->
             <property name="height-request">15</property>
             <child>
               <object class="GtkStack" id="stack">
@@ -33,7 +33,7 @@
                       <object class="GtkEventBox" id="powerbar">
                        <property name="can-focus">True</property>
                        <property name="visible">True</property>
-                       <!-- PHOSH_HOME_HEIGHT -->
+                       <!-- PHOSH_HOME_BAR_HEIGHT -->
                        <property name="height-request">15</property>
                        <property name="width-request">200</property>
                        <property name="name">powerbar</property>
@@ -86,7 +86,7 @@
     </child>
   </template>
   <object class="GtkGestureMultiPress" id="click_gesture">
-    <property name="widget">evbox_home</property>
+    <property name="widget">evbox_home_bar</property>
     <signal name="released" handler="on_home_released" swapped="true"/>
   </object>
 

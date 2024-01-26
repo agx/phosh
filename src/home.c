@@ -34,12 +34,12 @@
 /**
  * PhoshHome:
  *
- * The home surface contains the overview and the button to fold and unfold the overview.
+ * The home surface contains the overview and the home bar to fold and unfold the overview.
  *
  * #PhoshHome contains the #PhoshOverview that manages running
- * applications and the app grid. It also manages a button at the
+ * applications and the app grid. It also manages a bar at the
  * bottom of the screen to fold and unfold the #PhoshOverview and a
- * button to toggle the OSK.
+ * pill in the center (powerbar) that toggles the OSK.
  */
 enum {
   OSK_ACTIVATED,
@@ -174,7 +174,7 @@ update_drag_handle (PhoshHome *self, gboolean commit)
                                               0, 0, NULL, &handle);
   if (!success) {
     g_warning ("Failed to get handle position");
-    handle = PHOSH_HOME_BUTTON_HEIGHT;
+    handle = PHOSH_HOME_BAR_HEIGHT;
   }
 
   g_debug ("Drag Handle: %d", handle);
@@ -187,7 +187,7 @@ update_drag_handle (PhoshHome *self, gboolean commit)
 static int
 get_margin (gint height)
 {
-  return (-1 * height) + PHOSH_HOME_BUTTON_HEIGHT;
+  return (-1 * height) + PHOSH_HOME_BAR_HEIGHT;
 }
 
 
@@ -448,7 +448,7 @@ phosh_home_dragged (PhoshDragSurface *self, int margin)
   PhoshHome *home = PHOSH_HOME (self);
   int width, height;
   gtk_window_get_size (GTK_WINDOW (self), &width, &height);
-  phosh_arrow_set_progress (PHOSH_ARROW (home->arrow_home), 1.0 - (-margin / (double)(height - PHOSH_HOME_BUTTON_HEIGHT)));
+  phosh_arrow_set_progress (PHOSH_ARROW (home->arrow_home), 1.0 - (-margin / (double)(height - PHOSH_HOME_BAR_HEIGHT)));
   g_debug ("Margin: %d", margin);
 }
 
@@ -640,11 +640,11 @@ phosh_home_new (struct zwlr_layer_shell_v1 *layer_shell,
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
                        "layer", ZWLR_LAYER_SHELL_V1_LAYER_TOP,
                        "kbd-interactivity", FALSE,
-                       "exclusive-zone", PHOSH_HOME_BUTTON_HEIGHT,
+                       "exclusive-zone", PHOSH_HOME_BAR_HEIGHT,
                        "namespace", "phosh home",
                        /* drag-surface */
                        "layer-shell-effects", layer_shell_effects,
-                       "exclusive", PHOSH_HOME_BUTTON_HEIGHT,
+                       "exclusive", PHOSH_HOME_BAR_HEIGHT,
                        "threshold", PHOSH_HOME_DRAG_THRESHOLD,
                        NULL);
 }
