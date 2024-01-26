@@ -56,8 +56,8 @@ struct _PhoshHome
   PhoshDragSurface parent;
 
   GtkWidget *overview;
+  GtkWidget *home_bar;
   GtkWidget *powerbar;
-  GtkWidget *stack;
 
   guint      debounce_handle;
   gboolean   focus_app_search;
@@ -213,8 +213,8 @@ static void
 on_powerbar_action_started (PhoshHome *self)
 {
   g_debug ("powerbar action started");
-  phosh_util_toggle_style_class (self->stack, POWERBAR_FAILED_CLASS, FALSE);
-  phosh_util_toggle_style_class (self->stack, POWERBAR_ACTIVE_CLASS, TRUE);
+  phosh_util_toggle_style_class (self->home_bar, POWERBAR_FAILED_CLASS, FALSE);
+  phosh_util_toggle_style_class (self->home_bar, POWERBAR_ACTIVE_CLASS, TRUE);
 }
 
 
@@ -222,8 +222,8 @@ static void
 on_powerbar_action_ended (PhoshHome *self)
 {
   g_debug ("powerbar action ended");
-  phosh_util_toggle_style_class (self->stack, POWERBAR_ACTIVE_CLASS, FALSE);
-  phosh_util_toggle_style_class (self->stack, POWERBAR_FAILED_CLASS, FALSE);
+  phosh_util_toggle_style_class (self->home_bar, POWERBAR_ACTIVE_CLASS, FALSE);
+  phosh_util_toggle_style_class (self->home_bar, POWERBAR_FAILED_CLASS, FALSE);
 }
 
 
@@ -231,8 +231,8 @@ static void
 on_powerbar_action_failed (PhoshHome *self)
 {
   g_debug ("powerbar action failed");
-  phosh_util_toggle_style_class (self->stack, POWERBAR_ACTIVE_CLASS, FALSE);
-  phosh_util_toggle_style_class (self->stack, POWERBAR_FAILED_CLASS, TRUE);
+  phosh_util_toggle_style_class (self->home_bar, POWERBAR_ACTIVE_CLASS, FALSE);
+  phosh_util_toggle_style_class (self->home_bar, POWERBAR_FAILED_CLASS, TRUE);
 }
 
 
@@ -545,10 +545,10 @@ phosh_home_class_init (PhoshHomeClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/home.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, click_gesture);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, home_bar);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, osk_toggle_long_press);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, overview);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, powerbar);
-  gtk_widget_class_bind_template_child (widget_class, PhoshHome, stack);
   gtk_widget_class_bind_template_callback (widget_class, fold_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_home_released);
   gtk_widget_class_bind_template_callback (widget_class, on_has_activities_changed);

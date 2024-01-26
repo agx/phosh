@@ -16,12 +16,8 @@
             <property name="can-focus">True</property>
             <!-- PHOSH_HOME_BAR_HEIGHT -->
             <property name="height-request">15</property>
-            <child>
-              <object class="GtkStack" id="stack">
-                <property name="visible">True</property>
-                <property name="transition-type">crossfade</property>
                 <child>
-                  <object class="GtkBox" id="home_bar_folded">
+                  <object class="GtkBox" id="home_bar">
                     <property name="visible">True</property>
                     <property name="name">home-bar</property>
                     <property name="halign">center</property>
@@ -39,12 +35,7 @@
                       </object>
                     </child>
                   </object> <!-- home_bar (holding powerbar) -->
-                  <packing>
-                   <property name="name">home-bar-folded</property>
-                  </packing>
                 </child>
-              </object>
-            </child>
           </object> <!-- home bar's event box -->
         </child>
         <child>
