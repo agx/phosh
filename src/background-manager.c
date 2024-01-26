@@ -45,6 +45,13 @@
  * backgrounds are notified to update their contents.
  */
 
+enum {
+  CONFIG_CHANGED,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS];
+
+
 struct _PhoshBackgroundManager {
   PhoshManager             parent;
 
@@ -74,6 +81,17 @@ update_background (gpointer key, gpointer value, gpointer user_data)
 
 
 static void
+update_all_backgrounds (PhoshBackgroundManager *self)
+{
+  g_hash_table_foreach (self->backgrounds, update_background, self);
+
+  /* We only notify config changed and don't append any background data as the specific data
+     depends on the surface it applies to (e.g. it's size) */
+  g_signal_emit (self, signals[CONFIG_CHANGED], 0);
+}
+
+
+static void
 on_slideshow_loaded (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   g_autoptr (GnomeBGSlideShow) slideshow = GNOME_BG_SLIDE_SHOW (source_object);
@@ -89,7 +107,7 @@ on_slideshow_loaded (GObject *source_object, GAsyncResult *res, gpointer user_da
   }
 
   self->slideshow = g_steal_pointer (&slideshow);
-  g_hash_table_foreach (self->backgrounds, update_background, self);
+  update_all_backgrounds (self);
 }
 
 
@@ -178,7 +196,7 @@ on_settings_changed (PhoshBackgroundManager *self)
     load_slideshow (self);
   } else {
     /* Single file backed image or no image at all */
-    g_hash_table_foreach (self->backgrounds, update_background, self);
+    update_all_backgrounds (self);
   }
 }
 
@@ -347,6 +365,19 @@ phosh_background_manager_class_init (PhoshBackgroundManagerClass *klass)
   object_class->finalize = phosh_background_manager_finalize;
 
   manager_class->idle_init = phosh_background_manager_idle_init;
+
+  /**
+   * PhoshBackgroundManager::config-changed:
+   * @self: The backgroundd manager
+   *
+   */
+  signals[CONFIG_CHANGED] =
+    g_signal_new ("config-changed",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST,
+                  0, NULL, NULL, NULL,
+                  G_TYPE_NONE,
+                  0);
 }
 
 
