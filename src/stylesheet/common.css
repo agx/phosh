@@ -225,7 +225,9 @@ phosh-status-page-placeholder > box > label.title {
   font-size: 90%;
 }
 
-/* phosh-home */
+/*
+ * phosh-home
+ */
 
 #powerbar {
   background: -gtk-recolor(url('resource:///mobi/phosh/icons/scalable/status/input-powerbar-symbolic.svg'));
@@ -1010,6 +1012,15 @@ phosh-power-menu .phosh-dialog-close-button {
 phosh-emergency-menu .emergency-button {
   font-size: 12px;
   padding: 4px 12px;
+}
+
+/*
+ * Common style classes
+ */
+
+/* Use a solid background, useful when one needs to toggle between transparent and solid */
+.p-solid {
+  background-color: @phosh_bg_color;
 }
 
 /*
