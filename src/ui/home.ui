@@ -23,6 +23,12 @@
                     <property name="halign">center</property>
                     <property name="hexpand">True</property>
                     <child>
+                      <object class="GtkRevealer" id="rev_powerbar">
+                        <property name="visible">True</property>
+                        <property name="reveal-child">True</property>
+                        <property name="transition-duration">400</property>
+                        <property name="transition-type">crossfade</property>
+                        <child>
                       <object class="GtkEventBox" id="powerbar">
                        <property name="can-focus">True</property>
                        <property name="visible">True</property>
@@ -32,6 +38,8 @@
                        <property name="name">powerbar</property>
                        <property name="halign">center</property>
                        <property name="valign">center</property>
+                      </object>
+                        </child>
                       </object>
                     </child>
                   </object> <!-- home_bar (holding powerbar) -->

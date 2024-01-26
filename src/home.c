@@ -57,6 +57,7 @@ struct _PhoshHome
 
   GtkWidget *overview;
   GtkWidget *home_bar;
+  GtkWidget *rev_powerbar;
   GtkWidget *powerbar;
 
   guint      debounce_handle;
@@ -82,6 +83,10 @@ G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_DRAG_SURFACE);
 static void
 phosh_home_update_home_bar (PhoshHome *self)
 {
+  gboolean reveal;
+
+  reveal = !(self->state == PHOSH_HOME_STATE_UNFOLDED);
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self->rev_powerbar), reveal);
 }
 
 
@@ -548,6 +553,7 @@ phosh_home_class_init (PhoshHomeClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, home_bar);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, osk_toggle_long_press);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, overview);
+  gtk_widget_class_bind_template_child (widget_class, PhoshHome, rev_powerbar);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, powerbar);
   gtk_widget_class_bind_template_callback (widget_class, fold_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_home_released);
