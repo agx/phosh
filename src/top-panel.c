@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018-2022 Purism SPC
+ *               2023-2024 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -19,9 +20,12 @@
 #include "session-manager.h"
 #include "settings.h"
 #include "top-panel.h"
+#include "top-panel-bg.h"
 #include "arrow.h"
 #include "util.h"
 #include "wall-clock.h"
+
+#include <handy.h>
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnome-desktop/gnome-xkb-info.h>
@@ -93,6 +97,8 @@ typedef struct _PhoshTopPanel {
   GSettings      *kb_settings;
 
   GtkGesture     *click_gesture; /* needed so that the gesture isn't destroyed immediately */
+
+  PhoshTopPanelBg *background;
 } PhoshTopPanel;
 
 G_DEFINE_TYPE (PhoshTopPanel, phosh_top_panel, PHOSH_TYPE_DRAG_SURFACE)
@@ -438,14 +444,27 @@ on_keybindings_changed (PhoshTopPanel *self,
 }
 
 
+static double
+ease_in_quintic (double p)
+{
+  return p * p * p * p * p;
+}
+
+
 static void
 phosh_top_panel_dragged (PhoshDragSurface *drag_surface, int margin)
 {
   PhoshTopPanel *self = PHOSH_TOP_PANEL (drag_surface);
   int width, height;
+  double progress, transparency;
+
   gtk_window_get_size (GTK_WINDOW (self), &width, &height);
-  phosh_arrow_set_progress (PHOSH_ARROW (self->arrow), -margin / (double)(height - PHOSH_TOP_BAR_HEIGHT));
-  g_debug ("Margin: %d", margin);
+  progress = -margin / (double)(height - PHOSH_TOP_BAR_HEIGHT);
+  phosh_arrow_set_progress (PHOSH_ARROW (self->arrow), progress);
+
+  progress = MIN (1.0, progress);
+  transparency = ease_in_quintic (progress);
+  phosh_top_panel_bg_set_transparency (self->background, transparency);
 }
 
 
@@ -455,7 +474,7 @@ on_drag_state_changed (PhoshTopPanel *self)
   PhoshTopPanelState state = self->state;
   const char *visible;
   gboolean kbd_interactivity = FALSE;
-  double arrow = -1.0;
+  double progress = -1.0;
 
   /* Close the popover on any drag */
   gtk_widget_hide (self->menu_system);
@@ -466,16 +485,18 @@ on_drag_state_changed (PhoshTopPanel *self)
     update_drag_handle (self, TRUE);
     kbd_interactivity = TRUE;
     visible = "arrow";
-    arrow = 0.0;
+    progress = 0.0;
+    phosh_top_panel_bg_set_transparency (self->background, 0.0);
     break;
   case PHOSH_DRAG_SURFACE_STATE_FOLDED:
     state = PHOSH_TOP_PANEL_STATE_FOLDED;
     visible = "top-bar";
-    arrow = 1.0;
+    progress = 1.0;
+    phosh_top_panel_bg_set_transparency (self->background, 1.0);
     break;
   case PHOSH_DRAG_SURFACE_STATE_DRAGGED:
     visible = "arrow";
-    arrow = phosh_arrow_get_progress (PHOSH_ARROW (self->arrow));
+    progress = phosh_arrow_get_progress (PHOSH_ARROW (self->arrow));
     break;
   default:
     g_return_if_reached ();
@@ -483,7 +504,7 @@ on_drag_state_changed (PhoshTopPanel *self)
 
   g_debug ("%s: state: %d, visible: %s", __func__, self->state, visible);
   gtk_stack_set_visible_child_name (GTK_STACK (self->stack), visible);
-  phosh_arrow_set_progress (PHOSH_ARROW (self->arrow), arrow);
+  phosh_arrow_set_progress (PHOSH_ARROW (self->arrow), progress);
 
   if (self->state != state) {
     self->state = state;
@@ -492,6 +513,42 @@ on_drag_state_changed (PhoshTopPanel *self)
 
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
   phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
+}
+
+
+static void
+phosh_top_panel_map (GtkWidget *widget)
+{
+  PhoshTopPanel *self = PHOSH_TOP_PANEL (widget);
+
+  GTK_WIDGET_CLASS (phosh_top_panel_parent_class)->map (widget);
+
+  phosh_layer_surface_set_stacked_below (PHOSH_LAYER_SURFACE (self->background),
+                                         PHOSH_LAYER_SURFACE (self));
+}
+
+
+static void
+phosh_top_panel_add_background (PhoshTopPanel *self)
+{
+  PhoshWayland *wl = phosh_wayland_get_default ();
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshMonitor *monitor;
+  guint32 layer;
+  cairo_rectangle_int_t rect = { 0, 0, 0, 0 };
+  cairo_region_t *region;
+
+  monitor = phosh_shell_get_primary_monitor (shell);
+  layer = phosh_layer_surface_get_layer (PHOSH_LAYER_SURFACE (self));
+  self->background = phosh_top_panel_bg_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
+                                             monitor,
+                                             layer);
+
+  gtk_widget_show (GTK_WIDGET (self->background));
+
+  region = cairo_region_create_rectangle (&rect);
+  gtk_widget_input_shape_combine_region (GTK_WIDGET (self->background), region);
+  cairo_region_destroy (region);
 }
 
 
@@ -599,6 +656,8 @@ phosh_top_panel_constructed (GObject *object)
   add_keybindings (self);
 
   g_signal_connect (self, "notify::drag-state", G_CALLBACK (on_drag_state_changed), NULL);
+
+  phosh_top_panel_add_background (self);
 }
 
 
@@ -618,6 +677,7 @@ phosh_top_panel_dispose (GObject *object)
     g_signal_handlers_disconnect_by_data (self->seat, self);
     self->seat = NULL;
   }
+  g_clear_pointer (&self->background, phosh_cp_widget_destroy);
 
   G_OBJECT_CLASS (phosh_top_panel_parent_class)->dispose (object);
 }
@@ -680,6 +740,8 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   object_class->dispose = phosh_top_panel_dispose;
   object_class->set_property = phosh_top_panel_set_property;
   object_class->get_property = phosh_top_panel_get_property;
+
+  widget_class->map = phosh_top_panel_map;
 
   layer_surface_class->configured = phosh_top_panel_configured;
 
@@ -898,4 +960,17 @@ phosh_top_panel_get_state (PhoshTopPanel *self)
   g_return_val_if_fail (PHOSH_IS_TOP_PANEL (self), PHOSH_TOP_PANEL_STATE_FOLDED);
 
   return self->state;
+}
+
+
+void
+phosh_top_panel_set_layer (PhoshTopPanel *self, guint32 layer)
+{
+  g_assert (PHOSH_IS_TOP_PANEL (self));
+
+  phosh_layer_surface_set_layer (PHOSH_LAYER_SURFACE (self), layer);
+  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
+
+  phosh_layer_surface_set_layer (PHOSH_LAYER_SURFACE (self->background), layer);
+  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self->background));
 }

@@ -3,7 +3,7 @@
  */
 phosh-top-panel {
   font-size: 15px;
-  background: @phosh_bg_color;
+  background: none;
   color: @phosh_fg_color;
 }
 
