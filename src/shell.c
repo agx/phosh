@@ -25,6 +25,7 @@
 
 #include "phosh-config.h"
 #include "ambient.h"
+#include "background.h"
 #include "drag-surface.h"
 #include "shell.h"
 #include "app-tracker.h"

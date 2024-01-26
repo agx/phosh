@@ -135,4 +135,6 @@ gboolean             phosh_shell_activate_action (PhoshShell *self,
                                                   const char *action,
                                                   GVariant   *parameter);
 
+void                 phosh_shell_set_bg_alpha    (PhoshShell *self, double alpha);
+
 G_END_DECLS
