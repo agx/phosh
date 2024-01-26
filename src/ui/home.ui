@@ -38,33 +38,14 @@
                        <property name="valign">center</property>
                       </object>
                     </child>
-                  </object> <!-- home_bar (holding powerbar) when folded -->
+                  </object> <!-- home_bar (holding powerbar) -->
                   <packing>
                    <property name="name">home-bar-folded</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkBox" id="home_bar_unfolded">
-                    <property name="visible">True</property>
-                    <property name="name">home-bar-unfolded</property>
-                    <property name="halign">center</property>
-                    <property name="valign">center</property>
-                    <property name="hexpand">True</property>
-                    <child>
-                      <object class="PhoshArrow" id="arrow_home">
-                        <property name="visible">True</property>
-                        <property name="valign">center</property>
-                        <property name="halign">center</property>
-                      </object>
-                    </child>
-                  </object> <!-- home bar (holding arrow) when unfolded -->
-                  <packing>
-                   <property name="name">home-bar-unfolded</property>
-                  </packing>
-                </child>
-              </object><!--  stacked bar holding the parents of powerbar and arrow -->
+              </object>
             </child>
-          </object> <!-- event box for stacked  bar -->
+          </object> <!-- home bar's event box -->
         </child>
         <child>
           <object class="PhoshOverview" id="overview">

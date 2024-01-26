@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018-2022 Purism SPC
+ *               2023-2024 Guido Günther
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -9,7 +10,6 @@
 #define G_LOG_DOMAIN "phosh-home"
 
 #include "phosh-config.h"
-#include "arrow.h"
 #include "overview.h"
 #include "home.h"
 #include "shell.h"
@@ -55,7 +55,6 @@ struct _PhoshHome
 {
   PhoshDragSurface parent;
 
-  GtkWidget *arrow_home;
   GtkWidget *overview;
   GtkWidget *powerbar;
   GtkWidget *stack;
@@ -83,13 +82,6 @@ G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_DRAG_SURFACE);
 static void
 phosh_home_update_home_bar (PhoshHome *self)
 {
-  const char *visible_child = "home-bar-unfolded";
-  PhoshDragSurfaceState drag_state = phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self));
-
-  if (self->state == PHOSH_HOME_STATE_FOLDED && drag_state != PHOSH_DRAG_SURFACE_STATE_DRAGGED)
-    visible_child = "home-bar-folded";
-
-  gtk_stack_set_visible_child_name (GTK_STACK (self->stack), visible_child);
 }
 
 
@@ -145,20 +137,17 @@ update_drag_handle (PhoshHome *self, gboolean commit)
   gboolean success;
   gint handle = 0;
   PhoshAppGrid *app_grid;
-  gboolean arrow_visible = TRUE;
   PhoshDragSurfaceDragMode drag_mode = PHOSH_DRAG_SURFACE_DRAG_MODE_HANDLE;
   PhoshDragSurfaceState drag_state = phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self));
 
   /* reset osk_toggle_long_press to prevent OSK from unfolding accidently */
   gtk_event_controller_reset (GTK_EVENT_CONTROLLER (self->osk_toggle_long_press));
 
-  /* Update the handle's arrow and dragability */
+  /* Update the handle's and dragability */
   if (phosh_overview_has_running_activities (PHOSH_OVERVIEW (self->overview)) == FALSE &&
     self->state == PHOSH_HOME_STATE_UNFOLDED && drag_state != PHOSH_DRAG_SURFACE_STATE_DRAGGED) {
-    arrow_visible = FALSE;
     drag_mode = PHOSH_DRAG_SURFACE_DRAG_MODE_NONE;
   }
-  gtk_widget_set_visible (GTK_WIDGET (self->arrow_home), arrow_visible);
   phosh_drag_surface_set_drag_mode (PHOSH_DRAG_SURFACE (self), drag_mode);
 
   /* Update handle size */
@@ -434,17 +423,6 @@ on_keybindings_changed (PhoshHome *self,
 
 
 static void
-phosh_home_dragged (PhoshDragSurface *self, int margin)
-{
-  PhoshHome *home = PHOSH_HOME (self);
-  int width, height;
-  gtk_window_get_size (GTK_WINDOW (self), &width, &height);
-  phosh_arrow_set_progress (PHOSH_ARROW (home->arrow_home), 1.0 - (-margin / (double)(height - PHOSH_HOME_BAR_HEIGHT)));
-  g_debug ("Margin: %d", margin);
-}
-
-
-static void
 on_drag_state_changed (PhoshHome *self)
 {
   PhoshHomeState state = self->state;
@@ -457,7 +435,6 @@ on_drag_state_changed (PhoshHome *self)
   case PHOSH_DRAG_SURFACE_STATE_UNFOLDED:
     state = PHOSH_HOME_STATE_UNFOLDED;
     kbd_interactivity = TRUE;
-    phosh_arrow_set_progress (PHOSH_ARROW (self->arrow_home), 1.0);
     if (self->focus_app_search) {
       phosh_overview_focus_app_search (PHOSH_OVERVIEW (self->overview));
       self->focus_app_search = FALSE;
@@ -465,7 +442,6 @@ on_drag_state_changed (PhoshHome *self)
     break;
   case PHOSH_DRAG_SURFACE_STATE_FOLDED:
     state = PHOSH_HOME_STATE_FOLDED;
-    phosh_arrow_set_progress (PHOSH_ARROW (self->arrow_home), 0.0);
     break;
   case PHOSH_DRAG_SURFACE_STATE_DRAGGED:
     if (self->state == PHOSH_HOME_STATE_FOLDED)
@@ -540,15 +516,12 @@ phosh_home_class_init (PhoshHomeClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
-  PhoshDragSurfaceClass *drag_surface_class = PHOSH_DRAG_SURFACE_CLASS (klass);
 
   object_class->constructed = phosh_home_constructed;
   object_class->dispose = phosh_home_dispose;
 
   object_class->set_property = phosh_home_set_property;
   object_class->get_property = phosh_home_get_property;
-
-  drag_surface_class->dragged = phosh_home_dragged;
 
   props[PROP_HOME_STATE] =
     g_param_spec_enum ("state",
@@ -567,12 +540,10 @@ phosh_home_class_init (PhoshHomeClass *klass)
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
-  g_type_ensure (PHOSH_TYPE_ARROW);
   g_type_ensure (PHOSH_TYPE_OVERVIEW);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/home.ui");
-  gtk_widget_class_bind_template_child (widget_class, PhoshHome, arrow_home);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, click_gesture);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, osk_toggle_long_press);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, overview);
@@ -599,8 +570,6 @@ phosh_home_init (PhoshHome *self)
 
   self->state = PHOSH_HOME_STATE_FOLDED;
   self->settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
-
-  phosh_home_update_home_bar (self);
 
   /* Adjust margins and folded state on size changes */
   g_signal_connect (self, "configure-event", G_CALLBACK (on_configure_event), NULL);
