@@ -359,7 +359,7 @@ panels_create (PhoshShell *self)
 
   priv->home = PHOSH_DRAG_SURFACE (phosh_home_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                                    phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
-                                                   monitor->wl_output));
+                                                   monitor));
   gtk_widget_show (GTK_WIDGET (priv->home));
 
   g_signal_connect_swapped (
