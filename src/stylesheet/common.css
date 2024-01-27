@@ -7,6 +7,10 @@ phosh-top-panel {
   color: @phosh_fg_color;
 }
 
+phosh-top-panel-bg {
+  background: @phosh_bg_color;
+}
+
 #top-bar {
   padding-top: 4px;
   padding-bottom: 4px;
