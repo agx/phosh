@@ -100,8 +100,7 @@ phosh_home_set_property (GObject      *object,
 
   switch (property_id) {
   case PROP_HOME_STATE:
-    self->state = g_value_get_enum (value);
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
+    phosh_home_set_state (self, g_value_get_enum (value));
     break;
   case PROP_OSK_ENABLED:
     self->osk_enabled = g_value_get_boolean (value);
@@ -528,10 +527,15 @@ phosh_home_class_init (PhoshHomeClass *klass)
   object_class->set_property = phosh_home_set_property;
   object_class->get_property = phosh_home_get_property;
 
+  /**
+   * PhoshHome:state:
+   *
+   * Whether the home widget is currently folded (only home-bar is
+   * visible) or unfolded (overview is visible). The property is
+   * changed when the widget reaches it's target state.
+   */
   props[PROP_HOME_STATE] =
-    g_param_spec_enum ("state",
-                       "Home State",
-                       "The state of the home screen",
+    g_param_spec_enum ("state", "", "",
                        PHOSH_TYPE_HOME_STATE,
                        PHOSH_HOME_STATE_FOLDED,
                        G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
