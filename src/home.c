@@ -539,11 +539,13 @@ phosh_home_class_init (PhoshHomeClass *klass)
                        PHOSH_TYPE_HOME_STATE,
                        PHOSH_HOME_STATE_FOLDED,
                        G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-
+  /**
+   * PhoshHome:osk-enabled:
+   *
+   * Whether the osk is currently enabled in the system configuration.
+   */
   props[PROP_OSK_ENABLED] =
-    g_param_spec_boolean ("osk-enabled",
-                          "OSK enabled",
-                          "Whether the on screen keyboard is enabled",
+    g_param_spec_boolean ("osk-enabled", "", "",
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
