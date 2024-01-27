@@ -50,7 +50,6 @@ struct _PhoshWayland {
   struct xdg_wm_base *xdg_wm_base;
   struct zwlr_foreign_toplevel_manager_v1 *zwlr_foreign_toplevel_manager_v1;
   struct zwlr_gamma_control_manager_v1 *zwlr_gamma_control_manager_v1;
-  struct zwlr_input_inhibit_manager_v1 *input_inhibit_manager;
   struct zwlr_layer_shell_v1 *layer_shell;
   struct zwlr_output_manager_v1 *zwlr_output_manager_v1;
   struct zwlr_output_power_manager_v1 *zwlr_output_power_manager_v1;
@@ -116,12 +115,6 @@ registry_handle_global (void *data,
   } else if (!strcmp(interface, "wl_shm")) {
     self->wl_shm = wl_registry_bind(
       registry, name, &wl_shm_interface,
-      1);
-  } else if (!strcmp(interface, zwlr_input_inhibit_manager_v1_interface.name)) {
-    self->input_inhibit_manager = wl_registry_bind(
-      registry,
-      name,
-      &zwlr_input_inhibit_manager_v1_interface,
       1);
   } else if (!strcmp(interface, xdg_wm_base_interface.name)) {
     self->xdg_wm_base = wl_registry_bind(
@@ -301,20 +294,20 @@ phosh_wayland_constructed (GObject *object)
   phosh_wayland_roundtrip (self);
   num_outputs = g_hash_table_size(self->wl_outputs);
   if (!num_outputs || !self->layer_shell || !self->ext_idle_notifier_v1 ||
-      !self->input_inhibit_manager || !self->xdg_wm_base ||
+      !self->xdg_wm_base ||
       !self->zxdg_output_manager_v1 ||
       !self->zwlr_output_power_manager_v1 ||
       !self->zphoc_layer_shell_effects_v1) {
     g_error ("Wayland compositor lacks needed globals\n"
              "outputs: %d, layer_shell: %p, idle_manager: %p, "
-             "inhibit: %p, xdg_wm: %p, "
+             "xdg_wm: %p, "
              "xdg_output: %p, wlr_output_manager: %p, "
              "wlr_foreign_toplevel_manager: %p, "
              "zwlr_output_power_manager_v1: %p, "
              "zphoc_layer_shell_effects_v1: %p"
              "\n",
              num_outputs, self->layer_shell, self->ext_idle_notifier_v1,
-             self->input_inhibit_manager, self->xdg_wm_base,
+             self->xdg_wm_base,
              self->zxdg_output_manager_v1,
              self->zwlr_output_manager_v1,
              self->zwlr_foreign_toplevel_manager_v1,
@@ -340,7 +333,6 @@ phosh_wayland_dispose (GObject *object)
   PhoshWayland *self = PHOSH_WAYLAND (object);
 
   g_clear_pointer (&self->ext_idle_notifier_v1, ext_idle_notifier_v1_destroy);
-  g_clear_pointer (&self->input_inhibit_manager, &zwlr_input_inhibit_manager_v1_destroy);
   g_clear_pointer (&self->layer_shell, &zwlr_layer_shell_v1_destroy);
   g_clear_pointer (&self->phosh_private, phosh_private_destroy);
   g_clear_pointer (&self->registry, wl_registry_destroy);
@@ -455,15 +447,6 @@ phosh_wayland_get_xdg_wm_base (PhoshWayland *self)
   g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
 
   return self->xdg_wm_base;
-}
-
-
-struct zwlr_input_inhibit_manager_v1*
-phosh_wayland_get_zwlr_input_inhibit_manager_v1 (PhoshWayland *self)
-{
-  g_return_val_if_fail (PHOSH_IS_WAYLAND (self), NULL);
-
-  return self->input_inhibit_manager;
 }
 
 
