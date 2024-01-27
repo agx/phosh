@@ -91,47 +91,47 @@ phosh_home_update_home_bar (PhoshHome *self)
 
 
 static void
-phosh_home_set_property (GObject *object,
-                          guint property_id,
-                          const GValue *value,
-                          GParamSpec *pspec)
+phosh_home_set_property (GObject      *object,
+                         guint         property_id,
+                         const GValue *value,
+                         GParamSpec   *pspec)
 {
   PhoshHome *self = PHOSH_HOME (object);
 
   switch (property_id) {
-    case PROP_HOME_STATE:
-      self->state = g_value_get_enum (value);
-      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
-      break;
-    case PROP_OSK_ENABLED:
-      self->osk_enabled = g_value_get_boolean (value);
-      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_OSK_ENABLED]);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
+  case PROP_HOME_STATE:
+    self->state = g_value_get_enum (value);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
+    break;
+  case PROP_OSK_ENABLED:
+    self->osk_enabled = g_value_get_boolean (value);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_OSK_ENABLED]);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
   }
 }
 
 
 static void
-phosh_home_get_property (GObject *object,
-                          guint property_id,
-                          GValue *value,
-                          GParamSpec *pspec)
+phosh_home_get_property (GObject    *object,
+                         guint       property_id,
+                         GValue     *value,
+                         GParamSpec *pspec)
 {
   PhoshHome *self = PHOSH_HOME (object);
 
   switch (property_id) {
-    case PROP_HOME_STATE:
-      g_value_set_enum (value, self->state);
-      break;
-    case PROP_OSK_ENABLED:
-      g_value_set_boolean (value, self->osk_enabled);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
+  case PROP_HOME_STATE:
+    g_value_set_enum (value, self->state);
+    break;
+  case PROP_OSK_ENABLED:
+    g_value_set_boolean (value, self->osk_enabled);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
   }
 }
 
