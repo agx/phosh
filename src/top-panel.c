@@ -99,10 +99,10 @@ typedef struct _PhoshTopPanel {
 G_DEFINE_TYPE (PhoshTopPanel, phosh_top_panel, PHOSH_TYPE_DRAG_SURFACE)
 
 static void
-phosh_top_panel_set_property (GObject *object,
-                              guint property_id,
+phosh_top_panel_set_property (GObject      *object,
+                              guint         property_id,
                               const GValue *value,
-                              GParamSpec *pspec)
+                              GParamSpec   *pspec)
 {
   PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
 
@@ -118,9 +118,9 @@ phosh_top_panel_set_property (GObject *object,
 
 
 static void
-phosh_top_panel_get_property (GObject *object,
-                              guint property_id,
-                              GValue *value,
+phosh_top_panel_get_property (GObject    *object,
+                              guint       property_id,
+                              GValue     *value,
                               GParamSpec *pspec)
 {
   PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
