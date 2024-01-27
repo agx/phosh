@@ -353,7 +353,7 @@ panels_create (PhoshShell *self)
   priv->top_panel = PHOSH_DRAG_SURFACE (phosh_top_panel_new (
                                           phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                           phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
-                                          monitor->wl_output,
+                                          monitor,
                                           top_layer));
   gtk_widget_show (GTK_WIDGET (priv->top_panel));
 

@@ -579,7 +579,7 @@ phosh_top_panel_constructed (GObject *object)
                    g_action_map_lookup_action(G_ACTION_MAP (self->actions), "suspend"),
                    "enabled",
                    G_SETTINGS_BIND_GET);
-                   
+
 
   self->interface_settings = g_settings_new ("org.gnome.desktop.interface");
   g_settings_bind (self->interface_settings,
@@ -800,13 +800,13 @@ phosh_top_panel_init (PhoshTopPanel *self)
 GtkWidget *
 phosh_top_panel_new (struct zwlr_layer_shell_v1          *layer_shell,
                      struct zphoc_layer_shell_effects_v1 *layer_shell_effects,
-                     struct wl_output                    *wl_output,
+                     PhoshMonitor                        *monitor,
                      guint32                              layer)
 {
   return g_object_new (PHOSH_TYPE_TOP_PANEL,
                        /* layer-surface */
                        "layer-shell", layer_shell,
-                       "wl-output", wl_output,
+                       "wl-output", monitor->wl_output,
                        "height", PHOSH_TOP_PANEL_HEIGHT,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
