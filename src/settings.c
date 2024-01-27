@@ -797,6 +797,9 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
    *
    * Whether settings are shown on lockscreen (%TRUE) or in the unlocked shell
    * (%FALSE).
+   *
+   * Consider this property to be read only. It's only r/w so we can
+   * use a property binding with the [type@Shell]s "locked" property.
    */
   props[PROP_ON_LOCKSCREEN] =
     g_param_spec_boolean (
