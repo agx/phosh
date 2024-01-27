@@ -436,12 +436,12 @@ on_keybindings_changed (PhoshTopPanel *self,
 
 
 static void
-phosh_top_panel_dragged (PhoshDragSurface *self, int margin)
+phosh_top_panel_dragged (PhoshDragSurface *drag_surface, int margin)
 {
-  PhoshTopPanel *panel = PHOSH_TOP_PANEL (self);
+  PhoshTopPanel *self = PHOSH_TOP_PANEL (drag_surface);
   int width, height;
   gtk_window_get_size (GTK_WINDOW (self), &width, &height);
-  phosh_arrow_set_progress (PHOSH_ARROW (panel->arrow), -margin / (double)(height - PHOSH_TOP_PANEL_HEIGHT));
+  phosh_arrow_set_progress (PHOSH_ARROW (self->arrow), -margin / (double)(height - PHOSH_TOP_PANEL_HEIGHT));
   g_debug ("Margin: %d", margin);
 }
 
