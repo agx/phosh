@@ -688,6 +688,9 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
    *
    * Whether top-panel is shown on lockscreen (%TRUE) or in the unlocked shell
    * (%FALSE).
+   *
+   * Consider this property to be read only. It's only r/w so we can
+   * use a property binding with the [type@Shell]s "locked" property.
    */
   props[PROP_ON_LOCKSCREEN] =
     g_param_spec_boolean (
