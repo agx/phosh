@@ -15,7 +15,7 @@ test_lockshield_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   PhoshMonitor *monitor = phosh_test_get_monitor (fixture->state);
   GtkWidget *panel = phosh_lockshield_new (phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
-                                           monitor->wl_output);
+                                           monitor);
 
   g_assert_true (PHOSH_IS_LOCKSHIELD (panel));
   gtk_widget_show (panel);

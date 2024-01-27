@@ -108,9 +108,7 @@ lock_monitor (PhoshLockscreenManager *self,
     return;
 
   g_debug ("Adding shield for %s", monitor->name);
-  shield = phosh_lockshield_new (
-    phosh_wayland_get_zwlr_layer_shell_v1 (wl),
-    monitor->wl_output);
+  shield = phosh_lockshield_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl), monitor);
 
   g_object_set_data (G_OBJECT (shield), "phosh-monitor", monitor);
 
