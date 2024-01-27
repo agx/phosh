@@ -284,7 +284,7 @@ on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
 
   priv = phosh_shell_get_instance_private (self);
 
-  g_object_get (priv->home, "state", &state, NULL);
+  state = phosh_home_get_state (PHOSH_HOME (priv->home));
   phosh_shell_set_state (self, PHOSH_STATE_OVERVIEW, state == PHOSH_HOME_STATE_UNFOLDED);
 }
 

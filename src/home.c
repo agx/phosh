@@ -616,6 +616,21 @@ phosh_home_new (struct zwlr_layer_shell_v1 *layer_shell,
                        NULL);
 }
 
+/**
+ * phosh_home_get_state:
+ * @self: The home surface
+ *
+ * Get the current state of the home widget. See [property@Home.state] for details.
+ *
+ * Returns: The home widget's state
+ */
+PhoshHomeState
+phosh_home_get_state (PhoshHome *self)
+{
+  g_return_val_if_fail (PHOSH_IS_HOME (self), PHOSH_HOME_STATE_FOLDED);
+
+  return self->state;
+}
 
 /**
  * phosh_home_set_state:
