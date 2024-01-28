@@ -12,7 +12,7 @@
 
 #define PHOSH_TYPE_HOME (phosh_home_get_type())
 
-#define PHOSH_HOME_BUTTON_HEIGHT 15
+#define PHOSH_HOME_BAR_HEIGHT 15
 
 /**
  * PhoshHomeState:

@@ -14,6 +14,7 @@ from os.path import join
 from sys import stderr, exit
 
 copyright_re = re.compile("Copyright (?:\(C\)|©) (\d{4}(?:-\d{4})?) (.*)")
+add_copyright_re = re.compile("(\d{4}(?:-\d{4})?) (.*)")
 spdx_re = re.compile("SPDX-License-Identifier: ([\w\-\.]*)")
 
 accepted_spdx = ["GPL-3.0-or-later"]
@@ -53,6 +54,13 @@ def handle_file(path: str, filename: str):
         if not match:
             fail(path, f"Expected copyright line, got “{copyright_line}”")
         else:
+            copyright_holders.append(match.group(2))
+
+    if len(copyright_holders):
+        # Additional copyright holders
+        while add_copyright_re.match(header[-1]):
+            copyright_line = header.pop()
+            match = add_copyright_re.match(copyright_line)
             copyright_holders.append(match.group(2))
 
     copyright_holder = ", ".join(copyright_holders)

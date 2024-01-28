@@ -777,7 +777,7 @@ setup_idle_cb (PhoshShell *self)
   priv->suspend_manager = phosh_suspend_manager_new ();
   priv->emergency_calls_manager = phosh_emergency_calls_manager_new ();
   priv->power_menu_manager = phosh_power_menu_manager_new ();
-  
+
   setup_primary_monitor_signal_handlers (self);
 
   /* Delay signaling the compositor a bit so that idle handlers get a
@@ -1777,11 +1777,11 @@ phosh_shell_get_usable_area (PhoshShell *self, int *x, int *y, int *width, int *
   case PHOSH_MONITOR_TRANSFORM_FLIPPED:
   case PHOSH_MONITOR_TRANSFORM_FLIPPED_180:
     w = mode->width / scale;
-    h = mode->height / scale - PHOSH_TOP_PANEL_HEIGHT - PHOSH_HOME_BUTTON_HEIGHT;
+    h = mode->height / scale - PHOSH_TOP_PANEL_HEIGHT - PHOSH_HOME_BAR_HEIGHT;
     break;
   default:
     w = mode->height / scale;
-    h = mode->width / scale - PHOSH_TOP_PANEL_HEIGHT - PHOSH_HOME_BUTTON_HEIGHT;
+    h = mode->width / scale - PHOSH_TOP_PANEL_HEIGHT - PHOSH_HOME_BAR_HEIGHT;
     break;
   }
 
@@ -1814,7 +1814,7 @@ phosh_shell_get_area (PhoshShell *self, int *width, int *height)
     *width = w;
 
   if (height)
-    *height = h + PHOSH_TOP_PANEL_HEIGHT + PHOSH_HOME_BUTTON_HEIGHT;
+    *height = h + PHOSH_TOP_PANEL_HEIGHT + PHOSH_HOME_BAR_HEIGHT;
 }
 
 
@@ -2204,4 +2204,3 @@ phosh_shell_get_debug_flags (void)
 }
 
 /* }}} */
-

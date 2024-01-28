@@ -5,69 +5,46 @@
     <property name="can-focus">False</property>
     <signal name="key-press-event" handler="window_key_press_event_cb"/>
     <child>
-      <placeholder/>
-    </child>
-    <child>
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkEventBox" id="evbox_home">
+          <object class="GtkEventBox" id="evbox_home_bar">
             <property name="visible">True</property>
             <property name="hexpand">True</property>
             <!-- Otherwise search gets input focus and triggers OSK -->
             <property name="can-focus">True</property>
-            <!-- PHOSH_HOME_HEIGHT -->
+            <!-- PHOSH_HOME_BAR_HEIGHT -->
             <property name="height-request">15</property>
             <child>
-              <object class="GtkStack" id="stack">
+              <object class="GtkBox" id="home_bar">
                 <property name="visible">True</property>
-                <property name="transition-type">crossfade</property>
+                <property name="name">home-bar</property>
+                <property name="halign">center</property>
+                <property name="hexpand">True</property>
                 <child>
-                  <object class="GtkBox" id="home_bar_folded">
+                  <object class="GtkRevealer" id="rev_powerbar">
                     <property name="visible">True</property>
-                    <property name="name">home-bar</property>
-                    <property name="halign">center</property>
-                    <property name="hexpand">True</property>
+                    <property name="reveal-child">True</property>
+                    <property name="transition-duration">400</property>
+                    <property name="transition-type">crossfade</property>
                     <child>
                       <object class="GtkEventBox" id="powerbar">
-                       <property name="can-focus">True</property>
-                       <property name="visible">True</property>
-                       <!-- PHOSH_HOME_HEIGHT -->
-                       <property name="height-request">15</property>
-                       <property name="width-request">200</property>
-                       <property name="name">powerbar</property>
-                       <property name="halign">center</property>
-                       <property name="valign">center</property>
-                      </object>
-                    </child>
-                  </object> <!-- home_bar (holding powerbar) when folded -->
-                  <packing>
-                   <property name="name">home-bar-folded</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="home_bar_unfolded">
-                    <property name="visible">True</property>
-                    <property name="name">home-bar-unfolded</property>
-                    <property name="halign">center</property>
-                    <property name="valign">center</property>
-                    <property name="hexpand">True</property>
-                    <child>
-                      <object class="PhoshArrow" id="arrow_home">
+                        <property name="can-focus">True</property>
                         <property name="visible">True</property>
-                        <property name="valign">center</property>
+                        <!-- PHOSH_HOME_BAR_HEIGHT -->
+                        <property name="height-request">15</property>
+                        <property name="width-request">200</property>
+                        <property name="name">powerbar</property>
                         <property name="halign">center</property>
+                        <property name="valign">center</property>
                       </object>
                     </child>
-                  </object> <!-- home bar (holding arrow) when unfolded -->
-                  <packing>
-                   <property name="name">home-bar-unfolded</property>
-                  </packing>
+                  </object>
                 </child>
-              </object><!--  stacked bar holding the parents of powerbar and arrow -->
+              </object> <!-- home_bar (holding powerbar) -->
             </child>
-          </object> <!-- event box for stacked  bar -->
+          </object> <!-- home bar's event box -->
         </child>
         <child>
           <object class="PhoshOverview" id="overview">
@@ -86,7 +63,7 @@
     </child>
   </template>
   <object class="GtkGestureMultiPress" id="click_gesture">
-    <property name="widget">evbox_home</property>
+    <property name="widget">evbox_home_bar</property>
     <signal name="released" handler="on_home_released" swapped="true"/>
   </object>
 
