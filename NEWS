@@ -1,3 +1,26 @@
+phosh 0.36.0
+------------
+Released February 2024
+* Allow to tweak home bars's osk long press delay
+* Drop home bar's animated arrow
+* Improve app-id mappings
+* Don't hard code Cantarell Font
+* Pick up night light on newly plugged screens
+* Unbreak service file with newer systemd
+* More bug fixes and cleanups
+* Issues fixed:
+  - https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1016
+  - https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1019
+* Contributors:
+    * Anna “CyberTailor”
+    * Bardia Moshiri
+    * Guido Günther
+    * Kai Lüke
+    * Sertonix
+* UI translations:
+    * Martin (sl)
+    * Pierre Michel Augustin (ht)
+
 phosh 0.35.0
 ------------
 Released January 2024
