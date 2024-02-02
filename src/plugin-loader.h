@@ -14,6 +14,7 @@ G_BEGIN_DECLS
 
 /* Extension point names */
 #define PHOSH_EXTENSION_POINT_LOCKSCREEN_WIDGET "phosh-lockscreen-widget"
+#define PHOSH_EXTENSION_POINT_QUICK_SETTING_WIDGET "phosh-quick-setting-widget"
 
 #define PHOSH_TYPE_PLUGIN_LOADER phosh_plugin_loader_get_type()
 
