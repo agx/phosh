@@ -187,6 +187,8 @@ phosh_wwan_ofono_dbus_netreg_update_prop (PhoshOfonoDBusNetworkRegistration *pro
     phosh_wwan_ofono_update_signal_quality (self, value);
   else if (g_strcmp0 (property, "Technology") == 0)
     phosh_wwan_ofono_update_access_tec (self, value);
+  else if (g_strcmp0 (property, "Name") == 0)
+    phosh_wwan_ofono_update_operator (self, value);
 }
 
 
