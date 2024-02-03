@@ -40,7 +40,9 @@ lockscreen_plugins = [
   'upcoming-events',
 ]
 
-quick_setting_plugins = []
+quick_setting_plugins = [
+  'simple-custom-quick-setting',
+]
 
 plugin_schema_dirs = []
 foreach plugin : lockscreen_plugins + quick_setting_plugins
