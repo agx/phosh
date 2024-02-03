@@ -1,3 +1,86 @@
+phosh (0.36.0) experimental; urgency=medium
+
+  [ Sertonix ]
+  * util: Update broken app_id mappings
+  * util: Fix last_component lowercase
+
+  [ Guido Günther ]
+  * ci: Use common ci template.
+    This removes an external reference and we want to share more common job
+    config.
+  * ci: Use common po check.
+  * home: No need to store osk manager.
+    We fetch it every time, so no need to store it.
+  * home: Fix signature of on_powerbar_pressed.
+    Osk manager and shell aren't passed since this is a GTK signal callback.
+    Fixes: fe308c2ce ("home: Shrink home-bar height and move osk activation to center")
+  * home: Allow to tweak osk long press delay
+  * lockscreen-manager: Don't try to clear already gone shields.
+    Uplugging a monitor can race with unlock (which discards all shields).
+    Make sure we don't try to destroy a shield for an unplugged monitor when
+    lockscreen_unlock_cb has just removed all shields as we crash
+    otherwise..
+  * lockscreen: Drop hardcoded Cantarell font.
+    It was only on a single element.
+  * top-bar: Drop hardcoded Cantarell font.
+    Only one element on the lock screen as well as the top-bar had it
+    hardcoded making the font inconsistent when changed via
+        org.gnome.desktop.interface font-name
+    GSetting.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1016
+  * monitor-manager: Sync gamma tables for new monitors.
+    This ensures newly plugged outputs get their gamma table updated and
+    hence e.g. pick up night light correctly.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1019
+  * wayland: Drop unused input-inhibitor protocol.
+    It's unused and wlroots 0.18.x dropped support for it.
+  * tools: Parse additional license headers.
+  * home: Decruft a bit
+  * home: Drop animated arrow.
+    The overview can be closed by activating an application so there's no real
+    need for the arrow.
+  * home: Drop the home-bar's stack.
+    We don't need it anymore since the arrow is gone
+  * home: Hide power bar pill when unfolded.
+    Otherwise it might look a bit out of place as it's exactly over the
+    active app.
+  * gmobile: Update to 0.0.5 adding notch support for the FP5.
+
+  [ Anna “CyberTailor” ]
+  * build: Allow elogind to be used on systems without SystemD
+
+  [ Bardia Moshiri ]
+  * packaging: Add libgirepository1.0-dev as a build dependency
+
+  [ Kai Lüke ]
+  * phosh-session: Drop ambient capabilities.
+    Systemd 254 adds cap_wake_alarm by default in pam_systemd.
+    The phosh.service makes use of it through PAMName=login.
+    This causes phoc to run with this ambient capability which is passed to
+    the Phosh session which then fails to spawn any .desktop files such as
+    Epiphany or any Flatpak app because they depend on bwrap which has a
+    restrictive check against additional capabilities:
+    https://github.com/containers/bubblewrap/issues/380
+    A regular GNOME session with GDM and GNOME Shell does not have this
+    problem.
+    Drop ambient capabilities before running the Phosh session to resolve
+    the bwrap problem and align the behavior with the regular GNOME setup.
+  * phosh-session: Reduce number of processes.
+    The phoc -E switch uses "sh -c" to run the given commands and then in
+    that shell "bash -lc" is started to run the session. Without using
+    "exec CMD" this leaves the shell process around while they wait for the
+    child process.
+    To save memory, replace the shell process in the second invocation, but
+    leave the first as is to address this in phoc.
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Pierre Michel Augustin ]
+  * Update Haitian Creole translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 31 Jan 2024 11:16:42 +0100
+
 phosh (0.35.0) experimental; urgency=medium
 
   [ Guido Günther ]
