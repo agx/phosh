@@ -182,12 +182,11 @@ phosh_wwan_ofono_dbus_netreg_update_prop (PhoshOfonoDBusNetworkRegistration *pro
                                           GVariant                          *value,
                                           PhoshWWanOfono                    *self)
 {
-    g_debug ("WWAN netreg property %s changed", property);
-    if (g_strcmp0 (property, "Strength") == 0) {
-      phosh_wwan_ofono_update_signal_quality (self, value);
-    } else if (g_strcmp0 (property, "Technology") == 0) {
-      phosh_wwan_ofono_update_access_tec (self, value);
-    }
+  g_debug ("WWAN netreg property %s changed", property);
+  if (g_strcmp0 (property, "Strength") == 0)
+    phosh_wwan_ofono_update_signal_quality (self, value);
+  else if (g_strcmp0 (property, "Technology") == 0)
+    phosh_wwan_ofono_update_access_tec (self, value);
 }
 
 
@@ -208,14 +207,13 @@ phosh_wwan_ofono_dbus_sim_update_prop (PhoshOfonoDBusSimManager *proxy,
                                        GVariant                 *value,
                                        PhoshWWanOfono           *self)
 {
-    g_debug ("WWAN SIM property %s changed", property);
-    if (g_strcmp0 (property, "Present") == 0) {
-      phosh_wwan_ofono_update_sim_status (self, value);
-    } else if (g_strcmp0 (property, "PinRequired") == 0) {
-      phosh_wwan_ofono_update_lock_status (self, value);
-    } else if (g_strcmp0 (property, "ServiceProviderName") == 0) {
-      phosh_wwan_ofono_update_operator (self, value);
-    }
+  g_debug ("WWAN SIM property %s changed", property);
+  if (g_strcmp0 (property, "Present") == 0)
+    phosh_wwan_ofono_update_sim_status (self, value);
+  else if (g_strcmp0 (property, "PinRequired") == 0)
+    phosh_wwan_ofono_update_lock_status (self, value);
+  else if (g_strcmp0 (property, "ServiceProviderName") == 0)
+    phosh_wwan_ofono_update_operator (self, value);
 }
 
 
