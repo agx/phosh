@@ -27,7 +27,7 @@ test_env_common.set('G_TEST_BUILDDIR', meson.current_build_dir())
 test_env_common.set('G_DEBUG', 'gc-friendly,fatal-warnings')
 test_env_common.set('GSETTINGS_BACKEND', 'memory')
 test_env_common.set('GSETTINGS_SCHEMA_DIR', '@0@/data:@1@'.format(meson.project_build_root(),
-                                                                  lockscreen_plugin_schema_path))
+                                                                  plugin_schema_path))
 test_env_common.set('PYTHONDONTWRITEBYTECODE', 'yes')
 test_env_common.set('MALLOC_CHECK_', '2')
 test_env_common.set('NO_AT_BRIDGE', '1')
