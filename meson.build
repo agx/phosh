@@ -186,7 +186,7 @@ have_polkit_subject_cleanup = cc.compiles('''
 
 int main()
 {
-   g_autoptr (PolkitSubject) *subj = NULL;
+   g_autoptr (PolkitSubject) subj = NULL;
 }''',
   name : 'Have PolkitSubject cleanup',
   dependencies: libpolkit_agent_dep)
@@ -198,7 +198,7 @@ have_polkit_agent_listener_cleanup = cc.compiles('''
 
 int main()
 {
-   g_autoptr (PolkitAgentListener) *listener = NULL;
+   g_autoptr (PolkitAgentListener) listener = NULL;
 }''',
   name : 'Have PolkitAgentListener cleanup',
   dependencies: libpolkit_agent_dep)
