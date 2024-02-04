@@ -2,6 +2,7 @@ name='launcher-box'
 
 launcher_box_plugin_deps = [
   plugin_dep,
+  gio_unix_dep,
 ]
 
 launcher_box_resources = gnome.compile_resources(
