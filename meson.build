@@ -90,6 +90,12 @@ foreach arg: test_c_args
     global_c_args += arg
   endif
 endforeach
+
+if cc.get_id() == 'clang'
+  # Avoid cast align warnings for wl_container_of, etc
+  global_c_args += '-Wno-cast-align'
+endif
+
 add_project_arguments(
   global_c_args,
   language: 'c'
