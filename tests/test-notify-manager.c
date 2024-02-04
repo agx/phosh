@@ -60,7 +60,6 @@ test_phosh_notify_manager_server_info (PhoshTestFullShellFixture *fixture, gcons
 {
   g_autoptr (GError) err = NULL;
   g_autoptr (PhoshNotifyDBusNotifications) proxy = NULL;
-  g_auto (GStrv) caps = NULL;
   g_autofree char *name = NULL;
   g_autofree char *vendor = NULL;
   g_autofree char *version = NULL;
@@ -108,11 +107,6 @@ test_phosh_notify_manager_server_notify (PhoshTestFullShellFixture *fixture, gco
 {
   g_autoptr (GError) err = NULL;
   g_autoptr (PhoshNotifyDBusNotifications) proxy = NULL;
-  g_auto (GStrv) caps = NULL;
-  g_autofree char *name = NULL;
-  g_autofree char *vendor = NULL;
-  g_autofree char *version = NULL;
-  g_autofree char *spec_ver = NULL;
   PhoshNotifyManager *nm = NULL;
   gboolean success, notified = FALSE;
   guint id;

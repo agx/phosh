@@ -14,7 +14,6 @@ static const char *
 load_theme (const char *theme_name)
 {
   const char *style;
-  g_autofree char *name = NULL;
   g_autoptr (GtkCssProvider) provider = gtk_css_provider_new ();
 
   g_debug ("GTK theme: %s", theme_name);
