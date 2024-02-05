@@ -13,7 +13,7 @@
 #include "phosh-config.h"
 
 #include "shell.h"
-#include "wifiinfo.h"
+#include "wifi-info.h"
 
 /**
  * PhoshWifiInfo:
