@@ -464,7 +464,7 @@ on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self, GParamSpe
 
 
 static void
-check_device (PhoshWifiManager *self)
+check_connected_device (PhoshWifiManager *self)
 
 {
   const GPtrArray *devs;
@@ -530,7 +530,7 @@ on_nm_active_connection_state_changed (PhoshWifiManager *self,
 
    switch (state) {
    case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
-     check_device (self);
+     check_connected_device (self);
      break;
    case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
    case NM_ACTIVE_CONNECTION_STATE_UNKNOWN:
@@ -597,7 +597,7 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
       g_signal_connect_swapped (self->active, "state-changed",
                                 G_CALLBACK (on_nm_active_connection_state_changed), self);
     }
-    check_device (self);
+    check_connected_device (self);
     break;
   }
 
