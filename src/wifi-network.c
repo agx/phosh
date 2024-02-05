@@ -13,7 +13,7 @@
 /**
  * PhoshWifiNetwork:
  *
- * An object that represents a WiFi network.
+ * An object that represents a Wi-Fi network.
  *
  * A network is identified by it's SSID and encryption type and mode
  */

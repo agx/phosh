@@ -6,7 +6,7 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-/* Wifi Info widget */
+/* Wi-Fi Info widget */
 
 #define G_LOG_DOMAIN "phosh-wifiinfo"
 
@@ -18,9 +18,9 @@
 /**
  * PhoshWifiInfo:
  *
- * A widget to display the wifi status
+ * A widget to display the Wi-Fi status
  *
- * #PhoshWifiInfo displays the current wifi status based on information
+ * #PhoshWifiInfo displays the current Wi-Fi status based on information
  * from #PhoshWifiManager. To figure out if the widget should be shown
  * the #PhoshWifiInfo:enabled property can be useful.
  */
@@ -68,7 +68,7 @@ update_icon (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
 {
   const char *icon_name;
 
-  g_debug ("Updating wifi icon");
+  g_debug ("Updating Wi-Fi icon");
   g_return_if_fail (PHOSH_IS_WIFI_INFO (self));
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (wifi));
 
@@ -95,7 +95,7 @@ on_wifi_enabled (PhoshWifiInfo *self, GParamSpec *pspec, PhoshWifiManager *wifi)
 {
   gboolean enabled;
 
-  g_debug ("Updating wifi status");
+  g_debug ("Updating Wi-Fi status");
   g_return_if_fail (PHOSH_IS_WIFI_INFO (self));
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (wifi));
 
@@ -147,7 +147,7 @@ phosh_wifi_info_constructed (GObject *object)
   self->wifi = g_object_ref(phosh_shell_get_wifi_manager (shell));
 
   if (self->wifi == NULL) {
-    g_warning ("Failed to get wifi manager");
+    g_warning ("Failed to get Wi-Fi manager");
     return;
   }
 
@@ -205,18 +205,24 @@ phosh_wifi_info_class_init (PhoshWifiInfoClass *klass)
 
   gtk_widget_class_set_css_name (widget_class, "phosh-wifi-info");
 
+  /**
+   * PhoshWifiInfo:enabled:
+   *
+   * Whether a Wi-Fi device is enabled
+   */
   props[PROP_ENABLED] =
-    g_param_spec_boolean ("enabled",
-                          "enabled",
-                          "Whether a wifi device is enabled",
+    g_param_spec_boolean ("enabled", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_STATIC_STRINGS |
                           G_PARAM_EXPLICIT_NOTIFY);
+  /**
+   * PhoshWifiInfo:enabled:
+   *
+   * Whether a Wi-Fi hardware is present
+   */
   props[PROP_PRESENT] =
-    g_param_spec_boolean ("present",
-                          "Present",
-                          "Whether wifi hardware is present",
+    g_param_spec_boolean ("present", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_STATIC_STRINGS |
