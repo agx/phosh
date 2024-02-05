@@ -85,9 +85,12 @@ on_waited (gpointer data)
 
 
 static void
-wait_a_bit (GMainLoop *loop, int secs)
+wait_a_bit (GMainLoop *loop, int msecs)
 {
-  g_timeout_add_seconds (secs, (GSourceFunc) on_waited, loop);
+  gint id;
+
+  id = g_timeout_add (msecs, (GSourceFunc) on_waited, loop);
+  g_source_set_name_by_id (id, "[TestTakeScreenshot] wait");
   g_main_loop_run (loop);
 }
 
@@ -101,7 +104,7 @@ toggle_overview (GMainLoop                      *loop,
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_A, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
   /* Give animation time to finish */
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
 }
 
 
@@ -114,7 +117,7 @@ toggle_settings (GMainLoop                      *loop,
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_M, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
   /* Give animation time to finish */
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
 }
 
 
@@ -132,7 +135,7 @@ show_run_command_dialog (GMainLoop                      *loop,
     phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
   }
   /* Give animation time to finish */
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
 }
 
 
@@ -217,18 +220,18 @@ screenshot_plugin_prefs (GMainLoop                      *loop,
 
   pid = run_plugin_prefs ();
   /* Give app time to start and close overview */
-  wait_a_bit (loop, 2);
+  wait_a_bit (loop, 2000);
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_T, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, num++, "plugin-prefs-ticket-box");
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_E, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, num++, "plugin-prefs-emergncy-info");
   g_assert_no_errno (kill (pid, SIGTERM));
   g_spawn_close_pid (pid);
@@ -291,11 +294,11 @@ screenshot_end_session_dialog (GMainLoop                      *loop,
                                            NULL,
                                            on_end_session_dialog_open_finish,
                                            NULL);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, num++, "end-session-dialog");
 
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
 
   return num;
 }
@@ -368,11 +371,11 @@ screenshot_portal_access (GMainLoop                      *loop,
     NULL,
     on_portal_access_dialog,
     (gpointer)&success);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, num++, "portal-access");
   /* Close dialog */
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ENTER, NULL);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   g_assert_true (success);
 
   return num;
@@ -435,11 +438,11 @@ screenshot_mount_prompt (GMainLoop                      *loop,
     on_ask_question_finish,
     NULL);
 
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, num++, "mount-prompt");
 
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ENTER, NULL);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
 
   return num;
 }
@@ -457,23 +460,23 @@ screenshot_emergency_calls (GMainLoop                      *loop,
   phosh_test_emergency_calls_mock_export (emergency_calls_mock);
 
   phosh_test_keyboard_press_timeout (keyboard, timer, KEY_POWER, 3000);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (locale, num++, "power-menu");
 
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTALT);
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_E, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (locale, num++, "emergency-dialpad");
 
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTALT);
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_C, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (locale, num++, "emergency-contacts");
 
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
 
   return num;
 }
@@ -505,24 +508,24 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   loop = g_main_loop_new (context, FALSE);
 
   /* Give overview animation time to finish */
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, i++, "overview-empty");
 
   keyboard = phosh_test_keyboard_new (phosh_wayland_get_default ());
 
   /* Give overview animation some time to finish */
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   /* Typing will focus search */
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_M, KEY_E, KEY_D, NULL);
   /* Give search time to finish */
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, i++, "search");
 
   g_spawn_async (NULL, (char**) argv, NULL, G_SPAWN_DEFAULT, NULL, NULL, &pid, &err);
   g_assert_no_error (err);
   g_assert_true (pid);
   /* Give app time to start and close overview */
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, i++, "running-app");
 
   toggle_overview (loop, keyboard, timer);
@@ -561,25 +564,25 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
                                                                "/org/gnome/Mutter/DisplayConfig",
                                                                NULL,
                                                                &err);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   phosh_dbus_display_config_set_power_save_mode (dc_proxy, 0);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, i++, "lockscreen-status");
 
   mpris_mock = phosh_test_mpris_mock_new ();
   phosh_mpris_mock_export (mpris_mock);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, i++, "lockscreen-media-player");
 
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_SPACE, NULL);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, i++, "lockscreen-keypad");
 
   i = screenshot_emergency_calls (loop, what, i, keyboard, timer);
 
   calls_mock = phosh_test_calls_mock_new ();
   phosh_calls_mock_export (calls_mock);
-  wait_a_bit (loop, 1);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, i++, "lockscreen-call");
 
   zwp_virtual_keyboard_v1_destroy (keyboard);
