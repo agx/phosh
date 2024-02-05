@@ -35,8 +35,7 @@ enum {
 };
 static GParamSpec *props[PROP_LAST_PROP];
 
-struct _PhoshWifiManager
-{
+struct _PhoshWifiManager {
   GObject             parent;
 
   /* Is Wi-Fi radio on (rfkill off) */
@@ -154,16 +153,16 @@ update_icon_name (PhoshWifiManager *self)
 static void
 update_enabled_state (PhoshWifiManager *self)
 {
-   gboolean enabled;
+  gboolean enabled;
 
-   g_return_if_fail (NM_IS_CLIENT (self->nmclient));
-   enabled = nm_client_wireless_get_enabled (self->nmclient) && self->present;
-   g_debug ("NM Wi-Fi enabled: %d, present: %d", enabled, self->present);
+  g_return_if_fail (NM_IS_CLIENT (self->nmclient));
+  enabled = nm_client_wireless_get_enabled (self->nmclient) && self->present;
+  g_debug ("NM Wi-Fi enabled: %d, present: %d", enabled, self->present);
 
-   if (enabled != self->enabled) {
-     self->enabled = enabled;
-     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
-   }
+  if (enabled != self->enabled) {
+    self->enabled = enabled;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
+  }
 }
 
 
@@ -252,9 +251,9 @@ on_request_scan (GObject      *object,
 
 
 static void
-phosh_wifi_manager_get_property (GObject *object,
-                                 guint property_id,
-                                 GValue *value,
+phosh_wifi_manager_get_property (GObject    *object,
+                                 guint       property_id,
+                                 GValue     *value,
                                  GParamSpec *pspec)
 {
   PhoshWifiManager *self = PHOSH_WIFI_MANAGER (object);
@@ -305,6 +304,7 @@ static gboolean
 is_valid_access_point (NMAccessPoint *ap)
 {
   g_autofree char *ssid = get_access_point_ssid (ap);
+
   return ssid != NULL;
 }
 
@@ -404,6 +404,7 @@ static void
 on_nm_access_point_strength_changed (PhoshWifiManager *self, GParamSpec *pspec, NMAccessPoint *ap)
 {
   guint8 strength;
+
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
   g_return_if_fail (NM_IS_ACCESS_POINT (ap));
 
@@ -433,9 +434,9 @@ on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self, GParamSpe
   reset_active_wifi_network (self);
 
   if (self->ap)
-    g_debug("Wifi access point changed to '%s'", nm_access_point_get_bssid (self->ap));
+    g_debug ("Wifi access point changed to '%s'", nm_access_point_get_bssid (self->ap));
   else
-    g_debug("Wifi access point changed");
+    g_debug ("Wifi access point changed");
 
   if (self->ap)
     g_object_ref (self->ap);
@@ -447,7 +448,7 @@ on_nm_device_wifi_active_access_point_changed (PhoshWifiManager *self, GParamSpe
   old_ssid = self->ssid;
   self->ssid = NULL;
 
-  if(self->ap) {
+  if (self->ap) {
     g_signal_connect_swapped (self->ap, "notify::strength",
                               G_CALLBACK (on_nm_access_point_strength_changed), self);
     on_nm_access_point_strength_changed (self, NULL, self->ap);
@@ -474,13 +475,13 @@ check_connected_device (PhoshWifiManager *self)
 
   devs = nm_active_connection_get_devices (self->active);
   if (!devs || !devs->len) {
-      g_warning("Found active connection but no device");
-      return;
+    g_warning ("Found active connection but no device");
+    return;
   }
 
   dev = g_ptr_array_index (devs, 0);
   if (NM_IS_DEVICE_WIFI (dev)) {
-    g_debug("conn %p uses a Wi-Fi device", self->active);
+    g_debug ("conn %p uses a Wi-Fi device", self->active);
 
     /* Is this still the same device? */
     if (dev != NM_DEVICE (self->conn_dev)) {
@@ -516,30 +517,30 @@ cleanup_connection_device (PhoshWifiManager *self)
 }
 
 static void
-on_nm_active_connection_state_changed (PhoshWifiManager *self,
-                                       NMActiveConnectionState state,
+on_nm_active_connection_state_changed (PhoshWifiManager             *self,
+                                       NMActiveConnectionState       state,
                                        NMActiveConnectionStateReason reason,
-                                       NMActiveConnection *active)
+                                       NMActiveConnection           *active)
 {
-   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
-   g_return_if_fail (NM_IS_ACTIVE_CONNECTION (active));
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+  g_return_if_fail (NM_IS_ACTIVE_CONNECTION (active));
 
-   g_debug("Active connection state changed %d", state);
+  g_debug ("Active connection state changed %d", state);
 
-   update_state (self);
+  update_state (self);
 
-   switch (state) {
-   case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
-     check_connected_device (self);
-     break;
-   case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
-   case NM_ACTIVE_CONNECTION_STATE_UNKNOWN:
-   case NM_ACTIVE_CONNECTION_STATE_DEACTIVATING:
-   case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
-   default:
-     cleanup_connection_device (self);
-     return;
-   }
+  switch (state) {
+  case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
+    check_connected_device (self);
+    break;
+  case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
+  case NM_ACTIVE_CONNECTION_STATE_UNKNOWN:
+  case NM_ACTIVE_CONNECTION_STATE_DEACTIVATING:
+  case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
+  default:
+    cleanup_connection_device (self);
+    return;
+  }
 }
 
 
@@ -574,7 +575,7 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
   g_return_if_fail (NM_IS_CLIENT (nmclient));
 
-  conns = nm_client_get_active_connections(nmclient);
+  conns = nm_client_get_active_connections (nmclient);
 
   for (int i = 0; i < conns->len; i++) {
     const char *type;
@@ -584,7 +585,7 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
 
     /* We only care about wireless connections */
     if (g_strcmp0 (type, NM_SETTING_WIRELESS_SETTING_NAME))
-        continue;
+      continue;
 
     found = TRUE;
     /* Is this still the same connection? */
@@ -663,7 +664,7 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
   for (int i = 0; i < devs->len; i++) {
     dev = g_ptr_array_index (devs, i);
     if (NM_IS_DEVICE_WIFI (dev)) {
-      g_debug("Wifi device connected at %d", i);
+      g_debug ("Wifi device connected at %d", i);
       have_wifi_dev = TRUE;
       wifi_dev = NM_DEVICE_WIFI (dev);
       break;
@@ -688,7 +689,7 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
 static void
 on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
 {
-  g_autoptr(GError) err = NULL;
+  g_autoptr (GError) err = NULL;
   PhoshWifiManager *self;
   NMClient *client;
 
@@ -713,7 +714,7 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
   on_nmclient_active_connections_changed (self, NULL, self->nmclient);
   on_nmclient_devices_changed (self, NULL, self->nmclient);
 
-  g_debug("Wifi manager initialized");
+  g_debug ("Wifi manager initialized");
 }
 
 
@@ -734,7 +735,7 @@ phosh_wifi_manager_constructed (GObject *object)
 static void
 phosh_wifi_manager_dispose (GObject *object)
 {
-  PhoshWifiManager *self = PHOSH_WIFI_MANAGER(object);
+  PhoshWifiManager *self = PHOSH_WIFI_MANAGER (object);
 
   g_cancellable_cancel (self->cancel);
   g_clear_object (&self->cancel);
