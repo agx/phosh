@@ -87,7 +87,7 @@ src/util.c
 src/vpn-info.c
 src/widget-box.c
 src/wifiinfo.c
-src/wifimanager.c
+src/wifi-manager.c
 src/wwan-info.c
 plugins/emergency-info/emergency-info.c
 plugins/emergency-info/emergency-info.ui

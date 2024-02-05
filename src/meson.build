@@ -299,8 +299,8 @@ libphosh_sources = files(
   'wifi-network.h',
   'wifiinfo.c',
   'wifiinfo.h',
-  'wifimanager.c',
-  'wifimanager.h',
+  'wifi-manager.c',
+  'wifi-manager.h',
   'wwan-info.c',
   'wwan-info.h',
 ) + [
