@@ -9,7 +9,7 @@
 
 #include "phosh-config.h"
 
-#include "wifimanager.h"
+#include "wifi-manager.h"
 #include "shell.h"
 #include "util.h"
 
@@ -498,7 +498,7 @@ check_device (PhoshWifiManager *self)
 
 
 static void
-cleanup_device (PhoshWifiManager *self)
+cleanup_connection_device (PhoshWifiManager *self)
 {
   if (self->ap) {
     g_signal_handlers_disconnect_by_data (self->ap, self);
@@ -537,7 +537,7 @@ on_nm_active_connection_state_changed (PhoshWifiManager *self,
    case NM_ACTIVE_CONNECTION_STATE_DEACTIVATING:
    case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
    default:
-     cleanup_device (self);
+     cleanup_connection_device (self);
      return;
    }
 }
@@ -590,7 +590,7 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
     /* Is this still the same connection? */
     if (conn != self->active) {
       g_debug ("New active connection %p", conn);
-      cleanup_device (self);
+      cleanup_connection_device (self);
       if (self->active)
         g_signal_handlers_disconnect_by_data (self->active, self);
       g_set_object (&self->active, conn);
@@ -606,7 +606,7 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
     if (self->active)
       g_signal_handlers_disconnect_by_data (self->active, self);
     g_clear_object (&self->active);
-    cleanup_device (self);
+    cleanup_connection_device (self);
   }
 }
 
@@ -748,7 +748,7 @@ phosh_wifi_manager_dispose (GObject *object)
     g_clear_object (&self->nmclient);
   }
 
-  cleanup_device (self);
+  cleanup_connection_device (self);
   cleanup_wifi_device (self);
 
   if (self->active) {

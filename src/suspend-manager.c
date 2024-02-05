@@ -14,7 +14,7 @@
 #include "util.h"
 #include "shell.h"
 #include "suspend-manager.h"
-#include "wifimanager.h"
+#include "wifi-manager.h"
 
 #include <gio/gunixfdlist.h>
 
