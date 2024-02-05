@@ -215,7 +215,7 @@ screenshot_plugin_prefs (GMainLoop                      *loop,
 {
   GPid pid;
 
-  pid = run_plugin_prefs();
+  pid = run_plugin_prefs ();
   /* Give app time to start and close overview */
   wait_a_bit (loop, 2);
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
@@ -258,11 +258,11 @@ on_end_session_dialog_open_finish (GObject      *source_object,
 
 
 static int
-screenshot_end_session_dialog (GMainLoop                       *loop,
-                               const char                      *what,
-                               int                              num,
-                               struct zwp_virtual_keyboard_v1  *keyboard,
-                               GTimer                          *timer)
+screenshot_end_session_dialog (GMainLoop                      *loop,
+                               const char                     *what,
+                               int                             num,
+                               struct zwp_virtual_keyboard_v1 *keyboard,
+                               GTimer                         *timer)
 {
   g_autoptr (PhoshDBusEndSessionDialog) proxy = NULL;
   g_autoptr (GError) err = NULL;
@@ -406,11 +406,11 @@ on_ask_question_finish (GObject      *source_object,
 
 
 static int
-screenshot_mount_prompt (GMainLoop                       *loop,
-                         const char                      *what,
-                         int                              num,
-                         struct zwp_virtual_keyboard_v1  *keyboard,
-                         GTimer                          *timer)
+screenshot_mount_prompt (GMainLoop                      *loop,
+                         const char                     *what,
+                         int                             num,
+                         struct zwp_virtual_keyboard_v1 *keyboard,
+                         GTimer                         *timer)
 {
   g_autoptr (PhoshDBusMountOperationHandler) proxy = NULL;
   g_autoptr (GError) err = NULL;
