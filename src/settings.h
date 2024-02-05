@@ -7,6 +7,7 @@
 #pragma once
 
 #include <gtk/gtk.h>
+#include "wifi-status-page.h"
 
 #define PHOSH_TYPE_SETTINGS (phosh_settings_get_type())
 

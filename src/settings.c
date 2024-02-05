@@ -69,6 +69,12 @@ typedef struct _PhoshSettings
   GtkWidget *media_player;
   PhoshAudioSettings *audio_settings;
 
+  GtkWidget *stack;
+  GtkWidget *status_page_stack;
+
+  GtkWidget *wifi_status_page;
+  GtkWidget *wifi_quick_setting;
+
   /* The area with media widget, notifications */
   GtkWidget *box_bottom_half;
   /* Notifications */
@@ -130,7 +136,10 @@ static void
 calc_drag_handle_offset (PhoshSettings *self)
 {
   int h = 0;
-  int box_height, sw_height;
+  int box_height, sw_height, stack_height = 0;
+  int stack_y = 0;
+  gboolean success;
+  const char *stack_page;
 
   h = gtk_widget_get_allocated_height (GTK_WIDGET (self));
   /* On the lock screen the whole surface is fine */
@@ -139,8 +148,31 @@ calc_drag_handle_offset (PhoshSettings *self)
 
   box_height = gtk_widget_get_allocated_height (self->box_settings);
   sw_height = gtk_widget_get_allocated_height (self->scrolled_window);
-  if (box_height > sw_height)
+  if (box_height > sw_height) {
     h = 0; /* Don't enlarge drag handle if box needs scrolling */
+    goto out;
+  }
+
+  stack_page = gtk_stack_get_visible_child_name (GTK_STACK (self->stack));
+  g_debug ("Calculating drag offset: on stack page: %s", stack_page);
+
+  /* Make sure quick settings' status pages are scrollable */
+  if (g_strcmp0 (stack_page, "status_page") != 0)
+    goto out;
+
+  success = gtk_widget_translate_coordinates (self->stack, GTK_WIDGET (self),
+                                              0, 0, NULL, &stack_y);
+
+  if (!success) {
+    g_warning ("Calculating drag offset: Unable to get stack page's y coordinate");
+    goto out;
+  }
+
+  stack_height = gtk_widget_get_allocated_height (self->stack);
+  h = stack_y + stack_height;
+
+  g_debug ("Calculating drag offset: stack_y = %d, stack_height = %d, height = %d",
+           stack_y, stack_height, h);
 
  out:
   if (self->drag_handle_offset == h)
@@ -251,6 +283,26 @@ on_launch_panel_activated (GSimpleAction *action, GVariant *param, gpointer data
   phosh_audio_settings_hide_details (self->audio_settings);
 }
 
+static void
+on_close_status_page_activated (GSimpleAction *action, GVariant *param, gpointer data)
+{
+  PhoshSettings *self = PHOSH_SETTINGS (data);
+  GtkStack *stack = GTK_STACK (self->stack);
+
+  gtk_stack_set_visible_child_name (stack, "quick_settings_page");
+}
+
+static void
+on_shell_locked (PhoshSettings *self, GParamSpec *pspec, PhoshShell *shell)
+{
+  GtkStack *stack = GTK_STACK (self->stack);
+
+  if (phosh_shell_get_locked (shell)) {
+    gtk_stack_set_visible_child_name (stack, "quick_settings_page");
+    phosh_quick_setting_set_has_status (PHOSH_QUICK_SETTING (self->wifi_quick_setting), FALSE);
+  } else
+    phosh_quick_setting_set_has_status (PHOSH_QUICK_SETTING (self->wifi_quick_setting), TRUE);
+}
 
 static void
 rotation_setting_long_pressed_cb (PhoshSettings *self)
@@ -309,7 +361,14 @@ wifi_setting_clicked_cb (PhoshSettings *self)
 static void
 wifi_setting_long_pressed_cb (PhoshSettings *self)
 {
-  open_settings_panel (self, "wifi");
+  GtkStack *stack = GTK_STACK (self->stack);
+  GtkStack *status_page_stack = GTK_STACK (self->status_page_stack);
+
+  if (self->on_lockscreen)
+    return;
+
+  gtk_stack_set_visible_child_name (stack, "status_page");
+  gtk_stack_set_visible_child_name (status_page_stack, "wifi_status_page");
 }
 
 static void
@@ -630,6 +689,8 @@ phosh_settings_constructed (GObject *object)
                           self,
                           "on-lockscreen",
                           G_BINDING_SYNC_CREATE);
+
+  g_signal_connect_swapped (phosh_shell_get_default (), "notify::locked", (GCallback) on_shell_locked, self);
 }
 
 
@@ -668,6 +729,8 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   object_class->constructed = phosh_settings_constructed;
   object_class->set_property = phosh_settings_set_property;
   object_class->get_property = phosh_settings_get_property;
+
+  g_type_ensure (PHOSH_TYPE_WIFI_STATUS_PAGE);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/settings.ui");
@@ -713,6 +776,10 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_torch);
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack);
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, status_page_stack);
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, wifi_status_page);
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, wifi_quick_setting);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scrolled_window);
 
@@ -742,6 +809,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 
 static const GActionEntry entries[] = {
   { .name = "launch-panel", .activate = on_launch_panel_activated, .parameter_type = "s" },
+  { .name = "close-status-page", .activate = on_close_status_page_activated },
 };
 
 

@@ -11,6 +11,16 @@
         <property name="orientation">horizontal</property>
         <property name="spacing">6</property>
         <child>
+          <object class="GtkImage" id="has_status_image">
+            <property name="visible">False</property>
+            <property name="icon-name">go-next-symbolic</property>
+          </object>
+          <packing>
+            <property name="position">1</property>
+            <property name="pack_type">end</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkLabel" id="label">
             <property name="visible">True</property>
             <property name="expand">True</property>
@@ -19,7 +29,7 @@
             <property name="halign">start</property>
           </object>
           <packing>
-            <property name="position">1</property>
+            <property name="position">2</property>
             <property name="pack_type">end</property>
           </packing>
         </child>

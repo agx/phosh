@@ -27,11 +27,14 @@
     <file preprocess="xml-stripblanks">ui/power-menu.ui</file>
     <file preprocess="xml-stripblanks">ui/run-command-dialog.ui</file>
     <file preprocess="xml-stripblanks">ui/settings.ui</file>
+    <file preprocess="xml-stripblanks">ui/status-page.ui</file>
     <file preprocess="xml-stripblanks">ui/system-modal-dialog.ui</file>
     <file preprocess="xml-stripblanks">ui/splash.ui</file>
     <file preprocess="xml-stripblanks">ui/system-prompt.ui</file>
     <file preprocess="xml-stripblanks">ui/top-panel.ui</file>
     <file preprocess="xml-stripblanks">ui/widget-box.ui</file>
+    <file preprocess="xml-stripblanks">ui/wifi-network-row.ui</file>
+    <file preprocess="xml-stripblanks">ui/wifi-status-page.ui</file>
     <file preprocess="xml-stripblanks">ui/quick-setting.ui</file>
     <file compressed="true">stylesheet/adwaita-dark.css</file>
     <file compressed="true">stylesheet/adwaita-hc-light.css</file>
