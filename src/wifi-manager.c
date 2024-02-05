@@ -614,7 +614,7 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
 static void
 setup_wifi_device (PhoshWifiManager *self, NMDeviceWifi *dev)
 {
-  self->dev = dev;
+  g_set_object (&self->dev, dev);
   g_signal_connect_swapped (self->dev, "access-point-added",
                             G_CALLBACK (on_nm_access_point_added), self);
   g_signal_connect_swapped (self->dev, "access-point-removed",
@@ -631,8 +631,9 @@ cleanup_wifi_device (PhoshWifiManager *self)
     return;
 
   g_list_store_remove_all (G_LIST_STORE (self->networks));
+
   g_signal_handlers_disconnect_by_data (self->dev, self);
-  self->dev = NULL;
+  g_clear_object (&self->dev);
 }
 
 
