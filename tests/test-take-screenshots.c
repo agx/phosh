@@ -488,6 +488,7 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_autoptr (GTimer) timer = g_timer_new ();
   g_autoptr (GMainContext) context = g_main_context_new ();
   g_autoptr (GMainLoop) loop = NULL;
+  g_autoptr (PhoshDBusDisplayConfig) dc_proxy = NULL;
   g_autoptr (PhoshDBusScreenSaver) ss_proxy = NULL;
   g_autoptr (PhoshTestCallsMock) calls_mock = NULL;
   g_autoptr (PhoshTestMprisMock) mpris_mock = NULL;
@@ -554,6 +555,15 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_assert_no_error (err);
   phosh_dbus_screen_saver_call_lock_sync (ss_proxy, NULL, &err);
   g_assert_no_error (err);
+
+  dc_proxy = phosh_dbus_display_config_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+                                                               G_DBUS_PROXY_FLAGS_NONE,
+                                                               "org.gnome.Mutter.DisplayConfig",
+                                                               "/org/gnome/Mutter/DisplayConfig",
+                                                               NULL,
+                                                               &err);
+  wait_a_bit (loop, 1);
+  phosh_dbus_display_config_set_power_save_mode (dc_proxy, 0);
   wait_a_bit (loop, 1);
   take_screenshot (what, i++, "lockscreen-status");
 
