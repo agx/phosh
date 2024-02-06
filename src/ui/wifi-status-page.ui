@@ -112,6 +112,7 @@
                 <child>
                   <object class="GtkListBox" id="networks">
                     <property name="visible">True</property>
+                    <property name="selection-mode">none</property>
                     <signal name="row-activated" handler="on_network_activated_cb" object="PhoshWifiStatusPage" swapped="yes"/>
                     <child type="placeholder">
                       <object class="GtkBox">
