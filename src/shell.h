@@ -30,7 +30,7 @@
 #include "toplevel-manager.h"
 #include "torch-manager.h"
 #include "vpn-manager.h"
-#include "wifimanager.h"
+#include "wifi-manager.h"
 #include "wwan/phosh-wwan-iface.h"
 
 #include <gtk/gtk.h>

@@ -13,7 +13,7 @@
 /**
  * PhoshWifiStatusPage:
  *
- * A widget to display list of WiFi access points when the corresponding PhoshQuickSetting is
+ * A widget to display list of Wi-Fi access points when the corresponding PhoshQuickSetting is
  * activated.
  */
 
@@ -136,7 +136,7 @@ phosh_wifi_status_page_init (PhoshWifiStatusPage *self)
   self->wifi = g_object_ref (phosh_shell_get_wifi_manager (shell));
 
   if (self->wifi == NULL) {
-    g_warning ("Failed to get WiFi manager");
+    g_warning ("Failed to get Wi-Fi manager");
     return;
   }
 

@@ -9,7 +9,7 @@
 #include "quick-setting.h"
 #include "shell.h"
 #include "status-page.h"
-#include "wifimanager.h"
+#include "wifi-manager.h"
 #include "wifi-network.h"
 #include "wifi-network-row.h"
 
