@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-05 08:45+0000\n"
-"PO-Revision-Date: 2024-02-06 09:19+0200\n"
+"POT-Creation-Date: 2024-02-06 08:44+0000\n"
+"PO-Revision-Date: 2024-02-06 15:37+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -233,13 +233,15 @@ msgstr "Нетиповий"
 
 #: src/network-auth-prompt.c:202
 #, c-format
-msgid "Authentication type of wifi network “%s” not supported"
-msgstr "Підтримки типу розпізнавання у мережі wifi «%s» не передбачено"
+#| msgid "Authentication type of wifi network “%s” not supported"
+msgid "Authentication type of Wi-Fi network “%s” not supported"
+msgstr "Підтримки типу розпізнавання у мережі Wi-Fi «%s» не передбачено"
 
 #: src/network-auth-prompt.c:207
 #, c-format
-msgid "Enter password for the wifi network “%s”"
-msgstr "Введіть пароль до мережі wifi «%s»"
+#| msgid "Enter password for the wifi network “%s”"
+msgid "Enter password for the Wi-Fi network “%s”"
+msgstr "Введіть пароль до мережі Wi-Fi «%s»"
 
 #: src/notifications/mount-notification.c:121
 msgid "Open"
@@ -579,7 +581,6 @@ msgid "Scan"
 msgstr "Сканувати"
 
 #: src/ui/wifi-status-page.ui:188
-#| msgid "Folder Settings"
 msgid "Wi-Fi Settings"
 msgstr "Параметри Wi-Fi"
 
