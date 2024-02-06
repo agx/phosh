@@ -90,6 +90,7 @@
                     <child>
                       <object class="GtkListBox" id="listbox_audio_output_devices">
                         <property name="visible">True</property>
+                        <property name="selection-mode">none</property>
                         <signal name="row-activated" handler="on_audio_output_device_row_activated" swapped="yes"/>
                       </object>
                     </child>
@@ -113,6 +114,7 @@
                     <child>
                       <object class="GtkListBox" id="listbox_audio_input_devices">
                         <property name="visible">True</property>
+                        <property name="selection-mode">none</property>
                         <signal name="row-activated" handler="on_audio_input_device_row_activated" swapped="yes"/>
                       </object>
                     </child>
