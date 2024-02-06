@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-05 08:45+0000\n"
-"PO-Revision-Date: 2024-02-05 20:37+0100\n"
+"POT-Creation-Date: 2024-02-06 09:40+0000\n"
+"PO-Revision-Date: 2024-02-06 14:19+0100\n"
 "Last-Translator: Antonio Marin <gnmer [dot] 6qxyg [at] slmail [dot] me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -234,12 +234,12 @@ msgstr "Necunoscut"
 
 #: src/network-auth-prompt.c:202
 #, c-format
-msgid "Authentication type of wifi network “%s” not supported"
+msgid "Authentication type of Wi-Fi network “%s” not supported"
 msgstr "Tipul de autentificare pentru rețeaua Wi-Fi „%s” nu este acceptat"
 
 #: src/network-auth-prompt.c:207
 #, c-format
-msgid "Enter password for the wifi network “%s”"
+msgid "Enter password for the Wi-Fi network “%s”"
 msgstr "Introdu parola pentru rețeaua Wi-Fi „%s”"
 
 #: src/notifications/mount-notification.c:121
