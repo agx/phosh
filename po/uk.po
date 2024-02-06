@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the phosh package.
 #
 # Roman Riabenko <roman@riabenko.com>, 2020. #zanata.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023.
+# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-10-27 13:22+0000\n"
-"PO-Revision-Date: 2023-10-27 21:17+0300\n"
+"POT-Creation-Date: 2024-02-05 08:45+0000\n"
+"PO-Revision-Date: 2024-02-06 09:19+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 23.04.1\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
@@ -108,11 +108,11 @@ msgstr "Не вдалося розмістити екстрений виклик
 msgid "Internal error"
 msgstr "Внутрішня помилка"
 
-#: src/end-session-dialog.c:163
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "Вийти"
 
-#: src/end-session-dialog.c:166
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -120,11 +120,11 @@ msgstr[0] "Вихід з системи %s буде здійснено авто�
 msgstr[1] "Вихід з системи %s буде здійснено автоматично за %d секунди."
 msgstr[2] "Вихід з системи %s буде здійснено автоматично за %d секунд."
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:182
 msgid "Power Off"
 msgstr "Вимкнути"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -132,21 +132,17 @@ msgstr[0] "Система автоматично вимкнеться за %d с
 msgstr[1] "Система автоматично вимкнеться за %d секунди."
 msgstr[2] "Система автоматично вимкнеться за %d секунд."
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "Перезапустити"
 
-#: src/end-session-dialog.c:180
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "Система автоматично перезапуститься за %d секунду."
 msgstr[1] "Система автоматично перезапуститься за %d секунди."
 msgstr[2] "Система автоматично перезапуститься за %d секунд."
-
-#: src/end-session-dialog.c:270
-msgid "Unknown application"
-msgstr "Невідома програма"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -185,11 +181,11 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:397
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "Звіряю…"
 
@@ -211,18 +207,18 @@ msgstr "Невідома назва"
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
-#: src/monitor-manager.c:119
+#: src/monitor-manager.c:127
 msgid "Built-in display"
 msgstr "Вбудований дисплей"
 
-#: src/monitor-manager.c:137
+#: src/monitor-manager.c:145
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:144
+#: src/monitor-manager.c:152
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -231,16 +227,16 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:153
+#: src/monitor-manager.c:161
 msgid "Unknown"
 msgstr "Нетиповий"
 
-#: src/network-auth-prompt.c:201
+#: src/network-auth-prompt.c:202
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Підтримки типу розпізнавання у мережі wifi «%s» не передбачено"
 
-#: src/network-auth-prompt.c:206
+#: src/network-auth-prompt.c:207
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Введіть пароль до мережі wifi «%s»"
@@ -404,7 +400,7 @@ msgstr "Запам'ятати вибір"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -461,7 +457,7 @@ msgid "Owner unknown"
 msgstr "Невідомий власник"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
 msgid "Emergency Contacts"
 msgstr "Екстрені контакти"
 
@@ -473,15 +469,15 @@ msgstr "Немає доступних екстрених контактів."
 msgid "Some applications are busy or have unsaved work"
 msgstr "Деякі програми зайняті або мають незбережені дані"
 
-#: src/ui/gtk-mount-prompt.ui:94
+#: src/ui/gtk-mount-prompt.ui:88
 msgid "User:"
 msgstr "Користувач:"
 
-#: src/ui/gtk-mount-prompt.ui:117
+#: src/ui/gtk-mount-prompt.ui:111
 msgid "Domain:"
 msgstr "Домен:"
 
-#: src/ui/gtk-mount-prompt.ui:150
+#: src/ui/gtk-mount-prompt.ui:144
 msgid "Co_nnect"
 msgstr "З'єд_натися"
 
@@ -510,7 +506,7 @@ msgstr "_Скасувати"
 msgid "C_onnect"
 msgstr "З'_єднатися"
 
-#: src/ui/polkit-auth-prompt.ui:122
+#: src/ui/polkit-auth-prompt.ui:117
 msgid "Authenticate"
 msgstr "Автентифікуватися"
 
@@ -534,15 +530,15 @@ msgstr "_Екстрений виклик"
 msgid "Run Command"
 msgstr "Виконати команду"
 
-#: src/ui/settings.ui:296
+#: src/ui/settings.ui:327
 msgid "No notifications"
 msgstr "Немає сповіщень"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "Очистити все"
 
-#: src/ui/system-prompt.ui:62
+#: src/ui/system-prompt.ui:57
 msgid "Confirm:"
 msgstr "Підтвердіть:"
 
@@ -562,9 +558,34 @@ msgstr "_Призупинити…"
 msgid "_Log Out…"
 msgstr "Ви_йти…"
 
+#: src/ui/wifi-status-page.ui:35
+msgid "No Wi-Fi Device Found"
+msgstr "Не знайдено жодного пристрою Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:66
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi вимкнено"
+
+#: src/ui/wifi-status-page.ui:106
+msgid "Wi-Fi Hotspot Active"
+msgstr "Активна точка доступу Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:145
+msgid "No Wi-Fi Hotspots Found"
+msgstr "Не знайдено точок доступу Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:156
+msgid "Scan"
+msgstr "Сканувати"
+
+#: src/ui/wifi-status-page.ui:188
+#| msgid "Folder Settings"
+msgid "Wi-Fi Settings"
+msgstr "Параметри Wi-Fi"
+
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:339
+#: src/util.c:342
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
@@ -611,32 +632,32 @@ msgid "Home Address"
 msgstr "Домашня адреса"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
 msgid "Medical Information"
 msgstr "Медичні відомості"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
 msgid "Age"
 msgstr "Вік"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
 msgid "Blood Type"
 msgstr "Група крові"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
 msgid "Height"
 msgstr "Зріст"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Weight"
 msgstr "Вага"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
 msgid "Allergies"
 msgstr "Алергії"
 
@@ -645,7 +666,7 @@ msgid "Medications & Conditions"
 msgstr "Препарати і стан здоров'я"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
 msgid "Other Information"
 msgstr "Інші відомості"
 
@@ -662,31 +683,31 @@ msgstr "Виконано"
 msgid "Owner Name"
 msgstr "Ім'я власника"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
 msgid "Medications and Conditions"
 msgstr "Препарати і стан здоров'я"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
 msgid "Add Contact"
 msgstr "Додати контакт"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
 msgid "Add New Contact"
 msgstr "Додати новий контакт"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
 msgid "Add"
 msgstr "Додати"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "New Contact Name"
 msgstr "Назва нового контакту"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
 msgid "Relationship"
 msgstr "Зв'язок"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
 msgid "Number"
 msgstr "Номер"
 
@@ -779,9 +800,12 @@ msgstr "Увесь день"
 msgid "Ends"
 msgstr "Завершується"
 
-#: plugins/upcoming-events/upcoming-event.c:398
+#: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Подія без назви"
+
+#~ msgid "Unknown application"
+#~ msgstr "Невідома програма"
 
 #~ msgid "Emergency"
 #~ msgstr "Екстрений виклик"
