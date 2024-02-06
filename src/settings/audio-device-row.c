@@ -147,8 +147,6 @@ phosh_audio_device_row_class_init (PhoshAudioDeviceRowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshAudioDeviceRow, description);
   gtk_widget_class_bind_template_child (widget_class, PhoshAudioDeviceRow, icon);
   gtk_widget_class_bind_template_child (widget_class, PhoshAudioDeviceRow, revealer);
-
-  gtk_widget_class_set_css_name (widget_class, "phosh-audio-device-row");
 }
 
 
