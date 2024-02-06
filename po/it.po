@@ -3,22 +3,22 @@
 # This file is distributed under the same license as the phosh package.
 # Ant Pandolfo <ant.pandolfo@gmail.com>, 2018.
 # antpanlinux <ant.pandolfo@gmail.com>, 2019. #zanata-2023.
-# Vittorio Monti <gitlapur.a8tut@aleeas.com>, 2023.
+# Vittorio Monti <gitlapur.a8tut@aleeas.com>, 2020-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-10-30 17:58+0000\n"
-"PO-Revision-Date: 2023-11-12 14:17+0100\n"
+"POT-Creation-Date: 2024-02-06 08:44+0000\n"
+"PO-Revision-Date: 2024-02-06 14:42+0100\n"
 "Last-Translator: Vittorio Monti <gitlapur.a8tut@aleeas.com>\n"
 "Language-Team: Italian <>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 45.3\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -109,42 +109,38 @@ msgstr "Impossibile effettuare chiamata di emergenza"
 msgid "Internal error"
 msgstr "Errore interno"
 
-#: src/end-session-dialog.c:163
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "Termina sessione"
 
-#: src/end-session-dialog.c:166
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s verrà disconnesso automaticamente fra %d secondo."
 msgstr[1] "%s verrà disconnesso automaticamente fra %d secondi."
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:182
 msgid "Power Off"
 msgstr "Spegni"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Il sistema si spegnerà automaticamente fra %d secondo."
 msgstr[1] "Il sistema si spegnerà automaticamente fra %d secondi."
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "Riavvia"
 
-#: src/end-session-dialog.c:180
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "Il sistema verrà riavviato automaticamente fra %d secondo."
 msgstr[1] "Il sistema verrà riavviato automaticamente fra %d secondi."
-
-#: src/end-session-dialog.c:270
-msgid "Unknown application"
-msgstr "Applicazione sconosciuta"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -183,11 +179,11 @@ msgstr "Sì"
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Inserire la password"
 
-#: src/lockscreen.c:397
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "Sto controllando…"
 
@@ -209,18 +205,18 @@ msgstr "Titolo sconosciuto"
 msgid "Unknown Artist"
 msgstr "Artista sconosciuto"
 
-#: src/monitor-manager.c:119
+#: src/monitor-manager.c:127
 msgid "Built-in display"
 msgstr "Schermo integrato"
 
-#: src/monitor-manager.c:137
+#: src/monitor-manager.c:145
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:144
+#: src/monitor-manager.c:152
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -229,18 +225,18 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:153
+#: src/monitor-manager.c:161
 msgid "Unknown"
 msgstr "Sconosciuto"
 
 #: src/network-auth-prompt.c:202
 #, c-format
-msgid "Authentication type of wifi network “%s” not supported"
-msgstr "Tipo di autenticazione della rete Wi-Fi “%s” non supportato"
+msgid "Authentication type of Wi-Fi network “%s” not supported"
+msgstr "Tipo di autenticazione della rete Wi-Fi “%s” non accettato"
 
 #: src/network-auth-prompt.c:207
 #, c-format
-msgid "Enter password for the wifi network “%s”"
+msgid "Enter password for the Wi-Fi network “%s”"
 msgstr "Inserire la password per la rete Wi-Fi “%s”"
 
 #: src/notifications/mount-notification.c:121
@@ -386,7 +382,7 @@ msgstr "Controllo del volume"
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
-msgstr "Le password non corrispondono"
+msgstr "Le password non corrispondono."
 
 #: src/system-prompt.c:372
 msgid "Password cannot be blank"
@@ -402,7 +398,7 @@ msgstr "Ricorda la decisione"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
 msgid "Cancel"
 msgstr "Annulla"
 
@@ -459,7 +455,7 @@ msgid "Owner unknown"
 msgstr "Proprietario sconosciuto"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
 msgid "Emergency Contacts"
 msgstr "Contatti di emergenza"
 
@@ -532,11 +528,11 @@ msgstr "_Emergenza"
 msgid "Run Command"
 msgstr "Esegui comando"
 
-#: src/ui/settings.ui:296
+#: src/ui/settings.ui:327
 msgid "No notifications"
 msgstr "Nessuna notifica"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "Cancella tutto"
 
@@ -560,9 +556,33 @@ msgstr "_Sospendi…"
 msgid "_Log Out…"
 msgstr "_Termina sessione…"
 
+#: src/ui/wifi-status-page.ui:35
+msgid "No Wi-Fi Device Found"
+msgstr "Nessun dispositivo Wi-Fi trovato"
+
+#: src/ui/wifi-status-page.ui:66
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi disattivato"
+
+#: src/ui/wifi-status-page.ui:106
+msgid "Wi-Fi Hotspot Active"
+msgstr "Hotspot Wi-Fi attivo"
+
+#: src/ui/wifi-status-page.ui:145
+msgid "No Wi-Fi Hotspots Found"
+msgstr "Nessun Hotspot Wi-Fi trovato"
+
+#: src/ui/wifi-status-page.ui:156
+msgid "Scan"
+msgstr "Cerca"
+
+#: src/ui/wifi-status-page.ui:188
+msgid "Wi-Fi Settings"
+msgstr "Opzioni Wi-Fi"
+
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:339
+#: src/util.c:342
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -609,32 +629,32 @@ msgid "Home Address"
 msgstr "Indirizzo di residenza"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
 msgid "Medical Information"
 msgstr "Informazioni mediche"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
 msgid "Age"
 msgstr "Età"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
 msgid "Blood Type"
 msgstr "Gruppo sanguigno"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
 msgid "Height"
 msgstr "Altezza"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Weight"
 msgstr "Peso"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
 msgid "Allergies"
 msgstr "Allergie"
 
@@ -643,7 +663,7 @@ msgid "Medications & Conditions"
 msgstr "Medicine e Malattie"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
 msgid "Other Information"
 msgstr "Altre informazioni"
 
@@ -660,31 +680,31 @@ msgstr "Fatto"
 msgid "Owner Name"
 msgstr "Nome del proprietario"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
 msgid "Medications and Conditions"
 msgstr "Medicine e Malattie"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
 msgid "Add Contact"
 msgstr "Aggiungi contatto"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
 msgid "Add New Contact"
 msgstr "Aggiungi nuovo contatto"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
 msgid "Add"
 msgstr "Aggiungi"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "New Contact Name"
 msgstr "Nome del nuovo contatto"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
 msgid "Relationship"
 msgstr "Relazione"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
 msgid "Number"
 msgstr "Numero"
 
@@ -776,7 +796,6 @@ msgstr "Tutto il giorno"
 msgid "Ends"
 msgstr "Termina"
 
-#: plugins/upcoming-events/upcoming-event.c:398
+#: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Evento senza titolo"
-
