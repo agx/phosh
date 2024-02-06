@@ -83,7 +83,7 @@
 #include "torch-info.h"
 #include "util.h"
 #include "vpn-info.h"
-#include "wifiinfo.h"
+#include "wifi-info.h"
 #include "wwan-info.h"
 #include "wwan/phosh-wwan-ofono.h"
 #include "wwan/phosh-wwan-mm.h"
