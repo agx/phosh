@@ -138,7 +138,7 @@ button.phosh-settings-details:focus {
   background: none;
 }
 
-/* Listboxes in settings */
+/* Listboxes in settings (e.g. audio details, quick setting status pages) */
 .phosh-settings-list-box {
   border-radius: 18px;
   padding: 12px;
@@ -154,15 +154,26 @@ button.phosh-settings-details:focus {
   background: @phosh_borders_color;
 }
 
+.phosh-settings-list-box list row {
+  border-radius: 8px;
+}
+
+.phosh-settings-list-box list row:focus {
+  box-shadow: inset 0 0 0 2px @theme_selected_bg_color;
+  background: mix(@phosh_button_bg_color, @theme_selected_bg_color, 0.1);
+  outline-style: none;
+  transition: none;
+}
+
+.phosh-settings-list-box list row image {
+  -gtk-icon-style: symbolic;
+}
+
 /*
  * Audio devices listbox
  */
 .phosh-gear-button {
   border-radius: 99px;
-}
-
-phosh-audio-device-row image {
-  -gtk-icon-style: symbolic;
 }
 
 /*
