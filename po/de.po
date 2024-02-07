@@ -16,15 +16,15 @@
 # Tim Sabsch <tim@sabsch.com>, 2020.
 # Michael Oppliger <mj.oppliger@gmail.com>, 2021.
 # Philipp Kiemle <philipp.kiemle@gmail.com>, 2021, 2023.
-# Jürgen Benvenuti <gastornis@posteo.org>, 2022, 2023.
+# Jürgen Benvenuti <gastornis@posteo.org>, 2022-2024.
 #
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-11-27 10:12+0000\n"
-"PO-Revision-Date: 2023-12-30 20:15+0100\n"
+"POT-Creation-Date: 2024-02-05 08:45+0000\n"
+"PO-Revision-Date: 2024-02-05 11:07+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -415,7 +415,7 @@ msgstr "Entscheidung merken"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -472,7 +472,7 @@ msgid "Owner unknown"
 msgstr "Besitzer unbekannt"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
 msgid "Emergency Contacts"
 msgstr "Notfallkontakte"
 
@@ -545,11 +545,11 @@ msgstr "_Notfall"
 msgid "Run Command"
 msgstr "Befehl ausführen"
 
-#: src/ui/settings.ui:296
+#: src/ui/settings.ui:327
 msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "Alles leeren"
 
@@ -573,9 +573,34 @@ msgstr "_Bereitschaft …"
 msgid "_Log Out…"
 msgstr "_Abmelden …"
 
+#: src/ui/wifi-status-page.ui:35
+msgid "No Wi-Fi Device Found"
+msgstr "Kein WLAN-Gerät gefunden"
+
+#: src/ui/wifi-status-page.ui:66
+msgid "Wi-Fi Disabled"
+msgstr "WLAN deaktiviert"
+
+#: src/ui/wifi-status-page.ui:106
+msgid "Wi-Fi Hotspot Active"
+msgstr "WLAN-Hotspot aktiv"
+
+#: src/ui/wifi-status-page.ui:145
+msgid "No Wi-Fi Hotspots Found"
+msgstr "Keine WLAN-Hotspots gefunden"
+
+# Hier geht es um WLAN-Netze laut .po-Datei (wifi-status-page.ui). - jb
+#: src/ui/wifi-status-page.ui:156
+msgid "Scan"
+msgstr "Suchen"
+
+#: src/ui/wifi-status-page.ui:188
+msgid "Wi-Fi Settings"
+msgstr "WLAN-Einstellungen"
+
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:343
+#: src/util.c:342
 msgid "%A, %B %-e"
 msgstr "%A %d. %B"
 
@@ -622,32 +647,32 @@ msgid "Home Address"
 msgstr "Privatadresse"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
 msgid "Medical Information"
 msgstr "Medizinische Informationen"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
 msgid "Age"
 msgstr "Alter"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
 msgid "Blood Type"
 msgstr "Blutgruppe"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
 msgid "Height"
 msgstr "Größe"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Weight"
 msgstr "Gewicht"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
 msgid "Allergies"
 msgstr "Allergien"
 
@@ -656,7 +681,7 @@ msgid "Medications & Conditions"
 msgstr "Medikamente und Erkrankungen"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
 msgid "Other Information"
 msgstr "Weitere Informationen"
 
@@ -673,31 +698,31 @@ msgstr "Fertig"
 msgid "Owner Name"
 msgstr "Name des Besitzers"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
 msgid "Medications and Conditions"
 msgstr "Medikamente und Erkrankungen"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
 msgid "Add Contact"
 msgstr "Kontakt hinzufügen"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
 msgid "Add New Contact"
 msgstr "Neuen Kontakt hinzufügen"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "New Contact Name"
 msgstr "Neuer Kontaktname"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
 msgid "Relationship"
 msgstr "Beziehung"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
 msgid "Number"
 msgstr "Nummer"
 
@@ -747,7 +772,7 @@ msgstr "Wo Phosh nach Ihren Tickets sucht"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
 msgid "Ticket Folder"
-msgstr "Ticket-Ordner"
+msgstr "Ticketordner"
 
 #: plugins/upcoming-events/event-list.c:142
 msgid "Today"
@@ -789,7 +814,7 @@ msgstr "Ganztägig"
 msgid "Ends"
 msgstr "Endet"
 
-#: plugins/upcoming-events/upcoming-event.c:398
+#: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Unbenannter Termin"
 
