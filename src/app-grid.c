@@ -17,6 +17,7 @@
 #include "feedback-manager.h"
 #include "app-grid.h"
 #include "app-grid-button.h"
+#include "app-grid-folder-button.h"
 #include "app-list-model.h"
 #include "favorite-list-model.h"
 #include "shell.h"
@@ -42,6 +43,7 @@ typedef struct _PhoshAppGridPrivate PhoshAppGridPrivate;
 struct _PhoshAppGridPrivate {
   GtkFilterListModel *model;
 
+  GtkWidget *deck;
   GtkWidget *search;
   GtkWidget *apps;
   GtkWidget *favs;
@@ -50,6 +52,14 @@ struct _PhoshAppGridPrivate {
   GtkWidget *btn_adaptive;
   GtkWidget *btn_adaptive_img;
   GtkWidget *btn_adaptive_lbl;
+  GtkWidget *empty_folder_label;
+  GtkWidget *folder_stack;
+  GtkWidget *folder_label;
+  GtkWidget *folder_apps;
+
+  PhoshFolderInfo *open_folder;
+  int              open_folder_idx;
+  GListModel      *folder_model;
 
   char *search_string;
   gboolean filter_adaptive;
@@ -102,12 +112,118 @@ phosh_app_grid_get_property (GObject    *object,
 
 
 static void
+show_main_grid (PhoshAppGrid *self)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+  GtkFlowBoxChild *button = NULL;
+  hdy_deck_set_visible_child_name (HDY_DECK (priv->deck), "main_grid");
+
+  if (priv->open_folder == NULL)
+    return;
+
+  g_signal_handlers_disconnect_by_data (priv->folder_model, self);
+  priv->folder_model = NULL;
+  g_clear_object (&priv->open_folder);
+
+  if (priv->open_folder_idx == -1)
+    return;
+
+  button = gtk_flow_box_get_child_at_index (GTK_FLOW_BOX (priv->apps),
+                                            priv->open_folder_idx);
+  if (button == NULL) {
+    /* The folder no longer exists (hidden or deleted), so focus the previous button. */
+    int idx = MAX (priv->open_folder_idx - 1, 0);
+    button = gtk_flow_box_get_child_at_index (GTK_FLOW_BOX (priv->apps), idx);
+  }
+
+  gtk_widget_grab_focus (GTK_WIDGET (button));
+}
+
+
+static void
+show_folder_page (PhoshAppGrid *self)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+  const char *page_name;
+  GtkFlowBoxChild *button = NULL;
+
+  if (g_app_info_should_show (G_APP_INFO (priv->open_folder))) {
+    page_name = "folder_grid";
+    button = gtk_flow_box_get_child_at_index (GTK_FLOW_BOX (priv->folder_apps), 0);
+  } else {
+    g_autofree char *label;
+    page_name = "empty_folder";
+    label = g_strdup_printf ("%s folder is empty", phosh_folder_info_get_name (priv->open_folder));
+    gtk_label_set_label (GTK_LABEL (priv->empty_folder_label), label);
+  }
+
+  gtk_stack_set_visible_child_name (GTK_STACK (priv->folder_stack), page_name);
+
+  if (button != NULL)
+    gtk_widget_grab_focus (GTK_WIDGET (button));
+}
+
+
+static void
 app_launched_cb (GtkWidget    *widget,
                  GAppInfo     *info,
                  PhoshAppGrid *self)
 {
   phosh_trigger_feedback ("button-pressed");
   g_signal_emit (self, signals[APP_LAUNCHED], 0, info);
+}
+
+
+static GtkWidget *
+create_folder_app_launcher (gpointer item, gpointer self)
+{
+  GtkWidget *btn;
+
+  btn = phosh_app_grid_button_new (G_APP_INFO (item));
+  g_signal_connect (btn, "app-launched", G_CALLBACK (app_launched_cb), self);
+
+  gtk_widget_show (btn);
+
+  return btn;
+}
+
+
+static int
+get_app_info_index (PhoshAppGrid *self, GAppInfo *app_info)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+
+  for (int idx = 0;; idx++) {
+    g_autoptr (GAppInfo) info = g_list_model_get_item (G_LIST_MODEL (priv->model), idx);
+
+    if (info == NULL)
+      return -1;
+
+    if (g_app_info_equal (info, app_info))
+      return idx;
+  }
+
+  return -1;
+}
+
+
+static void
+folder_launched_cb (GtkWidget       *widget,
+                    PhoshFolderInfo *info,
+                    PhoshAppGrid    *self)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+  GListModel *model = phosh_folder_info_get_app_infos (info);
+
+  gtk_flow_box_bind_model (GTK_FLOW_BOX (priv->folder_apps),
+                           model, create_folder_app_launcher, self, NULL);
+  hdy_deck_set_visible_child_name (HDY_DECK (priv->deck), "folder_page");
+  g_object_bind_property (info, "name", priv->folder_label, "label", G_BINDING_SYNC_CREATE);
+  priv->folder_model = model;
+  g_set_object (&priv->open_folder, info);
+  priv->open_folder_idx = get_app_info_index (self, G_APP_INFO (info));
+  g_signal_connect_object (model, "items-changed", G_CALLBACK (show_folder_page), self, G_CONNECT_SWAPPED);
+  show_folder_page (self);
 }
 
 
@@ -239,11 +355,16 @@ search_apps (gpointer item, gpointer data)
 
   /* filter out favorites when not searching */
   if (search == NULL || strlen (search) == 0) {
+    if (PHOSH_IS_FOLDER_INFO (info))
+      return phosh_folder_info_refilter (PHOSH_FOLDER_INFO (info), search);
     if (phosh_favorite_list_model_app_is_favorite (NULL, info))
       return FALSE;
 
     return TRUE;
   }
+
+  if (PHOSH_IS_FOLDER_INFO (info))
+    return phosh_folder_info_refilter (PHOSH_FOLDER_INFO (info), search);
 
   for (int i = 0; i < G_N_ELEMENTS (app_attr); i++) {
     g_autofree char *folded = NULL;
@@ -342,10 +463,17 @@ static GtkWidget *
 create_launcher (gpointer item,
                  gpointer self)
 {
-  GtkWidget *btn = phosh_app_grid_button_new (G_APP_INFO (item));
+  GtkWidget *btn;
 
-  g_signal_connect (btn, "app-launched",
-                    G_CALLBACK (app_launched_cb), self);
+  if (PHOSH_IS_FOLDER_INFO (item)) {
+    btn = phosh_app_grid_folder_button_new_from_folder_info (item);
+    g_signal_connect (btn, "folder-launched",
+                      G_CALLBACK (folder_launched_cb), self);
+  } else {
+    btn = phosh_app_grid_button_new (G_APP_INFO (item));
+    g_signal_connect (btn, "app-launched",
+                      G_CALLBACK (app_launched_cb), self);
+  }
 
   gtk_widget_show (btn);
 
@@ -410,6 +538,7 @@ phosh_app_grid_dispose (GObject *object)
   PhoshAppGrid *self = PHOSH_APP_GRID (object);
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
+  g_clear_object (&priv->open_folder);
   g_clear_object (&priv->actions);
   g_clear_object (&priv->model);
   g_clear_object (&priv->settings);
@@ -607,8 +736,13 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, btn_adaptive);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, btn_adaptive_img);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, btn_adaptive_lbl);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, deck);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, empty_folder_label);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs_revealer);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_apps);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_label);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_stack);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, scrolled_window);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, search);
 
@@ -617,6 +751,7 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, search_activated);
   gtk_widget_class_bind_template_callback (widget_class, search_gained_focus);
   gtk_widget_class_bind_template_callback (widget_class, search_lost_focus);
+  gtk_widget_class_bind_template_callback (widget_class, show_main_grid);
 
   signals[APP_LAUNCHED] = g_signal_new ("app-launched",
                                         G_TYPE_FROM_CLASS (klass),
@@ -650,6 +785,14 @@ phosh_app_grid_reset (PhoshAppGrid *self)
   gtk_adjustment_set_value (adjustment, 0);
   gtk_entry_set_text (GTK_ENTRY (priv->search), "");
   g_clear_pointer (&priv->search_string, g_free);
+
+  /* Do not focus last folder */
+  priv->open_folder_idx = -1;
+  /* Set duration to 0 to avoid the simultaneous animation of grid sliding up and deck sliding
+   * right. If not done, it feels like the deck is spiraling diagonally up. */
+  hdy_deck_set_transition_duration (HDY_DECK (priv->deck), 0);
+  show_main_grid (self);
+  hdy_deck_set_transition_duration (HDY_DECK (priv->deck), 200);
 }
 
 

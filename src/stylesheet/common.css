@@ -348,6 +348,10 @@ phosh-app-grid-folder-button button {
   margin: 24px 0;
 }
 
+.phosh-app-grid-folder-page-title-box {
+  margin: 6px 16px;
+}
+
 /*
  * Lock screen
  */
