@@ -10,6 +10,8 @@
 
 #include "favorite-list-model.h"
 
+#include "folder-info.h"
+
 #include <gio/gio.h>
 
 
@@ -192,6 +194,9 @@ phosh_favorite_list_model_app_is_favorite (PhoshFavoriteListModel *self,
   PhoshFavoriteListModel *list = self != NULL ? self : phosh_favorite_list_model_get_default ();
   PhoshFavoriteListModelPrivate *priv = phosh_favorite_list_model_get_instance_private (list);
   const char *id;
+
+  if (PHOSH_IS_FOLDER_INFO (app))
+    return FALSE;
 
   g_return_val_if_fail (G_IS_APP_INFO (app), FALSE);
 
