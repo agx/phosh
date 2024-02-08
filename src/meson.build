@@ -81,6 +81,8 @@ libphosh_tool_sources = files(
   'app-grid-base-button.h',
   'app-grid-button.c',
   'app-grid-button.h',
+  'app-grid-folder-button.c',
+  'app-grid-folder-button.h',
   'app-list-model.c',
   'app-list-model.h',
   'auth-prompt-option.c',
