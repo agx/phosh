@@ -12,9 +12,11 @@
  */
 
 #include "app-list-model.h"
+#include "folder-info.h"
 
 #include <gio/gio.h>
 
+#define FOLDERS_SCHEMA_ID "org.gnome.desktop.app-folders"
 
 typedef struct _PhoshAppListModelPrivate PhoshAppListModelPrivate;
 struct _PhoshAppListModelPrivate {
@@ -30,6 +32,8 @@ struct _PhoshAppListModelPrivate {
     guint          position;
     GSequenceIter *iter;
   } last;
+
+  GSettings *settings;
 };
 
 static void list_iface_init (GListModelInterface *iface);
@@ -46,6 +50,7 @@ phosh_app_list_model_finalize (GObject *object)
   PhoshAppListModelPrivate *priv = phosh_app_list_model_get_instance_private (self);
 
   g_clear_object (&priv->monitor);
+  g_clear_object (&priv->settings);
 
   g_sequence_free (priv->items);
 
@@ -120,11 +125,47 @@ list_iface_init (GListModelInterface *iface)
 }
 
 
+static GList*
+filter_out_apps_in_folder (GList *apps, PhoshFolderInfo *folder_info)
+{
+  GList *node, *prev;
+
+  /* The length of the list is always at least 2. The first element is always the `folder_info`.
+   * This makes the logic easier as otherwise we would have to check for edge-cases like first
+   * element itself part of folder etc. */
+
+  for (node = g_list_next (apps); node; node = g_list_next (node)) {
+    GAppInfo *app_info = G_APP_INFO (node->data);
+    if (phosh_folder_info_contains (folder_info, app_info)) {
+      prev = g_list_previous (node);
+      apps = g_list_delete_link (apps, node);
+      node = prev;
+    }
+  }
+
+  return apps;
+}
+
+
+static void on_folder_children_changed (PhoshAppListModel *self);
+
+
+static void
+emit_items_changed (PhoshAppListModel *self)
+{
+  PhoshAppListModelPrivate *priv = phosh_app_list_model_get_instance_private (self);
+  int added = g_sequence_get_length (priv->items);
+  int removed = added;
+  g_list_model_items_changed (G_LIST_MODEL (self), 0, removed, added);
+}
+
+
 static gboolean
 items_changed (gpointer data)
 {
   PhoshAppListModel *self = PHOSH_APP_LIST_MODEL (data);
   PhoshAppListModelPrivate *priv = phosh_app_list_model_get_instance_private (self);
+  g_auto (GStrv) folder_paths = NULL;
   g_autolist(GAppInfo) new_apps = NULL;
   int removed;
   int added = 0;
@@ -138,8 +179,23 @@ items_changed (gpointer data)
   g_sequence_remove_range (g_sequence_get_begin_iter (priv->items),
                            g_sequence_get_end_iter (priv->items));
 
+  folder_paths = g_settings_get_strv (priv->settings, "folder-children");
+
+  for (int i = 0; i < g_strv_length (folder_paths); i++) {
+    char *path = folder_paths[i];
+    PhoshFolderInfo *folder_info = phosh_folder_info_new_from_folder_path (path);
+    new_apps = g_list_prepend (new_apps, folder_info);
+    new_apps = filter_out_apps_in_folder (new_apps, folder_info);
+    g_signal_connect_object (folder_info, "apps-changed", G_CALLBACK (on_folder_children_changed),
+                             self, G_CONNECT_SWAPPED);
+    g_signal_connect_object (folder_info, "notify::name", G_CALLBACK (emit_items_changed),
+                             self, G_CONNECT_SWAPPED);
+  }
+
   for (GList *l = new_apps; l; l = g_list_next (l)) {
-    if (!g_app_info_should_show (G_APP_INFO (l->data))) {
+    /* We add folders irrespective of their emptiness because otherwise we won't be able to listen
+     * for apps-changed signal. */
+    if (!PHOSH_IS_FOLDER_INFO (l->data) && !g_app_info_should_show (G_APP_INFO (l->data))) {
       continue;
     }
     g_sequence_append (priv->items, g_object_ref (l->data));
@@ -174,6 +230,17 @@ on_monitor_changed_cb (GAppInfoMonitor *monitor,
 
 
 static void
+on_folder_children_changed (PhoshAppListModel *self)
+{
+  PhoshAppListModelPrivate *priv = phosh_app_list_model_get_instance_private (self);
+
+  /* A folder has been created or destroyed or modified.
+   * Rearrange the apps from scratch. */
+  on_monitor_changed_cb (priv->monitor, self);
+}
+
+
+static void
 phosh_app_list_model_init (PhoshAppListModel *self)
 {
   PhoshAppListModelPrivate *priv = phosh_app_list_model_get_instance_private (self);
@@ -185,6 +252,11 @@ phosh_app_list_model_init (PhoshAppListModel *self)
   priv->items = g_sequence_new ((GDestroyNotify) g_object_unref);
   priv->monitor = g_app_info_monitor_get ();
   g_signal_connect (priv->monitor, "changed", G_CALLBACK (on_monitor_changed_cb), self);
+
+  priv->settings = g_settings_new (FOLDERS_SCHEMA_ID);
+  g_signal_connect_object (priv->settings, "changed::folder-children",
+                           G_CALLBACK (on_folder_children_changed),
+                           self, G_CONNECT_SWAPPED);
 
   on_monitor_changed_cb (priv->monitor, self);
 }
