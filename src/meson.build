@@ -111,6 +111,8 @@ libphosh_tool_sources = files(
   'emergency-contact.h',
   'emergency-menu.c',
   'emergency-menu.h',
+  'folder-info.c',
+  'folder-info.h',
   'hks-info.c',
   'hks-info.h',
   'hks-manager.c',

@@ -88,6 +88,7 @@ tests = [
   'css',
   'fading-label',
   'favourite-model',
+  'folder-info',
   'gamma-table',
   'head',
   'keypad',
