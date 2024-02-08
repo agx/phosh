@@ -19,7 +19,7 @@
             <child>
               <object class="GtkImage" id="wifi_icon">
                 <property name="visible">True</property>
-                <property name="icon-name">network-wireless-signal-none-symbolic</property>
+                <property name="icon-name">network-wireless-signal-none</property>
               </object>
             </child>
             <child>
@@ -27,7 +27,7 @@
                 <property name="visible">True</property>
                 <property name="valign">end</property>
                 <property name="pixel-size">8</property>
-                <property name="icon-name">network-wireless-encrypted-symbolic</property>
+                <property name="icon-name">network-wireless-encrypted</property>
               </object>
             </child>
           </object>
@@ -41,7 +41,7 @@
         <child>
           <object class="GtkImage" id="active_indicator">
             <property name="visible">True</property>
-            <property name="icon-name">object-select-symbolic</property>
+            <property name="icon-name">object-select</property>
           </object>
         </child>
       </object>

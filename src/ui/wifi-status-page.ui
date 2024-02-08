@@ -16,22 +16,19 @@
             <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
                 <property name="valign">center</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
                     <property name="icon-name">network-wireless-hardware-disabled-symbolic</property>
-                    <property name="icon_size">6</property>
+                    <property name="icon-size">6</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLabel">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
                     <property name="label" translatable="yes">No Wi-Fi Device Found</property>
                     <style>
                       <class name="heading"/>
@@ -47,22 +44,19 @@
             <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
                 <property name="valign">center</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
                     <property name="icon-name">network-wireless-offline-symbolic</property>
-                    <property name="icon_size">6</property>
+                    <property name="icon-size">6</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLabel">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
                     <property name="label" translatable="yes">Wi-Fi Disabled</property>
                     <style>
                       <class name="heading"/>
@@ -87,22 +81,19 @@
             <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
                 <property name="valign">center</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
                     <property name="icon-name">network-wireless-hotspot-symbolic</property>
-                    <property name="icon_size">6</property>
+                    <property name="icon-size">6</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkLabel">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
                     <property name="label" translatable="yes">Wi-Fi Hotspot Active</property>
                     <style>
                       <class name="heading"/>
@@ -121,27 +112,24 @@
                 <child>
                   <object class="GtkListBox" id="networks">
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="selection-mode">none</property>
                     <signal name="row-activated" handler="on_network_activated_cb" object="PhoshWifiStatusPage" swapped="yes"/>
                     <child type="placeholder">
                       <object class="GtkBox">
                         <property name="visible">True</property>
-                        <property name="can-focus">False</property>
                         <property name="orientation">vertical</property>
                         <property name="valign">center</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkImage">
                             <property name="visible">True</property>
-                            <property name="can-focus">False</property>
                             <property name="icon-name">network-wireless-no-route-symbolic</property>
-                            <property name="icon_size">6</property>
+                            <property name="icon-size">6</property>
                           </object>
                         </child>
                         <child>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
-                            <property name="can-focus">False</property>
                             <property name="label" translatable="yes">No Wi-Fi Hotspots Found</property>
                             <style>
                               <class name="heading"/>
