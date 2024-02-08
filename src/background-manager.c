@@ -31,6 +31,9 @@
 #define BG_KEY_PRIMARY_COLOR      "primary-color"
 #define BG_KEY_PICTURE_OPTIONS    "picture-options"
 #define BG_KEY_PICTURE_URI        "picture-uri"
+#define BG_KEY_PICTURE_URI_DARK   "picture-uri-dark"
+
+#define IF_KEY_COLOR_SCHEME       "color-scheme"
 
 /**
  * PhoshBackgroundManager:
@@ -53,6 +56,8 @@ struct _PhoshBackgroundManager {
   GFile                   *file;        /* Background XML or image */
   GdkRGBA                  color;
   GSettings               *settings;
+  GSettings               *interface_settings;
+
   GCancellable            *cancel_load;
 };
 
@@ -138,12 +143,16 @@ on_settings_changed (PhoshBackgroundManager *self)
   g_autofree char *val = NULL;
   g_autoptr (GFile) file = NULL;
   PhoshBackgroundCache *cache = phosh_background_cache_get_default ();
+  GDesktopColorScheme scheme;
+  const char *key;
 
   style = g_settings_get_enum (self->settings, BG_KEY_PICTURE_OPTIONS);
   color_name = g_settings_get_string (self->settings, BG_KEY_PRIMARY_COLOR);
   color_from_string (&color, color_name);
 
-  val = g_settings_get_string (self->settings, BG_KEY_PICTURE_URI);
+  scheme = g_settings_get_enum (self->interface_settings, IF_KEY_COLOR_SCHEME);
+  key = scheme == G_DESKTOP_COLOR_SCHEME_PREFER_DARK ? BG_KEY_PICTURE_URI_DARK : BG_KEY_PICTURE_URI;
+  val = g_settings_get_string (self->settings, key);
 
   if (g_str_has_prefix (val, "/") || g_str_has_prefix (val, "file:///"))
     file = g_file_new_for_uri (val);
@@ -283,6 +292,11 @@ phosh_background_manager_idle_init (PhoshManager *manager)
                     "swapped_signal::changed::" BG_KEY_PICTURE_OPTIONS, on_settings_changed, self,
                     "swapped_signal::changed::" BG_KEY_PRIMARY_COLOR, on_settings_changed, self,
                     NULL);
+  self->interface_settings = g_settings_new ("org.gnome.desktop.interface");
+  g_signal_connect_swapped (self->interface_settings,
+                            "changed::" IF_KEY_COLOR_SCHEME,
+                            G_CALLBACK (on_settings_changed),
+                            self);
   /* Fill in initial values */
   on_settings_changed (self);
 
@@ -316,6 +330,7 @@ phosh_background_manager_finalize (GObject *object)
   g_hash_table_destroy (self->backgrounds);
   g_clear_object (&self->primary_monitor);
   g_clear_object (&self->settings);
+  g_clear_object (&self->interface_settings);
   g_clear_object (&self->slideshow);
   g_clear_object (&self->file);
 
