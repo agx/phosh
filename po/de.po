@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-05 08:45+0000\n"
-"PO-Revision-Date: 2024-02-05 11:07+0100\n"
+"POT-Creation-Date: 2024-02-07 20:33+0000\n"
+"PO-Revision-Date: 2024-02-08 17:37+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -246,13 +246,13 @@ msgstr "Unbekannt"
 
 #: src/network-auth-prompt.c:202
 #, c-format
-msgid "Authentication type of wifi network “%s” not supported"
+msgid "Authentication type of Wi-Fi network “%s” not supported"
 msgstr ""
 "Die Art der Legitimierung des WLAN-Netzwerks »%s« wird nicht unterstützt"
 
 #: src/network-auth-prompt.c:207
 #, c-format
-msgid "Enter password for the wifi network “%s”"
+msgid "Enter password for the Wi-Fi network “%s”"
 msgstr "Geben Sie das Passwort für das WLAN-Netzwerk »%s« ein"
 
 #: src/notifications/mount-notification.c:121
@@ -617,7 +617,7 @@ msgstr "Erweiterung nicht gefunden"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Die Erweiterung »%s« konnte nicht geladen werden."
 
-#: src/wifiinfo.c:90
+#: src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "WLAN"
 
