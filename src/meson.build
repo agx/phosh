@@ -77,6 +77,8 @@ libphosh_tool_sources = files(
   'animation.h',
   'app-grid.c',
   'app-grid.h',
+  'app-grid-base-button.c',
+  'app-grid-base-button.h',
   'app-grid-button.c',
   'app-grid-button.h',
   'app-list-model.c',
