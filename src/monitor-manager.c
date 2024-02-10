@@ -1323,6 +1323,7 @@ phosh_monitor_manager_constructed (GObject *object)
   GHashTableIter iter;
   struct wl_output *wl_output;
   struct zwlr_output_manager_v1 *zwlr_output_manager_v1;
+  guint id;
 
   G_OBJECT_CLASS (phosh_monitor_manager_parent_class)->constructed (object);
 
@@ -1348,7 +1349,8 @@ phosh_monitor_manager_constructed (GObject *object)
   phosh_dbus_display_config_set_apply_monitors_config_allowed (
     PHOSH_DBUS_DISPLAY_CONFIG (self), TRUE);
 
-  g_idle_add ((GSourceFunc) on_idle, self);
+  id = g_idle_add ((GSourceFunc) on_idle, self);
+  g_source_set_name_by_id (id, "[PhoshMonitorManager] idle");
 }
 
 

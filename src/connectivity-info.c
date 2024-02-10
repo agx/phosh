@@ -115,6 +115,7 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, PhoshConnectivityInfo *self
 {
   g_autoptr (GError) err = NULL;
   NMClient *nmclient;
+  guint id;
 
   nmclient = nm_client_new_finish (res, &err);
   if (!nmclient) {
@@ -130,7 +131,8 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, PhoshConnectivityInfo *self
   g_signal_connect_swapped (self->nmclient, "notify::connectivity",
                             G_CALLBACK (on_connectivity_changed), self);
 
-  g_idle_add ((GSourceFunc) on_idle, self);
+  id = g_idle_add ((GSourceFunc) on_idle, self);
+  g_source_set_name_by_id (id, "[PhoshConnectiviyInfo] idle");
 }
 
 

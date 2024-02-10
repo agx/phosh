@@ -57,8 +57,11 @@ on_sigusr1_signal (gpointer unused)
 static gboolean
 on_shutdown_signal (gpointer unused)
 {
+  guint id;
+
   phosh_shell_fade_out (phosh_shell_get_default (), 0);
-  g_timeout_add_seconds (2, (GSourceFunc)quit, NULL);
+  id = g_timeout_add_seconds (2, (GSourceFunc)quit, NULL);
+  g_source_set_name_by_id (id, "[PhoshMain] quit");
 
   return FALSE;
 }

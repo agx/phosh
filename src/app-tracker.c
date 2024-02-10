@@ -626,6 +626,7 @@ phosh_app_tracker_init (PhoshAppTracker *self)
                                       g_free,
                                       (GDestroyNotify) phosh_app_state_free);
   self->idle_id = g_idle_add ((GSourceFunc)on_idle, self);
+  g_source_set_name_by_id (self->idle_id, "[PhoshAppTracker] idle");
 
   version = phosh_wayland_get_phosh_private_version (wl);
   if (!phosh_private || version < PHOSH_PRIVATE_GET_STARTUP_TRACKER_SINCE_VERSION) {
