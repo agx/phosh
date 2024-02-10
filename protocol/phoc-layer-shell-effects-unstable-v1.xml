@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <protocol name="phoc_layer_surface_effects_unstable_v1">
   <copyright>
-    Copyright © 2022 Guido Günther
+    Copyright © 2022-2024 Guido Günther
 
     Permission to use, copy, modify, distribute, and sell this
     software and its documentation for any purpose is hereby granted
@@ -25,15 +25,32 @@
     THIS SOFTWARE.
   </copyright>
 
-  <interface name="zphoc_layer_shell_effects_v1" version="2">
+  <interface name="zphoc_layer_shell_effects_v1" version="3">
     <description summary="Adjust properties of layer surfaces">
-      Assigns additional features to layer surfaces
+      Assigns additional features to layer surfaces such as opacity or gestures interaction.
+
+      Warning! The protocol described in this file is experimental and
+      backward incompatible changes may be made. Backward compatible changes
+      may be added together with the corresponding interface version bump.
+      Backward incompatible changes are done by bumping the version number in
+      the protocol and interface names and resetting the interface version.
+      Once the protocol is to be declared stable, the 'z' prefix and the
+      version number in the protocol and interface names are removed and the
+      interface version number is reset.
+
+      This protocol is meant to collect necessary bits before we propose an
+      upstream solution.
     </description>
 
     <enum name="error">
       <entry name="bad_surface" value="0" summary="layer surface is not committed"/>
       <entry name="bad_anchors" value="1" summary="layer surface is not anchored to 3 edges"/>
       <entry name="bad_margin" value="2" summary="layer surface has no margin to use"/>
+    </enum>
+
+    <enum name="stack_error" since="3">
+      <entry name="invalid_layer" value="0" summary="layer surfaces not in same layer"/>
+      <entry name="invalid_surface" value="1" summary="layer surfaces invalid"/>
     </enum>
 
     <request name="get_draggable_layer_surface">
@@ -80,6 +97,15 @@
       <description summary="Allow layer_surface to become transparent"/>
       <arg name="id" type="new_id" interface="zphoc_alpha_layer_surface_v1"/>
       <arg name="layer_surface" type="object" interface="zwlr_layer_surface_v1"/>
+    </request>
+
+    <request name="get_stacked_layer_surface" since="3">
+      <description summary="Allow to tweak how a layer surfaces is stacked">
+        Making a layer surface stacked allows to fixate it's position in
+        the layer surface stack.
+      </description>
+      <arg name="id" type="new_id" interface="zphoc_stacked_layer_surface_v1"/>
+      <arg name="surface" type="object" interface="zwlr_layer_surface_v1"/>
     </request>
 
   </interface>
@@ -134,7 +160,32 @@
 
     <request name="set_drag_handle">
       <description summary="The drag mode">
-        Specify the size of the drag handle. The default is 0.
+        Specify the position of the drag handle and thus the area that responds
+        to drag gestures.
+
+        If the surface's non anchored edge is at the left or right it specifies
+        the x, otherwise the y coordinate of the drag handle in surface local
+        coordinates. The area between the non anchored surface edge and the
+        drag handle responds to drag gestures.
+
+         0  +-----------------+
+         1  |                 |
+         2  |        A        |
+         3  |                 |
+         4  +++++++++++++++++++  -- drag handle
+         5  |                 |
+         6  |                 |
+         7  |        B        |
+         8  |                 |
+         9  +-----------------+
+
+        If the above surface's non anchored edge is at the bottom then a drag handle
+        of 4 will make area B respond to touch events. If the non anchored edge is at
+        the top the same value makes area A respond to touch events.
+
+        A special value of 0 indicates that the whole surface should be draggable.
+
+        The default is 0.
 
         Drag-handle is double-buffered, see wl_surface.commit.
       </description>
@@ -151,6 +202,9 @@
     <request name="destroy" type="destructor">
       <description summary="destroy the draggable_layer_surface">
         This request destroys the draggable layer surface.
+
+        It's a protocol error if the client destroys the layer-surface before
+        the draggable layer-surface.
       </description>
     </request>
 
@@ -188,9 +242,9 @@
 
     <request name="set_alpha">
       <description summary="Set the surface's alpha value">
-        Sets the surfaces transparency. Valid values are between 0
-        (fully transparent) and 1.0 (fully opaque. The set value
-        also effects subsurfaces and popups.
+        Set the surface's transparency. Valid values are between 0.0
+        (fully transparent) and 1.0 (fully opaque). The set value
+        also affects subsurfaces and popups.
 
         Alpha is double-buffered, see wl_surface.commit.
       </description>
@@ -200,6 +254,32 @@
     <request name="destroy" type="destructor">
       <description summary="destroy the alpha_layer_surface">
         This request destroys the alpha layer surface.
+      </description>
+    </request>
+
+  </interface>
+
+  <interface name="zphoc_stacked_layer_surface_v1" version="3">
+
+    <request name="stack_below">
+      <description summary="Stack surface below the given layer surface">
+        Attaches the stacked layer surface below the layer surface given
+        in this request.
+      </description>
+      <arg name="surface" type="object" interface="zwlr_layer_surface_v1"/>
+    </request>
+
+    <request name="stack_above">
+      <description summary="Stack surface below the given layer surface">
+        Attaches the stacked layer surface above the layer surface given
+        in this request.
+      </description>
+      <arg name="surface" type="object" interface="zwlr_layer_surface_v1"/>
+    </request>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy the layer_surface_binder">
+        This request destroys the layer surface binder.
       </description>
     </request>
 
