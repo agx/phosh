@@ -3,6 +3,11 @@ configure_file(
   output: 'run_tool',
   configuration: run_data)
 
+test('check-exported-symbols',
+     find_program('check-exported-symbols'),
+     args: phosh,
+)
+
 tools_or_tests = get_option('tools') or get_option('tests')
 
 if tools_or_tests
@@ -50,6 +55,7 @@ if get_option('tools')
                c_args: ['-DBUILD_DIR="@0@"'.format(meson.project_build_root()),
                         '-DPLUGINS="@0@"'.format(' '.join(lockscreen_plugins)),
                        ],
-               dependencies: phosh_tool_dep)
+               link_args: phosh_export_sym_link_arg,
+               dependencies: [gmodule_dep, phosh_tool_dep])
   endif
 endif

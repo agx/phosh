@@ -80,7 +80,7 @@ typedef struct _PhoshScreenSaverManager
   PhoshSessionPresence *presence;  /* gnome-session's presence interface */
   gboolean active;
 
-  /* Powerb button */
+  /* Power button */
   guint    long_press_id;
 
   GSettings *settings;

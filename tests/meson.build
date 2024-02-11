@@ -169,7 +169,7 @@ if run_phoc_tests
                  c_args: test_cflags,
                  pie: true,
                  link_args: test_link_args,
-                 dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
+                 dependencies: [phosh_static_lib_dep, testlib_dep])
   test('shell', t,
        env: test_env_phoc,
        suite: ['integration'],
@@ -183,7 +183,7 @@ if run_phoc_tests
                    c_args: test_cflags,
                    pie: true,
                    link_args: test_link_args,
-                   dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
+                   dependencies: [phosh_static_lib_dep, testlib_dep])
     test(test, t,
          env: test_env_phoc,
          suite: ['integration'],
@@ -196,7 +196,7 @@ if run_phoc_tests
                    c_args: test_cflags,
                    pie: true,
                    link_args: test_link_args,
-                   dependencies: [phosh_tool_dep, phosh_dep, testlib_dep])
+                   dependencies: [phosh_static_lib_dep, testlib_dep])
   foreach lang : screenshot_langs
     lang_env = test_env_phoc
     lang_env.set('LANGUAGE', lang)

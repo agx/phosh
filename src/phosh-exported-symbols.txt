@@ -1,0 +1,6 @@
+{
+   phosh_shell_get_default;
+   # The plugins use our gtk-list-models:
+   gtk_filter_list_model_*;
+   gtk_sort_list_model_*;
+};
