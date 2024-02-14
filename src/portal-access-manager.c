@@ -90,7 +90,6 @@ handle_access_dialog (PhoshDBusImplPortalAccess *object,
   char *grant_label = NULL;
   char *deny_label = NULL;
   GVariant *choices = NULL;
-  g_autoptr (GError) error = NULL;
   GVariant *icon_variant = g_variant_lookup_value (arg_options, "icon", G_VARIANT_TYPE_STRING);
   PhoshPortalAccessManager *self = PHOSH_PORTAL_ACCESS_MANAGER (object);
   g_autoptr (PhoshPortalRequest) request = NULL;

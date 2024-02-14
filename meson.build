@@ -90,6 +90,12 @@ foreach arg: test_c_args
     global_c_args += arg
   endif
 endforeach
+
+if cc.get_id() == 'clang'
+  # Avoid cast align warnings for wl_container_of, etc
+  global_c_args += '-Wno-cast-align'
+endif
+
 add_project_arguments(
   global_c_args,
   language: 'c'
@@ -180,7 +186,7 @@ have_polkit_subject_cleanup = cc.compiles('''
 
 int main()
 {
-   g_autoptr (PolkitSubject) *subj = NULL;
+   g_autoptr (PolkitSubject) subj = NULL;
 }''',
   name : 'Have PolkitSubject cleanup',
   dependencies: libpolkit_agent_dep)
@@ -192,7 +198,7 @@ have_polkit_agent_listener_cleanup = cc.compiles('''
 
 int main()
 {
-   g_autoptr (PolkitAgentListener) *listener = NULL;
+   g_autoptr (PolkitAgentListener) listener = NULL;
 }''',
   name : 'Have PolkitAgentListener cleanup',
   dependencies: libpolkit_agent_dep)

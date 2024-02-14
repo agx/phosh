@@ -415,7 +415,6 @@ screenshot_mount_prompt (GMainLoop                       *loop,
   g_autoptr (PhoshDBusMountOperationHandler) proxy = NULL;
   g_autoptr (GError) err = NULL;
   const char *choices[] = { "Yes", "Maybe", NULL };
-  g_autoptr (GVariant) detail = NULL;
 
   proxy = phosh_dbus_mount_operation_handler_proxy_new_for_bus_sync (
     G_BUS_TYPE_SESSION,

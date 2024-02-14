@@ -58,7 +58,6 @@ phosh_test_dummy_mount_init (PhoshTestDummyMount *self)
 static void
 test_phosh_mount_notification_new (void)
 {
-  g_autoptr (GVolumeMonitor) monitor = g_volume_monitor_get ();
   g_autoptr (PhoshMountNotification) mn = NULL;
   g_autoptr (GMount) mount = g_object_new (PHOSH_TYPE_TEST_DUMMY_MOUNT, NULL);
   GIcon *icon = NULL;
