@@ -1,13 +1,13 @@
 # Turkish translation of phosh.
-# Sabri Ünal <libreajans@gmail.com>, 2023.
-# Emin Tufan Çetin <etcetin@gmail.com>, 2019, 2020, 2021, 2022, 2023.
+# Sabri Ünal <libreajans@gmail.com>, 2023, 2024.
+# Emin Tufan Çetin <etcetin@gmail.com>, 2019, 2020, 2021, 2022, 2023, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-10-27 13:22+0000\n"
-"PO-Revision-Date: 2023-10-29 08:00+0300\n"
+"POT-Creation-Date: 2024-02-13 16:26+0000\n"
+"PO-Revision-Date: 2024-02-14 08:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -105,39 +105,35 @@ msgstr "Acil durum araması yapılamadı"
 msgid "Internal error"
 msgstr "İç hata"
 
-#: src/end-session-dialog.c:163
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "Oturumu Kapat"
 
-#: src/end-session-dialog.c:166
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s oturumu %d saniyede kendiliğinden kapanacak."
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:182
 msgid "Power Off"
 msgstr "Gücü Kapat"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Sistem %d saniyede kendiliğinden kapanacak."
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "Yeniden Başlat"
 
-#: src/end-session-dialog.c:180
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "Sistem %d saniyede kendiliğinden yeniden başlayacak."
-
-#: src/end-session-dialog.c:270
-msgid "Unknown application"
-msgstr "Bilinmeyen uygulama"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -176,11 +172,11 @@ msgstr "Evet"
 msgid "No"
 msgstr "Hayır"
 
-#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Parolayı Gir"
 
-#: src/lockscreen.c:397
+#: src/lockscreen.c:401
 msgid "Checking…"
 msgstr "Denetleniyor…"
 
@@ -202,18 +198,18 @@ msgstr "Bilinmeyen Başlık"
 msgid "Unknown Artist"
 msgstr "Bilinmeyen Sanatçı"
 
-#: src/monitor-manager.c:119
+#: src/monitor-manager.c:127
 msgid "Built-in display"
 msgstr "İç ekran"
 
-#: src/monitor-manager.c:137
+#: src/monitor-manager.c:145
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:144
+#: src/monitor-manager.c:152
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -222,19 +218,19 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:153
+#: src/monitor-manager.c:161
 msgid "Unknown"
 msgstr "Bilinmeyen"
 
-#: src/network-auth-prompt.c:201
+#: src/network-auth-prompt.c:202
 #, c-format
-msgid "Authentication type of wifi network “%s” not supported"
-msgstr "“%s” wifi ağının kimlik doğrulama türü desteklenmiyor"
+msgid "Authentication type of Wi-Fi network “%s” not supported"
+msgstr "“%s” kablosuz ağının kimlik doğrulama türü desteklenmiyor"
 
-#: src/network-auth-prompt.c:206
+#: src/network-auth-prompt.c:207
 #, c-format
-msgid "Enter password for the wifi network “%s”"
-msgstr "“%s” wifi ağı için parola gir"
+msgid "Enter password for the Wi-Fi network “%s”"
+msgstr "“%s” kablosuz ağı için parola gir"
 
 #: src/notifications/mount-notification.c:121
 msgid "Open"
@@ -379,7 +375,7 @@ msgstr "Telefon Kabuğu Ses Denetimi"
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
-msgstr "Parolalar eşleşmedi."
+msgstr "Parolalar eşleşmiyor."
 
 #: src/system-prompt.c:372
 msgid "Password cannot be blank"
@@ -395,7 +391,7 @@ msgstr "Kararı anımsa"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
 msgid "Cancel"
 msgstr "İptal"
 
@@ -423,11 +419,11 @@ msgstr "Uygulama ara…"
 msgid "Output Devices"
 msgstr "Çıktı Aygıtları"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "Girdi Aygıtları"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Ses Ayarları"
 
@@ -452,7 +448,7 @@ msgid "Owner unknown"
 msgstr "Sahip bilinmiyor"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
 msgid "Emergency Contacts"
 msgstr "Acil Durumda Ulaşılacaklar"
 
@@ -464,15 +460,15 @@ msgstr "Acil durumda ulaşılacak kişi yok."
 msgid "Some applications are busy or have unsaved work"
 msgstr "Bazı uygulamalar meşgul ya da kaydedilmemiş verisi var"
 
-#: src/ui/gtk-mount-prompt.ui:94
+#: src/ui/gtk-mount-prompt.ui:88
 msgid "User:"
 msgstr "Kullanıcı:"
 
-#: src/ui/gtk-mount-prompt.ui:117
+#: src/ui/gtk-mount-prompt.ui:111
 msgid "Domain:"
 msgstr "Etki Alanı:"
 
-#: src/ui/gtk-mount-prompt.ui:150
+#: src/ui/gtk-mount-prompt.ui:144
 msgid "Co_nnect"
 msgstr "_Bağlan"
 
@@ -501,7 +497,7 @@ msgstr "İ_ptal"
 msgid "C_onnect"
 msgstr "_Bağlan"
 
-#: src/ui/polkit-auth-prompt.ui:122
+#: src/ui/polkit-auth-prompt.ui:117
 msgid "Authenticate"
 msgstr "Kimlik Doğrula"
 
@@ -525,15 +521,15 @@ msgstr "_Acil"
 msgid "Run Command"
 msgstr "Komut Çalıştır"
 
-#: src/ui/settings.ui:296
+#: src/ui/settings.ui:327
 msgid "No notifications"
 msgstr "Bildirim yok"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "Tümünü temizle"
 
-#: src/ui/system-prompt.ui:62
+#: src/ui/system-prompt.ui:57
 msgid "Confirm:"
 msgstr "Doğrula:"
 
@@ -553,9 +549,33 @@ msgstr "_Askıya Al…"
 msgid "_Log Out…"
 msgstr "_Oturumu Kapat…"
 
+#: src/ui/wifi-status-page.ui:32
+msgid "No Wi-Fi Device Found"
+msgstr "Kablosuz Aygıtı Bulunamadı"
+
+#: src/ui/wifi-status-page.ui:60
+msgid "Wi-Fi Disabled"
+msgstr "Kablosuz Devre Dışı"
+
+#: src/ui/wifi-status-page.ui:97
+msgid "Wi-Fi Hotspot Active"
+msgstr "Kablosuz Erişim Noktası Etkin"
+
+#: src/ui/wifi-status-page.ui:133
+msgid "No Wi-Fi Hotspots Found"
+msgstr "Kablosuz Erişim Noktası Bulunamadı"
+
+#: src/ui/wifi-status-page.ui:144
+msgid "Scan"
+msgstr "Tara"
+
+#: src/ui/wifi-status-page.ui:176
+msgid "Wi-Fi Settings"
+msgstr "Kablosuz Ayarları"
+
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:339
+#: src/util.c:342
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -572,7 +592,7 @@ msgstr "Uzantı bulunamadı"
 msgid "The plugin '%s' could not be loaded."
 msgstr "'%s' uzantısı yüklenemedi."
 
-#: src/wifiinfo.c:90
+#: src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "Kablosuz"
 
@@ -602,32 +622,32 @@ msgid "Home Address"
 msgstr "Ev Adresi"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
 msgid "Medical Information"
 msgstr "Tıbbi Bilgiler"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
 msgid "Age"
 msgstr "Yaş"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
 msgid "Blood Type"
 msgstr "Kan Grubu"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
 msgid "Height"
 msgstr "Boy"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Weight"
 msgstr "Kilo"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
 msgid "Allergies"
 msgstr "Alerjiler"
 
@@ -636,7 +656,7 @@ msgid "Medications & Conditions"
 msgstr "İlaçlar ve Koşullar"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
 msgid "Other Information"
 msgstr "Diğer Bilgiler"
 
@@ -653,31 +673,31 @@ msgstr "Bitti"
 msgid "Owner Name"
 msgstr "Sahip Adı"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
 msgid "Medications and Conditions"
 msgstr "İlaçlar ve Koşullar"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
 msgid "Add Contact"
 msgstr "Kişi Ekle"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
 msgid "Add New Contact"
 msgstr "Yeni Kişi Ekle"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
 msgid "Add"
 msgstr "Ekle"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "New Contact Name"
 msgstr "Yeni Kişi Adı"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
 msgid "Relationship"
 msgstr "İlişki"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
 msgid "Number"
 msgstr "Numara"
 
@@ -768,9 +788,12 @@ msgstr "Tüm gün"
 msgid "Ends"
 msgstr "Bitiş"
 
-#: plugins/upcoming-events/upcoming-event.c:398
+#: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Adsız olay"
+
+#~ msgid "Unknown application"
+#~ msgstr "Bilinmeyen uygulama"
 
 #~ msgid "Emergency"
 #~ msgstr "Acil Durum"
