@@ -25,9 +25,10 @@ on_layer_surface_notify (PhoshLayerSurface *surface,
 static void
 test_layer_surface_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
+  PhoshMonitor *monitor = phosh_test_get_monitor (fixture->state);
   GtkWidget *surface = phosh_layer_surface_new (phosh_wayland_get_zwlr_layer_shell_v1(
                                                   fixture->state->wl),
-                                                fixture->state->output);
+                                                monitor->wl_output);
 
   g_assert_true (PHOSH_IS_LAYER_SURFACE (surface));
   gtk_widget_destroy (surface);
@@ -38,10 +39,11 @@ static void
 test_layer_surface_g_object_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   g_autofree char *namespace = g_strdup_printf ("phosh test %s", __func__);
+  PhoshMonitor *monitor = phosh_test_get_monitor (fixture->state);
   GtkWidget *surface = g_object_new (PHOSH_TYPE_LAYER_SURFACE,
                                      "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(
                                        fixture->state->wl),
-                                     "wl-output", fixture->state->output,
+                                     "wl-output", monitor->wl_output,
                                      "width", 10,
                                      "height", 10,
                                      "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
@@ -76,10 +78,11 @@ test_layer_surface_set_size (PhoshTestCompositorFixture *fixture, gconstpointer 
 {
   guint width_count = 0, height_count = 0;
   g_autofree char *namespace = g_strdup_printf ("phosh test %s", __func__);
+  PhoshMonitor *monitor = phosh_test_get_monitor (fixture->state);
 
   GtkWidget *surface = g_object_new (PHOSH_TYPE_LAYER_SURFACE,
                                      "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
-                                     "wl-output", fixture->state->output,
+                                     "wl-output", monitor->wl_output,
                                      "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                                      "kbd-interactivity", FALSE,
                                      "exclusive-zone", -1,
@@ -125,10 +128,11 @@ test_layer_surface_set_kbd_interactivity (PhoshTestCompositorFixture *fixture, g
   guint count = 0;
   gboolean kbd_interacivity;
   g_autofree char *namespace = g_strdup_printf ("phosh test %s", __func__);
+  PhoshMonitor *monitor = phosh_test_get_monitor (fixture->state);
 
   GtkWidget *surface = g_object_new (PHOSH_TYPE_LAYER_SURFACE,
                                      "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1(fixture->state->wl),
-                                     "wl-output", fixture->state->output,
+                                     "wl-output", monitor->wl_output,
                                      "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                                      "kbd-interactivity", FALSE,
                                      "exclusive-zone", -1,

@@ -137,6 +137,9 @@ install_keymap (struct zwp_virtual_keyboard_v1 *keyboard)
 
 /*
  * Get a #PhoshMonitor for layer-surface tests
+ * @state: The fixture state
+ *
+ * Returns:(transfer none): A monitor
  */
 PhoshMonitor *
 phosh_test_get_monitor (PhoshTestCompositorState *state)

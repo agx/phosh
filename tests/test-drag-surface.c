@@ -18,13 +18,14 @@ static void
 test_drag_surface_g_object_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   g_autofree char *namespace = g_strdup_printf ("phosh test %s", __func__);
+  PhoshMonitor *monitor = phosh_test_get_monitor (fixture->state);
   GtkWidget *surface = g_object_new (PHOSH_TYPE_DRAG_SURFACE,
                                      "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1 (
                                        fixture->state->wl),
                                      "layer-shell-effects",
                                      phosh_wayland_get_zphoc_layer_shell_effects_v1 (
                                        fixture->state->wl),
-                                     "wl-output", fixture->state->output,
+                                     "wl-output", monitor->wl_output,
                                      "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                                      "kbd-interactivity", FALSE,
                                      "exclusive", 32,
@@ -62,14 +63,14 @@ static void
 test_drag_surface_set_state (PhoshTestCompositorFixture *fixture, gconstpointer unused)
 {
   g_autofree char *namespace = g_strdup_printf ("phosh test %s", __func__);
-
+  PhoshMonitor *monitor = phosh_test_get_monitor (fixture->state);
   GtkWidget *surface = g_object_new (PHOSH_TYPE_DRAG_SURFACE,
                                      "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1 (
                                        fixture->state->wl),
                                      "layer-shell-effects",
                                      phosh_wayland_get_zphoc_layer_shell_effects_v1 (
                                        fixture->state->wl),
-                                     "wl-output", fixture->state->output,
+                                     "wl-output", monitor->wl_output,
                                      "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                                      "kbd-interactivity", FALSE,
                                      "exclusive", 32,
