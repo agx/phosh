@@ -669,7 +669,7 @@ on_logind_manager_get_session_finished (PhoshDBusLoginManager   *object,
 
   if (!phosh_dbus_login_manager_call_get_session_finish (
         object, &object_path, res, &err)) {
-    g_warning ("Failed to get session: %s", err->message);
+    phosh_async_error_warn (err, "Failed to get session");
     return;
   }
 

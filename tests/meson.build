@@ -5,6 +5,7 @@ test_stub_deps = files(
   'stubs/phosh.c',
   'stubs/app-tracker.c',
   'stubs/lockscreen-manager.c',
+  'stubs/background-manager.c',
   'stubs/toplevel.c',
   'stubs/toplevel-manager.c',
   'stubs/thumbnail.c',

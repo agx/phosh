@@ -21,10 +21,7 @@ typedef struct _Fixture {
 
 
 #define BG_KEY_PRIMARY_COLOR      "primary-color"
-#define BG_KEY_SECONDARY_COLOR    "secondary-color"
-#define BG_KEY_COLOR_TYPE         "color-shading-type"
 #define BG_KEY_PICTURE_OPTIONS    "picture-options"
-#define BG_KEY_PICTURE_OPACITY    "picture-opacity"
 #define BG_KEY_PICTURE_URI        "picture-uri"
 
 
@@ -53,9 +50,11 @@ test_background_new (Fixture *fixture, gconstpointer unused)
 
   background = phosh_background_new (phosh_wayland_get_zwlr_layer_shell_v1(
                                        fixture->base.state->wl),
-                                     fixture->base.state->output,
-                                     1,
+                                     phosh_test_get_monitor (fixture->base.state),
                                      TRUE);
+
+  gtk_widget_show (background);
+
   g_assert_true (PHOSH_IS_BACKGROUND (background));
   g_object_get (background, "primary", &primary, NULL);
   g_assert_true (primary);
@@ -64,7 +63,6 @@ test_background_new (Fixture *fixture, gconstpointer unused)
   g_object_get (background, "primary", &primary, NULL);
   g_assert_false (primary);
 
-  gtk_widget_show (background);
   gtk_widget_destroy (background);
 }
 

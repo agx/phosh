@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2018 Purism SPC
+ * Copyright (C) 2018-2022 Purism SPC
+ *               2023-2024 Guido Günther
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -14,6 +15,9 @@
 #define G_LOG_DOMAIN "phosh-background"
 
 #include "background.h"
+#include "background-cache.h"
+#include "background-image.h"
+#include "background-manager.h"
 #include "shell.h"
 #include "top-panel.h"
 #include "util.h"
@@ -27,76 +31,69 @@
 #include <math.h>
 #include <string.h>
 
-#define BG_KEY_PRIMARY_COLOR      "primary-color"
-#define BG_KEY_SECONDARY_COLOR    "secondary-color"
-#define BG_KEY_COLOR_TYPE         "color-shading-type"
-#define BG_KEY_PICTURE_OPTIONS    "picture-options"
-#define BG_KEY_PICTURE_OPACITY    "picture-opacity"
-#define BG_KEY_PICTURE_URI        "picture-uri"
-
 #define COLOR_TO_PIXEL(color)     ((((int)(color->red   * 255)) << 24) | \
                                    (((int)(color->green * 255)) << 16) | \
                                    (((int)(color->blue  * 255)) << 8)  | \
                                    (((int)(color->alpha * 255))))
-
 /**
  * PhoshBackground:
  *
- * The monitor's background
+ * A [type@LayerSurface] representing the background drawn on a
+ * [type@Monitor].
+ *
+ * The background is updated by [type@BackgroundManager] when needed.
  */
 
 enum {
   PROP_0,
   PROP_PRIMARY,
-  PROP_SCALE,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
 
 
-enum {
-  BACKGROUND_LOADED,
-  N_SIGNALS
-};
-static guint signals[N_SIGNALS];
-
 struct _PhoshBackground
 {
-  PhoshLayerSurface parent;
+  PhoshLayerSurface        parent;
 
-  char *uri; /* uri in the org.gnome.desktop.background gsetting */
-  GDesktopBackgroundStyle style;
-  GdkRGBA color;
+  /* The cached background image */
+  GFile                   *uri;
+  PhoshBackgroundImage    *cached_bg_image;
+  GCancellable            *cancel_load;
+  /* How the background in rendered */
+  GDesktopBackgroundStyle  style;
+  GdkRGBA                  color;
+  GdkPixbuf               *pixbuf;
+  gboolean                 needs_update;
 
-  gboolean primary;
-  float scale;
-  GdkPixbuf *pixbuf;
-  GSettings *settings;
-  gboolean configured;
-
-  GnomeBGSlideShow *slideshow;
-
-  GCancellable *cancel;
+  /* The monitor backed by PhoshBackground */
+  gboolean                 primary;
+  gboolean                 configured;
 };
 
 
 G_DEFINE_TYPE (PhoshBackground, phosh_background, PHOSH_TYPE_LAYER_SURFACE);
 
 
+void
+phosh_background_data_free (PhoshBackgroundData *bd_data)
+{
+  g_clear_object (&bd_data->uri);
+  g_free (bd_data);
+}
+
+
 static void
-phosh_background_set_property (GObject *object,
-                               guint property_id,
+phosh_background_set_property (GObject      *object,
+                               guint         property_id,
                                const GValue *value,
-                               GParamSpec *pspec)
+                               GParamSpec   *pspec)
 {
   PhoshBackground *self = PHOSH_BACKGROUND (object);
 
   switch (property_id) {
   case PROP_PRIMARY:
     phosh_background_set_primary (self, g_value_get_boolean (value));
-    break;
-  case PROP_SCALE:
-    phosh_background_set_scale (self, g_value_get_float (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -106,9 +103,9 @@ phosh_background_set_property (GObject *object,
 
 
 static void
-phosh_background_get_property (GObject *object,
-                               guint property_id,
-                               GValue *value,
+phosh_background_get_property (GObject    *object,
+                               guint       property_id,
+                               GValue     *value,
                                GParamSpec *pspec)
 {
   PhoshBackground *self = PHOSH_BACKGROUND (object);
@@ -116,9 +113,6 @@ phosh_background_get_property (GObject *object,
   switch (property_id) {
   case PROP_PRIMARY:
     g_value_set_boolean (value, self->primary);
-    break;
-  case PROP_SCALE:
-    g_value_set_float (value, self->scale);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -134,6 +128,8 @@ pb_scale_to_min (GdkPixbuf *src, int min_width, int min_height)
   int src_width, src_height;
   int new_width, new_height;
   GdkPixbuf *dest;
+
+  g_return_val_if_fail (GDK_IS_PIXBUF (src), NULL);
 
   src_width = gdk_pixbuf_get_width (src);
   src_height = gdk_pixbuf_get_height (src);
@@ -159,14 +155,6 @@ pb_scale_to_min (GdkPixbuf *src, int min_width, int min_height)
                     factor,
                     GDK_INTERP_BILINEAR);
   return dest;
-}
-
-
-static void
-color_from_string (GdkRGBA    *color, const char *string)
-{
-  if (!gdk_rgba_parse (color, string))
-    gdk_rgba_parse (color, "black");
 }
 
 
@@ -220,7 +208,7 @@ pb_scale_to_fit (GdkPixbuf *src, int width, int height, GdkRGBA *color)
 
 
 static GdkPixbuf *
-image_background (GdkPixbuf               *image,
+image_background (PhoshBackgroundImage    *image,
                   guint                    width,
                   guint                    height,
                   GDesktopBackgroundStyle  style,
@@ -228,9 +216,14 @@ image_background (GdkPixbuf               *image,
 {
   GdkPixbuf *scaled_bg;
 
+  if (image == NULL) {
+    g_debug ("No image, using 'none' desktop style");
+    style = G_DESKTOP_BACKGROUND_STYLE_NONE;
+  }
+
   switch (style) {
   case G_DESKTOP_BACKGROUND_STYLE_SCALED:
-    scaled_bg = pb_scale_to_fit (image, width, height, color);
+    scaled_bg = pb_scale_to_fit (phosh_background_image_get_pixbuf (image), width, height, color);
     break;
   case G_DESKTOP_BACKGROUND_STYLE_NONE:
     scaled_bg = pb_fill_color (width, height, color);
@@ -243,7 +236,7 @@ image_background (GdkPixbuf               *image,
     /* fallthrough */
   case G_DESKTOP_BACKGROUND_STYLE_ZOOM:
   default:
-    scaled_bg = pb_scale_to_min (image, width, height);
+    scaled_bg = pb_scale_to_min (phosh_background_image_get_pixbuf (image), width, height);
     break;
   }
 
@@ -251,308 +244,102 @@ image_background (GdkPixbuf               *image,
 }
 
 
-/**
- * background_update:
- * @self: A #PhoshBackground
- * @pixbuf: The pixbuf to use or %NULL for a single colored background
- * @style: The background style
- *
- * Update the background pixbuf or colored image and draw it
- */
+static gboolean
+phosh_background_draw (GtkWidget *widget, cairo_t *cr)
+{
+  PhoshBackground *self = PHOSH_BACKGROUND (widget);
+  int x = 0, y = 0;
+
+  g_return_val_if_fail (PHOSH_IS_BACKGROUND (self), GDK_EVENT_PROPAGATE);
+
+  if (!self->configured || !self->pixbuf)
+    return GDK_EVENT_PROPAGATE;
+
+  g_assert (GDK_IS_PIXBUF (self->pixbuf));
+
+  if (self->primary)
+    phosh_shell_get_usable_area (phosh_shell_get_default (), &x, &y, NULL, NULL);
+
+  cairo_save (cr);
+  gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x, y);
+  cairo_paint (cr);
+  cairo_restore (cr);
+
+  return GDK_EVENT_PROPAGATE;
+}
+
+
 static void
-background_update (PhoshBackground *self, GdkPixbuf *pixbuf, GDesktopBackgroundStyle style)
+update_image (PhoshBackground *self)
 {
   int width, height;
-
-  g_clear_object (&self->pixbuf);
 
   if (self->primary)
     phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
   else
     g_object_get (self, "configured-width", &width, "configured-height", &height, NULL);
 
-  g_debug ("Scaling %p to %dx%d, scale %f", self, width, height, self->scale);
-  self->pixbuf = image_background (pixbuf, width * self->scale, height * self->scale, style, &self->color);
-  /* force background redraw */
+  g_debug ("Scaling %p to %dx%d", self, width, height);
+
+  g_clear_object (&self->pixbuf);
+  self->pixbuf = image_background (self->cached_bg_image, width, height,
+                                   self->style, &self->color);
+
+  self->needs_update = FALSE;
   gtk_widget_queue_draw (GTK_WIDGET (self));
-  g_signal_emit(self, signals[BACKGROUND_LOADED], 0);
-}
-
-
-/**
- * background_fallback:
- * @self: A #PhoshBackground
- *
- * Draw the fallback background.
- */
-static void
-background_fallback (PhoshBackground *self)
-{
-  background_update (self, NULL, G_DESKTOP_BACKGROUND_STYLE_NONE);
 }
 
 
 static void
-on_pixbuf_loaded (GObject         *source_object,
-                  GAsyncResult    *res,
-                  PhoshBackground *self)
+on_background_image_present (PhoshBackground        *self,
+                             PhoshBackgroundImage   *image,
+                             PhoshBackgroundCache   *cache)
 {
-  g_autoptr(GdkPixbuf) image = NULL;
-  g_autoptr(GError) err = NULL;
+  g_assert (PHOSH_IS_BACKGROUND (self));
+  g_assert (PHOSH_IS_BACKGROUND_CACHE (cache));
 
-  g_return_if_fail (self);
-
-  image = gdk_pixbuf_new_from_stream_finish (res, &err);
-  if (!image) {
-    /* Do nothing on cancel since we expect a new load to be triggered */
-    if (!phosh_async_error_warn (err, "Failed to load background"))
-      background_fallback (self);
-    g_object_unref (self);
-    return;
-  }
-  g_debug ("Loaded %s", self->uri);
-  background_update (self, image, self->style);
-  g_object_unref (self);
-}
-
-
-static gboolean
-load_image(PhoshBackground *self, const gchar *uri)
-{
-  g_autoptr(GFile) file = NULL;
-  g_autoptr(GInputStream) stream = NULL;
-  GError *err = NULL;
-
-  file = g_file_new_for_uri (uri);
-  /* TODO: should be async */
-  stream = G_INPUT_STREAM (g_file_read (file, NULL, &err));
-  if (!stream) {
-    g_warning ("Unable to open %s: %s", uri, err->message);
-    return FALSE;
-  }
-
-  self->cancel = g_cancellable_new ();
-  g_debug ("loading %s", uri);
-  gdk_pixbuf_new_from_stream_async (stream,
-                                    self->cancel,
-                                    (GAsyncReadyCallback)on_pixbuf_loaded,
-                                    g_object_ref(self));
-
-  return TRUE;
-}
-
-
-static char *
-make_file_uri (const char *val)
-{
-  char *uri = NULL;
-
-  if (val && g_path_is_absolute (val))
-    uri = g_strdup_printf ("file://%s", val);
-  else
-    uri = g_strdup (val);
-
-  return uri;
+  g_set_object (&self->cached_bg_image, image);
+  update_image (self);
 }
 
 
 static void
-on_slideshow_loaded (GnomeBGSlideShow *slideshow,
-                     GAsyncResult     *res,
-                     PhoshBackground  *self)
+trigger_update (PhoshBackground *self)
 {
-  g_autoptr (GError) err = NULL;
-  g_autofree gchar *image_uri = NULL;
-  gint width, height;
-  gboolean fixed;
-  const gchar *file1;
+  PhoshBackgroundCache *cache = phosh_background_cache_get_default ();
+  PhoshBackgroundManager *manager = phosh_shell_get_background_manager (phosh_shell_get_default ());
+  g_autoptr (PhoshBackgroundData) bg_data = NULL;
 
-  g_return_if_fail (GNOME_BG_IS_SLIDE_SHOW (slideshow));
-  g_return_if_fail (PHOSH_IS_BACKGROUND (self));
+  g_debug ("Updating Background %p", self);
+  bg_data = phosh_background_manager_get_data (manager, self);
 
-  if (!g_task_propagate_boolean (G_TASK (res), &err)) {
-    phosh_async_error_warn (err, "%s", self->uri);
-    goto out;
-  }
+  self->needs_update = TRUE;
+  self->style = bg_data->style;
+  self->color = bg_data->color;
+  g_set_object (&self->uri, bg_data->uri);
 
-  g_debug ("Slideshow %s loaded", self->uri);
+  g_cancellable_cancel (self->cancel_load);
+  g_clear_object (&self->cancel_load);
+  self->cancel_load = g_cancellable_new ();
 
-  g_object_get (self, "configured-width", &width, "configured-height", &height, NULL);
-  /* TODO: handle actual slideshows (fixed == false) */
-  gnome_bg_slide_show_get_slide (self->slideshow, 0, width * self->scale, height * self->scale,
-                                 NULL, NULL, &fixed, &file1, NULL);
-
-  g_debug ("Background file: %s, fixed: %d", file1, fixed);
-  if (!fixed)
-    g_warning ("Only fixed slideshows supported properly atm");
-  image_uri = make_file_uri (file1);
-  load_image (self, image_uri);
-out:
-  g_object_unref (self);
-}
-
-
-static gboolean
-load_slideshow (PhoshBackground *self)
-{
-  g_autoptr (GError) err = NULL;
-  g_autofree gchar *filename = NULL;
-
-  g_debug ("loading %s", self->uri);
-  /* Older gnome-desktop doesn't have a file property so
-     convert to filename */
-  filename = g_filename_from_uri (self->uri, NULL, &err);
-  if (!filename) {
-    g_warning ("Couldn't get filename for %s: %s", self->uri, err->message);
-    return FALSE;
-  }
-  g_clear_object (&self->slideshow);
-  self->slideshow = gnome_bg_slide_show_new (filename);
-
-  self->cancel = g_cancellable_new ();
-
-  gnome_bg_slide_show_load_async (self->slideshow,
-                                  self->cancel,
-                                  (GAsyncReadyCallback)on_slideshow_loaded,
-                                  g_object_ref (self));
-  return TRUE;
-}
-
-
-static void
-load_background (PhoshBackground *self)
-{
-  if (self->style == G_DESKTOP_BACKGROUND_STYLE_NONE) {
-    background_update (self, NULL, self->style);
-    return;
-  }
-
-  if (!g_str_has_prefix(self->uri, "file:///")) {
-    g_warning ("Only file URIs supported for backgrounds not %s", self->uri);
-    goto fallback;
-  }
-
-  /* Cancel background load if in progress */
-  if (self->cancel) {
-    g_cancellable_cancel (self->cancel);
-    g_clear_object (&self->cancel);
-  }
-
-  if (g_str_has_suffix (self->uri, ".xml")) {
-    if (load_slideshow (self))
-      return;
+  if (self->uri) {
+    phosh_background_cache_fetch_background (cache, self->uri, self->cancel_load);
   } else {
-    if (load_image (self, self->uri))
-      return;
+    g_clear_object (&self->cached_bg_image);
+    update_image (self);
   }
-
-fallback:
-  /* No proper background format found */
-  background_fallback (self);
-}
-
-
-static gboolean
-background_draw_cb (PhoshBackground *self,
-                    cairo_t         *cr,
-                    gpointer         data)
-{
-  int x = 0, y = 0;
-
-  g_return_val_if_fail (PHOSH_IS_BACKGROUND (self), TRUE);
-
-  if (self->pixbuf == NULL)
-    return TRUE;
-
-  g_return_val_if_fail (GDK_IS_PIXBUF (self->pixbuf), TRUE);
-
-  if (self->primary)
-    phosh_shell_get_usable_area (phosh_shell_get_default (), &x, &y, NULL, NULL);
-
-  cairo_save(cr);
-  cairo_scale(cr, 1.0 / self->scale, 1.0 / self->scale);
-  gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x * self->scale, y * self->scale);
-  cairo_paint (cr);
-  cairo_restore(cr);
-  return TRUE;
 }
 
 
 static void
-get_settings (PhoshBackground *self)
+phosh_background_configured (PhoshLayerSurface *layer_surface)
 {
-  g_autofree char *color = NULL;
-  g_autofree char *val = NULL;
+  PhoshBackground *self = PHOSH_BACKGROUND (layer_surface);
 
-  val = g_settings_get_string (self->settings, BG_KEY_PICTURE_URI);
-  g_free (self->uri);
-  self->uri = make_file_uri (val);
+  PHOSH_LAYER_SURFACE_CLASS (phosh_background_parent_class)->configured (layer_surface);
 
-  self->style = g_settings_get_enum (self->settings, BG_KEY_PICTURE_OPTIONS);
-  color = g_settings_get_string (self->settings, BG_KEY_PRIMARY_COLOR);
-  color_from_string (&self->color, color);
-}
-
-
-static void
-on_background_setting_changed (PhoshBackground *self,
-                               const char      *key,
-                               GSettings       *settings)
-{
-  g_return_if_fail (PHOSH_IS_BACKGROUND (self));
-  g_return_if_fail (G_IS_SETTINGS (settings));
-
-  get_settings (self);
-  load_background (self);
-}
-
-
-static void
-on_phosh_background_configured (PhoshLayerSurface *surface)
-{
-  PhoshBackground *self = PHOSH_BACKGROUND (surface);
-
-  g_debug ("Layer surface of background %p configured", self);
-  load_background (self);
   self->configured = TRUE;
-}
-
-
-static void
-phosh_background_constructed (GObject *object)
-{
-  PhoshBackground *self = PHOSH_BACKGROUND (object);
-
-  g_signal_connect (self, "draw", G_CALLBACK (background_draw_cb), NULL);
-
-  self->settings = g_settings_new ("org.gnome.desktop.background");
-  g_object_connect (self->settings,
-                    "swapped_signal::changed::" BG_KEY_PICTURE_URI,
-                    G_CALLBACK (on_background_setting_changed), self,
-                    "swapped_signal::changed::" BG_KEY_PICTURE_OPTIONS,
-                    G_CALLBACK (on_background_setting_changed), self,
-                    "swapped_signal::changed::" BG_KEY_PRIMARY_COLOR,
-                    G_CALLBACK (on_background_setting_changed), self,
-                    NULL);
-
-  get_settings (self);
-  g_signal_connect (self, "configured", G_CALLBACK (on_phosh_background_configured), self);
-
-  G_OBJECT_CLASS (phosh_background_parent_class)->constructed (object);
-}
-
-
-static void
-phosh_background_dispose (GObject *object)
-{
-  PhoshBackground *self = PHOSH_BACKGROUND (object);
-
-  g_cancellable_cancel (self->cancel);
-  g_clear_object (&self->cancel);
-
-  g_clear_object (&self->slideshow);
-
-  G_OBJECT_CLASS (phosh_background_parent_class)->dispose (object);
+  trigger_update (self);
 }
 
 
@@ -561,9 +348,10 @@ phosh_background_finalize (GObject *object)
 {
   PhoshBackground *self = PHOSH_BACKGROUND (object);
 
+  g_cancellable_cancel (self->cancel_load);
+  g_clear_object (&self->cancel_load);
   g_clear_object (&self->pixbuf);
-  g_clear_pointer (&self->uri, g_free);
-  g_clear_object (&self->settings);
+  g_clear_object (&self->cached_bg_image);
 
   G_OBJECT_CLASS (phosh_background_parent_class)->finalize (object);
 }
@@ -573,17 +361,16 @@ static void
 phosh_background_class_init (PhoshBackgroundClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
+  PhoshLayerSurfaceClass *layer_surface_class = PHOSH_LAYER_SURFACE_CLASS (klass);
 
-  signals[BACKGROUND_LOADED] = g_signal_new ("background-loaded",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
-
-  object_class->constructed = phosh_background_constructed;
-  object_class->dispose = phosh_background_dispose;
   object_class->finalize = phosh_background_finalize;
-
   object_class->set_property = phosh_background_set_property;
   object_class->get_property = phosh_background_get_property;
+
+  widget_class->draw = phosh_background_draw;
+
+  layer_surface_class->configured = phosh_background_configured;
 
   /**
    * PhoshBackground:primary:
@@ -599,17 +386,6 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
                           G_PARAM_STATIC_STRINGS |
                           G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_CONSTRUCT);
-  props[PROP_SCALE] =
-    g_param_spec_float ("scale",
-                        "Scale",
-                        "The output scale",
-                        1.0,
-                        G_MAXFLOAT,
-                        1.0,
-                        G_PARAM_READWRITE |
-                        G_PARAM_STATIC_STRINGS |
-                        G_PARAM_EXPLICIT_NOTIFY |
-                        G_PARAM_CONSTRUCT);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
@@ -618,19 +394,22 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
 static void
 phosh_background_init (PhoshBackground *self)
 {
-  self->scale = 1;
+  g_signal_connect_object (phosh_background_cache_get_default (),
+                           "image-present",
+                           G_CALLBACK (on_background_image_present),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 
 GtkWidget *
-phosh_background_new (gpointer layer_shell,
-                      gpointer wl_output,
-                      float    scale,
-                      gboolean primary)
+phosh_background_new (gpointer     layer_shell,
+                      PhoshMonitor *monitor,
+                      gboolean     primary)
 {
   return g_object_new (PHOSH_TYPE_BACKGROUND,
                        "layer-shell", layer_shell,
-                       "wl-output", wl_output,
+                       "wl-output", monitor->wl_output,
                        "anchor", (ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
@@ -639,7 +418,6 @@ phosh_background_new (gpointer layer_shell,
                        "kbd-interactivity", FALSE,
                        "exclusive-zone", -1,
                        "namespace", "phosh background",
-                       "scale", scale,
                        "primary", primary,
                        NULL);
 }
@@ -652,20 +430,23 @@ phosh_background_set_primary (PhoshBackground *self, gboolean primary)
     return;
 
   self->primary = primary;
-  if (self->configured)
-    load_background (self);
+
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRIMARY]);
+
+  trigger_update (self);
 }
 
-
+/**
+ * phosh_background_needs_update:
+ * @self: The background
+ *
+ * Marks the background's data as dirty, needing an update. This will make the update
+ * it's background image.
+ */
 void
-phosh_background_set_scale (PhoshBackground *self, float scale)
+phosh_background_needs_update (PhoshBackground *self)
 {
-  if ((int)(self->scale * 1000) == (int)(scale * 1000))
-    return;
+  g_return_if_fail (PHOSH_IS_BACKGROUND (self));
 
-  self->scale = scale;
-  if (self->configured)
-    load_background (self);
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SCALE]);
+  trigger_update (self);
 }

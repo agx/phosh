@@ -149,7 +149,7 @@ phosh_test_full_shell_setup (PhoshTestFullShellFixture *fixture, gconstpointer d
 /**
  * phosh_test_full_shell_teardown:
  * @fixture: Test fixture
- * @data: Data for test setup
+ * @unused: Data for test setup
  *
  * Tears down the test environment that was setup with
  * phosh_test_full_shell_setup(). This function is meant to be used
