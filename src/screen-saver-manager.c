@@ -227,7 +227,7 @@ on_power_button_pressed (GSimpleAction *action, GVariant *param, gpointer data)
     return;
 
   g_debug ("Power button released, activating screensaver");
-  screen_saver_set_active (self, TRUE, TRUE);
+  screen_saver_set_active (self, TRUE, self->lock_enabled);
 
   /* Disable long press timer */
   g_clear_handle_id (&self->long_press_id, g_source_remove);
@@ -796,7 +796,7 @@ on_primary_monitor_power_mode_changed (PhoshScreenSaverManager *self,
   }
 
   if (active) {
-    arm_lock_delay_timer (self, active, TRUE);
+    arm_lock_delay_timer (self, active, self->lock_enabled);
   } else {
     unarm_lock_delay_timer (self, "power mode change");
   }
