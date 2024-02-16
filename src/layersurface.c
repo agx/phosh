@@ -859,6 +859,8 @@ phosh_layer_surface_set_alpha (PhoshLayerSurface *self,
   priv = phosh_layer_surface_get_instance_private (self);
   g_return_if_fail (priv->alpha_surface);
 
+  g_return_if_fail (alpha >= 0.0 && alpha <= 1.0);
+
   if (priv->wl_surface == NULL) {
     g_warning ("Trying to set alpha on unmapped layer surface '%s'", priv->namespace);
     return;
