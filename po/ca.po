@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-10-27 13:22+0000\n"
-"PO-Revision-Date: 2023-11-12 23:14+0100\n"
+"POT-Creation-Date: 2024-02-06 08:44+0000\n"
+"PO-Revision-Date: 2024-02-21 22:23+0100\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -107,42 +107,38 @@ msgstr "No es pot establir una trucada d'emergència"
 msgid "Internal error"
 msgstr "Error intern"
 
-#: src/end-session-dialog.c:163
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "Surt"
 
-#: src/end-session-dialog.c:166
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "Es tancarà la sessió de %s automàticament d'aquí a %d segon."
 msgstr[1] "Es tancarà la sessió de %s automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:182
 msgid "Power Off"
 msgstr "Apaga"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "El sistema s'apagarà automàticament d'aquí a %d segon."
 msgstr[1] "El sistema s'apagarà automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "Reinicia"
 
-#: src/end-session-dialog.c:180
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "El sistema es reiniciarà automàticament d'aquí a %d segon."
 msgstr[1] "El sistema es reiniciarà automàticament d'aquí a %d segons."
-
-#: src/end-session-dialog.c:270
-msgid "Unknown application"
-msgstr "Aplicació desconeguda"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -181,11 +177,11 @@ msgstr "Sí"
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Introduïu la contrasenya"
 
-#: src/lockscreen.c:397
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "S'està comprovant…"
 
@@ -207,18 +203,18 @@ msgstr "Títol desconegut"
 msgid "Unknown Artist"
 msgstr "Artista desconegut"
 
-#: src/monitor-manager.c:119
+#: src/monitor-manager.c:127
 msgid "Built-in display"
 msgstr "Pantalla interna"
 
-#: src/monitor-manager.c:137
+#: src/monitor-manager.c:145
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:144
+#: src/monitor-manager.c:152
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -227,18 +223,18 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:153
+#: src/monitor-manager.c:161
 msgid "Unknown"
 msgstr "Desconegut"
 
-#: src/network-auth-prompt.c:201
+#: src/network-auth-prompt.c:202
 #, c-format
-msgid "Authentication type of wifi network “%s” not supported"
+msgid "Authentication type of Wi-Fi network “%s” not supported"
 msgstr "No s'admet el tipus d'autenticació de la xarxa sense fil «%s»"
 
-#: src/network-auth-prompt.c:206
+#: src/network-auth-prompt.c:207
 #, c-format
-msgid "Enter password for the wifi network “%s”"
+msgid "Enter password for the Wi-Fi network “%s”"
 msgstr "Introduïu la contrasenya de la xarxa sense fil «%s»"
 
 #: src/notifications/mount-notification.c:121
@@ -400,7 +396,7 @@ msgstr "Recorda la decisió"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
 msgid "Cancel"
 msgstr "Cancel·la"
 
@@ -457,7 +453,7 @@ msgid "Owner unknown"
 msgstr "Propietari desconegut"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
 msgid "Emergency Contacts"
 msgstr "Contactes d'emergència"
 
@@ -469,15 +465,15 @@ msgstr "No hi ha disponible cap contacte d'emergència."
 msgid "Some applications are busy or have unsaved work"
 msgstr "Algunes aplicacions estan ocupades o tenen feina sense desar"
 
-#: src/ui/gtk-mount-prompt.ui:94
+#: src/ui/gtk-mount-prompt.ui:88
 msgid "User:"
 msgstr "Usuari:"
 
-#: src/ui/gtk-mount-prompt.ui:117
+#: src/ui/gtk-mount-prompt.ui:111
 msgid "Domain:"
 msgstr "Domini:"
 
-#: src/ui/gtk-mount-prompt.ui:150
+#: src/ui/gtk-mount-prompt.ui:144
 msgid "Co_nnect"
 msgstr "Co_nnecta"
 
@@ -506,7 +502,7 @@ msgstr "_Cancel·la"
 msgid "C_onnect"
 msgstr "C_onnecta"
 
-#: src/ui/polkit-auth-prompt.ui:122
+#: src/ui/polkit-auth-prompt.ui:117
 msgid "Authenticate"
 msgstr "Autenticació"
 
@@ -530,15 +526,15 @@ msgstr "_Emergència"
 msgid "Run Command"
 msgstr "Executa una ordre"
 
-#: src/ui/settings.ui:296
+#: src/ui/settings.ui:327
 msgid "No notifications"
 msgstr "Cap notificació"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "Neteja-ho tot"
 
-#: src/ui/system-prompt.ui:62
+#: src/ui/system-prompt.ui:57
 msgid "Confirm:"
 msgstr "Confirmació:"
 
@@ -558,9 +554,33 @@ msgstr "_Suspèn…"
 msgid "_Log Out…"
 msgstr "Surt…"
 
+#: src/ui/wifi-status-page.ui:35
+msgid "No Wi-Fi Device Found"
+msgstr "No s'ha trobat cap dispositiu de xarxa sense fil"
+
+#: src/ui/wifi-status-page.ui:66
+msgid "Wi-Fi Disabled"
+msgstr "La xarxa sense fil està desactivada"
+
+#: src/ui/wifi-status-page.ui:106
+msgid "Wi-Fi Hotspot Active"
+msgstr "Punt d'accés de xarxa sense fil actiu"
+
+#: src/ui/wifi-status-page.ui:145
+msgid "No Wi-Fi Hotspots Found"
+msgstr "No s'ha trobat cap punt d'accés de xarxa sense fil"
+
+#: src/ui/wifi-status-page.ui:156
+msgid "Scan"
+msgstr "Escaneja"
+
+#: src/ui/wifi-status-page.ui:188
+msgid "Wi-Fi Settings"
+msgstr "Paràmetres de la xarxa sense fil"
+
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:339
+#: src/util.c:342
 msgid "%A, %B %-e"
 msgstr "%A, %-e %B"
 
@@ -607,32 +627,32 @@ msgid "Home Address"
 msgstr "Adreça particular"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
 msgid "Medical Information"
 msgstr "Informació mèdica"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
 msgid "Age"
 msgstr "Edat"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
 msgid "Blood Type"
 msgstr "Grup sanguini"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
 msgid "Height"
 msgstr "Alçada"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Weight"
 msgstr "Pes"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
 msgid "Allergies"
 msgstr "Al·lèrgies"
 
@@ -641,7 +661,7 @@ msgid "Medications & Conditions"
 msgstr "Medicacions i condicions"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
 msgid "Other Information"
 msgstr "Altra informació"
 
@@ -658,31 +678,31 @@ msgstr "Fet"
 msgid "Owner Name"
 msgstr "Nom del propietari"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
 msgid "Medications and Conditions"
 msgstr "Medicacions i condicions"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
 msgid "Add Contact"
 msgstr "Afegeix el contacte"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
 msgid "Add New Contact"
 msgstr "Afegeix un nou contacte"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
 msgid "Add"
 msgstr "Afegeix"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "New Contact Name"
 msgstr "Nom del nou contacte"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
 msgid "Relationship"
 msgstr "Relació"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
 msgid "Number"
 msgstr "Número"
 
@@ -774,9 +794,12 @@ msgstr "Tot el dia"
 msgid "Ends"
 msgstr "Acaba"
 
-#: plugins/upcoming-events/upcoming-event.c:398
+#: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Esdeveniment sense nom"
+
+#~ msgid "Unknown application"
+#~ msgstr "Aplicació desconeguda"
 
 #~ msgid "Emergency"
 #~ msgstr "Emergència"
