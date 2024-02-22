@@ -33,14 +33,6 @@
  * managing attributes of the session.
  */
 
-typedef enum _PhoshSessionInhibitFlags {
-  PHOSH_SESSION_INHIBIT_LOGOUT      = (1 << 0),
-  PHOSH_SESSION_INHIBIT_USER_SWITCH = (1 << 1),
-  PHOSH_SESSION_INHIBIT_SUSPEND     = (1 << 2),
-  PHOSH_SESSION_INHIBIT_IDLE        = (1 << 3),
-  PHOSH_SESSION_INHIBIT_AUTOMOUNT   = (1 << 4),
-} PhoshSessionManagerFlags;
-
 enum {
   PHOSH_SESSION_MANAGER_PROP_0,
   PHOSH_SESSION_MANAGER_PROP_ACTIVE,
@@ -516,7 +508,9 @@ phosh_session_manager_export_end_session (PhoshSessionManager *self,
 }
 
 guint
-phosh_session_manager_inhibit_suspend (PhoshSessionManager *self, const char *reason)
+phosh_session_manager_inhibit (PhoshSessionManager      *self,
+                               PhoshSessionManagerFlags  what,
+                               const char               *reason)
 {
   g_autoptr (GError) err = NULL;
   gboolean success;
@@ -526,12 +520,12 @@ phosh_session_manager_inhibit_suspend (PhoshSessionManager *self, const char *re
                                                           PHOSH_APP_ID,
                                                           0,
                                                           reason,
-                                                          PHOSH_SESSION_INHIBIT_SUSPEND,
+                                                          what,
                                                           &cookie,
                                                           self->cancel,
                                                           &err);
   if (!success) {
-    g_warning ("Failed to inhibit suspend: %s", err->message);
+    g_warning ("Failed to inhibit %d: %s", what, err->message);
     return 0;
   }
 
@@ -540,7 +534,7 @@ phosh_session_manager_inhibit_suspend (PhoshSessionManager *self, const char *re
 
 
 void
-phosh_session_manager_uninhibit_suspend (PhoshSessionManager *self, guint cookie)
+phosh_session_manager_uninhibit (PhoshSessionManager *self, guint cookie)
 {
   g_autoptr (GError) err = NULL;
   gboolean success;
@@ -550,5 +544,5 @@ phosh_session_manager_uninhibit_suspend (PhoshSessionManager *self, guint cookie
                                                             self->cancel,
                                                             &err);
   if (!success)
-    g_warning ("Failed to uninhibit suspend: %s", err->message);
+    g_warning ("Failed to uninhibit %u: %s", cookie, err->message);
 }
