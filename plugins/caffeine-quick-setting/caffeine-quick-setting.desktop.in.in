@@ -1,0 +1,7 @@
+[Plugin]
+# Translators: This is an internal id, no need to translate it
+Id=@name@
+Name=Caffeine Quick Setting
+Types=quick-setting;
+Comment=Prevent the session from going idle
+Plugin=@plugins_dir@/libphosh-plugin-@name@.so

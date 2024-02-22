@@ -176,7 +176,9 @@ do_settings (void)
 
   /* Enable quick setting plugins */
   g_settings_set_strv (settings, "quick-settings",
-                       (const char *const[]) { "simple-custom-quick-setting", NULL });
+                       (const char *const[]) { "caffeine-quick-setting",
+                                               "simple-custom-quick-setting",
+                                               NULL });
 }
 
 

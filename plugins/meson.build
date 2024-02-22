@@ -41,6 +41,7 @@ lockscreen_plugins = [
 ]
 
 quick_setting_plugins = [
+  'caffeine-quick-setting',
   'simple-custom-quick-setting',
 ]
 
