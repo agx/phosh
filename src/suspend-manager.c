@@ -75,7 +75,7 @@ on_is_hotspot_master_changed (PhoshSuspendManager *self,
   is_hotspot_master = phosh_wifi_manager_is_hotspot_master (wifi_manager);
 
   if (is_hotspot_master) {
-    inhibit_suspend (self, "wifi-hotspot", "WiFi hotspot active");
+    inhibit_suspend (self, "wifi-hotspot", "Wi-Fi hotspot active");
   } else {
     g_debug ("Clearing Wi-Fi hotspot suspend inhibit");
     uninhibit_suspend (self, "wifi-hotspot");
