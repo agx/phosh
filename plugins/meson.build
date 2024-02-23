@@ -65,12 +65,12 @@ if get_option('lockscreen-plugins') or get_option('quick-setting-plugins')
 
   plugin_dep = declare_dependency(
     sources: phosh_plugin_h,
-    # Plugins can use phosh's headers
-    include_directories: [plugin_inc, phosh_lib_inc],
+    include_directories: plugin_inc,
     dependencies: [
       gobject_dep,
       gtk_dep,
       libhandy_dep,
+      phosh_plugins_dep,
     ],
   )
 

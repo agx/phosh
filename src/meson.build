@@ -369,6 +369,12 @@ phosh_static_lib_dep = declare_dependency(
   dependencies: [phosh_deps, phosh_tool_dep],
 )
 
+# Dependencies that can be used by plugins
+phosh_plugins_dep = declare_dependency(
+  include_directories: phosh_lib_inc,
+  sources: generated_dbus_headers,
+)
+
 if get_option('gtk_doc')
   phosh_gir_sources = [ libphosh_sources,
                         libphosh_tool_sources,

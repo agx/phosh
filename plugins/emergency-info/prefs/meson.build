@@ -29,4 +29,3 @@ phosh_emergency_info_plugin_prefs = shared_module(
   install: true,
   install_dir: plugin_prefs_dir,
 )
-
