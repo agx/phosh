@@ -2,6 +2,7 @@
 # Translators: This is an internal id, no need to translate it
 Id=@name@
 Name=Emergency Info
+Types=lockscreen;
 Comment=Show emergency information and contacts
 Plugin=@plugins_dir@/libphosh-plugin-@name@.so
 

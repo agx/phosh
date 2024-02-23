@@ -1,5 +1,6 @@
 [Plugin]
 Id=@name@
 Name=Upcoming Events
+Types=lockscreen;
 Comment=Show upcoming calendar events
 Plugin=@plugins_dir@/libphosh-plugin-@name@.so

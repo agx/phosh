@@ -2,5 +2,6 @@
 # Translators: This is an internal id, no need to translate it
 Id=@name@
 Name=Calendar
+Types=lockscreen;
 Comment=A simple calendar widget
 Plugin=@plugins_dir@/libphosh-plugin-@name@.so
