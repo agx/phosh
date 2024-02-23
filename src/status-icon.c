@@ -42,10 +42,10 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshStatusIcon, phosh_status_icon, GTK_TYPE_BIN);
 
 
 static void
-phosh_status_icon_set_property (GObject *object,
-                                  guint property_id,
-                                  const GValue *value,
-                                  GParamSpec *pspec)
+phosh_status_icon_set_property (GObject      *object,
+                                guint         property_id,
+                                const GValue *value,
+                                GParamSpec   *pspec)
 {
   PhoshStatusIcon *self = PHOSH_STATUS_ICON (object);
 
@@ -69,10 +69,10 @@ phosh_status_icon_set_property (GObject *object,
 
 
 static void
-phosh_status_icon_get_property (GObject *object,
-                                  guint property_id,
-                                  GValue *value,
-                                  GParamSpec *pspec)
+phosh_status_icon_get_property (GObject    *object,
+                                guint       property_id,
+                                GValue     *value,
+                                GParamSpec *pspec)
 {
   PhoshStatusIcon *self = PHOSH_STATUS_ICON (object);
 
@@ -163,33 +163,33 @@ phosh_status_icon_class_init (PhoshStatusIconClass *klass)
   gtk_widget_class_set_css_name (widget_class, "phosh-status-icon");
 
   props[PHOSH_STATUS_ICON_PROP_ICON_NAME] =
-   g_param_spec_string ("icon-name",
-                        "icon name",
-                        "The icon name",
-                        NULL,
-                        G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    g_param_spec_string ("icon-name",
+                         "icon name",
+                         "The icon name",
+                         NULL,
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_STATUS_ICON_PROP_ICON_SIZE] =
-   g_param_spec_enum ("icon-size",
-		      "icon size",
-		      "The icon size",
-		      GTK_TYPE_ICON_SIZE,
-		      GTK_ICON_SIZE_LARGE_TOOLBAR,
-		      G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    g_param_spec_enum ("icon-size",
+                       "icon size",
+                       "The icon size",
+                       GTK_TYPE_ICON_SIZE,
+                       GTK_ICON_SIZE_LARGE_TOOLBAR,
+                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_STATUS_ICON_PROP_EXTRA_WIDGET] =
-   g_param_spec_object ("extra_widget",
-			"extra widget",
-			"An additional widget",
-			GTK_TYPE_WIDGET,
-			G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    g_param_spec_object ("extra_widget",
+                         "extra widget",
+                         "An additional widget",
+                         GTK_TYPE_WIDGET,
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
   props[PHOSH_STATUS_ICON_PROP_INFO] =
-   g_param_spec_string ("info",
-                        "info",
-                        "Additional state information",
-                        NULL,
-                        G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+    g_param_spec_string ("info",
+                         "info",
+                         "Additional state information",
+                         NULL,
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PHOSH_STATUS_ICON_PROP_LAST_PROP, props);
 }
@@ -240,8 +240,8 @@ phosh_status_icon_set_icon_name (PhoshStatusIcon *self, const char *icon_name)
     return;
 
   gtk_image_set_from_icon_name (GTK_IMAGE (priv->image),
-				icon_name,
-				phosh_status_icon_get_icon_size (self));
+                                icon_name,
+                                phosh_status_icon_get_icon_size (self));
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_STATUS_ICON_PROP_ICON_NAME]);
 }
