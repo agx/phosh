@@ -76,7 +76,7 @@ if get_option('lockscreen-plugins') or get_option('quick-setting-plugins')
 
   plugin_prefs_dep = declare_dependency(
     sources: [phosh_plugin_h, plugin_prefs_config_h],
-    include_directories: plugin_inc,
+    include_directories: plugin_prefs_inc,
     dependencies: [
       dependency('gtk4'),
       dependency('libadwaita-1'),

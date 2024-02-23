@@ -21,7 +21,7 @@ phosh_emergency_info_plugin_prefs = shared_module(
   'phosh-plugin-prefs-emergency-info',
   emergency_info_plugin_prefs_sources,
   emergency_info_prefs_resources,
-  include_directories: [emergency_info_inc, plugin_inc],
+  include_directories: [emergency_info_inc, plugin_prefs_inc],
   c_args : ['-DG_LOG_DOMAIN="phosh-plugin-prefs-emergency-info-prefs"',
             '-DPLUGIN_PREFS_NAME="@0@-prefs"'.format(name),
            ],
