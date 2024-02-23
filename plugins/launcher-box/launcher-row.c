@@ -16,37 +16,39 @@
 
 enum {
   PROP_0,
-  PROP_LAUNCHER,
-  PROP_LAST_PROP,
+  PROP_LAUNCHER_ITEM,
+  PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
 
 
 struct _PhoshLauncherRow {
-  HdyActionRow     parent;
+  HdyActionRow       parent;
 
-  GDesktopAppInfo *app_info;
+  PhoshLauncherItem *item;
 };
 G_DEFINE_TYPE (PhoshLauncherRow, phosh_launcher_row, HDY_TYPE_ACTION_ROW)
 
 
 static void
-set_app_info (PhoshLauncherRow *self, GDesktopAppInfo *info)
+set_item (PhoshLauncherRow *self, PhoshLauncherItem *item)
 {
   g_autofree char *icon_name = NULL;
   const char *desc = NULL;
+  GDesktopAppInfo *info;
 
-  g_assert (!self->app_info);
+  g_assert (!self->item);
 
-  self->app_info = g_object_ref (info);
+  self->item = g_object_ref (item);
+  info = phosh_launcher_item_get_app_info (item);
   hdy_preferences_row_set_title (HDY_PREFERENCES_ROW (self),
-                                 g_app_info_get_display_name (G_APP_INFO (self->app_info)));
+                                 g_app_info_get_display_name (G_APP_INFO (info)));
 
-  icon_name = g_desktop_app_info_get_string (self->app_info, "Icon");
+  icon_name = g_desktop_app_info_get_string (info, "Icon");
   if (icon_name)
     hdy_action_row_set_icon_name (HDY_ACTION_ROW (self), icon_name);
 
-  desc = g_app_info_get_description (G_APP_INFO (self->app_info));
+  desc = g_app_info_get_description (G_APP_INFO (info));
   hdy_action_row_set_subtitle (HDY_ACTION_ROW (self), desc);
   hdy_action_row_set_subtitle_lines (HDY_ACTION_ROW (self), 1);
 }
@@ -61,8 +63,8 @@ phosh_launcher_row_set_property (GObject      *object,
   PhoshLauncherRow *self = PHOSH_LAUNCHER_ROW (object);
 
   switch (property_id) {
-  case PROP_LAUNCHER:
-    set_app_info (self, g_value_get_object (value));
+  case PROP_LAUNCHER_ITEM:
+    set_item (self, g_value_get_object (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -80,8 +82,8 @@ phosh_launcher_row_get_property (GObject    *object,
   PhoshLauncherRow *self = PHOSH_LAUNCHER_ROW (object);
 
   switch (property_id) {
-  case PROP_LAUNCHER:
-    g_value_set_object (value, self->app_info);
+  case PROP_LAUNCHER_ITEM:
+    g_value_set_object (value, self->item);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -95,7 +97,7 @@ phosh_launcher_row_finalize (GObject *object)
 {
   PhoshLauncherRow *self = PHOSH_LAUNCHER_ROW (object);
 
-  g_clear_object (&self->app_info);
+  g_clear_object (&self->item);
 
   G_OBJECT_CLASS (phosh_launcher_row_parent_class)->finalize (object);
 }
@@ -110,10 +112,11 @@ phosh_launcher_row_class_init (PhoshLauncherRowClass *klass)
   object_class->set_property = phosh_launcher_row_set_property;
   object_class->finalize = phosh_launcher_row_finalize;
 
-  props[PROP_LAUNCHER] =
-    g_param_spec_object ("app-info", "", "",
-                         G_TYPE_DESKTOP_APP_INFO,
-                         G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+  props[PROP_LAUNCHER_ITEM] =
+    g_param_spec_object ("launcher-item", "", "",
+                         PHOSH_TYPE_LAUNCHER_ITEM,
+                         G_PARAM_READWRITE |
+                         G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT_ONLY);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
@@ -126,16 +129,16 @@ phosh_launcher_row_init (PhoshLauncherRow *self)
 
 
 GtkWidget *
-phosh_launcher_row_new (GDesktopAppInfo *app_info)
+phosh_launcher_row_new (PhoshLauncherItem *app_info)
 {
-  return GTK_WIDGET (g_object_new (PHOSH_TYPE_LAUNCHER_ROW, "app-info", app_info, NULL));
+  return GTK_WIDGET (g_object_new (PHOSH_TYPE_LAUNCHER_ROW, "launcher-item", app_info, NULL));
 }
 
 
-GDesktopAppInfo *
-phosh_launcher_row_get_app_info (PhoshLauncherRow *self)
+PhoshLauncherItem *
+phosh_launcher_row_get_item (PhoshLauncherRow *self)
 {
   g_return_val_if_fail (PHOSH_IS_LAUNCHER_ROW (self), NULL);
 
-  return self->app_info;
+  return self->item;
 }
