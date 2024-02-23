@@ -354,13 +354,13 @@ create_dbus_proxy_cb (GObject *source_object, GAsyncResult *res, char *panel)
   params[2] = g_variant_new_array (G_VARIANT_TYPE ("{sv}"), NULL, 0);
 
   g_dbus_proxy_call (proxy,
-		     "Activate",
-		     g_variant_new_tuple (params, 3),
-		     G_DBUS_CALL_FLAGS_NONE,
-		     -1,
-		     NULL,
-		     (GAsyncReadyCallback) call_dbus_cb,
-		     g_steal_pointer (&panel));
+                     "Activate",
+                     g_variant_new_tuple (params, 3),
+                     G_DBUS_CALL_FLAGS_NONE,
+                     -1,
+                     NULL,
+                     (GAsyncReadyCallback) call_dbus_cb,
+                     g_steal_pointer (&panel));
 }
 
 
@@ -368,14 +368,14 @@ void
 phosh_quick_setting_open_settings_panel (const char *panel)
 {
   g_dbus_proxy_new_for_bus (G_BUS_TYPE_SESSION,
-			    G_DBUS_PROXY_FLAGS_NONE,
-			    NULL,
-			    "org.gnome.Settings",
-			    "/org/gnome/Settings",
-			    "org.gtk.Actions",
-			    NULL,
-			    (GAsyncReadyCallback) create_dbus_proxy_cb,
-			    g_strdup (panel));
+                            G_DBUS_PROXY_FLAGS_NONE,
+                            NULL,
+                            "org.gnome.Settings",
+                            "/org/gnome/Settings",
+                            "org.gtk.Actions",
+                            NULL,
+                            (GAsyncReadyCallback) create_dbus_proxy_cb,
+                            g_strdup (panel));
 
 }
 
