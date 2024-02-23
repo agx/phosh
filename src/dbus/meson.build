@@ -2,7 +2,6 @@ dbus_inc = include_directories('.')
 
 # DBus client interfaces
 generated_dbus_sources = []
-dbus_doc_targets = []
 
 dbus_prefix = 'PhoshDBus'
 
@@ -137,5 +136,3 @@ generated_dbus_sources += gnome.gdbus_codegen('phosh-gtk-mountoperation-dbus',
                                               'org.Gtk.MountOperationHandler.xml',
 					      interface_prefix: 'org.Gtk',
 					      namespace: dbus_prefix)
-
-dbus_doc_dep = declare_dependency(sources: dbus_doc_targets)
