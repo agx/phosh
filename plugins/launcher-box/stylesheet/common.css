@@ -3,3 +3,10 @@ phosh-launcher-box {
   border-radius: 12px;
   padding: 8px;
 }
+
+phosh-launcher-box row label.p-launcher-row-count {
+  border-radius: 12px;
+  padding: 2px 6px 2px 6px;
+  background: shade(@theme_bg_color, 1.2);
+  color: shade(@theme_fg_color, 0.9);
+}

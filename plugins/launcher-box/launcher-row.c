@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Guido Günther
+ * Copyright (C) 2024 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -26,8 +26,26 @@ struct _PhoshLauncherRow {
   HdyActionRow       parent;
 
   PhoshLauncherItem *item;
+
+  GtkWidget         *count_label;
+  GtkWidget         *progress_bar;
 };
 G_DEFINE_TYPE (PhoshLauncherRow, phosh_launcher_row, HDY_TYPE_ACTION_ROW)
+
+
+static gboolean
+transform_count_to_label (GBinding     *binding,
+                          const GValue *from_value,
+                          GValue       *to_value,
+                          gpointer      user_data)
+{
+  gint64 count = g_value_get_int64 (from_value);
+  char *label;
+
+  label = g_strdup_printf ("%" G_GUINT64_FORMAT, count);
+  g_value_take_string (to_value, label);
+  return TRUE;
+}
 
 
 static void
@@ -51,6 +69,22 @@ set_item (PhoshLauncherRow *self, PhoshLauncherItem *item)
   desc = g_app_info_get_description (G_APP_INFO (info));
   hdy_action_row_set_subtitle (HDY_ACTION_ROW (self), desc);
   hdy_action_row_set_subtitle_lines (HDY_ACTION_ROW (self), 1);
+
+  g_object_bind_property (self->item, "progress-visible",
+                          self->progress_bar, "visible",
+                          G_BINDING_SYNC_CREATE);
+  g_object_bind_property (self->item, "progress",
+                          self->progress_bar, "value",
+                          G_BINDING_SYNC_CREATE);
+
+  g_object_bind_property (self->item, "count-visible",
+                          self->count_label, "visible",
+                          G_BINDING_SYNC_CREATE);
+  g_object_bind_property_full (self->item, "count",
+                               self->count_label, "label",
+                               G_BINDING_SYNC_CREATE,
+                               transform_count_to_label,
+                               NULL, NULL, NULL);
 }
 
 
@@ -107,6 +141,7 @@ static void
 phosh_launcher_row_class_init (PhoshLauncherRowClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->get_property = phosh_launcher_row_get_property;
   object_class->set_property = phosh_launcher_row_set_property;
@@ -118,6 +153,11 @@ phosh_launcher_row_class_init (PhoshLauncherRowClass *klass)
                          G_PARAM_READWRITE |
                          G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT_ONLY);
 
+  gtk_widget_class_set_template_from_resource (widget_class,
+                                               "/mobi/phosh/plugins/launcher-box/launcher-row.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhoshLauncherRow, count_label);
+  gtk_widget_class_bind_template_child (widget_class, PhoshLauncherRow, progress_bar);
+
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
@@ -125,6 +165,7 @@ phosh_launcher_row_class_init (PhoshLauncherRowClass *klass)
 static void
 phosh_launcher_row_init (PhoshLauncherRow *self)
 {
+  gtk_widget_init_template (GTK_WIDGET (self));
 }
 
 
