@@ -6,8 +6,6 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#define G_LOG_DOMAIN "phosh-plugin-calendar"
-
 #include "calendar.h"
 #include "phosh-plugin.h"
 
