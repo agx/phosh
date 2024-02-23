@@ -19,16 +19,18 @@
  *
  * A quick setting for the notification drawer
  *
- * The #PhoshQuickSetting is a widget which is meant to be placed inside the top drawer.
- * It contains a #GtkLabel and accepts one #PhoshStatusIcon as a child. The info property
- * of the #PhoshStatusIcon is bind to the #GtkLabel.
+ * The `PhoshQuickSetting` is a widget which is meant to be placed inside the top drawer.
+ * It contains a [type@Gtk.Label] and accepts one [type@StatusIcon] as a child. The
+ * [type@StatusIcon]'s [property@StatusIcon:info] property is automatically bound to the
+ * `PhoshQuickSetting`'s [type@Gtk.Label].
  *
  * If the [type@StatusIcon] has an `enabled` property it will be automatically bound to
- * to the [type@QuickSetting]'s [property@QuickSetting:active] property to make the quick setting appear
+ * to the `PhoshQuickSetting`'s [property@QuickSetting:active] property to make the quick setting appear
  * enabled/disabled whenever the status icon changes state.
  *
- * A #PhoshQuickSetting has two signals long_press and clicked, where the first is emitted
- * when the user performs a long press, the second signal is a normal single click.
+ * A `PhoshQuickSetting` has a [signal@QuickSetting::long-pressed] signal that is emitted when
+ * the user performs a long press. In order to react on single press connect to the [type@Gtk.Button]'s
+ * [signal@Gtk.Button::clicked] signal.
  *
  * `PhoshQuickSetting` has a [property@Phosh.QuickSetting:present] property which can be used to set
  * if the quick setting is available. For example, a Wi-Fi quick setting is available only when the
@@ -208,7 +210,6 @@ button_pressed_cb (PhoshQuickSetting *self, GdkEventButton *event, GtkButton *bu
     g_signal_emit (self, signals[LONG_PRESSED], 0);
   return FALSE;
 }
-
 
 
 static void
