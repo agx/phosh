@@ -22,6 +22,11 @@
  * The #PhoshQuickSetting is a widget which is meant to be placed inside the top drawer.
  * It contains a #GtkLabel and accepts one #PhoshStatusIcon as a child. The info property
  * of the #PhoshStatusIcon is bind to the #GtkLabel.
+ *
+ * If the [type@StatusIcon] has an `enabled` property it will be automatically bound to
+ * to the [type@QuickSetting]'s [property@QuickSetting:active] property to make the quick setting appear
+ * enabled/disabled whenever the status icon changes state.
+ *
  * A #PhoshQuickSetting has two signals long_press and clicked, where the first is emitted
  * when the user performs a long press, the second signal is a normal single click.
  *
@@ -151,7 +156,7 @@ phosh_quick_setting_add (GtkContainer *container, GtkWidget *child)
                                                 "label",
                                                 G_BINDING_SYNC_CREATE);
 
-  /* child's aren't required to have an `enabled` property */
+  /* The child isn't required to have an `enabled` property */
   if (g_object_class_find_property (G_OBJECT_GET_CLASS (child), "enabled")) {
       priv->label_binding = g_object_bind_property (child,
                                                     "enabled",
