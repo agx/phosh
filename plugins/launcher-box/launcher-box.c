@@ -19,8 +19,7 @@
 /**
  * PhoshLauncherBox:
  *
- * Show launchers in a folder. For now we do PDF but
- * should add PNG and pass.
+ * Show launchers in a folder.
  */
 struct _PhoshLauncherBox {
   GtkBox        parent;
