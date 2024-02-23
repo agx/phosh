@@ -51,6 +51,7 @@ libphosh_glib_generated_sources = [
   phosh_enums,
   phosh_marshalers,
   phosh_resources,
+  generated_dbus_headers,
   generated_dbus_sources,
 ]
 
