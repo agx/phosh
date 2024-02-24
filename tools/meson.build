@@ -23,7 +23,6 @@ if get_option('lockscreen-plugins') or tools_or_tests
                              ],
              c_args: ['-DBUILD_DIR="@0@"'.format(meson.project_build_root()),
                       '-DPLUGINS="@0@"'.format(' '.join(lockscreen_plugins)),
-                      '-DTEST_INSTALLED="@0@/install"'.format(meson.project_build_root()),
                      ],
              include_directories: [root_inc, phosh_inc],
              dependencies: [plugin_prefs_dep, gmodule_dep],

@@ -416,7 +416,7 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
 {
   PhoshLockscreenPrivate *priv;
   gboolean handled = FALSE;
-  gboolean on_unlock_page;
+  gboolean on_unlock_page, with_control;
   double position;
 
   g_assert (PHOSH_IS_LOCKSCREEN (self));
@@ -425,6 +425,7 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
   position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
   /* Round to nearest page so we already accept keyboard input before animation ends */
   on_unlock_page = (int)round(position) == POS_UNLOCK;
+  with_control = event->state & GDK_CONTROL_MASK;
 
   if (gtk_entry_im_context_filter_keypress (GTK_ENTRY (priv->entry_pin), event)) {
     show_unlock_page (self);
@@ -456,6 +457,17 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
         handled = TRUE;
       }
       break;
+    case GDK_KEY_Left:
+      if (!on_unlock_page && with_control && hdy_deck_get_can_swipe_back (priv->deck)) {
+        hdy_deck_navigate (priv->deck, HDY_NAVIGATION_DIRECTION_BACK);
+        handled = TRUE;
+      }
+      break;
+    case GDK_KEY_Right:
+      if (!on_unlock_page && with_control && hdy_deck_get_can_swipe_forward (priv->deck)) {
+        hdy_deck_navigate (priv->deck, HDY_NAVIGATION_DIRECTION_FORWARD);
+        handled = TRUE;
+      }
     default:
       /* nothing to do */
       break;

@@ -54,9 +54,6 @@ test_cflags = [
   '-DTEST_DATA_DIR="@0@/data"'.format(meson.current_source_dir()),
   '-DTEST_OUTPUT_DIR="@0@"'.format(meson.current_build_dir()),
   '-DTEST_PHOC_INI="@0@/data/phoc.ini"'.format(meson.project_source_root()),
-  # Some tests want an installed tree (e.g. for .mo, this is where it should
-  # be located:
-  '-DTEST_INSTALLED="@0@/install"'.format(meson.project_build_root()),
   '-DTEST_TOOLS="@0@/tools"'.format(meson.project_build_root()),
 ]
 

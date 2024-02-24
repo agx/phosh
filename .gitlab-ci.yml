@@ -163,8 +163,8 @@ screenshot:native-debian-trixie:
   <<: *trixie_vars
   script:
     - export LC_ALL=C.UTF-8
-    # Install .po files so tests can find them
-    - "DESTDIR=$PWD/_build/install meson install -C _build"
+    # Make sure tests can find the plugins and po files
+    - "meson install -C _build"
     - ${XVFB_RUN} meson test -C _build --print-errorlogs --suite screenshots
     - tools/montage-screenshots _build/
     - mv _build/tests/screenshots/* screenshots/

@@ -76,7 +76,7 @@ main (int argc, char *argv[])
   win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (win), "Lockscreen widget box");
   gtk_window_set_default_size (GTK_WINDOW (win), 360, 720);
-  g_signal_connect (win, "delete_event", G_CALLBACK (gtk_main_quit), NULL);
+  g_signal_connect (win, "delete-event", G_CALLBACK (gtk_main_quit), NULL);
 
   gtk_widget_show (win);
 

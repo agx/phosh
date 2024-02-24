@@ -38,7 +38,7 @@ take_screenshot (const char *what, int num, const char *where)
 
   /* libcall-ui has no idea that we're picking the translations from odd places
    * so help it along */
-  bindtextdomain ("call-ui", TEST_INSTALLED LOCALEDIR);
+  bindtextdomain ("call-ui", LOCALEDIR);
 
   dirname = g_build_filename (TEST_OUTPUT_DIR, "screenshots", what, NULL);
   filename = g_strdup_printf ("screenshot-%.2d-%s.png", num, where);
@@ -122,6 +122,22 @@ toggle_settings (GMainLoop                      *loop,
 
 
 static void
+activate_lockscreen_plugins (gboolean                        activate,
+                             GMainLoop                      *loop,
+                             struct zwp_virtual_keyboard_v1 *keyboard,
+                             GTimer                         *timer)
+{
+  guint key = activate ? KEY_LEFT : KEY_RIGHT;
+
+  phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
+  phosh_test_keyboard_press_keys (keyboard, timer, key, NULL);
+  phosh_test_keyboard_release_modifiers (keyboard);
+  /* Give animation time to finish */
+  wait_a_bit (loop, 500);
+}
+
+
+static void
 show_run_command_dialog (GMainLoop                      *loop,
                          struct zwp_virtual_keyboard_v1 *keyboard,
                          GTimer                         *timer,
@@ -146,6 +162,17 @@ do_settings (void)
 
   g_settings_set_boolean (settings, "clock-show-date", FALSE);
   g_settings_set_boolean (settings, "clock-show-weekday", FALSE);
+
+  /* Enable emergency-calls until it's on by default */
+  g_clear_object (&settings);
+  settings = g_settings_new ("sm.puri.phosh.emergency-calls");
+  g_settings_set_boolean (settings, "enabled", TRUE);
+
+  /* Enable emergency-calls until it's on by default */
+  g_clear_object (&settings);
+  settings = g_settings_new ("sm.puri.phosh.plugins");
+  g_settings_set_strv (settings, "lock-screen",
+                       (const char *const[]) { "emergency-info", "launcher-box", NULL });
 }
 
 
@@ -503,8 +530,6 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   /* Wait until compositor and shell are up */
   g_assert_nonnull (g_async_queue_timeout_pop (fixture->queue, POP_TIMEOUT));
 
-  do_settings ();
-
   loop = g_main_loop_new (context, FALSE);
 
   /* Give overview animation time to finish */
@@ -569,6 +594,10 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   wait_a_bit (loop, 500);
   take_screenshot (what, i++, "lockscreen-status");
 
+  activate_lockscreen_plugins (TRUE, loop,  keyboard,timer);
+  take_screenshot (what, i++, "lockscreen-plugins");
+  activate_lockscreen_plugins (FALSE, loop,  keyboard,timer);
+
   mpris_mock = phosh_test_mpris_mock_new ();
   phosh_mpris_mock_export (mpris_mock);
   wait_a_bit (loop, 500);
@@ -593,17 +622,14 @@ int
 main (int argc, char *argv[])
 {
   g_autoptr (PhoshTestFullShellFixtureCfg) cfg = NULL;
-  g_autoptr (GSettings) settings = NULL;
 
   g_test_init (&argc, &argv, NULL);
 
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-  bindtextdomain (GETTEXT_PACKAGE, TEST_INSTALLED LOCALEDIR);
+  bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 
-  /* Enable emergency-calls until it's on by default */
-  settings = g_settings_new ("sm.puri.phosh.emergency-calls");
-  g_settings_set_boolean (settings, "enabled", TRUE);
+  do_settings ();
 
   cfg = phosh_test_full_shell_fixture_cfg_new ("phosh-keyboard-events,phosh-media-player");
 
