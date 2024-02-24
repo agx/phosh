@@ -38,7 +38,7 @@ take_screenshot (const char *what, int num, const char *where)
 
   /* libcall-ui has no idea that we're picking the translations from odd places
    * so help it along */
-  bindtextdomain ("call-ui", TEST_INSTALLED LOCALEDIR);
+  bindtextdomain ("call-ui", LOCALEDIR);
 
   dirname = g_build_filename (TEST_OUTPUT_DIR, "screenshots", what, NULL);
   filename = g_strdup_printf ("screenshot-%.2d-%s.png", num, where);
@@ -627,7 +627,7 @@ main (int argc, char *argv[])
 
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-  bindtextdomain (GETTEXT_PACKAGE, TEST_INSTALLED LOCALEDIR);
+  bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 
   do_settings ();
 

@@ -18,9 +18,6 @@
 #include <glib/gi18n.h>
 
 
-static const char *localedir;
-
-
 static GStrv
 get_plugin_prefs_dirs (const char *const *plugins)
 {
@@ -93,7 +90,7 @@ on_app_activated (GtkApplication *app)
       continue;
 
     /* The plugins don't know that we're using a prefix for the installed data */
-    bindtextdomain (GETTEXT_PACKAGE, localedir);
+    bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 
     button = g_object_new (GTK_TYPE_BUTTON,
                            "label", name,
@@ -132,17 +129,9 @@ main (int argc, char *argv[])
 {
   g_autoptr (AdwApplication) app = NULL;
 
-  /* If we're run as port of the test-suite we want some special care */
-  if (g_getenv ("G_TEST_SRCDIR")) {
-    g_debug ("Running as part of phosh's tests");
-    localedir = TEST_INSTALLED LOCALEDIR;
-  } else {
-    localedir = LOCALEDIR;
-  }
-
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-  bindtextdomain (GETTEXT_PACKAGE, localedir);
+  bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 
   app = g_object_new (ADW_TYPE_APPLICATION,
                       "application-id", "sm.puri.phosh.PluginPrefsStandalone",
