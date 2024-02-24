@@ -122,6 +122,22 @@ toggle_settings (GMainLoop                      *loop,
 
 
 static void
+activate_lockscreen_plugins (gboolean                        activate,
+                             GMainLoop                      *loop,
+                             struct zwp_virtual_keyboard_v1 *keyboard,
+                             GTimer                         *timer)
+{
+  guint key = activate ? KEY_LEFT : KEY_RIGHT;
+
+  phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
+  phosh_test_keyboard_press_keys (keyboard, timer, key, NULL);
+  phosh_test_keyboard_release_modifiers (keyboard);
+  /* Give animation time to finish */
+  wait_a_bit (loop, 500);
+}
+
+
+static void
 show_run_command_dialog (GMainLoop                      *loop,
                          struct zwp_virtual_keyboard_v1 *keyboard,
                          GTimer                         *timer,
@@ -151,6 +167,12 @@ do_settings (void)
   g_clear_object (&settings);
   settings = g_settings_new ("sm.puri.phosh.emergency-calls");
   g_settings_set_boolean (settings, "enabled", TRUE);
+
+  /* Enable emergency-calls until it's on by default */
+  g_clear_object (&settings);
+  settings = g_settings_new ("sm.puri.phosh.plugins");
+  g_settings_set_strv (settings, "lock-screen",
+                       (const char *const[]) { "emergency-info", "launcher-box", NULL });
 }
 
 
@@ -571,6 +593,10 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   phosh_dbus_display_config_set_power_save_mode (dc_proxy, 0);
   wait_a_bit (loop, 500);
   take_screenshot (what, i++, "lockscreen-status");
+
+  activate_lockscreen_plugins (TRUE, loop,  keyboard,timer);
+  take_screenshot (what, i++, "lockscreen-plugins");
+  activate_lockscreen_plugins (FALSE, loop,  keyboard,timer);
 
   mpris_mock = phosh_test_mpris_mock_new ();
   phosh_mpris_mock_export (mpris_mock);
