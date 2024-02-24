@@ -146,6 +146,11 @@ do_settings (void)
 
   g_settings_set_boolean (settings, "clock-show-date", FALSE);
   g_settings_set_boolean (settings, "clock-show-weekday", FALSE);
+
+  /* Enable emergency-calls until it's on by default */
+  g_clear_object (&settings);
+  settings = g_settings_new ("sm.puri.phosh.emergency-calls");
+  g_settings_set_boolean (settings, "enabled", TRUE);
 }
 
 
@@ -503,8 +508,6 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   /* Wait until compositor and shell are up */
   g_assert_nonnull (g_async_queue_timeout_pop (fixture->queue, POP_TIMEOUT));
 
-  do_settings ();
-
   loop = g_main_loop_new (context, FALSE);
 
   /* Give overview animation time to finish */
@@ -593,7 +596,6 @@ int
 main (int argc, char *argv[])
 {
   g_autoptr (PhoshTestFullShellFixtureCfg) cfg = NULL;
-  g_autoptr (GSettings) settings = NULL;
 
   g_test_init (&argc, &argv, NULL);
 
@@ -601,9 +603,7 @@ main (int argc, char *argv[])
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
   bindtextdomain (GETTEXT_PACKAGE, TEST_INSTALLED LOCALEDIR);
 
-  /* Enable emergency-calls until it's on by default */
-  settings = g_settings_new ("sm.puri.phosh.emergency-calls");
-  g_settings_set_boolean (settings, "enabled", TRUE);
+  do_settings ();
 
   cfg = phosh_test_full_shell_fixture_cfg_new ("phosh-keyboard-events,phosh-media-player");
 
