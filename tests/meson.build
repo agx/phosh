@@ -193,7 +193,7 @@ if run_phoc_tests
                    ['test-take-screenshots.c', generated_dbus_sources],
                    c_args: test_cflags,
                    pie: true,
-                   link_args: test_link_args,
+                   link_args: test_link_args + phosh_export_sym_link_arg,
                    dependencies: [phosh_static_lib_dep, testlib_dep])
   foreach lang : screenshot_langs
     lang_env = test_env_phoc

@@ -173,6 +173,10 @@ do_settings (void)
   settings = g_settings_new ("sm.puri.phosh.plugins");
   g_settings_set_strv (settings, "lock-screen",
                        (const char *const[]) { "emergency-info", "launcher-box", NULL });
+
+  /* Enable quick setting plugins */
+  g_settings_set_strv (settings, "quick-settings",
+                       (const char *const[]) { "simple-custom-quick-setting", NULL });
 }
 
 
