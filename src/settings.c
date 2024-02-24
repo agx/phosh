@@ -10,8 +10,11 @@
 
 #include <glib/gi18n.h>
 
+#include "phosh-config.h"
+
 #include "media-player.h"
 #include "mode-manager.h"
+#include "plugin-loader.h"
 #include "shell.h"
 #include "settings.h"
 #include "quick-setting.h"
@@ -85,6 +88,11 @@ typedef struct _PhoshSettings
   PhoshTorchManager *torch_manager;
   GtkWidget *scale_torch;
   gboolean setting_torch;
+
+  /* Custom quick settings */
+  GSettings         *plugin_settings;
+  PhoshPluginLoader *plugin_loader;
+  GPtrArray         *custom_quick_settings;
 } PhoshSettings;
 
 
@@ -525,6 +533,39 @@ on_quicksetting_activated (PhoshSettings   *self,
 }
 
 static void
+unload_custom_quick_setting (GtkWidget *quick_setting)
+{
+  GtkWidget *flow_box_child = gtk_widget_get_parent (quick_setting);
+  GtkWidget *flow_box = gtk_widget_get_parent (flow_box_child);
+  gtk_container_remove (GTK_CONTAINER (flow_box), flow_box_child);
+}
+
+static void
+load_custom_quick_settings (PhoshSettings *self, GSettings *settings, gchar *key)
+{
+  g_auto (GStrv) plugins = NULL;
+  GtkWidget *widget;
+
+  g_ptr_array_remove_range (self->custom_quick_settings, 0, self->custom_quick_settings->len);
+  plugins = g_settings_get_strv (self->plugin_settings, "quick-settings");
+
+  if (plugins == NULL)
+    return;
+
+  for (int i = 0; plugins[i]; i++) {
+    g_debug ("Loading custom quick setting: %s", plugins[i]);
+    widget = phosh_plugin_loader_load_plugin (self->plugin_loader, plugins[i]);
+
+    if (widget == NULL) {
+      g_warning ("Custom quick setting '%s' not found", plugins[i]);
+    } else {
+      gtk_container_add (GTK_CONTAINER (self->quick_settings), widget);
+      g_ptr_array_add (self->custom_quick_settings, widget);
+    }
+  }
+}
+
+static void
 on_media_player_raised (PhoshSettings *self,
                         gpointer       unused)
 {
@@ -659,6 +700,7 @@ phosh_settings_constructed (GObject *object)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
   PhoshNotifyManager *manager;
+  const char *plugin_dirs[] = { PHOSH_PLUGINS_DIR, NULL };
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 
@@ -691,6 +733,15 @@ phosh_settings_constructed (GObject *object)
                           G_BINDING_SYNC_CREATE);
 
   g_signal_connect_swapped (phosh_shell_get_default (), "notify::locked", (GCallback) on_shell_locked, self);
+  self->plugin_settings = g_settings_new ("sm.puri.phosh.plugins");
+  self->plugin_loader = phosh_plugin_loader_new ((GStrv) plugin_dirs,
+                                                 PHOSH_EXTENSION_POINT_QUICK_SETTING_WIDGET);
+  self->custom_quick_settings = g_ptr_array_new_with_free_func ((GDestroyNotify) unload_custom_quick_setting);
+
+  g_signal_connect_object (self->plugin_settings, "changed::quick-settings",
+                           G_CALLBACK (load_custom_quick_settings), self, G_CONNECT_SWAPPED);
+
+  load_custom_quick_settings (self, NULL, NULL);
 }
 
 
@@ -702,6 +753,13 @@ phosh_settings_dispose (GObject *object)
   brightness_dispose ();
 
   g_clear_object (&self->torch_manager);
+
+  g_clear_object (&self->plugin_settings);
+  g_clear_object (&self->plugin_loader);
+  if (self->custom_quick_settings) {
+    g_ptr_array_free (self->custom_quick_settings, TRUE);
+    self->custom_quick_settings = NULL;
+  }
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->dispose (object);
 }

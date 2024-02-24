@@ -1,0 +1,7 @@
+[Plugin]
+# Translators: This is an internal id, no need to translate it
+Id=@name@
+Name=Simple Custom Quick Setting
+Types=quick-setting;
+Comment=A simple custom quick setting for demonstration purposes.
+Plugin=@plugins_dir@/libphosh-plugin-@name@.so

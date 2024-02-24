@@ -24,6 +24,10 @@
  * of the #PhoshStatusIcon is bind to the #GtkLabel.
  * A #PhoshQuickSetting has two signals long_press and clicked, where the first is emitted
  * when the user performs a long press, the second signal is a normal single click.
+ *
+ * `PhoshQuickSetting` has a [property@Phosh.QuickSetting:present] property which can be used to set
+ * if the quick setting is available. For example, a Wi-Fi quick setting is available only when the
+ * appropriate hardware is present.
  */
 
 enum {
@@ -37,6 +41,7 @@ enum {
   PROP_0,
   PROP_STATUS_ICON,
   PROP_ACTIVE,
+  PROP_PRESENT,
   PROP_HAS_STATUS,
   PROP_LAST_PROP
 };
@@ -50,6 +55,7 @@ typedef struct {
   GBinding        *label_binding;
   GtkGesture      *long_press;
   gboolean         active;
+  gboolean         present;
 } PhoshQuickSettingPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshQuickSetting, phosh_quick_setting, GTK_TYPE_BUTTON);
@@ -66,6 +72,9 @@ phosh_quick_setting_set_property (GObject      *object,
   switch (property_id) {
   case PROP_ACTIVE:
     phosh_quick_setting_set_active (self, g_value_get_boolean (value));
+    break;
+  case PROP_PRESENT:
+    phosh_quick_setting_set_present (self, g_value_get_boolean (value));
     break;
   case PROP_HAS_STATUS:
     phosh_quick_setting_set_has_status (self, g_value_get_boolean (value));
@@ -91,6 +100,9 @@ phosh_quick_setting_get_property (GObject    *object,
     break;
   case PROP_ACTIVE:
     g_value_set_boolean (value, phosh_quick_setting_get_active (self));
+    break;
+  case PROP_PRESENT:
+    g_value_set_boolean (value, phosh_quick_setting_get_present (self));
     break;
   case PROP_HAS_STATUS:
     g_value_set_boolean (value, phosh_quick_setting_get_has_status (self));
@@ -227,6 +239,16 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
   props[PROP_ACTIVE] =
     g_param_spec_boolean ("active", "", "",
                           FALSE,
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+
+  /**
+   * PhoshQuickSetting:present:
+   *
+   * Whether the quick setting is available.
+   */
+  props[PROP_PRESENT] =
+    g_param_spec_boolean ("present", "", "",
+                          TRUE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
   /**
@@ -386,6 +408,35 @@ phosh_quick_setting_get_active (PhoshQuickSetting *self)
   priv = phosh_quick_setting_get_instance_private (self);
 
   return priv->active;
+}
+
+
+void
+phosh_quick_setting_set_present (PhoshQuickSetting *self, gboolean present)
+{
+  PhoshQuickSettingPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_QUICK_SETTING (self));
+  priv = phosh_quick_setting_get_instance_private (self);
+
+  if (priv->present == present)
+    return;
+
+  priv->present = present;
+
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
+}
+
+
+gboolean
+phosh_quick_setting_get_present (PhoshQuickSetting *self)
+{
+  PhoshQuickSettingPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_QUICK_SETTING (self), FALSE);
+  priv = phosh_quick_setting_get_instance_private (self);
+
+  return priv->present;
 }
 
 

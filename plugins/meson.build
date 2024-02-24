@@ -6,6 +6,11 @@ phosh_plugin_config.set_quoted('PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET',
                                'phosh-lockscreen-widget')
 phosh_plugin_config.set_quoted('PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET_PREFS',
                                'phosh-lockscreen-widget-prefs')
+phosh_plugin_config.set_quoted('PHOSH_PLUGIN_EXTENSION_POINT_QUICK_SETTING_WIDGET',
+                               'phosh-quick-setting-widget')
+phosh_plugin_config.set_quoted('PHOSH_PLUGIN_EXTENSION_POINT_QUICK_SETTING_WIDGET_PREFS',
+                               'phosh-quick-setting-widget-prefs')
+
 phosh_plugin_h = configure_file(
   input: 'phosh-plugin.h.in',
   output: 'phosh-plugin.h',
@@ -16,6 +21,8 @@ install_headers([phosh_plugin_h], subdir: phosh_plugin_header_subdir)
 pkgconfig.generate(
   variables : ['lockscreen_plugins_dir=@0@'.format(plugins_dir),
                'lockscreen_prefs_dir=@0@'.format(plugin_prefs_dir),
+               'quick_setting_plugins_dir=@0@'.format(plugins_dir),
+               'quick_setting_prefs_dir=@0@'.format(plugin_prefs_dir),
               ],
   subdirs : phosh_plugin_header_subdir,
   version : meson.project_version(),
@@ -33,13 +40,17 @@ lockscreen_plugins = [
   'upcoming-events',
 ]
 
-lockscreen_plugin_schema_dirs = []
-foreach plugin : lockscreen_plugins
-  lockscreen_plugin_schema_dirs += meson.project_build_root() / 'plugins' / plugin
-endforeach
-lockscreen_plugin_schema_path = ':'.join(lockscreen_plugin_schema_dirs)
+quick_setting_plugins = [
+  'simple-custom-quick-setting',
+]
 
-if get_option('lockscreen-plugins')
+plugin_schema_dirs = []
+foreach plugin : lockscreen_plugins + quick_setting_plugins
+  plugin_schema_dirs += meson.project_build_root() / 'plugins' / plugin
+endforeach
+plugin_schema_path = ':'.join(plugin_schema_dirs)
+
+if get_option('lockscreen-plugins') or get_option('quick-setting-plugins')
   plugin_inc = include_directories('.')
   plugin_prefs_inc = include_directories('.')
 
@@ -72,8 +83,16 @@ if get_option('lockscreen-plugins')
     ],
   )
 
-  foreach plugin : lockscreen_plugins
-    subdir(plugin)
-  endforeach
+  if get_option('lockscreen-plugins')
+    foreach plugin : lockscreen_plugins
+      subdir(plugin)
+    endforeach
+  endif
+
+  if get_option('quick-setting-plugins')
+    foreach plugin : quick_setting_plugins
+      subdir(plugin)
+    endforeach
+  endif
 
 endif

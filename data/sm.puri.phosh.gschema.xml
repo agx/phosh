@@ -163,6 +163,13 @@
         The list of currently enabled plugins on the lock screen.
       </description>
     </key>
+    <key name="quick-settings" type="as">
+      <default>[]</default>
+      <summary>List of enabled quick setting plugins</summary>
+      <description>
+        The list of currently enabled plugins on the quick settings box.
+      </description>
+    </key>
   </schema>
 
 </schemalist>

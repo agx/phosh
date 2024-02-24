@@ -38,3 +38,7 @@ option('tools',
 option('lockscreen-plugins',
        type: 'boolean', value: true,
        description: 'Whether to build the lockscreen plugins')
+
+option('quick-setting-plugins',
+       type: 'boolean', value: true,
+       description: 'Whether to build the quick setting plugins')

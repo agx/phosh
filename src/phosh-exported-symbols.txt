@@ -1,5 +1,11 @@
 {
    phosh_shell_get_default;
+   # For custom quick setting plugins:
+   phosh_quick_setting_get_type;
+   phosh_quick_setting_set_active;
+   phosh_quick_setting_get_active;
+   phosh_status_icon_set_icon_name;
+   phosh_status_icon_set_info;
    # The plugins use our gtk-list-models:
    gtk_filter_list_model_*;
    gtk_sort_list_model_*;
