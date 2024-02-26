@@ -3,6 +3,8 @@
  */
 phosh-top-panel {
   font-size: 15px;
+  background: @phosh_bg_color;
+  color: @phosh_fg_color;
 }
 
 #top-bar {
@@ -253,7 +255,7 @@ phosh-activity.phosh-empty {
   background-size: cover;
 }
 
-phosh-home, phosh-top-panel {
+phosh-home {
   background: @phosh_bg_color;
   color: @phosh_fg_color;
 }

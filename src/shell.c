@@ -284,7 +284,7 @@ on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
 
   priv = phosh_shell_get_instance_private (self);
 
-  g_object_get (priv->home, "state", &state, NULL);
+  state = phosh_home_get_state (PHOSH_HOME (priv->home));
   phosh_shell_set_state (self, PHOSH_STATE_OVERVIEW, state == PHOSH_HOME_STATE_UNFOLDED);
 }
 
@@ -353,13 +353,13 @@ panels_create (PhoshShell *self)
   priv->top_panel = PHOSH_DRAG_SURFACE (phosh_top_panel_new (
                                           phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                           phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
-                                          monitor->wl_output,
+                                          monitor,
                                           top_layer));
   gtk_widget_show (GTK_WIDGET (priv->top_panel));
 
   priv->home = PHOSH_DRAG_SURFACE (phosh_home_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                                    phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
-                                                   monitor->wl_output));
+                                                   monitor));
   gtk_widget_show (GTK_WIDGET (priv->home));
 
   g_signal_connect_swapped (

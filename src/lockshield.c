@@ -57,12 +57,12 @@ phosh_lockshield_init (PhoshLockshield *self)
 
 
 GtkWidget *
-phosh_lockshield_new (gpointer layer_shell,
-                      gpointer wl_output)
+phosh_lockshield_new (struct zwlr_layer_shell_v1 *layer_shell,
+                      PhoshMonitor               *monitor)
 {
   return g_object_new (PHOSH_TYPE_LOCKSHIELD,
                        "layer-shell", layer_shell,
-                       "wl-output", wl_output,
+                       "wl-output", monitor->wl_output,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |

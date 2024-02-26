@@ -99,10 +99,10 @@ typedef struct _PhoshTopPanel {
 G_DEFINE_TYPE (PhoshTopPanel, phosh_top_panel, PHOSH_TYPE_DRAG_SURFACE)
 
 static void
-phosh_top_panel_set_property (GObject *object,
-                              guint property_id,
+phosh_top_panel_set_property (GObject      *object,
+                              guint         property_id,
                               const GValue *value,
-                              GParamSpec *pspec)
+                              GParamSpec   *pspec)
 {
   PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
 
@@ -118,9 +118,9 @@ phosh_top_panel_set_property (GObject *object,
 
 
 static void
-phosh_top_panel_get_property (GObject *object,
-                              guint property_id,
-                              GValue *value,
+phosh_top_panel_get_property (GObject    *object,
+                              guint       property_id,
+                              GValue     *value,
                               GParamSpec *pspec)
 {
   PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
@@ -436,12 +436,12 @@ on_keybindings_changed (PhoshTopPanel *self,
 
 
 static void
-phosh_top_panel_dragged (PhoshDragSurface *self, int margin)
+phosh_top_panel_dragged (PhoshDragSurface *drag_surface, int margin)
 {
-  PhoshTopPanel *panel = PHOSH_TOP_PANEL (self);
+  PhoshTopPanel *self = PHOSH_TOP_PANEL (drag_surface);
   int width, height;
   gtk_window_get_size (GTK_WINDOW (self), &width, &height);
-  phosh_arrow_set_progress (PHOSH_ARROW (panel->arrow), -margin / (double)(height - PHOSH_TOP_PANEL_HEIGHT));
+  phosh_arrow_set_progress (PHOSH_ARROW (self->arrow), -margin / (double)(height - PHOSH_TOP_PANEL_HEIGHT));
   g_debug ("Margin: %d", margin);
 }
 
@@ -579,7 +579,7 @@ phosh_top_panel_constructed (GObject *object)
                    g_action_map_lookup_action(G_ACTION_MAP (self->actions), "suspend"),
                    "enabled",
                    G_SETTINGS_BIND_GET);
-                   
+
 
   self->interface_settings = g_settings_new ("org.gnome.desktop.interface");
   g_settings_bind (self->interface_settings,
@@ -688,6 +688,9 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
    *
    * Whether top-panel is shown on lockscreen (%TRUE) or in the unlocked shell
    * (%FALSE).
+   *
+   * Consider this property to be read only. It's only r/w so we can
+   * use a property binding with the [type@Shell]s "locked" property.
    */
   props[PROP_ON_LOCKSCREEN] =
     g_param_spec_boolean (
@@ -797,13 +800,13 @@ phosh_top_panel_init (PhoshTopPanel *self)
 GtkWidget *
 phosh_top_panel_new (struct zwlr_layer_shell_v1          *layer_shell,
                      struct zphoc_layer_shell_effects_v1 *layer_shell_effects,
-                     struct wl_output                    *wl_output,
+                     PhoshMonitor                        *monitor,
                      guint32                              layer)
 {
   return g_object_new (PHOSH_TYPE_TOP_PANEL,
                        /* layer-surface */
                        "layer-shell", layer_shell,
-                       "wl-output", wl_output,
+                       "wl-output", monitor->wl_output,
                        "height", PHOSH_TOP_PANEL_HEIGHT,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |

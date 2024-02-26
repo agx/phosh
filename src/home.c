@@ -91,47 +91,46 @@ phosh_home_update_home_bar (PhoshHome *self)
 
 
 static void
-phosh_home_set_property (GObject *object,
-                          guint property_id,
-                          const GValue *value,
-                          GParamSpec *pspec)
+phosh_home_set_property (GObject      *object,
+                         guint         property_id,
+                         const GValue *value,
+                         GParamSpec   *pspec)
 {
   PhoshHome *self = PHOSH_HOME (object);
 
   switch (property_id) {
-    case PROP_HOME_STATE:
-      self->state = g_value_get_enum (value);
-      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HOME_STATE]);
-      break;
-    case PROP_OSK_ENABLED:
-      self->osk_enabled = g_value_get_boolean (value);
-      g_object_notify_by_pspec (G_OBJECT (self), props[PROP_OSK_ENABLED]);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
+  case PROP_HOME_STATE:
+    phosh_home_set_state (self, g_value_get_enum (value));
+    break;
+  case PROP_OSK_ENABLED:
+    self->osk_enabled = g_value_get_boolean (value);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_OSK_ENABLED]);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
   }
 }
 
 
 static void
-phosh_home_get_property (GObject *object,
-                          guint property_id,
-                          GValue *value,
-                          GParamSpec *pspec)
+phosh_home_get_property (GObject    *object,
+                         guint       property_id,
+                         GValue     *value,
+                         GParamSpec *pspec)
 {
   PhoshHome *self = PHOSH_HOME (object);
 
   switch (property_id) {
-    case PROP_HOME_STATE:
-      g_value_set_enum (value, self->state);
-      break;
-    case PROP_OSK_ENABLED:
-      g_value_set_boolean (value, self->osk_enabled);
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
+  case PROP_HOME_STATE:
+    g_value_set_enum (value, self->state);
+    break;
+  case PROP_OSK_ENABLED:
+    g_value_set_boolean (value, self->osk_enabled);
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
   }
 }
 
@@ -528,18 +527,25 @@ phosh_home_class_init (PhoshHomeClass *klass)
   object_class->set_property = phosh_home_set_property;
   object_class->get_property = phosh_home_get_property;
 
+  /**
+   * PhoshHome:state:
+   *
+   * Whether the home widget is currently folded (only home-bar is
+   * visible) or unfolded (overview is visible). The property is
+   * changed when the widget reaches it's target state.
+   */
   props[PROP_HOME_STATE] =
-    g_param_spec_enum ("state",
-                       "Home State",
-                       "The state of the home screen",
+    g_param_spec_enum ("state", "", "",
                        PHOSH_TYPE_HOME_STATE,
                        PHOSH_HOME_STATE_FOLDED,
                        G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
-
+  /**
+   * PhoshHome:osk-enabled:
+   *
+   * Whether the osk is currently enabled in the system configuration.
+   */
   props[PROP_OSK_ENABLED] =
-    g_param_spec_boolean ("osk-enabled",
-                          "OSK enabled",
-                          "Whether the on screen keyboard is enabled",
+    g_param_spec_boolean ("osk-enabled", "", "",
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
 
@@ -588,14 +594,14 @@ phosh_home_init (PhoshHome *self)
 
 
 GtkWidget *
-phosh_home_new (struct zwlr_layer_shell_v1 *layer_shell,
+phosh_home_new (struct zwlr_layer_shell_v1          *layer_shell,
                 struct zphoc_layer_shell_effects_v1 *layer_shell_effects,
-                struct wl_output *wl_output)
+                PhoshMonitor                        *monitor)
 {
   return g_object_new (PHOSH_TYPE_HOME,
                        /* layer-surface */
                        "layer-shell", layer_shell,
-                       "wl-output", wl_output,
+                       "wl-output", monitor->wl_output,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
@@ -610,6 +616,21 @@ phosh_home_new (struct zwlr_layer_shell_v1 *layer_shell,
                        NULL);
 }
 
+/**
+ * phosh_home_get_state:
+ * @self: The home surface
+ *
+ * Get the current state of the home widget. See [property@Home.state] for details.
+ *
+ * Returns: The home widget's state
+ */
+PhoshHomeState
+phosh_home_get_state (PhoshHome *self)
+{
+  g_return_val_if_fail (PHOSH_IS_HOME (self), PHOSH_HOME_STATE_FOLDED);
+
+  return self->state;
+}
 
 /**
  * phosh_home_set_state:

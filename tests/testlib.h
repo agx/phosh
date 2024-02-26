@@ -20,7 +20,6 @@ G_BEGIN_DECLS
 typedef struct _PhoshTestCompositorState {
   GPid                        pid;
   PhoshWayland               *wl;
-  struct wl_output           *output;
   GdkDisplay                 *gdk_display;
   PhoshMonitor               *monitor;
 } PhoshTestCompositorState;
