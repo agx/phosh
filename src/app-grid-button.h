@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include "app-grid-base-button.h"
+
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 #include <gio/gdesktopappinfo.h>
@@ -35,11 +37,11 @@ typedef enum /*< enum,prefix=PHOSH >*/
   PHOSH_APP_GRID_BUTTON_FAVORITES,  /*< nick=favorites >*/
 } PhoshAppGridButtonMode;
 
-G_DECLARE_DERIVABLE_TYPE (PhoshAppGridButton, phosh_app_grid_button, PHOSH, APP_GRID_BUTTON, GtkFlowBoxChild)
+G_DECLARE_DERIVABLE_TYPE (PhoshAppGridButton, phosh_app_grid_button, PHOSH, APP_GRID_BUTTON, PhoshAppGridBaseButton)
 
 struct _PhoshAppGridButtonClass
 {
-  GtkFlowBoxChildClass parent_class;
+  PhoshAppGridBaseButtonClass parent_class;
 };
 
 GtkWidget             *phosh_app_grid_button_new           (GAppInfo               *info);
