@@ -156,9 +156,10 @@ emergency_menu_constructed (GObject *object)
                            create_emergency_contact_row,
                            NULL,
                            NULL);
-  g_signal_connect_swapped (emergency_contacts_list, "notify::n-items",
-                            G_CALLBACK (on_n_items_changed),
-                            self);
+  g_signal_connect_object (emergency_contacts_list, "notify::n-items",
+                           G_CALLBACK (on_n_items_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
   on_n_items_changed (self, NULL, emergency_contacts_list);
 
   gtk_label_set_label (self->emergency_owner_name, g_get_real_name ());
