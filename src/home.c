@@ -620,7 +620,7 @@ phosh_home_new (struct zwlr_layer_shell_v1          *layer_shell,
  * phosh_home_get_state:
  * @self: The home surface
  *
- * Get the current state of the home widget. See [property@Home.state] for details.
+ * Get the current state of the home widget. See [property@Home:state] for details.
  *
  * Returns: The home widget's state
  */
