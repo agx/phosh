@@ -53,4 +53,4 @@ For debugging purposes you can put environment variables into
 See also
 --------
 
-``phosh(1)``
+``phosh(1)`` ``phoc(1)`` ``phoc.ini(5)``
