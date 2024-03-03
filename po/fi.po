@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-11-27 10:12+0000\n"
-"PO-Revision-Date: 2024-01-02 21:13+0200\n"
+"POT-Creation-Date: 2024-02-06 08:44+0000\n"
+"PO-Revision-Date: 2024-03-03 21:28+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -231,13 +231,13 @@ msgstr "Tuntematon"
 
 #: src/network-auth-prompt.c:202
 #, c-format
-msgid "Authentication type of wifi network “%s” not supported"
-msgstr "Wifi-verkon “%s” tunnistautumistyyppi ei ole tuettu"
+msgid "Authentication type of Wi-Fi network “%s” not supported"
+msgstr "Wi-Fi-verkon “%s” tunnistautumistyyppi ei ole tuettu"
 
 #: src/network-auth-prompt.c:207
 #, c-format
-msgid "Enter password for the wifi network “%s”"
-msgstr "Anna salasana wifi-verkolle “%s”"
+msgid "Enter password for the Wi-Fi network “%s”"
+msgstr "Anna salasana Wi-Fi-verkolle “%s”"
 
 #: src/notifications/mount-notification.c:121
 msgid "Open"
@@ -398,7 +398,7 @@ msgstr "Muista valinta"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
 msgid "Cancel"
 msgstr "Peru"
 
@@ -455,7 +455,7 @@ msgid "Owner unknown"
 msgstr "Tuntematon omistaja"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
 msgid "Emergency Contacts"
 msgstr "Hätäyhteystiedot"
 
@@ -528,11 +528,11 @@ msgstr "_Hätä"
 msgid "Run Command"
 msgstr "Suorita komento"
 
-#: src/ui/settings.ui:296
+#: src/ui/settings.ui:327
 msgid "No notifications"
 msgstr "Ei ilmoituksia"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
@@ -556,9 +556,34 @@ msgstr "_Valmiustila…"
 msgid "_Log Out…"
 msgstr "Kirjaudu _ulos…"
 
+#: src/ui/wifi-status-page.ui:35
+msgid "No Wi-Fi Device Found"
+msgstr "Wi-Fi-laitetta ei löydy"
+
+#: src/ui/wifi-status-page.ui:66
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi on pois käytöstä"
+
+#: src/ui/wifi-status-page.ui:106
+msgid "Wi-Fi Hotspot Active"
+msgstr "Wi-Fi-yhteyspiste aktiivisena"
+
+#: src/ui/wifi-status-page.ui:145
+msgid "No Wi-Fi Hotspots Found"
+msgstr "Wi-Fi-yhteyspisteitä ei löydy"
+
+#: src/ui/wifi-status-page.ui:156
+msgid "Scan"
+msgstr "Skannaa"
+
+#: src/ui/wifi-status-page.ui:188
+#| msgid "Folder Settings"
+msgid "Wi-Fi Settings"
+msgstr "Wi-Fi-asetukset"
+
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:343
+#: src/util.c:342
 msgid "%A, %B %-e"
 msgstr "%A, %-e. %Bta"
 
@@ -605,32 +630,32 @@ msgid "Home Address"
 msgstr "Kotiosoite"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
 msgid "Medical Information"
 msgstr "Lääkitystiedot"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
 msgid "Age"
 msgstr "Ikä"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
 msgid "Blood Type"
 msgstr "Verityyppi"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
 msgid "Height"
 msgstr "Pituus"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Weight"
 msgstr "Paino"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
 msgid "Allergies"
 msgstr "Allergiat"
 
@@ -639,7 +664,7 @@ msgid "Medications & Conditions"
 msgstr "Lääkitykset ja terveydentila"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
 msgid "Other Information"
 msgstr "Muut tiedot"
 
@@ -656,31 +681,31 @@ msgstr "Valmis"
 msgid "Owner Name"
 msgstr "Omistajan nimi"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
 msgid "Medications and Conditions"
 msgstr "Lääkitykset ja terveydentila"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
 msgid "Add Contact"
 msgstr "Lisää yhteystieto"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
 msgid "Add New Contact"
 msgstr "Lisää uusi yhteystieto"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
 msgid "Add"
 msgstr "Lisää"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "New Contact Name"
 msgstr "Uuden yhteystiedon nimi"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
 msgid "Relationship"
 msgstr "Suhde"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
 msgid "Number"
 msgstr "Numero"
 
@@ -772,7 +797,7 @@ msgstr "Koko päivä"
 msgid "Ends"
 msgstr "Päättyy"
 
-#: plugins/upcoming-events/upcoming-event.c:398
+#: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Nimetön tapahtuma"
 
