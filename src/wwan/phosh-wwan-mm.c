@@ -127,6 +127,9 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
 static const char *
 phosh_wwan_mm_user_friendly_access_tec (guint access_tec)
 {
+  if (access_tec & MM_MODEM_ACCESS_TECHNOLOGY_5GNR)
+    return "5G";
+
   switch (access_tec) {
   case MM_MODEM_ACCESS_TECHNOLOGY_GSM:
   case MM_MODEM_ACCESS_TECHNOLOGY_GSM_COMPACT:
@@ -146,8 +149,6 @@ phosh_wwan_mm_user_friendly_access_tec (guint access_tec)
     return "3.75G";
   case MM_MODEM_ACCESS_TECHNOLOGY_LTE:
     return "4G";
-  case MM_MODEM_ACCESS_TECHNOLOGY_5GNR:
-    return "5G";
   case MM_MODEM_ACCESS_TECHNOLOGY_1XRTT:
   case MM_MODEM_ACCESS_TECHNOLOGY_EVDO0:
   case MM_MODEM_ACCESS_TECHNOLOGY_EVDOA:
