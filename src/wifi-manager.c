@@ -195,6 +195,101 @@ on_connection_state_changed (NMActiveConnection           *connection,
 
 
 static void
+on_hotspot_connection_activated (GObject      *object,
+                                 GAsyncResult *result,
+                                 gpointer      data)
+{
+  NMClient *client = NM_CLIENT (object);
+  g_autoptr (GError) err = NULL;
+  g_autoptr (NMActiveConnection) conn = NULL;
+
+  conn = nm_client_activate_connection_finish (client, result, &err);
+  if (conn != NULL)
+    g_debug ("Activating hotspot connection");
+  else
+    g_warning ("Failed to activate hotspot connection: %s", err->message);
+}
+
+static void
+start_hotspot (PhoshWifiManager *self)
+{
+  NMDeviceWifiCapabilities caps;
+  char *wifi_mode;
+  const GPtrArray *connections;
+  NMConnection *hotspot_conn = NULL;
+  NMSettingWireless *s_wifi;
+
+  caps = nm_device_wifi_get_capabilities (self->dev);
+  if (caps & NM_WIFI_DEVICE_CAP_AP) {
+    wifi_mode = NM_SETTING_WIRELESS_MODE_AP;
+  } else if (caps & NM_WIFI_DEVICE_CAP_ADHOC) {
+    wifi_mode = NM_SETTING_WIRELESS_MODE_ADHOC;
+  } else {
+    g_message ("Device does not support AP or Ad-Hoc mode");
+    return;
+  }
+
+  connections = nm_client_get_connections (self->nmclient);
+  for (int i = 0; i < connections->len; i++) {
+    NMConnection *conn = g_ptr_array_index (connections, i);
+    s_wifi = nm_connection_get_setting_wireless (conn);
+
+    if (!s_wifi)
+      continue;
+
+    if (g_strcmp0 (nm_setting_wireless_get_mode (s_wifi), wifi_mode) != 0)
+      continue;
+
+    if (!nm_device_connection_compatible (NM_DEVICE (self->dev), conn, NULL))
+      continue;
+
+    hotspot_conn = conn;
+    break;
+  }
+
+  if (!hotspot_conn) {
+    g_debug ("No hotspot connection found to activate");
+    /* TODO: Create a new hotspot connection */
+    return;
+  }
+
+  nm_client_activate_connection_async (self->nmclient,
+                                       hotspot_conn,
+                                       NM_DEVICE (self->dev),
+                                       NULL,
+                                       self->cancel,
+                                       on_hotspot_connection_activated,
+                                       NULL);
+}
+
+static void
+on_hotspot_connection_deactivated (GObject      *object,
+                                   GAsyncResult *result,
+                                   gpointer      data)
+{
+  NMClient *client = NM_CLIENT (object);
+  g_autoptr (GError) err = NULL;
+  gboolean success = nm_client_deactivate_connection_finish (client, result, &err);
+
+  if (success)
+    g_debug ("Deactivating hotspot connection");
+  else
+    g_warning ("Failed to deactivate hotspot connection: %s", err->message);
+}
+
+static void
+stop_hotspot (PhoshWifiManager *self)
+{
+  g_return_if_fail (is_active_connection_hotspot_master (self));
+
+  nm_client_deactivate_connection_async (self->nmclient,
+                                         self->active,
+                                         self->cancel,
+                                         on_hotspot_connection_deactivated,
+                                         NULL);
+}
+
+static void
 on_wifi_connection_added_and_activated (GObject      *object,
                                         GAsyncResult *result,
                                         gpointer      data)
@@ -942,6 +1037,21 @@ phosh_wifi_manager_is_hotspot_master (PhoshWifiManager *self)
   g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (self), FALSE);
 
   return self->is_hotspot_master;
+}
+
+void
+phosh_wifi_manager_set_hotspot_master (PhoshWifiManager *self, gboolean is_hotspot_master)
+{
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
+  g_return_if_fail (self->dev != NULL);
+
+  if (self->is_hotspot_master == is_hotspot_master)
+    return;
+
+  if (self->is_hotspot_master)
+    stop_hotspot (self);
+  else
+    start_hotspot (self);
 }
 
 /**

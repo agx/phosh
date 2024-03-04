@@ -26,6 +26,7 @@ void               phosh_wifi_manager_set_enabled (PhoshWifiManager *self, gbool
 gboolean           phosh_wifi_manager_get_present (PhoshWifiManager *self);
 GListStore        *phosh_wifi_manager_get_networks (PhoshWifiManager *self);
 gboolean           phosh_wifi_manager_is_hotspot_master (PhoshWifiManager *self);
+void               phosh_wifi_manager_set_hotspot_master (PhoshWifiManager *self, gboolean is_hotspot_master);
 void               phosh_wifi_manager_connect_network (PhoshWifiManager *self,
                                                        PhoshWifiNetwork *network);
 void               phosh_wifi_manager_request_scan (PhoshWifiManager *self);
