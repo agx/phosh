@@ -57,7 +57,7 @@ set_visible_page (PhoshWifiStatusPage *self, GParamSpec *pspec, PhoshWifiManager
   } else if (hotspot_enabled) {
     icon_name = "network-wireless-hotspot-symbolic";
     title = _("Wi-Fi Hotspot Active");
-    button_label = NULL;
+    button_label = _("Turn Off");
   } else if (g_list_model_get_item (devices, 0) == NULL) {
     icon_name = "network-wireless-no-route-symbolic";
     title = _("No Wi-Fi Hotspots");
@@ -84,9 +84,12 @@ static void
 on_placeholder_clicked (PhoshWifiStatusPage *self, GtkWidget *widget)
 {
   gboolean wifi_disabled = !phosh_wifi_manager_get_enabled (self->wifi);
+  gboolean hotspot_enabled = phosh_wifi_manager_is_hotspot_master (self->wifi);
 
   if (wifi_disabled)
     phosh_wifi_manager_set_enabled (self->wifi, TRUE);
+  else if (hotspot_enabled)
+    phosh_wifi_manager_set_hotspot_master (self->wifi, FALSE);
   else
     phosh_wifi_manager_request_scan (self->wifi);
 }
