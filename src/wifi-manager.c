@@ -189,9 +189,9 @@ on_connection_state_changed (NMActiveConnection           *connection,
 
 
 static void
-on_connection_added_and_activated (GObject      *object,
-                                   GAsyncResult *result,
-                                   gpointer      data)
+on_wifi_connection_added_and_activated (GObject      *object,
+                                        GAsyncResult *result,
+                                        gpointer      data)
 {
   NMClient *client = NM_CLIENT (object);
   PhoshWifiNetwork *network = PHOSH_WIFI_NETWORK (data);
@@ -213,9 +213,9 @@ on_connection_added_and_activated (GObject      *object,
 
 
 static void
-on_connection_activated (GObject      *object,
-                         GAsyncResult *result,
-                         gpointer      data)
+on_wifi_connection_activated (GObject      *object,
+                              GAsyncResult *result,
+                              gpointer      data)
 {
   NMClient *client = NM_CLIENT (object);
   PhoshWifiNetwork *network = PHOSH_WIFI_NETWORK (data);
@@ -988,7 +988,7 @@ phosh_wifi_manager_connect_network (PhoshWifiManager *self, PhoshWifiNetwork *ne
                                                  NM_DEVICE (self->dev),
                                                  nm_object_get_path (NM_OBJECT (ap)),
                                                  self->cancel,
-                                                 on_connection_added_and_activated,
+                                                 on_wifi_connection_added_and_activated,
                                                  network);
   } else {
     nm_client_activate_connection_async (self->nmclient,
@@ -996,7 +996,7 @@ phosh_wifi_manager_connect_network (PhoshWifiManager *self, PhoshWifiNetwork *ne
                                          NM_DEVICE (self->dev),
                                          nm_object_get_path (NM_OBJECT (ap)),
                                          self->cancel,
-                                         on_connection_activated,
+                                         on_wifi_connection_activated,
                                          network);
   }
 }
