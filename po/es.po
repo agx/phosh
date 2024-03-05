@@ -8,21 +8,21 @@
 # Roberto MF <zanata@virgulilla.com>, 2019. #zanata
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2020.
 # carlosgonz <carlosgonz@protonmail.com>, 2022.
-# Pablo Barciela <scow@riseup.net>, 2022.
+# Pablo Barciela <scow@riseup.net>, 2022-2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-05-30 10:34+0000\n"
-"PO-Revision-Date: 2023-05-30 22:23+0200\n"
-"Last-Translator: Pablo Correa Gómez <ablocorrea@hotmail.com>\n"
+"POT-Creation-Date: 2023-06-20 08:29+0000\n"
+"PO-Revision-Date: 2023-06-20 10:51+0200\n"
+"Last-Translator: Pablo Barciela <scow@riseup.net>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 41.0\n"
+"X-Generator: Gtranslator 42.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -341,7 +341,7 @@ msgstr "Casi %da"
 msgid "%s%d%s"
 msgstr "%s%d%s"
 
-#: src/polkit-auth-agent.c:228
+#: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
 msgstr "El usuario descartó el cuadro de diálogo de autenticación"
 
@@ -377,7 +377,7 @@ msgstr "Activada"
 msgid "Press ESC to close"
 msgstr "Pulse ESC para cerrar"
 
-#: src/run-command-manager.c:90
+#: src/run-command-manager.c:89
 #, c-format
 msgid "Running '%s' failed"
 msgstr "El comando '%s' falló"
@@ -508,7 +508,7 @@ msgstr "B_loquear"
 
 #: src/ui/power-menu.ui:151
 msgid "_Screenshot"
-msgstr "_Captura de pantalla"
+msgstr "_Capturar"
 
 #: src/ui/power-menu.ui:192
 msgid "_Emergency"
@@ -518,11 +518,11 @@ msgstr "_Emergencia"
 msgid "Run Command"
 msgstr "Ejecutar comando"
 
-#: src/ui/settings.ui:320
+#: src/ui/settings.ui:290
 msgid "No notifications"
 msgstr "Ninguna notificación"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:330
 msgid "Clear all"
 msgstr "Eliminar todos"
 
@@ -539,6 +539,10 @@ msgid "_Restart…"
 msgstr "_Reiniciar"
 
 #: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr ""
+
+#: src/ui/top-panel.ui:116
 msgid "_Log Out…"
 msgstr "_Cerrar la sesión"
 
@@ -658,15 +662,15 @@ msgstr "Añadir nuevo contacto"
 msgid "Add"
 msgstr "Añadir"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
 msgid "New Contact Name"
 msgstr "Nombre del nuevo contacto"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
 msgid "Relationship"
 msgstr "Relación"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
 msgid "Number"
 msgstr "Número"
 
