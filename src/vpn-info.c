@@ -136,8 +136,10 @@ phosh_vpn_info_idle_init (PhoshStatusIcon *icon)
   PhoshVpnInfo *self = PHOSH_VPN_INFO (icon);
 
   update_icon (self, NULL, self->vpn);
+
+  on_vpn_present (self, NULL, self->vpn);
   on_vpn_enabled (self, NULL, self->vpn);
-  update_info (self);
+  on_vpn_last_con_changed (self, NULL, self->vpn);
 }
 
 
