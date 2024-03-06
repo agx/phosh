@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-06 08:44+0000\n"
-"PO-Revision-Date: 2024-02-12 19:44+0330\n"
+"POT-Creation-Date: 2024-03-06 13:44+0000\n"
+"PO-Revision-Date: 2024-03-07 00:01+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -35,11 +35,23 @@ msgstr "مدیریت پنجره‌ها و اجرا کنندهٔ برنامه‌�
 msgid "This session logs you into Phosh"
 msgstr "این نشست وارد فوشتان می‌کند"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:51
+msgid "Phosh on caffeine"
+msgstr "فوش روی کافئین"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:130
+msgid "On"
+msgstr "روشن"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:130
+msgid "Off"
+msgstr "خاموش"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "تقویم"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "ابزارک تقویمی ساده"
 
@@ -48,7 +60,7 @@ msgstr "ابزارک تقویمی ساده"
 msgid "Ticket Box"
 msgstr "جعبهٔ بلیت"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr "نمایش PDFها روی صفحهٔ قفل. <b>این افزایه آزمایشی است.</b>"
 
@@ -56,7 +68,7 @@ msgstr "نمایش PDFها روی صفحهٔ قفل. <b>این افزایه آز
 msgid "Upcoming Events"
 msgstr "رویدادهای پیش رو"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "نمایش رویدادهای تقویم پیش رو"
 
@@ -180,7 +192,7 @@ msgstr "نه"
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:401
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
@@ -423,11 +435,11 @@ msgstr "جست‌وجوی کاره‌ها…"
 msgid "Output Devices"
 msgstr "افزاره‌های خروجی"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "افزاره‌های ورودی"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "تنظیمات صدا"
 
@@ -553,27 +565,27 @@ msgstr "_تعلیق…"
 msgid "_Log Out…"
 msgstr "_خروج…"
 
-#: src/ui/wifi-status-page.ui:35
+#: src/ui/wifi-status-page.ui:32
 msgid "No Wi-Fi Device Found"
 msgstr "هیچ افزارهٔ وای‌فایی پیدا نشد"
 
-#: src/ui/wifi-status-page.ui:66
+#: src/ui/wifi-status-page.ui:60
 msgid "Wi-Fi Disabled"
 msgstr "وای‌فای از کار افتاده"
 
-#: src/ui/wifi-status-page.ui:106
+#: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "نقطهٔ داغ وای‌فای فعّال"
 
-#: src/ui/wifi-status-page.ui:145
+#: src/ui/wifi-status-page.ui:133
 msgid "No Wi-Fi Hotspots Found"
 msgstr "هیچ نقطهٔ داغ وای‌فایی پیدا نشد"
 
-#: src/ui/wifi-status-page.ui:156
+#: src/ui/wifi-status-page.ui:144
 msgid "Scan"
 msgstr "پویش"
 
-#: src/ui/wifi-status-page.ui:188
+#: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "تنظیمات وای‌فای"
 
@@ -596,7 +608,7 @@ msgstr "افزایه پیدا نشد"
 msgid "The plugin '%s' could not be loaded."
 msgstr "افزایهٔ «%s» نتوانست بار شود."
 
-#: src/wifiinfo.c:90
+#: src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "وای‌فای"
 
