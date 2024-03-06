@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-06 08:44+0000\n"
-"PO-Revision-Date: 2024-02-06 15:37+0200\n"
+"POT-Creation-Date: 2024-03-06 13:44+0000\n"
+"PO-Revision-Date: 2024-03-06 21:28+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -37,11 +37,27 @@ msgstr "Керування вікнами і запуск програм для 
 msgid "This session logs you into Phosh"
 msgstr "Це — сеанс входу до Phosh"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:51
+msgid "Phosh on caffeine"
+msgstr "Phosh на caffeine"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:130
+#| msgctxt "bluetooth:enabled"
+#| msgid "On"
+msgid "On"
+msgstr "❙"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:130
+#| msgctxt "automatic-screen-rotation-disabled"
+#| msgid "Off"
+msgid "Off"
+msgstr "○"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Календар"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Простий віджет календаря"
 
@@ -50,7 +66,7 @@ msgstr "Простий віджет календаря"
 msgid "Ticket Box"
 msgstr "Скринька з квитками"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr "Показ PDF на екрані блокування. <b>Цей додаток є тестовим.</b>"
 
@@ -58,7 +74,7 @@ msgstr "Показ PDF на екрані блокування. <b>Цей дод�
 msgid "Upcoming Events"
 msgstr "Майбутні події"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "Показати майбутні події календаря"
 
@@ -185,7 +201,7 @@ msgstr "Ні"
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:401
 msgid "Checking…"
 msgstr "Звіряю…"
 
@@ -233,13 +249,11 @@ msgstr "Нетиповий"
 
 #: src/network-auth-prompt.c:202
 #, c-format
-#| msgid "Authentication type of wifi network “%s” not supported"
 msgid "Authentication type of Wi-Fi network “%s” not supported"
 msgstr "Підтримки типу розпізнавання у мережі Wi-Fi «%s» не передбачено"
 
 #: src/network-auth-prompt.c:207
 #, c-format
-#| msgid "Enter password for the wifi network “%s”"
 msgid "Enter password for the Wi-Fi network “%s”"
 msgstr "Введіть пароль до мережі Wi-Fi «%s»"
 
@@ -430,11 +444,11 @@ msgstr "Шукати серед програм…"
 msgid "Output Devices"
 msgstr "Пристрої відтворення"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "Пристрої отримання"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Параметри звуку"
 
@@ -560,27 +574,27 @@ msgstr "_Призупинити…"
 msgid "_Log Out…"
 msgstr "Ви_йти…"
 
-#: src/ui/wifi-status-page.ui:35
+#: src/ui/wifi-status-page.ui:32
 msgid "No Wi-Fi Device Found"
 msgstr "Не знайдено жодного пристрою Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:66
+#: src/ui/wifi-status-page.ui:60
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi вимкнено"
 
-#: src/ui/wifi-status-page.ui:106
+#: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Активна точка доступу Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:145
+#: src/ui/wifi-status-page.ui:133
 msgid "No Wi-Fi Hotspots Found"
 msgstr "Не знайдено точок доступу Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:156
+#: src/ui/wifi-status-page.ui:144
 msgid "Scan"
 msgstr "Сканувати"
 
-#: src/ui/wifi-status-page.ui:188
+#: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Параметри Wi-Fi"
 
@@ -603,7 +617,7 @@ msgstr "Додаток не знайдено"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Не вдалося завантажити додаток «%s»."
 
-#: src/wifiinfo.c:90
+#: src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
