@@ -39,7 +39,6 @@ The session script looks at the following configuration files:
 - ``/usr/share/phosh/phoc.ini``: Configuration passed to the compositor
 - ``/etc/phosh/phoc.ini``: Used instead of the above if present
 
-
 ENVIRONMENT VARIABLES
 ---------------------
 
@@ -48,7 +47,10 @@ ENVIRONMENT VARIABLES
 - ``WLR_BACKENDS``: The backends the wlroots library should use when phoc launches. See
   https://gitlab.freedesktop.org/wlroots/wlroots/-/blob/master/docs/env_vars.md
 
+For debugging purposes you can put environment variables into
+``~/.phoshdebug`` which is read at session startup.
+
 See also
 --------
 
-``phosh(1)``
+``phosh(1)`` ``phoc(1)`` ``phoc.ini(5)``

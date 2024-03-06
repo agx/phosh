@@ -65,6 +65,10 @@ static GdkRectangle indicators_box_rect = {
 
 
 /**
+ * get_clock_pos:
+ * @self: The layout manager
+ * @clock_shift:(out): How far to shift the settings clock downwards
+ *
  * Update the clock's positions.
  *
  * If the clock can't be in the center due to the built-in display
@@ -72,6 +76,8 @@ static GdkRectangle indicators_box_rect = {
  * with the notch)
  *
  * We assume the panel uses it's native orientation.
+ *
+ * Returns: The desired clock position
  */
 static PhoshLayoutClockPosition
 get_clock_pos (PhoshLayoutManager *self, guint *clock_shift)

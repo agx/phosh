@@ -244,6 +244,7 @@ summary({
     'Manual pages': get_option('man'),
     'Tools': get_option('tools'),
     'Lockscreen Plugins': get_option('lockscreen-plugins'),
+    'Quick Setting Plugins': get_option('quick-setting-plugins'),
     'Animation slowdown': get_option('animation-slowdown'),
   },
   bool_yn: true,
