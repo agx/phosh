@@ -1,3 +1,39 @@
+phosh 0.37.0
+------------
+Released March 2024
+* Allow to select Wi-Fi network via quick setting
+* Allow plugins to implement quick settings
+* Allow plugins to use selected phosh internals
+* Load background images async
+* Add caffeine quick setting
+* More bug, keyboard navigation and style fixes
+* Issues fixed:
+  * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1025
+  * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/447
+  * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/910
+  * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/743
+  * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/829
+* Contributors:
+    * Arun Mani J
+    * Guido Günther
+    * Rodney Lorrimar
+    * Sicelo A. Mhlongo
+* UI translations:
+    * Anders Jonsson (sv)
+    * Artur S0 (ru)
+    * Danial Behzadi (fa)
+    * Daniel Rusek (cs)
+    * Ekaterine Papava (ka)
+    * Florentina Mușat (ro)
+    * Jiri Grönroos (fi)
+    * Jordi Mas i Hernandez (ca)
+    * Jürgen Benvenuti (de)
+    * Pablo Barciela (es)
+    * Sabri Ünal (tr)
+    * Vittorio Monti (it)
+    * Yosef Or Boczko (he)
+    * Yuri Chornoivan (uk)
+
 phosh 0.36.0
 ------------
 Released February 2024

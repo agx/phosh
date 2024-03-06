@@ -1,5 +1,5 @@
 project('phosh', 'c',
-          version: '0.36.0',
+          version: '0.37.0',
           license: 'GPL-3.0-or-later',
     meson_version: '>= 1.0.0',
   default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
@@ -161,7 +161,6 @@ gmobile = subproject('gmobile',
     'examples=false',
     'gtk_doc=false',
     'tests=false',
-    'install=false',
   ])
 gmobile_dep = gmobile.get_variable('gmobile_dep')
 libnm_dep = dependency('libnm', version: '>= 1.14')
