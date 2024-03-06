@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "plugin-shell.h"
+
 #include "app-tracker.h"
 #include "background-manager.h"
 #include "bt-manager.h"
@@ -24,7 +26,6 @@
 #include "monitor/monitor.h"
 #include "osk-manager.h"
 #include "rotation-manager.h"
-#include "session-manager.h"
 #include "screen-saver-manager.h"
 #include "screenshot-manager.h"
 #include "toplevel-manager.h"
@@ -75,13 +76,7 @@ typedef enum {
 } PhoshShellDebugFlags;
 
 
-#define PHOSH_TYPE_SHELL phosh_shell_get_type()
-
-
-G_DECLARE_FINAL_TYPE (PhoshShell, phosh_shell, PHOSH, SHELL, GObject)
-
 PhoshShellDebugFlags phosh_shell_get_debug_flags (void);
-PhoshShell          *phosh_shell_get_default     (void);
 void                 phosh_shell_get_usable_area (PhoshShell *self,
                                                   int        *x,
                                                   int        *y,
@@ -107,7 +102,6 @@ PhoshLockscreenManager *phosh_shell_get_lockscreen_manager (PhoshShell *self);
 PhoshModeManager       *phosh_shell_get_mode_manager       (PhoshShell *self);
 PhoshMonitorManager    *phosh_shell_get_monitor_manager    (PhoshShell *self);
 PhoshToplevelManager   *phosh_shell_get_toplevel_manager   (PhoshShell *self);
-PhoshSessionManager    *phosh_shell_get_session_manager    (PhoshShell *self);
 PhoshScreenSaverManager *phosh_shell_get_screen_saver_manager (PhoshShell *self);
 PhoshScreenshotManager *phosh_shell_get_screenshot_manager (PhoshShell *self);
 /* Created on the fly */

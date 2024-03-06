@@ -78,10 +78,12 @@ setup_plugins (GStrv plugin_dirs, GStrv plugins)
     char *plugin = plugins[i];
     GtkWidget* widget = phosh_plugin_loader_load_plugin (loader, plugin);
 
-    if (widget == NULL)
+    if (widget == NULL) {
       g_warning ("Unable to load plugin: %s", plugin);
-    else
+    } else {
+      g_print ("Adding custom quick setting '%s'", plugin);
       gtk_container_add (GTK_CONTAINER (flow_box), widget);
+    }
   }
 
   return flow_box;

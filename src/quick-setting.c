@@ -19,11 +19,18 @@
  *
  * A quick setting for the notification drawer
  *
- * The #PhoshQuickSetting is a widget which is meant to be placed inside the top drawer.
- * It contains a #GtkLabel and accepts one #PhoshStatusIcon as a child. The info property
- * of the #PhoshStatusIcon is bind to the #GtkLabel.
- * A #PhoshQuickSetting has two signals long_press and clicked, where the first is emitted
- * when the user performs a long press, the second signal is a normal single click.
+ * The `PhoshQuickSetting` is a widget which is meant to be placed inside the top drawer.
+ * It contains a [type@Gtk.Label] and accepts one [type@StatusIcon] as a child. The
+ * [type@StatusIcon]'s [property@StatusIcon:info] property is automatically bound to the
+ * `PhoshQuickSetting`'s [type@Gtk.Label].
+ *
+ * If the [type@StatusIcon] has an `enabled` property it will be automatically bound to
+ * to the `PhoshQuickSetting`'s [property@QuickSetting:active] property to make the quick setting appear
+ * enabled/disabled whenever the status icon changes state.
+ *
+ * A `PhoshQuickSetting` has a [signal@QuickSetting::long-pressed] signal that is emitted when
+ * the user performs a long press. In order to react on single press connect to the [type@Gtk.Button]'s
+ * [signal@Gtk.Button::clicked] signal.
  *
  * `PhoshQuickSetting` has a [property@Phosh.QuickSetting:present] property which can be used to set
  * if the quick setting is available. For example, a Wi-Fi quick setting is available only when the
@@ -151,7 +158,7 @@ phosh_quick_setting_add (GtkContainer *container, GtkWidget *child)
                                                 "label",
                                                 G_BINDING_SYNC_CREATE);
 
-  /* child's aren't required to have an `enabled` property */
+  /* The child isn't required to have an `enabled` property */
   if (g_object_class_find_property (G_OBJECT_GET_CLASS (child), "enabled")) {
       priv->label_binding = g_object_bind_property (child,
                                                     "enabled",
@@ -203,7 +210,6 @@ button_pressed_cb (PhoshQuickSetting *self, GdkEventButton *event, GtkButton *bu
     g_signal_emit (self, signals[LONG_PRESSED], 0);
   return FALSE;
 }
-
 
 
 static void
@@ -354,13 +360,13 @@ create_dbus_proxy_cb (GObject *source_object, GAsyncResult *res, char *panel)
   params[2] = g_variant_new_array (G_VARIANT_TYPE ("{sv}"), NULL, 0);
 
   g_dbus_proxy_call (proxy,
-		     "Activate",
-		     g_variant_new_tuple (params, 3),
-		     G_DBUS_CALL_FLAGS_NONE,
-		     -1,
-		     NULL,
-		     (GAsyncReadyCallback) call_dbus_cb,
-		     g_steal_pointer (&panel));
+                     "Activate",
+                     g_variant_new_tuple (params, 3),
+                     G_DBUS_CALL_FLAGS_NONE,
+                     -1,
+                     NULL,
+                     (GAsyncReadyCallback) call_dbus_cb,
+                     g_steal_pointer (&panel));
 }
 
 
@@ -368,14 +374,14 @@ void
 phosh_quick_setting_open_settings_panel (const char *panel)
 {
   g_dbus_proxy_new_for_bus (G_BUS_TYPE_SESSION,
-			    G_DBUS_PROXY_FLAGS_NONE,
-			    NULL,
-			    "org.gnome.Settings",
-			    "/org/gnome/Settings",
-			    "org.gtk.Actions",
-			    NULL,
-			    (GAsyncReadyCallback) create_dbus_proxy_cb,
-			    g_strdup (panel));
+                            G_DBUS_PROXY_FLAGS_NONE,
+                            NULL,
+                            "org.gnome.Settings",
+                            "/org/gnome/Settings",
+                            "org.gtk.Actions",
+                            NULL,
+                            (GAsyncReadyCallback) create_dbus_proxy_cb,
+                            g_strdup (panel));
 
 }
 

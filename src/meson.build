@@ -51,6 +51,7 @@ libphosh_glib_generated_sources = [
   phosh_enums,
   phosh_marshalers,
   phosh_resources,
+  generated_dbus_headers,
   generated_dbus_sources,
 ]
 
@@ -366,6 +367,12 @@ phosh_static_lib_dep = declare_dependency(
   include_directories: phosh_lib_inc,
   link_with: phosh_lib.get_static_lib(),
   dependencies: [phosh_deps, phosh_tool_dep],
+)
+
+# Dependencies that can be used by plugins
+phosh_plugins_dep = declare_dependency(
+  include_directories: phosh_lib_inc,
+  sources: generated_dbus_headers,
 )
 
 if get_option('gtk_doc')

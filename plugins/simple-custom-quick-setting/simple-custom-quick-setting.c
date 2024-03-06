@@ -46,7 +46,7 @@ phosh_simple_custom_quick_setting_class_init (PhoshSimpleCustomQuickSettingClass
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/plugins/simple-custom-quick-setting/qs.ui");
+                                               "/mobi/phosh/plugins/simple-custom-quick-setting/qs.ui");
 
   gtk_widget_class_bind_template_child (widget_class, PhoshSimpleCustomQuickSetting, info);
 

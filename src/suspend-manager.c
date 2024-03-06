@@ -43,8 +43,8 @@ inhibit_suspend (PhoshSuspendManager *self, const char *what, const char *reason
   PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
   guint cookie;
 
-  cookie = phosh_session_manager_inhibit_suspend (sm, "WiFi hotspot active");
-  g_hash_table_insert (self->inhibitors, g_strdup ("wifi-hotspot"), GUINT_TO_POINTER (cookie));
+  cookie = phosh_session_manager_inhibit (sm, PHOSH_SESSION_INHIBIT_SUSPEND, reason);
+  g_hash_table_insert (self->inhibitors, g_strdup (what), GUINT_TO_POINTER (cookie));
 }
 
 
@@ -54,9 +54,9 @@ uninhibit_suspend (PhoshSuspendManager *self, const char *what)
   PhoshSessionManager *sm = phosh_shell_get_session_manager (phosh_shell_get_default ());
   gpointer value;
 
-  value = g_hash_table_lookup (self->inhibitors, "wifi-hotspot");
+  value = g_hash_table_lookup (self->inhibitors, what);
   if (value)
-    phosh_session_manager_uninhibit_suspend (sm, GPOINTER_TO_UINT (value));
+    phosh_session_manager_uninhibit (sm, GPOINTER_TO_UINT (value));
 
   g_hash_table_remove (self->inhibitors, "wifi-hotspot");
 }
@@ -75,7 +75,7 @@ on_is_hotspot_master_changed (PhoshSuspendManager *self,
   is_hotspot_master = phosh_wifi_manager_is_hotspot_master (wifi_manager);
 
   if (is_hotspot_master) {
-    inhibit_suspend (self, "wifi-hotspot", "WiFi hotspot active");
+    inhibit_suspend (self, "wifi-hotspot", "Wi-Fi hotspot active");
   } else {
     g_debug ("Clearing Wi-Fi hotspot suspend inhibit");
     uninhibit_suspend (self, "wifi-hotspot");

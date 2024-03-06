@@ -1,5 +1,9 @@
 {
    phosh_shell_get_default;
+   # Plugins can inhibit session idleness
+   phosh_shell_get_session_manager;
+   phosh_session_manager_inhibit;
+   phosh_session_manager_uninhibit;
    # For custom quick setting plugins:
    phosh_quick_setting_get_type;
    phosh_quick_setting_set_active;

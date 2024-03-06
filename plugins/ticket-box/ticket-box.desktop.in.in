@@ -1,6 +1,7 @@
 [Plugin]
 Id=@name@
 Name=Ticket Box
+Types=lockscreen;
 Comment=Show PDFs on the lock screen. <b>This plugin is experimental.</b>
 Plugin=@plugins_dir@/libphosh-plugin-@name@.so
 
