@@ -105,7 +105,7 @@ G_DEFINE_TYPE_WITH_CODE (PhoshScreenSaverManager,
                            phosh_screen_saver_manager_screen_saver_iface_init));
 
 
-static gboolean
+static void
 on_lock_delay_timer_expired (gpointer data)
 {
   PhoshScreenSaverManager *self = PHOSH_SCREEN_SAVER_MANAGER (data);
@@ -113,7 +113,6 @@ on_lock_delay_timer_expired (gpointer data)
   phosh_lockscreen_manager_set_locked (self->lockscreen_manager, TRUE);
 
   self->lock_delay_timer_id = 0;
-  return G_SOURCE_REMOVE;
 }
 
 
@@ -149,9 +148,9 @@ arm_lock_delay_timer (PhoshScreenSaverManager *self, gboolean active, gboolean l
     return;
 
   g_debug ("Arming lock delay timer for %d seconds", self->lock_delay);
-  self->lock_delay_timer_id = g_timeout_add_seconds (self->lock_delay,
-                                                     on_lock_delay_timer_expired,
-                                                     self);
+  self->lock_delay_timer_id = g_timeout_add_seconds_once (self->lock_delay,
+                                                          on_lock_delay_timer_expired,
+                                                          self);
   g_source_set_name_by_id (self->lock_delay_timer_id, "[phosh] lock_delay_timer");
 }
 
@@ -228,7 +227,7 @@ on_power_button_pressed (GSimpleAction *action, GVariant *param, gpointer data)
     return;
 
   g_debug ("Power button released, activating screensaver");
-  screen_saver_set_active (self, TRUE, TRUE);
+  screen_saver_set_active (self, TRUE, self->lock_enabled);
 
   /* Disable long press timer */
   g_clear_handle_id (&self->long_press_id, g_source_remove);
@@ -797,7 +796,7 @@ on_primary_monitor_power_mode_changed (PhoshScreenSaverManager *self,
   }
 
   if (active) {
-    arm_lock_delay_timer (self, active, TRUE);
+    arm_lock_delay_timer (self, active, self->lock_enabled);
   } else {
     unarm_lock_delay_timer (self, "power mode change");
   }
