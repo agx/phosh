@@ -32,11 +32,12 @@ else
   desktopconf.set('hidden_under_systemd', '')
 endif
 
+desktop_utils = find_program('desktop-file-validate', required: false)
 desktop_files = {
   'sm.puri.Phosh.desktop': true,
 }
 foreach desktop_file, install : desktop_files
-  i18n.merge_file(
+  merged = i18n.merge_file(
     input: configure_file(
       input: desktop_file + '.in.in',
       output: desktop_file + '.in',
@@ -48,6 +49,13 @@ foreach desktop_file, install : desktop_files
     install_dir: desktopdir,
     type: 'desktop'
   )
+
+  if desktop_utils.found()
+    test('Validate desktop file',
+         desktop_utils, args: [merged],
+         suite: 'tools',
+        )
+  endif
 endforeach
 
 sessions = [
