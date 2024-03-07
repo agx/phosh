@@ -161,6 +161,7 @@ gmobile = subproject('gmobile',
     'examples=false',
     'gtk_doc=false',
     'tests=false',
+    'install=false',
   ])
 gmobile_dep = gmobile.get_variable('gmobile_dep')
 libnm_dep = dependency('libnm', version: '>= 1.14')

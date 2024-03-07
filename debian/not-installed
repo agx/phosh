@@ -1,2 +1,3 @@
 usr/lib/*/libgmobile.a
 usr/lib/*/libgmobile.so*
+usr/lib/*/pkgconfig/gmobile.pc

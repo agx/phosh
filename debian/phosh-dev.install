@@ -1,2 +1,2 @@
-usr/include/
-usr/lib/*/pkgconfig
+usr/include/phosh/
+usr/lib/*/pkgconfig/phosh*.pc
