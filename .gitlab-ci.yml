@@ -85,6 +85,7 @@ variables:
 .test_step: &test_step
   script:
     - export LC_ALL=C.UTF-8
+    - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite tools
     - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite unit
     - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite integration
   after_script:

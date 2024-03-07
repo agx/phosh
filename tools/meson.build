@@ -6,6 +6,7 @@ configure_file(
 test('check-exported-symbols',
      find_program('check-exported-symbols'),
      args: phosh,
+     suite: 'tools',
 )
 
 tools_or_tests = get_option('tools') or get_option('tests')
