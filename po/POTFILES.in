@@ -1,10 +1,15 @@
+# Desktop files
 data/phosh.session.desktop.in.in
 data/sm.puri.Phosh.desktop.in.in
 data/wayland-sessions/phosh.desktop
-plugins/caffeine-quick-setting/caffeine-quick-setting.c
+plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in
 plugins/calendar/calendar.desktop.in.in
+plugins/emergency-info/emergency-info.desktop.in.in
+plugins/launcher-box/launcher-box.desktop.in.in
 plugins/ticket-box/ticket-box.desktop.in.in
 plugins/upcoming-events/upcoming-events.desktop.in.in
+
+# Source files
 src/activity.c
 src/app-grid-button.c
 src/app-grid.c
@@ -90,6 +95,7 @@ src/widget-box.c
 src/wifi-info.c
 src/wifi-manager.c
 src/wwan-info.c
+plugins/caffeine-quick-setting/caffeine-quick-setting.c
 plugins/emergency-info/emergency-info.c
 plugins/emergency-info/emergency-info.ui
 plugins/emergency-info/prefs/emergency-info-prefs.c
