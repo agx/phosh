@@ -48,6 +48,7 @@ phosh_caffeine_quick_setting_inhibit (PhoshCaffeineQuickSetting *self, gboolean 
     self->cookie = phosh_session_manager_inhibit (manager,
                                                   PHOSH_SESSION_INHIBIT_IDLE |
                                                   PHOSH_SESSION_INHIBIT_SUSPEND,
+    /* Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled */
                                                   _("Phosh on caffeine"));
   } else {
     phosh_session_manager_uninhibit (manager, self->cookie);

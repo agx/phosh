@@ -3,3 +3,4 @@ src/gtk-list-models/gtksortlistmodel.c
 src/settings/gvc-channel-bar.c
 subprojects/
 plugins/simple-custom-quick-setting/simple-custom-quick-setting.c
+plugins/simple-custom-quick-setting/simple-custom-quick-setting.desktop.in.in

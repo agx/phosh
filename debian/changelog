@@ -1,3 +1,370 @@
+phosh (0.37.0) experimental; urgency=medium
+
+  [ Arun Mani J ]
+  * wifi-network: Create PhoshWifiNetwork class.
+    This object is used to group access points based on their SSID,
+    encryption type and mode.
+  * util: Add function to get Wi-Fi icon name.
+    We add a new function `phosh_util_get_icon_by_wifi_strength` which can
+    be used to get the name of the icon corresponding to the strength and
+    connection status.
+  * wifi-manager: Track Wi-Fi networks.
+    We track the Wi-Fi networks in the Wi-Fi Manager. Only the access points
+    with a valid SSID is tracked. Also we define two new functions to
+    connect to an access point and request scan.
+  * wifi-network-row: Create PhoshWifiNetworkRow class.
+    A Wi-Fi network row represents a `PhoshWifiNetwork`. It tracks the
+    strength as well as SSID and displays them as an icon and label respectively.
+  * status-page: Create PhoshStatusPage class.
+    A status page is used in the quick settings to display more information
+    about a setting. For example, Wi-Fi quick setting can use it to show
+    available networks.
+    It must be subclassed accordingly and the header widget must be set as needed.
+  * wifi-status-page: Create PhoshWifiStatusPage class.
+    The status page for Wi-Fi displays Wi-Fi network rows.
+  * quick-setting: Allow to show status page
+    `has-status` is a boolean property that displays a `go-next` image
+    when true. This is used to indicate that long pressing the quick setting
+    opens up a status page.
+  * settings: Show Wi-Fi status page on long pressing Wi-Fi quick setting.
+    By this commit we add WifiStatusPage as a child to a stack. The flowbox
+    of PhoshQuickSettings is now a child of this stack. When a quick setting
+    is long pressed, the status page can be shown.
+    We also add a new action to close the status page.
+  * quick-setting: Add `present` property.
+    The `present` property is used to indicate if the quick setting is
+    available. Useful for hardware or mode dependent toggles.
+  * build: Export symbols for quick setting plugins
+  * build: Add option to build quick setting plugins
+  * plugins: Add support for quick setting plugins.
+    We add new extension points for quick setting and quick setting
+    preferences.
+    Then we adjust the build files to account for quick setting plugins.
+  * plugin: Add extension point for quick setting
+  * schema: Add quick-settings key to plugins schema
+  * settings: Add support for custom quick settings
+  * plugins: Add a simple custom quick setting
+  * tools: Add widget to test custom quick settings
+  * plugins: Drop G_LOG_DOMAIN in Calendar plugin
+  * tests: Load quick-setting plugins
+
+  [ Guido Günther ]
+  * test-take-screenshots: Take the display out of power save mode.
+    When locking the screen the output is put into power saving mode. To
+    wake it up again the ScreenSaverManager sends "WakeupScreen" which is
+    caught by g-s-d.  However we can't assume g-s-d to be available in the
+    tests so make sure the screen is powered as we can otherwise not take
+    any screenshots.
+  * wifi-manager: Use consistent filename.
+    PhoshWifiManager was one of phosh's first classes and hence lacks the '-'
+    where methods have a '_'. Fix this up for consistency reasons.
+  * wifi-manager: Rename cleanup_device.
+    We have a device tracking wifi networks and one tracking the active
+    connection. Make it obvious which one is being cleaned up from the
+    function name.
+  * wifi-manager: Rename check_device.
+    We have a device tracking wifi networks and one tracking the active
+    connection. Make it obvious which one is being cleaned up from the
+    function name.
+  * wifi-manager: Use Wi-Fi consitently.
+    Use the spelling introduced in
+       9e39af9f7 ("wifi-manager: Track Wi-Fi networks")
+    consistently.
+  * treewide: Use consistent Wi-Fi spelling.
+    Use the official spelling. See previous commit for details.
+  * wifi-manager: Take a reference in dev.
+    We take a reference the Wi-Fi device as we otherwise race
+    with nmclient on shutdown.
+    This fixes the CI tests that otherwise occasionally hit
+    a critical on shutdown.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1025
+  * wifi-manager: Fix indent.
+    This fixes some old heritage and makes the style check mostly happy.
+  * wifi-info: Use consistent file names.
+    We separte words with '-' in the filename since ages.
+  * wifi-status-page: Avoid underscore in property names.
+    We prefer dash ('-')
+  * wifi-status-page: Drop superfluous can-focus properties
+  * wifi-status-page: Disable selection.
+    We don't want to select the listbox row but merely activate it. This
+    avoids the blue highlighting of the activated row.
+  * status-page: Add a style class.
+    This allows styling status pages individually. Currently unused but
+    better to introduce it now as adding these later might break other
+    selectors.
+  * audio-settings: Disable listbox selection.
+    Otherwise we only want activation. This went unnoticed as we had
+    audio-device-row style class set which papered over it accidentally
+    style wise.
+  * audio-device-row: Drop css class name.
+    Otherwise the default style from listbox rows doesn't apply
+  * settings: Style list boxes more consistently.
+    Use a blue border for focus and make all icons symbolic. Eventually we
+    want to apply this to more of phosh's list boxes but as e.g.
+    notifications are list boxes too this requires more work upfrong.
+  * wifi-network-row: Drop symbolic suffix.
+    Allow settings-list-box icons are symbolic per CSS
+  * manager: Set name for idle callback
+  * shell: Name idle callbacks
+  * app-tracker: Name idle callback
+  * connectivity-info: Name idle callback
+  * monitor-manager: Name idle callback
+  * screen-saver-manager: Name idle callback
+  * status-icon: Name idle callback
+  * swipe-away-bin: Name idle callback
+  * lockscreen: Name timers
+  * main: Namer timer
+  * timestamp-label: Name timer
+  * screen-saver-manager: Name timer
+  * shell: Name timer
+  * screen-saver-manager: Add G_{BEGIN,END}_DECLS
+  * run_tools: Allow to override log domains
+  * build: Simplify libs.
+    We build a static lib for use with the phosh binaries, tests, etc and a
+    dynamic one for the tests but don't need an extra dependency.
+    Both libs use a common set of headers and if we link the main library we
+    don't need to link with tools too.
+  * plugins: Only use list-model headers.
+    Don't build the C files too. It's not needed as we can pull them from
+    phosh.
+  * build: Limit symbols exported from phosh
+  * build: Unify plugin header dependencies.
+    Make sure the plugins have a proper dependency on the headers and know
+    their paths. Since some of them are generated the build might fail
+    otherwise.
+    While at that make sure that all plugins use `plugin_dep` as common
+    dependency.
+  * tools: Add tool to verify exported symbols.
+    We want to make sure we don't leak all symbols to plugins
+  * tools: Make sure widget-box has listmodel
+  * plugins: Use dependency variables.
+    We initially used extra 'dependency()' to ease copy pasting for out of
+    tree plugin but since most plugins are in tree we can simplify this.
+  * testlib: Fix argument name
+  * main: Indicate readiness.
+    This makes it simpler to see from the logs if shell startup worked as
+    expected.
+  * shell: Simplify comment
+  * shell: Add transfer annotation for get_primary_monitor()
+  * shell: Add transfer annotation to get_builtin_monitor()
+  * background-manager: No need to sink ref.
+    It's a toplevel.
+  * screensaver-manager: Avoid warning when op was cancelled.
+    It's an async operation, not doing so might break the tests.
+  * main: Instantiate background cache
+  * tests/shell: Process events until idle.
+    Since the background manager will move it's setup in the idle callbacks
+    we need to process all pending events as otherwise it's hasn't been
+    created when the tests run.
+  * background-image: New object to hold a async loaded image.
+    This allows us to have an object that loads fully async by moving the
+    load operation into a thread.
+  * background-cache: Add cache for loaded background images.
+    The cache can load image async. When fetching an image the caller is
+    notified via the `image-present`.
+  * util: Add file equal check.
+    This is identical to g_file_equal() but handles `NULL` gracefully.
+  * background: Load images async.
+    Instead of handling loading in the background (and potentially blocking
+    drawing) load them async. For that we move the settings handling into
+    the background manager (which also handles clearing the cache on
+    settings changes).
+    As the background now calls back into the background-manager we finish
+    background-manager's setup in an idle callback to ensure the background
+    -manager is fully up when the background needs it.
+    This simplifies the background handling as the background-manager no
+    longer needs to be concerned with the details of the layer surface.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/447
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/910
+  * background: Drop unneeded scale.
+    This was introduced in
+    540c85c83 ("background: Scale by fractional output scale")
+    to handle the lack of fractional scale handling in
+    phosh_shell_get_usable_area() but that was fixed in
+    1b24ca54c ("shell: Use fractional scale for phosh_shell_get_usable_area too")
+    This helps to decouple PhoshBackground from PhoshBackgroundManager.
+  * background-manager: Select dark wallpaper when available.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/743
+  * build: Disable cast-align checks for clang.
+    These just add to the noise. This is similar to what we did for phoc
+    recenty.
+  * treewide: Drop some unused variables.
+    Spotted by clang
+  * build: Don't use pointer for polkit check.
+    Fixes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1023
+  * tests/take-screenshots: Use milli second timer.
+    This allows us to use shorter waits
+  * tests/take-screenshot: Shorten wait intervals.
+    Most of the time we wait for a rather quick animation or keypress
+    to be processed. 0.5s should be ample of time.
+  * tools: Use canonical signal name for `delete-event`
+  * gmobile: Update to 0.0.6
+  * lockscreen: Allow to keyboard navigate to lockscreen / calls page.
+    Since Phosh can't use GtkAppliction we can't use
+    gtk_application_set_accels_for_action() either (might be worth adding
+    this functionality at some point). Hence we process key events directly.
+  * tests/take-screenshots: Use one place to set gsettings
+  * tests/take-screenshots: Screenshot lockscreen plugins page.
+    We load some plugins for that.
+  * ci: Install plugins for screenshot tests
+  * treewide: Remove TEST_INSTALLED special handling.
+    CI installs into the default path now and we've never used it
+    for local testing.
+  * tests: Drop wl_output double accounting.
+    We have it in `monitor`. No need to have it separately.
+  * top-panel: Document on-lockscreen property constrains
+  * top-panel: Use Monitor instead of wl_output.
+    Use Phosh's types where possible (makes it consistent with e.g
+    PhoshBackground and PhoshSystemModal.
+  * top-panel: Set fb and bg colors in our own block.
+    Don't share it with phosh-home so we can tweak it independently
+  * top-panel: Use `self` correctly
+    `self` is the top-panel here, not the drag-surface.
+  * home: Fix 'state' property setter.
+    Make setting the property equivalent to using the property setter.
+    Modernize the property description while at that.
+  * home: Add property getter.
+    It's easier to read and faster.
+  * home: Use PhoshMonitor instead of wl_output.
+    Use Phosh's types where possible (makes it consistent with e.g
+    PhoshBackground and PhoshSystemModal.
+  * settings: Document on-lockscreen property constrains
+  * lockshield: Use more type-safe constructor variables
+  * lockscreen: Rename settings variable.
+    We use it for different lockscreen settings
+  * lockscreen: Rename notification specific settings
+  * background-manager: Emit signal when backgrounds need an update.
+    This allows us parts of the shell to react on these.
+  * emergency-menu: Use g_signal_connect_object.
+    This makes sure the signal handler gets disconnected when the menu gets
+    destroyed.  Otherwise the list might call in a no longer existent menu.
+  * wwan-mm: Report 5G when combined with access technologies.
+    Check for 5G early as we want to report it when in use with e.g. 4G +
+    Tested-by: Luca Weiss <luca@z3ntu.xyz>
+  * plugins: Use new canonical resource path in examples.
+    See 8ec58e355 ("plugins: Add launcher plugin")
+  * build: Remove unused dbus doc targets
+  * build: Use preference specific include path.
+    It points to the same folder atm but we have both so use the
+    correct one. This allows us to have separate header include paths
+    for plugins and their preferences.
+  * status-icon: Document properties.
+    This hopefully makes it simpler for plugin authors.
+  * docs: Add URL map.
+    This allows us to link to docs in other projects
+  * quick-setting: Document automatic binding of `active` property
+  * quick-setting: Improve class documentation.
+    Use gi-docgen style links, fix signal name.
+  * suspend-manager: Use passed in values.
+    This allows us to use the same function for other use cases.
+  * suspend-manager: Use consistent Wi-Fi spelling.
+    Fixes: f228ca6e1 ("treewide: Use consistent Wi-Fi spelling")
+  * session-manager: Make inhibitor more flexible.
+    Allow to inhibit other things besides suspend.
+  * build: Split dbus header and source targets.
+    This allows us to only use the header dependencies for the plugins as
+    there's no point in generating the sources (which would then happen for
+    every plugin).
+    We only split the ones that already use our default namespace as we want
+    to fix up the namespaces for the other ones first as this gives shorter
+    names. See e.g.
+       aa6c9323b ("session-manager: Use default DBus prefix")
+  * quick-settings-standalone: Print which plugins are loaded.
+    Makes developing a plugin a bit simpler
+  * build: Introduce plugin dep.
+    This allows
+  * shell: Split out methods available to plugins
+    shell.h pulls in about almost all object's headers. In order to not leak
+    all of those to the plugins (requiring them to declare dependencies on
+    other libraries used by those headers like NM, gnome-desktop, etc)
+    introduce a separate header file that can be used by plugins to only get
+    a basic set.
+  * plugins: Add Types field to lockscreen plugins
+  * plugins: Add caffeine icon.
+    Icon taken form GNOME's icon library.
+  * plugins: Add caffeine quick setting.
+    This uses Arun's SimpleCustom quick setting as template.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/829
+  * screen-saver-manager: Use g_timeout_add_seconds_once
+  * screen-saver-manager: Use lock-enabled in more places.
+    Except in cases where the lock is requested explicity (like the DBus
+    call) we want to take the lock-enabled setting into account.
+    This fixes the case where lock-enabled is false but a lock-delay is set.
+    We don't want to lock in that case either.
+  * vpn-info: Ensure initial property sync.
+    Make sure we sync with the manager object. Otherwise we might end up
+    with stale state.
+    This fixes the vpn quick setting disappearing when moving the primary
+    output.
+  * build: Add quick-setting-plugins to summary
+  * docs: Mention .phoshdebug
+  * docs: Link to more manpages
+  * docs: Enable fatal warnings during doc build.
+    This makes sure we no longer ignore links that became stale or
+    are mistyped.
+  * build: Don't install files from gmobile. We link statically
+  * tools: Update symbol list
+  * data: Validate desktop file
+  * ci: Run tools tests too.
+    If we don't give a suite we'd miss the exported symbols check
+  * po: Add missing desktop files
+
+  [ Sicelo A. Mhlongo ]
+  * wwan/ofono: Fix style
+  * wwan/ofono: Obtain operator name from network.
+    Prefer the operator name provided by the network, in place of the name
+    embedded in the SIM. This is especially important when roaming, so one
+    can know which network they are actually connected to.
+
+  [ Rodney Lorrimar ]
+  * build: Declare gio-unix-2.0 dep where necessary.
+    The launcher-box and ticket-box plugin meson files didn't declare a
+    dependency on gio-unix-2.0.
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Florentina Mușat ]
+  * Update Romanian translation
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
+
+  [ Vittorio Monti ]
+  * Update Italian translation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Jürgen Benvenuti ]
+  * Update German translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Sabri Ünal ]
+  * Update Turkish translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+  [ Pablo Barciela ]
+  * Update Spanish translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 06 Mar 2024 16:56:20 +0100
+
 phosh (0.36.0) experimental; urgency=medium
 
   [ Sertonix ]

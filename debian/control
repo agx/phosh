@@ -35,6 +35,7 @@ Build-Depends:
  evolution-data-server-dev,
 # to run the tests
  at-spi2-core <!nocheck>,
+ desktop-file-utils <!nocheck>,
  dbus-x11 <!nocheck>,
  gnome-settings-daemon-common <!nocheck>,
  gnome-shell-common <!nocheck>,

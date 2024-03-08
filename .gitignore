@@ -28,3 +28,4 @@ debian/tmp/
 po/messages.mo
 po/missing
 po/notexist
+po/*.pot
