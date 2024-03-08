@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-06 08:44+0000\n"
-"PO-Revision-Date: 2024-02-07 15:40+0100\n"
+"POT-Creation-Date: 2024-03-06 13:44+0000\n"
+"PO-Revision-Date: 2024-03-08 14:42+0100\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -34,11 +34,23 @@ msgstr "Správa oken a spouštění aplikací pro mobilní zařízení"
 msgid "This session logs you into Phosh"
 msgstr "Toto sezení vás přihlásí do prostředí Phosh"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:51
+msgid "Phosh on caffeine"
+msgstr "Phosh na caffeine"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:130
+msgid "On"
+msgstr "Zapnout"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:130
+msgid "Off"
+msgstr "Vypnout"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Kalendář"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Jednoduchý widget kalendáře"
 
@@ -47,7 +59,7 @@ msgstr "Jednoduchý widget kalendáře"
 msgid "Ticket Box"
 msgstr "Rámeček lístků"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Zobrazit soubory PDF na zamykací obrazovce. <b>Tento zásuvný modul je "
@@ -57,7 +69,7 @@ msgstr ""
 msgid "Upcoming Events"
 msgstr "Nadcházející události"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "Zobrazit nadcházející události kalendáře"
 
@@ -184,7 +196,7 @@ msgstr "Ne"
 msgid "Enter Passcode"
 msgstr "Zadejte heslo"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:401
 msgid "Checking…"
 msgstr "Kontroluje se…"
 
@@ -427,11 +439,11 @@ msgstr "Hledat aplikace…"
 msgid "Output Devices"
 msgstr "Výstupní zařízení"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "Vstupní zařízení"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Nastavení zvuku"
 
@@ -557,27 +569,27 @@ msgstr "U_spat…"
 msgid "_Log Out…"
 msgstr "Odh_lásit se…"
 
-#: src/ui/wifi-status-page.ui:35
+#: src/ui/wifi-status-page.ui:32
 msgid "No Wi-Fi Device Found"
 msgstr "Nebylo nalezeno žádné zařízení Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:66
+#: src/ui/wifi-status-page.ui:60
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi zakázáno"
 
-#: src/ui/wifi-status-page.ui:106
+#: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Přístupový bod Wi-Fi je aktivní"
 
-#: src/ui/wifi-status-page.ui:145
+#: src/ui/wifi-status-page.ui:133
 msgid "No Wi-Fi Hotspots Found"
 msgstr "Nebyly nalezeny žádné přístupové body Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:156
+#: src/ui/wifi-status-page.ui:144
 msgid "Scan"
 msgstr "Skenovat"
 
-#: src/ui/wifi-status-page.ui:188
+#: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Nastavení WiFi"
 
@@ -600,7 +612,7 @@ msgstr "Zásuvný modul nebyl nalezen"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Zásuvný modul „%s“ nelze načíst."
 
-#: src/wifiinfo.c:90
+#: src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
