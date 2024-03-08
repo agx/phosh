@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-06 13:44+0000\n"
-"PO-Revision-Date: 2024-03-06 21:28+0200\n"
+"POT-Creation-Date: 2024-03-08 15:48+0000\n"
+"PO-Revision-Date: 2024-03-08 19:04+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -37,21 +37,13 @@ msgstr "Керування вікнами і запуск програм для 
 msgid "This session logs you into Phosh"
 msgstr "Це — сеанс входу до Phosh"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:51
-msgid "Phosh on caffeine"
-msgstr "Phosh на caffeine"
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Швидке налаштовування Caffeine"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:130
-#| msgctxt "bluetooth:enabled"
-#| msgid "On"
-msgid "On"
-msgstr "❙"
-
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:130
-#| msgctxt "automatic-screen-rotation-disabled"
-#| msgid "Off"
-msgid "Off"
-msgstr "○"
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "Запобігання переведення сеансу у режим бездіяльності"
 
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
@@ -60,6 +52,26 @@ msgstr "Календар"
 #: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Простий віджет календаря"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+#| msgid "Emergency"
+msgid "Emergency Info"
+msgstr "Критичні відомості"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "Показ критичних відомостей і контактів"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Панель засобів запуску"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+#| msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgstr ""
+"Додає кнопки запуску на екран блокування. <b>Цей додаток є тестовим.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
@@ -626,6 +638,19 @@ msgstr "Wi-Fi"
 msgid "Cellular"
 msgstr "Стільниковий"
 
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+msgid "Phosh on caffeine"
+msgstr "Phosh на caffeine"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "On"
+msgstr "❙"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "Off"
+msgstr "○"
+
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
 msgid "Personal Information"
@@ -726,10 +751,6 @@ msgstr "Зв'язок"
 msgid "Number"
 msgstr "Номер"
 
-#: plugins/launcher-box/launcher-box.ui:14
-msgid "Launcher Box"
-msgstr "Панель засобів запуску"
-
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
 msgstr "Не налаштовано жодного засобу запуску"
@@ -821,9 +842,6 @@ msgstr "Подія без назви"
 
 #~ msgid "Unknown application"
 #~ msgstr "Невідома програма"
-
-#~ msgid "Emergency"
-#~ msgstr "Екстрений виклик"
 
 #~ msgid "Lock Screen"
 #~ msgstr "Заблокувати екран"
