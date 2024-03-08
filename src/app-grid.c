@@ -354,7 +354,7 @@ search_apps (gpointer item, gpointer data)
   }
 
   /* filter out favorites when not searching */
-  if (search == NULL || strlen (search) == 0) {
+  if (STR_IS_NULL_OR_EMPTY (search)) {
     if (PHOSH_IS_FOLDER_INFO (info))
       return phosh_folder_info_refilter (PHOSH_FOLDER_INFO (info), search);
     if (phosh_favorite_list_model_app_is_favorite (NULL, info))
@@ -371,7 +371,7 @@ search_apps (gpointer item, gpointer data)
 
     str = app_attr[i] (info);
 
-    if (!str || *str == '\0')
+    if (STR_IS_NULL_OR_EMPTY (str))
       continue;
 
     folded = g_utf8_casefold (str, -1);
@@ -388,7 +388,7 @@ search_apps (gpointer item, gpointer data)
 
       str = desktop_attr[i] (G_DESKTOP_APP_INFO (info));
 
-      if (!str || *str == '\0')
+      if (STR_IS_NULL_OR_EMPTY (str))
         continue;
 
       folded = g_utf8_casefold (str, -1);
