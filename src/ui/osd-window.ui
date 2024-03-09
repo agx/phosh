@@ -23,8 +23,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
+              <object class="GtkBox" id="box">
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="orientation">vertical</property>

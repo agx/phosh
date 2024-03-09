@@ -45,6 +45,7 @@ typedef struct _PhoshOsdWindow {
   GtkWidget       *lbl;
   GtkWidget       *icon;
   GtkWidget       *bar;
+  GtkWidget       *box;
   GtkGesture      *click_gesture;
 } PhoshOsdWindow;
 
@@ -55,22 +56,31 @@ G_DEFINE_TYPE (PhoshOsdWindow, phosh_osd_window, PHOSH_TYPE_SYSTEM_MODAL)
 static void
 set_label (PhoshOsdWindow *self, char *label)
 {
+  gboolean visible;
+
   g_free (self->label);
   self->label = label;
   gtk_label_set_label (GTK_LABEL (self->lbl), self->label);
-  gtk_widget_set_visible (GTK_WIDGET (self->lbl), !STR_IS_NULL_OR_EMPTY (label));
+
+  visible = !STR_IS_NULL_OR_EMPTY (label);
+  gtk_widget_set_visible (GTK_WIDGET (self->lbl), visible);
+  gtk_widget_set_visible (self->box, visible);
 }
 
 
 static void
 set_level (PhoshOsdWindow *self, double level)
 {
+  gboolean visible;
+
   self->level = level;
 
   if (level >= 0.0)
     gtk_level_bar_set_value (GTK_LEVEL_BAR (self->bar), level);
 
-  gtk_widget_set_visible (self->bar, level >= 0.0);
+  visible = level >= 0.0;
+  gtk_widget_set_visible (self->bar, visible);
+  gtk_widget_set_visible (self->box, visible);
 }
 
 
@@ -218,6 +228,7 @@ phosh_osd_window_class_init (PhoshOsdWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshOsdWindow, lbl);
   gtk_widget_class_bind_template_child (widget_class, PhoshOsdWindow, icon);
   gtk_widget_class_bind_template_child (widget_class, PhoshOsdWindow, bar);
+  gtk_widget_class_bind_template_child (widget_class, PhoshOsdWindow, box);
   gtk_widget_class_bind_template_child (widget_class, PhoshOsdWindow, click_gesture);
   gtk_widget_class_bind_template_callback (widget_class, on_button_released);
 
