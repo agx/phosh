@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-06 08:44+0000\n"
-"PO-Revision-Date: 2024-03-03 21:28+0200\n"
+"POT-Creation-Date: 2024-03-08 15:48+0000\n"
+"PO-Revision-Date: 2024-03-09 17:04+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -34,20 +34,46 @@ msgstr ""
 msgid "This session logs you into Phosh"
 msgstr "Tämä istunto kirjaa sinut Phoshiin"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Caffeine-pika-asetus"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "Estä istuntoa menemästä jouten"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Kalenteri"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Yksinkertainen kalenterisovelma"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "Hätätilatiedot"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "Näytä hätätilatiedot ja -yhteystiedot"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Käynnistinlaatikko"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgstr ""
+"Lisää käynnistimiä lukitusnäytölle. <b>Tämä liitännäinen on kokeellinen.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
 msgstr "Tikettilaatikko"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Näytä PDF-tiedostoja lukitusnäytöllä. <b>Tämä liitännäinen on kokeellinen.</"
@@ -57,7 +83,7 @@ msgstr ""
 msgid "Upcoming Events"
 msgstr "Tulevat tapahtumat"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "Näytä tulevat kalenteritapahtumat"
 
@@ -183,7 +209,7 @@ msgstr "Ei"
 msgid "Enter Passcode"
 msgstr "Syötä salasana"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:401
 msgid "Checking…"
 msgstr "Tarkistetaan…"
 
@@ -426,11 +452,11 @@ msgstr "Etsi sovelluksia…"
 msgid "Output Devices"
 msgstr "Ulostulolaitteet"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "Sisääntulolaitteet"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Ääniasetukset"
 
@@ -556,28 +582,27 @@ msgstr "_Valmiustila…"
 msgid "_Log Out…"
 msgstr "Kirjaudu _ulos…"
 
-#: src/ui/wifi-status-page.ui:35
+#: src/ui/wifi-status-page.ui:32
 msgid "No Wi-Fi Device Found"
 msgstr "Wi-Fi-laitetta ei löydy"
 
-#: src/ui/wifi-status-page.ui:66
+#: src/ui/wifi-status-page.ui:60
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi on pois käytöstä"
 
-#: src/ui/wifi-status-page.ui:106
+#: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Wi-Fi-yhteyspiste aktiivisena"
 
-#: src/ui/wifi-status-page.ui:145
+#: src/ui/wifi-status-page.ui:133
 msgid "No Wi-Fi Hotspots Found"
 msgstr "Wi-Fi-yhteyspisteitä ei löydy"
 
-#: src/ui/wifi-status-page.ui:156
+#: src/ui/wifi-status-page.ui:144
 msgid "Scan"
 msgstr "Skannaa"
 
-#: src/ui/wifi-status-page.ui:188
-#| msgid "Folder Settings"
+#: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-asetukset"
 
@@ -600,7 +625,7 @@ msgstr "Liitännäistä ei löytynyt"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Liitännäistä '%s' ei voitu ladata."
 
-#: src/wifiinfo.c:90
+#: src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "Wifi"
 
@@ -608,6 +633,19 @@ msgstr "Wifi"
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Puhelinverkko"
+
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+msgid "Phosh on caffeine"
+msgstr "Phosh ja caffeine"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "On"
+msgstr "Päällä"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "Off"
+msgstr "Pois"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -709,10 +747,6 @@ msgstr "Suhde"
 msgid "Number"
 msgstr "Numero"
 
-#: plugins/launcher-box/launcher-box.ui:14
-msgid "Launcher Box"
-msgstr "Käynnistinlaatikko"
-
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
 msgstr "Käynnistimiä ei ole määritetty"
@@ -803,9 +837,6 @@ msgstr "Nimetön tapahtuma"
 
 #~ msgid "Unknown application"
 #~ msgstr "Tuntematon sovellus"
-
-#~ msgid "Emergency"
-#~ msgstr "Hätä"
 
 #~ msgid "Lock Screen"
 #~ msgstr "Lukitse näyttö"
