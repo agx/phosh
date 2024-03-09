@@ -63,6 +63,19 @@ set_label (PhoshOsdWindow *self, char *label)
 
 
 static void
+set_level (PhoshOsdWindow *self, double level)
+{
+  self->level = level;
+
+  if (level >= 0.0)
+    gtk_level_bar_set_value (GTK_LEVEL_BAR (self->bar), level);
+
+  gtk_widget_set_visible (self->bar, level >= 0.0);
+}
+
+
+
+static void
 phosh_osd_window_set_property (GObject      *obj,
                                guint         prop_id,
                                const GValue *value,
@@ -84,8 +97,7 @@ phosh_osd_window_set_property (GObject      *obj,
     gtk_image_set_from_icon_name (GTK_IMAGE (self->icon), self->icon_name, GTK_ICON_SIZE_INVALID);
     break;
   case PROP_LEVEL:
-    self->level = g_value_get_double (value);
-    gtk_level_bar_set_value (GTK_LEVEL_BAR (self->bar), self->level);
+    set_level (self, g_value_get_double (value));
     break;
   case PROP_MAX_LEVEL:
     self->max_level = g_value_get_double (value);
