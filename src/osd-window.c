@@ -54,6 +54,18 @@ G_DEFINE_TYPE (PhoshOsdWindow, phosh_osd_window, PHOSH_TYPE_SYSTEM_MODAL)
 
 
 static void
+adjust_icon (PhoshOsdWindow *self, gboolean box_visible)
+{
+  int size;
+
+  gtk_widget_set_visible (self->box, box_visible);
+
+  size = box_visible ? 16 : 32;
+  gtk_image_set_pixel_size (GTK_IMAGE (self->icon), size);
+}
+
+
+static void
 set_label (PhoshOsdWindow *self, char *label)
 {
   gboolean visible;
@@ -64,7 +76,7 @@ set_label (PhoshOsdWindow *self, char *label)
 
   visible = !STR_IS_NULL_OR_EMPTY (label);
   gtk_widget_set_visible (GTK_WIDGET (self->lbl), visible);
-  gtk_widget_set_visible (self->box, visible);
+  adjust_icon (self, visible);
 }
 
 
@@ -80,7 +92,7 @@ set_level (PhoshOsdWindow *self, double level)
 
   visible = level >= 0.0;
   gtk_widget_set_visible (self->bar, visible);
-  gtk_widget_set_visible (self->box, visible);
+  adjust_icon (self, visible);
 }
 
 
