@@ -169,6 +169,7 @@ handle_show_osd (PhoshDBusGnomeShell   *skeleton,
   GVariantDict dict;
   g_autofree char *connector = NULL, *icon = NULL, *label = NULL;
   gdouble level = 0.0, maxlevel = 1.0;
+  gboolean has_level;
 
   g_return_val_if_fail (PHOSH_IS_GNOME_SHELL_MANAGER (self), FALSE);
 
@@ -176,8 +177,11 @@ handle_show_osd (PhoshDBusGnomeShell   *skeleton,
   g_variant_dict_lookup (&dict, "connector", "s", &connector);
   g_variant_dict_lookup (&dict, "icon", "s", &icon);
   g_variant_dict_lookup (&dict, "label", "s", &label);
-  g_variant_dict_lookup (&dict, "level", "d", &level);
+  has_level = g_variant_dict_lookup (&dict, "level", "d", &level);
   g_variant_dict_lookup (&dict, "max_level", "d", &maxlevel);
+
+  if (!has_level)
+    level = -1.0;
 
   g_debug ("DBus show osd: connector: %s icon: %s, label: %s, level %f/%f",
            connector, icon, label, level, maxlevel);
