@@ -165,30 +165,30 @@ phosh_osd_window_class_init (PhoshOsdWindowClass *klass)
                          "Connector",
                          "Connector to use for osd display",
                          NULL,
-                         G_PARAM_READWRITE);
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PROP_LABEL] =
     g_param_spec_string ("label",
                          "Label",
                          "Label to show on osd",
                          NULL,
-                         G_PARAM_READWRITE);
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PROP_ICON_NAME] =
     g_param_spec_string ("icon-name",
                          "Icon Name",
                          "Name of icon to use on osd",
                          NULL,
-                         G_PARAM_READWRITE);
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PROP_LEVEL] =
     g_param_spec_double ("level",
                          "Level",
                          "Level of bar to display on osd",
-                         0.0,
+                         -1.0,
                          G_MAXDOUBLE,
                          0.0,
-                         G_PARAM_READWRITE);
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PROP_MAX_LEVEL] =
     g_param_spec_double ("max-level",
@@ -197,7 +197,7 @@ phosh_osd_window_class_init (PhoshOsdWindowClass *klass)
                          0.0,
                          G_MAXDOUBLE,
                          0.0,
-                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
