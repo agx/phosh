@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-06 13:44+0000\n"
-"PO-Revision-Date: 2024-03-07 00:01+0330\n"
+"POT-Creation-Date: 2024-03-08 15:48+0000\n"
+"PO-Revision-Date: 2024-03-09 04:33+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -35,17 +35,13 @@ msgstr "مدیریت پنجره‌ها و اجرا کنندهٔ برنامه‌�
 msgid "This session logs you into Phosh"
 msgstr "این نشست وارد فوشتان می‌کند"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:51
-msgid "Phosh on caffeine"
-msgstr "فوش روی کافئین"
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "تنظیمات سریع کافئین"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:130
-msgid "On"
-msgstr "روشن"
-
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:130
-msgid "Off"
-msgstr "خاموش"
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "جلوگیری از بی‌کار شدن نشست"
 
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
@@ -54,6 +50,23 @@ msgstr "تقویم"
 #: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "ابزارک تقویمی ساده"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "اطّلاعات اضطراری"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "نمایش آشنایان و اطّلاعات اضطراری"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "جعبهٔ اجراگر"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgstr "افزودن اجراگرها به صفحهٔ قفل. <b>این افزایه آزمایشی است.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
@@ -617,6 +630,19 @@ msgstr "وای‌فای"
 msgid "Cellular"
 msgstr "سلولی"
 
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+msgid "Phosh on caffeine"
+msgstr "فوش روی کافئین"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "On"
+msgstr "روشن"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "Off"
+msgstr "خاموش"
+
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
 msgid "Personal Information"
@@ -717,10 +743,6 @@ msgstr "رابطه"
 msgid "Number"
 msgstr "شماره"
 
-#: plugins/launcher-box/launcher-box.ui:14
-msgid "Launcher Box"
-msgstr "جعبهٔ اجراگر"
-
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
 msgstr "هیچ احراگری پیکربندی نشده"
@@ -811,9 +833,6 @@ msgstr "رویداد بی‌عنوان"
 
 #~ msgid "Unknown application"
 #~ msgstr "برنامهٔ ناشناخته"
-
-#~ msgid "Emergency"
-#~ msgstr "اضطراری"
 
 #~ msgid "Lock Screen"
 #~ msgstr "قفل کردن صفحه"
