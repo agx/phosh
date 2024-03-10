@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-06 08:44+0000\n"
-"PO-Revision-Date: 2024-02-09 18:59+0100\n"
+"POT-Creation-Date: 2024-03-08 15:48+0000\n"
+"PO-Revision-Date: 2024-03-10 15:55+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -35,20 +35,46 @@ msgstr "მობილურზე ფანჯრების მართვ�
 msgid "This session logs you into Phosh"
 msgstr "ეს სესია Phosh-ში შეგიყვანთ"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Caffeine-ის სწრაფი მორგება"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "სესიისთვის უქმეობის ხელის შეშლა"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "კალენდარი"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "მარტივი კალენდრის ვიჯეტი"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "გადაუდებელი ინფორმაცია"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "გადაუდებელი ინფორმაციისა და კონტაქტების ჩვენება"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "გამშვების ფანჯარა"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgstr ""
+"გამშვებების დამატება დაბლოკილ ეკრანზე <b>ეს დამატება ექსპერიმენტულია.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
 msgstr "ბილეთის ყუთი"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "დაბლოკილ ეკრანზე PDF-ების ჩვენება. ეს დამატება ექსპერიმენტულია. <b>ეს "
@@ -58,7 +84,7 @@ msgstr ""
 msgid "Upcoming Events"
 msgstr "უახლოესი მოვლენები"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "კალენდრის მომავალი მოვლენების ჩვენება"
 
@@ -179,7 +205,7 @@ msgstr "არა"
 msgid "Enter Passcode"
 msgstr "შეიყვანეთ კოდი"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:401
 msgid "Checking…"
 msgstr "შემოწმება…"
 
@@ -422,11 +448,11 @@ msgstr "აპპების ძებნა…"
 msgid "Output Devices"
 msgstr "გამოტანის მოწყობილობები"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "შეტანის მოწყობილობები"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "ხმის მორგება"
 
@@ -552,27 +578,27 @@ msgstr "_ძილი…"
 msgid "_Log Out…"
 msgstr "გა_სვლა…"
 
-#: src/ui/wifi-status-page.ui:35
+#: src/ui/wifi-status-page.ui:32
 msgid "No Wi-Fi Device Found"
 msgstr "Wi-Fi მოწყობილობა ვერ ვიპოვე"
 
-#: src/ui/wifi-status-page.ui:66
+#: src/ui/wifi-status-page.ui:60
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi გამორთულია"
 
-#: src/ui/wifi-status-page.ui:106
+#: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Wi-Fi ჰოტსპოტი აქტიურია"
 
-#: src/ui/wifi-status-page.ui:145
+#: src/ui/wifi-status-page.ui:133
 msgid "No Wi-Fi Hotspots Found"
 msgstr "Wi-Fi ჰოტსპოტები აღმოჩენილი არაა"
 
-#: src/ui/wifi-status-page.ui:156
+#: src/ui/wifi-status-page.ui:144
 msgid "Scan"
 msgstr "სკანირება"
 
-#: src/ui/wifi-status-page.ui:188
+#: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-ის მორგება"
 
@@ -595,7 +621,7 @@ msgstr "დამატება ვერ ვიპოვე"
 msgid "The plugin '%s' could not be loaded."
 msgstr "დამატება არ ჩაიტვირთულა: \"%s\"."
 
-#: src/wifiinfo.c:90
+#: src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
@@ -603,6 +629,19 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "მობილური"
+
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+msgid "Phosh on caffeine"
+msgstr "Phosh caffeine-ზე"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "On"
+msgstr "ჩართ"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "Off"
+msgstr "გამორთ"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -704,10 +743,6 @@ msgstr "ურთიერთობები"
 msgid "Number"
 msgstr "რიცხვი"
 
-#: plugins/launcher-box/launcher-box.ui:14
-msgid "Launcher Box"
-msgstr "გამშვების ფანჯარა"
-
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
 msgstr "გამშვებები მორგებული არაა"
@@ -797,9 +832,6 @@ msgstr "უსახელო მოვლენა"
 
 #~ msgid "Unknown application"
 #~ msgstr "უცნობი აპლიკაცია"
-
-#~ msgid "Emergency"
-#~ msgstr "სასწრაფო"
 
 #~ msgid "Lock Screen"
 #~ msgstr "ეკრანის ჩაკეტვა"
