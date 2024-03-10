@@ -1,15 +1,15 @@
 # Romanian translation for phosh.
 # Copyright (C) 2020 phosh's COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
-# Antonio Marin (libre) <gnmer.6qxyg@slmail.me>, 2020-2023.
+# Antonio Marin (libre) <gnmer.6qxyg@slmail.me>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-06 09:40+0000\n"
-"PO-Revision-Date: 2024-02-06 14:19+0100\n"
-"Last-Translator: Antonio Marin <gnmer [dot] 6qxyg [at] slmail [dot] me>\n"
+"POT-Creation-Date: 2024-03-08 15:48+0000\n"
+"PO-Revision-Date: 2024-03-09 19:47+0100\n"
+"Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -37,20 +37,46 @@ msgstr "Gestionarea ferestrei și pornirea aplicațiilor pentru mobil"
 msgid "This session logs you into Phosh"
 msgstr "Această sesiune permite accesul la Phosh"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Opțiuni pentru Cafeină"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "Împiedică sesiunea să devină inactivă"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Calendar"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Un calendar în miniatură"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "Info. de urgență"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "Arată informațiile de urgență și contactele"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Cutie lansator"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgstr ""
+"Adaugă lansatoare pe ecranul blocat. <b>Acest modul este experimental.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
 msgstr "Casa de bilete"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Arată fișiere PDF pe ecranul blocat. <b>Acest modul este experimental.</b>"
@@ -59,7 +85,7 @@ msgstr ""
 msgid "Upcoming Events"
 msgstr "Evenimente viitoare"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "Arată evenimentele viitoare din calendar"
 
@@ -186,7 +212,7 @@ msgstr "Nu"
 msgid "Enter Passcode"
 msgstr "Introdu codul de acces"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:401
 msgid "Checking…"
 msgstr "Se verifică…"
 
@@ -429,11 +455,11 @@ msgstr "Caută aplicații…"
 msgid "Output Devices"
 msgstr "Dispozitive de ieșire"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "Dispozitive de intrare"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Opțiuni pentru sunet"
 
@@ -559,27 +585,27 @@ msgstr "_Suspendă…"
 msgid "_Log Out…"
 msgstr "_Deconectare…"
 
-#: src/ui/wifi-status-page.ui:35
+#: src/ui/wifi-status-page.ui:32
 msgid "No Wi-Fi Device Found"
 msgstr "Niciun dispozitiv Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:66
+#: src/ui/wifi-status-page.ui:60
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi dezactivat"
 
-#: src/ui/wifi-status-page.ui:106
+#: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Punct de acces Wi-Fi activ"
 
-#: src/ui/wifi-status-page.ui:145
+#: src/ui/wifi-status-page.ui:133
 msgid "No Wi-Fi Hotspots Found"
 msgstr "Niciun punct de acces Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:156
+#: src/ui/wifi-status-page.ui:144
 msgid "Scan"
 msgstr "Caută"
 
-#: src/ui/wifi-status-page.ui:188
+#: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Opțiuni Wi-Fi"
 
@@ -602,7 +628,7 @@ msgstr "Modulul n-a fost găsit"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Modulul „%s” nu a putut fi încărcat."
 
-#: src/wifiinfo.c:90
+#: src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
@@ -610,6 +636,19 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Celular"
+
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+msgid "Phosh on caffeine"
+msgstr "Phosh cu Cafeină"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "On"
+msgstr "Pornit"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "Off"
+msgstr "Oprit"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -710,10 +749,6 @@ msgstr "Relație"
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
 msgid "Number"
 msgstr "Număr"
-
-#: plugins/launcher-box/launcher-box.ui:14
-msgid "Launcher Box"
-msgstr "Cutie lansator"
 
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
