@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-06 08:44+0000\n"
-"PO-Revision-Date: 2024-02-21 22:23+0100\n"
+"POT-Creation-Date: 2024-03-08 15:48+0000\n"
+"PO-Revision-Date: 2024-03-10 00:15+0100\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -34,20 +34,47 @@ msgstr "Gestió de finestres i inici d'aplicacions per a mòbils"
 msgid "This session logs you into Phosh"
 msgstr "Aquesta sessió us fa entrar al Phosh"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Configuració ràpida de mode cafeïnat"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "Impedeix que la sessió es quedi inactiva"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Calendari"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Un giny senzill de calendari"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "Informació d'emergència"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "Mostra la informació i contactes d'emergència"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Capsa de llançadors"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgstr ""
+"Afegeix llançadors a la pantalla bloquejada <b>Aquest connector és "
+"experimental.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
 msgstr "Caixa de tiquets"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Mostra fitxers PDF amb la pantalla bloquejada. <b>Aquest connector és "
@@ -57,7 +84,7 @@ msgstr ""
 msgid "Upcoming Events"
 msgstr "Propers esdeveniments"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "Mostra els propers esdeveniments del calendari"
 
@@ -181,7 +208,7 @@ msgstr "No"
 msgid "Enter Passcode"
 msgstr "Introduïu la contrasenya"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:401
 msgid "Checking…"
 msgstr "S'està comprovant…"
 
@@ -424,11 +451,11 @@ msgstr "Cerca aplicacions…"
 msgid "Output Devices"
 msgstr "Dispositius de sortida"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "Dispositius d'entrada"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Paràmetres de so"
 
@@ -554,27 +581,27 @@ msgstr "_Suspèn…"
 msgid "_Log Out…"
 msgstr "Surt…"
 
-#: src/ui/wifi-status-page.ui:35
+#: src/ui/wifi-status-page.ui:32
 msgid "No Wi-Fi Device Found"
 msgstr "No s'ha trobat cap dispositiu de xarxa sense fil"
 
-#: src/ui/wifi-status-page.ui:66
+#: src/ui/wifi-status-page.ui:60
 msgid "Wi-Fi Disabled"
 msgstr "La xarxa sense fil està desactivada"
 
-#: src/ui/wifi-status-page.ui:106
+#: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Punt d'accés de xarxa sense fil actiu"
 
-#: src/ui/wifi-status-page.ui:145
+#: src/ui/wifi-status-page.ui:133
 msgid "No Wi-Fi Hotspots Found"
 msgstr "No s'ha trobat cap punt d'accés de xarxa sense fil"
 
-#: src/ui/wifi-status-page.ui:156
+#: src/ui/wifi-status-page.ui:144
 msgid "Scan"
 msgstr "Escaneja"
 
-#: src/ui/wifi-status-page.ui:188
+#: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Paràmetres de la xarxa sense fil"
 
@@ -597,7 +624,7 @@ msgstr "No s'ha trobat el connector"
 msgid "The plugin '%s' could not be loaded."
 msgstr "No s'ha pogut carregar el connector «%s» ."
 
-#: src/wifiinfo.c:90
+#: src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "Sense fil"
 
@@ -605,6 +632,19 @@ msgstr "Sense fil"
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Mòbil"
+
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+msgid "Phosh on caffeine"
+msgstr "El Phosh està cafeïnat"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "On"
+msgstr "Activat"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "Off"
+msgstr "Desactivat"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -706,10 +746,6 @@ msgstr "Relació"
 msgid "Number"
 msgstr "Número"
 
-#: plugins/launcher-box/launcher-box.ui:14
-msgid "Launcher Box"
-msgstr "Capsa de llançadors"
-
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
 msgstr "No hi ha cap llançador configurat"
@@ -800,9 +836,6 @@ msgstr "Esdeveniment sense nom"
 
 #~ msgid "Unknown application"
 #~ msgstr "Aplicació desconeguda"
-
-#~ msgid "Emergency"
-#~ msgstr "Emergència"
 
 #~ msgid "Lock Screen"
 #~ msgstr "Bloqueja la pantalla"
