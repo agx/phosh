@@ -1,4 +1,4 @@
-FROM registry.gitlab.gnome.org/world/phosh/phosh/debian:v0.0.2023-11-20
+FROM registry.gitlab.gnome.org/world/phosh/phosh/debian:v0.0.2024-03-08
 
 RUN export DEBIAN_FRONTEND=noninteractive \
    && apt-get -y update \
