@@ -242,6 +242,8 @@ on_monitor_configured (PhoshBackgroundManager *self, PhoshMonitor *monitor)
   if (background == NULL) {
     background = create_background_for_monitor (self, monitor);
     g_hash_table_insert (self->backgrounds, g_object_ref (monitor), background);
+  } else {
+    phosh_background_needs_update (background);
   }
 
   gtk_widget_show (GTK_WIDGET (background));
