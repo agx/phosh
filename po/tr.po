@@ -1,14 +1,15 @@
 # Turkish translation of phosh.
-# Sabri Ünal <libreajans@gmail.com>, 2023, 2024.
+#
+# Sabri Ünal <yakushabb@gmail.com>, 2023, 2024.
 # Emin Tufan Çetin <etcetin@gmail.com>, 2019, 2020, 2021, 2022, 2023, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-13 16:26+0000\n"
-"PO-Revision-Date: 2024-02-14 08:00+0300\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"POT-Creation-Date: 2024-03-08 17:24+0000\n"
+"PO-Revision-Date: 2024-03-11 04:41+0300\n"
+"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -34,20 +35,45 @@ msgstr "Mobil için pencere yönetimi ve uygulama başlatımı"
 msgid "This session logs you into Phosh"
 msgstr "Bu oturum sizi Phosh’a sokar"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Kafein Hızlı Ayarı"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "Oturumun boşta kalmasını önle"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Takvim"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Basit takvim parçacığı"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "Acil Durum Bilgisi"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "Acil durum bilgilerini ve kişilerini göster"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Başlatıcı Kutusu"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgstr "Kilit ekranına başlatıcılar ekler. <b>Bu uzantı deneyseldir.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
 msgstr "Bilet Kutusu"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr "Kilit ekranında PDF göster. <b>Bu uzantı deneyseldir.</b>"
 
@@ -55,7 +81,7 @@ msgstr "Kilit ekranında PDF göster. <b>Bu uzantı deneyseldir.</b>"
 msgid "Upcoming Events"
 msgstr "Yaklaşan Olaylar"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "Yaklaşan olayları göster"
 
@@ -601,6 +627,19 @@ msgstr "Kablosuz"
 msgid "Cellular"
 msgstr "Hücresel"
 
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+msgid "Phosh on caffeine"
+msgstr "Kafeinli Phosh"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "On"
+msgstr "Açık"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "Off"
+msgstr "Kapalı"
+
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
 msgid "Personal Information"
@@ -701,10 +740,6 @@ msgstr "İlişki"
 msgid "Number"
 msgstr "Numara"
 
-#: plugins/launcher-box/launcher-box.ui:14
-msgid "Launcher Box"
-msgstr "Başlatıcı Kutusu"
-
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
 msgstr "Başlatıcı yapılandırılmadı"
@@ -791,15 +826,3 @@ msgstr "Bitiş"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Adsız olay"
-
-#~ msgid "Unknown application"
-#~ msgstr "Bilinmeyen uygulama"
-
-#~ msgid "Emergency"
-#~ msgstr "Acil Durum"
-
-#~ msgid "Lock Screen"
-#~ msgstr "Ekranı Kilitle"
-
-#~ msgid "Logout"
-#~ msgstr "Oturumu Kapat"
