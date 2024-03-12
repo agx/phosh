@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-06 13:44+0000\n"
-"PO-Revision-Date: 2024-03-08 14:42+0100\n"
+"POT-Creation-Date: 2024-03-08 15:48+0000\n"
+"PO-Revision-Date: 2024-03-12 13:16+0100\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -34,17 +34,13 @@ msgstr "Správa oken a spouštění aplikací pro mobilní zařízení"
 msgid "This session logs you into Phosh"
 msgstr "Toto sezení vás přihlásí do prostředí Phosh"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:51
-msgid "Phosh on caffeine"
-msgstr "Phosh na caffeine"
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Rychlé nastavení Caffeine"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:130
-msgid "On"
-msgstr "Zapnout"
-
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:130
-msgid "Off"
-msgstr "Vypnout"
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "Zabránit nečinnosti sezení"
 
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
@@ -53,6 +49,25 @@ msgstr "Kalendář"
 #: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Jednoduchý widget kalendáře"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "Tísňové informace"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "Zobrazit tísňové informace a kontakty"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Spouštěcí box"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgstr ""
+"Přidá spouštěče na zamykací obrazovku. <b>Tento zásuvný modul je "
+"experimentální.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
@@ -621,6 +636,19 @@ msgstr "Wi-Fi"
 msgid "Cellular"
 msgstr "Mobilní síť"
 
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+msgid "Phosh on caffeine"
+msgstr "Phosh na caffeine"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "On"
+msgstr "Zapnout"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "Off"
+msgstr "Vypnout"
+
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
 msgid "Personal Information"
@@ -721,10 +749,6 @@ msgstr "Vztah"
 msgid "Number"
 msgstr "Číslo"
 
-#: plugins/launcher-box/launcher-box.ui:14
-msgid "Launcher Box"
-msgstr "Spouštěcí box"
-
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
 msgstr "Nejsou nakonfigurovány žádné spouštěče"
@@ -816,9 +840,6 @@ msgstr "Bezejmenná událost"
 
 #~ msgid "Unknown application"
 #~ msgstr "Neznámá aplikace"
-
-#~ msgid "Emergency"
-#~ msgstr "Tísňové volání"
 
 #~ msgid "Lock Screen"
 #~ msgstr "Zamknout obrazovku"
