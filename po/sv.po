@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-08 15:48+0000\n"
-"PO-Revision-Date: 2024-03-08 18:20+0100\n"
+"POT-Creation-Date: 2024-03-12 16:52+0000\n"
+"PO-Revision-Date: 2024-03-12 20:47+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -65,9 +65,9 @@ msgid "Launcher Box"
 msgstr "Programstartarbox"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:6
-msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
-"Lägger till programstartare på låsskärmen <b>Denna insticksmodul är "
+"Lägger till programstartare på låsskärmen. <b>Denna insticksmodul är "
 "experimentell.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
