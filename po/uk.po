@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-08 15:48+0000\n"
-"PO-Revision-Date: 2024-03-08 19:04+0200\n"
+"POT-Creation-Date: 2024-03-12 16:52+0000\n"
+"PO-Revision-Date: 2024-03-13 21:57+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -54,7 +54,6 @@ msgid "A simple calendar widget"
 msgstr "Простий віджет календаря"
 
 #: plugins/emergency-info/emergency-info.desktop.in.in:5
-#| msgid "Emergency"
 msgid "Emergency Info"
 msgstr "Критичні відомості"
 
@@ -68,8 +67,9 @@ msgid "Launcher Box"
 msgstr "Панель засобів запуску"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:6
-#| msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
-msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+#| msgid ""
+#| "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Додає кнопки запуску на екран блокування. <b>Цей додаток є тестовим.</b>"
 
