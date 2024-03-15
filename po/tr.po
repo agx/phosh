@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-08 17:24+0000\n"
-"PO-Revision-Date: 2024-03-11 04:41+0300\n"
+"POT-Creation-Date: 2024-03-12 16:52+0000\n"
+"PO-Revision-Date: 2024-03-14 22:17+0300\n"
 "Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -65,8 +65,8 @@ msgid "Launcher Box"
 msgstr "Başlatıcı Kutusu"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:6
-msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
-msgstr "Kilit ekranına başlatıcılar ekler. <b>Bu uzantı deneyseldir.</b>"
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
+msgstr "Kilit ekranına başlatıcılar ekle. <b>Bu uzantı deneyseldir.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
