@@ -45,6 +45,7 @@ typedef struct _PhoshOsdWindow {
   GtkWidget       *lbl;
   GtkWidget       *icon;
   GtkWidget       *bar;
+  GtkWidget       *box;
   GtkGesture      *click_gesture;
 } PhoshOsdWindow;
 
@@ -53,13 +54,47 @@ G_DEFINE_TYPE (PhoshOsdWindow, phosh_osd_window, PHOSH_TYPE_SYSTEM_MODAL)
 
 
 static void
+adjust_icon (PhoshOsdWindow *self, gboolean box_visible)
+{
+  int size;
+
+  gtk_widget_set_visible (self->box, box_visible);
+
+  size = box_visible ? 16 : 32;
+  gtk_image_set_pixel_size (GTK_IMAGE (self->icon), size);
+}
+
+
+static void
 set_label (PhoshOsdWindow *self, char *label)
 {
+  gboolean visible;
+
   g_free (self->label);
   self->label = label;
   gtk_label_set_label (GTK_LABEL (self->lbl), self->label);
-  gtk_widget_set_visible (GTK_WIDGET (self->lbl), !STR_IS_NULL_OR_EMPTY (label));
+
+  visible = !STR_IS_NULL_OR_EMPTY (label);
+  gtk_widget_set_visible (GTK_WIDGET (self->lbl), visible);
+  adjust_icon (self, visible);
 }
+
+
+static void
+set_level (PhoshOsdWindow *self, double level)
+{
+  gboolean visible;
+
+  self->level = level;
+
+  if (level >= 0.0)
+    gtk_level_bar_set_value (GTK_LEVEL_BAR (self->bar), level);
+
+  visible = level >= 0.0;
+  gtk_widget_set_visible (self->bar, visible);
+  adjust_icon (self, visible);
+}
+
 
 
 static void
@@ -84,8 +119,7 @@ phosh_osd_window_set_property (GObject      *obj,
     gtk_image_set_from_icon_name (GTK_IMAGE (self->icon), self->icon_name, GTK_ICON_SIZE_INVALID);
     break;
   case PROP_LEVEL:
-    self->level = g_value_get_double (value);
-    gtk_level_bar_set_value (GTK_LEVEL_BAR (self->bar), self->level);
+    set_level (self, g_value_get_double (value));
     break;
   case PROP_MAX_LEVEL:
     self->max_level = g_value_get_double (value);
@@ -165,30 +199,30 @@ phosh_osd_window_class_init (PhoshOsdWindowClass *klass)
                          "Connector",
                          "Connector to use for osd display",
                          NULL,
-                         G_PARAM_READWRITE);
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PROP_LABEL] =
     g_param_spec_string ("label",
                          "Label",
                          "Label to show on osd",
                          NULL,
-                         G_PARAM_READWRITE);
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PROP_ICON_NAME] =
     g_param_spec_string ("icon-name",
                          "Icon Name",
                          "Name of icon to use on osd",
                          NULL,
-                         G_PARAM_READWRITE);
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PROP_LEVEL] =
     g_param_spec_double ("level",
                          "Level",
                          "Level of bar to display on osd",
-                         0.0,
+                         -1.0,
                          G_MAXDOUBLE,
                          0.0,
-                         G_PARAM_READWRITE);
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   props[PROP_MAX_LEVEL] =
     g_param_spec_double ("max-level",
@@ -197,7 +231,7 @@ phosh_osd_window_class_init (PhoshOsdWindowClass *klass)
                          0.0,
                          G_MAXDOUBLE,
                          0.0,
-                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
@@ -206,6 +240,7 @@ phosh_osd_window_class_init (PhoshOsdWindowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshOsdWindow, lbl);
   gtk_widget_class_bind_template_child (widget_class, PhoshOsdWindow, icon);
   gtk_widget_class_bind_template_child (widget_class, PhoshOsdWindow, bar);
+  gtk_widget_class_bind_template_child (widget_class, PhoshOsdWindow, box);
   gtk_widget_class_bind_template_child (widget_class, PhoshOsdWindow, click_gesture);
   gtk_widget_class_bind_template_callback (widget_class, on_button_released);
 

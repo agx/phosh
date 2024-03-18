@@ -4,7 +4,6 @@
   <template class="PhoshOsdWindow" parent="PhoshSystemModal">
     <child>
       <object class="GtkGrid">
-        <property name="width-request">120</property>
         <property name="visible">True</property>
         <property name="halign">center</property>
         <property name="margin-top">32</property>
@@ -24,9 +23,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkBox">
-                <property name="width-request">160</property>
-                <property name="visible">True</property>
+              <object class="GtkBox" id="box">
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="orientation">vertical</property>
@@ -43,6 +40,7 @@
                 </child>
                 <child>
                   <object class="GtkLevelBar" id="bar">
+                    <property name="width-request">160</property>
                     <property name="visible">True</property>
                     <property name="min-value">0.0</property>
                   </object>
