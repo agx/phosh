@@ -88,8 +88,7 @@ output_handle_done (void             *data,
 
   self->wl_output_done = TRUE;
 
-  if (phosh_monitor_is_configured (self))
-    g_signal_emit (self, signals[SIGNAL_CONFIGURED], 0);
+  g_signal_emit (self, signals[SIGNAL_CONFIGURED], 0);
 }
 
 
@@ -159,7 +158,7 @@ xdg_output_v1_handle_logical_position (void *data,
   PhoshMonitor *self = PHOSH_MONITOR (data);
 
   g_return_if_fail (PHOSH_IS_MONITOR (self));
-  self->xdg_output_done = FALSE;
+  self->wl_output_done = FALSE;
   g_debug ("Monitor %p: Logical pos: %d,%d", self, x, y);
   self->logical.x = x;
   self->logical.y = y;
@@ -175,7 +174,7 @@ xdg_output_v1_handle_logical_size (void *data,
   PhoshMonitor *self = PHOSH_MONITOR (data);
 
   g_return_if_fail (PHOSH_IS_MONITOR (self));
-  self->xdg_output_done = FALSE;
+  self->wl_output_done = FALSE;
   g_debug ("Monitor %p: Logical size: %dx%d", self, width, height);
   self->logical.width = width;
   self->logical.height = height;
@@ -186,15 +185,7 @@ static void
 xdg_output_v1_handle_done (void *data,
                            struct zxdg_output_v1 *zxdg_output_v1)
 {
-  PhoshMonitor *self = PHOSH_MONITOR (data);
-
-  if (phosh_monitor_is_configured (self))
-    return;
-
-  self->xdg_output_done = TRUE;
-
-  if (phosh_monitor_is_configured (self))
-    g_signal_emit (self, signals[SIGNAL_CONFIGURED], 0);
+  /* Nothing to be done */
 }
 
 
@@ -207,7 +198,7 @@ xdg_output_v1_handle_name (void *data,
   /* wlroots uses the connector's name as xdg_output name */
   g_debug("Monitor %p: Connector name is %s", self, name);
 
-  self->xdg_output_done = FALSE;
+  self->wl_output_done = FALSE;
   self->name = g_strdup (name);
 
   /* wlroots uses the connector's name as output name so
@@ -498,7 +489,7 @@ gboolean
 phosh_monitor_is_configured (PhoshMonitor *self)
 {
   g_return_val_if_fail (PHOSH_IS_MONITOR (self), FALSE);
-  return self->wl_output_done && self->xdg_output_done;
+  return self->wl_output_done;
 }
 
 
