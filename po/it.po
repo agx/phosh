@@ -1,18 +1,16 @@
 # Italian translation for phosh
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
-# Ant Pandolfo <ant.pandolfo@gmail.com>, 2018.
-# antpanlinux <ant.pandolfo@gmail.com>, 2019. #zanata-2023.
-# Vittorio Monti <gitlapur.a8tut@aleeas.com>, 2020-2024.
+# Vittorio Monti <gitlapur.a8tut@aleeas.com>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-06 08:44+0000\n"
-"PO-Revision-Date: 2024-02-06 14:42+0100\n"
+"POT-Creation-Date: 2024-03-13 16:31+0000\n"
+"PO-Revision-Date: 2024-03-21 18:54+0100\n"
 "Last-Translator: Vittorio Monti <gitlapur.a8tut@aleeas.com>\n"
-"Language-Team: Italian <>\n"
+"Language-Team: Italian <international-italian@discourse.gnome.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,26 +29,53 @@ msgstr "Interfaccia per telefono"
 
 #: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
-msgstr "Gestore di finestre e avviatore di applicazioni per cellulare"
+msgstr "Gestore di finestre e lanciatore di applicazioni per cellulare"
 
 #: data/wayland-sessions/phosh.desktop:5
 msgid "This session logs you into Phosh"
 msgstr "Questa sessione permette l'accesso a Phosh"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Opzioni per Caffeina"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "Evita che la sessione diventi inattiva"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
-msgstr "Calendar"
+msgstr "Calendario"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Un calendario in miniatura"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "Info emergenza"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "Mostra le informazioni di emergenza e i contatti"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Box lanciatore"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Aggiunge lanciatori sulla schermata di blocco. <b>Questo plugin è "
+"sperimentale.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
 msgstr "Biglietteria"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Mostra i PDF sulla schermata di blocco. <b>Questo plugin è sperimentale.</b>"
@@ -59,7 +84,7 @@ msgstr ""
 msgid "Upcoming Events"
 msgstr "Prossimi eventi"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "Mostra i prossimi eventi del calendario"
 
@@ -183,7 +208,7 @@ msgstr "No"
 msgid "Enter Passcode"
 msgstr "Inserire la password"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:401
 msgid "Checking…"
 msgstr "Sto controllando…"
 
@@ -269,25 +294,25 @@ msgstr "m"
 #: src/notifications/timestamp-label.c:90
 msgctxt "timestamp-suffix-hour"
 msgid "h"
-msgstr "o"
+msgstr "h"
 
 #. Translators: Timestamp hours suffix
 #: src/notifications/timestamp-label.c:92
 msgctxt "timestamp-suffix-hours"
 msgid "h"
-msgstr "o"
+msgstr "h"
 
 #. Translators: Timestamp day suffix
 #: src/notifications/timestamp-label.c:94
 msgctxt "timestamp-suffix-day"
 msgid "d"
-msgstr "g"
+msgstr "d"
 
 #. Translators: Timestamp days suffix
 #: src/notifications/timestamp-label.c:96
 msgctxt "timestamp-suffix-days"
 msgid "d"
-msgstr "g"
+msgstr "d"
 
 #. Translators: Timestamp month suffix
 #: src/notifications/timestamp-label.c:98
@@ -347,7 +372,7 @@ msgstr "Password:"
 
 #: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
-msgstr "Non ha funzionato. Per favore riprova."
+msgstr "Non ha funzionato. Riprovare."
 
 #: src/rotateinfo.c:102
 msgid "Portrait"
@@ -360,12 +385,12 @@ msgstr "Orizzontale"
 #: src/rotateinfo.c:125 src/rotateinfo.c:230
 msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
-msgstr "Inattiva"
+msgstr "Inattivo"
 
 #: src/rotateinfo.c:126
 msgctxt "automatic-screen-rotation-enabled"
 msgid "On"
-msgstr "Attiva"
+msgstr "Attivo"
 
 #: src/run-command-dialog.c:129
 msgid "Press ESC to close"
@@ -416,7 +441,7 @@ msgstr "Aggiungi ai _Preferiti"
 
 #: src/ui/app-grid-button.ui:89
 msgid "View _Details"
-msgstr "Visualizza _Dettagli"
+msgstr "Visualizza _dettagli"
 
 #: src/ui/app-grid.ui:21
 msgid "Search apps…"
@@ -426,17 +451,17 @@ msgstr "Ricerca app…"
 msgid "Output Devices"
 msgstr "Dispositivi di uscita"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "Dispositivi di ingresso"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Opzioni suono"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
-msgstr "Chiudi la finestra di dialogo per la chiamata di emergenza"
+msgstr "Chiudere la finestra della chiamata di emergenza"
 
 #: src/ui/emergency-menu.ui:52
 msgid "Emergency _Contacts"
@@ -448,7 +473,7 @@ msgstr "Vai alla pagina dei contatti di emergenza"
 
 #: src/ui/emergency-menu.ui:83
 msgid "Go back to the emergency dialpad page"
-msgstr "Torna alla pagina delle chiamate di emergenza"
+msgstr "Torna alla pagina della chiamata di emergenza"
 
 #: src/ui/emergency-menu.ui:106
 msgid "Owner unknown"
@@ -556,27 +581,27 @@ msgstr "_Sospendi…"
 msgid "_Log Out…"
 msgstr "_Termina sessione…"
 
-#: src/ui/wifi-status-page.ui:35
+#: src/ui/wifi-status-page.ui:32
 msgid "No Wi-Fi Device Found"
 msgstr "Nessun dispositivo Wi-Fi trovato"
 
-#: src/ui/wifi-status-page.ui:66
+#: src/ui/wifi-status-page.ui:60
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi disattivato"
 
-#: src/ui/wifi-status-page.ui:106
+#: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Hotspot Wi-Fi attivo"
 
-#: src/ui/wifi-status-page.ui:145
+#: src/ui/wifi-status-page.ui:133
 msgid "No Wi-Fi Hotspots Found"
 msgstr "Nessun Hotspot Wi-Fi trovato"
 
-#: src/ui/wifi-status-page.ui:156
+#: src/ui/wifi-status-page.ui:144
 msgid "Scan"
 msgstr "Cerca"
 
-#: src/ui/wifi-status-page.ui:188
+#: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Opzioni Wi-Fi"
 
@@ -599,7 +624,7 @@ msgstr "Plugin non trovato"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Impossibile caricare il plugin '%s'."
 
-#: src/wifiinfo.c:90
+#: src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
@@ -607,6 +632,19 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Cellulare"
+
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+msgid "Phosh on caffeine"
+msgstr "Phosh con Caffeina"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "On"
+msgstr "Attivo"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "Off"
+msgstr "Inattivo"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -670,7 +708,7 @@ msgstr "Altre informazioni"
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
 msgid "Emergency Info Preferences"
-msgstr "Preferenze per Emergenza"
+msgstr "Preferenze info emergenza"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
 msgid "Done"
@@ -708,17 +746,13 @@ msgstr "Relazione"
 msgid "Number"
 msgstr "Numero"
 
-#: plugins/launcher-box/launcher-box.ui:14
-msgid "Launcher Box"
-msgstr "Scatola di avvio"
-
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
-msgstr "Nessun avviatore configurato"
+msgstr "Nessun lanciatore configurato"
 
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
-msgstr "Avviatori"
+msgstr "Lanciatori"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
