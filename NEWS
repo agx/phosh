@@ -1,3 +1,10 @@
+phosh 0.37.1
+------------
+Released March 2024
+* Fix background scaling after rotation
+* Adjust session startup for gnome-session >= 46 which broke all
+  backwards compat by not accepting --systemd anymore.
+
 phosh 0.37.0
 ------------
 Released March 2024
