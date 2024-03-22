@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-07 20:33+0000\n"
-"PO-Revision-Date: 2024-02-08 17:37+0100\n"
+"POT-Creation-Date: 2024-03-12 16:52+0000\n"
+"PO-Revision-Date: 2024-03-19 21:14+0100\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -51,20 +51,47 @@ msgstr "Fensterverwaltung und Starten von Anwendungen für Mobilgeräte"
 msgid "This session logs you into Phosh"
 msgstr "Diese Sitzung meldet Sie in Phosh an"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Koffein-Schnelleinstellungen"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "Inaktivwerden der Sitzung verhindern"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Kalender"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Ein einfaches Kalender-Widget"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "Notfallinformationen"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "Notfallinformationen und -kontakte anzeigen"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Starterbox"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Starter zum Sperrbildschirm hinzufügen. <b>Diese Erweiterung ist "
+"experimentell.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
 msgstr "Ticketbox"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "PDFs auf dem Sperrbildschirm anzeigen. <b>Diese Erweiterung ist "
@@ -74,7 +101,7 @@ msgstr ""
 msgid "Upcoming Events"
 msgstr "Anstehende Termine"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "Anstehende Kalendertermine anzeigen"
 
@@ -198,7 +225,7 @@ msgstr "Nein"
 msgid "Enter Passcode"
 msgstr "Zugangscode eingeben"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:401
 msgid "Checking…"
 msgstr "Überprüfung läuft …"
 
@@ -443,11 +470,11 @@ msgstr "Anwendungen suchen …"
 msgid "Output Devices"
 msgstr "Ausgabegeräte"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "Eingabegeräte"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Klangeinstellungen"
 
@@ -573,28 +600,28 @@ msgstr "_Bereitschaft …"
 msgid "_Log Out…"
 msgstr "_Abmelden …"
 
-#: src/ui/wifi-status-page.ui:35
+#: src/ui/wifi-status-page.ui:32
 msgid "No Wi-Fi Device Found"
 msgstr "Kein WLAN-Gerät gefunden"
 
-#: src/ui/wifi-status-page.ui:66
+#: src/ui/wifi-status-page.ui:60
 msgid "Wi-Fi Disabled"
 msgstr "WLAN deaktiviert"
 
-#: src/ui/wifi-status-page.ui:106
+#: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "WLAN-Hotspot aktiv"
 
-#: src/ui/wifi-status-page.ui:145
+#: src/ui/wifi-status-page.ui:133
 msgid "No Wi-Fi Hotspots Found"
 msgstr "Keine WLAN-Hotspots gefunden"
 
 # Hier geht es um WLAN-Netze laut .po-Datei (wifi-status-page.ui). - jb
-#: src/ui/wifi-status-page.ui:156
+#: src/ui/wifi-status-page.ui:144
 msgid "Scan"
 msgstr "Suchen"
 
-#: src/ui/wifi-status-page.ui:188
+#: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "WLAN-Einstellungen"
 
@@ -625,6 +652,19 @@ msgstr "WLAN"
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Mobilfunk"
+
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+msgid "Phosh on caffeine"
+msgstr "Phosh auf Koffein"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "On"
+msgstr "An"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "Off"
+msgstr "Aus"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -726,10 +766,6 @@ msgstr "Beziehung"
 msgid "Number"
 msgstr "Nummer"
 
-#: plugins/launcher-box/launcher-box.ui:14
-msgid "Launcher Box"
-msgstr "Starterbox"
-
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
 msgstr "Keine Starter eingerichtet"
@@ -820,9 +856,6 @@ msgstr "Unbenannter Termin"
 
 #~ msgid "Unknown application"
 #~ msgstr "Unbekannte Anwendung"
-
-#~ msgid "Emergency"
-#~ msgstr "Notfall"
 
 #~ msgid "Lock Screen"
 #~ msgstr "Bildschirm sperren"
