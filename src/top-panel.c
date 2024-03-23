@@ -766,12 +766,27 @@ set_clock_position (PhoshTopPanel *self, PhoshLayoutManager *layout_manager)
   gtk_widget_set_margin_top (self->box_clock, top_margin);
 }
 
+
+static void
+set_margin (PhoshTopPanel *self, PhoshLayoutManager *layout_manager)
+{
+  guint shift;
+
+  shift = phosh_layout_manager_get_corner_shift (layout_manager);
+  g_debug ("Shifting UI elements %d pixels to center ", shift);
+
+  gtk_widget_set_margin_start (GTK_WIDGET (self->box_top_bar), shift);
+  gtk_widget_set_margin_end (GTK_WIDGET (self->box_top_bar), shift);
+}
+
+
 static void
 on_layout_changed (PhoshTopPanel *self, PhoshLayoutManager *layout_manager)
 {
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   g_return_if_fail (PHOSH_IS_LAYOUT_MANAGER (layout_manager));
 
+  set_margin (self, layout_manager);
   set_clock_position (self, layout_manager);
 }
 
