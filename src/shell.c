@@ -1803,18 +1803,18 @@ phosh_shell_get_usable_area (PhoshShell *self, int *x, int *y, int *width, int *
   case PHOSH_MONITOR_TRANSFORM_FLIPPED:
   case PHOSH_MONITOR_TRANSFORM_FLIPPED_180:
     w = mode->width / scale;
-    h = mode->height / scale - PHOSH_TOP_PANEL_HEIGHT - PHOSH_HOME_BAR_HEIGHT;
+    h = mode->height / scale - PHOSH_TOP_BAR_HEIGHT - PHOSH_HOME_BAR_HEIGHT;
     break;
   default:
     w = mode->height / scale;
-    h = mode->width / scale - PHOSH_TOP_PANEL_HEIGHT - PHOSH_HOME_BAR_HEIGHT;
+    h = mode->width / scale - PHOSH_TOP_BAR_HEIGHT - PHOSH_HOME_BAR_HEIGHT;
     break;
   }
 
   if (x)
     *x = 0;
   if (y)
-    *y = PHOSH_TOP_PANEL_HEIGHT;
+    *y = PHOSH_TOP_BAR_HEIGHT;
   if (width)
     *width = w;
   if (height)
@@ -1840,7 +1840,7 @@ phosh_shell_get_area (PhoshShell *self, int *width, int *height)
     *width = w;
 
   if (height)
-    *height = h + PHOSH_TOP_PANEL_HEIGHT + PHOSH_HOME_BAR_HEIGHT;
+    *height = h + PHOSH_TOP_BAR_HEIGHT + PHOSH_HOME_BAR_HEIGHT;
 }
 
 

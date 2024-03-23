@@ -12,7 +12,7 @@
 
 G_DECLARE_FINAL_TYPE (PhoshTopPanel, phosh_top_panel, PHOSH, TOP_PANEL, PhoshDragSurface)
 
-#define PHOSH_TOP_PANEL_HEIGHT 32
+#define PHOSH_TOP_BAR_HEIGHT 32
 
 /**
  * PhoshTopPanelState:

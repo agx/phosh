@@ -143,7 +143,7 @@ update_drag_handle (PhoshTopPanel *self, gboolean commit)
 
   /* By default only the bottom bar handle is draggable */
   handle = phosh_layer_surface_get_configured_height (PHOSH_LAYER_SURFACE (self));
-  handle -= PHOSH_TOP_PANEL_HEIGHT;
+  handle -= PHOSH_TOP_BAR_HEIGHT;
 
   /* Settings might enlarge the draggable area */
   offset = phosh_settings_get_drag_handle_offset (PHOSH_SETTINGS (self->settings));
@@ -441,7 +441,7 @@ phosh_top_panel_dragged (PhoshDragSurface *drag_surface, int margin)
   PhoshTopPanel *self = PHOSH_TOP_PANEL (drag_surface);
   int width, height;
   gtk_window_get_size (GTK_WINDOW (self), &width, &height);
-  phosh_arrow_set_progress (PHOSH_ARROW (self->arrow), -margin / (double)(height - PHOSH_TOP_PANEL_HEIGHT));
+  phosh_arrow_set_progress (PHOSH_ARROW (self->arrow), -margin / (double)(height - PHOSH_TOP_BAR_HEIGHT));
   g_debug ("Margin: %d", margin);
 }
 
@@ -624,7 +624,7 @@ phosh_top_panel_dispose (GObject *object)
 static int
 get_margin (gint height)
 {
-  return (-1 * height) + PHOSH_TOP_PANEL_HEIGHT;
+  return (-1 * height) + PHOSH_TOP_BAR_HEIGHT;
 }
 
 
@@ -807,7 +807,7 @@ phosh_top_panel_new (struct zwlr_layer_shell_v1          *layer_shell,
                        /* layer-surface */
                        "layer-shell", layer_shell,
                        "wl-output", monitor->wl_output,
-                       "height", PHOSH_TOP_PANEL_HEIGHT,
+                       "height", PHOSH_TOP_BAR_HEIGHT,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
                                  ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT,
@@ -816,7 +816,7 @@ phosh_top_panel_new (struct zwlr_layer_shell_v1          *layer_shell,
                        "namespace", "phosh top-panel",
                        /* drag-surface */
                        "layer-shell-effects", layer_shell_effects,
-                       "exclusive", PHOSH_TOP_PANEL_HEIGHT,
+                       "exclusive", PHOSH_TOP_BAR_HEIGHT,
                        "threshold", PHOSH_TOP_PANEL_DRAG_THRESHOLD,
                        NULL);
 }
