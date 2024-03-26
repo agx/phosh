@@ -320,20 +320,6 @@ filter_adaptive (PhoshAppGrid *self, GDesktopAppInfo *info)
 }
 
 
-static const char *(*app_attr[]) (GAppInfo *info) = {
-  g_app_info_get_display_name,
-  g_app_info_get_name,
-  g_app_info_get_description,
-  g_app_info_get_executable,
-};
-
-
-static const char *(*desktop_attr[]) (GDesktopAppInfo *info) = {
-  g_desktop_app_info_get_generic_name,
-  g_desktop_app_info_get_categories,
-};
-
-
 static gboolean
 search_apps (gpointer item, gpointer data)
 {
@@ -341,7 +327,6 @@ search_apps (gpointer item, gpointer data)
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GAppInfo *info = item;
   const char *search = NULL;
-  const char *str = NULL;
 
   g_return_val_if_fail (priv != NULL, TRUE);
   g_return_val_if_fail (priv->search != NULL, TRUE);
@@ -366,52 +351,7 @@ search_apps (gpointer item, gpointer data)
   if (PHOSH_IS_FOLDER_INFO (info))
     return phosh_folder_info_refilter (PHOSH_FOLDER_INFO (info), search);
 
-  for (int i = 0; i < G_N_ELEMENTS (app_attr); i++) {
-    g_autofree char *folded = NULL;
-
-    str = app_attr[i] (info);
-
-    if (STR_IS_NULL_OR_EMPTY (str))
-      continue;
-
-    folded = g_utf8_casefold (str, -1);
-
-    if (strstr (folded, search))
-      return TRUE;
-  }
-
-  if (G_IS_DESKTOP_APP_INFO (info)) {
-    const char * const *kwds;
-
-    for (int i = 0; i < G_N_ELEMENTS (desktop_attr); i++) {
-      g_autofree char *folded = NULL;
-
-      str = desktop_attr[i] (G_DESKTOP_APP_INFO (info));
-
-      if (STR_IS_NULL_OR_EMPTY (str))
-        continue;
-
-      folded = g_utf8_casefold (str, -1);
-
-      if (strstr (folded, search))
-        return TRUE;
-    }
-
-    kwds = g_desktop_app_info_get_keywords (G_DESKTOP_APP_INFO (info));
-
-    if (kwds) {
-      int i = 0;
-
-      while ((str = kwds[i])) {
-        g_autofree char *folded = g_utf8_casefold (str, -1);
-        if (strstr (folded, search))
-          return TRUE;
-        i++;
-      }
-    }
-  }
-
-  return FALSE;
+  return phosh_util_matches_app_info (info, search);
 }
 
 
