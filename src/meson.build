@@ -5,6 +5,20 @@ subdir('wwan')
 subdir('settings')
 subdir('gtk-list-models')
 
+phosh_enums_header_subdir = 'phosh'
+
+install_headers('phosh-settings-enums.h', subdir : phosh_enums_header_subdir)
+
+pkgconfig.generate(
+  requires : gsettings_desktop_schemas_dep,
+  subdirs : phosh_enums_header_subdir,
+  version : meson.project_version(),
+  install_dir : libdir / 'pkgconfig',
+  filebase : 'phosh-settings',
+  name : 'phosh-settings-schemas',
+  description : 'Shared gsettings schema and enum headers for Phosh',
+)
+
 phosh_resources = gnome.compile_resources(
   'phosh-resources',
   'phosh.gresources.xml',
