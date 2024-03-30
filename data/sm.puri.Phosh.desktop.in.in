@@ -11,5 +11,5 @@ X-GNOME-Autostart-Phase=DisplayServer
 X-GNOME-Provides=panel;windowmanager;
 X-GNOME-Autostart-Notify=true
 X-GNOME-AutoRestart=true
+X-GNOME-HiddenUnderSystemd=true
 X-Phosh-UsesFeedback=true
-@hidden_under_systemd@
