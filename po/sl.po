@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-11-27 10:12+0000\n"
-"PO-Revision-Date: 2024-01-09 22:18+0100\n"
+"POT-Creation-Date: 2024-03-12 16:52+0000\n"
+"PO-Revision-Date: 2024-03-30 22:08+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -37,21 +37,46 @@ msgstr "Upravljanje oken in zagon programja za mobilnike"
 msgid "This session logs you into Phosh"
 msgstr "Ta seja vas prijavi v Phosh"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Hitra nastavitev za Caffeine"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "Prepreči, da bi seja ostala nedejavna"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Koledar"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Preprost programček za koledar"
 
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "Podatki za primere v sili"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "Pokaži informacije za nujne primere in stike"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Škatla zaganjalnikov"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Na zaklenjeni zaslon dodajte zaganjalnike. <b>Ta vstavek je poskusen.</b>"
+
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
-#, fuzzy
 msgid "Ticket Box"
 msgstr "Škatla z vstopnicami"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr "Pokaži PDF-je na zaklenjenem zaslonu. <b>Ta vstavek je poskusen.</b>"
 
@@ -59,7 +84,7 @@ msgstr "Pokaži PDF-je na zaklenjenem zaslonu. <b>Ta vstavek je poskusen.</b>"
 msgid "Upcoming Events"
 msgstr "Prihodnji dogodki"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "Pokaži prihodnje dogodke koledarja"
 
@@ -189,7 +214,7 @@ msgstr "Ne"
 msgid "Enter Passcode"
 msgstr "Vnesite geslo"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:401
 msgid "Checking…"
 msgstr "Preverjanje …"
 
@@ -237,12 +262,12 @@ msgstr "Neznano"
 
 #: src/network-auth-prompt.c:202
 #, c-format
-msgid "Authentication type of wifi network “%s” not supported"
-msgstr "Vrsta preverjanja pristnosti omrežja wifi »%s« ni podprta"
+msgid "Authentication type of Wi-Fi network “%s” not supported"
+msgstr "Vrsta preverjanja pristnosti omrežja Wi-Fi »%s« ni podprta"
 
 #: src/network-auth-prompt.c:207
 #, c-format
-msgid "Enter password for the wifi network “%s”"
+msgid "Enter password for the Wi-Fi network “%s”"
 msgstr "Vnesite geslo za WiFi-omrežje »%s«"
 
 #: src/notifications/mount-notification.c:121
@@ -404,7 +429,7 @@ msgstr "Pomni odločitev"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -432,11 +457,11 @@ msgstr "Poišči program …"
 msgid "Output Devices"
 msgstr "Izhodne naprave"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "Vhodne naprave"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Nastavitve zvoka"
 
@@ -461,7 +486,7 @@ msgid "Owner unknown"
 msgstr "Lastnik neznan"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
 msgid "Emergency Contacts"
 msgstr "Stiki v sili"
 
@@ -534,11 +559,11 @@ msgstr "_Klic v sili"
 msgid "Run Command"
 msgstr "Zaženi ukaz"
 
-#: src/ui/settings.ui:296
+#: src/ui/settings.ui:327
 msgid "No notifications"
 msgstr "Ni obvestil"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "Počisti vse"
 
@@ -562,9 +587,33 @@ msgstr "_V stanje pripravljenosti …"
 msgid "_Log Out…"
 msgstr "_Odjavi …"
 
+#: src/ui/wifi-status-page.ui:32
+msgid "No Wi-Fi Device Found"
+msgstr "Naprave Wi-Fi ni bilo mogoče najti"
+
+#: src/ui/wifi-status-page.ui:60
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi je onemogočen"
+
+#: src/ui/wifi-status-page.ui:97
+msgid "Wi-Fi Hotspot Active"
+msgstr "Dejavna vroča točka Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:133
+msgid "No Wi-Fi Hotspots Found"
+msgstr "Dostopnih točk Wi-Fi ni bilo mogoče najti"
+
+#: src/ui/wifi-status-page.ui:144
+msgid "Scan"
+msgstr "Preglej"
+
+#: src/ui/wifi-status-page.ui:176
+msgid "Wi-Fi Settings"
+msgstr "Nastavitve za Wi-Fi"
+
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:343
+#: src/util.c:342
 msgid "%A, %B %-e"
 msgstr "%A, %e. %B"
 
@@ -581,7 +630,7 @@ msgstr "Vtičnik ni najden"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Vtičnika »%s« ni mogoče naložiti."
 
-#: src/wifiinfo.c:90
+#: src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
@@ -589,6 +638,19 @@ msgstr "Wi-Fi"
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Mobilno"
+
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+msgid "Phosh on caffeine"
+msgstr "Phosh na Caffeinu"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "On"
+msgstr "Vključeno"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "Off"
+msgstr "Izključeno"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -611,32 +673,32 @@ msgid "Home Address"
 msgstr "Domači naslov"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
 msgid "Medical Information"
 msgstr "Zdravstveni podatki"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
 msgid "Age"
 msgstr "Starost"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
 msgid "Blood Type"
 msgstr "Krvna skupina"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
 msgid "Height"
 msgstr "Višina"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Weight"
 msgstr "Teža"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
 msgid "Allergies"
 msgstr "Alergije"
 
@@ -645,7 +707,7 @@ msgid "Medications & Conditions"
 msgstr "Zdravila in bolezni"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
 msgid "Other Information"
 msgstr "Druge informacije"
 
@@ -662,38 +724,33 @@ msgstr "Opravljeno"
 msgid "Owner Name"
 msgstr "Ime lastnika"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
 msgid "Medications and Conditions"
 msgstr "Zdravila in bolezni"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
 msgid "Add Contact"
 msgstr "Dodaj stik"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
 msgid "Add New Contact"
 msgstr "Dodaj nov stik"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
 msgid "Add"
 msgstr "Dodaj"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "New Contact Name"
 msgstr "Ime novega stika"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
 msgid "Relationship"
 msgstr "Relacija"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
 msgid "Number"
 msgstr "Številka"
-
-#: plugins/launcher-box/launcher-box.ui:14
-#, fuzzy
-msgid "Launcher Box"
-msgstr "Škatla zaganjalnikov"
 
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
@@ -720,7 +777,6 @@ msgid "_Open"
 msgstr "_Odpri"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
-#, fuzzy
 msgid "Ticket Box Preferences"
 msgstr "Nastavitve škatle z vstopnicami"
 
@@ -782,6 +838,6 @@ msgstr "Ves dan"
 msgid "Ends"
 msgstr "Konča se"
 
-#: plugins/upcoming-events/upcoming-event.c:398
+#: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Neimenovan dogodek"
