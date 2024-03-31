@@ -50,8 +50,18 @@ if [ -f "$HOME/.phoshdebug" ]; then
   . "$HOME/.phoshdebug"
 fi
 
+SESSION_MANAGER=
+# old gnome-session: Pass --builtin or --systemd
+if gnome-session --help | grep -qs '\-\-builtin'; then
+  SESSION_MANAGER=@session_manager@
+# gnome-session >= 46 doesn't support builtin
+elif [ "@session_manager@" = "--builtin" ]; then
+  echo "ERR: gnome-session only supports systemd, session cannot start" 1>&2
+  exit 1
+fi
+
 # Run gnome-session through a login shell so it picks
 # variables from /etc/profile.d (XDG_*)
 [ -n "$WLR_BACKENDS" ] || WLR_BACKENDS=drm,libinput
 export WLR_BACKENDS
-exec "${COMPOSITOR}" -S -C "${PHOC_INI}" -E "bash -lc 'exec ${GNOME_SESSION} --disable-acceleration-check --session=phosh @session_manager@'"
+exec "${COMPOSITOR}" -S -C "${PHOC_INI}" -E "bash -lc 'exec ${GNOME_SESSION} --disable-acceleration-check --session=phosh ${SESSION_MANAGER}'"
