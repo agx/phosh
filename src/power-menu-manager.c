@@ -24,7 +24,6 @@ typedef struct _PhoshPowerMenuManager {
   GObject                parent;
 
   PhoshPowerMenu        *dialog;
-  GSettings             *settings;
 
   GSimpleActionGroup    *menu_actions;
 } PhoshPowerMenuManager;
@@ -154,7 +153,6 @@ phosh_power_menu_manager_finalize (GObject *object)
 
   g_clear_object (&self->menu_actions);
   g_clear_pointer (&self->dialog, phosh_cp_widget_destroy);
-  g_clear_object (&self->settings);
 
   G_OBJECT_CLASS (phosh_power_menu_manager_parent_class)->finalize (object);
 }
