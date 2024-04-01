@@ -4,6 +4,8 @@ Released March 2024
 * Fix background scaling after rotation
 * Adjust session startup for gnome-session >= 46 which broke all
   backwards compat by not accepting --systemd anymore.
+* Contributors:
+    * Guido Günther
 
 phosh 0.37.0
 ------------
