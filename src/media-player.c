@@ -301,6 +301,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
   char *url = NULL;
   g_auto (GStrv) artist = NULL;
   g_auto (GVariantDict) dict = G_VARIANT_DICT_INIT (NULL);
+  gboolean has_art = FALSE;
 
   g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (self));
   g_debug ("Updating metadata");
@@ -334,7 +335,21 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     g_autoptr (GFile) file = g_file_new_for_uri (url);
     icon = g_file_icon_new (file);
     g_object_set (self->img_art, "gicon", icon, NULL);
-  } else {
+    has_art = TRUE;
+  } else if (url && g_strcmp0 (g_uri_peek_scheme (url), "data") == 0) {
+    g_autoptr (GdkPixbuf) pixbuf = NULL;
+    g_autoptr (GError) error = NULL;
+
+    pixbuf = phosh_util_data_uri_to_pixbuf (url, &error);
+    if (pixbuf) {
+      g_object_set (self->img_art, "gicon", pixbuf, NULL);
+      has_art = TRUE;
+    } else {
+      g_warning_once ("Failed to load album art from base64 string: %s", error->message);
+    }
+  }
+
+  if (!has_art) {
     g_object_set (self->img_art, "icon-name", "audio-x-generic-symbolic", NULL);
   }
 }
