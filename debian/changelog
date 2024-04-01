@@ -1,3 +1,25 @@
+phosh (0.37.1) experimental; urgency=medium
+
+  * background: Use getters.
+    Easier to read and avoids g_object_get() round trip
+    (cherry picked from commit a43767158b9ee4c5a8190bd75f35674057f925f1)
+  * background-manager: Refresh the background on monitor configuration changes.
+    Otherwise we keep using the old pixmap which likely doesn't fit the
+    current scale or screen orientation.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1035
+    (cherry picked from commit ba43d796764c1e56873c045d45508bd5bf2ca1d5)
+  * background: Exit early if layer surface isn't fully configured yet.
+    We can't query width or height if configuration isn't done.
+    (cherry picked from commit 8c2b2adb1276f64f5f9cf4fded5dc215d4e85da9)
+  * session: Only append session manager if supported by gnome-session
+    gnome-session dropped support for --builtin and --systemd. So don't
+    append that argument if it doesn't show up in gnome-session's help
+    output.
+  * build: Use systemd session manager by default
+    gnome-session dropped support for the builtin manager in 46.
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 21 Mar 2024 15:08:39 +0100
+
 phosh (0.37.0) experimental; urgency=medium
 
   [ Arun Mani J ]

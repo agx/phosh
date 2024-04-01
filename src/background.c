@@ -274,12 +274,19 @@ update_image (PhoshBackground *self)
 {
   int width, height;
 
-  if (self->primary)
-    phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
-  else
-    g_object_get (self, "configured-width", &width, "configured-height", &height, NULL);
+  if (!self->configured)
+    return;
 
-  g_debug ("Scaling %p to %dx%d", self, width, height);
+  if (self->primary) {
+    phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
+  } else {
+    width = phosh_layer_surface_get_configured_width (PHOSH_LAYER_SURFACE (self));
+    height = phosh_layer_surface_get_configured_height (PHOSH_LAYER_SURFACE (self));
+  }
+
+  g_return_if_fail (width > 0 && height > 0);
+
+  g_debug ("Scaling background %p to %dx%d", self, width, height);
 
   g_clear_object (&self->pixbuf);
   self->pixbuf = image_background (self->cached_bg_image, width, height,

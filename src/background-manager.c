@@ -234,6 +234,7 @@ on_monitor_configured (PhoshBackgroundManager *self, PhoshMonitor *monitor)
   float scale;
 
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+
   scale = phosh_monitor_get_fractional_scale (monitor);
   g_debug ("Monitor %p (%s) configured, scale %f", monitor, monitor->name, scale);
 
@@ -241,6 +242,8 @@ on_monitor_configured (PhoshBackgroundManager *self, PhoshMonitor *monitor)
   if (background == NULL) {
     background = create_background_for_monitor (self, monitor);
     g_hash_table_insert (self->backgrounds, g_object_ref (monitor), background);
+  } else {
+    phosh_background_needs_update (background);
   }
 
   gtk_widget_show (GTK_WIDGET (background));
@@ -414,9 +417,8 @@ phosh_background_manager_get_backgrounds (PhoshBackgroundManager *self)
  * phosh_background_manager_get_data:
  * @self: The background manager
  * @background: The background to fetch information fore
- * @scale: The scale to use
  *
- * Get the data to that allows a [type@Background] to build it's
+ * Get the data that allows a [type@Background] to build it's
  * image. This is the single place that determines this so other parts
  * don't need to care whether we handle a slide or a single image.
  *
