@@ -15,6 +15,8 @@ launcher_box_plugin_sources = files(
   'phosh-plugin-launcher-box.c',
   'launcher-box.c',
   'launcher-box.h',
+  'launcher-item.c',
+  'launcher-item.h',
   'launcher-row.c',
   'launcher-row.h',
 )

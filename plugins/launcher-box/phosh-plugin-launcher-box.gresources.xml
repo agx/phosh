@@ -2,6 +2,7 @@
 <gresources>
   <gresource prefix="/mobi/phosh/plugins/launcher-box/">
     <file preprocess="xml-stripblanks">launcher-box.ui</file>
+    <file preprocess="xml-stripblanks">launcher-row.ui</file>
     <file compressed="true">stylesheet/common.css</file>
   </gresource>
 </gresources>

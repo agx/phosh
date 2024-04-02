@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Guido Günther
+ * Copyright (C) 2023-2024 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -7,7 +7,11 @@
  */
 
 #include "launcher-box.h"
+#include "launcher-item.h"
 #include "launcher-row.h"
+
+#include "plugin-shell.h"
+#include "launcher-entry-manager.h"
 
 #include <gio/gdesktopappinfo.h>
 
@@ -19,8 +23,7 @@
 /**
  * PhoshLauncherBox:
  *
- * Show launchers in a folder. For now we do PDF but
- * should add PNG and pass.
+ * Show launchers in a folder.
  */
 struct _PhoshLauncherBox {
   GtkBox        parent;
@@ -43,13 +46,15 @@ on_row_selected (PhoshLauncherBox *self,
                  GtkListBox       *box)
 {
   g_autoptr (GError) err = NULL;
+  PhoshLauncherItem *item;
   GDesktopAppInfo *app_info;
   GdkAppLaunchContext *context;
 
   if (row == NULL)
     return;
 
-  app_info = phosh_launcher_row_get_app_info (PHOSH_LAUNCHER_ROW (row));
+  item = phosh_launcher_row_get_item (PHOSH_LAUNCHER_ROW (row));
+  app_info = phosh_launcher_item_get_app_info (item);
   g_debug ("row selected: %s", g_app_info_get_display_name (G_APP_INFO (app_info)));
 
   context = gdk_display_get_app_launch_context (gtk_widget_get_display (GTK_WIDGET (self)));
@@ -107,15 +112,17 @@ phosh_launcher_box_class_init (PhoshLauncherBoxClass *klass)
 static GtkWidget *
 create_launcher_row (gpointer item, gpointer user_data)
 {
-  return phosh_launcher_row_new (G_DESKTOP_APP_INFO (item));
+  return phosh_launcher_row_new (PHOSH_LAUNCHER_ITEM (item));
 }
 
 
 static gint
-app_info_compare (gconstpointer a, gconstpointer b, gpointer user_data)
+launcher_item_compare (gconstpointer a, gconstpointer b, gpointer user_data)
 {
-  const char * f_a =  g_desktop_app_info_get_filename (G_DESKTOP_APP_INFO (a));
-  const char * f_b =  g_desktop_app_info_get_filename (G_DESKTOP_APP_INFO (b));
+  GDesktopAppInfo *info_a = phosh_launcher_item_get_app_info ((gpointer)a);
+  GDesktopAppInfo *info_b = phosh_launcher_item_get_app_info ((gpointer)b);
+  const char *f_a =  g_desktop_app_info_get_filename (info_a);
+  const char *f_b =  g_desktop_app_info_get_filename (info_b);
 
   return g_strcmp0 (f_a, f_b);
 }
@@ -141,6 +148,7 @@ on_file_child_enumerated (GObject *source_object, GAsyncResult *res, gpointer us
   while (TRUE) {
     g_autoptr (GDesktopAppInfo) app_info = NULL;
     g_autofree char *path = NULL;
+    g_autoptr (PhoshLauncherItem) item = NULL;
     GFile *file;
     GFileInfo *info;
 
@@ -163,7 +171,9 @@ on_file_child_enumerated (GObject *source_object, GAsyncResult *res, gpointer us
     if (!app_info)
       continue;
 
-    g_list_store_insert_sorted (self->model, app_info, app_info_compare, NULL);
+    item = phosh_launcher_item_new (app_info);
+
+    g_list_store_insert_sorted (self->model, item, launcher_item_compare, NULL);
   }
 
   if (g_list_model_get_n_items (G_LIST_MODEL (self->model)) == 0)
@@ -207,20 +217,68 @@ load_launchers (PhoshLauncherBox *self)
 
 
 static void
+update_item (PhoshLauncherItem *item, GVariant *properties)
+{
+  double progress;
+  gint64 count;
+  gboolean visible;
+
+  if (g_variant_lookup (properties, "progress", "d", &progress))
+    phosh_launcher_item_set_progress (item, progress);
+
+  if (g_variant_lookup (properties, "progress-visible", "b", &visible))
+    phosh_launcher_item_set_progress_visible (item, visible);
+
+  if (g_variant_lookup (properties, "count", "x", &count))
+    phosh_launcher_item_set_count (item, count);
+
+  if (g_variant_lookup (properties, "count-visible", "b", &visible))
+    phosh_launcher_item_set_count_visible (item, visible);
+}
+
+
+static void
+on_launcher_info_updated (PhoshLauncherBox *self, char *desktop_file, GVariant *properties)
+{
+  g_return_if_fail (PHOSH_IS_LAUNCHER_BOX (self));
+
+  g_debug ("Received info for '%s'", desktop_file);
+
+  for (int i = 0; i < g_list_model_get_n_items (G_LIST_MODEL (self->model)); i++) {
+    g_autoptr (PhoshLauncherItem) item = NULL;
+    GDesktopAppInfo *info;
+    const char *app_id;
+
+    item = g_list_model_get_item (G_LIST_MODEL (self->model), i);
+    info = phosh_launcher_item_get_app_info (item);
+
+    app_id = g_app_info_get_id (G_APP_INFO (info));
+    if (g_strcmp0 (app_id, desktop_file) == 0) {
+      g_debug ("Update info for '%s'", desktop_file);
+      update_item (item, properties);
+      break;
+    }
+  }
+}
+
+
+static void
 phosh_launcher_box_init (PhoshLauncherBox *self)
 {
   g_autoptr (GtkCssProvider) css_provider = NULL;
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshLauncherEntryManager *launcher_entry_manager;
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  self->model = g_list_store_new (G_TYPE_DESKTOP_APP_INFO);
+  self->model = g_list_store_new (PHOSH_TYPE_LAUNCHER_ITEM);
 
   css_provider = gtk_css_provider_new ();
   gtk_css_provider_load_from_resource (css_provider,
                                        "/mobi/phosh/plugins/launcher-box/stylesheet/common.css");
-  gtk_style_context_add_provider (gtk_widget_get_style_context (GTK_WIDGET (self)),
-                                  GTK_STYLE_PROVIDER (css_provider),
-                                  GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
+                                             GTK_STYLE_PROVIDER (css_provider),
+                                             GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
   gtk_list_box_bind_model (self->lb_launchers,
                            G_LIST_MODEL (self->model),
@@ -234,4 +292,11 @@ phosh_launcher_box_init (PhoshLauncherBox *self)
                             self);
 
   load_launchers (self);
+
+  launcher_entry_manager = phosh_shell_get_launcher_entry_manager (shell);
+  g_signal_connect_object (launcher_entry_manager,
+                           "info-updated",
+                           G_CALLBACK (on_launcher_info_updated),
+                           self,
+                           G_CONNECT_SWAPPED);
 }

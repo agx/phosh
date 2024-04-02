@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Guido Günther
+ * Copyright (C) 2023 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *

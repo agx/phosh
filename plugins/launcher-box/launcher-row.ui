@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <template class="PhoshLauncherRow" parent="HdyActionRow">
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="spacing">6</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="orientation">vertical</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
+        <property name="valign">center</property>
+        <child>
+          <object class="GtkLabel" id="count_label">
+            <property name="halign">center</property>
+            <style>
+              <class name="p-launcher-row-count"/>
+            </style>
+            <attributes>
+              <attribute name="font-features" value="tnum=1"/>
+            </attributes>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLevelBar" id="progress_bar">
+            <property name="min-value">0.0</property>
+            <property name="max-value">1.0</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

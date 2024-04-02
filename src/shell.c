@@ -44,6 +44,7 @@
 #include "home.h"
 #include "idle-manager.h"
 #include "keyboard-events.h"
+#include "launcher-entry-manager.h"
 #include "location-info.h"
 #include "layout-manager.h"
 #include "location-manager.h"
@@ -166,6 +167,7 @@ typedef struct
   PhoshEmergencyCallsManager *emergency_calls_manager;
   PhoshPowerMenuManager *power_menu_manager;
   PhoshLayoutManager *layout_manager;
+  PhoshLauncherEntryManager *launcher_entry_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -519,6 +521,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->notification_banner);
 
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->launcher_entry_manager);
   g_clear_object (&priv->power_menu_manager);
   g_clear_object (&priv->emergency_calls_manager);
   g_clear_object (&priv->portal_access_manager);
@@ -998,6 +1001,8 @@ phosh_shell_constructed (GObject *object)
                                     "/sm/puri/phosh/icons");
 
   priv->calls_manager = phosh_calls_manager_new ();
+  priv->launcher_entry_manager = phosh_launcher_entry_manager_new ();
+
   priv->lockscreen_manager = phosh_lockscreen_manager_new (priv->calls_manager);
   g_object_bind_property (priv->lockscreen_manager, "locked",
                           self, "locked",
@@ -1452,6 +1457,19 @@ phosh_shell_get_gtk_mount_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_GTK_MOUNT_MANAGER (priv->gtk_mount_manager), NULL);
 
   return priv->gtk_mount_manager;
+}
+
+
+PhoshLauncherEntryManager *
+phosh_shell_get_launcher_entry_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_LAUNCHER_ENTRY_MANAGER (priv->launcher_entry_manager), NULL);
+  return priv->launcher_entry_manager;
 }
 
 

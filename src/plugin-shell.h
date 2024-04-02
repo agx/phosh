@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include "launcher-entry-manager.h"
 #include "session-manager.h"
 
 G_BEGIN_DECLS
@@ -19,6 +20,8 @@ G_DECLARE_FINAL_TYPE (PhoshShell, phosh_shell, PHOSH, SHELL, GObject)
 PhoshShell             *phosh_shell_get_default (void);
 
 /* Created by the shell on startup */
-PhoshSessionManager    *phosh_shell_get_session_manager (PhoshShell *self);
+PhoshLauncherEntryManager *phosh_shell_get_launcher_entry_manager (PhoshShell *self);
+PhoshSessionManager       *phosh_shell_get_session_manager (PhoshShell *self);
+
 
 G_END_DECLS

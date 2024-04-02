@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "launcher-item.h"
+
 #include <gtk/gtk.h>
 #include <handy.h>
 
@@ -17,7 +19,7 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (PhoshLauncherRow, phosh_launcher_row, PHOSH, LAUNCHER_ROW, HdyActionRow)
 
-GtkWidget       *phosh_launcher_row_new         (GDesktopAppInfo *app_info);
-GDesktopAppInfo *phosh_launcher_row_get_app_info (PhoshLauncherRow *self);
+GtkWidget         *phosh_launcher_row_new      (PhoshLauncherItem *item);
+PhoshLauncherItem *phosh_launcher_row_get_item (PhoshLauncherRow *self);
 
 G_END_DECLS

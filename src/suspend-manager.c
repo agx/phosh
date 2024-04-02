@@ -105,7 +105,7 @@ on_logind_manager_proxy_new_for_bus_finish (GObject             *source_object,
 
   proxy = phosh_dbus_login_manager_proxy_new_for_bus_finish (res, &err);
   if (proxy == NULL) {
-    phosh_dbus_service_error_warn (err, "Failed to get login1 manager proxy: %s", err->message);
+    phosh_dbus_service_error_warn (err, "Failed to get login1 manager proxy");
     return;
   }
 
