@@ -1,3 +1,33 @@
+phosh 0.38.0
+------------
+Released April 2024
+* Allow launcher entries to display count and progress
+* Better handle devices with rounded corners
+* Handle data: URIs in the media-player
+* OSD improvements in case there's no level
+* Fix some background scaling related issued introdueced in 0.37.0
+* Fix session startup with gnome-session 46
+* Issues fixed:
+  * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1035
+* Contributors:
+    * Daniel Rusek
+    * Guido Günther
+    * Jesús Higueras
+* UI translations:
+    * Anders Jonsson (sv)
+    * Artur S0 (ru)
+    * Danial Behzadi (fa)
+    * Daniel Rusek (cs)
+    * Daniel Șerbănescu (ro)
+    * Ekaterine Papava (ka)
+    * Jiri Grönroos (fi)
+    * Jordi Mas i Hernandez (ca)
+    * Jürgen Benvenuti (de)
+    * Martin (sl)
+    * Sabri Ünal (tr)
+    * Vittorio Monti (it)
+    * Yuri Chornoivan (uk)
+
 phosh 0.37.0
 ------------
 Released March 2024

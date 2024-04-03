@@ -1,3 +1,130 @@
+phosh (0.38.0) experimental; urgency=medium
+
+
+  [ Guido Günther ]
+  * ci: Use consistent image version
+  * build: Update base image version in Dockerfile
+  * ci: Update images
+  * osd-window: Use G_PARAM_STATIC_STRINGS.
+    Fixes: 12983abe1 ("Add PhoshOsdWindow")
+  * osd-window: Hide level bar when level is < 0.0.
+    There's osd messages that don't need a bar (e.g. "Not available")
+  * shell-manager: Check if we got a level
+  * ui: Move width request to level-bar.
+    If we just have an icon we don't want to allocate the
+    space for the level bar.
+  * osd: Only show box if one of it's elements is present.
+    This makes sure the icon centers properly if only an icon is shown.
+  * osd-window: Use a larger icon when it's the only OSD element.
+    Otherwise it can be hard to spot.
+  * monitor: Only use wl_output_done.
+    Since xdg-output version 3 this is possible.
+    See wayland-protocols 962dd535372c8e4681374c23d2603cbe06cd7031
+  * background: Use getters.
+    Easier to read and avoids g_object_get() round trip
+  * background-manager: Refresh the background on monitor configuration changes.
+    Otherwise we keep using the old pixmap which likely doesn't fit the
+    current scale or screen orientation.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1035
+  * background: Exit early if layer surface isn't fully configured yet.
+    We can't query width or height if configuration isn't done.
+  * session: Only append session manager if supported by gnome-session
+    gnome-session dropped support for --builtin and --systemd. So don't
+    append that argument if it doesn't show up in gnome-session's help
+    output.
+  * build: Use systemd session manager by default
+    gnome-session dropped support for the builtin manager in 46.
+  * suspend-manger: No need to print error message twice
+    phosh_dbus_service_error_warn handles that for us.
+  * launcher-entry-manager: New object to handle launcher-entry protocol.
+    Listens for property updates.
+  * shell: Spawn launcher-entry-manager.
+    Spawn the manager from the shell and add accessors so other
+    parts can use it.
+  * launcher-box: Introduce launcher-item.
+    This will allow us to track an entries state
+  * launcher-box: Use launcher-item.
+    No new functionality for now
+  * launcher-item: Add properties to track progress and count
+  * launcher-box: Display progress and count.
+    We get the values from the launcher manager.
+  * top-panel: Properly name top bar height.
+    The height is the one of the bar not the panel (which is the bar plus
+    the settings)
+  * top-panel: Provide default icon size and min padding
+  * layout-manager: Allow to query rounded corner information.
+    Based on the panel height and the icon size provide the shift in pixels
+    from the screen edge to not occlude an icon.
+  * top-panel: Take rounded corners into account.
+    Shift icons more to the center if the rounded corners would occlude UI
+    elements.
+    We currently don't take into account that the area for the clock
+    placement gets slightly smaller due to this too.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1018
+  * build: Add custom dependency for libsoup
+    libsoup sets `--export-dynamic` unconditionally (See
+    https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/394).
+    Since the dependencies are added past link_args we can't override it
+    with `--no-export-dynamic` so rather work around this by using a custom
+    dependency.
+
+  [ Jesús Higueras ]
+  * build: Add dependency on libsoup. This will be used to decode base64 URIs.
+  * util: Add helper to decode data: image URIs
+  * media-player: Use phosh_util_data_uri_to_pixbuf helper for cover art decoding
+
+  [ Daniel Rusek ]
+  * plugins: Add missing dot to the Comment field of launcher box lockscreen
+    plugin & switch to imperative form
+  * Update Czech translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Sabri Ünal ]
+  * Update Turkish translation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Vittorio Monti ]
+  * Update Italian translation
+
+  [ Jürgen Benvenuti ]
+  * Update German translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 03 Apr 2024 20:27:49 +0200
+
 phosh (0.37.0) experimental; urgency=medium
 
   [ Arun Mani J ]
