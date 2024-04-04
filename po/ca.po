@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-08 15:48+0000\n"
-"PO-Revision-Date: 2024-03-10 00:15+0100\n"
+"POT-Creation-Date: 2024-03-12 16:52+0000\n"
+"PO-Revision-Date: 2024-04-04 08:23+0200\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -64,9 +64,9 @@ msgid "Launcher Box"
 msgstr "Capsa de llançadors"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:6
-msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
-"Afegeix llançadors a la pantalla bloquejada <b>Aquest connector és "
+"Afegeix llançadors a la pantalla bloquejada. <b>Aquest connector és "
 "experimental.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
