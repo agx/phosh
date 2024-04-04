@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-08 15:48+0000\n"
-"PO-Revision-Date: 2024-03-09 16:45+0300\n"
+"POT-Creation-Date: 2024-03-12 16:52+0000\n"
+"PO-Revision-Date: 2024-03-13 00:06+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -64,9 +64,9 @@ msgid "Launcher Box"
 msgstr "Бокс с ярлыками"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:6
-msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
-"Добавляет ярлыки на экран блокировки. <b>Этот модуль является "
+"Добавить ярлыки на экран блокировки. <b>Этот модуль является "
 "экспериментальным.</b>"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
