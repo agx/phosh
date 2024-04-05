@@ -9,6 +9,7 @@
 #include "phosh-config.h"
 #include "phosh-gnome-shell-dbus.h"
 #include "phosh-screenshot-dbus.h"
+#include "phosh-test-resources.h"
 #include "portal-dbus.h"
 #include "shell.h"
 
@@ -634,6 +635,7 @@ main (int argc, char *argv[])
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+  phosh_test_register_resource ();
 
   do_settings ();
 
