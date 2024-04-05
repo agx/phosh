@@ -40,6 +40,7 @@ struct _PhoshLayoutManager {
   GSettings                  *settings;
   PhoshLayoutClockPosition    clock_pos;
   guint                       clock_shift;
+  guint                       corner_shift;
 
   PhoshMonitor               *builtin;
 };
@@ -48,21 +49,20 @@ G_DEFINE_TYPE (PhoshLayoutManager, phosh_layout_manager, G_TYPE_OBJECT)
 /* Space we want reserved for the central clock */
 static GdkRectangle center_clock_rect = {
   .width = 40,
-  .height = PHOSH_TOP_PANEL_HEIGHT
+  .height = PHOSH_TOP_BAR_HEIGHT
 };
 
 static GdkRectangle network_box_rect = {
   /* Relevant icons are wifi, bt, 2 * wwan, network status */
   .width = 24 /* px */ * 5,
-  .height = PHOSH_TOP_PANEL_HEIGHT
+  .height = PHOSH_TOP_BAR_HEIGHT
 };
 
 static GdkRectangle indicators_box_rect = {
   /* Relevant icons are  battery, vpn, location and language */
   .width = 24 /* px */ * 4 /* max icons */,
-  .height = PHOSH_TOP_PANEL_HEIGHT
+  .height = PHOSH_TOP_BAR_HEIGHT
 };
-
 
 /**
  * get_clock_pos:
@@ -152,20 +152,65 @@ get_clock_pos (PhoshLayoutManager *self, guint *clock_shift)
   return clock_pos;
 }
 
+/**
+ * get_corner_shift:
+ * @self: The layout manager
+ *
+ * Get the left and right margins to compensate for rounded corners.
+ *
+ * We assume the panel uses it's native orientation.
+ *
+ * Returns: The margin in pixels
+ */
+static guint
+get_corner_shift (PhoshLayoutManager *self)
+{
+  float r, a, b, c, scale;
+  PhoshShellLayout layout;
+
+  layout = g_settings_get_enum (self->settings, SHELL_LAYOUT_KEY);
+  if (layout != PHOSH_SHELL_LAYOUT_DEVICE)
+    return 0;
+
+  scale = phosh_monitor_get_fractional_scale (self->builtin);
+  r = c = gm_display_panel_get_border_radius (self->panel) / scale;
+
+  /*
+   * We want to keep the n pixels towards the top screen edge clear
+   * n + b = r and m + a = r and c = r
+   *
+   *    ------------------------
+   *    |----+------------------ n
+   *    |    |\
+   *    |  b | \ c = r
+   *    |    |  \
+   *    +----+---*
+   *    | m    a
+   */
+  b = c - (PHOSH_TOP_BAR_HEIGHT - PHOSH_TOP_BAR_ICON_SIZE) / 2;
+  a = floor (sqrt((c * c) - (b * b)));
+
+  return MAX (PHOSH_TOP_BAR_MIN_PADDING, ceil (r - a));
+}
+
 
 static void
 update_layout (PhoshLayoutManager *self)
 {
   PhoshLayoutClockPosition pos;
-  guint shift = 0;
+  guint corner_shift, shift = 0;
 
+  corner_shift = get_corner_shift (self);
   pos = get_clock_pos (self, &shift);
 
-  if (self->clock_pos == pos && self->clock_shift == shift)
+  if (self->corner_shift == corner_shift &&
+      self->clock_pos == pos && self->clock_shift == shift) {
     return;
+  }
 
   self->clock_pos = pos;
   self->clock_shift = shift;
+  self->corner_shift = corner_shift;
 
   g_signal_emit (self, signals[LAYOUT_CHANGED], 0);
 }
@@ -246,6 +291,7 @@ phosh_layout_manager_init (PhoshLayoutManager *self)
   PhoshShell *shell = phosh_shell_get_default ();
   g_autoptr (GmDeviceInfo) info = NULL;
 
+  self->corner_shift = PHOSH_TOP_BAR_MIN_PADDING;
   self->settings = g_settings_new ("sm.puri.phosh");
 
   compatibles = gm_device_tree_get_compatibles (NULL, &err);
@@ -299,4 +345,21 @@ phosh_layout_manager_get_clock_shift (PhoshLayoutManager *self)
   g_return_val_if_fail (PHOSH_IS_LAYOUT_MANAGER (self), 0);
 
   return self->clock_shift;
+}
+
+/**
+ * phosh_layout_manager_get_corner_shift:
+ * @self: The layout manager
+ *
+ * Gets the amount of pixels UI elements should be moved to towards the
+ * center because of rounded corners.
+ *
+ * Returns: Returns the shift in pixels.
+ */
+guint
+phosh_layout_manager_get_corner_shift (PhoshLayoutManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_LAYOUT_MANAGER (self), 0);
+
+  return self->corner_shift;
 }

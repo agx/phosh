@@ -8,7 +8,8 @@ phosh-top-panel {
 }
 
 #top-bar {
-  padding: 4px 9px 4px 9px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .phosh-wwan-indicator,
