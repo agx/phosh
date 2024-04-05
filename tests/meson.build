@@ -45,6 +45,7 @@ test_env_unit = test_env_common
 test_env_unit.set('XDG_CONFIG_HOME', '@0@/user/config/'.format(meson.current_source_dir()))
 test_env_unit.set('XDG_CONFIG_DIRS', '@0@/system/config/'.format(meson.current_source_dir()))
 test_env_unit.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
+test_env_unit.set('XDG_DATA_DIRS', '/usr/local/share/', '/usr/share/')
 # Ideally we would just set it so that we have a known set of .desktop etc
 # but then we can't find the system gschemas
 test_env_unit.prepend('XDG_DATA_DIRS', '@0@/system/share/'.format(meson.current_source_dir()))

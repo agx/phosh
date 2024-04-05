@@ -21,6 +21,8 @@
 
 #include <systemd/sd-login.h>
 
+#include <libsoup/soup.h>
+
 #ifdef PHOSH_HAVE_MEMFD_CREATE
 #include <sys/mman.h>
 #include <linux/memfd.h>
@@ -628,4 +630,47 @@ phosh_util_file_equal (GFile *file1, GFile *file2)
     return TRUE;
 
   return FALSE;
+}
+
+/**
+ * phosh_util_data_uri_to_pixbuf:
+ * @uri: The data URI
+ * @error: A pointer to a #GError
+ *
+ * Converts a data URI to a #GdkPixbuf.
+ *
+ * Returns: (transfer full)(nullable): The decoded #GdkPixbuf or %NULL on error
+ */
+GdkPixbuf *
+phosh_util_data_uri_to_pixbuf (const char *uri, GError **error)
+{
+  g_autoptr (GdkPixbuf) pixbuf = NULL;
+  g_autoptr (GBytes) bytes = NULL;
+  g_autoptr (GdkPixbufLoader) loader = NULL;
+  g_autofree char *mime_type = NULL;
+
+  g_return_val_if_fail (uri, NULL);
+
+  bytes = soup_uri_decode_data_uri (uri, &mime_type);
+  if (!bytes) {
+    g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed to decode bytes for '%s'", uri);
+    return NULL;
+  }
+
+  loader = gdk_pixbuf_loader_new ();
+  if (!loader) {
+    g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Failed to create pixbuf loader");
+    return NULL;
+  }
+
+  if (!gdk_pixbuf_loader_write_bytes (loader, bytes, error) ||
+      !gdk_pixbuf_loader_close (loader, error))
+    return NULL;
+
+  pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+  if (!pixbuf)
+    return NULL;
+
+  g_object_ref (pixbuf);
+  return g_steal_pointer (&pixbuf);
 }

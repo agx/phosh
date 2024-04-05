@@ -39,3 +39,4 @@ const char      *phosh_util_get_stylesheet (const char *theme_name);
 gboolean         phosh_clear_fd (int *fd, GError **err);
 const char      *phosh_util_get_icon_by_wifi_strength (guint strength, gboolean is_connecting);
 gboolean         phosh_util_file_equal (GFile *file1, GFile *file2);
+GdkPixbuf       *phosh_util_data_uri_to_pixbuf (const char *url, GError **error);
