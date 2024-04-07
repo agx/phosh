@@ -120,13 +120,15 @@ gcr_dep = dependency('gcr-3', version: '>= 3.7.5')
 glib_dep = dependency('glib-2.0', version: glib_ver_cmp)
 gio_dep = dependency('gio-2.0', version: glib_ver_cmp)
 gio_unix_dep =  dependency('gio-unix-2.0', version: glib_ver_cmp)
-gmobile = subproject('gmobile',
-  default_options: [
-    'examples=false',
-    'gtk_doc=false',
-    'tests=false',
-  ])
-gmobile_dep = gmobile.get_variable('gmobile_dep')
+gmobile_dep = dependency('gmobile',
+  version: '>= 0.1.0',
+  fallback: ['gmobile', 'gmobile_dep'],
+  default_options:
+    [ 'examples=false',
+      'introspection=false',
+      'gtk_doc=false',
+      'tests=false'
+    ])
 gmodule_dep = dependency('gmodule-no-export-2.0', version: glib_ver_cmp)
 gnome_desktop_dep = dependency('gnome-desktop-3.0', version: '>=3.26')
 gobject_dep = dependency('gobject-2.0', version: glib_ver_cmp)
