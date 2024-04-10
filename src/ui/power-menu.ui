@@ -64,11 +64,9 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="PhoshFadingLabel">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">_Power Off</property>
-                        <property name="ellipsize">middle</property>
-                        <property name="use-underline">True</property>
+                        <property name="label" translatable="yes">Power Off</property>
                       </object>
                     </child>
                   </object>
@@ -105,11 +103,9 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="PhoshFadingLabel">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">_Lock</property>
-                        <property name="ellipsize">middle</property>
-                        <property name="use-underline">True</property>
+                        <property name="label" translatable="yes">Lock</property>
                       </object>
                     </child>
                   </object>
@@ -146,11 +142,9 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="PhoshFadingLabel">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">_Screenshot</property>
-                        <property name="ellipsize">middle</property>
-                        <property name="use-underline">True</property>
+                        <property name="label" translatable="yes">Screenshot</property>
                       </object>
                     </child>
                   </object>
@@ -187,11 +181,9 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkLabel">
+                      <object class="PhoshFadingLabel">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">_Emergency</property>
-                        <property name="ellipsize">middle</property>
-                        <property name="use-underline">True</property>
+                        <property name="label" translatable="yes">Emergency</property>
                       </object>
                     </child>
                   </object>
