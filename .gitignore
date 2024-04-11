@@ -7,6 +7,7 @@ vgdump
 \#*#
 .\#*
 /subprojects/glib
+/subprojects/gmobile
 /subprojects/libhandy
 .vscode/
 *.gcov

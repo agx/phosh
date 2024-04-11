@@ -4,6 +4,3 @@
 [submodule "subprojects/libcall-ui"]
 	path = subprojects/libcall-ui
 	url = https://gitlab.gnome.org/World/Phosh/libcall-ui.git
-[submodule "subprojects/gmobile"]
-	path = subprojects/gmobile
-	url = https://gitlab.gnome.org/World/Phosh/gmobile.git

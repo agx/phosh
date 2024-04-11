@@ -119,14 +119,30 @@ fribidi_dep = dependency('fribidi')
 gcr_dep = dependency('gcr-3', version: '>= 3.7.5')
 glib_dep = dependency('glib-2.0', version: glib_ver_cmp)
 gio_dep = dependency('gio-2.0', version: glib_ver_cmp)
-gobject_dep = dependency('gobject-2.0', version: glib_ver_cmp)
 gio_unix_dep =  dependency('gio-unix-2.0', version: glib_ver_cmp)
+gmobile_dep = dependency('gmobile',
+  version: '>= 0.1.0',
+  fallback: ['gmobile', 'gmobile_dep'],
+  default_options:
+    [ 'examples=false',
+      'introspection=false',
+      'gtk_doc=false',
+      'tests=false'
+    ])
 gmodule_dep = dependency('gmodule-no-export-2.0', version: glib_ver_cmp)
 gnome_desktop_dep = dependency('gnome-desktop-3.0', version: '>=3.26')
+gobject_dep = dependency('gobject-2.0', version: glib_ver_cmp)
 gsettings_desktop_schemas_dep = dependency('gsettings-desktop-schemas', version: '>=42')
 gtk_dep = dependency('gtk+-3.0', version: '>=3.22')
 gtk_wayland_dep = dependency('gtk+-wayland-3.0', version: '>=3.22')
 gudev_dep = dependency('gudev-1.0')
+libcall_ui = subproject('libcall-ui',
+  default_options: [
+    'examples=false',
+    'gtk_doc=false',
+    'tests=false',
+    'install-i18n=@0@'.format(get_option('callui-i18n')),
+  ])
 libfeedback_dep = dependency('libfeedback-0.0',
   version: '>= 0.2.0',
   fallback: ['libfeedback', 'libfeedback_dep'],
@@ -148,21 +164,7 @@ libhandy_dep = dependency('libhandy-1',
   fallback: ['libhandy', 'libhandy_dep'],
   default_options: ['introspection=disabled']
   )
-libcall_ui = subproject('libcall-ui',
-  default_options: [
-    'examples=false',
-    'gtk_doc=false',
-    'tests=false',
-    'install-i18n=@0@'.format(get_option('callui-i18n')),
-  ])
 libcall_ui_dep = libcall_ui.get_variable('libcall_ui_dep')
-gmobile = subproject('gmobile',
-  default_options: [
-    'examples=false',
-    'gtk_doc=false',
-    'tests=false',
-  ])
-gmobile_dep = gmobile.get_variable('gmobile_dep')
 libnm_dep = dependency('libnm', version: '>= 1.14')
 libpolkit_agent_dep = dependency('polkit-agent-1', version: '>= 0.105')
 libsoup_dep = dependency('libsoup-3.0', version: '>= 3.0')
