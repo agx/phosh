@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-12 16:52+0000\n"
-"PO-Revision-Date: 2024-03-13 00:06+0300\n"
+"POT-Creation-Date: 2024-04-04 14:19+0000\n"
+"PO-Revision-Date: 2024-04-10 18:10+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -538,19 +538,19 @@ msgstr "Подтвердить"
 
 #: src/ui/power-menu.ui:69
 msgid "_Power Off"
-msgstr "_Выключить"
+msgstr "_Выкл."
 
 #: src/ui/power-menu.ui:110
 msgid "_Lock"
-msgstr "_Заблокировать"
+msgstr "_Заблок."
 
 #: src/ui/power-menu.ui:151
 msgid "_Screenshot"
-msgstr "_Снимок экрана"
+msgstr "_Снимок"
 
 #: src/ui/power-menu.ui:192
 msgid "_Emergency"
-msgstr "_Экстренная помощь"
+msgstr "_Помощь"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
