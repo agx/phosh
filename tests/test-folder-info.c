@@ -60,7 +60,7 @@ test_phosh_folder_info_get_app_infos (void)
   g_autoptr (GSettings) settings;
   g_autoptr (PhoshFolderInfo) folder_info;
   const char *app_ids[] = {"demo.app.First.desktop", NULL};
-  GListModel *apps;
+  g_autoptr (GListModel) apps = NULL;
   g_autoptr (GAppInfo) got, made;
 
   settings = g_settings_new_with_path ("org.gnome.desktop.app-folders.folder",
@@ -70,6 +70,10 @@ test_phosh_folder_info_get_app_infos (void)
 
   apps = phosh_folder_info_get_app_infos (folder_info);
   g_assert_cmpuint (g_list_model_get_n_items (apps), ==, 1);
+
+  g_object_get (folder_info, "app-infos", &apps, NULL);
+  g_assert_cmpint (g_list_model_get_n_items (apps), ==, 1);
+  g_assert_true (g_app_info_should_show (G_APP_INFO (folder_info)));
 
   made = G_APP_INFO (g_desktop_app_info_new (app_ids[0]));
   got = g_list_model_get_item (apps, 0);
