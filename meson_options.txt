@@ -42,3 +42,7 @@ option('lockscreen-plugins',
 option('quick-setting-plugins',
        type: 'boolean', value: true,
        description: 'Whether to build the quick setting plugins')
+
+option('introspection',
+       type: 'boolean', value: false,
+       description: 'Build gobject-introspection support')

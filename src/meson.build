@@ -390,7 +390,7 @@ phosh_plugins_dep = declare_dependency(
   sources: generated_dbus_headers,
 )
 
-if get_option('gtk_doc')
+if enable_introspection
   phosh_gir_sources = [ libphosh_sources,
                         libphosh_tool_sources,
                         libphosh_glib_generated_sources,

@@ -22,6 +22,7 @@ plugins_dir = join_paths(prefix, libdir, 'phosh', 'plugins')
 plugin_prefs_dir = join_paths(prefix, libdir, 'phosh', 'plugins', 'prefs')
 servicedir = join_paths(datadir, 'dbus-1', 'services')
 schemasdir = datadir / 'glib-2.0/schemas'
+enable_introspection = get_option('introspection') or get_option('gtk_doc')
 
 if prefix != '/usr'
   sysconfdir = join_paths(prefix, get_option('sysconfdir'))
@@ -244,6 +245,7 @@ summary({
     'Tests': get_option('tests'),
     'Phoc tests': run_phoc_tests,
     'Documentation': get_option('gtk_doc'),
+    'Introspection': enable_introspection,
     'Manual pages': get_option('man'),
     'Tools': get_option('tools'),
     'Lockscreen Plugins': get_option('lockscreen-plugins'),
