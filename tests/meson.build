@@ -83,11 +83,13 @@ testlib_dep = declare_dependency(
 tests = [
   'activity',
   'app-grid-button',
+  'app-grid-folder-button',
   'app-list-model',
   'connectivity-info',
   'css',
   'fading-label',
   'favourite-model',
+  'folder-info',
   'gamma-table',
   'head',
   'keypad',

@@ -18,6 +18,12 @@
 #include "shell.h"
 #include "util.h"
 
+/**
+ * PhoshAppGridButton:
+ *
+ * An app-grid button to represent an application launcher or favorite.
+ */
+
 typedef struct _PhoshAppGridButtonPrivate PhoshAppGridButtonPrivate;
 struct _PhoshAppGridButtonPrivate {
   GAppInfo *info;
@@ -27,7 +33,6 @@ struct _PhoshAppGridButtonPrivate {
   gulong favorite_changed_watcher;
 
   GtkWidget  *icon;
-  GtkWidget  *label;
   GtkWidget  *popover;
   GtkGesture *gesture;
 
@@ -37,7 +42,7 @@ struct _PhoshAppGridButtonPrivate {
   GActionMap *action_map;
 };
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGridButton, phosh_app_grid_button, GTK_TYPE_FLOW_BOX_CHILD)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGridButton, phosh_app_grid_button, PHOSH_TYPE_APP_GRID_BASE_BUTTON)
 
 enum {
   PROP_0,
@@ -236,7 +241,6 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/app-grid-button.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, icon);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, label);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, popover);
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, menu);
@@ -473,7 +477,7 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
     favorites_changed (G_LIST_MODEL (list), 0, 0, 0, self);
 
     name = g_app_info_get_name (G_APP_INFO (priv->info));
-    phosh_fading_label_set_label (PHOSH_FADING_LABEL (priv->label), name);
+    phosh_app_grid_base_button_set_label (PHOSH_APP_GRID_BASE_BUTTON (self), name);
 
     icon = g_app_info_get_icon (priv->info);
     if (G_UNLIKELY (icon == NULL)) {
@@ -526,7 +530,7 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
       }
     }
   } else {
-    phosh_fading_label_set_label (PHOSH_FADING_LABEL (priv->label), _("Application"));
+    phosh_app_grid_base_button_set_label (PHOSH_APP_GRID_BASE_BUTTON (self), _("Application"));
     gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon),
                                   PHOSH_APP_UNKNOWN_ICON,
                                   GTK_ICON_SIZE_DIALOG);
@@ -567,6 +571,7 @@ phosh_app_grid_button_set_mode (PhoshAppGridButton     *self,
                                 PhoshAppGridButtonMode  mode)
 {
   PhoshAppGridButtonPrivate *priv;
+  const char *name;
 
   g_return_if_fail (PHOSH_IS_APP_GRID_BUTTON (self));
   priv = phosh_app_grid_button_get_instance_private (self);
@@ -575,12 +580,14 @@ phosh_app_grid_button_set_mode (PhoshAppGridButton     *self,
     return;
   }
 
+  name = priv->info == NULL ? _("Application") : g_app_info_get_name (priv->info);
+
   switch (mode) {
     case PHOSH_APP_GRID_BUTTON_LAUNCHER:
-      gtk_widget_set_visible (priv->label, TRUE);
+      phosh_app_grid_base_button_set_label (PHOSH_APP_GRID_BASE_BUTTON (self), name);
       break;
     case PHOSH_APP_GRID_BUTTON_FAVORITES:
-      gtk_widget_set_visible (priv->label, FALSE);
+      phosh_app_grid_base_button_set_label (PHOSH_APP_GRID_BASE_BUTTON (self), NULL);
       break;
     default:
       g_critical ("Invalid mode %i", mode);

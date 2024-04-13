@@ -331,6 +331,13 @@ phosh-app-grid-button button {
   background: none;
 }
 
+phosh-app-grid-folder-button button {
+  font-size: 0.8rem;
+  border-radius: 9px;
+  margin: 0;
+  padding: 0;
+}
+
 .search-active phosh-app-grid-button:first-child button {
   background: @phosh_button_hover_bg_color;
 }
@@ -339,6 +346,10 @@ phosh-app-grid-button button {
   border-radius: 9999px;
   padding: 6px 24px;
   margin: 24px 0;
+}
+
+.phosh-app-grid-folder-page-title-box {
+  margin: 6px 16px;
 }
 
 /*

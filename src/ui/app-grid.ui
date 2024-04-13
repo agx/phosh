@@ -1,176 +1,290 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <requires lib="libhandy" version="0.0"/>
   <template class="PhoshAppGrid" parent="GtkBox">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
-    <property name="orientation">vertical</property>
     <child>
-      <object class="GtkBox">
+      <object class="HdyDeck" id="deck">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <child>
-	  <object class="GtkSearchEntry" id="search">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="primary_icon_name">edit-find-symbolic</property>
-            <property name="primary_icon_activatable">False</property>
-            <property name="primary_icon_sensitive">False</property>
-            <property name="placeholder_text" translatable="yes">Search apps…</property>
-            <signal name="search-changed" handler="search_changed" object="PhoshAppGrid" swapped="no"/>
-            <signal name="preedit-changed" handler="search_preedit_changed" object="PhoshAppGrid" swapped="no"/>
-            <signal name="activate" handler="search_activated" object="PhoshAppGrid" swapped="no"/>
-            <signal name="focus-in-event" handler="search_gained_focus" object="PhoshAppGrid" swapped="no"/>
-            <signal name="focus-out-event" handler="search_lost_focus" object="PhoshAppGrid" swapped="no"/>
-            <style>
-              <class name="phosh-search-bar"/>
-            </style>
-	  </object>
-	  <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-	  </packing>
-	</child>
-        <style>
-          <class name="phosh-search-bar-box"/>
-        </style>
-      </object>
-    </child>
-    <child>
-      <object class="GtkScrolledWindow" id="scrolled_window">
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="hexpand">True</property>
+        <property name="transition-type">2</property>
+        <property name="can-swipe-back">True</property>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkRevealer" id="favs_revealer">
+              <object class="GtkBox">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="reveal-child">True</property>
+                <child>
+                  <object class="GtkSearchEntry" id="search">
+                    <property name="visible">True</property>
+                    <property name="placeholder-text" translatable="yes">Search apps…</property>
+                    <signal name="search-changed" handler="search_changed" object="PhoshAppGrid" swapped="no"/>
+                    <signal name="preedit-changed" handler="search_preedit_changed" object="PhoshAppGrid" swapped="no"/>
+                    <signal name="activate" handler="search_activated" object="PhoshAppGrid" swapped="no"/>
+                    <signal name="focus-in-event" handler="search_gained_focus" object="PhoshAppGrid" swapped="no"/>
+                    <signal name="focus-out-event" handler="search_lost_focus" object="PhoshAppGrid" swapped="no"/>
+                    <style>
+                      <class name="phosh-search-bar"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <style>
+                  <class name="phosh-search-bar-box"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="scrolled_window">
+                <property name="visible">True</property>
+                <property name="hexpand">True</property>
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkFlowBox" id="favs">
+                      <object class="GtkRevealer" id="favs_revealer">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="reveal-child">True</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="orientation">vertical</property>
+                            <child>
+                              <object class="GtkFlowBox" id="favs">
+                                <property name="visible">True</property>
+                                <property name="margin-start">3</property>
+                                <property name="margin-end">3</property>
+                                <property name="margin-top">6</property>
+                                <property name="margin-bottom">12</property>
+                                <property name="hexpand">True</property>
+                                <property name="homogeneous">True</property>
+                                <property name="selection-mode">none</property>
+                                <property name="activate-on-single-click">False</property>
+                                <property name="column-spacing">6</property>
+                                <property name="row-spacing">6</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkSeparator">
+                                <property name="visible">True</property>
+                                <property name="margin-start">6</property>
+                                <property name="margin-end">6</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFlowBox" id="apps">
+                        <property name="visible">True</property>
+                        <property name="margin-top">12</property>
                         <property name="margin-start">3</property>
                         <property name="margin-end">3</property>
-                        <property name="margin_top">6</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin-bottom">3</property>
                         <property name="hexpand">True</property>
+                        <property name="vexpand">False</property>
+                        <property name="valign">start</property>
                         <property name="homogeneous">True</property>
-                        <property name="selection_mode">none</property>
-                        <property name="activate_on_single_click">False</property>
+                        <property name="selection-mode">none</property>
+                        <property name="activate-on-single-click">False</property>
                         <property name="column-spacing">6</property>
                         <property name="row-spacing">6</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
+                        <property name="fill">False</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
-                    <child>
-                      <object class="GtkSeparator">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin-start">6</property>
-                        <property name="margin-end">6</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFlowBox" id="apps">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_top">12</property>
-                <property name="margin-start">3</property>
-                <property name="margin-end">3</property>
-                <property name="margin_bottom">3</property>
-                <property name="hexpand">True</property>
-                <property name="vexpand">False</property>
-                <property name="valign">start</property>
-                <property name="homogeneous">True</property>
-                <property name="selection_mode">none</property>
-                <property name="activate_on_single_click">False</property>
-                <property name="column-spacing">6</property>
-                <property name="row-spacing">6</property>
-              </object>
-              <packing>
-                <property name="fill">False</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="orientation">horizontal</property>
-                <property name="valign">start</property>
-                <child>
-                  <object class="GtkToggleButton" id="btn_adaptive">
-                    <property name="visible">True</property>
-                    <property name="expand">True</property>
-                    <property name="valign">start</property>
-                    <property name="halign">center</property>
-                    <property name="action-name">app-grid.filter-adaptive</property>
-                    <property name="name">phosh-filter-adaptive-btn</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="orientation">horizontal</property>
-                        <property name="spacing">6</property>
+                        <property name="valign">start</property>
                         <child>
-                          <object class="GtkImage" id="btn_adaptive_img">
+                          <object class="GtkToggleButton" id="btn_adaptive">
                             <property name="visible">True</property>
-                            <property name="icon-name">eye-not-looking-symbolic</property>
+                            <property name="expand">True</property>
+                            <property name="valign">start</property>
+                            <property name="halign">center</property>
+                            <property name="action-name">app-grid.filter-adaptive</property>
+                            <property name="name">phosh-filter-adaptive-btn</property>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="visible">True</property>
+                                <property name="orientation">horizontal</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkImage" id="btn_adaptive_img">
+                                    <property name="visible">True</property>
+                                    <property name="icon-name">eye-not-looking-symbolic</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="btn_adaptive_lbl">
+                                    <property name="visible">True</property>
+                                    <property name="ellipsize">middle</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
                           </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                          </packing>
                         </child>
-                        <child>
-                          <object class="GtkLabel" id="btn_adaptive_lbl">
-                            <property name="visible">True</property>
-                            <property name="ellipsize">middle</property>
-                          </object>
-                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="name">main_grid</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">6</property>
+            <style>
+              <class name="phosh-app-grid-folder-page"/>
+            </style>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="hexpand">True</property>
+                <property name="orientation">horizontal</property>
+                <property name="spacing">6</property>
+                <style>
+                  <class name="phosh-app-grid-folder-page-title-box"/>
+                </style>
+                <child>
+                  <object class="GtkButton">
+                    <property name="visible">True</property>
+                    <property name="valign">start</property>
+                    <signal name="clicked" handler="show_main_grid" object="PhoshAppGrid" swapped="yes"/>
+                    <style>
+                      <class name="phosh-gear-button"/>
+                    </style>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="icon-name">go-previous-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="center">
+                  <object class="GtkLabel" id="folder_label">
+                    <property name="visible">True</property>
+                    <property name="hexpand">True</property>
+                    <property name="ellipsize">end</property>
+                    <property name="justify">center</property>
+                    <style>
+                      <class name="heading"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStack" id="folder_stack">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="visible">True</property>
+                    <property name="expand">True</property>
+                    <child>
+                      <object class="GtkFlowBox" id="folder_apps">
+                        <property name="visible">True</property>
+                        <property name="margin-top">12</property>
+                        <property name="margin-start">3</property>
+                        <property name="margin-end">3</property>
+                        <property name="margin-bottom">3</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">False</property>
+                        <property name="valign">start</property>
+                        <property name="homogeneous">True</property>
+                        <property name="selection-mode">none</property>
+                        <property name="activate-on-single-click">False</property>
+                        <property name="column-spacing">6</property>
+                        <property name="row-spacing">6</property>
                       </object>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
+                    <property name="name">folder_grid</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="orientation">vertical</property>
+                    <property name="valign">center</property>
+                    <property name="halign">center</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="icon-name">folder-open-symbolic</property>
+                        <property name="icon-size">6</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="empty_folder_label">
+                        <property name="visible">True</property>
+                        <style>
+                          <class name="heading"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="name">empty_folder</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">3</property>
-              </packing>
             </child>
           </object>
+          <packing>
+            <property name="name">folder_page</property>
+          </packing>
         </child>
       </object>
-      <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
     </child>
   </template>
 </interface>

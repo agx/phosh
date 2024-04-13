@@ -674,3 +674,74 @@ phosh_util_data_uri_to_pixbuf (const char *uri, GError **error)
   g_object_ref (pixbuf);
   return g_steal_pointer (&pixbuf);
 }
+
+static const char *(*app_attr[]) (GAppInfo *info) = {
+  g_app_info_get_display_name,
+  g_app_info_get_name,
+  g_app_info_get_description,
+  g_app_info_get_executable,
+};
+
+static const char *(*desktop_attr[]) (GDesktopAppInfo *info) = {
+  g_desktop_app_info_get_generic_name,
+  g_desktop_app_info_get_categories,
+};
+
+/**
+ * phosh_util_matches_app_info:
+ * @info: app-info to check
+ * @search: Search string to use for matching
+ *
+ * Returns: `TRUE` if the info matches search else `FALSE`
+ */
+gboolean
+phosh_util_matches_app_info (GAppInfo *info, const char *search)
+{
+  const char *str = NULL;
+  for (int i = 0; i < G_N_ELEMENTS (app_attr); i++) {
+    g_autofree char *folded = NULL;
+
+    str = app_attr[i] (info);
+
+    if (STR_IS_NULL_OR_EMPTY (str))
+      continue;
+
+    folded = g_utf8_casefold (str, -1);
+
+    if (strstr (folded, search))
+      return TRUE;
+  }
+
+  if (G_IS_DESKTOP_APP_INFO (info)) {
+    const char * const *kwds;
+
+    for (int i = 0; i < G_N_ELEMENTS (desktop_attr); i++) {
+      g_autofree char *folded = NULL;
+
+      str = desktop_attr[i] (G_DESKTOP_APP_INFO (info));
+
+      if (STR_IS_NULL_OR_EMPTY (str))
+        continue;
+
+      folded = g_utf8_casefold (str, -1);
+
+      if (strstr (folded, search))
+        return TRUE;
+    }
+
+    kwds = g_desktop_app_info_get_keywords (G_DESKTOP_APP_INFO (info));
+
+    if (kwds) {
+      int i = 0;
+
+      while ((str = kwds[i])) {
+        g_autofree char *folded = g_utf8_casefold (str, -1);
+        if (strstr (folded, search))
+          return TRUE;
+        i++;
+      }
+    }
+  }
+
+  return FALSE;
+}
