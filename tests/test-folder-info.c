@@ -34,8 +34,14 @@ test_phosh_folder_info_get_name (void)
                                        "/org/gnome/desktop/app-folders/folders/foo/");
   folder_info = phosh_folder_info_new_from_folder_path ("foo");
 
-  g_settings_set_string (settings, "name", "Foo");
-  g_assert_cmpstr (phosh_folder_info_get_name (folder_info), ==, "Foo");
+  g_settings_set_string (settings, "name", "X-Phosh-foo.directory");
+  g_assert_cmpstr (phosh_folder_info_get_name (folder_info), ==, "Phosh Test Folder");
+
+  g_settings_set_string (settings, "name", "doesnotexist.directory");
+  g_assert_cmpstr (phosh_folder_info_get_name (folder_info), ==, "doesnotexist.directory");
+
+  g_settings_set_string (settings, "name", "broken.directory");
+  g_assert_cmpstr (phosh_folder_info_get_name (folder_info), ==, "broken.directory");
 
   g_settings_set_string (settings, "name", "Bar");
   g_assert_cmpstr (phosh_folder_info_get_name (folder_info), ==, "Bar");

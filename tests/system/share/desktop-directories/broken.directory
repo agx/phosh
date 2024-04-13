@@ -1,0 +1,4 @@
+# not a desktop file, missing header, parsing fails
+Name=Phosh Test Folder
+Icon=applications-other
+Type=Directory
