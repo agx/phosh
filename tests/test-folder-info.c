@@ -15,12 +15,17 @@
 static void
 test_phosh_folder_info_new (void)
 {
-  g_autoptr (PhoshFolderInfo) folder_info;
+  PhoshFolderInfo *folder_info;
   g_autofree char *path = NULL;
 
   folder_info = phosh_folder_info_new_from_folder_path ("foo");
   g_object_get (folder_info, "path", &path, NULL);
   g_assert_cmpstr (path, ==, "foo");
+
+  g_assert_true (g_app_info_equal (G_APP_INFO (folder_info), G_APP_INFO (folder_info)));
+  g_assert_cmpstr (g_app_info_get_name (G_APP_INFO (folder_info)), ==, "");
+  g_assert_false (g_app_info_should_show (G_APP_INFO (folder_info)));
+  g_assert_finalize_object (folder_info);
 }
 
 
@@ -36,6 +41,7 @@ test_phosh_folder_info_get_name (void)
 
   g_settings_set_string (settings, "name", "X-Phosh-foo.directory");
   g_assert_cmpstr (phosh_folder_info_get_name (folder_info), ==, "Phosh Test Folder");
+  g_assert_cmpstr (g_app_info_get_name (G_APP_INFO (folder_info)), ==, "Phosh Test Folder");
 
   g_settings_set_string (settings, "name", "doesnotexist.directory");
   g_assert_cmpstr (phosh_folder_info_get_name (folder_info), ==, "doesnotexist.directory");
