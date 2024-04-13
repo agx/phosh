@@ -258,6 +258,7 @@ libphosh_sources = files(
   'osk-manager.h',
   'top-panel.c',
   'top-panel.h',
+  'plugin-shell.h',
   'polkit-auth-agent.c',
   'polkit-auth-agent.h',
   'polkit-auth-prompt.c',
