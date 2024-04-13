@@ -408,7 +408,7 @@ if enable_introspection
           symbol_prefix : 'phosh',
       identifier_prefix : 'Phosh',
               link_with : phosh_lib,
-               includes : ['Gio-2.0', 'Gtk-3.0', 'Handy-1'],
+               includes : ['Gio-2.0', 'Gtk-3.0', 'Handy-1', 'NM-1.0'],
              extra_args : phosh_gir_extra_args,
            dependencies : phosh_static_lib_dep,
    )
