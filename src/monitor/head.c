@@ -489,10 +489,10 @@ phosh_head_new_from_wlr_head (gpointer wlr_head)
 
 
 /**
- * phosh_head_set_transform:
+ * phosh_head_set_pending_transform:
  * @self: The head to transform
  * @transform: The transform to apply to the head
- * @heads: All currently known heads
+ * @heads:(element-type PhoshHead): All currently known heads
  *
  * Set the heads pending transform. Move pending positions of heads to
  * the right and below @self around to avoid gaps and overlaps in the
@@ -597,10 +597,11 @@ phosh_head_get_preferred_mode (PhoshHead *self)
   return NULL;
 }
 
-
 /**
  * phosh_head_is_builtin:
  * @self: A #PhoshHead
+ *
+ * Checks whether the given head is a builtin display.
  *
  * Returns: %TRUE if the head built in panel (e.g. laptop panel or
  * phone LCD)
@@ -613,11 +614,12 @@ phosh_head_is_builtin (PhoshHead *self)
   return phosh_monitor_connector_is_builtin (self->conn_type);
 }
 
-
 /**
  * phosh_head_find_mode_by_name:
  * @self: A #PhoshHead
  * @name: The name of a mode
+ *
+ * Look up the given mode by its name.
  *
  * Returns: The #PhoshHeadMode if found, otherwise %NULL
  */
