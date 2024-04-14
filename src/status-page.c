@@ -131,6 +131,14 @@ phosh_status_page_set_header (PhoshStatusPage *self, GtkWidget *header)
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HEADER]);
 }
 
+/**
+ * phosh_status_page_get_header:
+ * @self: A quick setting status page
+ *
+ * Get the header of the status page
+ *
+ * Returns:(transfer none): The status page header
+ */
 GtkWidget *
 phosh_status_page_get_header (PhoshStatusPage *self)
 {
