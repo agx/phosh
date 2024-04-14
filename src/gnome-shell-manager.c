@@ -817,7 +817,13 @@ phosh_gnome_shell_manager_init (PhoshGnomeShellManager *self)
   on_keyboard_setting_changed (self, NULL, self->keyboard_settings);
 }
 
-
+/**
+ * phosh_gnome_shell_manager_get_default:
+ *
+ * Get the shell manager singleton
+ *
+ * Returns:(transfer none): The shell manager singleton
+ */
 PhoshGnomeShellManager *
 phosh_gnome_shell_manager_get_default (void)
 {
