@@ -330,7 +330,7 @@ phosh_folder_info_class_init (PhoshFolderInfoClass *klass)
                          G_PARAM_STATIC_STRINGS);
 
   /**
-   * PhoshFolderInfo:app-infos;
+   * PhoshFolderInfo:app-infos:
    *
    * A list model of (filtered) app-infos belonging to the folder.
    */
