@@ -258,6 +258,7 @@ libphosh_sources = files(
   'osk-manager.h',
   'top-panel.c',
   'top-panel.h',
+  'plugin-shell.h',
   'polkit-auth-agent.c',
   'polkit-auth-agent.h',
   'polkit-auth-prompt.c',
@@ -390,7 +391,7 @@ phosh_plugins_dep = declare_dependency(
   sources: generated_dbus_headers,
 )
 
-if get_option('gtk_doc')
+if enable_introspection
   phosh_gir_sources = [ libphosh_sources,
                         libphosh_tool_sources,
                         libphosh_glib_generated_sources,
@@ -408,7 +409,7 @@ if get_option('gtk_doc')
           symbol_prefix : 'phosh',
       identifier_prefix : 'Phosh',
               link_with : phosh_lib,
-               includes : ['Gio-2.0', 'Gtk-3.0', 'Handy-1'],
+               includes : ['Gio-2.0', 'Gtk-3.0', 'Handy-1', 'NM-1.0'],
              extra_args : phosh_gir_extra_args,
            dependencies : phosh_static_lib_dep,
    )
