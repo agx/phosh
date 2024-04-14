@@ -106,7 +106,8 @@ handle_access_dialog (PhoshDBusImplPortalAccess *object,
   }
   g_variant_lookup (arg_options, "grant_label", "&s", grant_label);
   g_variant_lookup (arg_options, "deny_label",  "&s", deny_label);
-  choices = g_variant_lookup_value (arg_options, "choices", G_VARIANT_TYPE (CHOICES_FORMAT));
+  choices = g_variant_lookup_value (arg_options, "choices",
+                                    G_VARIANT_TYPE (PHOSH_APP_AUTH_PROMPT_CHOICES_FORMAT));
 
   self->invocation = invocation;
   self->choices = choices;
