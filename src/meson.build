@@ -223,7 +223,6 @@ libphosh_sources = files(
   'bt-manager.c',
   'bt-manager.h',
   'contrib/shell-network-agent.c',
-  'contrib/shell-network-agent.h',
   'emergency-calls-manager.c',
   'emergency-calls-manager.h',
   'fader.c',
