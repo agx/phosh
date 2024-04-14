@@ -585,7 +585,14 @@ phosh_overview_has_running_activities (PhoshOverview *self)
   return priv->has_activities;
 }
 
-
+/**
+ * phosh_overview_get_app_grid:
+ * @self: The overview
+ *
+ * Get the application grid
+ *
+ * Returns:(transfer none): The app grid widget
+ */
 PhoshAppGrid *
 phosh_overview_get_app_grid (PhoshOverview *self)
 {
