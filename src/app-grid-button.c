@@ -541,7 +541,14 @@ phosh_app_grid_button_set_app_info (PhoshAppGridButton *self,
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_APP_INFO]);
 }
 
-
+/**
+ * phosh_app_grid_button_get_app_info:
+ * @self: An app grid button
+ *
+ * Get the app info
+ *
+ * Returns:(transfer none): The app info
+ */
 GAppInfo *
 phosh_app_grid_button_get_app_info (PhoshAppGridButton *self)
 {
