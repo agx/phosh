@@ -76,7 +76,7 @@ static double
 ease_in_quintic (double t)
 {
   return t * t * t * t * t;
-} 
+}
 
 
 static double
@@ -85,7 +85,7 @@ ease_out_quintic (double t)
   double p = t - 1;
 
   return p * p * p * p * p + 1;
-} 
+}
 
 
 static inline double
@@ -97,10 +97,10 @@ interpolate (PhoshAnimationType type, double t)
 
   case PHOSH_ANIMATION_TYPE_EASE_IN_QUINTIC:
     return ease_in_quintic (t);
-    
+
   case PHOSH_ANIMATION_TYPE_EASE_OUT_QUINTIC:
     return ease_out_quintic (t);
-    
+
   case PHOSH_ANIMATION_TYPE_EASE_OUT_BOUNCE:
     return ease_out_bounce (t);
 
