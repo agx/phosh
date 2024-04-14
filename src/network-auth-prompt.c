@@ -490,7 +490,7 @@ phosh_network_auth_prompt_new (ShellNetworkAgent *agent)
  * @flags: Secret flags
  * @title: The prompt title
  * @message: The prompt message
- * @secrets: (nullable): The secrets to get
+ * @secrets: (nullable)(element-type PhoshNMSecret): The secrets to get
  *
  * Sets up a network authentication prompt for an auth request.
  * Returns: %TRUE if success otherwise (e.g. if the prompt is still  in use) %FALSE
