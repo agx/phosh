@@ -1432,7 +1432,15 @@ phosh_monitor_manager_new (PhoshSensorProxyManager *proxy)
                        NULL);
 }
 
-
+/**
+ * phosh_monitor_manager_get_monitor:
+ * @self: The monitor manager
+ * @num: The number of the monitor to get
+ *
+ * Get the nth monitor in the list of known monitors
+ *
+ * Returns:(nullable)(transfer none): The monitor
+ */
 PhoshMonitor *
 phosh_monitor_manager_get_monitor (PhoshMonitorManager *self, guint num)
 {
@@ -1442,7 +1450,15 @@ phosh_monitor_manager_get_monitor (PhoshMonitorManager *self, guint num)
   return g_ptr_array_index (self->monitors, num);
 }
 
-
+/**
+ * phosh_monitor_manager_find_monitor:
+ * @self: The monitor manager
+ * @name: The name of the monitor to find
+ *
+ * Find a monitor by its name
+ *
+ * Returns:(nullable)(transfer none): The monitor if found, otherwise %NULL
+ */
 PhoshMonitor *
 phosh_monitor_manager_find_monitor (PhoshMonitorManager *self, const char *name)
 {
