@@ -1374,6 +1374,14 @@ phosh_shell_get_primary_monitor (PhoshShell *self)
 
 /* Manager getters */
 
+/**
+ * phosh_shell_get_app_tracker:
+ * @self: The shell singleton
+ *
+ * Get the app tracker
+ *
+ * Returns: (transfer none): The app tracker
+ */
 PhoshAppTracker *
 phosh_shell_get_app_tracker (PhoshShell *self)
 {
@@ -1387,6 +1395,14 @@ phosh_shell_get_app_tracker (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_background_manager:
+ * @self: The shell singleton
+ *
+ * Get the background manager
+ *
+ * Returns: (transfer none): The background manager
+ */
 PhoshBackgroundManager *
 phosh_shell_get_background_manager (PhoshShell *self)
 {
@@ -1400,6 +1416,14 @@ phosh_shell_get_background_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_calls_manager:
+ * @self: The shell singleton
+ *
+ * Get the calls manager
+ *
+ * Returns: (transfer none): The calls manager
+ */
 PhoshCallsManager *
 phosh_shell_get_calls_manager (PhoshShell *self)
 {
@@ -1414,12 +1438,12 @@ phosh_shell_get_calls_manager (PhoshShell *self)
 
 
 /**
- * phosh_shell_get_emergency_contact_manager:
+ * phosh_shell_get_emergency_calls_manager:
  * @self: The shell singleton
  *
- * Get the emergency contact manager.
+ * Get the emergency calls manager
  *
- * Returns: (transfer none): The emergency contact manager
+ * Returns: (transfer none): The emergency calls manager
  */
 PhoshEmergencyCallsManager*
 phosh_shell_get_emergency_calls_manager (PhoshShell *self)
@@ -1434,6 +1458,14 @@ phosh_shell_get_emergency_calls_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_feedback_manager:
+ * @self: The shell singleton
+ *
+ * Get the feedback manager
+ *
+ * Returns: (transfer none): The feedback manager
+ */
 PhoshFeedbackManager *
 phosh_shell_get_feedback_manager (PhoshShell *self)
 {
@@ -1447,6 +1479,14 @@ phosh_shell_get_feedback_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_gtk_mount_manager:
+ * @self: The shell singleton
+ *
+ * Get the GTK mount manager
+ *
+ * Returns: (transfer none): The GTK mount manager
+ */
 PhoshGtkMountManager *
 phosh_shell_get_gtk_mount_manager (PhoshShell *self)
 {
@@ -1460,6 +1500,14 @@ phosh_shell_get_gtk_mount_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_launcher_entry_manager:
+ * @self: The shell singleton
+ *
+ * Get the launcher entry manager
+ *
+ * Returns: (transfer none): The launcher entry manager
+ */
 PhoshLauncherEntryManager *
 phosh_shell_get_launcher_entry_manager (PhoshShell *self)
 {
@@ -1473,6 +1521,14 @@ phosh_shell_get_launcher_entry_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_layout_manager:
+ * @self: The shell singleton
+ *
+ * Get the layout manager
+ *
+ * Returns: (transfer none): The layout manager
+ */
 PhoshLayoutManager *
 phosh_shell_get_layout_manager (PhoshShell *self)
 {
@@ -1486,6 +1542,14 @@ phosh_shell_get_layout_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_lockscreen_manager:
+ * @self: The shell singleton
+ *
+ * Get the lockscreen manager
+ *
+ * Returns: (transfer none): The lockscreen manager
+ */
 PhoshLockscreenManager *
 phosh_shell_get_lockscreen_manager (PhoshShell *self)
 {
@@ -1499,6 +1563,14 @@ phosh_shell_get_lockscreen_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_mode_manager:
+ * @self: The shell singleton
+ *
+ * Get the mode manager
+ *
+ * Returns: (transfer none): The mode manager
+ */
 PhoshModeManager *
 phosh_shell_get_mode_manager (PhoshShell *self)
 {
@@ -1512,6 +1584,14 @@ phosh_shell_get_mode_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_monitor_manager:
+ * @self: The shell singleton
+ *
+ * Get the monitor manager
+ *
+ * Returns: (transfer none): The monitor manager
+ */
 PhoshMonitorManager *
 phosh_shell_get_monitor_manager (PhoshShell *self)
 {
@@ -1525,6 +1605,14 @@ phosh_shell_get_monitor_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_toplevel_manager:
+ * @self: The shell singleton
+ *
+ * Get the toplevel manager
+ *
+ * Returns: (transfer none): The toplevel manager
+ */
 PhoshToplevelManager *
 phosh_shell_get_toplevel_manager (PhoshShell *self)
 {
@@ -1538,6 +1626,14 @@ phosh_shell_get_toplevel_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_screen_saver_manager:
+ * @self: The shell singleton
+ *
+ * Get the screensaver manager
+ *
+ * Returns: (transfer none): The screensaver manager
+ */
 PhoshScreenSaverManager *
 phosh_shell_get_screen_saver_manager (PhoshShell *self)
 {
@@ -1551,6 +1647,14 @@ phosh_shell_get_screen_saver_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_screenshot_manager:
+ * @self: The shell singleton
+ *
+ * Get the screenshot manager
+ *
+ * Returns: (transfer none): The screenshot manager
+ */
 PhoshScreenshotManager *
 phosh_shell_get_screenshot_manager (PhoshShell *self)
 {
@@ -1564,6 +1668,14 @@ phosh_shell_get_screenshot_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_session_manager:
+ * @self: The shell singleton
+ *
+ * Get the session manager
+ *
+ * Returns: (transfer none): The session manager
+ */
 PhoshSessionManager *
 phosh_shell_get_session_manager (PhoshShell *self)
 {
@@ -1578,6 +1690,14 @@ phosh_shell_get_session_manager (PhoshShell *self)
 
 /* Manager getters that create them as needed */
 
+/**
+ * phosh_shell_get_bt_manager:
+ * @self: The shell singleton
+ *
+ * Get the bluetooth manager
+ *
+ * Returns: (transfer none): The bluetooth manager
+ */
 PhoshBtManager *
 phosh_shell_get_bt_manager (PhoshShell *self)
 {
@@ -1594,6 +1714,14 @@ phosh_shell_get_bt_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_docked_manager:
+ * @self: The shell singleton
+ *
+ * Get the docked manager
+ *
+ * Returns: (transfer none): The docked manager
+ */
 PhoshDockedManager *
 phosh_shell_get_docked_manager (PhoshShell *self)
 {
@@ -1616,6 +1744,14 @@ phosh_shell_get_docked_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_hks_manager:
+ * @self: The shell singleton
+ *
+ * Get the hardware killswitch manager
+ *
+ * Returns: (transfer none): The hardware killswitch manager
+ */
 PhoshHksManager *
 phosh_shell_get_hks_manager (PhoshShell *self)
 {
@@ -1632,6 +1768,14 @@ phosh_shell_get_hks_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_location_manager:
+ * @self: The shell singleton
+ *
+ * Get the location manager
+ *
+ * Returns: (transfer none): The location manager
+ */
 PhoshLocationManager *
 phosh_shell_get_location_manager (PhoshShell *self)
 {
@@ -1648,6 +1792,14 @@ phosh_shell_get_location_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_osk_manager:
+ * @self: The shell singleton
+ *
+ * Get the onscreen keyboard manager
+ *
+ * Returns: (transfer none): The onscreen keyboard manager
+ */
 PhoshOskManager *
 phosh_shell_get_osk_manager (PhoshShell *self)
 {
@@ -1664,6 +1816,14 @@ phosh_shell_get_osk_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_rotation_manager:
+ * @self: The shell singleton
+ *
+ * Get the rotation manager
+ *
+ * Returns: (transfer none): The rotation manager
+ */
 PhoshRotationManager *
 phosh_shell_get_rotation_manager (PhoshShell *self)
 {
@@ -1688,6 +1848,15 @@ phosh_shell_get_rotation_manager (PhoshShell *self)
   return priv->rotation_manager;
 }
 
+
+/**
+ * phosh_shell_get_torch_manager:
+ * @self: The shell singleton
+ *
+ * Get the torch manager
+ *
+ * Returns: (transfer none): The torch manager
+ */
 PhoshTorchManager *
 phosh_shell_get_torch_manager (PhoshShell *self)
 {
@@ -1704,6 +1873,14 @@ phosh_shell_get_torch_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_vpn_manager:
+ * @self: The shell singleton
+ *
+ * Get the VPN manager
+ *
+ * Returns: (transfer none): The VPN manager
+ */
 PhoshVpnManager *
 phosh_shell_get_vpn_manager (PhoshShell *self)
 {
@@ -1720,6 +1897,14 @@ phosh_shell_get_vpn_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_wifi_manager:
+ * @self: The shell singleton
+ *
+ * Get the Wifi manager
+ *
+ * Returns: (transfer none): The Wifi manager
+ */
 PhoshWifiManager *
 phosh_shell_get_wifi_manager (PhoshShell *self)
 {
@@ -1736,6 +1921,14 @@ phosh_shell_get_wifi_manager (PhoshShell *self)
 }
 
 
+/**
+ * phosh_shell_get_wwan:
+ * @self: The shell singleton
+ *
+ * Get the WWAN manager
+ *
+ * Returns: (transfer none): The WWAN manager
+ */
 PhoshWWan *
 phosh_shell_get_wwan (PhoshShell *self)
 {
@@ -1997,10 +2190,10 @@ phosh_shell_is_session_active (PhoshShell *self)
 
 
 /**
- * phosh_get_app_launch_context:
+ * phosh_shell_get_app_launch_context:
  * @self: The shell
  *
- * Returns: an app launch context for the primary display
+ * Returns: (transfer none): an app launch context for the primary display
  */
 GdkAppLaunchContext*
 phosh_shell_get_app_launch_context (PhoshShell *self)
