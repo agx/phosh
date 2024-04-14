@@ -455,7 +455,14 @@ phosh_notification_content_new (PhoshNotification  *notification,
                        NULL);
 }
 
-
+/**
+ * phosh_notification_content_get_notification
+ * @self: The notification content
+ *
+ * Get the notification.
+ *
+ * Returns:(transfer none): The notification
+ */
 PhoshNotification *
 phosh_notification_content_get_notification (PhoshNotificationContent *self)
 {

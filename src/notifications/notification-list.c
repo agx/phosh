@@ -305,7 +305,7 @@ phosh_notification_list_add (PhoshNotificationList *self,
  *
  * Find a #PhoshNotification in @self by it's @id
  *
- * Returns: (nullable): the #PhoshNotification or %NULL
+ * Returns:(nullable)(transfer none): the #PhoshNotification or %NULL
  */
 PhoshNotification *
 phosh_notification_list_get_by_id (PhoshNotificationList *self,

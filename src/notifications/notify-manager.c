@@ -749,7 +749,13 @@ phosh_notify_manager_init (PhoshNotifyManager *self)
   self->list = phosh_notification_list_new ();
 }
 
-
+/**
+ * phosh_notify_manager_get_default:
+ *
+ * Get the notify manager singleton
+ *
+ * Returns:(transfer none): The notify manager singleton
+ */
 PhoshNotifyManager *
 phosh_notify_manager_get_default (void)
 {
@@ -763,14 +769,13 @@ phosh_notify_manager_get_default (void)
   return instance;
 }
 
-
 /**
  * phosh_notify_manager_get_list:
  * @self: the #PhoshNotifyManager
  *
  * Get the #PhoshNotificationList of current notifications
  *
- * Returns: the #PhoshNotificationList
+ * Returns:(transfer none): The #PhoshNotificationList
  */
 PhoshNotificationList *
 phosh_notify_manager_get_list (PhoshNotifyManager *self)
@@ -779,7 +784,6 @@ phosh_notify_manager_get_list (PhoshNotifyManager *self)
 
   return self->list;
 }
-
 
 /**
  * phosh_notify_manager_get_show_banners:
