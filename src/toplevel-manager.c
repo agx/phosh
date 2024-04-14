@@ -233,7 +233,14 @@ phosh_toplevel_manager_new (void)
   return g_object_new (PHOSH_TYPE_TOPLEVEL_MANAGER, NULL);
 }
 
-
+/**
+ * phosh_toplevel_manager_get_toplevel:
+ * @self: The toplevel manager
+ *
+ * Get the nth toplevel in the list of toplevels
+ *
+ * Returns:(transfer none): The toplevel
+ */
 PhoshToplevel *
 phosh_toplevel_manager_get_toplevel (PhoshToplevelManager *self, guint num)
 {
