@@ -515,7 +515,15 @@ phosh_calls_manager_get_active_call_handle (PhoshCallsManager *self)
   return self->active_call;
 }
 
-
+/**
+ * phosh_calls_manager_get_call:
+ * @self: The calls manager
+ * @handle: The handle identifying the call
+ *
+ * Get the call associated with the given handle
+ *
+ * Returns:(transfer none): The call
+ */
 PhoshCall *
 phosh_calls_manager_get_call (PhoshCallsManager *self, const char *handle)
 {
