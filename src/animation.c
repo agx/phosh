@@ -142,6 +142,23 @@ phosh_animation_free (PhoshAnimation *self)
   g_slice_free (PhoshAnimation, self);
 }
 
+/**
+ * phosh_animation_new:
+ * @widget: A widget
+ * @from: The animation's start value
+ * @to: The animation's end value
+ * @type: The type of animation
+ * @value_cb:(scope forever): The callback applying `value`
+ * @done_cb:(scope forever): The callback invoked when the animation is done
+ * @user_data: user_data passed to `value_cb` and `done_cb`
+ *
+ * Get a new animation object for @widget.
+ *
+ * Note that the scope of the `value_cb` and `done_cb` callbacks is
+ * actually as long as the animation exists.
+ *
+ * Returns:(transfer full): The animation
+ */
 PhoshAnimation *
 phosh_animation_new (GtkWidget                   *widget,
                      double                       from,
