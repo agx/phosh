@@ -10,8 +10,6 @@
 #include <gtk/gtk.h>
 #include <gio/gdesktopappinfo.h>
 
-#define STR_IS_NULL_OR_EMPTY(x) ((x) == NULL || (x)[0] == '\0')
-
 #define phosh_async_error_warn(err, ...) \
   phosh_error_warnv (G_LOG_DOMAIN, err, G_IO_ERROR, G_IO_ERROR_CANCELLED, __VA_ARGS__)
 
