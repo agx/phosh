@@ -47,7 +47,13 @@ phosh_session_presence_init (PhoshSessionPresence *self)
 {
 }
 
-
+/**
+ * phosh_session_presence_get_default_failable:
+ *
+ * Get the session presence singleton
+ *
+ * Returns:(transfer none): The session presence singleton
+ */
 PhoshSessionPresence *
 phosh_session_presence_get_default_failable (void)
 {
