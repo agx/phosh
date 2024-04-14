@@ -618,7 +618,7 @@ accelerator_activated_action (GSimpleAction *action,
   }
   g_debug ("accelerator action activated for id %u", action_id);
 
-  if ((info->grab_flags & SHELL_KEY_BINDING_IGNORE_AUTOREPEAT) == 0 && self->do_repeat) {
+  if ((info->grab_flags & PHOSH_SHELL_KEY_BINDING_IGNORE_AUTOREPEAT) == 0 && self->do_repeat) {
     g_autofree char *source_name = g_strdup_printf ("[phosh] key-repeat-delay for %u", action_id);
     g_debug ("setting up accelerator autorepeat for id %u", action_id);
     info->repeat_id = g_timeout_add (self->repeat_delay_ms, on_accelerator_repeat_delay, info);
