@@ -217,7 +217,7 @@ phosh_wifi_info_class_init (PhoshWifiInfoClass *klass)
                           G_PARAM_STATIC_STRINGS |
                           G_PARAM_EXPLICIT_NOTIFY);
   /**
-   * PhoshWifiInfo:enabled:
+   * PhoshWifiInfo:present:
    *
    * Whether a Wi-Fi hardware is present
    */
