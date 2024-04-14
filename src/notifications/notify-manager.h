@@ -14,14 +14,7 @@
 
 G_BEGIN_DECLS
 
-#define NOTIFICATIONS_SCHEMA_ID "org.gnome.desktop.notifications"
-#define NOTIFICATIONS_KEY_SHOW_BANNERS "show-banners"
-#define NOTIFICATIONS_KEY_APP_CHILDREN "application-children"
-
-#define NOTIFICATIONS_APP_SCHEMA_ID NOTIFICATIONS_SCHEMA_ID ".application"
-#define NOTIFICATIONS_APP_PREFIX "/org/gnome/desktop/notifications/application"
-#define NOTIFICATIONS_APP_KEY_SHOW_BANNERS "show-banners"
-#define NOTIFICATIONS_APP_KEY_APP_ID "application-id"
+#define PHOSH_NOTIFICATIONS_SCHEMA_ID "org.gnome.desktop.notifications"
 
 #define PHOSH_TYPE_NOTIFY_MANAGER             (phosh_notify_manager_get_type ())
 G_DECLARE_FINAL_TYPE (PhoshNotifyManager, phosh_notify_manager, PHOSH, NOTIFY_MANAGER,
