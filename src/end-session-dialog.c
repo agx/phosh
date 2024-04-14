@@ -15,11 +15,12 @@
 
 #include "phosh-config.h"
 #include "end-session-dialog.h"
+#include "util.h"
+
+#include <gmobile.h>
 
 #include <glib/gi18n.h>
 #include <gio/gdesktopappinfo.h>
-
-#include "util.h"
 
 #define SYNC_DBUS_TIMEOUT 500
 
@@ -283,7 +284,7 @@ add_inhibitor (PhoshEndSessionDialog *self, GDBusProxy *inhibitor)
   if (!(flags & PHOSH_GSM_INHIBITOR_FLAG_LOGOUT))
     return;
 
-  if (STR_IS_NULL_OR_EMPTY (app_id))
+  if (gm_str_is_null_or_empty (app_id))
     return;
 
   app_info = phosh_get_desktop_app_info_for_app_id (app_id);

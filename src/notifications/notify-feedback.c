@@ -18,6 +18,8 @@
 #define LIBFEEDBACK_USE_UNSTABLE_API
 #include <libfeedback.h>
 
+#include <gmobile.h>
+
 /**
  * PhoshNotifyFeedback:
  *
@@ -390,7 +392,7 @@ phosh_notify_feedback_check_screen_wakeup (PhoshNotifyFeedback *self,
   }
 
   category = phosh_notification_get_category (notification);
-  if (!STR_IS_NULL_OR_EMPTY (category) &&
+  if (!gm_str_is_null_or_empty (category) &&
       self->wakeup_flags & PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_CATEGORY) {
     /* exact match of setting to notification's category (e.g. `im` == `im` or `im.foo == `im.foo` */
     if (g_strv_contains ((const char * const *)self->wakeup_categories, category))

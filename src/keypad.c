@@ -13,6 +13,8 @@
 #include "keypad.h"
 #include "util.h"
 
+#include <gmobile.h>
+
 /**
  * PhoshKeypad:
  *
@@ -81,7 +83,7 @@ on_button_clicked (PhoshKeypad *self,
   GtkWidget *label = gtk_bin_get_child (GTK_BIN (btn));
   const char *text = gtk_label_get_label (GTK_LABEL (label));
 
-  g_return_if_fail (!STR_IS_NULL_OR_EMPTY (text));
+  g_return_if_fail (!gm_str_is_null_or_empty (text));
 
   symbol_clicked (self, text[0]);
 }
@@ -182,7 +184,7 @@ distribute_buttons (PhoshKeypad *self, gboolean shuffle)
       GtkWidget *old;
       int c = btn_pos[i][0];
       int r = btn_pos[i][1];
-      
+
       old = gtk_grid_get_child_at (GTK_GRID (self), c, r);
       gtk_container_remove (GTK_CONTAINER (self), old);
     }

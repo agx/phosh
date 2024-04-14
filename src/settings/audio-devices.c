@@ -16,6 +16,8 @@
 
 #include "gvc-mixer-control.h"
 
+#include <gmobile.h>
+
 #include <gio/gio.h>
 
 /**
@@ -151,7 +153,7 @@ on_device_added (PhoshAudioDevices *self, guint id)
   }
 
   origin = gvc_mixer_ui_device_get_origin (device);
-  if (STR_IS_NULL_OR_EMPTY (origin)) {
+  if (gm_str_is_null_or_empty (origin)) {
     description = g_strdup (gvc_mixer_ui_device_get_description (device));
   } else {
     description = g_strdup_printf ("%s - %s",

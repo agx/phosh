@@ -11,6 +11,7 @@
 #include "call.h"
 #include "util.h"
 
+#include <gmobile.h>
 #include <cui-call.h>
 
 /**
@@ -282,7 +283,7 @@ phosh_call_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_call_parent_class)->constructed (object);
 
   path = phosh_calls_dbus_calls_call_get_image_path (self->proxy);
-  if (!STR_IS_NULL_OR_EMPTY (path)) {
+  if (!gm_str_is_null_or_empty (path)) {
     file = g_file_new_for_path (path);
     if (file) {
       self->avatar_icon = G_LOADABLE_ICON (g_file_icon_new (file));

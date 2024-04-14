@@ -14,6 +14,8 @@
 #include "favorite-list-model.h"
 #include "gtk-list-models/gtkfilterlistmodel.h"
 
+#include <gmobile.h>
+
 #include <gio/gdesktopappinfo.h>
 
 #define FOLDER_SCHEMA_ID "org.gnome.desktop.app-folders.folder"
@@ -215,7 +217,7 @@ filter_app (gpointer item, gpointer data)
    * If nothing is being searched, then show the app only if it is non-favorite.
    * Else check if the app matches the search term.
    */
-  if (STR_IS_NULL_OR_EMPTY (self->search))
+  if (gm_str_is_null_or_empty (self->search))
     show = !phosh_favorite_list_model_app_is_favorite (self->favorites, app_info);
   else
     show = phosh_util_matches_app_info (app_info, self->search);

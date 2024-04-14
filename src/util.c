@@ -23,6 +23,8 @@
 
 #include <libsoup/soup.h>
 
+#include <gmobile.h>
+
 #ifdef PHOSH_HAVE_MEMFD_CREATE
 #include <sys/mman.h>
 #include <linux/memfd.h>
@@ -686,7 +688,7 @@ phosh_util_matches_app_info (GAppInfo *info, const char *search)
 
     str = app_attr[i] (info);
 
-    if (STR_IS_NULL_OR_EMPTY (str))
+    if (gm_str_is_null_or_empty (str))
       continue;
 
     folded = g_utf8_casefold (str, -1);
@@ -703,7 +705,7 @@ phosh_util_matches_app_info (GAppInfo *info, const char *search)
 
       str = desktop_attr[i] (G_DESKTOP_APP_INFO (info));
 
-      if (STR_IS_NULL_OR_EMPTY (str))
+      if (gm_str_is_null_or_empty (str))
         continue;
 
       folded = g_utf8_casefold (str, -1);

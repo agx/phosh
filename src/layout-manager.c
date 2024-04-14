@@ -13,7 +13,6 @@
 #include "shell.h"
 #include "top-panel.h"
 
-#define GMOBILE_USE_UNSTABLE_API
 #include <gmobile.h>
 #include <gio/gio.h>
 

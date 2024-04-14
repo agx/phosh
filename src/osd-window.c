@@ -13,6 +13,8 @@
 
 #include "osd-window.h"
 
+#include <gmobile.h>
+
 /**
  * PhoshOsdWindow:
  *
@@ -74,7 +76,7 @@ set_label (PhoshOsdWindow *self, char *label)
   self->label = label;
   gtk_label_set_label (GTK_LABEL (self->lbl), self->label);
 
-  visible = !STR_IS_NULL_OR_EMPTY (label);
+  visible = !gm_str_is_null_or_empty (label);
   gtk_widget_set_visible (GTK_WIDGET (self->lbl), visible);
   adjust_icon (self, visible);
 }
