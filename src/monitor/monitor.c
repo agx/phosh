@@ -469,7 +469,7 @@ phosh_monitor_new_from_wl_output (gpointer wl_output)
 }
 
 /**
- * phosh_monitor_get_current_mode:
+ * phosh_monitor_get_current_mode: (skip)
  * @self: A monitor
  *
  * Get the monitor's current mode

@@ -615,7 +615,7 @@ phosh_head_is_builtin (PhoshHead *self)
 }
 
 /**
- * phosh_head_find_mode_by_name:
+ * phosh_head_find_mode_by_name: (skip)
  * @self: A #PhoshHead
  * @name: The name of a mode
  *

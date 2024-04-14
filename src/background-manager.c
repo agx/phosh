@@ -414,7 +414,7 @@ phosh_background_manager_get_backgrounds (PhoshBackgroundManager *self)
 }
 
 /**
- * phosh_background_manager_get_data:
+ * phosh_background_manager_get_data: (skip)
  * @self: The background manager
  * @background: The background to fetch information fore
  *

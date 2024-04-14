@@ -20,7 +20,7 @@
 #include <unistd.h>
 
 /**
- * phosh_wl_buffer_new:
+ * phosh_wl_buffer_new: (skip)
  * @format: The buffer format
  * @width: The buffer's width in pixels
  * @height: The buffer's height in lines
