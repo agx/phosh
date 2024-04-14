@@ -468,7 +468,14 @@ phosh_monitor_new_from_wl_output (gpointer wl_output)
   return g_object_new (PHOSH_TYPE_MONITOR, "wl-output", wl_output, NULL);
 }
 
-
+/**
+ * phosh_monitor_get_current_mode:
+ * @self: A monitor
+ *
+ * Get the monitor's current mode
+ *
+ * Returns:(transfer none): The mode
+ */
 PhoshMonitorMode *
 phosh_monitor_get_current_mode (PhoshMonitor *self)
 {
