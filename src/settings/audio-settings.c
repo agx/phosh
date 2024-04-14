@@ -10,6 +10,8 @@
 
 #include "phosh-config.h"
 
+#include <pulse/pulseaudio.h>
+
 #include "fading-label.h"
 #include "settings/audio-device-row.h"
 #include "settings/audio-device.h"
@@ -18,7 +20,6 @@
 #include "settings/gvc-channel-bar.h"
 #include "util.h"
 
-#include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
 #include "gvc-mixer-stream.h"
 
