@@ -433,6 +433,14 @@ phosh_wifi_network_get_is_connecting (PhoshWifiNetwork *self)
   return self->is_connecting;
 }
 
+/**
+ * phosh_wifi_network_get_best_access_point:
+ * @self: A wifi network
+ *
+ * Get the AP with the greatest signal strength in the givein Wi-Fi network.
+ *
+ * Returns:(transfer none): The best access point
+ */
 NMAccessPoint *
 phosh_wifi_network_get_best_access_point (PhoshWifiNetwork *self)
 {

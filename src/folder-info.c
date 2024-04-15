@@ -330,7 +330,7 @@ phosh_folder_info_class_init (PhoshFolderInfoClass *klass)
                          G_PARAM_STATIC_STRINGS);
 
   /**
-   * PhoshFolderInfo:app-infos;
+   * PhoshFolderInfo:app-infos:
    *
    * A list model of (filtered) app-infos belonging to the folder.
    */
@@ -371,7 +371,14 @@ phosh_folder_info_get_name (PhoshFolderInfo *self)
   return self->name;
 }
 
-
+/**
+ * phosh_folder_info_get_app_infos:
+ * @self: A folder info
+ *
+ * Get the list model of the folder info.
+ *
+ * Returns:(transfer none): The folder info
+ */
 GListModel *
 phosh_folder_info_get_app_infos (PhoshFolderInfo *self)
 {

@@ -89,7 +89,13 @@ on_name_acquired (GDBusConnection *connection,
   acquired_prompter = TRUE;
 }
 
-
+/**
+ * phosh_system_prompter_register:
+ *
+ * Register the system prompter
+ *
+ * Returns:(transfer none): The system prompter
+ */
 GcrSystemPrompter *
 phosh_system_prompter_register (void)
 {

@@ -336,7 +336,14 @@ phosh_status_icon_set_extra_widget (PhoshStatusIcon *self, GtkWidget *widget)
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_STATUS_ICON_PROP_EXTRA_WIDGET]);
 }
 
-
+/**
+ * phosh_status_icon_get_extra_widget:
+ * @self: A status icon
+ *
+ * Get the extra widget or %NULL if there's no extra widget
+ *
+ * Returns:(transfer none)(nullable): The extra widget
+ */
 GtkWidget *
 phosh_status_icon_get_extra_widget (PhoshStatusIcon *self)
 {

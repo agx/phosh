@@ -833,7 +833,7 @@ phosh_lockscreen_constructed (GObject *object)
     update_active_call (self, active);
 
   manager = phosh_notify_manager_get_default ();
-  priv->notification_settings = g_settings_new (NOTIFICATIONS_SCHEMA_ID);
+  priv->notification_settings = g_settings_new (PHOSH_NOTIFICATIONS_SCHEMA_ID);
   gtk_list_box_bind_model (GTK_LIST_BOX (priv->list_notifications),
                            G_LIST_MODEL (phosh_notify_manager_get_list (manager)),
                            create_notification_row,

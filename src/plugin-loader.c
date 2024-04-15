@@ -163,7 +163,15 @@ phosh_plugin_loader_new (GStrv plugin_dirs, const char *extension_point)
                        NULL);
 }
 
-
+/**
+ * phosh_plugin_loader_load_plugin:
+ * @self: The plugin loader
+ * @name: The name of the plugin to load
+ *
+ * Load the given plugin.
+ *
+ * Returns:(transfer floating): The plugin widget
+ */
 GtkWidget *
 phosh_plugin_loader_load_plugin (PhoshPluginLoader *self, const char *name)
 {

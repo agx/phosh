@@ -400,7 +400,14 @@ phosh_wayland_init (PhoshWayland *self)
   self->wl_outputs = g_hash_table_new_full (g_direct_hash,g_direct_equal, NULL, output_destroy);
 }
 
-
+/**
+ * phosh_wayland_get_default:
+ *
+ * Get the Wayland singleton for handling Wayland protocol
+ * interactions
+ *
+ * Returns:(transfer none): The Wayland singleton
+ */
 PhoshWayland *
 phosh_wayland_get_default (void)
 {

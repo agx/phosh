@@ -304,7 +304,14 @@ phosh_quick_setting_new (void)
   return g_object_new (PHOSH_TYPE_QUICK_SETTING, NULL);
 }
 
-
+/**
+ * phosh_quick_setting_get_status_icon:
+ * @self: A quick setting
+ *
+ * Get the status icon associated with this quick settings
+ *
+ * Returns:(transfer none): The status icon
+ */
 PhoshStatusIcon *
 phosh_quick_setting_get_status_icon (PhoshQuickSetting *self)
 {

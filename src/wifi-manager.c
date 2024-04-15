@@ -935,6 +935,14 @@ phosh_wifi_manager_is_hotspot_master (PhoshWifiManager *self)
   return self->is_hotspot_master;
 }
 
+/**
+ * phosh_wifi_manager_get_networks:
+ * @self: The wifi manager
+ *
+ * Get the list store of known Wi-Fi networks.
+ *
+ * Returns:(transfer none): The Wi-Fi networks
+ */
 GListStore *
 phosh_wifi_manager_get_networks (PhoshWifiManager *self)
 {

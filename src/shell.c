@@ -2036,7 +2036,13 @@ phosh_shell_get_area (PhoshShell *self, int *width, int *height)
     *height = h + PHOSH_TOP_BAR_HEIGHT + PHOSH_HOME_BAR_HEIGHT;
 }
 
-
+/**
+ * phosh_shell_get_default:
+ *
+ * Get the shell singleton
+ *
+ * Returns:(transfer none): The shell singleton
+ */
 PhoshShell *
 phosh_shell_get_default (void)
 {

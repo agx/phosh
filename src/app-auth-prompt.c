@@ -394,7 +394,7 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
       "choices",
       "Choices",
       "The dialogs shown permissions and their possible values",
-      G_VARIANT_TYPE (CHOICES_FORMAT),
+      G_VARIANT_TYPE (PHOSH_APP_AUTH_PROMPT_CHOICES_FORMAT),
       NULL,
       G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
 

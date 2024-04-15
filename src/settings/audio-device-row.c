@@ -165,7 +165,14 @@ phosh_audio_device_row_new (PhoshAudioDevice *audio_device)
                        NULL);
 }
 
-
+/**
+ * phosh_audio_device_row_get_audio_device:
+ * @self: An audio device row
+ *
+ * Get the audio device associated with this row
+ *
+ * Returns:(transfer none): The audio device
+ */
 PhoshAudioDevice *
 phosh_audio_device_row_get_audio_device (PhoshAudioDeviceRow *self)
 {

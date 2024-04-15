@@ -435,7 +435,13 @@ phosh_idle_manager_init (PhoshIdleManager *self)
   self->dbus_name_id = 0;
 }
 
-
+/**
+ * phosh_idle_manager_get_default:
+ *
+ * Get the idle manager singleton
+ *
+ * Returns:(transfer none): The idle manager
+ */
 PhoshIdleManager *
 phosh_idle_manager_get_default (void)
 {

@@ -21,6 +21,14 @@
 #include "phosh-enums.h"
 #include "util.h"
 
+#define NOTIFICATIONS_KEY_SHOW_BANNERS "show-banners"
+#define NOTIFICATIONS_KEY_APP_CHILDREN "application-children"
+
+#define NOTIFICATIONS_APP_SCHEMA_ID PHOSH_NOTIFICATIONS_SCHEMA_ID ".application"
+#define NOTIFICATIONS_APP_PREFIX "/org/gnome/desktop/notifications/application"
+#define NOTIFICATIONS_APP_KEY_SHOW_BANNERS "show-banners"
+#define NOTIFICATIONS_APP_KEY_APP_ID "application-id"
+
 #define NOTIFICATION_DEFAULT_TIMEOUT 5000 /* ms */
 #define NOTIFICATIONS_SPEC_VERSION "1.2"
 
@@ -670,7 +678,7 @@ phosh_notify_manager_constructed (GObject *object)
                                        self,
                                        NULL);
 
-  self->settings = g_settings_new (NOTIFICATIONS_SCHEMA_ID);
+  self->settings = g_settings_new (PHOSH_NOTIFICATIONS_SCHEMA_ID);
   g_signal_connect_swapped (self->settings, "changed::" NOTIFICATIONS_KEY_SHOW_BANNERS,
                             G_CALLBACK (on_notifications_setting_changed), self);
   on_notifications_setting_changed (self, NULL, self->settings);
@@ -741,7 +749,13 @@ phosh_notify_manager_init (PhoshNotifyManager *self)
   self->list = phosh_notification_list_new ();
 }
 
-
+/**
+ * phosh_notify_manager_get_default:
+ *
+ * Get the notify manager singleton
+ *
+ * Returns:(transfer none): The notify manager singleton
+ */
 PhoshNotifyManager *
 phosh_notify_manager_get_default (void)
 {
@@ -755,14 +769,13 @@ phosh_notify_manager_get_default (void)
   return instance;
 }
 
-
 /**
  * phosh_notify_manager_get_list:
  * @self: the #PhoshNotifyManager
  *
  * Get the #PhoshNotificationList of current notifications
  *
- * Returns: the #PhoshNotificationList
+ * Returns:(transfer none): The #PhoshNotificationList
  */
 PhoshNotificationList *
 phosh_notify_manager_get_list (PhoshNotifyManager *self)
@@ -771,7 +784,6 @@ phosh_notify_manager_get_list (PhoshNotifyManager *self)
 
   return self->list;
 }
-
 
 /**
  * phosh_notify_manager_get_show_banners:

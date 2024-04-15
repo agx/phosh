@@ -344,7 +344,14 @@ phosh_system_modal_dialog_remove_button (PhoshSystemModalDialog *self, GtkWidget
   gtk_container_remove (GTK_CONTAINER (priv->box_buttons), button);
 }
 
-
+/**
+ * phosh_system_modal_dialog_get_buttons:
+ * @self: A modal dialog
+ *
+ * Get the dialog's buttons
+ *
+ * Returns:(element-type GtkWidget)(transfer container): The buttons
+ */
 GList *
 phosh_system_modal_dialog_get_buttons (PhoshSystemModalDialog *self)
 {

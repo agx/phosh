@@ -710,7 +710,9 @@ phosh_rotation_manager_get_transform (PhoshRotationManager *self)
  * phosh_rotation_manager_get_monitor:
  * @self: The PhoshRotationManager
  *
- * Returns: The #PhoshMonitor this manager acts on
+ * Get the monitor this manager currently acts on
+ *
+ * Returns:(transfer none): The current monitor
  */
 PhoshMonitor *
 phosh_rotation_manager_get_monitor (PhoshRotationManager *self)

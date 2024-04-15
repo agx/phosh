@@ -663,7 +663,14 @@ phosh_home_set_state (PhoshHome *self, PhoshHomeState state)
   phosh_drag_surface_set_drag_state (PHOSH_DRAG_SURFACE (self), target_state);
 }
 
-
+/**
+ * phosh_home_get_overview:
+ * @self: The home surface
+ *
+ * Get the overview widget
+ *
+ * Returns:(transfer none): The overview
+ */
 PhoshOverview*
 phosh_home_get_overview (PhoshHome *self)
 {

@@ -49,7 +49,7 @@ typedef struct _PhoshGnomeShellManager {
   GHashTable                 *info_by_action;
   guint                       last_action_id;
   int                         dbus_name_id;
-  ShellActionMode             action_mode;
+  PhoshShellActionMode        action_mode;
 
   GSettings                  *keyboard_settings;
   gboolean                    do_repeat;
@@ -506,7 +506,7 @@ get_version (void)
 }
 
 
-static ShellActionMode
+static PhoshShellActionMode
 get_action_mode (PhoshShellStateFlags state)
 {
   PhoshShell *shell = phosh_shell_get_default ();
@@ -516,18 +516,18 @@ get_action_mode (PhoshShellStateFlags state)
     PhoshLockscreenPage page = phosh_lockscreen_manager_get_page (lockscreen_manager);
 
     if (page == PHOSH_LOCKSCREEN_PAGE_UNLOCK)
-      return SHELL_ACTION_MODE_UNLOCK_SCREEN;
+      return PHOSH_SHELL_ACTION_MODE_UNLOCK_SCREEN;
     else
-      return SHELL_ACTION_MODE_LOCK_SCREEN;
+      return PHOSH_SHELL_ACTION_MODE_LOCK_SCREEN;
   }
 
   if (state & PHOSH_STATE_MODAL_SYSTEM_PROMPT)
-    return SHELL_ACTION_MODE_SYSTEM_MODAL;
+    return PHOSH_SHELL_ACTION_MODE_SYSTEM_MODAL;
 
   if (state & PHOSH_STATE_OVERVIEW)
-    return SHELL_ACTION_MODE_OVERVIEW;
+    return PHOSH_SHELL_ACTION_MODE_OVERVIEW;
 
-  return SHELL_ACTION_MODE_NORMAL;
+  return PHOSH_SHELL_ACTION_MODE_NORMAL;
 }
 
 
@@ -541,8 +541,10 @@ do_activate_accelerator (AcceleratorInfo *info)
   g_assert (info);
 
   if ((info->mode_flags & self->action_mode) == 0) {
-    g_autofree gchar *str_shell_mode = g_flags_to_string (SHELL_TYPE_ACTION_MODE, self->action_mode);
-    g_autofree gchar *str_grabbed_mode = g_flags_to_string (SHELL_TYPE_ACTION_MODE, info->mode_flags);
+    g_autofree gchar *str_shell_mode = g_flags_to_string (PHOSH_TYPE_SHELL_ACTION_MODE,
+                                                          self->action_mode);
+    g_autofree gchar *str_grabbed_mode = g_flags_to_string (PHOSH_TYPE_SHELL_ACTION_MODE,
+                                                            info->mode_flags);
     g_debug ("Accelerator registered for mode %s, but shell is currently in %s",
              str_grabbed_mode,
              str_shell_mode);
@@ -616,7 +618,7 @@ accelerator_activated_action (GSimpleAction *action,
   }
   g_debug ("accelerator action activated for id %u", action_id);
 
-  if ((info->grab_flags & SHELL_KEY_BINDING_IGNORE_AUTOREPEAT) == 0 && self->do_repeat) {
+  if ((info->grab_flags & PHOSH_SHELL_KEY_BINDING_IGNORE_AUTOREPEAT) == 0 && self->do_repeat) {
     g_autofree char *source_name = g_strdup_printf ("[phosh] key-repeat-delay for %u", action_id);
     g_debug ("setting up accelerator autorepeat for id %u", action_id);
     info->repeat_id = g_timeout_add (self->repeat_delay_ms, on_accelerator_repeat_delay, info);
@@ -679,7 +681,7 @@ transform_state_to_action_mode (GBinding     *binding,
                                 gpointer      unused)
 {
   PhoshShellStateFlags shell_state = g_value_get_flags (from_value);
-  ShellActionMode action_mode = get_action_mode (shell_state);
+  PhoshShellActionMode action_mode = get_action_mode (shell_state);
 
   g_value_set_flags (to_value, action_mode);
   return TRUE;
@@ -786,8 +788,8 @@ phosh_gnome_shell_manager_class_init (PhoshGnomeShellManagerClass *klass)
     g_param_spec_flags ("shell-action-mode",
                         "Shell Action Mode",
                         "The active action mode (used for keygrabbing)",
-                        SHELL_TYPE_ACTION_MODE,
-                        SHELL_ACTION_MODE_NONE,
+                        PHOSH_TYPE_SHELL_ACTION_MODE,
+                        PHOSH_SHELL_ACTION_MODE_NONE,
                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP - 1, props);
@@ -815,7 +817,13 @@ phosh_gnome_shell_manager_init (PhoshGnomeShellManager *self)
   on_keyboard_setting_changed (self, NULL, self->keyboard_settings);
 }
 
-
+/**
+ * phosh_gnome_shell_manager_get_default:
+ *
+ * Get the shell manager singleton
+ *
+ * Returns:(transfer none): The shell manager singleton
+ */
 PhoshGnomeShellManager *
 phosh_gnome_shell_manager_get_default (void)
 {

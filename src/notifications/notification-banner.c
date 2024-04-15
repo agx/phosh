@@ -286,7 +286,14 @@ phosh_notification_banner_new (PhoshNotification *notification)
                        NULL);
 }
 
-
+/**
+ * phosh_notification_banner_get_notification
+ * @self: The banner
+ *
+ * Get the notification.
+ *
+ * Returns:(transfer none): The notification
+ */
 PhoshNotification *
 phosh_notification_banner_get_notification (PhoshNotificationBanner *self)
 {
