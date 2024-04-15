@@ -30,10 +30,6 @@
 #include <fcntl.h>
 #endif
 
-#if !GLIB_CHECK_VERSION(2, 73, 2)
-#define G_REGEX_DEFAULT 0
-#endif
-
 
 static gboolean have_gnome_software = -1;
 
@@ -564,22 +560,9 @@ phosh_util_get_stylesheet (const char *theme_name)
 gboolean
 phosh_clear_fd (int *fd, GError **err)
 {
-  gboolean success;
-
   g_return_val_if_fail (fd, FALSE);
 
-#if GLIB_CHECK_VERSION(2, 75, 1)
-  success = g_clear_fd (fd, err);
-#else
-  if (*fd >= 0) {
-    success = g_close (*fd, err);
-    *fd = -1;
-  } else {
-    success = TRUE;
-  }
-#endif
-
-  return success;
+  return g_clear_fd (fd, err);
 }
 
 /**
