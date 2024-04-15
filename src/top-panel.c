@@ -158,6 +158,7 @@ update_drag_handle (PhoshTopPanel *self, gboolean commit)
   phosh_drag_surface_set_drag_mode (PHOSH_DRAG_SURFACE (self),
                                     PHOSH_DRAG_SURFACE_DRAG_MODE_HANDLE);
   phosh_drag_surface_set_drag_handle (PHOSH_DRAG_SURFACE (self), handle);
+
   if (commit)
     phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
 }
@@ -646,7 +647,8 @@ on_configure_event (PhoshTopPanel *self, GdkEventConfigure *event)
   phosh_drag_surface_set_margin (PHOSH_DRAG_SURFACE (self), margin, 0);
   /* Update drag handle since top-panel size might have changed */
   update_drag_handle (self, FALSE);
-  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
+  /* Trigger redraw and surface commit */
+  gtk_widget_queue_draw (GTK_WIDGET (self));
 
   return FALSE;
 }
