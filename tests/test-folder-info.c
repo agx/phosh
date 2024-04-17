@@ -15,12 +15,17 @@
 static void
 test_phosh_folder_info_new (void)
 {
-  g_autoptr (PhoshFolderInfo) folder_info;
+  PhoshFolderInfo *folder_info;
   g_autofree char *path = NULL;
 
   folder_info = phosh_folder_info_new_from_folder_path ("foo");
   g_object_get (folder_info, "path", &path, NULL);
   g_assert_cmpstr (path, ==, "foo");
+
+  g_assert_true (g_app_info_equal (G_APP_INFO (folder_info), G_APP_INFO (folder_info)));
+  g_assert_cmpstr (g_app_info_get_name (G_APP_INFO (folder_info)), ==, "");
+  g_assert_false (g_app_info_should_show (G_APP_INFO (folder_info)));
+  g_assert_finalize_object (folder_info);
 }
 
 
@@ -34,8 +39,15 @@ test_phosh_folder_info_get_name (void)
                                        "/org/gnome/desktop/app-folders/folders/foo/");
   folder_info = phosh_folder_info_new_from_folder_path ("foo");
 
-  g_settings_set_string (settings, "name", "Foo");
-  g_assert_cmpstr (phosh_folder_info_get_name (folder_info), ==, "Foo");
+  g_settings_set_string (settings, "name", "X-Phosh-foo.directory");
+  g_assert_cmpstr (phosh_folder_info_get_name (folder_info), ==, "Phosh Test Folder");
+  g_assert_cmpstr (g_app_info_get_name (G_APP_INFO (folder_info)), ==, "Phosh Test Folder");
+
+  g_settings_set_string (settings, "name", "doesnotexist.directory");
+  g_assert_cmpstr (phosh_folder_info_get_name (folder_info), ==, "doesnotexist.directory");
+
+  g_settings_set_string (settings, "name", "broken.directory");
+  g_assert_cmpstr (phosh_folder_info_get_name (folder_info), ==, "broken.directory");
 
   g_settings_set_string (settings, "name", "Bar");
   g_assert_cmpstr (phosh_folder_info_get_name (folder_info), ==, "Bar");
@@ -48,7 +60,7 @@ test_phosh_folder_info_get_app_infos (void)
   g_autoptr (GSettings) settings;
   g_autoptr (PhoshFolderInfo) folder_info;
   const char *app_ids[] = {"demo.app.First.desktop", NULL};
-  GListModel *apps;
+  g_autoptr (GListModel) apps = NULL;
   g_autoptr (GAppInfo) got, made;
 
   settings = g_settings_new_with_path ("org.gnome.desktop.app-folders.folder",
@@ -58,6 +70,10 @@ test_phosh_folder_info_get_app_infos (void)
 
   apps = phosh_folder_info_get_app_infos (folder_info);
   g_assert_cmpuint (g_list_model_get_n_items (apps), ==, 1);
+
+  g_object_get (folder_info, "app-infos", &apps, NULL);
+  g_assert_cmpint (g_list_model_get_n_items (apps), ==, 1);
+  g_assert_true (g_app_info_should_show (G_APP_INFO (folder_info)));
 
   made = G_APP_INFO (g_desktop_app_info_new (app_ids[0]));
   got = g_list_model_get_item (apps, 0);
