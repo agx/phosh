@@ -65,43 +65,8 @@ char *
 phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
 {
   char *result = NULL;
-
-  const char *unit;
-  const char *prefix = NULL;
-
-  const char *str_about, *str_less_than;
-  const char *str_seconds, *str_minute, *str_minutes;
-  const char *str_hour, *str_hours, *str_day, *str_days;
-  const char *str_month, *str_months, *str_year, *str_years;
-
-  int number, seconds, minutes, hours, days, months, years, offset, remainder;
-
+  int seconds, minutes, hours, days, months, years, offset, remainder;
   double dist_in_seconds;
-
-  str_about     =   "~";
-  str_less_than =   "<";
-  /* Translators: Timestamp seconds suffix */
-  str_seconds   = C_("timestamp-suffix-seconds", "s");
-  /* Translators: Timestamp minute suffix */
-  str_minute    = C_("timestamp-suffix-minute", "m");
-  /* Translators: Timestamp minutes suffix */
-  str_minutes   = C_("timestamp-suffix-minutes", "m");
-  /* Translators: Timestamp hour suffix */
-  str_hour      = C_("timestamp-suffix-hour", "h");
-  /* Translators: Timestamp hours suffix */
-  str_hours     = C_("timestamp-suffix-hours", "h");
-  /* Translators: Timestamp day suffix */
-  str_day       = C_("timestamp-suffix-day", "d");
-  /* Translators: Timestamp days suffix */
-  str_days      = C_("timestamp-suffix-days", "d");
-  /* Translators: Timestamp month suffix */
-  str_month     = C_("timestamp-suffix-month", "mo");
-  /* Translators: Timestamp months suffix */
-  str_months    = C_("timestamp-suffix-months", "mos");
-  /* Translators: Timestamp year suffix */
-  str_year      = C_("timestamp-suffix-year", "y");
-  /* Translators: Timestamp years suffix */
-  str_years     = C_("timestamp-suffix-years", "y");
 
   dist_in_seconds = g_date_time_difference (dt_now, dt) / G_TIME_SPAN_SECOND;
 
@@ -114,90 +79,83 @@ phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
 
   switch (minutes) {
   case 0 ... 1:
-    unit = str_seconds;
     switch (seconds) {
     case 0 ... 14:
-      number = 0;
+      /* Translators: Point in time, use a short word or abbreviation */
+      /* Please stick to a maximum of 7 chars */
       result = g_strdup(_("now"));
       break;
     case 15 ... 29:
-      prefix = str_less_than;
-      number = 30;
+      /* Translators: abbreviated time difference "Less than 30 seconds" */
+      /* Please stick to a maximum of 7 chars */
+      result = g_strdup_printf (_("<30s"));
       break;
     case 30 ... 59:
-      prefix = str_less_than;
-      number = 1;
-      unit = str_minute;
+      /* Translators: abbreviated time difference "Less than one minute" */
+      /* Please stick to a maximum of 7 chars */
+      result = g_strdup_printf (_("<1m"));
       break;
     default:
-      prefix = str_about;
-      number = 1;
-      unit = str_minute;
+      /* Translators: abbreviated time difference "About one minute" */
+      /* Please stick to a maximum of 7 chars */
+      result = g_strdup_printf (_("~1m"));
       break;
     }
     break;
 
   case 2 ... 44:
-    prefix = "";
-    number = minutes;
-    unit = str_minutes;
+    /* Translators: abbreviated, exact time difference "1 minute ago" */
+    /* Please stick to a maximum of 4 chars for the time unit */
+    result = g_strdup_printf (ngettext ("%dm", "%dm", minutes), minutes);
     break;
   case 45 ... 89:
-    prefix = str_about;
-    number = 1;
-    unit = str_hour;
-    break;
+    hours = 1;
+    G_GNUC_FALLTHROUGH;
   case 90 ... 1439:
-    prefix = str_about;
-    number = hours;
-    unit = str_hours;
+    /* Translators: abbreviated time difference "About 3 days ago" */
+    /* Please stick to a maximum of 4 chars for the time unit */
+    result = g_strdup_printf (ngettext ("~%dh", "~%dh", hours), hours);
     break;
   case 1440 ... 2529:
-    prefix = str_about;
-    number = 1;
-    unit = str_day;
+    /* Translators: abbreviated time difference "About 1 day ago" */
+    /* Please stick to a maximum of 4 chars for the time unit */
+    result = g_strdup_printf (_("~1d"));
     break;
   case 2530 ... 43199:
-    prefix = "";
-    number = days;
-    unit = str_days;
+    /* Translators: abbreviated, exact time difference "3 days ago" */
+    /* Please stick to a maximum of 4 chars for the time unit */
+    result = g_strdup_printf (ngettext ("%dd", "%dd", days), days);
     break;
   case 43200 ... 86399:
-    prefix = str_about;
-    number = 1;
-    unit = str_month;
+    /* Translators: abbreviated time difference "About 1 month ago" */
+    /* Please stick to a maximum of 4 chars for the time unit */
+    result = g_strdup_printf (_("~1mo"));
     break;
   case 86400 ... 525600:
-    prefix = "";
-    number = months;
-    unit = str_months;
+    /* Translators: abbreviated, exact time difference "3 months ago" */
+    /* Please stick to a maximum of 4 chars for the time unit */
+    result = g_strdup_printf (ngettext ("%dmo", "%dmos", months), months);
     break;
 
   default:
-    number = years;
-
-    unit = (number == 1) ? str_year : str_years;
-
     offset = ((float)years / 4.0) * MINUTES_PER_DAY;
-
     remainder = (minutes - offset) % (int)MINUTES_PER_YEAR;
 
     if (remainder < MINUTES_PER_QUARTER) {
-      prefix = str_about;
+      /* Translators: abbreviated time difference "About 5 years ago" */
+      /* Please stick to a maximum of 4 chars for the time unit */
+      result = g_strdup_printf (ngettext ("~%dy", "~%dy", years), years);
     } else if (remainder < (3 * MINUTES_PER_QUARTER)) {
-      /* Translators: time difference "Over 5 years" */
-      result = g_strdup_printf (_("Over %dy"), number);
+      /* Translators: abbreviated time difference "Over 5 years ago" */
+      /* Please stick to a maximum of 4 chars for the time unit */
+      result = g_strdup_printf (ngettext ("Over %dy", "Over %dy", years), years);
     } else {
-      ++number;
-      /* Translators: time difference "almost 5 years" */
-      result = g_strdup_printf (_("Almost %dy"), number);
+      ++years;
+      /* Translators: abbreviated time difference "almost 5 years ago" */
+      /* Please stick to a maximum of 4 chars for the time unit */
+      result = g_strdup_printf (ngettext ("Almost %dy", "Almost %dy", years), years);
     }
     break;
-  }
-
-  if (!result) {
-    /* Translators: a time difference like '<5m', if in doubt leave untranslated */
-    result = g_strdup_printf (_("%s%d%s"), prefix, number, unit);
   }
 
   return result;
