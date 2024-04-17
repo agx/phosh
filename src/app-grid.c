@@ -130,12 +130,11 @@ show_main_grid (PhoshAppGrid *self)
   if (priv->open_folder_idx == -1)
     return;
 
-  button = gtk_flow_box_get_child_at_index (GTK_FLOW_BOX (priv->apps),
-                                            priv->open_folder_idx);
-  if (button == NULL) {
-    /* The folder no longer exists (hidden or deleted), so focus the previous button. */
-    int idx = MAX (priv->open_folder_idx - 1, 0);
+  /* Focus the first valid button from current index to 0 */
+  for (int idx = priv->open_folder_idx; idx >= 0; idx--) {
     button = gtk_flow_box_get_child_at_index (GTK_FLOW_BOX (priv->apps), idx);
+    if (button != NULL)
+      break;
   }
 
   gtk_widget_grab_focus (GTK_WIDGET (button));
