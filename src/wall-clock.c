@@ -24,6 +24,9 @@ typedef struct _PhoshWallClock {
   GObject         parent;
   GnomeWallClock *time;
   GnomeWallClock *date_time;
+
+  char           *fake_date_time;
+  char           *fake_time;
 } PhoshWallClock;
 
 G_DEFINE_TYPE (PhoshWallClock, phosh_wall_clock, G_TYPE_OBJECT)
@@ -66,6 +69,9 @@ phosh_wall_clock_dispose (GObject *object)
 
   g_clear_object (&self->date_time);
   g_clear_object (&self->time);
+
+  g_clear_pointer (&self->fake_date_time, g_free);
+  g_clear_pointer (&self->fake_time, g_free);
 
   G_OBJECT_CLASS (phosh_wall_clock_parent_class)->dispose (object);
 }
@@ -148,5 +154,38 @@ phosh_wall_clock_get_clock (PhoshWallClock *self, gboolean time_only)
 {
   g_return_val_if_fail (PHOSH_IS_WALL_CLOCK (self), "");
 
+  if (G_UNLIKELY (self->fake_time))
+    return time_only ? self->fake_time : self->fake_date_time;
+
   return gnome_wall_clock_get_clock (time_only ? self->time : self->date_time);
+}
+
+
+
+/**
+ * phosh_wall_clock_set_fake_date_time:
+ * @fake: a GDateTime to use for all future date/time requests
+ *
+ * When called with a non-null GDateTime, all subsequent calls to phosh_wall_clock_get_clock,
+ * phosh_wall_clock_local_date, and property getters on the PhoshWallClock will return the
+ * date / date-time / time representation of this static instant.
+ *
+ * This is primarily useful in screenshot tests for deterministic output that can be diffed.
+ */
+void
+phosh_wall_clock_set_fake_date_time (PhoshWallClock *self, GDateTime *fake)
+{
+  g_return_if_fail (PHOSH_IS_WALL_CLOCK (self));
+
+  g_clear_pointer (&self->fake_date_time, g_free);
+  g_clear_pointer (&self->fake_time, g_free);
+
+  if (fake != NULL) {
+    self->fake_date_time = gnome_wall_clock_string_for_datetime (self->date_time, fake,
+                                                                 G_DESKTOP_CLOCK_FORMAT_24H,
+                                                                 FALSE, TRUE, FALSE);
+    self->fake_time = gnome_wall_clock_string_for_datetime (self->date_time, fake,
+                                                            G_DESKTOP_CLOCK_FORMAT_24H,
+                                                            FALSE, FALSE, FALSE);
+  }
 }
