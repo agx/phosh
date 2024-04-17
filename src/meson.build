@@ -195,6 +195,8 @@ libphosh_tool_sources = files(
   'swipe-away-bin.h',
   'util.c',
   'util.h',
+  'wall-clock.c',
+  'wall-clock.h',
   'widget-box.c',
   'widget-box.h',
   'wl-buffer.c',

@@ -11,6 +11,7 @@
 
 #include "log.h"
 #include "shell.h"
+#include "wall-clock.h"
 
 #include <handy.h>
 #include <call-ui.h>
@@ -48,6 +49,7 @@ phosh_test_full_shell_thread (gpointer data)
   PhoshShell *shell;
   GLogLevelFlags flags;
   PhoshTestFullShellFixture *fixture = (PhoshTestFullShellFixture *)data;
+  PhoshWallClock *wall_clock;
 
   /* compositor setup in thread since this invokes gdk already */
   fixture->state = phosh_test_compositor_new (FALSE);
@@ -67,6 +69,7 @@ phosh_test_full_shell_thread (gpointer data)
   flags = g_log_set_always_fatal (0);
   g_log_set_always_fatal (flags & ~G_LOG_LEVEL_WARNING);
 
+  wall_clock = phosh_wall_clock_get_default ();
   shell = phosh_shell_get_default ();
   g_assert_true (PHOSH_IS_SHELL (shell));
 
@@ -82,6 +85,7 @@ phosh_test_full_shell_thread (gpointer data)
 
   gtk_main ();
 
+  g_assert_finalize_object (wall_clock);
   g_assert_finalize_object (shell);
   cui_uninit ();
   phosh_test_compositor_free (fixture->state);

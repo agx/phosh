@@ -23,6 +23,7 @@
 #include "shell.h"
 #include "util.h"
 #include "widget-box.h"
+#include "wall-clock.h"
 
 #include <string.h>
 #include <glib/gi18n.h>
@@ -32,9 +33,6 @@
 #include <handy.h>
 #include <cui-call-display.h>
 
-
-#define GNOME_DESKTOP_USE_UNSTABLE_API
-#include <libgnome-desktop/gnome-wall-clock.h>
 
 #define LOCKSCREEN_IDLE_SECONDS 5
 #define LOCKSCREEN_SMALL_DATE_AND_TIME_CLASS "p-small"
@@ -118,7 +116,6 @@ typedef struct {
   GtkBox            *box_call_display;
   CuiCallDisplay    *call_display;
 
-  GnomeWallClock    *wall_clock;
   PhoshCallsManager *calls_manager;
   char              *active; /* opaque handle to the active call */
 } PhoshLockscreenPrivate;
@@ -482,14 +479,14 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
 static void
 wall_clock_notify_cb (PhoshLockscreen *self,
                       GParamSpec      *pspec,
-                      GnomeWallClock  *wall_clock)
+                      PhoshWallClock  *wall_clock)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
   const char *time;
   g_autofree char *date = NULL;
   g_auto (GStrv) parts = NULL;
 
-  time = gnome_wall_clock_get_clock (wall_clock);
+  time = phosh_wall_clock_get_clock (wall_clock, TRUE);
 
   /* Strip " {A,P}M" from 12h time format to look less cramped */
   if (g_str_has_suffix (time, "AM") || g_str_has_suffix (time, "PM")) {
@@ -778,6 +775,7 @@ phosh_lockscreen_constructed (GObject *object)
 {
   PhoshLockscreen *self = PHOSH_LOCKSCREEN (object);
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+  PhoshWallClock *wall_clock = phosh_wall_clock_get_default ();
   const char *active;
   PhoshNotifyManager *manager;
   PhoshOskManager *osk_manager;
@@ -797,14 +795,12 @@ phosh_lockscreen_constructed (GObject *object)
                     G_CALLBACK (key_press_event_cb),
                     NULL);
 
-  priv->wall_clock = g_object_new (GNOME_TYPE_WALL_CLOCK,
-                                   "time-only", TRUE,
-                                   NULL);
-  g_signal_connect_swapped (priv->wall_clock,
-                            "notify::clock",
-                            G_CALLBACK (wall_clock_notify_cb),
-                            self);
-  wall_clock_notify_cb (self, NULL, priv->wall_clock);
+  g_signal_connect_object (wall_clock,
+                           "notify::time",
+                           G_CALLBACK (wall_clock_notify_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
+  wall_clock_notify_cb (self, NULL, wall_clock);
 
   g_signal_connect_object (priv->calls_manager,
                            "call-added",
@@ -900,7 +896,6 @@ phosh_lockscreen_dispose (GObject *object)
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
   g_clear_object (&priv->notification_settings);
-  g_clear_object (&priv->wall_clock);
   g_clear_handle_id (&priv->idle_timer, g_source_remove);
   g_clear_object (&priv->calls_manager);
   g_clear_pointer (&priv->active, g_free);
