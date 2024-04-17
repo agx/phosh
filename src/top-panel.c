@@ -251,7 +251,7 @@ wall_clock_notify_cb (PhoshTopPanel  *self,
   str = phosh_wall_clock_get_clock (wall_clock, TRUE);
   gtk_label_set_text (GTK_LABEL (self->lbl_clock2), str);
 
-  date = phosh_util_local_date ();
+  date = phosh_wall_clock_local_date (wall_clock);
   gtk_label_set_label (GTK_LABEL (self->lbl_date), date);
 }
 

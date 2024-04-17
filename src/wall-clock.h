@@ -17,5 +17,6 @@ G_DECLARE_FINAL_TYPE (PhoshWallClock, phosh_wall_clock, PHOSH, WALL_CLOCK, GObje
 PhoshWallClock  *phosh_wall_clock_get_default         (void);
 const char      *phosh_wall_clock_get_clock           (PhoshWallClock *clock, gboolean time_only);
 void             phosh_wall_clock_set_fake_date_time  (PhoshWallClock *self, GDateTime *fake);
+char            *phosh_wall_clock_local_date          (PhoshWallClock *clock);
 
 G_END_DECLS

@@ -25,6 +25,7 @@ typedef struct _PhoshWallClock {
   GnomeWallClock *time;
   GnomeWallClock *date_time;
 
+  GDateTime      *fake;
   char           *fake_date_time;
   char           *fake_time;
 } PhoshWallClock;
@@ -70,6 +71,7 @@ phosh_wall_clock_dispose (GObject *object)
   g_clear_object (&self->date_time);
   g_clear_object (&self->time);
 
+  g_clear_pointer (&self->fake, g_date_time_unref);
   g_clear_pointer (&self->fake_date_time, g_free);
   g_clear_pointer (&self->fake_time, g_free);
 
@@ -177,10 +179,12 @@ phosh_wall_clock_set_fake_date_time (PhoshWallClock *self, GDateTime *fake)
 {
   g_return_if_fail (PHOSH_IS_WALL_CLOCK (self));
 
+  g_clear_pointer (&self->fake, g_date_time_unref);
   g_clear_pointer (&self->fake_date_time, g_free);
   g_clear_pointer (&self->fake_time, g_free);
 
   if (fake != NULL) {
+    self->fake = g_date_time_ref (fake);
     self->fake_date_time = gnome_wall_clock_string_for_datetime (self->date_time, fake,
                                                                  G_DESKTOP_CLOCK_FORMAT_24H,
                                                                  FALSE, TRUE, FALSE);
@@ -188,4 +192,71 @@ phosh_wall_clock_set_fake_date_time (PhoshWallClock *self, GDateTime *fake)
                                                             G_DESKTOP_CLOCK_FORMAT_24H,
                                                             FALSE, FALSE, FALSE);
   }
+}
+
+
+/**
+ * phosh_wall_clock_date_fmt:
+ *
+ * Get a date format based on LC_TIME.
+ * This is done by temporarily switching LC_MESSAGES so we can look up
+ * the format in our message catalog.  This will fail if LANGUAGE is
+ * set to something different since LANGUAGE overrides
+ * LC_{ALL,MESSAGE}.
+ */
+static const char *
+phosh_wall_clock_date_fmt (void)
+{
+  const char *locale;
+  const char *fmt;
+
+  locale = setlocale (LC_TIME, NULL);
+  if (locale) /* Lookup date format via messages catalog */
+    setlocale (LC_MESSAGES, locale);
+  /* Translators: This is a time format for a date in
+     long format */
+  fmt = _("%A, %B %-e");
+  setlocale (LC_MESSAGES, "");
+  return fmt;
+}
+
+
+/**
+ * phosh_wall_clock_local_date:
+ *
+ * Get the local date as string
+ * We honor LC_MESSAGES so we e.g. don't get a translated date when
+ * the user has LC_MESSAGES=en_US.UTF-8 but LC_TIME to their local
+ * time zone.
+ *
+ * Returns: The local date as string
+ */
+char *
+phosh_wall_clock_local_date (PhoshWallClock *self)
+{
+  time_t current;
+  struct tm local;
+  g_autofree char *date = NULL;
+  const char *fmt;
+  const char *locale;
+
+  if (G_UNLIKELY (self->fake != NULL))
+    current = g_date_time_to_unix (self->fake);
+  else
+    current = time (NULL);
+  g_return_val_if_fail (current != (time_t) -1, NULL);
+  g_return_val_if_fail (localtime_r (&current, &local), NULL);
+
+  date = g_malloc0 (256);
+  fmt = phosh_wall_clock_date_fmt ();
+  locale = setlocale (LC_MESSAGES, NULL);
+  if (locale) /* make sure weekday and month use LC_MESSAGES */
+    setlocale (LC_TIME, locale);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
+  /* Can't use a string literal since it needs to be translated */
+  g_return_val_if_fail (strftime (date, 255, fmt, &local), NULL);
+#pragma GCC diagnostic pop
+  setlocale (LC_TIME, "");
+  return g_steal_pointer (&date);
 }

@@ -508,7 +508,7 @@ wall_clock_notify_cb (PhoshLockscreen *self,
   }
   gtk_label_set_text (GTK_LABEL (priv->lbl_clock), time);
 
-  date = phosh_util_local_date ();
+  date = phosh_wall_clock_local_date (wall_clock);
   gtk_label_set_label (GTK_LABEL (priv->lbl_date), date);
 }
 
