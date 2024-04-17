@@ -56,7 +56,7 @@ struct _PhoshAppGridPrivate {
   GtkWidget *btn_adaptive_lbl;
   GtkWidget *empty_folder_label;
   GtkWidget *folder_stack;
-  GtkWidget *folder_label;
+  GtkWidget *folder_name_label;
   GtkWidget *folder_apps;
 
   PhoshFolderInfo *open_folder;
@@ -219,7 +219,7 @@ folder_launched_cb (GtkWidget       *widget,
   gtk_flow_box_bind_model (GTK_FLOW_BOX (priv->folder_apps),
                            model, create_folder_app_launcher, self, NULL);
   hdy_deck_set_visible_child_name (HDY_DECK (priv->deck), "folder_page");
-  g_object_bind_property (info, "name", priv->folder_label, "label", G_BINDING_SYNC_CREATE);
+  g_object_bind_property (info, "name", priv->folder_name_label, "label", G_BINDING_SYNC_CREATE);
   priv->folder_model = model;
   g_set_object (&priv->open_folder, info);
   priv->open_folder_idx = get_app_info_index (self, G_APP_INFO (info));
@@ -688,7 +688,7 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs_revealer);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_apps);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_label);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_name_label);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_stack);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, scrolled_window);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, search);
