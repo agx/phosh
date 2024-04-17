@@ -207,15 +207,53 @@
                   </object>
                 </child>
                 <child type="center">
-                  <object class="GtkLabel" id="folder_name_label">
+                  <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="hexpand">True</property>
-                    <property name="ellipsize">end</property>
-                    <property name="justify">center</property>
-                    <style>
-                      <class name="heading"/>
-                    </style>
+                    <property name="valign">center</property>
+                    <property name="orientation">horizontal</property>
+                    <child>
+                      <object class="GtkLabel" id="folder_name_label">
+                        <property name="visible" bind-source="folder_name_btn" bind-property="active" bind-flags="invert-boolean|sync-create"/>
+                        <property name="hexpand">True</property>
+                        <property name="ellipsize">end</property>
+                        <property name="justify">center</property>
+                        <style>
+                          <class name="heading"/>
+                        </style>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="folder_name_entry">
+                        <property name="visible" bind-source="folder_name_btn" bind-property="active" bind-flags="default"/>
+                        <property name="hexpand">True</property>
+                        <signal name="activate" handler="on_folder_entry_activated" object="PhoshAppGrid" swapped="yes"/>
+                        <style>
+                          <class name="heading"/>
+                        </style>
+                      </object>
+                    </child>
                   </object>
+                </child>
+                <child>
+                  <object class="GtkToggleButton" id="folder_name_btn">
+                    <property name="visible">True</property>
+                    <property name="valign">center</property>
+                    <property name="active">False</property>
+                    <signal name="toggled" handler="on_folder_edit_toggled" object="PhoshAppGrid" swapped="yes"/>
+                    <style>
+                      <class name="phosh-gear-button"/>
+                    </style>
+                    <child>
+                      <object class="GtkImage" id="folder_name_img">
+                        <property name="visible">True</property>
+                        <property name="icon-name">document-edit-symbolic</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="pack-type">end</property>
+                  </packing>
                 </child>
               </object>
             </child>
