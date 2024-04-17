@@ -79,6 +79,9 @@ phosh_folder_info_set_property (GObject      *object,
   case PROP_PATH:
     self->path = g_value_dup_string (value);
     break;
+  case PROP_NAME:
+    phosh_folder_info_set_name (self, g_value_get_string (value));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -329,7 +332,7 @@ phosh_folder_info_class_init (PhoshFolderInfoClass *klass)
   props[PROP_NAME] =
     g_param_spec_string ("name", "", "",
                          NULL,
-                         G_PARAM_READABLE |
+                         G_PARAM_READWRITE |
                          G_PARAM_EXPLICIT_NOTIFY |
                          G_PARAM_STATIC_STRINGS);
 
@@ -373,6 +376,14 @@ phosh_folder_info_get_name (PhoshFolderInfo *self)
   g_return_val_if_fail (PHOSH_IS_FOLDER_INFO (self), 0);
 
   return self->name;
+}
+
+void
+phosh_folder_info_set_name (PhoshFolderInfo *self, const char *name)
+{
+  g_return_if_fail (PHOSH_IS_FOLDER_INFO (self));
+
+  g_settings_set_string (self->settings, "name", name);
 }
 
 /**

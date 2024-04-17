@@ -55,6 +55,29 @@ test_phosh_folder_info_get_name (void)
 
 
 static void
+test_phosh_folder_info_set_name (void)
+{
+  g_autoptr (GSettings) settings;
+  g_autoptr (PhoshFolderInfo) folder_info;
+  char *name;
+
+  settings = g_settings_new_with_path ("org.gnome.desktop.app-folders.folder",
+                                       "/org/gnome/desktop/app-folders/folders/foo/");
+  folder_info = phosh_folder_info_new_from_folder_path ("foo");
+
+  phosh_folder_info_set_name (folder_info, "Foo");
+  name = g_settings_get_string (settings, "name");
+  g_assert_cmpstr (name, ==, "Foo");
+  g_free (name);
+
+  phosh_folder_info_set_name (folder_info, "Bar");
+  name = g_settings_get_string (settings, "name");
+  g_assert_cmpstr (name, ==, "Bar");
+  g_free (name);
+}
+
+
+static void
 test_phosh_folder_info_get_app_infos (void)
 {
   g_autoptr (GSettings) settings;
@@ -150,6 +173,7 @@ main (int argc, char *argv[])
 
   g_test_add_func ("/phosh/folder-info/new", test_phosh_folder_info_new);
   g_test_add_func ("/phosh/folder-info/get_name", test_phosh_folder_info_get_name);
+  g_test_add_func ("/phosh/folder-info/set_name", test_phosh_folder_info_set_name);
   g_test_add_func ("/phosh/folder-info/get_app_infos", test_phosh_folder_info_get_app_infos);
   g_test_add_func ("/phosh/folder-info/contains", test_phosh_folder_info_contains);
   g_test_add_func ("/phosh/folder-info/refilter", test_phosh_folder_info_refilter);
