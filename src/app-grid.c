@@ -511,6 +511,10 @@ phosh_app_grid_key_press_event (GtkWidget   *widget,
   PhoshAppGrid *self = PHOSH_APP_GRID (widget);
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
+  /* Don't search when folder is open */
+  if (priv->open_folder != NULL)
+    return GDK_EVENT_PROPAGATE;
+
   return gtk_search_entry_handle_event (GTK_SEARCH_ENTRY (priv->search),
                                         (GdkEvent *) event);
 }
