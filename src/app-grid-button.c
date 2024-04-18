@@ -29,6 +29,7 @@ struct _PhoshAppGridButtonPrivate {
   GAppInfo *info;
   gboolean is_favorite;
   PhoshAppGridButtonMode mode;
+  PhoshFolderInfo *folder_info;
 
   gulong favorite_changed_watcher;
 
@@ -49,6 +50,7 @@ enum {
   PROP_APP_INFO,
   PROP_IS_FAVORITE,
   PROP_MODE,
+  PROP_FOLDER_INFO,
   LAST_PROP
 };
 static GParamSpec *props[LAST_PROP];
@@ -73,6 +75,9 @@ phosh_app_grid_button_set_property (GObject      *object,
       break;
     case PROP_MODE:
       phosh_app_grid_button_set_mode (self, g_value_get_enum (value));
+      break;
+    case PROP_FOLDER_INFO:
+      phosh_app_grid_button_set_folder_info (self, g_value_get_object (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -128,6 +133,7 @@ phosh_app_grid_button_finalize (GObject *object)
   g_clear_object (&priv->menu);
   g_clear_object (&priv->actions);
   g_clear_object (&priv->action_map);
+  g_clear_object (&priv->folder_info);
 
   g_clear_signal_handler (&priv->favorite_changed_watcher,
                           phosh_favorite_list_model_get_default ());
@@ -235,6 +241,18 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
                        G_PARAM_READWRITE |
                        G_PARAM_EXPLICIT_NOTIFY);
 
+  /**
+   * PhoshAppGridButton:folder-info:
+   *
+   * The folder-info to which the button is a part of. Can be NULL.
+   *
+   * Stability: Private
+   */
+  props[PROP_FOLDER_INFO] =
+    g_param_spec_object ("folder-info", "", "",
+                         PHOSH_TYPE_FOLDER_INFO,
+                         G_PARAM_WRITABLE |
+                         G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
@@ -616,4 +634,20 @@ phosh_app_grid_button_get_mode (PhoshAppGridButton *self)
   priv = phosh_app_grid_button_get_instance_private (self);
 
   return priv->mode;
+}
+
+
+void
+phosh_app_grid_button_set_folder_info (PhoshAppGridButton *self, PhoshFolderInfo *folder_info)
+{
+  PhoshAppGridButtonPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_APP_GRID_BUTTON (self));
+  g_return_if_fail ((folder_info == NULL) | PHOSH_IS_FOLDER_INFO (folder_info));
+  priv = phosh_app_grid_button_get_instance_private (self);
+
+  g_clear_object (&priv->folder_info);
+
+  if (folder_info)
+    priv->folder_info = g_object_ref (folder_info);
 }
