@@ -429,3 +429,27 @@ phosh_folder_info_refilter (PhoshFolderInfo *self, const char *search)
   item = g_list_model_get_item (G_LIST_MODEL (self->filtered_app_infos), 0);
   return item != NULL;
 }
+
+
+gboolean
+phosh_folder_info_remove_app_info (PhoshFolderInfo *self, GAppInfo *app_info)
+{
+  const char *app_id;
+  g_auto (GStrv) apps = NULL;
+  g_auto (GStrv) new_apps = NULL;
+
+  g_return_val_if_fail (PHOSH_IS_FOLDER_INFO (self), FALSE);
+
+  app_id = g_app_info_get_id (app_info);
+
+  if (app_id == NULL) {
+    g_debug ("Unable to get application ID");
+    return FALSE;
+  }
+
+  apps = g_settings_get_strv (self->settings, "apps");
+  new_apps = phosh_util_remove_from_strv (apps, app_id);
+
+  g_settings_set_strv (self->settings, "apps", (const char *const *) new_apps);
+  return new_apps[0] != NULL;
+}
