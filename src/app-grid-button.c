@@ -346,6 +346,18 @@ view_details_activated (GSimpleAction *action,
 
 
 static void
+folder_remove_activated (GSimpleAction *action,
+                         GVariant      *parameter,
+                         gpointer       data)
+{
+  PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (data);
+  PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
+
+  phosh_folder_info_remove_app_info (priv->folder_info, priv->info);
+}
+
+
+static void
 long_pressed (GtkGestureLongPress *gesture,
               double               x,
               double               y,
@@ -361,6 +373,7 @@ static GActionEntry entries[] =
   { .name = "favorite-remove", .activate = favorite_remove_activated },
   { .name = "favorite-add", .activate = favorite_add_activated },
   { .name = "view-details", .activate = view_details_activated },
+  { .name = "folder-remove", .activate = folder_remove_activated },
 };
 
 
@@ -389,6 +402,8 @@ phosh_app_grid_button_init (PhoshAppGridButton *self)
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
   act = g_action_map_lookup_action (priv->action_map, "view-details");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), phosh_util_have_gnome_software (FALSE));
+  act = g_action_map_lookup_action (priv->action_map, "folder-remove");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
 
   g_type_ensure (PHOSH_TYPE_CLAMP);
   g_type_ensure (PHOSH_TYPE_FADING_LABEL);
@@ -641,13 +656,19 @@ void
 phosh_app_grid_button_set_folder_info (PhoshAppGridButton *self, PhoshFolderInfo *folder_info)
 {
   PhoshAppGridButtonPrivate *priv;
+  GAction *act;
 
   g_return_if_fail (PHOSH_IS_APP_GRID_BUTTON (self));
   g_return_if_fail ((folder_info == NULL) || PHOSH_IS_FOLDER_INFO (folder_info));
   priv = phosh_app_grid_button_get_instance_private (self);
 
   g_clear_object (&priv->folder_info);
+  act = g_action_map_lookup_action (priv->action_map, "folder-remove");
 
-  if (folder_info)
+  if (folder_info) {
     priv->folder_info = g_object_ref (folder_info);
+    g_simple_action_set_enabled (G_SIMPLE_ACTION (act), TRUE);
+  } else {
+    g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
+  }
 }

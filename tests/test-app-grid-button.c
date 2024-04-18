@@ -228,6 +228,27 @@ test_phosh_app_grid_button_is_favorite (void)
 }
 
 
+static void
+test_phosh_app_grid_button_folder_remove_action (void)
+{
+  g_autoptr (PhoshFolderInfo) folder_info = phosh_folder_info_new_from_folder_path ("bar");
+  g_autoptr (GAppInfo) info = G_APP_INFO (g_desktop_app_info_new ("demo.app.First.desktop"));
+
+  GtkWidget *btn = phosh_app_grid_button_new (info);
+  GActionGroup *actions = gtk_widget_get_action_group (btn, "app-btn");
+  GListModel *apps = phosh_folder_info_get_app_infos (folder_info);
+
+  phosh_app_grid_button_set_folder_info (PHOSH_APP_GRID_BUTTON (btn), folder_info);
+  phosh_folder_info_add_app_info (folder_info, info);
+  g_assert_cmpuint (g_list_model_get_n_items (apps), ==, 1);
+
+  g_action_group_activate_action (actions, "folder-remove", NULL);
+  g_assert_cmpuint (g_list_model_get_n_items (apps), ==, 0);
+
+  gtk_widget_destroy (btn);
+}
+
+
 int
 main (int   argc,
       char *argv[])
@@ -242,6 +263,7 @@ main (int   argc,
   g_test_add_func("/phosh/app-grid-button/null_app_info", test_phosh_app_grid_button_null_app_info);
   g_test_add_func("/phosh/app-grid-button/menu", test_phosh_app_grid_button_menu);
   g_test_add_func("/phosh/app-grid-button/is_favorite", test_phosh_app_grid_button_is_favorite);
+  g_test_add_func("/phosh/app-grid-button/folder_remove_action", test_phosh_app_grid_button_folder_remove_action);
 
   return g_test_run();
 }
