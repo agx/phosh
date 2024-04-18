@@ -200,9 +200,31 @@ on_settings_name_changed (PhoshFolderInfo *self, GSettings *settings, char *key)
 
 
 static void
+load_apps (PhoshFolderInfo *self)
+{
+  g_auto (GStrv) apps;
+
+  apps = g_settings_get_strv (self->settings, "apps");
+
+  for (int i = 0; apps[i]; i++) {
+    g_autoptr (GDesktopAppInfo) app_info = g_desktop_app_info_new (apps[i]);
+
+    if (app_info == NULL)
+      g_debug ("Unable to load app-info for %s", apps[i]);
+    else if (!g_app_info_should_show (G_APP_INFO (app_info)))
+      continue;
+    else
+      g_list_store_append (self->app_infos, app_info);
+  }
+}
+
+
+static void
 on_settings_apps_changed (PhoshFolderInfo *self, GSettings *settings, char *key)
 {
   g_signal_emit (self, signals[APPS_CHANGED], 0);
+  g_list_store_remove_all (self->app_infos);
+  load_apps (self);
 }
 
 
@@ -223,26 +245,6 @@ filter_app (gpointer item, gpointer data)
     show = phosh_util_matches_app_info (app_info, self->search);
 
   return show;
-}
-
-
-static void
-load_apps (PhoshFolderInfo *self)
-{
-  g_auto (GStrv) apps;
-
-  apps = g_settings_get_strv (self->settings, "apps");
-
-  for (int i = 0; apps[i]; i++) {
-    g_autoptr (GDesktopAppInfo) app_info = g_desktop_app_info_new (apps[i]);
-
-    if (app_info == NULL)
-      g_debug ("Unable to load app-info for %s", apps[i]);
-    else if (!g_app_info_should_show (G_APP_INFO (app_info)))
-      continue;
-    else
-      g_list_store_append (self->app_infos, app_info);
-  }
 }
 
 
