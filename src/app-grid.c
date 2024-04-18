@@ -179,8 +179,10 @@ static GtkWidget *
 create_folder_app_launcher (gpointer item, gpointer self)
 {
   GtkWidget *btn;
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
   btn = phosh_app_grid_button_new (G_APP_INFO (item));
+  phosh_app_grid_button_set_folder_info (PHOSH_APP_GRID_BUTTON (btn), priv->open_folder);
   g_signal_connect (btn, "app-launched", G_CALLBACK (app_launched_cb), self);
 
   gtk_widget_show (btn);
@@ -216,8 +218,6 @@ folder_launched_cb (GtkWidget       *widget,
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GListModel *model = phosh_folder_info_get_app_infos (info);
 
-  gtk_flow_box_bind_model (GTK_FLOW_BOX (priv->folder_apps),
-                           model, create_folder_app_launcher, self, NULL);
   hdy_deck_set_visible_child_name (HDY_DECK (priv->deck), "folder_page");
   g_object_bind_property (info, "name", priv->folder_name_label, "label", G_BINDING_SYNC_CREATE);
   priv->folder_model = model;
@@ -225,6 +225,9 @@ folder_launched_cb (GtkWidget       *widget,
   priv->open_folder_idx = get_app_info_index (self, G_APP_INFO (info));
   g_signal_connect_object (model, "items-changed", G_CALLBACK (show_folder_page), self, G_CONNECT_SWAPPED);
   show_folder_page (self);
+
+  gtk_flow_box_bind_model (GTK_FLOW_BOX (priv->folder_apps),
+                           model, create_folder_app_launcher, self, NULL);
 }
 
 

@@ -643,7 +643,7 @@ phosh_app_grid_button_set_folder_info (PhoshAppGridButton *self, PhoshFolderInfo
   PhoshAppGridButtonPrivate *priv;
 
   g_return_if_fail (PHOSH_IS_APP_GRID_BUTTON (self));
-  g_return_if_fail ((folder_info == NULL) | PHOSH_IS_FOLDER_INFO (folder_info));
+  g_return_if_fail ((folder_info == NULL) || PHOSH_IS_FOLDER_INFO (folder_info));
   priv = phosh_app_grid_button_get_instance_private (self);
 
   g_clear_object (&priv->folder_info);
