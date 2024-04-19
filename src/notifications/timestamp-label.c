@@ -83,7 +83,7 @@ phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
     case 0 ... 14:
       /* Translators: Point in time, use a short word or abbreviation */
       /* Please stick to a maximum of 7 chars */
-      result = g_strdup(_("now"));
+      result = g_strdup (_("now"));
       break;
     case 15 ... 29:
       /* Translators: abbreviated time difference "Less than 30 seconds" */
@@ -112,7 +112,7 @@ phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
     hours = 1;
     G_GNUC_FALLTHROUGH;
   case 90 ... 1439:
-    /* Translators: abbreviated time difference "About 3 days ago" */
+    /* Translators: abbreviated time difference "About 3 hours ago" */
     /* Please stick to a maximum of 4 chars for the time unit */
     result = g_strdup_printf (ngettext ("~%dh", "~%dh", hours), hours);
     break;
