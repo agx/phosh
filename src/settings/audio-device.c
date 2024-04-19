@@ -6,7 +6,7 @@
 
 #define G_LOG_DOMAIN "phosh-audio-device"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "audio-device.h"
 

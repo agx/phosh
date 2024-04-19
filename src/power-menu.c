@@ -6,7 +6,7 @@
 
 #define G_LOG_DOMAIN "phosh-power-menu"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "power-menu.h"
 #include "shell.h"
