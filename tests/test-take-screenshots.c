@@ -497,8 +497,7 @@ screenshot_emergency_calls (GMainLoop                      *loop,
   wait_a_bit (loop, 500);
   take_screenshot (locale, num++, "power-menu");
 
-  phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTALT);
-  phosh_test_keyboard_press_keys (keyboard, timer, KEY_E, NULL);
+  phosh_test_keyboard_press_keys (keyboard, timer, KEY_TAB, KEY_TAB, KEY_ENTER, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
   wait_a_bit (loop, 500);
   take_screenshot (locale, num++, "emergency-dialpad");
