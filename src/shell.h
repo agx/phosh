@@ -22,7 +22,6 @@
 #include "layout-manager.h"
 #include "location-manager.h"
 #include "lockscreen-manager.h"
-#include "monitor-manager.h"
 #include "monitor/monitor.h"
 #include "osk-manager.h"
 #include "rotation-manager.h"
@@ -101,7 +100,6 @@ PhoshGtkMountManager   *phosh_shell_get_gtk_mount_manager  (PhoshShell *self);
 PhoshLayoutManager     *phosh_shell_get_layout_manager     (PhoshShell *self);
 PhoshLockscreenManager *phosh_shell_get_lockscreen_manager (PhoshShell *self);
 PhoshModeManager       *phosh_shell_get_mode_manager       (PhoshShell *self);
-PhoshMonitorManager    *phosh_shell_get_monitor_manager    (PhoshShell *self);
 PhoshToplevelManager   *phosh_shell_get_toplevel_manager   (PhoshShell *self);
 PhoshScreenSaverManager *phosh_shell_get_screen_saver_manager (PhoshShell *self);
 PhoshScreenshotManager *phosh_shell_get_screenshot_manager (PhoshShell *self);
