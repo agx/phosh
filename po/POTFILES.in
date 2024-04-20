@@ -6,6 +6,7 @@ plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in
 plugins/calendar/calendar.desktop.in.in
 plugins/emergency-info/emergency-info.desktop.in.in
 plugins/launcher-box/launcher-box.desktop.in.in
+plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in
 plugins/ticket-box/ticket-box.desktop.in.in
 plugins/upcoming-events/upcoming-events.desktop.in.in
 
@@ -104,6 +105,7 @@ plugins/emergency-info/prefs/emergency-info-prefs.ui
 plugins/emergency-info/prefs/emergency-info-prefs-row.c
 plugins/emergency-info/prefs/emergency-info-prefs-row.ui
 plugins/launcher-box/launcher-box.ui
+plugins/night-light-quick-setting/night-light-quick-setting.c
 plugins/ticket-box/ticket-box.ui
 plugins/ticket-box/prefs/ticket-box-prefs.c
 plugins/ticket-box/prefs/ticket-box-prefs.ui
