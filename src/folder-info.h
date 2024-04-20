@@ -22,6 +22,7 @@ void        phosh_folder_info_set_name (PhoshFolderInfo *self, const char *name)
 GListModel *phosh_folder_info_get_app_infos (PhoshFolderInfo *self);
 gboolean    phosh_folder_info_contains (PhoshFolderInfo *self, GAppInfo *app_info);
 gboolean    phosh_folder_info_refilter (PhoshFolderInfo *self, const char *search);
+void        phosh_folder_info_add_app_info (PhoshFolderInfo *self, GAppInfo *app_info);
 gboolean    phosh_folder_info_remove_app_info (PhoshFolderInfo *self, GAppInfo *app_info);
 
 G_END_DECLS

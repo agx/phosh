@@ -167,6 +167,43 @@ test_phosh_folder_info_refilter (void)
 
 
 static void
+test_phosh_folder_info_add_app_info (void)
+{
+  g_autoptr (GSettings) settings;
+  g_autoptr (PhoshFolderInfo) folder_info;
+  const char *app_ids[] = {"demo.app.First.desktop", NULL};
+  const char *new_app_ids[] = {"demo.app.First.desktop", "demo.app.Second.desktop", NULL};
+  g_auto (GStrv) got_app_ids = NULL;
+  GListModel *apps;
+  g_autoptr (GAppInfo) first, second, second_got;
+
+  /* Clear all favorites */
+  settings = g_settings_new ("sm.puri.phosh");
+  g_settings_set_strv (settings, "favorites", NULL);
+  g_assert_finalize_object (settings);
+
+  settings = g_settings_new_with_path ("org.gnome.desktop.app-folders.folder",
+                                       "/org/gnome/desktop/app-folders/folders/foo/");
+  g_settings_set_strv (settings, "apps", app_ids);
+  folder_info = phosh_folder_info_new_from_folder_path ("foo");
+
+  apps = phosh_folder_info_get_app_infos (folder_info);
+  first = G_APP_INFO (g_desktop_app_info_new (new_app_ids[0]));
+  second = G_APP_INFO (g_desktop_app_info_new (new_app_ids[1]));
+
+  phosh_folder_info_add_app_info (folder_info, second);
+
+  got_app_ids = g_settings_get_strv (settings, "apps");
+  g_assert_cmpstrv (got_app_ids, new_app_ids);
+
+  g_assert_cmpuint (g_list_model_get_n_items (apps), ==, 2);
+
+  second_got = g_list_model_get_item (apps, 1);
+  g_assert_true (g_app_info_equal (second, second_got));
+}
+
+
+static void
 test_phosh_folder_info_remove_app_info (void)
 {
   g_autoptr (GSettings) settings;
@@ -217,6 +254,7 @@ main (int argc, char *argv[])
   g_test_add_func ("/phosh/folder-info/get_app_infos", test_phosh_folder_info_get_app_infos);
   g_test_add_func ("/phosh/folder-info/contains", test_phosh_folder_info_contains);
   g_test_add_func ("/phosh/folder-info/refilter", test_phosh_folder_info_refilter);
+  g_test_add_func ("/phosh/folder-info/add_app_info", test_phosh_folder_info_add_app_info);
   g_test_add_func ("/phosh/folder-info/remove_app_info", test_phosh_folder_info_remove_app_info);
 
   return g_test_run ();
