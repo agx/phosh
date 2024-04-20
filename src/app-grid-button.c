@@ -402,6 +402,32 @@ add_to_folder_children (char *folder_path)
 
 
 static void
+remove_from_folder_children (char *folder_path)
+{
+  g_autoptr (GSettings) settings = g_settings_new (PHOSH_FOLDERS_SCHEMA_ID);
+  g_auto (GStrv) folders = NULL;
+  g_auto (GStrv) new_folders = NULL;
+
+  folders = g_settings_get_strv (settings, "folder-children");
+  new_folders = phosh_util_remove_from_strv (folders, folder_path);
+  g_settings_set_strv (settings, "folder-children", (const char *const *) new_folders);
+}
+
+
+static void
+remove_from_folder (PhoshAppGridButton *self)
+{
+  PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
+  g_autofree char *folder_path;
+
+  g_object_get (priv->folder_info, "path", &folder_path, NULL);
+
+  if (!phosh_folder_info_remove_app_info (priv->folder_info, priv->info))
+    remove_from_folder_children (folder_path);
+}
+
+
+static void
 add_to_folder (PhoshAppGridButton *self, PhoshFolderInfo *folder_info)
 {
   PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
@@ -411,8 +437,7 @@ add_to_folder (PhoshAppGridButton *self, PhoshFolderInfo *folder_info)
   g_autoptr (GAppInfo) info = g_object_ref (priv->info);
 
   if (priv->folder_info)
-    phosh_folder_info_remove_app_info (priv->folder_info, info);
-
+    remove_from_folder (self);
   phosh_folder_info_add_app_info (folder_info, info);
 }
 
@@ -452,9 +477,7 @@ folder_remove_activated (GSimpleAction *action,
                          gpointer       data)
 {
   PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (data);
-  PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
-
-  phosh_folder_info_remove_app_info (priv->folder_info, priv->info);
+  remove_from_folder (self);
 }
 
 

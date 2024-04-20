@@ -309,6 +309,38 @@ test_phosh_app_grid_button_folder_remove_action (void)
 }
 
 
+static void
+test_phosh_app_grid_button_clean_up_empty_folder (void)
+{
+  const char *folders[] = {"spam", NULL};
+  g_auto (GStrv) new_folders = NULL;
+  g_autoptr (PhoshFolderInfo) folder_info = phosh_folder_info_new_from_folder_path ("spam");
+  g_autoptr (GAppInfo) first_info = G_APP_INFO (g_desktop_app_info_new ("demo.app.First.desktop"));
+  g_autoptr (GAppInfo) second_info = G_APP_INFO (g_desktop_app_info_new ("demo.app.Second.desktop"));
+  g_autoptr (GSettings) settings = g_settings_new (PHOSH_FOLDERS_SCHEMA_ID);
+  GActionGroup *actions;
+  GtkWidget *first_btn = phosh_app_grid_button_new (first_info);
+  GtkWidget *second_btn = phosh_app_grid_button_new (second_info);
+
+  g_settings_set_strv (settings, "folder-children", folders);
+  phosh_folder_info_add_app_info (folder_info, first_info);
+  phosh_folder_info_add_app_info (folder_info, second_info);
+  phosh_app_grid_button_set_folder_info (PHOSH_APP_GRID_BUTTON (first_btn), folder_info);
+  phosh_app_grid_button_set_folder_info (PHOSH_APP_GRID_BUTTON (second_btn), folder_info);
+
+  actions = gtk_widget_get_action_group (first_btn, "app-btn");
+  g_action_group_activate_action (actions, "folder-remove", NULL);
+  new_folders = g_settings_get_strv (settings, "folder-children");
+  g_assert_cmpstrv (new_folders, folders);
+  g_strfreev (new_folders);
+
+  actions = gtk_widget_get_action_group (second_btn, "app-btn");
+  g_action_group_activate_action (actions, "folder-remove", NULL);
+  new_folders = g_settings_get_strv (settings, "folder-children");
+  g_assert_cmpstrv (new_folders, (const char *[]) { NULL });
+}
+
+
 int
 main (int   argc,
       char *argv[])
@@ -326,6 +358,7 @@ main (int   argc,
   g_test_add_func("/phosh/app-grid-button/folder_add_action", test_phosh_app_grid_button_folder_add_action);
   g_test_add_func("/phosh/app-grid-button/folder_new_action", test_phosh_app_grid_button_folder_new_action);
   g_test_add_func("/phosh/app-grid-button/folder_remove_action", test_phosh_app_grid_button_folder_remove_action);
+  g_test_add_func("/phosh/app-grid-button/clean_up_empty_folder", test_phosh_app_grid_button_clean_up_empty_folder);
 
   return g_test_run();
 }
