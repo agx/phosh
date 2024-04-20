@@ -26,6 +26,8 @@
 #include "gtk-list-models/gtksortlistmodel.h"
 #include "gtk-list-models/gtkfilterlistmodel.h"
 
+#include <gmobile.h>
+
 enum {
   PROP_0,
   PROP_FILTER_ADAPTIVE,
@@ -339,7 +341,7 @@ search_apps (gpointer item, gpointer data)
   }
 
   /* filter out favorites when not searching */
-  if (STR_IS_NULL_OR_EMPTY (search)) {
+  if (gm_str_is_null_or_empty (search)) {
     if (PHOSH_IS_FOLDER_INFO (info))
       return phosh_folder_info_refilter (PHOSH_FOLDER_INFO (info), search);
     if (phosh_favorite_list_model_app_is_favorite (NULL, info))
@@ -377,7 +379,7 @@ toggle_favorties_revealer (PhoshAppGrid *self)
 
   /* Hide favorites when there are none or a search is in progress */
   gboolean criteria = (g_list_model_get_n_items (G_LIST_MODEL (favorites)) == 0) ||
-    !STR_IS_NULL_OR_EMPTY (priv->search_string);
+    !gm_str_is_null_or_empty (priv->search_string);
 
   gtk_revealer_set_reveal_child (GTK_REVEALER (priv->favs_revealer), !criteria);
 }

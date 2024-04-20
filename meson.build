@@ -38,6 +38,7 @@ add_project_arguments([
   '-DGLIB_VERSION_MIN_REQUIRED=@0@'.format(glib_ver_str),
   '-DGLIB_VERSION_MAX_REQUIRED=@0@'.format(glib_ver_str),
   '-DG_LOG_USE_STRUCTURED',
+  '-DGMOBILE_USE_UNSTABLE_API',
 ], language: 'c')
 
 root_inc = include_directories('.')

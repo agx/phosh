@@ -8,7 +8,6 @@
 
 #include <glib-object.h>
 
-#include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
 
 G_BEGIN_DECLS

@@ -10,6 +10,8 @@
 
 #include "phosh-config.h"
 
+#include <pulse/pulseaudio.h>
+
 #include "fading-label.h"
 #include "settings/audio-device-row.h"
 #include "settings/audio-device.h"
@@ -18,9 +20,10 @@
 #include "settings/gvc-channel-bar.h"
 #include "util.h"
 
-#include <pulse/pulseaudio.h>
 #include "gvc-mixer-control.h"
 #include "gvc-mixer-stream.h"
+
+#include <gmobile.h>
 
 #include <glib/gi18n.h>
 
@@ -155,7 +158,7 @@ on_output_stream_port_changed (GvcMixerStream *stream, GParamSpec *pspec, gpoint
       icon = gvc_mixer_ui_device_get_icon_name (output);
   }
 
-  if (STR_IS_NULL_OR_EMPTY (icon) || g_str_has_prefix (icon, "audio-card"))
+  if (gm_str_is_null_or_empty (icon) || g_str_has_prefix (icon, "audio-card"))
     icon = "audio-speakers";
 
   gvc_channel_bar_set_icon_name (GVC_CHANNEL_BAR (self->output_vol_bar), icon);

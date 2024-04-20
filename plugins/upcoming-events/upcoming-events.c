@@ -15,7 +15,6 @@
 
 #include "phosh-plugin-upcoming-events-phosh-calendar-dbus.h"
 
-#define GMOBILE_USE_UNSTABLE_API
 #include <gmobile.h>
 
 #define NUM_DAYS 7

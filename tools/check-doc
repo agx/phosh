@@ -1,30 +1,15 @@
 #!/bin/bash
+#
+# Build docs and choke on gi-docgen warnings
 
-BUILD=${1:-_build}
+DIR="${1:-_build}"
+LOG="${DIR}/docs/doc-build.log"
 
-set -eo pipefail
+meson compile -C "${DIR}" docs/phosh-doc |& tee "${LOG}"
 
-WARNINGS="${BUILD}/gtk-doc-warnings.log"
-ERRORS="${BUILD}/doc-errors.log"
-
-rm -f "${BUILD}/src/Phosh-0.gir"
-meson compile -C "${BUILD}" |& grep -i -E 'warning|error': > "${WARNINGS}"
-
-if [ ! -s "${WARNINGS}" ]; then
-    exit 0
+if grep -vE  '('\
+'src/dbus/phosh-idle-dbus.h:[0-9]+: Warning: Phosh: Unknown namespace for identifier .pending.'\
+'|src/settings/audio-devices.h:[0-9]+: Warning: Phosh: phosh_audio_devices_new: argument mixer: Unresolved type: .GvcMixerControl'\
+')' "${LOG}" | grep -i 'warning:'; then
+    exit 1
 fi
-
-# We ignore errors from generated DBus bindings, contrib code and wayland protocols
-if ! grep -v -E '(^protocol/)'\
-'|(.*/src/gtk-list-models/.*Warning:)'\
-'|(.*/src/contrib/.*Warning: Phosh: .*Unknown namespace for)'\
-'|(<unknown>:: Warning: Phosh: Unknown namespace for identifier )'\
- "${WARNINGS}" > "${ERRORS}"; then
-   echo "No critical errors found."
-else
-   echo "Documentation errors:"
-   cat "${ERRORS}"
-   exit 1
-fi
-
-exit 0

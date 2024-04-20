@@ -14,8 +14,10 @@
 #include "calls-manager.h"
 #include "util.h"
 
-#include "cui-call.h"
-#include "handy.h"
+#include <gmobile.h>
+
+#include <cui-call.h>
+#include <handy.h>
 #include <glib/gi18n.h>
 
 /**
@@ -56,9 +58,9 @@ on_caller_info_changed (PhoshCallNotification *self, GParamSpec *pspec, PhoshCal
   const char *id = cui_call_get_id (CUI_CALL (call));
 
   g_debug ("%s %s", display_name, id);
-  if (STR_IS_NULL_OR_EMPTY (display_name)) {
+  if (gm_str_is_null_or_empty (display_name)) {
     caller_detail = NULL;
-    caller = STR_IS_NULL_OR_EMPTY (id) ? _("Unknown caller") : id;
+    caller = gm_str_is_null_or_empty (id) ? _("Unknown caller") : id;
   } else {
     caller = display_name;
     caller_detail = id;
@@ -79,7 +81,7 @@ transform_label_to_visible (GBinding     *binding,
   gboolean visible = TRUE;
 
   /* Hide details for unknown callers so the display name is centered */
-  if (STR_IS_NULL_OR_EMPTY (label))
+  if (gm_str_is_null_or_empty (label))
     visible = FALSE;
 
   g_value_set_boolean (to_value, visible);
@@ -97,7 +99,7 @@ transform_display_name_initals (GBinding     *binding,
   gboolean show_initials = TRUE;
 
   /* Don't show initials for unknown callers as it would always be 'UC' */
-  if (STR_IS_NULL_OR_EMPTY (display_name))
+  if (gm_str_is_null_or_empty (display_name))
     show_initials = FALSE;
 
   g_value_set_boolean (to_value, show_initials);

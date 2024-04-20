@@ -19,6 +19,8 @@
 
 #include "dbus/phosh-screenshot-dbus.h"
 
+#include <gmobile.h>
+
 #include <gio/gunixinputstream.h>
 
 #define BUS_NAME "org.gnome.Shell.Screenshot"
@@ -697,7 +699,7 @@ phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
   if (area)
     frames->area = g_memdup2 (area, sizeof (GdkRectangle));
 
-  if (STR_IS_NULL_OR_EMPTY (filename)) {
+  if (gm_str_is_null_or_empty (filename)) {
     /* Copy to clipboard */
     frames->filename = NULL;
   } else {

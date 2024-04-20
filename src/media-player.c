@@ -14,6 +14,8 @@
 #include "media-player.h"
 #include "util.h"
 
+#include <gmobile.h>
+
 #include <glib/gi18n.h>
 
 #include <handy.h>
@@ -752,7 +754,7 @@ on_dbus_name_owner_changed (GDBusConnection  *connection,
     return;
 
   /* Current player vanished, look for another one, already running */
-  if (STR_IS_NULL_OR_EMPTY (to)) {
+  if (gm_str_is_null_or_empty (to)) {
     set_attached (self, FALSE);
     find_player (self);
     return;

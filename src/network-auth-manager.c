@@ -16,6 +16,8 @@
 #include "phosh-wayland.h"
 #include "util.h"
 
+#include <gmobile.h>
+
 #include <NetworkManager.h>
 #include <gio/gunixoutputstream.h>
 #include <gio/gunixinputstream.h>
@@ -284,7 +286,7 @@ auth_helper_exited (GPid pid, int status, gpointer user_data)
                                     g_key_file_get_boolean (keyfile, groups[i], "IsSecret", NULL));
       g_ptr_array_add (secrets, secret);
     } else {
-      if (STR_IS_NULL_OR_EMPTY (value))
+      if (gm_str_is_null_or_empty (value))
         continue;
 
       shell_network_agent_add_vpn_secret (request->self->network_agent,

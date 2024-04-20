@@ -23,15 +23,13 @@
 
 #include <libsoup/soup.h>
 
+#include <gmobile.h>
+
 #ifdef PHOSH_HAVE_MEMFD_CREATE
 #include <sys/mman.h>
 #include <linux/memfd.h>
 #include <linux/mman.h>
 #include <fcntl.h>
-#endif
-
-#if !GLIB_CHECK_VERSION(2, 73, 2)
-#define G_REGEX_DEFAULT 0
 #endif
 
 
@@ -564,22 +562,9 @@ phosh_util_get_stylesheet (const char *theme_name)
 gboolean
 phosh_clear_fd (int *fd, GError **err)
 {
-  gboolean success;
-
   g_return_val_if_fail (fd, FALSE);
 
-#if GLIB_CHECK_VERSION(2, 75, 1)
-  success = g_clear_fd (fd, err);
-#else
-  if (*fd >= 0) {
-    success = g_close (*fd, err);
-    *fd = -1;
-  } else {
-    success = TRUE;
-  }
-#endif
-
-  return success;
+  return g_clear_fd (fd, err);
 }
 
 /**
@@ -703,7 +688,7 @@ phosh_util_matches_app_info (GAppInfo *info, const char *search)
 
     str = app_attr[i] (info);
 
-    if (STR_IS_NULL_OR_EMPTY (str))
+    if (gm_str_is_null_or_empty (str))
       continue;
 
     folded = g_utf8_casefold (str, -1);
@@ -720,7 +705,7 @@ phosh_util_matches_app_info (GAppInfo *info, const char *search)
 
       str = desktop_attr[i] (G_DESKTOP_APP_INFO (info));
 
-      if (STR_IS_NULL_OR_EMPTY (str))
+      if (gm_str_is_null_or_empty (str))
         continue;
 
       folded = g_utf8_casefold (str, -1);
