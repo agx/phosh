@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-12 16:52+0000\n"
-"PO-Revision-Date: 2024-03-13 18:58+0100\n"
+"POT-Creation-Date: 2024-04-20 09:21+0000\n"
+"PO-Revision-Date: 2024-04-20 20:23+0200\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -89,15 +89,15 @@ msgstr "Evenimente viitoare"
 msgid "Show upcoming calendar events"
 msgstr "Arată evenimentele viitoare din calendar"
 
-#: src/app-grid-button.c:529
+#: src/app-grid-button.c:533 src/app-grid-button.c:590
 msgid "Application"
 msgstr "Aplicație"
 
-#: src/app-grid.c:138
+#: src/app-grid.c:256
 msgid "Show All Apps"
 msgstr "Arată toate aplicațiile"
 
-#: src/app-grid.c:141
+#: src/app-grid.c:259
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Arată numai aplicații pentru mobil"
 
@@ -110,7 +110,7 @@ msgstr "Pornit"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/call-notification.c:61
+#: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "Apelant necunoscut"
 
@@ -125,7 +125,7 @@ msgstr "Decuplat"
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
 #: src/ui/end-session-dialog.ui:71
 msgid "Ok"
-msgstr "De acord"
+msgstr "Bine"
 
 #: src/emergency-menu.c:100
 msgid "Unable to place emergency call"
@@ -135,11 +135,11 @@ msgstr "Nu se poate efectua apelul de urgență"
 msgid "Internal error"
 msgstr "Eroare internă"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:174
 msgid "Log Out"
 msgstr "Deconectare"
 
-#: src/end-session-dialog.c:176
+#: src/end-session-dialog.c:177
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -147,11 +147,11 @@ msgstr[0] "%s se va deconecta automat în %d secundă."
 msgstr[1] "%s se va deconecta automat în %d secunde."
 msgstr[2] "%s se va deconecta automat în %d de secunde."
 
-#: src/end-session-dialog.c:182
+#: src/end-session-dialog.c:183
 msgid "Power Off"
 msgstr "Oprește"
 
-#: src/end-session-dialog.c:183
+#: src/end-session-dialog.c:184
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -159,11 +159,11 @@ msgstr[0] "Sistemul se va opri automat în %d secundă."
 msgstr[1] "Sistemul se va opri automat în %d secunde."
 msgstr[2] "Sistemul se va opri automat în %d de secunde."
 
-#: src/end-session-dialog.c:189
+#: src/end-session-dialog.c:190
 msgid "Restart"
 msgstr "Repornește"
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:191
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -216,21 +216,21 @@ msgstr "Introdu codul de acces"
 msgid "Checking…"
 msgstr "Se verifică…"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:215
 msgid "Screenshot"
 msgstr "Captură de ecran"
 
-#: src/screenshot-manager.c:214
+#: src/screenshot-manager.c:216
 msgid "Screenshot copied to clipboard"
 msgstr "Captură de ecran copiată în memorie"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:321 src/ui/media-player.ui:161
+#: src/media-player.c:324 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Titlu necunoscut"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:329 src/ui/media-player.ui:148
+#: src/media-player.c:332 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Artist necunoscut"
 
@@ -276,93 +276,116 @@ msgstr "Deschide"
 msgid "Notification"
 msgstr "Notificare"
 
-#. Translators: Timestamp seconds suffix
-#: src/notifications/timestamp-label.c:84
-msgctxt "timestamp-suffix-seconds"
-msgid "s"
-msgstr "s"
-
-#. Translators: Timestamp minute suffix
+#. Translators: Point in time, use a short word or abbreviation
+#. Please stick to a maximum of 7 chars
 #: src/notifications/timestamp-label.c:86
-msgctxt "timestamp-suffix-minute"
-msgid "m"
-msgstr "m"
-
-#. Translators: Timestamp minutes suffix
-#: src/notifications/timestamp-label.c:88
-msgctxt "timestamp-suffix-minutes"
-msgid "m"
-msgstr "m"
-
-#. Translators: Timestamp hour suffix
-#: src/notifications/timestamp-label.c:90
-msgctxt "timestamp-suffix-hour"
-msgid "h"
-msgstr "o"
-
-#. Translators: Timestamp hours suffix
-#: src/notifications/timestamp-label.c:92
-msgctxt "timestamp-suffix-hours"
-msgid "h"
-msgstr "o"
-
-#. Translators: Timestamp day suffix
-#: src/notifications/timestamp-label.c:94
-msgctxt "timestamp-suffix-day"
-msgid "d"
-msgstr "z"
-
-#. Translators: Timestamp days suffix
-#: src/notifications/timestamp-label.c:96
-msgctxt "timestamp-suffix-days"
-msgid "d"
-msgstr "z"
-
-#. Translators: Timestamp month suffix
-#: src/notifications/timestamp-label.c:98
-msgctxt "timestamp-suffix-month"
-msgid "mo"
-msgstr "lu"
-
-#. Translators: Timestamp months suffix
-#: src/notifications/timestamp-label.c:100
-msgctxt "timestamp-suffix-months"
-msgid "mos"
-msgstr "luni"
-
-#. Translators: Timestamp year suffix
-#: src/notifications/timestamp-label.c:102
-msgctxt "timestamp-suffix-year"
-msgid "y"
-msgstr "a"
-
-#. Translators: Timestamp years suffix
-#: src/notifications/timestamp-label.c:104
-msgctxt "timestamp-suffix-years"
-msgid "y"
-msgstr "a"
-
-#: src/notifications/timestamp-label.c:121
 msgid "now"
 msgstr "acum"
 
-#. Translators: time difference "Over 5 years"
-#: src/notifications/timestamp-label.c:189
+#. Translators: abbreviated time difference "Less than 30 seconds"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:91
+#, c-format
+msgid "<30s"
+msgstr "<30s"
+
+#. Translators: abbreviated time difference "Less than one minute"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:96
+#, c-format
+msgid "<1m"
+msgstr "<1m"
+
+#. Translators: abbreviated time difference "About one minute"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:101
+#, c-format
+msgid "~1m"
+msgstr "~1m"
+
+#. Translators: abbreviated, exact time difference "1 minute ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:109
+#, c-format
+msgid "%dm"
+msgid_plural "%dm"
+msgstr[0] "%dm"
+msgstr[1] "%dm"
+msgstr[2] "%dm"
+
+#. Translators: abbreviated time difference "About 3 hours ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:117
+#, c-format
+msgid "~%dh"
+msgid_plural "~%dh"
+msgstr[0] "~%dh"
+msgstr[1] "~%dh"
+msgstr[2] "~%dh"
+
+#. Translators: abbreviated time difference "About 1 day ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:122
+#, c-format
+msgid "~1d"
+msgstr "~1 zi"
+
+#. Translators: abbreviated, exact time difference "3 days ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:127
+#, c-format
+msgid "%dd"
+msgid_plural "%dd"
+msgstr[0] "%d zi"
+msgstr[1] "%dzile"
+msgstr[2] "%dzile"
+
+#. Translators: abbreviated time difference "About 1 month ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:132
+#, c-format
+msgid "~1mo"
+msgstr "~1lună"
+
+#. Translators: abbreviated, exact time difference "3 months ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:137
+#, c-format
+msgid "%dmo"
+msgid_plural "%dmos"
+msgstr[0] "%dlună"
+msgstr[1] "%dluni"
+msgstr[2] "%dluni"
+
+#. Translators: abbreviated time difference "About 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:147
+#, c-format
+msgid "~%dy"
+msgid_plural "~%dy"
+msgstr[0] "~%d an"
+msgstr[1] "~%d ani"
+msgstr[2] "~%d ani"
+
+#. Translators: abbreviated time difference "Over 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:151
 #, c-format
 msgid "Over %dy"
-msgstr "Peste %da"
+msgid_plural "Over %dy"
+msgstr[0] "Peste %d an"
+msgstr[1] "Peste %d ani"
+msgstr[2] "Peste %d ani"
 
-#. Translators: time difference "almost 5 years"
-#: src/notifications/timestamp-label.c:193
+#. Translators: abbreviated time difference "almost 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:156
 #, c-format
 msgid "Almost %dy"
-msgstr "Aproape %da"
-
-#. Translators: a time difference like '<5m', if in doubt leave untranslated
-#: src/notifications/timestamp-label.c:200
-#, c-format
-msgid "%s%d%s"
-msgstr "%s%d%s"
+msgid_plural "Almost %dy"
+msgstr[0] "Aproape %d an"
+msgstr[1] "Aproape %d ani"
+msgstr[2] "Aproape %d ani"
 
 #: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
@@ -405,7 +428,7 @@ msgstr "Apasă ESC pentru a închide"
 msgid "Running '%s' failed"
 msgstr "Executarea „%s” a eșuat"
 
-#: src/settings/audio-settings.c:373
+#: src/settings/audio-settings.c:376
 msgid "Phone Shell Volume Control"
 msgstr "Controlul volumului"
 
@@ -431,23 +454,19 @@ msgstr "Memorează decizia"
 msgid "Cancel"
 msgstr "Anulează"
 
-#: src/ui/app-grid-button.ui:55
-msgid "App"
-msgstr "Aplicație"
-
-#: src/ui/app-grid-button.ui:79
+#: src/ui/app-grid-button.ui:23
 msgid "Remove from _Favorites"
 msgstr "Elimină din _Favorite"
 
-#: src/ui/app-grid-button.ui:84
+#: src/ui/app-grid-button.ui:28
 msgid "Add to _Favorites"
 msgstr "Adaugă la _Favorite"
 
-#: src/ui/app-grid-button.ui:89
+#: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "Arată _detalii"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid.ui:24
 msgid "Search apps…"
 msgstr "Caută aplicații…"
 
