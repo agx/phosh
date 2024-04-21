@@ -78,7 +78,8 @@ testlib_sources = [
   'testlib-full-shell.c',
   'testlib-calls-mock.c',
   'testlib-mpris-mock.c',
-  'testlib-emergency-calls.c'
+  'testlib-emergency-calls.c',
+  'testlib-wait-for-shell-state.c',
 ] + test_resources
 
 testlib = static_library('phoshtest', testlib_sources,

@@ -18,6 +18,7 @@
 #include "testlib-calls-mock.h"
 #include "testlib-mpris-mock.h"
 #include "testlib-emergency-calls.h"
+#include "testlib-wait-for-shell-state.h"
 
 #include "phosh-screen-saver-dbus.h"
 
@@ -25,6 +26,7 @@
 #define OBJECT_PATH "/org/gnome/Shell/Screenshot"
 
 #define POP_TIMEOUT 50000000
+#define WAIT_TIMEOUT 30000
 
 
 static void
@@ -100,11 +102,13 @@ wait_a_bit (GMainLoop *loop, int msecs)
 static void
 toggle_overview (GMainLoop                      *loop,
                  struct zwp_virtual_keyboard_v1 *keyboard,
-                 GTimer                         *timer)
+                 GTimer                         *timer,
+                 PhoshTestWaitForShellState     *waiter)
 {
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTMETA);
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_A, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
+  phosh_test_wait_for_shell_state_wait (waiter, PHOSH_STATE_OVERVIEW, TRUE, WAIT_TIMEOUT);
   /* Give animation time to finish */
   wait_a_bit (loop, 500);
 }
@@ -113,11 +117,15 @@ toggle_overview (GMainLoop                      *loop,
 static void
 toggle_settings (GMainLoop                      *loop,
                  struct zwp_virtual_keyboard_v1 *keyboard,
-                 GTimer                         *timer)
+                 GTimer                         *timer,
+                 PhoshTestWaitForShellState     *waiter,
+                 gboolean                        should_be_visible)
 {
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTMETA);
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_M, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
+  phosh_test_wait_for_shell_state_wait (waiter, PHOSH_STATE_SETTINGS, should_be_visible,
+                                        WAIT_TIMEOUT);
   /* Give animation time to finish */
   wait_a_bit (loop, 500);
 }
@@ -143,6 +151,7 @@ static void
 show_run_command_dialog (GMainLoop                      *loop,
                          struct zwp_virtual_keyboard_v1 *keyboard,
                          GTimer                         *timer,
+                         PhoshTestWaitForShellState     *waiter,
                          gboolean                        show)
 {
   if (show) {
@@ -152,7 +161,11 @@ show_run_command_dialog (GMainLoop                      *loop,
   } else {
     phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
   }
+  phosh_test_wait_for_shell_state_wait (waiter, PHOSH_STATE_MODAL_SYSTEM_PROMPT, show,
+                                        WAIT_TIMEOUT);
   /* Give animation time to finish */
+  wait_a_bit (loop, 500);
+  /* Even more time for powerbar fade animation to finish */
   wait_a_bit (loop, 500);
 }
 
@@ -249,17 +262,20 @@ screenshot_plugin_prefs (GMainLoop                      *loop,
                          const char                     *what,
                          int                             num,
                          struct zwp_virtual_keyboard_v1 *keyboard,
-                         GTimer                         *timer)
+                         GTimer                         *timer,
+                         PhoshTestWaitForShellState     *waiter)
 {
   GPid pid;
 
   pid = run_plugin_prefs ();
-  /* Give app time to start and close overview */
+  /* Wait for overview to close */
+  phosh_test_wait_for_shell_state_wait (waiter, PHOSH_STATE_OVERVIEW, FALSE, WAIT_TIMEOUT);
+  /* Give app time to start */
   wait_a_bit (loop, 2000);
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTCTRL);
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_T, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
-  wait_a_bit (loop, 500);
+  wait_a_bit (loop, 1000);
   take_screenshot (what, num++, "plugin-prefs-ticket-box");
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
   wait_a_bit (loop, 500);
@@ -270,6 +286,9 @@ screenshot_plugin_prefs (GMainLoop                      *loop,
   take_screenshot (what, num++, "plugin-prefs-emergncy-info");
   g_assert_no_errno (kill (pid, SIGTERM));
   g_spawn_close_pid (pid);
+
+  /* wait for app to quit and overview to be visible again */
+  phosh_test_wait_for_shell_state_wait (waiter, PHOSH_STATE_OVERVIEW, TRUE, WAIT_TIMEOUT);
 
   return num;
 }
@@ -300,7 +319,8 @@ screenshot_end_session_dialog (GMainLoop                      *loop,
                                const char                     *what,
                                int                             num,
                                struct zwp_virtual_keyboard_v1 *keyboard,
-                               GTimer                         *timer)
+                               GTimer                         *timer,
+                               PhoshTestWaitForShellState     *waiter)
 {
   g_autoptr (PhoshDBusEndSessionDialog) proxy = NULL;
   g_autoptr (GError) err = NULL;
@@ -333,6 +353,8 @@ screenshot_end_session_dialog (GMainLoop                      *loop,
   take_screenshot (what, num++, "end-session-dialog");
 
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
+  phosh_test_wait_for_shell_state_wait (waiter, PHOSH_STATE_MODAL_SYSTEM_PROMPT, FALSE,
+                                        WAIT_TIMEOUT);
   wait_a_bit (loop, 500);
 
   return num;
@@ -340,7 +362,7 @@ screenshot_end_session_dialog (GMainLoop                      *loop,
 
 
 static int
-screenshot_osd (GMainLoop *loop, const char *what, int num)
+screenshot_osd (GMainLoop *loop, const char *what, int num, PhoshTestWaitForShellState *waiter)
 {
   g_autoptr (PhoshDBusGnomeShell) proxy = NULL;
   g_autoptr (GError) err = NULL;
@@ -370,6 +392,11 @@ screenshot_osd (GMainLoop *loop, const char *what, int num)
   g_assert_no_error (err);
   take_screenshot (what, num++, "osd");
 
+  /* wait for OSD to clear */
+  phosh_test_wait_for_shell_state_wait (waiter, PHOSH_STATE_MODAL_SYSTEM_PROMPT, FALSE,
+                                        WAIT_TIMEOUT);
+  wait_a_bit (loop, 500);
+
   return num;
 }
 
@@ -379,7 +406,8 @@ screenshot_portal_access (GMainLoop                      *loop,
                           const char                     *what,
                           int                             num,
                           struct zwp_virtual_keyboard_v1 *keyboard,
-                          GTimer                         *timer)
+                          GTimer                         *timer,
+                          PhoshTestWaitForShellState     *waiter)
 {
   g_autoptr (PhoshDBusImplPortalAccess) proxy = NULL;
   g_autoptr (GVariant) options = NULL;
@@ -410,6 +438,8 @@ screenshot_portal_access (GMainLoop                      *loop,
   take_screenshot (what, num++, "portal-access");
   /* Close dialog */
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ENTER, NULL);
+  phosh_test_wait_for_shell_state_wait (waiter, PHOSH_STATE_MODAL_SYSTEM_PROMPT, FALSE,
+                                        WAIT_TIMEOUT);
   wait_a_bit (loop, 500);
   g_assert_true (success);
 
@@ -506,7 +536,7 @@ screenshot_emergency_calls (GMainLoop                      *loop,
   phosh_test_keyboard_press_modifiers (keyboard, KEY_LEFTALT);
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_C, NULL);
   phosh_test_keyboard_release_modifiers (keyboard);
-  wait_a_bit (loop, 500);
+  wait_a_bit (loop, 1000);
   take_screenshot (locale, num++, "emergency-contacts");
 
   phosh_test_keyboard_press_keys (keyboard, timer, KEY_ESC, NULL);
@@ -529,6 +559,8 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_autoptr (PhoshTestCallsMock) calls_mock = NULL;
   g_autoptr (PhoshTestMprisMock) mpris_mock = NULL;
   g_autoptr (GError) err = NULL;
+  g_autoptr (PhoshTestWaitForShellState) waiter = NULL;
+
   const char *argv[] = { TEST_TOOLS "/app-buttons", NULL };
   GPid pid;
   int i = 1;
@@ -538,8 +570,10 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_assert_nonnull (g_async_queue_timeout_pop (fixture->queue, POP_TIMEOUT));
 
   loop = g_main_loop_new (context, FALSE);
+  waiter = phosh_test_wait_for_shell_state_new (phosh_shell_get_default ());
 
   /* Give overview animation time to finish */
+  phosh_test_wait_for_shell_state_wait (waiter, PHOSH_STATE_SETTINGS, FALSE, WAIT_TIMEOUT);
   wait_a_bit (loop, 500);
   take_screenshot (what, i++, "overview-empty");
 
@@ -556,28 +590,31 @@ test_take_screenshots (PhoshTestFullShellFixture *fixture, gconstpointer unused)
   g_spawn_async (NULL, (char**) argv, NULL, G_SPAWN_DEFAULT, NULL, NULL, &pid, &err);
   g_assert_no_error (err);
   g_assert_true (pid);
-  /* Give app time to start and close overview */
+  /* Wait for overview to close */
+  phosh_test_wait_for_shell_state_wait (waiter, PHOSH_STATE_OVERVIEW, FALSE, WAIT_TIMEOUT);
+  /* Give app time to start */
   wait_a_bit (loop, 500);
   take_screenshot (what, i++, "running-app");
 
-  toggle_overview (loop, keyboard, timer);
+  toggle_overview (loop, keyboard, timer, waiter);
   take_screenshot (what, i++, "overview-app");
   kill (pid, SIGTERM);
   g_spawn_close_pid (pid);
 
-  i = screenshot_plugin_prefs (loop, what, i, keyboard, timer);
+  i = screenshot_plugin_prefs (loop, what, i, keyboard, timer, waiter);
 
-  show_run_command_dialog (loop, keyboard, timer, TRUE);
+  show_run_command_dialog (loop, keyboard, timer, waiter, TRUE);
   take_screenshot (what, i++, "run-command");
-  show_run_command_dialog (loop, keyboard, timer, FALSE);
+  show_run_command_dialog (loop, keyboard, timer, waiter, FALSE);
 
-  toggle_settings (loop, keyboard, timer);
+  toggle_settings (loop, keyboard, timer, waiter, TRUE);
   take_screenshot (what, i++, "settings");
-  toggle_settings (loop, keyboard, timer);
+  toggle_settings (loop, keyboard, timer, waiter, FALSE);
 
-  i = screenshot_osd (loop, what, i);
-  i = screenshot_portal_access (loop, what, i, keyboard, timer);
-  i = screenshot_end_session_dialog (loop, what, i, keyboard, timer);
+
+  i = screenshot_osd (loop, what, i, waiter);
+  i = screenshot_portal_access (loop, what, i, keyboard, timer, waiter);
+  i = screenshot_end_session_dialog (loop, what, i, keyboard, timer, waiter);
   i = screenshot_mount_prompt (loop, what, i, keyboard, timer);
 
   ss_proxy = phosh_dbus_screen_saver_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
