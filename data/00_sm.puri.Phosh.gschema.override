@@ -5,3 +5,5 @@ screen-keyboard-enabled=true
 clock-show-date=false
 clock-show-weekday=false
 
+[org.sigxcpu.feedbackd]
+allow-important=['org.gnome.clocks']
