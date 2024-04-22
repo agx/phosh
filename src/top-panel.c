@@ -812,7 +812,7 @@ phosh_top_panel_init (PhoshTopPanel *self)
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
-  self->state = PHOSH_TOP_PANEL_STATE_FOLDED;
+  self->state = PHOSH_TOP_PANEL_STATE_UNFOLDED;
   self->kb_settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
   g_signal_connect (self, "configure-event", G_CALLBACK (on_configure_event), NULL);
 

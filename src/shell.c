@@ -1288,7 +1288,7 @@ phosh_shell_init (PhoshShell *self)
                             self);
   on_gtk_theme_name_changed (self, NULL, gtk_settings);
 
-  priv->shell_state = PHOSH_STATE_NONE;
+  priv->shell_state = PHOSH_STATE_SETTINGS;
   priv->action_map = g_simple_action_group_new ();
 }
 
