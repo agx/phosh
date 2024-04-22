@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-12 16:52+0000\n"
-"PO-Revision-Date: 2024-03-30 22:08+0100\n"
+"POT-Creation-Date: 2024-04-22 14:05+0000\n"
+"PO-Revision-Date: 2024-04-22 16:37+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -88,15 +88,15 @@ msgstr "Prihodnji dogodki"
 msgid "Show upcoming calendar events"
 msgstr "Pokaži prihodnje dogodke koledarja"
 
-#: src/app-grid-button.c:529
+#: src/app-grid-button.c:533 src/app-grid-button.c:590
 msgid "Application"
 msgstr "Program"
 
-#: src/app-grid.c:138
+#: src/app-grid.c:256
 msgid "Show All Apps"
 msgstr "Pokaži vse programe"
 
-#: src/app-grid.c:141
+#: src/app-grid.c:259
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Pokaži le na nabilnih napravah podprte programe"
 
@@ -109,7 +109,7 @@ msgstr "Vključeno"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/call-notification.c:61
+#: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "Neznan klicatelj"
 
@@ -134,11 +134,11 @@ msgstr "Klica v sili ni možno izvesti"
 msgid "Internal error"
 msgstr "Notranja napaka"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:174
 msgid "Log Out"
 msgstr "Odjavi"
 
-#: src/end-session-dialog.c:176
+#: src/end-session-dialog.c:177
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -147,11 +147,11 @@ msgstr[1] "%s se bo samodejno odjavil čez %d sekundi."
 msgstr[2] "%s se bo samodejno odjavil čez %d sekunde."
 msgstr[3] "%s se bo samodejno odjavil čez %d sekund."
 
-#: src/end-session-dialog.c:182
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
 msgid "Power Off"
 msgstr "Ugasni"
 
-#: src/end-session-dialog.c:183
+#: src/end-session-dialog.c:184
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -160,11 +160,11 @@ msgstr[1] "Sistem se bo samodejno izklopil v %d sekundah."
 msgstr[2] "Sistem se bo samodejno izklopil v %d sekundah."
 msgstr[3] "Sistem se bo samodejno izklopil v %d sekundah."
 
-#: src/end-session-dialog.c:189
+#: src/end-session-dialog.c:190
 msgid "Restart"
 msgstr "Ponovno zaženi"
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:191
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -218,21 +218,21 @@ msgstr "Vnesite geslo"
 msgid "Checking…"
 msgstr "Preverjanje …"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
 msgid "Screenshot"
 msgstr "Posnetek zaslona"
 
-#: src/screenshot-manager.c:214
+#: src/screenshot-manager.c:216
 msgid "Screenshot copied to clipboard"
 msgstr "Zaslonska slika kopirana na odložišče"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:321 src/ui/media-player.ui:161
+#: src/media-player.c:324 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Neznan naslov"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:329 src/ui/media-player.ui:148
+#: src/media-player.c:332 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Neznan izvajalec"
 
@@ -278,93 +278,123 @@ msgstr "Odpri"
 msgid "Notification"
 msgstr "Obvestilo"
 
-#. Translators: Timestamp seconds suffix
-#: src/notifications/timestamp-label.c:84
-msgctxt "timestamp-suffix-seconds"
-msgid "s"
-msgstr "s"
-
-#. Translators: Timestamp minute suffix
+#. Translators: Point in time, use a short word or abbreviation
+#. Please stick to a maximum of 7 chars
 #: src/notifications/timestamp-label.c:86
-msgctxt "timestamp-suffix-minute"
-msgid "m"
-msgstr "min"
-
-#. Translators: Timestamp minutes suffix
-#: src/notifications/timestamp-label.c:88
-msgctxt "timestamp-suffix-minutes"
-msgid "m"
-msgstr "min"
-
-#. Translators: Timestamp hour suffix
-#: src/notifications/timestamp-label.c:90
-msgctxt "timestamp-suffix-hour"
-msgid "h"
-msgstr "u"
-
-#. Translators: Timestamp hours suffix
-#: src/notifications/timestamp-label.c:92
-msgctxt "timestamp-suffix-hours"
-msgid "h"
-msgstr "u"
-
-#. Translators: Timestamp day suffix
-#: src/notifications/timestamp-label.c:94
-msgctxt "timestamp-suffix-day"
-msgid "d"
-msgstr "d"
-
-#. Translators: Timestamp days suffix
-#: src/notifications/timestamp-label.c:96
-msgctxt "timestamp-suffix-days"
-msgid "d"
-msgstr "d"
-
-#. Translators: Timestamp month suffix
-#: src/notifications/timestamp-label.c:98
-msgctxt "timestamp-suffix-month"
-msgid "mo"
-msgstr "mes"
-
-#. Translators: Timestamp months suffix
-#: src/notifications/timestamp-label.c:100
-msgctxt "timestamp-suffix-months"
-msgid "mos"
-msgstr "mes"
-
-#. Translators: Timestamp year suffix
-#: src/notifications/timestamp-label.c:102
-msgctxt "timestamp-suffix-year"
-msgid "y"
-msgstr "l"
-
-#. Translators: Timestamp years suffix
-#: src/notifications/timestamp-label.c:104
-msgctxt "timestamp-suffix-years"
-msgid "y"
-msgstr "l"
-
-#: src/notifications/timestamp-label.c:121
 msgid "now"
 msgstr "zdaj"
 
-#. Translators: time difference "Over 5 years"
-#: src/notifications/timestamp-label.c:189
+#. Translators: abbreviated time difference "Less than 30 seconds"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:91
+#, c-format
+msgid "<30s"
+msgstr "< 30 s"
+
+#. Translators: abbreviated time difference "Less than one minute"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:96
+#, c-format
+msgid "<1m"
+msgstr "< 1 min"
+
+#. Translators: abbreviated time difference "About one minute"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:101
+#, c-format
+msgid "~1m"
+msgstr "~ 1 min"
+
+#. Translators: abbreviated, exact time difference "1 minute ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:109
+#, c-format
+msgid "%dm"
+msgid_plural "%dm"
+msgstr[0] "%d min"
+msgstr[1] "%d min"
+msgstr[2] "%d min"
+msgstr[3] "%d min"
+
+#. Translators: abbreviated time difference "About 3 hours ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:117
+#, c-format
+msgid "~%dh"
+msgid_plural "~%dh"
+msgstr[0] "~ %d u"
+msgstr[1] "~ %d u"
+msgstr[2] "~ %d u"
+msgstr[3] "~ %d u"
+
+#. Translators: abbreviated time difference "About 1 day ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:122
+#, c-format
+msgid "~1d"
+msgstr "~1 dan"
+
+#. Translators: abbreviated, exact time difference "3 days ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:127
+#, c-format
+msgid "%dd"
+msgid_plural "%dd"
+msgstr[0] "%d d"
+msgstr[1] "%d d"
+msgstr[2] "%d d"
+msgstr[3] "%d d"
+
+#. Translators: abbreviated time difference "About 1 month ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:132
+#, c-format
+msgid "~1mo"
+msgstr "~1 mes."
+
+#. Translators: abbreviated, exact time difference "3 months ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:137
+#, c-format
+msgid "%dmo"
+msgid_plural "%dmos"
+msgstr[0] "%d mes"
+msgstr[1] "%d mes"
+msgstr[2] "%d mes"
+msgstr[3] "%d mes"
+
+#. Translators: abbreviated time difference "About 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:147
+#, c-format
+msgid "~%dy"
+msgid_plural "~%dy"
+msgstr[0] "~%d leto"
+msgstr[1] "~%d leti"
+msgstr[2] "~%d leta"
+msgstr[3] "~%d let"
+
+#. Translators: abbreviated time difference "Over 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:151
 #, c-format
 msgid "Over %dy"
-msgstr "Prek %dl"
+msgid_plural "Over %dy"
+msgstr[0] "Prek %d letom"
+msgstr[1] "Prek %d letoma"
+msgstr[2] "Prek %d leti"
+msgstr[3] "Prek %d leti"
 
-#. Translators: time difference "almost 5 years"
-#: src/notifications/timestamp-label.c:193
+#. Translators: abbreviated time difference "almost 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:156
 #, c-format
 msgid "Almost %dy"
-msgstr "Skoraj %dl"
-
-#. Translators: a time difference like '<5m', if in doubt leave untranslated
-#: src/notifications/timestamp-label.c:200
-#, c-format
-msgid "%s%d%s"
-msgstr "%s%d%s"
+msgid_plural "Almost %dy"
+msgstr[0] "Skoraj %d leto"
+msgstr[1] "Skoraj %d leti"
+msgstr[2] "Skoraj %d leta"
+msgstr[3] "Skoraj %d let"
 
 #: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
@@ -407,7 +437,7 @@ msgstr "Pritisnite ESC, da zaprete"
 msgid "Running '%s' failed"
 msgstr "Zagon »%s« ni uspel"
 
-#: src/settings/audio-settings.c:373
+#: src/settings/audio-settings.c:376
 msgid "Phone Shell Volume Control"
 msgstr "Gum za glasnost lupine telefona"
 
@@ -433,23 +463,19 @@ msgstr "Pomni odločitev"
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: src/ui/app-grid-button.ui:55
-msgid "App"
-msgstr "Program"
-
-#: src/ui/app-grid-button.ui:79
+#: src/ui/app-grid-button.ui:23
 msgid "Remove from _Favorites"
 msgstr "Odstrani iz pri_ljubljenih"
 
-#: src/ui/app-grid-button.ui:84
+#: src/ui/app-grid-button.ui:28
 msgid "Add to _Favorites"
 msgstr "Dodaj med pri_ljubljene"
 
-#: src/ui/app-grid-button.ui:89
+#: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "Pokaži po_drobnosti"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid.ui:24
 msgid "Search apps…"
 msgstr "Poišči program …"
 
@@ -539,21 +565,13 @@ msgstr "_Poveži"
 msgid "Authenticate"
 msgstr "Overi"
 
-#: src/ui/power-menu.ui:69
-msgid "_Power Off"
-msgstr "Iz_klopi"
+#: src/ui/power-menu.ui:108
+msgid "Lock"
+msgstr "Zakleni"
 
-#: src/ui/power-menu.ui:110
-msgid "_Lock"
-msgstr "_Zakleni"
-
-#: src/ui/power-menu.ui:151
-msgid "_Screenshot"
-msgstr "_Posnetek zaslona"
-
-#: src/ui/power-menu.ui:192
-msgid "_Emergency"
-msgstr "_Klic v sili"
+#: src/ui/power-menu.ui:186
+msgid "Emergency"
+msgstr "Klic v sili"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
