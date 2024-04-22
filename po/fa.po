@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-04-17 12:08+0000\n"
-"PO-Revision-Date: 2024-04-18 01:41+0330\n"
+"POT-Creation-Date: 2024-04-22 14:05+0000\n"
+"PO-Revision-Date: 2024-04-22 20:54+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -89,11 +89,11 @@ msgstr "نمایش رویدادهای تقویم پیش رو"
 msgid "Application"
 msgstr "برنامه"
 
-#: src/app-grid.c:254
+#: src/app-grid.c:256
 msgid "Show All Apps"
 msgstr "نمایش تمامی کاره‌ها"
 
-#: src/app-grid.c:257
+#: src/app-grid.c:259
 msgid "Show Only Mobile Friendly Apps"
 msgstr "فقط نمایش کاره‌های سازگار با تلفن همراه"
 
@@ -106,7 +106,7 @@ msgstr "روشن"
 msgid "Bluetooth"
 msgstr "بلوتوث"
 
-#: src/call-notification.c:61
+#: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "تماس‌گیرندهٔ ناشناس"
 
@@ -131,33 +131,33 @@ msgstr "ناتوان در برقراری تماس اضطراری"
 msgid "Internal error"
 msgstr "خطای داخلی"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:174
 msgid "Log Out"
 msgstr "خروج"
 
-#: src/end-session-dialog.c:176
+#: src/end-session-dialog.c:177
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 msgstr[1] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 
-#: src/end-session-dialog.c:182
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
 msgid "Power Off"
 msgstr "خاموش کردن"
 
-#: src/end-session-dialog.c:183
+#: src/end-session-dialog.c:184
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "سامانه پس از %Id ثانیه به طور خودکار خاموش می‌شود."
 msgstr[1] "سامانه پس از %Id ثانیه به طور خودکار خاموش می‌شود."
 
-#: src/end-session-dialog.c:189
+#: src/end-session-dialog.c:190
 msgid "Restart"
 msgstr "راه‌اندازی دوباره"
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:191
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -209,21 +209,21 @@ msgstr "ورود رمز عبور"
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
 msgid "Screenshot"
 msgstr "نماگرفت"
 
-#: src/screenshot-manager.c:214
+#: src/screenshot-manager.c:216
 msgid "Screenshot copied to clipboard"
 msgstr "نماگرفت در تخته‌گیره رونوشت شد"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:161
+#: src/media-player.c:324 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "عنوان ناشناخته"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:148
+#: src/media-player.c:332 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "هنرمند ناشناخته"
 
@@ -305,7 +305,7 @@ msgid_plural "%dm"
 msgstr[0] "%Idد"
 msgstr[1] "%Idد"
 
-#. Translators: abbreviated time difference "About 3 days ago"
+#. Translators: abbreviated time difference "About 3 hours ago"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:117
 #, c-format
@@ -414,7 +414,7 @@ msgstr "برای بستن، گریز را بزنید"
 msgid "Running '%s' failed"
 msgstr "اجرای «%s» شکست خورد"
 
-#: src/settings/audio-settings.c:373
+#: src/settings/audio-settings.c:376
 msgid "Phone Shell Volume Control"
 msgstr "واپایش حجم صدای پوستهٔ تلفن"
 
@@ -542,21 +542,13 @@ msgstr "_وصل شدن"
 msgid "Authenticate"
 msgstr "تأیید هویت"
 
-#: src/ui/power-menu.ui:69
-msgid "_Power Off"
-msgstr "_خاموش"
+#: src/ui/power-menu.ui:108
+msgid "Lock"
+msgstr "قفل"
 
-#: src/ui/power-menu.ui:110
-msgid "_Lock"
-msgstr "_قفل"
-
-#: src/ui/power-menu.ui:151
-msgid "_Screenshot"
-msgstr "_نماگرفت"
-
-#: src/ui/power-menu.ui:192
-msgid "_Emergency"
-msgstr "_اضطراری"
+#: src/ui/power-menu.ui:186
+msgid "Emergency"
+msgstr "اضطراری"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
@@ -616,7 +608,7 @@ msgstr "تنظیمات وای‌فای"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:344
+#: src/util.c:342
 msgid "%A, %B %-e"
 msgstr "%A، %Od %OB"
 
@@ -842,6 +834,12 @@ msgstr "پایان"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "رویداد بی‌عنوان"
+
+#~ msgid "_Power Off"
+#~ msgstr "_خاموش"
+
+#~ msgid "_Screenshot"
+#~ msgstr "_نماگرفت"
 
 #~ msgctxt "timestamp-suffix-seconds"
 #~ msgid "s"
