@@ -365,17 +365,15 @@ panels_create (PhoshShell *self)
                                                    monitor));
   gtk_widget_show (GTK_WIDGET (priv->home));
 
-  g_signal_connect_swapped (
-    priv->top_panel,
-    "activated",
-    G_CALLBACK (on_top_panel_activated),
-    self);
+  g_signal_connect_swapped (priv->top_panel,
+                            "activated",
+                            G_CALLBACK (on_top_panel_activated),
+                            self);
 
-  g_signal_connect_swapped (
-    priv->home,
-    "notify::state",
-    G_CALLBACK(on_home_state_changed),
-    self);
+  g_signal_connect_swapped (priv->home,
+                            "notify::state",
+                            G_CALLBACK (on_home_state_changed),
+                            self);
 
   app_grid = phosh_overview_get_app_grid (phosh_home_get_overview (PHOSH_HOME (priv->home)));
   g_object_bind_property (priv->docked_manager,
