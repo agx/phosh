@@ -183,7 +183,7 @@ build-doc:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
   variables:
-    BUILD_OPTS: -Dtests=false -Dgtk_doc=true ${COMMON_BUILD_OPTS}
+    BUILD_OPTS: -Dtools=false -Dtests=false -Dgtk_doc=true
   <<: *build_before_script
   needs: []
   script:
