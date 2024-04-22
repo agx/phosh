@@ -179,18 +179,18 @@ screenshot:native-debian-trixie:
     variables:
       - $PKG_ONLY == "1"
 
-build-gtkdoc:
+build-doc:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
   variables:
-    BUILD_OPTS: -Dtests=false -Dgtk_doc=true ${COMMON_BUILD_OPTS}
+    BUILD_OPTS: -Dtools=false -Dtests=false -Dgtk_doc=true
   <<: *build_before_script
   needs: []
   script:
     - git clean -dfx
     - 'echo "Build opts: ${BUILD_OPTS}"'
     - meson setup ${BUILD_OPTS} _build
-    - meson compile -C _build
+    - tools/check-doc _build
     - mv _build/docs/phosh-0/ _reference/
   artifacts:
     paths:
@@ -333,7 +333,7 @@ package:deb-debian-trixie:arm64:
 pages:
   stage: deploy
   needs:
-    - build-gtkdoc
+    - build-doc
   script:
     - mv _reference/ public/
   artifacts:
