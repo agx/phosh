@@ -28,10 +28,8 @@ phosh_enum_headers = files(
   'shell.h',
 ) + schema_enum_headers
 
-phosh_enums = gnome.mkenums('phosh-enums',
-  h_template: 'phosh-enums.h.in',
-  c_template: 'phosh-enums.c.in',
-  sources: phosh_enum_headers,
+phosh_enums = gnome.mkenums_simple('phosh-enums',
+  sources : phosh_enum_headers,
 )
 
 phosh_settings_sources = files(
