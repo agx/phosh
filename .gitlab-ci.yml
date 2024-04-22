@@ -179,7 +179,7 @@ screenshot:native-debian-trixie:
     variables:
       - $PKG_ONLY == "1"
 
-build-gtkdoc:
+build-doc:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
   variables:
@@ -333,7 +333,7 @@ package:deb-debian-trixie:arm64:
 pages:
   stage: deploy
   needs:
-    - build-gtkdoc
+    - build-doc
   script:
     - mv _reference/ public/
   artifacts:
