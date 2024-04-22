@@ -277,6 +277,22 @@ on_proximity_fader_changed (PhoshShell *self)
 
 
 static void
+on_top_panel_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshTopPanel *top_panel)
+{
+  PhoshShellPrivate *priv;
+  PhoshTopPanelState state;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (top_panel));
+
+  priv = phosh_shell_get_instance_private (self);
+
+  state = phosh_top_panel_get_state (PHOSH_TOP_PANEL (priv->top_panel));
+  phosh_shell_set_state (self, PHOSH_STATE_SETTINGS, state == PHOSH_TOP_PANEL_STATE_UNFOLDED);
+}
+
+
+static void
 on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
 {
   PhoshShellPrivate *priv;
@@ -368,6 +384,11 @@ panels_create (PhoshShell *self)
   g_signal_connect_swapped (priv->top_panel,
                             "activated",
                             G_CALLBACK (on_top_panel_activated),
+                            self);
+
+  g_signal_connect_swapped (priv->top_panel,
+                            "notify::state",
+                            G_CALLBACK (on_top_panel_state_changed),
                             self);
 
   g_signal_connect_swapped (priv->home,
