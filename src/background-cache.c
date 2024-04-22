@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-background-cache"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "background-cache.h"
 #include "background-image.h"

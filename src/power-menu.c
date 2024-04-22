@@ -6,8 +6,9 @@
 
 #define G_LOG_DOMAIN "phosh-power-menu"
 
-#include "config.h"
+#include "phosh-config.h"
 
+#include "fading-label.h"
 #include "power-menu.h"
 #include "shell.h"
 #include "session-manager.h"
@@ -50,6 +51,8 @@ phosh_power_menu_class_init (PhoshPowerMenuClass *klass)
                                 G_SIGNAL_RUN_LAST,
                                 0, NULL, NULL, NULL,
                                 G_TYPE_NONE, 0);
+
+  g_type_ensure (PHOSH_TYPE_FADING_LABEL);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/power-menu.ui");

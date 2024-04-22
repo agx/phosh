@@ -449,14 +449,6 @@ phosh-lockscreen .phosh-notification-tray {
   transition: 200ms ease;
 }
 
-
-/* Emergency Info */
-.emergency-button {
-  font-size: 12px;
-  padding: 4px 12px;
-  background-color: transparent;
-}
-
 /* Widget box */
 phosh-lockscreen phosh-widget-box {
   margin-left: 6px;
@@ -944,10 +936,7 @@ phosh-power-menu .phosh-dialog-close-button {
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
 }
 
-/*
- * Emergency call related styling
- */
-
+/* Emergency button in the power menu */
 .emergency-button {
   background: @phosh_emergency_button_bg_color;
   color: @phosh_emergency_button_fg_color;
@@ -965,6 +954,15 @@ phosh-power-menu .phosh-dialog-close-button {
 
 .emergency-button:active {
   background: shade(@phosh_emergency_button_bg_color, 1.5);
+}
+
+/*
+ * Emergency call menu
+ */
+
+phosh-emergency-menu .emergency-button {
+  font-size: 12px;
+  padding: 4px 12px;
 }
 
 /*

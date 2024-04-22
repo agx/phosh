@@ -6,7 +6,7 @@
 
 #define G_LOG_DOMAIN "phosh-revealer"
 
-#include "config.h"
+#include "phosh-config.h"
 
 #include "revealer.h"
 
