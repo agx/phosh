@@ -679,7 +679,8 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
 
   gtk_widget_class_set_css_name (widget_class, "phosh-top-panel");
 
-  /* PhoshTopPanel:on-lockscreen:
+  /**
+   * PhoshTopPanel:on-lockscreen:
    *
    * Whether top-panel is shown on lockscreen (%TRUE) or in the unlocked shell
    * (%FALSE).
@@ -688,10 +689,9 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
    * use a property binding with the [type@Shell]s "locked" property.
    */
   props[PROP_ON_LOCKSCREEN] =
-    g_param_spec_boolean (
-      "on-lockscreen", "", "",
-      FALSE,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+    g_param_spec_boolean ("on-lockscreen", "", "",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
