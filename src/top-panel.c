@@ -506,8 +506,6 @@ phosh_top_panel_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_top_panel_parent_class)->constructed (object);
 
-  self->state = PHOSH_TOP_PANEL_STATE_FOLDED;
-
   g_object_bind_property (phosh_shell_get_default (), "locked",
                           self, "on-lockscreen",
                           G_BINDING_SYNC_CREATE);
