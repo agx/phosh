@@ -190,7 +190,7 @@ build-doc:
     - git clean -dfx
     - 'echo "Build opts: ${BUILD_OPTS}"'
     - meson setup ${BUILD_OPTS} _build
-    - meson compile -C _build
+    - tools/check-doc _build
     - mv _build/docs/phosh-0/ _reference/
   artifacts:
     paths:
