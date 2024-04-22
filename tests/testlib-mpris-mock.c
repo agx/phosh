@@ -11,6 +11,23 @@
 #define OBJECT_PATH "/org/mpris/MediaPlayer2"
 #define BUS_NAME "org.mpris.MediaPlayer2.PhoshMock"
 
+
+static char *
+load_icon (void)
+{
+  g_autoptr (GError) err = NULL;
+  g_autoptr (GBytes) bytes = NULL;
+  g_autofree char *base64;
+
+  bytes = g_resources_lookup_data ("/mobi/phosh/tests/phosh-logo.png", 0, &err);
+  g_assert_no_error (err);
+  g_assert_true (bytes != NULL);
+
+  base64 = g_base64_encode (g_bytes_get_data (bytes, NULL), g_bytes_get_size (bytes));
+  return g_strdup_printf ("data:image/png;base64,%s", base64);
+}
+
+
 static void
 on_bus_acquired (GDBusConnection *connection,
                  const char      *name,
@@ -18,11 +35,24 @@ on_bus_acquired (GDBusConnection *connection,
 {
   PhoshTestMprisMock *self = user_data;
   g_autoptr (GError) err = NULL;
+  GVariant *metadata;
+  GVariantBuilder builder;
+  //const char *const artists[] = {"1, 2, 3, 4", NULL};
+  g_autofree char *uri = load_icon ();
+
+  g_variant_builder_init (&builder, G_VARIANT_TYPE ("a{sv}"));
+  g_variant_builder_add (&builder, "{sv}", "xesam:title",
+                         g_variant_new_string ("The Worldhood of the World (As Such)"));
+  //g_variant_builder_add (&builder, "{sv}", "xesam:artist",
+  //                       g_variant_new_bytestring_array (artists, -1));
+  g_variant_builder_add (&builder, "{sv}", "mpris:artUrl", g_variant_new_string (uri));
+  metadata = g_variant_builder_end (&builder);
 
   phosh_mpris_dbus_media_player2_player_set_can_go_previous (self->skel, TRUE);
   phosh_mpris_dbus_media_player2_player_set_can_go_next (self->skel, TRUE);
   phosh_mpris_dbus_media_player2_player_set_can_play (self->skel, TRUE);
   phosh_mpris_dbus_media_player2_player_set_playback_status (self->skel, "Playing");
+  phosh_mpris_dbus_media_player2_player_set_metadata (self->skel, metadata);
   g_dbus_interface_skeleton_export (G_DBUS_INTERFACE_SKELETON (self->skel),
                                     connection,
                                     OBJECT_PATH,
