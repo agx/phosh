@@ -38,3 +38,5 @@ const char      *phosh_util_get_icon_by_wifi_strength (guint strength, gboolean 
 gboolean         phosh_util_file_equal (GFile *file1, GFile *file2);
 GdkPixbuf       *phosh_util_data_uri_to_pixbuf (const char *uri, GError **error);
 gboolean         phosh_util_matches_app_info (GAppInfo *info, const char *search);
+GStrv            phosh_util_append_to_strv (GStrv array, const char *element);
+GStrv            phosh_util_remove_from_strv (GStrv array, const char *element);
