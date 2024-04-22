@@ -26,6 +26,7 @@ phosh_enum_headers = files(
   'phosh-wayland.h',
   'rotation-manager.h',
   'shell.h',
+  'top-panel.h',
 ) + schema_enum_headers
 
 phosh_enums = gnome.mkenums_simple('phosh-enums',

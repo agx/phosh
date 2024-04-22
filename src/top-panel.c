@@ -43,6 +43,7 @@
  */
 enum {
   PROP_0,
+  PROP_TOP_PANEL_STATE,
   PROP_ON_LOCKSCREEN,
   PROP_LAST_PROP,
 };
@@ -124,6 +125,9 @@ phosh_top_panel_get_property (GObject    *object,
   PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
 
   switch (property_id) {
+  case PROP_TOP_PANEL_STATE:
+    g_value_set_enum (value, self->state);
+    break;
   case PROP_ON_LOCKSCREEN:
     g_value_set_boolean (value, self->on_lockscreen);
     break;
@@ -480,7 +484,11 @@ on_drag_state_changed (PhoshTopPanel *self)
   gtk_stack_set_visible_child_name (GTK_STACK (self->stack), visible);
   phosh_arrow_set_progress (PHOSH_ARROW (self->arrow), arrow);
 
-  self->state = state;
+  if (self->state != state) {
+    self->state = state;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TOP_PANEL_STATE]);
+  }
+
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
   phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
 }
@@ -677,6 +685,19 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
 
   gtk_widget_class_set_css_name (widget_class, "phosh-top-panel");
 
+  /**
+   * PhoshTopPanel:state:
+   *
+   * Whether the top-panel is currently `folded` (only top-bar is
+   * visible) or `unfolded` (settings and notification area are
+   * visible). The property is updated when the widget reaches its
+   * target state.
+   */
+  props[PROP_TOP_PANEL_STATE] =
+    g_param_spec_enum ("state", "", "",
+                       PHOSH_TYPE_TOP_PANEL_STATE,
+                       PHOSH_TOP_PANEL_STATE_UNFOLDED,
+                       G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshTopPanel:on-lockscreen:
    *
