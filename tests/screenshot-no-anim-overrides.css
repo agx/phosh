@@ -1,0 +1,6 @@
+/* These overrides help us get visually consistent results from screenshots,
+ * to aid in automated diffs against a baseline. */
+.phosh-lockscreen-arrow {
+  transition: none;
+  animation: none;
+}
