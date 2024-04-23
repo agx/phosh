@@ -1,29 +1,29 @@
-# Indonesian translation of phosh
-# Copyright 2020 phosh's copyright holder
-# This file is distributed under the same license as the phosh package.
-# Andika Triwidada <andika@gmail.com>, 2020, 2021. #zanata
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2021-08-03 09:16+0000\n"
-"PO-Revision-Date: 2021-08-28 09:22+0700\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
-"Language-Team: Indonesian\n"
+"POT-Creation-Date: 2023-04-12 08:58+0000\n"
+"PO-Revision-Date: 2023-04-13 00:06+0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=2; plural= n>1;\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Shell Telepon"
 
@@ -31,11 +31,49 @@ msgstr "Shell Telepon"
 msgid "Window management and application launching for mobile"
 msgstr "Manajemen jendela dan peluncuran aplikasi untuk telepon genggam"
 
-#: src/app-grid-button.c:536
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Sesi ini memasukkanmu ke dalam Phosh"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "Calendar"
+msgstr "Kalender"
+
+#: plugins/calendar/calendar.desktop.in.in:6
+msgid "A simple calendar widget"
+msgstr "Widget kalender sederhana"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Kotak Tiket"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:5
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr "Tampilkan PDF pada layar kunci. <b> pengaya ini dlm percobaan </b>"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Agenda Mendatang"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+msgid "Show upcoming calendar events"
+msgstr "Tampilkan agenda kalender mendatang"
+
+#: src/app-grid-button.c:529
 msgid "Application"
 msgstr "Aplikasi"
 
-#: src/bt-info.c:92 src/feedbackinfo.c:51 src/rotateinfo.c:103
+#: src/app-grid.c:137
+msgid "Show All Apps"
+msgstr "Tampilkan Semua Aplikasi"
+
+#: src/app-grid.c:140
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Tampilkan Hanya Apl Ramah Telepon"
+
+#: src/bt-info.c:92
+msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Nyala"
 
@@ -62,7 +100,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s akan dikeluarkan secara otomatis dalam %d detik."
 msgstr[1] "%s akan dikeluarkan secara otomatis dalam %d detik."
 
-#: src/end-session-dialog.c:171 src/ui/top-panel.ui:37
+#: src/end-session-dialog.c:171 src/ui/top-panel.ui:36
 msgid "Power Off"
 msgstr "Matikan Daya"
 
@@ -73,7 +111,7 @@ msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Sistem akan dimatikan secara otomatis dalam %d detik."
 msgstr[1] "Sistem akan dimatikan secara otomatis dalam %d detik."
 
-#: src/end-session-dialog.c:178 src/ui/top-panel.ui:30
+#: src/end-session-dialog.c:178 src/ui/top-panel.ui:29
 msgid "Restart"
 msgstr "Mulai Ulang"
 
@@ -91,21 +129,27 @@ msgstr "Aplikasi tak dikenal"
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:44
+#: src/feedbackinfo.c:97
 msgid "Quiet"
 msgstr "Hening"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
 #. for details
-#: src/feedbackinfo.c:49
+#: src/feedbackinfo.c:104
 msgid "Silent"
-msgstr "Senyap"
+msgstr "Diam"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:108
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "Nyala"
 
 #: src/location-manager.c:268
 #, c-format
 msgid "Allow '%s' to access your location information?"
-msgstr "Izinkan '%s' mengakses informasi lokasi Anda?"
+msgstr "Izinkan '%s' mengakses informasi lokasimu?"
 
 #: src/location-manager.c:273
 msgid "Geolocation"
@@ -119,42 +163,36 @@ msgstr "Ya"
 msgid "No"
 msgstr "Tidak"
 
-#: src/lockscreen.c:152 src/ui/lockscreen.ui:239
+#: src/lockscreen.c:169 src/ui/lockscreen.ui:232
 msgid "Enter Passcode"
 msgstr "Masukkan Kode Sandi"
 
-#: src/lockscreen.c:335
+#: src/lockscreen.c:392
 msgid "Checking…"
-msgstr "Memeriksa…"
-
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:413
-msgid "%A, %B %-e"
-msgstr "%A, %d %B"
+msgstr "Memastikan..."
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:279 src/ui/media-player.ui:107
+#: src/media-player.c:322 src/ui/media-player.ui:182
 msgid "Unknown Title"
 msgstr "Judul Tidak Dikenal"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:288 src/ui/media-player.ui:127
+#: src/media-player.c:330 src/ui/media-player.ui:165
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
 
-#: src/monitor-manager.c:114
+#: src/monitor-manager.c:119
 msgid "Built-in display"
 msgstr "Tampilan bawaan"
 
-#: src/monitor-manager.c:132
+#: src/monitor-manager.c:137
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:139
+#: src/monitor-manager.c:144
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -163,16 +201,16 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:148
+#: src/monitor-manager.c:153
 msgid "Unknown"
 msgstr "Tak dikenal"
 
-#: src/network-auth-prompt.c:187
+#: src/network-auth-prompt.c:201
 #, c-format
 msgid "Authentication type of wifi network “%s” not supported"
 msgstr "Jenis otentikasi jaringan wifi \"%s\" tidak didukung"
 
-#: src/network-auth-prompt.c:192
+#: src/network-auth-prompt.c:206
 #, c-format
 msgid "Enter password for the wifi network “%s”"
 msgstr "Masukkan kata sandi untuk jaringan wifi %s"
@@ -181,7 +219,7 @@ msgstr "Masukkan kata sandi untuk jaringan wifi %s"
 msgid "Open"
 msgstr "Buka"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:639
+#: src/notifications/notification.c:383 src/notifications/notification.c:654
 msgid "Notification"
 msgstr "Notifikasi"
 
@@ -253,7 +291,7 @@ msgstr "t"
 
 #: src/notifications/timestamp-label.c:121
 msgid "now"
-msgstr "kini"
+msgstr "Saat ini"
 
 #. Translators: time difference "Over 5 years"
 #: src/notifications/timestamp-label.c:189
@@ -277,139 +315,371 @@ msgstr "%s%d%s"
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Dialog autentikasi ditutup oleh pengguna"
 
-#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:21
-#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:57
-#: src/ui/system-prompt.ui:33
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
-msgstr "Kata sandi:"
+msgstr "Kata Sandi:"
 
 #: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
 msgstr "Maaf, itu tidak bekerja. Harap coba lagi."
 
-#: src/rotateinfo.c:81
+#: src/rotateinfo.c:102
 msgid "Portrait"
 msgstr "Potret"
 
-#: src/rotateinfo.c:84
+#: src/rotateinfo.c:105
 msgid "Landscape"
 msgstr "Lanskap"
 
-#. Translators: Automatic screen orientation is either on (enabled) or off (locked/disabled)
-#. Translators: Automatic screen orientation is off (locked/disabled)
-#: src/rotateinfo.c:103 src/rotateinfo.c:186
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
+msgctxt "automatic-screen-rotation-disabled"
 msgid "Off"
 msgstr "Mati"
 
-#: src/system-prompt.c:364
+#: src/rotateinfo.c:126
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "Nyala"
+
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Tekan ESC untuk tutup"
+
+#: src/run-command-manager.c:95
+#, c-format
+msgid "Running '%s' failed"
+msgstr "'%s' gagal berjalan"
+
+#: src/system-prompt.c:365
 msgid "Passwords do not match."
 msgstr "Kata sandi tidak cocok."
 
-#: src/system-prompt.c:371
+#: src/system-prompt.c:372
 msgid "Password cannot be blank"
-msgstr "Kata sandi tidak bisa kosong"
+msgstr "Kata sandi tidak boleh kosong"
 
 #: src/torch-info.c:80
 msgid "Torch"
-msgstr "Obor"
+msgstr "Senter"
 
-#: src/ui/app-auth-prompt.ui:41
+#: src/ui/app-auth-prompt.ui:49
 msgid "Remember decision"
-msgstr "Ingat keputusan"
+msgstr "Ingat pilihan ini"
 
-#: src/ui/app-auth-prompt.ui:54 src/ui/end-session-dialog.ui:54
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:53
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
 msgid "Cancel"
 msgstr "Batal"
 
-#: src/ui/app-auth-prompt.ui:63 src/ui/end-session-dialog.ui:63
+#: src/ui/app-auth-prompt.ui:71 src/ui/end-session-dialog.ui:62
 msgid "Ok"
-msgstr "Ok"
+msgstr "Oke"
 
-#: src/ui/app-grid-button.ui:49
+#: src/ui/app-grid-button.ui:55
 msgid "App"
-msgstr "App"
+msgstr "Apl"
 
-#: src/ui/app-grid-button.ui:76
+#: src/ui/app-grid-button.ui:79
 msgid "Remove from _Favorites"
 msgstr "Hapus dari _Favorit"
 
-#: src/ui/app-grid-button.ui:81
+#: src/ui/app-grid-button.ui:84
 msgid "Add to _Favorites"
 msgstr "Tambah ke _Favorit"
 
-#: src/ui/app-grid.ui:22
+#: src/ui/app-grid-button.ui:89
+msgid "View _Details"
+msgstr "Tampilkan _Rincian"
+
+#: src/ui/app-grid.ui:21
 msgid "Search apps…"
-msgstr "Cari app…"
+msgstr "Cari apl…"
 
-#: src/ui/app-grid.ui:169
-msgid "Show only adaptive apps"
-msgstr "Hanya tampilkan app yang adaptif"
-
-#: src/ui/end-session-dialog.ui:32
+#: src/ui/end-session-dialog.ui:31
 msgid "Some applications are busy or have unsaved work"
 msgstr "Beberapa aplikasi sibuk atau belum disimpan hasilnya"
 
-#: src/ui/gtk-mount-prompt.ui:95
+#: src/ui/gtk-mount-prompt.ui:94
 msgid "User:"
 msgstr "Pengguna:"
 
-#: src/ui/gtk-mount-prompt.ui:118
+#: src/ui/gtk-mount-prompt.ui:117
 msgid "Domain:"
 msgstr "Domain:"
 
-#: src/ui/gtk-mount-prompt.ui:151
+#: src/ui/gtk-mount-prompt.ui:150
 msgid "Co_nnect"
-msgstr "S_ambung"
+msgstr "Sa_mbung"
 
-#: src/ui/lockscreen.ui:43
+#: src/ui/lockscreen.ui:39 src/ui/lockscreen.ui:340
+msgid "Back"
+msgstr "Kembali"
+
+#: src/ui/lockscreen.ui:93
 msgid "Slide up to unlock"
 msgstr "Usap naik untuk membuka kunci"
 
-#: src/ui/lockscreen.ui:285
+#: src/ui/lockscreen.ui:282
 msgid "Emergency"
 msgstr "Darurat"
 
-#: src/ui/lockscreen.ui:301
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
-msgstr "Buka kunci"
+msgstr "Buka Kunci"
 
-#: src/ui/lockscreen.ui:341
-msgid "Back"
-msgstr "Mundur"
-
-#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:7
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Perlu autentikasi"
 
-#: src/ui/network-auth-prompt.ui:41
+#: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: src/ui/network-auth-prompt.ui:59
+#: src/ui/network-auth-prompt.ui:58
 msgid "C_onnect"
-msgstr "S_ambung"
+msgstr "Sa_mbung"
 
-#: src/ui/polkit-auth-prompt.ui:123
+#: src/ui/polkit-auth-prompt.ui:122
 msgid "Authenticate"
 msgstr "Autentikasi"
 
-#: src/ui/system-prompt.ui:63
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Jalankan Perintah"
+
+#: src/ui/settings.ui:319
+msgid "No notifications"
+msgstr "Tidak ada notifikasi"
+
+#: src/ui/settings.ui:359
+msgid "Clear all"
+msgstr "Hilangkan semua"
+
+#: src/ui/system-prompt.ui:62
 msgid "Confirm:"
 msgstr "Konfirmasi:"
 
-#: src/ui/top-panel.ui:16
+#: src/ui/top-panel.ui:15
 msgid "Lock Screen"
 msgstr "Kunci Layar"
 
-#: src/ui/top-panel.ui:23
+#: src/ui/top-panel.ui:22
 msgid "Logout"
-msgstr "Log Keluar"
+msgstr "Keluar"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/util.c:339
+msgid "%A, %B %-e"
+msgstr "%A, %d %B"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "VPN"
+
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Pengaya tidak ditemukan"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Pengaya '%s' tidak bisa dimuat."
 
 #: src/wifiinfo.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
-#: src/wwaninfo.c:172
+#: src/wwan-info.c:210
 msgid "Cellular"
-msgstr "Seluler"
+msgstr "Selular"
+
+#: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+msgid "Personal Information"
+msgstr "Informasi Pribadi"
+
+#: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+msgid "Date of Birth"
+msgstr "Tanggal Lahir"
+
+#: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+msgid "Preferred Language"
+msgstr "Bahasa yang Disarankan"
+
+#: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+msgid "Home Address"
+msgstr "Alamat Rumah"
+
+#: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+msgid "Medical Information"
+msgstr "Informasi Kesehatan"
+
+#: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+msgid "Age"
+msgstr "Umur"
+
+#: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+msgid "Blood Type"
+msgstr "Jenis Darah"
+
+#: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+msgid "Height"
+msgstr "Tinggi"
+
+#: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+msgid "Weight"
+msgstr "Berat"
+
+#: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+msgid "Allergies"
+msgstr "Alergi"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "Medikasi & Kondisi"
+
+#: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+msgid "Other Information"
+msgstr "Informasi Lainnya"
+
+#: plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+msgid "Emergency Contacts"
+msgstr "Kontak Darurat"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+msgid "Emergency Info Preferences"
+msgstr "Preferensi Informasi Darurat"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+msgid "Done"
+msgstr "Selesai"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+msgid "Owner Name"
+msgstr "Nama Pemilik"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "Medikasi dan Kondisi"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+msgid "Add Contact"
+msgstr "Tambah Kontak"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+msgid "Add New Contact"
+msgstr "Tambah Kontak Baru"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+msgid "Add"
+msgstr "Tambah"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:312
+msgid "New Contact Name"
+msgstr "Nama Kontak Baru"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:326
+msgid "Relationship"
+msgstr "Hubungan"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:339
+msgid "Number"
+msgstr "Nomor"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Tidak ada dokumen untuk ditampilkan"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Tiket"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+msgid "Choose Folder"
+msgstr "Pilih Folder"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+msgid "_Open"
+msgstr "_Buka"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "Preferensi Kotak Tiket"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+msgid "Paths"
+msgstr "Jalur"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+msgid "Folder Settings"
+msgstr "Pengaturan Folder"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Where Phosh looks for your tickets"
+msgstr "Di mana Phosh mencari tiketmu"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+msgid "Ticket Folder"
+msgstr "Folder Tiket"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Hari ini"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Besok"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %d day"
+msgid_plural "In %d days"
+msgstr[0] "Dalam %d hari"
+msgstr[1] "Dalam %d hari"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Tidak ada agenda"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Semua hari"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Berakhir"
+
+#: plugins/upcoming-events/upcoming-event.c:398
+msgid "Untitled event"
+msgstr "Agenda tak berjudul"
