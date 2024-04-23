@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-04-17 12:08+0000\n"
-"PO-Revision-Date: 2024-04-17 21:42+0300\n"
+"POT-Creation-Date: 2024-04-22 14:05+0000\n"
+"PO-Revision-Date: 2024-04-23 16:15+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -92,11 +92,11 @@ msgstr "Показати майбутні події календаря"
 msgid "Application"
 msgstr "Програма"
 
-#: src/app-grid.c:254
+#: src/app-grid.c:256
 msgid "Show All Apps"
 msgstr "Показати усі програми"
 
-#: src/app-grid.c:257
+#: src/app-grid.c:259
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Показати лише програми для мобільних"
 
@@ -109,7 +109,7 @@ msgstr "❙"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/call-notification.c:61
+#: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "Невідомий абонент"
 
@@ -134,11 +134,11 @@ msgstr "Не вдалося розмістити екстрений виклик
 msgid "Internal error"
 msgstr "Внутрішня помилка"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:174
 msgid "Log Out"
 msgstr "Вийти"
 
-#: src/end-session-dialog.c:176
+#: src/end-session-dialog.c:177
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -146,11 +146,11 @@ msgstr[0] "Вихід з системи %s буде здійснено авто�
 msgstr[1] "Вихід з системи %s буде здійснено автоматично за %d секунди."
 msgstr[2] "Вихід з системи %s буде здійснено автоматично за %d секунд."
 
-#: src/end-session-dialog.c:182
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
 msgid "Power Off"
 msgstr "Вимкнути"
 
-#: src/end-session-dialog.c:183
+#: src/end-session-dialog.c:184
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -158,11 +158,11 @@ msgstr[0] "Система автоматично вимкнеться за %d с
 msgstr[1] "Система автоматично вимкнеться за %d секунди."
 msgstr[2] "Система автоматично вимкнеться за %d секунд."
 
-#: src/end-session-dialog.c:189
+#: src/end-session-dialog.c:190
 msgid "Restart"
 msgstr "Перезапустити"
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:191
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -215,21 +215,21 @@ msgstr "Уведіть пароль"
 msgid "Checking…"
 msgstr "Звіряю…"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
 msgid "Screenshot"
 msgstr "Знімок вікна"
 
-#: src/screenshot-manager.c:214
+#: src/screenshot-manager.c:216
 msgid "Screenshot copied to clipboard"
 msgstr "Знімок вікна скопійовано до буфера"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:161
+#: src/media-player.c:324 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Невідома назва"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:148
+#: src/media-player.c:332 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
@@ -312,7 +312,7 @@ msgstr[0] "%dх"
 msgstr[1] "%dх"
 msgstr[2] "%dх"
 
-#. Translators: abbreviated time difference "About 3 days ago"
+#. Translators: abbreviated time difference "About 3 hours ago"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:117
 #, c-format
@@ -333,7 +333,6 @@ msgstr "~1д"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:127
 #, c-format
-#| msgid "Add"
 msgid "%dd"
 msgid_plural "%dd"
 msgstr[0] "%dд"
@@ -371,7 +370,6 @@ msgstr[2] "~%dр"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:151
 #, c-format
-#| msgid "Over %dy"
 msgid "Over %dy"
 msgid_plural "Over %dy"
 msgstr[0] "Понад %dр"
@@ -382,7 +380,6 @@ msgstr[2] "Понад %dр"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:156
 #, c-format
-#| msgid "Almost %dy"
 msgid "Almost %dy"
 msgid_plural "Almost %dy"
 msgstr[0] "Майже %dр."
@@ -430,7 +427,7 @@ msgstr "Натисніть клавішу «Esc», щоб закрити"
 msgid "Running '%s' failed"
 msgstr "Не вдалося запустити «%s»"
 
-#: src/settings/audio-settings.c:373
+#: src/settings/audio-settings.c:376
 msgid "Phone Shell Volume Control"
 msgstr "Керування гучністю оболонки телефону"
 
@@ -558,21 +555,15 @@ msgstr "З'_єднатися"
 msgid "Authenticate"
 msgstr "Автентифікуватися"
 
-#: src/ui/power-menu.ui:69
-msgid "_Power Off"
-msgstr "Ви_мкнути"
+#: src/ui/power-menu.ui:108
+#| msgid "_Lock"
+msgid "Lock"
+msgstr "Замкнути"
 
-#: src/ui/power-menu.ui:110
-msgid "_Lock"
-msgstr "За_мкнути"
-
-#: src/ui/power-menu.ui:151
-msgid "_Screenshot"
-msgstr "З_німок вікна"
-
-#: src/ui/power-menu.ui:192
-msgid "_Emergency"
-msgstr "_Екстрений виклик"
+#: src/ui/power-menu.ui:186
+#| msgid "_Emergency"
+msgid "Emergency"
+msgstr "Екстрений виклик"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
@@ -632,7 +623,7 @@ msgstr "Параметри Wi-Fi"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/util.c:344
+#: src/util.c:342
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
@@ -859,6 +850,12 @@ msgstr "Завершується"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Подія без назви"
+
+#~ msgid "_Power Off"
+#~ msgstr "Ви_мкнути"
+
+#~ msgid "_Screenshot"
+#~ msgstr "З_німок вікна"
 
 #~ msgctxt "timestamp-suffix-seconds"
 #~ msgid "s"
