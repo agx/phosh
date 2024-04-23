@@ -324,13 +324,15 @@ libphosh_sources = files(
 ]
 
 # See https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/394
-custom_libsoup_dep = declare_dependency (
-  include_directories: libsoup_dep.get_variable(pkgconfig: 'includedir') / 'libsoup-3.0',
-  dependencies: cc.find_library('soup-3.0', required: true),
-)
+if libsoup_dep.version().version_compare('< 3.4.5')
+  libsoup_dep = declare_dependency (
+    include_directories: libsoup_dep.get_variable(pkgconfig: 'includedir') / 'libsoup-3.0',
+    dependencies: cc.find_library('soup-3.0', required: true),
+  )
+endif
 
 phosh_deps = [
-  custom_libsoup_dep,
+  libsoup_dep,
   fribidi_dep,
   gcr_dep,
   gio_dep,
