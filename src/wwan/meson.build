@@ -1,3 +1,5 @@
+phosh_wwan_inc = include_directories('.')
+
 phosh_wwan_sources = files(
   'phosh-wwan-ofono.c',
   'phosh-wwan-ofono.h',

@@ -1,3 +1,5 @@
+phosh_notifications_inc = include_directories('.')
+
 phosh_notifications_sources = [
   'notifications/dbus-notification.c',
   'notifications/dbus-notification.h',

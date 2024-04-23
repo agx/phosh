@@ -362,7 +362,15 @@ phosh_deps = [
 ]
 
 phosh_inc = include_directories('.')
-phosh_lib_inc = [root_inc, phosh_inc, proto_inc, dbus_inc, phosh_gtk_list_models_inc]
+phosh_lib_inc = [root_inc,
+                 phosh_inc,
+                 phosh_monitor_inc,
+                 phosh_notifications_inc,
+                 phosh_wwan_inc,
+                 proto_inc,
+                 dbus_inc,
+                 phosh_gtk_list_models_inc,
+  ]
 
 # A static library used by tests and tools
 phosh_tool_lib = static_library('phosh-tool',
