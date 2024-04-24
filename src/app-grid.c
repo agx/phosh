@@ -372,7 +372,7 @@ create_favorite_launcher (gpointer item,
 }
 
 static void
-toggle_favorties_revealer (PhoshAppGrid *self)
+toggle_favorites_revealer (PhoshAppGrid *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   PhoshFavoriteListModel *favorites = phosh_favorite_list_model_get_default ();
@@ -394,7 +394,7 @@ favorites_changed (GListModel   *list,
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
-  toggle_favorties_revealer (self);
+  toggle_favorites_revealer (self);
 
   /* We don't show favorites in the main list, filter them out */
   gtk_filter_list_model_refilter (priv->model);
@@ -471,6 +471,8 @@ phosh_app_grid_init (PhoshAppGrid *self)
                                   G_ACTION_GROUP (priv->actions));
   action = (GAction*) g_property_action_new ("filter-adaptive", self, "filter-adaptive");
   g_action_map_add_action (G_ACTION_MAP (priv->actions), action);
+
+  toggle_favorites_revealer (self);
 }
 
 
@@ -531,7 +533,7 @@ do_search (PhoshAppGrid *self)
                                     ACTIVE_SEARCH_CLASS);
   }
 
-  toggle_favorties_revealer (self);
+  toggle_favorites_revealer (self);
   gtk_filter_list_model_refilter (priv->model);
 
   priv->debounce = 0;
