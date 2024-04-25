@@ -49,7 +49,7 @@ phosh_test_full_shell_thread (gpointer data)
   PhoshShell *shell;
   GLogLevelFlags flags;
   PhoshTestFullShellFixture *fixture = (PhoshTestFullShellFixture *)data;
-  PhoshWallClock *wall_clock;
+  PhoshWallClock *wall_clock = phosh_wall_clock_new ();
   g_autoptr (GtkCssProvider) provider = gtk_css_provider_new ();
 
   /* compositor setup in thread since this invokes gdk already */
@@ -70,7 +70,7 @@ phosh_test_full_shell_thread (gpointer data)
   flags = g_log_set_always_fatal (0);
   g_log_set_always_fatal (flags & ~G_LOG_LEVEL_WARNING);
 
-  wall_clock = phosh_wall_clock_get_default ();
+  phosh_wall_clock_set_default (wall_clock);
   shell = phosh_shell_get_default ();
   g_assert_true (PHOSH_IS_SHELL (shell));
 

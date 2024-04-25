@@ -17,13 +17,17 @@ G_DECLARE_DERIVABLE_TYPE (PhoshWallClock, phosh_wall_clock, PHOSH, WALL_CLOCK, G
 
 struct _PhoshWallClockClass
 {
-  GObjectClass parent_class;
+  GObjectClass      parent_class;
+
+  const char *      (*get_clock)  (PhoshWallClock *self, gboolean time_only);
+  gint64            (*get_time_t) (PhoshWallClock *self);
 };
 
 
+PhoshWallClock  *phosh_wall_clock_new                 (void);
+void             phosh_wall_clock_set_default         (PhoshWallClock *self);
 PhoshWallClock  *phosh_wall_clock_get_default         (void);
 const char      *phosh_wall_clock_get_clock           (PhoshWallClock *clock, gboolean time_only);
-void             phosh_wall_clock_set_fake_date_time  (PhoshWallClock *self, GDateTime *fake);
 char            *phosh_wall_clock_local_date          (PhoshWallClock *clock);
 
 G_END_DECLS

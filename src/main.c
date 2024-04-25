@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
   g_autoptr(PhoshShell) shell = NULL;
   g_autoptr (PhoshBackgroundCache) background_cache = NULL;
   g_autoptr (GTimer) timer = g_timer_new ();
-  g_autoptr (PhoshWallClock) wall_clock = NULL;
+  g_autoptr (PhoshWallClock) wall_clock = phosh_wall_clock_new ();
 
   const GOptionEntry options [] = {
     {"unlocked", 'U', 0, G_OPTION_ARG_NONE, &unlocked,
@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
   g_unix_signal_add (SIGINT, on_shutdown_signal, NULL);
   g_unix_signal_add (SIGUSR1, on_sigusr1_signal, NULL);
 
-  wall_clock = phosh_wall_clock_get_default ();
+  phosh_wall_clock_set_default (wall_clock);
   wl = phosh_wayland_get_default ();
   background_cache = phosh_background_cache_get_default ();
   shell = phosh_shell_get_default ();
