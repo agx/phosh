@@ -54,8 +54,8 @@ on_event_triggered (LfbEvent      *event,
   g_autoptr (GError) err = NULL;
 
   if (!lfb_event_trigger_feedback_finish (event, res, &err)) {
-    g_warning ("Failed to trigger feedback for '%s': %s",
-               lfb_event_get_event (event), err->message);
+    g_warning_once ("Failed to trigger feedback for '%s': %s",
+                    lfb_event_get_event (event), err->message);
   }
 }
 
