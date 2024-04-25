@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-08 15:48+0000\n"
-"PO-Revision-Date: 2024-03-10 15:55+0100\n"
+"POT-Creation-Date: 2024-04-22 14:05+0000\n"
+"PO-Revision-Date: 2024-04-25 07:18+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -65,7 +65,7 @@ msgid "Launcher Box"
 msgstr "გამშვების ფანჯარა"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:6
-msgid "Adds launchers to the lock screen <b>This plugin is experimental.</b>"
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "გამშვებების დამატება დაბლოკილ ეკრანზე <b>ეს დამატება ექსპერიმენტულია.</b>"
 
@@ -88,15 +88,15 @@ msgstr "უახლოესი მოვლენები"
 msgid "Show upcoming calendar events"
 msgstr "კალენდრის მომავალი მოვლენების ჩვენება"
 
-#: src/app-grid-button.c:529
+#: src/app-grid-button.c:533 src/app-grid-button.c:590
 msgid "Application"
 msgstr "აპლიკაცია"
 
-#: src/app-grid.c:138
+#: src/app-grid.c:256
 msgid "Show All Apps"
 msgstr "ყველა აპლიკაციის ჩვენება"
 
-#: src/app-grid.c:141
+#: src/app-grid.c:259
 msgid "Show Only Mobile Friendly Apps"
 msgstr "მხოლოდ მობილურზე მორგებული აპლიკაციების ჩვენება"
 
@@ -109,7 +109,7 @@ msgstr "ჩართ"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/call-notification.c:61
+#: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "უცნობი აბონენტი"
 
@@ -134,31 +134,31 @@ msgstr "გადაუდებელი ზარის განხორც�
 msgid "Internal error"
 msgstr "შიდა შეცდომა"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:174
 msgid "Log Out"
 msgstr "გამოსვლა"
 
-#: src/end-session-dialog.c:176
+#: src/end-session-dialog.c:177
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s გამოვა ავტომატურად, %d წამში."
 
-#: src/end-session-dialog.c:182
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
 msgid "Power Off"
 msgstr "გამორთვა"
 
-#: src/end-session-dialog.c:183
+#: src/end-session-dialog.c:184
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "სისტემა გამოირთვება ავტომატურად %d წამში."
 
-#: src/end-session-dialog.c:189
+#: src/end-session-dialog.c:190
 msgid "Restart"
 msgstr "გადატვრთვა"
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:191
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -209,21 +209,21 @@ msgstr "შეიყვანეთ კოდი"
 msgid "Checking…"
 msgstr "შემოწმება…"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
 msgid "Screenshot"
 msgstr "ეკრანის ანაბეჭდი"
 
-#: src/screenshot-manager.c:214
+#: src/screenshot-manager.c:216
 msgid "Screenshot copied to clipboard"
 msgstr "ეკრანის ანაბეჭდის ბუფერში დაკოპირდა"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:321 src/ui/media-player.ui:161
+#: src/media-player.c:324 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "უცნობი სათაური"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:329 src/ui/media-player.ui:148
+#: src/media-player.c:332 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "უცნობი შემსრულებელი"
 
@@ -269,93 +269,103 @@ msgstr "გახსნა"
 msgid "Notification"
 msgstr "გაფრთხილება"
 
-#. Translators: Timestamp seconds suffix
-#: src/notifications/timestamp-label.c:84
-msgctxt "timestamp-suffix-seconds"
-msgid "s"
-msgstr "წმ"
-
-#. Translators: Timestamp minute suffix
+#. Translators: Point in time, use a short word or abbreviation
+#. Please stick to a maximum of 7 chars
 #: src/notifications/timestamp-label.c:86
-msgctxt "timestamp-suffix-minute"
-msgid "m"
-msgstr "წთ"
-
-#. Translators: Timestamp minutes suffix
-#: src/notifications/timestamp-label.c:88
-msgctxt "timestamp-suffix-minutes"
-msgid "m"
-msgstr "წთ"
-
-#. Translators: Timestamp hour suffix
-#: src/notifications/timestamp-label.c:90
-msgctxt "timestamp-suffix-hour"
-msgid "h"
-msgstr "სთ"
-
-#. Translators: Timestamp hours suffix
-#: src/notifications/timestamp-label.c:92
-msgctxt "timestamp-suffix-hours"
-msgid "h"
-msgstr "სთ"
-
-#. Translators: Timestamp day suffix
-#: src/notifications/timestamp-label.c:94
-msgctxt "timestamp-suffix-day"
-msgid "d"
-msgstr "დღ"
-
-#. Translators: Timestamp days suffix
-#: src/notifications/timestamp-label.c:96
-msgctxt "timestamp-suffix-days"
-msgid "d"
-msgstr "დღ"
-
-#. Translators: Timestamp month suffix
-#: src/notifications/timestamp-label.c:98
-msgctxt "timestamp-suffix-month"
-msgid "mo"
-msgstr "თვ"
-
-#. Translators: Timestamp months suffix
-#: src/notifications/timestamp-label.c:100
-msgctxt "timestamp-suffix-months"
-msgid "mos"
-msgstr "თვ"
-
-#. Translators: Timestamp year suffix
-#: src/notifications/timestamp-label.c:102
-msgctxt "timestamp-suffix-year"
-msgid "y"
-msgstr "წლ"
-
-#. Translators: Timestamp years suffix
-#: src/notifications/timestamp-label.c:104
-msgctxt "timestamp-suffix-years"
-msgid "y"
-msgstr "წლ"
-
-#: src/notifications/timestamp-label.c:121
 msgid "now"
 msgstr "ახლა"
 
-#. Translators: time difference "Over 5 years"
-#: src/notifications/timestamp-label.c:189
+#. Translators: abbreviated time difference "Less than 30 seconds"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:91
+#, c-format
+msgid "<30s"
+msgstr "<30წმ"
+
+#. Translators: abbreviated time difference "Less than one minute"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:96
+#, c-format
+msgid "<1m"
+msgstr "<1წთ"
+
+#. Translators: abbreviated time difference "About one minute"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:101
+#, c-format
+msgid "~1m"
+msgstr "~1წთ"
+
+#. Translators: abbreviated, exact time difference "1 minute ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:109
+#, c-format
+msgid "%dm"
+msgid_plural "%dm"
+msgstr[0] "%dწთ"
+
+#. Translators: abbreviated time difference "About 3 hours ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:117
+#, c-format
+msgid "~%dh"
+msgid_plural "~%dh"
+msgstr[0] "~%dსთ"
+
+#. Translators: abbreviated time difference "About 1 day ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:122
+#, c-format
+msgid "~1d"
+msgstr "~1დ"
+
+#. Translators: abbreviated, exact time difference "3 days ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:127
+#, c-format
+#| msgid "Add"
+msgid "%dd"
+msgid_plural "%dd"
+msgstr[0] "%dდღე"
+
+#. Translators: abbreviated time difference "About 1 month ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:132
+#, c-format
+msgid "~1mo"
+msgstr "~1თვე"
+
+#. Translators: abbreviated, exact time difference "3 months ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:137
+#, c-format
+msgid "%dmo"
+msgid_plural "%dmos"
+msgstr[0] "%dთვე"
+
+#. Translators: abbreviated time difference "About 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:147
+#, c-format
+msgid "~%dy"
+msgid_plural "~%dy"
+msgstr[0] "~%dწ"
+
+#. Translators: abbreviated time difference "Over 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:151
 #, c-format
 msgid "Over %dy"
-msgstr "%d წლის შემდეგ"
+msgid_plural "Over %dy"
+msgstr[0] "%d წელზე მეტი"
 
-#. Translators: time difference "almost 5 years"
-#: src/notifications/timestamp-label.c:193
+#. Translators: abbreviated time difference "almost 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:156
 #, c-format
 msgid "Almost %dy"
-msgstr "თითქმის %d წ"
-
-#. Translators: a time difference like '<5m', if in doubt leave untranslated
-#: src/notifications/timestamp-label.c:200
-#, c-format
-msgid "%s%d%s"
-msgstr "%s%d%s"
+msgid_plural "Almost %dy"
+msgstr[0] "თითქმის %dწ"
 
 #: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
@@ -398,7 +408,7 @@ msgstr "დასახურად დააწექით ESC-ს"
 msgid "Running '%s' failed"
 msgstr "%s-ის გაშვების შეცდომა"
 
-#: src/settings/audio-settings.c:373
+#: src/settings/audio-settings.c:376
 msgid "Phone Shell Volume Control"
 msgstr "ტელეფონის გარსის ხმის კონტროლი"
 
@@ -424,23 +434,19 @@ msgstr "გადაწყვეტილების დამახსოვ�
 msgid "Cancel"
 msgstr "გაუქმება"
 
-#: src/ui/app-grid-button.ui:55
-msgid "App"
-msgstr "აპპი"
-
-#: src/ui/app-grid-button.ui:79
+#: src/ui/app-grid-button.ui:23
 msgid "Remove from _Favorites"
 msgstr "რჩეუ_ლებიდან წაშლა"
 
-#: src/ui/app-grid-button.ui:84
+#: src/ui/app-grid-button.ui:28
 msgid "Add to _Favorites"
 msgstr "_რჩეულებში დამატება"
 
-#: src/ui/app-grid-button.ui:89
+#: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "დეტალების _ნახვა"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid.ui:24
 msgid "Search apps…"
 msgstr "აპპების ძებნა…"
 
@@ -530,21 +536,13 @@ msgstr "_კავშირი"
 msgid "Authenticate"
 msgstr "ავთენტიკაცია"
 
-#: src/ui/power-menu.ui:69
-msgid "_Power Off"
-msgstr "_გამორთვა"
+#: src/ui/power-menu.ui:108
+msgid "Lock"
+msgstr "ჩაკეტვა"
 
-#: src/ui/power-menu.ui:110
-msgid "_Lock"
-msgstr "_ჩაკეტვა"
-
-#: src/ui/power-menu.ui:151
-msgid "_Screenshot"
-msgstr "_ეკრანის ანაბეჭდი"
-
-#: src/ui/power-menu.ui:192
-msgid "_Emergency"
-msgstr "_სასწრაფო"
+#: src/ui/power-menu.ui:186
+msgid "Emergency"
+msgstr "სასწრაფო"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
@@ -829,6 +827,63 @@ msgstr "მთავრდება"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "უსახელო მოვლენა"
+
+#~ msgctxt "timestamp-suffix-seconds"
+#~ msgid "s"
+#~ msgstr "წმ"
+
+#~ msgctxt "timestamp-suffix-minute"
+#~ msgid "m"
+#~ msgstr "წთ"
+
+#~ msgctxt "timestamp-suffix-minutes"
+#~ msgid "m"
+#~ msgstr "წთ"
+
+#~ msgctxt "timestamp-suffix-hour"
+#~ msgid "h"
+#~ msgstr "სთ"
+
+#~ msgctxt "timestamp-suffix-hours"
+#~ msgid "h"
+#~ msgstr "სთ"
+
+#~ msgctxt "timestamp-suffix-day"
+#~ msgid "d"
+#~ msgstr "დღ"
+
+#~ msgctxt "timestamp-suffix-days"
+#~ msgid "d"
+#~ msgstr "დღ"
+
+#~ msgctxt "timestamp-suffix-month"
+#~ msgid "mo"
+#~ msgstr "თვ"
+
+#~ msgctxt "timestamp-suffix-months"
+#~ msgid "mos"
+#~ msgstr "თვ"
+
+#~ msgctxt "timestamp-suffix-year"
+#~ msgid "y"
+#~ msgstr "წლ"
+
+#~ msgctxt "timestamp-suffix-years"
+#~ msgid "y"
+#~ msgstr "წლ"
+
+#, c-format
+#~ msgid "%s%d%s"
+#~ msgstr "%s%d%s"
+
+#~ msgid "App"
+#~ msgstr "აპპი"
+
+#~ msgid "_Power Off"
+#~ msgstr "_გამორთვა"
+
+#~ msgid "_Screenshot"
+#~ msgstr "_ეკრანის ანაბეჭდი"
 
 #~ msgid "Unknown application"
 #~ msgstr "უცნობი აპლიკაცია"
