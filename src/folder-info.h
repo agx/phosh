@@ -10,6 +10,8 @@
 
 G_BEGIN_DECLS
 
+#define PHOSH_FOLDERS_SCHEMA_ID "org.gnome.desktop.app-folders"
+
 #define PHOSH_TYPE_FOLDER_INFO phosh_folder_info_get_type ()
 G_DECLARE_FINAL_TYPE (PhoshFolderInfo, phosh_folder_info, PHOSH, FOLDER_INFO, GObject)
 
