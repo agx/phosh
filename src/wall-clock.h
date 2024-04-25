@@ -12,7 +12,14 @@ G_BEGIN_DECLS
 
 #define PHOSH_TYPE_WALL_CLOCK phosh_wall_clock_get_type ()
 
-G_DECLARE_FINAL_TYPE (PhoshWallClock, phosh_wall_clock, PHOSH, WALL_CLOCK, GObject)
+G_DECLARE_DERIVABLE_TYPE (PhoshWallClock, phosh_wall_clock, PHOSH, WALL_CLOCK, GObject)
+
+
+struct _PhoshWallClockClass
+{
+  GObjectClass parent_class;
+};
+
 
 PhoshWallClock  *phosh_wall_clock_get_default         (void);
 const char      *phosh_wall_clock_get_clock           (PhoshWallClock *clock, gboolean time_only);

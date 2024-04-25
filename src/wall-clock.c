@@ -20,17 +20,17 @@ enum {
 };
 static GParamSpec *props[LAST_PROP];
 
-typedef struct _PhoshWallClock {
-  GObject         parent;
+typedef struct _PhoshWallClockPrivate {
   GnomeWallClock *time;
   GnomeWallClock *date_time;
 
   GDateTime      *fake;
   char           *fake_date_time;
   char           *fake_time;
-} PhoshWallClock;
+} PhoshWallClockPrivate;
 
-G_DEFINE_TYPE (PhoshWallClock, phosh_wall_clock, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshWallClock, phosh_wall_clock, G_TYPE_OBJECT)
+
 
 static void
 on_date_time_changed (PhoshWallClock *self, GParamSpec *pspec, GnomeWallClock *clock)
@@ -39,6 +39,7 @@ on_date_time_changed (PhoshWallClock *self, GParamSpec *pspec, GnomeWallClock *c
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_DATE_TIME]);
 }
 
+
 static void
 on_time_changed (PhoshWallClock *self, GParamSpec *pspec, GnomeWallClock *clock)
 {
@@ -46,19 +47,22 @@ on_time_changed (PhoshWallClock *self, GParamSpec *pspec, GnomeWallClock *clock)
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TIME]);
 }
 
+
 static void
 phosh_wall_clock_init (PhoshWallClock *self)
 {
-  self->date_time = gnome_wall_clock_new ();
-  self->time = g_object_new (GNOME_TYPE_WALL_CLOCK, "time-only", TRUE, NULL);
+  PhoshWallClockPrivate *priv = phosh_wall_clock_get_instance_private (self);
+
+  priv->date_time = gnome_wall_clock_new ();
+  priv->time = g_object_new (GNOME_TYPE_WALL_CLOCK, "time-only", TRUE, NULL);
 
   /* Somewhat icky, we need a distinct handler for each clock because one can
    * update before the other, and we don't know which one the caller wants to
    * read from.
    */
-  g_signal_connect_object (self->date_time, "notify::clock", G_CALLBACK (on_date_time_changed),
+  g_signal_connect_object (priv->date_time, "notify::clock", G_CALLBACK (on_date_time_changed),
                            self, G_CONNECT_SWAPPED);
-  g_signal_connect_object (self->time, "notify::clock", G_CALLBACK (on_time_changed),
+  g_signal_connect_object (priv->time, "notify::clock", G_CALLBACK (on_time_changed),
                            self, G_CONNECT_SWAPPED);
 }
 
@@ -67,13 +71,14 @@ static void
 phosh_wall_clock_dispose (GObject *object)
 {
   PhoshWallClock *self = PHOSH_WALL_CLOCK (object);
+  PhoshWallClockPrivate *priv = phosh_wall_clock_get_instance_private (self);
 
-  g_clear_object (&self->date_time);
-  g_clear_object (&self->time);
+  g_clear_object (&priv->date_time);
+  g_clear_object (&priv->time);
 
-  g_clear_pointer (&self->fake, g_date_time_unref);
-  g_clear_pointer (&self->fake_date_time, g_free);
-  g_clear_pointer (&self->fake_time, g_free);
+  g_clear_pointer (&priv->fake, g_date_time_unref);
+  g_clear_pointer (&priv->fake_date_time, g_free);
+  g_clear_pointer (&priv->fake_time, g_free);
 
   G_OBJECT_CLASS (phosh_wall_clock_parent_class)->dispose (object);
 }
@@ -121,7 +126,6 @@ phosh_wall_clock_class_init (PhoshWallClockClass *klass)
   g_object_class_install_properties (object_class, LAST_PROP, props);
 }
 
-
 /**
  * phosh_wall_clock_get_default:
  *
@@ -154,15 +158,16 @@ phosh_wall_clock_get_default (void)
 const char *
 phosh_wall_clock_get_clock (PhoshWallClock *self, gboolean time_only)
 {
+  PhoshWallClockPrivate *priv;
+
   g_return_val_if_fail (PHOSH_IS_WALL_CLOCK (self), "");
+  priv = phosh_wall_clock_get_instance_private (self);
 
-  if (G_UNLIKELY (self->fake_time))
-    return time_only ? self->fake_time : self->fake_date_time;
+  if (G_UNLIKELY (priv->fake_time))
+    return time_only ? priv->fake_time : priv->fake_date_time;
 
-  return gnome_wall_clock_get_clock (time_only ? self->time : self->date_time);
+  return gnome_wall_clock_get_clock (time_only ? priv->time : priv->date_time);
 }
-
-
 
 /**
  * phosh_wall_clock_set_fake_date_time:
@@ -177,23 +182,25 @@ phosh_wall_clock_get_clock (PhoshWallClock *self, gboolean time_only)
 void
 phosh_wall_clock_set_fake_date_time (PhoshWallClock *self, GDateTime *fake)
 {
-  g_return_if_fail (PHOSH_IS_WALL_CLOCK (self));
+  PhoshWallClockPrivate *priv;
 
-  g_clear_pointer (&self->fake, g_date_time_unref);
-  g_clear_pointer (&self->fake_date_time, g_free);
-  g_clear_pointer (&self->fake_time, g_free);
+  g_return_if_fail (PHOSH_IS_WALL_CLOCK (self));
+  priv = phosh_wall_clock_get_instance_private (self);
+
+  g_clear_pointer (&priv->fake, g_date_time_unref);
+  g_clear_pointer (&priv->fake_date_time, g_free);
+  g_clear_pointer (&priv->fake_time, g_free);
 
   if (fake != NULL) {
-    self->fake = g_date_time_ref (fake);
-    self->fake_date_time = gnome_wall_clock_string_for_datetime (self->date_time, fake,
+    priv->fake = g_date_time_ref (fake);
+    priv->fake_date_time = gnome_wall_clock_string_for_datetime (priv->date_time, fake,
                                                                  G_DESKTOP_CLOCK_FORMAT_24H,
                                                                  FALSE, TRUE, FALSE);
-    self->fake_time = gnome_wall_clock_string_for_datetime (self->date_time, fake,
+    priv->fake_time = gnome_wall_clock_string_for_datetime (priv->date_time, fake,
                                                             G_DESKTOP_CLOCK_FORMAT_24H,
                                                             FALSE, FALSE, FALSE);
   }
 }
-
 
 /**
  * phosh_wall_clock_date_fmt:
@@ -220,7 +227,6 @@ phosh_wall_clock_date_fmt (void)
   return fmt;
 }
 
-
 /**
  * phosh_wall_clock_local_date:
  *
@@ -234,16 +240,21 @@ phosh_wall_clock_date_fmt (void)
 char *
 phosh_wall_clock_local_date (PhoshWallClock *self)
 {
+  PhoshWallClockPrivate *priv;
   time_t current;
   struct tm local;
   g_autofree char *date = NULL;
   const char *fmt;
   const char *locale;
 
-  if (G_UNLIKELY (self->fake != NULL))
-    current = g_date_time_to_unix (self->fake);
+  g_return_val_if_fail (PHOSH_IS_WALL_CLOCK (self), NULL);
+  priv = phosh_wall_clock_get_instance_private (self);
+
+  if (G_UNLIKELY (priv->fake != NULL))
+    current = g_date_time_to_unix (priv->fake);
   else
     current = time (NULL);
+
   g_return_val_if_fail (current != (time_t) -1, NULL);
   g_return_val_if_fail (localtime_r (&current, &local), NULL);
 
