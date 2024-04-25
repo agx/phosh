@@ -164,6 +164,7 @@ screenshot:native-debian-trixie:
   <<: *trixie_vars
   script:
     - export LC_ALL=C.UTF-8
+    - export G_MESSAGES_DEBUG=all
     # Make sure tests can find the plugins and po files
     - "meson install -C _build"
     - ${XVFB_RUN} meson test -C _build --print-errorlogs --suite screenshots

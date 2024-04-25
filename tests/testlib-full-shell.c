@@ -113,6 +113,11 @@ PhoshTestFullShellFixtureCfg *
 phosh_test_full_shell_fixture_cfg_new (const char *log_domains)
 {
   PhoshTestFullShellFixtureCfg *self = g_new0 (PhoshTestFullShellFixtureCfg, 1);
+  const char *domains;
+
+  domains = g_getenv ("G_MESSAGES_DEBUG");
+  if (domains != NULL && strlen (domains))
+    log_domains = domains;
 
   if (log_domains)
     self->log_domains = g_strdup (log_domains);
