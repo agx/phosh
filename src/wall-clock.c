@@ -9,9 +9,6 @@
 
 #include "wall-clock.h"
 
-#define GNOME_DESKTOP_USE_UNSTABLE_API
-#include <libgnome-desktop/gnome-wall-clock.h>
-
 enum {
   PROP_0,
   PROP_DATE_TIME,
@@ -267,4 +264,20 @@ phosh_wall_clock_local_date (PhoshWallClock *self)
 #pragma GCC diagnostic pop
   setlocale (LC_TIME, "");
   return g_steal_pointer (&date);
+}
+
+
+char *
+phosh_wall_clock_string_for_datetime (PhoshWallClock      *self,
+                                      GDateTime           *datetime,
+                                      GDesktopClockFormat  clock_format,
+                                      gboolean             show_full_date)
+{
+  PhoshWallClockPrivate *priv = phosh_wall_clock_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_WALL_CLOCK (self), NULL);
+  priv = phosh_wall_clock_get_instance_private (self);
+
+  return gnome_wall_clock_string_for_datetime (priv->time, datetime, clock_format,
+                                               FALSE, show_full_date, FALSE);
 }

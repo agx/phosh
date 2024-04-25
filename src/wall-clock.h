@@ -6,6 +6,9 @@
 
 #pragma once
 
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnome-desktop/gnome-wall-clock.h>
+
 #include <glib-object.h>
 
 G_BEGIN_DECLS
@@ -29,5 +32,9 @@ void             phosh_wall_clock_set_default         (PhoshWallClock *self);
 PhoshWallClock  *phosh_wall_clock_get_default         (void);
 const char      *phosh_wall_clock_get_clock           (PhoshWallClock *clock, gboolean time_only);
 char            *phosh_wall_clock_local_date          (PhoshWallClock *clock);
+char            *phosh_wall_clock_string_for_datetime (PhoshWallClock      *self,
+                                                       GDateTime           *datetime,
+                                                       GDesktopClockFormat  clock_format,
+                                                       gboolean             show_full_date);
 
 G_END_DECLS
