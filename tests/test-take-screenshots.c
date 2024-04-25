@@ -12,8 +12,8 @@
 #include "phosh-test-resources.h"
 #include "portal-dbus.h"
 #include "shell.h"
-#include "wall-clock.h"
 
+#include "testlib-wall-clock-mock.h"
 #include "testlib-full-shell.h"
 #include "testlib-calls-mock.h"
 #include "testlib-mpris-mock.h"
@@ -629,7 +629,6 @@ int
 main (int argc, char *argv[])
 {
   g_autoptr (PhoshTestFullShellFixtureCfg) cfg = NULL;
-  g_autoptr (PhoshWallClock) wall_clock = phosh_wall_clock_new ();
 
   g_test_init (&argc, &argv, NULL);
 
@@ -638,7 +637,6 @@ main (int argc, char *argv[])
   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
   phosh_test_register_resource ();
 
-  phosh_wall_clock_set_default (wall_clock);
   do_settings ();
 
   cfg = phosh_test_full_shell_fixture_cfg_new ("phosh-keyboard-events,phosh-media-player");
