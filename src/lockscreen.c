@@ -348,32 +348,10 @@ input_changed_cb (PhoshLockscreen *self)
 static void
 submit_cb (PhoshLockscreen *self)
 {
-  PhoshLockscreenPrivate *priv;
-  const char *input;
-  guint16 length;
+  PhoshLockscreenClass *klass = PHOSH_LOCKSCREEN_GET_CLASS (self);
 
-  g_assert (PHOSH_IS_LOCKSCREEN (self));
-
-  priv = phosh_lockscreen_get_instance_private (self);
-  priv->last_input = g_get_monotonic_time ();
-
-  length = gtk_entry_get_text_length (GTK_ENTRY (priv->entry_pin));
-  if (length == 0) {
-    return;
-  }
-
-  input = gtk_entry_get_text (GTK_ENTRY (priv->entry_pin));
-
-  gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Checking…"));
-  gtk_widget_set_sensitive (GTK_WIDGET (self), FALSE);
-
-  if (priv->auth == NULL)
-    priv->auth = PHOSH_AUTH (phosh_auth_new ());
-  phosh_auth_authenticate_async (priv->auth,
-                                 input,
-                                 NULL,
-                                 (GAsyncReadyCallback)auth_async_cb,
-                                 g_object_ref (self));
+  g_return_if_fail (klass->unlock_submit);
+  klass->unlock_submit (self);
 }
 
 
@@ -902,6 +880,37 @@ phosh_lockscreen_configured (PhoshLayerSurface *layer_surface)
 
 
 static void
+on_unlock_submit (PhoshLockscreen *self)
+{
+  PhoshLockscreenPrivate *priv;
+  const char *input;
+  guint16 length;
+
+  g_assert (PHOSH_IS_LOCKSCREEN (self));
+
+  priv = phosh_lockscreen_get_instance_private (self);
+  priv->last_input = g_get_monotonic_time ();
+
+  length = gtk_entry_get_text_length (GTK_ENTRY (priv->entry_pin));
+  if (length == 0)
+    return;
+
+  input = gtk_entry_get_text (GTK_ENTRY (priv->entry_pin));
+
+  gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Checking…"));
+  gtk_widget_set_sensitive (GTK_WIDGET (self), FALSE);
+
+  if (priv->auth == NULL)
+    priv->auth = PHOSH_AUTH (phosh_auth_new ());
+  phosh_auth_authenticate_async (priv->auth,
+                                 input,
+                                 NULL,
+                                 (GAsyncReadyCallback)auth_async_cb,
+                                 g_object_ref (self));
+}
+
+
+static void
 phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 {
   GObjectClass *object_class = (GObjectClass *)klass;
@@ -915,6 +924,8 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   object_class->get_property = phosh_lockscreen_get_property;
 
   layer_surface_class->configured = phosh_lockscreen_configured;
+
+  klass->unlock_submit = on_unlock_submit;
 
   props[PROP_CALLS_MANAGER] =
     g_param_spec_object ("calls-manager",

@@ -31,9 +31,9 @@ G_DECLARE_DERIVABLE_TYPE (PhoshLockscreen, phosh_lockscreen, PHOSH, LOCKSCREEN, 
 struct _PhoshLockscreenClass
 {
   PhoshLayerSurfaceClass parent_class;
+  void (*unlock_submit) (PhoshLockscreen *self);
 
   /* Padding for future expansion */
-  void (*_phosh_reserved0) (void);
   void (*_phosh_reserved1) (void);
   void (*_phosh_reserved2) (void);
   void (*_phosh_reserved3) (void);
