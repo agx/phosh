@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-04-22 14:05+0000\n"
-"PO-Revision-Date: 2024-04-28 15:04+0200\n"
+"POT-Creation-Date: 2024-04-28 13:06+0000\n"
+"PO-Revision-Date: 2024-04-29 14:02+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -286,21 +286,21 @@ msgstr "nyní"
 #: src/notifications/timestamp-label.c:91
 #, c-format
 msgid "<30s"
-msgstr ""
+msgstr "<30 sek."
 
 #. Translators: abbreviated time difference "Less than one minute"
 #. Please stick to a maximum of 7 chars
 #: src/notifications/timestamp-label.c:96
 #, c-format
 msgid "<1m"
-msgstr ""
+msgstr "<1 min."
 
 #. Translators: abbreviated time difference "About one minute"
 #. Please stick to a maximum of 7 chars
 #: src/notifications/timestamp-label.c:101
 #, c-format
 msgid "~1m"
-msgstr ""
+msgstr "~1 min."
 
 #. Translators: abbreviated, exact time difference "1 minute ago"
 #. Please stick to a maximum of 4 chars for the time unit
@@ -308,9 +308,9 @@ msgstr ""
 #, c-format
 msgid "%dm"
 msgid_plural "%dm"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d min."
+msgstr[1] "%d min."
+msgstr[2] "%d min."
 
 #. Translators: abbreviated time difference "About 3 hours ago"
 #. Please stick to a maximum of 4 chars for the time unit
@@ -318,34 +318,34 @@ msgstr[2] ""
 #, c-format
 msgid "~%dh"
 msgid_plural "~%dh"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "~%d hod."
+msgstr[1] "~%d hod."
+msgstr[2] "~%d hod."
 
 #. Translators: abbreviated time difference "About 1 day ago"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:122
 #, c-format
 msgid "~1d"
-msgstr ""
+msgstr "~1 den"
 
 #. Translators: abbreviated, exact time difference "3 days ago"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:127
-#, fuzzy, c-format
+#, c-format
 #| msgid "Add"
 msgid "%dd"
 msgid_plural "%dd"
-msgstr[0] "Přidat"
-msgstr[1] "Přidat"
-msgstr[2] "Přidat"
+msgstr[0] "%d den"
+msgstr[1] "%d dny"
+msgstr[2] "%d dnů"
 
 #. Translators: abbreviated time difference "About 1 month ago"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:132
 #, c-format
 msgid "~1mo"
-msgstr ""
+msgstr "~1 měs."
 
 #. Translators: abbreviated, exact time difference "3 months ago"
 #. Please stick to a maximum of 4 chars for the time unit
@@ -353,9 +353,9 @@ msgstr ""
 #, c-format
 msgid "%dmo"
 msgid_plural "%dmos"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d měs."
+msgstr[1] "%d měs."
+msgstr[2] "%d měs."
 
 #. Translators: abbreviated time difference "About 5 years ago"
 #. Please stick to a maximum of 4 chars for the time unit
@@ -363,31 +363,29 @@ msgstr[2] ""
 #, c-format
 msgid "~%dy"
 msgid_plural "~%dy"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "~%d rok"
+msgstr[1] "~%d roky"
+msgstr[2] "~%d let"
 
 #. Translators: abbreviated time difference "Over 5 years ago"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:151
-#, fuzzy, c-format
-#| msgid "Over %dy"
+#, c-format
 msgid "Over %dy"
 msgid_plural "Over %dy"
-msgstr[0] "Více než %dy"
-msgstr[1] "Více než %dy"
-msgstr[2] "Více než %dy"
+msgstr[0] "Více než %d rok"
+msgstr[1] "Více než %d roky"
+msgstr[2] "Více než %d let"
 
 #. Translators: abbreviated time difference "almost 5 years ago"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:156
-#, fuzzy, c-format
-#| msgid "Almost %dy"
+#, c-format
 msgid "Almost %dy"
 msgid_plural "Almost %dy"
-msgstr[0] "Téměř %dy"
-msgstr[1] "Téměř %dy"
-msgstr[2] "Téměř %dy"
+msgstr[0] "Téměř %d rok"
+msgstr[1] "Téměř %d roky"
+msgstr[2] "Téměř %d let"
 
 #: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
