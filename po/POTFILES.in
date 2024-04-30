@@ -91,6 +91,7 @@ src/ui/top-panel.ui
 src/ui/wifi-status-page.ui
 src/util.c
 src/vpn-info.c
+src/wall-clock.c
 src/widget-box.c
 src/wifi-info.c
 src/wifi-manager.c

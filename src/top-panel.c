@@ -21,9 +21,9 @@
 #include "top-panel.h"
 #include "arrow.h"
 #include "util.h"
+#include "wall-clock.h"
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
-#include <libgnome-desktop/gnome-wall-clock.h>
 #include <libgnome-desktop/gnome-xkb-info.h>
 
 #include <glib/gi18n.h>
@@ -80,8 +80,6 @@ typedef struct _PhoshTopPanel {
   GtkWidget *settings;       /* settings menu */
   GtkWidget *batteryinfo;
 
-  GnomeWallClock *wall_clock;
-  GnomeWallClock *wall_clock2;
   GnomeXkbInfo *xkbinfo;
   GSettings *input_settings;
   GSettings *interface_settings;
@@ -240,20 +238,20 @@ on_logout_action (GSimpleAction *action,
 
 
 static void
-wall_clock2_notify_cb (PhoshTopPanel  *self,
-                       GParamSpec     *pspec,
-                       GnomeWallClock *wall_clock)
+wall_clock_notify_cb (PhoshTopPanel  *self,
+                      GParamSpec     *pspec,
+                      PhoshWallClock *wall_clock)
 {
   const char *str;
   g_autofree char *date = NULL;
 
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
-  g_return_if_fail (GNOME_IS_WALL_CLOCK (wall_clock));
+  g_return_if_fail (PHOSH_IS_WALL_CLOCK (wall_clock));
 
-  str = gnome_wall_clock_get_clock (wall_clock);
+  str = phosh_wall_clock_get_clock (wall_clock, TRUE);
   gtk_label_set_text (GTK_LABEL (self->lbl_clock2), str);
 
-  date = phosh_util_local_date ();
+  date = phosh_wall_clock_local_date (wall_clock);
   gtk_label_set_label (GTK_LABEL (self->lbl_date), date);
 }
 
@@ -502,6 +500,8 @@ phosh_top_panel_constructed (GObject *object)
 {
   PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
   GdkDisplay *display = gdk_display_get_default ();
+  PhoshWallClock *wall_clock = phosh_wall_clock_get_default ();
+
   g_autoptr (GSettings) phosh_settings = g_settings_new ("sm.puri.phosh");
 
   G_OBJECT_CLASS (phosh_top_panel_parent_class)->constructed (object);
@@ -512,23 +512,20 @@ phosh_top_panel_constructed (GObject *object)
                           self, "on-lockscreen",
                           G_BINDING_SYNC_CREATE);
 
-  self->wall_clock = gnome_wall_clock_new ();
-  g_object_bind_property (self->wall_clock, "clock",
+  g_object_bind_property (wall_clock, "date-time",
                           self->lbl_clock, "label",
                           G_BINDING_SYNC_CREATE);
   g_object_bind_property (self, "on-lockscreen",
                           self->lbl_clock,
                           "visible",
                           G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
-
-  self->wall_clock2 = gnome_wall_clock_new ();
-  g_object_set (self->wall_clock2, "time-only", TRUE, NULL);
-  g_signal_connect_object (self->wall_clock2,
-                           "notify::clock",
-                           G_CALLBACK (wall_clock2_notify_cb),
+  g_signal_connect_object (wall_clock,
+                           "notify::time",
+                           G_CALLBACK (wall_clock_notify_cb),
                            self,
                            G_CONNECT_SWAPPED);
-  wall_clock2_notify_cb (self, NULL, self->wall_clock2);
+
+  wall_clock_notify_cb (self, NULL, wall_clock);
 
   gtk_window_set_title (GTK_WINDOW (self), "phosh panel");
 
@@ -604,8 +601,6 @@ phosh_top_panel_dispose (GObject *object)
   PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
 
   g_clear_object (&self->kb_settings);
-  g_clear_object (&self->wall_clock);
-  g_clear_object (&self->wall_clock2);
   g_clear_object (&self->xkbinfo);
   g_clear_object (&self->input_settings);
   g_clear_object (&self->interface_settings);

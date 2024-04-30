@@ -89,6 +89,7 @@
 #include "wwan/phosh-wwan-ofono.h"
 #include "wwan/phosh-wwan-mm.h"
 #include "wwan/phosh-wwan-backend.h"
+#include "wall-clock.h"
 
 #define WWAN_BACKEND_KEY "wwan-backend"
 
@@ -1233,6 +1234,9 @@ static GDebugKey debug_keys[] =
  { .key = "fake-builtin",
    .value = PHOSH_SHELL_DEBUG_FLAG_FAKE_BUILTIN,
  },
+ { .key = "fake-time",
+   .value = PHOSH_SHELL_DEBUG_FLAG_FAKE_TIME,
+ },
 };
 
 
@@ -1241,10 +1245,20 @@ phosh_shell_init (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GtkSettings *gtk_settings;
+  g_autoptr (GDateTime) fake = NULL;
 
   debug_flags = g_parse_debug_string(g_getenv ("PHOSH_DEBUG"),
                                      debug_keys,
                                      G_N_ELEMENTS (debug_keys));
+
+  if (debug_flags & PHOSH_SHELL_DEBUG_FLAG_FAKE_TIME) {
+    /* Fake the date/time to that of the initial commit to Phosh git repository.
+     * (sha d1cf1f02a3ff65331d755cb7bb4f765222f23354 = "Wed Jan 24 14:26:37 2018 +0100")
+     * This is apparently also "Belly Laugh Day", so there you go.
+     */
+    fake = g_date_time_new_utc (2018, 1, 24, 13, 26, 37);
+    phosh_wall_clock_set_fake_date_time (phosh_wall_clock_get_default (), fake);
+  }
 
   gtk_settings = gtk_settings_get_default ();
   g_object_set (G_OBJECT (gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
