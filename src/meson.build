@@ -26,12 +26,11 @@ phosh_enum_headers = files(
   'phosh-wayland.h',
   'rotation-manager.h',
   'shell.h',
+  'top-panel.h',
 ) + schema_enum_headers
 
-phosh_enums = gnome.mkenums('phosh-enums',
-  h_template: 'phosh-enums.h.in',
-  c_template: 'phosh-enums.c.in',
-  sources: phosh_enum_headers,
+phosh_enums = gnome.mkenums_simple('phosh-enums',
+  sources : phosh_enum_headers,
 )
 
 phosh_settings_sources = files(
@@ -324,13 +323,15 @@ libphosh_sources = files(
 ]
 
 # See https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/394
-custom_libsoup_dep = declare_dependency (
-  include_directories: libsoup_dep.get_variable(pkgconfig: 'includedir') / 'libsoup-3.0',
-  dependencies: cc.find_library('soup-3.0', required: true),
-)
+if libsoup_dep.version().version_compare('< 3.4.5')
+  libsoup_dep = declare_dependency (
+    include_directories: libsoup_dep.get_variable(pkgconfig: 'includedir') / 'libsoup-3.0',
+    dependencies: cc.find_library('soup-3.0', required: true),
+  )
+endif
 
 phosh_deps = [
-  custom_libsoup_dep,
+  libsoup_dep,
   fribidi_dep,
   gcr_dep,
   gio_dep,
@@ -360,7 +361,15 @@ phosh_deps = [
 ]
 
 phosh_inc = include_directories('.')
-phosh_lib_inc = [root_inc, phosh_inc, proto_inc, dbus_inc, phosh_gtk_list_models_inc]
+phosh_lib_inc = [root_inc,
+                 phosh_inc,
+                 phosh_monitor_inc,
+                 phosh_notifications_inc,
+                 phosh_wwan_inc,
+                 proto_inc,
+                 dbus_inc,
+                 phosh_gtk_list_models_inc,
+  ]
 
 # A static library used by tests and tools
 phosh_tool_lib = static_library('phosh-tool',

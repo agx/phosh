@@ -538,7 +538,7 @@ phosh_home_class_init (PhoshHomeClass *klass)
     g_param_spec_enum ("state", "", "",
                        PHOSH_TYPE_HOME_STATE,
                        PHOSH_HOME_STATE_FOLDED,
-                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY);
+                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshHome:osk-enabled:
    *

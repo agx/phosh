@@ -277,6 +277,22 @@ on_proximity_fader_changed (PhoshShell *self)
 
 
 static void
+on_top_panel_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshTopPanel *top_panel)
+{
+  PhoshShellPrivate *priv;
+  PhoshTopPanelState state;
+
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (top_panel));
+
+  priv = phosh_shell_get_instance_private (self);
+
+  state = phosh_top_panel_get_state (PHOSH_TOP_PANEL (priv->top_panel));
+  phosh_shell_set_state (self, PHOSH_STATE_SETTINGS, state == PHOSH_TOP_PANEL_STATE_UNFOLDED);
+}
+
+
+static void
 on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
 {
   PhoshShellPrivate *priv;
@@ -365,17 +381,20 @@ panels_create (PhoshShell *self)
                                                    monitor));
   gtk_widget_show (GTK_WIDGET (priv->home));
 
-  g_signal_connect_swapped (
-    priv->top_panel,
-    "activated",
-    G_CALLBACK (on_top_panel_activated),
-    self);
+  g_signal_connect_swapped (priv->top_panel,
+                            "activated",
+                            G_CALLBACK (on_top_panel_activated),
+                            self);
 
-  g_signal_connect_swapped (
-    priv->home,
-    "notify::state",
-    G_CALLBACK(on_home_state_changed),
-    self);
+  g_signal_connect_swapped (priv->top_panel,
+                            "notify::state",
+                            G_CALLBACK (on_top_panel_state_changed),
+                            self);
+
+  g_signal_connect_swapped (priv->home,
+                            "notify::state",
+                            G_CALLBACK (on_home_state_changed),
+                            self);
 
   app_grid = phosh_overview_get_app_grid (phosh_home_get_overview (PHOSH_HOME (priv->home)));
   g_object_bind_property (priv->docked_manager,
@@ -1269,7 +1288,7 @@ phosh_shell_init (PhoshShell *self)
                             self);
   on_gtk_theme_name_changed (self, NULL, gtk_settings);
 
-  priv->shell_state = PHOSH_STATE_NONE;
+  priv->shell_state = PHOSH_STATE_SETTINGS;
   priv->action_map = g_simple_action_group_new ();
 }
 
