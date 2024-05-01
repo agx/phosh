@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-04-17 12:08+0000\n"
-"PO-Revision-Date: 2024-04-18 00:03+0300\n"
-"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
+"POT-Creation-Date: 2024-05-01 10:02+0000\n"
+"PO-Revision-Date: 2024-05-01 08:00+0300\n"
+"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -68,6 +68,14 @@ msgstr "Başlatıcı Kutusu"
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr "Kilit ekranına başlatıcılar ekle. <b>Bu uzantı deneyseldir.</b>"
 
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+msgid "Night Light Quick Setting"
+msgstr "Gece Işığı Hızlı Ayarı"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+msgid "Toggle night light on/off"
+msgstr "Gece ışığını aç/kapat"
+
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
@@ -89,11 +97,11 @@ msgstr "Yaklaşan olayları göster"
 msgid "Application"
 msgstr "Uygulama"
 
-#: src/app-grid.c:254
+#: src/app-grid.c:256
 msgid "Show All Apps"
 msgstr "Tüm Uygulamaları Göster"
 
-#: src/app-grid.c:257
+#: src/app-grid.c:259
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Yalnızca Mobil Uyumluları Göster"
 
@@ -106,7 +114,7 @@ msgstr "Açık"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/call-notification.c:61
+#: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "Bilinmeyen arayan"
 
@@ -131,31 +139,31 @@ msgstr "Acil durum araması yapılamadı"
 msgid "Internal error"
 msgstr "İç hata"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:174
 msgid "Log Out"
 msgstr "Oturumu Kapat"
 
-#: src/end-session-dialog.c:176
+#: src/end-session-dialog.c:177
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s oturumu %d saniyede kendiliğinden kapanacak."
 
-#: src/end-session-dialog.c:182
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
 msgid "Power Off"
 msgstr "Gücü Kapat"
 
-#: src/end-session-dialog.c:183
+#: src/end-session-dialog.c:184
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Sistem %d saniyede kendiliğinden kapanacak."
 
-#: src/end-session-dialog.c:189
+#: src/end-session-dialog.c:190
 msgid "Restart"
 msgstr "Yeniden Başlat"
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:191
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -198,29 +206,29 @@ msgstr "Evet"
 msgid "No"
 msgstr "Hayır"
 
-#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Parolayı Gir"
 
-#: src/lockscreen.c:401
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "Denetleniyor…"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
 msgid "Screenshot"
 msgstr "Ekran Görüntüsü"
 
-#: src/screenshot-manager.c:214
+#: src/screenshot-manager.c:216
 msgid "Screenshot copied to clipboard"
 msgstr "Ekran görüntüsü panoya kopyalandı"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:322 src/ui/media-player.ui:161
+#: src/media-player.c:324 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Bilinmeyen Başlık"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:330 src/ui/media-player.ui:148
+#: src/media-player.c:332 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Bilinmeyen Sanatçı"
 
@@ -301,7 +309,7 @@ msgid "%dm"
 msgid_plural "%dm"
 msgstr[0] "%d dk"
 
-#. Translators: abbreviated time difference "About 3 days ago"
+#. Translators: abbreviated time difference "About 3 hours ago"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:117
 #, c-format
@@ -320,7 +328,6 @@ msgstr "~1 gün"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:127
 #, c-format
-#| msgid "Add"
 msgid "%dd"
 msgid_plural "%dd"
 msgstr[0] "%d gün"
@@ -405,7 +412,7 @@ msgstr "ESC’ye basarak kapat"
 msgid "Running '%s' failed"
 msgstr "'%s' çalıştırılamadı"
 
-#: src/settings/audio-settings.c:373
+#: src/settings/audio-settings.c:376
 msgid "Phone Shell Volume Control"
 msgstr "Telefon Kabuğu Ses Denetimi"
 
@@ -533,21 +540,13 @@ msgstr "_Bağlan"
 msgid "Authenticate"
 msgstr "Kimlik Doğrula"
 
-#: src/ui/power-menu.ui:69
-msgid "_Power Off"
-msgstr "_Gücü Kapat"
+#: src/ui/power-menu.ui:108
+msgid "Lock"
+msgstr "Kilitle"
 
-#: src/ui/power-menu.ui:110
-msgid "_Lock"
-msgstr "_Kilitle"
-
-#: src/ui/power-menu.ui:151
-msgid "_Screenshot"
-msgstr "_Ekran Görüntüsü"
-
-#: src/ui/power-menu.ui:192
-msgid "_Emergency"
-msgstr "_Acil"
+#: src/ui/power-menu.ui:186
+msgid "Emergency"
+msgstr "Acil"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
@@ -605,15 +604,15 @@ msgstr "Tara"
 msgid "Wi-Fi Settings"
 msgstr "Kablosuz Ayarları"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/util.c:344
-msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
-
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/wall-clock.c:218
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
 
 #: src/widget-box.c:54
 msgid "Plugin not found"
@@ -754,6 +753,14 @@ msgstr "Başlatıcı yapılandırılmadı"
 msgid "Launchers"
 msgstr "Başlatıcılar"
 
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light On"
+msgstr "Gece Işığı Açık"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light Off"
+msgstr "Gece Işığı Kapalı"
+
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
 msgstr "Gösterilecek belge yok"
@@ -832,6 +839,12 @@ msgstr "Bitiş"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Adsız olay"
+
+#~ msgid "_Power Off"
+#~ msgstr "_Gücü Kapat"
+
+#~ msgid "_Screenshot"
+#~ msgstr "_Ekran Görüntüsü"
 
 #~ msgctxt "timestamp-suffix-seconds"
 #~ msgid "s"
