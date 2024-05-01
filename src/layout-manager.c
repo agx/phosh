@@ -166,10 +166,11 @@ get_corner_shift (PhoshLayoutManager *self)
 {
   float r, a, b, c, scale;
   PhoshShellLayout layout;
+  guint shift = PHOSH_TOP_BAR_MIN_PADDING;
 
   layout = g_settings_get_enum (self->settings, SHELL_LAYOUT_KEY);
   if (layout != PHOSH_SHELL_LAYOUT_DEVICE)
-    return 0;
+    goto out;
 
   scale = phosh_monitor_get_fractional_scale (self->builtin);
   r = c = gm_display_panel_get_border_radius (self->panel) / scale;
@@ -189,7 +190,12 @@ get_corner_shift (PhoshLayoutManager *self)
   b = c - (PHOSH_TOP_BAR_HEIGHT - PHOSH_TOP_BAR_ICON_SIZE) / 2;
   a = floor (sqrt((c * c) - (b * b)));
 
-  return MAX (PHOSH_TOP_BAR_MIN_PADDING, ceil (r - a));
+  shift = MAX (PHOSH_TOP_BAR_MIN_PADDING, ceil (r - a));
+
+ out:
+  g_debug ("Corner shift: %u", shift);
+
+  return shift;
 }
 
 
