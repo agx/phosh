@@ -37,12 +37,12 @@ static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshWWanInfo
 {
-  GtkBox parent;
+  PhoshStatusIcon  parent;
 
-  PhoshWWan *wwan;
-  gboolean present;
-  gboolean enabled;
-  gboolean show_detail;
+  PhoshWWan       *wwan;
+  gboolean         present;
+  gboolean         enabled;
+  gboolean         show_detail;
 };
 
 G_DEFINE_TYPE (PhoshWWanInfo, phosh_wwan_info, PHOSH_TYPE_STATUS_ICON)

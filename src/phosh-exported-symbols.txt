@@ -6,8 +6,12 @@
    phosh_session_manager_inhibit;
    phosh_session_manager_uninhibit;
 
-   # Launcher-box
+   # Launcher-box plugin needs launcher entry states
    phosh_shell_get_launcher_entry_manager;
+
+   # Night Light plugin wants to check night light support
+   phosh_shell_get_monitor_manager;
+   phosh_monitor_manager_get_night_light_supported;
 
    # For custom quick setting plugins:
    phosh_quick_setting_get_type;

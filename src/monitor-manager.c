@@ -951,8 +951,8 @@ phosh_monitor_manager_set_night_light_supported (PhoshMonitorManager *self)
     }
   }
 
-  phosh_dbus_display_config_set_night_light_supported (
-    PHOSH_DBUS_DISPLAY_CONFIG (self), night_light_supported);
+  phosh_dbus_display_config_set_night_light_supported (PHOSH_DBUS_DISPLAY_CONFIG (self),
+                                                       night_light_supported);
 }
 
 
@@ -1366,23 +1366,18 @@ phosh_monitor_manager_class_init (PhoshMonitorManagerClass *klass)
   object_class->set_property = phosh_monitor_manager_set_property;
 
   props[PROP_SENSOR_PROXY_MANAGER] =
-    g_param_spec_object ("sensor-proxy-manager",
-                         "Sensor Proxy Manager",
-                         "Sensor Proxy Manager",
+    g_param_spec_object ("sensor-proxy-manager", "", "",
                          PHOSH_TYPE_SENSOR_PROXY_MANAGER,
-                         G_PARAM_READWRITE |
-                         G_PARAM_STATIC_STRINGS);
-
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshMonitorManager:n-monitors:
+   *
+   * The number of currently enabled monitors
+   */
   props[PROP_N_MONITORS] =
-    g_param_spec_int ("n-monitors",
-                      "Number of monitors",
-                      "The number of enabled monitors",
-                      0,
-                      G_MAXINT,
-                      0,
-                      G_PARAM_READABLE |
-                      G_PARAM_EXPLICIT_NOTIFY |
-                      G_PARAM_STATIC_STRINGS);
+    g_param_spec_int ("n-monitors", "", "",
+                      0, G_MAXINT, 0,
+                      G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
@@ -1641,4 +1636,20 @@ phosh_monitor_manager_enable_fallback (PhoshMonitorManager *self)
   phosh_monitor_manager_apply_monitor_config (self);
 
   return TRUE;
+}
+
+/**
+ * phosh_monitor_manager_get_night_light_supported:
+ * @self: The monitor manager
+ *
+ * Checks if any output supports night light
+ *
+ * Returns: %TRUE if night light is supported
+ */
+gboolean
+phosh_monitor_manager_get_night_light_supported (PhoshMonitorManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_MONITOR_MANAGER (self), FALSE);
+
+  return phosh_dbus_display_config_get_night_light_supported (PHOSH_DBUS_DISPLAY_CONFIG (self));
 }
