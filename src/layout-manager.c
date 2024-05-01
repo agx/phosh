@@ -175,6 +175,9 @@ get_corner_shift (PhoshLayoutManager *self)
   scale = phosh_monitor_get_fractional_scale (self->builtin);
   r = c = gm_display_panel_get_border_radius (self->panel) / scale;
 
+  if (G_APPROX_VALUE (r, 0, FLT_EPSILON))
+    goto out;
+
   /*
    * We want to keep the n pixels towards the top screen edge clear
    * n + b = r and m + a = r and c = r
