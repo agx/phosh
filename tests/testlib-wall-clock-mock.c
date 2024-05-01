@@ -32,6 +32,8 @@ struct _TestlibWallClockMock {
   GDateTime     *fake_offset;
   char          *fake_date_time;
   char          *fake_time;
+
+  GSettings     *settings;
 };
 G_DEFINE_TYPE (TestlibWallClockMock, testlib_wall_clock_mock, PHOSH_TYPE_WALL_CLOCK)
 
@@ -55,17 +57,42 @@ get_time_t (PhoshWallClock *wall_clock)
 
 
 static void
+update_clocks (TestlibWallClockMock *self)
+{
+  GDesktopClockFormat clock_format;
+  gboolean show_date;
+
+  clock_format = g_settings_get_enum (self->settings, "clock-format");
+  show_date = g_settings_get_boolean (self->settings, "clock-show-date");
+
+  /* Show date and time or only time based on gsettings */
+  self->fake_date_time = phosh_wall_clock_string_for_datetime (PHOSH_WALL_CLOCK (self),
+                                                               self->fake_offset,
+                                                               clock_format,
+                                                               show_date);
+  /* This clock is always time only */
+  self->fake_time = phosh_wall_clock_string_for_datetime (PHOSH_WALL_CLOCK (self),
+                                                          self->fake_offset,
+                                                          clock_format,
+                                                          FALSE);
+}
+
+
+static void
 set_fake_offset (TestlibWallClockMock *self, GDateTime *fake_offset)
 {
   self->fake_offset = g_date_time_ref (fake_offset);
-  self->fake_date_time = phosh_wall_clock_string_for_datetime (PHOSH_WALL_CLOCK (self),
-                                                               fake_offset,
-                                                               TRUE,
-                                                               G_DESKTOP_CLOCK_FORMAT_24H);
-  self->fake_time = phosh_wall_clock_string_for_datetime (PHOSH_WALL_CLOCK (self),
-                                                          fake_offset,
-                                                          FALSE,
-                                                          G_DESKTOP_CLOCK_FORMAT_24H);
+  update_clocks (self);
+}
+
+
+static void
+on_settings_changed (TestlibWallClockMock *self, const char *key, GSettings *settings)
+{
+  if (g_strcmp0 (key, "clock-format") && g_strcmp0 (key, "clock-show-date") != 0)
+    return;
+
+  update_clocks (self);
 }
 
 
@@ -112,6 +139,8 @@ testlib_wall_clock_mock_dispose (GObject *object)
 {
   TestlibWallClockMock *self = TESTLIB_WALL_CLOCK_MOCK (object);
 
+  g_clear_object (&self->settings);
+
   g_clear_pointer (&self->fake_offset, g_date_time_unref);
   g_clear_pointer (&self->fake_date_time, g_free);
   g_clear_pointer (&self->fake_time, g_free);
@@ -150,6 +179,9 @@ testlib_wall_clock_mock_class_init (TestlibWallClockMockClass *klass)
 static void
 testlib_wall_clock_mock_init (TestlibWallClockMock *self)
 {
+  self->settings = g_settings_new ("org.gnome.desktop.interface");
+
+  g_signal_connect_swapped (self->settings, "changed", G_CALLBACK (on_settings_changed), self);
 }
 
 
