@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-04-22 14:05+0000\n"
-"PO-Revision-Date: 2024-04-23 16:15+0300\n"
+"POT-Creation-Date: 2024-05-01 10:02+0000\n"
+"PO-Revision-Date: 2024-05-02 20:18+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -70,6 +70,15 @@ msgstr "Панель засобів запуску"
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Додає кнопки запуску на екран блокування. <b>Цей додаток є тестовим.</b>"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+#| msgid "Caffeine Quick Setting"
+msgid "Night Light Quick Setting"
+msgstr "Швидке налаштовування нічних кольорів"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+msgid "Toggle night light on/off"
+msgstr "Увімкнути або вимкнути нічний режим"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
@@ -207,11 +216,11 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:401
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "Звіряю…"
 
@@ -556,12 +565,10 @@ msgid "Authenticate"
 msgstr "Автентифікуватися"
 
 #: src/ui/power-menu.ui:108
-#| msgid "_Lock"
 msgid "Lock"
 msgstr "Замкнути"
 
 #: src/ui/power-menu.ui:186
-#| msgid "_Emergency"
 msgid "Emergency"
 msgstr "Екстрений виклик"
 
@@ -621,15 +628,15 @@ msgstr "Сканувати"
 msgid "Wi-Fi Settings"
 msgstr "Параметри Wi-Fi"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/util.c:342
-msgid "%A, %B %-e"
-msgstr "%A, %-d %B"
-
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/wall-clock.c:218
+msgid "%A, %B %-e"
+msgstr "%A, %-d %B"
 
 #: src/widget-box.c:54
 msgid "Plugin not found"
@@ -769,6 +776,14 @@ msgstr "Не налаштовано жодного засобу запуску"
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
 msgstr "Засоби запуску"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light On"
+msgstr "Нічні кольори увімкнено"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light Off"
+msgstr "Нічні кольори вимкнено"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
