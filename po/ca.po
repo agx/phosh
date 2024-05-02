@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-03-12 16:52+0000\n"
-"PO-Revision-Date: 2024-04-04 08:23+0200\n"
+"POT-Creation-Date: 2024-05-01 10:02+0000\n"
+"PO-Revision-Date: 2024-05-01 22:03+0200\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -69,6 +69,14 @@ msgstr ""
 "Afegeix llançadors a la pantalla bloquejada. <b>Aquest connector és "
 "experimental.</b>"
 
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+msgid "Night Light Quick Setting"
+msgstr "Configuració ràpida de la llum nocturna"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+msgid "Toggle night light on/off"
+msgstr "Commuta la llum nocturna"
+
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
@@ -88,15 +96,15 @@ msgstr "Propers esdeveniments"
 msgid "Show upcoming calendar events"
 msgstr "Mostra els propers esdeveniments del calendari"
 
-#: src/app-grid-button.c:529
+#: src/app-grid-button.c:533 src/app-grid-button.c:590
 msgid "Application"
 msgstr "Aplicació"
 
-#: src/app-grid.c:138
+#: src/app-grid.c:256
 msgid "Show All Apps"
 msgstr "Mostra totes les aplicacions"
 
-#: src/app-grid.c:141
+#: src/app-grid.c:259
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Mostra només les aplicacions compatibles amb mòbils"
 
@@ -109,7 +117,7 @@ msgstr "Activat"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/call-notification.c:61
+#: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "Trucada desconeguda"
 
@@ -134,33 +142,33 @@ msgstr "No es pot establir una trucada d'emergència"
 msgid "Internal error"
 msgstr "Error intern"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:174
 msgid "Log Out"
 msgstr "Surt"
 
-#: src/end-session-dialog.c:176
+#: src/end-session-dialog.c:177
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "Es tancarà la sessió de %s automàticament d'aquí a %d segon."
 msgstr[1] "Es tancarà la sessió de %s automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:182
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
 msgid "Power Off"
 msgstr "Apaga"
 
-#: src/end-session-dialog.c:183
+#: src/end-session-dialog.c:184
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "El sistema s'apagarà automàticament d'aquí a %d segon."
 msgstr[1] "El sistema s'apagarà automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:189
+#: src/end-session-dialog.c:190
 msgid "Restart"
 msgstr "Reinicia"
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:191
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -204,29 +212,29 @@ msgstr "Sí"
 msgid "No"
 msgstr "No"
 
-#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Introduïu la contrasenya"
 
-#: src/lockscreen.c:401
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "S'està comprovant…"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
-#: src/screenshot-manager.c:214
+#: src/screenshot-manager.c:216
 msgid "Screenshot copied to clipboard"
 msgstr "S'ha copiat la captura de pantalla al porta-retalls"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:321 src/ui/media-player.ui:161
+#: src/media-player.c:324 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "Títol desconegut"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:329 src/ui/media-player.ui:148
+#: src/media-player.c:332 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "Artista desconegut"
 
@@ -272,93 +280,109 @@ msgstr "Obre"
 msgid "Notification"
 msgstr "Notificació"
 
-#. Translators: Timestamp seconds suffix
-#: src/notifications/timestamp-label.c:84
-msgctxt "timestamp-suffix-seconds"
-msgid "s"
-msgstr "s"
-
-#. Translators: Timestamp minute suffix
+#. Translators: Point in time, use a short word or abbreviation
+#. Please stick to a maximum of 7 chars
 #: src/notifications/timestamp-label.c:86
-msgctxt "timestamp-suffix-minute"
-msgid "m"
-msgstr "min"
-
-#. Translators: Timestamp minutes suffix
-#: src/notifications/timestamp-label.c:88
-msgctxt "timestamp-suffix-minutes"
-msgid "m"
-msgstr "min"
-
-#. Translators: Timestamp hour suffix
-#: src/notifications/timestamp-label.c:90
-msgctxt "timestamp-suffix-hour"
-msgid "h"
-msgstr "h"
-
-#. Translators: Timestamp hours suffix
-#: src/notifications/timestamp-label.c:92
-msgctxt "timestamp-suffix-hours"
-msgid "h"
-msgstr "h"
-
-#. Translators: Timestamp day suffix
-#: src/notifications/timestamp-label.c:94
-msgctxt "timestamp-suffix-day"
-msgid "d"
-msgstr "dia"
-
-#. Translators: Timestamp days suffix
-#: src/notifications/timestamp-label.c:96
-msgctxt "timestamp-suffix-days"
-msgid "d"
-msgstr "dies"
-
-#. Translators: Timestamp month suffix
-#: src/notifications/timestamp-label.c:98
-msgctxt "timestamp-suffix-month"
-msgid "mo"
-msgstr "mes"
-
-#. Translators: Timestamp months suffix
-#: src/notifications/timestamp-label.c:100
-msgctxt "timestamp-suffix-months"
-msgid "mos"
-msgstr "mesos"
-
-#. Translators: Timestamp year suffix
-#: src/notifications/timestamp-label.c:102
-msgctxt "timestamp-suffix-year"
-msgid "y"
-msgstr "any"
-
-#. Translators: Timestamp years suffix
-#: src/notifications/timestamp-label.c:104
-msgctxt "timestamp-suffix-years"
-msgid "y"
-msgstr "anys"
-
-#: src/notifications/timestamp-label.c:121
 msgid "now"
 msgstr "ara"
 
-#. Translators: time difference "Over 5 years"
-#: src/notifications/timestamp-label.c:189
+#. Translators: abbreviated time difference "Less than 30 seconds"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:91
+#, c-format
+msgid "<30s"
+msgstr "<30s"
+
+#. Translators: abbreviated time difference "Less than one minute"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:96
+#, c-format
+msgid "<1m"
+msgstr "<1 min."
+
+#. Translators: abbreviated time difference "About one minute"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:101
+#, c-format
+msgid "~1m"
+msgstr "~1 min."
+
+#. Translators: abbreviated, exact time difference "1 minute ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:109
+#, c-format
+msgid "%dm"
+msgid_plural "%dm"
+msgstr[0] "%dm"
+msgstr[1] "%dm"
+
+#. Translators: abbreviated time difference "About 3 hours ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:117
+#, c-format
+msgid "~%dh"
+msgid_plural "~%dh"
+msgstr[0] "~%dh"
+msgstr[1] "~%dh"
+
+#. Translators: abbreviated time difference "About 1 day ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:122
+#, c-format
+msgid "~1d"
+msgstr "~1d"
+
+#. Translators: abbreviated, exact time difference "3 days ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:127
+#, c-format
+msgid "%dd"
+msgid_plural "%dd"
+msgstr[0] "%ddia"
+msgstr[1] "%ddies"
+
+#. Translators: abbreviated time difference "About 1 month ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:132
+#, c-format
+msgid "~1mo"
+msgstr "~1 mes"
+
+#. Translators: abbreviated, exact time difference "3 months ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:137
+#, c-format
+msgid "%dmo"
+msgid_plural "%dmos"
+msgstr[0] "%dmes"
+msgstr[1] "%dmes"
+
+#. Translators: abbreviated time difference "About 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:147
+#, c-format
+msgid "~%dy"
+msgid_plural "~%dy"
+msgstr[0] "~%dany"
+msgstr[1] "~%danys"
+
+#. Translators: abbreviated time difference "Over 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:151
 #, c-format
 msgid "Over %dy"
-msgstr "Més de %d anys"
+msgid_plural "Over %dy"
+msgstr[0] "Més d'%d any"
+msgstr[1] "Més de %d anys"
 
-#. Translators: time difference "almost 5 years"
-#: src/notifications/timestamp-label.c:193
+#. Translators: abbreviated time difference "almost 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:156
 #, c-format
 msgid "Almost %dy"
-msgstr "Gairebé %d anys"
-
-#. Translators: a time difference like '<5m', if in doubt leave untranslated
-#: src/notifications/timestamp-label.c:200
-#, c-format
-msgid "%s%d%s"
-msgstr "%s %d %s"
+msgid_plural "Almost %dy"
+msgstr[0] "Gairebé %d any"
+msgstr[1] "Gairebé %d anys"
 
 #: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
@@ -401,7 +425,7 @@ msgstr "Premeu Esc per a sortir"
 msgid "Running '%s' failed"
 msgstr "No s'ha pogut executar «%s»"
 
-#: src/settings/audio-settings.c:373
+#: src/settings/audio-settings.c:376
 msgid "Phone Shell Volume Control"
 msgstr "Control de volum del Phone Shell"
 
@@ -427,23 +451,19 @@ msgstr "Recorda la decisió"
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: src/ui/app-grid-button.ui:55
-msgid "App"
-msgstr "Aplicació"
-
-#: src/ui/app-grid-button.ui:79
+#: src/ui/app-grid-button.ui:23
 msgid "Remove from _Favorites"
 msgstr "Suprimeix dels _preferits"
 
-#: src/ui/app-grid-button.ui:84
+#: src/ui/app-grid-button.ui:28
 msgid "Add to _Favorites"
 msgstr "Afegeix als _preferits"
 
-#: src/ui/app-grid-button.ui:89
+#: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "Veieu els _detalls"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid.ui:24
 msgid "Search apps…"
 msgstr "Cerca aplicacions…"
 
@@ -533,21 +553,13 @@ msgstr "C_onnecta"
 msgid "Authenticate"
 msgstr "Autenticació"
 
-#: src/ui/power-menu.ui:69
-msgid "_Power Off"
-msgstr "A_paga"
+#: src/ui/power-menu.ui:108
+msgid "Lock"
+msgstr "Bloca"
 
-#: src/ui/power-menu.ui:110
-msgid "_Lock"
-msgstr "B_loca"
-
-#: src/ui/power-menu.ui:151
-msgid "_Screenshot"
-msgstr "_Captura de pantalla"
-
-#: src/ui/power-menu.ui:192
-msgid "_Emergency"
-msgstr "_Emergència"
+#: src/ui/power-menu.ui:186
+msgid "Emergency"
+msgstr "Emergència"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
@@ -605,15 +617,15 @@ msgstr "Escaneja"
 msgid "Wi-Fi Settings"
 msgstr "Paràmetres de la xarxa sense fil"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/util.c:342
-msgid "%A, %B %-e"
-msgstr "%A, %-e %B"
-
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/wall-clock.c:218
+msgid "%A, %B %-e"
+msgstr "%A, %-e %B"
 
 #: src/widget-box.c:54
 msgid "Plugin not found"
@@ -754,6 +766,14 @@ msgstr "No hi ha cap llançador configurat"
 msgid "Launchers"
 msgstr "Llançadors"
 
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light On"
+msgstr "La llum nocturna està activada"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light Off"
+msgstr "La llum nocturna està desactivada"
+
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
 msgstr "No hi ha cap document per mostrar"
@@ -833,6 +853,63 @@ msgstr "Acaba"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Esdeveniment sense nom"
+
+#~ msgctxt "timestamp-suffix-seconds"
+#~ msgid "s"
+#~ msgstr "s"
+
+#~ msgctxt "timestamp-suffix-minute"
+#~ msgid "m"
+#~ msgstr "min"
+
+#~ msgctxt "timestamp-suffix-minutes"
+#~ msgid "m"
+#~ msgstr "min"
+
+#~ msgctxt "timestamp-suffix-hour"
+#~ msgid "h"
+#~ msgstr "h"
+
+#~ msgctxt "timestamp-suffix-hours"
+#~ msgid "h"
+#~ msgstr "h"
+
+#~ msgctxt "timestamp-suffix-day"
+#~ msgid "d"
+#~ msgstr "dia"
+
+#~ msgctxt "timestamp-suffix-days"
+#~ msgid "d"
+#~ msgstr "dies"
+
+#~ msgctxt "timestamp-suffix-month"
+#~ msgid "mo"
+#~ msgstr "mes"
+
+#~ msgctxt "timestamp-suffix-months"
+#~ msgid "mos"
+#~ msgstr "mesos"
+
+#~ msgctxt "timestamp-suffix-year"
+#~ msgid "y"
+#~ msgstr "any"
+
+#~ msgctxt "timestamp-suffix-years"
+#~ msgid "y"
+#~ msgstr "anys"
+
+#, c-format
+#~ msgid "%s%d%s"
+#~ msgstr "%s %d %s"
+
+#~ msgid "App"
+#~ msgstr "Aplicació"
+
+#~ msgid "_Power Off"
+#~ msgstr "A_paga"
+
+#~ msgid "_Screenshot"
+#~ msgstr "_Captura de pantalla"
 
 #~ msgid "Unknown application"
 #~ msgstr "Aplicació desconeguda"
