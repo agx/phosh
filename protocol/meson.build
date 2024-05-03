@@ -23,6 +23,7 @@ wl_protos = [
   ['wlr-screencopy-unstable-v1.xml'],
 ]
 
+wl_proto_headers = []
 wl_proto_sources = []
 
 foreach p : wl_protos
@@ -31,7 +32,7 @@ foreach p : wl_protos
   base = fs.name(xml)
   proto = fs.stem(base)
 
-  wl_proto_sources += custom_target('@0@ client header'.format(proto),
+  wl_proto_headers += custom_target('@0@ client header'.format(proto),
 				    input: xml,
 				    output: '@0@-client-protocol.h'.format(proto),
 				    command: [wayland_scanner,
