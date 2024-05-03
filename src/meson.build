@@ -399,7 +399,7 @@ phosh_static_lib_dep = declare_dependency(
 # Dependencies that can be used by plugins
 phosh_plugins_dep = declare_dependency(
   include_directories: phosh_lib_inc,
-  sources: generated_dbus_headers,
+  sources: [generated_dbus_headers, wl_proto_headers],
 )
 
 if enable_introspection
