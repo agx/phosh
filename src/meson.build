@@ -56,6 +56,7 @@ libphosh_glib_generated_sources = [
 
 libphosh_generated_sources = [
   libphosh_glib_generated_sources,
+  wl_proto_headers,
   wl_proto_sources,
 ]
 
