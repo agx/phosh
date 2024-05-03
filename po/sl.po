@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-01 10:02+0000\n"
-"PO-Revision-Date: 2024-05-01 17:54+0200\n"
+"POT-Creation-Date: 2024-05-03 14:06+0000\n"
+"PO-Revision-Date: 2024-05-03 17:37+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -96,15 +96,23 @@ msgstr "Prihodnji dogodki"
 msgid "Show upcoming calendar events"
 msgstr "Pokaži prihodnje dogodke koledarja"
 
-#: src/app-grid-button.c:533 src/app-grid-button.c:590
+#: src/app-grid-button.c:153
+msgid "Add to Folder"
+msgstr "Dodaj v mapo"
+
+#: src/app-grid-button.c:177
+msgid "Create new folder"
+msgstr "Ustvari novo mapo"
+
+#: src/app-grid-button.c:692 src/app-grid-button.c:749
 msgid "Application"
 msgstr "Program"
 
-#: src/app-grid.c:256
+#: src/app-grid.c:263
 msgid "Show All Apps"
 msgstr "Pokaži vse programe"
 
-#: src/app-grid.c:259
+#: src/app-grid.c:266
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Pokaži le na nabilnih napravah podprte programe"
 
@@ -482,6 +490,10 @@ msgstr "Dodaj med pri_ljubljene"
 #: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "Pokaži po_drobnosti"
+
+#: src/ui/app-grid-button.ui:41
+msgid "_Remove from Folder"
+msgstr "Odstrani iz _mape"
 
 #: src/ui/app-grid.ui:24
 msgid "Search apps…"
