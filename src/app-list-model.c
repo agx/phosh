@@ -16,8 +16,6 @@
 
 #include <gio/gio.h>
 
-#define FOLDERS_SCHEMA_ID "org.gnome.desktop.app-folders"
-
 typedef struct _PhoshAppListModelPrivate PhoshAppListModelPrivate;
 struct _PhoshAppListModelPrivate {
   GAppInfoMonitor *monitor;
@@ -253,7 +251,7 @@ phosh_app_list_model_init (PhoshAppListModel *self)
   priv->monitor = g_app_info_monitor_get ();
   g_signal_connect (priv->monitor, "changed", G_CALLBACK (on_monitor_changed_cb), self);
 
-  priv->settings = g_settings_new (FOLDERS_SCHEMA_ID);
+  priv->settings = g_settings_new (PHOSH_FOLDERS_SCHEMA_ID);
   g_signal_connect_object (priv->settings, "changed::folder-children",
                            G_CALLBACK (on_folder_children_changed),
                            self, G_CONNECT_SWAPPED);

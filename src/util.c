@@ -670,3 +670,42 @@ phosh_util_matches_app_info (GAppInfo *info, const char *search)
 
   return FALSE;
 }
+
+/**
+ * phosh_util_append_to_strv:
+ * @array: A `NULL` terminated array of strings
+ * @element: The string to append
+ *
+ * Append `element` to an array of strings.
+ *
+ * Returns: (transfer full): A new `NULL` terminated array with the element appended to it.
+ */
+GStrv
+phosh_util_append_to_strv (GStrv array, const char *element)
+{
+  g_autoptr (GStrvBuilder) builder = g_strv_builder_new ();
+  g_strv_builder_addv (builder, (const char **) array);
+  g_strv_builder_add (builder, element);
+  return g_strv_builder_end (builder);
+}
+
+/**
+ * phosh_util_remove_from_strv:
+ * @array: A `NULL` terminated array of strings
+ * @element: The string to remove
+ *
+ * Remove all elements from a string array that match `element`.
+ *
+ * Returns: (transfer full): A new `NULL` terminated array with the element removed from it.
+ */
+GStrv
+phosh_util_remove_from_strv (GStrv array, const char *element)
+{
+  g_autoptr (GStrvBuilder) builder = g_strv_builder_new ();
+  for (int i = 0; array[i] != NULL; i++) {
+    if (g_strcmp0 (array[i], element) == 0)
+      continue;
+    g_strv_builder_add (builder, array[i]);
+  }
+  return g_strv_builder_end (builder);
+}

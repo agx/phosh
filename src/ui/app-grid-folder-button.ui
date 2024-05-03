@@ -12,11 +12,12 @@
         <property name="halign">center</property>
         <property name="column-spacing">8</property>
         <property name="row-spacing">8</property>
-        <!-- Height of two icons of size BUTTON and spacing.
-             16 + 8 + 16 = 40.
+        <property name="column-homogeneous">True</property>
+        <property name="row-homogeneous">True</property>
+        <!-- Fix height to 64, as that's what used by app-grid-button.
              Useful to prevent the folder from shrinking when it is the only
              element in grid (like during search) and it has only one icon. -->
-        <property name="height-request">40</property>
+        <property name="height-request">64</property>
       </object>
     </child>
   </template>

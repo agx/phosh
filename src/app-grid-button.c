@@ -29,6 +29,7 @@ struct _PhoshAppGridButtonPrivate {
   GAppInfo *info;
   gboolean is_favorite;
   PhoshAppGridButtonMode mode;
+  PhoshFolderInfo *folder_info;
 
   gulong favorite_changed_watcher;
 
@@ -38,6 +39,7 @@ struct _PhoshAppGridButtonPrivate {
 
   GMenu *menu;
   GMenu *actions;
+  GMenu *folders;
 
   GActionMap *action_map;
 };
@@ -49,6 +51,7 @@ enum {
   PROP_APP_INFO,
   PROP_IS_FAVORITE,
   PROP_MODE,
+  PROP_FOLDER_INFO,
   LAST_PROP
 };
 static GParamSpec *props[LAST_PROP];
@@ -73,6 +76,9 @@ phosh_app_grid_button_set_property (GObject      *object,
       break;
     case PROP_MODE:
       phosh_app_grid_button_set_mode (self, g_value_get_enum (value));
+      break;
+    case PROP_FOLDER_INFO:
+      phosh_app_grid_button_set_folder_info (self, g_value_get_object (value));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -128,11 +134,50 @@ phosh_app_grid_button_finalize (GObject *object)
   g_clear_object (&priv->menu);
   g_clear_object (&priv->actions);
   g_clear_object (&priv->action_map);
+  g_clear_object (&priv->folder_info);
 
   g_clear_signal_handler (&priv->favorite_changed_watcher,
                           phosh_favorite_list_model_get_default ());
 
   G_OBJECT_CLASS (phosh_app_grid_button_parent_class)->finalize (object);
+}
+
+
+static void
+populate_folders_menu (PhoshAppGridButton *self)
+{
+  PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
+  g_autoptr (GSettings) settings = NULL;
+  g_auto (GStrv) folder_paths = NULL;
+  g_autoptr (GMenu) submenu = g_menu_new ();
+  g_autoptr (GMenuItem) submenu_item = g_menu_item_new_submenu (_("Add to Folder"),
+                                                                G_MENU_MODEL (submenu));
+  g_autoptr (GMenu) folders_section = g_menu_new ();
+  g_autoptr (GMenu) new_folder_section = g_menu_new ();
+
+  settings = g_settings_new (PHOSH_FOLDERS_SCHEMA_ID);
+  folder_paths = g_settings_get_strv (settings, "folder-children");
+
+  for (int i = 0; folder_paths[i] != NULL; i++) {
+    g_autoptr (PhoshFolderInfo) folder = phosh_folder_info_new_from_folder_path (folder_paths[i]);
+    g_autofree char *detailed_action = NULL;
+
+    if (!g_app_info_should_show (G_APP_INFO (folder)))
+      continue;
+
+    if (priv->folder_info != NULL &&
+        g_app_info_equal (G_APP_INFO (folder), G_APP_INFO (priv->folder_info)))
+      continue;
+
+    detailed_action = g_strdup_printf ("folder-add::%s", folder_paths[i]);
+    g_menu_append (folders_section, phosh_folder_info_get_name (folder), detailed_action);
+  }
+
+  g_menu_append_section (submenu, NULL, G_MENU_MODEL (folders_section));
+  g_menu_append (new_folder_section, _("Create new folder"), "folder-new");
+  g_menu_append_section (submenu, NULL, G_MENU_MODEL (new_folder_section));
+
+  g_menu_append_item (priv->folders, submenu_item);
 }
 
 
@@ -143,6 +188,9 @@ context_menu (GtkWidget *widget,
   PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (widget);
   PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
 
+  g_menu_remove_all (priv->folders);
+  if (!priv->is_favorite && priv->folder_info == NULL)
+    populate_folders_menu (self);
   gtk_popover_popup (GTK_POPOVER (priv->popover));
 }
 
@@ -235,6 +283,18 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
                        G_PARAM_READWRITE |
                        G_PARAM_EXPLICIT_NOTIFY);
 
+  /**
+   * PhoshAppGridButton:folder-info:
+   *
+   * The folder-info to which the button is a part of. Can be NULL.
+   *
+   * Stability: Private
+   */
+  props[PROP_FOLDER_INFO] =
+    g_param_spec_object ("folder-info", "", "",
+                         PHOSH_TYPE_FOLDER_INFO,
+                         G_PARAM_WRITABLE |
+                         G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
@@ -245,6 +305,7 @@ phosh_app_grid_button_class_init (PhoshAppGridButtonClass *klass)
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, menu);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, actions);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridButton, folders);
 
   gtk_widget_class_bind_template_callback (widget_class, activate_cb);
 
@@ -328,6 +389,99 @@ view_details_activated (GSimpleAction *action,
 
 
 static void
+add_to_folder_children (char *folder_path)
+{
+  g_autoptr (GSettings) settings = g_settings_new (PHOSH_FOLDERS_SCHEMA_ID);
+  g_auto (GStrv) folders = NULL;
+  g_auto (GStrv) new_folders = NULL;
+
+  folders = g_settings_get_strv (settings, "folder-children");
+  new_folders = phosh_util_append_to_strv (folders, folder_path);
+  g_settings_set_strv (settings, "folder-children", (const char *const *) new_folders);
+}
+
+
+static void
+remove_from_folder_children (char *folder_path)
+{
+  g_autoptr (GSettings) settings = g_settings_new (PHOSH_FOLDERS_SCHEMA_ID);
+  g_auto (GStrv) folders = NULL;
+  g_auto (GStrv) new_folders = NULL;
+
+  folders = g_settings_get_strv (settings, "folder-children");
+  new_folders = phosh_util_remove_from_strv (folders, folder_path);
+  g_settings_set_strv (settings, "folder-children", (const char *const *) new_folders);
+}
+
+
+static void
+remove_from_folder (PhoshAppGridButton *self)
+{
+  PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
+  g_autofree char *folder_path;
+
+  g_object_get (priv->folder_info, "path", &folder_path, NULL);
+
+  if (!phosh_folder_info_remove_app_info (priv->folder_info, priv->info))
+    remove_from_folder_children (folder_path);
+}
+
+
+static void
+add_to_folder (PhoshAppGridButton *self, PhoshFolderInfo *folder_info)
+{
+  PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
+   /* If the app-info gets removed, then the change causes the grid to be filled with new buttons.
+   * This would cause the button and in-turn the app-info to be disposed. Take a reference to avoid
+   * that and clear it when we are done. */
+  g_autoptr (GAppInfo) info = g_object_ref (priv->info);
+
+  if (priv->folder_info)
+    remove_from_folder (self);
+  phosh_folder_info_add_app_info (folder_info, info);
+}
+
+
+static void
+folder_add_activated (GSimpleAction *action,
+                      GVariant      *parameter,
+                      gpointer       data)
+{
+  PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (data);
+  char *folder_path = (char *) g_variant_get_string (parameter, NULL);
+  g_autoptr (PhoshFolderInfo) folder_info = phosh_folder_info_new_from_folder_path (folder_path);
+
+  add_to_folder (self, folder_info);
+}
+
+
+static void
+folder_new_activated (GSimpleAction *action,
+                      GVariant      *parameter,
+                      gpointer       data)
+{
+  PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (data);
+  PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
+  g_autofree char *folder_path = g_uuid_string_random ();
+  g_autoptr (PhoshFolderInfo) folder_info = phosh_folder_info_new_from_folder_path (folder_path);
+
+  phosh_folder_info_set_name (folder_info, g_app_info_get_name (priv->info));
+  add_to_folder (self, folder_info);
+  add_to_folder_children (folder_path);
+}
+
+
+static void
+folder_remove_activated (GSimpleAction *action,
+                         GVariant      *parameter,
+                         gpointer       data)
+{
+  PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (data);
+  remove_from_folder (self);
+}
+
+
+static void
 long_pressed (GtkGestureLongPress *gesture,
               double               x,
               double               y,
@@ -343,6 +497,9 @@ static GActionEntry entries[] =
   { .name = "favorite-remove", .activate = favorite_remove_activated },
   { .name = "favorite-add", .activate = favorite_add_activated },
   { .name = "view-details", .activate = view_details_activated },
+  { .name = "folder-add", .activate = folder_add_activated, .parameter_type = "s" },
+  { .name = "folder-new", .activate = folder_new_activated },
+  { .name = "folder-remove", .activate = folder_remove_activated },
 };
 
 
@@ -371,6 +528,8 @@ phosh_app_grid_button_init (PhoshAppGridButton *self)
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
   act = g_action_map_lookup_action (priv->action_map, "view-details");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), phosh_util_have_gnome_software (FALSE));
+  act = g_action_map_lookup_action (priv->action_map, "folder-remove");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
 
   g_type_ensure (PHOSH_TYPE_CLAMP);
   g_type_ensure (PHOSH_TYPE_FADING_LABEL);
@@ -616,4 +775,26 @@ phosh_app_grid_button_get_mode (PhoshAppGridButton *self)
   priv = phosh_app_grid_button_get_instance_private (self);
 
   return priv->mode;
+}
+
+
+void
+phosh_app_grid_button_set_folder_info (PhoshAppGridButton *self, PhoshFolderInfo *folder_info)
+{
+  PhoshAppGridButtonPrivate *priv;
+  GAction *act;
+
+  g_return_if_fail (PHOSH_IS_APP_GRID_BUTTON (self));
+  g_return_if_fail ((folder_info == NULL) || PHOSH_IS_FOLDER_INFO (folder_info));
+  priv = phosh_app_grid_button_get_instance_private (self);
+
+  g_clear_object (&priv->folder_info);
+  act = g_action_map_lookup_action (priv->action_map, "folder-remove");
+
+  if (folder_info) {
+    priv->folder_info = g_object_ref (folder_info);
+    g_simple_action_set_enabled (G_SIMPLE_ACTION (act), TRUE);
+  } else {
+    g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
+  }
 }

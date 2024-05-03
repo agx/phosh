@@ -56,7 +56,10 @@ struct _PhoshAppGridPrivate {
   GtkWidget *btn_adaptive_lbl;
   GtkWidget *empty_folder_label;
   GtkWidget *folder_stack;
-  GtkWidget *folder_label;
+  GtkWidget *folder_name_btn;
+  GtkWidget *folder_name_img;
+  GtkWidget *folder_name_entry;
+  GtkWidget *folder_name_label;
   GtkWidget *folder_apps;
 
   PhoshFolderInfo *open_folder;
@@ -130,12 +133,11 @@ show_main_grid (PhoshAppGrid *self)
   if (priv->open_folder_idx == -1)
     return;
 
-  button = gtk_flow_box_get_child_at_index (GTK_FLOW_BOX (priv->apps),
-                                            priv->open_folder_idx);
-  if (button == NULL) {
-    /* The folder no longer exists (hidden or deleted), so focus the previous button. */
-    int idx = MAX (priv->open_folder_idx - 1, 0);
+  /* Focus the first valid button from current index to 0 */
+  for (int idx = priv->open_folder_idx; idx >= 0; idx--) {
     button = gtk_flow_box_get_child_at_index (GTK_FLOW_BOX (priv->apps), idx);
+    if (button != NULL)
+      break;
   }
 
   gtk_widget_grab_focus (GTK_WIDGET (button));
@@ -180,8 +182,10 @@ static GtkWidget *
 create_folder_app_launcher (gpointer item, gpointer self)
 {
   GtkWidget *btn;
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
   btn = phosh_app_grid_button_new (G_APP_INFO (item));
+  phosh_app_grid_button_set_folder_info (PHOSH_APP_GRID_BUTTON (btn), priv->open_folder);
   g_signal_connect (btn, "app-launched", G_CALLBACK (app_launched_cb), self);
 
   gtk_widget_show (btn);
@@ -217,15 +221,18 @@ folder_launched_cb (GtkWidget       *widget,
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GListModel *model = phosh_folder_info_get_app_infos (info);
 
-  gtk_flow_box_bind_model (GTK_FLOW_BOX (priv->folder_apps),
-                           model, create_folder_app_launcher, self, NULL);
   hdy_deck_set_visible_child_name (HDY_DECK (priv->deck), "folder_page");
-  g_object_bind_property (info, "name", priv->folder_label, "label", G_BINDING_SYNC_CREATE);
+  g_object_bind_property (info, "name", priv->folder_name_label, "label", G_BINDING_SYNC_CREATE);
   priv->folder_model = model;
   g_set_object (&priv->open_folder, info);
   priv->open_folder_idx = get_app_info_index (self, G_APP_INFO (info));
   g_signal_connect_object (model, "items-changed", G_CALLBACK (show_folder_page), self, G_CONNECT_SWAPPED);
+  gtk_entry_set_text (GTK_ENTRY (priv->folder_name_entry), "");
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->folder_name_btn), FALSE);
   show_folder_page (self);
+
+  gtk_flow_box_bind_model (GTK_FLOW_BOX (priv->folder_apps),
+                           model, create_folder_app_launcher, self, NULL);
 }
 
 
@@ -512,6 +519,10 @@ phosh_app_grid_key_press_event (GtkWidget   *widget,
   PhoshAppGrid *self = PHOSH_APP_GRID (widget);
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
+  /* Don't search when folder is open */
+  if (priv->open_folder != NULL)
+    return GDK_EVENT_PROPAGATE;
+
   return gtk_search_entry_handle_event (GTK_SEARCH_ENTRY (priv->search),
                                         (GdkEvent *) event);
 }
@@ -538,6 +549,39 @@ do_search (PhoshAppGrid *self)
 
   priv->debounce = 0;
   return G_SOURCE_REMOVE;
+}
+
+
+static void
+on_folder_edit_toggled (PhoshAppGrid *self, GtkToggleButton *toggle_btn)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+  gboolean active = gtk_toggle_button_get_active (toggle_btn);
+
+  if (active) {
+    const char *folder_name = phosh_folder_info_get_name (priv->open_folder);
+    gtk_entry_set_text (GTK_ENTRY (priv->folder_name_entry), folder_name);
+    gtk_widget_grab_focus (priv->folder_name_entry);
+    gtk_image_set_from_icon_name (GTK_IMAGE (priv->folder_name_img),
+                                  "emblem-ok-symbolic", GTK_ICON_SIZE_BUTTON);
+  } else {
+    const char *folder_name = gtk_entry_get_text (GTK_ENTRY (priv->folder_name_entry));
+    if (gm_str_is_null_or_empty (folder_name))
+      return;
+    phosh_folder_info_set_name (priv->open_folder, folder_name);
+    gtk_entry_set_text (GTK_ENTRY (priv->folder_name_entry), "");
+    gtk_image_set_from_icon_name (GTK_IMAGE (priv->folder_name_img),
+                                  "document-edit-symbolic", GTK_ICON_SIZE_BUTTON);
+  }
+}
+
+
+static void
+on_folder_entry_activated (PhoshAppGrid *self, GtkEntry *entry)
+{
+  PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
+
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->folder_name_btn), FALSE);
 }
 
 
@@ -685,11 +729,16 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, favs_revealer);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_apps);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_label);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_name_btn);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_name_img);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_name_entry);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_name_label);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, folder_stack);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, scrolled_window);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, search);
 
+  gtk_widget_class_bind_template_callback (widget_class, on_folder_edit_toggled);
+  gtk_widget_class_bind_template_callback (widget_class, on_folder_entry_activated);
   gtk_widget_class_bind_template_callback (widget_class, search_changed);
   gtk_widget_class_bind_template_callback (widget_class, search_preedit_changed);
   gtk_widget_class_bind_template_callback (widget_class, search_activated);
@@ -759,6 +808,11 @@ phosh_app_grid_handle_search (PhoshAppGrid *self, GdkEvent *event)
 
   g_return_val_if_fail (PHOSH_IS_APP_GRID (self), GDK_EVENT_PROPAGATE);
   priv = phosh_app_grid_get_instance_private (self);
+
+  /* Prevent stealing of focus when folder is open and it's name entry is active */
+  if (priv->open_folder != NULL)
+    return GDK_EVENT_PROPAGATE;
+
   ret = gtk_search_entry_handle_event (GTK_SEARCH_ENTRY (priv->search), event);
   if (ret == GDK_EVENT_STOP)
     gtk_entry_grab_focus_without_selecting (GTK_ENTRY (priv->search));

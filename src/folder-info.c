@@ -79,6 +79,9 @@ phosh_folder_info_set_property (GObject      *object,
   case PROP_PATH:
     self->path = g_value_dup_string (value);
     break;
+  case PROP_NAME:
+    phosh_folder_info_set_name (self, g_value_get_string (value));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -200,9 +203,31 @@ on_settings_name_changed (PhoshFolderInfo *self, GSettings *settings, char *key)
 
 
 static void
+load_apps (PhoshFolderInfo *self)
+{
+  g_auto (GStrv) apps;
+
+  apps = g_settings_get_strv (self->settings, "apps");
+
+  for (int i = 0; apps[i]; i++) {
+    g_autoptr (GDesktopAppInfo) app_info = g_desktop_app_info_new (apps[i]);
+
+    if (app_info == NULL)
+      g_debug ("Unable to load app-info for %s", apps[i]);
+    else if (!g_app_info_should_show (G_APP_INFO (app_info)))
+      continue;
+    else
+      g_list_store_append (self->app_infos, app_info);
+  }
+}
+
+
+static void
 on_settings_apps_changed (PhoshFolderInfo *self, GSettings *settings, char *key)
 {
   g_signal_emit (self, signals[APPS_CHANGED], 0);
+  g_list_store_remove_all (self->app_infos);
+  load_apps (self);
 }
 
 
@@ -223,26 +248,6 @@ filter_app (gpointer item, gpointer data)
     show = phosh_util_matches_app_info (app_info, self->search);
 
   return show;
-}
-
-
-static void
-load_apps (PhoshFolderInfo *self)
-{
-  g_auto (GStrv) apps;
-
-  apps = g_settings_get_strv (self->settings, "apps");
-
-  for (int i = 0; apps[i]; i++) {
-    g_autoptr (GDesktopAppInfo) app_info = g_desktop_app_info_new (apps[i]);
-
-    if (app_info == NULL)
-      g_debug ("Unable to load app-info for %s", apps[i]);
-    else if (!g_app_info_should_show (G_APP_INFO (app_info)))
-      continue;
-    else
-      g_list_store_append (self->app_infos, app_info);
-  }
 }
 
 
@@ -327,7 +332,7 @@ phosh_folder_info_class_init (PhoshFolderInfoClass *klass)
   props[PROP_NAME] =
     g_param_spec_string ("name", "", "",
                          NULL,
-                         G_PARAM_READABLE |
+                         G_PARAM_READWRITE |
                          G_PARAM_EXPLICIT_NOTIFY |
                          G_PARAM_STATIC_STRINGS);
 
@@ -373,6 +378,14 @@ phosh_folder_info_get_name (PhoshFolderInfo *self)
   return self->name;
 }
 
+void
+phosh_folder_info_set_name (PhoshFolderInfo *self, const char *name)
+{
+  g_return_if_fail (PHOSH_IS_FOLDER_INFO (self));
+
+  g_settings_set_string (self->settings, "name", name);
+}
+
 /**
  * phosh_folder_info_get_app_infos:
  * @self: A folder info
@@ -415,4 +428,51 @@ phosh_folder_info_refilter (PhoshFolderInfo *self, const char *search)
 
   item = g_list_model_get_item (G_LIST_MODEL (self->filtered_app_infos), 0);
   return item != NULL;
+}
+
+
+void
+phosh_folder_info_add_app_info (PhoshFolderInfo *self, GAppInfo *app_info)
+{
+  const char *app_id;
+  g_auto (GStrv) apps = NULL;
+  g_auto (GStrv) new_apps = NULL;
+
+  g_return_if_fail (PHOSH_IS_FOLDER_INFO (self));
+
+  app_id = g_app_info_get_id (app_info);
+
+  if (app_id == NULL) {
+    g_debug ("Unable to get application ID");
+    return;
+  }
+
+  apps = g_settings_get_strv (self->settings, "apps");
+  new_apps = phosh_util_append_to_strv (apps, app_id);
+
+  g_settings_set_strv (self->settings, "apps", (const char *const *) new_apps);
+}
+
+
+gboolean
+phosh_folder_info_remove_app_info (PhoshFolderInfo *self, GAppInfo *app_info)
+{
+  const char *app_id;
+  g_auto (GStrv) apps = NULL;
+  g_auto (GStrv) new_apps = NULL;
+
+  g_return_val_if_fail (PHOSH_IS_FOLDER_INFO (self), FALSE);
+
+  app_id = g_app_info_get_id (app_info);
+
+  if (app_id == NULL) {
+    g_debug ("Unable to get application ID");
+    return FALSE;
+  }
+
+  apps = g_settings_get_strv (self->settings, "apps");
+  new_apps = phosh_util_remove_from_strv (apps, app_id);
+
+  g_settings_set_strv (self->settings, "apps", (const char *const *) new_apps);
+  return new_apps[0] != NULL;
 }
