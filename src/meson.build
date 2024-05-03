@@ -47,17 +47,27 @@ phosh_marshalers = gnome.genmarshal('phosh-marshalers',
 # sources generated with glib tooling
 # hence parsable by gi-docgen
 libphosh_glib_generated_sources = [
-  phosh_enums,
-  phosh_marshalers,
-  phosh_resources,
-  generated_dbus_headers,
+  phosh_enums[0],
+  phosh_marshalers[0],
+  phosh_resources[0],
   generated_dbus_sources,
+]
+
+libphosh_glib_generated_headers = [
+  phosh_enums[1],
+  phosh_marshalers[1],
+  phosh_resources[1],
+  generated_dbus_headers,
 ]
 
 libphosh_generated_sources = [
   libphosh_glib_generated_sources,
-  wl_proto_headers,
   wl_proto_sources,
+]
+
+libphosh_generated_headers = [
+  libphosh_glib_generated_headers,
+  wl_proto_headers,
 ]
 
 phosh_layer_surface_sources = files(
@@ -374,12 +384,21 @@ phosh_lib_inc = [root_inc,
 
 # A static library used by tests and tools
 phosh_tool_lib = static_library('phosh-tool',
-  [libphosh_tool_sources,
-   libphosh_generated_sources,
-   phosh_gtk_list_models_sources],
+  [
+    libphosh_tool_sources,
+    libphosh_generated_headers,
+    libphosh_generated_sources,
+    phosh_gtk_list_models_sources,
+  ],
   include_directories: phosh_lib_inc,
-  dependencies: phosh_deps)
-phosh_tool_dep = declare_dependency(sources: libphosh_generated_sources,
+  dependencies: phosh_deps,
+)
+phosh_tool_dep = declare_dependency(
+  sources: [
+    libphosh_generated_headers,
+    # Ensure the resources are available to indirect users too
+    phosh_resources[0],
+  ],
   include_directories: phosh_lib_inc,
   link_with: phosh_tool_lib,
   dependencies: phosh_deps)
@@ -406,6 +425,7 @@ if enable_introspection
   phosh_gir_sources = [ libphosh_sources,
                         libphosh_tool_sources,
                         libphosh_glib_generated_sources,
+                        libphosh_glib_generated_headers,
                       ]
 
   phosh_gir_extra_args = [
