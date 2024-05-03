@@ -50,6 +50,7 @@ phosh_test_full_shell_thread (gpointer data)
   GLogLevelFlags flags;
   PhoshTestFullShellFixture *fixture = (PhoshTestFullShellFixture *)data;
   PhoshWallClock *wall_clock;
+  g_autoptr (GtkCssProvider) provider = gtk_css_provider_new ();
 
   /* compositor setup in thread since this invokes gdk already */
   fixture->state = phosh_test_compositor_new (FALSE);
@@ -72,6 +73,12 @@ phosh_test_full_shell_thread (gpointer data)
   wall_clock = phosh_wall_clock_get_default ();
   shell = phosh_shell_get_default ();
   g_assert_true (PHOSH_IS_SHELL (shell));
+
+  gtk_css_provider_load_from_resource (provider,
+                                       "/mobi/phosh/tests/screenshot-no-anim-overrides.css");
+  gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
+                                             GTK_STYLE_PROVIDER (provider),
+                                             GTK_STYLE_PROVIDER_PRIORITY_USER);
 
   g_assert_false (phosh_shell_is_startup_finished (shell));
 

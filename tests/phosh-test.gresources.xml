@@ -2,5 +2,6 @@
 <gresources>
   <gresource prefix="/mobi/phosh/tests/">
     <file>phosh-logo.png</file>
+    <file compressed="true">screenshot-no-anim-overrides.css</file>
   </gresource>
 </gresources>
