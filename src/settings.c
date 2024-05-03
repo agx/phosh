@@ -371,9 +371,17 @@ wifi_setting_long_pressed_cb (PhoshSettings *self)
 {
   GtkStack *stack = GTK_STACK (self->stack);
   GtkStack *status_page_stack = GTK_STACK (self->status_page_stack);
+  PhoshShell *shell = phosh_shell_get_default ();
+  PhoshWifiManager *manager;
 
   if (self->on_lockscreen)
     return;
+
+  manager = phosh_shell_get_wifi_manager (shell);
+  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (manager));
+
+  if (phosh_wifi_manager_get_enabled (manager))
+    phosh_wifi_manager_request_scan (manager);
 
   gtk_stack_set_visible_child_name (stack, "status_page");
   gtk_stack_set_visible_child_name (status_page_stack, "wifi_status_page");
