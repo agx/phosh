@@ -166,10 +166,10 @@ handle_show_osd (PhoshDBusGnomeShell   *skeleton,
                  GVariant              *arg_params)
 {
   PhoshGnomeShellManager *self = PHOSH_GNOME_SHELL_MANAGER (skeleton);
-  GVariantDict dict;
   g_autofree char *connector = NULL, *icon = NULL, *label = NULL;
   gdouble level = 0.0, maxlevel = 1.0;
   gboolean has_level;
+  g_auto (GVariantDict) dict = G_VARIANT_DICT_INIT (NULL);
 
   g_return_val_if_fail (PHOSH_IS_GNOME_SHELL_MANAGER (self), FALSE);
 
