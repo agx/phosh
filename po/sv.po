@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-04-22 14:05+0000\n"
-"PO-Revision-Date: 2024-04-24 20:41+0200\n"
+"POT-Creation-Date: 2024-05-03 14:06+0000\n"
+"PO-Revision-Date: 2024-05-04 15:06+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -70,6 +70,14 @@ msgstr ""
 "Lägger till programstartare på låsskärmen. <b>Denna insticksmodul är "
 "experimentell.</b>"
 
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+msgid "Night Light Quick Setting"
+msgstr "Snabbinställning för nattbelysning"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+msgid "Toggle night light on/off"
+msgstr "Aktivera/inaktivera nattbelysning"
+
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
@@ -88,15 +96,23 @@ msgstr "Kommande händelser"
 msgid "Show upcoming calendar events"
 msgstr "Visa kommande kalenderhändelser"
 
-#: src/app-grid-button.c:533 src/app-grid-button.c:590
+#: src/app-grid-button.c:153
+msgid "Add to Folder"
+msgstr "Lägg till i mapp"
+
+#: src/app-grid-button.c:177
+msgid "Create new folder"
+msgstr "Skapa ny mapp"
+
+#: src/app-grid-button.c:692 src/app-grid-button.c:749
 msgid "Application"
 msgstr "Program"
 
-#: src/app-grid.c:256
+#: src/app-grid.c:263
 msgid "Show All Apps"
 msgstr "Visa alla appar"
 
-#: src/app-grid.c:259
+#: src/app-grid.c:266
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Visa endast mobilanpassade appar"
 
@@ -205,11 +221,11 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nej"
 
-#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Ange lösenord"
 
-#: src/lockscreen.c:401
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "Kontrollerar…"
 
@@ -456,6 +472,10 @@ msgstr "Lägg till i _favoriter"
 msgid "View _Details"
 msgstr "Visa _detaljer"
 
+#: src/ui/app-grid-button.ui:41
+msgid "_Remove from Folder"
+msgstr "_Ta bort från mapp"
+
 #: src/ui/app-grid.ui:24
 msgid "Search apps…"
 msgstr "Sök appar…"
@@ -610,15 +630,15 @@ msgstr "Sök av"
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-inställningar"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/util.c:342
-msgid "%A, %B %-e"
-msgstr "%A, %-e %B"
-
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/wall-clock.c:218
+msgid "%A, %B %-e"
+msgstr "%A, %-e %B"
 
 #: src/widget-box.c:54
 msgid "Plugin not found"
@@ -758,6 +778,14 @@ msgstr "Inga programstartare konfigurerade"
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
 msgstr "Programstartare"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light On"
+msgstr "Nattbelysning på"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light Off"
+msgstr "Nattbelysning av"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
