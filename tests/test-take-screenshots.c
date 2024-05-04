@@ -13,6 +13,7 @@
 #include "portal-dbus.h"
 #include "shell.h"
 
+#include "testlib-wall-clock-mock.h"
 #include "testlib-full-shell.h"
 #include "testlib-calls-mock.h"
 #include "testlib-mpris-mock.h"

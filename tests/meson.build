@@ -74,6 +74,7 @@ testlib_sources = [
   'testlib.c',
   'testlib-head-stub.c',
   'testlib-compositor.c',
+  'testlib-wall-clock-mock.c',
   'testlib-full-shell.c',
   'testlib-calls-mock.c',
   'testlib-mpris-mock.c',
@@ -211,7 +212,6 @@ if run_phoc_tests
     lang_env.set('LANGUAGE', lang)
     lang_env.set('LC_ALL', lang)
     lang_env.set('PHOSH_TEST_TYPE', lang)
-    lang_env.set('PHOSH_DEBUG', 'fake-time')
     lang_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
     test('screenshots-@0@'.format(lang), t,
          env: lang_env,
@@ -226,7 +226,6 @@ if run_phoc_tests
   hc_env.set('PHOSH_TEST_TYPE', 'high-contrast')
   hc_env.set('XDG_CONFIG_HOME', '@0@/user/config-@1@/'.format(meson.current_build_dir(), what))
   hc_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
-  hc_env.set('PHOSH_DEBUG', 'fake-time')
   hc_env.set('GSETTINGS_BACKEND', 'keyfile')
   test('screenshots-@0@'.format(what), t,
        env: hc_env,
@@ -241,7 +240,6 @@ if run_phoc_tests
   landscape_env.set('PHOSH_TEST_TYPE', 'landscape')
   landscape_env.set('PHOSH_TEST_PHOC_INI', '@0@/data/phoc-landscape.ini'.format(meson.current_source_dir()))
   landscape_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
-  landscape_env.set('PHOSH_DEBUG', 'fake-time')
   test('screenshots-@0@'.format(what), t,
        env: landscape_env,
        suite: ['screenshots'],
@@ -252,7 +250,7 @@ if run_phoc_tests
   notch_env = test_env_phoc
   notch_env.set('LANGUAGE', 'C')
   notch_env.set('PHOC_DEBUG', 'cutouts')
-  notch_env.set('PHOSH_DEBUG', 'fake-time,fake-builtin')
+  notch_env.set('PHOSH_DEBUG', 'fake-builtin')
   notch_env.set('PHOSH_TEST_TYPE', 'notch')
   notch_env.set('PHOSH_TEST_PHOC_INI', '@0@/data/phoc-notch.ini'.format(meson.current_source_dir()))
   notch_env.set('GMOBILE_DT_COMPATIBLES', 'oneplus,fajita')

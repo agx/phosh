@@ -8,10 +8,10 @@
 
 #include "testlib.h"
 #include "testlib-full-shell.h"
+#include "testlib-wall-clock-mock.h"
 
 #include "log.h"
 #include "shell.h"
-#include "wall-clock.h"
 
 #include <handy.h>
 #include <call-ui.h>
@@ -49,7 +49,11 @@ phosh_test_full_shell_thread (gpointer data)
   PhoshShell *shell;
   GLogLevelFlags flags;
   PhoshTestFullShellFixture *fixture = (PhoshTestFullShellFixture *)data;
-  PhoshWallClock *wall_clock;
+  /* Fake the date/time to that of the initial commit to Phosh git repository.
+   * (sha d1cf1f02a3ff65331d755cb7bb4f765222f23354 = "Wed Jan 24 14:26:37 2018 +0100")
+   * This is apparently also "Belly Laugh Day", so there you go. */
+  g_autoptr (GDateTime) fake_offset = g_date_time_new_utc (2018, 1, 24, 13, 26, 37);
+  TestlibWallClockMock *wall_clock = testlib_wall_clock_mock_new (fake_offset);
   g_autoptr (GtkCssProvider) provider = gtk_css_provider_new ();
 
   /* compositor setup in thread since this invokes gdk already */
@@ -70,7 +74,7 @@ phosh_test_full_shell_thread (gpointer data)
   flags = g_log_set_always_fatal (0);
   g_log_set_always_fatal (flags & ~G_LOG_LEVEL_WARNING);
 
-  wall_clock = phosh_wall_clock_get_default ();
+  phosh_wall_clock_set_default (PHOSH_WALL_CLOCK (wall_clock));
   shell = phosh_shell_get_default ();
   g_assert_true (PHOSH_IS_SHELL (shell));
 

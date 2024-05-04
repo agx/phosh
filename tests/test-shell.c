@@ -12,6 +12,7 @@
 #include "shell.h"
 #include "background-manager.h"
 #include "phosh-wayland.h"
+#include "wall-clock.h"
 
 #include <glib.h>
 #include <handy.h>
@@ -183,10 +184,12 @@ test_shell_new_two_outputs (PhoshTestCompositorFixture *fixture, gconstpointer u
 
 
 int
-main (int   argc,
-      char *argv[])
+main (int argc, char *argv[])
 {
+  g_autoptr (PhoshWallClock) wall_clock = phosh_wall_clock_new ();
+
   g_test_init (&argc, &argv, NULL);
+  phosh_wall_clock_set_default (wall_clock);
 
   g_test_add ("/phosh/shell/new", PhoshTestCompositorFixture, NULL,
               compositor_setup, test_shell_new, compositor_teardown);
