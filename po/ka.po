@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-01 10:02+0000\n"
-"PO-Revision-Date: 2024-05-02 21:17+0200\n"
+"POT-Creation-Date: 2024-05-03 14:06+0000\n"
+"PO-Revision-Date: 2024-05-04 21:08+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -96,15 +96,23 @@ msgstr "უახლოესი მოვლენები"
 msgid "Show upcoming calendar events"
 msgstr "კალენდრის მომავალი მოვლენების ჩვენება"
 
-#: src/app-grid-button.c:533 src/app-grid-button.c:590
+#: src/app-grid-button.c:153
+msgid "Add to Folder"
+msgstr "დამატება საქაღალდეში"
+
+#: src/app-grid-button.c:177
+msgid "Create new folder"
+msgstr "ახალი საქაღალდის შექმნა"
+
+#: src/app-grid-button.c:692 src/app-grid-button.c:749
 msgid "Application"
 msgstr "აპლიკაცია"
 
-#: src/app-grid.c:256
+#: src/app-grid.c:263
 msgid "Show All Apps"
 msgstr "ყველა აპლიკაციის ჩვენება"
 
-#: src/app-grid.c:259
+#: src/app-grid.c:266
 msgid "Show Only Mobile Friendly Apps"
 msgstr "მხოლოდ მობილურზე მორგებული აპლიკაციების ჩვენება"
 
@@ -452,6 +460,10 @@ msgstr "_რჩეულებში დამატება"
 #: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "დეტალების _ნახვა"
+
+#: src/ui/app-grid-button.ui:41
+msgid "_Remove from Folder"
+msgstr "_საქაღალდიდან წაშლა"
 
 #: src/ui/app-grid.ui:24
 msgid "Search apps…"
