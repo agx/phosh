@@ -164,6 +164,7 @@ screenshot:native-debian-trixie:
   <<: *trixie_vars
   script:
     - export LC_ALL=C.UTF-8
+    - export G_MESSAGES_DEBUG=all
     # Make sure tests can find the plugins and po files
     - "meson install -C _build"
     - ${XVFB_RUN} meson test -C _build --print-errorlogs --suite screenshots
@@ -172,9 +173,11 @@ screenshot:native-debian-trixie:
   after_script:
     - gcovr --json --output=screenshots/coverage-${CI_JOB_NAME}.json
   artifacts:
+    when: always
     expose_as: 'Screenshots'
     paths:
       - screenshots/
+      - _build/meson-logs/testlog.txt
   except:
     variables:
       - $PKG_ONLY == "1"
