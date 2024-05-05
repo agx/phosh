@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-04-20 09:21+0000\n"
-"PO-Revision-Date: 2024-04-20 20:23+0200\n"
+"POT-Creation-Date: 2024-05-04 15:17+0000\n"
+"PO-Revision-Date: 2024-05-04 18:53+0200\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -71,6 +71,14 @@ msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Adaugă lansatoare pe ecranul blocat. <b>Acest modul este experimental.</b>"
 
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+msgid "Night Light Quick Setting"
+msgstr "Opțiuni pentru Lumina de noapte"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+msgid "Toggle night light on/off"
+msgstr "Lumina de noapte pornită/oprită"
+
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
@@ -89,15 +97,23 @@ msgstr "Evenimente viitoare"
 msgid "Show upcoming calendar events"
 msgstr "Arată evenimentele viitoare din calendar"
 
-#: src/app-grid-button.c:533 src/app-grid-button.c:590
+#: src/app-grid-button.c:153
+msgid "Add to Folder"
+msgstr "Adaugă în dosar"
+
+#: src/app-grid-button.c:177
+msgid "Create new folder"
+msgstr "Creează un dosar nou"
+
+#: src/app-grid-button.c:692 src/app-grid-button.c:749
 msgid "Application"
 msgstr "Aplicație"
 
-#: src/app-grid.c:256
+#: src/app-grid.c:263
 msgid "Show All Apps"
 msgstr "Arată toate aplicațiile"
 
-#: src/app-grid.c:259
+#: src/app-grid.c:266
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Arată numai aplicații pentru mobil"
 
@@ -147,7 +163,7 @@ msgstr[0] "%s se va deconecta automat în %d secundă."
 msgstr[1] "%s se va deconecta automat în %d secunde."
 msgstr[2] "%s se va deconecta automat în %d de secunde."
 
-#: src/end-session-dialog.c:183
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
 msgid "Power Off"
 msgstr "Oprește"
 
@@ -208,15 +224,15 @@ msgstr "Da"
 msgid "No"
 msgstr "Nu"
 
-#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Introdu codul de acces"
 
-#: src/lockscreen.c:401
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "Se verifică…"
 
-#: src/screenshot-manager.c:215
+#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
 msgid "Screenshot"
 msgstr "Captură de ecran"
 
@@ -430,7 +446,7 @@ msgstr "Executarea „%s” a eșuat"
 
 #: src/settings/audio-settings.c:376
 msgid "Phone Shell Volume Control"
-msgstr "Controlul volumului"
+msgstr "Controlul sunetului"
 
 #: src/system-prompt.c:365
 msgid "Passwords do not match."
@@ -460,11 +476,15 @@ msgstr "Elimină din _Favorite"
 
 #: src/ui/app-grid-button.ui:28
 msgid "Add to _Favorites"
-msgstr "Adaugă la _Favorite"
+msgstr "Adaugă în _Favorite"
 
 #: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "Arată _detalii"
+
+#: src/ui/app-grid-button.ui:41
+msgid "_Remove from Folder"
+msgstr "_Elimină din dosar"
 
 #: src/ui/app-grid.ui:24
 msgid "Search apps…"
@@ -556,21 +576,13 @@ msgstr "C_onectează"
 msgid "Authenticate"
 msgstr "Autentificare"
 
-#: src/ui/power-menu.ui:69
-msgid "_Power Off"
-msgstr "O_prește"
+#: src/ui/power-menu.ui:108
+msgid "Lock"
+msgstr "Blochează"
 
-#: src/ui/power-menu.ui:110
-msgid "_Lock"
-msgstr "B_lochează"
-
-#: src/ui/power-menu.ui:151
-msgid "_Screenshot"
-msgstr "_Captură"
-
-#: src/ui/power-menu.ui:192
-msgid "_Emergency"
-msgstr "_Urgență"
+#: src/ui/power-menu.ui:186
+msgid "Emergency"
+msgstr "Urgență"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
@@ -628,15 +640,15 @@ msgstr "Caută"
 msgid "Wi-Fi Settings"
 msgstr "Opțiuni Wi-Fi"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/util.c:342
-msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
-
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/wall-clock.c:222
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
 
 #: src/widget-box.c:54
 msgid "Plugin not found"
@@ -776,6 +788,14 @@ msgstr "Nu există lansatoare configurate"
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
 msgstr "Lansatoare"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light On"
+msgstr "Lumina de noapte Pornită"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light Off"
+msgstr "Lumina de noapte Oprită"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
