@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-01 10:02+0000\n"
-"PO-Revision-Date: 2024-05-02 20:18+0300\n"
+"POT-Creation-Date: 2024-05-03 14:06+0000\n"
+"PO-Revision-Date: 2024-05-05 20:43+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -72,7 +72,6 @@ msgstr ""
 "Додає кнопки запуску на екран блокування. <b>Цей додаток є тестовим.</b>"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
-#| msgid "Caffeine Quick Setting"
 msgid "Night Light Quick Setting"
 msgstr "Швидке налаштовування нічних кольорів"
 
@@ -97,15 +96,24 @@ msgstr "Майбутні події"
 msgid "Show upcoming calendar events"
 msgstr "Показати майбутні події календаря"
 
-#: src/app-grid-button.c:533 src/app-grid-button.c:590
+#: src/app-grid-button.c:153
+#| msgid "Add to _Favorites"
+msgid "Add to Folder"
+msgstr "Додати до теки"
+
+#: src/app-grid-button.c:177
+msgid "Create new folder"
+msgstr "Створити теку"
+
+#: src/app-grid-button.c:692 src/app-grid-button.c:749
 msgid "Application"
 msgstr "Програма"
 
-#: src/app-grid.c:256
+#: src/app-grid.c:263
 msgid "Show All Apps"
 msgstr "Показати усі програми"
 
-#: src/app-grid.c:259
+#: src/app-grid.c:266
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Показати лише програми для мобільних"
 
@@ -473,6 +481,11 @@ msgstr "Додати до _вибраних"
 #: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "Пере_глянути подробиці"
+
+#: src/ui/app-grid-button.ui:41
+#| msgid "Remove from _Favorites"
+msgid "_Remove from Folder"
+msgstr "Вилучити з _теки"
 
 #: src/ui/app-grid.ui:24
 msgid "Search apps…"
