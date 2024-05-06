@@ -5,17 +5,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-02-06 08:44+0000\n"
-"PO-Revision-Date: 2024-02-06 15:53+0200\n"
-"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
+"POT-Creation-Date: 2024-05-03 14:06+0000\n"
+"PO-Revision-Date: 2024-05-06 14:49+0300\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 45.3\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? "
-"2 : 3)\n"
+"2 : 3);\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -34,40 +34,81 @@ msgstr "מנהל חלונות ומשגר יישומים לטלפון נייד"
 msgid "This session logs you into Phosh"
 msgstr "הפעלה זאת מחברת אותך ל־Phosh"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "הגדרות קפאין מהירות"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "למנוע מעבר למצב לא פעיל של ההפעלה"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "לוח שנה"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "יישומון לוח שנה פשוט"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "פרטי חירום"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "להציג פרטי חירום וקשר"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "קופסת משגר"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
+msgstr "הוספת משגרים למסך הנעילה. <b>זה תוסף נסיוני.</b>"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+msgid "Night Light Quick Setting"
+msgstr "הגדרות מהירות לתאורת לילה"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+msgid "Toggle night light on/off"
+msgstr "כיבוי/הפעלת תאורת לילה"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
 msgstr "תיבת כרטיסים"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
-msgstr "הצגת קובצי PDF במסך הנעילה. <b>זהו תוסף ניסיוני</b>."
+msgstr "הצגת קובצי PDF במסך הנעילה. <b>זהו תוסף ניסיוני.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
 msgstr "אירועים קרובים"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "הצגת אירועים קרובים בלוח השנה"
 
-#: src/app-grid-button.c:529
+#: src/app-grid-button.c:153
+msgid "Add to Folder"
+msgstr "הוספה לתיקייה"
+
+#: src/app-grid-button.c:177
+msgid "Create new folder"
+msgstr "יצירת תיקייה חדשה"
+
+#: src/app-grid-button.c:692 src/app-grid-button.c:749
 msgid "Application"
 msgstr "יישום"
 
-#: src/app-grid.c:138
+#: src/app-grid.c:263
 msgid "Show All Apps"
 msgstr "הצגת כל היישומים"
 
-#: src/app-grid.c:141
+#: src/app-grid.c:266
 msgid "Show Only Mobile Friendly Apps"
 msgstr "הצגת יישומים מותאמים לנייד בלבד"
 
@@ -80,7 +121,7 @@ msgstr "פעיל"
 msgid "Bluetooth"
 msgstr "בלוטות'"
 
-#: src/call-notification.c:61
+#: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "שיחה לא מזוהה"
 
@@ -105,11 +146,11 @@ msgstr "לא ניתן לבצע שיחת חירום"
 msgid "Internal error"
 msgstr "שגיאה פנימית"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:174
 msgid "Log Out"
 msgstr "יציאה"
 
-#: src/end-session-dialog.c:176
+#: src/end-session-dialog.c:177
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -118,11 +159,11 @@ msgstr[1] "המשתמש %s יצא אוטומטית בעוד שתי שניות."
 msgstr[2] "המשתמש %s יצא אוטומטית בעוד %d שניות."
 msgstr[3] "‫המשתמש %s יצא אוטומטית בעוד %d שניות."
 
-#: src/end-session-dialog.c:182
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
 msgid "Power Off"
 msgstr "כיבוי"
 
-#: src/end-session-dialog.c:183
+#: src/end-session-dialog.c:184
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -131,11 +172,11 @@ msgstr[1] "המערכת תכבה אוטומטית בעוד שתי שניות."
 msgstr[2] "המערכת תכבה אוטומטית בעוד %d שניות."
 msgstr[3] "‫המערכת תכבה אוטומטית בעוד %d שניות."
 
-#: src/end-session-dialog.c:189
+#: src/end-session-dialog.c:190
 msgid "Restart"
 msgstr "הפעלה מחדש"
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:191
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -181,7 +222,7 @@ msgstr "כן"
 msgid "No"
 msgstr "לא"
 
-#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "הזנת ססמה"
 
@@ -189,21 +230,21 @@ msgstr "הזנת ססמה"
 msgid "Checking…"
 msgstr "בודק…"
 
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
 msgid "Screenshot"
 msgstr "צילום מסך"
 
-#: src/screenshot-manager.c:214
+#: src/screenshot-manager.c:216
 msgid "Screenshot copied to clipboard"
 msgstr "המסך צולם והועתק ללוח הגזירים"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:321 src/ui/media-player.ui:161
+#: src/media-player.c:324 src/ui/media-player.ui:161
 msgid "Unknown Title"
 msgstr "כותרת לא ידועה"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:329 src/ui/media-player.ui:148
+#: src/media-player.c:332 src/ui/media-player.ui:148
 msgid "Unknown Artist"
 msgstr "אמן לא ידוע"
 
@@ -249,93 +290,123 @@ msgstr "פתיחה"
 msgid "Notification"
 msgstr "התרעה"
 
-#. Translators: Timestamp seconds suffix
-#: src/notifications/timestamp-label.c:84
-msgctxt "timestamp-suffix-seconds"
-msgid "s"
-msgstr "שנ"
-
-#. Translators: Timestamp minute suffix
+#. Translators: Point in time, use a short word or abbreviation
+#. Please stick to a maximum of 7 chars
 #: src/notifications/timestamp-label.c:86
-msgctxt "timestamp-suffix-minute"
-msgid "m"
-msgstr "דק"
-
-#. Translators: Timestamp minutes suffix
-#: src/notifications/timestamp-label.c:88
-msgctxt "timestamp-suffix-minutes"
-msgid "m"
-msgstr "דק"
-
-#. Translators: Timestamp hour suffix
-#: src/notifications/timestamp-label.c:90
-msgctxt "timestamp-suffix-hour"
-msgid "h"
-msgstr "ש"
-
-#. Translators: Timestamp hours suffix
-#: src/notifications/timestamp-label.c:92
-msgctxt "timestamp-suffix-hours"
-msgid "h"
-msgstr "ש"
-
-#. Translators: Timestamp day suffix
-#: src/notifications/timestamp-label.c:94
-msgctxt "timestamp-suffix-day"
-msgid "d"
-msgstr "ימ"
-
-#. Translators: Timestamp days suffix
-#: src/notifications/timestamp-label.c:96
-msgctxt "timestamp-suffix-days"
-msgid "d"
-msgstr "ימ"
-
-#. Translators: Timestamp month suffix
-#: src/notifications/timestamp-label.c:98
-msgctxt "timestamp-suffix-month"
-msgid "mo"
-msgstr "חדש"
-
-#. Translators: Timestamp months suffix
-#: src/notifications/timestamp-label.c:100
-msgctxt "timestamp-suffix-months"
-msgid "mos"
-msgstr "חדש"
-
-#. Translators: Timestamp year suffix
-#: src/notifications/timestamp-label.c:102
-msgctxt "timestamp-suffix-year"
-msgid "y"
-msgstr "שנ"
-
-#. Translators: Timestamp years suffix
-#: src/notifications/timestamp-label.c:104
-msgctxt "timestamp-suffix-years"
-msgid "y"
-msgstr "שנ"
-
-#: src/notifications/timestamp-label.c:121
 msgid "now"
 msgstr "לא ידוע1"
 
-#. Translators: time difference "Over 5 years"
-#: src/notifications/timestamp-label.c:189
+#. Translators: abbreviated time difference "Less than 30 seconds"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:91
+#, c-format
+msgid "<30s"
+msgstr "< 30 שנ׳"
+
+#. Translators: abbreviated time difference "Less than one minute"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:96
+#, c-format
+msgid "<1m"
+msgstr "< דק׳"
+
+#. Translators: abbreviated time difference "About one minute"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:101
+#, c-format
+msgid "~1m"
+msgstr "בערך דקה"
+
+#. Translators: abbreviated, exact time difference "1 minute ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:109
+#, c-format
+msgid "%dm"
+msgid_plural "%dm"
+msgstr[0] "דקה"
+msgstr[1] "שתי דק׳"
+msgstr[2] "‫%d דק׳"
+msgstr[3] "‫%d דק׳"
+
+#. Translators: abbreviated time difference "About 3 hours ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:117
+#, c-format
+msgid "~%dh"
+msgid_plural "~%dh"
+msgstr[0] "בערך שעה"
+msgstr[1] "בערך שעתיים"
+msgstr[2] "בערך %d שעות"
+msgstr[3] "בערך %d שעות"
+
+#. Translators: abbreviated time difference "About 1 day ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:122
+#, c-format
+msgid "~1d"
+msgstr "בערך יום"
+
+#. Translators: abbreviated, exact time difference "3 days ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:127
+#, c-format
+msgid "%dd"
+msgid_plural "%dd"
+msgstr[0] "יום"
+msgstr[1] "הוספהיומיים"
+msgstr[2] "‫%d יום"
+msgstr[3] "‫%d ימים"
+
+#. Translators: abbreviated time difference "About 1 month ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:132
+#, c-format
+msgid "~1mo"
+msgstr "בערך חודש"
+
+#. Translators: abbreviated, exact time difference "3 months ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:137
+#, c-format
+msgid "%dmo"
+msgid_plural "%dmos"
+msgstr[0] "חודש"
+msgstr[1] "חודשיים"
+msgstr[2] "‫%d חודשים"
+msgstr[3] "‫%d חודשים"
+
+#. Translators: abbreviated time difference "About 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:147
+#, c-format
+msgid "~%dy"
+msgid_plural "~%dy"
+msgstr[0] "בערך שנה"
+msgstr[1] "בערך שנתיים"
+msgstr[2] "בערך %d שנה"
+msgstr[3] "בערך %d שנים"
+
+#. Translators: abbreviated time difference "Over 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:151
 #, c-format
 msgid "Over %dy"
-msgstr "מעל %du"
+msgid_plural "Over %dy"
+msgstr[0] "יותר משנה"
+msgstr[1] "יותר משנתיים"
+msgstr[2] "יותר מ־%d שנה"
+msgstr[3] "יותר מ־%d שנים"
 
-#. Translators: time difference "almost 5 years"
-#: src/notifications/timestamp-label.c:193
+#. Translators: abbreviated time difference "almost 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:156
 #, c-format
 msgid "Almost %dy"
-msgstr "כמעט %dy"
-
-#. Translators: a time difference like '<5m', if in doubt leave untranslated
-#: src/notifications/timestamp-label.c:200
-#, c-format
-msgid "%s%d%s"
-msgstr "%s%d%s"
+msgid_plural "Almost %dy"
+msgstr[0] "כמעט שנה"
+msgstr[1] "כמעט שנתיים"
+msgstr[2] "כמעט %d שנה"
+msgstr[3] "כמעט %d שנים"
 
 #: src/polkit-auth-agent.c:227
 msgid "Authentication dialog was dismissed by the user"
@@ -378,7 +449,7 @@ msgstr "יש להקיש Esc לסגירה"
 msgid "Running '%s' failed"
 msgstr "הרצת „%s” נכשלה"
 
-#: src/settings/audio-settings.c:373
+#: src/settings/audio-settings.c:376
 msgid "Phone Shell Volume Control"
 msgstr "בקרת עצמת שמע של מעטפת הטלפון"
 
@@ -404,23 +475,23 @@ msgstr "לזכור את הבחירה"
 msgid "Cancel"
 msgstr "ביטול"
 
-#: src/ui/app-grid-button.ui:55
-msgid "App"
-msgstr "יישום"
-
-#: src/ui/app-grid-button.ui:79
+#: src/ui/app-grid-button.ui:23
 msgid "Remove from _Favorites"
 msgstr "הסרה מה_מועדפים"
 
-#: src/ui/app-grid-button.ui:84
+#: src/ui/app-grid-button.ui:28
 msgid "Add to _Favorites"
 msgstr "הוספה למועד_פים"
 
-#: src/ui/app-grid-button.ui:89
+#: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "הצגת _פרטים"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid-button.ui:41
+msgid "_Remove from Folder"
+msgstr "הסרה מ_תיקייה"
+
+#: src/ui/app-grid.ui:24
 msgid "Search apps…"
 msgstr "חיפוש יישומים…"
 
@@ -428,11 +499,11 @@ msgstr "חיפוש יישומים…"
 msgid "Output Devices"
 msgstr "התקני פלט"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "התקני קלט"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "הגדרות שמע"
 
@@ -510,21 +581,13 @@ msgstr "הת_חברות"
 msgid "Authenticate"
 msgstr "אימות"
 
-#: src/ui/power-menu.ui:69
-msgid "_Power Off"
-msgstr "_כיבוי"
+#: src/ui/power-menu.ui:108
+msgid "Lock"
+msgstr "נעילה"
 
-#: src/ui/power-menu.ui:110
-msgid "_Lock"
-msgstr "_נעילה"
-
-#: src/ui/power-menu.ui:151
-msgid "_Screenshot"
-msgstr "צי_לום מסך"
-
-#: src/ui/power-menu.ui:192
-msgid "_Emergency"
-msgstr "מצב _חירום"
+#: src/ui/power-menu.ui:186
+msgid "Emergency"
+msgstr "מצב חירום"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
@@ -558,39 +621,39 @@ msgstr "_השהיה…"
 msgid "_Log Out…"
 msgstr "_יציאה…"
 
-#: src/ui/wifi-status-page.ui:35
+#: src/ui/wifi-status-page.ui:32
 msgid "No Wi-Fi Device Found"
 msgstr "לא נמצא התקן לרשת אלחוטית"
 
-#: src/ui/wifi-status-page.ui:66
+#: src/ui/wifi-status-page.ui:60
 msgid "Wi-Fi Disabled"
 msgstr "הרשת האלחוטית מושבתת"
 
-#: src/ui/wifi-status-page.ui:106
+#: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "נקודת גישה אלחוטית פעילה"
 
-#: src/ui/wifi-status-page.ui:145
+#: src/ui/wifi-status-page.ui:133
 msgid "No Wi-Fi Hotspots Found"
 msgstr "לא נמצאה נקודה גישה לרשת אלחוטית"
 
-#: src/ui/wifi-status-page.ui:156
+#: src/ui/wifi-status-page.ui:144
 msgid "Scan"
 msgstr "סריקה"
 
-#: src/ui/wifi-status-page.ui:188
+#: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "הגדרות רשת אלחוטית"
-
-#. Translators: This is a time format for a date in
-#. long format
-#: src/util.c:342
-msgid "%A, %B %-e"
-msgstr "%A, %B %e"
 
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/wall-clock.c:218
+msgid "%A, %B %-e"
+msgstr "%A, %B %e"
 
 #: src/widget-box.c:54
 msgid "Plugin not found"
@@ -601,7 +664,7 @@ msgstr "לא נמצאו תוספים"
 msgid "The plugin '%s' could not be loaded."
 msgstr "לא ניתן לטעון את התוסף '%s'."
 
-#: src/wifiinfo.c:90
+#: src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "רשת אלחוטית"
 
@@ -609,6 +672,19 @@ msgstr "רשת אלחוטית"
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "רשת סלולרית"
+
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+msgid "Phosh on caffeine"
+msgstr "‫Phosh על קפאין"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "On"
+msgstr "פעיל"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+msgid "Off"
+msgstr "כבוי"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -710,10 +786,6 @@ msgstr "קרבה"
 msgid "Number"
 msgstr "מספר"
 
-#: plugins/launcher-box/launcher-box.ui:14
-msgid "Launcher Box"
-msgstr "קופסת משגר"
-
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
 msgstr "לא הוגדרו משגרים"
@@ -721,6 +793,14 @@ msgstr "לא הוגדרו משגרים"
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
 msgstr "משגרים"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light On"
+msgstr "תאורת לילה פעילה"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light Off"
+msgstr "תאורת לילה כבויה"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -804,11 +884,68 @@ msgstr "סיום"
 msgid "Untitled event"
 msgstr "אירוע ללא כותרת"
 
+#~ msgctxt "timestamp-suffix-seconds"
+#~ msgid "s"
+#~ msgstr "שנ"
+
+#~ msgctxt "timestamp-suffix-minute"
+#~ msgid "m"
+#~ msgstr "דק"
+
+#~ msgctxt "timestamp-suffix-minutes"
+#~ msgid "m"
+#~ msgstr "דק"
+
+#~ msgctxt "timestamp-suffix-hour"
+#~ msgid "h"
+#~ msgstr "ש"
+
+#~ msgctxt "timestamp-suffix-hours"
+#~ msgid "h"
+#~ msgstr "ש"
+
+#~ msgctxt "timestamp-suffix-day"
+#~ msgid "d"
+#~ msgstr "ימ"
+
+#~ msgctxt "timestamp-suffix-days"
+#~ msgid "d"
+#~ msgstr "ימ"
+
+#~ msgctxt "timestamp-suffix-month"
+#~ msgid "mo"
+#~ msgstr "חדש"
+
+#~ msgctxt "timestamp-suffix-months"
+#~ msgid "mos"
+#~ msgstr "חדש"
+
+#~ msgctxt "timestamp-suffix-year"
+#~ msgid "y"
+#~ msgstr "שנ"
+
+#~ msgctxt "timestamp-suffix-years"
+#~ msgid "y"
+#~ msgstr "שנ"
+
+#, c-format
+#~ msgid "%s%d%s"
+#~ msgstr "%s%d%s"
+
+#~ msgid "App"
+#~ msgstr "יישום"
+
+#~ msgid "_Power Off"
+#~ msgstr "_כיבוי"
+
+#~ msgid "_Screenshot"
+#~ msgstr "צי_לום מסך"
+
+#~ msgid "_Emergency"
+#~ msgstr "מצב _חירום"
+
 #~ msgid "Unknown application"
 #~ msgstr "יישום לא ידוע"
-
-#~ msgid "Emergency"
-#~ msgstr "מצב חירום"
 
 #~ msgid "Lock Screen"
 #~ msgstr "מסך נעילה"
