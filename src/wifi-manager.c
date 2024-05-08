@@ -955,7 +955,9 @@ void
 phosh_wifi_manager_connect_network (PhoshWifiManager *self, PhoshWifiNetwork *network)
 {
   NMAccessPoint *ap;
-  const GPtrArray *all_cnx, *wifi_cnx, *ap_cnx;
+  const GPtrArray *all_cnx;
+  g_autoptr (GPtrArray) wifi_cnx = NULL;
+  g_autoptr (GPtrArray) ap_cnx = NULL;
   int len;
 
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
@@ -974,9 +976,6 @@ phosh_wifi_manager_connect_network (PhoshWifiManager *self, PhoshWifiNetwork *ne
   wifi_cnx = nm_device_filter_connections (NM_DEVICE (self->dev), all_cnx);
   ap_cnx = nm_access_point_filter_connections (ap, wifi_cnx);
   len = ap_cnx->len;
-
-  g_ptr_array_unref ((GPtrArray *) ap_cnx);
-  g_ptr_array_unref ((GPtrArray *) wifi_cnx);
 
   g_debug ("Found %d connections for %s",
            len,
