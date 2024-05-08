@@ -104,6 +104,9 @@ set_on_lockscreen (PhoshSettings *self, gboolean on_lockscreen)
 
   self->on_lockscreen = on_lockscreen;
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ON_LOCKSCREEN]);
+
+  if (self->on_lockscreen)
+    gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "quick_settings_page");
 }
 
 
@@ -308,15 +311,6 @@ on_close_status_page_activated (GSimpleAction *action, GVariant *param, gpointer
   gtk_stack_set_visible_child_name (stack, "quick_settings_page");
 }
 
-static void
-on_shell_locked (PhoshSettings *self, GParamSpec *pspec, PhoshShell *shell)
-{
-  GtkStack *stack = GTK_STACK (self->stack);
-
-  if (phosh_shell_get_locked (shell)) {
-    gtk_stack_set_visible_child_name (stack, "quick_settings_page");
-  }
-}
 
 static void
 rotation_setting_long_pressed_cb (PhoshSettings *self)
@@ -746,7 +740,6 @@ phosh_settings_constructed (GObject *object)
                           "on-lockscreen",
                           G_BINDING_SYNC_CREATE);
 
-  g_signal_connect_swapped (phosh_shell_get_default (), "notify::locked", (GCallback) on_shell_locked, self);
   self->plugin_settings = g_settings_new ("sm.puri.phosh.plugins");
   self->plugin_loader = phosh_plugin_loader_new ((GStrv) plugin_dirs,
                                                  PHOSH_EXTENSION_POINT_QUICK_SETTING_WIDGET);
