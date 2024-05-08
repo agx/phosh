@@ -97,10 +97,10 @@ G_DEFINE_TYPE (PhoshSettings, phosh_settings, GTK_TYPE_BIN)
 
 
 static void
-phosh_settings_set_property (GObject *object,
-                             guint property_id,
+phosh_settings_set_property (GObject      *object,
+                             guint         property_id,
                              const GValue *value,
-                             GParamSpec *pspec)
+                             GParamSpec   *pspec)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
 
@@ -116,9 +116,9 @@ phosh_settings_set_property (GObject *object,
 
 
 static void
-phosh_settings_get_property (GObject *object,
-                             guint property_id,
-                             GValue *value,
+phosh_settings_get_property (GObject    *object,
+                             guint       property_id,
+                             GValue     *value,
                              GParamSpec *pspec)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
