@@ -12,6 +12,10 @@
 
 #include <NetworkManager.h>
 
+#define is_type_wwan_connection(s)                                      \
+  (g_strcmp0 ((s), NM_SETTING_GSM_SETTING_NAME) == 0 ||                 \
+   g_strcmp0 ((s), NM_SETTING_CDMA_SETTING_NAME) == 0)
+
 enum {
   PROP_0,
   PROP_DATA_ENABLED,
@@ -54,6 +58,7 @@ phosh_wwan_manager_get_property (GObject    *object,
   }
 }
 
+
 static gboolean
 is_wwan_connection (NMActiveConnection *conn)
 {
@@ -61,13 +66,7 @@ is_wwan_connection (NMActiveConnection *conn)
 
   type = nm_active_connection_get_connection_type (conn);
 
-  if (g_strcmp0 (type, NM_SETTING_GSM_SETTING_NAME) == 0)
-    return TRUE;
-
-  if (g_strcmp0 (type, NM_SETTING_CDMA_SETTING_NAME) == 0)
-    return TRUE;
-
-  return FALSE;
+  return is_type_wwan_connection (type);
 }
 
 /*
