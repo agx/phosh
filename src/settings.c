@@ -75,7 +75,6 @@ typedef struct _PhoshSettings
   GtkWidget *stack;
   GtkWidget *status_page_stack;
 
-  GtkWidget *wifi_status_page;
   GtkWidget *wifi_quick_setting;
 
   /* The area with media widget, notifications */
@@ -847,7 +846,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_torch);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, status_page_stack);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, wifi_status_page);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, wifi_quick_setting);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scrolled_window);
