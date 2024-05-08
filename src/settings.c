@@ -97,6 +97,17 @@ G_DEFINE_TYPE (PhoshSettings, phosh_settings, GTK_TYPE_BIN)
 
 
 static void
+set_on_lockscreen (PhoshSettings *self, gboolean on_lockscreen)
+{
+  if (self->on_lockscreen == on_lockscreen)
+    return;
+
+  self->on_lockscreen = on_lockscreen;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ON_LOCKSCREEN]);
+}
+
+
+static void
 phosh_settings_set_property (GObject      *object,
                              guint         property_id,
                              const GValue *value,
@@ -106,7 +117,7 @@ phosh_settings_set_property (GObject      *object,
 
   switch (property_id) {
   case PROP_ON_LOCKSCREEN:
-    self->on_lockscreen = g_value_get_boolean (value);
+    set_on_lockscreen (self, g_value_get_boolean (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -808,8 +819,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
     g_param_spec_boolean (
       "on-lockscreen", "", "",
       FALSE,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
-
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
   /* PhoshSettings:handle-offset:
    *
    * The offset from the bottom of the widget where it's safe to start
