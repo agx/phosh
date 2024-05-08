@@ -75,8 +75,6 @@ typedef struct _PhoshSettings
   GtkWidget *stack;
   GtkWidget *status_page_stack;
 
-  GtkWidget *wifi_quick_setting;
-
   /* The area with media widget, notifications */
   GtkWidget *box_bottom_half;
   /* Notifications */
@@ -306,9 +304,7 @@ on_shell_locked (PhoshSettings *self, GParamSpec *pspec, PhoshShell *shell)
 
   if (phosh_shell_get_locked (shell)) {
     gtk_stack_set_visible_child_name (stack, "quick_settings_page");
-    phosh_quick_setting_set_has_status (PHOSH_QUICK_SETTING (self->wifi_quick_setting), FALSE);
-  } else
-    phosh_quick_setting_set_has_status (PHOSH_QUICK_SETTING (self->wifi_quick_setting), TRUE);
+  }
 }
 
 static void
@@ -846,7 +842,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_torch);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, status_page_stack);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, wifi_quick_setting);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scrolled_window);
 
