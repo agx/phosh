@@ -167,8 +167,8 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
 
   g_return_if_fail (self);
   g_return_if_fail (self->proxy);
-  access_tec = phosh_mm_dbus_modem_get_access_technologies (
-    self->proxy);
+
+  access_tec = phosh_mm_dbus_modem_get_access_technologies (self->proxy);
   self->access_tec = phosh_wwan_mm_user_friendly_access_tec (access_tec);
   g_debug ("Access tec is %s", self->access_tec);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACCESS_TEC]);
@@ -182,8 +182,7 @@ phosh_wwan_mm_update_operator (PhoshWWanMM *self)
 
   g_return_if_fail (self);
   g_return_if_fail (self->proxy_3gpp);
-  operator = phosh_mm_dbus_modem_modem3gpp_get_operator_name (
-    self->proxy_3gpp);
+  operator = phosh_mm_dbus_modem_modem3gpp_get_operator_name (self->proxy_3gpp);
 
   if (g_strcmp0 (operator, self->operator)) {
     g_debug("Operator is '%s'", operator);
@@ -391,10 +390,7 @@ phosh_wwan_mm_on_proxy_3gpp_new_for_bus_finish (GObject      *source_object,
 {
   g_autoptr (GError) err = NULL;
 
-  self->proxy_3gpp = phosh_mm_dbus_modem_modem3gpp_proxy_new_for_bus_finish (
-    res,
-    &err);
-
+  self->proxy_3gpp = phosh_mm_dbus_modem_modem3gpp_proxy_new_for_bus_finish (res, &err);
   if (!self->proxy_3gpp) {
     g_warning ("Failed to get 3gpp proxy for %s: %s", self->object_path, err->message);
     g_object_unref (self);
