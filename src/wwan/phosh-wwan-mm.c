@@ -329,6 +329,12 @@ phosh_wwan_mm_get_property (GObject    *object,
   case PHOSH_WWAN_MM_PROP_SIM:
     g_value_set_boolean (value, self->sim);
     break;
+  case PHOSH_WWAN_MM_PROP_PRESENT:
+    g_value_set_boolean (value, self->present);
+    break;
+  case PHOSH_WWAN_MM_PROP_ENABLED:
+    g_value_set_boolean (value, self->enabled);
+    break;
   case PHOSH_WWAN_MM_PROP_OPERATOR:
     g_value_set_string (value, self->operator);
     break;
