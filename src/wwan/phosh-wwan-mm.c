@@ -68,16 +68,17 @@ typedef enum { /*< underscore_name=mm_modem_state >*/
 } PhoshMMModemState;
 
 enum {
-  PHOSH_WWAN_MM_PROP_0,
-  PHOSH_WWAN_MM_PROP_SIGNAL_QUALITY,
-  PHOSH_WWAN_MM_PROP_ACCESS_TEC,
-  PHOSH_WWAN_MM_PROP_UNLOCKED,
-  PHOSH_WWAN_MM_PROP_SIM,
-  PHOSH_WWAN_MM_PROP_PRESENT,
-  PHOSH_WWAN_MM_PROP_ENABLED,
-  PHOSH_WWAN_MM_PROP_OPERATOR,
-  PHOSH_WWAN_MM_PROP_LAST_PROP,
+  PROP_0,
+  PROP_SIGNAL_QUALITY,
+  PROP_ACCESS_TEC,
+  PROP_UNLOCKED,
+  PROP_SIM,
+  PROP_PRESENT,
+  PROP_ENABLED,
+  PROP_OPERATOR,
+  PROP_LAST_PROP,
 };
+static GParamSpec *props[PROP_LAST_PROP];
 
 typedef struct _PhoshWWanMM {
   PhoshWWanManager                parent;
@@ -119,7 +120,7 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
   v = phosh_mm_dbus_modem_get_signal_quality (self->proxy);
   if (v) {
     g_variant_get (v, "(ub)", &self->signal_quality, NULL);
-    g_object_notify (G_OBJECT (self), "signal-quality");
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SIGNAL_QUALITY]);
   }
 }
 
@@ -170,7 +171,7 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
     self->proxy);
   self->access_tec = phosh_wwan_mm_user_friendly_access_tec (access_tec);
   g_debug ("Access tec is %s", self->access_tec);
-  g_object_notify (G_OBJECT (self), "access-tec");
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACCESS_TEC]);
 }
 
 
@@ -188,7 +189,7 @@ phosh_wwan_mm_update_operator (PhoshWWanMM *self)
     g_debug("Operator is '%s'", operator);
     g_free (self->operator);
     self->operator = g_strdup (operator);
-    g_object_notify (G_OBJECT (self), "operator");
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_OPERATOR]);
   }
 }
 
@@ -211,7 +212,7 @@ phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
                       (state != MM_MODEM_STATE_LOCKED &&
                        state != MM_MODEM_STATE_FAILED));
   g_debug ("SIM is %slocked: (%d %d)", self->unlocked ? "un" : "", state, unlock_required);
-  g_object_notify (G_OBJECT (self), "unlocked");
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_UNLOCKED]);
 }
 
 
@@ -226,7 +227,7 @@ phosh_wwan_mm_update_sim_status (PhoshWWanMM *self)
   g_debug ("SIM path %s", sim);
   self->sim = !!g_strcmp0 (sim, "/");
   g_debug ("SIM is %spresent", self->sim ? "" : "not ");
-  g_object_notify (G_OBJECT (self), "sim");
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SIM]);
 }
 
 
@@ -238,7 +239,7 @@ phosh_wwan_mm_update_present (PhoshWWanMM *self, gboolean present)
   if (self->present != present) {
     g_debug ("Modem is %spresent", present ? "" : "not ");
     self->present = present;
-    g_object_notify (G_OBJECT (self), "present");
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
   }
 }
 
@@ -257,7 +258,7 @@ phosh_wwan_mm_update_enabled (PhoshWWanMM *self)
   g_debug ("Modem is %senabled, state: %d", enabled ? "" : "not ", state);
   if (self->enabled != enabled) {
     self->enabled = enabled;
-    g_object_notify (G_OBJECT (self), "enabled");
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
   }
 }
 
@@ -317,25 +318,25 @@ phosh_wwan_mm_get_property (GObject    *object,
   PhoshWWanMM *self = PHOSH_WWAN_MM (object);
 
   switch (property_id) {
-  case PHOSH_WWAN_MM_PROP_SIGNAL_QUALITY:
+  case PROP_SIGNAL_QUALITY:
     g_value_set_uint (value, self->signal_quality);
     break;
-  case PHOSH_WWAN_MM_PROP_ACCESS_TEC:
+  case PROP_ACCESS_TEC:
     g_value_set_string (value, self->access_tec);
     break;
-  case PHOSH_WWAN_MM_PROP_UNLOCKED:
+  case PROP_UNLOCKED:
     g_value_set_boolean (value, self->unlocked);
     break;
-  case PHOSH_WWAN_MM_PROP_SIM:
+  case PROP_SIM:
     g_value_set_boolean (value, self->sim);
     break;
-  case PHOSH_WWAN_MM_PROP_PRESENT:
+  case PROP_PRESENT:
     g_value_set_boolean (value, self->present);
     break;
-  case PHOSH_WWAN_MM_PROP_ENABLED:
+  case PROP_ENABLED:
     g_value_set_boolean (value, self->enabled);
     break;
-  case PHOSH_WWAN_MM_PROP_OPERATOR:
+  case PROP_OPERATOR:
     g_value_set_string (value, self->operator);
     break;
   default:
@@ -364,22 +365,22 @@ phosh_wwan_mm_destroy_modem (PhoshWWanMM *self)
   phosh_wwan_mm_update_present (self, FALSE);
 
   self->enabled = FALSE;
-  g_object_notify (G_OBJECT (self), "enabled");
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
 
   self->signal_quality = 0;
-  g_object_notify (G_OBJECT (self), "signal-quality");
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SIGNAL_QUALITY]);
 
   self->access_tec = NULL;
-  g_object_notify (G_OBJECT (self), "access-tec");
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACCESS_TEC]);
 
   self->unlocked = FALSE;
-  g_object_notify (G_OBJECT (self), "unlocked");
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_UNLOCKED]);
 
   self->sim = FALSE;
-  g_object_notify (G_OBJECT (self), "sim");
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SIM]);
 
   g_clear_pointer (&self->operator, g_free);
-  g_object_notify (G_OBJECT (self), "operator");
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_OPERATOR]);
 }
 
 
@@ -597,27 +598,26 @@ phosh_wwan_mm_class_init (PhoshWWanMMClass *klass)
   object_class->dispose = phosh_wwan_mm_dispose;
   object_class->get_property = phosh_wwan_mm_get_property;
 
-  g_object_class_override_property (object_class,
-                                    PHOSH_WWAN_MM_PROP_SIGNAL_QUALITY,
-                                    "signal-quality");
-  g_object_class_override_property (object_class,
-                                    PHOSH_WWAN_MM_PROP_ACCESS_TEC,
-                                    "access-tec");
-  g_object_class_override_property (object_class,
-                                    PHOSH_WWAN_MM_PROP_UNLOCKED,
-                                    "unlocked");
-  g_object_class_override_property (object_class,
-                                    PHOSH_WWAN_MM_PROP_SIM,
-                                    "sim");
-  g_object_class_override_property (object_class,
-                                    PHOSH_WWAN_MM_PROP_PRESENT,
-                                    "present");
-  g_object_class_override_property (object_class,
-                                    PHOSH_WWAN_MM_PROP_ENABLED,
-                                    "enabled");
-  g_object_class_override_property (object_class,
-                                    PHOSH_WWAN_MM_PROP_OPERATOR,
-                                    "operator");
+  g_object_class_override_property (object_class, PROP_SIGNAL_QUALITY, "signal-quality");
+  props[PROP_SIGNAL_QUALITY] = g_object_class_find_property (object_class, "signal-quality");
+
+  g_object_class_override_property (object_class, PROP_ACCESS_TEC, "access-tec");
+  props[PROP_ACCESS_TEC] = g_object_class_find_property (object_class, "access-tec");
+
+  g_object_class_override_property (object_class, PROP_UNLOCKED, "unlocked");
+  props[PROP_UNLOCKED] = g_object_class_find_property (object_class, "unlocked");
+
+  g_object_class_override_property (object_class, PROP_SIM, "sim");
+  props[PROP_SIM] = g_object_class_find_property (object_class, "sim");
+
+  g_object_class_override_property (object_class, PROP_PRESENT, "present");
+  props[PROP_PRESENT] = g_object_class_find_property (object_class, "present");
+
+  g_object_class_override_property (object_class, PROP_ENABLED, "enabled");
+  props[PROP_ENABLED] = g_object_class_find_property (object_class, "enabled");
+
+  g_object_class_override_property (object_class, PROP_OPERATOR, "operator");
+  props[PROP_OPERATOR] = g_object_class_find_property (object_class, "operator");
 }
 
 
