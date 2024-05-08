@@ -47,4 +47,5 @@ gboolean      phosh_wwan_has_sim            (PhoshWWan* self);
 gboolean      phosh_wwan_is_present         (PhoshWWan* self);
 gboolean      phosh_wwan_is_enabled         (PhoshWWan *self);
 void          phosh_wwan_set_enabled        (PhoshWWan *self, gboolean enabled);
+void          phosh_wwan_set_data_enabled   (PhoshWWan *self, gboolean enabled);
 const char   *phosh_wwan_get_operator       (PhoshWWan *self);

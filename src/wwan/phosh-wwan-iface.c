@@ -164,6 +164,24 @@ phosh_wwan_set_enabled (PhoshWWan *self, gboolean enabled)
   phosh_wwan_manager_set_enabled (manager, enabled);
 }
 
+/**
+ * phosh_wwan_set_data_enabled:
+ * @self: The wwan interface
+ * @enabled: Whether to enable or disable the mobile data connection
+ *
+ * Connect to or disconnect from mobile data.
+ */
+void
+phosh_wwan_set_data_enabled (PhoshWWan *self, gboolean enabled)
+{
+  PhoshWWanManager *manager;
+
+  g_return_if_fail (PHOSH_IS_WWAN_MANAGER (self));
+
+  manager = PHOSH_WWAN_MANAGER (self);
+  phosh_wwan_manager_set_data_enabled (manager, enabled);
+}
+
 
 const char *
 phosh_wwan_get_operator (PhoshWWan *self)
