@@ -59,8 +59,8 @@ struct _PhoshWifiManager {
   NMDeviceWifi       *conn_dev;
   /* The Wi-Fi device of the system */
   NMDeviceWifi       *dev;
-  /* The list of access points available */
-  GListStore         *networks;
+  /* The list of available Wi-Fi networks */
+  GListStore         *networks; /* (element-type: PhoshWifiNetwork) */
 };
 G_DEFINE_TYPE (PhoshWifiManager, phosh_wifi_manager, G_TYPE_OBJECT);
 
