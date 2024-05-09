@@ -2,7 +2,9 @@ include:
  - project: 'guidog/meta-phosh'
    ref: '04a85df2f3311f3012b6c49bf353b376ae0f32b2'
    file: '/ci/phosh-common-jobs.yml'
- - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/d03cddbcff35f26861429fc816c00323f48e99af/templates/ci-fairy.yml'
+ - project: 'Infrastructure/Mirrors/lorry-mirrors/gitlab_freedesktop_org/freedesktop/ci-templates'
+   ref: 'b791bd48996e3ced9ca13f1c5ee82be8540b8adb'
+   file: '/templates/ci-fairy.yml'
 
 stages:
  - build
@@ -39,7 +41,7 @@ variables:
   # For ci-fairy
   FDO_UPSTREAM_REPO: World/Phosh/phosh
   # screenshot and asan builds on DEBIAN_IMAGE so keep them in sync
-  IMAGE_VERSION: v0.0.2024-04-25
+  IMAGE_VERSION: v0.0.2024-05-08
   DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:$IMAGE_VERSION
   SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:$IMAGE_VERSION
   ASAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/asan:$IMAGE_VERSION

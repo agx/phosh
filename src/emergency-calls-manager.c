@@ -270,9 +270,12 @@ on_emergency_numbers_changed (PhoshEmergencyCallsManager *self)
 static void
 on_name_owner_changed (PhoshEmergencyCallsManager *self)
 {
+  g_autofree char *name_owner = NULL;
+
   g_return_if_fail (PHOSH_IS_EMERGENCY_CALLS_MANAGER (self));
 
-  if (g_dbus_proxy_get_name_owner (G_DBUS_PROXY (self->dbus_proxy)))
+  name_owner = g_dbus_proxy_get_name_owner (G_DBUS_PROXY (self->dbus_proxy));
+  if (name_owner)
     phosh_emergency_calls_manager_update (self);
   else
     phosh_emergency_calls_manager_set_if_enabled (self, FALSE);
