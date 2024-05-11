@@ -70,11 +70,6 @@ libphosh_generated_headers = [
   wl_proto_headers,
 ]
 
-phosh_layer_surface_sources = files(
-  'layersurface.c',
-  'layersurface.h',
-)
-
 libphosh_tool_headers = files(
   'app-auth-prompt.h',
   'activity.h',
@@ -113,6 +108,7 @@ libphosh_tool_headers = files(
   'gtk-mount-prompt.h',
   'keypad.h',
   'launcher-entry-manager.h',
+  'layersurface.h',
   'lockshield.h',
   'log.h',
   'manager.h',
@@ -185,6 +181,7 @@ libphosh_tool_sources = files(
   'gtk-mount-prompt.c',
   'keypad.c',
   'launcher-entry-manager.c',
+  'layersurface.c',
   'lockshield.c',
   'log.c',
   'manager.c',
@@ -217,7 +214,6 @@ libphosh_tool_sources = files(
   'wl-buffer.c',
 ) + [
   libphosh_tool_headers,
-  phosh_layer_surface_sources,
   phosh_monitor_sources,
   phosh_notifications_sources,
 ]
