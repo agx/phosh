@@ -5,7 +5,7 @@
  */
 #pragma once
 
-#include "calls-dbus.h"
+#include "dbus/calls-dbus.h"
 
 #include <glib-object.h>
 

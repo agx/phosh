@@ -8,7 +8,7 @@
 #pragma once
 
 #include <glib-object.h>
-#include "phosh-idle-dbus.h"
+#include "dbus/phosh-idle-dbus.h"
 
 #define PHOSH_TYPE_IDLE_MANAGER                 (phosh_idle_manager_get_type ())
 G_DECLARE_FINAL_TYPE (PhoshIdleManager, phosh_idle_manager, PHOSH, IDLE_MANAGER, GObject)
