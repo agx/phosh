@@ -6,6 +6,8 @@ project('phosh', 'c',
 )
 
 app_id = 'sm.puri.Phosh'
+inc_subdir = 'libphosh-0'
+
 prefix = get_option('prefix')
 bindir = join_paths(prefix, get_option('bindir'))
 datadir = join_paths(prefix, get_option('datadir'))
@@ -22,7 +24,10 @@ plugins_dir = join_paths(prefix, libdir, 'phosh', 'plugins')
 plugin_prefs_dir = join_paths(prefix, libdir, 'phosh', 'plugins', 'prefs')
 servicedir = join_paths(datadir, 'dbus-1', 'services')
 schemasdir = datadir / 'glib-2.0/schemas'
+inc_dir = prefix / get_option('includedir') / inc_subdir
+
 enable_introspection = get_option('introspection') or get_option('gtk_doc')
+bindings_lib = get_option('bindings-lib')
 
 if prefix != '/usr'
   sysconfdir = join_paths(prefix, get_option('sysconfdir'))
@@ -230,6 +235,8 @@ config_h.set('PHOSH_HAVE_POLKIT_AGENT_LISTENER_CLEANUP', have_polkit_agent_liste
 configure_file(
   output: 'phosh-config.h',
   configuration: config_h,
+  install: bindings_lib,
+  install_dir: inc_dir,
 )
 
 subdir('data')
@@ -252,6 +259,7 @@ summary({
     'Lockscreen Plugins': get_option('lockscreen-plugins'),
     'Quick Setting Plugins': get_option('quick-setting-plugins'),
     'Animation slowdown': get_option('animation-slowdown'),
+    'Bindings Library': bindings_lib,
   },
   bool_yn: true,
   section: 'Build',

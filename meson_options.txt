@@ -46,3 +46,8 @@ option('quick-setting-plugins',
 option('introspection',
        type: 'boolean', value: false,
        description: 'Build gobject-introspection support')
+
+# Install files needed to generate some bindings (e.g. Rust).
+option('bindings-lib',
+       type: 'boolean', value: false,
+       description: 'Whether to install the headers and shared library to generate bindings.')

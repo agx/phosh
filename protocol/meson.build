@@ -38,7 +38,9 @@ foreach p : wl_protos
 				    command: [wayland_scanner,
 					      'client-header',
 					      '@INPUT@',
-					      '@OUTPUT@']
+					      '@OUTPUT@'],
+                                    install_dir: inc_dir,
+                                    install: bindings_lib,
 				   )
   wl_proto_sources += custom_target('@0@ source'.format(proto),
 				    input: xml,
