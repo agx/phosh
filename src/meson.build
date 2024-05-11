@@ -226,7 +226,6 @@ libphosh_headers = files(
   'batteryinfo.h',
   'bt-info.h',
   'bt-manager.h',
-  'contrib/shell-network-agent.h',
   'emergency-calls-manager.h',
   'fader.h',
   'feedbackinfo.h',
@@ -240,7 +239,6 @@ libphosh_headers = files(
   'lockscreen.h',
   'monitor-manager.h',
   'network-auth-manager.h',
-  'network-auth-prompt.h',
   'osk-button.h',
   'osk-manager.h',
   'top-panel.h',
@@ -274,6 +272,11 @@ libphosh_headers = files(
   'wifi-info.h',
   'wifi-manager.h',
   'wwan-info.h',
+)
+# Not visible in docs and gir
+libphosh_private_headers = files(
+  'contrib/shell-network-agent.h',
+  'network-auth-prompt.h',
 )
 
 # Symbols from these are not available in tools and unit tests
@@ -411,6 +414,7 @@ phosh_tool_dep = declare_dependency(
 
 # A static library containing everything
 phosh_lib = both_libraries('phosh',
+  libphosh_private_headers,
   libphosh_sources,
   include_directories: phosh_lib_inc,
   dependencies: [phosh_tool_dep, phosh_deps])
