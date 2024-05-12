@@ -13,6 +13,7 @@ stages:
  - analyze
  - package
  - deploy
+ - triggers
 
 workflow:
   rules:
@@ -52,6 +53,7 @@ variables:
                     meson musl-dev networkmanager networkmanager-dev ninja polkit-elogind-dev pulseaudio-dev
                     upower-dev wayland-dev wayland-protocols ttf-dejavu evolution-data-server-dev evince-dev
                     libadwaita-dev json-glib-dev
+  RUST_BINDINGS_BRANCH: main
 
 .trixie_vars: &trixie_vars
   variables:
@@ -350,3 +352,16 @@ pages:
     variables:
       - $PKG_ONLY == "1"
       - $SCREENSHOTS_ONLY == "1"
+
+rust-bindings:
+  stage: triggers
+  variables:
+    UPSTREAM_BRANCH: $CI_COMMIT_REF_NAME
+  needs: []
+  trigger:
+    project: guidog/libphosh-rs
+    branch: $RUST_BINDINGS_BRANCH
+  rules:
+    - if: $CI_COMMIT_BRANCH == $RUST_BINDINGS_BRANCH
+      changes:
+        - src/**/*
