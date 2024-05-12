@@ -1,3 +1,356 @@
+phosh (0.39.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * power-menu-manager: Remove unused settings variable.
+    Fixes: 988240d3a ("Add power-dialog and manager")
+  * build: Drop `lib` when looking for libsoup via find_library()
+    Silences a meson warning
+  * build: Sort dependencies alphabetically.
+    Sort by meson variable name.
+  * packaging: Allow to fetch meson wraps.
+    This is needed as long as gmobile isn't in Debian
+  * build: Allow to use shared gmobile
+  * upcoming-events: Adjust to gmobile API change
+  * build: Use wrap for gmobile.
+    We prefer the shared gmobile so no need to ship as submodule
+  * animation: Remove trailing whitespace
+  * shell-manager: Prefix action mode enum
+  * wifi-info: Fix property description
+  * folder-info: Fix property description.
+    We ought to end with a ':'
+  * util: Fix parameter name.
+    Let it match the doc string
+  * monitor-manager: Add docstrings.
+    This gets rid of the missing transfer annotation warnings
+  * notify-manager: Make defines private or prefix properly
+  * shell-manager: Prefix keybinding flags
+  * app-auth-prompt: Properly namespace CHOICES_FORMAT
+  * build: Drop contrib/shell-network-agent.h from list of sources.
+    This makes sure it isn't exposed to gir generation and we don't need
+    it's doc as it's in contrib/ anyway.
+  * build: Add gcr-3 to list of gir includes.
+    Helps to resolve GcrSystemPrompter
+  * plugin-loader: Add missing transfer annotations
+  * audio-device-row: Add missing transfer annotation
+  * system-prompter: Add transfer annotations
+  * treewide: Mark some functions as not introspectable.
+    They still show up in the docs.
+  * ci: Update shared files.
+    Use files from meta-phosh as of 240dfc8825640041f5b47a207e9339b9c6365a53
+  * folder-info: Test locating and parsing .directory files too
+  * folder-info: Test app-info interface
+  * folder-info: Test app-infos property getter
+  * notifiations: Don't glue timestamp label together.
+    Rather use full translatable strings that allow translators to e.g.
+    handle different plural forms.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/785
+  * timestamp-label: Fix translator comment for hours.
+    Fixes: a09453126 ("notifiations: Don't glue timestamp label together")
+    Thanks to Anders Jonsson
+  * util: Drop support for glib < 2.76.
+    We bumped the minimal requirement in
+       decc80c13 ("build: Bump glib to 2.76")
+    Glib 2.78 is in Debian stable.
+  * audio-device: Remove pulseaudio.h from header.
+    This trips up the gir scanner and isn't needed
+  * build: Acknowledge that gmobile is unstable API.
+    No need to do it in every source file using it.
+  * treewide: Use gm_str_is_null_or_empty
+  * util: Drop STR_IS_NULL_OR_EMPTY.
+    We have it in gmobile.h now
+  * check-doc: Tighten expression and modernize.
+    Get this in sync with phoc and reduce the number of allowed patterns
+  * data: Allow gnome-clocks to override the feedback level.
+    This allows alarms to trigger even in silent mode
+  * util: Test the uri_to_pixbuf for broken URLs too
+  * tests: Add some metadata to the mpris test.
+    This way we validate long titles and image URLs
+  * treewide: Drop config.h usage.
+    We dropped them a while back but they creep back in when polishing
+    ancient MRs.
+    Fixes: 59d415626 ("Drop remaining users of config.h")
+  * tests/screenshots: Use tab navigation to trigger the emergency calls menu.
+    The key combinations break with locale (and also when we use fading
+    lables which currently don't support use_underline)
+  * power-menu: Don't apply style from the emergency menu.
+    There are two emergency menu buttons. One in the power menu and one to
+    initiate the call in the emergency call menu. We only want the small
+    font size applied to the later one.
+    Fixes: dee478524 ("Add emergency menu system modal dialog")
+  * power-menu: Use fading label.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1042
+  * ci: Drop 'gtk' from doc build. We're using gi-docgen since some time
+  * ci: Speed up doc build. No need for tests or tools here
+  * ci: Run doc-check
+  * ci: Use updated images
+  * wwan-info: Use correct base class as parent.
+    Fixes: ca1e70a95 ("Wwaninfo: Use StatusIcon base class")
+  * plugins/quicksettings: Set default icon-size.
+    This makes it match the other quick settings.
+  * monitor-manager: Add getter for night-light-supported property.
+    This makes is simpler for plugins to get the value independent
+    of future class hierarchy changes.
+  * shell: Make monitor manager available to plugins.
+    The night light plugin wants to know if night light suppport is
+    available. Other plugins might e.g. want to track the number of outputs
+    or similar in the future.
+  * plugins: Add night light toggle.
+    This quick settings enabled/disabled automatic night light. The setting
+    is disabled when no monitor is night light capable.
+  * build: Only override libsoup dependency when needed.
+    The next libsoup version will ship our fix as
+    https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/394
+    got applied.
+  * top-panel: Don't init state twice
+  * build: Expand include path.
+    We add the subdirectories to the include path as we want e.g.
+    mkenums_simple to work out of the box (which uses the header's base
+    name) and we don't want clashing file names in subdirectories anyway.
+  * build: Simplify enum type generation.
+    Let's do away with the double accounting of headers.
+  * top-panel: Export state as property.
+    We have the enum and the getter already so let's make it
+    simple to track changes.
+  * shell: Track settings shell state too
+    `PhoshShellState` has a `Settings` flag but so far we never set it.
+    Augments: 59c8074c9 ("home: Update PhoshShellState")
+  * top-panel: Set initial shell state to unfolded.
+    This is an artifact of the fact that the drag surface code needs some
+    time to wiggle the surface into place (which we want to fix on the
+    compositor side). Once that is fixed we can then revert this patch.
+  * layout-manager: Return min padding in non-device mode.
+    If we don't want automatic layout based on device information we should
+    return the minimal padding rather than 0 as otherwise elements will be
+    too close to the screen edge.
+    While at that make it simpler to debug such situations.
+    Fixes: 474b07f90 ("layout-manager: Allow to query rounded corner information")
+  * layout-manager: Use min padding with zero radius.
+    A radius of zero means that there's no value present in the data.
+    This affect devices that have a panel information but no border radius
+    specified (like e.g. the Librem 5).
+    Fixes: 474b07f90 ("layout-manager: Allow to query rounded corner information")
+  * check-doc: Allow more files to raise DBus related gir warnings.
+    It's not a new warning but depending on compilation order different files
+    raise it.
+  * build: Split Wayland headers and sources
+  * build: Ensure plugins see the generated Wayland protocols.
+  * build: Separate generated sources and headers.
+    This avoids generating the C files multiple times reducing the number of
+    compilation units significantly.
+    This brings down the number of steps during the ci build from 3439 to
+    1227 which build >60% less now.
+  * wall-clock: Make it a derivable class
+  * wall-clock: Allow to override wall clock.
+    Instead of having the mocked time within the production class allow to
+    override the relevant methods. The clock always returning a faked time
+    will uses this and will be added back in a follow up commit.
+    This will allow us to use another implementation in the tests
+  * wall-clock: Allow to format GDateTimes.
+    We simply wrap GnomeWallClocks functionality.
+  * tests: Add back a mocked clock that always returns constant time
+  * tests: Honor clock-format and clock-show-date GSettings.
+    These are relevant for screenshots.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1056
+  * emergency-calls-manager: Don't leak name owner
+    g_dbus_proxy_get_name_owner() is transfer: full
+  * shell-manager: Don't leak the variant dict
+  * portal-access-manager: Don't leak icon
+  * ci: Update images.
+    We need to adjust some package names to the recent t64 transition in
+    Debian.
+    We fetch gcovr from Debian sid to work around the broken gcovr in
+    trixie. This can be reverted once gcovr migrated.
+  * ci: Use GNOME mirror for ci-fairy.
+    This reduces dependencies to external systems.
+    The mirror is slightly behind so we use an older commit but the ci-fairy
+    template is identical.
+  * monitor: Don't use anonymous structs. They confuse Rusts gir
+  * treewide: Add paths to dbus includes.
+    Most of the files did this but not all. This simplifies the pkgconfig
+    file as we don't need to add extra include paths.
+  * treewide: Split sources and headers.
+    We did this for the auto generated headers recently, let the rest
+    follow now.
+  * build: Fold in layer-surface sources.
+    We had those split out to make it more obvious what to grab for e.g.
+    squeekboard, phosh-osk-stub, etc but that's not needed anymore nowadays.
+  * build: Introduce private headers that aren't visible in gir.
+    This will allow us to split public and private headers more clearly in
+    the future.
+    We add files from contrib/ as don't have a matching prefix. We also add
+    it's users to avoid unknown type warnings in gir. This also drops the
+    classes from the docs.
+  * meson: Update libsoup dependency version.
+    There's now a libsoup release (3.5.1) containing or fix
+
+  [ Arun Mani J ]
+  * util: Add phosh_util_matches_app_info.
+    Extracted from `app-grid.c` to be reused in folders.
+  * folder-info: Add `PhoshFolderInfo`
+    `PhoshFolderInfo` tracks the applications in a folder.
+    It implements some minimal `GAppInfo` virtual methods as per requirement.
+  * app-list-model: Group apps by folder.
+    We use `PhoshFolderInfo` to group apps by folders. To do this, we
+    prepend the folder item and remove all the apps belonging to the folder
+    from the `GList`.
+    We also monitor the folders available.
+  * favorite-list-model: Ignore `PhoshFolderInfo` in favorite check
+    `phosh_favorite_list_model_is_favorite` is used in the app grid to check
+    if the app must be displayed.
+    We return `FALSE` for `PhoshFolderInfo`.
+  * app-grid-base-button: Add `PhoshAppGridBaseButton`
+    The base class to share UI between `PhoshAppGridFolderButton` and
+    `PhoshAppGridButton`.
+  * app-grid-button: Port to PhoshAppGridBaseButton
+  * app-grid-folder-button: Add `PhoshAppGridFolderButton`
+    `PhoshAppGridFolderButton` is used to display the apps in
+    `PhoshFolderInfo`. We display them as images of size `DND` in a 2x2 grid.
+  * app-grid: Add support for folders.
+    We add a stack page which is shown when a folder needs to be shown.
+    Currently the folder is insensitive to searching.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/868
+  * app-grid: Reindent `app-grid.ui`
+    Fix up indentation in a separate commit to help reviewing the previous
+    bits.
+  * app-grid: Use `STR_IS_NULL_OR_EMPTY` macro.
+    Replace empty or null string checks with the macro.
+  * app-grid: Use `phosh_util_matches_app_info`
+    We replace the search logic with the function from utilities to avoid
+    duplication.
+  * app-grid: Clean up `app-grid.ui`
+    By this commit we:
+    - Normalize property names to use hyphen instead of underscore.
+    - Remove setting property values to their defaults.
+  * folder-info: Add folders schema-id to the header
+  * app-list-model: Remove def of folders-schema-id
+  * folder-info: Reload apps when settings changes.
+    Previously, whenever GSettings' `app` key changes, we emit
+    `apps-changed` signal, so that app-grid and other dependents can regroup
+    apps if needed.
+    This had one issue. Since we don't reflect the changes inside
+    folder-info, if the folder is open, then the user doesn't see the new
+    apps. They had to close and reopen the folder, to see new apps.
+    In this commit, we reload the apps whenever the key changes in-addition
+    to signal emission.
+  * app-grid-folder-button: Set height to 64.
+    This is the height used by app-grid-button's image. Without this, if the
+    folders are the only buttons in grid, then they appear "shrunken".
+  * app-grid: Find the valid button to focus by loop.
+    Previously we focused either the last button or the second last button.
+    But this resulted in issues when multiple apps are removed. So to be on
+    safer side, find the valid button to focus by looping in
+    reverse. (Assuming that when main grid is shown again, it has at least
+    one button.)
+  * app-grid: Fix key-press stealing on open folder
+  * app-grid: Align the back button to center
+  * app-grid: Rename folder label to folder_name_label.
+    Keeps the name consistent with its purpose.
+  * app-grid-button: Add folder-info property.
+    This property can used to indicate that the app-grid-button is part of a
+    folder. Currently keeping it `write-only` to keep API simple.
+  * app-grid: Bind folder-info to buttons in folder
+  * folder-info: Add ability to set folder name.
+    This method acts as a proxy to the GSettings interface.
+  * app-grid: Add ability to edit folder names.
+    We add an entry that is shown when the edit button is toggled to active. When user
+    toggles the button again, the entry's contents are set as folder name.
+    Pressing Enter (or any activation) with the entry focused is same as
+    toggling button again.
+    Closing the folder (by pressing Escape or back-button or gesture) or
+    setting the entry to empty string doesn't do any changes, that is,
+    cancels the edit.
+  * util: Add methods to modify string array
+  * folder-info: Add ability to remove apps
+  * folder-info: Add ability to add apps
+  * app-grid-button: Add action to remove from folder.
+    This action is enabled only when the button has `folder-info` property
+    set. It is currently shown in the context-menu alongside other actions.
+  * app-grid-button: Add action to add to folder
+  * app-grid-button: Remove a folder when empty.
+    Remove a folder from `folder-children` if it is empty.
+  * settings: Request Wi-Fi scan on status page reveal.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1058
+
+  [ Sam Day ]
+  * build: Add option to build introspection libs
+  * build: Add NM-1.0 to phosh GIR includes
+  * build: Include plugin-shell.h in libphosh_sources.
+    This fixes many "Unresolved type: *PhoshShell" GIR errors.
+    Fixes: 505a5c8cb ("shell: Split out methods available to plugins")
+  * shell: Fix/add docstrings for all manager getters.
+    This fixes the various "Missing (transfer) annotation" complaints from
+    g-ir-scanner.
+  * ci: Add screenshot-diff requirements to image
+  * app-grid: Collapse favorites on init.
+    If there's no favorites, the favorites_changed callback is never fired,
+    which means there's an empty revealer (and separator) that will suddenly
+    collapse when a search is performed.
+  * wall-clock: Introduce PhoshWallClock.
+    This class wraps around two different GnomeWallClocks, one that provides
+    the time-only view of wall-clock time, and one that provides the full
+    (locale-specific) view of the time (including date).
+    Both the lockscreen and top-panel are updated to use this new class.
+  * wall-clock: Absorb phoc_util_local_date.
+    It is now phosh_wall_clock_local_date and requires a ref to a
+    PhoshWallClock.
+    Conveniently, the only places this method is being called is in signal
+    handlers that already have a ref to PWC.
+  * tests/screenshots: CSS override for animations
+  * ci: Output testlog artifact from screenshots job
+  * ci: Set G_MESSAGES_DEBUG=all for screenshots job
+  * feedback-manager: Warn about missing DBus svc once
+  * tests/screenshots: Robust waits on shell state.
+    Instead of relying solely on arbitrary sleep()s to ensure that the shell
+    is in the state we want before taking a screenshot, watch for changes to
+    PhoshShellStateFlags.
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Andika Triwidada ]
+  * Update Indonesian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Sabri Ünal ]
+  * Update Turkish translation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+  [ Andi Chandler ]
+  * Update British English translation
+
+  [ Yaron Shahrabani ]
+  * Update Hebrew translation
+
+  [ Quentin PAGÈS ]
+  * Update Occitan translation
+
+  [ Scrambled 777 ]
+  * Update Hindi translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 12 May 2024 13:41:38 +0200
+
 phosh (0.38.0) experimental; urgency=medium
 
 
