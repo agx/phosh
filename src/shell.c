@@ -2037,8 +2037,8 @@ phosh_shell_get_usable_area (PhoshShell *self, int *x, int *y, int *width, int *
 /**
  * phosh_shell_get_area:
  * @self: The shell singleton
- * @width: (nullable): The available width
- * @height: (nullable): The available height
+ * @width:(out)(nullable): The available width
+ * @height:(out)(nullable): The available height
  *
  * Gives the currently available screen area on the primary display.
  */

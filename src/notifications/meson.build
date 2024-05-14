@@ -1,26 +1,29 @@
 phosh_notifications_inc = include_directories('.')
 
-phosh_notifications_sources = [
-  'notifications/dbus-notification.c',
-  'notifications/dbus-notification.h',
-  'notifications/mount-notification.c',
-  'notifications/mount-notification.h',
-  'notifications/notification.c',
-  'notifications/notification.h',
-  'notifications/notification-banner.c',
-  'notifications/notification-banner.h',
-  'notifications/notification-content.c',
-  'notifications/notification-content.h',
-  'notifications/notification-frame.c',
-  'notifications/notification-frame.h',
-  'notifications/notification-list.c',
-  'notifications/notification-list.h',
-  'notifications/notification-source.c',
-  'notifications/notification-source.h',
-  'notifications/notify-manager.c',
-  'notifications/notify-manager.h',
-  'notifications/notify-feedback.c',
-  'notifications/notify-feedback.h',
-  'notifications/timestamp-label.c',
-  'notifications/timestamp-label.h',
-]
+phosh_notifications_headers = files(
+  'dbus-notification.h',
+  'mount-notification.h',
+  'notification.h',
+  'notification-banner.h',
+  'notification-content.h',
+  'notification-frame.h',
+  'notification-list.h',
+  'notification-source.h',
+  'notify-manager.h',
+  'notify-feedback.h',
+  'timestamp-label.h',
+)
+
+phosh_notifications_sources = files(
+  'dbus-notification.c',
+  'mount-notification.c',
+  'notification.c',
+  'notification-banner.c',
+  'notification-content.c',
+  'notification-frame.c',
+  'notification-list.c',
+  'notification-source.c',
+  'notify-manager.c',
+  'notify-feedback.c',
+  'timestamp-label.c',
+) + phosh_notifications_headers

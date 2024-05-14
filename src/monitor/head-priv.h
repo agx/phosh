@@ -41,7 +41,7 @@ struct _PhoshHead {
   gchar                      *vendor, *product, *serial;
   gboolean                    enabled;
 
-  struct {
+  struct PhoshPhysicalSize {
     int32_t width, height;
   } phys;
   int32_t                     x, y;

@@ -119,7 +119,7 @@ struct _PhoshMonitor {
   int subpixel;
   gint32 transform;
 
-  struct {
+  struct PhoshLogicalSize {
     gint32 x, y, width, height;
   } logical;
 

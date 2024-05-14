@@ -69,24 +69,24 @@ generated_dbus_sources += gnome.gdbus_codegen('calls-emergency-dbus',
                                               namespace: 'Phosh')
 # org.gnome.SessionManager.ClientPrivate
 generated_dbus_sources += gnome.gdbus_codegen('gnome-session-client-private-dbus',
-					      'org.gnome.SessionManager.ClientPrivate.xml',
-					      interface_prefix: 'org.gnome.SessionManager',
-					      namespace: 'PhoshSessionClientPrivateDBus')
+                                              'org.gnome.SessionManager.ClientPrivate.xml',
+                                              interface_prefix: 'org.gnome.SessionManager',
+                                              namespace: 'PhoshSessionClientPrivateDBus')
 # org.gnome.SessionManager.Presence
 generated_dbus_sources += gnome.gdbus_codegen('gnome-session-presence-dbus',
-					      'org.gnome.SessionManager.Presence.xml',
-					      interface_prefix: 'org.gnome.SessionManager',
-					      namespace: 'PhoshSessionPresenceDBus')
+                                              'org.gnome.SessionManager.Presence.xml',
+                                              interface_prefix: 'org.gnome.SessionManager',
+                                              namespace: 'PhoshSessionPresenceDBus')
 # org.gnome.SettingsDaemon.Rfkill
 generated_dbus_sources += gnome.gdbus_codegen('gsd-rfkill-dbus',
-					      'org.gnome.SettingsDaemon.Rfkill.xml',
-					      interface_prefix: 'org.gnome.SettingsDaemon',
-					      namespace: 'PhoshRfkillDBus')
+                                              'org.gnome.SettingsDaemon.Rfkill.xml',
+                                              interface_prefix: 'org.gnome.SettingsDaemon',
+                                              namespace: 'PhoshRfkillDBus')
 # MPris2
 generated_dbus_sources += gnome.gdbus_codegen('mpris-dbus',
-					      'org.mpris.MediaPlayer2.xml',
-					      interface_prefix: 'org.mpris',
-					      namespace: 'PhoshMprisDBus')
+                                              'org.mpris.MediaPlayer2.xml',
+                                              interface_prefix: 'org.mpris',
+                                              namespace: 'PhoshMprisDBus')
 
 generated_dbus_sources += gnome.gdbus_codegen('phosh-wwan-ofono-dbus',
                                               'org.ofono.xml',
@@ -107,11 +107,11 @@ generated_dbus_sources += gnome.gdbus_codegen('geoclue-agent-dbus',
 
 generated_dbus_sources += gnome.gdbus_codegen('notify-dbus',
                                               'org.freedesktop.Notifications.xml',
-					      interface_prefix: 'org.freedesktop',
-					      namespace: 'PhoshNotifyDBus')
+                                              interface_prefix: 'org.freedesktop',
+                                              namespace: 'PhoshNotifyDBus')
 
 generated_dbus_sources += gnome.gdbus_codegen('phosh-idle-dbus',
-					      'org.gnome.Mutter.IdleMonitor.xml',
-					      interface_prefix: 'org.gnome.Mutter',
-					      object_manager: true,
-					      namespace: 'PhoshIdleDBus')
+                                              'org.gnome.Mutter.IdleMonitor.xml',
+                                              interface_prefix: 'org.gnome.Mutter',
+                                              object_manager: true,
+                                              namespace: 'PhoshIdleDBus')
