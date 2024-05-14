@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-04-28 13:06+0000\n"
-"PO-Revision-Date: 2024-04-29 14:02+0200\n"
+"POT-Creation-Date: 2024-05-03 14:06+0000\n"
+"PO-Revision-Date: 2024-05-14 22:54+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -69,6 +69,14 @@ msgstr ""
 "Přidat spouštěče na zamykací obrazovku. <b>Tento zásuvný modul je "
 "experimentální.</b>"
 
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+msgid "Night Light Quick Setting"
+msgstr "Rychlé nastavení nočního osvětlení"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+msgid "Toggle night light on/off"
+msgstr "Zapnutí/vypnutí nočního osvětlení"
+
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
@@ -88,15 +96,23 @@ msgstr "Nadcházející události"
 msgid "Show upcoming calendar events"
 msgstr "Zobrazit nadcházející události kalendáře"
 
-#: src/app-grid-button.c:533 src/app-grid-button.c:590
+#: src/app-grid-button.c:153
+msgid "Add to Folder"
+msgstr "Přidat do složky"
+
+#: src/app-grid-button.c:177
+msgid "Create new folder"
+msgstr "Vytvořit novou složku"
+
+#: src/app-grid-button.c:692 src/app-grid-button.c:749
 msgid "Application"
 msgstr "Aplikace"
 
-#: src/app-grid.c:256
+#: src/app-grid.c:263
 msgid "Show All Apps"
 msgstr "Zobrazit všechny aplikace"
 
-#: src/app-grid.c:259
+#: src/app-grid.c:266
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Zobrazit pouze optimalizované aplikace"
 
@@ -207,11 +223,11 @@ msgstr "Ano"
 msgid "No"
 msgstr "Ne"
 
-#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Zadejte heslo"
 
-#: src/lockscreen.c:401
+#: src/lockscreen.c:398
 msgid "Checking…"
 msgstr "Kontroluje se…"
 
@@ -333,7 +349,6 @@ msgstr "~1 den"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:127
 #, c-format
-#| msgid "Add"
 msgid "%dd"
 msgid_plural "%dd"
 msgstr[0] "%d den"
@@ -465,6 +480,10 @@ msgstr "Přidat mezi _oblíbené"
 #: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "Zobrazit po_drobnosti"
+
+#: src/ui/app-grid-button.ui:41
+msgid "_Remove from Folder"
+msgstr "Odeb_rat ze složky"
 
 #: src/ui/app-grid.ui:24
 msgid "Search apps…"
@@ -620,15 +639,15 @@ msgstr "Skenovat"
 msgid "Wi-Fi Settings"
 msgstr "Nastavení WiFi"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/util.c:342
-msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
-
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/wall-clock.c:218
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
 
 #: src/widget-box.c:54
 msgid "Plugin not found"
@@ -768,6 +787,14 @@ msgstr "Nejsou nakonfigurovány žádné spouštěče"
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
 msgstr "Spouštěče"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light On"
+msgstr "Noční osvětlení zapnuto"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+msgid "Night Light Off"
+msgstr "Noční osvětlení vypnuto"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
