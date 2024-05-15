@@ -1,3 +1,40 @@
+phosh 0.39.0
+------------
+Released May 2024
+* Support folders to organize apps in the overview
+* Optional night light quick setting
+* Lots of introspection/documentation fixups in preparation for the Rust bindings
+* Test suite improvements (stable clock, use shell state instead of
+  timeouts to track state changes, mpris metadata, …)
+* Split generated headers and sources to speed up build and save CI resources
+* Improve translatability of timestamp labels
+* Issues fixed:
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1042
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1056
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1058
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/785
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/868
+* Contributors:
+    * Arun Mani J
+    * Guido Günther
+    * Sam Day
+* UI translations:
+    * Anders Jonsson (sv)
+    * Andi Chandler (en_GB)
+    * Andika Triwidada (id)
+    * Artur S0 (ru)
+    * Danial Behzadi (fa)
+    * Daniel Rusek (cs)
+    * Daniel Șerbănescu (ro)
+    * Ekaterine Papava (ka)
+    * Jordi Mas i Hernandez (ca)
+    * Martin (sl)
+    * Quentin PAGÈS (oc)
+    * Sabri Ünal (tr)
+    * Scrambled 777 (hi)
+    * Yaron Shahrabani (he)
+    * Yuri Chornoivan (uk)
+
 phosh 0.38.0
 ------------
 Released April 2024
