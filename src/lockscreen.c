@@ -72,12 +72,6 @@ enum {
 };
 static guint signals[N_SIGNALS] = { 0 };
 
-typedef struct _PhoshLockscreen
-{
-  PhoshLayerSurface parent;
-} PhoshLockscreen;
-
-
 typedef struct {
   HdyDeck           *deck;
   GtkWidget         *carousel;
