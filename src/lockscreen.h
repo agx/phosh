@@ -45,7 +45,8 @@ struct _PhoshLockscreenClass
   void (*_phosh_reserved9) (void);
 };
 
-GtkWidget * phosh_lockscreen_new (gpointer layer_shell, gpointer wl_output, PhoshCallsManager *calls_manager);
+GtkWidget * phosh_lockscreen_new (GType lockscreen_type, gpointer layer_shell, gpointer wl_output,
+                                  PhoshCallsManager *calls_manager);
 void        phosh_lockscreen_set_page (PhoshLockscreen *self, PhoshLockscreenPage page);
 PhoshLockscreenPage phosh_lockscreen_get_page (PhoshLockscreen *self);
 
