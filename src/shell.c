@@ -1159,6 +1159,13 @@ static void phosh_shell_action_map_iface_init (GActionMapInterface *iface)
   iface->remove_action = phosh_shell_remove_action;
 }
 
+
+static GType
+get_lockscreen_type (PhoshShell *self)
+{
+  return PHOSH_TYPE_LOCKSCREEN;
+}
+
 /* }}} */
 /* {{{ GObject init */
 
@@ -1172,6 +1179,8 @@ phosh_shell_class_init (PhoshShellClass *klass)
 
   object_class->set_property = phosh_shell_set_property;
   object_class->get_property = phosh_shell_get_property;
+
+  klass->get_lockscreen_type = get_lockscreen_type;
 
   type_setup ();
 
@@ -2463,6 +2472,14 @@ PhoshShellDebugFlags
 phosh_shell_get_debug_flags (void)
 {
   return debug_flags;
+}
+
+
+GType
+phosh_shell_get_lockscreen_type (PhoshShell *self)
+{
+  PhoshShellClass *klass = PHOSH_SHELL_GET_CLASS (self);
+  return klass->get_lockscreen_type (self);
 }
 
 /* }}} */
