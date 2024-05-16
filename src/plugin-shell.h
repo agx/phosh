@@ -34,6 +34,7 @@ struct _PhoshShellClass {
   void (*_phosh_reserved9) (void);
 };
 
+void                       phosh_shell_set_default (PhoshShell *self);
 PhoshShell                *phosh_shell_get_default (void);
 
 /* Created by the shell on startup */

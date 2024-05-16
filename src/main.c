@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
   GError *err = NULL;
   gboolean unlocked = FALSE, locked = FALSE, version = FALSE;
   g_autoptr(PhoshWayland) wl = NULL;
-  g_autoptr(PhoshShell) shell = NULL;
+  g_autoptr(PhoshShell) shell = phosh_shell_new ();
   g_autoptr (PhoshBackgroundCache) background_cache = NULL;
   g_autoptr (GTimer) timer = g_timer_new ();
   g_autoptr (PhoshWallClock) wall_clock = phosh_wall_clock_new ();
@@ -137,10 +137,10 @@ int main(int argc, char *argv[])
   g_unix_signal_add (SIGINT, on_shutdown_signal, NULL);
   g_unix_signal_add (SIGUSR1, on_sigusr1_signal, NULL);
 
+  phosh_shell_set_default (shell);
   phosh_wall_clock_set_default (wall_clock);
   wl = phosh_wayland_get_default ();
   background_cache = phosh_background_cache_get_default ();
-  shell = phosh_shell_get_default ();
 
   g_signal_connect (shell, "ready", G_CALLBACK (on_shell_ready), timer);
 

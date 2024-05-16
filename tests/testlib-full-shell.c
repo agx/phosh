@@ -46,7 +46,7 @@ kill_compositor (int signum)
 static gpointer
 phosh_test_full_shell_thread (gpointer data)
 {
-  PhoshShell *shell;
+  PhoshShell *shell = NULL;
   GLogLevelFlags flags;
   PhoshTestFullShellFixture *fixture = (PhoshTestFullShellFixture *)data;
   /* Fake the date/time to that of the initial commit to Phosh git repository.
@@ -74,9 +74,9 @@ phosh_test_full_shell_thread (gpointer data)
   flags = g_log_set_always_fatal (0);
   g_log_set_always_fatal (flags & ~G_LOG_LEVEL_WARNING);
 
+  shell = phosh_shell_new ();
+  phosh_shell_set_default (shell);
   phosh_wall_clock_set_default (PHOSH_WALL_CLOCK (wall_clock));
-  shell = phosh_shell_get_default ();
-  g_assert_true (PHOSH_IS_SHELL (shell));
 
   gtk_css_provider_load_from_resource (provider,
                                        "/mobi/phosh/tests/screenshot-no-anim-overrides.css");

@@ -59,7 +59,7 @@ on_idle (gpointer data)
  * phosh_test_get_shell:
  * @saved_flags: Current logging flags
  *
- * Returns: A new shell object
+ * Returns:(transfer full): A new shell object
  */
 static PhoshShell *
 phosh_test_get_shell (GLogLevelFlags *saved_flags)
@@ -77,7 +77,7 @@ phosh_test_get_shell (GLogLevelFlags *saved_flags)
   flags = g_log_set_always_fatal (0);
   g_log_set_always_fatal(flags & ~G_LOG_LEVEL_WARNING);
 
-  shell = phosh_shell_get_default ();
+  shell = phosh_shell_new ();
   g_assert_true (PHOSH_IS_SHELL (shell));
 
   g_assert_false (phosh_shell_get_locked (shell));
@@ -127,6 +127,8 @@ test_shell_new (PhoshTestCompositorFixture *fixture, gconstpointer unused)
   gboolean ready = FALSE;
 
   shell = phosh_test_get_shell (&flags);
+  phosh_shell_set_default (shell);
+
   g_signal_connect (shell, "ready", G_CALLBACK (on_shell_ready), &ready);
 
   mm = phosh_shell_get_monitor_manager (shell);
@@ -159,6 +161,7 @@ test_shell_new_two_outputs (PhoshTestCompositorFixture *fixture, gconstpointer u
   gboolean success;
 
   shell = phosh_test_get_shell (&flags);
+  phosh_shell_set_default (shell);
 
   mm = phosh_shell_get_monitor_manager (shell);
   g_assert_cmpint (phosh_monitor_manager_get_num_monitors (mm), ==, 2);
