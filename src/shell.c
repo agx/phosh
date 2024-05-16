@@ -195,13 +195,6 @@ typedef struct
   GSettings      *settings;
 } PhoshShellPrivate;
 
-
-typedef struct _PhoshShell
-{
-  GObject parent;
-} PhoshShell;
-
-
 static void phosh_shell_action_group_iface_init (GActionGroupInterface *iface);
 static void phosh_shell_action_map_iface_init (GActionMapInterface *iface);
 
