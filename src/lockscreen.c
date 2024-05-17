@@ -1060,12 +1060,12 @@ phosh_lockscreen_get_page (PhoshLockscreen *self)
   PhoshLockscreenPrivate *priv;
   gdouble position;
 
-  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN (self), PHOSH_LOCKSCREEN_PAGE_DEFAULT);
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN (self), PHOSH_LOCKSCREEN_PAGE_INFO);
   priv = phosh_lockscreen_get_instance_private (self);
   position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
 
   if (position <= 0)
-    return PHOSH_LOCKSCREEN_PAGE_DEFAULT;
+    return PHOSH_LOCKSCREEN_PAGE_INFO;
   else
     return PHOSH_LOCKSCREEN_PAGE_UNLOCK;
 }

@@ -12,7 +12,7 @@ G_BEGIN_DECLS
 
 /**
  * PhoshLockscreenPage:
- * @PHOSH_LOCKSCREEN_PAGE_DEFAULT: The default locked page
+ * @PHOSH_LOCKSCREEN_PAGE_INFO: The info page (clock, notifications, MPRIS, etc)
  * @PHOSH_LOCKSCREEN_PAGE_UNLOCK: The unlock page (where PIN is entered)
  *
  * This enum indicates which page is shown on the lockscreen.
@@ -20,7 +20,7 @@ G_BEGIN_DECLS
  * AcceleratorActivated events over DBus
  */
 typedef enum {
-  PHOSH_LOCKSCREEN_PAGE_DEFAULT,
+  PHOSH_LOCKSCREEN_PAGE_INFO,
   PHOSH_LOCKSCREEN_PAGE_UNLOCK,
 } PhoshLockscreenPage;
 
