@@ -166,17 +166,6 @@ clear_input (PhoshLockscreen *self, gboolean clear_all)
   }
 }
 
-static void
-show_info_page (PhoshLockscreen *self)
-{
-  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-
-  if (hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel)) <= 0)
-    return;
-
-  hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel), priv->box_info);
-}
-
 
 static gboolean
 keypad_check_idle (PhoshLockscreen *self)
@@ -186,7 +175,7 @@ keypad_check_idle (PhoshLockscreen *self)
 
   g_assert (PHOSH_IS_LOCKSCREEN (self));
   if (priv->auth == NULL && now - priv->last_input > LOCKSCREEN_IDLE_SECONDS * 1000 * 1000) {
-    show_info_page (self);
+    phosh_lockscreen_set_page (self, PHOSH_LOCKSCREEN_PAGE_INFO);
     priv->idle_timer = 0;
     return G_SOURCE_REMOVE;
   }
@@ -197,13 +186,7 @@ keypad_check_idle (PhoshLockscreen *self)
 static void
 show_unlock_page (PhoshLockscreen *self)
 {
-  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-
-  if (hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel)) >= POS_UNLOCK)
-    return;
-
-  hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel), priv->box_unlock);
-
+  phosh_lockscreen_set_page (self, PHOSH_LOCKSCREEN_PAGE_UNLOCK);
   /* skip signal on init */
   if (signals[WAKEUP_OUTPUT])
     g_signal_emit (self, signals[WAKEUP_OUTPUT], 0);
@@ -425,7 +408,7 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
       break;
     case GDK_KEY_Escape:
       clear_input (self, TRUE);
-      show_info_page (self);
+      phosh_lockscreen_set_page (self, PHOSH_LOCKSCREEN_PAGE_INFO);
       handled = TRUE;
       break;
     case GDK_KEY_Delete:
