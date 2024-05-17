@@ -59,8 +59,8 @@ struct _PhoshWifiManager {
   NMDeviceWifi       *conn_dev;
   /* The Wi-Fi device of the system */
   NMDeviceWifi       *dev;
-  /* The list of access points available */
-  GListStore         *networks;
+  /* The list of available Wi-Fi networks */
+  GListStore         *networks; /* (element-type: PhoshWifiNetwork) */
 };
 G_DEFINE_TYPE (PhoshWifiManager, phosh_wifi_manager, G_TYPE_OBJECT);
 
@@ -955,8 +955,9 @@ void
 phosh_wifi_manager_connect_network (PhoshWifiManager *self, PhoshWifiNetwork *network)
 {
   NMAccessPoint *ap;
-  const GPtrArray *all_cnx, *wifi_cnx, *ap_cnx;
-  int len;
+  const GPtrArray *all_cnx;
+  g_autoptr (GPtrArray) wifi_cnx = NULL;
+  g_autoptr (GPtrArray) ap_cnx = NULL;
 
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
   g_return_if_fail (NM_IS_CLIENT (self->nmclient));
@@ -973,16 +974,12 @@ phosh_wifi_manager_connect_network (PhoshWifiManager *self, PhoshWifiNetwork *ne
   all_cnx = nm_client_get_connections (self->nmclient);
   wifi_cnx = nm_device_filter_connections (NM_DEVICE (self->dev), all_cnx);
   ap_cnx = nm_access_point_filter_connections (ap, wifi_cnx);
-  len = ap_cnx->len;
-
-  g_ptr_array_unref ((GPtrArray *) ap_cnx);
-  g_ptr_array_unref ((GPtrArray *) wifi_cnx);
 
   g_debug ("Found %d connections for %s",
-           len,
+           ap_cnx->len,
            phosh_wifi_network_get_ssid (network));
 
-  if (len == 0) {
+  if (ap_cnx->len == 0) {
     nm_client_add_and_activate_connection_async (self->nmclient,
                                                  NULL,
                                                  NM_DEVICE (self->dev),

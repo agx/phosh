@@ -75,9 +75,6 @@ typedef struct _PhoshSettings
   GtkWidget *stack;
   GtkWidget *status_page_stack;
 
-  GtkWidget *wifi_status_page;
-  GtkWidget *wifi_quick_setting;
-
   /* The area with media widget, notifications */
   GtkWidget *box_bottom_half;
   /* Notifications */
@@ -100,16 +97,30 @@ G_DEFINE_TYPE (PhoshSettings, phosh_settings, GTK_TYPE_BIN)
 
 
 static void
-phosh_settings_set_property (GObject *object,
-                             guint property_id,
+set_on_lockscreen (PhoshSettings *self, gboolean on_lockscreen)
+{
+  if (self->on_lockscreen == on_lockscreen)
+    return;
+
+  self->on_lockscreen = on_lockscreen;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ON_LOCKSCREEN]);
+
+  if (self->on_lockscreen)
+    gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "quick_settings_page");
+}
+
+
+static void
+phosh_settings_set_property (GObject      *object,
+                             guint         property_id,
                              const GValue *value,
-                             GParamSpec *pspec)
+                             GParamSpec   *pspec)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
 
   switch (property_id) {
   case PROP_ON_LOCKSCREEN:
-    self->on_lockscreen = g_value_get_boolean (value);
+    set_on_lockscreen (self, g_value_get_boolean (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -119,9 +130,9 @@ phosh_settings_set_property (GObject *object,
 
 
 static void
-phosh_settings_get_property (GObject *object,
-                             guint property_id,
-                             GValue *value,
+phosh_settings_get_property (GObject    *object,
+                             guint       property_id,
+                             GValue     *value,
                              GParamSpec *pspec)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
@@ -300,17 +311,6 @@ on_close_status_page_activated (GSimpleAction *action, GVariant *param, gpointer
   gtk_stack_set_visible_child_name (stack, "quick_settings_page");
 }
 
-static void
-on_shell_locked (PhoshSettings *self, GParamSpec *pspec, PhoshShell *shell)
-{
-  GtkStack *stack = GTK_STACK (self->stack);
-
-  if (phosh_shell_get_locked (shell)) {
-    gtk_stack_set_visible_child_name (stack, "quick_settings_page");
-    phosh_quick_setting_set_has_status (PHOSH_QUICK_SETTING (self->wifi_quick_setting), FALSE);
-  } else
-    phosh_quick_setting_set_has_status (PHOSH_QUICK_SETTING (self->wifi_quick_setting), TRUE);
-}
 
 static void
 rotation_setting_long_pressed_cb (PhoshSettings *self)
@@ -740,7 +740,6 @@ phosh_settings_constructed (GObject *object)
                           "on-lockscreen",
                           G_BINDING_SYNC_CREATE);
 
-  g_signal_connect_swapped (phosh_shell_get_default (), "notify::locked", (GCallback) on_shell_locked, self);
   self->plugin_settings = g_settings_new ("sm.puri.phosh.plugins");
   self->plugin_loader = phosh_plugin_loader_new ((GStrv) plugin_dirs,
                                                  PHOSH_EXTENSION_POINT_QUICK_SETTING_WIDGET);
@@ -813,8 +812,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
     g_param_spec_boolean (
       "on-lockscreen", "", "",
       FALSE,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
-
+      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
   /* PhoshSettings:handle-offset:
    *
    * The offset from the bottom of the widget where it's safe to start
@@ -847,8 +845,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_torch);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, status_page_stack);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, wifi_status_page);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, wifi_quick_setting);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scrolled_window);
 

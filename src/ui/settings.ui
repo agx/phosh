@@ -100,7 +100,7 @@
                           <object class="PhoshQuickSetting" id="wifi_quick_setting">
                             <property name="visible">True</property>
                             <property name="sensitive" bind-source="wifiinfo" bind-property="present" bind-flags="sync-create"/>
-                            <property name="has-status">True</property>
+                            <property name="has-status" bind-source="PhoshSettings" bind-property="on-lockscreen" bind-flags="sync-create|invert-boolean"/>
                             <signal name="clicked" handler="wifi_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
                             <signal name="long-pressed" handler="wifi_setting_long_pressed_cb" object="PhoshSettings" swapped="yes"/>
                             <child>
