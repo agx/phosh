@@ -509,13 +509,6 @@ carousel_position_notified_cb (PhoshLockscreen *self,
                                HdyCarousel     *carousel)
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
-  double position;
-
-  position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
-
-  if (position <= POS_OVERVIEW || position >= POS_UNLOCK)
-    return;
-
   g_clear_handle_id (&priv->idle_timer, g_source_remove);
 }
 
