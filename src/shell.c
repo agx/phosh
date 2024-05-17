@@ -195,13 +195,6 @@ typedef struct
   GSettings      *settings;
 } PhoshShellPrivate;
 
-
-typedef struct _PhoshShell
-{
-  GObject parent;
-} PhoshShell;
-
-
 static void phosh_shell_action_group_iface_init (GActionGroupInterface *iface);
 static void phosh_shell_action_map_iface_init (GActionMapInterface *iface);
 
@@ -1166,6 +1159,13 @@ static void phosh_shell_action_map_iface_init (GActionMapInterface *iface)
   iface->remove_action = phosh_shell_remove_action;
 }
 
+
+static GType
+get_lockscreen_type (PhoshShell *self)
+{
+  return PHOSH_TYPE_LOCKSCREEN;
+}
+
 /* }}} */
 /* {{{ GObject init */
 
@@ -1179,6 +1179,8 @@ phosh_shell_class_init (PhoshShellClass *klass)
 
   object_class->set_property = phosh_shell_set_property;
   object_class->get_property = phosh_shell_get_property;
+
+  klass->get_lockscreen_type = get_lockscreen_type;
 
   type_setup ();
 
@@ -1280,6 +1282,12 @@ phosh_shell_init (PhoshShell *self)
 }
 
 /* }}} */
+
+PhoshShell *
+phosh_shell_new (void)
+{
+  return g_object_new (PHOSH_TYPE_SHELL, NULL);
+}
 
 static gboolean
 select_fallback_monitor (gpointer data)
@@ -2056,6 +2064,25 @@ phosh_shell_get_area (PhoshShell *self, int *width, int *height)
     *height = h + PHOSH_TOP_BAR_HEIGHT + PHOSH_HOME_BAR_HEIGHT;
 }
 
+static PhoshShell *instance;
+
+/**
+ * phosh_shell_set_default:
+ * @self: The shell to use
+ *
+ * Set the PhoshShell singleton that is returned by `phosh_shell_get_default()`
+ */
+void
+phosh_shell_set_default (PhoshShell *self)
+{
+  g_return_if_fail (PHOSH_IS_SHELL (self));
+
+  g_clear_object (&instance);
+
+  instance = self;
+  g_object_add_weak_pointer (G_OBJECT (instance), (gpointer *)&instance);
+}
+
 /**
  * phosh_shell_get_default:
  *
@@ -2066,13 +2093,8 @@ phosh_shell_get_area (PhoshShell *self, int *width, int *height)
 PhoshShell *
 phosh_shell_get_default (void)
 {
-  static PhoshShell *instance;
-
-  if (instance == NULL) {
-    g_debug("Creating shell");
-    instance = g_object_new (PHOSH_TYPE_SHELL, NULL);
-    g_object_add_weak_pointer (G_OBJECT (instance), (gpointer *)&instance);
-  }
+  if (!instance)
+    g_error ("Shell singleton not set");
   return instance;
 }
 
@@ -2450,6 +2472,14 @@ PhoshShellDebugFlags
 phosh_shell_get_debug_flags (void)
 {
   return debug_flags;
+}
+
+
+GType
+phosh_shell_get_lockscreen_type (PhoshShell *self)
+{
+  PhoshShellClass *klass = PHOSH_SHELL_GET_CLASS (self);
+  return klass->get_lockscreen_type (self);
 }
 
 /* }}} */

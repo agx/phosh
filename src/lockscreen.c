@@ -72,12 +72,6 @@ enum {
 };
 static guint signals[N_SIGNALS] = { 0 };
 
-typedef struct _PhoshLockscreen
-{
-  PhoshLayerSurface parent;
-} PhoshLockscreen;
-
-
 typedef struct {
   HdyDeck           *deck;
   GtkWidget         *carousel;
@@ -1033,11 +1027,13 @@ phosh_lockscreen_init (PhoshLockscreen *self)
 
 
 GtkWidget *
-phosh_lockscreen_new (gpointer layer_shell,
+phosh_lockscreen_new (GType lockscreen_type,
+                      gpointer layer_shell,
                       gpointer wl_output,
                       PhoshCallsManager *calls_manager)
 {
-  return g_object_new (PHOSH_TYPE_LOCKSCREEN,
+  g_assert (g_type_is_a (lockscreen_type, phosh_lockscreen_get_type ()));
+  return g_object_new (lockscreen_type,
                        "layer-shell", layer_shell,
                        "wl-output", wl_output,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP |

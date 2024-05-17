@@ -75,6 +75,7 @@ typedef enum {
 } PhoshShellDebugFlags;
 
 
+PhoshShell          *phosh_shell_new             (void);
 PhoshShellDebugFlags phosh_shell_get_debug_flags (void);
 void                 phosh_shell_get_usable_area (PhoshShell *self,
                                                   int        *x,

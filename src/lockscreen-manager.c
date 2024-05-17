@@ -172,15 +172,18 @@ on_monitor_added (PhoshLockscreenManager *self,
 static void
 lock_primary_monitor (PhoshLockscreenManager *self)
 {
+  GType lockscreen_type;
   PhoshMonitor *primary_monitor;
   PhoshWayland *wl = phosh_wayland_get_default ();
   PhoshShell *shell = phosh_shell_get_default ();
 
+  lockscreen_type = phosh_shell_get_lockscreen_type (shell);
   primary_monitor = phosh_shell_get_primary_monitor (shell);
   g_assert (PHOSH_IS_MONITOR (primary_monitor));
 
   /* The primary output gets the clock, keypad, ... */
   self->lockscreen = PHOSH_LOCKSCREEN (phosh_lockscreen_new (
+                                         lockscreen_type,
                                          phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                          primary_monitor->wl_output,
                                          self->calls_manager));

@@ -26,10 +26,27 @@ typedef enum {
 
 #define PHOSH_TYPE_LOCKSCREEN (phosh_lockscreen_get_type ())
 
-G_DECLARE_FINAL_TYPE (PhoshLockscreen, phosh_lockscreen, PHOSH, LOCKSCREEN,
-                      PhoshLayerSurface)
+G_DECLARE_DERIVABLE_TYPE (PhoshLockscreen, phosh_lockscreen, PHOSH, LOCKSCREEN, PhoshLayerSurface)
 
-GtkWidget * phosh_lockscreen_new (gpointer layer_shell, gpointer wl_output, PhoshCallsManager *calls_manager);
+struct _PhoshLockscreenClass
+{
+  PhoshLayerSurfaceClass parent_class;
+
+  /* Padding for future expansion */
+  void (*_phosh_reserved0) (void);
+  void (*_phosh_reserved1) (void);
+  void (*_phosh_reserved2) (void);
+  void (*_phosh_reserved3) (void);
+  void (*_phosh_reserved4) (void);
+  void (*_phosh_reserved5) (void);
+  void (*_phosh_reserved6) (void);
+  void (*_phosh_reserved7) (void);
+  void (*_phosh_reserved8) (void);
+  void (*_phosh_reserved9) (void);
+};
+
+GtkWidget * phosh_lockscreen_new (GType lockscreen_type, gpointer layer_shell, gpointer wl_output,
+                                  PhoshCallsManager *calls_manager);
 void        phosh_lockscreen_set_page (PhoshLockscreen *self, PhoshLockscreenPage page);
 PhoshLockscreenPage phosh_lockscreen_get_page (PhoshLockscreen *self);
 
