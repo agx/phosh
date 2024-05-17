@@ -8,10 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-lockscreen"
 
-#include "phosh-config.h"
-
 #include "auth.h"
-#include "bt-info.h"
 #include "call-notification.h"
 #include "calls-manager.h"
 #include "keypad.h"
@@ -28,7 +25,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <math.h>
-#include <time.h>
 
 #include <handy.h>
 #include <cui-call-display.h>
