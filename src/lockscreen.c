@@ -49,11 +49,6 @@
  */
 
 
-typedef enum {
-  POS_OVERVIEW = 0,
-  POS_UNLOCK   = 1,
-} PhoshLocksreenPos;
-
 enum {
   PROP_0,
   PROP_CALLS_MANAGER,
@@ -387,14 +382,11 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
   PhoshLockscreenPrivate *priv;
   gboolean handled = FALSE;
   gboolean on_unlock_page, with_control;
-  double position;
 
   g_assert (PHOSH_IS_LOCKSCREEN (self));
   priv = phosh_lockscreen_get_instance_private (self);
 
-  position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
-  /* Round to nearest page so we already accept keyboard input before animation ends */
-  on_unlock_page = (int)round(position) == POS_UNLOCK;
+  on_unlock_page = phosh_lockscreen_get_page (self) == PHOSH_LOCKSCREEN_PAGE_UNLOCK;
   with_control = event->state & GDK_CONTROL_MASK;
 
   if (gtk_entry_im_context_filter_keypress (GTK_ENTRY (priv->entry_pin), event)) {
@@ -504,11 +496,12 @@ carousel_page_changed_cb (PhoshLockscreen *self,
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshOskManager *osk_manager = phosh_shell_get_osk_manager (shell);
   gboolean osk_visible = phosh_osk_manager_get_visible (osk_manager);
+  PhoshLockscreenPage page = phosh_lockscreen_get_page (self);
 
-  if (index == POS_OVERVIEW) {
+  if (page == PHOSH_LOCKSCREEN_PAGE_INFO) {
     gtk_widget_set_sensitive (priv->entry_pin, FALSE);
     clear_input (self, TRUE);
-  } else if (index == POS_UNLOCK) {
+  } else if (page == PHOSH_LOCKSCREEN_PAGE_UNLOCK) {
     focus_pin_entry (self, osk_visible);
 
     if (!priv->idle_timer) {
@@ -1030,13 +1023,18 @@ PhoshLockscreenPage
 phosh_lockscreen_get_page (PhoshLockscreen *self)
 {
   PhoshLockscreenPrivate *priv;
-  gdouble position;
+  guint position;
 
   g_return_val_if_fail (PHOSH_IS_LOCKSCREEN (self), PHOSH_LOCKSCREEN_PAGE_INFO);
   priv = phosh_lockscreen_get_instance_private (self);
-  position = hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel));
 
-  if (position <= 0)
+  /* Round to nearest page - the "current" page is a somewhat arbitrary concept if the carousel
+   * is animating (or being manually swiped) from one page to another. By rounding like this, the
+   * key_press_event_cb starts accepting input as soon as at least half the unlock page has swiped
+   * in. */
+  position = round (hdy_carousel_get_position (HDY_CAROUSEL (priv->carousel)));
+
+  if (position == 0)
     return PHOSH_LOCKSCREEN_PAGE_INFO;
   else
     return PHOSH_LOCKSCREEN_PAGE_UNLOCK;
