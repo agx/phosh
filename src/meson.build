@@ -29,8 +29,11 @@ phosh_enum_headers = files(
   'top-panel.h',
 ) + schema_enum_headers
 
-phosh_enums = gnome.mkenums_simple('phosh-enums',
+phosh_enums = gnome.mkenums_simple(
+  'phosh-enums',
   sources : phosh_enum_headers,
+  install_header: bindings_lib,
+  install_dir: inc_dir,
 )
 
 phosh_settings_sources = files(
@@ -412,12 +415,14 @@ phosh_tool_dep = declare_dependency(
   link_with: phosh_tool_lib,
   dependencies: phosh_deps)
 
-# A static library containing everything
+# A library containing everything
 phosh_lib = both_libraries('phosh',
   libphosh_private_headers,
   libphosh_sources,
   include_directories: phosh_lib_inc,
-  dependencies: [phosh_tool_dep, phosh_deps])
+  dependencies: [phosh_tool_dep, phosh_deps],
+  install: bindings_lib,
+)
 
 phosh_static_lib_dep = declare_dependency(
   include_directories: phosh_lib_inc,
@@ -443,10 +448,11 @@ if enable_introspection
   ]
 
   phosh_gir = gnome.generate_gir(phosh_lib,
+                 header : 'libphosh.h',
                 sources : phosh_gir_sources,
               nsversion : '0',
               namespace : 'Phosh',
-        export_packages : 'phosh-0',
+        export_packages : 'libphosh-0',
           symbol_prefix : 'phosh',
       identifier_prefix : 'Phosh',
               link_with : phosh_lib,
@@ -454,6 +460,47 @@ if enable_introspection
              extra_args : phosh_gir_extra_args,
            dependencies : phosh_static_lib_dep,
    )
+endif
+
+if bindings_lib
+  pkgconfig.generate(
+    phosh_lib,
+    name: 'libphosh',
+    subdirs: 'libphosh-0',
+    filebase: 'libphosh-0',
+    version : meson.project_version(),
+    description: 'Private library for building external components',
+    url: 'https://world.pages.gitlab.gnome.org/Phosh/phosh/',
+  )
+
+  install_headers(
+    [
+      'libphosh.h',
+      libphosh_tool_headers,
+      libphosh_headers,
+    ],
+    subdir : inc_subdir,
+  )
+
+  install_headers(
+    phosh_monitor_headers,
+    subdir : inc_subdir / 'monitor',
+  )
+
+  install_headers(
+    phosh_notifications_headers,
+    subdir : inc_subdir / 'notifications',
+  )
+
+  install_headers(
+    phosh_settings_widgets_headers,
+    subdir : inc_subdir / 'settings',
+  )
+
+  install_headers(
+    phosh_wwan_headers,
+    subdir : inc_subdir / 'wwan',
+  )
 endif
 
 phosh_export_sym_link_arg = '-Wl,--dynamic-list=@0@/phosh-exported-symbols.txt'.format(meson.current_source_dir())
