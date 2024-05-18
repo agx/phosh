@@ -64,8 +64,9 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 typedef struct {
-  HdyDeck           *deck;
-  GtkWidget         *carousel;
+  HdyDeck            *deck;
+  GtkWidget          *carousel;
+  PhoshLockscreenPage default_page;
 
   /* info page */
   GtkWidget         *box_info;
@@ -170,7 +171,7 @@ keypad_check_idle (PhoshLockscreen *self)
 
   g_assert (PHOSH_IS_LOCKSCREEN (self));
   if (priv->auth == NULL && now - priv->last_input > LOCKSCREEN_IDLE_SECONDS * 1000 * 1000) {
-    phosh_lockscreen_set_page (self, PHOSH_LOCKSCREEN_PAGE_INFO);
+    phosh_lockscreen_set_page (self, priv->default_page);
     priv->idle_timer = 0;
     return G_SOURCE_REMOVE;
   }
@@ -400,7 +401,7 @@ key_press_event_cb (PhoshLockscreen *self, GdkEventKey *event, gpointer data)
       break;
     case GDK_KEY_Escape:
       clear_input (self, TRUE);
-      phosh_lockscreen_set_page (self, PHOSH_LOCKSCREEN_PAGE_INFO);
+      phosh_lockscreen_set_page (self, priv->default_page);
       handled = TRUE;
       break;
     case GDK_KEY_Delete:
@@ -730,6 +731,16 @@ on_notification_items_changed (PhoshLockscreen *self,
 
 
 static void
+on_show (PhoshLockscreen *self, gpointer userdata)
+{
+  PhoshLockscreenPrivate *priv;
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+  phosh_lockscreen_set_page (self, priv->default_page);
+}
+
+
+static void
 phosh_lockscreen_constructed (GObject *object)
 {
   PhoshLockscreen *self = PHOSH_LOCKSCREEN (object);
@@ -752,6 +763,10 @@ phosh_lockscreen_constructed (GObject *object)
   g_signal_connect (G_OBJECT (self),
                     "key_press_event",
                     G_CALLBACK (key_press_event_cb),
+                    NULL);
+  g_signal_connect (G_OBJECT (self),
+                    "show",
+                    G_CALLBACK (on_show),
                     NULL);
 
   g_signal_connect_object (wall_clock,
@@ -1059,4 +1074,22 @@ phosh_lockscreen_set_page (PhoshLockscreen *self, PhoshLockscreenPage page)
   scroll_to = (page == PHOSH_LOCKSCREEN_PAGE_UNLOCK) ? priv->box_unlock : priv->box_info;
 
   hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel), scroll_to);
+}
+
+/*
+ * phosh_lockscreen_set_default_page
+ * @self: The #PhoshLockscreen
+ * PhoshLockscreenPage: the page to show by default
+ *
+ * Specifies which page should be shown by default when the lockscreen is made visible. This will
+ * also be the page that is shown when the keypad idle timer is reached.
+ */
+void
+phosh_lockscreen_set_default_page (PhoshLockscreen *self, PhoshLockscreenPage page)
+{
+  PhoshLockscreenPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+  priv->default_page = page;
 }
