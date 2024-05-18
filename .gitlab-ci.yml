@@ -124,6 +124,41 @@ build:native-debian-trixie:
     variables:
       - $PKG_ONLY == "1"
 
+startup-test:native-debian-trixie:
+  stage: test+docs
+  image: ${DEBIAN_IMAGE}
+  needs:
+    - build:native-debian-trixie
+  <<: *trixie_vars
+  <<: *test_before_script
+  script:
+    - |
+      set -uexo pipefail
+
+      export XDG_RUNTIME_DIR=`pwd`/_build
+      export WLR_BACKENDS=headless
+      export GSETTINGS_BACKEND=memory
+      dbus-run-session phoc -E _build/run 2>&1 | tee startup.log &
+
+      WAIT=15
+      while [ ${WAIT} -gt 0 ]; do
+        ! grep "Phosh ready after" startup.log || exit 0
+        sleep 1
+        ((WAIT-=1))
+      done
+
+      echo "Phosh did not show up."
+      exit 1
+
+  artifacts:
+    when: always
+    paths:
+      - startup.log
+  except:
+    variables:
+      - $PKG_ONLY == "1"
+      - $SCREENSHOTS_ONLY == "1"
+
 unit-test:native-debian-trixie:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
