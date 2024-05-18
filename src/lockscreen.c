@@ -190,7 +190,7 @@ show_unlock_page (PhoshLockscreen *self)
 
 
 static gboolean
-finish_shake_label (PhoshLockscreen *self)
+finish_shake_entry (PhoshLockscreen *self)
 {
   clear_input (self, TRUE);
   gtk_widget_set_sensitive (GTK_WIDGET (self), TRUE);
@@ -199,7 +199,7 @@ finish_shake_label (PhoshLockscreen *self)
 
 
 static gboolean
-shake_label (GtkWidget     *widget,
+shake_entry (GtkWidget     *widget,
              GdkFrameClock *frame_clock,
              gpointer       data)
 {
@@ -218,8 +218,8 @@ shake_label (GtkWidget     *widget,
       guint id;
 
       gtk_entry_set_alignment (GTK_ENTRY (priv->entry_pin), 0.5);
-      id = g_timeout_add (400, (GSourceFunc) finish_shake_label, self);
-      g_source_set_name_by_id (id, "[PhoshLockscreen] shake label");
+      id = g_timeout_add (400, (GSourceFunc) finish_shake_entry, self);
+      g_source_set_name_by_id (id, "[PhoshLockscreen] shake PIN entry");
       return FALSE;
     }
   }
@@ -260,15 +260,8 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
   if (authenticated) {
     g_signal_emit (self, signals[LOCKSCREEN_UNLOCK], 0);
   } else {
-    GdkFrameClock *clock;
-    gint64 now;
     /* give visual feedback on error */
-    clock = gtk_widget_get_frame_clock (priv->entry_pin);
-    now = gdk_frame_clock_get_frame_time (clock);
-    gtk_widget_add_tick_callback (GTK_WIDGET (self),
-                                  shake_label,
-                                  g_variant_ref_sink (g_variant_new_int64 (now)),
-                                  (GDestroyNotify) g_variant_unref);
+    phosh_lockscreen_shake_pin_entry (self);
     phosh_keypad_distribute (PHOSH_KEYPAD (priv->keypad));
   }
   g_clear_object (&priv->auth);
@@ -1103,4 +1096,60 @@ phosh_lockscreen_set_default_page (PhoshLockscreen *self, PhoshLockscreenPage pa
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
   priv = phosh_lockscreen_get_instance_private (self);
   priv->default_page = page;
+}
+
+/*
+ * phosh_lockscreen_get_pin_entry
+ * @self: The #PhoshLockscreen
+ *
+ * Returns: the current contents of the keypad PIN entry buffer
+ */
+const char*
+phosh_lockscreen_get_pin_entry (PhoshLockscreen *self)
+{
+  PhoshLockscreenPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN (self), "");
+  priv = phosh_lockscreen_get_instance_private (self);
+  return gtk_entry_get_text (GTK_ENTRY (priv->entry_pin));
+}
+
+/*
+ * phosh_lockscreen_clear_pin_entry
+ * @self: The #PhoshLockscreen
+ *
+ * Clears the current contents of the keypad PIN entry buffer
+ */
+void
+phosh_lockscreen_clear_pin_entry (PhoshLockscreen *self)
+{
+  PhoshLockscreenPrivate *priv;
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+  gtk_editable_delete_text (GTK_EDITABLE (priv->entry_pin), 0, -1);
+}
+
+/*
+ * phosh_lockscreen_shake_pin_entry
+ * @self: The #PhoshLockscreen
+ *
+ * Triggers an animation that shakes the PIN entry left and right for a brief period.
+ * After the animation is complete, the PIN entry buffer is cleared. Used to visually indicate
+ * authentication errors.
+ */
+void
+phosh_lockscreen_shake_pin_entry (PhoshLockscreen *self)
+{
+  PhoshLockscreenPrivate *priv;
+  GdkFrameClock *clock;
+  gint64 now;
+
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+  clock = gtk_widget_get_frame_clock (priv->entry_pin);
+  now = gdk_frame_clock_get_frame_time (clock);
+  gtk_widget_add_tick_callback (GTK_WIDGET (self),
+                                shake_entry,
+                                g_variant_ref_sink (g_variant_new_int64 (now)),
+                                (GDestroyNotify) g_variant_unref);
 }

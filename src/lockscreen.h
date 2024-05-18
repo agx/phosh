@@ -54,4 +54,8 @@ PhoshLockscreenPage phosh_lockscreen_get_page         (PhoshLockscreen *self);
 void                phosh_lockscreen_set_default_page (PhoshLockscreen *self,
                                                        PhoshLockscreenPage page);
 
+const char *        phosh_lockscreen_get_pin_entry   (PhoshLockscreen *self);
+void                phosh_lockscreen_clear_pin_entry (PhoshLockscreen *self);
+void                phosh_lockscreen_shake_pin_entry (PhoshLockscreen *self);
+
 G_END_DECLS
