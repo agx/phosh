@@ -95,6 +95,9 @@ typedef struct {
   PhoshAuth         *auth;
   GSettings         *lockscreen_settings;
 
+  /* extra page */
+  GtkWidget         *extra_page;
+
   /* widget box */
   GtkWidget         *widget_box;
 
@@ -470,10 +473,7 @@ carousel_page_changed_cb (PhoshLockscreen *self,
   gboolean osk_visible = phosh_osk_manager_get_visible (osk_manager);
   PhoshLockscreenPage page = phosh_lockscreen_get_page (self);
 
-  if (page == PHOSH_LOCKSCREEN_PAGE_INFO) {
-    gtk_widget_set_sensitive (priv->entry_pin, FALSE);
-    clear_input (self, TRUE);
-  } else if (page == PHOSH_LOCKSCREEN_PAGE_UNLOCK) {
+  if (page == PHOSH_LOCKSCREEN_PAGE_UNLOCK) {
     focus_pin_entry (self, osk_visible);
 
     if (!priv->idle_timer) {
@@ -484,7 +484,8 @@ carousel_page_changed_cb (PhoshLockscreen *self,
       g_source_set_name_by_id (priv->idle_timer, "[PhoshLockscreen] keypad check");
     }
   } else {
-    g_assert_not_reached ();
+    gtk_widget_set_sensitive (priv->entry_pin, FALSE);
+    clear_input (self, TRUE);
   }
 }
 
@@ -1055,8 +1056,11 @@ phosh_lockscreen_get_page (PhoshLockscreen *self)
 
   if (position == 0)
     return PHOSH_LOCKSCREEN_PAGE_INFO;
-  else
-    return PHOSH_LOCKSCREEN_PAGE_UNLOCK;
+
+  if (position == 1 && priv->extra_page)
+    return PHOSH_LOCKSCREEN_PAGE_EXTRA;
+
+  return PHOSH_LOCKSCREEN_PAGE_UNLOCK;
 }
 
 /*
@@ -1075,7 +1079,23 @@ phosh_lockscreen_set_page (PhoshLockscreen *self, PhoshLockscreenPage page)
   g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
   priv = phosh_lockscreen_get_instance_private (self);
 
-  scroll_to = (page == PHOSH_LOCKSCREEN_PAGE_UNLOCK) ? priv->box_unlock : priv->box_info;
+  switch (page) {
+  case PHOSH_LOCKSCREEN_PAGE_EXTRA:
+    scroll_to = priv->extra_page;
+    if (scroll_to)
+      break;
+    /* there's no extra page set, so ... */
+    G_GNUC_FALLTHROUGH;
+  case PHOSH_LOCKSCREEN_PAGE_INFO:
+    scroll_to = priv->box_info;
+    break;
+  case PHOSH_LOCKSCREEN_PAGE_UNLOCK:
+    scroll_to = priv->box_unlock;
+    break;
+  default:
+    scroll_to = priv->box_info;
+    break;
+  }
 
   hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel), scroll_to);
 }
@@ -1152,4 +1172,25 @@ phosh_lockscreen_shake_pin_entry (PhoshLockscreen *self)
                                 shake_entry,
                                 g_variant_ref_sink (g_variant_new_int64 (now)),
                                 (GDestroyNotify) g_variant_unref);
+}
+
+/*
+ * phosh_lockscreen_add_extra_page
+ * @self: The #PhoshLockscreen
+ * @widget: The extra #GtkWidget to insert into the lockscreen carousel
+ *
+ * Inserts a custom widget into the "extra" page of the lockscreen. This page sits in-between the
+ * info page and the keypad page. By default, this page does not exist and is not used. Once an
+ * extra page is added, it can be navigated to by swiping and also via calls to
+ * phosh_lockscreen_set_default_page.
+ */
+void
+phosh_lockscreen_add_extra_page (PhoshLockscreen *self, GtkWidget *widget)
+{
+  PhoshLockscreenPrivate *priv;
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  priv->extra_page = widget;
+  hdy_carousel_insert (HDY_CAROUSEL (priv->carousel), priv->extra_page, 1);
 }
