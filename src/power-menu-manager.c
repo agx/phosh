@@ -123,24 +123,21 @@ on_power_menu_activated (GSimpleAction *action, GVariant *param, gpointer data)
 
 
 static void
-on_shell_state_changed (PhoshPowerMenuManager *self, GParamSpec *pspec, PhoshShell *shell)
+on_shell_locked_changed (PhoshPowerMenuManager *self, GParamSpec *pspec, PhoshShell *shell)
 {
   GAction *action;
-  gboolean enable = TRUE;
-  PhoshShellStateFlags state;
+  gboolean locked;
 
   g_return_if_fail (PHOSH_IS_POWER_MENU_MANAGER (self));
   g_return_if_fail (PHOSH_IS_SHELL (shell));
 
-  state = phosh_shell_get_state (shell);
-  if (state & PHOSH_STATE_LOCKED)
-    enable = FALSE;
+  locked = phosh_shell_get_locked (shell);
 
   /* TODO: Make them work on the lock screen too */
   action = g_action_map_lookup_action (G_ACTION_MAP (self->menu_actions), "screen-lock");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), enable);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), !locked);
   action = g_action_map_lookup_action (G_ACTION_MAP (self->menu_actions), "poweroff");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), enable);
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (action), !locked);
 }
 
 
@@ -202,11 +199,11 @@ phosh_power_menu_manager_init (PhoshPowerMenuManager *self)
   g_object_bind_property (src_action, "enabled", dst_action, "enabled", G_BINDING_SYNC_CREATE);
 
   g_signal_connect_object (phosh_shell_get_default (),
-                           "notify::shell-state",
-                           G_CALLBACK (on_shell_state_changed),
+                           "notify::locked",
+                           G_CALLBACK (on_shell_locked_changed),
                            self,
                            G_CONNECT_SWAPPED);
-  on_shell_state_changed (self, NULL, phosh_shell_get_default ());
+  on_shell_locked_changed (self, NULL, phosh_shell_get_default ());
 }
 
 
