@@ -168,10 +168,10 @@ phosh_power_menu_manager_class_init (PhoshPowerMenuManagerClass *klass)
 
 
 static GActionEntry menu_entries[] = {
+  { .name = "emergency-call", .activate = on_emergency_call_activated },
   { .name = "poweroff", .activate = on_power_off_activated },
   { .name = "screen-lock", .activate = on_screen_lock_activated },
   { .name = "screenshot", .activate = on_screenshot_activated },
-  { .name = "emergency-call", .activate = on_emergency_call_activated },
 };
 
 
