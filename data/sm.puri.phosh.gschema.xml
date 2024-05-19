@@ -65,8 +65,8 @@
         When automatic high contrast is enabled this defines the light level at which to switch.
       </description>
     </key>
-    <key name="enable-suspend" type="b">
 
+    <key name="enable-suspend" type="b">
       <default>false</default>
       <summary>Whether to enable suspend from the power menu</summary>
       <description>
