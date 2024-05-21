@@ -21,7 +21,7 @@
 #include <glib/gstdio.h>
 #include <gio/gunixfdlist.h>
 
-#define LONG_PRESS_TIMEOUT 2 /* seconds */
+#define LONG_PRESS_TIMEOUT 1 /* seconds */
 
 /**
  * PhoshScreenSaverManager:
