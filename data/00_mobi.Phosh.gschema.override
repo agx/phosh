@@ -7,6 +7,7 @@ clock-show-weekday=false
 
 [org.gnome.settings-daemon.plugins.power:Phosh]
 ambient-enabled=false
+power-button-action='nothing'
 
 [org.gnome.settings-daemon.plugins.wwan:Phosh]
 unlock-sim=true
