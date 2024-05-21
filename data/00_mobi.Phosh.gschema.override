@@ -5,6 +5,9 @@ screen-keyboard-enabled=true
 clock-show-date=false
 clock-show-weekday=false
 
+[org.gnome.settings-daemon.plugins.power:Phosh]
+ambient-enabled=false
+
 [org.gnome.settings-daemon.plugins.wwan:Phosh]
 unlock-sim=true
 
