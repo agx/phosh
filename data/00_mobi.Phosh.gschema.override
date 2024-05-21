@@ -5,5 +5,5 @@ screen-keyboard-enabled=true
 clock-show-date=false
 clock-show-weekday=false
 
-[org.sigxcpu.feedbackd]
+[org.sigxcpu.feedbackd:Phosh]
 allow-important=['org.gnome.clocks']
