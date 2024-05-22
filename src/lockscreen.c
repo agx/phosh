@@ -162,7 +162,6 @@ clear_input (PhoshLockscreen *self, gboolean clear_all)
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
   if (clear_all) {
-    gtk_label_set_label (GTK_LABEL (priv->lbl_unlock_status), _("Enter Passcode"));
     gtk_editable_delete_text (GTK_EDITABLE (priv->entry_pin), 0, -1);
   } else {
     g_signal_emit_by_name (priv->entry_pin, "backspace", NULL);
@@ -268,6 +267,7 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
     g_signal_emit (self, signals[LOCKSCREEN_UNLOCK], 0);
   } else {
     /* give visual feedback on error */
+    phosh_lockscreen_set_unlock_status (self, _("Enter Passcode"));
     phosh_lockscreen_shake_pin_entry (self);
     phosh_keypad_distribute (PHOSH_KEYPAD (priv->keypad));
   }
