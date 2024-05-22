@@ -5,6 +5,9 @@ screen-keyboard-enabled=true
 clock-show-date=false
 clock-show-weekday=false
 
+[org.gnome.desktop.session:Phosh]
+idle-delay=60
+
 [org.gnome.settings-daemon.plugins.power:Phosh]
 ambient-enabled=false
 power-button-action='nothing'
