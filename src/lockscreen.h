@@ -60,6 +60,8 @@ const char *        phosh_lockscreen_get_pin_entry   (PhoshLockscreen *self);
 void                phosh_lockscreen_clear_pin_entry (PhoshLockscreen *self);
 void                phosh_lockscreen_shake_pin_entry (PhoshLockscreen *self);
 
+void                phosh_lockscreen_set_unlock_status (PhoshLockscreen *self, const char *status);
+
 void                phosh_lockscreen_add_extra_page (PhoshLockscreen *self, GtkWidget *widget);
 
 G_END_DECLS
