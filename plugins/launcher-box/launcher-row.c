@@ -29,6 +29,7 @@ struct _PhoshLauncherRow {
 
   GtkWidget         *count_label;
   GtkWidget         *progress_bar;
+  GtkWidget         *box_data;
 };
 G_DEFINE_TYPE (PhoshLauncherRow, phosh_launcher_row, HDY_TYPE_ACTION_ROW)
 
@@ -85,6 +86,10 @@ set_item (PhoshLauncherRow *self, PhoshLauncherItem *item)
                                G_BINDING_SYNC_CREATE,
                                transform_count_to_label,
                                NULL, NULL, NULL);
+
+  g_object_bind_property (self->item, "has-data",
+                          self->box_data, "visible",
+                          G_BINDING_SYNC_CREATE);
 }
 
 
@@ -155,6 +160,7 @@ phosh_launcher_row_class_init (PhoshLauncherRowClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/mobi/phosh/plugins/launcher-box/launcher-row.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhoshLauncherRow, box_data);
   gtk_widget_class_bind_template_child (widget_class, PhoshLauncherRow, count_label);
   gtk_widget_class_bind_template_child (widget_class, PhoshLauncherRow, progress_bar);
 
