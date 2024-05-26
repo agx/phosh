@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-01 10:02+0000\n"
-"PO-Revision-Date: 2024-05-01 22:03+0200\n"
+"POT-Creation-Date: 2024-05-03 14:06+0000\n"
+"PO-Revision-Date: 2024-05-26 17:16+0200\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -96,15 +96,23 @@ msgstr "Propers esdeveniments"
 msgid "Show upcoming calendar events"
 msgstr "Mostra els propers esdeveniments del calendari"
 
-#: src/app-grid-button.c:533 src/app-grid-button.c:590
+#: src/app-grid-button.c:153
+msgid "Add to Folder"
+msgstr "Afegeix a la carpeta"
+
+#: src/app-grid-button.c:177
+msgid "Create new folder"
+msgstr "Crea una carpeta nova"
+
+#: src/app-grid-button.c:692 src/app-grid-button.c:749
 msgid "Application"
 msgstr "Aplicació"
 
-#: src/app-grid.c:256
+#: src/app-grid.c:263
 msgid "Show All Apps"
 msgstr "Mostra totes les aplicacions"
 
-#: src/app-grid.c:259
+#: src/app-grid.c:266
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Mostra només les aplicacions compatibles amb mòbils"
 
@@ -462,6 +470,10 @@ msgstr "Afegeix als _preferits"
 #: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "Veieu els _detalls"
+
+#: src/ui/app-grid-button.ui:41
+msgid "_Remove from Folder"
+msgstr "Suprimeix de la carpeta"
 
 #: src/ui/app-grid.ui:24
 msgid "Search apps…"
