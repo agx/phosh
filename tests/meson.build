@@ -1,15 +1,6 @@
 run_phoc_tests = false
 
-# Deps for all tests
-test_stub_deps = files(
-  'stubs/phosh.c',
-  'stubs/app-tracker.c',
-  'stubs/lockscreen-manager.c',
-  'stubs/background-manager.c',
-  'stubs/toplevel.c',
-  'stubs/toplevel-manager.c',
-  'stubs/thumbnail.c',
-)
+subdir('stubs')
 
 if get_option('tests')
 
@@ -142,14 +133,16 @@ tests_manager = [
   [ 'screenshot-manager', true, ],
 ]
 
+
+
 # Unit tests
 foreach test : tests
   t = executable('test-@0@'.format(test),
-                 test_stub_deps + ['test-@0@.c'.format(test)],
+                 ['test-@0@.c'.format(test)],
                  c_args: test_cflags,
                  pie: true,
                  link_args: test_link_args,
-                 dependencies: testlib_dep)
+                 dependencies: [testlib_dep, test_stubs_dep])
   test(test, t,
        env: test_env_unit,
        suite: ['unit'])
@@ -163,11 +156,11 @@ if run_phoc_tests
   # Unit tests
   foreach test : tests_phoc
     t = executable('test-@0@'.format(test),
-                   test_stub_deps + ['test-@0@.c'.format(test)],
+                   ['test-@0@.c'.format(test)],
                    c_args: test_cflags,
                    pie: true,
                    link_args: test_link_args,
-                   dependencies: testlib_dep)
+                   dependencies: [testlib_dep, test_stubs_dep])
     test(test, t,
          suite: ['unit', 'phoc'],
          env: test_env_phoc,

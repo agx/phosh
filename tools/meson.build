@@ -13,8 +13,10 @@ tools_or_tests = get_option('tools') or get_option('tests')
 
 if tools_or_tests
   # app-buttons is used in the screnshot tests
-  executable('app-buttons', ['app-buttons.c'] + test_stub_deps,
-             dependencies: phosh_tool_dep)
+  executable('app-buttons',
+    ['app-buttons.c'],
+    dependencies: [phosh_tool_dep, test_stubs_dep],
+  )
 endif
 
 if get_option('lockscreen-plugins') or get_option('quick-setting-plugins') or tools_or_tests
@@ -33,40 +35,48 @@ endif
 
 if get_option('tools')
 
-  executable('app-scroll', ['app-scroll.c'] + test_stub_deps,
-             dependencies: phosh_tool_dep)
+  executable('app-scroll', ['app-scroll.c'],
+    dependencies: [ phosh_tool_dep, test_stubs_dep ],
+  )
 
-  executable('app-grid-standalone', ['app-grid-standalone.c'] + test_stub_deps,
-             dependencies: phosh_tool_dep)
+  executable('app-grid-standalone', ['app-grid-standalone.c'],
+    dependencies: [ phosh_tool_dep, test_stubs_dep ],
+  )
 
-  executable('image-notify', ['image-notify.c'] + test_stub_deps,
-             dependencies: phosh_tool_dep)
+  executable('image-notify', ['image-notify.c'],
+    dependencies: [ phosh_tool_dep, test_stubs_dep ],
+  )
 
   executable('notify-blocks', ['notify-blocks.c'],
-             dependencies: phosh_tool_dep)
+    dependencies: phosh_tool_dep,
+  )
 
-  executable('notify-server-standalone', ['notify-server-standalone.c'] + test_stub_deps,
-             dependencies: phosh_tool_dep)
+  executable('notify-server-standalone', ['notify-server-standalone.c'],
+    dependencies: [ phosh_tool_dep, test_stubs_dep ],
+  )
 
   executable('dump-app-list', ['dump-app-list.c'],
-             dependencies: phosh_tool_dep)
+    dependencies: [ phosh_tool_dep, test_stubs_dep ],
+  )
 
   if get_option('lockscreen-plugins')
-    executable('widget-box', ['widget-box-standalone.c'] + test_stub_deps,
-               c_args: ['-DBUILD_DIR="@0@"'.format(meson.project_build_root()),
-                        '-DPLUGINS="@0@"'.format(' '.join(lockscreen_plugins)),
-                       ],
-               link_args: phosh_export_sym_link_arg,
-               dependencies: [gmodule_dep, phosh_tool_dep])
+    executable('widget-box', ['widget-box-standalone.c'],
+      c_args: ['-DBUILD_DIR="@0@"'.format(meson.project_build_root()),
+               '-DPLUGINS="@0@"'.format(' '.join(lockscreen_plugins)),
+      ],
+      link_args: phosh_export_sym_link_arg,
+      dependencies: [gmodule_dep, phosh_tool_dep, test_stubs_dep],
+    )
   endif
 
   if get_option('quick-setting-plugins')
-    executable('custom-quick-settings', ['custom-quick-settings-standalone.c'] + test_stub_deps,
-               c_args: ['-DBUILD_DIR="@0@"'.format(meson.project_build_root()),
-                        '-DPLUGINS="@0@"'.format(' '.join(quick_setting_plugins)),
-                       ],
-               link_args: phosh_export_sym_link_arg,
-               link_with: [phosh_lib],
-               dependencies: [gmodule_dep, phosh_tool_dep])
+    executable('custom-quick-settings', ['custom-quick-settings-standalone.c'],
+      c_args: ['-DBUILD_DIR="@0@"'.format(meson.project_build_root()),
+               '-DPLUGINS="@0@"'.format(' '.join(quick_setting_plugins)),
+      ],
+      link_args: phosh_export_sym_link_arg,
+      link_with: [phosh_lib],
+      dependencies: [gmodule_dep, phosh_tool_dep, test_stubs_dep],
+    )
   endif
 endif
