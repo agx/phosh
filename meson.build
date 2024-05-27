@@ -275,7 +275,6 @@ summary({
 
 summary({
     'Compositor:': get_option('compositor'),
-    'Systemd for session': get_option('systemd'),
   },
   bool_yn: true,
   section: 'Runtime',

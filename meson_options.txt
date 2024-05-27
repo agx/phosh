@@ -14,10 +14,6 @@ option('man',
        type: 'boolean', value : false,
        description : 'generate man pages (requires rst2man)')
 
-option('systemd',
-       type: 'boolean', value: true,
-       description: 'Whether to generate systemd user units')
-
 option('compositor',
        type: 'string', value: '/usr/bin/phoc',
        description: 'Path to the Phoc compositor for use in the launcher script')

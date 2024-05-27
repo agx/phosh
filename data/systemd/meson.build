@@ -1,5 +1,3 @@
-if get_option('systemd')
-
 gsd_wants = ''
 foreach component : gsd_required_components
   gsd_wants += 'Wants=' + component + '.target\n'
@@ -34,4 +32,3 @@ configure_file(
 
 install_data('sm.puri.Phosh.target', install_dir: systemduserdir)
 
-endif

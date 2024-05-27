@@ -23,5 +23,5 @@ RefuseManualStop=on
 Type=notify
 ExecStart=@libexecdir@/phosh
 Restart=on-failure
-RestartSec=0ms
 Slice=session.slice
+OOMScoreAdjust=-1000
