@@ -256,4 +256,14 @@ if run_phoc_tests
       )
 endif
 
+foreach opt : ['--help', '--version']
+  test('phosh @0@'.format(opt), phosh,
+       args: opt,
+       env: test_env_unit,
+       suite: ['unit'],
+       timeout: 15,
+       is_parallel : true,
+  )
+endforeach
+
 endif # tests
