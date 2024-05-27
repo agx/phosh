@@ -57,6 +57,8 @@ typedef struct _PhoshGnomeShellManager {
   PhoshOsdWindow             *osd;
   gint                        osd_timeoutid;
   gboolean                    osd_continue;
+
+  gboolean                    overview_active;
 } PhoshGnomeShellManager;
 
 G_DEFINE_TYPE_WITH_CODE (PhoshGnomeShellManager,
@@ -687,6 +689,23 @@ transform_state_to_action_mode (GBinding     *binding,
 
 
 static void
+on_shell_state_changed (PhoshGnomeShellManager *self, GParamSpec *pspec, PhoshShell *shell)
+{
+  gboolean overview_active;
+
+  g_assert (PHOSH_IS_SHELL (shell));
+  g_assert (PHOSH_IS_GNOME_SHELL_MANAGER (self));
+
+  overview_active = !!(phosh_shell_get_state (shell) & PHOSH_STATE_OVERVIEW);
+  if (overview_active == self->overview_active)
+    return;
+
+  self->overview_active = overview_active;
+  g_object_set (G_OBJECT (self), "overview-active", self->overview_active, NULL);
+}
+
+
+static void
 phosh_gnome_shell_manager_set_property (GObject      *object,
                                         guint         property_id,
                                         const GValue *value,
@@ -754,6 +773,11 @@ phosh_gnome_shell_manager_constructed (GObject *object)
                                G_BINDING_SYNC_CREATE,
                                (GBindingTransformFunc) transform_state_to_action_mode,
                                NULL, NULL, NULL);
+
+  g_signal_connect_object (shell, "notify::shell-state",
+                           G_CALLBACK (on_shell_state_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   self->dbus_name_id = g_bus_own_name (G_BUS_TYPE_SESSION,
                                        GNOME_SHELL_DBUS_NAME,
