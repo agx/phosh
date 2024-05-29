@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-03 14:06+0000\n"
-"PO-Revision-Date: 2024-05-05 20:43+0300\n"
+"POT-Creation-Date: 2024-05-29 07:26+0000\n"
+"PO-Revision-Date: 2024-05-29 11:16+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 23.04.3\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -71,6 +71,16 @@ msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Додає кнопки запуску на екран блокування. <b>Цей додаток є тестовим.</b>"
 
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+#| msgid "Caffeine Quick Setting"
+msgid "Mobile Data Quick Setting"
+msgstr "Швидке налаштовування мобільних даних"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+#| msgid "Toggle night light on/off"
+msgid "Toggle mobile data on/off"
+msgstr "Увімкнути або вимкнути мобільні дані"
+
 #: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
 msgid "Night Light Quick Setting"
 msgstr "Швидке налаштовування нічних кольорів"
@@ -97,7 +107,6 @@ msgid "Show upcoming calendar events"
 msgstr "Показати майбутні події календаря"
 
 #: src/app-grid-button.c:153
-#| msgid "Add to _Favorites"
 msgid "Add to Folder"
 msgstr "Додати до теки"
 
@@ -224,11 +233,11 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:166 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Звіряю…"
 
@@ -483,7 +492,6 @@ msgid "View _Details"
 msgstr "Пере_глянути подробиці"
 
 #: src/ui/app-grid-button.ui:41
-#| msgid "Remove from _Favorites"
 msgid "_Remove from Folder"
 msgstr "Вилучити з _теки"
 
@@ -647,7 +655,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:218
+#: src/wall-clock.c:222
 msgid "%A, %B %-e"
 msgstr "%A, %-d %B"
 
@@ -789,6 +797,14 @@ msgstr "Не налаштовано жодного засобу запуску"
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
 msgstr "Засоби запуску"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+msgid "Mobile Data On"
+msgstr "Мобільні дані увімкнено"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+msgid "Mobile Data Off"
+msgstr "Мобільні дані вимкнено"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.c:64
 msgid "Night Light On"
