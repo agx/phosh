@@ -13,6 +13,10 @@
    phosh_shell_get_monitor_manager;
    phosh_monitor_manager_get_night_light_supported;
 
+   # Mobile Data wants wwan manager
+   phosh_shell_get_wwan;
+   phosh_wwan_set_data_enabled;
+
    # For custom quick setting plugins:
    phosh_quick_setting_get_type;
    phosh_quick_setting_set_active;

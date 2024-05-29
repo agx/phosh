@@ -419,7 +419,6 @@ phosh_vpn_manager_class_init (PhoshVpnManagerClass *klass)
     g_param_spec_string ("icon-name", "", "",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
-
   /**
    * PhoshVpnManager:enabled
    *
@@ -429,7 +428,6 @@ phosh_vpn_manager_class_init (PhoshVpnManagerClass *klass)
     g_param_spec_boolean ("enabled", "", "",
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
-
   /**
    * PhoshVpnManager:present:
    *
@@ -439,16 +437,15 @@ phosh_vpn_manager_class_init (PhoshVpnManagerClass *klass)
     g_param_spec_string ("present", "", "",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
-
   /**
-   * PhoshVpnManager:connection:
+   * PhoshVpnManager:last-connection:
    *
    * The last activated connection
    */
   props[PROP_LAST_CONNECTION] =
     g_param_spec_string ("last-connection", "", "",
                          NULL,
-                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
+                         G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }

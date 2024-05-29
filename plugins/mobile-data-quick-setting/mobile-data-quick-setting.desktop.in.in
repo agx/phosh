@@ -1,0 +1,7 @@
+[Plugin]
+# Translators: This is an internal id, no need to translate it
+Id=@name@
+Name=Mobile Data Quick Setting
+Types=quick-setting;
+Comment=Toggle mobile data on/off
+Plugin=@plugins_dir@/libphosh-plugin-@name@.so
