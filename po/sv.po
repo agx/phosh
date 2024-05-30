@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-03 14:06+0000\n"
-"PO-Revision-Date: 2024-05-04 15:06+0200\n"
+"POT-Creation-Date: 2024-05-29 07:26+0000\n"
+"PO-Revision-Date: 2024-05-29 19:40+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -69,6 +69,14 @@ msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Lägger till programstartare på låsskärmen. <b>Denna insticksmodul är "
 "experimentell.</b>"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+msgid "Mobile Data Quick Setting"
+msgstr "Snabbinställning för mobildata"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+msgid "Toggle mobile data on/off"
+msgstr "Aktivera/inaktivera mobildata"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
 msgid "Night Light Quick Setting"
@@ -221,11 +229,11 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nej"
 
-#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:166 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Ange lösenord"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Kontrollerar…"
 
@@ -636,7 +644,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:218
+#: src/wall-clock.c:222
 msgid "%A, %B %-e"
 msgstr "%A, %-e %B"
 
@@ -778,6 +786,14 @@ msgstr "Inga programstartare konfigurerade"
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
 msgstr "Programstartare"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+msgid "Mobile Data On"
+msgstr "Mobildata på"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+msgid "Mobile Data Off"
+msgstr "Mobildata av"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.c:64
 msgid "Night Light On"
