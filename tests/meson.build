@@ -133,8 +133,6 @@ tests_manager = [
   [ 'screenshot-manager', true, ],
 ]
 
-
-
 # Unit tests
 foreach test : tests
   t = executable('test-@0@'.format(test),
@@ -265,5 +263,47 @@ foreach opt : ['--help', '--version']
        is_parallel : true,
   )
 endforeach
+
+flake8 = find_program('flake8', required: false)
+black = find_program('black', required: false)
+ruff = find_program('ruff', required: false)
+
+pyfiles = files(['mock-mm-nm.py'])
+foreach pyfile : pyfiles
+  if flake8.found()
+    test('flake8-@0@'.format(fs.name(pyfile)),
+      flake8,
+      args: ['--ignore', 'E501', pyfile],
+      env: test_env_unit,
+      suite: ['unit'],
+      timeout: 15,
+      is_parallel : true,
+    )
+  endif
+
+  if black.found()
+    test('black-@0@'.format(fs.name(pyfile)),
+      black,
+      args: ['--check', '--diff', pyfile],
+      env: test_env_unit,
+      suite: ['unit'],
+      timeout: 15,
+      is_parallel : true,
+     )
+  endif
+
+  if ruff.found()
+    test('ruff-@0@'.format(fs.name(pyfile)),
+      ruff,
+      args: ['check', '--no-cache', pyfile],
+      env: test_env_unit,
+      suite: ['unit'],
+      timeout: 15,
+      is_parallel : true,
+    )
+  endif
+
+endforeach
+
 
 endif # tests
