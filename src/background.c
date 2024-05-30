@@ -455,5 +455,12 @@ phosh_background_needs_update (PhoshBackground *self)
 {
   g_return_if_fail (PHOSH_IS_BACKGROUND (self));
 
+  /* Skip update if layer surface isn't yet configured, it will
+   * trigger on layer_surface.configured anyway */
+  if (phosh_layer_surface_get_configured_width (PHOSH_LAYER_SURFACE (self)) <= 0 ||
+      phosh_layer_surface_get_configured_height (PHOSH_LAYER_SURFACE (self)) <= 0) {
+    return;
+  }
+
   trigger_update (self);
 }
