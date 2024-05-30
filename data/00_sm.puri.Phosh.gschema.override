@@ -1,9 +1,0 @@
-[org.gnome.desktop.a11y.applications:Phosh]
-screen-keyboard-enabled=true
-
-[org.gnome.desktop.interface:Phosh]
-clock-show-date=false
-clock-show-weekday=false
-
-[org.sigxcpu.feedbackd]
-allow-important=['org.gnome.clocks']

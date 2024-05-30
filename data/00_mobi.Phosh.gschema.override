@@ -1,0 +1,22 @@
+[org.gnome.desktop.a11y.applications:Phosh]
+screen-keyboard-enabled=true
+
+[org.gnome.desktop.interface:Phosh]
+clock-show-date=false
+clock-show-weekday=false
+
+[org.gnome.desktop.session:Phosh]
+idle-delay=60
+
+[org.gnome.settings-daemon.plugins.power:Phosh]
+ambient-enabled=false
+power-button-action='nothing'
+
+[org.gnome.settings-daemon.plugins.wwan:Phosh]
+unlock-sim=true
+
+[org.sigxcpu.feedbackd:Phosh]
+allow-important=['org.gnome.clocks']
+
+[sm.puri.phosh:Phosh]
+force-adaptive=['firefox-esr.desktop', 'org.gnome.TextEditor.desktop']
