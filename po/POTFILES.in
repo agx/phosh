@@ -4,6 +4,7 @@ data/sm.puri.Phosh.desktop.in.in
 data/wayland-sessions/phosh.desktop
 plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in
 plugins/calendar/calendar.desktop.in.in
+plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in
 plugins/emergency-info/emergency-info.desktop.in.in
 plugins/launcher-box/launcher-box.desktop.in.in
 plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in
@@ -99,6 +100,7 @@ src/wifi-info.c
 src/wifi-manager.c
 src/wwan-info.c
 plugins/caffeine-quick-setting/caffeine-quick-setting.c
+plugins/dark-mode-quick-setting/dark-mode-quick-setting.c
 plugins/emergency-info/emergency-info.c
 plugins/emergency-info/emergency-info.ui
 plugins/emergency-info/prefs/emergency-info-prefs.c
