@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-03 14:06+0000\n"
-"PO-Revision-Date: 2024-05-03 17:37+0200\n"
+"POT-Creation-Date: 2024-05-29 07:26+0000\n"
+"PO-Revision-Date: 2024-05-30 09:40+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -70,6 +70,14 @@ msgstr "Škatla zaganjalnikov"
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Na zaklenjeni zaslon dodajte zaganjalnike. <b>Ta vstavek je poskusen.</b>"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+msgid "Mobile Data Quick Setting"
+msgstr "Hitra nastavitev za prenos podatkov"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+msgid "Toggle mobile data on/off"
+msgstr "Vklopi/izklopi prenos podatkov v mobilnem omrežju"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
 msgid "Night Light Quick Setting"
@@ -226,11 +234,11 @@ msgstr "Da"
 msgid "No"
 msgstr "Ne"
 
-#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:166 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Vnesite geslo"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Preverjanje …"
 
@@ -655,7 +663,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:218
+#: src/wall-clock.c:222
 msgid "%A, %B %-e"
 msgstr "%A, %e. %B"
 
@@ -797,6 +805,14 @@ msgstr "Noben zaganjalnik ni nastavljen"
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
 msgstr "Zaganjalniki"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+msgid "Mobile Data On"
+msgstr "Prenos podatkov v mobilnem omrežju je vklopljen"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+msgid "Mobile Data Off"
+msgstr "Prenos podatkov v mobilnem omrežju je izklopljen"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.c:64
 msgid "Night Light On"
