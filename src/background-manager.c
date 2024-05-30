@@ -449,6 +449,11 @@ phosh_background_manager_get_data (PhoshBackgroundManager *self, PhoshBackground
     width = phosh_layer_surface_get_configured_width (PHOSH_LAYER_SURFACE (background));
     height = phosh_layer_surface_get_configured_height (PHOSH_LAYER_SURFACE (background));
 
+    if (width <= 0 || height <= 0) {
+      g_critical ("Layer surface not yet configured");
+      return g_steal_pointer (&bg_data);
+    }
+
     g_assert (GNOME_BG_IS_SLIDE_SHOW (self->slideshow));
 
     /* TODO: handle actual slideshows (fixed == false) */
