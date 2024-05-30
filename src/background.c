@@ -447,8 +447,8 @@ phosh_background_set_primary (PhoshBackground *self, gboolean primary)
  * phosh_background_needs_update:
  * @self: The background
  *
- * Marks the background's data as dirty, needing an update. This will make the update
- * it's background image.
+ * Marks the background's data as dirty, needing an update. This will make the
+ * `PhoshBackground` update it's background image.
  */
 void
 phosh_background_needs_update (PhoshBackground *self)
