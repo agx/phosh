@@ -82,6 +82,12 @@ For development purposes you can run phosh nested on your desktop. See
 [this blog post](https://phosh.mobi/posts/phosh-dev-part-0/) for
 details.
 
+### Checking DBus Interfaces
+
+The `tools/` directory contains short snippets to test various DBus interfaces
+e.g. `check-osd` to test the OSD overlay (`PhoshOsdWindow`) or `check-screenshot`
+to check the screenshot API (`PhoshScreenshotManager`).
+
 ### Manager Objects
 
 Phosh uses several manager objects e.g. #PhoshBackgroundManager,
