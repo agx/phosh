@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-29 07:26+0000\n"
-"PO-Revision-Date: 2024-05-30 09:40+0200\n"
+"POT-Creation-Date: 2024-06-01 05:55+0000\n"
+"PO-Revision-Date: 2024-06-01 11:21+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -171,7 +171,7 @@ msgstr[1] "%s se bo samodejno odjavil čez %d sekundi."
 msgstr[2] "%s se bo samodejno odjavil čez %d sekunde."
 msgstr[3] "%s se bo samodejno odjavil čez %d sekund."
 
-#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Ugasni"
 
@@ -242,7 +242,7 @@ msgstr "Vnesite geslo"
 msgid "Checking…"
 msgstr "Preverjanje …"
 
-#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
+#: src/screenshot-manager.c:215 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Posnetek zaslona"
 
@@ -593,11 +593,15 @@ msgstr "_Poveži"
 msgid "Authenticate"
 msgstr "Overi"
 
-#: src/ui/power-menu.ui:108
+#: src/ui/power-menu.ui:109
+msgid "Suspend"
+msgstr "V pripravljenost"
+
+#: src/ui/power-menu.ui:153
 msgid "Lock"
 msgstr "Zakleni"
 
-#: src/ui/power-menu.ui:186
+#: src/ui/power-menu.ui:231
 msgid "Emergency"
 msgstr "Klic v sili"
 
