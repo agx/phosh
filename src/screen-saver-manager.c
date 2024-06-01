@@ -21,7 +21,7 @@
 #include <glib/gstdio.h>
 #include <gio/gunixfdlist.h>
 
-#define LONG_PRESS_TIMEOUT 2 /* seconds */
+#define LONG_PRESS_TIMEOUT 1 /* seconds */
 
 /**
  * PhoshScreenSaverManager:
@@ -182,6 +182,7 @@ on_long_press (gpointer data)
 
   g_debug ("Power button long press detected");
 
+  phosh_trigger_feedback ("button-pressed");
   g_signal_emit (self, signals[PB_LONG_PRESS], 0);
 
   self->long_press_id = 0;

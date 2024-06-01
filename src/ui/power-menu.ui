@@ -43,37 +43,82 @@
             <property name="column-spacing">18</property>
             <property name="row-spacing">18</property>
             <child>
-              <object class="GtkButton" id="btn_poweroff">
+              <object class="GtkStack" id="stack">
                 <property name="visible">True</property>
-                <property name="vexpand">True</property>
-                <property name="valign">center</property>
-                <property name="action-name">power-menu.poweroff</property>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkButton" id="btn_poweroff">
                     <property name="visible">True</property>
-                    <property name="margin">12</property>
-                    <property name="spacing">8</property>
-                    <property name="halign">center</property>
-                    <property name="hexpand">True</property>
-                    <property name="orientation">vertical</property>
+                    <property name="vexpand">True</property>
+                    <property name="valign">center</property>
+                    <property name="action-name">power-menu.poweroff</property>
                     <child>
-                      <object class="GtkImage">
+                      <object class="GtkBox">
                         <property name="visible">True</property>
-                        <property name="icon-name">system-shutdown-symbolic</property>
-                        <property name="pixel-size">32</property>
+                        <property name="margin">12</property>
+                        <property name="spacing">8</property>
+                        <property name="halign">center</property>
+                        <property name="hexpand">True</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkImage">
+                            <property name="visible">True</property>
+                            <property name="icon-name">system-shutdown-symbolic</property>
+                            <property name="pixel-size">32</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="PhoshFadingLabel">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">Power Off</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
-                    <child>
-                      <object class="PhoshFadingLabel">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Power Off</property>
-                      </object>
-                    </child>
+                    <style>
+                      <class name="flat"/>
+                    </style>
                   </object>
+                  <packing>
+                    <property name="name">poweroff</property>
+                  </packing>
                 </child>
-                <style>
-                  <class name="flat"/>
-                </style>
+                <child>
+                  <object class="GtkButton" id="btn_suspend">
+                    <property name="visible">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="valign">center</property>
+                    <property name="action-name">power-menu.suspend</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="margin">12</property>
+                        <property name="spacing">8</property>
+                        <property name="halign">center</property>
+                        <property name="hexpand">True</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkImage">
+                            <property name="visible">True</property>
+                            <property name="icon-name">moon-filled-symbolic</property>
+                            <property name="pixel-size">32</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="PhoshFadingLabel">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">Suspend</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <style>
+                      <class name="flat"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="name">suspend</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="left-attach">0</property>

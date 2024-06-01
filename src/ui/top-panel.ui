@@ -141,8 +141,7 @@
             </style>
             <child>
               <object class="GtkButton" id="btn_lock">
-                <property name="visible">True</property>
-                <property name="sensitive" bind-source="PhoshTopPanel" bind-property="on-lockscreen" bind-flags="sync-create|invert-boolean"/>
+                <property name="visible" bind-source="PhoshTopPanel" bind-property="on-lockscreen" bind-flags="sync-create|invert-boolean"/>
                 <property name="action-name">panel.lockscreen</property>
                 <style>
                   <class name="phosh-topbar-button"/>
@@ -180,8 +179,7 @@
             </child>
             <child>
               <object class="GtkMenuButton" id="btn_power">
-                <property name="visible">True</property>
-                <property name="sensitive" bind-source="PhoshTopPanel" bind-property="on-lockscreen" bind-flags="sync-create|invert-boolean"/>
+                <property name="visible" bind-source="PhoshTopPanel" bind-property="on-lockscreen" bind-flags="sync-create|invert-boolean"/>
                 <property name="popover">menu_system</property>
                 <style>
                   <class name="phosh-topbar-button"/>

@@ -202,10 +202,10 @@ on_restart_action (GSimpleAction *action,
 
 static void
 on_suspend_action (GSimpleAction *action,
-                    GVariant      *parameter,
-                    gpointer       data)
+                   GVariant      *parameter,
+                   gpointer       data)
 {
-  PhoshTopPanel *self = PHOSH_TOP_PANEL(data);
+  PhoshTopPanel *self = PHOSH_TOP_PANEL (data);
   g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
   g_action_group_activate_action (G_ACTION_GROUP (phosh_shell_get_default ()),
                                   "suspend.trigger-suspend", NULL);
