@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-29 07:26+0000\n"
-"PO-Revision-Date: 2024-05-29 19:40+0200\n"
+"POT-Creation-Date: 2024-06-01 05:55+0000\n"
+"PO-Revision-Date: 2024-06-01 12:31+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -169,7 +169,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s kommer att loggas ut automatiskt om %d sekund."
 msgstr[1] "%s kommer att loggas ut automatiskt om %d sekunder."
 
-#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Stäng av"
 
@@ -237,7 +237,7 @@ msgstr "Ange lösenord"
 msgid "Checking…"
 msgstr "Kontrollerar…"
 
-#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
+#: src/screenshot-manager.c:215 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Skärmbild"
 
@@ -574,11 +574,15 @@ msgstr "A_nslut"
 msgid "Authenticate"
 msgstr "Godkänn"
 
-#: src/ui/power-menu.ui:108
+#: src/ui/power-menu.ui:109
+msgid "Suspend"
+msgstr "Försätt i vänteläge"
+
+#: src/ui/power-menu.ui:153
 msgid "Lock"
 msgstr "Lås"
 
-#: src/ui/power-menu.ui:186
+#: src/ui/power-menu.ui:231
 msgid "Emergency"
 msgstr "Nödläge"
 
