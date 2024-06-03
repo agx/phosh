@@ -26,6 +26,9 @@
 #define BUS_NAME "org.gnome.Shell.Screenshot"
 #define OBJECT_PATH "/org/gnome/Shell/Screenshot"
 
+#define KEYBINDINGS_SCHEMA_ID "org.gnome.shell.keybindings"
+#define KEYBINDING_KEY_SCREENSHOT "screenshot"
+
 #define FLASH_FADER_TIMEOUT 500
 
 /**
@@ -91,6 +94,9 @@ typedef struct _PhoshScreenshotManager {
   guint                              opaque_id;
 
   GdkPixbuf                         *for_clipboard;
+
+  GStrv                              action_names;
+  GSettings                         *settings;
 } PhoshScreenshotManager;
 
 
@@ -934,6 +940,48 @@ phosh_screenshot_manager_screenshot_iface_init (PhoshDBusScreenshotIface *iface)
 
 
 static void
+take_screenshot (GSimpleAction *action, GVariant *param, gpointer data)
+{
+  PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (data);
+
+  g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
+
+  phosh_screenshot_manager_do_screenshot (self, NULL, NULL, FALSE);
+}
+
+
+static void
+add_keybindings (PhoshScreenshotManager *self)
+{
+  g_auto (GStrv) bindings = NULL;
+  g_autoptr (GArray) actions = g_array_new (FALSE, TRUE, sizeof (GActionEntry));
+
+  bindings = g_settings_get_strv (self->settings, KEYBINDING_KEY_SCREENSHOT);
+  for (int i = 0; i < g_strv_length (bindings); i++) {
+    GActionEntry entry = { .name = bindings[i], .activate = take_screenshot };
+    g_array_append_val (actions, entry);
+  }
+
+  phosh_shell_add_global_keyboard_action_entries (phosh_shell_get_default (),
+                                                  (GActionEntry *)actions->data,
+                                                  actions->len,
+                                                  self);
+  self->action_names = g_steal_pointer (&bindings);
+}
+
+
+static void
+on_keybindings_changed (PhoshScreenshotManager *self)
+{
+  g_debug ("Updating keybindings in screenshot-manager");
+  phosh_shell_remove_global_keyboard_action_entries (phosh_shell_get_default (),
+                                                     self->action_names);
+  g_clear_pointer (&self->action_names, g_strfreev);
+  add_keybindings (self);
+}
+
+
+static void
 on_name_acquired (GDBusConnection *connection,
                   const char      *name,
                   gpointer         user_data)
@@ -1013,6 +1061,9 @@ phosh_screenshot_manager_dispose (GObject *object)
   g_clear_handle_id (&self->opaque_id, g_source_remove);
   g_clear_pointer (&self->fader, phosh_cp_widget_destroy);
 
+  g_clear_pointer (&self->action_names, g_strfreev);
+  g_clear_object (&self->settings);
+
   G_OBJECT_CLASS (phosh_screenshot_manager_parent_class)->dispose (object);
 }
 
@@ -1030,6 +1081,12 @@ phosh_screenshot_manager_class_init (PhoshScreenshotManagerClass *klass)
 static void
 phosh_screenshot_manager_init (PhoshScreenshotManager *self)
 {
+  self->settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
+  g_signal_connect_swapped (self->settings,
+                            "changed::" KEYBINDING_KEY_SCREENSHOT,
+                            G_CALLBACK (on_keybindings_changed),
+                            self);
+  add_keybindings (self);
 }
 
 PhoshScreenshotManager *
