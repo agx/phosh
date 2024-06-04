@@ -37,8 +37,6 @@ static void phosh_gnome_shell_manager_gnome_shell_iface_init (PhoshDBusGnomeShel
 enum {
   PROP_0,
   PROP_ACTION_MODE,
-  /* overridden properties */
-  PROP_SHELL_VERSION,
   PROP_LAST_PROP,
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -59,6 +57,8 @@ typedef struct _PhoshGnomeShellManager {
   PhoshOsdWindow             *osd;
   gint                        osd_timeoutid;
   gboolean                    osd_continue;
+
+  gboolean                    overview_active;
 } PhoshGnomeShellManager;
 
 G_DEFINE_TYPE_WITH_CODE (PhoshGnomeShellManager,
@@ -689,6 +689,23 @@ transform_state_to_action_mode (GBinding     *binding,
 
 
 static void
+on_shell_state_changed (PhoshGnomeShellManager *self, GParamSpec *pspec, PhoshShell *shell)
+{
+  gboolean overview_active;
+
+  g_assert (PHOSH_IS_SHELL (shell));
+  g_assert (PHOSH_IS_GNOME_SHELL_MANAGER (self));
+
+  overview_active = !!(phosh_shell_get_state (shell) & PHOSH_STATE_OVERVIEW);
+  if (overview_active == self->overview_active)
+    return;
+
+  self->overview_active = overview_active;
+  g_object_set (G_OBJECT (self), "overview-active", self->overview_active, NULL);
+}
+
+
+static void
 phosh_gnome_shell_manager_set_property (GObject      *object,
                                         guint         property_id,
                                         const GValue *value,
@@ -719,11 +736,6 @@ phosh_gnome_shell_manager_get_property (GObject    *object,
   case PROP_ACTION_MODE:
     g_value_set_flags (value, self->action_mode);
     break;
-  case PROP_SHELL_VERSION: {
-    g_autofree char *version = get_version ();
-    g_value_set_string (value, version);
-    break;
-  }
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -762,6 +774,11 @@ phosh_gnome_shell_manager_constructed (GObject *object)
                                (GBindingTransformFunc) transform_state_to_action_mode,
                                NULL, NULL, NULL);
 
+  g_signal_connect_object (shell, "notify::shell-state",
+                           G_CALLBACK (on_shell_state_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+
   self->dbus_name_id = g_bus_own_name (G_BUS_TYPE_SESSION,
                                        GNOME_SHELL_DBUS_NAME,
                                        G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT |
@@ -792,15 +809,15 @@ phosh_gnome_shell_manager_class_init (PhoshGnomeShellManagerClass *klass)
                         PHOSH_SHELL_ACTION_MODE_NONE,
                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-  g_object_class_install_properties (object_class, PROP_LAST_PROP - 1, props);
-
-  g_object_class_override_property (object_class, PROP_SHELL_VERSION, "shell-version");
+  g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
 
 static void
 phosh_gnome_shell_manager_init (PhoshGnomeShellManager *self)
 {
+  g_autofree char *version = get_version ();
+
   self->info_by_action = g_hash_table_new_full (g_direct_hash,
                                                 g_direct_equal,
                                                 NULL,
@@ -815,6 +832,8 @@ phosh_gnome_shell_manager_init (PhoshGnomeShellManager *self)
     "swapped-signal::changed::delay", G_CALLBACK (on_keyboard_setting_changed), self,
     NULL);
   on_keyboard_setting_changed (self, NULL, self->keyboard_settings);
+
+  g_object_set (G_OBJECT (self), "shell-version", version, NULL);
 }
 
 /**

@@ -50,6 +50,7 @@
       <arg name="action" type="u"/>
       <arg name="parameters" type="a{sv}"/>
     </signal>
+    <property name="OverviewActive" type="b" access="read"/>
     <property name="ShellVersion" type="s" access="read"/>
   </interface>
 </node>
