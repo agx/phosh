@@ -69,7 +69,7 @@ on_shutdown_signal (gpointer unused)
 }
 
 
-static void
+G_NORETURN static void
 print_version (void)
 {
   printf ("Phosh %s - A Wayland shell for mobile devices\n", PHOSH_VERSION);
