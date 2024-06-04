@@ -90,7 +90,8 @@ on_shell_ready (PhoshShell *shell, GTimer *timer)
 }
 
 
-int main(int argc, char *argv[])
+int
+main (int argc, char *argv[])
 {
   g_autoptr(GOptionContext) opt_context = NULL;
   GError *err = NULL;
@@ -100,7 +101,6 @@ int main(int argc, char *argv[])
   g_autoptr (PhoshBackgroundCache) background_cache = NULL;
   g_autoptr (GTimer) timer = g_timer_new ();
   g_autoptr (PhoshWallClock) wall_clock = phosh_wall_clock_new ();
-
   const GOptionEntry options [] = {
     {"unlocked", 'U', 0, G_OPTION_ARG_NONE, &unlocked,
      "Don't start with screen locked", NULL},
@@ -120,11 +120,10 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  if (version) {
+  if (version)
     print_version ();
-  }
 
-  phosh_log_set_log_domains (g_getenv("G_MESSAGES_DEBUG"));
+  phosh_log_set_log_domains (g_getenv ("G_MESSAGES_DEBUG"));
 
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
@@ -145,7 +144,7 @@ int main(int argc, char *argv[])
 
   g_signal_connect (shell, "ready", G_CALLBACK (on_shell_ready), timer);
 
-  if (!(unlocked || phosh_shell_started_by_display_manager(shell)) || locked)
+  if (!(unlocked || phosh_shell_started_by_display_manager (shell)) || locked)
     phosh_shell_lock (shell);
 
   gtk_main ();
