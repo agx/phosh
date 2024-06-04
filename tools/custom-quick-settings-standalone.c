@@ -85,7 +85,7 @@ setup_plugins (GStrv plugin_dirs, GStrv plugins, const char *const *enabled)
     if (widget == NULL) {
       g_warning ("Unable to load plugin: %s", plugin);
     } else {
-      g_print ("Adding custom quick setting '%s'", plugin);
+      g_print ("Adding custom quick setting '%s'\n", plugin);
       gtk_container_add (GTK_CONTAINER (flow_box), widget);
     }
   }
