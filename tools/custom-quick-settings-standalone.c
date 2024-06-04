@@ -70,6 +70,7 @@ setup_plugins (GStrv plugin_dirs, GStrv plugins, const char *const *enabled)
                            "min-children-per-line", 2,
                            "max-children-per-line", 3,
                            "selection-mode", GTK_SELECTION_NONE,
+                           "valign", GTK_ALIGN_START,
                            "homogeneous", TRUE,
                            NULL);
   loader = phosh_plugin_loader_new (plugin_dirs, PHOSH_EXTENSION_POINT_QUICK_SETTING_WIDGET);
