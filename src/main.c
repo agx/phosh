@@ -93,11 +93,11 @@ on_shell_ready (PhoshShell *shell, GTimer *timer)
 int
 main (int argc, char *argv[])
 {
-  g_autoptr(GOptionContext) opt_context = NULL;
-  GError *err = NULL;
+  g_autoptr (GOptionContext) opt_context = NULL;
+  g_autoptr (GError) err = NULL;
   gboolean unlocked = FALSE, locked = FALSE, version = FALSE;
-  g_autoptr(PhoshWayland) wl = NULL;
-  g_autoptr(PhoshShell) shell = NULL;
+  g_autoptr (PhoshWayland) wl = NULL;
+  g_autoptr (PhoshShell) shell = NULL;
   g_autoptr (PhoshBackgroundCache) background_cache = NULL;
   g_autoptr (GTimer) timer = g_timer_new ();
   g_autoptr (PhoshWallClock) wall_clock = phosh_wall_clock_new ();
@@ -116,7 +116,6 @@ main (int argc, char *argv[])
   g_option_context_add_group (opt_context, gtk_get_option_group (FALSE));
   if (!g_option_context_parse (opt_context, &argc, &argv, &err)) {
     g_warning ("%s", err->message);
-    g_clear_error (&err);
     return 1;
   }
 
