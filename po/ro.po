@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-01 05:55+0000\n"
-"PO-Revision-Date: 2024-06-01 17:45+0200\n"
+"POT-Creation-Date: 2024-06-06 13:01+0000\n"
+"PO-Revision-Date: 2024-06-06 18:40+0200\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -53,6 +53,14 @@ msgstr "Calendar"
 msgid "A simple calendar widget"
 msgstr "Un calendar în miniatură"
 
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+msgid "Dark Mode / Color Scheme Quick Setting"
+msgstr "Opțiuni Aspect întunecos / Schema de culori"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+msgid "Toggle dark mode"
+msgstr "Aspect întunecos Activat/Dezactivat"
+
 #: plugins/emergency-info/emergency-info.desktop.in.in:5
 msgid "Emergency Info"
 msgstr "Info. de urgență"
@@ -77,7 +85,7 @@ msgstr "Opțiuni pentru Date mobile"
 
 #: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
 msgid "Toggle mobile data on/off"
-msgstr "Date mobile activate/dezactivate"
+msgstr "Date mobile Activate/Dezactivate"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
 msgid "Night Light Quick Setting"
@@ -85,7 +93,7 @@ msgstr "Opțiuni pentru Lumina de noapte"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
 msgid "Toggle night light on/off"
-msgstr "Lumina de noapte pornită/oprită"
+msgstr "Lumina de noapte Pornită/Oprită"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
@@ -240,11 +248,11 @@ msgstr "Introdu codul de acces"
 msgid "Checking…"
 msgstr "Se verifică…"
 
-#: src/screenshot-manager.c:215 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Captură de ecran"
 
-#: src/screenshot-manager.c:216
+#: src/screenshot-manager.c:222
 msgid "Screenshot copied to clipboard"
 msgstr "Captură de ecran copiată în memorie"
 
@@ -692,6 +700,18 @@ msgstr "Pornit"
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
 msgid "Off"
 msgstr "Oprit"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+msgid "Default style"
+msgstr "Aspect prestabilit"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+msgid "Dark mode"
+msgstr "Aspect întunecos"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+msgid "Light mode"
+msgstr "Aspect luminos"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
