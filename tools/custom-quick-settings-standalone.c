@@ -58,7 +58,7 @@ get_plugin_dirs (GStrv plugins)
 
 
 static GtkWidget *
-setup_plugins (GStrv plugin_dirs, GStrv plugins)
+setup_plugins (GStrv plugin_dirs, GStrv plugins, const char *const *enabled)
 {
   GtkWidget *flow_box;
   g_autoptr (PhoshPluginLoader) loader = NULL;
@@ -70,18 +70,23 @@ setup_plugins (GStrv plugin_dirs, GStrv plugins)
                            "min-children-per-line", 2,
                            "max-children-per-line", 3,
                            "selection-mode", GTK_SELECTION_NONE,
+                           "valign", GTK_ALIGN_START,
                            "homogeneous", TRUE,
                            NULL);
   loader = phosh_plugin_loader_new (plugin_dirs, PHOSH_EXTENSION_POINT_QUICK_SETTING_WIDGET);
 
   for (int i = 0; i < g_strv_length (plugins); i++) {
     char *plugin = plugins[i];
-    GtkWidget* widget = phosh_plugin_loader_load_plugin (loader, plugin);
+    GtkWidget* widget;
 
+    if (!g_strv_contains (enabled, plugin))
+      continue;
+
+    widget = phosh_plugin_loader_load_plugin (loader, plugin);
     if (widget == NULL) {
       g_warning ("Unable to load plugin: %s", plugin);
     } else {
-      g_print ("Adding custom quick setting '%s'", plugin);
+      g_print ("Adding custom quick setting '%s'\n", plugin);
       gtk_container_add (GTK_CONTAINER (flow_box), widget);
     }
   }
@@ -95,13 +100,37 @@ main (int argc, char *argv[])
 {
   GtkWidget *win;
   GtkWidget *flow_box;
+  g_autoptr (GOptionContext) opt_context = NULL;
+  g_autoptr (GError) err = NULL;
+  g_autoptr (GStrvBuilder) plugins_builder = g_strv_builder_new ();
   g_auto (GStrv) plugins = g_strsplit (PLUGINS, " ", -1);
   g_auto (GStrv) plugin_dirs = NULL;
+  g_auto (GStrv) enabled = NULL;
+  const GOptionEntry options [] = {
+    { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
+  };
+
+  opt_context = g_option_context_new ("- spawn your quick setting");
+  g_option_context_add_main_entries (opt_context, options, NULL);
+  g_option_context_add_group (opt_context, gtk_get_option_group (FALSE));
+  if (!g_option_context_parse (opt_context, &argc, &argv, &err)) {
+    g_warning ("%s", err->message);
+    return 1;
+  }
 
   gtk_init (&argc, &argv);
   hdy_init ();
 
   css_setup ();
+
+  if (argc < 2) {
+    g_print ("Pass at least one plugin name\n");
+    return 1;
+  }
+
+  for (int i = 1; i < argc; i++)
+    g_strv_builder_add (plugins_builder, argv[i]);
+  enabled = g_strv_builder_end (plugins_builder);
 
   g_object_set (gtk_settings_get_default (),
                 "gtk-application-prefer-dark-theme", TRUE,
@@ -113,7 +142,7 @@ main (int argc, char *argv[])
   gtk_widget_show (win);
 
   plugin_dirs = get_plugin_dirs (plugins);
-  flow_box = setup_plugins (plugin_dirs, plugins);
+  flow_box = setup_plugins (plugin_dirs, plugins, (const char * const *)enabled);
   gtk_widget_show (flow_box);
 
   gtk_container_add (GTK_CONTAINER (win), flow_box);
