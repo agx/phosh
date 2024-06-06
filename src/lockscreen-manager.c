@@ -478,3 +478,25 @@ phosh_lockscreen_manager_set_page  (PhoshLockscreenManager *self,
   phosh_lockscreen_set_page (self->lockscreen, page);
   return TRUE;
 }
+
+
+/**
+ * phosh_lockscreen_manager_get_lockscreen:
+ * @self: The lockscreen manager
+ *
+ * Gets the current [type@Lockscreen], if one exists (NULL otherwise).
+ *
+ * Returns:(transfer none)(nullable): The lockscreen
+ */
+PhoshLockscreen*
+phosh_lockscreen_manager_get_lockscreen (PhoshLockscreenManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (self), NULL);
+
+  if (!self->lockscreen)
+    return NULL;
+
+  g_return_val_if_fail (PHOSH_IS_LOCKSCREEN (self->lockscreen), FALSE);
+
+  return self->lockscreen;
+}

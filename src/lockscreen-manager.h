@@ -29,3 +29,4 @@ void                    phosh_lockscreen_manager_set_timeout (PhoshLockscreenMan
                                                               int timeout);
 int                     phosh_lockscreen_manager_get_timeout (PhoshLockscreenManager *self);
 gint64                  phosh_lockscreen_manager_get_active_time (PhoshLockscreenManager *self);
+PhoshLockscreen*        phosh_lockscreen_manager_get_lockscreen (PhoshLockscreenManager *self);
