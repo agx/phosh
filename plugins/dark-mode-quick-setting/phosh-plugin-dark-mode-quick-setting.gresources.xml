@@ -2,5 +2,6 @@
 <gresources>
   <gresource prefix="/mobi/phosh/plugins/dark-mode-quick-setting/">
     <file preprocess="xml-stripblanks">qs.ui</file>
+    <file compressed="true">icons/dark-mode-disabled-symbolic.svg</file>
   </gresource>
 </gresources>
