@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-01 05:55+0000\n"
-"PO-Revision-Date: 2024-06-01 21:30+0300\n"
+"POT-Creation-Date: 2024-06-06 13:01+0000\n"
+"PO-Revision-Date: 2024-06-06 22:51+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -52,6 +52,14 @@ msgstr "Календар"
 #: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Простий віджет календаря"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+msgid "Dark Mode / Color Scheme Quick Setting"
+msgstr "Швидке налаштовування темного режиму або схеми кольорів"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+msgid "Toggle dark mode"
+msgstr "Перемкнути темний режим"
 
 #: plugins/emergency-info/emergency-info.desktop.in.in:5
 msgid "Emergency Info"
@@ -239,11 +247,11 @@ msgstr "Уведіть пароль"
 msgid "Checking…"
 msgstr "Звіряю…"
 
-#: src/screenshot-manager.c:215 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Знімок вікна"
 
-#: src/screenshot-manager.c:216
+#: src/screenshot-manager.c:222
 msgid "Screenshot copied to clipboard"
 msgstr "Знімок вікна скопійовано до буфера"
 
@@ -584,7 +592,6 @@ msgid "Authenticate"
 msgstr "Автентифікуватися"
 
 #: src/ui/power-menu.ui:109
-#| msgid "_Suspend…"
 msgid "Suspend"
 msgstr "Призупинити"
 
@@ -692,6 +699,18 @@ msgstr "❙"
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
 msgid "Off"
 msgstr "○"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+msgid "Default style"
+msgstr "Типовий стиль"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+msgid "Dark mode"
+msgstr "Темний режим"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+msgid "Light mode"
+msgstr "Світлий режим"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
