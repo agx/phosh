@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-29 07:26+0000\n"
-"PO-Revision-Date: 2024-05-29 13:02+0200\n"
+"POT-Creation-Date: 2024-06-06 13:01+0000\n"
+"PO-Revision-Date: 2024-06-07 22:48+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -49,6 +49,14 @@ msgstr "Kalendář"
 #: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Jednoduchý widget kalendáře"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+msgid "Dark Mode / Color Scheme Quick Setting"
+msgstr "Rychlé nastavení tmavého režimu / barevného schématu"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+msgid "Toggle dark mode"
+msgstr "Přepnout tmavý režim"
 
 #: plugins/emergency-info/emergency-info.desktop.in.in:5
 msgid "Emergency Info"
@@ -170,7 +178,7 @@ msgstr[0] "Uživatel %s bude automaticky odhlášen za %d sekundu."
 msgstr[1] "Uživatel %s bude automaticky odhlášen za %d sekundy."
 msgstr[2] "Uživatel %s bude automaticky odhlášen za %d sekund."
 
-#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Vypnout"
 
@@ -239,11 +247,11 @@ msgstr "Zadejte heslo"
 msgid "Checking…"
 msgstr "Kontroluje se…"
 
-#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
+#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Snímek obrazovky"
 
-#: src/screenshot-manager.c:216
+#: src/screenshot-manager.c:222
 msgid "Screenshot copied to clipboard"
 msgstr "Snímek obrazovky byl zkopírován do schránky"
 
@@ -583,11 +591,15 @@ msgstr "_Připojit"
 msgid "Authenticate"
 msgstr "Ověřit"
 
-#: src/ui/power-menu.ui:108
+#: src/ui/power-menu.ui:109
+msgid "Suspend"
+msgstr "Uspat"
+
+#: src/ui/power-menu.ui:153
 msgid "Lock"
 msgstr "Uzamknout"
 
-#: src/ui/power-menu.ui:186
+#: src/ui/power-menu.ui:231
 msgid "Emergency"
 msgstr "Stav nouze"
 
@@ -687,6 +699,18 @@ msgstr "Zapnout"
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
 msgid "Off"
 msgstr "Vypnout"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+msgid "Default style"
+msgstr "Výchozí styl"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+msgid "Dark mode"
+msgstr "Tmavý režim"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+msgid "Light mode"
+msgstr "Světlý režim"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
