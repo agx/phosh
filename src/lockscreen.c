@@ -57,6 +57,7 @@ enum {
   PROP_0,
   PROP_CALLS_MANAGER,
   PROP_PAGE,
+  PROP_REQUIRE_UNLOCK,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -72,6 +73,7 @@ typedef struct {
   HdyDeck            *deck;
   GtkWidget          *carousel;
   PhoshLockscreenPage default_page;
+  gboolean            require_unlock;
 
   /* info page */
   GtkWidget         *box_info;
@@ -118,6 +120,17 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshLockscreen, phosh_lockscreen, PHOSH_TYPE_LAYER_
 
 
 static void
+set_require_unlock (PhoshLockscreen *self, gboolean require_unlock)
+{
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+
+  if (priv->require_unlock != require_unlock) {
+    priv->require_unlock = require_unlock;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_REQUIRE_UNLOCK]);
+  }
+}
+
+static void
 phosh_lockscreen_set_property (GObject      *object,
                                guint         property_id,
                                const GValue *value,
@@ -129,6 +142,9 @@ phosh_lockscreen_set_property (GObject      *object,
   switch (property_id) {
   case PROP_CALLS_MANAGER:
     priv->calls_manager = g_value_dup_object (value);
+    break;
+  case PROP_REQUIRE_UNLOCK:
+    set_require_unlock (self, g_value_get_boolean (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -152,6 +168,9 @@ phosh_lockscreen_get_property (GObject    *object,
     break;
   case PROP_PAGE:
     g_value_set_enum (value, phosh_lockscreen_get_page (self));
+    break;
+  case PROP_REQUIRE_UNLOCK:
+    g_value_set_boolean (value, priv->require_unlock);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -490,6 +509,10 @@ carousel_page_changed_cb (PhoshLockscreen *self,
                                                 (GSourceFunc) keypad_check_idle,
                                                 self);
       g_source_set_name_by_id (priv->idle_timer, "[PhoshLockscreen] keypad check");
+    }
+    if (!priv->require_unlock) {
+      g_signal_emit (self, signals[LOCKSCREEN_UNLOCK], 0);
+      return;
     }
   } else {
     gtk_widget_set_sensitive (priv->entry_pin, FALSE);
@@ -830,6 +853,13 @@ phosh_lockscreen_constructed (GObject *object)
   g_settings_bind (priv->lockscreen_settings, "shuffle-keypad",
                    priv->keypad, "shuffle",
                    G_SETTINGS_BIND_GET);
+  g_settings_bind (priv->lockscreen_settings, "require-unlock",
+                   self, "require-unlock",
+                   G_SETTINGS_BIND_GET);
+
+  g_object_bind_property (self, "require-unlock",
+                          priv->box_unlock, "visible",
+                          G_BINDING_SYNC_CREATE);
 
   plugin_settings = g_settings_new ("sm.puri.phosh.plugins");
   plugins = g_settings_get_strv (plugin_settings, "lock-screen");
@@ -955,6 +985,16 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
     g_param_spec_object ("calls-manager", "", "",
                          PHOSH_TYPE_CALLS_MANAGER,
                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT_ONLY);
+
+  /**
+   * PhoshLockscreen:require-unlock:
+   *
+   * Require entering PIN or password to unlock. If false, unlock by swiping up.
+   */
+  props[PROP_REQUIRE_UNLOCK] =
+    g_param_spec_boolean ("require-unlock", "", "",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
   /**
    * PhoshLockscreen:page:
    *

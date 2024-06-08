@@ -120,6 +120,7 @@
 
   <schema id="sm.puri.phosh.lockscreen"
           path="/sm/puri/phosh/lockscreen/">
+
     <key name="shuffle-keypad" type="b">
       <default>false</default>
       <summary>Whether to scramble the keypad</summary>
@@ -128,6 +129,16 @@
         make eavesdropping harder.
       </description>
     </key>
+
+    <key name="require-unlock" type="b">
+      <default>true</default>
+      <summary>Require authentication in lockscreen</summary>
+      <description>
+        Setting this to false allows unlocking without entering the PIN
+        or password by simply swiping up.
+      </description>
+    </key>
+
   </schema>
 
   <enum id='sm.puri.phosh.NotificationUrgency'>
