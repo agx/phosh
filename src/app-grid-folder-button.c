@@ -116,6 +116,7 @@ build_2x2_grid_icon (PhoshAppGridFolderButton *self)
       image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_BUTTON);
     }
 
+    gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
     gtk_widget_set_visible (image, TRUE);
     gtk_grid_attach (self->grid, image, i % 2, i >= 2, 1, 1);
   }
