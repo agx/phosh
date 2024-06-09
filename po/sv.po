@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-01 05:55+0000\n"
-"PO-Revision-Date: 2024-06-01 12:31+0200\n"
+"POT-Creation-Date: 2024-06-06 13:01+0000\n"
+"PO-Revision-Date: 2024-06-06 20:42+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -50,6 +50,14 @@ msgstr "Kalender"
 #: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "En enkel kalenderkomponent"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+msgid "Dark Mode / Color Scheme Quick Setting"
+msgstr "Snabbinställning för mörkt läge / färgschema"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+msgid "Toggle dark mode"
+msgstr "Växla mörkt läge"
 
 #: plugins/emergency-info/emergency-info.desktop.in.in:5
 msgid "Emergency Info"
@@ -237,11 +245,11 @@ msgstr "Ange lösenord"
 msgid "Checking…"
 msgstr "Kontrollerar…"
 
-#: src/screenshot-manager.c:215 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Skärmbild"
 
-#: src/screenshot-manager.c:216
+#: src/screenshot-manager.c:222
 msgid "Screenshot copied to clipboard"
 msgstr "Skärmbild kopierad till urklipp"
 
@@ -682,6 +690,18 @@ msgstr "På"
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
 msgid "Off"
 msgstr "Av"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+msgid "Default style"
+msgstr "Standardstil"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+msgid "Dark mode"
+msgstr "Mörkt läge"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+msgid "Light mode"
+msgstr "Ljust läge"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
