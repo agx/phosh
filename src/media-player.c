@@ -15,6 +15,7 @@
 #include "util.h"
 
 #include <gmobile.h>
+#include <cui-call.h>
 
 #include <glib/gi18n.h>
 
@@ -76,6 +77,7 @@ typedef struct _PhoshMediaPlayer {
   GtkWidget                        *img_play;
   GtkWidget                        *lbl_title;
   GtkWidget                        *lbl_artist;
+  GtkWidget                        *lbl_time;
 
   GCancellable                     *cancel;
   /* Base interface to raise player */
@@ -87,6 +89,9 @@ typedef struct _PhoshMediaPlayer {
   PhoshMediaPlayerStatus            status;
   gboolean                          attached;
   gboolean                          playable;
+  gint64                            track_length;
+  gint64                            track_position;
+  guint                             pos_poller_id;
 
 } PhoshMediaPlayer;
 
@@ -143,6 +148,81 @@ set_attached (PhoshMediaPlayer *self, gboolean attached)
 
 
 static void
+update_time_label (PhoshMediaPlayer *self)
+{
+  g_autofree char *length_text = NULL;
+  g_autofree char *position_text = NULL;
+  g_autofree char *label_text = NULL;
+
+  if (self->track_length >= 0)
+    length_text = cui_call_format_duration ((double) self->track_length / G_USEC_PER_SEC);
+
+  if (self->track_position >= 0)
+    position_text = cui_call_format_duration ((double) self->track_position / G_USEC_PER_SEC);
+
+  if (length_text || position_text)
+    /* Translators: These strings are the time position in the current track and the track length */
+    label_text = g_strdup_printf (_("%s / %s"), position_text ?: "-", length_text ?: "-");
+  else
+    label_text = g_strdup ("");
+
+  gtk_label_set_label (GTK_LABEL (self->lbl_time), label_text);
+}
+
+
+static void
+on_poll_position_done (GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
+{
+  PhoshMediaPlayer *self;
+  g_autoptr (GError) err = NULL;
+  g_autoptr (GVariant) var = NULL;
+
+  g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (user_data));
+  self = PHOSH_MEDIA_PLAYER (user_data);
+
+  var = g_dbus_proxy_call_finish (proxy, res, &err);
+  if (err) {
+    g_warning ("Could not get Position from MPRIS player: %s", err->message);
+    self->track_position = -1;
+  } else if (var) {
+    g_autoptr (GVariant) var2 = NULL;
+
+    /* Return variant has type "(v)" where v has type x (i.e. gint64) */
+    g_variant_get_child (var, 0, "v", &var2);
+    self->track_position = g_variant_get_int64 (var2);
+    g_debug ("MPRIS Position: %ld", self->track_position);
+  }
+  update_time_label (self);
+}
+
+
+static gboolean
+poll_position (PhoshMediaPlayer *self)
+{
+  g_return_val_if_fail (PHOSH_IS_MEDIA_PLAYER (self), G_SOURCE_CONTINUE);
+
+  if (!self->attached || self->player == NULL) {
+    g_debug ("No MPRIS player attached");
+    self->pos_poller_id = 0;
+    return G_SOURCE_REMOVE;
+  }
+
+  if (!gtk_widget_is_visible (self->lbl_time)) {
+    g_debug ("Widget hidden, not updating Position");
+    return G_SOURCE_CONTINUE;
+  }
+
+  g_dbus_proxy_call (G_DBUS_PROXY (self->player),
+                     "org.freedesktop.DBus.Properties.Get",
+                     g_variant_new ("(ss)", "org.mpris.MediaPlayer2.Player", "Position"),
+                     G_DBUS_CALL_FLAGS_NONE, -1, self->cancel,
+                     (GAsyncReadyCallback) on_poll_position_done, self);
+
+  return G_SOURCE_CONTINUE;
+}
+
+
+static void
 on_play_pause_done (PhoshMprisDBusMediaPlayer2Player *player,
                     GAsyncResult                     *res,
                     PhoshMediaPlayer                 *self)
@@ -174,8 +254,11 @@ on_next_done (PhoshMprisDBusMediaPlayer2Player *player, GAsyncResult *res, Phosh
 
   g_return_if_fail (PHOSH_MPRIS_DBUS_IS_MEDIA_PLAYER2_PLAYER (player));
 
-  if (!phosh_mpris_dbus_media_player2_player_call_next_finish (player, res, &err))
+  if (!phosh_mpris_dbus_media_player2_player_call_next_finish (player, res, &err)) {
     phosh_async_error_warn (err, "Failed to trigger next");
+    return;
+  }
+  self->track_position = 0;
 }
 
 
@@ -200,8 +283,11 @@ on_previous_done (PhoshMprisDBusMediaPlayer2Player *player, GAsyncResult *res, P
 
   g_return_if_fail (PHOSH_MPRIS_DBUS_IS_MEDIA_PLAYER2_PLAYER (player));
 
-  if (!phosh_mpris_dbus_media_player2_player_call_previous_finish (player, res, &err))
+  if (!phosh_mpris_dbus_media_player2_player_call_previous_finish (player, res, &err)) {
     phosh_async_error_warn (err, "Failed to trigger prev");
+    return;
+  }
+  self->track_position = 0;
 }
 
 
@@ -226,8 +312,11 @@ on_seek_done (PhoshMprisDBusMediaPlayer2Player *player, GAsyncResult *res, Phosh
 
   g_return_if_fail (PHOSH_MPRIS_DBUS_IS_MEDIA_PLAYER2_PLAYER (player));
 
-  if (!phosh_mpris_dbus_media_player2_player_call_seek_finish (player, res, &err))
+  if (!phosh_mpris_dbus_media_player2_player_call_seek_finish (player, res, &err)) {
     g_warning ("Failed to trigger seek: %s", err->message);
+    return;
+  }
+  poll_position (self);
 }
 
 
@@ -301,6 +390,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
   GVariant *metadata;
   char *title = NULL;
   char *url = NULL;
+  gint64 length = -1;
   g_auto (GStrv) artist = NULL;
   g_auto (GVariantDict) dict = G_VARIANT_DICT_INIT (NULL);
   gboolean has_art = FALSE;
@@ -315,6 +405,7 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     g_variant_dict_lookup (&dict, "xesam:title", "&s", &title);
     g_variant_dict_lookup (&dict, "xesam:artist", "^as", &artist);
     g_variant_dict_lookup (&dict, "mpris:artUrl", "&s", &url);
+    g_variant_dict_lookup (&dict, "mpris:length", "x", &length);
   }
 
   if (title) {
@@ -331,6 +422,9 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     /* Translators: Used when the artist of a song is unknown */
     gtk_label_set_label (GTK_LABEL (self->lbl_artist), _("Unknown Artist"));
   }
+
+  self->track_length = length;
+  update_time_label (self);
 
   if (url && g_strcmp0 (g_uri_peek_scheme (url), "file") == 0) {
     g_autoptr (GIcon) icon = NULL;
@@ -357,6 +451,33 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
 }
 
 
+#define POLLER_INTERVAL 1 /* seconds */
+static void
+start_pos_poller (PhoshMediaPlayer *self)
+{
+  if (self->pos_poller_id == 0) {
+    g_debug ("Starting position poller");
+    poll_position (self);
+    self->pos_poller_id = g_timeout_add_seconds (POLLER_INTERVAL,
+                                                 (GSourceFunc) poll_position,
+                                                 self);
+    g_source_set_name_by_id (self->pos_poller_id, "[PhoshMediaPlayer] pos_poller");
+  }
+}
+
+
+static void
+stop_pos_poller (PhoshMediaPlayer *self)
+{
+  if (self->pos_poller_id <= 0)
+    return;
+
+  g_debug ("Stopping position poller");
+  g_source_remove (self->pos_poller_id);
+  self->pos_poller_id = 0;
+}
+
+
 static void
 on_playback_status_changed (PhoshMediaPlayer                 *self,
                             GParamSpec                       *psepc,
@@ -379,12 +500,18 @@ on_playback_status_changed (PhoshMediaPlayer                 *self,
     self->status = PHOSH_MEDIA_PLAYER_STATUS_PLAYING;
     icon = "media-playback-pause-symbolic";
     set_playable (self, TRUE);
+    start_pos_poller (self);
   } else if (!g_strcmp0 ("Paused", status)) {
     self->status = PHOSH_MEDIA_PLAYER_STATUS_PAUSED;
     set_playable (self, TRUE);
+    stop_pos_poller (self);
+    poll_position (self);
   } else if (!g_strcmp0 ("Stopped", status)) {
     self->status = PHOSH_MEDIA_PLAYER_STATUS_STOPPED;
     set_playable (self, FALSE);
+    stop_pos_poller (self);
+    self->track_position = 0;
+    update_time_label (self);
   } else {
     g_warning ("Unknown status %s", status);
     g_warn_if_reached ();
@@ -459,6 +586,7 @@ phosh_media_player_dispose (GObject *object)
 {
   PhoshMediaPlayer *self = PHOSH_MEDIA_PLAYER (object);
 
+  stop_pos_poller (self);
   g_cancellable_cancel (self->cancel);
   g_clear_object (&self->cancel);
 
@@ -540,6 +668,7 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, img_play);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_artist);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_title);
+  gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_time);
   gtk_widget_class_bind_template_callback (widget_class, btn_play_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, btn_next_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, btn_prev_clicked_cb);
@@ -591,15 +720,16 @@ attach_player_cb (GObject          *source_object,
                     self,
                     NULL);
 
+  g_debug ("Connected player");
+  /* Set 'attached' before running notifiers, since we check it on e.g. start_pos_poller() */
+  set_attached (self, TRUE);
+
   g_object_notify (G_OBJECT (self->player), "metadata");
   g_object_notify (G_OBJECT (self->player), "playback-status");
   g_object_notify (G_OBJECT (self->player), "can-go-next");
   g_object_notify (G_OBJECT (self->player), "can-go-previous");
   g_object_notify (G_OBJECT (self->player), "can-play");
   g_object_notify (G_OBJECT (self->player), "can-seek");
-
-  g_debug ("Connected player");
-  set_attached (self, TRUE);
 }
 
 
@@ -804,6 +934,9 @@ phosh_media_player_init (PhoshMediaPlayer *self)
   gtk_widget_init_template (GTK_WIDGET (self));
 
   self->cancel = g_cancellable_new ();
+  self->track_length = -1;
+  self->track_position = -1;
+  self->pos_poller_id = 0;
   g_bus_get (G_BUS_TYPE_SESSION,
              self->cancel,
              (GAsyncReadyCallback)on_bus_get_finished,

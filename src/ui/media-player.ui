@@ -157,12 +157,24 @@
                   <object class="GtkLabel" id="lbl_title">
                     <property name="visible">True</property>
                     <property name="halign">start</property>
-                    <property name="margin-bottom">3</property>
                     <property name="label" translatable="yes">Unknown Title</property>
                     <property name="ellipsize">middle</property>
                     <property name="single-line-mode">True</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="lbl_time">
+                    <property name="visible">True</property>
+                    <property name="halign">start</property>
+                    <property name="margin-bottom">3</property>
+                    <property name="label" translatable="no">- / -</property>
+                    <property name="ellipsize">end</property>
+                    <property name="single-line-mode">True</property>
+                    <attributes>
+                      <attribute name="font-features" value="tnum=1"/>
                     </attributes>
                   </object>
                 </child>
