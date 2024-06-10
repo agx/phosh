@@ -5,17 +5,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-03 14:06+0000\n"
-"PO-Revision-Date: 2024-05-06 14:49+0300\n"
-"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"POT-Creation-Date: 2024-06-06 13:01+0000\n"
+"PO-Revision-Date: 2024-06-10 18:44+0300\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: Hebrew\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? "
-"2 : 3);\n"
-"X-Generator: Poedit 3.4.2\n"
+"2 : 3)\n"
+"X-Generator: Gtranslator 46.1\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -50,6 +50,14 @@ msgstr "לוח שנה"
 msgid "A simple calendar widget"
 msgstr "יישומון לוח שנה פשוט"
 
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+msgid "Dark Mode / Color Scheme Quick Setting"
+msgstr "הגדרה מהירה של ערכת צבעים / מצב כהה"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+msgid "Toggle dark mode"
+msgstr "שינוי מצב כהה"
+
 #: plugins/emergency-info/emergency-info.desktop.in.in:5
 msgid "Emergency Info"
 msgstr "פרטי חירום"
@@ -66,6 +74,14 @@ msgstr "קופסת משגר"
 #: plugins/launcher-box/launcher-box.desktop.in.in:6
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr "הוספת משגרים למסך הנעילה. <b>זה תוסף נסיוני.</b>"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+msgid "Mobile Data Quick Setting"
+msgstr "הגדרת נתונים ניידים מהירה"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+msgid "Toggle mobile data on/off"
+msgstr "כיבוי/הפעלת נתונים ניידים"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
 msgid "Night Light Quick Setting"
@@ -159,7 +175,7 @@ msgstr[1] "המשתמש %s יצא אוטומטית בעוד שתי שניות."
 msgstr[2] "המשתמש %s יצא אוטומטית בעוד %d שניות."
 msgstr[3] "‫המשתמש %s יצא אוטומטית בעוד %d שניות."
 
-#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "כיבוי"
 
@@ -222,19 +238,19 @@ msgstr "כן"
 msgid "No"
 msgstr "לא"
 
-#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:166 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "הזנת ססמה"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "בודק…"
 
-#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
+#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "צילום מסך"
 
-#: src/screenshot-manager.c:216
+#: src/screenshot-manager.c:222
 msgid "Screenshot copied to clipboard"
 msgstr "המסך צולם והועתק ללוח הגזירים"
 
@@ -581,11 +597,15 @@ msgstr "הת_חברות"
 msgid "Authenticate"
 msgstr "אימות"
 
-#: src/ui/power-menu.ui:108
+#: src/ui/power-menu.ui:109
+msgid "Suspend"
+msgstr "השהיה"
+
+#: src/ui/power-menu.ui:153
 msgid "Lock"
 msgstr "נעילה"
 
-#: src/ui/power-menu.ui:186
+#: src/ui/power-menu.ui:231
 msgid "Emergency"
 msgstr "מצב חירום"
 
@@ -651,7 +671,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:218
+#: src/wall-clock.c:222
 msgid "%A, %B %-e"
 msgstr "%A, %B %e"
 
@@ -685,6 +705,18 @@ msgstr "פעיל"
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
 msgid "Off"
 msgstr "כבוי"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+msgid "Default style"
+msgstr "סגנון ברירת מחדל"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+msgid "Dark mode"
+msgstr "מצב כהה"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+msgid "Light mode"
+msgstr "מצב בהיר"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -793,6 +825,14 @@ msgstr "לא הוגדרו משגרים"
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
 msgstr "משגרים"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+msgid "Mobile Data On"
+msgstr "נתונים ניידים פועלים"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+msgid "Mobile Data Off"
+msgstr "נתונים ניידים כבויים"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.c:64
 msgid "Night Light On"
