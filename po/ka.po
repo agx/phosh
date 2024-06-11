@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-01 05:55+0000\n"
-"PO-Revision-Date: 2024-06-02 06:09+0200\n"
+"POT-Creation-Date: 2024-06-06 13:01+0000\n"
+"PO-Revision-Date: 2024-06-11 06:14+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -50,6 +50,14 @@ msgstr "კალენდარი"
 #: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "მარტივი კალენდრის ვიჯეტი"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+msgid "Dark Mode / Color Scheme Quick Setting"
+msgstr "ბნელი რეჟიმის / ფერების სქემის სწრაფი მორგება"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+msgid "Toggle dark mode"
+msgstr "მუქი რეჟიმის გადართვა"
 
 #: plugins/emergency-info/emergency-info.desktop.in.in:5
 msgid "Emergency Info"
@@ -233,11 +241,11 @@ msgstr "შეიყვანეთ კოდი"
 msgid "Checking…"
 msgstr "შემოწმება…"
 
-#: src/screenshot-manager.c:215 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "ეკრანის ანაბეჭდი"
 
-#: src/screenshot-manager.c:216
+#: src/screenshot-manager.c:222
 msgid "Screenshot copied to clipboard"
 msgstr "ეკრანის ანაბეჭდის ბუფერში დაკოპირდა"
 
@@ -671,6 +679,18 @@ msgstr "ჩართ"
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
 msgid "Off"
 msgstr "გამორთ"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+msgid "Default style"
+msgstr "ნაგულისხმევი სტილი"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+msgid "Dark mode"
+msgstr "მუქი რეჟიმი"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+msgid "Light mode"
+msgstr "ღია რეჟიმი"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
