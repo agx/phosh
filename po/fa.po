@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-03 14:06+0000\n"
-"PO-Revision-Date: 2024-05-04 04:38+0330\n"
+"POT-Creation-Date: 2024-06-06 13:01+0000\n"
+"PO-Revision-Date: 2024-06-12 14:41+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -51,6 +51,14 @@ msgstr "تقویم"
 msgid "A simple calendar widget"
 msgstr "ابزارک تقویمی ساده"
 
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+msgid "Dark Mode / Color Scheme Quick Setting"
+msgstr "تنظیمات سریع حالت تیره و طرحوارهٔ رنگی"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+msgid "Toggle dark mode"
+msgstr "تغییر وضعیت حالت تیره"
+
 #: plugins/emergency-info/emergency-info.desktop.in.in:5
 msgid "Emergency Info"
 msgstr "اطّلاعات اضطراری"
@@ -67,6 +75,14 @@ msgstr "جعبهٔ اجراگر"
 #: plugins/launcher-box/launcher-box.desktop.in.in:6
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr "افزودن اجراگرها به صفحهٔ قفل. <b>این افزایه آزمایشی است.</b>"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+msgid "Mobile Data Quick Setting"
+msgstr "تنظیمات سریع دادهٔ همراه"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+msgid "Toggle mobile data on/off"
+msgstr "تغییر وضعیت دادهٔ همراه"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
 msgid "Night Light Quick Setting"
@@ -158,7 +174,7 @@ msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 msgstr[1] "%s به طور خودکار در %Id ثانیه از سامانه خارج خواهد شد."
 
-#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "خاموش کردن"
 
@@ -217,19 +233,19 @@ msgstr "بله"
 msgid "No"
 msgstr "نه"
 
-#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:166 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
-#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
+#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "نماگرفت"
 
-#: src/screenshot-manager.c:216
+#: src/screenshot-manager.c:222
 msgid "Screenshot copied to clipboard"
 msgstr "نماگرفت در تخته‌گیره رونوشت شد"
 
@@ -562,11 +578,15 @@ msgstr "_وصل شدن"
 msgid "Authenticate"
 msgstr "تأیید هویت"
 
-#: src/ui/power-menu.ui:108
+#: src/ui/power-menu.ui:109
+msgid "Suspend"
+msgstr "تعلیق"
+
+#: src/ui/power-menu.ui:153
 msgid "Lock"
 msgstr "قفل"
 
-#: src/ui/power-menu.ui:186
+#: src/ui/power-menu.ui:231
 msgid "Emergency"
 msgstr "اضطراری"
 
@@ -632,7 +652,7 @@ msgstr "وی‌پی‌ان"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:218
+#: src/wall-clock.c:222
 msgid "%A, %B %-e"
 msgstr "%A، %Od %OB"
 
@@ -666,6 +686,18 @@ msgstr "روشن"
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
 msgid "Off"
 msgstr "خاموش"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+msgid "Default style"
+msgstr "سبک پیش‌گزیده"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+msgid "Dark mode"
+msgstr "حالت تیره"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+msgid "Light mode"
+msgstr "حالت روشن"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -774,6 +806,14 @@ msgstr "هیچ احراگری پیکربندی نشده"
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
 msgstr "اجراگرها"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+msgid "Mobile Data On"
+msgstr "دادهٔ همراه روشن"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+msgid "Mobile Data Off"
+msgstr "دادهٔ همراه خاموش"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.c:64
 msgid "Night Light On"
