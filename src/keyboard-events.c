@@ -52,17 +52,6 @@ handle_accelerator_activated_event (void *data,
     pressed = g_variant_new_boolean (TRUE);
 
   g_action_group_activate_action (G_ACTION_GROUP (self), action, pressed);
-
-  /*
-   * Emulate key released when running against older phoc, can be
-   * removed once we require phoc 0.26.0
-   */
-  if ((phosh_private_keyboard_event_get_version (kbevent) <
-       PHOSH_PRIVATE_KEYBOARD_EVENT_ACCELERATOR_RELEASED_EVENT_SINCE_VERSION) &&
-      g_action_group_get_action_parameter_type (G_ACTION_GROUP (self), action)) {
-    g_warning_once ("Emulating accelerator up. Please upgrade phoc");
-    g_action_group_activate_action (G_ACTION_GROUP (self), action, g_variant_new_boolean (FALSE));
-  }
 }
 
 
