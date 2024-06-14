@@ -77,7 +77,9 @@ typedef struct _PhoshMediaPlayer {
   GtkWidget                        *img_play;
   GtkWidget                        *lbl_title;
   GtkWidget                        *lbl_artist;
-  GtkWidget                        *lbl_time;
+  GtkWidget                        *prb_position;
+  GtkWidget                        *lbl_position;
+  GtkWidget                        *lbl_length;
 
   GCancellable                     *cancel;
   /* Base interface to raise player */
@@ -148,25 +150,18 @@ set_attached (PhoshMediaPlayer *self, gboolean attached)
 
 
 static void
-update_time_label (PhoshMediaPlayer *self)
+update_position (PhoshMediaPlayer *self)
 {
-  g_autofree char *length_text = NULL;
   g_autofree char *position_text = NULL;
-  g_autofree char *label_text = NULL;
-
-  if (self->track_length >= 0)
-    length_text = cui_call_format_duration ((double) self->track_length / G_USEC_PER_SEC);
+  double level;
 
   if (self->track_position >= 0)
     position_text = cui_call_format_duration ((double) self->track_position / G_USEC_PER_SEC);
 
-  if (length_text || position_text)
-    /* Translators: These strings are the time position in the current track and the track length */
-    label_text = g_strdup_printf (_("%s / %s"), position_text ?: "-", length_text ?: "-");
-  else
-    label_text = g_strdup ("");
+  gtk_label_set_label (GTK_LABEL (self->lbl_position), position_text ?: "-");
 
-  gtk_label_set_label (GTK_LABEL (self->lbl_time), label_text);
+  level = self->track_position >= 0 ? ((double) self->track_position) / self->track_length : 0.0;
+  gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (self->prb_position), level);
 }
 
 
@@ -192,7 +187,7 @@ on_poll_position_done (GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
     self->track_position = g_variant_get_int64 (var2);
     g_debug ("MPRIS Position: %ld", self->track_position);
   }
-  update_time_label (self);
+  update_position (self);
 }
 
 
@@ -207,7 +202,7 @@ poll_position (PhoshMediaPlayer *self)
     return G_SOURCE_REMOVE;
   }
 
-  if (!gtk_widget_is_visible (self->lbl_time)) {
+  if (!gtk_widget_is_visible (self->lbl_position)) {
     g_debug ("Widget hidden, not updating Position");
     return G_SOURCE_CONTINUE;
   }
@@ -423,8 +418,14 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
     gtk_label_set_label (GTK_LABEL (self->lbl_artist), _("Unknown Artist"));
   }
 
+  if (length >= 0) {
+    g_autofree char *length_text = cui_call_format_duration ((double) length / G_USEC_PER_SEC);
+    gtk_label_set_label (GTK_LABEL (self->lbl_length), length_text);
+  } else {
+    gtk_label_set_label (GTK_LABEL (self->lbl_length), "-");
+  }
   self->track_length = length;
-  update_time_label (self);
+  update_position (self);
 
   if (url && g_strcmp0 (g_uri_peek_scheme (url), "file") == 0) {
     g_autoptr (GIcon) icon = NULL;
@@ -511,7 +512,7 @@ on_playback_status_changed (PhoshMediaPlayer                 *self,
     set_playable (self, FALSE);
     stop_pos_poller (self);
     self->track_position = 0;
-    update_time_label (self);
+    update_position (self);
   } else {
     g_warning ("Unknown status %s", status);
     g_warn_if_reached ();
@@ -668,7 +669,9 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, img_play);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_artist);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_title);
-  gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_time);
+  gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_position);
+  gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_length);
+  gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, prb_position);
   gtk_widget_class_bind_template_callback (widget_class, btn_play_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, btn_next_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, btn_prev_clicked_cb);
