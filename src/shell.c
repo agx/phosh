@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018 Purism SPC
+ *               2023-2024 The Phosh Develpoers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -962,6 +963,25 @@ on_monitor_removed (PhoshShell *self, PhoshMonitor *monitor)
 
 
 static void
+on_keyboard_events_pressed (PhoshShell *self, const char *combo)
+{
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
+
+  if (!phosh_calls_manager_has_incoming_call (priv->calls_manager))
+    return;
+
+  if (!g_settings_get_boolean (priv->settings, "quick-silent"))
+    return;
+
+  if (g_strcmp0 (combo, "XF86AudioLowerVolume"))
+    return;
+
+  g_debug ("Vol down pressed, silencing device");
+  phosh_feedback_manager_set_profile (priv->feedback_manager, "silent");
+}
+
+
+static void
 phosh_shell_constructed (GObject *object)
 {
   PhoshShell *self = PHOSH_SHELL (object);
@@ -1031,6 +1051,10 @@ phosh_shell_constructed (GObject *object)
 
   priv->feedback_manager = phosh_feedback_manager_new ();
   priv->keyboard_events = phosh_keyboard_events_new ();
+  g_signal_connect_swapped (priv->keyboard_events,
+                            "pressed",
+                            G_CALLBACK (on_keyboard_events_pressed),
+                            self);
 
   id = g_idle_add ((GSourceFunc) setup_idle_cb, self);
   g_source_set_name_by_id (id, "[PhoshShell] idle");
