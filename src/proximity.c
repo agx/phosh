@@ -164,7 +164,7 @@ on_has_proximity_changed (PhoshProximity          *self,
 
   g_debug ("Found %s proximity sensor", has_proximity ? "a" : "no");
 
-  /* If prox went a way we always unclaim but only claim on ongoing calls: */
+  /* If the proxy went a way we always unclaim but only claim on ongoing calls: */
   if (!phosh_calls_manager_get_active_call_handle (self->calls_manager) && has_proximity)
     return;
 
