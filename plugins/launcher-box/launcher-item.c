@@ -23,6 +23,7 @@ enum {
   PROP_PROGRESS,
   PROP_COUNT_VISIBLE,
   PROP_COUNT,
+  PROP_HAS_DATA,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -94,6 +95,9 @@ phosh_launcher_item_get_property (GObject    *object,
   case PROP_COUNT:
     g_value_set_int64 (value, phosh_launcher_item_get_count (self));
     break;
+  case PROP_HAS_DATA:
+    g_value_set_boolean (value, self->progress_visible || self->count_visible);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -146,6 +150,16 @@ phosh_launcher_item_class_init (PhoshLauncherItemClass *klass)
                         0, G_MAXINT64, G_MAXINT64,
                         G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
+  /**
+   * PhoshLauncherItem:has-data:
+   *
+   * The launcher item wants to show data (either count, progress or both).
+   */
+  props[PROP_HAS_DATA] =
+    g_param_spec_boolean ("has-data", "", "",
+                          FALSE,
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
 
@@ -182,6 +196,7 @@ phosh_launcher_item_set_progress_visible (PhoshLauncherItem *self, gboolean visi
 
   self->progress_visible = visible;
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PROGRESS_VISIBLE]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HAS_DATA]);
 }
 
 
@@ -226,6 +241,7 @@ phosh_launcher_item_set_count_visible (PhoshLauncherItem *self, gboolean visible
 
   self->count_visible = visible;
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_COUNT_VISIBLE]);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_HAS_DATA]);
 }
 
 
