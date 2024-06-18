@@ -111,7 +111,7 @@ on_call_state_changed (PhoshCallsManager       *self,
   }
 
   if (!is_active (state))
-      return;
+    return;
 
   /* New active call */
   g_free (self->active_call);
@@ -450,13 +450,13 @@ phosh_calls_manager_class_init (PhoshCallsManagerClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[CALL_ADDED] = g_signal_new ("call-added",
-                                        G_TYPE_FROM_CLASS (klass),
-                                        G_SIGNAL_RUN_LAST,
-                                        0, NULL, NULL,
-                                        NULL,
-                                        G_TYPE_NONE,
-                                        1,
-                                        G_TYPE_STRING);
+                                      G_TYPE_FROM_CLASS (klass),
+                                      G_SIGNAL_RUN_LAST,
+                                      0, NULL, NULL,
+                                      NULL,
+                                      G_TYPE_NONE,
+                                      1,
+                                      G_TYPE_STRING);
 
   signals[CALL_REMOVED] = g_signal_new ("call-removed",
                                         G_TYPE_FROM_CLASS (klass),
