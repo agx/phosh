@@ -88,8 +88,9 @@
 #include "wwan-info.h"
 #include "wwan/phosh-wwan-ofono.h"
 #include "wwan/phosh-wwan-mm.h"
-#include "wwan/phosh-wwan-backend.h"
 #include "wall-clock.h"
+
+#include "phosh-settings-enums.h"
 
 #define WWAN_BACKEND_KEY "wwan-backend"
 

@@ -1,7 +1,6 @@
 phosh_wwan_inc = include_directories('.')
 
 phosh_wwan_headers = files(
-  'phosh-wwan-backend.h',
   'phosh-wwan-ofono.h',
   'phosh-wwan-mm.h',
   'phosh-wwan-iface.h',

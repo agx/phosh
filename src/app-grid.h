@@ -9,22 +9,12 @@
 
 #include <handy.h>
 
+#include "phosh-settings-enums.h"
+
 #pragma once
 
 G_BEGIN_DECLS
 
-/**
- * PhoshAppFilterModeFlags:
- * @PHOSH_APP_FILTER_MODE_FLAGS_NONE: No filtering
- * @PHOSH_APP_FILTER_MODE_FLAGS_ADAPTIVE: Only show apps in mobile mode that adapt
- *    to smalls screen sizes.
- *
- * Controls what kind of app filtering is done.
-*/
-typedef enum {
-  PHOSH_APP_FILTER_MODE_FLAGS_NONE      = 0,
-  PHOSH_APP_FILTER_MODE_FLAGS_ADAPTIVE  = (1 << 0),
-} PhoshAppFilterModeFlags;
 
 #define PHOSH_TYPE_APP_GRID phosh_app_grid_get_type()
 G_DECLARE_DERIVABLE_TYPE (PhoshAppGrid, phosh_app_grid, PHOSH, APP_GRID, GtkBox)

@@ -6,12 +6,13 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "wwan/phosh-wwan-backend.h"
 #include "mobile-data-quick-setting.h"
 #include "plugin-shell.h"
 #include "quick-setting.h"
 
 #include <glib/gi18n.h>
+
+#include "phosh-settings-enums.h"
 
 /**
  * PhoshMobileDataQuickSetting:

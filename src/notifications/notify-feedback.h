@@ -10,23 +10,10 @@
 
 #include <glib-object.h>
 
+#include "phosh-settings-enums.h"
+
 G_BEGIN_DECLS
 
-/**
- * PhoshNotifyScreenWakeupFlags:
- * @PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_NONE: No wakeup
- * @PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_URGENCY: Wakeup screen based on notification urgency
- * @PHOSH_NOTIFY_SCREEN_WAKUP_FLAG_CATEGORY: Wakeup screen based on notification category
- * @PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_ANY: Wakeup screen on any notification
- *
- * What notification properties trigger screen wakeup
- */
-typedef enum {
-  PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_NONE     = 0, /*< skip >*/
-  PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_ANY      = (1 << 0),
-  PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_URGENCY  = (1 << 1),
-  PHOSH_NOTIFY_SCREEN_WAKEUP_FLAG_CATEGORY = (1 << 2),
-} PhoshNotifyScreenWakeupFlags;
 
 #define PHOSH_TYPE_NOTIFY_FEEDBACK (phosh_notify_feedback_get_type ())
 

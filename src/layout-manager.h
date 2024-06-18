@@ -7,29 +7,12 @@
 #include "monitor/monitor.h"
 
 #include <glib-object.h>
+#include "phosh-settings-enums.h"
 
 #pragma once
 
 G_BEGIN_DECLS
 
-/**
- * PhoshShellLayout:
- * @PHOSH_SHELL_LAYOUT_NONE: Don't perform any additional layouting
- * @PHOSH_SHELL_LAYOUT_DEVICE: Use device information to optimize layout
- *
- * How the shell's UI elements are layed out.
- */
-typedef enum {
-  PHOSH_SHELL_LAYOUT_NONE     = 0,
-  PHOSH_SHELL_LAYOUT_DEVICE   = 1,
-} PhoshShellLayout;
-
-
-typedef enum {
-  PHOSH_LAYOUT_CLOCK_POS_CENTER = 0,
-  PHOSH_LAYOUT_CLOCK_POS_LEFT   = 1,
-  PHOSH_LAYOUT_CLOCK_POS_RIGHT  = 2,
-} PhoshLayoutClockPosition;
 
 #define PHOSH_TYPE_LAYOUT_MANAGER (phosh_layout_manager_get_type ())
 
