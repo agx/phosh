@@ -44,8 +44,8 @@ enum_to_icon_name (gint color_scheme)
 {
   const char *icons[] = {
     "dark-mode-disabled-symbolic",
-    "weather-clear-night-symbolic",
-    "weather-clear-symbolic",
+    "dark-mode-symbolic",
+    "weather-clear",
   };
   return icons[CLAMP (color_scheme, 0, 2)];
 }
