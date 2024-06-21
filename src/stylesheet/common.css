@@ -592,7 +592,7 @@ phosh-notification-content .message-area image {
 /* Action Area (buttons) */
 phosh-notification-content .actions-area {
   padding: 0;
-  border-top: 1px solid @phosh_borders_color;
+  border: none;
 }
 
 phosh-notification-content .actions-area button {
