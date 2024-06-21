@@ -82,6 +82,19 @@ For development purposes you can run phosh nested on your desktop. See
 [this blog post](https://phosh.mobi/posts/phosh-dev-part-0/) for
 details.
 
+### Checking DBus Interfaces
+
+The `tools/` directory contains short snippets to test various DBus interfaces
+e.g. `check-osd` to test the OSD overlay (`PhoshOsdWindow`) or `check-screenshot`
+to check the screenshot API (`PhoshScreenshotManager`).
+
+### Mocking DBus Services
+
+To mock DBus services used by phosh like `org.freedesktop.ModemManager`
+or `net.hadess.SensorProxy` you can use [python-dbusmock][]. See
+e.g. `tests/mock-mm-nm.py` which mocks `ModemManager` and `NetworkManager`
+to simulate a mobile data connection.
+
 ### Manager Objects
 
 Phosh uses several manager objects e.g. #PhoshBackgroundManager,
@@ -114,3 +127,5 @@ Since phosh is a GTK application you can use
 You can use the `GTK_INSPECTOR_DISPLAY` environment variable to use a different
 Wayland display for the inspector window. This can be useful to have the
 inspector windows outside of a nested Wayland session.
+
+[python-dbusmock]: https://github.com/martinpitt/python-dbusmock
