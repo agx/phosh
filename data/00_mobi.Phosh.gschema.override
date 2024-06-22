@@ -8,6 +8,9 @@ clock-show-weekday=false
 [org.gnome.desktop.session:Phosh]
 idle-delay=60
 
+[org.gnome.desktop.sound:Phosh]
+theme-name='phosh'
+
 [org.gnome.settings-daemon.plugins.power:Phosh]
 ambient-enabled=false
 power-button-action='nothing'
