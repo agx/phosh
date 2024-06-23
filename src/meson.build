@@ -435,6 +435,7 @@ phosh_lib = both_libraries('phosh',
   libphosh_sources,
   include_directories: phosh_lib_inc,
   dependencies: [phosh_tool_dep, phosh_deps],
+  soversion: soversion,
   install: bindings_lib,
 )
 
