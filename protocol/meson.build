@@ -39,7 +39,7 @@ foreach p : wl_protos
 					      'client-header',
 					      '@INPUT@',
 					      '@OUTPUT@'],
-                                    install_dir: inc_dir,
+                                    install_dir: lib_inc_dir,
                                     install: bindings_lib,
 				   )
   wl_proto_sources += custom_target('@0@ source'.format(proto),
