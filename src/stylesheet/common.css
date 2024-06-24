@@ -807,8 +807,9 @@ phosh-media-player .media-player-details {
 }
 
 /* The details button should not look inactive even when disabled */
-phosh-media-player .media-player-details *:disabled {
+phosh-media-player .media-player-details:disabled {
   color: @theme_fg_color;
+  opacity: 1.0;
   -gtk-icon-effect: none;
 }
 
