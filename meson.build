@@ -6,7 +6,9 @@ project('phosh', 'c',
 )
 
 app_id = 'sm.puri.Phosh'
-inc_subdir = 'libphosh-0'
+lib_inc_subdir = 'libphosh-0'
+ver_parts = meson.project_version().split('.')
+soversion = '@0@_@1@'.format(ver_parts[0], ver_parts[1])
 
 prefix = get_option('prefix')
 bindir = join_paths(prefix, get_option('bindir'))
@@ -24,7 +26,7 @@ plugins_dir = join_paths(prefix, libdir, 'phosh', 'plugins')
 plugin_prefs_dir = join_paths(prefix, libdir, 'phosh', 'plugins', 'prefs')
 servicedir = join_paths(datadir, 'dbus-1', 'services')
 schemasdir = datadir / 'glib-2.0/schemas'
-inc_dir = prefix / get_option('includedir') / inc_subdir
+lib_inc_dir = prefix / get_option('includedir') / lib_inc_subdir
 
 enable_introspection = get_option('introspection') or get_option('gtk_doc')
 bindings_lib = get_option('bindings-lib')
@@ -236,7 +238,7 @@ configure_file(
   output: 'phosh-config.h',
   configuration: config_h,
   install: bindings_lib,
-  install_dir: inc_dir,
+  install_dir: lib_inc_dir,
 )
 
 subdir('data')

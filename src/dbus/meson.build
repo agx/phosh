@@ -5,7 +5,7 @@ generated_dbus_sources = []
 generated_dbus_headers = []
 
 dbus_prefix = 'PhoshDBus'
-dbus_inc_dir = inc_dir / 'dbus'
+dbus_inc_dir = lib_inc_dir / 'dbus'
 
 #
 # Protocols where Phosh is the DBus client:

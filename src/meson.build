@@ -47,7 +47,7 @@ phosh_enums = gnome.mkenums_simple(
   'phosh-enums',
   sources : phosh_enum_headers,
   install_header: bindings_lib,
-  install_dir: inc_dir,
+  install_dir: lib_inc_dir,
 )
 
 phosh_settings_sources = files(
@@ -435,6 +435,7 @@ phosh_lib = both_libraries('phosh',
   libphosh_sources,
   include_directories: phosh_lib_inc,
   dependencies: [phosh_tool_dep, phosh_deps],
+  soversion: soversion,
   install: bindings_lib,
 )
 
@@ -484,6 +485,7 @@ if bindings_lib
     filebase: 'libphosh-0',
     version : meson.project_version(),
     description: 'Private library for building external components',
+    requires: 'phosh-settings',
     url: 'https://world.pages.gitlab.gnome.org/Phosh/phosh/',
   )
 
@@ -493,27 +495,27 @@ if bindings_lib
       libphosh_tool_headers,
       libphosh_headers,
     ],
-    subdir : inc_subdir,
+    subdir : lib_inc_subdir,
   )
 
   install_headers(
     phosh_monitor_headers,
-    subdir : inc_subdir / 'monitor',
+    subdir : lib_inc_subdir / 'monitor',
   )
 
   install_headers(
     phosh_notifications_headers,
-    subdir : inc_subdir / 'notifications',
+    subdir : lib_inc_subdir / 'notifications',
   )
 
   install_headers(
     phosh_settings_widgets_headers,
-    subdir : inc_subdir / 'settings',
+    subdir : lib_inc_subdir / 'settings',
   )
 
   install_headers(
     phosh_wwan_headers,
-    subdir : inc_subdir / 'wwan',
+    subdir : lib_inc_subdir / 'wwan',
   )
 endif
 

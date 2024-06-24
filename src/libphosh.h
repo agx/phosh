@@ -188,7 +188,6 @@ G_BEGIN_DECLS
 #include "settings/audio-device-row.h"
 #include "settings/audio-settings.h"
 
-#include "wwan/phosh-wwan-backend.h"
 #include "wwan/phosh-wwan-ofono.h"
 #include "wwan/phosh-wwan-mm.h"
 #include "wwan/phosh-wwan-iface.h"
