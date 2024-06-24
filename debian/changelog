@@ -1,3 +1,256 @@
+phosh (0.40.0~rc1) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * build: Install headers and shared lib for Rust binding generation.
+    This allows to install headers, pkgconfig file and shared library to
+    create Rust bindings.
+    We create a unified header pulling in (almost) all headers so they can
+    be consumed by just including libphosh.h freeing binding generators from
+    having to keep up with added/removed headers.
+    As installing these files is used for binding generation only atm we
+    make it depend on a new 'binding-lib' meson options.
+    These files are not (yet) meant as public interface so if using these
+    make sure to bundle libphosh with your project.
+  * ci: Trigger libphosh-rs build.
+    We only do this on commits to RUST_BINDINGS_BRANCH (default main) and if
+    src/ changes.
+    The branch triggered downstream is also RUST_BINDINGS_BRANCH. This makes
+    it simple to work on pipeline changes.
+  * resources: Sort ui files alphabetically
+  * wwan-mm: Add present and enabled properties to get_property.
+    Fixes 1a75bcb48 ("wwan-mm: Handle 'enabled' property")
+    Fixes 3a0e8eab6 ("wwan: Report modem presence")
+  * wwan-mm: Modernize property change emission.
+    Use the faster by_pspec variant. Shorten property names while at that.
+  * settings: Drop superfluous wifi_status_page
+  * settings: Use property binding for wifi's has-status
+  * settings: Use explicit notify for on-lockscreen.
+    This toggles multiple things so let's reduce the work done here.
+  * settings: Drop on_shell_locked.
+    We can do the work when setting the property.
+  * wifi-manager: Use automatic cleanup.
+    This way we don't need to cast away `const` either.
+  * wifi-manager: Drop len variable.
+    Using ap_cnx->len directly make it a tiny bit more obvious which
+    length were' looking at.
+  * main: Instantiate shell after the needed objects.
+    The shells object construction needs the Wayland object and the
+    background manager.
+    Fixes: 1bb5c8c63 ("shell: Allow shell singleton to be overidden")
+  * service: Adjust oom score.
+    This avoids the shell getting killed early in tight memory scenarios.
+    While at that tweak the restart behavior.
+  * session: Drop rootston.ini fallback.
+    This is from long gone times
+  * treewide: Drop support for --builtin session fallback.
+    Always use systemd as gnome 46's gnome-session doesn't support anything
+    else. Thanks dhjg2000 for figuring this out
+  * build: Remove thumbnail from tool sources.
+    We stub it so it should be in the classes not available to tools.
+  * tests: Move stubs into their own lib.
+    Preventing the rebuild of the stub sources for all tools and unit
+    tests brings down the number of targets to build by another 25%
+    (1184 before vs 885 now).
+  * tests: Test command line options.
+    We can test the options that exit early making sure they don't break
+    accidentally.
+  * wwan-manager: Split out wwan connection type comparison.
+    Will be used in a follow up commit
+  * wwan-manager: Add helper to (de)activate a data connection.
+    For that we add a helper to track the last active connection. This
+    allows us to check if there is a data connection available at all and
+    which one is the last active.
+  * data: Add mobile data icons.
+    Self sketeched and optimized with svgo.
+  * plugins: Add mobile data toggle.
+    This allows to toggle mobile data on/off. The plugin is marked inactive
+    if thre's no mobile data connection configured.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/691
+  * data: Use mobi domain for override file
+  * data: Make all overrides phosh specific
+  * data: Unlock SIM by default
+  * data: Disable ambient light adjustments by default.
+    The current algorithm confuses people on phones. We want to tweak that
+    in g-s-d before enabling it by default.
+  * data: Let g-s-d do nothing on power button press.
+    Phosh handles it.
+  * data: Add Firefox ESR and TextEditor to adaptive apps.
+    We assume that FF uses mobileconfig and TextEditor adapts nicely
+  * data: Set default idle-delay to 60 seconds.
+    It's more suitable than the defualt 5 minutes.
+  * background-manager: Don't try to get background for zero size.
+    Otherwise we crash on gnome_bg_slide_show_get_slide on e.g. 0 width or
+    height.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1069
+  * background: Avoid update when the layer surface isn't configured yet.
+    Otherwise we might feed bogus values to GnomeBg.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1069
+    Tested-by: Boud Roukema
+  * power-menu-manager: Sort actions alphabetically
+  * power-menu-manager: Listen for locked instead of shell state changes.
+    This triggers less often.
+  * power-menu: Add a property to show a suspend button.
+    If `TRUE` the suspend button is used. Otherwise the `power off` button
+    is shown.
+  * power-menu-manager: Allow to suspend from power menu.
+    If suspend is allowed we show the suspend action rather then disabling
+    the power off button.
+    This makes the power button menu more useful on the lock screen. And
+    since it's a non-destructive action there's no issue with allowing it.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/990
+  * top-panel: Don't show lock and menu button when locked.
+    They have no purpose and are hence thus confusing.
+  * screen-saver-manager: Half the long press timeout.
+    This should still be long enough to not trigger it accidentally.
+  * screen-saver-manager: Emit button-pressed feedback on long press.
+    This gives some haptic feedback when the even triggers
+  * screenshot-manager: Wire up screenshot keybinding.
+    Defaults to <shift><printscreen>
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/931
+  * shell-manager: Simplify version setting.
+    No need to override the r/o property. We just need to set it once.
+  * shell-manager: Implement OverviewActive property.
+    This implements another property from that interface and helps
+    https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1068
+  * main: Use G_NORETURN. Makes clang happy
+  * main: Use automatic cleanup for err
+  * tools/custom-quick-setting: Accept list of plugins to show.
+    This allows to skip plugins the e.g. need the shell singleton
+  * tools/custom-quick-setting: Use newline when printing plugin name
+  * tools/custom-quick-setting: Top align flowbox.
+    This avoids vexpanding the quick settings itself.
+  * plugins/dark-mode: Add and use dark-mode-disabled icon
+  * app-tracker: Always extract pid
+  * app-tracker: Add cancellable.
+    We do this with other DBus calls, so do the same here too.
+  * app-tracker: Move launched processes to transient systemd scope.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/963
+  * launcher-item: Add has-data property.
+    This is TRUE when count or progress should be shown. It will be used to
+    toggle the visibility of the box displaying the data.
+  * launcher-row: Use width-request for status information.
+    With that we can align to the row's end as otherwise the items
+    look out of place.
+    In order to not truncate longer descriptions we only make the status
+    information box visible when needed.
+  * docs: Add note about DBus helpers in the tools/ directory
+  * tests: Add mock for ModemManager and NetworkManager.
+    This is helpful to test mobile data and other features on devices
+    without a modem
+    Helps: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1051
+  * tests: Add checks for python helpers.
+    This will be reused when we use python based tests that run the mocks.
+    We use black and ruff or flake8 so devs have some leeway (e.g. ruff
+    isn't in Debian testing atm).
+  * doc: Mention NetworkManager and ModemManager DBus mock.
+    This way it's hopefully found.
+  * settings: Set default sound theme.
+    When installed this gives us improved sounds for incoming messages and
+    calls.
+  * plugins/dark-mode: Update icons.
+    The moon is overloaded and dark mode isn't only for the night.
+    This dark mode icon was suggested by Sam Hewitt.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1071
+  * media-player: Don't dim unsensitive button.
+    Fixes: 042c0f464 ("Add media-player widget") which got broken by
+           d79a379d5 ("style: Unified the button styles")
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1073
+  * libphosh: Drop wwan-backend.h.
+    Fixes: bdcb925c6 ("enums: Introduce single header file to gather all enums")
+  * build: Prefix library include dir.
+    Use a lib_ prefix to distinguish this form paths we use for headers used
+    by plugins and tools that supplement the actual shell.
+  * build: Add dependency on phosh-settings.
+    We want the header (and don't want to duplicate it)
+  * build: Set a soname for the shared library.
+    We use the project version underscored droping micro revisions.
+  * build: Use a relative path to the enum headers.
+  * ci: Check 'meson dist'
+    We've been hitting tiny nits before release ever so often. Avoid these.
+
+  [ Sam Day ]
+  * shell: Make PhoshShell a derivable type.
+    Since this type is meant to be consumed by downstream libphosh
+    consumers, a bunch of vtable space is reserved for future expansion.
+  * shell: Allow shell singleton to be overidden.
+    This follows the pattern first established with
+    phosh_wall_clock_set_default.
+    This allows libphosh consumers to override the default shell singleton
+    with a custom subclass.
+  * lockscreen: Make PhoshLockscreen a derivable type.
+    Since this type is meant to be consumed by downstream libphosh
+    consumers, a bunch of vtable space is reserved for future expansion.
+  * lockscreen: Support construction of custom type
+    phosh_lockscreen_new now requires a GType parameter that should be a
+    type that derives from PhoshLockscreen (or is PhoshLockscreen itself).
+    This functionality is not fully exposed yet. PhoshLockscreenManager is
+    just passing a hardcoded PHOSH_TYPE_LOCKSCREEN to phosh_lockscreen_new.
+  * shell: Allow lockscreen type to be customized.
+    A virtual function is added to PhoshShell to determine which lockscreen
+    type should be constructed. PhoshLockscreenManager consumes this vfunc
+    via phosh_shell_get_lockscreen_type.
+    This change makes it possible for libphosh consumers to use a custom
+    lockscreen, exposed through their custom shell type.
+  * ci: Add "startup test" job.
+    This job runs the main app entry point, and confirms that the shell
+    startup signal handler is reached.
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Scrambled 777 ]
+  * Update Hindi translation
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Teemu Ikonen ]
+  * plugins: Add dark mode toggle.
+    Toggles the "org.gnome.desktop.interface.color-scheme" enum between
+    'default' and 'prefer-dark' with a quick setting button.
+
+  [ Antonio Marin ]
+  * Update Romanian translation
+
+  [ Arun Mani J ]
+  * app-grid-folder-button: Force 16px as icon size.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1072
+
+  [ Yosef Or Boczko ]
+  * Update Hebrew translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Gotam Gorabh ]
+  * enums: Introduce single header file to gather all enums.
+    The aim is to allow phosh-mobile-settings to use these to map GSettngs values.
+    This will bring all the enums into a single header file to tackle duplicacy as well.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1036
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 24 Jun 2024 13:38:32 +0200
+
 phosh (0.39.0) experimental; urgency=medium
 
   [ Guido Günther ]

@@ -1,3 +1,60 @@
+phosh 0.40.0~rc1
+----------------
+Released June 2024
+* New quick setting plugins:
+    * Dark style toggle
+    * Mobile data toggle
+* Other improvements:
+    * Allow to suspend when device is locked
+    * Shorten power menu long press delay
+    * Wire up screenshot keybinding
+    * Tweak multiple gsetting overrides (default idle-delay, unlock
+       sim, sound theme, …)
+    * Fix too large icons in folder buttons
+    * launcher-box: Properly align count and progress to not look out
+      of place
+    * Move launched processes to transient scope
+    * Split settings enums into separate header so it can be shared with
+      mobile settings.
+    * Further speed up build by building a library for the stubs
+    * session: Drop support for `--builtin` session fallback
+    * Fix background loading related crash
+    * Add option to install shared lib for Rust binding generation
+    * Allow lockscreen and shell classes to be overridable from the
+      Rust bindings
+    * Add modem mock mocks test status and mobile data connections
+* Issues fixed:
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/691
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1069
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1069
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/990
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/931
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/963
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1071
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1073
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1072
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1036
+* Contributors:
+    * Arun Mani J
+    * Gotam Gorabh
+    * Guido Günther
+    * Sam Day
+    * Teemu Ikonen
+* UI translations:
+    * Anders Jonsson (sv)
+    * Antonio Marin (ro)
+    * Artur S0 (ru)
+    * Danial Behzadi (fa)
+    * Daniel Rusek (cs)
+    * Daniel Șerbănescu (ro)
+    * Ekaterine Papava (ka)
+    * Jiri Grönroos (fi)
+    * Jordi Mas i Hernandez (ca)
+    * Martin (sl)
+    * Scrambled 777 (hi)
+    * Yosef Or Boczko (he)
+    * Yuri Chornoivan (uk)
+
 phosh 0.39.0
 ------------
 Released May 2024
