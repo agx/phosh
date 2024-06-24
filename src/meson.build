@@ -484,6 +484,7 @@ if bindings_lib
     filebase: 'libphosh-0',
     version : meson.project_version(),
     description: 'Private library for building external components',
+    requires: 'phosh-settings',
     url: 'https://world.pages.gitlab.gnome.org/Phosh/phosh/',
   )
 
