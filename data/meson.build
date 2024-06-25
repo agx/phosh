@@ -90,7 +90,7 @@ configure_file(
 
 # Generate XML enum definitions for GSettings schema
 schema_enum_headers = files(
-  meson.project_source_root() / 'src' / 'phosh-settings-enums.h',
+  '..' / 'src' / 'phosh-settings-enums.h',
 )
 generate_enums_schema = gnome.mkenums('sm.puri.phosh.enums.xml',
   sources: schema_enum_headers,
