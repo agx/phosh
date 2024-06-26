@@ -107,16 +107,20 @@ build_2x2_grid_icon (PhoshAppGridFolderButton *self)
 
     if (icon == NULL) {
       image = gtk_image_new_from_icon_name (PHOSH_APP_UNKNOWN_ICON,
-                                            GTK_ICON_SIZE_BUTTON);
+                                            GTK_ICON_SIZE_DND);
     } else {
       if (G_IS_THEMED_ICON (icon)) {
         g_themed_icon_append_name (G_THEMED_ICON (icon),
                                    PHOSH_APP_UNKNOWN_ICON);
       }
-      image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_BUTTON);
+      image = gtk_image_new_from_gicon (icon, GTK_ICON_SIZE_DND);
     }
 
-    gtk_image_set_pixel_size (GTK_IMAGE (image), 16);
+    /* app-grid-button uses 64px for its icon.
+     * Our grid has two rows and two columns, with 8px for spacing.
+     * So 2x + 8 = 64.
+     * It means x = 28. But we use 24 as icons usually have a 2px padding. */
+    gtk_image_set_pixel_size (GTK_IMAGE (image), 24);
     gtk_widget_set_visible (image, TRUE);
     gtk_grid_attach (self->grid, image, i % 2, i >= 2, 1, 1);
   }
