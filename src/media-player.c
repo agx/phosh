@@ -77,6 +77,7 @@ typedef struct _PhoshMediaPlayer {
   GtkWidget                        *img_play;
   GtkWidget                        *lbl_title;
   GtkWidget                        *lbl_artist;
+  GtkWidget                        *box_pos_len;
   GtkWidget                        *prb_position;
   GtkWidget                        *lbl_position;
   GtkWidget                        *lbl_length;
@@ -166,6 +167,18 @@ update_position (PhoshMediaPlayer *self)
 
 
 static void
+stop_pos_poller (PhoshMediaPlayer *self)
+{
+  if (self->pos_poller_id <= 0)
+    return;
+
+  g_debug ("Stopping position poller");
+  g_source_remove (self->pos_poller_id);
+  self->pos_poller_id = 0;
+}
+
+
+static void
 on_poll_position_done (GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
 {
   PhoshMediaPlayer *self;
@@ -177,8 +190,10 @@ on_poll_position_done (GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
 
   var = g_dbus_proxy_call_finish (proxy, res, &err);
   if (err) {
-    g_warning ("Could not get Position from MPRIS player: %s", err->message);
+    g_warning ("Could not get Position from MPRIS player, hiding box_pos_len: %s", err->message);
     self->track_position = -1;
+    gtk_widget_hide (self->box_pos_len);
+    stop_pos_poller (self);
   } else if (var) {
     g_autoptr (GVariant) var2 = NULL;
 
@@ -214,6 +229,27 @@ poll_position (PhoshMediaPlayer *self)
                      (GAsyncReadyCallback) on_poll_position_done, self);
 
   return G_SOURCE_CONTINUE;
+}
+
+
+#define POLLER_INTERVAL 1 /* seconds */
+static void
+start_pos_poller (PhoshMediaPlayer *self)
+{
+  if (!gtk_widget_get_visible (self->box_pos_len)) {
+    g_debug ("box_pos_len not visible, not starting position poller");
+    return;
+  }
+  if (self->pos_poller_id != 0) {
+    g_debug ("Position poller already running");
+    return;
+  }
+  g_debug ("Starting position poller");
+  poll_position (self);
+  self->pos_poller_id = g_timeout_add_seconds (POLLER_INTERVAL,
+                                               (GSourceFunc) poll_position,
+                                               self);
+  g_source_set_name_by_id (self->pos_poller_id, "[PhoshMediaPlayer] pos_poller");
 }
 
 
@@ -421,6 +457,10 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
   if (length >= 0) {
     g_autofree char *length_text = cui_call_format_duration ((double) length / G_USEC_PER_SEC);
     gtk_label_set_label (GTK_LABEL (self->lbl_length), length_text);
+    g_debug ("Metadata has length, showing box_pos_len");
+    gtk_widget_show (self->box_pos_len);
+    if (self->status == PHOSH_MEDIA_PLAYER_STATUS_PLAYING)
+      start_pos_poller (self);
   } else {
     gtk_label_set_label (GTK_LABEL (self->lbl_length), "-");
   }
@@ -449,33 +489,6 @@ on_metadata_changed (PhoshMediaPlayer *self, GParamSpec *psepc, PhoshMprisDBusMe
   if (!has_art) {
     g_object_set (self->img_art, "icon-name", "audio-x-generic-symbolic", NULL);
   }
-}
-
-
-#define POLLER_INTERVAL 1 /* seconds */
-static void
-start_pos_poller (PhoshMediaPlayer *self)
-{
-  if (self->pos_poller_id == 0) {
-    g_debug ("Starting position poller");
-    poll_position (self);
-    self->pos_poller_id = g_timeout_add_seconds (POLLER_INTERVAL,
-                                                 (GSourceFunc) poll_position,
-                                                 self);
-    g_source_set_name_by_id (self->pos_poller_id, "[PhoshMediaPlayer] pos_poller");
-  }
-}
-
-
-static void
-stop_pos_poller (PhoshMediaPlayer *self)
-{
-  if (self->pos_poller_id <= 0)
-    return;
-
-  g_debug ("Stopping position poller");
-  g_source_remove (self->pos_poller_id);
-  self->pos_poller_id = 0;
 }
 
 
@@ -669,6 +682,7 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, img_play);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_artist);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_title);
+  gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, box_pos_len);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_position);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, lbl_length);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, prb_position);
@@ -726,6 +740,8 @@ attach_player_cb (GObject          *source_object,
   g_debug ("Connected player");
   /* Set 'attached' before running notifiers, since we check it on e.g. start_pos_poller() */
   set_attached (self, TRUE);
+  /* Hide progress bar box by default, it's shown if track length is given in metadata */
+  gtk_widget_hide (self->box_pos_len);
 
   g_object_notify (G_OBJECT (self->player), "metadata");
   g_object_notify (G_OBJECT (self->player), "playback-status");

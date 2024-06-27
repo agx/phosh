@@ -113,8 +113,8 @@
       </packing>
     </child>
     <child>
-      <object class="GtkBox">
-        <property name="visible">True</property>
+      <object class="GtkBox" id="box_pos_len">
+        <property name="visible">False</property>
         <property name="margin-start">8</property>
         <property name="margin-end">8</property>
         <property name="valign">center</property>
