@@ -1,5 +1,5 @@
-phosh 0.40.0~rc1
-----------------
+phosh 0.40.0
+------------
 Released June 2024
 * New quick setting plugins:
     * Dark style toggle
@@ -10,7 +10,7 @@ Released June 2024
     * Wire up screenshot keybinding
     * Tweak multiple gsetting overrides (default idle-delay, unlock
        sim, sound theme, …)
-    * Fix too large icons in folder buttons
+    * Fix too large and too small icons in folder buttons
     * launcher-box: Properly align count and progress to not look out
       of place
     * Move launched processes to transient scope
