@@ -1,4 +1,4 @@
-phosh (0.40.0~rc1) experimental; urgency=medium
+phosh (0.40.0) experimental; urgency=medium
 
   [ Guido Günther ]
   * build: Install headers and shared lib for Rust binding generation.
@@ -236,6 +236,8 @@ phosh (0.40.0~rc1) experimental; urgency=medium
   [ Arun Mani J ]
   * app-grid-folder-button: Force 16px as icon size.
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1072
+  * app-grid-folder-button: Force pixel size of 24px.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1081
 
   [ Yosef Or Boczko ]
   * Update Hebrew translation
