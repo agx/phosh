@@ -355,7 +355,7 @@
                                         <property name="visible">True</property>
                                         <property name="halign">start</property>
                                         <property name="hexpand">True</property>
-                                        <property name="label">Notifications</property>
+                                        <property name="label" translatable="yes">Notifications</property>
                                         <attributes>
                                           <attribute name="weight" value="bold"/>
                                         </attributes>
