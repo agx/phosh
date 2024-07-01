@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-06 13:01+0000\n"
-"PO-Revision-Date: 2024-06-07 22:48+0200\n"
+"POT-Creation-Date: 2024-06-07 20:52+0000\n"
+"PO-Revision-Date: 2024-07-01 22:36+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -667,7 +667,7 @@ msgstr "VPN"
 #. long format
 #: src/wall-clock.c:222
 msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
+msgstr "%A, %-e. %B"
 
 #: src/widget-box.c:54
 msgid "Plugin not found"
@@ -984,4 +984,4 @@ msgstr "Bezejmenná událost"
 #~ msgstr "Odhlásit"
 
 #~ msgid "%d.%m.%y"
-#~ msgstr "%d.%měs.%r"
+#~ msgstr "%d. %m. %y"
