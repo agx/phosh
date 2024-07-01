@@ -129,6 +129,7 @@ gcr_dep = dependency('gcr-3', version: '>= 3.7.5')
 glib_dep = dependency('glib-2.0', version: glib_ver_cmp)
 gio_dep = dependency('gio-2.0', version: glib_ver_cmp)
 gio_unix_dep =  dependency('gio-unix-2.0', version: glib_ver_cmp)
+gnome_bluetooth_dep = dependency ('gnome-bluetooth-3.0', version: '>= 46.0')
 gmobile_dep = dependency('gmobile',
   version: '>= 0.1.0',
   fallback: ['gmobile', 'gmobile_dep'],
