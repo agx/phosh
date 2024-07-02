@@ -193,6 +193,8 @@
     <property name="hexpand">True</property>
     <property name="orientation">horizontal</property>
     <property name="spacing">6</property>
+    <property name="margin-left">6</property>
+    <property name="margin-right">6</property>
     <child>
       <object class="GtkButton">
         <property name="visible">True</property>

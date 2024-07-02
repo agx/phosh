@@ -8,8 +8,7 @@
     <property name="spacing">6</property>
     <style>
       <class name="flat"/>
-      <class name="phosh-settings-details"/>
-      <class name="phosh-settings-list-box"/>
+      <class name="phosh-status-page"/>
     </style>
   </template>
 </interface>
