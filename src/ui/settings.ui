@@ -115,6 +115,7 @@
                         <child>
                           <object class="PhoshQuickSetting" id="bt_quick_setting">
                             <property name="visible">True</property>
+                            <property name="has-status" bind-source="PhoshSettings" bind-property="on-lockscreen" bind-flags="sync-create|invert-boolean"/>
                             <property name="sensitive" bind-source="btinfo" bind-property="present" bind-flags="sync-create"/>
                             <property name="action-name">settings.toggle-bt</property>
                             <signal name="long-pressed" handler="bt_setting_long_pressed_cb" object="PhoshSettings" swapped="yes"/>
@@ -243,6 +244,14 @@
                           <packing>
                             <property name="name">wifi_status_page</property>
                             <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="PhoshBtStatusPage" id="vpn_status_page">
+                            <property name="visible">True</property>
+                          </object>
+                          <packing>
+                            <property name="name">bt_status_page</property>
                           </packing>
                         </child>
                       </object>

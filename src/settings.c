@@ -23,6 +23,7 @@
 #include "torch-info.h"
 #include "torch-manager.h"
 #include "vpn-manager.h"
+#include "bt-status-page.h"
 #include "wwan/wwan-manager.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
@@ -431,7 +432,14 @@ on_toggle_bt_activated (GSimpleAction *action, GVariant *param, gpointer data)
 static void
 bt_setting_long_pressed_cb (PhoshSettings *self)
 {
-  open_settings_panel (self, "bluetooth");
+  GtkStack *stack = GTK_STACK (self->stack);
+  GtkStack *status_page_stack = GTK_STACK (self->status_page_stack);
+
+  if (self->on_lockscreen)
+    return;
+
+  gtk_stack_set_visible_child_name (stack, "status_page");
+  gtk_stack_set_visible_child_name (status_page_stack, "bt_status_page");
 }
 
 
@@ -799,6 +807,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   object_class->set_property = phosh_settings_set_property;
   object_class->get_property = phosh_settings_get_property;
 
+  g_type_ensure (PHOSH_TYPE_BT_STATUS_PAGE);
   g_type_ensure (PHOSH_TYPE_WIFI_STATUS_PAGE);
 
   gtk_widget_class_set_template_from_resource (widget_class,
