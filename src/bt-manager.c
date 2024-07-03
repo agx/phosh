@@ -42,9 +42,7 @@ static GParamSpec *props[PROP_LAST_PROP];
 struct _PhoshBtManager {
   PhoshManager           manager;
 
-  /* Whether bt radio is on */
   gboolean               enabled;
-  /* Whether we have a bt device is present */
   gboolean               present;
   const char            *icon_name;
 
@@ -205,30 +203,35 @@ phosh_bt_manager_class_init (PhoshBtManagerClass *klass)
 
   manager_class->idle_init = phosh_bt_manager_idle_init;
 
+  /**
+   * PhoshBtManager::icon-name:
+   *
+   * A icon name that indicates the current Bluetooth status.
+   */
   props[PROP_ICON_NAME] =
     g_param_spec_string ("icon-name",
                          "icon name",
                          "The bt icon name",
                          "bluetooth-disabled-symbolic",
-                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
-
+                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshBtManager::enabled:
+   *
+   * Whether a Bluetooth is enabled.
+   */
   props[PROP_ENABLED] =
-    g_param_spec_boolean ("enabled",
-                          "enabled",
-                          "Whether bluetooth hardware is enabled",
+    g_param_spec_boolean ("enabled", "", "",
                           FALSE,
-                          G_PARAM_READABLE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
-
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshBtManager::present:
+   *
+   * Whether a Bluetooth adapter is present
+   */
   props[PROP_PRESENT] =
-    g_param_spec_boolean ("present",
-                          "Present",
-                          "Whether bluettoh hardware is present",
+    g_param_spec_boolean ("present", "", "",
                           FALSE,
-                          G_PARAM_READABLE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
+                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
