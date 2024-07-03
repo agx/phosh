@@ -14,6 +14,8 @@
 #include "bt-info.h"
 #include "bt-manager.h"
 
+#include "gmobile.h"
+
 /**
  * PhoshBtInfo:
  *
@@ -82,16 +84,43 @@ update_icon (PhoshBtInfo *self, GParamSpec *pspec, PhoshBtManager *bt)
 static void
 update_info (PhoshBtInfo *self)
 {
+  g_autofree char *msg = NULL;
   gboolean enabled;
+  guint n_connected;
 
   g_return_if_fail (PHOSH_IS_BT_INFO (self));
 
-  /* TODO: show number of paired devices */
   enabled = phosh_bt_manager_get_enabled (self->bt);
-  if (enabled)
-    phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), C_("bluetooth:enabled", "On"));
-  else
+  if (!enabled) {
     phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), _("Bluetooth"));
+    return;
+  }
+
+  n_connected = phosh_bt_manager_get_n_connected (self->bt);
+  switch (n_connected) {
+  case 0:
+    break;
+  case 1: {
+    const char *info = phosh_bt_manager_get_info (self->bt);
+    if (gm_str_is_null_or_empty (info)) {
+      /* Translators: One connected Bluetooth device */
+      msg = g_strdup_printf ("One device");
+    } else {
+      msg = g_strdup (info);
+    }
+    break;
+  }
+  default:
+    /* Translators: The number of currently connected Bluetooth devices */
+    msg = g_strdup_printf ("%d devices", n_connected);
+  }
+
+  if (msg) {
+    phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), msg);
+    return;
+  }
+
+  phosh_status_icon_set_info (PHOSH_STATUS_ICON (self), C_("bluetooth:enabled", "On"));
 }
 
 
@@ -163,6 +192,7 @@ phosh_bt_info_constructed (GObject *object)
                     "swapped-signal::notify::icon-name", update_icon, self,
                     "swapped-signal::notify::enabled", on_bt_enabled, self,
                     "swapped-signal::notify::present", on_bt_present, self,
+                    "swapped-signal::notify::n-connected", update_info, self,
                     NULL);
 }
 
