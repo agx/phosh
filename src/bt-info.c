@@ -157,27 +157,12 @@ phosh_bt_info_constructed (GObject *object)
     return;
   }
 
-  g_signal_connect_swapped (self->bt,
-                            "notify::icon-name",
-                            G_CALLBACK (update_icon),
-                            self);
-
-  /* TODO: track number of BT devices */
-  g_signal_connect_swapped (self->bt,
-                            "notify::enabled",
-                            G_CALLBACK (update_info),
-                            self);
-
-  /* We don't use a binding for self->enabled so we can keep
-     the property r/o */
-  g_signal_connect_swapped (self->bt,
-                            "notify::enabled",
-                            G_CALLBACK (on_bt_enabled),
-                            self);
-  g_signal_connect_swapped (self->bt,
-                            "notify::present",
-                            G_CALLBACK (on_bt_present),
-                            self);
+  g_object_connect (self->bt,
+                    "swapped-signal::notify::icon-name", update_icon, self,
+                    "swapped-signal::notify::enabled", update_info, self,
+                    "swapped-signal::notify::enabled", on_bt_enabled, self,
+                    "swapped-signal::notify::present", on_bt_present, self,
+                    NULL);
 }
 
 
