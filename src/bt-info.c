@@ -110,6 +110,8 @@ on_bt_enabled (PhoshBtInfo *self, GParamSpec *pspec, PhoshBtManager *bt)
 
   self->enabled = enabled;
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ENABLED]);
+
+  update_info (self);
 }
 
 
@@ -159,7 +161,6 @@ phosh_bt_info_constructed (GObject *object)
 
   g_object_connect (self->bt,
                     "swapped-signal::notify::icon-name", update_icon, self,
-                    "swapped-signal::notify::enabled", update_info, self,
                     "swapped-signal::notify::enabled", on_bt_enabled, self,
                     "swapped-signal::notify::present", on_bt_present, self,
                     NULL);
