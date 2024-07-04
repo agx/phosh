@@ -155,7 +155,7 @@ libcall_ui = subproject('libcall-ui',
     'install-i18n=@0@'.format(get_option('callui-i18n')),
   ])
 libfeedback_dep = dependency('libfeedback-0.0',
-  version: '>= 0.2.0',
+  version: '>= 0.4.0',
   fallback: ['libfeedback', 'libfeedback_dep'],
   default_options: ['introspection=disabled', 'daemon=false', 'gtk_doc=false']
   )
