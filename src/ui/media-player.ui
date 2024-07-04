@@ -109,6 +109,59 @@
       </object>
       <packing>
         <property name="left-attach">0</property>
+        <property name="top-attach">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkBox" id="box_pos_len">
+        <property name="visible">False</property>
+        <property name="margin-start">8</property>
+        <property name="margin-end">8</property>
+        <property name="valign">center</property>
+        <style>
+          <class name="progress-bar"/>
+        </style>
+          <child>
+            <object class="GtkLabel" id="lbl_position">
+              <property name="visible">True</property>
+              <property name="halign">start</property>
+              <property name="margin-bottom">3</property>
+              <property name="label" translatable="no">-</property>
+              <property name="ellipsize">end</property>
+              <property name="single-line-mode">True</property>
+              <attributes>
+                <attribute name="font-features" value="tnum=1"/>
+              </attributes>
+            </object>
+          </child>
+            <child>
+              <object class="GtkProgressBar" id="prb_position">
+                <property name="visible">True</property>
+                <property name="hexpand">True</property>
+                <property name="margin-start">8</property>
+                <property name="margin-end">8</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+          <child>
+            <object class="GtkLabel" id="lbl_length">
+              <property name="visible">True</property>
+              <property name="halign">start</property>
+              <property name="margin-bottom">3</property>
+              <property name="label" translatable="no">-</property>
+              <property name="ellipsize">end</property>
+              <property name="single-line-mode">True</property>
+              <attributes>
+                <attribute name="font-features" value="tnum=1"/>
+              </attributes>
+            </object>
+            <packing>
+              <property name="pack-type">end</property>
+            </packing>
+          </child>
+      </object>
+      <packing>
+        <property name="left-attach">0</property>
         <property name="top-attach">1</property>
       </packing>
     </child>
@@ -157,7 +210,6 @@
                   <object class="GtkLabel" id="lbl_title">
                     <property name="visible">True</property>
                     <property name="halign">start</property>
-                    <property name="margin-bottom">3</property>
                     <property name="label" translatable="yes">Unknown Title</property>
                     <property name="ellipsize">middle</property>
                     <property name="single-line-mode">True</property>

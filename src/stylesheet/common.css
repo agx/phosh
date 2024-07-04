@@ -819,6 +819,10 @@ phosh-media-player .phosh-media-player-art {
   border-radius: 3px;
 }
 
+phosh-media-player .progress-bar {
+  font-size: small;
+}
+
 phosh-media-player > box > button {
   border-radius: 9999px;
   margin: 2px;
