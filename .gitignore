@@ -8,6 +8,8 @@ vgdump
 .\#*
 /subprojects/glib
 /subprojects/gmobile
+/subprojects/gvc
+/subprojects/libcall-ui
 /subprojects/libhandy
 .vscode/
 *.gcov
