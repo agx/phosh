@@ -34,6 +34,7 @@ enum {
   PROP_PRESENT,
   PROP_IS_HOTSPOT_MASTER,
   PROP_NETWORKS,
+  PROP_STATE,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -58,6 +59,8 @@ struct _PhoshWifiManager {
   NMAccessPoint      *ap;
   /* The active connection (if it has a Wi-Fi device) */
   NMActiveConnection *active;
+  /* The state of the active connection */
+  NMActiveConnectionState state;
   /* The Wi-Fi device used in the active connection */
   NMDeviceWifi       *conn_dev;
   /* The Wi-Fi device of the system */
@@ -540,6 +543,9 @@ phosh_wifi_manager_get_property (GObject    *object,
   case PROP_NETWORKS:
     g_value_set_object (value, self->networks);
     break;
+  case PROP_STATE:
+    g_value_set_enum (value, self->state);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -804,7 +810,11 @@ on_nm_active_connection_state_changed (PhoshWifiManager             *self,
   case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
   default:
     cleanup_connection_device (self);
-    return;
+  }
+
+  if (self->state != state) {
+    self->state = state;
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_STATE]);
   }
 }
 
@@ -862,6 +872,10 @@ on_nmclient_active_connections_changed (PhoshWifiManager *self, GParamSpec *pspe
       g_set_object (&self->active, conn);
       g_signal_connect_swapped (self->active, "state-changed",
                                 G_CALLBACK (on_nm_active_connection_state_changed), self);
+      on_nm_active_connection_state_changed (self,
+                                             nm_active_connection_get_state (self->active),
+                                             nm_active_connection_get_state_reason (self->active),
+                                             self->active);
     }
     check_connected_device (self);
     break;
@@ -1102,6 +1116,18 @@ phosh_wifi_manager_class_init (PhoshWifiManagerClass *klass)
                          G_TYPE_LIST_STORE,
                          G_PARAM_READABLE |
                          G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshWifiManager:state:
+   *
+   * State of the active connection
+   */
+  props[PROP_STATE] =
+    g_param_spec_enum ("state", "", "",
+                       NM_TYPE_ACTIVE_CONNECTION_STATE, NM_ACTIVE_CONNECTION_STATE_UNKNOWN,
+                       G_PARAM_READABLE |
+                       G_PARAM_EXPLICIT_NOTIFY |
+                       G_PARAM_STATIC_STRINGS);
+
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 }
@@ -1288,4 +1314,12 @@ phosh_wifi_manager_request_scan (PhoshWifiManager *self)
 
   nm_device_wifi_request_scan_async (self->dev, self->cancel,
                                      on_request_scan, NULL);
+}
+
+NMActiveConnectionState
+phosh_wifi_manager_get_state (PhoshWifiManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (self), NM_ACTIVE_CONNECTION_STATE_UNKNOWN);
+
+  return self->state;
 }

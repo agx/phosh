@@ -30,5 +30,6 @@ void               phosh_wifi_manager_set_hotspot_master (PhoshWifiManager *self
 void               phosh_wifi_manager_connect_network (PhoshWifiManager *self,
                                                        PhoshWifiNetwork *network);
 void               phosh_wifi_manager_request_scan (PhoshWifiManager *self);
+NMActiveConnectionState phosh_wifi_manager_get_state (PhoshWifiManager *self);
 
 G_END_DECLS
