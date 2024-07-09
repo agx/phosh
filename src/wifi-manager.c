@@ -21,6 +21,9 @@
  * Tracks the Wi-Fi status and handle Wi-Fi credentials entry
  *
  * Manages Wi-Fi information and state
+ *
+ * The code to create hotspot connection are based on GNOME Control Center's and NMCLI's code for
+ * the same.
  */
 
 enum {
@@ -195,6 +198,23 @@ on_connection_state_changed (NMActiveConnection           *connection,
 
 
 static void
+on_hotspot_connection_add_and_activated (GObject      *object,
+                                         GAsyncResult *result,
+                                         gpointer      data)
+{
+  NMClient *client = NM_CLIENT (object);
+  g_autoptr (GError) err = NULL;
+  g_autoptr (NMActiveConnection) conn = NULL;
+
+  conn = nm_client_add_and_activate_connection_finish (client, result, &err);
+  if (conn != NULL)
+    g_debug ("Adding and activating hotspot connection");
+  else
+    g_warning ("Failed to add and activate hotspot connection: %s", err->message);
+}
+
+
+static void
 on_hotspot_connection_activated (GObject      *object,
                                  GAsyncResult *result,
                                  gpointer      data)
@@ -210,11 +230,145 @@ on_hotspot_connection_activated (GObject      *object,
     g_warning ("Failed to activate hotspot connection: %s", err->message);
 }
 
+
+static char *
+generate_wpa_key (void)
+{
+  int length = 8;
+  GString *key = g_string_new (NULL);
+
+  for (int i = 0; i < length; i++) {
+    int c = 0;
+    /* too many non alphanumeric characters are hard to remember for humans */
+    while (!g_ascii_isalnum (c))
+      c = g_random_int_range (33, 126);
+    g_string_append_c (key, c);
+  }
+
+  return g_string_free_and_steal (key);
+}
+
+
+static char *
+generate_wep_key (void)
+{
+  int length = 10;
+  const char *hexdigits = "0123456789abcdef";
+  GString *key = g_string_new (NULL);
+
+  for (int i = 0; i < length; i++) {
+    int digit = g_random_int_range (0, 16);
+    g_string_append_c (key, hexdigits[digit]);
+  }
+
+  return g_string_free_and_steal (key);
+}
+
+
+static NMConnection *
+create_hotspot_connection (const char              *con_name,
+                           const char              *wifi_mode,
+                           NMDeviceWifiCapabilities caps)
+{
+  NMConnection *connection;
+  NMSetting *s_con;
+  NMSetting *s_wifi;
+  NMSettingWirelessSecurity *s_wsec;
+  NMSetting *s_ip4, *s_ip6;
+  NMSetting *s_proxy;
+  g_autofree char *hostname = NULL;
+  g_autoptr (GBytes) ssid = NULL;
+  g_autofree char *key = NULL;
+  const char *key_mgmt;
+
+  g_return_val_if_fail (wifi_mode != NULL, NULL);
+
+  hostname = g_hostname_to_ascii (g_get_host_name ());
+  ssid = g_bytes_new (hostname, strlen (hostname));
+
+  connection = nm_simple_connection_new ();
+  s_con = nm_setting_connection_new ();
+  nm_connection_add_setting (connection, s_con);
+  g_object_set (s_con,
+                NM_SETTING_CONNECTION_ID,
+                con_name,
+                NM_SETTING_CONNECTION_AUTOCONNECT,
+                FALSE,
+                NULL);
+
+  s_wifi = nm_setting_wireless_new ();
+  nm_connection_add_setting (connection, s_wifi);
+  g_object_set (s_wifi,
+                NM_SETTING_WIRELESS_MODE,
+                wifi_mode,
+                NM_SETTING_WIRELESS_SSID,
+                ssid,
+                NULL);
+
+  s_wsec = NM_SETTING_WIRELESS_SECURITY (nm_setting_wireless_security_new ());
+  nm_connection_add_setting (connection, NM_SETTING (s_wsec));
+
+  s_ip4 = nm_setting_ip4_config_new ();
+  nm_connection_add_setting (connection, s_ip4);
+  g_object_set (s_ip4, NM_SETTING_IP_CONFIG_METHOD, NM_SETTING_IP4_CONFIG_METHOD_SHARED, NULL);
+
+  s_ip6 = nm_setting_ip6_config_new ();
+  nm_connection_add_setting (connection, s_ip6);
+  g_object_set (s_ip6, NM_SETTING_IP_CONFIG_METHOD, NM_SETTING_IP6_CONFIG_METHOD_IGNORE, NULL);
+
+  s_proxy = nm_setting_proxy_new ();
+  nm_connection_add_setting (connection, s_proxy);
+  g_object_set (s_proxy, NM_SETTING_PROXY_METHOD, NM_SETTING_PROXY_METHOD_NONE, NULL);
+
+  if (g_str_equal (wifi_mode, NM_SETTING_WIRELESS_MODE_AP)) {
+    if (caps & NM_WIFI_DEVICE_CAP_RSN) {
+      nm_setting_wireless_security_add_proto (s_wsec, "rsn");
+      nm_setting_wireless_security_add_pairwise (s_wsec, "ccmp");
+      nm_setting_wireless_security_add_group (s_wsec, "ccmp");
+      key_mgmt = "wpa-psk";
+    } else if (caps & NM_WIFI_DEVICE_CAP_WPA) {
+      nm_setting_wireless_security_add_proto (s_wsec, "wpa");
+      nm_setting_wireless_security_add_pairwise (s_wsec, "tkip");
+      nm_setting_wireless_security_add_group (s_wsec, "tkip");
+      key_mgmt = "wpa-psk";
+    } else {
+      key_mgmt = "none";
+    }
+  } else {
+    key_mgmt = "none";
+  }
+
+  if (g_str_equal (key_mgmt, "wpa-psk")) {
+    /* use WPA */
+    key = generate_wpa_key ();
+    g_object_set (s_wsec,
+                  NM_SETTING_WIRELESS_SECURITY_KEY_MGMT,
+                  key_mgmt,
+                  NM_SETTING_WIRELESS_SECURITY_PSK,
+                  key,
+                  NULL);
+  } else {
+    /* use WEP */
+    key = generate_wep_key ();
+    g_object_set (s_wsec,
+                  NM_SETTING_WIRELESS_SECURITY_KEY_MGMT,
+                  key_mgmt,
+                  NM_SETTING_WIRELESS_SECURITY_WEP_KEY0,
+                  key,
+                  NM_SETTING_WIRELESS_SECURITY_WEP_KEY_TYPE,
+                  NM_WEP_KEY_TYPE_KEY,
+                  NULL);
+  }
+
+  return connection;
+}
+
+
 static void
 start_hotspot (PhoshWifiManager *self)
 {
   NMDeviceWifiCapabilities caps;
-  char *wifi_mode;
+  const char *wifi_mode;
   const GPtrArray *connections;
   NMConnection *hotspot_conn = NULL;
   NMSettingWireless *s_wifi;
@@ -248,18 +402,25 @@ start_hotspot (PhoshWifiManager *self)
   }
 
   if (!hotspot_conn) {
-    g_debug ("No hotspot connection found to activate");
-    /* TODO: Create a new hotspot connection */
-    return;
+    g_autoptr (NMConnection) new_hotspot_conn;
+    g_message ("Creating a new hotspot connection as no existing connection was found");
+    new_hotspot_conn = create_hotspot_connection ("Phosh Hotspot", wifi_mode, caps);
+    nm_client_add_and_activate_connection_async (self->nmclient,
+                                                 new_hotspot_conn,
+                                                 NM_DEVICE (self->dev),
+                                                 NULL,
+                                                 self->cancel,
+                                                 on_hotspot_connection_add_and_activated,
+                                                 NULL);
+  } else {
+    nm_client_activate_connection_async (self->nmclient,
+                                         hotspot_conn,
+                                         NM_DEVICE (self->dev),
+                                         NULL,
+                                         self->cancel,
+                                         on_hotspot_connection_activated,
+                                         NULL);
   }
-
-  nm_client_activate_connection_async (self->nmclient,
-                                       hotspot_conn,
-                                       NM_DEVICE (self->dev),
-                                       NULL,
-                                       self->cancel,
-                                       on_hotspot_connection_activated,
-                                       NULL);
 }
 
 static void
