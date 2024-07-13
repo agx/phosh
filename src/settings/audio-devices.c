@@ -312,9 +312,16 @@ phosh_audio_devices_init (PhoshAudioDevices *self)
   g_signal_connect_swapped (self->devices, "items-changed", G_CALLBACK (on_items_changed), self);
 }
 
-
+/**
+ * phosh_audio_devices_new:
+ * @mixer_control: A new GvcMixerControl
+ * @is_input: Whether this is this an input
+ *
+ * Gets a new audio devices object which exposes the currently known
+ * input or output devices as a list model.
+ */
 PhoshAudioDevices *
-phosh_audio_devices_new (GvcMixerControl *mixer_control, gboolean is_input)
+phosh_audio_devices_new (gpointer mixer_control, gboolean is_input)
 {
   return g_object_new (PHOSH_TYPE_AUDIO_DEVICES,
                        "mixer-control", mixer_control,

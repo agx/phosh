@@ -51,7 +51,7 @@ struct _PhoshHead {
   PhoshHeadMode              *mode;
   GPtrArray                  *modes;
 
-  struct pending {
+  struct PhoshHeadStatePending {
     int32_t x, y;
     enum wl_output_transform transform;
     PhoshHeadMode *mode;

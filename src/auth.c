@@ -170,11 +170,11 @@ phosh_auth_new (void)
 
 
 void
-phosh_auth_authenticate_async_start (PhoshAuth           *self,
-                                     const char          *number,
-                                     GCancellable        *cancellable,
-                                     GAsyncReadyCallback  callback,
-                                     gpointer             callback_data)
+phosh_auth_authenticate_async (PhoshAuth           *self,
+                               const char          *number,
+                               GCancellable        *cancellable,
+                               GAsyncReadyCallback  callback,
+                               gpointer             callback_data)
 {
   GTask *task;
 
@@ -186,9 +186,9 @@ phosh_auth_authenticate_async_start (PhoshAuth           *self,
 
 
 gboolean
-phosh_auth_authenticate_async_finish (PhoshAuth     *self,
-                                      GAsyncResult  *result,
-                                      GError       **error)
+phosh_auth_authenticate_finish (PhoshAuth     *self,
+                                GAsyncResult  *result,
+                                GError       **error)
 {
   g_return_val_if_fail (g_task_is_valid (result, self), FALSE);
   return g_task_propagate_boolean (G_TASK (result), error);

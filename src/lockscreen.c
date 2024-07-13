@@ -276,7 +276,7 @@ auth_async_cb (PhoshAuth *auth, GAsyncResult *result, PhoshLockscreen *self)
   gboolean authenticated;
 
   priv = phosh_lockscreen_get_instance_private (self);
-  authenticated = phosh_auth_authenticate_async_finish (auth, result, &error);
+  authenticated = phosh_auth_authenticate_finish (auth, result, &error);
   if (error != NULL) {
     g_warning ("Auth failed unexpected: %s", error->message);
     return;
@@ -394,11 +394,11 @@ submit_cb (PhoshLockscreen *self)
 
   if (priv->auth == NULL)
     priv->auth = PHOSH_AUTH (phosh_auth_new ());
-  phosh_auth_authenticate_async_start (priv->auth,
-                                       input,
-                                       NULL,
-                                       (GAsyncReadyCallback)auth_async_cb,
-                                       g_object_ref (self));
+  phosh_auth_authenticate_async (priv->auth,
+                                 input,
+                                 NULL,
+                                 (GAsyncReadyCallback)auth_async_cb,
+                                 g_object_ref (self));
 }
 
 
