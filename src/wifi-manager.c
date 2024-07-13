@@ -115,7 +115,7 @@ get_icon_name (PhoshWifiManager *self)
   case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
     return "network-wireless-acquiring-symbolic";
   case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
-    if (check_is_hotspot_master (self)) {
+    if (self->is_hotspot_master) {
       return "network-wireless-hotspot-symbolic";
     } else if (!self->ap) {
       return "network-wireless-connected-symbolic";
@@ -170,6 +170,7 @@ static void
 update_state (PhoshWifiManager *self)
 {
   update_enabled_state (self);
+  check_is_hotspot_master (self);
   update_icon_name (self);
 }
 
