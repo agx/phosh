@@ -505,6 +505,8 @@ cleanup_connection_device (PhoshWifiManager *self)
   if (self->ap) {
     g_signal_handlers_disconnect_by_data (self->ap, self);
     g_clear_object (&self->ap);
+    g_clear_pointer (&self->ssid, g_free);
+    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SSID]);
   }
 
   if (self->conn_dev) {
