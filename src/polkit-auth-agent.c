@@ -65,7 +65,7 @@ static gboolean
 agent_register (PhoshPolkitAuthAgent *self)
 {
   g_autoptr (GError) err = NULL;
-  g_autoptr (PolkitSubject) subject;
+  g_autoptr (PolkitSubject) subject = NULL;
 
   subject = polkit_unix_session_new_for_process_sync (getpid (),
                                                       NULL, /* GCancellable */
@@ -132,7 +132,7 @@ on_prompt_done (PhoshPolkitAuthPrompt *prompt, gboolean cancelled, AuthRequest *
 static void
 auth_request_initiate (AuthRequest *request)
 {
-  g_auto(GStrv) user_names;
+  g_auto(GStrv) user_names = NULL;
   GPtrArray *p;
   GList *l;
 
