@@ -68,7 +68,7 @@
                     <property name="visible">True</property>
                     <property name="hexpand">False</property>
                     <property name="halign">center</property>
-                    <property name="label">Enable Wi-Fi</property>
+                    <property name="label" translatable="yes">Enable Wi-Fi</property>
                     <signal name="clicked" handler="enable_wifi" object="PhoshWifiStatusPage" swapped="yes"/>
                   </object>
                 </child>
@@ -211,7 +211,7 @@
         <property name="hexpand">True</property>
         <property name="ellipsize">end</property>
         <property name="justify">center</property>
-        <property name="label">Wi-Fi</property>
+        <property name="label" translatable="yes">Wi-Fi</property>
         <style>
           <class name="heading"/>
         </style>
