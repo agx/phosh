@@ -1,0 +1,7 @@
+[Plugin]
+# Translators: This is an internal id, no need to translate it
+Id=@name@
+Name=Wi-Fi Hotspot Quick Setting
+Types=quick-setting;
+Comment=Toggle Wi-Fi hotspot on/off
+Plugin=@plugins_dir@/libphosh-plugin-@name@.so

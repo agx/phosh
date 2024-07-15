@@ -120,3 +120,4 @@ plugins/ticket-box/prefs/ticket-box-prefs.ui
 plugins/upcoming-events/event-list.c
 plugins/upcoming-events/event-list.ui
 plugins/upcoming-events/upcoming-event.c
+plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c
