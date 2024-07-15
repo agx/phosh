@@ -11,6 +11,7 @@
 #include "launcher-entry-manager.h"
 #include "monitor-manager.h"
 #include "session-manager.h"
+#include "wifi-manager.h"
 #include "wwan/phosh-wwan-iface.h"
 
 G_BEGIN_DECLS
@@ -45,6 +46,7 @@ PhoshLauncherEntryManager *phosh_shell_get_launcher_entry_manager (PhoshShell *s
 PhoshMonitorManager       *phosh_shell_get_monitor_manager (PhoshShell *self);
 PhoshSessionManager       *phosh_shell_get_session_manager (PhoshShell *self);
 /* Created on the fly */
+PhoshWifiManager          *phosh_shell_get_wifi_manager    (PhoshShell *self);
 PhoshWWan                 *phosh_shell_get_wwan            (PhoshShell *self);
 
 
