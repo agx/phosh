@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-06 13:01+0000\n"
-"PO-Revision-Date: 2024-06-06 23:03+0200\n"
+"POT-Creation-Date: 2024-07-15 16:26+0000\n"
+"PO-Revision-Date: 2024-07-16 23:04+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -259,12 +259,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Zaslonska slika kopirana na odložišče"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:324 src/ui/media-player.ui:161
+#: src/media-player.c:446 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Neznan naslov"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:332 src/ui/media-player.ui:148
+#: src/media-player.c:454 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Neznan izvajalec"
 
@@ -621,6 +621,10 @@ msgstr "Zaženi ukaz"
 msgid "No notifications"
 msgstr "Ni obvestil"
 
+#: src/ui/settings.ui:358
+msgid "Notifications"
+msgstr "Obvestila"
+
 #: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "Počisti vse"
@@ -653,6 +657,10 @@ msgstr "Naprave Wi-Fi ni bilo mogoče najti"
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi je onemogočen"
 
+#: src/ui/wifi-status-page.ui:71
+msgid "Enable Wi-Fi"
+msgstr "Omogoči Wi-Fi"
+
 #: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Dejavna vroča točka Wi-Fi"
@@ -668,6 +676,10 @@ msgstr "Preglej"
 #: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Nastavitve za Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:214 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
 
 #: src/vpn-info.c:89
 msgid "VPN"
@@ -687,10 +699,6 @@ msgstr "Vtičnik ni najden"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "Vtičnika »%s« ni mogoče naložiti."
-
-#: src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -830,11 +838,11 @@ msgstr "Noben zaganjalnik ni nastavljen"
 msgid "Launchers"
 msgstr "Zaganjalniki"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data On"
 msgstr "Prenos podatkov v mobilnem omrežju je vklopljen"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data Off"
 msgstr "Prenos podatkov v mobilnem omrežju je izklopljen"
 
