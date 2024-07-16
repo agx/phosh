@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-06 13:01+0000\n"
-"PO-Revision-Date: 2024-06-11 06:14+0200\n"
+"POT-Creation-Date: 2024-07-15 16:26+0000\n"
+"PO-Revision-Date: 2024-07-16 05:52+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -250,12 +250,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "ეკრანის ანაბეჭდის ბუფერში დაკოპირდა"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:324 src/ui/media-player.ui:161
+#: src/media-player.c:446 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "უცნობი სათაური"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:332 src/ui/media-player.ui:148
+#: src/media-player.c:454 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "უცნობი შემსრულებელი"
 
@@ -591,6 +591,10 @@ msgstr "ბრძანების გაშვება"
 msgid "No notifications"
 msgstr "გაფრთხილების გარეშე"
 
+#: src/ui/settings.ui:358
+msgid "Notifications"
+msgstr "გაფრთხილებები"
+
 #: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "ყველას გასუფთავება"
@@ -623,6 +627,10 @@ msgstr "Wi-Fi მოწყობილობა ვერ ვიპოვე"
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi გამორთულია"
 
+#: src/ui/wifi-status-page.ui:71
+msgid "Enable Wi-Fi"
+msgstr "Wi-Fi-ის ჩართვა"
+
 #: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Wi-Fi ჰოტსპოტი აქტიურია"
@@ -638,6 +646,10 @@ msgstr "სკანირება"
 #: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-ის მორგება"
+
+#: src/ui/wifi-status-page.ui:214 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
 
 #: src/vpn-info.c:89
 msgid "VPN"
@@ -657,10 +669,6 @@ msgstr "დამატება ვერ ვიპოვე"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "დამატება არ ჩაიტვირთულა: \"%s\"."
-
-#: src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -800,11 +808,11 @@ msgstr "გამშვებები მორგებული არაა"
 msgid "Launchers"
 msgstr "გამშვებები"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data On"
 msgstr "მობილური ინტერნეტი ჩართ"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data Off"
 msgstr "მობილური ინტერნეტი გამორთ"
 
