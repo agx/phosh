@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-06 13:01+0000\n"
-"PO-Revision-Date: 2024-06-06 22:51+0300\n"
+"POT-Creation-Date: 2024-07-15 16:26+0000\n"
+"PO-Revision-Date: 2024-07-16 08:56+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -256,12 +256,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Знімок вікна скопійовано до буфера"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:324 src/ui/media-player.ui:161
+#: src/media-player.c:446 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Невідома назва"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:332 src/ui/media-player.ui:148
+#: src/media-player.c:454 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
@@ -611,6 +611,11 @@ msgstr "Виконати команду"
 msgid "No notifications"
 msgstr "Немає сповіщень"
 
+#: src/ui/settings.ui:358
+#| msgid "Notification"
+msgid "Notifications"
+msgstr "Сповіщення"
+
 #: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "Очистити все"
@@ -643,6 +648,10 @@ msgstr "Не знайдено жодного пристрою Wi-Fi"
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi вимкнено"
 
+#: src/ui/wifi-status-page.ui:71
+msgid "Enable Wi-Fi"
+msgstr "Увімкнути Wi-Fi"
+
 #: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Активна точка доступу Wi-Fi"
@@ -658,6 +667,10 @@ msgstr "Сканувати"
 #: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Параметри Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:214 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
 
 #: src/vpn-info.c:89
 msgid "VPN"
@@ -677,10 +690,6 @@ msgstr "Додаток не знайдено"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "Не вдалося завантажити додаток «%s»."
-
-#: src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -820,11 +829,11 @@ msgstr "Не налаштовано жодного засобу запуску"
 msgid "Launchers"
 msgstr "Засоби запуску"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data On"
 msgstr "Мобільні дані увімкнено"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data Off"
 msgstr "Мобільні дані вимкнено"
 
