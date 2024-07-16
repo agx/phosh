@@ -1,5 +1,5 @@
 [wrap-git]
 directory=libcall-ui
 url=https://gitlab.gnome.org/World/Phosh/libcall-ui/
-revision=v0.1.2
+revision=v0.1.3
 depth=1
