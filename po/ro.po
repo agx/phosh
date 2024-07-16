@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-06 13:01+0000\n"
-"PO-Revision-Date: 2024-06-06 18:40+0200\n"
+"POT-Creation-Date: 2024-07-15 16:26+0000\n"
+"PO-Revision-Date: 2024-07-16 13:58+0200\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -257,12 +257,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Captură de ecran copiată în memorie"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:324 src/ui/media-player.ui:161
+#: src/media-player.c:446 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Titlu necunoscut"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:332 src/ui/media-player.ui:148
+#: src/media-player.c:454 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Artist necunoscut"
 
@@ -612,6 +612,10 @@ msgstr "Execută comanda"
 msgid "No notifications"
 msgstr "Nicio notificare"
 
+#: src/ui/settings.ui:358
+msgid "Notifications"
+msgstr "Notificări"
+
 #: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "Șterge tot"
@@ -644,6 +648,10 @@ msgstr "Niciun dispozitiv Wi-Fi"
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi Dezactivat"
 
+#: src/ui/wifi-status-page.ui:71
+msgid "Enable Wi-Fi"
+msgstr "Activează Wi-Fi"
+
 #: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Punct de acces Wi-Fi Activ"
@@ -659,6 +667,10 @@ msgstr "Caută"
 #: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Opțiuni Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:214 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
 
 #: src/vpn-info.c:89
 msgid "VPN"
@@ -678,10 +690,6 @@ msgstr "Modulul n-a fost găsit"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "Modulul „%s” nu a putut fi încărcat."
-
-#: src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -821,11 +829,11 @@ msgstr "Nu există lansatoare configurate"
 msgid "Launchers"
 msgstr "Lansatoare"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data On"
 msgstr "Date mobile Activate"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data Off"
 msgstr "Date mobile Dezactivate"
 
