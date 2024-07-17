@@ -33,5 +33,9 @@ if [ -z "${GSETTINGS_BACKEND}" ]; then
   # Make sure we don't mess with the systems gsettings:
   export GSETTINGS_BACKEND=memory
 fi
+
+# Ensure that we don't filter out wanted app launcher, i.e. p-m-s or g-c-c
+export XDG_CURRENT_DESKTOP="Phosh:GNOME"
+
 set -x
 exec ${WRAPPER} "${ABS_BUILDDIR}/src/phosh" -U $@
