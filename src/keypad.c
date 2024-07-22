@@ -20,8 +20,8 @@
  *
  * A keypad for pin input
  *
- * The #PhoshKeypad widget is a keypad for entering
- * or PIN codes on e.g. a #PhoshLockscreen. It can randomly
+ * The #PhoshKeypad widget mimics a physical keypad for entering
+ * PIN codes on e.g. a #PhoshLockscreen. It can randomly
  * distribute (shuffle) the digits.
  *
  * # CSS nodes
@@ -300,6 +300,8 @@ phosh_keypad_init (PhoshKeypad *self)
     g_object_ref (self->buttons[i]);
   }
   distribute_buttons (self, self->shuffle);
+
+  gtk_widget_set_direction (GTK_WIDGET (self), GTK_TEXT_DIR_LTR);
 }
 
 
@@ -371,7 +373,7 @@ phosh_keypad_get_entry (PhoshKeypad *self)
  * @self: a #PhoshKeypad
  * @start_action: (nullable): the start action widget
  *
- * Sets the widget for the lower left corner (or right, in RTL locales) of
+ * Sets the widget for the lower left corner of
  * @self.
  */
 void
@@ -402,7 +404,7 @@ phosh_keypad_set_start_action (PhoshKeypad *self,
  * phosh_keypad_get_start_action:
  * @self: a #PhoshKeypad
  *
- * Returns the widget for the lower left corner (or right, in RTL locales) of
+ * Returns the widget for the lower left corner of
  * @self.
  *
  * Returns: (transfer none) (nullable): the start action widget
@@ -421,7 +423,7 @@ phosh_keypad_get_start_action (PhoshKeypad *self)
  * @self: a #PhoshKeypad
  * @end_action: (nullable): the end action widget
  *
- * Sets the widget for the lower right corner (or left, in RTL locales) of
+ * Sets the widget for the lower right corner of
  * @self.
  */
 void
@@ -452,7 +454,7 @@ phosh_keypad_set_end_action (PhoshKeypad *self,
  * phosh_keypad_get_end_action:
  * @self: a #PhoshKeypad
  *
- * Returns the widget for the lower right corner (or left, in RTL locales) of
+ * Returns the widget for the lower right corner of
  * @self.
  *
  * Returns: (transfer none) (nullable): the end action widget
