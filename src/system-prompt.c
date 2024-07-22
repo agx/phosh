@@ -13,6 +13,7 @@
 
 #include "phosh-config.h"
 
+#include "shell.h"
 #include "system-prompt.h"
 
 #define GCR_API_SUBJECT_TO_CHANGE
@@ -259,6 +260,11 @@ phosh_system_prompt_password_async (GcrPrompt *prompt,
   g_object_notify (obj, "warning-visible");
   g_object_notify (obj, "choice-visible");
   priv->shown = TRUE;
+
+  /* Show widget when not locked and keep that in sync */
+  g_object_bind_property (phosh_shell_get_default (), "locked",
+                          self, "visible",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 }
 
 
@@ -318,6 +324,11 @@ phosh_system_prompt_confirm_async (GcrPrompt *prompt,
   g_object_notify (obj, "warning-visible");
   g_object_notify (obj, "choice-visible");
   priv->shown = TRUE;
+
+  /* Show widget when not locked and keep that in sync */
+  g_object_bind_property (phosh_shell_get_default (), "locked",
+                          self, "visible",
+                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 }
 
 
