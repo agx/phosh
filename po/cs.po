@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-07 20:52+0000\n"
-"PO-Revision-Date: 2024-07-01 22:36+0200\n"
+"POT-Creation-Date: 2024-07-15 16:26+0000\n"
+"PO-Revision-Date: 2024-07-22 22:34+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -256,12 +256,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Snímek obrazovky byl zkopírován do schránky"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:324 src/ui/media-player.ui:161
+#: src/media-player.c:446 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Neznámý název"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:332 src/ui/media-player.ui:148
+#: src/media-player.c:454 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Neznámý umělec"
 
@@ -611,6 +611,10 @@ msgstr "Spustit příkaz"
 msgid "No notifications"
 msgstr "Žádná upozornění"
 
+#: src/ui/settings.ui:358
+msgid "Notifications"
+msgstr "Upozornění"
+
 #: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "Vymazat vše"
@@ -643,6 +647,10 @@ msgstr "Nebylo nalezeno žádné zařízení Wi-Fi"
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi zakázáno"
 
+#: src/ui/wifi-status-page.ui:71
+msgid "Enable Wi-Fi"
+msgstr "Povolit Wi-Fi"
+
 #: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Přístupový bod Wi-Fi je aktivní"
@@ -658,6 +666,10 @@ msgstr "Skenovat"
 #: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Nastavení WiFi"
+
+#: src/ui/wifi-status-page.ui:214 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
 
 #: src/vpn-info.c:89
 msgid "VPN"
@@ -677,10 +689,6 @@ msgstr "Zásuvný modul nebyl nalezen"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "Zásuvný modul „%s“ nelze načíst."
-
-#: src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -820,11 +828,11 @@ msgstr "Nejsou nakonfigurovány žádné spouštěče"
 msgid "Launchers"
 msgstr "Spouštěče"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data On"
 msgstr "Mobilní data zapnuta"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data Off"
 msgstr "Mobilní data vypnuta"
 
