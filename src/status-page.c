@@ -9,6 +9,7 @@
 #define G_LOG_DOMAIN "phosh-status-page"
 
 #include "status-page.h"
+#include "status-page-placeholder.h"
 
 /**
  * PhoshStatusPage:
@@ -90,6 +91,7 @@ phosh_status_page_class_init (PhoshStatusPageClass *klass)
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
+  g_type_ensure (PHOSH_TYPE_STATUS_PAGE_PLACEHOLDER);
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/status-page.ui");
 
   gtk_widget_class_set_css_name (widget_class, "phosh-status-page");

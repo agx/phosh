@@ -185,6 +185,11 @@ button.phosh-settings-details:focus {
   -gtk-icon-style: symbolic;
 }
 
+phosh-status-page-placeholder > box > label.title {
+  font-weight: 400;
+  font-size: 16px;
+}
+
 /*
  * Audio devices listbox
  */
