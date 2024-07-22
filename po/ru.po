@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-06 13:01+0000\n"
-"PO-Revision-Date: 2024-06-07 22:13+0300\n"
+"POT-Creation-Date: 2024-07-15 16:26+0000\n"
+"PO-Revision-Date: 2024-07-15 21:52+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -256,12 +256,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Снимок экрана скопирован в буфер обмена"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:324 src/ui/media-player.ui:161
+#: src/media-player.c:446 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Неизвестное название"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:332 src/ui/media-player.ui:148
+#: src/media-player.c:454 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Неизвестный исполнитель"
 
@@ -611,6 +611,10 @@ msgstr "Выполнить команду"
 msgid "No notifications"
 msgstr "Нет уведомлений"
 
+#: src/ui/settings.ui:358
+msgid "Notifications"
+msgstr "Уведомления"
+
 #: src/ui/settings.ui:367
 msgid "Clear all"
 msgstr "Очистить все"
@@ -643,6 +647,10 @@ msgstr "Устройство Wi-Fi не найдено"
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi отключен"
 
+#: src/ui/wifi-status-page.ui:71
+msgid "Enable Wi-Fi"
+msgstr "Включить Wi-Fi"
+
 #: src/ui/wifi-status-page.ui:97
 msgid "Wi-Fi Hotspot Active"
 msgstr "Точка доступа Wi-Fi активна"
@@ -658,6 +666,10 @@ msgstr "Сканировать"
 #: src/ui/wifi-status-page.ui:176
 msgid "Wi-Fi Settings"
 msgstr "Настройки Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:214 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
 
 #: src/vpn-info.c:89
 msgid "VPN"
@@ -677,10 +689,6 @@ msgstr "Модуль не найден"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "Модуль '%s' не может быть загружен."
-
-#: src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -820,11 +828,11 @@ msgstr "Ярлыки не настроены"
 msgid "Launchers"
 msgstr "Ярлыки"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data On"
 msgstr "Моб. данные включены"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data Off"
 msgstr "Моб. данные выключены"
 
