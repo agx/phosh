@@ -165,11 +165,10 @@ button.phosh-settings-details:focus {
   -gtk-icon-style: symbolic;
 }
 
-/* Listboxes in status pages (e.g. audio wifi or bt status pages) */
+/* Status pages of quick settings (e.g. audio wifi or bt status pages) */
 .phosh-status-page {
   border-radius: 18px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding: 12px 12px 6px;
   border: none;
   background-color: @phosh_notification_bg_color;
 }
