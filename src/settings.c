@@ -674,14 +674,16 @@ on_notification_frames_items_changed (PhoshSettings *self,
 static void
 setup_brightness_range (PhoshSettings *self)
 {
+  gulong value_changed_handler_id;
+
   gtk_range_set_range (GTK_RANGE (self->scale_brightness), 0, 100);
   gtk_range_set_round_digits (GTK_RANGE (self->scale_brightness), 0);
   gtk_range_set_increments (GTK_RANGE (self->scale_brightness), 1, 10);
-  brightness_init (GTK_SCALE (self->scale_brightness));
-  g_signal_connect (self->scale_brightness,
+  value_changed_handler_id = g_signal_connect (self->scale_brightness,
                     "value-changed",
                     G_CALLBACK(brightness_value_changed_cb),
                     NULL);
+  brightness_init (GTK_SCALE (self->scale_brightness), value_changed_handler_id);
 }
 
 

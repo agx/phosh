@@ -18,6 +18,7 @@
 GDBusProxy *brightness_proxy;
 GCancellable *gsd_power_cancel;
 gboolean setting_brightness;
+gulong scale_handler_id;
 
 
 static void
@@ -39,7 +40,10 @@ brightness_changed_cb (GDBusProxy *proxy,
   g_return_if_fail (ret);
   if (value < 0 || value > 100)
     value = 100.0;
+
+  g_signal_handler_block (G_OBJECT (scale), scale_handler_id);
   gtk_range_set_value (GTK_RANGE (scale), value);
+  g_signal_handler_unblock (G_OBJECT (scale), scale_handler_id);
 }
 
 
@@ -78,10 +82,12 @@ brightness_init_cb (GObject      *source_object,
 
 
 void
-brightness_init (GtkScale *scale)
+brightness_init (GtkScale *scale, gulong handler_id)
 {
   g_autoptr(GError) err = NULL;
   g_autoptr(GDBusConnection) session_con = NULL;
+
+  scale_handler_id = handler_id;
 
   session_con = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, &err);
   if (err != NULL) {
