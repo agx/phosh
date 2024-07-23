@@ -40,11 +40,6 @@ new_prompt_cb (GcrSystemPrompter *prompter,
 
   prompt = phosh_system_prompt_new ();
 
-  /* Show widget when not locked and keep that in sync */
-  g_object_bind_property (phosh_shell_get_default (), "locked",
-                          prompt, "visible",
-                          G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
-
   return GCR_PROMPT (prompt);
 }
 
