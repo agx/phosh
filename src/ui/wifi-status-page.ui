@@ -3,7 +3,9 @@
   <requires lib="gtk+" version="3.20"/>
   <template class="PhoshWifiStatusPage" parent="PhoshStatusPage">
     <property name="visible">True</property>
-    <property name="header">header_box</property>
+    <property name="title" translatable="yes">Wi-Fi</property>
+    <property name="header">wifi_switch</property>
+    <property name="footer">footer</property>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
@@ -117,6 +119,7 @@
                   <object class="GtkListBox" id="networks">
                     <property name="visible">True</property>
                     <property name="selection-mode">none</property>
+                    <property name="hexpand">True</property>
                     <signal name="row-activated" handler="on_network_activated_cb" object="PhoshWifiStatusPage" swapped="yes"/>
                     <child type="placeholder">
                       <object class="GtkBox">
@@ -161,81 +164,33 @@
             </child>
           </object>
         </child>
-        <child>
-          <object class="GtkSeparator">
-            <property name="visible">True</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton" id="footer">
-            <property name="visible">True</property>
-            <property name="hexpand">True</property>
-            <property name="halign">fill</property>
-            <property name="action-name">settings.launch-panel</property>
-            <property name="action-target">"wifi"</property>
-            <child>
-              <object class="GtkLabel">
-                <property name="visible">True</property>
-                <property name="ellipsize">end</property>
-                <property name="label" translatable="yes">Wi-Fi Settings</property>
-              </object>
-            </child>
-          </object>
-        </child>
       </object>
-      <packing>
-        <property name="pack-type">end</property>
-      </packing>
     </child>
   </template>
-  <object class="GtkBox" id="header_box">
+
+  <object class="GtkSwitch" id="wifi_switch">
+    <property name="visible">True</property>
+    <property name="hexpand">False</property>
+    <property name="vexpand">False</property>
+    <property name="valign">center</property>
+    <style>
+      <class name="flat"/>
+    </style>
+  </object>
+
+  <object class="GtkButton" id="footer">
     <property name="visible">True</property>
     <property name="hexpand">True</property>
-    <property name="orientation">horizontal</property>
-    <property name="spacing">6</property>
-    <property name="margin-left">6</property>
-    <property name="margin-right">6</property>
+    <property name="halign">fill</property>
+    <property name="action-name">settings.launch-panel</property>
+    <property name="action-target">"wifi"</property>
     <child>
-      <object class="GtkButton">
-        <property name="visible">True</property>
-        <property name="valign">start</property>
-        <property name="action-name">settings.close-status-page</property>
-        <style>
-          <class name="phosh-gear-button"/>
-        </style>
-        <child>
-          <object class="GtkImage">
-            <property name="visible">True</property>
-            <property name="icon-name">go-previous-symbolic</property>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child type="center">
       <object class="GtkLabel">
         <property name="visible">True</property>
-        <property name="hexpand">True</property>
         <property name="ellipsize">end</property>
-        <property name="justify">center</property>
-        <property name="label" translatable="yes">Wi-Fi</property>
-        <style>
-          <class name="heading"/>
-        </style>
+        <property name="label" translatable="yes">Wi-Fi Settings</property>
       </object>
-    </child>
-    <child>
-      <object class="GtkSwitch" id="wifi_switch">
-        <property name="visible">True</property>
-        <property name="hexpand">False</property>
-        <property name="vexpand">False</property>
-        <property name="valign">center</property>
-        <style>
-          <class name="flat"/>
-        </style>
-      </object>
-      <packing>
-        <property name="pack-type">end</property>
-      </packing>
     </child>
   </object>
+
 </interface>
