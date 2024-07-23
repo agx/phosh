@@ -116,7 +116,7 @@
                           <object class="PhoshQuickSetting" id="bt_quick_setting">
                             <property name="visible">True</property>
                             <property name="sensitive" bind-source="btinfo" bind-property="present" bind-flags="sync-create"/>
-                            <signal name="clicked" handler="bt_setting_clicked_cb" object="PhoshSettings" swapped="yes"/>
+                            <property name="action-name">settings.toggle-bt</property>
                             <signal name="long-pressed" handler="bt_setting_long_pressed_cb" object="PhoshSettings" swapped="yes"/>
                             <child>
                               <object class="PhoshBtInfo" id="btinfo">
