@@ -29,7 +29,7 @@
               <object class="PhoshStatusPagePlaceholder">
                 <property name="visible">True</property>
                 <property name="title" translatable="yes">Wi-Fi Disabled</property>
-                <property name="icon-name">network-wireless-offline-symbolic</property>
+                <property name="icon-name">network-wireless-disabled-symbolic</property>
                 <child>
                   <object class="GtkButton">
                     <property name="visible">True</property>
