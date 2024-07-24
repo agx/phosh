@@ -69,6 +69,10 @@ phosh-top-panel .phosh-topbar-date {
   padding: 0 16px;
 }
 
+.phosh-settings-menu separator {
+  background: @phosh_borders_color;
+}
+
 #phosh_quick_settings flowboxchild > button {
   border-radius: 99px;
   border: 0;
@@ -144,10 +148,6 @@ button.phosh-settings-details:focus {
 
 .phosh-settings-list-box list {
   background-color: transparent;
-}
-
-.phosh-settings-list-box separator {
-  background: @phosh_borders_color;
 }
 
 .phosh-settings-list-box list row {
