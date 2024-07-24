@@ -56,45 +56,89 @@ struct _PhoshPolkitAuthAgent
   PhoshPolkitAuthPrompt *current_prompt;
 
   gpointer handle;
+  GCancellable *cancellable;
 };
 G_DEFINE_TYPE (PhoshPolkitAuthAgent, phosh_polkit_auth_agent, POLKIT_AGENT_TYPE_LISTENER);
 
 static void auth_request_complete (AuthRequest *request, gboolean dismissed);
 
-static gboolean
-agent_register (PhoshPolkitAuthAgent *self)
+
+static void
+agent_register_thread (GTask        *task,
+                       gpointer      source_object,
+                       gpointer      task_data,
+                       GCancellable *cancellable)
 {
-  g_autoptr (GError) err = NULL;
-  g_autoptr (PolkitSubject) subject;
+  PolkitAgentListener *self = POLKIT_AGENT_LISTENER (source_object);
+  gpointer handle;
+  GError *err = NULL;
+  g_autoptr (PolkitSubject) subject = NULL;
 
   subject = polkit_unix_session_new_for_process_sync (getpid (),
-                                                      NULL, /* GCancellable */
+                                                      cancellable,
                                                       &err);
   if (subject == NULL) {
     if (g_str_has_prefix (err->message, "No session for pid"))
       g_message ("PolKit failed to properly get our session: %s", err->message);
     else
       g_warning ("PolKit failed to properly get our session: %s", err->message);
-    return FALSE;
+
+    g_task_return_error (task, err);
+    return;
   }
 
-  /* FIXME: this blocks so we should do it async */
-  self->handle = polkit_agent_listener_register (POLKIT_AGENT_LISTENER (self),
-                                                 POLKIT_AGENT_REGISTER_FLAGS_NONE,
-                                                 subject,
-                                                 NULL, /* use default object path */
-                                                 NULL, /* GCancellable */
-                                                 &err);
+  handle = polkit_agent_listener_register (POLKIT_AGENT_LISTENER (self),
+                                           POLKIT_AGENT_REGISTER_FLAGS_NONE,
+                                           subject,
+                                           NULL, /* use default object path */
+                                           cancellable,
+                                           &err);
+
+  if (handle)
+    g_task_return_pointer (task, handle, polkit_agent_listener_unregister);
+  else
+    g_task_return_error (task, err);
+
+}
+
+static gpointer
+agent_register_finish (PhoshPolkitAuthAgent *self,
+                       GAsyncResult         *res,
+                       GError              **error)
+{
+  return g_task_propagate_pointer (G_TASK (res), error);
+}
+
+static void
+agent_register_async (PhoshPolkitAuthAgent *self,
+                      GCancellable         *cancellable,
+                      GAsyncReadyCallback   callback,
+                      gpointer              user_data)
+{
+  g_autoptr (GTask) task = g_task_new (self, cancellable, callback, user_data);
+
+  g_task_run_in_thread (task, agent_register_thread);
+}
+
+static void
+agent_registered_cb (GObject      *source_object,
+                     GAsyncResult *res,
+                     gpointer      user_data)
+{
+  PhoshPolkitAuthAgent *self = PHOSH_POLKIT_AUTH_AGENT (source_object);
+  g_autoptr (GError) err = NULL;
+
+  self->handle = agent_register_finish (self, res, &err);
+
+  g_clear_object (&self->cancellable);
 
   if (!self->handle) {
     g_warning ("Auth agent failed to register: %s", err->message);
-    return FALSE;
+    return;
   }
 
   g_debug ("Polkit auth agent registered");
-  return TRUE;
 }
-
 
 static void
 auth_request_free (AuthRequest *request)
@@ -132,7 +176,7 @@ on_prompt_done (PhoshPolkitAuthPrompt *prompt, gboolean cancelled, AuthRequest *
 static void
 auth_request_initiate (AuthRequest *request)
 {
-  g_auto(GStrv) user_names;
+  g_auto(GStrv) user_names = NULL;
   GPtrArray *p;
   GList *l;
 
@@ -326,8 +370,8 @@ phosh_polkit_auth_agent_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_polkit_auth_agent_parent_class)->constructed (object);
 
-  if (agent_register (self))
-    g_return_if_fail (self->handle);
+  self->cancellable = g_cancellable_new ();
+  agent_register_async (self, self->cancellable, agent_registered_cb, NULL);
 }
 
 
@@ -361,6 +405,9 @@ phosh_polkit_auth_agent_dispose (GObject *object)
 
   if (self->handle)
     phosh_polkit_auth_agent_unregister (self);
+
+  g_cancellable_cancel (self->cancellable);
+  g_clear_object (&self->cancellable);
 
   G_OBJECT_CLASS (phosh_polkit_auth_agent_parent_class)->dispose (object);
 }
