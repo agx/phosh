@@ -42,6 +42,8 @@ When submitting a merge request consider checking these first:
       an added [screenshot test](./tests/test-take-screenshots.c),
 	  a tool to exercise new DBus API (see e.g.
 	  [tools/check-mount-operation](./tools/check-mount-operation).
+- [ ] Are property assignments to default values removed from UI files? (See
+      `gtk-builder-tool simplify file.ui`)
 
 If any of the above criteria aren't met yet it's still fine (and
 encouraged) to open a merge request marked as draft. Please indicate
