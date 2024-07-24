@@ -65,7 +65,7 @@ phosh-top-panel .phosh-topbar-date {
   border: 2px solid @theme_bg_color;
 }
 
-.phosh-settings-menu scrolledwindow > viewport {
+.phosh-settings-menu > scrolledwindow > viewport {
   padding: 0 16px;
 }
 
