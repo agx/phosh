@@ -52,7 +52,7 @@ brightness_init_cb (GObject      *source_object,
                     GAsyncResult *res,
                     GtkScale     *scale)
 {
-  g_autoptr(GError) err = NULL;
+  g_autoptr (GError) err = NULL;
   GVariant *var;
   int value;
 
@@ -76,7 +76,7 @@ brightness_init_cb (GObject      *source_object,
 
   g_signal_connect (brightness_proxy,
                     "g-properties-changed",
-                    G_CALLBACK(brightness_changed_cb),
+                    G_CALLBACK (brightness_changed_cb),
                     scale);
 }
 
@@ -84,8 +84,8 @@ brightness_init_cb (GObject      *source_object,
 void
 brightness_init (GtkScale *scale, gulong handler_id)
 {
-  g_autoptr(GError) err = NULL;
-  g_autoptr(GDBusConnection) session_con = NULL;
+  g_autoptr (GError) err = NULL;
+  g_autoptr (GDBusConnection) session_con = NULL;
 
   scale_handler_id = handler_id;
 
@@ -142,10 +142,10 @@ brightness_set (int brightness)
   g_dbus_proxy_call (brightness_proxy,
                      "org.freedesktop.DBus.Properties.Set",
                      g_variant_new (
-                         "(ssv)",
-                         "org.gnome.SettingsDaemon.Power.Screen",
-                         "Brightness",
-                         g_variant_new ("i", brightness)),
+                       "(ssv)",
+                       "org.gnome.SettingsDaemon.Power.Screen",
+                       "Brightness",
+                       g_variant_new ("i", brightness)),
                      G_DBUS_CALL_FLAGS_NONE,
                      2000,
                      NULL,
