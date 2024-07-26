@@ -217,7 +217,7 @@ if run_phoc_tests
   what='high-contrast'
   hc_env = test_env_phoc
   hc_env.set('LANGUAGE', 'C')
-  hc_env.set('PHOSH_TEST_TYPE', 'high-contrast')
+  hc_env.set('PHOSH_TEST_TYPE', what)
   hc_env.set('XDG_CONFIG_HOME', '@0@/user/config-@1@/'.format(meson.current_build_dir(), what))
   hc_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
   hc_env.set('GSETTINGS_BACKEND', 'keyfile')
@@ -231,7 +231,7 @@ if run_phoc_tests
   what='landscape'
   landscape_env = test_env_phoc
   landscape_env.set('LANGUAGE', 'C')
-  landscape_env.set('PHOSH_TEST_TYPE', 'landscape')
+  landscape_env.set('PHOSH_TEST_TYPE', what)
   landscape_env.set('PHOSH_TEST_PHOC_INI', '@0@/data/phoc-landscape.ini'.format(meson.current_source_dir()))
   landscape_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
   test('screenshots-@0@'.format(what), t,
@@ -245,7 +245,7 @@ if run_phoc_tests
   notch_env.set('LANGUAGE', 'C')
   notch_env.set('PHOC_DEBUG', 'cutouts')
   notch_env.set('PHOSH_DEBUG', 'fake-builtin')
-  notch_env.set('PHOSH_TEST_TYPE', 'notch')
+  notch_env.set('PHOSH_TEST_TYPE', what)
   notch_env.set('PHOSH_TEST_PHOC_INI', '@0@/data/phoc-notch.ini'.format(meson.current_source_dir()))
   notch_env.set('GMOBILE_DT_COMPATIBLES', 'oneplus,fajita')
   notch_env.set('XDG_DATA_HOME', '@0@/user/share/'.format(meson.current_source_dir()))
