@@ -319,7 +319,7 @@ on_start_systemd_scope_done (GObject *source_object, GAsyncResult *res, gpointer
     return;
   }
 
-  g_warning ("Moved '%s' to transient systemd unit", app_id);
+  g_debug ("Moved '%s' to transient systemd unit", app_id);
 }
 
 
