@@ -6,6 +6,6 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-void brightness_init (GtkScale *scale);
+void brightness_init (GtkScale *scale, gulong handler_id);
 void brightness_dispose (void);
 void brightness_set (int brightness);
