@@ -6,18 +6,17 @@
     <property name="activatable">True</property>
     <child type="prefix">
       <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="orientation">horizontal</property>
+        <property name="visible">1</property>
         <property name="valign">center</property>
         <child>
           <object class="GtkImage" id="wifi_icon">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="icon-name">network-wireless-signal-none</property>
           </object>
         </child>
         <child>
           <object class="GtkImage" id="encrypted_icon">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="valign">end</property>
             <property name="pixel-size">8</property>
             <property name="icon-name">network-wireless-encrypted</property>
@@ -27,7 +26,7 @@
     </child>
     <child>
       <object class="GtkImage" id="active_indicator">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="icon-name">object-select</property>
       </object>
     </child>
