@@ -15,10 +15,10 @@
 #include "util.h"
 
 
-GDBusProxy *brightness_proxy;
-GCancellable *gsd_power_cancel;
-gboolean setting_brightness;
-gulong scale_handler_id;
+static GDBusProxy *brightness_proxy;
+static GCancellable *gsd_power_cancel;
+static gboolean setting_brightness;
+static gulong scale_handler_id;
 
 
 static void
