@@ -8,20 +8,19 @@
     <property name="footer">footer</property>
     <child>
       <object class="GtkBox">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkStack" id="stack">
-            <property name="visible">True</property>
+            <property name="visible">1</property>
             <property name="transition-type">crossfade</property>
             <child>
               <object class="PhoshStatusPagePlaceholder" id="empty_state">
                 <property name="visible">True</property>
                 <child>
                   <object class="GtkButton" id="empty_state_btn">
-                    <property name="visible">True</property>
-                    <property name="hexpand">False</property>
+                    <property name="visible">1</property>
                     <property name="halign">center</property>
                     <signal name="clicked" handler="on_placeholder_clicked" object="PhoshWifiStatusPage" swapped="yes"/>
                   </object>
@@ -33,14 +32,14 @@
             </child>
             <child>
               <object class="GtkScrolledWindow">
-                <property name="visible">True</property>
+                <property name="visible">1</property>
                 <property name="hscrollbar-policy">never</property>
                 <property name="propagate-natural-height">1</property>
                 <child>
                   <object class="GtkListBox" id="networks">
-                    <property name="visible">True</property>
+                    <property name="visible">1</property>
                     <property name="selection-mode">none</property>
-                    <property name="hexpand">True</property>
+                    <property name="hexpand">1</property>
                     <style>
                       <class name="content"/>
                     </style>
@@ -57,30 +56,24 @@
       </object>
     </child>
   </template>
-
   <object class="GtkSwitch" id="wifi_switch">
-    <property name="visible">True</property>
-    <property name="hexpand">False</property>
-    <property name="vexpand">False</property>
+    <property name="visible">1</property>
     <property name="valign">center</property>
     <style>
       <class name="flat"/>
     </style>
   </object>
-
   <object class="GtkButton" id="footer">
-    <property name="visible">True</property>
-    <property name="hexpand">True</property>
-    <property name="halign">fill</property>
+    <property name="visible">1</property>
+    <property name="hexpand">1</property>
     <property name="action-name">settings.launch-panel</property>
-    <property name="action-target">"wifi"</property>
+    <property name="action-target">&quot;wifi&quot;</property>
     <child>
       <object class="GtkLabel">
-        <property name="visible">True</property>
+        <property name="visible">1</property>
         <property name="ellipsize">end</property>
         <property name="label" translatable="yes">Wi-Fi Settings</property>
       </object>
     </child>
   </object>
-
 </interface>

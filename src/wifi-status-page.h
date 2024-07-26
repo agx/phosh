@@ -6,15 +6,7 @@
 
 #pragma once
 
-#include "quick-setting.h"
-#include "shell.h"
 #include "status-page.h"
-#include "wifi-manager.h"
-#include "wifi-network.h"
-#include "wifi-network-row.h"
-
-#include <gtk/gtk.h>
-
 
 G_BEGIN_DECLS
 

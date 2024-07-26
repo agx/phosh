@@ -8,8 +8,10 @@
 
 #define G_LOG_DOMAIN "phosh-wifi-status-page"
 
-#include "wifi-status-page.h"
+#include "shell.h"
 #include "status-page-placeholder.h"
+#include "wifi-network-row.h"
+#include "wifi-status-page.h"
 
 /**
  * PhoshWifiStatusPage:
@@ -19,13 +21,15 @@
  */
 
 struct _PhoshWifiStatusPage {
-  PhoshStatusPage   parent_instance;
-  GtkSwitch        *wifi_switch;
-  GtkStack         *stack;
-  GtkListBox       *networks;
+  PhoshStatusPage             parent_instance;
+
+  GtkSwitch                  *wifi_switch;
+  GtkStack                   *stack;
+  GtkListBox                 *networks;
   PhoshStatusPagePlaceholder *empty_state;
   GtkButton                  *empty_state_btn;
-  PhoshWifiManager *wifi;
+
+  PhoshWifiManager           *wifi;
 };
 
 G_DEFINE_TYPE (PhoshWifiStatusPage, phosh_wifi_status_page, PHOSH_TYPE_STATUS_PAGE);
