@@ -16,42 +16,19 @@
             <property name="visible">True</property>
             <property name="transition-type">crossfade</property>
             <child>
-              <object class="PhoshStatusPagePlaceholder">
+              <object class="PhoshStatusPagePlaceholder" id="empty_state">
                 <property name="visible">True</property>
-                <property name="title" translatable="yes">No Wi-Fi Device Found</property>
-                <property name="icon-name">network-wireless-hardware-disabled-symbolic</property>
-              </object>
-              <packing>
-                <property name="name">wifi_absent</property>
-              </packing>
-            </child>
-            <child>
-              <object class="PhoshStatusPagePlaceholder">
-                <property name="visible">True</property>
-                <property name="title" translatable="yes">Wi-Fi Disabled</property>
-                <property name="icon-name">network-wireless-disabled-symbolic</property>
                 <child>
-                  <object class="GtkButton">
+                  <object class="GtkButton" id="empty_state_btn">
                     <property name="visible">True</property>
                     <property name="hexpand">False</property>
                     <property name="halign">center</property>
-                    <property name="label" translatable="yes">Enable Wi-Fi</property>
-                    <signal name="clicked" handler="enable_wifi" object="PhoshWifiStatusPage" swapped="yes"/>
+                    <signal name="clicked" handler="on_placeholder_clicked" object="PhoshWifiStatusPage" swapped="yes"/>
                   </object>
                 </child>
               </object>
               <packing>
-                <property name="name">wifi_disabled</property>
-              </packing>
-            </child>
-            <child>
-              <object class="PhoshStatusPagePlaceholder">
-                <property name="visible">True</property>
-                <property name="icon-name">network-wireless-hotspot-symbolic</property>
-                <property name="title" translatable="yes">Wi-Fi Hotspot Active</property>
-              </object>
-              <packing>
-                <property name="name">hotspot_enabled</property>
+                <property name="name">empty-state</property>
               </packing>
             </child>
             <child>
@@ -68,22 +45,6 @@
                       <class name="content"/>
                     </style>
                     <signal name="row-activated" handler="on_network_activated_cb" object="PhoshWifiStatusPage" swapped="yes"/>
-                    <child type="placeholder">
-                      <object class="PhoshStatusPagePlaceholder">
-                        <property name="visible">True</property>
-                        <property name="icon-name">network-wireless-no-route-symbolic</property>
-                        <property name="title" translatable="yes">No Wi-Fi Hotspots Found</property>
-                        <child>
-                          <object class="GtkButton">
-                            <property name="visible">True</property>
-                            <property name="hexpand">False</property>
-                            <property name="halign">center</property>
-                            <property name="label" translatable="yes">Scan</property>
-                            <signal name="clicked" handler="scan_for_networks" object="PhoshWifiStatusPage" swapped="yes"/>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
                   </object>
                 </child>
               </object>

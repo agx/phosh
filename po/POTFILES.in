@@ -101,6 +101,7 @@ src/wall-clock.c
 src/widget-box.c
 src/wifi-info.c
 src/wifi-manager.c
+src/wifi-status-page.c
 src/wwan-info.c
 plugins/caffeine-quick-setting/caffeine-quick-setting.c
 plugins/dark-mode-quick-setting/dark-mode-quick-setting.c
