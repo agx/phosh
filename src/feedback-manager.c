@@ -13,7 +13,6 @@
 #include "feedback-manager.h"
 #include "shell.h"
 
-#define LIBFEEDBACK_USE_UNSTABLE_API
 #include <libfeedback.h>
 
 /**
