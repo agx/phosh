@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-15 16:26+0000\n"
-"PO-Revision-Date: 2024-07-16 13:58+0200\n"
+"POT-Creation-Date: 2024-07-27 09:02+0000\n"
+"PO-Revision-Date: 2024-07-27 16:14+0200\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -133,14 +133,28 @@ msgstr "Arată toate aplicațiile"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Arată numai aplicații pentru mobil"
 
-#: src/bt-info.c:92
+#. Translators: a battery level in percent
+#: src/bt-device-row.c:72
+#, c-format
+msgid "Battery %.0f%%"
+msgstr "Bateria %.0f%%"
+
+#: src/bt-info.c:95 src/ui/bt-status-page.ui:6
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/bt-info.c:123
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Pornit"
 
-#: src/bt-info.c:94
-msgid "Bluetooth"
-msgstr "Bluetooth"
+#: src/bt-status-page.c:81
+msgid "Bluetooth disabled"
+msgstr "Bluetooth dezactivat"
+
+#: src/bt-status-page.c:89
+msgid "No connectable Bluetooth Devices found"
+msgstr "Nu s-au găsit dispozitive Bluetooth conectabile"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -419,7 +433,7 @@ msgstr[0] "Aproape %d an"
 msgstr[1] "Aproape %d ani"
 msgstr[2] "Aproape %d ani"
 
-#: src/polkit-auth-agent.c:227
+#: src/polkit-auth-agent.c:271
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Fereastra de autentificare a fost închisă de utilizator"
 
@@ -464,11 +478,11 @@ msgstr "Executarea „%s” a eșuat"
 msgid "Phone Shell Volume Control"
 msgstr "Controlul sunetului"
 
-#: src/system-prompt.c:365
+#: src/system-prompt.c:376
 msgid "Passwords do not match."
 msgstr "Parolele nu se potrivesc."
 
-#: src/system-prompt.c:372
+#: src/system-prompt.c:383
 msgid "Password cannot be blank"
 msgstr "Parola nu poate fi goală"
 
@@ -517,6 +531,14 @@ msgstr "Dispozitive de intrare"
 #: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Opțiuni pentru sunet"
+
+#: src/ui/bt-status-page.ui:39
+msgid "Enable Bluetooth"
+msgstr "Activează Bluetooth"
+
+#: src/ui/bt-status-page.ui:60
+msgid "Bluetooth Settings"
+msgstr "Opțiuni Bluetooth"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -608,15 +630,15 @@ msgstr "Urgență"
 msgid "Run Command"
 msgstr "Execută comanda"
 
-#: src/ui/settings.ui:327
+#: src/ui/settings.ui:336
 msgid "No notifications"
 msgstr "Nicio notificare"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:367
 msgid "Notifications"
 msgstr "Notificări"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:376
 msgid "Clear all"
 msgstr "Șterge tot"
 
@@ -640,37 +662,37 @@ msgstr "_Suspendă…"
 msgid "_Log Out…"
 msgstr "_Deconectare…"
 
-#: src/ui/wifi-status-page.ui:32
+#: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:21
 msgid "No Wi-Fi Device Found"
 msgstr "Niciun dispozitiv Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:60
+#: src/ui/wifi-status-page.ui:31
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi Dezactivat"
 
-#: src/ui/wifi-status-page.ui:71
+#: src/ui/wifi-status-page.ui:38
 msgid "Enable Wi-Fi"
 msgstr "Activează Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:97
+#: src/ui/wifi-status-page.ui:51
 msgid "Wi-Fi Hotspot Active"
 msgstr "Punct de acces Wi-Fi Activ"
 
-#: src/ui/wifi-status-page.ui:133
+#: src/ui/wifi-status-page.ui:70
 msgid "No Wi-Fi Hotspots Found"
 msgstr "Niciun punct de acces Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:144
+#: src/ui/wifi-status-page.ui:76
 msgid "Scan"
 msgstr "Caută"
 
-#: src/ui/wifi-status-page.ui:176
+#: src/ui/wifi-status-page.ui:115
 msgid "Wi-Fi Settings"
 msgstr "Opțiuni Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:214 src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
 
 #: src/vpn-info.c:89
 msgid "VPN"
