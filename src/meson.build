@@ -239,8 +239,10 @@ libphosh_headers = files(
   'auth.h',
   'background-manager.h',
   'batteryinfo.h',
+  'bt-device-row.h',
   'bt-info.h',
   'bt-manager.h',
+  'bt-status-page.h',
   'emergency-calls-manager.h',
   'fader.h',
   'feedbackinfo.h',
@@ -274,6 +276,7 @@ libphosh_headers = files(
   'session-manager.h',
   'shell.h',
   'status-page.h',
+  'status-page-placeholder.h',
   'system-prompt.h',
   'system-prompter.h',
   'thumbnail.h',
@@ -303,8 +306,10 @@ libphosh_sources = files(
   'auth.c',
   'background-manager.c',
   'batteryinfo.c',
+  'bt-device-row.c',
   'bt-info.c',
   'bt-manager.c',
+  'bt-status-page.c',
   'contrib/shell-network-agent.c',
   'emergency-calls-manager.c',
   'fader.c',
@@ -339,6 +344,7 @@ libphosh_sources = files(
   'session-manager.c',
   'shell.c',
   'status-page.c',
+  'status-page-placeholder.c',
   'system-prompt.c',
   'system-prompter.c',
   'thumbnail.c',
@@ -367,6 +373,20 @@ if libsoup_dep.version().version_compare('< 3.5.1')
   )
 endif
 
+
+# Headers are bundled as they're not shipped by gnome-bluetooth
+# https://gitlab.gnome.org/GNOME/gnome-bluetooth/-/merge_requests/200
+gnome_bluetooth_headers_dep = declare_dependency(
+  include_directories: 'contrib/gnome-bluetooth',
+)
+# We build our own dep to avoid `-Wmissing-include-dirs` as the
+# directory in the Cflags of gnome-bluetooth-3.0.pc do not
+# necessarily exist
+gnome_bluetooth_custom_dep = gnome_bluetooth_dep.partial_dependency(
+  link_args: true,
+  links: true,
+)
+
 phosh_deps = [
   libsoup_dep,
   fribidi_dep,
@@ -376,6 +396,8 @@ phosh_deps = [
   glib_dep,
   gmodule_dep,
   gmobile_dep,
+  gnome_bluetooth_custom_dep,
+  gnome_bluetooth_headers_dep,
   gnome_desktop_dep,
   gobject_dep,
   gsettings_desktop_schemas_dep,
@@ -471,7 +493,8 @@ if enable_introspection
           symbol_prefix : 'phosh',
       identifier_prefix : 'Phosh',
               link_with : phosh_lib,
-               includes : ['Gcr-3', 'Gio-2.0', 'Gtk-3.0', 'GnomeDesktop-3.0', 'Handy-1', 'NM-1.0'],
+               includes : ['Gcr-3', 'Gio-2.0', 'Gtk-3.0', 'GnomeDesktop-3.0',
+                           'Handy-1', 'NM-1.0', 'GnomeBluetooth-3.0'],
              extra_args : phosh_gir_extra_args,
            dependencies : phosh_static_lib_dep,
          fatal_warnings : true,

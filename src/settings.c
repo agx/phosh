@@ -23,6 +23,7 @@
 #include "torch-info.h"
 #include "torch-manager.h"
 #include "vpn-manager.h"
+#include "bt-status-page.h"
 #include "wwan/wwan-manager.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
@@ -409,9 +410,11 @@ wwan_setting_long_pressed_cb (PhoshSettings *self)
   open_settings_panel (self, "wwan");
 }
 
+
 static void
-bt_setting_clicked_cb (PhoshSettings *self)
+on_toggle_bt_activated (GSimpleAction *action, GVariant *param, gpointer data)
 {
+  PhoshSettings *self = PHOSH_SETTINGS (data);
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshBtManager *manager;
   gboolean enabled;
@@ -429,7 +432,14 @@ bt_setting_clicked_cb (PhoshSettings *self)
 static void
 bt_setting_long_pressed_cb (PhoshSettings *self)
 {
-  open_settings_panel (self, "bluetooth");
+  GtkStack *stack = GTK_STACK (self->stack);
+  GtkStack *status_page_stack = GTK_STACK (self->status_page_stack);
+
+  if (self->on_lockscreen)
+    return;
+
+  gtk_stack_set_visible_child_name (stack, "status_page");
+  gtk_stack_set_visible_child_name (status_page_stack, "bt_status_page");
 }
 
 
@@ -797,6 +807,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   object_class->set_property = phosh_settings_set_property;
   object_class->get_property = phosh_settings_get_property;
 
+  g_type_ensure (PHOSH_TYPE_BT_STATUS_PAGE);
   g_type_ensure (PHOSH_TYPE_WIFI_STATUS_PAGE);
 
   gtk_widget_class_set_template_from_resource (widget_class,
@@ -851,7 +862,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scrolled_window);
 
   gtk_widget_class_bind_template_callback (widget_class, battery_setting_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, bt_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, bt_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, docked_setting_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, docked_setting_long_pressed_cb);
@@ -877,6 +887,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 static const GActionEntry entries[] = {
   { .name = "launch-panel", .activate = on_launch_panel_activated, .parameter_type = "s" },
   { .name = "close-status-page", .activate = on_close_status_page_activated },
+  { .name = "toggle-bt", .activate = on_toggle_bt_activated },
 };
 
 

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <template class="PhoshBtStatusPage" parent="PhoshStatusPage">
+    <property name="visible">True</property>
+    <property name="title" translatable="yes">Bluetooth</property>
+    <property name="footer">footer</property>
+    <child>
+      <object class="GtkStack" id="stack">
+        <property name="visible">1</property>
+        <property name="transition-type">crossfade</property>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="visible">1</property>
+            <property name="hscrollbar-policy">never</property>
+            <property name="propagate-natural-height">1</property>
+            <child>
+              <object class="GtkListBox" id="devices_list_box">
+                <property name="visible">1</property>
+                <property name="selection-mode">none</property>
+                <style>
+                  <class name="content"/>
+                </style>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="name">devices</property>
+          </packing>
+        </child>
+        <child>
+          <object class="PhoshStatusPagePlaceholder" id="empty_state">
+            <property name="visible">True</property>
+            <property name="icon-name">bluetooth-disabled</property>
+            <child>
+              <object class="GtkButton">
+                <property name="visible">1</property>
+                <property name="halign">center</property>
+                <property name="label" translatable="yes">Enable Bluetooth</property>
+                <property name="action-name">settings.toggle-bt</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="name">empty-state</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </template>
+  <object class="GtkButton" id="footer">
+    <property name="visible">1</property>
+    <property name="hexpand">1</property>
+    <property name="action-name">settings.launch-panel</property>
+    <property name="action-target">&quot;bluetooth&quot;</property>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">1</property>
+        <property name="ellipsize">end</property>
+        <property name="label" translatable="yes">Bluetooth Settings</property>
+      </object>
+    </child>
+  </object>
+</interface>

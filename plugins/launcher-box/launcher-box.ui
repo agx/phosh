@@ -30,7 +30,6 @@
               <object class="HdyPreferencesGroup">
                 <property name="visible">True</property>
                 <property name="title" translatable="yes">Launchers</property>
-                <property name="visible">True</property>
                 <child>
                   <object class="GtkListBox" id="lb_launchers">
                     <property name="visible">True</property>

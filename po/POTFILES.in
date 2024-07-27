@@ -22,7 +22,9 @@ src/auth.c
 src/background.c
 src/background-manager.c
 src/batteryinfo.c
+src/bt-device-row.c
 src/bt-info.c
+src/bt-status-page.c
 src/call-notification.c
 src/docked-info.c
 src/emergency-menu.c
@@ -73,6 +75,7 @@ src/ui/app-auth-prompt.ui
 src/ui/app-grid-button.ui
 src/ui/app-grid.ui
 src/ui/audio-settings.ui
+src/ui/bt-status-page.ui
 src/ui/emergency-menu.ui
 src/ui/emergency-contact-row.ui
 src/ui/end-session-dialog.ui

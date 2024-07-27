@@ -38,7 +38,7 @@ def handle_file(path: str, filename: str):
 
     header.reverse()
 
-    if len(header) == 0:
+    if len(header) < 2:
         fail(path, "Expected header")
 
     line = header.pop()
