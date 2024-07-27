@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-06 13:01+0000\n"
-"PO-Revision-Date: 2024-06-09 11:32+0300\n"
+"POT-Creation-Date: 2024-07-27 09:02+0000\n"
+"PO-Revision-Date: 2024-07-27 17:54+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -131,14 +131,28 @@ msgstr "Näytä kaikki sovellukset"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Näytä vain mobiilille suunnatut sovellukset"
 
-#: src/bt-info.c:92
+#. Translators: a battery level in percent
+#: src/bt-device-row.c:72
+#, c-format
+msgid "Battery %.0f%%"
+msgstr "Akku %.0f%%"
+
+#: src/bt-info.c:95 src/ui/bt-status-page.ui:6
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/bt-info.c:123
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Päällä"
 
-#: src/bt-info.c:94
-msgid "Bluetooth"
-msgstr "Bluetooth"
+#: src/bt-status-page.c:81
+msgid "Bluetooth disabled"
+msgstr "Bluetooth pois käytöstä"
+
+#: src/bt-status-page.c:89
+msgid "No connectable Bluetooth Devices found"
+msgstr "Yhdistettävissä olevia Bluetooth-laitteita ei löytynyt"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -254,12 +268,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Kuvakaappaus kopioitu leikepöydälle"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:324 src/ui/media-player.ui:161
+#: src/media-player.c:446 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Tuntematon kappale"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:332 src/ui/media-player.ui:148
+#: src/media-player.c:454 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Tuntematon esittäjä"
 
@@ -409,7 +423,7 @@ msgid_plural "Almost %dy"
 msgstr[0] "Melkein %d v"
 msgstr[1] "Melkein %d v"
 
-#: src/polkit-auth-agent.c:227
+#: src/polkit-auth-agent.c:271
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Tunnistautumisikkuna peruttu käyttäjän toimesta"
 
@@ -454,11 +468,11 @@ msgstr "Kohteen '%s' suorittaminen epäonnistui"
 msgid "Phone Shell Volume Control"
 msgstr "Puhelimen käyttöliittymän äänihallinta"
 
-#: src/system-prompt.c:365
+#: src/system-prompt.c:376
 msgid "Passwords do not match."
 msgstr "Salasanat eivät täsmää."
 
-#: src/system-prompt.c:372
+#: src/system-prompt.c:383
 msgid "Password cannot be blank"
 msgstr "Salasana ei voi olla tyhjä"
 
@@ -507,6 +521,14 @@ msgstr "Sisääntulolaitteet"
 #: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Ääniasetukset"
+
+#: src/ui/bt-status-page.ui:39
+msgid "Enable Bluetooth"
+msgstr "Ota Bluetooth käyttöön"
+
+#: src/ui/bt-status-page.ui:60
+msgid "Bluetooth Settings"
+msgstr "Bluetooth-asetukset"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -598,11 +620,15 @@ msgstr "Hätä"
 msgid "Run Command"
 msgstr "Suorita komento"
 
-#: src/ui/settings.ui:327
+#: src/ui/settings.ui:336
 msgid "No notifications"
 msgstr "Ei ilmoituksia"
 
 #: src/ui/settings.ui:367
+msgid "Notifications"
+msgstr "Ilmoitukset"
+
+#: src/ui/settings.ui:376
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
@@ -626,27 +652,35 @@ msgstr "_Valmiustila…"
 msgid "_Log Out…"
 msgstr "Kirjaudu _ulos…"
 
-#: src/ui/wifi-status-page.ui:32
+#: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wifi"
+
+#: src/ui/wifi-status-page.ui:21
 msgid "No Wi-Fi Device Found"
 msgstr "Wi-Fi-laitetta ei löydy"
 
-#: src/ui/wifi-status-page.ui:60
+#: src/ui/wifi-status-page.ui:31
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi on pois käytöstä"
 
-#: src/ui/wifi-status-page.ui:97
+#: src/ui/wifi-status-page.ui:38
+msgid "Enable Wi-Fi"
+msgstr "Ota Wi-Fi käyttöön"
+
+#: src/ui/wifi-status-page.ui:51
 msgid "Wi-Fi Hotspot Active"
 msgstr "Wi-Fi-yhteyspiste aktiivisena"
 
-#: src/ui/wifi-status-page.ui:133
+#: src/ui/wifi-status-page.ui:70
 msgid "No Wi-Fi Hotspots Found"
 msgstr "Wi-Fi-yhteyspisteitä ei löydy"
 
-#: src/ui/wifi-status-page.ui:144
+#: src/ui/wifi-status-page.ui:76
 msgid "Scan"
 msgstr "Skannaa"
 
-#: src/ui/wifi-status-page.ui:176
+#: src/ui/wifi-status-page.ui:115
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-asetukset"
 
@@ -668,10 +702,6 @@ msgstr "Liitännäistä ei löytynyt"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "Liitännäistä '%s' ei voitu ladata."
-
-#: src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "Wifi"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -811,11 +841,11 @@ msgstr "Käynnistimiä ei ole määritetty"
 msgid "Launchers"
 msgstr "Käynnistimet"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data On"
 msgstr "Mobiilidata päällä"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
 msgid "Mobile Data Off"
 msgstr "Mobiilidata pois"
 
