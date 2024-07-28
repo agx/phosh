@@ -328,7 +328,7 @@ phosh_status_page_get_header (PhoshStatusPage *self)
 {
   PhoshStatusPagePrivate *priv;
 
-  g_return_val_if_fail (PHOSH_IS_STATUS_PAGE (self), 0);
+  g_return_val_if_fail (PHOSH_IS_STATUS_PAGE (self), NULL);
 
   priv = phosh_status_page_get_instance_private (self);
 
@@ -381,7 +381,7 @@ phosh_status_page_get_footer (PhoshStatusPage *self)
 {
   PhoshStatusPagePrivate *priv;
 
-  g_return_val_if_fail (PHOSH_IS_STATUS_PAGE (self), 0);
+  g_return_val_if_fail (PHOSH_IS_STATUS_PAGE (self), NULL);
 
   priv = phosh_status_page_get_instance_private (self);
 
