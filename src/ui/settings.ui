@@ -235,21 +235,21 @@
                       </packing>
                     </child>
                     <child>
-                          <object class="PhoshWifiStatusPage" id="wifi_status_page">
-                            <property name="visible">True</property>
-                          </object>
-                          <packing>
-                            <property name="name">wifi_status_page</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="PhoshBtStatusPage">
-                            <property name="visible">True</property>
-                          </object>
-                          <packing>
-                            <property name="name">bt_status_page</property>
-                          </packing>
+                      <object class="PhoshWifiStatusPage">
+                        <property name="visible">True</property>
+                      </object>
+                      <packing>
+                        <property name="name">wifi_status_page</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="PhoshBtStatusPage">
+                        <property name="visible">True</property>
+                      </object>
+                      <packing>
+                        <property name="name">bt_status_page</property>
+                      </packing>
                     </child>
                   </object>
                 </child>
