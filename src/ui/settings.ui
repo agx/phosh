@@ -235,10 +235,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkStack" id="status_page_stack">
-                        <property name="visible">True</property>
-                        <child>
-                          <object class="PhoshWifiStatusPage">
+                          <object class="PhoshWifiStatusPage" id="wifi_status_page">
                             <property name="visible">True</property>
                           </object>
                           <packing>
@@ -253,12 +250,6 @@
                           <packing>
                             <property name="name">bt_status_page</property>
                           </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="name">status_page</property>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </object>
                 </child>

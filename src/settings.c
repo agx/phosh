@@ -73,8 +73,7 @@ typedef struct _PhoshSettings
   GtkWidget *media_player;
   PhoshAudioSettings *audio_settings;
 
-  GtkWidget *stack;
-  GtkWidget *status_page_stack;
+  GtkStack  *stack;
 
   /* The area with media widget, notifications */
   GtkWidget *box_bottom_half;
@@ -180,7 +179,7 @@ calc_drag_handle_offset (PhoshSettings *self)
   if (g_strcmp0 (stack_page, "status_page") != 0)
     goto out;
 
-  success = gtk_widget_translate_coordinates (self->stack, GTK_WIDGET (self),
+  success = gtk_widget_translate_coordinates (GTK_WIDGET (self->stack), GTK_WIDGET (self),
                                               0, 0, NULL, &stack_y);
 
   if (!success) {
@@ -188,7 +187,7 @@ calc_drag_handle_offset (PhoshSettings *self)
     goto out;
   }
 
-  stack_height = gtk_widget_get_allocated_height (self->stack);
+  stack_height = gtk_widget_get_allocated_height (GTK_WIDGET (self->stack));
   h = stack_y + stack_height;
 
   g_debug ("Calculating drag offset: stack_y = %d, stack_height = %d, height = %d",
@@ -370,8 +369,6 @@ wifi_setting_clicked_cb (PhoshSettings *self)
 static void
 wifi_setting_long_pressed_cb (PhoshSettings *self)
 {
-  GtkStack *stack = GTK_STACK (self->stack);
-  GtkStack *status_page_stack = GTK_STACK (self->status_page_stack);
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshWifiManager *manager;
 
@@ -384,8 +381,7 @@ wifi_setting_long_pressed_cb (PhoshSettings *self)
   if (phosh_wifi_manager_get_enabled (manager))
     phosh_wifi_manager_request_scan (manager);
 
-  gtk_stack_set_visible_child_name (stack, "status_page");
-  gtk_stack_set_visible_child_name (status_page_stack, "wifi_status_page");
+  gtk_stack_set_visible_child_name (self->stack, "wifi_status_page");
 }
 
 static void
@@ -432,14 +428,10 @@ on_toggle_bt_activated (GSimpleAction *action, GVariant *param, gpointer data)
 static void
 bt_setting_long_pressed_cb (PhoshSettings *self)
 {
-  GtkStack *stack = GTK_STACK (self->stack);
-  GtkStack *status_page_stack = GTK_STACK (self->status_page_stack);
-
   if (self->on_lockscreen)
     return;
 
-  gtk_stack_set_visible_child_name (stack, "status_page");
-  gtk_stack_set_visible_child_name (status_page_stack, "bt_status_page");
+  gtk_stack_set_visible_child_name (self->stack, "bt_status_page");
 }
 
 
@@ -857,7 +849,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_torch);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, status_page_stack);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scrolled_window);
 
