@@ -238,7 +238,7 @@
                       <object class="GtkStack" id="status_page_stack">
                         <property name="visible">True</property>
                         <child>
-                          <object class="PhoshWifiStatusPage" id="wifi_status_page">
+                          <object class="PhoshWifiStatusPage">
                             <property name="visible">True</property>
                           </object>
                           <packing>
@@ -247,7 +247,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="PhoshBtStatusPage" id="vpn_status_page">
+                          <object class="PhoshBtStatusPage">
                             <property name="visible">True</property>
                           </object>
                           <packing>
