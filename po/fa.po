@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-15 16:26+0000\n"
-"PO-Revision-Date: 2024-07-15 21:25+0330\n"
+"POT-Creation-Date: 2024-07-27 09:02+0000\n"
+"PO-Revision-Date: 2024-07-29 12:15+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -129,14 +129,28 @@ msgstr "نمایش تمامی کاره‌ها"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "فقط نمایش کاره‌های سازگار با تلفن همراه"
 
-#: src/bt-info.c:92
+#. Translators: a battery level in percent
+#: src/bt-device-row.c:72
+#, c-format
+msgid "Battery %.0f%%"
+msgstr "باتری %I.0f٪"
+
+#: src/bt-info.c:95 src/ui/bt-status-page.ui:6
+msgid "Bluetooth"
+msgstr "بلوتوث"
+
+#: src/bt-info.c:123
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "روشن"
 
-#: src/bt-info.c:94
-msgid "Bluetooth"
-msgstr "بلوتوث"
+#: src/bt-status-page.c:81
+msgid "Bluetooth disabled"
+msgstr "بلوتوث از کار افتاده"
+
+#: src/bt-status-page.c:89
+msgid "No connectable Bluetooth Devices found"
+msgstr "هیچ افزارهٔ وصل شدنی بلوتوثی پیدا نشد"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -405,7 +419,7 @@ msgid_plural "Almost %dy"
 msgstr[0] "تقریباً %Idسا"
 msgstr[1] "تقریباً %Idسا"
 
-#: src/polkit-auth-agent.c:227
+#: src/polkit-auth-agent.c:271
 msgid "Authentication dialog was dismissed by the user"
 msgstr "گفت‌وگوی تأیید هویت از سمت کاربر رد شد"
 
@@ -450,11 +464,11 @@ msgstr "اجرای «%s» شکست خورد"
 msgid "Phone Shell Volume Control"
 msgstr "واپایش حجم صدای پوستهٔ تلفن"
 
-#: src/system-prompt.c:365
+#: src/system-prompt.c:376
 msgid "Passwords do not match."
 msgstr "گذرواژه‌های مطابق نیستند."
 
-#: src/system-prompt.c:372
+#: src/system-prompt.c:383
 msgid "Password cannot be blank"
 msgstr "گذرواژه نمی‌تواند خالی باشد"
 
@@ -503,6 +517,14 @@ msgstr "افزاره‌های ورودی"
 #: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "تنظیمات صدا"
+
+#: src/ui/bt-status-page.ui:39
+msgid "Enable Bluetooth"
+msgstr "به کار انداختن بلوتوث"
+
+#: src/ui/bt-status-page.ui:60
+msgid "Bluetooth Settings"
+msgstr "تنظیمات بلوتوث"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -594,15 +616,15 @@ msgstr "اضطراری"
 msgid "Run Command"
 msgstr "اجرای فرمان"
 
-#: src/ui/settings.ui:327
+#: src/ui/settings.ui:336
 msgid "No notifications"
 msgstr "بدون آگاهی"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:367
 msgid "Notifications"
 msgstr "آگاهی‌ها"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:376
 msgid "Clear all"
 msgstr "پاک‌سازی همه"
 
@@ -626,37 +648,37 @@ msgstr "_تعلیق…"
 msgid "_Log Out…"
 msgstr "_خروج…"
 
-#: src/ui/wifi-status-page.ui:32
+#: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "وای‌فای"
+
+#: src/ui/wifi-status-page.ui:21
 msgid "No Wi-Fi Device Found"
 msgstr "هیچ افزارهٔ وای‌فایی پیدا نشد"
 
-#: src/ui/wifi-status-page.ui:60
+#: src/ui/wifi-status-page.ui:31
 msgid "Wi-Fi Disabled"
 msgstr "وای‌فای از کار افتاده"
 
-#: src/ui/wifi-status-page.ui:71
+#: src/ui/wifi-status-page.ui:38
 msgid "Enable Wi-Fi"
 msgstr "به کار انداختن وای‌فای"
 
-#: src/ui/wifi-status-page.ui:97
+#: src/ui/wifi-status-page.ui:51
 msgid "Wi-Fi Hotspot Active"
 msgstr "نقطهٔ داغ وای‌فای فعّال"
 
-#: src/ui/wifi-status-page.ui:133
+#: src/ui/wifi-status-page.ui:70
 msgid "No Wi-Fi Hotspots Found"
 msgstr "هیچ نقطهٔ داغ وای‌فایی پیدا نشد"
 
-#: src/ui/wifi-status-page.ui:144
+#: src/ui/wifi-status-page.ui:76
 msgid "Scan"
 msgstr "پویش"
 
-#: src/ui/wifi-status-page.ui:176
+#: src/ui/wifi-status-page.ui:115
 msgid "Wi-Fi Settings"
 msgstr "تنظیمات وای‌فای"
-
-#: src/ui/wifi-status-page.ui:214 src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "وای‌فای"
 
 #: src/vpn-info.c:89
 msgid "VPN"
