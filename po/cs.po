@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-15 16:26+0000\n"
-"PO-Revision-Date: 2024-07-22 22:34+0200\n"
+"POT-Creation-Date: 2024-07-27 09:02+0000\n"
+"PO-Revision-Date: 2024-07-29 22:54+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -132,14 +132,28 @@ msgstr "Zobrazit všechny aplikace"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Zobrazit pouze optimalizované aplikace"
 
-#: src/bt-info.c:92
+#. Translators: a battery level in percent
+#: src/bt-device-row.c:72
+#, c-format
+msgid "Battery %.0f%%"
+msgstr "Baterie %.0f %%"
+
+#: src/bt-info.c:95 src/ui/bt-status-page.ui:6
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/bt-info.c:123
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Zapnout"
 
-#: src/bt-info.c:94
-msgid "Bluetooth"
-msgstr "Bluetooth"
+#: src/bt-status-page.c:81
+msgid "Bluetooth disabled"
+msgstr "Bluetooth zakázáno"
+
+#: src/bt-status-page.c:89
+msgid "No connectable Bluetooth Devices found"
+msgstr "Nebyla nalezena žádná připojitelná zařízení Bluetooth"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -418,7 +432,7 @@ msgstr[0] "Téměř %d rok"
 msgstr[1] "Téměř %d roky"
 msgstr[2] "Téměř %d let"
 
-#: src/polkit-auth-agent.c:227
+#: src/polkit-auth-agent.c:271
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Dialog ověření byl uživatelem zrušen"
 
@@ -463,11 +477,11 @@ msgstr "Spuštění „%s“ selhalo"
 msgid "Phone Shell Volume Control"
 msgstr "Ovládání hlasitosti shellu telefonu"
 
-#: src/system-prompt.c:365
+#: src/system-prompt.c:376
 msgid "Passwords do not match."
 msgstr "Hesla nesouhlasí."
 
-#: src/system-prompt.c:372
+#: src/system-prompt.c:383
 msgid "Password cannot be blank"
 msgstr "Heslo nemůže být prázdné"
 
@@ -516,6 +530,14 @@ msgstr "Vstupní zařízení"
 #: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Nastavení zvuku"
+
+#: src/ui/bt-status-page.ui:39
+msgid "Enable Bluetooth"
+msgstr "Povolit Bluetooth"
+
+#: src/ui/bt-status-page.ui:60
+msgid "Bluetooth Settings"
+msgstr "Nastavení Bluetooth"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -607,15 +629,15 @@ msgstr "Stav nouze"
 msgid "Run Command"
 msgstr "Spustit příkaz"
 
-#: src/ui/settings.ui:327
+#: src/ui/settings.ui:336
 msgid "No notifications"
 msgstr "Žádná upozornění"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:367
 msgid "Notifications"
 msgstr "Upozornění"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:376
 msgid "Clear all"
 msgstr "Vymazat vše"
 
@@ -639,37 +661,37 @@ msgstr "U_spat…"
 msgid "_Log Out…"
 msgstr "Odh_lásit se…"
 
-#: src/ui/wifi-status-page.ui:32
+#: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:21
 msgid "No Wi-Fi Device Found"
 msgstr "Nebylo nalezeno žádné zařízení Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:60
+#: src/ui/wifi-status-page.ui:31
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi zakázáno"
 
-#: src/ui/wifi-status-page.ui:71
+#: src/ui/wifi-status-page.ui:38
 msgid "Enable Wi-Fi"
 msgstr "Povolit Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:97
+#: src/ui/wifi-status-page.ui:51
 msgid "Wi-Fi Hotspot Active"
 msgstr "Přístupový bod Wi-Fi je aktivní"
 
-#: src/ui/wifi-status-page.ui:133
+#: src/ui/wifi-status-page.ui:70
 msgid "No Wi-Fi Hotspots Found"
 msgstr "Nebyly nalezeny žádné přístupové body Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:144
+#: src/ui/wifi-status-page.ui:76
 msgid "Scan"
 msgstr "Skenovat"
 
-#: src/ui/wifi-status-page.ui:176
+#: src/ui/wifi-status-page.ui:115
 msgid "Wi-Fi Settings"
 msgstr "Nastavení WiFi"
-
-#: src/ui/wifi-status-page.ui:214 src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
 
 #: src/vpn-info.c:89
 msgid "VPN"
