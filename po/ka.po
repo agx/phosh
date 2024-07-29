@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-15 16:26+0000\n"
-"PO-Revision-Date: 2024-07-16 05:52+0200\n"
+"POT-Creation-Date: 2024-07-27 09:02+0000\n"
+"PO-Revision-Date: 2024-07-29 05:36+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -132,14 +132,28 @@ msgstr "ყველა აპლიკაციის ჩვენება"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "მხოლოდ მობილურზე მორგებული აპლიკაციების ჩვენება"
 
-#: src/bt-info.c:92
+#. Translators: a battery level in percent
+#: src/bt-device-row.c:72
+#, c-format
+msgid "Battery %.0f%%"
+msgstr "ელემენტი %.0f%%"
+
+#: src/bt-info.c:95 src/ui/bt-status-page.ui:6
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/bt-info.c:123
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "ჩართ"
 
-#: src/bt-info.c:94
-msgid "Bluetooth"
-msgstr "Bluetooth"
+#: src/bt-status-page.c:81
+msgid "Bluetooth disabled"
+msgstr "ბლუთუზი გამორთულია"
+
+#: src/bt-status-page.c:89
+msgid "No connectable Bluetooth Devices found"
+msgstr "მიერთებადი ბლუთუზის მოწყობილობები აღმოჩენილი არაა"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -398,7 +412,7 @@ msgid "Almost %dy"
 msgid_plural "Almost %dy"
 msgstr[0] "თითქმის %dწ"
 
-#: src/polkit-auth-agent.c:227
+#: src/polkit-auth-agent.c:271
 msgid "Authentication dialog was dismissed by the user"
 msgstr "ავთენტიკაციის ფანჯარა დახურულია მომხმარებლის მიერ"
 
@@ -443,11 +457,11 @@ msgstr "%s-ის გაშვების შეცდომა"
 msgid "Phone Shell Volume Control"
 msgstr "ტელეფონის გარსის ხმის კონტროლი"
 
-#: src/system-prompt.c:365
+#: src/system-prompt.c:376
 msgid "Passwords do not match."
 msgstr "პაროლები არ ემთხვევა."
 
-#: src/system-prompt.c:372
+#: src/system-prompt.c:383
 msgid "Password cannot be blank"
 msgstr "პაროლები ცარიელი ვერ იქნება"
 
@@ -496,6 +510,14 @@ msgstr "შეტანის მოწყობილობები"
 #: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "ხმის მორგება"
+
+#: src/ui/bt-status-page.ui:39
+msgid "Enable Bluetooth"
+msgstr "ბლუთუზის ჩართვა"
+
+#: src/ui/bt-status-page.ui:60
+msgid "Bluetooth Settings"
+msgstr "ბლუთუზის პარამეტრები"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -587,15 +609,15 @@ msgstr "სასწრაფო"
 msgid "Run Command"
 msgstr "ბრძანების გაშვება"
 
-#: src/ui/settings.ui:327
+#: src/ui/settings.ui:336
 msgid "No notifications"
 msgstr "გაფრთხილების გარეშე"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:367
 msgid "Notifications"
 msgstr "გაფრთხილებები"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:376
 msgid "Clear all"
 msgstr "ყველას გასუფთავება"
 
@@ -619,37 +641,37 @@ msgstr "_ძილი…"
 msgid "_Log Out…"
 msgstr "გა_სვლა…"
 
-#: src/ui/wifi-status-page.ui:32
+#: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:21
 msgid "No Wi-Fi Device Found"
 msgstr "Wi-Fi მოწყობილობა ვერ ვიპოვე"
 
-#: src/ui/wifi-status-page.ui:60
+#: src/ui/wifi-status-page.ui:31
 msgid "Wi-Fi Disabled"
 msgstr "Wi-Fi გამორთულია"
 
-#: src/ui/wifi-status-page.ui:71
+#: src/ui/wifi-status-page.ui:38
 msgid "Enable Wi-Fi"
 msgstr "Wi-Fi-ის ჩართვა"
 
-#: src/ui/wifi-status-page.ui:97
+#: src/ui/wifi-status-page.ui:51
 msgid "Wi-Fi Hotspot Active"
 msgstr "Wi-Fi ჰოტსპოტი აქტიურია"
 
-#: src/ui/wifi-status-page.ui:133
+#: src/ui/wifi-status-page.ui:70
 msgid "No Wi-Fi Hotspots Found"
 msgstr "Wi-Fi ჰოტსპოტები აღმოჩენილი არაა"
 
-#: src/ui/wifi-status-page.ui:144
+#: src/ui/wifi-status-page.ui:76
 msgid "Scan"
 msgstr "სკანირება"
 
-#: src/ui/wifi-status-page.ui:176
+#: src/ui/wifi-status-page.ui:115
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-ის მორგება"
-
-#: src/ui/wifi-status-page.ui:214 src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
 
 #: src/vpn-info.c:89
 msgid "VPN"
