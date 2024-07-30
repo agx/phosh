@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-27 09:02+0000\n"
-"PO-Revision-Date: 2024-07-27 16:09+0300\n"
+"POT-Creation-Date: 2024-07-30 10:51+0000\n"
+"PO-Revision-Date: 2024-07-30 14:59+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 23.04.3\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -148,7 +148,6 @@ msgid "On"
 msgstr "❙"
 
 #: src/bt-status-page.c:81
-#| msgid "Bluetooth"
 msgid "Bluetooth disabled"
 msgstr "Bluetooth вимкнено"
 
@@ -533,12 +532,10 @@ msgid "Sound Settings"
 msgstr "Параметри звуку"
 
 #: src/ui/bt-status-page.ui:39
-#| msgid "Bluetooth"
 msgid "Enable Bluetooth"
 msgstr "Увімкнути Bluetooth"
 
 #: src/ui/bt-status-page.ui:60
-#| msgid "Bluetooth"
 msgid "Bluetooth Settings"
 msgstr "Параметри Bluetooth"
 
@@ -668,31 +665,7 @@ msgstr "Ви_йти…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:21
-msgid "No Wi-Fi Device Found"
-msgstr "Не знайдено жодного пристрою Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:31
-msgid "Wi-Fi Disabled"
-msgstr "Wi-Fi вимкнено"
-
-#: src/ui/wifi-status-page.ui:38
-msgid "Enable Wi-Fi"
-msgstr "Увімкнути Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:51
-msgid "Wi-Fi Hotspot Active"
-msgstr "Активна точка доступу Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:70
-msgid "No Wi-Fi Hotspots Found"
-msgstr "Не знайдено точок доступу Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:76
-msgid "Scan"
-msgstr "Сканувати"
-
-#: src/ui/wifi-status-page.ui:115
+#: src/ui/wifi-status-page.ui:75
 msgid "Wi-Fi Settings"
 msgstr "Параметри Wi-Fi"
 
@@ -714,6 +687,31 @@ msgstr "Додаток не знайдено"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "Не вдалося завантажити додаток «%s»."
+
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "Не знайдено жодного пристрою Wi-Fi"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi вимкнено"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "Увімкнути Wi-Fi"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "Активна точка доступу Wi-Fi"
+
+#: src/wifi-status-page.c:63
+#| msgid "No Wi-Fi Hotspots Found"
+msgid "No Wi-Fi Hotspots"
+msgstr "Немає точок доступу Wi-Fi"
+
+#: src/wifi-status-page.c:64
+msgid "Scan"
+msgstr "Сканувати"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
