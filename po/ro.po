@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-27 09:02+0000\n"
-"PO-Revision-Date: 2024-07-27 16:14+0200\n"
+"POT-Creation-Date: 2024-07-30 10:51+0000\n"
+"PO-Revision-Date: 2024-07-30 13:56+0200\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -666,31 +666,7 @@ msgstr "_Deconectare…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:21
-msgid "No Wi-Fi Device Found"
-msgstr "Niciun dispozitiv Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:31
-msgid "Wi-Fi Disabled"
-msgstr "Wi-Fi Dezactivat"
-
-#: src/ui/wifi-status-page.ui:38
-msgid "Enable Wi-Fi"
-msgstr "Activează Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:51
-msgid "Wi-Fi Hotspot Active"
-msgstr "Punct de acces Wi-Fi Activ"
-
-#: src/ui/wifi-status-page.ui:70
-msgid "No Wi-Fi Hotspots Found"
-msgstr "Niciun punct de acces Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:76
-msgid "Scan"
-msgstr "Caută"
-
-#: src/ui/wifi-status-page.ui:115
+#: src/ui/wifi-status-page.ui:75
 msgid "Wi-Fi Settings"
 msgstr "Opțiuni Wi-Fi"
 
@@ -712,6 +688,30 @@ msgstr "Modulul n-a fost găsit"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "Modulul „%s” nu a putut fi încărcat."
+
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "Niciun dispozitiv Wi-Fi"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi Dezactivat"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "Activează Wi-Fi"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "Punct de acces Wi-Fi Activ"
+
+#: src/wifi-status-page.c:63
+msgid "No Wi-Fi Hotspots"
+msgstr "Niciun punct de acces Wi-Fi"
+
+#: src/wifi-status-page.c:64
+msgid "Scan"
+msgstr "Caută"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
