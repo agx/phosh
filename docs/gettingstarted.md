@@ -76,15 +76,17 @@ as part GNOME session so the start sequence looks like
 phoc (compositor) -> gnome-session -> phosh (and other session components)
 ```
 
-## Hints
+## Running and Testing Phosh
 
-This is a unsorted list of hints when developing for Phosh
+The following might useful when you want to make changes to Phosh and
+test the changes:
 
 ### Running phosh
 
 For development purposes you can run phosh nested on your desktop. See
 [this blog post](https://phosh.mobi/posts/phosh-dev-part-0/) for
-details.
+details. You can use several helper scripts to test the running
+instance:
 
 ### Checking DBus Interfaces
 
@@ -98,6 +100,16 @@ To mock DBus services used by phosh like `org.freedesktop.ModemManager`
 or `net.hadess.SensorProxy` you can use [python-dbusmock][]. See
 e.g. `tests/mock-mm-nm.py` which mocks `ModemManager` and `NetworkManager`
 to simulate a mobile data connection.
+
+### GTK Inspector
+
+Since phosh is a GTK application you can use
+[GtkInspector](https://developer.gnome.org/documentation/tools/inspector.html).
+You can use the `GTK_INSPECTOR_DISPLAY` environment variable to use a different
+Wayland display for the inspector window. This can be useful to have the
+inspector windows outside of a nested Wayland session.
+
+## Development Hints
 
 ### Manager Objects
 
@@ -120,16 +132,9 @@ e.g. the corresponding DBus service went away). In that case the
 widget should flip a boolean property so the parent container can
 hide the object via #g_object_bind_property().
 
-### Screen locking and blanking
+### Screen Locking and Blanking
 
 For details see [class@ScreenSaverManager].
 
-### Debugging
-
-Since phosh is a GTK application you can use
-[GtkInspector](https://developer.gnome.org/documentation/tools/inspector.html).
-You can use the `GTK_INSPECTOR_DISPLAY` environment variable to use a different
-Wayland display for the inspector window. This can be useful to have the
-inspector windows outside of a nested Wayland session.
-
 [python-dbusmock]: https://github.com/martinpitt/python-dbusmock
+
