@@ -28,6 +28,7 @@ struct _PhoshBtStatusPage {
   GtkListBox                 *devices_list_box;
   GtkStack                   *stack;
   PhoshStatusPagePlaceholder *empty_state;
+  GtkButton                  *enable_button;
 
   PhoshBtManager             *bt_manager;
 };
@@ -66,6 +67,7 @@ phosh_bt_status_page_class_init (PhoshBtStatusPageClass *klass)
 
   gtk_widget_class_bind_template_child (widget_class, PhoshBtStatusPage, empty_state);
   gtk_widget_class_bind_template_child (widget_class, PhoshBtStatusPage, devices_list_box);
+  gtk_widget_class_bind_template_child (widget_class, PhoshBtStatusPage, enable_button);
   gtk_widget_class_bind_template_child (widget_class, PhoshBtStatusPage, stack);
 }
 
@@ -73,25 +75,25 @@ phosh_bt_status_page_class_init (PhoshBtStatusPageClass *klass)
 static void
 update_stack_page_cb (PhoshBtStatusPage *self)
 {
-  const char *page_name, *title = NULL;
-  GListModel *devices = phosh_bt_manager_get_connectable_devices (self->bt_manager);
-  guint n_devices;
+  const char *page_name, *title;
+  gboolean show_enable_button;
 
-  if (!phosh_bt_manager_get_enabled (self->bt_manager)) {
+  if (phosh_bt_manager_get_enabled (self->bt_manager)) {
+    GListModel *devices = phosh_bt_manager_get_connectable_devices (self->bt_manager);
+    guint n_devices = g_list_model_get_n_items (devices);
+
+    show_enable_button = FALSE;
+    title = _("No connectable Bluetooth Devices found");
+    page_name = n_devices ? "devices" : "empty-state";
+  } else {
+    show_enable_button = TRUE;
     title = _("Bluetooth disabled");
     page_name = "empty-state";
-  } else {
-    n_devices = g_list_model_get_n_items (devices);
-    if (n_devices) {
-      page_name = "devices";
-    } else {
-      page_name = "empty-state";
-      title = _("No connectable Bluetooth Devices found");
-    }
   }
 
   phosh_status_page_placeholder_set_title (self->empty_state, title);
   gtk_stack_set_visible_child_name (self->stack, page_name);
+  gtk_widget_set_visible (GTK_WIDGET (self->enable_button), show_enable_button);
 }
 
 

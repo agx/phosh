@@ -33,7 +33,7 @@
             <property name="visible">True</property>
             <property name="icon-name">bluetooth-disabled</property>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="enable_button">
                 <property name="visible">1</property>
                 <property name="halign">center</property>
                 <property name="label" translatable="yes">Enable Bluetooth</property>
