@@ -308,11 +308,13 @@
                               <object class="GtkBox">
                                 <property name="visible">True</property>
                                 <property name="orientation">vertical</property>
+                                <property name="vexpand">True</property>
+                                <property name="valign">center</property>
                                 <child>
                                   <object class="GtkImage">
                                     <property name="visible">True</property>
                                     <property name="pixel-size">48</property>
-                                    <property name="margin-top">48</property>
+                                    <property name="margin-top">24</property>
                                     <property name="margin-bottom">12</property>
                                     <property name="icon-name">no-notifications-symbolic</property>
                                     <property name="sensitive">False</property>
