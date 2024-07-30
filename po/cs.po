@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-27 09:02+0000\n"
-"PO-Revision-Date: 2024-07-29 22:54+0200\n"
+"POT-Creation-Date: 2024-07-30 10:51+0000\n"
+"PO-Revision-Date: 2024-07-30 18:30+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -665,31 +665,7 @@ msgstr "Odh_lásit se…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:21
-msgid "No Wi-Fi Device Found"
-msgstr "Nebylo nalezeno žádné zařízení Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:31
-msgid "Wi-Fi Disabled"
-msgstr "Wi-Fi zakázáno"
-
-#: src/ui/wifi-status-page.ui:38
-msgid "Enable Wi-Fi"
-msgstr "Povolit Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:51
-msgid "Wi-Fi Hotspot Active"
-msgstr "Přístupový bod Wi-Fi je aktivní"
-
-#: src/ui/wifi-status-page.ui:70
-msgid "No Wi-Fi Hotspots Found"
-msgstr "Nebyly nalezeny žádné přístupové body Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:76
-msgid "Scan"
-msgstr "Skenovat"
-
-#: src/ui/wifi-status-page.ui:115
+#: src/ui/wifi-status-page.ui:75
 msgid "Wi-Fi Settings"
 msgstr "Nastavení WiFi"
 
@@ -711,6 +687,30 @@ msgstr "Zásuvný modul nebyl nalezen"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "Zásuvný modul „%s“ nelze načíst."
+
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "Nebylo nalezeno žádné zařízení Wi-Fi"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi zakázáno"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "Povolit Wi-Fi"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "Přístupový bod Wi-Fi je aktivní"
+
+#: src/wifi-status-page.c:63
+msgid "No Wi-Fi Hotspots"
+msgstr "Žádné přístupové body Wi-Fi"
+
+#: src/wifi-status-page.c:64
+msgid "Scan"
+msgstr "Skenovat"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
