@@ -48,7 +48,7 @@ typedef struct {
   GtkWidget    *footer_widget;
 } PhoshStatusPagePrivate;
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshStatusPage, phosh_status_page, GTK_TYPE_BIN);
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshStatusPage, phosh_status_page, GTK_TYPE_REVEALER);
 
 
 static void

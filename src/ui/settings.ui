@@ -237,6 +237,7 @@
                     <child>
                       <object class="PhoshWifiStatusPage">
                         <property name="visible">True</property>
+                        <property name="reveal-child">True</property>
                       </object>
                       <packing>
                         <property name="name">wifi_status_page</property>
@@ -246,6 +247,7 @@
                     <child>
                       <object class="PhoshBtStatusPage">
                         <property name="visible">True</property>
+                        <property name="reveal-child">True</property>
                       </object>
                       <packing>
                         <property name="name">bt_status_page</property>
