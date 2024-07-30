@@ -31,11 +31,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkScrolledWindow">
-                <property name="visible">1</property>
-                <property name="hscrollbar-policy">never</property>
-                <property name="propagate-natural-height">1</property>
-                <child>
                   <object class="GtkListBox" id="networks">
                     <property name="visible">1</property>
                     <property name="selection-mode">none</property>
@@ -45,8 +40,6 @@
                     </style>
                     <signal name="row-activated" handler="on_network_activated_cb" object="PhoshWifiStatusPage" swapped="yes"/>
                   </object>
-                </child>
-              </object>
               <packing>
                 <property name="name">list_box</property>
               </packing>
