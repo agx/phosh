@@ -231,6 +231,13 @@ update_drag_handle_offset (PhoshSettings *self)
 
 
 static void
+on_stack_visible_child_changed (PhoshSettings *self)
+{
+  update_drag_handle_offset (self);
+}
+
+
+static void
 close_settings_menu (PhoshSettings *self)
 {
   g_signal_emit (self, signals[SETTING_DONE], 0);
@@ -870,7 +877,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_torch_scale_value_changed);
   gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, update_drag_handle_offset);
+  gtk_widget_class_bind_template_callback (widget_class, on_stack_visible_child_changed);
 }
 
 

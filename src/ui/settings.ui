@@ -66,7 +66,7 @@
                   <object class="GtkStack" id="stack">
                     <property name="visible">True</property>
                     <property name="transition-type">slide-left-right</property>
-                    <signal name="notify::visible-child-name" handler="update_drag_handle_offset" object="PhoshSettings" swapped="yes"/>
+                    <signal name="notify::visible-child-name" handler="on_stack_visible_child_changed" object="PhoshSettings" swapped="yes"/>
                     <child>
                       <object class="GtkFlowBox" id="quick_settings">
                         <property name="name">phosh_quick_settings</property>
