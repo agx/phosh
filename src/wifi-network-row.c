@@ -24,17 +24,16 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshWifiNetworkRow {
-  GtkListBoxRow     parent;
+  HdyActionRow      parent;
 
   GtkWidget        *wifi_icon;
   GtkWidget        *encrypted_icon;
-  GtkWidget        *ssid_label;
   GtkWidget        *active_indicator;
 
   PhoshWifiNetwork *network;
 };
 
-G_DEFINE_TYPE (PhoshWifiNetworkRow, phosh_wifi_network_row, GTK_TYPE_LIST_BOX_ROW);
+G_DEFINE_TYPE (PhoshWifiNetworkRow, phosh_wifi_network_row, HDY_TYPE_ACTION_ROW);
 
 static void
 update_icon (GBinding     *binding,
@@ -60,8 +59,8 @@ bind_network (PhoshWifiNetworkRow *self)
 
   g_object_bind_property (self->network,
                           "ssid",
-                          self->ssid_label,
-                          "label",
+                          self,
+                          "title",
                           G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 
   g_object_bind_property (self->network,
@@ -145,7 +144,6 @@ phosh_wifi_network_row_class_init (PhoshWifiNetworkRowClass *klass)
 
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiNetworkRow, wifi_icon);
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiNetworkRow, encrypted_icon);
-  gtk_widget_class_bind_template_child (widget_class, PhoshWifiNetworkRow, ssid_label);
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiNetworkRow, active_indicator);
 }
 
