@@ -233,7 +233,24 @@ update_drag_handle_offset (PhoshSettings *self)
 static void
 on_stack_visible_child_changed (PhoshSettings *self)
 {
+  static GtkWidget *last_status_page;
+  GtkWidget *child, *revealer;
+  gboolean reveal;
+
   update_drag_handle_offset (self);
+
+  child = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  if (child == self->quick_settings && last_status_page) {
+    revealer = last_status_page;
+    reveal = FALSE;
+  } else {
+    g_return_if_fail (GTK_IS_REVEALER (child));
+    revealer = child;
+    reveal = TRUE;
+  }
+
+  gtk_revealer_set_reveal_child (GTK_REVEALER (revealer), reveal);
+  last_status_page = revealer;
 }
 
 
@@ -878,6 +895,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_stack_visible_child_changed);
+  gtk_widget_class_bind_template_callback (widget_class, update_drag_handle_offset);
 }
 
 
