@@ -211,14 +211,13 @@ on_size_allocate (PhoshSettings *self)
 }
 
 
-static gboolean
+static void
 delayed_update_drag_handle_offset (gpointer data)
 {
   PhoshSettings *self = PHOSH_SETTINGS (data);
 
   self->debounce_handle = 0;
   calc_drag_handle_offset (self);
-  return G_SOURCE_REMOVE;
 }
 
 
@@ -226,7 +225,7 @@ static void
 update_drag_handle_offset (PhoshSettings *self)
 {
   g_clear_handle_id (&self->debounce_handle, g_source_remove);
-  self->debounce_handle = g_timeout_add (200, delayed_update_drag_handle_offset, self);
+  self->debounce_handle = g_timeout_add_once (200, delayed_update_drag_handle_offset, self);
   g_source_set_name_by_id (self->debounce_handle, "[phosh] delayed_update_drag_handle_offset");
 }
 
