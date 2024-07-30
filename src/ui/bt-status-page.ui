@@ -10,13 +10,13 @@
         <property name="visible">1</property>
         <property name="transition-type">crossfade</property>
         <child>
-              <object class="GtkListBox" id="devices_list_box">
-                <property name="visible">1</property>
-                <property name="selection-mode">none</property>
-                <style>
-                  <class name="content"/>
-                </style>
-              </object>
+          <object class="GtkListBox" id="devices_list_box">
+            <property name="visible">1</property>
+            <property name="selection-mode">none</property>
+            <style>
+              <class name="content"/>
+            </style>
+          </object>
           <packing>
             <property name="name">devices</property>
           </packing>
