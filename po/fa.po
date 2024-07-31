@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-27 09:02+0000\n"
-"PO-Revision-Date: 2024-07-29 12:15+0330\n"
+"POT-Creation-Date: 2024-07-30 10:51+0000\n"
+"PO-Revision-Date: 2024-07-31 15:48+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -652,31 +652,7 @@ msgstr "_خروج…"
 msgid "Wi-Fi"
 msgstr "وای‌فای"
 
-#: src/ui/wifi-status-page.ui:21
-msgid "No Wi-Fi Device Found"
-msgstr "هیچ افزارهٔ وای‌فایی پیدا نشد"
-
-#: src/ui/wifi-status-page.ui:31
-msgid "Wi-Fi Disabled"
-msgstr "وای‌فای از کار افتاده"
-
-#: src/ui/wifi-status-page.ui:38
-msgid "Enable Wi-Fi"
-msgstr "به کار انداختن وای‌فای"
-
-#: src/ui/wifi-status-page.ui:51
-msgid "Wi-Fi Hotspot Active"
-msgstr "نقطهٔ داغ وای‌فای فعّال"
-
-#: src/ui/wifi-status-page.ui:70
-msgid "No Wi-Fi Hotspots Found"
-msgstr "هیچ نقطهٔ داغ وای‌فایی پیدا نشد"
-
-#: src/ui/wifi-status-page.ui:76
-msgid "Scan"
-msgstr "پویش"
-
-#: src/ui/wifi-status-page.ui:115
+#: src/ui/wifi-status-page.ui:75
 msgid "Wi-Fi Settings"
 msgstr "تنظیمات وای‌فای"
 
@@ -698,6 +674,30 @@ msgstr "افزایه پیدا نشد"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "افزایهٔ «%s» نتوانست بار شود."
+
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "هیچ افزارهٔ وای‌فایی پیدا نشد"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "وای‌فای از کار افتاده"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "به کار انداختن وای‌فای"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "نقطهٔ داغ وای‌فای فعّال"
+
+#: src/wifi-status-page.c:63
+msgid "No Wi-Fi Hotspots"
+msgstr "بدون نقطهٔ داغ وای‌فای"
+
+#: src/wifi-status-page.c:64
+msgid "Scan"
+msgstr "پویش"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -831,7 +831,7 @@ msgstr "شماره"
 
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
-msgstr "هیچ احراگری پیکربندی نشده"
+msgstr "هیچ اجراگری پیکربندی نشده"
 
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
