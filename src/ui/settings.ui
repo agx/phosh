@@ -66,6 +66,7 @@
                   <object class="GtkStack" id="stack">
                     <property name="visible">True</property>
                     <property name="transition-type">slide-left-right</property>
+                    <property name="margin-top">12</property>
                     <signal name="notify::visible-child-name" handler="on_stack_visible_child_changed" object="PhoshSettings" swapped="yes"/>
                     <child>
                       <object class="GtkFlowBox" id="quick_settings">
@@ -79,7 +80,6 @@
                         <property name="selection-mode">none</property>
                         <property name="homogeneous">True</property>
                         <property name="expand">False</property>
-                        <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
                         <child>
                           <object class="PhoshQuickSetting" id="wwan_quick_setting">
