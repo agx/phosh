@@ -128,6 +128,7 @@ tests_manager = [
   [ 'calls-manager', true, ],
   [ 'gtk-mount-manager', true, ],
   [ 'idle-manager', true, ],
+  [ 'lockscreen', true, ],
   [ 'monitor-manager', true, ],
   [ 'notify-manager', true, ],
   [ 'screenshot-manager', true, ],
