@@ -1,20 +1,20 @@
 name='caffeine-quick-setting'
 
-simple_custom_quick_setting_resources = gnome.compile_resources(
+caffeine_quick_setting_resources = gnome.compile_resources(
   'phosh-plugin-caffeine-quick-setting-resources',
   'phosh-plugin-caffeine-quick-setting.gresources.xml',
-  c_name: 'phosh_plugin_simple_custom_quick_setting',
+  c_name: 'phosh_plugin_caffeine_quick_setting',
 )
 
-simple_custom_quick_setting_plugin_sources = files(
+caffeine_quick_setting_plugin_sources = files(
   'phosh-plugin-caffeine-quick-setting.c',
   'caffeine-quick-setting.c',
 )
 
-phosh_simple_custom_quick_setting_plugin = shared_module(
+phosh_caffeine_quick_setting_plugin = shared_module(
   'phosh-plugin-caffeine-quick-setting',
-  simple_custom_quick_setting_plugin_sources,
-  simple_custom_quick_setting_resources,
+  caffeine_quick_setting_plugin_sources,
+  caffeine_quick_setting_resources,
   c_args : ['-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
             '-DPLUGIN_NAME="@0@"'.format(name),
            ],
