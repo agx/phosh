@@ -10,19 +10,12 @@
         <property name="visible">1</property>
         <property name="transition-type">crossfade</property>
         <child>
-          <object class="GtkScrolledWindow">
+          <object class="GtkListBox" id="devices_list_box">
             <property name="visible">1</property>
-            <property name="hscrollbar-policy">never</property>
-            <property name="propagate-natural-height">1</property>
-            <child>
-              <object class="GtkListBox" id="devices_list_box">
-                <property name="visible">1</property>
-                <property name="selection-mode">none</property>
-                <style>
-                  <class name="content"/>
-                </style>
-              </object>
-            </child>
+            <property name="selection-mode">none</property>
+            <style>
+              <class name="content"/>
+            </style>
           </object>
           <packing>
             <property name="name">devices</property>
@@ -33,7 +26,7 @@
             <property name="visible">True</property>
             <property name="icon-name">bluetooth-disabled</property>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="enable_button">
                 <property name="visible">1</property>
                 <property name="halign">center</property>
                 <property name="label" translatable="yes">Enable Bluetooth</property>

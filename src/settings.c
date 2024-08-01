@@ -73,8 +73,7 @@ typedef struct _PhoshSettings
   GtkWidget *media_player;
   PhoshAudioSettings *audio_settings;
 
-  GtkWidget *stack;
-  GtkWidget *status_page_stack;
+  GtkStack  *stack;
 
   /* The area with media widget, notifications */
   GtkWidget *box_bottom_half;
@@ -180,7 +179,7 @@ calc_drag_handle_offset (PhoshSettings *self)
   if (g_strcmp0 (stack_page, "status_page") != 0)
     goto out;
 
-  success = gtk_widget_translate_coordinates (self->stack, GTK_WIDGET (self),
+  success = gtk_widget_translate_coordinates (GTK_WIDGET (self->stack), GTK_WIDGET (self),
                                               0, 0, NULL, &stack_y);
 
   if (!success) {
@@ -188,7 +187,7 @@ calc_drag_handle_offset (PhoshSettings *self)
     goto out;
   }
 
-  stack_height = gtk_widget_get_allocated_height (self->stack);
+  stack_height = gtk_widget_get_allocated_height (GTK_WIDGET (self->stack));
   h = stack_y + stack_height;
 
   g_debug ("Calculating drag offset: stack_y = %d, stack_height = %d, height = %d",
@@ -212,14 +211,13 @@ on_size_allocate (PhoshSettings *self)
 }
 
 
-static gboolean
+static void
 delayed_update_drag_handle_offset (gpointer data)
 {
   PhoshSettings *self = PHOSH_SETTINGS (data);
 
   self->debounce_handle = 0;
   calc_drag_handle_offset (self);
-  return G_SOURCE_REMOVE;
 }
 
 
@@ -227,8 +225,32 @@ static void
 update_drag_handle_offset (PhoshSettings *self)
 {
   g_clear_handle_id (&self->debounce_handle, g_source_remove);
-  self->debounce_handle = g_timeout_add (200, delayed_update_drag_handle_offset, self);
+  self->debounce_handle = g_timeout_add_once (200, delayed_update_drag_handle_offset, self);
   g_source_set_name_by_id (self->debounce_handle, "[phosh] delayed_update_drag_handle_offset");
+}
+
+
+static void
+on_stack_visible_child_changed (PhoshSettings *self)
+{
+  static GtkWidget *last_status_page;
+  GtkWidget *child, *revealer;
+  gboolean reveal;
+
+  update_drag_handle_offset (self);
+
+  child = gtk_stack_get_visible_child (GTK_STACK (self->stack));
+  if (child == self->quick_settings && last_status_page) {
+    revealer = last_status_page;
+    reveal = FALSE;
+  } else {
+    g_return_if_fail (GTK_IS_REVEALER (child));
+    revealer = child;
+    reveal = TRUE;
+  }
+
+  gtk_revealer_set_reveal_child (GTK_REVEALER (revealer), reveal);
+  last_status_page = revealer;
 }
 
 
@@ -370,8 +392,6 @@ wifi_setting_clicked_cb (PhoshSettings *self)
 static void
 wifi_setting_long_pressed_cb (PhoshSettings *self)
 {
-  GtkStack *stack = GTK_STACK (self->stack);
-  GtkStack *status_page_stack = GTK_STACK (self->status_page_stack);
   PhoshShell *shell = phosh_shell_get_default ();
   PhoshWifiManager *manager;
 
@@ -384,8 +404,7 @@ wifi_setting_long_pressed_cb (PhoshSettings *self)
   if (phosh_wifi_manager_get_enabled (manager))
     phosh_wifi_manager_request_scan (manager);
 
-  gtk_stack_set_visible_child_name (stack, "status_page");
-  gtk_stack_set_visible_child_name (status_page_stack, "wifi_status_page");
+  gtk_stack_set_visible_child_name (self->stack, "wifi_status_page");
 }
 
 static void
@@ -432,14 +451,10 @@ on_toggle_bt_activated (GSimpleAction *action, GVariant *param, gpointer data)
 static void
 bt_setting_long_pressed_cb (PhoshSettings *self)
 {
-  GtkStack *stack = GTK_STACK (self->stack);
-  GtkStack *status_page_stack = GTK_STACK (self->status_page_stack);
-
   if (self->on_lockscreen)
     return;
 
-  gtk_stack_set_visible_child_name (stack, "status_page");
-  gtk_stack_set_visible_child_name (status_page_stack, "bt_status_page");
+  gtk_stack_set_visible_child_name (self->stack, "bt_status_page");
 }
 
 
@@ -857,7 +872,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_torch);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, status_page_stack);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scrolled_window);
 
@@ -880,6 +894,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_torch_scale_value_changed);
   gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_clicked);
+  gtk_widget_class_bind_template_callback (widget_class, on_stack_visible_child_changed);
   gtk_widget_class_bind_template_callback (widget_class, update_drag_handle_offset);
 }
 

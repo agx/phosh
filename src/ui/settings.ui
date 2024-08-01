@@ -66,7 +66,8 @@
                   <object class="GtkStack" id="stack">
                     <property name="visible">True</property>
                     <property name="transition-type">slide-left-right</property>
-                    <signal name="notify::visible-child-name" handler="update_drag_handle_offset" object="PhoshSettings" swapped="yes"/>
+                    <property name="margin-top">12</property>
+                    <signal name="notify::visible-child-name" handler="on_stack_visible_child_changed" object="PhoshSettings" swapped="yes"/>
                     <child>
                       <object class="GtkFlowBox" id="quick_settings">
                         <property name="name">phosh_quick_settings</property>
@@ -79,7 +80,6 @@
                         <property name="selection-mode">none</property>
                         <property name="homogeneous">True</property>
                         <property name="expand">False</property>
-                        <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
                         <child>
                           <object class="PhoshQuickSetting" id="wwan_quick_setting">
@@ -235,29 +235,20 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkStack" id="status_page_stack">
+                      <object class="PhoshWifiStatusPage">
                         <property name="visible">True</property>
-                        <child>
-                          <object class="PhoshWifiStatusPage" id="wifi_status_page">
-                            <property name="visible">True</property>
-                          </object>
-                          <packing>
-                            <property name="name">wifi_status_page</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="PhoshBtStatusPage" id="vpn_status_page">
-                            <property name="visible">True</property>
-                          </object>
-                          <packing>
-                            <property name="name">bt_status_page</property>
-                          </packing>
-                        </child>
                       </object>
                       <packing>
-                        <property name="name">status_page</property>
+                        <property name="name">wifi_status_page</property>
                         <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="PhoshBtStatusPage">
+                        <property name="visible">True</property>
+                      </object>
+                      <packing>
+                        <property name="name">bt_status_page</property>
                       </packing>
                     </child>
                   </object>
@@ -317,11 +308,13 @@
                               <object class="GtkBox">
                                 <property name="visible">True</property>
                                 <property name="orientation">vertical</property>
+                                <property name="vexpand">True</property>
+                                <property name="valign">center</property>
                                 <child>
                                   <object class="GtkImage">
                                     <property name="visible">True</property>
                                     <property name="pixel-size">48</property>
-                                    <property name="margin-top">48</property>
+                                    <property name="margin-top">24</property>
                                     <property name="margin-bottom">12</property>
                                     <property name="icon-name">no-notifications-symbolic</property>
                                     <property name="sensitive">False</property>
