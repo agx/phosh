@@ -66,16 +66,14 @@ G_DEFINE_TYPE (PhoshWifiManager, phosh_wifi_manager, G_TYPE_OBJECT);
 
 
 static gboolean
-check_is_hotspot_master (PhoshWifiManager *self)
+is_active_connection_hotspot_master (PhoshWifiManager *self)
 {
   NMSettingIPConfig *ip4_setting;
   NMConnection *c;
-  gboolean is_hotspot_master = FALSE;
 
   if (!self->conn_dev || !self->active ||
       nm_active_connection_get_state (self->active) != NM_ACTIVE_CONNECTION_STATE_ACTIVATED) {
-    is_hotspot_master = FALSE;
-    goto out;
+    return FALSE;
   }
 
   c = NM_CONNECTION (nm_active_connection_get_connection (self->active));
@@ -84,10 +82,18 @@ check_is_hotspot_master (PhoshWifiManager *self)
   if (ip4_setting &&
       g_strcmp0 (nm_setting_ip_config_get_method (ip4_setting),
                  NM_SETTING_IP4_CONFIG_METHOD_SHARED) == 0) {
-    is_hotspot_master = TRUE;
+    return TRUE;
   }
 
- out:
+  return FALSE;
+}
+
+
+static gboolean
+check_is_hotspot_master (PhoshWifiManager *self)
+{
+  gboolean is_hotspot_master = is_active_connection_hotspot_master (self);
+
   if (is_hotspot_master != self->is_hotspot_master) {
     self->is_hotspot_master = is_hotspot_master;
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_IS_HOTSPOT_MASTER]);
