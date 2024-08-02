@@ -158,9 +158,9 @@ update_icon_name (PhoshWifiManager *self)
 }
 
 
-/* Update enabled state based on nm's state and Wi-Fi device availability */
+/* Update enabled property based on nm's state and Wi-Fi device availability */
 static void
-update_enabled_state (PhoshWifiManager *self)
+update_enabled (PhoshWifiManager *self)
 {
   gboolean enabled;
 
@@ -176,9 +176,9 @@ update_enabled_state (PhoshWifiManager *self)
 
 
 static void
-update_state (PhoshWifiManager *self)
+update_properties (PhoshWifiManager *self)
 {
-  update_enabled_state (self);
+  update_enabled (self);
   check_is_hotspot_master (self);
   update_icon_name (self);
 }
@@ -674,7 +674,7 @@ on_nm_access_point_strength_changed (PhoshWifiManager *self, GParamSpec *pspec, 
   strength = phosh_wifi_manager_get_strength (self);
   g_debug ("Strength changed: %d", strength);
 
-  update_state (self);
+  update_properties (self);
 }
 
 
@@ -792,7 +792,7 @@ on_nm_active_connection_state_changed (PhoshWifiManager             *self,
 
   g_debug ("Active connection state changed %d", state);
 
-  update_state (self);
+  update_properties (self);
 
   switch (state) {
   case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
@@ -815,7 +815,7 @@ on_nmclient_wireless_enabled_changed (PhoshWifiManager *self, GParamSpec *pspec,
   g_return_if_fail (PHOSH_IS_WIFI_MANAGER (self));
   g_return_if_fail (NM_IS_CLIENT (nmclient));
 
-  update_state (self);
+  update_properties (self);
 
   if (self->ssid != NULL) {
     g_clear_pointer (&self->ssid, g_free);
@@ -918,7 +918,7 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
 
   devs = nm_client_get_devices (nmclient);
   if (!devs || !devs->len) {
-    update_state (self);
+    update_properties (self);
     cleanup_wifi_device (self);
     self->present = FALSE;
     if (self->present != present)
@@ -947,7 +947,7 @@ on_nmclient_devices_changed (PhoshWifiManager *self, GParamSpec *pspec, NMClient
   self->present = have_wifi_dev;
   if (self->present != present)
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_PRESENT]);
-  update_state (self);
+  update_properties (self);
 }
 
 
@@ -974,7 +974,7 @@ on_nm_client_ready (GObject *obj, GAsyncResult *res, gpointer data)
   g_signal_connect_swapped (self->nmclient, "notify::devices",
                             G_CALLBACK (on_nmclient_devices_changed), self);
 
-  update_state (self);
+  update_properties (self);
 
   on_nmclient_active_connections_changed (self, NULL, self->nmclient);
   on_nmclient_devices_changed (self, NULL, self->nmclient);
