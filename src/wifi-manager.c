@@ -56,7 +56,7 @@ struct _PhoshWifiManager {
 
   /* The access point we're connected to */
   NMAccessPoint      *ap;
-  /* The active connection (if it has a Wi-Fi device */
+  /* The active connection (if it has a Wi-Fi device) */
   NMActiveConnection *active;
   /* The Wi-Fi device used in the active connection */
   NMDeviceWifi       *conn_dev;
