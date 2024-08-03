@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-27 09:02+0000\n"
-"PO-Revision-Date: 2024-07-29 05:36+0200\n"
+"POT-Creation-Date: 2024-07-30 10:51+0000\n"
+"PO-Revision-Date: 2024-08-03 06:32+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -645,31 +645,7 @@ msgstr "გა_სვლა…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:21
-msgid "No Wi-Fi Device Found"
-msgstr "Wi-Fi მოწყობილობა ვერ ვიპოვე"
-
-#: src/ui/wifi-status-page.ui:31
-msgid "Wi-Fi Disabled"
-msgstr "Wi-Fi გამორთულია"
-
-#: src/ui/wifi-status-page.ui:38
-msgid "Enable Wi-Fi"
-msgstr "Wi-Fi-ის ჩართვა"
-
-#: src/ui/wifi-status-page.ui:51
-msgid "Wi-Fi Hotspot Active"
-msgstr "Wi-Fi ჰოტსპოტი აქტიურია"
-
-#: src/ui/wifi-status-page.ui:70
-msgid "No Wi-Fi Hotspots Found"
-msgstr "Wi-Fi ჰოტსპოტები აღმოჩენილი არაა"
-
-#: src/ui/wifi-status-page.ui:76
-msgid "Scan"
-msgstr "სკანირება"
-
-#: src/ui/wifi-status-page.ui:115
+#: src/ui/wifi-status-page.ui:75
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-ის მორგება"
 
@@ -691,6 +667,30 @@ msgstr "დამატება ვერ ვიპოვე"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "დამატება არ ჩაიტვირთულა: \"%s\"."
+
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "Wi-Fi მოწყობილობა ვერ ვიპოვე"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi გამორთულია"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "Wi-Fi-ის ჩართვა"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "Wi-Fi ჰოტსპოტი აქტიურია"
+
+#: src/wifi-status-page.c:63
+msgid "No Wi-Fi Hotspots"
+msgstr "Wi-Fi ჰოტსპოტების გარეშე"
+
+#: src/wifi-status-page.c:64
+msgid "Scan"
+msgstr "სკანირება"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
