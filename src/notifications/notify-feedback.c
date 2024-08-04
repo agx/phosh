@@ -15,7 +15,6 @@
 #include "notification-source.h"
 #include "util.h"
 
-#define LIBFEEDBACK_USE_UNSTABLE_API
 #include <libfeedback.h>
 
 #include <gmobile.h>
