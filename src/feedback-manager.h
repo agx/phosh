@@ -21,6 +21,7 @@ PhoshFeedbackManager *phosh_feedback_manager_new (void);
 void                  phosh_feedback_manager_toggle (PhoshFeedbackManager *self);
 const char *          phosh_feedback_manager_get_icon_name (PhoshFeedbackManager *self);
 const char *          phosh_feedback_manager_get_profile (PhoshFeedbackManager *self);
+void                  phosh_feedback_manager_set_profile (PhoshFeedbackManager *self, const char *profile);
 void                  phosh_feedback_manager_trigger_feedback (PhoshFeedbackManager *self, const char *event);
 void                  phosh_trigger_feedback (const char *name);
 void                  phosh_connect_feedback (GtkWidget *widget);

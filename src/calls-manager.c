@@ -100,9 +100,12 @@ on_call_state_changed (PhoshCallsManager       *self,
 
   g_debug ("Call %s, state %d", path, state);
   if (g_strcmp0 (path, self->active_call) == 0) {
-    /* current active call became inactive> */
+
+    self->incoming = state == PHOSH_CALL_STATE_INCOMING;
+    /* current active call became inactive */
     if (!is_active (state)) {
       g_debug ("No active call, was %s", path);
+
       g_clear_pointer (&self->active_call, g_free);
       g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACTIVE_CALL]);
       /* TODO: pick new active call from list once calls supports multiple active calls */
@@ -111,12 +114,14 @@ on_call_state_changed (PhoshCallsManager       *self,
   }
 
   if (!is_active (state))
-      return;
+    return;
 
   /* New active call */
   g_free (self->active_call);
   self->active_call = g_strdup (path);
   g_debug ("New active call %s", path);
+  self->incoming = state == PHOSH_CALL_STATE_INCOMING;
+
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACTIVE_CALL]);
 }
 
@@ -432,7 +437,6 @@ phosh_calls_manager_class_init (PhoshCallsManagerClass *klass)
                           G_PARAM_READABLE |
                           G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_STATIC_STRINGS);
-
   /**
    * PhoshCallsManager:active-call:
    *
@@ -450,13 +454,13 @@ phosh_calls_manager_class_init (PhoshCallsManagerClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[CALL_ADDED] = g_signal_new ("call-added",
-                                        G_TYPE_FROM_CLASS (klass),
-                                        G_SIGNAL_RUN_LAST,
-                                        0, NULL, NULL,
-                                        NULL,
-                                        G_TYPE_NONE,
-                                        1,
-                                        G_TYPE_STRING);
+                                      G_TYPE_FROM_CLASS (klass),
+                                      G_SIGNAL_RUN_LAST,
+                                      0, NULL, NULL,
+                                      NULL,
+                                      G_TYPE_NONE,
+                                      1,
+                                      G_TYPE_STRING);
 
   signals[CALL_REMOVED] = g_signal_new ("call-removed",
                                         G_TYPE_FROM_CLASS (klass),
@@ -497,9 +501,16 @@ phosh_calls_manager_get_present (PhoshCallsManager *self)
   return self->present;
 }
 
-
-int
-phosh_calls_manager_get_incoming (PhoshCallsManager *self)
+/**
+ * phosh_calls_manager_has_incoming_call:
+ * @self: The calls manager
+ *
+ * Whether there's currently an incoming call
+ *
+ * Returns: `TRUE` if there's an incoming call
+ */
+gboolean
+phosh_calls_manager_has_incoming_call (PhoshCallsManager *self)
 {
   g_return_val_if_fail (PHOSH_IS_CALLS_MANAGER (self), FALSE);
 

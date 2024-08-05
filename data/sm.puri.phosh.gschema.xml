@@ -70,8 +70,18 @@
       <default>false</default>
       <summary>Whether to enable suspend from the power menu</summary>
       <description>
-          Setting this to true allows manually suspending the device from the power menu.
-          Suspend is an experimental feature on some devices and may result in crashes or instability.
+        Setting this to true allows manually suspending the device from the power menu.
+        Suspend is an experimental feature on some devices and may result in crashes or instability.
+      </description>
+    </key>
+
+    <key name="quick-silent" type="b">
+      <default>false</default>
+      <summary>Allow to quickly silence the device</summary>
+      <description>
+        Setting this to true allows to set the phone to silent by
+        pressing volume-down on incoming calls when the phone is locked.
+        This feature is experimental.
       </description>
     </key>
 

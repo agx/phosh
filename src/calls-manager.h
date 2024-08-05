@@ -37,7 +37,7 @@ G_DECLARE_FINAL_TYPE (PhoshCallsManager, phosh_calls_manager, PHOSH, CALLS_MANAG
 
 PhoshCallsManager *phosh_calls_manager_new (void);
 gboolean           phosh_calls_manager_get_present (PhoshCallsManager *self);
-gboolean           phosh_calls_manager_get_incoming (PhoshCallsManager *self);
+gboolean           phosh_calls_manager_has_incoming_call (PhoshCallsManager *self);
 const char        *phosh_calls_manager_get_active_call_handle (PhoshCallsManager *self);
 PhoshCall         *phosh_calls_manager_get_call (PhoshCallsManager *self, const char *handle);
 

@@ -19,6 +19,13 @@
  * Grabs and manages special keyboard events
  */
 
+enum {
+  PRESSED,
+  RELEASED,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS] = { 0 };
+
 struct _PhoshKeyboardEvents {
   GSimpleActionGroup                   parent;
 
@@ -47,22 +54,12 @@ handle_accelerator_activated_event (void *data,
   g_debug ("Accelerator %d activated: %s", action_id, action);
 
   g_return_if_fail (g_action_group_has_action (G_ACTION_GROUP (self), action));
+  g_signal_emit (self, signals[PRESSED], 0, action);
 
   if (g_action_group_get_action_parameter_type (G_ACTION_GROUP (self), action))
     pressed = g_variant_new_boolean (TRUE);
 
   g_action_group_activate_action (G_ACTION_GROUP (self), action, pressed);
-
-  /*
-   * Emulate key released when running against older phoc, can be
-   * removed once we require phoc 0.26.0
-   */
-  if ((phosh_private_keyboard_event_get_version (kbevent) <
-       PHOSH_PRIVATE_KEYBOARD_EVENT_ACCELERATOR_RELEASED_EVENT_SINCE_VERSION) &&
-      g_action_group_get_action_parameter_type (G_ACTION_GROUP (self), action)) {
-    g_warning_once ("Emulating accelerator up. Please upgrade phoc");
-    g_action_group_activate_action (G_ACTION_GROUP (self), action, g_variant_new_boolean (FALSE));
-  }
 }
 
 
@@ -81,6 +78,7 @@ handle_accelerator_released_event (void *data,
   g_debug ("Accelerator %d released: %s", action_id, action);
 
   g_return_if_fail (g_action_group_has_action (G_ACTION_GROUP (self), action));
+  g_signal_emit (self, signals[RELEASED], 0, action);
 
   /* Action doesn't have a parameter so we only notify press */
   if (g_action_group_get_action_parameter_type (G_ACTION_GROUP (self), action) == NULL)
@@ -276,6 +274,33 @@ phosh_keyboard_events_class_init (PhoshKeyboardEventsClass *klass)
 
   object_class->dispose = phosh_keyboard_events_dispose;
   object_class->finalize = phosh_keyboard_events_finalize;
+
+  /**
+   * PhoshKeyboardEvents::pressed:
+   * @self: The keyboard-events instance
+   * @combo: The pressed global shortcut as string
+   *
+   * Emitted when a subscribed key binding was pressed.
+   */
+  signals[PRESSED] = g_signal_new ("pressed",
+                                   G_TYPE_FROM_CLASS (klass),
+                                   G_SIGNAL_RUN_LAST,
+                                   0, NULL, NULL, NULL,
+                                   G_TYPE_NONE,
+                                   1, G_TYPE_STRING);
+  /**
+   * PhoshKeyboardEvents::released:
+   * @self: The keyboard-events instance
+   * @combo: The released global shortcut as string
+   *
+   * Emitted when a subscribed key binding was released.
+   */
+  signals[RELEASED] = g_signal_new ("released",
+                                    G_TYPE_FROM_CLASS (klass),
+                                    G_SIGNAL_RUN_LAST,
+                                    0, NULL, NULL, NULL,
+                                    G_TYPE_NONE,
+                                    1, G_TYPE_STRING);
 }
 
 
