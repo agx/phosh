@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-05-01 10:02+0000\n"
-"PO-Revision-Date: 2024-05-01 08:00+0300\n"
+"POT-Creation-Date: 2024-08-03 14:08+0000\n"
+"PO-Revision-Date: 2024-08-05 08:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.3\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -51,6 +51,14 @@ msgstr "Takvim"
 msgid "A simple calendar widget"
 msgstr "Basit takvim parçacığı"
 
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+msgid "Dark Mode / Color Scheme Quick Setting"
+msgstr "Koyu Kip / Renk Düzeni Hızlı Ayarı"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+msgid "Toggle dark mode"
+msgstr "Koyu kipi aç/kapat"
+
 #: plugins/emergency-info/emergency-info.desktop.in.in:5
 msgid "Emergency Info"
 msgstr "Acil Durum Bilgisi"
@@ -67,6 +75,14 @@ msgstr "Başlatıcı Kutusu"
 #: plugins/launcher-box/launcher-box.desktop.in.in:6
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr "Kilit ekranına başlatıcılar ekle. <b>Bu uzantı deneyseldir.</b>"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+msgid "Mobile Data Quick Setting"
+msgstr "Mobil Veri Hızlı Ayarı"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+msgid "Toggle mobile data on/off"
+msgstr "Mobil veriyi aç/kapat"
 
 #: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
 msgid "Night Light Quick Setting"
@@ -93,26 +109,48 @@ msgstr "Yaklaşan Olaylar"
 msgid "Show upcoming calendar events"
 msgstr "Yaklaşan olayları göster"
 
-#: src/app-grid-button.c:533 src/app-grid-button.c:590
+#: src/app-grid-button.c:153
+msgid "Add to Folder"
+msgstr "Klasöre Ekle"
+
+#: src/app-grid-button.c:177
+msgid "Create new folder"
+msgstr "Yeni klasör oluştur"
+
+#: src/app-grid-button.c:692 src/app-grid-button.c:749
 msgid "Application"
 msgstr "Uygulama"
 
-#: src/app-grid.c:256
+#: src/app-grid.c:263
 msgid "Show All Apps"
 msgstr "Tüm Uygulamaları Göster"
 
-#: src/app-grid.c:259
+#: src/app-grid.c:266
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Yalnızca Mobil Uyumluları Göster"
 
-#: src/bt-info.c:92
+#. Translators: a battery level in percent
+#: src/bt-device-row.c:72
+#, c-format
+msgid "Battery %.0f%%"
+msgstr "Pil %%%.0f"
+
+#: src/bt-info.c:95 src/ui/bt-status-page.ui:6
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/bt-info.c:123
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Açık"
 
-#: src/bt-info.c:94
-msgid "Bluetooth"
-msgstr "Bluetooth"
+#: src/bt-status-page.c:86
+msgid "No connectable Bluetooth Devices found"
+msgstr "Bağlanabilir Bluetooth Aygıtı bulunamadı"
+
+#: src/bt-status-page.c:90
+msgid "Bluetooth disabled"
+msgstr "Bluetooth devre dışı"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -149,7 +187,7 @@ msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s oturumu %d saniyede kendiliğinden kapanacak."
 
-#: src/end-session-dialog.c:183 src/ui/power-menu.ui:69
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Gücü Kapat"
 
@@ -206,29 +244,29 @@ msgstr "Evet"
 msgid "No"
 msgstr "Hayır"
 
-#: src/lockscreen.c:172 src/ui/lockscreen.ui:245
+#: src/lockscreen.c:166 src/ui/lockscreen.ui:245
 msgid "Enter Passcode"
 msgstr "Parolayı Gir"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:392
 msgid "Checking…"
 msgstr "Denetleniyor…"
 
-#: src/screenshot-manager.c:215 src/ui/power-menu.ui:147
+#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Ekran Görüntüsü"
 
-#: src/screenshot-manager.c:216
+#: src/screenshot-manager.c:222
 msgid "Screenshot copied to clipboard"
 msgstr "Ekran görüntüsü panoya kopyalandı"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:324 src/ui/media-player.ui:161
+#: src/media-player.c:446 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Bilinmeyen Başlık"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:332 src/ui/media-player.ui:148
+#: src/media-player.c:454 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Bilinmeyen Sanatçı"
 
@@ -371,7 +409,7 @@ msgid "Almost %dy"
 msgid_plural "Almost %dy"
 msgstr[0] "Neredeyse %d yıl"
 
-#: src/polkit-auth-agent.c:227
+#: src/polkit-auth-agent.c:271
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Kullanıcı, kimlik doğrulama kutusunu görmezden geldi"
 
@@ -416,11 +454,11 @@ msgstr "'%s' çalıştırılamadı"
 msgid "Phone Shell Volume Control"
 msgstr "Telefon Kabuğu Ses Denetimi"
 
-#: src/system-prompt.c:365
+#: src/system-prompt.c:376
 msgid "Passwords do not match."
 msgstr "Parolalar eşleşmiyor."
 
-#: src/system-prompt.c:372
+#: src/system-prompt.c:383
 msgid "Password cannot be blank"
 msgstr "Parola boş olamaz"
 
@@ -450,6 +488,10 @@ msgstr "_Gözdelere ekle"
 msgid "View _Details"
 msgstr "_Ayrıntıları Göster"
 
+#: src/ui/app-grid-button.ui:41
+msgid "_Remove from Folder"
+msgstr "Klasörden _Kaldır"
+
 #: src/ui/app-grid.ui:24
 msgid "Search apps…"
 msgstr "Uygulama ara…"
@@ -465,6 +507,14 @@ msgstr "Girdi Aygıtları"
 #: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Ses Ayarları"
+
+#: src/ui/bt-status-page.ui:32
+msgid "Enable Bluetooth"
+msgstr "Bluetooth’u Etkinleştir"
+
+#: src/ui/bt-status-page.ui:53
+msgid "Bluetooth Settings"
+msgstr "Bluetooth Ayarları"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -540,11 +590,15 @@ msgstr "_Bağlan"
 msgid "Authenticate"
 msgstr "Kimlik Doğrula"
 
-#: src/ui/power-menu.ui:108
+#: src/ui/power-menu.ui:109
+msgid "Suspend"
+msgstr "Askıya Al"
+
+#: src/ui/power-menu.ui:153
 msgid "Lock"
 msgstr "Kilitle"
 
-#: src/ui/power-menu.ui:186
+#: src/ui/power-menu.ui:231
 msgid "Emergency"
 msgstr "Acil"
 
@@ -552,11 +606,15 @@ msgstr "Acil"
 msgid "Run Command"
 msgstr "Komut Çalıştır"
 
-#: src/ui/settings.ui:327
+#: src/ui/settings.ui:329
 msgid "No notifications"
 msgstr "Bildirim yok"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:360
+msgid "Notifications"
+msgstr "Bildirimler"
+
+#: src/ui/settings.ui:369
 msgid "Clear all"
 msgstr "Tümünü temizle"
 
@@ -580,27 +638,11 @@ msgstr "_Askıya Al…"
 msgid "_Log Out…"
 msgstr "_Oturumu Kapat…"
 
-#: src/ui/wifi-status-page.ui:32
-msgid "No Wi-Fi Device Found"
-msgstr "Kablosuz Aygıtı Bulunamadı"
+#: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Kablosuz"
 
-#: src/ui/wifi-status-page.ui:60
-msgid "Wi-Fi Disabled"
-msgstr "Kablosuz Devre Dışı"
-
-#: src/ui/wifi-status-page.ui:97
-msgid "Wi-Fi Hotspot Active"
-msgstr "Kablosuz Erişim Noktası Etkin"
-
-#: src/ui/wifi-status-page.ui:133
-msgid "No Wi-Fi Hotspots Found"
-msgstr "Kablosuz Erişim Noktası Bulunamadı"
-
-#: src/ui/wifi-status-page.ui:144
-msgid "Scan"
-msgstr "Tara"
-
-#: src/ui/wifi-status-page.ui:176
+#: src/ui/wifi-status-page.ui:68
 msgid "Wi-Fi Settings"
 msgstr "Kablosuz Ayarları"
 
@@ -610,7 +652,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:218
+#: src/wall-clock.c:222
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -623,9 +665,29 @@ msgstr "Uzantı bulunamadı"
 msgid "The plugin '%s' could not be loaded."
 msgstr "'%s' uzantısı yüklenemedi."
 
-#: src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "Kablosuz"
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "Kablosuz Aygıtı Bulunamadı"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "Kablosuz Devre Dışı"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "Kablosuz Bağlantıyı Etkinleştir"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "Kablosuz Erişim Noktası Etkin"
+
+#: src/wifi-status-page.c:63
+msgid "No Wi-Fi Hotspots"
+msgstr "Kablosuz Erişim Noktası Yok"
+
+#: src/wifi-status-page.c:64
+msgid "Scan"
+msgstr "Tara"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -644,6 +706,18 @@ msgstr "Açık"
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
 msgid "Off"
 msgstr "Kapalı"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+msgid "Default style"
+msgstr "Öntanımlı biçem"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+msgid "Dark mode"
+msgstr "Koyu kip"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+msgid "Light mode"
+msgstr "Açık kip"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -753,6 +827,14 @@ msgstr "Başlatıcı yapılandırılmadı"
 msgid "Launchers"
 msgstr "Başlatıcılar"
 
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+msgid "Mobile Data On"
+msgstr "Mobil Veri Açık"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+msgid "Mobile Data Off"
+msgstr "Mobil Veri Kapalı"
+
 #: plugins/night-light-quick-setting/night-light-quick-setting.c:64
 msgid "Night Light On"
 msgstr "Gece Işığı Açık"
@@ -839,59 +921,3 @@ msgstr "Bitiş"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Adsız olay"
-
-#~ msgid "_Power Off"
-#~ msgstr "_Gücü Kapat"
-
-#~ msgid "_Screenshot"
-#~ msgstr "_Ekran Görüntüsü"
-
-#~ msgctxt "timestamp-suffix-seconds"
-#~ msgid "s"
-#~ msgstr "sn"
-
-#~ msgctxt "timestamp-suffix-minute"
-#~ msgid "m"
-#~ msgstr "d"
-
-#~ msgctxt "timestamp-suffix-minutes"
-#~ msgid "m"
-#~ msgstr "d"
-
-#~ msgctxt "timestamp-suffix-hour"
-#~ msgid "h"
-#~ msgstr "s"
-
-#~ msgctxt "timestamp-suffix-hours"
-#~ msgid "h"
-#~ msgstr "s"
-
-#~ msgctxt "timestamp-suffix-day"
-#~ msgid "d"
-#~ msgstr "g"
-
-#~ msgctxt "timestamp-suffix-days"
-#~ msgid "d"
-#~ msgstr "g"
-
-#~ msgctxt "timestamp-suffix-month"
-#~ msgid "mo"
-#~ msgstr "a"
-
-#~ msgctxt "timestamp-suffix-months"
-#~ msgid "mos"
-#~ msgstr "a"
-
-#~ msgctxt "timestamp-suffix-year"
-#~ msgid "y"
-#~ msgstr "y"
-
-#~ msgctxt "timestamp-suffix-years"
-#~ msgid "y"
-#~ msgstr "y"
-
-#~ msgid "%s%d%s"
-#~ msgstr "%s%d%s"
-
-#~ msgid "App"
-#~ msgstr "Uygulama"
