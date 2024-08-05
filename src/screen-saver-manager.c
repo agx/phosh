@@ -492,6 +492,21 @@ on_lockscreen_manager_wakeup_outputs (PhoshScreenSaverManager *self,
 
 
 static void
+on_locked_hint_set (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  PhoshDBusLoginSession *proxy = PHOSH_DBUS_LOGIN_SESSION (source_object);
+  g_autoptr (GError) err = NULL;
+  gboolean success;
+
+  success = phosh_dbus_login_session_call_set_locked_hint_finish (proxy,
+                                                                  res,
+                                                                  &err);
+  if (!success)
+    g_warning ("Failed to send locked hint: %s", err->message);
+}
+
+
+static void
 on_lockscreen_manager_locked_changed (PhoshScreenSaverManager *self)
 {
   gboolean locked;
@@ -499,6 +514,14 @@ on_lockscreen_manager_locked_changed (PhoshScreenSaverManager *self)
   g_return_if_fail (PHOSH_IS_SCREEN_SAVER_MANAGER (self));
 
   locked = phosh_lockscreen_manager_get_locked (self->lockscreen_manager);
+  if (self->logind_session_proxy) {
+    phosh_dbus_login_session_call_set_locked_hint (self->logind_session_proxy,
+                                                   locked,
+                                                   self->cancel,
+                                                   on_locked_hint_set,
+                                                   NULL);
+  }
+
   if (locked == TRUE)
     return;
 
