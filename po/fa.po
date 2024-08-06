@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-30 10:51+0000\n"
-"PO-Revision-Date: 2024-07-31 15:48+0330\n"
+"POT-Creation-Date: 2024-08-06 08:05+0000\n"
+"PO-Revision-Date: 2024-08-06 13:45+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -144,13 +144,13 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "روشن"
 
-#: src/bt-status-page.c:81
-msgid "Bluetooth disabled"
-msgstr "بلوتوث از کار افتاده"
-
-#: src/bt-status-page.c:89
+#: src/bt-status-page.c:86
 msgid "No connectable Bluetooth Devices found"
 msgstr "هیچ افزارهٔ وصل شدنی بلوتوثی پیدا نشد"
+
+#: src/bt-status-page.c:90
+msgid "Bluetooth disabled"
+msgstr "بلوتوث از کار افتاده"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -518,11 +518,11 @@ msgstr "افزاره‌های ورودی"
 msgid "Sound Settings"
 msgstr "تنظیمات صدا"
 
-#: src/ui/bt-status-page.ui:39
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "به کار انداختن بلوتوث"
 
-#: src/ui/bt-status-page.ui:60
+#: src/ui/bt-status-page.ui:53
 msgid "Bluetooth Settings"
 msgstr "تنظیمات بلوتوث"
 
@@ -616,15 +616,15 @@ msgstr "اضطراری"
 msgid "Run Command"
 msgstr "اجرای فرمان"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:329
 msgid "No notifications"
 msgstr "بدون آگاهی"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:360
 msgid "Notifications"
 msgstr "آگاهی‌ها"
 
-#: src/ui/settings.ui:376
+#: src/ui/settings.ui:369
 msgid "Clear all"
 msgstr "پاک‌سازی همه"
 
@@ -652,7 +652,7 @@ msgstr "_خروج…"
 msgid "Wi-Fi"
 msgstr "وای‌فای"
 
-#: src/ui/wifi-status-page.ui:75
+#: src/ui/wifi-status-page.ui:68
 msgid "Wi-Fi Settings"
 msgstr "تنظیمات وای‌فای"
 
@@ -690,6 +690,10 @@ msgstr "به کار انداختن وای‌فای"
 #: src/wifi-status-page.c:59
 msgid "Wi-Fi Hotspot Active"
 msgstr "نقطهٔ داغ وای‌فای فعّال"
+
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "خاموش کردن"
 
 #: src/wifi-status-page.c:63
 msgid "No Wi-Fi Hotspots"
@@ -837,11 +841,11 @@ msgstr "هیچ اجراگری پیکربندی نشده"
 msgid "Launchers"
 msgstr "اجراگرها"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data On"
 msgstr "دادهٔ همراه روشن"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data Off"
 msgstr "دادهٔ همراه خاموش"
 
@@ -932,6 +936,14 @@ msgstr "پایان"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "رویداد بی‌عنوان"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+msgid "Hotspot On"
+msgstr "نقطهٔ داغ روشن"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+msgid "Hotspot Off"
+msgstr "نقطهٔ داغ خاموش"
 
 #~ msgid "_Power Off"
 #~ msgstr "_خاموش"
