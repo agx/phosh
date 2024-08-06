@@ -22,7 +22,6 @@
 struct _PhoshMobileDataQuickSetting {
   PhoshQuickSetting  parent;
 
-  GSettings         *settings;
   PhoshStatusIcon   *info;
 };
 
@@ -71,23 +70,9 @@ transform_to_label (GBinding     *binding,
 
 
 static void
-phosh_lockscreen_finalize (GObject *object)
-{
-  PhoshMobileDataQuickSetting *self = PHOSH_MOBILE_DATA_QUICK_SETTING (object);
-
-  g_clear_object (&self->settings);
-
-  G_OBJECT_CLASS (phosh_mobile_data_quick_setting_parent_class)->finalize (object);
-}
-
-
-static void
 phosh_mobile_data_quick_setting_class_init (PhoshMobileDataQuickSettingClass *klass)
 {
-  GObjectClass *object_class = (GObjectClass *)klass;
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
-
-  object_class->finalize = phosh_lockscreen_finalize;
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/mobi/phosh/plugins/mobile-data-quick-setting/qs.ui");
