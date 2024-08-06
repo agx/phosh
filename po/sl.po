@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-30 10:51+0000\n"
-"PO-Revision-Date: 2024-07-30 13:06+0200\n"
+"POT-Creation-Date: 2024-08-06 08:05+0000\n"
+"PO-Revision-Date: 2024-08-06 13:26+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -147,13 +147,13 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Vključeno"
 
-#: src/bt-status-page.c:81
-msgid "Bluetooth disabled"
-msgstr "Bluetooth je onemogočen"
-
-#: src/bt-status-page.c:89
+#: src/bt-status-page.c:86
 msgid "No connectable Bluetooth Devices found"
 msgstr "Ni najdenih naprav Bluetooth za priključitev"
+
+#: src/bt-status-page.c:90
+msgid "Bluetooth disabled"
+msgstr "Bluetooth je onemogočen"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -541,11 +541,11 @@ msgstr "Vhodne naprave"
 msgid "Sound Settings"
 msgstr "Nastavitve zvoka"
 
-#: src/ui/bt-status-page.ui:39
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "Omogoči Bluetooth"
 
-#: src/ui/bt-status-page.ui:60
+#: src/ui/bt-status-page.ui:53
 msgid "Bluetooth Settings"
 msgstr "Nastavitve za Bluetooth"
 
@@ -639,15 +639,15 @@ msgstr "Klic v sili"
 msgid "Run Command"
 msgstr "Zaženi ukaz"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:329
 msgid "No notifications"
 msgstr "Ni obvestil"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:360
 msgid "Notifications"
 msgstr "Obvestila"
 
-#: src/ui/settings.ui:376
+#: src/ui/settings.ui:369
 msgid "Clear all"
 msgstr "Počisti vse"
 
@@ -675,7 +675,7 @@ msgstr "_Odjavi …"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:75
+#: src/ui/wifi-status-page.ui:68
 msgid "Wi-Fi Settings"
 msgstr "Nastavitve za Wi-Fi"
 
@@ -713,6 +713,10 @@ msgstr "Omogoči Wi-Fi"
 #: src/wifi-status-page.c:59
 msgid "Wi-Fi Hotspot Active"
 msgstr "Dejavna vroča točka Wi-Fi"
+
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "Izklopi"
 
 #: src/wifi-status-page.c:63
 msgid "No Wi-Fi Hotspots"
@@ -860,11 +864,11 @@ msgstr "Noben zaganjalnik ni nastavljen"
 msgid "Launchers"
 msgstr "Zaganjalniki"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data On"
 msgstr "Prenos podatkov v mobilnem omrežju je vklopljen"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data Off"
 msgstr "Prenos podatkov v mobilnem omrežju je izklopljen"
 
@@ -957,3 +961,11 @@ msgstr "Konča se"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Neimenovan dogodek"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+msgid "Hotspot On"
+msgstr "Dostopna točka je vklopljena"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+msgid "Hotspot Off"
+msgstr "Dostopna točka je izklopljena"
