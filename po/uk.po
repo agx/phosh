@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-30 10:51+0000\n"
-"PO-Revision-Date: 2024-07-30 14:59+0300\n"
+"POT-Creation-Date: 2024-08-06 08:05+0000\n"
+"PO-Revision-Date: 2024-08-07 14:44+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -147,13 +147,13 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "❙"
 
-#: src/bt-status-page.c:81
-msgid "Bluetooth disabled"
-msgstr "Bluetooth вимкнено"
-
-#: src/bt-status-page.c:89
+#: src/bt-status-page.c:86
 msgid "No connectable Bluetooth Devices found"
 msgstr "Не знайдено придатних до з'єднання пристроїв Bluetooth"
+
+#: src/bt-status-page.c:90
+msgid "Bluetooth disabled"
+msgstr "Bluetooth вимкнено"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -531,11 +531,11 @@ msgstr "Пристрої отримання"
 msgid "Sound Settings"
 msgstr "Параметри звуку"
 
-#: src/ui/bt-status-page.ui:39
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "Увімкнути Bluetooth"
 
-#: src/ui/bt-status-page.ui:60
+#: src/ui/bt-status-page.ui:53
 msgid "Bluetooth Settings"
 msgstr "Параметри Bluetooth"
 
@@ -629,15 +629,15 @@ msgstr "Екстрений виклик"
 msgid "Run Command"
 msgstr "Виконати команду"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:329
 msgid "No notifications"
 msgstr "Немає сповіщень"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:360
 msgid "Notifications"
 msgstr "Сповіщення"
 
-#: src/ui/settings.ui:376
+#: src/ui/settings.ui:369
 msgid "Clear all"
 msgstr "Очистити все"
 
@@ -665,7 +665,7 @@ msgstr "Ви_йти…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:75
+#: src/ui/wifi-status-page.ui:68
 msgid "Wi-Fi Settings"
 msgstr "Параметри Wi-Fi"
 
@@ -704,8 +704,11 @@ msgstr "Увімкнути Wi-Fi"
 msgid "Wi-Fi Hotspot Active"
 msgstr "Активна точка доступу Wi-Fi"
 
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "Вимкнути"
+
 #: src/wifi-status-page.c:63
-#| msgid "No Wi-Fi Hotspots Found"
 msgid "No Wi-Fi Hotspots"
 msgstr "Немає точок доступу Wi-Fi"
 
@@ -851,11 +854,11 @@ msgstr "Не налаштовано жодного засобу запуску"
 msgid "Launchers"
 msgstr "Засоби запуску"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data On"
 msgstr "Мобільні дані увімкнено"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data Off"
 msgstr "Мобільні дані вимкнено"
 
@@ -947,6 +950,14 @@ msgstr "Завершується"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Подія без назви"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+msgid "Hotspot On"
+msgstr "Точку доступу увімкнено"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+msgid "Hotspot Off"
+msgstr "Точку доступу вимкнено"
 
 #~ msgid "_Power Off"
 #~ msgstr "Ви_мкнути"
