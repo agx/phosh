@@ -200,7 +200,7 @@ on_poll_position_done (GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
     /* Return variant has type "(v)" where v has type x (i.e. gint64) */
     g_variant_get_child (var, 0, "v", &var2);
     self->track_position = g_variant_get_int64 (var2);
-    g_debug ("MPRIS Position: %ld", self->track_position);
+    g_debug ("MPRIS Position: %" G_GINT64_FORMAT, self->track_position);
   }
   update_position (self);
 }
