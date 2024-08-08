@@ -1,6 +1,6 @@
 include:
  - project: 'guidog/meta-phosh'
-   ref: '04a85df2f3311f3012b6c49bf353b376ae0f32b2'
+   ref: 'ebb7aef58c96e3d586157f265e14d386ad8766fc'
    file: '/ci/phosh-common-jobs.yml'
  - project: 'Infrastructure/Mirrors/lorry-mirrors/gitlab_freedesktop_org/freedesktop/ci-templates'
    ref: 'b791bd48996e3ced9ca13f1c5ee82be8540b8adb'
@@ -322,6 +322,10 @@ unit-test:native-alpinelinux-edge:
       - $PKG_ONLY == "1"
       - $SCREENSHOTS_ONLY == "1"
 
+check-consistency:
+  stage: test+docs
+  extends: .phosh-check-consistency
+
 format-check:
   stage: style-checks
   image: ${DEBIAN_IMAGE}
@@ -345,7 +349,7 @@ format-check:
       fi
   allow_failure: true
   rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME'
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 coverage:
   image: ${DEBIAN_IMAGE}

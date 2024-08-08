@@ -1,3 +1,271 @@
+phosh (0.41.0~rc1) experimental; urgency=medium
+
+  [ Teemu Ikonen ]
+  * media-player: Add a label with track position and length.
+    The 'Position' property is read every 1 s when the player is playing.
+  * media-player: Add a ProgressBar below details button
+  * media-player: Show box_pos_len only when MPRIS has Position and length
+
+  [ Guido Günther ]
+  * packaging: No need to set tests twice
+  * subprojects: Use a wrap for libgnome-volume-control
+  * subprojects: Update gvc.
+    Update to 5f9768a2eac29c1ed56f1fbb449a77a3523683b6 to fix a crash
+    with BT speakers
+  * submodule: Use wrap for libcall-ui.
+    This makes all subprojects consistent
+  * subrojects: Update libcall-ui to 0.1.2.
+    Pull in the build system improvements to avoid build warnings.
+  * auth: Make async function names match the async/finish pattern.
+  * audio-devices: Use gpointer instead of GvcMixerControl.
+  * head: Prefix struct name.
+  * build: Make gir warnings fatal
+  * ci: Avoid check-doc.
+    It trips onto all kinds of things and fail on both introspection and
+    gi-docgen warnings no.
+  * wifi-status-page: Mark more strings as translatable
+  * settings: Mark "Notifications" as translatable
+  * prompt: Only show when we got a request.
+    So far we showed the prompt right away which led to some flicker when
+    the UI elements were made visible and can also lead to an empty dialog
+    when non of system_prompt_{password,confirm}_async are ever invoked.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1092
+  * docs: Mention `gtk-builder-tool --simplify`
+  * style: Drop unused osk-button class
+  * wifi-status-page: Wrap text.
+    This can easily overflow in translations
+  * ci: Ensure build-deps are present when building dist tarball.
+    Meson checks for available libraries so we need those.
+  * check-license-header: Fail on too short header.
+    We expect it to at least have one prelude, then copyright.
+  * bt-info: Use g_connect_object.
+    Less code.
+  * bt-info: Only connect to enabled once
+  * settings: Use an action to toggle Bluetooth.
+    This allows us to use the same code on status page and quick setting
+    and makes it available to plugins.
+  * settings: Only apply margin to toplevel viewport.
+    The current CSS would apply a wide margin to all viewports in settings
+    but we only want it for the toplevel one that contains all the widgets
+    but not for others like the ones in status pages.
+  * settings: Use background color for all separators in settings.
+    Otherwise they're hard to see.
+  * status-page: Remove phosh-settings-list-box style class.
+    This breaks the HdyPreferencesRow styles and we only want to use it for
+    the sound list boxes not the status pages in quick settings.
+  * bluetooth: Depend on gnome-bluetooth.
+    We need to add the headers as they're currently not shipped upsteam.
+    We might bundle the library instead.
+    This is from cccaaa7928c2b9195295d8c7dae80665b4b62c4d
+  * bt-manager: Track connectable Bluetooth devices.
+    We track connectable Bluetooth devices and add some properties based on
+    that like the number of currently connected devices.
+  * bt-info: Improve available information.
+    If at least two devices are connected we print the number of connected
+    devices. If a single device is connected we print it's info.
+  * status-page: Add placeholder / empty state widget.
+    Add a placeholder widget for the displaying the empty/disabled state in
+    settings status pages. This is very similar to `HdyStatusPage` but we
+    add a custom widget as we can't scale down the icons in GTK3 via CSS as
+    -gtk-icon-size doesn't exist yet and -gtk-icon-scale scales the icon but
+    doesn't shring the size allocations.
+    This also helps to ease displaying empty states for list boxes as the
+    `placeholder` there doesn't work well with advanced styling. See
+    libhandy#468.
+    This can be replaced with AdwStatusPage once we switch to GTK4.
+  * status-page: Introduce page header bar and a footer.
+    This avoids leaking parent widget details into the derived classes (like
+    requiring a `packaging` `end`).
+    The optional footer usually holds a button to open Settings. We use a
+    `GtkBox` to place a single child. We'd use `GtkBin` but that is
+    abstract, in GTK4 we'll use `AdwBin`.
+    The header contains the back button and has a user defined title. One
+    also get a user defined child widget.
+  * wifi-status-page: Use page header.
+    This uses the page header introduced in the previous commit.
+  * wifi-status-page: Use StatusPagePlaceholder.
+    We also remove the superfluous position packing.
+  * wifi-status-page: Use wireless-disabled symbolic for disabled state.
+    It's the icon meant for this state
+  * settings: Add a Bluetooth status page.
+    The status page lists the currently connected devices in a list box and
+    allows to connect / disconnect them by activating the list box row.
+  * bt-status-page: Hide enable button when there aren't any devices.
+    While at that streamline the logic a bit by avoiding putting the `TRUE`
+    branch first and using minimum scope for variables.
+  * settings: Fix id of Bluetooth status page.
+    Fixes: 5807fa273 ("settings: Add a Bluetooth status page")
+  * settings: Return `NULL` when we return a pointer
+  * settings: Drop nested stack.
+    No need to have a separate stack for status pages. This just adds
+    more size calculations when GTK lays out the widgets.
+  * settings: Use g_timeout_add_once
+  * status-page: Make a revealer.
+    This allows us to use more vertical space
+  * settings: Add handler for quick setting stack page changes.
+    We will add more logic here soon.
+  * settings: Do not reveal status pages when not shown.
+    Don't reveal the status pages when the quick settings are
+    visible. This ensures they don't take any vertical space ensuring
+    we don't push down other elements in settings (like the media player
+    or notifications) when there's e.g. a lot of Wi-Fi networks.
+    We reveal the children individually as they might have different
+    heights so we move down the other UI elements as little as possible
+    when a status page is shown.
+  * status-pages: Remove scrolled windows.
+    They're not needed as the whole settings panel is scrollable
+    and interact badly with the revealer.
+    We could swap revealer and scrolled window but that's actually not
+    necessary.
+  * status-pages: Reindent ui files.
+    Do this in a separate commit to ease review
+  * settings: Use less top margin for notification empty state.
+    This avoids the scroll bar even when we add more quick settings. To keep
+    the empty state centered with fewer quick settings we valign centered.
+  * settings: Move top margin from quick settings to the stack.
+    This ensures the status page's top aligns with the top of the quick
+    setting and we get a bit more "visual distance" between the sound
+    slider and the status page.
+  * feedback-manager: Ack libfeeback unstable API in meson.
+    This avoids cluttering the code with multiple defines
+  * main: Init libfeedback early.
+    This moves all library inits to single place and avoids a
+       end_notify_feedback: assertion 'lfb_is_initted ()' failed
+    warning on startup. We can ignore all error handling as the feedback
+    manager will try reinitialization later on anyway.
+  * keyboard-events: Drop fallback for ancient phoc
+  * feedback-manager: Allow to set profile
+  * keyboard-events: Emit signal on keybinding press.
+    Emit a signal when a subscribed keybinding is pressed. This allows other
+    parts of the shell to perform additional activities on global
+    keybindings (that possibly aren't even subscribed by Phosh itself).
+  * calls-manager: Track incoming state.
+    This allows to check if the active call is in incoming state.
+    As with the rest of calls manager this will need some tweaking once
+    calls handles multiple active calls.
+  * build: Bump feedbackd dependency.
+    We want 0.4.0 as only this does end running events on profile changes.
+  * shell: Allow to silence the device on incoming calls.
+    When the shell is locked and there's an incoming call pressing the
+    button to lower the volume will put the device into silent mode.
+    Bump copyright while at that as this didn't happen since some time.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/780
+  * app-tracker: Log success at `debug` priority.
+    Fixes: 1226ae949 ("app-tracker: Move launched processes to transient systemd scope")
+  * screen-saver-manager: Send locked hint.
+  * settings/brightness: Fix indent
+  * settings/brightness: Make globals static.
+    These are only meant for the current compilation module
+
+  [ Arun Mani J ]
+  * wifi-manager: Decouple hotspot check from icon.
+    Since b3c8142a ("wifimanager: Track whether we're an active wifi
+    hotspot") `update_icon` checked the value of `is-hotspot-master` as a side
+    effect. This leads to the state not being updated when there was no
+    active connection as in this case the check is never run.
+    Fix this by moving the hotspot check before any icon updates making
+    `update_icon` side effect free again.
+  * wifi-manager: Clear SSID when connection is cleaned.
+    We clean the `ssid` when the AP changes but we also need to clear it
+    when our network device tracking the connection goes away.
+  * wifi-network-row: Port to HdyActionRow
+  * wifi-status-page: Add content style class
+  * wifi-status-page: Set scrolling related properties
+  * wifi-status-page: Merge placeholders to one
+  * wifi-network-row: Simplify UI via gtk-builder-tool
+  * wifi-status-page: Clean up code and simplify UI
+    - Move headers to `wifi-status-page.c`.
+    - Fix formatting in `wifi-status-page.c`.
+    - Simplify UI via `gtk-builder-tool`.
+  * mobile-data-quick-setting: Drop unused variables
+  * wifi-manager: Rename connection callbacks.
+    We rename connection activated and added-activated methods to prevent
+    conflict with similar methods for hotspot.
+  * wifi-manager: Extract hotspot check method.
+    This will be used in further commits, so extract it out to avoid duplication.
+  * wifi-manager: Add method to toggle hotspot
+  * wifi-manager: Create hotspot connection if one doesn't exist
+  * wifi-manager: Rename update methods
+  * wifi-manager: Fix typo
+  * wifi-manager: Add property `state`
+  * wifi-status-page: Add turn off hotspot button
+  * plugin-shell: Export Wi-Fi manager
+  * build: Export Wi-Fi manager symbols
+  * plugins: Add Wi-Fi hotspot quick setting
+
+  [ Evangelos Ribeiro Tzaras ]
+  * run: Export XDG_CURRENT_DESKTOP.
+    Otherwise .desktop files with OnlyShowIn= might end up ignored.
+  * keypad: Force left-to-right button layout.
+    Real life keypads are the same for in RTL and LTR locales.
+    Closes https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1086
+    Modelled after similar change in libcall-ui
+    https://gitlab.gnome.org/World/Phosh/libcall-ui/-/merge_requests/89
+  * libcall-ui: Update to 0.1.3.
+    Forces LTR text direction for keypad in the call display
+  * polkit-auth-agent: Init autocleaned variable to NULL.
+    While it isn't technically necessary here because of the assignment
+    that always takes place a couple lines below, it deviates from the pattern
+    established throughout the codebase and requires closer inspection
+    increasing mental load.
+  * polkit-auth-agent: Register asynchronously
+
+  [ Cédric Bellegarde ]
+  * settings: Block value changed handler id.
+    When brightness is updated by gnome-settings-daemon DBus API, ignore value-changed signal.
+    Otherwise, we will send value back to GSD.
+    Fix #1093
+
+  [ Xiao Pan ]
+  * docs: Update URL to GTK inspector documentation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Jürgen Benvenuti ]
+  * Update German translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Antonio Marin ]
+  * Update Romanian translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+  [ Daniel Șerbănescu ]
+  * Update Romanian translation
+
+  [ Scrambled 777 ]
+  * Update Hindi translation
+
+  [ Emin Tufan Çetin ]
+  * Update Turkish translation
+
+  [ Balázs Úr ]
+  * Update Hungarian translation
+
+  [ Yaron Shahrabani ]
+  * Update Hebrew translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 08 Aug 2024 10:58:30 +0200
+
 phosh (0.40.0) experimental; urgency=medium
 
   [ Guido Günther ]
