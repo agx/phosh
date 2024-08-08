@@ -1,0 +1,98 @@
+#!/bin/bash
+#
+# Copyright (C) 2024 The Phosh developers
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Author: Guido Günther <agx@sigxcpu.org>
+#
+# Check if NEWS, changelog, meson and metainfo are in sync
+
+set -e
+
+COLOR=
+if [ -n "${TERM}" ] && [ "${TERM}" != "dumb" ]; then
+  COLOR=1
+fi
+
+function log
+{
+    local level="${1}"
+    local fd=2
+    local use_color
+
+    shift
+    if [ -n "${COLOR}" ]; then
+        [ "${level}" == warn ] || [ "${level}" == error ] || fd=1
+        ! [ -t "${fd}" ] || use_color=1
+
+        if [ -n "${use_color}" ]; then
+            case "${level}" in
+                warn)
+                    tput setaf 1
+                    ;;
+                error)
+                    tput bold; tput setaf 1
+                    ;;
+                info)
+                    tput setaf 2
+                    ;;
+            esac
+        fi
+    fi
+
+    echo "$@"
+
+    [ -z "${use_color}" ] || tput sgr0
+}
+
+
+if [ -f debian/changelog ]; then
+    log info "Fetching version from d/changelog"
+    VERSION=$(dpkg-parsechangelog -SVersion)
+elif [ -f meson.build ]; then
+    log info "Fetching version from meson build file"
+    VERSION=$(sed -n "s/.*version\s*:\s*'\([0-9].*\)'.*/\1/p" meson.build)
+else
+    log error "E: Don't know how to get version information"
+    exit 1
+fi
+
+echo "I: Checking for '${VERSION}'"
+
+# News
+if ! head -1 NEWS | grep -qs "$VERSION\$"; then
+    log error "E: Version ${VERSION} not in NEWS file"
+    exit 1
+else
+    log info "I: Found matching news entry"
+fi
+
+# meson.build
+MESON_VERSION="${VERSION/\~/.}"
+if [ -f meson.build ]; then
+    if ! grep -qs "version\s*:\s*'$MESON_VERSION'" meson.build; then
+        log error  "E: Version ${MESON_VERSION} not in meson.build file"
+        exit 1
+    else
+        log info "I: Found matching meson version entry"
+    fi
+else
+    log info "I: no meson project"
+fi
+
+# appstream info
+METAINFO=$(ls data/*metainfo.xml.in* 2>/dev/null || true)
+if [ -z "${METAINFO}" ]; then
+    log warn "W: No metainfo"
+    exit 0
+fi
+
+if ! grep -qs "$MESON_VERSION\"" "${METAINFO}"; then
+    log error "E: Version ${MESON_VERSION} not in metainfo ${METAINFO}"
+    if [[ "${VERSION}" =~ '~rc' ]]; then
+        log info "I: Release candidate, no metainfo is fine"
+    else
+        exit 1
+    fi
+else
+    log info "I: Found matching metainfo entry"
+fi

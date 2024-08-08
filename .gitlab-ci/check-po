@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# Copyright (C) 2024 The Phosh developers
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Author: Guido Günther <agx@sigxcpu.org>
 
 cd po/ || exit 1
 # barf on untranslated C files. Seems intltool
