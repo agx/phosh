@@ -1,20 +1,20 @@
 name='night-light-quick-setting'
 
-simple_night_light_quick_setting_resources = gnome.compile_resources(
+night_light_quick_setting_resources = gnome.compile_resources(
   'phosh-plugin-night-light-quick-setting-resources',
   'phosh-plugin-night-light-quick-setting.gresources.xml',
-  c_name: 'phosh_plugin_simple_night_light_quick_setting',
+  c_name: 'phosh_plugin_night_light_quick_setting',
 )
 
-simple_night_light_quick_setting_plugin_sources = files(
+night_light_quick_setting_plugin_sources = files(
   'phosh-plugin-night-light-quick-setting.c',
   'night-light-quick-setting.c',
 )
 
-phosh_simple_night_light_quick_setting_plugin = shared_module(
+phosh_night_light_quick_setting_plugin = shared_module(
   'phosh-plugin-night-light-quick-setting',
-  simple_night_light_quick_setting_plugin_sources,
-  simple_night_light_quick_setting_resources,
+  night_light_quick_setting_plugin_sources,
+  night_light_quick_setting_resources,
   c_args : ['-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
             '-DPLUGIN_NAME="@0@"'.format(name),
            ],

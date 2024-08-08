@@ -1,20 +1,20 @@
 name='mobile-data-quick-setting'
 
-simple_mobile_data_quick_setting_resources = gnome.compile_resources(
+mobile_data_quick_setting_resources = gnome.compile_resources(
   'phosh-plugin-mobile-data-quick-setting-resources',
   'phosh-plugin-mobile-data-quick-setting.gresources.xml',
-  c_name: 'phosh_plugin_simple_mobile_data_quick_setting',
+  c_name: 'phosh_plugin_mobile_data_quick_setting',
 )
 
-simple_mobile_data_quick_setting_plugin_sources = files(
+mobile_data_quick_setting_plugin_sources = files(
   'phosh-plugin-mobile-data-quick-setting.c',
   'mobile-data-quick-setting.c',
 )
 
-phosh_simple_mobile_data_quick_setting_plugin = shared_module(
+phosh_mobile_data_quick_setting_plugin = shared_module(
   'phosh-plugin-mobile-data-quick-setting',
-  simple_mobile_data_quick_setting_plugin_sources,
-  simple_mobile_data_quick_setting_resources,
+  mobile_data_quick_setting_plugin_sources,
+  mobile_data_quick_setting_resources,
   c_args : ['-DG_LOG_DOMAIN="phosh-plugin-@0@"'.format(name),
             '-DPLUGIN_NAME="@0@"'.format(name),
            ],
