@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-06 13:01+0000\n"
-"PO-Revision-Date: 2024-06-06 20:42+0200\n"
+"POT-Creation-Date: 2024-08-06 08:05+0000\n"
+"PO-Revision-Date: 2024-08-06 12:04+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -132,14 +132,28 @@ msgstr "Visa alla appar"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Visa endast mobilanpassade appar"
 
-#: src/bt-info.c:92
+#. Translators: a battery level in percent
+#: src/bt-device-row.c:72
+#, c-format
+msgid "Battery %.0f%%"
+msgstr "Batteri %.0f%%"
+
+#: src/bt-info.c:95 src/ui/bt-status-page.ui:6
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/bt-info.c:123
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "På"
 
-#: src/bt-info.c:94
-msgid "Bluetooth"
-msgstr "Bluetooth"
+#: src/bt-status-page.c:86
+msgid "No connectable Bluetooth Devices found"
+msgstr "Inga Bluetooth-enheter att ansluta till hittades"
+
+#: src/bt-status-page.c:90
+msgid "Bluetooth disabled"
+msgstr "Bluetooth inaktiverat"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -254,12 +268,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Skärmbild kopierad till urklipp"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:324 src/ui/media-player.ui:161
+#: src/media-player.c:446 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Okänd titel"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:332 src/ui/media-player.ui:148
+#: src/media-player.c:454 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Okänd artist"
 
@@ -409,7 +423,7 @@ msgid_plural "Almost %dy"
 msgstr[0] "Nästan %dår"
 msgstr[1] "Nästan %dår"
 
-#: src/polkit-auth-agent.c:227
+#: src/polkit-auth-agent.c:271
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Autentiseringsdialogen avvisades av användaren"
 
@@ -454,11 +468,11 @@ msgstr "Körning av ”%s” misslyckades"
 msgid "Phone Shell Volume Control"
 msgstr "Volymkontroll för Phone Shell"
 
-#: src/system-prompt.c:365
+#: src/system-prompt.c:376
 msgid "Passwords do not match."
 msgstr "Lösenorden matchar inte."
 
-#: src/system-prompt.c:372
+#: src/system-prompt.c:383
 msgid "Password cannot be blank"
 msgstr "Lösenordet får inte vara tomt"
 
@@ -507,6 +521,14 @@ msgstr "Ingångsenheter"
 #: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Ljudinställningar"
+
+#: src/ui/bt-status-page.ui:32
+msgid "Enable Bluetooth"
+msgstr "Aktivera Bluetooth"
+
+#: src/ui/bt-status-page.ui:53
+msgid "Bluetooth Settings"
+msgstr "Bluetooth-inställningar"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -598,11 +620,15 @@ msgstr "Nödläge"
 msgid "Run Command"
 msgstr "Kör kommando"
 
-#: src/ui/settings.ui:327
+#: src/ui/settings.ui:329
 msgid "No notifications"
 msgstr "Inga aviseringar"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:360
+msgid "Notifications"
+msgstr "Aviseringar"
+
+#: src/ui/settings.ui:369
 msgid "Clear all"
 msgstr "Rensa alla"
 
@@ -626,27 +652,11 @@ msgstr "_Försätt i vänteläge…"
 msgid "_Log Out…"
 msgstr "_Logga ut…"
 
-#: src/ui/wifi-status-page.ui:32
-msgid "No Wi-Fi Device Found"
-msgstr "Ingen Wi-Fi-enhet hittades"
+#: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:60
-msgid "Wi-Fi Disabled"
-msgstr "Wi-Fi inaktiverat"
-
-#: src/ui/wifi-status-page.ui:97
-msgid "Wi-Fi Hotspot Active"
-msgstr "Wi-Fi-surfzon aktiv"
-
-#: src/ui/wifi-status-page.ui:133
-msgid "No Wi-Fi Hotspots Found"
-msgstr "Inga Wi-Fi-surfzoner hittades"
-
-#: src/ui/wifi-status-page.ui:144
-msgid "Scan"
-msgstr "Sök av"
-
-#: src/ui/wifi-status-page.ui:176
+#: src/ui/wifi-status-page.ui:68
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-inställningar"
 
@@ -669,9 +679,33 @@ msgstr "Insticksmodul hittades inte"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Insticksmodulen ”%s” kunde inte läsas in."
 
-#: src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "Ingen Wi-Fi-enhet hittades"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi inaktiverat"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "A_ktivera Wi-Fi"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "Wi-Fi-surfzon aktiv"
+
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "Stäng av"
+
+#: src/wifi-status-page.c:63
+msgid "No Wi-Fi Hotspots"
+msgstr "Inga Wi-Fi-surfzoner"
+
+#: src/wifi-status-page.c:64
+msgid "Scan"
+msgstr "Sök av"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -906,6 +940,14 @@ msgstr "Slutar"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Namnlös händelse"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+msgid "Hotspot On"
+msgstr "Surfzon av"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+msgid "Hotspot Off"
+msgstr "Surfzon på"
 
 #~ msgid "_Power Off"
 #~ msgstr "S_täng av"
