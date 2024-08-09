@@ -13,6 +13,7 @@
         <property name="transition-duration">400</property>
         <property name="visible-child">carousel</property>
         <signal name="notify::visible-child" handler="on_deck_visible_child_changed" swapped="yes"/>
+        <signal name="notify::transition-running" handler="on_deck_transition_running_changed" swapped="yes"/>
         <child>
           <object class="GtkBox" id="box_widget_box">
             <property name="visible">True</property>
