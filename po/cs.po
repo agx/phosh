@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-30 10:51+0000\n"
-"PO-Revision-Date: 2024-07-30 18:30+0200\n"
+"POT-Creation-Date: 2024-08-06 08:05+0000\n"
+"PO-Revision-Date: 2024-08-10 11:42+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -147,13 +147,13 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Zapnout"
 
-#: src/bt-status-page.c:81
-msgid "Bluetooth disabled"
-msgstr "Bluetooth zakázáno"
-
-#: src/bt-status-page.c:89
+#: src/bt-status-page.c:86
 msgid "No connectable Bluetooth Devices found"
 msgstr "Nebyla nalezena žádná připojitelná zařízení Bluetooth"
+
+#: src/bt-status-page.c:90
+msgid "Bluetooth disabled"
+msgstr "Bluetooth zakázáno"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -531,11 +531,11 @@ msgstr "Vstupní zařízení"
 msgid "Sound Settings"
 msgstr "Nastavení zvuku"
 
-#: src/ui/bt-status-page.ui:39
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "Povolit Bluetooth"
 
-#: src/ui/bt-status-page.ui:60
+#: src/ui/bt-status-page.ui:53
 msgid "Bluetooth Settings"
 msgstr "Nastavení Bluetooth"
 
@@ -629,15 +629,15 @@ msgstr "Stav nouze"
 msgid "Run Command"
 msgstr "Spustit příkaz"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:329
 msgid "No notifications"
 msgstr "Žádná upozornění"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:360
 msgid "Notifications"
 msgstr "Upozornění"
 
-#: src/ui/settings.ui:376
+#: src/ui/settings.ui:369
 msgid "Clear all"
 msgstr "Vymazat vše"
 
@@ -665,7 +665,7 @@ msgstr "Odh_lásit se…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:75
+#: src/ui/wifi-status-page.ui:68
 msgid "Wi-Fi Settings"
 msgstr "Nastavení WiFi"
 
@@ -703,6 +703,10 @@ msgstr "Povolit Wi-Fi"
 #: src/wifi-status-page.c:59
 msgid "Wi-Fi Hotspot Active"
 msgstr "Přístupový bod Wi-Fi je aktivní"
+
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "Vypnout"
 
 #: src/wifi-status-page.c:63
 msgid "No Wi-Fi Hotspots"
@@ -850,11 +854,11 @@ msgstr "Nejsou nakonfigurovány žádné spouštěče"
 msgid "Launchers"
 msgstr "Spouštěče"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data On"
 msgstr "Mobilní data zapnuta"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data Off"
 msgstr "Mobilní data vypnuta"
 
@@ -946,6 +950,14 @@ msgstr "Končí"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Bezejmenná událost"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+msgid "Hotspot On"
+msgstr "Přístupový bod zapnut"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+msgid "Hotspot Off"
+msgstr "Přístupový bod vypnut"
 
 #~ msgctxt "timestamp-suffix-seconds"
 #~ msgid "s"
