@@ -30,6 +30,13 @@ typedef enum {
 
 G_DECLARE_DERIVABLE_TYPE (PhoshLockscreen, phosh_lockscreen, PHOSH, LOCKSCREEN, PhoshLayerSurface)
 
+/**
+ * PhoshLockscreenClass:
+ * @parent_class: The parent class
+ * @unlock_submit: This function is invoked when a PIN or password is submitted from the lockscreen
+ *     keypad. It allows to implement a custom authentication mechanism. To indicate success the
+ *     `lockscreen-unlock` signal should be emitted.
+ */
 struct _PhoshLockscreenClass
 {
   PhoshLayerSurfaceClass parent_class;
