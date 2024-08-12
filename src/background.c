@@ -233,7 +233,7 @@ image_background (PhoshBackgroundImage    *image,
   case G_DESKTOP_BACKGROUND_STYLE_STRETCHED:
   case G_DESKTOP_BACKGROUND_STYLE_SPANNED:
     g_warning ("Unimplemented style %d, using zoom", style);
-    /* fallthrough */
+    G_GNUC_FALLTHROUGH;
   case G_DESKTOP_BACKGROUND_STYLE_ZOOM:
   default:
     scaled_bg = pb_scale_to_min (phosh_background_image_get_pixbuf (image), width, height);
