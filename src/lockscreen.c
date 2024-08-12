@@ -588,10 +588,25 @@ on_deck_visible_child_changed (PhoshLockscreen *self, GParamSpec *pspec, HdyDeck
 
   hdy_deck_set_can_swipe_forward (deck, swipe_forward);
   hdy_deck_set_can_swipe_back (deck, swipe_back);
+}
+
+
+static void
+on_deck_transition_running_changed (PhoshLockscreen *self)
+{
+  PhoshLockscreenPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_LOCKSCREEN (self));
+  priv = phosh_lockscreen_get_instance_private (self);
+
+  if (hdy_deck_get_transition_running (priv->deck))
+    return;
+
+  if (hdy_deck_get_visible_child (priv->deck) != priv->carousel)
+    return;
 
   /* See https://gitlab.gnome.org/World/Phosh/phosh/-/issues/922 */
-  if (visible_child == priv->carousel)
-    gtk_widget_queue_draw (priv->lbl_clock);
+  gtk_widget_queue_draw (priv->lbl_clock);
 }
 
 
@@ -980,6 +995,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, deck_forward_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, deck_back_clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_deck_visible_child_changed);
+  gtk_widget_class_bind_template_callback (widget_class, on_deck_transition_running_changed);
 
   /* unlock page */
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, box_unlock);
