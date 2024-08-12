@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-30 10:51+0000\n"
-"PO-Revision-Date: 2024-08-03 06:32+0200\n"
+"POT-Creation-Date: 2024-08-06 08:05+0000\n"
+"PO-Revision-Date: 2024-08-12 06:23+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -147,13 +147,13 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "ჩართ"
 
-#: src/bt-status-page.c:81
-msgid "Bluetooth disabled"
-msgstr "ბლუთუზი გამორთულია"
-
-#: src/bt-status-page.c:89
+#: src/bt-status-page.c:86
 msgid "No connectable Bluetooth Devices found"
 msgstr "მიერთებადი ბლუთუზის მოწყობილობები აღმოჩენილი არაა"
+
+#: src/bt-status-page.c:90
+msgid "Bluetooth disabled"
+msgstr "ბლუთუზი გამორთულია"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -511,11 +511,11 @@ msgstr "შეტანის მოწყობილობები"
 msgid "Sound Settings"
 msgstr "ხმის მორგება"
 
-#: src/ui/bt-status-page.ui:39
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "ბლუთუზის ჩართვა"
 
-#: src/ui/bt-status-page.ui:60
+#: src/ui/bt-status-page.ui:53
 msgid "Bluetooth Settings"
 msgstr "ბლუთუზის პარამეტრები"
 
@@ -609,15 +609,15 @@ msgstr "სასწრაფო"
 msgid "Run Command"
 msgstr "ბრძანების გაშვება"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:329
 msgid "No notifications"
 msgstr "გაფრთხილების გარეშე"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:360
 msgid "Notifications"
 msgstr "გაფრთხილებები"
 
-#: src/ui/settings.ui:376
+#: src/ui/settings.ui:369
 msgid "Clear all"
 msgstr "ყველას გასუფთავება"
 
@@ -645,7 +645,7 @@ msgstr "გა_სვლა…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:75
+#: src/ui/wifi-status-page.ui:68
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-ის მორგება"
 
@@ -683,6 +683,10 @@ msgstr "Wi-Fi-ის ჩართვა"
 #: src/wifi-status-page.c:59
 msgid "Wi-Fi Hotspot Active"
 msgstr "Wi-Fi ჰოტსპოტი აქტიურია"
+
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "გამორთვა"
 
 #: src/wifi-status-page.c:63
 msgid "No Wi-Fi Hotspots"
@@ -830,11 +834,11 @@ msgstr "გამშვებები მორგებული არაა"
 msgid "Launchers"
 msgstr "გამშვებები"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data On"
 msgstr "მობილური ინტერნეტი ჩართ"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data Off"
 msgstr "მობილური ინტერნეტი გამორთ"
 
@@ -924,6 +928,14 @@ msgstr "მთავრდება"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "უსახელო მოვლენა"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+msgid "Hotspot On"
+msgstr "ჰოტსპოტი ჩართ"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+msgid "Hotspot Off"
+msgstr "ჰოტსპოტი გამორთ"
 
 #~ msgctxt "timestamp-suffix-seconds"
 #~ msgid "s"
