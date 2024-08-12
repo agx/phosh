@@ -126,6 +126,7 @@ G_BEGIN_DECLS
 #include "session-manager.h"
 #include "shell.h"
 #include "status-page.h"
+#include "status-page-placeholder.h"
 #include "system-prompt.h"
 #include "system-prompter.h"
 #include "thumbnail.h"
