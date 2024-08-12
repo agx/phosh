@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-08-03 14:08+0000\n"
-"PO-Revision-Date: 2024-08-05 08:00+0300\n"
-"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
+"POT-Creation-Date: 2024-08-06 08:05+0000\n"
+"PO-Revision-Date: 2024-08-11 03:59+0300\n"
+"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -681,6 +681,10 @@ msgstr "Kablosuz Bağlantıyı Etkinleştir"
 msgid "Wi-Fi Hotspot Active"
 msgstr "Kablosuz Erişim Noktası Etkin"
 
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "Kapat"
+
 #: src/wifi-status-page.c:63
 msgid "No Wi-Fi Hotspots"
 msgstr "Kablosuz Erişim Noktası Yok"
@@ -827,11 +831,11 @@ msgstr "Başlatıcı yapılandırılmadı"
 msgid "Launchers"
 msgstr "Başlatıcılar"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data On"
 msgstr "Mobil Veri Açık"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data Off"
 msgstr "Mobil Veri Kapalı"
 
@@ -921,3 +925,11 @@ msgstr "Bitiş"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Adsız olay"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+msgid "Hotspot On"
+msgstr "Erişim Noktası Açık"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+msgid "Hotspot Off"
+msgstr "Erişim Noktası Kapalı"
