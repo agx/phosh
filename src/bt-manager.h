@@ -8,10 +8,11 @@
 
 #include <manager.h>
 
-#include <bluetooth-device.h>
-
 #include <glib-object.h>
 #include <gio/gio.h>
+
+/* Avoid including gnome-bluetooth headers here - they cause downstream issues for GIR consumers */
+typedef struct _BluetoothDevice BluetoothDevice;
 
 G_BEGIN_DECLS
 
