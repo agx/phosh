@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-08-02 18:08+0000\n"
-"PO-Revision-Date: 2024-08-03 20:18+0530\n"
+"POT-Creation-Date: 2024-08-06 08:05+0000\n"
+"PO-Revision-Date: 2024-08-07 17:21+0530\n"
 "Last-Translator: Scrambled777 <weblate.scrambled777@simplelogin.com>\n"
 "Language-Team: Hindi <indlinux-hindi@lists.sourceforge.net>\n"
 "Language: hi\n"
@@ -695,6 +695,10 @@ msgstr "वाई-फाई सक्षम करें"
 msgid "Wi-Fi Hotspot Active"
 msgstr "वाई-फाई हॉटस्पॉट सक्रिय"
 
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "बंद करें"
+
 #: src/wifi-status-page.c:63
 msgid "No Wi-Fi Hotspots"
 msgstr "कोई वाई-फाई हॉटस्पॉट नहीं"
@@ -841,11 +845,11 @@ msgstr "कोई प्रक्षेपक विन्यस्त नही
 msgid "Launchers"
 msgstr "प्रक्षेपक"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data On"
 msgstr "मोबाइल डेटा चालू"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data Off"
 msgstr "मोबाइल डेटा बंद"
 
@@ -937,3 +941,11 @@ msgstr "समाप्त होता है"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "अनाम कार्यक्रम"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+msgid "Hotspot On"
+msgstr "हॉटस्पॉट चालू"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+msgid "Hotspot Off"
+msgstr "हॉटस्पॉट बंद"
