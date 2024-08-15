@@ -296,6 +296,10 @@ phosh-activity.phosh-empty {
   background-size: cover;
 }
 
+phosh-activity.phosh-maximized .phosh-drawingarea {
+  background-color: @phosh_activity_bg_color;
+}
+
 phosh-home {
   background: none;
   color: @phosh_fg_color;
