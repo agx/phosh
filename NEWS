@@ -1,16 +1,18 @@
-phosh 0.41.0~rc1
-----------------
+phosh 0.41.0
+------------
 Released August 2024
 * media-player: Add track position, length and progress bar
 * Add (optional) Wi-Fi Hotspot Quick Setting
 * Add Bluetooth Quick Setting status page allowing to
   connect/disconnect known devices
-* Allow to (optionally put the phone in silent mode when pressing Vol-
+* Allow to (optionally) put the phone in silent mode when pressing Vol-
   on incoming calls
 * Give Quick Setting status pages (and their individual rows) more
   vertical space so selecting from a large list of Wi-Fi networks or
   Bluetooth devices becomes less fiddly
 * Fix keypad layouts in RTL languages
+* Allow lock screen to have an extra page (mostly useful to libphosh
+  consumers)
 * Switch all git submodules to meson subprojects (following what we
   did in phoc a while back)
 * Fix remaining introspection nits so we can ran gir-scanner and gi-docgen
@@ -19,15 +21,18 @@ Released August 2024
   with less boilerplate
 * Issues fixed:
     * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1092
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/922
     * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/780
 * Contributors:
     * Arun Mani J
     * Cédric Bellegarde
     * Evangelos Ribeiro Tzaras
     * Guido Günther
+    * Sam Day
     * Teemu Ikonen
     * Xiao Pan
 * UI translations:
+    * Anders Jonsson (sv)
     * Antonio Marin (ro)
     * Artur S0 (ru)
     * Balázs Úr (hu)
@@ -40,6 +45,7 @@ Released August 2024
     * Jordi Mas i Hernandez (ca)
     * Jürgen Benvenuti (de)
     * Martin (sl)
+    * Sabri Ünal (tr)
     * Scrambled 777 (hi)
     * Yaron Shahrabani (he)
     * Yuri Chornoivan (uk)

@@ -1,3 +1,114 @@
+phosh (0.41.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * media-player: Use G_GINT64_FORMAT to print gint64.
+    Otherwise we'll break i386
+  * lockscreen: Delay clock update past the animation.
+    The visible child changes at the start of the animation hence the clock
+    can still be outdated.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/922
+  * plugins: Avoid adw deprecation warning
+
+  [ Sam Day ]
+  * lockscreen: Rename PHOSH_LOCKSCREEN_PAGE_INFO.
+    This better describes the purpose of this page. Further, it lays
+    groundwork to introduce functionality that changes the default page
+    displayed on the lockscreen.
+  * lockscreen: Clean up some unused imports
+  * lockscreen: Always clear idle timer in carousel_position_notified_cb.
+    Even if the keypad is already visible, any swiping activity triggers
+    carousel_page_changed_cb again anyway.
+    This actually slightly improves UX in a somewhat edge case condition. If
+    you swipe to the keypad, and then swipe up/down in the keypad region
+    without any keypad input (or switching all the way back to the page
+    above), the idle timer will kick in and suddenly take control of the
+    carousel. With this change, *any* swiping behaviour properly resets the
+    idle timer.
+    This is fortunate, because the intent is to remove "PhoshLocksreenPos"
+    imminently, and this change removes two usages of that enum.
+  * lockscreen: Use phosh_lockscreen_set_page more.
+    The logic in phosh_lockscreen_set_page was duplicated in show_info_page
+    and show_unlock_page.
+    Since show_info_page wasn't doing anything else, just remove it entirely
+    and use phosh_lockscreen_set_page.
+    In the case of show_unlock_page, it's also emitting a signal, and is
+    used as a callback from the UI XML, so it remains intact.
+  * lockscreen: Remove PhoshLocksreenPos enum.
+    Instead, phosh_lockscreen_get_page is used. The logic of this function
+    was also tweaked a bit to incorporate the rounding that was previously
+    only done in key_press_event_cb.
+    This means that phosh_lockscreen_get_page will report the current page
+    slightly differently if queried while the carousel is animating or being
+    dragged.
+  * lockscreen: Support setting the default page.
+    The default page will be presented when the lockscreen is shown, it is
+    also the page that is scrolled to when keypad expires or the escape key
+    is pressed.
+  * lockscreen: Allow custom unlock submit callback.
+    The callback that is fired when a passphrase is submitted from the
+    keypad entry is virtualized so that subclasses can override this
+    behaviour.
+    This change primarily benefits Phosh-based greeters like Phrog. In this
+    case, the login behaviour is entirely different from the default (the
+    PAM conversation is mediated through greetd IPC, and takes place before
+    there's actually any user logged in).
+  * lockscreen: Provide methods to get/clear/shake PIN entry.
+    This is useful for lockscreen subclasses that want to override or
+    influence the behaviour of the authentication flow.
+    The shake_label/finish_shake_label functions were renamed, since they
+    shake the entry, not the label.
+  * lockscreen: Allow an "extra" page to be inserted.
+    If phosh_lockscreen_add_extra_page is called, the carousel will have an
+    extra page inserted between the info page and the unlock page. This
+    extra page can then be navigated via swipes, and also set as the
+    current and/or default page.
+    This is useful for the Phosh-based greeter use case (for example Phrog),
+    which inserts a user/session selection page.
+  * lockscreen: Setter for unlock status label.
+    Allows subclasses to override the message displayed above the keypad
+    entry.
+  * lockscreen: Property for current carousel page.
+    This property can be used by subclasses / observers to be notified when
+    lockscreen page considered "visible" changes.
+  * lockscreen: Don't set label after shaking.
+    The existing usage is changed to set the label before shaking.
+    This way the shaking mechanism can be used in other scenarios,
+    particularly by lockscreen subclasses.
+  * lockscreen-manager: Add phosh_lockscreen_manager_get_lockscreen
+  * tests/lockscreen: Add test for extra page functionality
+  * background: Use G_GNUC_FALLTHROUGH for consistency
+  * bt-manager: Replace #include <bluetooth-device.h> with a typedef.
+    This header is vendored into phosh because upstream does not want to
+    make it public, so we can't leak it into libphosh headers.
+    Further usage of types from these vendored headers are not anticipated
+    for now, so we can get away with a typedef for the one BluetoothDevice
+    type we need.
+  * libphosh: Include status-page-placeholder.h.
+    PhoshStatusPagePlaceholder has bled into other publicly exported types
+    from libphosh, so we need to make sure this is included. Elsewise
+    libphosh-rs compile-time ABI tests fail, for example.
+
+  [ Arun Mani J ]
+  * subprojects: Sync libfeedback version with packaging.
+    Let's use the same version everywhere
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Sabri Ünal ]
+  * Update Turkish translation
+
+  [ Scrambled 777 ]
+  * Update Hindi translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 15 Aug 2024 10:17:28 +0200
+
 phosh (0.41.0~rc1) experimental; urgency=medium
 
   [ Teemu Ikonen ]
