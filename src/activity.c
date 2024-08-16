@@ -273,19 +273,19 @@ draw_cb (PhoshActivity *self, cairo_t *cairo, GtkDrawingArea *area)
 
   g_return_val_if_fail (PHOSH_IS_ACTIVITY (self), FALSE);
   g_return_val_if_fail (GTK_IS_DRAWING_AREA (area), FALSE);
-  width = gtk_widget_get_allocated_width (GTK_WIDGET (area));
-  height = gtk_widget_get_allocated_height (GTK_WIDGET (area));
-  priv = phosh_activity_get_instance_private (self);
-  context = gtk_widget_get_style_context (GTK_WIDGET (area));
 
+  priv = phosh_activity_get_instance_private (self);
   if (!priv->surface)
     return FALSE;
+
+  context = gtk_widget_get_style_context (GTK_WIDGET (area));
+  width = gtk_widget_get_allocated_width (GTK_WIDGET (area));
+  height = gtk_widget_get_allocated_height (GTK_WIDGET (area));
 
   image_width = cairo_image_surface_get_width (priv->surface);
   image_height = cairo_image_surface_get_height (priv->surface);
 
-
-  gtk_render_background(context, cairo, 0, 0, width, height);
+  gtk_render_background (context, cairo, 0, 0, width, height);
 
   scale = get_scale (self);
   cairo_scale (cairo, scale, scale);
