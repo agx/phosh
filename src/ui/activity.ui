@@ -2,8 +2,8 @@
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <template class="PhoshActivity" parent="GtkEventBox">
-    <property name="visible">True</property>
-    <property name="can_focus">True</property>
+    <property name="visible">1</property>
+    <property name="can-focus">1</property>
     <property name="valign">fill</property>
     <child>
       <object class="PhoshSwipeAwayBin" id="swipe_bin">
@@ -12,18 +12,17 @@
         <signal name="removed" handler="removed_cb" swapped="true"/>
         <child>
           <object class="GtkButton" id="button">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
+            <property name="visible">1</property>
+            <property name="can-focus">1</property>
             <signal name="clicked" handler="clicked_cb" swapped="true"/>
             <child>
               <object class="GtkOverlay">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="expand">True</property>
+                <property name="visible">1</property>
+                <property name="hexpand">1</property>
+                <property name="vexpand">1</property>
                 <child>
                   <object class="GtkDrawingArea" id="preview">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="visible">1</property>
                     <property name="margin-bottom">12</property>
                     <signal name="draw" handler="draw_cb" object="PhoshActivity" swapped="true"/>
                     <signal name="size-allocate" handler="size_allocate_cb" object="PhoshActivity" swapped="true"/>
@@ -37,30 +36,26 @@
                 </child>
                 <child type="overlay">
                   <object class="GtkBox" id="box">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
+                    <property name="visible">1</property>
                     <property name="valign">end</property>
                     <child>
                       <object class="GtkImage" id="icon">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="visible">1</property>
                         <property name="halign">center</property>
-                        <property name="pixel_size">48</property>
-                        <property name="icon_name">app-icon-unknown</property>
-                        <property name="icon_size">6</property>
+                        <property name="pixel-size">48</property>
+                        <property name="icon-name">app-icon-unknown</property>
+                        <property name="icon-size">6</property>
                         <style>
                           <class name="phosh-dropicon-shadow"/>
                         </style>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
+                        <property name="expand">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="pass_through">True</property>
+                    <property name="pass-through">1</property>
                   </packing>
                 </child>
                 <child type="overlay">
@@ -71,14 +66,11 @@
                     <property name="valign">start</property>
                     <child>
                       <object class="GtkButton" id="btn_close">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="receives_default">False</property>
+                        <property name="visible">1</property>
                         <signal name="clicked" handler="closed_cb" swapped="true"/>
                         <child>
                           <object class="GtkImage" id="img_close_icon">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="visible">1</property>
                             <property name="pixel-size">24</property>
                             <property name="icon-name">app-close-symbolic</property>
                           </object>
@@ -91,7 +83,7 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="pass_through">True</property>
+                    <property name="pass-through">1</property>
                     <property name="index">1</property>
                   </packing>
                 </child>
