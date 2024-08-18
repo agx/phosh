@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-06-11 04:16+0000\n"
-"PO-Revision-Date: 2024-06-11 18:52+0200\n"
+"POT-Creation-Date: 2024-08-06 08:05+0000\n"
+"PO-Revision-Date: 2024-08-17 21:34+0200\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -149,14 +149,28 @@ msgstr "Alle Anwendungen anzeigen"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Nur mobiloptimierte Anwendungen anzeigen"
 
-#: src/bt-info.c:92
+#. Translators: a battery level in percent
+#: src/bt-device-row.c:72
+#, c-format
+msgid "Battery %.0f%%"
+msgstr "Akku %.0f%%"
+
+#: src/bt-info.c:95 src/ui/bt-status-page.ui:6
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/bt-info.c:123
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "An"
 
-#: src/bt-info.c:94
-msgid "Bluetooth"
-msgstr "Bluetooth"
+#: src/bt-status-page.c:86
+msgid "No connectable Bluetooth Devices found"
+msgstr "Keine verbindbaren Bluetooth-Geräte gefunden"
+
+#: src/bt-status-page.c:90
+msgid "Bluetooth disabled"
+msgstr "Bluetooth deaktiviert"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -270,12 +284,12 @@ msgid "Screenshot copied to clipboard"
 msgstr "Bildschirmfoto wurde in die Zwischenablage kopiert"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:324 src/ui/media-player.ui:161
+#: src/media-player.c:446 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Unbekannter Titel"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:332 src/ui/media-player.ui:148
+#: src/media-player.c:454 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Unbekannter Interpret"
 
@@ -426,7 +440,7 @@ msgid_plural "Almost %dy"
 msgstr[0] "Fast %d J"
 msgstr[1] "Fast %d J"
 
-#: src/polkit-auth-agent.c:227
+#: src/polkit-auth-agent.c:271
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Der Dialog zur Anmeldung wurde vom Benutzer geschlossen"
 
@@ -472,11 +486,11 @@ msgstr "»%s« konnte nicht ausgeführt werden"
 msgid "Phone Shell Volume Control"
 msgstr "Telefon-Shell-Lautstärkeregelung"
 
-#: src/system-prompt.c:365
+#: src/system-prompt.c:376
 msgid "Passwords do not match."
 msgstr "Die Passwörter stimmen nicht überein."
 
-#: src/system-prompt.c:372
+#: src/system-prompt.c:383
 msgid "Password cannot be blank"
 msgstr "Das Passwort darf nicht leer sein"
 
@@ -525,6 +539,14 @@ msgstr "Eingabegeräte"
 #: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Klangeinstellungen"
+
+#: src/ui/bt-status-page.ui:32
+msgid "Enable Bluetooth"
+msgstr "Bluetooth aktivieren"
+
+#: src/ui/bt-status-page.ui:53
+msgid "Bluetooth Settings"
+msgstr "Bluetooth-Einstellungen"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -616,11 +638,15 @@ msgstr "Notfall"
 msgid "Run Command"
 msgstr "Befehl ausführen"
 
-#: src/ui/settings.ui:327
+#: src/ui/settings.ui:329
 msgid "No notifications"
 msgstr "Keine Benachrichtigungen"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:360
+msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+#: src/ui/settings.ui:369
 msgid "Clear all"
 msgstr "Alles leeren"
 
@@ -644,28 +670,11 @@ msgstr "_Bereitschaft …"
 msgid "_Log Out…"
 msgstr "_Abmelden …"
 
-#: src/ui/wifi-status-page.ui:32
-msgid "No Wi-Fi Device Found"
-msgstr "Kein WLAN-Gerät gefunden"
+#: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "WLAN"
 
-#: src/ui/wifi-status-page.ui:60
-msgid "Wi-Fi Disabled"
-msgstr "WLAN deaktiviert"
-
-#: src/ui/wifi-status-page.ui:97
-msgid "Wi-Fi Hotspot Active"
-msgstr "WLAN-Hotspot aktiv"
-
-#: src/ui/wifi-status-page.ui:133
-msgid "No Wi-Fi Hotspots Found"
-msgstr "Keine WLAN-Hotspots gefunden"
-
-# Hier geht es um WLAN-Netze laut .po-Datei (wifi-status-page.ui). - jb
-#: src/ui/wifi-status-page.ui:144
-msgid "Scan"
-msgstr "Suchen"
-
-#: src/ui/wifi-status-page.ui:176
+#: src/ui/wifi-status-page.ui:68
 msgid "Wi-Fi Settings"
 msgstr "WLAN-Einstellungen"
 
@@ -688,9 +697,34 @@ msgstr "Erweiterung nicht gefunden"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Die Erweiterung »%s« konnte nicht geladen werden."
 
-#: src/wifi-info.c:90
-msgid "Wi-Fi"
-msgstr "WLAN"
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "Kein WLAN-Gerät gefunden"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "WLAN deaktiviert"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "WLAN aktivieren"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "WLAN-Hotspot aktiv"
+
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "Ausschalten"
+
+#: src/wifi-status-page.c:63
+msgid "No Wi-Fi Hotspots"
+msgstr "Keine WLAN-Hotspots"
+
+# Hier geht es um WLAN-Netze laut .po-Datei (wifi-status-page.ui). - jb
+#: src/wifi-status-page.c:64
+msgid "Scan"
+msgstr "Suchen"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -925,6 +959,14 @@ msgstr "Endet"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Unbenannter Termin"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+msgid "Hotspot On"
+msgstr "Hotspot an"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+msgid "Hotspot Off"
+msgstr "Hotspot aus"
 
 #~ msgid "_Power Off"
 #~ msgstr "_Ausschalten"
