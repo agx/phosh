@@ -197,6 +197,19 @@ on_connection_state_changed (NMActiveConnection           *connection,
 
   if (state != NM_ACTIVE_CONNECTION_STATE_ACTIVATING)
     phosh_wifi_network_set_is_connecting (network, FALSE);
+
+  switch (state) {
+  case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
+  case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
+    g_signal_handlers_disconnect_by_func (connection, on_connection_state_changed, network);
+    g_object_unref (connection);
+    break;
+  case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
+  case NM_ACTIVE_CONNECTION_STATE_DEACTIVATING:
+  case NM_ACTIVE_CONNECTION_STATE_UNKNOWN:
+  default:
+    break;
+  }
 }
 
 
