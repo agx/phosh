@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <template class="PhoshQuickSettingsBox" parent="GtkContainer"/>
+  <object class="GtkRevealer" id="revealer">
+    <property name="visible">True</property>
+    <signal name="notify::child-revealed" handler="on_child_revealed_changed" object="PhoshQuickSettingsBox" swapped="yes"/>
+  </object>
+</interface>

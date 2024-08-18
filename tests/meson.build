@@ -105,6 +105,7 @@ tests = [
   'overview',
   'plugin-loader',
   'quick-setting',
+  'quick-settings-box',
   'status-icon',
   'timestamp-label',
   'util',
