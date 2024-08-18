@@ -466,10 +466,11 @@ on_wifi_connection_added_and_activated (GObject      *object,
 
   if (conn != NULL) {
     g_debug ("Connecting to Wi-Fi network using a new connection: %s", ssid);
-    g_signal_connect (conn,
-                      "state-changed",
-                      G_CALLBACK (on_connection_state_changed),
-                      network);
+    g_signal_connect_object (conn,
+                             "state-changed",
+                             G_CALLBACK (on_connection_state_changed),
+                             network,
+                             G_CONNECT_DEFAULT);
   } else {
     g_warning ("Failed to connect to Wi-Fi network: %s - %s", ssid, err->message);
     phosh_wifi_network_set_is_connecting (network, FALSE);
@@ -490,10 +491,11 @@ on_wifi_connection_activated (GObject      *object,
 
   if (conn != NULL) {
     g_debug ("Connecting to Wi-Fi network using available connections: %s", ssid);
-    g_signal_connect (conn,
-                      "state-changed",
-                      G_CALLBACK (on_connection_state_changed),
-                      network);
+    g_signal_connect_object (conn,
+                             "state-changed",
+                             G_CALLBACK (on_connection_state_changed),
+                             network,
+                             G_CONNECT_DEFAULT);
   } else {
     g_warning ("Failed to connect to Wi-Fi network: %s - %s", ssid, err->message);
     phosh_wifi_network_set_is_connecting (network, FALSE);
