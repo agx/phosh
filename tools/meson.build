@@ -65,6 +65,10 @@ if get_option('tools')
     dependencies: [ phosh_tool_dep, test_stubs_dep ],
   )
 
+  executable('quick-settings-box-standalone', ['quick-settings-box-standalone.c'],
+    dependencies: [ phosh_tool_dep, test_stubs_dep ],
+  )
+
   if get_option('lockscreen-plugins')
     executable('widget-box', ['widget-box-standalone.c'],
       c_args: ['-DBUILD_DIR="@0@"'.format(meson.project_build_root()),
