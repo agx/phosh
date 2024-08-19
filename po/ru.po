@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-15 16:26+0000\n"
-"PO-Revision-Date: 2024-07-15 21:52+0300\n"
+"POT-Creation-Date: 2024-08-06 08:05+0000\n"
+"PO-Revision-Date: 2024-08-06 13:13+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -132,14 +132,28 @@ msgstr "Показать все приложения"
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Показать приложения только для мобильных устройств"
 
-#: src/bt-info.c:92
+#. Translators: a battery level in percent
+#: src/bt-device-row.c:72
+#, c-format
+msgid "Battery %.0f%%"
+msgstr "Батарея %.0f%%"
+
+#: src/bt-info.c:95 src/ui/bt-status-page.ui:6
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/bt-info.c:123
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Вкл"
 
-#: src/bt-info.c:94
-msgid "Bluetooth"
-msgstr "Bluetooth"
+#: src/bt-status-page.c:86
+msgid "No connectable Bluetooth Devices found"
+msgstr "Подключаемых устройств Bluetooth не найдено"
+
+#: src/bt-status-page.c:90
+msgid "Bluetooth disabled"
+msgstr "Bluetooth отключен"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -418,7 +432,7 @@ msgstr[0] "Почти %d г"
 msgstr[1] "Почти %d г"
 msgstr[2] "Почти %d л"
 
-#: src/polkit-auth-agent.c:227
+#: src/polkit-auth-agent.c:271
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Диалог аутентификации был отклонен пользователем"
 
@@ -463,11 +477,11 @@ msgstr "Выполнение '%s' не удалось"
 msgid "Phone Shell Volume Control"
 msgstr "Регулятор громкости оболочки телефона"
 
-#: src/system-prompt.c:365
+#: src/system-prompt.c:376
 msgid "Passwords do not match."
 msgstr "Пароли не совпадают."
 
-#: src/system-prompt.c:372
+#: src/system-prompt.c:383
 msgid "Password cannot be blank"
 msgstr "Пароль не может быть пустым"
 
@@ -516,6 +530,14 @@ msgstr "Устройства ввода"
 #: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Настройки звука"
+
+#: src/ui/bt-status-page.ui:32
+msgid "Enable Bluetooth"
+msgstr "Включить Bluetooth"
+
+#: src/ui/bt-status-page.ui:53
+msgid "Bluetooth Settings"
+msgstr "Настройки Bluetooth"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -607,15 +629,15 @@ msgstr "Помощь"
 msgid "Run Command"
 msgstr "Выполнить команду"
 
-#: src/ui/settings.ui:327
+#: src/ui/settings.ui:329
 msgid "No notifications"
 msgstr "Нет уведомлений"
 
-#: src/ui/settings.ui:358
+#: src/ui/settings.ui:360
 msgid "Notifications"
 msgstr "Уведомления"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:369
 msgid "Clear all"
 msgstr "Очистить все"
 
@@ -639,37 +661,13 @@ msgstr "_Ожидание…"
 msgid "_Log Out…"
 msgstr "_Выйти…"
 
-#: src/ui/wifi-status-page.ui:32
-msgid "No Wi-Fi Device Found"
-msgstr "Устройство Wi-Fi не найдено"
-
-#: src/ui/wifi-status-page.ui:60
-msgid "Wi-Fi Disabled"
-msgstr "Wi-Fi отключен"
-
-#: src/ui/wifi-status-page.ui:71
-msgid "Enable Wi-Fi"
-msgstr "Включить Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:97
-msgid "Wi-Fi Hotspot Active"
-msgstr "Точка доступа Wi-Fi активна"
-
-#: src/ui/wifi-status-page.ui:133
-msgid "No Wi-Fi Hotspots Found"
-msgstr "Точки доступа Wi-Fi не найдены"
-
-#: src/ui/wifi-status-page.ui:144
-msgid "Scan"
-msgstr "Сканировать"
-
-#: src/ui/wifi-status-page.ui:176
-msgid "Wi-Fi Settings"
-msgstr "Настройки Wi-Fi"
-
-#: src/ui/wifi-status-page.ui:214 src/wifi-info.c:90
+#: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:68
+msgid "Wi-Fi Settings"
+msgstr "Настройки Wi-Fi"
 
 #: src/vpn-info.c:89
 msgid "VPN"
@@ -689,6 +687,34 @@ msgstr "Модуль не найден"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "Модуль '%s' не может быть загружен."
+
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "Устройство Wi-Fi не найдено"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi отключен"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "Включить Wi-Fi"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "Точка доступа Wi-Fi активна"
+
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "Выключить"
+
+#: src/wifi-status-page.c:63
+msgid "No Wi-Fi Hotspots"
+msgstr "Нет точек доступа Wi-Fi"
+
+#: src/wifi-status-page.c:64
+msgid "Scan"
+msgstr "Сканировать"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -828,11 +854,11 @@ msgstr "Ярлыки не настроены"
 msgid "Launchers"
 msgstr "Ярлыки"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data On"
 msgstr "Моб. данные включены"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data Off"
 msgstr "Моб. данные выключены"
 
@@ -924,6 +950,14 @@ msgstr "Конец"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Безымянное событие"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+msgid "Hotspot On"
+msgstr "Точка доступа включена"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+msgid "Hotspot Off"
+msgstr "Точка доступа выключена"
 
 #~ msgid "_Power Off"
 #~ msgstr "_Выкл."
