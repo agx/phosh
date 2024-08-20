@@ -10,9 +10,6 @@ ticket_box_plugin_prefs_sources = files(
   'ticket-box-prefs.h',
 )
 
-adw_ver = '1.5'
-adw_ver_str = 'ADW_VERSION_@0@'.format(adw_ver.replace('.','_'))
-
 phosh_ticket_box_plugin_prefs = shared_module(
   'phosh-plugin-prefs-ticket-box',
   ticket_box_plugin_prefs_sources,
