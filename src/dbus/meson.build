@@ -63,8 +63,7 @@ generated_dbus_sources +=  gnome.gdbus_codegen('phosh-wwan-mm-dbus',
                                                namespace: 'Phosh_MM_DBus',
                                                interface_prefix: 'org.freedesktop.ModemManager1',
                                                install_header: bindings_lib,
-                                               install_dir: dbus_inc_dir,
-                                               object_manager: true)
+                                               install_dir: dbus_inc_dir)
 generated_dbus_sources += gnome.gdbus_codegen('calls-dbus',
                                               'org.gnome.Calls.Call.xml',
                                               object_manager: true,

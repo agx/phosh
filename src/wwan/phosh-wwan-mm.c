@@ -15,8 +15,10 @@
 #include "phosh-wwan-mm-dbus.h"
 #include "util.h"
 
+#include <libmm-glib.h>
+#include <ModemManager.h>
+
 #define BUS_NAME "org.freedesktop.ModemManager1"
-#define OBJECT_PATH "/org/freedesktop/ModemManager1"
 
 /**
  * PhoshWWanMM:
@@ -25,48 +27,6 @@
  *
  * Since: 0.0.1
  */
-
-typedef enum { /* From ModemManager-enums.h */
-  MM_MODEM_ACCESS_TECHNOLOGY_UNKNOWN     = 0,
-  MM_MODEM_ACCESS_TECHNOLOGY_POTS        = 1 << 0,
-  MM_MODEM_ACCESS_TECHNOLOGY_GSM         = 1 << 1,
-  MM_MODEM_ACCESS_TECHNOLOGY_GSM_COMPACT = 1 << 2,
-  MM_MODEM_ACCESS_TECHNOLOGY_GPRS        = 1 << 3,
-  MM_MODEM_ACCESS_TECHNOLOGY_EDGE        = 1 << 4,
-  MM_MODEM_ACCESS_TECHNOLOGY_UMTS        = 1 << 5,
-  MM_MODEM_ACCESS_TECHNOLOGY_HSDPA       = 1 << 6,
-  MM_MODEM_ACCESS_TECHNOLOGY_HSUPA       = 1 << 7,
-  MM_MODEM_ACCESS_TECHNOLOGY_HSPA        = 1 << 8,
-  MM_MODEM_ACCESS_TECHNOLOGY_HSPA_PLUS   = 1 << 9,
-  MM_MODEM_ACCESS_TECHNOLOGY_1XRTT       = 1 << 10,
-  MM_MODEM_ACCESS_TECHNOLOGY_EVDO0       = 1 << 11,
-  MM_MODEM_ACCESS_TECHNOLOGY_EVDOA       = 1 << 12,
-  MM_MODEM_ACCESS_TECHNOLOGY_EVDOB       = 1 << 13,
-  MM_MODEM_ACCESS_TECHNOLOGY_LTE         = 1 << 14,
-  MM_MODEM_ACCESS_TECHNOLOGY_5GNR        = 1 << 15,
-} PhoshWWanMMAccessTechnology;
-
-typedef enum { /* From ModemManager-enums.h */
-  MM_MODEM_LOCK_UNKNOWN        = 0,
-  MM_MODEM_LOCK_NONE           = 1,
-  /* ... */
-} PhoshMMModemLock;
-
-typedef enum { /*< underscore_name=mm_modem_state >*/
-  MM_MODEM_STATE_FAILED        = -1,
-  MM_MODEM_STATE_UNKNOWN       = 0,
-  MM_MODEM_STATE_INITIALIZING  = 1,
-  MM_MODEM_STATE_LOCKED        = 2,
-  MM_MODEM_STATE_DISABLED      = 3,
-  MM_MODEM_STATE_DISABLING     = 4,
-  MM_MODEM_STATE_ENABLING      = 5,
-  MM_MODEM_STATE_ENABLED       = 6,
-  MM_MODEM_STATE_SEARCHING     = 7,
-  MM_MODEM_STATE_REGISTERED    = 8,
-  MM_MODEM_STATE_DISCONNECTING = 9,
-  MM_MODEM_STATE_CONNECTING    = 10,
-  MM_MODEM_STATE_CONNECTED     = 11,
-} PhoshMMModemState;
 
 enum {
   PROP_0,
@@ -86,7 +46,7 @@ typedef struct _PhoshWWanMM {
 
   PhoshMMDBusModem               *proxy;
   PhoshMMDBusModemModem3gpp      *proxy_3gpp;
-  PhoshMMDBusObjectManagerClient *manager;
+  MMManager                      *manager;
   GCancellable                   *cancel;
 
   /* Signals we connect to */
@@ -238,7 +198,7 @@ phosh_wwan_mm_update_present (PhoshWWanMM *self, gboolean present)
 static void
 phosh_wwan_mm_update_enabled (PhoshWWanMM *self)
 {
-  PhoshMMModemState state;
+  MMModemState state;
   gboolean enabled;
 
   g_return_if_fail (self);
@@ -451,9 +411,7 @@ phosh_wwan_mm_init_modem (PhoshWWanMM *self, const char *object_path)
 
 
 static void
-on_mm_object_added (PhoshWWanMM                    *self,
-                    GDBusObject                    *object,
-                    PhoshMMDBusObjectManagerClient *manager)
+on_mm_object_added (PhoshWWanMM *self, GDBusObject *object, MMManager *manager)
 {
   const char *modem_object_path;
 
@@ -467,9 +425,7 @@ on_mm_object_added (PhoshWWanMM                    *self,
 
 
 static void
-on_mm_object_removed (PhoshWWanMM                    *self,
-                      GDBusObject                    *object,
-                      PhoshMMDBusObjectManagerClient *manager)
+on_mm_object_removed (PhoshWWanMM *self, GDBusObject *object, MMManager *manager)
 {
   const char *modem_object_path;
 
@@ -483,25 +439,19 @@ on_mm_object_removed (PhoshWWanMM                    *self,
 
 
 static void
-phosh_wwan_mm_on_mm_object_manager_created (GObject      *source_object,
-                                            GAsyncResult *res,
-                                            PhoshWWanMM  *self)
+on_mm_manager_ready (GObject *source_object, GAsyncResult *res, PhoshWWanMM  *self)
 {
   g_autoptr (GError) err = NULL;
   g_autolist (GDBusObject) modems = NULL;
-  PhoshMMDBusObjectManagerClient *client;
+  MMManager *manager;
 
-  client = PHOSH_MM_DBUS_OBJECT_MANAGER_CLIENT (
-    phosh_mm_dbus_object_manager_client_new_for_bus_finish (
-      res,
-      &err));
-
-  if (client == NULL) {
+  manager = mm_manager_new_finish (res, &err);
+  if (!manager) {
     g_message ("Failed to connect modem manager: %s", err->message);
     return;
   }
 
-  self->manager = client;
+  self->manager = manager;
 
   g_signal_connect_swapped (self->manager,
                             "object-added",
@@ -527,17 +477,22 @@ static void
 phosh_wwan_mm_constructed (GObject *object)
 {
   PhoshWWanMM *self = PHOSH_WWAN_MM (object);
+  g_autoptr (GDBusConnection) connection = NULL;
+  g_autoptr (GError) err = NULL;
 
   G_OBJECT_CLASS (phosh_wwan_mm_parent_class)->constructed (object);
 
-  phosh_mm_dbus_object_manager_client_new_for_bus (
-    G_BUS_TYPE_SYSTEM,
-    G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_NONE,
-    BUS_NAME,
-    OBJECT_PATH,
-    self->cancel,
-    (GAsyncReadyCallback)phosh_wwan_mm_on_mm_object_manager_created,
-    self);
+  connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &err);
+  if (!connection) {
+    g_warning ("Failed ot access system bus: %s", err->message);
+    return;
+  }
+
+  mm_manager_new (connection,
+                  G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_DO_NOT_AUTO_START,
+                  self->cancel,
+                  (GAsyncReadyCallback)on_mm_manager_ready,
+                  self);
 }
 
 
