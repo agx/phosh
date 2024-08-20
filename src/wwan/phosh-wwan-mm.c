@@ -90,8 +90,6 @@ typedef struct _PhoshWWanMM {
   GCancellable                   *cancel;
 
   /* Signals we connect to */
-  gulong                          manager_object_added_signal_id;
-  gulong                          manager_object_removed_signal_id;
   gulong                          proxy_props_signal_id;
   gulong                          proxy_3gpp_props_signal_id;
 
@@ -505,17 +503,15 @@ phosh_wwan_mm_on_mm_object_manager_created (GObject      *source_object,
 
   self->manager = client;
 
-  self->manager_object_added_signal_id =
-    g_signal_connect_swapped (self->manager,
-                              "object-added",
-                              G_CALLBACK (on_mm_object_added),
-                              self);
+  g_signal_connect_swapped (self->manager,
+                            "object-added",
+                            G_CALLBACK (on_mm_object_added),
+                            self);
 
-  self->manager_object_removed_signal_id =
-    g_signal_connect_swapped (self->manager,
-                              "object-removed",
-                              G_CALLBACK (on_mm_object_removed),
-                              self);
+  g_signal_connect_swapped (self->manager,
+                            "object-removed",
+                            G_CALLBACK (on_mm_object_removed),
+                            self);
 
   modems = g_dbus_object_manager_get_objects (G_DBUS_OBJECT_MANAGER (self->manager));
   if (modems) {
@@ -555,11 +551,7 @@ phosh_wwan_mm_dispose (GObject *object)
 
   phosh_wwan_mm_destroy_modem (self);
   if (self->manager) {
-    g_clear_signal_handler (&self->manager_object_added_signal_id,
-                            self->manager);
-    g_clear_signal_handler (&self->manager_object_removed_signal_id,
-                            self->manager);
-
+    g_signal_handlers_disconnect_by_data (self->manager, self);
     g_clear_object (&self->manager);
   }
   g_clear_pointer (&self->object_path, g_free);
