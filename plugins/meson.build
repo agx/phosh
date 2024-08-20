@@ -1,5 +1,13 @@
 phosh_plugin_header_subdir = 'phosh'
 
+adw_ver = '1.5'
+gtk4_ver = '4.12'
+
+adw_ver_str = 'ADW_VERSION_@0@'.format(adw_ver.replace('.','_'))
+gtk4_ver_str = 'ADW_VERSION_@0@'.format(gtk4_ver.replace('.','_'))
+adw_ver_cmp = '>=@0@'.format(adw_ver)
+gtk4_ver_cmp = '>=@0@'.format(gtk4_ver)
+
 # Pubilc header that can also be used by out of tree plugins
 phosh_plugin_config = configuration_data()
 phosh_plugin_config.set_quoted('PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET',
@@ -84,8 +92,8 @@ if get_option('lockscreen-plugins') or get_option('quick-setting-plugins')
     sources: [phosh_plugin_h, plugin_prefs_config_h],
     include_directories: plugin_prefs_inc,
     dependencies: [
-      dependency('gtk4'),
-      dependency('libadwaita-1'),
+      dependency('libadwaita-1', version: adw_ver_cmp),
+      dependency('gtk4', version: gtk4_ver_cmp),
     ],
   )
 
