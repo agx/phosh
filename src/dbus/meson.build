@@ -17,6 +17,7 @@ dbus_client_protos = [
   ['portal-dbus', 'org.freedesktop.impl.portal.xml', 'org.freedesktop'],
   ['login1-manager-dbus', 'org.freedesktop.login1.Manager.xml','org.freedesktop.login1'],
   ['login1-session-dbus', 'org.freedesktop.login1.Session.xml', 'org.freedesktop.login1'],
+  ['wwan-mm-dbus', 'org.freedesktop.ModemManager1.xml', 'org.freedesktop.ModemManager1'],
   ['gsd-color-dbus', 'org.gnome.SettingsDaemon.Color.xml', 'org.gnome.SettingsDaemon'],
   ['gnome-session-dbus', 'org.gnome.SessionManager.xml', 'org.gnome'],
 ]
@@ -58,12 +59,6 @@ generated_dbus_sources += gnome.gdbus_codegen('geoclue-manager-dbus',
                                               install_header: bindings_lib,
                                               install_dir: dbus_inc_dir,
                                               namespace: 'PhoshGeoClueDBus')
-generated_dbus_sources +=  gnome.gdbus_codegen('phosh-wwan-mm-dbus',
-                                               'org.freedesktop.ModemManager1.xml',
-                                               namespace: 'Phosh_MM_DBus',
-                                               interface_prefix: 'org.freedesktop.ModemManager1',
-                                               install_header: bindings_lib,
-                                               install_dir: dbus_inc_dir)
 generated_dbus_sources += gnome.gdbus_codegen('calls-dbus',
                                               'org.gnome.Calls.Call.xml',
                                               object_manager: true,
