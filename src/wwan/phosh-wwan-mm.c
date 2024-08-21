@@ -468,14 +468,11 @@ phosh_wwan_mm_dispose (GObject *object)
   g_clear_object (&self->cancel);
 
   phosh_wwan_mm_destroy_modem (self);
+
   if (self->manager) {
     g_signal_handlers_disconnect_by_data (self->manager, self);
     g_clear_object (&self->manager);
   }
-  g_clear_pointer (&self->object_path, g_free);
-
-  g_clear_object (&self->proxy_modem);
-  g_clear_object (&self->proxy_3gpp);
 
   G_OBJECT_CLASS (phosh_wwan_mm_parent_class)->dispose (object);
 }
