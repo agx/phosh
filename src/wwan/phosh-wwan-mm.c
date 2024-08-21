@@ -49,10 +49,6 @@ typedef struct _PhoshWWanMM {
   MMManager                      *manager;
   GCancellable                   *cancel;
 
-  /* Signals we connect to */
-  gulong                          proxy_props_signal_id;
-  gulong                          proxy_3gpp_props_signal_id;
-
   char                           *object_path;
   guint                           signal_quality;
   const char                     *access_tec;
@@ -299,11 +295,11 @@ static void
 phosh_wwan_mm_destroy_modem (PhoshWWanMM *self)
 {
   if (self->proxy_modem)
-    g_clear_signal_handler (&self->proxy_props_signal_id, self->proxy_modem);
+    g_signal_handlers_disconnect_by_data (self->proxy_modem, self);
   g_clear_object (&self->proxy_modem);
 
   if (self->proxy_3gpp)
-    g_clear_signal_handler (&self->proxy_3gpp_props_signal_id, self->proxy_3gpp);
+    g_signal_handlers_disconnect_by_data (self->proxy_3gpp, self);
   g_clear_object (&self->proxy_3gpp);
 
   g_clear_pointer (&self->object_path, g_free);
@@ -341,10 +337,10 @@ on_3gpp_proxy_new_for_bus_finish (GObject *source_object, GAsyncResult *res, Pho
     g_object_unref (self);
   }
 
-  self->proxy_3gpp_props_signal_id = g_signal_connect (self->proxy_3gpp,
-                                                       "g-properties-changed",
-                                                       G_CALLBACK (on_3gpp_props_changed),
-                                                       self);
+  g_signal_connect (self->proxy_3gpp,
+                    "g-properties-changed",
+                    G_CALLBACK (on_3gpp_props_changed),
+                    self);
   phosh_wwan_mm_update_operator (self);
   g_object_unref (self);
 }
@@ -361,10 +357,10 @@ on_modem_proxy_new_for_bus_finish (GObject *source_object, GAsyncResult *res, Ph
     g_object_unref (self);
   }
 
-  self->proxy_props_signal_id = g_signal_connect (self->proxy_modem,
-                                                  "g-properties-changed",
-                                                  G_CALLBACK (on_modem_props_changed),
-                                                  self);
+  g_signal_connect (self->proxy_modem,
+                    "g-properties-changed",
+                    G_CALLBACK (on_modem_props_changed),
+                    self);
   phosh_wwan_mm_update_signal_quality (self);
   phosh_wwan_mm_update_access_tec (self);
   phosh_wwan_mm_update_lock_status (self);
