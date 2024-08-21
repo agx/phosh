@@ -17,7 +17,6 @@ dbus_client_protos = [
   ['portal-dbus', 'org.freedesktop.impl.portal.xml', 'org.freedesktop'],
   ['login1-manager-dbus', 'org.freedesktop.login1.Manager.xml','org.freedesktop.login1'],
   ['login1-session-dbus', 'org.freedesktop.login1.Session.xml', 'org.freedesktop.login1'],
-  ['wwan-mm-dbus', 'org.freedesktop.ModemManager1.xml', 'org.freedesktop.ModemManager1'],
   ['gsd-color-dbus', 'org.gnome.SettingsDaemon.Color.xml', 'org.gnome.SettingsDaemon'],
   ['gnome-session-dbus', 'org.gnome.SessionManager.xml', 'org.gnome'],
 ]

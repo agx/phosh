@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018 Purism SPC
+ *               2024 The Phosh Devleopers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -12,7 +13,6 @@
 
 #include "phosh-wwan-iface.h"
 #include "phosh-wwan-mm.h"
-#include "wwan-mm-dbus.h"
 #include "util.h"
 
 #include <libmm-glib.h>
@@ -44,8 +44,8 @@ static GParamSpec *props[PROP_LAST_PROP];
 typedef struct _PhoshWWanMM {
   PhoshWWanManager                parent;
 
-  PhoshDBusModem                 *proxy;
-  PhoshDBusModemModem3gpp        *proxy_3gpp;
+  MmGdbusModem                   *proxy;
+  MmGdbusModem3gpp               *proxy_3gpp;
   MMManager                      *manager;
   GCancellable                   *cancel;
 
@@ -76,7 +76,7 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
 
   g_return_if_fail (self);
   g_return_if_fail (self->proxy);
-  v = phosh_dbus_modem_get_signal_quality (self->proxy);
+  v = mm_gdbus_modem_get_signal_quality (self->proxy);
   if (v) {
     g_variant_get (v, "(ub)", &self->signal_quality, NULL);
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SIGNAL_QUALITY]);
@@ -120,7 +120,7 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
   g_return_if_fail (self);
   g_return_if_fail (self->proxy);
 
-  access_tec = phosh_dbus_modem_get_access_technologies (self->proxy);
+  access_tec = mm_gdbus_modem_get_access_technologies (self->proxy);
   self->access_tec = phosh_wwan_mm_user_friendly_access_tec (access_tec);
   g_debug ("Access tec is %s", self->access_tec);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACCESS_TEC]);
@@ -134,7 +134,7 @@ phosh_wwan_mm_update_operator (PhoshWWanMM *self)
 
   g_return_if_fail (self);
   g_return_if_fail (self->proxy_3gpp);
-  operator = phosh_dbus_modem_modem3gpp_get_operator_name (self->proxy_3gpp);
+  operator = mm_gdbus_modem3gpp_get_operator_name (self->proxy_3gpp);
 
   if (g_strcmp0 (operator, self->operator)) {
     g_debug("Operator is '%s'", operator);
@@ -154,9 +154,9 @@ phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
   g_return_if_fail (self);
   g_return_if_fail (self->proxy);
   /* Whether any kind of PIN is required */
-  unlock_required = phosh_dbus_modem_get_unlock_required (self->proxy);
+  unlock_required = mm_gdbus_modem_get_unlock_required (self->proxy);
   /* Whether the sim card is currently locked */
-  state = phosh_dbus_modem_get_state (self->proxy);
+  state = mm_gdbus_modem_get_state (self->proxy);
   self->unlocked = !!(unlock_required == MM_MODEM_LOCK_NONE ||
                       (state != MM_MODEM_STATE_LOCKED &&
                        state != MM_MODEM_STATE_FAILED));
@@ -172,7 +172,7 @@ phosh_wwan_mm_update_sim_status (PhoshWWanMM *self)
 
   g_return_if_fail (self);
   g_return_if_fail (self->proxy);
-  sim = phosh_dbus_modem_get_sim (self->proxy);
+  sim = mm_gdbus_modem_get_sim (self->proxy);
   g_debug ("SIM path %s", sim);
   self->sim = !!g_strcmp0 (sim, "/");
   g_debug ("SIM is %spresent", self->sim ? "" : "not ");
@@ -201,7 +201,7 @@ phosh_wwan_mm_update_enabled (PhoshWWanMM *self)
 
   g_return_if_fail (self);
 
-  state = phosh_dbus_modem_get_state (self->proxy);
+  state = mm_gdbus_modem_get_state (self->proxy);
 
   enabled = (state > MM_MODEM_STATE_ENABLING) ? TRUE : FALSE;
   g_debug ("Modem is %senabled, state: %d", enabled ? "" : "not ", state);
@@ -213,10 +213,10 @@ phosh_wwan_mm_update_enabled (PhoshWWanMM *self)
 
 
 static void
-on_modem_props_changed (PhoshDBusModem *proxy,
-                        GVariant       *changed_properties,
-                        GStrv           invaliated,
-                        PhoshWWanMM    *self)
+on_modem_props_changed (MmGdbusModem *proxy,
+                        GVariant     *changed_properties,
+                        GStrv         invaliated,
+                        PhoshWWanMM  *self)
 {
   char *property;
   GVariantIter i;
@@ -240,10 +240,10 @@ on_modem_props_changed (PhoshDBusModem *proxy,
 }
 
 static void
-on_3gpp_props_changed (PhoshDBusModem *proxy,
-                       GVariant       *changed_properties,
-                       GStrv           invaliated,
-                       PhoshWWanMM    *self)
+on_3gpp_props_changed (MmGdbusModem *proxy,
+                       GVariant     *changed_properties,
+                       GStrv         invaliated,
+                       PhoshWWanMM  *self)
 {
   char *property;
   GVariantIter i;
@@ -338,7 +338,7 @@ on_3gpp_proxy_new_for_bus_finish (GObject *source_object, GAsyncResult *res, Pho
 {
   g_autoptr (GError) err = NULL;
 
-  self->proxy_3gpp = phosh_dbus_modem_modem3gpp_proxy_new_for_bus_finish (res, &err);
+  self->proxy_3gpp = mm_gdbus_modem3gpp_proxy_new_for_bus_finish (res, &err);
   if (!self->proxy_3gpp) {
     g_warning ("Failed to get 3gpp proxy for %s: %s", self->object_path, err->message);
     g_object_unref (self);
@@ -358,7 +358,7 @@ on_modem_proxy_new_for_bus_finish (GObject *source_object, GAsyncResult *res, Ph
 {
   g_autoptr (GError) err = NULL;
 
-  self->proxy = phosh_dbus_modem_proxy_new_for_bus_finish (res, &err);
+  self->proxy = mm_gdbus_modem_proxy_new_for_bus_finish (res, &err);
   if (!self->proxy) {
     g_warning ("Failed to get modem proxy for %s: %s", self->object_path, err->message);
     g_object_unref (self);
@@ -385,23 +385,21 @@ phosh_wwan_mm_init_modem (PhoshWWanMM *self, const char *object_path)
 
   self->object_path = g_strdup (object_path);
 
-  phosh_dbus_modem_proxy_new_for_bus (
-    G_BUS_TYPE_SYSTEM,
-    G_DBUS_PROXY_FLAGS_NONE,
-    BUS_NAME,
-    object_path,
-    NULL,
-    (GAsyncReadyCallback)on_modem_proxy_new_for_bus_finish,
-    g_object_ref (self));
+  mm_gdbus_modem_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
+                                    G_DBUS_PROXY_FLAGS_NONE,
+                                    BUS_NAME,
+                                    object_path,
+                                    self->cancel,
+                                    (GAsyncReadyCallback)on_modem_proxy_new_for_bus_finish,
+                                    g_object_ref (self));
 
-  phosh_dbus_modem_modem3gpp_proxy_new_for_bus (
-    G_BUS_TYPE_SYSTEM,
-    G_DBUS_PROXY_FLAGS_NONE,
-    BUS_NAME,
-    object_path,
-    NULL,
-    (GAsyncReadyCallback)on_3gpp_proxy_new_for_bus_finish,
-    g_object_ref (self));
+  mm_gdbus_modem3gpp_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
+                                        G_DBUS_PROXY_FLAGS_NONE,
+                                        BUS_NAME,
+                                        object_path,
+                                        self->cancel,
+                                        (GAsyncReadyCallback)on_3gpp_proxy_new_for_bus_finish,
+                                        g_object_ref (self));
 }
 
 
