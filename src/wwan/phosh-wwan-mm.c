@@ -44,7 +44,7 @@ static GParamSpec *props[PROP_LAST_PROP];
 typedef struct _PhoshWWanMM {
   PhoshWWanManager                parent;
 
-  MmGdbusModem                   *proxy;
+  MmGdbusModem                   *proxy_modem;
   MmGdbusModem3gpp               *proxy_3gpp;
   MMManager                      *manager;
   GCancellable                   *cancel;
@@ -75,8 +75,8 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
   GVariant *v;
 
   g_return_if_fail (self);
-  g_return_if_fail (self->proxy);
-  v = mm_gdbus_modem_get_signal_quality (self->proxy);
+  g_return_if_fail (self->proxy_modem);
+  v = mm_gdbus_modem_get_signal_quality (self->proxy_modem);
   if (v) {
     g_variant_get (v, "(ub)", &self->signal_quality, NULL);
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SIGNAL_QUALITY]);
@@ -118,9 +118,9 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
   guint access_tec;
 
   g_return_if_fail (self);
-  g_return_if_fail (self->proxy);
+  g_return_if_fail (self->proxy_modem);
 
-  access_tec = mm_gdbus_modem_get_access_technologies (self->proxy);
+  access_tec = mm_gdbus_modem_get_access_technologies (self->proxy_modem);
   self->access_tec = phosh_wwan_mm_user_friendly_access_tec (access_tec);
   g_debug ("Access tec is %s", self->access_tec);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACCESS_TEC]);
@@ -152,11 +152,11 @@ phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
   int state;
 
   g_return_if_fail (self);
-  g_return_if_fail (self->proxy);
+  g_return_if_fail (self->proxy_modem);
   /* Whether any kind of PIN is required */
-  unlock_required = mm_gdbus_modem_get_unlock_required (self->proxy);
+  unlock_required = mm_gdbus_modem_get_unlock_required (self->proxy_modem);
   /* Whether the sim card is currently locked */
-  state = mm_gdbus_modem_get_state (self->proxy);
+  state = mm_gdbus_modem_get_state (self->proxy_modem);
   self->unlocked = !!(unlock_required == MM_MODEM_LOCK_NONE ||
                       (state != MM_MODEM_STATE_LOCKED &&
                        state != MM_MODEM_STATE_FAILED));
@@ -171,8 +171,8 @@ phosh_wwan_mm_update_sim_status (PhoshWWanMM *self)
   const char *sim;
 
   g_return_if_fail (self);
-  g_return_if_fail (self->proxy);
-  sim = mm_gdbus_modem_get_sim (self->proxy);
+  g_return_if_fail (self->proxy_modem);
+  sim = mm_gdbus_modem_get_sim (self->proxy_modem);
   g_debug ("SIM path %s", sim);
   self->sim = !!g_strcmp0 (sim, "/");
   g_debug ("SIM is %spresent", self->sim ? "" : "not ");
@@ -201,7 +201,7 @@ phosh_wwan_mm_update_enabled (PhoshWWanMM *self)
 
   g_return_if_fail (self);
 
-  state = mm_gdbus_modem_get_state (self->proxy);
+  state = mm_gdbus_modem_get_state (self->proxy_modem);
 
   enabled = (state > MM_MODEM_STATE_ENABLING) ? TRUE : FALSE;
   g_debug ("Modem is %senabled, state: %d", enabled ? "" : "not ", state);
@@ -298,9 +298,9 @@ phosh_wwan_mm_get_property (GObject    *object,
 static void
 phosh_wwan_mm_destroy_modem (PhoshWWanMM *self)
 {
-  if (self->proxy)
-    g_clear_signal_handler (&self->proxy_props_signal_id, self->proxy);
-  g_clear_object (&self->proxy);
+  if (self->proxy_modem)
+    g_clear_signal_handler (&self->proxy_props_signal_id, self->proxy_modem);
+  g_clear_object (&self->proxy_modem);
 
   if (self->proxy_3gpp)
     g_clear_signal_handler (&self->proxy_3gpp_props_signal_id, self->proxy_3gpp);
@@ -355,13 +355,13 @@ on_modem_proxy_new_for_bus_finish (GObject *source_object, GAsyncResult *res, Ph
 {
   g_autoptr (GError) err = NULL;
 
-  self->proxy = mm_gdbus_modem_proxy_new_for_bus_finish (res, &err);
-  if (!self->proxy) {
+  self->proxy_modem = mm_gdbus_modem_proxy_new_for_bus_finish (res, &err);
+  if (!self->proxy_modem) {
     g_warning ("Failed to get modem proxy for %s: %s", self->object_path, err->message);
     g_object_unref (self);
   }
 
-  self->proxy_props_signal_id = g_signal_connect (self->proxy,
+  self->proxy_props_signal_id = g_signal_connect (self->proxy_modem,
                                                   "g-properties-changed",
                                                   G_CALLBACK (on_modem_props_changed),
                                                   self);
@@ -478,7 +478,7 @@ phosh_wwan_mm_dispose (GObject *object)
   }
   g_clear_pointer (&self->object_path, g_free);
 
-  g_clear_object (&self->proxy);
+  g_clear_object (&self->proxy_modem);
   g_clear_object (&self->proxy_3gpp);
 
   G_OBJECT_CLASS (phosh_wwan_mm_parent_class)->dispose (object);
