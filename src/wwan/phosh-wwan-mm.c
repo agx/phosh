@@ -467,29 +467,6 @@ on_mm_manager_ready (GObject *source_object, GAsyncResult *res, PhoshWWanMM  *se
 
 
 static void
-phosh_wwan_mm_constructed (GObject *object)
-{
-  PhoshWWanMM *self = PHOSH_WWAN_MM (object);
-  g_autoptr (GDBusConnection) connection = NULL;
-  g_autoptr (GError) err = NULL;
-
-  G_OBJECT_CLASS (phosh_wwan_mm_parent_class)->constructed (object);
-
-  connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, &err);
-  if (!connection) {
-    g_warning ("Failed ot access system bus: %s", err->message);
-    return;
-  }
-
-  mm_manager_new (connection,
-                  G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_DO_NOT_AUTO_START,
-                  self->cancel,
-                  (GAsyncReadyCallback)on_mm_manager_ready,
-                  self);
-}
-
-
-static void
 phosh_wwan_mm_dispose (GObject *object)
 {
   PhoshWWanMM *self = PHOSH_WWAN_MM (object);
@@ -516,7 +493,6 @@ phosh_wwan_mm_class_init (PhoshWWanMMClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-  object_class->constructed = phosh_wwan_mm_constructed;
   object_class->dispose = phosh_wwan_mm_dispose;
   object_class->get_property = phosh_wwan_mm_get_property;
 
@@ -648,9 +624,34 @@ phosh_wwan_mm_interface_init (PhoshWWanInterface *iface)
 
 
 static void
+on_bus_get_ready (GObject *source_object, GAsyncResult *res, PhoshWWanMM *self)
+{
+  g_autoptr (GError) err = NULL;
+  GDBusConnection *connection;
+
+  connection = g_bus_get_finish (res, &err);
+  if (!connection) {
+    g_warning ("Failed to attach to system bus: %s", err->message);
+    return;
+  }
+
+  mm_manager_new (connection,
+                  G_DBUS_OBJECT_MANAGER_CLIENT_FLAGS_DO_NOT_AUTO_START,
+                  self->cancel,
+                  (GAsyncReadyCallback)on_mm_manager_ready,
+                  self);
+}
+
+
+static void
 phosh_wwan_mm_init (PhoshWWanMM *self)
 {
   self->cancel = g_cancellable_new ();
+
+  g_bus_get (G_BUS_TYPE_SYSTEM,
+             self->cancel,
+             (GAsyncReadyCallback)on_bus_get_ready,
+             self);
 }
 
 
