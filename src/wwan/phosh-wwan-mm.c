@@ -298,16 +298,13 @@ phosh_wwan_mm_get_property (GObject    *object,
 static void
 phosh_wwan_mm_destroy_modem (PhoshWWanMM *self)
 {
-  if (self->proxy) {
+  if (self->proxy)
     g_clear_signal_handler (&self->proxy_props_signal_id, self->proxy);
+  g_clear_object (&self->proxy);
 
-    g_clear_object (&self->proxy);
-  }
-
-  if (self->proxy_3gpp) {
+  if (self->proxy_3gpp)
     g_clear_signal_handler (&self->proxy_3gpp_props_signal_id, self->proxy_3gpp);
-    g_clear_object (&self->proxy_3gpp);
-  }
+  g_clear_object (&self->proxy_3gpp);
 
   g_clear_pointer (&self->object_path, g_free);
 
