@@ -128,35 +128,28 @@ phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
 static const char *
 phosh_wwan_mm_user_friendly_access_tec (guint access_tec)
 {
-  if (access_tec & MM_MODEM_ACCESS_TECHNOLOGY_5GNR)
+  if (access_tec & MM_MODEM_ACCESS_TECHNOLOGY_5GNR) {
     return "5G";
-
-  switch (access_tec) {
-  case MM_MODEM_ACCESS_TECHNOLOGY_GSM:
-  case MM_MODEM_ACCESS_TECHNOLOGY_GSM_COMPACT:
-    return "2G";
-  case MM_MODEM_ACCESS_TECHNOLOGY_GPRS:
-    return "2.5G";
-  case MM_MODEM_ACCESS_TECHNOLOGY_EDGE:
-    return "2.75G";
-  case MM_MODEM_ACCESS_TECHNOLOGY_UMTS:
-  case MM_MODEM_ACCESS_TECHNOLOGY_HSDPA:
-  case MM_MODEM_ACCESS_TECHNOLOGY_HSUPA:
-  case MM_MODEM_ACCESS_TECHNOLOGY_HSUPA | MM_MODEM_ACCESS_TECHNOLOGY_HSDPA:
-    return "3G";
-  case MM_MODEM_ACCESS_TECHNOLOGY_HSPA:
-    return "3.5G";
-  case MM_MODEM_ACCESS_TECHNOLOGY_HSPA_PLUS:
-    return "3.75G";
-  case MM_MODEM_ACCESS_TECHNOLOGY_LTE:
+  } else if (access_tec & MM_MODEM_ACCESS_TECHNOLOGY_LTE) {
     return "4G";
-  case MM_MODEM_ACCESS_TECHNOLOGY_1XRTT:
-  case MM_MODEM_ACCESS_TECHNOLOGY_EVDO0:
-  case MM_MODEM_ACCESS_TECHNOLOGY_EVDOA:
-  case MM_MODEM_ACCESS_TECHNOLOGY_EVDOB:
-  default:
-    return NULL;
+  } else if (access_tec & MM_MODEM_ACCESS_TECHNOLOGY_HSPA_PLUS) {
+    return "3.75G";
+  } else if (access_tec & MM_MODEM_ACCESS_TECHNOLOGY_HSPA) {
+    return "3.5G";
+  } else if (access_tec & (MM_MODEM_ACCESS_TECHNOLOGY_UMTS |
+                           MM_MODEM_ACCESS_TECHNOLOGY_HSDPA |
+                           MM_MODEM_ACCESS_TECHNOLOGY_HSUPA)) {
+    return "3G";
+  } else if (access_tec & MM_MODEM_ACCESS_TECHNOLOGY_EDGE) {
+    return "2.75G";
+  } else if (access_tec & MM_MODEM_ACCESS_TECHNOLOGY_GPRS) {
+    return "2.5G";
+  } else if (access_tec & (MM_MODEM_ACCESS_TECHNOLOGY_GSM |
+                           MM_MODEM_ACCESS_TECHNOLOGY_GSM_COMPACT)) {
+    return "2G";
   }
+
+  return NULL;
 }
 
 
