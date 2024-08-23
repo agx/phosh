@@ -40,12 +40,15 @@
  *
  * The main lock screen
  *
- * The lock screen featuring the clock
- * and unlock keypad.
+ * The lock screen displayed on the primary output featuring the clock
+ * and unlock keypad. It handles displaying ongoing calls when the
+ * shell is locked and can be extended via plugins.
+ *
+ * Other outputs are locked via [type@Phosh.Lockshield]s.
  *
  * # CSS nodes
  *
- * #PhoshLockscreen has a CSS name with the name phosh-lockscreen.
+ * `PhoshLockscreen` has a CSS name with the name `phosh-lockscreen`.
  */
 
 
@@ -942,13 +945,15 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 
   klass->unlock_submit = on_unlock_submit;
 
+  /**
+   * PhoshLockscreen:calls-manager:
+   *
+   * The calls manager handling incoming and active calls.
+   */
   props[PROP_CALLS_MANAGER] =
-    g_param_spec_object ("calls-manager",
-                         "",
-                         "",
+    g_param_spec_object ("calls-manager", "", "",
                          PHOSH_TYPE_CALLS_MANAGER,
                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_CONSTRUCT_ONLY);
-
   /**
    * PhoshLockscreen:page:
    *
@@ -962,6 +967,13 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
+  /**
+   * PhoshLockscreen::lockscreen-unlock
+   * @self: The #PhoshLockscreen emitting this signal
+   *
+   * This signal is emitted when authentication was successful and the
+   * session should be unlocked.
+   */
   signals[LOCKSCREEN_UNLOCK] = g_signal_new ("lockscreen-unlock",
                                              G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
                                              NULL, G_TYPE_NONE, 0);
