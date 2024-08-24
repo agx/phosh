@@ -11,7 +11,8 @@
         <property name="spacing">18</property>
         <property name="margin-bottom">6</property>
         <property name="valign">fill</property>
-        <property name="expand">true</property>
+        <property name="hexpand">1</property>
+        <property name="vexpand">1</property>
         <property name="reveal-duration">200</property>
         <property name="allow-long-swipes">True</property>
       </object>
