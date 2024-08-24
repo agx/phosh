@@ -21,6 +21,7 @@
                 <child>
                   <object class="GtkSearchEntry" id="search">
                     <property name="visible">1</property>
+                    <property name="hexpand">1</property>
                     <property name="placeholder-text" translatable="yes">Search apps…</property>
                     <signal name="search-changed" handler="search_changed" object="PhoshAppGrid" swapped="no"/>
                     <signal name="preedit-changed" handler="search_preedit_changed" object="PhoshAppGrid" swapped="no"/>
@@ -31,9 +32,6 @@
                       <class name="phosh-search-bar"/>
                     </style>
                   </object>
-                  <packing>
-                    <property name="expand">1</property>
-                  </packing>
                 </child>
                 <style>
                   <class name="phosh-search-bar-box"/>
