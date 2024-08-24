@@ -83,7 +83,6 @@
                       </object>
                       <packing>
                         <property name="fill">0</property>
-                        <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
@@ -103,7 +102,6 @@
                       </object>
                       <packing>
                         <property name="fill">0</property>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                     <child>
@@ -142,16 +140,12 @@
                           </packing>
                         </child>
                       </object>
-                      <packing>
-                        <property name="position">3</property>
-                      </packing>
                     </child>
                   </object>
                 </child>
               </object>
               <packing>
                 <property name="expand">1</property>
-                <property name="position">1</property>
               </packing>
             </child>
           </object>
@@ -266,7 +260,6 @@
                   </object>
                   <packing>
                     <property name="name">folder_grid</property>
-                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
@@ -294,7 +287,6 @@
                   </object>
                   <packing>
                     <property name="name">empty_folder</property>
-                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
