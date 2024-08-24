@@ -17,6 +17,12 @@ enum {
 };
 static GParamSpec *props[LAST_PROP];
 
+/**
+ * PhoshWallClock:
+ *
+ * Wall clock used for fetching date and time
+ */
+
 typedef struct _PhoshWallClockPrivate {
   GnomeWallClock *time;
   GnomeWallClock *date_time;
@@ -104,10 +110,20 @@ phosh_wall_clock_class_init (PhoshWallClockClass *klass)
   klass->get_clock = get_clock_impl;
   klass->get_time_t = get_time_t_impl;
 
+  /**
+   * PhoshWallClock::date-time:
+   *
+   * The current date and time
+   */
   props[PROP_DATE_TIME] =
     g_param_spec_string ("date-time", "", "",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshWallClock::time:
+   *
+   * The current time
+   */
   props[PROP_TIME] =
     g_param_spec_string ("time", "", "",
                          NULL,
@@ -180,6 +196,7 @@ phosh_wall_clock_get_default (void)
 
 /**
  * phosh_wall_clock_get_clock:
+ * @self: The wall clock
  * @time_only: whether to return full clock string or just the time
  *
  * Gets the current clock string, if time_only is true this will be just the
@@ -226,6 +243,7 @@ phosh_wall_clock_date_fmt (void)
 
 /**
  * phosh_wall_clock_local_date:
+ * @self: The wall clock
  *
  * Get the local date as string
  * We honor LC_MESSAGES so we e.g. don't get a translated date when

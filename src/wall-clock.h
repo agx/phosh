@@ -30,8 +30,8 @@ struct _PhoshWallClockClass
 PhoshWallClock  *phosh_wall_clock_new                 (void);
 void             phosh_wall_clock_set_default         (PhoshWallClock *self);
 PhoshWallClock  *phosh_wall_clock_get_default         (void);
-const char      *phosh_wall_clock_get_clock           (PhoshWallClock *clock, gboolean time_only);
-char            *phosh_wall_clock_local_date          (PhoshWallClock *clock);
+const char      *phosh_wall_clock_get_clock           (PhoshWallClock *self, gboolean time_only);
+char            *phosh_wall_clock_local_date          (PhoshWallClock *self);
 char            *phosh_wall_clock_string_for_datetime (PhoshWallClock      *self,
                                                        GDateTime           *datetime,
                                                        GDesktopClockFormat  clock_format,
