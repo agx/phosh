@@ -708,13 +708,18 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
    * Whether only adaptive apps should be shown
    */
   props[PROP_FILTER_ADAPTIVE] =
-    g_param_spec_boolean ("filter-adaptive",
-                          "",
-                          "",
+    g_param_spec_boolean ("filter-adaptive", "", "",
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
+
+  signals[APP_LAUNCHED] =
+    g_signal_new ("app-launched",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST, 0,
+                  NULL, NULL, NULL,
+                  G_TYPE_NONE, 1, G_TYPE_APP_INFO);
 
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/app-grid.ui");
 
@@ -743,12 +748,6 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_search_gained_focus);
   gtk_widget_class_bind_template_callback (widget_class, on_search_lost_focus);
   gtk_widget_class_bind_template_callback (widget_class, show_main_grid);
-
-  signals[APP_LAUNCHED] = g_signal_new ("app-launched",
-                                        G_TYPE_FROM_CLASS (klass),
-                                        G_SIGNAL_RUN_LAST,
-                                        0, NULL, NULL, NULL,
-                                        G_TYPE_NONE, 1, G_TYPE_APP_INFO);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-app-grid");
 }
