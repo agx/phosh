@@ -74,8 +74,6 @@ find_event (const char *category)
       ret = "message-missed-email";
     else if (g_strcmp0 (category, "im.received") == 0)
       ret = "message-missed-instant";
-    else if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0)
-      ret = "phone-missed-call";
     else
       ret = "message-missed-notification";
   } else {
@@ -83,10 +81,17 @@ find_event (const char *category)
       ret = "message-new-email";
     else if (g_strcmp0 (category, "im.received") == 0)
       ret = "message-new-instant";
-    else if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0)
-      ret = "phone-missed-call";
     /* no feedback when not locked as to not distract the user */
   }
+
+  if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0)
+    ret = "phone-missed-call";
+  else if (g_strcmp0 (category, "call.ended") == 0)
+    ret = "phone-hangup";
+  else if (g_strcmp0 (category, "call.incoming") == 0)
+    ret = "phone-incoming-call";
+  else if (g_strcmp0 (category, "call.unanswered") == 0)
+    ret = "phone-missed-call";
 
   return ret;
 }
