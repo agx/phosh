@@ -13,7 +13,7 @@ G_BEGIN_DECLS
 G_DECLARE_INTERFACE (PhoshWWan, phosh_wwan, PHOSH, WWAN, GObject)
 
 /**
- * PhoshWWanInterface
+ * PhoshWWanInterface:
  * @parent_iface: The parent interface
  * @get_signal_quality: Get the current signal quality
  * @get_access_tec: Get the current access technology (2G, 3G, ...)
@@ -23,8 +23,8 @@ G_DECLARE_INTERFACE (PhoshWWan, phosh_wwan, PHOSH, WWAN, GObject)
  * @is_enabled: whether a modem is enabled
  * @get_operator: Get the current network operator name
  *
- * A #PhoshWWanInterface handles modem interaction such as getting
- * network information and signal strength.
+ * The list of virtual functions for the `PhoshWWan` interface. Interface
+ * are required to implement all virtual functions.
  */
 
 struct _PhoshWWanInterface

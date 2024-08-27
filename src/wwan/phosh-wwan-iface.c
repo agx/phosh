@@ -11,6 +11,16 @@
 #include "phosh-wwan-iface.h"
 #include "wwan-manager.h"
 
+/**
+ * PhoshWWan:
+ *
+ * Implementations of the `PhoshWWan` interface handle modem
+ * interaction such as getting mobile network information and signal
+ * strength.
+ *
+ * Since: 0.0.1
+ */
+
 G_DEFINE_INTERFACE (PhoshWWan, phosh_wwan, PHOSH_TYPE_WWAN_MANAGER)
 
 void

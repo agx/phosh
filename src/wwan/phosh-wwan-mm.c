@@ -5,7 +5,6 @@
  *
  * Author: Guido Günther <agx@sigxcpu.org>
  */
-/* Modemmanager abstraction */
 
 #define G_LOG_DOMAIN "phosh-wwan-mm"
 
@@ -22,9 +21,9 @@
 /**
  * PhoshWWanMM:
  *
- * Implementation of the #PhoshWWanInterface
+ * Implementation of the [iface@Phosh.WWan] interface for ModemManager
  *
- * This implements #PhoshWWanInterface for ModemManager.
+ * Since: 0.0.1
  */
 
 typedef enum { /* From ModemManager-enums.h */

@@ -5,7 +5,6 @@
  *
  * Author: Anteater <nt8r@protonmail.com>
  */
-/* ofono abstraction */
 
 #define G_LOG_DOMAIN "phosh-wwan-ofono"
 
@@ -22,7 +21,9 @@
 /**
  * PhoshWWanOfono:
  *
- * Implementation of the #PhoshWWanInterface for Ofono
+ * Implementation of the [iface@Phosh.WWan] interface for Ofono
+ *
+ * Since: 0.4.5
  */
 
 enum {
