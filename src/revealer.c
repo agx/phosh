@@ -13,11 +13,14 @@
 /**
  * PhoshRevealer:
  *
- * Reveals e.g. a [class@StatusIcon] in the [class@TopPanel].  Similar
- * to [class@Gtk.Revealer] but toggles the transition based on the
- * `show-child` property which also triggers the child's visibility so it
- * doesn't use up any size when not revealed (e.g. when using the `crossfade`
- * animation).
+ * Reveals e.g. a [class@StatusIcon] in the [class@TopPanel].
+ *
+ * Similar to [class@Gtk.Revealer] but toggles the transition based on
+ * the `show-child` property which also triggers the child's
+ * visibility so it doesn't use up any size when not revealed
+ * (e.g. when using the `crossfade` animation).
+ *
+ * Since: 0.25.0
  */
 
 enum {
