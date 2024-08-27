@@ -1265,7 +1265,7 @@ phosh_shell_class_init (PhoshShellClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   /**
-   * PhoshShell:ready:
+   * PhoshShell::ready:
    * @self: The shell object
    *
    * The ready signal is emitted once when the shell finished starting

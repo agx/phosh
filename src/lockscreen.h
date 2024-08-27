@@ -16,8 +16,9 @@ G_BEGIN_DECLS
  * @PHOSH_LOCKSCREEN_PAGE_EXTRA: The extra page (an extension point used by Lockscreen subclasses)
  * @PHOSH_LOCKSCREEN_PAGE_UNLOCK: The unlock page (where PIN is entered)
  *
- * This enum indicates which page is shown on the lockscreen.
- * This helps #PhoshGnomeShellManager to decide when to emit
+ * Indicates which page is currently shown on the lockscreen.
+ *
+ * This helps `PhoshGnomeShellManager` to decide when to emit
  * AcceleratorActivated events over DBus
  */
 typedef enum {

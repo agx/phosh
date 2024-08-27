@@ -97,6 +97,8 @@ individual C files should be structured as (top to bottom of file):
     ```
     #define G_LOG_DOMAIN "phosh-settings"
 
+    #include "phosh-config.h"
+
     #include "settings.h"
     #include "shell.h"
 
