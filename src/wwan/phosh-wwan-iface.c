@@ -11,7 +11,7 @@
 #include "phosh-wwan-iface.h"
 #include "wwan-manager.h"
 
-G_DEFINE_INTERFACE (PhoshWWan, phosh_wwan, G_TYPE_OBJECT)
+G_DEFINE_INTERFACE (PhoshWWan, phosh_wwan, PHOSH_TYPE_WWAN_MANAGER)
 
 void
 phosh_wwan_default_init (PhoshWWanInterface *iface)
