@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+
+ret=0
+
+DIR="${1:-$PWD}/src/ui"
+
+for tag in margin-left margin-right; do
+  echo "Checking '$tag'"
+  if git grep "=\"${tag}\"" "${DIR}" >& /dev/null; then
+    echo "Found deprecated UI property ${tag}" 1>&2
+    git --no-pager grep "=\"${tag}\"" "${DIR}" 1>&2
+    ret=1
+  fi
+done
+
+exit $ret

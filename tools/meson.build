@@ -9,6 +9,12 @@ test('check-exported-symbols',
      suite: 'tools',
 )
 
+test('check-deprecated-ui-props',
+     find_program('check-deprecated-ui-props'),
+     args: meson.project_source_root(),
+     suite: 'tools',
+)
+
 tools_or_tests = get_option('tools') or get_option('tests')
 
 if tools_or_tests
