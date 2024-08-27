@@ -9,6 +9,8 @@
 
 #define G_LOG_DOMAIN "phosh-wwan-ofono"
 
+#include "phosh-config.h"
+
 #include "phosh-wwan-iface.h"
 #include "phosh-wwan-ofono.h"
 #include "phosh-wwan-ofono-dbus.h"

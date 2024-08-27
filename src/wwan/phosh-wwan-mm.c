@@ -9,6 +9,8 @@
 
 #define G_LOG_DOMAIN "phosh-wwan-mm"
 
+#include "phosh-config.h"
+
 #include "phosh-wwan-iface.h"
 #include "phosh-wwan-mm.h"
 #include "phosh-wwan-mm-dbus.h"

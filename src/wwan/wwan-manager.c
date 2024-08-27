@@ -6,6 +6,8 @@
 
 #define G_LOG_DOMAIN "phosh-wwan-manager"
 
+#include "phosh-config.h"
+
 #include "phosh-wwan-iface.h"
 #include "wwan-manager.h"
 #include "util.h"
