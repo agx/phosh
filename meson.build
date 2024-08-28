@@ -157,7 +157,11 @@ libcall_ui = subproject('libcall-ui',
 libfeedback_dep = dependency('libfeedback-0.0',
   version: '>= 0.4.0',
   fallback: ['libfeedback', 'libfeedback_dep'],
-  default_options: ['introspection=disabled', 'daemon=false', 'gtk_doc=false']
+  default_options: [
+     'introspection=disabled',
+     'daemon=false',
+     'gtk_doc=false',
+     'tests=false'],
   )
 libgvc = subproject('gvc',
   default_options: [
