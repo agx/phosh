@@ -83,7 +83,6 @@ void                 phosh_shell_get_usable_area (PhoshShell *self,
                                                   int        *height);
 void                 phosh_shell_get_area        (PhoshShell *self, int *width, int *height);
 void                 phosh_shell_set_locked      (PhoshShell *self, gboolean locked);
-gboolean             phosh_shell_get_locked      (PhoshShell *self);
 void                 phosh_shell_lock            (PhoshShell *self);
 void                 phosh_shell_unlock          (PhoshShell *self);
 void                 phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor);

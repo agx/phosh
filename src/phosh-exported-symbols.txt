@@ -1,5 +1,6 @@
 {
    phosh_shell_get_default;
+   phosh_shell_get_locked;
 
    # Plugins can inhibit session idleness
    phosh_shell_get_session_manager;
