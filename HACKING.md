@@ -139,7 +139,7 @@ individual C files should be structured as (top to bottom of file):
       BAR_TRIGGERED,
       N_SIGNALS
     };
-    static guint signals[N_SIGNALS] = { 0 };
+    static guint signals[N_SIGNALS];
     ```
   - type definitions
     ```c
