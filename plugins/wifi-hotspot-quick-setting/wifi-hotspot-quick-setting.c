@@ -118,10 +118,11 @@ phosh_wifi_hotspot_quick_setting_init (PhoshWifiHotspotQuickSetting *self)
                           self, "active",
                           G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 
-  g_signal_connect_swapped (self->wifi,
-                            "notify::state",
-                            G_CALLBACK (update_info),
-                            self);
+  g_signal_connect_object (self->wifi,
+                           "notify::state",
+                           G_CALLBACK (update_info),
+                           self,
+                           G_CONNECT_SWAPPED);
 
   update_info (self);
 }
