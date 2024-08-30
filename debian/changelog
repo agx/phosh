@@ -1,3 +1,25 @@
+phosh (0.41.1) experimental; urgency=medium
+
+  * wifi-hotspot-quick-setting: Make sure 'state' signal gets disconnected.
+    The WifiManager outlives the quick setting (which might get added /
+    removed at runtime when enabling disabling quick settings) we hence need
+    to make sure we disconnect the signal when the quick setting goes away.
+    Do so by using `g_signal_connect_object`.
+    (cherry picked from commit 1c8088aff7b3c6ae5aa1ab5926ef7c5c92f53eae)
+  * wifi-hotspot-quick-settings: Use `_cb` suffix.
+    If we don't use the `on_` pattern because we want to describe what
+    happens rather then on what event the callback is triggered we append
+    `_cb` to indicate a callback.
+    (cherry picked from commit 94fb11b5f1bce616cba93386048e1b9c1136b8b5)
+  * wifi-hotspot-quick-setting: Disable on lock screen.
+    We don't allow changing Wi-Fi networks so we shouldn't allow enabling
+    hotspot either.
+    This is slightly modified to avoid the use of
+    phosh_wifi_manager_get_enabled() which isn't exported in 0.41.0
+    (cherry picked from commit be63ef988d1a3773ecb146d46475337088f9aef8)
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 04 Sep 2024 09:34:26 +0200
+
 phosh (0.41.0) experimental; urgency=medium
 
   [ Guido Günther ]
