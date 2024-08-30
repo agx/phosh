@@ -43,6 +43,23 @@ on_clicked (PhoshWifiHotspotQuickSetting *self)
 
 
 static void
+update_sensitivity_cb (PhoshWifiHotspotQuickSetting *self)
+{
+  PhoshShell *shell = phosh_shell_get_default ();
+  gboolean sensitive, locked;
+
+  g_object_get (shell, "locked", &locked, NULL);
+  if (locked) {
+    gtk_widget_set_sensitive (GTK_WIDGET (self), FALSE);
+    return;
+  }
+
+  sensitive = phosh_wifi_manager_get_enabled (self->wifi);
+  gtk_widget_set_sensitive (GTK_WIDGET (self), sensitive);
+}
+
+
+static void
 update_info_cb (PhoshWifiHotspotQuickSetting *self)
 {
   gboolean wifi_enabled;
@@ -99,24 +116,35 @@ phosh_wifi_hotspot_quick_setting_class_init (PhoshWifiHotspotQuickSettingClass *
 static void
 phosh_wifi_hotspot_quick_setting_init (PhoshWifiHotspotQuickSetting *self)
 {
+  PhoshShell *shell = phosh_shell_get_default ();
+
   gtk_widget_init_template (GTK_WIDGET (self));
 
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
                                     "/mobi/phosh/plugins/wifi-hotspot-quick-setting/icons");
 
-  self->wifi = phosh_shell_get_wifi_manager (phosh_shell_get_default ());
+  self->wifi = phosh_shell_get_wifi_manager (shell);
   if (self->wifi == NULL) {
     g_warning ("Failed to get Wi-Fi manager");
     return;
   }
 
-  g_object_bind_property (self->wifi, "enabled",
-                          self, "sensitive",
-                          G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
-
   g_object_bind_property (self->wifi, "is-hotspot-master",
                           self, "active",
                           G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
+
+  g_signal_connect_object (shell,
+                           "notify::locked",
+                           G_CALLBACK (update_sensitivity_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  g_signal_connect_object (self->wifi,
+                           "notify::enabled",
+                           G_CALLBACK (update_sensitivity_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
+  update_sensitivity_cb (self);
 
   g_signal_connect_object (self->wifi,
                            "notify::state",
