@@ -43,7 +43,7 @@ on_clicked (PhoshWifiHotspotQuickSetting *self)
 
 
 static void
-update_info (PhoshWifiHotspotQuickSetting *self)
+update_info_cb (PhoshWifiHotspotQuickSetting *self)
 {
   gboolean wifi_enabled;
   gboolean hotspot_enabled;
@@ -120,9 +120,8 @@ phosh_wifi_hotspot_quick_setting_init (PhoshWifiHotspotQuickSetting *self)
 
   g_signal_connect_object (self->wifi,
                            "notify::state",
-                           G_CALLBACK (update_info),
+                           G_CALLBACK (update_info_cb),
                            self,
                            G_CONNECT_SWAPPED);
-
-  update_info (self);
+  update_info_cb (self);
 }
