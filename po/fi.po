@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-07-27 09:02+0000\n"
-"PO-Revision-Date: 2024-07-27 17:54+0300\n"
+"POT-Creation-Date: 2024-08-06 08:05+0000\n"
+"PO-Revision-Date: 2024-08-31 15:58+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish\n"
 "Language: fi\n"
@@ -146,13 +146,13 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Päällä"
 
-#: src/bt-status-page.c:81
-msgid "Bluetooth disabled"
-msgstr "Bluetooth pois käytöstä"
-
-#: src/bt-status-page.c:89
+#: src/bt-status-page.c:86
 msgid "No connectable Bluetooth Devices found"
 msgstr "Yhdistettävissä olevia Bluetooth-laitteita ei löytynyt"
+
+#: src/bt-status-page.c:90
+msgid "Bluetooth disabled"
+msgstr "Bluetooth pois käytöstä"
 
 #: src/call-notification.c:63
 msgid "Unknown caller"
@@ -522,11 +522,11 @@ msgstr "Sisääntulolaitteet"
 msgid "Sound Settings"
 msgstr "Ääniasetukset"
 
-#: src/ui/bt-status-page.ui:39
+#: src/ui/bt-status-page.ui:32
 msgid "Enable Bluetooth"
 msgstr "Ota Bluetooth käyttöön"
 
-#: src/ui/bt-status-page.ui:60
+#: src/ui/bt-status-page.ui:53
 msgid "Bluetooth Settings"
 msgstr "Bluetooth-asetukset"
 
@@ -620,15 +620,15 @@ msgstr "Hätä"
 msgid "Run Command"
 msgstr "Suorita komento"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:329
 msgid "No notifications"
 msgstr "Ei ilmoituksia"
 
-#: src/ui/settings.ui:367
+#: src/ui/settings.ui:360
 msgid "Notifications"
 msgstr "Ilmoitukset"
 
-#: src/ui/settings.ui:376
+#: src/ui/settings.ui:369
 msgid "Clear all"
 msgstr "Tyhjennä kaikki"
 
@@ -656,31 +656,7 @@ msgstr "Kirjaudu _ulos…"
 msgid "Wi-Fi"
 msgstr "Wifi"
 
-#: src/ui/wifi-status-page.ui:21
-msgid "No Wi-Fi Device Found"
-msgstr "Wi-Fi-laitetta ei löydy"
-
-#: src/ui/wifi-status-page.ui:31
-msgid "Wi-Fi Disabled"
-msgstr "Wi-Fi on pois käytöstä"
-
-#: src/ui/wifi-status-page.ui:38
-msgid "Enable Wi-Fi"
-msgstr "Ota Wi-Fi käyttöön"
-
-#: src/ui/wifi-status-page.ui:51
-msgid "Wi-Fi Hotspot Active"
-msgstr "Wi-Fi-yhteyspiste aktiivisena"
-
-#: src/ui/wifi-status-page.ui:70
-msgid "No Wi-Fi Hotspots Found"
-msgstr "Wi-Fi-yhteyspisteitä ei löydy"
-
-#: src/ui/wifi-status-page.ui:76
-msgid "Scan"
-msgstr "Skannaa"
-
-#: src/ui/wifi-status-page.ui:115
+#: src/ui/wifi-status-page.ui:68
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-asetukset"
 
@@ -702,6 +678,34 @@ msgstr "Liitännäistä ei löytynyt"
 #, c-format
 msgid "The plugin '%s' could not be loaded."
 msgstr "Liitännäistä '%s' ei voitu ladata."
+
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "Wi-Fi-laitetta ei löydy"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi on pois käytöstä"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "Ota Wi-Fi käyttöön"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "Wi-Fi-yhteyspiste aktiivisena"
+
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "Sammuta"
+
+#: src/wifi-status-page.c:63
+msgid "No Wi-Fi Hotspots"
+msgstr "Wi-Fi-yhteyspisteitä ei ole"
+
+#: src/wifi-status-page.c:64
+msgid "Scan"
+msgstr "Skannaa"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
@@ -841,11 +845,11 @@ msgstr "Käynnistimiä ei ole määritetty"
 msgid "Launchers"
 msgstr "Käynnistimet"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data On"
 msgstr "Mobiilidata päällä"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:67
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
 msgid "Mobile Data Off"
 msgstr "Mobiilidata pois"
 
@@ -936,6 +940,14 @@ msgstr "Päättyy"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Nimetön tapahtuma"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+msgid "Hotspot On"
+msgstr "Yhteyspiste päällä"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+msgid "Hotspot Off"
+msgstr "Yhteyspiste pois"
 
 #~ msgctxt "timestamp-suffix-seconds"
 #~ msgid "s"
