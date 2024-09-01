@@ -1,13 +1,13 @@
 # Turkish translation of phosh.
 #
 # Sabri Ünal <yakushabb@gmail.com>, 2023, 2024.
-# Emin Tufan Çetin <etcetin@gmail.com>, 2019, 2020, 2021, 2022, 2023, 2024.
+# Emin Tufan Çetin <etcetin@gmail.com>, 2019-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-08-06 08:05+0000\n"
+"POT-Creation-Date: 2024-08-12 11:23+0000\n"
 "PO-Revision-Date: 2024-08-11 03:59+0300\n"
 "Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
