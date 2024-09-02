@@ -10,7 +10,6 @@
 #include "phosh-config.h"
 
 #include "wifi-manager.h"
-#include "shell.h"
 #include "util.h"
 
 #include <NetworkManager.h>
