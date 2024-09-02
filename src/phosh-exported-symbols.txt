@@ -21,8 +21,10 @@
    phosh_wifi_manager_is_hotspot_master;
    phosh_wifi_manager_set_hotspot_master;
 
-   # Mobile Data wants wwan manager
+   # Mobile Data wants WWan Manager
    phosh_shell_get_wwan;
+   phosh_wwan_has_data;
+   phosh_wwan_is_enabled;
    phosh_wwan_set_data_enabled;
 
    # For custom quick setting plugins:

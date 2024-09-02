@@ -29,6 +29,19 @@ G_DEFINE_TYPE (PhoshMobileDataQuickSetting, phosh_mobile_data_quick_setting, PHO
 
 
 static void
+toggle_sensitive_cb (PhoshMobileDataQuickSetting *self)
+{
+  PhoshWWan *wwan = phosh_shell_get_wwan (phosh_shell_get_default ());
+  gboolean has_data, enabled;
+
+  has_data = phosh_wwan_has_data (wwan);
+  enabled = phosh_wwan_is_enabled (wwan);
+
+  gtk_widget_set_sensitive (GTK_WIDGET (self), has_data && enabled);
+}
+
+
+static void
 on_clicked (PhoshMobileDataQuickSetting *self)
 {
   PhoshWWan *wwan = phosh_shell_get_wwan (phosh_shell_get_default ());
@@ -91,9 +104,6 @@ phosh_mobile_data_quick_setting_init (PhoshMobileDataQuickSetting *self)
   gtk_widget_init_template (GTK_WIDGET (self));
 
   wwan = phosh_shell_get_wwan (phosh_shell_get_default ());
-  g_object_bind_property (wwan, "has-data",
-                          self, "sensitive",
-                          G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 
   g_object_bind_property (wwan, "data-enabled",
                           self, "active",
@@ -110,4 +120,16 @@ phosh_mobile_data_quick_setting_init (PhoshMobileDataQuickSetting *self)
                                G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE,
                                transform_to_label,
                                NULL, NULL, NULL);
+
+  g_signal_connect_object (wwan,
+                           "notify::enabled",
+                           G_CALLBACK (toggle_sensitive_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  g_signal_connect_object (wwan,
+                           "notify::has-data",
+                           G_CALLBACK (toggle_sensitive_cb),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
