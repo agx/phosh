@@ -441,3 +441,24 @@ phosh_wwan_manager_set_data_enabled (PhoshWWanManager *self, gboolean enabled)
   else
     phosh_wwan_manager_deactivate_all_connections (self);
 }
+
+/**
+ * phosh_wwan_manager_has_data:
+ * @self: The wwan manager
+ *
+ * Gets whether there's a data connection that could possibly be enabled.
+ * It doesn't take into account whether the connection is enabled or not.
+ * See [method@WWanManager.get_data_enabled].
+ *
+ * Returns: `TRUE` if there's a activatable data connection.
+ */
+gboolean
+phosh_wwan_manager_has_data (PhoshWWanManager *self)
+{
+  PhoshWWanManagerPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_WWAN_MANAGER (self), FALSE);
+  priv = phosh_wwan_manager_get_instance_private (self);
+
+  return priv->has_data;
+}

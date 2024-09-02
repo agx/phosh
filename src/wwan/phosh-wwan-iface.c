@@ -178,6 +178,18 @@ phosh_wwan_is_enabled (PhoshWWan *self)
 }
 
 
+const char *
+phosh_wwan_get_operator (PhoshWWan *self)
+{
+  PhoshWWanInterface *iface;
+
+  g_return_val_if_fail (PHOSH_IS_WWAN (self), NULL);
+
+  iface = PHOSH_WWAN_GET_IFACE (self);
+  return iface->get_operator (self);
+}
+
+
 void
 phosh_wwan_set_enabled (PhoshWWan *self, gboolean enabled)
 {
@@ -207,14 +219,22 @@ phosh_wwan_set_data_enabled (PhoshWWan *self, gboolean enabled)
   phosh_wwan_manager_set_data_enabled (manager, enabled);
 }
 
-
-const char *
-phosh_wwan_get_operator (PhoshWWan *self)
+/**
+ * phosh_wwan_has_data:
+ * @self: The wwan interface
+ *
+ * Gets whether there's a data connection that could possibly be enabled.
+ * It doesn't take into account whether the connection is enabled or not.
+ *
+ * Returns: `TRUE` if there's a activatable data connection.
+ */
+gboolean
+phosh_wwan_has_data (PhoshWWan *self)
 {
-  PhoshWWanInterface *iface;
+  PhoshWWanManager *manager;
 
-  g_return_val_if_fail (PHOSH_IS_WWAN (self), NULL);
+  g_return_val_if_fail (PHOSH_IS_WWAN_MANAGER (self), FALSE);
 
-  iface = PHOSH_WWAN_GET_IFACE (self);
-  return iface->get_operator (self);
+  manager = PHOSH_WWAN_MANAGER (self);
+  return phosh_wwan_manager_has_data (manager);
 }

@@ -22,5 +22,6 @@ PhoshWWanManager  *phosh_wwan_manager_new (void);
 void               phosh_wwan_manager_set_enabled (PhoshWWanManager *self, gboolean enabled);
 gboolean           phosh_wwan_manager_get_data_enabled (PhoshWWanManager *self);
 void               phosh_wwan_manager_set_data_enabled (PhoshWWanManager *self, gboolean enabled);
+gboolean           phosh_wwan_manager_has_data (PhoshWWanManager *self);
 
 G_END_DECLS
