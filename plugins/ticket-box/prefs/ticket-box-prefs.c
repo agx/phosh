@@ -21,7 +21,7 @@
  * Preferences for ticket-box plugin
  */
 struct _PhoshTicketBoxPrefs {
-  AdwPreferencesWindow  parent;
+  AdwPreferencesDialog  parent;
 
   GtkWidget            *folder_entry;
   GtkWidget            *folder_button;
@@ -30,7 +30,7 @@ struct _PhoshTicketBoxPrefs {
   GSettings            *settings;
 };
 
-G_DEFINE_TYPE (PhoshTicketBoxPrefs, phosh_ticket_box_prefs, ADW_TYPE_PREFERENCES_WINDOW);
+G_DEFINE_TYPE (PhoshTicketBoxPrefs, phosh_ticket_box_prefs, ADW_TYPE_PREFERENCES_DIALOG);
 
 static gboolean
 folder_get_mapping (GValue *value, GVariant *variant, gpointer user_data)
@@ -80,11 +80,12 @@ on_folder_button_clicked (PhoshTicketBoxPrefs *self)
   GtkFileChooserNative *filechooser;
   const char *current;
   g_autoptr (GFile) current_file = NULL;
+  GtkNative *native;
 
   g_assert (PHOSH_IS_TICKET_BOX_PREFS (self));
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   filechooser = gtk_file_chooser_native_new(_("Choose Folder"),
-                                            GTK_WINDOW (self),
+                                            NULL,
                                             GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
                                             _("_Open"),
                                             _("_Cancel"));
@@ -99,6 +100,10 @@ G_GNUC_END_IGNORE_DEPRECATIONS
 
   g_signal_connect (filechooser, "response",
                     G_CALLBACK (on_file_chooser_response), self);
+
+  native = gtk_widget_get_native (GTK_WIDGET (self));
+  gtk_native_dialog_set_transient_for (GTK_NATIVE_DIALOG (filechooser), GTK_WINDOW (native));
+  gtk_native_dialog_set_modal (GTK_NATIVE_DIALOG (filechooser), TRUE);
   gtk_native_dialog_show (GTK_NATIVE_DIALOG (filechooser));
 }
 
