@@ -40,8 +40,8 @@ When submitting a merge request consider checking these first:
       these first?
 - [ ] Is the new code covered by any tests? This could be a unit test,
       an added [screenshot test](./tests/test-take-screenshots.c),
-	  a tool to exercise new DBus API (see e.g.
-	  [tools/check-mount-operation](./tools/check-mount-operation).
+      a tool to exercise new DBus API (see e.g.
+      [tools/check-mount-operation](./tools/check-mount-operation).
 - [ ] Are property assignments to default values removed from UI files? (See
       `gtk-builder-tool simplify file.ui`)
 
@@ -76,136 +76,143 @@ the phosh prefix, lowercase and '\_' replaced by '-'. So a hypothetical
 clashes add the `phosh-` prefix (e.g. `phosh-wayland.c`). The
 individual C files should be structured as (top to bottom of file):
 
-  - License boilerplate
-    ```c
-    /*
-     * Copyright (C) year copyright holder
-     *
-     * SPDX-License-Identifier: GPL-3-or-later
-     * Author: you <youremail@example.com>
-     */
-    ```
-  - A log domain, usually the filename with `phosh-` prefix
-    ```c
-    #define G_LOG_DOMAIN "phosh-thing"
-    ```
-  - `#include`s:
-    Phosh ones go first, then glib/gtk, then generic C headers. These blocks
-    are separated by newline and each sorted alphabetically:
+- License boilerplate
+  ```c
+  /*
+   * Copyright (C) year copyright holder
+   *
+   * SPDX-License-Identifier: GPL-3-or-later
+   * Author: you <youremail@example.com>
+   */
+  ```
+- A log domain, usually the filename with `phosh-` prefix
+  ```c
+  #define G_LOG_DOMAIN "phosh-thing"
+  ```
+- `#include`s:
+  Phosh ones go first, then glib/gtk, then generic C headers. These blocks
+  are separated by newline and each sorted alphabetically:
 
-    ```
-    #define G_LOG_DOMAIN "phosh-settings"
+  ```
+  #define G_LOG_DOMAIN "phosh-settings"
 
-    #include "phosh-config.h"
+  #include "phosh-config.h"
 
-    #include "settings.h"
-    #include "shell.h"
+  #include "settings.h"
+  #include "shell.h"
 
-    #include <gio/gdesktopappinfo.h>
-    #include <glib/glib.h>
+  #include <gio/gdesktopappinfo.h>
+  #include <glib/glib.h>
 
-    #include <math.h>
-    ```
+  #include <math.h>
+  ```
 
-    This helps to detect missing headers in includes.
-  - docstring:
-    If you have trouble to describe the class concisely, then it might be an indication
-    that it should be split into multiple classes.
-    ```c
-    /**
-     * PhoshYourThing:
-     *
-     * Short, single line, summary
-     *
-     * A longer description with details that can be
-     * multiline.
-     */
-    ```
-  - property enum
-    ```c
-    enum {
-      PROP_0,
-      PROP_FOO,
-      PROP_BAR,
-      LAST_PROP
-    };
-    static GParamSpec *props[LAST_PROP];
-    ```
-  - signal enum
-    ```c
-    enum {
-      FOO_HAPPENED,
-      BAR_TRIGGERED,
-      N_SIGNALS
-    };
-    static guint signals[N_SIGNALS];
-    ```
-  - type definitions
-    ```c
-    typedef struct _PhoshThing {
-      GObject parent;
+  This helps to detect missing headers in includes.
 
-      ...
-    } PhoshThing;
+- docstring:
+  If you have trouble to describe the class concisely, then it might be an indication
+  that it should be split into multiple classes.
+  ```c
+  /**
+   * PhoshYourThing:
+   *
+   * Short, single line, summary
+   *
+   * A longer description with details that can be
+   * multiline.
+   */
+  ```
+- property enum
+  ```c
+  enum {
+    PROP_0,
+    PROP_FOO,
+    PROP_BAR,
+    LAST_PROP
+  };
+  static GParamSpec *props[LAST_PROP];
+  ```
+- signal enum
+  ```c
+  enum {
+    FOO_HAPPENED,
+    BAR_TRIGGERED,
+    N_SIGNALS
+  };
+  static guint signals[N_SIGNALS];
+  ```
+- type definitions
 
-    G_DEFINE_TYPE (PhoshThing, phosh_thing, G_TYPE_OBJECT)
-    ```
-  - private methods and callbacks (these can also go at convenient
-    places above `phosh_thing_constructed ()`)
-  - `phosh_thing_set_property ()`. Set properties.
-     If setting a property requires more than a single line prefer adding a setter method,
-     e.g. for the `foo` property, the setter method would be
-     `phosh_thing_set_foo ()`. This is almost always the case as we prefer
-	 `G_PARAM_EXPLICIT_NOTIFY` (see below).
-     ```c
-     static void
-     phosh_thing_property (GObject      *object,
-                           guint         property_id,
-                           const GValue *value,
-                           GParamSpec   *pspec)
-     {
-        PhoshThing *self = PHOSH_TING (object);
+  ```c
+  typedef struct _PhoshThing {
+    GObject parent;
 
-        switch (property_id) {
-        case PROP_FOO:
-          phosh_thing_set_foo (self, g_value_get_string (value));
-          break;
-        …
-        default:
-          G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-          break;
-        }
+    ...
+  } PhoshThing;
+
+  G_DEFINE_TYPE (PhoshThing, phosh_thing, G_TYPE_OBJECT)
+  ```
+
+- private methods and callbacks (these can also go at convenient
+  places above `phosh_thing_constructed ()`)
+- `phosh_thing_set_property ()`. Set properties.
+  If setting a property requires more than a single line prefer adding a setter method,
+  e.g. for the `foo` property, the setter method would be
+  `phosh_thing_set_foo ()`. This is almost always the case as we prefer
+  `G_PARAM_EXPLICIT_NOTIFY` (see below).
+
+  ```c
+  static void
+  phosh_thing_property (GObject      *object,
+                        guint         property_id,
+                        const GValue *value,
+                        GParamSpec   *pspec)
+  {
+     PhoshThing *self = PHOSH_TING (object);
+
+     switch (property_id) {
+     case PROP_FOO:
+       phosh_thing_set_foo (self, g_value_get_string (value));
+       break;
+     …
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+       break;
      }
-    ```
-  - `phosh_thing_get_property ()`
-  - `phosh_thing_constructed ()`: Finish object constructions. Usually only needed if you need
-    the values of multiple properties passed at object construction time.
-  - `phosh_thing_dispose ()`: Usually only needed when you need to break reference cycles. Otherwise
-    prefer `finalize`. As `dispose` can be run multiple times use `g_clear_*` to avoid freeing
-	resources multiple times:
-    ```c
-    static void
-    phosh_thing_dispose (GObject *object)
-    {
-      PhoshThing *self = PHOSH_THING (object);
+  }
+  ```
 
-      g_cancellable_cancel (self->cancel);
-      g_clear_object (&self->cancel);
-      g_clear_object (&self->bar);
-      g_clear_pointer (&self->foo, g_free);
+- `phosh_thing_get_property ()`
+- `phosh_thing_constructed ()`: Finish object constructions. Usually only needed if you need
+  the values of multiple properties passed at object construction time.
+- `phosh_thing_dispose ()`: Usually only needed when you need to break reference cycles. Otherwise
+  prefer `finalize`. As `dispose` can be run multiple times use `g_clear_*` to avoid freeing
+  resources multiple times:
 
-      G_OBJECT_CLASS (phosh_thing_parent_class)->dispose (object);
-    }
-    ```
-  - `phosh_thing_finalize ()`: Free allocated resources.
-  - `phosh_thing_class_init ()`: Define properties and signals. For widget templates bind child widgets
-    and signal handlers.
-  - `phosh_thing_init ()`: Initialize defaults for member variables here.
-  - `phosh_thing_new ()`: A convenience wrapper around `g_object_new ()`. Don't do further object
-    initialization here but rather do that in `phosh_thing_init ()`, `phosh_thing_constructed ()` or
-	individual property setters. This ensures that objects can be constructed either via this constructor
-	or `g_object_new ()`.
-  - Public methods, all starting with the object name (i.e. `phosh_thing_`).
+  ```c
+  static void
+  phosh_thing_dispose (GObject *object)
+  {
+    PhoshThing *self = PHOSH_THING (object);
+
+    g_cancellable_cancel (self->cancel);
+    g_clear_object (&self->cancel);
+    g_clear_object (&self->bar);
+    g_clear_pointer (&self->foo, g_free);
+
+    G_OBJECT_CLASS (phosh_thing_parent_class)->dispose (object);
+  }
+  ```
+
+- `phosh_thing_finalize ()`: Free allocated resources.
+- `phosh_thing_class_init ()`: Define properties and signals. For widget templates bind child widgets
+  and signal handlers.
+- `phosh_thing_init ()`: Initialize defaults for member variables here.
+- `phosh_thing_new ()`: A convenience wrapper around `g_object_new ()`. Don't do further object
+  initialization here but rather do that in `phosh_thing_init ()`, `phosh_thing_constructed ()` or
+  individual property setters. This ensures that objects can be constructed either via this constructor
+  or `g_object_new ()`.
+- Public methods, all starting with the object name (i.e. `phosh_thing_`).
 
 The reason public methods go at the bottom is that they have
 declarations in the header file and can thus be referenced from
