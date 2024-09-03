@@ -1,15 +1,12 @@
-Building
-========
+# Building
 
 For build instructions see the [README.md](./README.md)
 
-Development Documentation
-=========================
+# Development Documentation
 
 For internal API documentation as well as notes for application developers see [here](https://world.pages.gitlab.gnome.org/Phosh/phosh/).
 
-Merge requests
-==============
+# Merge requests
 
 Before filing a pull request run the tests:
 
@@ -31,8 +28,7 @@ style history rather than being a work log. See
 an explanation of the difference. The advantage is that the code stays
 bisectable and individual bits can be cherry-picked or reverted.
 
-Checklist
----------
+## Checklist
 
 When submitting a merge request consider checking these first:
 
@@ -55,11 +51,9 @@ why you consider it draft in this case. As Phosh is used on a wide
 range of devices and distributions please indicate in what scenarios
 you tested your code.
 
-Coding Patterns
-===============
+# Coding Patterns
 
-Coding Style
-------------
+## Coding Style
 
 We're mostly using [libhandy's Coding Style][1].
 
@@ -74,8 +68,7 @@ These are the differences:
   `G_DEFINE_TYPE_WITH_PRIVATE` (except when we need a deriveable
   type) since it makes the rest of the code more compact.
 
-Source file layout
-------------------
+## Source file layout
 
 We use one file per GObject. It should be named like the GObject without
 the phosh prefix, lowercase and '\_' replaced by '-'. So a hypothetical
@@ -218,8 +211,7 @@ The reason public methods go at the bottom is that they have
 declarations in the header file and can thus be referenced from
 anywhere else in the source file.
 
-CSS Theming
------------
+## CSS Theming
 
 For custom widgets set the css name using `gtk_widget_class_set_css_name ()`.
 There's no need set an (additional) style class in the ui file.
@@ -248,14 +240,12 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   </template>
 ```
 
-Properties
-----------
+## Properties
 
 ### Signal emission on changed properties
 
 Except for `G_CONSTRUCT_ONLY` properties use `G_PARAM_EXPLICIT_NOTIFY` and notify
 about property changes only when the underlying variable changes value:
-
 
 ```c
 static void
@@ -353,8 +343,7 @@ their function arguments and return values).
   `GtkStackPage` when a signal happens would be named
   `update_stack_page_cb ()`.
 
-API contracts
--------------
+## API contracts
 
 Public (non static) functions must check the input arguments at the
 top of the function. This makes it easy to reuse them in other parts
