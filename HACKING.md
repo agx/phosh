@@ -62,9 +62,9 @@ These are the differences:
 
 - We're not picky about GTK style function argument indentation, that is
   having multiple arguments on one line is also o.k.
-- For callbacks we additionally allow for the `on_<action>` pattern e.g.
-  `on_nm_signal_strength_changed()` since this helps to keep the namespace
-  clean.
+- For signal handler callbacks we prefer for the `on_<signalname>` naming
+  pattern e.g. `on_clicked` since this helps to keep the namespace clean. See
+  below.
 - Since we're not a library we usually use `G_DEFINE_TYPE` instead of
   `G_DEFINE_TYPE_WITH_PRIVATE` (except when we need a deriveable
   type) since it makes the rest of the code more compact.
@@ -312,6 +312,36 @@ For widgets you can construct the binding via the UI XML:
 	…
   </object>
 ```
+
+### Callbacks
+
+There's callbacks for signals, async functions, and actions. We
+usually have them all start with `on_` to make it easy to spot
+that these aren't just methods (and hence have restrictions regarding
+their function arguments and return values).
+
+- Signal handlers are named `on_<signalname>`. E.g. the handler for a
+  `GListModel`s `items-changed` signal would be named
+  `on_items_changed ()`. To avoid ambiguity one can add the emitter's
+  name (`on_devices_list_box_items_changed ()`).
+
+- For `notify::` signal handler callbacks acting on property changes
+  we use the `on_<property>_changed ()` naming. E.g.
+  `on_nm_signal_strength_changed ()`.
+
+- For `GAsyncReadyCallback`s we use `on_<async-function>_ready()`, e.g.
+  the callback for `nm_client_new_async` that invokes `nm_client_new_finish`
+  would be named `on_nm_client_new_ready ()`.
+
+- For actions we use `on_<action>_activated`, e.g. for a `go-back` action
+  we'd use `on_go_back_activated ()`.
+
+- In cases where the signal handler name should express what it does
+  rather than what signal it connects to, we use a `_cb` suffix. This
+  is often the case when we want to use the same signal handler to
+  handle multiple signals. E.g. a callback that updates a
+  `GtkStackPage` when a signal happens would be named
+  `update_stack_page_cb ()`.
 
 API contracts
 -------------
