@@ -1,13 +1,16 @@
 Building
 ========
+
 For build instructions see the [README.md](./README.md)
 
 Development Documentation
 =========================
+
 For internal API documentation as well as notes for application developers see [here](https://world.pages.gitlab.gnome.org/Phosh/phosh/).
 
 Merge requests
 ==============
+
 Before filing a pull request run the tests:
 
 ```sh
@@ -30,6 +33,7 @@ bisectable and individual bits can be cherry-picked or reverted.
 
 Checklist
 ---------
+
 When submitting a merge request consider checking these first:
 
 - [ ] Does the code use the below coding patterns?
@@ -56,6 +60,7 @@ Coding Patterns
 
 Coding Style
 ------------
+
 We're mostly using [libhandy's Coding Style][1].
 
 These are the differences:
@@ -71,6 +76,7 @@ These are the differences:
 
 Source file layout
 ------------------
+
 We use one file per GObject. It should be named like the GObject without
 the phosh prefix, lowercase and '\_' replaced by '-'. So a hypothetical
 `PhoshThing` would go to `src/thing.c`. If there are likely name
@@ -208,13 +214,14 @@ individual C files should be structured as (top to bottom of file):
 	or `g_object_new ()`.
   - Public methods, all starting with the object name (i.e. `phosh_thing_`).
 
-  The reason public methods go at the bottom is that they have declarations in
-  the header file and can thus be referenced from anywhere else in the source
-  file.
+The reason public methods go at the bottom is that they have
+declarations in the header file and can thus be referenced from
+anywhere else in the source file.
 
 CSS Theming
 -----------
-For custom widget always set the css name using `gtk_widget_class_set_css_name ()`.
+
+For custom widgets set the css name using `gtk_widget_class_set_css_name ()`.
 There's no need set an (additional) style class in the ui file.
 
 *Good*:
@@ -245,6 +252,7 @@ Properties
 ----------
 
 ### Signal emission on changed properties
+
 Except for `G_CONSTRUCT_ONLY` properties use `G_PARAM_EXPLICIT_NOTIFY` and notify
 about property changes only when the underlying variable changes value:
 
@@ -285,10 +293,12 @@ phosh_docked_info_class_init (PhoshDockedInfoClass *klass)
 This makes sure we minimize the notifications on changed property values.
 
 ### Property documentation
+
 Prefer a docstring over filling in the properties' `nick` and `blurb`. See
 example above.
 
 ### Property bindings
+
 If the state of a property depends on the state of another one prefer
 `g_object_bind_property ()` to keep these in sync:
 
@@ -345,6 +355,7 @@ their function arguments and return values).
 
 API contracts
 -------------
+
 Public (non static) functions must check the input arguments at the
 top of the function. This makes it easy to reuse them in other parts
 and makes API misuse easy to debug via `G_DEBUG=fatal-criticals`. You
