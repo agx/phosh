@@ -292,7 +292,7 @@ example above.
 If the state of a property depends on the state of another one prefer
 `g_object_bind_property ()` to keep these in sync:
 
-*good*
+*Good*
 
 ```c
   g_object_bind_property (self, "bar",
