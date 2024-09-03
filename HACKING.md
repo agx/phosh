@@ -72,7 +72,7 @@ These are the differences:
 Source file layout
 ------------------
 We use one file per GObject. It should be named like the GObject without
-the phosh prefix, lowercase and '_' replaced by '-'. So a hypothetical
+the phosh prefix, lowercase and '\_' replaced by '-'. So a hypothetical
 `PhoshThing` would go to `src/thing.c`. If there are likely name
 clashes add the `phosh-` prefix (e.g. `phosh-wayland.c`). The
 individual C files should be structured as (top to bottom of file):
