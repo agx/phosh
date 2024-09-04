@@ -276,7 +276,7 @@ phosh_event_list_class_init (PhoshEventListClass *klass)
   props[PROP_DAY_OFFSET] =
     g_param_spec_int ("day-offset", "", "",
                       0,
-                      7,
+                      G_MAXINT,
                       0,
                       G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
   /**
