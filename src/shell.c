@@ -1300,9 +1300,9 @@ phosh_shell_init (PhoshShell *self)
   g_io_extension_point_register (PHOSH_EXTENSION_POINT_LOCKSCREEN_WIDGET);
   g_io_extension_point_register (PHOSH_EXTENSION_POINT_QUICK_SETTING_WIDGET);
 
-  debug_flags = g_parse_debug_string(g_getenv ("PHOSH_DEBUG"),
-                                     debug_keys,
-                                     G_N_ELEMENTS (debug_keys));
+  debug_flags = g_parse_debug_string (g_getenv ("PHOSH_DEBUG"),
+                                      debug_keys,
+                                      G_N_ELEMENTS (debug_keys));
 
   gtk_settings = gtk_settings_get_default ();
   g_object_set (G_OBJECT (gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
