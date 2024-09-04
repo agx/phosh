@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <call-ui.h>
 #include <glib-object.h>
 #include <glib-unix.h>
 #include <glib/gi18n.h>
@@ -590,6 +591,14 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->settings);
 
   G_OBJECT_CLASS (phosh_shell_parent_class)->dispose (object);
+}
+
+
+static void
+phosh_shell_finalize (GObject *object)
+{
+  cui_uninit ();
+  G_OBJECT_CLASS (phosh_shell_parent_class)->finalize (object);
 }
 
 
@@ -1202,6 +1211,7 @@ phosh_shell_class_init (PhoshShellClass *klass)
 
   object_class->constructed = phosh_shell_constructed;
   object_class->dispose = phosh_shell_dispose;
+  object_class->finalize = phosh_shell_finalize;
 
   object_class->set_property = phosh_shell_set_property;
   object_class->get_property = phosh_shell_get_property;
@@ -1296,6 +1306,8 @@ phosh_shell_init (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GtkSettings *gtk_settings;
+
+  cui_init (TRUE);
 
   g_io_extension_point_register (PHOSH_EXTENSION_POINT_LOCKSCREEN_WIDGET);
   g_io_extension_point_register (PHOSH_EXTENSION_POINT_QUICK_SETTING_WIDGET);

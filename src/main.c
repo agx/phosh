@@ -16,7 +16,6 @@
 #include "wall-clock.h"
 #include "background-cache.h"
 
-#include <call-ui.h>
 #include <handy.h>
 #include <libfeedback.h>
 
@@ -130,7 +129,6 @@ main (int argc, char *argv[])
   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
   gtk_init (&argc, &argv);
   hdy_init ();
-  cui_init (TRUE);
   lfb_init (PHOSH_APP_ID, NULL);
 
   g_unix_signal_add (SIGTERM, on_shutdown_signal, NULL);
@@ -149,8 +147,6 @@ main (int argc, char *argv[])
     phosh_shell_lock (shell);
 
   gtk_main ();
-
-  cui_uninit ();
 
   phosh_log_set_log_domains (NULL);
   return EXIT_SUCCESS;
