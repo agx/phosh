@@ -350,7 +350,6 @@ phosh_event_list_bind_model (PhoshEventList *self, GListModel *model)
                               "items-changed",
                               G_CALLBACK (on_items_changed),
                               self);
-
   } else {
     gtk_list_box_bind_model (self->lb_events,
                              NULL, NULL, NULL, NULL);
