@@ -66,6 +66,7 @@
 #include "password-entry.h"
 #include "phosh-private-client-protocol.h"
 #include "phosh-wayland.h"
+#include "plugin-loader.h"
 #include "polkit-auth-agent.h"
 #include "portal-access-manager.h"
 #include "proximity.h"
@@ -1296,9 +1297,12 @@ phosh_shell_init (PhoshShell *self)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
   GtkSettings *gtk_settings;
 
-  debug_flags = g_parse_debug_string(g_getenv ("PHOSH_DEBUG"),
-                                     debug_keys,
-                                     G_N_ELEMENTS (debug_keys));
+  g_io_extension_point_register (PHOSH_EXTENSION_POINT_LOCKSCREEN_WIDGET);
+  g_io_extension_point_register (PHOSH_EXTENSION_POINT_QUICK_SETTING_WIDGET);
+
+  debug_flags = g_parse_debug_string (g_getenv ("PHOSH_DEBUG"),
+                                      debug_keys,
+                                      G_N_ELEMENTS (debug_keys));
 
   gtk_settings = gtk_settings_get_default ();
   g_object_set (G_OBJECT (gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
