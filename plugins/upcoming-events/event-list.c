@@ -58,7 +58,7 @@ on_items_changed (PhoshEventList *self)
 {
   const char *page = "no-events";
 
-  if (g_list_model_get_n_items (G_LIST_MODEL (self->filtered_model)))
+  if (self->filtered_model && g_list_model_get_n_items (G_LIST_MODEL (self->filtered_model)))
     page = "events";
 
   gtk_stack_set_visible_child_name (self->stack_events, page);
@@ -355,7 +355,7 @@ phosh_event_list_bind_model (PhoshEventList *self, GListModel *model)
     gtk_list_box_bind_model (self->lb_events,
                              NULL, NULL, NULL, NULL);
   }
-
+  on_items_changed (self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MODEL]);
 }
