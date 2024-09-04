@@ -133,6 +133,7 @@ Architecture: any
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
+ gsettings-desktop-schemas-dev,
 Description: Pure Wayland shell for mobile devices - development files
  Phosh is a graphical shell for Wayland compositors speaking the layer-surface
  protocol and aimed at mobile devices like smart phones and tablets using touch
