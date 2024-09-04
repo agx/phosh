@@ -24,8 +24,8 @@
                     <property name="visible">False</property>
                     <property name="halign">center</property>
                     <property name="margin-bottom">12</property>
-                    <property name="margin-left">6</property>
-                    <property name="margin-right">6</property>
+                    <property name="margin-start">6</property>
+                    <property name="margin-end">6</property>
                     <property name="hexpand">True</property>
                     <property name="justify">center</property>
                     <property name="wrap">True</property>

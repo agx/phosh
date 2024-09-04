@@ -68,8 +68,8 @@
         </child>
         <child>
           <object class="GtkBox" id="emergency_info_box">
-            <property name="margin-left">12</property>
-            <property name="margin-right">12</property>
+            <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
             <property name="visible">True</property>
             <property name="orientation">vertical</property>
             <child>
