@@ -12,59 +12,9 @@
         <property name="hscrollbar-policy">never</property>
         <property name="propagate-natural-height">True</property>
         <child>
-          <object class="GtkBox">
+          <object class="GtkBox" id="events_box">
             <property name="visible">True</property>
             <property name="orientation">vertical</property>
-
-            <child>
-              <object class="PhoshEventList" id="el_0">
-                <property name="visible">True</property>
-                <property name="day-offset">0</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="PhoshEventList" id="el_1">
-                <property name="visible">True</property>
-                <property name="day-offset">1</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="PhoshEventList" id="el_2">
-                <property name="visible">True</property>
-                <property name="day-offset">2</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="PhoshEventList" id="el_3">
-                <property name="visible">True</property>
-                <property name="day-offset">3</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="PhoshEventList" id="el_4">
-                <property name="visible">True</property>
-                <property name="day-offset">4</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="PhoshEventList" id="el_5">
-                <property name="visible">True</property>
-                <property name="day-offset">5</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="PhoshEventList" id="el_6">
-                <property name="visible">True</property>
-                <property name="day-offset">6</property>
-              </object>
-            </child>
-
           </object>
         </child>
       </object>
