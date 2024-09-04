@@ -10,7 +10,6 @@
 
 #include "event-list.h"
 #include "calendar-event.h"
-#include "upcoming-event.h"
 #include "upcoming-events.h"
 
 #include "phosh-plugin-upcoming-events-phosh-calendar-dbus.h"
