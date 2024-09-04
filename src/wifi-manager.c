@@ -10,7 +10,6 @@
 #include "phosh-config.h"
 
 #include "wifi-manager.h"
-#include "shell.h"
 #include "util.h"
 
 #include <NetworkManager.h>
@@ -197,6 +196,19 @@ on_connection_state_changed (NMActiveConnection           *connection,
 
   if (state != NM_ACTIVE_CONNECTION_STATE_ACTIVATING)
     phosh_wifi_network_set_is_connecting (network, FALSE);
+
+  switch (state) {
+  case NM_ACTIVE_CONNECTION_STATE_ACTIVATED:
+  case NM_ACTIVE_CONNECTION_STATE_DEACTIVATED:
+    g_signal_handlers_disconnect_by_func (connection, on_connection_state_changed, network);
+    g_object_unref (connection);
+    break;
+  case NM_ACTIVE_CONNECTION_STATE_ACTIVATING:
+  case NM_ACTIVE_CONNECTION_STATE_DEACTIVATING:
+  case NM_ACTIVE_CONNECTION_STATE_UNKNOWN:
+  default:
+    break;
+  }
 }
 
 
@@ -466,10 +478,11 @@ on_wifi_connection_added_and_activated (GObject      *object,
 
   if (conn != NULL) {
     g_debug ("Connecting to Wi-Fi network using a new connection: %s", ssid);
-    g_signal_connect (conn,
-                      "state-changed",
-                      G_CALLBACK (on_connection_state_changed),
-                      network);
+    g_signal_connect_object (conn,
+                             "state-changed",
+                             G_CALLBACK (on_connection_state_changed),
+                             network,
+                             G_CONNECT_DEFAULT);
   } else {
     g_warning ("Failed to connect to Wi-Fi network: %s - %s", ssid, err->message);
     phosh_wifi_network_set_is_connecting (network, FALSE);
@@ -490,10 +503,11 @@ on_wifi_connection_activated (GObject      *object,
 
   if (conn != NULL) {
     g_debug ("Connecting to Wi-Fi network using available connections: %s", ssid);
-    g_signal_connect (conn,
-                      "state-changed",
-                      G_CALLBACK (on_connection_state_changed),
-                      network);
+    g_signal_connect_object (conn,
+                             "state-changed",
+                             G_CALLBACK (on_connection_state_changed),
+                             network,
+                             G_CONNECT_DEFAULT);
   } else {
     g_warning ("Failed to connect to Wi-Fi network: %s - %s", ssid, err->message);
     phosh_wifi_network_set_is_connecting (network, FALSE);
