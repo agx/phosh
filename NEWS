@@ -1,3 +1,12 @@
+phosh 0.41.1
+------------
+Released September 2024
+* Fix Wi-Fi hotspot related crash
+* Make Wi-Fi hotspot insensitive on lock screen to be consistent
+  with Wi-Fi network switching.
+* Contributors:
+    * Guido Günther
+
 phosh 0.41.0
 ------------
 Released August 2024
