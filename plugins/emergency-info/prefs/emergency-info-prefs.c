@@ -18,7 +18,7 @@
  * Preferences for emergency-info plugin
  */
 struct _PhoshEmergencyInfoPrefs {
-  AdwWindow            parent;
+  AdwPreferencesDialog parent;
 
   char                *owner_name;
   char                *dob;
@@ -57,7 +57,7 @@ struct _PhoshEmergencyInfoPrefs {
   char                *keyfile_path;
 };
 
-G_DEFINE_TYPE (PhoshEmergencyInfoPrefs, phosh_emergency_info_prefs, ADW_TYPE_WINDOW);
+G_DEFINE_TYPE (PhoshEmergencyInfoPrefs, phosh_emergency_info_prefs, ADW_TYPE_PREFERENCES_DIALOG);
 
 
 static void
@@ -378,7 +378,11 @@ on_dialog_update_emer_contact (GtkDialog* dialog, int response_id, gpointer user
 static void
 on_update_emer_contact (PhoshEmergencyInfoPrefs *self)
 {
-  gtk_window_set_transient_for (GTK_WINDOW (self->add_emer_contact_dialog), GTK_WINDOW (self));
+  GtkNative *native;
+
+  native = gtk_widget_get_native (GTK_WIDGET (self));
+
+  gtk_window_set_transient_for (GTK_WINDOW (self->add_emer_contact_dialog), GTK_WINDOW (native));
   gtk_window_set_modal (GTK_WINDOW (self->add_emer_contact_dialog), TRUE);
   gtk_window_present (GTK_WINDOW (self->add_emer_contact_dialog));
 }
@@ -386,7 +390,7 @@ on_update_emer_contact (PhoshEmergencyInfoPrefs *self)
 static void
 on_update_information_cancelled (PhoshEmergencyInfoPrefs *self)
 {
-  gtk_window_close (GTK_WINDOW (self));
+  adw_dialog_close (ADW_DIALOG (self));
 }
 
 static void
@@ -426,7 +430,7 @@ on_update_information_clicked (PhoshEmergencyInfoPrefs *self)
 
   save_settings (self);
 
-  gtk_window_close (GTK_WINDOW (self));
+  adw_dialog_close (ADW_DIALOG (self));
 }
 
 
