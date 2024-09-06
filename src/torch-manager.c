@@ -284,47 +284,56 @@ phosh_torch_manager_class_init (PhoshTorchManagerClass *klass)
 
   manager_class->idle_init = phosh_torch_manager_idle_init;
 
+  /**
+   * PhoshTorchManager:icon-name:
+   *
+   * The icon-name of torch
+   */
   props[PROP_ICON_NAME] =
-    g_param_spec_string ("icon-name",
-                         "icon name",
-                         "The torch icon name",
+    g_param_spec_string ("icon-name", "", "",
                          "torch-disabled-symbolic",
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY);
-
+  /**
+   * PhoshTorchManager:enabled:
+   *
+   * Whether torch is enabled
+   */
   props[PROP_ENABLED] =
-    g_param_spec_boolean ("enabled",
-                          "enabled",
-                          "Whether torch is enabled",
+    g_param_spec_boolean ("enabled", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_STATIC_STRINGS);
-
+  /**
+   * PhoshTorchManager:present:
+   *
+   * Whether a torch is present
+   */
   props[PROP_PRESENT] =
-    g_param_spec_boolean ("present",
-                          "Present",
-                          "Whether a torch led is present",
+    g_param_spec_boolean ("present", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_STATIC_STRINGS);
-
+  /**
+   * PhoshTorchManager:can-scale:
+   *
+   * Whether the brightness can be scaled
+   */
   props[PROP_CAN_SCALE] =
-    g_param_spec_boolean ("can-scale",
-                          "Can scale",
-                          "Whether the brightness can be scaled",
+    g_param_spec_boolean ("can-scale", "", "",
                           FALSE,
                           G_PARAM_READABLE |
                           G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_STATIC_STRINGS);
-
+  /**
+   * PhoshTorchManager:brightness:
+   *
+   * The brightness of torch
+   */
   props[PROP_BRIGHTNESS] =
-    g_param_spec_int ("brightness",
-                      "Brightness",
-                      "The torch brightness",
-                      0,
-                      G_MAXINT,
-                      0,
+    g_param_spec_int ("brightness", "", "",
+                      0, G_MAXINT, 0,
                       G_PARAM_READABLE |
                       G_PARAM_EXPLICIT_NOTIFY |
                       G_PARAM_STATIC_STRINGS);
