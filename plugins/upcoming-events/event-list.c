@@ -48,7 +48,7 @@ struct _PhoshEventList {
 
   GDateTime          *today;
   GDateTime          *for_day;
-  gint                day_offset;
+  guint               day_offset;
 };
 G_DEFINE_TYPE (PhoshEventList, phosh_event_list, GTK_TYPE_BOX)
 
@@ -147,14 +147,14 @@ get_label (PhoshEventList *self)
     return g_date_time_format (self->for_day, "%A");
   }
   default:
-    return g_strdup_printf (ngettext ("In %d day", "In %d days", self->day_offset),
+    return g_strdup_printf (ngettext ("In %u day", "In %u days", self->day_offset),
                             self->day_offset);
   }
 }
 
 
 static void
-phosh_event_list_set_day_offset (PhoshEventList *self, int offset)
+phosh_event_list_set_day_offset (PhoshEventList *self, guint offset)
 {
   g_autofree char *str = NULL;
 
@@ -181,7 +181,7 @@ phosh_event_list_set_property (GObject      *object,
 
   switch (property_id) {
   case PROP_DAY_OFFSET:
-    phosh_event_list_set_day_offset (self, g_value_get_int (value));
+    phosh_event_list_set_day_offset (self, g_value_get_uint (value));
     break;
   case PROP_TODAY:
     phosh_event_list_set_today (self, g_value_get_boxed (value));
@@ -209,7 +209,7 @@ phosh_event_list_get_property (GObject    *object,
     g_value_set_string (value, gtk_label_get_label (self->label));
     break;
   case PROP_DAY_OFFSET:
-    g_value_set_int (value, self->day_offset);
+    g_value_set_uint (value, self->day_offset);
     break;
   case PROP_TODAY:
     g_value_set_boxed (value, self->model);
@@ -274,11 +274,11 @@ phosh_event_list_class_init (PhoshEventListClass *klass)
    * Will be displayed shown in the list.
    */
   props[PROP_DAY_OFFSET] =
-    g_param_spec_int ("day-offset", "", "",
-                      0,
-                      G_MAXINT,
-                      0,
-                      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+    g_param_spec_uint ("day-offset", "", "",
+                       0,
+                       G_MAXUINT,
+                       0,
+                       G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
   /**
    * PhoshEventList:today:
    *
@@ -314,7 +314,7 @@ phosh_event_list_init (PhoshEventList *self)
 {
   self->today = g_date_time_new_now_local ();
   /* Not initialized */
-  self->day_offset = G_MAXINT;
+  self->day_offset = G_MAXUINT;
 
   gtk_widget_init_template (GTK_WIDGET (self));
 }
@@ -326,7 +326,7 @@ phosh_event_list_bind_model (PhoshEventList *self, GListModel *model)
   g_return_if_fail (PHOSH_IS_EVENT_LIST (self));
   g_return_if_fail (G_IS_LIST_MODEL (model) || model == NULL);
   g_return_if_fail (self->today != NULL);
-  g_return_if_fail (self->day_offset != G_MAXINT);
+  g_return_if_fail (self->day_offset != G_MAXUINT);
 
   if (self->model == model)
     return;
