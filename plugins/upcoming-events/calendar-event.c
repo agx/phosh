@@ -24,7 +24,7 @@ static GParamSpec *props[PROP_LAST_PROP];
 /**
  * PhoshCalendarEvent:
  *
- * The data for an event in a caledar
+ * The data for an event in a calendar
  */
 struct _PhoshCalendarEvent {
   GObject    parent;

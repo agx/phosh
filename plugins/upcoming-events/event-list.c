@@ -33,7 +33,7 @@ static GParamSpec *props[PROP_LAST_PROP];
  * `GListModel` of `PhoshCalendarEvents` that are valid
  * on `for_day`.
  *
- * TODO: we curently only support a single day but could
+ * TODO: we currently only support a single day but could
  * handle any time range rather by looking at time offsets.
  */
 struct _PhoshEventList {
@@ -270,8 +270,8 @@ phosh_event_list_class_init (PhoshEventListClass *klass)
   /**
    * PhoshEventList:day-offset:
    *
-   * the offset in days from the reference date. Events on that day
-   * Will be displayed shown in the list.
+   * The offset in days from the reference date. Events from the reference date
+   * till the offset days will be shown in the list.
    */
   props[PROP_DAY_OFFSET] =
     g_param_spec_uint ("day-offset", "", "",
@@ -282,7 +282,7 @@ phosh_event_list_class_init (PhoshEventListClass *klass)
   /**
    * PhoshEventList:today:
    *
-   * The reference data used as current base.
+   * The reference date used as current base.
    */
   props[PROP_TODAY] =
     g_param_spec_boxed ("today", "", "",
