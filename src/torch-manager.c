@@ -39,6 +39,7 @@ enum {
   PROP_ICON_NAME,
   PROP_ENABLED,
   PROP_PRESENT,
+  PROP_CAN_SCALE,
   PROP_BRIGHTNESS,
   PROP_LAST_PROP
 };
@@ -50,6 +51,7 @@ struct _PhoshTorchManager {
   /* Whether we found a torch device */
   gboolean               present;
   const char            *icon_name;
+  gboolean               can_scale;
   int                    brightness;
   int                    max_brightness;
   int                    last_brightness;
@@ -143,6 +145,9 @@ phosh_torch_manager_get_property (GObject    *object,
   case PROP_ENABLED:
     g_value_set_boolean (value, !!self->brightness);
     break;
+  case PROP_CAN_SCALE:
+    g_value_set_boolean (value, self->can_scale);
+    break;
   case PROP_BRIGHTNESS:
     g_value_set_int (value, self->brightness);
     break;
@@ -194,6 +199,10 @@ find_torch_device (PhoshTorchManager *self)
                                                               "max_brightness");
   g_debug("Found torch device '%s' with max brightness %d",
           g_udev_device_get_name (self->udev_device), self->max_brightness);
+
+  self->can_scale = self->max_brightness > 1;
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_CAN_SCALE]);
+
   return TRUE;
 }
 
@@ -300,6 +309,15 @@ phosh_torch_manager_class_init (PhoshTorchManagerClass *klass)
                           G_PARAM_EXPLICIT_NOTIFY |
                           G_PARAM_STATIC_STRINGS);
 
+  props[PROP_CAN_SCALE] =
+    g_param_spec_boolean ("can-scale",
+                          "Can scale",
+                          "Whether the brightness can be scaled",
+                          FALSE,
+                          G_PARAM_READABLE |
+                          G_PARAM_EXPLICIT_NOTIFY |
+                          G_PARAM_STATIC_STRINGS);
+
   props[PROP_BRIGHTNESS] =
     g_param_spec_int ("brightness",
                       "Brightness",
@@ -356,6 +374,13 @@ phosh_torch_manager_get_present (PhoshTorchManager *self)
   return self->present;
 }
 
+gboolean
+phosh_torch_manager_get_can_scale (PhoshTorchManager *self)
+{
+  g_return_val_if_fail (PHOSH_IS_TORCH_MANAGER (self), FALSE);
+
+  return self->can_scale;
+}
 
 int
 phosh_torch_manager_get_brightness (PhoshTorchManager *self)
