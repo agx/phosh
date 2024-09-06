@@ -78,3 +78,5 @@ install_data(
   upcoming_events_schema,
   install_dir: 'share/glib-2.0/schemas'
 )
+
+subdir('prefs')

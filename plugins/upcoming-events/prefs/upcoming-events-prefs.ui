@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="phosh">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <template class="PhoshUpcomingEventsPrefs" parent="AdwPreferencesWindow">
+    <property name="title" translatable="yes">Upcoming Events Preferences</property>
+    <property name="default-width">300</property>
+    <property name="default-height">300</property>
+    <property name="can-navigate-back">True</property>
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="icon-name">preferences-window-layout-symbolic</property>
+        <property name="title" translatable="yes">Days</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Date Range</property>
+            <property name="description" translatable="yes">Number of days to show events for</property>
+            <child>
+              <object class="AdwSpinRow">
+                <property name="title" translatable="yes">Days</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment" id="adjustment">
+                    <property name="lower">1</property>
+                    <property name="page-increment">1</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
