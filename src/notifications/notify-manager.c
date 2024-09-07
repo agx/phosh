@@ -829,9 +829,9 @@ phosh_notify_manager_get_notification_id (PhoshNotifyManager *self)
  */
 void
 phosh_notify_manager_add_notification (PhoshNotifyManager *self,
-                                       const gchar *source_id,
-                                       int expire_timeout,
-                                       PhoshNotification *notification)
+                                       const gchar        *source_id,
+                                       int                 expire_timeout,
+                                       PhoshNotification  *notification)
 {
   g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
   g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
@@ -858,9 +858,8 @@ phosh_notify_manager_add_notification (PhoshNotifyManager *self,
                            self,
                            G_CONNECT_SWAPPED);
 
-  if (expire_timeout) {
+  if (expire_timeout)
     phosh_notification_expires (notification, expire_timeout);
-  }
 
   g_signal_emit (self, signals[NEW_NOTIFICATION], 0, notification);
 }
