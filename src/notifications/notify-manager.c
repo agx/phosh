@@ -8,7 +8,7 @@
 
 #define G_LOG_DOMAIN "phosh-notify-manager"
 
-#include "../phosh-config.h"
+#include "phosh-config.h"
 
 #include <gio/gdesktopappinfo.h>
 
