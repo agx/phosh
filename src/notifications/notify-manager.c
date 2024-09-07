@@ -21,6 +21,8 @@
 #include "phosh-enums.h"
 #include "util.h"
 
+#include <gmobile.h>
+
 #define NOTIFICATIONS_KEY_SHOW_BANNERS "show-banners"
 #define NOTIFICATIONS_KEY_APP_CHILDREN "application-children"
 
@@ -28,6 +30,7 @@
 #define NOTIFICATIONS_APP_PREFIX "/org/gnome/desktop/notifications/application"
 #define NOTIFICATIONS_APP_KEY_SHOW_BANNERS "show-banners"
 #define NOTIFICATIONS_APP_KEY_APP_ID "application-id"
+#define NOTIFICATIONS_APP_KEY_ENABLE "enable"
 
 #define NOTIFICATION_DEFAULT_TIMEOUT 5000 /* ms */
 #define NOTIFICATIONS_SPEC_VERSION "1.2"
@@ -282,6 +285,34 @@ on_notification_closed (PhoshNotifyManager      *self,
 
   phosh_notify_dbus_notifications_emit_notification_closed (
     PHOSH_NOTIFY_DBUS_NOTIFICATIONS (self), id, reason);
+}
+
+
+static gboolean
+phosh_notify_manager_is_notification_enabled (PhoshNotification *notification)
+{
+  g_autofree char *munged_id = NULL;
+  g_autofree char *path = NULL;
+  g_autoptr (GSettings) settings = NULL;
+  GAppInfo *info;
+  const char *id;
+
+  info = phosh_notification_get_app_info (notification);
+  if (!info)
+    return TRUE;
+
+  id = g_app_info_get_id (info);
+  if (!info)
+    return TRUE;
+
+  if (gm_str_is_null_or_empty (id))
+    return TRUE;
+
+  munged_id = phosh_munge_app_id (id);
+  path = g_strconcat (NOTIFICATIONS_APP_PREFIX, "/", munged_id, "/", NULL);
+  settings = g_settings_new_with_path (NOTIFICATIONS_APP_SCHEMA_ID, path);
+
+  return g_settings_get_boolean (settings, NOTIFICATIONS_APP_KEY_ENABLE);
 }
 
 
@@ -836,6 +867,9 @@ phosh_notify_manager_add_notification (PhoshNotifyManager *self,
   g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
   g_return_if_fail (PHOSH_IS_NOTIFICATION (notification));
   g_return_if_fail (source_id);
+
+  if (!phosh_notify_manager_is_notification_enabled (notification))
+    return;
 
   if (expire_timeout == -1)
     expire_timeout = NOTIFICATION_DEFAULT_TIMEOUT;
