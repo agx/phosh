@@ -1,12 +1,17 @@
-# Building
+# Contributing to Phosh
+
+Below are some basic guidelines on coding style, source file layout and merge
+requests.
+
+## Building
 
 For build instructions see the [README.md](./README.md)
 
-# Development Documentation
+## Development Documentation
 
 For internal API documentation as well as notes for application developers see [here](https://world.pages.gitlab.gnome.org/Phosh/phosh/).
 
-# Merge requests
+## Merge requests
 
 Before filing a pull request run the tests:
 
@@ -16,11 +21,11 @@ meson test -C _build --print-errorlogs
 
 Use descriptive commit messages, see
 
-   https://wiki.gnome.org/Git/CommitMessages
+   <https://wiki.gnome.org/Git/CommitMessages>
 
 and check
 
-   https://wiki.openstack.org/wiki/GitCommitMessages
+   <https://wiki.openstack.org/wiki/GitCommitMessages>
 
 for good examples. The commits in a merge request should have "recipe"
 style history rather than being a work log. See
@@ -28,7 +33,7 @@ style history rather than being a work log. See
 an explanation of the difference. The advantage is that the code stays
 bisectable and individual bits can be cherry-picked or reverted.
 
-## Checklist
+### Checklist
 
 When submitting a merge request consider checking these first:
 
@@ -51,9 +56,9 @@ why you consider it draft in this case. As Phosh is used on a wide
 range of devices and distributions please indicate in what scenarios
 you tested your code.
 
-# Coding Patterns
+## Coding Patterns
 
-## Coding Style
+### Coding Style
 
 We're mostly using [libhandy's Coding Style][1].
 
@@ -68,7 +73,7 @@ These are the differences:
   `G_DEFINE_TYPE_WITH_PRIVATE` (except when we need a deriveable
   type) since it makes the rest of the code more compact.
 
-## Source file layout
+### Source file layout
 
 We use one file per GObject. It should be named like the GObject without
 the phosh prefix, lowercase and '\_' replaced by '-'. So a hypothetical
@@ -77,6 +82,7 @@ clashes add the `phosh-` prefix (e.g. `phosh-wayland.c`). The
 individual C files should be structured as (top to bottom of file):
 
 - License boilerplate
+
   ```c
   /*
    * Copyright (C) year copyright holder
@@ -85,10 +91,13 @@ individual C files should be structured as (top to bottom of file):
    * Author: you <youremail@example.com>
    */
   ```
+
 - A log domain, usually the filename with `phosh-` prefix
+
   ```c
   #define G_LOG_DOMAIN "phosh-thing"
   ```
+
 - `#include`s:
   Phosh ones go first, then glib/gtk, then generic C headers. These blocks
   are separated by newline and each sorted alphabetically:
@@ -112,6 +121,7 @@ individual C files should be structured as (top to bottom of file):
 - docstring:
   If you have trouble to describe the class concisely, then it might be an indication
   that it should be split into multiple classes.
+
   ```c
   /**
    * PhoshYourThing:
@@ -122,7 +132,9 @@ individual C files should be structured as (top to bottom of file):
    * multiline.
    */
   ```
+
 - property enum
+
   ```c
   enum {
     PROP_0,
@@ -132,7 +144,9 @@ individual C files should be structured as (top to bottom of file):
   };
   static GParamSpec *props[LAST_PROP];
   ```
+
 - signal enum
+
   ```c
   enum {
     FOO_HAPPENED,
@@ -141,6 +155,7 @@ individual C files should be structured as (top to bottom of file):
   };
   static guint signals[N_SIGNALS];
   ```
+
 - type definitions
 
   ```c
@@ -183,11 +198,12 @@ individual C files should be structured as (top to bottom of file):
   ```
 
 - `phosh_thing_get_property ()`
-- `phosh_thing_constructed ()`: Finish object constructions. Usually only needed if you need
-  the values of multiple properties passed at object construction time.
-- `phosh_thing_dispose ()`: Usually only needed when you need to break reference cycles. Otherwise
-  prefer `finalize`. As `dispose` can be run multiple times use `g_clear_*` to avoid freeing
-  resources multiple times:
+- `phosh_thing_constructed ()`: Finish object constructions. Usually only
+  needed if you need the values of multiple properties passed at object
+  construction time.
+- `phosh_thing_dispose ()`: Usually only needed when you need to break
+  reference cycles. Otherwise prefer `finalize`. As `dispose` can be run
+  multiple times use `g_clear_*` to avoid freeing resources multiple times:
 
   ```c
   static void
@@ -205,20 +221,21 @@ individual C files should be structured as (top to bottom of file):
   ```
 
 - `phosh_thing_finalize ()`: Free allocated resources.
-- `phosh_thing_class_init ()`: Define properties and signals. For widget templates bind child widgets
-  and signal handlers.
+- `phosh_thing_class_init ()`: Define properties and signals. For widget
+  templates bind child widgets and signal handlers.
 - `phosh_thing_init ()`: Initialize defaults for member variables here.
-- `phosh_thing_new ()`: A convenience wrapper around `g_object_new ()`. Don't do further object
-  initialization here but rather do that in `phosh_thing_init ()`, `phosh_thing_constructed ()` or
-  individual property setters. This ensures that objects can be constructed either via this constructor
-  or `g_object_new ()`.
+- `phosh_thing_new ()`: A convenience wrapper around `g_object_new ()`. Don't
+  do further object initialization here but rather do that in
+  `phosh_thing_init ()`, `phosh_thing_constructed ()` or individual property
+  setters. This ensures that objects can be constructed either via this
+  constructor or `g_object_new ()`.
 - Public methods, all starting with the object name (i.e. `phosh_thing_`).
 
 The reason public methods go at the bottom is that they have
 declarations in the header file and can thus be referenced from
 anywhere else in the source file.
 
-## CSS Theming
+### CSS Theming
 
 For custom widgets set the css name using `gtk_widget_class_set_css_name ()`.
 There's no need set an (additional) style class in the ui file.
@@ -247,9 +264,9 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   </template>
 ```
 
-## Properties
+### Properties
 
-### Signal emission on changed properties
+#### Signal emission on changed properties
 
 Except for `G_CONSTRUCT_ONLY` properties use `G_PARAM_EXPLICIT_NOTIFY` and notify
 about property changes only when the underlying variable changes value:
@@ -289,17 +306,17 @@ phosh_docked_info_class_init (PhoshDockedInfoClass *klass)
 
 This makes sure we minimize the notifications on changed property values.
 
-### Property documentation
+#### Property documentation
 
 Prefer a docstring over filling in the properties' `nick` and `blurb`. See
 example above.
 
-### Property bindings
+#### Property bindings
 
 If the state of a property depends on the state of another one prefer
 `g_object_bind_property ()` to keep these in sync:
 
-*Good*
+*Good*:
 
 ```c
   g_object_bind_property (self, "bar",
@@ -316,11 +333,11 @@ For widgets you can construct the binding via the UI XML:
 ```xml
   <object class="PhoshQuickSetting" id="foo_quick_setting">
     <property name="sensitive" bind-source="wwaninfo" bind-property="present" bind-flags="sync-create"/>
-	…
+    …
   </object>
 ```
 
-### Callbacks
+#### Callbacks
 
 There's callbacks for signals, async functions, and actions. We
 usually have them all start with `on_` to make it easy to spot
@@ -350,7 +367,7 @@ their function arguments and return values).
   `GtkStackPage` when a signal happens would be named
   `update_stack_page_cb ()`.
 
-## API contracts
+### API contracts
 
 Public (non static) functions must check the input arguments at the
 top of the function. This makes it easy to reuse them in other parts
