@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-08-06 08:05+0000\n"
-"PO-Revision-Date: 2024-08-06 13:26+0200\n"
+"POT-Creation-Date: 2024-09-09 09:28+0000\n"
+"PO-Revision-Date: 2024-09-09 21:08+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -256,11 +256,12 @@ msgstr "Da"
 msgid "No"
 msgstr "Ne"
 
-#: src/lockscreen.c:166 src/ui/lockscreen.ui:245
+#. give visual feedback on error
+#: src/lockscreen.c:273 src/ui/lockscreen.ui:246
 msgid "Enter Passcode"
 msgstr "Vnesite geslo"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:918
 msgid "Checking…"
 msgstr "Preverjanje …"
 
@@ -320,7 +321,7 @@ msgstr "Vnesite geslo za WiFi-omrežje »%s«"
 msgid "Open"
 msgstr "Odpri"
 
-#: src/notifications/notification.c:405 src/notifications/notification.c:678
+#: src/notifications/notification.c:404 src/notifications/notification.c:677
 msgid "Notification"
 msgstr "Obvestilo"
 
@@ -594,15 +595,15 @@ msgstr "Domena:"
 msgid "Co_nnect"
 msgstr "_Poveži"
 
-#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
+#: src/ui/lockscreen.ui:37 src/ui/lockscreen.ui:335
 msgid "Back"
 msgstr "Nazaj"
 
-#: src/ui/lockscreen.ui:97
+#: src/ui/lockscreen.ui:98
 msgid "Slide up to unlock"
 msgstr "Oddrsnite navzgor, da odklenete"
 
-#: src/ui/lockscreen.ui:297
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "Odkleni"
 
@@ -685,7 +686,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:222
+#: src/wall-clock.c:239
 msgid "%A, %B %-e"
 msgstr "%A, %e. %B"
 
@@ -926,12 +927,12 @@ msgstr "Jutri"
 
 #: plugins/upcoming-events/event-list.c:150
 #, c-format
-msgid "In %d day"
-msgid_plural "In %d days"
-msgstr[0] "Čez %d dan"
-msgstr[1] "Čez %d dni"
-msgstr[2] "Čez %d dni"
-msgstr[3] "Čez %d dni"
+msgid "In %u day"
+msgid_plural "In %u days"
+msgstr[0] "Čez %u dni"
+msgstr[1] "Čez %u dan"
+msgstr[2] "Čez %u dneva"
+msgstr[3] "Čez %u dni"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -962,10 +963,27 @@ msgstr "Konča se"
 msgid "Untitled event"
 msgstr "Neimenovan dogodek"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:6
+msgid "Upcoming Events Preferences"
+msgstr "Nastavitve prihodnjih dogodkov"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:20
+msgid "Days"
+msgstr "Dni"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:16
+msgid "Date Range"
+msgstr "Datum od - do"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+msgid "Number of days to show events for"
+msgstr "Število dni za prikazovanja dogodkov"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:78
 msgid "Hotspot On"
 msgstr "Dostopna točka je vklopljena"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:80
 msgid "Hotspot Off"
 msgstr "Dostopna točka je izklopljena"
