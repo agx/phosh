@@ -1,19 +1,20 @@
+---
 include:
- - project: 'guidog/meta-phosh'
-   ref: 'ebb7aef58c96e3d586157f265e14d386ad8766fc'
-   file: '/ci/phosh-common-jobs.yml'
- - project: 'Infrastructure/Mirrors/lorry-mirrors/gitlab_freedesktop_org/freedesktop/ci-templates'
-   ref: 'b791bd48996e3ced9ca13f1c5ee82be8540b8adb'
-   file: '/templates/ci-fairy.yml'
+  - project: 'guidog/meta-phosh'
+    ref: 'ebb7aef58c96e3d586157f265e14d386ad8766fc'
+    file: '/ci/phosh-common-jobs.yml'
+  - project: 'Infrastructure/Mirrors/lorry-mirrors/gitlab_freedesktop_org/freedesktop/ci-templates'
+    ref: 'b791bd48996e3ced9ca13f1c5ee82be8540b8adb'
+    file: '/templates/ci-fairy.yml'
 
 stages:
- - build
- - test+docs
- - style-checks
- - analyze
- - package
- - deploy
- - triggers
+  - build
+  - test+docs
+  - style-checks
+  - analyze
+  - package
+  - deploy
+  - triggers
 
 workflow:
   rules:
@@ -68,23 +69,23 @@ variables:
 
 .test_before_script: &test_before_script
   before_script:
-     - export DEBIAN_FRONTEND=noninteractive
-     - |
-       echo 'ar_AE.UTF-8 UTF-8
-       de_DE.UTF-8 UTF-8
-       en_US.UTF-8 UTF-8
-       ja_JP.UTF-8 UTF-8
-       uk_UA.UTF-8 UTF-8
-       ' > /etc/locale.gen
-     - dpkg-reconfigure locales
-     - apt -y update
-     - apt -y build-dep .
+    - export DEBIAN_FRONTEND=noninteractive
+    - |
+      echo 'ar_AE.UTF-8 UTF-8
+      de_DE.UTF-8 UTF-8
+      en_US.UTF-8 UTF-8
+      ja_JP.UTF-8 UTF-8
+      uk_UA.UTF-8 UTF-8
+      ' > /etc/locale.gen
+    - dpkg-reconfigure locales
+    - apt -y update
+    - apt -y build-dep .
 
 .build_before_script: &build_before_script
   before_script:
-     - export DEBIAN_FRONTEND=noninteractive
-     - apt -y update
-     - apt -y build-dep .
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt -y update
+    - apt -y build-dep .
 
 .test_step: &test_step
   script:
@@ -180,7 +181,7 @@ unit-test:native-debian-trixie:
 asan-test:native-debian-trixie:
   stage: test+docs
   image: ${ASAN_IMAGE}
-  tags: [ asan ]
+  tags: [asan]
   needs: []
   <<: *trixie_vars
   <<: *test_before_script
@@ -269,9 +270,9 @@ check-dist:
   image: ${DEBIAN_IMAGE}
   <<: *trixie_vars
   before_script:
-     - export DEBIAN_FRONTEND=noninteractive
-     - apt -y update
-     - apt -y build-dep .
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt -y update
+    - apt -y build-dep .
   needs: []
   script:
     - meson setup --werror _build-dist
