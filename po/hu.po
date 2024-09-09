@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-08-06 08:05+0000\n"
-"PO-Revision-Date: 2024-08-07 14:21+0200\n"
+"POT-Creation-Date: 2024-09-09 09:28+0000\n"
+"PO-Revision-Date: 2024-09-09 13:00+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <openscope at fsf dot hu>\n"
 "Language: hu\n"
@@ -61,7 +61,6 @@ msgid "Toggle dark mode"
 msgstr "Sötét mód be- és kikapcsolása"
 
 #: plugins/emergency-info/emergency-info.desktop.in.in:5
-#| msgid "_Emergency"
 msgid "Emergency Info"
 msgstr "Vészhelyzeti információk"
 
@@ -75,7 +74,6 @@ msgid "Launcher Box"
 msgstr "Indítódoboz"
 
 #: plugins/launcher-box/launcher-box.desktop.in.in:6
-#| msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Indítók hozzáadása a zárolási képernyőhöz. <b>Ez a bővítmény kísérleti.</b>"
@@ -115,7 +113,6 @@ msgid "Show upcoming calendar events"
 msgstr "Közelgő naptáresemények megjelenítése"
 
 #: src/app-grid-button.c:153
-#| msgid "Add to _Favorites"
 msgid "Add to Folder"
 msgstr "Hozzáadás mappához"
 
@@ -155,7 +152,6 @@ msgid "No connectable Bluetooth Devices found"
 msgstr "Nem található csatlakoztatható Bluetooth-eszköz"
 
 #: src/bt-status-page.c:90
-#| msgid "Bluetooth"
 msgid "Bluetooth disabled"
 msgstr "Bluetooth letiltva"
 
@@ -254,11 +250,12 @@ msgstr "Igen"
 msgid "No"
 msgstr "Nem"
 
-#: src/lockscreen.c:166 src/ui/lockscreen.ui:245
+#. give visual feedback on error
+#: src/lockscreen.c:273 src/ui/lockscreen.ui:246
 msgid "Enter Passcode"
 msgstr "Adja meg a jelkódot"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:918
 msgid "Checking…"
 msgstr "Ellenőrzés…"
 
@@ -306,13 +303,11 @@ msgstr "Ismeretlen"
 
 #: src/network-auth-prompt.c:202
 #, c-format
-#| msgid "Authentication type of wifi network “%s” not supported"
 msgid "Authentication type of Wi-Fi network “%s” not supported"
 msgstr "A(z) „%s” Wi-Fi-hálózat hitelesítési típusa nem támogatott"
 
 #: src/network-auth-prompt.c:207
 #, c-format
-#| msgid "Enter password for the wifi network “%s”"
 msgid "Enter password for the Wi-Fi network “%s”"
 msgstr "Adja meg a(z) „%s” Wi-Fi-hálózat jelszavát"
 
@@ -320,7 +315,7 @@ msgstr "Adja meg a(z) „%s” Wi-Fi-hálózat jelszavát"
 msgid "Open"
 msgstr "Nyitott"
 
-#: src/notifications/notification.c:405 src/notifications/notification.c:678
+#: src/notifications/notification.c:404 src/notifications/notification.c:677
 msgid "Notification"
 msgstr "Értesítés"
 
@@ -380,7 +375,6 @@ msgstr "~1 n"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:127
 #, c-format
-#| msgid "Add"
 msgid "%dd"
 msgid_plural "%dd"
 msgstr[0] "%d n"
@@ -415,7 +409,6 @@ msgstr[1] "~%d é"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:151
 #, c-format
-#| msgid "Over %dy"
 msgid "Over %dy"
 msgid_plural "Over %dy"
 msgstr[0] "Több mint %d év"
@@ -425,7 +418,6 @@ msgstr[1] "Több mint %d év"
 #. Please stick to a maximum of 4 chars for the time unit
 #: src/notifications/timestamp-label.c:156
 #, c-format
-#| msgid "Almost %dy"
 msgid "Almost %dy"
 msgid_plural "Almost %dy"
 msgstr[0] "Majdnem %d év"
@@ -511,7 +503,6 @@ msgid "View _Details"
 msgstr "_Részletek megtekintése"
 
 #: src/ui/app-grid-button.ui:41
-#| msgid "Remove from _Favorites"
 msgid "_Remove from Folder"
 msgstr "_Eltávolítás mappából"
 
@@ -532,12 +523,10 @@ msgid "Sound Settings"
 msgstr "Hangbeállítások"
 
 #: src/ui/bt-status-page.ui:32
-#| msgid "Bluetooth"
 msgid "Enable Bluetooth"
 msgstr "Bluetooth engedélyezése"
 
 #: src/ui/bt-status-page.ui:53
-#| msgid "Bluetooth"
 msgid "Bluetooth Settings"
 msgstr "Bluetooth beállítások"
 
@@ -586,15 +575,15 @@ msgstr "Tartomány:"
 msgid "Co_nnect"
 msgstr "_Kapcsolódás"
 
-#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
+#: src/ui/lockscreen.ui:37 src/ui/lockscreen.ui:335
 msgid "Back"
 msgstr "Vissza"
 
-#: src/ui/lockscreen.ui:97
+#: src/ui/lockscreen.ui:98
 msgid "Slide up to unlock"
 msgstr "Csúsztassa fel a feloldáshoz"
 
-#: src/ui/lockscreen.ui:297
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "Feloldás"
 
@@ -616,17 +605,14 @@ msgid "Authenticate"
 msgstr "Hitelesítés"
 
 #: src/ui/power-menu.ui:109
-#| msgid "_Suspend…"
 msgid "Suspend"
 msgstr "Felfüggesztés"
 
 #: src/ui/power-menu.ui:153
-#| msgid "_Lock"
 msgid "Lock"
 msgstr "Zárolás"
 
 #: src/ui/power-menu.ui:231
-#| msgid "_Emergency"
 msgid "Emergency"
 msgstr "Vészhelyzet"
 
@@ -639,7 +625,6 @@ msgid "No notifications"
 msgstr "Nincsenek értesítések"
 
 #: src/ui/settings.ui:360
-#| msgid "Notification"
 msgid "Notifications"
 msgstr "Értesítések"
 
@@ -672,7 +657,6 @@ msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
 #: src/ui/wifi-status-page.ui:68
-#| msgid "Folder Settings"
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi beállítások"
 
@@ -682,7 +666,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:222
+#: src/wall-clock.c:239
 msgid "%A, %B %-e"
 msgstr "%B %-d. %A"
 
@@ -734,14 +718,10 @@ msgid "Phosh on caffeine"
 msgstr "Phosh a koffeinen"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
-#| msgctxt "bluetooth:enabled"
-#| msgid "On"
 msgid "On"
 msgstr "Be"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
-#| msgctxt "automatic-screen-rotation-disabled"
-#| msgid "Off"
 msgid "Off"
 msgstr "Ki"
 
@@ -927,10 +907,12 @@ msgstr "Holnap"
 
 #: plugins/upcoming-events/event-list.c:150
 #, c-format
-msgid "In %d day"
-msgid_plural "In %d days"
-msgstr[0] "%d napon belül"
-msgstr[1] "%d napon belül"
+#| msgid "In %d day"
+#| msgid_plural "In %d days"
+msgid "In %u day"
+msgid_plural "In %u days"
+msgstr[0] "%u napon belül"
+msgstr[1] "%u napon belül"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -961,10 +943,29 @@ msgstr "Befejeződik"
 msgid "Untitled event"
 msgstr "Névtelen esemény"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:6
+#| msgid "Upcoming Events"
+msgid "Upcoming Events Preferences"
+msgstr "Közelgő események beállításai"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:20
+msgid "Days"
+msgstr "Napok"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:16
+msgid "Date Range"
+msgstr "Dátumtartomány"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+msgid "Number of days to show events for"
+msgstr "A megjelenítendő események napjainak száma"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:78
 msgid "Hotspot On"
 msgstr "Hozzáférési pont be"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:80
 msgid "Hotspot Off"
 msgstr "Hozzáférési pont ki"
+
