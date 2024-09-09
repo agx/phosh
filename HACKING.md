@@ -1,7 +1,7 @@
 # Contributing to Phosh
 
 Below are some basic guidelines on coding style, source file layout and merge
-requests.
+requests that hopefully makes it easier for you to land your code.
 
 ## Building
 

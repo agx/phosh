@@ -327,6 +327,23 @@ check-consistency:
   stage: test+docs
   extends: .phosh-check-consistency
 
+check-markdown:
+  stage: style-checks
+  image: ${DEBIAN_IMAGE}
+  needs: []
+  before_script: &test_before_script
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt -y update
+    - apt -y install markdownlint
+  script:
+    - mdl *.md docs/*.md
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        paths:
+          - "*.md"
+          - "docs/*.md"
+
 format-check:
   stage: style-checks
   image: ${DEBIAN_IMAGE}
