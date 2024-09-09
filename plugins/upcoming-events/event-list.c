@@ -33,7 +33,7 @@ static GParamSpec *props[PROP_LAST_PROP];
  * `GListModel` of `PhoshCalendarEvents` that are valid
  * on `for_day`.
  *
- * TODO: we curently only support a single day but could
+ * TODO: we currently only support a single day but could
  * handle any time range rather by looking at time offsets.
  */
 struct _PhoshEventList {
@@ -48,7 +48,7 @@ struct _PhoshEventList {
 
   GDateTime          *today;
   GDateTime          *for_day;
-  gint                day_offset;
+  guint               day_offset;
 };
 G_DEFINE_TYPE (PhoshEventList, phosh_event_list, GTK_TYPE_BOX)
 
@@ -58,7 +58,7 @@ on_items_changed (PhoshEventList *self)
 {
   const char *page = "no-events";
 
-  if (g_list_model_get_n_items (G_LIST_MODEL (self->filtered_model)))
+  if (self->filtered_model && g_list_model_get_n_items (G_LIST_MODEL (self->filtered_model)))
     page = "events";
 
   gtk_stack_set_visible_child_name (self->stack_events, page);
@@ -147,14 +147,14 @@ get_label (PhoshEventList *self)
     return g_date_time_format (self->for_day, "%A");
   }
   default:
-    return g_strdup_printf (ngettext ("In %d day", "In %d days", self->day_offset),
+    return g_strdup_printf (ngettext ("In %u day", "In %u days", self->day_offset),
                             self->day_offset);
   }
 }
 
 
 static void
-phosh_event_list_set_day_offset (PhoshEventList *self, int offset)
+phosh_event_list_set_day_offset (PhoshEventList *self, guint offset)
 {
   g_autofree char *str = NULL;
 
@@ -181,7 +181,7 @@ phosh_event_list_set_property (GObject      *object,
 
   switch (property_id) {
   case PROP_DAY_OFFSET:
-    phosh_event_list_set_day_offset (self, g_value_get_int (value));
+    phosh_event_list_set_day_offset (self, g_value_get_uint (value));
     break;
   case PROP_TODAY:
     phosh_event_list_set_today (self, g_value_get_boxed (value));
@@ -209,7 +209,7 @@ phosh_event_list_get_property (GObject    *object,
     g_value_set_string (value, gtk_label_get_label (self->label));
     break;
   case PROP_DAY_OFFSET:
-    g_value_set_int (value, self->day_offset);
+    g_value_set_uint (value, self->day_offset);
     break;
   case PROP_TODAY:
     g_value_set_boxed (value, self->model);
@@ -270,19 +270,19 @@ phosh_event_list_class_init (PhoshEventListClass *klass)
   /**
    * PhoshEventList:day-offset:
    *
-   * the offset in days from the reference date. Events on that day
-   * Will be displayed shown in the list.
+   * The offset in days from the reference date. Events from the reference date
+   * till the offset days will be shown in the list.
    */
   props[PROP_DAY_OFFSET] =
-    g_param_spec_int ("day-offset", "", "",
-                      0,
-                      7,
-                      0,
-                      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
+    g_param_spec_uint ("day-offset", "", "",
+                       0,
+                       G_MAXUINT,
+                       0,
+                       G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
   /**
    * PhoshEventList:today:
    *
-   * The reference data used as current base.
+   * The reference date used as current base.
    */
   props[PROP_TODAY] =
     g_param_spec_boxed ("today", "", "",
@@ -314,7 +314,7 @@ phosh_event_list_init (PhoshEventList *self)
 {
   self->today = g_date_time_new_now_local ();
   /* Not initialized */
-  self->day_offset = G_MAXINT;
+  self->day_offset = G_MAXUINT;
 
   gtk_widget_init_template (GTK_WIDGET (self));
 }
@@ -326,7 +326,7 @@ phosh_event_list_bind_model (PhoshEventList *self, GListModel *model)
   g_return_if_fail (PHOSH_IS_EVENT_LIST (self));
   g_return_if_fail (G_IS_LIST_MODEL (model) || model == NULL);
   g_return_if_fail (self->today != NULL);
-  g_return_if_fail (self->day_offset != G_MAXINT);
+  g_return_if_fail (self->day_offset != G_MAXUINT);
 
   if (self->model == model)
     return;
@@ -350,12 +350,11 @@ phosh_event_list_bind_model (PhoshEventList *self, GListModel *model)
                               "items-changed",
                               G_CALLBACK (on_items_changed),
                               self);
-
   } else {
     gtk_list_box_bind_model (self->lb_events,
                              NULL, NULL, NULL, NULL);
   }
-
+  on_items_changed (self);
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_MODEL]);
 }

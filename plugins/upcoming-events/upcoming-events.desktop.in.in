@@ -4,3 +4,7 @@ Name=Upcoming Events
 Types=lockscreen;
 Comment=Show upcoming calendar events
 Plugin=@plugins_dir@/libphosh-plugin-@name@.so
+
+[Prefs]
+Id=@name@-prefs
+Plugin=@plugin_prefs_dir@/libphosh-plugin-prefs-@name@.so
