@@ -58,13 +58,6 @@ generated_dbus_sources += gnome.gdbus_codegen('geoclue-manager-dbus',
                                               install_header: bindings_lib,
                                               install_dir: dbus_inc_dir,
                                               namespace: 'PhoshGeoClueDBus')
-generated_dbus_sources +=  gnome.gdbus_codegen('phosh-wwan-mm-dbus',
-                                               'org.freedesktop.ModemManager1.xml',
-                                               namespace: 'Phosh_MM_DBus',
-                                               interface_prefix: 'org.freedesktop.ModemManager1',
-                                               install_header: bindings_lib,
-                                               install_dir: dbus_inc_dir,
-                                               object_manager: true)
 generated_dbus_sources += gnome.gdbus_codegen('calls-dbus',
                                               'org.gnome.Calls.Call.xml',
                                               object_manager: true,

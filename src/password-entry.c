@@ -11,6 +11,14 @@
 #define PASSWORD_EYE_OPEN  "eye-open-negative-filled-symbolic"
 #define PASSWORD_EYE_CLOSE "eye-not-looking-symbolic"
 
+/**
+ * PhoshPasswordEntry:
+ *
+ * A widget for entering passwords
+ *
+ * Since: v0.33.0
+ */
+
 struct _PhoshPasswordEntry {
   GtkEntry parent_instance;
 

@@ -23,6 +23,14 @@ enum {
 };
 static GParamSpec *props[PROP_LAST_PROP];
 
+/**
+ * PhoshPluginLoader:
+ *
+ * Loads plugins for a given extension point
+ *
+ * Since: 0.21.0
+ */
+
 struct _PhoshPluginLoader {
   GObject parent;
 

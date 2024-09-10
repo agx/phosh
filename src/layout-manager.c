@@ -25,11 +25,13 @@ enum {
 static guint signals[N_SIGNALS] = { 0 };
 
 /**
- * PhoshLayoutManger:
+ * PhoshLayoutManager:
  *
  * Provide information on how to layout shell elements.
  *
  * Calculations are done in GTKs coordinates (thus scaled).
+ *
+ * Since: v0.29.0
  */
 
 struct _PhoshLayoutManager {

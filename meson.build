@@ -181,9 +181,10 @@ libhandy_dep = dependency('libhandy-1',
   )
 libcall_ui_dep = libcall_ui.get_variable('libcall_ui_dep')
 libnm_dep = dependency('libnm', version: '>= 1.14')
-libpolkit_agent_dep = dependency('polkit-agent-1', version: '>= 0.105')
+libpolkit_agent_dep = dependency('polkit-agent-1', version: '>= 0.122')
 libsoup_dep = dependency('libsoup-3.0', version: '>= 3.0')
 libsystemd_dep = dependency('libsystemd', 'libelogind', version: '>= 241')
+mm_glib_dep = dependency('mm-glib')
 network_agent_dep = dependency('libsecret-1')
 upower_glib_dep = dependency('upower-glib', version: '>=0.99.1')
 wayland_client_dep = dependency('wayland-client', version: '>=1.14')
@@ -197,30 +198,6 @@ struct rfkill_event_ext e;
 have_rfkill_event_ext = cc.compiles(code, name : 'Have rfkill_event_ext')
 have_memfd_create = cc.has_function('memfd_create', prefix: '''#define _GNU_SOURCE
                                                                #include <sys/mman.h>''')
-
-have_polkit_subject_cleanup = cc.compiles('''
-#define POLKIT_AGENT_I_KNOW_API_IS_SUBJECT_TO_CHANGE
-#include <polkitagent/polkitagent.h>
-
-int main()
-{
-   g_autoptr (PolkitSubject) subj = NULL;
-}''',
-  name : 'Have PolkitSubject cleanup',
-  dependencies: libpolkit_agent_dep)
-
-
-have_polkit_agent_listener_cleanup = cc.compiles('''
-#define POLKIT_AGENT_I_KNOW_API_IS_SUBJECT_TO_CHANGE
-#include <polkitagent/polkitagent.h>
-
-int main()
-{
-   g_autoptr (PolkitAgentListener) listener = NULL;
-}''',
-  name : 'Have PolkitAgentListener cleanup',
-  dependencies: libpolkit_agent_dep)
-
 
 config_h = configuration_data()
 config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
@@ -237,8 +214,6 @@ config_h.set_quoted('PHOSH_DATA_DIR', datadir,
              description: 'Systemwide data dir')
 config_h.set_quoted('PHOSH_APP_ID', app_id)
 config_h.set_quoted('PHOSH_DBUS_PATH_PREFIX', '/' + app_id.replace('.', '/'))
-config_h.set('PHOSH_HAVE_POLKIT_SUBJECT_CLEANUP', have_polkit_subject_cleanup)
-config_h.set('PHOSH_HAVE_POLKIT_AGENT_LISTENER_CLEANUP', have_polkit_agent_listener_cleanup)
 
 configure_file(
   output: 'phosh-config.h',

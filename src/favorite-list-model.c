@@ -14,9 +14,15 @@
 
 #include <gio/gio.h>
 
+/**
+ * PhoshFavoriteListModel:
+ *
+ * A `GListModel` of the users favorite applications
+ *
+ * Since: v0.1.3
+ */
 
-typedef struct _PhoshFavoriteListModelPrivate PhoshFavoriteListModelPrivate;
-struct _PhoshFavoriteListModelPrivate {
+typedef struct _PhoshFavoriteListModelPrivate {
   /* The complete list as stored in @settings */
   GStrv items_inc_missing;
 
@@ -26,7 +32,7 @@ struct _PhoshFavoriteListModelPrivate {
   guint len;
 
   GSettings *settings;
-};
+} PhoshFavoriteListModelPrivate;
 
 static void list_iface_init (GListModelInterface *iface);
 
