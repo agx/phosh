@@ -45,6 +45,7 @@ phosh_upcoming_events_plugin = shared_module(
 pluginconf = configuration_data()
 pluginconf.set('name', name)
 pluginconf.set('plugins_dir', plugins_dir)
+pluginconf.set('plugin_prefs_dir', plugin_prefs_dir)
 
 i18n.merge_file(
   input: configure_file(
