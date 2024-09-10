@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-08-06 08:05+0000\n"
-"PO-Revision-Date: 2024-08-06 18:59+0200\n"
+"POT-Creation-Date: 2024-09-09 09:28+0000\n"
+"PO-Revision-Date: 2024-09-09 19:39+0200\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n==0 || (n!=1 && n%100>=1 && "
 "n%100<=19) ? 1 : 2);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #. Translators: this is the session name, no need to translate it
@@ -254,11 +254,12 @@ msgstr "Da"
 msgid "No"
 msgstr "Nu"
 
-#: src/lockscreen.c:166 src/ui/lockscreen.ui:245
+#. give visual feedback on error
+#: src/lockscreen.c:273 src/ui/lockscreen.ui:246
 msgid "Enter Passcode"
 msgstr "Introdu codul de acces"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:918
 msgid "Checking…"
 msgstr "Se verifică…"
 
@@ -318,7 +319,7 @@ msgstr "Introdu parola pentru rețeaua Wi-Fi „%s”"
 msgid "Open"
 msgstr "Deschide"
 
-#: src/notifications/notification.c:405 src/notifications/notification.c:678
+#: src/notifications/notification.c:404 src/notifications/notification.c:677
 msgid "Notification"
 msgstr "Notificare"
 
@@ -585,15 +586,15 @@ msgstr "Domeniu:"
 msgid "Co_nnect"
 msgstr "Co_nectează"
 
-#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
+#: src/ui/lockscreen.ui:37 src/ui/lockscreen.ui:335
 msgid "Back"
 msgstr "Înapoi"
 
-#: src/ui/lockscreen.ui:97
+#: src/ui/lockscreen.ui:98
 msgid "Slide up to unlock"
 msgstr "Trage în sus pentru a debloca"
 
-#: src/ui/lockscreen.ui:297
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "Deblochează"
 
@@ -676,7 +677,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:222
+#: src/wall-clock.c:239
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -917,11 +918,11 @@ msgstr "Mâine"
 
 #: plugins/upcoming-events/event-list.c:150
 #, c-format
-msgid "In %d day"
-msgid_plural "In %d days"
-msgstr[0] "Peste %d zi"
-msgstr[1] "Peste %d zile"
-msgstr[2] "Peste %d de zile"
+msgid "In %u day"
+msgid_plural "In %u days"
+msgstr[0] "Peste %u zi"
+msgstr[1] "Peste %u zile"
+msgstr[2] "Peste %u de zile"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -952,10 +953,27 @@ msgstr "Se termină"
 msgid "Untitled event"
 msgstr "Eveniment fără titlu"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:6
+msgid "Upcoming Events Preferences"
+msgstr "Preferințe Evenimente viitoare"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:20
+msgid "Days"
+msgstr "Zile"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:16
+msgid "Date Range"
+msgstr "Interval"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+msgid "Number of days to show events for"
+msgstr "Numărul de zile pentru care se afișează evenimentele"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:78
 msgid "Hotspot On"
 msgstr "Punct de acces Activ"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:80
 msgid "Hotspot Off"
 msgstr "Punct de acces Oprit"
