@@ -26,59 +26,74 @@ G_DEFINE_INTERFACE (PhoshWWan, phosh_wwan, PHOSH_TYPE_WWAN_MANAGER)
 void
 phosh_wwan_default_init (PhoshWWanInterface *iface)
 {
+  /**
+   * PhoshWWan:signal-quality:
+   *
+   * The signal quality of the current modem
+   */
   g_object_interface_install_property (
     iface,
-    g_param_spec_int ("signal-quality",
-                      "Signal quality",
-                      "Signal quality in percent",
+    g_param_spec_int ("signal-quality", "", "",
                       0, 100, 0,
                       G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
-
+  /**
+   * PhoshWWan:access-tec:
+   *
+   * The access-tec of the current modem
+   */
   g_object_interface_install_property (
     iface,
-    g_param_spec_string ("access-tec",
-                         "Access technology",
-                         "Network access technology",
+    g_param_spec_string ("access-tec", "", "",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
-
+  /**
+   * PhoshWWan:unlocked:
+   *
+   * Whether the current modem is unlocked
+   */
   g_object_interface_install_property (
     iface,
-    g_param_spec_boolean ("unlocked",
-                          "Modem unlocked",
-                          "Modem is unlocked",
+    g_param_spec_boolean ("unlocked", "", "",
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
-
+  /**
+   * PhoshWWan:sim:
+   *
+   * Whether the current modem has a sim card inserted
+   */
   g_object_interface_install_property (
     iface,
-    g_param_spec_boolean ("sim",
-                          "Modem sim present",
-                          "Modem has a sim card inserted",
+    g_param_spec_boolean ("sim", "", "",
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
-
+  /**
+   * PhoshWWan:present:
+   *
+   * Whether a modem is prsent
+   */
   g_object_interface_install_property (
     iface,
-    g_param_spec_boolean ("present",
-                          "Modem present",
-                          "Whether there is a modem present",
+    g_param_spec_boolean ("present", "", "",
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
-
+  /**
+   * PhoshWWan:enabled:
+   *
+   * Whether a modem is enabled
+   */
   g_object_interface_install_property (
     iface,
-    g_param_spec_boolean ("enabled",
-                          "Modem enabled",
-                          "Whether there modem is enabled",
+    g_param_spec_boolean ("enabled", "", "",
                           FALSE,
                           G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
-
+  /**
+   * PhoshWWan:operator:
+   *
+   * The name of the operator of the current modem
+   */
   g_object_interface_install_property (
     iface,
-    g_param_spec_string ("operator",
-                         "Operator name",
-                         "The network operator name",
+    g_param_spec_string ("operator", "", "",
                          NULL,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY));
 }
@@ -163,6 +178,18 @@ phosh_wwan_is_enabled (PhoshWWan *self)
 }
 
 
+const char *
+phosh_wwan_get_operator (PhoshWWan *self)
+{
+  PhoshWWanInterface *iface;
+
+  g_return_val_if_fail (PHOSH_IS_WWAN (self), NULL);
+
+  iface = PHOSH_WWAN_GET_IFACE (self);
+  return iface->get_operator (self);
+}
+
+
 void
 phosh_wwan_set_enabled (PhoshWWan *self, gboolean enabled)
 {
@@ -192,14 +219,22 @@ phosh_wwan_set_data_enabled (PhoshWWan *self, gboolean enabled)
   phosh_wwan_manager_set_data_enabled (manager, enabled);
 }
 
-
-const char *
-phosh_wwan_get_operator (PhoshWWan *self)
+/**
+ * phosh_wwan_has_data:
+ * @self: The wwan interface
+ *
+ * Gets whether there's a data connection that could possibly be enabled.
+ * It doesn't take into account whether the connection is enabled or not.
+ *
+ * Returns: `TRUE` if there's a activatable data connection.
+ */
+gboolean
+phosh_wwan_has_data (PhoshWWan *self)
 {
-  PhoshWWanInterface *iface;
+  PhoshWWanManager *manager;
 
-  g_return_val_if_fail (PHOSH_IS_WWAN (self), NULL);
+  g_return_val_if_fail (PHOSH_IS_WWAN_MANAGER (self), FALSE);
 
-  iface = PHOSH_WWAN_GET_IFACE (self);
-  return iface->get_operator (self);
+  manager = PHOSH_WWAN_MANAGER (self);
+  return phosh_wwan_manager_has_data (manager);
 }

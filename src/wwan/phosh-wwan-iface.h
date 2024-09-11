@@ -46,6 +46,9 @@ gboolean      phosh_wwan_is_unlocked        (PhoshWWan* self);
 gboolean      phosh_wwan_has_sim            (PhoshWWan* self);
 gboolean      phosh_wwan_is_present         (PhoshWWan* self);
 gboolean      phosh_wwan_is_enabled         (PhoshWWan *self);
+const char   *phosh_wwan_get_operator       (PhoshWWan *self);
+
+/* Implemented in PhoshWWanManager */
 void          phosh_wwan_set_enabled        (PhoshWWan *self, gboolean enabled);
 void          phosh_wwan_set_data_enabled   (PhoshWWan *self, gboolean enabled);
-const char   *phosh_wwan_get_operator       (PhoshWWan *self);
+gboolean      phosh_wwan_has_data           (PhoshWWan *self);
