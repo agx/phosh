@@ -125,12 +125,13 @@ build:lib-debian-trixie:
   stage: build
   image: ${DEBIAN_IMAGE}
   variables:
-    BUILD_OPTS: --werror -Dtests=false -Dtools=false -Dbindings=false
+    BUILD_OPTS: --werror -Dtests=false -Dtools=false -Dbindings-lib=true
   <<: *build_before_script
-  <<: *trixie_vars
   script:
     - meson setup ${BUILD_OPTS} _build
-    - meson compile -C _build install
+    - meson compile -C _build 
+    - meson install -C _build 
+    - gcc -Wall -O2 $(pkgconf --cflags libphosh-0) .gitlab-ci/libphosh-test.c $(pkgconf --libs libphosh-0)
   artifacts:
     paths:
       - _build
