@@ -17,6 +17,7 @@ git submodule update --init --recursive
 The [main][] branch has the current development version.
 
 ## Dependencies
+
 On a Debian based system run
 
 ```sh
@@ -37,7 +38,7 @@ meson setup _build
 meson compile -C _build
 ```
 
-# Testing
+## Testing
 
 To run the tests run
 
@@ -48,7 +49,9 @@ xvfb-run meson test --no-suite screenshots -C _build
 For details see the [.gitlab-ci.yml][] file.
 
 ## Running
+
 ### Running from the source tree
+
 When running from the source tree start the compositor *[phoc][]*.
 Then start *phosh* using:
 
@@ -70,6 +73,7 @@ The result should look something like this:
 ![phosh](screenshots/phosh-overview.png)
 
 ### Running from the Debian packages
+
 If you're running a display manager like GDM or LightDM you can select the
 `Phosh` session from the display managers menu. If you want run without a
 display manager but nevertheless start phosh at system boot there's a systemd
@@ -95,18 +99,20 @@ All of the above use the `/usr/bin/phosh` script to start compositor and shell
 under the hood so if you just want to start phosh from the system console once
 invoke that script directly.
 
-# Translations
+## Translations
+
 This is handled via GNOMEs infra, see
 <https://wiki.gnome.org/TranslationProject> and
 <https://l10n.gnome.org/module/phosh/>.
 
-# Getting in Touch
-* Issue tracker: https://gitlab.gnome.org/World/Phosh/phosh/issues
-* Matrix: https://im.puri.sm/#/room/#phosh:talk.puri.sm
+## Getting in Touch
 
-### Development Documentation
+* Issue tracker: <https://gitlab.gnome.org/World/Phosh/phosh/issues>
+* Matrix: <https://im.puri.sm/#/room/#phosh:talk.puri.sm>
 
-API documentation is at https://world.pages.gitlab.gnome.org/Phosh/phosh
+## Development Documentation
+
+API documentation is at <https://world.pages.gitlab.gnome.org/Phosh/phosh>
 
 [main]: https://gitlab.gnome.org/World/Phosh/phosh/-/tree/main
 [.gitlab-ci.yml]: https://gitlab.gnome.org/World/Phosh/phosh/-/blob/main/.gitlab-ci.yml
