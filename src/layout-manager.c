@@ -31,7 +31,7 @@ static guint signals[N_SIGNALS] = { 0 };
  *
  * Calculations are done in GTKs coordinates (thus scaled).
  *
- * Since: v0.29.0
+ * Since: 0.29.0
  */
 
 struct _PhoshLayoutManager {

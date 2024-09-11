@@ -19,7 +19,7 @@
  *
  * A `GListModel` of the users favorite applications
  *
- * Since: v0.1.3
+ * Since: 0.1.3
  */
 
 typedef struct _PhoshFavoriteListModelPrivate {
