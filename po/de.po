@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-08-06 08:05+0000\n"
-"PO-Revision-Date: 2024-08-17 21:34+0200\n"
+"POT-Creation-Date: 2024-09-09 09:28+0000\n"
+"PO-Revision-Date: 2024-09-10 21:47+0200\n"
 "Last-Translator: Jürgen Benvenuti <gastornis@posteo.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -187,7 +187,7 @@ msgstr "Abgedockt"
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
 #: src/ui/end-session-dialog.ui:71
 msgid "Ok"
-msgstr "OK"
+msgstr "O. K."
 
 #: src/emergency-menu.c:100
 msgid "Unable to place emergency call"
@@ -267,11 +267,12 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nein"
 
-#: src/lockscreen.c:166 src/ui/lockscreen.ui:245
+#. give visual feedback on error
+#: src/lockscreen.c:273 src/ui/lockscreen.ui:246
 msgid "Enter Passcode"
 msgstr "Zugangscode eingeben"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:918
 msgid "Checking…"
 msgstr "Überprüfung läuft …"
 
@@ -332,7 +333,7 @@ msgstr "Geben Sie das Passwort für das WLAN-Netzwerk »%s« ein"
 msgid "Open"
 msgstr "Öffnen"
 
-#: src/notifications/notification.c:405 src/notifications/notification.c:678
+#: src/notifications/notification.c:404 src/notifications/notification.c:677
 msgid "Notification"
 msgstr "Benachrichtigung"
 
@@ -347,21 +348,21 @@ msgstr "Jetzt"
 #: src/notifications/timestamp-label.c:91
 #, c-format
 msgid "<30s"
-msgstr "<30 Sek."
+msgstr "< 30 Sek."
 
 #. Translators: abbreviated time difference "Less than one minute"
 #. Please stick to a maximum of 7 chars
 #: src/notifications/timestamp-label.c:96
 #, c-format
 msgid "<1m"
-msgstr "<1 Min."
+msgstr "< 1 Min."
 
 #. Translators: abbreviated time difference "About one minute"
 #. Please stick to a maximum of 7 chars
 #: src/notifications/timestamp-label.c:101
 #, c-format
 msgid "~1m"
-msgstr "~1 Min."
+msgstr "~ 1 Min."
 
 #. Translators: abbreviated, exact time difference "1 minute ago"
 #. Please stick to a maximum of 4 chars for the time unit
@@ -386,7 +387,7 @@ msgstr[1] "~%d H"
 #: src/notifications/timestamp-label.c:122
 #, c-format
 msgid "~1d"
-msgstr "~1 T"
+msgstr "~ 1 T"
 
 #. Translators: abbreviated, exact time difference "3 days ago"
 #. Please stick to a maximum of 4 chars for the time unit
@@ -402,7 +403,7 @@ msgstr[1] "%d T"
 #: src/notifications/timestamp-label.c:132
 #, c-format
 msgid "~1mo"
-msgstr "~1 M"
+msgstr "~ 1 M"
 
 #. Translators: abbreviated, exact time difference "3 months ago"
 #. Please stick to a maximum of 4 chars for the time unit
@@ -593,15 +594,15 @@ msgstr "Domäne:"
 msgid "Co_nnect"
 msgstr "_Verbinden"
 
-#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
+#: src/ui/lockscreen.ui:37 src/ui/lockscreen.ui:335
 msgid "Back"
 msgstr "Zurück"
 
-#: src/ui/lockscreen.ui:97
+#: src/ui/lockscreen.ui:98
 msgid "Slide up to unlock"
 msgstr "Nach oben wischen zum Entsperren"
 
-#: src/ui/lockscreen.ui:297
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "Entsperren"
 
@@ -684,7 +685,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:222
+#: src/wall-clock.c:239
 msgid "%A, %B %-e"
 msgstr "%A %d. %B"
 
@@ -926,10 +927,10 @@ msgstr "Morgen"
 
 #: plugins/upcoming-events/event-list.c:150
 #, c-format
-msgid "In %d day"
-msgid_plural "In %d days"
-msgstr[0] "In %d Tag"
-msgstr[1] "In %d Tagen"
+msgid "In %u day"
+msgid_plural "In %u days"
+msgstr[0] "In %u Tag"
+msgstr[1] "In %u Tagen"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -960,11 +961,28 @@ msgstr "Endet"
 msgid "Untitled event"
 msgstr "Unbenannter Termin"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:6
+msgid "Upcoming Events Preferences"
+msgstr "Einstellungen für anstehende Termine"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:20
+msgid "Days"
+msgstr "Tage"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:16
+msgid "Date Range"
+msgstr "Datumsbereich"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+msgid "Number of days to show events for"
+msgstr "Anzahl der Tage, für die Termine angezeigt werden sollen"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:78
 msgid "Hotspot On"
 msgstr "Hotspot an"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:80
 msgid "Hotspot Off"
 msgstr "Hotspot aus"
 
