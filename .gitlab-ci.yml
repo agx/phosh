@@ -62,7 +62,6 @@ variables:
 
 .build_step: &build_step
   script:
-    - git submodule update --recursive
     - 'echo "Build opts: ${BUILD_OPTS}"'
     - meson setup ${BUILD_OPTS} _build
     - meson compile -C _build
@@ -121,9 +120,21 @@ build:native-debian-trixie:
   artifacts:
     paths:
       - _build
-  except:
-    variables:
-      - $PKG_ONLY == "1"
+
+build:lib-debian-trixie:
+  stage: build
+  image: ${DEBIAN_IMAGE}
+  variables:
+    BUILD_OPTS: --werror -Dtests=false -Dtools=false -Dbindings-lib=true
+  <<: *build_before_script
+  script:
+    - meson setup ${BUILD_OPTS} _build
+    - meson compile -C _build 
+    - meson install -C _build 
+    - gcc -Wall -O2 $(pkgconf --cflags libphosh-0) .gitlab-ci/libphosh-test.c $(pkgconf --libs libphosh-0)
+  artifacts:
+    paths:
+      - _build
 
 startup-test:native-debian-trixie:
   stage: test+docs
@@ -155,10 +166,6 @@ startup-test:native-debian-trixie:
     when: always
     paths:
       - startup.log
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-      - $SCREENSHOTS_ONLY == "1"
 
 unit-test:native-debian-trixie:
   stage: test+docs
@@ -173,10 +180,6 @@ unit-test:native-debian-trixie:
     paths:
       - _build
       - coverage-*.json
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-      - $SCREENSHOTS_ONLY == "1"
 
 asan-test:native-debian-trixie:
   stage: test+docs
@@ -189,10 +192,6 @@ asan-test:native-debian-trixie:
     - meson setup -Dphoc_tests=enabled -Dtools=false -Db_sanitize=address -Dbuildtype=debug _build-asan
     - meson compile -C _build-asan ./data/glib-compile-schemas:custom
     - ${XVFB_RUN} meson test --print-errorlogs -C _build-asan --suite unit --timeout-multiplier 5
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-      - $SCREENSHOTS_ONLY == "1"
   allow_failure: true
 
 screenshot:native-debian-trixie:
@@ -218,9 +217,6 @@ screenshot:native-debian-trixie:
     paths:
       - screenshots/
       - _build/meson-logs/testlog.txt
-  except:
-    variables:
-      - $PKG_ONLY == "1"
 
 build-doc:
   stage: test+docs
@@ -238,18 +234,10 @@ build-doc:
   artifacts:
     paths:
       - _reference
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-      - $SCREENSHOTS_ONLY == "1"
 
 check-po:
   stage: test+docs
   extends: .phosh-check-po
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-      - $SCREENSHOTS_ONLY == "1"
 
 check-license-headers:
   stage: test+docs
@@ -260,10 +248,6 @@ check-license-headers:
     # Checks .c and .h files begin with a license header as
     # defined in HACKING.md
     - ./tools/check-license-headers.py
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-      - $SCREENSHOTS_ONLY == "1"
 
 check-dist:
   stage: test+docs
@@ -277,10 +261,6 @@ check-dist:
   script:
     - meson setup --werror _build-dist
     - meson dist -C _build-dist --no-tests
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-      - $SCREENSHOTS_ONLY == "1"
 
 build:native-alpinelinux-edge:
   stage: build
@@ -293,13 +273,8 @@ build:native-alpinelinux-edge:
     paths:
       - _build
   script:
-    - git submodule update --recursive
     - meson setup --werror -Dphoc_tests=disabled  _build
     - meson compile -C _build
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-      - $SCREENSHOTS_ONLY == "1"
 
 unit-test:native-alpinelinux-edge:
   stage: test+docs
@@ -318,10 +293,6 @@ unit-test:native-alpinelinux-edge:
     paths:
       - _build
   when: manual
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-      - $SCREENSHOTS_ONLY == "1"
 
 check-consistency:
   stage: test+docs
@@ -393,10 +364,6 @@ coverage:
   needs:
     - unit-test:native-debian-trixie
     - screenshot:native-debian-trixie
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-      - $SCREENSHOTS_ONLY == "1"
 
 package:deb-debian-trixie:arm64:
   stage: package
@@ -407,9 +374,6 @@ package:deb-debian-trixie:arm64:
   extends: .phosh-build-debian-package
   tags:
     - aarch64
-  except:
-    variables:
-      - $SCREENSHOTS_ONLY == "1"
 
 pages:
   stage: deploy
@@ -422,10 +386,6 @@ pages:
       - public
   only:
     - main
-  except:
-    variables:
-      - $PKG_ONLY == "1"
-      - $SCREENSHOTS_ONLY == "1"
 
 rust-bindings:
   stage: triggers
