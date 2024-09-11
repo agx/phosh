@@ -121,6 +121,20 @@ build:native-debian-trixie:
     paths:
       - _build
 
+build:lib-debian-trixie:
+  stage: build
+  image: ${DEBIAN_IMAGE}
+  variables:
+    BUILD_OPTS: --werror -Dtests=false -Dtools=false -Dbindings=false
+  <<: *build_before_script
+  <<: *trixie_vars
+  script:
+    - meson setup ${BUILD_OPTS} _build
+    - meson compile -C _build install
+  artifacts:
+    paths:
+      - _build
+
 startup-test:native-debian-trixie:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
