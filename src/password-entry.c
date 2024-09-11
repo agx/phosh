@@ -16,7 +16,7 @@
  *
  * A widget for entering passwords
  *
- * Since: v0.33.0
+ * Since: 0.33.0
  */
 
 struct _PhoshPasswordEntry {
