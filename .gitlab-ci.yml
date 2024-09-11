@@ -62,7 +62,6 @@ variables:
 
 .build_step: &build_step
   script:
-    - git submodule update --recursive
     - 'echo "Build opts: ${BUILD_OPTS}"'
     - meson setup ${BUILD_OPTS} _build
     - meson compile -C _build
@@ -259,7 +258,6 @@ build:native-alpinelinux-edge:
     paths:
       - _build
   script:
-    - git submodule update --recursive
     - meson setup --werror -Dphoc_tests=disabled  _build
     - meson compile -C _build
 
