@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-08-06 08:05+0000\n"
-"PO-Revision-Date: 2024-08-12 06:23+0200\n"
+"POT-Creation-Date: 2024-09-09 09:28+0000\n"
+"PO-Revision-Date: 2024-09-12 03:10+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -247,11 +247,12 @@ msgstr "დიახ"
 msgid "No"
 msgstr "არა"
 
-#: src/lockscreen.c:166 src/ui/lockscreen.ui:245
+#. give visual feedback on error
+#: src/lockscreen.c:273 src/ui/lockscreen.ui:246
 msgid "Enter Passcode"
 msgstr "შეიყვანეთ კოდი"
 
-#: src/lockscreen.c:392
+#: src/lockscreen.c:918
 msgid "Checking…"
 msgstr "შემოწმება…"
 
@@ -311,7 +312,7 @@ msgstr "შეიყვანეთ პაროლი Wi-Fi ქსელის�
 msgid "Open"
 msgstr "გახსნა"
 
-#: src/notifications/notification.c:405 src/notifications/notification.c:678
+#: src/notifications/notification.c:404 src/notifications/notification.c:677
 msgid "Notification"
 msgstr "გაფრთხილება"
 
@@ -564,15 +565,15 @@ msgstr "დომენი:"
 msgid "Co_nnect"
 msgstr "და_კავშირება"
 
-#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
+#: src/ui/lockscreen.ui:37 src/ui/lockscreen.ui:335
 msgid "Back"
 msgstr "უკან"
 
-#: src/ui/lockscreen.ui:97
+#: src/ui/lockscreen.ui:98
 msgid "Slide up to unlock"
 msgstr "აქაჩეთ გასახსნელად"
 
-#: src/ui/lockscreen.ui:297
+#: src/ui/lockscreen.ui:298
 msgid "Unlock"
 msgstr "გახსნა"
 
@@ -655,7 +656,7 @@ msgstr "VPN"
 
 #. Translators: This is a time format for a date in
 #. long format
-#: src/wall-clock.c:222
+#: src/wall-clock.c:239
 msgid "%A, %B %-e"
 msgstr "%A, %B %-e"
 
@@ -896,9 +897,9 @@ msgstr "ხვალ"
 
 #: plugins/upcoming-events/event-list.c:150
 #, c-format
-msgid "In %d day"
-msgid_plural "In %d days"
-msgstr[0] "%d დღეში"
+msgid "In %u day"
+msgid_plural "In %u days"
+msgstr[0] "%u დღეში"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
@@ -929,11 +930,28 @@ msgstr "მთავრდება"
 msgid "Untitled event"
 msgstr "უსახელო მოვლენა"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:62
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:6
+msgid "Upcoming Events Preferences"
+msgstr "უახლოესი მოვლენების პარამეტრები"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:20
+msgid "Days"
+msgstr "დღე"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:16
+msgid "Date Range"
+msgstr "პერიოდი"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+msgid "Number of days to show events for"
+msgstr "დღეების რაოდენობა მოვლენების საჩვენებლად"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:78
 msgid "Hotspot On"
 msgstr "ჰოტსპოტი ჩართ"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:64
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:80
 msgid "Hotspot Off"
 msgstr "ჰოტსპოტი გამორთ"
 
