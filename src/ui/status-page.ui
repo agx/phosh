@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="PhoshStatusPage" parent="GtkRevealer">
-    <property name="transition-type">slide-down</property>
+  <template class="PhoshStatusPage" parent="GtkBin">
     <property name="valign">start</property>
-
     <child>
       <object class="GtkBox" id="toplevel_box">
         <property name="visible">True</property>
@@ -14,28 +12,11 @@
           <class name="flat"/>
           <class name="phosh-status-page"/>
         </style>
-
         <child>
           <object class="GtkBox" id="header_box">
             <property name="visible">True</property>
             <property name="hexpand">True</property>
             <property name="spacing">6</property>
-            <child>
-              <object class="GtkButton">
-                <property name="visible">True</property>
-                <property name="valign">start</property>
-                <property name="action-name">settings.close-status-page</property>
-                <style>
-                  <class name="phosh-gear-button"/>
-                </style>
-                <child>
-                  <object class="GtkImage">
-                    <property name="visible">True</property>
-                    <property name="icon-name">go-previous-symbolic</property>
-                  </object>
-                </child>
-              </object>
-            </child>
             <child type="center">
               <object class="GtkLabel" id="title_label">
                 <property name="visible">True</property>
@@ -53,25 +34,20 @@
                 <property name="pack-type">end</property>
               </packing>
             </child>
-
           </object>
         </child>
-
         <child>
           <object class="GtkBox" id="content_bin">
             <property name="visible">True</property>
           </object>
         </child>
-
         <child>
           <object class="GtkSeparator" id="footer_separator"/>
         </child>
-
         <child>
           <object class="GtkBox" id="footer_bin"/>
         </child>
       </object>
     </child>
-
   </template>
 </interface>

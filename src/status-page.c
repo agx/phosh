@@ -18,7 +18,7 @@
  *
  * Additional status information associated with a [class@QuickSetting].
  *
- * This is displayed when the quick setting is long pressed.
+ * This is displayed when the quick setting needs to show status.
  */
 
 enum {
@@ -48,7 +48,7 @@ typedef struct {
   GtkWidget    *footer_widget;
 } PhoshStatusPagePrivate;
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshStatusPage, phosh_status_page, GTK_TYPE_REVEALER);
+G_DEFINE_TYPE_WITH_PRIVATE (PhoshStatusPage, phosh_status_page, GTK_TYPE_BIN);
 
 
 static void
