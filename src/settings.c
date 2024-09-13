@@ -13,27 +13,18 @@
 #include "phosh-config.h"
 
 #include "media-player.h"
-#include "mode-manager.h"
-#include "plugin-loader.h"
 #include "shell.h"
 #include "settings.h"
 #include "quick-settings.h"
 #include "settings/audio-settings.h"
 #include "settings/brightness.h"
-#include "torch-info.h"
 #include "torch-manager.h"
-#include "vpn-manager.h"
-#include "bt-status-page.h"
-#include "wwan/wwan-manager.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
-#include "rotateinfo.h"
 #include "util.h"
 
 #include <gio/gdesktopappinfo.h>
 #include <xkbcommon/xkbcommon.h>
-
-#include <math.h>
 
 #define STACK_CHILD_NOTIFICATIONS    "notifications"
 #define STACK_CHILD_NO_NOTIFICATIONS "no-notifications"
@@ -57,9 +48,8 @@ enum {
 };
 static guint signals[N_SIGNALS] = { 0 };
 
-typedef struct _PhoshSettings
-{
-  GtkBin parent;
+typedef struct _PhoshSettings {
+  GtkBin     parent;
 
   gboolean   on_lockscreen;
   gint       drag_handle_offset;
@@ -83,7 +73,7 @@ typedef struct _PhoshSettings
   PhoshTorchManager *torch_manager;
   GtkWidget *revealer;
   GtkWidget *scale_torch;
-  gboolean setting_torch;
+  gboolean   setting_torch;
 } PhoshSettings;
 
 
@@ -255,30 +245,6 @@ on_launch_panel_activated (GSimpleAction *action, GVariant *param, gpointer data
   phosh_audio_settings_hide_details (self->audio_settings);
 }
 
-static void
-on_close_status_page_activated (GSimpleAction *action, GVariant *param, gpointer data)
-{
-  /* TODO: Clean up */
-}
-
-
-static void
-on_toggle_bt_activated (GSimpleAction *action, GVariant *param, gpointer data)
-{
-  PhoshSettings *self = PHOSH_SETTINGS (data);
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshBtManager *manager;
-  gboolean enabled;
-
-  g_return_if_fail (PHOSH_IS_SETTINGS (self));
-
-  manager = phosh_shell_get_bt_manager (shell);
-  g_return_if_fail (PHOSH_IS_BT_MANAGER (manager));
-
-  enabled = phosh_bt_manager_get_enabled (manager);
-  phosh_bt_manager_set_enabled (manager, !enabled);
-}
-
 
 static void
 on_is_headphone_changed (PhoshSettings      *self,
@@ -293,9 +259,8 @@ on_is_headphone_changed (PhoshSettings      *self,
 
   if (phosh_audio_settings_get_output_is_headphone (self->audio_settings) ||
       !phosh_media_player_get_is_playable (media_player) ||
-      phosh_media_player_get_status (media_player) != PHOSH_MEDIA_PLAYER_STATUS_PLAYING) {
+      phosh_media_player_get_status (media_player) != PHOSH_MEDIA_PLAYER_STATUS_PLAYING)
     return;
-  }
 
   phosh_media_player_toggle_play_pause (media_player);
 }
@@ -352,7 +317,7 @@ on_torch_scale_value_changed (PhoshSettings *self, GtkScale *scale_torch)
 
   /* Only react to scale changes when torch is enabled */
   if (!phosh_torch_manager_get_enabled (self->torch_manager))
-      return;
+    return;
 
   self->setting_torch = TRUE;
   value = gtk_range_get_value (GTK_RANGE (self->scale_torch));
@@ -391,7 +356,7 @@ on_notification_frames_items_changed (PhoshSettings *self,
   g_return_if_fail (G_IS_LIST_MODEL (list));
 
   is_empty = !g_list_model_get_n_items (list);
-  g_debug("Notification list empty: %d", is_empty);
+  g_debug ("Notification list empty: %d", is_empty);
 
   child_name = is_empty ? STACK_CHILD_NO_NOTIFICATIONS : STACK_CHILD_NOTIFICATIONS;
   gtk_stack_set_visible_child_name (GTK_STACK (self->stack_notifications), child_name);
@@ -408,9 +373,9 @@ setup_brightness_range (PhoshSettings *self)
   gtk_range_set_round_digits (GTK_RANGE (self->scale_brightness), 0);
   gtk_range_set_increments (GTK_RANGE (self->scale_brightness), 1, 10);
   value_changed_handler_id = g_signal_connect (self->scale_brightness,
-                    "value-changed",
-                    G_CALLBACK(brightness_value_changed_cb),
-                    NULL);
+                                               "value-changed",
+                                               G_CALLBACK (brightness_value_changed_cb),
+                                               NULL);
   brightness_init (GTK_SCALE (self->scale_brightness), value_changed_handler_id);
 }
 
@@ -420,7 +385,7 @@ setup_torch (PhoshSettings *self)
 {
   PhoshShell *shell = phosh_shell_get_default ();
 
-  self->torch_manager = g_object_ref(phosh_shell_get_torch_manager (shell));
+  self->torch_manager = g_object_ref (phosh_shell_get_torch_manager (shell));
 
   g_object_bind_property (self->torch_manager, "enabled",
                           self->revealer, "reveal-child",
@@ -430,7 +395,7 @@ setup_torch (PhoshSettings *self)
                        phosh_torch_manager_get_scaled_brightness (self->torch_manager) * 100.0);
   g_signal_connect_object (self->torch_manager,
                            "notify::brightness",
-                           G_CALLBACK(on_torch_brightness_changed),
+                           G_CALLBACK (on_torch_brightness_changed),
                            self,
                            G_CONNECT_SWAPPED);
   g_object_bind_property (self->torch_manager, "can-scale",
@@ -540,8 +505,8 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[SETTING_DONE] = g_signal_new ("setting-done",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
+                                        G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+                                        NULL, G_TYPE_NONE, 0);
 
   g_type_ensure (PHOSH_TYPE_AUDIO_SETTINGS);
   g_type_ensure (PHOSH_TYPE_QUICK_SETTINGS);
@@ -569,8 +534,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
 
 static const GActionEntry entries[] = {
   { .name = "launch-panel", .activate = on_launch_panel_activated, .parameter_type = "s" },
-  { .name = "close-status-page", .activate = on_close_status_page_activated },
-  { .name = "toggle-bt", .activate = on_toggle_bt_activated },
 };
 
 
