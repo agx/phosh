@@ -550,7 +550,7 @@ on_calls_call_removed (PhoshLockscreen *self, const gchar *path)
 
   g_clear_pointer (&priv->active, g_free);
 
-  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->carousel));
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->box_info));
 }
 
 
@@ -580,13 +580,13 @@ on_deck_visible_child_changed (PhoshLockscreen *self, GParamSpec *pspec, HdyDeck
   visible_child = hdy_deck_get_visible_child (deck);
 
   /* Avoid forward swipe to calls page if there's no active call */
-  if (visible_child == priv->carousel &&
+  if (visible_child == priv->box_info &&
       phosh_calls_manager_get_active_call_handle (priv->calls_manager) == NULL) {
     swipe_forward = FALSE;
   }
 
   /* Avoid backward swipe to widget-box if there's no plugin */
-  if (visible_child == priv->carousel && !phosh_widget_box_has_plugins (PHOSH_WIDGET_BOX (priv->widget_box))) {
+  if (visible_child == priv->box_info && !phosh_widget_box_has_plugins (PHOSH_WIDGET_BOX (priv->widget_box))) {
     swipe_back = FALSE;
   }
 
@@ -846,7 +846,7 @@ deck_back_clicked_cb (GtkWidget       *sender,
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->carousel));
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->box_info));
 }
 
 
@@ -856,7 +856,7 @@ deck_forward_clicked_cb (GtkWidget       *sender,
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->carousel));
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->box_info));
 }
 
 
@@ -1134,13 +1134,13 @@ phosh_lockscreen_set_page (PhoshLockscreen *self, PhoshLockscreenPage page)
     /* there's no extra page set, so ... */
     G_GNUC_FALLTHROUGH;
   case PHOSH_LOCKSCREEN_PAGE_INFO:
-    scroll_to = priv->box_info;
+    scroll_to = GTK_WIDGET (priv->deck);
     break;
   case PHOSH_LOCKSCREEN_PAGE_UNLOCK:
     scroll_to = priv->box_unlock;
     break;
   default:
-    scroll_to = priv->box_info;
+    scroll_to = GTK_WIDGET (priv->deck);
     break;
   }
 
