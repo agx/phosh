@@ -44,6 +44,13 @@ create_bt_device_row (BluetoothDevice *device)
 
 
 static void
+on_enable_clicked (PhoshBtStatusPage *self)
+{
+  phosh_bt_manager_set_enabled (self->bt_manager, TRUE);
+}
+
+
+static void
 phosh_bt_status_page_dispose (GObject *object)
 {
   PhoshBtStatusPage *self = PHOSH_BT_STATUS_PAGE (object);
@@ -69,6 +76,8 @@ phosh_bt_status_page_class_init (PhoshBtStatusPageClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshBtStatusPage, devices_list_box);
   gtk_widget_class_bind_template_child (widget_class, PhoshBtStatusPage, enable_button);
   gtk_widget_class_bind_template_child (widget_class, PhoshBtStatusPage, stack);
+
+  gtk_widget_class_bind_template_callback (widget_class, on_enable_clicked);
 }
 
 
