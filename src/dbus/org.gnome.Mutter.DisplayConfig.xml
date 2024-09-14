@@ -217,6 +217,22 @@
     </method>
 
     <!--
+	Backlight:
+
+	A set of backlights. Each backlight is a dictionary with the following
+	entries. If an entry is only a connector, it means there is no way to
+	control it via this D-Bus interface.
+
+	  * 'connector' (s) - An associated monitor connector
+	  * 'active' (s) - True if the monitor is active
+	  * 'min_step' (i) - Minimum step amount (optional)
+	  * 'value' (i) - Current value (optional)
+
+	The initial 'u' is a serial number used when setting the backlight.
+    -->
+    <property name="Backlight" type="(uaa{sv})" access="read" />
+
+    <!--
         GetCrtcGamma:
 	@serial: configuration serial
 	@crtc: API id of the crtc
