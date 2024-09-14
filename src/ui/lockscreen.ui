@@ -17,6 +17,7 @@
           <object class="HdyDeck" id="deck">
             <property name="visible">True</property>
             <property name="transition-type">over</property>
+            <property name="vexpand">1</property>
             <property name="can-swipe-back">True</property>
             <property name="can-swipe-forward">False</property>
             <property name="transition-duration">400</property>
