@@ -7,7 +7,7 @@ subdir('gtk-list-models')
 
 phosh_enums_header_subdir = 'phosh'
 
-install_headers('phosh-settings-enums.h', subdir : phosh_enums_header_subdir)
+install_headers(schema_enum_headers, subdir : phosh_enums_header_subdir)
 
 pkgconfig.generate(
   requires : gsettings_desktop_schemas_dep,
