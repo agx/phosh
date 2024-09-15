@@ -479,6 +479,7 @@ if enable_introspection
                         libphosh_tool_sources,
                         libphosh_glib_generated_sources,
                         libphosh_glib_generated_headers,
+                        phosh_enum_headers,
                       ]
 
   phosh_gir_extra_args = [
