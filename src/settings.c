@@ -83,6 +83,7 @@ typedef struct _PhoshSettings
 
   /* Torch */
   PhoshTorchManager *torch_manager;
+  GtkWidget *revealer;
   GtkWidget *scale_torch;
   gboolean setting_torch;
 
@@ -727,6 +728,9 @@ setup_torch (PhoshSettings *self)
                            G_CALLBACK(on_torch_brightness_changed),
                            self,
                            G_CONNECT_SWAPPED);
+  g_object_bind_property (self->torch_manager, "can-scale",
+                          self->revealer, "visible",
+                          G_BINDING_SYNC_CREATE);
 }
 
 
@@ -869,6 +873,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, list_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, media_player);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, quick_settings);
+  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, revealer);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_torch);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack);

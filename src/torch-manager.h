@@ -21,6 +21,7 @@ const char        *phosh_torch_manager_get_icon_name (PhoshTorchManager *self);
 gboolean           phosh_torch_manager_get_enabled (PhoshTorchManager *self);
 gboolean           phosh_torch_manager_get_present (PhoshTorchManager *self);
 void               phosh_torch_manager_toggle (PhoshTorchManager *self);
+gboolean           phosh_torch_manager_get_can_scale (PhoshTorchManager *self);
 int                phosh_torch_manager_get_brightness (PhoshTorchManager *self);
 double             phosh_torch_manager_get_scaled_brightness (PhoshTorchManager *self);
 void               phosh_torch_manager_set_scaled_brightness (PhoshTorchManager *self, double frac);
