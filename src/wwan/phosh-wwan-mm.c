@@ -621,7 +621,7 @@ on_bus_get_ready (GObject *source_object, GAsyncResult *res, PhoshWWanMM *self)
 
   connection = g_bus_get_finish (res, &err);
   if (!connection) {
-    g_warning ("Failed to attach to system bus: %s", err->message);
+    phosh_async_error_warn (err, "Failed to attach to system bus");
     return;
   }
 
