@@ -444,6 +444,10 @@ page_changed_cb (PhoshOverview *self,
   if (phosh_shell_get_docked (phosh_shell_get_default ()))
     return;
 
+  /* ignore page changes when overview is not open */
+  if (!(phosh_shell_get_state (phosh_shell_get_default ()) & PHOSH_STATE_OVERVIEW))
+    return;
+
   list = gtk_container_get_children (GTK_CONTAINER (carousel));
   activity = PHOSH_ACTIVITY (g_list_nth_data (list, index));
   toplevel = get_toplevel_from_activity (activity);
