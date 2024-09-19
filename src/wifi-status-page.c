@@ -61,7 +61,7 @@ set_visible_page (PhoshWifiStatusPage *self, GParamSpec *pspec, PhoshWifiManager
   } else if (g_list_model_get_item (devices, 0) == NULL) {
     icon_name = "network-wireless-no-route-symbolic";
     title = _("No Wi-Fi Hotspots");
-    button_label = _("Scan");
+    button_label = NULL;
   } else {
     empty_state = FALSE;
   }
@@ -89,8 +89,6 @@ on_placeholder_clicked (PhoshWifiStatusPage *self, GtkWidget *widget)
     phosh_wifi_manager_set_enabled (self->wifi, TRUE);
   else if (hotspot_enabled)
     phosh_wifi_manager_set_hotspot_master (self->wifi, FALSE);
-  else
-    phosh_wifi_manager_request_scan (self->wifi);
 }
 
 static void
