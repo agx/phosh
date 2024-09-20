@@ -80,16 +80,26 @@ phosh_toplevel_is_fullscreen (PhoshToplevel *self)
 }
 
 void
-phosh_toplevel_activate (PhoshToplevel *self, struct wl_seat *seat) {
+phosh_toplevel_activate (PhoshToplevel *self, struct wl_seat *seat)
+{
   g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
 }
 
 
 void
-phosh_toplevel_close (PhoshToplevel *self) {
+phosh_toplevel_close (PhoshToplevel *self)
+{
   g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
 }
 
+
+struct zwlr_foreign_toplevel_handle_v1 *
+phosh_toplevel_get_parent_handle (PhoshToplevel *self)
+{
+  g_return_val_if_fail (PHOSH_IS_TOPLEVEL (self), NULL);
+
+  return NULL;
+}
 
 PhoshToplevel *
 phosh_toplevel_new_from_handle (struct zwlr_foreign_toplevel_handle_v1 *handle)

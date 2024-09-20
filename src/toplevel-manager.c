@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2019 Purism SPC
+ *               2024 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -21,7 +22,8 @@
  * PhoshToplevelManager:
  *
  * Tracks and interacts with toplevel surfaces for window management
- * purposes.
+ * purposes using the wlr-foreign-toplevel-unstable-v1 wayland
+ * protocol.
  */
 
 enum {
@@ -40,8 +42,8 @@ static guint signals[N_SIGNALS] = { 0 };
 
 struct _PhoshToplevelManager {
   GObject parent;
-  GPtrArray *toplevels;
-  GPtrArray *toplevels_pending;
+  GPtrArray *toplevels;         /* (element-type: PhoshToplevel) */
+  GPtrArray *toplevels_pending; /* (element-type: PhoshToplevel) */
 };
 
 G_DEFINE_TYPE (PhoshToplevelManager, phosh_toplevel_manager, G_TYPE_OBJECT);
@@ -81,7 +83,7 @@ on_toplevel_closed (PhoshToplevelManager *self, PhoshToplevel *toplevel)
     return;
   }
 
-  g_assert_true(g_ptr_array_remove (self->toplevels, toplevel));
+  g_assert_true (g_ptr_array_remove (self->toplevels, toplevel));
 
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_NUM_TOPLEVELS]);
 }
@@ -113,10 +115,9 @@ on_toplevel_configured (PhoshToplevelManager *self, GParamSpec *pspec, PhoshTopl
 
 
 static void
-handle_zwlr_foreign_toplevel_manager_toplevel(
-  void *data,
-  struct zwlr_foreign_toplevel_manager_v1 *zwlr_foreign_toplevel_manager_v1,
-  struct zwlr_foreign_toplevel_handle_v1 *handle)
+handle_zwlr_foreign_toplevel_manager_toplevel (void                                    *data,
+                                               struct zwlr_foreign_toplevel_manager_v1 *unused,
+                                               struct zwlr_foreign_toplevel_handle_v1  *handle)
 {
   PhoshToplevelManager *self = data;
   PhoshToplevel *toplevel;
@@ -126,22 +127,25 @@ handle_zwlr_foreign_toplevel_manager_toplevel(
   g_ptr_array_add (self->toplevels_pending, toplevel);
 
   g_signal_connect_swapped (toplevel, "closed", G_CALLBACK (on_toplevel_closed), self);
-  g_signal_connect_swapped (toplevel, "notify::configured", G_CALLBACK (on_toplevel_configured), self);
+  g_signal_connect_swapped (toplevel,
+                            "notify::configured",
+                            G_CALLBACK (on_toplevel_configured),
+                            self);
 
   g_debug ("Got toplevel %p", toplevel);
 }
 
 
 static void
-handle_zwlr_foreign_toplevel_manager_finished(
-  void *data,
-  struct zwlr_foreign_toplevel_manager_v1 *zwlr_foreign_toplevel_manager_v1)
+handle_zwlr_foreign_toplevel_manager_finished (void                                    *data,
+                                               struct zwlr_foreign_toplevel_manager_v1 *unused)
 {
   g_debug ("wlr_foreign_toplevel_manager_finished");
 }
 
 
-static const struct zwlr_foreign_toplevel_manager_v1_listener zwlr_foreign_toplevel_manager_listener = {
+static const
+struct zwlr_foreign_toplevel_manager_v1_listener zwlr_foreign_toplevel_manager_listener = {
   handle_zwlr_foreign_toplevel_manager_toplevel,
   handle_zwlr_foreign_toplevel_manager_finished,
 };
@@ -152,7 +156,7 @@ phosh_toplevel_manager_dispose (GObject *object)
 {
   PhoshToplevelManager *self = PHOSH_TOPLEVEL_MANAGER (object);
   if (self->toplevels) {
-    g_ptr_array_free(self->toplevels, TRUE);
+    g_ptr_array_free (self->toplevels, TRUE);
     self->toplevels = NULL;
   }
   if (self->toplevels_pending) {
@@ -212,18 +216,20 @@ static void
 phosh_toplevel_manager_init (PhoshToplevelManager *self)
 {
   struct zwlr_foreign_toplevel_manager_v1 *toplevel_manager;
-  toplevel_manager = phosh_wayland_get_zwlr_foreign_toplevel_manager_v1 (
-     phosh_wayland_get_default ());
+
+  toplevel_manager =
+    phosh_wayland_get_zwlr_foreign_toplevel_manager_v1 (phosh_wayland_get_default ());
 
   self->toplevels = g_ptr_array_new_with_free_func ((GDestroyNotify) (g_object_unref));
   self->toplevels_pending = g_ptr_array_new ();
 
   if (!toplevel_manager) {
-    g_warning ("Skipping app list due to missing wlr-foreign-toplevel-management protocol extension");
+    g_critical ("Missing wlr-foreign-toplevel-management protocol extension");
     return;
   }
 
-  zwlr_foreign_toplevel_manager_v1_add_listener (toplevel_manager, &zwlr_foreign_toplevel_manager_listener, self);
+  zwlr_foreign_toplevel_manager_v1_add_listener (toplevel_manager,
+                                                 &zwlr_foreign_toplevel_manager_listener, self);
 }
 
 
@@ -260,4 +266,35 @@ phosh_toplevel_manager_get_num_toplevels (PhoshToplevelManager *self)
   g_return_val_if_fail (self->toplevels, 0);
 
   return self->toplevels->len;
+}
+
+/**
+ * phosh_toplevel_manager_get_parent:
+ * @self: The toplevel manager
+ * @toplevel: The toplevel to get the parent for
+ *
+ * Gets the parent toplevel of a given toplevel
+ *
+ * Returns:(transfer none)(nullable): The toplevel
+ */
+PhoshToplevel *
+phosh_toplevel_manager_get_parent (PhoshToplevelManager *self, PhoshToplevel *toplevel)
+{
+  struct zwlr_foreign_toplevel_handle_v1 *parent_handle;
+
+  g_return_val_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (self), NULL);
+  g_return_val_if_fail (self->toplevels, NULL);
+
+  parent_handle = phosh_toplevel_get_parent_handle (toplevel);
+  if (parent_handle == NULL)
+    return NULL;
+
+  for (int i = 0; i < self->toplevels->len; i++) {
+    PhoshToplevel *t;
+
+    t = g_ptr_array_index (self->toplevels, i);
+    if (parent_handle == phosh_toplevel_get_handle (t))
+      return t;
+  }
+  return NULL;
 }

@@ -265,7 +265,10 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   PhoshOverviewPrivate *priv;
   GtkWidget *activity;
   const char *app_id, *title;
+  const char *parent_app_id = NULL;
   int width, height;
+  PhoshToplevelManager *m = phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
+  PhoshToplevel *parent = NULL;
 
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   priv = phosh_overview_get_instance_private (self);
@@ -273,23 +276,28 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   app_id = phosh_toplevel_get_app_id (toplevel);
   title = phosh_toplevel_get_title (toplevel);
 
+  if (phosh_toplevel_get_parent_handle (toplevel))
+    parent = phosh_toplevel_manager_get_parent (m, toplevel);
+  if (parent)
+    parent_app_id = phosh_toplevel_get_app_id (parent);
+
   g_debug ("Building activator for '%s' (%s)", app_id, title);
-  activity = phosh_activity_new (app_id);
   phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, &height);
-  g_object_set (activity,
-                "win-width", width,
-                "win-height", height,
-                "maximized", phosh_toplevel_is_maximized (toplevel),
-                "fullscreen", phosh_toplevel_is_fullscreen (toplevel),
-                NULL);
+  activity = g_object_new (PHOSH_TYPE_ACTIVITY,
+                           "app-id", app_id,
+                           "parent-app-id", parent_app_id,
+                           "win-width", width,
+                           "win-height", height,
+                           "maximized", phosh_toplevel_is_maximized (toplevel),
+                           "fullscreen", phosh_toplevel_is_fullscreen (toplevel),
+                           NULL);
   g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);
 
   gtk_container_add (GTK_CONTAINER (priv->carousel_running_activities), activity);
   gtk_widget_show (activity);
 
   g_signal_connect_swapped (activity, "clicked", G_CALLBACK (on_activity_clicked), self);
-  g_signal_connect_swapped (activity, "closed",
-                            G_CALLBACK (on_activity_closed), self);
+  g_signal_connect_swapped (activity, "closed", G_CALLBACK (on_activity_closed), self);
 
   g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), self, 0);
   g_signal_connect_object (toplevel, "notify::activated", G_CALLBACK (on_toplevel_activated_changed), self, 0);

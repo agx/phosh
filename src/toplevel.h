@@ -21,9 +21,11 @@ PhoshToplevel *phosh_toplevel_new_from_handle (struct zwlr_foreign_toplevel_hand
 const char *phosh_toplevel_get_title (PhoshToplevel *self);
 const char *phosh_toplevel_get_app_id (PhoshToplevel *self);
 struct zwlr_foreign_toplevel_handle_v1 *phosh_toplevel_get_handle (PhoshToplevel *self);
+struct zwlr_foreign_toplevel_handle_v1 *phosh_toplevel_get_parent_handle (PhoshToplevel *self);
 gboolean phosh_toplevel_is_configured (PhoshToplevel *self);
 gboolean phosh_toplevel_is_activated (PhoshToplevel *self);
 gboolean phosh_toplevel_is_maximized (PhoshToplevel *self);
 gboolean phosh_toplevel_is_fullscreen (PhoshToplevel *self);
 void phosh_toplevel_activate (PhoshToplevel *self, struct wl_seat *seat);
 void phosh_toplevel_close (PhoshToplevel *self);
+
