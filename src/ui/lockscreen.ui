@@ -5,71 +5,71 @@
   <template class="PhoshLockscreen" parent="PhoshLayerSurface">
     <property name="can-focus">False</property>
     <child>
-      <object class="HdyDeck" id="deck">
+      <object class="HdyCarousel" id="carousel">
         <property name="visible">True</property>
-        <property name="transition-type">over</property>
-        <property name="can-swipe-back">True</property>
-        <property name="can-swipe-forward">False</property>
-        <property name="transition-duration">400</property>
-        <property name="visible-child">carousel</property>
-        <signal name="notify::visible-child" handler="on_deck_visible_child_changed" swapped="yes"/>
-        <signal name="notify::transition-running" handler="on_deck_transition_running_changed" swapped="yes"/>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="animation-duration">400</property>
+        <property name="allow-mouse-drag">True</property>
+        <signal name="notify::position" handler="carousel_position_notified_cb" swapped="yes"/>
+        <signal name="page-changed" handler="carousel_page_changed_cb" swapped="yes"/>
         <child>
-          <object class="GtkBox" id="box_widget_box">
+          <object class="HdyDeck" id="deck">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
-            <!-- PHOSH_TOP_PANEL_HEIGHT -->
-            <property name="margin-top">32</property>
-            <property name="spacing">12</property>
+            <property name="transition-type">over</property>
+            <property name="vexpand">1</property>
+            <property name="can-swipe-back">True</property>
+            <property name="can-swipe-forward">False</property>
+            <property name="transition-duration">400</property>
+            <property name="visible-child">box_info</property>
+            <signal name="notify::visible-child" handler="on_deck_visible_child_changed" swapped="yes"/>
+            <signal name="notify::transition-running" handler="on_deck_transition_running_changed" swapped="yes"/>
             <child>
-              <object class="GtkButton">
+              <object class="GtkBox" id="box_widget_box">
                 <property name="visible">True</property>
-                <property name="halign">start</property>
-                <property name="margin-start">16</property>
-                <property name="margin-top">16</property>
-                <signal name="clicked" handler="deck_forward_clicked_cb"/>
-                <style>
-                  <class name="image-button"/>
-                  <class name="circular"/>
-                </style>
-                <child internal-child="accessible">
-                  <object class="AtkObject">
-                    <property name="accessible-name" translatable="yes">Back</property>
-                  </object>
-                </child>
+                <property name="orientation">vertical</property>
+                <!-- PHOSH_TOP_PANEL_HEIGHT -->
+                <property name="margin-top">32</property>
+                <property name="spacing">12</property>
                 <child>
-                  <object class="GtkImage">
+                  <object class="GtkButton">
                     <property name="visible">True</property>
-                    <property name="icon_name">go-next-symbolic</property>
-                    <property name="icon_size">1</property>
+                    <property name="halign">start</property>
+                    <property name="margin-start">16</property>
+                    <property name="margin-top">16</property>
+                    <signal name="clicked" handler="deck_forward_clicked_cb"/>
+                    <style>
+                      <class name="image-button"/>
+                      <class name="circular"/>
+                    </style>
+                    <child internal-child="accessible">
+                      <object class="AtkObject">
+                        <property name="accessible-name" translatable="yes">Back</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="icon_name">go-next-symbolic</property>
+                        <property name="icon_size">1</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
-              </object>
-            </child>
-            <child type="center">
-              <object class="HdyClamp">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="maximum_size">720</property>
-                <child>
-                  <object class="PhoshWidgetBox" id="widget_box">
+                <child type="center">
+                  <object class="HdyClamp">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="maximum_size">720</property>
+                    <child>
+                      <object class="PhoshWidgetBox" id="widget_box">
+                        <property name="visible">True</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
-              </object>
+              </object> <!-- box_wiget_box -->
             </child>
-          </object> <!-- box_wiget_box -->
-        </child>
-
-        <child>
-          <object class="HdyCarousel" id="carousel">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-            <property name="animation-duration">400</property>
-            <property name="allow-mouse-drag">True</property>
-            <signal name="notify::position" handler="carousel_position_notified_cb" swapped="yes"/>
-            <signal name="page-changed" handler="carousel_page_changed_cb" swapped="yes"/>
             <child>
               <object class="GtkBox" id="box_info">
                 <property name="visible">True</property>
@@ -227,134 +227,135 @@
                         </child>
                       </object>
                     </child>
-
                   </object>
                 </child>
-              </object>
+              </object> <!-- box_info -->
             </child>
             <child>
-              <object class="GtkBox" id="box_unlock">
+              <object class="GtkBox" id="box_call_display">
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
-                <property name="halign">center</property>
-                <property name="valign">center</property>
+                <property name="expand">False</property>
+                <!-- PHOSH_TOP_PANEL_HEIGHT -->
+                <property name="margin-top">32</property>
                 <property name="spacing">12</property>
-                <property name="margin_top">100</property>
                 <child>
-                  <object class="GtkLabel" id="lbl_unlock_status">
+                  <object class="GtkButton">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">Enter Passcode</property>
-                    <attributes>
-                      <attribute name="font-desc" value="16"/>
-                    </attributes>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="entry_pin">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="has-frame">False</property>
-                    <property name="margin_top">12</property>
-                    <property name="margin_bottom">12</property>
-                    <property name="visibility">False</property>
-                    <property name="xalign">0.5</property>
-                    <property name="input-purpose">GTK_INPUT_PURPOSE_PASSWORD</property>
-                    <property name="buffer">pin_buffer</property>
+                    <property name="halign">start</property>
+                    <property name="expand">False</property>
+                    <property name="margin-start">16</property>
+                    <property name="margin-top">16</property>
+                    <signal name="clicked" handler="deck_back_clicked_cb"/>
                     <style>
-                      <class name="phosh-lockscreen-pin"/>
+                      <class name="image-button"/>
+                      <class name="circular"/>
                     </style>
-                    <signal name="changed" handler="input_changed_cb" swapped="yes"/>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkRevealer" id="keypad_revealer">
-                    <property name="visible">True</property>
+                    <child internal-child="accessible">
+                      <object class="AtkObject" id="a11y-deck-sub-back">
+                        <property name="accessible-name" translatable="yes">Back</property>
+                      </object>
+                    </child>
                     <child>
-                      <object class="PhoshKeypad" id="keypad">
+                      <object class="GtkImage">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">center</property>
-                        <property name="valign">center</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="entry">entry_pin</property>
-                        <property name="start-action">btn_keyboard</property>
-                        <property name="end-action">btn_delete</property>
+                        <property name="icon_name">go-previous-symbolic</property>
+                        <property name="icon_size">1</property>
                       </object>
                     </child>
                   </object>
                 </child>
-                <child>
-                  <object class="GtkBox">
+                <child type="center">
+                  <object class="CuiCallDisplay" id="call_display">
                     <property name="visible">True</property>
-                    <property name="margin_start">16</property>
-                    <property name="margin_end">16</property>
-                    <property name="halign">center</property>
-
-                    <child>
-                      <object class="GtkButton" id="btn_submit">
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="label" translatable="yes">Unlock</property>
-                        <signal name="clicked" handler="submit_cb" swapped="yes"/>
-                        <style>
-                          <class name="text-only-button"/>
-                          <class name="circular"/>
-                        </style>
-                      </object>
-                    </child>
                   </object>
                 </child>
-              </object>
+              </object> <!-- box_call_display -->
             </child>
-          </object> <!-- carousel -->
+
+          </object> <!-- HdyDeck -->
         </child>
 
         <child>
-          <object class="GtkBox" id="box_call_display">
+          <object class="GtkBox" id="box_unlock">
             <property name="visible">True</property>
             <property name="orientation">vertical</property>
-            <property name="expand">False</property>
-            <!-- PHOSH_TOP_PANEL_HEIGHT -->
-            <property name="margin-top">32</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
             <property name="spacing">12</property>
+            <property name="margin_top">100</property>
             <child>
-              <object class="GtkButton">
+              <object class="GtkLabel" id="lbl_unlock_status">
                 <property name="visible">True</property>
-                <property name="halign">start</property>
-                <property name="expand">False</property>
-                <property name="margin-start">16</property>
-                <property name="margin-top">16</property>
-                <signal name="clicked" handler="deck_back_clicked_cb"/>
+                <property name="label" translatable="yes">Enter Passcode</property>
+                <attributes>
+                  <attribute name="font-desc" value="16"/>
+                </attributes>
+              </object>
+            </child>
+            <child>
+              <object class="GtkEntry" id="entry_pin">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="has-frame">False</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
+                <property name="visibility">False</property>
+                <property name="xalign">0.5</property>
+                <property name="input-purpose">GTK_INPUT_PURPOSE_PASSWORD</property>
+                <property name="buffer">pin_buffer</property>
                 <style>
-                  <class name="image-button"/>
-                  <class name="circular"/>
+                  <class name="phosh-lockscreen-pin"/>
                 </style>
-                <child internal-child="accessible">
-                  <object class="AtkObject" id="a11y-deck-sub-back">
-                    <property name="accessible-name" translatable="yes">Back</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkImage">
-                    <property name="visible">True</property>
-                    <property name="icon_name">go-previous-symbolic</property>
-                    <property name="icon_size">1</property>
-                  </object>
-                </child>
+                <signal name="changed" handler="input_changed_cb" swapped="yes"/>
               </object>
             </child>
-            <child type="center">
-              <object class="CuiCallDisplay" id="call_display">
+            <child>
+              <object class="GtkRevealer" id="keypad_revealer">
                 <property name="visible">True</property>
+                <child>
+                  <object class="PhoshKeypad" id="keypad">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="entry">entry_pin</property>
+                    <property name="start-action">btn_keyboard</property>
+                    <property name="end-action">btn_delete</property>
+                  </object>
+                </child>
               </object>
             </child>
-          </object> <!-- box_call_display -->
-        </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="margin_start">16</property>
+                <property name="margin_end">16</property>
+                <property name="halign">center</property>
+                <child>
+                  <object class="GtkButton" id="btn_submit">
+                    <property name="visible">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="label" translatable="yes">Unlock</property>
+                    <signal name="clicked" handler="submit_cb" swapped="yes"/>
+                    <style>
+                      <class name="text-only-button"/>
+                      <class name="circular"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child> <!-- box_unlock -->
 
-      </object> <!-- HdyDeck -->
+      </object>
     </child>
+
   </template>
+
   <object class="GtkButton" id="btn_delete">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
@@ -367,6 +368,7 @@
       </object>
     </child>
   </object>
+
   <object class="GtkButton" id="btn_keyboard">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
@@ -379,10 +381,13 @@
       </object>
     </child>
   </object>
+
   <object class="GtkGestureLongPress" id="long_press_del_gesture">
     <property name="widget">btn_delete</property>
     <signal name="pressed" handler="long_press_del_cb" object="PhoshLockscreen" swapped="true"/>
   </object>
+
   <object class="GcrSecureEntryBuffer" id="pin_buffer">
   </object>
+
 </interface>

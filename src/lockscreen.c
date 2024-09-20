@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018 Purism SPC
+ *               2024 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -549,7 +550,7 @@ on_calls_call_removed (PhoshLockscreen *self, const gchar *path)
 
   g_clear_pointer (&priv->active, g_free);
 
-  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->carousel));
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->box_info));
 }
 
 
@@ -579,13 +580,13 @@ on_deck_visible_child_changed (PhoshLockscreen *self, GParamSpec *pspec, HdyDeck
   visible_child = hdy_deck_get_visible_child (deck);
 
   /* Avoid forward swipe to calls page if there's no active call */
-  if (visible_child == priv->carousel &&
+  if (visible_child == priv->box_info &&
       phosh_calls_manager_get_active_call_handle (priv->calls_manager) == NULL) {
     swipe_forward = FALSE;
   }
 
   /* Avoid backward swipe to widget-box if there's no plugin */
-  if (visible_child == priv->carousel && !phosh_widget_box_has_plugins (PHOSH_WIDGET_BOX (priv->widget_box))) {
+  if (visible_child == priv->box_info && !phosh_widget_box_has_plugins (PHOSH_WIDGET_BOX (priv->widget_box))) {
     swipe_back = FALSE;
   }
 
@@ -845,7 +846,7 @@ deck_back_clicked_cb (GtkWidget       *sender,
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->carousel));
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->box_info));
 }
 
 
@@ -855,7 +856,7 @@ deck_forward_clicked_cb (GtkWidget       *sender,
 {
   PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
 
-  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->carousel));
+  hdy_deck_set_visible_child (priv->deck, GTK_WIDGET (priv->box_info));
 }
 
 
@@ -1079,8 +1080,8 @@ phosh_lockscreen_new (GType lockscreen_type,
 }
 
 /**
- * phosh_lockscreen_get_page
- * @self: The #PhoshLockscreen
+ * phosh_lockscreen_get_page:
+ * @self: The `PhoshLockscreen`
  *
  * Returns: The #PhoshLockscreenPage that is currently shown
  */
@@ -1108,12 +1109,13 @@ phosh_lockscreen_get_page (PhoshLockscreen *self)
   return PHOSH_LOCKSCREEN_PAGE_UNLOCK;
 }
 
-/*
- * phosh_lockscreen_set_page
- * @self: The #PhoshLockscreen
- * PhoshLockscreenPage: the page to scroll to
+/**
+ * phosh_lockscreen_set_page:
+ * @self: The `PhoshLockscreen`
+ * page: The page to scroll to
  *
- * Scrolls to a specific page in the carousel. The state of the deck isn't changed.
+ * Scrolls to a specific page in the carousel. The state of the deck
+ * isn't changed.
  */
 void
 phosh_lockscreen_set_page (PhoshLockscreen *self, PhoshLockscreenPage page)
@@ -1132,23 +1134,23 @@ phosh_lockscreen_set_page (PhoshLockscreen *self, PhoshLockscreenPage page)
     /* there's no extra page set, so ... */
     G_GNUC_FALLTHROUGH;
   case PHOSH_LOCKSCREEN_PAGE_INFO:
-    scroll_to = priv->box_info;
+    scroll_to = GTK_WIDGET (priv->deck);
     break;
   case PHOSH_LOCKSCREEN_PAGE_UNLOCK:
     scroll_to = priv->box_unlock;
     break;
   default:
-    scroll_to = priv->box_info;
+    scroll_to = GTK_WIDGET (priv->deck);
     break;
   }
 
   hdy_carousel_scroll_to (HDY_CAROUSEL (priv->carousel), scroll_to);
 }
 
-/*
- * phosh_lockscreen_set_default_page
- * @self: The #PhoshLockscreen
- * PhoshLockscreenPage: the page to show by default
+/**
+ * phosh_lockscreen_set_default_page:
+ * @self: The `PhoshLockscreen`
+ * page: the page to show by default
  *
  * Specifies which page should be shown by default when the lockscreen is made visible. This will
  * also be the page that is shown when the keypad idle timer is reached.
@@ -1163,11 +1165,13 @@ phosh_lockscreen_set_default_page (PhoshLockscreen *self, PhoshLockscreenPage pa
   priv->default_page = page;
 }
 
-/*
- * phosh_lockscreen_get_pin_entry
- * @self: The #PhoshLockscreen
+/**
+ * phosh_lockscreen_get_pin_entry:
+ * @self: The `PhoshLockscreen`
  *
- * Returns: the current contents of the keypad PIN entry buffer
+ * Get the current contents of the keypad PIN entry buffer
+ *
+ * Returns: the contents of the entry buffer
  */
 const char*
 phosh_lockscreen_get_pin_entry (PhoshLockscreen *self)
@@ -1179,9 +1183,9 @@ phosh_lockscreen_get_pin_entry (PhoshLockscreen *self)
   return gtk_entry_get_text (GTK_ENTRY (priv->entry_pin));
 }
 
-/*
- * phosh_lockscreen_clear_pin_entry
- * @self: The #PhoshLockscreen
+/**
+ * phosh_lockscreen_clear_pin_entry:
+ * @self: The `PhoshLockscreen`
  *
  * Clears the current contents of the keypad PIN entry buffer
  */
@@ -1194,9 +1198,9 @@ phosh_lockscreen_clear_pin_entry (PhoshLockscreen *self)
   gtk_editable_delete_text (GTK_EDITABLE (priv->entry_pin), 0, -1);
 }
 
-/*
- * phosh_lockscreen_shake_pin_entry
- * @self: The #PhoshLockscreen
+/**
+ * phosh_lockscreen_shake_pin_entry:
+ * @self: The `PhoshLockscreen`
  *
  * Triggers an animation that shakes the PIN entry left and right for a brief period.
  * After the animation is complete, the PIN entry buffer is cleared. Used to visually indicate
@@ -1219,15 +1223,15 @@ phosh_lockscreen_shake_pin_entry (PhoshLockscreen *self)
                                 (GDestroyNotify) g_variant_unref);
 }
 
-/*
- * phosh_lockscreen_add_extra_page
- * @self: The #PhoshLockscreen
+/**
+ * phosh_lockscreen_add_extra_page:
+ * @self: The `PhoshLockscreen`
  * @widget: The extra #GtkWidget to insert into the lockscreen carousel
  *
  * Inserts a custom widget into the "extra" page of the lockscreen. This page sits in-between the
  * info page and the keypad page. By default, this page does not exist and is not used. Once an
  * extra page is added, it can be navigated to by swiping and also via calls to
- * phosh_lockscreen_set_default_page.
+ * [method@Lockscreen.set_default_page].
  */
 void
 phosh_lockscreen_add_extra_page (PhoshLockscreen *self, GtkWidget *widget)
@@ -1240,6 +1244,13 @@ phosh_lockscreen_add_extra_page (PhoshLockscreen *self, GtkWidget *widget)
   hdy_carousel_insert (HDY_CAROUSEL (priv->carousel), priv->extra_page, 1);
 }
 
+/**
+ * phosh_lockscreen_set_unlock_status:
+ * @self: The `PhoshLockscreen`
+ * @status: The status text
+ *
+ * Sets the text displayed in the unlock status label.
+ */
 void
 phosh_lockscreen_set_unlock_status (PhoshLockscreen *self, const char *status)
 {
