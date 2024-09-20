@@ -1,3 +1,51 @@
+phosh 0.42~rc1
+--------------
+Released September 2024
+* lockscreen: Allow to adjust to smaller screen sizes
+* lockscreen: Swap horizontal deck and vertical carousel to not accidentally
+  trigger swipe when entering PIN
+* upcoming-events: Plugin allow to configure number of days
+* torch: Hide brightness slider when there's only a single brightness level
+* Use parent's icon for toplevels without a proper matching icon
+* Handle WWan network types better
+* Fix Wi-Fi hotspot related crash
+* Make Wi-Fi hotspot insensitive on lock screen to be consistent
+  with Wi-Fi network switching.
+* Make compatibility with g-s-d 47
+* In preparation of Cell Broadcast support use mm-glib for
+  ModemManager interaction
+* Ease setup for libphosh-rs users
+* Issues fixed:
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1104
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1108
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1115
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/899
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/970
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/858
+* Contributors:
+    * Arun Mani J
+    * Evangelos Ribeiro Tzaras
+    * Guido Günther
+    * Jared Toomey
+    * Sam Day
+* UI translations:
+    * Antonio Marin (ro)
+    * Artur S0 (ru)
+    * Balázs Úr (hu)
+    * Bruce Cowan (en_GB)
+    * Danial Behzadi (fa)
+    * Daniel Rusek (cs)
+    * Ekaterine Papava (ka)
+    * Emin Tufan Çetin (tr)
+    * Jiri Grönroos (fi)
+    * Jordi Mas i Hernandez (ca)
+    * Juliano de Souza Camargo (pt_BR)
+    * Jürgen Benvenuti (de)
+    * Martin (sl)
+    * Sabri Ünal (tr)
+    * Vasil Pupkin (be)
+    * Yuri Chornoivan (uk)
+
 phosh 0.41.0
 ------------
 Released August 2024
