@@ -167,27 +167,12 @@ on_notification_expired (PhoshNotifyManager *self,
 
 
 static void
-on_unlock_notify_ref_gone (gpointer data, GObject *gone)
-{
-  PhoshNotifyManager *self = PHOSH_NOTIFY_MANAGER (data);
-
-  g_return_if_fail (PHOSH_IS_NOTIFY_MANAGER (self));
-
-  self->unlock_notify.notification = NULL;
-  g_clear_pointer (&self->unlock_notify.action, g_free);
-}
-
-
-static void
 forget_unlock_notify (PhoshNotifyManager *self)
 {
   if (!self->unlock_notify.notification)
     return;
 
-  g_object_weak_unref (G_OBJECT (self->unlock_notify.notification),
-                       on_unlock_notify_ref_gone,
-                       self);
-  self->unlock_notify.notification = NULL;
+  g_clear_object (&self->unlock_notify.notification);
   g_clear_pointer (&self->unlock_notify.action, g_free);
 }
 
@@ -248,20 +233,15 @@ on_notification_actioned (PhoshNotifyManager *self,
    * https://gitlab.freedesktop.org/xdg/xdg-specs/-/issues/103
    */
   if (phosh_shell_get_locked (shell) && g_strcmp0 (action, "default") == 0) {
-    PhoshLockscreenManager *lm;
+    PhoshLockscreenManager *lm = phosh_shell_get_lockscreen_manager (shell);
 
     /* Forget any pending actions */
     forget_unlock_notify (self);
 
-    /* Clear out notification if it goes away in the meantime */
-    g_object_weak_ref (G_OBJECT (notification),
-                       on_unlock_notify_ref_gone,
-                       self);
-    self->unlock_notify.notification = notification;
+    self->unlock_notify.notification = g_object_ref (notification);
     self->unlock_notify.action = g_strdup (action);
 
     /* Scroll to unlock page */
-    lm = phosh_shell_get_lockscreen_manager (shell);
     phosh_lockscreen_manager_set_page (lm, PHOSH_LOCKSCREEN_PAGE_UNLOCK);
   } else {
     invoke_action (self, notification, action);
