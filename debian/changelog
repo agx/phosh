@@ -1,3 +1,268 @@
+phosh (0.42~rc1) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * build: Specify minimum versions for plugin pref libs.
+    We're requiring a minimum libadwaita version to not hit deprecations so
+    we should specify that as version requirement. While at that do the same
+    for GTK4.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1104
+    Tested-by: Anna Vyalkova <cyber@sysrq.in>
+  * wwan-mm: Handle access-tec bitmasks better.
+    The switch statement missed things like
+      MM_MODEM_ACCESS_TECHNOLOGY_GPRS | MM_MODEM_ACCESS_TECHNOLOGY_GSM
+    so instead of adding all possible combinations to the switch use if /
+    else instead and check from newest generation to oldest ones.
+    This makes the mobile network generation show in more cases.
+  * lockscreen: Improve documentation.
+    This shows up in the
+  * shell: Document ready signal
+  * wall-clock: Fix parameter names in declarations.
+    Make them match the ones used in the definition
+  * wall-clock: Document class and properties.
+    This makes the Rust docs look more complete
+  * lockscreen: Improve enum doc.
+    Use backticks to they work better in markdown and separate summary from
+    the details.
+  * docs: Add phosh-config.h to example
+  * build: Disable feedbackd tests.
+    They just take time and the test options confuse ASAN
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1108
+    Tested-by: Arun Mani J <j.arunmani@proton.me>
+  * wifi-hotspot-quick-setting: Make sure 'state' signal gets disconnected.
+    The WifiManager outlives the quick setting (which might get added /
+    removed at runtime when enabling disabling quick settings) we hence need
+    to make sure we disconnect the signal when the quick setting goes away.
+    Do so by using `g_signal_connect_object`.
+    This fixes that looks like
+      #0  0x00005652da08fc4f in PHOSH_IS_STATUS_ICON (ptr=0x21) at ../src/status-icon.h:15
+      #1  phosh_status_icon_set_info (self=0x21, info=0x7f5429c09061 "Hotspot Off") at ../src/status-icon.c:377
+      #2  0x00007f5429c0851f in update_info (self=0x565300804880) at ../plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:80
+      #7  0x00007f542c0fffc3 in <emit signal 'notify:state' on instance 0x5652fd787d90 [PhoshWifiManager]>
+  * wifi-hotspot-quick-settings: Use `_cb` suffix.
+    If we don't use the `on_` pattern because we want to describe what
+    happens rather then on what event the callback is triggered we append
+    `_cb` to indicate a callback.
+  * shell: Make get_locked() available to plugins.
+    Useful to determine their lockscreen state
+  * wifi-hotspot-quick-setting: Disable on lock screen.
+    We don't allow changing Wi-Fi networks so we shouldn't allow enabling
+    hotspot either.
+  * treewide: Use margin-{start,end} instead of margin-{left,right}
+    The later are deprecated
+  * tools: Add check so that deprecated tags don't creep back in
+  * packaging: Add dependency on desktop schemas.
+    They're a dependency of the pkg-config file so we need to add them here
+    too.
+  * docs: Drop superfluous 0 initializer
+  * docs: Clarify callback naming.
+    Add more details on how we name the different handlers.
+  * build: Bump polkit dependency.
+    The needed versions are in Debian stable. This allows us to drop some
+    `ifdef`s.
+  * wwan-iface: Fix base class.
+    Implementors must derive from PhoshWwanManager. Both the MM and Ofono
+    implementation do this, this just maked it explicit.
+  * wwan-mm: Simplify modem cold plug.
+    This ensures we do the same things as in the hotplug path.
+  * wwan-mm: Disconnect by data.
+    Easier than storing the ids
+  * build: Depend on mm-glib.
+    Used for cell broadcast and will be used for more modem integration
+  * wwan-mm: Use MMManger instead of our generated object manager.
+    We'll use more things from mm-glib so use this to interface with
+    ModemManager.
+    This also allows us to drop enums copied over from mm-glib
+  * wwan-mm: Use our generic dbus_client_protos.
+    Since we dropped the object manager there's no need to open code it
+    anymore.
+  * wwan-mm: Switch to MM proxies for modem and modem3gpp.
+    This allows us to drop the gdbus-codegen generated bits.
+    Add cancellable while at that.
+  * wwan-mm: Move manager object creation to init.
+    No need to postpone it until constructed
+  * wwan-mm: Simplify modem destroy.
+    We want to guard the signal removal in case the modem didn't acquire the
+    proxy but there's no need to guard the `g_clear_object`.
+  * wwan-mm: Rename proxy to proxy_modem.
+    We have a bunch of DBus proxies to distinguish so add a suffix here too.
+  * wwan-mm: Disconnect signal handlers by data.
+    We want to disconnect all signal handlers for the proxy so no need to
+    track them by id.
+  * dispose: No need to clear data twice.
+    We free all the modem bits in phosh_wwan_mm_destroy_modem
+    and invoke that from dispose so no need to do it in dispose
+    explicitly too.
+  * docs: Cleanup markdown
+  * ci: Fix indent.
+    Let's make yamllint happy
+  * ci: Lint markdown.
+    Lint markdown files when they change in a merge request
+  * ci: Drop `except:`s.
+    They're not used much nowadays and complicate the logic
+  * ci: Drop submodule updates.
+    Not needed as we use meson subprojects
+  * ci: Build library.
+    Make sure this works as expected
+  * ci: Verify libphosh install.
+    Compile a small stub to ensure the pkgconf file works
+  * upcoming-events: Add missing plugin prefs variable.
+    Otherwise the `Plugin=` path is broken in the generated .plugin file
+    Fixes: e1a1ae1a8 ("upcoming-events: Add preferences widget")
+  * libphosh: Drop generated header.
+    This got removed in
+       db3925449 ("wwan-mm: Switch to MM proxies for modem and modem3gpp")
+  * ci: Use gmobile-dev on alpine.
+    This avoids the subproject clone which fails ever so often
+  * treewide: Drop `v` from since versions.
+    This trips up `GirXml` as it inserts `doc-version`s into the generated
+    Gir.
+  * wwan: Modernize property docs.
+    There was a typo so while at that clean up all of them
+  * wwan: Add getter for has-data property.
+    While at that we group the interface methods and the ones
+    we proxy from WWanManager.
+  * mobile-data-quick-setting: Make insensitive when modem is disabled.
+    It's confusing when it stays enabled as toggling it would do nothing
+    when the modem is disabled.
+  * symbols: Export phosh_status_icon_get_type.
+    We use the type so should allow users to check it.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1115
+  * dbus: Add Backlight property to DisplayConfig.
+    This ensures GNOME 47's gsd-power can read it and doesn't crash.
+    Having it empty is fine for the moment.
+  * build: Use schema headers var.
+    No need to track it in two places
+    Fixes: bdcb925c6 ("enums: Introduce single header file to gather all enums")
+  * build: Ensure the enum header end up in the docs.
+    Fixes: bdcb925c6 ("enums: Introduce single header file to gather all enums")
+  * overview: Simplify activity creation a bit
+  * protocols: Update wlr-foreign-toplevel-management
+  * toplevel-manager: Track parents.
+    For that we require version 3 of the protocol which is available in
+    all phoc's that use wlroot 0.15.0 or later.
+  * activity: Update app-id if an activity's toplevel has a parent.
+    The app-id is often incorrect on dialogs so use the parent's
+    app-id in that case.
+  * lockscreen: Swap horizontal deck and vertical carousel.
+    This avoids accidentally switching to the plugins widget when entering
+    the pin without complicating the logic further.
+    This is the minimal UI reshuffle. We'll reindent in a separate commit.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/899
+  * lockscreen: Vexpand the deck.
+    Otherwise we might not take enough vertical space and parts of the
+    keypad screen leak into the info box (e.g. with 1920x1080).
+  * libcall-ui: Drop CuiCalldisplay margins.
+    This allows us to work on smaller displays, see
+    https://gitlab.gnome.org/World/Phosh/libcall-ui/-/merge_requests/92
+    Helps: https://gitlab.gnome.org/World/Phosh/phoc/-/issues/371
+  * notify-manager: Handle per app 'enable' toggle.
+    If we get a notification for an app that has notifications enabled
+    ignore it. This ensures that new notifications for apps that have them
+    disabled don't end up in any notification sources at all.
+    Note that we still allow existing notifictions to be updated by the app.
+    Helps: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/168
+
+  [ Jared Toomey ]
+  * notification-feedback: Add feedback responses for new call categories.
+    See https://gitlab.freedesktop.org/xdg/xdg-specs/-/merge_requests/50
+
+  [ Evangelos Ribeiro Tzaras ]
+  * doc: Fix URL in configuration. And add a newline while we're at it.
+
+  [ Arun Mani J ]
+  * wifi-manager: Ensure Wi-Fi network stays alive.
+    Ensure Wi-Fi network stays alive for the duration of callback. This
+    prevents cases where the callback is called for a destroyed network object.
+  * wifi-manager: Clean up Wi-Fi network from signal after usage.
+    We need to watch the connection only till it crosses the "activating"
+    state. So disconnect once it happens to cross it.
+    Then we unref the connection that was made available at the
+    `wifi_connection_*_activated` functions.
+  * wifi-manager: Remove unused header
+  * upcoming-events: Set stack page on setting model.
+    By default, the stack is on "no-events" page. We want to set the
+    appropriate page whenever one assigns a new model.
+  * upcoming-events: Allow day-offset up to maximum integer
+  * upcoming-events: Change day-offset to unsigned int
+  * upcoming-events: Allow configuring number of days.
+    Instead of showing a fixed number of 7 days, users can now set the
+    number of days shown to any positive integer.
+  * upcoming-events: Add preferences widget
+  * upcoming-events: Remove unnecessary empty line
+  * upcoming-events: Remove unused header
+  * upcoming-events: Add XML header to schema
+  * upcoming-events: Fix a few typos.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/970
+  * torch-manager: Add `can-scale` property.
+    This property indicates if the torch brightness can be scaled.
+  * settings: Show revealer only if torch can scale
+  * torch-manager: Move to modern property description.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/858
+
+  [ Sam Day ]
+  * shell: Register plugin extension points in constructor.
+    This makes it possible for PhoshShell subclasses to register lockscreen
+    and quick-settings custom widgets.
+    It introduces an implicit dependency that extension points will not be
+    looked up until the shell setup_idle callback.
+  * shell: Minor formatting fix in phosh_shell_init
+  * shell: Move cui init/de-init to Shell object lifecycle.
+    This makes sure that embedding contexts don't need to concern themselves
+    directly with linking to and initializing libcall-ui.
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+  [ Sabri Ünal ]
+  * Update Turkish translation
+
+  [ Bruce Cowan ]
+  * Update British English translation
+
+  [ Juliano de Souza Camargo ]
+  * Update Brazilian Portuguese translation
+
+  [ Jürgen Benvenuti ]
+  * Update German translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Balázs Úr ]
+  * Update Hungarian translation
+
+  [ Emin Tufan Çetin ]
+  * Update Turkish translation
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+  [ Antonio Marin ]
+  * Update Romanian translation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Vasil Pupkin ]
+  * Update Belarusian translation
+
+  [ Andi Chandler ]
+  * Update British English translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 20 Sep 2024 17:26:38 +0200
+
 phosh (0.41.0) experimental; urgency=medium
 
   [ Guido Günther ]
