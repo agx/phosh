@@ -596,7 +596,7 @@ phosh-notification-content .actions-area {
 }
 
 phosh-notification-content .actions-area button {
-  background: none;
+  background: @phosh_action_bg_color;
   border: 1px solid @phosh_borders_color;
   border-radius: 0;
   font-weight: bold;
