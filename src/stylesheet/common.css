@@ -375,11 +375,16 @@ phosh-app-grid-button button {
   background: none;
 }
 
+phosh-app-grid-button button:focus {
+  background: alpha(@phosh_bg_color,.4);
+}
+
 phosh-app-grid-folder-button button {
   font-size: 0.8rem;
   border-radius: 9px;
   margin: 0;
   padding: 0;
+  background: alpha(@phosh_bg_color,.4);
 }
 
 .search-active phosh-app-grid-button:first-child button {
