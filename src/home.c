@@ -195,7 +195,8 @@ on_configure_event (PhoshHome *self, GdkEventConfigure *event)
   phosh_drag_surface_set_margin (PHOSH_DRAG_SURFACE (self), margin, 0);
   /* Update drag handle since overview size might have changed */
   update_drag_handle (self, FALSE);
-  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
+  /* Trigger redraw and surface commit */
+  gtk_widget_queue_draw (GTK_WIDGET (self));
 
   return FALSE;
 }
@@ -465,7 +466,7 @@ on_drag_state_changed (PhoshHome *self)
 
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
   update_drag_handle (self, FALSE);
-  phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
+  gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 
