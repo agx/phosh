@@ -852,6 +852,10 @@ phosh-lockscreen phosh-media-player {
   margin: 0 8px;
 }
 
+phosh-lockscreen .phosh-notification-tray separator {
+  background: @phosh_borders_color;
+}
+
 /*
  * OSD
  */
