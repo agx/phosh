@@ -19,6 +19,8 @@ debian/sm.puri.Phosh.target
 debian/files
 debian/*.substvars
 debian/*debhelper*
+debian/libphosh/
+debian/libphosh-dev/
 debian/phosh/
 debian/phosh-dev/
 debian/phosh-doc/
