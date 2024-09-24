@@ -453,12 +453,12 @@ phosh_tool_dep = declare_dependency(
   dependencies: phosh_deps)
 
 # A library containing everything
-phosh_lib = both_libraries('phosh',
+phosh_lib = both_libraries('phosh-@0@'.format(libversion),
   libphosh_private_headers,
   libphosh_sources,
   include_directories: phosh_lib_inc,
   dependencies: [phosh_tool_dep, phosh_deps],
-  soversion: soversion,
+  soversion: 0,
   install: bindings_lib,
 )
 
@@ -491,7 +491,7 @@ if enable_introspection
                 sources : phosh_gir_sources,
               nsversion : '0',
               namespace : 'Phosh',
-        export_packages : 'libphosh-0',
+        export_packages : 'libphosh-@0@'.format(libversion),
           symbol_prefix : 'phosh',
       identifier_prefix : 'Phosh',
               link_with : phosh_lib,
@@ -507,10 +507,10 @@ if bindings_lib
   pkgconfig.generate(
     phosh_lib,
     name: 'libphosh',
-    subdirs: 'libphosh-0',
-    filebase: 'libphosh-0',
+    subdirs: 'libphosh-@0@'.format(libversion),
+    filebase: 'libphosh-@0@'.format(libversion),
     version : meson.project_version(),
-    description: 'Private library for building external components',
+    description: 'Library for building components embedding Phosh',
     requires: 'phosh-settings',
     url: 'https://world.pages.gitlab.gnome.org/Phosh/phosh/',
   )

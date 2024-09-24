@@ -6,9 +6,9 @@ project('phosh', 'c',
 )
 
 app_id = 'sm.puri.Phosh'
-lib_inc_subdir = 'libphosh-0'
 ver_parts = meson.project_version().split('.')
-soversion = '@0@_@1@'.format(ver_parts[0], ver_parts[1])
+libversion = '@0@.@1@'.format(ver_parts[0], ver_parts[1])
+lib_inc_subdir = 'libphosh-@0@'.format(libversion)
 
 prefix = get_option('prefix')
 bindir = join_paths(prefix, get_option('bindir'))
