@@ -55,6 +55,7 @@ variables:
                     upower-dev wayland-dev wayland-protocols ttf-dejavu evolution-data-server-dev evince-dev
                     libadwaita-dev json-glib-dev gnome-bluetooth-dev modemmanager-dev gmobile-dev
   RUST_BINDINGS_BRANCH: main
+  LIBPHOSH: libphosh-0.42
 
 .trixie_vars: &trixie_vars
   variables:
@@ -131,7 +132,7 @@ build:lib-debian-trixie:
     - meson setup ${BUILD_OPTS} _build
     - meson compile -C _build 
     - meson install -C _build 
-    - gcc -Wall -O2 $(pkgconf --cflags libphosh-0) .gitlab-ci/libphosh-test.c $(pkgconf --libs libphosh-0)
+    - "gcc -Wall -O2 $(pkgconf --cflags $LIBPHOSH) .gitlab-ci/libphosh-test.c $(pkgconf --libs $LIBPHOSH)"
   artifacts:
     paths:
       - _build
