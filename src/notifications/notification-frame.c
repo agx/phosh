@@ -16,6 +16,7 @@
 #include "util.h"
 #include "timestamp-label.h"
 
+#include <gmobile.h>
 #include <math.h>
 
 /**
@@ -287,6 +288,31 @@ removed (PhoshNotificationFrame *self)
 
 
 static void
+header_func (GtkListBoxRow *current_row, GtkListBoxRow *prev_row, gpointer user_data)
+{
+  PhoshNotificationContent *prev_content;
+  PhoshNotification *prev_notification;
+  GStrv prev_actions;
+
+  if (prev_row == NULL)
+    return;
+
+  prev_content = PHOSH_NOTIFICATION_CONTENT (prev_row);
+  prev_notification = phosh_notification_content_get_notification (prev_content);
+  prev_actions = phosh_notification_get_actions (prev_notification);
+
+  /* only add separator if the previous notification doesn't have actions */
+  if (gm_strv_is_null_or_empty (prev_actions)) {
+    GtkWidget *separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+    gtk_widget_set_hexpand (separator, TRUE);
+    gtk_list_box_row_set_header (current_row, separator);
+  } else {
+    gtk_list_box_row_set_header (current_row, NULL);
+  }
+}
+
+
+static void
 phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -367,6 +393,11 @@ phosh_notification_frame_init (PhoshNotificationFrame *self)
   g_type_ensure (PHOSH_TYPE_SWIPE_AWAY_BIN);
 
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  gtk_list_box_set_header_func (GTK_LIST_BOX (self->list_notifs),
+                                header_func,
+                                self,
+                                NULL);
 }
 
 
