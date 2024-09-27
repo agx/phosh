@@ -18,8 +18,5 @@ power-button-action='nothing'
 [org.gnome.settings-daemon.plugins.wwan:Phosh]
 unlock-sim=true
 
-[org.sigxcpu.feedbackd:Phosh]
-allow-important=['org.gnome.clocks']
-
 [sm.puri.phosh:Phosh]
 force-adaptive=['firefox-esr.desktop', 'org.gnome.TextEditor.desktop']
