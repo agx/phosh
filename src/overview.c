@@ -279,6 +279,30 @@ on_activity_has_focus_changed (PhoshOverview *self, GParamSpec *pspec, PhoshActi
 }
 
 
+static int
+get_last_app_id_pos (PhoshOverview *self, const char *app_id)
+{
+  PhoshOverviewPrivate *priv;
+  g_autoptr (GList) children = NULL;
+  int pos;
+
+  priv = phosh_overview_get_instance_private (self);
+
+  children = gtk_container_get_children (GTK_CONTAINER (priv->carousel_running_activities));
+  pos = g_list_length (children);
+  for (GList *l = g_list_last (children); l; l = l->prev) {
+    PhoshActivity *a = PHOSH_ACTIVITY (l->data);
+
+    if (g_strcmp0 (phosh_activity_get_app_id (a), app_id) == 0)
+      break;
+
+    pos--;
+  }
+
+  return pos;
+}
+
+
 static void
 add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
 {
@@ -289,6 +313,7 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   int width, height;
   PhoshToplevelManager *m = phosh_shell_get_toplevel_manager (phosh_shell_get_default ());
   PhoshToplevel *parent = NULL;
+  gint pos;
 
   g_return_if_fail (PHOSH_IS_OVERVIEW (self));
   priv = phosh_overview_get_instance_private (self);
@@ -313,7 +338,8 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
                            NULL);
   g_object_set_data (G_OBJECT (activity), "toplevel", toplevel);
 
-  gtk_container_add (GTK_CONTAINER (priv->carousel_running_activities), activity);
+  pos = get_last_app_id_pos (self, parent_app_id);
+  hdy_carousel_insert (HDY_CAROUSEL (priv->carousel_running_activities), activity, pos);
   gtk_widget_show (activity);
 
   g_object_connect (activity,
