@@ -1369,6 +1369,8 @@ phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor)
     g_signal_handlers_disconnect_by_func (priv->primary_monitor,
                                           G_CALLBACK (on_primary_monitor_configured),
                                           self);
+  }
+  if (priv->builtin_monitor) {
     g_signal_handlers_disconnect_by_func (priv->builtin_monitor,
                                           G_CALLBACK (on_primary_monitor_power_mode_changed),
                                           self);
