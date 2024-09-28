@@ -1,3 +1,72 @@
+phosh (0.42.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * subprojects: Switch to libcall-ui 0.1.4.
+    This allows us to drop the patch we apply to the subproject.
+  * panels: Queue draw instead of commiting the surface.
+    If we commit too early and GTK hasn't updated the buffer the compositor
+    will terminate us due to the buffer size not matching the scale.
+    A draw will eventually commit the surface. This makes sure we don't
+    commit without giving GTK a chance to update e.g. the buffer size.
+    This is not ideal as we invalidate the complete surface causing a full
+    redraw.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1050
+  * notify-manager: Hold a ref on the activated lockscreen notification.
+    Otherwise it might get disposed before we could action on it and we need
+    it around to emit the signal in `invoke_action`.
+    Tested-by: Teemu Ikonen <tpikonen@mailbox.org>
+  * build: Version the library name instead of the soname.
+    Now with a real consumer (phrog) let's rather version the API and use a
+    fixed soname. This unconfuses some packaging tools and also avoids file
+    conflicts between different API versions.
+  * packaging: Build bindings lib by default.
+    This ensures the build is tested. In contrast to any distro builds we
+    keep a fixed package name as the packges are meant for testing purposes
+    only anyway.
+  * overview: Ignore page changes when overview is not open.
+    Otherwise we might end up focusing the wrong app when another
+    adds a new toplevel on startup (like e.g. calls).
+  * wwan-mm: Don't warn when operation got cancelled
+  * shell: Avoid critical when there's no builtin monitor.
+    There might not always be a builtin monitor so check for that when
+    handling primary monitor changes.
+  * data: Drop feedbackd override.
+    Feedbackd sets this as default now.
+  * status-page-placeholder: Center align horizontally.
+    Otherwise the empty state ends up left aligned when there's
+    horizontal space.
+  * packaging: Let changelog hook handle rc versions.
+    This allows our release pre script to work for RCs and actual releases.
+
+  [ Gotam Gorabh ]
+  * notification-content: Set action-area border to none.
+    Remove the line that is under the notification frame.
+    Fixes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1027
+  * notification-frame: Add separator to separate notification content.
+    Fix the visual separation between notifications from the same app.
+    Fixes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/901
+  * notification-content: Add background color to action-area button.
+    Improve visual separation between notification body and actions, this
+    allows us to drop the border which would otherwise look odd with the
+    added separator.
+  * locksreen: Add border color to the notification separator.
+    Use phosh-borders-color for the notification separator otherwise it has
+    the same color as the notification background.
+
+  [ Yaron Shahrabani ]
+  * Update Hebrew translation
+
+  [ Jiri Grönroos ]
+  * Update Finnish translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Juliano de Souza Camargo ]
+  * Update Brazilian Portuguese translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 28 Sep 2024 19:23:48 +0200
+
 phosh (0.42~rc1) experimental; urgency=medium
 
   [ Guido Günther ]
@@ -107,7 +176,7 @@ phosh (0.42~rc1) experimental; urgency=medium
     Compile a small stub to ensure the pkgconf file works
   * upcoming-events: Add missing plugin prefs variable.
     Otherwise the `Plugin=` path is broken in the generated .plugin file
-    Fixes: e1a1ae1a8 ("upcoming-events: Add preferences widget")
+    Fixes e1a1ae1a8 ("upcoming-events: Add preferences widget")
   * libphosh: Drop generated header.
     This got removed in
        db3925449 ("wwan-mm: Switch to MM proxies for modem and modem3gpp")
@@ -132,9 +201,9 @@ phosh (0.42~rc1) experimental; urgency=medium
     Having it empty is fine for the moment.
   * build: Use schema headers var.
     No need to track it in two places
-    Fixes: bdcb925c6 ("enums: Introduce single header file to gather all enums")
+    Fixes bdcb925c6 ("enums: Introduce single header file to gather all enums")
   * build: Ensure the enum header end up in the docs.
-    Fixes: bdcb925c6 ("enums: Introduce single header file to gather all enums")
+    Fixes bdcb925c6 ("enums: Introduce single header file to gather all enums")
   * overview: Simplify activity creation a bit
   * protocols: Update wlr-foreign-toplevel-management
   * toplevel-manager: Track parents.
