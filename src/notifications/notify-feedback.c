@@ -61,33 +61,55 @@ end_notify_feedback (PhoshNotifyFeedback *self)
     lfb_event_end_feedback_async (self->event, NULL, NULL, NULL);
 }
 
-
+/**
+ * find_event_inactive:
+ * @category: The category to look up the event for
+ *
+ * Look up an event when for a notification category when the device
+ * is not in active use.
+ *
+ * Returns:(nullable): The event name
+ */
 static const char *
-find_event (const char *category)
+find_event_inactive (const char *category)
 {
-  PhoshShell *shell = phosh_shell_get_default ();
-  gboolean inactive = phosh_shell_get_blanked (shell) || phosh_shell_get_locked (shell);
   const char *ret = NULL;
 
-  if (inactive) {
-    if (g_strcmp0 (category, "email.arrived") == 0) {
-      ret = "message-missed-email";
-    } else if (g_strcmp0 (category, "im.received") == 0) {
-      ret = "message-missed-instant";
-    } else {
-      /* TODO: notification-missed-generic */
-      ret = "message-missed-notification";
-    }
+  if (g_strcmp0 (category, "email.arrived") == 0) {
+    ret = "message-missed-email";
+  } else if (g_strcmp0 (category, "im.received") == 0) {
+    ret = "message-missed-instant";
+  } else if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0) {
+    ret = "phone-missed-call";
+  } else if (g_strcmp0 (category, "call.unanswered") == 0) {
+    ret = "phone-missed-call";
   } else {
-    if (g_strcmp0 (category, "email.arrived") == 0)
-      ret = "message-new-email";
-    else if (g_strcmp0 (category, "im.received") == 0)
-      ret = "message-new-instant";
-    else
-      ret = "notification-new-generic";
+    /* TODO: notification-missed-generic */
+    ret = "message-missed-notification";
   }
 
-  if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0)
+  return ret;
+}
+
+/**
+ * find_event_active:
+ * @category: The category to look up the event for
+ *
+ * Look up an event when for a notification category when the device
+ * is in active use.
+ *
+ * Returns:(nullable): The event name
+ */
+static const char *
+find_event_active (const char *category)
+{
+  const char *ret = NULL;
+
+  if (g_strcmp0 (category, "email.arrived") == 0)
+    ret = "message-new-email";
+  else if (g_strcmp0 (category, "im.received") == 0)
+    ret = "message-new-instant";
+  else if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0)
     ret = "phone-missed-call";
   else if (g_strcmp0 (category, "call.ended") == 0)
     ret = "phone-hangup";
@@ -95,6 +117,8 @@ find_event (const char *category)
     ret = "phone-incoming-call";
   else if (g_strcmp0 (category, "call.unanswered") == 0)
     ret = "phone-missed-call";
+  else
+    ret = "notification-new-generic";
 
   return ret;
 }
@@ -124,24 +148,40 @@ maybe_wakeup_screen (PhoshNotifyFeedback *self, PhoshNotificationSource *source,
   }
 }
 
-
+/**
+ * maybe_trigger_feedback:
+ * @self: The notification feedback handler
+ * @source: The notification source model
+ * @position: Position where notifications were added to the model
+ * @num: How many notifications were added to the model
+ * @inactive_only: Whether to only look for events used when the device
+ *   is considered inactive
+ *
+ * Look up events matching the categories of newly added notifications
+ * and trigger feedback therefore.
+ *
+ * Returns: `TRUE` when any feedback was triggered
+ */
 static gboolean
-maybe_trigger_feedback (PhoshNotifyFeedback *self, PhoshNotificationSource *source, guint position, guint num)
+maybe_trigger_feedback (PhoshNotifyFeedback     *self,
+                        PhoshNotificationSource *source,
+                        guint                    position,
+                        guint                    num,
+                        gboolean                 inactive_only)
 {
+  PhoshShell *shell = phosh_shell_get_default ();
+  gboolean inactive = phosh_shell_get_blanked (shell) || phosh_shell_get_locked (shell);
+
+  /* Get us the first notification that triggers meaningful feedback */
   for (int i = 0; i < num; i++) {
     g_autoptr (PhoshNotification) noti = g_list_model_get_item (G_LIST_MODEL (source), position + i);
-    g_autoptr (LfbEvent) event = NULL;
-    const char *category, *event_name, *profile;
+    const char *category, *profile;
     g_autofree char *app_id = NULL;
     GAppInfo *info = NULL;
+    gboolean ret = FALSE;
 
     g_return_val_if_fail (PHOSH_IS_NOTIFICATION (noti), FALSE);
     g_return_val_if_fail (lfb_is_initted (), FALSE);
-
-    category = phosh_notification_get_category (noti);
-    event_name = find_event (category);
-    if (event_name == NULL)
-      continue;
 
     info = phosh_notification_get_app_info (noti);
     if (info)
@@ -151,17 +191,47 @@ maybe_trigger_feedback (PhoshNotifyFeedback *self, PhoshNotificationSource *sour
     if (g_strcmp0 (profile, "none") == 0)
       continue;
 
-    g_debug ("Emitting event %s for %s, profile: %s",
-             event_name, app_id ?: "unknown", profile);
-    event = lfb_event_new (event_name);
-    lfb_event_set_feedback_profile (event, profile);
-    g_set_object (&self->event, event);
+    category = phosh_notification_get_category (noti);
 
-    if (app_id)
-      lfb_event_set_app_id (event, app_id);
+    /* The default event */
+    if (!inactive_only) {
+      const char *name;
 
-    lfb_event_trigger_feedback_async (self->event, NULL, NULL, NULL);
-    return TRUE;
+      name = find_event_active (category);
+      if (name) {
+        g_autoptr (LfbEvent) event = event = lfb_event_new (name);
+
+        lfb_event_set_feedback_profile (event, profile);
+        if (app_id)
+          lfb_event_set_app_id (event, app_id);
+        g_debug ("Emitting event %s for %s, profile: %s", name, app_id ?: "unknown", profile);
+        lfb_event_trigger_feedback_async (event, NULL, NULL, NULL);
+        ret = TRUE;
+      }
+    }
+
+    /* The event when the device is not in active use (usually long running LED feedback) */
+    if (inactive) {
+      const char *name;
+
+      name = find_event_inactive (category);
+      if (name) {
+        g_autoptr (LfbEvent) event = event = lfb_event_new (name);
+
+        lfb_event_set_feedback_profile (event, profile);
+        if (app_id)
+          lfb_event_set_app_id (event, app_id);
+        g_debug ("Emitting event %s for %s, profile: %s", name, app_id ?: "unknown", profile);
+        lfb_event_trigger_feedback_async (event, NULL, NULL, NULL);
+
+        /* TODO: we should better track that on the notification */
+        g_set_object (&self->event, event);
+        ret = TRUE;
+      }
+    }
+
+    if (ret)
+      return ret;
   }
 
   return FALSE;
@@ -184,7 +254,7 @@ on_notification_source_items_changed (PhoshNotifyFeedback *self,
   if (self->event && lfb_event_get_state (self->event) == LFB_EVENT_STATE_RUNNING)
     return;
 
-  maybe_trigger_feedback (self, PHOSH_NOTIFICATION_SOURCE (list), position, added);
+  maybe_trigger_feedback (self, PHOSH_NOTIFICATION_SOURCE (list), position, added, FALSE);
 }
 
 
@@ -241,10 +311,13 @@ on_shell_state_changed (PhoshNotifyFeedback *self, GParamSpec *pspec, PhoshShell
   if (!phosh_shell_get_blanked (shell) && !phosh_shell_get_locked (shell))
     return;
 
+  /* Ensure we have visual feedback when the device blanks with open notifications */
   for (guint i = 0; i < g_list_model_get_n_items (G_LIST_MODEL (self->list)); i++) {
+    guint n_items;
     g_autoptr (PhoshNotificationSource) source = g_list_model_get_item (G_LIST_MODEL (self->list), i);
 
-    if (maybe_trigger_feedback (self, source, 0, g_list_model_get_n_items (G_LIST_MODEL (source))))
+    n_items = g_list_model_get_n_items (G_LIST_MODEL (source));
+    if (maybe_trigger_feedback (self, source, 0, n_items, TRUE))
       break;
   }
 }
