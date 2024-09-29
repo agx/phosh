@@ -238,7 +238,7 @@ on_shell_state_changed (PhoshNotifyFeedback *self, GParamSpec *pspec, PhoshShell
   if (self->event && lfb_event_get_state (self->event) == LFB_EVENT_STATE_RUNNING)
     return;
 
-  if (!phosh_shell_get_blanked (shell))
+  if (!phosh_shell_get_blanked (shell) && !phosh_shell_get_locked (shell))
     return;
 
   for (guint i = 0; i < g_list_model_get_n_items (G_LIST_MODEL (self->list)); i++) {
