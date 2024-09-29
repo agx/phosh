@@ -70,18 +70,21 @@ find_event (const char *category)
   const char *ret = NULL;
 
   if (inactive) {
-    if (g_strcmp0 (category, "email.arrived") == 0)
+    if (g_strcmp0 (category, "email.arrived") == 0) {
       ret = "message-missed-email";
-    else if (g_strcmp0 (category, "im.received") == 0)
+    } else if (g_strcmp0 (category, "im.received") == 0) {
       ret = "message-missed-instant";
-    else
+    } else {
+      /* TODO: notification-missed-generic */
       ret = "message-missed-notification";
+    }
   } else {
     if (g_strcmp0 (category, "email.arrived") == 0)
       ret = "message-new-email";
     else if (g_strcmp0 (category, "im.received") == 0)
       ret = "message-new-instant";
-    /* no feedback when not locked as to not distract the user */
+    else
+      ret = "notification-new-generic";
   }
 
   if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0)
