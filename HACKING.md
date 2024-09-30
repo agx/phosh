@@ -39,7 +39,11 @@ When submitting a merge request consider checking these first:
 
 - [ ] Does the code use the below coding patterns?
 - [ ] Is the commit history in recipe style (see above)?
-- [ ] Do the commit messages reference the bugs they fix?
+- [ ] Do the commit messages reference the bugs they fix. If so,
+      - Use `Helps:` if the commit partially addresses a bug or contributes
+        to a solution.
+      - Use `Closes:` if the commit fully resolves the bug. This allows the
+        release script to detect & mention it in `NEWS` file.
 - [ ] Does the code crash or introduce new `CRITICAL` or `WARNING`
       messages in the log or when run form the console. If so, fix
       these first?
