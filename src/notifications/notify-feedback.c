@@ -79,6 +79,8 @@ find_event_inactive (const char *category)
     ret = "message-missed-email";
   } else if (g_strcmp0 (category, "im.received") == 0) {
     ret = "message-missed-instant";
+  } else if (g_strcmp0 (category, "x-phosh.sms.received") == 0) {
+    ret = "message-missed-sms";
   } else if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0) {
     ret = "phone-missed-call";
   } else if (g_strcmp0 (category, "call.unanswered") == 0) {
@@ -109,6 +111,8 @@ find_event_active (const char *category)
     ret = "message-new-email";
   else if (g_strcmp0 (category, "im.received") == 0)
     ret = "message-new-instant";
+  else if (g_strcmp0 (category, "x-phosh.sms.received") == 0)
+    ret = "message-new-sms";
   else if (g_strcmp0 (category, "x-gnome.call.unanswered") == 0)
     ret = "phone-missed-call";
   else if (g_strcmp0 (category, "call.ended") == 0)
