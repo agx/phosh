@@ -249,14 +249,6 @@ summary({
 )
 
 summary({
-    'Recent GNOME (>= 45)': gnome_desktop_dep.version().version_compare('>= 45'),
-    'Recent glib (>= 2.74)': glib_dep.version().version_compare('>= 2.74')
-  },
-  bool_yn: true,
-  section: 'Versions',
-)
-
-summary({
     'Compositor:': get_option('compositor'),
   },
   bool_yn: true,
