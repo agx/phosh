@@ -39,6 +39,7 @@ static GParamSpec *props[PROP_LAST_PROP];
 struct _PhoshNotifyFeedback {
   GObject                      parent;
 
+  LfbEvent                     *active_event;
   LfbEvent                     *inactive_event;
   PhoshNotificationList        *list;
 
@@ -54,10 +55,10 @@ end_notify_feedback (PhoshNotifyFeedback *self)
 {
   g_return_if_fail (lfb_is_initted ());
 
-  if (self->inactive_event == NULL)
-    return;
+  if (self->active_event && lfb_event_get_state (self->active_event) == LFB_EVENT_STATE_RUNNING)
+    lfb_event_end_feedback_async (self->active_event, NULL, NULL, NULL);
 
-  if (lfb_event_get_state (self->inactive_event) == LFB_EVENT_STATE_RUNNING)
+  if (self->inactive_event && lfb_event_get_state (self->inactive_event) == LFB_EVENT_STATE_RUNNING)
     lfb_event_end_feedback_async (self->inactive_event, NULL, NULL, NULL);
 }
 
@@ -210,6 +211,8 @@ maybe_trigger_feedback (PhoshNotifyFeedback     *self,
           lfb_event_set_app_id (event, app_id);
         g_debug ("Emitting event %s for %s, profile: %s", name, app_id ?: "unknown", profile);
         lfb_event_trigger_feedback_async (event, NULL, NULL, NULL);
+        /* TODO: we should better track that on the notification */
+        g_set_object (&self->active_event, event);
         ret = TRUE;
       }
     }
@@ -227,7 +230,6 @@ maybe_trigger_feedback (PhoshNotifyFeedback     *self,
           lfb_event_set_app_id (event, app_id);
         g_debug ("Emitting event %s for %s, profile: %s", name, app_id ?: "unknown", profile);
         lfb_event_trigger_feedback_async (event, NULL, NULL, NULL);
-
         /* TODO: we should better track that on the notification */
         g_set_object (&self->inactive_event, event);
         ret = TRUE;
@@ -388,8 +390,9 @@ phosh_notify_feedback_dispose (GObject *object)
 
   g_clear_object (&self->settings);
 
-  if (self->inactive_event) {
+  if (self->inactive_event && self->active_event) {
     end_notify_feedback (self);
+    g_clear_object (&self->active_event);
     g_clear_object (&self->inactive_event);
   }
 
