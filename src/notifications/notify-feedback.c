@@ -254,10 +254,6 @@ on_notification_source_items_changed (PhoshNotifyFeedback *self,
 
   maybe_wakeup_screen (self, PHOSH_NOTIFICATION_SOURCE (list), position, added);
 
-  /* TODO: add pending events to queue instead of just skipping them. */
-  if (self->inactive_event && lfb_event_get_state (self->inactive_event) == LFB_EVENT_STATE_RUNNING)
-    return;
-
   maybe_trigger_feedback (self, PHOSH_NOTIFICATION_SOURCE (list), position, added, FALSE);
 }
 
