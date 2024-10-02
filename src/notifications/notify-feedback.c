@@ -39,7 +39,7 @@ static GParamSpec *props[PROP_LAST_PROP];
 struct _PhoshNotifyFeedback {
   GObject                      parent;
 
-  LfbEvent                     *event;
+  LfbEvent                     *inactive_event;
   PhoshNotificationList        *list;
 
   GSettings                    *settings;
@@ -54,11 +54,11 @@ end_notify_feedback (PhoshNotifyFeedback *self)
 {
   g_return_if_fail (lfb_is_initted ());
 
-  if (self->event == NULL)
+  if (self->inactive_event == NULL)
     return;
 
-  if (lfb_event_get_state (self->event) == LFB_EVENT_STATE_RUNNING)
-    lfb_event_end_feedback_async (self->event, NULL, NULL, NULL);
+  if (lfb_event_get_state (self->inactive_event) == LFB_EVENT_STATE_RUNNING)
+    lfb_event_end_feedback_async (self->inactive_event, NULL, NULL, NULL);
 }
 
 /**
@@ -229,7 +229,7 @@ maybe_trigger_feedback (PhoshNotifyFeedback     *self,
         lfb_event_trigger_feedback_async (event, NULL, NULL, NULL);
 
         /* TODO: we should better track that on the notification */
-        g_set_object (&self->event, event);
+        g_set_object (&self->inactive_event, event);
         ret = TRUE;
       }
     }
@@ -255,7 +255,7 @@ on_notification_source_items_changed (PhoshNotifyFeedback *self,
   maybe_wakeup_screen (self, PHOSH_NOTIFICATION_SOURCE (list), position, added);
 
   /* TODO: add pending events to queue instead of just skipping them. */
-  if (self->event && lfb_event_get_state (self->event) == LFB_EVENT_STATE_RUNNING)
+  if (self->inactive_event && lfb_event_get_state (self->inactive_event) == LFB_EVENT_STATE_RUNNING)
     return;
 
   maybe_trigger_feedback (self, PHOSH_NOTIFICATION_SOURCE (list), position, added, FALSE);
@@ -309,7 +309,7 @@ on_shell_state_changed (PhoshNotifyFeedback *self, GParamSpec *pspec, PhoshShell
   g_return_if_fail (PHOSH_IS_NOTIFY_FEEDBACK (self));
 
   /* Feedback ongoing, nothing to do */
-  if (self->event && lfb_event_get_state (self->event) == LFB_EVENT_STATE_RUNNING)
+  if (self->inactive_event && lfb_event_get_state (self->inactive_event) == LFB_EVENT_STATE_RUNNING)
     return;
 
   if (!phosh_shell_get_blanked (shell) && !phosh_shell_get_locked (shell))
@@ -392,9 +392,9 @@ phosh_notify_feedback_dispose (GObject *object)
 
   g_clear_object (&self->settings);
 
-  if (self->event) {
+  if (self->inactive_event) {
     end_notify_feedback (self);
-    g_clear_object (&self->event);
+    g_clear_object (&self->inactive_event);
   }
 
   g_signal_handlers_disconnect_by_data (self->list, self);
