@@ -10,89 +10,97 @@
         <property name="allow-negative">True</property>
         <signal name="removed" handler="removed" swapped="true"/>
         <child>
-          <object class="GtkBox" id="box">
+          <object class="GtkRevealer" id="revealer">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
-            <property name="valign">start</property>
-            <signal name="motion-notify-event" handler="motion_notify" swapped="true"/>
-            <style>
-              <class name="notification-container"/>
-            </style>
+            <property name="transition-type">slide-up</property>
+            <property name="reveal-child">True</property>
+            <property name="transition-duration">100</property>
             <child>
-              <object class="GtkEventBox" id="header">
+              <object class="GtkBox" id="box">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="events">GDK_ALL_EVENTS_MASK</property>
+                <property name="orientation">vertical</property>
+                <property name="valign">start</property>
+                <signal name="motion-notify-event" handler="motion_notify" swapped="true"/>
+                <style>
+                  <class name="notification-container"/>
+                </style>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkEventBox" id="header">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="spacing">8</property>
-                    <property name="valign">start</property>
-                    <property name="orientation">horizontal</property>
+                    <property name="events">GDK_ALL_EVENTS_MASK</property>
                     <child>
-                      <object class="GtkImage" id="img_icon">
+                      <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="pixel_size">16</property>
-                        <property name="icon_name">notification-symbolic</property>
-                        <style>
-                          <class name="app-icon"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="lbl_app_name">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label">App Name</property>
-                        <property name="ellipsize">end</property>
-                        <property name="single_line_mode">True</property>
-                        <property name="xalign">0</property>
-                        <style>
-                          <class name="heading"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="PhoshTimestampLabel" id="updated">
-                        <property name="visible">True</property>
-                        <property name="halign">end</property>
+                        <property name="spacing">8</property>
+                        <property name="valign">start</property>
+                        <property name="orientation">horizontal</property>
+                        <child>
+                          <object class="GtkImage" id="img_icon">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="pixel_size">16</property>
+                            <property name="icon_name">notification-symbolic</property>
+                            <style>
+                              <class name="app-icon"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="lbl_app_name">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label">App Name</property>
+                            <property name="ellipsize">end</property>
+                            <property name="single_line_mode">True</property>
+                            <property name="xalign">0</property>
+                            <style>
+                              <class name="heading"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="PhoshTimestampLabel" id="updated">
+                            <property name="visible">True</property>
+                            <property name="halign">end</property>
+                            <style>
+                              <class name="dim-label"/>
+                              <class name="caption"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
                         <style>
                           <class name="dim-label"/>
-                          <class name="caption"/>
+                          <class name="header-area"/>
                         </style>
                       </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
                     </child>
-                    <style>
-                      <class name="dim-label"/>
-                      <class name="header-area"/>
-                    </style>
                   </object>
                 </child>
-              </object>
-            </child>
-            <child>
-              <object class="GtkListBox" id="list_notifs">
-                <property name="visible">True</property>
-                <property name="activate-on-single-click">False</property>
-                <property name="selection-mode">none</property>
-                <signal name="row-activated" handler="notification_activated" swapped="yes"/>
+                <child>
+                  <object class="GtkListBox" id="list_notifs">
+                    <property name="visible">True</property>
+                    <property name="activate-on-single-click">False</property>
+                    <property name="selection-mode">none</property>
+                    <signal name="row-activated" handler="notification_activated" swapped="yes"/>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
