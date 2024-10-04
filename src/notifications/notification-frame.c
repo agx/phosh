@@ -82,9 +82,9 @@ static guint signals[N_SIGNALS] = { 0 };
 
 static void
 phosh_notification_frame_set_property (GObject      *object,
-                                        guint         property_id,
-                                        const GValue *value,
-                                        GParamSpec   *pspec)
+                                       guint         property_id,
+                                       const GValue *value,
+                                       GParamSpec   *pspec)
 {
   PhoshNotificationFrame *self = PHOSH_NOTIFICATION_FRAME (object);
 
@@ -104,9 +104,9 @@ phosh_notification_frame_set_property (GObject      *object,
 
 static void
 phosh_notification_frame_get_property (GObject    *object,
-                                        guint       property_id,
-                                        GValue     *value,
-                                        GParamSpec *pspec)
+                                       guint       property_id,
+                                       GValue     *value,
+                                       GParamSpec *pspec)
 {
   PhoshNotificationFrame *self = PHOSH_NOTIFICATION_FRAME (object);
 
