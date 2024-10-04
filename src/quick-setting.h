@@ -30,6 +30,5 @@ void             phosh_quick_setting_set_present (PhoshQuickSetting *self, gbool
 gboolean         phosh_quick_setting_get_present (PhoshQuickSetting *self);
 void             phosh_quick_setting_set_has_status (PhoshQuickSetting *self, gboolean has_status);
 gboolean         phosh_quick_setting_get_has_status (PhoshQuickSetting *self);
-void             phosh_quick_setting_open_settings_panel (const char *panel);
 
 G_END_DECLS

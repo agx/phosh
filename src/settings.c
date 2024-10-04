@@ -17,7 +17,6 @@
 #include "plugin-loader.h"
 #include "shell.h"
 #include "settings.h"
-#include "quick-setting.h"
 #include "settings/audio-settings.h"
 #include "settings/brightness.h"
 #include "torch-info.h"
@@ -309,7 +308,7 @@ open_settings_panel (PhoshSettings *self, const char *panel)
   if (self->on_lockscreen)
     return;
 
-  phosh_quick_setting_open_settings_panel (panel);
+  phosh_util_open_settings_panel (panel);
   close_settings_menu (self);
 }
 
