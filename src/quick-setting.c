@@ -59,6 +59,7 @@ typedef struct {
   PhoshStatusIcon *status_icon;
   GtkWidget       *label;
   GtkWidget       *has_status_image;
+  GBinding        *active_binding;
   GBinding        *label_binding;
   GtkGesture      *long_press;
   gboolean         active;
@@ -160,7 +161,7 @@ phosh_quick_setting_add (GtkContainer *container, GtkWidget *child)
 
   /* The child isn't required to have an `enabled` property */
   if (g_object_class_find_property (G_OBJECT_GET_CLASS (child), "enabled")) {
-      priv->label_binding = g_object_bind_property (child,
+      priv->active_binding = g_object_bind_property (child,
                                                     "enabled",
                                                     self,
                                                     "active",
@@ -182,6 +183,7 @@ phosh_quick_setting_remove (GtkContainer *container, GtkWidget *child)
      of the button */
   if (PHOSH_IS_STATUS_ICON (priv->status_icon) && GTK_WIDGET (priv->status_icon) == child) {
     g_clear_pointer (&priv->label_binding, g_binding_unbind);
+    g_clear_pointer (&priv->active_binding, g_binding_unbind);
     if (priv->status_icon != NULL)
       g_signal_handlers_disconnect_by_data (priv->status_icon, self);
     priv->status_icon = NULL;
