@@ -272,12 +272,12 @@ test_phosh_quick_setting_get_status_page (void)
 
 
 int
-main (int   argc,
-      char *argv[])
+main (int argc, char *argv[])
 {
   gtk_test_init (&argc, &argv, NULL);
 
-  g_test_add_func ("/phosh/quick-setting/new", test_phosh_quick_setting_new);
+  g_test_add_func ("/phosh/quick-setting/new",
+                   test_phosh_quick_setting_new);
   g_test_add_func ("/phosh/quick-setting/add_status_icon",
                    test_phosh_quick_setting_add_status_icon);
   g_test_add_func ("/phosh/quick-setting/remove_status_icon",
@@ -299,5 +299,5 @@ main (int   argc,
   g_test_add_func ("/phosh/quick-setting/get_status_page",
                    test_phosh_quick_setting_get_status_page);
 
-  return g_test_run();
+  return g_test_run ();
 }

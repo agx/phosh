@@ -7,17 +7,14 @@
 
 #pragma once
 
-#include <gtk/gtk.h>
 #include "status-page.h"
 
 G_BEGIN_DECLS
 
-#define PHOSH_TYPE_QUICK_SETTING (phosh_quick_setting_get_type())
-
+#define PHOSH_TYPE_QUICK_SETTING phosh_quick_setting_get_type ()
 G_DECLARE_DERIVABLE_TYPE (PhoshQuickSetting, phosh_quick_setting, PHOSH, QUICK_SETTING, GtkBox)
 
-struct _PhoshQuickSettingClass
-{
+struct _PhoshQuickSettingClass {
   GtkBoxClass parent_class;
 };
 
