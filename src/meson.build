@@ -474,7 +474,7 @@ phosh_plugins_dep = declare_dependency(
   sources: [generated_dbus_headers, wl_proto_headers],
 )
 
-if enable_introspection
+if enable_introspection or bindings_lib
   phosh_gir_sources = [ libphosh_sources,
                         libphosh_tool_sources,
                         libphosh_glib_generated_sources,
@@ -500,6 +500,8 @@ if enable_introspection
              extra_args : phosh_gir_extra_args,
            dependencies : phosh_static_lib_dep,
          fatal_warnings : true,
+                install : bindings_lib,
+        install_dir_gir : datadir / 'gir-1.0',
    )
 endif
 
