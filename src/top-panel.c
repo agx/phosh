@@ -685,8 +685,6 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
 
   drag_surface_class->dragged = phosh_top_panel_dragged;
 
-  gtk_widget_class_set_css_name (widget_class, "phosh-top-panel");
-
   /**
    * PhoshTopPanel:state:
    *
@@ -742,6 +740,8 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_settings_drag_handle_offset_changed);
   gtk_widget_class_bind_template_callback (widget_class, phosh_top_panel_fold);
   gtk_widget_class_bind_template_callback (widget_class, released_cb);
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-top-panel");
 }
 
 
