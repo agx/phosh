@@ -230,7 +230,7 @@ phosh_layer_surface_get_property (GObject    *object,
     g_value_set_uint (value, priv->anchor);
     break;
   case PHOSH_LAYER_SURFACE_PROP_LAYER:
-    g_value_set_uint (value, priv->layer);
+    g_value_set_uint (value, phosh_layer_surface_get_layer (self));
     break;
   case PHOSH_LAYER_SURFACE_PROP_KBD_INTERACTIVITY:
     g_value_set_boolean (value, priv->kbd_interactivity);
@@ -770,6 +770,24 @@ phosh_layer_surface_set_kbd_interactivity (PhoshLayerSurface *self, gboolean int
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_KBD_INTERACTIVITY]);
 }
 
+/**
+ * phosh_layer_surface_get_layer:
+ * @self: The #PhoshLayerSurface
+ *
+ * Gets the surfaces current layer.
+ *
+ * Returns: The layer
+ */
+guint32
+phosh_layer_surface_get_layer (PhoshLayerSurface *self)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_LAYER_SURFACE (self), 0);
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  return priv->layer;
+}
 
 /**
  * phosh_layer_surface_set_layer:
@@ -797,6 +815,24 @@ phosh_layer_surface_set_layer (PhoshLayerSurface *self, guint32 layer)
   g_object_notify_by_pspec (G_OBJECT (self), props[PHOSH_LAYER_SURFACE_PROP_LAYER]);
 }
 
+/**
+ * phosh_layer_surface_get_wl_output:
+ * @self: The #PhoshLayerSurface
+ *
+ * Gets the output.
+ *
+ * Returns:(nullable)(transfer none): The output
+ */
+gpointer
+phosh_layer_surface_get_wl_output (PhoshLayerSurface *self)
+{
+  PhoshLayerSurfacePrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_LAYER_SURFACE (self), 0);
+  priv = phosh_layer_surface_get_instance_private (self);
+
+  return priv->wl_output;
+}
 
 /**
  * phosh_layer_surface_wl_surface_commit:
