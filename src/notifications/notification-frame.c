@@ -45,6 +45,8 @@ struct _PhoshNotificationFrame {
   GBinding *bind_icon;
   GBinding *bind_timestamp;
 
+  GtkRevealer *revealer;
+
   GtkWidget *box;
   GtkWidget *lbl_app_name;
   GtkWidget *img_icon;
@@ -80,9 +82,9 @@ static guint signals[N_SIGNALS] = { 0 };
 
 static void
 phosh_notification_frame_set_property (GObject      *object,
-                                        guint         property_id,
-                                        const GValue *value,
-                                        GParamSpec   *pspec)
+                                       guint         property_id,
+                                       const GValue *value,
+                                       GParamSpec   *pspec)
 {
   PhoshNotificationFrame *self = PHOSH_NOTIFICATION_FRAME (object);
 
@@ -102,9 +104,9 @@ phosh_notification_frame_set_property (GObject      *object,
 
 static void
 phosh_notification_frame_get_property (GObject    *object,
-                                        guint       property_id,
-                                        GValue     *value,
-                                        GParamSpec *pspec)
+                                       guint       property_id,
+                                       GValue     *value,
+                                       GParamSpec *pspec)
 {
   PhoshNotificationFrame *self = PHOSH_NOTIFICATION_FRAME (object);
 
@@ -274,7 +276,19 @@ notification_activated (PhoshNotificationFrame *self,
 static void
 removed (PhoshNotificationFrame *self)
 {
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer), FALSE);
+}
+
+
+static gboolean
+on_child_revealed_changed (PhoshNotificationFrame *self,
+                           GParamSpec             *pspec,
+                           GtkRevealer            *revealer)
+{
   guint i, n;
+
+  if (gtk_revealer_get_child_revealed (revealer))
+    return TRUE;
 
   n = g_list_model_get_n_items (self->model);
   for (i = 0; i < n; i++) {
@@ -284,6 +298,8 @@ removed (PhoshNotificationFrame *self)
 
     phosh_notification_close (notification, PHOSH_NOTIFICATION_REASON_CLOSED);
   }
+
+  return FALSE;
 }
 
 
@@ -364,6 +380,7 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/notification-frame.ui");
+  gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, revealer);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, box);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, lbl_app_name);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, img_icon);
@@ -398,6 +415,9 @@ phosh_notification_frame_init (PhoshNotificationFrame *self)
                                 header_func,
                                 self,
                                 NULL);
+
+  g_signal_connect_swapped (self->revealer, "notify::child-revealed",
+                            G_CALLBACK (on_child_revealed_changed), self);
 }
 
 
