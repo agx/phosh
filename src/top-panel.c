@@ -552,6 +552,19 @@ phosh_top_panel_add_background (PhoshTopPanel *self)
 }
 
 
+static void
+on_theme_name_changed (PhoshTopPanel  *self, GParamSpec *pspec, PhoshStyleManager *style_manager)
+{
+  gboolean solid;
+
+  g_assert (PHOSH_IS_TOP_PANEL (self));
+  g_assert (PHOSH_IS_STYLE_MANAGER (style_manager));
+
+  solid = phosh_style_manager_is_high_contrast (style_manager);
+  phosh_util_toggle_style_class (GTK_WIDGET (self), "p-solid", solid);
+}
+
+
 static GActionEntry entries[] = {
   { .name = "poweroff", .activate = on_shutdown_action },
   { .name = "restart", .activate = on_restart_action },
@@ -567,6 +580,7 @@ phosh_top_panel_constructed (GObject *object)
   PhoshTopPanel *self = PHOSH_TOP_PANEL (object);
   GdkDisplay *display = gdk_display_get_default ();
   PhoshWallClock *wall_clock = phosh_wall_clock_get_default ();
+  PhoshShell *shell = phosh_shell_get_default ();
 
   g_autoptr (GSettings) phosh_settings = g_settings_new ("sm.puri.phosh");
 
@@ -658,6 +672,12 @@ phosh_top_panel_constructed (GObject *object)
   g_signal_connect (self, "notify::drag-state", G_CALLBACK (on_drag_state_changed), NULL);
 
   phosh_top_panel_add_background (self);
+  g_signal_connect_object (phosh_shell_get_style_manager (shell),
+                           "notify::theme-name",
+                           G_CALLBACK (on_theme_name_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_theme_name_changed (self, NULL, phosh_shell_get_style_manager (shell));
 }
 
 
