@@ -27,6 +27,7 @@
 #include "rotation-manager.h"
 #include "screen-saver-manager.h"
 #include "screenshot-manager.h"
+#include "style-manager.h"
 #include "toplevel-manager.h"
 #include "torch-manager.h"
 #include "vpn-manager.h"
@@ -98,6 +99,7 @@ PhoshGtkMountManager   *phosh_shell_get_gtk_mount_manager  (PhoshShell *self);
 PhoshLayoutManager     *phosh_shell_get_layout_manager     (PhoshShell *self);
 PhoshLockscreenManager *phosh_shell_get_lockscreen_manager (PhoshShell *self);
 PhoshModeManager       *phosh_shell_get_mode_manager       (PhoshShell *self);
+PhoshStyleManager      *phosh_shell_get_style_manager     (PhoshShell *self);
 PhoshToplevelManager   *phosh_shell_get_toplevel_manager   (PhoshShell *self);
 PhoshScreenSaverManager *phosh_shell_get_screen_saver_manager (PhoshShell *self);
 PhoshScreenshotManager *phosh_shell_get_screenshot_manager (PhoshShell *self);
