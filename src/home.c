@@ -15,6 +15,7 @@
 #include "shell.h"
 #include "phosh-enums.h"
 #include "osk-manager.h"
+#include "style-manager.h"
 #include "feedback-manager.h"
 #include "util.h"
 
@@ -78,6 +79,7 @@ struct _PhoshHome
 
   PhoshMonitor    *monitor;
   PhoshBackground *background;
+  gboolean         use_background;
 };
 G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_DRAG_SURFACE);
 
@@ -85,13 +87,14 @@ G_DEFINE_TYPE(PhoshHome, phosh_home, PHOSH_TYPE_DRAG_SURFACE);
 static void
 phosh_home_update_home_bar (PhoshHome *self)
 {
-  gboolean reveal, solid;
+  gboolean reveal, solid = TRUE;
   PhoshDragSurfaceState drag_state = phosh_drag_surface_get_drag_state (PHOSH_DRAG_SURFACE (self));
 
   reveal = !(self->state == PHOSH_HOME_STATE_UNFOLDED);
   gtk_revealer_set_reveal_child (GTK_REVEALER (self->rev_powerbar), reveal);
 
-  solid = !!(self->state == PHOSH_HOME_STATE_FOLDED && drag_state != PHOSH_DRAG_SURFACE_STATE_DRAGGED);
+  if (self->use_background)
+    solid = !!(self->state == PHOSH_HOME_STATE_FOLDED && drag_state != PHOSH_DRAG_SURFACE_STATE_DRAGGED);
   phosh_util_toggle_style_class (GTK_WIDGET (self), "p-solid", solid);
 }
 
@@ -546,9 +549,21 @@ phosh_home_add_background (PhoshHome *self)
 
 
 static void
+on_theme_name_changed (PhoshHome  *self, GParamSpec *pspec, PhoshStyleManager *style_manager)
+{
+  g_assert (PHOSH_IS_HOME (self));
+  g_assert (PHOSH_IS_STYLE_MANAGER (style_manager));
+
+  self->use_background = !phosh_style_manager_is_high_contrast (style_manager);
+  phosh_home_update_home_bar (self);
+}
+
+
+static void
 phosh_home_constructed (GObject *object)
 {
   PhoshHome *self = PHOSH_HOME (object);
+  PhoshShell *shell = phosh_shell_get_default ();
   PhoshOskManager *osk_manager;
 
   G_OBJECT_CLASS (phosh_home_parent_class)->constructed (object);
@@ -572,6 +587,12 @@ phosh_home_constructed (GObject *object)
   g_object_set_data (G_OBJECT (self->osk_toggle_long_press), "phosh-home", self);
 
   phosh_home_add_background (self);
+  g_signal_connect_object (phosh_shell_get_style_manager (shell),
+                           "notify::theme-name",
+                           G_CALLBACK (on_theme_name_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_theme_name_changed (self, NULL, phosh_shell_get_style_manager (shell));
 }
 
 
@@ -665,6 +686,7 @@ phosh_home_init (PhoshHome *self)
 
   gtk_widget_init_template (GTK_WIDGET (self));
 
+  self->use_background = TRUE;
   self->state = PHOSH_HOME_STATE_FOLDED;
   self->settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
 
