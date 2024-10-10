@@ -303,22 +303,46 @@ on_child_revealed_changed (PhoshNotificationFrame *self,
 }
 
 
+/**
+ * needs_separator:
+ * @row: the #GtkListBoxRow
+ *
+ * Checks if a visible separator is needed. This is only the case when
+ * there are no action buttons as otherwise the action buttons are enough
+ * separation.
+ *
+ * Returns: `TRUE` if a separator is needed
+ */
+static gboolean
+needs_separator (PhoshNotificationContent *content)
+{
+  PhoshNotification *notification;
+  GStrv actions;
+
+  notification = phosh_notification_content_get_notification (content);
+  actions = phosh_notification_get_actions (notification);
+
+  if (gm_strv_is_null_or_empty (actions))
+    return TRUE;
+
+  if (g_strv_length (actions) == 2 && g_str_equal (actions[0], "default"))
+    return TRUE;
+
+  return FALSE;
+}
+
+
 static void
 header_func (GtkListBoxRow *current_row, GtkListBoxRow *prev_row, gpointer user_data)
 {
-  PhoshNotificationContent *prev_content;
-  PhoshNotification *prev_notification;
-  GStrv prev_actions;
+  PhoshNotificationContent *content;
 
   if (prev_row == NULL)
     return;
 
-  prev_content = PHOSH_NOTIFICATION_CONTENT (prev_row);
-  prev_notification = phosh_notification_content_get_notification (prev_content);
-  prev_actions = phosh_notification_get_actions (prev_notification);
+  content = PHOSH_NOTIFICATION_CONTENT (prev_row);
 
-  /* only add separator if the previous notification doesn't have actions */
-  if (gm_strv_is_null_or_empty (prev_actions)) {
+  if (needs_separator (content)) {
     GtkWidget *separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand (separator, TRUE);
     gtk_list_box_row_set_header (current_row, separator);
@@ -549,3 +573,4 @@ phosh_notification_frame_get_action_filter_keys (PhoshNotificationFrame *self)
 
   return (const char *const *)self->action_filter_keys;
 }
+
