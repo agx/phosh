@@ -47,6 +47,7 @@ src/monitor-manager.c
 src/network-auth-prompt.c
 src/notifications/mount-notification.c
 src/notifications/notification.c
+src/notifications/notify-manager.c
 src/notifications/timestamp-label.c
 src/osk-manager.c
 src/overview.c

@@ -32,7 +32,6 @@
 #define NOTIFICATIONS_APP_KEY_APP_ID "application-id"
 #define NOTIFICATIONS_APP_KEY_ENABLE "enable"
 
-#define NOTIFICATION_DEFAULT_TIMEOUT 5000 /* ms */
 #define NOTIFICATIONS_SPEC_VERSION "1.2"
 
 /**
@@ -838,7 +837,8 @@ phosh_notify_manager_get_notification_id (PhoshNotifyManager *self)
  * @expire_timeout: When the notification should expire
  * @notification: The notification
  *
- * Adds @notification to the current list of notifications.
+ * Adds @notification to the current list of notifications. This is the single
+ * entry point to submit notifications.
  */
 void
 phosh_notify_manager_add_notification (PhoshNotifyManager *self,
@@ -854,7 +854,7 @@ phosh_notify_manager_add_notification (PhoshNotifyManager *self,
     return;
 
   if (expire_timeout == -1)
-    expire_timeout = NOTIFICATION_DEFAULT_TIMEOUT;
+    expire_timeout = PHOSH_NOTIFICATION_DEFAULT_TIMEOUT;
 
   phosh_notification_list_add (self->list, source_id, notification);
 
@@ -879,6 +879,7 @@ phosh_notify_manager_add_notification (PhoshNotifyManager *self,
 
   g_signal_emit (self, signals[NEW_NOTIFICATION], 0, notification);
 }
+
 
 gboolean
 phosh_notify_manager_close_notification_by_id (PhoshNotifyManager *self,
@@ -964,55 +965,57 @@ phosh_notify_manager_close_all_notifications (PhoshNotifyManager      *self,
 }
 
 /**
- * phosh_notify_manager_shell_notification_new:
+ * phosh_notify_manager_add_shell_notification:
  * @self: The #PhoshNotifyManager
- * @summary: The notification summary
- * @body:(nullable): The notification body
- * @icon_name:(nullable): The icon to be used
+ * @notification: The notification to add
+ * @id: The id
+ * @expire_timeout: The expiration timeout
  *
- * Creates a new notification and adds it to the list of notifications
- * (filling in then notification id) and displaying it (if
- * notifications aren't disabled by other means). The returned id
- * can be used to retract the notification.
+ * Adds a notification to the list of notifications. If `id` is not `0`
+ * an existing notification is replaced.
+ *
+ * If the notification has no `app-name` or `app-icon` set then a shell
+ * default is filled in.
+ *
+ * If the expire_timeout is greater than `0` the notification is
+ * marked as transient.
+ *
+ * The returned `id` can be used at a later point to retract or
+ * replace the notification.
  *
  * Returns: The id of the notification
  */
 guint
 phosh_notify_manager_add_shell_notification (PhoshNotifyManager *self,
-                                             const char         *summary,
-                                             const char         *body,
-                                             const char         *icon_name,
+                                             PhoshNotification  *notification,
+                                             guint               id,
                                              int                 expire_timeout)
 {
-  g_autoptr (GIcon) app_icon = NULL;
-  g_autoptr (GIcon) icon = NULL;
-  g_autoptr (PhoshNotification) notification = NULL;
-  GDesktopAppInfo *desktop_info;
-  g_autoptr (GAppInfo) info = NULL;
-  guint id;
+  g_autoptr (GDesktopAppInfo) info = NULL;
 
-  id = phosh_notify_manager_get_notification_id (self);
+  info = g_desktop_app_info_new (PHOSH_APP_ID ".desktop");
+  g_return_val_if_fail (G_IS_DESKTOP_APP_INFO (info), 0);
 
-  app_icon = g_themed_icon_new ("applications-system-symbolic");
-  desktop_info = g_desktop_app_info_new (PHOSH_APP_ID ".desktop");
-  if (desktop_info)
-    info = G_APP_INFO (desktop_info);
+  if (!id) {
+    id = phosh_notify_manager_get_notification_id (self);
+    phosh_notification_set_id (notification, id);
+  }
 
-  if (icon_name)
-    icon = g_themed_icon_new (icon_name);
+  /* We don't just set the app_info but name and icon separately to
+   * not overwrite values set by the caller */
+  if (g_strcmp0 (phosh_notification_get_app_name (notification), _("Notification")) == 0) {
+    const char *name = g_app_info_get_name (G_APP_INFO (info));
 
-  notification =  g_object_new (PHOSH_TYPE_NOTIFICATION,
-                                "id", id,
-                                "summary", summary,
-                                "body", body,
-                                "app-info", info,
-                                "app-icon", app_icon,
-                                "image", icon,
-                                "urgency", PHOSH_NOTIFICATION_URGENCY_NORMAL,
-                                "actions", NULL,
-                                "transient", !!expire_timeout,
-                                "resident", FALSE,
-                                NULL);
+    phosh_notification_set_app_name (notification, name);
+  }
+
+  if (!phosh_notification_get_app_icon (notification)) {
+    GIcon *icon = g_app_info_get_icon (G_APP_INFO (info));
+
+    phosh_notification_set_app_icon (notification, icon);
+  }
+
+  phosh_notification_set_transient (notification, !!expire_timeout);
 
   phosh_notify_manager_add_notification (self, PHOSH_APP_ID ".desktop",
                                          expire_timeout,
