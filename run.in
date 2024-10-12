@@ -26,6 +26,7 @@ fi
 SCHEMAS=(
          "${ABS_BUILDDIR}/data:"
          "${ABS_BUILDDIR}/plugins/launcher-box:"
+         "${ABS_BUILDDIR}/plugins/pomodoro-quick-setting"
          "${ABS_BUILDDIR}/plugins/ticket-box:"
          "${ABS_BUILDDIR}/plugins/upcoming-events:"
         )

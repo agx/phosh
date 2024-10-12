@@ -1,0 +1,19 @@
+<schemalist>
+  <schema id="mobi.phosh.plugins.pomodoro"
+          path="/mobi/phosh/plugins/pomodoro/">
+    <key name="active-duration" type="i">
+      <default>1500</default>
+      <summary>Active interval duration</summary>
+      <description>
+        The duration of the active interval in seconds.
+      </description>
+    </key>
+    <key name="break-duration" type="i">
+      <default>300</default>
+      <summary>Break duration</summary>
+      <description>
+        The duration of the break in seconds.
+      </description>
+    </key>
+  </schema>
+</schemalist>
