@@ -61,20 +61,12 @@ i18n.merge_file(
 )
 
 upcoming_events_schema = 'sm.puri.phosh.plugins.upcoming-events.gschema.xml'
-copy_schema = custom_target('copy-upcoming-events-gschema-to-builddir',
-  input: upcoming_events_schema,
-  output: upcoming_events_schema,
-  command: ['cp', '@INPUT@', '@OUTPUT@']
-)
-compile_schemas = custom_target('glib-compile-schemas',
-  build_by_default: true,
-  output: 'gschemas.compiled',
-  install: false,
-  command: [find_program('glib-compile-schemas'),
-    meson.current_build_dir()
-  ],
-  depends: copy_schema
-)
+compile_schemas = find_program('glib-compile-schemas', required: false)
+if compile_schemas.found()
+  test('Validate @0@ schema file'.format(upcoming_events_schema),
+       compile_schemas,
+       args: ['--strict', '--dry-run', meson.current_source_dir()])
+endif
 install_data(
   upcoming_events_schema,
   install_dir: 'share/glib-2.0/schemas'
