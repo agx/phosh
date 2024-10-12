@@ -13,27 +13,18 @@
 #include "phosh-config.h"
 
 #include "media-player.h"
-#include "mode-manager.h"
-#include "plugin-loader.h"
 #include "shell.h"
 #include "settings.h"
-#include "quick-setting.h"
+#include "quick-settings.h"
 #include "settings/audio-settings.h"
 #include "settings/brightness.h"
-#include "torch-info.h"
 #include "torch-manager.h"
-#include "vpn-manager.h"
-#include "bt-status-page.h"
-#include "wwan/wwan-manager.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
-#include "rotateinfo.h"
 #include "util.h"
 
 #include <gio/gdesktopappinfo.h>
 #include <xkbcommon/xkbcommon.h>
-
-#include <math.h>
 
 #define STACK_CHILD_NOTIFICATIONS    "notifications"
 #define STACK_CHILD_NO_NOTIFICATIONS "no-notifications"
@@ -57,9 +48,8 @@ enum {
 };
 static guint signals[N_SIGNALS] = { 0 };
 
-typedef struct _PhoshSettings
-{
-  GtkBin parent;
+typedef struct _PhoshSettings {
+  GtkBin     parent;
 
   gboolean   on_lockscreen;
   gint       drag_handle_offset;
@@ -73,8 +63,6 @@ typedef struct _PhoshSettings
   GtkWidget *media_player;
   PhoshAudioSettings *audio_settings;
 
-  GtkStack  *stack;
-
   /* The area with media widget, notifications */
   GtkWidget *box_bottom_half;
   /* Notifications */
@@ -85,12 +73,7 @@ typedef struct _PhoshSettings
   PhoshTorchManager *torch_manager;
   GtkWidget *revealer;
   GtkWidget *scale_torch;
-  gboolean setting_torch;
-
-  /* Custom quick settings */
-  GSettings         *plugin_settings;
-  PhoshPluginLoader *plugin_loader;
-  GPtrArray         *custom_quick_settings;
+  gboolean   setting_torch;
 } PhoshSettings;
 
 
@@ -105,9 +88,6 @@ set_on_lockscreen (PhoshSettings *self, gboolean on_lockscreen)
 
   self->on_lockscreen = on_lockscreen;
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ON_LOCKSCREEN]);
-
-  if (self->on_lockscreen)
-    gtk_stack_set_visible_child_name (GTK_STACK (self->stack), "quick_settings_page");
 }
 
 
@@ -156,10 +136,9 @@ static void
 calc_drag_handle_offset (PhoshSettings *self)
 {
   int h = 0;
-  int box_height, sw_height, stack_height = 0;
-  int stack_y = 0;
+  int box_height, sw_height, qs_height = 0;
+  int qs_y = 0;
   gboolean success;
-  const char *stack_page;
 
   h = gtk_widget_get_allocated_height (GTK_WIDGET (self));
   /* On the lock screen the whole surface is fine */
@@ -173,26 +152,21 @@ calc_drag_handle_offset (PhoshSettings *self)
     goto out;
   }
 
-  stack_page = gtk_stack_get_visible_child_name (GTK_STACK (self->stack));
-  g_debug ("Calculating drag offset: on stack page: %s", stack_page);
+  g_debug ("Calculating drag offset: on quick-settings");
 
-  /* Make sure quick settings' status pages are scrollable */
-  if (g_strcmp0 (stack_page, "status_page") != 0)
-    goto out;
-
-  success = gtk_widget_translate_coordinates (GTK_WIDGET (self->stack), GTK_WIDGET (self),
-                                              0, 0, NULL, &stack_y);
+  success = gtk_widget_translate_coordinates (self->quick_settings, GTK_WIDGET (self),
+                                              0, 0, NULL, &qs_y);
 
   if (!success) {
-    g_warning ("Calculating drag offset: Unable to get stack page's y coordinate");
+    g_warning ("Calculating drag offset: Unable to get quick-setting's y coordinate");
     goto out;
   }
 
-  stack_height = gtk_widget_get_allocated_height (GTK_WIDGET (self->stack));
-  h = stack_y + stack_height;
+  qs_height = gtk_widget_get_allocated_height (self->quick_settings);
+  h = qs_y + qs_height;
 
-  g_debug ("Calculating drag offset: stack_y = %d, stack_height = %d, height = %d",
-           stack_y, stack_height, h);
+  g_debug ("Calculating drag offset: QS_y = %d, QS_height = %d, height = %d",
+           qs_y, qs_height, h);
 
  out:
   if (self->drag_handle_offset == h)
@@ -232,30 +206,6 @@ update_drag_handle_offset (PhoshSettings *self)
 
 
 static void
-on_stack_visible_child_changed (PhoshSettings *self)
-{
-  static GtkWidget *last_status_page;
-  GtkWidget *child, *revealer;
-  gboolean reveal;
-
-  update_drag_handle_offset (self);
-
-  child = gtk_stack_get_visible_child (GTK_STACK (self->stack));
-  if (child == self->quick_settings && last_status_page) {
-    revealer = last_status_page;
-    reveal = FALSE;
-  } else {
-    g_return_if_fail (GTK_IS_REVEALER (child));
-    revealer = child;
-    reveal = TRUE;
-  }
-
-  gtk_revealer_set_reveal_child (GTK_REVEALER (revealer), reveal);
-  last_status_page = revealer;
-}
-
-
-static void
 close_settings_menu (PhoshSettings *self)
 {
   g_signal_emit (self, signals[SETTING_DONE], 0);
@@ -271,37 +221,6 @@ brightness_value_changed_cb (GtkScale *scale_brightness, gpointer unused)
   brightness_set (brightness);
 }
 
-static void
-rotation_setting_clicked_cb (PhoshSettings *self)
-{
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshRotationManager *rotation_manager;
-  PhoshRotationManagerMode mode;
-  PhoshMonitorTransform transform;
-  gboolean locked;
-
-  g_return_if_fail (PHOSH_IS_SETTINGS (self));
-
-  rotation_manager = phosh_shell_get_rotation_manager (shell);
-  g_return_if_fail (rotation_manager);
-  mode = phosh_rotation_manager_get_mode (PHOSH_ROTATION_MANAGER (rotation_manager));
-
-  switch (mode) {
-  case PHOSH_ROTATION_MANAGER_MODE_OFF:
-    transform = phosh_rotation_manager_get_transform (rotation_manager) ?
-      PHOSH_MONITOR_TRANSFORM_NORMAL : PHOSH_MONITOR_TRANSFORM_270;
-    phosh_rotation_manager_set_transform (rotation_manager, transform);
-    g_signal_emit (self, signals[SETTING_DONE], 0);
-    break;
-  case PHOSH_ROTATION_MANAGER_MODE_SENSOR:
-    locked = phosh_rotation_manager_get_orientation_locked (rotation_manager);
-    phosh_rotation_manager_set_orientation_locked (rotation_manager, !locked);
-    break;
-  default:
-    g_assert_not_reached ();
-  }
-}
-
 
 static void
 open_settings_panel (PhoshSettings *self, const char *panel)
@@ -309,7 +228,7 @@ open_settings_panel (PhoshSettings *self, const char *panel)
   if (self->on_lockscreen)
     return;
 
-  phosh_quick_setting_open_settings_panel (panel);
+  phosh_util_open_settings_panel (panel);
   close_settings_menu (self);
 }
 
@@ -326,212 +245,6 @@ on_launch_panel_activated (GSimpleAction *action, GVariant *param, gpointer data
   phosh_audio_settings_hide_details (self->audio_settings);
 }
 
-static void
-on_close_status_page_activated (GSimpleAction *action, GVariant *param, gpointer data)
-{
-  PhoshSettings *self = PHOSH_SETTINGS (data);
-  GtkStack *stack = GTK_STACK (self->stack);
-
-  gtk_stack_set_visible_child_name (stack, "quick_settings_page");
-}
-
-
-static void
-rotation_setting_long_pressed_cb (PhoshSettings *self)
-{
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshRotationManagerMode mode;
-  PhoshRotationManager *rotation_manager;
-
-  rotation_manager = phosh_shell_get_rotation_manager (shell);
-  g_return_if_fail (rotation_manager);
-
-  mode = phosh_rotation_manager_get_mode (rotation_manager);
-  switch (mode) {
-  case PHOSH_ROTATION_MANAGER_MODE_OFF:
-    mode = PHOSH_ROTATION_MANAGER_MODE_SENSOR;
-    break;
-  case PHOSH_ROTATION_MANAGER_MODE_SENSOR:
-    mode = PHOSH_ROTATION_MANAGER_MODE_OFF;
-    break;
-  default:
-    g_assert_not_reached ();
-  }
-  g_debug ("Rotation manager mode: %d", mode);
-  phosh_rotation_manager_set_mode (rotation_manager, mode);
-}
-
-static void
-feedback_setting_clicked_cb (PhoshSettings *self)
-{
-  PhoshShell *shell;
-  PhoshFeedbackManager *manager;
-
-  shell = phosh_shell_get_default ();
-  g_return_if_fail (PHOSH_IS_SHELL (shell));
-  manager = phosh_shell_get_feedback_manager (shell);
-  g_return_if_fail (PHOSH_IS_FEEDBACK_MANAGER (manager));
-  phosh_feedback_manager_toggle (manager);
-}
-
-static void
-wifi_setting_clicked_cb (PhoshSettings *self)
-{
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshWifiManager *manager;
-  gboolean enabled;
-
-  g_return_if_fail (PHOSH_IS_SETTINGS (self));
-
-  manager = phosh_shell_get_wifi_manager (shell);
-  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (manager));
-
-  enabled = phosh_wifi_manager_get_enabled (manager);
-  phosh_wifi_manager_set_enabled (manager, !enabled);
-}
-
-static void
-wifi_setting_long_pressed_cb (PhoshSettings *self)
-{
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshWifiManager *manager;
-
-  if (self->on_lockscreen)
-    return;
-
-  manager = phosh_shell_get_wifi_manager (shell);
-  g_return_if_fail (PHOSH_IS_WIFI_MANAGER (manager));
-
-  if (phosh_wifi_manager_get_enabled (manager))
-    phosh_wifi_manager_request_scan (manager);
-
-  gtk_stack_set_visible_child_name (self->stack, "wifi_status_page");
-}
-
-static void
-wwan_setting_clicked_cb (PhoshSettings *self)
-{
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshWWan *wwan;
-  gboolean enabled;
-
-  g_return_if_fail (PHOSH_IS_SETTINGS (self));
-
-  wwan = phosh_shell_get_wwan (shell);
-  g_return_if_fail (PHOSH_IS_WWAN (wwan));
-
-  enabled = phosh_wwan_is_enabled (wwan);
-  phosh_wwan_set_enabled (wwan, !enabled);
-}
-
-static void
-wwan_setting_long_pressed_cb (PhoshSettings *self)
-{
-  open_settings_panel (self, "wwan");
-}
-
-
-static void
-on_toggle_bt_activated (GSimpleAction *action, GVariant *param, gpointer data)
-{
-  PhoshSettings *self = PHOSH_SETTINGS (data);
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshBtManager *manager;
-  gboolean enabled;
-
-  g_return_if_fail (PHOSH_IS_SETTINGS (self));
-
-  manager = phosh_shell_get_bt_manager (shell);
-  g_return_if_fail (PHOSH_IS_BT_MANAGER (manager));
-
-  enabled = phosh_bt_manager_get_enabled (manager);
-  phosh_bt_manager_set_enabled (manager, !enabled);
-}
-
-
-static void
-bt_setting_long_pressed_cb (PhoshSettings *self)
-{
-  if (self->on_lockscreen)
-    return;
-
-  gtk_stack_set_visible_child_name (self->stack, "bt_status_page");
-}
-
-
-static void
-feedback_setting_long_pressed_cb (PhoshSettings *self)
-{
-  open_settings_panel (self, "notifications");
-}
-
-
-static void
-battery_setting_clicked_cb (PhoshSettings *self)
-{
-  open_settings_panel (self, "power");
-}
-
-
-static void
-torch_setting_clicked_cb (PhoshSettings *self)
-{
-  PhoshShell *shell;
-  PhoshTorchManager *manager;
-
-  shell = phosh_shell_get_default ();
-  g_return_if_fail (PHOSH_IS_SHELL (shell));
-  manager = phosh_shell_get_torch_manager (shell);
-  g_return_if_fail (PHOSH_IS_TORCH_MANAGER (manager));
-  phosh_torch_manager_toggle (manager);
-}
-
-
-static void
-docked_setting_clicked_cb (PhoshSettings *self)
-{
-  PhoshShell *shell;
-  PhoshDockedManager *manager;
-  gboolean enabled;
-
-  shell = phosh_shell_get_default ();
-  g_return_if_fail (PHOSH_IS_SHELL (shell));
-  manager = phosh_shell_get_docked_manager (shell);
-  g_return_if_fail (PHOSH_IS_DOCKED_MANAGER (manager));
-
-  enabled = phosh_docked_manager_get_enabled (manager);
-  phosh_docked_manager_set_enabled (manager, !enabled);
-}
-
-static void
-docked_setting_long_pressed_cb (PhoshSettings *self)
-{
-  open_settings_panel (self, "display");
-}
-
-
-static void
-on_vpn_setting_clicked (PhoshSettings *self)
-{
-  PhoshShell *shell = phosh_shell_get_default ();
-  PhoshVpnManager *vpn_manager;
-
-  g_return_if_fail (PHOSH_IS_SETTINGS (self));
-  g_return_if_fail (PHOSH_IS_SHELL (shell));
-
-  g_debug ("Toggling VPN connection");
-
-  vpn_manager = phosh_shell_get_vpn_manager (shell);
-  phosh_vpn_manager_toggle_last_connection (vpn_manager);
-}
-
-
-static void
-on_vpn_setting_long_pressed (PhoshSettings *self)
-{
-  open_settings_panel (self, "network");
-}
-
 
 static void
 on_is_headphone_changed (PhoshSettings      *self,
@@ -546,58 +259,12 @@ on_is_headphone_changed (PhoshSettings      *self,
 
   if (phosh_audio_settings_get_output_is_headphone (self->audio_settings) ||
       !phosh_media_player_get_is_playable (media_player) ||
-      phosh_media_player_get_status (media_player) != PHOSH_MEDIA_PLAYER_STATUS_PLAYING) {
+      phosh_media_player_get_status (media_player) != PHOSH_MEDIA_PLAYER_STATUS_PLAYING)
     return;
-  }
 
   phosh_media_player_toggle_play_pause (media_player);
 }
 
-
-static void
-on_quicksetting_activated (PhoshSettings   *self,
-                           GtkFlowBoxChild *child,
-                           GtkFlowBox      *box)
-
-{
-  GtkWidget *quick_setting;
-
-  quick_setting = gtk_bin_get_child (GTK_BIN (child));
-  gtk_button_clicked (GTK_BUTTON (quick_setting));
-}
-
-static void
-unload_custom_quick_setting (GtkWidget *quick_setting)
-{
-  GtkWidget *flow_box_child = gtk_widget_get_parent (quick_setting);
-  GtkWidget *flow_box = gtk_widget_get_parent (flow_box_child);
-  gtk_container_remove (GTK_CONTAINER (flow_box), flow_box_child);
-}
-
-static void
-load_custom_quick_settings (PhoshSettings *self, GSettings *settings, gchar *key)
-{
-  g_auto (GStrv) plugins = NULL;
-  GtkWidget *widget;
-
-  g_ptr_array_remove_range (self->custom_quick_settings, 0, self->custom_quick_settings->len);
-  plugins = g_settings_get_strv (self->plugin_settings, "quick-settings");
-
-  if (plugins == NULL)
-    return;
-
-  for (int i = 0; plugins[i]; i++) {
-    g_debug ("Loading custom quick setting: %s", plugins[i]);
-    widget = phosh_plugin_loader_load_plugin (self->plugin_loader, plugins[i]);
-
-    if (widget == NULL) {
-      g_warning ("Custom quick setting '%s' not found", plugins[i]);
-    } else {
-      gtk_container_add (GTK_CONTAINER (self->quick_settings), widget);
-      g_ptr_array_add (self->custom_quick_settings, widget);
-    }
-  }
-}
 
 static void
 on_media_player_raised (PhoshSettings *self,
@@ -650,7 +317,7 @@ on_torch_scale_value_changed (PhoshSettings *self, GtkScale *scale_torch)
 
   /* Only react to scale changes when torch is enabled */
   if (!phosh_torch_manager_get_enabled (self->torch_manager))
-      return;
+    return;
 
   self->setting_torch = TRUE;
   value = gtk_range_get_value (GTK_RANGE (self->scale_torch));
@@ -689,7 +356,7 @@ on_notification_frames_items_changed (PhoshSettings *self,
   g_return_if_fail (G_IS_LIST_MODEL (list));
 
   is_empty = !g_list_model_get_n_items (list);
-  g_debug("Notification list empty: %d", is_empty);
+  g_debug ("Notification list empty: %d", is_empty);
 
   child_name = is_empty ? STACK_CHILD_NO_NOTIFICATIONS : STACK_CHILD_NOTIFICATIONS;
   gtk_stack_set_visible_child_name (GTK_STACK (self->stack_notifications), child_name);
@@ -706,9 +373,9 @@ setup_brightness_range (PhoshSettings *self)
   gtk_range_set_round_digits (GTK_RANGE (self->scale_brightness), 0);
   gtk_range_set_increments (GTK_RANGE (self->scale_brightness), 1, 10);
   value_changed_handler_id = g_signal_connect (self->scale_brightness,
-                    "value-changed",
-                    G_CALLBACK(brightness_value_changed_cb),
-                    NULL);
+                                               "value-changed",
+                                               G_CALLBACK (brightness_value_changed_cb),
+                                               NULL);
   brightness_init (GTK_SCALE (self->scale_brightness), value_changed_handler_id);
 }
 
@@ -718,14 +385,17 @@ setup_torch (PhoshSettings *self)
 {
   PhoshShell *shell = phosh_shell_get_default ();
 
-  self->torch_manager = g_object_ref(phosh_shell_get_torch_manager (shell));
+  self->torch_manager = g_object_ref (phosh_shell_get_torch_manager (shell));
 
+  g_object_bind_property (self->torch_manager, "enabled",
+                          self->revealer, "reveal-child",
+                          G_BINDING_SYNC_CREATE);
   gtk_range_set_range (GTK_RANGE (self->scale_torch), 40, 100);
   gtk_range_set_value (GTK_RANGE (self->scale_torch),
                        phosh_torch_manager_get_scaled_brightness (self->torch_manager) * 100.0);
   g_signal_connect_object (self->torch_manager,
                            "notify::brightness",
-                           G_CALLBACK(on_torch_brightness_changed),
+                           G_CALLBACK (on_torch_brightness_changed),
                            self,
                            G_CONNECT_SWAPPED);
   g_object_bind_property (self->torch_manager, "can-scale",
@@ -739,17 +409,11 @@ phosh_settings_constructed (GObject *object)
 {
   PhoshSettings *self = PHOSH_SETTINGS (object);
   PhoshNotifyManager *manager;
-  const char *plugin_dirs[] = { PHOSH_PLUGINS_DIR, NULL };
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->constructed (object);
 
   setup_brightness_range (self);
   setup_torch (self);
-
-  g_signal_connect (self->quick_settings,
-                    "child-activated",
-                    G_CALLBACK (on_quicksetting_activated),
-                    self);
 
   manager = phosh_notify_manager_get_default ();
   gtk_list_box_bind_model (GTK_LIST_BOX (self->list_notifications),
@@ -770,16 +434,6 @@ phosh_settings_constructed (GObject *object)
                           self,
                           "on-lockscreen",
                           G_BINDING_SYNC_CREATE);
-
-  self->plugin_settings = g_settings_new ("sm.puri.phosh.plugins");
-  self->plugin_loader = phosh_plugin_loader_new ((GStrv) plugin_dirs,
-                                                 PHOSH_EXTENSION_POINT_QUICK_SETTING_WIDGET);
-  self->custom_quick_settings = g_ptr_array_new_with_free_func ((GDestroyNotify) unload_custom_quick_setting);
-
-  g_signal_connect_object (self->plugin_settings, "changed::quick-settings",
-                           G_CALLBACK (load_custom_quick_settings), self, G_CONNECT_SWAPPED);
-
-  load_custom_quick_settings (self, NULL, NULL);
 }
 
 
@@ -791,13 +445,6 @@ phosh_settings_dispose (GObject *object)
   brightness_dispose ();
 
   g_clear_object (&self->torch_manager);
-
-  g_clear_object (&self->plugin_settings);
-  g_clear_object (&self->plugin_loader);
-  if (self->custom_quick_settings) {
-    g_ptr_array_free (self->custom_quick_settings, TRUE);
-    self->custom_quick_settings = NULL;
-  }
 
   G_OBJECT_CLASS (phosh_settings_parent_class)->dispose (object);
 }
@@ -825,9 +472,6 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   object_class->constructed = phosh_settings_constructed;
   object_class->set_property = phosh_settings_set_property;
   object_class->get_property = phosh_settings_get_property;
-
-  g_type_ensure (PHOSH_TYPE_BT_STATUS_PAGE);
-  g_type_ensure (PHOSH_TYPE_WIFI_STATUS_PAGE);
 
   gtk_widget_class_set_template_from_resource (widget_class,
                                                "/sm/puri/phosh/ui/settings.ui");
@@ -861,10 +505,11 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[SETTING_DONE] = g_signal_new ("setting-done",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
+                                        G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+                                        NULL, G_TYPE_NONE, 0);
 
   g_type_ensure (PHOSH_TYPE_AUDIO_SETTINGS);
+  g_type_ensure (PHOSH_TYPE_QUICK_SETTINGS);
 
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, audio_settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, box_bottom_half);
@@ -876,38 +521,19 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, revealer);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_brightness);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scale_torch);
-  gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, stack_notifications);
   gtk_widget_class_bind_template_child (widget_class, PhoshSettings, scrolled_window);
 
-  gtk_widget_class_bind_template_callback (widget_class, battery_setting_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, bt_setting_long_pressed_cb);
-  gtk_widget_class_bind_template_callback (widget_class, docked_setting_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, docked_setting_long_pressed_cb);
-  gtk_widget_class_bind_template_callback (widget_class, feedback_setting_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, feedback_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_media_player_raised);
-  gtk_widget_class_bind_template_callback (widget_class, rotation_setting_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, rotation_setting_long_pressed_cb);
-  gtk_widget_class_bind_template_callback (widget_class, torch_setting_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, wifi_setting_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, wifi_setting_long_pressed_cb);
-  gtk_widget_class_bind_template_callback (widget_class, wwan_setting_clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, wwan_setting_long_pressed_cb);
   gtk_widget_class_bind_template_callback (widget_class, on_is_headphone_changed);
   gtk_widget_class_bind_template_callback (widget_class, on_notifications_clear_all_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_torch_scale_value_changed);
-  gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_long_pressed);
-  gtk_widget_class_bind_template_callback (widget_class, on_vpn_setting_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, on_stack_visible_child_changed);
   gtk_widget_class_bind_template_callback (widget_class, update_drag_handle_offset);
 }
 
 
 static const GActionEntry entries[] = {
   { .name = "launch-panel", .activate = on_launch_panel_activated, .parameter_type = "s" },
-  { .name = "close-status-page", .activate = on_close_status_page_activated },
-  { .name = "toggle-bt", .activate = on_toggle_bt_activated },
 };
 
 

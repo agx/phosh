@@ -1,43 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <template class="PhoshQuickSetting" parent="GtkButton">
+  <template class="PhoshQuickSetting" parent="GtkBox">
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <signal name="button-press-event" handler="button_pressed_cb" object="PhoshQuickSetting" swapped="true"/>
+    <property name="orientation">horizontal</property>
     <child>
-      <object class="GtkBox" id="box">
+      <object class="GtkButton">
         <property name="visible">True</property>
-        <property name="orientation">horizontal</property>
-        <property name="spacing">6</property>
+        <property name="hexpand">True</property>
+        <signal name="button-press-event" handler="on_button_press" object="PhoshQuickSetting" swapped="yes"/>
         <child>
-          <object class="GtkImage" id="has_status_image">
-            <property name="visible">False</property>
-            <property name="icon-name">go-next-symbolic</property>
-          </object>
-          <packing>
-            <property name="position">1</property>
-            <property name="pack_type">end</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label">
+          <object class="GtkBox" id="box">
+            <property name="spacing">6</property>
+            <property name="orientation">horizontal</property>
             <property name="visible">True</property>
-            <property name="expand">True</property>
-            <property name="can_focus">False</property>
-            <property name="ellipsize">end</property>
-            <property name="halign">start</property>
+            <child>
+              <object class="GtkLabel" id="label">
+                <property name="visible">True</property>
+                <property name="halign">start</property>
+                <property name="hexpand">True</property>
+                <property name="ellipsize">middle</property>
+              </object>
+              <packing>
+                <property name="position">2</property>
+                <property name="pack_type">end</property>
+              </packing>
+            </child>
           </object>
-          <packing>
-            <property name="position">2</property>
-            <property name="pack_type">end</property>
-          </packing>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparator">
+        <property name="visible" bind-source="arrow_btn" bind-property="visible" bind-flags="sync-create"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton" id="arrow_btn">
+        <signal name="clicked" handler="on_arrow_clicked" object="PhoshQuickSetting" swapped="yes"/>
+        <child>
+          <object class="GtkImage" id="arrow">
+            <property name="visible">True</property>
+            <property name="icon-name">go-next-symbolic</property>
+            <property name="icon-size">2</property>
+            <property name="pixel-size">16</property>
+          </object>
         </child>
       </object>
     </child>
   </template>
-  <object class="GtkGestureLongPress" id="long_press">
+  <object class="GtkGestureLongPress">
     <property name="widget">PhoshQuickSetting</property>
-    <signal name="pressed" handler="long_pressed_cb" object="PhoshQuickSetting" swapped="true"/>
+    <signal name="pressed" handler="on_long_pressed" object="PhoshQuickSetting" swapped="true"/>
   </object>
 </interface>
