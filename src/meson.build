@@ -162,7 +162,7 @@ libphosh_tool_headers = files(
   'wl-buffer.h',
 )
 
-# Symbols from these available in tools and unit tests
+# Available in tools and unit tests:
 libphosh_tool_sources = files(
   'app-auth-prompt.c',
   'activity.c',
@@ -224,6 +224,7 @@ libphosh_tool_sources = files(
   'status-page-placeholder.c',
   'splash.c',
   'splash-manager.c',
+  'style-manager.c',
   'suspend-manager.c',
   'system-modal.c',
   'system-modal-dialog.c',
@@ -284,6 +285,7 @@ libphosh_headers = files(
   'session-presence.h',
   'session-manager.h',
   'shell.h',
+  'style-manager.h',
   'system-prompt.h',
   'system-prompter.h',
   'thumbnail.h',

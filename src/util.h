@@ -32,7 +32,6 @@ char            *phosh_util_escape_markup (const char *markup, gboolean allow_ma
 gboolean         phosh_util_gesture_is_touch (GtkGestureSingle *gesture);
 gboolean         phosh_util_have_gnome_software (gboolean scan);
 void             phosh_util_toggle_style_class (GtkWidget *widget, const char *style_class, gboolean toggle);
-const char      *phosh_util_get_stylesheet (const char *theme_name);
 gboolean         phosh_clear_fd (int *fd, GError **err);
 const char      *phosh_util_get_icon_by_wifi_strength (guint strength, gboolean is_connecting);
 gboolean         phosh_util_file_equal (GFile *file1, GFile *file2);

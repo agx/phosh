@@ -80,6 +80,7 @@
 #include "screenshot-manager.h"
 #include "session-manager.h"
 #include "splash-manager.h"
+#include "style-manager.h"
 #include "suspend-manager.h"
 #include "system-prompter.h"
 #include "top-panel.h"
@@ -172,6 +173,7 @@ typedef struct
   PhoshEmergencyCallsManager *emergency_calls_manager;
   PhoshPowerMenuManager *power_menu_manager;
   PhoshLayoutManager *layout_manager;
+  PhoshStyleManager *style_manager;
   PhoshLauncherEntryManager *launcher_entry_manager;
 
   /* sensors */
@@ -192,9 +194,6 @@ typedef struct
   gboolean docked;
 
   PhoshShellStateFlags shell_state;
-
-  char           *theme_name;
-  GtkCssProvider *css_provider;
 
   GSettings      *settings;
 } PhoshShellPrivate;
@@ -412,37 +411,6 @@ panels_dispose (PhoshShell *self)
 }
 
 
-/* Select proper style sheet in case of high contrast */
-static void
-on_gtk_theme_name_changed (PhoshShell *self, GParamSpec *pspec, GtkSettings *settings)
-{
-  const char *style;
-  g_autofree char *name = NULL;
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  g_autoptr (GtkCssProvider) provider = gtk_css_provider_new ();
-
-  g_object_get (settings, "gtk-theme-name", &name, NULL);
-
-  if (g_strcmp0 (priv->theme_name, name) == 0)
-    return;
-
-  priv->theme_name = g_steal_pointer (&name);
-  g_debug ("GTK theme: %s", priv->theme_name);
-
-  if (priv->css_provider) {
-    gtk_style_context_remove_provider_for_screen(gdk_screen_get_default (),
-                                                 GTK_STYLE_PROVIDER (priv->css_provider));
-  }
-
-  style = phosh_util_get_stylesheet (priv->theme_name);
-  gtk_css_provider_load_from_resource (provider, style);
-  gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
-                                             GTK_STYLE_PROVIDER (provider),
-                                             GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-  g_set_object (&priv->css_provider, provider);
-}
-
-
 static void
 set_locked (PhoshShell *self, gboolean locked)
 {
@@ -575,6 +543,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->app_tracker);
   g_clear_object (&priv->suspend_manager);
   g_clear_object (&priv->layout_manager);
+  g_clear_object (&priv->style_manager);
 
   /* sensors */
   g_clear_object (&priv->proximity);
@@ -583,9 +552,6 @@ phosh_shell_dispose (GObject *object)
 
   phosh_system_prompter_unregister ();
   g_clear_object (&priv->session_manager);
-
-  g_clear_pointer (&priv->theme_name, g_free);
-  g_clear_object (&priv->css_provider);
 
   g_clear_object (&priv->action_map);
   g_clear_object (&priv->settings);
@@ -1305,7 +1271,6 @@ static void
 phosh_shell_init (PhoshShell *self)
 {
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
-  GtkSettings *gtk_settings;
 
   cui_init (TRUE);
 
@@ -1316,15 +1281,7 @@ phosh_shell_init (PhoshShell *self)
                                       debug_keys,
                                       G_N_ELEMENTS (debug_keys));
 
-  gtk_settings = gtk_settings_get_default ();
-  g_object_set (G_OBJECT (gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
-
-  g_signal_connect_swapped (gtk_settings,
-                            "notify::gtk-theme-name",
-                            G_CALLBACK (on_gtk_theme_name_changed),
-                            self);
-  on_gtk_theme_name_changed (self, NULL, gtk_settings);
-
+  priv->style_manager = phosh_style_manager_new ();
   priv->shell_state = PHOSH_STATE_SETTINGS;
   priv->action_map = g_simple_action_group_new ();
 }
@@ -1661,6 +1618,25 @@ phosh_shell_get_mode_manager (PhoshShell *self)
   return priv->mode_manager;
 }
 
+/**
+ * phosh_shell_get_style_manager:
+ * @self: The shell singleton
+ *
+ * Get the style manager
+ *
+ * Returns: (transfer none): The style manager
+ */
+PhoshStyleManager *
+phosh_shell_get_style_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  g_assert (PHOSH_IS_STYLE_MANAGER (priv->style_manager));
+  return priv->style_manager;
+}
 
 /**
  * phosh_shell_get_monitor_manager:

@@ -6,7 +6,7 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#include "util.h"
+#include "style-manager.h"
 
 /* Load the stylesheets to catch CSS parser warnings */
 
@@ -18,7 +18,7 @@ load_theme (const char *theme_name)
 
   g_debug ("GTK theme: %s", theme_name);
 
-  style = phosh_util_get_stylesheet (theme_name);
+  style = phosh_style_manager_get_stylesheet (theme_name);
   gtk_css_provider_load_from_resource (provider, style);
   gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
                                              GTK_STYLE_PROVIDER (provider),

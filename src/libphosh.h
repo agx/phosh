@@ -73,6 +73,7 @@ G_BEGIN_DECLS
 #include "status-icon.h"
 #include "splash.h"
 #include "splash-manager.h"
+#include "style-manager.h"
 #include "suspend-manager.h"
 #include "system-modal.h"
 #include "system-modal-dialog.h"
