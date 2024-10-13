@@ -117,6 +117,7 @@ plugins/launcher-box/launcher-box.ui
 plugins/mobile-data-quick-setting/mobile-data-quick-setting.c
 plugins/night-light-quick-setting/night-light-quick-setting.c
 plugins/pomodoro-quick-setting/pomodoro-quick-setting.c
+plugins/pomodoro-quick-setting/prefs/prefs.ui
 plugins/ticket-box/ticket-box.ui
 plugins/ticket-box/prefs/ticket-box-prefs.c
 plugins/ticket-box/prefs/ticket-box-prefs.ui

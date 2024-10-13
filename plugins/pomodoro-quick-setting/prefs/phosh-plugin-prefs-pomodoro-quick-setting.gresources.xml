@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/mobi/phosh/plugins/pomodoro-quick-setting-prefs/">
+    <file preprocess="xml-stripblanks">prefs.ui</file>
+  </gresource>
+</gresources>

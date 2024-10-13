@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="phosh">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <template class="PhoshPomodoroQuickSettingPrefs" parent="AdwPreferencesWindow">
+    <property name="title" translatable="yes">Pomodoro Quick Setting Preferences</property>
+    <property name="default-width">300</property>
+    <property name="default-height">300</property>
+    <property name="can-navigate-back">True</property>
+    <child>
+      <object class="AdwPreferencesPage">
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Pomodoro Technique</property>
+            <child>
+              <object class="AdwSpinRow" id="active_duration_spin_row">
+                <property name="title" translatable="yes">_Active Duration</property>
+                <property name="subtitle" translatable="yes">Duration of the focus session</property>
+                <property name="use_underline">True</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">1</property>
+                    <property name="upper">100</property>
+                    <property name="page-increment">10</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="break_duration_spin_row">
+                <property name="title" translatable="yes">_Break Duration</property>
+                <property name="subtitle" translatable="yes">Duration of the break between sessions</property>
+                <property name="use_underline">True</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">1</property>
+                    <property name="upper">100</property>
+                    <property name="page-increment">10</property>
+                    <property name="step-increment">1</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
