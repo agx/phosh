@@ -20,7 +20,7 @@
 
 #include "plugin-loader.h"
 #include "quick-setting.h"
-
+#include "quick-settings-box.h"
 
 static void
 css_setup (void)
@@ -60,19 +60,10 @@ get_plugin_dirs (GStrv plugins)
 static GtkWidget *
 setup_plugins (GStrv plugin_dirs, GStrv plugins, const char *const *enabled)
 {
-  GtkWidget *flow_box;
+  GtkWidget *box;
   g_autoptr (PhoshPluginLoader) loader = NULL;
 
-  flow_box = g_object_new (GTK_TYPE_FLOW_BOX,
-                           "name", "phosh_quick_settings",
-                           "column-spacing", 12,
-                           "row-spacing", 12,
-                           "min-children-per-line", 2,
-                           "max-children-per-line", 3,
-                           "selection-mode", GTK_SELECTION_NONE,
-                           "valign", GTK_ALIGN_START,
-                           "homogeneous", TRUE,
-                           NULL);
+  box = phosh_quick_settings_box_new (3, 12);
   loader = phosh_plugin_loader_new (plugin_dirs, PHOSH_EXTENSION_POINT_QUICK_SETTING_WIDGET);
 
   for (int i = 0; i < g_strv_length (plugins); i++) {
@@ -87,11 +78,11 @@ setup_plugins (GStrv plugin_dirs, GStrv plugins, const char *const *enabled)
       g_warning ("Unable to load plugin: %s", plugin);
     } else {
       g_print ("Adding custom quick setting '%s'\n", plugin);
-      gtk_container_add (GTK_CONTAINER (flow_box), widget);
+      gtk_container_add (GTK_CONTAINER (box), widget);
     }
   }
 
-  return flow_box;
+  return box;
 }
 
 
@@ -99,7 +90,7 @@ int
 main (int argc, char *argv[])
 {
   GtkWidget *win;
-  GtkWidget *flow_box;
+  GtkWidget *box;
   g_autoptr (GOptionContext) opt_context = NULL;
   g_autoptr (GError) err = NULL;
   g_autoptr (GStrvBuilder) plugins_builder = g_strv_builder_new ();
@@ -142,10 +133,10 @@ main (int argc, char *argv[])
   gtk_widget_show (win);
 
   plugin_dirs = get_plugin_dirs (plugins);
-  flow_box = setup_plugins (plugin_dirs, plugins, (const char * const *)enabled);
-  gtk_widget_show (flow_box);
+  box = setup_plugins (plugin_dirs, plugins, (const char * const *)enabled);
+  gtk_widget_show (box);
 
-  gtk_container_add (GTK_CONTAINER (win), flow_box);
+  gtk_container_add (GTK_CONTAINER (win), box);
 
   gtk_main ();
 
