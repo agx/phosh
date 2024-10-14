@@ -741,6 +741,8 @@ phosh_quick_settings_box_class_init (PhoshQuickSettingsBoxClass *klass)
 
   gtk_widget_class_bind_template_callback (widget_class, on_child_revealed_changed);
   gtk_widget_class_bind_template_child (widget_class, PhoshQuickSettingsBox, revealer);
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-quick-settings-box");
 }
 
 
