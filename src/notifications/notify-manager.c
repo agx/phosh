@@ -473,6 +473,8 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
     } else if ((g_strcmp0 (key, "transient") == 0)) {
       if (g_variant_is_of_type (value, G_VARIANT_TYPE_BOOLEAN))
         transient = g_variant_get_boolean (value);
+      else if (g_variant_is_of_type (value, G_VARIANT_TYPE_INT32))
+        transient = !!g_variant_get_int32 (value);
     } else if ((g_strcmp0 (key, "resident") == 0)) {
       if (g_variant_is_of_type (value, G_VARIANT_TYPE_BOOLEAN))
         resident = g_variant_get_boolean (value);
