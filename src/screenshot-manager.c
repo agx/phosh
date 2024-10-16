@@ -216,12 +216,26 @@ screenshot_done (PhoshScreenshotManager *self, gboolean success)
                                                self->frames->filename ?: "");
   } else {
     PhoshNotifyManager *nm = phosh_notify_manager_get_default ();
-    g_autoptr (PhoshNotification) noti = NULL;
     g_autoptr (GIcon) icon = g_themed_icon_new ("screenshot-portrait-symbolic");
+    g_autoptr (PhoshNotification) noti = NULL;
+    g_autofree char *msg = NULL;
+
+    if (success) {
+      if (gm_str_is_null_or_empty (self->frames->filename)) {
+        msg = g_strdup (_("Screenshot copied to clipboard"));
+      } else {
+        g_autofree char *filename = NULL;
+
+        filename = g_path_get_basename (self->frames->filename);
+        msg = g_strdup_printf (_("Screenshot saved to %s"), filename);
+      }
+    } else {
+      msg = g_strdup (_("Failed to save screenshot"));
+    }
 
     noti = g_object_new (PHOSH_TYPE_NOTIFICATION,
                          "summary", _("Screenshot"),
-                         "body", _("Screenshot copied to clipboard"),
+                         "body", msg,
                          "image", icon,
                          NULL);
 
