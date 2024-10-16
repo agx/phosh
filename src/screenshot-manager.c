@@ -629,12 +629,14 @@ build_screenshot_filename (const char *pattern)
 
 /**
  * phosh_screenshot_manager_do_screenshot:
- * @self: The screenshot maanger
+ * @self: The screenshot manager
  * @area: The area to capture or %NULL to capture all outputs
+ * @filename: The output filename
+ * @include_cursor: Whether to include the cursor
  *
  * Initiate a screenshot of all outputs or the given area.
  *
- * Returns: -errno on failure, otherwise 0
+ * Returns: `FALSE` on failure, otherwise `TRUE`
  */
 gboolean
 phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
