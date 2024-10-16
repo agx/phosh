@@ -80,6 +80,8 @@ G_BEGIN_DECLS
 #include "vpn-info.h"
 #include "vpn-manager.h"
 #include "quick-setting.h"
+#include "quick-settings.h"
+#include "quick-settings-box.h"
 #include "phosh-wayland.h"
 #include "swipe-away-bin.h"
 #include "util.h"
