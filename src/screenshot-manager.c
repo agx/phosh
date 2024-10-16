@@ -640,7 +640,7 @@ build_screenshot_filename (const char *pattern)
  */
 gboolean
 phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
-                                        GdkRectangle           *area,
+                                        const GdkRectangle     *area,
                                         const char             *filename,
                                         gboolean                include_cursor)
 {
