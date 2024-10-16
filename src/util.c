@@ -267,9 +267,19 @@ anonymous_shm_open (void)
   int fd = -1;
 
 #ifdef PHOSH_HAVE_MEMFD_CREATE
+/* For kernel headers before 6.3 */
+# ifndef MFD_NOEXEC_SEAL
+#  define MFD_NOEXEC_SEAL 0x0008U
+# endif
+  static unsigned int memfd_create_flags = MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_NOEXEC_SEAL;
   /* name is only for debugging, collisions don't matter */
   randname (name + strlen (name) - 6);
-  fd = memfd_create (name, MFD_CLOEXEC | MFD_ALLOW_SEALING);
+  fd = memfd_create (name, memfd_create_flags);
+  if (fd < 0 && errno == EINVAL) {
+    memfd_create_flags &= ~MFD_NOEXEC_SEAL;
+    g_warning ("memfd_create failed, retrying without MFD_NOEXEC_SEAL");
+    fd = memfd_create (name, memfd_create_flags);
+  }
   if (fd >= 0) {
     fcntl (fd, F_ADD_SEALS, F_SEAL_SHRINK);
     return fd;
