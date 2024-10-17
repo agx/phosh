@@ -1,25 +1,25 @@
 # Brazilian Portuguese translaiton to phosh.
-# Copyright (C) 2022 THE phosh'S COPYRIGHT HOLDER
+# Copyright (C) 2024 THE phosh'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the phosh package.
 # Luís Fernando Stürmer da Rosa <luisfsr@dismail.de>, 2018-2020.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2020-2021.
 # Matheus Barbosa <mdpb.matheus@gmail.com>, 2022.
 # Juliano de Souza Camargo <julianosc@pm.me>, 2024.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2020-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-09-09 12:10+0000\n"
-"PO-Revision-Date: 2024-09-29 12:51-0300\n"
-"Last-Translator: Juliano de Souza Camargo <julianosc@pm.me>\n"
+"POT-Creation-Date: 2024-10-17 20:02+0000\n"
+"PO-Revision-Date: 2024-10-17 17:14-0300\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 46.1\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Gtranslator 47.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -96,6 +96,15 @@ msgstr "Configurações rápidas da luz noturna"
 msgid "Toggle night light on/off"
 msgstr "Alterna luz noturna"
 
+#. Translators: "Pomodoro" is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+msgid "Pomodoro Quick Setting"
+msgstr "Configurações rápidas do Pomodoro"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+msgid "Simple Pomodoro Timer"
+msgstr "Temporizador simples Pomodoro"
+
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
@@ -148,11 +157,11 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Ligado"
 
-#: src/bt-status-page.c:86
+#: src/bt-status-page.c:95
 msgid "No connectable Bluetooth Devices found"
 msgstr "Sem dispositivos Bluetooth conectáveis"
 
-#: src/bt-status-page.c:90
+#: src/bt-status-page.c:99
 msgid "Bluetooth disabled"
 msgstr "Bluetooth desativado"
 
@@ -252,19 +261,19 @@ msgid "No"
 msgstr "Não"
 
 #. give visual feedback on error
-#: src/lockscreen.c:273 src/ui/lockscreen.ui:246
+#: src/lockscreen.c:274 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Insira a senha"
 
-#: src/lockscreen.c:918
+#: src/lockscreen.c:919
 msgid "Checking…"
 msgstr "Verificando…"
 
-#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:223 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Captura de tela"
 
-#: src/screenshot-manager.c:222
+#: src/screenshot-manager.c:224
 msgid "Screenshot copied to clipboard"
 msgstr "Captura de tela copiada para a área de transferência"
 
@@ -316,7 +325,10 @@ msgstr "Insira a senha para a rede wifi “%s”"
 msgid "Open"
 msgstr "Abrir"
 
+#. We don't just set the app_info but name and icon separately to
+#. * not overwrite values set by the caller
 #: src/notifications/notification.c:404 src/notifications/notification.c:677
+#: src/notifications/notify-manager.c:1006
 msgid "Notification"
 msgstr "Notificação"
 
@@ -576,7 +588,7 @@ msgstr "Domínio:"
 msgid "Co_nnect"
 msgstr "C_onectar"
 
-#: src/ui/lockscreen.ui:37 src/ui/lockscreen.ui:335
+#: src/ui/lockscreen.ui:47 src/ui/lockscreen.ui:256
 msgid "Back"
 msgstr "Voltar"
 
@@ -584,7 +596,7 @@ msgstr "Voltar"
 msgid "Slide up to unlock"
 msgstr "Deslize para desbloquear"
 
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:341
 msgid "Unlock"
 msgstr "Desbloquear"
 
@@ -621,15 +633,15 @@ msgstr "Emergência"
 msgid "Run Command"
 msgstr "Executar comando"
 
-#: src/ui/settings.ui:329
+#: src/ui/settings.ui:142
 msgid "No notifications"
 msgstr "Sem notificações"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:173
 msgid "Notifications"
 msgstr "Notificações"
 
-#: src/ui/settings.ui:369
+#: src/ui/settings.ui:182
 msgid "Clear all"
 msgstr "Limpar tudo"
 
@@ -657,7 +669,7 @@ msgstr "_Encerrar…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:68
+#: src/ui/wifi-status-page.ui:69
 msgid "Wi-Fi Settings"
 msgstr "Configurações de Wi-Fi"
 
@@ -704,37 +716,33 @@ msgstr "Desligar"
 msgid "No Wi-Fi Hotspots"
 msgstr "Nenhum ponto de acesso Wi-Fi"
 
-#: src/wifi-status-page.c:64
-msgid "Scan"
-msgstr "Varrer"
-
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Celular"
 
 #. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:53
 msgid "Phosh on caffeine"
 msgstr "Phosh em caffeine"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
 msgid "On"
 msgstr "Ligado"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
 msgid "Off"
 msgstr "Desligado"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
 msgid "Default style"
 msgstr "Estilo padrão"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
 msgid "Dark mode"
 msgstr "Modo escuro"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:38
 msgid "Light mode"
 msgstr "Modo claro"
 
@@ -846,21 +854,75 @@ msgstr "Nenhum lançador configurado"
 msgid "Launchers"
 msgstr "Lançadores"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
 msgid "Mobile Data On"
 msgstr "Dados móveis ligado"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
 msgid "Mobile Data Off"
 msgstr "Dados móveis desligado"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
 msgid "Night Light On"
 msgstr "Luz noturna ligada"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
 msgid "Night Light Off"
 msgstr "Luz noturna desligada"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+msgid "Pomodoro start"
+msgstr "Início do Pomodoro"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#, c-format
+msgid "Focus on your task for %d minutes"
+msgstr "Concentre-se em sua tarefa por %d minutos"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+msgid "Take a break"
+msgstr "Faça um intervalo"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#, c-format
+msgid "You have %d minutes until next Pomodoro"
+msgstr "Você tem %d minutos até próximo Pomodoro"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+msgid "Pomodoro Timer"
+msgstr "Temporizador Pomodoro"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#, c-format
+msgid "Pomodoro Off"
+msgstr "Pomodoro desligado"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:6
+msgid "Pomodoro Quick Setting Preferences"
+msgstr "Preferências das configurações rápidas do Pomodoro"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+msgid "Pomodoro Technique"
+msgstr "Técnica Pomodoro"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+msgid "_Active Duration"
+msgstr "Duração _ativo"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+msgid "Duration of the focus session"
+msgstr "Duração da sessão de concentração"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+msgid "_Break Duration"
+msgstr "Duração do _intervalo "
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+msgid "Duration of the break between sessions"
+msgstr "Duração dos intervalos entre sessões"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -959,13 +1021,16 @@ msgstr "Intervalo de datas"
 msgid "Number of days to show events for"
 msgstr "Número de dias a mostrar eventos para"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:78
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
 msgstr "Ponto de acesso ligado"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:80
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Ponto de acesso desligado"
+
+#~ msgid "Scan"
+#~ msgstr "Varrer"
 
 #~ msgid "Unknown application"
 #~ msgstr "Aplicativo desconhecido"
