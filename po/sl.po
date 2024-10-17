@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-09-09 09:28+0000\n"
-"PO-Revision-Date: 2024-09-09 21:08+0200\n"
+"POT-Creation-Date: 2024-10-17 13:42+0000\n"
+"PO-Revision-Date: 2024-10-17 20:37+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -95,6 +95,15 @@ msgstr "Hitra nastavitev nočne osvetlitve"
 msgid "Toggle night light on/off"
 msgstr "Vklop/izklopi nočno osvetlitev"
 
+#. Translators: "Pomodoro" is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+msgid "Pomodoro Quick Setting"
+msgstr "Hitra nastavitev Pomodoro"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+msgid "Simple Pomodoro Timer"
+msgstr "Enostavni časovnik Pomodoro"
+
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
@@ -147,11 +156,11 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Vključeno"
 
-#: src/bt-status-page.c:86
+#: src/bt-status-page.c:95
 msgid "No connectable Bluetooth Devices found"
 msgstr "Ni najdenih naprav Bluetooth za priključitev"
 
-#: src/bt-status-page.c:90
+#: src/bt-status-page.c:99
 msgid "Bluetooth disabled"
 msgstr "Bluetooth je onemogočen"
 
@@ -257,19 +266,19 @@ msgid "No"
 msgstr "Ne"
 
 #. give visual feedback on error
-#: src/lockscreen.c:273 src/ui/lockscreen.ui:246
+#: src/lockscreen.c:274 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Vnesite geslo"
 
-#: src/lockscreen.c:918
+#: src/lockscreen.c:919
 msgid "Checking…"
 msgstr "Preverjanje …"
 
-#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:223 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Posnetek zaslona"
 
-#: src/screenshot-manager.c:222
+#: src/screenshot-manager.c:224
 msgid "Screenshot copied to clipboard"
 msgstr "Zaslonska slika kopirana na odložišče"
 
@@ -321,7 +330,10 @@ msgstr "Vnesite geslo za WiFi-omrežje »%s«"
 msgid "Open"
 msgstr "Odpri"
 
+#. We don't just set the app_info but name and icon separately to
+#. * not overwrite values set by the caller
 #: src/notifications/notification.c:404 src/notifications/notification.c:677
+#: src/notifications/notify-manager.c:1006
 msgid "Notification"
 msgstr "Obvestilo"
 
@@ -595,7 +607,7 @@ msgstr "Domena:"
 msgid "Co_nnect"
 msgstr "_Poveži"
 
-#: src/ui/lockscreen.ui:37 src/ui/lockscreen.ui:335
+#: src/ui/lockscreen.ui:47 src/ui/lockscreen.ui:256
 msgid "Back"
 msgstr "Nazaj"
 
@@ -603,7 +615,7 @@ msgstr "Nazaj"
 msgid "Slide up to unlock"
 msgstr "Oddrsnite navzgor, da odklenete"
 
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:341
 msgid "Unlock"
 msgstr "Odkleni"
 
@@ -640,15 +652,15 @@ msgstr "Klic v sili"
 msgid "Run Command"
 msgstr "Zaženi ukaz"
 
-#: src/ui/settings.ui:329
+#: src/ui/settings.ui:142
 msgid "No notifications"
 msgstr "Ni obvestil"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:173
 msgid "Notifications"
 msgstr "Obvestila"
 
-#: src/ui/settings.ui:369
+#: src/ui/settings.ui:182
 msgid "Clear all"
 msgstr "Počisti vse"
 
@@ -676,7 +688,7 @@ msgstr "_Odjavi …"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:68
+#: src/ui/wifi-status-page.ui:69
 msgid "Wi-Fi Settings"
 msgstr "Nastavitve za Wi-Fi"
 
@@ -723,37 +735,33 @@ msgstr "Izklopi"
 msgid "No Wi-Fi Hotspots"
 msgstr "Ni dostopnih točk Wi-Fi"
 
-#: src/wifi-status-page.c:64
-msgid "Scan"
-msgstr "Preglej"
-
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Mobilno"
 
 #. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:53
 msgid "Phosh on caffeine"
 msgstr "Phosh na Caffeinu"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
 msgid "On"
 msgstr "Vključeno"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
 msgid "Off"
 msgstr "Izključeno"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
 msgid "Default style"
 msgstr "Privzeti slog"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
 msgid "Dark mode"
 msgstr "Temni način"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:38
 msgid "Light mode"
 msgstr "Svetli način"
 
@@ -865,21 +873,64 @@ msgstr "Noben zaganjalnik ni nastavljen"
 msgid "Launchers"
 msgstr "Zaganjalniki"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
 msgid "Mobile Data On"
 msgstr "Prenos podatkov v mobilnem omrežju je vklopljen"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
 msgid "Mobile Data Off"
 msgstr "Prenos podatkov v mobilnem omrežju je izklopljen"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
 msgid "Night Light On"
 msgstr "Nočna osvetlitev vklopljena"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
 msgid "Night Light Off"
 msgstr "Nočna osvetlitev izklopljena"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+msgid "Pomodoro start"
+msgstr "Zagon Pomodoro"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+msgid "Take a break"
+msgstr "Vzemite si odmor"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:93
+msgid "Pomodoro Timer"
+msgstr "Časovnik Pomodoro"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:116
+#, c-format
+msgid "Pomodoro Off"
+msgstr "Pomodoro izklopljen"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:6
+msgid "Pomodoro Quick Setting Preferences"
+msgstr "Nastavitve hitre nastavitve Pomodoro"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+msgid "Pomodoro Technique"
+msgstr "Tehnika Pomodoro"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+msgid "_Active Duration"
+msgstr "_Aktivno trajanje"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+msgid "Duration of the focus session"
+msgstr "Trajanje osredotočene seje"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+msgid "_Break Duration"
+msgstr "_Trajanje odmora"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+msgid "Duration of the break between sessions"
+msgstr "Trajanje odmora med sejami"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -980,10 +1031,10 @@ msgstr "Datum od - do"
 msgid "Number of days to show events for"
 msgstr "Število dni za prikazovanja dogodkov"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:78
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
 msgstr "Dostopna točka je vklopljena"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:80
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Dostopna točka je izklopljena"
