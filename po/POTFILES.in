@@ -9,6 +9,7 @@ plugins/emergency-info/emergency-info.desktop.in.in
 plugins/launcher-box/launcher-box.desktop.in.in
 plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in
 plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in
+plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in
 plugins/ticket-box/ticket-box.desktop.in.in
 plugins/upcoming-events/upcoming-events.desktop.in.in
 
@@ -47,6 +48,7 @@ src/monitor-manager.c
 src/network-auth-prompt.c
 src/notifications/mount-notification.c
 src/notifications/notification.c
+src/notifications/notify-manager.c
 src/notifications/timestamp-label.c
 src/osk-manager.c
 src/overview.c
@@ -114,6 +116,8 @@ plugins/emergency-info/prefs/emergency-info-prefs-row.ui
 plugins/launcher-box/launcher-box.ui
 plugins/mobile-data-quick-setting/mobile-data-quick-setting.c
 plugins/night-light-quick-setting/night-light-quick-setting.c
+plugins/pomodoro-quick-setting/pomodoro-quick-setting.c
+plugins/pomodoro-quick-setting/prefs/prefs.ui
 plugins/ticket-box/ticket-box.ui
 plugins/ticket-box/prefs/ticket-box-prefs.c
 plugins/ticket-box/prefs/ticket-box-prefs.ui

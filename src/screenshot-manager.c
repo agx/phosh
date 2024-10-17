@@ -216,12 +216,16 @@ screenshot_done (PhoshScreenshotManager *self, gboolean success)
                                                self->frames->filename ?: "");
   } else {
     PhoshNotifyManager *nm = phosh_notify_manager_get_default ();
+    g_autoptr (PhoshNotification) noti = NULL;
+    g_autoptr (GIcon) icon = g_themed_icon_new ("screenshot-portrait-symbolic");
 
-    phosh_notify_manager_add_shell_notification (nm,
-                                                 _("Screenshot"),
-                                                 _("Screenshot copied to clipboard"),
-                                                 "screenshot-portrait-symbolic",
-                                                 5000);
+    noti = g_object_new (PHOSH_TYPE_NOTIFICATION,
+                         "summary", _("Screenshot"),
+                         "body", _("Screenshot copied to clipboard"),
+                         "image", icon,
+                         NULL);
+
+    phosh_notify_manager_add_shell_notification (nm, noti, 0, 5000);
   }
 
   g_clear_pointer (&self->frames, screencopy_frames_dispose);

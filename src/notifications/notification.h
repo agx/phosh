@@ -38,7 +38,7 @@ typedef enum {
 
 
 #define PHOSH_NOTIFICATION_DEFAULT_ACTION "default"
-
+#define PHOSH_NOTIFICATION_DEFAULT_TIMEOUT 5000 /* ms */
 
 #define PHOSH_TYPE_NOTIFICATION (phosh_notification_get_type ())
 
@@ -52,7 +52,7 @@ G_DECLARE_DERIVABLE_TYPE (PhoshNotification, phosh_notification, PHOSH, NOTIFICA
  *   a GObjectClass pointer.
  * @do_action: This function allows the notification to implement their own
  *   action behaviour instead of the default DBus interface.
- */  
+ */
 struct _PhoshNotificationClass
 {
   GObjectClass parent_class;

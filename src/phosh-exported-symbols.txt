@@ -7,6 +7,12 @@
    phosh_session_manager_inhibit;
    phosh_session_manager_uninhibit;
 
+   # Plugins can send notifications
+   phosh_notification_get_type;
+   phosh_notify_manager_get_default;
+   phosh_notify_manager_get_type;
+   phosh_notify_manager_add_shell_notification;
+
    # Launcher-box plugin needs launcher entry states
    phosh_shell_get_launcher_entry_manager;
 

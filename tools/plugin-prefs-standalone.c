@@ -18,6 +18,19 @@
 #include <glib/gi18n.h>
 
 
+typedef struct _PluginInfo {
+  const char *plugins;
+  const char *entrypoint;
+} PluginInfo;
+
+static const PluginInfo plugin_infos[] = {
+  { LOCKSCREEN_PLUGINS, PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET_PREFS },
+  { QUICK_SETTING_PLUGINS, PHOSH_PLUGIN_EXTENSION_POINT_QUICK_SETTING_WIDGET_PREFS },
+};
+
+static const PluginInfo *plugin_info;
+
+
 static GStrv
 get_plugin_prefs_dirs (const char *const *plugins)
 {
@@ -67,14 +80,13 @@ on_app_activated (GtkApplication *app)
   AdwApplicationWindow *window;
   GtkWidget *flowbox;
   GtkWidget *prefs;
-  g_auto (GStrv) all_plugins = g_strsplit (PLUGINS, " ", -1);
+  g_auto (GStrv) all_plugins = g_strsplit (plugin_info->plugins, " ", -1);
 
   flowbox = g_object_new (GTK_TYPE_FLOW_BOX,
                           "valign", GTK_ALIGN_CENTER,
                           NULL);
   prefs_dirs = get_plugin_prefs_dirs ((const char * const*)all_plugins);
-  loader = phosh_plugin_loader_new (prefs_dirs,
-                                    PHOSH_PLUGIN_EXTENSION_POINT_LOCKSCREEN_WIDGET_PREFS);
+  loader = phosh_plugin_loader_new (prefs_dirs, plugin_info->entrypoint);
   g_object_set_data_full (G_OBJECT (app), "loader", loader, g_object_unref);
 
   for (int i = 0; all_plugins[i] != NULL; i++) {
@@ -124,14 +136,31 @@ static GActionEntry entries[] =
   { .name = "show-prefs", .parameter_type = "s", .activate = on_activated },
 };
 
+
 int
 main (int argc, char *argv[])
 {
   g_autoptr (AdwApplication) app = NULL;
+  g_autoptr (GOptionContext) opt_context = NULL;
+  g_autoptr (GError) err = NULL;
+  gboolean quick_settings = FALSE;
+  const GOptionEntry options [] = {
+    {"quick-settings", 'q', 0, G_OPTION_ARG_NONE, &quick_settings,
+     "Load quick setting plugin prefs", NULL},
+    { NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL }
+  };
 
   textdomain (GETTEXT_PACKAGE);
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+
+  opt_context = g_option_context_new ("- Test plugin prefs");
+  g_option_context_add_main_entries (opt_context, options, NULL);
+  if (!g_option_context_parse (opt_context, &argc, &argv, &err)) {
+    g_warning ("%s", err->message);
+    return 1;
+  }
+  plugin_info = &plugin_infos[quick_settings ? 1 : 0];
 
   app = g_object_new (ADW_TYPE_APPLICATION,
                       "application-id", "sm.puri.phosh.PluginPrefsStandalone",

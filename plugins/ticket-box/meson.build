@@ -54,20 +54,12 @@ i18n.merge_file(
 )
 
 ticket_box_schema = 'sm.puri.phosh.plugins.ticket-box.gschema.xml'
-copy_schema = custom_target('copy-ticket-box-gschema-to-builddir',
-  input: ticket_box_schema,
-  output: ticket_box_schema,
-  command: ['cp', '@INPUT@', '@OUTPUT@']
-)
-compile_schemas = custom_target('glib-compile-schemas',
-  build_by_default: true,
-  output: 'gschemas.compiled',
-  install: false,
-  command: [find_program('glib-compile-schemas'),
-    meson.current_build_dir()
-  ],
-  depends: copy_schema
-)
+compile_schemas = find_program('glib-compile-schemas', required: false)
+if compile_schemas.found()
+  test('Validate @0@ schema file'.format(ticket_box_schema),
+       compile_schemas,
+       args: ['--strict', '--dry-run', meson.current_source_dir()])
+endif
 install_data(
   ticket_box_schema,
   install_dir: 'share/glib-2.0/schemas'

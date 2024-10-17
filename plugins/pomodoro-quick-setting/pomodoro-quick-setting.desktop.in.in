@@ -1,0 +1,12 @@
+[Plugin]
+# Translators: This is an internal id, no need to translate it
+Id=@name@
+# Translators: "Pomodoro" is a technique, no need to translate it
+Name=Pomodoro Quick Setting
+Types=quick-setting;
+Comment=Simple Pomodoro Timer
+Plugin=@plugins_dir@/libphosh-plugin-@name@.so
+
+[Prefs]
+Id=@name@-prefs
+Plugin=@plugin_prefs_dir@/libphosh-plugin-prefs-@name@.so
