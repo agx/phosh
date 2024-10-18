@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-17 13:42+0000\n"
-"PO-Revision-Date: 2024-10-17 19:45+0300\n"
+"POT-Creation-Date: 2024-10-17 20:02+0000\n"
+"PO-Revision-Date: 2024-10-18 20:41+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -97,7 +97,6 @@ msgstr "Увімкнути або вимкнути нічний режим"
 
 #. Translators: "Pomodoro" is a technique, no need to translate it
 #: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
-#| msgid "Mobile Data Quick Setting"
 msgid "Pomodoro Quick Setting"
 msgstr "Швидке налаштовування помідора"
 
@@ -884,24 +883,33 @@ msgstr "Нічні кольори вимкнено"
 msgid "Pomodoro start"
 msgstr "Запуск помідора"
 
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#, c-format
+msgid "Focus on your task for %d minutes"
+msgstr "Зосередитися на завданні на %d хвилин"
+
 #: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
 msgid "Take a break"
 msgstr "Зробіть перерву"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:93
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#, c-format
+msgid "You have %d minutes until next Pomodoro"
+msgstr "У вас %d хвилин до наступного Помідора"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
 msgid "Pomodoro Timer"
 msgstr "Таймер-помідор"
 
 #. Translators: Pomodoro is a technique, no need to translate it
-#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:116
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
 #, c-format
-#| msgid "Power Off"
 msgid "Pomodoro Off"
 msgstr "Вимикання помідора"
 
 #: plugins/pomodoro-quick-setting/prefs/prefs.ui:6
-#| msgid "Ticket Box Preferences"
 msgid "Pomodoro Quick Setting Preferences"
 msgstr "Налаштування швидких параметрів помідора"
 
