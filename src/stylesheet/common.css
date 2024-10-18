@@ -1083,6 +1083,10 @@ scale trough {
   border-radius: 2px;
   border: none;
   background: alpha(@phosh_fg_color, 0.3);
+  outline-style: solid;
+  outline-width: 1px;
+  outline-color: @theme_selected_bg_color;
+  outline-offset: 2px;
 }
 
 scale trough > highlight {
