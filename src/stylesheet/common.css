@@ -478,6 +478,14 @@ phosh-lockscreen .phosh-notification-tray {
   transition: 200ms ease;
 }
 
+phosh-lockscreen phosh-media-player {
+  margin: 0 8px;
+}
+
+phosh-lockscreen .phosh-notification-tray separator {
+  background: @phosh_borders_color;
+}
+
 /* Widget box */
 phosh-lockscreen phosh-widget-box {
   margin-left: 6px;
@@ -855,15 +863,6 @@ phosh-media-player > box > button {
   border-radius: 9999px;
   margin: 2px;
   padding: 8px;
-}
-
-/* The Lockscreen */
-phosh-lockscreen phosh-media-player {
-  margin: 0 8px;
-}
-
-phosh-lockscreen .phosh-notification-tray separator {
-  background: @phosh_borders_color;
 }
 
 /*
