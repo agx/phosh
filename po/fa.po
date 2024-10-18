@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-09-09 09:28+0000\n"
-"PO-Revision-Date: 2024-09-11 16:26+0330\n"
+"POT-Creation-Date: 2024-10-17 20:02+0000\n"
+"PO-Revision-Date: 2024-10-19 00:39+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -92,6 +92,15 @@ msgstr "تنظیمات سریع نور شب"
 msgid "Toggle night light on/off"
 msgstr "تغییر وضعیت نور شب"
 
+#. Translators: "Pomodoro" is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+msgid "Pomodoro Quick Setting"
+msgstr "تنظیمات سریع پومودورو"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+msgid "Simple Pomodoro Timer"
+msgstr "زمان‌سنج پومودوروی ساده"
+
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
@@ -144,11 +153,11 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "روشن"
 
-#: src/bt-status-page.c:86
+#: src/bt-status-page.c:95
 msgid "No connectable Bluetooth Devices found"
 msgstr "هیچ افزارهٔ وصل شدنی بلوتوثی پیدا نشد"
 
-#: src/bt-status-page.c:90
+#: src/bt-status-page.c:99
 msgid "Bluetooth disabled"
 msgstr "بلوتوث از کار افتاده"
 
@@ -248,19 +257,19 @@ msgid "No"
 msgstr "نه"
 
 #. give visual feedback on error
-#: src/lockscreen.c:273 src/ui/lockscreen.ui:246
+#: src/lockscreen.c:274 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "ورود رمز عبور"
 
-#: src/lockscreen.c:918
+#: src/lockscreen.c:919
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
-#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:223 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "نماگرفت"
 
-#: src/screenshot-manager.c:222
+#: src/screenshot-manager.c:224
 msgid "Screenshot copied to clipboard"
 msgstr "نماگرفت در تخته‌گیره رونوشت شد"
 
@@ -312,7 +321,10 @@ msgstr "ورود گذرواژه برای شبکهٔ وای‌فای %s"
 msgid "Open"
 msgstr "گشودن"
 
+#. We don't just set the app_info but name and icon separately to
+#. * not overwrite values set by the caller
 #: src/notifications/notification.c:404 src/notifications/notification.c:677
+#: src/notifications/notify-manager.c:1006
 msgid "Notification"
 msgstr "آگاهی"
 
@@ -572,7 +584,7 @@ msgstr "دامنه:"
 msgid "Co_nnect"
 msgstr "اتّ_صال"
 
-#: src/ui/lockscreen.ui:37 src/ui/lockscreen.ui:335
+#: src/ui/lockscreen.ui:47 src/ui/lockscreen.ui:256
 msgid "Back"
 msgstr "بازگشت"
 
@@ -580,7 +592,7 @@ msgstr "بازگشت"
 msgid "Slide up to unlock"
 msgstr "برای قفل‌گشایی، بالا بکشید"
 
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:341
 msgid "Unlock"
 msgstr "قفل‌گشایی"
 
@@ -617,15 +629,15 @@ msgstr "اضطراری"
 msgid "Run Command"
 msgstr "اجرای فرمان"
 
-#: src/ui/settings.ui:329
+#: src/ui/settings.ui:142
 msgid "No notifications"
 msgstr "بدون آگاهی"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:173
 msgid "Notifications"
 msgstr "آگاهی‌ها"
 
-#: src/ui/settings.ui:369
+#: src/ui/settings.ui:182
 msgid "Clear all"
 msgstr "پاک‌سازی همه"
 
@@ -653,7 +665,7 @@ msgstr "_خروج…"
 msgid "Wi-Fi"
 msgstr "وای‌فای"
 
-#: src/ui/wifi-status-page.ui:68
+#: src/ui/wifi-status-page.ui:69
 msgid "Wi-Fi Settings"
 msgstr "تنظیمات وای‌فای"
 
@@ -700,37 +712,33 @@ msgstr "خاموش کردن"
 msgid "No Wi-Fi Hotspots"
 msgstr "بدون نقطهٔ داغ وای‌فای"
 
-#: src/wifi-status-page.c:64
-msgid "Scan"
-msgstr "پویش"
-
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "سلولی"
 
 #. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:53
 msgid "Phosh on caffeine"
 msgstr "فوش روی کافئین"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
 msgid "On"
 msgstr "روشن"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
 msgid "Off"
 msgstr "خاموش"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
 msgid "Default style"
 msgstr "سبک پیش‌گزیده"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
 msgid "Dark mode"
 msgstr "حالت تیره"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:38
 msgid "Light mode"
 msgstr "حالت روشن"
 
@@ -842,21 +850,75 @@ msgstr "هیچ اجراگری پیکربندی نشده"
 msgid "Launchers"
 msgstr "اجراگرها"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
 msgid "Mobile Data On"
 msgstr "دادهٔ همراه روشن"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
 msgid "Mobile Data Off"
 msgstr "دادهٔ همراه خاموش"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
 msgid "Night Light On"
 msgstr "نور شب روشن"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
 msgid "Night Light Off"
 msgstr "نور شب خاموش"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+msgid "Pomodoro start"
+msgstr "آغاز پومودورو"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#, c-format
+msgid "Focus on your task for %d minutes"
+msgstr "تمرکز روی وظیفه‌تان برای %Id دقیقه"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+msgid "Take a break"
+msgstr "استراحت کنید"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#, c-format
+msgid "You have %d minutes until next Pomodoro"
+msgstr "تا پومودوروی بعد %Id دقیقه دارید"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+msgid "Pomodoro Timer"
+msgstr "زمان‌سنج پومودورو"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#, c-format
+msgid "Pomodoro Off"
+msgstr "پومودورو خاموش"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:6
+msgid "Pomodoro Quick Setting Preferences"
+msgstr "ترجیحات تنظیمات سریع پومودورو"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+msgid "Pomodoro Technique"
+msgstr "فن پومودورو"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+msgid "_Active Duration"
+msgstr "مدّت _فعّال بودن"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+msgid "Duration of the focus session"
+msgstr "مدّت نشست تمرکز"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+msgid "_Break Duration"
+msgstr "مدّت _استراحت"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+msgid "Duration of the break between sessions"
+msgstr "مدّت استراحت بین نشست‌ها"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -955,13 +1017,16 @@ msgstr "بازهٔ زمانی"
 msgid "Number of days to show events for"
 msgstr "تعداد روز برای نمایش رویدادها"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:78
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
 msgstr "نقطهٔ داغ روشن"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:80
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "نقطهٔ داغ خاموش"
+
+#~ msgid "Scan"
+#~ msgstr "پویش"
 
 #~ msgid "_Power Off"
 #~ msgstr "_خاموش"
