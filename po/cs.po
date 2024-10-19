@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-17 20:02+0000\n"
-"PO-Revision-Date: 2024-10-19 22:46+0200\n"
+"POT-Creation-Date: 2024-10-19 12:18+0000\n"
+"PO-Revision-Date: 2024-10-19 22:52+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -330,7 +330,7 @@ msgstr "Otevřít"
 #. We don't just set the app_info but name and icon separately to
 #. * not overwrite values set by the caller
 #: src/notifications/notification.c:404 src/notifications/notification.c:677
-#: src/notifications/notify-manager.c:1006
+#: src/notifications/notify-manager.c:1004
 msgid "Notification"
 msgstr "Upozornění"
 
@@ -461,7 +461,7 @@ msgstr "Promiňte, toto nefungovalo. Zkuste to prosím znovu."
 
 #: src/rotateinfo.c:102
 msgid "Portrait"
-msgstr "Portrét"
+msgstr "Na výšku"
 
 #: src/rotateinfo.c:105
 msgid "Landscape"
