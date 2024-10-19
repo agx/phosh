@@ -504,11 +504,9 @@ handle_notify (PhoshNotifyDBusNotifications *skeleton,
     GDesktopAppInfo *desktop_info;
     source_id = g_strdup_printf ("%s.desktop", desktop_id);
 
-    desktop_info = g_desktop_app_info_new (source_id);
-
-    if (desktop_info) {
+    desktop_info = phosh_get_desktop_app_info_for_app_id (desktop_id);
+    if (desktop_info)
       info = G_APP_INFO (desktop_info);
-    }
   } else if (app_name && g_strcmp0 (app_name, "notify-send")) {
     /* When the app name is set (and isn't notify-send) use that
        as it's better than nothing  */
