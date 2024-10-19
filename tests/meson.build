@@ -277,7 +277,7 @@ foreach pyfile : pyfiles
       flake8,
       args: ['--ignore', 'E501', pyfile],
       env: test_env_unit,
-      suite: ['unit'],
+      suite: ['lint'],
       timeout: 15,
       is_parallel : true,
     )
@@ -288,7 +288,7 @@ foreach pyfile : pyfiles
       black,
       args: ['--check', '--diff', pyfile],
       env: test_env_unit,
-      suite: ['unit'],
+      suite: ['lint'],
       timeout: 15,
       is_parallel : true,
      )
@@ -299,7 +299,7 @@ foreach pyfile : pyfiles
       ruff,
       args: ['check', '--no-cache', pyfile],
       env: test_env_unit,
-      suite: ['unit'],
+      suite: ['lint'],
       timeout: 15,
       is_parallel : true,
     )

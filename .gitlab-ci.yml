@@ -93,6 +93,7 @@ variables:
     - meson configure ${BUILD_OPTS} _build
     - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite tools
     - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite unit
+    - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite lint
     - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite integration
   after_script:
     - gcovr --json --gcov-ignore-errors=no_working_dir_found --output=coverage-${CI_JOB_NAME}.json
