@@ -143,7 +143,7 @@ gmobile_dep = dependency('gmobile',
 gmodule_dep = dependency('gmodule-no-export-2.0', version: glib_ver_cmp)
 gnome_desktop_dep = dependency('gnome-desktop-3.0', version: '>=3.26')
 gobject_dep = dependency('gobject-2.0', version: glib_ver_cmp)
-gsettings_desktop_schemas_dep = dependency('gsettings-desktop-schemas', version: '>=42')
+gsettings_desktop_schemas_dep = dependency('gsettings-desktop-schemas', version: '>=47')
 gtk_dep = dependency('gtk+-3.0', version: '>=3.22')
 gtk_wayland_dep = dependency('gtk+-wayland-3.0', version: '>=3.22')
 gudev_dep = dependency('gudev-1.0')

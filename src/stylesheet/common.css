@@ -1105,3 +1105,22 @@ scale trough slider:active {
   border-color: shade(@phosh_fg_color, 0.9);
   background: shade(@phosh_fg_color, 0.9);
 }
+
+scale highlight {
+  background-color: @theme_selected_bg_color;
+}
+
+/* Switches */
+switch:not(:disabled):checked {
+  background-color: @theme_selected_bg_color;
+}
+
+/* Entries */
+entry:focus {
+  box-shadow: inset 0 0 0 1px @theme_selected_bg_color;
+}
+
+/* Progress bars */
+progressbar progress {
+  background-color: @theme_selected_bg_color;
+}

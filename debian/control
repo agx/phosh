@@ -5,6 +5,7 @@ Maintainer: Guido Günther <agx@sigxcpu.org>
 Build-Depends:
  debhelper-compat (= 13),
  gi-docgen <!nodoc>,
+ gsettings-desktop-schemas-dev (>= 47),
  libadwaita-1-dev,
  libcallaudio-dev,
  libevince-dev,
@@ -62,7 +63,7 @@ Depends:
  ${shlibs:Depends},
  fonts-lato,
  gnome-shell-common,
- gsettings-desktop-schemas,
+ gsettings-desktop-schemas (>= 47),
  libcap2-bin,
  phoc (>= 0.33.0),
 Recommends:

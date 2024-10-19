@@ -14,6 +14,22 @@
 #include "util.h"
 
 #include <gtk/gtk.h>
+#include <gdesktop-enums.h>
+
+#define IF_KEY_ACCENT_COLOR     "accent-color"
+#define IF_SCHEMA_NAME          "org.gnome.desktop.interface"
+
+/* Accent colors from gnome-shell src/st/st-theme-context.c */
+#define ACCENT_COLOR_BLUE       "#3584e4"
+#define ACCENT_COLOR_TEAL       "#2190a4"
+#define ACCENT_COLOR_GREEN      "#3a944a"
+#define ACCENT_COLOR_YELLOW     "#c88800"
+#define ACCENT_COLOR_ORANGE     "#ed5b00"
+#define ACCENT_COLOR_RED        "#e62d42"
+#define ACCENT_COLOR_PINK       "#d56199"
+#define ACCENT_COLOR_PURPLE     "#9141ac"
+#define ACCENT_COLOR_SLATE      "#6f8396"
+#define ACCENT_COLOR_FOREGROUND "#ffffff"
 
 /**
  * PhoshStyleManager:
@@ -28,8 +44,71 @@ struct _PhoshStyleManager {
 
   char           *theme_name;
   GtkCssProvider *css_provider;
+  GtkCssProvider *accent_css_provider;
+
+  GSettings      *interface_settings;
 };
 G_DEFINE_TYPE (PhoshStyleManager, phosh_style_manager, G_TYPE_OBJECT)
+
+
+static void
+on_accent_color_changed (PhoshStyleManager *self)
+{
+  const char *color;
+  g_autofree char *css  = NULL;
+  g_autoptr (GtkCssProvider) provider = gtk_css_provider_new ();
+
+  if (self->accent_css_provider) {
+    gtk_style_context_remove_provider_for_screen (gdk_screen_get_default (),
+                                                  GTK_STYLE_PROVIDER (self->accent_css_provider));
+  }
+
+  /* Only enable accent colors on Adwaita */
+  if (g_strcmp0 (self->theme_name, "Adwaita") != 0)
+    return;
+
+  switch (g_settings_get_enum (self->interface_settings, IF_KEY_ACCENT_COLOR)) {
+  case G_DESKTOP_ACCENT_COLOR_TEAL:
+    color = ACCENT_COLOR_TEAL;
+    break;
+  case G_DESKTOP_ACCENT_COLOR_GREEN:
+    color = ACCENT_COLOR_GREEN;
+    break;
+  case G_DESKTOP_ACCENT_COLOR_YELLOW:
+    color = ACCENT_COLOR_YELLOW;
+    break;
+  case G_DESKTOP_ACCENT_COLOR_ORANGE:
+    color = ACCENT_COLOR_ORANGE;
+    break;
+  case G_DESKTOP_ACCENT_COLOR_RED:
+    color = ACCENT_COLOR_RED;
+    break;
+  case G_DESKTOP_ACCENT_COLOR_PINK:
+    color = ACCENT_COLOR_PINK;
+    break;
+  case G_DESKTOP_ACCENT_COLOR_PURPLE:
+    color = ACCENT_COLOR_PURPLE;
+    break;
+  case G_DESKTOP_ACCENT_COLOR_SLATE:
+    color = ACCENT_COLOR_SLATE;
+    break;
+  case G_DESKTOP_ACCENT_COLOR_BLUE:
+  default:
+    color = ACCENT_COLOR_BLUE;
+  }
+
+  g_debug ("Setting accent bg color to %s, accent fg color to %s",
+           color, ACCENT_COLOR_FOREGROUND);
+
+  css = g_strdup_printf ("@define-color theme_selected_bg_color %s;\n"
+                         "@define-color theme_selected_fg_color %s;",
+                         color, ACCENT_COLOR_FOREGROUND);
+  gtk_css_provider_load_from_data (provider, css, -1, NULL);
+  gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
+                                             GTK_STYLE_PROVIDER (provider),
+                                             GTK_STYLE_PROVIDER_PRIORITY_APPLICATION + 1);
+  g_set_object (&self->css_provider, provider);
+}
 
 
 static void
@@ -59,6 +138,9 @@ on_gtk_theme_name_changed (PhoshStyleManager *self, GParamSpec *pspec, GtkSettin
                                              GTK_STYLE_PROVIDER (provider),
                                              GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   g_set_object (&self->css_provider, provider);
+
+  /* Refresh accent color */
+  on_accent_color_changed (self);
 }
 
 
@@ -69,6 +151,9 @@ phosh_style_manager_dispose (GObject *object)
 
   g_clear_pointer (&self->theme_name, g_free);
   g_clear_object (&self->css_provider);
+  g_clear_object (&self->accent_css_provider);
+
+  g_clear_object (&self->interface_settings);
 
   G_OBJECT_CLASS (phosh_style_manager_parent_class)->dispose (object);
 }
@@ -90,6 +175,12 @@ phosh_style_manager_init (PhoshStyleManager *self)
 
   g_object_set (G_OBJECT (gtk_settings), "gtk-application-prefer-dark-theme", TRUE, NULL);
 
+  self->interface_settings = g_settings_new (IF_SCHEMA_NAME);
+
+  g_signal_connect_swapped (self->interface_settings,
+                            "changed::" IF_KEY_ACCENT_COLOR,
+                            G_CALLBACK (on_accent_color_changed),
+                            self);
   g_signal_connect_swapped (gtk_settings,
                             "notify::gtk-theme-name",
                             G_CALLBACK (on_gtk_theme_name_changed),
