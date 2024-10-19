@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-09-09 09:28+0000\n"
-"PO-Revision-Date: 2024-09-09 22:28+0200\n"
+"POT-Creation-Date: 2024-10-17 20:02+0000\n"
+"PO-Revision-Date: 2024-10-18 22:07+0200\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -93,6 +93,15 @@ msgstr "Configuració ràpida de la llum nocturna"
 msgid "Toggle night light on/off"
 msgstr "Commuta la llum nocturna"
 
+#. Translators: "Pomodoro" is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+msgid "Pomodoro Quick Setting"
+msgstr "Configuració ràpida del Pomodoro"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+msgid "Simple Pomodoro Timer"
+msgstr "Simple temporitzador Pomodoro"
+
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
@@ -147,11 +156,11 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Activat"
 
-#: src/bt-status-page.c:86
+#: src/bt-status-page.c:95
 msgid "No connectable Bluetooth Devices found"
 msgstr "No s'ha trobat cap dispositiu Bluetooth connectable"
 
-#: src/bt-status-page.c:90
+#: src/bt-status-page.c:99
 msgid "Bluetooth disabled"
 msgstr "El Bluetooth està desactivat"
 
@@ -251,19 +260,19 @@ msgid "No"
 msgstr "No"
 
 #. give visual feedback on error
-#: src/lockscreen.c:273 src/ui/lockscreen.ui:246
+#: src/lockscreen.c:274 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Introduïu la contrasenya"
 
-#: src/lockscreen.c:918
+#: src/lockscreen.c:919
 msgid "Checking…"
 msgstr "S'està comprovant…"
 
-#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:223 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
-#: src/screenshot-manager.c:222
+#: src/screenshot-manager.c:224
 msgid "Screenshot copied to clipboard"
 msgstr "S'ha copiat la captura de pantalla al porta-retalls"
 
@@ -315,7 +324,10 @@ msgstr "Introduïu la contrasenya de la xarxa sense fil «%s»"
 msgid "Open"
 msgstr "Obre"
 
+#. We don't just set the app_info but name and icon separately to
+#. * not overwrite values set by the caller
 #: src/notifications/notification.c:404 src/notifications/notification.c:677
+#: src/notifications/notify-manager.c:1006
 msgid "Notification"
 msgstr "Notificació"
 
@@ -575,7 +587,7 @@ msgstr "Domini:"
 msgid "Co_nnect"
 msgstr "Co_nnecta"
 
-#: src/ui/lockscreen.ui:37 src/ui/lockscreen.ui:335
+#: src/ui/lockscreen.ui:47 src/ui/lockscreen.ui:256
 msgid "Back"
 msgstr "Torna"
 
@@ -583,7 +595,7 @@ msgstr "Torna"
 msgid "Slide up to unlock"
 msgstr "Llisqueu cap amunt per desbloquejar"
 
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:341
 msgid "Unlock"
 msgstr "Desbloqueja"
 
@@ -620,15 +632,15 @@ msgstr "Emergència"
 msgid "Run Command"
 msgstr "Executa una ordre"
 
-#: src/ui/settings.ui:329
+#: src/ui/settings.ui:142
 msgid "No notifications"
 msgstr "Cap notificació"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:173
 msgid "Notifications"
 msgstr "Notificacions"
 
-#: src/ui/settings.ui:369
+#: src/ui/settings.ui:182
 msgid "Clear all"
 msgstr "Neteja-ho tot"
 
@@ -656,7 +668,7 @@ msgstr "Surt…"
 msgid "Wi-Fi"
 msgstr "Sense fil"
 
-#: src/ui/wifi-status-page.ui:68
+#: src/ui/wifi-status-page.ui:69
 msgid "Wi-Fi Settings"
 msgstr "Paràmetres de la xarxa sense fil"
 
@@ -703,37 +715,33 @@ msgstr "Apaga"
 msgid "No Wi-Fi Hotspots"
 msgstr "No hi ha cap punt d'accés Wi-Fi"
 
-#: src/wifi-status-page.c:64
-msgid "Scan"
-msgstr "Escaneja"
-
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Mòbil"
 
 #. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:53
 msgid "Phosh on caffeine"
 msgstr "El Phosh està cafeïnat"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
 msgid "On"
 msgstr "Activat"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
 msgid "Off"
 msgstr "Desactivat"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
 msgid "Default style"
 msgstr "Estil predeterminat"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
 msgid "Dark mode"
 msgstr "Mode fosc"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:38
 msgid "Light mode"
 msgstr "Mode clar"
 
@@ -845,21 +853,75 @@ msgstr "No hi ha cap llançador configurat"
 msgid "Launchers"
 msgstr "Llançadors"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
 msgid "Mobile Data On"
 msgstr "Dades mòbils activades"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
 msgid "Mobile Data Off"
 msgstr "Dades mòbils desactivades"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
 msgid "Night Light On"
 msgstr "La llum nocturna està activada"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
 msgid "Night Light Off"
 msgstr "La llum nocturna està desactivada"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+msgid "Pomodoro start"
+msgstr "Inicia el Pomodoro"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#, c-format
+msgid "Focus on your task for %d minutes"
+msgstr "Focalitzat en la tasca durant %d minuts"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+msgid "Take a break"
+msgstr "Fes un descans"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#, c-format
+msgid "You have %d minutes until next Pomodoro"
+msgstr "Tens %d minuts fins al següent Pomodoro"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+msgid "Pomodoro Timer"
+msgstr "Temporitzador Pomodoro"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#, c-format
+msgid "Pomodoro Off"
+msgstr "Atura del Pomodoro"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:6
+msgid "Pomodoro Quick Setting Preferences"
+msgstr "Configuració ràpida de les preferències del Pomodoro"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+msgid "Pomodoro Technique"
+msgstr "Tècnica Pomodoro"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+msgid "_Active Duration"
+msgstr "Durada _activa"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+msgid "Duration of the focus session"
+msgstr "Durada de la sessió de focalització"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+msgid "_Break Duration"
+msgstr "Durada del _descans"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+msgid "Duration of the break between sessions"
+msgstr "Durada del descans entre sessions"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -958,13 +1020,16 @@ msgstr "Rang de dates"
 msgid "Number of days to show events for"
 msgstr "Nombre de dies per a mostrar-ne els esdeveniments"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:78
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
 msgstr "Activa el punt d'accés Wi-Fi"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:80
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Desactiva el punt d'accés Wi-Fi"
+
+#~ msgid "Scan"
+#~ msgstr "Escaneja"
 
 #~ msgctxt "timestamp-suffix-seconds"
 #~ msgid "s"
