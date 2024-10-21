@@ -1053,7 +1053,13 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
 static void
 phosh_lockscreen_init (PhoshLockscreen *self)
 {
+  PhoshLockscreenPrivate *priv = phosh_lockscreen_get_instance_private (self);
+
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  /* LTR does't work for the deck
+   * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1132 */
+  gtk_widget_set_direction (GTK_WIDGET (priv->deck), GTK_TEXT_DIR_LTR);
 }
 
 
