@@ -409,6 +409,9 @@
                 <property name="vexpand">True</property>
                 <property name="valign">end</property>
                 <property name="margin-bottom">6</property>
+                <!-- place initial focus -->
+                <property name="has-focus">True</property>
+                <property name="can-focus">True</property>
               </object>
               <packing>
                 <property name="name">arrow</property>
