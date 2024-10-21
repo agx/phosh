@@ -306,7 +306,7 @@
                   <object class="GtkLabel" id="lbl_clock">
                     <property name="visible">True</property>
                     <property name="receives_default">True</property>
-                    <property name="margin_top">2</property>
+                    <property name="margin-top">2</property>
                     <property name="label">00:00</property>
                     <style>
                       <class name="phosh-topbar-clock"/>
@@ -395,7 +395,7 @@
                     </child>
                   </object> <!-- box_indicators -->
                   <packing>
-                    <property name="pack_type">end</property>
+                    <property name="pack-type">end</property>
                   </packing>
                 </child>
               </object> <!-- box_top_bar -->
