@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-19 12:18+0000\n"
-"PO-Revision-Date: 2024-10-19 22:52+0200\n"
+"POT-Creation-Date: 2024-10-23 07:42+0000\n"
+"PO-Revision-Date: 2024-10-23 10:52+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -271,13 +271,22 @@ msgstr "Zadejte heslo"
 msgid "Checking…"
 msgstr "Kontroluje se…"
 
-#: src/screenshot-manager.c:223 src/ui/power-menu.ui:192
-msgid "Screenshot"
-msgstr "Snímek obrazovky"
-
-#: src/screenshot-manager.c:224
+#: src/screenshot-manager.c:225
 msgid "Screenshot copied to clipboard"
 msgstr "Snímek obrazovky byl zkopírován do schránky"
+
+#: src/screenshot-manager.c:230
+#, c-format
+msgid "Screenshot saved to %s"
+msgstr "Snímek obrazovky byl uložen do %s"
+
+#: src/screenshot-manager.c:233
+msgid "Failed to save screenshot"
+msgstr "Nezdařilo se uložit snímek obrazovky"
+
+#: src/screenshot-manager.c:237 src/ui/power-menu.ui:192
+msgid "Screenshot"
+msgstr "Snímek obrazovky"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
