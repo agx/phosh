@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-17 20:02+0000\n"
-"PO-Revision-Date: 2024-10-17 22:09+0200\n"
+"POT-Creation-Date: 2024-10-23 07:42+0000\n"
+"PO-Revision-Date: 2024-10-23 09:44+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -274,13 +274,22 @@ msgstr "Vnesite geslo"
 msgid "Checking…"
 msgstr "Preverjanje …"
 
-#: src/screenshot-manager.c:223 src/ui/power-menu.ui:192
-msgid "Screenshot"
-msgstr "Posnetek zaslona"
-
-#: src/screenshot-manager.c:224
+#: src/screenshot-manager.c:225
 msgid "Screenshot copied to clipboard"
 msgstr "Zaslonska slika kopirana na odložišče"
+
+#: src/screenshot-manager.c:230
+#, c-format
+msgid "Screenshot saved to %s"
+msgstr "Zaslonska slika shranjena v %s"
+
+#: src/screenshot-manager.c:233
+msgid "Failed to save screenshot"
+msgstr "Posnetka zaslona ni bilo mogoče shraniti"
+
+#: src/screenshot-manager.c:237 src/ui/power-menu.ui:192
+msgid "Screenshot"
+msgstr "Posnetek zaslona"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
@@ -333,7 +342,7 @@ msgstr "Odpri"
 #. We don't just set the app_info but name and icon separately to
 #. * not overwrite values set by the caller
 #: src/notifications/notification.c:404 src/notifications/notification.c:677
-#: src/notifications/notify-manager.c:1006
+#: src/notifications/notify-manager.c:1004
 msgid "Notification"
 msgstr "Obvestilo"
 
