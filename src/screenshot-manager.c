@@ -216,12 +216,26 @@ screenshot_done (PhoshScreenshotManager *self, gboolean success)
                                                self->frames->filename ?: "");
   } else {
     PhoshNotifyManager *nm = phosh_notify_manager_get_default ();
-    g_autoptr (PhoshNotification) noti = NULL;
     g_autoptr (GIcon) icon = g_themed_icon_new ("screenshot-portrait-symbolic");
+    g_autoptr (PhoshNotification) noti = NULL;
+    g_autofree char *msg = NULL;
+
+    if (success) {
+      if (gm_str_is_null_or_empty (self->frames->filename)) {
+        msg = g_strdup (_("Screenshot copied to clipboard"));
+      } else {
+        g_autofree char *filename = NULL;
+
+        filename = g_path_get_basename (self->frames->filename);
+        msg = g_strdup_printf (_("Screenshot saved to %s"), filename);
+      }
+    } else {
+      msg = g_strdup (_("Failed to save screenshot"));
+    }
 
     noti = g_object_new (PHOSH_TYPE_NOTIFICATION,
                          "summary", _("Screenshot"),
-                         "body", _("Screenshot copied to clipboard"),
+                         "body", msg,
                          "image", icon,
                          NULL);
 
@@ -629,16 +643,18 @@ build_screenshot_filename (const char *pattern)
 
 /**
  * phosh_screenshot_manager_do_screenshot:
- * @self: The screenshot maanger
+ * @self: The screenshot manager
  * @area: The area to capture or %NULL to capture all outputs
+ * @filename: The output filename
+ * @include_cursor: Whether to include the cursor
  *
  * Initiate a screenshot of all outputs or the given area.
  *
- * Returns: -errno on failure, otherwise 0
+ * Returns: `FALSE` on failure, otherwise `TRUE`
  */
 gboolean
 phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
-                                        GdkRectangle           *area,
+                                        const GdkRectangle     *area,
                                         const char             *filename,
                                         gboolean                include_cursor)
 {
