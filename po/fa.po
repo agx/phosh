@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-17 20:02+0000\n"
-"PO-Revision-Date: 2024-10-19 00:39+0330\n"
+"POT-Creation-Date: 2024-10-23 07:42+0000\n"
+"PO-Revision-Date: 2024-10-24 18:16+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -265,13 +265,22 @@ msgstr "ورود رمز عبور"
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
-#: src/screenshot-manager.c:223 src/ui/power-menu.ui:192
-msgid "Screenshot"
-msgstr "نماگرفت"
-
-#: src/screenshot-manager.c:224
+#: src/screenshot-manager.c:225
 msgid "Screenshot copied to clipboard"
 msgstr "نماگرفت در تخته‌گیره رونوشت شد"
+
+#: src/screenshot-manager.c:230
+#, c-format
+msgid "Screenshot saved to %s"
+msgstr "نماگرفت در %s رونوشت شد"
+
+#: src/screenshot-manager.c:233
+msgid "Failed to save screenshot"
+msgstr "شکست در ذخیرهٔ نماگرفت"
+
+#: src/screenshot-manager.c:237 src/ui/power-menu.ui:192
+msgid "Screenshot"
+msgstr "نماگرفت"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
@@ -324,7 +333,7 @@ msgstr "گشودن"
 #. We don't just set the app_info but name and icon separately to
 #. * not overwrite values set by the caller
 #: src/notifications/notification.c:404 src/notifications/notification.c:677
-#: src/notifications/notify-manager.c:1006
+#: src/notifications/notify-manager.c:1004
 msgid "Notification"
 msgstr "آگاهی"
 
