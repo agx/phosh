@@ -644,8 +644,8 @@ build_screenshot_filename (const char *pattern)
 /**
  * phosh_screenshot_manager_do_screenshot:
  * @self: The screenshot manager
- * @area: The area to capture or %NULL to capture all outputs
- * @filename: The output filename
+ * @area: (nullable): The area to capture or %NULL to capture all outputs
+ * @filename: (nullable): The output filename or %NULL to copy buffer to clipboard
  * @include_cursor: Whether to include the cursor
  *
  * Initiate a screenshot of all outputs or the given area.
