@@ -49,14 +49,15 @@ G_DEFINE_TYPE (PhoshQuickSettings, phosh_quick_settings, GTK_TYPE_BIN);
 
 
 static void
-open_settings_panel (const char *panel)
+open_settings_panel (PhoshQuickSettings *self, const char *panel)
 {
-  PhoshShell *shell = phosh_shell_get_default ();
+  GActionGroup *group;
 
-  if (phosh_shell_get_locked (shell))
-    return;
-
-  phosh_util_open_settings_panel (panel);
+  group = gtk_widget_get_action_group (GTK_WIDGET (self), "settings");
+  g_return_if_fail (group);
+  g_action_group_activate_action (group,
+                                  "launch-panel",
+                                  g_variant_new_string (panel));
 }
 
 
@@ -78,7 +79,7 @@ on_wwan_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 static void
 on_wwan_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
-  open_settings_panel ("wwan");
+  open_settings_panel (self, "wwan");
 }
 
 
@@ -100,7 +101,7 @@ on_wifi_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 static void
 on_wifi_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
-  open_settings_panel ("wifi");
+  open_settings_panel (self, "wifi");
 }
 
 
@@ -122,21 +123,21 @@ on_bt_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 static void
 on_bt_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
-  open_settings_panel ("bluetooth");
+  open_settings_panel (self, "bluetooth");
 }
 
 
 static void
 on_battery_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
-  open_settings_panel ("power");
+  open_settings_panel (self, "power");
 }
 
 
 static void
 on_battery_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
-  open_settings_panel ("power");
+  open_settings_panel (self, "power");
 }
 
 
@@ -211,7 +212,7 @@ on_feedback_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 static void
 on_feedback_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
-  open_settings_panel ("notifications");
+  open_settings_panel (self, "notifications");
 }
 
 
@@ -232,7 +233,7 @@ static void
 on_torch_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
   /* TODO */
-  open_settings_panel ("power");
+  open_settings_panel (self, "power");
 }
 
 
@@ -254,7 +255,7 @@ on_docked_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 static void
 on_docked_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
-  open_settings_panel ("display");
+  open_settings_panel (self, "display");
 }
 
 
@@ -274,7 +275,7 @@ on_vpn_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 static void
 on_vpn_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
-  open_settings_panel ("network");
+  open_settings_panel (self, "network");
 }
 
 
