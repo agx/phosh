@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-09-09 09:28+0000\n"
-"PO-Revision-Date: 2024-09-21 22:34+0300\n"
+"POT-Creation-Date: 2024-10-23 07:42+0000\n"
+"PO-Revision-Date: 2024-10-26 10:00+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew\n"
 "Language: he\n"
@@ -91,6 +91,15 @@ msgstr "הגדרות מהירות לתאורת לילה"
 msgid "Toggle night light on/off"
 msgstr "כיבוי/הפעלת תאורת לילה"
 
+#. Translators: "Pomodoro" is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+msgid "Pomodoro Quick Setting"
+msgstr "הגדרות פומודורו מהירות"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+msgid "Simple Pomodoro Timer"
+msgstr "מתזמן פומודורו פשוט"
+
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
@@ -143,11 +152,11 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "פעיל"
 
-#: src/bt-status-page.c:86
+#: src/bt-status-page.c:95
 msgid "No connectable Bluetooth Devices found"
 msgstr "לא נמצאו התקני בלוטות׳ שאפשר להתחבר אליהם"
 
-#: src/bt-status-page.c:90
+#: src/bt-status-page.c:99
 msgid "Bluetooth disabled"
 msgstr "בלוטות׳ מושבת"
 
@@ -253,21 +262,30 @@ msgid "No"
 msgstr "לא"
 
 #. give visual feedback on error
-#: src/lockscreen.c:273 src/ui/lockscreen.ui:246
+#: src/lockscreen.c:274 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "הזנת ססמה"
 
-#: src/lockscreen.c:918
+#: src/lockscreen.c:919
 msgid "Checking…"
 msgstr "בודק…"
 
-#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
-msgid "Screenshot"
-msgstr "צילום מסך"
-
-#: src/screenshot-manager.c:222
+#: src/screenshot-manager.c:225
 msgid "Screenshot copied to clipboard"
 msgstr "המסך צולם והועתק ללוח הגזירים"
+
+#: src/screenshot-manager.c:230
+#, c-format
+msgid "Screenshot saved to %s"
+msgstr "צילום המסך נשמר אל %s"
+
+#: src/screenshot-manager.c:233
+msgid "Failed to save screenshot"
+msgstr "שמירת צילום המסך נכשלה"
+
+#: src/screenshot-manager.c:237 src/ui/power-menu.ui:192
+msgid "Screenshot"
+msgstr "צילום מסך"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
@@ -317,7 +335,10 @@ msgstr "נא להזין את הססמה עבור רשת האינטרנט האל�
 msgid "Open"
 msgstr "פתיחה"
 
+#. We don't just set the app_info but name and icon separately to
+#. * not overwrite values set by the caller
 #: src/notifications/notification.c:404 src/notifications/notification.c:677
+#: src/notifications/notify-manager.c:1004
 msgid "Notification"
 msgstr "התרעה"
 
@@ -591,7 +612,7 @@ msgstr "מתחם:"
 msgid "Co_nnect"
 msgstr "הת_חברות"
 
-#: src/ui/lockscreen.ui:37 src/ui/lockscreen.ui:335
+#: src/ui/lockscreen.ui:47 src/ui/lockscreen.ui:256
 msgid "Back"
 msgstr "חזרה"
 
@@ -599,7 +620,7 @@ msgstr "חזרה"
 msgid "Slide up to unlock"
 msgstr "החלקה כלפי מעלה לביטול הנעילה"
 
-#: src/ui/lockscreen.ui:298
+#: src/ui/lockscreen.ui:341
 msgid "Unlock"
 msgstr "שחרור"
 
@@ -636,15 +657,15 @@ msgstr "מצב חירום"
 msgid "Run Command"
 msgstr "הרצת פקודה"
 
-#: src/ui/settings.ui:329
+#: src/ui/settings.ui:142
 msgid "No notifications"
 msgstr "אין התרעות"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:173
 msgid "Notifications"
 msgstr "התראות"
 
-#: src/ui/settings.ui:369
+#: src/ui/settings.ui:182
 msgid "Clear all"
 msgstr "ניקוי הכול"
 
@@ -666,13 +687,13 @@ msgstr "_השהיה…"
 
 #: src/ui/top-panel.ui:116
 msgid "_Log Out…"
-msgstr "_יציאה…"
+msgstr "י_ציאה…"
 
 #: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
 msgid "Wi-Fi"
 msgstr "רשת אלחוטית"
 
-#: src/ui/wifi-status-page.ui:68
+#: src/ui/wifi-status-page.ui:69
 msgid "Wi-Fi Settings"
 msgstr "הגדרות רשת אלחוטית"
 
@@ -719,37 +740,33 @@ msgstr "כיבוי"
 msgid "No Wi-Fi Hotspots"
 msgstr "אין נק׳ גישה לרשת אלחוטית"
 
-#: src/wifi-status-page.c:64
-msgid "Scan"
-msgstr "סריקה"
-
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "רשת סלולרית"
 
 #. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:53
 msgid "Phosh on caffeine"
 msgstr "‫Phosh על קפאין"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
 msgid "On"
 msgstr "פעיל"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
 msgid "Off"
 msgstr "כבוי"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
 msgid "Default style"
 msgstr "סגנון ברירת מחדל"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
 msgid "Dark mode"
 msgstr "מצב כהה"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:38
 msgid "Light mode"
 msgstr "מצב בהיר"
 
@@ -861,21 +878,75 @@ msgstr "לא הוגדרו משגרים"
 msgid "Launchers"
 msgstr "משגרים"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
 msgid "Mobile Data On"
 msgstr "נתונים ניידים פועלים"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:66
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
 msgid "Mobile Data Off"
 msgstr "נתונים ניידים כבויים"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
 msgid "Night Light On"
 msgstr "תאורת לילה פעילה"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
 msgid "Night Light Off"
 msgstr "תאורת לילה כבויה"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+msgid "Pomodoro start"
+msgstr "התחלת פומודורו"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#, c-format
+msgid "Focus on your task for %d minutes"
+msgstr "נא להתמקד על המשימה שלך למשך %d דקות"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+msgid "Take a break"
+msgstr "נא לקחת הפסקה"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#, c-format
+msgid "You have %d minutes until next Pomodoro"
+msgstr "נותרו לך %d דקות עד הפומודורו הבא"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+msgid "Pomodoro Timer"
+msgstr "מתזמן פומודורו"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#, c-format
+msgid "Pomodoro Off"
+msgstr "פומודורו כבוי"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:6
+msgid "Pomodoro Quick Setting Preferences"
+msgstr "העדפות הגדרות מהירות לפומודורו"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+msgid "Pomodoro Technique"
+msgstr "טכניקת פומודורו"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+msgid "_Active Duration"
+msgstr "משך _פעילות"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+msgid "Duration of the focus session"
+msgstr "משך פעילות ממוקדת"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+msgid "_Break Duration"
+msgstr "משך הפ_סקה"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+msgid "Duration of the break between sessions"
+msgstr "משך ההפסקה בין הפעילויות"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -976,13 +1047,16 @@ msgstr "טווח תאריכים"
 msgid "Number of days to show events for"
 msgstr "מספר הימים להצגת אירועים"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:78
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
 msgstr "נק׳ חמה פעילה"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:80
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "נק׳ חמה כבויה"
+
+#~ msgid "Scan"
+#~ msgstr "סריקה"
 
 #~ msgctxt "timestamp-suffix-seconds"
 #~ msgid "s"
