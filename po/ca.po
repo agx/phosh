@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-17 20:02+0000\n"
-"PO-Revision-Date: 2024-10-18 22:07+0200\n"
+"POT-Creation-Date: 2024-10-23 07:42+0000\n"
+"PO-Revision-Date: 2024-10-26 16:27+0200\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -268,13 +268,22 @@ msgstr "Introduïu la contrasenya"
 msgid "Checking…"
 msgstr "S'està comprovant…"
 
-#: src/screenshot-manager.c:223 src/ui/power-menu.ui:192
-msgid "Screenshot"
-msgstr "Captura de pantalla"
-
-#: src/screenshot-manager.c:224
+#: src/screenshot-manager.c:225
 msgid "Screenshot copied to clipboard"
 msgstr "S'ha copiat la captura de pantalla al porta-retalls"
+
+#: src/screenshot-manager.c:230
+#, c-format
+msgid "Screenshot saved to %s"
+msgstr "S'ha desat la captura de pantalla a %s"
+
+#: src/screenshot-manager.c:233
+msgid "Failed to save screenshot"
+msgstr "No s'ha pogut desar la captura de pantalla"
+
+#: src/screenshot-manager.c:237 src/ui/power-menu.ui:192
+msgid "Screenshot"
+msgstr "Captura de pantalla"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
@@ -327,7 +336,7 @@ msgstr "Obre"
 #. We don't just set the app_info but name and icon separately to
 #. * not overwrite values set by the caller
 #: src/notifications/notification.c:404 src/notifications/notification.c:677
-#: src/notifications/notify-manager.c:1006
+#: src/notifications/notify-manager.c:1004
 msgid "Notification"
 msgstr "Notificació"
 
