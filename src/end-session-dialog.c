@@ -131,16 +131,15 @@ end_session_dialog_timeout (gpointer data)
 {
   PhoshEndSessionDialog *self = PHOSH_END_SESSION_DIALOG (data);
 
-  if (self->timeout == 0) {
-    on_btn_confirm_clicked (self, GTK_BUTTON (self->btn_confirm));
-    self->timeout_id = 0;
-    return G_SOURCE_REMOVE;
-  }
-
-  end_session_dialog_update (self);
   self->timeout--;
+  end_session_dialog_update (self);
 
-  return G_SOURCE_CONTINUE;
+  if (self->timeout)
+    return G_SOURCE_CONTINUE;
+
+  on_btn_confirm_clicked (self, GTK_BUTTON (self->btn_confirm));
+  self->timeout_id = 0;
+  return G_SOURCE_REMOVE;
 }
 
 
