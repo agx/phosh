@@ -8,6 +8,7 @@
       <object class="GtkButton">
         <property name="visible">True</property>
         <property name="hexpand">True</property>
+        <property name="focus-on-click">False</property>
         <signal name="button-press-event" handler="on_button_press" object="PhoshQuickSetting" swapped="yes"/>
         <child>
           <object class="GtkBox" id="box">
@@ -37,6 +38,7 @@
     </child>
     <child>
       <object class="GtkButton" id="arrow_btn">
+        <property name="focus-on-click">False</property>
         <signal name="clicked" handler="on_arrow_clicked" object="PhoshQuickSetting" swapped="yes"/>
         <child>
           <object class="GtkImage" id="arrow">

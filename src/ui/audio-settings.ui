@@ -19,6 +19,7 @@
               <object class="GtkToggleButton" id="toggle_audio_details">
                 <property name="visible">True</property>
                 <property name="margin-start">6</property>
+                <property name="focus-on-click">False</property>
                 <style>
                   <class name="phosh-gear-button"/>
                 </style>

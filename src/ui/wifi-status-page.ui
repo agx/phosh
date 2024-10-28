@@ -17,6 +17,7 @@
               <object class="GtkButton" id="empty_state_btn">
                 <property name="visible">1</property>
                 <property name="halign">center</property>
+                <property name="focus-on-click">False</property>
                 <signal name="clicked" handler="on_placeholder_clicked" object="PhoshWifiStatusPage" swapped="yes"/>
               </object>
             </child>
@@ -45,6 +46,7 @@
   <object class="GtkButton" id="wifi_scan">
     <property name="visible">1</property>
     <property name="valign">center</property>
+    <property name="focus-on-click">False</property>
     <signal name="clicked" handler="on_wifi_scan_clicked" object="PhoshWifiStatusPage" swapped="yes"/>
     <style>
       <class name="flat"/>
@@ -60,6 +62,7 @@
   <object class="GtkButton" id="footer">
     <property name="visible">1</property>
     <property name="hexpand">1</property>
+    <property name="focus-on-click">False</property>
     <property name="action-name">settings.launch-panel</property>
     <property name="action-target">&quot;wifi&quot;</property>
     <child>

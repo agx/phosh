@@ -127,11 +127,9 @@
   </object>
 
   <template class="PhoshTopPanel" parent="PhoshDragSurface">
-    <property name="can_focus">False</property>
     <child>
       <object class="GtkBox" id="box">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox" id="box_clock">
@@ -307,9 +305,7 @@
                 <child type="center">
                   <object class="GtkLabel" id="lbl_clock">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="receives_default">True</property>
-                    <property name="margin_top">2</property>
+                    <property name="margin-top">2</property>
                     <property name="label">00:00</property>
                     <style>
                       <class name="phosh-topbar-clock"/>
@@ -319,7 +315,6 @@
                 <child>
                   <object class="GtkBox" id="box_indicators">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
                     <property name="halign">end</property>
                     <style>
                       <class name="indicators"/>
@@ -399,7 +394,7 @@
                     </child>
                   </object> <!-- box_indicators -->
                   <packing>
-                    <property name="pack_type">end</property>
+                    <property name="pack-type">end</property>
                   </packing>
                 </child>
               </object> <!-- box_top_bar -->
@@ -414,6 +409,9 @@
                 <property name="vexpand">True</property>
                 <property name="valign">end</property>
                 <property name="margin-bottom">6</property>
+                <!-- place initial focus -->
+                <property name="has-focus">True</property>
+                <property name="can-focus">True</property>
               </object>
               <packing>
                 <property name="name">arrow</property>

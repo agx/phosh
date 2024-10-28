@@ -180,6 +180,7 @@
                                       <object class="GtkButton">
                                         <property name="visible">True</property>
                                         <property name="label" translatable="yes">Clear all</property>
+                                        <property name="focus-on-click">False</property>
                                         <signal name="clicked" handler="on_notifications_clear_all_clicked" object="PhoshSettings" swapped="yes"/>
                                         <property name="name">phosh-notifications-clear-all-btn</property>
                                       </object>
