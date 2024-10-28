@@ -5,7 +5,7 @@
     <property name="visible">True</property>
     <property name="orientation">horizontal</property>
     <child>
-      <object class="GtkButton">
+      <object class="GtkButton" id="primary">
         <property name="visible">True</property>
         <property name="hexpand">True</property>
         <property name="focus-on-click">False</property>
@@ -51,8 +51,8 @@
       </object>
     </child>
   </template>
-  <object class="GtkGestureLongPress">
-    <property name="widget">PhoshQuickSetting</property>
+  <object class="GtkGestureLongPress" id="long_press">
+    <property name="widget">primary</property>
     <signal name="pressed" handler="on_long_pressed" object="PhoshQuickSetting" swapped="true"/>
   </object>
 </interface>
