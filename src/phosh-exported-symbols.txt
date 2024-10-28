@@ -40,6 +40,18 @@
    phosh_status_icon_get_type;
    phosh_status_icon_set_icon_name;
    phosh_status_icon_set_info;
+   phosh_status_page_get_type;
+   phosh_status_page_set_title;
+   phosh_status_page_get_title;
+   phosh_status_page_set_header;
+   phosh_status_page_get_header;
+   phosh_status_page_set_footer;
+   phosh_status_page_get_footer;
+   phosh_status_page_placeholder_get_type;
+   phosh_status_page_placeholder_set_title;
+   phosh_status_page_placeholder_get_title;
+   phosh_status_page_placeholder_set_icon_name;
+   phosh_status_page_placeholder_get_icon_name;
 
    # The plugins use our gtk-list-models:
    gtk_filter_list_model_*;
