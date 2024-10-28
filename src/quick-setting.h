@@ -27,5 +27,9 @@ void             phosh_quick_setting_set_showing_status (PhoshQuickSetting *self
 gboolean         phosh_quick_setting_get_showing_status (PhoshQuickSetting *self);
 void             phosh_quick_setting_set_status_page (PhoshQuickSetting *self, PhoshStatusPage *status_page);
 PhoshStatusPage *phosh_quick_setting_get_status_page (PhoshQuickSetting *self);
+void             phosh_quick_setting_set_long_press_action_name (PhoshQuickSetting *self, const char *action_name);
+const char      *phosh_quick_setting_get_long_press_action_name (PhoshQuickSetting *self);
+void             phosh_quick_setting_set_long_press_action_target (PhoshQuickSetting *self, const char *action_target);
+const char      *phosh_quick_setting_get_long_press_action_target (PhoshQuickSetting *self);
 
 G_END_DECLS

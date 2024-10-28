@@ -20,6 +20,8 @@ test_phosh_quick_setting_new (void)
   gboolean show_status;
   gboolean can_show_status;
   PhoshStatusPage *status_page;
+  const char *action_name;
+  const char *action_target;
 
   quick_setting = g_object_new (PHOSH_TYPE_QUICK_SETTING, NULL);
   g_assert_true (PHOSH_IS_QUICK_SETTING (quick_setting));
@@ -35,6 +37,12 @@ test_phosh_quick_setting_new (void)
 
   status_page = phosh_quick_setting_get_status_page (quick_setting);
   g_assert_true (status_page == NULL);
+
+  action_name = phosh_quick_setting_get_long_press_action_name (quick_setting);
+  g_assert_true (action_name == NULL);
+
+  action_target = phosh_quick_setting_get_long_press_action_target (quick_setting);
+  g_assert_true (action_target == NULL);
 
   gtk_widget_destroy (GTK_WIDGET (quick_setting));
 
@@ -270,6 +278,42 @@ test_phosh_quick_setting_get_status_page (void)
 }
 
 
+static void
+test_phosh_quick_setting_get_long_press_action_name (void)
+{
+  PhoshQuickSetting *quick_setting;
+  const char *action_name;
+  const char *got_action_name;
+
+  quick_setting = PHOSH_QUICK_SETTING (phosh_quick_setting_new (NULL));
+
+  action_name = "foo";
+  phosh_quick_setting_set_long_press_action_name (quick_setting, action_name);
+  got_action_name = phosh_quick_setting_get_long_press_action_name (quick_setting);
+  g_assert_cmpstr (action_name, ==, got_action_name);
+
+  gtk_widget_destroy (GTK_WIDGET (quick_setting));
+}
+
+
+static void
+test_phosh_quick_setting_get_long_press_action_target (void)
+{
+  PhoshQuickSetting *quick_setting;
+  const char *action_target;
+  const char *got_action_target;
+
+  quick_setting = PHOSH_QUICK_SETTING (phosh_quick_setting_new (NULL));
+
+  action_target = "foo";
+  phosh_quick_setting_set_long_press_action_target (quick_setting, action_target);
+  got_action_target = phosh_quick_setting_get_long_press_action_target (quick_setting);
+  g_assert_cmpstr (action_target, ==, got_action_target);
+
+  gtk_widget_destroy (GTK_WIDGET (quick_setting));
+}
+
+
 int
 main (int argc, char *argv[])
 {
@@ -297,6 +341,10 @@ main (int argc, char *argv[])
                    test_phosh_quick_setting_set_status_page);
   g_test_add_func ("/phosh/quick-setting/get_status_page",
                    test_phosh_quick_setting_get_status_page);
+  g_test_add_func ("/phosh/quick-setting/get_long_press_action_name",
+                   test_phosh_quick_setting_get_long_press_action_name);
+  g_test_add_func ("/phosh/quick-setting/get_long_press_action_target",
+                   test_phosh_quick_setting_get_long_press_action_target);
 
   return g_test_run ();
 }

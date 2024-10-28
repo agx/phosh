@@ -48,6 +48,12 @@
  *
  * When a quick-setting is clicked, [signal@Phosh.QuickSetting::clicked] is emitted. When it is
  * long-pressed or right-clicked, [signal@PhoshQuickSetting::long-pressed] is emitted.
+ *
+ * The common usecase of `long-pressed` is to launch an action (like `settings.launch-panel`). So to
+ * avoid duplicating this process for each quick-setting, the user can set
+ * [property@Phosh.QuickSetting:long-press-action-name] and
+ * [property@Phosh.QuickSetting:long-press-action-target]. The quick-setting then launches that
+ * appropriate action.
  */
 
 enum {
@@ -56,6 +62,8 @@ enum {
   PROP_SHOWING_STATUS,
   PROP_CAN_SHOW_STATUS,
   PROP_STATUS_PAGE,
+  PROP_LONG_PRESS_ACTION_NAME,
+  PROP_LONG_PRESS_ACTION_TARGET,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -82,6 +90,8 @@ typedef struct {
   gboolean         can_show_status;
   PhoshStatusPage *status_page;
   PhoshStatusIcon *status_icon;
+  char            *long_press_action_name;
+  char            *long_press_action_target;
 
   GBinding        *active_binding;
   GBinding        *label_binding;
@@ -111,6 +121,12 @@ phosh_quick_setting_set_property (GObject      *object,
   case PROP_STATUS_PAGE:
     phosh_quick_setting_set_status_page (self, g_value_get_object (value));
     break;
+  case PROP_LONG_PRESS_ACTION_NAME:
+    phosh_quick_setting_set_long_press_action_name (self, g_value_get_string (value));
+    break;
+  case PROP_LONG_PRESS_ACTION_TARGET:
+    phosh_quick_setting_set_long_press_action_target (self, g_value_get_string (value));
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
   }
@@ -137,6 +153,12 @@ phosh_quick_setting_get_property (GObject    *object,
     break;
   case PROP_STATUS_PAGE:
     g_value_set_object (value, phosh_quick_setting_get_status_page (self));
+    break;
+  case PROP_LONG_PRESS_ACTION_NAME:
+    g_value_set_string (value, phosh_quick_setting_get_long_press_action_name (self));
+    break;
+  case PROP_LONG_PRESS_ACTION_TARGET:
+    g_value_set_string (value, phosh_quick_setting_get_long_press_action_target (self));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -204,9 +226,37 @@ phosh_quick_setting_remove (GtkContainer *container, GtkWidget *child)
 
 
 static void
+launch_action_else_emit (PhoshQuickSetting *self)
+{
+  PhoshQuickSettingPrivate *priv = phosh_quick_setting_get_instance_private (self);
+  GActionGroup *group;
+  GVariant *param = NULL;
+  g_auto (GStrv) str_array = NULL;
+
+  if (priv->long_press_action_name == NULL) {
+    g_signal_emit (self, signals[LONG_PRESSED], 0);
+    return;
+  }
+
+  if (priv->long_press_action_target != NULL)
+    param = g_variant_new_parsed (priv->long_press_action_target, NULL);
+
+  str_array = g_strsplit (priv->long_press_action_name, ".", 2);
+  if (g_strv_length (str_array) != 2) {
+    g_warning ("Malformed action-name %s", priv->long_press_action_name);
+    return;
+  }
+
+  group = gtk_widget_get_action_group (GTK_WIDGET (self), str_array[0]);
+  g_return_if_fail (group);
+  g_action_group_activate_action (group, str_array[1], param);
+}
+
+
+static void
 on_long_pressed (PhoshQuickSetting *self, GtkGesture *gesture)
 {
-  g_signal_emit (self, signals[LONG_PRESSED], 0);
+  launch_action_else_emit (self);
   gtk_gesture_set_state (gesture, GTK_EVENT_SEQUENCE_CLAIMED);
 }
 
@@ -214,7 +264,7 @@ on_long_pressed (PhoshQuickSetting *self, GtkGesture *gesture)
 static void
 on_right_pressed (PhoshQuickSetting *self, int n_press, double x, double y, GtkGesture *gesture)
 {
-  g_signal_emit (self, signals[LONG_PRESSED], 0);
+  launch_action_else_emit (self);
   gtk_gesture_set_state (gesture, GTK_EVENT_SEQUENCE_CLAIMED);
 }
 
@@ -254,6 +304,8 @@ phosh_quick_setting_finalize (GObject *object)
   PhoshQuickSettingPrivate *priv = phosh_quick_setting_get_instance_private (self);
 
   g_clear_object (&priv->status_page);
+  g_clear_pointer (&priv->long_press_action_name, g_free);
+  g_clear_pointer (&priv->long_press_action_target, g_free);
 
   G_OBJECT_CLASS (phosh_quick_setting_parent_class)->finalize (object);
 }
@@ -313,6 +365,26 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
   props[PROP_STATUS_PAGE] =
     g_param_spec_object ("status-page", "", "",
                          PHOSH_TYPE_STATUS_PAGE,
+                         G_PARAM_READWRITE |
+                         G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshQuickSetting:long-press-action-name:
+   *
+   * Action name to trigger on long-press.
+   */
+  props[PROP_LONG_PRESS_ACTION_NAME] =
+    g_param_spec_string ("long-press-action-name", "", "",
+                         NULL,
+                         G_PARAM_READWRITE |
+                         G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshQuickSetting:long-press-action-target:
+   *
+   * Action target for `long-press-action-name`.
+   */
+  props[PROP_LONG_PRESS_ACTION_TARGET] =
+    g_param_spec_string ("long-press-action-target", "", "",
+                         NULL,
                          G_PARAM_READWRITE |
                          G_PARAM_STATIC_STRINGS);
 
@@ -530,4 +602,58 @@ phosh_quick_setting_get_status_page (PhoshQuickSetting *self)
   priv = phosh_quick_setting_get_instance_private (self);
 
   return priv->status_page;
+}
+
+
+void
+phosh_quick_setting_set_long_press_action_name (PhoshQuickSetting *self, const char *action_name)
+{
+  PhoshQuickSettingPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_QUICK_SETTING (self));
+
+  priv = phosh_quick_setting_get_instance_private (self);
+
+  g_clear_pointer (&priv->long_press_action_name, g_free);
+  priv->long_press_action_name = g_strdup (action_name);
+}
+
+
+const char *
+phosh_quick_setting_get_long_press_action_name (PhoshQuickSetting *self)
+{
+  PhoshQuickSettingPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_QUICK_SETTING (self), NULL);
+
+  priv = phosh_quick_setting_get_instance_private (self);
+
+  return priv->long_press_action_name;
+}
+
+
+void
+phosh_quick_setting_set_long_press_action_target (PhoshQuickSetting *self, const char *action_target)
+{
+  PhoshQuickSettingPrivate *priv;
+
+  g_return_if_fail (PHOSH_IS_QUICK_SETTING (self));
+
+  priv = phosh_quick_setting_get_instance_private (self);
+
+  g_clear_pointer (&priv->long_press_action_target, g_free);
+  priv->long_press_action_target = g_strdup (action_target);
+}
+
+
+const char *
+phosh_quick_setting_get_long_press_action_target (PhoshQuickSetting *self)
+{
+  PhoshQuickSettingPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_QUICK_SETTING (self), NULL);
+
+  priv = phosh_quick_setting_get_instance_private (self);
+
+  return priv->long_press_action_target;
 }
