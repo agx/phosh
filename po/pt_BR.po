@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-17 20:02+0000\n"
-"PO-Revision-Date: 2024-10-17 17:14-0300\n"
+"POT-Creation-Date: 2024-10-23 07:42+0000\n"
+"PO-Revision-Date: 2024-10-24 11:15-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
@@ -269,13 +269,22 @@ msgstr "Insira a senha"
 msgid "Checking…"
 msgstr "Verificando…"
 
-#: src/screenshot-manager.c:223 src/ui/power-menu.ui:192
-msgid "Screenshot"
-msgstr "Captura de tela"
-
-#: src/screenshot-manager.c:224
+#: src/screenshot-manager.c:225
 msgid "Screenshot copied to clipboard"
 msgstr "Captura de tela copiada para a área de transferência"
+
+#: src/screenshot-manager.c:230
+#, c-format
+msgid "Screenshot saved to %s"
+msgstr "Captura de tela salva em %s"
+
+#: src/screenshot-manager.c:233
+msgid "Failed to save screenshot"
+msgstr "Falha ao salvar a captura de tela"
+
+#: src/screenshot-manager.c:237 src/ui/power-menu.ui:192
+msgid "Screenshot"
+msgstr "Captura de tela"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
@@ -328,7 +337,7 @@ msgstr "Abrir"
 #. We don't just set the app_info but name and icon separately to
 #. * not overwrite values set by the caller
 #: src/notifications/notification.c:404 src/notifications/notification.c:677
-#: src/notifications/notify-manager.c:1006
+#: src/notifications/notify-manager.c:1004
 msgid "Notification"
 msgstr "Notificação"
 
