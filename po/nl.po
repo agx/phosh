@@ -2,13 +2,13 @@
 # Joachim Moernaut <joachim@mailfence.com>, 2019. #zanata
 # Willem Sonke <willem@wimiso.nl>, 2019. #zanata
 # Jan Jasper de Kroon <jajadekroon@gmail.com>, 2021-2022.
-# Nathan Follens <nfollens@gnome.org>, 2021-2023.
+# Nathan Follens <nfollens@gnome.org>, 2021-2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2023-07-05 08:48+0000\n"
-"PO-Revision-Date: 2023-08-27 14:22+0200\n"
+"POT-Creation-Date: 2024-10-23 07:42+0000\n"
+"PO-Revision-Date: 2024-10-29 18:08+0100\n"
 "Last-Translator: Nathan Follens <nfollens@gnome.org>\n"
 "Language-Team: GNOME-NL https://matrix.to/#/#nl:gnome.org\n"
 "Language: nl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -35,54 +35,137 @@ msgstr "Vensterbeheer en opstarten van mobiele toepassingen"
 msgid "This session logs you into Phosh"
 msgstr "Deze sessie meldt u aan bij Phosh"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Caffeïne – snelle instelling"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "Voorkomt dat de sessie inactief wordt"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
-msgstr "Kalender"
+msgstr "Agenda"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
-msgstr "Een eenvoudige kalenderwidget"
+msgstr "Een eenvoudige agendawidget"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+msgid "Dark Mode / Color Scheme Quick Setting"
+msgstr "Donkere modus / kleurenschema – snelle instelling"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+msgid "Toggle dark mode"
+msgstr "Donkere modus aan/uit"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "Noodinfo"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "Toon noodinformatie en -contacten"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Startervak"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Voeg starters toe aan het vergrendelscherm. <b>Dit is een experimentele plug-"
+"in.</b>"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+msgid "Mobile Data Quick Setting"
+msgstr "Mobiele gegevens – snelle instelling"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+msgid "Toggle mobile data on/off"
+msgstr "Mobiele gegevens aan/uit"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+msgid "Night Light Quick Setting"
+msgstr "Nachtlicht – snelle instelling"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+msgid "Toggle night light on/off"
+msgstr "Nachtlicht aan/uit"
+
+#. Translators: "Pomodoro" is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+msgid "Pomodoro Quick Setting"
+msgstr "Pomodoro – snelle instelling"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+msgid "Simple Pomodoro Timer"
+msgstr "Eenvoudige pomodorotimer"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
-msgstr "Ticketdoos"
+msgstr "Ticketvak"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr ""
 "Toon PDF’s op het vergrendelscherm. <b>Dit is een experimentele plug-in.</b>"
 
 #: plugins/upcoming-events/upcoming-events.desktop.in.in:4
 msgid "Upcoming Events"
-msgstr "Aankomende gebeurtenissen"
+msgstr "Aankomende afspraken"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
-msgstr "Aankomende kalendergebeurtenissen weergeven"
+msgstr "Aankomende agenda-afspraken weergeven"
 
-#: src/app-grid-button.c:529
+#: src/app-grid-button.c:153
+msgid "Add to Folder"
+msgstr "Toevoegen aan map"
+
+#: src/app-grid-button.c:177
+msgid "Create new folder"
+msgstr "Nieuwe map aanmaken"
+
+#: src/app-grid-button.c:692 src/app-grid-button.c:749
 msgid "Application"
 msgstr "Toepassing"
 
-#: src/app-grid.c:137
+#: src/app-grid.c:263
 msgid "Show All Apps"
 msgstr "Alle apps weergeven"
 
-#: src/app-grid.c:140
+#: src/app-grid.c:266
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Alleen mobielvriendelijke apps weergeven"
 
-#: src/bt-info.c:92
+#. Translators: a battery level in percent
+#: src/bt-device-row.c:72
+#, c-format
+msgid "Battery %.0f%%"
+msgstr "Accu %.0f%%"
+
+#: src/bt-info.c:95 src/ui/bt-status-page.ui:6
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/bt-info.c:123
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Aan"
 
-#: src/bt-info.c:94
-msgid "Bluetooth"
-msgstr "Bluetooth"
+#: src/bt-status-page.c:95
+msgid "No connectable Bluetooth Devices found"
+msgstr ""
+"Geen Bluetooth-apparaten gevonden waarmee verbinding gemaakt kan worden"
 
-#: src/call-notification.c:60
+#: src/bt-status-page.c:99
+msgid "Bluetooth disabled"
+msgstr "Bluetooth uitgeschakeld"
+
+#: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "Onbekende beller"
 
@@ -107,42 +190,38 @@ msgstr "Noodoproep mislukt"
 msgid "Internal error"
 msgstr "Interne fout"
 
-#: src/end-session-dialog.c:163
+#: src/end-session-dialog.c:174
 msgid "Log Out"
 msgstr "Uitloggen"
 
-#: src/end-session-dialog.c:166
+#: src/end-session-dialog.c:177
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s wordt automatisch uitgelogd over %d seconde."
 msgstr[1] "%s wordt automatisch uitgelogd over %d seconden."
 
-#: src/end-session-dialog.c:172
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Uitschakelen"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:184
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Het systeem wordt automatisch uitgeschakeld over %d seconde."
 msgstr[1] "Het systeem wordt automatisch uitgeschakeld over %d seconden."
 
-#: src/end-session-dialog.c:179
+#: src/end-session-dialog.c:190
 msgid "Restart"
 msgstr "Herstarten"
 
-#: src/end-session-dialog.c:180
+#: src/end-session-dialog.c:191
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
 msgstr[0] "Het systeem zal automatisch herstarten over %d seconde."
 msgstr[1] "Het systeem zal automatisch herstarten over %d seconden."
-
-#: src/end-session-dialog.c:270
-msgid "Unknown application"
-msgstr "Onbekende applicatie"
 
 #. Translators: quiet and silent are fbd profiles names:
 #. see https://source.puri.sm/Librem5/feedbackd#profiles
@@ -181,44 +260,54 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nee"
 
-#: src/lockscreen.c:174 src/ui/lockscreen.ui:245
+#. give visual feedback on error
+#: src/lockscreen.c:274 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Voer de pincode in"
 
-#: src/lockscreen.c:397
+#: src/lockscreen.c:919
 msgid "Checking…"
 msgstr "Bezig met controleren…"
 
-#: src/screenshot-manager.c:212
-msgid "Screenshot"
-msgstr "Schermafdruk"
-
-#: src/screenshot-manager.c:213
+#: src/screenshot-manager.c:225
 msgid "Screenshot copied to clipboard"
 msgstr "Schermafdruk gekopieerd naar klembord"
 
+#: src/screenshot-manager.c:230
+#, c-format
+msgid "Screenshot saved to %s"
+msgstr "Schermafdruk opgeslagen in %s"
+
+#: src/screenshot-manager.c:233
+msgid "Failed to save screenshot"
+msgstr "Kon schermafdruk niet opslaan"
+
+#: src/screenshot-manager.c:237 src/ui/power-menu.ui:192
+msgid "Screenshot"
+msgstr "Schermafdruk"
+
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:321 src/ui/media-player.ui:161
+#: src/media-player.c:446 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Onbekende titel"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:329 src/ui/media-player.ui:148
+#: src/media-player.c:454 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Onbekende artiest"
 
-#: src/monitor-manager.c:119
+#: src/monitor-manager.c:127
 msgid "Built-in display"
 msgstr "Ingebouwd beeldscherm"
 
-#: src/monitor-manager.c:137
+#: src/monitor-manager.c:145
 #, c-format
 msgctxt ""
 "This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/monitor-manager.c:144
+#: src/monitor-manager.c:152
 #, c-format
 msgctxt ""
 "This is a monitor vendor name followed by product/model name where size in "
@@ -227,117 +316,137 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #. Translators: An unknown monitor type
-#: src/monitor-manager.c:153
+#: src/monitor-manager.c:161
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: src/network-auth-prompt.c:201
+#: src/network-auth-prompt.c:202
 #, c-format
-msgid "Authentication type of wifi network “%s” not supported"
+msgid "Authentication type of Wi-Fi network “%s” not supported"
 msgstr "Authenticatietype van wifinetwerk ‘%s’ wordt niet ondersteund"
 
-#: src/network-auth-prompt.c:206
+#: src/network-auth-prompt.c:207
 #, c-format
-msgid "Enter password for the wifi network “%s”"
+msgid "Enter password for the Wi-Fi network “%s”"
 msgstr "Voer het wachtwoord in voor wifinetwerk ‘%s’"
 
 #: src/notifications/mount-notification.c:121
 msgid "Open"
 msgstr "Openen"
 
-#: src/notifications/notification.c:383 src/notifications/notification.c:654
+#. We don't just set the app_info but name and icon separately to
+#. * not overwrite values set by the caller
+#: src/notifications/notification.c:404 src/notifications/notification.c:677
+#: src/notifications/notify-manager.c:1004
 msgid "Notification"
 msgstr "Notificatie"
 
-#. Translators: Timestamp seconds suffix
-#: src/notifications/timestamp-label.c:84
-msgctxt "timestamp-suffix-seconds"
-msgid "s"
-msgstr "s"
-
-#. Translators: Timestamp minute suffix
+#. Translators: Point in time, use a short word or abbreviation
+#. Please stick to a maximum of 7 chars
 #: src/notifications/timestamp-label.c:86
-msgctxt "timestamp-suffix-minute"
-msgid "m"
-msgstr "m"
-
-#. Translators: Timestamp minutes suffix
-#: src/notifications/timestamp-label.c:88
-msgctxt "timestamp-suffix-minutes"
-msgid "m"
-msgstr "m"
-
-#. Translators: Timestamp hour suffix
-#: src/notifications/timestamp-label.c:90
-msgctxt "timestamp-suffix-hour"
-msgid "h"
-msgstr "u"
-
-#. Translators: Timestamp hours suffix
-#: src/notifications/timestamp-label.c:92
-msgctxt "timestamp-suffix-hours"
-msgid "h"
-msgstr "u"
-
-#. Translators: Timestamp day suffix
-#: src/notifications/timestamp-label.c:94
-msgctxt "timestamp-suffix-day"
-msgid "d"
-msgstr "d"
-
-#. Translators: Timestamp days suffix
-#: src/notifications/timestamp-label.c:96
-msgctxt "timestamp-suffix-days"
-msgid "d"
-msgstr "d"
-
-#. Translators: Timestamp month suffix
-#: src/notifications/timestamp-label.c:98
-msgctxt "timestamp-suffix-month"
-msgid "mo"
-msgstr "mnd"
-
-#. Translators: Timestamp months suffix
-#: src/notifications/timestamp-label.c:100
-msgctxt "timestamp-suffix-months"
-msgid "mos"
-msgstr "mnd"
-
-#. Translators: Timestamp year suffix
-#: src/notifications/timestamp-label.c:102
-msgctxt "timestamp-suffix-year"
-msgid "y"
-msgstr "j"
-
-#. Translators: Timestamp years suffix
-#: src/notifications/timestamp-label.c:104
-msgctxt "timestamp-suffix-years"
-msgid "y"
-msgstr "j"
-
-#: src/notifications/timestamp-label.c:121
 msgid "now"
 msgstr "nu"
 
-#. Translators: time difference "Over 5 years"
-#: src/notifications/timestamp-label.c:189
+#. Translators: abbreviated time difference "Less than 30 seconds"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:91
+#, c-format
+msgid "<30s"
+msgstr "<30s"
+
+#. Translators: abbreviated time difference "Less than one minute"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:96
+#, c-format
+msgid "<1m"
+msgstr "<1m"
+
+#. Translators: abbreviated time difference "About one minute"
+#. Please stick to a maximum of 7 chars
+#: src/notifications/timestamp-label.c:101
+#, c-format
+msgid "~1m"
+msgstr "~1m"
+
+#. Translators: abbreviated, exact time difference "1 minute ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:109
+#, c-format
+msgid "%dm"
+msgid_plural "%dm"
+msgstr[0] "%dm"
+msgstr[1] "%dm"
+
+#. Translators: abbreviated time difference "About 3 hours ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:117
+#, c-format
+msgid "~%dh"
+msgid_plural "~%dh"
+msgstr[0] "~%du"
+msgstr[1] "~%du"
+
+#. Translators: abbreviated time difference "About 1 day ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:122
+#, c-format
+msgid "~1d"
+msgstr "~1d"
+
+#. Translators: abbreviated, exact time difference "3 days ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:127
+#, c-format
+#| msgid "Add"
+msgid "%dd"
+msgid_plural "%dd"
+msgstr[0] "%dd"
+msgstr[1] "%dd"
+
+#. Translators: abbreviated time difference "About 1 month ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:132
+#, c-format
+msgid "~1mo"
+msgstr "~1mnd"
+
+#. Translators: abbreviated, exact time difference "3 months ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:137
+#, c-format
+msgid "%dmo"
+msgid_plural "%dmos"
+msgstr[0] "%dmnd"
+msgstr[1] "%dmnd"
+
+#. Translators: abbreviated time difference "About 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:147
+#, c-format
+msgid "~%dy"
+msgid_plural "~%dy"
+msgstr[0] "~%dj"
+msgstr[1] "~%dj"
+
+#. Translators: abbreviated time difference "Over 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:151
 #, c-format
 msgid "Over %dy"
-msgstr "Meer dan %dj"
+msgid_plural "Over %dy"
+msgstr[0] "Meer dan %dj"
+msgstr[1] "Meer dan %dj"
 
-#. Translators: time difference "almost 5 years"
-#: src/notifications/timestamp-label.c:193
+#. Translators: abbreviated time difference "almost 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:156
 #, c-format
 msgid "Almost %dy"
-msgstr "Bijna %dj"
+msgid_plural "Almost %dy"
+msgstr[0] "Bijna %dj"
+msgstr[1] "Bijna %dj"
 
-#. Translators: a time difference like '<5m', if in doubt leave untranslated
-#: src/notifications/timestamp-label.c:200
-#, c-format
-msgid "%s%d%s"
-msgstr "%s%d%s"
-
-#: src/polkit-auth-agent.c:227
+#: src/polkit-auth-agent.c:271
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Authenticatievenster is door de gebruiker afgesloten"
 
@@ -378,15 +487,15 @@ msgstr "Druk op ESC om te sluiten"
 msgid "Running '%s' failed"
 msgstr "Uitvoeren van ‘%s’ mislukt"
 
-#: src/settings/audio-settings.c:373
+#: src/settings/audio-settings.c:376
 msgid "Phone Shell Volume Control"
 msgstr "Volumeregeling van Telefoonshell"
 
-#: src/system-prompt.c:365
+#: src/system-prompt.c:376
 msgid "Passwords do not match."
 msgstr "Wachtwoorden komen niet overeen."
 
-#: src/system-prompt.c:372
+#: src/system-prompt.c:383
 msgid "Password cannot be blank"
 msgstr "Wachtwoord mag niet leeg zijn"
 
@@ -400,27 +509,27 @@ msgstr "Keuze onthouden"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:289
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: src/ui/app-grid-button.ui:55
-msgid "App"
-msgstr "App"
-
-#: src/ui/app-grid-button.ui:79
+#: src/ui/app-grid-button.ui:23
 msgid "Remove from _Favorites"
 msgstr "Verwijderen uit _favorieten"
 
-#: src/ui/app-grid-button.ui:84
+#: src/ui/app-grid-button.ui:28
 msgid "Add to _Favorites"
 msgstr "Toevoegen aan _favorieten"
 
-#: src/ui/app-grid-button.ui:89
+#: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "_Details bekijken"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid-button.ui:41
+msgid "_Remove from Folder"
+msgstr "Verwijde_ren uit map"
+
+#: src/ui/app-grid.ui:24
 msgid "Search apps…"
 msgstr "Apps zoeken…"
 
@@ -428,13 +537,21 @@ msgstr "Apps zoeken…"
 msgid "Output Devices"
 msgstr "Uitvoerapparaten"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:108
 msgid "Input Devices"
 msgstr "Invoerapparaten"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:136
 msgid "Sound Settings"
 msgstr "Geluidsinstellingen"
+
+#: src/ui/bt-status-page.ui:32
+msgid "Enable Bluetooth"
+msgstr "Bluetooth inschakelen"
+
+#: src/ui/bt-status-page.ui:53
+msgid "Bluetooth Settings"
+msgstr "Bluetooth-instellingen"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -457,7 +574,7 @@ msgid "Owner unknown"
 msgstr "Onbekende eigenaar"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:230
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
 msgid "Emergency Contacts"
 msgstr "Noodcontacten"
 
@@ -469,27 +586,27 @@ msgstr "Geen noodcontacten beschikbaar."
 msgid "Some applications are busy or have unsaved work"
 msgstr "Sommige applicaties zijn bezig of hebben niet-opgeslagen werk"
 
-#: src/ui/gtk-mount-prompt.ui:94
+#: src/ui/gtk-mount-prompt.ui:88
 msgid "User:"
 msgstr "Gebruikersnaam:"
 
-#: src/ui/gtk-mount-prompt.ui:117
+#: src/ui/gtk-mount-prompt.ui:111
 msgid "Domain:"
 msgstr "Domein:"
 
-#: src/ui/gtk-mount-prompt.ui:150
+#: src/ui/gtk-mount-prompt.ui:144
 msgid "Co_nnect"
 msgstr "Verbi_nden"
 
-#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
+#: src/ui/lockscreen.ui:47 src/ui/lockscreen.ui:256
 msgid "Back"
 msgstr "Terug"
 
-#: src/ui/lockscreen.ui:97
+#: src/ui/lockscreen.ui:98
 msgid "Slide up to unlock"
 msgstr "Veeg omhoog om te ontgrendelen"
 
-#: src/ui/lockscreen.ui:297
+#: src/ui/lockscreen.ui:341
 msgid "Unlock"
 msgstr "Ontgrendelen"
 
@@ -506,39 +623,39 @@ msgstr "_Annuleren"
 msgid "C_onnect"
 msgstr "_Verbinden"
 
-#: src/ui/polkit-auth-prompt.ui:122
+#: src/ui/polkit-auth-prompt.ui:117
 msgid "Authenticate"
 msgstr "Aanmelden"
 
-#: src/ui/power-menu.ui:69
-msgid "_Power Off"
-msgstr "_Uitschakelen"
+#: src/ui/power-menu.ui:109
+msgid "Suspend"
+msgstr "Pauzestand"
 
-#: src/ui/power-menu.ui:110
-msgid "_Lock"
-msgstr "Vergrende_len"
+#: src/ui/power-menu.ui:153
+msgid "Lock"
+msgstr "Vergrendelen"
 
-#: src/ui/power-menu.ui:151
-msgid "_Screenshot"
-msgstr "_Schermafdruk"
-
-#: src/ui/power-menu.ui:192
-msgid "_Emergency"
-msgstr "Noodg_eval"
+#: src/ui/power-menu.ui:231
+msgid "Emergency"
+msgstr "Noodgeval"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Opdracht uitvoeren"
 
-#: src/ui/settings.ui:296
+#: src/ui/settings.ui:142
 msgid "No notifications"
 msgstr "Geen meldingen"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:173
+msgid "Notifications"
+msgstr "Notificaties"
+
+#: src/ui/settings.ui:182
 msgid "Clear all"
 msgstr "Alles wissen"
 
-#: src/ui/system-prompt.ui:62
+#: src/ui/system-prompt.ui:57
 msgid "Confirm:"
 msgstr "Bevestigen:"
 
@@ -558,15 +675,23 @@ msgstr "_Slaapstand…"
 msgid "_Log Out…"
 msgstr "Afme_lden…"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/util.c:339
-msgid "%A, %B %-e"
-msgstr "%A %d %B"
+#: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wifi"
+
+#: src/ui/wifi-status-page.ui:69
+msgid "Wi-Fi Settings"
+msgstr "Wifi-instellingen"
 
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/wall-clock.c:239
+msgid "%A, %B %-e"
+msgstr "%A %d %B"
 
 #: src/widget-box.c:54
 msgid "Plugin not found"
@@ -577,14 +702,59 @@ msgstr "Plug-in niet gevonden"
 msgid "The plugin '%s' could not be loaded."
 msgstr "De plug-in ‘%s’ kon niet geladen worden."
 
-#: src/wifiinfo.c:90
-msgid "Wi-Fi"
-msgstr "Wifi"
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "Geen wifi-apparaat gevonden"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "Wifi uitgeschakeld"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "Wifi inschakelen"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "Wifi-hotspot ingeschakeld"
+
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "Uitschakelen"
+
+#: src/wifi-status-page.c:63
+msgid "No Wi-Fi Hotspots"
+msgstr "Geen wifi-hotspots"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Mobiel"
+
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:53
+msgid "Phosh on caffeine"
+msgstr "Phosh met caffeïne"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgid "On"
+msgstr "Aan"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgid "Off"
+msgstr "Uit"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+msgid "Default style"
+msgstr "Standaardstijl"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+msgid "Dark mode"
+msgstr "Donkere modus"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:38
+msgid "Light mode"
+msgstr "Lichte modus"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -604,35 +774,35 @@ msgstr "Voorkeurstaal"
 #: plugins/emergency-info/emergency-info.ui:83
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
 msgid "Home Address"
-msgstr "Huisadres"
+msgstr "Thuisadres"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:129
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
 msgid "Medical Information"
 msgstr "Medische informatie"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
 msgid "Age"
 msgstr "Leeftijd"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:147
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
 msgid "Blood Type"
 msgstr "Bloedgroep"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:159
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
 msgid "Height"
 msgstr "Lengte"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
 msgid "Weight"
 msgstr "Gewicht"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:183
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
 msgid "Allergies"
 msgstr "Allergieën"
 
@@ -641,7 +811,7 @@ msgid "Medications & Conditions"
 msgstr "Medicatie & aandoeningen"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:213
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
 msgid "Other Information"
 msgstr "Overige informatie"
 
@@ -658,33 +828,111 @@ msgstr "Gereed"
 msgid "Owner Name"
 msgstr "Naam van eigenaar"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
 msgid "Medications and Conditions"
 msgstr "Medicatie en aandoeningen"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:239
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
 msgid "Add Contact"
 msgstr "Contact toevoegen"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:284
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
 msgid "Add New Contact"
 msgstr "Nieuw contact toevoegen"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:294
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
 msgid "Add"
 msgstr "Toevoegen"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:315
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "New Contact Name"
 msgstr "Naam voor nieuw contact"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:329
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
 msgid "Relationship"
 msgstr "Relatie"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:342
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
 msgid "Number"
 msgstr "Nummer"
+
+#: plugins/launcher-box/launcher-box.ui:15
+msgid "No launchers configured"
+msgstr "Geen toepassingsstarter geconfigureerd"
+
+#: plugins/launcher-box/launcher-box.ui:32
+msgid "Launchers"
+msgstr "Starters"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+msgid "Mobile Data On"
+msgstr "Mobiele gegevens aan"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+msgid "Mobile Data Off"
+msgstr "Mobiele gegevens uit"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
+msgid "Night Light On"
+msgstr "Nachtlicht aan"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
+msgid "Night Light Off"
+msgstr "Nachtlicht uit"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+msgid "Pomodoro start"
+msgstr "Pomodoro starten"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#, c-format
+msgid "Focus on your task for %d minutes"
+msgstr "Focus %d minuten op uw taak"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+msgid "Take a break"
+msgstr "Neem even pauze"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#, c-format
+msgid "You have %d minutes until next Pomodoro"
+msgstr "U hebt %d minuten tot de volgende pomodoro"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+msgid "Pomodoro Timer"
+msgstr "Pomodorotimer"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#, c-format
+msgid "Pomodoro Off"
+msgstr "Pomodoro uit"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:6
+msgid "Pomodoro Quick Setting Preferences"
+msgstr "Voorkeuren voor Pomodoro – snelle instelling"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+msgid "Pomodoro Technique"
+msgstr "Pomodoromethode"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+msgid "_Active Duration"
+msgstr "_Activiteitsduur"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+msgid "Duration of the focus session"
+msgstr "Duur van de focussessie"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+msgid "_Break Duration"
+msgstr "_Pauzeduur"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+msgid "Duration of the break between sessions"
+msgstr "Duur van de pauze tussen sessies"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -704,7 +952,7 @@ msgstr "_Openen"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
 msgid "Ticket Box Preferences"
-msgstr "Voorkeuren voor ticketdoos"
+msgstr "Voorkeuren voor ticketvak"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
 msgid "Paths"
@@ -732,14 +980,14 @@ msgstr "Morgen"
 
 #: plugins/upcoming-events/event-list.c:150
 #, c-format
-msgid "In %d day"
-msgid_plural "In %d days"
-msgstr[0] "Over %d dag"
-msgstr[1] "Over %d dagen"
+msgid "In %u day"
+msgid_plural "In %u days"
+msgstr[0] "Over %u dag"
+msgstr[1] "Over %u dagen"
 
 #: plugins/upcoming-events/event-list.ui:26
 msgid "No events"
-msgstr "Geen  gebeurtenissen"
+msgstr "Geen afspraken"
 
 #. Translators: This is the time format used in 24-hour mode.
 #: plugins/upcoming-events/upcoming-event.c:56
@@ -762,9 +1010,94 @@ msgstr "De hele dag"
 msgid "Ends"
 msgstr "Loopt af"
 
-#: plugins/upcoming-events/upcoming-event.c:398
+#: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
-msgstr "Naamloze gebeurtenis"
+msgstr "Naamloze afspraak"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:6
+msgid "Upcoming Events Preferences"
+msgstr "Voorkeuren voor aankomende afspraken"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:20
+msgid "Days"
+msgstr "Dagen"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:16
+msgid "Date Range"
+msgstr "Datumbereik"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+msgid "Number of days to show events for"
+msgstr "Aantal dagen waarvoor afspraken weergegeven moeten worden"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
+msgid "Hotspot On"
+msgstr "Hotspot aan"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
+msgid "Hotspot Off"
+msgstr "Hotspot uit"
+
+#~ msgid "Unknown application"
+#~ msgstr "Onbekende applicatie"
+
+#~ msgctxt "timestamp-suffix-seconds"
+#~ msgid "s"
+#~ msgstr "s"
+
+#~ msgctxt "timestamp-suffix-minute"
+#~ msgid "m"
+#~ msgstr "m"
+
+#~ msgctxt "timestamp-suffix-minutes"
+#~ msgid "m"
+#~ msgstr "m"
+
+#~ msgctxt "timestamp-suffix-hour"
+#~ msgid "h"
+#~ msgstr "u"
+
+#~ msgctxt "timestamp-suffix-hours"
+#~ msgid "h"
+#~ msgstr "u"
+
+#~ msgctxt "timestamp-suffix-day"
+#~ msgid "d"
+#~ msgstr "d"
+
+#~ msgctxt "timestamp-suffix-days"
+#~ msgid "d"
+#~ msgstr "d"
+
+#~ msgctxt "timestamp-suffix-month"
+#~ msgid "mo"
+#~ msgstr "mnd"
+
+#~ msgctxt "timestamp-suffix-months"
+#~ msgid "mos"
+#~ msgstr "mnd"
+
+#~ msgctxt "timestamp-suffix-year"
+#~ msgid "y"
+#~ msgstr "j"
+
+#~ msgctxt "timestamp-suffix-years"
+#~ msgid "y"
+#~ msgstr "j"
+
+#, c-format
+#~ msgid "%s%d%s"
+#~ msgstr "%s%d%s"
+
+#~ msgid "App"
+#~ msgstr "App"
+
+#~ msgid "_Power Off"
+#~ msgstr "_Uitschakelen"
+
+#~ msgid "_Screenshot"
+#~ msgstr "_Schermafdruk"
 
 #~ msgid "Lock Screen"
 #~ msgstr "Vergrendelscherm"
