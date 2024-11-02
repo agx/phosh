@@ -253,6 +253,37 @@ screenshot_done (PhoshScreenshotManager *self, gboolean success)
 
 
 static void
+update_recent_files (PhoshScreenshotManager *self)
+{
+  g_autofree char *recent = g_build_filename (g_get_user_data_dir (), "recently-used.xbel", NULL);
+  g_autofree char *uri = NULL;
+  g_autoptr (GBookmarkFile) bookmarks = g_bookmark_file_new ();
+  g_autoptr (GError) err = NULL;
+
+  g_return_if_fail (self->frames->filename);
+
+  if (!g_bookmark_file_load_from_file (bookmarks, recent, &err)) {
+    if (!g_error_matches (err, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
+      g_warning ("Failed to open bookarks %s: %s", recent, err->message);
+      return;
+    }
+  }
+
+  uri = g_filename_to_uri (self->frames->filename, NULL, &err);
+  if (!uri) {
+    g_warning ("Failed to create bookmark uri for '%s': %s", uri, err->message);
+    return;
+  }
+  g_bookmark_file_add_application (bookmarks, uri, "Phosh", "gio open %u");
+
+  if (!g_bookmark_file_to_file (bookmarks, recent, &err)) {
+    g_warning ("Failed to save boomarks %s: %s", recent, err->message);
+    return;
+  }
+}
+
+
+static void
 on_save_pixbuf_ready (GObject      *source_object,
                       GAsyncResult *res,
                       gpointer      user_data)
@@ -266,6 +297,9 @@ on_save_pixbuf_ready (GObject      *source_object,
   success = gdk_pixbuf_save_to_stream_finish (res, &err);
   if (!success)
     g_warning ("Failed to save screenshot: %s", err->message);
+
+  if (!self->frames->invocation)
+    update_recent_files (self);
 
   screenshot_done (self, success);
 }
