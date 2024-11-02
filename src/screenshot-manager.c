@@ -266,9 +266,10 @@ on_save_pixbuf_ready (GObject      *source_object,
 }
 
 
-static gboolean
-on_opaque_timeout (PhoshScreenshotManager *self)
+static void
+on_opaque_timeout (gpointer data)
 {
+  PhoshScreenshotManager *self = data;
   GdkDisplay *display = gdk_display_get_default ();
   GtkClipboard *clipboard;
 
@@ -286,7 +287,6 @@ on_opaque_timeout (PhoshScreenshotManager *self)
   g_clear_object (&self->for_clipboard);
   g_clear_pointer (&self->opaque, phosh_cp_widget_destroy);
   self->opaque_id = 0;
-  return G_SOURCE_REMOVE;
 }
 
 
@@ -448,7 +448,7 @@ submit_screenshot (PhoshScreenshotManager *self)
     self->for_clipboard = g_steal_pointer (&pixbuf);
     /* FIXME: Would be better to trigger when the opaque window is up and got
        input focus but all such attempts failed */
-    self->opaque_id = g_timeout_add_seconds (1, (GSourceFunc) on_opaque_timeout, self);
+    self->opaque_id = g_timeout_add_seconds_once (1, on_opaque_timeout, self);
     g_source_set_name_by_id (self->opaque_id, "[phosh] screenshot opaque");
 
     gtk_widget_show (GTK_WIDGET (self->opaque));
