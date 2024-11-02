@@ -253,7 +253,7 @@ on_save_pixbuf_ready (GObject      *source_object,
 {
   gboolean success;
   g_autoptr (GError) err = NULL;
-  PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (user_data);
+  g_autoptr (PhoshScreenshotManager) self = PHOSH_SCREENSHOT_MANAGER (user_data);
 
   g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
 
@@ -262,7 +262,6 @@ on_save_pixbuf_ready (GObject      *source_object,
     g_warning ("Failed to save screenshot: %s", err->message);
 
   screenshot_done (self, success);
-  g_object_unref (self);
 }
 
 
