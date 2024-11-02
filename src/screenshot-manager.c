@@ -67,6 +67,7 @@ typedef struct {
   guint                     num_outputs;
   float                     max_scale;
   GdkRectangle             *area;
+  gboolean                  copy_to_clipboard;
 } ScreencopyFrames;
 
 typedef struct {
@@ -209,26 +210,29 @@ show_fader (PhoshScreenshotManager *self)
 static void
 screenshot_done (PhoshScreenshotManager *self, gboolean success)
 {
+  /* Invocation via DBus API */
   if (self->frames->invocation) {
     phosh_dbus_screenshot_complete_screenshot (PHOSH_DBUS_SCREENSHOT (self),
                                                self->frames->invocation,
                                                success,
                                                self->frames->filename ?: "");
-  } else {
+    g_clear_pointer (&self->frames, screencopy_frames_dispose);
+    return;
+  }
+
+  /* Internal screenshot */
+  if (self->frames->filename) {
     PhoshNotifyManager *nm = phosh_notify_manager_get_default ();
     g_autoptr (GIcon) icon = g_themed_icon_new ("screenshot-portrait-symbolic");
     g_autoptr (PhoshNotification) noti = NULL;
     g_autofree char *msg = NULL;
 
     if (success) {
-      if (gm_str_is_null_or_empty (self->frames->filename)) {
-        msg = g_strdup (_("Screenshot copied to clipboard"));
-      } else {
-        g_autofree char *filename = NULL;
+      g_autofree char *filename = NULL;
 
-        filename = g_path_get_basename (self->frames->filename);
-        msg = g_strdup_printf (_("Screenshot saved to %s"), filename);
-      }
+      filename = g_path_get_basename (self->frames->filename);
+      /* Translators: '%s' is the filename of a screenshot */
+      msg = g_strdup_printf (_("Screenshot saved to '%s'"), filename);
     } else {
       msg = g_strdup (_("Failed to save screenshot"));
     }
@@ -240,9 +244,11 @@ screenshot_done (PhoshScreenshotManager *self, gboolean success)
                          NULL);
 
     phosh_notify_manager_add_shell_notification (nm, noti, 0, 5000);
+    g_clear_pointer (&self->frames->filename, g_free);
   }
 
-  g_clear_pointer (&self->frames, screencopy_frames_dispose);
+  if (!self->frames->filename && !self->frames->copy_to_clipboard)
+    g_clear_pointer (&self->frames, screencopy_frames_dispose);
 }
 
 
@@ -280,6 +286,7 @@ on_opaque_timeout (gpointer data)
   clipboard = gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD);
   gtk_clipboard_set_image (clipboard, self->for_clipboard);
   g_debug ("Updated clipboard");
+  self->frames->copy_to_clipboard = FALSE;
   screenshot_done (self, TRUE);
 
  out:
@@ -343,6 +350,69 @@ get_angle (PhoshMonitorTransform transform)
   }
 }
 
+/**
+ * create_internal_file:
+ * @self: The screenshot manager
+ * @err: An error location
+ *
+ * Create a file for saving the screenshot. This is used when the the
+ * shell takes the screenshot e.g. via keybinding. See
+ * `build_dbus_filename` for the DBus case.
+ *
+ * Returns: An output stream that writes to the created file
+ */
+static GFileOutputStream *
+create_internal_file (PhoshScreenshotManager *self, GError **err)
+
+{
+  g_autoptr (GFile) dir = NULL;
+  g_autoptr (GDateTime) dt = NULL;
+  g_autofree char *dirname = NULL;
+  g_autofree char *timestamp = NULL;
+  const char *base_dir;
+
+  g_assert (PHOSH_IS_SCREENSHOT_MANAGER (self));
+  g_assert (err && *err == NULL);
+
+  base_dir = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
+  if (!base_dir)
+    base_dir = g_get_home_dir ();
+
+  /* Translators: name of the folder beneath ~/Pictures used to store screenshots */
+  dirname = g_build_filename (base_dir, _("Screenshots"), NULL);
+  dir = g_file_new_for_path (dirname);
+  if (!g_file_make_directory_with_parents (dir, NULL, err)) {
+    if (!g_error_matches (*err, G_IO_ERROR, G_IO_ERROR_EXISTS))
+      return NULL;
+  }
+
+  dt = g_date_time_new_now_local ();
+  timestamp = g_date_time_format (dt, "%Y-%m-%d %H-%M-%S");
+
+  for (int i = 0; i < 100; i++) {
+    g_autofree char *suffix = i ? g_strdup_printf ("-%d", i) : g_strdup ("");
+    g_autofree char *filename = NULL;
+    g_autofree char *path = NULL;
+    g_autoptr (GFile) file = NULL;
+    g_autoptr (GFileOutputStream) stream = NULL;
+
+    /* Translators: Name of a screenshot file. The first '%s' is a timestamp
+     * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
+     * the file already exists like '-3' */
+    filename = g_strdup_printf (_("Screenshot from %s%s.png"), timestamp, suffix);
+    path = g_build_filename (dirname, filename, NULL);
+    file = g_file_new_for_path (path);
+    stream = g_file_create (file, G_FILE_CREATE_NONE, NULL, err);
+    if (stream) {
+      g_debug ("Saving screenshot to '%s'", path);
+      self->frames->filename = g_strdup (path);
+      return g_steal_pointer (&stream);
+    }
+  }
+
+  g_warning ("Failed to build screenshot filename in '%s'", dirname);
+  return NULL;
+}
 
 /* Got all pixbufs, prepare result */
 static void
@@ -423,11 +493,21 @@ submit_screenshot (PhoshScreenshotManager *self)
     file = g_file_new_for_path (self->frames->filename);
     stream = g_file_create (file, G_FILE_CREATE_NONE, NULL, &err);
     if (!stream) {
-      g_warning ("Failed to save screenshot %s: %s", self->frames->filename, err->message);
+      g_warning ("Failed to create  screenshot %s: %s", self->frames->filename, err->message);
       screenshot_done (self, FALSE);
       return;
     }
+  } else if (!self->frames->invocation) {
+    /* Generate filename for internal screenshot */
+    stream = create_internal_file (self, &err);
+    if (!stream) {
+      g_warning ("Failed to create screenshot: %s", err->message);
+      screenshot_done (self, FALSE);
+      return;
+    }
+  }
 
+  if (stream) {
     gdk_pixbuf_save_to_stream_async (pixbuf,
                                      G_OUTPUT_STREAM (stream),
                                      "png",
@@ -435,10 +515,12 @@ submit_screenshot (PhoshScreenshotManager *self)
                                      on_save_pixbuf_ready,
                                      g_object_ref (self),
                                      NULL);
-  } else {
+  }
+
+  if (self->frames->copy_to_clipboard) {
     PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
 
-    /* The wayland clipboard only works if we have focus so use a fully opaque surface */
+    /* The Wayland clipboard only works if we have focus so use a fully opaque surface */
     self->opaque = g_object_new (PHOSH_TYPE_FADER,
                                  "monitor", monitor,
                                  "style-class", "phosh-fader-screenshot-opaque",
@@ -601,16 +683,19 @@ static const struct zwlr_screencopy_frame_v1_listener screencopy_frame_listener 
 
 
 /**
- * build_screenshot_filename:
+ * build_dbus_filename:
  * @pattern: Absolute path or relative name without extension
  *
  * Builds an absolute filename based on the given input pattern.
  * Returns: The target filename or %NULL on errors.
  */
 static char *
-build_screenshot_filename (const char *pattern)
+build_dbus_filename (const char *pattern)
 {
   g_autofree char *filename = NULL;
+
+  if (gm_str_is_null_or_empty (pattern))
+    return NULL;
 
   if (g_path_is_absolute (pattern)) {
     return g_strdup (pattern);
@@ -644,17 +729,15 @@ build_screenshot_filename (const char *pattern)
  * phosh_screenshot_manager_do_screenshot:
  * @self: The screenshot manager
  * @area: (nullable): The area to capture or %NULL to capture all outputs
- * @filename: (nullable): The output filename or %NULL to copy buffer to clipboard
  * @include_cursor: Whether to include the cursor
  *
  * Initiate a screenshot of all outputs or the given area.
  *
  * Returns: `FALSE` on failure, otherwise `TRUE`
  */
-gboolean
+static gboolean
 phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
                                         const GdkRectangle     *area,
-                                        const char             *filename,
                                         gboolean                include_cursor)
 {
   g_autoptr (ScreencopyFrames) frames = NULL;
@@ -724,17 +807,6 @@ phosh_screenshot_manager_do_screenshot (PhoshScreenshotManager *self,
   if (area)
     frames->area = g_memdup2 (area, sizeof (GdkRectangle));
 
-  if (gm_str_is_null_or_empty (filename)) {
-    /* Copy to clipboard */
-    frames->filename = NULL;
-  } else {
-    frames->filename = build_screenshot_filename (filename);
-    if (frames->filename == NULL) {
-      g_warning ("Failed to build screenshot filename");
-      return FALSE;
-    }
-  }
-
   self->frames = g_steal_pointer (&frames);
   return TRUE;
 }
@@ -764,7 +836,7 @@ handle_screenshot_area (PhoshDBusScreenshot   *object,
     .height = arg_height,
   };
 
-  success = phosh_screenshot_manager_do_screenshot (self, &area, arg_filename, FALSE);
+  success = phosh_screenshot_manager_do_screenshot (self, &area, FALSE);
   if (!success) {
     phosh_dbus_screenshot_complete_screenshot_area (object, invocation, FALSE, "");
     return TRUE;
@@ -772,6 +844,8 @@ handle_screenshot_area (PhoshDBusScreenshot   *object,
 
   self->frames->flash = arg_flash;
   self->frames->invocation = invocation;
+  self->frames->filename = build_dbus_filename (arg_filename);
+  self->frames->copy_to_clipboard = !self->frames->filename;
 
   return TRUE;
 }
@@ -790,7 +864,7 @@ handle_screenshot (PhoshDBusScreenshot   *object,
   g_debug ("DBus call %s, cursor: %d, flash %d, to %s",
            __func__, arg_include_cursor, arg_flash, arg_filename);
 
-  success = phosh_screenshot_manager_do_screenshot (self, NULL, arg_filename, arg_include_cursor);
+  success = phosh_screenshot_manager_do_screenshot (self, NULL, arg_include_cursor);
   if (!success) {
     phosh_dbus_screenshot_complete_screenshot (object, invocation, FALSE, "");
     return TRUE;
@@ -798,6 +872,9 @@ handle_screenshot (PhoshDBusScreenshot   *object,
 
   self->frames->flash = arg_flash;
   self->frames->invocation = invocation;
+  self->frames->filename = build_dbus_filename (arg_filename);
+  self->frames->copy_to_clipboard = !self->frames->filename;
+
   return TRUE;
 }
 
@@ -965,7 +1042,7 @@ take_screenshot (GSimpleAction *action, GVariant *param, gpointer data)
 
   g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
 
-  phosh_screenshot_manager_do_screenshot (self, NULL, NULL, FALSE);
+  phosh_screenshot_manager_take_screenshot (self, NULL, NULL, TRUE, FALSE);
 }
 
 
@@ -1112,4 +1189,32 @@ PhoshScreenshotManager *
 phosh_screenshot_manager_new (void)
 {
   return PHOSH_SCREENSHOT_MANAGER (g_object_new (PHOSH_TYPE_SCREENSHOT_MANAGER, NULL));
+}
+
+/**
+ * phosh_screenshot_manager_take_screenshot:
+ * @self: The screenshot manager
+ * @area: (nullable): The area to capture or %NULL to capture all outputs
+ * @filename: (nullable): The output filename or %NULL to autogenerate a filename
+ * @copy_to_clipboard: Whether to use the clipboard
+ * @include_cursor: Whether to include the cursor
+ *
+ * Initiate a screenshot of all outputs or the given area. If `copy_to_clipboard` is
+ * `TRUE` the screenshot is also copied to the clipboard.
+ *
+ * Returns: `FALSE` on failure, otherwise `TRUE`
+ */
+gboolean
+phosh_screenshot_manager_take_screenshot (PhoshScreenshotManager *self,
+                                          const GdkRectangle     *area,
+                                          const char             *filename,
+                                          gboolean                copy_to_clipboard,
+                                          gboolean                include_cursor)
+{
+  gboolean ret;
+
+  ret = phosh_screenshot_manager_do_screenshot (self, area, include_cursor);
+  self->frames->copy_to_clipboard = copy_to_clipboard;
+
+  return ret;
 }
