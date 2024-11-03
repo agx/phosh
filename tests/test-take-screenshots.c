@@ -78,23 +78,27 @@ take_screenshot (const char *what, int num, const char *where)
 }
 
 
-static void
+static gboolean
 on_waited (gpointer data)
 {
   GMainLoop *loop = data;
 
   g_assert_nonnull (data);
   g_main_loop_quit (loop);
+
+  return G_SOURCE_REMOVE;
 }
 
 
 static void
 wait_a_bit (GMainLoop *loop, int msecs)
 {
-  gint id;
+  g_autoptr (GSource) source = g_timeout_source_new (msecs);
 
-  id = g_timeout_add (msecs, (GSourceFunc) on_waited, loop);
-  g_source_set_name_by_id (id, "[TestTakeScreenshot] wait");
+  g_source_set_name (source, "[TestTakeScreenshot] wait");
+  g_source_set_callback (source, on_waited, loop, NULL);
+
+  g_source_attach (source, g_main_loop_get_context (loop));
   g_main_loop_run (loop);
 }
 
