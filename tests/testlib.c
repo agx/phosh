@@ -203,9 +203,9 @@ phosh_test_compositor_new (gboolean heads_stub)
   }
 
   phoc_ini = g_getenv ("PHOSH_TEST_PHOC_INI");
-  if (phoc_ini == NULL) {
+  if (phoc_ini == NULL)
     phoc_ini = TEST_PHOC_INI;
-  }
+
   g_test_message ("Using phoc.ini %s", phoc_ini);
   g_assert_true (g_file_test (phoc_ini, G_FILE_TEST_EXISTS));
 
