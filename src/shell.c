@@ -713,14 +713,14 @@ setup_idle_cb (PhoshShell *self)
 
   g_signal_connect_object (priv->toplevel_manager,
                            "notify::num-toplevels",
-                           G_CALLBACK(on_num_toplevels_changed),
+                           G_CALLBACK (on_num_toplevels_changed),
                            self,
                            G_CONNECT_SWAPPED);
   on_num_toplevels_changed (self, NULL, priv->toplevel_manager);
 
   g_signal_connect_object (priv->toplevel_manager,
                            "toplevel-added",
-                           G_CALLBACK(on_toplevel_added),
+                           G_CALLBACK (on_toplevel_added),
                            self,
                            G_CONNECT_SWAPPED);
 
@@ -765,7 +765,7 @@ setup_idle_cb (PhoshShell *self)
   priv->gnome_shell_manager = phosh_gnome_shell_manager_get_default ();
   priv->screenshot_manager = phosh_screenshot_manager_new ();
   priv->splash_manager = phosh_splash_manager_new (priv->app_tracker);
-  priv->run_command_manager = phosh_run_command_manager_new();
+  priv->run_command_manager = phosh_run_command_manager_new ();
   priv->network_auth_manager = phosh_network_auth_manager_new ();
   priv->portal_access_manager = phosh_portal_access_manager_new ();
   priv->suspend_manager = phosh_suspend_manager_new ();
