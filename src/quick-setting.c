@@ -451,8 +451,12 @@ phosh_quick_setting_set_active (PhoshQuickSetting *self, gboolean active)
     return;
 
   priv->active = active;
-  gtk_widget_set_state_flags (GTK_WIDGET (self),
-                              GTK_STATE_FLAG_ACTIVE ? active : ~GTK_STATE_FLAG_ACTIVE, TRUE);
+
+  if (priv->active)
+    gtk_widget_set_state_flags (GTK_WIDGET (self), GTK_STATE_FLAG_ACTIVE, FALSE);
+  else
+    gtk_widget_unset_state_flags (GTK_WIDGET (self), GTK_STATE_FLAG_ACTIVE);
+
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACTIVE]);
 }
 
