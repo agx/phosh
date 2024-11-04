@@ -216,8 +216,8 @@ phosh_quick_settings_box_destroy (GtkWidget *widget)
  * - This is done by removing the status-page from the revealer, setting `showing-status` on the
  *   shown child to false and then setting `shown_child` to `NULL`.
  * - After this the revealer's `reveal-child` is set to false.
- * - This immediate removal happens when the shown child's visibility changes, status-page changes
- *   to `NULL` or the child itself is removed from the box.
+ * - This immediate removal happens when the shown child's sensitivity or visibility changes,
+ *   status-page changes to `NULL` or the child itself is removed from the box.
  * - When the status-page changes to a valid page, we hot-swap the old page with new one
  *   without any transition.
  *
@@ -615,6 +615,30 @@ on_status_page_changed (PhoshQuickSettingsBox *self, GParamSpec *pspec, PhoshQui
 
 
 static void
+depromote_child (PhoshQuickSettingsBox *self, PhoshQuickSetting *child)
+{
+  if (child == self->shown_child) {
+    hide_status_page (self);
+    gtk_revealer_set_reveal_child (self->revealer, FALSE);
+  } else if (child == self->to_show_child) {
+    self->to_show_child = NULL;
+  }
+}
+
+
+static void
+on_sensitive_changed (PhoshQuickSettingsBox *self, GParamSpec *pspec, PhoshQuickSetting *child)
+{
+  gboolean sensitive = gtk_widget_get_sensitive (GTK_WIDGET (child));
+
+  if (sensitive)
+    return;
+
+  depromote_child (self, child);
+}
+
+
+static void
 on_visible_changed (PhoshQuickSettingsBox *self, GParamSpec *pspec, PhoshQuickSetting *child)
 {
   gboolean visible = gtk_widget_get_visible (GTK_WIDGET (child));
@@ -622,12 +646,7 @@ on_visible_changed (PhoshQuickSettingsBox *self, GParamSpec *pspec, PhoshQuickSe
   if (visible)
     return;
 
-  if (child == self->shown_child) {
-    hide_status_page (self);
-    gtk_revealer_set_reveal_child (self->revealer, FALSE);
-  } else if (child == self->to_show_child) {
-    self->to_show_child = NULL;
-  }
+  depromote_child (self, child);
 }
 
 
@@ -655,6 +674,8 @@ phosh_quick_settings_box_add (GtkContainer *container, GtkWidget *widget)
                     G_CALLBACK (on_hide_status), self,
                     "swapped-object-signal::notify::status-page",
                     G_CALLBACK (on_status_page_changed), self,
+                    "swapped-object-signal::notify::sensitive",
+                    G_CALLBACK (on_sensitive_changed), self,
                     "swapped-object-signal::notify::visible",
                     G_CALLBACK (on_visible_changed), self,
                     NULL);
