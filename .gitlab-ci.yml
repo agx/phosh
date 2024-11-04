@@ -1,7 +1,7 @@
 ---
 include:
   - project: 'guidog/meta-phosh'
-    ref: 'ebb7aef58c96e3d586157f265e14d386ad8766fc'
+    ref: '5e3667e2e4d3f23a5dcadaa2a4aadc8824a9e565'
     file: '/ci/phosh-common-jobs.yml'
   - project: 'Infrastructure/Mirrors/lorry-mirrors/gitlab_freedesktop_org/freedesktop/ci-templates'
     ref: 'b791bd48996e3ced9ca13f1c5ee82be8540b8adb'
@@ -43,7 +43,7 @@ variables:
   # For ci-fairy
   FDO_UPSTREAM_REPO: World/Phosh/phosh
   # screenshot and asan builds on DEBIAN_IMAGE so keep them in sync
-  IMAGE_VERSION: v0.0.2024-05-08
+  IMAGE_VERSION: v0.0.2024-11-04
   DEBIAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/debian:$IMAGE_VERSION
   SCREENSHOT_IMAGE: $CI_REGISTRY/world/phosh/phosh/screenshot:$IMAGE_VERSION
   ASAN_IMAGE: $CI_REGISTRY/world/phosh/phosh/asan:$IMAGE_VERSION
@@ -90,6 +90,7 @@ variables:
 .test_step: &test_step
   script:
     - export LC_ALL=C.UTF-8
+    - meson configure ${BUILD_OPTS} _build
     - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite tools
     - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite unit
     - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite integration
@@ -250,18 +251,11 @@ check-license-headers:
     # defined in HACKING.md
     - ./tools/check-license-headers.py
 
-check-dist:
+release-tarball:
   stage: test+docs
-  image: ${DEBIAN_IMAGE}
-  <<: *trixie_vars
-  before_script:
-    - export DEBIAN_FRONTEND=noninteractive
-    - apt -y update
-    - apt -y build-dep .
-  needs: []
-  script:
-    - meson setup --werror _build-dist
-    - meson dist -C _build-dist --no-tests
+  extends: .phosh-check-dist
+  variables:
+    MESON_DIST_OPTIONS: --no-tests
 
 build:native-alpinelinux-edge:
   stage: build
@@ -301,14 +295,7 @@ check-consistency:
 
 check-markdown:
   stage: style-checks
-  image: ${DEBIAN_IMAGE}
-  needs: []
-  before_script: &test_before_script
-    - export DEBIAN_FRONTEND=noninteractive
-    - apt -y update
-    - apt -y install markdownlint
-  script:
-    - mdl *.md docs/*.md
+  extends: .phosh-check-markdown
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       changes:
@@ -316,27 +303,9 @@ check-markdown:
           - "*.md"
           - "docs/*.md"
 
-format-check:
+check-style:
   stage: style-checks
-  image: ${DEBIAN_IMAGE}
-  needs: []
-  script:
-    - |
-      if [ -n "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" ]; then
-        git remote add target $CI_MERGE_REQUEST_PROJECT_URL.git
-        echo "Fetching MR target branch $CI_MERGE_REQUEST_TARGET_BRANCH_NAME from $CI_MERGE_REQUEST_PROJECT_URL"
-        git fetch target "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
-        git fetch --deepen=100 origin HEAD
-        merge_base=$(git merge-base "target/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" HEAD)
-        if [ -z "$merge_base" ]; then
-          echo "Could't determine merge base"
-          exit 1
-        fi
-        echo "Merge base: $merge_base"
-        ./.gitlab-ci/check-style.py --dry-run --sha $merge_base
-      else
-        echo "Not a merge request"
-      fi
+  extends: .phosh-format-check
   allow_failure: true
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"

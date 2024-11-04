@@ -59,7 +59,7 @@ fi
 echo "I: Checking for '${VERSION}'"
 
 # News
-if ! head -1 NEWS | grep -qs "$VERSION\$"; then
+if ! head -1 NEWS | grep -E -qs "\s+${VERSION}\s*$"; then
     log error "E: Version ${VERSION} not in NEWS file"
     exit 1
 else
@@ -88,8 +88,8 @@ fi
 
 if ! grep -qs "$MESON_VERSION\"" "${METAINFO}"; then
     log error "E: Version ${MESON_VERSION} not in metainfo ${METAINFO}"
-    if [[ "${VERSION}" =~ '~rc' ]]; then
-        log info "I: Release candidate, no metainfo is fine"
+    if [[ "${VERSION}" =~ ~(alpha|beta|rc) ]]; then
+        log info "I: Not a stable release, no metainfo is fine"
     else
         exit 1
     fi
