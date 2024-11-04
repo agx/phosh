@@ -1132,3 +1132,18 @@ entry:focus {
 progressbar progress {
   background-color: @theme_selected_bg_color;
 }
+
+/* Levelbars */
+levelbar block.filled {
+  background-color: @theme_selected_bg_color;
+  border-color: @theme_selected_bg_color;
+}
+
+levelbar trough {
+  border-width: 0px;
+}
+
+/* Calendar widgets */
+calendar:selected {
+  background-color: @theme_selected_bg_color;
+}
