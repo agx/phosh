@@ -95,7 +95,7 @@ variables:
     - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite unit
     - ${XVFB_RUN} meson test --print-errorlogs -C _build --suite integration
   after_script:
-    - gcovr --json --output=coverage-${CI_JOB_NAME}.json
+    - gcovr --json --gcov-ignore-errors=no_working_dir_found --output=coverage-${CI_JOB_NAME}.json
 
 # Sanity checks of MR settings and commit logs
 commit-log-check:
@@ -212,7 +212,7 @@ screenshot:native-debian-trixie:
     - tools/montage-screenshots _build/
     - mv _build/tests/screenshots/* screenshots/
   after_script:
-    - gcovr --json --output=screenshots/coverage-${CI_JOB_NAME}.json
+    - gcovr --json --gcov-ignore-errors=no_working_dir_found --output=screenshots/coverage-${CI_JOB_NAME}.json
   artifacts:
     when: always
     expose_as: 'Screenshots'
