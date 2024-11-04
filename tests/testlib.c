@@ -95,11 +95,10 @@ phoc_stdout_watch (GIOChannel      *source,
   return !finished;
 }
 
-static gboolean
+static void
 on_phoc_startup_timeout (gpointer unused)
 {
   g_assert_not_reached ();
-  return G_SOURCE_REMOVE;
 }
 
 static void
@@ -192,7 +191,7 @@ phosh_test_compositor_new (gboolean heads_stub)
   GSpawnFlags flags = G_SPAWN_DO_NOT_REAP_CHILD;
   const char *comp, *phoc_ini;
   gboolean ret;
-  int outfd, id;
+  int outfd, timeout_id;
   PhocOutputWatch watch;
   struct wl_display *wl_display;
 
@@ -203,9 +202,9 @@ phosh_test_compositor_new (gboolean heads_stub)
   }
 
   phoc_ini = g_getenv ("PHOSH_TEST_PHOC_INI");
-  if (phoc_ini == NULL) {
+  if (phoc_ini == NULL)
     phoc_ini = TEST_PHOC_INI;
-  }
+
   g_test_message ("Using phoc.ini %s", phoc_ini);
   g_assert_true (g_file_test (phoc_ini, G_FILE_TEST_EXISTS));
 
@@ -252,9 +251,9 @@ phosh_test_compositor_new (gboolean heads_stub)
                   &watch);
   g_child_watch_add (state->pid, on_phoc_exit, NULL);
 
-  id = g_timeout_add_seconds (STARTUP_TIMEOUT, on_phoc_startup_timeout, NULL);
+  timeout_id = g_timeout_add_seconds_once (STARTUP_TIMEOUT, on_phoc_startup_timeout, NULL);
   g_main_loop_run (mainloop);
-  g_source_remove (id);
+  g_assert (g_source_remove (timeout_id));
 
   /* I/O watch in main should have gotten the socket name */
   g_assert (watch.socket);

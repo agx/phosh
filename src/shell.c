@@ -677,18 +677,18 @@ notify_compositor_up_state (PhoshShell *self, enum phosh_private_shell_state sta
 }
 
 
-static gboolean
-on_startup_finished (PhoshShell *self)
+static void
+on_startup_finished (gpointer data)
 {
+  PhoshShell *self = PHOSH_SHELL (data);
   PhoshShellPrivate *priv;
 
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), G_SOURCE_REMOVE);
+  g_return_if_fail (PHOSH_IS_SHELL (self));
   priv = phosh_shell_get_instance_private (self);
 
   notify_compositor_up_state (self, PHOSH_PRIVATE_SHELL_STATE_UP);
 
   priv->startup_finished_id = 0;
-  return G_SOURCE_REMOVE;
 }
 
 
@@ -713,14 +713,14 @@ setup_idle_cb (PhoshShell *self)
 
   g_signal_connect_object (priv->toplevel_manager,
                            "notify::num-toplevels",
-                           G_CALLBACK(on_num_toplevels_changed),
+                           G_CALLBACK (on_num_toplevels_changed),
                            self,
                            G_CONNECT_SWAPPED);
   on_num_toplevels_changed (self, NULL, priv->toplevel_manager);
 
   g_signal_connect_object (priv->toplevel_manager,
                            "toplevel-added",
-                           G_CALLBACK(on_toplevel_added),
+                           G_CALLBACK (on_toplevel_added),
                            self,
                            G_CONNECT_SWAPPED);
 
@@ -765,7 +765,7 @@ setup_idle_cb (PhoshShell *self)
   priv->gnome_shell_manager = phosh_gnome_shell_manager_get_default ();
   priv->screenshot_manager = phosh_screenshot_manager_new ();
   priv->splash_manager = phosh_splash_manager_new (priv->app_tracker);
-  priv->run_command_manager = phosh_run_command_manager_new();
+  priv->run_command_manager = phosh_run_command_manager_new ();
   priv->network_auth_manager = phosh_network_auth_manager_new ();
   priv->portal_access_manager = phosh_portal_access_manager_new ();
   priv->suspend_manager = phosh_suspend_manager_new ();
@@ -776,7 +776,7 @@ setup_idle_cb (PhoshShell *self)
 
   /* Delay signaling to the compositor a bit so that idle handlers get a chance to run and
      the user can unlock right away. Ideally we'd not need this */
-  priv->startup_finished_id = g_timeout_add_seconds (1, (GSourceFunc)on_startup_finished, self);
+  priv->startup_finished_id = g_timeout_add_seconds_once (1, on_startup_finished, self);
   g_source_set_name_by_id (priv->startup_finished_id, "[PhoshShell] startup finished");
 
   priv->startup_finished = TRUE;
