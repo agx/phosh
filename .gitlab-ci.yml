@@ -1,7 +1,7 @@
 ---
 include:
   - project: 'guidog/meta-phosh'
-    ref: 'ebb7aef58c96e3d586157f265e14d386ad8766fc'
+    ref: '5e3667e2e4d3f23a5dcadaa2a4aadc8824a9e565'
     file: '/ci/phosh-common-jobs.yml'
   - project: 'Infrastructure/Mirrors/lorry-mirrors/gitlab_freedesktop_org/freedesktop/ci-templates'
     ref: 'b791bd48996e3ced9ca13f1c5ee82be8540b8adb'
