@@ -84,6 +84,43 @@ test_phosh_notification_frame_new_filter (void)
 
 
 static void
+test_phosh_notification_frame_need_separator (void)
+{
+  g_autoptr (PhoshNotification) noti = NULL;
+  GtkWidget *content = NULL;
+  GStrv actions = NULL;
+  gboolean separator_needed;
+  g_autoptr (GDateTime) now = g_date_time_new_now_local ();
+  g_autoptr (GStrvBuilder) builder = NULL;
+
+  builder = g_strv_builder_new ();
+  g_strv_builder_add (builder, "default");
+  g_strv_builder_add (builder, "Default Action");
+  g_strv_builder_add (builder, NULL);
+  actions = g_strv_builder_end (builder);
+
+  noti = phosh_notification_new (0,
+                                 NULL,
+                                 NULL,
+                                 "Hey",
+                                 "Testing",
+                                 NULL,
+                                 NULL,
+                                 PHOSH_NOTIFICATION_URGENCY_NORMAL,
+                                 actions,
+                                 FALSE,
+                                 FALSE,
+                                 NULL,
+                                 NULL,
+                                 now);
+
+  content = phosh_notification_content_new (noti, TRUE, NULL);
+  separator_needed = needs_separator (PHOSH_NOTIFICATION_CONTENT (content));
+  g_assert_true (separator_needed);
+}
+
+
+static void
 test_phosh_notification_frame_notification_activated (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
@@ -131,6 +168,7 @@ main (int argc, char **argv)
 
   g_test_add_func ("/phosh/notification-frame/new", test_phosh_notification_frame_new);
   g_test_add_func ("/phosh/notification-frame/new-filter", test_phosh_notification_frame_new_filter);
+  g_test_add_func ("/phosh/notification-frame/needs-separator", test_phosh_notification_frame_need_separator);
   g_test_add_func ("/phosh/notification-frame/notification-activated", test_phosh_notification_frame_notification_activated);
 
   return g_test_run ();
