@@ -109,7 +109,7 @@ brightness_init (GtkScale *scale, gulong handler_id)
 
 
 static void
-brightness_set_cb (GDBusProxy *proxy, GAsyncResult *res, gpointer unused)
+on_brightness_set_ready (GDBusProxy *proxy, GAsyncResult *res, gpointer unused)
 {
   GError *err = NULL;
   GVariant *var;
@@ -149,7 +149,7 @@ brightness_set (int brightness)
                      G_DBUS_CALL_FLAGS_NONE,
                      2000,
                      NULL,
-                     (GAsyncReadyCallback)brightness_set_cb,
+                     (GAsyncReadyCallback)on_brightness_set_ready,
                      NULL);
 }
 
