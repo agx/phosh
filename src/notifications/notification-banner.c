@@ -265,11 +265,9 @@ phosh_notification_banner_new (PhoshNotification *notification)
   return g_object_new (PHOSH_TYPE_NOTIFICATION_BANNER,
                        "notification", notification,
                        /* layer surface */
-                       "margin-top", -300,
                        "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                        "wl-output", monitor ? monitor->wl_output : NULL,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP,
-                       "height", 50,
                        "width", MIN (width, 450),
                        "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                        "kbd-interactivity", FALSE,
