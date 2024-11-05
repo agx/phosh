@@ -53,7 +53,7 @@ brightness_init_cb (GObject      *source_object,
                     GtkScale     *scale)
 {
   g_autoptr (GError) err = NULL;
-  GVariant *var;
+  g_autoptr (GVariant) var = NULL;
   int value;
 
   brightness_proxy = g_dbus_proxy_new_finish (res, &err);
@@ -71,7 +71,6 @@ brightness_init_cb (GObject      *source_object,
     setting_brightness = TRUE;
     gtk_range_set_value (GTK_RANGE (scale), value);
     setting_brightness = FALSE;
-    g_variant_unref (var);
   }
 
   g_signal_connect (brightness_proxy,
@@ -111,19 +110,14 @@ brightness_init (GtkScale *scale, gulong handler_id)
 static void
 on_brightness_set_ready (GDBusProxy *proxy, GAsyncResult *res, gpointer unused)
 {
-  GError *err = NULL;
-  GVariant *var;
+  g_autoptr (GError) err = NULL;
+  g_autoptr (GVariant) var = NULL;
 
   var = g_dbus_proxy_call_finish (proxy, res, &err);
-
   if (err) {
     g_warning ("Could not set brightness %s", err->message);
-    g_error_free (err);
     return;
   }
-
-  if (var)
-    g_variant_unref (var);
 
   setting_brightness = FALSE;
 }
