@@ -164,10 +164,8 @@ phosh_notification_banner_slide (PhoshNotificationBanner *self)
   int height;
   double progress = hdy_ease_out_cubic (self->animation.progress);
 
-  progress = 1.0 - progress;
-
   gtk_window_get_size (GTK_WINDOW (self), NULL, &height);
-  margin = (height - 300) * progress;
+  margin = -(height * 0.9) * (1.0 - progress);
 
   phosh_layer_surface_set_margins (PHOSH_LAYER_SURFACE (self), margin, 0, 0, 0);
 
