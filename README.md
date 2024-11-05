@@ -1,6 +1,18 @@
 # Phosh
 
-a pure wayland shell for mobile devices like Purism's Librem 5.
+A pure Wayland shell for mobile devices like smart phones or small
+tablets which
+
+* use touch input
+* are running battery powered most of the time
+* have limited screen space
+* have a limited number of buttons
+* might be docked to a keyboard, screen and other input devices
+
+Typical devices are the Librem 5 and PinePhone or devices formerly
+running proprietary operating systems like the OnePlus 6/6T.
+
+The companion Wayland compositor is [phoc][].
 
 ## License
 
