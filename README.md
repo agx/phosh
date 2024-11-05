@@ -106,9 +106,9 @@ User=<your_user>
 EOF
 ```
 
-All of the above use the `/usr/bin/phosh` script to start compositor and shell
-under the hood so if you just want to start phosh from the system console once
-invoke that script directly.
+All of the above use the `/usr/bin/phosh-session` script to start compositor
+and shell under the hood so if you just want to start phosh from the system
+console once invoke that script directly.
 
 ## Translations
 
