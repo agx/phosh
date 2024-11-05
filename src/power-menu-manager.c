@@ -98,7 +98,7 @@ on_screenshot_activated (GSimpleAction *action, GVariant *param, gpointer data)
   g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (manager));
 
   close_menu (self);
-  phosh_screenshot_manager_do_screenshot (manager, NULL, NULL, FALSE);
+  phosh_screenshot_manager_take_screenshot (manager, NULL, NULL, TRUE, FALSE);
 }
 
 
