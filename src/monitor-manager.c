@@ -107,7 +107,7 @@ diagonal_to_str (double d)
   for (i = 0; i < G_N_ELEMENTS (known_diagonals); i++) {
     double delta;
 
-    delta = fabs(known_diagonals[i] - d);
+    delta = fabs (known_diagonals[i] - d);
     if (delta < 0.1)
       return g_strdup_printf ("%0.1lf\"", known_diagonals[i]);
   }
@@ -198,7 +198,7 @@ phosh_monitor_manager_handle_get_resources (PhoshDBusDisplayConfig *skeleton,
     return TRUE;
   }
 
-  primary_monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default());
+  primary_monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
   if (!primary_monitor) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_ACCESS_DENIED,
@@ -343,11 +343,11 @@ phosh_monitor_manager_handle_get_crtc_gamma (PhoshDBusDisplayConfig *skeleton,
   monitor = g_ptr_array_index (self->monitors, crtc_id);
 
   /* All known clients using libgnome-desktop's
-     gnome_rr_crtc_get_gamma only do so to get the size of the gamma
-     table. So don't bother getting the real table since this is not
-     supported by wlroots: https://github.com/swaywm/wlroots/pull/1059.
-     Return an empty table instead.
-  */
+   * gnome_rr_crtc_get_gamma only do so to get the size of the gamma
+   * table. So don't bother getting the real table since this is not
+   * supported by wlroots: https://github.com/swaywm/wlroots/pull/1059.
+   * Return an empty table instead.
+   */
   if (phosh_monitor_has_gamma (monitor))
     n_bytes = monitor->n_gamma_entries * 2;
 
@@ -405,7 +405,7 @@ phosh_monitor_manager_handle_get_current_state (PhoshDBusDisplayConfig *skeleton
 
   g_debug ("DBus call %s", __func__);
 
-  primary_monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default());
+  primary_monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
   if (!primary_monitor) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_ACCESS_DENIED,
@@ -482,8 +482,8 @@ phosh_monitor_manager_handle_get_current_state (PhoshDBusDisplayConfig *skeleton
 
     display_name = get_display_name (head);
     g_variant_builder_add (&monitor_properties_builder, "{sv}",
-                             "display-name",
-                             g_variant_new_take_string (display_name));
+                           "display-name",
+                           g_variant_new_take_string (display_name));
 
     g_variant_builder_add (&monitors_builder, MONITOR_FORMAT,
                            head->name,                       /* monitor_spec->connector */
@@ -510,8 +510,7 @@ phosh_monitor_manager_handle_get_current_state (PhoshDBusDisplayConfig *skeleton
                            head->name,                       /* monitor_spec->connector, */
                            head->vendor ?: "",               /* monitor_spec->vendor, */
                            head->product ?: "",              /* monitor_spec->product, */
-                           head->serial ?:""                 /* monitor_spec->serial, */
-      );
+                           head->serial ?: "");              /* monitor_spec->serial, */
 
     is_primary = (head == primary_head);
     g_variant_builder_add (&logical_monitors_builder,
@@ -565,10 +564,11 @@ phosh_monitor_manager_find_head (PhoshMonitorManager *self, const char *name)
   for (int i = 0; i < self->heads->len; i++) {
     PhoshHead *head = g_ptr_array_index (self->heads, i);
     if (!g_strcmp0 (head->name, name))
-        return head;
+      return head;
   }
   return NULL;
 }
+
 
 static PhoshHead *
 find_head_from_variant (PhoshMonitorManager *self,
@@ -611,7 +611,6 @@ find_head_from_variant (PhoshMonitorManager *self,
 
 
 #define LOGICAL_MONITOR_CONFIG_FORMAT "(iidub" MONITOR_CONFIGS_FORMAT ")"
-
 
 static PhoshHead *
 config_head_config_from_logical_monitor_variant (PhoshMonitorManager *self,
@@ -670,7 +669,6 @@ config_head_config_from_logical_monitor_variant (PhoshMonitorManager *self,
   return is_primary ? head : NULL;
 }
 
-
 #undef LOGICAL_MONITOR_CONFIG_FORMAT
 #undef MONITOR_CONFIGS_FORMAT
 #undef MONITOR_CONFIG_FORMAT
@@ -709,14 +707,14 @@ phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skel
   if (serial != self->serial) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_ACCESS_DENIED,
-                                             "The requested configuration is based on stale information");
+                                           "The requested configuration is based on stale information");
     return TRUE;
   }
 
   if (phosh_shell_get_locked (phosh_shell_get_default ())) {
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
                                            G_DBUS_ERROR_ACCESS_DENIED,
-                                             "Can't configure outputs when locked");
+                                           "Can't configure outputs when locked");
     return TRUE;
   }
 
@@ -782,8 +780,8 @@ phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skel
   if (n_monitors == 0) {
     phosh_monitor_manager_clear_pending (self);
     g_dbus_method_invocation_return_error (invocation, G_DBUS_ERROR,
-                                               G_DBUS_ERROR_ACCESS_DENIED,
-                                               "Monitor config empty");
+                                           G_DBUS_ERROR_ACCESS_DENIED,
+                                           "Monitor config empty");
     return TRUE;
   }
 
@@ -801,7 +799,7 @@ phosh_monitor_manager_handle_apply_monitors_config (PhoshDBusDisplayConfig *skel
     primary_monitor = phosh_monitor_manager_find_monitor (self, primary_head->name);
     /* If the primary monitor is in the list of enabled heads we can assign it right away */
     if (primary_monitor) {
-      PhoshShell *shell = phosh_shell_get_default();
+      PhoshShell *shell = phosh_shell_get_default ();
 
       if (primary_monitor != phosh_shell_get_primary_monitor (shell)) {
         g_debug ("New primary monitor is %s", primary_monitor->name);
@@ -931,7 +929,7 @@ find_monitor_by_wl_output (PhoshMonitorManager *self, struct wl_output *output)
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     if (monitor->wl_output == output)
-        return monitor;
+      return monitor;
   }
   return NULL;
 }
@@ -1009,7 +1007,7 @@ on_monitor_removed (PhoshMonitorManager *self,
   g_return_if_fail (PHOSH_IS_MONITOR (monitor));
   g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
 
-  g_debug("Monitor %p (%s) removed", monitor, monitor->name);
+  g_debug ("Monitor %p (%s) removed", monitor, monitor->name);
   g_ptr_array_remove (self->monitors, monitor);
   phosh_monitor_manager_set_night_light_supported (self);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_N_MONITORS]);
@@ -1070,7 +1068,7 @@ on_wl_outputs_changed (PhoshMonitorManager *self, GParamSpec *pspec, PhoshWaylan
 
 static void
 on_head_finished (PhoshMonitorManager *self,
-                  PhoshHead *head)
+                  PhoshHead           *head)
 {
   g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
 
@@ -1084,9 +1082,9 @@ on_head_finished (PhoshMonitorManager *self,
 
 
 static void
-zwlr_output_manager_v1_handle_head (void *data,
+zwlr_output_manager_v1_handle_head (void                          *data,
                                     struct zwlr_output_manager_v1 *manager,
-                                    struct zwlr_output_head_v1 *wlr_head)
+                                    struct zwlr_output_head_v1    *wlr_head)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (data);
   PhoshHead *head;
@@ -1103,9 +1101,9 @@ zwlr_output_manager_v1_handle_head (void *data,
 
 
 static void
-zwlr_output_manager_v1_handle_done (void *data,
+zwlr_output_manager_v1_handle_done (void                          *data,
                                     struct zwlr_output_manager_v1 *manager,
-                                    uint32_t serial)
+                                    uint32_t                       serial)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (data);
 
@@ -1125,7 +1123,7 @@ static const struct zwlr_output_manager_v1_listener zwlr_output_manager_v1_liste
 
 
 static void
-zwlr_output_configuration_v1_handle_succeeded (void *data,
+zwlr_output_configuration_v1_handle_succeeded (void                                *data,
                                                struct zwlr_output_configuration_v1 *config)
 {
   g_debug ("New output configuration %p applied", config);
@@ -1134,7 +1132,7 @@ zwlr_output_configuration_v1_handle_succeeded (void *data,
 
 
 static void
-zwlr_output_configuration_v1_handle_failed (void *data,
+zwlr_output_configuration_v1_handle_failed (void                                *data,
                                             struct zwlr_output_configuration_v1 *config)
 {
   /* TODO: bubble up error */
@@ -1144,11 +1142,11 @@ zwlr_output_configuration_v1_handle_failed (void *data,
 
 
 static void
-zwlr_output_configuration_v1_handle_cancelled (void *data,
+zwlr_output_configuration_v1_handle_cancelled (void                                *data,
                                                struct zwlr_output_configuration_v1 *config)
 {
-  zwlr_output_configuration_v1_destroy(config);
-  g_warning("Failed to apply New output configuration %p due to changes", config);
+  zwlr_output_configuration_v1_destroy (config);
+  g_warning ("Failed to apply New output configuration %p due to changes", config);
 }
 
 
@@ -1319,7 +1317,7 @@ static void
 phosh_monitor_manager_constructed (GObject *object)
 {
   PhoshMonitorManager *self = PHOSH_MONITOR_MANAGER (object);
-  PhoshWayland *wl = phosh_wayland_get_default();
+  PhoshWayland *wl = phosh_wayland_get_default ();
   GHashTableIter iter;
   struct wl_output *wl_output;
   struct zwlr_output_manager_v1 *zwlr_output_manager_v1;
@@ -1330,7 +1328,7 @@ phosh_monitor_manager_constructed (GObject *object)
   g_signal_connect (self, "notify::power-save-mode",
                     G_CALLBACK (power_save_mode_changed_cb), NULL);
 
-  g_signal_connect_swapped (phosh_wayland_get_default(),
+  g_signal_connect_swapped (phosh_wayland_get_default (),
                             "notify::wl-outputs",
                             G_CALLBACK (on_wl_outputs_changed),
                             self);
@@ -1460,7 +1458,7 @@ phosh_monitor_manager_find_monitor (PhoshMonitorManager *self, const char *name)
   for (int i = 0; i < self->monitors->len; i++) {
     PhoshMonitor *monitor = g_ptr_array_index (self->monitors, i);
     if (!g_strcmp0 (monitor->name, name))
-        return monitor;
+      return monitor;
   }
   return NULL;
 }
@@ -1485,8 +1483,8 @@ phosh_monitor_manager_get_num_monitors (PhoshMonitorManager *self)
  * overlapping heads in the layout.
  */
 void
-phosh_monitor_manager_set_monitor_transform (PhoshMonitorManager *self,
-                                             PhoshMonitor *monitor,
+phosh_monitor_manager_set_monitor_transform (PhoshMonitorManager  *self,
+                                             PhoshMonitor         *monitor,
                                              PhoshMonitorTransform transform)
 {
   PhoshHead *head;
@@ -1509,7 +1507,7 @@ phosh_monitor_manager_set_monitor_transform (PhoshMonitorManager *self,
 void
 phosh_monitor_manager_apply_monitor_config (PhoshMonitorManager *self)
 {
-  PhoshWayland *wl = phosh_wayland_get_default();
+  PhoshWayland *wl = phosh_wayland_get_default ();
   struct zwlr_output_configuration_v1 *config;
   struct zwlr_output_manager_v1 *output_manager =
     phosh_wayland_get_zwlr_output_manager_v1 (wl);
@@ -1549,7 +1547,7 @@ phosh_monitor_manager_apply_monitor_config (PhoshMonitorManager *self)
                                                     head->pending.x, head->pending.y);
     zwlr_output_configuration_head_v1_set_transform (config_head, head->pending.transform);
     zwlr_output_configuration_head_v1_set_scale (config_head,
-                                                 wl_fixed_from_double(head->pending.scale));
+                                                 wl_fixed_from_double (head->pending.scale));
   }
 
   zwlr_output_configuration_v1_apply (config);
