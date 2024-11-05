@@ -198,7 +198,7 @@ phosh_quick_settings_box_destroy (GtkWidget *widget)
  * - After this, each quick-setting is given a height that is determined by dividing this new height
  *   by the number of rows (with spacing also taken into account).
  *
- * 9. Revealing statu-pages
+ * 9. Revealing status-pages
  * - Revealing status-page may not be immediate.
  * - If the box is not showing any status-page, then any request to show status-page, happens
  *   immediately.
