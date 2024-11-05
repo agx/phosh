@@ -235,14 +235,11 @@ phosh_notification_banner_class_init (PhoshNotificationBannerClass *klass)
 
   /**
    * PhoshNotificationBanner:notification:
-   * @self: the #PhoshNotificationBanner
    *
-   * The #PhoshNotification shown in @self
+   * The #PhoshNotification shown
    */
   props[PROP_NOTIFICATION] =
-    g_param_spec_object ("notification",
-                         "Notification",
-                         "Notification in the banner",
+    g_param_spec_object ("notification", "", "",
                          PHOSH_TYPE_NOTIFICATION,
                          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
                          G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
