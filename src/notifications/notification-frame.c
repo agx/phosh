@@ -337,8 +337,10 @@ header_func (GtkListBoxRow *current_row, GtkListBoxRow *prev_row, gpointer user_
 {
   PhoshNotificationContent *content;
 
-  if (prev_row == NULL)
+  if (prev_row == NULL) {
+    gtk_list_box_row_set_header (current_row, NULL);
     return;
+  }
 
   content = PHOSH_NOTIFICATION_CONTENT (prev_row);
 
