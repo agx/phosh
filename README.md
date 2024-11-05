@@ -11,7 +11,6 @@ phosh is licensed under the GPL-3.0-or-later licence.
 ```sh
 git clone https://gitlab.gnome.org/World/Phosh/phosh
 cd phosh
-git submodule update --init --recursive
 ```
 
 The [main][] branch has the current development version.
