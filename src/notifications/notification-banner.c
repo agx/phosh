@@ -102,8 +102,6 @@ phosh_notification_banner_set_notification (PhoshNotificationBanner *self,
                                             G_CALLBACK (expired), self);
   self->handler_closed = g_signal_connect (self->notification, "closed",
                                            G_CALLBACK (closed), self);
-
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_NOTIFICATION]);
 }
 
 
@@ -241,8 +239,7 @@ phosh_notification_banner_class_init (PhoshNotificationBannerClass *klass)
   props[PROP_NOTIFICATION] =
     g_param_spec_object ("notification", "", "",
                          PHOSH_TYPE_NOTIFICATION,
-                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
-                         G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+                         G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
