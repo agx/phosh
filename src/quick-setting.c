@@ -210,12 +210,17 @@ on_long_pressed (PhoshQuickSetting *self, GtkGesture *gesture)
 }
 
 
+static void
+on_button_clicked (PhoshQuickSetting *self)
+{
+  g_signal_emit (self, signals[CLICKED], 0);
+}
+
+
 static gboolean
 on_button_press (PhoshQuickSetting *self, GdkEventButton *event, GtkButton *button)
 {
-  if (event->button == 1)
-    g_signal_emit (self, signals[CLICKED], 0);
-  else if (event->button == 3)
+  if (event->button == 3)
     g_signal_emit (self, signals[LONG_PRESSED], 0);
 
   return FALSE;
@@ -335,6 +340,7 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
                                                "/sm/puri/phosh/ui/quick-setting.ui");
 
   gtk_widget_class_bind_template_callback (widget_class, on_arrow_clicked);
+  gtk_widget_class_bind_template_callback (widget_class, on_button_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_button_press);
   gtk_widget_class_bind_template_callback (widget_class, on_long_pressed);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshQuickSetting, box);

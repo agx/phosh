@@ -10,6 +10,7 @@
         <property name="hexpand">True</property>
         <property name="focus-on-click">False</property>
         <signal name="button-press-event" handler="on_button_press" object="PhoshQuickSetting" swapped="yes"/>
+        <signal name="clicked" handler="on_button_clicked" object="PhoshQuickSetting" swapped="yes"/>
         <child>
           <object class="GtkBox" id="box">
             <property name="spacing">6</property>
