@@ -97,9 +97,32 @@ to check the screenshot API (`PhoshScreenshotManager`).
 ### Mocking DBus Services
 
 To mock DBus services used by phosh like `org.freedesktop.ModemManager`
-or `net.hadess.SensorProxy` you can use [python-dbusmock][]. See
-e.g. `tests/mock-mm-nm.py` which mocks `ModemManager` and `NetworkManager`
-to simulate a mobile data connection.
+or `net.hadess.SensorProxy` you can use [python-dbusmock][].
+
+`tests/mock-mm-nm.py` uses this to mock `ModemManager` and
+`NetworkManager` to simulate a mobile data connection:
+
+```
+sudo tests/mock-mm-nm.py
+```
+
+Make sure you stop `ModemManager` and `NetworkManager` before running
+the above.
+
+You can also use the mocks from `python-dbusmock` directly, e.g. to mock
+settings daemon's rfkill state:
+
+```
+python3 -m dbusmock --template gsd_rfkill
+```
+
+to e.g. mock `gsd-rfkill`. To simulate airplane mode you could use:
+
+```
+gdbus call --session -d org.gnome.SettingsDaemon.Rfkill \
+                     -o /org/gnome/SettingsDaemon/Rfkill \
+                     -m org.freedesktop.DBus.Mock.SetAirplaneMode true
+```
 
 ### GTK Inspector
 
@@ -137,4 +160,3 @@ hide the object via #g_object_bind_property().
 For details see [class@ScreenSaverManager].
 
 [python-dbusmock]: https://github.com/martinpitt/python-dbusmock
-
