@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-23 07:42+0000\n"
-"PO-Revision-Date: 2024-10-23 13:30+0300\n"
+"POT-Creation-Date: 2024-11-05 14:46+0000\n"
+"PO-Revision-Date: 2024-11-06 22:40+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -271,23 +271,35 @@ msgstr "Уведіть пароль"
 msgid "Checking…"
 msgstr "Звіряю…"
 
-#: src/screenshot-manager.c:225
-msgid "Screenshot copied to clipboard"
-msgstr "Знімок вікна скопійовано до буфера"
-
-#: src/screenshot-manager.c:230
+#. Translators: '%s' is the filename of a screenshot
+#: src/screenshot-manager.c:235
 #, c-format
-#| msgid "Screenshot copied to clipboard"
-msgid "Screenshot saved to %s"
-msgstr "Знімок збережено до %s"
+#| msgid "Screenshot saved to %s"
+msgid "Screenshot saved to '%s'"
+msgstr "Знімок збережено до «%s»"
 
-#: src/screenshot-manager.c:233
+#: src/screenshot-manager.c:237
 msgid "Failed to save screenshot"
 msgstr "Не вдалося зберегти знімок екрана"
 
-#: src/screenshot-manager.c:237 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Знімок вікна"
+
+#. Translators: name of the folder beneath ~/Pictures used to store screenshots
+#: src/screenshot-manager.c:416
+#| msgid "Screenshot"
+msgid "Screenshots"
+msgstr "Знімки вікон"
+
+#. Translators: Name of a screenshot file. The first '%s' is a timestamp
+#. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
+#. * the file already exists like '-3'
+#: src/screenshot-manager.c:436
+#, c-format
+#| msgid "Screenshot saved to %s"
+msgid "Screenshot from %s%s.png"
+msgstr "Знімок вікна %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
@@ -542,23 +554,23 @@ msgstr "Вилучити з _теки"
 msgid "Search apps…"
 msgstr "Шукати серед програм…"
 
-#: src/ui/audio-settings.ui:84
+#: src/ui/audio-settings.ui:85
 msgid "Output Devices"
 msgstr "Пристрої відтворення"
 
-#: src/ui/audio-settings.ui:108
+#: src/ui/audio-settings.ui:109
 msgid "Input Devices"
 msgstr "Пристрої отримання"
 
-#: src/ui/audio-settings.ui:136
+#: src/ui/audio-settings.ui:137
 msgid "Sound Settings"
 msgstr "Параметри звуку"
 
-#: src/ui/bt-status-page.ui:32
+#: src/ui/bt-status-page.ui:31
 msgid "Enable Bluetooth"
 msgstr "Увімкнути Bluetooth"
 
-#: src/ui/bt-status-page.ui:53
+#: src/ui/bt-status-page.ui:55
 msgid "Bluetooth Settings"
 msgstr "Параметри Bluetooth"
 
@@ -688,7 +700,7 @@ msgstr "Ви_йти…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:69
+#: src/ui/wifi-status-page.ui:72
 msgid "Wi-Fi Settings"
 msgstr "Параметри Wi-Fi"
 
@@ -1048,6 +1060,9 @@ msgstr "Точку доступу увімкнено"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Точку доступу вимкнено"
+
+#~ msgid "Screenshot copied to clipboard"
+#~ msgstr "Знімок вікна скопійовано до буфера"
 
 #~ msgid "Scan"
 #~ msgstr "Сканувати"
