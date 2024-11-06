@@ -75,6 +75,7 @@ typedef struct {
   GtkButton       *arrow_btn;
   GtkImage        *arrow;
   GtkGesture      *long_press;
+  GtkGesture      *multi_press;
 
   gboolean         active;
   gboolean         showing_status;
@@ -211,19 +212,17 @@ on_long_pressed (PhoshQuickSetting *self, GtkGesture *gesture)
 
 
 static void
-on_button_clicked (PhoshQuickSetting *self)
+on_right_pressed (PhoshQuickSetting *self, int n_press, double x, double y, GtkGesture *gesture)
 {
-  g_signal_emit (self, signals[CLICKED], 0);
+  g_signal_emit (self, signals[LONG_PRESSED], 0);
+  gtk_gesture_set_state (gesture, GTK_EVENT_SEQUENCE_CLAIMED);
 }
 
 
-static gboolean
-on_button_press (PhoshQuickSetting *self, GdkEventButton *event, GtkButton *button)
+static void
+on_button_clicked (PhoshQuickSetting *self)
 {
-  if (event->button == 3)
-    g_signal_emit (self, signals[LONG_PRESSED], 0);
-
-  return FALSE;
+  g_signal_emit (self, signals[CLICKED], 0);
 }
 
 
@@ -341,13 +340,14 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
 
   gtk_widget_class_bind_template_callback (widget_class, on_arrow_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_button_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, on_button_press);
   gtk_widget_class_bind_template_callback (widget_class, on_long_pressed);
+  gtk_widget_class_bind_template_callback (widget_class, on_right_pressed);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshQuickSetting, box);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshQuickSetting, label);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshQuickSetting, arrow);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshQuickSetting, arrow_btn);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshQuickSetting, long_press);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshQuickSetting, multi_press);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-quick-setting");
 }
