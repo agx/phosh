@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-23 07:42+0000\n"
-"PO-Revision-Date: 2024-10-24 18:16+0330\n"
+"POT-Creation-Date: 2024-11-05 14:46+0000\n"
+"PO-Revision-Date: 2024-11-06 11:44+0330\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "Language: fa\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -265,22 +265,32 @@ msgstr "ورود رمز عبور"
 msgid "Checking…"
 msgstr "در حال بررسی…"
 
-#: src/screenshot-manager.c:225
-msgid "Screenshot copied to clipboard"
-msgstr "نماگرفت در تخته‌گیره رونوشت شد"
-
-#: src/screenshot-manager.c:230
+#. Translators: '%s' is the filename of a screenshot
+#: src/screenshot-manager.c:235
 #, c-format
-msgid "Screenshot saved to %s"
-msgstr "نماگرفت در %s رونوشت شد"
+msgid "Screenshot saved to '%s'"
+msgstr "نماگرفت در %s ذخیره شد"
 
-#: src/screenshot-manager.c:233
+#: src/screenshot-manager.c:237
 msgid "Failed to save screenshot"
 msgstr "شکست در ذخیرهٔ نماگرفت"
 
-#: src/screenshot-manager.c:237 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "نماگرفت"
+
+#. Translators: name of the folder beneath ~/Pictures used to store screenshots
+#: src/screenshot-manager.c:416
+msgid "Screenshots"
+msgstr "نماگرفت‌ها"
+
+#. Translators: Name of a screenshot file. The first '%s' is a timestamp
+#. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
+#. * the file already exists like '-3'
+#: src/screenshot-manager.c:436
+#, c-format
+msgid "Screenshot from %s%s.png"
+msgstr "نماگرفت از ‪%s%s.png"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
@@ -528,23 +538,23 @@ msgstr "_برداشتن از شاخه"
 msgid "Search apps…"
 msgstr "جست‌وجوی کاره‌ها…"
 
-#: src/ui/audio-settings.ui:84
+#: src/ui/audio-settings.ui:85
 msgid "Output Devices"
 msgstr "افزاره‌های خروجی"
 
-#: src/ui/audio-settings.ui:108
+#: src/ui/audio-settings.ui:109
 msgid "Input Devices"
 msgstr "افزاره‌های ورودی"
 
-#: src/ui/audio-settings.ui:136
+#: src/ui/audio-settings.ui:137
 msgid "Sound Settings"
 msgstr "تنظیمات صدا"
 
-#: src/ui/bt-status-page.ui:32
+#: src/ui/bt-status-page.ui:31
 msgid "Enable Bluetooth"
 msgstr "به کار انداختن بلوتوث"
 
-#: src/ui/bt-status-page.ui:53
+#: src/ui/bt-status-page.ui:55
 msgid "Bluetooth Settings"
 msgstr "تنظیمات بلوتوث"
 
@@ -674,7 +684,7 @@ msgstr "_خروج…"
 msgid "Wi-Fi"
 msgstr "وای‌فای"
 
-#: src/ui/wifi-status-page.ui:69
+#: src/ui/wifi-status-page.ui:72
 msgid "Wi-Fi Settings"
 msgstr "تنظیمات وای‌فای"
 
@@ -1033,6 +1043,9 @@ msgstr "نقطهٔ داغ روشن"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "نقطهٔ داغ خاموش"
+
+#~ msgid "Screenshot copied to clipboard"
+#~ msgstr "نماگرفت در تخته‌گیره رونوشت شد"
 
 #~ msgid "Scan"
 #~ msgstr "پویش"
