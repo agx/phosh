@@ -751,9 +751,7 @@ phosh_quick_settings_box_class_init (PhoshQuickSettingsBoxClass *klass)
   props[PROP_MAX_COLUMNS] =
     g_param_spec_uint ("max-columns", "", "",
                        1, G_MAXUINT, 3,
-                       G_PARAM_READWRITE |
-                       G_PARAM_EXPLICIT_NOTIFY |
-                       G_PARAM_STATIC_STRINGS);
+                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshQuickSettingsBox:spacing:
    *
@@ -762,9 +760,7 @@ phosh_quick_settings_box_class_init (PhoshQuickSettingsBoxClass *klass)
   props[PROP_SPACING] =
     g_param_spec_uint ("spacing", "", "",
                        0, G_MAXUINT, 0,
-                       G_PARAM_READWRITE |
-                       G_PARAM_EXPLICIT_NOTIFY |
-                       G_PARAM_STATIC_STRINGS);
+                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshQuickSettingsBox:can-show-status:
    *
@@ -773,9 +769,7 @@ phosh_quick_settings_box_class_init (PhoshQuickSettingsBoxClass *klass)
   props[PROP_CAN_SHOW_STATUS] =
     g_param_spec_boolean ("can-show-status", "", "",
                           TRUE,
-                          G_PARAM_READWRITE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
