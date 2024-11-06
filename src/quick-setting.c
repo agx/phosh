@@ -332,9 +332,7 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
   props[PROP_ACTIVE] =
     g_param_spec_boolean ("active", "", "",
                           FALSE,
-                          G_PARAM_READWRITE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshQuickSetting:showing-status:
    *
@@ -343,9 +341,7 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
   props[PROP_SHOWING_STATUS] =
     g_param_spec_boolean ("showing-status", "", "",
                           FALSE,
-                          G_PARAM_READWRITE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshQuickSetting:can-show-status:
    *
@@ -354,9 +350,7 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
   props[PROP_CAN_SHOW_STATUS] =
     g_param_spec_boolean ("can-show-status", "", "",
                           FALSE,
-                          G_PARAM_READWRITE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshQuickSetting:status-page:
    *
@@ -365,8 +359,7 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
   props[PROP_STATUS_PAGE] =
     g_param_spec_object ("status-page", "", "",
                          PHOSH_TYPE_STATUS_PAGE,
-                         G_PARAM_READWRITE |
-                         G_PARAM_STATIC_STRINGS);
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshQuickSetting:long-press-action-name:
    *
@@ -375,8 +368,7 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
   props[PROP_LONG_PRESS_ACTION_NAME] =
     g_param_spec_string ("long-press-action-name", "", "",
                          NULL,
-                         G_PARAM_READWRITE |
-                         G_PARAM_STATIC_STRINGS);
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshQuickSetting:long-press-action-target:
    *
@@ -385,8 +377,7 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
   props[PROP_LONG_PRESS_ACTION_TARGET] =
     g_param_spec_string ("long-press-action-target", "", "",
                          NULL,
-                         G_PARAM_READWRITE |
-                         G_PARAM_STATIC_STRINGS);
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
