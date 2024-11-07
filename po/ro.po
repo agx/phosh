@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-23 07:42+0000\n"
-"PO-Revision-Date: 2024-10-23 14:15+0200\n"
+"POT-Creation-Date: 2024-11-05 14:46+0000\n"
+"PO-Revision-Date: 2024-11-06 23:45+0100\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -272,22 +272,32 @@ msgstr "Introdu codul de acces"
 msgid "Checking…"
 msgstr "Se verifică…"
 
-#: src/screenshot-manager.c:225
-msgid "Screenshot copied to clipboard"
-msgstr "Captură de ecran copiată în memorie"
-
-#: src/screenshot-manager.c:230
+#. Translators: '%s' is the filename of a screenshot
+#: src/screenshot-manager.c:235
 #, c-format
-msgid "Screenshot saved to %s"
-msgstr "Captură de ecran salvată în %s"
+msgid "Screenshot saved to '%s'"
+msgstr "Instantaneu de ecran salvat ca „%s”"
 
-#: src/screenshot-manager.c:233
+#: src/screenshot-manager.c:237
 msgid "Failed to save screenshot"
-msgstr "Nu s-a putut salva captura de ecran"
+msgstr "Nu s-a putut salva instantaneul"
 
-#: src/screenshot-manager.c:237 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
 msgid "Screenshot"
-msgstr "Captură de ecran"
+msgstr "Instantaneu"
+
+#. Translators: name of the folder beneath ~/Pictures used to store screenshots
+#: src/screenshot-manager.c:416
+msgid "Screenshots"
+msgstr "Instantanee"
+
+#. Translators: Name of a screenshot file. The first '%s' is a timestamp
+#. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
+#. * the file already exists like '-3'
+#: src/screenshot-manager.c:436
+#, c-format
+msgid "Screenshot from %s%s.png"
+msgstr "Instantaneu de ecran %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
@@ -542,23 +552,23 @@ msgstr "_Elimină din dosar"
 msgid "Search apps…"
 msgstr "Caută aplicații…"
 
-#: src/ui/audio-settings.ui:84
+#: src/ui/audio-settings.ui:85
 msgid "Output Devices"
 msgstr "Dispozitive de ieșire"
 
-#: src/ui/audio-settings.ui:108
+#: src/ui/audio-settings.ui:109
 msgid "Input Devices"
 msgstr "Dispozitive de intrare"
 
-#: src/ui/audio-settings.ui:136
+#: src/ui/audio-settings.ui:137
 msgid "Sound Settings"
 msgstr "Opțiuni pentru sunet"
 
-#: src/ui/bt-status-page.ui:32
+#: src/ui/bt-status-page.ui:31
 msgid "Enable Bluetooth"
 msgstr "Activează Bluetooth"
 
-#: src/ui/bt-status-page.ui:53
+#: src/ui/bt-status-page.ui:55
 msgid "Bluetooth Settings"
 msgstr "Opțiuni Bluetooth"
 
@@ -688,7 +698,7 @@ msgstr "_Deconectare…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:69
+#: src/ui/wifi-status-page.ui:72
 msgid "Wi-Fi Settings"
 msgstr "Opțiuni Wi-Fi"
 
