@@ -13,7 +13,7 @@
 static void
 test_phosh_quick_settings_box_new (void)
 {
-  GtkWidget *box;
+  PhoshQuickSettingsBox *box;
   int max_columns;
   int spacing;
   gboolean can_show_status;
@@ -26,18 +26,18 @@ test_phosh_quick_settings_box_new (void)
   children = gtk_container_get_children (GTK_CONTAINER (box));
   g_assert_cmpuint (g_list_length (children), ==, 0);
 
-  max_columns = phosh_quick_settings_box_get_max_columns (PHOSH_QUICK_SETTINGS_BOX (box));
+  max_columns = phosh_quick_settings_box_get_max_columns (box);
   g_assert_cmpuint (max_columns, ==, 3);
 
-  spacing = phosh_quick_settings_box_get_spacing (PHOSH_QUICK_SETTINGS_BOX (box));
+  spacing = phosh_quick_settings_box_get_spacing (box);
   g_assert_cmpuint (spacing, ==, 0);
 
-  can_show_status = phosh_quick_settings_box_get_can_show_status (PHOSH_QUICK_SETTINGS_BOX (box));
+  can_show_status = phosh_quick_settings_box_get_can_show_status (box);
   g_assert_true (can_show_status);
 
   g_assert_finalize_object (box);
 
-  box = phosh_quick_settings_box_new (3, 0);
+  box = PHOSH_QUICK_SETTINGS_BOX (phosh_quick_settings_box_new (3, 0));
   g_object_ref_sink (box);
   g_assert_true (PHOSH_IS_QUICK_SETTINGS_BOX (box));
   g_assert_finalize_object (box);
@@ -47,16 +47,16 @@ test_phosh_quick_settings_box_new (void)
 static void
 test_phosh_quick_settings_box_add (void)
 {
-  GtkWidget *box;
+  GtkContainer *box;
   GtkWidget *child;
   g_autoptr (GList) children = NULL;
 
-  box = phosh_quick_settings_box_new (3, 0);
+  box = GTK_CONTAINER (phosh_quick_settings_box_new (3, 0));
   g_object_ref_sink (box);
   child = phosh_quick_setting_new (NULL);
 
-  gtk_container_add (GTK_CONTAINER (box), child);
-  children = gtk_container_get_children (GTK_CONTAINER (box));
+  gtk_container_add (box, child);
+  children = gtk_container_get_children (box);
   g_assert_cmpuint (g_list_length (children), ==, 1);
   g_assert_true (g_list_nth_data (children, 0) == child);
 
@@ -67,17 +67,17 @@ test_phosh_quick_settings_box_add (void)
 static void
 test_phosh_quick_settings_box_remove (void)
 {
-  GtkWidget *box;
+  GtkContainer *box;
   GtkWidget *child;
   g_autoptr (GList) children = NULL;
 
-  box = phosh_quick_settings_box_new (3, 0);
+  box = GTK_CONTAINER (phosh_quick_settings_box_new (3, 0));
   g_object_ref_sink (box);
   child = phosh_quick_setting_new (NULL);
 
-  gtk_container_add (GTK_CONTAINER (box), child);
-  gtk_container_remove (GTK_CONTAINER (box), child);
-  children = gtk_container_get_children (GTK_CONTAINER (box));
+  gtk_container_add (box, child);
+  gtk_container_remove (box, child);
+  children = gtk_container_get_children (box);
   g_assert_cmpuint (g_list_length (children), ==, 0);
 
   g_assert_finalize_object (box);
@@ -87,16 +87,16 @@ test_phosh_quick_settings_box_remove (void)
 static void
 test_phosh_quick_settings_box_get_max_columns (void)
 {
-  GtkWidget *box;
+  PhoshQuickSettingsBox *box;
   guint max_columns;
   guint got_max_columns;
 
-  box = phosh_quick_settings_box_new (3, 0);
+  box = PHOSH_QUICK_SETTINGS_BOX (phosh_quick_settings_box_new (3, 0));
   g_object_ref_sink (box);
 
   max_columns = 6;
-  phosh_quick_settings_box_set_max_columns (PHOSH_QUICK_SETTINGS_BOX (box), max_columns);
-  got_max_columns = phosh_quick_settings_box_get_max_columns (PHOSH_QUICK_SETTINGS_BOX (box));
+  phosh_quick_settings_box_set_max_columns (box, max_columns);
+  got_max_columns = phosh_quick_settings_box_get_max_columns (box);
   g_assert_cmpuint (got_max_columns, ==, max_columns);
 
   g_assert_finalize_object (box);
@@ -106,16 +106,16 @@ test_phosh_quick_settings_box_get_max_columns (void)
 static void
 test_phosh_quick_settings_box_get_spacing (void)
 {
-  GtkWidget *box;
+  PhoshQuickSettingsBox *box;
   guint spacing;
   guint got_spacing;
 
-  box = phosh_quick_settings_box_new (3, 0);
+  box = PHOSH_QUICK_SETTINGS_BOX (phosh_quick_settings_box_new (3, 0));
   g_object_ref_sink (box);
 
   spacing = 6;
-  phosh_quick_settings_box_set_spacing (PHOSH_QUICK_SETTINGS_BOX (box), spacing);
-  got_spacing = phosh_quick_settings_box_get_spacing (PHOSH_QUICK_SETTINGS_BOX (box));
+  phosh_quick_settings_box_set_spacing (box, spacing);
+  got_spacing = phosh_quick_settings_box_get_spacing (box);
   g_assert_cmpuint (got_spacing, ==, spacing);
 
   g_assert_finalize_object (box);
@@ -125,31 +125,31 @@ test_phosh_quick_settings_box_get_spacing (void)
 static void
 test_phosh_quick_settings_box_set_can_show_status (void)
 {
-  GtkWidget *box;
-  GtkWidget *child_a;
-  GtkWidget *child_b;
+  PhoshQuickSettingsBox *box;
+  PhoshQuickSetting *child_a;
+  PhoshQuickSetting *child_b;
   gboolean can_show_status;
   gboolean got_can_show_status;
 
-  box = phosh_quick_settings_box_new (3, 0);
+  box = PHOSH_QUICK_SETTINGS_BOX (phosh_quick_settings_box_new (3, 0));
   g_object_ref_sink (box);
   child_a = g_object_new (PHOSH_TYPE_QUICK_SETTING, "can-show-status", TRUE, NULL);
-  gtk_container_add (GTK_CONTAINER (box), child_a);
+  gtk_container_add (GTK_CONTAINER (box), GTK_WIDGET (child_a));
   child_b = g_object_new (PHOSH_TYPE_QUICK_SETTING, "can-show-status", FALSE, NULL);
-  gtk_container_add (GTK_CONTAINER (box), child_b);
+  gtk_container_add (GTK_CONTAINER (box), GTK_WIDGET (child_b));
 
   can_show_status = TRUE;
-  phosh_quick_settings_box_set_can_show_status (PHOSH_QUICK_SETTINGS_BOX (box), can_show_status);
-  got_can_show_status = phosh_quick_setting_get_can_show_status (PHOSH_QUICK_SETTING (child_a));
+  phosh_quick_settings_box_set_can_show_status (box, can_show_status);
+  got_can_show_status = phosh_quick_setting_get_can_show_status (child_a);
   g_assert_true (got_can_show_status == can_show_status);
-  got_can_show_status = phosh_quick_setting_get_can_show_status (PHOSH_QUICK_SETTING (child_b));
+  got_can_show_status = phosh_quick_setting_get_can_show_status (child_b);
   g_assert_true (got_can_show_status == can_show_status);
 
   can_show_status = FALSE;
-  phosh_quick_settings_box_set_can_show_status (PHOSH_QUICK_SETTINGS_BOX (box), can_show_status);
-  got_can_show_status = phosh_quick_setting_get_can_show_status (PHOSH_QUICK_SETTING (child_a));
+  phosh_quick_settings_box_set_can_show_status (box, can_show_status);
+  got_can_show_status = phosh_quick_setting_get_can_show_status (child_a);
   g_assert_true (got_can_show_status == can_show_status);
-  got_can_show_status = phosh_quick_setting_get_can_show_status (PHOSH_QUICK_SETTING (child_b));
+  got_can_show_status = phosh_quick_setting_get_can_show_status (child_b);
   g_assert_true (got_can_show_status == can_show_status);
 
   g_assert_finalize_object (box);
@@ -159,17 +159,16 @@ test_phosh_quick_settings_box_set_can_show_status (void)
 static void
 test_phosh_quick_settings_box_get_can_show_status (void)
 {
-  GtkWidget *box;
+  PhoshQuickSettingsBox *box;
   gboolean can_show_status;
   gboolean got_can_show_status;
 
-  box = phosh_quick_settings_box_new (3, 0);
+  box = PHOSH_QUICK_SETTINGS_BOX (phosh_quick_settings_box_new (3, 0));
   g_object_ref_sink (box);
 
   can_show_status = FALSE;
-  phosh_quick_settings_box_set_can_show_status (PHOSH_QUICK_SETTINGS_BOX (box), can_show_status);
-  got_can_show_status =
-    phosh_quick_settings_box_get_can_show_status (PHOSH_QUICK_SETTINGS_BOX (box));
+  phosh_quick_settings_box_set_can_show_status (box, can_show_status);
+  got_can_show_status = phosh_quick_settings_box_get_can_show_status (box);
   g_assert_true (got_can_show_status == can_show_status);
 
   g_assert_finalize_object (box);

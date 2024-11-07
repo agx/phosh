@@ -17,7 +17,6 @@
 #include "quick-setting.h"
 #include "quick-settings-box.h"
 #include "shell.h"
-#include "util.h"
 #include "wifi-status-page.h"
 
 #define CUSTOM_QUICK_SETTINGS_SCHEMA "sm.puri.phosh.plugins"
@@ -32,7 +31,7 @@
  * their interaction with user by launching appropriate actions.
  *
  * For example, tapping a Wi-Fi quick-setting would toggle its off/on state. Long pressing a
- * Bluetooth quick-setting would launch the Bluetooth settings.
+ * rotation quick-setting would change the rotation configuration.
  */
 
 struct _PhoshQuickSettings {
@@ -49,19 +48,6 @@ G_DEFINE_TYPE (PhoshQuickSettings, phosh_quick_settings, GTK_TYPE_BIN);
 
 
 static void
-open_settings_panel (PhoshQuickSettings *self, const char *panel)
-{
-  GActionGroup *group;
-
-  group = gtk_widget_get_action_group (GTK_WIDGET (self), "settings");
-  g_return_if_fail (group);
-  g_action_group_activate_action (group,
-                                  "launch-panel",
-                                  g_variant_new_string (panel));
-}
-
-
-static void
 on_wwan_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
   PhoshShell *shell = phosh_shell_get_default ();
@@ -73,13 +59,6 @@ on_wwan_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 
   enabled = phosh_wwan_is_enabled (wwan);
   phosh_wwan_set_enabled (wwan, !enabled);
-}
-
-
-static void
-on_wwan_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
-{
-  open_settings_panel (self, "wwan");
 }
 
 
@@ -99,13 +78,6 @@ on_wifi_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 
 
 static void
-on_wifi_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
-{
-  open_settings_panel (self, "wifi");
-}
-
-
-static void
 on_bt_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
   PhoshShell *shell = phosh_shell_get_default ();
@@ -121,23 +93,15 @@ on_bt_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 
 
 static void
-on_bt_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
-{
-  open_settings_panel (self, "bluetooth");
-}
-
-
-static void
 on_battery_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
-  open_settings_panel (self, "power");
-}
+  GActionGroup *group;
 
-
-static void
-on_battery_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
-{
-  open_settings_panel (self, "power");
+  group = gtk_widget_get_action_group (GTK_WIDGET (self), "settings");
+  g_return_if_fail (group);
+  g_action_group_activate_action (group,
+                                  "launch-panel",
+                                  g_variant_new_string ("power"));
 }
 
 
@@ -210,13 +174,6 @@ on_feedback_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 
 
 static void
-on_feedback_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
-{
-  open_settings_panel (self, "notifications");
-}
-
-
-static void
 on_torch_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
   PhoshShell *shell = phosh_shell_get_default ();
@@ -226,14 +183,6 @@ on_torch_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
   g_return_if_fail (PHOSH_IS_TORCH_MANAGER (manager));
 
   phosh_torch_manager_toggle (manager);
-}
-
-
-static void
-on_torch_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
-{
-  /* TODO */
-  open_settings_panel (self, "power");
 }
 
 
@@ -253,13 +202,6 @@ on_docked_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 
 
 static void
-on_docked_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
-{
-  open_settings_panel (self, "display");
-}
-
-
-static void
 on_vpn_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
 {
   PhoshShell *shell = phosh_shell_get_default ();
@@ -269,13 +211,6 @@ on_vpn_clicked (PhoshQuickSettings *self, PhoshQuickSetting *child)
   g_return_if_fail (PHOSH_IS_VPN_MANAGER (vpn_manager));
 
   phosh_vpn_manager_toggle_last_connection (vpn_manager);
-}
-
-
-static void
-on_vpn_long_pressed (PhoshQuickSettings *self, PhoshQuickSetting *child)
-{
-  open_settings_panel (self, "network");
 }
 
 
@@ -349,23 +284,15 @@ phosh_quick_settings_class_init (PhoshQuickSettingsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshQuickSettings, box);
 
   gtk_widget_class_bind_template_callback (widget_class, on_wwan_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, on_wwan_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_wifi_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, on_wifi_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_bt_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, on_bt_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_battery_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, on_battery_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_rotate_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_rotate_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_feedback_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, on_feedback_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_torch_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, on_torch_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_docked_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, on_docked_long_pressed);
   gtk_widget_class_bind_template_callback (widget_class, on_vpn_clicked);
-  gtk_widget_class_bind_template_callback (widget_class, on_vpn_long_pressed);
 }
 
 

@@ -42,6 +42,12 @@ on_clicked (PhoshSimpleCustomQuickSetting *self)
 }
 
 static void
+on_footer_clicked (PhoshSimpleCustomQuickSetting *self)
+{
+  g_message ("Footer clicked; open settings panel of the plugin");
+}
+
+static void
 phosh_simple_custom_quick_setting_class_init (PhoshSimpleCustomQuickSettingClass *klass)
 {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
@@ -52,6 +58,7 @@ phosh_simple_custom_quick_setting_class_init (PhoshSimpleCustomQuickSettingClass
   gtk_widget_class_bind_template_child (widget_class, PhoshSimpleCustomQuickSetting, info);
 
   gtk_widget_class_bind_template_callback (widget_class, on_clicked);
+  gtk_widget_class_bind_template_callback (widget_class, on_footer_clicked);
 }
 
 static void

@@ -198,7 +198,7 @@ phosh_quick_settings_box_destroy (GtkWidget *widget)
  * - After this, each quick-setting is given a height that is determined by dividing this new height
  *   by the number of rows (with spacing also taken into account).
  *
- * 9. Revealing statu-pages
+ * 9. Revealing status-pages
  * - Revealing status-page may not be immediate.
  * - If the box is not showing any status-page, then any request to show status-page, happens
  *   immediately.
@@ -216,10 +216,28 @@ phosh_quick_settings_box_destroy (GtkWidget *widget)
  * - This is done by removing the status-page from the revealer, setting `showing-status` on the
  *   shown child to false and then setting `shown_child` to `NULL`.
  * - After this the revealer's `reveal-child` is set to false.
- * - This immediate removal happens when the shown child's visibility changes, status-page changes
- *   to `NULL` or the child itself is removed from the box.
+ * - This immediate removal happens when the shown child's sensitivity or visibility changes,
+ *   status-page changes to `NULL` or the child itself is removed from the box.
  * - When the status-page changes to a valid page, we hot-swap the old page with new one
  *   without any transition.
+ *
+ * 11. Bottom margin on status-pages
+ * - We set `spacing` as the bottom margin of status-pages.
+ * - To understand why we don't request extra height and allocate spacing from it, consider the
+ *   below scenario.
+ * - Let's say we have two quick-settings A and B, arranged in a single column.
+ * - With A's status-page revealed, the structure will be like: A, spacing, status-page, spacing, B.
+ * - Now, when the status-page is unrevealed, it happens gradually.
+ * - At the final step of unrevealing, there could be just 1px height of status-page.
+ * - But at the same time, the spacing before and after status-page is still there.
+ * - Now, when the status-page gets completely hidden, the structure will be like: A, spacing, B.
+ * - That is, a `spacing` amount of pixels suddenly disappears.
+ * - As the value of `spacing` increases, the visual flicker caused by this disappearance gets more
+ *   noticeable.
+ * - To avoid this, we need to make the spacing also disappear gradually.
+ * - An easy way to do it is by making that spacing part of margin of the status-page.
+ * - This way, the revealer will ensure that entire structure of status-page with bottom margin
+ *   reveals and unreveals smoothly.
  */
 
 static int
@@ -360,8 +378,8 @@ phosh_quick_settings_box_get_preferred_height_for_width (GtkWidget *widget, int 
     int rev_nat_height = 0;
     gtk_widget_get_preferred_height_for_width (GTK_WIDGET (self->revealer), width, &rev_min_height,
                                                &rev_nat_height);
-    *minimum_height += rev_min_height + self->spacing;
-    *natural_height += rev_nat_height + self->spacing;
+    *minimum_height += rev_min_height;
+    *natural_height += rev_nat_height;
 
     g_debug ("%p: Revealer preferred height: minimum = %d\tnatural = %d",
              self, rev_min_height, rev_nat_height);
@@ -411,7 +429,7 @@ allocate_children (PhoshQuickSettingsBox *self,
     rect.y += height + self->spacing;
 
     if (show_at_this_row) {
-      rect.height = revealer_height - self->spacing;
+      rect.height = revealer_height;
       rect.width = revealer_width;
       gtk_widget_size_allocate (GTK_WIDGET (self->revealer), &rect);
       rect.height = height;
@@ -458,7 +476,6 @@ phosh_quick_settings_box_size_allocate (GtkWidget *widget, GtkAllocation *alloca
     gtk_widget_get_preferred_height_for_width (GTK_WIDGET (self->revealer),
                                                allocation->width, NULL,
                                                &revealer_height);
-    revealer_height += self->spacing;
   } else {
     revealer_height = 0;
   }
@@ -577,6 +594,9 @@ on_status_page_changed (PhoshQuickSettingsBox *self, GParamSpec *pspec, PhoshQui
 {
   PhoshStatusPage *status_page = phosh_quick_setting_get_status_page (child);
 
+  if (status_page)
+    gtk_widget_set_margin_bottom (GTK_WIDGET (status_page), self->spacing);
+
   if (child == self->shown_child) {
     GtkWidget *existing_status = gtk_bin_get_child (GTK_BIN (self->revealer));
     gtk_container_remove (GTK_CONTAINER (self->revealer), existing_status);
@@ -595,6 +615,30 @@ on_status_page_changed (PhoshQuickSettingsBox *self, GParamSpec *pspec, PhoshQui
 
 
 static void
+depromote_child (PhoshQuickSettingsBox *self, PhoshQuickSetting *child)
+{
+  if (child == self->shown_child) {
+    hide_status_page (self);
+    gtk_revealer_set_reveal_child (self->revealer, FALSE);
+  } else if (child == self->to_show_child) {
+    self->to_show_child = NULL;
+  }
+}
+
+
+static void
+on_sensitive_changed (PhoshQuickSettingsBox *self, GParamSpec *pspec, PhoshQuickSetting *child)
+{
+  gboolean sensitive = gtk_widget_get_sensitive (GTK_WIDGET (child));
+
+  if (sensitive)
+    return;
+
+  depromote_child (self, child);
+}
+
+
+static void
 on_visible_changed (PhoshQuickSettingsBox *self, GParamSpec *pspec, PhoshQuickSetting *child)
 {
   gboolean visible = gtk_widget_get_visible (GTK_WIDGET (child));
@@ -602,12 +646,7 @@ on_visible_changed (PhoshQuickSettingsBox *self, GParamSpec *pspec, PhoshQuickSe
   if (visible)
     return;
 
-  if (child == self->shown_child) {
-    hide_status_page (self);
-    gtk_revealer_set_reveal_child (self->revealer, FALSE);
-  } else if (child == self->to_show_child) {
-    self->to_show_child = NULL;
-  }
+  depromote_child (self, child);
 }
 
 
@@ -635,9 +674,13 @@ phosh_quick_settings_box_add (GtkContainer *container, GtkWidget *widget)
                     G_CALLBACK (on_hide_status), self,
                     "swapped-object-signal::notify::status-page",
                     G_CALLBACK (on_status_page_changed), self,
+                    "swapped-object-signal::notify::sensitive",
+                    G_CALLBACK (on_sensitive_changed), self,
                     "swapped-object-signal::notify::visible",
                     G_CALLBACK (on_visible_changed), self,
                     NULL);
+
+  on_status_page_changed (self, NULL, child);
 }
 
 
@@ -708,9 +751,7 @@ phosh_quick_settings_box_class_init (PhoshQuickSettingsBoxClass *klass)
   props[PROP_MAX_COLUMNS] =
     g_param_spec_uint ("max-columns", "", "",
                        1, G_MAXUINT, 3,
-                       G_PARAM_READWRITE |
-                       G_PARAM_EXPLICIT_NOTIFY |
-                       G_PARAM_STATIC_STRINGS);
+                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshQuickSettingsBox:spacing:
    *
@@ -719,9 +760,7 @@ phosh_quick_settings_box_class_init (PhoshQuickSettingsBoxClass *klass)
   props[PROP_SPACING] =
     g_param_spec_uint ("spacing", "", "",
                        0, G_MAXUINT, 0,
-                       G_PARAM_READWRITE |
-                       G_PARAM_EXPLICIT_NOTIFY |
-                       G_PARAM_STATIC_STRINGS);
+                       G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshQuickSettingsBox:can-show-status:
    *
@@ -730,9 +769,7 @@ phosh_quick_settings_box_class_init (PhoshQuickSettingsBoxClass *klass)
   props[PROP_CAN_SHOW_STATUS] =
     g_param_spec_boolean ("can-show-status", "", "",
                           TRUE,
-                          G_PARAM_READWRITE |
-                          G_PARAM_EXPLICIT_NOTIFY |
-                          G_PARAM_STATIC_STRINGS);
+                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
@@ -741,6 +778,8 @@ phosh_quick_settings_box_class_init (PhoshQuickSettingsBoxClass *klass)
 
   gtk_widget_class_bind_template_callback (widget_class, on_child_revealed_changed);
   gtk_widget_class_bind_template_child (widget_class, PhoshQuickSettingsBox, revealer);
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-quick-settings-box");
 }
 
 
@@ -800,6 +839,14 @@ phosh_quick_settings_box_set_spacing (PhoshQuickSettingsBox *self, guint spacing
 
   self->spacing = spacing;
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SPACING]);
+
+  for (int i = 0; i < self->children->len; i++) {
+    PhoshQuickSetting *child = g_ptr_array_index (self->children, i);
+    PhoshStatusPage *status_page = phosh_quick_setting_get_status_page (child);
+    if (status_page)
+      gtk_widget_set_margin_bottom (GTK_WIDGET (status_page), self->spacing);
+  }
+
   gtk_widget_queue_resize (GTK_WIDGET (self));
 }
 
