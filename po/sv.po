@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-09-20 14:10+0000\n"
-"PO-Revision-Date: 2024-09-24 20:40+0200\n"
+"POT-Creation-Date: 2024-11-06 13:32+0000\n"
+"PO-Revision-Date: 2024-11-07 17:03+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -94,6 +94,15 @@ msgstr "Snabbinställning för nattbelysning"
 msgid "Toggle night light on/off"
 msgstr "Aktivera/inaktivera nattbelysning"
 
+#. Translators: "Pomodoro" is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+msgid "Pomodoro Quick Setting"
+msgstr "Snabbinställning för Pomodoro"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+msgid "Simple Pomodoro Timer"
+msgstr "Enkel Pomodoroklocka"
+
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
@@ -147,11 +156,11 @@ msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "På"
 
-#: src/bt-status-page.c:86
+#: src/bt-status-page.c:95
 msgid "No connectable Bluetooth Devices found"
 msgstr "Inga Bluetooth-enheter att ansluta till hittades"
 
-#: src/bt-status-page.c:90
+#: src/bt-status-page.c:99
 msgid "Bluetooth disabled"
 msgstr "Bluetooth inaktiverat"
 
@@ -252,21 +261,40 @@ msgid "No"
 msgstr "Nej"
 
 #. give visual feedback on error
-#: src/lockscreen.c:274 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Ange lösenord"
 
-#: src/lockscreen.c:919
+#: src/lockscreen.c:949
 msgid "Checking…"
 msgstr "Kontrollerar…"
 
-#: src/screenshot-manager.c:221 src/ui/power-menu.ui:192
+#. Translators: '%s' is the filename of a screenshot
+#: src/screenshot-manager.c:235
+#, c-format
+msgid "Screenshot saved to '%s'"
+msgstr "Skärmbild sparad till ”%s”"
+
+#: src/screenshot-manager.c:237
+msgid "Failed to save screenshot"
+msgstr "Misslyckades med att spara skärmbild"
+
+#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Skärmbild"
 
-#: src/screenshot-manager.c:222
-msgid "Screenshot copied to clipboard"
-msgstr "Skärmbild kopierad till urklipp"
+#. Translators: name of the folder beneath ~/Pictures used to store screenshots
+#: src/screenshot-manager.c:416
+msgid "Screenshots"
+msgstr "Skärmbilder"
+
+#. Translators: Name of a screenshot file. The first '%s' is a timestamp
+#. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
+#. * the file already exists like '-3'
+#: src/screenshot-manager.c:436
+#, c-format
+msgid "Screenshot from %s%s.png"
+msgstr "Skärmbild från %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
@@ -316,7 +344,10 @@ msgstr "Ange lösenord för Wi-Fi-nätverket ”%s”"
 msgid "Open"
 msgstr "Öppna"
 
+#. We don't just set the app_info but name and icon separately to
+#. * not overwrite values set by the caller
 #: src/notifications/notification.c:404 src/notifications/notification.c:677
+#: src/notifications/notify-manager.c:1004
 msgid "Notification"
 msgstr "Avisering"
 
@@ -511,23 +542,23 @@ msgstr "_Ta bort från mapp"
 msgid "Search apps…"
 msgstr "Sök appar…"
 
-#: src/ui/audio-settings.ui:84
+#: src/ui/audio-settings.ui:85
 msgid "Output Devices"
 msgstr "Utgångsenheter"
 
-#: src/ui/audio-settings.ui:108
+#: src/ui/audio-settings.ui:109
 msgid "Input Devices"
 msgstr "Ingångsenheter"
 
-#: src/ui/audio-settings.ui:136
+#: src/ui/audio-settings.ui:137
 msgid "Sound Settings"
 msgstr "Ljudinställningar"
 
-#: src/ui/bt-status-page.ui:32
+#: src/ui/bt-status-page.ui:31
 msgid "Enable Bluetooth"
 msgstr "Aktivera Bluetooth"
 
-#: src/ui/bt-status-page.ui:53
+#: src/ui/bt-status-page.ui:55
 msgid "Bluetooth Settings"
 msgstr "Bluetooth-inställningar"
 
@@ -621,15 +652,15 @@ msgstr "Nödläge"
 msgid "Run Command"
 msgstr "Kör kommando"
 
-#: src/ui/settings.ui:329
+#: src/ui/settings.ui:142
 msgid "No notifications"
 msgstr "Inga aviseringar"
 
-#: src/ui/settings.ui:360
+#: src/ui/settings.ui:173
 msgid "Notifications"
 msgstr "Aviseringar"
 
-#: src/ui/settings.ui:369
+#: src/ui/settings.ui:182
 msgid "Clear all"
 msgstr "Rensa alla"
 
@@ -657,7 +688,7 @@ msgstr "_Logga ut…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:68
+#: src/ui/wifi-status-page.ui:72
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-inställningar"
 
@@ -704,37 +735,33 @@ msgstr "Stäng av"
 msgid "No Wi-Fi Hotspots"
 msgstr "Inga Wi-Fi-surfzoner"
 
-#: src/wifi-status-page.c:64
-msgid "Scan"
-msgstr "Sök av"
-
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Mobilt nätverk"
 
 #. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:52
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:53
 msgid "Phosh on caffeine"
 msgstr "Phosh på koffein"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
 msgid "On"
 msgstr "På"
 
-#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:131
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
 msgid "Off"
 msgstr "Av"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:35
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
 msgid "Default style"
 msgstr "Standardstil"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
 msgid "Dark mode"
 msgstr "Mörkt läge"
 
-#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:38
 msgid "Light mode"
 msgstr "Ljust läge"
 
@@ -846,21 +873,75 @@ msgstr "Inga programstartare konfigurerade"
 msgid "Launchers"
 msgstr "Programstartare"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:79
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
 msgid "Mobile Data On"
 msgstr "Mobildata på"
 
-#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:79
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
 msgid "Mobile Data Off"
 msgstr "Mobildata av"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
 msgid "Night Light On"
 msgstr "Nattbelysning på"
 
-#: plugins/night-light-quick-setting/night-light-quick-setting.c:64
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
 msgid "Night Light Off"
 msgstr "Nattbelysning av"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+msgid "Pomodoro start"
+msgstr "Pomodorostart"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#, c-format
+msgid "Focus on your task for %d minutes"
+msgstr "Fokusera på din uppgift i %d minuter"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+msgid "Take a break"
+msgstr "Ta en rast"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#, c-format
+msgid "You have %d minutes until next Pomodoro"
+msgstr "Du har %d minuter till nästa Pomodoro"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+msgid "Pomodoro Timer"
+msgstr "Pomodoroklocka"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#, c-format
+msgid "Pomodoro Off"
+msgstr "Pomodoro av"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:6
+msgid "Pomodoro Quick Setting Preferences"
+msgstr "Snabbinställningar för Pomodoro"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+msgid "Pomodoro Technique"
+msgstr "Pomodoroteknik"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+msgid "_Active Duration"
+msgstr "_Aktiv längd"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+msgid "Duration of the focus session"
+msgstr "Längd på fokussessionen"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+msgid "_Break Duration"
+msgstr "_Längd på rast"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+msgid "Duration of the break between sessions"
+msgstr "Längd på rasten mellan sessioner"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -959,13 +1040,19 @@ msgstr "Datumintervall"
 msgid "Number of days to show events for"
 msgstr "Antal dagar att visa händelser för"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:78
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
 msgstr "Surfzon av"
 
-#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:80
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Surfzon på"
+
+#~ msgid "Screenshot copied to clipboard"
+#~ msgstr "Skärmbild kopierad till urklipp"
+
+#~ msgid "Scan"
+#~ msgstr "Sök av"
 
 #~ msgid "_Power Off"
 #~ msgstr "S_täng av"
