@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-17 20:02+0000\n"
-"PO-Revision-Date: 2024-10-18 06:18+0200\n"
+"POT-Creation-Date: 2024-11-05 14:46+0000\n"
+"PO-Revision-Date: 2024-11-10 01:15+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -265,13 +265,32 @@ msgstr "შეიყვანეთ კოდი"
 msgid "Checking…"
 msgstr "შემოწმება…"
 
-#: src/screenshot-manager.c:223 src/ui/power-menu.ui:192
+#. Translators: '%s' is the filename of a screenshot
+#: src/screenshot-manager.c:235
+#, c-format
+msgid "Screenshot saved to '%s'"
+msgstr "ეკრანის ანაბეჭდი შენახულია ფაილში '%s'"
+
+#: src/screenshot-manager.c:237
+msgid "Failed to save screenshot"
+msgstr "ეკრანის ანაბეჭდის შენახვა ვერ მოხერხდა"
+
+#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "ეკრანის ანაბეჭდი"
 
-#: src/screenshot-manager.c:224
-msgid "Screenshot copied to clipboard"
-msgstr "ეკრანის ანაბეჭდის ბუფერში დაკოპირდა"
+#. Translators: name of the folder beneath ~/Pictures used to store screenshots
+#: src/screenshot-manager.c:416
+msgid "Screenshots"
+msgstr "ეკრანის ანაბეჭდები"
+
+#. Translators: Name of a screenshot file. The first '%s' is a timestamp
+#. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
+#. * the file already exists like '-3'
+#: src/screenshot-manager.c:436
+#, c-format
+msgid "Screenshot from %s%s.png"
+msgstr "ეკრანის ანაბეჭდი %s%s.png-დან"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
@@ -324,7 +343,7 @@ msgstr "გახსნა"
 #. We don't just set the app_info but name and icon separately to
 #. * not overwrite values set by the caller
 #: src/notifications/notification.c:404 src/notifications/notification.c:677
-#: src/notifications/notify-manager.c:1006
+#: src/notifications/notify-manager.c:1004
 msgid "Notification"
 msgstr "გაფრთხილება"
 
@@ -512,23 +531,23 @@ msgstr "_საქაღალდიდან წაშლა"
 msgid "Search apps…"
 msgstr "აპპების ძებნა…"
 
-#: src/ui/audio-settings.ui:84
+#: src/ui/audio-settings.ui:85
 msgid "Output Devices"
 msgstr "გამოტანის მოწყობილობები"
 
-#: src/ui/audio-settings.ui:108
+#: src/ui/audio-settings.ui:109
 msgid "Input Devices"
 msgstr "შეტანის მოწყობილობები"
 
-#: src/ui/audio-settings.ui:136
+#: src/ui/audio-settings.ui:137
 msgid "Sound Settings"
 msgstr "ხმის მორგება"
 
-#: src/ui/bt-status-page.ui:32
+#: src/ui/bt-status-page.ui:31
 msgid "Enable Bluetooth"
 msgstr "ბლუთუზის ჩართვა"
 
-#: src/ui/bt-status-page.ui:53
+#: src/ui/bt-status-page.ui:55
 msgid "Bluetooth Settings"
 msgstr "ბლუთუზის პარამეტრები"
 
@@ -658,7 +677,7 @@ msgstr "გა_სვლა…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:69
+#: src/ui/wifi-status-page.ui:72
 msgid "Wi-Fi Settings"
 msgstr "Wi-Fi-ის მორგება"
 
