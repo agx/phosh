@@ -129,7 +129,7 @@ transform_to_label (GBinding     *binding,
   gboolean inhibited = g_value_get_boolean (from_value);
   const char *label;
 
-  label = inhibited ? _("On") : _("Off");
+  label = inhibited ? C_("caffeine-enabled", "On") : C_("caffeine-disabled", "Off");
   g_value_set_string (to_value, label);
   return TRUE;
 }
