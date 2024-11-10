@@ -528,9 +528,10 @@ phosh_app_grid_key_press_event (GtkWidget   *widget,
 }
 
 
-static gboolean
-do_search (PhoshAppGrid *self)
+static void
+do_search (gpointer data)
 {
+  PhoshAppGrid *self = data;
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GtkAdjustment *adjustment;
 
@@ -548,7 +549,6 @@ do_search (PhoshAppGrid *self)
   gtk_filter_list_model_refilter (priv->model);
 
   priv->debounce = 0;
-  return G_SOURCE_REMOVE;
 }
 
 
@@ -601,7 +601,7 @@ search_changed (GtkSearchEntry *entry,
 
     /* GtkSearchEntry already adds 150ms of delay, but it's too little
      * so add a bit more until searching is faster and/or non-blocking */
-    priv->debounce = g_timeout_add (SEARCH_DEBOUNCE, (GSourceFunc) do_search, self);
+    priv->debounce = g_timeout_add_once (SEARCH_DEBOUNCE, do_search, self);
     g_source_set_name_by_id (priv->debounce, "[phosh] debounce app grid search (search-changed)");
   } else {
     /* don't add the delay when the entry got cleared */
@@ -624,7 +624,7 @@ search_preedit_changed (GtkSearchEntry *entry,
 
   g_clear_handle_id (&priv->debounce, g_source_remove);
 
-  priv->debounce = g_timeout_add (SEARCH_DEBOUNCE + DEFAULT_GTK_DEBOUNCE, (GSourceFunc) do_search, self);
+  priv->debounce = g_timeout_add_once (SEARCH_DEBOUNCE + DEFAULT_GTK_DEBOUNCE, do_search, self);
   g_source_set_name_by_id (priv->debounce, "[phosh] debounce app grid search (preedit-changed)");
 }
 
