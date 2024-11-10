@@ -640,16 +640,14 @@ search_activated (GtkSearchEntry *entry,
     return;
 
   /* Don't activate when there isn't an active search */
-  if (!priv->search_string || *priv->search_string == '\0') {
+  if (!priv->search_string || *priv->search_string == '\0')
     return;
-  }
 
   child = gtk_flow_box_get_child_at_index (GTK_FLOW_BOX (priv->apps), 0);
 
   /* No results */
-  if (child == NULL) {
+  if (child == NULL)
     return;
-  }
 
   if (G_LIKELY (PHOSH_IS_APP_GRID_BUTTON (child))) {
     gtk_widget_activate (GTK_WIDGET (child));
@@ -693,7 +691,7 @@ search_gained_focus (GtkWidget    *widget,
 static void
 phosh_app_grid_class_init (PhoshAppGridClass *klass)
 {
-  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->dispose = phosh_app_grid_dispose;
