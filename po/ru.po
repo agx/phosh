@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-23 07:42+0000\n"
-"PO-Revision-Date: 2024-10-23 14:29+0300\n"
+"POT-Creation-Date: 2024-11-11 09:22+0000\n"
+"PO-Revision-Date: 2024-11-11 12:50+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -263,30 +263,40 @@ msgid "No"
 msgstr "Нет"
 
 #. give visual feedback on error
-#: src/lockscreen.c:274 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Введите код доступа"
 
-#: src/lockscreen.c:919
+#: src/lockscreen.c:949
 msgid "Checking…"
 msgstr "Проверка…"
 
-#: src/screenshot-manager.c:225
-msgid "Screenshot copied to clipboard"
-msgstr "Снимок экрана скопирован в буфер обмена"
-
-#: src/screenshot-manager.c:230
+#. Translators: '%s' is the filename of a screenshot
+#: src/screenshot-manager.c:235
 #, c-format
-msgid "Screenshot saved to %s"
-msgstr "Снимок экрана сохранен в %s"
+msgid "Screenshot saved to '%s'"
+msgstr "Снимок экрана сохранен в '%s'"
 
-#: src/screenshot-manager.c:233
+#: src/screenshot-manager.c:237
 msgid "Failed to save screenshot"
 msgstr "Не удалось сохранить снимок экрана"
 
-#: src/screenshot-manager.c:237 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Снимок экрана"
+
+#. Translators: name of the folder beneath ~/Pictures used to store screenshots
+#: src/screenshot-manager.c:416
+msgid "Screenshots"
+msgstr "Снимки экрана"
+
+#. Translators: Name of a screenshot file. The first '%s' is a timestamp
+#. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
+#. * the file already exists like '-3'
+#: src/screenshot-manager.c:436
+#, c-format
+msgid "Screenshot from %s%s.png"
+msgstr "Снимок экрана от %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
@@ -344,27 +354,27 @@ msgid "Notification"
 msgstr "Уведомление"
 
 #. Translators: Point in time, use a short word or abbreviation
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:86
 msgid "now"
 msgstr "сейчас"
 
 #. Translators: abbreviated time difference "Less than 30 seconds"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:91
 #, c-format
 msgid "<30s"
 msgstr "<30 с"
 
 #. Translators: abbreviated time difference "Less than one minute"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:96
 #, c-format
 msgid "<1m"
 msgstr "<1 м"
 
 #. Translators: abbreviated time difference "About one minute"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:101
 #, c-format
 msgid "~1m"
@@ -541,23 +551,23 @@ msgstr "_Удалить из папки"
 msgid "Search apps…"
 msgstr "Поиск приложений…"
 
-#: src/ui/audio-settings.ui:84
+#: src/ui/audio-settings.ui:85
 msgid "Output Devices"
 msgstr "Устройства вывода"
 
-#: src/ui/audio-settings.ui:108
+#: src/ui/audio-settings.ui:109
 msgid "Input Devices"
 msgstr "Устройства ввода"
 
-#: src/ui/audio-settings.ui:136
+#: src/ui/audio-settings.ui:137
 msgid "Sound Settings"
 msgstr "Настройки звука"
 
-#: src/ui/bt-status-page.ui:32
+#: src/ui/bt-status-page.ui:31
 msgid "Enable Bluetooth"
 msgstr "Включить Bluetooth"
 
-#: src/ui/bt-status-page.ui:53
+#: src/ui/bt-status-page.ui:55
 msgid "Bluetooth Settings"
 msgstr "Настройки Bluetooth"
 
@@ -687,7 +697,7 @@ msgstr "_Выйти…"
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
 
-#: src/ui/wifi-status-page.ui:69
+#: src/ui/wifi-status-page.ui:72
 msgid "Wi-Fi Settings"
 msgstr "Настройки Wi-Fi"
 
@@ -745,10 +755,12 @@ msgid "Phosh on caffeine"
 msgstr "Phosh на кофеине"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-enabled"
 msgid "On"
 msgstr "Вкл"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-disabled"
 msgid "Off"
 msgstr "Выкл"
 
@@ -1047,6 +1059,9 @@ msgstr "Точка доступа включена"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Точка доступа выключена"
+
+#~ msgid "Screenshot copied to clipboard"
+#~ msgstr "Снимок экрана скопирован в буфер обмена"
 
 #~ msgid "Scan"
 #~ msgstr "Сканировать"
