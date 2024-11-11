@@ -112,7 +112,8 @@ This is handled via GNOMEs infra, see
 
 ## Development Documentation
 
-API documentation is at <https://world.pages.gitlab.gnome.org/Phosh/phosh>
+Development documentation including API docs and notes for application
+developers is at <https://world.pages.gitlab.gnome.org/Phosh/phosh>.
 
 [main]: https://gitlab.gnome.org/World/Phosh/phosh/-/tree/main
 [.gitlab-ci.yml]: https://gitlab.gnome.org/World/Phosh/phosh/-/blob/main/.gitlab-ci.yml
