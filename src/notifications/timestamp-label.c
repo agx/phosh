@@ -82,22 +82,22 @@ phosh_time_diff_in_words (GDateTime *dt, GDateTime *dt_now)
     switch (seconds) {
     case 0 ... 14:
       /* Translators: Point in time, use a short word or abbreviation */
-      /* Please stick to a maximum of 7 chars */
+      /* Please stick to a maximum of 12 chars */
       result = g_strdup (_("now"));
       break;
     case 15 ... 29:
       /* Translators: abbreviated time difference "Less than 30 seconds" */
-      /* Please stick to a maximum of 7 chars */
+      /* Please stick to a maximum of 12 chars */
       result = g_strdup_printf (_("<30s"));
       break;
     case 30 ... 59:
       /* Translators: abbreviated time difference "Less than one minute" */
-      /* Please stick to a maximum of 7 chars */
+      /* Please stick to a maximum of 12 chars */
       result = g_strdup_printf (_("<1m"));
       break;
     default:
       /* Translators: abbreviated time difference "About one minute" */
-      /* Please stick to a maximum of 7 chars */
+      /* Please stick to a maximum of 12 chars */
       result = g_strdup_printf (_("~1m"));
       break;
     }
