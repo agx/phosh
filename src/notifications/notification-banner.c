@@ -102,8 +102,6 @@ phosh_notification_banner_set_notification (PhoshNotificationBanner *self,
                                             G_CALLBACK (expired), self);
   self->handler_closed = g_signal_connect (self->notification, "closed",
                                            G_CALLBACK (closed), self);
-
-  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_NOTIFICATION]);
 }
 
 
@@ -166,10 +164,8 @@ phosh_notification_banner_slide (PhoshNotificationBanner *self)
   int height;
   double progress = hdy_ease_out_cubic (self->animation.progress);
 
-  progress = 1.0 - progress;
-
   gtk_window_get_size (GTK_WINDOW (self), NULL, &height);
-  margin = (height - 300) * progress;
+  margin = -(height * 0.9) * (1.0 - progress);
 
   phosh_layer_surface_set_margins (PHOSH_LAYER_SURFACE (self), margin, 0, 0, 0);
 
@@ -235,17 +231,13 @@ phosh_notification_banner_class_init (PhoshNotificationBannerClass *klass)
 
   /**
    * PhoshNotificationBanner:notification:
-   * @self: the #PhoshNotificationBanner
    *
-   * The #PhoshNotification shown in @self
+   * The #PhoshNotification shown
    */
   props[PROP_NOTIFICATION] =
-    g_param_spec_object ("notification",
-                         "Notification",
-                         "Notification in the banner",
+    g_param_spec_object ("notification", "", "",
                          PHOSH_TYPE_NOTIFICATION,
-                         G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
-                         G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+                         G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
@@ -273,11 +265,9 @@ phosh_notification_banner_new (PhoshNotification *notification)
   return g_object_new (PHOSH_TYPE_NOTIFICATION_BANNER,
                        "notification", notification,
                        /* layer surface */
-                       "margin-top", -300,
                        "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                        "wl-output", monitor ? monitor->wl_output : NULL,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP,
-                       "height", 50,
                        "width", MIN (width, 450),
                        "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                        "kbd-interactivity", FALSE,
