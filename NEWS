@@ -1,3 +1,67 @@
+phosh 0.43~rc1
+--------------
+Released November 2024
+* Improved quick settings
+  - Do away with long press to open status pages
+  - Show status pages below quick settings
+  - Custom quick settings can now have status pages too
+* Support accent colors
+* New quick setting: Simple Pomodoro timer (can be
+  configured via Mobile Settings)
+* Notification system improvements and fixes, e.g.
+  - Fix some banners not showing
+  - Animate hiding applications in the tray and more fixes
+  - More consistent event feedback for notifications (so that
+    e.g. there's not only LED feedback when the device is
+    unused/locked)
+  - Try harder to find an application item
+* Allow to disable lockscreen authentication
+* Save screenshots to screenshots folder
+* Lots of other fixes, focus and style improvements
+* Issues fixed:
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1090
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1118
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1124
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1125
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1127
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1130
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1132
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1133
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1134
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1143
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1144
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/221
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/351
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/728
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/928
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/964
+    * https://source.puri.sm/Librem5/feedbackd/-/merge_requests/69
+* Contributors:
+    * Anna (cybertailor) Vyalkova
+    * Arun Mani J
+    * Eugenio Paolantonio (g7)
+    * Gotam Gorabh
+    * Guido Günther
+    * Kenny Levinsen
+    * Sam Day
+    * Teemu Ikonen
+* UI translations:
+    * Anders Jonsson (sv)
+    * Andi Chandler (en_GB)
+    * Antonio Marin (ro)
+    * Artur S0 (ru)
+    * Danial Behzadi (fa)
+    * Daniel Rusek (cs)
+    * Ekaterine Papava (ka)
+    * Jordi Mas i Hernandez (ca)
+    * Juliano de Souza Camargo (pt_BR)
+    * Martin (sl)
+    * Nathan Follens (nl)
+    * Rafael Fontenelle (pt_BR)
+    * Vincent Chatelain (fr)
+    * Yaron Shahrabani (he)
+    * Yuri Chornoivan (uk)
+
 phosh 0.42.0
 ------------
 Released September 2024
