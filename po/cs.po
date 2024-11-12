@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-11-05 14:46+0000\n"
-"PO-Revision-Date: 2024-11-07 13:22+0100\n"
+"POT-Creation-Date: 2024-11-11 09:22+0000\n"
+"PO-Revision-Date: 2024-11-12 17:22+0100\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -263,11 +263,11 @@ msgid "No"
 msgstr "Ne"
 
 #. give visual feedback on error
-#: src/lockscreen.c:274 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Zadejte heslo"
 
-#: src/lockscreen.c:919
+#: src/lockscreen.c:949
 msgid "Checking…"
 msgstr "Kontroluje se…"
 
@@ -354,27 +354,27 @@ msgid "Notification"
 msgstr "Upozornění"
 
 #. Translators: Point in time, use a short word or abbreviation
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:86
 msgid "now"
 msgstr "nyní"
 
 #. Translators: abbreviated time difference "Less than 30 seconds"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:91
 #, c-format
 msgid "<30s"
 msgstr "<30 sek."
 
 #. Translators: abbreviated time difference "Less than one minute"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:96
 #, c-format
 msgid "<1m"
 msgstr "<1 min."
 
 #. Translators: abbreviated time difference "About one minute"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:101
 #, c-format
 msgid "~1m"
@@ -755,10 +755,12 @@ msgid "Phosh on caffeine"
 msgstr "Phosh na caffeine"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-enabled"
 msgid "On"
 msgstr "Zapnout"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-disabled"
 msgid "Off"
 msgstr "Vypnout"
 
