@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-11-05 14:46+0000\n"
-"PO-Revision-Date: 2024-11-06 22:40+0200\n"
+"POT-Creation-Date: 2024-11-11 09:22+0000\n"
+"PO-Revision-Date: 2024-11-12 19:45+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -263,18 +263,17 @@ msgid "No"
 msgstr "Ні"
 
 #. give visual feedback on error
-#: src/lockscreen.c:274 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Уведіть пароль"
 
-#: src/lockscreen.c:919
+#: src/lockscreen.c:949
 msgid "Checking…"
 msgstr "Звіряю…"
 
 #. Translators: '%s' is the filename of a screenshot
 #: src/screenshot-manager.c:235
 #, c-format
-#| msgid "Screenshot saved to %s"
 msgid "Screenshot saved to '%s'"
 msgstr "Знімок збережено до «%s»"
 
@@ -288,7 +287,6 @@ msgstr "Знімок вікна"
 
 #. Translators: name of the folder beneath ~/Pictures used to store screenshots
 #: src/screenshot-manager.c:416
-#| msgid "Screenshot"
 msgid "Screenshots"
 msgstr "Знімки вікон"
 
@@ -297,7 +295,6 @@ msgstr "Знімки вікон"
 #. * the file already exists like '-3'
 #: src/screenshot-manager.c:436
 #, c-format
-#| msgid "Screenshot saved to %s"
 msgid "Screenshot from %s%s.png"
 msgstr "Знімок вікна %s%s.png"
 
@@ -357,27 +354,27 @@ msgid "Notification"
 msgstr "Сповіщення"
 
 #. Translators: Point in time, use a short word or abbreviation
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:86
 msgid "now"
 msgstr "зараз"
 
 #. Translators: abbreviated time difference "Less than 30 seconds"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:91
 #, c-format
 msgid "<30s"
 msgstr "<30с"
 
 #. Translators: abbreviated time difference "Less than one minute"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:96
 #, c-format
 msgid "<1m"
 msgstr "<1х"
 
 #. Translators: abbreviated time difference "About one minute"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:101
 #, c-format
 msgid "~1m"
@@ -758,10 +755,14 @@ msgid "Phosh on caffeine"
 msgstr "Phosh на caffeine"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+#| msgid "On"
+msgctxt "caffeine-enabled"
 msgid "On"
 msgstr "❙"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+#| msgid "Off"
+msgctxt "caffeine-disabled"
 msgid "Off"
 msgstr "○"
 
