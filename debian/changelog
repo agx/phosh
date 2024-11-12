@@ -1,3 +1,329 @@
+phosh (0.43~rc1) experimental; urgency=medium
+
+  [ Gotam Gorabh ]
+  * docs: Update commit message guidelines for bug fixes
+  * notification-frame: Add slide-up animation to the notifications.
+    Add slide-up animation to the rest of the notifications
+    into the space that the one that was just dismissed.
+    Helps: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/788
+
+  [ Guido Günther ]
+  * build: Drop the versions block.
+    Not needed anymore. We require those versions anyway.
+  * build: Install gir when we create the bindngs lib.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1118
+  * notify-feedback: Send event for new notifications.
+    The feedback theme should decide what should happen on notifications,
+    not the shell.
+  * notify-feedback: Make condition match maybe_trigger_feedback.
+    The early exit should use the same criteria we use in
+    `maybe_trigger_feedback` later on (as it's only purpose is to shortcut
+    the logic early.
+  * notify-feedback: Emit proper feedback when device is locked.
+    So far we only picked the `*-missed-*` events and relied on the app to
+    submit proper feedback. That isn't very reasonable though as the app
+    e.g. won't know if the user has disabled notifications.
+    So emit feedback for all notifications with reasonable categories.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/728
+    Closes: https://source.puri.sm/Librem5/feedbackd/-/merge_requests/69
+  * notify-feedback: Allow apps to special case SMS. This is useful for
+    phones
+  * notify-feedback: Clarify event purpose.  We only track the events for the
+    inactive case
+  * notify-feedback: Always trigger feedback when events are added.  Since we
+    handle inactive and active now we shouldn't silently ignore new
+    notifications.
+  * notify-feedback: Handle feedback for active case separately.
+    This ensures we don't forget to end feedback for long running
+    feedback when the device is active (e.g. `call-unanswered`).
+  * style-manager: New class to handle themes and styles.
+    We move the stylesheet selection into a separate class so we can add
+    properties/signals and also more style settings for the upcoming accent
+    color support.
+  * notify-manager: Allow `transient` hint to be int.
+    There's no bool so people use
+      notify-send --hint=int:transient:1 -t 3000 subject body
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/351
+  * util: Handle MFD_NOEXEC_SEAL.
+    This got added in 6.3. See https://lwn.net/Articles/918106/
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/928
+  * libphosh: Add missing classes. This unbreaks the Rust bindings
+  * plugins: Simplify schema compilation. Add a validation while at that
+  * run: Add missing schema dirs
+  * tools/plugin-prefs: Only load one extension point at a time.
+    Quick setting plugins and lockscreen plugins use different entry points
+    so loading all prefs leads to warnings. Allow to select the plugin type
+    to use instead.
+    Fixes b8589e6df ("tools: Add widget to test custom quick settings")
+  * notify-manager: Make shell notifications more flexible.
+    Allow to pass a notification object. This gives more flexible on e.g.
+    the icons used.
+  * build: Allow plugins to send notifications
+  * plugins: Add simple pomodoro timer.
+    This follow the pomodor technique
+    https://en.wikipedia.org/wiki/Pomodoro_Technique although we don't
+    implement the longer breaks yet.
+    The `pomodoro-on.svg` is the `timer.svg` taken from
+    `org.gnome.design.IconLibrary`. `pomodoro-break.svg` is the
+    `tea-symbolic.svg` from the same library.
+    This also adds an example on how to use notifications from plugins.
+  * pomodoro-quick-setting: Add preferences dialog.
+    This also gives us a demo of preferences for a quick setting plugin.
+  * pomodoro-quick-setting: Mark more strings as translatable.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1127
+    Thanks to Rafael Fontenelle
+  * notify-manager: Try harder to find an application icon.
+    Use `phosh_get_desktop_app_info_for_app_id()` so we get the correct icon
+    for e.g. Firefox which sends `Firefox` as `desktop-id` although the
+    desktop file is named `firefox.desktop`.
+  * screenshot-manager: Use a const rectangle. This eases bindings
+  * screenshot-manager: Use correct notification. If we don't copy to
+    clipboard we should say so, we also shouldn't claim we took a screenshot
+    when it failed.
+  * portals: Sort alphabetically
+  * portals: End list with semicolon
+  * portals: Use phosh specific portals where necessary.
+    The GTK portal doesn't support accent colors yet:
+        https://github.com/flatpak/xdg-desktop-portal-gtk/issues/498
+  * portals: Disable currently unimplemented ones.
+    Let's not fall back to a portal implementation that might not work.
+  * quick-settings: Close phosh's settings when opening the Settings application.
+    Otherwise the user might be puzzled as seemingly nothing happens. We do
+    that by deduplicating the "open settings panel" logic which was similar
+    to what PhoshSettings does. Instead just use the action.
+  * quick-setting: Improve focus styling.
+    Use the selected bg color when focused. In order to keep the focus
+    visible on active widgets we use alpha blended foreground color there.
+  * sliders: Use selected color for outline when focused
+  * lockscreen: Use @theme_selected_bg_color for focus. This matches our
+    other list boxes
+  * top-panel: Drop `can-focus` properties at their defaults
+  * top-panel: Drop superfluous `receives-default` on a label
+  * top-panel: Place initial focus on arrow.
+    This avoids one button in the top panel having a focus border while the
+    other one hasn't. We can still keyboard navigate as the next focused
+    widget is still the lock button.
+  * quick-setting: Don't focus on click. This avoids the focus border for
+    quick setting but still allows for keyboard navigation.
+  * audio-settings: Don't take focus when showing details
+  * settings: Don't take focus when clearing all notifiations
+  * bt-status: Page don't focus buttons on click.
+    The focus draws attention to the button while it should be on the
+    content of the status page.
+  * wifi-status-page: Don't focus buttons on click.
+    The focus draws attention to the button while it should be
+    on the content of the status page.
+  * shell: Use `once` function for timeout handling. Simpler and less error
+    prone
+  * testlib: Use `once` functions for timeout handling. While at that use a
+    more descriptive variable name
+  * tests/take-screenshots: Run wait in screenshot context.
+    This makes sure we don't discard the context before waits have
+    finished.
+  * ci: Update ci image
+  * ci: Update shared scripts to 5e3667e
+  * ci: Use common job for style, dist and markdown check
+  * ci: Reconfigure test job with coverage information.
+    The coverage json sometimes ends up completely empty. Make sure we built
+    with coverage support.
+  * ci: Use --gcov-ignore-errors=no_working_dir_found with gcovr
+  * lockscreen: Disable RTL for the deck.
+    Otherwise swipe and movement direction do not match
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1132
+  * screenshot-manager: Use once timer function
+  * screenshot-manager: Use automatic cleanup
+  * screenshot-manager: Allow to save internal screenshots.
+    We separate the file name handling and decision whether we want to copy
+    to the clip board out of `phosh_screenshot_manager_do_screenshot` and
+    rather have callers decide.
+    In the case of internal screenshots triggered by keyboard shortcut or
+    power button menu we save to disk and copy to clipboard.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/964
+  * screenshot-manager: Update recent file list.
+    Add screenshots to recent file list when saving screenshots not taken
+    via the DBus API.
+  * caffeine-quick-setting: Use a context for on/off.
+    Fixes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1143
+  * timestamp-label: Give translaters more headroom.
+    We're not that tight on space here.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1144
+  * notification-banner: Drop explicit notify.
+    No need to handle that for a construct-only property. While at
+    that modernize the doc string and indent.
+  * notification-banner: Adjust margin based on notification height.
+    Make sure the banner is initially slighty visible so the frame clock
+    ticks.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/221
+  * notification-banner: Drop unused hard coded values
+
+  [ Arun Mani J ]
+  * util: Move `open_settings_panel` here. Move it here as it not
+    quick-settings specific.
+  * quick-setting: Bind separately for `active` Have a new field to track
+    active binding instead of shadowing label binding.
+  * quick-setting: Move to new API.
+    Add support for status-pages. Previously, status-pages were separate
+    from the quick-settings. But now we make them a property of the widget
+    itself.
+    Previously, the status-page displaying was managed externally by
+    catching signals like long-pressed. But now we change the structure of
+    the quick-setting to make it show arrow icons at the right. Clicking
+    this arrow will emit the proper signal to show or hide status-page.
+    We remove read-only property `status-icon` as it seems unused.
+    We assign the widget a proper CSS name and reflect its `active` property
+    through CSS state-flag.
+    Since status-page source files are direct dependency of quick-setting
+    now, we move the `status-page.c/h` and `status-page-placeholder.c/h` to
+    `libphosh_tool` lists in `meson.build`.
+  * quick-setting: Clean up and format. Fix indentation, reformat code as per
+    `HACKING.md` and remove some unnecessary comments.
+  * plugins: Move to new quick-setting API.
+    Previously, `status-icon.h` was part of `quick-setting.h`, so plugins
+    were able to use it directly. But since we removed the `status-icon`
+    property from quick-setting, the corresponding header is also gone.
+    So add `status-icon.h` to all the quick-setting plugins.
+  * quick-settings-box: Add PhoshQuickSettingsBox
+  * tools: Add PhoshQuickSettingsBoxStandalone
+  * status-page: Simplify status page.
+    As `PhoshQuickSettingsBox` uses a revealer to display the pages, we no
+    longer need to have the status-page inherit from `GtkRevealer`.
+    With `PhoshQuickSetting` showing arrow to hide and reveal the status
+    pages, having a go-back button is redundant.
+    Also remove some empty lines from UI file as it looks odd with them.
+  * quick-settings: Add PhoshQuickSettings
+  * settings: Bind directly to torch-manager.
+    Drops dependency on torchinfo. Will be helpful when migrating to `PhoshQuickSettings`.
+  * bt-status-page: Use callback instead of action.
+    Makes bt-status-page more self-contained and helps when we simplify `PhoshSettings`.
+  * settings: Port to PhoshQuickSettings
+  * settings: Clean up and format.
+    Remove unused headers, actions and format using Uncrustify.
+  * wifi-status-page: Change switch to scan.
+    With the new quick-setting, one can toggle Wi-Fi by just clicking on
+    the quick-setting itself. So, let's use that space to have a button to
+    scan Wi-Fi access points.
+  * wifi-status-page: Remove "Scan" placeholder button.
+    Redundant with the new Wi-Fi scan button at top right.
+  * wifi-status-page: Remove unnecessary box.
+    The box as parent to stack is unnecessary. Instead make the stack a
+    direct child of status-page.
+  * custom-quick-settings-standalone: Use PhoshQuickSettingsBox
+  * tree: Export symbols of status-page and placeholder.
+    Allows plugins to use these symbols.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1090
+  * simple-custom-quick-setting: Add status-page.
+    Add a status-page to demonstrate its usage in custom quick-settings.
+  * quick-settings-box: Set CSS name.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1125
+  * quick-settings-box: Add bottom margin to status-pages.
+    Use bottom margin of status-pages instead of adding separate spacing for
+    revealer. This way there is no flickering (sudden disappearance of space).
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1124
+  * quick-setting: Bind long-press to primary button.
+    As `GtkBox` does not have a `GdkWindow` on its own, it did not
+    receive the long-press gestures. So bind the gesture to primary button.
+    Also add the `long_press` object to C side to keep it alive.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1130
+  * quick-setting: Handle `clicked` from button separately.
+    Otherwise, there is a conflict between `button-press-event` and
+    `long-press`, causing the quick-setting to emit both `clicked` and `long-press`.
+  * quick-setting: Use GtkGestureMultiPress for right-clicks
+  * quick-settings-box: Use most used type for variables.
+    Avoids superfluous type-casting.
+  * quick-setting: Use most used type for variables.
+    Avoids hitting line length limits and easy to read.
+  * quick-setting: Add long-press-action-{name,target}
+    As many quick-settings launch an action on long-press, make these as
+    properties, to handle this common usecase.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1133
+  * quick-settings: Port to `long-press-action-*` properties
+  * quick-settings-box: Hide status-page when child is insensitive
+  * quick-setting: Unset state flags properly.
+    The previous method is both wrong and left the widget in a unstable
+    state.
+  * quick-settings-box: Fix typo
+  * quick-setting: Put property flags in a single line
+  * quick-settings-box: Put property flags in a single line
+
+  [ Eugenio Paolantonio (g7) ]
+  * style-manager: Support accent colours.
+    React on accent colour changes via org.gnome.desktop.interface's
+    accent-color key.
+    When an accent colour is defined, @theme_selected_bg_color and
+    @theme_selected_fg_color in the stylesheet are overriden by
+    phosh with the actual colour.
+  * build: Bump gsettings-desktop-schemas dep to >= 47.
+    Required by the accent colours support.
+  * stylesheet: Fix accent colour on levelbars and calendar widgets.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1134
+
+  [ Sam Day ]
+  * screenshot-manager: Add nullable annotations to do_screenshot params
+
+  [ Kenny Levinsen ]
+  * phosh.service: Manually issue chvt on start
+    libseat 0.9.0 no longer performs an automatic VT switch when taking
+    control of a seat to allow sessions to be started in the background. As
+    consequence, one must manually switch if one wants a background session
+    to be immediately activated.
+    Issue a chvt on ExecStartPost, when the service is deemed running.
+
+  [ Anna (cybertailor) Vyalkova ]
+  * build: Split linter tests to their own suite.
+    Allow to easily opt out of code style tests, which provide little to no
+    value for end users.
+
+  [ Teemu Ikonen ]
+  * lockscreen: Add 'require-unlock' setting.
+    Allows disabling lockscreen authentication by setting it to false.
+
+  [ Yuri Chornoivan ]
+  * Update Ukrainian translation
+
+  [ Martin ]
+  * Update Slovenian translation
+
+  [ Rafael Fontenelle ]
+  * Update Brazilian Portuguese translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Antonio Marin ]
+  * Update Romanian translation
+
+  [ Danial Behzadi ]
+  * Update Persian translation
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
+
+  [ Daniel Rusek ]
+  * Update Czech translation
+
+  [ Yaron Shahrabani ]
+  * Update Hebrew translation
+
+  [ Artur S0 ]
+  * Update Russian translation
+
+  [ Nathan Follens ]
+  * Update Dutch translation
+
+  [ Andi Chandler ]
+  * Update British English translation
+
+  [ Juliano de Souza Camargo ]
+  * Update Brazilian Portuguese translation
+
+  [ Anders Jonsson ]
+  * Update Swedish translation
+
+  [ Vincent Chatelain ]
+  * Update French translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 11 Nov 2024 12:07:45 +0100
+
 phosh (0.42.0) experimental; urgency=medium
 
   [ Guido Günther ]
