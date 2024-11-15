@@ -1,5 +1,5 @@
-phosh 0.43~rc1
---------------
+phosh 0.43.0
+------------
 Released November 2024
 * Improved quick settings
   - Do away with long press to open status pages
@@ -40,6 +40,7 @@ Released November 2024
     * Anna (cybertailor) Vyalkova
     * Arun Mani J
     * Eugenio Paolantonio (g7)
+    * Evangelos Ribeiro Tzaras
     * Gotam Gorabh
     * Guido Günther
     * Kenny Levinsen
