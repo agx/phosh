@@ -1,6 +1,18 @@
 # Phosh
 
-a pure wayland shell for mobile devices like Purism's Librem 5.
+A pure Wayland shell for mobile devices like smart phones or small
+tablets which
+
+* use touch input
+* are running battery powered most of the time
+* have limited screen space
+* have a limited number of buttons
+* might be docked to a keyboard, screen and other input devices
+
+Typical devices are the Librem 5 and PinePhone or devices formerly
+running proprietary operating systems like the OnePlus 6/6T.
+
+The companion Wayland compositor is [phoc][].
 
 ## License
 
@@ -11,7 +23,6 @@ phosh is licensed under the GPL-3.0-or-later licence.
 ```sh
 git clone https://gitlab.gnome.org/World/Phosh/phosh
 cd phosh
-git submodule update --init --recursive
 ```
 
 The [main][] branch has the current development version.
@@ -95,9 +106,9 @@ User=<your_user>
 EOF
 ```
 
-All of the above use the `/usr/bin/phosh` script to start compositor and shell
-under the hood so if you just want to start phosh from the system console once
-invoke that script directly.
+All of the above use the `/usr/bin/phosh-session` script to start compositor
+and shell under the hood so if you just want to start phosh from the system
+console once invoke that script directly.
 
 ## Translations
 

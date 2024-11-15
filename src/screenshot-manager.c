@@ -277,7 +277,7 @@ update_recent_files (PhoshScreenshotManager *self)
   g_bookmark_file_add_application (bookmarks, uri, "Phosh", "gio open %u");
 
   if (!g_bookmark_file_to_file (bookmarks, recent, &err)) {
-    g_warning ("Failed to save boomarks %s: %s", recent, err->message);
+    g_warning ("Failed to save bookmarks %s: %s", recent, err->message);
     return;
   }
 }
