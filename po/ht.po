@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-01-11 06:11+0000\n"
-"PO-Revision-Date: 2024-01-11 10:01-0500\n"
+"POT-Creation-Date: 2024-11-11 09:22+0000\n"
+"PO-Revision-Date: 2024-11-18 09:37-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ht_HT\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
@@ -35,20 +35,78 @@ msgstr "Jesyon fenèt ak lansman aplikasyon pou mobil"
 msgid "This session logs you into Phosh"
 msgstr "Sesyon sa a konekte ou nan Phosh"
 
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Kafeyin Anviwònman Rapid"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "Anpeche sesyon an ale san fè anyen konsa"
+
 #: plugins/calendar/calendar.desktop.in.in:5
 msgid "Calendar"
 msgstr "Kalandriye"
 
-#: plugins/calendar/calendar.desktop.in.in:6
+#: plugins/calendar/calendar.desktop.in.in:7
 msgid "A simple calendar widget"
 msgstr "Yon senp widget kalandriye"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+msgid "Dark Mode / Color Scheme Quick Setting"
+msgstr "Mòd nwa / Koulè Scheme Anviwònman rapid"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+msgid "Toggle dark mode"
+msgstr "Aktive mòd nwa"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "Enfòmasyon ijans"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "Montre enfòmasyon ak kontak ijans"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Bwat Lansè"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
+msgstr "Ajoute lans nan ekran fèmen an. <b>Plugin sa a se eksperimantal.</b>"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+msgid "Mobile Data Quick Setting"
+msgstr "Mobil Done Paramèt Rapid"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+msgid "Toggle mobile data on/off"
+msgstr "Aktive/dezaktive done mobil"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+msgid "Night Light Quick Setting"
+msgstr "Paramèt Rapid Limyè Lannwit"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+msgid "Toggle night light on/off"
+msgstr "Aktive/dezaktive limyè lannwit"
+
+#. Translators: "Pomodoro" is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+msgid "Pomodoro Quick Setting"
+msgstr "Pomodoro Paramèt Rapid"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+msgid "Simple Pomodoro Timer"
+msgstr "Senp Pomodoro revèy"
 
 #: plugins/ticket-box/ticket-box.desktop.in.in:4
 #: plugins/ticket-box/ticket-box.ui:14
 msgid "Ticket Box"
 msgstr "Bwat Tikè"
 
-#: plugins/ticket-box/ticket-box.desktop.in.in:5
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
 msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
 msgstr "Montre PDF yo sou ekran fèmen a. <b>Plugin sa a se eksperimantal.</b>"
 
@@ -56,32 +114,54 @@ msgstr "Montre PDF yo sou ekran fèmen a. <b>Plugin sa a se eksperimantal.</b>"
 msgid "Upcoming Events"
 msgstr "Evènman k ap vini yo"
 
-#: plugins/upcoming-events/upcoming-events.desktop.in.in:5
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
 msgid "Show upcoming calendar events"
 msgstr "Montre evènman kalandriye k ap vini yo"
 
-#: src/app-grid-button.c:529
+#: src/app-grid-button.c:153
+msgid "Add to Folder"
+msgstr "Ajoute nan Dosye"
+
+#: src/app-grid-button.c:177
+msgid "Create new folder"
+msgstr "Kreye nouvo dosye"
+
+#: src/app-grid-button.c:692 src/app-grid-button.c:749
 msgid "Application"
 msgstr "Aplikasyon"
 
-#: src/app-grid.c:138
+#: src/app-grid.c:263
 msgid "Show All Apps"
 msgstr "Montre tout aplikasyon yo"
 
-#: src/app-grid.c:141
+#: src/app-grid.c:266
 msgid "Show Only Mobile Friendly Apps"
 msgstr "Montre sèlman aplikasyon pou mobil zanmitay"
 
-#: src/bt-info.c:92
+#. Translators: a battery level in percent
+#: src/bt-device-row.c:72
+#, c-format
+msgid "Battery %.0f%%"
+msgstr ""
+
+#: src/bt-info.c:95 src/ui/bt-status-page.ui:6
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/bt-info.c:123
 msgctxt "bluetooth:enabled"
 msgid "On"
 msgstr "Sou"
 
-#: src/bt-info.c:94
-msgid "Bluetooth"
-msgstr "Bluetooth"
+#: src/bt-status-page.c:95
+msgid "No connectable Bluetooth Devices found"
+msgstr "Yo pa jwenn okenn aparèy Bluetooth ki kapab konekte"
 
-#: src/call-notification.c:61
+#: src/bt-status-page.c:99
+msgid "Bluetooth disabled"
+msgstr "Bluetooth dezaktive"
+
+#: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "Apèl enkoni"
 
@@ -106,33 +186,33 @@ msgstr "Pa kapab fè apèl ijans"
 msgid "Internal error"
 msgstr "Erè entèn"
 
-#: src/end-session-dialog.c:173
+#: src/end-session-dialog.c:174
 msgid "Log Out"
 msgstr "Dekonekte"
 
-#: src/end-session-dialog.c:176
+#: src/end-session-dialog.c:177
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s pral dekonekte otomatikman nan %d segonn."
 msgstr[1] "%s pral dekonekte otomatikman nan %d segonn."
 
-#: src/end-session-dialog.c:182
+#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Fèmen"
 
-#: src/end-session-dialog.c:183
+#: src/end-session-dialog.c:184
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Sistèm nan ap koupe otomatikman nan %d segonn."
 msgstr[1] "Sistèm nan ap koupe otomatikman nan %d segonn."
 
-#: src/end-session-dialog.c:189
+#: src/end-session-dialog.c:190
 msgid "Restart"
 msgstr "Redemare"
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:191
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -176,29 +256,49 @@ msgstr "Wi"
 msgid "No"
 msgstr "Non"
 
-#: src/lockscreen.c:175 src/ui/lockscreen.ui:245
+#. give visual feedback on error
+#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Antre pas kod"
 
-#: src/lockscreen.c:398
+#: src/lockscreen.c:949
 msgid "Checking…"
 msgstr "Ap verifye…"
 
-#: src/screenshot-manager.c:213
+#. Translators: '%s' is the filename of a screenshot
+#: src/screenshot-manager.c:235
+#, c-format
+msgid "Screenshot saved to '%s'"
+msgstr "Ekran sove nan '%s'"
+
+#: src/screenshot-manager.c:237
+msgid "Failed to save screenshot"
+msgstr "Echwe pou sove ekran an"
+
+#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Foto ekran"
 
-#: src/screenshot-manager.c:214
-msgid "Screenshot copied to clipboard"
-msgstr "Foto ekran kopye nan clipboard"
+#. Translators: name of the folder beneath ~/Pictures used to store screenshots
+#: src/screenshot-manager.c:416
+msgid "Screenshots"
+msgstr "Foto ekran yo"
+
+#. Translators: Name of a screenshot file. The first '%s' is a timestamp
+#. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
+#. * the file already exists like '-3'
+#: src/screenshot-manager.c:436
+#, c-format
+msgid "Screenshot from %s%s.png"
+msgstr "Ekran soti nan %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:321 src/ui/media-player.ui:161
+#: src/media-player.c:446 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Tit enkoni"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:329 src/ui/media-player.ui:148
+#: src/media-player.c:454 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Atis enkoni"
 
@@ -232,111 +332,132 @@ msgstr "Enkoni"
 
 #: src/network-auth-prompt.c:202
 #, c-format
-msgid "Authentication type of wifi network “%s” not supported"
-msgstr "Otantifikasyon kalite rezo wifi “%s” pa sipòte"
+msgid "Authentication type of Wi-Fi network “%s” not supported"
+msgstr "Kalite otantifikasyon rezo Wi-Fi “%s” pa sipòte"
 
 #: src/network-auth-prompt.c:207
 #, c-format
-msgid "Enter password for the wifi network “%s”"
-msgstr "Mete modpas pou rezo wifi “%s” la"
+msgid "Enter password for the Wi-Fi network “%s”"
+msgstr "Antre modpas pou rezo Wi-Fi \"%s\""
 
 #: src/notifications/mount-notification.c:121
 msgid "Open"
 msgstr "Ouvri"
 
-#: src/notifications/notification.c:405 src/notifications/notification.c:678
+#. We don't just set the app_info but name and icon separately to
+#. * not overwrite values set by the caller
+#: src/notifications/notification.c:404 src/notifications/notification.c:677
+#: src/notifications/notify-manager.c:1004
 msgid "Notification"
 msgstr "Notifikasyon"
 
-#. Translators: Timestamp seconds suffix
-#: src/notifications/timestamp-label.c:84
-msgctxt "timestamp-suffix-seconds"
-msgid "s"
-msgstr "s"
-
-#. Translators: Timestamp minute suffix
+#. Translators: Point in time, use a short word or abbreviation
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:86
-msgctxt "timestamp-suffix-minute"
-msgid "m"
-msgstr "m"
-
-#. Translators: Timestamp minutes suffix
-#: src/notifications/timestamp-label.c:88
-msgctxt "timestamp-suffix-minutes"
-msgid "m"
-msgstr "m"
-
-#. Translators: Timestamp hour suffix
-#: src/notifications/timestamp-label.c:90
-msgctxt "timestamp-suffix-hour"
-msgid "h"
-msgstr "h"
-
-#. Translators: Timestamp hours suffix
-#: src/notifications/timestamp-label.c:92
-msgctxt "timestamp-suffix-hours"
-msgid "h"
-msgstr "h"
-
-#. Translators: Timestamp day suffix
-#: src/notifications/timestamp-label.c:94
-msgctxt "timestamp-suffix-day"
-msgid "d"
-msgstr "d"
-
-#. Translators: Timestamp days suffix
-#: src/notifications/timestamp-label.c:96
-msgctxt "timestamp-suffix-days"
-msgid "d"
-msgstr "d"
-
-#. Translators: Timestamp month suffix
-#: src/notifications/timestamp-label.c:98
-msgctxt "timestamp-suffix-month"
-msgid "mo"
-msgstr "mo"
-
-#. Translators: Timestamp months suffix
-#: src/notifications/timestamp-label.c:100
-msgctxt "timestamp-suffix-months"
-msgid "mos"
-msgstr "mos"
-
-#. Translators: Timestamp year suffix
-#: src/notifications/timestamp-label.c:102
-msgctxt "timestamp-suffix-year"
-msgid "y"
-msgstr "y"
-
-#. Translators: Timestamp years suffix
-#: src/notifications/timestamp-label.c:104
-msgctxt "timestamp-suffix-years"
-msgid "y"
-msgstr "y"
-
-#: src/notifications/timestamp-label.c:121
 msgid "now"
 msgstr "kounye a"
 
-#. Translators: time difference "Over 5 years"
-#: src/notifications/timestamp-label.c:189
+#. Translators: abbreviated time difference "Less than 30 seconds"
+#. Please stick to a maximum of 12 chars
+#: src/notifications/timestamp-label.c:91
 #, c-format
+msgid "<30s"
+msgstr ""
+
+#. Translators: abbreviated time difference "Less than one minute"
+#. Please stick to a maximum of 12 chars
+#: src/notifications/timestamp-label.c:96
+#, c-format
+msgid "<1m"
+msgstr ""
+
+#. Translators: abbreviated time difference "About one minute"
+#. Please stick to a maximum of 12 chars
+#: src/notifications/timestamp-label.c:101
+#, c-format
+msgid "~1m"
+msgstr ""
+
+#. Translators: abbreviated, exact time difference "1 minute ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:109
+#, c-format
+msgid "%dm"
+msgid_plural "%dm"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: abbreviated time difference "About 3 hours ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:117
+#, c-format
+msgid "~%dh"
+msgid_plural "~%dh"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: abbreviated time difference "About 1 day ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:122
+#, c-format
+msgid "~1d"
+msgstr ""
+
+#. Translators: abbreviated, exact time difference "3 days ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:127
+#, c-format
+msgid "%dd"
+msgid_plural "%dd"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: abbreviated time difference "About 1 month ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:132
+#, c-format
+msgid "~1mo"
+msgstr ""
+
+#. Translators: abbreviated, exact time difference "3 months ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:137
+#, c-format
+msgid "%dmo"
+msgid_plural "%dmos"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: abbreviated time difference "About 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:147
+#, c-format
+msgid "~%dy"
+msgid_plural "~%dy"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: abbreviated time difference "Over 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:151
+#, fuzzy, c-format
+#| msgid "Over %dy"
 msgid "Over %dy"
-msgstr "Plis pase %dy"
+msgid_plural "Over %dy"
+msgstr[0] "Plis pase %dy"
+msgstr[1] "Plis pase %dy"
 
-#. Translators: time difference "almost 5 years"
-#: src/notifications/timestamp-label.c:193
-#, c-format
+#. Translators: abbreviated time difference "almost 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:156
+#, fuzzy, c-format
+#| msgid "Almost %dy"
 msgid "Almost %dy"
-msgstr "Prèske %dy"
+msgid_plural "Almost %dy"
+msgstr[0] "Prèske %dy"
+msgstr[1] "Prèske %dy"
 
-#. Translators: a time difference like '<5m', if in doubt leave untranslated
-#: src/notifications/timestamp-label.c:200
-#, c-format
-msgid "%s%d%s"
-msgstr "%s%d%s"
-
-#: src/polkit-auth-agent.c:227
+#: src/polkit-auth-agent.c:271
 msgid "Authentication dialog was dismissed by the user"
 msgstr "Dyalòg Otantifikasyon te ranvwaye pa itilizatè a"
 
@@ -377,15 +498,15 @@ msgstr "Peze ESC pou fèmen"
 msgid "Running '%s' failed"
 msgstr "Kouri '%s' echwe"
 
-#: src/settings/audio-settings.c:373
+#: src/settings/audio-settings.c:376
 msgid "Phone Shell Volume Control"
 msgstr "Kontwòl volim koki telefòn"
 
-#: src/system-prompt.c:365
+#: src/system-prompt.c:376
 msgid "Passwords do not match."
 msgstr "Mo de pas pa matche ak."
 
-#: src/system-prompt.c:372
+#: src/system-prompt.c:383
 msgid "Password cannot be blank"
 msgstr "Mo de pas pa ka vid"
 
@@ -403,37 +524,45 @@ msgstr "Sonje desizyon"
 msgid "Cancel"
 msgstr "Anile"
 
-#: src/ui/app-grid-button.ui:55
-msgid "App"
-msgstr "Aplikasyon"
-
-#: src/ui/app-grid-button.ui:79
+#: src/ui/app-grid-button.ui:23
 msgid "Remove from _Favorites"
 msgstr "Retire nan sa ou _Renmen yo"
 
-#: src/ui/app-grid-button.ui:84
+#: src/ui/app-grid-button.ui:28
 msgid "Add to _Favorites"
 msgstr "Ajoute nan sa ou _Renmen yo"
 
-#: src/ui/app-grid-button.ui:89
+#: src/ui/app-grid-button.ui:33
 msgid "View _Details"
 msgstr "Gade _Detay yo"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid-button.ui:41
+msgid "_Remove from Folder"
+msgstr "_Retire nan Dosye"
+
+#: src/ui/app-grid.ui:24
 msgid "Search apps…"
 msgstr "Chèche aplikasyon  yo…"
 
-#: src/ui/audio-settings.ui:84
+#: src/ui/audio-settings.ui:85
 msgid "Output Devices"
 msgstr "Sòti Aparèy"
 
-#: src/ui/audio-settings.ui:107
+#: src/ui/audio-settings.ui:109
 msgid "Input Devices"
 msgstr "Antre Aparèy"
 
-#: src/ui/audio-settings.ui:134
+#: src/ui/audio-settings.ui:137
 msgid "Sound Settings"
 msgstr "Paramèt Son"
+
+#: src/ui/bt-status-page.ui:31
+msgid "Enable Bluetooth"
+msgstr "Aktive Bluetooth"
+
+#: src/ui/bt-status-page.ui:55
+msgid "Bluetooth Settings"
+msgstr "Paramèt Bluetooth"
 
 #: src/ui/emergency-menu.ui:26
 msgid "Close the emergency call dialog"
@@ -480,15 +609,15 @@ msgstr "Domèn:"
 msgid "Co_nnect"
 msgstr "Ko_nekte"
 
-#: src/ui/lockscreen.ui:36 src/ui/lockscreen.ui:334
+#: src/ui/lockscreen.ui:47 src/ui/lockscreen.ui:256
 msgid "Back"
 msgstr "Retounen"
 
-#: src/ui/lockscreen.ui:97
+#: src/ui/lockscreen.ui:98
 msgid "Slide up to unlock"
 msgstr "Monte pou debloke"
 
-#: src/ui/lockscreen.ui:297
+#: src/ui/lockscreen.ui:341
 msgid "Unlock"
 msgstr "Debloke"
 
@@ -509,31 +638,31 @@ msgstr "K_onekte"
 msgid "Authenticate"
 msgstr "Otantifye"
 
-#: src/ui/power-menu.ui:69
-msgid "_Power Off"
-msgstr "_Fèmen"
+#: src/ui/power-menu.ui:109
+msgid "Suspend"
+msgstr "Sispann"
 
-#: src/ui/power-menu.ui:110
-msgid "_Lock"
-msgstr "_Bloke"
+#: src/ui/power-menu.ui:153
+msgid "Lock"
+msgstr "Bloke"
 
-#: src/ui/power-menu.ui:151
-msgid "_Screenshot"
-msgstr "_Foto ekran"
-
-#: src/ui/power-menu.ui:192
-msgid "_Emergency"
-msgstr "_Ijans"
+#: src/ui/power-menu.ui:231
+msgid "Emergency"
+msgstr "Ijans"
 
 #: src/ui/run-command-dialog.ui:6
 msgid "Run Command"
 msgstr "Egzekite Kòmand"
 
-#: src/ui/settings.ui:296
+#: src/ui/settings.ui:142
 msgid "No notifications"
 msgstr "Pa gen notifikasyon"
 
-#: src/ui/settings.ui:336
+#: src/ui/settings.ui:173
+msgid "Notifications"
+msgstr "Notifikasyon yo"
+
+#: src/ui/settings.ui:182
 msgid "Clear all"
 msgstr "Efase tout"
 
@@ -557,15 +686,23 @@ msgstr "_Sispann…"
 msgid "_Log Out…"
 msgstr "_Dekonekte…"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/util.c:342
-msgid "%A, %B %-e"
-msgstr "%A, %B %-e"
+#: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:72
+msgid "Wi-Fi Settings"
+msgstr "Paramèt Wi-Fi"
 
 #: src/vpn-info.c:89
 msgid "VPN"
 msgstr "VPN"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/wall-clock.c:239
+msgid "%A, %B %-e"
+msgstr "%A, %B %-e"
 
 #: src/widget-box.c:54
 msgid "Plugin not found"
@@ -576,14 +713,64 @@ msgstr "Pa jwenn Plugin"
 msgid "The plugin '%s' could not be loaded."
 msgstr "Plugin '%s' pa te kapab chaje."
 
-#: src/wifiinfo.c:90
-msgid "Wi-Fi"
-msgstr "Wi-Fi"
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "Pa gen okenn aparèy Wi-Fi jwenn"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi Dezaktive"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "Wi-Fi Aktive"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "Wi-Fi Hotspot aktive"
+
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "Fèmen"
+
+#: src/wifi-status-page.c:63
+msgid "No Wi-Fi Hotspots"
+msgstr "Pa gen Wi-Fi Hotspots"
 
 #. Translators: Refers to the cellular wireless network
 #: src/wwan-info.c:210
 msgid "Cellular"
 msgstr "Selilè"
+
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:53
+msgid "Phosh on caffeine"
+msgstr "Phosh sou kafeyin"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-enabled"
+msgid "On"
+msgstr "Ouvri"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+#, fuzzy
+#| msgctxt "automatic-screen-rotation-disabled"
+#| msgid "Off"
+msgctxt "caffeine-disabled"
+msgid "Off"
+msgstr "Fèmen"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+msgid "Default style"
+msgstr "Stil Defo"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+msgid "Dark mode"
+msgstr "Mòd nwa"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:38
+msgid "Light mode"
+msgstr "Mòd Klè"
 
 #: plugins/emergency-info/emergency-info.ui:39
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
@@ -685,10 +872,6 @@ msgstr "Relasyon"
 msgid "Number"
 msgstr "Nimewo"
 
-#: plugins/launcher-box/launcher-box.ui:14
-msgid "Launcher Box"
-msgstr "Bwat Lansè"
-
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
 msgstr "Pa gen lansè ki te konfigire"
@@ -696,6 +879,76 @@ msgstr "Pa gen lansè ki te konfigire"
 #: plugins/launcher-box/launcher-box.ui:32
 msgid "Launchers"
 msgstr "Lansè"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+msgid "Mobile Data On"
+msgstr "Done mobil sou"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+msgid "Mobile Data Off"
+msgstr "Done mobil koupe"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
+msgid "Night Light On"
+msgstr "Limyè lannwit limen"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
+msgid "Night Light Off"
+msgstr "Limyè lannwit koupe"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+msgid "Pomodoro start"
+msgstr "Pomodoro kòmanse"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#, c-format
+msgid "Focus on your task for %d minutes"
+msgstr "Konsantre sou travay ou pandan %d minit"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+msgid "Take a break"
+msgstr "Pran yon ti repo"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#, c-format
+msgid "You have %d minutes until next Pomodoro"
+msgstr "Ou gen %d minit jiska pwochen Pomodoro"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+msgid "Pomodoro Timer"
+msgstr "Revèy Pomodoro"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#, c-format
+msgid "Pomodoro Off"
+msgstr "Pomodoro Fèmen"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:6
+msgid "Pomodoro Quick Setting Preferences"
+msgstr "Pomodoro Preferans Paramèt Rapid"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+msgid "Pomodoro Technique"
+msgstr "Teknik Pomodoro"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+msgid "_Active Duration"
+msgstr "_Dire aktif"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+msgid "Duration of the focus session"
+msgstr "Dire sesyon konsantre an"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+msgid "_Break Duration"
+msgstr "_Dire repo"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+msgid "Duration of the break between sessions"
+msgstr "Dire repo ant sesyon yo"
 
 #: plugins/ticket-box/ticket-box.ui:15
 msgid "No documents to display"
@@ -742,9 +995,11 @@ msgid "Tomorrow"
 msgstr "Demen"
 
 #: plugins/upcoming-events/event-list.c:150
-#, c-format
-msgid "In %d day"
-msgid_plural "In %d days"
+#, fuzzy, c-format
+#| msgid "In %d day"
+#| msgid_plural "In %d days"
+msgid "In %u day"
+msgid_plural "In %u days"
 msgstr[0] "Nan %d jou"
 msgstr[1] "Nan %d jou yo"
 
@@ -776,6 +1031,88 @@ msgstr "Fini yo"
 #: plugins/upcoming-events/upcoming-event.c:400
 msgid "Untitled event"
 msgstr "Evènman san tit"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:6
+msgid "Upcoming Events Preferences"
+msgstr "Preferans evènman k ap vini yo"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:20
+msgid "Days"
+msgstr "Jou"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:16
+msgid "Date Range"
+msgstr "Entèval Dat"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+msgid "Number of days to show events for"
+msgstr "Kantite jou pou montre evènman yo"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
+msgid "Hotspot On"
+msgstr "Hotspot Ouvri"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
+msgid "Hotspot Off"
+msgstr "Hotspot  Fèmen"
+
+#~ msgctxt "timestamp-suffix-seconds"
+#~ msgid "s"
+#~ msgstr "s"
+
+#~ msgctxt "timestamp-suffix-minute"
+#~ msgid "m"
+#~ msgstr "m"
+
+#~ msgctxt "timestamp-suffix-minutes"
+#~ msgid "m"
+#~ msgstr "m"
+
+#~ msgctxt "timestamp-suffix-hour"
+#~ msgid "h"
+#~ msgstr "h"
+
+#~ msgctxt "timestamp-suffix-hours"
+#~ msgid "h"
+#~ msgstr "h"
+
+#~ msgctxt "timestamp-suffix-day"
+#~ msgid "d"
+#~ msgstr "d"
+
+#~ msgctxt "timestamp-suffix-days"
+#~ msgid "d"
+#~ msgstr "d"
+
+#~ msgctxt "timestamp-suffix-month"
+#~ msgid "mo"
+#~ msgstr "mo"
+
+#~ msgctxt "timestamp-suffix-months"
+#~ msgid "mos"
+#~ msgstr "mos"
+
+#~ msgctxt "timestamp-suffix-year"
+#~ msgid "y"
+#~ msgstr "y"
+
+#~ msgctxt "timestamp-suffix-years"
+#~ msgid "y"
+#~ msgstr "y"
+
+#, c-format
+#~ msgid "%s%d%s"
+#~ msgstr "%s%d%s"
+
+#~ msgid "App"
+#~ msgstr "Aplikasyon"
+
+#~ msgid "_Power Off"
+#~ msgstr "_Fèmen"
+
+#~ msgid "_Screenshot"
+#~ msgstr "_Foto ekran"
 
 #, c-format
 #~ msgctxt ""
