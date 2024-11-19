@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-11-05 14:46+0000\n"
-"PO-Revision-Date: 2024-11-10 01:15+0100\n"
+"POT-Creation-Date: 2024-11-11 09:22+0000\n"
+"PO-Revision-Date: 2024-11-19 04:59+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -257,11 +257,11 @@ msgid "No"
 msgstr "არა"
 
 #. give visual feedback on error
-#: src/lockscreen.c:274 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "შეიყვანეთ კოდი"
 
-#: src/lockscreen.c:919
+#: src/lockscreen.c:949
 msgid "Checking…"
 msgstr "შემოწმება…"
 
@@ -348,27 +348,27 @@ msgid "Notification"
 msgstr "გაფრთხილება"
 
 #. Translators: Point in time, use a short word or abbreviation
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:86
 msgid "now"
 msgstr "ახლა"
 
 #. Translators: abbreviated time difference "Less than 30 seconds"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:91
 #, c-format
 msgid "<30s"
 msgstr "<30წმ"
 
 #. Translators: abbreviated time difference "Less than one minute"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:96
 #, c-format
 msgid "<1m"
 msgstr "<1წთ"
 
 #. Translators: abbreviated time difference "About one minute"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:101
 #, c-format
 msgid "~1m"
@@ -735,10 +735,12 @@ msgid "Phosh on caffeine"
 msgstr "Phosh caffeine-ზე"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-enabled"
 msgid "On"
 msgstr "ჩართ"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-disabled"
 msgid "Off"
 msgstr "გამორთ"
 
