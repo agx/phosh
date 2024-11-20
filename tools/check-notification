@@ -2,14 +2,56 @@
 
 set -e
 
-gdbus call --session --dest org.freedesktop.Notifications \
-                     --object-path=/org/freedesktop/Notifications \
-                     --method=org.freedesktop.Notifications.Notify \
-                     "Application" 1 "" Subject Body \
-                     '["org.sigxcpu.test1", "Left", "org.sigxcpu.test2", "Right"]' \
-                     '{"desktop-entry": <"org.gnome.KrbAuthDialog">,
-                       "urgency": <1>, "image-path": <"krb-valid-ticket">,
-                       "category": <"im.received">,
-                       "x-phosh-fb-profile": <"quiet">
-                      }' \
-                     4000
+notify_no_actions() {
+    gdbus call --session --dest org.freedesktop.Notifications \
+        --object-path=/org/freedesktop/Notifications \
+        --method=org.freedesktop.Notifications.Notify \
+        "Application" 0 "" "No Actions" "This notification has no actions." \
+        '[]' '{}' 4000
+}
+
+notify_multiple_actions_with_default() {
+    gdbus call --session --dest org.freedesktop.Notifications \
+        --object-path=/org/freedesktop/Notifications \
+        --method=org.freedesktop.Notifications.Notify \
+        "Application" 0 "" "Multiple Actions" "This notification with multiple actions has a default action." \
+        '["default", "Action 1", "action2", "Action 2"]' \
+        '{}' 4000
+}
+
+notify_multiple_actions_without_default() {
+    gdbus call --session --dest org.freedesktop.Notifications \
+        --object-path=/org/freedesktop/Notifications \
+        --method=org.freedesktop.Notifications.Notify \
+        "Application" 0 "" "Multiple Actions" "This notification with multiple actions doesn't have a default action." \
+        '["action1", "Action 1", "action2", "Action 2"]' \
+        '{}' 4000
+}
+
+notify_only_default_action() {
+    gdbus call --session --dest org.freedesktop.Notifications \
+        --object-path=/org/freedesktop/Notifications \
+        --method=org.freedesktop.Notifications.Notify \
+        "Application" 0 "" "Default Action" "This notification has a default action." \
+        '["default", "Default Action"]' \
+        '{}' 4000
+}
+
+notify_actions_and_hints() {
+    gdbus call --session --dest org.freedesktop.Notifications \
+        --object-path=/org/freedesktop/Notifications \
+        --method=org.freedesktop.Notifications.Notify \
+        "Application" 0 "" Subject Body \
+        '["org.sigxcpu.test1", "Left", "org.sigxcpu.test2", "Right"]' \
+        '{"desktop-entry": <"org.gnome.KrbAuthDialog">,
+          "urgency": <1>, "image-path": <"krb-valid-ticket">,
+          "category": <"im.received">,
+          "x-phosh-fb-profile": <"quiet">
+        }' 4000
+}
+
+notify_no_actions
+notify_multiple_actions_with_default
+notify_multiple_actions_without_default
+notify_only_default_action
+notify_actions_and_hints
