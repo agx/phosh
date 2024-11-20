@@ -528,9 +528,10 @@ phosh_app_grid_key_press_event (GtkWidget   *widget,
 }
 
 
-static gboolean
-do_search (PhoshAppGrid *self)
+static void
+do_search (gpointer data)
 {
+  PhoshAppGrid *self = data;
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GtkAdjustment *adjustment;
 
@@ -548,7 +549,6 @@ do_search (PhoshAppGrid *self)
   gtk_filter_list_model_refilter (priv->model);
 
   priv->debounce = 0;
-  return G_SOURCE_REMOVE;
 }
 
 
@@ -586,8 +586,8 @@ on_folder_entry_activated (PhoshAppGrid *self, GtkEntry *entry)
 
 
 static void
-search_changed (GtkSearchEntry *entry,
-                PhoshAppGrid   *self)
+on_search_changed (GtkSearchEntry *entry,
+                   PhoshAppGrid   *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   const char *search = gtk_entry_get_text (GTK_ENTRY (entry));
@@ -601,7 +601,7 @@ search_changed (GtkSearchEntry *entry,
 
     /* GtkSearchEntry already adds 150ms of delay, but it's too little
      * so add a bit more until searching is faster and/or non-blocking */
-    priv->debounce = g_timeout_add (SEARCH_DEBOUNCE, (GSourceFunc) do_search, self);
+    priv->debounce = g_timeout_add_once (SEARCH_DEBOUNCE, do_search, self);
     g_source_set_name_by_id (priv->debounce, "[phosh] debounce app grid search (search-changed)");
   } else {
     /* don't add the delay when the entry got cleared */
@@ -611,9 +611,9 @@ search_changed (GtkSearchEntry *entry,
 
 
 static void
-search_preedit_changed (GtkSearchEntry *entry,
-                        const char     *preedit,
-                        PhoshAppGrid   *self)
+on_search_preedit_changed (GtkSearchEntry *entry,
+                           const char     *preedit,
+                           PhoshAppGrid   *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
@@ -624,14 +624,14 @@ search_preedit_changed (GtkSearchEntry *entry,
 
   g_clear_handle_id (&priv->debounce, g_source_remove);
 
-  priv->debounce = g_timeout_add (SEARCH_DEBOUNCE + DEFAULT_GTK_DEBOUNCE, (GSourceFunc) do_search, self);
+  priv->debounce = g_timeout_add_once (SEARCH_DEBOUNCE + DEFAULT_GTK_DEBOUNCE, do_search, self);
   g_source_set_name_by_id (priv->debounce, "[phosh] debounce app grid search (preedit-changed)");
 }
 
 
 static void
-search_activated (GtkSearchEntry *entry,
-                  PhoshAppGrid   *self)
+on_search_activated (GtkSearchEntry *entry,
+                     PhoshAppGrid   *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
   GtkFlowBoxChild *child;
@@ -640,16 +640,14 @@ search_activated (GtkSearchEntry *entry,
     return;
 
   /* Don't activate when there isn't an active search */
-  if (!priv->search_string || *priv->search_string == '\0') {
+  if (!priv->search_string || *priv->search_string == '\0')
     return;
-  }
 
   child = gtk_flow_box_get_child_at_index (GTK_FLOW_BOX (priv->apps), 0);
 
   /* No results */
-  if (child == NULL) {
+  if (child == NULL)
     return;
-  }
 
   if (G_LIKELY (PHOSH_IS_APP_GRID_BUTTON (child))) {
     gtk_widget_activate (GTK_WIDGET (child));
@@ -661,9 +659,9 @@ search_activated (GtkSearchEntry *entry,
 
 
 static gboolean
-search_lost_focus (GtkWidget    *widget,
-                   GdkEvent     *event,
-                   PhoshAppGrid *self)
+on_search_lost_focus (GtkWidget    *widget,
+                      GdkEvent     *event,
+                      PhoshAppGrid *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
@@ -675,9 +673,9 @@ search_lost_focus (GtkWidget    *widget,
 
 
 static gboolean
-search_gained_focus (GtkWidget    *widget,
-                     GdkEvent     *event,
-                     PhoshAppGrid *self)
+on_search_gained_focus (GtkWidget    *widget,
+                        GdkEvent     *event,
+                        PhoshAppGrid *self)
 {
   PhoshAppGridPrivate *priv = phosh_app_grid_get_instance_private (self);
 
@@ -693,7 +691,7 @@ search_gained_focus (GtkWidget    *widget,
 static void
 phosh_app_grid_class_init (PhoshAppGridClass *klass)
 {
-  GObjectClass   *object_class = G_OBJECT_CLASS (klass);
+  GObjectClass *object_class = G_OBJECT_CLASS (klass);
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   object_class->dispose = phosh_app_grid_dispose;
@@ -710,13 +708,18 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
    * Whether only adaptive apps should be shown
    */
   props[PROP_FILTER_ADAPTIVE] =
-    g_param_spec_boolean ("filter-adaptive",
-                          "",
-                          "",
+    g_param_spec_boolean ("filter-adaptive", "", "",
                           FALSE,
                           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
+
+  signals[APP_LAUNCHED] =
+    g_signal_new ("app-launched",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST, 0,
+                  NULL, NULL, NULL,
+                  G_TYPE_NONE, 1, G_TYPE_APP_INFO);
 
   gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/app-grid.ui");
 
@@ -739,18 +742,12 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
 
   gtk_widget_class_bind_template_callback (widget_class, on_folder_edit_toggled);
   gtk_widget_class_bind_template_callback (widget_class, on_folder_entry_activated);
-  gtk_widget_class_bind_template_callback (widget_class, search_changed);
-  gtk_widget_class_bind_template_callback (widget_class, search_preedit_changed);
-  gtk_widget_class_bind_template_callback (widget_class, search_activated);
-  gtk_widget_class_bind_template_callback (widget_class, search_gained_focus);
-  gtk_widget_class_bind_template_callback (widget_class, search_lost_focus);
+  gtk_widget_class_bind_template_callback (widget_class, on_search_changed);
+  gtk_widget_class_bind_template_callback (widget_class, on_search_preedit_changed);
+  gtk_widget_class_bind_template_callback (widget_class, on_search_activated);
+  gtk_widget_class_bind_template_callback (widget_class, on_search_gained_focus);
+  gtk_widget_class_bind_template_callback (widget_class, on_search_lost_focus);
   gtk_widget_class_bind_template_callback (widget_class, show_main_grid);
-
-  signals[APP_LAUNCHED] = g_signal_new ("app-launched",
-                                        G_TYPE_FROM_CLASS (klass),
-                                        G_SIGNAL_RUN_LAST,
-                                        0, NULL, NULL, NULL,
-                                        G_TYPE_NONE, 1, G_TYPE_APP_INFO);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-app-grid");
 }

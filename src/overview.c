@@ -503,34 +503,51 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
   object_class->get_property = phosh_overview_get_property;
   widget_class->size_allocate = phosh_overview_size_allocate;
 
+  /**
+   * PhoshOverview:has-activities:
+   *
+   * Whether the overview has running activities
+   */
   props[PROP_HAS_ACTIVITIES] =
-    g_param_spec_boolean (
-      "has-activities",
-      "Has activities",
-      "Whether the overview has running activities",
-      FALSE,
-      G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+    g_param_spec_boolean ("has-activities", "", "",
+                          FALSE,
+                          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+  signals[ACTIVITY_LAUNCHED] =
+    g_signal_new ("activity-launched",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST, 0,
+                  NULL, NULL, NULL,
+                  G_TYPE_NONE, 0);
+
+  signals[ACTIVITY_RAISED] =
+    g_signal_new ("activity-raised",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST, 0,
+                  NULL, NULL, NULL,
+                  G_TYPE_NONE, 0);
+
+  signals[SELECTION_ABORTED] =
+    g_signal_new ("selection-aborted",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST, 0,
+                  NULL, NULL, NULL,
+                  G_TYPE_NONE, 0);
+
+  signals[ACTIVITY_CLOSED] =
+    g_signal_new ("activity-closed",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST, 0,
+                  NULL, NULL, NULL,
+                  G_TYPE_NONE, 0);
 
   /* ensure used custom types */
   PHOSH_TYPE_APP_GRID;
-  gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/overview.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/overview.ui");
 
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, carousel_running_activities);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, app_grid);
-
-  signals[ACTIVITY_LAUNCHED] = g_signal_new ("activity-launched",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
-  signals[ACTIVITY_RAISED] = g_signal_new ("activity-raised",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
-  signals[SELECTION_ABORTED] = g_signal_new ("selection-aborted",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
-  signals[ACTIVITY_CLOSED] = g_signal_new ("activity-closed",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview,
+                                                carousel_running_activities);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-overview");
 }
