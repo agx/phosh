@@ -16,6 +16,8 @@
 
 #include <handy.h>
 
+#define BANNER_MIN_WIDTH 360
+
 /**
  * PhoshNotificationBanner:
  *
@@ -218,6 +220,18 @@ phosh_notification_banner_show (GtkWidget *widget)
 
 
 static void
+phosh_notification_banner_map (GtkWidget *widget)
+{
+  int height;
+
+  GTK_WIDGET_CLASS (phosh_notification_banner_parent_class)->map (widget);
+
+  height = gtk_widget_get_allocated_height (widget);
+  phosh_layer_surface_set_size (PHOSH_LAYER_SURFACE (widget), -1, height);
+}
+
+
+static void
 phosh_notification_banner_class_init (PhoshNotificationBannerClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -228,6 +242,7 @@ phosh_notification_banner_class_init (PhoshNotificationBannerClass *klass)
   object_class->get_property = phosh_notification_banner_get_property;
 
   widget_class->show = phosh_notification_banner_show;
+  widget_class->map = phosh_notification_banner_map;
 
   /**
    * PhoshNotificationBanner:notification:
@@ -257,17 +272,20 @@ phosh_notification_banner_new (PhoshNotification *notification)
 {
   PhoshWayland *wl = phosh_wayland_get_default ();
   PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
-  int width = 360;
+  int width = BANNER_MIN_WIDTH;
 
   phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, NULL);
 
   return g_object_new (PHOSH_TYPE_NOTIFICATION_BANNER,
                        "notification", notification,
+                       "width-request", BANNER_MIN_WIDTH,
                        /* layer surface */
                        "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                        "wl-output", monitor ? monitor->wl_output : NULL,
                        "anchor", ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP,
                        "width", MIN (width, 450),
+                       /* Initial height to not take up the whole screen */
+                       "height", 100,
                        "layer", ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY,
                        "kbd-interactivity", FALSE,
                        "exclusive-zone", 0,
