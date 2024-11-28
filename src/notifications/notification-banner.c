@@ -259,8 +259,7 @@ phosh_notification_banner_new (PhoshNotification *notification)
   PhoshMonitor *monitor = phosh_shell_get_primary_monitor (phosh_shell_get_default ());
   int width = 360;
 
-  phosh_shell_get_usable_area (phosh_shell_get_default (),
-                               NULL, NULL, &width, NULL);
+  phosh_shell_get_usable_area (phosh_shell_get_default (), NULL, NULL, &width, NULL);
 
   return g_object_new (PHOSH_TYPE_NOTIFICATION_BANNER,
                        "notification", notification,
