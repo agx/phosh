@@ -1,3 +1,11 @@
+phosh 0.43.1
+------------
+Released Dezember 2024
+* Constrain notification banners to their actual size. This ensures
+  the areas around the notification remain touchable.
+* Contributors:
+    * Guido Günther
+
 phosh 0.43.0
 ------------
 Released November 2024
