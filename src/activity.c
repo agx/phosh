@@ -637,10 +637,10 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, box);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, revealer);
   gtk_widget_class_bind_template_callback (widget_class, clicked_cb);
-  gtk_widget_class_bind_template_callback (widget_class, draw_cb);
-  gtk_widget_class_bind_template_callback (widget_class, size_allocate_cb);
   gtk_widget_class_bind_template_callback (widget_class, closed_cb);
+  gtk_widget_class_bind_template_callback (widget_class, draw_cb);
   gtk_widget_class_bind_template_callback (widget_class, removed_cb);
+  gtk_widget_class_bind_template_callback (widget_class, size_allocate_cb);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-activity");
 }
