@@ -32,6 +32,7 @@
 enum {
   CLICKED,
   CLOSED,
+  FULLSCREENED,
   RESIZED,
   N_SIGNALS
 };
@@ -55,7 +56,9 @@ typedef struct
   GtkWidget *icon;
   GtkWidget *box;
   GtkWidget *revealer_close;
+  GtkWidget *revealer_unfullscreen;
   GtkWidget *btn_close;
+  GtkWidget *btn_unfullscreen;
   GtkWidget *preview;
   GtkWidget *button;
 
@@ -85,6 +88,18 @@ G_DEFINE_TYPE_WITH_PRIVATE(PhoshActivity, phosh_activity, GTK_TYPE_EVENT_BOX)
 
 
 static void
+set_fullscreen (PhoshActivity *self, gboolean fullscreen)
+{
+  PhoshActivityPrivate *priv = phosh_activity_get_instance_private(self);
+
+  priv->fullscreen = fullscreen;
+  phosh_util_toggle_style_class (GTK_WIDGET (self), "phosh-fullscreen", priv->fullscreen);
+
+  gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer_unfullscreen), priv->fullscreen);
+}
+
+
+static void
 phosh_activity_set_property (GObject *object,
                              guint property_id,
                              const GValue *value,
@@ -110,8 +125,7 @@ phosh_activity_set_property (GObject *object,
       phosh_util_toggle_style_class (GTK_WIDGET (self), "phosh-maximized", priv->maximized);
       break;
     case PROP_FULLSCREEN:
-      priv->fullscreen = g_value_get_boolean (value);
-      phosh_util_toggle_style_class (GTK_WIDGET (self), "phosh-fullscreen", priv->fullscreen);
+      set_fullscreen (self, g_value_get_boolean (value));
       break;
     case PROP_WIN_WIDTH:
       width = g_value_get_int (value);
@@ -184,6 +198,13 @@ closed_cb (PhoshActivity *self)
   PhoshActivityPrivate *priv = phosh_activity_get_instance_private (self);
 
   phosh_swipe_away_bin_remove (PHOSH_SWIPE_AWAY_BIN (priv->swipe_bin));
+}
+
+
+static void
+on_unfullscreen_clicked (PhoshActivity *self)
+{
+  g_signal_emit (self, signals[FULLSCREENED], 0, FALSE);
 }
 
 
@@ -630,6 +651,20 @@ phosh_activity_class_init (PhoshActivityClass *klass)
                                   NULL,
                                   G_TYPE_NONE,
                                   0);
+  /**
+   * PhoshActivity::fullscreened
+   * @self: The activity
+   * @fullscreen: Whether the activity should be fullscreened or
+   *   unfullscreened
+   *
+   * The fullscreen state of the activity should be changed.
+   */
+  signals[FULLSCREENED] = g_signal_new ("fullscreened",
+                                        G_TYPE_FROM_CLASS (klass),
+                                        G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+                                        NULL,
+                                        G_TYPE_NONE, 1,
+                                        G_TYPE_BOOLEAN);
 
   signals[RESIZED] = g_signal_new ("resized",
                                    G_TYPE_FROM_CLASS (klass),
@@ -644,15 +679,18 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/activity.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, btn_close);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, btn_unfullscreen);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, button);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, preview);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, swipe_bin);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, icon);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, box);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, revealer_close);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, revealer_unfullscreen);
   gtk_widget_class_bind_template_callback (widget_class, clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, closed_cb);
   gtk_widget_class_bind_template_callback (widget_class, draw_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_unfullscreen_clicked);
   gtk_widget_class_bind_template_callback (widget_class, removed_cb);
   gtk_widget_class_bind_template_callback (widget_class, size_allocate_cb);
 
@@ -715,10 +753,11 @@ phosh_activity_set_thumbnail (PhoshActivity *self, PhoshThumbnail *thumbnail)
 
   gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-empty");
 
-  /* Make sure the close button is over the thumbnail */
+  /* Make sure buttons are over the thumbnail */
   w = gtk_widget_get_allocated_width (GTK_WIDGET (self));
   scale = get_scale (self);
   margin = w ? (w - (width * scale)) / 2 : 0;
+  gtk_widget_set_margin_start (priv->btn_unfullscreen, margin);
   gtk_widget_set_margin_end (priv->btn_close, margin);
 
   gtk_widget_queue_draw (GTK_WIDGET (self));

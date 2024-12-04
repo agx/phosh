@@ -59,6 +59,35 @@
                   </packing>
                 </child>
                 <child type="overlay">
+                  <object class="GtkRevealer" id="revealer_unfullscreen">
+                    <property name="transition-type">crossfade</property>
+                    <property name="visible" bind-source="revealer_unfullscreen" bind-property="child-revealed" bind-flags="sync-create"/>
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
+                    <child>
+                      <object class="GtkButton" id="btn_unfullscreen">
+                        <property name="visible">1</property>
+                        <signal name="clicked" handler="on_unfullscreen_clicked" swapped="true"/>
+                        <child>
+                          <object class="GtkImage">
+                            <property name="visible">1</property>
+                            <property name="pixel-size">24</property>
+                            <property name="icon-name">view-restore-symbolic</property>
+                          </object>
+                        </child>
+                        <style>
+                          <class name="phosh-activity-close-button"/>
+                          <class name="osd"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="pass-through">1</property>
+                    <property name="index">1</property>
+                  </packing>
+                </child>
+                <child type="overlay">
                   <object class="GtkRevealer" id="revealer_close">
                     <property name="transition-type">crossfade</property>
                     <property name="visible" bind-source="revealer_close" bind-property="child-revealed" bind-flags="sync-create"/>
