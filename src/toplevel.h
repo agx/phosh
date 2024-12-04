@@ -28,4 +28,4 @@ gboolean phosh_toplevel_is_maximized (PhoshToplevel *self);
 gboolean phosh_toplevel_is_fullscreen (PhoshToplevel *self);
 void phosh_toplevel_activate (PhoshToplevel *self, struct wl_seat *seat);
 void phosh_toplevel_close (PhoshToplevel *self);
-
+void phosh_toplevel_fullscreen (PhoshToplevel *self, gboolean fullscreen);

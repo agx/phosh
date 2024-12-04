@@ -455,3 +455,15 @@ phosh_toplevel_close (PhoshToplevel *self)
   g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
   zwlr_foreign_toplevel_handle_v1_close (self->handle);
 }
+
+
+void
+phosh_toplevel_fullscreen (PhoshToplevel *self, gboolean fullscreen)
+{
+  g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
+
+  if (fullscreen)
+    zwlr_foreign_toplevel_handle_v1_set_fullscreen (self->handle, NULL);
+  else
+    zwlr_foreign_toplevel_handle_v1_unset_fullscreen (self->handle);
+}

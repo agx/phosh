@@ -87,6 +87,13 @@ phosh_toplevel_activate (PhoshToplevel *self, struct wl_seat *seat)
 
 
 void
+phosh_toplevel_fullscreen (PhoshToplevel *self, gboolean fullscreen)
+{
+  g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
+}
+
+
+void
 phosh_toplevel_close (PhoshToplevel *self)
 {
   g_return_if_fail (PHOSH_IS_TOPLEVEL (self));
