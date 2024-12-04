@@ -33,40 +33,40 @@ phosh_thumbnail_set_ready (PhoshThumbnail *self, gboolean ready)
 }
 
 static void
-phosh_thumbnail_set_property (GObject *object,
-                              guint property_id,
+phosh_thumbnail_set_property (GObject      *object,
+                              guint         property_id,
                               const GValue *value,
-                              GParamSpec *pspec)
+                              GParamSpec   *pspec)
 {
   PhoshThumbnail *self = PHOSH_THUMBNAIL (object);
   PhoshThumbnailClass *klass = PHOSH_THUMBNAIL_GET_CLASS (self);
 
   switch (property_id) {
-    case PROP_READY:
-      klass->set_ready (self, g_value_get_boolean (value));
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
+  case PROP_READY:
+    klass->set_ready (self, g_value_get_boolean (value));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
   }
 }
 
 
 static void
-phosh_thumbnail_get_property (GObject *object,
-                                      guint property_id,
-                                      GValue *value,
-                                      GParamSpec *pspec)
+phosh_thumbnail_get_property (GObject    *object,
+                              guint       property_id,
+                              GValue     *value,
+                              GParamSpec *pspec)
 {
   PhoshThumbnail *self = PHOSH_THUMBNAIL (object);
 
   switch (property_id) {
-    case PROP_READY:
-      g_value_set_boolean (value, phosh_thumbnail_is_ready (self));
-      break;
-    default:
-      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-      break;
+  case PROP_READY:
+    g_value_set_boolean (value, phosh_thumbnail_is_ready (self));
+    break;
+  default:
+    G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+    break;
   }
 }
 
@@ -165,4 +165,3 @@ phosh_thumbnail_is_ready (PhoshThumbnail *self)
 
   return klass->is_ready (self);
 }
-
