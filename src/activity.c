@@ -54,7 +54,7 @@ typedef struct
   GtkWidget *swipe_bin;
   GtkWidget *icon;
   GtkWidget *box;
-  GtkWidget *revealer;
+  GtkWidget *revealer_close;
   GtkWidget *btn_close;
   GtkWidget *preview;
   GtkWidget *button;
@@ -449,11 +449,11 @@ set_hovering (PhoshActivity *self,
 
   priv->hovering = hovering;
 
-  // Revealer won't animate if not mapped, show it preemptively
+  /* Revealer won't animate if not mapped, show it preemptively */
   if (hovering)
-    gtk_widget_show (priv->revealer);
+    gtk_widget_show (priv->revealer_close);
 
-  gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer), hovering);
+  gtk_revealer_set_reveal_child (GTK_REVEALER (priv->revealer_close), hovering);
 }
 
 
@@ -635,7 +635,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, swipe_bin);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, icon);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, box);
-  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, revealer);
+  gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, revealer_close);
   gtk_widget_class_bind_template_callback (widget_class, clicked_cb);
   gtk_widget_class_bind_template_callback (widget_class, closed_cb);
   gtk_widget_class_bind_template_callback (widget_class, draw_cb);

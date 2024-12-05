@@ -59,9 +59,9 @@
                   </packing>
                 </child>
                 <child type="overlay">
-                  <object class="GtkRevealer" id="revealer">
+                  <object class="GtkRevealer" id="revealer_close">
                     <property name="transition-type">crossfade</property>
-                    <property name="visible" bind-source="revealer" bind-property="child-revealed" bind-flags="sync-create"/>
+                    <property name="visible" bind-source="revealer_close" bind-property="child-revealed" bind-flags="sync-create"/>
                     <property name="halign">end</property>
                     <property name="valign">start</property>
                     <child>
