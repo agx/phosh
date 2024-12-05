@@ -88,7 +88,7 @@ test_phosh_notification_frame_need_separator (void)
 {
   g_autoptr (PhoshNotification) noti = NULL;
   GtkWidget *content = NULL;
-  GStrv actions = NULL;
+  g_auto (GStrv) actions = NULL;
   gboolean separator_needed;
   g_autoptr (GDateTime) now = g_date_time_new_now_local ();
   g_autoptr (GStrvBuilder) builder = NULL;
