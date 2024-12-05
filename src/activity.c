@@ -574,56 +574,70 @@ phosh_activity_class_init (PhoshActivityClass *klass)
                          NULL,
                          G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
                          G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
-
+  /**
+   * PhoshActivity:maximized:
+   *
+   * Whether the window is maximized
+   */
   props[PROP_MAXIMIZED] =
-    g_param_spec_boolean (
-      "maximized",
-      "maximized",
-      "Whether the window is maximized",
-      FALSE,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
-
+    g_param_spec_boolean ("maximized", "", "",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshActivity:fullscreen:
+   *
+   * Whether the window is presented fullscreen
+   */
   props[PROP_FULLSCREEN] =
-    g_param_spec_boolean (
-      "fullscreen",
-      "fullscreen",
-      "Whether the window is presented fullscreen",
-      FALSE,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
-
+    g_param_spec_boolean ("fullscreen", "", "",
+                          FALSE,
+                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshActivity:win-width:
+   *
+   * The window's width
+   */
   props[PROP_WIN_WIDTH] =
-    g_param_spec_int (
-      "win-width",
-      "Window Width",
-      "The window's width",
-      0,
-      G_MAXINT,
-      300,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
-
+    g_param_spec_int ("win-width", "", "",
+                      0,
+                      G_MAXINT,
+                      300,
+                      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+  /**
+   * PhoshActivity:win-height:
+   *
+   * The window's height
+   */
   props[PROP_WIN_HEIGHT] =
-    g_param_spec_int (
-      "win-height",
-      "Window Height",
-      "The window's height",
-      0,
-      G_MAXINT,
-      300,
-      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+    g_param_spec_int ("win-height", "", "",
+                      0,
+                      G_MAXINT,
+                      300,
+                      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
   signals[CLICKED] = g_signal_new ("clicked",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
+                                   G_TYPE_FROM_CLASS (klass),
+                                   G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+                                   NULL,
+                                   G_TYPE_NONE,
+                                   0);
 
   signals[CLOSED] = g_signal_new ("closed",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
+                                  G_TYPE_FROM_CLASS (klass),
+                                  G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+                                  NULL,
+                                  G_TYPE_NONE,
+                                  0);
 
   signals[RESIZED] = g_signal_new ("resized",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 1, GDK_TYPE_RECTANGLE | G_SIGNAL_TYPE_STATIC_SCOPE);
+                                   G_TYPE_FROM_CLASS (klass),
+                                   G_SIGNAL_RUN_LAST, 0, NULL, NULL,
+                                   NULL,
+                                   G_TYPE_NONE,
+                                   1,
+                                   GDK_TYPE_RECTANGLE | G_SIGNAL_TYPE_STATIC_SCOPE);
 
   g_type_ensure (PHOSH_TYPE_SWIPE_AWAY_BIN);
 
