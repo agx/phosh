@@ -205,6 +205,7 @@ static void
 on_unfullscreen_clicked (PhoshActivity *self)
 {
   g_signal_emit (self, signals[FULLSCREENED], 0, FALSE);
+  g_signal_emit (self, signals[CLICKED], 0);
 }
 
 
