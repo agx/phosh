@@ -1,3 +1,15 @@
+phosh (0.43.1) experimental; urgency=medium
+
+  * notification-banner: Use minimal size for banner.
+    Size the banner based on the allocation. This ensures areas around the
+    notification will still remain touchable.
+    We keep a min width of 360px to ensure the notification doesn't get too
+    narrow.
+    Fixes: c0b37ad5c ("notification-banner: Drop unused hard coded values")
+    (cherry picked from commit 5e01aa5558f294486e722eba107bf69ba8cf42c3)
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 01 Dec 2024 19:14:40 +0100
+
 phosh (0.43.0) experimental; urgency=medium
 
   [ Juliano de Souza Camargo ]
