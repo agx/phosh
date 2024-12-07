@@ -135,5 +135,5 @@ install_data('phoc.ini', install_dir : pkgdatadir)
 install_data('wayland-sessions/phosh.desktop',
 	     install_dir : 'share/wayland-sessions')
 
-install_data('phosh.portal', install_dir : join_paths(datadir, 'xdg-desktop-portal', 'portals'))
+install_data('phosh-shell.portal', install_dir : join_paths(datadir, 'xdg-desktop-portal', 'portals'))
 install_data('phosh-portals.conf', install_dir : join_paths(datadir, 'xdg-desktop-portal'))

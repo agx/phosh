@@ -12,4 +12,4 @@ usr/share/gnome-session/sessions/phosh.session
 usr/share/applications/mobi.phosh.Shell.desktop
 usr/share/dbus-1/services/mobi.phosh.Shell.CalendarServer.service
 usr/share/xdg-desktop-portal/phosh-portals.conf
-usr/share/xdg-desktop-portal/portals/phosh.portal
+usr/share/xdg-desktop-portal/portals/phosh-shell.portal
