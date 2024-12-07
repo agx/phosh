@@ -5,7 +5,7 @@ project('phosh', 'c',
   default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
 )
 
-app_id = 'sm.puri.Phosh'
+app_id = 'mobi.phosh.Shell'
 ver_parts = meson.project_version().split('.')
 libversion = '@0@.@1@'.format(ver_parts[0], ver_parts[1])
 lib_inc_subdir = 'libphosh-@0@'.format(libversion)

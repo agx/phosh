@@ -1,5 +1,5 @@
 <node>
-  <interface name="sm.puri.Phosh.CalendarServer">
+  <interface name="mobi.phosh.Shell.CalendarServer">
     <method name="SetTimeRange">
       <arg type="x" name="since" direction="in"/>
       <arg type="x" name="until" direction="in"/>
