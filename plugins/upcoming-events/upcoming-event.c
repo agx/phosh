@@ -348,7 +348,7 @@ phosh_upcoming_event_class_init (PhoshUpcomingEventClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/plugins/upcoming-events/upcoming-event.ui");
+                                               "/mobi/phosh/plugins/upcoming-events/upcoming-event.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshUpcomingEvent, color_bar);
   gtk_widget_class_bind_template_child (widget_class, PhoshUpcomingEvent, lbl_begin);
   gtk_widget_class_bind_template_child (widget_class, PhoshUpcomingEvent, lbl_summary);

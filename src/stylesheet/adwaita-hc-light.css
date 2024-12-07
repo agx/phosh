@@ -19,7 +19,7 @@
 @define-color phosh_emergency_button_bg_color #e01b24;
 @define-color phosh_emergency_button_fg_color #ffffff;
 
-@import url("resource:///sm/puri/phosh/stylesheet/common.css");
+@import url("resource:///mobi/phosh/stylesheet/common.css");
 
 #top-bar, #home-bar {
   box-shadow: inset 0 0 0 1px @phosh_borders_color;

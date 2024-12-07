@@ -99,7 +99,7 @@ phosh_run_command_dialog_class_init (PhoshRunCommandDialogClass *klass)
                                      0, NULL, NULL, NULL,
                                      G_TYPE_NONE, 0);
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/run-command-dialog.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/run-command-dialog.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshRunCommandDialog, entry_command);
   gtk_widget_class_bind_template_child (widget_class, PhoshRunCommandDialog, lbl_description);
   gtk_widget_class_bind_template_callback (widget_class, on_activated);

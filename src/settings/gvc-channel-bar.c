@@ -430,7 +430,7 @@ gvc_channel_bar_class_init (GvcChannelBarClass *klass)
                                          G_TYPE_NONE,
                                          0);
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/gvc-channel-bar.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/gvc-channel-bar.ui");
   gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, adjustment);
   gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, scale_box);
   gtk_widget_class_bind_template_child (widget_class, GvcChannelBar, image);

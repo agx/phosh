@@ -215,7 +215,7 @@ phosh_system_modal_dialog_class_init (PhoshSystemModalDialogClass *klass)
 
   g_type_ensure (PHOSH_TYPE_SWIPE_AWAY_BIN);
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/system-modal-dialog.ui");
+                                               "/mobi/phosh/ui/system-modal-dialog.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemModalDialog, lbl_title);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemModalDialog, box_dialog);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemModalDialog, box_buttons);

@@ -31,14 +31,14 @@ load_theme (const char *theme_name)
 static void
 test_phosh_css_default(void)
 {
-  g_assert_cmpstr (load_theme ("Adwaita"), ==, "/sm/puri/phosh/stylesheet/adwaita-dark.css");
+  g_assert_cmpstr (load_theme ("Adwaita"), ==, "/mobi/phosh/stylesheet/adwaita-dark.css");
 }
 
 
 static void
 test_phosh_css_highcontrast(void)
 {
-  g_assert_cmpstr (load_theme ("HighContrast"), ==, "/sm/puri/phosh/stylesheet/adwaita-hc-light.css");
+  g_assert_cmpstr (load_theme ("HighContrast"), ==, "/mobi/phosh/stylesheet/adwaita-hc-light.css");
 }
 
 

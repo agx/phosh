@@ -227,7 +227,7 @@ phosh_emergency_menu_class_init (PhoshEmergencyMenuClass *klass)
                                 0, NULL, NULL,
                                 NULL, G_TYPE_NONE, 0);
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/emergency-menu.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/emergency-menu.ui");
 
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, emergency_carousel);
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyMenu, emergency_dialpad_box);

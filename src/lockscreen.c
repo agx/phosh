@@ -1034,7 +1034,7 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
   g_type_ensure (PHOSH_TYPE_WIDGET_BOX);
   gtk_widget_class_set_css_name (widget_class, "phosh-lockscreen");
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/lockscreen.ui");
+                                               "/mobi/phosh/ui/lockscreen.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshLockscreen, carousel);
   gtk_widget_class_bind_template_callback_full (widget_class,
                                                 "carousel_position_notified_cb",

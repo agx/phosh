@@ -1,6 +1,6 @@
 <schemalist>
   <schema id="sm.puri.phosh.plugins.launcher-box"
-          path="/sm/puri/phosh/plugins/launcher-box/">
+          path="/mobi/phosh/plugins/launcher-box/">
     <key name="folder" type="s">
       <default>''</default>
       <summary>Folder containing the launchers</summary>

@@ -440,7 +440,7 @@ phosh_network_auth_prompt_class_init (PhoshNetworkAuthPromptClass *klass)
                                 G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/network-auth-prompt.ui");
+                                               "/mobi/phosh/ui/network-auth-prompt.ui");
 
   gtk_widget_class_bind_template_child (widget_class, PhoshNetworkAuthPrompt, cancel_button);
   gtk_widget_class_bind_template_child (widget_class, PhoshNetworkAuthPrompt, connect_button);

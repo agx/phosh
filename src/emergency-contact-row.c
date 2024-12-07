@@ -142,7 +142,7 @@ phosh_emergency_contact_row_class_init (PhoshEmergencyContactRowClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/emergency-contact-row.ui");
+                                               "/mobi/phosh/ui/emergency-contact-row.ui");
 }
 
 

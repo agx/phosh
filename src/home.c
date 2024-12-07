@@ -555,7 +555,7 @@ phosh_home_class_init (PhoshHomeClass *klass)
   g_type_ensure (PHOSH_TYPE_OVERVIEW);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/home.ui");
+                                               "/mobi/phosh/ui/home.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, click_gesture);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, home_bar);
   gtk_widget_class_bind_template_child (widget_class, PhoshHome, osk_toggle_long_press);

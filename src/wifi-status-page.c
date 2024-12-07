@@ -142,7 +142,7 @@ phosh_wifi_status_page_class_init (PhoshWifiStatusPageClass *klass)
   object_class->dispose = phosh_wifi_status_page_dispose;
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/wifi-status-page.ui");
+                                               "/mobi/phosh/ui/wifi-status-page.ui");
 
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiStatusPage, wifi_scan);
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiStatusPage, stack);

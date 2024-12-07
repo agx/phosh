@@ -378,7 +378,7 @@ phosh_notification_content_class_init (PhoshNotificationContentClass *klass)
   g_object_class_install_properties (object_class, LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/notification-content.ui");
+                                               "/mobi/phosh/ui/notification-content.ui");
 
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationContent, lbl_summary);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationContent, lbl_body);

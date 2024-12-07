@@ -452,7 +452,7 @@ phosh_emergency_info_prefs_class_init (PhoshEmergencyInfoPrefsClass *klass)
   object_class->finalize = phosh_emergency_info_prefs_finalize;
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/plugins/emergency-info-prefs/emergency-info-prefs.ui");
+                                               "/mobi/phosh/plugins/emergency-info-prefs/emergency-info-prefs.ui");
 
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoPrefs, dob_entry_buffer);
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoPrefs, owner_name_entry_buffer);

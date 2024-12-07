@@ -543,7 +543,7 @@ phosh_overview_class_init (PhoshOverviewClass *klass)
 
   /* ensure used custom types */
   PHOSH_TYPE_APP_GRID;
-  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/overview.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/overview.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview, app_grid);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshOverview,

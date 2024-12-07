@@ -627,7 +627,7 @@ phosh_activity_class_init (PhoshActivityClass *klass)
 
   g_type_ensure (PHOSH_TYPE_SWIPE_AWAY_BIN);
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/activity.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/activity.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, btn_close);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshActivity, button);

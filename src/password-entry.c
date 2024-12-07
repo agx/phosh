@@ -49,7 +49,7 @@ phosh_password_entry_class_init (PhoshPasswordEntryClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/password-entry.ui");
+                                               "/mobi/phosh/ui/password-entry.ui");
   gtk_widget_class_bind_template_callback (widget_class, on_icon_press);
 }
 

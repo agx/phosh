@@ -268,7 +268,7 @@ phosh_call_notification_class_init (PhoshCallNotificationClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/call-notification.ui");
+                                               "/mobi/phosh/ui/call-notification.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshCallNotification, avatar);
   gtk_widget_class_bind_template_child (widget_class, PhoshCallNotification, call_duration);
   gtk_widget_class_bind_template_child (widget_class, PhoshCallNotification, call_state);

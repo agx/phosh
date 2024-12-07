@@ -75,7 +75,7 @@ phosh_upcoming_events_class_init (PhoshUpcomingEventsClass *klass)
   g_type_ensure (PHOSH_TYPE_EVENT_LIST);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/plugins/upcoming-events/upcoming-events.ui");
+                                               "/mobi/phosh/plugins/upcoming-events/upcoming-events.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshUpcomingEvents, events_box);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-upcoming-events");
@@ -395,7 +395,7 @@ phosh_upcoming_events_init (PhoshUpcomingEvents *self)
 
   css_provider = gtk_css_provider_new ();
   gtk_css_provider_load_from_resource (css_provider,
-                                       "/sm/puri/phosh/plugins/upcoming-events/stylesheet/common.css");
+                                       "/mobi/phosh/plugins/upcoming-events/stylesheet/common.css");
   gtk_style_context_add_provider_for_screen (gdk_screen_get_default (),
                                              GTK_STYLE_PROVIDER (css_provider),
                                              GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);

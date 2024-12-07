@@ -140,7 +140,7 @@ phosh_wifi_network_row_class_init (PhoshWifiNetworkRowClass *klass)
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/wifi-network-row.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/wifi-network-row.ui");
 
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiNetworkRow, wifi_icon);
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiNetworkRow, encrypted_icon);

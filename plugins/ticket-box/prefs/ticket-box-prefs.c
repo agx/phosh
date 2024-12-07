@@ -122,7 +122,7 @@ phosh_ticket_box_prefs_class_init (PhoshTicketBoxPrefsClass *klass)
   object_class->finalize = phosh_ticket_box_prefs_finalize;
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/plugins/ticket-box-prefs/ticket-box-prefs.ui");
+                                               "/mobi/phosh/plugins/ticket-box-prefs/ticket-box-prefs.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshTicketBoxPrefs, folder_entry);
   gtk_widget_class_bind_template_callback (widget_class, on_folder_button_clicked);
 }

@@ -272,7 +272,7 @@ phosh_keypad_class_init (PhoshKeypadClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/keypad.ui");
+                                               "/mobi/phosh/ui/keypad.ui");
 
   for (int i = 0; i < NUM_DIGITS; i++) {
     g_autofree char *name = g_strdup_printf ("btn_%d", i);

@@ -536,7 +536,7 @@ phosh_end_session_dialog_class_init (PhoshEndSessionDialogClass *klass)
                                   NULL, G_TYPE_NONE, 0);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/end-session-dialog.ui");
+                                               "/mobi/phosh/ui/end-session-dialog.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshEndSessionDialog, lbl_subtitle);
   gtk_widget_class_bind_template_child (widget_class, PhoshEndSessionDialog, lbl_warn);
   gtk_widget_class_bind_template_child (widget_class, PhoshEndSessionDialog, listbox);

@@ -399,7 +399,7 @@ phosh_quick_setting_class_init (PhoshQuickSettingClass *klass)
                                        0, NULL, NULL, NULL, G_TYPE_NONE, 0);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/quick-setting.ui");
+                                               "/mobi/phosh/ui/quick-setting.ui");
 
   gtk_widget_class_bind_template_callback (widget_class, on_arrow_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_button_clicked);

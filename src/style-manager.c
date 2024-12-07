@@ -207,9 +207,9 @@ phosh_style_manager_get_stylesheet (const char *theme_name)
   const char *style;
 
   if (g_strcmp0 (theme_name, "HighContrast") == 0)
-    style = "/sm/puri/phosh/stylesheet/adwaita-hc-light.css";
+    style = "/mobi/phosh/stylesheet/adwaita-hc-light.css";
   else
-    style = "/sm/puri/phosh/stylesheet/adwaita-dark.css";
+    style = "/mobi/phosh/stylesheet/adwaita-dark.css";
 
   return style;
 }

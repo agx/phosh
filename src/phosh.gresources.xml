@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/sm/puri/phosh">
+  <gresource prefix="/mobi/phosh">
     <file preprocess="xml-stripblanks">ui/activity.ui</file>
     <file preprocess="xml-stripblanks">ui/app-auth-prompt.ui</file>
     <file preprocess="xml-stripblanks">ui/app-grid-base-button.ui</file>
@@ -48,11 +48,11 @@
     <file compressed="true">stylesheet/common.css</file>
     <file compressed="true" alias="fake-app.svg">../data/icons/fake-app.svg</file>
   </gresource>
-  <gresource prefix="/sm/puri/phosh/icons/">
+  <gresource prefix="/mobi/phosh/icons/">
     <file alias="app-icon-unknown.svg">../data/icons/app-icon-unknown.svg</file>
     <file alias="app-icon-unknown-symbolic.svg">../data/icons/app-icon-unknown-symbolic.svg</file>
   </gresource>
-  <gresource prefix="/sm/puri/phosh/icons/scalable/status/">
+  <gresource prefix="/mobi/phosh/icons/scalable/status/">
     <file alias="app-close-symbolic.svg">../data/icons/app-close-symbolic.svg</file>
     <file alias="asterisk-symbolic.svg">../data/icons/asterisk-symbolic.svg</file>
     <file alias="audio-handsfree-symbolic.svg">../data/icons/audio-handsfree-symbolic.svg</file>
