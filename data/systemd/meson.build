@@ -23,12 +23,12 @@ endforeach
 serviceconf = configuration_data()
 serviceconf.set('libexecdir', libexecdir)
 configure_file(
-  input: 'sm.puri.Phosh.service.in',
-  output: 'sm.puri.Phosh.service',
+  input: 'mobi.phosh.Shell.service.in',
+  output: 'mobi.phosh.Shell.service',
   install_dir: systemduserdir,
   configuration: serviceconf,
   install: true
 )
 
-install_data('sm.puri.Phosh.target', install_dir: systemduserdir)
+install_data('mobi.phosh.Shell.target', install_dir: systemduserdir)
 
