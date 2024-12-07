@@ -420,7 +420,7 @@ screenshot_portal_access (GMainLoop                      *loop,
 
   proxy = phosh_dbus_impl_portal_access_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
                                                                 G_DBUS_PROXY_FLAGS_NONE,
-                                                                "sm.puri.Phosh.Portal",
+                                                                "mobi.phosh.Shell.Portal",
                                                                 "/org/freedesktop/portal/desktop",
                                                                 NULL,
                                                                 &err);
@@ -428,8 +428,8 @@ screenshot_portal_access (GMainLoop                      *loop,
   options = get_portal_access_options ("audio-input-microphone-symbolic");
   phosh_dbus_impl_portal_access_call_access_dialog (
     proxy,
-    "/sm/puri/Phosh/Access",
-    "sm.puri.Phosh",
+    "/mobi/phosh/Shell/Access",
+    "mobi.phosh.Shell",
     "",
     "Give FooBar Microphone and Storage Access?",
     "FooBar wants to use your microphone and storage.",

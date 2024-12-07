@@ -15,7 +15,7 @@
 #include "shell.h"
 #include "util.h"
 
-#define PORTAL_DBUS_NAME "sm.puri.Phosh.Portal"
+#define PORTAL_DBUS_NAME "mobi.phosh.Shell.Portal"
 #define PORTAL_OBJECT_PATH "/org/freedesktop/portal/desktop"
 #define PORTAL_ACCESS_DIALOG_GRANTED      0
 #define PORTAL_ACCESS_DIALOG_DENIED       1
