@@ -279,6 +279,7 @@ phosh_notification_banner_new (PhoshNotification *notification)
   return g_object_new (PHOSH_TYPE_NOTIFICATION_BANNER,
                        "notification", notification,
                        "width-request", BANNER_MIN_WIDTH,
+                       "valign", GTK_ALIGN_CENTER,
                        /* layer surface */
                        "layer-shell", phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                        "wl-output", monitor ? monitor->wl_output : NULL,
