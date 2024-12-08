@@ -9,6 +9,7 @@ session_dropins = [
 
 sessionconf = configuration_data()
 sessionconf.set('gsd_wants', gsd_wants)
+sessionconf.set('app_id', app_id)
 
 foreach session_dropin : session_dropins
   configure_file(
@@ -31,4 +32,3 @@ configure_file(
 )
 
 install_data('mobi.phosh.Shell.target', install_dir: systemduserdir)
-
