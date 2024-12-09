@@ -24,11 +24,11 @@ msgstr ""
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
+#: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Powłoka telefonu"
 
-#: data/sm.puri.Phosh.desktop.in.in:5
+#: data/mobi.phosh.Shell.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Zarządzanie oknami i uruchamianiem programów na telefonie"
 

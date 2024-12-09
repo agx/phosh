@@ -25,11 +25,11 @@ msgstr ""
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/mobi.phosh.Shell.desktop.in.in:4
 msgid "Phone Shell"
 msgstr "Telefona Ŝelo"
 
-#: data/sm.puri.Phosh.desktop.in.in:5
+#: data/mobi.phosh.Shell.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Administrado de fenestroj kaj lanĉado de aplikaĵoj por poŝtelefono"
 
