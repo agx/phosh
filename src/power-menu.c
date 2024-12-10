@@ -120,7 +120,7 @@ phosh_power_menu_class_init (PhoshPowerMenuClass *klass)
   g_type_ensure (PHOSH_TYPE_FADING_LABEL);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/power-menu.ui");
+                                               "/mobi/phosh/ui/power-menu.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshPowerMenu, stack);
   gtk_widget_class_bind_template_callback (widget_class, on_power_menu_done);
 

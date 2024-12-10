@@ -279,7 +279,7 @@ phosh_quick_settings_class_init (PhoshQuickSettingsClass *klass)
   g_type_ensure (PHOSH_TYPE_WIFI_STATUS_PAGE);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/quick-settings.ui");
+                                               "/mobi/phosh/ui/quick-settings.ui");
 
   gtk_widget_class_bind_template_child (widget_class, PhoshQuickSettings, box);
 

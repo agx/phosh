@@ -252,7 +252,7 @@ phosh_splash_class_init (PhoshSplashClass *klass)
                                   NULL, G_TYPE_NONE, 0);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/splash.ui");
+                                               "/mobi/phosh/ui/splash.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSplash, img_app);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSplash, box);
 

@@ -490,7 +490,7 @@ phosh_polkit_auth_prompt_class_init (PhoshPolkitAuthPromptClass *klass)
     NULL, G_TYPE_NONE, 1, G_TYPE_BOOLEAN);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/polkit-auth-prompt.ui");
+                                               "/mobi/phosh/ui/polkit-auth-prompt.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshPolkitAuthPrompt, lbl_message);
   gtk_widget_class_bind_template_child (widget_class, PhoshPolkitAuthPrompt, lbl_user_name);
   gtk_widget_class_bind_template_child (widget_class, PhoshPolkitAuthPrompt, lbl_password);

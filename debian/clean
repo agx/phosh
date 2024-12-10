@@ -2,5 +2,3 @@ debian/phosh.postinst
 debian/phosh.postrm
 debian/phosh.service
 debian/phosh.triggers
-debian/sm.puri.Phosh.service
-debian/sm.puri.Phosh.target

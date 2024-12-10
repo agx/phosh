@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/sm/puri/phosh/plugins/emergency-info-prefs/">
+  <gresource prefix="/mobi/phosh/plugins/emergency-info-prefs/">
     <file preprocess="xml-stripblanks">emergency-info-prefs.ui</file>
     <file preprocess="xml-stripblanks">emergency-info-prefs-row.ui</file>
   </gresource>

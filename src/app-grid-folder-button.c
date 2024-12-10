@@ -185,7 +185,7 @@ phosh_app_grid_folder_button_class_init (PhoshAppGridFolderButtonClass *klass)
                                            0, NULL, NULL, NULL,
                                            G_TYPE_NONE, 1, PHOSH_TYPE_FOLDER_INFO);
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/app-grid-folder-button.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/app-grid-folder-button.ui");
 
   gtk_widget_class_bind_template_callback (widget_class, on_activated_cb);
   gtk_widget_class_bind_template_child (widget_class, PhoshAppGridFolderButton, grid);

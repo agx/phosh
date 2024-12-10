@@ -1,4 +1,4 @@
 [Unit]
 @gsd_wants@
 
-Requires=sm.puri.Phosh.target
+Requires=@app_id@.target

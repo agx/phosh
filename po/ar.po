@@ -15,11 +15,11 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural= n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 
-#: data/sm.puri.Phosh.desktop.in.in:4
+#: data/mobi.phosh.Shell.desktop.in.in:4
 msgid "Phone Shell"
 msgstr ""
 
-#: data/sm.puri.Phosh.desktop.in.in:5
+#: data/mobi.phosh.Shell.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr ""
 

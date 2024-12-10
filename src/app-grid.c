@@ -721,7 +721,7 @@ phosh_app_grid_class_init (PhoshAppGridClass *klass)
                   NULL, NULL, NULL,
                   G_TYPE_NONE, 1, G_TYPE_APP_INFO);
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/app-grid.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/app-grid.ui");
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, apps);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGrid, btn_adaptive);

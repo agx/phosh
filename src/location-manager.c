@@ -382,7 +382,8 @@ on_manager_proxy_ready (GObject              *source_object,
   }
 
   phosh_geo_clue_dbus_manager_call_add_agent (self->manager_proxy,
-                                              PHOSH_APP_ID,
+                                              /* Agent whitelisted in geoclue conf */
+                                              "sm.puri.Phosh",
                                               NULL,
                                               (GAsyncReadyCallback)on_add_agent_ready,
                                               NULL);

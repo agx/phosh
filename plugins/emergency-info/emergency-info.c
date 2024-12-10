@@ -284,7 +284,7 @@ phosh_emergency_info_class_init (PhoshEmergencyInfoClass *klass)
   g_type_ensure (PHOSH_TYPE_EMERGENCY_INFO_ROW);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/plugins/emergency-info/emergency-info.ui");
+                                               "/mobi/phosh/plugins/emergency-info/emergency-info.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfo, label_owner_name);
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfo, label_dob);
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfo, label_language);
@@ -318,7 +318,7 @@ phosh_emergency_info_init (PhoshEmergencyInfo *self)
   gtk_widget_init_template (GTK_WIDGET (self));
   css_provider = gtk_css_provider_new ();
   gtk_css_provider_load_from_resource (css_provider,
-                                       "/sm/puri/phosh/plugins/emergency-info/stylesheet/common.css");
+                                       "/mobi/phosh/plugins/emergency-info/stylesheet/common.css");
 
   gtk_style_context_add_provider (gtk_widget_get_style_context (GTK_WIDGET (self)),
                                   GTK_STYLE_PROVIDER (css_provider),

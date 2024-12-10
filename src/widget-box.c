@@ -186,7 +186,7 @@ phosh_widget_box_class_init (PhoshWidgetBoxClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/widget-box.ui");
+                                               "/mobi/phosh/ui/widget-box.ui");
 
   gtk_widget_class_bind_template_child (widget_class, PhoshWidgetBox, carousel);
 

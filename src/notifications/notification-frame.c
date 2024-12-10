@@ -405,7 +405,7 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
   g_type_ensure (PHOSH_TYPE_TIMESTAMP_LABEL);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/notification-frame.ui");
+                                               "/mobi/phosh/ui/notification-frame.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, revealer);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, box);
   gtk_widget_class_bind_template_child (widget_class, PhoshNotificationFrame, lbl_app_name);

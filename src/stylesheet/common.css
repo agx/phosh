@@ -221,7 +221,7 @@ phosh-status-page-placeholder > box > label.title {
 /* phosh-home */
 
 #powerbar {
-  background: -gtk-recolor(url('resource:///sm/puri/phosh/icons/scalable/status/input-powerbar-symbolic.svg'));
+  background: -gtk-recolor(url('resource:///mobi/phosh/icons/scalable/status/input-powerbar-symbolic.svg'));
   background-position: center;
   background-size: 150px 15px;
   background-repeat: no-repeat;
@@ -281,7 +281,7 @@ phosh-activity box button {
 }
 
 phosh-activity.phosh-empty {
-  background: url('resource:///sm/puri/phosh/fake-app.svg');
+  background: url('resource:///mobi/phosh/fake-app.svg');
   background-size: cover;
 }
 

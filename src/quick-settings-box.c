@@ -774,7 +774,7 @@ phosh_quick_settings_box_class_init (PhoshQuickSettingsBoxClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/quick-settings-box.ui");
+                                               "/mobi/phosh/ui/quick-settings-box.ui");
 
   gtk_widget_class_bind_template_callback (widget_class, on_child_revealed_changed);
   gtk_widget_class_bind_template_child (widget_class, PhoshQuickSettingsBox, revealer);

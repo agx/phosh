@@ -86,7 +86,7 @@ phosh_emergency_info_row_class_init (PhoshEmergencyInfoRowClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/plugins/emergency-info/emergency-info-row.ui");
+                                               "/mobi/phosh/plugins/emergency-info/emergency-info-row.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoRow, label_contact);
 }
 

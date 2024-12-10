@@ -47,7 +47,7 @@ done
 
 echo "$OPTIONS"
 
-DEST="sm.puri.Phosh.Portal"
+DEST="mobi.phosh.Shell.Portal"
 OBJECT_PATH="/org/freedesktop/portal/desktop"
 METHOD="org.freedesktop.impl.portal.Access.AccessDialog"
 
@@ -55,5 +55,5 @@ gdbus call --session \
             --dest $DEST \
             --object-path $OBJECT_PATH \
             --method $METHOD \
-            /sm/puri/Phosh/Access sm.puri.Phosh '' \
+            /mobi/phosh/Shell/Access mobi.phosh.Shell '' \
             "$TITLE" "$SUBTITLE" "$BODY" "$OPTIONS"

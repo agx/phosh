@@ -143,7 +143,7 @@ phosh_audio_device_row_class_init (PhoshAudioDeviceRowClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/audio-device-row.ui");
+                                               "/mobi/phosh/ui/audio-device-row.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshAudioDeviceRow, description);
   gtk_widget_class_bind_template_child (widget_class, PhoshAudioDeviceRow, icon);
   gtk_widget_class_bind_template_child (widget_class, PhoshAudioDeviceRow, revealer);

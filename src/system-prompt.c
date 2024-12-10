@@ -673,7 +673,7 @@ phosh_system_prompt_class_init (PhoshSystemPromptClass *klass)
                                                          FALSE, G_PARAM_READABLE | G_PARAM_STATIC_STRINGS));
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/system-prompt.ui");
+                                               "/mobi/phosh/ui/system-prompt.ui");
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, grid);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, lbl_description);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshSystemPrompt, lbl_password);

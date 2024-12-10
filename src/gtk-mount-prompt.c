@@ -431,7 +431,7 @@ phosh_gtk_mount_prompt_class_init (PhoshGtkMountPromptClass *klass)
                                   NULL, G_TYPE_NONE, 0);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/gtk-mount-prompt.ui");
+                                               "/mobi/phosh/ui/gtk-mount-prompt.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshGtkMountPrompt, lbl_msg);
   gtk_widget_class_bind_template_child (widget_class, PhoshGtkMountPrompt, lbl_password);
   gtk_widget_class_bind_template_child (widget_class, PhoshGtkMountPrompt, lbl_user);

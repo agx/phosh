@@ -48,7 +48,7 @@ phosh_upcoming_events_prefs_class_init (PhoshUpcomingEventsPrefsClass *klass)
   object_class->finalize = phosh_upcoming_events_prefs_finalize;
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/plugins/upcoming-events-prefs/upcoming-events-prefs.ui");
+                                               "/mobi/phosh/plugins/upcoming-events-prefs/upcoming-events-prefs.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshUpcomingEventsPrefs, adjustment);
 }
 

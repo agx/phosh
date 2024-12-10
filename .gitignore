@@ -14,8 +14,6 @@ vgdump
 .vscode/
 *.gcov
 debian/phosh.service
-debian/sm.puri.Phosh.service
-debian/sm.puri.Phosh.target
 debian/files
 debian/*.substvars
 debian/*debhelper*

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
   <schema id="sm.puri.phosh.plugins.upcoming-events"
-          path="/sm/puri/phosh/plugins/upcoming-events/">
+          path="/mobi/phosh/plugins/upcoming-events/">
     <key name="days" type="u">
       <default>7</default>
       <summary>Number of days to display</summary>

@@ -703,7 +703,7 @@ setup_network_agent (PhoshNetworkAuthManager *self)
                               on_network_agent_ready,
                               self,
                               "capabilities", NM_SECRET_AGENT_CAPABILITY_VPN_HINTS,
-                              "identifier", "sm.puri.phosh.NetworkAgent",
+                              "identifier", PHOSH_APP_ID ".NetworkAgent",
                               "auto-register", FALSE,
                               NULL);
 }

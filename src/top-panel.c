@@ -723,7 +723,7 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   g_type_ensure (PHOSH_TYPE_ARROW);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/top-panel.ui");
+                                               "/mobi/phosh/ui/top-panel.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, arrow);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, batteryinfo);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, box);

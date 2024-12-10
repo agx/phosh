@@ -338,7 +338,7 @@ phosh_audio_settings_class_init (PhoshAudioSettingsClass *klass)
   g_type_ensure (GVC_TYPE_CHANNEL_BAR);
   g_type_ensure (PHOSH_TYPE_FADING_LABEL);
 
-  gtk_widget_class_set_template_from_resource (widget_class, "/sm/puri/phosh/ui/audio-settings.ui");
+  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/audio-settings.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshAudioSettings, box_audio_input_devices);
   gtk_widget_class_bind_template_child (widget_class, PhoshAudioSettings, box_audio_output_devices);
   gtk_widget_class_bind_template_child (widget_class, PhoshAudioSettings, listbox_audio_input_devices);

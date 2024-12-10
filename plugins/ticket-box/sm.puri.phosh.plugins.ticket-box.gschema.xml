@@ -1,6 +1,6 @@
 <schemalist>
   <schema id="sm.puri.phosh.plugins.ticket-box"
-          path="/sm/puri/phosh/plugins/ticket-box/">
+          path="/mobi/phosh/plugins/ticket-box/">
     <key name="folder" type="s">
       <default>'phosh-ticket-box'</default>
       <summary>Folder containing tickets</summary>

@@ -671,7 +671,7 @@ phosh_media_player_class_init (PhoshMediaPlayerClass *klass)
 
   gtk_widget_class_set_css_name (widget_class, "phosh-media-player");
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/media-player.ui");
+                                               "/mobi/phosh/ui/media-player.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_next);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_play);
   gtk_widget_class_bind_template_child (widget_class, PhoshMediaPlayer, btn_prev);

@@ -70,7 +70,7 @@ phosh_bt_status_page_class_init (PhoshBtStatusPageClass *klass)
   object_class->dispose = phosh_bt_status_page_dispose;
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/bt-status-page.ui");
+                                               "/mobi/phosh/ui/bt-status-page.ui");
 
   gtk_widget_class_bind_template_child (widget_class, PhoshBtStatusPage, empty_state);
   gtk_widget_class_bind_template_child (widget_class, PhoshBtStatusPage, devices_list_box);

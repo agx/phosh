@@ -302,7 +302,7 @@ phosh_event_list_class_init (PhoshEventListClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/plugins/upcoming-events/event-list.ui");
+                                               "/mobi/phosh/plugins/upcoming-events/event-list.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshEventList, label);
   gtk_widget_class_bind_template_child (widget_class, PhoshEventList, lb_events);
   gtk_widget_class_bind_template_child (widget_class, PhoshEventList, stack_events);

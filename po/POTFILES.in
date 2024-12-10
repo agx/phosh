@@ -1,6 +1,6 @@
 # Desktop files
+data/mobi.phosh.Shell.desktop.in.in
 data/phosh.session.desktop.in.in
-data/sm.puri.Phosh.desktop.in.in
 data/wayland-sessions/phosh.desktop
 plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in
 plugins/calendar/calendar.desktop.in.in

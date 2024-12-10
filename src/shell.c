@@ -1008,7 +1008,7 @@ phosh_shell_constructed (GObject *object)
   }
 
   gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
-                                    "/sm/puri/phosh/icons");
+                                    "/mobi/phosh/icons");
 
   priv->calls_manager = phosh_calls_manager_new ();
   priv->launcher_entry_manager = phosh_launcher_entry_manager_new ();

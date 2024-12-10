@@ -110,7 +110,7 @@ phosh_ticket_box_class_init (PhoshTicketBoxClass *klass)
   g_type_ensure (PHOSH_TYPE_TICKET_ROW);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/plugins/ticket-box/ticket-box.ui");
+                                               "/mobi/phosh/plugins/ticket-box/ticket-box.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshTicketBox, lb_tickets);
   gtk_widget_class_bind_template_child (widget_class, PhoshTicketBox, stack_tickets);
   gtk_widget_class_bind_template_child (widget_class, PhoshTicketBox, view);
@@ -229,7 +229,7 @@ phosh_ticket_box_init (PhoshTicketBox *self)
 
   css_provider = gtk_css_provider_new ();
   gtk_css_provider_load_from_resource (css_provider,
-                                       "/sm/puri/phosh/plugins/ticket-box/stylesheet/common.css");
+                                       "/mobi/phosh/plugins/ticket-box/stylesheet/common.css");
   gtk_style_context_add_provider (gtk_widget_get_style_context (GTK_WIDGET (self)),
                                   GTK_STYLE_PROVIDER (css_provider),
                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);

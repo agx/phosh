@@ -474,7 +474,7 @@ phosh_settings_class_init (PhoshSettingsClass *klass)
   object_class->get_property = phosh_settings_get_property;
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/settings.ui");
+                                               "/mobi/phosh/ui/settings.ui");
 
   /* PhoshSettings:on-lockscreen:
    *

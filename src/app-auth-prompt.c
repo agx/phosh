@@ -405,7 +405,7 @@ phosh_app_auth_prompt_class_init (PhoshAppAuthPromptClass *klass)
                                   NULL, G_TYPE_NONE, 0);
 
   gtk_widget_class_set_template_from_resource (widget_class,
-                                               "/sm/puri/phosh/ui/app-auth-prompt.ui");
+                                               "/mobi/phosh/ui/app-auth-prompt.ui");
   gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, icon_app);
   gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, lbl_subtitle);
   gtk_widget_class_bind_template_child (widget_class, PhoshAppAuthPrompt, lbl_body);

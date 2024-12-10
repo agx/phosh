@@ -1,3 +1,76 @@
+phosh (0.44~dev) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * docs: Drop submodule init.
+    We're using subproject wraps since some time
+  * docs: Be less L5 specific
+  * docs: Fix path to session script.
+    Fixes ea33170db ("data: Rename phosh startup script to phosh-session")
+  * brightness: Use automatic cleanup
+  * overview: Bind template vars past signals.
+    This matches the class_init layout in other classes. Sort alphabetically
+    while at that and use our current indent.
+  * app-grid: Use g_timeout_add_once.
+    Simpler and less error prone
+  * app-grid: Avoid expand packaging for search.
+    That won't work with GTK4 and we can has hexpand just as well
+  * app-grid: Prefix signal handlers.
+    Make them match our `on_` style
+  * app-grid: Bind template vars past signals.
+    This matches the class_init layout in other classes. Also use our
+    current indent.
+  * notification-banner: Use minimal size for banner.
+    Size the banner based on the allocation. This ensures areas around the
+    notification will still remain touchable.
+    We keep a min width of 360px to ensure the notification doesn't get too
+    narrow.
+    Fixes: c0b37ad5c ("notification-banner: Drop unused hard coded values")
+  * tests/notification-frame: Don't leak actions.
+    Fixes fa92b3cbd ("tests/test-notification-frame: Add testcase for
+    need_separator function")
+  * shell: Use consistent resource prefix.
+    We could use the longer /mobi/phosh/shell but let's use the shorter
+    /mobi/phosh as these don't leak outside the binary.
+  * session: Move to phosh.mobi.
+    Move desktop file and icons as well
+  * debian: Drop unused files
+  * portal: Move to consistent prefix.
+    Use mobi.phosh.Shell here too
+  * build: Switch app-id to mobi.phosh.
+    Fix the fallout in the calendarserver and the upcoming events plugin
+    triggered by that.
+  * portals: Add 'shell' to portal name.
+    We only provide the access portal so add 'shell' name and free the
+    namespace for the actual portal so we don't have to use 'pmp' for it.
+  * portals: Use phosh as portal name.
+    Use the canonical name for the portal implementation
+  * packaging: Conflict with older phosh portal.
+    This ensures we don't run against a portal that is still
+    named pmp
+  * treewide: Bump version to 0.44~dev.
+    This allows packaging relations to work
+
+  [ Gotam Gorabh ]
+  * notification-frame: Add separator for default-action notification.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/901
+  * tools/check-notification: Rewrite to generate notifications for all the cases
+  * notification-frame: Don't add separator to row at index 0
+  * tests/test-notification-frame: Add testcase for need_separator function
+
+  [ Tim Sabsch ]
+  * Update German translation
+
+  [ Pierre Michel Augustin ]
+  * Update Haitian Creole translation
+
+  [ Ekaterine Papava ]
+  * Update Georgian translation
+
+  [ Yaron Shahrabani ]
+  * Update Hebrew translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 07 Dec 2024 23:44:41 +0100
+
 phosh (0.43.0) experimental; urgency=medium
 
   [ Juliano de Souza Camargo ]

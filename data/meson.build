@@ -18,7 +18,7 @@ gsd_required_components = [
 ]
 
 desktop_required_components = gsd_required_components + [
-  'sm.puri.Phosh',
+  'mobi.phosh.Shell',
   'sm.puri.OSK0',
 ]
 
@@ -29,7 +29,7 @@ desktopconf.set('required_components', ';'.join(desktop_required_components) + '
 
 desktop_utils = find_program('desktop-file-validate', required: false)
 desktop_files = {
-  'sm.puri.Phosh.desktop': true,
+  'mobi.phosh.Shell.desktop': true,
 }
 foreach desktop_file, install : desktop_files
   merged = i18n.merge_file(
@@ -135,5 +135,5 @@ install_data('phoc.ini', install_dir : pkgdatadir)
 install_data('wayland-sessions/phosh.desktop',
 	     install_dir : 'share/wayland-sessions')
 
-install_data('phosh.portal', install_dir : join_paths(datadir, 'xdg-desktop-portal', 'portals'))
+install_data('phosh-shell.portal', install_dir : join_paths(datadir, 'xdg-desktop-portal', 'portals'))
 install_data('phosh-portals.conf', install_dir : join_paths(datadir, 'xdg-desktop-portal'))
