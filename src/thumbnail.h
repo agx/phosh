@@ -26,13 +26,13 @@ G_DECLARE_DERIVABLE_TYPE (PhoshThumbnail,
  */
 struct _PhoshThumbnailClass {
   GObjectClass parent_class;
-  void   * (*get_image) (PhoshThumbnail *self);
+  gpointer (*get_image) (PhoshThumbnail *self);
   void     (*get_size)  (PhoshThumbnail *self, guint *width, guint *height, guint *stride);
   gboolean (*is_ready)  (PhoshThumbnail *self);
   void     (*set_ready) (PhoshThumbnail *self, gboolean ready);
 };
 
-void *   phosh_thumbnail_get_image (PhoshThumbnail *self);
+gpointer phosh_thumbnail_get_image (PhoshThumbnail *self);
 void     phosh_thumbnail_get_size  (PhoshThumbnail *self, guint *width, guint *height,
                                     guint *stride);
 gboolean phosh_thumbnail_is_ready  (PhoshThumbnail *self);

@@ -682,7 +682,7 @@ void
 phosh_activity_set_thumbnail (PhoshActivity *self, PhoshThumbnail *thumbnail)
 {
   PhoshActivityPrivate *priv;
-  void *data;
+  gpointer data;
   guint w, width, height, stride, margin;
   float scale;
 

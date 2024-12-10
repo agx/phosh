@@ -125,7 +125,7 @@ phosh_thumbnail_init (PhoshThumbnail *self)
 }
 
 
-void *
+gpointer
 phosh_thumbnail_get_image (PhoshThumbnail *self)
 {
   PhoshThumbnailClass *klass;
