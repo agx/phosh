@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-10-23 07:42+0000\n"
-"PO-Revision-Date: 2024-10-26 16:27+0200\n"
+"POT-Creation-Date: 2024-11-11 09:22+0000\n"
+"PO-Revision-Date: 2024-11-16 09:45+0100\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "Phosh"
 msgstr "Phosh"
 
-#: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
+#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Shell del telèfon"
 
-#: data/mobi.phosh.Shell.desktop.in.in:5
+#: data/sm.puri.Phosh.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Gestió de finestres i inici d'aplicacions per a mòbils"
 
@@ -260,30 +260,40 @@ msgid "No"
 msgstr "No"
 
 #. give visual feedback on error
-#: src/lockscreen.c:274 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Introduïu la contrasenya"
 
-#: src/lockscreen.c:919
+#: src/lockscreen.c:949
 msgid "Checking…"
 msgstr "S'està comprovant…"
 
-#: src/screenshot-manager.c:225
-msgid "Screenshot copied to clipboard"
-msgstr "S'ha copiat la captura de pantalla al porta-retalls"
-
-#: src/screenshot-manager.c:230
+#. Translators: '%s' is the filename of a screenshot
+#: src/screenshot-manager.c:235
 #, c-format
-msgid "Screenshot saved to %s"
-msgstr "S'ha desat la captura de pantalla a %s"
+msgid "Screenshot saved to '%s'"
+msgstr "S'ha desat la captura de pantalla a «%s»"
 
-#: src/screenshot-manager.c:233
+#: src/screenshot-manager.c:237
 msgid "Failed to save screenshot"
 msgstr "No s'ha pogut desar la captura de pantalla"
 
-#: src/screenshot-manager.c:237 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Captura de pantalla"
+
+#. Translators: name of the folder beneath ~/Pictures used to store screenshots
+#: src/screenshot-manager.c:416
+msgid "Screenshots"
+msgstr "Captures de pantalla"
+
+#. Translators: Name of a screenshot file. The first '%s' is a timestamp
+#. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
+#. * the file already exists like '-3'
+#: src/screenshot-manager.c:436
+#, c-format
+msgid "Screenshot from %s%s.png"
+msgstr "Captura de pantalla de %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
 #: src/media-player.c:446 src/ui/media-player.ui:213
@@ -341,27 +351,27 @@ msgid "Notification"
 msgstr "Notificació"
 
 #. Translators: Point in time, use a short word or abbreviation
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:86
 msgid "now"
 msgstr "ara"
 
 #. Translators: abbreviated time difference "Less than 30 seconds"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:91
 #, c-format
 msgid "<30s"
 msgstr "<30s"
 
 #. Translators: abbreviated time difference "Less than one minute"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:96
 #, c-format
 msgid "<1m"
 msgstr "<1 min"
 
 #. Translators: abbreviated time difference "About one minute"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:101
 #, c-format
 msgid "~1m"
@@ -531,23 +541,23 @@ msgstr "Suprimeix de la carpeta"
 msgid "Search apps…"
 msgstr "Cerca aplicacions…"
 
-#: src/ui/audio-settings.ui:84
+#: src/ui/audio-settings.ui:85
 msgid "Output Devices"
 msgstr "Dispositius de sortida"
 
-#: src/ui/audio-settings.ui:108
+#: src/ui/audio-settings.ui:109
 msgid "Input Devices"
 msgstr "Dispositius d'entrada"
 
-#: src/ui/audio-settings.ui:136
+#: src/ui/audio-settings.ui:137
 msgid "Sound Settings"
 msgstr "Paràmetres de so"
 
-#: src/ui/bt-status-page.ui:32
+#: src/ui/bt-status-page.ui:31
 msgid "Enable Bluetooth"
 msgstr "Activa el Bluetooth"
 
-#: src/ui/bt-status-page.ui:53
+#: src/ui/bt-status-page.ui:55
 msgid "Bluetooth Settings"
 msgstr "Paràmetres del Bluetooth"
 
@@ -677,7 +687,7 @@ msgstr "Surt…"
 msgid "Wi-Fi"
 msgstr "Sense fil"
 
-#: src/ui/wifi-status-page.ui:69
+#: src/ui/wifi-status-page.ui:72
 msgid "Wi-Fi Settings"
 msgstr "Paràmetres de la xarxa sense fil"
 
@@ -735,10 +745,12 @@ msgid "Phosh on caffeine"
 msgstr "El Phosh està cafeïnat"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-enabled"
 msgid "On"
 msgstr "Activat"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-disabled"
 msgid "Off"
 msgstr "Desactivat"
 
@@ -1036,6 +1048,9 @@ msgstr "Activa el punt d'accés Wi-Fi"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Desactiva el punt d'accés Wi-Fi"
+
+#~ msgid "Screenshot copied to clipboard"
+#~ msgstr "S'ha copiat la captura de pantalla al porta-retalls"
 
 #~ msgid "Scan"
 #~ msgstr "Escaneja"
