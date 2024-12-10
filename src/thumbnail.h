@@ -8,7 +8,7 @@
 
 #include <gtk/gtk.h>
 
-#define PHOSH_TYPE_THUMBNAIL (phosh_thumbnail_get_type())
+#define PHOSH_TYPE_THUMBNAIL (phosh_thumbnail_get_type ())
 
 G_DECLARE_DERIVABLE_TYPE (PhoshThumbnail,
                           phosh_thumbnail,
@@ -24,15 +24,15 @@ G_DECLARE_DERIVABLE_TYPE (PhoshThumbnail,
  * @is_ready: whether the image is ready to be fetched
  * @set_ready: Set image as ready. Must chain up.
  */
-struct _PhoshThumbnailClass
-{
+struct _PhoshThumbnailClass {
   GObjectClass parent_class;
-  void*        (*get_image) (PhoshThumbnail *self);
-  void         (*get_size)  (PhoshThumbnail *self, guint *width, guint *height, guint *stride);
-  gboolean     (*is_ready)  (PhoshThumbnail *self);
-  void         (*set_ready) (PhoshThumbnail *self, gboolean ready);
+  gpointer (*get_image) (PhoshThumbnail *self);
+  void     (*get_size)  (PhoshThumbnail *self, guint *width, guint *height, guint *stride);
+  gboolean (*is_ready)  (PhoshThumbnail *self);
+  void     (*set_ready) (PhoshThumbnail *self, gboolean ready);
 };
 
-void     *phosh_thumbnail_get_image (PhoshThumbnail *self);
-void      phosh_thumbnail_get_size  (PhoshThumbnail *self, guint *width, guint *height, guint *stride);
-gboolean  phosh_thumbnail_is_ready  (PhoshThumbnail *self);
+gpointer phosh_thumbnail_get_image (PhoshThumbnail *self);
+void     phosh_thumbnail_get_size  (PhoshThumbnail *self, guint *width, guint *height,
+                                    guint *stride);
+gboolean phosh_thumbnail_is_ready  (PhoshThumbnail *self);

@@ -251,7 +251,7 @@ phosh-status-page-placeholder > box > label.title {
 }
 
 /*
- * Overview (app grid with favories and, activities)
+ * Overview (app grid with favorites and activities)
  */
 
 phosh-activity > widget > button {
@@ -261,8 +261,6 @@ phosh-activity > widget > button {
   padding: 4px;
   border-radius: 6px;
   color: inherit;
-  padding: 4px;
-  transition: none;
 }
 
 phosh-activity > widget > button:hover {

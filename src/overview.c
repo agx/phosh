@@ -178,6 +178,26 @@ on_activity_closed (PhoshOverview *self, PhoshActivity *activity)
 
 
 static void
+on_activity_fullscreened (PhoshOverview *self, gboolean fullscreen, PhoshActivity *activity)
+{
+  PhoshToplevel *toplevel;
+
+  g_return_if_fail (PHOSH_IS_OVERVIEW (self));
+  g_return_if_fail (PHOSH_IS_ACTIVITY (activity));
+
+  toplevel = g_object_get_data (G_OBJECT (activity), "toplevel");
+  g_return_if_fail (PHOSH_IS_TOPLEVEL (toplevel));
+
+  g_debug ("Fullscreen %s (%s); %d",
+           phosh_activity_get_app_id (activity),
+           phosh_toplevel_get_title (toplevel),
+           fullscreen);
+
+  phosh_toplevel_fullscreen (toplevel, fullscreen);
+}
+
+
+static void
 on_toplevel_closed (PhoshToplevel *toplevel, PhoshOverview *overview)
 {
   PhoshActivity *activity;
@@ -296,8 +316,11 @@ add_activity (PhoshOverview *self, PhoshToplevel *toplevel)
   gtk_container_add (GTK_CONTAINER (priv->carousel_running_activities), activity);
   gtk_widget_show (activity);
 
-  g_signal_connect_swapped (activity, "clicked", G_CALLBACK (on_activity_clicked), self);
-  g_signal_connect_swapped (activity, "closed", G_CALLBACK (on_activity_closed), self);
+  g_object_connect (activity,
+                    "swapped-signal::clicked", on_activity_clicked, self,
+                    "swapped-signal::closed", on_activity_closed, self,
+                    "swapped-signal::fullscreened", on_activity_fullscreened, self,
+                    NULL);
 
   g_signal_connect_object (toplevel, "closed", G_CALLBACK (on_toplevel_closed), self, 0);
   g_signal_connect_object (toplevel, "notify::activated", G_CALLBACK (on_toplevel_activated_changed), self, 0);
