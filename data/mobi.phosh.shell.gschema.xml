@@ -1,4 +1,18 @@
 <schemalist>
+
+  <schema id="mobi.phosh.shell.cell-broadcast" path="/mobi/phosh/shell/cell-broadcast/">
+    <key name="enabled" type="b">
+      <default>false</default>
+      <summary>Whether cell broadcast messages should be displayed</summary>
+      <description>
+        When this is disabled the shell will not show any cell
+        broadcast messages, including important security warnings.
+      </description>
+    </key>
+  </schema>
+
+  <!-- Legacy schema -->
+
   <schema id="sm.puri.phosh" path="/sm/puri/phosh/">
     <key name="favorites" type="as">
       <default>[ 'org.gnome.Calls.desktop',
@@ -184,5 +198,4 @@
       </description>
     </key>
   </schema>
-
 </schemalist>
