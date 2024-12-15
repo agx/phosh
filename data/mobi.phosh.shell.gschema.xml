@@ -1,6 +1,5 @@
 <schemalist>
-  <schema id="sm.puri.phosh"
-          path="/sm/puri/phosh/">
+  <schema id="sm.puri.phosh" path="/sm/puri/phosh/">
     <key name="favorites" type="as">
       <default>[ 'org.gnome.Calls.desktop',
                  'sm.puri.Chatty.desktop',
@@ -29,13 +28,13 @@
     <key name="force-adaptive" type="as">
       <default>[]</default>
       <summary>
-	List of desktop file IDs for applications that are adaptive for phone
-	usage but not marked as such in their desktop file.
+        List of desktop file IDs for applications that are adaptive for phone
+        usage but not marked as such in their desktop file.
       </summary>
       <description>
         The applications corresponding to these identifiers will be
         displayed in the app grid panel even when in mobile mode that only
-	lists touch capable apps that adapt to small screen sizes.
+        lists touch capable apps that adapt to small screen sizes.
       </description>
     </key>
 
@@ -103,11 +102,9 @@
         sooner, greater than 1.0 make the unfold trigger later.
       </description>
     </key>
-
   </schema>
 
-  <schema id="sm.puri.phosh.emergency-calls"
-          path="/sm/puri/phosh/emergency-calls/">
+  <schema id="sm.puri.phosh.emergency-calls" path="/sm/puri/phosh/emergency-calls/">
     <key name="enabled" type="b">
       <default>false</default>
       <summary>Whether emergency calls are enabled</summary>
@@ -118,9 +115,7 @@
     </key>
   </schema>
 
-  <schema id="sm.puri.phosh.lockscreen"
-          path="/sm/puri/phosh/lockscreen/">
-
+  <schema id="sm.puri.phosh.lockscreen" path="/sm/puri/phosh/lockscreen/">
     <key name="shuffle-keypad" type="b">
       <default>false</default>
       <summary>Whether to scramble the keypad</summary>
@@ -138,7 +133,6 @@
         or password by simply swiping up.
       </description>
     </key>
-
   </schema>
 
   <enum id='sm.puri.phosh.NotificationUrgency'>
@@ -147,8 +141,7 @@
     <value nick='critical' value='2'/>
   </enum>
 
-  <schema id="sm.puri.phosh.notifications"
-          path="/sm/puri/phosh/notifications/">
+  <schema id="sm.puri.phosh.notifications" path="/sm/puri/phosh/notifications/">
     <key name="wakeup-screen-triggers" flags="sm.puri.phosh.PhoshNotifyScreenWakeupFlags">
       <default>['urgency']</default>
       <summary>What notification properties wake up the screen</summary>
@@ -175,8 +168,7 @@
     </key>
   </schema>
 
-  <schema id="sm.puri.phosh.plugins"
-          path="/sm/puri/phosh/plugins/">
+  <schema id="sm.puri.phosh.plugins" path="/sm/puri/phosh/plugins/">
     <key name="lock-screen" type="as">
       <default>[]</default>
       <summary>List of enabled lockscreen plugins</summary>
