@@ -6,7 +6,7 @@ usr/share/icons/hicolor/symbolic/apps/mobi.phosh.Shell-symbolic.svg
 usr/share/locale
 usr/share/wayland-sessions/phosh.desktop
 usr/share/phosh/phoc.ini
-usr/share/glib-2.0/schemas/sm.puri.phosh.enums.xml
+usr/share/glib-2.0/schemas/mobi.phosh.shell.enums.xml
 usr/share/glib-2.0/schemas/mobi.phosh.shell.gschema.xml
 usr/share/gnome-session/sessions/phosh.session
 usr/share/applications/mobi.phosh.Shell.desktop

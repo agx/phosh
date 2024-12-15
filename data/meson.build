@@ -92,11 +92,11 @@ configure_file(
 schema_enum_headers = files(
   '..' / 'src' / 'phosh-settings-enums.h',
 )
-generate_enums_schema = gnome.mkenums('sm.puri.phosh.enums.xml',
+generate_enums_schema = gnome.mkenums('mobi.phosh.shell.enums.xml',
   sources: schema_enum_headers,
   comments: '<!-- @comment@ -->',
   fhead: '<schemalist>',
-  vhead: '  <@type@ id="sm.puri.phosh.@EnumName@">',
+  vhead: '  <@type@ id="mobi.phosh.shell.@EnumName@">',
   vprod: '    <value nick="@valuenick@" value="@valuenum@"/>',
   vtail: '  </@type@>',
   ftail: '</schemalist>',

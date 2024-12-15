@@ -13,7 +13,7 @@
       </description>
     </key>
 
-    <key name="app-filter-mode" flags="sm.puri.phosh.PhoshAppFilterModeFlags">
+    <key name="app-filter-mode" flags="mobi.phosh.shell.PhoshAppFilterModeFlags">
       <default>['adaptive']</default>
       <summary>
         How to filter apps in the overview. The default 'adaptive' shows only
@@ -38,7 +38,7 @@
       </description>
     </key>
 
-    <key name="wwan-backend" enum="sm.puri.phosh.PhoshWWanBackend">
+    <key name="wwan-backend" enum="mobi.phosh.shell.PhoshWWanBackend">
       <default>'modemmanager'</default>
       <summary>Which backend to use for interfacing with the cellular modem</summary>
       <description>
@@ -84,7 +84,7 @@
       </description>
     </key>
 
-    <key name="shell-layout" enum="sm.puri.phosh.PhoshShellLayout">
+    <key name="shell-layout" enum="mobi.phosh.shell.PhoshShellLayout">
       <default>'device'</default>
       <summary>What information to use to layout UI elements.</summary>
       <description>
@@ -135,14 +135,14 @@
     </key>
   </schema>
 
-  <enum id='sm.puri.phosh.NotificationUrgency'>
+  <enum id='mobi.phosh.shell.NotificationUrgency'>
     <value nick='low' value='0'/>
     <value nick='normal' value='1'/>
     <value nick='critical' value='2'/>
   </enum>
 
   <schema id="sm.puri.phosh.notifications" path="/sm/puri/phosh/notifications/">
-    <key name="wakeup-screen-triggers" flags="sm.puri.phosh.PhoshNotifyScreenWakeupFlags">
+    <key name="wakeup-screen-triggers" flags="mobi.phosh.shell.PhoshNotifyScreenWakeupFlags">
       <default>['urgency']</default>
       <summary>What notification properties wake up the screen</summary>
       <description>
@@ -158,7 +158,7 @@
         will wake up the screen.
       </description>
     </key>
-    <key name="wakeup-screen-urgency" enum="sm.puri.phosh.NotificationUrgency">
+    <key name="wakeup-screen-urgency" enum="mobi.phosh.shell.NotificationUrgency">
       <default>'critical'</default>
       <summary>Notification urgency that wakes up the screen</summary>
       <description>
