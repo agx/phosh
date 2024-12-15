@@ -44,12 +44,13 @@ static GParamSpec *props[PROP_LAST_PROP];
 typedef struct _PhoshWWanMM {
   PhoshWWanManager                parent;
 
-  MmGdbusModem                   *proxy_modem;
-  MmGdbusModem3gpp               *proxy_3gpp;
+  MMObject                       *object;
+  MMModem                        *modem;
+  MMModem3gpp                    *modem_3gpp;
+
   MMManager                      *manager;
   GCancellable                   *cancel;
 
-  char                           *object_path;
   guint                           signal_quality;
   const char                     *access_tec;
   gboolean                        unlocked;
@@ -68,15 +69,11 @@ G_DEFINE_TYPE_WITH_CODE (PhoshWWanMM, phosh_wwan_mm, PHOSH_TYPE_WWAN_MANAGER,
 static void
 phosh_wwan_mm_update_signal_quality (PhoshWWanMM *self)
 {
-  GVariant *v;
-
   g_return_if_fail (self);
-  g_return_if_fail (self->proxy_modem);
-  v = mm_gdbus_modem_get_signal_quality (self->proxy_modem);
-  if (v) {
-    g_variant_get (v, "(ub)", &self->signal_quality, NULL);
-    g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SIGNAL_QUALITY]);
-  }
+  g_return_if_fail (self->modem);
+
+  self->signal_quality = mm_modem_get_signal_quality (self->modem, NULL);
+  g_object_notify_by_pspec (G_OBJECT (self), props[PROP_SIGNAL_QUALITY]);
 }
 
 
@@ -114,9 +111,9 @@ phosh_wwan_mm_update_access_tec (PhoshWWanMM *self)
   guint access_tec;
 
   g_return_if_fail (self);
-  g_return_if_fail (self->proxy_modem);
+  g_return_if_fail (self->modem);
 
-  access_tec = mm_gdbus_modem_get_access_technologies (self->proxy_modem);
+  access_tec = mm_modem_get_access_technologies (self->modem);
   self->access_tec = phosh_wwan_mm_user_friendly_access_tec (access_tec);
   g_debug ("Access tec is %s", self->access_tec);
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ACCESS_TEC]);
@@ -129,8 +126,8 @@ phosh_wwan_mm_update_operator (PhoshWWanMM *self)
   const char *operator;
 
   g_return_if_fail (self);
-  g_return_if_fail (self->proxy_3gpp);
-  operator = mm_gdbus_modem3gpp_get_operator_name (self->proxy_3gpp);
+  g_return_if_fail (self->modem_3gpp);
+  operator = mm_modem_3gpp_get_operator_name (self->modem_3gpp);
 
   if (g_strcmp0 (operator, self->operator)) {
     g_debug("Operator is '%s'", operator);
@@ -148,11 +145,11 @@ phosh_wwan_mm_update_lock_status (PhoshWWanMM *self)
   int state;
 
   g_return_if_fail (self);
-  g_return_if_fail (self->proxy_modem);
+  g_return_if_fail (self->modem);
   /* Whether any kind of PIN is required */
-  unlock_required = mm_gdbus_modem_get_unlock_required (self->proxy_modem);
+  unlock_required = mm_modem_get_unlock_required (self->modem);
   /* Whether the sim card is currently locked */
-  state = mm_gdbus_modem_get_state (self->proxy_modem);
+  state = mm_modem_get_state (self->modem);
   self->unlocked = !!(unlock_required == MM_MODEM_LOCK_NONE ||
                       (state != MM_MODEM_STATE_LOCKED &&
                        state != MM_MODEM_STATE_FAILED));
@@ -167,8 +164,8 @@ phosh_wwan_mm_update_sim_status (PhoshWWanMM *self)
   const char *sim;
 
   g_return_if_fail (self);
-  g_return_if_fail (self->proxy_modem);
-  sim = mm_gdbus_modem_get_sim (self->proxy_modem);
+  g_return_if_fail (self->modem);
+  sim = mm_modem_get_sim_path (self->modem);
   g_debug ("SIM path %s", sim);
   self->sim = !!g_strcmp0 (sim, "/");
   g_debug ("SIM is %spresent", self->sim ? "" : "not ");
@@ -197,7 +194,7 @@ phosh_wwan_mm_update_enabled (PhoshWWanMM *self)
 
   g_return_if_fail (self);
 
-  state = mm_gdbus_modem_get_state (self->proxy_modem);
+  state = mm_modem_get_state (self->modem);
 
   enabled = (state > MM_MODEM_STATE_ENABLING) ? TRUE : FALSE;
   g_debug ("Modem is %senabled, state: %d", enabled ? "" : "not ", state);
@@ -294,15 +291,17 @@ phosh_wwan_mm_get_property (GObject    *object,
 static void
 phosh_wwan_mm_destroy_modem (PhoshWWanMM *self)
 {
-  if (self->proxy_modem)
-    g_signal_handlers_disconnect_by_data (self->proxy_modem, self);
-  g_clear_object (&self->proxy_modem);
+  if (self->modem_3gpp)
+    g_signal_handlers_disconnect_by_data (self->modem_3gpp, self);
+  g_clear_object (&self->modem_3gpp);
 
-  if (self->proxy_3gpp)
-    g_signal_handlers_disconnect_by_data (self->proxy_3gpp, self);
-  g_clear_object (&self->proxy_3gpp);
+  if (self->modem)
+    g_signal_handlers_disconnect_by_data (self->modem, self);
+  g_clear_object (&self->modem);
 
-  g_clear_pointer (&self->object_path, g_free);
+  if (self->object)
+    g_signal_handlers_disconnect_by_data (self->object, self);
+  g_clear_object (&self->object);
 
   phosh_wwan_mm_update_present (self, FALSE);
 
@@ -327,37 +326,26 @@ phosh_wwan_mm_destroy_modem (PhoshWWanMM *self)
 
 
 static void
-on_3gpp_proxy_new_for_bus_finish (GObject *source_object, GAsyncResult *res, PhoshWWanMM *self)
+modem_init_3gpp (PhoshWWanMM *self, MMObject *object)
 {
-  g_autoptr (GError) err = NULL;
+  self->modem_3gpp = mm_object_get_modem_3gpp (object);
+  g_return_if_fail (self->modem_3gpp);
 
-  self->proxy_3gpp = mm_gdbus_modem3gpp_proxy_new_for_bus_finish (res, &err);
-  if (!self->proxy_3gpp) {
-    g_warning ("Failed to get 3gpp proxy for %s: %s", self->object_path, err->message);
-    g_object_unref (self);
-  }
-
-  g_signal_connect (self->proxy_3gpp,
+  g_signal_connect (self->modem_3gpp,
                     "g-properties-changed",
                     G_CALLBACK (on_3gpp_props_changed),
                     self);
   phosh_wwan_mm_update_operator (self);
-  g_object_unref (self);
 }
 
 
 static void
-on_modem_proxy_new_for_bus_finish (GObject *source_object, GAsyncResult *res, PhoshWWanMM *self)
+modem_init_modem (PhoshWWanMM *self, MMObject *object)
 {
-  g_autoptr (GError) err = NULL;
+  self->modem = mm_object_get_modem (object);
+  g_return_if_fail (self->modem);
 
-  self->proxy_modem = mm_gdbus_modem_proxy_new_for_bus_finish (res, &err);
-  if (!self->proxy_modem) {
-    g_warning ("Failed to get modem proxy for %s: %s", self->object_path, err->message);
-    g_object_unref (self);
-  }
-
-  g_signal_connect (self->proxy_modem,
+  g_signal_connect (self->modem,
                     "g-properties-changed",
                     G_CALLBACK (on_modem_props_changed),
                     self);
@@ -367,45 +355,44 @@ on_modem_proxy_new_for_bus_finish (GObject *source_object, GAsyncResult *res, Ph
   phosh_wwan_mm_update_sim_status (self);
   phosh_wwan_mm_update_present (self, TRUE);
   phosh_wwan_mm_update_enabled (self);
-  g_object_unref (self);
 }
 
 
 static void
-phosh_wwan_mm_init_modem (PhoshWWanMM *self, const char *object_path)
+on_mm_object_interface_added (PhoshWWanMM *self, GDBusInterface* interface, MMObject *object)
 {
-  g_return_if_fail (object_path);
+  g_return_if_fail (PHOSH_IS_WWAN_MM (self));
 
-  self->object_path = g_strdup (object_path);
+  if (self->object != object)
+    return;
 
-  mm_gdbus_modem_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
-                                    G_DBUS_PROXY_FLAGS_NONE,
-                                    BUS_NAME,
-                                    object_path,
-                                    self->cancel,
-                                    (GAsyncReadyCallback)on_modem_proxy_new_for_bus_finish,
-                                    g_object_ref (self));
-
-  mm_gdbus_modem3gpp_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
-                                        G_DBUS_PROXY_FLAGS_NONE,
-                                        BUS_NAME,
-                                        object_path,
-                                        self->cancel,
-                                        (GAsyncReadyCallback)on_3gpp_proxy_new_for_bus_finish,
-                                        g_object_ref (self));
+  if (MM_IS_MODEM_3GPP (interface)) {
+    modem_init_3gpp (self, object);
+    return;
+  }
 }
 
 
 static void
 on_mm_object_added (PhoshWWanMM *self, GDBusObject *object, MMManager *manager)
 {
-  const char *modem_object_path;
+  g_debug ("Modem added at path: %s", g_dbus_object_get_object_path (object));
 
-  modem_object_path = g_dbus_object_get_object_path (object);
-  g_debug ("Modem added at path: %s", modem_object_path);
-  if (self->object_path == NULL) {
-    g_debug ("Tracking modem at: %s", modem_object_path);
-    phosh_wwan_mm_init_modem (self, modem_object_path);
+  if (!self->object) {
+    g_debug ("Tracking modem at: %s", g_dbus_object_get_object_path (object));
+
+    self->object = g_object_ref (MM_OBJECT (object));
+    /* Modem interface is always present */
+    modem_init_modem (self, MM_OBJECT (object));
+
+    g_signal_connect (object,
+                      "interface-added",
+                      G_CALLBACK (on_mm_object_interface_added),
+                      self);
+
+    /* Coldplug interfaces */
+    if (mm_object_peek_modem_3gpp (MM_OBJECT (object)))
+      modem_init_3gpp (self, MM_OBJECT (object));
   }
 }
 
@@ -413,12 +400,10 @@ on_mm_object_added (PhoshWWanMM *self, GDBusObject *object, MMManager *manager)
 static void
 on_mm_object_removed (PhoshWWanMM *self, GDBusObject *object, MMManager *manager)
 {
-  const char *modem_object_path;
+  g_debug ("Modem removed at path: %s", g_dbus_object_get_object_path (object));
 
-  modem_object_path = g_dbus_object_get_object_path (object);
-  g_debug ("Modem removed at path: %s", modem_object_path);
-  if (!g_strcmp0 (modem_object_path, self->object_path)) {
-    g_debug ("Dropping modem at: %s", modem_object_path);
+  if (self->object == MM_OBJECT (object)) {
+    g_debug ("Dropping modem at: %s", g_dbus_object_get_object_path (object));
     phosh_wwan_mm_destroy_modem (self);
   }
 }
