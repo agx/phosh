@@ -106,11 +106,11 @@ generate_enums_schema = gnome.mkenums('sm.puri.phosh.enums.xml',
 
 #workaround due to https://github.com/mesonbuild/meson/issues/1687
 copy_schema = custom_target('copy-gschema-to-builddir',
-  input: 'sm.puri.phosh.gschema.xml',
-  output: 'sm.puri.phosh.gschema.xml',
+  input: 'mobi.phosh.shell.gschema.xml',
+  output: 'mobi.phosh.shell.gschema.xml',
   command: ['cp', '@INPUT@', '@OUTPUT@']
 )
-schemas = ['sm.puri.phosh.gschema.xml']
+schemas = ['mobi.phosh.shell.gschema.xml']
 compile_schemas = custom_target('glib-compile-schemas',
   build_by_default: true,
   output: 'gschemas.compiled',
