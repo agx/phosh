@@ -47,6 +47,9 @@ typedef struct _PhoshWWanMM {
   MMObject                       *object;
   MMModem                        *modem;
   MMModem3gpp                    *modem_3gpp;
+#ifdef PHOSH_HAVE_MM_CBM
+  MMModemCellBroadcast           *cellbroadcast;
+#endif
 
   MMManager                      *manager;
   GCancellable                   *cancel;
@@ -58,6 +61,8 @@ typedef struct _PhoshWWanMM {
   gboolean                        present;
   gboolean                        enabled;
   char                           *operator;
+
+  GListStore                     *cbms;
 } PhoshWWanMM;
 
 
@@ -291,6 +296,11 @@ phosh_wwan_mm_get_property (GObject    *object,
 static void
 phosh_wwan_mm_destroy_modem (PhoshWWanMM *self)
 {
+#ifdef PHOSH_HAVE_MM_CBM
+  if (self->cellbroadcast)
+    g_signal_handlers_disconnect_by_data (self->cellbroadcast, self);
+  g_clear_object (&self->cellbroadcast);
+#endif
   if (self->modem_3gpp)
     g_signal_handlers_disconnect_by_data (self->modem_3gpp, self);
   g_clear_object (&self->modem_3gpp);
@@ -302,6 +312,8 @@ phosh_wwan_mm_destroy_modem (PhoshWWanMM *self)
   if (self->object)
     g_signal_handlers_disconnect_by_data (self->object, self);
   g_clear_object (&self->object);
+
+  g_clear_object (&self->cbms);
 
   phosh_wwan_mm_update_present (self, FALSE);
 
@@ -357,6 +369,142 @@ modem_init_modem (PhoshWWanMM *self, MMObject *object)
   phosh_wwan_mm_update_enabled (self);
 }
 
+#ifdef PHOSH_HAVE_MM_CBM
+static void
+emit_new_cbm_received (PhoshWWanMM *self, MMCbm *cbm)
+{
+  g_signal_emit_by_name (self, "new-cbm", mm_cbm_get_text (cbm), mm_cbm_get_channel (cbm));
+}
+
+
+static void
+on_cbm_state_updated (PhoshWWanMM *self, GParamSpec *pspec, MMCbm *cbm)
+{
+  guint pos;
+
+  if (mm_cbm_get_state (cbm) != MM_CBM_STATE_RECEIVED)
+    return;
+
+  g_debug ("Received cbm %u: %s", mm_cbm_get_channel (cbm), mm_cbm_get_text (cbm));
+  emit_new_cbm_received (self, cbm);
+
+  /* Once notified we can drop the CBM from the store */
+  g_signal_handlers_disconnect_by_data (cbm, self);
+  g_return_if_fail (g_list_store_find (self->cbms, cbm, &pos));
+  g_list_store_remove (self->cbms, pos);
+}
+
+
+static void
+track_cbm (PhoshWWanMM *self, MMCbm *cbm)
+{
+  g_debug ("New cbm at %s", mm_cbm_get_path (cbm));
+  g_list_store_insert (self->cbms, 0, cbm);
+  g_signal_connect_object (cbm,
+                           "notify::state",
+                           G_CALLBACK (on_cbm_state_updated),
+                           self,
+                           G_CONNECT_SWAPPED);
+  on_cbm_state_updated (self, NULL, cbm);
+}
+
+
+typedef struct {
+  PhoshWWanMM *self;
+  char        *cbm_path;
+} PhoshWWanMMCbmListData;
+
+
+static void
+cbm_list_data_free (PhoshWWanMMCbmListData *data)
+{
+  g_free (data->cbm_path);
+  g_free (data);
+}
+
+
+static void
+on_cbms_listed (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  MMModemCellBroadcast *cell_broadcast = MM_MODEM_CELL_BROADCAST (source_object);
+  PhoshWWanMMCbmListData *data = user_data;
+  PhoshWWanMM *self = data->self;
+  g_autolist (MMObject) cbm_list = NULL;
+  g_autoptr (GError) err = NULL;
+  MMCbm *cbm = NULL;
+
+  cbm_list = mm_modem_cell_broadcast_list_finish (cell_broadcast, res, &err);
+  if (!cbm_list) {
+    phosh_async_error_warn (err, "Failed to fetch cell broadcast messages");
+    return;
+  }
+
+  for (GList *l = cbm_list; l; l = l->next) {
+    cbm = MM_CBM (l->data);
+
+    if (data->cbm_path == NULL || g_strcmp0 (mm_cbm_get_path (cbm), data->cbm_path) == 0) {
+      track_cbm (self, cbm);
+      if (data->cbm_path)
+        break;
+    }
+  }
+  if (!cbm && data->cbm_path) {
+    g_warning ("Failed to find CBM at %s", data->cbm_path);
+  }
+
+  cbm_list_data_free (data);
+}
+
+
+static void
+on_cbm_added (PhoshWWanMM *self, const char *cbm_path, MMModemCellBroadcast *modem_cb)
+{
+  g_autolist (MMObject) cbm_list = NULL;
+  PhoshWWanMMCbmListData *data = g_new0 (PhoshWWanMMCbmListData, 1);
+
+  g_return_if_fail (PHOSH_IS_WWAN_MANAGER (self));
+
+  *data = (PhoshWWanMMCbmListData){
+    .self = self,
+    .cbm_path = g_strdup (cbm_path),
+  };
+
+  mm_modem_cell_broadcast_list (self->cellbroadcast,
+                                self->cancel,
+                                on_cbms_listed,
+                                data);
+}
+
+
+static void
+modem_init_cellbroadcast (PhoshWWanMM *self, MMObject *object)
+{
+  PhoshWWanMMCbmListData *data = g_new0 (PhoshWWanMMCbmListData, 1);
+
+  self->cellbroadcast = mm_object_get_modem_cell_broadcast (object);
+  g_assert (self->cellbroadcast);
+
+  self->cbms = g_list_store_new (MM_TYPE_CBM);
+
+  g_debug ("Enabling cell broadcast interface");
+  g_signal_connect_object (self->cellbroadcast,
+                           "added",
+                           G_CALLBACK (on_cbm_added),
+                           self,
+                           G_CONNECT_SWAPPED);
+
+  /* Cold plug existing CBMs */
+  *data = (PhoshWWanMMCbmListData){
+    .self = self,
+    .cbm_path = NULL,
+  };
+  mm_modem_cell_broadcast_list (self->cellbroadcast,
+                                self->cancel,
+                                on_cbms_listed,
+                                data);
+}
+#endif
+
 
 static void
 on_mm_object_interface_added (PhoshWWanMM *self, GDBusInterface* interface, MMObject *object)
@@ -369,6 +517,11 @@ on_mm_object_interface_added (PhoshWWanMM *self, GDBusInterface* interface, MMOb
   if (MM_IS_MODEM_3GPP (interface)) {
     modem_init_3gpp (self, object);
     return;
+#ifdef PHOSH_HAVE_MM_CBM
+  } else if (MM_IS_MODEM_CELL_BROADCAST (interface)) {
+    modem_init_cellbroadcast (self, object);
+    return;
+#endif
   }
 }
 
@@ -393,6 +546,10 @@ on_mm_object_added (PhoshWWanMM *self, GDBusObject *object, MMManager *manager)
     /* Coldplug interfaces */
     if (mm_object_peek_modem_3gpp (MM_OBJECT (object)))
       modem_init_3gpp (self, MM_OBJECT (object));
+#ifdef PHOSH_HAVE_MM_CBM
+    if (mm_object_peek_modem_cell_broadcast (MM_OBJECT (object)))
+      modem_init_cellbroadcast (self, MM_OBJECT (object));
+#endif
   }
 }
 
