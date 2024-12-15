@@ -273,19 +273,19 @@ draw_cb (PhoshActivity *self, cairo_t *cairo, GtkDrawingArea *area)
 
   g_return_val_if_fail (PHOSH_IS_ACTIVITY (self), FALSE);
   g_return_val_if_fail (GTK_IS_DRAWING_AREA (area), FALSE);
-  width = gtk_widget_get_allocated_width (GTK_WIDGET (area));
-  height = gtk_widget_get_allocated_height (GTK_WIDGET (area));
-  priv = phosh_activity_get_instance_private (self);
-  context = gtk_widget_get_style_context (GTK_WIDGET (area));
 
+  priv = phosh_activity_get_instance_private (self);
   if (!priv->surface)
     return FALSE;
+
+  context = gtk_widget_get_style_context (GTK_WIDGET (area));
+  width = gtk_widget_get_allocated_width (GTK_WIDGET (area));
+  height = gtk_widget_get_allocated_height (GTK_WIDGET (area));
 
   image_width = cairo_image_surface_get_width (priv->surface);
   image_height = cairo_image_surface_get_height (priv->surface);
 
-
-  gtk_render_background(context, cairo, 0, 0, width, height);
+  gtk_render_background (context, cairo, 0, 0, width, height);
 
   scale = get_scale (self);
   cairo_scale (cairo, scale, scale);
@@ -752,7 +752,7 @@ phosh_activity_set_thumbnail (PhoshActivity *self, PhoshThumbnail *thumbnail)
       data, CAIRO_FORMAT_ARGB32, width, height, stride);
   priv->thumbnail = thumbnail;
 
-  gtk_style_context_remove_class (gtk_widget_get_style_context (GTK_WIDGET (self)), "phosh-empty");
+  phosh_util_toggle_style_class (GTK_WIDGET (self), "phosh-empty", FALSE);
 
   /* Make sure buttons are over the thumbnail */
   w = gtk_widget_get_allocated_width (GTK_WIDGET (self));

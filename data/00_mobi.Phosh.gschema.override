@@ -4,6 +4,7 @@ screen-keyboard-enabled=true
 [org.gnome.desktop.interface:Phosh]
 clock-show-date=false
 clock-show-weekday=false
+color-scheme='prefer-dark'
 
 [org.gnome.desktop.session:Phosh]
 idle-delay=60

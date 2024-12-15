@@ -15,6 +15,8 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (PhoshStyleManager, phosh_style_manager, PHOSH, STYLE_MANAGER, GObject)
 
 PhoshStyleManager *phosh_style_manager_new (void);
+const char        *phosh_style_manager_get_theme_name (PhoshStyleManager *self);
+gboolean           phosh_style_manager_is_high_contrast (PhoshStyleManager *self);
 
 const char        *phosh_style_manager_get_stylesheet (const char *theme_name);
 

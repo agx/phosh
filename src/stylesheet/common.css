@@ -3,8 +3,12 @@
  */
 phosh-top-panel {
   font-size: 15px;
-  background: @phosh_bg_color;
+  background: none;
   color: @phosh_fg_color;
+}
+
+phosh-top-panel-bg {
+  background: @phosh_bg_color;
 }
 
 #top-bar {
@@ -55,6 +59,13 @@ phosh-top-panel .phosh-topbar-date {
  * Settings menu
  */
 
+widget.phosh-settings-menu > scrolledwindow {
+    background-color: @phosh_bg_color;
+    border-radius: 24px;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
 .phosh-settings-menu {
   background-color: @phosh_bg_color;
   border-bottom-right-radius: 12px;
@@ -66,7 +77,7 @@ phosh-top-panel .phosh-topbar-date {
 }
 
 .phosh-settings-menu > scrolledwindow > viewport {
-  padding: 0 16px;
+  padding: 0 12px;
 }
 
 .phosh-settings-menu separator {
@@ -218,7 +229,9 @@ phosh-status-page-placeholder > box > label.title {
   font-size: 90%;
 }
 
-/* phosh-home */
+/*
+ * phosh-home
+ */
 
 #powerbar {
   background: -gtk-recolor(url('resource:///mobi/phosh/icons/scalable/status/input-powerbar-symbolic.svg'));
@@ -283,8 +296,12 @@ phosh-activity.phosh-empty {
   background-size: cover;
 }
 
+phosh-activity.phosh-maximized .phosh-drawingarea {
+  background-color: @phosh_activity_bg_color;
+}
+
 phosh-home {
-  background: @phosh_bg_color;
+  background: none;
   color: @phosh_fg_color;
 }
 
@@ -297,7 +314,7 @@ phosh-home {
 }
 
 .phosh-overview {
-  background: @phosh_bg_color;
+  background: none;
   color: @phosh_fg_color;
 }
 
@@ -339,7 +356,7 @@ phosh-home {
 }
 
 phosh-app-grid {
-  background: @phosh_bg_color;
+  background: none;
   color: @phosh_fg_color;
 }
 
@@ -358,11 +375,16 @@ phosh-app-grid-button button {
   background: none;
 }
 
+phosh-app-grid-button button:focus {
+  background: alpha(@phosh_bg_color,.4);
+}
+
 phosh-app-grid-folder-button button {
   font-size: 0.8rem;
   border-radius: 9px;
   margin: 0;
   padding: 0;
+  background: alpha(@phosh_bg_color,.4);
 }
 
 .search-active phosh-app-grid-button:first-child button {
@@ -1003,6 +1025,15 @@ phosh-power-menu .phosh-dialog-close-button {
 phosh-emergency-menu .emergency-button {
   font-size: 12px;
   padding: 4px 12px;
+}
+
+/*
+ * Common style classes
+ */
+
+/* Use a solid background, useful when one needs to toggle between transparent and solid */
+.p-solid {
+  background-color: @phosh_bg_color;
 }
 
 /*

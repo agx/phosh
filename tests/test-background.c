@@ -51,7 +51,8 @@ test_background_new (Fixture *fixture, gconstpointer unused)
   background = phosh_background_new (phosh_wayland_get_zwlr_layer_shell_v1(
                                        fixture->base.state->wl),
                                      phosh_test_get_monitor (fixture->base.state),
-                                     TRUE);
+                                     TRUE,
+                                     ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND);
 
   gtk_widget_show (background);
 

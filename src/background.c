@@ -410,9 +410,10 @@ phosh_background_init (PhoshBackground *self)
 
 
 GtkWidget *
-phosh_background_new (gpointer     layer_shell,
+phosh_background_new (gpointer      layer_shell,
                       PhoshMonitor *monitor,
-                      gboolean     primary)
+                      gboolean      primary,
+                      guint         layer)
 {
   return g_object_new (PHOSH_TYPE_BACKGROUND,
                        "layer-shell", layer_shell,
@@ -421,7 +422,7 @@ phosh_background_new (gpointer     layer_shell,
                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM |
                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT |
                                   ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT),
-                       "layer", ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND,
+                       "layer", layer,
                        "kbd-interactivity", FALSE,
                        "exclusive-zone", -1,
                        "namespace", "phosh background",
