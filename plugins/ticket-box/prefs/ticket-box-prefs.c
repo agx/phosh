@@ -84,11 +84,11 @@ on_folder_button_clicked (PhoshTicketBoxPrefs *self)
 
   g_assert (PHOSH_IS_TICKET_BOX_PREFS (self));
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-  filechooser = gtk_file_chooser_native_new(_("Choose Folder"),
-                                            NULL,
-                                            GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                                            _("_Open"),
-                                            _("_Cancel"));
+  filechooser = gtk_file_chooser_native_new (_("Choose Folder"),
+                                             NULL,
+                                             GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                                             _("_Open"),
+                                             _("_Cancel"));
 G_GNUC_END_IGNORE_DEPRECATIONS
 
   current = gtk_editable_get_text (GTK_EDITABLE (self->folder_entry));
