@@ -54,21 +54,18 @@ on_activated (GSimpleAction *action,
   GtkApplication *app = GTK_APPLICATION (data);
   PhoshPluginLoader *loader;
   const char *name;
-  GtkWindow *plugin_prefs, *parent;
+  AdwDialog *plugin_prefs;
+  GtkWindow *parent;
 
   name = g_variant_get_string (parameter, NULL);
   g_debug ("Loading plugin '%s'", name);
 
   loader = g_object_get_data (G_OBJECT (app), "loader");
-  plugin_prefs = GTK_WINDOW (phosh_plugin_loader_load_plugin (loader, name));
+  plugin_prefs = ADW_DIALOG (phosh_plugin_loader_load_plugin (loader, name));
 
   parent = gtk_application_get_active_window (app);
 
-  gtk_window_set_modal (plugin_prefs, TRUE);
-  gtk_window_set_transient_for (plugin_prefs, GTK_WINDOW (parent));
-  gtk_window_set_hide_on_close (plugin_prefs, TRUE);
-
-  gtk_window_present (plugin_prefs);
+  adw_dialog_present (plugin_prefs, GTK_WIDGET (parent));
 }
 
 

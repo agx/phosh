@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface domain="phosh">
   <requires lib="gtk" version="4.0"/>
-  <requires lib="libadwaita" version="1.0"/>
-  <template class="PhoshPomodoroQuickSettingPrefs" parent="AdwPreferencesWindow">
+  <requires lib="libadwaita" version="1.6"/>
+  <template class="PhoshPomodoroQuickSettingPrefs" parent="AdwPreferencesDialog">
     <property name="title" translatable="yes">Pomodoro Quick Setting Preferences</property>
-    <property name="default-width">300</property>
-    <property name="default-height">300</property>
-    <property name="can-navigate-back">True</property>
     <child>
       <object class="AdwPreferencesPage">
         <child>

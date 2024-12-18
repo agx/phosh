@@ -11,6 +11,6 @@
 G_BEGIN_DECLS
 
 #define PHOSH_TYPE_EMERGENCY_INFO_PREFS (phosh_emergency_info_prefs_get_type ())
-G_DECLARE_FINAL_TYPE (PhoshEmergencyInfoPrefs, phosh_emergency_info_prefs, PHOSH, EMERGENCY_INFO_PREFS, GtkDialog)
+G_DECLARE_FINAL_TYPE (PhoshEmergencyInfoPrefs, phosh_emergency_info_prefs, PHOSH, EMERGENCY_INFO_PREFS, AdwPreferencesDialog)
 
 G_END_DECLS

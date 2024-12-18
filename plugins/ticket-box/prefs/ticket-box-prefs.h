@@ -11,6 +11,6 @@
 G_BEGIN_DECLS
 
 #define PHOSH_TYPE_TICKET_BOX_PREFS (phosh_ticket_box_prefs_get_type ())
-G_DECLARE_FINAL_TYPE (PhoshTicketBoxPrefs, phosh_ticket_box_prefs, PHOSH, TICKET_BOX_PREFS, AdwPreferencesWindow)
+G_DECLARE_FINAL_TYPE (PhoshTicketBoxPrefs, phosh_ticket_box_prefs, PHOSH, TICKET_BOX_PREFS, AdwPreferencesDialog)
 
 G_END_DECLS

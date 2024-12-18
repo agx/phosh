@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface domain="phosh">
   <requires lib="gtk" version="4.0"/>
-  <requires lib="libadwaita" version="1.0"/>
-  <template class="PhoshEmergencyInfoPrefs" parent="AdwWindow">
+  <requires lib="libadwaita" version="1.6"/>
+  <template class="PhoshEmergencyInfoPrefs" parent="AdwPreferencesDialog">
     <property name="title" translatable="yes">Emergency Info Preferences</property>
-    <property name="default-width">800</property>
-    <property name="default-height">800</property>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>

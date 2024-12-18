@@ -24,7 +24,7 @@
  * Preferences for Pomodoro quick setting plugin
  */
 struct _PhoshPomodoroQuickSettingPrefs {
-  AdwPreferencesWindow  parent;
+  AdwPreferencesDialog  parent;
 
   AdwSpinRow           *active_duration_spin_row;
   AdwSpinRow           *break_duration_spin_row;
@@ -33,7 +33,7 @@ struct _PhoshPomodoroQuickSettingPrefs {
 };
 
 G_DEFINE_TYPE (PhoshPomodoroQuickSettingPrefs, phosh_pomodoro_quick_setting_prefs,
-               ADW_TYPE_PREFERENCES_WINDOW);
+               ADW_TYPE_PREFERENCES_DIALOG);
 
 
 static gboolean

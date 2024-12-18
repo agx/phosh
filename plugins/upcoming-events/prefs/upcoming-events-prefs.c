@@ -19,14 +19,14 @@
  * Preferences for upcoming-events plugin.
  */
 struct _PhoshUpcomingEventsPrefs {
-  AdwPreferencesWindow  parent;
+  AdwPreferencesDialog  parent;
 
   GtkAdjustment        *adjustment;
 
   GSettings            *settings;
 };
 
-G_DEFINE_TYPE (PhoshUpcomingEventsPrefs, phosh_upcoming_events_prefs, ADW_TYPE_PREFERENCES_WINDOW);
+G_DEFINE_TYPE (PhoshUpcomingEventsPrefs, phosh_upcoming_events_prefs, ADW_TYPE_PREFERENCES_DIALOG);
 
 
 static void
