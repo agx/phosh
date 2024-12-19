@@ -124,6 +124,7 @@ Depends:
  ${shlibs:Depends},
  gsettings-desktop-schemas,
  phoc (>= 0.13.1),
+Breaks:
  phosh-mobile-settings (<< 0.44~),
 Description: Pure Wayland shell for mobile devices - Plugins
  Phosh is a graphical shell for Wayland compositors speaking the layer-surface
