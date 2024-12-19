@@ -389,6 +389,13 @@ phosh-app-grid-folder-button button {
   background: alpha(@phosh_bg_color,.4);
 }
 
+phosh-app-grid-folder-button button:active,
+phosh-app-grid-folder-button button:hover,
+phosh-app-grid-folder-button button:hover:active,
+phosh-app-grid-folder-button button:focus {
+  background: alpha(@phosh_bg_color,.6);
+}
+
 .search-active phosh-app-grid-button:first-child button {
   background: alpha(@phosh_bg_color,.4);
 }
