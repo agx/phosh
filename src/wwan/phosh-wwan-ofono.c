@@ -383,11 +383,10 @@ on_netreg_get_properties_ready (GObject *source_object, GAsyncResult *res, gpoin
   char *property;
   GVariantIter i;
 
-  if (!phosh_dbus_ofono_network_registration_call_get_properties_finish (
-        self->proxy_netreg,
-        &properties,
-        res,
-        &err)) {
+  if (!phosh_dbus_ofono_network_registration_call_get_properties_finish (self->proxy_netreg,
+                                                                         &properties,
+                                                                         res,
+                                                                         &err)) {
     g_warning ("Failed to get netreg proxy properties for %s: %s",self->object_path, err->message);
     g_object_unref (self);
     return;
@@ -409,22 +408,19 @@ on_proxy_netreg_new_for_bus_ready (GObject *source_object, GAsyncResult *res, gp
   PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
   g_autoptr (GError) err = NULL;
 
-  self->proxy_netreg = phosh_dbus_ofono_network_registration_proxy_new_for_bus_finish (
-    res,
-    &err);
+  self->proxy_netreg = phosh_dbus_ofono_network_registration_proxy_new_for_bus_finish (res,
+                                                                                       &err);
 
   if (!self->proxy_netreg) {
-    g_warning ("Failed to get netreg proxy for %s: %s",
-               self->object_path, err->message);
+    g_warning ("Failed to get netreg proxy for %s: %s", self->object_path, err->message);
     g_object_unref (self);
     return;
   }
 
-  phosh_dbus_ofono_network_registration_call_get_properties (
-    self->proxy_netreg,
-    NULL,
-    on_netreg_get_properties_ready,
-    self);
+  phosh_dbus_ofono_network_registration_call_get_properties (self->proxy_netreg,
+                                                             NULL,
+                                                             on_netreg_get_properties_ready,
+                                                             self);
 
   self->proxy_netreg_props_signal_id = g_signal_connect (self->proxy_netreg,
                                                          "property-changed",
@@ -441,23 +437,21 @@ phosh_wwan_ofono_init_modem (PhoshWWanOfono *self, const char *object_path)
   self->object_path = g_strdup (object_path);
   self->locked = FALSE;
 
-  phosh_dbus_ofono_network_registration_proxy_new_for_bus (
-    G_BUS_TYPE_SYSTEM,
-    G_DBUS_PROXY_FLAGS_NONE,
-    BUS_NAME,
-    object_path,
-    NULL,
-    on_proxy_netreg_new_for_bus_ready,
-    g_object_ref (self));
+  phosh_dbus_ofono_network_registration_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
+                                                           G_DBUS_PROXY_FLAGS_NONE,
+                                                           BUS_NAME,
+                                                           object_path,
+                                                           NULL,
+                                                           on_proxy_netreg_new_for_bus_ready,
+                                                           g_object_ref (self));
 
-  phosh_dbus_ofono_sim_manager_proxy_new_for_bus (
-    G_BUS_TYPE_SYSTEM,
-    G_DBUS_PROXY_FLAGS_NONE,
-    BUS_NAME,
-    object_path,
-    NULL,
-    on_proxy_sim_new_for_bus_ready,
-    g_object_ref (self));
+  phosh_dbus_ofono_sim_manager_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
+                                                  G_DBUS_PROXY_FLAGS_NONE,
+                                                  BUS_NAME,
+                                                  object_path,
+                                                  NULL,
+                                                  on_proxy_sim_new_for_bus_ready,
+                                                  g_object_ref (self));
 
   phosh_wwan_ofono_update_present (self, TRUE);
 }
@@ -561,14 +555,13 @@ phosh_wwan_ofono_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_wwan_ofono_parent_class)->constructed (object);
 
-  phosh_dbus_ofono_manager_proxy_new_for_bus (
-    G_BUS_TYPE_SYSTEM,
-    G_DBUS_PROXY_FLAGS_NONE,
-    BUS_NAME,
-    OBJECT_PATH,
-    NULL,
-    on_ofono_manager_created,
-    self);
+  phosh_dbus_ofono_manager_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
+                                              G_DBUS_PROXY_FLAGS_NONE,
+                                              BUS_NAME,
+                                              OBJECT_PATH,
+                                              NULL,
+                                              on_ofono_manager_created,
+                                              self);
 }
 
 
