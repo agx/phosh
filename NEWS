@@ -1,6 +1,26 @@
-phosh 0.44~dev
+phosh 0.44~rc1
 --------------
-In development
+Released Dezember 2024
+* Set background in overview
+* Allow to unfullscreen fullscreen apps from the overview
+* Handle Cell broadcast messages. Shown as system modal dialog
+  (needs yet unreleased ModemManger / libmm-glib)
+* Use AdwPreferencesDialog for prefs plugins giving more mobile
+  friendly dialogs
+* Notification style fixes
+* Internal cleanups and fixes
+* Issues fixed:
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1012
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/901
+* Contributors:
+    * Gotam Gorabh
+    * Guido Günther
+* UI translations:
+    * Ekaterine Papava (ka)
+    * Jordi Mas i Hernandez (ca)
+    * Pierre Michel Augustin (ht)
+    * Tim Sabsch (de)
+    * Yaron Shahrabani (he)
 
 phosh 0.43.0
 ------------

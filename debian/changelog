@@ -1,6 +1,109 @@
-phosh (0.44~dev) experimental; urgency=medium
+phosh (0.44~rc1) experimental; urgency=medium
 
   [ Guido Günther ]
+  * po: Update app-id. No need to break all the translations
+  * thumbnail: Use gpointer. We avoid "void *" in other parts of the codebase too
+  * activity: Simplify UI. Drop properties at their defaults by using
+    gtk-builder-tool. We also already split expand to {h,v}expand.
+  * activity: Drop redundant CSS. No need to set padding and transition twice
+    in the same block
+  * toplevel: Allow to (un)fullscreen toplevels
+  * activity: Add button to unfullscreen. We show it when the activity is
+    fullscreen and emit a signal when it should be unfullscreened.
+  * activity: Activate unfullscreened app. When the user unfullscreens an app
+    they likely also want to activate it so do this too.
+  * overview: Unfullscreen toplevel when activity requests it
+  * ci: Simplify adding packages from unstable. This makes it easy to e.g.
+    fetch phoc from sid when needed.
+  * top-panel: Set css class at the end. This makes it match other class_init
+    layouts
+  * layersurface: Add check for valid alpha values
+  * layersurface: Make layer property 'construct'. This allows us to get it in
+    constructors.
+  * protocols/layer-shell-effects: Update to latest version
+  * layersurface: Add support for stacking surfaces. Use layer-shell-effects
+    version 3 to allow stacking layer surfaces above/below each other.
+  * layersurface: Add getters for output and layer
+  * settings: Add a background. This improves readability when the top-panel
+    itself is transparent.
+  * background: Allow to set the layer
+  * css: Ease toggling background on/off. We add a "solid" style class for
+    that.
+  * top-panel-bg: New widget that is the top panel's background.
+    We use a separate widget so we can drive alpha blending on the
+    compositor side.
+  * top-panel: Use a background.
+    This allows us to tweak the top-panel's transparency based on how far
+    the surface is folded.
+    We use that to make it fully transparent (and hence the wallpaper shine
+    through) when the overview is unfolded or when on the lockscreen.
+  * home: Add a background.
+    Add the desktop's background to home so mobile users can enjoy it too.
+    Adjust the background's transparency based on how far the home surface
+    is pulled out.
+  * activity: Use simpler phosh_util_toggle_style_class
+  * activity: Return early if we have no surface
+  * activity: Set background in drawing area.
+    This ensures thumbnails don't look that cut off when the OSK is
+    unfolded.
+    We only do this for maximized windows to avoid the background on e.g.
+    dialogs.
+    We should restrict this to toplevels without a parent once
+    https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/1278
+    lands
+  * app-grid-button: Use alpha when focused.
+    This avoids a dark black square which looks out of place on colored
+    backgrounds.
+  * style-manager: Add theme-name property and methods to get style information.
+    We want other parts of the shell to track theme changes so add a
+    property for this plus the needed getters.
+  * home: Handle HighContrast theme. We don't want to reduce contrast in the
+    overview in this case.
+  * top-panel: Handle HighContrast theme. Ensure we have a solid background
+    when HighContrast is active
+  * data: Prefer dark theme.
+    We have a quick setting to toggle it off if needed and it better fits
+    the style changes for background images.
+  * packaging: Conflict with older p-m-s. Add a conflict to p-m-s that doesn't
+    use AdwPreferencesDialog for plugin prefs yet.
+  * overview: Insert new children right of their parents.
+    So far we appended to the very end of the list which made dialogs
+    belonging to a parent look out of place.
+  * wwan/ofono: Avoid GAsyncReadyCallback casts.
+    Rather cast the user data argument which gives us a type check and fewer
+    lines of code instead.
+  * data: Move schema to mobi.phosh too.
+    We keep the old schema paths to not break existing setups.
+  * data: Move enums into canonical namespace
+  * docs: Update schema locations
+  * system-modal-dialog: Allow to get dialog title.
+    This makes it consistent with the setter
+  * wwan-mm: Switch to MM objects.
+    This frees us from creating the proxies manually and gives
+    somewhat nicer function names.
+  * wwan-manager: Add signal to notify about new CBMs.
+    The wwan manager should able to notify other parts of the shell that a
+    new cell broadcast message was received.
+  * wwan-mm: Track new CBMs.
+    Track new cell broadcast messages and emit 'new-cbm' when
+    the received message is complete
+    This needs a recent ModemManager with Cell Broadcast support
+    so we compile that in conditionally based on whether we find
+    the necessary API in libmm-glib. We can drop this once this
+    feature made it into a released MM version.
+  * data: Add setting for cell broadcast messages
+  * cell-broadcast-prompt: New dialog for cell broadcast message
+  * cell-broadcast-manager: New class handle display of CBM information.
+    Acts on signals from the WWAN stack to show cell broadcast messages
+    (CBMs) as system modal dialogs or (later on) notifications.
+  * background-manager: Track background file changes.
+    The portals use the same name for the background file so we
+    want to track when the file content changes.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1012
+  * build: Bump libsoup dep.
+    Now that there's a stable release with
+    https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/394/diffs
+    just depend on that.
   * docs: Drop submodule init.
     We're using subproject wraps since some time
   * docs: Be less L5 specific
@@ -10,8 +113,7 @@ phosh (0.44~dev) experimental; urgency=medium
   * overview: Bind template vars past signals.
     This matches the class_init layout in other classes. Sort alphabetically
     while at that and use our current indent.
-  * app-grid: Use g_timeout_add_once.
-    Simpler and less error prone
+  * app-grid: Use g_timeout_add_once. Simpler and less error prone
   * app-grid: Avoid expand packaging for search.
     That won't work with GTK4 and we can has hexpand just as well
   * app-grid: Prefix signal handlers.
@@ -47,15 +149,20 @@ phosh (0.44~dev) experimental; urgency=medium
   * packaging: Conflict with older phosh portal.
     This ensures we don't run against a portal that is still
     named pmp
-  * treewide: Bump version to 0.44~dev.
-    This allows packaging relations to work
 
   [ Gotam Gorabh ]
+  * plugin prefs: Switch to AdwPreferencesDialog.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/1515
+  * tools/plugin-prefs-standalone: Adapt the AdwPreferencesDialog plugin prefs.
+    See: https://gitlab.gnome.org/World/Phosh/phosh-mobile-settings/-/issues/64
   * notification-frame: Add separator for default-action notification.
     Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/901
-  * tools/check-notification: Rewrite to generate notifications for all the cases
+  * tools/check-notification: Cover more cases
   * notification-frame: Don't add separator to row at index 0
   * tests/test-notification-frame: Add testcase for need_separator function
+
+  [ Jordi Mas i Hernandez ]
+  * Update Catalan translation
 
   [ Tim Sabsch ]
   * Update German translation
