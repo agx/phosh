@@ -33,7 +33,8 @@ typedef struct {
   PhoshFadingLabel      *label;
 } PhoshAppGridBaseButtonPrivate;
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGridBaseButton, phosh_app_grid_base_button, GTK_TYPE_FLOW_BOX_CHILD);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PhoshAppGridBaseButton, phosh_app_grid_base_button,
+                                     GTK_TYPE_FLOW_BOX_CHILD);
 
 
 static void
