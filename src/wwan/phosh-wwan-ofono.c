@@ -199,8 +199,10 @@ static void
 on_netreg_prop_changed (PhoshDBusOfonoNetworkRegistration *proxy,
                         const char                        *property,
                         GVariant                          *value,
-                        PhoshWWanOfono                    *self)
+                        gpointer                           user_data)
 {
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
+
   g_autoptr (GVariant) inner = g_variant_get_variant (value);
   phosh_wwan_ofono_dbus_netreg_update_prop (proxy, property, inner, self);
 }
@@ -313,9 +315,7 @@ phosh_wwan_ofono_destroy_modem (PhoshWWanOfono *self)
 
 
 static void
-on_sim_get_properties_ready (GObject      *source_object,
-                             GAsyncResult *res,
-                             gpointer      user_data)
+on_sim_get_properties_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   g_autoptr (GError) err = NULL;
   g_autoptr (GVariant) properties = NULL;
@@ -346,10 +346,9 @@ on_sim_get_properties_ready (GObject      *source_object,
 
 
 static void
-on_proxy_sim_new_for_bus_ready (GObject        *source_object,
-                                GAsyncResult   *res,
-                                PhoshWWanOfono *self)
+on_proxy_sim_new_for_bus_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
   g_autoptr (GError) err = NULL;
 
   self->proxy_sim = phosh_dbus_ofono_sim_manager_proxy_new_for_bus_finish (res, &err);
@@ -375,10 +374,9 @@ on_proxy_sim_new_for_bus_ready (GObject        *source_object,
 
 
 static void
-on_netreg_get_properties_ready (GObject        *source_object,
-                                GAsyncResult   *res,
-                                PhoshWWanOfono *self)
+on_netreg_get_properties_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
   g_autoptr (GError) err = NULL;
   g_autoptr (GVariant) properties = NULL;
   g_autoptr (GVariant) value = NULL;
@@ -406,10 +404,9 @@ on_netreg_get_properties_ready (GObject        *source_object,
 
 
 static void
-on_proxy_netreg_new_for_bus_ready (GObject        *source_object,
-                                   GAsyncResult   *res,
-                                   PhoshWWanOfono *self)
+on_proxy_netreg_new_for_bus_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
   g_autoptr (GError) err = NULL;
 
   self->proxy_netreg = phosh_dbus_ofono_network_registration_proxy_new_for_bus_finish (
@@ -426,7 +423,7 @@ on_proxy_netreg_new_for_bus_ready (GObject        *source_object,
   phosh_dbus_ofono_network_registration_call_get_properties (
     self->proxy_netreg,
     NULL,
-    (GAsyncReadyCallback)on_netreg_get_properties_ready,
+    on_netreg_get_properties_ready,
     self);
 
   self->proxy_netreg_props_signal_id = g_signal_connect (self->proxy_netreg,
@@ -450,7 +447,7 @@ phosh_wwan_ofono_init_modem (PhoshWWanOfono *self, const char *object_path)
     BUS_NAME,
     object_path,
     NULL,
-    (GAsyncReadyCallback)on_proxy_netreg_new_for_bus_ready,
+    on_proxy_netreg_new_for_bus_ready,
     g_object_ref (self));
 
   phosh_dbus_ofono_sim_manager_proxy_new_for_bus (
@@ -459,7 +456,7 @@ phosh_wwan_ofono_init_modem (PhoshWWanOfono *self, const char *object_path)
     BUS_NAME,
     object_path,
     NULL,
-    (GAsyncReadyCallback)on_proxy_sim_new_for_bus_ready,
+    on_proxy_sim_new_for_bus_ready,
     g_object_ref (self));
 
   phosh_wwan_ofono_update_present (self, TRUE);
@@ -494,10 +491,9 @@ on_modem_removed (PhoshWWanOfono        *self,
 
 
 static void
-on_get_modems_ready (GObject        *source_object,
-                     GAsyncResult   *res,
-                     PhoshWWanOfono *self)
+on_get_modems_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
   g_autoptr (GError) err = NULL;
   g_autoptr (GVariant) modems = NULL;
   GVariantIter i;
@@ -525,10 +521,9 @@ on_get_modems_ready (GObject        *source_object,
 
 
 static void
-on_ofono_manager_created (GObject        *source_object,
-                          GAsyncResult   *res,
-                          PhoshWWanOfono *self)
+on_ofono_manager_created (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
   g_autoptr (GError) err = NULL;
 
   g_debug ("manager created for %p", source_object);
@@ -554,7 +549,7 @@ on_ofono_manager_created (GObject        *source_object,
   phosh_dbus_ofono_manager_call_get_modems (
     self->proxy_manager,
     NULL,
-    (GAsyncReadyCallback)on_get_modems_ready,
+    on_get_modems_ready,
     self);
 }
 
@@ -572,7 +567,7 @@ phosh_wwan_ofono_constructed (GObject *object)
     BUS_NAME,
     OBJECT_PATH,
     NULL,
-    (GAsyncReadyCallback)on_ofono_manager_created,
+    on_ofono_manager_created,
     self);
 }
 
