@@ -796,8 +796,11 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[ACTIVATED] = g_signal_new ("activated",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
+                                     G_TYPE_FROM_CLASS (klass),
+                                     G_SIGNAL_RUN_LAST,
+                                     0, NULL, NULL, NULL,
+                                     G_TYPE_NONE,
+                                     0);
 
   g_type_ensure (PHOSH_TYPE_ARROW);
 
