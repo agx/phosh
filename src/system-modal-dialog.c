@@ -209,8 +209,10 @@ phosh_system_modal_dialog_class_init (PhoshSystemModalDialogClass *klass)
    */
   signals[DIALOG_CANCELED] = g_signal_new ("dialog-canceled",
                                            G_TYPE_FROM_CLASS (klass),
-                                           G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-                                           NULL, G_TYPE_NONE, 0);
+                                           G_SIGNAL_RUN_LAST,
+                                           0, NULL, NULL, NULL,
+                                           G_TYPE_NONE,
+                                           0);
 
   g_type_ensure (PHOSH_TYPE_SWIPE_AWAY_BIN);
   gtk_widget_class_set_template_from_resource (widget_class,
