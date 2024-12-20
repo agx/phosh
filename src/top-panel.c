@@ -644,14 +644,13 @@ phosh_top_panel_constructed (GObject *object)
                                    entries, G_N_ELEMENTS (entries),
                                    self);
   if (!phosh_shell_started_by_display_manager (phosh_shell_get_default ())) {
-    GAction *action = g_action_map_lookup_action (G_ACTION_MAP (self->actions),
-                                                  "logout");
-    g_simple_action_set_enabled (G_SIMPLE_ACTION(action), FALSE);
+    GAction *action = g_action_map_lookup_action (G_ACTION_MAP (self->actions), "logout");
+    g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
   }
 
   g_settings_bind (phosh_settings,
                    "enable-suspend",
-                   g_action_map_lookup_action(G_ACTION_MAP (self->actions), "suspend"),
+                   g_action_map_lookup_action (G_ACTION_MAP (self->actions), "suspend"),
                    "enabled",
                    G_SETTINGS_BIND_GET);
 
