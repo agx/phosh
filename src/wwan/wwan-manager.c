@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2021 Purism SPC
+ *               2023-2024 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -15,6 +16,12 @@
 #include "util.h"
 
 #include <NetworkManager.h>
+
+enum {
+  NEW_CBM,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS];
 
 #define is_type_wwan_connection(s)                                      \
   (g_strcmp0 ((s), NM_SETTING_GSM_SETTING_NAME) == 0 ||                 \
@@ -376,7 +383,28 @@ phosh_wwan_manager_class_init (PhoshWWanManagerClass *klass)
                          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
+
+  /**
+   * PhoshWwanManager::new-cbm
+   * @self: The wwan manager
+   * @message: The message text
+   * @channel: The channel specifying the source of the CBM
+   *
+   * This signal is emitted when a new cell broadcast message is
+   * received.
+   *
+   * Since: 0.44.0
+   */
+  signals[NEW_CBM] = g_signal_new ("new-cbm",
+                                   G_TYPE_FROM_CLASS (klass),
+                                   G_SIGNAL_RUN_LAST,
+                                   0, NULL, NULL, NULL,
+                                   G_TYPE_NONE,
+                                   2,
+                                   G_TYPE_STRING,
+                                   G_TYPE_UINT);
 }
+
 
 static void
 phosh_wwan_manager_init (PhoshWWanManager *self)

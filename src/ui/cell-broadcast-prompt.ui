@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <template class="PhoshCellBroadcastPrompt" parent="PhoshSystemModalDialog">
+    <property name="can-focus">False</property>
+    <child type="phosh-dialog-content">
+      <object class="GtkBox">
+        <property name="visible">1</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkLabel" id="lbl_msg">
+            <property name="visible">1</property>
+            <property name="margin-bottom">12</property>
+            <property name="justify">center</property>
+            <property name="wrap">1</property>
+            <property name="wrap-mode">word-char</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child type="phosh-dialog-button">
+      <object class="GtkButton">
+        <property name="label" translatable="yes">Ok</property>
+        <property name="visible">1</property>
+        <property name="can-default">1</property>
+        <property name="has-default">1</property>
+        <property name="valign">center</property>
+        <property name="use-underline">1</property>
+        <signal name="clicked" handler="on_ok_clicked" swapped="yes"/>
+        <style>
+          <class name="suggested-action"/>
+        </style>
+      </object>
+    </child>
+  </template>
+</interface>

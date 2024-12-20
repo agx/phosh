@@ -78,6 +78,7 @@ src/ui/app-grid-button.ui
 src/ui/app-grid.ui
 src/ui/audio-settings.ui
 src/ui/bt-status-page.ui
+src/ui/cell-broadcast-prompt.ui
 src/ui/emergency-menu.ui
 src/ui/emergency-contact-row.ui
 src/ui/end-session-dialog.ui

@@ -92,11 +92,11 @@ configure_file(
 schema_enum_headers = files(
   '..' / 'src' / 'phosh-settings-enums.h',
 )
-generate_enums_schema = gnome.mkenums('sm.puri.phosh.enums.xml',
+generate_enums_schema = gnome.mkenums('mobi.phosh.shell.enums.xml',
   sources: schema_enum_headers,
   comments: '<!-- @comment@ -->',
   fhead: '<schemalist>',
-  vhead: '  <@type@ id="sm.puri.phosh.@EnumName@">',
+  vhead: '  <@type@ id="mobi.phosh.shell.@EnumName@">',
   vprod: '    <value nick="@valuenick@" value="@valuenum@"/>',
   vtail: '  </@type@>',
   ftail: '</schemalist>',
@@ -106,11 +106,11 @@ generate_enums_schema = gnome.mkenums('sm.puri.phosh.enums.xml',
 
 #workaround due to https://github.com/mesonbuild/meson/issues/1687
 copy_schema = custom_target('copy-gschema-to-builddir',
-  input: 'sm.puri.phosh.gschema.xml',
-  output: 'sm.puri.phosh.gschema.xml',
+  input: 'mobi.phosh.shell.gschema.xml',
+  output: 'mobi.phosh.shell.gschema.xml',
   command: ['cp', '@INPUT@', '@OUTPUT@']
 )
-schemas = ['sm.puri.phosh.gschema.xml']
+schemas = ['mobi.phosh.shell.gschema.xml']
 compile_schemas = custom_target('glib-compile-schemas',
   build_by_default: true,
   output: 'gschemas.compiled',

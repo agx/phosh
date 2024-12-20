@@ -36,13 +36,13 @@ OPTIONS
 CONFIGURATION
 -------------
 
-``phosh`` is configured via ``GSettings``. The core settings are within th ``sm.puri.phosh`` schema.
+``phosh`` is configured via ``GSettings``. The core settings are within the ``mobi.phosh.shell`` and ``sm.puri.phosh`` schema.
 See also https://gitlab.gnome.org/World/Phosh/phosh/-/wikis/Configuration
 
 Plugins
 ^^^^^^^
 
-Plugins are configured via the ``sm.puri.phosh.plugins`` gsettings
+Plugins are configured via the ``mobi.phosh.plugins`` and ``sm.puri.phosh.plugins`` gsettings
 schema. The ``lock-screen`` key enables the plugins on the lock screen
 e.g.
 

@@ -19,6 +19,7 @@ dbus_client_protos = [
   ['login1-session-dbus', 'org.freedesktop.login1.Session.xml', 'org.freedesktop.login1'],
   ['gsd-color-dbus', 'org.gnome.SettingsDaemon.Color.xml', 'org.gnome.SettingsDaemon'],
   ['gnome-session-dbus', 'org.gnome.SessionManager.xml', 'org.gnome'],
+  ['phosh-wwan-ofono-dbus', 'org.ofono.xml', 'org'],
 ]
 
 #
@@ -99,14 +100,6 @@ generated_dbus_sources += gnome.gdbus_codegen('mpris-dbus',
                                               install_header: bindings_lib,
                                               install_dir: dbus_inc_dir,
                                               namespace: 'PhoshMprisDBus')
-
-generated_dbus_sources += gnome.gdbus_codegen('phosh-wwan-ofono-dbus',
-                                              'org.ofono.xml',
-                                              namespace: 'PhoshOfonoDBus',
-                                              install_header: bindings_lib,
-                                              install_dir: dbus_inc_dir,
-                                              interface_prefix: 'org.ofono')
-
 generated_dbus_sources += gnome.gdbus_codegen('phosh-osk0-dbus',
                                               'sm.puri.OSK0.xml',
                                               install_header: bindings_lib,

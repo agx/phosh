@@ -41,9 +41,9 @@ enum {
 typedef struct _PhoshWWanOfono {
   PhoshWWanManager                   parent;
 
-  PhoshOfonoDBusNetworkRegistration *proxy_netreg;
-  PhoshOfonoDBusSimManager          *proxy_sim;
-  PhoshOfonoDBusManager             *proxy_manager;
+  PhoshDBusOfonoNetworkRegistration *proxy_netreg;
+  PhoshDBusOfonoSimManager          *proxy_sim;
+  PhoshDBusOfonoManager             *proxy_manager;
 
   /* Signals we connect to */
   gulong                             manager_object_added_signal_id;
@@ -130,7 +130,7 @@ phosh_wwan_ofono_update_operator (PhoshWWanOfono *self, GVariant *v)
     g_free (self->operator);
     self->operator = g_strdup (operator);
 
-    g_debug("Operator is '%s'", self->operator);
+    g_debug ("Operator is '%s'", self->operator);
     g_object_notify (G_OBJECT (self), "operator");
   }
 }
@@ -180,7 +180,7 @@ phosh_wwan_ofono_update_present (PhoshWWanOfono *self, gboolean present)
 
 
 static void
-phosh_wwan_ofono_dbus_netreg_update_prop (PhoshOfonoDBusNetworkRegistration *proxy,
+phosh_wwan_ofono_dbus_netreg_update_prop (PhoshDBusOfonoNetworkRegistration *proxy,
                                           const char                        *property,
                                           GVariant                          *value,
                                           PhoshWWanOfono                    *self)
@@ -196,18 +196,20 @@ phosh_wwan_ofono_dbus_netreg_update_prop (PhoshOfonoDBusNetworkRegistration *pro
 
 
 static void
-phosh_wwan_ofono_dbus_netreg_prop_changed_cb (PhoshOfonoDBusNetworkRegistration *proxy,
-                                              const char *property,
-                                              GVariant *value,
-                                              PhoshWWanOfono *self)
+on_netreg_prop_changed (PhoshDBusOfonoNetworkRegistration *proxy,
+                        const char                        *property,
+                        GVariant                          *value,
+                        gpointer                           user_data)
 {
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
+
   g_autoptr (GVariant) inner = g_variant_get_variant (value);
   phosh_wwan_ofono_dbus_netreg_update_prop (proxy, property, inner, self);
 }
 
 
 static void
-phosh_wwan_ofono_dbus_sim_update_prop (PhoshOfonoDBusSimManager *proxy,
+phosh_wwan_ofono_dbus_sim_update_prop (PhoshDBusOfonoSimManager *proxy,
                                        const char               *property,
                                        GVariant                 *value,
                                        PhoshWWanOfono           *self)
@@ -223,12 +225,12 @@ phosh_wwan_ofono_dbus_sim_update_prop (PhoshOfonoDBusSimManager *proxy,
 
 
 static void
-phosh_wwan_ofono_dbus_sim_prop_changed_cb (PhoshOfonoDBusSimManager *proxy,
-                                           const char               *property,
-                                           GVariant                 *value,
-                                           PhoshWWanOfono           *self)
+on_sim_prop_changed (PhoshDBusOfonoSimManager *proxy,
+                     const char               *property,
+                     GVariant                 *value,
+                     PhoshWWanOfono           *self)
 {
-  g_autoptr (GVariant) inner = g_variant_get_variant(value);
+  g_autoptr (GVariant) inner = g_variant_get_variant (value);
   phosh_wwan_ofono_dbus_sim_update_prop (proxy, property, inner, self);
 }
 
@@ -313,30 +315,29 @@ phosh_wwan_ofono_destroy_modem (PhoshWWanOfono *self)
 
 
 static void
-phosh_wwan_ofono_on_sim_get_properties_finish (GObject        *source_object,
-                                               GAsyncResult   *res,
-                                               PhoshWWanOfono *self)
+on_sim_get_properties_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   g_autoptr (GError) err = NULL;
   g_autoptr (GVariant) properties = NULL;
   g_autoptr (GVariant) value = NULL;
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
   char *property;
   GVariantIter i;
+  gboolean success;
 
-  if (!phosh_ofono_dbus_sim_manager_call_get_properties_finish (
-    self->proxy_sim,
-    &properties,
-    res,
-    &err)) {
-    g_warning ("Failed to get sim proxy properties for %s: %s",
-      self->object_path, err->message);
+  success = phosh_dbus_ofono_sim_manager_call_get_properties_finish (self->proxy_sim,
+                                                                     &properties,
+                                                                     res,
+                                                                     &err);
+  if (!success) {
+    g_warning ("Failed to get sim proxy properties for %s: %s", self->object_path, err->message);
     g_object_unref (self);
     return;
   }
 
   g_variant_iter_init (&i, properties);
   while (g_variant_iter_next (&i, "{&sv}", &property, &value, NULL)) {
-    phosh_wwan_ofono_dbus_sim_update_prop(self->proxy_sim, property, value, self);
+    phosh_wwan_ofono_dbus_sim_update_prop (self->proxy_sim, property, value, self);
     g_clear_pointer (&value, g_variant_unref);
   }
 
@@ -345,63 +346,55 @@ phosh_wwan_ofono_on_sim_get_properties_finish (GObject        *source_object,
 
 
 static void
-phosh_wwan_ofono_on_proxy_sim_new_for_bus_finish (GObject        *source_object,
-                                                  GAsyncResult   *res,
-                                                  PhoshWWanOfono *self)
+on_proxy_sim_new_for_bus_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
   g_autoptr (GError) err = NULL;
 
-  self->proxy_sim = phosh_ofono_dbus_sim_manager_proxy_new_for_bus_finish (
-    res,
-    &err);
+  self->proxy_sim = phosh_dbus_ofono_sim_manager_proxy_new_for_bus_finish (res, &err);
 
-  g_debug("proxy_sim finish '%p'", self->proxy_sim);
+  g_debug ("proxy_sim finish '%p'", self->proxy_sim);
 
   if (!self->proxy_sim) {
-    g_warning ("Failed to get sim proxy for %s: %s",
-      self->object_path, err->message);
+    g_warning ("Failed to get sim proxy for %s: %s", self->object_path, err->message);
     g_object_unref (self);
     return;
   }
 
-  phosh_ofono_dbus_sim_manager_call_get_properties (
-    self->proxy_sim,
-    NULL,
-    (GAsyncReadyCallback)phosh_wwan_ofono_on_sim_get_properties_finish,
-    self);
+  phosh_dbus_ofono_sim_manager_call_get_properties (self->proxy_sim,
+                                                    NULL,
+                                                    on_sim_get_properties_ready,
+                                                    self);
 
   self->proxy_sim_props_signal_id = g_signal_connect (self->proxy_sim,
-                                                     "property-changed",
-                                                     G_CALLBACK (phosh_wwan_ofono_dbus_sim_prop_changed_cb),
-                                                     self);
+                                                      "property-changed",
+                                                      G_CALLBACK (on_sim_prop_changed),
+                                                      self);
 }
 
 
 static void
-phosh_wwan_ofono_on_netreg_get_properties_finish (GObject        *source_object,
-                                                  GAsyncResult   *res,
-                                                  PhoshWWanOfono *self)
+on_netreg_get_properties_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
   g_autoptr (GError) err = NULL;
   g_autoptr (GVariant) properties = NULL;
   g_autoptr (GVariant) value = NULL;
   char *property;
   GVariantIter i;
 
-  if (!phosh_ofono_dbus_network_registration_call_get_properties_finish (
-    self->proxy_netreg,
-    &properties,
-    res,
-    &err)) {
-    g_warning ("Failed to get netreg proxy properties for %s: %s",
-      self->object_path, err->message);
+  if (!phosh_dbus_ofono_network_registration_call_get_properties_finish (self->proxy_netreg,
+                                                                         &properties,
+                                                                         res,
+                                                                         &err)) {
+    g_warning ("Failed to get netreg proxy properties for %s: %s",self->object_path, err->message);
     g_object_unref (self);
     return;
   }
 
   g_variant_iter_init (&i, properties);
   while (g_variant_iter_next (&i, "{&sv}", &property, &value, NULL)) {
-    phosh_wwan_ofono_dbus_netreg_update_prop(self->proxy_netreg, property, value, self);
+    phosh_wwan_ofono_dbus_netreg_update_prop (self->proxy_netreg, property, value, self);
     g_clear_pointer (&value, g_variant_unref);
   }
 
@@ -410,32 +403,28 @@ phosh_wwan_ofono_on_netreg_get_properties_finish (GObject        *source_object,
 
 
 static void
-phosh_wwan_ofono_on_proxy_netreg_new_for_bus_finish (GObject        *source_object,
-                                                     GAsyncResult   *res,
-                                                     PhoshWWanOfono *self)
+on_proxy_netreg_new_for_bus_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
   g_autoptr (GError) err = NULL;
 
-  self->proxy_netreg = phosh_ofono_dbus_network_registration_proxy_new_for_bus_finish (
-    res,
-    &err);
+  self->proxy_netreg = phosh_dbus_ofono_network_registration_proxy_new_for_bus_finish (res,
+                                                                                       &err);
 
   if (!self->proxy_netreg) {
-    g_warning ("Failed to get netreg proxy for %s: %s",
-      self->object_path, err->message);
+    g_warning ("Failed to get netreg proxy for %s: %s", self->object_path, err->message);
     g_object_unref (self);
     return;
   }
 
-  phosh_ofono_dbus_network_registration_call_get_properties (
-    self->proxy_netreg,
-    NULL,
-    (GAsyncReadyCallback)phosh_wwan_ofono_on_netreg_get_properties_finish,
-    self);
+  phosh_dbus_ofono_network_registration_call_get_properties (self->proxy_netreg,
+                                                             NULL,
+                                                             on_netreg_get_properties_ready,
+                                                             self);
 
   self->proxy_netreg_props_signal_id = g_signal_connect (self->proxy_netreg,
                                                          "property-changed",
-                                                         G_CALLBACK (phosh_wwan_ofono_dbus_netreg_prop_changed_cb),
+                                                         G_CALLBACK (on_netreg_prop_changed),
                                                          self);
 }
 
@@ -448,33 +437,31 @@ phosh_wwan_ofono_init_modem (PhoshWWanOfono *self, const char *object_path)
   self->object_path = g_strdup (object_path);
   self->locked = FALSE;
 
-  phosh_ofono_dbus_network_registration_proxy_new_for_bus (
-    G_BUS_TYPE_SYSTEM,
-    G_DBUS_PROXY_FLAGS_NONE,
-    BUS_NAME,
-    object_path,
-    NULL,
-    (GAsyncReadyCallback)phosh_wwan_ofono_on_proxy_netreg_new_for_bus_finish,
-    g_object_ref (self));
+  phosh_dbus_ofono_network_registration_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
+                                                           G_DBUS_PROXY_FLAGS_NONE,
+                                                           BUS_NAME,
+                                                           object_path,
+                                                           NULL,
+                                                           on_proxy_netreg_new_for_bus_ready,
+                                                           g_object_ref (self));
 
-  phosh_ofono_dbus_sim_manager_proxy_new_for_bus (
-    G_BUS_TYPE_SYSTEM,
-    G_DBUS_PROXY_FLAGS_NONE,
-    BUS_NAME,
-    object_path,
-    NULL,
-    (GAsyncReadyCallback)phosh_wwan_ofono_on_proxy_sim_new_for_bus_finish,
-    g_object_ref (self));
+  phosh_dbus_ofono_sim_manager_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
+                                                  G_DBUS_PROXY_FLAGS_NONE,
+                                                  BUS_NAME,
+                                                  object_path,
+                                                  NULL,
+                                                  on_proxy_sim_new_for_bus_ready,
+                                                  g_object_ref (self));
 
   phosh_wwan_ofono_update_present (self, TRUE);
 }
 
 
 static void
-phosh_wwan_ofono_modem_added_cb (PhoshWWanOfono        *self,
-                                 const char            *modem_object_path,
-                                 GVariant              *modem_properties,
-                                 PhoshOfonoDBusManager *proxy_manager)
+on_modem_added (PhoshWWanOfono        *self,
+                const char            *modem_object_path,
+                GVariant              *modem_properties,
+                PhoshDBusOfonoManager *proxy_manager)
 {
   g_debug ("Modem added at path: %s", modem_object_path);
   if (self->object_path == NULL) {
@@ -485,9 +472,9 @@ phosh_wwan_ofono_modem_added_cb (PhoshWWanOfono        *self,
 
 
 static void
-phosh_wwan_ofono_modem_removed_cb (PhoshWWanOfono        *self,
-                                   const char            *modem_object_path,
-                                   PhoshOfonoDBusManager *proxy_manager)
+on_modem_removed (PhoshWWanOfono        *self,
+                  const char            *modem_object_path,
+                  PhoshDBusOfonoManager *proxy_manager)
 {
   g_debug ("Modem removed at path: %s", modem_object_path);
   if (!g_strcmp0 (modem_object_path, self->object_path)) {
@@ -498,22 +485,22 @@ phosh_wwan_ofono_modem_removed_cb (PhoshWWanOfono        *self,
 
 
 static void
-phosh_wwan_ofono_on_get_modems_finish (GObject        *source_object,
-                                       GAsyncResult   *res,
-                                       PhoshWWanOfono *self)
+on_get_modems_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
   g_autoptr (GError) err = NULL;
   g_autoptr (GVariant) modems = NULL;
   GVariantIter i;
   const char *modem_object_path = NULL;
+  gboolean success;
 
-  if (!phosh_ofono_dbus_manager_call_get_modems_finish (
-    self->proxy_manager,
-    &modems,
-    res,
-    &err)) {
-      g_warning ("GetModems call failed: %s", err->message);
-      return;
+  success = phosh_dbus_ofono_manager_call_get_modems_finish (self->proxy_manager,
+                                                             &modems,
+                                                             res,
+                                                             &err);
+  if (!success) {
+    g_warning ("GetModems call failed: %s", err->message);
+    return;
   }
 
   g_variant_iter_init (&i, modems);
@@ -528,14 +515,13 @@ phosh_wwan_ofono_on_get_modems_finish (GObject        *source_object,
 
 
 static void
-phosh_wwan_ofono_on_ofono_manager_created (GObject        *source_object,
-                                           GAsyncResult   *res,
-                                           PhoshWWanOfono *self)
+on_ofono_manager_created (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
+  PhoshWWanOfono *self = PHOSH_WWAN_OFONO (user_data);
   g_autoptr (GError) err = NULL;
 
   g_debug ("manager created for %p", source_object);
-  self->proxy_manager = phosh_ofono_dbus_manager_proxy_new_for_bus_finish (
+  self->proxy_manager = phosh_dbus_ofono_manager_proxy_new_for_bus_finish (
     res,
     &err);
 
@@ -544,22 +530,20 @@ phosh_wwan_ofono_on_ofono_manager_created (GObject        *source_object,
     return;
   }
 
-  self->manager_object_added_signal_id =
-    g_signal_connect_swapped (self->proxy_manager,
-                              "modem-added",
-                              G_CALLBACK (phosh_wwan_ofono_modem_added_cb),
-                              self);
+  self->manager_object_added_signal_id = g_signal_connect_swapped (self->proxy_manager,
+                                                                   "modem-added",
+                                                                   G_CALLBACK (on_modem_added),
+                                                                   self);
 
-  self->manager_object_removed_signal_id =
-    g_signal_connect_swapped (self->proxy_manager,
-                              "modem-removed",
-                              G_CALLBACK (phosh_wwan_ofono_modem_removed_cb),
-                              self);
+  self->manager_object_removed_signal_id = g_signal_connect_swapped (self->proxy_manager,
+                                                                     "modem-removed",
+                                                                     G_CALLBACK (on_modem_removed),
+                                                                     self);
 
-  phosh_ofono_dbus_manager_call_get_modems (
+  phosh_dbus_ofono_manager_call_get_modems (
     self->proxy_manager,
     NULL,
-    (GAsyncReadyCallback)phosh_wwan_ofono_on_get_modems_finish,
+    on_get_modems_ready,
     self);
 }
 
@@ -571,14 +555,13 @@ phosh_wwan_ofono_constructed (GObject *object)
 
   G_OBJECT_CLASS (phosh_wwan_ofono_parent_class)->constructed (object);
 
-  phosh_ofono_dbus_manager_proxy_new_for_bus (
-    G_BUS_TYPE_SYSTEM,
-    G_DBUS_PROXY_FLAGS_NONE,
-    BUS_NAME,
-    OBJECT_PATH,
-    NULL,
-    (GAsyncReadyCallback)phosh_wwan_ofono_on_ofono_manager_created,
-    self);
+  phosh_dbus_ofono_manager_proxy_new_for_bus (G_BUS_TYPE_SYSTEM,
+                                              G_DBUS_PROXY_FLAGS_NONE,
+                                              BUS_NAME,
+                                              OBJECT_PATH,
+                                              NULL,
+                                              on_ofono_manager_created,
+                                              self);
 }
 
 

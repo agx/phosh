@@ -198,6 +198,20 @@ struct rfkill_event_ext e;
 have_rfkill_event_ext = cc.compiles(code, name : 'Have rfkill_event_ext')
 have_memfd_create = cc.has_function('memfd_create', prefix: '''#define _GNU_SOURCE
                                                                #include <sys/mman.h>''')
+have_mm_cbm = true
+# Check CBM support thoroughly as API isn't in a released MM version yet
+foreach f: [
+  'mm_cbm_get_channel',
+  'mm_cbm_get_path',
+  'mm_cbm_get_text',
+  'mm_modem_cell_broadcast_list',
+  'mm_object_get_modem_cell_broadcast',
+  'mm_object_peek_modem_cell_broadcast',
+]
+  if not cc.has_function(f, dependencies: mm_glib_dep)
+    have_mm_cbm = false
+  endif
+endforeach
 
 config_h = configuration_data()
 config_h.set_quoted('GETTEXT_PACKAGE', 'phosh')
@@ -210,6 +224,8 @@ config_h.set('PHOSH_HAVE_MEMFD_CREATE', have_memfd_create,
              description: 'Whether we have memdfd_create on Linux')
 config_h.set('PHOSH_USES_ASAN', get_option('b_sanitize') == 'address',
              description: 'Whether ASAN was enabled via meson')
+config_h.set('PHOSH_HAVE_MM_CBM', have_mm_cbm,
+             description: 'Whether ModemManager supports Cell Broadcast')
 config_h.set_quoted('PHOSH_DATA_DIR', datadir,
              description: 'Systemwide data dir')
 config_h.set_quoted('PHOSH_APP_ID', app_id)
@@ -246,6 +262,13 @@ summary({
   },
   bool_yn: true,
   section: 'Build',
+)
+
+summary({
+    'ModemManager with Cellbroadcast support': have_mm_cbm,
+  },
+  bool_yn: true,
+  section: 'Versions',
 )
 
 summary({
