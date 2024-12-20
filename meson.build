@@ -182,7 +182,7 @@ libhandy_dep = dependency('libhandy-1',
 libcall_ui_dep = libcall_ui.get_variable('libcall_ui_dep')
 libnm_dep = dependency('libnm', version: '>= 1.14')
 libpolkit_agent_dep = dependency('polkit-agent-1', version: '>= 0.122')
-libsoup_dep = dependency('libsoup-3.0', version: '>= 3.0')
+libsoup_dep = dependency('libsoup-3.0', version: '>= 3.6')
 libsystemd_dep = dependency('libsystemd', 'libelogind', version: '>= 241')
 mm_glib_dep = dependency('mm-glib')
 network_agent_dep = dependency('libsecret-1')

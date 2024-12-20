@@ -378,15 +378,6 @@ libphosh_sources = files(
   phosh_wwan_sources,
 ]
 
-# See https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/394
-if libsoup_dep.version().version_compare('< 3.5.1')
-  libsoup_dep = declare_dependency (
-    include_directories: libsoup_dep.get_variable(pkgconfig: 'includedir') / 'libsoup-3.0',
-    dependencies: cc.find_library('soup-3.0', required: true),
-  )
-endif
-
-
 # Headers are bundled as they're not shipped by gnome-bluetooth
 # https://gitlab.gnome.org/GNOME/gnome-bluetooth/-/merge_requests/200
 gnome_bluetooth_headers_dep = declare_dependency(
