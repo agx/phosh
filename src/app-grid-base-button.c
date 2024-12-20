@@ -133,7 +133,8 @@ phosh_app_grid_base_button_class_init (PhoshAppGridBaseButtonClass *klass)
 
   g_type_ensure (PHOSH_TYPE_CLAMP);
   g_type_ensure (PHOSH_TYPE_FADING_LABEL);
-  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/app-grid-base-button.ui");
+  gtk_widget_class_set_template_from_resource (widget_class,
+                                               "/mobi/phosh/ui/app-grid-base-button.ui");
 
   gtk_widget_class_bind_template_callback (widget_class, on_clicked_cb);
 
