@@ -61,6 +61,7 @@ struct _PhoshBackgroundManager {
   GDesktopBackgroundStyle  style;
   GnomeBGSlideShow        *slideshow;
   GFile                   *file;        /* Background XML or image */
+  GFileMonitor            *monitor;     /* Monitors file */
   GdkRGBA                  color;
   GSettings               *settings;
   GSettings               *interface_settings;
@@ -152,6 +153,62 @@ color_from_string (GdkRGBA *color, const char *string)
     gdk_rgba_parse (color, "black");
 }
 
+
+static void
+refresh (PhoshBackgroundManager *self)
+{
+  if (is_slideshow (self)) {
+    load_slideshow (self);
+  } else {
+    /* Single file backed image or no image at all */
+    update_all_backgrounds (self);
+  }
+}
+
+
+static void
+on_file_changed (PhoshBackgroundManager *self,
+                 GFile                  *file,
+                 GFile                  *other_file,
+                 GFileMonitorEvent       event_type,
+                 GFileMonitor           *monitor)
+{
+  PhoshBackgroundCache *cache = phosh_background_cache_get_default ();
+
+  if (event_type != G_FILE_MONITOR_EVENT_CHANGES_DONE_HINT)
+    return;
+
+  g_warning ("Background file changed, clearing cache");
+  phosh_background_cache_clear_all (cache);
+
+  refresh (self);
+}
+
+
+static void
+monitor_file (PhoshBackgroundManager *self)
+{
+  g_autoptr (GError) err = NULL;
+  g_clear_object (&self->monitor);
+
+  if (!self->file)
+    return;
+
+  self->monitor = g_file_monitor_file (self->file, G_FILE_MONITOR_NONE, NULL, &err);
+  if (!self->monitor) {
+    g_autofree char *uri = g_file_get_uri (self->file);
+
+    g_warning ("Failed to setup file monitor for %s: %s", uri, err->message);
+    return;
+  }
+
+  g_signal_connect_object (self->monitor, "changed",
+                           G_CALLBACK (on_file_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
+}
+
+
 static void
 on_settings_changed (PhoshBackgroundManager *self)
 {
@@ -191,13 +248,9 @@ on_settings_changed (PhoshBackgroundManager *self)
   g_clear_object (&self->slideshow);
   g_clear_object (&self->file);
   self->file = g_steal_pointer (&file);
+  monitor_file (self);
 
-  if (is_slideshow (self)) {
-    load_slideshow (self);
-  } else {
-    /* Single file backed image or no image at all */
-    update_all_backgrounds (self);
-  }
+  refresh (self);
 }
 
 
@@ -354,6 +407,7 @@ phosh_background_manager_finalize (GObject *object)
   g_clear_object (&self->settings);
   g_clear_object (&self->interface_settings);
   g_clear_object (&self->slideshow);
+  g_clear_object (&self->monitor);
   g_clear_object (&self->file);
 
   G_OBJECT_CLASS (phosh_background_manager_parent_class)->finalize (object);
