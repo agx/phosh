@@ -33,7 +33,8 @@ typedef struct {
   PhoshFadingLabel      *label;
 } PhoshAppGridBaseButtonPrivate;
 
-G_DEFINE_TYPE_WITH_PRIVATE (PhoshAppGridBaseButton, phosh_app_grid_base_button, GTK_TYPE_FLOW_BOX_CHILD);
+G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (PhoshAppGridBaseButton, phosh_app_grid_base_button,
+                                     GTK_TYPE_FLOW_BOX_CHILD);
 
 
 static void
@@ -133,15 +134,14 @@ phosh_app_grid_base_button_class_init (PhoshAppGridBaseButtonClass *klass)
 
   g_type_ensure (PHOSH_TYPE_CLAMP);
   g_type_ensure (PHOSH_TYPE_FADING_LABEL);
-  gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/app-grid-base-button.ui");
+  gtk_widget_class_set_template_from_resource (widget_class,
+                                               "/mobi/phosh/ui/app-grid-base-button.ui");
 
   gtk_widget_class_bind_template_callback (widget_class, on_clicked_cb);
 
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridBaseButton, box);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridBaseButton, button);
   gtk_widget_class_bind_template_child_private (widget_class, PhoshAppGridBaseButton, label);
-
-  gtk_widget_class_set_css_name (widget_class, "phosh-app-grid-base-button");
 }
 
 

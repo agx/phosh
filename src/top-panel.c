@@ -359,29 +359,6 @@ on_input_setting_changed (PhoshTopPanel *self,
 }
 
 
-static gboolean
-on_key_press_event (PhoshTopPanel *self, GdkEventKey *event, gpointer data)
-{
-  gboolean handled = FALSE;
-
-  g_return_val_if_fail (PHOSH_IS_TOP_PANEL (self), FALSE);
-
-  if (!self->settings)
-    return handled;
-
-  switch (event->keyval) {
-    case GDK_KEY_Escape:
-      phosh_top_panel_fold (self);
-      handled = TRUE;
-      break;
-    default:
-      /* nothing to do */
-      break;
-    }
-  return handled;
-}
-
-
 static void
 released_cb (PhoshTopPanel *self, int n_press, double x, double y, GtkGestureMultiPress *gesture)
 {
@@ -630,13 +607,6 @@ phosh_top_panel_constructed (GObject *object)
                                  NULL, self, NULL);
   }
 
-  /* Settings menu and it's top-panel / menu */
-  gtk_widget_add_events (GTK_WIDGET (self), GDK_ALL_EVENTS_MASK);
-  g_signal_connect (G_OBJECT (self),
-                    "key-press-event",
-                    G_CALLBACK (on_key_press_event),
-                    NULL);
-
   self->actions = g_simple_action_group_new ();
   gtk_widget_insert_action_group (GTK_WIDGET (self), "panel",
                                   G_ACTION_GROUP (self->actions));
@@ -644,14 +614,13 @@ phosh_top_panel_constructed (GObject *object)
                                    entries, G_N_ELEMENTS (entries),
                                    self);
   if (!phosh_shell_started_by_display_manager (phosh_shell_get_default ())) {
-    GAction *action = g_action_map_lookup_action (G_ACTION_MAP (self->actions),
-                                                  "logout");
-    g_simple_action_set_enabled (G_SIMPLE_ACTION(action), FALSE);
+    GAction *action = g_action_map_lookup_action (G_ACTION_MAP (self->actions), "logout");
+    g_simple_action_set_enabled (G_SIMPLE_ACTION (action), FALSE);
   }
 
   g_settings_bind (phosh_settings,
                    "enable-suspend",
-                   g_action_map_lookup_action(G_ACTION_MAP (self->actions), "suspend"),
+                   g_action_map_lookup_action (G_ACTION_MAP (self->actions), "suspend"),
                    "enabled",
                    G_SETTINGS_BIND_GET);
 
@@ -755,6 +724,7 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
   PhoshLayerSurfaceClass *layer_surface_class = PHOSH_LAYER_SURFACE_CLASS (klass);
   PhoshDragSurfaceClass *drag_surface_class = PHOSH_DRAG_SURFACE_CLASS (klass);
+  GtkBindingSet *binding_set;
 
   object_class->constructed = phosh_top_panel_constructed;
   object_class->dispose = phosh_top_panel_dispose;
@@ -797,8 +767,11 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   signals[ACTIVATED] = g_signal_new ("activated",
-      G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-      NULL, G_TYPE_NONE, 0);
+                                     G_TYPE_FROM_CLASS (klass),
+                                     G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+                                     0, NULL, NULL, NULL,
+                                     G_TYPE_NONE,
+                                     0);
 
   g_type_ensure (PHOSH_TYPE_ARROW);
 
@@ -822,6 +795,9 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_settings_drag_handle_offset_changed);
   gtk_widget_class_bind_template_callback (widget_class, phosh_top_panel_fold);
   gtk_widget_class_bind_template_callback (widget_class, released_cb);
+
+  binding_set = gtk_binding_set_by_class (klass);
+  gtk_binding_entry_add_signal (binding_set, GDK_KEY_Escape, 0, "activated", 0);
 
   gtk_widget_class_set_css_name (widget_class, "phosh-top-panel");
 }
