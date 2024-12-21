@@ -72,6 +72,15 @@ phosh_notification_banner_slide (double value, gpointer user_data)
 
 
 static void
+phosh_notification_banner_slide_done (gpointer user_data)
+{
+  PhoshNotificationBanner *self = PHOSH_NOTIFICATION_BANNER (user_data);
+
+  g_clear_pointer (&self->animation, phosh_animation_unref);
+}
+
+
+static void
 expired (PhoshNotification       *notification,
          PhoshNotificationBanner *self)
 {
@@ -170,15 +179,6 @@ phosh_notification_banner_finalize (GObject *object)
   g_clear_object (&self->notification);
 
   G_OBJECT_CLASS (phosh_notification_banner_parent_class)->finalize (object);
-}
-
-
-static void
-phosh_notification_banner_slide_done (gpointer user_data)
-{
-  PhoshNotificationBanner *self = PHOSH_NOTIFICATION_BANNER (user_data);
-
-  g_clear_pointer (&self->animation, phosh_animation_unref);
 }
 
 
