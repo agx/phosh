@@ -147,6 +147,7 @@ phosh_animation_free (PhoshAnimation *self)
  * @widget: A widget
  * @from: The animation's start value
  * @to: The animation's end value
+ * @duration: The duration of the animation in milliseconds
  * @type: The type of animation
  * @value_cb:(scope forever): The callback applying `value`
  * @done_cb:(scope forever): The callback invoked when the animation is done
