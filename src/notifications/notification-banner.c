@@ -40,6 +40,7 @@ struct _PhoshNotificationBanner {
   gulong handler_expired;
   gulong handler_closed;
 
+  gboolean slide_up;
   PhoshAnimation *animation;
 };
 typedef struct _PhoshNotificationBanner PhoshNotificationBanner;
@@ -63,7 +64,7 @@ phosh_notification_banner_slide (double value, gpointer user_data)
   int margin, height;
 
   gtk_window_get_size (GTK_WINDOW (self), NULL, &height);
-  margin = -(height * 0.9) * (1.0 - value);
+  margin = -(height * 0.9) * (self->slide_up ? value : (1.0 - value));
 
   phosh_layer_surface_set_margins (PHOSH_LAYER_SURFACE (self), margin, 0, 0, 0);
 
@@ -77,6 +78,8 @@ phosh_notification_banner_slide_done (gpointer user_data)
   PhoshNotificationBanner *self = PHOSH_NOTIFICATION_BANNER (user_data);
 
   g_clear_pointer (&self->animation, phosh_animation_unref);
+  if (self->slide_up)
+    gtk_widget_destroy (GTK_WIDGET (self));
 }
 
 
@@ -89,8 +92,20 @@ expired (PhoshNotification       *notification,
 
   clear_handler (self);
 
-  /* Close the banner */
-  gtk_widget_destroy (GTK_WIDGET (self));
+  if (gtk_widget_get_mapped (GTK_WIDGET (self))) {
+    self->slide_up = TRUE;
+    self->animation = phosh_animation_new (GTK_WIDGET (self),
+                                           0.0,
+                                           1.0,
+                                           250 * PHOSH_ANIMATION_SLOWDOWN,
+                                           PHOSH_ANIMATION_TYPE_EASE_IN_QUINTIC,
+                                           phosh_notification_banner_slide,
+                                           phosh_notification_banner_slide_done,
+                                           self);
+    phosh_animation_start (self->animation);
+  } else {
+    gtk_widget_destroy (GTK_WIDGET (self));
+  }
 }
 
 
