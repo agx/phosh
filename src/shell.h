@@ -31,7 +31,6 @@
 #include "toplevel-manager.h"
 #include "torch-manager.h"
 #include "vpn-manager.h"
-#include "wifi-manager.h"
 
 #include <gtk/gtk.h>
 

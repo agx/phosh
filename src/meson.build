@@ -105,8 +105,6 @@ libphosh_tool_headers = files(
   'call.h',
   'calls-manager.h',
   'call-notification.h',
-  'cell-broadcast-manager.h',
-  'cell-broadcast-prompt.h',
   'clamp.h',
   'connectivity-info.h',
   'drag-surface.h',
@@ -307,8 +305,11 @@ libphosh_headers = files(
   'wwan-info.h',
 )
 # Not visible in docs and gir
+# New headers go here by default:
 libphosh_private_headers = files(
   'contrib/shell-network-agent.h',
+  'cell-broadcast-manager.h',
+  'cell-broadcast-prompt.h',
   'network-auth-prompt.h',
 )
 
