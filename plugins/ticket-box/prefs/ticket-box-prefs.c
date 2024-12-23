@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2022 Purism SPC
+ *               2024 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -52,60 +53,58 @@ folder_get_mapping (GValue *value, GVariant *variant, gpointer user_data)
 
 
 static void
-on_file_chooser_response (GtkNativeDialog* dialog, gint response_id, gpointer user_data)
+on_select_folder_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
-    PhoshTicketBoxPrefs *self = PHOSH_TICKET_BOX_PREFS (user_data);
-    GtkFileChooser *filechooser = GTK_FILE_CHOOSER (dialog);
-    g_autofree gchar *filename = NULL;
+  PhoshTicketBoxPrefs *self = NULL;
+  g_autoptr (GError) err = NULL;
+  g_autoptr (GFile) file = NULL;
+  g_autofree gchar *filename = NULL;
 
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-    if (response_id == GTK_RESPONSE_ACCEPT) {
-        g_autoptr (GFile) file = gtk_file_chooser_get_file (filechooser);
-        filename = g_file_get_path (file);
-    }
-G_GNUC_END_IGNORE_DEPRECATIONS
+  file = gtk_file_dialog_select_folder_finish (GTK_FILE_DIALOG (source_object),
+                                               res,
+                                               &err);
+  if (!file) {
+    if (!g_error_matches (err, GTK_DIALOG_ERROR, GTK_DIALOG_ERROR_DISMISSED))
+      g_warning ("Failed to folders: %s", err->message);
+    return;
+  }
 
-    g_object_unref (dialog);
+  self = PHOSH_TICKET_BOX_PREFS (user_data);
+  g_assert (PHOSH_IS_TICKET_BOX_PREFS (self));
 
-    if (filename == NULL)
-      return;
-
-    gtk_editable_set_text (GTK_EDITABLE (self->folder_entry), filename);
+  filename = g_file_get_path (file);
+  gtk_editable_set_text (GTK_EDITABLE (self->folder_entry), filename);
 }
 
 
 static void
 on_folder_button_clicked (PhoshTicketBoxPrefs *self)
 {
-  GtkFileChooserNative *filechooser;
+  g_autoptr (GtkFileDialog) file_dialog = NULL;
   const char *current;
   g_autoptr (GFile) current_file = NULL;
-  GtkNative *native;
+  GtkWindow *window;
 
   g_assert (PHOSH_IS_TICKET_BOX_PREFS (self));
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-  filechooser = gtk_file_chooser_native_new (_("Choose Folder"),
-                                             NULL,
-                                             GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                                             _("_Open"),
-                                             _("_Cancel"));
-G_GNUC_END_IGNORE_DEPRECATIONS
 
   current = gtk_editable_get_text (GTK_EDITABLE (self->folder_entry));
   current_file = g_file_new_for_path (current);
-G_GNUC_BEGIN_IGNORE_DEPRECATIONS
-  if (current_file)
-    gtk_file_chooser_set_file (GTK_FILE_CHOOSER (filechooser), current_file, NULL);
-G_GNUC_END_IGNORE_DEPRECATIONS
 
-  g_signal_connect (filechooser, "response",
-                    G_CALLBACK (on_file_chooser_response), self);
+  file_dialog = g_object_new (GTK_TYPE_FILE_DIALOG,
+                              "accept-label", _("_Open"),
+                              "title", _("Choose Folder"),
+                              "initial-file", current_file,
+                              "modal", TRUE,
+                              NULL);
 
-  native = gtk_widget_get_native (GTK_WIDGET (self));
-  gtk_native_dialog_set_transient_for (GTK_NATIVE_DIALOG (filechooser), GTK_WINDOW (native));
-  gtk_native_dialog_set_modal (GTK_NATIVE_DIALOG (filechooser), TRUE);
-  gtk_native_dialog_show (GTK_NATIVE_DIALOG (filechooser));
+  window = GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (self), GTK_TYPE_WINDOW));
+  gtk_file_dialog_select_folder (file_dialog,
+                                 window,
+                                 NULL,
+                                 on_select_folder_ready,
+                                 self);
 }
+
 
 static void
 phosh_ticket_box_prefs_finalize (GObject *object)
