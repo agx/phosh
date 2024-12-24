@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-11-06 20:41+0000\n"
-"PO-Revision-Date: 2024-11-09 23:41+0100\n"
+"POT-Creation-Date: 2024-12-20 13:45+0000\n"
+"PO-Revision-Date: 2024-12-24 11:51+0100\n"
 "Last-Translator: Vincent Chatelain <vincent_chatelain@proton.me>\n"
 "Language-Team: French <gnomefr@traduc.org>\n"
 "Language: fr\n"
@@ -24,11 +24,6 @@ msgstr ""
 "X-Generator: Gtranslator 45.3\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
-msgid "Phosh"
-msgstr "Phosh"
-
 #: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Interface système"
@@ -36,6 +31,11 @@ msgstr "Interface système"
 #: data/mobi.phosh.Shell.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Gestion de fenêtres et lancement d’applications pour mobile"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
+msgid "Phosh"
+msgstr "Phosh"
 
 #: data/wayland-sessions/phosh.desktop:5
 msgid "This session logs you into Phosh"
@@ -196,33 +196,33 @@ msgstr "Impossible d’émettre un appel d’urgence"
 msgid "Internal error"
 msgstr "Erreur interne"
 
-#: src/end-session-dialog.c:174
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "Déconnexion"
 
-#: src/end-session-dialog.c:177
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "%s sera automatiquement déconnecté dans %d seconde."
 msgstr[1] "%s sera automatiquement déconnecté dans %d secondes."
 
-#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Éteindre"
 
-#: src/end-session-dialog.c:184
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "Le système sera automatiquement éteint dans %d seconde."
 msgstr[1] "Le système sera automatiquement éteint dans %d secondes."
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "Redémarrer"
 
-#: src/end-session-dialog.c:191
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -359,27 +359,27 @@ msgid "Notification"
 msgstr "Notification"
 
 #. Translators: Point in time, use a short word or abbreviation
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:86
 msgid "now"
 msgstr "maintenant"
 
 #. Translators: abbreviated time difference "Less than 30 seconds"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:91
 #, c-format
 msgid "<30s"
 msgstr "<30s"
 
 #. Translators: abbreviated time difference "Less than one minute"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:96
 #, c-format
 msgid "<1m"
 msgstr "<1min"
 
 #. Translators: abbreviated time difference "About one minute"
-#. Please stick to a maximum of 7 chars
+#. Please stick to a maximum of 12 chars
 #: src/notifications/timestamp-label.c:101
 #, c-format
 msgid "~1m"
@@ -524,8 +524,8 @@ msgid "Remember decision"
 msgstr "Se souvenir de la décision"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:291
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -545,7 +545,7 @@ msgstr "Afficher les _détails"
 msgid "_Remove from Folder"
 msgstr "Supp_rimer du dossier"
 
-#: src/ui/app-grid.ui:24
+#: src/ui/app-grid.ui:25
 msgid "Search apps…"
 msgstr "Recherche d’applis…"
 
@@ -590,7 +590,7 @@ msgid "Owner unknown"
 msgstr "Propriétaire inconnu"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:232
 msgid "Emergency Contacts"
 msgstr "Contacts d’urgence"
 
@@ -633,7 +633,7 @@ msgid "Authentication required"
 msgstr "Authentification requise"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:91
 msgid "_Cancel"
 msgstr "_Annuler"
 
@@ -755,10 +755,12 @@ msgid "Phosh on caffeine"
 msgstr "Phosh sous Caffeine"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-enabled"
 msgid "On"
 msgstr "Activé"
 
 #: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-disabled"
 msgid "Off"
 msgstr "Désactivé"
 
@@ -775,52 +777,52 @@ msgid "Light mode"
 msgstr "Mode clair"
 
 #: plugins/emergency-info/emergency-info.ui:39
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:68
 msgid "Personal Information"
 msgstr "Informations personnelles"
 
 #: plugins/emergency-info/emergency-info.ui:47
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:86
 msgid "Date of Birth"
 msgstr "Date de naissance"
 
 #: plugins/emergency-info/emergency-info.ui:65
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:98
 msgid "Preferred Language"
 msgstr "Langue préférée"
 
 #: plugins/emergency-info/emergency-info.ui:83
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
 msgid "Home Address"
 msgstr "Adresse du domicile"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:128
 msgid "Medical Information"
 msgstr "Information médicale"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:134
 msgid "Age"
 msgstr "Âge"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:146
 msgid "Blood Type"
 msgstr "Groupe sanguin"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:158
 msgid "Height"
 msgstr "Taille"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Weight"
 msgstr "Poids"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:182
 msgid "Allergies"
 msgstr "Allergies"
 
@@ -829,48 +831,48 @@ msgid "Medications & Conditions"
 msgstr "Médicaments et maladies"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:214
 msgid "Other Information"
 msgstr "Autres informations"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:17
 msgid "Emergency Info Preferences"
 msgstr "Préférences pour les informations d’urgence"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:38
 msgid "Done"
 msgstr "Terminé"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:74
 msgid "Owner Name"
 msgstr "Nom du propriétaire"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
 msgid "Medications and Conditions"
 msgstr "Médicaments et maladies"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:241
 msgid "Add Contact"
 msgstr "Ajouter un contact"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:286
 msgid "Add New Contact"
 msgstr "Ajouter un nouveau contact"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:296
 msgid "Add"
 msgstr "Ajouter"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:317
 msgid "New Contact Name"
 msgstr "Nom du nouveau contact"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:331
 msgid "Relationship"
 msgstr "Relation"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:344
 msgid "Number"
 msgstr "Numéro"
 
@@ -932,23 +934,23 @@ msgstr "Pomodoro désactivé"
 msgid "Pomodoro Quick Setting Preferences"
 msgstr "Préférences de paramètre rapide de Pomodoro"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:11
 msgid "Pomodoro Technique"
 msgstr "Technique Pomodoro"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
 msgid "_Active Duration"
 msgstr "Durée d’_activation"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:15
 msgid "Duration of the focus session"
 msgstr "Durée de la session de concentration"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:29
 msgid "_Break Duration"
 msgstr "Durée de _pause"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:30
 msgid "Duration of the break between sessions"
 msgstr "Durée de la pause entre les sessions"
 
@@ -960,11 +962,11 @@ msgstr "Aucun document à afficher"
 msgid "Tickets"
 msgstr "Tickets"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
 msgid "Choose Folder"
 msgstr "Choisir un dossier"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Open"
 msgstr "_Ouvert"
 
@@ -972,19 +974,19 @@ msgstr "_Ouvert"
 msgid "Ticket Box Preferences"
 msgstr "Préférences de la boîte à tickets"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:10
 msgid "Paths"
 msgstr "Chemins"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:15
 msgid "Folder Settings"
 msgstr "Paramètres du dossier"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:16
 msgid "Where Phosh looks for your tickets"
 msgstr "Emplacement où Phosh recherche vos tickets"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
 msgid "Ticket Folder"
 msgstr "Dossier de tickets"
 
@@ -1036,16 +1038,16 @@ msgstr "Évènement sans titre"
 msgid "Upcoming Events Preferences"
 msgstr "Préférences des prochains évènements"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:20
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:10
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
 msgid "Days"
 msgstr "Jours"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:16
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
 msgid "Date Range"
 msgstr "Intervalle de dates"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:14
 msgid "Number of days to show events for"
 msgstr "Nombre de jours pour lequel afficher les évènements"
 
