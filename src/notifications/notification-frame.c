@@ -280,7 +280,7 @@ removed (PhoshNotificationFrame *self)
 }
 
 
-static gboolean
+static void
 on_child_revealed_changed (PhoshNotificationFrame *self,
                            GParamSpec             *pspec,
                            GtkRevealer            *revealer)
@@ -288,7 +288,7 @@ on_child_revealed_changed (PhoshNotificationFrame *self,
   guint i, n;
 
   if (gtk_revealer_get_child_revealed (revealer))
-    return TRUE;
+    return;
 
   n = g_list_model_get_n_items (self->model);
   for (i = 0; i < n; i++) {
@@ -298,8 +298,6 @@ on_child_revealed_changed (PhoshNotificationFrame *self,
 
     phosh_notification_close (notification, PHOSH_NOTIFICATION_REASON_CLOSED);
   }
-
-  return FALSE;
 }
 
 
