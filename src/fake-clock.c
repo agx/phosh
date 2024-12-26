@@ -6,14 +6,14 @@
  * Author: Guido Günther <agx@sigxcpu.org>
  */
 
-#define G_LOG_DOMAIN "testlib-wall-clock-mock"
+#define G_LOG_DOMAIN "phosh-fake-clock"
 
 #include "phosh-config.h"
 
-#include "testlib-wall-clock-mock.h"
+#include "fake-clock.h"
 
 /**
- * TestlibWallClockMock:
+ * PhoshWallClockMock:
  *
  * A wall clock that fakes a constant date and time. The provided date and time
  * are determined from `fake-offset`.
@@ -26,7 +26,7 @@ enum {
 };
 static GParamSpec *props[PROP_LAST_PROP];
 
-struct _TestlibWallClockMock {
+struct _PhoshFakeClock {
   PhoshWallClock parent;
 
   GDateTime     *fake_offset;
@@ -35,13 +35,13 @@ struct _TestlibWallClockMock {
 
   GSettings     *settings;
 };
-G_DEFINE_TYPE (TestlibWallClockMock, testlib_wall_clock_mock, PHOSH_TYPE_WALL_CLOCK)
+G_DEFINE_TYPE (PhoshFakeClock, phosh_fake_clock, PHOSH_TYPE_WALL_CLOCK)
 
 
 static const char *
 get_clock (PhoshWallClock *wall_clock, gboolean time_only)
 {
-  TestlibWallClockMock *self = TESTLIB_WALL_CLOCK_MOCK (wall_clock);
+  PhoshFakeClock *self = PHOSH_FAKE_CLOCK (wall_clock);
 
   return time_only ? self->fake_time : self->fake_date_time;
 }
@@ -50,14 +50,14 @@ get_clock (PhoshWallClock *wall_clock, gboolean time_only)
 static gint64
 get_time_t (PhoshWallClock *wall_clock)
 {
-  TestlibWallClockMock *self = TESTLIB_WALL_CLOCK_MOCK (wall_clock);
+  PhoshFakeClock *self = PHOSH_FAKE_CLOCK (wall_clock);
 
   return g_date_time_to_unix (self->fake_offset);
 }
 
 
 static void
-update_clocks (TestlibWallClockMock *self)
+update_clocks (PhoshFakeClock *self)
 {
   GDesktopClockFormat clock_format;
   gboolean show_date;
@@ -79,7 +79,7 @@ update_clocks (TestlibWallClockMock *self)
 
 
 static void
-set_fake_offset (TestlibWallClockMock *self, GDateTime *fake_offset)
+set_fake_offset (PhoshFakeClock *self, GDateTime *fake_offset)
 {
   self->fake_offset = g_date_time_ref (fake_offset);
   update_clocks (self);
@@ -87,7 +87,7 @@ set_fake_offset (TestlibWallClockMock *self, GDateTime *fake_offset)
 
 
 static void
-on_settings_changed (TestlibWallClockMock *self, const char *key, GSettings *settings)
+on_settings_changed (PhoshFakeClock *self, const char *key, GSettings *settings)
 {
   if (g_strcmp0 (key, "clock-format") && g_strcmp0 (key, "clock-show-date") != 0)
     return;
@@ -97,12 +97,12 @@ on_settings_changed (TestlibWallClockMock *self, const char *key, GSettings *set
 
 
 static void
-testlib_wall_clock_mock_set_property (GObject      *object,
-                                      guint         property_id,
-                                      const GValue *value,
-                                      GParamSpec   *pspec)
+phosh_fake_clock_set_property (GObject      *object,
+                               guint         property_id,
+                               const GValue *value,
+                               GParamSpec   *pspec)
 {
-  TestlibWallClockMock *self = TESTLIB_WALL_CLOCK_MOCK (object);
+  PhoshFakeClock *self = PHOSH_FAKE_CLOCK (object);
 
   switch (property_id) {
   case PROP_FAKE_OFFSET:
@@ -116,12 +116,12 @@ testlib_wall_clock_mock_set_property (GObject      *object,
 
 
 static void
-testlib_wall_clock_mock_get_property (GObject    *object,
-                                      guint       property_id,
-                                      GValue     *value,
-                                      GParamSpec *pspec)
+phosh_fake_clock_get_property (GObject    *object,
+                               guint       property_id,
+                               GValue     *value,
+                               GParamSpec *pspec)
 {
-  TestlibWallClockMock *self = TESTLIB_WALL_CLOCK_MOCK (object);
+  PhoshFakeClock *self = PHOSH_FAKE_CLOCK (object);
 
   switch (property_id) {
   case PROP_FAKE_OFFSET:
@@ -135,9 +135,9 @@ testlib_wall_clock_mock_get_property (GObject    *object,
 
 
 static void
-testlib_wall_clock_mock_dispose (GObject *object)
+phosh_fake_clock_dispose (GObject *object)
 {
-  TestlibWallClockMock *self = TESTLIB_WALL_CLOCK_MOCK (object);
+  PhoshFakeClock *self = PHOSH_FAKE_CLOCK (object);
 
   g_clear_object (&self->settings);
 
@@ -145,25 +145,25 @@ testlib_wall_clock_mock_dispose (GObject *object)
   g_clear_pointer (&self->fake_date_time, g_free);
   g_clear_pointer (&self->fake_time, g_free);
 
-  G_OBJECT_CLASS (testlib_wall_clock_mock_parent_class)->dispose (object);
+  G_OBJECT_CLASS (phosh_fake_clock_parent_class)->dispose (object);
 }
 
 
 static void
-testlib_wall_clock_mock_class_init (TestlibWallClockMockClass *klass)
+phosh_fake_clock_class_init (PhoshFakeClockClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   PhoshWallClockClass *wall_clock_class = PHOSH_WALL_CLOCK_CLASS (klass);
 
-  object_class->get_property = testlib_wall_clock_mock_get_property;
-  object_class->set_property = testlib_wall_clock_mock_set_property;
-  object_class->dispose = testlib_wall_clock_mock_dispose;
+  object_class->get_property = phosh_fake_clock_get_property;
+  object_class->set_property = phosh_fake_clock_set_property;
+  object_class->dispose = phosh_fake_clock_dispose;
 
   wall_clock_class->get_clock = get_clock;
   wall_clock_class->get_time_t = get_time_t;
 
   /**
-   * TestlibWallClockMock:fake-offset:
+   * PhoshFakeClock:fake-offset:
    *
    * The faked offset from the start of the epoch this clock represents.
    */
@@ -177,7 +177,7 @@ testlib_wall_clock_mock_class_init (TestlibWallClockMockClass *klass)
 
 
 static void
-testlib_wall_clock_mock_init (TestlibWallClockMock *self)
+phosh_fake_clock_init (PhoshFakeClock *self)
 {
   self->settings = g_settings_new ("org.gnome.desktop.interface");
 
@@ -185,8 +185,8 @@ testlib_wall_clock_mock_init (TestlibWallClockMock *self)
 }
 
 
-TestlibWallClockMock *
-testlib_wall_clock_mock_new (GDateTime *fake_offset)
+PhoshFakeClock *
+phosh_fake_clock_new (GDateTime *fake_offset)
 {
-  return g_object_new (TESTLIB_TYPE_WALL_CLOCK_MOCK, "fake-offset", fake_offset, NULL);
+  return g_object_new (PHOSH_TYPE_FAKE_CLOCK, "fake-offset", fake_offset, NULL);
 }
