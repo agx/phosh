@@ -61,6 +61,9 @@ ENVIRONMENT VARIABLES
       (even when in docked mode)
     - ``fake-builtin``: Fake a builtin screen when using a virtual output like
       in a nested Wayland session.
+- ``PHOSH_FAKE_CLOCK``: Allowed values are ISO8601 formatted strings
+  or ``now``. Setting this variable sets the shell's clocs to the
+  given fixed value. For the clock format see ``g_date_time_new_from_iso8601()``.
 - ``G_MESSAGES_DEBUG``, ``G_DEBUG`` and other environment variables supported
   by glib. https://docs.gtk.org/glib/running.html
 - ``GTK_DEBUG`` and other environment variables supported by GTK, see
