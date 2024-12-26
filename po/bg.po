@@ -1,20 +1,26 @@
+# Bulgarian translation of phosh po-file.
+# Copyright (C) 2019 Miro Cekov <mcekov@gmail.com>.
+# Copyright (C) 2024 twlvnn kraftwerk <kraft_werk@tutanota.com>.
+# This file is distributed under the same license as the phosh-tour package.
 # Miro Cekov <mcekov@gmail.com>, 2019. #zanata
+# twlvnn kraftwerk <kraft_werk@tutanota.com>, 2024.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-14 13:18+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
+"POT-Creation-Date: 2024-12-20 13:45+0000\n"
+"PO-Revision-Date: 2024-12-26 14:42+0100\n"
+"Last-Translator: twlvnn kraftwerk <kraft_werk@tutanota.com>\n"
+"Language-Team: Bulgarian <dict-notifications@fsa-bg.org>\n"
+"Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-01-30 09:29+0000\n"
-"Last-Translator: Miro Cekov <mcekov@gmail.com>\n"
-"Language-Team: Bulgarian\n"
-"Language: bg\n"
-"X-Generator: Zanata 4.6.2\n"
+"X-Generator: Gtranslator 47.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: data/mobi.phosh.Shell.desktop.in.in:4
+#: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
 msgstr "Телефон"
 
@@ -24,123 +30,1026 @@ msgstr ""
 "Управление на прозорци и стартиране на приложения за мобилни устройства"
 
 #. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
 
-#: src/app-grid-button.c:523
+#: data/wayland-sessions/phosh.desktop:5
+msgid "This session logs you into Phosh"
+msgstr "Тази сесия ви вписва в Phosh"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:5
+msgid "Caffeine Quick Setting"
+msgstr "Бърза настройка за безсъние"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.desktop.in.in:7
+msgid "Prevent the session from going idle"
+msgstr "Сесията да не заспива при бездействие"
+
+#: plugins/calendar/calendar.desktop.in.in:5
+msgid "Calendar"
+msgstr "Календар"
+
+#: plugins/calendar/calendar.desktop.in.in:7
+msgid "A simple calendar widget"
+msgstr "Прост графичен обект за календар"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:5
+msgid "Dark Mode / Color Scheme Quick Setting"
+msgstr "Бърза настройка за цветовата схема"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.desktop.in.in:7
+msgid "Toggle dark mode"
+msgstr "Превключване на тъмен режим"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:5
+msgid "Emergency Info"
+msgstr "Информация за спешни случаи"
+
+#: plugins/emergency-info/emergency-info.desktop.in.in:7
+msgid "Show emergency information and contacts"
+msgstr "Показване на информация и контакти за спешни случаи"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:4
+#: plugins/launcher-box/launcher-box.ui:14
+msgid "Launcher Box"
+msgstr "Кутия за стартери"
+
+#: plugins/launcher-box/launcher-box.desktop.in.in:6
+msgid "Add launchers to the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Добавя стартери на заключения екран. <b>Тази приставка е експериментална.</b>"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:5
+msgid "Mobile Data Quick Setting"
+msgstr "Бърза настройка за мобилните данни"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.desktop.in.in:7
+msgid "Toggle mobile data on/off"
+msgstr "Превключване на мобилните данни"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:5
+msgid "Night Light Quick Setting"
+msgstr "Бърза настройка за нощния режим"
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.desktop.in.in:7
+msgid "Toggle night light on/off"
+msgstr "Превключване на нощен режим"
+
+#. Translators: "Pomodoro" is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:6
+msgid "Pomodoro Quick Setting"
+msgstr "Бърза настройка за Помодоро"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.desktop.in.in:8
+msgid "Simple Pomodoro Timer"
+msgstr "Прост хронометър за Помодоро"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:4
+#: plugins/ticket-box/ticket-box.ui:14
+msgid "Ticket Box"
+msgstr "Кутия за билети"
+
+#: plugins/ticket-box/ticket-box.desktop.in.in:6
+msgid "Show PDFs on the lock screen. <b>This plugin is experimental.</b>"
+msgstr ""
+"Показва PDF файлове на заключения екран. <b>Тази приставка е експериментална."
+"</b>"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:4
+msgid "Upcoming Events"
+msgstr "Предстоящи събития"
+
+#: plugins/upcoming-events/upcoming-events.desktop.in.in:6
+msgid "Show upcoming calendar events"
+msgstr "Показване на предстоящи събития"
+
+#: src/app-grid-button.c:153
+msgid "Add to Folder"
+msgstr "Добавяне в папката"
+
+#: src/app-grid-button.c:177
+msgid "Create new folder"
+msgstr "Създаване на нова папка"
+
+#: src/app-grid-button.c:692 src/app-grid-button.c:749
 msgid "Application"
-msgstr ""
+msgstr "Програма"
 
-#: src/feedbackinfo.c:38
-msgid "Quiet"
-msgstr ""
+#: src/app-grid.c:263
+msgid "Show All Apps"
+msgstr "Показване на всички програми"
 
-#: src/feedbackinfo.c:40
-msgid "Silent"
-msgstr ""
+#: src/app-grid.c:266
+msgid "Show Only Mobile Friendly Apps"
+msgstr "Показване само на програмите за мобилни устройства"
 
-#: src/feedbackinfo.c:42
+#. Translators: a battery level in percent
+#: src/bt-device-row.c:72
+#, c-format
+msgid "Battery %.0f%%"
+msgstr "Батерия %.0f%%"
+
+#: src/bt-info.c:95 src/ui/bt-status-page.ui:6
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: src/bt-info.c:123
+msgctxt "bluetooth:enabled"
 msgid "On"
-msgstr ""
+msgstr "Вкл."
 
-#: src/lockscreen.c:78 src/ui/lockscreen.ui:204
+#: src/bt-status-page.c:95
+msgid "No connectable Bluetooth Devices found"
+msgstr "Няма намерени Bluetooth устройства за свързване"
+
+#: src/bt-status-page.c:99
+msgid "Bluetooth disabled"
+msgstr "Bluetooth е изключен"
+
+#: src/call-notification.c:63
+msgid "Unknown caller"
+msgstr "Непознат номер"
+
+#: src/docked-info.c:81
+msgid "Docked"
+msgstr "Скачено"
+
+#: src/docked-info.c:81 src/docked-info.c:199
+msgid "Undocked"
+msgstr "Откачено"
+
+#: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
+#: src/ui/end-session-dialog.ui:71
+msgid "Ok"
+msgstr "Добре"
+
+#: src/emergency-menu.c:100
+msgid "Unable to place emergency call"
+msgstr "Неуспешно спешно обаждане"
+
+#: src/emergency-menu.c:105
+msgid "Internal error"
+msgstr "Вътрешна грешка"
+
+#: src/end-session-dialog.c:173
+msgid "Log Out"
+msgstr "Изход"
+
+#: src/end-session-dialog.c:176
+#, c-format
+msgid "%s will be logged out automatically in %d second."
+msgid_plural "%s will be logged out automatically in %d seconds."
+msgstr[0] ""
+"Потребителят „%s“ ще излезе от системата автоматично след %d секунда."
+msgstr[1] ""
+"Потребителят „%s“ ще излезе от системата автоматично след %d секунди."
+
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
+msgid "Power Off"
+msgstr "Изключване"
+
+#: src/end-session-dialog.c:183
+#, c-format
+msgid "The system will power off automatically in %d second."
+msgid_plural "The system will power off automatically in %d seconds."
+msgstr[0] "Системата ще се изключи автоматично след %d секунда."
+msgstr[1] "Системата ще се изключи автоматично след %d секунди."
+
+#: src/end-session-dialog.c:189
+msgid "Restart"
+msgstr "Рестартиране"
+
+#: src/end-session-dialog.c:190
+#, c-format
+msgid "The system will restart automatically in %d second."
+msgid_plural "The system will restart automatically in %d seconds."
+msgstr[0] "Системата ще се рестартира автоматично след %d секунда."
+msgstr[1] "Системата ще се рестартира автоматично след %d секунди."
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:97
+msgid "Quiet"
+msgstr "Без звук"
+
+#. Translators: quiet and silent are fbd profiles names:
+#. see https://source.puri.sm/Librem5/feedbackd#profiles
+#. for details
+#: src/feedbackinfo.c:104
+msgid "Silent"
+msgstr "Без звук и вибрации"
+
+#. Translators: Enable LED, haptic and audio feedback
+#: src/feedbackinfo.c:108
+msgctxt "feedback:enabled"
+msgid "On"
+msgstr "Вкл."
+
+#: src/location-manager.c:268
+#, c-format
+msgid "Allow '%s' to access your location information?"
+msgstr "Позволявате ли на „%s“ достъп до информацията за местоположението ви?"
+
+#: src/location-manager.c:273
+msgid "Geolocation"
+msgstr "Местоположение"
+
+#: src/location-manager.c:274
+msgid "Yes"
+msgstr "Да"
+
+#: src/location-manager.c:274
+msgid "No"
+msgstr "Не"
+
+#. give visual feedback on error
+#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
-msgstr ""
+msgstr "Въведете код за достъп"
 
-#: src/lockscreen.c:257
+#: src/lockscreen.c:949
 msgid "Checking…"
-msgstr ""
+msgstr "Проверка…"
 
-#. Translators: This is a time format for a date in
-#. long format
-#: src/lockscreen.c:334
-msgid "%A, %B %-e"
-msgstr ""
+#. Translators: '%s' is the filename of a screenshot
+#: src/screenshot-manager.c:235
+#, c-format
+msgid "Screenshot saved to '%s'"
+msgstr "Снимката на екрана е запазена в „%s“"
 
-#: src/monitor-manager.c:53
+#: src/screenshot-manager.c:237
+msgid "Failed to save screenshot"
+msgstr "Снимката на екрана не може да се запази"
+
+#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
+msgid "Screenshot"
+msgstr "Снимка на екрана"
+
+#. Translators: name of the folder beneath ~/Pictures used to store screenshots
+#: src/screenshot-manager.c:416
+msgid "Screenshots"
+msgstr "Снимки на екрана"
+
+#. Translators: Name of a screenshot file. The first '%s' is a timestamp
+#. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
+#. * the file already exists like '-3'
+#: src/screenshot-manager.c:436
+#, c-format
+msgid "Screenshot from %s%s.png"
+msgstr "Снимка на екрана на %s%s.png"
+
+#. Translators: Used when the title of a song is unknown
+#: src/media-player.c:446 src/ui/media-player.ui:213
+msgid "Unknown Title"
+msgstr "Неизвестно заглавие"
+
+#. Translators: Used when the artist of a song is unknown
+#: src/media-player.c:454 src/ui/media-player.ui:201
+msgid "Unknown Artist"
+msgstr "Неизвестен изпълнител"
+
+#: src/monitor-manager.c:127
 msgid "Built-in display"
 msgstr "Вграден дисплей"
 
-#. Translators: An unknown monitor type
-#: src/monitor-manager.c:57
-msgid "Unknown"
-msgstr "Неизвестна"
-
-#: src/network-auth-prompt.c:184
+#: src/monitor-manager.c:145
 #, c-format
-msgid "Enter password for the wifi network “%s”"
-msgstr ""
+msgctxt ""
+"This is a monitor vendor name, followed by a size in inches, like 'Dell 15\"'"
+msgid "%s %s"
+msgstr "%s %s"
 
-#: src/polkit-auth-agent.c:229
+#: src/monitor-manager.c:152
+#, c-format
+msgctxt ""
+"This is a monitor vendor name followed by product/model name where size in "
+"inches could not be calculated, e.g. Dell U2414H"
+msgid "%s %s"
+msgstr "%s %s"
+
+#. Translators: An unknown monitor type
+#: src/monitor-manager.c:161
+msgid "Unknown"
+msgstr "Неизвестен"
+
+#: src/network-auth-prompt.c:202
+#, c-format
+msgid "Authentication type of Wi-Fi network “%s” not supported"
+msgstr "Видът на удостоверяване на Wi-Fi мрежата „%s“ не се поддържа"
+
+#: src/network-auth-prompt.c:207
+#, c-format
+msgid "Enter password for the Wi-Fi network “%s”"
+msgstr "Въведете паролата за Wi-Fi мрежата „%s“"
+
+#: src/notifications/mount-notification.c:121
+msgid "Open"
+msgstr "Отваряне"
+
+#. We don't just set the app_info but name and icon separately to
+#. * not overwrite values set by the caller
+#: src/notifications/notification.c:404 src/notifications/notification.c:677
+#: src/notifications/notify-manager.c:1004
+msgid "Notification"
+msgstr "Известие"
+
+#. Translators: Point in time, use a short word or abbreviation
+#. Please stick to a maximum of 12 chars
+#: src/notifications/timestamp-label.c:86
+msgid "now"
+msgstr "сега"
+
+#. Translators: abbreviated time difference "Less than 30 seconds"
+#. Please stick to a maximum of 12 chars
+#: src/notifications/timestamp-label.c:91
+#, c-format
+msgid "<30s"
+msgstr "<30с"
+
+#. Translators: abbreviated time difference "Less than one minute"
+#. Please stick to a maximum of 12 chars
+#: src/notifications/timestamp-label.c:96
+#, c-format
+msgid "<1m"
+msgstr "<1м"
+
+#. Translators: abbreviated time difference "About one minute"
+#. Please stick to a maximum of 12 chars
+#: src/notifications/timestamp-label.c:101
+#, c-format
+msgid "~1m"
+msgstr "≈1м"
+
+#. Translators: abbreviated, exact time difference "1 minute ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:109
+#, c-format
+msgid "%dm"
+msgid_plural "%dm"
+msgstr[0] "%dм"
+msgstr[1] "%dм"
+
+#. Translators: abbreviated time difference "About 3 hours ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:117
+#, c-format
+msgid "~%dh"
+msgid_plural "~%dh"
+msgstr[0] "~%dч"
+msgstr[1] "~%dч"
+
+#. Translators: abbreviated time difference "About 1 day ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:122
+#, c-format
+msgid "~1d"
+msgstr "~1д"
+
+#. Translators: abbreviated, exact time difference "3 days ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:127
+#, c-format
+msgid "%dd"
+msgid_plural "%dd"
+msgstr[0] "%dд"
+msgstr[1] "%dд"
+
+#. Translators: abbreviated time difference "About 1 month ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:132
+#, c-format
+msgid "~1mo"
+msgstr "~1ме"
+
+#. Translators: abbreviated, exact time difference "3 months ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:137
+#, c-format
+msgid "%dmo"
+msgid_plural "%dmos"
+msgstr[0] "%dме"
+msgstr[1] "%dме"
+
+#. Translators: abbreviated time difference "About 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:147
+#, c-format
+msgid "~%dy"
+msgid_plural "~%dy"
+msgstr[0] "~%dг"
+msgstr[1] "~%dг"
+
+#. Translators: abbreviated time difference "Over 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:151
+#, c-format
+msgid "Over %dy"
+msgid_plural "Over %dy"
+msgstr[0] "Над %dг"
+msgstr[1] "Над %dг"
+
+#. Translators: abbreviated time difference "almost 5 years ago"
+#. Please stick to a maximum of 4 chars for the time unit
+#: src/notifications/timestamp-label.c:156
+#, c-format
+msgid "Almost %dy"
+msgid_plural "Almost %dy"
+msgstr[0] "Преди %dг"
+msgstr[1] "Преди %dг"
+
+#: src/polkit-auth-agent.c:271
 msgid "Authentication dialog was dismissed by the user"
-msgstr ""
+msgstr "Прозорецът за удостоверяване бе затворен от потребителя"
 
-#: src/polkit-auth-prompt.c:276 src/ui/network-auth-prompt.ui:128
-#: src/ui/polkit-auth-prompt.ui:41 src/ui/system-prompt.ui:39
+#: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
+#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/system-prompt.ui:32
 msgid "Password:"
-msgstr ""
+msgstr "Парола:"
 
-#: src/polkit-auth-prompt.c:322
+#: src/polkit-auth-prompt.c:325
 msgid "Sorry, that didn’t work. Please try again."
-msgstr ""
+msgstr "За съжаление това не сработи. Пробвайте наново."
 
-#: src/polkit-auth-prompt.c:488
-msgid "Authenticate"
-msgstr ""
+#: src/rotateinfo.c:102
+msgid "Portrait"
+msgstr "Портрет"
 
-#: src/system-prompt.c:371
+#: src/rotateinfo.c:105
+msgid "Landscape"
+msgstr "Пейзаж"
+
+#: src/rotateinfo.c:125 src/rotateinfo.c:230
+msgctxt "automatic-screen-rotation-disabled"
+msgid "Off"
+msgstr "Изкл."
+
+#: src/rotateinfo.c:126
+msgctxt "automatic-screen-rotation-enabled"
+msgid "On"
+msgstr "Вкл."
+
+#: src/run-command-dialog.c:129
+msgid "Press ESC to close"
+msgstr "Натиснете Esc за отмяна"
+
+#: src/run-command-manager.c:89
+#, c-format
+msgid "Running '%s' failed"
+msgstr "Неуспешно изпълнение на „%s“"
+
+#: src/settings/audio-settings.c:376
+msgid "Phone Shell Volume Control"
+msgstr "Управление на силата на звука"
+
+#: src/system-prompt.c:376
 msgid "Passwords do not match."
 msgstr "Паролите не съвпадат."
 
-#: src/system-prompt.c:378
+#: src/system-prompt.c:383
 msgid "Password cannot be blank"
 msgstr "Паролата не може да бъде празна"
 
-#: src/wifiinfo.c:55
-msgid "Wi-Fi"
-msgstr ""
+#: src/torch-info.c:80
+msgid "Torch"
+msgstr "Фенерче"
 
-#: src/ui/app-grid-button.ui:48
-msgid "App"
-msgstr ""
+#: src/ui/app-auth-prompt.ui:49
+msgid "Remember decision"
+msgstr "Запомняне на избора"
 
-#: src/ui/app-grid-button.ui:75
+#: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:291
+msgid "Cancel"
+msgstr "Отказване"
+
+#: src/ui/app-grid-button.ui:23
 msgid "Remove from _Favorites"
-msgstr ""
+msgstr "Премахване от _любими"
 
-#: src/ui/app-grid-button.ui:80
+#: src/ui/app-grid-button.ui:28
 msgid "Add to _Favorites"
-msgstr ""
+msgstr "Добавяне в _любими"
 
-#: src/ui/app-grid.ui:21
+#: src/ui/app-grid-button.ui:33
+msgid "View _Details"
+msgstr "Показване на _подробностите"
+
+#: src/ui/app-grid-button.ui:41
+msgid "_Remove from Folder"
+msgstr "_Премахване от папката"
+
+#: src/ui/app-grid.ui:25
 msgid "Search apps…"
-msgstr ""
+msgstr "Търсене на програми…"
 
-#: src/ui/lockscreen.ui:36
-msgid "Slide up to unlock"
-msgstr "Плъзнете нагоре за да отключите"
+#: src/ui/audio-settings.ui:85
+msgid "Output Devices"
+msgstr "Изходни устройства"
 
-#: src/ui/lockscreen.ui:250
-msgid "Emergency"
-msgstr ""
+#: src/ui/audio-settings.ui:109
+msgid "Input Devices"
+msgstr "Входни устройства"
 
-#: src/ui/lockscreen.ui:266
-msgid "Unlock"
-msgstr ""
+#: src/ui/audio-settings.ui:137
+msgid "Sound Settings"
+msgstr "Настройки на звука"
 
-#: src/ui/network-auth-prompt.ui:90
-msgid "_Cancel"
-msgstr ""
+#: src/ui/bt-status-page.ui:31
+msgid "Enable Bluetooth"
+msgstr "Включване на Bluetooth"
 
-#: src/ui/network-auth-prompt.ui:106
-msgid "C_onnect"
-msgstr ""
+#: src/ui/bt-status-page.ui:55
+msgid "Bluetooth Settings"
+msgstr "Настройки на Bluetooth"
 
-#: src/ui/polkit-auth-prompt.ui:105
+#: src/ui/emergency-menu.ui:26
+msgid "Close the emergency call dialog"
+msgstr "Затваряне на прозореца за спешни обаждания"
+
+#: src/ui/emergency-menu.ui:52
+msgid "Emergency _Contacts"
+msgstr "_Контакти при спешни случаи"
+
+#: src/ui/emergency-menu.ui:59
+msgid "Go to the emergency contacts page"
+msgstr "Към страницата с контакти за спешни случаи"
+
+#: src/ui/emergency-menu.ui:83
+msgid "Go back to the emergency dialpad page"
+msgstr "Назад към страницата за набиране на спешни номера"
+
+#: src/ui/emergency-menu.ui:106
+msgid "Owner unknown"
+msgstr "Неизвестен собственик"
+
+#: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:232
+msgid "Emergency Contacts"
+msgstr "Контакти при спешни случаи"
+
+#: src/ui/emergency-menu.ui:142
+msgid "No emergency contacts available."
+msgstr "Няма контакти за спешни случаи."
+
+#: src/ui/end-session-dialog.ui:31
+msgid "Some applications are busy or have unsaved work"
+msgstr "Някои програми са заети или имат незапазени промени"
+
+#: src/ui/gtk-mount-prompt.ui:88
 msgid "User:"
-msgstr ""
+msgstr "Потребител:"
 
-#: src/ui/system-prompt.ui:69
+#: src/ui/gtk-mount-prompt.ui:111
+msgid "Domain:"
+msgstr "Домейн:"
+
+#: src/ui/gtk-mount-prompt.ui:144
+msgid "Co_nnect"
+msgstr "_Свързване"
+
+#: src/ui/lockscreen.ui:47 src/ui/lockscreen.ui:256
+msgid "Back"
+msgstr "Назад"
+
+#: src/ui/lockscreen.ui:98
+msgid "Slide up to unlock"
+msgstr "Плъзнете нагоре, за да отключите"
+
+#: src/ui/lockscreen.ui:341
+msgid "Unlock"
+msgstr "Отключване"
+
+#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+msgid "Authentication required"
+msgstr "Необходимо е удостоверяване"
+
+#: src/ui/network-auth-prompt.ui:40
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:91
+msgid "_Cancel"
+msgstr "_Отказване"
+
+#: src/ui/network-auth-prompt.ui:58
+msgid "C_onnect"
+msgstr "_Свързване"
+
+#: src/ui/polkit-auth-prompt.ui:117
+msgid "Authenticate"
+msgstr "Удостоверяване"
+
+#: src/ui/power-menu.ui:109
+msgid "Suspend"
+msgstr "Приспиване"
+
+#: src/ui/power-menu.ui:153
+msgid "Lock"
+msgstr "Заключване"
+
+#: src/ui/power-menu.ui:231
+msgid "Emergency"
+msgstr "Спешни случаи"
+
+#: src/ui/run-command-dialog.ui:6
+msgid "Run Command"
+msgstr "Команда за изпълнение"
+
+#: src/ui/settings.ui:142
+msgid "No notifications"
+msgstr "Няма известия"
+
+#: src/ui/settings.ui:173
+msgid "Notifications"
+msgstr "Известия"
+
+#: src/ui/settings.ui:182
+msgid "Clear all"
+msgstr "Изчистване на всичко"
+
+#: src/ui/system-prompt.ui:57
 msgid "Confirm:"
-msgstr ""
+msgstr "Потвърждаване:"
+
+#: src/ui/top-panel.ui:32
+msgid "_Power Off…"
+msgstr "_Изключване…"
+
+#: src/ui/top-panel.ui:60
+msgid "_Restart…"
+msgstr "_Рестартиране…"
+
+#: src/ui/top-panel.ui:88
+msgid "_Suspend…"
+msgstr "_Приспиване…"
+
+#: src/ui/top-panel.ui:116
+msgid "_Log Out…"
+msgstr "_Изход…"
+
+#: src/ui/wifi-status-page.ui:6 src/wifi-info.c:90
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
+
+#: src/ui/wifi-status-page.ui:72
+msgid "Wi-Fi Settings"
+msgstr "Настройки на Wi-Fi"
+
+#: src/vpn-info.c:89
+msgid "VPN"
+msgstr "ВЧМ (VPN)"
+
+#. Translators: This is a time format for a date in
+#. long format
+#: src/wall-clock.c:239
+msgid "%A, %B %-e"
+msgstr "%A, %-e %B"
+
+#: src/widget-box.c:54
+msgid "Plugin not found"
+msgstr "Приставката липсва"
+
+#: src/widget-box.c:57
+#, c-format
+msgid "The plugin '%s' could not be loaded."
+msgstr "Приставката „%s“ не може да се зареди."
+
+#: src/wifi-status-page.c:51
+msgid "No Wi-Fi Device Found"
+msgstr "Липсва устройство за Wi-Fi"
+
+#: src/wifi-status-page.c:55
+msgid "Wi-Fi Disabled"
+msgstr "Wi-Fi е изключен"
+
+#: src/wifi-status-page.c:56
+msgid "Enable Wi-Fi"
+msgstr "Включване на Wi-Fi"
+
+#: src/wifi-status-page.c:59
+msgid "Wi-Fi Hotspot Active"
+msgstr "Включена е точка за достъп по Wi-Fi"
+
+#: src/wifi-status-page.c:60
+msgid "Turn Off"
+msgstr "Изключване"
+
+#: src/wifi-status-page.c:63
+msgid "No Wi-Fi Hotspots"
+msgstr "Няма точки за достъп по Wi-Fi"
+
+#. Translators: Refers to the cellular wireless network
+#: src/wwan-info.c:210
+msgid "Cellular"
+msgstr "Клетъчна мрежа"
+
+#. Translators: Phosh prevents the session from going idle because the caffeine quick setting is toggled
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:53
+msgid "Phosh on caffeine"
+msgstr "Phosh на кофеин"
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-enabled"
+msgid "On"
+msgstr "Вкл."
+
+#: plugins/caffeine-quick-setting/caffeine-quick-setting.c:132
+msgctxt "caffeine-disabled"
+msgid "Off"
+msgstr "Изкл."
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:36
+msgid "Default style"
+msgstr "Стил на системата"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:37
+msgid "Dark mode"
+msgstr "Тъмен режим"
+
+#: plugins/dark-mode-quick-setting/dark-mode-quick-setting.c:38
+msgid "Light mode"
+msgstr "Светъл режим"
+
+#: plugins/emergency-info/emergency-info.ui:39
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:68
+msgid "Personal Information"
+msgstr "Лична информация"
+
+#: plugins/emergency-info/emergency-info.ui:47
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:86
+msgid "Date of Birth"
+msgstr "Дата на раждане"
+
+#: plugins/emergency-info/emergency-info.ui:65
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:98
+msgid "Preferred Language"
+msgstr "Предпочитан език"
+
+#: plugins/emergency-info/emergency-info.ui:83
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
+msgid "Home Address"
+msgstr "Домашен адрес"
+
+#: plugins/emergency-info/emergency-info.ui:91
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:128
+msgid "Medical Information"
+msgstr "Медицинска информация"
+
+#: plugins/emergency-info/emergency-info.ui:99
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:134
+msgid "Age"
+msgstr "Възраст"
+
+#: plugins/emergency-info/emergency-info.ui:117
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:146
+msgid "Blood Type"
+msgstr "Кръвна група"
+
+#: plugins/emergency-info/emergency-info.ui:135
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:158
+msgid "Height"
+msgstr "Височина"
+
+#: plugins/emergency-info/emergency-info.ui:153
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
+msgid "Weight"
+msgstr "Тегло"
+
+#: plugins/emergency-info/emergency-info.ui:171
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:182
+msgid "Allergies"
+msgstr "Алергии"
+
+#: plugins/emergency-info/emergency-info.ui:179
+msgid "Medications & Conditions"
+msgstr "Лекарства и състояния"
+
+#: plugins/emergency-info/emergency-info.ui:187
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:214
+msgid "Other Information"
+msgstr "Друга информация"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:17
+msgid "Emergency Info Preferences"
+msgstr "Настройки за информация за спешни случаи"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:38
+msgid "Done"
+msgstr "Готово"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:74
+msgid "Owner Name"
+msgstr "Име на собственика"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
+msgid "Medications and Conditions"
+msgstr "Лекарства и състояния"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:241
+msgid "Add Contact"
+msgstr "Добавяне на контакт"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:286
+msgid "Add New Contact"
+msgstr "Добавяне на нов контакт"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:296
+msgid "Add"
+msgstr "Добавяне"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:317
+msgid "New Contact Name"
+msgstr "Ново име за контакта"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:331
+msgid "Relationship"
+msgstr "Отношения"
+
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:344
+msgid "Number"
+msgstr "Номер"
+
+#: plugins/launcher-box/launcher-box.ui:15
+msgid "No launchers configured"
+msgstr "Няма настроени стартери"
+
+#: plugins/launcher-box/launcher-box.ui:32
+msgid "Launchers"
+msgstr "Стартери"
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+msgid "Mobile Data On"
+msgstr "Мобилните данни са вкл."
+
+#: plugins/mobile-data-quick-setting/mobile-data-quick-setting.c:80
+msgid "Mobile Data Off"
+msgstr "Мобилните данни са изкл."
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
+msgid "Night Light On"
+msgstr "Нощен режим е вкл."
+
+#: plugins/night-light-quick-setting/night-light-quick-setting.c:65
+msgid "Night Light Off"
+msgstr "Нощен режим е изкл."
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:71
+msgid "Pomodoro start"
+msgstr "Начало на Помодоро"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:72
+#, c-format
+msgid "Focus on your task for %d minutes"
+msgstr "Фокусирайте се върху задачата си за %d минути"
+
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:77
+msgid "Take a break"
+msgstr "Вземете си почивка"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:79
+#, c-format
+msgid "You have %d minutes until next Pomodoro"
+msgstr "Имате %d минути до следващото Помодоро"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:94
+msgid "Pomodoro Timer"
+msgstr "Хронометър за Помодоро"
+
+#. Translators: Pomodoro is a technique, no need to translate it
+#: plugins/pomodoro-quick-setting/pomodoro-quick-setting.c:117
+#, c-format
+msgid "Pomodoro Off"
+msgstr "Изключване на Помодоро"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:6
+msgid "Pomodoro Quick Setting Preferences"
+msgstr "Бързо настройване на Помодоро"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:11
+msgid "Pomodoro Technique"
+msgstr "Техника Помодоро"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+msgid "_Active Duration"
+msgstr "Продължителност на _работата"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:15
+msgid "Duration of the focus session"
+msgstr "Продължителността на сесията за работа"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:29
+msgid "_Break Duration"
+msgstr "Продължителност на _почивката"
+
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:30
+msgid "Duration of the break between sessions"
+msgstr "Продължителността на почивката между сесиите"
+
+#: plugins/ticket-box/ticket-box.ui:15
+msgid "No documents to display"
+msgstr "Няма документи за показване"
+
+#: plugins/ticket-box/ticket-box.ui:83
+msgid "Tickets"
+msgstr "Билети"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:87
+msgid "Choose Folder"
+msgstr "Избор на папка"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
+msgid "_Open"
+msgstr "_Отваряне"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
+msgid "Ticket Box Preferences"
+msgstr "Настройки на „Кутия за билети“"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:10
+msgid "Paths"
+msgstr "Местоположения"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:15
+msgid "Folder Settings"
+msgstr "Настройки на папката"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:16
+msgid "Where Phosh looks for your tickets"
+msgstr "Къде Phosh търси за вашите билети"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+msgid "Ticket Folder"
+msgstr "Папка за билети"
+
+#: plugins/upcoming-events/event-list.c:142
+msgid "Today"
+msgstr "Днес"
+
+#: plugins/upcoming-events/event-list.c:144
+msgid "Tomorrow"
+msgstr "Утре"
+
+#: plugins/upcoming-events/event-list.c:150
+#, c-format
+msgid "In %u day"
+msgid_plural "In %u days"
+msgstr[0] "След %u ден"
+msgstr[1] "След %u дена"
+
+#: plugins/upcoming-events/event-list.ui:26
+msgid "No events"
+msgstr "Няма събития"
+
+#. Translators: This is the time format used in 24-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:56
+msgid "%R"
+msgstr "%R"
+
+#. Translators: This is the time format used in 12-hour mode.
+#: plugins/upcoming-events/upcoming-event.c:59
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators: An all day event
+#: plugins/upcoming-events/upcoming-event.c:122
+#: plugins/upcoming-events/upcoming-event.c:159
+msgid "All day"
+msgstr "Цял ден"
+
+#. Translators: When the event ends: Ends\r16:00
+#: plugins/upcoming-events/upcoming-event.c:148
+msgid "Ends"
+msgstr "Приключва на"
+
+#: plugins/upcoming-events/upcoming-event.c:400
+msgid "Untitled event"
+msgstr "Неозаглавено събитие"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:6
+msgid "Upcoming Events Preferences"
+msgstr "Настройки за предстоящи събития"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:10
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+msgid "Days"
+msgstr "Дни"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
+msgid "Date Range"
+msgstr "Период от време"
+
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:14
+msgid "Number of days to show events for"
+msgstr "Брой дни, за които да се показват събития"
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
+msgid "Hotspot On"
+msgstr "Точката за достъп е вкл."
+
+#: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
+msgid "Hotspot Off"
+msgstr "Точката за достъп е изкл."
