@@ -208,6 +208,10 @@
             <property name="visible">True</property>
             <property name="transition-type">crossfade</property>
             <child>
+              <object class="GtkBox" id="top_bar_bin">
+                <property name="visible">True</property>
+                <property name="name">top-bar-bin</property>
+            <child>
               <object class="GtkBox" id="box_top_bar">
                 <property name="visible">True</property>
                 <property name="expand">True</property>
@@ -405,6 +409,8 @@
                   </packing>
                 </child>
               </object> <!-- box_top_bar -->
+                </child>
+              </object> <!-- top_bar_bin -->
               <packing>
                 <property name="name">top-bar</property>
               </packing>

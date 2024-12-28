@@ -303,6 +303,10 @@ on_home_state_changed (PhoshShell *self, GParamSpec *pspec, PhoshHome *home)
   priv = phosh_shell_get_instance_private (self);
 
   state = phosh_home_get_state (PHOSH_HOME (priv->home));
+
+  phosh_top_panel_set_bar_transparent (PHOSH_TOP_PANEL (priv->top_panel),
+                                       (state != PHOSH_HOME_STATE_FOLDED));
+
   phosh_shell_set_state (self, PHOSH_STATE_OVERVIEW, state == PHOSH_HOME_STATE_UNFOLDED);
 }
 

@@ -78,6 +78,7 @@ typedef struct _PhoshTopPanel {
   GtkWidget *stack;
   GtkWidget *arrow;
 
+  GtkWidget *top_bar_bin;
   GtkWidget *box_top_bar;
   GtkWidget *lbl_clock;      /* top-bar clock */
   GtkWidget *lbl_lang;
@@ -792,6 +793,7 @@ phosh_top_panel_class_init (PhoshTopPanelClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, menu_system);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, settings);
   gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, stack);
+  gtk_widget_class_bind_template_child (widget_class, PhoshTopPanel, top_bar_bin);
   gtk_widget_class_bind_template_callback (widget_class, on_settings_drag_handle_offset_changed);
   gtk_widget_class_bind_template_callback (widget_class, phosh_top_panel_fold);
   gtk_widget_class_bind_template_callback (widget_class, released_cb);
@@ -969,4 +971,13 @@ phosh_top_panel_set_layer (PhoshTopPanel *self, guint32 layer)
 
   phosh_layer_surface_set_layer (PHOSH_LAYER_SURFACE (self->background), layer);
   phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self->background));
+}
+
+
+void
+phosh_top_panel_set_bar_transparent (PhoshTopPanel *self, gboolean transparent)
+{
+  g_return_if_fail (PHOSH_IS_TOP_PANEL (self));
+
+  phosh_util_toggle_style_class (GTK_WIDGET (self->top_bar_bin), "p-solid", !transparent);
 }
