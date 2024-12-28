@@ -18,10 +18,6 @@
 #define BUS_NAME "org.freedesktop.hostname1"
 #define OBJECT_PATH "/org/freedesktop/hostname1"
 
-#define PHOC_KEY_MAXIMIZE "auto-maximize"
-#define A11Y_KEY_OSK "screen-keyboard-enabled"
-#define WM_KEY_LAYOUT "button-layout"
-
 /**
  * PhoshModeManager:
  *
