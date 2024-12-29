@@ -498,6 +498,7 @@ on_drag_state_changed (PhoshHome *self)
     phosh_home_set_background_alpha (self, 0.0);
     break;
   case PHOSH_DRAG_SURFACE_STATE_DRAGGED:
+    state = PHOSH_HOME_STATE_TRANSITION;
     if (self->state == PHOSH_HOME_STATE_FOLDED)
       phosh_overview_reset (PHOSH_OVERVIEW (self->overview));
     break;
