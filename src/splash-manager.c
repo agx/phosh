@@ -24,14 +24,6 @@
  * Spawn, keeps track and closes splash screens.
  */
 
-typedef enum {
-  /* Until we can depend on released gsettings-desktop-schemas */
-  /*<private >*/
-  COLOR_SCHEME_DEFAULT,
-  COLOR_SCHEME_PREFER_DARK,
-  COLOR_SCHEME_PREFER_LIGHT,
-} PhoshSystemColorScheme;
-
 enum {
   PROP_0,
   PROP_APP_TRACKER,
@@ -192,7 +184,7 @@ static void
 gsettings_color_scheme_changed_cb (PhoshSplashManager *self)
 {
   self->prefer_dark = (g_settings_get_enum (self->interface_settings, "color-scheme") ==
-                       COLOR_SCHEME_PREFER_DARK);
+                       G_DESKTOP_COLOR_SCHEME_PREFER_DARK);
 }
 
 
