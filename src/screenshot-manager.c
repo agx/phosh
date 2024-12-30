@@ -98,6 +98,8 @@ typedef struct _PhoshScreenshotManager {
 
   GStrv                              action_names;
   GSettings                         *settings;
+
+  GCancellable                      *cancel;
 } PhoshScreenshotManager;
 
 
@@ -545,7 +547,7 @@ submit_screenshot (PhoshScreenshotManager *self)
     gdk_pixbuf_save_to_stream_async (pixbuf,
                                      G_OUTPUT_STREAM (stream),
                                      "png",
-                                     NULL,
+                                     self->cancel,
                                      on_save_pixbuf_ready,
                                      g_object_ref (self),
                                      NULL);
@@ -1178,6 +1180,9 @@ phosh_screenshot_manager_dispose (GObject *object)
 {
   PhoshScreenshotManager *self = PHOSH_SCREENSHOT_MANAGER (object);
 
+  g_cancellable_cancel (self->cancel);
+  g_clear_object (&self->cancel);
+
   g_clear_handle_id (&self->dbus_name_id, g_bus_unown_name);
 
   if (g_dbus_interface_skeleton_get_object_path (G_DBUS_INTERFACE_SKELETON (self)))
@@ -1211,6 +1216,7 @@ phosh_screenshot_manager_class_init (PhoshScreenshotManagerClass *klass)
 static void
 phosh_screenshot_manager_init (PhoshScreenshotManager *self)
 {
+  self->cancel = g_cancellable_new ();
   self->settings = g_settings_new (KEYBINDINGS_SCHEMA_ID);
   g_signal_connect_swapped (self->settings,
                             "changed::" KEYBINDING_KEY_SCREENSHOT,
