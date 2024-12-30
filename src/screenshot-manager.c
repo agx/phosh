@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2021-2022 Purism SPC
+ *               2023-2024 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -285,6 +286,109 @@ update_recent_files (PhoshScreenshotManager *self)
 }
 
 
+static char *
+phosh_screenshot_manager_build_thumbnail_path (const char *uri)
+{
+  g_autoptr (GChecksum) checksum = g_checksum_new (G_CHECKSUM_MD5);
+  guint8 digest[16];
+  gsize digest_len = sizeof (digest);
+  g_autofree char *name = NULL, *path = NULL;
+
+  g_checksum_update (checksum, (const guchar *) uri, strlen (uri));
+  g_checksum_get_digest (checksum, digest, &digest_len);
+  g_assert (digest_len == 16);
+
+  name = g_strconcat (g_checksum_get_string (checksum), ".png", NULL);
+  path = g_build_filename (g_get_user_cache_dir (),
+                           "thumbnails",
+                           "normal",
+                           name,
+                           NULL);
+
+  return g_steal_pointer (&path);
+}
+
+
+static void
+on_save_thumbnail_ready (GObject      *source_object,
+                         GAsyncResult *res,
+                         gpointer      user_data)
+{
+  gboolean success;
+  g_autoptr (GError) err = NULL;
+
+  success = gdk_pixbuf_save_to_stream_finish (res, &err);
+  if (!success)
+    g_warning ("Failed to save thumbnail: %s", err->message);
+}
+
+
+#define THUMBNAIL_SIZE 128
+
+static void
+phosh_screenshot_manager_save_thumbnail (PhoshScreenshotManager *self,
+                                         const char             *filename,
+                                         GdkPixbuf              *pixbuf)
+{
+  int width, height;
+  double scale;
+  g_autoptr (GdkPixbuf) scaled = NULL;
+  g_autoptr (GFile) file = NULL;
+  g_autoptr (GFileOutputStream) stream = NULL;
+  g_autoptr (GError) err = NULL;
+  g_autofree char *thumbnail_name = NULL, *dirname = NULL, *uri = NULL;
+  g_autofree char *mtime_str = NULL, *width_str = NULL, *height_str = NULL;
+  g_autoptr (GDateTime) now = NULL;
+
+  uri = g_filename_to_uri (filename, NULL, &err);
+  if (!uri) {
+    g_warning ("Failed to create thumbnail name for '%s': %s", filename, err->message);
+    return;
+  }
+
+  thumbnail_name = phosh_screenshot_manager_build_thumbnail_path (uri);
+  dirname = g_path_get_dirname (thumbnail_name);
+  if (g_mkdir_with_parents (dirname, 0700) != 0) {
+    g_warning ("Failed to create thumbnail folder '%s'", dirname);
+    return;
+  }
+
+  file = g_file_new_for_path (thumbnail_name);
+  stream = g_file_create (file, G_FILE_CREATE_NONE, NULL, &err);
+  if (!stream) {
+    g_warning ("Failed to create thumbnail file %s: %s", thumbnail_name, err->message);
+    return;
+  }
+
+  width = gdk_pixbuf_get_width (pixbuf);
+  height = gdk_pixbuf_get_height (pixbuf);
+
+  scale = (double)THUMBNAIL_SIZE / MAX (width, height);
+  scaled = gdk_pixbuf_scale_simple (pixbuf,
+                                    floor (width * scale + 0.5),
+                                    floor (height * scale + 0.5),
+                                    GDK_INTERP_BILINEAR);
+  gdk_pixbuf_copy_options (pixbuf, scaled);
+
+  now = g_date_time_new_now_local();
+  mtime_str = g_strdup_printf ("%" G_GINT64_FORMAT, (gint64) g_date_time_to_unix (now));
+  width_str = g_strdup_printf ("%d", width);
+  height_str = g_strdup_printf ("%d", height);
+  gdk_pixbuf_save_to_stream_async (scaled,
+                                   G_OUTPUT_STREAM (stream),
+                                   "png",
+                                   NULL,
+                                   on_save_thumbnail_ready,
+                                   NULL,
+                                   "tEXt::Thumb::Image::Width", width_str,
+                                   "tEXt::Thumb::Image::Height", height_str,
+                                   "tEXt::Thumb::URI", uri,
+                                   "tEXt::Thumb::MTime", mtime_str,
+                                   "tEXt::Software", "Phosh::Shell",
+                                   NULL);
+}
+
+
 static void
 on_save_pixbuf_ready (GObject      *source_object,
                       GAsyncResult *res,
@@ -295,6 +399,7 @@ on_save_pixbuf_ready (GObject      *source_object,
   g_autoptr (PhoshScreenshotManager) self = PHOSH_SCREENSHOT_MANAGER (user_data);
 
   g_return_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (self));
+  g_return_if_fail (self->frames->filename);
 
   success = gdk_pixbuf_save_to_stream_finish (res, &err);
   if (!success)
@@ -302,6 +407,10 @@ on_save_pixbuf_ready (GObject      *source_object,
 
   if (!self->frames->invocation)
     update_recent_files (self);
+
+  phosh_screenshot_manager_save_thumbnail (self,
+                                           self->frames->filename,
+                                           GDK_PIXBUF (source_object));
 
   screenshot_done (self, success);
 }
@@ -529,7 +638,7 @@ submit_screenshot (PhoshScreenshotManager *self)
     file = g_file_new_for_path (self->frames->filename);
     stream = g_file_create (file, G_FILE_CREATE_NONE, NULL, &err);
     if (!stream) {
-      g_warning ("Failed to create  screenshot %s: %s", self->frames->filename, err->message);
+      g_warning ("Failed to create screenshot %s: %s", self->frames->filename, err->message);
       screenshot_done (self, FALSE);
       return;
     }
