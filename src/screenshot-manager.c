@@ -423,7 +423,7 @@ create_internal_file (PhoshScreenshotManager *self, GError **err)
   }
 
   dt = g_date_time_new_now_local ();
-  timestamp = g_date_time_format (dt, "%Y-%m-%d %H-%M-%S");
+  timestamp = g_date_time_format (dt, "%Y-%m-%d %H:%M:%S");
 
   for (int i = 0; i < 100; i++) {
     g_autofree char *suffix = i ? g_strdup_printf ("-%d", i) : g_strdup ("");
