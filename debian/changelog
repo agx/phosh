@@ -1,3 +1,83 @@
+phosh (0.44.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * notification: Port to PhoshAnimation.
+    This simplifies the code and will make adding a slide-up animation more
+    straight forward.
+    We move the start of the animation to the map vfunc as PhoshAnimation
+    requires the widget to be mapped.
+  * app-grid-base-button: Fix indent
+  * system-modal-dialog: Don't process key event directly.
+    Less code and helps the GTK4 migration. Also makes sure we don't
+    interfere with other event handling.
+    Can be reworked to use gtk_widget_class_add_binding_action then.
+  * top-panel: Don't process key event directly.
+    Less code and helps the GTK4 migration. As we don't have a "closed"
+    signal we'll use "activated" which is enough to make `PhoshShell` toggle
+    fold.
+    Can be reworked to use gtk_widget_class_add_binding_action then.
+  * top-panel: Move settings upwards.
+    As we don't have a dedictated "close" signal "activate" will do.
+    This allows us to drop the `packaging` elements which eases the reading
+    flow and eases the GTK4 transition.
+  * app-grid-base-button: Make abstract.
+    It can only serve as base class for other buttons
+  * app-grid-base-button: Remove css name.
+    We style the derived classes.
+  * app-grid-button: Use alpha on activation and search too.
+    Amends df0f30580 ("app-grid-button: Use alpha when focused")
+  * app-grid-folder-button: Let style match the app-grid-button.
+    We use a slightly darker style to make the activation visible
+    Amends df0f30580 ("app-grid-button: Use alpha when focused")
+  * app-grid: Add outline around selected search item.
+    Makes it easier to identify when using a background
+  * build: Make cell-broadcast headers private
+  * shell: Drop unused header
+  * packaging: Lower phoc dependency.
+    0.40~rc1 is recent enough
+  * ticket-box: Port prefs to GtkFileDialog.
+    This gives us the portal which is adaptive.
+  * splash-manager: Use GDesktop's enum.
+    It has been released a while ago.
+  * mode-manager: Drop unused defines
+  * home: Indicate transitioning state.
+    Indicate when the home is transitioning between folded and unfolded.
+  * top-panel: Set background on top bar.
+    This avoids showing regular windows under the top bar which can be
+    confusing.
+    While this is not very visible in auto-maximize mode it can be seen in
+    floating mode or when e.g. revealing the shell over fullscreen windows.
+    We add an outer container with background to the top bar so we can keep
+    setting the margins on the top-bar itself.
+    The alternatives (using padding or to setting the marign on the inner
+    elements) are more complicated as we move elements around due to notch
+    avoidance and the margin also changes due to that. We would thus need to
+    generate style classes on the fly or determine the elements dynamically
+    which is more fragile.
+    We can make things slightly nicer by setting the solid
+    background a bit later (when the splash closes) but let's do that with
+    when zooming in the splash
+    (https://gitlab.gnome.org/World/Phosh/phosh/-/merge_requests/1264)
+    as this will supply the necessary plumbing to phosh shell.
+
+  [ Gotam Gorabh ]
+  * notification-banner: Add slide-up animation to banner.
+    Add slide-up animation to the notification-banner so that
+    it will disappear with slide-up animation.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/377
+  * notification-frame: Don't return bool for notify signal handler
+
+  [ Hugo Carvalho ]
+  * Update Portuguese translation
+
+  [ Alexandre Franke ]
+  * Update French translation
+
+  [ twlvnn kraftwerk ]
+  * Update Bulgarian translation
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 31 Dec 2024 09:25:07 +0100
+
 phosh (0.44~rc1) experimental; urgency=medium
 
   [ Guido Günther ]
