@@ -12,8 +12,6 @@
         <child>
           <object class="GtkRevealer" id="revealer">
             <property name="visible">1</property>
-            <property name="transition-type">slide-up</property>
-            <property name="reveal-child">1</property>
             <property name="transition-duration">100</property>
             <child>
               <object class="GtkBox" id="box">

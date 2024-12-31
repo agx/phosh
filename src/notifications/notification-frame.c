@@ -13,6 +13,7 @@
 #include "notification-frame.h"
 #include "notification-source.h"
 #include "swipe-away-bin.h"
+#include "shell-priv.h"
 #include "util.h"
 #include "timestamp-label.h"
 
@@ -29,6 +30,7 @@
 enum {
   PROP_0,
   PROP_SHOW_BODY,
+  PROP_ANIMATE_SHOW,
   PROP_ACTION_FILTER_KEYS,
   LAST_PROP
 };
@@ -54,6 +56,7 @@ struct _PhoshNotificationFrame {
   GtkWidget *updated;
 
   gboolean   show_body;
+  gboolean   animate_show;
   GStrv      action_filter_keys;
 
   /* needed so that the gestures aren't immediately destroyed */
@@ -92,6 +95,9 @@ phosh_notification_frame_set_property (GObject      *object,
   case PROP_SHOW_BODY:
     self->show_body = g_value_get_boolean (value);
     break;
+  case PROP_ANIMATE_SHOW:
+    phosh_notification_frame_set_animate_show (self, g_value_get_boolean (value));
+    break;
   case PROP_ACTION_FILTER_KEYS:
     self->action_filter_keys = g_value_dup_boxed (value);
     break;
@@ -113,6 +119,9 @@ phosh_notification_frame_get_property (GObject    *object,
   switch (property_id) {
     case PROP_SHOW_BODY:
       g_value_set_boolean (value, self->show_body);
+      break;
+    case PROP_ANIMATE_SHOW:
+      g_value_set_boolean (value, phosh_notification_frame_get_animate_show (self));
       break;
     case PROP_ACTION_FILTER_KEYS:
       g_value_set_boxed (value, self->action_filter_keys);
@@ -374,8 +383,15 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
                           TRUE,
                           G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE |
                           G_PARAM_STATIC_STRINGS);
-
-
+  /**
+   * PhoshNotificationFrame:animate-show:
+   *
+   * Whether to insert a frame with an animation.
+   */
+  props[PROP_ANIMATE_SHOW] =
+    g_param_spec_boolean ("animate-show", "", "",
+                          TRUE,
+                          G_PARAM_EXPLICIT_NOTIFY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshNotificationFrame:action-filter-keys:
    *
@@ -427,6 +443,7 @@ phosh_notification_frame_class_init (PhoshNotificationFrameClass *klass)
 static void
 phosh_notification_frame_init (PhoshNotificationFrame *self)
 {
+  self->animate_show = TRUE;
   self->show_body = TRUE;
   self->start_x = -1;
   self->start_y = -1;
@@ -513,6 +530,7 @@ items_changed (GListModel             *list,
                                                  self->updated,  "timestamp",
                                                  G_BINDING_SYNC_CREATE);
 
+  gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer), TRUE);
 }
 
 
@@ -572,4 +590,29 @@ phosh_notification_frame_get_action_filter_keys (PhoshNotificationFrame *self)
   g_return_val_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self), NULL);
 
   return (const char *const *)self->action_filter_keys;
+}
+
+
+void
+phosh_notification_frame_set_animate_show (PhoshNotificationFrame *self, gboolean animate)
+{
+  g_return_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self));
+
+  if (self->animate_show == animate)
+    return;
+
+  self->animate_show = animate;
+
+  /* Avoid animation when widget isn't mapped yet to save some CPU cycles */
+  if (!self->animate_show && !gtk_widget_get_mapped (GTK_WIDGET (self)))
+    gtk_revealer_set_reveal_child (GTK_REVEALER (self->revealer), TRUE);
+}
+
+
+gboolean
+phosh_notification_frame_get_animate_show (PhoshNotificationFrame *self)
+{
+  g_return_val_if_fail (PHOSH_IS_NOTIFICATION_FRAME (self), FALSE);
+
+  return self->animate_show;
 }

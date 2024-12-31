@@ -287,6 +287,7 @@ on_notifications_clear_all_clicked (PhoshSettings *self)
 static GtkWidget *
 create_notification_row (gpointer item, gpointer data)
 {
+  PhoshShell *shell = phosh_shell_get_default ();
   GtkWidget *row = NULL;
   GtkWidget *frame = NULL;
 
@@ -298,6 +299,8 @@ create_notification_row (gpointer item, gpointer data)
   frame = phosh_notification_frame_new (TRUE, NULL);
   phosh_notification_frame_bind_model (PHOSH_NOTIFICATION_FRAME (frame), item);
 
+  if (!(phosh_shell_get_state (shell) & PHOSH_STATE_SETTINGS))
+    phosh_notification_frame_set_animate_show (PHOSH_NOTIFICATION_FRAME (frame), FALSE);
   gtk_widget_set_visible (frame, TRUE);
 
   gtk_container_add (GTK_CONTAINER (row), frame);

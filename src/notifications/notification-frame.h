@@ -29,4 +29,8 @@ void               phosh_notification_frame_bind_model        (PhoshNotification
                                                                GListModel             *model);
 const char* const *phosh_notification_frame_get_action_filter_keys (PhoshNotificationFrame *self);
 
+void               phosh_notification_frame_set_animate_show  (PhoshNotificationFrame *self,
+                                                               gboolean                animate);
+gboolean           phosh_notification_frame_get_animate_show  (PhoshNotificationFrame *self);
+
 G_END_DECLS
