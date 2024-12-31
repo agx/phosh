@@ -11,6 +11,10 @@ phosh-top-panel-bg {
   background: @phosh_bg_color;
 }
 
+#top-bar-bin {
+  transition: background-color 200ms ease;
+}
+
 #top-bar {
   padding-top: 4px;
   padding-bottom: 4px;

@@ -24,14 +24,6 @@
  * Spawn, keeps track and closes splash screens.
  */
 
-typedef enum {
-  /* Until we can depend on released gsettings-desktop-schemas */
-  /*<private >*/
-  COLOR_SCHEME_DEFAULT,
-  COLOR_SCHEME_PREFER_DARK,
-  COLOR_SCHEME_PREFER_LIGHT,
-} PhoshSystemColorScheme;
-
 enum {
   PROP_0,
   PROP_APP_TRACKER,
@@ -116,7 +108,8 @@ on_app_ready (PhoshSplashManager *self,
   g_return_if_fail (PHOSH_IS_SPLASH_MANAGER (self));
   g_return_if_fail (G_IS_DESKTOP_APP_INFO (info));
   g_return_if_fail (startup_id);
-  g_debug ("Removing splash for %s, startup_id %s", g_app_info_get_id (G_APP_INFO (info)), startup_id);
+  g_debug ("Removing splash for %s, startup_id %s", g_app_info_get_id (G_APP_INFO (info)),
+           startup_id);
 
   splash = g_hash_table_lookup (self->splashes, startup_id);
   /* E.g. firefox sends the same startup id for multiple windows */
@@ -176,7 +169,8 @@ on_app_launch_started (PhoshSplashManager *self,
   if (!phosh_shell_get_show_splash (shell))
     return;
 
-  g_debug ("Adding splash for %s, startup_id %s", g_app_info_get_id (G_APP_INFO (info)), startup_id);
+  g_debug ("Adding splash for %s, startup_id %s", g_app_info_get_id (G_APP_INFO (info)),
+           startup_id);
   splash = phosh_splash_new (info, self->prefer_dark);
   key = g_strdup (startup_id);
   g_hash_table_insert (self->splashes, key, splash);
@@ -192,7 +186,7 @@ static void
 gsettings_color_scheme_changed_cb (PhoshSplashManager *self)
 {
   self->prefer_dark = (g_settings_get_enum (self->interface_settings, "color-scheme") ==
-                       COLOR_SCHEME_PREFER_DARK);
+                       G_DESKTOP_COLOR_SCHEME_PREFER_DARK);
 }
 
 
@@ -246,9 +240,7 @@ phosh_splash_manager_class_init (PhoshSplashManagerClass *klass)
   object_class->finalize = phosh_splash_manager_finalize;
 
   props[PROP_APP_TRACKER] =
-    g_param_spec_object ("app-tracker",
-                         "",
-                         "",
+    g_param_spec_object ("app-tracker", "", "",
                          PHOSH_TYPE_APP_TRACKER,
                          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY);
 

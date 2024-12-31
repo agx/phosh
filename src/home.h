@@ -18,13 +18,15 @@
 /**
  * PhoshHomeState:
  * @PHOSH_HOME_STATE_FOLDED: Only home button is visible
- * @PHOSH_HOME_STATE_UNFOLDED: Home screen takes the whole screen except the top panel
+ * @PHOSH_HOME_STATE_UNFOLDED: Home unfolded, overview visible
+ * @PHOSH_HOME_STATE_TRANSITION: Home screen is transitioning between folded and unfolded
  *
  * The state of #PhoshHome.
  */
 typedef enum {
   PHOSH_HOME_STATE_FOLDED,
   PHOSH_HOME_STATE_UNFOLDED,
+  PHOSH_HOME_STATE_TRANSITION,
 } PhoshHomeState;
 
 G_DECLARE_FINAL_TYPE (PhoshHome, phosh_home, PHOSH, HOME, PhoshDragSurface)
