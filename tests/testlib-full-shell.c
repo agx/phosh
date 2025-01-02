@@ -8,8 +8,8 @@
 
 #include "testlib.h"
 #include "testlib-full-shell.h"
-#include "testlib-wall-clock-mock.h"
 
+#include "fake-clock.h"
 #include "log.h"
 #include "shell.h"
 
@@ -53,7 +53,7 @@ phosh_test_full_shell_thread (gpointer data)
    * (sha d1cf1f02a3ff65331d755cb7bb4f765222f23354 = "Wed Jan 24 14:26:37 2018 +0100")
    * This is apparently also "Belly Laugh Day", so there you go. */
   g_autoptr (GDateTime) fake_offset = g_date_time_new_utc (2018, 1, 24, 13, 26, 37);
-  TestlibWallClockMock *wall_clock = testlib_wall_clock_mock_new (fake_offset);
+  PhoshFakeClock*wall_clock = phosh_fake_clock_new (fake_offset);
   g_autoptr (GtkCssProvider) provider = gtk_css_provider_new ();
 
   /* compositor setup in thread since this invokes gdk already */

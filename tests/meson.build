@@ -65,7 +65,6 @@ testlib_sources = [
   'testlib.c',
   'testlib-head-stub.c',
   'testlib-compositor.c',
-  'testlib-wall-clock-mock.c',
   'testlib-full-shell.c',
   'testlib-calls-mock.c',
   'testlib-mpris-mock.c',

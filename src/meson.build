@@ -307,6 +307,7 @@ libphosh_headers = files(
 # Not visible in docs and gir
 # New headers go here by default:
 libphosh_private_headers = files(
+  'fake-clock.h',
   'contrib/shell-network-agent.h',
   'cell-broadcast-manager.h',
   'cell-broadcast-prompt.h',
@@ -328,6 +329,7 @@ libphosh_sources = files(
   'contrib/shell-network-agent.c',
   'emergency-calls-manager.c',
   'fader.c',
+  'fake-clock.c',
   'feedbackinfo.c',
   'home.c',
   'keyboard-events.c',
