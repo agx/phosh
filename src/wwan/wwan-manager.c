@@ -57,6 +57,41 @@ G_DEFINE_TYPE_WITH_PRIVATE (PhoshWWanManager, phosh_wwan_manager, G_TYPE_OBJECT)
 
 
 static void
+on_connection_commit_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  NMRemoteConnection *r_con = NM_REMOTE_CONNECTION (source_object);
+  g_autoptr (GError) err = NULL;
+  gboolean success;
+
+  success = nm_remote_connection_commit_changes_finish (r_con, res, &err);
+  if (!success) {
+    g_warning ("Failed to commit connection %s: %s",
+               nm_connection_get_id (NM_CONNECTION (r_con)),
+               err->message);
+  }
+}
+
+
+static void
+phosh_wwan_manager_enable_autoconnect (PhoshWWanManager   *self,
+                                       NMRemoteConnection *conn,
+                                       gboolean            enable)
+{
+  PhoshWWanManagerPrivate *priv = phosh_wwan_manager_get_instance_private (self);
+  NMSettingConnection *s_con;
+
+  s_con = nm_connection_get_setting_connection (NM_CONNECTION (conn));
+  g_object_set (s_con, NM_SETTING_CONNECTION_AUTOCONNECT, enable, NULL);
+
+  nm_remote_connection_commit_changes_async (conn,
+                                             TRUE,
+                                             priv->cancel,
+                                             on_connection_commit_ready,
+                                             NULL);
+}
+
+
+static void
 on_wwan_connection_activated (GObject      *object,
                               GAsyncResult *result,
                               gpointer      data)
@@ -91,6 +126,8 @@ phosh_wwan_manager_activate_last_connection (PhoshWWanManager *self)
                                        priv->cancel,
                                        on_wwan_connection_activated,
                                        NULL);
+
+  phosh_wwan_manager_enable_autoconnect (self, NM_REMOTE_CONNECTION (conn), TRUE);
 }
 
 
@@ -121,6 +158,7 @@ phosh_wwan_manager_deactivate_all_connections (PhoshWWanManager *self)
   /* Disconnect all mobile data connections */
   for (int i = 0; i < conns->len; i++) {
     NMActiveConnection *conn = NM_ACTIVE_CONNECTION (g_ptr_array_index (conns, i));
+    NMRemoteConnection *r_con;
     const char *type;
 
     type = nm_active_connection_get_connection_type (conn);
@@ -132,6 +170,16 @@ phosh_wwan_manager_deactivate_all_connections (PhoshWWanManager *self)
                                            priv->cancel,
                                            on_data_connection_deactivated,
                                            NULL);
+
+    /* Disable autoconnect on these connections */
+    r_con = nm_active_connection_get_connection (conn);
+    if (!r_con) {
+      g_critical ("Failed to get connection from active connection %s",
+                  nm_active_connection_get_id (conn));
+      continue;
+    }
+
+    phosh_wwan_manager_enable_autoconnect (self, r_con, FALSE);
   }
 }
 
