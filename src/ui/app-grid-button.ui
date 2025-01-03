@@ -34,6 +34,11 @@
         <attribute name="action">view-details</attribute>
         <attribute name="hidden-when">action-disabled</attribute>
       </item>
+      <item>
+        <attribute name="label" translatable="yes">Uninstall</attribute>
+        <attribute name="action">uninstall</attribute>
+        <attribute name="hidden-when">action-disabled</attribute>
+      </item>
     </section>
     <section id="folders">
     </section>
