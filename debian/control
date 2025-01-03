@@ -7,6 +7,7 @@ Build-Depends:
  gi-docgen <!nodoc>,
  gsettings-desktop-schemas-dev (>= 47),
  libadwaita-1-dev,
+ libappstream-dev,
  libcallaudio-dev,
  libevince-dev,
  libgirepository1.0-dev,

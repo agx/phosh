@@ -395,6 +395,7 @@ gnome_bluetooth_custom_dep = gnome_bluetooth_dep.partial_dependency(
 )
 
 phosh_deps = [
+  appstream_dep,
   libsoup_dep,
   fribidi_dep,
   gcr_dep,
