@@ -119,6 +119,7 @@ enum {
   PROP_BUILTIN_MONITOR,
   PROP_PRIMARY_MONITOR,
   PROP_SHELL_STATE,
+  PROP_OVERVIEW_VISIBLE,
   PROP_LAST_PROP
 };
 static GParamSpec *props[PROP_LAST_PROP];
@@ -135,6 +136,7 @@ typedef struct
 {
   PhoshDragSurface *top_panel;
   PhoshDragSurface *home;
+  gboolean          overview_visible;
   GPtrArray *faders;              /* for final fade out */
 
   GtkWidget *notification_banner;
@@ -386,7 +388,7 @@ panels_create (PhoshShell *self)
   priv->home = PHOSH_DRAG_SURFACE (phosh_home_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                                    phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl),
                                                    monitor));
-  gtk_widget_show (GTK_WIDGET (priv->home));
+  g_object_bind_property (self, "overview-visible", priv->home, "visible", G_BINDING_SYNC_CREATE);
 
   g_signal_connect_swapped (priv->top_panel,
                             "activated",
@@ -464,6 +466,9 @@ phosh_shell_set_property (GObject *object,
   case PROP_PRIMARY_MONITOR:
     phosh_shell_set_primary_monitor (self, g_value_get_object (value));
     break;
+  case PROP_OVERVIEW_VISIBLE:
+    priv->overview_visible = g_value_get_boolean (value);
+    break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
     break;
@@ -495,6 +500,9 @@ phosh_shell_get_property (GObject *object,
     break;
   case PROP_SHELL_STATE:
     g_value_set_flags (value, priv->shell_state);
+    break;
+  case PROP_OVERVIEW_VISIBLE:
+    g_value_set_boolean (value, priv->overview_visible);
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1252,6 +1260,16 @@ phosh_shell_class_init (PhoshShellClass *klass)
                         PHOSH_STATE_NONE,
                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
+  /**
+   * PhoshShell:overview-visible:
+   *
+   * Whether to display the `PhoshHome` (overview and home bar)
+   */
+  props[PROP_OVERVIEW_VISIBLE] =
+    g_param_spec_boolean ("overview-visible", "", "",
+                          TRUE,
+                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
 
   /**
@@ -1286,6 +1304,8 @@ phosh_shell_init (PhoshShell *self)
   PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   cui_init (TRUE);
+
+  priv->overview_visible = TRUE;
 
   g_io_extension_point_register (PHOSH_EXTENSION_POINT_LOCKSCREEN_WIDGET);
   g_io_extension_point_register (PHOSH_EXTENSION_POINT_QUICK_SETTING_WIDGET);
