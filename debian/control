@@ -50,6 +50,7 @@ Build-Depends:
  gtk-4-examples <!nocheck>,
  librsvg2-common <!nocheck>,
  phoc (>= 0.33.0) <!nocheck>,
+ python3-pytest <!nocheck>,
  xauth <!nocheck>,
  xvfb <!nocheck>,
  xwayland <!nocheck>,
