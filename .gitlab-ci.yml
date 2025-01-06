@@ -231,6 +231,31 @@ screenshot:native-debian-trixie:
       - screenshots/
       - _build/meson-logs/testlog.txt
 
+integration:native-debian-trixie:
+  stage: test+docs
+  image: ${DEBIAN_IMAGE}
+  needs:
+    - build:native-debian-trixie
+  <<: *test_before_script
+  <<: *trixie_vars
+  script:
+    - export LC_ALL=C.UTF-8
+    - export G_MESSAGES_DEBUG=all
+    - export NO_AT_BRIDGE=1
+    - export TOPSRCDIR="${PWD}"
+    - export TOPBUILDDIR="${PWD}/_build"
+    # Make sure tests can find the plugins and po files
+    - "meson install -C _build"
+    - ${XVFB_RUN} dbus-run-session pytest --junitxml=report-integration-${CI_JOB_NAME}.xml -v tests/integration
+  after_script:
+    - gcovr --json --gcov-ignore-errors=no_working_dir_found --output=coverage-integration-${CI_JOB_NAME}.json
+  artifacts:
+    paths:
+      - coverage-integration-${CI_JOB_NAME}.json
+      - report-integration-${CI_JOB_NAME}.xml
+    reports:
+      junit: report-integration-${CI_JOB_NAME}.xml
+
 build-doc:
   stage: test+docs
   image: ${DEBIAN_IMAGE}
@@ -345,6 +370,7 @@ coverage:
   needs:
     - unit-test:native-debian-trixie
     - screenshot:native-debian-trixie
+    - integration:native-debian-trixie
 
 package:deb-debian-trixie:arm64:
   stage: package
