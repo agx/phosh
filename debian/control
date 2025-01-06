@@ -49,7 +49,7 @@ Build-Depends:
  gsettings-desktop-schemas <!nocheck>,
  gtk-4-examples <!nocheck>,
  librsvg2-common <!nocheck>,
- phoc (>= 0.33.0) <!nocheck>,
+ phoc (>= 0.44~) <!nocheck>,
  python3-pytest <!nocheck>,
  xauth <!nocheck>,
  xvfb <!nocheck>,
