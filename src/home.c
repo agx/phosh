@@ -303,14 +303,13 @@ fold_cb (PhoshHome *self, PhoshOverview *overview)
 }
 
 
-static gboolean
+static void
 delayed_handle_resize (gpointer data)
 {
   PhoshHome *self = PHOSH_HOME (data);
 
   self->debounce_handle = 0;
   update_drag_handle (self, TRUE);
-  return G_SOURCE_REMOVE;
 }
 
 
@@ -322,7 +321,7 @@ on_has_activities_changed (PhoshHome *self)
   /* TODO: we need to debounce the handle resize a little until all
      the queued resizing is done, would be nicer to have that tied to
      a signal */
-  self->debounce_handle = g_timeout_add (200, delayed_handle_resize, self);
+  self->debounce_handle = g_timeout_add_once (200, delayed_handle_resize, self);
   g_source_set_name_by_id (self->debounce_handle, "[phosh] delayed_handle_resize");
 }
 
