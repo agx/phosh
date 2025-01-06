@@ -51,6 +51,7 @@ Build-Depends:
  librsvg2-common <!nocheck>,
  phoc (>= 0.44~) <!nocheck>,
  python3-pytest <!nocheck>,
+ wlr-randr <!nocheck>,
  xauth <!nocheck>,
  xvfb <!nocheck>,
  xwayland <!nocheck>,
