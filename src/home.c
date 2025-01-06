@@ -145,7 +145,7 @@ phosh_home_get_property (GObject    *object,
 
 
 static void
-update_drag_handle (PhoshHome *self, gboolean commit)
+update_drag_handle (PhoshHome *self, gboolean queue_draw)
 {
   gboolean success;
   gint handle = 0;
@@ -175,8 +175,9 @@ update_drag_handle (PhoshHome *self, gboolean commit)
 
   g_debug ("Drag Handle: %d", handle);
   phosh_drag_surface_set_drag_handle (PHOSH_DRAG_SURFACE (self), handle);
-  if (commit)
-    phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
+  /* Trigger redraw and surface commit */
+  if (queue_draw)
+    gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 
@@ -203,9 +204,7 @@ on_configure_event (PhoshHome *self, GdkEventConfigure *event)
   /* If the size changes we need to update the folded margin */
   phosh_drag_surface_set_margin (PHOSH_DRAG_SURFACE (self), margin, 0);
   /* Update drag handle since overview size might have changed */
-  update_drag_handle (self, FALSE);
-  /* Trigger redraw and surface commit */
-  gtk_widget_queue_draw (GTK_WIDGET (self));
+  update_drag_handle (self, TRUE);
 
   return FALSE;
 }
@@ -514,8 +513,7 @@ on_drag_state_changed (PhoshHome *self)
   phosh_home_update_home_bar (self);
 
   phosh_layer_surface_set_kbd_interactivity (PHOSH_LAYER_SURFACE (self), kbd_interactivity);
-  update_drag_handle (self, FALSE);
-  gtk_widget_queue_draw (GTK_WIDGET (self));
+  update_drag_handle (self, TRUE);
 }
 
 
