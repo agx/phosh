@@ -275,11 +275,8 @@ static void
 phosh_layer_surface_realize (GtkWidget *widget)
 {
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (widget);
-  PhoshLayerSurfacePrivate *priv;
+  PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
   GdkWindow *gdk_window;
-
-  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
-  priv = phosh_layer_surface_get_instance_private (self);
 
   GTK_WIDGET_CLASS (phosh_layer_surface_parent_class)->realize (widget);
 
@@ -295,12 +292,9 @@ static void
 phosh_layer_surface_map (GtkWidget *widget)
 {
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (widget);
-  PhoshLayerSurfacePrivate *priv;
+  PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
   PhoshWayland *wl = phosh_wayland_get_default ();
   struct zphoc_layer_shell_effects_v1 *layer_shell_effects;
-
-  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
-  priv = phosh_layer_surface_get_instance_private (self);
 
   GTK_WIDGET_CLASS (phosh_layer_surface_parent_class)->map (widget);
 
@@ -350,10 +344,7 @@ static void
 phosh_layer_surface_unmap (GtkWidget *widget)
 {
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (widget);
-  PhoshLayerSurfacePrivate *priv;
-
-  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
-  priv = phosh_layer_surface_get_instance_private (self);
+  PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
 
   g_clear_pointer (&priv->layer_surface, zwlr_layer_surface_v1_destroy);
   priv->wl_surface = NULL;
