@@ -338,21 +338,12 @@ phosh_layer_surface_map (GtkWidget *widget)
   wl_display_roundtrip (gdk_wayland_display_get_wl_display (gdk_display_get_default ()));
 
   layer_shell_effects = phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl);
-  if (zphoc_layer_shell_effects_v1_get_version (layer_shell_effects) >=
-      ZPHOC_LAYER_SHELL_EFFECTS_V1_GET_ALPHA_LAYER_SURFACE_SINCE_VERSION) {
-    priv->alpha_surface = zphoc_layer_shell_effects_v1_get_alpha_layer_surface (
-      layer_shell_effects, priv->layer_surface);
-  } else {
-    g_warning_once ("No alpha layer surface support, upgrade phoc");
-  }
-
-  if (zphoc_layer_shell_effects_v1_get_version (layer_shell_effects) >=
-      ZPHOC_LAYER_SHELL_EFFECTS_V1_GET_STACKED_LAYER_SURFACE_SINCE_VERSION) {
-    priv->stacked_surface = zphoc_layer_shell_effects_v1_get_stacked_layer_surface (
-      layer_shell_effects, priv->layer_surface);
-  } else {
-    g_warning_once ("No support for stacking layer surfaces, upgrade phoc");
-  }
+  priv->alpha_surface =
+    zphoc_layer_shell_effects_v1_get_alpha_layer_surface (layer_shell_effects,
+                                                          priv->layer_surface);
+  priv->stacked_surface =
+    zphoc_layer_shell_effects_v1_get_stacked_layer_surface (layer_shell_effects,
+                                                            priv->layer_surface);
 }
 
 
