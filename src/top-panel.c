@@ -522,8 +522,7 @@ phosh_top_panel_add_background (PhoshTopPanel *self)
   self->background = phosh_top_panel_bg_new (phosh_wayland_get_zwlr_layer_shell_v1 (wl),
                                              monitor,
                                              layer);
-
-  gtk_widget_show (GTK_WIDGET (self->background));
+  g_object_bind_property (self, "visible", self->background, "visible", G_BINDING_SYNC_CREATE);
 
   region = cairo_region_create_rectangle (&rect);
   gtk_widget_input_shape_combine_region (GTK_WIDGET (self->background), region);
