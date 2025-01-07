@@ -70,6 +70,8 @@ typedef struct {
   char                         *namespace;
   struct zwlr_layer_shell_v1   *layer_shell;
   struct wl_output             *wl_output;
+  /* alpha_layer_surface_v1 */
+  double                        alpha;
 } PhoshLayerSurfacePrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshLayerSurface, phosh_layer_surface, GTK_TYPE_WINDOW)
@@ -131,6 +133,21 @@ static struct zwlr_layer_surface_v1_listener layer_surface_listener = {
   .configure = layer_surface_configure,
   .closed = layer_surface_closed,
 };
+
+
+static void
+set_alpha (PhoshLayerSurface *self, double alpha)
+{
+  PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
+
+  priv->alpha = alpha;
+
+  if (!priv->alpha_surface)
+    return;
+
+  zphoc_alpha_layer_surface_v1_set_alpha (priv->alpha_surface, wl_fixed_from_double (alpha));
+  wl_surface_commit (priv->wl_surface);
+}
 
 
 static void
@@ -337,6 +354,10 @@ phosh_layer_surface_map (GtkWidget *widget)
   priv->stacked_surface =
     zphoc_layer_shell_effects_v1_get_stacked_layer_surface (layer_shell_effects,
                                                             priv->layer_surface);
+
+  /* Catch up with alpha values set before map */
+  if (G_APPROX_VALUE (priv->alpha, 1.0, FLT_EPSILON))
+    set_alpha (self, priv->alpha);
 }
 
 
@@ -558,6 +579,9 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
 static void
 phosh_layer_surface_init (PhoshLayerSurface *self)
 {
+  PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
+
+  priv->alpha = 1.0;
 }
 
 
@@ -880,24 +904,19 @@ phosh_layer_surface_get_configured_height (PhoshLayerSurface *self)
 
 
 void
-phosh_layer_surface_set_alpha (PhoshLayerSurface *self,
-                               double             alpha)
+phosh_layer_surface_set_alpha (PhoshLayerSurface *self, double alpha)
 {
   PhoshLayerSurfacePrivate *priv;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   priv = phosh_layer_surface_get_instance_private (self);
-  g_return_if_fail (priv->alpha_surface);
 
   g_return_if_fail (alpha >= 0.0 && alpha <= 1.0);
 
-  if (priv->wl_surface == NULL) {
-    g_warning ("Trying to set alpha on unmapped layer surface '%s'", priv->namespace);
+  if (G_APPROX_VALUE (priv->alpha, alpha, FLT_EPSILON))
     return;
-  }
 
-  zphoc_alpha_layer_surface_v1_set_alpha (priv->alpha_surface, wl_fixed_from_double (alpha));
-  wl_surface_commit (priv->wl_surface);
+  set_alpha (self, alpha);
 }
 
 /**
