@@ -70,7 +70,6 @@ typedef struct {
   char                         *namespace;
   struct zwlr_layer_shell_v1   *layer_shell;
   struct wl_output             *wl_output;
-  gboolean                      has_alpha;
 } PhoshLayerSurfacePrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshLayerSurface, phosh_layer_surface, GTK_TYPE_WINDOW)
@@ -908,18 +907,6 @@ phosh_layer_surface_set_alpha (PhoshLayerSurface *self,
 
   zphoc_alpha_layer_surface_v1_set_alpha (priv->alpha_surface, wl_fixed_from_double (alpha));
   wl_surface_commit (priv->wl_surface);
-}
-
-
-gboolean
-phosh_layer_surface_has_alpha (PhoshLayerSurface *self)
-{
-  PhoshLayerSurfacePrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_LAYER_SURFACE (self), FALSE);
-  priv = phosh_layer_surface_get_instance_private (self);
-
-  return !!priv->alpha_surface;
 }
 
 /**
