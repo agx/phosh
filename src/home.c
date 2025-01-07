@@ -533,7 +533,8 @@ phosh_home_add_background (PhoshHome *self)
                                          /* Span over whole display */
                                          FALSE,
                                          ZWLR_LAYER_SHELL_V1_LAYER_TOP));
-  gtk_widget_show (GTK_WIDGET (self->background));
+  g_object_bind_property (self, "visible", self->background, "visible", G_BINDING_SYNC_CREATE);
+
   g_signal_connect_object (phosh_shell_get_background_manager (shell),
                            "config-changed",
                            G_CALLBACK (phosh_background_needs_update),
