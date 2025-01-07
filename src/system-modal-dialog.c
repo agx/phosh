@@ -417,12 +417,6 @@ phosh_system_modal_dialog_close (PhoshSystemModalDialog *self)
   g_return_if_fail (PHOSH_IS_SYSTEM_MODAL_DIALOG (self));
   priv = phosh_system_modal_dialog_get_instance_private (self);
 
-  /* Until we can assume phoc with alpha layer-surface support */
-  if (!phosh_layer_surface_has_alpha (PHOSH_LAYER_SURFACE (self))) {
-    gtk_widget_destroy (GTK_WIDGET (self));
-    return;
-  }
-
   priv->animation = phosh_animation_new (GTK_WIDGET (self),
                                          0.0,
                                          1.0,
