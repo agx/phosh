@@ -146,15 +146,15 @@ on_removed_by_swipe (PhoshSystemModalDialog *self)
 
 
 static void
-phosh_system_modal_dialog_finalize (GObject *obj)
+phosh_system_modal_dialog_finalize (GObject *object)
 {
-  PhoshSystemModalDialog *self = PHOSH_SYSTEM_MODAL_DIALOG (obj);
+  PhoshSystemModalDialog *self = PHOSH_SYSTEM_MODAL_DIALOG (object);
   PhoshSystemModalDialogPrivate *priv = phosh_system_modal_dialog_get_instance_private (self);
 
   g_clear_pointer (&priv->animation, phosh_animation_unref);
   g_clear_pointer (&priv->title, g_free);
 
-  G_OBJECT_CLASS (phosh_system_modal_dialog_parent_class)->finalize (obj);
+  G_OBJECT_CLASS (phosh_system_modal_dialog_parent_class)->finalize (object);
 }
 
 
