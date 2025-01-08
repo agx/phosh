@@ -209,6 +209,7 @@ libphosh_tool_sources = files(
   'log.c',
   'manager.c',
   'media-player.c',
+  'metainfo-cache.c',
   'mode-manager.c',
   'mount-manager.c',
   'mount-operation.c',
@@ -311,6 +312,7 @@ libphosh_private_headers = files(
   'contrib/shell-network-agent.h',
   'cell-broadcast-manager.h',
   'cell-broadcast-prompt.h',
+  'metainfo-cache.h',
   'network-auth-prompt.h',
 )
 
@@ -395,6 +397,7 @@ gnome_bluetooth_custom_dep = gnome_bluetooth_dep.partial_dependency(
 )
 
 phosh_deps = [
+  appstream_dep,
   libsoup_dep,
   fribidi_dep,
   gcr_dep,

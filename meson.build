@@ -123,6 +123,7 @@ gnome = import('gnome')
 i18n  = import('i18n')
 pkgconfig = import ('pkgconfig')
 
+appstream_dep = dependency('appstream', version: '>= 1.0.0')
 ecal_dep = dependency('libecal-2.0', version: '>= 3.33.1')
 eds_dep = dependency('libedataserver-1.2', version: '>= 3.33.1')
 fribidi_dep = dependency('fribidi')

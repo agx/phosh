@@ -11,6 +11,7 @@
 #include "app-grid-button.h"
 #include "clamp.h"
 #include "fading-label.h"
+#include "metainfo-cache.h"
 #include "phosh-enums.h"
 #include "favorite-list-model.h"
 #include "util.h"
@@ -371,22 +372,46 @@ favorite_add_activated (GSimpleAction *action,
 
 
 static void
+spawn_gnome_software (const char *action, const char *app_id)
+{
+  const gchar *argv[] = { "gnome-software", action, app_id, NULL };
+  g_autoptr (GError) err = NULL;
+
+  if (!g_spawn_async (NULL, (char **)argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &err))
+    g_warning ("Failed to run 'gnome-software %s' for '%s': %s", action, app_id, err->message);
+}
+
+
+static void
 view_details_activated (GSimpleAction *action,
                         GVariant      *parameter,
                         gpointer       data)
 {
   PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (data);
   PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
-  const gchar *argv[] = { "gnome-software", "--details", "appid", NULL };
-  const char *app_id;
-
-  app_id = g_app_info_get_id (priv->info);
+  const char *app_id = g_app_info_get_id (priv->info);
   g_return_if_fail (app_id);
-  argv[2] = app_id;
 
-  g_spawn_async (NULL, (char **)argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL);
+  spawn_gnome_software ("--details", app_id);
 }
 
+
+static void
+uninstall_activated (GSimpleAction *action,
+                     GVariant      *parameter,
+                     gpointer       data)
+{
+  g_autofree char *appstream_id = NULL;
+  PhoshAppGridButton *self = PHOSH_APP_GRID_BUTTON (data);
+  PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
+  const char *app_id = g_app_info_get_id (priv->info);
+  g_return_if_fail (app_id);
+
+  appstream_id = phosh_metainfo_get_data_id (phosh_metainfo_cache_get_default (), app_id);
+  g_return_if_fail (appstream_id);
+
+  spawn_gnome_software ("--uninstall", appstream_id);
+}
 
 static void
 add_to_folder_children (char *folder_path)
@@ -497,6 +522,7 @@ static GActionEntry entries[] =
   { .name = "favorite-remove", .activate = favorite_remove_activated },
   { .name = "favorite-add", .activate = favorite_add_activated },
   { .name = "view-details", .activate = view_details_activated },
+  { .name = "uninstall", .activate = uninstall_activated },
   { .name = "folder-add", .activate = folder_add_activated, .parameter_type = "s" },
   { .name = "folder-new", .activate = folder_new_activated },
   { .name = "folder-remove", .activate = folder_remove_activated },
@@ -507,7 +533,11 @@ static void
 phosh_app_grid_button_init (PhoshAppGridButton *self)
 {
   PhoshAppGridButtonPrivate *priv = phosh_app_grid_button_get_instance_private (self);
+  PhoshMetainfoCache *metainfo_cache = phosh_metainfo_cache_get_default ();
   GAction *act;
+  gboolean have_gnome_software = FALSE;
+
+  have_gnome_software = phosh_util_have_gnome_software (FALSE);
 
   priv->is_favorite = FALSE;
   priv->mode = PHOSH_APP_GRID_BUTTON_LAUNCHER;
@@ -527,9 +557,18 @@ phosh_app_grid_button_init (PhoshAppGridButton *self)
   act = g_action_map_lookup_action (priv->action_map, "favorite-remove");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
   act = g_action_map_lookup_action (priv->action_map, "view-details");
-  g_simple_action_set_enabled (G_SIMPLE_ACTION (act), phosh_util_have_gnome_software (FALSE));
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (act), have_gnome_software);
   act = g_action_map_lookup_action (priv->action_map, "folder-remove");
   g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
+
+  /* Uninstall is hidden initially until we're sure the AppStream cache has loaded. */
+  act = g_action_map_lookup_action (priv->action_map, "uninstall");
+  g_simple_action_set_enabled (G_SIMPLE_ACTION (act), FALSE);
+
+  if (have_gnome_software) {
+    act = g_action_map_lookup_action (priv->action_map, "uninstall");
+    g_object_bind_property (metainfo_cache, "ready", act, "enabled", G_BINDING_SYNC_CREATE);
+  }
 
   g_type_ensure (PHOSH_TYPE_CLAMP);
   g_type_ensure (PHOSH_TYPE_FADING_LABEL);

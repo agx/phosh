@@ -16,6 +16,7 @@
 #include "wall-clock.h"
 #include "fake-clock.h"
 #include "background-cache.h"
+#include "metainfo-cache.h"
 
 #include <handy.h>
 #include <libfeedback.h>
@@ -127,8 +128,10 @@ main (int argc, char *argv[])
   g_autoptr (PhoshWayland) wl = NULL;
   g_autoptr (PhoshShell) shell = NULL;
   g_autoptr (PhoshBackgroundCache) background_cache = NULL;
+  g_autoptr (PhoshMetainfoCache) metainfo_cache = NULL;
   g_autoptr (GTimer) timer = g_timer_new ();
   g_autoptr (PhoshWallClock) wall_clock = NULL;
+
   const GOptionEntry options [] = {
     {"unlocked", 'U', 0, G_OPTION_ARG_NONE, &unlocked,
      "Don't start with screen locked", NULL},
@@ -167,6 +170,7 @@ main (int argc, char *argv[])
   phosh_wall_clock_set_default (wall_clock);
   wl = phosh_wayland_get_default ();
   background_cache = phosh_background_cache_get_default ();
+  metainfo_cache = phosh_metainfo_cache_get_default ();
   shell = phosh_shell_new ();
   phosh_shell_set_default (shell);
 
