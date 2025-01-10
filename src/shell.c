@@ -34,6 +34,7 @@
 #include "bt-info.h"
 #include "bt-manager.h"
 #include "connectivity-info.h"
+#include "connectivity-manager.h"
 #include "calls-manager.h"
 #include "cell-broadcast-manager.h"
 #include "docked-info.h"
@@ -181,6 +182,7 @@ typedef struct
   PhoshStyleManager *style_manager;
   PhoshLauncherEntryManager *launcher_entry_manager;
   PhoshCellBroadcastManager *cell_broadcast_manager;
+  PhoshConnectivityManager *connectivity_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -525,6 +527,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->notification_banner);
 
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->connectivity_manager);
   g_clear_object (&priv->cell_broadcast_manager);
   g_clear_object (&priv->launcher_entry_manager);
   g_clear_object (&priv->power_menu_manager);
@@ -792,6 +795,7 @@ setup_idle_cb (PhoshShell *self)
   priv->emergency_calls_manager = phosh_emergency_calls_manager_new ();
   priv->power_menu_manager = phosh_power_menu_manager_new ();
   priv->cell_broadcast_manager = phosh_cell_broadcast_manager_new ();
+  priv->connectivity_manager = phosh_connectivity_manager_new ();
 
   setup_primary_monitor_signal_handlers (self);
 
