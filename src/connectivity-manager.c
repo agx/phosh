@@ -38,6 +38,7 @@ struct _PhoshConnectivityManager {
   GCancellable *cancel;
 
   char         *icon_name;
+  NMConnectivityState state;
 };
 G_DEFINE_TYPE (PhoshConnectivityManager, phosh_connectivity_manager, PHOSH_TYPE_MANAGER)
 
@@ -74,6 +75,11 @@ on_connectivity_changed (PhoshConnectivityManager *self, GParamSpec *pspec, NMCl
   g_return_if_fail (NM_IS_CLIENT (nmclient));
 
   state = nm_client_get_connectivity (nmclient);
+
+  if (self->state == state)
+    return;
+
+  self->state = state;
 
   switch (state) {
   case NM_CONNECTIVITY_NONE:
@@ -192,6 +198,8 @@ static void
 phosh_connectivity_manager_init (PhoshConnectivityManager *self)
 {
   self->cancel = g_cancellable_new ();
+  /* Ensure initial sync */
+  self->state = -1;
 }
 
 
