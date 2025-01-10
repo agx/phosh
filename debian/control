@@ -77,6 +77,7 @@ Recommends:
  gnome-settings-daemon,
  iio-sensor-proxy,
  librsvg2-common,
+ network-manager-config-connectivity-debian,
  phosh-mobile-tweaks,
  slurp,
  squeekboard | phosh-osk-stub,
