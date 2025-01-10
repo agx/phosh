@@ -795,7 +795,6 @@ setup_idle_cb (PhoshShell *self)
   priv->emergency_calls_manager = phosh_emergency_calls_manager_new ();
   priv->power_menu_manager = phosh_power_menu_manager_new ();
   priv->cell_broadcast_manager = phosh_cell_broadcast_manager_new ();
-  priv->connectivity_manager = phosh_connectivity_manager_new ();
 
   setup_primary_monitor_signal_handlers (self);
 
@@ -1810,6 +1809,28 @@ phosh_shell_get_bt_manager (PhoshShell *self)
   return priv->bt_manager;
 }
 
+/**
+ * phosh_shell_get_connectivity_manager:
+ * @self: The shell singleton
+ *
+ * Get the connectivity manager
+ *
+ * Returns: (transfer none): The connectivity manager
+ */
+PhoshConnectivityManager *
+phosh_shell_get_connectivity_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->connectivity_manager)
+      priv->connectivity_manager = phosh_connectivity_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_CONNECTIVITY_MANAGER (priv->connectivity_manager), NULL);
+  return priv->connectivity_manager;
+}
 
 /**
  * phosh_shell_get_docked_manager:

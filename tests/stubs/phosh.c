@@ -8,6 +8,7 @@
 
 #include <glib.h>
 #include "phosh-wayland.h"
+#include "connectivity-manager.h"
 #include "shell.h"
 
 static PhoshToplevelManager *toplevel_manager = NULL;
@@ -91,6 +92,13 @@ PhoshWifiManager *
 phosh_shell_get_wifi_manager (PhoshShell *self)
 {
   return NULL;
+}
+
+
+PhoshConnectivityManager *
+phosh_shell_get_connectivity_manager (PhoshShell *self)
+{
+  return phosh_connectivity_manager_new ();
 }
 
 
