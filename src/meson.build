@@ -239,6 +239,11 @@ libphosh_tool_sources = files(
   'util.c',
   'wall-clock.c',
   'widget-box.c',
+  'wifi-manager.c',
+  'wifi-status-page.c',
+  'wifi-network-row.c',
+  'wifi-network.c',
+  'wifi-info.c',
   'wl-buffer.c',
 ) + [
   libphosh_tool_headers,
@@ -369,11 +374,6 @@ libphosh_sources = files(
   'torch-info.c',
   'torch-manager.c',
   'toplevel.c',
-  'wifi-status-page.c',
-  'wifi-network-row.c',
-  'wifi-network.c',
-  'wifi-info.c',
-  'wifi-manager.c',
   'wwan-info.c',
 ) + [
   libphosh_headers,

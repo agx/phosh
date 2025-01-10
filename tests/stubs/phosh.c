@@ -86,6 +86,14 @@ phosh_shell_get_app_tracker (PhoshShell *self)
   return NULL;
 }
 
+
+PhoshWifiManager *
+phosh_shell_get_wifi_manager (PhoshShell *self)
+{
+  return NULL;
+}
+
+
 PhoshLockscreenManager *
 phosh_shell_get_lockscreen_manager (PhoshShell *self)
 {
