@@ -49,8 +49,11 @@ update_icon (GBinding     *binding,
 }
 
 static void
-bind_network (PhoshWifiNetworkRow *self)
+set_network (PhoshWifiNetworkRow *self, PhoshWifiNetwork *network)
 {
+  g_assert (self->network == NULL);
+  self->network = g_object_ref (network);
+
   g_object_bind_property (self->network,
                           "active",
                           self->active_indicator,
@@ -100,8 +103,7 @@ phosh_wifi_network_row_set_property (GObject      *object,
 
   switch (property_id) {
   case PROP_NETWORK:
-    self->network = g_value_dup_object (value);
-    bind_network (self);
+    set_network (self, g_value_get_object (value));
     break;
   default:
     G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
