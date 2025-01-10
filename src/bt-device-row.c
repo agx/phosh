@@ -145,7 +145,7 @@ phosh_bt_device_row_dispose (GObject *object)
 
 
 static void
-on_connect_device_finished (GObject *source_object, GAsyncResult *res, gpointer user_data)
+on_connect_device_ready (GObject *source_object, GAsyncResult *res, gpointer user_data)
 {
   g_autoptr (PhoshBtDeviceRow) self = PHOSH_BT_DEVICE_ROW (user_data);
   PhoshBtManager *manager = PHOSH_BT_MANAGER (source_object);
@@ -180,7 +180,7 @@ on_bt_row_activated (PhoshBtDeviceRow *self)
   phosh_bt_manager_connect_device_async (manager,
                                          self->device,
                                          !connected,
-                                         on_connect_device_finished,
+                                         on_connect_device_ready,
                                          self->cancellable,
                                          g_object_ref (self));
 }
