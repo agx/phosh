@@ -160,9 +160,9 @@ phosh_status_page_remove (GtkContainer *container,
 
 static void
 phosh_status_page_forall (GtkContainer *container,
-                                      gboolean      include_internals,
-                                      GtkCallback   callback,
-                                      gpointer      callback_data)
+                          gboolean      include_internals,
+                          GtkCallback   callback,
+                          gpointer      callback_data)
 {
   PhoshStatusPage *self = PHOSH_STATUS_PAGE (container);
   PhoshStatusPagePrivate *priv = phosh_status_page_get_instance_private (self);
