@@ -11,6 +11,8 @@
 #include "config.h"
 
 #include "connectivity-manager.h"
+#include "notify-manager.h"
+#include "shell.h"
 #include "util.h"
 
 #include <NetworkManager.h>
@@ -41,6 +43,62 @@ struct _PhoshConnectivityManager {
   NMConnectivityState state;
 };
 G_DEFINE_TYPE (PhoshConnectivityManager, phosh_connectivity_manager, PHOSH_TYPE_MANAGER)
+
+
+static void
+on_notification_actioned (PhoshConnectivityManager *self)
+{
+  gboolean success;
+  const char *check_uri;
+  g_autoptr (GError) err = NULL;
+
+  check_uri = nm_client_connectivity_check_get_uri (self->nmclient);
+  if (check_uri == NULL) {
+    g_warning ("No connectivity check URI configured");
+    return;
+  }
+
+  success = gtk_show_uri_on_window (NULL, check_uri, GDK_CURRENT_TIME, &err);
+  if (!success)
+    g_warning ("Failed to show uri '%s': %s", check_uri, err->message);
+}
+
+
+static void
+portal_auth (PhoshConnectivityManager *self)
+{
+  PhoshNotifyManager *nm = phosh_notify_manager_get_default ();
+  PhoshWifiManager *wifi_manager = phosh_shell_get_wifi_manager (phosh_shell_get_default ());
+  g_autoptr (PhoshNotification) noti = NULL;
+  g_autoptr (GIcon) icon = g_themed_icon_new ("network-wireless-signal-none-symbolic");
+  g_autofree char *body = NULL;
+  const char *check_uri, *ssid;
+
+  check_uri = nm_client_connectivity_check_get_uri (self->nmclient);
+  if (check_uri == NULL) {
+    g_warning ("No connectivity check URI configured, ignoring");
+    return;
+  }
+
+  ssid = phosh_wifi_manager_get_ssid (wifi_manager);
+
+  if (ssid)
+    body = g_strdup_printf (_("Wi-Fi network '%s' uses a captive portal"), ssid);
+  else
+    body = g_strdup (_("The Wi-Fi network uses a captive portal"));
+
+  noti = g_object_new (PHOSH_TYPE_NOTIFICATION,
+                       "summary", _("Sign into Wi-Fi network"),
+                       "body", body,
+                       "image", icon,
+                       NULL);
+  g_signal_connect_object (noti,
+                           "actioned",
+                           G_CALLBACK (on_notification_actioned),
+                           self,
+                           G_CONNECT_SWAPPED);
+  phosh_notify_manager_add_shell_notification (nm, noti, 0, 10000);
+}
 
 
 static void
@@ -85,8 +143,11 @@ on_connectivity_changed (PhoshConnectivityManager *self, GParamSpec *pspec, NMCl
   case NM_CONNECTIVITY_NONE:
     icon_name = "network-offline-symbolic";
     break;
-  case NM_CONNECTIVITY_PORTAL:
   case NM_CONNECTIVITY_LIMITED:
+    icon_name = "network-no-route-symbolic";
+    break;
+  case NM_CONNECTIVITY_PORTAL:
+    portal_auth (self);
     icon_name = "network-no-route-symbolic";
     break;
   case NM_CONNECTIVITY_UNKNOWN:
@@ -96,8 +157,7 @@ on_connectivity_changed (PhoshConnectivityManager *self, GParamSpec *pspec, NMCl
     connectivity = TRUE;
   }
 
-  g_debug ("Connectivity changed (%d), updating icon to '%s'",
-           state, icon_name);
+  g_debug ("Connectivity changed (%d), updating icon to '%s'", state, icon_name);
 
   if (connectivity != self->connectivity) {
     self->connectivity = connectivity;
