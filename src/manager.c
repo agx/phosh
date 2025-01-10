@@ -28,9 +28,10 @@ typedef struct
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshManager, phosh_manager, G_TYPE_OBJECT);
 
 
-static gboolean
-on_idle (PhoshManager *self)
+static void
+on_idle (gpointer user_data)
 {
+  PhoshManager *self = PHOSH_MANAGER (user_data);
   PhoshManagerClass *klass = PHOSH_MANAGER_GET_CLASS (self);
   PhoshManagerPrivate *priv = phosh_manager_get_instance_private (self);
 
@@ -38,7 +39,6 @@ on_idle (PhoshManager *self)
     (*klass->idle_init) (self);
 
   priv->idle_id = 0;
-  return G_SOURCE_REMOVE;
 }
 
 
@@ -64,7 +64,7 @@ phosh_manager_constructed (GObject *object)
   G_OBJECT_CLASS (phosh_manager_parent_class)->constructed (object);
 
   if (klass->idle_init) {
-    priv->idle_id = g_idle_add ((GSourceFunc) on_idle, self);
+    priv->idle_id = g_idle_add_once (on_idle, self);
     g_source_set_name_by_id (priv->idle_id, "[PhoshManager] idle");
   }
 }
