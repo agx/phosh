@@ -30,6 +30,12 @@ enum {
 };
 static GParamSpec *props[PROP_LAST_PROP];
 
+enum {
+  DONE,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS];
+
 typedef struct {
   GtkBox       *toplevel_box;
 
@@ -223,6 +229,18 @@ phosh_status_page_class_init (PhoshStatusPageClass *klass)
                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
+
+  /**
+   * PhoshStatusPage::done
+   *
+   * The status page should be closed
+   */
+  signals[DONE] = g_signal_new ("done",
+                                G_TYPE_FROM_CLASS (klass),
+                                G_SIGNAL_RUN_LAST,
+                                0, NULL, NULL, NULL,
+                                G_TYPE_NONE,
+                                0);
 
   g_type_ensure (PHOSH_TYPE_STATUS_PAGE_PLACEHOLDER);
   gtk_widget_class_set_template_from_resource (widget_class, "/mobi/phosh/ui/status-page.ui");
