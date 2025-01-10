@@ -24,6 +24,15 @@ enum {
 };
 static GParamSpec *props[PROP_LAST_PROP];
 
+
+enum {
+  ACTIVATING,
+  DONE,
+  N_SIGNALS
+};
+static guint signals[N_SIGNALS];
+
+
 struct _PhoshBtDeviceRow {
   HdyActionRow      parent;
 
@@ -159,6 +168,8 @@ on_connect_device_ready (GObject *source_object, GAsyncResult *res, gpointer use
   g_assert (PHOSH_IS_BT_DEVICE_ROW (user_data));
 
   gtk_spinner_stop (self->spinner);
+
+  g_signal_emit (self, signals[DONE], 0, success);
 }
 
 
@@ -183,6 +194,7 @@ on_bt_row_activated (PhoshBtDeviceRow *self)
                                          on_connect_device_ready,
                                          self->cancellable,
                                          g_object_ref (self));
+  g_signal_emit (self, signals[ACTIVATING], 0);
 }
 
 
@@ -214,6 +226,32 @@ phosh_bt_device_row_class_init (PhoshBtDeviceRowClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshBtDeviceRow, icon);
 
   gtk_widget_class_bind_template_callback (widget_class, on_bt_row_activated);
+
+  /**
+   * PhoshBtDeviceRow::activating
+   *
+   * The device is in the process of being activated / deactivated.
+   */
+  signals[ACTIVATING] = g_signal_new ("activating",
+                                      G_TYPE_FROM_CLASS (klass),
+                                      G_SIGNAL_RUN_LAST,
+                                      0, NULL, NULL, NULL,
+                                      G_TYPE_NONE,
+                                      0);
+  /**
+   * PhoshBtDeviceRow::done
+   * @self: The device row
+   * @success: Whether the device (de)activation was successful
+   *
+   * The user selected the row and the activation finished.
+   */
+  signals[DONE] = g_signal_new ("done",
+                                G_TYPE_FROM_CLASS (klass),
+                                G_SIGNAL_RUN_LAST,
+                                0, NULL, NULL, NULL,
+                                G_TYPE_NONE,
+                                1,
+                                G_TYPE_BOOLEAN);
 }
 
 
