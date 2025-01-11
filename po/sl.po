@@ -7,23 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-11-11 09:22+0000\n"
-"PO-Revision-Date: 2024-11-12 09:09+0100\n"
+"POT-Creation-Date: 2025-01-11 15:50+0000\n"
+"PO-Revision-Date: 2025-01-11 19:37+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
-"%100<=4 ? 2 : 3);\n"
-"X-Generator: Poedit 2.2.1\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && "
+"n%100<=4 ? 2 : 3);\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
-
-#. Translators: this is the session name, no need to translate it
-#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
-msgid "Phosh"
-msgstr "Phosh"
 
 #: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
 msgid "Phone Shell"
@@ -32,6 +27,11 @@ msgstr "Lupina telefona"
 #: data/mobi.phosh.Shell.desktop.in.in:5
 msgid "Window management and application launching for mobile"
 msgstr "Upravljanje oken in zagon programja za mobilnike"
+
+#. Translators: this is the session name, no need to translate it
+#: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
+msgid "Phosh"
+msgstr "Phosh"
 
 #: data/wayland-sessions/phosh.desktop:5
 msgid "This session logs you into Phosh"
@@ -121,15 +121,15 @@ msgstr "Prihodnji dogodki"
 msgid "Show upcoming calendar events"
 msgstr "Pokaži prihodnje dogodke koledarja"
 
-#: src/app-grid-button.c:153
+#: src/app-grid-button.c:154
 msgid "Add to Folder"
 msgstr "Dodaj v mapo"
 
-#: src/app-grid-button.c:177
+#: src/app-grid-button.c:178
 msgid "Create new folder"
 msgstr "Ustvari novo mapo"
 
-#: src/app-grid-button.c:692 src/app-grid-button.c:749
+#: src/app-grid-button.c:731 src/app-grid-button.c:788
 msgid "Application"
 msgstr "Program"
 
@@ -177,7 +177,7 @@ msgid "Undocked"
 msgstr "Odsidrano"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:71
+#: src/ui/cell-broadcast-prompt.ui:23 src/ui/end-session-dialog.ui:71
 msgid "Ok"
 msgstr "V redu"
 
@@ -189,11 +189,11 @@ msgstr "Klica v sili ni možno izvesti"
 msgid "Internal error"
 msgstr "Notranja napaka"
 
-#: src/end-session-dialog.c:174
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "Odjavi"
 
-#: src/end-session-dialog.c:177
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
@@ -202,11 +202,11 @@ msgstr[1] "%s se bo samodejno odjavil čez %d sekundi."
 msgstr[2] "%s se bo samodejno odjavil čez %d sekunde."
 msgstr[3] "%s se bo samodejno odjavil čez %d sekund."
 
-#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Ugasni"
 
-#: src/end-session-dialog.c:184
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
@@ -215,11 +215,11 @@ msgstr[1] "Sistem se bo samodejno izklopil v %d sekundah."
 msgstr[2] "Sistem se bo samodejno izklopil v %d sekundah."
 msgstr[3] "Sistem se bo samodejno izklopil v %d sekundah."
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "Ponovno zaženi"
 
-#: src/end-session-dialog.c:191
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -275,28 +275,28 @@ msgid "Checking…"
 msgstr "Preverjanje …"
 
 #. Translators: '%s' is the filename of a screenshot
-#: src/screenshot-manager.c:235
+#: src/screenshot-manager.c:238
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "Zaslonska slika shranjena v »%s«"
 
-#: src/screenshot-manager.c:237
+#: src/screenshot-manager.c:240
 msgid "Failed to save screenshot"
 msgstr "Posnetka zaslona ni bilo mogoče shraniti"
 
-#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:244 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Posnetek zaslona"
 
 #. Translators: name of the folder beneath ~/Pictures used to store screenshots
-#: src/screenshot-manager.c:416
+#: src/screenshot-manager.c:527
 msgid "Screenshots"
 msgstr "Zaslonske slike"
 
 #. Translators: Name of a screenshot file. The first '%s' is a timestamp
 #. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
 #. * the file already exists like '-3'
-#: src/screenshot-manager.c:436
+#: src/screenshot-manager.c:547
 #, c-format
 msgid "Screenshot from %s%s.png"
 msgstr "Zaslonska slika iz %s%s.png"
@@ -536,8 +536,8 @@ msgid "Remember decision"
 msgstr "Pomni odločitev"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:291
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -553,11 +553,15 @@ msgstr "Dodaj med pri_ljubljene"
 msgid "View _Details"
 msgstr "Pokaži po_drobnosti"
 
-#: src/ui/app-grid-button.ui:41
+#: src/ui/app-grid-button.ui:38
+msgid "Uninstall"
+msgstr "Odstrani namestitev"
+
+#: src/ui/app-grid-button.ui:46
 msgid "_Remove from Folder"
 msgstr "Odstrani iz _mape"
 
-#: src/ui/app-grid.ui:24
+#: src/ui/app-grid.ui:25
 msgid "Search apps…"
 msgstr "Poišči program …"
 
@@ -602,7 +606,7 @@ msgid "Owner unknown"
 msgstr "Lastnik neznan"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:232
 msgid "Emergency Contacts"
 msgstr "Stiki v sili"
 
@@ -643,7 +647,6 @@ msgid "Authentication required"
 msgstr "Zahtevana je overitev"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "Pre_kliči"
 
@@ -787,52 +790,52 @@ msgid "Light mode"
 msgstr "Svetli način"
 
 #: plugins/emergency-info/emergency-info.ui:39
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:68
 msgid "Personal Information"
 msgstr "Osebni podatki"
 
 #: plugins/emergency-info/emergency-info.ui:47
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:86
 msgid "Date of Birth"
 msgstr "Datum rojstva"
 
 #: plugins/emergency-info/emergency-info.ui:65
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:98
 msgid "Preferred Language"
 msgstr "Prednostni jezik"
 
 #: plugins/emergency-info/emergency-info.ui:83
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
 msgid "Home Address"
 msgstr "Domači naslov"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:128
 msgid "Medical Information"
 msgstr "Zdravstveni podatki"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:134
 msgid "Age"
 msgstr "Starost"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:146
 msgid "Blood Type"
 msgstr "Krvna skupina"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:158
 msgid "Height"
 msgstr "Višina"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Weight"
 msgstr "Teža"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:182
 msgid "Allergies"
 msgstr "Alergije"
 
@@ -841,48 +844,48 @@ msgid "Medications & Conditions"
 msgstr "Zdravila in bolezni"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:214
 msgid "Other Information"
 msgstr "Druge informacije"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:17
 msgid "Emergency Info Preferences"
 msgstr "Nastavitve podatkov za primere v sili"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:38
 msgid "Done"
 msgstr "Opravljeno"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:74
 msgid "Owner Name"
 msgstr "Ime lastnika"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
 msgid "Medications and Conditions"
 msgstr "Zdravila in bolezni"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:241
 msgid "Add Contact"
 msgstr "Dodaj stik"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:286
 msgid "Add New Contact"
 msgstr "Dodaj nov stik"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:296
 msgid "Add"
 msgstr "Dodaj"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:317
 msgid "New Contact Name"
 msgstr "Ime novega stika"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:331
 msgid "Relationship"
 msgstr "Relacija"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:344
 msgid "Number"
 msgstr "Številka"
 
@@ -944,23 +947,23 @@ msgstr "Pomodoro izklopljen"
 msgid "Pomodoro Quick Setting Preferences"
 msgstr "Nastavitve hitre nastavitve Pomodoro"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:11
 msgid "Pomodoro Technique"
 msgstr "Tehnika Pomodoro"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
 msgid "_Active Duration"
 msgstr "_Aktivno trajanje"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:15
 msgid "Duration of the focus session"
 msgstr "Trajanje osredotočene seje"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:29
 msgid "_Break Duration"
 msgstr "_Trajanje odmora"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:30
 msgid "Duration of the break between sessions"
 msgstr "Trajanje odmora med sejami"
 
@@ -972,31 +975,31 @@ msgstr "Ni dokumentov za prikaz"
 msgid "Tickets"
 msgstr "Vstopnice"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
-msgid "Choose Folder"
-msgstr "Izberite mapo"
-
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:94
 msgid "_Open"
 msgstr "_Odpri"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:95
+msgid "Choose Folder"
+msgstr "Izberite mapo"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
 msgid "Ticket Box Preferences"
 msgstr "Nastavitve škatle z vstopnicami"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:10
 msgid "Paths"
 msgstr "Poti"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:15
 msgid "Folder Settings"
 msgstr "Nastavitve mape"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:16
 msgid "Where Phosh looks for your tickets"
 msgstr "Kje Phosh išče vaše vstopnice"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
 msgid "Ticket Folder"
 msgstr "Mapa z vstopnicami"
 
@@ -1050,16 +1053,16 @@ msgstr "Neimenovan dogodek"
 msgid "Upcoming Events Preferences"
 msgstr "Nastavitve prihodnjih dogodkov"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:20
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:10
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
 msgid "Days"
 msgstr "Dni"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:16
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
 msgid "Date Range"
 msgstr "Datum od - do"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:14
 msgid "Number of days to show events for"
 msgstr "Število dni za prikazovanja dogodkov"
 
