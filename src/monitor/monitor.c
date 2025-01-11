@@ -415,28 +415,34 @@ phosh_monitor_class_init (PhoshMonitorClass *klass)
   object_class->set_property = phosh_monitor_set_property;
   object_class->get_property = phosh_monitor_get_property;
 
+  /**
+   * PhoshMonitor:wl-output:
+   *
+   * The wayland output associated with this monitor
+   */
   props[PHOSH_MONITOR_PROP_WL_OUTPUT] =
-    g_param_spec_pointer ("wl-output",
-                          "wl-output",
-                          "The wayland output associated with this monitor",
-                          G_PARAM_READWRITE |
-                          G_PARAM_CONSTRUCT_ONLY |
-                          G_PARAM_STATIC_STRINGS);
+    g_param_spec_pointer ("wl-output", "", "",
+                          G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshMonitor:power-mode:
+   *
+   * The  power save mode for this monitor
+   */
   props[PHOSH_MONITOR_PROP_POWER_MODE] =
-    g_param_spec_enum ("power-mode",
-                       "power-mode",
-                       "The  power save mode for this monitor",
+    g_param_spec_enum ("power-mode", "", "",
                        PHOSH_TYPE_MONITOR_POWER_SAVE_MODE,
                        PHOSH_MONITOR_POWER_SAVE_MODE_OFF,
-                       G_PARAM_READABLE |
-                       G_PARAM_STATIC_STRINGS);
+                       G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+  /**
+   * PhoshMonitor:n-gamma-entries:
+   *
+   * The number of gamma entries for this monitor
+   */
   props[PHOSH_MONITOR_PROP_N_GAMMA_ENTRIES] =
-    g_param_spec_uint ("n-gamma-entries",
-                       "n-gamma-entries",
-                       "The number of gamma entries for this monitor",
+    g_param_spec_uint ("n-gamma-entries", "", "",
                        0, G_MAXUINT32, 0,
-                       G_PARAM_READABLE |
-                       G_PARAM_STATIC_STRINGS);
+                       G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
   g_object_class_install_properties (object_class, PHOSH_MONITOR_PROP_LAST_PROP, props);
 
   /**
@@ -447,10 +453,12 @@ phosh_monitor_class_init (PhoshMonitorClass *klass)
    * received all configuration data from the various wayland
    * protocols).
    */
-  signals[SIGNAL_CONFIGURED] = g_signal_new (
-    "configured",
-    G_TYPE_FROM_CLASS (klass), G_SIGNAL_RUN_LAST, 0, NULL, NULL,
-    NULL, G_TYPE_NONE, 0);
+  signals[SIGNAL_CONFIGURED] = g_signal_new ("configured",
+                                             G_TYPE_FROM_CLASS (klass),
+                                             G_SIGNAL_RUN_LAST,
+                                             0, NULL, NULL, NULL,
+                                             G_TYPE_NONE,
+                                             0);
 }
 
 
