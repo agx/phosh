@@ -1499,6 +1499,31 @@ phosh_monitor_manager_set_monitor_transform (PhoshMonitorManager  *self,
 }
 
 /**
+ * phosh_monitor_manager_set_monitor_scale:
+ * @self: A #PhoshMonitor
+ * @monitor: The #PhoshMonitor to set the scale for
+ * @scale: The scale to set
+ *
+ * Sets monitor's scale. This will become active after the next
+ * call to #phosh_monitor_manager_apply_monitor_config().
+ */
+void
+phosh_monitor_manager_set_monitor_scale (PhoshMonitorManager  *self,
+                                         PhoshMonitor         *monitor,
+                                         double                scale)
+{
+  PhoshHead *head;
+
+  g_return_if_fail (PHOSH_IS_MONITOR_MANAGER (self));
+  g_return_if_fail (PHOSH_IS_MONITOR (monitor));
+  g_return_if_fail (phosh_monitor_is_configured (monitor));
+  head = phosh_monitor_manager_get_head_from_monitor (self, monitor);
+  g_return_if_fail (PHOSH_IS_HEAD (head));
+
+  phosh_head_set_pending_scale (head, scale, self->heads);
+}
+
+/**
  * phosh_monitor_manager_apply_monitor_config
  * @self: a #PhoshMonitorManager
  *

@@ -80,5 +80,8 @@ void                        phosh_head_clear_pending (PhoshHead *self);
 void                        phosh_head_set_pending_transform (PhoshHead             *self,
                                                               PhoshMonitorTransform  transform,
                                                               GPtrArray             *heads);
+void                        phosh_head_set_pending_scale (PhoshHead *self,
+                                                          double     scale,
+                                                          GPtrArray *heads);
 
 G_END_DECLS

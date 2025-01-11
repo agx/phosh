@@ -541,6 +541,45 @@ phosh_head_set_pending_transform (PhoshHead             *self,
   }
 }
 
+/**
+ * phosh_head_set_pending_scale:
+ * @self: The head to set scale for
+ * @scale: The scale to apply to the head
+ * @heads:(element-type PhoshHead): All currently known heads
+ *
+ * Set the heads pending scale. Move pending positions of heads to
+ * the right and below @self around to avoid gaps and overlaps in the
+ * layout.
+ */
+void
+phosh_head_set_pending_scale (PhoshHead *self, double scale, GPtrArray *heads)
+
+{
+  int dx, dy;
+
+  g_return_if_fail (self);
+
+  g_return_if_fail (self->pending.mode);
+  g_return_if_fail (self->pending.scale >= 0.0);
+
+  dx = (self->pending.mode->height * ( 1.0 / self->pending.scale) - 1.0 / scale);
+  dy = (self->pending.mode->width * ( 1.0 / self->pending.scale) - 1.0 / scale);
+
+  self->pending.scale = scale;
+
+  g_debug ("Output orientation of %s changed, "
+           "adjusting layout: dx: %d, dy: %d", self->name, dx, dy);
+
+  for (int i = 0; i < heads->len; i++) {
+    PhoshHead *move_head = g_ptr_array_index (heads, i);
+
+    if (move_head->pending.x > self->pending.x)
+      move_head->pending.x += dx;
+
+    if (move_head->pending.y > self->pending.y)
+      move_head->pending.y += dy;
+  }
+}
 
 /**
  * phosh_head_get_wlr_head:
