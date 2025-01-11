@@ -86,8 +86,6 @@ void                 phosh_shell_set_locked      (PhoshShell *self, gboolean loc
 void                 phosh_shell_lock            (PhoshShell *self);
 void                 phosh_shell_unlock          (PhoshShell *self);
 void                 phosh_shell_set_primary_monitor (PhoshShell *self, PhoshMonitor *monitor);
-PhoshMonitor        *phosh_shell_get_primary_monitor (PhoshShell *self);
-PhoshMonitor        *phosh_shell_get_builtin_monitor (PhoshShell *self);
 
 /* Created by the shell on startup */
 PhoshAppTracker        *phosh_shell_get_app_tracker        (PhoshShell *self);
