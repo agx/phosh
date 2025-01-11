@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2021 Purism SPC
+ *               2025 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -68,6 +69,67 @@ test_phosh_util_data_uri_to_pixbuf (void)
 }
 
 
+static void
+test_phosh_util_calculate_supported_mode_scales_integer (void)
+{
+  int num;
+  g_autofree float *scales;
+
+  /* Phone mode (e.g. PinePhone or Librem 5 */
+  scales = phosh_util_calculate_supported_mode_scales (720,
+                                                       1440,
+                                                       &num,
+                                                       FALSE);
+  g_assert_cmpint (num, ==, 2);
+  g_assert_true (G_APPROX_VALUE (scales[0], 1.0, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[1], 2.0, FLT_EPSILON));
+
+  g_clear_pointer (&scales, g_free);
+  scales = phosh_util_calculate_supported_mode_scales (3840,
+                                                       2160,
+                                                       &num, FALSE);
+  g_assert_cmpint (num, ==, 4);
+  g_assert_true (G_APPROX_VALUE (scales[0], 1.0, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[1], 2.0, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[2], 3.0, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[3], 4.0, FLT_EPSILON));
+}
+
+
+static void
+test_phosh_util_calculate_supported_mode_scales_fractional (void)
+{
+  int num;
+  g_autofree float *scales;
+
+  /* 4K Mode */
+  scales = phosh_util_calculate_supported_mode_scales (720,
+                                                       1440,
+                                                       &num,
+                                                       TRUE);
+  g_assert_cmpint (num, ==, 5);
+
+  g_assert_true (G_APPROX_VALUE (scales[0], 1.0, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[1], 1.25, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[2], 1.5, FLT_EPSILON));
+  g_assert_cmpfloat (scales[3], >=, 1.75);
+  g_assert_cmpfloat (scales[3], <=, 1.76);
+  g_assert_true (G_APPROX_VALUE (scales[4], 2.0, FLT_EPSILON));
+
+  g_clear_pointer (&scales, g_free);
+  scales = phosh_util_calculate_supported_mode_scales (3840,
+                                                       2160,
+                                                       &num,
+                                                       TRUE);
+  g_assert_cmpint (num, ==, 13);
+  g_assert_true (G_APPROX_VALUE (scales[0], 1.0, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[1], 1.25, FLT_EPSILON));
+  /* ... */
+  g_assert_true (G_APPROX_VALUE (scales[11], 3.75, FLT_EPSILON));
+  g_assert_true (G_APPROX_VALUE (scales[12], 4.0, FLT_EPSILON));
+}
+
+
 int
 main (int argc, char *argv[])
 {
@@ -75,6 +137,10 @@ main (int argc, char *argv[])
 
   g_test_add_func ("/phosh/util/escacpe-markup", test_phosh_util_escape_markup);
   g_test_add_func ("/phosh/util/data-uri-to-pixbuf", test_phosh_util_data_uri_to_pixbuf);
+  g_test_add_func ("/phosh/util/scale/integer",
+                   test_phosh_util_calculate_supported_mode_scales_integer);
+  g_test_add_func ("/phosh/util/scale/fractional",
+                   test_phosh_util_calculate_supported_mode_scales_fractional);
 
   return g_test_run ();
 }

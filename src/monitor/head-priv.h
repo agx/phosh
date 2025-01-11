@@ -72,10 +72,6 @@ void                        phosh_head_set_pending_enabled (PhoshHead *self, gbo
 PhoshHeadMode              *phosh_head_get_preferred_mode (PhoshHead *self);
 gboolean                    phosh_head_is_builtin (PhoshHead *self);
 PhoshHeadMode              *phosh_head_find_mode_by_name (PhoshHead *self, const char *name);
-float *                     phosh_head_calculate_supported_mode_scales (PhoshHead     *head,
-                                                                        PhoshHeadMode *mode,
-                                                                        int           *n,
-                                                                        gboolean       fractional);
 void                        phosh_head_clear_pending (PhoshHead *self);
 void                        phosh_head_set_pending_transform (PhoshHead             *self,
                                                               PhoshMonitorTransform  transform,

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018 Purism SPC
+ *               2024-2025 The Phosh Developers
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
@@ -40,3 +41,7 @@ gboolean         phosh_util_matches_app_info (GAppInfo *info, const char *search
 GStrv            phosh_util_append_to_strv (GStrv array, const char *element);
 GStrv            phosh_util_remove_from_strv (GStrv array, const char *element);
 void             phosh_util_open_settings_panel (const char *panel);
+float *          phosh_util_calculate_supported_mode_scales (guint32   width,
+                                                             guint32   height,
+                                                             int      *n_supported_scales,
+                                                             gboolean  fractional);

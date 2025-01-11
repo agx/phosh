@@ -36,13 +36,6 @@ enum {
 };
 static GParamSpec *props[PHOSH_HEAD_PROP_LAST_PROP];
 
-#define MINIMUM_LOGICAL_AREA_LANDSCAPE (800 * 480)
-#define MINIMUM_LOGICAL_AREA_PORTRAIT (360 * 720)
-#define MINIMUM_SCALE_FACTOR 1.0f
-#define MAXIMUM_SCALE_FACTOR 4.0f
-#define SCALE_FACTORS_PER_INTEGER 4
-#define SCALE_FACTORS_STEPS (1.0 / (float) SCALE_FACTORS_PER_INTEGER)
-
 G_DEFINE_TYPE (PhoshHead, phosh_head, G_TYPE_OBJECT);
 
 
@@ -69,28 +62,6 @@ mode_name (PhoshHeadMode *mode)
   mode->name = g_strdup_printf ("%dx%d@%.0f", mode->width, mode->height,
                                 mode->refresh / 1000.0);
 
-}
-
-
-static gboolean
-is_logical_size_large_enough (float width, float height)
-{
-  int area = (width > height) ? MINIMUM_LOGICAL_AREA_LANDSCAPE : MINIMUM_LOGICAL_AREA_PORTRAIT;
-
-  return width * height >= area;
-}
-
-
-static gboolean
-is_valid_scale (float width, float height, float scale)
-{
-  float scaled_h = height / scale;
-  float scaled_w = width / scale;
-
-  if (scale < MINIMUM_SCALE_FACTOR || scale > MAXIMUM_SCALE_FACTOR)
-    return FALSE;
-
-  return is_logical_size_large_enough (floorf (scaled_w), floorf(scaled_h));
 }
 
 
@@ -675,109 +646,6 @@ phosh_head_find_mode_by_name (PhoshHead *self, const char *name)
         return mode;
   }
   return NULL;
-}
-
-
-static float
-get_closest_scale_factor_for_resolution (float width, float height, float scale, float threshold)
-{
-  unsigned int i;
-  float scaled_h;
-  float scaled_w;
-  float best_scale;
-  float base_scaled_w;
-  gboolean found_one;
-
-  best_scale = 0;
-
-  if (!is_valid_scale (width, height, scale))
-    return 0.0;
-
-  if (G_APPROX_VALUE (fmodf (width, scale), 0.0, FLT_EPSILON) &&
-      G_APPROX_VALUE (fmodf (height, scale), 0.0, FLT_EPSILON))
-    return scale;
-
-  i = 0;
-  found_one = FALSE;
-  base_scaled_w = floorf (width / scale);
-
-  do {
-    for (int j = 0; j < 2; j++) {
-      float current_scale;
-      int offset = i * (j ? 1 : -1);
-
-      scaled_w = base_scaled_w + offset;
-      current_scale = width / scaled_w;
-      scaled_h = height / current_scale;
-
-      if (current_scale >= scale + threshold ||
-          current_scale <= scale - threshold ||
-          current_scale < MINIMUM_SCALE_FACTOR ||
-          current_scale > MAXIMUM_SCALE_FACTOR) {
-        return best_scale;
-      }
-
-      if (G_APPROX_VALUE (floorf (scaled_h), scaled_h, FLT_EPSILON)) {
-        found_one = TRUE;
-
-        if (fabsf (current_scale - scale) < fabsf (best_scale - scale))
-          best_scale = current_scale;
-      }
-    }
-    i++;
-  } while (!found_one);
-
-  return best_scale;
-}
-
-
-float *
-phosh_head_calculate_supported_mode_scales (PhoshHead     *head,
-                                            PhoshHeadMode *mode,
-                                            int           *n_supported_scales,
-                                            gboolean       fractional)
-{
-  GArray *supported_scales;
-
-  supported_scales = g_array_new (FALSE, FALSE, sizeof (float));
-
-  if (fractional) {
-    for (float i = floorf (MINIMUM_SCALE_FACTOR); i <= ceilf (MAXIMUM_SCALE_FACTOR); i++) {
-      float max_bound;
-
-      if (G_APPROX_VALUE (floorf (MINIMUM_SCALE_FACTOR), i, FLT_EPSILON) ||
-          G_APPROX_VALUE (ceilf (MAXIMUM_SCALE_FACTOR), i, FLT_EPSILON)) {
-        max_bound = SCALE_FACTORS_STEPS;
-      } else {
-        max_bound = SCALE_FACTORS_STEPS / 2.0;
-      }
-
-      for (int j = 0; j < SCALE_FACTORS_PER_INTEGER; j++) {
-        float scale;
-        float scale_value = i + j * SCALE_FACTORS_STEPS;
-
-        scale = get_closest_scale_factor_for_resolution (mode->width, mode->height,
-                                                         scale_value,
-                                                         max_bound);
-        if (scale > 0.0)
-          g_array_append_val (supported_scales, scale);
-      }
-    }
-  } else {
-    for (float f = floorf (MINIMUM_SCALE_FACTOR); f <= ceilf (MAXIMUM_SCALE_FACTOR); f++) {
-      if (is_valid_scale (mode->width, mode->height, f)) {
-        g_array_append_val (supported_scales, f);
-      }
-    }
-  }
-
-  if (supported_scales->len == 0) {
-    float fallback_scale = 1.0;
-    g_array_append_val (supported_scales, fallback_scale);
-  }
-
-  *n_supported_scales = supported_scales->len;
-  return (float *) g_array_free (supported_scales, FALSE);
 }
 
 /**
