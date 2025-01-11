@@ -538,10 +538,10 @@ on_mm_object_added (PhoshWWanMM *self, GDBusObject *object, MMManager *manager)
     /* Modem interface is always present */
     modem_init_modem (self, MM_OBJECT (object));
 
-    g_signal_connect (object,
-                      "interface-added",
-                      G_CALLBACK (on_mm_object_interface_added),
-                      self);
+    g_signal_connect_swapped (object,
+                              "interface-added",
+                              G_CALLBACK (on_mm_object_interface_added),
+                              self);
 
     /* Coldplug interfaces */
     if (mm_object_peek_modem_3gpp (MM_OBJECT (object)))
