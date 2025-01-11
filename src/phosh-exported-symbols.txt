@@ -1,6 +1,10 @@
 {
    phosh_shell_get_default;
    phosh_shell_get_locked;
+   phosh_shell_get_primary_monitor;
+
+   # Utils are useful in plugins too
+   phosh_util_*;
 
    # Plugins can inhibit session idleness
    phosh_shell_get_session_manager;
@@ -16,8 +20,15 @@
    # Launcher-box plugin needs launcher entry states
    phosh_shell_get_launcher_entry_manager;
 
+   # Scaling quick setting needs monitors
+   phosh_monitor_get_type;
+   phosh_monitor_get_fractional_scale;
+   phosh_monitor_manager_set_monitor_scale;
+   phosh_monitor_manager_apply_monitor_config;
+
    # Night Light plugin wants to check night light support
    phosh_shell_get_monitor_manager;
+   phosh_monitor_manager_get_type;
    phosh_monitor_manager_get_night_light_supported;
 
    # Wi-Fi Hotspot plugin wants Wi-Fi Manager
