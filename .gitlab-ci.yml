@@ -56,7 +56,6 @@ variables:
                     libadwaita-dev json-glib-dev gnome-bluetooth-dev modemmanager-dev gmobile-dev
   RUST_BINDINGS_BRANCH: main
   LIBPHOSH: libphosh-0.44
-  SID_PKGS: phoc
 
 .trixie_vars: &trixie_vars
   variables:
@@ -64,33 +63,33 @@ variables:
 
 .test_before_script: &test_before_script
   before_script:
-     - export DEBIAN_FRONTEND=noninteractive
-     - |
-       echo 'ar_AE.UTF-8 UTF-8
-       de_DE.UTF-8 UTF-8
-       en_US.UTF-8 UTF-8
-       ja_JP.UTF-8 UTF-8
-       uk_UA.UTF-8 UTF-8
-       ' > /etc/locale.gen
-     - dpkg-reconfigure locales
-     - apt -y update
-     - apt -y build-dep .
-     - if [ -n "$SID_PKGS" ]; then
-         echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list.d/sid.list;
-         eatmydata apt-get -y update;
-         apt -y install $SID_PKGS;
-       fi
+    - export DEBIAN_FRONTEND=noninteractive
+    - |
+      echo 'ar_AE.UTF-8 UTF-8
+      de_DE.UTF-8 UTF-8
+      en_US.UTF-8 UTF-8
+      ja_JP.UTF-8 UTF-8
+      uk_UA.UTF-8 UTF-8
+      ' > /etc/locale.gen
+    - dpkg-reconfigure locales
+    - apt -y update
+    - apt -y build-dep .
+    - if [ -n "$SID_PKGS" ]; then
+        echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list.d/sid.list;
+        eatmydata apt-get -y update;
+        apt -y install $SID_PKGS;
+      fi
 
 .build_before_script: &build_before_script
   before_script:
-     - export DEBIAN_FRONTEND=noninteractive
-     - apt -y update
-     - apt -y build-dep .
-     - if [ -n "$SID_PKGS" ]; then
-         echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list.d/sid.list;
-         eatmydata apt-get -y update;
-         apt -y install $SID_PKGS;
-       fi
+    - export DEBIAN_FRONTEND=noninteractive
+    - apt -y update
+    - apt -y build-dep .
+    - if [ -n "$SID_PKGS" ]; then
+        echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list.d/sid.list;
+        eatmydata apt-get -y update;
+        apt -y install $SID_PKGS;
+      fi
 
 .build_step: &build_step
   script:
@@ -143,43 +142,12 @@ build:lib-debian-trixie:
   <<: *build_before_script
   script:
     - meson setup ${BUILD_OPTS} _build
-    - meson compile -C _build 
-    - meson install -C _build 
+    - meson compile -C _build
+    - meson install -C _build
     - "gcc -Wall -O2 $(pkgconf --cflags $LIBPHOSH) .gitlab-ci/libphosh-test.c $(pkgconf --libs $LIBPHOSH)"
   artifacts:
     paths:
       - _build
-
-startup-test:native-debian-trixie:
-  stage: test+docs
-  image: ${DEBIAN_IMAGE}
-  needs:
-    - build:native-debian-trixie
-  <<: *trixie_vars
-  <<: *test_before_script
-  script:
-    - |
-      set -uexo pipefail
-
-      export XDG_RUNTIME_DIR=`pwd`/_build
-      export WLR_BACKENDS=headless
-      export GSETTINGS_BACKEND=memory
-      dbus-run-session phoc -E _build/run 2>&1 | tee startup.log &
-
-      WAIT=15
-      while [ ${WAIT} -gt 0 ]; do
-        ! grep "Phosh ready after" startup.log || exit 0
-        sleep 1
-        ((WAIT-=1))
-      done
-
-      echo "Phosh did not show up."
-      exit 1
-
-  artifacts:
-    when: always
-    paths:
-      - startup.log
 
 unit-test:native-debian-trixie:
   stage: test+docs
@@ -231,6 +199,31 @@ screenshot:native-debian-trixie:
     paths:
       - screenshots/
       - _build/meson-logs/testlog.txt
+
+integration:native-debian-trixie:
+  stage: test+docs
+  image: ${DEBIAN_IMAGE}
+  needs:
+    - build:native-debian-trixie
+  <<: *test_before_script
+  <<: *trixie_vars
+  script:
+    - export LC_ALL=C.UTF-8
+    - export G_MESSAGES_DEBUG=all
+    - export NO_AT_BRIDGE=1
+    - export TOPSRCDIR="${PWD}"
+    - export TOPBUILDDIR="${PWD}/_build"
+    # Make sure tests can find the plugins and po files
+    - "meson install -C _build"
+    - ${XVFB_RUN} dbus-run-session pytest --junitxml=report-integration-${CI_JOB_NAME}.xml -v tests/integration
+  after_script:
+    - gcovr --json --gcov-ignore-errors=no_working_dir_found --output=coverage-integration-${CI_JOB_NAME}.json
+  artifacts:
+    paths:
+      - coverage-integration-${CI_JOB_NAME}.json
+      - report-integration-${CI_JOB_NAME}.xml
+    reports:
+      junit: report-integration-${CI_JOB_NAME}.xml
 
 build-doc:
   stage: test+docs
@@ -346,6 +339,7 @@ coverage:
   needs:
     - unit-test:native-debian-trixie
     - screenshot:native-debian-trixie
+    - integration:native-debian-trixie
 
 package:deb-debian-trixie:arm64:
   stage: package

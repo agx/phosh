@@ -269,7 +269,7 @@ flake8 = find_program('flake8', required: false)
 black = find_program('black', required: false)
 ruff = find_program('ruff', required: false)
 
-pyfiles = files(['mock-mm-nm.py'])
+pyfiles = files(['mock-mm-nm.py', 'integration/test_output.py'])
 foreach pyfile : pyfiles
   if flake8.found()
     test('flake8-@0@'.format(fs.name(pyfile)),
