@@ -1051,6 +1051,15 @@ phosh-emergency-menu .emergency-button {
 }
 
 /*
+ * Background
+ */
+phosh-background {
+  background: @phosh_bg_color;
+  border-width: 0px;
+  border-radius: 0px;
+}
+
+/*
  * GTK Overrides
  */
 

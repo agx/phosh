@@ -236,7 +236,7 @@ static gboolean
 phosh_background_draw (GtkWidget *widget, cairo_t *cr)
 {
   PhoshBackground *self = PHOSH_BACKGROUND (widget);
-  int x = 0, y = 0;
+  int x = 0, y = 0, width, height;
 
   g_return_val_if_fail (PHOSH_IS_BACKGROUND (self), GDK_EVENT_PROPAGATE);
 
@@ -247,10 +247,18 @@ phosh_background_draw (GtkWidget *widget, cairo_t *cr)
     phosh_shell_get_usable_area (phosh_shell_get_default (), &x, &y, NULL, NULL);
 
   cairo_save (cr);
+  if (self->primary) {
+    /* Primary background: use CSS color as it's the top- and home-bar's background */
+    GtkStyleContext *context = gtk_widget_get_style_context (GTK_WIDGET (self));
 
-  cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-  cairo_set_source_rgb (cr, self->color.red, self->color.green, self->color.blue);
-  cairo_paint (cr);
+    width = gtk_widget_get_allocated_width (GTK_WIDGET (self));
+    height = gtk_widget_get_allocated_height (GTK_WIDGET (self));
+    gtk_render_background (context, cr, 0, 0, width, height);
+  } else {
+    cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+    cairo_set_source_rgb (cr, self->color.red, self->color.green, self->color.blue);
+    cairo_paint (cr);
+  }
 
   if (self->pixbuf)
     gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x, y);
@@ -388,6 +396,8 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
                           G_PARAM_CONSTRUCT);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-background");
 }
 
 
