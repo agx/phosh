@@ -192,19 +192,20 @@ on_poll_position_done (GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
   g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (user_data));
   self = PHOSH_MEDIA_PLAYER (user_data);
 
-  if (err) {
-    g_warning ("Could not get Position from MPRIS player, hiding box_pos_len: %s", err->message);
-    self->track_position = -1;
-    gtk_widget_hide (self->box_pos_len);
-    stop_pos_poller (self);
-  } else if (var) {
+  if (var) {
     g_autoptr (GVariant) var2 = NULL;
 
     /* Return variant has type "(v)" where v has type x (i.e. gint64) */
     g_variant_get_child (var, 0, "v", &var2);
     self->track_position = g_variant_get_int64 (var2);
     g_debug ("MPRIS Position: %" G_GINT64_FORMAT, self->track_position);
+  } else {
+    g_warning ("Could not get Position from MPRIS player, hiding box_pos_len: %s", err->message);
+    self->track_position = -1;
+    gtk_widget_hide (self->box_pos_len);
+    stop_pos_poller (self);
   }
+
   update_position (self);
 }
 
