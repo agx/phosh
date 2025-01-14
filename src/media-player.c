@@ -185,10 +185,13 @@ on_poll_position_done (GDBusProxy *proxy, GAsyncResult *res, gpointer user_data)
   g_autoptr (GError) err = NULL;
   g_autoptr (GVariant) var = NULL;
 
+  var = g_dbus_proxy_call_finish (proxy, res, &err);
+  if (!var && g_error_matches (err, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+    return;
+
   g_return_if_fail (PHOSH_IS_MEDIA_PLAYER (user_data));
   self = PHOSH_MEDIA_PLAYER (user_data);
 
-  var = g_dbus_proxy_call_finish (proxy, res, &err);
   if (err) {
     g_warning ("Could not get Position from MPRIS player, hiding box_pos_len: %s", err->message);
     self->track_position = -1;
