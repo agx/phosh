@@ -159,18 +159,6 @@ pb_scale_to_min (GdkPixbuf *src, int min_width, int min_height)
 
 
 static GdkPixbuf *
-pb_fill_color (int width, int height, GdkRGBA *color)
-{
-  GdkPixbuf *bg;
-
-  bg = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, width, height);
-  gdk_pixbuf_fill (bg, COLOR_TO_PIXEL(color));
-
-  return bg;
-}
-
-
-static GdkPixbuf *
 pb_scale_to_fit (GdkPixbuf *src, int width, int height, GdkRGBA *color)
 {
   int orig_width, orig_height;
@@ -214,7 +202,7 @@ image_background (PhoshBackgroundImage    *image,
                   GDesktopBackgroundStyle  style,
                   GdkRGBA                 *color)
 {
-  GdkPixbuf *scaled_bg;
+  GdkPixbuf *scaled_bg = NULL;;
 
   if (image == NULL) {
     g_debug ("No image, using 'none' desktop style");
@@ -222,11 +210,11 @@ image_background (PhoshBackgroundImage    *image,
   }
 
   switch (style) {
+  case G_DESKTOP_BACKGROUND_STYLE_NONE:
+    /* Nothing to do */
+    break;
   case G_DESKTOP_BACKGROUND_STYLE_SCALED:
     scaled_bg = pb_scale_to_fit (phosh_background_image_get_pixbuf (image), width, height, color);
-    break;
-  case G_DESKTOP_BACKGROUND_STYLE_NONE:
-    scaled_bg = pb_fill_color (width, height, color);
     break;
   case G_DESKTOP_BACKGROUND_STYLE_WALLPAPER:
   case G_DESKTOP_BACKGROUND_STYLE_CENTERED:
@@ -248,21 +236,34 @@ static gboolean
 phosh_background_draw (GtkWidget *widget, cairo_t *cr)
 {
   PhoshBackground *self = PHOSH_BACKGROUND (widget);
-  int x = 0, y = 0;
+  int x = 0, y = 0, width, height;
 
   g_return_val_if_fail (PHOSH_IS_BACKGROUND (self), GDK_EVENT_PROPAGATE);
 
-  if (!self->configured || !self->pixbuf)
+  if (!self->configured)
     return GDK_EVENT_PROPAGATE;
-
-  g_assert (GDK_IS_PIXBUF (self->pixbuf));
 
   if (self->primary)
     phosh_shell_get_usable_area (phosh_shell_get_default (), &x, &y, NULL, NULL);
 
   cairo_save (cr);
-  gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x, y);
+  if (self->primary) {
+    /* Primary background: use CSS color as it's the top- and home-bar's background */
+    GtkStyleContext *context = gtk_widget_get_style_context (GTK_WIDGET (self));
+
+    width = gtk_widget_get_allocated_width (GTK_WIDGET (self));
+    height = gtk_widget_get_allocated_height (GTK_WIDGET (self));
+    gtk_render_background (context, cr, 0, 0, width, height);
+  } else {
+    cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+    cairo_set_source_rgb (cr, self->color.red, self->color.green, self->color.blue);
+    cairo_paint (cr);
+  }
+
+  if (self->pixbuf)
+    gdk_cairo_set_source_pixbuf (cr, self->pixbuf, x, y);
   cairo_paint (cr);
+
   cairo_restore (cr);
 
   return GDK_EVENT_PROPAGATE;
@@ -395,6 +396,8 @@ phosh_background_class_init (PhoshBackgroundClass *klass)
                           G_PARAM_CONSTRUCT);
 
   g_object_class_install_properties (object_class, PROP_LAST_PROP, props);
+
+  gtk_widget_class_set_css_name (widget_class, "phosh-background");
 }
 
 
