@@ -89,6 +89,7 @@ typedef struct {
   GtkWidget      *box_dialog;
   GtkWidget      *box_buttons;
 
+  gboolean        fade_out;
   PhoshAnimation *animation;
 } PhoshSystemModalDialogPrivate;
 
@@ -139,6 +140,18 @@ phosh_system_modal_dialog_get_property (GObject    *obj,
 
 
 static void
+phosh_system_modal_dialog_map (GtkWidget *widget)
+{
+  PhoshSystemModalDialog *self = PHOSH_SYSTEM_MODAL_DIALOG (widget);
+  PhoshSystemModalDialogPrivate *priv = phosh_system_modal_dialog_get_instance_private (self);
+
+  GTK_WIDGET_CLASS (phosh_system_modal_dialog_parent_class)->map (widget);
+
+  phosh_animation_start (priv->animation);
+}
+
+
+static void
 on_removed_by_swipe (PhoshSystemModalDialog *self)
 {
   g_signal_emit (self, signals[DIALOG_CANCELED], 0);
@@ -146,15 +159,15 @@ on_removed_by_swipe (PhoshSystemModalDialog *self)
 
 
 static void
-phosh_system_modal_dialog_finalize (GObject *obj)
+phosh_system_modal_dialog_finalize (GObject *object)
 {
-  PhoshSystemModalDialog *self = PHOSH_SYSTEM_MODAL_DIALOG (obj);
+  PhoshSystemModalDialog *self = PHOSH_SYSTEM_MODAL_DIALOG (object);
   PhoshSystemModalDialogPrivate *priv = phosh_system_modal_dialog_get_instance_private (self);
 
   g_clear_pointer (&priv->animation, phosh_animation_unref);
   g_clear_pointer (&priv->title, g_free);
 
-  G_OBJECT_CLASS (phosh_system_modal_dialog_parent_class)->finalize (obj);
+  G_OBJECT_CLASS (phosh_system_modal_dialog_parent_class)->finalize (object);
 }
 
 
@@ -168,6 +181,8 @@ phosh_system_modal_dialog_class_init (PhoshSystemModalDialogClass *klass)
   object_class->get_property = phosh_system_modal_dialog_get_property;
   object_class->set_property = phosh_system_modal_dialog_set_property;
   object_class->finalize = phosh_system_modal_dialog_finalize;
+
+  widget_class->map = phosh_system_modal_dialog_map;
 
   /**
    * PhoshSystemModalDialog:title
@@ -241,11 +256,45 @@ phosh_system_modal_dialog_buildable_init (GtkBuildableIface *iface)
 }
 
 
+static void
+animation_value_cb (double value, PhoshSystemModalDialog *self)
+{
+  PhoshSystemModalDialogPrivate *priv = phosh_system_modal_dialog_get_instance_private (self);
+
+  if (priv->fade_out)
+    value = 1.0 - value;
+
+  phosh_layer_surface_set_alpha (PHOSH_LAYER_SURFACE (self), value);
+}
+
+
+static void
+animation_done_cb (PhoshSystemModalDialog *self)
+{
+  PhoshSystemModalDialogPrivate *priv = phosh_system_modal_dialog_get_instance_private (self);
+
+  g_clear_pointer (&priv->animation, phosh_animation_unref);
+
+  if (priv->fade_out)
+    gtk_widget_destroy (GTK_WIDGET (self));
+}
+
 
 static void
 phosh_system_modal_dialog_init (PhoshSystemModalDialog *self)
 {
+  PhoshSystemModalDialogPrivate *priv = phosh_system_modal_dialog_get_instance_private (self);
+
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  priv->animation = phosh_animation_new (GTK_WIDGET (self),
+                                         0.0,
+                                         1.0,
+                                         150 * PHOSH_ANIMATION_SLOWDOWN,
+                                         PHOSH_ANIMATION_TYPE_EASE_OUT_CUBIC,
+                                         (PhoshAnimationValueCallback) animation_value_cb,
+                                         (PhoshAnimationDoneCallback) animation_done_cb,
+                                         self);
 }
 
 /**
@@ -384,23 +433,6 @@ phosh_system_modal_dialog_set_title (PhoshSystemModalDialog *self, const gchar *
   g_object_notify_by_pspec (G_OBJECT (self), props[PROP_TITLE]);
 }
 
-static void
-animation_value_cb (double value, PhoshSystemModalDialog *self)
-{
-  phosh_layer_surface_set_alpha (PHOSH_LAYER_SURFACE (self), 1.0 - value);
-}
-
-
-static void
-animation_done_cb (PhoshSystemModalDialog *self)
-{
-  PhoshSystemModalDialogPrivate *priv = phosh_system_modal_dialog_get_instance_private (self);
-
-  g_clear_pointer (&priv->animation, phosh_animation_unref);
-
-  gtk_widget_destroy (GTK_WIDGET (self));
-}
-
 /**
  * phosh_system_modal_dialog_close:
  * @self: The dialog to close
@@ -417,12 +449,7 @@ phosh_system_modal_dialog_close (PhoshSystemModalDialog *self)
   g_return_if_fail (PHOSH_IS_SYSTEM_MODAL_DIALOG (self));
   priv = phosh_system_modal_dialog_get_instance_private (self);
 
-  /* Until we can assume phoc with alpha layer-surface support */
-  if (!phosh_layer_surface_has_alpha (PHOSH_LAYER_SURFACE (self))) {
-    gtk_widget_destroy (GTK_WIDGET (self));
-    return;
-  }
-
+  priv->fade_out = TRUE;
   priv->animation = phosh_animation_new (GTK_WIDGET (self),
                                          0.0,
                                          1.0,

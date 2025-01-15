@@ -249,7 +249,7 @@ phosh_fader_hide (PhoshFader *self)
 {
   g_return_if_fail (PHOSH_IS_FADER (self));
 
-  if (self->fade_out_time == 0 || !phosh_layer_surface_has_alpha (PHOSH_LAYER_SURFACE (self))) {
+  if (self->fade_out_time == 0) {
     gtk_widget_destroy (GTK_WIDGET (self));
     return;
   }

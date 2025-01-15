@@ -70,7 +70,11 @@ typedef struct {
   char                         *namespace;
   struct zwlr_layer_shell_v1   *layer_shell;
   struct wl_output             *wl_output;
-  gboolean                      has_alpha;
+  /* alpha_layer_surface_v1 */
+  double                        alpha;
+  /* stacked_layer_surface_v1 */
+  PhoshLayerSurface            *stack_target;
+  gboolean                      stack_above;
 } PhoshLayerSurfacePrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshLayerSurface, phosh_layer_surface, GTK_TYPE_WINDOW)
@@ -132,6 +136,60 @@ static struct zwlr_layer_surface_v1_listener layer_surface_listener = {
   .configure = layer_surface_configure,
   .closed = layer_surface_closed,
 };
+
+
+static void
+set_alpha (PhoshLayerSurface *self, double alpha)
+{
+  PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
+
+  priv->alpha = alpha;
+
+  if (!priv->alpha_surface)
+    return;
+
+  zphoc_alpha_layer_surface_v1_set_alpha (priv->alpha_surface, wl_fixed_from_double (alpha));
+  wl_surface_commit (priv->wl_surface);
+}
+
+
+static void
+phosh_layer_surface_set_stacked (PhoshLayerSurface *self, PhoshLayerSurface *target, gboolean above)
+{
+  PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
+  PhoshLayerSurfacePrivate *target_priv = phosh_layer_surface_get_instance_private (target);
+
+  if (priv->stack_target)
+    g_object_remove_weak_pointer (G_OBJECT (priv->stack_target),
+                                  (gpointer *)&priv->stack_target);
+
+  priv->stack_target = target;
+
+  if (priv->stack_target) {
+    g_object_add_weak_pointer (G_OBJECT (priv->stack_target),
+                               (gpointer *)&priv->stack_target);
+  } else {
+    /* There's no "remove stacking" so we're done */
+    return;
+  }
+
+  if (priv->stacked_surface == NULL) {
+    g_debug ("Trying to stack an unmapped layer surface '%s'", priv->namespace);
+    return;
+  }
+
+  if (target_priv->stacked_surface == NULL) {
+    g_debug ("Trying to stack above an unmapped layer surface '%s'", target_priv->namespace);
+    return;
+  }
+
+  if (above)
+    zphoc_stacked_layer_surface_v1_stack_above (priv->stacked_surface, target_priv->layer_surface);
+  else
+    zphoc_stacked_layer_surface_v1_stack_below (priv->stacked_surface, target_priv->layer_surface);
+
+  wl_surface_commit (priv->wl_surface);
+}
 
 
 static void
@@ -276,11 +334,8 @@ static void
 phosh_layer_surface_realize (GtkWidget *widget)
 {
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (widget);
-  PhoshLayerSurfacePrivate *priv;
+  PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
   GdkWindow *gdk_window;
-
-  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
-  priv = phosh_layer_surface_get_instance_private (self);
 
   GTK_WIDGET_CLASS (phosh_layer_surface_parent_class)->realize (widget);
 
@@ -296,12 +351,9 @@ static void
 phosh_layer_surface_map (GtkWidget *widget)
 {
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (widget);
-  PhoshLayerSurfacePrivate *priv;
+  PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
   PhoshWayland *wl = phosh_wayland_get_default ();
   struct zphoc_layer_shell_effects_v1 *layer_shell_effects;
-
-  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
-  priv = phosh_layer_surface_get_instance_private (self);
 
   GTK_WIDGET_CLASS (phosh_layer_surface_parent_class)->map (widget);
 
@@ -338,21 +390,20 @@ phosh_layer_surface_map (GtkWidget *widget)
   wl_display_roundtrip (gdk_wayland_display_get_wl_display (gdk_display_get_default ()));
 
   layer_shell_effects = phosh_wayland_get_zphoc_layer_shell_effects_v1 (wl);
-  if (zphoc_layer_shell_effects_v1_get_version (layer_shell_effects) >=
-      ZPHOC_LAYER_SHELL_EFFECTS_V1_GET_ALPHA_LAYER_SURFACE_SINCE_VERSION) {
-    priv->alpha_surface = zphoc_layer_shell_effects_v1_get_alpha_layer_surface (
-      layer_shell_effects, priv->layer_surface);
-  } else {
-    g_warning_once ("No alpha layer surface support, upgrade phoc");
-  }
+  priv->alpha_surface =
+    zphoc_layer_shell_effects_v1_get_alpha_layer_surface (layer_shell_effects,
+                                                          priv->layer_surface);
+  priv->stacked_surface =
+    zphoc_layer_shell_effects_v1_get_stacked_layer_surface (layer_shell_effects,
+                                                            priv->layer_surface);
 
-  if (zphoc_layer_shell_effects_v1_get_version (layer_shell_effects) >=
-      ZPHOC_LAYER_SHELL_EFFECTS_V1_GET_STACKED_LAYER_SURFACE_SINCE_VERSION) {
-    priv->stacked_surface = zphoc_layer_shell_effects_v1_get_stacked_layer_surface (
-      layer_shell_effects, priv->layer_surface);
-  } else {
-    g_warning_once ("No support for stacking layer surfaces, upgrade phoc");
-  }
+  /* Catch up with alpha values set before map */
+  if (G_APPROX_VALUE (priv->alpha, 1.0, FLT_EPSILON))
+    set_alpha (self, priv->alpha);
+
+  /* Catch up with stackings set before map */
+  if (priv->stacked_surface)
+    phosh_layer_surface_set_stacked (self, priv->stack_target, priv->stack_above);
 }
 
 
@@ -360,10 +411,7 @@ static void
 phosh_layer_surface_unmap (GtkWidget *widget)
 {
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (widget);
-  PhoshLayerSurfacePrivate *priv;
-
-  g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
-  priv = phosh_layer_surface_get_instance_private (self);
+  PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
 
   g_clear_pointer (&priv->layer_surface, zwlr_layer_surface_v1_destroy);
   priv->wl_surface = NULL;
@@ -385,6 +433,7 @@ phosh_layer_surface_dispose (GObject *object)
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (object);
   PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
 
+  phosh_layer_surface_set_stacked (self, NULL, FALSE);
   g_clear_pointer (&priv->alpha_surface, zphoc_alpha_layer_surface_v1_destroy);
   g_clear_pointer (&priv->stacked_surface, zphoc_stacked_layer_surface_v1_destroy);
   g_clear_pointer (&priv->layer_surface, zwlr_layer_surface_v1_destroy);
@@ -577,6 +626,9 @@ phosh_layer_surface_class_init (PhoshLayerSurfaceClass *klass)
 static void
 phosh_layer_surface_init (PhoshLayerSurface *self)
 {
+  PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
+
+  priv->alpha = 1.0;
 }
 
 
@@ -899,36 +951,19 @@ phosh_layer_surface_get_configured_height (PhoshLayerSurface *self)
 
 
 void
-phosh_layer_surface_set_alpha (PhoshLayerSurface *self,
-                               double             alpha)
+phosh_layer_surface_set_alpha (PhoshLayerSurface *self, double alpha)
 {
   PhoshLayerSurfacePrivate *priv;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   priv = phosh_layer_surface_get_instance_private (self);
-  g_return_if_fail (priv->alpha_surface);
 
   g_return_if_fail (alpha >= 0.0 && alpha <= 1.0);
 
-  if (priv->wl_surface == NULL) {
-    g_warning ("Trying to set alpha on unmapped layer surface '%s'", priv->namespace);
+  if (G_APPROX_VALUE (priv->alpha, alpha, FLT_EPSILON))
     return;
-  }
 
-  zphoc_alpha_layer_surface_v1_set_alpha (priv->alpha_surface, wl_fixed_from_double (alpha));
-  wl_surface_commit (priv->wl_surface);
-}
-
-
-gboolean
-phosh_layer_surface_has_alpha (PhoshLayerSurface *self)
-{
-  PhoshLayerSurfacePrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_LAYER_SURFACE (self), FALSE);
-  priv = phosh_layer_surface_get_instance_private (self);
-
-  return !!priv->alpha_surface;
+  set_alpha (self, alpha);
 }
 
 /**
@@ -941,29 +976,17 @@ phosh_layer_surface_has_alpha (PhoshLayerSurface *self)
 void
 phosh_layer_surface_set_stacked_above (PhoshLayerSurface *self, PhoshLayerSurface *target)
 {
-  PhoshLayerSurfacePrivate *priv, *target_priv;
+  PhoshLayerSurfacePrivate *priv;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (target));
 
   priv = phosh_layer_surface_get_instance_private (self);
-  g_return_if_fail (priv->stacked_surface);
 
-  target_priv = phosh_layer_surface_get_instance_private (target);
-  g_return_if_fail (priv->layer_surface);
-
-  if (priv->wl_surface == NULL) {
-    g_warning ("Trying to stack an unmapped layer surface '%s'", priv->namespace);
+  if (priv->stack_target == target && priv->stack_above == TRUE)
     return;
-  }
 
-  if (target_priv->wl_surface == NULL) {
-    g_warning ("Trying to stack above an unmapped layer surface '%s'", target_priv->namespace);
-    return;
-  }
-
-  zphoc_stacked_layer_surface_v1_stack_above (priv->stacked_surface, target_priv->layer_surface);
-  wl_surface_commit (priv->wl_surface);
+  phosh_layer_surface_set_stacked (self, target, TRUE);
 }
 
 /**
@@ -976,27 +999,15 @@ phosh_layer_surface_set_stacked_above (PhoshLayerSurface *self, PhoshLayerSurfac
 void
 phosh_layer_surface_set_stacked_below (PhoshLayerSurface *self, PhoshLayerSurface *target)
 {
-  PhoshLayerSurfacePrivate *priv, *target_priv;
+  PhoshLayerSurfacePrivate *priv;
 
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (self));
   g_return_if_fail (PHOSH_IS_LAYER_SURFACE (target));
 
   priv = phosh_layer_surface_get_instance_private (self);
-  g_return_if_fail (priv->stacked_surface);
 
-  target_priv = phosh_layer_surface_get_instance_private (target);
-  g_return_if_fail (priv->layer_surface);
-
-  if (priv->wl_surface == NULL) {
-    g_warning ("Trying to stack an unmapped layer surface '%s'", priv->namespace);
+  if (priv->stack_target == target && priv->stack_above == FALSE)
     return;
-  }
 
-  if (target_priv->wl_surface == NULL) {
-    g_warning ("Trying to stack below an unmapped layer surface '%s'", target_priv->namespace);
-    return;
-  }
-
-  zphoc_stacked_layer_surface_v1_stack_below (priv->stacked_surface, target_priv->layer_surface);
-  wl_surface_commit (priv->wl_surface);
+  phosh_layer_surface_set_stacked (self, target, FALSE);
 }

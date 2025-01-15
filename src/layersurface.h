@@ -59,7 +59,6 @@ int                               phosh_layer_surface_get_configured_width  (Pho
 int                               phosh_layer_surface_get_configured_height (PhoshLayerSurface *self);
 void                              phosh_layer_surface_set_alpha (PhoshLayerSurface *self,
                                                                  double             alpha);
-gboolean                          phosh_layer_surface_has_alpha (PhoshLayerSurface *self);
 void                              phosh_layer_surface_set_stacked_above (PhoshLayerSurface *self,
                                                                          PhoshLayerSurface *target);
 void                              phosh_layer_surface_set_stacked_below (PhoshLayerSurface *self,
