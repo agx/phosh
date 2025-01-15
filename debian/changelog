@@ -1,3 +1,50 @@
+phosh (0.44.1) experimental; urgency=medium
+
+  * wwan-mm: Use swapped signal.
+    Our handler wants `self` first
+    Fixes 51da91508 ("wwan-mm: Switch to MM objects")
+    (cherry picked from commit e7d2d31d9d53c7d36987b4b6a637e65bc7a0127a)
+  * home: Use g_timeout_add_once()
+    Simpler API
+    (cherry picked from commit ca0c272bbaed9bff57f128a4020f5b02d805a9da)
+  * home: Queue draw instead of committing the surface.
+    We don't know if GTK already attached a matching buffer and attaching an
+    incorrectly sized one can lead to the compositor terminating the
+    connection so let GTK decide when to commit.
+    (cherry picked from commit 09377dedfbf23cba204b91b2ef0052476be7d02e)
+  * top-panel: Queue draw instead of committing the surface.
+    We don't know if GTK already attached a matching buffer and attaching an
+    incorrectly sized one can lead to the compositor terminating the
+    connection so let GTK decide when to commit.
+    (cherry picked from commit 2a76bab32be2b837017a83191b57f24a9dc83a84)
+  * background-manager: Update background when dark uri changes too.
+    We tracked the regular background but not one for the dark theme.
+    (cherry picked from commit 0a15a88cfac235f991baa7ef5d1d0bf8bf15c8b1)
+  * background: Fill background with primary color.
+    This makes sure we have a proper background in the overview in
+    case the selected image has transparency.
+    In case of a missing image it ensures we fall back to black so the
+    overview always gets a non transparent background.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1173
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1169
+    (cherry picked from commit bab567b895d204a78c18ac6e62e8fc9589088555)
+  * background: Use background color for the primary output's background.
+    The primary output's background determines the color behind the top and
+    bottom bars when they are folded (since the actual bars are
+    transparent). So use the @phosh_bg_color CSS value for these areas
+    rather then the primary-color gsetting.
+    This ensures the seamless fading from the opened overview to the black
+    top and bottom panel works even for situations where the primary-color
+    gsetting is not '#000000'.
+    (cherry picked from commit 4bed8f4823f2bef127ec97793352c3f01cf12a08)
+  * media-player: Don't access `self` when call got cancelled.
+    The memory has then been free'd already.
+    Closes: https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1176
+    Tested-by: Fiona Klute <fiona.klute@gmx.de>
+    (cherry picked from commit 245be9f32d7b21ccf92b7758036c78c4c9005a59)
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 15 Jan 2025 14:56:09 +0100
+
 phosh (0.44.0) experimental; urgency=medium
 
   [ Guido Günther ]
