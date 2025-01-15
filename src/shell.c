@@ -446,13 +446,13 @@ set_locked (PhoshShell *self, gboolean locked)
 
 
 static void
-phosh_shell_set_property (GObject *object,
-                          guint property_id,
+phosh_shell_set_property (GObject      *object,
+                          guint         property_id,
                           const GValue *value,
-                          GParamSpec *pspec)
+                          GParamSpec   *pspec)
 {
   PhoshShell *self = PHOSH_SHELL (object);
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   switch (property_id) {
   case PROP_LOCKED:
@@ -477,13 +477,13 @@ phosh_shell_set_property (GObject *object,
 
 
 static void
-phosh_shell_get_property (GObject *object,
-                          guint property_id,
-                          GValue *value,
+phosh_shell_get_property (GObject    *object,
+                          guint       property_id,
+                          GValue     *value,
                           GParamSpec *pspec)
 {
   PhoshShell *self = PHOSH_SHELL (object);
-  PhoshShellPrivate *priv = phosh_shell_get_instance_private(self);
+  PhoshShellPrivate *priv = phosh_shell_get_instance_private (self);
 
   switch (property_id) {
   case PROP_LOCKED:
