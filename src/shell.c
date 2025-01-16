@@ -1233,29 +1233,33 @@ phosh_shell_class_init (PhoshShellClass *klass)
    *
    * The built in monitor. This is a hardware property and hence can
    * only be read. It can be %NULL when not present or disabled.
+   *
+   * Since: 0.10.1
    */
   props[PROP_BUILTIN_MONITOR] =
-    g_param_spec_object ("builtin-monitor",
-                         "Built in monitor",
-                         "The builtin monitor",
+    g_param_spec_object ("builtin-monitor", "", "",
                          PHOSH_TYPE_MONITOR,
                          G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
   /**
    * PhoshShell:primary-monitor:
    *
    * The primary monitor that has the panels, lock screen etc.
+   *
+   * Since: 0.0.2
    */
   props[PROP_PRIMARY_MONITOR] =
-    g_param_spec_object ("primary-monitor",
-                         "Primary monitor",
-                         "The primary monitor",
+    g_param_spec_object ("primary-monitor", "", "",
                          PHOSH_TYPE_MONITOR,
                          G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
-
+  /**
+   * PhoshShell:shell-state:
+   *
+   * The state of the shell (locked, modal dialog shown, …)
+   *
+   * Since: 0.10.0
+   */
   props[PROP_SHELL_STATE] =
-    g_param_spec_flags ("shell-state",
-                        "Shell state",
-                        "The state of the shell",
+    g_param_spec_flags ("shell-state", "", "",
                         PHOSH_TYPE_SHELL_STATE_FLAGS,
                         PHOSH_STATE_NONE,
                         G_PARAM_READABLE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
@@ -1278,6 +1282,8 @@ phosh_shell_class_init (PhoshShellClass *klass)
    *
    * The ready signal is emitted once when the shell finished starting
    * up.
+   *
+   * Since: 0.11.0
    */
   signals[READY] = g_signal_new ("ready",
                                  G_TYPE_FROM_CLASS (klass),
