@@ -339,7 +339,7 @@ For widgets you can construct the binding via the UI XML:
   </object>
 ```
 
-#### Callbacks
+### Callbacks
 
 There's callbacks for signals, async functions, and actions. We
 usually have them all start with `on_` to make it easy to spot
