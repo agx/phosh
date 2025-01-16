@@ -417,11 +417,19 @@ Public (non static) functions must check the input arguments at the
 top of the function. This makes it easy to reuse them in other parts
 and makes API misuse easy to debug via `G_DEBUG=fatal-criticals`. You
 usually want to check argument types and if the arguments fulfill the
-requirements (e.g. if they need to be non-NULL).
+requirements (e.g. if they need to be non-NULL). Public functions
+should have doc strings.
 
 *Good*:
 
 ```c
+/**
+ * phosh_foo_set_name:
+ * @self: The foo
+ * @name: The name to set
+ *
+ * Set Foo's `name`
+ */
 void
 phosh_foo_set_name (PhoshFoo *self, const char *name)
 {
