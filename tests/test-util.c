@@ -73,7 +73,7 @@ static void
 test_phosh_util_calculate_supported_mode_scales_integer (void)
 {
   int num;
-  g_autofree float *scales;
+  g_autofree float *scales = NULL;
 
   /* Phone mode (e.g. PinePhone or Librem 5 */
   scales = phosh_util_calculate_supported_mode_scales (720,
@@ -100,7 +100,7 @@ static void
 test_phosh_util_calculate_supported_mode_scales_fractional (void)
 {
   int num;
-  g_autofree float *scales;
+  g_autofree float *scales = NULL;
 
   /* 4K Mode */
   scales = phosh_util_calculate_supported_mode_scales (720,
