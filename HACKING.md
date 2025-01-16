@@ -300,9 +300,7 @@ phosh_docked_info_class_init (PhoshDockedInfoClass *klass)
    */
   props[PROP_PRESENT] =
     g_param_spec_boolean ("present", "", "",
-                          G_PARAM_READABLE |
-                          G_PARAM_STATIC_STRINGS |
-                          G_PARAM_EXPLICIT_NOTIFY);
+                          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   …
 }
