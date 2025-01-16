@@ -339,6 +339,44 @@ For widgets you can construct the binding via the UI XML:
   </object>
 ```
 
+### Signals
+
+Signals should be documented. Since `class_offset`, `accumulator` and
+`c_marshaller` are often unused we put them on a single line.
+
+*Good*:
+
+```C
+  /**
+   * PhoshWwanManager::new-cbm
+   * @self: The wwan manager
+   * @message: The message text
+   * @channel: The channel specifying the source of the CBM
+   *
+   * This signal is emitted when a new cell broadcast message is
+   * received.
+   *
+   * Since: 0.44.0
+   */
+  signals[NEW_CBM] = g_signal_new ("new-cbm",
+                                   G_TYPE_FROM_CLASS (klass),
+                                   G_SIGNAL_RUN_LAST,
+                                   0, NULL, NULL, NULL,
+                                   G_TYPE_NONE,
+                                   2,
+                                   G_TYPE_STRING,
+                                   G_TYPE_UINT);
+```
+
+In the same source file prefer `g_signal_emit` over
+`g_signal_emit_by_name`:
+
+*Good*:
+
+```C
+  g_signal_emit (self, signals[NEW_CBM], "data", 32);
+```
+
 ### Callbacks
 
 There's callbacks for signals, async functions, and actions. We
