@@ -134,6 +134,8 @@ individual C files should be structured as (top to bottom of file):
    *
    * A longer description with details that can be
    * multiline.
+   *
+   * Since: 0.44.0
    */
   ```
 
@@ -297,6 +299,8 @@ phosh_docked_info_class_init (PhoshDockedInfoClass *klass)
    * PhoshDockedInfo:enabled:
    *
    * Whether docked mode is enabled
+   *
+   * Since: 0.44.0
    */
   props[PROP_PRESENT] =
     g_param_spec_boolean ("present", "", "",
