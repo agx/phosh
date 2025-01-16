@@ -442,4 +442,21 @@ phosh_foo_set_name (PhoshFoo *self, const char *name)
 }
 ```
 
+#### GObject introspection annotations
+
+For the Rust bindings we want to have introspection annotations on public methods.
+Use a space after the colon:
+
+*Good*:
+
+```C
+ * Returns: (transfer none): The generated wisdom
+```
+
+*Bad*:
+
+```C
+ * Returns:(transfer none): The generated wisdom
+```
+
 [1]: https://gitlab.gnome.org/GNOME/libhandy/blob/master/HACKING.md#coding-style
