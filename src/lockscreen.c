@@ -16,7 +16,6 @@
 #include "lockscreen.h"
 #include "notifications/notify-manager.h"
 #include "notifications/notification-frame.h"
-#include "osk-button.h"
 #include "osk-manager.h"
 #include "shell.h"
 #include "util.h"
@@ -1030,7 +1029,6 @@ phosh_lockscreen_class_init (PhoshLockscreenClass *klass)
                                          NULL, G_TYPE_NONE, 0);
 
   g_type_ensure (PHOSH_TYPE_KEYPAD);
-  g_type_ensure (PHOSH_TYPE_OSK_BUTTON);
   g_type_ensure (PHOSH_TYPE_WIDGET_BOX);
   gtk_widget_class_set_css_name (widget_class, "phosh-lockscreen");
   gtk_widget_class_set_template_from_resource (widget_class,

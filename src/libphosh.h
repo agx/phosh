@@ -109,7 +109,6 @@ G_BEGIN_DECLS
 #include "lockscreen.h"
 #include "monitor-manager.h"
 #include "network-auth-manager.h"
-#include "osk-button.h"
 #include "osk-manager.h"
 #include "top-panel.h"
 #include "plugin-shell.h"
