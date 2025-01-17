@@ -146,7 +146,7 @@ phosh_top_panel_get_property (GObject    *object,
 
 
 static void
-update_drag_handle (PhoshTopPanel *self, gboolean commit)
+update_drag_handle (PhoshTopPanel *self, gboolean queue_draw)
 {
   int handle, offset;
 
@@ -166,8 +166,9 @@ update_drag_handle (PhoshTopPanel *self, gboolean commit)
                                     PHOSH_DRAG_SURFACE_DRAG_MODE_HANDLE);
   phosh_drag_surface_set_drag_handle (PHOSH_DRAG_SURFACE (self), handle);
 
-  if (commit)
-    phosh_layer_surface_wl_surface_commit (PHOSH_LAYER_SURFACE (self));
+  /* Trigger redraw and surface commit */
+  if (queue_draw)
+    gtk_widget_queue_draw (GTK_WIDGET (self));
 }
 
 
@@ -696,9 +697,7 @@ on_configure_event (PhoshTopPanel *self, GdkEventConfigure *event)
   /* If the size changes we need to update the folded margin */
   phosh_drag_surface_set_margin (PHOSH_DRAG_SURFACE (self), margin, 0);
   /* Update drag handle since top-panel size might have changed */
-  update_drag_handle (self, FALSE);
-  /* Trigger redraw and surface commit */
-  gtk_widget_queue_draw (GTK_WIDGET (self));
+  update_drag_handle (self, TRUE);
 
   return FALSE;
 }

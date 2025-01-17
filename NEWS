@@ -1,3 +1,21 @@
+phosh 0.44.1
+------------
+Released January 2024
+* mm: Make sure we register all interfaces
+* Avoid crash when fixing between certain combinations of fractional
+  scales (with e.g. wlr-randr)
+* Fix crash on unlock with media player widget
+* Use solid color background when background image fails to load
+* Ensure `@phosh_bg_color` behind top- and home bar as otherwise we might see
+  artifacts depending on the GPU driver
+* Refresh background image when dark style URI changes
+* Contributors:
+    * Guido Günther
+* Issues fixed:
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1173
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1169
+    * https://gitlab.gnome.org/World/Phosh/phosh/-/issues/1176
+
 phosh 0.44.0
 ------------
 Released December 2024
