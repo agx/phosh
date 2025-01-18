@@ -398,7 +398,7 @@ phosh_layer_surface_map (GtkWidget *widget)
                                                             priv->layer_surface);
 
   /* Catch up with alpha values set before map */
-  if (G_APPROX_VALUE (priv->alpha, 1.0, FLT_EPSILON))
+  if (!G_APPROX_VALUE (priv->alpha, 1.0, FLT_EPSILON))
     set_alpha (self, priv->alpha);
 
   /* Catch up with stackings set before map */
