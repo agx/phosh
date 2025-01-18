@@ -557,6 +557,8 @@ on_theme_name_changed (PhoshHome  *self, GParamSpec *pspec, PhoshStyleManager *s
 
   self->use_background = !phosh_style_manager_is_high_contrast (style_manager);
   phosh_util_toggle_style_class (GTK_WIDGET (self), "p-solid", !self->use_background);
+  if (gtk_widget_get_visible (GTK_WIDGET (self)))
+    gtk_widget_set_visible (GTK_WIDGET (self->background), self->use_background);
 
   phosh_home_update_home_bar (self);
 }
