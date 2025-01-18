@@ -413,6 +413,8 @@ phosh_layer_surface_unmap (GtkWidget *widget)
   PhoshLayerSurface *self = PHOSH_LAYER_SURFACE (widget);
   PhoshLayerSurfacePrivate *priv = phosh_layer_surface_get_instance_private (self);
 
+  g_clear_pointer (&priv->alpha_surface, zphoc_alpha_layer_surface_v1_destroy);
+  g_clear_pointer (&priv->stacked_surface, zphoc_stacked_layer_surface_v1_destroy);
   g_clear_pointer (&priv->layer_surface, zwlr_layer_surface_v1_destroy);
   priv->wl_surface = NULL;
 
