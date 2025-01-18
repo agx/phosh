@@ -56,6 +56,7 @@ variables:
                     libadwaita-dev json-glib-dev gnome-bluetooth-dev modemmanager-dev gmobile-dev
   RUST_BINDINGS_BRANCH: main
   LIBPHOSH: libphosh-0.44
+  SID_PKGS: phoc
 
 .trixie_vars: &trixie_vars
   variables:
