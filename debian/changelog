@@ -7996,7 +7996,7 @@ phosh (0.6.0) amber-phone; urgency=high
     This allows phosh to e.g. find phoc's schema if that also uses run.in
   * run.in: Use memory GSettings backend.
     This makes sure we don't mess with systems settings.
-    Sine this affects testing docked mode we allow to override it.
+    Since this affects testing docked mode we allow to override it.
   * gitlab-ci: Build bullseye packages as well.
     This helps testing MRs against PureOS byzantium and Debian Bullseye
   * d/control: Update package description
