@@ -50,5 +50,7 @@ PhoshSessionManager       *phosh_shell_get_session_manager (PhoshShell *self);
 PhoshWifiManager          *phosh_shell_get_wifi_manager    (PhoshShell *self);
 PhoshWWan                 *phosh_shell_get_wwan            (PhoshShell *self);
 
+PhoshMonitor              *phosh_shell_get_primary_monitor (PhoshShell *self);
+PhoshMonitor              *phosh_shell_get_builtin_monitor (PhoshShell *self);
 
 G_END_DECLS

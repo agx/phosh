@@ -1,0 +1,7 @@
+[Plugin]
+# Translators: This is an internal id, no need to translate it
+Id=@name@
+Name=Scaling Quick Setting
+Types=quick-setting;
+Comment=A quick setting for adjusting the display scaling.
+Plugin=@plugins_dir@/libphosh-plugin-@name@.so

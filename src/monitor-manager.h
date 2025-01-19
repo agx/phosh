@@ -44,6 +44,9 @@ PhoshMonitor        * phosh_monitor_manager_find_monitor              (PhoshMoni
 void                  phosh_monitor_manager_set_monitor_transform     (PhoshMonitorManager *self,
                                                                        PhoshMonitor        *monitor,
                                                                        PhoshMonitorTransform transform);
+void                  phosh_monitor_manager_set_monitor_scale         (PhoshMonitorManager *self,
+                                                                       PhoshMonitor        *monitor,
+                                                                       double               scale);
 void                  phosh_monitor_manager_apply_monitor_config      (PhoshMonitorManager *self);
 void                  phosh_monitor_manager_set_sensor_proxy_manager  (PhoshMonitorManager     *self,
                                                                        PhoshSensorProxyManager *manager);
