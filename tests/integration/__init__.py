@@ -42,7 +42,9 @@ class Phosh:
         return True
 
     def find_wlr_backend(self):
-        if os.getenv("WAYLAND_DISPLAY"):
+        if os.getenv("WLR_BACKENDS"):
+            return os.getenv("WLR_BACKENDS")
+        elif os.getenv("WAYLAND_DISPLAY"):
             return "wayland"
         elif os.getenv("DISPLAY"):
             return "x11"

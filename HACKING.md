@@ -134,6 +134,8 @@ individual C files should be structured as (top to bottom of file):
    *
    * A longer description with details that can be
    * multiline.
+   *
+   * Since: 0.44.0
    */
   ```
 
@@ -297,12 +299,12 @@ phosh_docked_info_class_init (PhoshDockedInfoClass *klass)
    * PhoshDockedInfo:enabled:
    *
    * Whether docked mode is enabled
+   *
+   * Since: 0.44.0
    */
   props[PROP_PRESENT] =
     g_param_spec_boolean ("present", "", "",
-                          G_PARAM_READABLE |
-                          G_PARAM_STATIC_STRINGS |
-                          G_PARAM_EXPLICIT_NOTIFY);
+                          G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
   …
 }
@@ -341,7 +343,45 @@ For widgets you can construct the binding via the UI XML:
   </object>
 ```
 
-#### Callbacks
+### Signals
+
+Signals should be documented. Since `class_offset`, `accumulator` and
+`c_marshaller` are often unused we put them on a single line.
+
+*Good*:
+
+```C
+  /**
+   * PhoshWwanManager::new-cbm
+   * @self: The wwan manager
+   * @message: The message text
+   * @channel: The channel specifying the source of the CBM
+   *
+   * This signal is emitted when a new cell broadcast message is
+   * received.
+   *
+   * Since: 0.44.0
+   */
+  signals[NEW_CBM] = g_signal_new ("new-cbm",
+                                   G_TYPE_FROM_CLASS (klass),
+                                   G_SIGNAL_RUN_LAST,
+                                   0, NULL, NULL, NULL,
+                                   G_TYPE_NONE,
+                                   2,
+                                   G_TYPE_STRING,
+                                   G_TYPE_UINT);
+```
+
+In the same source file prefer `g_signal_emit` over
+`g_signal_emit_by_name`:
+
+*Good*:
+
+```C
+  g_signal_emit (self, signals[NEW_CBM], "data", 32);
+```
+
+### Callbacks
 
 There's callbacks for signals, async functions, and actions. We
 usually have them all start with `on_` to make it easy to spot
@@ -377,11 +417,19 @@ Public (non static) functions must check the input arguments at the
 top of the function. This makes it easy to reuse them in other parts
 and makes API misuse easy to debug via `G_DEBUG=fatal-criticals`. You
 usually want to check argument types and if the arguments fulfill the
-requirements (e.g. if they need to be non-NULL).
+requirements (e.g. if they need to be non-NULL). Public functions
+should have doc strings.
 
 *Good*:
 
 ```c
+/**
+ * phosh_foo_set_name:
+ * @self: The foo
+ * @name: The name to set
+ *
+ * Set Foo's `name`
+ */
 void
 phosh_foo_set_name (PhoshFoo *self, const char *name)
 {
@@ -392,6 +440,23 @@ phosh_foo_set_name (PhoshFoo *self, const char *name)
 
   …
 }
+```
+
+#### GObject introspection annotations
+
+For the Rust bindings we want to have introspection annotations on public methods.
+Use a space after the colon:
+
+*Good*:
+
+```C
+ * Returns: (transfer none): The generated wisdom
+```
+
+*Bad*:
+
+```C
+ * Returns:(transfer none): The generated wisdom
 ```
 
 [1]: https://gitlab.gnome.org/GNOME/libhandy/blob/master/HACKING.md#coding-style
