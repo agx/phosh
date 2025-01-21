@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-19 13:25+0000\n"
-"PO-Revision-Date: 2025-01-19 21:29+0200\n"
+"POT-Creation-Date: 2025-01-21 15:17+0000\n"
+"PO-Revision-Date: 2025-01-21 22:32+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -167,6 +167,19 @@ msgstr "Bluetooth вимкнено"
 #: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "Невідомий абонент"
+
+#: src/connectivity-manager.c:86
+#, c-format
+msgid "Wi-Fi network '%s' uses a captive portal"
+msgstr "Мережа Wi-Fi «%s» використовує портал із захопленням даних"
+
+#: src/connectivity-manager.c:88
+msgid "The Wi-Fi network uses a captive portal"
+msgstr "Мережа Wi-Fi використовує портал із захопленням даних"
+
+#: src/connectivity-manager.c:91
+msgid "Sign into Wi-Fi network"
+msgstr "Реєстрація у мережі Wi–Fi"
 
 #: src/docked-info.c:81
 msgid "Docked"
