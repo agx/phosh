@@ -7,7 +7,7 @@
       <object class="HdyCarousel" id="carousel">
         <property name="visible">True</property>
         <property name="animation-duration">400</property>
-        <property name="allow-mouse-drag">True</property>a
+        <property name="allow-mouse-drag">True</property>
       </object>
     </child>
     <child>
