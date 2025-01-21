@@ -34,7 +34,7 @@
             <style>
               <class name="content"/>
             </style>
-            <signal name="row-activated" handler="on_network_activated_cb" object="PhoshWifiStatusPage" swapped="yes"/>
+            <signal name="row-activated" handler="on_network_activated" object="PhoshWifiStatusPage" swapped="yes"/>
           </object>
           <packing>
             <property name="name">list_box</property>

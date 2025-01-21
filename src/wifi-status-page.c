@@ -98,7 +98,7 @@ on_wifi_scan_clicked (PhoshWifiStatusPage *self, GParamSpec *pspec, GtkButton *_
 }
 
 static void
-on_network_activated_cb (PhoshWifiStatusPage *self, GtkWidget *row)
+on_network_activated (PhoshWifiStatusPage *self, GtkWidget *row)
 {
   gint index;
   PhoshWifiNetwork *network;
@@ -150,7 +150,7 @@ phosh_wifi_status_page_class_init (PhoshWifiStatusPageClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiStatusPage, empty_state);
   gtk_widget_class_bind_template_child (widget_class, PhoshWifiStatusPage, empty_state_btn);
 
-  gtk_widget_class_bind_template_callback (widget_class, on_network_activated_cb);
+  gtk_widget_class_bind_template_callback (widget_class, on_network_activated);
   gtk_widget_class_bind_template_callback (widget_class, on_placeholder_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_wifi_scan_clicked);
 }
