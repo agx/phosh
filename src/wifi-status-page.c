@@ -92,7 +92,7 @@ on_placeholder_clicked (PhoshWifiStatusPage *self, GtkWidget *widget)
 }
 
 static void
-on_wifi_scan_clicked (PhoshWifiStatusPage *self, GParamSpec *pspec, GtkButton *_button)
+on_wifi_scan_clicked (PhoshWifiStatusPage *self)
 {
   phosh_wifi_manager_request_scan (self->wifi);
 }
