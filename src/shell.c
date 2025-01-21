@@ -34,6 +34,7 @@
 #include "bt-info.h"
 #include "bt-manager.h"
 #include "connectivity-info.h"
+#include "connectivity-manager.h"
 #include "calls-manager.h"
 #include "cell-broadcast-manager.h"
 #include "docked-info.h"
@@ -181,6 +182,7 @@ typedef struct
   PhoshStyleManager *style_manager;
   PhoshLauncherEntryManager *launcher_entry_manager;
   PhoshCellBroadcastManager *cell_broadcast_manager;
+  PhoshConnectivityManager *connectivity_manager;
 
   /* sensors */
   PhoshSensorProxyManager *sensor_proxy_manager;
@@ -525,6 +527,7 @@ phosh_shell_dispose (GObject *object)
   g_clear_object (&priv->notification_banner);
 
   /* dispose managers in opposite order of declaration */
+  g_clear_object (&priv->connectivity_manager);
   g_clear_object (&priv->cell_broadcast_manager);
   g_clear_object (&priv->launcher_entry_manager);
   g_clear_object (&priv->power_menu_manager);
@@ -1806,6 +1809,28 @@ phosh_shell_get_bt_manager (PhoshShell *self)
   return priv->bt_manager;
 }
 
+/**
+ * phosh_shell_get_connectivity_manager:
+ * @self: The shell singleton
+ *
+ * Get the connectivity manager
+ *
+ * Returns: (transfer none): The connectivity manager
+ */
+PhoshConnectivityManager *
+phosh_shell_get_connectivity_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  if (!priv->connectivity_manager)
+      priv->connectivity_manager = phosh_connectivity_manager_new ();
+
+  g_return_val_if_fail (PHOSH_IS_CONNECTIVITY_MANAGER (priv->connectivity_manager), NULL);
+  return priv->connectivity_manager;
+}
 
 /**
  * phosh_shell_get_docked_manager:

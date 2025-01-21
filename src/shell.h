@@ -14,6 +14,7 @@
 #include "background-manager.h"
 #include "bt-manager.h"
 #include "calls-manager.h"
+#include "connectivity-manager.h"
 #include "docked-manager.h"
 #include "emergency-calls-manager.h"
 #include "feedback-manager.h"
@@ -102,6 +103,7 @@ PhoshScreenSaverManager *phosh_shell_get_screen_saver_manager (PhoshShell *self)
 PhoshScreenshotManager *phosh_shell_get_screenshot_manager (PhoshShell *self);
 /* Created on the fly */
 PhoshBtManager         *phosh_shell_get_bt_manager         (PhoshShell *self);
+PhoshConnectivityManager *phosh_shell_get_connectivity_manager (PhoshShell *self);
 PhoshDockedManager     *phosh_shell_get_docked_manager     (PhoshShell *self);
 PhoshHksManager        *phosh_shell_get_hks_manager        (PhoshShell *self);
 PhoshLocationManager   *phosh_shell_get_location_manager   (PhoshShell *self);

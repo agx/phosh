@@ -27,6 +27,7 @@ src/bt-device-row.c
 src/bt-info.c
 src/bt-status-page.c
 src/call-notification.c
+src/connectivity-manager.c
 src/docked-info.c
 src/emergency-menu.c
 src/end-session-dialog.c

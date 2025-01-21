@@ -1062,7 +1062,10 @@ phosh_notification_close (PhoshNotification       *self,
 void
 phosh_notification_do_action (PhoshNotification *self, guint id, const char *action)
 {
-  g_return_if_fail (PHOSH_NOTIFICATION_GET_CLASS (self)->do_action);
+  g_return_if_fail (PHOSH_IS_NOTIFICATION (self));
+
+  if (!PHOSH_NOTIFICATION_GET_CLASS (self)->do_action)
+    return;
 
   PHOSH_NOTIFICATION_GET_CLASS (self)->do_action (self, id, action);
 }
