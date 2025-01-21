@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-11 15:50+0000\n"
-"PO-Revision-Date: 2025-01-12 20:41+0100\n"
+"POT-Creation-Date: 2025-01-19 13:25+0000\n"
+"PO-Revision-Date: 2025-01-21 04:55+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -257,11 +257,11 @@ msgid "No"
 msgstr "არა"
 
 #. give visual feedback on error
-#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:292 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "შეიყვანეთ კოდი"
 
-#: src/lockscreen.c:949
+#: src/lockscreen.c:948
 msgid "Checking…"
 msgstr "შემოწმება…"
 
@@ -293,12 +293,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "ეკრანის ანაბეჭდი %s%s.png-დან"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:446 src/ui/media-player.ui:213
+#: src/media-player.c:450 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "უცნობი სათაური"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:454 src/ui/media-player.ui:201
+#: src/media-player.c:458 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "უცნობი შემსრულებელი"
 
@@ -1032,6 +1032,17 @@ msgstr "პერიოდი"
 #: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:14
 msgid "Number of days to show events for"
 msgstr "დღეების რაოდენობა მოვლენების საჩვენებლად"
+
+#: plugins/scaling-quick-setting/qs.ui:15
+msgid "Monitor scales"
+msgstr "ეკრანის მასშტაბები"
+
+#. Translators: This is scale factor of a monitor in percent
+#: plugins/scaling-quick-setting/scale-row.c:48
+#: plugins/scaling-quick-setting/scaling-quick-setting.c:92
+#, c-format
+msgid "%d%%"
+msgstr "%d%%"
 
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
