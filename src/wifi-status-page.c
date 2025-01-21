@@ -45,7 +45,7 @@ set_visible_page (PhoshWifiStatusPage *self, GParamSpec *pspec, PhoshWifiManager
   const char *icon_name;
   const char *title;
   const char *button_label;
- 
+
   if (wifi_absent) {
     icon_name = "network-wireless-hardware-disabled-symbolic";
     title = _("No Wi-Fi Device Found");
@@ -173,21 +173,12 @@ phosh_wifi_status_page_init (PhoshWifiStatusPage *self)
 
   model = G_LIST_MODEL (phosh_wifi_manager_get_networks (self->wifi));
 
-  g_signal_connect_object (self->wifi,
-                           "notify::present",
-                           G_CALLBACK (set_visible_page),
-                           self,
-                           G_CONNECT_SWAPPED);
-  g_signal_connect_object (self->wifi,
-                           "notify::enabled",
-                           G_CALLBACK (set_visible_page),
-                           self,
-                           G_CONNECT_SWAPPED);
-  g_signal_connect_object (self->wifi,
-                           "notify::is-hotspot-master",
-                           G_CALLBACK (set_visible_page),
-                           self,
-                           G_CONNECT_SWAPPED);
+  g_object_connect (self->wifi,
+                    "swapped-object-signal::notify::present", set_visible_page, self,
+                    "swapped-object-signal::notify::enabled", set_visible_page, self,
+                    "swapped-object-signal::notify::is-hotspot-master", set_visible_page, self,
+                    NULL);
+
   g_signal_connect_object (model,
                            "items-changed",
                            G_CALLBACK (set_visible_page),
