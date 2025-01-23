@@ -725,6 +725,8 @@ setup_idle_cb (PhoshShell *self)
   priv->session_manager = phosh_session_manager_new ();
   priv->mode_manager = phosh_mode_manager_new ();
   priv->wifi_manager = phosh_wifi_manager_new ();
+  /* Connecivity manager needs Wi-Fi manager: */
+  priv->connectivity_manager = phosh_connectivity_manager_new ();
 
   priv->sensor_proxy_manager = phosh_sensor_proxy_manager_new (&err);
   if (!priv->sensor_proxy_manager)
@@ -1514,6 +1516,25 @@ phosh_shell_get_calls_manager (PhoshShell *self)
   return priv->calls_manager;
 }
 
+/**
+ * phosh_shell_get_connectivity_manager:
+ * @self: The shell singleton
+ *
+ * Get the connectivity manager
+ *
+ * Returns: (transfer none): The connectivity manager
+ */
+PhoshConnectivityManager *
+phosh_shell_get_connectivity_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_CONNECTIVITY_MANAGER (priv->connectivity_manager), NULL);
+  return priv->connectivity_manager;
+}
 
 /**
  * phosh_shell_get_emergency_calls_manager:
@@ -1828,29 +1849,6 @@ phosh_shell_get_bt_manager (PhoshShell *self)
 
   g_return_val_if_fail (PHOSH_IS_BT_MANAGER (priv->bt_manager), NULL);
   return priv->bt_manager;
-}
-
-/**
- * phosh_shell_get_connectivity_manager:
- * @self: The shell singleton
- *
- * Get the connectivity manager
- *
- * Returns: (transfer none): The connectivity manager
- */
-PhoshConnectivityManager *
-phosh_shell_get_connectivity_manager (PhoshShell *self)
-{
-  PhoshShellPrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
-  priv = phosh_shell_get_instance_private (self);
-
-  if (!priv->connectivity_manager)
-      priv->connectivity_manager = phosh_connectivity_manager_new ();
-
-  g_return_val_if_fail (PHOSH_IS_CONNECTIVITY_MANAGER (priv->connectivity_manager), NULL);
-  return priv->connectivity_manager;
 }
 
 /**
