@@ -724,6 +724,7 @@ setup_idle_cb (PhoshShell *self)
   priv->app_tracker = phosh_app_tracker_new ();
   priv->session_manager = phosh_session_manager_new ();
   priv->mode_manager = phosh_mode_manager_new ();
+  priv->wifi_manager = phosh_wifi_manager_new ();
 
   priv->sensor_proxy_manager = phosh_sensor_proxy_manager_new (&err);
   if (!priv->sensor_proxy_manager)
@@ -1784,6 +1785,26 @@ phosh_shell_get_session_manager (PhoshShell *self)
   return priv->session_manager;
 }
 
+/**
+ * phosh_shell_get_wifi_manager:
+ * @self: The shell singleton
+ *
+ * Get the Wifi manager
+ *
+ * Returns: (transfer none): The Wifi manager
+ */
+PhoshWifiManager *
+phosh_shell_get_wifi_manager (PhoshShell *self)
+{
+  PhoshShellPrivate *priv;
+
+  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
+  priv = phosh_shell_get_instance_private (self);
+
+  g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (priv->wifi_manager), NULL);
+  return priv->wifi_manager;
+}
+
 /* Manager getters that create them as needed */
 
 /**
@@ -2012,30 +2033,6 @@ phosh_shell_get_vpn_manager (PhoshShell *self)
 
   g_return_val_if_fail (PHOSH_IS_VPN_MANAGER (priv->vpn_manager), NULL);
   return priv->vpn_manager;
-}
-
-
-/**
- * phosh_shell_get_wifi_manager:
- * @self: The shell singleton
- *
- * Get the Wifi manager
- *
- * Returns: (transfer none): The Wifi manager
- */
-PhoshWifiManager *
-phosh_shell_get_wifi_manager (PhoshShell *self)
-{
-  PhoshShellPrivate *priv;
-
-  g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
-  priv = phosh_shell_get_instance_private (self);
-
-  if (!priv->wifi_manager)
-      priv->wifi_manager = phosh_wifi_manager_new ();
-
-  g_return_val_if_fail (PHOSH_IS_WIFI_MANAGER (priv->wifi_manager), NULL);
-  return priv->wifi_manager;
 }
 
 
