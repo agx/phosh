@@ -69,39 +69,21 @@
                         <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
                         <child>
-                          <object class="AdwActionRow">
-                            <property name="visible">True</property>
-                            <property name="title" translatable="yes">Owner Name</property>
-                            <child>
-                              <object class="GtkEntry">
-                                <property name="valign">center</property>
-                                <property name="buffer">owner_name_entry_buffer</property>
-                              </object>
-                            </child>
+                          <object class="AdwEntryRow" id="owner_name_entry">
+                            <property name="title" translatable="yes">_Owner Name</property>
+                            <property name="use-underline">True</property>
                           </object>
                         </child>
                         <child>
-                          <object class="AdwActionRow">
-                                <property name="visible">True</property>
-                            <property name="title" translatable="yes">Date of Birth</property>
-                                <child>
-                              <object class="GtkEntry">
-                                <property name="valign">center</property>
-                                <property name="buffer">dob_entry_buffer</property>
-                              </object>
-                            </child>
+                          <object class="AdwEntryRow" id="dob_entry">
+                            <property name="title" translatable="yes">_Date of Birth</property>
+                            <property name="use-underline">True</property>
                           </object>
                         </child>
                         <child>
-                          <object class="AdwActionRow">
-                            <property name="visible">True</property>
-                            <property name="title" translatable="yes">Preferred Language</property>
-                            <child>
-                              <object class="GtkEntry">
-                                <property name="valign">center</property>
-                                <property name="buffer">language_entry_buffer</property>
-                              </object>
-                            </child>
+                          <object class="AdwEntryRow" id="pref_language_entry">
+                            <property name="title" translatable="yes">_Preferred Language</property>
+                            <property name="use-underline">True</property>
                           </object>
                         </child>
                         <child>
@@ -129,51 +111,27 @@
                         <property name="margin-top">12</property>
                         <property name="margin-bottom">12</property>
                         <child>
-                          <object class="AdwActionRow">
-                            <property name="visible">True</property>
-                            <property name="title" translatable="yes">Age</property>
-                            <child>
-                              <object class="GtkEntry">
-                                <property name="valign">center</property>
-                                <property name="buffer">age_entry_buffer</property>
-                              </object>
-                            </child>
+                          <object class="AdwEntryRow" id="age_entry">
+                            <property name="title" translatable="yes">_Age</property>
+                            <property name="use-underline">True</property>
                           </object>
                         </child>
                         <child>
-                          <object class="AdwActionRow">
-                            <property name="visible">True</property>
-                            <property name="title" translatable="yes">Blood Type</property>
-                            <child>
-                              <object class="GtkEntry">
-                                <property name="valign">center</property>
-                                <property name="buffer">blood_type_entry_buffer</property>
-                              </object>
-                            </child>
+                          <object class="AdwEntryRow" id="blood_type_entry">
+                            <property name="title" translatable="yes">_Blood Type</property>
+                            <property name="use-underline">True</property>
                           </object>
                         </child>
                         <child>
-                          <object class="AdwActionRow">
-                            <property name="visible">True</property>
-                            <property name="title" translatable="yes">Height</property>
-                            <child>
-                              <object class="GtkEntry">
-                                <property name="valign">center</property>
-                                <property name="buffer">height_entry_buffer</property>
-                              </object>
-                            </child>
+                          <object class="AdwEntryRow" id="height_entry">
+                            <property name="title" translatable="yes">_Height</property>
+                            <property name="use-underline">True</property>
                           </object>
                         </child>
                         <child>
-                          <object class="AdwActionRow">
-                            <property name="visible">True</property>
-                            <property name="title" translatable="yes">Weight</property>
-                            <child>
-                              <object class="GtkEntry">
-                                <property name="valign">center</property>
-                                <property name="buffer">weight_entry_buffer</property>
-                              </object>
-                            </child>
+                          <object class="AdwEntryRow" id="weight_entry">
+                            <property name="title" translatable="yes">_Weight</property>
+                            <property name="use-underline">True</property>
                           </object>
                         </child>
                         <child>
@@ -258,15 +216,7 @@
     </child>
   </template>
 
-<object class="GtkEntryBuffer" id="dob_entry_buffer"/>
-<object class="GtkEntryBuffer" id="owner_name_entry_buffer"/>
-<object class="GtkEntryBuffer" id="language_entry_buffer"/>
 <object class="GtkTextBuffer" id="home_addr_text_buffer"/>
-
-<object class="GtkEntryBuffer" id="age_entry_buffer"/>
-<object class="GtkEntryBuffer" id="blood_type_entry_buffer"/>
-<object class="GtkEntryBuffer" id="height_entry_buffer"/>
-<object class="GtkEntryBuffer" id="weight_entry_buffer"/>
 <object class="GtkTextBuffer" id="allergies_text_buffer"/>
 <object class="GtkTextBuffer" id="med_cond_text_buffer"/>
 <object class="GtkTextBuffer" id="other_info_text_buffer"/>
