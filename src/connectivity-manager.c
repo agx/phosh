@@ -17,6 +17,8 @@
 
 #include <NetworkManager.h>
 
+#define NOTI_TIMEOUT (20 * 1000)
+
 /**
  * PhoshConnectivityManager
  *
@@ -33,14 +35,17 @@ enum {
 static GParamSpec *props[PROP_LAST_PROP];
 
 struct _PhoshConnectivityManager {
-  PhoshManager  parent;
+  PhoshManager         parent;
 
-  gboolean      connectivity;
-  NMClient     *nmclient;
-  GCancellable *cancel;
+  PhoshNotification   *noti;
+  char                *ssid;
 
-  char         *icon_name;
-  NMConnectivityState state;
+  gboolean             connectivity;
+  NMClient            *nmclient;
+  GCancellable        *cancel;
+
+  char                *icon_name;
+  NMConnectivityState  state;
 };
 G_DEFINE_TYPE (PhoshConnectivityManager, phosh_connectivity_manager, PHOSH_TYPE_MANAGER)
 
@@ -65,14 +70,37 @@ on_notification_actioned (PhoshConnectivityManager *self)
 
 
 static void
+on_notification_closed (PhoshConnectivityManager *self)
+{
+  g_clear_object (&self->noti);
+}
+
+
+static void
+on_ssid_changed (PhoshConnectivityManager *self, GParamSpec *pspec, PhoshWifiManager *wifi_manager)
+{
+  const char *new_ssid = phosh_wifi_manager_get_ssid (wifi_manager);
+
+  if (!self->noti)
+    return;
+
+  if (g_strcmp0 (self->ssid, new_ssid) == 0)
+    return;
+
+  g_debug ("SSID changed from '%s' to '%s', closing notification", self->ssid, new_ssid);
+  g_clear_pointer (&self->ssid, g_free);
+  phosh_notification_close (self->noti, PHOSH_NOTIFICATION_REASON_CLOSED);
+}
+
+
+static void
 portal_auth (PhoshConnectivityManager *self)
 {
   PhoshNotifyManager *nm = phosh_notify_manager_get_default ();
   PhoshWifiManager *wifi_manager = phosh_shell_get_wifi_manager (phosh_shell_get_default ());
-  g_autoptr (PhoshNotification) noti = NULL;
   g_autoptr (GIcon) icon = g_themed_icon_new ("network-wireless-signal-none-symbolic");
   g_autofree char *body = NULL;
-  const char *check_uri, *ssid;
+  const char *check_uri;
 
   check_uri = nm_client_connectivity_check_get_uri (self->nmclient);
   if (check_uri == NULL) {
@@ -80,24 +108,29 @@ portal_auth (PhoshConnectivityManager *self)
     return;
   }
 
-  ssid = phosh_wifi_manager_get_ssid (wifi_manager);
-
-  if (ssid)
-    body = g_strdup_printf (_("Wi-Fi network '%s' uses a captive portal"), ssid);
+  g_free (self->ssid);
+  self->ssid = g_strdup (phosh_wifi_manager_get_ssid (wifi_manager));
+  if (self->ssid)
+    body = g_strdup_printf (_("Wi-Fi network '%s' uses a captive portal"), self->ssid);
   else
     body = g_strdup (_("The Wi-Fi network uses a captive portal"));
 
-  noti = g_object_new (PHOSH_TYPE_NOTIFICATION,
-                       "summary", _("Sign into Wi-Fi network"),
-                       "body", body,
-                       "image", icon,
-                       NULL);
-  g_signal_connect_object (noti,
-                           "actioned",
-                           G_CALLBACK (on_notification_actioned),
-                           self,
-                           G_CONNECT_SWAPPED);
-  phosh_notify_manager_add_shell_notification (nm, noti, 0, 10000);
+  if (self->noti) {
+    phosh_notification_set_body (self->noti, body);
+    phosh_notification_expires (self->noti, NOTI_TIMEOUT);
+  } else {
+    self->noti = g_object_new (PHOSH_TYPE_NOTIFICATION,
+                               "summary", _("Sign into Wi-Fi network"),
+                               "body", body,
+                               "image", icon,
+                               NULL);
+    g_object_connect (self->noti,
+                      "swapped-object-signal::actioned", on_notification_actioned, self,
+                      "swapped-object-signal::closed", on_notification_closed, self,
+                      NULL);
+    phosh_notify_manager_add_shell_notification (nm, self->noti, 0, NOTI_TIMEOUT);
+    phosh_notification_set_transient (self->noti, FALSE);
+  }
 }
 
 
@@ -169,6 +202,12 @@ on_connectivity_changed (PhoshConnectivityManager *self, GParamSpec *pspec, NMCl
     self->icon_name = g_strdup (icon_name);
     g_object_notify_by_pspec (G_OBJECT (self), props[PROP_ICON_NAME]);
   }
+
+  /* If we get connectivity again, close the portal notification, no matter how
+   * that happened */
+  if (connectivity && self->noti) {
+    phosh_notification_close (self->noti, PHOSH_NOTIFICATION_REASON_CLOSED);
+  }
 }
 
 
@@ -215,6 +254,8 @@ phosh_connectivity_manager_finalize (GObject *object)
   g_clear_object (&self->cancel);
 
   g_clear_object (&self->nmclient);
+  g_clear_object (&self->noti);
+  g_clear_pointer (&self->ssid, g_free);
 
   G_OBJECT_CLASS (phosh_connectivity_manager_parent_class)->finalize (object);
 }
@@ -257,9 +298,17 @@ phosh_connectivity_manager_class_init (PhoshConnectivityManagerClass *klass)
 static void
 phosh_connectivity_manager_init (PhoshConnectivityManager *self)
 {
+  PhoshWifiManager *wifi_manager = phosh_shell_get_wifi_manager (phosh_shell_get_default ());
+
   self->cancel = g_cancellable_new ();
   /* Ensure initial sync */
   self->state = -1;
+
+  g_signal_connect_object (wifi_manager,
+                           "notify::ssid",
+                           G_CALLBACK (on_ssid_changed),
+                           self,
+                           G_CONNECT_SWAPPED);
 }
 
 
