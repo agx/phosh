@@ -271,10 +271,6 @@
 <object class="GtkTextBuffer" id="med_cond_text_buffer"/>
 <object class="GtkTextBuffer" id="other_info_text_buffer"/>
 
-<object class="GtkEntryBuffer" id="new_emer_contact_entry_buffer"/>
-<object class="GtkEntryBuffer" id="new_emer_contact_relationship_entry_buffer"/>
-<object class="GtkEntryBuffer" id="new_emer_contact_number_entry_buffer"/>
-
 <object class="GtkDialog" id="add_emer_contact_dialog">
   <signal name="response" handler="on_dialog_update_emer_contact" swapped="no"/>
   <property name="use-header-bar">1</property>
@@ -295,7 +291,7 @@
         <object class="GtkButton" id="add_emer_contact_dialog_button_ok">
           <property name="label" translatable="yes">Add</property>
           <binding name="sensitive">
-            <lookup name="length">new_emer_contact_entry_buffer</lookup>
+            <lookup name="text-length">contact_name_entry</lookup>
           </binding>
         </object>
       </child>
@@ -306,44 +302,21 @@
       <child>
         <object class="AdwPreferencesGroup">
           <child>
-            <object class="AdwPreferencesRow">
-              <property name="visible">True</property>
-              <child type="prefix">
-                <object class="GtkEntry">
-                  <property name="valign">center</property>
-                  <property name="hexpand">true</property>
-                  <property name="vexpand">true</property>
-                  <property name="buffer">new_emer_contact_entry_buffer</property>
-                  <property name="placeholder-text" translatable="yes">New Contact Name</property>
-                </object>
-              </child>
+            <object class="AdwEntryRow" id="contact_name_entry">
+              <property name="title" translatable="yes">_Contact Name</property>
+              <property name="use-underline">True</property>
             </object>
           </child>
           <child>
-            <object class="AdwPreferencesRow">
-              <property name="visible">True</property>
-              <child type="prefix">
-                <object class="GtkEntry">
-                  <property name="valign">center</property>
-                  <property name="hexpand">true</property>
-                  <property name="vexpand">true</property>
-                  <property name="buffer">new_emer_contact_relationship_entry_buffer</property>
-                  <property name="placeholder-text" translatable="yes">Relationship</property>
-                </object>
-              </child>
+            <object class="AdwEntryRow" id="relationship_entry">
+              <property name="title" translatable="yes">Relationship</property>
+              <property name="use-underline">True</property>
             </object>
           </child>
           <child>
-            <object class="AdwPreferencesRow">
-              <property name="visible">True</property>
-              <child type="prefix">
-                <object class="GtkEntry">
-                  <property name="valign">center</property>
-                  <property name="hexpand">true</property>
-                  <property name="buffer">new_emer_contact_number_entry_buffer</property>
-                  <property name="placeholder-text" translatable="yes">Number</property>
-                </object>
-              </child>
+            <object class="AdwEntryRow" id="contact_number_entry">
+              <property name="title" translatable="yes">_Contact Number</property>
+              <property name="use-underline">True</property>
             </object>
           </child>
         </object>

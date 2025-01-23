@@ -46,9 +46,9 @@ struct _PhoshEmergencyInfoPrefs {
   GtkTextBuffer       *med_cond_text_buffer;
   GtkTextBuffer       *other_info_text_buffer;
 
-  GtkEntryBuffer      *new_emer_contact_entry_buffer;
-  GtkEntryBuffer      *new_emer_contact_relationship_entry_buffer;
-  GtkEntryBuffer      *new_emer_contact_number_entry_buffer;
+  AdwEntryRow         *contact_name_entry;
+  AdwEntryRow         *relationship_entry;
+  AdwEntryRow         *contact_number_entry;
 
   GtkDialog           *add_emer_contact_dialog;
 
@@ -337,9 +337,9 @@ static void
 on_dialog_update_emer_contact (GtkDialog* dialog, int response_id, gpointer user_data)
 {
   PhoshEmergencyInfoPrefs *self = PHOSH_EMERGENCY_INFO_PREFS (user_data);
-  const char *contact = gtk_entry_buffer_get_text (self->new_emer_contact_entry_buffer);
-  const char *relationship = gtk_entry_buffer_get_text (self->new_emer_contact_relationship_entry_buffer);
-  const char *number = gtk_entry_buffer_get_text (self->new_emer_contact_number_entry_buffer);
+  const char *contact = gtk_editable_get_text (GTK_EDITABLE (self->contact_name_entry));
+  const char *relationship = gtk_editable_get_text (GTK_EDITABLE (self->relationship_entry));
+  const char *number = gtk_editable_get_text (GTK_EDITABLE (self->contact_number_entry));
 
   if (response_id == GTK_RESPONSE_OK && *contact) {
     g_autofree char *number_joined = NULL;
@@ -360,17 +360,9 @@ on_dialog_update_emer_contact (GtkDialog* dialog, int response_id, gpointer user
     save_keyfile (self, key_file);
   }
 
-  gtk_entry_buffer_set_text (self->new_emer_contact_entry_buffer,
-                             "",
-                             -1);
-
-  gtk_entry_buffer_set_text (self->new_emer_contact_relationship_entry_buffer,
-                             "",
-                             -1);
-
-  gtk_entry_buffer_set_text (self->new_emer_contact_number_entry_buffer,
-                             "",
-                             -1);
+  gtk_editable_set_text (GTK_EDITABLE (self->contact_name_entry), "");
+  gtk_editable_set_text (GTK_EDITABLE (self->relationship_entry), "");
+  gtk_editable_set_text (GTK_EDITABLE (self->contact_number_entry), "");
 
   gtk_widget_set_visible (GTK_WIDGET (dialog), FALSE);
 }
@@ -471,9 +463,9 @@ phosh_emergency_info_prefs_class_init (PhoshEmergencyInfoPrefsClass *klass)
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoPrefs, med_cond_text_buffer);
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoPrefs, other_info_text_buffer);
 
-  gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoPrefs, new_emer_contact_entry_buffer);
-  gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoPrefs, new_emer_contact_relationship_entry_buffer);
-  gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoPrefs, new_emer_contact_number_entry_buffer);
+  gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoPrefs, contact_name_entry);
+  gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoPrefs, relationship_entry);
+  gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoPrefs, contact_number_entry);
 
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoPrefs, add_emer_contact_dialog);
   gtk_widget_class_bind_template_child (widget_class, PhoshEmergencyInfoPrefs, emer_contacts);
