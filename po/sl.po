@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-21 15:17+0000\n"
-"PO-Revision-Date: 2025-01-22 20:15+0100\n"
+"POT-Creation-Date: 2025-01-23 15:15+0000\n"
+"PO-Revision-Date: 2025-01-23 17:06+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -492,7 +492,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "Uporabnik je opustil pogovorno okno za preverjanje pristnosti"
 
 #: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Geslo:"
@@ -550,7 +550,6 @@ msgstr "Pomni odločitev"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:291
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -655,15 +654,16 @@ msgstr "Oddrsnite navzgor, da odklenete"
 msgid "Unlock"
 msgstr "Odkleni"
 
-#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Zahtevana je overitev"
 
-#: src/ui/network-auth-prompt.ui:40
+#: src/ui/network-auth-prompt.ui:41
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:285
 msgid "_Cancel"
 msgstr "Pre_kliči"
 
-#: src/ui/network-auth-prompt.ui:58
+#: src/ui/network-auth-prompt.ui:59
 msgid "C_onnect"
 msgstr "_Poveži"
 
@@ -882,25 +882,25 @@ msgstr "Zdravila in bolezni"
 msgid "Add Contact"
 msgstr "Dodaj stik"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:286
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:276
 msgid "Add New Contact"
 msgstr "Dodaj nov stik"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:296
-msgid "Add"
-msgstr "Dodaj"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+msgid "_Add"
+msgstr "_Dodaj"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:317
-msgid "New Contact Name"
-msgstr "Ime novega stika"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:313
+msgid "_Contact Name"
+msgstr "_Ime stika"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:331
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "Relationship"
 msgstr "Relacija"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:344
-msgid "Number"
-msgstr "Številka"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:325
+msgid "_Contact Number"
+msgstr "_Številka stika"
 
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
