@@ -70,7 +70,7 @@ typedef struct _PhoshNotificationPrivate {
   char                     *category;
   char                     *profile;
 
-  gulong                    timeout;
+  guint                     timeout;
 } PhoshNotificationPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (PhoshNotification, phosh_notification, G_TYPE_OBJECT)
@@ -1032,6 +1032,7 @@ phosh_notification_expires (PhoshNotification *self,
   g_return_if_fail (timeout > 0);
   priv = phosh_notification_get_instance_private (self);
 
+  g_clear_handle_id (&priv->timeout, g_source_remove);
   priv->timeout = g_timeout_add (timeout, expired, self);
   g_source_set_name_by_id (priv->timeout, "[phosh] notification_expires_id");
 }
