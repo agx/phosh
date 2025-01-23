@@ -50,7 +50,7 @@ struct _PhoshEmergencyInfoPrefs {
   AdwEntryRow         *relationship_entry;
   AdwEntryRow         *contact_number_entry;
 
-  GtkDialog           *add_emer_contact_dialog;
+  AdwDialog           *add_emer_contact_dialog;
 
   AdwPreferencesGroup *emer_contacts;
 
@@ -334,49 +334,53 @@ phosh_emergency_info_prefs_free_data (PhoshEmergencyInfoPrefs *self)
 }
 
 static void
-on_dialog_update_emer_contact (GtkDialog* dialog, int response_id, gpointer user_data)
+on_dialog_update_emer_contact (PhoshEmergencyInfoPrefs *self)
 {
-  PhoshEmergencyInfoPrefs *self = PHOSH_EMERGENCY_INFO_PREFS (user_data);
-  const char *contact = gtk_editable_get_text (GTK_EDITABLE (self->contact_name_entry));
-  const char *relationship = gtk_editable_get_text (GTK_EDITABLE (self->relationship_entry));
-  const char *number = gtk_editable_get_text (GTK_EDITABLE (self->contact_number_entry));
+  g_autofree char *number_joined = NULL;
+  const char *contact = NULL;
+  const char *relationship = NULL;
+  const char *number = NULL;
+  g_autoptr (GKeyFile) key_file = g_key_file_new ();
 
-  if (response_id == GTK_RESPONSE_OK && *contact) {
-    g_autofree char *number_joined = NULL;
-    g_autoptr (GKeyFile) key_file = g_key_file_new ();
+  contact = gtk_editable_get_text (GTK_EDITABLE (self->contact_name_entry));
+  relationship = gtk_editable_get_text (GTK_EDITABLE (self->relationship_entry));
+  number = gtk_editable_get_text (GTK_EDITABLE (self->contact_number_entry));
 
-    number_joined = g_strdup_printf ("%s;%s", number ?: "", relationship ?: "");
+  number_joined = g_strdup_printf ("%s;%s", number ?: "", relationship ?: "");
 
-    add_contact_row (self, contact, number_joined);
+  add_contact_row (self, contact, number_joined);
 
-    if (!g_key_file_load_from_file (key_file, self->keyfile_path, G_KEY_FILE_KEEP_COMMENTS, NULL))
-      g_warning ("No Keyfile found at %s", self->keyfile_path);
+  if (!g_key_file_load_from_file (key_file, self->keyfile_path, G_KEY_FILE_KEEP_COMMENTS, NULL))
+    g_warning ("No Keyfile found at %s", self->keyfile_path);
 
-    g_key_file_set_string (key_file,
-                           CONTACTS_GROUP,
-                           contact,
-                           number_joined);
+  g_key_file_set_string (key_file,
+                         CONTACTS_GROUP,
+                         contact,
+                         number_joined);
 
-    save_keyfile (self, key_file);
-  }
+  save_keyfile (self, key_file);
 
   gtk_editable_set_text (GTK_EDITABLE (self->contact_name_entry), "");
   gtk_editable_set_text (GTK_EDITABLE (self->relationship_entry), "");
   gtk_editable_set_text (GTK_EDITABLE (self->contact_number_entry), "");
 
-  gtk_widget_set_visible (GTK_WIDGET (dialog), FALSE);
+  adw_dialog_close (ADW_DIALOG (self->add_emer_contact_dialog));
+}
+
+static void
+on_dialog_update_emer_contact_cancelled (PhoshEmergencyInfoPrefs *self)
+{
+  gtk_editable_set_text (GTK_EDITABLE (self->contact_name_entry), "");
+  gtk_editable_set_text (GTK_EDITABLE (self->relationship_entry), "");
+  gtk_editable_set_text (GTK_EDITABLE (self->contact_number_entry), "");
+
+  adw_dialog_close (ADW_DIALOG (self->add_emer_contact_dialog));
 }
 
 static void
 on_update_emer_contact (PhoshEmergencyInfoPrefs *self)
 {
-  GtkNative *native;
-
-  native = gtk_widget_get_native (GTK_WIDGET (self));
-
-  gtk_window_set_transient_for (GTK_WINDOW (self->add_emer_contact_dialog), GTK_WINDOW (native));
-  gtk_window_set_modal (GTK_WINDOW (self->add_emer_contact_dialog), TRUE);
-  gtk_window_present (GTK_WINDOW (self->add_emer_contact_dialog));
+  adw_dialog_present (self->add_emer_contact_dialog, GTK_WIDGET (self));
 }
 
 static void
@@ -474,6 +478,7 @@ phosh_emergency_info_prefs_class_init (PhoshEmergencyInfoPrefsClass *klass)
   gtk_widget_class_bind_template_callback (widget_class, on_update_information_clicked);
   gtk_widget_class_bind_template_callback (widget_class, on_update_information_cancelled);
   gtk_widget_class_bind_template_callback (widget_class, on_dialog_update_emer_contact);
+  gtk_widget_class_bind_template_callback (widget_class, on_dialog_update_emer_contact_cancelled);
 }
 
 
