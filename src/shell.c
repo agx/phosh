@@ -1429,11 +1429,11 @@ phosh_shell_get_builtin_monitor (PhoshShell *self)
 
   g_return_val_if_fail (PHOSH_IS_SHELL (self), NULL);
   priv = phosh_shell_get_instance_private (self);
-  g_return_val_if_fail (PHOSH_IS_MONITOR (priv->builtin_monitor) || priv->builtin_monitor == NULL, NULL);
+  g_return_val_if_fail (PHOSH_IS_MONITOR (priv->builtin_monitor) || priv->builtin_monitor == NULL,
+                        NULL);
 
   return priv->builtin_monitor;
 }
-
 
 /**
  * phosh_shell_get_primary_monitor:
@@ -1474,7 +1474,6 @@ phosh_shell_get_app_tracker (PhoshShell *self)
   return priv->app_tracker;
 }
 
-
 /**
  * phosh_shell_get_background_manager:
  * @self: The shell singleton
@@ -1494,7 +1493,6 @@ phosh_shell_get_background_manager (PhoshShell *self)
 
   return priv->background_manager;
 }
-
 
 /**
  * phosh_shell_get_calls_manager:
@@ -1556,7 +1554,6 @@ phosh_shell_get_emergency_calls_manager (PhoshShell *self)
   return priv->emergency_calls_manager;
 }
 
-
 /**
  * phosh_shell_get_feedback_manager:
  * @self: The shell singleton
@@ -1576,7 +1573,6 @@ phosh_shell_get_feedback_manager (PhoshShell *self)
 
   return priv->feedback_manager;
 }
-
 
 /**
  * phosh_shell_get_gtk_mount_manager:
@@ -1598,7 +1594,6 @@ phosh_shell_get_gtk_mount_manager (PhoshShell *self)
   return priv->gtk_mount_manager;
 }
 
-
 /**
  * phosh_shell_get_launcher_entry_manager:
  * @self: The shell singleton
@@ -1618,7 +1613,6 @@ phosh_shell_get_launcher_entry_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_LAUNCHER_ENTRY_MANAGER (priv->launcher_entry_manager), NULL);
   return priv->launcher_entry_manager;
 }
-
 
 /**
  * phosh_shell_get_layout_manager:
@@ -1640,7 +1634,6 @@ phosh_shell_get_layout_manager (PhoshShell *self)
   return priv->layout_manager;
 }
 
-
 /**
  * phosh_shell_get_lockscreen_manager:
  * @self: The shell singleton
@@ -1660,7 +1653,6 @@ phosh_shell_get_lockscreen_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_LOCKSCREEN_MANAGER (priv->lockscreen_manager), NULL);
   return priv->lockscreen_manager;
 }
-
 
 /**
  * phosh_shell_get_mode_manager:
@@ -1722,7 +1714,6 @@ phosh_shell_get_monitor_manager (PhoshShell *self)
   return priv->monitor_manager;
 }
 
-
 /**
  * phosh_shell_get_toplevel_manager:
  * @self: The shell singleton
@@ -1742,7 +1733,6 @@ phosh_shell_get_toplevel_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_TOPLEVEL_MANAGER (priv->toplevel_manager), NULL);
   return priv->toplevel_manager;
 }
-
 
 /**
  * phosh_shell_get_screen_saver_manager:
@@ -1764,7 +1754,6 @@ phosh_shell_get_screen_saver_manager (PhoshShell *self)
   return priv->screen_saver_manager;
 }
 
-
 /**
  * phosh_shell_get_screenshot_manager:
  * @self: The shell singleton
@@ -1784,7 +1773,6 @@ phosh_shell_get_screenshot_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_SCREENSHOT_MANAGER (priv->screenshot_manager), NULL);
   return priv->screenshot_manager;
 }
-
 
 /**
  * phosh_shell_get_session_manager:
@@ -1845,7 +1833,7 @@ phosh_shell_get_bt_manager (PhoshShell *self)
   priv = phosh_shell_get_instance_private (self);
 
   if (!priv->bt_manager)
-      priv->bt_manager = phosh_bt_manager_new ();
+    priv->bt_manager = phosh_bt_manager_new ();
 
   g_return_val_if_fail (PHOSH_IS_BT_MANAGER (priv->bt_manager), NULL);
   return priv->bt_manager;
@@ -1880,7 +1868,6 @@ phosh_shell_get_docked_manager (PhoshShell *self)
   return priv->docked_manager;
 }
 
-
 /**
  * phosh_shell_get_hks_manager:
  * @self: The shell singleton
@@ -1903,7 +1890,6 @@ phosh_shell_get_hks_manager (PhoshShell *self)
   g_return_val_if_fail (PHOSH_IS_HKS_MANAGER (priv->hks_manager), NULL);
   return priv->hks_manager;
 }
-
 
 /**
  * phosh_shell_get_location_manager:
@@ -1928,7 +1914,6 @@ phosh_shell_get_location_manager (PhoshShell *self)
   return priv->location_manager;
 }
 
-
 /**
  * phosh_shell_get_osk_manager:
  * @self: The shell singleton
@@ -1946,12 +1931,11 @@ phosh_shell_get_osk_manager (PhoshShell *self)
   priv = phosh_shell_get_instance_private (self);
 
   if (!priv->osk_manager)
-      priv->osk_manager = phosh_osk_manager_new ();
+    priv->osk_manager = phosh_osk_manager_new ();
 
   g_return_val_if_fail (PHOSH_IS_OSK_MANAGER (priv->osk_manager), NULL);
   return priv->osk_manager;
 }
-
 
 /**
  * phosh_shell_get_rotation_manager:
@@ -1977,14 +1961,13 @@ phosh_shell_get_rotation_manager (PhoshShell *self)
      * Make sure rotation works even if the primary monitor has already appeared
      * when we create the rotation manager.
      */
-    phosh_rotation_manager_set_monitor(priv->rotation_manager, priv->primary_monitor);
+    phosh_rotation_manager_set_monitor (priv->rotation_manager, priv->primary_monitor);
   }
 
   g_return_val_if_fail (PHOSH_IS_ROTATION_MANAGER (priv->rotation_manager), NULL);
 
   return priv->rotation_manager;
 }
-
 
 /**
  * phosh_shell_get_torch_manager:
@@ -2009,7 +1992,6 @@ phosh_shell_get_torch_manager (PhoshShell *self)
   return priv->torch_manager;
 }
 
-
 /**
  * phosh_shell_get_vpn_manager:
  * @self: The shell singleton
@@ -2027,12 +2009,11 @@ phosh_shell_get_vpn_manager (PhoshShell *self)
   priv = phosh_shell_get_instance_private (self);
 
   if (!priv->vpn_manager)
-      priv->vpn_manager = phosh_vpn_manager_new ();
+    priv->vpn_manager = phosh_vpn_manager_new ();
 
   g_return_val_if_fail (PHOSH_IS_VPN_MANAGER (priv->vpn_manager), NULL);
   return priv->vpn_manager;
 }
-
 
 /**
  * phosh_shell_get_wwan:
@@ -2303,7 +2284,6 @@ phosh_shell_remove_global_keyboard_action_entries (PhoshShell *self,
   }
 }
 
-
 /**
  * phosh_shell_is_session_active
  * @self: The shell
@@ -2320,7 +2300,6 @@ phosh_shell_is_session_active (PhoshShell *self)
 
   return phosh_session_manager_is_active (priv->session_manager);
 }
-
 
 /**
  * phosh_shell_get_app_launch_context:
@@ -2460,7 +2439,6 @@ phosh_shell_set_locked (PhoshShell *self, gboolean locked)
   phosh_lockscreen_manager_set_locked (priv->lockscreen_manager, locked);
 }
 
-
 /**
  * phosh_shell_get_show_splash:
  * @self: The #PhoshShell singleton
@@ -2486,7 +2464,6 @@ phosh_shell_get_show_splash (PhoshShell *self)
   return TRUE;
 }
 
-
 /**
  * phosh_shell_get_docked:
  * @self: The #PhoshShell singleton
@@ -2503,7 +2480,6 @@ phosh_shell_get_docked (PhoshShell *self)
 
   return priv->docked;
 }
-
 
 /**
  * phosh_shell_get_blanked:
