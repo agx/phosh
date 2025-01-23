@@ -271,95 +271,66 @@
 <object class="GtkTextBuffer" id="med_cond_text_buffer"/>
 <object class="GtkTextBuffer" id="other_info_text_buffer"/>
 
-<object class="GtkEntryBuffer" id="new_emer_contact_entry_buffer"/>
-<object class="GtkEntryBuffer" id="new_emer_contact_relationship_entry_buffer"/>
-<object class="GtkEntryBuffer" id="new_emer_contact_number_entry_buffer"/>
 
-<object class="GtkDialog" id="add_emer_contact_dialog">
-  <signal name="response" handler="on_dialog_update_emer_contact" swapped="no"/>
-  <property name="use-header-bar">1</property>
-  <property name="titlebar">
-    <object class="GtkHeaderBar">
-    <property name="show-title-buttons">0</property>
-    <property name="title-widget">
-      <object class="AdwWindowTitle">
-        <property name="title" translatable="yes">Add New Contact</property>
-      </object>
-    </property>
-      <child>
-        <object class="GtkButton" id="add_emer_contact_dialog_button_cancel">
-        <property name="label" translatable="yes">Cancel</property>
+<object class="AdwDialog" id="add_emer_contact_dialog">
+  <property name="title" translatable="yes">Add New Contact</property>
+  <property name="child">
+    <object class="AdwToolbarView">
+      <child type="top">
+        <object class="AdwHeaderBar">
+          <property name="show-start-title-buttons">False</property>
+          <property name="show-end-title-buttons">False</property>
+          <child>
+            <object class="GtkButton" id="cancel_button">
+              <property name="label" translatable="yes">_Cancel</property>
+              <property name="use_underline">True</property>
+              <property name="valign">center</property>
+              <signal name="clicked" handler="on_dialog_update_emer_contact_cancelled" swapped="yes" />
+            </object>
+          </child>
+          <child type="end">
+            <object class="GtkButton" id="add_button">
+              <property name="label" translatable="yes">_Add</property>
+              <property name="use_underline">True</property>
+              <property name="valign">center</property>
+              <signal name="clicked" handler="on_dialog_update_emer_contact" swapped="yes" />
+              <binding name="sensitive">
+                <lookup name="text-length">contact_name_entry</lookup>
+              </binding>
+              <style>
+                <class name="suggested-action"/>
+              </style>
+            </object>
+          </child>
         </object>
       </child>
-      <child type="end">
-        <object class="GtkButton" id="add_emer_contact_dialog_button_ok">
-          <property name="label" translatable="yes">Add</property>
-          <binding name="sensitive">
-            <lookup name="length">new_emer_contact_entry_buffer</lookup>
-          </binding>
+      <property name="content">
+        <object class="AdwPreferencesPage">
+          <child>
+            <object class="AdwPreferencesGroup">
+              <child>
+                <object class="AdwEntryRow" id="contact_name_entry">
+                  <property name="title" translatable="yes">_Contact Name</property>
+                  <property name="use-underline">True</property>
+                </object>
+              </child>
+              <child>
+                <object class="AdwEntryRow" id="relationship_entry">
+                  <property name="title" translatable="yes">Relationship</property>
+                  <property name="use-underline">True</property>
+                </object>
+              </child>
+              <child>
+                <object class="AdwEntryRow" id="contact_number_entry">
+                  <property name="title" translatable="yes">_Contact Number</property>
+                  <property name="use-underline">True</property>
+                </object>
+              </child>
+            </object>
+          </child>
         </object>
-      </child>
+      </property>
     </object>
   </property>
-  <child>
-    <object class="AdwPreferencesPage">
-      <child>
-      <object class="AdwPreferencesGroup">
-        <child>
-          <object class="AdwPreferencesRow">
-            <property name="visible">True</property>
-            <child type="prefix">
-              <object class="GtkEntry">
-                <property name="valign">center</property>
-                <property name="hexpand">true</property>
-                <property name="vexpand">true</property>
-                <property name="buffer">new_emer_contact_entry_buffer</property>
-                <property name="placeholder-text" translatable="yes">New Contact Name</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="AdwPreferencesRow">
-            <property name="visible">True</property>
-            <child type="prefix">
-              <object class="GtkEntry">
-                <property name="valign">center</property>
-                <property name="hexpand">true</property>
-                <property name="vexpand">true</property>
-                <property name="buffer">new_emer_contact_relationship_entry_buffer</property>
-                <property name="placeholder-text" translatable="yes">Relationship</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="AdwPreferencesRow">
-            <property name="visible">True</property>
-            <child type="prefix">
-              <object class="GtkEntry">
-                <property name="valign">center</property>
-                <property name="hexpand">true</property>
-                <property name="buffer">new_emer_contact_number_entry_buffer</property>
-                <property name="placeholder-text" translatable="yes">Number</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkBox">
-            <property name="can_focus">False</property>
-            <property name="orientation">horizontal</property>
-            <property name="spacing">20</property>
-          </object>
-        </child>
-      </object>
-    </child>
-    </object>
-  </child>
-  <action-widgets>
-    <action-widget response="cancel">add_emer_contact_dialog_button_cancel</action-widget>
-    <action-widget response="ok" default="true">add_emer_contact_dialog_button_ok</action-widget>
-  </action-widgets>
 </object>
 </interface>
