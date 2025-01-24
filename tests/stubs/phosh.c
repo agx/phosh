@@ -14,6 +14,7 @@
 static PhoshToplevelManager *toplevel_manager = NULL;
 static PhoshBackgroundManager *background_manager = NULL;
 static GObject *shell = NULL;
+static GObject *wifi_manager = NULL;
 
 PhoshShell *
 phosh_shell_get_default (void)
@@ -91,7 +92,9 @@ phosh_shell_get_app_tracker (PhoshShell *self)
 PhoshWifiManager *
 phosh_shell_get_wifi_manager (PhoshShell *self)
 {
-  return NULL;
+  if (wifi_manager == NULL)
+    wifi_manager = g_object_new (G_TYPE_OBJECT, NULL);
+  return (PhoshWifiManager*)(wifi_manager);
 }
 
 
