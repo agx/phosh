@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-19 13:25+0000\n"
-"PO-Revision-Date: 2025-01-19 15:51+0100\n"
+"POT-Creation-Date: 2025-01-21 20:36+0000\n"
+"PO-Revision-Date: 2025-01-23 15:46+0100\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -168,6 +168,19 @@ msgstr "Bluetooth dezactivat"
 #: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "Apelant necunoscut"
+
+#: src/connectivity-manager.c:86
+#, c-format
+msgid "Wi-Fi network '%s' uses a captive portal"
+msgstr "Rețeaua Wi-Fi „%s” utilizează un portal captiv"
+
+#: src/connectivity-manager.c:88
+msgid "The Wi-Fi network uses a captive portal"
+msgstr "Rețeaua Wi-Fi utilizează un portal captiv"
+
+#: src/connectivity-manager.c:91
+msgid "Sign into Wi-Fi network"
+msgstr "Autentificare în rețeaua Wi-Fi"
 
 #: src/docked-info.c:81
 msgid "Docked"
