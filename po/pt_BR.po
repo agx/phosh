@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-11 15:50+0000\n"
-"PO-Revision-Date: 2025-01-17 13:58-0300\n"
+"POT-Creation-Date: 2025-01-23 15:15+0000\n"
+"PO-Revision-Date: 2025-01-23 23:16-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
@@ -169,6 +169,19 @@ msgstr "Bluetooth desativado"
 msgid "Unknown caller"
 msgstr "Número desconhecido"
 
+#: src/connectivity-manager.c:86
+#, c-format
+msgid "Wi-Fi network '%s' uses a captive portal"
+msgstr "A rede Wi-Fi “%s” usa um portal captivo"
+
+#: src/connectivity-manager.c:88
+msgid "The Wi-Fi network uses a captive portal"
+msgstr "A rede Wi-Fi usa um portal captivo"
+
+#: src/connectivity-manager.c:91
+msgid "Sign into Wi-Fi network"
+msgstr "Entrar na rede Wi-Fi"
+
 #: src/docked-info.c:81
 msgid "Docked"
 msgstr "Ancorado"
@@ -261,11 +274,11 @@ msgid "No"
 msgstr "Não"
 
 #. give visual feedback on error
-#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:292 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Insira a senha"
 
-#: src/lockscreen.c:949
+#: src/lockscreen.c:948
 msgid "Checking…"
 msgstr "Verificando…"
 
@@ -297,12 +310,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "Captura de tela de %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:446 src/ui/media-player.ui:213
+#: src/media-player.c:450 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Título desconhecido"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:454 src/ui/media-player.ui:201
+#: src/media-player.c:458 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Artista desconhecido"
 
@@ -460,7 +473,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "Diálogo de autenticação dispensado pelo usuário"
 
 #: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Senha:"
@@ -518,7 +531,6 @@ msgstr "Lembrar da decisão"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:291
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -623,15 +635,16 @@ msgstr "Deslize para desbloquear"
 msgid "Unlock"
 msgstr "Desbloquear"
 
-#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Autenticação necessária"
 
-#: src/ui/network-auth-prompt.ui:40
+#: src/ui/network-auth-prompt.ui:41
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:285
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: src/ui/network-auth-prompt.ui:58
+#: src/ui/network-auth-prompt.ui:59
 msgid "C_onnect"
 msgstr "C_onectar"
 
@@ -850,25 +863,25 @@ msgstr "Medicação e condições"
 msgid "Add Contact"
 msgstr "Adicionar contato"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:286
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:276
 msgid "Add New Contact"
 msgstr "Adicionar novo contato"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:296
-msgid "Add"
-msgstr "Adicionar"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+msgid "_Add"
+msgstr "_Adicionar"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:317
-msgid "New Contact Name"
-msgstr "Novo nome de contato"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:313
+msgid "_Contact Name"
+msgstr "Nome de _contato"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:331
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "Relationship"
 msgstr "Relação parental"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:344
-msgid "Number"
-msgstr "Número"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:325
+msgid "_Contact Number"
+msgstr "Número do _contato"
 
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
@@ -1045,6 +1058,17 @@ msgstr "Intervalo de datas"
 msgid "Number of days to show events for"
 msgstr "Número de dias a mostrar eventos para"
 
+#: plugins/scaling-quick-setting/qs.ui:15
+msgid "Monitor scales"
+msgstr "Escalas do monitor"
+
+#. Translators: This is scale factor of a monitor in percent
+#: plugins/scaling-quick-setting/scale-row.c:48
+#: plugins/scaling-quick-setting/scaling-quick-setting.c:92
+#, c-format
+msgid "%d%%"
+msgstr "%d%%"
+
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
 msgstr "Ponto de acesso ligado"
@@ -1052,6 +1076,12 @@ msgstr "Ponto de acesso ligado"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Ponto de acesso desligado"
+
+#~ msgid "Add"
+#~ msgstr "Adicionar"
+
+#~ msgid "Number"
+#~ msgstr "Número"
 
 #~ msgid "Screenshot copied to clipboard"
 #~ msgstr "Captura de tela copiada para a área de transferência"
