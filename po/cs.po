@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-19 13:25+0000\n"
-"PO-Revision-Date: 2025-01-20 15:18+0100\n"
+"POT-Creation-Date: 2025-01-23 15:15+0000\n"
+"PO-Revision-Date: 2025-01-24 01:38+0100\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -167,6 +167,19 @@ msgstr "Bluetooth zakázáno"
 #: src/call-notification.c:63
 msgid "Unknown caller"
 msgstr "Neznámý volající"
+
+#: src/connectivity-manager.c:86
+#, c-format
+msgid "Wi-Fi network '%s' uses a captive portal"
+msgstr "Síť Wi-Fi „%s“ využívá captive portál"
+
+#: src/connectivity-manager.c:88
+msgid "The Wi-Fi network uses a captive portal"
+msgstr "Síť Wi-Fi využívá captive portál"
+
+#: src/connectivity-manager.c:91
+msgid "Sign into Wi-Fi network"
+msgstr "Přihlásit se k síti Wi-Fi"
 
 #: src/docked-info.c:81
 msgid "Docked"
@@ -469,7 +482,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "Dialog ověření byl uživatelem zrušen"
 
 #: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Heslo:"
@@ -527,7 +540,6 @@ msgstr "Zapamatovat si rozhodnutí"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:291
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -632,15 +644,16 @@ msgstr "Táhnutím nahoru odemknete"
 msgid "Unlock"
 msgstr "Odemknout"
 
-#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Požadováno ověření"
 
-#: src/ui/network-auth-prompt.ui:40
+#: src/ui/network-auth-prompt.ui:41
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:285
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: src/ui/network-auth-prompt.ui:58
+#: src/ui/network-auth-prompt.ui:59
 msgid "C_onnect"
 msgstr "_Připojit"
 
@@ -859,25 +872,25 @@ msgstr "Léky a zdravotní stav"
 msgid "Add Contact"
 msgstr "Přidat kontakt"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:286
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:276
 msgid "Add New Contact"
 msgstr "Přidat nový kontakt"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:296
-msgid "Add"
-msgstr "Přidat"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+msgid "_Add"
+msgstr "Přid_at"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:317
-msgid "New Contact Name"
-msgstr "Jméno nového kontaktu"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:313
+msgid "_Contact Name"
+msgstr "Jméno _kontaktu"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:331
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "Relationship"
 msgstr "Vztah"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:344
-msgid "Number"
-msgstr "Číslo"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:325
+msgid "_Contact Number"
+msgstr "Číslo _kontaktu"
 
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
@@ -1073,6 +1086,12 @@ msgstr "Přístupový bod zapnut"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Přístupový bod vypnut"
+
+#~ msgid "Add"
+#~ msgstr "Přidat"
+
+#~ msgid "Number"
+#~ msgstr "Číslo"
 
 #~ msgid "Screenshot copied to clipboard"
 #~ msgstr "Snímek obrazovky byl zkopírován do schránky"
