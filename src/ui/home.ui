@@ -10,6 +10,9 @@
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkEventBox" id="evbox_home_bar">
+            <style>
+              <class name="phosh-home-bar"/>
+            </style>
             <property name="visible">True</property>
             <property name="hexpand">True</property>
             <!-- Otherwise search gets input focus and triggers OSK -->
