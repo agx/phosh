@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2024-11-11 09:22+0000\n"
-"PO-Revision-Date: 2024-11-16 09:45+0100\n"
+"POT-Creation-Date: 2025-01-21 15:17+0000\n"
+"PO-Revision-Date: 2025-01-21 22:19+0100\n"
 "Last-Translator: Marc Riera <marcriera@softcatala.org>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -17,18 +17,18 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.4.2\n"
 
+#: data/mobi.phosh.Shell.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
+msgid "Phone Shell"
+msgstr "Shell del telèfon"
+
+#: data/mobi.phosh.Shell.desktop.in.in:5
+msgid "Window management and application launching for mobile"
+msgstr "Gestió de finestres i inici d'aplicacions per a mòbils"
+
 #. Translators: this is the session name, no need to translate it
 #: data/phosh.session.desktop.in.in:4 data/wayland-sessions/phosh.desktop:3
 msgid "Phosh"
 msgstr "Phosh"
-
-#: data/sm.puri.Phosh.desktop.in.in:4 data/wayland-sessions/phosh.desktop:4
-msgid "Phone Shell"
-msgstr "Shell del telèfon"
-
-#: data/sm.puri.Phosh.desktop.in.in:5
-msgid "Window management and application launching for mobile"
-msgstr "Gestió de finestres i inici d'aplicacions per a mòbils"
 
 #: data/wayland-sessions/phosh.desktop:5
 msgid "This session logs you into Phosh"
@@ -121,15 +121,15 @@ msgstr "Propers esdeveniments"
 msgid "Show upcoming calendar events"
 msgstr "Mostra els propers esdeveniments del calendari"
 
-#: src/app-grid-button.c:153
+#: src/app-grid-button.c:154
 msgid "Add to Folder"
 msgstr "Afegeix a la carpeta"
 
-#: src/app-grid-button.c:177
+#: src/app-grid-button.c:178
 msgid "Create new folder"
 msgstr "Crea una carpeta nova"
 
-#: src/app-grid-button.c:692 src/app-grid-button.c:749
+#: src/app-grid-button.c:731 src/app-grid-button.c:788
 msgid "Application"
 msgstr "Aplicació"
 
@@ -168,6 +168,19 @@ msgstr "El Bluetooth està desactivat"
 msgid "Unknown caller"
 msgstr "Trucada desconeguda"
 
+#: src/connectivity-manager.c:86
+#, c-format
+msgid "Wi-Fi network '%s' uses a captive portal"
+msgstr "La xarxa sense fil «%s» usa un portal captiu"
+
+#: src/connectivity-manager.c:88
+msgid "The Wi-Fi network uses a captive portal"
+msgstr "La xarxa sense fil usa un portal captiu"
+
+#: src/connectivity-manager.c:91
+msgid "Sign into Wi-Fi network"
+msgstr "Connecta't a la xarxa sense fil"
+
 #: src/docked-info.c:81
 msgid "Docked"
 msgstr "Acoblat"
@@ -177,7 +190,7 @@ msgid "Undocked"
 msgstr "Desacoblat"
 
 #: src/emergency-menu.c:97 src/ui/app-auth-prompt.ui:71
-#: src/ui/end-session-dialog.ui:71
+#: src/ui/cell-broadcast-prompt.ui:23 src/ui/end-session-dialog.ui:71
 msgid "Ok"
 msgstr "D'acord"
 
@@ -189,33 +202,33 @@ msgstr "No es pot establir una trucada d'emergència"
 msgid "Internal error"
 msgstr "Error intern"
 
-#: src/end-session-dialog.c:174
+#: src/end-session-dialog.c:173
 msgid "Log Out"
 msgstr "Surt"
 
-#: src/end-session-dialog.c:177
+#: src/end-session-dialog.c:176
 #, c-format
 msgid "%s will be logged out automatically in %d second."
 msgid_plural "%s will be logged out automatically in %d seconds."
 msgstr[0] "Es tancarà la sessió de %s automàticament d'aquí a %d segon."
 msgstr[1] "Es tancarà la sessió de %s automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:183 src/ui/power-menu.ui:72
+#: src/end-session-dialog.c:182 src/ui/power-menu.ui:72
 msgid "Power Off"
 msgstr "Apaga"
 
-#: src/end-session-dialog.c:184
+#: src/end-session-dialog.c:183
 #, c-format
 msgid "The system will power off automatically in %d second."
 msgid_plural "The system will power off automatically in %d seconds."
 msgstr[0] "El sistema s'apagarà automàticament d'aquí a %d segon."
 msgstr[1] "El sistema s'apagarà automàticament d'aquí a %d segons."
 
-#: src/end-session-dialog.c:190
+#: src/end-session-dialog.c:189
 msgid "Restart"
 msgstr "Reinicia"
 
-#: src/end-session-dialog.c:191
+#: src/end-session-dialog.c:190
 #, c-format
 msgid "The system will restart automatically in %d second."
 msgid_plural "The system will restart automatically in %d seconds."
@@ -260,48 +273,48 @@ msgid "No"
 msgstr "No"
 
 #. give visual feedback on error
-#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:292 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Introduïu la contrasenya"
 
-#: src/lockscreen.c:949
+#: src/lockscreen.c:948
 msgid "Checking…"
 msgstr "S'està comprovant…"
 
 #. Translators: '%s' is the filename of a screenshot
-#: src/screenshot-manager.c:235
+#: src/screenshot-manager.c:238
 #, c-format
 msgid "Screenshot saved to '%s'"
 msgstr "S'ha desat la captura de pantalla a «%s»"
 
-#: src/screenshot-manager.c:237
+#: src/screenshot-manager.c:240
 msgid "Failed to save screenshot"
 msgstr "No s'ha pogut desar la captura de pantalla"
 
-#: src/screenshot-manager.c:241 src/ui/power-menu.ui:192
+#: src/screenshot-manager.c:244 src/ui/power-menu.ui:192
 msgid "Screenshot"
 msgstr "Captura de pantalla"
 
 #. Translators: name of the folder beneath ~/Pictures used to store screenshots
-#: src/screenshot-manager.c:416
+#: src/screenshot-manager.c:527
 msgid "Screenshots"
 msgstr "Captures de pantalla"
 
 #. Translators: Name of a screenshot file. The first '%s' is a timestamp
 #. * like "2017-05-21 12-24-03" the 2nd '%s' is a possible suffix in case
 #. * the file already exists like '-3'
-#: src/screenshot-manager.c:436
+#: src/screenshot-manager.c:547
 #, c-format
 msgid "Screenshot from %s%s.png"
 msgstr "Captura de pantalla de %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:446 src/ui/media-player.ui:213
+#: src/media-player.c:450 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Títol desconegut"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:454 src/ui/media-player.ui:201
+#: src/media-player.c:458 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Artista desconegut"
 
@@ -516,8 +529,8 @@ msgid "Remember decision"
 msgstr "Recorda la decisió"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:29
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:291
 msgid "Cancel"
 msgstr "Cancel·la"
 
@@ -533,11 +546,15 @@ msgstr "Afegeix als _preferits"
 msgid "View _Details"
 msgstr "Veieu els _detalls"
 
-#: src/ui/app-grid-button.ui:41
+#: src/ui/app-grid-button.ui:38
+msgid "Uninstall"
+msgstr "Desinstal·la"
+
+#: src/ui/app-grid-button.ui:46
 msgid "_Remove from Folder"
 msgstr "Suprimeix de la carpeta"
 
-#: src/ui/app-grid.ui:24
+#: src/ui/app-grid.ui:25
 msgid "Search apps…"
 msgstr "Cerca aplicacions…"
 
@@ -582,7 +599,7 @@ msgid "Owner unknown"
 msgstr "Propietari desconegut"
 
 #: src/ui/emergency-menu.ui:124 plugins/emergency-info/emergency-info.ui:195
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:234
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:232
 msgid "Emergency Contacts"
 msgstr "Contactes d'emergència"
 
@@ -623,7 +640,6 @@ msgid "Authentication required"
 msgstr "Cal autenticació"
 
 #: src/ui/network-auth-prompt.ui:40
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:90
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
@@ -767,52 +783,52 @@ msgid "Light mode"
 msgstr "Mode clar"
 
 #: plugins/emergency-info/emergency-info.ui:39
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:70
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:68
 msgid "Personal Information"
 msgstr "Informació personal"
 
 #: plugins/emergency-info/emergency-info.ui:47
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:88
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:86
 msgid "Date of Birth"
 msgstr "Data de naixement"
 
 #: plugins/emergency-info/emergency-info.ui:65
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:100
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:98
 msgid "Preferred Language"
 msgstr "Idioma preferit"
 
 #: plugins/emergency-info/emergency-info.ui:83
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:112
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:110
 msgid "Home Address"
 msgstr "Adreça particular"
 
 #: plugins/emergency-info/emergency-info.ui:91
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:130
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:128
 msgid "Medical Information"
 msgstr "Informació mèdica"
 
 #: plugins/emergency-info/emergency-info.ui:99
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:136
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:134
 msgid "Age"
 msgstr "Edat"
 
 #: plugins/emergency-info/emergency-info.ui:117
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:148
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:146
 msgid "Blood Type"
 msgstr "Grup sanguini"
 
 #: plugins/emergency-info/emergency-info.ui:135
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:160
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:158
 msgid "Height"
 msgstr "Alçada"
 
 #: plugins/emergency-info/emergency-info.ui:153
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:172
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:170
 msgid "Weight"
 msgstr "Pes"
 
 #: plugins/emergency-info/emergency-info.ui:171
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:184
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:182
 msgid "Allergies"
 msgstr "Al·lèrgies"
 
@@ -821,48 +837,48 @@ msgid "Medications & Conditions"
 msgstr "Medicacions i condicions"
 
 #: plugins/emergency-info/emergency-info.ui:187
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:216
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:214
 msgid "Other Information"
 msgstr "Altra informació"
 
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:6
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:19
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:17
 msgid "Emergency Info Preferences"
 msgstr "Preferències de la informació d'emergència"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:40
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:38
 msgid "Done"
 msgstr "Fet"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:76
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:74
 msgid "Owner Name"
 msgstr "Nom del propietari"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:200
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:198
 msgid "Medications and Conditions"
 msgstr "Medicacions i condicions"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:243
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:241
 msgid "Add Contact"
 msgstr "Afegeix el contacte"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:288
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:286
 msgid "Add New Contact"
 msgstr "Afegeix un nou contacte"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:298
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:296
 msgid "Add"
 msgstr "Afegeix"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:317
 msgid "New Contact Name"
 msgstr "Nom del nou contacte"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:333
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:331
 msgid "Relationship"
 msgstr "Relació"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:346
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:344
 msgid "Number"
 msgstr "Número"
 
@@ -924,23 +940,23 @@ msgstr "Atura del Pomodoro"
 msgid "Pomodoro Quick Setting Preferences"
 msgstr "Configuració ràpida de les preferències del Pomodoro"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:11
 msgid "Pomodoro Technique"
 msgstr "Tècnica Pomodoro"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:17
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:14
 msgid "_Active Duration"
 msgstr "Durada _activa"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:18
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:15
 msgid "Duration of the focus session"
 msgstr "Durada de la sessió de focalització"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:32
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:29
 msgid "_Break Duration"
 msgstr "Durada del _descans"
 
-#: plugins/pomodoro-quick-setting/prefs/prefs.ui:33
+#: plugins/pomodoro-quick-setting/prefs/prefs.ui:30
 msgid "Duration of the break between sessions"
 msgstr "Durada del descans entre sessions"
 
@@ -952,31 +968,31 @@ msgstr "No hi ha cap document per mostrar"
 msgid "Tickets"
 msgstr "Tiquets"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:86
-msgid "Choose Folder"
-msgstr "Tria una carpeta"
-
-#: plugins/ticket-box/prefs/ticket-box-prefs.c:89
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:94
 msgid "_Open"
 msgstr "_Obre"
+
+#: plugins/ticket-box/prefs/ticket-box-prefs.c:95
+msgid "Choose Folder"
+msgstr "Tria una carpeta"
 
 #: plugins/ticket-box/prefs/ticket-box-prefs.ui:6
 msgid "Ticket Box Preferences"
 msgstr "Preferències de la caixa de tiquets"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:13
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:10
 msgid "Paths"
 msgstr "Camins"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:18
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:15
 msgid "Folder Settings"
 msgstr "Configuració de la carpeta"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:16
 msgid "Where Phosh looks for your tickets"
 msgstr "Allà on Phosh cerca els vostres tiquets"
 
-#: plugins/ticket-box/prefs/ticket-box-prefs.ui:22
+#: plugins/ticket-box/prefs/ticket-box-prefs.ui:19
 msgid "Ticket Folder"
 msgstr "Carpeta de tiquets"
 
@@ -1028,18 +1044,29 @@ msgstr "Esdeveniment sense nom"
 msgid "Upcoming Events Preferences"
 msgstr "Preferències dels esdeveniments propers"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:20
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:10
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
 msgid "Days"
 msgstr "Dies"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:16
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:13
 msgid "Date Range"
 msgstr "Rang de dates"
 
-#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:17
+#: plugins/upcoming-events/prefs/upcoming-events-prefs.ui:14
 msgid "Number of days to show events for"
 msgstr "Nombre de dies per a mostrar-ne els esdeveniments"
+
+#: plugins/scaling-quick-setting/qs.ui:15
+msgid "Monitor scales"
+msgstr "Escalat del monitor"
+
+#. Translators: This is scale factor of a monitor in percent
+#: plugins/scaling-quick-setting/scale-row.c:48
+#: plugins/scaling-quick-setting/scaling-quick-setting.c:92
+#, c-format
+msgid "%d%%"
+msgstr "%d%%"
 
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
