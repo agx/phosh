@@ -47,11 +47,12 @@ test_phosh_notify_manager_caps (PhoshTestFullShellFixture *fixture, gconstpointe
   g_assert_no_error (err);
   g_assert_true (success);
 
-  g_assert_cmpint (g_strv_length (caps), ==, 4);
+  g_assert_cmpint (g_strv_length (caps), ==, 5);
   g_assert_true (g_strv_contains ((const char * const *)caps, "body"));
   g_assert_true (g_strv_contains ((const char * const *)caps, "body-markup"));
   g_assert_true (g_strv_contains ((const char * const *)caps, "actions"));
   g_assert_true (g_strv_contains ((const char * const *)caps, "icon-static"));
+  g_assert_true (g_strv_contains ((const char * const *)caps, "sound"));
 }
 
 
