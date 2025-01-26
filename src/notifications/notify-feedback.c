@@ -180,7 +180,7 @@ maybe_trigger_feedback (PhoshNotifyFeedback     *self,
   /* Get us the first notification that triggers meaningful feedback */
   for (int i = 0; i < num; i++) {
     g_autoptr (PhoshNotification) noti = g_list_model_get_item (G_LIST_MODEL (source), position + i);
-    const char *category, *profile;
+    const char *category, *profile, *sound_file;
     g_autofree char *app_id = NULL;
     GAppInfo *info = NULL;
     gboolean ret = FALSE;
@@ -197,6 +197,7 @@ maybe_trigger_feedback (PhoshNotifyFeedback     *self,
       continue;
 
     category = phosh_notification_get_category (noti);
+    sound_file = phosh_notification_get_sound_file (noti);
 
     /* The default event */
     if (!inactive_only) {
@@ -207,6 +208,13 @@ maybe_trigger_feedback (PhoshNotifyFeedback     *self,
         g_autoptr (LfbEvent) event = event = lfb_event_new (name);
 
         lfb_event_set_feedback_profile (event, profile);
+        if (sound_file) {
+#ifdef PHOSH_HAVE_LFB_SOUND_FILE
+          lfb_event_set_sound_file (event, sound_file);
+#else
+          g_warning_once ("Lfb lacks sound-file support");
+#endif
+        }
         if (app_id)
           lfb_event_set_app_id (event, app_id);
         g_debug ("Emitting event %s for %s, profile: %s", name, app_id ?: "unknown", profile);
