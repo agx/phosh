@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-21 20:36+0000\n"
-"PO-Revision-Date: 2025-01-23 15:46+0100\n"
+"POT-Creation-Date: 2025-01-24 09:47+0000\n"
+"PO-Revision-Date: 2025-01-26 15:28+0100\n"
 "Last-Translator: Antonio Marin <gnmer.6qxyg@slmail.me>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -483,7 +483,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "Fereastra de autentificare a fost închisă de utilizator"
 
 #: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Parola:"
@@ -541,7 +541,6 @@ msgstr "Memorează decizia"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:291
 msgid "Cancel"
 msgstr "Anulează"
 
@@ -646,15 +645,16 @@ msgstr "Trage în sus pentru a debloca"
 msgid "Unlock"
 msgstr "Deblochează"
 
-#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Autentificare necesară"
 
-#: src/ui/network-auth-prompt.ui:40
+#: src/ui/network-auth-prompt.ui:41
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:285
 msgid "_Cancel"
 msgstr "_Anulează"
 
-#: src/ui/network-auth-prompt.ui:58
+#: src/ui/network-auth-prompt.ui:59
 msgid "C_onnect"
 msgstr "C_onectează"
 
@@ -873,25 +873,25 @@ msgstr "Medicamente și Boli"
 msgid "Add Contact"
 msgstr "Adaugă un contact"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:286
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:276
 msgid "Add New Contact"
 msgstr "Adaugă un contact nou"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:296
-msgid "Add"
-msgstr "Adaugă"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+msgid "_Add"
+msgstr "_Adaugă"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:317
-msgid "New Contact Name"
-msgstr "Numele noului contact"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:313
+msgid "_Contact Name"
+msgstr "Numele _contactului"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:331
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "Relationship"
 msgstr "Relație"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:344
-msgid "Number"
-msgstr "Număr"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:325
+msgid "_Contact Number"
+msgstr "Numărul _contactului"
 
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
