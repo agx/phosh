@@ -130,6 +130,7 @@ portal_auth (PhoshConnectivityManager *self)
                       NULL);
     phosh_notify_manager_add_shell_notification (nm, self->noti, 0, NOTI_TIMEOUT);
     phosh_notification_set_transient (self->noti, FALSE);
+    phosh_notification_set_profile (self->noti, "silent");
   }
 }
 
