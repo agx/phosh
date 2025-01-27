@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phosh\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/Phosh/phosh/issues\n"
-"POT-Creation-Date: 2025-01-11 15:50+0000\n"
-"PO-Revision-Date: 2025-01-13 17:40+0300\n"
+"POT-Creation-Date: 2025-01-23 15:15+0000\n"
+"PO-Revision-Date: 2025-01-23 18:36+0300\n"
 "Last-Translator: Artur So <arturios2005@mail.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -168,6 +168,19 @@ msgstr "Bluetooth отключен"
 msgid "Unknown caller"
 msgstr "Неизвестный абонент"
 
+#: src/connectivity-manager.c:86
+#, c-format
+msgid "Wi-Fi network '%s' uses a captive portal"
+msgstr "Сеть Wi-Fi '%s' использует автономный портал"
+
+#: src/connectivity-manager.c:88
+msgid "The Wi-Fi network uses a captive portal"
+msgstr "Сеть Wi-Fi использует автономный портал"
+
+#: src/connectivity-manager.c:91
+msgid "Sign into Wi-Fi network"
+msgstr "Войдите в сеть Wi-Fi"
+
 #: src/docked-info.c:81
 msgid "Docked"
 msgstr "Прикреплено"
@@ -263,11 +276,11 @@ msgid "No"
 msgstr "Нет"
 
 #. give visual feedback on error
-#: src/lockscreen.c:293 src/ui/lockscreen.ui:290
+#: src/lockscreen.c:292 src/ui/lockscreen.ui:290
 msgid "Enter Passcode"
 msgstr "Введите код доступа"
 
-#: src/lockscreen.c:949
+#: src/lockscreen.c:948
 msgid "Checking…"
 msgstr "Проверка…"
 
@@ -299,12 +312,12 @@ msgid "Screenshot from %s%s.png"
 msgstr "Снимок экрана от %s%s.png"
 
 #. Translators: Used when the title of a song is unknown
-#: src/media-player.c:446 src/ui/media-player.ui:213
+#: src/media-player.c:450 src/ui/media-player.ui:213
 msgid "Unknown Title"
 msgstr "Неизвестное название"
 
 #. Translators: Used when the artist of a song is unknown
-#: src/media-player.c:454 src/ui/media-player.ui:201
+#: src/media-player.c:458 src/ui/media-player.ui:201
 msgid "Unknown Artist"
 msgstr "Неизвестный исполнитель"
 
@@ -469,7 +482,7 @@ msgid "Authentication dialog was dismissed by the user"
 msgstr "Диалог аутентификации был отклонен пользователем"
 
 #: src/polkit-auth-prompt.c:278 src/ui/gtk-mount-prompt.ui:20
-#: src/ui/network-auth-prompt.ui:82 src/ui/polkit-auth-prompt.ui:56
+#: src/ui/network-auth-prompt.ui:83 src/ui/polkit-auth-prompt.ui:56
 #: src/ui/system-prompt.ui:32
 msgid "Password:"
 msgstr "Пароль:"
@@ -527,7 +540,6 @@ msgstr "Запомнить решение"
 
 #: src/ui/app-auth-prompt.ui:62 src/ui/end-session-dialog.ui:62
 #: plugins/emergency-info/prefs/emergency-info-prefs.ui:27
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:291
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -632,15 +644,16 @@ msgstr "Проведите вверх для разблокировки"
 msgid "Unlock"
 msgstr "Разблокировать"
 
-#: src/ui/network-auth-prompt.ui:5 src/ui/polkit-auth-prompt.ui:6
+#: src/ui/network-auth-prompt.ui:6 src/ui/polkit-auth-prompt.ui:6
 msgid "Authentication required"
 msgstr "Требуется аутентификация"
 
-#: src/ui/network-auth-prompt.ui:40
+#: src/ui/network-auth-prompt.ui:41
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:285
 msgid "_Cancel"
 msgstr "_Отменить"
 
-#: src/ui/network-auth-prompt.ui:58
+#: src/ui/network-auth-prompt.ui:59
 msgid "C_onnect"
 msgstr "П_одключить"
 
@@ -859,25 +872,25 @@ msgstr "Лекарства и условия"
 msgid "Add Contact"
 msgstr "Добавить контакт"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:286
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:276
 msgid "Add New Contact"
 msgstr "Добавить новый контакт"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:296
-msgid "Add"
-msgstr "Добавить"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:293
+msgid "_Add"
+msgstr "_Добавить"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:317
-msgid "New Contact Name"
-msgstr "Новое имя контакта"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:313
+msgid "_Contact Name"
+msgstr "Имя _контакта"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:331
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:319
 msgid "Relationship"
 msgstr "Родство"
 
-#: plugins/emergency-info/prefs/emergency-info-prefs.ui:344
-msgid "Number"
-msgstr "Номер"
+#: plugins/emergency-info/prefs/emergency-info-prefs.ui:325
+msgid "_Contact Number"
+msgstr "Контактный _номер"
 
 #: plugins/launcher-box/launcher-box.ui:15
 msgid "No launchers configured"
@@ -1055,6 +1068,17 @@ msgstr "Интервал дат"
 msgid "Number of days to show events for"
 msgstr "Количество дней для показа событий"
 
+#: plugins/scaling-quick-setting/qs.ui:15
+msgid "Monitor scales"
+msgstr "Масштаб экрана"
+
+#. Translators: This is scale factor of a monitor in percent
+#: plugins/scaling-quick-setting/scale-row.c:48
+#: plugins/scaling-quick-setting/scaling-quick-setting.c:92
+#, c-format
+msgid "%d%%"
+msgstr "%d%%"
+
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:79
 msgid "Hotspot On"
 msgstr "Точка доступа включена"
@@ -1062,6 +1086,12 @@ msgstr "Точка доступа включена"
 #: plugins/wifi-hotspot-quick-setting/wifi-hotspot-quick-setting.c:81
 msgid "Hotspot Off"
 msgstr "Точка доступа выключена"
+
+#~ msgid "Add"
+#~ msgstr "Добавить"
+
+#~ msgid "Number"
+#~ msgstr "Номер"
 
 #~ msgid "Screenshot copied to clipboard"
 #~ msgstr "Снимок экрана скопирован в буфер обмена"
